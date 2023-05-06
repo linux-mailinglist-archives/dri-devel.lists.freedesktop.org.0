@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35A86F90AD
-	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 10:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904F86F90D9
+	for <lists+dri-devel@lfdr.de>; Sat,  6 May 2023 11:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5887110E206;
-	Sat,  6 May 2023 08:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D2110E20B;
+	Sat,  6 May 2023 09:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB86710E206
- for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 08:55:17 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1ab1b79d3a7so17927085ad.3
- for <dri-devel@lists.freedesktop.org>; Sat, 06 May 2023 01:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
- t=1683363317; x=1685955317; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZTDLWztyx6gi0W8qzn4U19R9BmkeEI4J/bQrlnE0vDU=;
- b=i2OrIQAaC/Fto7u3973OCUsutrzhHGBlnqq2EsqXd9kL/WgzGUYl7r17Hb0nAldtpQ
- h7B7BXXub6wvWxOYNL7eY/Hef7ilFaTvGOaNBkItapexyJymbsPyK1rTGjiTv/9qXCbS
- CaS29C6F+ZyH1IPZO+37AW3hXopLi8M4yJUqIsubZDTbtkzt3PjrIhA1IhoVKCC9n9fk
- Gx5r7BybdbEdzWFPx+kc1YOYaylWj31L24117LybglmZqldau5oM9yKvrn/6bq8ZJolm
- /RzvMB+HsAZkut/JOEC1A0gOSo9G32Oi7RikE44MokZLNAZlsS4y1PJ2crinc0m3AFr+
- SuNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683363317; x=1685955317;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZTDLWztyx6gi0W8qzn4U19R9BmkeEI4J/bQrlnE0vDU=;
- b=Yjccf+qEAoRiBScFFBupsA7gsahHdtbsACoynKEMtS2U4B9I9EvP/pFyuSfEkHRhqt
- yOdzVGEwBOhKqg8kB/awt/SBK7dHh8Mp1SzFnKSz/hRxufwzLfQRO4Mqz5eOZlzN/OSm
- j00qANExeFLTqrPT1W7EEUTN12R5qQ0N6iWYVJ+o/jDdz9GwdH53xeUBAiCteEatjJ29
- 8xVvNez8umB3Wfg5+Ri+r+rtZlUkwNaNfGNWYoGihg/E27LIYL3Qj3D9Nt1QT7c7kEnD
- nXLvexd3DdijX/GSXDA69TyiBaLiF8i/Rr/OcuV3PIfaLeFcKqKHwh3zcw+XEPs3m/We
- LCTQ==
-X-Gm-Message-State: AC+VfDwapOBpImR2nkHOqD/Ipwk9OdEUscNjjwcmPF3FDV0Qy5IesfJH
- SWET4Np6cjHaJle6By0YxzTy/g==
-X-Google-Smtp-Source: ACHHUZ4ncKU5AkF0vUGdTKtOwdhErZfEMBLgbxaSPADvevfUdu+zD+csrcH9kEtXEVkQIpqM8ybrkA==
-X-Received: by 2002:a17:903:1103:b0:1ab:d89:5ef6 with SMTP id
- n3-20020a170903110300b001ab0d895ef6mr4454311plh.68.1683363317036; 
- Sat, 06 May 2023 01:55:17 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id
- a6-20020a170902b58600b001aaecb74f82sm3096381pls.72.2023.05.06.01.55.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 May 2023 01:55:16 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com, hsinyi@google.com
-Subject: [PATCH] drm/panel: Modify innolux hj110iz panel inital code
-Date: Sat,  6 May 2023 16:54:15 +0800
-Message-Id: <20230506085415.469400-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+Received: from out-54.mta1.migadu.com (out-54.mta1.migadu.com [95.215.58.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFD610E20B
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 May 2023 09:25:37 +0000 (UTC)
+Date: Sat, 6 May 2023 17:25:30 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1683365134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+j1702o1po1kGa0XTHvpx1tCmTjiFSqOzVIXLz2a/DM=;
+ b=T8zyTjv+6jaYkGjFIrdhqVf+QiM7CICbI5z8RQ6nNNbgRM8d9P63Oduh9r2+sKPCLDRT83
+ 4lL/Kq96n/eU4wKWCtJol+E0/A1RFRXBd8StMtx31qHrpph1X/6+hl9hAfba3/n9744kj4
+ 25b3NqVRkF0cplm7fF8nLtP+ENPYQdI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH v2] accel/habanalabs: Make use of rhashtable
+Message-ID: <ZFYdCgWi9Io+bdvv@chq-MS-7D45>
+References: <20230428144903.26048-1-cai.huoqing@linux.dev>
+ <CAFCwf13cqApEckT89kJdtNZppMNjDVJQtOCL_3hchY7oYDvrUQ@mail.gmail.com>
+ <ZFMfu7BuMXdNReLy@chq-MS-7D45>
+ <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFCwf13zp78dKKAU+KcWs+4jC+jdd5dU8n8N0NfHg+AXOGR5aw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,579 +51,430 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ohad Sharabi <osharabi@habana.ai>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Optimize flickering problem and power off sequence GOP timing at sleep in mode.
-When display sleep in raise the potential of all GOP signals to VGHO and then
-lower to GND.
+On 04 5月 23 09:12:40, Oded Gabbay wrote:
+> On Thu, May 4, 2023 at 6:00 AM Cai Huoqing <cai.huoqing@linux.dev> wrote:
+> >
+> > On 30 4月 23 09:36:29, Oded Gabbay wrote:
+> > > On Fri, Apr 28, 2023 at 5:49 PM Cai Huoqing <cai.huoqing@linux.dev> wrote:
+> > > >
+> > > > Using rhashtable to accelerate the search for userptr by address,
+> > > > instead of using a list.
+> > > >
+> > > > Preferably, the lookup complexity of a hash table is O(1).
+> > > >
+> > > > This patch will speedup the method
+> > > > hl_userptr_is_pinned by rhashtable_lookup_fast.
+> > > >
+> > > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> > >
+> > > Thanks for the patch, but the reason we never optimized this path is
+> > > because this code path is only relevant for Goya, which we don't want
+> > > to change the code for anymore.
+> > > For Gaudi we don't pin the memory in the host during submission. It is
+> > > done much earlier, when the user maps the memory to the device. The
+> > > code path in Gaudi is only in case the device is loaded with its MMU
+> > > disabled. This mode was used only for debug/bring-up of the ASIC many
+> > > years ago. As you can see in Gaudi2, that mode was dropped even for
+> >
+> > Do you mean that the userspace directly call HL_MEM_OP_MAP/HL_MEM_OP_UNMAP
+> > with a flag HL_MEM_USERPTR instead of pin host mem in submissmion?
+> Yes, correct.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 391 +++++++++++-------
- 1 file changed, 232 insertions(+), 159 deletions(-)
+BTW,
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 783234ae0f57..9c2561e4ed0f 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -451,11 +451,14 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0xFF, 0x20),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x05, 0xD1),
--	_INIT_DCS_CMD(0x0D, 0x63),
--	_INIT_DCS_CMD(0x07, 0x8C),
-+	_INIT_DCS_CMD(0x06, 0xC0),
-+	_INIT_DCS_CMD(0x07, 0x87),
- 	_INIT_DCS_CMD(0x08, 0x4B),
-+
-+	_INIT_DCS_CMD(0x0D, 0x63),
- 	_INIT_DCS_CMD(0x0E, 0x91),
- 	_INIT_DCS_CMD(0x0F, 0x69),
-+	_INIT_DCS_CMD(0x94, 0x00),
- 	_INIT_DCS_CMD(0x95, 0xF5),
- 	_INIT_DCS_CMD(0x96, 0xF5),
- 	_INIT_DCS_CMD(0x9D, 0x00),
-@@ -463,98 +466,96 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x69, 0x98),
- 	_INIT_DCS_CMD(0x75, 0xA2),
- 	_INIT_DCS_CMD(0x77, 0xB3),
-+
-+	_INIT_DCS_CMD(0x58, 0x43),
- 	_INIT_DCS_CMD(0xFF, 0x24),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x91, 0x44),
--	_INIT_DCS_CMD(0x92, 0x7A),
--	_INIT_DCS_CMD(0x93, 0x1A),
--	_INIT_DCS_CMD(0x94, 0x40),
--	_INIT_DCS_CMD(0x9A, 0x08),
-+	_INIT_DCS_CMD(0x92, 0x4C),
-+	_INIT_DCS_CMD(0x94, 0x86),
- 	_INIT_DCS_CMD(0x60, 0x96),
- 	_INIT_DCS_CMD(0x61, 0xD0),
- 	_INIT_DCS_CMD(0x63, 0x70),
--	_INIT_DCS_CMD(0xC2, 0xCF),
--	_INIT_DCS_CMD(0x9B, 0x0F),
--	_INIT_DCS_CMD(0x9A, 0x08),
-+	_INIT_DCS_CMD(0xC2, 0xCA),
-+
- 	_INIT_DCS_CMD(0x00, 0x03),
- 	_INIT_DCS_CMD(0x01, 0x03),
- 	_INIT_DCS_CMD(0x02, 0x03),
--	_INIT_DCS_CMD(0x03, 0x03),
--	_INIT_DCS_CMD(0x04, 0x03),
--	_INIT_DCS_CMD(0x05, 0x03),
--	_INIT_DCS_CMD(0x06, 0x22),
--	_INIT_DCS_CMD(0x07, 0x06),
--	_INIT_DCS_CMD(0x08, 0x00),
--	_INIT_DCS_CMD(0x09, 0x1D),
--	_INIT_DCS_CMD(0x0A, 0x1C),
--	_INIT_DCS_CMD(0x0B, 0x13),
--	_INIT_DCS_CMD(0x0C, 0x12),
--	_INIT_DCS_CMD(0x0D, 0x11),
--	_INIT_DCS_CMD(0x0E, 0x10),
--	_INIT_DCS_CMD(0x0F, 0x0F),
--	_INIT_DCS_CMD(0x10, 0x0E),
--	_INIT_DCS_CMD(0x11, 0x0D),
--	_INIT_DCS_CMD(0x12, 0x0C),
-+	_INIT_DCS_CMD(0x03, 0x29),
-+	_INIT_DCS_CMD(0x04, 0x22),
-+	_INIT_DCS_CMD(0x05, 0x22),
-+	_INIT_DCS_CMD(0x06, 0x0B),
-+	_INIT_DCS_CMD(0x07, 0x1D),
-+	_INIT_DCS_CMD(0x08, 0x1C),
-+	_INIT_DCS_CMD(0x09, 0x05),
-+	_INIT_DCS_CMD(0x0A, 0x08),
-+	_INIT_DCS_CMD(0x0B, 0x09),
-+	_INIT_DCS_CMD(0x0C, 0x0A),
-+	_INIT_DCS_CMD(0x0D, 0x0C),
-+	_INIT_DCS_CMD(0x0E, 0x0D),
-+	_INIT_DCS_CMD(0x0F, 0x0E),
-+	_INIT_DCS_CMD(0x10, 0x0F),
-+	_INIT_DCS_CMD(0x11, 0x10),
-+	_INIT_DCS_CMD(0x12, 0x11),
- 	_INIT_DCS_CMD(0x13, 0x04),
--	_INIT_DCS_CMD(0x14, 0x03),
-+	_INIT_DCS_CMD(0x14, 0x00),
- 	_INIT_DCS_CMD(0x15, 0x03),
- 	_INIT_DCS_CMD(0x16, 0x03),
- 	_INIT_DCS_CMD(0x17, 0x03),
- 	_INIT_DCS_CMD(0x18, 0x03),
--	_INIT_DCS_CMD(0x19, 0x03),
--	_INIT_DCS_CMD(0x1A, 0x03),
--	_INIT_DCS_CMD(0x1B, 0x03),
--	_INIT_DCS_CMD(0x1C, 0x22),
--	_INIT_DCS_CMD(0x1D, 0x06),
--	_INIT_DCS_CMD(0x1E, 0x00),
--	_INIT_DCS_CMD(0x1F, 0x1D),
--	_INIT_DCS_CMD(0x20, 0x1C),
--	_INIT_DCS_CMD(0x21, 0x13),
--	_INIT_DCS_CMD(0x22, 0x12),
--	_INIT_DCS_CMD(0x23, 0x11),
--	_INIT_DCS_CMD(0x24, 0x10),
--	_INIT_DCS_CMD(0x25, 0x0F),
--	_INIT_DCS_CMD(0x26, 0x0E),
--	_INIT_DCS_CMD(0x27, 0x0D),
--	_INIT_DCS_CMD(0x28, 0x0C),
-+	_INIT_DCS_CMD(0x19, 0x29),
-+	_INIT_DCS_CMD(0x1A, 0x22),
-+	_INIT_DCS_CMD(0x1B, 0x22),
-+	_INIT_DCS_CMD(0x1C, 0x0B),
-+	_INIT_DCS_CMD(0x1D, 0x1D),
-+	_INIT_DCS_CMD(0x1E, 0x1C),
-+	_INIT_DCS_CMD(0x1F, 0x05),
-+	_INIT_DCS_CMD(0x20, 0x08),
-+	_INIT_DCS_CMD(0x21, 0x09),
-+	_INIT_DCS_CMD(0x22, 0x0A),
-+	_INIT_DCS_CMD(0x23, 0x0C),
-+	_INIT_DCS_CMD(0x24, 0x0D),
-+	_INIT_DCS_CMD(0x25, 0x0E),
-+	_INIT_DCS_CMD(0x26, 0x0F),
-+	_INIT_DCS_CMD(0x27, 0x10),
-+	_INIT_DCS_CMD(0x28, 0x11),
- 	_INIT_DCS_CMD(0x29, 0x04),
--	_INIT_DCS_CMD(0x2A, 0x03),
-+	_INIT_DCS_CMD(0x2A, 0x00),
- 	_INIT_DCS_CMD(0x2B, 0x03),
- 
--	_INIT_DCS_CMD(0x2F, 0x05),
--	_INIT_DCS_CMD(0x30, 0x32),
--	_INIT_DCS_CMD(0x31, 0x43),
--	_INIT_DCS_CMD(0x33, 0x05),
--	_INIT_DCS_CMD(0x34, 0x32),
--	_INIT_DCS_CMD(0x35, 0x43),
--	_INIT_DCS_CMD(0x37, 0x44),
--	_INIT_DCS_CMD(0x38, 0x40),
-+	_INIT_DCS_CMD(0x2F, 0x0A),
-+	_INIT_DCS_CMD(0x30, 0x35),
-+	_INIT_DCS_CMD(0x37, 0xA7),
- 	_INIT_DCS_CMD(0x39, 0x00),
--	_INIT_DCS_CMD(0x3A, 0x18),
--	_INIT_DCS_CMD(0x3B, 0x00),
--	_INIT_DCS_CMD(0x3D, 0x93),
--	_INIT_DCS_CMD(0xAB, 0x44),
--	_INIT_DCS_CMD(0xAC, 0x40),
-+	_INIT_DCS_CMD(0x3A, 0x46),
-+	_INIT_DCS_CMD(0x3B, 0x32),
-+	_INIT_DCS_CMD(0x3D, 0x12),
-+
-+	_INIT_DCS_CMD(0x3F, 0x33),
-+	_INIT_DCS_CMD(0x40, 0x31),
-+	_INIT_DCS_CMD(0x41, 0x40),
-+	_INIT_DCS_CMD(0x42, 0x42),
-+	_INIT_DCS_CMD(0x47, 0x77),
-+	_INIT_DCS_CMD(0x48, 0x77),
-+	_INIT_DCS_CMD(0x4A, 0x45),
-+	_INIT_DCS_CMD(0x4B, 0x45),
-+	_INIT_DCS_CMD(0x4C, 0x14),
- 
- 	_INIT_DCS_CMD(0x4D, 0x21),
- 	_INIT_DCS_CMD(0x4E, 0x43),
- 	_INIT_DCS_CMD(0x4F, 0x65),
--	_INIT_DCS_CMD(0x50, 0x87),
--	_INIT_DCS_CMD(0x51, 0x78),
--	_INIT_DCS_CMD(0x52, 0x56),
--	_INIT_DCS_CMD(0x53, 0x34),
--	_INIT_DCS_CMD(0x54, 0x21),
--	_INIT_DCS_CMD(0x55, 0x83),
--	_INIT_DCS_CMD(0x56, 0x08),
-+	_INIT_DCS_CMD(0x55, 0x06),
-+	_INIT_DCS_CMD(0x56, 0x06),
- 	_INIT_DCS_CMD(0x58, 0x21),
--	_INIT_DCS_CMD(0x59, 0x40),
--	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x2C),
--	_INIT_DCS_CMD(0x5E, 0x00, 0x10),
-+	_INIT_DCS_CMD(0x59, 0x70),
-+	_INIT_DCS_CMD(0x5A, 0x46),
-+	_INIT_DCS_CMD(0x5B, 0x32),
-+	_INIT_DCS_CMD(0x5C, 0x88),
-+	_INIT_DCS_CMD(0x5E, 0x00, 0x00),
- 	_INIT_DCS_CMD(0x5F, 0x00),
- 
--	_INIT_DCS_CMD(0x7A, 0x00),
--	_INIT_DCS_CMD(0x7B, 0x00),
-+	_INIT_DCS_CMD(0x7A, 0xFF),
-+	_INIT_DCS_CMD(0x7B, 0xFF),
- 	_INIT_DCS_CMD(0x7C, 0x00),
- 	_INIT_DCS_CMD(0x7D, 0x00),
- 	_INIT_DCS_CMD(0x7E, 0x20),
-@@ -564,152 +565,183 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x82, 0x08),
- 	_INIT_DCS_CMD(0x97, 0x02),
- 	_INIT_DCS_CMD(0xC5, 0x10),
-+
-+	_INIT_DCS_CMD(0xD7, 0x55),
-+	_INIT_DCS_CMD(0xD8, 0x55),
-+	_INIT_DCS_CMD(0xD9, 0x23),
- 	_INIT_DCS_CMD(0xDA, 0x05),
- 	_INIT_DCS_CMD(0xDB, 0x01),
--	_INIT_DCS_CMD(0xDC, 0x7A),
-+	_INIT_DCS_CMD(0xDC, 0x65),
- 	_INIT_DCS_CMD(0xDD, 0x55),
- 	_INIT_DCS_CMD(0xDE, 0x27),
- 	_INIT_DCS_CMD(0xDF, 0x01),
--	_INIT_DCS_CMD(0xE0, 0x7A),
-+	_INIT_DCS_CMD(0xE0, 0x65),
- 	_INIT_DCS_CMD(0xE1, 0x01),
--	_INIT_DCS_CMD(0xE2, 0x7A),
-+	_INIT_DCS_CMD(0xE2, 0x65),
- 	_INIT_DCS_CMD(0xE3, 0x01),
--	_INIT_DCS_CMD(0xE4, 0x7A),
-+	_INIT_DCS_CMD(0xE4, 0x65),
- 	_INIT_DCS_CMD(0xE5, 0x01),
--	_INIT_DCS_CMD(0xE6, 0x7A),
-+	_INIT_DCS_CMD(0xE6, 0x65),
- 	_INIT_DCS_CMD(0xE7, 0x00),
- 	_INIT_DCS_CMD(0xE8, 0x00),
- 	_INIT_DCS_CMD(0xE9, 0x01),
--	_INIT_DCS_CMD(0xEA, 0x7A),
-+	_INIT_DCS_CMD(0xEA, 0x65),
- 	_INIT_DCS_CMD(0xEB, 0x01),
--	_INIT_DCS_CMD(0xEE, 0x7A),
-+	_INIT_DCS_CMD(0xEE, 0x65),
- 	_INIT_DCS_CMD(0xEF, 0x01),
--	_INIT_DCS_CMD(0xF0, 0x7A),
--
-+	_INIT_DCS_CMD(0xF0, 0x65),
- 	_INIT_DCS_CMD(0xB6, 0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x05, 0x00, 0x00),
-+
- 	_INIT_DCS_CMD(0xFF, 0x25),
--	_INIT_DCS_CMD(0xFB, 0x01),
- 
-+	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x05, 0x00),
--
--	_INIT_DCS_CMD(0x13, 0x02),
--	_INIT_DCS_CMD(0x14, 0xDF),
- 	_INIT_DCS_CMD(0xF1, 0x10),
-+
- 	_INIT_DCS_CMD(0x1E, 0x00),
--	_INIT_DCS_CMD(0x1F, 0x00),
--	_INIT_DCS_CMD(0x20, 0x2C),
-+	_INIT_DCS_CMD(0x1F, 0x46),
-+	_INIT_DCS_CMD(0x20, 0x32),
-+
- 	_INIT_DCS_CMD(0x25, 0x00),
--	_INIT_DCS_CMD(0x26, 0x00),
--	_INIT_DCS_CMD(0x27, 0x2C),
-+	_INIT_DCS_CMD(0x26, 0x46),
-+	_INIT_DCS_CMD(0x27, 0x32),
-+
- 	_INIT_DCS_CMD(0x3F, 0x80),
- 	_INIT_DCS_CMD(0x40, 0x00),
- 	_INIT_DCS_CMD(0x43, 0x00),
- 
--	_INIT_DCS_CMD(0x44, 0x18),
--	_INIT_DCS_CMD(0x45, 0x00),
-+	_INIT_DCS_CMD(0x44, 0x46),
-+	_INIT_DCS_CMD(0x45, 0x46),
-+
-+	_INIT_DCS_CMD(0x48, 0x46),
-+	_INIT_DCS_CMD(0x49, 0x32),
- 
--	_INIT_DCS_CMD(0x48, 0x00),
--	_INIT_DCS_CMD(0x49, 0x2C),
- 	_INIT_DCS_CMD(0x5B, 0x80),
-+
- 	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x00),
--	_INIT_DCS_CMD(0x5E, 0x00),
--	_INIT_DCS_CMD(0x61, 0x00),
--	_INIT_DCS_CMD(0x62, 0x2C),
--	_INIT_DCS_CMD(0x68, 0x10),
-+	_INIT_DCS_CMD(0x5D, 0x46),
-+	_INIT_DCS_CMD(0x5E, 0x32),
-+
-+	_INIT_DCS_CMD(0x5F, 0x46),
-+	_INIT_DCS_CMD(0x60, 0x32),
-+
-+	_INIT_DCS_CMD(0x61, 0x46),
-+	_INIT_DCS_CMD(0x62, 0x32),
-+	_INIT_DCS_CMD(0x68, 0x0C),
-+
-+	_INIT_DCS_CMD(0x6C, 0x0D),
-+	_INIT_DCS_CMD(0x6E, 0x0D),
-+	_INIT_DCS_CMD(0x78, 0x00),
-+	_INIT_DCS_CMD(0x79, 0xC5),
-+	_INIT_DCS_CMD(0x7A, 0x0C),
-+	_INIT_DCS_CMD(0x7B, 0xB0),
-+
- 	_INIT_DCS_CMD(0xFF, 0x26),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
- 	_INIT_DCS_CMD(0x00, 0xA1),
- 	_INIT_DCS_CMD(0x02, 0x31),
--	_INIT_DCS_CMD(0x0A, 0xF2),
--	_INIT_DCS_CMD(0x04, 0x28),
-+	_INIT_DCS_CMD(0x0A, 0xF4),
-+	_INIT_DCS_CMD(0x04, 0x50),
- 	_INIT_DCS_CMD(0x06, 0x30),
- 	_INIT_DCS_CMD(0x0C, 0x16),
- 	_INIT_DCS_CMD(0x0D, 0x0D),
- 	_INIT_DCS_CMD(0x0F, 0x00),
- 	_INIT_DCS_CMD(0x11, 0x00),
- 	_INIT_DCS_CMD(0x12, 0x50),
--	_INIT_DCS_CMD(0x13, 0x56),
--	_INIT_DCS_CMD(0x14, 0x57),
-+	_INIT_DCS_CMD(0x13, 0x40),
-+	_INIT_DCS_CMD(0x14, 0x58),
- 	_INIT_DCS_CMD(0x15, 0x00),
- 	_INIT_DCS_CMD(0x16, 0x10),
- 	_INIT_DCS_CMD(0x17, 0xA0),
- 	_INIT_DCS_CMD(0x18, 0x86),
- 	_INIT_DCS_CMD(0x22, 0x00),
- 	_INIT_DCS_CMD(0x23, 0x00),
--	_INIT_DCS_CMD(0x19, 0x0D),
--	_INIT_DCS_CMD(0x1A, 0x7F),
--	_INIT_DCS_CMD(0x1B, 0x0C),
--	_INIT_DCS_CMD(0x1C, 0xBF),
--	_INIT_DCS_CMD(0x2A, 0x0D),
--	_INIT_DCS_CMD(0x2B, 0x7F),
--	_INIT_DCS_CMD(0x20, 0x00),
-+
-+	_INIT_DCS_CMD(0x19, 0x0E),
-+	_INIT_DCS_CMD(0x1A, 0x31),
-+	_INIT_DCS_CMD(0x1B, 0x0D),
-+	_INIT_DCS_CMD(0x1C, 0x29),
-+	_INIT_DCS_CMD(0x2A, 0x0E),
-+	_INIT_DCS_CMD(0x2B, 0x31),
- 
- 	_INIT_DCS_CMD(0x1D, 0x00),
--	_INIT_DCS_CMD(0x1E, 0x78),
--	_INIT_DCS_CMD(0x1F, 0x78),
-+	_INIT_DCS_CMD(0x1E, 0x62),
-+	_INIT_DCS_CMD(0x1F, 0x62),
- 
--	_INIT_DCS_CMD(0x2F, 0x03),
--	_INIT_DCS_CMD(0x30, 0x78),
--	_INIT_DCS_CMD(0x33, 0x78),
--	_INIT_DCS_CMD(0x34, 0x66),
--	_INIT_DCS_CMD(0x35, 0x11),
-+	_INIT_DCS_CMD(0x2F, 0x06),
-+	_INIT_DCS_CMD(0x30, 0x62),
-+	_INIT_DCS_CMD(0x31, 0x06),
-+	_INIT_DCS_CMD(0x32, 0x7F),
-+	_INIT_DCS_CMD(0x33, 0x11),
-+	_INIT_DCS_CMD(0x34, 0x89),
-+	_INIT_DCS_CMD(0x35, 0x67),
- 
--	_INIT_DCS_CMD(0x39, 0x10),
--	_INIT_DCS_CMD(0x3A, 0x78),
-+	_INIT_DCS_CMD(0x39, 0x0B),
-+	_INIT_DCS_CMD(0x3A, 0x62),
- 	_INIT_DCS_CMD(0x3B, 0x06),
- 
- 	_INIT_DCS_CMD(0xC8, 0x04),
--	_INIT_DCS_CMD(0xC9, 0x84),
-+	_INIT_DCS_CMD(0xC9, 0x89),
- 	_INIT_DCS_CMD(0xCA, 0x4E),
- 	_INIT_DCS_CMD(0xCB, 0x00),
-+	_INIT_DCS_CMD(0xA9, 0x3F),
-+	_INIT_DCS_CMD(0xAA, 0x3E),
-+	_INIT_DCS_CMD(0xAB, 0x3D),
-+	_INIT_DCS_CMD(0xAC, 0x3C),
-+	_INIT_DCS_CMD(0xAD, 0x3B),
-+	_INIT_DCS_CMD(0xAE, 0x3A),
-+	_INIT_DCS_CMD(0xAF, 0x39),
-+	_INIT_DCS_CMD(0xB0, 0x38),
- 
--	_INIT_DCS_CMD(0xA9, 0x50),
--	_INIT_DCS_CMD(0xAA, 0x4F),
--	_INIT_DCS_CMD(0xAB, 0x4D),
--	_INIT_DCS_CMD(0xAC, 0x4A),
--	_INIT_DCS_CMD(0xAD, 0x48),
--	_INIT_DCS_CMD(0xAE, 0x46),
- 	_INIT_DCS_CMD(0xFF, 0x27),
- 	_INIT_DCS_CMD(0xFB, 0x01),
-+
-+	_INIT_DCS_CMD(0xD0, 0x11),
-+	_INIT_DCS_CMD(0xD1, 0x54),
-+	_INIT_DCS_CMD(0xDE, 0x43),
-+	_INIT_DCS_CMD(0xDF, 0x02),
-+
- 	_INIT_DCS_CMD(0xC0, 0x18),
- 	_INIT_DCS_CMD(0xC1, 0x00),
- 	_INIT_DCS_CMD(0xC2, 0x00),
-+	_INIT_DCS_CMD(0x00, 0x00),
-+	_INIT_DCS_CMD(0xC3, 0x00),
- 	_INIT_DCS_CMD(0x56, 0x06),
-+
- 	_INIT_DCS_CMD(0x58, 0x80),
--	_INIT_DCS_CMD(0x59, 0x75),
-+	_INIT_DCS_CMD(0x59, 0x78),
- 	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x02),
-+	_INIT_DCS_CMD(0x5B, 0x18),
- 	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x00),
-+	_INIT_DCS_CMD(0x5D, 0x01),
- 	_INIT_DCS_CMD(0x5E, 0x20),
- 	_INIT_DCS_CMD(0x5F, 0x10),
- 	_INIT_DCS_CMD(0x60, 0x00),
--	_INIT_DCS_CMD(0x61, 0x2E),
-+	_INIT_DCS_CMD(0x61, 0x1C),
- 	_INIT_DCS_CMD(0x62, 0x00),
- 	_INIT_DCS_CMD(0x63, 0x01),
--	_INIT_DCS_CMD(0x64, 0x43),
--	_INIT_DCS_CMD(0x65, 0x2D),
-+	_INIT_DCS_CMD(0x64, 0x44),
-+	_INIT_DCS_CMD(0x65, 0x1B),
- 	_INIT_DCS_CMD(0x66, 0x00),
- 	_INIT_DCS_CMD(0x67, 0x01),
--	_INIT_DCS_CMD(0x68, 0x43),
-+	_INIT_DCS_CMD(0x68, 0x44),
-+
- 	_INIT_DCS_CMD(0x98, 0x01),
- 	_INIT_DCS_CMD(0xB4, 0x03),
--	_INIT_DCS_CMD(0x9B, 0xBD),
--	_INIT_DCS_CMD(0xA0, 0x90),
--	_INIT_DCS_CMD(0xAB, 0x1B),
--	_INIT_DCS_CMD(0xBC, 0x0C),
-+	_INIT_DCS_CMD(0x9B, 0xBE),
-+
-+	_INIT_DCS_CMD(0xAB, 0x14),
-+	_INIT_DCS_CMD(0xBC, 0x08),
- 	_INIT_DCS_CMD(0xBD, 0x28),
- 
- 	_INIT_DCS_CMD(0xFF, 0x2A),
- 	_INIT_DCS_CMD(0xFB, 0x01),
--
- 	_INIT_DCS_CMD(0x22, 0x2F),
- 	_INIT_DCS_CMD(0x23, 0x08),
- 
- 	_INIT_DCS_CMD(0x24, 0x00),
--	_INIT_DCS_CMD(0x25, 0x65),
-+	_INIT_DCS_CMD(0x25, 0x62),
- 	_INIT_DCS_CMD(0x26, 0xF8),
- 	_INIT_DCS_CMD(0x27, 0x00),
- 	_INIT_DCS_CMD(0x28, 0x1A),
-@@ -719,18 +751,29 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x2D, 0x1A),
- 
- 	_INIT_DCS_CMD(0x64, 0x96),
--	_INIT_DCS_CMD(0x65, 0x00),
-+	_INIT_DCS_CMD(0x65, 0x10),
- 	_INIT_DCS_CMD(0x66, 0x00),
-+	_INIT_DCS_CMD(0x67, 0x96),
-+	_INIT_DCS_CMD(0x68, 0x10),
-+	_INIT_DCS_CMD(0x69, 0x00),
- 	_INIT_DCS_CMD(0x6A, 0x96),
--	_INIT_DCS_CMD(0x6B, 0x00),
-+	_INIT_DCS_CMD(0x6B, 0x10),
- 	_INIT_DCS_CMD(0x6C, 0x00),
- 	_INIT_DCS_CMD(0x70, 0x92),
--	_INIT_DCS_CMD(0x71, 0x00),
-+	_INIT_DCS_CMD(0x71, 0x10),
- 	_INIT_DCS_CMD(0x72, 0x00),
--	_INIT_DCS_CMD(0xA2, 0x33),
-+	_INIT_DCS_CMD(0x79, 0x96),
-+	_INIT_DCS_CMD(0x7A, 0x10),
-+	_INIT_DCS_CMD(0x88, 0x96),
-+	_INIT_DCS_CMD(0x89, 0x10),
-+
-+	_INIT_DCS_CMD(0xA2, 0x3F),
- 	_INIT_DCS_CMD(0xA3, 0x30),
- 	_INIT_DCS_CMD(0xA4, 0xC0),
-+	_INIT_DCS_CMD(0xA5, 0x03),
-+
- 	_INIT_DCS_CMD(0xE8, 0x00),
-+
- 	_INIT_DCS_CMD(0x97, 0x3C),
- 	_INIT_DCS_CMD(0x98, 0x02),
- 	_INIT_DCS_CMD(0x99, 0x95),
-@@ -739,38 +782,68 @@ static const struct panel_init_cmd inx_hj110iz_init_cmd[] = {
- 	_INIT_DCS_CMD(0x9C, 0x0B),
- 	_INIT_DCS_CMD(0x9D, 0x0A),
- 	_INIT_DCS_CMD(0x9E, 0x90),
-+
-+	_INIT_DCS_CMD(0xFF, 0x25),
-+	_INIT_DCS_CMD(0x13, 0x02),
-+	_INIT_DCS_CMD(0x14, 0xD7),
-+	_INIT_DCS_CMD(0xDB, 0x02),
-+	_INIT_DCS_CMD(0xDC, 0xD7),
-+	_INIT_DCS_CMD(0x17, 0xCF),
-+	_INIT_DCS_CMD(0x19, 0x0F),
-+	_INIT_DCS_CMD(0x1B, 0x5B),
-+
-+	_INIT_DCS_CMD(0xFF, 0x20),
-+
-+	_INIT_DCS_CMD(0xB0, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x24, 0x00, 0x38, 0x00, 0x4C, 0x00, 0x5E, 0x00, 0x6F, 0x00, 0x7E),
-+	_INIT_DCS_CMD(0xB1, 0x00, 0x8C, 0x00, 0xBE, 0x00, 0xE5, 0x01, 0x27, 0x01, 0x58, 0x01, 0xA8, 0x01, 0xE8, 0x01, 0xEA),
-+	_INIT_DCS_CMD(0xB2, 0x02, 0x28, 0x02, 0x71, 0x02, 0x9E, 0x02, 0xDA, 0x03, 0x00, 0x03, 0x31, 0x03, 0x40, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB3, 0x03, 0x62, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x0D, 0x00, 0x27, 0x00, 0x3D, 0x00, 0x52, 0x00, 0x64, 0x00, 0x75, 0x00, 0x84),
-+	_INIT_DCS_CMD(0xB5, 0x00, 0x93, 0x00, 0xC5, 0x00, 0xEC, 0x01, 0x2C, 0x01, 0x5D, 0x01, 0xAC, 0x01, 0xEC, 0x01, 0xEE),
-+	_INIT_DCS_CMD(0xB6, 0x02, 0x2B, 0x02, 0x73, 0x02, 0xA0, 0x02, 0xDB, 0x03, 0x01, 0x03, 0x31, 0x03, 0x41, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB7, 0x03, 0x63, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x2A, 0x00, 0x40, 0x00, 0x56, 0x00, 0x68, 0x00, 0x7A, 0x00, 0x89),
-+	_INIT_DCS_CMD(0xB9, 0x00, 0x98, 0x00, 0xC9, 0x00, 0xF1, 0x01, 0x30, 0x01, 0x61, 0x01, 0xB0, 0x01, 0xEF, 0x01, 0xF1),
-+	_INIT_DCS_CMD(0xBA, 0x02, 0x2E, 0x02, 0x76, 0x02, 0xA3, 0x02, 0xDD, 0x03, 0x02, 0x03, 0x32, 0x03, 0x42, 0x03, 0x53),
-+	_INIT_DCS_CMD(0xBB, 0x03, 0x66, 0x03, 0x75, 0x03, 0x89, 0x03, 0x9C, 0x03, 0xAA, 0x03, 0xB2),
-+
-+	_INIT_DCS_CMD(0xFF, 0x21),
-+	_INIT_DCS_CMD(0xB0, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x24, 0x00, 0x38, 0x00, 0x4C, 0x00, 0x5E, 0x00, 0x6F, 0x00, 0x7E),
-+	_INIT_DCS_CMD(0xB1, 0x00, 0x8C, 0x00, 0xBE, 0x00, 0xE5, 0x01, 0x27, 0x01, 0x58, 0x01, 0xA8, 0x01, 0xE8, 0x01, 0xEA),
-+	_INIT_DCS_CMD(0xB2, 0x02, 0x28, 0x02, 0x71, 0x02, 0x9E, 0x02, 0xDA, 0x03, 0x00, 0x03, 0x31, 0x03, 0x40, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB3, 0x03, 0x62, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
-+	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x0D, 0x00, 0x27, 0x00, 0x3D, 0x00, 0x52, 0x00, 0x64, 0x00, 0x75, 0x00, 0x84),
-+	_INIT_DCS_CMD(0xB5, 0x00, 0x93, 0x00, 0xC5, 0x00, 0xEC, 0x01, 0x2C, 0x01, 0x5D, 0x01, 0xAC, 0x01, 0xEC, 0x01, 0xEE),
-+	_INIT_DCS_CMD(0xB6, 0x02, 0x2B, 0x02, 0x73, 0x02, 0xA0, 0x02, 0xDB, 0x03, 0x01, 0x03, 0x31, 0x03, 0x41, 0x03, 0x51),
-+	_INIT_DCS_CMD(0xB7, 0x03, 0x63, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
-+	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x2A, 0x00, 0x40, 0x00, 0x56, 0x00, 0x68, 0x00, 0x7A, 0x00, 0x89),
-+	_INIT_DCS_CMD(0xB9, 0x00, 0x98, 0x00, 0xC9, 0x00, 0xF1, 0x01, 0x30, 0x01, 0x61, 0x01, 0xB0, 0x01, 0xEF, 0x01, 0xF1),
-+	_INIT_DCS_CMD(0xBA, 0x02, 0x2E, 0x02, 0x76, 0x02, 0xA3, 0x02, 0xDD, 0x03, 0x02, 0x03, 0x32, 0x03, 0x42, 0x03, 0x53),
-+	_INIT_DCS_CMD(0xBB, 0x03, 0x66, 0x03, 0x77, 0x03, 0x90, 0x03, 0xAC, 0x03, 0xCA, 0x03, 0xDA),
-+
- 	_INIT_DCS_CMD(0xFF, 0xF0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x3A, 0x08),
--	_INIT_DCS_CMD(0xFF, 0xD0),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x00, 0x33),
--	_INIT_DCS_CMD(0x08, 0x01),
--	_INIT_DCS_CMD(0x09, 0xBF),
--	_INIT_DCS_CMD(0x2F, 0x33),
--	_INIT_DCS_CMD(0xFF, 0x23),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x00, 0x80),
--	_INIT_DCS_CMD(0x07, 0x00),
--	_INIT_DCS_CMD(0xFF, 0x20),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x30, 0x00),
--	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DCS_CMD(0x5C, 0x88),
--	_INIT_DCS_CMD(0x5D, 0x08),
-+
- 	_INIT_DCS_CMD(0xFF, 0x10),
- 	_INIT_DCS_CMD(0xB9, 0x01),
-+
- 	_INIT_DCS_CMD(0xFF, 0x20),
-+
- 	_INIT_DCS_CMD(0x18, 0x40),
- 	_INIT_DCS_CMD(0xFF, 0x10),
-+
- 	_INIT_DCS_CMD(0xB9, 0x02),
- 	_INIT_DCS_CMD(0xFF, 0x10),
-+
- 	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0xBB, 0x13),
--	_INIT_DCS_CMD(0x3B, 0x03, 0x96, 0x1A, 0x04, 0x04),
-+	_INIT_DCS_CMD(0xB0, 0x01),
- 	_INIT_DCS_CMD(0x35, 0x00),
--	_INIT_DCS_CMD(0x51, 0x0F, 0xFF),
--	_INIT_DCS_CMD(0x53, 0x24),
-+	_INIT_DCS_CMD(0x3B, 0x03, 0xAE, 0x1A, 0x04, 0x04),
- 	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0x11),
- 	_INIT_DELAY_CMD(200),
--- 
-2.25.1
+Another question,
 
+I found the PMMU in the driver code, does it support for like CudaHostAlloc
+and hostMap?
+
+gaudi seems can access host memory by pcie, some kernel can compute data
+in host directly, right?
+
+But accessing via PCIE(64GB/s), compared to accessing HBM(3T/s),
+has too low bandwidth.
+
+for nvidia, it has NVLINK.
+
+Thank,
+Cai-
+
+> 
+> >
+> > > debug/bring-up.
+> > >
+> > > Therefore, I prefer not to take this patch as validation for both
+> > > functionality and performance will take time which will be better
+> > > spent elsewhere.
+> > >
+> > > Thanks,
+> > > Oded
+> > >
+> > > > ---
+> > > > v1->v2:
+> > > > Use rhashtable_free_and_destroy in hl_userptr_delete_list.
+> > > >
+> > > >  .../habanalabs/common/command_submission.c    | 16 ++++++--
+> > > >  drivers/accel/habanalabs/common/habanalabs.h  | 19 +++++----
+> > > >  drivers/accel/habanalabs/common/memory.c      | 39 +++++++++++--------
+> > > >  drivers/accel/habanalabs/gaudi/gaudi.c        | 16 +++++---
+> > > >  drivers/accel/habanalabs/goya/goya.c          | 14 ++++---
+> > > >  5 files changed, 65 insertions(+), 39 deletions(-)
+> > > >
+> > > > diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
+> > > > index af9d2e22c6e7..35c2ab934396 100644
+> > > > --- a/drivers/accel/habanalabs/common/command_submission.c
+> > > > +++ b/drivers/accel/habanalabs/common/command_submission.c
+> > > > @@ -312,7 +312,7 @@ static int cs_parser(struct hl_fpriv *hpriv, struct hl_cs_job *job)
+> > > >         parser.job_id = job->id;
+> > > >
+> > > >         parser.hw_queue_id = job->hw_queue_id;
+> > > > -       parser.job_userptr_list = &job->userptr_list;
+> > > > +       parser.job_userptr_ht = &job->userptr_ht;
+> > > >         parser.patched_cb = NULL;
+> > > >         parser.user_cb = job->user_cb;
+> > > >         parser.user_cb_size = job->user_cb_size;
+> > > > @@ -351,7 +351,7 @@ static void hl_complete_job(struct hl_device *hdev, struct hl_cs_job *job)
+> > > >         struct hl_cs *cs = job->cs;
+> > > >
+> > > >         if (is_cb_patched(hdev, job)) {
+> > > > -               hl_userptr_delete_list(hdev, &job->userptr_list);
+> > > > +               hl_userptr_delete_list(hdev, &job->userptr_ht);
+> > > >
+> > > >                 /*
+> > > >                  * We might arrive here from rollback and patched CB wasn't
+> > > > @@ -1284,6 +1284,7 @@ struct hl_cs_job *hl_cs_allocate_job(struct hl_device *hdev,
+> > > >                 enum hl_queue_type queue_type, bool is_kernel_allocated_cb)
+> > > >  {
+> > > >         struct hl_cs_job *job;
+> > > > +       int rc;
+> > > >
+> > > >         job = kzalloc(sizeof(*job), GFP_ATOMIC);
+> > > >         if (!job)
+> > > > @@ -1296,13 +1297,20 @@ struct hl_cs_job *hl_cs_allocate_job(struct hl_device *hdev,
+> > > >         job->queue_type = queue_type;
+> > > >         job->is_kernel_allocated_cb = is_kernel_allocated_cb;
+> > > >
+> > > > -       if (is_cb_patched(hdev, job))
+> > > > -               INIT_LIST_HEAD(&job->userptr_list);
+> > > > +       if (is_cb_patched(hdev, job)) {
+> > > > +               rc = rhashtable_init(&job->userptr_ht, &hl_userptr_rht_params);
+> > > > +               if (rc)
+> > > > +                       goto free_job;
+> > > > +       }
+> > > >
+> > > >         if (job->queue_type == QUEUE_TYPE_EXT)
+> > > >                 INIT_WORK(&job->finish_work, job_wq_completion);
+> > > >
+> > > >         return job;
+> > > > +
+> > > > +free_job:
+> > > > +       kfree(job);
+> > > > +       return NULL;
+> > > >  }
+> > > >
+> > > >  static enum hl_cs_type hl_cs_get_cs_type(u32 cs_type_flags)
+> > > > diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+> > > > index eaae69a9f817..9c876d1480d2 100644
+> > > > --- a/drivers/accel/habanalabs/common/habanalabs.h
+> > > > +++ b/drivers/accel/habanalabs/common/habanalabs.h
+> > > > @@ -19,6 +19,7 @@
+> > > >  #include <linux/dma-direction.h>
+> > > >  #include <linux/scatterlist.h>
+> > > >  #include <linux/hashtable.h>
+> > > > +#include <linux/rhashtable.h>
+> > > >  #include <linux/debugfs.h>
+> > > >  #include <linux/rwsem.h>
+> > > >  #include <linux/eventfd.h>
+> > > > @@ -540,6 +541,8 @@ struct hl_hints_range {
+> > > >         u64 end_addr;
+> > > >  };
+> > > >
+> > > > +extern const struct rhashtable_params hl_userptr_rht_params;
+> > > > +
+> > > >  /**
+> > > >   * struct asic_fixed_properties - ASIC specific immutable properties.
+> > > >   * @hw_queues_props: H/W queues properties.
+> > > > @@ -1915,7 +1918,7 @@ struct hl_ctx_mgr {
+> > > >  /**
+> > > >   * struct hl_userptr - memory mapping chunk information
+> > > >   * @vm_type: type of the VM.
+> > > > - * @job_node: linked-list node for hanging the object on the Job's list.
+> > > > + * @job_node: hashtable node for hanging the object on the Job's list.
+> > > >   * @pages: pointer to struct page array
+> > > >   * @npages: size of @pages array
+> > > >   * @sgt: pointer to the scatter-gather table that holds the pages.
+> > > > @@ -1928,7 +1931,7 @@ struct hl_ctx_mgr {
+> > > >   */
+> > > >  struct hl_userptr {
+> > > >         enum vm_type            vm_type; /* must be first */
+> > > > -       struct list_head        job_node;
+> > > > +       struct rhash_head       job_node;
+> > > >         struct page             **pages;
+> > > >         unsigned int            npages;
+> > > >         struct sg_table         *sgt;
+> > > > @@ -2028,7 +2031,7 @@ struct hl_cs {
+> > > >   * @patched_cb: in case of patching, this is internal CB which is submitted on
+> > > >   *             the queue instead of the CB we got from the IOCTL.
+> > > >   * @finish_work: workqueue object to run when job is completed.
+> > > > - * @userptr_list: linked-list of userptr mappings that belong to this job and
+> > > > + * @userptr_ht: hashtable of userptr mappings that belong to this job and
+> > > >   *                     wait for completion.
+> > > >   * @debugfs_list: node in debugfs list of command submission jobs.
+> > > >   * @refcount: reference counter for usage of the CS job.
+> > > > @@ -2056,7 +2059,7 @@ struct hl_cs_job {
+> > > >         struct hl_cb            *user_cb;
+> > > >         struct hl_cb            *patched_cb;
+> > > >         struct work_struct      finish_work;
+> > > > -       struct list_head        userptr_list;
+> > > > +       struct rhashtable       userptr_ht;
+> > > >         struct list_head        debugfs_list;
+> > > >         struct kref             refcount;
+> > > >         enum hl_queue_type      queue_type;
+> > > > @@ -2075,7 +2078,7 @@ struct hl_cs_job {
+> > > >   * @user_cb: the CB we got from the user.
+> > > >   * @patched_cb: in case of patching, this is internal CB which is submitted on
+> > > >   *             the queue instead of the CB we got from the IOCTL.
+> > > > - * @job_userptr_list: linked-list of userptr mappings that belong to the related
+> > > > + * @job_userptr_ht: hashtable of userptr mappings that belong to the related
+> > > >   *                     job and wait for completion.
+> > > >   * @cs_sequence: the sequence number of the related CS.
+> > > >   * @queue_type: the type of the H/W queue this job is submitted to.
+> > > > @@ -2098,7 +2101,7 @@ struct hl_cs_job {
+> > > >  struct hl_cs_parser {
+> > > >         struct hl_cb            *user_cb;
+> > > >         struct hl_cb            *patched_cb;
+> > > > -       struct list_head        *job_userptr_list;
+> > > > +       struct rhashtable       *job_userptr_ht;
+> > > >         u64                     cs_sequence;
+> > > >         enum hl_queue_type      queue_type;
+> > > >         u32                     ctx_id;
+> > > > @@ -3760,9 +3763,9 @@ int hl_pin_host_memory(struct hl_device *hdev, u64 addr, u64 size,
+> > > >                         struct hl_userptr *userptr);
+> > > >  void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *userptr);
+> > > >  void hl_userptr_delete_list(struct hl_device *hdev,
+> > > > -                               struct list_head *userptr_list);
+> > > > +                               struct rhashtable *userptr_ht);
+> > > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr, u32 size,
+> > > > -                               struct list_head *userptr_list,
+> > > > +                               struct rhashtable *userptr_ht,
+> > > >                                 struct hl_userptr **userptr);
+> > > >
+> > > >  int hl_mmu_init(struct hl_device *hdev);
+> > > > diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+> > > > index a7b6a273ce21..fa2104e33639 100644
+> > > > --- a/drivers/accel/habanalabs/common/memory.c
+> > > > +++ b/drivers/accel/habanalabs/common/memory.c
+> > > > @@ -23,6 +23,13 @@ MODULE_IMPORT_NS(DMA_BUF);
+> > > >
+> > > >  #define MEM_HANDLE_INVALID     ULONG_MAX
+> > > >
+> > > > +const struct rhashtable_params hl_userptr_rht_params = {
+> > > > +       .head_offset = offsetof(struct hl_userptr, job_node),
+> > > > +       .key_offset = offsetof(struct hl_userptr, addr),
+> > > > +       .key_len = sizeof(u64),
+> > > > +       .automatic_shrinking = true,
+> > > > +};
+> > > > +
+> > > >  static int allocate_timestamps_buffers(struct hl_fpriv *hpriv,
+> > > >                         struct hl_mem_in *args, u64 *handle);
+> > > >
+> > > > @@ -2483,7 +2490,6 @@ int hl_pin_host_memory(struct hl_device *hdev, u64 addr, u64 size,
+> > > >         userptr->size = size;
+> > > >         userptr->addr = addr;
+> > > >         userptr->dma_mapped = false;
+> > > > -       INIT_LIST_HEAD(&userptr->job_node);
+> > > >
+> > > >         rc = get_user_memory(hdev, addr, size, npages, start, offset,
+> > > >                                 userptr);
+> > > > @@ -2522,32 +2528,32 @@ void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *userptr)
+> > > >         unpin_user_pages_dirty_lock(userptr->pages, userptr->npages, true);
+> > > >         kvfree(userptr->pages);
+> > > >
+> > > > -       list_del(&userptr->job_node);
+> > > > -
+> > > >         sg_free_table(userptr->sgt);
+> > > >         kfree(userptr->sgt);
+> > > >  }
+> > > >
+> > > > +static void hl_userptr_free_cb(void *ptr, void *arg)
+> > > > +{
+> > > > +       struct hl_userptr *userptr = ptr;
+> > > > +       struct hl_device *hdev = (struct hl_device *)arg;
+> > > > +
+> > > > +       hl_unpin_host_memory(hdev, userptr);
+> > > > +       kfree(userptr);
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * hl_userptr_delete_list() - clear userptr list.
+> > > >   * @hdev: pointer to the habanalabs device structure.
+> > > > - * @userptr_list: pointer to the list to clear.
+> > > > + * @userptr_ht: pointer to the hashtable to clear.
+> > > >   *
+> > > >   * This function does the following:
+> > > >   * - Iterates over the list and unpins the host memory and frees the userptr
+> > > >   *   structure.
+> > > >   */
+> > > >  void hl_userptr_delete_list(struct hl_device *hdev,
+> > > > -                               struct list_head *userptr_list)
+> > > > +                               struct rhashtable *userptr_ht)
+> > > >  {
+> > > > -       struct hl_userptr *userptr, *tmp;
+> > > > -
+> > > > -       list_for_each_entry_safe(userptr, tmp, userptr_list, job_node) {
+> > > > -               hl_unpin_host_memory(hdev, userptr);
+> > > > -               kfree(userptr);
+> > > > -       }
+> > > > -
+> > > > -       INIT_LIST_HEAD(userptr_list);
+> > > > +       rhashtable_free_and_destroy(userptr_ht, hl_userptr_free_cb, hdev);
+> > > >  }
+> > > >
+> > > >  /**
+> > > > @@ -2555,7 +2561,7 @@ void hl_userptr_delete_list(struct hl_device *hdev,
+> > > >   * @hdev: pointer to the habanalabs device structure.
+> > > >   * @addr: user address to check.
+> > > >   * @size: user block size to check.
+> > > > - * @userptr_list: pointer to the list to clear.
+> > > > + * @userptr_ht: pointer to the hashtable to clear.
+> > > >   * @userptr: pointer to userptr to check.
+> > > >   *
+> > > >   * This function does the following:
+> > > > @@ -2563,10 +2569,11 @@ void hl_userptr_delete_list(struct hl_device *hdev,
+> > > >   *   pinned. If so, returns true, otherwise returns false.
+> > > >   */
+> > > >  bool hl_userptr_is_pinned(struct hl_device *hdev, u64 addr,
+> > > > -                               u32 size, struct list_head *userptr_list,
+> > > > +                               u32 size, struct rhashtable *userptr_ht,
+> > > >                                 struct hl_userptr **userptr)
+> > > >  {
+> > > > -       list_for_each_entry((*userptr), userptr_list, job_node) {
+> > > > +       (*userptr) = rhashtable_lookup_fast(userptr_ht, &addr, hl_userptr_rht_params);
+> > > > +       if (*userptr) {
+> > > >                 if ((addr == (*userptr)->addr) && (size == (*userptr)->size))
+> > > >                         return true;
+> > > >         }
+> > > > diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
+> > > > index a29aa8f7b6f3..1e1433042413 100644
+> > > > --- a/drivers/accel/habanalabs/gaudi/gaudi.c
+> > > > +++ b/drivers/accel/habanalabs/gaudi/gaudi.c
+> > > > @@ -1031,7 +1031,7 @@ static int _gaudi_init_tpc_mem(struct hl_device *hdev,
+> > > >         }
+> > > >
+> > > >  free_job:
+> > > > -       hl_userptr_delete_list(hdev, &job->userptr_list);
+> > > > +       hl_userptr_delete_list(hdev, &job->userptr_ht);
+> > > >         hl_debugfs_remove_job(hdev, job);
+> > > >         kfree(job);
+> > > >         atomic_dec(&cb->cs_cnt);
+> > > > @@ -4901,7 +4901,7 @@ static int gaudi_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         int rc;
+> > > >
+> > > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt->tsize),
+> > > > -                       parser->job_userptr_list, &userptr))
+> > > > +                       parser->job_userptr_ht, &userptr))
+> > > >                 goto already_pinned;
+> > > >
+> > > >         userptr = kzalloc(sizeof(*userptr), GFP_KERNEL);
+> > > > @@ -4913,7 +4913,10 @@ static int gaudi_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         if (rc)
+> > > >                 goto free_userptr;
+> > > >
+> > > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
+> > > > +       rc = rhashtable_insert_fast(parser->job_userptr_ht,
+> > > > +                                   &userptr->job_node, hl_userptr_rht_params);
+> > > > +       if (rc)
+> > > > +               goto unpin_memory;
+> > > >
+> > > >         rc = hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->sgt, dir);
+> > > >         if (rc) {
+> > > > @@ -4931,7 +4934,8 @@ static int gaudi_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         return 0;
+> > > >
+> > > >  unpin_memory:
+> > > > -       list_del(&userptr->job_node);
+> > > > +       rhashtable_remove_fast(parser->job_userptr_ht,
+> > > > +                              &userptr->job_node, hl_userptr_rht_params);
+> > > >         hl_unpin_host_memory(hdev, userptr);
+> > > >  free_userptr:
+> > > >         kfree(userptr);
+> > > > @@ -5175,7 +5179,7 @@ static int gaudi_patch_dma_packet(struct hl_device *hdev,
+> > > >         if ((!skip_host_mem_pin) &&
+> > > >                 (!hl_userptr_is_pinned(hdev, addr,
+> > > >                                         le32_to_cpu(user_dma_pkt->tsize),
+> > > > -                                       parser->job_userptr_list, &userptr))) {
+> > > > +                                       parser->job_userptr_ht, &userptr))) {
+> > > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\n",
+> > > >                                 addr, user_dma_pkt->tsize);
+> > > >                 return -EFAULT;
+> > > > @@ -5472,7 +5476,7 @@ static int gaudi_parse_cb_no_mmu(struct hl_device *hdev,
+> > > >
+> > > >  free_userptr:
+> > > >         if (rc)
+> > > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list);
+> > > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
+> > > >         return rc;
+> > > >  }
+> > > >
+> > > > diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/habanalabs/goya/goya.c
+> > > > index fb0ac9df841a..bfcbb9e8b126 100644
+> > > > --- a/drivers/accel/habanalabs/goya/goya.c
+> > > > +++ b/drivers/accel/habanalabs/goya/goya.c
+> > > > @@ -3347,7 +3347,7 @@ static int goya_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         int rc;
+> > > >
+> > > >         if (hl_userptr_is_pinned(hdev, addr, le32_to_cpu(user_dma_pkt->tsize),
+> > > > -                       parser->job_userptr_list, &userptr))
+> > > > +                       parser->job_userptr_ht, &userptr))
+> > > >                 goto already_pinned;
+> > > >
+> > > >         userptr = kzalloc(sizeof(*userptr), GFP_KERNEL);
+> > > > @@ -3359,7 +3359,10 @@ static int goya_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         if (rc)
+> > > >                 goto free_userptr;
+> > > >
+> > > > -       list_add_tail(&userptr->job_node, parser->job_userptr_list);
+> > > > +       rc = rhashtable_insert_fast(parser->job_userptr_ht,
+> > > > +                                   &userptr->job_node, hl_userptr_rht_params);
+> > > > +       if (rc)
+> > > > +               goto unpin_memory;
+> > > >
+> > > >         rc = hdev->asic_funcs->asic_dma_map_sgtable(hdev, userptr->sgt, dir);
+> > > >         if (rc) {
+> > > > @@ -3377,7 +3380,8 @@ static int goya_pin_memory_before_cs(struct hl_device *hdev,
+> > > >         return 0;
+> > > >
+> > > >  unpin_memory:
+> > > > -       list_del(&userptr->job_node);
+> > > > +       rhashtable_remove_fast(parser->job_userptr_ht,
+> > > > +                              &userptr->job_node, hl_userptr_rht_params);
+> > > >         hl_unpin_host_memory(hdev, userptr);
+> > > >  free_userptr:
+> > > >         kfree(userptr);
+> > > > @@ -3806,7 +3810,7 @@ static int goya_patch_dma_packet(struct hl_device *hdev,
+> > > >         if ((!skip_host_mem_pin) &&
+> > > >                 (hl_userptr_is_pinned(hdev, addr,
+> > > >                         le32_to_cpu(user_dma_pkt->tsize),
+> > > > -                       parser->job_userptr_list, &userptr) == false)) {
+> > > > +                       parser->job_userptr_ht, &userptr) == false)) {
+> > > >                 dev_err(hdev->dev, "Userptr 0x%llx + 0x%x NOT mapped\n",
+> > > >                                 addr, user_dma_pkt->tsize);
+> > > >                 return -EFAULT;
+> > > > @@ -4104,7 +4108,7 @@ static int goya_parse_cb_no_mmu(struct hl_device *hdev,
+> > > >
+> > > >  free_userptr:
+> > > >         if (rc)
+> > > > -               hl_userptr_delete_list(hdev, parser->job_userptr_list);
+> > > > +               hl_userptr_delete_list(hdev, parser->job_userptr_ht);
+> > > >         return rc;
+> > > >  }
+> > > >
+> > > > --
+> > > > 2.34.1
+> > > >
