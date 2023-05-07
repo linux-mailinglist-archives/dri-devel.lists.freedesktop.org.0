@@ -1,52 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6226F99D0
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F486F99F1
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076C810E260;
-	Sun,  7 May 2023 16:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FB510E2AA;
+	Sun,  7 May 2023 16:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8ED610E236
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C953810E264
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:55 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDc-0002Gy-0r; Sun, 07 May 2023 18:26:40 +0200
+ id 1pvhDc-0002Hp-6J; Sun, 07 May 2023 18:26:40 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDb-001nEX-55; Sun, 07 May 2023 18:26:39 +0200
+ id 1pvhDb-001nEc-C5; Sun, 07 May 2023 18:26:39 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDa-002AiK-CT; Sun, 07 May 2023 18:26:38 +0200
+ id 1pvhDa-002AiN-KO; Sun, 07 May 2023 18:26:38 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alain Volmat <alain.volmat@foss.st.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 41/53] drm/sti: Convert to platform remove callback returning
+To: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: [PATCH 42/53] drm/stm: Convert to platform remove callback returning
  void
-Date: Sun,  7 May 2023 18:26:04 +0200
-Message-Id: <20230507162616.1368908-42-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:26:05 +0200
+Message-Id: <20230507162616.1368908-43-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7282;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2934;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=8NQkMvjdiL3CEAKvtjv4HC+bAfqmgGCkmw5ona1pD/c=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9ETwB79bqVBoj3Cm7Kmo4pilQkYCocI2FQ7U
- TvU5ECj4myJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfREwAKCRCPgPtYfRL+
- ThIuB/9d9yCPJMrEjVvrjM+vz3vgzXRGdTCEudGlMz3y0A9ge2YhKZU95/Q3ERBJ3XwMafRh2sT
- 3nf758ab421p1P5uY1PFSCy86cEcN0oW2jeJJLd3RhoiqCzPmU7pUeoGfwJlyH6eA7cNnsxevgY
- maDl4BBU/L+/2m1FHpsIWtrDAS7oorYBVn7htvbo3haHUj3MujetzcDWFLLxhiIa7cDL6uqf+PD
- oqr+GMbLJOCV6Jz8xM6hSyHxvNbtTPJgsosIWGM4Hmhk21sL0p+dFlL7k0Bu9dcgghoyyxdlQkc
- F8DISMUsGAofbcMk8TEVAH/Qlai0ZwuywsCow12GE0EuS2PT
+ bh=VBjQWjzqZ0JTQET5hvmN/Q6/iuJELmv5j/ynukd6X4A=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9EUK4Twf4RYXDa6P3NRl5LAxP6p01blYfQj+
+ sfuV37RNpuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRFAAKCRCPgPtYfRL+
+ Tn5BCACZXxqbkSEj64X4IO9Jl4UE5Fwcqo46zCGQPooOmtsJPnvHOMD2vrTWcdt89WbWa7HPyGW
+ p68wJigwr8LgliEAG8bFBav809Ur+2IYDYVpkPTywsKw5waM0XrYaMLY2F1vodQugTwLttTS5Q9
+ NaXjOLbW5Hwxl7bjMEUkL79vmwX9GFQino3lvHJbJTNuRGj1Eir7GJWRvzNUJKyA3EmXZirKoS4
+ wQ47mFT617Y0LGi9fBYVJ7mRBGqo58eItCT6BRznJjnP6K88oRjUBE5Mzq8oNPv3DRhGwj+L5jF
+ 9UwZ78x5QLVJ/VyxkuH6gcIlEVoNR80JhOcG5RX5cfRr76aW
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,7 +71,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,202 +84,76 @@ quest to make the remove callback return void. In the first step of this
 quest all drivers are converted to .remove_new() which already returns
 void.
 
-Trivially convert the sti drm drivers from always returning zero in the
+Trivially convert the stm drm drivers from always returning zero in the
 remove callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/sti/sti_compositor.c | 5 ++---
- drivers/gpu/drm/sti/sti_drv.c        | 6 ++----
- drivers/gpu/drm/sti/sti_dvo.c        | 5 ++---
- drivers/gpu/drm/sti/sti_hda.c        | 5 ++---
- drivers/gpu/drm/sti/sti_hdmi.c       | 6 ++----
- drivers/gpu/drm/sti/sti_hqvdp.c      | 5 ++---
- drivers/gpu/drm/sti/sti_tvout.c      | 5 ++---
- 7 files changed, 14 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/stm/drv.c             | 6 ++----
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 6 ++----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-index 142a8e1b4436..33487a1fed8f 100644
---- a/drivers/gpu/drm/sti/sti_compositor.c
-+++ b/drivers/gpu/drm/sti/sti_compositor.c
-@@ -258,10 +258,9 @@ static int sti_compositor_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sti_compositor_ops);
- }
- 
--static int sti_compositor_remove(struct platform_device *pdev)
-+static void sti_compositor_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sti_compositor_ops);
--	return 0;
- }
- 
- struct platform_driver sti_compositor_driver = {
-@@ -270,7 +269,7 @@ struct platform_driver sti_compositor_driver = {
- 		.of_match_table = compositor_of_match,
- 	},
- 	.probe = sti_compositor_probe,
--	.remove = sti_compositor_remove,
-+	.remove_new = sti_compositor_remove,
- };
- 
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index ef6a4e63198f..451480041130 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -246,11 +246,9 @@ static int sti_platform_probe(struct platform_device *pdev)
- 	return component_master_add_with_match(dev, &sti_ops, match);
- }
- 
--static int sti_platform_remove(struct platform_device *pdev)
-+static void sti_platform_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &sti_ops);
--
--	return 0;
- }
- 
- static const struct of_device_id sti_dt_ids[] = {
-@@ -261,7 +259,7 @@ MODULE_DEVICE_TABLE(of, sti_dt_ids);
- 
- static struct platform_driver sti_platform_driver = {
- 	.probe = sti_platform_probe,
--	.remove = sti_platform_remove,
-+	.remove_new = sti_platform_remove,
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = sti_dt_ids,
-diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index 577c477b5f46..0dca0048dd25 100644
---- a/drivers/gpu/drm/sti/sti_dvo.c
-+++ b/drivers/gpu/drm/sti/sti_dvo.c
-@@ -567,10 +567,9 @@ static int sti_dvo_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sti_dvo_ops);
- }
- 
--static int sti_dvo_remove(struct platform_device *pdev)
-+static void sti_dvo_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sti_dvo_ops);
--	return 0;
- }
- 
- static const struct of_device_id dvo_of_match[] = {
-@@ -586,7 +585,7 @@ struct platform_driver sti_dvo_driver = {
- 		.of_match_table = dvo_of_match,
- 	},
- 	.probe = sti_dvo_probe,
--	.remove = sti_dvo_remove,
-+	.remove_new = sti_dvo_remove,
- };
- 
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index 15097ac67931..6ee35612a14e 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -792,10 +792,9 @@ static int sti_hda_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sti_hda_ops);
- }
- 
--static int sti_hda_remove(struct platform_device *pdev)
-+static void sti_hda_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sti_hda_ops);
--	return 0;
- }
- 
- static const struct of_device_id hda_of_match[] = {
-@@ -812,7 +811,7 @@ struct platform_driver sti_hda_driver = {
- 		.of_match_table = hda_of_match,
- 	},
- 	.probe = sti_hda_probe,
--	.remove = sti_hda_remove,
-+	.remove_new = sti_hda_remove,
- };
- 
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 8539fe1fedc4..3d8ddceca845 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1471,7 +1471,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index 50410bd99dfe..be91b375a4d5 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -213,7 +213,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int sti_hdmi_remove(struct platform_device *pdev)
-+static void sti_hdmi_remove(struct platform_device *pdev)
+-static int stm_drm_platform_remove(struct platform_device *pdev)
++static void stm_drm_platform_remove(struct platform_device *pdev)
  {
- 	struct sti_hdmi *hdmi = dev_get_drvdata(&pdev->dev);
+ 	struct drm_device *ddev = platform_get_drvdata(pdev);
  
-@@ -1479,8 +1479,6 @@ static int sti_hdmi_remove(struct platform_device *pdev)
- 	if (hdmi->audio_pdev)
- 		platform_device_unregister(hdmi->audio_pdev);
- 	component_del(&pdev->dev, &sti_hdmi_ops);
+@@ -222,8 +222,6 @@ static int stm_drm_platform_remove(struct platform_device *pdev)
+ 	drm_dev_unregister(ddev);
+ 	drv_unload(ddev);
+ 	drm_dev_put(ddev);
 -
 -	return 0;
  }
  
- struct platform_driver sti_hdmi_driver = {
-@@ -1490,7 +1488,7 @@ struct platform_driver sti_hdmi_driver = {
- 		.of_match_table = hdmi_of_match,
- 	},
- 	.probe = sti_hdmi_probe,
--	.remove = sti_hdmi_remove,
-+	.remove_new = sti_hdmi_remove,
- };
+ static const struct of_device_id drv_dt_ids[] = {
+@@ -234,7 +232,7 @@ MODULE_DEVICE_TABLE(of, drv_dt_ids);
  
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index 02b77279f6e4..0fb48ac044d8 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -1400,10 +1400,9 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &sti_hqvdp_ops);
+ static struct platform_driver stm_drm_platform_driver = {
+ 	.probe = stm_drm_platform_probe,
+-	.remove = stm_drm_platform_remove,
++	.remove_new = stm_drm_platform_remove,
+ 	.driver = {
+ 		.name = "stm32-display",
+ 		.of_match_table = drv_dt_ids,
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index 89897d5f5c72..a7c349404a7a 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -537,15 +537,13 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int sti_hqvdp_remove(struct platform_device *pdev)
-+static void sti_hqvdp_remove(struct platform_device *pdev)
+-static int dw_mipi_dsi_stm_remove(struct platform_device *pdev)
++static void dw_mipi_dsi_stm_remove(struct platform_device *pdev)
  {
- 	component_del(&pdev->dev, &sti_hqvdp_ops);
+ 	struct dw_mipi_dsi_stm *dsi = platform_get_drvdata(pdev);
+ 
+ 	dw_mipi_dsi_remove(dsi->dsi);
+ 	clk_disable_unprepare(dsi->pllref_clk);
+ 	regulator_disable(dsi->vdd_supply);
+-
 -	return 0;
  }
  
- static const struct of_device_id hqvdp_of_match[] = {
-@@ -1419,7 +1418,7 @@ struct platform_driver sti_hqvdp_driver = {
- 		.of_match_table = hqvdp_of_match,
- 	},
- 	.probe = sti_hqvdp_probe,
--	.remove = sti_hqvdp_remove,
-+	.remove_new = sti_hqvdp_remove,
- };
+ static int __maybe_unused dw_mipi_dsi_stm_suspend(struct device *dev)
+@@ -590,7 +588,7 @@ static const struct dev_pm_ops dw_mipi_dsi_stm_pm_ops = {
  
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
-diff --git a/drivers/gpu/drm/sti/sti_tvout.c b/drivers/gpu/drm/sti/sti_tvout.c
-index 2499715a69b7..64615638b79a 100644
---- a/drivers/gpu/drm/sti/sti_tvout.c
-+++ b/drivers/gpu/drm/sti/sti_tvout.c
-@@ -872,10 +872,9 @@ static int sti_tvout_probe(struct platform_device *pdev)
- 	return component_add(dev, &sti_tvout_ops);
- }
- 
--static int sti_tvout_remove(struct platform_device *pdev)
-+static void sti_tvout_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &sti_tvout_ops);
--	return 0;
- }
- 
- static const struct of_device_id tvout_of_match[] = {
-@@ -891,7 +890,7 @@ struct platform_driver sti_tvout_driver = {
- 		.of_match_table = tvout_of_match,
- 	},
- 	.probe = sti_tvout_probe,
--	.remove = sti_tvout_remove,
-+	.remove_new = sti_tvout_remove,
- };
- 
- MODULE_AUTHOR("Benjamin Gaignard <benjamin.gaignard@st.com>");
+ static struct platform_driver dw_mipi_dsi_stm_driver = {
+ 	.probe		= dw_mipi_dsi_stm_probe,
+-	.remove		= dw_mipi_dsi_stm_remove,
++	.remove_new	= dw_mipi_dsi_stm_remove,
+ 	.driver		= {
+ 		.of_match_table = dw_mipi_dsi_stm_dt_ids,
+ 		.name	= "stm32-display-dsi",
 -- 
 2.39.2
 
