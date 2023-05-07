@@ -1,36 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AD56F9995
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:06:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3808A6F99B8
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E035E10E1C3;
-	Sun,  7 May 2023 16:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B470B10E1D9;
+	Sun,  7 May 2023 16:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E985310E1C3
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:06:48 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 248A23F1F3;
- Sun,  7 May 2023 18:06:46 +0200 (CEST)
-Date: Sun, 7 May 2023 18:06:44 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v2 4/4] drm/msm/dpu: Set DATA_COMPRESS for command mode
-Message-ID: <j5wa45g4v6swvsiakl23azu7qgxtdllf2gav5wdc7s7zukxe4c@jkcu2wnyn6rn>
-References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
- <20230405-add-dsc-support-v2-4-1072c70e9786@quicinc.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC30510E1FF
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDP-0001dP-OP; Sun, 07 May 2023 18:26:27 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDN-001nB8-Rm; Sun, 07 May 2023 18:26:25 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pvhDN-002Afi-3T; Sun, 07 May 2023 18:26:25 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: James@pengutronix.de, Liviu Dudau <liviu.dudau@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 01/53] drm/komeda: Convert to platform remove callback
+ returning void
+Date: Sun,  7 May 2023 18:25:24 +0200
+Message-Id: <20230507162616.1368908-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405-add-dsc-support-v2-4-1072c70e9786@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1783;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=OvkbG5m0IUNUsqlbgvhk5MDb0LehSI8/F3qShARO9pQ=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DkuPeFi45tO4c9lfTHj1terzstr+EWsXbA7
+ x/LEJC9MpWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ5AAKCRCPgPtYfRL+
+ Ti6JB/0eBHs1fAarJAUzCnae5/QXAWF0uVEI/Sp77SU/lBsUahaOZeBrEf/bF7HJvyVwldP+BbW
+ EjwFhNhwWSCZ6Godz/uQuXmEES8ha9zwpeLJQMWzwVe8HGGsuOt90l/2WJC611qwB+2cuZcODVI
+ bVRE9sUT7uoqMz46MxLO25gy/3XY1KZyJqAmMS91/SpF7O6OHkDfuc5VIWeMbxcvARvjeAgi0vH
+ ebKSqHyu29e8dbK2wqUXSqkkGA2rsn+NKtQ5A7UmHK4bWrFbF+xf5kNAhx8EtUdAUVNFwTGz4ij
+ 2uR5NOBK8OQGo63bSyhvd1jlHugMdrzYzmOPUUIyqNqe4962
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,120 +69,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Mali DP Maintainers <malidp@foss.arm.com>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-05 14:23:51, Jessica Zhang wrote:
-> Add a DPU INTF op to set DATA_COMPRESS register for command mode panels if
-> the DPU_INTF_DATA_COMPRESS feature flag is set. This flag needs to be
-> enabled in order for DSC v1.2 to work.
-> 
-> Note: These changes are for command mode only. Video mode changes will
-> be posted along with the DSC v1.2 support for DP.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-Nit: the "command mode" parts of both paragraphs only apply to the call
-in dpu_encoder_phys_cmd, right?  If so, and the INTF op remains the same
-for video mode (but only the call needs to be added to the
-dpu_encoder_phy_vid), make this a bit more clear in your commit message.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> Changes in v2:
-> - Fixed whitespace issue in macro definition
-> - Read INTF_CONFIG2 before writing to DATA_COMPRESS bit
-> - Only set dpu_hw_intf_ops.data_compress if DATA_COMPRESS feature is set
-> - Removed `inline` from dpu_hw_intf_enable_compression declaration
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  3 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 11 +++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          |  2 ++
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index d8ed85a238af..1a4c20f02312 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -68,6 +68,9 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->  				phys_enc->hw_intf,
->  				true,
->  				phys_enc->hw_pp->idx);
-> +
-> +	if (phys_enc->hw_intf->ops.enable_compression)
-> +		phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
->  }
->  
->  static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 6485500eedb8..322c55a5042c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -91,6 +91,14 @@
->  
->  #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
->  #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
-> +#define INTF_CFG2_DCE_DATA_COMPRESS     BIT(12)
-> +
-> +static void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
-> +{
-> +	u32 intf_cfg2 = DPU_REG_READ(&ctx->hw, INTF_CONFIG2);
-> +
-> +	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2 | INTF_CFG2_DCE_DATA_COMPRESS);
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I'm not sure if it's more idiomatic to write:
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+index 28f76e07dd95..c597c362f689 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+@@ -131,10 +131,9 @@ static int komeda_platform_probe(struct platform_device *pdev)
+ 	return component_master_add_with_match(dev, &komeda_master_ops, match);
+ }
+ 
+-static int komeda_platform_remove(struct platform_device *pdev)
++static void komeda_platform_remove(struct platform_device *pdev)
+ {
+ 	component_master_del(&pdev->dev, &komeda_master_ops);
+-	return 0;
+ }
+ 
+ static const struct of_device_id komeda_of_match[] = {
+@@ -189,7 +188,7 @@ static const struct dev_pm_ops komeda_pm_ops = {
+ 
+ static struct platform_driver komeda_platform_driver = {
+ 	.probe	= komeda_platform_probe,
+-	.remove	= komeda_platform_remove,
++	.remove_new = komeda_platform_remove,
+ 	.driver	= {
+ 		.name = "komeda",
+ 		.of_match_table	= komeda_of_match,
+-- 
+2.39.2
 
-    intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
-
-On a separate line.
-
-> +}
-
-Move the function close to the bottom of this file.  Right now all the
-functions are defined approximately in the same order as they're listed
-in the header and assigned in _setup_intf_ops().
-
->  
->  static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->  		const struct intf_timing_params *p,
-> @@ -542,6 +550,9 @@ static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
->  		ops->vsync_sel = dpu_hw_intf_vsync_sel;
->  		ops->disable_autorefresh = dpu_hw_intf_disable_autorefresh;
->  	}
-> +
-> +	if (cap & BIT(DPU_INTF_DATA_COMPRESS))
-> +		ops->enable_compression = dpu_hw_intf_enable_compression;
->  }
->  
->  struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index 73b0885918f8..a8def68a5ec2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -70,6 +70,7 @@ struct intf_status {
->   * @get_autorefresh:            Retrieve autorefresh config from hardware
->   *                              Return: 0 on success, -ETIMEDOUT on timeout
->   * @vsync_sel:                  Select vsync signal for tear-effect configuration
-> + * @enable_compression: Enable data compression
-
-Indent to match above.
-
-- Marijn
-
->   */
->  struct dpu_hw_intf_ops {
->  	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
-> @@ -107,6 +108,7 @@ struct dpu_hw_intf_ops {
->  	 * Disable autorefresh if enabled
->  	 */
->  	void (*disable_autorefresh)(struct dpu_hw_intf *intf, uint32_t encoder_id, u16 vdisplay);
-> +	void (*enable_compression)(struct dpu_hw_intf *intf);
->  };
->  
->  struct dpu_hw_intf {
-> 
-> -- 
-> 2.40.1
-> 
