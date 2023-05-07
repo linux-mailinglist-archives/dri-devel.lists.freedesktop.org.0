@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3B86F99C5
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621886F99D8
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89F0110E241;
-	Sun,  7 May 2023 16:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C136E10E26D;
+	Sun,  7 May 2023 16:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F8A10E222
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6296310E22E
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:38 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDW-0001xC-Ki; Sun, 07 May 2023 18:26:34 +0200
+ id 1pvhDX-0001zz-8U; Sun, 07 May 2023 18:26:35 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDV-001nD8-5p; Sun, 07 May 2023 18:26:33 +0200
+ id 1pvhDV-001nDJ-P3; Sun, 07 May 2023 18:26:33 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDU-002AhG-EI; Sun, 07 May 2023 18:26:32 +0200
+ id 1pvhDU-002AhN-Sk; Sun, 07 May 2023 18:26:32 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 25/53] drm/lima: Convert to platform remove callback returning
- void
-Date: Sun,  7 May 2023 18:25:48 +0200
-Message-Id: <20230507162616.1368908-26-u.kleine-koenig@pengutronix.de>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 26/53] drm/logicvc: Convert to platform remove callback
+ returning void
+Date: Sun,  7 May 2023 18:25:49 +0200
+Message-Id: <20230507162616.1368908-27-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1766;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1876;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=OU5nFZW1U8xX89GdpL66XMcT2yhVtZa5NvsVX95pBFo=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9EBTfSJKMY8B8QbF2127le+WXSjvxK3UQFEj
- yfNq3oy7CKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRAQAKCRCPgPtYfRL+
- TiqeB/0Q+vRB9mbunHmpEQ6VVsVIUIJ/+zOj7HHDJeb7jXx0L7s9sieNP9k7S2lc5EE//o4LSbH
- 9CdDGPytV8owd/MIhFnlPRcOjsb9MfgymSAq4+Ek1vcD1i5cGyoL+FCSP6E0qgyi9AKIAb8Chzx
- 0E3gOrJLHVsuJi7mFJj7bHw+hMLDMvpF3YKqH77pPsL9+MQe4mx+TmI8/UgUhXm1dF0a/wxSE7/
- KMHCe7m1f/054gFRo52RIZaoGN3DkVTF4lKXjHJh+2HZGdcgzUxza72fPu5abxu1ZowjNbqJepb
- c/5rzxx8fdDi2i1ZzrEWUxT1UlEXsC1evGfxJ6N+X9mk08sc
+ bh=gDyK9dCRZKv2ugOYv+9odT8amOlhOfegrOYa7zlRmSs=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9ECk/RRbelgk/M4CBC6tKwOWBdRw4Wa818WS
+ o/kqmUFfRqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRAgAKCRCPgPtYfRL+
+ TgLZB/4hrOerFHu1lphie0c6g88xeD2r5jJ8W8sBhYxzcvXi2RM+IQAQW0m95hN7MvO9fM8lO3m
+ ka1CFQz5mqb9X8H0gn/X/R4aEXRCwWIFLp9hKFdmmnf0E7EkTQY84xG66pPhUjZwY0EL2W9dr9D
+ 5n0twmpiSu0unKCuFBpvd4JMToD9APxALA1ufV8TlR94iaU1uPrGO+J0uK7I/OLibNgEO8hEuAa
+ nrb04mAcVeSZJ08TAZ9svO0vr96MMZMXKjjmr/IKxr7Z/Mwwl9T0eWyCjN/r69tJ6P6Hupw/UHd
+ Pwnw+UmJHU4qjTQEOsVDij9ftiftJzB6Z9EvFNqaXTOZNpzw
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,8 +67,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -85,39 +84,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/lima/lima_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/logicvc/logicvc_drm.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index 7b8d7178d09a..a272eace8f25 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -439,7 +439,7 @@ static int lima_pdev_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logicvc/logicvc_drm.c
+index 2fb23697740a..b97bc254dbfa 100644
+--- a/drivers/gpu/drm/logicvc/logicvc_drm.c
++++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
+@@ -466,7 +466,7 @@ static int logicvc_drm_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int lima_pdev_remove(struct platform_device *pdev)
-+static void lima_pdev_remove(struct platform_device *pdev)
+-static int logicvc_drm_remove(struct platform_device *pdev)
++static void logicvc_drm_remove(struct platform_device *pdev)
  {
- 	struct lima_device *ldev = platform_get_drvdata(pdev);
- 	struct drm_device *ddev = ldev->ddev;
-@@ -457,7 +457,6 @@ static int lima_pdev_remove(struct platform_device *pdev)
+ 	struct logicvc_drm *logicvc = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+@@ -480,8 +480,6 @@ static int logicvc_drm_remove(struct platform_device *pdev)
+ 	logicvc_clocks_unprepare(logicvc);
  
- 	drm_dev_put(ddev);
- 	lima_sched_slab_fini();
+ 	of_reserved_mem_device_release(dev);
+-
 -	return 0;
  }
  
- static const struct of_device_id dt_match[] = {
-@@ -474,7 +473,7 @@ static const struct dev_pm_ops lima_pm_ops = {
+ static const struct of_device_id logicvc_drm_of_table[] = {
+@@ -493,7 +491,7 @@ MODULE_DEVICE_TABLE(of, logicvc_drm_of_table);
  
- static struct platform_driver lima_platform_driver = {
- 	.probe      = lima_pdev_probe,
--	.remove     = lima_pdev_remove,
-+	.remove_new = lima_pdev_remove,
- 	.driver     = {
- 		.name   = "lima",
- 		.pm	= &lima_pm_ops,
+ static struct platform_driver logicvc_drm_platform_driver = {
+ 	.probe		= logicvc_drm_probe,
+-	.remove		= logicvc_drm_remove,
++	.remove_new	= logicvc_drm_remove,
+ 	.driver		= {
+ 		.name		= "logicvc-drm",
+ 		.of_match_table	= logicvc_drm_of_table,
 -- 
 2.39.2
 
