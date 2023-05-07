@@ -1,70 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DCF6F9900
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 16:48:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AB06F9956
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 17:27:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC38A10E173;
-	Sun,  7 May 2023 14:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2E8E10E19F;
+	Sun,  7 May 2023 15:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF5010E173
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 14:47:58 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-50bc070c557so7068255a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 07 May 2023 07:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683470876; x=1686062876;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=PBw+x9bvNtvt7zmxEBMLA8rMP4RbJHux+PW551gPw/Y=;
- b=AwInZtYbyq8MwNv/nmioV0/vEWMEkbmPYAXUNEB0pSDGTtmJrkEJirty3CUOkW0L6Q
- i/LwNUWeJZ7LAq22+3vPajyEeXdRjOHUWMv7Gf0fFmkjM0ipTyK6NWG+ch9bAdoNLY0U
- IURXOWqoQkWthEWtaYaZatybZDSHLg+EsGTHPzgTSGMgNVgXhhxhMvCGUgXzKRRJZA1J
- jLteEs5cBokvh1Yxd5m1vcTKZlfksAArtrZGr4fUy+VsiqjB2wLVCpq1cugD4qiARq1f
- T9r/21qTg4pWhVPVF81JXGhU7ryq/IlGoL9N1DJ1dKv6O8cXNEfVKeC6f6vAmxB+NoDc
- FvxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683470876; x=1686062876;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PBw+x9bvNtvt7zmxEBMLA8rMP4RbJHux+PW551gPw/Y=;
- b=ev29hU4SAz4rJdUQvizpQZE4u0bmyHakRpAlRNbw1R95x2qhjLDyNjb0FvURWRA4+S
- oyjcJcjjVNT6abUv8xLq5oLvQfdBygcLLa7M84F/r9wNF78hSWh7OxanjRzqzkl3yDi5
- G+aXXCXFJ1RSC0BDPH/zA7J2VV3p4tX1AZe3J+8wNzSiFChqlmVThei1yrsMSik92P0x
- S4FIsOdDxrQaSFSOOaju8Gn8MzYtPMZX0qcEB6dpxmM7iw2bq7wuoyoeEca25XfxqRQm
- pMUONoLQakS3H2MUVCc3dyANTXbPmVI9epP8ZggSDoWFTBKXIm5OXL+rhEvzfbnRuL9v
- /bFg==
-X-Gm-Message-State: AC+VfDxNzh1A86bEEvN66AOtAC9f0bZDu+YppvjaHZ54chaMRkJiA9iw
- QroOGwqNMOWgcxa/Tvk7L192SQ==
-X-Google-Smtp-Source: ACHHUZ6TCPbXEZFv7aTp7aqWDp1eF0qYHjb6r45RdoMNpf0N9RbftBDpLEB9W6gEbGIkLV9Aqg2awQ==
-X-Received: by 2002:a17:907:3e8a:b0:94e:c142:df98 with SMTP id
- hs10-20020a1709073e8a00b0094ec142df98mr7721629ejc.60.1683470876419; 
- Sun, 07 May 2023 07:47:56 -0700 (PDT)
-Received: from krzk-bin.. ([2a02:810d:15c0:828:1757:b51a:9965:e81])
- by smtp.gmail.com with ESMTPSA id
- j23-20020a170906051700b00960005e09a3sm3752899eja.61.2023.05.07.07.47.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 May 2023 07:47:55 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/exynos: g2d: staticize stubs in header
-Date: Sun,  7 May 2023 16:47:53 +0200
-Message-Id: <20230507144753.192959-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A8510E19F;
+ Sun,  7 May 2023 15:27:37 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id A7D441F5CE;
+ Sun,  7 May 2023 17:27:32 +0200 (CEST)
+Date: Sun, 7 May 2023 17:27:30 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v6 6/7] drm/msm/dsi: update hdisplay calculation for
+ dsi_timing_setup
+Message-ID: <2r5rgl2rxrdognhlisruwgw74stefxmsmmqutz7wd3r4oxy52o@kd4ne4y2dc3u>
+References: <20230329-rfc-msm-dsc-helper-v6-0-cb7f59f0f7fb@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v6-6-cb7f59f0f7fb@quicinc.com>
+ <ynr6n5p2envixdn6pycjo4fat6n64xe4pkplhq5c2ukhi2q2tf@hqlsuusl66cl>
+ <7ef70055-610c-8ab6-9e3b-515cf3fa542f@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7ef70055-610c-8ab6-9e3b-515cf3fa542f@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,39 +46,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stubs for !CONFIG_DRM_EXYNOS_G2D case in the header should be static
-inline:
+On 2023-05-04 15:05:15, Abhinav Kumar wrote:
+> 
+> 
+> On 5/4/2023 2:56 PM, Marijn Suijten wrote:
+> > On 2023-04-12 16:25:20, Jessica Zhang wrote:
+> >> hdisplay for compressed images should be calculated as bytes_per_slice *
+> >> slice_count. Thus, use MSM DSC helper to calculate hdisplay for
+> >> dsi_timing_setup instead of directly using mode->hdisplay.
+> >>
+> >> Changes in v3:
+> >> - Split from previous patch
+> >> - Initialized hdisplay as uncompressed pclk per line at the beginning of
+> >>    dsi_timing_setup as to not break dual DSI calculations
+> >>
+> >> Changes in v4:
+> >> - Moved pclk_per_intf calculations to DSC hdisplay adjustments
+> >>
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> ---
+> >>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >> index 508577c596ff..ae966d4e349d 100644
+> >> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> >> @@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+> >>   		 * pulse width same
+> >>   		 */
+> >>   		h_total -= hdisplay;
+> >> -		hdisplay /= 3;
+> >> +		hdisplay = msm_dsc_get_pclk_per_intf(msm_host->dsc) / 3;
+> > 
+> > This patch is unfortunately regressing the Sony Xperia XZ3 (sdm845,
+> > single DSI), which will only show garbage when it is applied.
+> > 
+> > Are you sure this is correct, and the helper is returning the right
+> > values?  I'll see if I can help review and validate those later, and
+> > debug if necessary.
+> > 
+> > - Marijn
+> 
+> To help us debug these kind of issues, can you pls point us to your 
+> panel driver?
 
-  drivers/gpu/drm/exynos/exynos_drm_g2d.h:37:5: warning: no previous prototype for ‘g2d_open’ [-Wmissing-prototypes]
-  drivers/gpu/drm/exynos/exynos_drm_g2d.h:42:6: warning: no previous prototype for ‘g2d_close’ [-Wmissing-prototypes]
+https://github.com/SoMainline/linux/commit/b154ea72e6c2ca0d4a33a28cc24e3a762dba4948
 
-Fixes: eb4d9796fa34 ("drm/exynos: g2d: Convert to driver component API")
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/gpu/drm/exynos/exynos_drm_g2d.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.h b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-index 74ea3c26dead..1a5ae781b56c 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-@@ -34,11 +34,11 @@ static inline int exynos_g2d_exec_ioctl(struct drm_device *dev, void *data,
- 	return -ENODEV;
- }
- 
--int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
-+static inline int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
- {
- 	return 0;
- }
- 
--void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
-+static inline void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
- { }
- #endif
--- 
-2.34.1
-
+- Marijn
