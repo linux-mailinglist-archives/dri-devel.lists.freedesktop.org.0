@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3ABC6F99F3
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428646F99CC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6C910E2B7;
-	Sun,  7 May 2023 16:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A3B10E24E;
+	Sun,  7 May 2023 16:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F081C10E222
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E6510E208
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:40 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDR-0001e5-Mk; Sun, 07 May 2023 18:26:29 +0200
+ id 1pvhDR-0001e9-Mq; Sun, 07 May 2023 18:26:29 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDQ-001nBl-33; Sun, 07 May 2023 18:26:28 +0200
+ id 1pvhDQ-001nBp-9B; Sun, 07 May 2023 18:26:28 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDO-002Ag7-Tf; Sun, 07 May 2023 18:26:26 +0200
+ id 1pvhDP-002AgB-79; Sun, 07 May 2023 18:26:27 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 08/53] drm/bridge: display-connector: Convert to platform
- remove callback returning void
-Date: Sun,  7 May 2023 18:25:31 +0200
-Message-Id: <20230507162616.1368908-9-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 09/53] drm/bridge: fsl-ldb: Convert to platform remove
+ callback returning void
+Date: Sun,  7 May 2023 18:25:32 +0200
+Message-Id: <20230507162616.1368908-10-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1916;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1628;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=BttTyRX9EsgM5qX2qxFWRDeeP4XvZKsP9X9LPBgZiWo=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9Ds1h1MElY3E9cNEmrfBwm4U2DuCvNqsGLrR
- 1BgGT5XR1qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ7AAKCRCPgPtYfRL+
- TrRSCACPCMMFTk2RkZ/fr/xeQkAUkxO4OgomQu02C8qTw6r5XbF0+r8C14Eiq+Fiz17F1UDqOg0
- tmWNj/sM38kFXSV5sUY1WHLZggXBXy/74XZhsiRMt5wysPCfOmnvUC8qpPdrcnDkGkdhGc4uwPU
- WLiJjrrSk2LHFGzyd3B6xm92PwyIM594hzmWu22gCOBe8DDIVHdjwGZJvwpTRsv/U14GK3pbO22
- tFyR4mbPz+L8WEhgKmnkMv8urKlSGowquQlAPZiJrsrpOmZWhTLUEXqj1R5jZa6UsRCNo1mxcvc
- i33F/edTV/OrORA1rMryxQQEKa0LLT8zAvchwPr57/W9Gz9w
+ bh=WmJGj5zZgjZTb/hhWzS7CvlrE+edWWq2LiMSrtRIhAI=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DtdX6600O1qKeJwmA1NMRWVg/sCsVDmT8FM
+ krZAeUrb8aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ7QAKCRCPgPtYfRL+
+ Tl1hB/98d8G520k4HTgZBcH/pSa0pB6Fm96AdgCqDyO7hfitt11qZ7ZUBG6Qg+u0z3+A7bjo0iA
+ 0BHD/+FAr5SJy3KZdSzxisfEkyFfCElo4pi2rCKQa1wIN19pzarRvJ6ANqSV15xjMfWYDPmB/p+
+ Np4bxZrTAtLvHe58mSWft4Drb4QhK1n21+uC2U7nwn+hHNyBBY1zmzEdflBDYZRKebKbuBKCK4z
+ LrfcpIgxGFIEHZFTMX4gsXTUELpq57Tl1TwEV1Y2WHFrrxgia/5jqtmMa3YBXK3i6we4feM68qz
+ zqZHhTLOJmNO1liC2kurvDWG/+Ux0EfzAUAWKkUhVWkaXjqh
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -87,40 +87,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 6 ++----
+ drivers/gpu/drm/bridge/fsl-ldb.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 9a12449ad7b8..fbb3e102c02f 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -382,7 +382,7 @@ static int display_connector_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 6bac160b395b..450b352914f4 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -347,13 +347,11 @@ static int fsl_ldb_probe(struct platform_device *pdev)
  	return 0;
  }
  
--static int display_connector_remove(struct platform_device *pdev)
-+static void display_connector_remove(struct platform_device *pdev)
+-static int fsl_ldb_remove(struct platform_device *pdev)
++static void fsl_ldb_remove(struct platform_device *pdev)
  {
- 	struct display_connector *conn = platform_get_drvdata(pdev);
+ 	struct fsl_ldb *fsl_ldb = platform_get_drvdata(pdev);
  
-@@ -396,8 +396,6 @@ static int display_connector_remove(struct platform_device *pdev)
- 
- 	if (!IS_ERR(conn->bridge.ddc))
- 		i2c_put_adapter(conn->bridge.ddc);
+ 	drm_bridge_remove(&fsl_ldb->bridge);
 -
 -	return 0;
  }
  
- static const struct of_device_id display_connector_match[] = {
-@@ -426,7 +424,7 @@ MODULE_DEVICE_TABLE(of, display_connector_match);
+ static const struct of_device_id fsl_ldb_match[] = {
+@@ -367,7 +365,7 @@ MODULE_DEVICE_TABLE(of, fsl_ldb_match);
  
- static struct platform_driver display_connector_driver = {
- 	.probe	= display_connector_probe,
--	.remove	= display_connector_remove,
-+	.remove_new = display_connector_remove,
+ static struct platform_driver fsl_ldb_driver = {
+ 	.probe	= fsl_ldb_probe,
+-	.remove	= fsl_ldb_remove,
++	.remove_new = fsl_ldb_remove,
  	.driver		= {
- 		.name		= "display-connector",
- 		.of_match_table	= display_connector_match,
+ 		.name		= "fsl-ldb",
+ 		.of_match_table	= fsl_ldb_match,
 -- 
 2.39.2
 
