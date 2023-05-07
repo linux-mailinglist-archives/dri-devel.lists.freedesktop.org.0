@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEB06F99DE
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E06E6F99E1
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3058010E272;
-	Sun,  7 May 2023 16:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1036110E298;
+	Sun,  7 May 2023 16:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C675310E256
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F2110E208
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:44 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDa-00028p-P2; Sun, 07 May 2023 18:26:38 +0200
+ id 1pvhDa-00029H-Uz; Sun, 07 May 2023 18:26:38 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDZ-001nDw-H8; Sun, 07 May 2023 18:26:37 +0200
+ id 1pvhDZ-001nE2-OD; Sun, 07 May 2023 18:26:37 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDY-002Ahx-Qw; Sun, 07 May 2023 18:26:36 +0200
+ id 1pvhDZ-002Ai0-29; Sun, 07 May 2023 18:26:37 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 35/53] drm/panel: Convert to platform remove callback
+Subject: [PATCH 36/53] drm/panfrost: Convert to platform remove callback
  returning void
-Date: Sun,  7 May 2023 18:25:58 +0200
-Message-Id: <20230507162616.1368908-36-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:25:59 +0200
+Message-Id: <20230507162616.1368908-37-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4992;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1761;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=7wKuglqWDRf8mf03U4PA6L5Miu2HCuP60h54DaSdXGg=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9EMkIzA53AZ0B0ztasLGnim4SkRSRT2mlign
- B9DKrFbqDOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRDAAKCRCPgPtYfRL+
- Tsm3CAC1PmMSahwFR7aJ4+niaHAv5MErMOBeB7DU/vnfYC+rVihmfVYaQ9Fd+h+PRXTIsJB827f
- CFuCzbKwsDo70hcasub2P6RJeS2v5J+BQEHSaJW4J5VwHo2OXkoiQNcBsnCkbVAvQ39AyqdoSvm
- YQCu3YWFGtVvfJxS57ou+Hqwp0Ou/haKdRLSEBbcXsfbf0NyEjHmYNYMaWJq48Vt7IbdyvXpagR
- asr6/pnNnHY7/IkXt0HQ8mDUoxYHeLOuEUzKPeFe3KOtZHqGHPl1X+4+9JIwgPAzOTstwqLy7gB
- D50S0wCquNePnFo3ZI8MlLVeypegadc5Sw4fwQtdJvlUnEYN
+ bh=eYWGh9UUGNbFrss+H8ko5zFeXRgPhPwqqImGCYXepXY=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9ENjtziTLJRuQzp+mWoM+vdSqwBfQsHlqiwh
+ VMpkYJtIl+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRDQAKCRCPgPtYfRL+
+ Tu/FB/4sKccabqvQx1/s076FdnRyHvRH4pviSfj7KFsdQU43I+L0JXGt9gI54dxe1Ali0p/7KjT
+ esmHUfqUB46GUs+aNwxtxfkvW5K/E1inqU2zcpgRZHIMdwPN/NDYE+exgx7+UTldqpAwCbIykb6
+ UGbxWXJR0qdoNL25U2XHD5MPas02hh/XnhL7rKHfHZaih5Sec3vrQvFgF5xeR3jVUXqwu8cWX3f
+ riAPhMT/M3TZLpaEx6vWYdUYd4bKDGixOBvEOC6LtGGX+9SeZmzN4vA0cQHnpr3cpD6yrt9bTAf
+ L5G/hV/7t18O3W+sFG7VlwYqJqR18sm4nsz5MXUFx9F2KYHZ
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -68,8 +67,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -81,132 +80,44 @@ quest to make the remove callback return void. In the first step of this
 quest all drivers are converted to .remove_new() which already returns
 void.
 
-Trivially convert the drm panel drivers from always returning zero in the
-remove callback to the void returning variant.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-lvds.c              | 6 ++----
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c     | 6 ++----
- drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c | 6 ++----
- drivers/gpu/drm/panel/panel-simple.c            | 6 ++----
- 4 files changed, 8 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-index de8758c30e6e..b47c3a679be0 100644
---- a/drivers/gpu/drm/panel/panel-lvds.c
-+++ b/drivers/gpu/drm/panel/panel-lvds.c
-@@ -228,15 +228,13 @@ static int panel_lvds_probe(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index abb0dadd8f63..adaacc8c39d7 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -618,7 +618,7 @@ static int panfrost_probe(struct platform_device *pdev)
+ 	return err;
  }
  
--static int panel_lvds_remove(struct platform_device *pdev)
-+static void panel_lvds_remove(struct platform_device *pdev)
+-static int panfrost_remove(struct platform_device *pdev)
++static void panfrost_remove(struct platform_device *pdev)
  {
- 	struct panel_lvds *lvds = platform_get_drvdata(pdev);
+ 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
+ 	struct drm_device *ddev = pfdev->ddev;
+@@ -632,7 +632,6 @@ static int panfrost_remove(struct platform_device *pdev)
+ 	pm_runtime_set_suspended(pfdev->dev);
  
- 	drm_panel_remove(&lvds->panel);
- 
- 	drm_panel_disable(&lvds->panel);
--
+ 	drm_dev_put(ddev);
 -	return 0;
  }
  
- static const struct of_device_id panel_lvds_of_table[] = {
-@@ -248,7 +246,7 @@ MODULE_DEVICE_TABLE(of, panel_lvds_of_table);
+ /*
+@@ -687,7 +686,7 @@ MODULE_DEVICE_TABLE(of, dt_match);
  
- static struct platform_driver panel_lvds_driver = {
- 	.probe		= panel_lvds_probe,
--	.remove		= panel_lvds_remove,
-+	.remove_new	= panel_lvds_remove,
+ static struct platform_driver panfrost_driver = {
+ 	.probe		= panfrost_probe,
+-	.remove		= panfrost_remove,
++	.remove_new	= panfrost_remove,
  	.driver		= {
- 		.name	= "panel-lvds",
- 		.of_match_table = panel_lvds_of_table,
-diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-index 76160e5d43bd..5c3d9f7fc358 100644
---- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-+++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-@@ -266,14 +266,12 @@ static int seiko_panel_probe(struct device *dev,
- 	return 0;
- }
- 
--static int seiko_panel_remove(struct platform_device *pdev)
-+static void seiko_panel_remove(struct platform_device *pdev)
- {
- 	struct seiko_panel *panel = platform_get_drvdata(pdev);
- 
- 	drm_panel_remove(&panel->base);
- 	drm_panel_disable(&panel->base);
--
--	return 0;
- }
- 
- static void seiko_panel_shutdown(struct platform_device *pdev)
-@@ -335,7 +333,7 @@ static struct platform_driver seiko_panel_platform_driver = {
- 		.of_match_table = platform_of_match,
- 	},
- 	.probe = seiko_panel_platform_probe,
--	.remove = seiko_panel_remove,
-+	.remove_new = seiko_panel_remove,
- 	.shutdown = seiko_panel_shutdown,
- };
- module_platform_driver(seiko_panel_platform_driver);
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-index a07d0f6c3e69..76bd9e810827 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-@@ -189,15 +189,13 @@ static int ls037v7dw01_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int ls037v7dw01_remove(struct platform_device *pdev)
-+static void ls037v7dw01_remove(struct platform_device *pdev)
- {
- 	struct ls037v7dw01_panel *lcd = platform_get_drvdata(pdev);
- 
- 	drm_panel_remove(&lcd->panel);
- 	drm_panel_disable(&lcd->panel);
- 	drm_panel_unprepare(&lcd->panel);
--
--	return 0;
- }
- 
- static const struct of_device_id ls037v7dw01_of_match[] = {
-@@ -209,7 +207,7 @@ MODULE_DEVICE_TABLE(of, ls037v7dw01_of_match);
- 
- static struct platform_driver ls037v7dw01_driver = {
- 	.probe		= ls037v7dw01_probe,
--	.remove		= ls037v7dw01_remove,
-+	.remove_new	= ls037v7dw01_remove,
- 	.driver		= {
- 		.name = "panel-sharp-ls037v7dw01",
- 		.of_match_table = ls037v7dw01_of_match,
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 065f378bba9d..1274eb95cf86 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4335,11 +4335,9 @@ static int panel_simple_platform_probe(struct platform_device *pdev)
- 	return panel_simple_probe(&pdev->dev, id->data);
- }
- 
--static int panel_simple_platform_remove(struct platform_device *pdev)
-+static void panel_simple_platform_remove(struct platform_device *pdev)
- {
- 	panel_simple_remove(&pdev->dev);
--
--	return 0;
- }
- 
- static void panel_simple_platform_shutdown(struct platform_device *pdev)
-@@ -4360,7 +4358,7 @@ static struct platform_driver panel_simple_platform_driver = {
- 		.pm = &panel_simple_pm_ops,
- 	},
- 	.probe = panel_simple_platform_probe,
--	.remove = panel_simple_platform_remove,
-+	.remove_new = panel_simple_platform_remove,
- 	.shutdown = panel_simple_platform_shutdown,
- };
- 
+ 		.name	= "panfrost",
+ 		.pm	= pm_ptr(&panfrost_pm_ops),
 -- 
 2.39.2
 
