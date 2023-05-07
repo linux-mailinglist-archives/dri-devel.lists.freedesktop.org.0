@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3808A6F99B8
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD1D6F99C3
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B470B10E1D9;
-	Sun,  7 May 2023 16:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BEC10E22E;
+	Sun,  7 May 2023 16:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC30510E1FF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCB4F10E20C
  for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:35 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDP-0001dP-OP; Sun, 07 May 2023 18:26:27 +0200
+ id 1pvhDP-0001dS-OP; Sun, 07 May 2023 18:26:27 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDN-001nB8-Rm; Sun, 07 May 2023 18:26:25 +0200
+ id 1pvhDO-001nBK-Fj; Sun, 07 May 2023 18:26:26 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDN-002Afi-3T; Sun, 07 May 2023 18:26:25 +0200
+ id 1pvhDN-002Afl-9f; Sun, 07 May 2023 18:26:25 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: James@pengutronix.de, Liviu Dudau <liviu.dudau@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Brian Starkey <brian.starkey@arm.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 01/53] drm/komeda: Convert to platform remove callback
+To: Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 02/53] drm/arm/hdlcd: Convert to platform remove callback
  returning void
-Date: Sun,  7 May 2023 18:25:24 +0200
-Message-Id: <20230507162616.1368908-2-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:25:25 +0200
+Message-Id: <20230507162616.1368908-3-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1783;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1601;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=OvkbG5m0IUNUsqlbgvhk5MDb0LehSI8/F3qShARO9pQ=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DkuPeFi45tO4c9lfTHj1terzstr+EWsXbA7
- x/LEJC9MpWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ5AAKCRCPgPtYfRL+
- Ti6JB/0eBHs1fAarJAUzCnae5/QXAWF0uVEI/Sp77SU/lBsUahaOZeBrEf/bF7HJvyVwldP+BbW
- EjwFhNhwWSCZ6Godz/uQuXmEES8ha9zwpeLJQMWzwVe8HGGsuOt90l/2WJC611qwB+2cuZcODVI
- bVRE9sUT7uoqMz46MxLO25gy/3XY1KZyJqAmMS91/SpF7O6OHkDfuc5VIWeMbxcvARvjeAgi0vH
- ebKSqHyu29e8dbK2wqUXSqkkGA2rsn+NKtQ5A7UmHK4bWrFbF+xf5kNAhx8EtUdAUVNFwTGz4ij
- 2uR5NOBK8OQGo63bSyhvd1jlHugMdrzYzmOPUUIyqNqe4962
+ bh=BcsotUJe59zgY1E1RjIlTVRNFL1xf6WmjfvCx9YuOZY=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DlKKI2ju61B/WGXezwgza5MpQSmaOyiRTph
+ Knzu/qGWtqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ5QAKCRCPgPtYfRL+
+ TsfsCACtqIMylofjDdijFLbCH+p3hxJiSxWXNypyrIX8l5jmIXpwmG9ksYfa+wAgZTLsrG+wZ9e
+ 1c825yV3ocTEF5BKXmUybgeZ0Xs1+Dgnz5dvIrbd+nnhUIuIJj/BNjcUIjQut+eCztGZ8UAyAY9
+ Pymdc26eDe6hJlyxgem383C9NSuzOk4itvLgVg4KZQvrjFCw6mGyIplpaC7oQVNsI0IF0xTPQx4
+ hszAta/g8vAfg/vhI/UMdxw4byFe0PaSYNtKK7vzwVfGIQhtQLPNHWFJJd49urSfOWls3U3iyiu
+ MJ28oC1/wLhraUF6oQ3fjAdqhmoOogpmoMSrkIeQEdj6sNeF
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -87,34 +85,34 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 5 ++---
+ drivers/gpu/drm/arm/hdlcd_drv.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-index 28f76e07dd95..c597c362f689 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-@@ -131,10 +131,9 @@ static int komeda_platform_probe(struct platform_device *pdev)
- 	return component_master_add_with_match(dev, &komeda_master_ops, match);
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index e3507dd6f82a..5e265c81a1b3 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -369,10 +369,9 @@ static int hdlcd_probe(struct platform_device *pdev)
+ 					       match);
  }
  
--static int komeda_platform_remove(struct platform_device *pdev)
-+static void komeda_platform_remove(struct platform_device *pdev)
+-static int hdlcd_remove(struct platform_device *pdev)
++static void hdlcd_remove(struct platform_device *pdev)
  {
- 	component_master_del(&pdev->dev, &komeda_master_ops);
+ 	component_master_del(&pdev->dev, &hdlcd_master_ops);
 -	return 0;
  }
  
- static const struct of_device_id komeda_of_match[] = {
-@@ -189,7 +188,7 @@ static const struct dev_pm_ops komeda_pm_ops = {
+ static const struct of_device_id  hdlcd_of_match[] = {
+@@ -401,7 +400,7 @@ static SIMPLE_DEV_PM_OPS(hdlcd_pm_ops, hdlcd_pm_suspend, hdlcd_pm_resume);
  
- static struct platform_driver komeda_platform_driver = {
- 	.probe	= komeda_platform_probe,
--	.remove	= komeda_platform_remove,
-+	.remove_new = komeda_platform_remove,
+ static struct platform_driver hdlcd_platform_driver = {
+ 	.probe		= hdlcd_probe,
+-	.remove		= hdlcd_remove,
++	.remove_new	= hdlcd_remove,
  	.driver	= {
- 		.name = "komeda",
- 		.of_match_table	= komeda_of_match,
+ 		.name = "hdlcd",
+ 		.pm = &hdlcd_pm_ops,
 -- 
 2.39.2
 
