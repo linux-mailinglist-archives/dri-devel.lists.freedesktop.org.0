@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E026F99E5
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C826F99E3
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C4C10E275;
-	Sun,  7 May 2023 16:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A1010E2A3;
+	Sun,  7 May 2023 16:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1270410E236
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C7C10E22E
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:39 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDV-0001s8-Tn; Sun, 07 May 2023 18:26:33 +0200
+ id 1pvhDU-0001pK-Up; Sun, 07 May 2023 18:26:32 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDU-001nD1-DM; Sun, 07 May 2023 18:26:32 +0200
+ id 1pvhDT-001nCu-Ua; Sun, 07 May 2023 18:26:31 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDS-002Agy-Lf; Sun, 07 May 2023 18:26:30 +0200
+ id 1pvhDT-002Ah3-4O; Sun, 07 May 2023 18:26:31 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 21/53] drm/imx/dcss: Convert to platform remove callback
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>
+Subject: [PATCH 22/53] drm/imx/ipuv3: Convert to platform remove callback
  returning void
-Date: Sun,  7 May 2023 18:25:44 +0200
-Message-Id: <20230507162616.1368908-22-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:25:45 +0200
+Message-Id: <20230507162616.1368908-23-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1795;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6235;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=8QCnUZlvXPTd47a8W8x+3k75pn2h7bblLfemtxDr4sc=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9D8NLTLML+jR52jrQgBCDWZdlqjokiu8FizP
- 6XBcumWWI+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ/AAKCRCPgPtYfRL+
- Tq0YB/9T7wpxwOmq2Lm/xHfQqGhIC6jN3pD6Pp+qUHl44kQf5UYA0IAjnqr2Vmz2hvaY4EvJ/H7
- MATIikJHqX8MlQ+S+QckLmVZsS4FpddbVEN7IPhyAvi78HCOG8h1cbAFfPOnri4ylvHV7FUp/o1
- H/G0UHjTIYj3lm/JE8MB3BE4touviAgXBb9edPhKmZCVZJsV/5QURL7z5skF8BSpkvryUuapjcI
- Fb9rEyC/ja3HqZ7jbCkdTDSV62gezTH/iE/GmxCtkxMjQortiaI/S4ezjGPSe6L4zJ1rgBmXsGS
- Dpod/0JXL0vFOLRB86+2DXRSridVIhV0UDevfEfqKLM/ibMH
+ bh=OwGdtbofn72q3ITC18weA/3SXerFfQZdKPm7KU8LNrg=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9D9I82qryai/MO8Ks/0Qqqoro0mAAlA4zwP1
+ C0XW7g+ceyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ/QAKCRCPgPtYfRL+
+ TiuACAClfR+PuclBM7IL2bCpVLmFIpZ3q4ZhSczbz4OVIPJ1Z0oX3Nfh+Isejp0Mqz8uDaT3AFH
+ 71E6DEdNXQ2Jbvo+mNz1LlrshlAQMi6TWmU3Nqal9ZbzcqKqbVKKJkYMfy1XjXhETocmvrgY+yr
+ ju5TpPCSWlUIawAvlf8EYXJ5YEKyUg47mIj8ztEI+QeOL+mZY8cGWDw8OfomXyh39bewdS47sfd
+ 0yH5imQYTrVC4mK5cSidMMrn/rprJ2kqr0C3mhhsGODy0Y0LCmzcjg4l6bI90wbD7/Fuw74GtVy
+ 5w+o9oOkPZwbFzLzo4Sbu5km0H1UTip6uxbotgCpYsLoQhJv
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -68,8 +68,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+ NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -81,45 +81,171 @@ quest to make the remove callback return void. In the first step of this
 quest all drivers are converted to .remove_new() which already returns
 void.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Trivially convert the ipuv3 imx drivers from always returning zero in
+the remove callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/imx/dcss/dcss-drv.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c      | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c     | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c          | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c          | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c       | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 6 ++----
+ 6 files changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-drv.c b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-index 4f2291610139..3400ec23cae5 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-drv.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-@@ -79,7 +79,7 @@ static int dcss_drv_platform_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+index a2277a0d6d06..0006ea52b83c 100644
+--- a/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
++++ b/drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c
+@@ -255,19 +255,17 @@ static int dw_hdmi_imx_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int dcss_drv_platform_remove(struct platform_device *pdev)
-+static void dcss_drv_platform_remove(struct platform_device *pdev)
+-static int dw_hdmi_imx_remove(struct platform_device *pdev)
++static void dw_hdmi_imx_remove(struct platform_device *pdev)
  {
- 	struct dcss_drv *mdrv = dev_get_drvdata(&pdev->dev);
+ 	struct imx_hdmi *hdmi = platform_get_drvdata(pdev);
  
-@@ -87,8 +87,6 @@ static int dcss_drv_platform_remove(struct platform_device *pdev)
- 	dcss_dev_destroy(mdrv->dcss);
- 
- 	kfree(mdrv);
+ 	component_del(&pdev->dev, &dw_hdmi_imx_ops);
+ 	dw_hdmi_remove(hdmi->hdmi);
 -
 -	return 0;
  }
  
- static struct dcss_type_data dcss_types[] = {
-@@ -112,7 +110,7 @@ MODULE_DEVICE_TABLE(of, dcss_of_match);
+ static struct platform_driver dw_hdmi_imx_platform_driver = {
+ 	.probe  = dw_hdmi_imx_probe,
+-	.remove = dw_hdmi_imx_remove,
++	.remove_new = dw_hdmi_imx_remove,
+ 	.driver = {
+ 		.name = "dwhdmi-imx",
+ 		.of_match_table = dw_hdmi_imx_dt_ids,
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+index e060fa6cbcb9..b17a9dd42565 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+@@ -292,10 +292,9 @@ static int imx_drm_platform_probe(struct platform_device *pdev)
+ 	return ret;
+ }
  
- static struct platform_driver dcss_platform_driver = {
- 	.probe	= dcss_drv_platform_probe,
--	.remove	= dcss_drv_platform_remove,
-+	.remove_new = dcss_drv_platform_remove,
- 	.driver	= {
- 		.name = "imx-dcss",
- 		.of_match_table	= dcss_of_match,
+-static int imx_drm_platform_remove(struct platform_device *pdev)
++static void imx_drm_platform_remove(struct platform_device *pdev)
+ {
+ 	component_master_del(&pdev->dev, &imx_drm_ops);
+-	return 0;
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -324,7 +323,7 @@ MODULE_DEVICE_TABLE(of, imx_drm_dt_ids);
+ 
+ static struct platform_driver imx_drm_pdrv = {
+ 	.probe		= imx_drm_platform_probe,
+-	.remove		= imx_drm_platform_remove,
++	.remove_new	= imx_drm_platform_remove,
+ 	.driver		= {
+ 		.name	= "imx-drm",
+ 		.pm	= &imx_drm_pm_ops,
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+index c45fc8f4744d..989eca32d325 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
+@@ -737,7 +737,7 @@ static int imx_ldb_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int imx_ldb_remove(struct platform_device *pdev)
++static void imx_ldb_remove(struct platform_device *pdev)
+ {
+ 	struct imx_ldb *imx_ldb = platform_get_drvdata(pdev);
+ 	int i;
+@@ -750,12 +750,11 @@ static int imx_ldb_remove(struct platform_device *pdev)
+ 	}
+ 
+ 	component_del(&pdev->dev, &imx_ldb_ops);
+-	return 0;
+ }
+ 
+ static struct platform_driver imx_ldb_driver = {
+ 	.probe		= imx_ldb_probe,
+-	.remove		= imx_ldb_remove,
++	.remove_new	= imx_ldb_remove,
+ 	.driver		= {
+ 		.of_match_table = imx_ldb_dt_ids,
+ 		.name	= DRIVER_NAME,
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+index d6832f506322..b49bddb85535 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+@@ -645,10 +645,9 @@ static int imx_tve_probe(struct platform_device *pdev)
+ 	return component_add(dev, &imx_tve_ops);
+ }
+ 
+-static int imx_tve_remove(struct platform_device *pdev)
++static void imx_tve_remove(struct platform_device *pdev)
+ {
+ 	component_del(&pdev->dev, &imx_tve_ops);
+-	return 0;
+ }
+ 
+ static const struct of_device_id imx_tve_dt_ids[] = {
+@@ -659,7 +658,7 @@ MODULE_DEVICE_TABLE(of, imx_tve_dt_ids);
+ 
+ static struct platform_driver imx_tve_driver = {
+ 	.probe		= imx_tve_probe,
+-	.remove		= imx_tve_remove,
++	.remove_new	= imx_tve_remove,
+ 	.driver		= {
+ 		.of_match_table = imx_tve_dt_ids,
+ 		.name	= "imx-tve",
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+index 5f26090b0c98..8819e40d5e6e 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+@@ -441,10 +441,9 @@ static int ipu_drm_probe(struct platform_device *pdev)
+ 	return component_add(dev, &ipu_crtc_ops);
+ }
+ 
+-static int ipu_drm_remove(struct platform_device *pdev)
++static void ipu_drm_remove(struct platform_device *pdev)
+ {
+ 	component_del(&pdev->dev, &ipu_crtc_ops);
+-	return 0;
+ }
+ 
+ struct platform_driver ipu_drm_driver = {
+@@ -452,5 +451,5 @@ struct platform_driver ipu_drm_driver = {
+ 		.name = "imx-ipuv3-crtc",
+ 	},
+ 	.probe = ipu_drm_probe,
+-	.remove = ipu_drm_remove,
++	.remove_new = ipu_drm_remove,
+ };
+diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+index 0fa0b590830b..70349739dd89 100644
+--- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
++++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+@@ -353,11 +353,9 @@ static int imx_pd_probe(struct platform_device *pdev)
+ 	return component_add(dev, &imx_pd_ops);
+ }
+ 
+-static int imx_pd_remove(struct platform_device *pdev)
++static void imx_pd_remove(struct platform_device *pdev)
+ {
+ 	component_del(&pdev->dev, &imx_pd_ops);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id imx_pd_dt_ids[] = {
+@@ -368,7 +366,7 @@ MODULE_DEVICE_TABLE(of, imx_pd_dt_ids);
+ 
+ static struct platform_driver imx_pd_driver = {
+ 	.probe		= imx_pd_probe,
+-	.remove		= imx_pd_remove,
++	.remove_new	= imx_pd_remove,
+ 	.driver		= {
+ 		.of_match_table = imx_pd_dt_ids,
+ 		.name	= "imx-parallel-display",
 -- 
 2.39.2
 
