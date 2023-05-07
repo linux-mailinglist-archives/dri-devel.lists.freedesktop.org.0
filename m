@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D116F99C2
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:26:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A206F99E9
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6261610E227;
-	Sun,  7 May 2023 16:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11B810E28C;
+	Sun,  7 May 2023 16:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C508110E204
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F329210E208
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:44 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDQ-0001dU-8G; Sun, 07 May 2023 18:26:28 +0200
+ id 1pvhDS-0001dT-S6; Sun, 07 May 2023 18:26:30 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDP-001nBS-5E; Sun, 07 May 2023 18:26:27 +0200
+ id 1pvhDO-001nBO-T0; Sun, 07 May 2023 18:26:26 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDN-002Afs-RU; Sun, 07 May 2023 18:26:25 +0200
+ id 1pvhDO-002Afw-3k; Sun, 07 May 2023 18:26:26 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+To: Joel Stanley <joel@jms.id.au>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 04/53] drm/armada: Convert to platform remove callback
+Subject: [PATCH 05/53] drm/aspeed: Convert to platform remove callback
  returning void
-Date: Sun,  7 May 2023 18:25:27 +0200
-Message-Id: <20230507162616.1368908-5-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:25:28 +0200
+Message-Id: <20230507162616.1368908-6-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2619;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1662;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=/FdlWENcVvW3cGuPQ5OlrrjXkRY2fS1amOJKRJMNqIY=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DnEFDcYGKHPHZSWZPqfugPvelXL+lTZ4jQ8
- yXsHdDOyuGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ5wAKCRCPgPtYfRL+
- TmBvCACqjhqozew6P+8uOtANRdDigS72yCu8rL8GtDTxrjCMOdiJjoNShRVVdvamFjEYS0Ahqm7
- DqOJMlY3ojJyyCeyCopaND3jlteRq+PaefIPhDAA+OQSw19POIR1GNOyoD4dAHn6olYTfzB/GU1
- JU8U33Ki0twsBYZEXzMLTU04ijPGoVaMrKUHBggStt9UsTnYkKjfVKW9HDpGsuFBJSWrYFWd444
- gw/UN6sezkKnGc0EzKwJoreFTvyGGNLiqc4OIISEFG1er5Hg92s+5iAC57B9JzWpKlmmYq6UpqI
- WLA1VsKHh+hTgQ6HsFNCmwQT8JR5ynWJDLjjBfI3qvPeYtPW
+ bh=sobAg6Eg+gKdbd2fhmmqrspNYTQq+HfT/x7kh1gXCMU=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9DoTwxX8oa8uhAkh2uW1KmDaDlPlpXQIcPiU
+ HjOchsc3OaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfQ6AAKCRCPgPtYfRL+
+ TnArCACeESOC7nnTd6GZkV1m4vCElrTeUnG/+J0vzaHSVXYMMPvUSLcWL98/DXESfV+vRbZdVRS
+ zLWmtQHmaXaPiRztaOaAx1LVNoQ5D24/XgF+iTThVs4sADR0YZ79NBzbnZfnAtk0+P8bTNKazie
+ AtF8t0diQ9aPZD56n+98UE5m/gmQQTTGfanrDGLuVyNJvD1Q+pXLyD1MFgA5Q02c4vpspE2ZKeh
+ xEd1f7SfPAfXnqtMgt5C4ZHB30L3y0UaQmP+N/CIqvTkcgE0I4NLDKJW/DdMXgJU1Vkzd8uq4Q7
+ W3wi0msfUPb8OgLWiEIjkUwajRsqZzxdjDRVCEXR749mAUuO
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,7 +67,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,65 +81,41 @@ quest to make the remove callback return void. In the first step of this
 quest all drivers are converted to .remove_new() which already returns
 void.
 
-Trivially convert the armada drm drivers from always returning zero in
-the remove callback to the void returning variant.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/armada/armada_crtc.c | 5 ++---
- drivers/gpu/drm/armada/armada_drv.c  | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
-index 15dd667aa2e7..52d2c942d3d2 100644
---- a/drivers/gpu/drm/armada/armada_crtc.c
-+++ b/drivers/gpu/drm/armada/armada_crtc.c
-@@ -1066,10 +1066,9 @@ static int armada_lcd_probe(struct platform_device *pdev)
- 	return component_add(&pdev->dev, &armada_lcd_ops);
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index ecfb060d2557..d0089e7fbfae 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -351,20 +351,18 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
+ 	return ret;
  }
  
--static int armada_lcd_remove(struct platform_device *pdev)
-+static void armada_lcd_remove(struct platform_device *pdev)
+-static int aspeed_gfx_remove(struct platform_device *pdev)
++static void aspeed_gfx_remove(struct platform_device *pdev)
  {
- 	component_del(&pdev->dev, &armada_lcd_ops);
+ 	struct drm_device *drm = platform_get_drvdata(pdev);
+ 
+ 	sysfs_remove_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
+ 	drm_dev_unregister(drm);
+ 	aspeed_gfx_unload(drm);
+-
 -	return 0;
  }
  
- static const struct of_device_id armada_lcd_of_match[] = {
-@@ -1095,7 +1094,7 @@ MODULE_DEVICE_TABLE(platform, armada_lcd_platform_ids);
- 
- struct platform_driver armada_lcd_platform_driver = {
- 	.probe	= armada_lcd_probe,
--	.remove	= armada_lcd_remove,
-+	.remove_new = armada_lcd_remove,
+ static struct platform_driver aspeed_gfx_platform_driver = {
+ 	.probe		= aspeed_gfx_probe,
+-	.remove		= aspeed_gfx_remove,
++	.remove_new	= aspeed_gfx_remove,
  	.driver = {
- 		.name	= "armada-lcd",
- 		.owner	=  THIS_MODULE,
-diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-index 142668cd6d7c..b8ff21f545cd 100644
---- a/drivers/gpu/drm/armada/armada_drv.c
-+++ b/drivers/gpu/drm/armada/armada_drv.c
-@@ -232,10 +232,9 @@ static int armada_drm_probe(struct platform_device *pdev)
- 					       match);
- }
- 
--static int armada_drm_remove(struct platform_device *pdev)
-+static void armada_drm_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &armada_master_ops);
--	return 0;
- }
- 
- static const struct platform_device_id armada_drm_platform_ids[] = {
-@@ -250,7 +249,7 @@ MODULE_DEVICE_TABLE(platform, armada_drm_platform_ids);
- 
- static struct platform_driver armada_drm_platform_driver = {
- 	.probe	= armada_drm_probe,
--	.remove	= armada_drm_remove,
-+	.remove_new = armada_drm_remove,
- 	.driver	= {
- 		.name	= "armada-drm",
- 	},
+ 		.name = "aspeed_gfx",
+ 		.of_match_table = aspeed_gfx_match,
 -- 
 2.39.2
 
