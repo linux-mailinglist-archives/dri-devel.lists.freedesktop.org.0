@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06626F9BA4
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 22:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EDBC6F9BE9
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 23:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8870A10E055;
-	Sun,  7 May 2023 20:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB01810E082;
+	Sun,  7 May 2023 21:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1261910E055
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 20:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=/5+6Tjo9iHoDRguVoioEqLYO8GUcbEel/OCxqjIHP74=; b=Cud1weoKijU+7aKQ4hKYVH3oaJ
- hCCXFk6NY8u7jOUlKNi6z/dQNs5hANNif+IU751mXrB5Npngx2bmBpWuAHYYEBbSbmE1advuuvjYm
- vutUnYgQ83IbdtHqwVoCitVV2CnvYw1mDVDkezb3yj8W6+kuGf1t6oy81gnJE2aQPkqUyNppLFB8C
- b8xWet9vAbD6jyDNzbgtxP2i8pJHBfxDmHzTxllL5KkzUGRbJjvAZZH/0Xr0qpjFlPHGIt51/PnYN
- D4Kgju6LW3mQbYzZ3TPaYOvWadJc1v2PmCIm2bovOmw41M44DJdwQw41r0GBMv0zwjWpmRWQny80g
- hme2HUMw==;
-Received: from [38.44.72.37] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pvlPD-003NK5-LZ; Sun, 07 May 2023 22:54:55 +0200
-Message-ID: <40b667bc-0553-5c7f-11f0-dafb9d49ff1c@igalia.com>
-Date: Sun, 7 May 2023 19:54:54 -0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-From: Melissa Wen <mwen@igalia.com>
-Subject: Re: [PATCH v4 0/6] drm/vkms: introduce plane rotation property
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-References: <20230418130525.128733-1-mcanal@igalia.com>
-Content-Language: en-US
-In-Reply-To: <20230418130525.128733-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1474B10E053;
+ Sun,  7 May 2023 21:25:46 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-6aaf52ff35bso1030965a34.2; 
+ Sun, 07 May 2023 14:25:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683494746; x=1686086746;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=k6ufJ5LnX3H56g7Y6pg/KPKx3t1jKCtHndBxL/t/v/s=;
+ b=jw7jOZcTD2Tw8s8ecH+KdPTawDXKoElnQqeNtN0eI5z2vRGBibSePpOrii31r8kjri
+ OZwhWhYzXW7dvw9qzzSP+Jh2ZEWQsvPF22Y/VHOEL7S78Bsfp/BxLqSFKPy+PN9iAGrM
+ GPYF1kUaF1azKa9gk1JLd7UBI9Qbw2nqdxkqvTC4Jw2QvtY9ycAA1MdXmCtJCYSN489t
+ xuQarBiu9NuRLFdcmVI4SqRkuQN5NCsFpLcuXJa4cBDZ2EVMsVQmCNwjy7CObwqKDUZe
+ 7irvOoUDlK9Q9O+A2H9DfNoqYS7ztxg/asgwc1eBJUopkKO4nVenAGtLeUQvgz6yjrOL
+ E+dA==
+X-Gm-Message-State: AC+VfDxQfx9zLLdJr1Y0JLofLA1vx2tggXYGdiFMcbPVQuzD5O+amM+W
+ yTpd+0w/ZhNIkigUv1w+ssSxGF80F/BR
+X-Google-Smtp-Source: ACHHUZ5fb2Ya5VUsmLZ0Bv9b1gjpcOsZSP2K1/2E04n/AqjwfYewnMGgdGSBiJ5URZf5UqIRlhINIA==
+X-Received: by 2002:a9d:67d3:0:b0:6a5:f48b:6b6c with SMTP id
+ c19-20020a9d67d3000000b006a5f48b6b6cmr4102050otn.32.1683494745785; 
+ Sun, 07 May 2023 14:25:45 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ t17-20020a0568301e3100b006a7aaa2d269sm3455844otr.18.2023.05.07.14.25.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 May 2023 14:25:45 -0700 (PDT)
+Received: (nullmailer pid 3488547 invoked by uid 1000);
+ Sun, 07 May 2023 21:25:44 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230507201218.2339014-2-dmitry.baryshkov@linaro.org>
+References: <20230507201218.2339014-1-dmitry.baryshkov@linaro.org>
+ <20230507201218.2339014-2-dmitry.baryshkov@linaro.org>
+Message-Id: <168349474255.3488452.11372136807020227216.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: display: hdmi-connector: add hdmi-pwr
+ supply
+Date: Sun, 07 May 2023 16:25:44 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,139 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, Arthur Grillo <arthurgrillo@riseup.net>,
- Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+Cc: devicetree@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/18, Maíra Canal wrote:
-> This patchset implements all possible rotation value in vkms. All operations
-> were implemented by software by changing the way the pixels are read. The way
-> the blending is performed can be depicted as:
-> 
-> - rotate-0:
->     (x) ---->
->     ----------------------
-> (y) |                    |
->   | |                    |
->   | |                    |
->   ˇ |                    |
->     ----------------------
-> 
-> - rotate-90:
->     <---- (y)
->     ----------------------
-> (x) |                    |
->   | |                    |
->   | |                    |
->   ˇ |                    |
->     ----------------------
-> 
-> - rotate-180:
->     <---- (x)
->     ----------------------
-> (y) |                    |
->   ^ |                    |
->   | |                    |
->   | |                    |
->     ----------------------
-> 
-> - rotate-270:
->     (y) ---->
->     ----------------------
-> (x) |                    |
->   ^ |                    |
->   | |                    |
->   | |                    |
->     ----------------------
-> 
-> - reflect-x:
->     <---- (x)
->     ----------------------
-> (y) |                    |
->   | |                    |
->   | |                    |
->   ˇ |                    |
->     ----------------------
-> 
-> - reflect-y:
->     (x) ---->
->     ----------------------
-> (y) |                    |
->   ^ |                    |
->   | |                    |
->   | |                    |
->     ----------------------
-> 
-> The patchset was tested with IGT's kms_rotation_crc tests and also with some
-> additional tests [1] for the reflection operations.
-> 
-> In order to avoid code duplication, I introduced a patch that isolates the
-> pixel format convertion and wraps it in a single loop.
-> 
-> I tried to apply Ville's suggestion to avoid hand rolled coordinate
-> calculation stuff. Although I couldn't apply all the code suggested by
-> Ville, I was able to remove all the hardcoded code related to the x-offset.
-> As VKMS' composition is performed by line, I still need to indicate the
-> right pixel, which means that I still have some hardcoded code. Thanks for
-> the suggestion, Ville! It really reduced the code complexity. 
-> 
-> v1 -> v2: https://lore.kernel.org/dri-devel/20230406130138.70752-1-mcanal@igalia.com/T/
-> 
-> * Add patch to isolate pixel format conversion (Arthur Grillo).
-> 
-> v2 -> v3: https://lore.kernel.org/dri-devel/20230414135151.75975-1-mcanal@igalia.com/T/
-> 
-> * Use cpp to calculate pixel size instead of hard-coding (Arthur Grillo).
-> * Don't use the x coordinate in the pixel_read functions (Arthur Grillo).
-> * Use drm_rotate_simplify() to avoid hard-coding rotate-180 (Ville Syrjälä).
-> * Use u8* to input the src_pixels instead of using u16*.
-> 
-> v3 -> v4: https://lore.kernel.org/dri-devel/20230417121056.63917-1-mcanal@igalia.com/T/
-> 
-> * Create a original rectangle and a rotated rectangle and use the original
->   rectangle to offset the x-axis (Ville Syrjälä).
-> 
-> [1] https://patchwork.freedesktop.org/series/116025/
 
-Hi Maíra,
-
-Thanks for adding rotation properties to VKMS!
-Overall, LGTM and this series is:
-
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-As you already applied the first patch, not a big issue, but I see new
-function documentation is missing. Could you send a follow-up patch
-documenting "vkms_compose_row()"? Also, would be good to apply the same
-improvement for the remaining conversion functions too.
-
-Thanks,
-
-Melissa
-
+On Sun, 07 May 2023 23:12:16 +0300, Dmitry Baryshkov wrote:
+> Follow the dp-connector example and add hdmi-pwr supply to drive the 5V
+> pin of the HDMI connector (together with some simple glue logic possibly
+> attached to the connector).
 > 
-> Best Regards,
-> - Maíra Canal
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/display/connector/hdmi-connector.yaml  | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> Maíra Canal (6):
->   drm/vkms: isolate pixel conversion functionality
->   drm/vkms: add rotate-0 and reflect-x property
->   drm/vkms: add reflect-y and rotate-180 property
->   drm/vkms: add rotate-90 property
->   drm/vkms: add rotate-270 property
->   drm/vkms: drop "Rotation" TODO
-> 
->  Documentation/gpu/vkms.rst           |   2 +-
->  drivers/gpu/drm/vkms/vkms_composer.c |  38 ++++++--
->  drivers/gpu/drm/vkms/vkms_drv.h      |   6 +-
->  drivers/gpu/drm/vkms/vkms_formats.c  | 139 +++++++++++++--------------
->  drivers/gpu/drm/vkms/vkms_formats.h  |   2 +-
->  drivers/gpu/drm/vkms/vkms_plane.c    |  16 ++-
->  6 files changed, 117 insertions(+), 86 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
+
+doc reference errors (make refcheckdocs):
+Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230507201218.2339014-2-dmitry.baryshkov@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
