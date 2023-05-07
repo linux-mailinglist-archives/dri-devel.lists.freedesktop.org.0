@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E06E6F99E1
-	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CD96F99DA
+	for <lists+dri-devel@lfdr.de>; Sun,  7 May 2023 18:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1036110E298;
-	Sun,  7 May 2023 16:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690BC10E274;
+	Sun,  7 May 2023 16:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20F2110E208
- for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D572610E252
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 May 2023 16:26:41 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDa-00029H-Uz; Sun, 07 May 2023 18:26:38 +0200
+ id 1pvhDa-0002AI-VN; Sun, 07 May 2023 18:26:39 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDZ-001nE2-OD; Sun, 07 May 2023 18:26:37 +0200
+ id 1pvhDZ-001nEB-Vq; Sun, 07 May 2023 18:26:37 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pvhDZ-002Ai0-29; Sun, 07 May 2023 18:26:37 +0200
+ id 1pvhDZ-002Ai4-AI; Sun, 07 May 2023 18:26:37 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 36/53] drm/panfrost: Convert to platform remove callback
+Subject: [PATCH 37/53] drm/rcar-du: Convert to platform remove callback
  returning void
-Date: Sun,  7 May 2023 18:25:59 +0200
-Message-Id: <20230507162616.1368908-37-u.kleine-koenig@pengutronix.de>
+Date: Sun,  7 May 2023 18:26:00 +0200
+Message-Id: <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1761;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6961;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=eYWGh9UUGNbFrss+H8ko5zFeXRgPhPwqqImGCYXepXY=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkV9ENjtziTLJRuQzp+mWoM+vdSqwBfQsHlqiwh
- VMpkYJtIl+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFfRDQAKCRCPgPtYfRL+
- Tu/FB/4sKccabqvQx1/s076FdnRyHvRH4pviSfj7KFsdQU43I+L0JXGt9gI54dxe1Ali0p/7KjT
- esmHUfqUB46GUs+aNwxtxfkvW5K/E1inqU2zcpgRZHIMdwPN/NDYE+exgx7+UTldqpAwCbIykb6
- UGbxWXJR0qdoNL25U2XHD5MPas02hh/XnhL7rKHfHZaih5Sec3vrQvFgF5xeR3jVUXqwu8cWX3f
- riAPhMT/M3TZLpaEx6vWYdUYd4bKDGixOBvEOC6LtGGX+9SeZmzN4vA0cQHnpr3cpD6yrt9bTAf
- L5G/hV/7t18O3W+sFG7VlwYqJqR18sm4nsz5MXUFx9F2KYHZ
+ bh=1xeEpSdtJz+J9reRuG7HPCKs28vfLaAiZKwwuTgpxz4=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhpTwi3z+e25nMGV2pdyanJrY+Ff9oKuesuSmlRKcJlPDJ
+ Sd8MnTsZDRmYWDkYpAVU2Sxb1yTaVUlF9m59t9lmEGsTCBTGLg4BWAiDiwcDKsP3ysuq/Rd/n9+
+ uNzeN5EtcVVBBlHLj6Yyrs+02HftiUWHnx73k+r8Jp1ltsHf65YG72HU5Ss2kCu/IvSgKidZvKf
+ OYo/lFta7YvpKeRt6Jn7yuCLQVXD9dUPuxfDV99azLs8s7ozJ1tkmdDR9yZZ1V1+fzvllHDTtvE
+ KwyhmH+uORBWLbpx1W75p5W+288suH/HM+VuyffOGnYf26BmHL1+6nI71/l30JYWVmcHjx8YZbk
+ GLXPZVTlxNkM3/vutwmcmOxo/icv79frv239FR0lQVfE+umMuVtxasceSRntU8paDrqs9nh35Tu
+ x1X+7MaPjXdVihwpaDR1W9ZvkmRwY5oSq+4cF/3Fmgr9AA==
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,8 +68,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
+Cc: linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -80,44 +81,191 @@ quest to make the remove callback return void. In the first step of this
 quest all drivers are converted to .remove_new() which already returns
 void.
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Trivially convert the rcar-du drm driver from always returning zero in
+the remove callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_cmm.c       | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c    | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c   | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_lvds.c      | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c  | 6 ++----
+ drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c | 6 ++----
+ 6 files changed, 12 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index abb0dadd8f63..adaacc8c39d7 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -618,7 +618,7 @@ static int panfrost_probe(struct platform_device *pdev)
- 	return err;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+index e2a67dda4658..26a2f5ad8ee5 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+@@ -187,11 +187,9 @@ static int rcar_cmm_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int panfrost_remove(struct platform_device *pdev)
-+static void panfrost_remove(struct platform_device *pdev)
+-static int rcar_cmm_remove(struct platform_device *pdev)
++static void rcar_cmm_remove(struct platform_device *pdev)
  {
- 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
- 	struct drm_device *ddev = pfdev->ddev;
-@@ -632,7 +632,6 @@ static int panfrost_remove(struct platform_device *pdev)
- 	pm_runtime_set_suspended(pfdev->dev);
- 
- 	drm_dev_put(ddev);
+ 	pm_runtime_disable(&pdev->dev);
+-
 -	return 0;
  }
  
- /*
-@@ -687,7 +686,7 @@ MODULE_DEVICE_TABLE(of, dt_match);
+ static const struct of_device_id rcar_cmm_of_table[] = {
+@@ -203,7 +201,7 @@ MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
  
- static struct platform_driver panfrost_driver = {
- 	.probe		= panfrost_probe,
--	.remove		= panfrost_remove,
-+	.remove_new	= panfrost_remove,
+ static struct platform_driver rcar_cmm_platform_driver = {
+ 	.probe		= rcar_cmm_probe,
+-	.remove		= rcar_cmm_remove,
++	.remove_new	= rcar_cmm_remove,
  	.driver		= {
- 		.name	= "panfrost",
- 		.pm	= pm_ptr(&panfrost_pm_ops),
+ 		.name	= "rcar-cmm",
+ 		.of_match_table = rcar_cmm_of_table,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index b9a94c5260e9..4a6bf50b5c49 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -685,7 +685,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
+  * Platform driver
+  */
+ 
+-static int rcar_du_remove(struct platform_device *pdev)
++static void rcar_du_remove(struct platform_device *pdev)
+ {
+ 	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
+ 	struct drm_device *ddev = &rcdu->ddev;
+@@ -694,8 +694,6 @@ static int rcar_du_remove(struct platform_device *pdev)
+ 	drm_atomic_helper_shutdown(ddev);
+ 
+ 	drm_kms_helper_poll_fini(ddev);
+-
+-	return 0;
+ }
+ 
+ static void rcar_du_shutdown(struct platform_device *pdev)
+@@ -776,7 +774,7 @@ static int rcar_du_probe(struct platform_device *pdev)
+ 
+ static struct platform_driver rcar_du_platform_driver = {
+ 	.probe		= rcar_du_probe,
+-	.remove		= rcar_du_remove,
++	.remove_new	= rcar_du_remove,
+ 	.shutdown	= rcar_du_shutdown,
+ 	.driver		= {
+ 		.name	= "rcar-du",
+diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
+index 18ed14911b98..119d69d20b23 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
++++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
+@@ -93,13 +93,11 @@ static int rcar_dw_hdmi_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int rcar_dw_hdmi_remove(struct platform_device *pdev)
++static void rcar_dw_hdmi_remove(struct platform_device *pdev)
+ {
+ 	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
+ 
+ 	dw_hdmi_remove(hdmi);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id rcar_dw_hdmi_of_table[] = {
+@@ -110,7 +108,7 @@ MODULE_DEVICE_TABLE(of, rcar_dw_hdmi_of_table);
+ 
+ static struct platform_driver rcar_dw_hdmi_platform_driver = {
+ 	.probe		= rcar_dw_hdmi_probe,
+-	.remove		= rcar_dw_hdmi_remove,
++	.remove_new	= rcar_dw_hdmi_remove,
+ 	.driver		= {
+ 		.name	= "rcar-dw-hdmi",
+ 		.of_match_table = rcar_dw_hdmi_of_table,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index 260ea5d8624e..86d2ac204568 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -890,15 +890,13 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int rcar_lvds_remove(struct platform_device *pdev)
++static void rcar_lvds_remove(struct platform_device *pdev)
+ {
+ 	struct rcar_lvds *lvds = platform_get_drvdata(pdev);
+ 
+ 	drm_bridge_remove(&lvds->bridge);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
+@@ -994,7 +992,7 @@ static const struct dev_pm_ops rcar_lvds_pm_ops = {
+ 
+ static struct platform_driver rcar_lvds_platform_driver = {
+ 	.probe		= rcar_lvds_probe,
+-	.remove		= rcar_lvds_remove,
++	.remove_new	= rcar_lvds_remove,
+ 	.driver		= {
+ 		.name	= "rcar-lvds",
+ 		.pm	= &rcar_lvds_pm_ops,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+index e10e4d4b89a2..305123a671c6 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+@@ -1044,13 +1044,11 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int rcar_mipi_dsi_remove(struct platform_device *pdev)
++static void rcar_mipi_dsi_remove(struct platform_device *pdev)
+ {
+ 	struct rcar_mipi_dsi *dsi = platform_get_drvdata(pdev);
+ 
+ 	mipi_dsi_host_unregister(&dsi->host);
+-
+-	return 0;
+ }
+ 
+ static const struct rcar_mipi_dsi_device_info v3u_data = {
+@@ -1093,7 +1091,7 @@ MODULE_DEVICE_TABLE(of, rcar_mipi_dsi_of_table);
+ 
+ static struct platform_driver rcar_mipi_dsi_platform_driver = {
+ 	.probe          = rcar_mipi_dsi_probe,
+-	.remove         = rcar_mipi_dsi_remove,
++	.remove_new     = rcar_mipi_dsi_remove,
+ 	.driver         = {
+ 		.name   = "rcar-mipi-dsi",
+ 		.of_match_table = rcar_mipi_dsi_of_table,
+diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+index aa95b85a2964..a97fc4c5d1c8 100644
+--- a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
++++ b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
+@@ -782,14 +782,12 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int rzg2l_mipi_dsi_remove(struct platform_device *pdev)
++static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)
+ {
+ 	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
+ 
+ 	mipi_dsi_host_unregister(&dsi->host);
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id rzg2l_mipi_dsi_of_table[] = {
+@@ -801,7 +799,7 @@ MODULE_DEVICE_TABLE(of, rzg2l_mipi_dsi_of_table);
+ 
+ static struct platform_driver rzg2l_mipi_dsi_platform_driver = {
+ 	.probe	= rzg2l_mipi_dsi_probe,
+-	.remove	= rzg2l_mipi_dsi_remove,
++	.remove_new = rzg2l_mipi_dsi_remove,
+ 	.driver	= {
+ 		.name = "rzg2l-mipi-dsi",
+ 		.pm = &rzg2l_mipi_pm_ops,
 -- 
 2.39.2
 
