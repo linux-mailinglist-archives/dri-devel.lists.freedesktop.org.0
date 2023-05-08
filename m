@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9A96F9F79
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 08:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C286F9F7C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 08:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B0310E0CD;
-	Mon,  8 May 2023 06:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6AC910E112;
+	Mon,  8 May 2023 06:14:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A16FF10E0CD
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 06:13:58 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-559ded5e170so60397487b3.3
- for <dri-devel@lists.freedesktop.org>; Sun, 07 May 2023 23:13:58 -0700 (PDT)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D897A10E112
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 06:14:23 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-b9a7c1b86e8so5435406276.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 May 2023 23:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683526437; x=1686118437;
+ d=linaro.org; s=google; t=1683526463; x=1686118463;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PEkJ25osgUePQpZluJyDAjPxL2geRfawjeYXQr5+Sm4=;
- b=NSWj1qhzWKbmnX60n8Hr82RUVL1p8l/qgOdSG6Bvn7ok1YNZVtPEjotpa8buL6tN80
- J0MOjLDcGiabE/6QspuPMkNLcleiHyImuwrBRE7eNHASduYMO3Op9k7HElsTuO+lrhFq
- zufTSccun6kI5iOuk+oJotyOzw0wuCx+UNJjTP/OolABh/3YpqA10vr5wNjbiofJgaH1
- Yvt5rR2WThWu38IW1cZV0fgoFFmaEoum+d4YweLddpdFU1uv2nr2wJbkyfCztzzc+2el
- aOBm3VTu39jynMAl1+/RUSiasixwaN8PmL664YupGZd6MhAXUwjmnDrnNw6suk6yUesF
- 6xOg==
+ bh=VGAqICUH/1K4NsgXWbLmHmQxYqNk9fYoObWVq8uFXmY=;
+ b=GBaxONxSV36I6Y04VAp3eKcF4Z5peOBoJlNpr8SLrdqwhBHLovszOW37KDHp3cHY/O
+ DAmlJiLRwr2p9GwjeQ+WGBcC5ntY1cIy2RseflBUZjex00+GxrEbHefrHugR+ooHc/aS
+ MyEuJ3bnqoSVc0a+1sJE1o+cF4Av4BaaNVe9XcSyscMm7IA7IpFJVykI5ttd1I5FeI2W
+ 6QzKzV3Lhdu6uqhPCYP4CKpF/Z3E/jnV506V5UJUNFk2/qi2PGUlbAuBJ/2YbY9VhU78
+ 3VV56QuTQCktxiP5EAzn8xPfuzLOxdnbs5xWETk8g54++zr7LVP2q44is5JHwqYPwz2P
+ 5+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683526437; x=1686118437;
+ d=1e100.net; s=20221208; t=1683526463; x=1686118463;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PEkJ25osgUePQpZluJyDAjPxL2geRfawjeYXQr5+Sm4=;
- b=CfAlgNFenlLYLafQWVwlDS6CkOcW+/SP/NuoJY1PrmdonMcTpsEJs1Ksh/yqoTzWlK
- jIdFYXX3STbkzkoY5UToDdbPqhwSPZjJp+EpK8iZ2uh0qYDrfM1r+ZF7QM4vOH6cc2Mp
- OTBxWwwie/HXpdfz/YfJGK5f3CiPpjbIZ+8DLfo9SBQoT8hBYWpSlLuIOoD7GslS4zVb
- Dh7VwUIWVXVbGpAIkIDESlyCh0NDTHqXC3XGgK3kR4ROLNtMNy41EZl+Hbu82KsWTGss
- /hwql+npH5nUjskW9Y+1EyugJEq6SvZ1gQl41c65pfFZEq1+WgVoFMTGpa0WKrYYwpFo
- Cj9Q==
-X-Gm-Message-State: AC+VfDzg+nk3RE1rECn44S7Z4/aAYyBZY7eQSE9UiHnGMwLrJdRO445v
- pellDBTfAgTbCujrsff9ernyik4O1ma6UOdNNwbBqg==
-X-Google-Smtp-Source: ACHHUZ7ZIHJeP/ajbwCMWQFS+SBj2ZGrM4VXX6Z0OaDwylBS5pdPG0UHLGdJ2H30y2bUGl4xNsOJnHj6NZkiPSiriHI=
-X-Received: by 2002:a81:a053:0:b0:55a:8036:345f with SMTP id
- x80-20020a81a053000000b0055a8036345fmr10185418ywg.14.1683526437195; Sun, 07
- May 2023 23:13:57 -0700 (PDT)
+ bh=VGAqICUH/1K4NsgXWbLmHmQxYqNk9fYoObWVq8uFXmY=;
+ b=XnKuCcjFK9UiqWos3NxaoObccx3RJKx5uWHZPTSAgzWGqx40Be+ukKk4tR960w7ehn
+ fDaNM/N8JnqZPGM0r4llplzf8o4/OUWKTngcy6ldHk126v11m2cgTP0qIY9wLlCile2w
+ 6LLNzqXEFEKvO1vcgXXVRuCUKa8n0om7RzQpegNDGzydn2Yo/vAHl5v/es7Kd6miJAAH
+ 03FGxba9Ly1NY34XaDzZtst35JbpG5hfr0O4eDzgOoFWwS0BymMVpWMFSD0mIvVaOwo1
+ WKC6qO9qkqK+d1GC9uz8rbWxtKBYGswMFCn9Iktoxy2nc1VhhlnyLSIAfxc8AuorLgX0
+ z+dw==
+X-Gm-Message-State: AC+VfDyC/2dZkNIWTM+eI7bDntcwpqZmwIProWY9c5yCOkq9hgbSx8G7
+ 39nqmdhs1bNlbtUOUw43Wzce43TIBYH9tyHVA0RgYA==
+X-Google-Smtp-Source: ACHHUZ6ns+gsXWhTWDX6Zza/DiOvQyFjSN0kzlj/vuDm315RJw2pTeSrZ7RXYeQfzMMRp0CrZr4VU8z2ERRiiZCIT6M=
+X-Received: by 2002:a25:abec:0:b0:b9e:7ec8:5d41 with SMTP id
+ v99-20020a25abec000000b00b9e7ec85d41mr8779027ybi.55.1683526462845; Sun, 07
+ May 2023 23:14:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-28-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-28-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-51-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-51-u.kleine-koenig@pengutronix.de>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 8 May 2023 08:13:46 +0200
-Message-ID: <CACRpkdbgJ18O-1Gjzrx+8mF6YbGrcDok+FWeJoUCETj4U5G8SA@mail.gmail.com>
-Subject: Re: [PATCH 27/53] drm/mcde: Convert to platform remove callback
+Date: Mon, 8 May 2023 08:14:11 +0200
+Message-ID: <CACRpkdaOusm1fuP66O=XHe0MbRq373NQsDVwS_3gpRDKEs0jUQ@mail.gmail.com>
+Subject: Re: [PATCH 50/53] drm/tve200: Convert to platform remove callback
  returning void
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
@@ -85,8 +85,8 @@ On Sun, May 7, 2023 at 6:26=E2=80=AFPM Uwe Kleine-K=C3=B6nig
 > quest all drivers are converted to .remove_new() which already returns
 > void.
 >
-> Trivially convert the mcde drm driver from always returning zero in the
-> remove callback to the void returning variant.
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
 >
 > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
