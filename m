@@ -1,76 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF686FA7AB
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 12:33:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A89956FA813
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 12:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A9010E20E;
-	Mon,  8 May 2023 10:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE7C10E202;
+	Mon,  8 May 2023 10:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2ADEF10E20D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 10:33:37 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2ac81d2bfbcso46398291fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 03:33:36 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5880B10E202
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 10:37:20 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f13d8f74abso4896390e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 03:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683542015; x=1686134015;
+ d=linaro.org; s=google; t=1683542238; x=1686134238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=eMkK5cHocOkySdQ1dvULOQ4jNtQaf1to9XDN1aW8VkM=;
- b=cnTXZAY/dC1mZhWnJp12bXNBoExNjAwk+0GnUWEDkYavWKThKgPlaw3OWMDOtsO3wf
- nI+rUpF8DhpoFnT/ucaXQbtXuQOUHkEn/byigFXHp0Nkaqk7HuumTB+qU2DA7jss7SDJ
- 98cY5IoqOXqf3ApD4dC1BwGBMpaQWgYy6Nc7PYvc/L3LgCpaTEf9FCvxf1HTvwHPJNLp
- 3wD4LwKrHLxAa3dYgidb5Ap54WWAC4UCXm/S8EzEepcU+QtimXzqb8R7PsZpG9BUzoPl
- cJxaJ6wFn2ECWWIEtBNvEw9tJl0MoDbExxxvBWs47nOJsM5mFIWJOlgYVRemAkM4znZ9
- n0KQ==
+ bh=kLguggw99xxqCuarIT3sUQKT9PSunZQtK0bgeU/RtAI=;
+ b=RunXxGhCzpDGn6pLJ57TvtLicVHmUMuaTPbKVbMh0/Tl9TAlIu4XLnfDIFLE7yUIvg
+ 2wcEjjES8dC+9VZn9XG2o8EvAT54X2PfBY6juyi4PbQL1RR1svi5RqUt4QahhHkcH0TG
+ 6WynqtLL2k7KYSuVvjPSuBHhTbpEWX8od55JmoWnwimRyTmJt6S4ajivW+DNGVn2ZlWh
+ EPRJ1ncyqYIo2j/z8Ebjztf+SDGYALhjoHycP+3I6hOSbFi9ePwITc1B5Xh5QU59wx8z
+ yhnJWXJL2Vn2h98+cRPYHR+v1iGcEYZKs2K2J/9n+X/0IqGFjIc0h7fDp5sx785HgY+t
+ Dzbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683542015; x=1686134015;
+ d=1e100.net; s=20221208; t=1683542238; x=1686134238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eMkK5cHocOkySdQ1dvULOQ4jNtQaf1to9XDN1aW8VkM=;
- b=RiV0+u7aGQK6ZDEXA+hM+NiW/QMKCAgyvzj2OAuzJl50e2BKmPy+7dB/sIIJvA+5Gc
- 4UR9J0wsvTHCh6LWyF5GOVxQVscyS6bndvsFMk0AQdBMqc6GeHbCx5jNYSaqJ9oO129h
- lk1WrDpLXnYpk2pyiUdug3qSr9w6kGQyE440kmXnTsEhkBQ/CZwG2HYdO23Inky80xuI
- tm6g4+IhchLC0uaTf5u819ms4mo/7qYs3WlveM0fd9V/hCk87Pgf5BU3wFtgUbF+7eiB
- u/1cd2LY3xXunBy0VK72pY8B+cmFh8ir27ExRt5qWbUISoRdXevs/V9GBWsyPi008VUC
- z0MQ==
-X-Gm-Message-State: AC+VfDyCvxCWObV4JxZ7bUqx4hxzsqVolxr4vyKkyEONZnTmAVl2QV6v
- x1TyEOkkjDaYy5zr/22VIIsNUg==
-X-Google-Smtp-Source: ACHHUZ6c1+OpsDSd4MYi0ZIkjZ8oJNw/uPXhw3lExTrIxEHsqFxKnyHc22rN/ZZOYQHgYm8zrvnpcg==
-X-Received: by 2002:a2e:9590:0:b0:2ac:77fb:f2b3 with SMTP id
- w16-20020a2e9590000000b002ac77fbf2b3mr2810640ljh.40.1683542014794; 
- Mon, 08 May 2023 03:33:34 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ bh=kLguggw99xxqCuarIT3sUQKT9PSunZQtK0bgeU/RtAI=;
+ b=biAPZNkUIB30BaDm56ZZk34PPSZ5L5uwNQN5dkciCb4K027efvoMPBnHUKn1YmaQ4c
+ nju0umuZYyVTJdor9uOcFFR9xFYA1xgsNfzxbYP991SCTIQVU7uhgPnawBLV6yMpNv4/
+ Ui0YoadG70sq5W5D4IyHPjinqUIteCmyxT60AyKdKmcgW9uRIpJjvuVoC7Ok27e1ZEVe
+ 1MnBB9guGFIDaYcT5siYKpHYs2AsFRloS03xV1NNf2YhFi8+uMCdl1kj5g06UPNeSb5Q
+ ty6CEDebaOJPG7MDmClq09+L4qc/hkDGTDtdMaPSG/RDntsxiC0MbonnaxwzXBsMItwg
+ smrA==
+X-Gm-Message-State: AC+VfDyMtHOKWR9fHWPagCI5i9G0TFhyp3JbPQBJcS9ZvoBbN+Ypfr7p
+ IpvhLry1uupm0woIi3DVPJksxg==
+X-Google-Smtp-Source: ACHHUZ5n18z4iUjRdX6K7JArdf1SKPjPwSsDbFmbRiDF7lAyFUSB4i9jw28FQgs11ZbpeZW1za5OPA==
+X-Received: by 2002:ac2:5501:0:b0:4e8:5e39:6234 with SMTP id
+ j1-20020ac25501000000b004e85e396234mr2228676lfk.16.1683542238452; 
+ Mon, 08 May 2023 03:37:18 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
  by smtp.gmail.com with ESMTPSA id
- z22-20020a2e3516000000b002a77792f2c5sm1109979ljz.62.2023.05.08.03.33.34
+ u1-20020a056512094100b004edd3f011cfsm1251929lft.43.2023.05.08.03.37.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 03:33:34 -0700 (PDT)
-Message-ID: <f705d3c0-3822-1760-ba1f-fa11ef295bc7@linaro.org>
-Date: Mon, 8 May 2023 13:33:33 +0300
+ Mon, 08 May 2023 03:37:18 -0700 (PDT)
+Message-ID: <f2754e31-ce69-9426-a41e-2c58686f7f53@linaro.org>
+Date: Mon, 8 May 2023 12:37:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 4/4] ARM: dts: qcom: apq8074-dragonboard: enable DSI panel
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 1/4] ARM: dts: qcom: msm8974: add ocmem clock to GPU
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 References: <20230507190735.2333145-1-dmitry.baryshkov@linaro.org>
- <20230507190735.2333145-5-dmitry.baryshkov@linaro.org>
- <ca09ce7d-b0c4-1544-0c9e-fab823aa79e6@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <ca09ce7d-b0c4-1544-0c9e-fab823aa79e6@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230507190735.2333145-2-dmitry.baryshkov@linaro.org>
+ <8cdecc51-2a42-4b82-9eb3-2ab77860c5d4@linaro.org>
+ <c8144b21-d672-318e-2761-5d1daf384c30@linaro.org>
+ <d357a6f9-d66b-0ba1-138c-4b541c3bebfb@linaro.org>
+ <01fc4065-681f-daba-1c73-cc57768f880e@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <01fc4065-681f-daba-1c73-cc57768f880e@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,91 +91,71 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/05/2023 11:34, Konrad Dybcio wrote:
-> 
-> 
-> On 7.05.2023 21:07, Dmitry Baryshkov wrote:
->> Enable MDSS, GPU and DSI panel output on the APQ8074 dragonboard.
+
+
+On 8.05.2023 12:32, Dmitry Baryshkov wrote:
+> On 08/05/2023 13:28, Konrad Dybcio wrote:
 >>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   .../arm/boot/dts/qcom-apq8074-dragonboard.dts | 51 +++++++++++++++++++
->>   1 file changed, 51 insertions(+)
 >>
->> diff --git a/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts b/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
->> index c893afc00eb4..72f7e09a5bbf 100644
->> --- a/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
->> +++ b/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
->> @@ -48,6 +48,57 @@ eeprom: eeprom@52 {
->>   	};
->>   };
->>   
->> +&dsi0 {
-> old junk could use some mdss_ prefixing to keep the nodes together
+>> On 8.05.2023 12:24, Dmitry Baryshkov wrote:
+>>> On 08/05/2023 11:30, Konrad Dybcio wrote:
+>>>>
+>>>>
+>>>> On 7.05.2023 21:07, Dmitry Baryshkov wrote:
+>>>>> To get GPU working with the OCMEM, the oxili_ocmemgx_clk clock should be
+>>>>> enabled. Pass it to the GPU to get it to work on apq8074/msm8974 boards.
+>>>>>
+>>>>> Fixes: fe079442db63 ("ARM: dts: qcom: msm8974: add gpu support")
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>> Uhh.. this clock should be managed by RPM with:
+>>>>
+>>>> type = MEM
+>>>> id = 2
+>>>>
+>>>> just like it's defined for 8994 today.
+>>>>
+>>>> Could you try adding it in rpmcc and confirming?
+>>>
+>>> There is an RPM_SMD_OCMEMGX_CLK clk already, it is a bus clock for the ocmemnoc.
+>> It's wrong.
 > 
-> Could you please take care of that?
+> Can you possibly be more specific here?
+> 
+> On 8974 RPM_SMD_OCMEMGX_CLK is a core clock for ocmem and a bus clock for ocmemnoc.
+The ocmemnoc bus is managed internally, the rpm clock is not used for scaling,
+only to make sure the NIU is clocked for ocmem node access.
 
-Ack
+It's "scaled" with the ocmem-slv node, but the code never sets any rate,
+only calls clk_get.
 
 > 
->> +	vdda-supply = <&pm8941_l2>;
->> +	vdd-supply = <&pm8941_l22>;
->> +	vddio-supply = <&pm8941_l12>;
->> +
->> +	status = "okay";
->> +
->> +	panel: panel@0 {
->> +		compatible = "sharp,ls043t1le01-qhd";
->> +		reg = <0>;
->> +
->> +		avdd-supply = <&pm8941_l22>;
->> +		backlight = <&pm8941_wled>;
->> +		reset-gpios = <&pm8941_gpios 19 GPIO_ACTIVE_HIGH>;
->> +
->> +		port {
->> +			panel_in: endpoint {
->> +				remote-endpoint = <&dsi0_out>;
->> +			};
->> +		};
->> +	};
->> +};
->> +
->> +&dsi0_out {
->> +	remote-endpoint = <&panel_in>;
->> +	data-lanes = <0 1 2 3>;
->> +};
->> +
->> +&dsi0_phy {
->> +	status = "okay";
->> +
->> +	vddio-supply = <&pm8941_l12>;
-> status last
+> On 8994 this clocks is just a core clock for ocmem, there is no ocmemnoc.
+It's there, named "fab-ovirt" and on 8994 it's actually used for scaling.
+
+Konrad
 > 
-> Konrad
->> +};
->> +
->> +&gpu {
->> +	status = "okay";
->> +};
->> +
->> +&mdss {
->> +	status = "okay";
->> +};
->> +
->> +&pm8941_wled {
->> +	qcom,cs-out;
->> +	qcom,switching-freq = <3200>;
->> +	qcom,ovp = <32>;
->> +	qcom,num-strings = <1>;
->> +
->> +	status = "okay";
->> +};
->> +
->>   &remoteproc_adsp {
->>   	cx-supply = <&pm8841_s2>;
->>   
-
--- 
-With best wishes
-Dmitry
-
+> 
+>>
+>> Konrad
+>>>
+>>>>
+>>>> Konrad
+>>>>>    arch/arm/boot/dts/qcom-msm8974.dtsi | 3 ++-
+>>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>>> index 834ad95515b1..fb661c1bd3d5 100644
+>>>>> --- a/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>>> +++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>>> @@ -2104,8 +2104,9 @@ gpu: adreno@fdb00000 {
+>>>>>                  clocks = <&mmcc OXILI_GFX3D_CLK>,
+>>>>>                     <&mmcc OXILICX_AHB_CLK>,
+>>>>> +                 <&mmcc OXILI_OCMEMGX_CLK>,
+>>>>>                     <&mmcc OXILICX_AXI_CLK>;
+>>>>> -            clock-names = "core", "iface", "mem_iface";
+>>>>> +            clock-names = "core", "iface", "mem", "mem_iface";
+>>>>>                  sram = <&gmu_sram>;
+>>>>>                power-domains = <&mmcc OXILICX_GDSC>;
+>>>
+> 
