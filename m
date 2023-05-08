@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EBB6FBAB1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 00:00:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B8C6FBAB2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 00:01:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F5D10E30D;
-	Mon,  8 May 2023 22:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D182B10E30E;
+	Mon,  8 May 2023 22:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6455210E30D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 22:00:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAE010E30D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 22:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=lQFDrwAHy2480z5X1luFfZbfMFQo+HW8XxF9SNiCaLE=; b=idu8fWas+C1FoGnYTqdsjE5a2P
- AfaZLsjiQxAmuq2d3fRDJNr0UVKQYZbXkLRZoEFaEuWrQZfhS0AJQXF8fxno1cjXSDWZIC8HOqMPg
- zz40FJpGxfX3IZsNi+aADIN/Tj3fdsIJUJvfeLwyrhJ8K73aNWbmylYuc7Azl4nOKuq2nO/wXrL44
- QYPCOvxfufxS05Ur6MH75K91IaBNvNrJrBDyRu5pxn2ElG7wOHYyr9TxH/dYd9KGssS6jDk9uB0ba
- /Ik3t7l1fYtRgMijLw4GznoAcfNmA/fBHeNgsUqz4TjnzCw2t7N55HcRVmx6GDnH/TRtkSQohT6xe
- TqOEsEyQ==;
+ bh=8fPVaXiLVTx7ZwSnC6x76Es48miiHLghcFCp8IrvqdY=; b=LNz81FiZ++bmUVwhjKYvDpnf8R
+ vW0MCnzHhCVO9onSTBRqTnIm9gFGhXGEUcQL9zHqA44Bq4vkUmqu0N1/fsSspcxYtoHIsYIcRPSaz
+ uPtN2qN5CEsbeHfx9C4KYu8EhnD9KxPwzTA+afd6seAhhXBcPPQH+WQxy9CzPGlaQsUd3SgkBIQAy
+ eNyuxpjGpdORusvr54tg32sBVvrtnv1kDsa+n9ZKP5rz2UY5ZZOywdzQJH8wEa5ZdWqlWGFjPYbhZ
+ y7mSU5q85irLgwgbqvZNwpGnTrKIak2r6o/bLfm89sG+V5IYv+SN9WxqZu/5NUszGeKVm2ddgeAd3
+ k0GbC4VA==;
 Received: from [177.34.168.16] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pw8uT-004FTw-22; Tue, 09 May 2023 00:00:45 +0200
+ id 1pw8uW-004FTw-NZ; Tue, 09 May 2023 00:00:49 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH 1/2] drm/vkms: Add kernel-doc to the function
- vkms_compose_row()
-Date: Mon,  8 May 2023 19:00:29 -0300
-Message-Id: <20230508220030.434118-1-mcanal@igalia.com>
+Subject: [PATCH 2/2] drm/vkms: Fix all kernel-doc warnings of the
+ vkms_composer file
+Date: Mon,  8 May 2023 19:00:30 -0300
+Message-Id: <20230508220030.434118-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230508220030.434118-1-mcanal@igalia.com>
+References: <20230508220030.434118-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -59,40 +61,48 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function vkms_compose_row() was introduced in the code without any
-documentation. In order to make the function more clear, add a
-kernel-doc to it.
+Fix the following warnings:
 
-Suggested-by: Melissa Wen <mwen@igalia.com>
+drivers/gpu/drm/vkms/vkms_composer.c:42: warning: Function parameter or member 'frame_info' not described in 'pre_mul_alpha_blend'
+drivers/gpu/drm/vkms/vkms_composer.c:42: warning: Excess function parameter 'src_frame_info' description in 'pre_mul_alpha_blend'
+drivers/gpu/drm/vkms/vkms_composer.c:93: warning: Cannot understand  * @wb_frame_info: The writeback frame buffer metadata
+ on line 93 - I thought it was a doc line
+
+by correcting variable names and adding function name.
+
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/vkms/vkms_composer.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index ebacb8efa055..fc09509ef949 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -111,6 +111,19 @@ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
- 	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 906d3df40cdb..1636ce3a79f9 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -23,7 +23,7 @@ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+ 
+ /**
+  * pre_mul_alpha_blend - alpha blending equation
+- * @src_frame_info: source framebuffer's metadata
++ * @frame_info: Source framebuffer's metadata
+  * @stage_buffer: The line with the pixels from src_plane
+  * @output_buffer: A line buffer that receives all the blends output
+  *
+@@ -90,11 +90,13 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
  }
  
-+/**
-+ * vkms_compose_row - compose a single row of a plane
-+ * @stage_buffer: output line with the composed pixels
-+ * @plane: state of the plane that is being composed
-+ * @y: y coordinate of the row
-+ *
-+ * This function composes a single row of a plane. It gets the source pixels
-+ * through the y coordinate (see get_packed_src_addr()) and goes linearly
-+ * through the source pixel, reading the pixels and converting it to
-+ * ARGB16161616 (see the pixel_read() callback). For rotate-90 and rotate-270,
-+ * the source pixels are not traversed linearly. The source pixels are queried
-+ * on each iteration in order to traverse the pixels vertically.
-+ */
- void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
- {
- 	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+ /**
+- * @wb_frame_info: The writeback frame buffer metadata
++ * blend - blend the pixels from all planes and compute crc
++ * @wb: The writeback frame buffer metadata
+  * @crtc_state: The crtc state
+  * @crc32: The crc output of the final frame
+  * @output_buffer: A buffer of a row that will receive the result of the blend(s)
+  * @stage_buffer: The line with the pixels from plane being blend to the output
++ * @row_size: The size, in bytes, of a single row
+  *
+  * This function blends the pixels (Using the `pre_mul_alpha_blend`)
+  * from all planes, calculates the crc32 of the output from the former step,
 -- 
 2.40.1
 
