@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9AF6FA754
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 12:29:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0366FAA9B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 13:04:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D6E10E1F8;
-	Mon,  8 May 2023 10:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E7410E21F;
+	Mon,  8 May 2023 11:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B76E10E1F8
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 10:29:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC3F610E21F;
+ Mon,  8 May 2023 11:04:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B0F0062695;
- Mon,  8 May 2023 10:29:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7789C433D2;
- Mon,  8 May 2023 10:29:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DBB1462A9B;
+ Mon,  8 May 2023 11:04:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95EA6C433D2;
+ Mon,  8 May 2023 11:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1683541770;
- bh=r9rVlrFQalbmFX0ikKC9X3IMuLWqoQn1Chk96hqHVwo=;
+ s=korg; t=1683543850;
+ bh=U3AASTqeuFKaMjf51fir0o9dcPQyM3LFthotgOzvu8Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FnC6hqiajkaP0OQMz4cI7gTOKcB1iIxEAI6rc3MloDOPQmHz14Rm+QLfysqEBC5I+
- YmthJV9DUPu/nL1tYDo+qxEeZASdS5/X3Ta8DsOZ8aSYiiQA4IrNd3k157fIIvnh9U
- nPgMiuJI3ltA07WbslVeD3Cgq2sXEGkdYyvJn138=
+ b=ozEJUJrp+6y2w8/8ON9al7hwpnvPukEwpMlaB7p2H4dT6AfewETt65p4RinId8CCU
+ eQDnSPI1X3mTDnzni+nvLKsg2l2cqs16Cw0lH7wiwhkS3Qs9G4wEPUqPUjhIh0DA9a
+ Lb+AEbjO6pZjZHmLoW3lwT5jPzMogGYVRm70j+Ng=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.2 222/663] drm/ttm/pool: Fix ttm_pool_alloc error path
-Date: Mon,  8 May 2023 11:40:48 +0200
-Message-Id: <20230508094435.530784419@linuxfoundation.org>
+Subject: [PATCH 6.3 222/694] drm/amd/display/dc/dce60/Makefile: Fix previous
+ attempt to silence known override-init warnings
+Date: Mon,  8 May 2023 11:40:57 +0200
+Message-Id: <20230508094439.566331883@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230508094428.384831245@linuxfoundation.org>
-References: <20230508094428.384831245@linuxfoundation.org>
+In-Reply-To: <20230508094432.603705160@linuxfoundation.org>
+References: <20230508094432.603705160@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -51,199 +52,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Dave Airlie <airlied@redhat.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>,
+ Leo Li <sunpeng.li@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mauro Rossi <issor.oruam@gmail.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, patches@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+From: Lee Jones <lee@kernel.org>
 
-[ Upstream commit 379989e7cbdc7aa7496a00ee286ec146c7599cf0 ]
+[ Upstream commit 4082b9f5ead4966797dddcfef0905d59e5a83873 ]
 
-When hitting an error, the error path forgot to unmap dma mappings and
-could call set_pages_wb() on already uncached pages.
+Fixes the following W=1 kernel build warning(s):
 
-Fix this by introducing a common ttm_pool_free_range() function that
-does the right thing.
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:21: note: in expansion of macro ‘mmCRTC1_DCFE_MEM_LIGHT_SLEEP_CNTL’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:9: note: in expansion of macro ‘SRI’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:17: note: in expansion of macro ‘XFM_COMMON_REG_LIST_DCE60’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:188:17: note: in expansion of macro ‘transform_regs’
+ drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:722:43: warning: initialized field overwritten [-Woverride-init]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:157:21: note: in expansion of macro ‘mmCRTC2_DCFE_MEM_LIGHT_SLEEP_CNTL’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_transform.h:170:9: note: in expansion of macro ‘SRI’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:183:17: note: in expansion of macro ‘XFM_COMMON_REG_LIST_DCE60’
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dce60/dce60_resource.c:189:17: note: in expansion of macro ‘transform_regs’
+ drivers/gpu/drm/amd/amdgpu/../include/asic_reg/dce/dce_6_0_d.h:722:43: note: (near initialization for ‘xfm_regs[2].DCFE_MEM_LIGHT_SLEEP_CN
 
-v2:
-- Simplify that common function (Christian König)
-v3:
-- Rename that common function to ttm_pool_free_range() (Christian König)
+[100 lines snipped for brevity]
 
-Fixes: d099fc8f540a ("drm/ttm: new TT backend allocation pool v3")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
+Fixes: ceb3cf476a441 ("drm/amd/display/dc/dce60/Makefile: Ignore -Woverride-init warning")
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Mauro Rossi <issor.oruam@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230404200650.11043-2-thomas.hellstrom@linux.intel.com
+Signed-off-by: Lee Jones <lee@kernel.org>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 81 +++++++++++++++++++++-------------
- 1 file changed, 51 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dce60/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 9f6764bf3b15d..86affe987a1cb 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -366,6 +366,43 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/dce60/Makefile b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
+index dda596fa1cd76..fee331accc0e7 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce60/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
+@@ -23,7 +23,7 @@
+ # Makefile for the 'controller' sub-component of DAL.
+ # It provides the control and status of HW CRTC block.
  
-+/**
-+ * ttm_pool_free_range() - Free a range of TTM pages
-+ * @pool: The pool used for allocating.
-+ * @tt: The struct ttm_tt holding the page pointers.
-+ * @caching: The page caching mode used by the range.
-+ * @start_page: index for first page to free.
-+ * @end_page: index for last page to free + 1.
-+ *
-+ * During allocation the ttm_tt page-vector may be populated with ranges of
-+ * pages with different attributes if allocation hit an error without being
-+ * able to completely fulfill the allocation. This function can be used
-+ * to free these individual ranges.
-+ */
-+static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
-+				enum ttm_caching caching,
-+				pgoff_t start_page, pgoff_t end_page)
-+{
-+	struct page **pages = tt->pages;
-+	unsigned int order;
-+	pgoff_t i, nr;
-+
-+	for (i = start_page; i < end_page; i += nr, pages += nr) {
-+		struct ttm_pool_type *pt = NULL;
-+
-+		order = ttm_pool_page_order(pool, *pages);
-+		nr = (1UL << order);
-+		if (tt->dma_address)
-+			ttm_pool_unmap(pool, tt->dma_address[i], nr);
-+
-+		pt = ttm_pool_select_type(pool, caching, order);
-+		if (pt)
-+			ttm_pool_type_give(pt, *pages);
-+		else
-+			ttm_pool_free_page(pool, caching, order, *pages);
-+	}
-+}
-+
- /**
-  * ttm_pool_alloc - Fill a ttm_tt object
-  *
-@@ -381,12 +418,14 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
- int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 		   struct ttm_operation_ctx *ctx)
- {
--	unsigned long num_pages = tt->num_pages;
-+	pgoff_t num_pages = tt->num_pages;
- 	dma_addr_t *dma_addr = tt->dma_address;
- 	struct page **caching = tt->pages;
- 	struct page **pages = tt->pages;
-+	enum ttm_caching page_caching;
- 	gfp_t gfp_flags = GFP_USER;
--	unsigned int i, order;
-+	pgoff_t caching_divide;
-+	unsigned int order;
- 	struct page *p;
- 	int r;
+-CFLAGS_AMDDALPATH)/dc/dce60/dce60_resource.o = $(call cc-disable-warning, override-init)
++CFLAGS_$(AMDDALPATH)/dc/dce60/dce60_resource.o = $(call cc-disable-warning, override-init)
  
-@@ -409,6 +448,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 	     order = min_t(unsigned int, order, __fls(num_pages))) {
- 		struct ttm_pool_type *pt;
- 
-+		page_caching = tt->caching;
- 		pt = ttm_pool_select_type(pool, tt->caching, order);
- 		p = pt ? ttm_pool_type_take(pt) : NULL;
- 		if (p) {
-@@ -417,6 +457,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 			if (r)
- 				goto error_free_page;
- 
-+			caching = pages;
- 			do {
- 				r = ttm_pool_page_allocated(pool, order, p,
- 							    &dma_addr,
-@@ -425,14 +466,15 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 				if (r)
- 					goto error_free_page;
- 
-+				caching = pages;
- 				if (num_pages < (1 << order))
- 					break;
- 
- 				p = ttm_pool_type_take(pt);
- 			} while (p);
--			caching = pages;
- 		}
- 
-+		page_caching = ttm_cached;
- 		while (num_pages >= (1 << order) &&
- 		       (p = ttm_pool_alloc_page(pool, gfp_flags, order))) {
- 
-@@ -441,6 +483,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 							   tt->caching);
- 				if (r)
- 					goto error_free_page;
-+				caching = pages;
- 			}
- 			r = ttm_pool_page_allocated(pool, order, p, &dma_addr,
- 						    &num_pages, &pages);
-@@ -467,15 +510,13 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 	return 0;
- 
- error_free_page:
--	ttm_pool_free_page(pool, tt->caching, order, p);
-+	ttm_pool_free_page(pool, page_caching, order, p);
- 
- error_free_all:
- 	num_pages = tt->num_pages - num_pages;
--	for (i = 0; i < num_pages; ) {
--		order = ttm_pool_page_order(pool, tt->pages[i]);
--		ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
--		i += 1 << order;
--	}
-+	caching_divide = caching - tt->pages;
-+	ttm_pool_free_range(pool, tt, tt->caching, 0, caching_divide);
-+	ttm_pool_free_range(pool, tt, ttm_cached, caching_divide, num_pages);
- 
- 	return r;
- }
-@@ -491,27 +532,7 @@ EXPORT_SYMBOL(ttm_pool_alloc);
-  */
- void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
- {
--	unsigned int i;
--
--	for (i = 0; i < tt->num_pages; ) {
--		struct page *p = tt->pages[i];
--		unsigned int order, num_pages;
--		struct ttm_pool_type *pt;
--
--		order = ttm_pool_page_order(pool, p);
--		num_pages = 1ULL << order;
--		if (tt->dma_address)
--			ttm_pool_unmap(pool, tt->dma_address[i], num_pages);
--
--		pt = ttm_pool_select_type(pool, tt->caching, order);
--		if (pt)
--			ttm_pool_type_give(pt, tt->pages[i]);
--		else
--			ttm_pool_free_page(pool, tt->caching, order,
--					   tt->pages[i]);
--
--		i += num_pages;
--	}
-+	ttm_pool_free_range(pool, tt, tt->caching, 0, tt->num_pages);
- 
- 	while (atomic_long_read(&allocated_pages) > page_pool_size)
- 		ttm_pool_shrink();
+ DCE60 = dce60_timing_generator.o dce60_hw_sequencer.o \
+ 	dce60_resource.o
 -- 
 2.39.2
 
