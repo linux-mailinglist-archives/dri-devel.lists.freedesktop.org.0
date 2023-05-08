@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C496FB94E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 23:20:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B736FB94F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 23:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D17910E06C;
-	Mon,  8 May 2023 21:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C04810E304;
+	Mon,  8 May 2023 21:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E5410E138
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 21:20:21 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f00c33c3d6so5773637e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 14:20:21 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B8F10E2F9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 21:20:22 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f24cfb8539so2110039e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 14:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683580819; x=1686172819;
+ d=linaro.org; s=google; t=1683580820; x=1686172820;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/Wp4D72mqNcj1hIUm5lP7PH7jzGtATEkkvBitN4BceE=;
- b=lCM2EAQjej+CVzfwGSa6bzAVa5SNksMB7eQj4chXzlnjaGKnjBbVEyjLghCkJA6vCP
- gbZV55dTdX6EejrBxKuzBQZEwbijkEuaBQxEl+IZRhs/zDBfLEgoWoHTQbCorJJ3hqF+
- P5oByqye8JdxKM8+q32zcFYmYgw6tlnpQ7l5hSWL4CQ5Hu5UD0MyW/xhHb/PGwviKpLL
- 6kPxC8FSLMmJ8nFERFvzc0v52pqV6MEOjo9QMKRH472WhUq5PBK/ZRaTBpkJ0upqJVhy
- +GHjUskHZTgzPftYVUPDAqMx4lElfmhMcW84h0TjEnibSJBb0tzkCx8dRkPUWiOObUfF
- Zcsg==
+ :reply-to; bh=dK03E2M8l7bVCBNTqzVE5mVLTLIW5dP3PvhMkmEu44I=;
+ b=LQvB+8ogRPv04y19WvA4bz7w/wJIcDWbnDtyZLlF61s4C3dXWsHviBgL1vZ0d8vTnQ
+ iJTyC75PunKIctxUTawEGv6+kVpOsf5er8fGH700MPbKWcLhpODaZ93OyuL4lcRn7UZe
+ yFKv2dnS3Me3T7gE5qoha4EG0IAvrgRQ9NHBCByMHoGLDdWoPoDX6JSnXPboi6ILpT+0
+ zYkoVFwxzISejMGf9FEwFuPsuQ6x78BajEOx208y++QUiNA9PcQLlLuAXQfUtaL4lXx7
+ LMigrZvibVzhQ+H5SUeQz9tseL99XDg0kfbiiE+hP7ldQeTKnG8o+3ev89OcHyzlVZj2
+ 8RFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683580819; x=1686172819;
+ d=1e100.net; s=20221208; t=1683580820; x=1686172820;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/Wp4D72mqNcj1hIUm5lP7PH7jzGtATEkkvBitN4BceE=;
- b=BfQZQbPpt5k3KGxpKenmIH6bpAm+8YSZ3F+AXXHHAaZqrRC6p75g8O1X/mK2HZ99GW
- gKdt+pvXtBbTLWT2TJtbuFZbxB2exNWSpRNg7aQfCYonKlevP+aezUHAK8G0Y7UfyldO
- Q4dr2FhN/ysoQ4YTYNGn1QPuf975RfzI2S1sIIZh/OcxfcP4EuYVOcPzJNEkB9RPGSV5
- 2SwOuwRMHPqbl4f7NcxKJoxLTP0TLG2a4BGafSSfaRGidnUTp3G9zwjqchn63/dfrdqA
- V3MhfXwEPUE0OfbJ16E5B05QGi3kGfrO8kSwIGBHHAl80eYCtxVt7xv0xQ7fWZ5z7MKt
- eJIw==
-X-Gm-Message-State: AC+VfDyExxEcMdO1sjN7K8dQ5z3PlW1ibPr6xLZRnfyIND+lj7bul6XJ
- RfV4n3Hqpki1lhe5n70ucuzwng==
-X-Google-Smtp-Source: ACHHUZ7mlnb57iwM/DMxx5HpNDR8bOhvincshn4HXDxzPkfNKKo16wcXaH+9PYK9qfJSCU+EBlarUA==
-X-Received: by 2002:ac2:5687:0:b0:4db:3882:8f42 with SMTP id
- 7-20020ac25687000000b004db38828f42mr131559lfr.45.1683580818982; 
- Mon, 08 May 2023 14:20:18 -0700 (PDT)
+ bh=dK03E2M8l7bVCBNTqzVE5mVLTLIW5dP3PvhMkmEu44I=;
+ b=fYoSjTDHiAvV6O6m+jCFpr+MJkcHmnVMPkchvriYGgpUucJzqhPPmZvT/hPJPqF90k
+ G6nisWXcgsa7mlQ0cXz36ueN+tHuEZAEyPVDEvvCE9PzHsUcAvnd9JNPfc5qhHCt1JCG
+ 5CpgeFLmpe4s3BLabnY2GznKvMemxm3GvfPy3Celnyq1KjbuEiuCsFe+3dn5hf32xXCG
+ FFC/CjYRTzXfDwkxduGPGTaWH523K3uxhYWm4vuibEGNukTdFlw6Hecc63sLq1Uzo5oN
+ YeFPh/GLaFtbcVOx0bV7RZuCHvMC0qXnm+fvHHBmhfWHO//ZCXKcC2YHsr147gHaQ1lM
+ b1WA==
+X-Gm-Message-State: AC+VfDwb0SuukF+uk0HoIc0tJdqNEzPSzqM/5nLKwBhy1MMuieFrB/sp
+ uCQSp01M+NCXcdsqyB99btOP4w==
+X-Google-Smtp-Source: ACHHUZ5h9zB+DF+SzOXMLkK9IEaMkoFaP5oV3ZE8LadUTKk9C4V94+SoqeKCIiPG3/AYEn/7ujSn7w==
+X-Received: by 2002:a19:550d:0:b0:4ef:d742:4dfe with SMTP id
+ n13-20020a19550d000000b004efd7424dfemr124116lfe.65.1683580820134; 
+ Mon, 08 May 2023 14:20:20 -0700 (PDT)
 Received: from [127.0.1.1] ([85.235.12.238]) by smtp.gmail.com with ESMTPSA id
- 4-20020ac24844000000b004edc3bd7fa1sm102164lfy.201.2023.05.08.14.20.17
+ 4-20020ac24844000000b004edc3bd7fa1sm102164lfy.201.2023.05.08.14.20.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 14:20:18 -0700 (PDT)
+ Mon, 08 May 2023 14:20:19 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 08 May 2023 23:20:07 +0200
-Subject: [PATCH v4 2/4] ARM/mmc: Convert old mmci-omap to GPIO descriptors
+Date: Mon, 08 May 2023 23:20:08 +0200
+Subject: [PATCH v4 3/4] ARM: omap1: Fix up the Nokia 770 board device IRQs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230430-nokia770-regression-v4-2-9b6dc5536b17@linaro.org>
+Message-Id: <20230430-nokia770-regression-v4-3-9b6dc5536b17@linaro.org>
 References: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
 In-Reply-To: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
 To: Aaro Koskinen <aaro.koskinen@iki.fi>, 
@@ -90,377 +90,115 @@ Cc: linux-fbdev@vger.kernel.org, linux-mips@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A recent change to the OMAP driver making it use a dynamic GPIO
-base created problems with some old OMAP1 board files, among
-them Nokia 770, SX1 and also the OMAP2 Nokia n8x0.
+The platform devices on the Nokia 770 is using some
+board-specific IRQs that get statically assigned to platform
+devices in the boardfile.
 
-Fix up all instances of GPIOs being used for the MMC driver
-by pushing the handling of power, slot selection and MMC
-"cover" into the driver as optional GPIOs.
+This does not work with dynamic IRQ chip bases.
 
-This is maybe not the most perfect solution as the MMC
-framework have some central handlers for some of the
-stuff, but it at least makes the situtation better and
-solves the immediate issue.
+Utilize the NULL device to define some board-specific
+GPIO lookups and use these to immediately look up the
+same GPIOs, convert to IRQ numbers and pass as resources
+to the devices. This is ugly but should work.
 
 Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arm/mach-omap1/board-nokia770.c   | 43 ++++++-----------
- arch/arm/mach-omap1/board-sx1-mmc.c    |  1 -
- arch/arm/mach-omap2/board-n8x0.c       | 85 +++++++++++-----------------------
- drivers/mmc/host/omap.c                | 46 +++++++++++++++++-
- include/linux/platform_data/mmc-omap.h |  2 -
- 5 files changed, 83 insertions(+), 94 deletions(-)
+ arch/arm/mach-omap1/board-nokia770.c | 57 ++++++++++++++++++++++++++++--------
+ 1 file changed, 44 insertions(+), 13 deletions(-)
 
 diff --git a/arch/arm/mach-omap1/board-nokia770.c b/arch/arm/mach-omap1/board-nokia770.c
-index 8a1f2572deea..218c928f71b3 100644
+index 218c928f71b3..8965df2c250d 100644
 --- a/arch/arm/mach-omap1/board-nokia770.c
 +++ b/arch/arm/mach-omap1/board-nokia770.c
-@@ -183,27 +183,23 @@ static struct omap_usb_config nokia770_usb_config __initdata = {
- 
- #if IS_ENABLED(CONFIG_MMC_OMAP)
- 
--#define NOKIA770_GPIO_MMC_POWER		41
--#define NOKIA770_GPIO_MMC_SWITCH	23
--
--static int nokia770_mmc_set_power(struct device *dev, int slot, int power_on,
--				int vdd)
--{
--	gpio_set_value(NOKIA770_GPIO_MMC_POWER, power_on);
--	return 0;
--}
--
--static int nokia770_mmc_get_cover_state(struct device *dev, int slot)
--{
--	return gpio_get_value(NOKIA770_GPIO_MMC_SWITCH);
--}
-+static struct gpiod_lookup_table nokia770_mmc_gpio_table = {
-+	.dev_id = "mmci-omap",
-+	.table = {
-+		/* Slot index 0, VSD power, GPIO 41 */
-+		GPIO_LOOKUP_IDX("gpio-32-47", 9,
-+				"vsd", 0, GPIO_ACTIVE_HIGH),
-+		/* Slot index 0, switch, GPIO 23 */
-+		GPIO_LOOKUP_IDX("gpio-16-31", 7,
-+				"cover", 0, GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
- 
- static struct omap_mmc_platform_data nokia770_mmc2_data = {
- 	.nr_slots                       = 1,
- 	.max_freq                       = 12000000,
- 	.slots[0]       = {
--		.set_power		= nokia770_mmc_set_power,
--		.get_cover_state	= nokia770_mmc_get_cover_state,
- 		.ocr_mask               = MMC_VDD_32_33|MMC_VDD_33_34,
- 		.name                   = "mmcblk",
- 	},
-@@ -213,20 +209,7 @@ static struct omap_mmc_platform_data *nokia770_mmc_data[OMAP16XX_NR_MMC];
- 
- static void __init nokia770_mmc_init(void)
- {
--	int ret;
--
--	ret = gpio_request(NOKIA770_GPIO_MMC_POWER, "MMC power");
--	if (ret < 0)
--		return;
--	gpio_direction_output(NOKIA770_GPIO_MMC_POWER, 0);
--
--	ret = gpio_request(NOKIA770_GPIO_MMC_SWITCH, "MMC cover");
--	if (ret < 0) {
--		gpio_free(NOKIA770_GPIO_MMC_POWER);
--		return;
--	}
--	gpio_direction_input(NOKIA770_GPIO_MMC_SWITCH);
--
-+	gpiod_add_lookup_table(&nokia770_mmc_gpio_table);
- 	/* Only the second MMC controller is used */
- 	nokia770_mmc_data[1] = &nokia770_mmc2_data;
- 	omap1_init_mmc(nokia770_mmc_data, OMAP16XX_NR_MMC);
-diff --git a/arch/arm/mach-omap1/board-sx1-mmc.c b/arch/arm/mach-omap1/board-sx1-mmc.c
-index f1c160924dfe..f183a8448a7b 100644
---- a/arch/arm/mach-omap1/board-sx1-mmc.c
-+++ b/arch/arm/mach-omap1/board-sx1-mmc.c
-@@ -9,7 +9,6 @@
-  * Copyright (C) 2007 Instituto Nokia de Tecnologia - INdT
+@@ -6,7 +6,7 @@
   */
- 
--#include <linux/gpio.h>
- #include <linux/platform_device.h>
- 
- #include "hardware.h"
-diff --git a/arch/arm/mach-omap2/board-n8x0.c b/arch/arm/mach-omap2/board-n8x0.c
-index 3353b0a923d9..baa2f0341aed 100644
---- a/arch/arm/mach-omap2/board-n8x0.c
-+++ b/arch/arm/mach-omap2/board-n8x0.c
-@@ -11,6 +11,7 @@
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio.h>
-+#include <linux/gpio/machine.h>
- #include <linux/init.h>
- #include <linux/io.h>
+ #include <linux/clkdev.h>
  #include <linux/irq.h>
-@@ -170,22 +171,32 @@ static struct spi_board_info n800_spi_board_info[] __initdata = {
-  * GPIO23 and GPIO9		slot 2 EMMC on N810
-  *
-  */
--#define N8X0_SLOT_SWITCH_GPIO	96
--#define N810_EMMC_VSD_GPIO	23
--#define N810_EMMC_VIO_GPIO	9
--
- static int slot1_cover_open;
- static int slot2_cover_open;
- static struct device *mmc_device;
- 
--static int n8x0_mmc_switch_slot(struct device *dev, int slot)
--{
--#ifdef CONFIG_MMC_DEBUG
--	dev_dbg(dev, "Choose slot %d\n", slot + 1);
--#endif
--	gpio_set_value(N8X0_SLOT_SWITCH_GPIO, slot);
--	return 0;
--}
-+static struct gpiod_lookup_table nokia8xx_mmc_gpio_table = {
-+	.dev_id = "mmci-omap",
-+	.table = {
-+		/* Slot switch, GPIO 96 */
-+		GPIO_LOOKUP("gpio-80-111", 16,
-+			    "switch", GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
-+
-+static struct gpiod_lookup_table nokia810_mmc_gpio_table = {
-+	.dev_id = "mmci-omap",
-+	.table = {
-+		/* Slot index 1, VSD power, GPIO 23 */
-+		GPIO_LOOKUP_IDX("gpio-16-31", 7,
-+				"vsd", 1, GPIO_ACTIVE_HIGH),
-+		/* Slot index 1, VIO power, GPIO 9 */
-+		GPIO_LOOKUP_IDX("gpio-0-15", 9,
-+				"vsd", 1, GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
- 
- static int n8x0_mmc_set_power_menelaus(struct device *dev, int slot,
- 					int power_on, int vdd)
-@@ -256,31 +267,13 @@ static int n8x0_mmc_set_power_menelaus(struct device *dev, int slot,
- 	return 0;
- }
- 
--static void n810_set_power_emmc(struct device *dev,
--					 int power_on)
--{
--	dev_dbg(dev, "Set EMMC power %s\n", power_on ? "on" : "off");
--
--	if (power_on) {
--		gpio_set_value(N810_EMMC_VSD_GPIO, 1);
--		msleep(1);
--		gpio_set_value(N810_EMMC_VIO_GPIO, 1);
--		msleep(1);
--	} else {
--		gpio_set_value(N810_EMMC_VIO_GPIO, 0);
--		msleep(50);
--		gpio_set_value(N810_EMMC_VSD_GPIO, 0);
--		msleep(50);
--	}
--}
--
- static int n8x0_mmc_set_power(struct device *dev, int slot, int power_on,
- 			      int vdd)
- {
- 	if (board_is_n800() || slot == 0)
- 		return n8x0_mmc_set_power_menelaus(dev, slot, power_on, vdd);
- 
--	n810_set_power_emmc(dev, power_on);
-+	/* The n810 power will be handled by GPIO code in the driver */
- 
- 	return 0;
- }
-@@ -418,13 +411,6 @@ static void n8x0_mmc_shutdown(struct device *dev)
- static void n8x0_mmc_cleanup(struct device *dev)
- {
- 	menelaus_unregister_mmc_callback();
--
--	gpio_free(N8X0_SLOT_SWITCH_GPIO);
--
--	if (board_is_n810()) {
--		gpio_free(N810_EMMC_VSD_GPIO);
--		gpio_free(N810_EMMC_VIO_GPIO);
--	}
- }
- 
- /*
-@@ -433,7 +419,6 @@ static void n8x0_mmc_cleanup(struct device *dev)
-  */
- static struct omap_mmc_platform_data mmc1_data = {
- 	.nr_slots			= 0,
--	.switch_slot			= n8x0_mmc_switch_slot,
- 	.init				= n8x0_mmc_late_init,
- 	.cleanup			= n8x0_mmc_cleanup,
- 	.shutdown			= n8x0_mmc_shutdown,
-@@ -463,14 +448,9 @@ static struct omap_mmc_platform_data mmc1_data = {
- 
- static struct omap_mmc_platform_data *mmc_data[OMAP24XX_NR_MMC];
- 
--static struct gpio n810_emmc_gpios[] __initdata = {
--	{ N810_EMMC_VSD_GPIO, GPIOF_OUT_INIT_LOW,  "MMC slot 2 Vddf" },
--	{ N810_EMMC_VIO_GPIO, GPIOF_OUT_INIT_LOW,  "MMC slot 2 Vdd"  },
--};
--
- static void __init n8x0_mmc_init(void)
- {
--	int err;
-+	gpiod_add_lookup_table(&nokia8xx_mmc_gpio_table);
- 
- 	if (board_is_n810()) {
- 		mmc1_data.slots[0].name = "external";
-@@ -483,20 +463,7 @@ static void __init n8x0_mmc_init(void)
- 		 */
- 		mmc1_data.slots[1].name = "internal";
- 		mmc1_data.slots[1].ban_openended = 1;
--	}
--
--	err = gpio_request_one(N8X0_SLOT_SWITCH_GPIO, GPIOF_OUT_INIT_LOW,
--			       "MMC slot switch");
--	if (err)
--		return;
--
--	if (board_is_n810()) {
--		err = gpio_request_array(n810_emmc_gpios,
--					 ARRAY_SIZE(n810_emmc_gpios));
--		if (err) {
--			gpio_free(N8X0_SLOT_SWITCH_GPIO);
--			return;
--		}
-+		gpiod_add_lookup_table(&nokia810_mmc_gpio_table);
- 	}
- 
- 	mmc1_data.nr_slots = 2;
-diff --git a/drivers/mmc/host/omap.c b/drivers/mmc/host/omap.c
-index ce78edfb402b..a14af21f12da 100644
---- a/drivers/mmc/host/omap.c
-+++ b/drivers/mmc/host/omap.c
-@@ -26,6 +26,7 @@
- #include <linux/clk.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
+-#include <linux/gpio.h>
 +#include <linux/gpio/consumer.h>
- #include <linux/platform_data/mmc-omap.h>
+ #include <linux/gpio/machine.h>
+ #include <linux/gpio/property.h>
+ #include <linux/kernel.h>
+@@ -250,19 +250,25 @@ static struct i2c_board_info nokia770_i2c_board_info_2[] __initdata = {
  
- 
-@@ -111,6 +112,9 @@ struct mmc_omap_slot {
- 	struct mmc_request      *mrq;
- 	struct mmc_omap_host    *host;
- 	struct mmc_host		*mmc;
-+	struct gpio_desc	*vsd;
-+	struct gpio_desc	*vio;
-+	struct gpio_desc	*cover;
- 	struct omap_mmc_slot_data *pdata;
- };
- 
-@@ -133,6 +137,7 @@ struct mmc_omap_host {
- 	int			irq;
- 	unsigned char		bus_mode;
- 	unsigned int		reg_shift;
-+	struct gpio_desc	*slot_switch;
- 
- 	struct work_struct	cmd_abort_work;
- 	unsigned		abort:1;
-@@ -216,8 +221,13 @@ static void mmc_omap_select_slot(struct mmc_omap_slot *slot, int claimed)
- 
- 	if (host->current_slot != slot) {
- 		OMAP_MMC_WRITE(host, CON, slot->saved_con & 0xFC00);
--		if (host->pdata->switch_slot != NULL)
--			host->pdata->switch_slot(mmc_dev(slot->mmc), slot->id);
-+		if (host->slot_switch)
-+			/*
-+			 * With two slots and a simple GPIO switch, setting
-+			 * the GPIO to 0 selects slot ID 0, setting it to 1
-+			 * selects slot ID 1.
-+			 */
-+			gpiod_set_value(host->slot_switch, slot->id);
- 		host->current_slot = slot;
- 	}
- 
-@@ -297,6 +307,9 @@ static void mmc_omap_release_slot(struct mmc_omap_slot *slot, int clk_enabled)
- static inline
- int mmc_omap_cover_is_open(struct mmc_omap_slot *slot)
+ static void __init nokia770_cbus_init(void)
  {
-+	/* If we have a GPIO then use that */
-+	if (slot->cover)
-+		return gpiod_get_value(slot->cover);
- 	if (slot->pdata->get_cover_state)
- 		return slot->pdata->get_cover_state(mmc_dev(slot->mmc),
- 						    slot->id);
-@@ -1106,6 +1119,11 @@ static void mmc_omap_set_power(struct mmc_omap_slot *slot, int power_on,
- 
- 	host = slot->host;
- 
-+	if (slot->vsd)
-+		gpiod_set_value(slot->vsd, power_on);
-+	if (slot->vio)
-+		gpiod_set_value(slot->vio, power_on);
+-	const int retu_irq_gpio = 62;
+-	const int tahvo_irq_gpio = 40;
+-
+-	if (gpio_request_one(retu_irq_gpio, GPIOF_IN, "Retu IRQ"))
+-		return;
+-	if (gpio_request_one(tahvo_irq_gpio, GPIOF_IN, "Tahvo IRQ")) {
+-		gpio_free(retu_irq_gpio);
+-		return;
++	struct gpio_desc *d;
++	int irq;
 +
- 	if (slot->pdata->set_power != NULL)
- 		slot->pdata->set_power(mmc_dev(slot->mmc), slot->id, power_on,
- 					vdd);
-@@ -1240,6 +1258,23 @@ static int mmc_omap_new_slot(struct mmc_omap_host *host, int id)
- 	slot->power_mode = MMC_POWER_UNDEFINED;
- 	slot->pdata = &host->pdata->slots[id];
++	d = gpiod_get(NULL, "retu_irq", GPIOD_IN);
++	if (IS_ERR(d)) {
++		pr_err("Unable to get CBUS Retu IRQ GPIO descriptor\n");
++	} else {
++		irq = gpiod_to_irq(d);
++		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
++		nokia770_i2c_board_info_2[0].irq = irq;
++	}
++	d = gpiod_get(NULL, "tahvo_irq", GPIOD_IN);
++	if (IS_ERR(d)) {
++		pr_err("Unable to get CBUS Tahvo IRQ GPIO descriptor\n");
++	} else {
++		irq = gpiod_to_irq(d);
++		irq_set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
++		nokia770_i2c_board_info_2[1].irq = irq;
+ 	}
+-	irq_set_irq_type(gpio_to_irq(retu_irq_gpio), IRQ_TYPE_EDGE_RISING);
+-	irq_set_irq_type(gpio_to_irq(tahvo_irq_gpio), IRQ_TYPE_EDGE_RISING);
+-	nokia770_i2c_board_info_2[0].irq = gpio_to_irq(retu_irq_gpio);
+-	nokia770_i2c_board_info_2[1].irq = gpio_to_irq(tahvo_irq_gpio);
+ 	i2c_register_board_info(2, nokia770_i2c_board_info_2,
+ 				ARRAY_SIZE(nokia770_i2c_board_info_2));
+ 	device_create_managed_software_node(&nokia770_cbus_device.dev,
+@@ -275,8 +281,25 @@ static void __init nokia770_cbus_init(void)
+ }
+ #endif /* CONFIG_I2C_CBUS_GPIO */
  
-+	/* Check for some optional GPIO controls */
-+	slot->vsd = gpiod_get_index_optional(host->dev, "vsd",
-+					     id, GPIOD_OUT_LOW);
-+	if (IS_ERR(slot->vsd))
-+		return dev_err_probe(host->dev, PTR_ERR(slot->vsd),
-+				     "error looking up VSD GPIO\n");
-+	slot->vio = gpiod_get_index_optional(host->dev, "vio",
-+					     id, GPIOD_OUT_LOW);
-+	if (IS_ERR(slot->vio))
-+		return dev_err_probe(host->dev, PTR_ERR(slot->vio),
-+				     "error looking up VIO GPIO\n");
-+	slot->cover = gpiod_get_index_optional(host->dev, "cover",
-+						id, GPIOD_IN);
-+	if (IS_ERR(slot->cover))
-+		return dev_err_probe(host->dev, PTR_ERR(slot->cover),
-+				     "error looking up cover switch GPIO\n");
++static struct gpiod_lookup_table nokia770_irq_gpio_table = {
++	.dev_id = NULL,
++	.table = {
++		/* GPIO used by SPI device 1 */
++		GPIO_LOOKUP("gpio-0-15", 15, "ads7846_irq",
++			    GPIO_ACTIVE_HIGH),
++		/* GPIO used for retu IRQ */
++		GPIO_LOOKUP("gpio-48-63", 15, "retu_irq",
++			    GPIO_ACTIVE_HIGH),
++		/* GPIO used for tahvo IRQ */
++		GPIO_LOOKUP("gpio-32-47", 8, "tahvo_irq",
++			    GPIO_ACTIVE_HIGH),
++	},
++};
 +
- 	host->slots[id] = slot;
- 
- 	mmc->caps = 0;
-@@ -1349,6 +1384,13 @@ static int mmc_omap_probe(struct platform_device *pdev)
- 	if (IS_ERR(host->virt_base))
- 		return PTR_ERR(host->virt_base);
- 
-+	host->slot_switch = gpiod_get_optional(host->dev, "switch",
-+					       GPIOD_OUT_LOW);
-+	if (IS_ERR(host->slot_switch))
-+		return dev_err_probe(host->dev, PTR_ERR(host->slot_switch),
-+				     "error looking up slot switch GPIO\n");
+ static void __init omap_nokia770_init(void)
+ {
++	struct gpio_desc *d;
 +
+ 	/* On Nokia 770, the SleepX signal is masked with an
+ 	 * MPUIO line by default.  It has to be unmasked for it
+ 	 * to become functional */
+@@ -288,6 +311,14 @@ static void __init omap_nokia770_init(void)
+ 
+ 	software_node_register_node_group(nokia770_gpiochip_nodes);
+ 	platform_add_devices(nokia770_devices, ARRAY_SIZE(nokia770_devices));
 +
- 	INIT_WORK(&host->slot_release_work, mmc_omap_slot_release_work);
- 	INIT_WORK(&host->send_stop_work, mmc_omap_send_stop_work);
- 
-diff --git a/include/linux/platform_data/mmc-omap.h b/include/linux/platform_data/mmc-omap.h
-index 91051e9907f3..054d0c3c5ec5 100644
---- a/include/linux/platform_data/mmc-omap.h
-+++ b/include/linux/platform_data/mmc-omap.h
-@@ -20,8 +20,6 @@ struct omap_mmc_platform_data {
- 	 * maximum frequency on the MMC bus */
- 	unsigned int max_freq;
- 
--	/* switch the bus to a new slot */
--	int (*switch_slot)(struct device *dev, int slot);
- 	/* initialize board-specific MMC functionality, can be NULL if
- 	 * not supported */
- 	int (*init)(struct device *dev);
++	gpiod_add_lookup_table(&nokia770_irq_gpio_table);
++	d = gpiod_get(NULL, "ads7846_irq", GPIOD_IN);
++	if (IS_ERR(d))
++		pr_err("Unable to get ADS7846 IRQ GPIO descriptor\n");
++	else
++		nokia770_spi_board_info[1].irq = gpiod_to_irq(d);
++
+ 	spi_register_board_info(nokia770_spi_board_info,
+ 				ARRAY_SIZE(nokia770_spi_board_info));
+ 	omap_serial_init();
 
 -- 
 2.34.1
