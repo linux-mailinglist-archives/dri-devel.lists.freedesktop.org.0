@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92796FA75D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 12:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8136A6FA793
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 12:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A16510E201;
-	Mon,  8 May 2023 10:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5D8810E1FC;
+	Mon,  8 May 2023 10:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE3D10E1FC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 10:29:40 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2acb6571922so22523791fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 03:29:40 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F51110E202
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 10:32:23 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2ac831bb762so41757541fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 03:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683541778; x=1686133778;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D+x6UPkFapUFCRgp8EmleOOtaKQHjt0FTvIoOtvEJ8c=;
- b=x9DNmoHffvz9zkyXfNz2/5QNP84c89e2grqLhtW70Ul+DK7SudOXKuS7qhRtjDTV90
- zctPufr265A5UcOsAbEa+TAu4LmoL3BYLY/J/yujg9TZAzM5B8jTqoOKZuYB4fbpH5g2
- X3ghXIz21oCoM8oxwoCj75m86/E7E8sPgDSi5UgqzWUK1k3Hoi6yqT223N/IBxH2RqSQ
- Bm/E6mQMUkCRXPJoXqM/5iWsNsFjdGoBuxA/vVwDqhXdBrmanyEyq69YnWhTGkEWbHk3
- GQQfDTthdX2iKYbT5qGHTD9NmYZiKBkyDNlyHEiA/3PB3NRrPAUXwO1bvqL4e1E98F6q
- ScAw==
+ d=linaro.org; s=google; t=1683541941; x=1686133941;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ScXfOKBt81Z5zV2cG1662UPRXJFST6VZnBC6VouOjSc=;
+ b=GrmDkGJvrRaoi7LAewDtfUAM0YYBpgUMUKRpSX8RbK2obuLwBwfJlk2QZkc/b7PuJo
+ HYWBbWCm6V2TXoHPv+iyQppf1PoYXtBvLAsZFcz5WgJI/QqSZMMF/sXoRZRS7bYhTX7u
+ WwtTxeGprytGUZBpLQVgODKMSnmy8v6+XsCbjnm8J1ZIdM6GP0mN3E6/WvSHAO2l0AWe
+ sgYQkjyPLeHPI4DErBPWlFeYnfWDxB7oN+SGqAUhJRzN1kmhH4kHm55/TPs4VUZPBhBn
+ wWV+Y/Fk3TjSwEnn4WENzWiF0nqRTD6pmpzZdeH9eLGTDKYDM2MpSVAm9Qp2xLqeIZOt
+ wnnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683541778; x=1686133778;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D+x6UPkFapUFCRgp8EmleOOtaKQHjt0FTvIoOtvEJ8c=;
- b=AmM2yy0UPrxKvyjTTfKF516toGPA84sY0k5NzsaAAriRTd4HhQECriP7wDLw3nn+e2
- wnNP4gE755nHuuXPP+hdwjj7A+rYTtisPKSXXbYhDCZD/VO8UOEH5tZVyt6bbmYOeh8q
- nmj0zyeQ5V+K4SNjFbY4sqWVwfyXBy+ujWtkanT44EvX6aRESwMAtlQiEk4MbQ0OSDpl
- 5KzDXvE9f5Glh2HbSZ4xOcRLmT44mi8xgaEou4DP7ZA+l7xbyomZwflgiJstU9CTgNdk
- +mdZ/2dQy6qX34vfN0We9UhVy8GoLTQw9fyPEZdG5cKLCrtydzEC0nm1P+Szy152eCo3
- 52bA==
-X-Gm-Message-State: AC+VfDyqDC+lU4NcbzrMMQqtNznfcLpmb7LtadYROarLFVbf43KR3W3p
- OafqHP6InDV9NA6aDfF4NRTg9Q==
-X-Google-Smtp-Source: ACHHUZ7VDiqCjyo3fLmZa9rwILRO8VviOXoaz18OXnBtbVeMGRKy/jU75LouvcT07DA3jHoPD19dsg==
-X-Received: by 2002:a2e:b61b:0:b0:2a7:8b35:8270 with SMTP id
- r27-20020a2eb61b000000b002a78b358270mr2914716ljn.35.1683541778035; 
- Mon, 08 May 2023 03:29:38 -0700 (PDT)
-Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+ d=1e100.net; s=20221208; t=1683541941; x=1686133941;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ScXfOKBt81Z5zV2cG1662UPRXJFST6VZnBC6VouOjSc=;
+ b=FWEiAi3r5hfc9EtbGL/5e/GPQ5c9Gy0ebGkAIIz1OQ9iiQGm/MGV0O+Khj+lizLyDh
+ 1AtLBnVtMva5eBFfc+zhDdsukjjxEtrVMbTrfil7yLuytwUvcV7arbujwTq0i8hJmBdw
+ MnW1SoKRXIAuXnvYKPHvthmU9CvE+cUDnwgKRBSMIhG/b1JSY86CXsRIGNmq0UHN1lw9
+ iJydGvl/Bte/6o8KyhsFDHvvY2+FiLq6rIJrLGpO6T8XfGHDrvg54CdOZjTXIlAcWP7Y
+ TpwdHQUuH34u94LuGGk4KTcv+sgsycr9bKZHHbn5S0OCOIVbgiNvSvCZM8BaGXJzWJJl
+ NLgg==
+X-Gm-Message-State: AC+VfDzxEOSLa+4M4GpIJn5t45D5CB9eSS9t3zSCFjZYE4K3MGyOtO7z
+ v8cqY1YYgLnpv2oKOrxr//uAZg==
+X-Google-Smtp-Source: ACHHUZ4gpZuq2LgpGp2cEbClw5qjF/b0rPeJcLA8iwjKT4SpwOE0zQ62tK/5XBVkS0mkN6iyEv87UA==
+X-Received: by 2002:a05:651c:236:b0:295:9be0:212b with SMTP id
+ z22-20020a05651c023600b002959be0212bmr2763621ljn.8.1683541941628; 
+ Mon, 08 May 2023 03:32:21 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a2e9985000000b002ad8fc8dda6sm547230lji.17.2023.05.08.03.29.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 03:29:37 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 08 May 2023 12:29:32 +0200
-Subject: [PATCH] drm/msm/dpu: Set DPU_DATA_HCTL_EN for in INTF_SC7180_MASK
+ l11-20020a2e3e0b000000b002a8dce82cf6sm1127122lja.32.2023.05.08.03.32.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 May 2023 03:32:21 -0700 (PDT)
+Message-ID: <01fc4065-681f-daba-1c73-cc57768f880e@linaro.org>
+Date: Mon, 8 May 2023 13:32:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230508-topic-hctl_en-v1-1-0f8b5df60ed5@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAAvPWGQC/x2N0QrCMAwAf2Xk2ULdUIy/IiJpjDZQstFuMhj79
- wUf7+C4DZpUlQb3boMqP206msP51AFnsq8EfTtDH/shXuItzOOkHDLP5SUWBkoJEenKiOBNoiY
- hVTLOXtlSisupykfX/+Tx3PcDIbuao3QAAAA=
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Kalyan Thota <quic_kalyant@quicinc.com>, 
- Shubhashree Dhar <dhar@codeaurora.org>, 
- Raviteja Tamatam <travitej@codeaurora.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1683541776; l=1453;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=0xMxdhEkVRQ4tosyFddMHyURiJ2JW3BVZyyPB80D7FU=;
- b=UXLtqK0g6TOe8dOVFKhJB+Ssr8/cqY2ihdagjOKGWJg2LMrp0OIaCr02aMw7UXqQl/G38cbGY
- 7qBA7bdZbzzDTotoYkoFNw3gO+nLQUlHBNeDKCqfLjMf06A8xLCJTV1
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/4] ARM: dts: qcom: msm8974: add ocmem clock to GPU
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230507190735.2333145-1-dmitry.baryshkov@linaro.org>
+ <20230507190735.2333145-2-dmitry.baryshkov@linaro.org>
+ <8cdecc51-2a42-4b82-9eb3-2ab77860c5d4@linaro.org>
+ <c8144b21-d672-318e-2761-5d1daf384c30@linaro.org>
+ <d357a6f9-d66b-0ba1-138c-4b541c3bebfb@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <d357a6f9-d66b-0ba1-138c-4b541c3bebfb@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,51 +85,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DPU5 and newer targets enable this unconditionally. Move it from the
-SC7280 mask to the SC7180 one.
+On 08/05/2023 13:28, Konrad Dybcio wrote:
+> 
+> 
+> On 8.05.2023 12:24, Dmitry Baryshkov wrote:
+>> On 08/05/2023 11:30, Konrad Dybcio wrote:
+>>>
+>>>
+>>> On 7.05.2023 21:07, Dmitry Baryshkov wrote:
+>>>> To get GPU working with the OCMEM, the oxili_ocmemgx_clk clock should be
+>>>> enabled. Pass it to the GPU to get it to work on apq8074/msm8974 boards.
+>>>>
+>>>> Fixes: fe079442db63 ("ARM: dts: qcom: msm8974: add gpu support")
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>> Uhh.. this clock should be managed by RPM with:
+>>>
+>>> type = MEM
+>>> id = 2
+>>>
+>>> just like it's defined for 8994 today.
+>>>
+>>> Could you try adding it in rpmcc and confirming?
+>>
+>> There is an RPM_SMD_OCMEMGX_CLK clk already, it is a bus clock for the ocmemnoc.
+> It's wrong.
 
-Fixes: 7bdc0c4b8126 ("msm:disp:dpu1: add support for display for SC7180 target")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
-Depends on:
-https://lore.kernel.org/linux-arm-msm/20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com/
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Can you possibly be more specific here?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 27420fc863d6..7ea8fd69d5fd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -98,9 +98,12 @@
- #define INTF_SDM845_MASK (0)
- 
- #define INTF_SC7180_MASK \
--	(BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE) | BIT(DPU_INTF_STATUS_SUPPORTED))
-+	(BIT(DPU_INTF_INPUT_CTRL) | \
-+	 BIT(DPU_INTF_TE) | \
-+	 BIT(DPU_INTF_STATUS_SUPPORTED) | \
-+	 BIT(DPU_DATA_HCTL_EN))
- 
--#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN) | BIT(DPU_INTF_DATA_COMPRESS)
-+#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_INTF_DATA_COMPRESS)
- 
- #define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
- 			 BIT(DPU_WB_UBWC) | \
+On 8974 RPM_SMD_OCMEMGX_CLK is a core clock for ocmem and a bus clock 
+for ocmemnoc.
 
----
-base-commit: c47189dee0decd9ecc1e65ae376ad6d4b0b7f1f2
-change-id: 20230508-topic-hctl_en-3abb999a6c99
+On 8994 this clocks is just a core clock for ocmem, there is no ocmemnoc.
 
-Best regards,
+
+> 
+> Konrad
+>>
+>>>
+>>> Konrad
+>>>>    arch/arm/boot/dts/qcom-msm8974.dtsi | 3 ++-
+>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/arch/arm/boot/dts/qcom-msm8974.dtsi b/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>> index 834ad95515b1..fb661c1bd3d5 100644
+>>>> --- a/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>> +++ b/arch/arm/boot/dts/qcom-msm8974.dtsi
+>>>> @@ -2104,8 +2104,9 @@ gpu: adreno@fdb00000 {
+>>>>                  clocks = <&mmcc OXILI_GFX3D_CLK>,
+>>>>                     <&mmcc OXILICX_AHB_CLK>,
+>>>> +                 <&mmcc OXILI_OCMEMGX_CLK>,
+>>>>                     <&mmcc OXILICX_AXI_CLK>;
+>>>> -            clock-names = "core", "iface", "mem_iface";
+>>>> +            clock-names = "core", "iface", "mem", "mem_iface";
+>>>>                  sram = <&gmu_sram>;
+>>>>                power-domains = <&mmcc OXILICX_GDSC>;
+>>
+
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+With best wishes
+Dmitry
 
