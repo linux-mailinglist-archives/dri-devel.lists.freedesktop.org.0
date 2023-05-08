@@ -1,93 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4996FB5B8
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 19:09:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E1C6FB5C8
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 19:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8455310E0CE;
-	Mon,  8 May 2023 17:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7697510E2D8;
+	Mon,  8 May 2023 17:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA5B10E0CE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 17:09:23 +0000 (UTC)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 348H75oL001685; Mon, 8 May 2023 17:09:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=gFaCuvY2vx4m7h1LG179ezcPRiWk5KC5ku27Zp3HRVY=;
- b=a/2NEKLiGFYdH7WALohtocwoSCKLgQtoutdl7BXYPOmg2wLZJ/R0lHjGLTyScs3YhDU6
- vTg5MNcenvatQzATWuWVFqH7qJWU70zuD5izLDuIBwgAHIM7DrsXXSBD8H8qVdhWE+XX
- dkAaKTCGuMgSST5RklnYPZ6lnw2ISKl7Ckhs/I8aqFv1Hs4ODmNfBeezajF7l2s04qV7
- 7O2p8+cjd3SzRReCQPQdWBiVZa9NIdJPd0Qt55q7PHYps7Y0x/aArAKWfXUDPnosfki6
- ahbL/Kz5dKhdUYlxiLvJQV57g6wQj614g/IWsZ3tIsXjn/vrk2oXG4Vd21JvJrO225xL /A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wegenv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 17:09:11 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348H7YZh003716;
- Mon, 8 May 2023 17:09:10 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wegemh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 17:09:10 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 348BHJph001139;
- Mon, 8 May 2023 17:09:07 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3qde5fh1d2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 17:09:07 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 348H95H343909530
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 May 2023 17:09:05 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 397742005A;
- Mon,  8 May 2023 17:09:05 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BA8520043;
- Mon,  8 May 2023 17:09:04 +0000 (GMT)
-Received: from [9.171.75.120] (unknown [9.171.75.120])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  8 May 2023 17:09:04 +0000 (GMT)
-Message-ID: <767b9b0f53ef1a8411c9eeff87ceb14182c05204.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Date: Mon, 08 May 2023 19:09:04 +0200
-In-Reply-To: <ZBx5aLo5h546BzBt@intel.com>
-References: <20230314121216.413434-1-schnelle@linux.ibm.com>
- <20230314121216.413434-36-schnelle@linux.ibm.com>
- <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
- <ZBGbxDWEhqr8hhgU@intel.com>
- <917b95c9af1b80843b8a361d1b7fa337a25105e7.camel@linux.ibm.com>
- <ZBx5aLo5h546BzBt@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8EC10E2D8;
+ Mon,  8 May 2023 17:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683566173; x=1715102173;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=I5UZMcyj02FL6cYHxfdgEYHGfkFiYXZYS6u755QZG64=;
+ b=XSVndJYn6TrxF3y/ZyWS4oMRITbVDRwe1RRFP8GXPNZaIzazdvA+yX4l
+ SfnYTKh7UmKsB7zfnKSYplyrvWEBiKgVRHV3tbOUueDncXFME4cBTqyB3
+ wzE85tcajvef5IiBKqUuWjw8EKVbZ/axJ9e4VAartwOAh4jVFnuRVYFx2
+ HW/Vvd8lzVzb0db6WbHHUvhOVtax5jLBS16HmIxkmrDaiUtbztGBZfMfs
+ VmXb2qtNycjrqhFdS2saLwcyomMsU46MHu2B4+D6Xwltho2ofmK68lDkZ
+ 2MwXU8Z+/B2yK9UljgIwXDBkUpOZ3OhoGkpu8U1HXonq6SclYSsxYXBT+ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="412965486"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="412965486"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2023 10:16:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="676126150"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="676126150"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.12.75])
+ ([10.213.12.75])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2023 10:16:09 -0700
+Message-ID: <bb49bbd6-1ff2-8dba-11d1-6b6ab2ccd986@intel.com>
+Date: Mon, 8 May 2023 19:16:06 +0200
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: VIyPrQTqfWglaxUow7cylDCznu_INqJ2
-X-Proofpoint-ORIG-GUID: rPgNboSmJ8jIziVWBJ4TQzQzTThTbCU-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-08_12,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
- malwarescore=0 bulkscore=0 mlxlogscore=562 mlxscore=0 spamscore=0
- impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2305080115
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [Intel-gfx] [PATCH v8 0/7] drm/i915: use ref_tracker library for
+ tracking wakerefs
+Content-Language: en-US
+To: Rodrigo Vivi <rodrigo.vivi@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>
+References: <20230224-track_gt-v8-0-4b6517e61be6@intel.com>
+ <55aa19b3-58d4-02ae-efd1-c3f3d0f21ce6@intel.com>
+ <ZFVhx2PBdcwpNNl0@rdvivi-mobl4>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ZFVhx2PBdcwpNNl0@rdvivi-mobl4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,74 +67,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
- linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jakub Kicinski <kuba@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2023-03-23 at 18:08 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
-> On Thu, Mar 23, 2023 at 03:17:38PM +0100, Niklas Schnelle wrote:
-> > On Wed, 2023-03-15 at 12:19 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > > On Wed, Mar 15, 2023 at 09:16:50AM +0100, Geert Uytterhoeven wrote:
-> > > > Hi Niklas,
-> > > >=20
-> > > > On Tue, Mar 14, 2023 at 1:13=E2=80=AFPM Niklas Schnelle <schnelle@l=
-inux.ibm.com> wrote:
-> > > > > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and =
-friends
-> > > > > not being declared. We thus need to add HAS_IOPORT as dependency =
-for
-> > > > > those drivers using them and guard inline code in headers.
-> > > > >=20
-> > > > > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> > > > > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> > > >=20
-> > > > Thanks for your patch!
-> > > >=20
-> > > > > --- a/drivers/video/fbdev/Kconfig
-> > > > > +++ b/drivers/video/fbdev/Kconfig
-> > > >=20
-> > > > > @@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
-> > > > >=20
-> > > > >  config FB_ATY
-> > > > >         tristate "ATI Mach64 display support" if PCI || ATARI
-> > > > > -       depends on FB && !SPARC32
-> > > > > +       depends on FB && HAS_IOPORT && !SPARC32
-> > > >=20
-> > > > On Atari, this works without ATARI_ROM_ISA, hence it must not depen=
-d
-> > > > on HAS_IOPORT.
-> > > > The only call to inb() is inside a section protected by #ifdef
-> > > > CONFIG_PCI. So:
-> > >=20
-> > > That piece of code is a nop anyway. We immediately overwrite
-> > > clk_wr_offset with a hardcoded selection after the register reads.
-> > > So if you nuke that nop code then no IOPORT dependency required
-> > > at all.
-> > >=20
-> >=20
-> > I agree this "looks" like a nop but are we sure the inb() doesn't have
-> > side effects?=C2=A0
->=20
-> Yes. It's just trying to check which PLL dividers/etc. are currently
-> used. In VGA mode it gets it from a the GENMO and in non-VGA mode from
-> CLOCK_CNTL. And then it says "screw that" and just uses index 3 instead.
->=20
+On 05.05.2023 22:06, Rodrigo Vivi wrote:
+> On Thu, May 04, 2023 at 06:27:53PM +0200, Andrzej Hajda wrote:
+>> Hi maintainers of net and i915,
+>>
+>> On 25.04.2023 00:05, Andrzej Hajda wrote:
+>>> This is revived patchset improving ref_tracker library and converting
+>>> i915 internal tracker to ref_tracker.
+>>> The old thread ended without consensus about small kernel allocations,
+>>> which are performed under spinlock.
+>>> I have tried to solve the problem by splitting the calls, but it results
+>>> in complicated API, so I went back to original solution.
+>>> If there are better solutions I am glad to discuss them.
+>>> Meanwhile I send original patchset with addressed remaining comments.
+>>>
+>>> To: Jani Nikula <jani.nikula@linux.intel.com>
+>>> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>> To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>>> To: David Airlie <airlied@gmail.com>
+>>> To: Daniel Vetter <daniel@ffwll.ch>
+>>> To: Eric Dumazet <edumazet@google.com>
+>>> Cc: linux-kernel@vger.kernel.org
+>>> Cc: intel-gfx@lists.freedesktop.org
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Cc: netdev@vger.kernel.org
+>>> Cc: Jakub Kicinski <kuba@kernel.org>
+>>> Cc: Dmitry Vyukov <dvyukov@google.com>
+>>> Cc: "David S. Miller" <davem@davemloft.net>
+>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>> Cc: Das, Nirmoy <nirmoy.das@linux.intel.com>
+>>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>>>
+>>> ---
+>>> Changes in v8:
+>>> - addressed comments from Eric, Zhou and CI, thanks,
+>>> - added ref_tracker_dir_init name argument to all callers in one patch
+>>> - moved intel_wakeref_tracker_show to *.c
+>>> - s/intel_wakeref_tracker_show/intel_ref_tracker_show/
+>>> - removed 'default n' from Kconfig
+>>> - changed strlcpy to strscpy,
+>>> - removed assignement from if condition,
+>>> - removed long lines from patch description
+>>> - added tags
+>>> - Link to v7: https://lore.kernel.org/r/20230224-track_gt-v7-0-11f08358c1ec@intel.com
+>>>
+>>> Changes in v7:
+>>> - removed 8th patch (hold wakeref), as it was already merged
+>>> - added tags (thx Andi)
+>>> - Link to v6: https://lore.kernel.org/r/20230224-track_gt-v6-0-0dc8601fd02f@intel.com
+>>>
+>>> Changes in v6:
+>>> - rebased to solve minor conflict and allow CI testing
+>>> - Link to v5: https://lore.kernel.org/r/20230224-track_gt-v5-0-77be86f2c872@intel.com
+>>>
+>>> Changes in v5 (thx Andi for review):
+>>> - use *_locked convention instead of __*,
+>>> - improved commit messages,
+>>> - re-worked i915 patches, squashed separation and conversion patches,
+>>> - added tags,
+>>> - Link to v4: https://lore.kernel.org/r/20230224-track_gt-v4-0-464e8ab4c9ab@intel.com
+>>>
+>>> Changes in v4:
+>>> - split "Separate wakeref tracking" to smaller parts
+>>> - fixed typos,
+>>> - Link to v1-v3: https://patchwork.freedesktop.org/series/100327/
+>>>
+>>> ---
+>>> Andrzej Hajda (7):
+>>>         lib/ref_tracker: add unlocked leak print helper
+>>>         lib/ref_tracker: improve printing stats
+>>>         lib/ref_tracker: add printing to memory buffer
+>>>         lib/ref_tracker: remove warnings in case of allocation failure
+>>>         drm/i915: Correct type of wakeref variable
+>>>         drm/i915: Replace custom intel runtime_pm tracker with ref_tracker library
+>>>         drm/i915: Track gt pm wakerefs
+>>
+>> Finally all patches are reviewed.
+>> Question to network and i915 maintainers, how to merge this patchset:
+>> 1. Patches 1-4 belongs rather to network domain (especially patch 2).
+>> 2. Patches 5-7 are for i915.
+> 
+> Well, probably the easiest way to avoid conflicts would be to send
+> this right now through the net repo.
+> 
+> And hold patches 5-7 after drm-intel-next can backmerge them.
+> 
+> At this point I believe we would be looking at 6.5-rc2
+> backmerge to drm-intel-next in likely 11 weeks from now.
+> 
+> Do we have any urgency on them? Looking to all the changes in
+> i915 I believe we will get many conflicts if we let all these
+> i915 patches go through net tree as well.
 
-Ok, I've added a patch to remove this part of the code and with that
-the driver actually builds on s390 (no HAS_IOPORT) so I also removed
-the HAS_IOPORT dependency. Both will be in my v4.
 
-Thanks,
-Niklas
+Eric, Dave, Jakub, could you take patches 1-4?
 
+Regards
+Andrzej
+
+
+> 
+>>
+>> What would be the best way to do it?
+>>
+>> Regards
+>> Andrzej
+>>
+>>
+>>
+>>>
+>>>    drivers/gpu/drm/i915/Kconfig.debug                 |  18 ++
+>>>    drivers/gpu/drm/i915/display/intel_display_power.c |   2 +-
+>>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   7 +-
+>>>    .../drm/i915/gem/selftests/i915_gem_coherency.c    |  10 +-
+>>>    drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  14 +-
+>>>    drivers/gpu/drm/i915/gt/intel_breadcrumbs.c        |  13 +-
+>>>    drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h  |   3 +-
+>>>    drivers/gpu/drm/i915/gt/intel_context.h            |   4 +-
+>>>    drivers/gpu/drm/i915/gt/intel_context_types.h      |   2 +
+>>>    drivers/gpu/drm/i915/gt/intel_engine_pm.c          |   7 +-
+>>>    drivers/gpu/drm/i915/gt/intel_engine_types.h       |   2 +
+>>>    .../gpu/drm/i915/gt/intel_execlists_submission.c   |   2 +-
+>>>    drivers/gpu/drm/i915/gt/intel_gt_pm.c              |  12 +-
+>>>    drivers/gpu/drm/i915/gt/intel_gt_pm.h              |  38 +++-
+>>>    drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   4 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |  20 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_gt_pm.c           |   5 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_reset.c           |  10 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_rps.c             |  17 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_slpc.c            |   5 +-
+>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  12 +-
+>>>    drivers/gpu/drm/i915/i915_driver.c                 |   2 +-
+>>>    drivers/gpu/drm/i915/i915_pmu.c                    |  16 +-
+>>>    drivers/gpu/drm/i915/intel_runtime_pm.c            | 221 ++-------------------
+>>>    drivers/gpu/drm/i915/intel_runtime_pm.h            |  11 +-
+>>>    drivers/gpu/drm/i915/intel_wakeref.c               |  35 +++-
+>>>    drivers/gpu/drm/i915/intel_wakeref.h               |  73 ++++++-
+>>>    include/linux/ref_tracker.h                        |  25 ++-
+>>>    lib/ref_tracker.c                                  | 179 ++++++++++++++---
+>>>    lib/test_ref_tracker.c                             |   2 +-
+>>>    net/core/dev.c                                     |   2 +-
+>>>    net/core/net_namespace.c                           |   4 +-
+>>>    32 files changed, 445 insertions(+), 332 deletions(-)
+>>> ---
+>>> base-commit: 4d0066a1c0763d50b6fb017e27d12b081ce21b57
+>>> change-id: 20230224-track_gt-1b3da8bdacd7
+>>>
+>>> Best regards,
+>>
 
