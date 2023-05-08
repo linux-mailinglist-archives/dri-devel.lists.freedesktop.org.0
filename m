@@ -2,48 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBA46FB52A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 18:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4996FB5B8
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 19:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C19310E2E2;
-	Mon,  8 May 2023 16:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8455310E0CE;
+	Mon,  8 May 2023 17:09:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id E81A410E2D8;
- Mon,  8 May 2023 16:34:58 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:52156.536084247
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 1D4D21000E7;
- Tue,  9 May 2023 00:34:49 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-85667d6c59-6qwzn with ESMTP id
- 91234223621345caa0824c695adad8f9 for chenhuacai@loongson.cn; 
- Tue, 09 May 2023 00:34:56 CST
-X-Transaction-ID: 91234223621345caa0824c695adad8f9
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <12123b79-d680-4ed4-d14f-fedd0eb73b29@189.cn>
-Date: Tue, 9 May 2023 00:34:47 +0800
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA5B10E0CE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 17:09:23 +0000 (UTC)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 348H75oL001685; Mon, 8 May 2023 17:09:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=gFaCuvY2vx4m7h1LG179ezcPRiWk5KC5ku27Zp3HRVY=;
+ b=a/2NEKLiGFYdH7WALohtocwoSCKLgQtoutdl7BXYPOmg2wLZJ/R0lHjGLTyScs3YhDU6
+ vTg5MNcenvatQzATWuWVFqH7qJWU70zuD5izLDuIBwgAHIM7DrsXXSBD8H8qVdhWE+XX
+ dkAaKTCGuMgSST5RklnYPZ6lnw2ISKl7Ckhs/I8aqFv1Hs4ODmNfBeezajF7l2s04qV7
+ 7O2p8+cjd3SzRReCQPQdWBiVZa9NIdJPd0Qt55q7PHYps7Y0x/aArAKWfXUDPnosfki6
+ ahbL/Kz5dKhdUYlxiLvJQV57g6wQj614g/IWsZ3tIsXjn/vrk2oXG4Vd21JvJrO225xL /A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wegenv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 17:09:11 +0000
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348H7YZh003716;
+ Mon, 8 May 2023 17:09:10 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wegemh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 17:09:10 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 348BHJph001139;
+ Mon, 8 May 2023 17:09:07 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3qde5fh1d2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 17:09:07 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 348H95H343909530
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 8 May 2023 17:09:05 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 397742005A;
+ Mon,  8 May 2023 17:09:05 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5BA8520043;
+ Mon,  8 May 2023 17:09:04 +0000 (GMT)
+Received: from [9.171.75.120] (unknown [9.171.75.120])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  8 May 2023 17:09:04 +0000 (GMT)
+Message-ID: <767b9b0f53ef1a8411c9eeff87ceb14182c05204.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Date: Mon, 08 May 2023 19:09:04 +0200
+In-Reply-To: <ZBx5aLo5h546BzBt@intel.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+ <20230314121216.413434-36-schnelle@linux.ibm.com>
+ <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
+ <ZBGbxDWEhqr8hhgU@intel.com>
+ <917b95c9af1b80843b8a361d1b7fa337a25105e7.camel@linux.ibm.com>
+ <ZBx5aLo5h546BzBt@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [V3] drm/amdgpu/display: Enable DC_FP for LoongArch
-From: Sui Jingfeng <15330273260@189.cn>
-To: Huacai Chen <chenhuacai@loongson.cn>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
- David Airlie <airlied@linux.ie>
-References: <20230508030941.476694-1-chenhuacai@loongson.cn>
- <1b888568-b1f4-c764-7212-5a940fb8454a@189.cn>
-Content-Language: en-US
-In-Reply-To: <1b888568-b1f4-c764-7212-5a940fb8454a@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VIyPrQTqfWglaxUow7cylDCznu_INqJ2
+X-Proofpoint-ORIG-GUID: rPgNboSmJ8jIziVWBJ4TQzQzTThTbCU-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_12,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 mlxlogscore=562 mlxscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2305080115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,186 +100,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, WANG Xuerui <kernel@xen0n.name>,
- Xuefeng Li <lixuefeng@loongson.cn>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I have tested glmark2 on ls3a5000 with this patch applied,
+On Thu, 2023-03-23 at 18:08 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Thu, Mar 23, 2023 at 03:17:38PM +0100, Niklas Schnelle wrote:
+> > On Wed, 2023-03-15 at 12:19 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > On Wed, Mar 15, 2023 at 09:16:50AM +0100, Geert Uytterhoeven wrote:
+> > > > Hi Niklas,
+> > > >=20
+> > > > On Tue, Mar 14, 2023 at 1:13=E2=80=AFPM Niklas Schnelle <schnelle@l=
+inux.ibm.com> wrote:
+> > > > > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and =
+friends
+> > > > > not being declared. We thus need to add HAS_IOPORT as dependency =
+for
+> > > > > those drivers using them and guard inline code in headers.
+> > > > >=20
+> > > > > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> > > > > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> > > >=20
+> > > > Thanks for your patch!
+> > > >=20
+> > > > > --- a/drivers/video/fbdev/Kconfig
+> > > > > +++ b/drivers/video/fbdev/Kconfig
+> > > >=20
+> > > > > @@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
+> > > > >=20
+> > > > >  config FB_ATY
+> > > > >         tristate "ATI Mach64 display support" if PCI || ATARI
+> > > > > -       depends on FB && !SPARC32
+> > > > > +       depends on FB && HAS_IOPORT && !SPARC32
+> > > >=20
+> > > > On Atari, this works without ATARI_ROM_ISA, hence it must not depen=
+d
+> > > > on HAS_IOPORT.
+> > > > The only call to inb() is inside a section protected by #ifdef
+> > > > CONFIG_PCI. So:
+> > >=20
+> > > That piece of code is a nop anyway. We immediately overwrite
+> > > clk_wr_offset with a hardcoded selection after the register reads.
+> > > So if you nuke that nop code then no IOPORT dependency required
+> > > at all.
+> > >=20
+> >=20
+> > I agree this "looks" like a nop but are we sure the inb() doesn't have
+> > side effects?=C2=A0
+>=20
+> Yes. It's just trying to check which PLL dividers/etc. are currently
+> used. In VGA mode it gets it from a the GENMO and in non-VGA mode from
+> CLOCK_CNTL. And then it says "screw that" and just uses index 3 instead.
+>=20
 
-I have also bought a better gpu (vega 56), which is on the way.
+Ok, I've added a patch to remove this part of the code and with that
+the driver actually builds on s390 (no HAS_IOPORT) so I also removed
+the HAS_IOPORT dependency. Both will be in my v4.
 
-currently only have a rx550 at hand.
-
-I pasted the performance score here, how about this score?
-
-Does this looks normal?
-
-
-glmark2
-=======================================================
-     glmark2 2021.12
-=======================================================
-     OpenGL Information
-     GL_VENDOR:     AMD
-     GL_RENDERER:   AMD Radeon RX 550 / 550 Series (polaris12, LLVM 
-14.0.6, DRM 3.52, 6.4.0-rc1+)
-     GL_VERSION:    4.6 (Compatibility Profile) Mesa 23.0.0
-=======================================================
-[build] use-vbo=false: FPS: 4408 FrameTime: 0.227 ms
-[build] use-vbo=true: FPS: 7474 FrameTime: 0.134 ms
-[texture] texture-filter=nearest: FPS: 7096 FrameTime: 0.141 ms
-[texture] texture-filter=linear: FPS: 7400 FrameTime: 0.135 ms
-[texture] texture-filter=mipmap: FPS: 7392 FrameTime: 0.135 ms
-[shading] shading=gouraud: FPS: 7442 FrameTime: 0.134 ms
-[shading] shading=blinn-phong-inf: FPS: 7417 FrameTime: 0.135 ms
-[shading] shading=phong: FPS: 7396 FrameTime: 0.135 ms
-[shading] shading=cel: FPS: 6804 FrameTime: 0.147 ms
-[bump] bump-render=high-poly: FPS: 6789 FrameTime: 0.147 ms
-[bump] bump-render=normals: FPS: 7159 FrameTime: 0.140 ms
-[bump] bump-render=height: FPS: 7177 FrameTime: 0.139 ms
-[effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 7674 FrameTime: 0.130 ms
-[effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 3783 FrameTime: 
-0.264 ms
-[pulsar] light=false:quads=5:texture=false: FPS: 5684 FrameTime: 0.176 ms
-[desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4: 
-FPS: 3631 FrameTime: 0.275 ms
-[desktop] effect=shadow:windows=4: FPS: 3730 FrameTime: 0.268 ms
-[buffer] 
-columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=map: 
-FPS: 492 FrameTime: 2.033 ms
-[buffer] 
-columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=subdata: 
-FPS: 551 FrameTime: 1.815 ms
-[buffer] 
-columns=200:interleave=true:update-dispersion=0.9:update-fraction=0.5:update-method=map: 
-FPS: 1103 FrameTime: 0.907 ms
-[ideas] speed=duration: FPS: 3298 FrameTime: 0.303 ms
-[jellyfish] <default>: FPS: 5440 FrameTime: 0.184 ms
-[terrain] <default>:   FPS: 731 FrameTime: 1.368 ms
-[shadow] <default>: FPS: 5963 FrameTime: 0.168 ms
-[refract] <default>: FPS: 1384 FrameTime: 0.723 ms
-[conditionals] fragment-steps=0:vertex-steps=0: FPS: 7454 FrameTime: 
-0.134 ms
-[conditionals] fragment-steps=5:vertex-steps=0: FPS: 7460 FrameTime: 
-0.134 ms
-[conditionals] fragment-steps=0:vertex-steps=5: FPS: 7469 FrameTime: 
-0.134 ms
-[function] fragment-complexity=low:fragment-steps=5: FPS: 7401 
-FrameTime: 0.135 ms
-[function] fragment-complexity=medium:fragment-steps=5:  FPS: 7302 
-FrameTime: 0.137 ms
-[loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 6979 
-FrameTime: 0.143 ms
-[loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 6416 
-FrameTime: 0.156 ms
-[loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 7423 
-FrameTime: 0.135 ms
-=======================================================
-                                   glmark2 Score: 5615
-=======================================================
+Thanks,
+Niklas
 
 
-On 2023/5/8 23:46, Sui Jingfeng wrote:
-> Nice patch!
->
->
-> I have tested this patch on ls3a5000+ls7a2000+AMDGPU RX550, but it 
-> seems that dc_fpu_begin() and
->
-> dc_fpu_end() will not be called on AMDGPU RX550. But it at least 
-> proved that
->
-> this patch does not introduce bugs to what already works.
->
->
-> I can proved that after apply this patch,  glmark2 still works like a 
-> charm.
->
-> fbtest and kms_flip test also run very well.
->
->
-> On 2023/5/8 11:09, Huacai Chen wrote:
->> LoongArch now provides kernel_fpu_begin() and kernel_fpu_end() that are
->> used like the x86 counterparts in commit 2b3bd32ea3a22ea2d ("LoongArch:
->> Provide kernel fpu functions"), so we can enable DC_FP on LoongArch for
->> supporting more DCN devices.
->>
->> Signed-off-by: WANG Xuerui <kernel@xen0n.name>
->> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
->> ---
->> V2: Update commit message to add the commit which provides kernel fpu
->>      functions.
->> V3: Update commit message again and rebase on the latest code.
->>
->>   drivers/gpu/drm/amd/display/Kconfig            | 2 +-
->>   drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c | 6 ++++--
->>   drivers/gpu/drm/amd/display/dc/dml/Makefile    | 5 +++++
->>   3 files changed, 10 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/Kconfig 
->> b/drivers/gpu/drm/amd/display/Kconfig
->> index 2d8e55e29637..49df073962d5 100644
->> --- a/drivers/gpu/drm/amd/display/Kconfig
->> +++ b/drivers/gpu/drm/amd/display/Kconfig
->> @@ -8,7 +8,7 @@ config DRM_AMD_DC
->>       depends on BROKEN || !CC_IS_CLANG || X86_64 || SPARC64 || ARM64
->>       select SND_HDA_COMPONENT if SND_HDA_CORE
->>       # !CC_IS_CLANG: 
->> https://github.com/ClangBuiltLinux/linux/issues/1752
->> -    select DRM_AMD_DC_FP if (X86 || (PPC64 && ALTIVEC) || (ARM64 && 
->> KERNEL_MODE_NEON && !CC_IS_CLANG))
->> +    select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) 
->> || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
->>       help
->>         Choose this option if you want to use the new display engine
->>         support for AMDGPU. This adds required support for Vega and
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
->> index c42aa947c969..172aa10a8800 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
->> @@ -33,6 +33,8 @@
->>   #include <asm/cputable.h>
->>   #elif defined(CONFIG_ARM64)
->>   #include <asm/neon.h>
->> +#elif defined(CONFIG_LOONGARCH)
->> +#include <asm/fpu.h>
->>   #endif
->>     /**
->> @@ -88,7 +90,7 @@ void dc_fpu_begin(const char *function_name, const 
->> int line)
->>       *pcpu += 1;
->>         if (*pcpu == 1) {
->> -#if defined(CONFIG_X86)
->> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
->>           migrate_disable();
->>           kernel_fpu_begin();
->>   #elif defined(CONFIG_PPC64)
->> @@ -128,7 +130,7 @@ void dc_fpu_end(const char *function_name, const 
->> int line)
->>       pcpu = get_cpu_ptr(&fpu_recursion_depth);
->>       *pcpu -= 1;
->>       if (*pcpu <= 0) {
->> -#if defined(CONFIG_X86)
->> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
->>           kernel_fpu_end();
->>           migrate_enable();
->>   #elif defined(CONFIG_PPC64)
->> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile 
->> b/drivers/gpu/drm/amd/display/dc/dml/Makefile
->> index 01db035589c5..77cf5545c94c 100644
->> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
->> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
->> @@ -38,6 +38,11 @@ ifdef CONFIG_ARM64
->>   dml_rcflags := -mgeneral-regs-only
->>   endif
->>   +ifdef CONFIG_LOONGARCH
->> +dml_ccflags := -mfpu=64
->> +dml_rcflags := -msoft-float
->> +endif
->> +
->>   ifdef CONFIG_CC_IS_GCC
->>   ifneq ($(call gcc-min-version, 70100),y)
->>   IS_OLD_GCC = 1
