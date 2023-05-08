@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1B86FA10A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 09:31:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 201A56FA11F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 09:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F93C10E127;
-	Mon,  8 May 2023 07:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED95C10E12A;
+	Mon,  8 May 2023 07:34:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7E6F410E127
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 07:31:01 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:41576.483453701
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B859410E12A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 07:33:59 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:48392.2047955144
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 622BA102969;
- Mon,  8 May 2023 15:30:55 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id BA7B910023D;
+ Mon,  8 May 2023 15:33:53 +0800 (CST)
 Received: from  ([114.242.206.180])
- by gateway-151646-dep-85667d6c59-lhcrq with ESMTP id
- e5e8dd04bc2a4d75b9eff924284dd407 for maarten.lankhorst@linux.intel.com; 
- Mon, 08 May 2023 15:30:59 CST
-X-Transaction-ID: e5e8dd04bc2a4d75b9eff924284dd407
+ by gateway-151646-dep-85667d6c59-6qwzn with ESMTP id
+ 0bbb1b79ff9a4e41bf60092d3c6a1e39 for maarten.lankhorst@linux.intel.com; 
+ Mon, 08 May 2023 15:33:57 CST
+X-Transaction-ID: 0bbb1b79ff9a4e41bf60092d3c6a1e39
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
-Message-ID: <33622b9a-52a0-8498-ce23-48bb912665e1@189.cn>
-Date: Mon, 8 May 2023 15:30:54 +0800
+Message-ID: <c704eaae-e0b6-262c-4a2b-80e80062532b@189.cn>
+Date: Mon, 8 May 2023 15:33:52 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
@@ -44,7 +44,7 @@ References: <20230504080406.1213623-1-suijingfeng@loongson.cn>
 From: Sui Jingfeng <15330273260@189.cn>
 In-Reply-To: <20230504080406.1213623-1-suijingfeng@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,15 +63,66 @@ Cc: loongson-kernel@lists.loongnix.cn, Nathan Chancellor <nathan@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patch is tested against IGT,
 
 
+1) fbdev test passed
 
-If there are bugs, We will take the responsibility to fix.
 
-Is there any chance to merge this patch?
+IGT-Version: 1.27.1-gce91d123 (loongarch64) (Linux: 6.3.0+ loongarch64)
+Starting subtest: info
+Subtest info: SUCCESS (0.000s)
+Starting subtest: pan
+Subtest pan: SUCCESS (0.042s)
+Starting subtest: read
+Subtest read: SUCCESS (0.012s)
+Starting subtest: unaligned-read
+Subtest unaligned-read: SUCCESS (0.003s)
+Starting subtest: write
+Subtest write: SUCCESS (0.024s)
+Starting subtest: unaligned-write
+Subtest unaligned-write: SUCCESS (0.003s)
+Starting subtest: eof
+Subtest eof: SUCCESS (0.000s)
+Starting subtest: nullptr
+Subtest nullptr: SUCCESS (0.000s)
 
-comments and review are also welcome, help please!
+
+2) fbtest from geert also show good results:
+
+
+Using drawops cfb32 (32 bpp packed pixels)
+Available visuals:
+   Monochrome
+   Grayscale 256
+   Truecolor 8:8:8:0
+Using visops truecolor
+Running all tests
+test001: PASSED
+test002: PASSED
+test003: PASSED
+test004: PASSED
+test005: PASSED
+test006: PASSED
+test008: PASSED
+test009: PASSED
+test010: PASSED
+Benchmarking... 10x10 squares: 461.49 Mpixels/s
+Benchmarking... 20x20 squares: 984.74 Mpixels/s
+Benchmarking... 50x50 squares: 2253.04 Mpixels/s
+Benchmarking... 100x100 squares: 2218.78 Mpixels/s
+Benchmarking... 200x200 squares: 2880.41 Mpixels/s
+Benchmarking... 500x500 squares: 3642.36 Mpixels/s
+Benchmarking... 1000x1000 squares: 3931.25 Mpixels/s
+test012: PASSED
+Benchmarking... R5 circles: 258.73 Mpixels/s
+Benchmarking... R10 circles: 605.78 Mpixels/s
+Benchmarking... R25 circles: 1513.02 Mpixels/s
+Benchmarking... R50 circles: 1970.00 Mpixels/s
+Benchmarking... R100 circles: 2481.70 Mpixels/s
+Benchmarking... R250 circles: 3274.97 Mpixels/s
+Benchmarking... R500 circles: 3722.24 Mpixels/s
+test013: PASSED
 
 
 On 2023/5/4 16:04, Sui Jingfeng wrote:
