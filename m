@@ -2,76 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B0E6FBB6A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 01:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2A66FBB77
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 01:38:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09C310E060;
-	Mon,  8 May 2023 23:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B39510E00A;
+	Mon,  8 May 2023 23:38:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB8310E060
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 23:27:20 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2ac82b07eb3so50812121fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 16:27:20 -0700 (PDT)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9704910E00A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 23:38:38 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-b99f0a0052fso6984514276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 16:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683588438; x=1686180438;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=a6Rt7YiQAZlCnHEpzBmgJ4SMOzivrPiJcKF14bVvwBc=;
- b=YBOCnu8VfDSyp3Adz3AUWEr/nwKCediKzOd9kJ0zdZ0tnra0ubkMZU+X5J0ItN/gY4
- vq952Rowh5oKvoRtvcGzVRwDjssEtDV9b3nWUY59FIVrtvRi+fvlbENYgqHoRzFddxGp
- /4MoHCALIOJV3w7ZKGgCI/63MniAI0WUA85OUF8y8ix42O6g/BunJBjTiI/iYzkNuuoL
- gEUupmWmqlpFCK+DODGCARU+nQuBh9vhRbtCiXz10MufMZ4DpnO2LpPUnUsPoTEotRbD
- /h1CcOrcD/oYdUQ8ulal63W2Oi0zmQEjkKTb/WDaDhZn+0xmWTvRozpHuFZyQ5SK3eyH
- iSbQ==
+ d=linaro.org; s=google; t=1683589117; x=1686181117;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QpInRDjlrjefHENxTi6PbvAhSvnYLexmCSsadI4wFac=;
+ b=UhVxZq3JzM7d0h6UsF+RUfthBDlTsYAYRKc19Vofl+wX5Njn6MVp4SjnFC6eufIxM9
+ lMQH9GF6EaOpYigkrj8wAfHQ1sdfJ0/bOVwav+I2cAu21FWtU7XwXvWmtmeVJQq16SqH
+ x+UWyg+Ciowb9rtWl8rvqs3Sd4RD8cUl3FilrOU6Vn2BtIEoOolHpTw8+GHNThL4pHNr
+ mHBJrjoepFcnXb1rf990NpP3reF8hpi1mNJSiFh4m/rsgxToGpXnTrptnvZylwkk7mmQ
+ qryfGTD8xO60N5C+DgixWDKZgEgUygMVM3OhfpvFa5d/2D5Hx0zt/9+B5Ml4fCU8CZ1c
+ y1hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683588438; x=1686180438;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a6Rt7YiQAZlCnHEpzBmgJ4SMOzivrPiJcKF14bVvwBc=;
- b=Unh44YMX6blUsrzqKcx7T/OmsjOl67JJ0qZOjr5kKS6cT0PI++taNm6K5+SH07MILh
- 5qrASVqWHjy+zKdqDEF9iJAIBAgk6wB20TswU6gaXQ1DmtkMWPbYhOqNRVfpM4I3iKYC
- 3P14QSFdMiIDm1zYicw2BJREOCTpx/1c8DGbo8bikqFPbbaTSLeOINKGH+fdA/s4sz1v
- UBraXdiePQ7/fvG/jT8Douv2lUyN3bPdTDSzLFmLH9QUTUJHpQFFYvz8BJR3kmlS16a/
- XEvCL47hDb14GKPU+NosjFGTpuJYzle1mhad5uNxHbHKf+aw9OiLBxsf0QiNI5Ir4S0z
- 4U5g==
-X-Gm-Message-State: AC+VfDw9ALpLiib7BjfmjH6QQzkz6ERQAi4fi6kTIc6uu4TjdyETjBaY
- cH11JjEg+qJcRbxDvwjujTkovQ==
-X-Google-Smtp-Source: ACHHUZ5Bvvam4bUJ8MKi747WCRxlnyuUFM84qlBLhz6yqhAjz3rge5MoCzrhn9yKp6Pwag/AeM0IBg==
-X-Received: by 2002:a2e:9355:0:b0:2a7:6e37:ee68 with SMTP id
- m21-20020a2e9355000000b002a76e37ee68mr196002ljh.12.1683588438391; 
- Mon, 08 May 2023 16:27:18 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a2e7e04000000b002a8e758f669sm1322546ljc.27.2023.05.08.16.27.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 16:27:17 -0700 (PDT)
-Message-ID: <4cf2e9ab-7e08-fb26-d924-8ea8141d9f58@linaro.org>
-Date: Tue, 9 May 2023 02:27:17 +0300
+ d=1e100.net; s=20221208; t=1683589117; x=1686181117;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QpInRDjlrjefHENxTi6PbvAhSvnYLexmCSsadI4wFac=;
+ b=ehbWQTPj62U92yNtwLohQv8aaYbZfgOp9G0PSZFy2EdzXKMlyUBVmB7SQb3LvDkjsy
+ C4Janbb7LYWfSeZqUENbNZAqWzjmYmnWsWjFQKUVSTukn1HNQl4+WljJb/vQEY7ihmZk
+ 2282zz4yh0kOwFSYyqNT+ZUMkZA3f7RKz5ehW9Diawbcq/y1WSvaLci1pAyp1mcY7wxa
+ MezzVkmci8nUwd4oHqP5Bv2vHPofUHFW2MV6hpvjHqDH68U1qpNdpqQO7S2MT0kfsxpJ
+ I+FLVhAAkpGY/IMVPPS7hHN80kpcxKF1FxKreQWcOkuigr5pkCIwWwl7a4F5uukrz5LF
+ yAlg==
+X-Gm-Message-State: AC+VfDxQpx67bpufpv9ZaPo34mTS2LUOiY6HR/OuL5WMIDERk366zoCK
+ aB8D/AxXRd2UYtOJba7yT3WniYMikICgE+xO6n7KYA==
+X-Google-Smtp-Source: ACHHUZ5eZYukvdWK4iatmoaz2aBhr21Shnob76z8/ebYTm64+RgnU4RRvrniz9STAsrpyjIvDh9wvKuPnxXM4iBw06I=
+X-Received: by 2002:a25:ab8e:0:b0:b80:8d4c:f427 with SMTP id
+ v14-20020a25ab8e000000b00b808d4cf427mr13644085ybi.15.1683589117589; Mon, 08
+ May 2023 16:38:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/4] drm/msm/dsi: Fix compressed word count calculation
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
- <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
- <32d473a6-f7a5-9aa6-85cf-0f77f1c071ce@quicinc.com>
+References: <20230507190735.2333145-1-dmitry.baryshkov@linaro.org>
+ <20230507190735.2333145-4-dmitry.baryshkov@linaro.org>
+ <a86cfa8b-c205-6887-a64e-d51241b74b15@linaro.org>
+ <ca274ec9-81bf-c426-6ad6-93eb34b52b05@linaro.org>
+ <11863653-84aa-8edf-676f-e55174fb4539@linaro.org>
+ <7b90ed61-7789-275d-a743-6065ab6ecdbb@linaro.org>
+ <c4775bde-9594-ab35-6765-5d2fe3e9f3b3@linaro.org>
+In-Reply-To: <c4775bde-9594-ab35-6765-5d2fe3e9f3b3@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <32d473a6-f7a5-9aa6-85cf-0f77f1c071ce@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 9 May 2023 02:38:26 +0300
+Message-ID: <CAA8EJppAkE8cBPc2ij8ax6VhsHKOzg1jCs51mSz_+x16oW8Tzw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] ARM: dts: qcom: apq8074-dragonboard: enable adsp and
+ MSS
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,99 +77,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/05/2023 23:09, Abhinav Kumar wrote:
-> 
-> 
-> On 5/3/2023 1:26 AM, Dmitry Baryshkov wrote:
->> On 03/05/2023 04:19, Jessica Zhang wrote:
->>> Currently, word count is calculated using slice_count. This is incorrect
->>> as downstream uses slice per packet, which is different from
->>> slice_count.
->>>
->>> Slice count represents the number of soft slices per interface, and its
->>> value will not always match that of slice per packet. For example, it is
->>> possible to have cases where there are multiple soft slices per 
->>> interface
->>> but the panel specifies only one slice per packet.
->>>
->>> Thus, use the default value of one slice per packet and remove 
->>> slice_count
->>> from the word count calculation.
->>>
->>> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to 
->>> compute word count")
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
->>>   1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> index 35c69dbe5f6f..b0d448ffb078 100644
->>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> @@ -996,7 +996,14 @@ static void dsi_timing_setup(struct msm_dsi_host 
->>> *msm_host, bool is_bonded_dsi)
->>>           if (!msm_host->dsc)
->>>               wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
->>>           else
->>> -            wc = msm_host->dsc->slice_chunk_size * 
->>> msm_host->dsc->slice_count + 1;
->>> +            /*
->>> +             * When DSC is enabled, WC = slice_chunk_size * 
->>> slice_per_packet + 1.
->>> +             * Currently, the driver only supports default value of 
->>> slice_per_packet = 1
->>> +             *
->>> +             * TODO: Expand drm_panel struct to hold 
->>> slice_per_packet info
->>> +             *       and adjust DSC math to account for 
->>> slice_per_packet.
->>
->> slice_per_packet is not a part of the standard DSC, so I'm not sure 
->> how that can be implemented. And definitely we should not care about 
->> the drm_panel here. It should be either a part of drm_dsc_config, or 
->> mipi_dsi_device.
->>
-> 
-> This is not correct.
-> 
-> It is part of the DSI standard (not DSC standard). Please refer to 
-> Figure 40 "One Line Containing One Packet with Data from One or More 
-> Compressed Slices" and Figure 41 "One Line Containing More than One 
-> Compressed Pixel Stream Packet".
+On Mon, 8 May 2023 at 21:01, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 08/05/2023 13:49, Dmitry Baryshkov wrote:
+> > On 08/05/2023 13:38, Konrad Dybcio wrote:
+> >>
+> >>
+> >> On 8.05.2023 12:33, Dmitry Baryshkov wrote:
+> >>> On 08/05/2023 11:33, Konrad Dybcio wrote:
+> >>>>
+> >>>>
+> >>>> On 7.05.2023 21:07, Dmitry Baryshkov wrote:
+> >>>>> Enable ADSP and Modem DSPs on APQ8074 dragonboard. The MSS region
+> >>>>> differs from the one defined in the msm8974, so it overriden locally.
+> >>>>>
+> >>>>> The modem is specified use mba.mbn instead of mbn.b00 (for the sake of
+> >>>>> similarity with other platforms). This requires a patch for remoteproc
+> >>>>> to be applied [1].
+> >>>>>
+> >>>>> [1]
+> >>>>> https://lore.kernel.org/all/20230507172041.2320279-1-dmitry.baryshkov@linaro.org/
+> >>>>>
+> >>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> ---
+> >>>>>    .../arm/boot/dts/qcom-apq8074-dragonboard.dts | 28
+> >>>>> +++++++++++++++++++
+> >>>>>    1 file changed, 28 insertions(+)
+> >>>>>
+> >>>>> diff --git a/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
+> >>>>> b/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
+> >>>>> index 6b047c679370..c893afc00eb4 100644
+> >>>>> --- a/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
+> >>>>> +++ b/arch/arm/boot/dts/qcom-apq8074-dragonboard.dts
+> >>>>> @@ -4,6 +4,8 @@
+> >>>>>    #include "qcom-pm8841.dtsi"
+> >>>>>    #include "qcom-pm8941.dtsi"
+> >>>>>    +/delete-node/ &mpss_region;
+> >>>>> +
+> >>>>>    / {
+> >>>>>        model = "Qualcomm APQ8074 Dragonboard";
+> >>>>>        compatible = "qcom,apq8074-dragonboard", "qcom,apq8074";
+> >>>>> @@ -17,6 +19,13 @@ aliases {
+> >>>>>        chosen {
+> >>>>>            stdout-path = "serial0:115200n8";
+> >>>>>        };
+> >>>>> +
+> >>>>> +    reserved-memory {
+> >>>>> +        mpss_region: mpss@ac00000 {
+> >>>>> +            reg = <0x0ac00000 0x2500000>;
+> >>>>> +            no-map;
+> >>>>> +        };
+> >>>>> +    };
+> >>>>>    };
+> >>>>>      &blsp1_uart2 {
+> >>>>> @@ -39,6 +48,25 @@ eeprom: eeprom@52 {
+> >>>>>        };
+> >>>>>    };
+> >>>>>    +&remoteproc_adsp {
+> >>>>> +    cx-supply = <&pm8841_s2>;
+> >>>>> +
+> >>>>> +    firmware-name = "qcom/apq8074/adsp.mbn";
+> >>>>> +
+> >>>>> +    status = "okay";
+> >>>>> +};
+> >>>>> +
+> >>>>> +&remoteproc_mss {
+> >>>>> +    cx-supply = <&pm8841_s2>;
+> >>>>> +    mss-supply = <&pm8841_s3>;
+> >>>>> +    mx-supply = <&pm8841_s1>;
+> >>>>> +    pll-supply = <&pm8941_l12>;
+> >>>> High time to move this to rpmpd!
+> >>>> I won't object to adding this though, as it obviously works
+> >>>> and is already used on other boards..
+> >>>
+> >>> I think the problem is that they are not level-voted on this
+> >>> platform, so they are regulators, not PDs.
+> >> They're corner-voted.
+> >
+> > Hmm. Indeed. In msm8974-regulators I see both voltage and corner entries
+> > for these regulators.
+>
+> Checked. Only CX and GFX (yes, MX not included) are enabled as corners
+> in vendor dtsi. So this probably doesn't gain us a lot.
 
-I have reviewed section 8.8.24 and Annex D of the DSI standard.
+I did a check. Implementing CX as a powerdomain here makes things
+worse for now. We should first teach mss/pas/etc drivers to properly
+handle the case when there is a single power-domain, which should be
+unbound after staring the DSP Consider e.g. ADSP and CDSP on sm8150 or
+CDSP on sm8250. But that's definitely a topic for a different patch
+series. After that we can consider landing msm8974_genpd.
 
-It is not clear to me, if we can get away with always using 
-slice_per_packet = 1. What is the DSI sink's difference between Fig. 
-40.(b) and Fig 41?
+>
+> >
+> >>
+> >> Konrad
+> >>>
+> >>>>
+> >>>>> +
+> >>>>> +    firmware-name = "qcom/apq8074/mba.mbn", "qcom/apq8074/modem.mbn";
+> >>>> Could you please keep it one entry per line?
+> >>>
+> >>> Sure.
+> >>>
+> >>>>
+> >>>> Otherwise,
+> >>>>
+> >>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >>>>
+> >>>> Konrad
+> >>>>> +
+> >>>>> +    status = "okay";
+> >>>>> +};
+> >>>>> +
+> >>>>>    &rpm_requests {
+> >>>>>        regulators-0 {
+> >>>>>            compatible = "qcom,rpm-pm8841-regulators";
+> >>>
+> >
+>
+> --
+> With best wishes
+> Dmitry
+>
 
-Are there are known panels that require slice_per_packet != 1? If so, we 
-will have to implement support for such configurations.
-
-> This has details about this. So I still stand by my point that this 
-> should be in the drm_panel.
-
-Note, the driver doesn't use drm_panel directly. So slices_per_packet 
-should go to mipi_dsi_device instead (which in turn can be filled from 
-e.g. drm_panel or from any other source).
-
-> 
->>> +             */
->>> +            wc = msm_host->dsc->slice_chunk_size + 1;
->>>           dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
->>>               DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
->>>
->>
 
 -- 
 With best wishes
 Dmitry
-
