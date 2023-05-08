@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207E56F9DD6
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F025B6F9DD8
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:45:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11DD110E0FB;
-	Mon,  8 May 2023 02:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1349410E0F3;
+	Mon,  8 May 2023 02:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE02410E0FB
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:44:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87BB910E0F3
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:45:34 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (softbank126090219015.bbtec.net
  [126.90.219.15])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F12A814;
- Mon,  8 May 2023 04:44:49 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9945814;
+ Mon,  8 May 2023 04:45:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1683513890;
- bh=YHYwvEQd1rkZwrVAWWWPwyADKIVewLJvHtj8aPpP3TA=;
+ s=mail; t=1683513927;
+ bh=Vz7Z/bsu2DIGaYWPcqW6xJwrmRsbEPxI10/hPd4JTi4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wkwVswphXV1gEcko3MZivgTlXhi1Gi2BSJZI65ZNaZJMOL0Z4MBY08IUAvZjt/0xy
- GGSrrFKJka+hpv0jwlaz9lpnvZBsZMqZ58YJoB7ABYHlaJyeF4oc6xcPrdxSR1POQO
- IfBWPUgkweJYYEv7Fr5d/VKROjHvX9yPR57ev9to=
-Date: Mon, 8 May 2023 05:45:08 +0300
+ b=pl4tv3auORKfOP00IoBtADsKhjUw6REJ4D5yFO7jghFMF1qOjKfqy1nr9oitRqqOK
+ 5M6eKwG7bWLt1CYL026OM+0FGNzflGkUCa4tDjA9j1mrMGEfzfN82O5krpc/JU388D
+ mB00gk4qCVtZsXdHk6C516ZrKFt0U/MPRGYsAx88=
+Date: Mon, 8 May 2023 05:45:45 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 13/53] drm/bridge: simple-bridge: Convert to platform
- remove callback returning void
-Message-ID: <20230508024508.GN23514@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 09/53] drm/bridge: fsl-ldb: Convert to platform remove
+ callback returning void
+Message-ID: <20230508024545.GO23514@pendragon.ideasonboard.com>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-14-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-10-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230507162616.1368908-14-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-10-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,7 +60,7 @@ Hi Uwe,
 
 Thank you for the patch.
 
-On Sun, May 07, 2023 at 06:25:36PM +0200, Uwe Kleine-König wrote:
+On Sun, May 07, 2023 at 06:25:32PM +0200, Uwe Kleine-König wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -77,37 +77,37 @@ On Sun, May 07, 2023 at 06:25:36PM +0200, Uwe Kleine-König wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/bridge/simple-bridge.c | 6 ++----
+>  drivers/gpu/drm/bridge/fsl-ldb.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-> index 2c5c5211bdab..5ede3e111096 100644
-> --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> @@ -218,13 +218,11 @@ static int simple_bridge_probe(struct platform_device *pdev)
+> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+> index 6bac160b395b..450b352914f4 100644
+> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
+> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+> @@ -347,13 +347,11 @@ static int fsl_ldb_probe(struct platform_device *pdev)
 >  	return 0;
 >  }
 >  
-> -static int simple_bridge_remove(struct platform_device *pdev)
-> +static void simple_bridge_remove(struct platform_device *pdev)
+> -static int fsl_ldb_remove(struct platform_device *pdev)
+> +static void fsl_ldb_remove(struct platform_device *pdev)
 >  {
->  	struct simple_bridge *sbridge = platform_get_drvdata(pdev);
+>  	struct fsl_ldb *fsl_ldb = platform_get_drvdata(pdev);
 >  
->  	drm_bridge_remove(&sbridge->bridge);
+>  	drm_bridge_remove(&fsl_ldb->bridge);
 > -
 > -	return 0;
 >  }
 >  
->  /*
-> @@ -301,7 +299,7 @@ MODULE_DEVICE_TABLE(of, simple_bridge_match);
+>  static const struct of_device_id fsl_ldb_match[] = {
+> @@ -367,7 +365,7 @@ MODULE_DEVICE_TABLE(of, fsl_ldb_match);
 >  
->  static struct platform_driver simple_bridge_driver = {
->  	.probe	= simple_bridge_probe,
-> -	.remove	= simple_bridge_remove,
-> +	.remove_new = simple_bridge_remove,
+>  static struct platform_driver fsl_ldb_driver = {
+>  	.probe	= fsl_ldb_probe,
+> -	.remove	= fsl_ldb_remove,
+> +	.remove_new = fsl_ldb_remove,
 >  	.driver		= {
->  		.name		= "simple-bridge",
->  		.of_match_table	= simple_bridge_match,
+>  		.name		= "fsl-ldb",
+>  		.of_match_table	= fsl_ldb_match,
 > -- 
 > 2.39.2
 > 
