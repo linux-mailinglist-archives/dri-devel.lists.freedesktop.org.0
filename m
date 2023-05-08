@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18D96F9DD3
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:44:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBF16F9DD4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3710E0F0;
-	Mon,  8 May 2023 02:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C10410E0F1;
+	Mon,  8 May 2023 02:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F7510E0F0
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:44:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0347F10E0F1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:44:39 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (softbank126090219015.bbtec.net
  [126.90.219.15])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F234814;
- Mon,  8 May 2023 04:44:13 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96182814;
+ Mon,  8 May 2023 04:44:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1683513855;
- bh=gATIkQE/ss26v1tB0M33n5tytfhtd4PmbG8PNsidgGk=;
+ s=mail; t=1683513872;
+ bh=lBl4FhL2RKZ0GsTUx3DII+523UdFjYqVWNXSerRMJjE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dx8EeDzaqL6SNxMzKkWWFolnT1HH75Gec7QXxzrJiPCQ7HMtm3wWC9yweDVSERoqU
- 2jKqVVhpkY6vGZwDzLkrln7X3+dF1p76AME+6E+n5zx/FrP2ThPuEBqlRYN4VkkulA
- XJAQcLIoveV80ITTPXcFEySc6jenQtObdeDovvcE=
-Date: Mon, 8 May 2023 05:44:33 +0300
+ b=vVT+61+PyWVz3MKVy4jZcr39fbQoH/fl0webCIoAejr0PgJHgy/z1krlkdrFUCb/A
+ l1PhvKNROaK0qi/yNIyagUKTVUGdcf8p67krYdcdWpLeTTt7dvFinYjR4nteFS9veQ
+ dD261pDzRswvSUT+cyPT3p1Fex2MCsMG/21Wg5S4=
+Date: Mon, 8 May 2023 05:44:49 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 15/53] drm/bridge: thc63lvd1024: Convert to platform
- remove callback returning void
-Message-ID: <20230508024433.GL23514@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 16/53] drm/bridge: tfp410: Convert to platform remove
+ callback returning void
+Message-ID: <20230508024449.GM23514@pendragon.ideasonboard.com>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-16-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-17-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230507162616.1368908-16-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-17-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,7 +60,7 @@ Hi Uwe,
 
 Thank you for the patch.
 
-On Sun, May 07, 2023 at 06:25:38PM +0200, Uwe Kleine-König wrote:
+On Sun, May 07, 2023 at 06:25:39PM +0200, Uwe Kleine-König wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -77,37 +77,35 @@ On Sun, May 07, 2023 at 06:25:38PM +0200, Uwe Kleine-König wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/bridge/thc63lvd1024.c | 6 ++----
+>  drivers/gpu/drm/bridge/ti-tfp410.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> index e21078b2f8b5..d4c1a601bbb5 100644
-> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> @@ -230,13 +230,11 @@ static int thc63_probe(struct platform_device *pdev)
->  	return 0;
+> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+> index 6db69df0e18b..ab63225cd635 100644
+> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
+> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+> @@ -355,11 +355,9 @@ static int tfp410_probe(struct platform_device *pdev)
+>  	return tfp410_init(&pdev->dev, false);
 >  }
 >  
-> -static int thc63_remove(struct platform_device *pdev)
-> +static void thc63_remove(struct platform_device *pdev)
+> -static int tfp410_remove(struct platform_device *pdev)
+> +static void tfp410_remove(struct platform_device *pdev)
 >  {
->  	struct thc63_dev *thc63 = platform_get_drvdata(pdev);
->  
->  	drm_bridge_remove(&thc63->bridge);
+>  	tfp410_fini(&pdev->dev);
 > -
 > -	return 0;
 >  }
 >  
->  static const struct of_device_id thc63_match[] = {
-> @@ -247,7 +245,7 @@ MODULE_DEVICE_TABLE(of, thc63_match);
+>  static const struct of_device_id tfp410_match[] = {
+> @@ -370,7 +368,7 @@ MODULE_DEVICE_TABLE(of, tfp410_match);
 >  
->  static struct platform_driver thc63_driver = {
->  	.probe	= thc63_probe,
-> -	.remove	= thc63_remove,
-> +	.remove_new = thc63_remove,
+>  static struct platform_driver tfp410_platform_driver = {
+>  	.probe	= tfp410_probe,
+> -	.remove	= tfp410_remove,
+> +	.remove_new = tfp410_remove,
 >  	.driver	= {
->  		.name		= "thc63lvd1024",
->  		.of_match_table	= thc63_match,
+>  		.name		= "tfp410-bridge",
+>  		.of_match_table	= tfp410_match,
 > -- 
 > 2.39.2
 > 
