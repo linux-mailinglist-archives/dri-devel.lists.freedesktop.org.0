@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DAD6FBFF1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31B66FBFE9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:05:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3927410E342;
-	Tue,  9 May 2023 07:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4654A10E336;
+	Tue,  9 May 2023 07:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26EA810E140
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 07:50:50 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pvvdN-000352-R3; Mon, 08 May 2023 09:50:13 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pvvdK-001wDu-Ru; Mon, 08 May 2023 09:50:10 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pvvdJ-002Kte-5G; Mon, 08 May 2023 09:50:09 +0200
-Date: Mon, 8 May 2023 09:50:09 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
- void
-Message-ID: <20230508075009.4l4ghdrwopfhmcao@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <935faac5-280b-b2e0-3fdb-d0424990e43a@suse.de>
+Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CA910E21F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 11:02:32 +0000 (UTC)
+Received: (qmail 3777 invoked by uid 990); 8 May 2023 11:02:29 -0000
+Authentication-Results: devico.uberspace.de;
+	auth=pass (plain)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3pf3cmic5n6cdkye"
-Content-Disposition: inline
-In-Reply-To: <935faac5-280b-b2e0-3fdb-d0424990e43a@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Date: Mon, 08 May 2023 11:02:28 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: "Leonard Lausen" <leonard@lausen.nl>
+Message-ID: <3802269cd54ce105ef6dece03b1b9af575b4fa06@lausen.nl>
+TLS-Required: No
+Subject: Re: [PATCH] Revert "drm/msm/dp: Remove INIT_SETUP delay"
+To: "Abhinav Kumar" <quic_abhinavk@quicinc.com>, "Bjorn Andersson"
+ <andersson@kernel.org>
+In-Reply-To: <b0cc40d5-6de1-91cc-e2cd-f47cc53551e4@quicinc.com>
+References: <b0cc40d5-6de1-91cc-e2cd-f47cc53551e4@quicinc.com>
+ <ebbcd56ac883d3c3d3024d368fab63d26e02637a@lausen.nl>
+ <20230508021536.txtamifw2vkfncnx@ripper>
+X-Rspamd-Bar: +
+X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-0.206001) SUSPICIOUS_RECIPS(1.5)
+X-Rspamd-Score: 1.193998
+Received: from unknown (HELO unkown) (::1)
+ by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
+ Mon, 08 May 2023 13:02:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
+ h=from; bh=AUdYfC/8BZ2sDiqNVoYRoy2QzAnTT60/s6WkT4FmufM=;
+ b=h9RKQUmsPd6uNaUCtteD/zTA9tbqUvFxDUJoAiwj6mrtP2hUMdMRNFcaYUzw4I+Om1fyOPtYph
+ ziVOVPFijR8exCJZqAZoE867ZdozilBrdURxrAZYWZaxH+wnknvH/AgHxOClqTmqPSbBRbtvDWpC
+ UrMZAYWXvZ5oRZHKG2ArGpXaI4X6WRnowoqz808Gz2SRvuldDPORgTx/BJ0uUvvqnCKbPBmb9ewT
+ 7vpY+kMQK3MwaM/XJ0q+B7dEd2d/6Lf5YZkJrUhmSor36K1qSGSG7+XKaBkK4Nrj6jZa8WYJGz0Y
+ aq88Lk0v2DErb8oaPItKdcIunJD4UdHG0JlQ1EdfAJ7RIz40ffJZxBWdueoi9iZUsNnrvUdqc6Gy
+ KVLQ3SqHInMvgeqaaHcX5V4Y3XTcR2CYXNeyV9xbTTEZISJqMK3lCEqG8DJu51qJVQ9yS/tzMtUe
+ i/FQEZgY2fzFKduaoRoZn8nsqSxw5IrNmLbh1ND5EVk/NjPcCkJPV4Sxy4FL0WZ2P4Tx/CxIPhaY
+ A+sLjsFT1VzdCFcGJB/2RzvvKbffrvp904pyRmFTpcfcc/pzQm3Jftf/R7bOnkewVqFDwWzZ+GLc
+ 9qCbLsq+TbhXikgVU5/WIndBQMNPVfcL9xvLw2JJz3QSda9SxyC4qBReQXho2gUrjWZWkt0fnNsn
+ 4=
 X-Mailman-Approved-At: Tue, 09 May 2023 07:04:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,132 +60,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>,
- NXP Linux Team <linux-imx@nxp.com>, Miaoqian Lin <linmq006@gmail.com>,
- linux-sunxi@lists.linux.dev, Rahul T R <r-ravikumar@ti.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
- lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Alain Volmat <alain.volmat@foss.st.com>, linux-mips@vger.kernel.org,
- Liu Ying <victor.liu@nxp.com>, linux-arm-msm@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Yuan Can <yuancan@huawei.com>, Michal Simek <michal.simek@xilinx.com>,
- linux-tegra@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Joel Fernandes <joel@joelfernandes.org>, Sam Ravnborg <sam@ravnborg.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
- nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Guo Zhengkui <guozhengkui@vivo.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Liu Shixin <liushixin2@huawei.com>, Tomi Valkeinen <tomba@kernel.org>,
- Deepak R Varma <drv@mailo.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilicon.com>,
- Shawn Guo <shawnguo@kernel.org>, Yannick Fertre <yannick.fertre@foss.st.com>,
- linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, Paul Cercueil <paul@crapouillou.net>,
- Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org,
- Yongqin Liu <yongqin.liu@linaro.org>, Jayshri Pawar <jpawar@cadence.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Melissa Wen <mwen@igalia.com>,
- linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, regressions@lists.linux.dev,
+ Nikita Travkin <nikita@trvn.ru>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee  Hsieh <quic_khsieh@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Abhinav Kumar <quic_abhinavk@quicinc.com> writes:
+> On 5/7/2023 7:15 PM, Bjorn Andersson wrote:
+>> When booting with the cable connected on my X13s, 100 is long enough f=
+or
+>> my display to time out and require me to disconnect and reconnect the
+>> cable again.
+>>=20
+>>=20Do we have any idea of why the reduction to 0 is causing an issue wh=
+en
+>> using the internal HPD?
+>>=20
+>>=20Regards,
+>> Bjorn
+> Yes, we do know why this is causing an issue. The cleaner patch for thi=
+s=20
+>=20will be posted this week.
 
---3pf3cmic5n6cdkye
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Great!
 
-[A few addressed bounced and my script to find the recipents for a patch
-series broke and invented some addresses. I fixed all the problem I'm
-aware of in this mail.]
-
-On Mon, May 08, 2023 at 09:06:27AM +0200, Thomas Zimmermann wrote:
-> for the whole series:
+> There is no need to add the 100ms delay back yet.
 >=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Please see my comment on the patches to tiny/.
->=20
-> Let me know if you want me to merge this patchset into drm-misc-next.
+>=20thanks for posting this but NAK on this patch till we post the fix th=
+is=20
+>=20week.
+>
+> Appreciate a bit of patience till then.
 
-Thanks, I'd wait a bit for more acks/reviews to come in and then plan to
-resend later, also addressing the feedback you sent.
+This regression is already part of the 6.3 stable release series. Will
+the new patch qualify for inclusion in 6.3.y? Or will it be part of 6.4
+and this revert should go into 6.3.y?
 
-Best regards
-Uwe
+Even with this revert, there are additional regressions in 6.3 causing
+dpu errors and blank external display upon suspending and resuming the
+system while an external display is connected. Will your new patch also
+fix these regressions?
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+[  275.025497] [drm:dpu_encoder_phys_vid_wait_for_commit_done:488] [dpu e=
+rror]vblank timeout
+[  275.025514] [drm:dpu_kms_wait_for_commit_done:510] [dpu error]wait for=
+ commit done returned -110
+[  275.064141] [drm:dpu_encoder_frame_done_timeout:2382] [dpu error]enc33=
+ frame done timeout
 
---3pf3cmic5n6cdkye
-Content-Type: application/pgp-signature; name="signature.asc"
+followed by a kernel panic if any modification to the display settings
+is done, such as disabling the external display:
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRYqbAACgkQj4D7WH0S
-/k4JeggAnBHUxma4vQ+/T0T9qJC+5c7iGOJ+hg1VKQdu3RFYOsfEdBVHywMuX8Fb
-bkfMbL4jsyN80KX3Sc7XeT0GkuA6n1bkIfJsTz16Dl8pPUTDBLPKYKNT82+brNvg
-XIif/963gu+RJ+x6ME2cdKET84LGmQwhonW2LUxGiRX5JD3FroDO8qaiLtFzkxEg
-zhCTMEQJUy1J6coFLDsxnhLFu4R/6ngT6tZOJfRAB4OiIEFmKVVH0/Y2Ko/ggJ/d
-50TcQO/0MoAzPrToLpaLaT3VtMocbAxQf7XRwpqF4MDvhu7dVfsJIhcWtBYjocz+
-WfD1B59vo0hWYb/QXlkA6OY3tzlBQQ==
-=Fhn+
------END PGP SIGNATURE-----
-
---3pf3cmic5n6cdkye--
+[  341.631287] Hardware name: Google Lazor (rev3 - 8) (DT)
+[  341.631290] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+[  341.631296] pc : do_raw_spin_unlock+0xb8/0xc4
+[  341.631310] lr : do_raw_spin_unlock+0x78/0xc4
+[  341.631315] sp : ffffffc01100b880
+[  341.631317] x29: ffffffc01100b880 x28: 0000000000000028 x27: 000000000=
+0000038
+[  341.631326] x26: ffffff808c89e180 x25: ffffffef33e39920 x24: 000000000=
+0000000
+[  341.631333] x23: ffffffef33e3ca0c x22: 0000000000000002 x21: ffffff808=
+345ded8
+[  341.631339] x20: ffffff808345ded0 x19: 000000000000001e x18: 000000000=
+0000000
+[  341.631345] x17: 0048000000000460 x16: 0441043b04600438 x15: 043800000=
+89807d0
+[  341.631351] x14: 07b0089807800780 x13: 0000000000000068 x12: 000000000=
+0000001
+[  341.631357] x11: ffffffef3413bb76 x10: 0000000000000bb0 x9 : ffffffef3=
+3e3d6bc
+[  341.631363] x8 : ffffff808c89ed90 x7 : ffffff80b1c9f738 x6 : 000000000=
+0000001
+[  341.631370] x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffffff808=
+345def0
+[  341.631375] x2 : 00000000dead4ead x1 : 0000000000000003 x0 : 000000000=
+0000000
+[  341.631383] Kernel panic - not syncing: Asynchronous SError Interrupt
+[  341.631386] CPU: 3 PID: 1520 Comm: kwin_wayland Not tainted 6.3.0-stb-=
+cbq+ #2
+[  341.631390] Hardware name: Google Lazor (rev3 - 8) (DT)
+[  341.631393] Call trace:
+[  341.631395]  dump_backtrace+0xc8/0x104
+[  341.631402]  show_stack+0x20/0x30
+[  341.631407]  dump_stack_lvl+0x48/0x60
+[  341.631414]  dump_stack+0x18/0x24
+[  341.631419]  panic+0x130/0x2fc
+[  341.631425]  nmi_panic+0x54/0x78
+[  341.631428]  arm64_serror_panic+0x74/0x80
+[  341.631434]  arm64_is_fatal_ras_serror+0x6c/0x8c
+[  341.631439]  do_serror+0x48/0x60
+[  341.631444]  el1h_64_error_handler+0x30/0x48
+[  341.631450]  el1h_64_error+0x68/0x6c
+[  341.631455]  do_raw_spin_unlock+0xb8/0xc4
+[  341.631460]  _raw_spin_unlock_irq+0x18/0x38
+[  341.631466]  __wait_for_common+0xb8/0x154
+[  341.631472]  wait_for_completion_timeout+0x28/0x34
+[  341.631477]  dp_ctrl_push_idle+0x3c/0x88
+[  341.631483]  dp_bridge_disable+0x20/0x2c
+[  341.631488]  drm_atomic_bridge_chain_disable+0x8c/0xb8
+[  341.631495]  drm_atomic_helper_commit_modeset_disables+0x198/0x450
+[  341.631501]  msm_atomic_commit_tail+0x1c8/0x36c
+[  341.631507]  commit_tail+0x80/0x108
+[  341.631512]  drm_atomic_helper_commit+0x114/0x118
+[  341.631516]  drm_atomic_commit+0xb4/0xe0
+[  341.631522]  drm_mode_atomic_ioctl+0x6b0/0x890
+[  341.631527]  drm_ioctl_kernel+0xe4/0x164
+[  341.631534]  drm_ioctl+0x35c/0x3bc
+[  341.631539]  vfs_ioctl+0x30/0x50
+[  341.631547]  __arm64_sys_ioctl+0x80/0xb4
+[  341.631552]  invoke_syscall+0x84/0x11c
+[  341.631558]  el0_svc_common.constprop.0+0xc0/0xec
+[  341.631563]  do_el0_svc+0x94/0xa4
+[  341.631567]  el0_svc+0x2c/0x54
+[  341.631570]  el0t_64_sync_handler+0x94/0x100
+[  341.631575]  el0t_64_sync+0x194/0x198
+[  341.631580] SMP: stopping secondary CPUs
+[  341.831615] Kernel Offset: 0x2f2b200000 from 0xffffffc008000000
+[  341.831618] PHYS_OFFSET: 0x80000000
+[  341.831620] CPU features: 0x400000,61500506,3200720b
+[  341.831623] Memory Limit: none
