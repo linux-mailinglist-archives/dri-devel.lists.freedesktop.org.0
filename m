@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF5F6FB114
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 15:15:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D451D6FB216
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 15:59:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9461910E2AC;
-	Mon,  8 May 2023 13:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3CFD10E2A4;
+	Mon,  8 May 2023 13:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
- [209.85.128.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 554A810E2AC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 13:15:01 +0000 (UTC)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-559e53d1195so64628237b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:15:01 -0700 (PDT)
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 980F210E2A4
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 13:59:14 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-1929818d7faso31626786fac.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683554352; x=1686146352;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HKI5hargzKBJ4u7aTkJl99CJ0qfSrzAu9HhTH/5DBYA=;
+ b=BQfgfPoucSO9c0iYSjaKh5WEjsLp6hSV70hZxGF9TjAkJY+7/p6Nl+vDhsx9L1ZWWf
+ nXRiiqmxG1ptJIeP60CAb/vG1tzQp3aaKCqoA5quhRNYwDaLA+taA/HrpcFDaebaYYLK
+ TFx4iwsiU7MqaR2VgjhUizBLHi10ICQLi9yGOUikTGCFsBk4YIAS/VtILBrEUno6W6OU
+ +3/p7jTt0njRB6rhvXCRxTKjQ32yVxonaeG+p6HHcRP7Wy4JhWynRY2lwI48IXn2DWxe
+ 9dvbCYsVbQB5v0B6igzIKSHgzqADtdDCm8FdUfFYlgPVSXwo9b73EID5SU1986f1yMD5
+ xjRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683551700; x=1686143700;
+ d=1e100.net; s=20221208; t=1683554352; x=1686146352;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=E5LaiI9Qf78wWAuCEXEQ4PsyMcCaCQGaBXqW3f6eYiY=;
- b=hxBsLd1sDikqGe9g7jvxnOtxbh2uc6z2qlLba5QD00aFNW+vFIuCME/f3RigQWssf5
- H3raafxKCEcrRvZVJ6xOxl+pHqxO8O8g6C6ln/I9lhJjvvgSZdBfWkHEe/PJaJcepJvs
- 3xNsToH5raAJTMeDENgo6R4zXixB7Kjul4gcFVeQzykn3KGpH4sPTgice6w2QerKEs3q
- /ffv92O+2Zbk4I5ExKnYxeLnlfVBP7NUwUl6TH8vws3CLBPD5TutzX9tCTohka5ju4Pc
- c995uG6xBTX1RLgwHMLPMLeIjqt0ukUGkFHlJunYTYsRO0SNYP6xilf5v/9xro80TBgd
- uc2g==
-X-Gm-Message-State: AC+VfDy/FsjlkFaCC4OJlFQTrOo7+QlU49CssU2H5MLdFWsqXcUGo2Xe
- BbREMwtC/wH2VH+IYthaz5XuOtcII5Fn2w==
-X-Google-Smtp-Source: ACHHUZ5Frjt6zPv7LvgWGhKJookoQcW7YvwAeoHuHtVAEHSy45H8qEJ76kY3RdrR5c++yIyE3kDOoA==
-X-Received: by 2002:a0d:ef07:0:b0:559:d1ea:8c7a with SMTP id
- y7-20020a0def07000000b00559d1ea8c7amr12562170ywe.1.1683551700033; 
- Mon, 08 May 2023 06:15:00 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
- a9-20020a25bac9000000b00b9e5b28dbd8sm2284849ybk.17.2023.05.08.06.14.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 06:14:59 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-b9d881ad689so5974582276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:14:58 -0700 (PDT)
-X-Received: by 2002:a25:b315:0:b0:b9d:f4df:b0ef with SMTP id
- l21-20020a25b315000000b00b9df4dfb0efmr11607033ybj.42.1683551698679; Mon, 08
- May 2023 06:14:58 -0700 (PDT)
+ bh=HKI5hargzKBJ4u7aTkJl99CJ0qfSrzAu9HhTH/5DBYA=;
+ b=JM0uv2hwlneB9vHCd6j/RNWnQ4ZkhxE2kp/7tC2R7lJiJDPldCkKc/hxtRIB98uCzS
+ 3lmbt+vSwjb4Rfk6Y35G+JgrB2goBJHo0/8S7cUm3wl/PxZJYyBSEbL71fKT+SmlLuia
+ w2Sddn+0hfBgj4c/aS1IbGbD13muLSNdBUkfmUEKhi3VUuNquIPng4oKrIXzpc3pOZUu
+ O1JkJgOzufknCTX77eSHTrE4bOPWVT5+IoeAbCYCMm1zYWnepX78L739eVggNWtl5qdp
+ p3BqjCJvP0gSyI3w8RUtBaz4MmPX4R25y35Br/uBBVNoCFjlBfNzX+E1UpZ7B0fWspha
+ CT5g==
+X-Gm-Message-State: AC+VfDwzLecY6XPdD/EpSnCJsb3Wo+R6c/BDKd/nL3HhlWGyr4H4gcGe
+ uD/tYF9FfsB4Cd4h+s+iuk9C/0vuc2IV8cFEc5k=
+X-Google-Smtp-Source: ACHHUZ50LkNfTNRkSeGJJPoa/BAX/xul353Ik0wlxeRY6hIxnEX5WoLqEnM6SGjMhC3zTb7ICsPNNWeUaMeA3jfGlNY=
+X-Received: by 2002:aca:c0c1:0:b0:387:31fd:1782 with SMTP id
+ q184-20020acac0c1000000b0038731fd1782mr6592750oif.28.1683554352400; Mon, 08
+ May 2023 06:59:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 8 May 2023 15:14:47 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
-Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
-Subject: Re: [PATCH 37/53] drm/rcar-du: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
+ <141b928d-6165-f282-b8e6-f140cb09333d@collabora.com>
+ <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
+In-Reply-To: <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 8 May 2023 06:59:02 -0700
+Message-ID: <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
+To: Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,40 +70,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>, kernel@collabora.com,
+ Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 7, 2023 at 6:31=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On Wed, May 3, 2023 at 10:07=E2=80=AFAM Gurchetan Singh
+<gurchetansingh@chromium.org> wrote:
 >
-> Trivially convert the rcar-du drm driver from always returning zero in
-> the remove callback to the void returning variant.
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> On Mon, May 1, 2023 at 8:38=E2=80=AFAM Dmitry Osipenko <dmitry.osipenko@c=
+ollabora.com> wrote:
+>>
+>> On 4/16/23 14:52, Dmitry Osipenko wrote:
+>> > We have multiple Vulkan context types that are awaiting for the additi=
+on
+>> > of the sync object DRM UAPI support to the VirtIO-GPU kernel driver:
+>> >
+>> >  1. Venus context
+>> >  2. Native contexts (virtio-freedreno, virtio-intel, virtio-amdgpu)
+>> >
+>> > Mesa core supports DRM sync object UAPI, providing Vulkan drivers with=
+ a
+>> > generic fencing implementation that we want to utilize.
+>> >
+>> > This patch adds initial sync objects support. It creates fundament for=
+ a
+>> > further fencing improvements. Later on we will want to extend the Virt=
+IO-GPU
+>> > fencing API with passing fence IDs to host for waiting, it will be a n=
+ew
+>> > additional VirtIO-GPU IOCTL and more. Today we have several VirtIO-GPU=
+ context
+>> > drivers in works that require VirtIO-GPU to support sync objects UAPI.
+>> >
+>> > The patch is heavily inspired by the sync object UAPI implementation o=
+f the
+>> > MSM driver.
+>>
+>> Gerd, do you have any objections to merging this series?
+>>
+>> We have AMDGPU [1] and Intel [2] native context WIP drivers depending on
+>> the sync object support. It is the only part missing from kernel today
+>> that is wanted by the native context drivers. Otherwise, there are few
+>> other things in Qemu and virglrenderer left to sort out.
+>>
+>> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21658
+>> [2] https://gitlab.freedesktop.org/digetx/mesa/-/commits/native-context-=
+iris
+>
+>
+> I'm not saying this change isn't good, just it's probably possible to imp=
+lement the native contexts (even up to even VK1.2) without it.  But this pa=
+tch series may be the most ergonomic way to do it, given how Mesa is design=
+ed.  But you probably want one of Mesa MRs reviewed first before merging (I=
+ added a comment on the amdgpu change) and that is a requirement [a].
+>
+> [a] "The userspace side must be fully reviewed and tested to the standard=
+s of that user space project. For e.g. mesa this means piglit testcases and=
+ review on the mailing list. This is again to ensure that the new interface=
+ actually gets the job done." -- from the requirements
+>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+tbh, the syncobj support is all drm core, the only driver specifics is
+the ioctl parsing.  IMHO existing tests and the two existing consumers
+are sufficient.  (Also, considering that additional non-drm
+dependencies involved.)
 
-Gr{oetje,eeting}s,
+If this was for the core drm syncobj implementation, and not just
+driver ioctl parsing and wiring up the core helpers, I would agree
+with you.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+BR,
+-R
