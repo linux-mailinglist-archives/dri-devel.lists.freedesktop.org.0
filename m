@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F49D6FB0FD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 15:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF5F6FB114
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 15:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33FC010E287;
-	Mon,  8 May 2023 13:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9461910E2AC;
+	Mon,  8 May 2023 13:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D3D10E287
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 13:13:26 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-55a5a830238so39999327b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:13:26 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 554A810E2AC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 13:15:01 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-559e53d1195so64628237b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:15:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683551604; x=1686143604;
+ d=1e100.net; s=20221208; t=1683551700; x=1686143700;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ypP1RaD2v3JaEFIwqh2HQLG8afiKCDXmEZ3MsLg9oNE=;
- b=hUOEgQ4Q5mIWCpfFa27NDc0oSbF5HxAIjwAZzwbpMOY+apG7Zotu3dE6UyaPr9bo6w
- X39DmovbdUaWzlG+BtMsxNyqFZY0qBkGz78+kO8CcnX3u/PSqc3rRnz35FerwnGTTs8L
- +U8zZSyuF5ESu4gahPNuQ078wF7zYorqR/a7I5nh09aEMb/ucO3kGtt/7Uf1S7/IXM4w
- 1/XQkuQ7tRIFg124lbjvdbeQgIVKPXGsLlbxtcN6XoS0edud/j3eKagFBWtYxisFgjIC
- GL29pKqnQyZlk0QFH8V833LsME+Q2dQKRCexH5Zo0kKkcsq1Xn5wXtptuM+SAfeGC83j
- PUyA==
-X-Gm-Message-State: AC+VfDynlagXMmexQv0gyW091HcEU8XK+LZGqm0OzQ6wDiKhp3016XkA
- rTGT4B5/vuGSBRA2wi0BCZtww8LLRrJr1w==
-X-Google-Smtp-Source: ACHHUZ6BEE10i9IwyEWrUEfQKhOf1Jq+MDfWDeiIg1AQf+mcxiRDM8ZLohBabt5EHlJNW/EwE1eapw==
-X-Received: by 2002:a0d:cb11:0:b0:55a:aa57:5660 with SMTP id
- n17-20020a0dcb11000000b0055aaa575660mr11869137ywd.20.1683551604312; 
- Mon, 08 May 2023 06:13:24 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- t204-20020a0dead5000000b0055a1069886fsm2468071ywe.129.2023.05.08.06.13.23
+ bh=E5LaiI9Qf78wWAuCEXEQ4PsyMcCaCQGaBXqW3f6eYiY=;
+ b=hxBsLd1sDikqGe9g7jvxnOtxbh2uc6z2qlLba5QD00aFNW+vFIuCME/f3RigQWssf5
+ H3raafxKCEcrRvZVJ6xOxl+pHqxO8O8g6C6ln/I9lhJjvvgSZdBfWkHEe/PJaJcepJvs
+ 3xNsToH5raAJTMeDENgo6R4zXixB7Kjul4gcFVeQzykn3KGpH4sPTgice6w2QerKEs3q
+ /ffv92O+2Zbk4I5ExKnYxeLnlfVBP7NUwUl6TH8vws3CLBPD5TutzX9tCTohka5ju4Pc
+ c995uG6xBTX1RLgwHMLPMLeIjqt0ukUGkFHlJunYTYsRO0SNYP6xilf5v/9xro80TBgd
+ uc2g==
+X-Gm-Message-State: AC+VfDy/FsjlkFaCC4OJlFQTrOo7+QlU49CssU2H5MLdFWsqXcUGo2Xe
+ BbREMwtC/wH2VH+IYthaz5XuOtcII5Fn2w==
+X-Google-Smtp-Source: ACHHUZ5Frjt6zPv7LvgWGhKJookoQcW7YvwAeoHuHtVAEHSy45H8qEJ76kY3RdrR5c++yIyE3kDOoA==
+X-Received: by 2002:a0d:ef07:0:b0:559:d1ea:8c7a with SMTP id
+ y7-20020a0def07000000b00559d1ea8c7amr12562170ywe.1.1683551700033; 
+ Mon, 08 May 2023 06:15:00 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ a9-20020a25bac9000000b00b9e5b28dbd8sm2284849ybk.17.2023.05.08.06.14.58
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 06:13:23 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-55a8019379fso40201297b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:13:23 -0700 (PDT)
-X-Received: by 2002:a0d:ca51:0:b0:55d:6757:e975 with SMTP id
- m78-20020a0dca51000000b0055d6757e975mr9230569ywd.49.1683551603615; Mon, 08
- May 2023 06:13:23 -0700 (PDT)
+ Mon, 08 May 2023 06:14:59 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-b9d881ad689so5974582276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 06:14:58 -0700 (PDT)
+X-Received: by 2002:a25:b315:0:b0:b9d:f4df:b0ef with SMTP id
+ l21-20020a25b315000000b00b9df4dfb0efmr11607033ybj.42.1683551698679; Mon, 08
+ May 2023 06:14:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-40-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-40-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 8 May 2023 15:13:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUZnBhh9dxQG1yA=8_DE_m7b6a1KD+GZLy5SxKY9H=ZAQ@mail.gmail.com>
-Message-ID: <CAMuHMdUZnBhh9dxQG1yA=8_DE_m7b6a1KD+GZLy5SxKY9H=ZAQ@mail.gmail.com>
-Subject: Re: [PATCH 39/53] drm/shmobile: Convert to platform remove callback
+Date: Mon, 8 May 2023 15:14:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
+Message-ID: <CAMuHMdV5se-2pt=WXiXY1K38cVY+BtmNTJAGUXeULrqRAXXxUQ@mail.gmail.com>
+Subject: Re: [PATCH 37/53] drm/rcar-du: Convert to platform remove callback
  returning void
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
@@ -88,8 +88,8 @@ On Sun, May 7, 2023 at 6:31=E2=80=AFPM Uwe Kleine-K=C3=B6nig
 > quest all drivers are converted to .remove_new() which already returns
 > void.
 >
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> Trivially convert the rcar-du drm driver from always returning zero in
+> the remove callback to the void returning variant.
 >
 > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
