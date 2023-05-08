@@ -2,83 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970F66FB697
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 21:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B79F6FB6CF
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 21:39:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 523DA10E238;
-	Mon,  8 May 2023 19:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B70EE10E2EC;
+	Mon,  8 May 2023 19:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 560BE10E238;
- Mon,  8 May 2023 19:02:32 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 348HRhn2017970; Mon, 8 May 2023 19:02:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=gQYRttf6q+r+8RYiioec/7vo1MmIap20DbAmNLNaTBo=;
- b=fRiJ7MnJu9DgTDXPJUnIAa2xWPesjRX/pV0V6K+RUeFrIpdSCqD4jeivK3A81mkVU5tv
- lKW/BAp+jvwx9Hsvr8DnDGUOQMc3OTTZmAdgMtQzUgk645BWWC9ZvbFr2Tc/iE4Pt+cJ
- Epf5d0o4ILU3d62ez01hUEFHTYRJX8z+ikGio+3XJ3WDvhP7mHzdPuGS6yvX1luEmOK5
- qsqk6pGqG9lzjVS6BjlVnKUBC16Q7fOqNszcXxf3pn1ITigzoNUaugsj2dNarCqQ/6JN
- 7Eimbxtqhkz0ohD5v/Mn3rOeFVMmbY9XGJnnJe5+EP8BkEnQdP38orL0LuEZmZt8JIsY iA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qexpqh8xw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 19:02:25 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 348J2OSG010685
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 8 May 2023 19:02:24 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 8 May 2023
- 12:02:24 -0700
-Message-ID: <aeb3bd48-34c1-c42a-405b-be6b162bc7f7@quicinc.com>
-Date: Mon, 8 May 2023 12:02:23 -0700
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C742010E2EC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 19:39:41 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-965a68abfd4so934524666b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 12:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20221208; t=1683574779; x=1686166779;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qZo5wi0IhdS732BMMRQ/ooi48+6IHXRkVw8vGwD34pA=;
+ b=dOYh7jgfGYyk9pQCmU6hRNEAgZEydObWFJsZYWau/MLAPg+yYOsc4SnyWAZDTp9yXJ
+ E2EnxvAFbFUUyIX8McR0YjZd+4WasyeB0330Zt+XjQ9a0ex4hwJq/93lFd5r+EYsD4Sk
+ i/iJ/F4NGXx9IPJeMPgCLO7CVTzp0zg+58gVVUtl8FmrakIYOJhAh8xcgFBgOGl2KMCG
+ cevVuao3FMIhROxStBUqzOlbMNiHNV5DDdnRG625Rnqc5ORm9yNZS/F+k9Rtj9LAYD6j
+ B5gXpIMFAsGlsl7eDGV8gacSlcf8Rztcz2N0ctcOCRxe3AH2XkiSWKpbxCf6E/Nz2rnj
+ 79gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683574779; x=1686166779;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qZo5wi0IhdS732BMMRQ/ooi48+6IHXRkVw8vGwD34pA=;
+ b=N31apg5ZHRfLQE9yLnMIIzJQi0XvKPaHbtBGDRzO7i6vWzrrCu6PmMoFhMjh8ILV3P
+ N4lZk8/HC25hiZYDiRQFDvuybYf7FPrUNo9ynnewxVDK1XED3cYVOr6Yp/Ydq+bjT+Yd
+ /wzdxLeOgeobpAZimCsRiotRJceqp387V4JLhET3xKXlBNzQY8llgE4fmjpJFZFeEWiW
+ P390Mpb7i8K7HuZYUnfTxTkVwD7z2ewF0ZidjZjgBy8VvNQ7hH+o2YZjC132t68xJ5T1
+ C48vMj306YzdhkWBG25ijAq5LuvXwwc7M0IefB6sQeyT1YiTwWLdbWOes+/L89xIW98h
+ wzhg==
+X-Gm-Message-State: AC+VfDxPbBmmlAreucUOxOydlEC0YwpCg3YSBq9gZOclL6yvF864wDRo
+ p2ohhexYQNuToZW855VtFW+K9VSqF4C60IgiZ6c=
+X-Google-Smtp-Source: ACHHUZ4w2oFvtz1UalbLPpJhTPOevQ0PaRpgVvwZl0CCFJ0YwHL94e6Jp95FUcVBFMuQpEBibFIavKk9Jp6iVJVLLLk=
+X-Received: by 2002:a17:907:a4d:b0:95e:de94:5bea with SMTP id
+ be13-20020a1709070a4d00b0095ede945beamr9526177ejc.56.1683574778804; Mon, 08
+ May 2023 12:39:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v5 7/8] drm/display/dsc: include the rest of pre-SCR
- parameters
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Suraj Kandpal <suraj.kandpal@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230504153511.4007320-1-dmitry.baryshkov@linaro.org>
- <20230504153511.4007320-8-dmitry.baryshkov@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20230504153511.4007320-8-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: twPUqeNqojyiN1X_vLWXD9cb34pN3PX1
-X-Proofpoint-ORIG-GUID: twPUqeNqojyiN1X_vLWXD9cb34pN3PX1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-08_13,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0 phishscore=0
- impostorscore=0 clxscore=1011 bulkscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305080125
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-31-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-31-u.kleine-koenig@pengutronix.de>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Mon, 8 May 2023 21:39:27 +0200
+Message-ID: <CAFBinCC3kP7vTZZ6cdCwn15qtQCqVfVhVS0hDpbX7r0P8RA1qA@mail.gmail.com>
+Subject: Re: [PATCH 30/53] drm/meson: Convert to platform remove callback
+ returning void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,127 +70,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, kernel@pengutronix.de,
+ Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/4/2023 8:35 AM, Dmitry Baryshkov wrote:
-> DSC model contains pre-SCR RC parameters for other bpp/bpc combinations,
-> include them here for completeness. The values were generated from the
-> 'pre_scr_cfg_files_for_reference' files found in DSC models 20210623.
-> The same fileset is a part of DSC model 20161212.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-I checked these pre-SCR values against DSC model 20161212 and they look 
-good to me.
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-> ---
->   drivers/gpu/drm/display/drm_dsc_helper.c | 72 ++++++++++++++++++++++++
->   1 file changed, 72 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
-> index 35b39f3109c4..aec6f8c201af 100644
-> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
-> @@ -325,6 +325,16 @@ struct rc_parameters_data {
->   #define DSC_BPP(bpp)	((bpp) << 4)
->   
->   static const struct rc_parameters_data rc_parameters_pre_scr[] = {
-> +	{
-> +		.bpp = DSC_BPP(6), .bpc = 8,
-> +		{ 683, 15, 6144, 3, 13, 11, 11, {
-> +			{ 0, 2, 0 }, { 1, 4, -2 }, { 3, 6, -2 }, { 4, 6, -4 },
-> +			{ 5, 7, -6 }, { 5, 7, -6 }, { 6, 7, -6 }, { 6, 8, -8 },
-> +			{ 7, 9, -8 }, { 8, 10, -10 }, { 9, 11, -10 }, { 10, 12, -12 },
-> +			{ 10, 13, -12 }, { 12, 14, -12 }, { 15, 15, -12 }
-> +			}
-> +		}
-> +	},
->   	{
->   		.bpp = DSC_BPP(8), .bpc = 8,
->   		{ 512, 12, 6144, 3, 12, 11, 11, {
-> @@ -360,6 +370,37 @@ static const struct rc_parameters_data rc_parameters_pre_scr[] = {
->   			}
->   		}
->   	},
-> +	{
-> +		.bpp = DSC_BPP(10), .bpc = 8,
-> +		{ 410, 12, 5632, 3, 12, 11, 11, {
-> +			{ 0, 3, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 2, 6, -2 },
-> +			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
-> +			{ 3, 9, -8 }, { 3, 9, -10 }, { 5, 10, -10 }, { 5, 11, -10 },
-> +			{ 5, 12, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
-> +			}
-> +		}
-> +	},
-> +	{
-> +		.bpp = DSC_BPP(10), .bpc = 10,
-> +		{ 410, 12, 5632, 7, 16, 15, 15, {
-> +			{ 0, 7, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 6, 10, -2 },
-> +			{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
-> +			{ 7, 13, -8 }, { 7, 13, -10 }, { 9, 14, -10 }, { 9, 15, -10 },
-> +			{ 9, 16, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
-> +			}
-> +		}
-> +	},
-> +	{
-> +		.bpp = DSC_BPP(10), .bpc = 12,
-> +		{ 410, 12, 5632, 11, 20, 19, 19, {
-> +			{ 0, 11, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 10, 14, -2 },
-> +			{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
-> +			{ 11, 17, -8 }, { 11, 17, -10 }, { 13, 18, -10 },
-> +			{ 13, 19, -10 }, { 13, 20, -12 }, { 15, 21, -12 },
-> +			{ 21, 23, -12 }
-> +			}
-> +		}
-> +	},
->   	{
->   		.bpp = DSC_BPP(12), .bpc = 8,
->   		{ 341, 15, 2048, 3, 12, 11, 11, {
-> @@ -391,6 +432,37 @@ static const struct rc_parameters_data rc_parameters_pre_scr[] = {
->   			}
->   		}
->   	},
-> +	{
-> +		.bpp = DSC_BPP(15), .bpc = 8,
-> +		{ 273, 15, 2048, 3, 12, 11, 11, {
-> +			{ 0, 0, 10 }, { 0, 1, 8 }, { 0, 1, 6 }, { 0, 2, 4 },
-> +			{ 1, 2, 2 }, { 1, 3, 0 }, { 1, 4, -2 }, { 2, 4, -4 },
-> +			{ 3, 4, -6 }, { 3, 5, -8 }, { 4, 6, -10 }, { 5, 7, -10 },
-> +			{ 5, 8, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
-> +			}
-> +		}
-> +	},
-> +	{
-> +		.bpp = DSC_BPP(15), .bpc = 10,
-> +		{ 273, 15, 2048, 7, 16, 15, 15, {
-> +			{ 0, 2, 10 }, { 2, 5, 8 }, { 3, 5, 6 }, { 4, 6, 4 },
-> +			{ 5, 6, 2 }, { 5, 7, 0 }, { 5, 8, -2 }, { 6, 8, -4 },
-> +			{ 7, 8, -6 }, { 7, 9, -8 }, { 8, 10, -10 }, { 9, 11, -10 },
-> +			{ 9, 12, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
-> +			}
-> +		}
-> +	},
-> +	{
-> +		.bpp = DSC_BPP(15), .bpc = 12,
-> +		{ 273, 15, 2048, 11, 20, 19, 19, {
-> +			{ 0, 4, 10 }, { 2, 7, 8 }, { 4, 9, 6 }, { 6, 11, 4 },
-> +			{ 9, 11, 2 }, { 9, 11, 0 }, { 9, 12, -2 }, { 10, 12, -4 },
-> +			{ 11, 12, -6 }, { 11, 13, -8 }, { 12, 14, -10 },
-> +			{ 13, 15, -10 }, { 13, 16, -12 }, { 15, 21, -12 },
-> +			{ 21, 23, -12 }
-> +			}
-> +		}
-> +	},
->   	{ /* sentinel */ }
->   };
->   
-> -- 
-> 2.39.2
-> 
+On Sun, May 7, 2023 at 6:26=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>
+> Trivially convert meson drm drivers from always returning zero in the
+> remove callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
