@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CFE6F9DCF
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706EB6F9DD0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 04:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE1210E0E1;
-	Mon,  8 May 2023 02:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985A010E0E9;
+	Mon,  8 May 2023 02:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A24E810E0E1
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:42:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF66810E0E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 02:43:10 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (softbank126090219015.bbtec.net
  [126.90.219.15])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51F10814;
- Mon,  8 May 2023 04:42:18 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63291814;
+ Mon,  8 May 2023 04:43:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1683513738;
- bh=2cDXoHG7W2F9D/NzYUBPDQBvIidC2pN5VEs0T/d9doA=;
+ s=mail; t=1683513784;
+ bh=7fXsFqxdTYUtyEwHJjEIWf/5XPqa5k8FifR8zg4LUsk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p7tstKmL0aq+nEZAEZXwhtHnslCsz4QJEzD93RTkn2N1SCZE3sKbBlke8c5l53pD/
- ikvq/10bmhzgtpCbYKkCdHjClfLTir0oHvoLS42QdPPledd6hrHG0opUTTUJKlgHOB
- 51H/ZMMSs9PSErG0a+TKmYlHLtjF5uuq6O+2WjFk=
-Date: Mon, 8 May 2023 05:42:37 +0300
+ b=WKZ+0tTwEGL2yfq+w2ZxThk5Na+PsinrHFwXjjpmVjj6dCE3Wh6seGvqdZhoF7WdG
+ 76zJPVpp35mBhEvoFYEFWamSNRCix5Dtrit5jTBZD5WjzhGBDtY6VYdJ5WUBISNNeT
+ fULKP9yk8V2f4a/17hdUZyzqemzFjRjNXWowxZK0=
+Date: Mon, 8 May 2023 05:43:22 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 37/53] drm/rcar-du: Convert to platform remove callback
+Subject: Re: [PATCH 35/53] drm/panel: Convert to platform remove callback
  returning void
-Message-ID: <20230508024237.GH23514@pendragon.ideasonboard.com>
+Message-ID: <20230508024322.GI23514@pendragon.ideasonboard.com>
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
+ <20230507162616.1368908-36-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230507162616.1368908-38-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-36-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,9 +49,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- kernel@pengutronix.de
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -59,7 +58,7 @@ Hi Uwe,
 
 Thank you for the patch.
 
-On Sun, May 07, 2023 at 06:26:00PM +0200, Uwe Kleine-König wrote:
+On Sun, May 07, 2023 at 06:25:58PM +0200, Uwe Kleine-König wrote:
 > The .remove() callback for a platform driver returns an int which makes
 > many driver authors wrongly assume it's possible to do error handling by
 > returning an error code. However the value returned is (mostly) ignored
@@ -68,194 +67,135 @@ On Sun, May 07, 2023 at 06:26:00PM +0200, Uwe Kleine-König wrote:
 > quest all drivers are converted to .remove_new() which already returns
 > void.
 > 
-> Trivially convert the rcar-du drm driver from always returning zero in
-> the remove callback to the void returning variant.
+> Trivially convert the drm panel drivers from always returning zero in the
+> remove callback to the void returning variant.
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/rcar-du/rcar_cmm.c       | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c    | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c   | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_lvds.c      | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c  | 6 ++----
->  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c | 6 ++----
->  6 files changed, 12 insertions(+), 24 deletions(-)
+>  drivers/gpu/drm/panel/panel-lvds.c              | 6 ++----
+>  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c     | 6 ++----
+>  drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c | 6 ++----
+>  drivers/gpu/drm/panel/panel-simple.c            | 6 ++----
+>  4 files changed, 8 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> index e2a67dda4658..26a2f5ad8ee5 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -187,11 +187,9 @@ static int rcar_cmm_probe(struct platform_device *pdev)
+> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+> index de8758c30e6e..b47c3a679be0 100644
+> --- a/drivers/gpu/drm/panel/panel-lvds.c
+> +++ b/drivers/gpu/drm/panel/panel-lvds.c
+> @@ -228,15 +228,13 @@ static int panel_lvds_probe(struct platform_device *pdev)
 >  	return 0;
 >  }
 >  
-> -static int rcar_cmm_remove(struct platform_device *pdev)
-> +static void rcar_cmm_remove(struct platform_device *pdev)
+> -static int panel_lvds_remove(struct platform_device *pdev)
+> +static void panel_lvds_remove(struct platform_device *pdev)
 >  {
->  	pm_runtime_disable(&pdev->dev);
+>  	struct panel_lvds *lvds = platform_get_drvdata(pdev);
+>  
+>  	drm_panel_remove(&lvds->panel);
+>  
+>  	drm_panel_disable(&lvds->panel);
 > -
 > -	return 0;
 >  }
 >  
->  static const struct of_device_id rcar_cmm_of_table[] = {
-> @@ -203,7 +201,7 @@ MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+>  static const struct of_device_id panel_lvds_of_table[] = {
+> @@ -248,7 +246,7 @@ MODULE_DEVICE_TABLE(of, panel_lvds_of_table);
 >  
->  static struct platform_driver rcar_cmm_platform_driver = {
->  	.probe		= rcar_cmm_probe,
-> -	.remove		= rcar_cmm_remove,
-> +	.remove_new	= rcar_cmm_remove,
+>  static struct platform_driver panel_lvds_driver = {
+>  	.probe		= panel_lvds_probe,
+> -	.remove		= panel_lvds_remove,
+> +	.remove_new	= panel_lvds_remove,
 >  	.driver		= {
->  		.name	= "rcar-cmm",
->  		.of_match_table = rcar_cmm_of_table,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index b9a94c5260e9..4a6bf50b5c49 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -685,7 +685,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(rcar_du_pm_ops,
->   * Platform driver
->   */
->  
-> -static int rcar_du_remove(struct platform_device *pdev)
-> +static void rcar_du_remove(struct platform_device *pdev)
->  {
->  	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
->  	struct drm_device *ddev = &rcdu->ddev;
-> @@ -694,8 +694,6 @@ static int rcar_du_remove(struct platform_device *pdev)
->  	drm_atomic_helper_shutdown(ddev);
->  
->  	drm_kms_helper_poll_fini(ddev);
-> -
-> -	return 0;
->  }
->  
->  static void rcar_du_shutdown(struct platform_device *pdev)
-> @@ -776,7 +774,7 @@ static int rcar_du_probe(struct platform_device *pdev)
->  
->  static struct platform_driver rcar_du_platform_driver = {
->  	.probe		= rcar_du_probe,
-> -	.remove		= rcar_du_remove,
-> +	.remove_new	= rcar_du_remove,
->  	.shutdown	= rcar_du_shutdown,
->  	.driver		= {
->  		.name	= "rcar-du",
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 18ed14911b98..119d69d20b23 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -93,13 +93,11 @@ static int rcar_dw_hdmi_probe(struct platform_device *pdev)
+>  		.name	= "panel-lvds",
+>  		.of_match_table = panel_lvds_of_table,
+> diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> index 76160e5d43bd..5c3d9f7fc358 100644
+> --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> @@ -266,14 +266,12 @@ static int seiko_panel_probe(struct device *dev,
 >  	return 0;
 >  }
 >  
-> -static int rcar_dw_hdmi_remove(struct platform_device *pdev)
-> +static void rcar_dw_hdmi_remove(struct platform_device *pdev)
+> -static int seiko_panel_remove(struct platform_device *pdev)
+> +static void seiko_panel_remove(struct platform_device *pdev)
 >  {
->  	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
+>  	struct seiko_panel *panel = platform_get_drvdata(pdev);
 >  
->  	dw_hdmi_remove(hdmi);
+>  	drm_panel_remove(&panel->base);
+>  	drm_panel_disable(&panel->base);
 > -
 > -	return 0;
 >  }
 >  
->  static const struct of_device_id rcar_dw_hdmi_of_table[] = {
-> @@ -110,7 +108,7 @@ MODULE_DEVICE_TABLE(of, rcar_dw_hdmi_of_table);
->  
->  static struct platform_driver rcar_dw_hdmi_platform_driver = {
->  	.probe		= rcar_dw_hdmi_probe,
-> -	.remove		= rcar_dw_hdmi_remove,
-> +	.remove_new	= rcar_dw_hdmi_remove,
->  	.driver		= {
->  		.name	= "rcar-dw-hdmi",
->  		.of_match_table = rcar_dw_hdmi_of_table,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index 260ea5d8624e..86d2ac204568 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -890,15 +890,13 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+>  static void seiko_panel_shutdown(struct platform_device *pdev)
+> @@ -335,7 +333,7 @@ static struct platform_driver seiko_panel_platform_driver = {
+>  		.of_match_table = platform_of_match,
+>  	},
+>  	.probe = seiko_panel_platform_probe,
+> -	.remove = seiko_panel_remove,
+> +	.remove_new = seiko_panel_remove,
+>  	.shutdown = seiko_panel_shutdown,
+>  };
+>  module_platform_driver(seiko_panel_platform_driver);
+> diff --git a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
+> index a07d0f6c3e69..76bd9e810827 100644
+> --- a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
+> +++ b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
+> @@ -189,15 +189,13 @@ static int ls037v7dw01_probe(struct platform_device *pdev)
 >  	return 0;
 >  }
 >  
-> -static int rcar_lvds_remove(struct platform_device *pdev)
-> +static void rcar_lvds_remove(struct platform_device *pdev)
+> -static int ls037v7dw01_remove(struct platform_device *pdev)
+> +static void ls037v7dw01_remove(struct platform_device *pdev)
 >  {
->  	struct rcar_lvds *lvds = platform_get_drvdata(pdev);
+>  	struct ls037v7dw01_panel *lcd = platform_get_drvdata(pdev);
 >  
->  	drm_bridge_remove(&lvds->bridge);
->  
->  	pm_runtime_disable(&pdev->dev);
+>  	drm_panel_remove(&lcd->panel);
+>  	drm_panel_disable(&lcd->panel);
+>  	drm_panel_unprepare(&lcd->panel);
 > -
 > -	return 0;
 >  }
 >  
->  static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
-> @@ -994,7 +992,7 @@ static const struct dev_pm_ops rcar_lvds_pm_ops = {
+>  static const struct of_device_id ls037v7dw01_of_match[] = {
+> @@ -209,7 +207,7 @@ MODULE_DEVICE_TABLE(of, ls037v7dw01_of_match);
 >  
->  static struct platform_driver rcar_lvds_platform_driver = {
->  	.probe		= rcar_lvds_probe,
-> -	.remove		= rcar_lvds_remove,
-> +	.remove_new	= rcar_lvds_remove,
+>  static struct platform_driver ls037v7dw01_driver = {
+>  	.probe		= ls037v7dw01_probe,
+> -	.remove		= ls037v7dw01_remove,
+> +	.remove_new	= ls037v7dw01_remove,
 >  	.driver		= {
->  		.name	= "rcar-lvds",
->  		.pm	= &rcar_lvds_pm_ops,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index e10e4d4b89a2..305123a671c6 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -1044,13 +1044,11 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
->  	return 0;
+>  		.name = "panel-sharp-ls037v7dw01",
+>  		.of_match_table = ls037v7dw01_of_match,
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 065f378bba9d..1274eb95cf86 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -4335,11 +4335,9 @@ static int panel_simple_platform_probe(struct platform_device *pdev)
+>  	return panel_simple_probe(&pdev->dev, id->data);
 >  }
 >  
-> -static int rcar_mipi_dsi_remove(struct platform_device *pdev)
-> +static void rcar_mipi_dsi_remove(struct platform_device *pdev)
+> -static int panel_simple_platform_remove(struct platform_device *pdev)
+> +static void panel_simple_platform_remove(struct platform_device *pdev)
 >  {
->  	struct rcar_mipi_dsi *dsi = platform_get_drvdata(pdev);
->  
->  	mipi_dsi_host_unregister(&dsi->host);
+>  	panel_simple_remove(&pdev->dev);
 > -
 > -	return 0;
 >  }
 >  
->  static const struct rcar_mipi_dsi_device_info v3u_data = {
-> @@ -1093,7 +1091,7 @@ MODULE_DEVICE_TABLE(of, rcar_mipi_dsi_of_table);
+>  static void panel_simple_platform_shutdown(struct platform_device *pdev)
+> @@ -4360,7 +4358,7 @@ static struct platform_driver panel_simple_platform_driver = {
+>  		.pm = &panel_simple_pm_ops,
+>  	},
+>  	.probe = panel_simple_platform_probe,
+> -	.remove = panel_simple_platform_remove,
+> +	.remove_new = panel_simple_platform_remove,
+>  	.shutdown = panel_simple_platform_shutdown,
+>  };
 >  
->  static struct platform_driver rcar_mipi_dsi_platform_driver = {
->  	.probe          = rcar_mipi_dsi_probe,
-> -	.remove         = rcar_mipi_dsi_remove,
-> +	.remove_new     = rcar_mipi_dsi_remove,
->  	.driver         = {
->  		.name   = "rcar-mipi-dsi",
->  		.of_match_table = rcar_mipi_dsi_of_table,
-> diff --git a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
-> index aa95b85a2964..a97fc4c5d1c8 100644
-> --- a/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c
-> @@ -782,14 +782,12 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> -static int rzg2l_mipi_dsi_remove(struct platform_device *pdev)
-> +static void rzg2l_mipi_dsi_remove(struct platform_device *pdev)
->  {
->  	struct rzg2l_mipi_dsi *dsi = platform_get_drvdata(pdev);
->  
->  	mipi_dsi_host_unregister(&dsi->host);
->  	pm_runtime_disable(&pdev->dev);
-> -
-> -	return 0;
->  }
->  
->  static const struct of_device_id rzg2l_mipi_dsi_of_table[] = {
-> @@ -801,7 +799,7 @@ MODULE_DEVICE_TABLE(of, rzg2l_mipi_dsi_of_table);
->  
->  static struct platform_driver rzg2l_mipi_dsi_platform_driver = {
->  	.probe	= rzg2l_mipi_dsi_probe,
-> -	.remove	= rzg2l_mipi_dsi_remove,
-> +	.remove_new = rzg2l_mipi_dsi_remove,
->  	.driver	= {
->  		.name = "rzg2l-mipi-dsi",
->  		.pm = &rzg2l_mipi_pm_ops,
 > -- 
 > 2.39.2
 > 
