@@ -2,74 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A48A6FAD08
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 13:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66CA6FAE22
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 13:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1384710E233;
-	Mon,  8 May 2023 11:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF36310E24D;
+	Mon,  8 May 2023 11:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E09EA10E230
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 11:30:16 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f22908a082so1894114e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 04:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683545414; x=1686137414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zyrnKZ/HX+JXKuDag3fCxX5qi7Ihwr10zpgG360FNdA=;
- b=wPFQLQFwzlBetSYiU4eEhAq/M0YtV8x52fy0mRfwVfKWUE42PW/SpOqbeoMDEtgmk7
- +SfunC/0tVBSRKFvfvLbWsBaknefXgGLrN5RxqhUDyLIOu/i3OAPofdmTATzY0Q69HFY
- GYJXXPDByQ0E1KIBL6S9hJZjoWSs67IU1yqnEYcGCvw8Y3hqUb0SBf369g7YagL8aNw4
- 1xI2EtuumW2O1UKV1aTryHlmmro79atBkX2pqAG1r63beClcKG2+8S4tHVIb7FSwdee1
- xeeuqCNmBFS/+1NXzRwFI2/bxIJegxSpz2kULIlxOYDlgXH+vAjlmB7HqRRzQ8QeAm0L
- CL4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683545414; x=1686137414;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zyrnKZ/HX+JXKuDag3fCxX5qi7Ihwr10zpgG360FNdA=;
- b=ZuDeBXwggjQFbSFw+crSk3PkD9zMmfXq0BkjyzDyjX/6We2GTwg8yw0xuKc09k9qbG
- qpvM14HEmi4bs0LUH15qMErLhPTG0KraaVnR/2tbnsgJN2bFjNv+Tv9QppAHpvz4aKB5
- yaXPNhMJzfHNfTfBd6bwgI3uVJyMwY1tnSwIxOVIqVpZxUpwyYY/dn1sylz4ohVM1ITS
- 3ujIEgjbOkiLvKoGJTg/b8ud7v8Faxy90QxOsTJ09S0D09206Bq2LEcNLVbAmGaOKeCW
- /OFb9oJDINIO+baNiaMqJjJLp8L59kqbTKlLPo+rU9Z/+NpBZBmUVyapa8zsm+hLqD70
- 72GA==
-X-Gm-Message-State: AC+VfDznb36Nytr1PK0vJODyw5TKVXnvxM98jpPa/nqnie3zuMe3zOVo
- UWDJutu4IZss63EUuwlMbf59FA==
-X-Google-Smtp-Source: ACHHUZ52SZmNEftC7+4DfGNrTm/3kIjlkiFZCNV8L9bJpezPLNKT4PP5FIIFrKf+7UAdKShAZToV/g==
-X-Received: by 2002:a19:5504:0:b0:4ed:c286:7ab6 with SMTP id
- n4-20020a195504000000b004edc2867ab6mr2506335lfe.67.1683545414199; 
- Mon, 08 May 2023 04:30:14 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f8-20020a19ae08000000b004f14ecc03f1sm970114lfc.100.2023.05.08.04.30.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 04:30:13 -0700 (PDT)
-Message-ID: <ad351c02-1c29-3601-53e8-f8cdeca2ac63@linaro.org>
-Date: Mon, 8 May 2023 14:30:13 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A32510E24D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 11:41:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=XTddLcsberhUQKESO0MF+J90sxDVtPwIR5ZIy4T2X9w=; b=QC1T0wborbKk0b30Wy0I/+us/g
+ DKOZADygzBZ5hqT5lfAtFzvsklBiPooHPZHju65R7VTPQ97mBMEx/GlplyugdlFfAE5sQ669Obofn
+ 3gEW+r3L6tbLxLw9gLvTAOHtk7LmYSML9phcIfYwXJN0yzmHUL2jwWZvowdSH66VChsupcCk8n5X1
+ qj8f1hHrG1Y3GOyDEp3GRvY4P/j+q3fSgZ5pN7/KnHJbPQ9yqiKw0j9V9KO22LmKxqyS9EGQsp8W0
+ 81x0Dq4NwOgp7LVDk+QplA7wPKizKw7P/l1Ohdx0PpmsGaHIaCPsjQMuNEzQ6j7W9ryC/9GkPkpBk
+ N9QTD4yg==;
+Received: from [177.34.168.16] (helo=[192.168.0.4])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pvzFJ-003pLi-8l; Mon, 08 May 2023 13:41:37 +0200
+Message-ID: <a59779a5-f1f7-573d-6bc9-001455ddc42b@igalia.com>
+Date: Mon, 8 May 2023 08:41:28 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] Revert "drm/msm/dp: Remove INIT_SETUP delay"
-Content-Language: en-GB
-To: Leonard Lausen <leonard@lausen.nl>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>
-References: <b0cc40d5-6de1-91cc-e2cd-f47cc53551e4@quicinc.com>
- <ebbcd56ac883d3c3d3024d368fab63d26e02637a@lausen.nl>
- <20230508021536.txtamifw2vkfncnx@ripper>
- <3802269cd54ce105ef6dece03b1b9af575b4fa06@lausen.nl>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <3802269cd54ce105ef6dece03b1b9af575b4fa06@lausen.nl>
+Subject: Re: [PATCH v5 3/4] vkms: Add support for multiple pipes
+Content-Language: en-US
+To: Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org
+References: <20230508075356.6511-1-marius.vlad@collabora.com>
+ <20230508075356.6511-4-marius.vlad@collabora.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230508075356.6511-4-marius.vlad@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,125 +55,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, regressions@lists.linux.dev,
- Nikita Travkin <nikita@trvn.ru>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
+Cc: mwen@igalia.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ yixie@chromium.org, melissa.srw@gmail.com, jshargo@chromium.org,
+ brpol@chromium.org, igormtorrente@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/05/2023 14:02, Leonard Lausen wrote:
-> Abhinav Kumar <quic_abhinavk@quicinc.com> writes:
->> On 5/7/2023 7:15 PM, Bjorn Andersson wrote:
->>> When booting with the cable connected on my X13s, 100 is long enough for
->>> my display to time out and require me to disconnect and reconnect the
->>> cable again.
->>>
->>> Do we have any idea of why the reduction to 0 is causing an issue when
->>> using the internal HPD?
->>>
->>> Regards,
->>> Bjorn
->> Yes, we do know why this is causing an issue. The cleaner patch for this
->> will be posted this week.
-> 
-> Great!
-> 
->> There is no need to add the 100ms delay back yet.
->>
->> thanks for posting this but NAK on this patch till we post the fix this
->> week.
->>
->> Appreciate a bit of patience till then.
-> 
-> This regression is already part of the 6.3 stable release series. Will
-> the new patch qualify for inclusion in 6.3.y? Or will it be part of 6.4
-> and this revert should go into 6.3.y?
+Hi Marius,
 
-This is a tough situation, as landing a revert will break x13s, as noted 
-by Bjorn. Given that the workaround is known at this moment, I would 
-like to wait for the patch from Abhinav to appear, then we can decide 
-which of the fixes should go to the stable kernel.
-
+On 5/8/23 04:53, Marius Vlad wrote:
+> This adds support for creating multiple virtual pipes, in case one would
+> need to display multiple independent things on different outputs.
 > 
-> Even with this revert, there are additional regressions in 6.3 causing
-> dpu errors and blank external display upon suspending and resuming the
-> system while an external display is connected. Will your new patch also
-> fix these regressions?
+> We use a module parameter to specify how many to create,  defaulting to
+> just one with the possibility of specifying a maximum of 4 possible pipes.
 > 
-> [  275.025497] [drm:dpu_encoder_phys_vid_wait_for_commit_done:488] [dpu error]vblank timeout
-> [  275.025514] [drm:dpu_kms_wait_for_commit_done:510] [dpu error]wait for commit done returned -110
-> [  275.064141] [drm:dpu_encoder_frame_done_timeout:2382] [dpu error]enc33 frame done timeout
+> This is of particular importance when testing out the DRM back-end in
+> compositors, but also to be able to independently set different DPMS states.
 > 
-> followed by a kernel panic if any modification to the display settings
-> is done, such as disabling the external display:
-
-Interesting crash, thank you for the report.
-
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_crtc.c      |  3 +--
+>   drivers/gpu/drm/vkms/vkms_drv.c       | 37 ++++++++++++++++++++++-----
+>   drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++---
+>   drivers/gpu/drm/vkms/vkms_output.c    |  5 ++--
+>   drivers/gpu/drm/vkms/vkms_writeback.c | 24 ++++++++---------
+>   5 files changed, 55 insertions(+), 26 deletions(-)
 > 
-> [  341.631287] Hardware name: Google Lazor (rev3 - 8) (DT)
-> [  341.631290] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  341.631296] pc : do_raw_spin_unlock+0xb8/0xc4
-> [  341.631310] lr : do_raw_spin_unlock+0x78/0xc4
-> [  341.631315] sp : ffffffc01100b880
-> [  341.631317] x29: ffffffc01100b880 x28: 0000000000000028 x27: 0000000000000038
-> [  341.631326] x26: ffffff808c89e180 x25: ffffffef33e39920 x24: 0000000000000000
-> [  341.631333] x23: ffffffef33e3ca0c x22: 0000000000000002 x21: ffffff808345ded8
-> [  341.631339] x20: ffffff808345ded0 x19: 000000000000001e x18: 0000000000000000
-> [  341.631345] x17: 0048000000000460 x16: 0441043b04600438 x15: 04380000089807d0
-> [  341.631351] x14: 07b0089807800780 x13: 0000000000000068 x12: 0000000000000001
-> [  341.631357] x11: ffffffef3413bb76 x10: 0000000000000bb0 x9 : ffffffef33e3d6bc
-> [  341.631363] x8 : ffffff808c89ed90 x7 : ffffff80b1c9f738 x6 : 0000000000000001
-> [  341.631370] x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffffff808345def0
-> [  341.631375] x2 : 00000000dead4ead x1 : 0000000000000003 x0 : 0000000000000000
-> [  341.631383] Kernel panic - not syncing: Asynchronous SError Interrupt
-> [  341.631386] CPU: 3 PID: 1520 Comm: kwin_wayland Not tainted 6.3.0-stb-cbq+ #2
-> [  341.631390] Hardware name: Google Lazor (rev3 - 8) (DT)
-> [  341.631393] Call trace:
-> [  341.631395]  dump_backtrace+0xc8/0x104
-> [  341.631402]  show_stack+0x20/0x30
-> [  341.631407]  dump_stack_lvl+0x48/0x60
-> [  341.631414]  dump_stack+0x18/0x24
-> [  341.631419]  panic+0x130/0x2fc
-> [  341.631425]  nmi_panic+0x54/0x78
-> [  341.631428]  arm64_serror_panic+0x74/0x80
-> [  341.631434]  arm64_is_fatal_ras_serror+0x6c/0x8c
-> [  341.631439]  do_serror+0x48/0x60
-> [  341.631444]  el1h_64_error_handler+0x30/0x48
-> [  341.631450]  el1h_64_error+0x68/0x6c
-> [  341.631455]  do_raw_spin_unlock+0xb8/0xc4
-> [  341.631460]  _raw_spin_unlock_irq+0x18/0x38
-> [  341.631466]  __wait_for_common+0xb8/0x154
-> [  341.631472]  wait_for_completion_timeout+0x28/0x34
-> [  341.631477]  dp_ctrl_push_idle+0x3c/0x88
-> [  341.631483]  dp_bridge_disable+0x20/0x2c
-> [  341.631488]  drm_atomic_bridge_chain_disable+0x8c/0xb8
-> [  341.631495]  drm_atomic_helper_commit_modeset_disables+0x198/0x450
-> [  341.631501]  msm_atomic_commit_tail+0x1c8/0x36c
-> [  341.631507]  commit_tail+0x80/0x108
-> [  341.631512]  drm_atomic_helper_commit+0x114/0x118
-> [  341.631516]  drm_atomic_commit+0xb4/0xe0
-> [  341.631522]  drm_mode_atomic_ioctl+0x6b0/0x890
-> [  341.631527]  drm_ioctl_kernel+0xe4/0x164
-> [  341.631534]  drm_ioctl+0x35c/0x3bc
-> [  341.631539]  vfs_ioctl+0x30/0x50
-> [  341.631547]  __arm64_sys_ioctl+0x80/0xb4
-> [  341.631552]  invoke_syscall+0x84/0x11c
-> [  341.631558]  el0_svc_common.constprop.0+0xc0/0xec
-> [  341.631563]  do_el0_svc+0x94/0xa4
-> [  341.631567]  el0_svc+0x2c/0x54
-> [  341.631570]  el0t_64_sync_handler+0x94/0x100
-> [  341.631575]  el0t_64_sync+0x194/0x198
-> [  341.631580] SMP: stopping secondary CPUs
-> [  341.831615] Kernel Offset: 0x2f2b200000 from 0xffffffc008000000
-> [  341.831618] PHYS_OFFSET: 0x80000000
-> [  341.831620] CPU features: 0x400000,61500506,3200720b
-> [  341.831623] Memory Limit: none
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 515f6772b866..051e7b647db9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -89,8 +89,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+>   {
+>   	struct drm_device *dev = crtc->dev;
+>   	unsigned int pipe = crtc->index;
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+> +	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
+>   	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+>   
+>   	if (!READ_ONCE(vblank->enabled)) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index bd53194f1525..b93157fa5336 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -51,14 +51,19 @@ static bool enable_overlay;
+>   module_param_named(enable_overlay, enable_overlay, bool, 0444);
+>   MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
+>   
+> +static unsigned int max_pipes = 1;
+> +module_param_named(max_pipes, max_pipes, int, 0444);
+> +MODULE_PARM_DESC(max_pipes, "Specify how many pipes to create");
+> +
+>   DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>   
+>   static void vkms_release(struct drm_device *dev)
+>   {
+> -	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
+> +	int i;
+> +	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+>   
+> -	if (vkms->output.composer_workq)
+> -		destroy_workqueue(vkms->output.composer_workq);
+> +	for (i = 0; i < vkmsdev->config->max_pipes; i++)
+> +		destroy_workqueue(vkmsdev->output[i].composer_workq);
+>   }
+>   
+>   static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+> @@ -100,6 +105,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>   	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+>   	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+>   	seq_printf(m, "overlay_planes=%d\n", vkmsdev->config->overlay_planes);
+> +	seq_printf(m, "pipes=%d\n", vkmsdev->config->max_pipes);
+>   
+>   	return 0;
+>   }
+> @@ -134,7 +140,7 @@ static const struct drm_mode_config_helper_funcs vkms_mode_config_helpers = {
+>   static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>   {
+>   	struct drm_device *dev = &vkmsdev->drm;
+> -	int ret;
+> +	int ret, i;
+>   
+>   	ret = drmm_mode_config_init(dev);
+>   	if (ret)
+> @@ -153,7 +159,14 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>   	dev->mode_config.preferred_depth = 0;
+>   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>   
+> -	return vkms_output_init(vkmsdev, 0);
+> +	for (i = 0; i < vkmsdev->config->max_pipes; i++) {
+> +		ret = vkms_output_init(vkmsdev, i);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	drm_mode_config_reset(dev);
+> +	return ret;
+>   }
+>   
+>   static int vkms_create(struct vkms_config *config)
+> @@ -189,7 +202,7 @@ static int vkms_create(struct vkms_config *config)
+>   		goto out_devres;
+>   	}
+>   
+> -	ret = drm_vblank_init(&vkms_device->drm, 1);
+> +	ret = drm_vblank_init(&vkms_device->drm, config->max_pipes);
+>   	if (ret) {
+>   		DRM_ERROR("Failed to vblank\n");
+>   		goto out_devres;
+> @@ -232,7 +245,19 @@ static int __init vkms_init(void)
+>   	config->writeback = enable_writeback;
+>   	config->overlay = enable_overlay;
+>   	config->overlay_planes = NUM_OVERLAY_PLANES;
+> +	config->max_pipes = max_pipes;
+> +
+> +	if (config->max_pipes > NUM_MAX_PIPES)
+> +		config->max_pipes = NUM_MAX_PIPES;
+> +	if (config->max_pipes < NUM_MIN_PIPES)
+> +		config->max_pipes = NUM_MIN_PIPES;
+> +
+> +	/* with NUM_OVERLAY_PLANES overlays and 4 pipes we'll exceed the amount
+> +	 * of planes we can have; see drm_mode_config::num_total_plane */
+> +	if (config->overlay && config->max_pipes == NUM_MAX_PIPES)
+> +		config->overlay_planes -= 2;
 
--- 
-With best wishes
-Dmitry
+I'm not sure if you really need to set the overlay planes as a kernel parameter.
+You could just reduce NUM_OVERLAY_PLANES to 6 or even 4. This way you could
+remove this if statement and make the logic more simple.
 
+Best Regards,
+- Maíra Canal
+
+>   
+> +	DRM_INFO("Initialized with %u pipes\n", config->max_pipes);
+>   	ret = vkms_create(config);
+>   	if (ret)
+>   		kfree(config);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index ae2b38360236..29617cd491e3 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -21,7 +21,9 @@
+>   #define XRES_MAX  8192
+>   #define YRES_MAX  8192
+>   
+> -#define NUM_OVERLAY_PLANES 8
+> +#define NUM_OVERLAY_PLANES	8
+> +#define NUM_MAX_PIPES		4
+> +#define NUM_MIN_PIPES		1
+>   
+>   struct vkms_frame_info {
+>   	struct drm_framebuffer *fb;
+> @@ -113,6 +115,7 @@ struct vkms_config {
+>   	bool cursor;
+>   	bool overlay;
+>   	unsigned int overlay_planes;
+> +	unsigned int max_pipes;
+>   	/* only set when instantiated */
+>   	struct vkms_device *dev;
+>   };
+> @@ -120,13 +123,16 @@ struct vkms_config {
+>   struct vkms_device {
+>   	struct drm_device drm;
+>   	struct platform_device *platform;
+> -	struct vkms_output output;
+> +	struct vkms_output output[NUM_MAX_PIPES];
+>   	const struct vkms_config *config;
+>   };
+>   
+>   #define drm_crtc_to_vkms_output(target) \
+>   	container_of(target, struct vkms_output, crtc)
+>   
+> +#define wb_connector_to_vkms_output(target) \
+> +	container_of(target, struct vkms_output, wb_connector)
+> +
+>   #define drm_device_to_vkms_device(target) \
+>   	container_of(target, struct vkms_device, drm)
+>   
+> @@ -158,6 +164,6 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
+>   void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
+>   
+>   /* Writeback */
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index);
+>   
+>   #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index f4e67a0ad712..ca4dc16b8d01 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -48,7 +48,7 @@ static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
+>   
+>   int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>   {
+> -	struct vkms_output *output = &vkmsdev->output;
+> +	struct vkms_output *output = &vkmsdev->output[index];
+>   	struct drm_device *dev = &vkmsdev->drm;
+>   	struct drm_connector *connector = &output->connector;
+>   	struct drm_encoder *encoder = &output->encoder;
+> @@ -104,12 +104,11 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>   	}
+>   
+>   	if (vkmsdev->config->writeback) {
+> -		writeback = vkms_enable_writeback_connector(vkmsdev);
+> +		writeback = vkms_enable_writeback_connector(vkmsdev, index);
+>   		if (writeback)
+>   			DRM_ERROR("Failed to init writeback connector\n");
+>   	}
+>   
+> -	drm_mode_config_reset(dev);
+>   
+>   	return 0;
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 84a51cd281b9..5f291689f870 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -101,7 +101,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>   				struct drm_writeback_job *job)
+>   {
+>   	struct vkms_writeback_job *vkmsjob = job->priv;
+> -	struct vkms_device *vkmsdev;
+> +	struct vkms_output *output = wb_connector_to_vkms_output(connector);
+>   
+>   	if (!job->fb)
+>   		return;
+> @@ -110,19 +110,18 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>   
+>   	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
+>   
+> -	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+> -	vkms_set_composer(&vkmsdev->output, false);
+> +	vkms_set_composer(output, false);
+>   	kfree(vkmsjob);
+>   }
+>   
+>   static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   				  struct drm_atomic_state *state)
+>   {
+> -	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+> -											 conn);
+> -	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
+> -	struct vkms_output *output = &vkmsdev->output;
+> -	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+> +	struct drm_connector_state *connector_state =
+> +		drm_atomic_get_new_connector_state(state, conn);
+> +	struct drm_writeback_job *wb_job = connector_state->writeback_job;
+> +	struct drm_writeback_connector *wb_conn = wb_job->connector;
+> +	struct vkms_output *output = wb_connector_to_vkms_output(wb_conn);
+>   	struct drm_connector_state *conn_state = wb_conn->base.state;
+>   	struct vkms_crtc_state *crtc_state = output->composer_state;
+>   	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+> @@ -135,7 +134,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   	if (!conn_state)
+>   		return;
+>   
+> -	vkms_set_composer(&vkmsdev->output, true);
+> +	vkms_set_composer(output, true);
+>   
+>   	active_wb = conn_state->writeback_job->priv;
+>   	wb_frame_info = &active_wb->wb_frame_info;
+> @@ -147,6 +146,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   	wb_frame_info->cpp = fb->format->cpp[0];
+>   	crtc_state->wb_pending = true;
+>   	spin_unlock_irq(&output->composer_lock);
+> +
+>   	drm_writeback_queue_job(wb_conn, connector_state);
+>   	active_wb->wb_write = get_line_to_frame_function(wb_format);
+>   	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
+> @@ -160,9 +160,9 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+>   	.atomic_commit = vkms_wb_atomic_commit,
+>   };
+>   
+> -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+> +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, int index)
+>   {
+> -	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
+> +	struct drm_writeback_connector *wb = &vkmsdev->output[index].wb_connector;
+>   
+>   	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>   
+> @@ -171,5 +171,5 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+>   					    &vkms_wb_encoder_helper_funcs,
+>   					    vkms_wb_formats,
+>   					    ARRAY_SIZE(vkms_wb_formats),
+> -					    1);
+> +					    1 << index);
+>   }
