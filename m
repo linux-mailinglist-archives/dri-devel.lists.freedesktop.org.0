@@ -1,73 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D2D6FA263
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 10:36:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B846FA250
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 10:33:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D54910E189;
-	Mon,  8 May 2023 08:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7A610E177;
+	Mon,  8 May 2023 08:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 986B910E185
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 08:36:13 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4efd6e26585so4765689e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 01:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683534971; x=1686126971;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7vOeK6NJXfng1Er3sfGOPlcD75JIf3x+ne87klUAZe8=;
- b=VjTc2e0tCdENNTGTlYaTu6SbmL+2zAqbhOvhqn8Ke3GrBw0BulOfpPKx61Gnsq+pau
- M97jxNpDaGyMW/osQhp3kBshxpA+lq1IZikHIjue/85Ye3S+zucnAIriJRfMjfKv91XR
- LXpKbcxRWPMkjOWfzBeqUKqb7sO5Tha6rVHExUgAiWXPOrk0KZsN1S5+VrT+AcbkXMhC
- nPuVH3iUsGdjUPSI/8SaEMgn4GZohy/J/J2mdHV6i/+9haCNoFx6/BYxpxKFTdSW8qXJ
- J/O3SefH9o5JXrkzC7cwR4tc+su3M2iLQcHon98PVnTrwxciiN7ExjmgJRWaQ83ztIYC
- sBEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683534971; x=1686126971;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7vOeK6NJXfng1Er3sfGOPlcD75JIf3x+ne87klUAZe8=;
- b=SmIpqCBYPkFGu2LqcdyIenPDiCGzUXhp538aN6Eu/KH5dHHe8eqSXy6Lz8b3tBC6ZN
- iXNkPGPp7FwREMYQ/DTh3ZMmohmMNiMxiyFEmkqNb3npTBYoX0eka93pomJojFZlOrPg
- xQLPcwkyqiyRBRXLoCF2GRrWqdZ9H9iTFcXtmtMUkVqq8+lEsrsjnvygPMpkxImjyiEC
- meB3hNHGsA0oPBgfzIrtr7j4mvyO/GBsNvCU9wxVHSFCGDZje34EU2RpMzrblZkkiBu0
- NAIjuC2EdqOa08nbP0guNOkl/I9qMn4zTDZXtHP9ZINhPwrV2OnJfznnIbMmZK86vD2T
- y5YQ==
-X-Gm-Message-State: AC+VfDzxTehaSYEWca7v2CVrYPQMPOfzxEtDV/NA6N21EjpwKwyPq4RF
- 8q5WJoDojFIdAuYisnh8WAfPNg==
-X-Google-Smtp-Source: ACHHUZ6/bXi/Yh+/jHrYdIbEzAMWQSkOek/BIP7BFnilquyHz/JZcmKS5cfq6hr+S1+7VeyczkzauA==
-X-Received: by 2002:ac2:47e5:0:b0:4ef:ec94:9678 with SMTP id
- b5-20020ac247e5000000b004efec949678mr2744507lfp.20.1683534971320; 
- Mon, 08 May 2023 01:36:11 -0700 (PDT)
-Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
- by smtp.gmail.com with ESMTPSA id
- v9-20020ac25609000000b004efee4ff266sm1230248lfd.67.2023.05.08.01.36.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 01:36:10 -0700 (PDT)
-Message-ID: <6b93e2a9-58aa-bb91-f615-3fdec52596da@linaro.org>
-Date: Mon, 8 May 2023 10:36:09 +0200
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2064.outbound.protection.outlook.com [40.107.241.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0EBA10E174
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 08:33:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EjqzjM38LuzhEtkeBVt2GCeexivhIdGPZVrmP1k5ayhlWteD9GXzSgXxAHTHGsJZs/Ym2OyuBaN3FBqMRBd01q7smI4GEf5YOABkhuIa7Z2IbroxccRtbZ9W7l6UMu0EDoCdwEpu3gzoP0ApFGVdLlE8uY5+17JcvO5D254M2uJ12dU4qMBEBXNu1tYHbE6cI7RLwv1U2hldiKRTc1aaNR3pyW4ntPPV8042fi0ko+MdNEosm/m92/35OgtanO6FoKhFIdiSeHNVBWIAnRxq+riIJN0AObbpJp7yMp0tsx89yJ2xxvM/GNNyYTz0WxmfFL+mKDRWaI48OxehUOYOGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RnmhfxxLO0BbzQgQ4pjNZxxBwcW2UV2hgKfY5USodp0=;
+ b=C2o3j2cqnghb2dqwqqYNuM6yYcDd17kMTxwDQevYB1ejOyqXXjxEplfpD0CH1ds8NN+2hRLa5yoEwkuTcmuQA9GYWAkhESOjKdEuHcaWp4Io2IDxAhOWQi7YELVwPdqEogxZQZ7fmWBncljrQYOCCh8Jo00GmywAncr2Q5uOXfxKEnEX0kH3fn/AfiROAf3ptCryQOP6cZod7xu+01vPBbJ5tu4lilVqm5PSAjD1BDIxjS/GLoOe6j2HKBZRQpc+n19zk7itKvFcVJ44iF0ebFvrkjG151Oj41k1Eve8ulNONl/+hLxZTE0bmLljLYiGBo9n7OSF1cNlhgcAG6aadw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RnmhfxxLO0BbzQgQ4pjNZxxBwcW2UV2hgKfY5USodp0=;
+ b=XjrcZ9Szs5ngXi3116mHYjZAnaMcpmc0FNJmVhRMMipXRoZ1t1Fa40Oktcv9HtWskANCvzZwsIgQgBV28/byITAXjsSDRToASLY/pFwm1Y7e0W9IxIzgTIOY6nl3GS57lfL53QT8Ba9SvMJ4gEEmy3ANEpUigxRr1jJE41l2xU8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS1PR04MB9408.eurprd04.prod.outlook.com (2603:10a6:20b:4d8::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Mon, 8 May
+ 2023 08:33:47 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::60e3:2297:61f1:4d1d]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::60e3:2297:61f1:4d1d%4]) with mapi id 15.20.6363.032; Mon, 8 May 2023
+ 08:33:46 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] drm/panel: panel-simple: Add BOE EV121WXM-N10-1850
+ panel support
+Date: Mon,  8 May 2023 16:38:24 +0800
+Message-Id: <20230508083826.1016206-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0045.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::14)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 3/4] drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature
- flag
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
- <20230405-add-dsc-support-v2-3-1072c70e9786@quicinc.com>
- <i6i2xj2tuy5mcxsj674d77kfdb3ne6immkmrzw5f6u4bfx2sth@ef7fzrhdyypx>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <i6i2xj2tuy5mcxsj674d77kfdb3ne6immkmrzw5f6u4bfx2sth@ef7fzrhdyypx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS1PR04MB9408:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce2218d2-4b25-4939-8ff0-08db4f9ef084
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 12jK8bf8qLpZ5yAc8eKOWQFwgsJie38aS75kz8atH0Xc93Ajk8RYPAqWo3h6hdzdyiAifBm+r+rUjkyhxCZgVGGGfjfpA8Wo7y7qnqQj6NFz+VdmcCPTAqbbFw2YPPp0k0j33CW+G3m54o8/KAN9BMojkg7hBiV2DLG4CiHqUT6jymmBrNCLlUWcDx5Z6Hp+XOijQHu9jh4GF9dTOnnDLm7yUQ3KuN0/7cvbW+qYkgI20c3DE3OV99rOhiJTuQITmdKAww5asiBVPySxivh7ASw44klM8qTVjCIesnm5fUXsNf4f5bkDlDvZI/ZXa7AtAVyEyvfFIDISOnHjp5oWAH1eWIiGdwrZpXwEz4xCG3fYK9IWo2RUhT+D9EZEjaxWDEhld8Cjdza4maZT13xbn7nvHUvQ7zBB7Nl7SKvtAICClU2sMoEhTlAtJYod3Ymq/ghRpQk3fsX+s/haz8K8MYT2QcGKEt9dwUX1BzPBnr1wzHUhdV+xqICHU4aTc6bGEf1BEYI42oD6ULibT82KK+zgkuWqSOicIvTFmVwDb7H8hN0N+6Ik7gXatuOw+cjM3/kwzvWFxhgEL0z2P/0/p+G1N6xoZXHnfVo8aPi77e0V0Xjq7hL2Mvxkxe1woL2D
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(136003)(376002)(346002)(39860400002)(366004)(451199021)(52116002)(66946007)(66556008)(66476007)(4326008)(478600001)(6486002)(316002)(6666004)(86362001)(36756003)(83380400001)(2616005)(6512007)(6506007)(1076003)(26005)(8676002)(8936002)(5660300002)(41300700001)(7416002)(4744005)(2906002)(186003)(38350700002)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?up50DesUkhfZyAB4ySpdSeISHibLLXBYrBKIJjkFvalGDYAupEgQigjS10IA?=
+ =?us-ascii?Q?hYmUGw41MsgNXxPjAQhNXlwzv0uyJdwbFtlb5HIQeCnu5ErRnSqdraMWvrft?=
+ =?us-ascii?Q?yp/v1iXD58VdXEhH22sNj9fGMFfg7c2Tk8ukJ56DyYGvJlEtP5Pp6gFXywGQ?=
+ =?us-ascii?Q?r8/b0jAeKj6WPMab/SXzNSOakgA5ay4EJbzrlR0DyPtWAJ6WMK8tpYsS6OO7?=
+ =?us-ascii?Q?NPykqcTxT7QI94m8ejU8jzueuFPe5+ZRFetlColayKeFLa5K6X3KNmIfWP2e?=
+ =?us-ascii?Q?lVqn/Zdze/uF8D0BGqO8K/lvnQL8AcMKkTAYW1NScd0bWWH/1E7wmj2gyC07?=
+ =?us-ascii?Q?ELul4kROYxdQ3RXJMXJ6EUgtTgCBLOZWkX0JlwDr2dmeAkcOeaNZ1gsmNCpM?=
+ =?us-ascii?Q?Ti7b31/bbKqH3WwJWpCYGRaLVqK2suR27jv52zK6BZS/dKqqEN5ZMSqO3aak?=
+ =?us-ascii?Q?6odiyLSXBvLtUD2gPVb7Z6fb0ZuPCHuWsWofyXwJ1okbLX2pUw+5Pzit39Wn?=
+ =?us-ascii?Q?ftm9BeaHKQaaeBnpc4odXX9w8WSnaOC0dLpiPTIb1OyezwTa+Qh/ue1qd9BA?=
+ =?us-ascii?Q?TfVMtGrochApNGSwCmYujKsx5GJEWlPa1NTlkCdxVasg/O4thKuX/HIEexcd?=
+ =?us-ascii?Q?I0YyX19iUPjmnaLWtxR7u894M3ZZfVDy3n63xW8bblq45D1BQ+LBYI5moAND?=
+ =?us-ascii?Q?WABaojv5pKDdBRrOBP1W6NUgyhbV8b88I/R5KoEMVrs19+pPOsFZOcJbJRYY?=
+ =?us-ascii?Q?eM06KpqNMllEjYDEa76g6BclSoqLU6VOxjrisYdJQD2Ha0SmeRhkITDq+fW0?=
+ =?us-ascii?Q?kumlpRrU8zo8uT1HqD2gPHAlIjwHdDO6RcbrUSsxith5u07dkZ7BSGUkvvRt?=
+ =?us-ascii?Q?Yv3BmpKM1xWwLFy0IlynEPmZADPM/U3Lax3LDQp3ekCMqlosDxp6rdbT3inJ?=
+ =?us-ascii?Q?soPS+SNhkRH2VVF9bCdbgFsSr95s60OSh1Z+OQW1vB0wG1e+UYzImZ9EA0Dt?=
+ =?us-ascii?Q?Xd0nGz2E5exMqk1ozylVogozOsSmpFQdni5LeBc69HNV+MTJyohO7EjkLRbT?=
+ =?us-ascii?Q?rWfVcziTPOmEAgBEwcwtv7zzQgzYdPptXae/BbVOjdPQQBNl3OQzhuvF0SdE?=
+ =?us-ascii?Q?1AvStNswQmtlAtvwjf9mGJxVItoKF3DR/+JIwYMxAZwpAG8Dwy8hhUnDRxVF?=
+ =?us-ascii?Q?aa3vxMiGP6G7FiTfV9D5wO8XPTrMQ08AcT6rLqHI2UbwRm9eLgO6FoMBSr5M?=
+ =?us-ascii?Q?m1JFBBQ86j5KxVPUyvGkv7UkYcuQsXI6Naya9aOD+HHG6lpZi14FbSNNAy3W?=
+ =?us-ascii?Q?UlwBINHJBUgbi0gcxx9k+RuEwkJDALDeqD6aihUYF7ptQ1LZqz7VP5rzxJu1?=
+ =?us-ascii?Q?lIbt0C++hgUgve4v49GLexCnhI5aP3/drCgWMu4kThJw4uTjk44CJFKnzB78?=
+ =?us-ascii?Q?jxYCILN6W7fEvLWuW6q2EArs5ZpdXRVn6WIl+qsOAmuThHBXoIlbn2N9Fj9Q?=
+ =?us-ascii?Q?3i40R9WKtDOvu06q1AySQxUd3h/TJ98N6UFqxJVOJWyFjgtjX3SOAagGbvx4?=
+ =?us-ascii?Q?gLaBbmS0nPzw7LcOCG/DYI6AQX2Z7trpCWO8szhq?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce2218d2-4b25-4939-8ff0-08db4f9ef084
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2023 08:33:46.4997 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GjgmUVfoecRJGyGYyQz9Pe6+DxZV2of+nZbflRkgE4XpPc0SQqSVBsW6WqOu3K0ES9dK5ny4oZ6Jna8PlA27Tw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9408
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,98 +113,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, sam@ravnborg.org,
+ krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, thierry.reding@gmail.com,
+ linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+This patch series aims to add BOE EV121WXM-N10-1850 panel support
+in the DRM simple panel driver.
 
-On 7.05.2023 18:00, Marijn Suijten wrote:
-> On 2023-05-05 14:23:50, Jessica Zhang wrote:
->> Add DATA_COMPRESS feature flag to DPU INTF block.
->>
->> In DPU 7.x and later, DSC/DCE enablement registers have been moved from
->> PINGPONG to INTF.
->>
->> As core_rev (and related macros) was removed from the dpu_kms struct, the
->> most straightforward way to indicate the presence of this register would be
->> to have a feature flag.
-> 
-> Irrelevant.  Even though core_rev was still in mainline until recently,
-> we always hardcoded the features in the catalog and only used core_rev
-> to select a dpu_mdss_cfg catalog entry.  There is no "if version >= X
-> then enable feature Y" logic, this manually-enabled feature flag is the
-> only, correct way to do it.
-> 
->> Changes in v2:
->> - Changed has_data_compress dpu_cap to a DATA_COMPRESS INTF feature flag
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
->> ---
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
->>  2 files changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> index 7944481d0a33..c74051906d05 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> @@ -104,7 +104,7 @@
->>  #define INTF_SC7180_MASK \
->>  	(BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE) | BIT(DPU_INTF_STATUS_SUPPORTED))
->>  
->> -#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN)
->> +#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN) | BIT(DPU_INTF_DATA_COMPRESS)
-> 
-> Konrad: Your SM6350/SM6375 series v3 [1] switched from INTF_SC7180_MASK
-> to INTF_SC7280_MASK to enable HCTL on SM6375, but that will now
-> erroneously also receive this feature flag and write the new
-> DATA_COMPESS mask even if it's DPU 6.9 (< 7.x where it got added).
-> 
-> [1]: https://lore.kernel.org/linux-arm-msm/80b46fcb-d6d0-1998-c273-5401fa924c7d@linaro.org/T/#u
-> 
-> Depending on who lands first, this flag should be split.
-I'll adapt my patches. Jessica, no changes required on your side.
+Patch 1/2 adds dt-bindings support for the panel.
+Patch 2/2 adds the panel support in the DRM simple panel driver.
 
-> 
-> I still see value in inlining and removing these defines, though that
-> brings a host of other complexity.
-right, we should totally do it after we settle down from the patch
-flurry
+v1->v2:
+* Add Krzysztof's A-b tag on patch 1/2.
+* Use struct display_timing in patch 2/2 to tell minimum and maximum
+  pixel clock rates.
+* Set bus_flags to DRM_BUS_FLAG_DE_HIGH in struct panel_desc in patch 2/2.
 
-Konrad
-> 
-> - Marijn
-> 
->>  #define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
->>  			 BIT(DPU_WB_UBWC) | \
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> index 4eda2cc847ef..01c65f940f2a 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> @@ -185,6 +185,7 @@ enum {
->>   * @DPU_DATA_HCTL_EN                Allows data to be transferred at different rate
->>   *                                  than video timing
->>   * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
->> + * @DPU_INTF_DATA_COMPRESS          INTF block has DATA_COMPRESS register
->>   * @DPU_INTF_MAX
->>   */
->>  enum {
->> @@ -192,6 +193,7 @@ enum {
->>  	DPU_INTF_TE,
->>  	DPU_DATA_HCTL_EN,
->>  	DPU_INTF_STATUS_SUPPORTED,
->> +	DPU_INTF_DATA_COMPRESS,
->>  	DPU_INTF_MAX
->>  };
->>  
->>
->> -- 
->> 2.40.1
->>
+Liu Ying (2):
+  dt-bindings: display: simple: Add BOE EV121WXM-N10-1850 panel
+  drm/panel: panel-simple: Add BOE EV121WXM-N10-1850 panel support
+
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 34 +++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+
+-- 
+2.37.1
+
