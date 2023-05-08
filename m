@@ -1,77 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFBE6FB30C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 16:36:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5046FB33B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 16:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B161710E2D5;
-	Mon,  8 May 2023 14:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE23E10E2C2;
+	Mon,  8 May 2023 14:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEBA10E2B3
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 14:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683556566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PDvLE6MOxt+MLFOjl1npkCWLcrid4BACl31i+SxcR50=;
- b=ZnbV0H675qT1X+gRKVEzLDSPGzRpZ0SI76Kszzx4ZLvOUWh5cWt8v9aruFnI/aViLMPSnB
- pd3/0WKag4socMwuA3pDugeN5+O/jqy15mT9kJpt+CjovGwovRdiC1BvXloCDCBbnX+IZZ
- BMJX1Oy/PqGNFyCPa3LhjXPR1uJFrII=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-efISzGDFPEuCNXA2LVQVaQ-1; Mon, 08 May 2023 10:36:05 -0400
-X-MC-Unique: efISzGDFPEuCNXA2LVQVaQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3078b9943d6so696443f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 07:36:05 -0700 (PDT)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86E8010E147;
+ Mon,  8 May 2023 14:48:56 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-18f4a6d2822so31826533fac.1; 
+ Mon, 08 May 2023 07:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683557335; x=1686149335;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=04DgYL9ZmEKaOVbUM4T7mAu34s7OhOg8hMlDmx91xxc=;
+ b=kYnsHzNbR1qG49sGNL1PXh2+Zlj+RgCIFyEXKDff56OhszMSee14AKlklmCWAScd9Q
+ zDRxPh0O5sQhykgRgzyBKJ/34sn8gDAAZnsYK+/6q1mn4TY8bMcQlg/Lvm8LZLy3+R7r
+ sMYljHaVKy3B39wEtUVFYdhIhKfhvOKXG1KpE3xqE5BN38AFGodiMZ3o74hkkv448irY
+ piLnoEnf6l/zg/uEYgnZfp6bC+fF8yLbFMOBpFBzecculsyj2gEMsRanL04l/ySbLldj
+ 7i7atqVlypl5Pqo2sKoptt8NoeRwWUzpXdubYghD+cAWPvVeJAXrOnQ2qiIogfn8wsww
+ 0pVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683556564; x=1686148564;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683557335; x=1686149335;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PDvLE6MOxt+MLFOjl1npkCWLcrid4BACl31i+SxcR50=;
- b=VwaTOb4g7PEZzvmplRXBVSkbJ49dnAAndZWi11H7NF4466+aQmvlaC926tkn7HYJu1
- N1ModviTdU8NIOQSFFKxdjRDAPcywYT/TkHC1E1ob38tO6S07OULxlX+pSH/wvK82I7q
- L9nYj/z4qQtMVNk/CFOOjpEBUHnxuXsvzgeE3KX1fZs58ZlqVXTbRQ1x6/ltrQtDQTZW
- UdCZse3r5yLVg8dekXFbDaYB2G9q4qjoqXJofaR4uqhfoZuuA4vQ0hSgMWfP46OPqDvg
- UrQBLq2zYcQAF589cLDHrr7hvRGPAj7MBKXB3tBU3Viv9z/lb4wSxNTIE28Gdd4FU5fd
- W+CQ==
-X-Gm-Message-State: AC+VfDxZsUkZ79QcG87x8PtKD3bPbZxxAJRGlZCZzCTCW7eVC+nws6eu
- iXz9BTh3SiMxXj9pi4Tcc2gyj355KNToRbu9OxPi/QREC+OnLIGLyi/iRxrcTqpJwKQtbdxlNN7
- eJkulauL4wuIQTcNGMWiA1fkF3MLJ
-X-Received: by 2002:a5d:4101:0:b0:2f4:9956:e828 with SMTP id
- l1-20020a5d4101000000b002f49956e828mr8240003wrp.18.1683556564296; 
- Mon, 08 May 2023 07:36:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5BHsItldOQxTp0lOsgO3/oTDavJtW0OS2IKfDkOXRYE6jBHhh8FTUyDks7CRuc0j2GTPv27g==
-X-Received: by 2002:a5d:4101:0:b0:2f4:9956:e828 with SMTP id
- l1-20020a5d4101000000b002f49956e828mr8239990wrp.18.1683556564030; 
- Mon, 08 May 2023 07:36:04 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w3-20020a05600018c300b002fe96f0b3acsm11624229wrq.63.2023.05.08.07.36.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 07:36:03 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rodrigo Siqueira
- <rodrigosiqueiramelo@gmail.com>, Melissa Wen <mwen@igalia.com>, Haneen
- Mohammed <hamohammed.sa@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add Maira to VKMS maintainers
-In-Reply-To: <20230508141038.327160-1-mairacanal@riseup.net>
-References: <20230508141038.327160-1-mairacanal@riseup.net>
-Date: Mon, 08 May 2023 16:36:02 +0200
-Message-ID: <87h6smx54d.fsf@minerva.mail-host-address-is-not-set>
+ bh=04DgYL9ZmEKaOVbUM4T7mAu34s7OhOg8hMlDmx91xxc=;
+ b=H+HDOv6Uv05IQB2R5AoSCWygygkQQlcBAHNxTwH/2r9X1/sOD43+fiIv5Now6m0o9W
+ WYGnR995COYQzpidNSjnl1tJdpHGgrfmlkADVwB3lAnwaGaazROr3Dxnexy2gGtQWlO0
+ zs1JwkjPnRmJb4pOqx9GcAy+q/FbRcGyCk58odqq0wGgEZGLLjo6U8jEUaqsIZmjd/IL
+ xlk39X2MyWV1YYwnQCXpZg83zKLJNPzN4tUSiLzwLWbP03o9ejfn1+EDfBDyJgiWW4qB
+ BxFc0SfuzbBlAENh+U+sC/STVB+KsoxFU5lTF2y0r9df6fJF5pAYorb1twEyAjVJON7D
+ V0iA==
+X-Gm-Message-State: AC+VfDxcNVEWNgGjw2EUaJ685+ac5Pp95B7+JUw/5mzXjB57+bD0NVH/
+ 7ekUXcd23Qx4x5POGA5QENDBG5vdenm2nPdJ5vU=
+X-Google-Smtp-Source: ACHHUZ5uFtaaZR1vMZ02+lkLzojO4L4M4UVAAAwwix4mKnkizhVuz2ka1KhN5RWUbkjK0YLdJfR0IvFX1S/fG8H60ys=
+X-Received: by 2002:aca:df03:0:b0:38c:2c79:37e with SMTP id
+ w3-20020acadf03000000b0038c2c79037emr7844626oig.20.1683557335416; Mon, 08 May
+ 2023 07:48:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <20230506081043.73456-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20230506081043.73456-1-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 8 May 2023 10:48:43 -0400
+Message-ID: <CADnq5_PCdwi_d_gPjH0uBngHanzzC1nk8vfTRMO=ZrP6dSVY2Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove the unused variable
+ golden_settings_gc_9_4_3
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,25 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org
+Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ma=C3=ADra Canal <mairacanal@riseup.net> writes:
+Applied.  Thanks!
 
-> I've been contributing to VKMS with improvements, reviews, testing and
-> debugging. Therefore, add myself as a co-maintainer of the VKMS driver.
+On Sat, May 6, 2023 at 4:11=E2=80=AFAM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
 >
-> Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> Variable golden_settings_gc_9_4_3 is not effectively used, so delete it.
+>
+> drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c:48:38: warning: =E2=80=98golden_s=
+ettings_gc_9_4_3=E2=80=99 defined but not used.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D4877
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/am=
+d/amdgpu/gfx_v9_4_3.c
+> index 312491455382..74be46d382f4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+> @@ -45,10 +45,6 @@ MODULE_FIRMWARE("amdgpu/gc_9_4_3_rlc.bin");
+>  #define GFX9_MEC_HPD_SIZE 4096
+>  #define RLCG_UCODE_LOADING_START_ADDRESS 0x00002000L
+>
+> -static const struct soc15_reg_golden golden_settings_gc_9_4_3[] =3D {
+> -
+> -};
+> -
+>  static void gfx_v9_4_3_set_ring_funcs(struct amdgpu_device *adev);
+>  static void gfx_v9_4_3_set_irq_funcs(struct amdgpu_device *adev);
+>  static void gfx_v9_4_3_set_gds_init(struct amdgpu_device *adev);
+> --
+> 2.20.1.7.g153144c
+>
