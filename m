@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEAE6FBAD8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 00:10:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE87F6FBB14
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 00:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EADA10E311;
-	Mon,  8 May 2023 22:10:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE99A10E317;
+	Mon,  8 May 2023 22:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232AA10E311
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 22:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=w2BDjltas+1f5y4nRccckcy8BmBhkxwsgvmK2MdX5H4=; b=p09HOPNrGo94QplPvBZA0xppMd
- Kb2+c25NhCsoymYGNtu7pDNyElwev/EmUVKwUBWmGDyOREHK6s/rA4CH44NFK+svsXLHQlDHYsCXi
- I4KMU920IFAL5grgBy3fthG5jYSdHeJLVO1b8hm1ciklPT+IGJMit+5CYmojBYQLw1DBLk93lt7Of
- HqbQaEF6ktB3sMFEJcTsaQAHRh7/B3PiG56xQ/mWqa6n+0nJheo/pkGYv7JzLif59SZ7zGvfzvwHY
- wWKbkEl4pjQ7UbmIrzjDR+fTJ9MVBnWrM6r23hGn9HmxIYwHfHsRmzCTlb2pMdMOtcxhcAGlWytKj
- wwpJuEsw==;
-Received: from [177.34.168.16] (helo=[192.168.0.4])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pw93w-004G5s-3p; Tue, 09 May 2023 00:10:32 +0200
-Message-ID: <164e2e26-7ed0-853f-c7d5-ad4fbbb61cac@igalia.com>
-Date: Mon, 8 May 2023 19:10:27 -0300
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F8C10E313;
+ Mon,  8 May 2023 22:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683584902; x=1715120902;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=47cdsgBsrcl70mNXWjdo97kb9cMzY7L8ZzATG7h/TOg=;
+ b=UXJFTW0ojPDSk3CUwikJLc3viQ4hIAi/FXkIG7K2V2u836cU3odObobn
+ kCMx+zKwJpqNGgm7EzyMZgA+PNSAj6L/JZhAvOEnm73V+bAtlNKTFntyU
+ JAddIsSxIb5xSaHXVt9ytCBvX+zWZJ8DLi15yNyVQAWQg9MvePnRiZLHc
+ DuaAZvZS9RzSksJtKdzte1aRPJpK9NDJ38kPfB2Df2/6+3KkwQh1iGTyi
+ OynNjIMfQQo82tuWrwPculJ6mVw4FPLFx5HKSMqxK7wj4C0CPzjTJtX70
+ zBbm6ajNxHh5TWS4+XP4LG4e60UC6/lgTA4x9aCQq0XRTgyChqszRqyLw g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="413032809"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="413032809"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2023 15:28:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="872947002"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="872947002"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 May 2023 15:28:18 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 0/2] drm/i915: use pat_index instead of cache_level
+Date: Mon,  8 May 2023 15:29:11 -0700
+Message-Id: <20230508222913.3946355-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 45/53] drm/tests: helpers: Convert to platform remove
- callback returning void
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <maxime@cerno.tech>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-46-u.kleine-koenig@pengutronix.de>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230507162616.1368908-46-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,54 +55,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+From: Fei Yang <fei.yang@intel.com>
 
-On 5/7/23 13:26, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
-> 
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpu/drm/tests/drm_kunit_helpers.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> index e98b4150f556..049b98daedbb 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-> @@ -19,14 +19,13 @@ static int fake_probe(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> -static int fake_remove(struct platform_device *pdev)
-> +static void fake_remove(struct platform_device *pdev)
->   {
-> -	return 0;
->   }
+This patch set was posted at
+https://patchwork.freedesktop.org/series/116868/
+Change title since the PTE patch was merged separately.
 
-This function was removed on commit 96c25b03145a. I'm not sure if
-we should bring it back.
+These patches are extracted from series
+https://patchwork.freedesktop.org/series/115980/
 
-Best Regards,
-- Maíra Canal
+This series refactor the cache policy programming so that the PTE
+encode functions can be unified across all GEN12 platforms. This
+refactor is also important in implementing the design which allows
+uerspace to directly set cache policy for each Buffer Object.
 
->   
->   static struct platform_driver fake_platform_driver = {
->   	.probe	= fake_probe,
-> -	.remove	= fake_remove,
-> +	.remove_new = fake_remove,
->   	.driver = {
->   		.name	= KUNIT_DEVICE_NAME,
->   	},
+v2: drop one patch that was merged separately
+    341ad0e8e254 drm/i915/mtl: Add PTE encode function
+v3: disable {get, set}_caching ioctl
+v4: fix missing unlock introduced in v3, and
+    solve a rebase conflict
+v5: replace obj->cache_level with pat_set_by_user,
+    fix i915_cache_level_str() for legacy platforms.
+v6: squash the pte_encode patch because separating them causes
+    bisect probelm. Also addressing some review comments from
+    Tvrtko and Matt.
+
+Fei Yang (2):
+  drm/i915: preparation for using PAT index
+  drm/i915: use pat_index instead of cache_level
+
+ drivers/gpu/drm/i915/display/intel_dpt.c      | 12 +--
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    | 58 +++++++++-----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 11 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 60 +++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 ++
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 51 +++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  2 -
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  8 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  2 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          | 10 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 78 +++++++++---------
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |  3 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 76 +++++++++---------
+ drivers/gpu/drm/i915/gt/intel_gtt.h           | 18 ++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 47 ++++++-----
+ drivers/gpu/drm/i915/gt/intel_migrate.h       | 13 ++-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  4 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    | 47 +++++------
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  8 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |  4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 10 ++-
+ drivers/gpu/drm/i915/i915_debugfs.c           | 52 +++++++++---
+ drivers/gpu/drm/i915/i915_gem.c               | 27 ++++++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  8 +-
+ drivers/gpu/drm/i915/i915_pci.c               | 79 ++++++++++++++++---
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++--
+ drivers/gpu/drm/i915/i915_vma.h               |  2 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |  2 -
+ drivers/gpu/drm/i915/intel_device_info.h      |  5 ++
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |  5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |  4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 15 ++--
+ .../drm/i915/selftests/intel_memory_region.c  |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  8 +-
+ 40 files changed, 554 insertions(+), 237 deletions(-)
+
+-- 
+2.25.1
+
