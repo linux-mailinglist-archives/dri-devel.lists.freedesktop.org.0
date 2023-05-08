@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE9A6FA296
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 10:51:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1D56FA2B2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 10:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE1910E18D;
-	Mon,  8 May 2023 08:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0BC10E198;
+	Mon,  8 May 2023 08:57:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A8D10E18D;
- Mon,  8 May 2023 08:51:48 +0000 (UTC)
-X-UUID: 448e16397a6242399bf3f0072562a30b-20230508
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:6c58c0b9-9ae8-41b1-9b55-fb6474963e22, IP:15,
- URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-INFO: VERSION:1.1.22, REQID:6c58c0b9-9ae8-41b1-9b55-fb6474963e22, IP:15,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:0
-X-CID-META: VersionHash:120426c, CLOUDID:bfb91a6b-2f20-4998-991c-3b78627e4938,
- B
- ulkID:230508165141N0GP7D3I,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|102,
- TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 448e16397a6242399bf3f0072562a30b-20230508
-X-User: liucong2@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 812679255; Mon, 08 May 2023 16:51:40 +0800
-From: Cong Liu <liucong2@kylinos.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/i915: Fix memory leaks in function live_nop_switch
-Date: Mon,  8 May 2023 16:50:15 +0800
-Message-Id: <20230508085016.437836-1-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97DBD10E198
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 08:57:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BB716620B3;
+ Mon,  8 May 2023 08:57:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54E10C433EF;
+ Mon,  8 May 2023 08:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683536267;
+ bh=G5v7NSAKXe2kLiZkicPjPQ/vKtmbjwfgIRwrsi4rT4A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pl0UQZj54buaQ35xQcBdmpJB5ccWsOHmiWJ7iamjj1B4SoCPRo1KbNe+Aukzlc5n0
+ uZMuGpJNslVEQWFdp6SVSfIhl/01niiqlSnP43z5Z5MyWpV91e66gqMkOJI237gRtj
+ ar6LG2CQu7g7xRL4EVmpPL6H0s6z659skAJLJikwHvbbxMh5NnoDKthlZjFvuauR+7
+ UHGLwXIF475Aupcf11AcKtW9W9LVMZcZPTlUgJmb7cx5K+Z1MqjMjPoxtdohoSGWUu
+ ZnDq6Q2bic907kFa2sq5IqN5KB4gpocS4VZx3rcrWCAuBmKvVpfnAgAuP+NM0k8+Ce
+ lE1EgjLr+fVPg==
+Date: Mon, 8 May 2023 14:27:42 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH] phy: mediatek: fix returning garbage
+Message-ID: <ZFi5hqhsTKqV96hF@matsya>
+References: <20230414122253.3171524-1-trix@redhat.com>
+ <ZFTMPWp8LhwA9uHz@matsya>
+ <db9c3190-28d8-199f-f4f0-a12524d0451e@gmail.com>
+ <ZFipVfhLVyye/eud@matsya>
+ <f5cf30b2-c29c-03ac-e7fc-4c7da2cd0c5b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5cf30b2-c29c-03ac-e7fc-4c7da2cd0c5b@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,44 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Cong Liu <liucong2@kylinos.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: kishon@kernel.org, chunkuang.hu@kernel.org, granquet@baylibre.com,
+ Tom Rix <trix@redhat.com>, llvm@lists.linux.dev, ndesaulniers@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nathan@kernel.org, linux-phy@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, chunfeng.yun@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Be sure to properly free the allocated memory before exiting
-the live_nop_switch function.
+On 08-05-23, 10:24, Matthias Brugger wrote:
+> 
+> 
+> On 08/05/2023 09:48, Vinod Koul wrote:
+> > On 05-05-23, 17:37, Matthias Brugger wrote:
+> > > 
+> > > 
+> > > On 05/05/2023 11:28, Vinod Koul wrote:
+> > > > On 14-04-23, 08:22, Tom Rix wrote:
+> > > > > clang reports
+> > > > > drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c:298:6: error: variable
+> > > > >     'ret' is uninitialized when used here [-Werror,-Wuninitialized]
+> > > > >           if (ret)
+> > > > >               ^~~
+> > > > > ret should have been set by the preceding call to mtk_hdmi_pll_set_hw.
+> > > > 
+> > > > I have applied "phy: mediatek: hdmi: mt8195: fix uninitialized variable
+> > > > usage in pll_calc"
+> > > 
+> > > Thanks Vinod, that was on my list for today as well. I was a bit puzzled
+> > > because you took the patch that added it, but I wasn't sure if you would
+> > > take the fix. How do you want to handle things like this in the future?
+> > 
+> > Fixes should be sent as Fixes patch
+> > 
+> 
+> I'm not sure what do you mean. Patch subject includes the word fix and the
+> patch has a fixes tag. What was missing here?
+> 
+> Does this mean you will take fixes for this driver in the future or do you
+> want me to take care of them?
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
----
- drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Yes I would take the fixes as well for the drivers
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index a81fa6a20f5a..54eddbe7f510 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -59,7 +59,8 @@ static int live_nop_switch(void *arg)
- 	ctx = kcalloc(nctx, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx) {
- 		err = -ENOMEM;
--		goto out_file;
-+		fput(file);
-+		return err;
- 	}
- 
- 	for (n = 0; n < nctx; n++) {
-@@ -175,6 +176,7 @@ static int live_nop_switch(void *arg)
- 
- out_file:
- 	fput(file);
-+	kfree(ctx);
- 	return err;
- }
- 
 -- 
-2.34.1
-
-
-No virus found
-		Checked by Hillstone Network AntiVirus
+~Vinod
