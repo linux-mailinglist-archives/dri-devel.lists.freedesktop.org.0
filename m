@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C286F9F7C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 08:14:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 116AA6F9FD2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 08:27:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6AC910E112;
-	Mon,  8 May 2023 06:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE2C10E11A;
+	Mon,  8 May 2023 06:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D897A10E112
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 06:14:23 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-b9a7c1b86e8so5435406276.2
- for <dri-devel@lists.freedesktop.org>; Sun, 07 May 2023 23:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683526463; x=1686118463;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VGAqICUH/1K4NsgXWbLmHmQxYqNk9fYoObWVq8uFXmY=;
- b=GBaxONxSV36I6Y04VAp3eKcF4Z5peOBoJlNpr8SLrdqwhBHLovszOW37KDHp3cHY/O
- DAmlJiLRwr2p9GwjeQ+WGBcC5ntY1cIy2RseflBUZjex00+GxrEbHefrHugR+ooHc/aS
- MyEuJ3bnqoSVc0a+1sJE1o+cF4Av4BaaNVe9XcSyscMm7IA7IpFJVykI5ttd1I5FeI2W
- 6QzKzV3Lhdu6uqhPCYP4CKpF/Z3E/jnV506V5UJUNFk2/qi2PGUlbAuBJ/2YbY9VhU78
- 3VV56QuTQCktxiP5EAzn8xPfuzLOxdnbs5xWETk8g54++zr7LVP2q44is5JHwqYPwz2P
- 5+JA==
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5FBF10E11A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 06:26:59 +0000 (UTC)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-196035d9d28so655007fac.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 May 2023 23:26:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683526463; x=1686118463;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VGAqICUH/1K4NsgXWbLmHmQxYqNk9fYoObWVq8uFXmY=;
- b=XnKuCcjFK9UiqWos3NxaoObccx3RJKx5uWHZPTSAgzWGqx40Be+ukKk4tR960w7ehn
- fDaNM/N8JnqZPGM0r4llplzf8o4/OUWKTngcy6ldHk126v11m2cgTP0qIY9wLlCile2w
- 6LLNzqXEFEKvO1vcgXXVRuCUKa8n0om7RzQpegNDGzydn2Yo/vAHl5v/es7Kd6miJAAH
- 03FGxba9Ly1NY34XaDzZtst35JbpG5hfr0O4eDzgOoFWwS0BymMVpWMFSD0mIvVaOwo1
- WKC6qO9qkqK+d1GC9uz8rbWxtKBYGswMFCn9Iktoxy2nc1VhhlnyLSIAfxc8AuorLgX0
- z+dw==
-X-Gm-Message-State: AC+VfDyC/2dZkNIWTM+eI7bDntcwpqZmwIProWY9c5yCOkq9hgbSx8G7
- 39nqmdhs1bNlbtUOUw43Wzce43TIBYH9tyHVA0RgYA==
-X-Google-Smtp-Source: ACHHUZ6ns+gsXWhTWDX6Zza/DiOvQyFjSN0kzlj/vuDm315RJw2pTeSrZ7RXYeQfzMMRp0CrZr4VU8z2ERRiiZCIT6M=
-X-Received: by 2002:a25:abec:0:b0:b9e:7ec8:5d41 with SMTP id
- v99-20020a25abec000000b00b9e7ec85d41mr8779027ybi.55.1683526462845; Sun, 07
- May 2023 23:14:22 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683527218; x=1686119218;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zA2dOrgpR+LAShw4lI3fM62PxuKc8EjiFypsxPezBTE=;
+ b=Nz1Ajmy+5PKawxjL2jUJI+P0Bfruup1L/m5jqZbmpaemet3kxBnHHtDDdq2HeP87Fy
+ Rza+bWk0iG8ZTxM4tCNER23836qtK+bDHQMBsKyxvTsmMNvESa4ATQ9rEsdzbPl0GGQf
+ +ZhcyCVh0dWjb6dm5QGUUsEdt53W+5c7AKnddYtpV32dfLhmtNoI4mNngZAFviKSWPp9
+ kHwx8AcKxvpalxbSy57yuAZHckj3qqt4gBH7PNxGxiLT17yMYiuBUbUnDRg+L0hLxeH3
+ gxVnH3/q3fLiC9FuR6AZZo+K807GQyUWwMtQYqNX8EdgBNyC1ncAUN2qqOJUQuX9RzVM
+ fVhw==
+X-Gm-Message-State: AC+VfDzOU9maYSVeizgVh/NWUrwN5kKO4l6rzbd7GDJMmB4kl11TawVZ
+ Fkb9oU099cLMhwMOEwoldA==
+X-Google-Smtp-Source: ACHHUZ79sO6V/lar1ARUIsYqRQiGqHQtNQzJC5YOgirC6ArGbU6WU1wCuu4pynsdBPC15daXAVoiyw==
+X-Received: by 2002:a05:6870:2201:b0:192:b536:259 with SMTP id
+ i1-20020a056870220100b00192b5360259mr4424969oaf.19.1683527218009; 
+ Sun, 07 May 2023 23:26:58 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ a19-20020a056870e35300b0018456166c7asm4635438oae.39.2023.05.07.23.26.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 May 2023 23:26:57 -0700 (PDT)
+Received: (nullmailer pid 213417 invoked by uid 1000);
+ Mon, 08 May 2023 06:26:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-51-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-51-u.kleine-koenig@pengutronix.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 8 May 2023 08:14:11 +0200
-Message-ID: <CACRpkdaOusm1fuP66O=XHe0MbRq373NQsDVwS_3gpRDKEs0jUQ@mail.gmail.com>
-Subject: Re: [PATCH 50/53] drm/tve200: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+In-Reply-To: <20230508055740.635256-2-victor.liu@nxp.com>
+References: <20230508055740.635256-1-victor.liu@nxp.com>
+ <20230508055740.635256-2-victor.liu@nxp.com>
+Message-Id: <168352721348.213381.2072764987425735233.robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: lcdif: Add i.MX93 LCDIF support
+Date: Mon, 08 May 2023 01:26:53 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,27 +64,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: marex@denx.de, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, alexander.stein@ew.tq-group.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ kernel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, LW@karo-electronics.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 7, 2023 at 6:26=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
 
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On Mon, 08 May 2023 13:57:35 +0800, Liu Ying wrote:
+> There is one LCDIF embedded in i.MX93 SoC to connect with
+> MIPI DSI controller through LCDIF cross line pattern(controlled
+> by mediamix blk-ctrl) or connect with LVDS display bridge(LDB)
+> directly or connect with a parallel display through parallel
+> display format(also controlled by mediamix blk-ctrl).  i.MX93
+> LCDIF IP is essentially the same to i.MX8MP LCDIF IP.  Add device
+> tree binding for i.MX93 LCDIF.
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Marek Vasut <marex@denx.de>
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v4->v5:
+> * No change.
+> 
+> v3->v4:
+> * Add Alexander's R-b tag.
+> 
+> v2->v3:
+> * No change.
+> 
+> v1->v2:
+> * Add Krzysztof's A-b and Marek's R-b tags.
+> 
+>  Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Yours,
-Linus Walleij
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
+
+doc reference errors (make refcheckdocs):
+Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230508055740.635256-2-victor.liu@nxp.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
