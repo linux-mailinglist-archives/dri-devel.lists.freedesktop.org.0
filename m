@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DDD6FA31C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 11:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC97F6FA33E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 May 2023 11:27:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACC110E1BC;
-	Mon,  8 May 2023 09:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDE910E1C7;
+	Mon,  8 May 2023 09:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDF9410E0BC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 09:18:54 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- 006d021491bc7-5474ae4f9b7so234698eaf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 02:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1683537534; x=1686129534;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YvRCm7PvleBAbQzxCGTmM1ERcTo8AeWMPUAnQnE2Aro=;
- b=WTOObFrZoXQNJ5IINLxaaq1pjE0AdjlbnQfYY6KAHWFsX1GaNoWkFEPy2SY+GEn1i1
- iaTRT50IHG3kTIOvVyLe8scvluEWvMAVcmdYWln4fjKeDV80WvFggMR0R3DNq3gcnhTX
- KBPSMsFv1VouyqonYk3WtVfvu3OD5HT0qUUAk=
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8021710E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 May 2023 09:27:19 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id
+ 46e09a7af769-6ab087111faso188710a34.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 02:27:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683537534; x=1686129534;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YvRCm7PvleBAbQzxCGTmM1ERcTo8AeWMPUAnQnE2Aro=;
- b=DiZMTJ5lTuD40zq3WwcemjsPikckq9P3wotgrJ0w8coRCjk+5uoGlLu6erBsMEEJBh
- nAH9mG/mb3ChOUA+yNOddyAmh1scipVquMxhYAJpxKXulAEMip8rcwTWz64JlasZf8v4
- nUJ9C9BlUPdjpqJHrJoDnkaGUvcfbpJhOyPgCr/RZA1v8pkarlmm6rLRyqvd6L6aimtG
- 9korODZDII2WI7JjvyqicZzdPSnLGDlvk6Z79zOYd9hAo1G5rdcmBmH79LAdwlbXYLqR
- UenJxdScCjiEhGicDkI00Te8aGr8rP6Fx9cMwKeccy46WB7YXSE37bHV7Lv0lsP5o/yN
- CklQ==
-X-Gm-Message-State: AC+VfDx1x/dvu8uIzY92iueydypruvcZrhacg7uaJXPpcHSmR8rJBHzG
- q7pZWG7FiSDkf91+k2DWe+08CIcZEIss767tHx4Fag==
-X-Google-Smtp-Source: ACHHUZ4bbOoqB3vvTf4DROfEs6gEqU3QfZDyemHwpENnR4F29WAURCuoeE79YqqB2CD7Aq7WgMLnbnpYRHZ8TVbnCQY=
-X-Received: by 2002:aca:efc6:0:b0:38e:76f1:c059 with SMTP id
- n189-20020acaefc6000000b0038e76f1c059mr3651296oih.1.1683537533865; Mon, 08
- May 2023 02:18:53 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683538038; x=1686130038;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DguH7yd98IO9no2ougJQcRCCw8JxeycA5jMXenEALPQ=;
+ b=jmn2HuSfsvlNVRtSzH5tUVExYbWKGJfZzv8eRZoNPK3tVz+GnqSf7tDuMthNQDe6Xc
+ sUqTMRUQREr1Eaju0xPLU8/5gbWjPUiP/LziN7kpQGWHpCSHApj4oyQ+bCrauLznH6He
+ /o+0aTEVk4DaqQQ32Y9+jCcHekkuEIABq5Q/ifGEU7UJi/EqL2fDEfh/KPwmvovnNtwD
+ ZKc62m/T3SyfJ56ehSQXUn9qY3hDoVwUTbW3ovhBIAZfjbC2xDCjvZd5iudNWv6uRyw2
+ Xg8meRaImV8eBHys7Yk8TTxVqOW+F5fShlPhOG0zSmUOiNKT8ODaEf/h9qBYWO5DcH62
+ 1Edw==
+X-Gm-Message-State: AC+VfDzbPryaFhDmmoDsB927apeKLjytcWnkkye47gbyG82FLQYyJhG3
+ zj/KBHbTPTGwUG+2zIVLgA==
+X-Google-Smtp-Source: ACHHUZ4aCjwS3clxMxZaGq8mqr3vyeaqLy0a5Z1wm8QlVNY4m6uxyOmhNS1CHyug8eYUUbVMjFrUlg==
+X-Received: by 2002:a9d:6443:0:b0:6a1:1bd4:d8c8 with SMTP id
+ m3-20020a9d6443000000b006a11bd4d8c8mr4421158otl.26.1683538038151; 
+ Mon, 08 May 2023 02:27:18 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ c5-20020a9d6845000000b006aaf62e838dsm1798202oto.53.2023.05.08.02.27.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 02:27:17 -0700 (PDT)
+Received: (nullmailer pid 575486 invoked by uid 1000);
+ Mon, 08 May 2023 09:27:12 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <ZFUgnMI4IIbv78By@phenom.ffwll.local>
- <-srJIIP1y4EoWtJAfk4_EaRpo7i2x1lXu0HKX4wLHcsmMfnrCdMb0EpPHOdedfZitFpdxIl3rDjBceq_UtYhQSIyJmNMVase-Oa9iP-RQ2o=@emersion.fr>
- <ZFVe1EPIV65ZpaQv@phenom.ffwll.local>
- <DN4DsX1iIafGb2QiXpToAtyTLkdWlCDgHjsIoC_bq9QN0iEVnuZYRH3AM6ER8AtpT0glLr_CUplpU4V7YEI1_lxcYXGeBdX54cdsO3X7-PY=@emersion.fr>
-In-Reply-To: <DN4DsX1iIafGb2QiXpToAtyTLkdWlCDgHjsIoC_bq9QN0iEVnuZYRH3AM6ER8AtpT0glLr_CUplpU4V7YEI1_lxcYXGeBdX54cdsO3X7-PY=@emersion.fr>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 8 May 2023 11:18:42 +0200
-Message-ID: <CAKMK7uEk=+YyLJOteDjm6mK315ps=wTsJDY3NZdD_N5vpjL=bw@mail.gmail.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-To: Simon Ser <contact@emersion.fr>
-Content-Type: text/plain; charset="UTF-8"
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+In-Reply-To: <20230508083826.1016206-2-victor.liu@nxp.com>
+References: <20230508083826.1016206-1-victor.liu@nxp.com>
+ <20230508083826.1016206-2-victor.liu@nxp.com>
+Message-Id: <168353803230.575435.10408042054525345719.robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add BOE
+ EV121WXM-N10-1850 panel
+Date: Mon, 08 May 2023 04:27:12 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,136 +65,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Sebastian Wick <sebastian.wick@redhat.com>, Joshua Ashton <joshua@froggi.es>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, thierry.reding@gmail.com,
+ linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 May 2023 at 10:58, Simon Ser <contact@emersion.fr> wrote:
->
-> On Friday, May 5th, 2023 at 21:53, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Fri, May 05, 2023 at 04:06:26PM +0000, Simon Ser wrote:
-> > > On Friday, May 5th, 2023 at 17:28, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > > Ok no comments from me on the actual color operations and semantics of all
-> > > > that, because I have simply nothing to bring to that except confusion :-)
-> > > >
-> > > > Some higher level thoughts instead:
-> > > >
-> > > > - I really like that we just go with graph nodes here. I think that was
-> > > >   bound to happen sooner or later with kms (we almost got there with
-> > > >   writeback, and with hindsight maybe should have).
-> > >
-> > > I'd really rather not do graphs here. We only need linked lists as Sebastian
-> > > said. Graphs would significantly add more complexity to this proposal, and
-> > > I don't think that's a good idea unless there is a strong use-case.
-> >
-> > You have a graph, because a graph is just nodes + links. I did _not_
-> > propose a full generic graph structure, the link pointer would be in the
-> > class/type specific structure only. Like how we have the plane->crtc or
-> > connector->crtc links already like that (which already _is_ is full blown
-> > graph).
->
-> I really don't get why a pointer in a struct makes plane->crtc a full-blown
-> graph. There is only a single parent-child link. A plane has a reference to a
-> CRTC, and nothing more.
->
-> You could say that anything is a graph. Yes, even an isolated struct somewhere
-> is a graph: one with a single node and no link. But I don't follow what's the
-> point of explaining everything with a graph when we only need a much simpler
-> subset of the concept of graphs?
->
-> Putting the graph thing aside, what are you suggesting exactly from a concrete
-> uAPI point-of-view? Introducing a new struct type? Would it be a colorop
-> specific struct, or a more generic one? What would be the fields? Why do you
-> think that's necessary and better than the current proposal?
->
-> My understanding so far is that you're suggesting introducing something like
-> this at the uAPI level:
->
->     struct drm_mode_node {
->         uint32_t id;
->
->         uint32_t children_count;
->         uint32_t *children; // list of child object IDs
->     };
 
-Already too much I think
+On Mon, 08 May 2023 16:38:25 +0800, Liu Ying wrote:
+> Add BOE EV121WXM-N10-1850 12.1" WXGA (1280x800) TFT LCD panel
+> compatible string.  The panel has a LVDS display interface.
+> 
+> The panel's product specification can be found at:
+> http://www.onetech.com.tw/files/EV121WXM-N10-1850ProductSpecification_20180801.pdf
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v1->v2:
+> * Add Krzysztof's A-b tag.
+> 
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-struct drm_mode_node {
-    struct drm_mode_object base;
-    struct drm_private_obj atomic_base;
-    enum drm_mode_node_enum type;
-};
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-The actual graph links would be in the specific type's state
-structure, like they are for everything else. And the limits would be
-on the property type, we probably need a new DRM_MODE_PROP_OBJECT_ENUM
-to make the new limitations work correctly, since the current
-DRM_MODE_PROP_OBJECT only limits to a specific type of object, not an
-explicit list of drm_mode_object.id.
+yamllint warnings/errors:
 
-You might not even need a node subclass for the state stuff, that
-would directly be a drm_color_op_state that only embeds
-drm_private_state.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.example.dtb: pcie-ep@33800000: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/fsl,imx6q-pcie-ep.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: camera@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.example.dtb: camera-sensor@3c: port:endpoint:data-lanes: [[1]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
 
-Another uapi difference is that the new kms objects would be of type
-DRM_MODE_OBJECT_NODE, and would always have a "class" property.
+doc reference errors (make refcheckdocs):
+Documentation/usb/gadget_uvc.rst: Documentation/userspace-api/media/v4l/pixfmt-packed.yuv.rst
+MAINTAINERS: Documentation/devicetree/bindings/pwm/pwm-apple.yaml
 
-> I don't think this is a good idea for multiple reasons. First, this is
-> overkill: we don't need this complexity, and this complexity will make it more
-> difficult to reason about the color pipeline. This is a premature abstraction,
-> one we don't need right now, and one I heaven't heard a potential future
-> use-case for. Sure, one can kill an ant with a sledgehammer if they'd like, but
-> that's not the right tool for the job.
->
-> Second, this will make user-space miserable. User-space already has a tricky
-> task to achieve to translate its abstract descriptive color pipeline to our
-> proposed simple list of color operations. If we expose a full-blown graph, then
-> the user-space logic will need to handle arbitrary graphs. This will have a
-> significant cost (on implementation and testing), which we will be paying in
-> terms of time spent and in terms of bugs.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230508083826.1016206-2-victor.liu@nxp.com
 
-The color op pipeline would still be linear. I did not ask for a non-linear one.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> Last, this kind of generic "node" struct is at odds with existing KMS object
-> types. So far, KMS objects are concrete like CRTC, connector, plane, etc.
-> "Node" is abstract. This is inconsistent.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Yeah I think I think we should change that. That's essentially the
-full extend of my proposal. The classes + possible_foo mask approach
-just always felt rather brittle to me (and there's plenty of userspace
-out there to prove that's the case), going more explicit with the
-links with enumerated combos feels better. Plus it should allow
-building a bit cleaner interfaces for drivers to construct the correct
-graphs, because drivers _also_ rather consistently got the entire
-possible_foo mask business wrong.
+pip3 install dtschema --upgrade
 
-> Please let me know whether the above is what you have in mind. If not, please
-> explain what exactly you mean by "graphs" in terms of uAPI, and please explain
-> why we need it and what real-world use-cases it would solve.
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-_Way_ too much graph compared to what I'm proposing :-)
-
-Also I guess what's not clear: This is 100% a bikeshed with no impact
-on the actual color handling pipeline in any semantic way. At all. If
-you think it is, it's not what I mean.
-
-I guess the misunderstanding started out with me asking for "graph
-nodes" and you thinking "full blown graph structure with mandatory
-flexibility". I really only wanted to bring up the slightly more
-generic "node" think, and you can totally think of them as "list
-nodes" in the context of color op pipelines.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
