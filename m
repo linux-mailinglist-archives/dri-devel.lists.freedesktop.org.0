@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0042C6FC2D2
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 11:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516AF6FC2EB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 11:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33D2910E375;
-	Tue,  9 May 2023 09:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A56710E380;
+	Tue,  9 May 2023 09:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D8D10E373
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 09:31:39 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3499UbRL022662;
- Tue, 9 May 2023 04:30:37 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65A4410E371
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 09:36:56 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3499UdFx071916;
+ Tue, 9 May 2023 04:30:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1683624637;
- bh=10h0Sa3wyvgTwCRAgmBW5D49q0Vu8XxsUPdYAxgx1dw=;
- h=From:To:CC:Subject:Date;
- b=GHoZFIT2W7tsOnBrEynvJ1kAq0Lxe+SAiRyiav0FBR1/hxk5SlxdqrT4KVBjTUldL
- o1iT8T1xUK5txE+ZCaBPYxjog+TkV5nFxXAiw4VcEaVavhmNcuqy4bOuCp1DG98wsc
- huxiQXSCGlPjpYo1BZaZnFUbg4jvQIwCqExiSYFk=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3499UbmZ107090
+ s=ti-com-17Q1; t=1683624639;
+ bh=MUAqpjxDeFf+pV2Ertpwdw1zhAaxf1hBkl86Kqxd1SI=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=wnONW0nJOEUbw28vRdlSmmt+iWGGBeYWMUZn9mTM1XqdJskApo9cMf3qK7JFnxHT6
+ kPUWEtElEO3Qf1j/Q0+cj50K2WhcySNfA57GIS5UgQGn+/J6eexVtBrPeRxx/SD/NL
+ 3MLxyU2/EOhM35AVku1ewVFW48PRVbXSvuRYOt48=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3499UdZ9032337
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 9 May 2023 04:30:37 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- May 2023 04:30:37 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
+ Tue, 9 May 2023 04:30:39 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
  (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
+ May 2023 04:30:38 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 9 May 2023 04:30:37 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3499UaES020381;
- Tue, 9 May 2023 04:30:36 -0500
+ Frontend Transport; Tue, 9 May 2023 04:30:38 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3499Ucwg084916;
+ Tue, 9 May 2023 04:30:38 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
  Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -48,10 +48,12 @@ To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
  Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
  Boris Brezillon <boris.brezillon@collabora.com>, Francesco Dolcini
  <francesco@dolcini.it>
-Subject: [PATCH v6 0/8] drm/tidss: Use new connector model for tidss
-Date: Tue, 9 May 2023 15:00:28 +0530
-Message-ID: <20230509093036.3303-1-a-bhatia1@ti.com>
+Subject: [PATCH v6 1/8] drm/bridge: tfp410: Support format negotiation hooks
+Date: Tue, 9 May 2023 15:00:29 +0530
+Message-ID: <20230509093036.3303-2-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230509093036.3303-1-a-bhatia1@ti.com>
+References: <20230509093036.3303-1-a-bhatia1@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -76,74 +78,77 @@ Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
 
-I have picked up this long standing series from Nikhil Devshatwar[1].
+With new connector model, tfp410 will not create the connector and
+SoC driver will rely on format negotiation to setup the encoder format.
 
-This series moves the tidss to using new connectoe model, where the SoC
-driver (tidss) creates the connector and all the bridges are attached
-with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
-to support format negotiation and and 'simple' encoder to expose it to
-the userspace.
+Support format negotiations hooks in the drm_bridge_funcs.
+Use helper functions for state management.
 
-Since the bridges do not create the connector, the bus_format and
-bus_flag is set via atomic hooks.
+Input format is the one selected by the bridge from DT properties.
 
-Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
-drivers as a first step before moving the connector model.
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+[a-bhatia1: Removed output fmt condition check]
+Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+---
 
-These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
-and J721E-SK. Display support for AM625 SoC has not been added upstream
-and is a WIP. To test this series on AM625 based platforms, basic
-display support patches, (for driver + devicetree), can be found in
-the "next_AttachNoConn" branch on my github fork[2].
+Notes:
+    changes from v1:
+    * Use only MEDIA_BUS_FMT_FIXED for output
 
-Thanks,
-Aradhya
+    changes from V5:
+    * Dropped the output format check condition because the output
+      format for HDMI bridges should be RGB888_1X24 and not FIXED.
+      Hence, also dropped Tomi Valkeinen's and Laurent Pinchart's
+      R-b tags.
 
-[1]: https://patchwork.freedesktop.org/series/82765/#rev5
-[2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn
+ drivers/gpu/drm/bridge/ti-tfp410.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Change Log:
-V5 -> V6
-  - Rebase and cosmetic changes
-  - Dropped the output format check condition for tfp410 and hence,
-    dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
-  - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
-    the series and instead created a single patch that,
-      1. Creates tidss bridge for format negotiation.
-      2. Creates 'simple' encoder for userspace exposure.
-      3. Creates a tidss connector.
-      4. Attaches the next-bridge to encoder with the
-         DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-  - Add format negotiation support for sii902x driver.
-
-Previous series:
-V1 to V5: https://patchwork.freedesktop.org/series/82765/
-
-Aradhya Bhatia (3):
-  drm/bridge: sii902x: Support format negotiation hooks
-  drm/bridge: sii902x: Set input_bus_flags in atomic_check
-  drm/tidss: Update encoder/bridge chain connect model
-
-Nikhil Devshatwar (5):
-  drm/bridge: tfp410: Support format negotiation hooks
-  drm/bridge: tfp410: Set input_bus_flags in atomic_check
-  drm/bridge: mhdp8546: Add minimal format negotiation
-  drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
-  drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  80 ++++++----
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
- .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
- .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
- drivers/gpu/drm/bridge/sii902x.c              |  41 +++++
- drivers/gpu/drm/bridge/ti-tfp410.c            |  42 ++++++
- drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
- drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
- drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
- 9 files changed, 238 insertions(+), 95 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+index ab63225cd635..7dacc7e03eee 100644
+--- a/drivers/gpu/drm/bridge/ti-tfp410.c
++++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+@@ -206,12 +206,38 @@ static enum drm_mode_status tfp410_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
++static u32 *tfp410_get_input_bus_fmts(struct drm_bridge *bridge,
++				      struct drm_bridge_state *bridge_state,
++				      struct drm_crtc_state *crtc_state,
++				      struct drm_connector_state *conn_state,
++				      u32 output_fmt,
++				      unsigned int *num_input_fmts)
++{
++	struct tfp410 *dvi = drm_bridge_to_tfp410(bridge);
++	u32 *input_fmts;
++
++	*num_input_fmts = 0;
++
++	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	*num_input_fmts = 1;
++	input_fmts[0] = dvi->bus_format;
++
++	return input_fmts;
++}
++
+ static const struct drm_bridge_funcs tfp410_bridge_funcs = {
+ 	.attach		= tfp410_attach,
+ 	.detach		= tfp410_detach,
+ 	.enable		= tfp410_enable,
+ 	.disable	= tfp410_disable,
+ 	.mode_valid	= tfp410_mode_valid,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_get_input_bus_fmts = tfp410_get_input_bus_fmts,
+ };
+ 
+ static const struct drm_bridge_timings tfp410_default_timings = {
 -- 
 2.40.1
 
