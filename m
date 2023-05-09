@@ -1,65 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98C86FCECA
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 21:53:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA836FCEF7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 22:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AAA010E119;
-	Tue,  9 May 2023 19:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7B410E3C9;
+	Tue,  9 May 2023 20:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F16A10E119;
- Tue,  9 May 2023 19:53:25 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-966287b0f72so688500766b.0; 
- Tue, 09 May 2023 12:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683662001; x=1686254001;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W3WrRAi3384wFghozI17WE6ul9NCCM8HHVMXgLURGig=;
- b=ZQfgg80afrytOR7Remgs7b7RL/AIBUkMKFK/dJ5ifo83pAaN52WZ2+9iaRlqlPx/Uk
- Ig26a3Q2f9rqO4gYsuUyaegg1a0OtVfZ6tzwZ41owrMb38McbgX+RXUOhJPKQj1Pl+di
- E+R5Y1JTyPF3HHFf9Q3LsN/yIezwEXkBb6ODMA5Y7lRWd6GgjdD4W/ZYs8GxN0S3IyCE
- wOWrmGmt68KXHC570HTrubWmXVLEA0OdxwNe23wCJVKbEeHomVvPBuEovjWcsjz5cIF7
- BQ3w5EmggJfbTfUP6jqLRS5+v4GvjRmHSXaonHjzRQBvFDbEBnx19dNzxdShuK13m4//
- sslQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683662001; x=1686254001;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W3WrRAi3384wFghozI17WE6ul9NCCM8HHVMXgLURGig=;
- b=L9++jf5rEfWorh9tQLZRfnhk5NEcMq7S8nP+I6TKoLY1G9B8sUD/QHnwOik62PQBhv
- 1n6HEPoO/qEctZUZzjUgmnYhE91ByIHx5322FcHS5329P4KEO0CU8lWGBNSeFXd7WMKn
- QFrYvU/AznyZ1iJ/3R2tNBMOjwUDzaprea6VrjTL02a3lS1b8cBrx3zPJilm6zuCA31f
- d/IwQ9oNwDsbvWC5Go+GA+IiljDjCDF7tXjT/MJRanJU/2fLfMilfzZTfzgYVJT83YgS
- 4ELoQxBXMfmFf/CX+Pz0HFcAHzg+2lt0hvlybPiNMtztcgDbu1g/3kk9Vz3rMyuiHR4w
- kLiw==
-X-Gm-Message-State: AC+VfDwJQD/P/e/Z9iv2j2adB35Q0INmmPa2+Y+s/YMUghfqdKv+F3HM
- 6TPYlqwie3qhs7Eeskzf91JwW0gXFgb2ZRN8pPg=
-X-Google-Smtp-Source: ACHHUZ6YOqiF9temZSPkJZtkjwLkgpY4R6/5qJ+t/HchTJizyg/DqaD7IxiS14dr2bFcfew5y8GKo5013eOnHkkjqCk=
-X-Received: by 2002:a17:907:2cc7:b0:94e:d7b0:64d4 with SMTP id
- hg7-20020a1709072cc700b0094ed7b064d4mr14630823ejc.47.1683662000946; Tue, 09
- May 2023 12:53:20 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8144910E3C7;
+ Tue,  9 May 2023 20:00:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BkuTAdhGSb9zh0QygE5kA0YjX48mAcnnjsyLwAoE+4MDB8jQIHCw7ByrI4vhVQoGNDTazkicXSdKA3xF4Qgao1uHRL7TlMmBucrRVtpe7rLfdcK3g+65vfVwtoQYfkW8/licr3KTWOwFlKu3aQkWmc9dk4Dn+dxIwN4+XghCY7Ki7frCvH+KTBGDFJBq16b4KlHWOw24OAps7Q7q/DcAbRnqJZT+qvBW3u4aY+aOFbYX46hnv0J2YSCOhc5OQRUq8y5vPG0KgP9Yof+67f4kh31qkFKdg06u2FNLFBOl6i89ODz+QWyh730lrh5xPOtmp4DriSTisDcnw2xDlmk31Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZLGt84jd47ZT2tog8R5n5o09vt6EuOI3szsOsp8W3oI=;
+ b=kVQghMIoAVX2xF3Fpnh7D9NvQR0uTJvdYvcPXiS+03DNSf4Xqfzgf7b/96qQ7KIV6rzj2KPerNAoNpKtTjSGfEpC3pyLgiNvzOPSK/Nek9U9a4bakydG0UzSXJWHsfdASvWhJhMOAZxrGXzZ1LaNNddtWP33l3lexwd5Z4XTo7lSYD1xJ5F4On0Ll3g1G/bsJBM6A5I6GYjBA+qcGoVERekFxKru/BKk9ESdhCXkCo+/A0IKMgqDLE9bVPLBsvL2Iq/qbpH4iyVk8U9tZ2JToyTQN6+G80t7l/t6WnVtdaE2mADkl/1zhw4TckI3hTYd3XON/9YnCi9urOzpiU5btg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZLGt84jd47ZT2tog8R5n5o09vt6EuOI3szsOsp8W3oI=;
+ b=UuJlv1nvUFlPSpUjkk0HbUpdotJLr7fPRcsaXpOvTOInbOVTjZpWIPq4j5Nw3Bqg2FdGz4uZCLUXxbsf3BVAPy+KdU4e8YlQw9OkUI3JVaqyXccVSQZ/H8mFLTkir8FCeXhEN7r+YLIMYXFMeSmH2u+Eiec++VPS2tpqS18RR4Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by DM6PR12MB4252.namprd12.prod.outlook.com (2603:10b6:5:211::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.18; Tue, 9 May
+ 2023 20:00:23 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c%6]) with mapi id 15.20.6387.018; Tue, 9 May 2023
+ 20:00:23 +0000
+Message-ID: <fc308aca-4ecf-7db9-3491-9ede18ee5562@amd.com>
+Date: Tue, 9 May 2023 16:00:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [RFC PATCH 12/40] drm/amd/display: add plane HDR multiplier
+ driver-private property
+Content-Language: en-US
+To: Joshua Ashton <joshua@froggi.es>, Melissa Wen <mwen@igalia.com>
+References: <20230423141051.702990-1-mwen@igalia.com>
+ <20230423141051.702990-13-mwen@igalia.com>
+ <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
+ <20230509163701.57lf22phumicqv37@mail.igalia.com>
+ <CAEZNXZAfq_6EZHBhBXjMPwOuU10rwKe3SPJpz1hetux=HRF4CQ@mail.gmail.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <CAEZNXZAfq_6EZHBhBXjMPwOuU10rwKe3SPJpz1hetux=HRF4CQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0343.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::15) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
- <CA+hFU4x++RDOxkc-_ZvDtQs3DtupwDV0KJyD3YAgrdh4daLotA@mail.gmail.com>
- <CAPM=9twjPr9fiJwbyNS9j=mCKmLhxbTjB5Vzq9F+Du8sdHac-A@mail.gmail.com>
- <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
-In-Reply-To: <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 10 May 2023 05:53:08 +1000
-Message-ID: <CAPM=9tyOFhE0zC8540KBOkDaZE1c3zTtke_vX=DEkMTmo04A4Q@mail.gmail.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM6PR12MB4252:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca831ddd-bf7c-4c18-7fa0-08db50c8067d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7s7ZhJwaXsTmN82DvTk4pkHKAkx/WKSEb+J7kRNHiKobM6sSuyO/ykkOintaqO/YlRttLmXR41ybsR52l3r0U13hU7/z0K6nxtvnM5yj1Bcw7HI7Z04TIrFC5fJkv3FUi+3JJ9fl96kbA87DncVr22TL7LaEObhN3hlK/uRfM3nWlLo27QnxT1yFOaxJ6018UkA52cDvpBuiu4XMevzBaSoji3/EdOOhR16wcTmbcsXSOpJFP0vU2viRjxrYCW89s4MpTOnuXrMfXzE+yDGwIfWPhuCZ7U6jHGluqyuUF1Z6CWPaaamq3xzPlBxUImr/k8RpZ1hh/RQR/tewE5aeIXtVLXPV244WUxuGZUc4oDa9gQSVkkyFmvWJC+0vjOYHHD7zahCtlNeb+JLLnxbGkmzdnri0oRvBqVq007p+MvLbJeVLijahi4GQ6W2LKebgDive7CZ6NTMR9VVSJHeL9kCicS/Hsr6CXtfj6aoYJEchuSCQCdoimtxYkSGEBdAc4UgzJ8VlrwmvmCbcGZJJQCOF/a3kMCUn5JkX4fDhMFX2U/tCRuw/dSpYu3R8kwqvT0M0sOSPB+FQPFHm+T6Dg2VAoSVo20NALk68mRE0LxJ8r/ohfKZ0pHNzVpv0M9+Wn2VAQlVS9rwTJhXyHXUWXw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(39860400002)(376002)(366004)(346002)(396003)(451199021)(83380400001)(2616005)(186003)(2906002)(53546011)(316002)(6512007)(4326008)(6506007)(41300700001)(110136005)(66476007)(6666004)(66946007)(66556008)(54906003)(478600001)(5660300002)(44832011)(26005)(6486002)(8936002)(8676002)(38100700002)(86362001)(36756003)(31696002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVdPeVFtNExkamJNNm1TeldTdHFrQWNpbCtLa2hEWEtHc2NpK2gweWV5U1ZC?=
+ =?utf-8?B?QkZaYkVKaytQa2wveVpxcDdWTkloSWh2b3U0SjFUZ20rUThCbWpoTGI2RG9I?=
+ =?utf-8?B?MVEyV1lTWnFJZk92M21nK3J2ZHNHNktvTXdUb3lPRHFIWW8raHpWdVBGa2JM?=
+ =?utf-8?B?RCtlaXM5ZTJ3SnM4L1NlTG5mWWNtZ3Yyd1c5dm1xSDJZNTc3S3ROMmdYYXlM?=
+ =?utf-8?B?YllIQ1BGRVg4RTJjNXpGTHZBRHJtMmQrZEYvSlZ0SkUvRzh1Vk9rb1prNkVy?=
+ =?utf-8?B?Rmhrc09maE1HcmM1WXFwcjBhNzMrOXNFQTMvTHd3WUo3blF1bDlkblpIcTdH?=
+ =?utf-8?B?ZXFTd2NyK2g0RVpYamFSV1EvbXRCaTMrbC9PUitNdjdlb09YRDZZdXdKM2Fn?=
+ =?utf-8?B?eG9aUjJjRTI2SFoxOHZiL2tiRS85VkFxN3VzWGg2UDdyaCtFVjBTb2FoUzZm?=
+ =?utf-8?B?aXNYUmNWaENkN082Tmx6TUZTQk1TRWF5Z3FrWnNuaEc0aG5pWGRFTGo5cG9O?=
+ =?utf-8?B?cG5UVzhOMS9xYUprN29PaWVyL0Z1Q25SSzBVdGJhTXJaSUlMZHBEenVGSi96?=
+ =?utf-8?B?WTdkVWw4MUlsN3REbHRZT0Y0K2tMSHFOQTFZTEdWTk9uRHFxcXJobmtOaStz?=
+ =?utf-8?B?Tk1YWFc5cS9MbkdhWG1IU3cwMkxLeUlRNFhUODhqYWcxTTh4ZURURmN2MXdR?=
+ =?utf-8?B?ZzdKb2wwaHhYSS9abEdNWFoxRVJ4bGMzWUlCajlxUXVjR2NXRDhwNVFUOHRj?=
+ =?utf-8?B?eHNiUTVoTG82SmpwRzZNaHUvWlVqbWh2RUM5WnBRa2NDL3pFdG52cnVpSVRZ?=
+ =?utf-8?B?VkFuaXZPaHd0a3FxVnBDOFFidk5vOUJqTE90T1lpcWpuQmFqWmwxTUVaaU5r?=
+ =?utf-8?B?TXoxeGxTR1lQNlFDUHhSeDZTMTRJT0dkanh4QXlTNFlzZTBYcUhiNzUrb29G?=
+ =?utf-8?B?Tm8xVUZod2lGNitrVDhsZFBrTHNNY2RzU3orMy8raXNxSmNxZWFndjY3SUxn?=
+ =?utf-8?B?TDdwM3R2YytuUktnZDNHTnU0M1RPNFhyY216QjFMUkdpUEduc3JvWU9MUWlR?=
+ =?utf-8?B?ZFM0NTlMSitzVGNUTi96dDd0K1pTcllGa0lpckhXSHZHUHp3VndGL2ZGSFlp?=
+ =?utf-8?B?cXVHNTdsQm5GZUNUQ2F0OEVORGFBclgxOXdGNnk4eWN2SU93NXhKejJuVlB4?=
+ =?utf-8?B?b05FVzR3dGxBMDdQWGpKMGxTZlFXbUNHSHVRMVQ3c1RzRlNKeGlweitWZnla?=
+ =?utf-8?B?cmNWWWc4UlJySmlRUEdralk2ZkVPRzltN1ErZmk0RHF5V0JUVGZ1UkwxN3px?=
+ =?utf-8?B?a1V1NERLVXZPRHVBVjJQM2VOR29TR05CWm1mcS9EaDBMT1pVSGlrS1JzS0NY?=
+ =?utf-8?B?RFBGSkRSWldWUmZCUFZ2MFpQWHd4MlplZFF2WkRQTkV1N3ZIZmczYjZWTGh6?=
+ =?utf-8?B?WDZLSHFYWFJEajUxQldncDVKbFp5NFE1K1U1QW8wc3dnSGdUZUJkK2pkNmp0?=
+ =?utf-8?B?Q3dLbm1pdlRaYUZGVVNkc1VVYnNJOGptTkgzTHhTYjhLWUtYREZrQlFsQy9s?=
+ =?utf-8?B?d2t6MkVrcll6dlcvWmZBTUkwaFdqc25PaXprbVdJdzgxNUNZV01KRW8zUzgy?=
+ =?utf-8?B?dGRuQkdOZUlUSWJwbGRBMlh1S1RkQjkveHRxSzZMQnJoQTA4THlseGExRkc3?=
+ =?utf-8?B?c2dEY2VaMEdQQUMzZnBVZzVTdE9qalRvSDVLT2NBOHRvOHJHLzNSaEJpc3pw?=
+ =?utf-8?B?bTlwb2pKdnU2eko5YndtcHRibGMzSU1jWEhyWERaejBWZ3pWQU1iL01FSTB6?=
+ =?utf-8?B?bUg3MU9zQkJRVHQ1bElKS3BaRGtIbHdCSTNaaXZzdTZ5OE80VkRzVC91WVY2?=
+ =?utf-8?B?TGlPRUhhMk9zb2pLSlQyRDFVWjRsWFNnb2JxcGR3QUVPaU5BWDd5N3MzZkEw?=
+ =?utf-8?B?Z0ovdEVWdG0wVDRKamtkQ2VOeFozL2NsVDlXVnhITFVwS0ZaV2VSQWxqTnZQ?=
+ =?utf-8?B?VnZSYVdzbmlVdWFJUXhKcXNGQXdVd1BrcWdEZ3pYanJ2d3pnaWlRcE8yU3Ur?=
+ =?utf-8?B?VzVRakFGcXhQWkhvcTRNQ0htTXFzUlUybDhyRVBCMWNBWVhMTjBLQWU5WUtj?=
+ =?utf-8?Q?PuH7L4OQ6m0sgBPQ85GTCIuq9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca831ddd-bf7c-4c18-7fa0-08db50c8067d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 20:00:23.7949 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ew3eCKocZgDmaVrU50wy5e4RHx9TYhHyFAFwYl5YVb1fRMcfyBUOshQxmVMAKGaHoQS1Z3G7b+tkyxka9ZaB+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4252
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,162 +130,192 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, Aleix Pol <aleixpol@kde.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Joshua Ashton <joshua@froggi.es>
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ linux-kernel@vger.kernel.org, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 May 2023 at 00:31, Harry Wentland <harry.wentland@amd.com> wrote=
-:
->
->
->
-> On 5/7/23 19:14, Dave Airlie wrote:
-> > On Sat, 6 May 2023 at 08:21, Sebastian Wick <sebastian.wick@redhat.com>=
- wrote:
-> >>
-> >> On Fri, May 5, 2023 at 10:40=E2=80=AFPM Dave Airlie <airlied@gmail.com=
-> wrote:
-> >>>
-> >>> On Fri, 5 May 2023 at 01:23, Simon Ser <contact@emersion.fr> wrote:
-> >>>>
-> >>>> Hi all,
-> >>>>
-> >>>> The goal of this RFC is to expose a generic KMS uAPI to configure th=
-e color
-> >>>> pipeline before blending, ie. after a pixel is tapped from a plane's
-> >>>> framebuffer and before it's blended with other planes. With this new=
- uAPI we
-> >>>> aim to reduce the battery life impact of color management and HDR on=
- mobile
-> >>>> devices, to improve performance and to decrease latency by skipping
-> >>>> composition on the 3D engine. This proposal is the result of discuss=
-ions at
-> >>>> the Red Hat HDR hackfest [1] which took place a few days ago. Engine=
-ers
-> >>>> familiar with the AMD, Intel and NVIDIA hardware have participated i=
-n the
-> >>>> discussion.
-> >>>>
-> >>>> This proposal takes a prescriptive approach instead of a descriptive=
- approach.
-> >>>> Drivers describe the available hardware blocks in terms of low-level
-> >>>> mathematical operations, then user-space configures each block. We d=
-ecided
-> >>>> against a descriptive approach where user-space would provide a high=
--level
-> >>>> description of the colorspace and other parameters: we want to give =
-more
-> >>>> control and flexibility to user-space, e.g. to be able to replicate =
-exactly the
-> >>>> color pipeline with shaders and switch between shaders and KMS pipel=
-ines
-> >>>> seamlessly, and to avoid forcing user-space into a particular color =
-management
-> >>>> policy.
-> >>>
-> >>> I'm not 100% sold on the prescriptive here, let's see if someone can
-> >>> get me over the line with some questions later.
-> >>>
-> >>> My feeling is color pipeline hw is not a done deal, and that hw
-> >>> vendors will be revising/evolving/churning the hw blocks for a while
-> >>> longer, as there is no real standards in the area to aim for, all the
-> >>> vendors are mostly just doing whatever gets Windows over the line and
-> >>> keeps hw engineers happy. So I have some concerns here around forward=
-s
-> >>> compatibility and hence the API design.
-> >>>
-> >>> I guess my main concern is if you expose a bunch of hw blocks and
-> >>> someone comes up with a novel new thing, will all existing userspace
-> >>> work, without falling back to shaders?
-> >>> Do we have minimum guarantees on what hardware blocks have to be
-> >>> exposed to build a useable pipeline?
-> >>> If a hardware block goes away in a new silicon revision, do I have to
-> >>> rewrite my compositor? or will it be expected that the kernel will
-> >>> emulate the old pipelines on top of whatever new fancy thing exists.
-> >>
-> >> I think there are two answers to those questions.
-> >
-> > These aren't selling me much better :-)
-> >>
-> >> The first one is that right now KMS already doesn't guarantee that
-> >> every property is supported on all hardware. The guarantee we have is
-> >> that properties that are supported on a piece of hardware on a
-> >> specific kernel will be supported on the same hardware on later
-> >> kernels. The color pipeline is no different here. For a specific piece
-> >> of hardware a newer kernel might only change the pipelines in a
-> >> backwards compatible way and add new pipelines.
-> >>
-> >> So to answer your question: if some hardware with a novel pipeline
-> >> will show up it might not be supported and that's fine. We already
-> >> have cases where some hardware does not support the gamma lut property
-> >> but only the CSC property and that breaks night light because we never
-> >> bothered to write a shader fallback. KMS provides ways to offload work
-> >> but a generic user space always has to provide a fallback and this
-> >> doesn't change. Hardware specific user space on the other hand will
-> >> keep working with the forward compatibility guarantees we want to
-> >> provide.
-> >
-> > In my mind we've screwed up already, isn't a case to be made for
-> > continue down the same path.
-> >
-> > The kernel is meant to be a hardware abstraction layer, not just a
-> > hardware exposure layer. The kernel shouldn't set policy and there are
-> > cases where it can't act as an abstraction layer (like where you need
-> > a compiler), but I'm not sold that this case is one of those yet. I'm
-> > open to being educated here on why it would be.
-> >
->
-> Thanks for raising these points. When I started out looking at color
-> management I favored the descriptive model. Most other HW vendors
-> I've talked to also tell me that they think about descriptive APIs
-> since that allows HW vendors to map that to whatever their HW supports.
->
-> Sebastian, Pekka, and others managed to change my mind about this
-> but I still keep having difficult questions within AMD.
->
-> Sebastian, Pekka, and Jonas have already done a good job to describe
-> our reasoning behind the prescriptive model. It might be helpful to
-> see how different the results of different tone-mapping operators
-> can look:
->
-> http://helgeseetzen.com/wp-content/uploads/2017/06/HS1.pdf
->
-> According to my understanding all other platforms that have HDR now
-> have a single compositor. At least that's true for Windows. This allows
-> driver developers to tune their tone-mapping algorithm to match the
-> algorithm used by the compositor when offloading plane composition.
->
-> This is not true on Linux, where we have a myriad of compositors for
-> good reasons, many of which have a different view of how they want color
-> management to look like. Even if we would come up with an API that lets
-> compositors define their input, output, scaling, and blending space in
-> detail it would still not be feasible to describe the minutia of
-> the tone-mapping algorithms, hence leading to differences in output
-> when KMS color management is used.
->
-> I am debating whether we need to be serious about a userspace library
-> (or maybe a user-mode driver) to provide an abstraction from the
-> descriptive to the prescriptive model. HW vendors need a way to provide
-> timely support for new HW generations without requiring updates to a
-> large number of compositors.
+On 5/9/23 12:54, Joshua Ashton wrote:
+> We currently do not have a use for this as we settled on per-plane 3D
+> LUT + Shaper, but we might end up wanting to use in our scRGB stack
+> someday so I would like to keep it.
+> 
 
-There are also other vendor side effects to having this in userspace.
+uAPI should always have a userspace that uses it. But if we go
+and put it behind an #ifdef anyways I don't mind taking this
+if we foresee use for it in the near future. A gamescope experiment
+showing how this can be used to scale sRGB planes would be great.
+I assume that's sort of how you intend to use it.
 
-Will the library have a loader?
-Will it allow proprietary plugins?
-Will it allow proprietary reimplementations?
-What will happen when a vendor wants distros to ship *their*
-proprietary fork of said library?
+Harry
 
-How would NVIDIA integrate this with their proprietary stack?
+> On Tue, 9 May 2023 at 16:37, Melissa Wen <mwen@igalia.com> wrote:
+>>
+>> On 05/08, Harry Wentland wrote:
+>>>
+>>>
+>>> On 4/23/23 10:10, Melissa Wen wrote:
+>>>> From: Joshua Ashton <joshua@froggi.es>
+>>>>
+>>>> Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
+>>>> transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
+>>>> least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
+>>>> nits for SDR content. So if you want, 203 nits for SDR content, pass in
+>>>> (203.0 / 80.0).
+>>>>
+>>>
+>>> Is gamescope intending to use this?
+>>
+>> I don't think so. Again, I'll double check and drop it accordingly.
+>>
+>> Melissa
+>>
+>>>
+>>> Harry
+>>>
+>>>> Co-developed-by: Melissa Wen <mwen@igalia.com>
+>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+>>>> ---
+>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 +++++
+>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +++
+>>>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 12 +++++++++
+>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 25 ++++++++++++++-----
+>>>>  4 files changed, 41 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>> index 24595906dab1..dd658f162f6f 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>>> @@ -1326,6 +1326,12 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
+>>>>             return -ENOMEM;
+>>>>     adev->mode_info.plane_degamma_tf_property = prop;
+>>>>
+>>>> +   prop = drm_property_create_range(adev_to_drm(adev),
+>>>> +                                    0, "AMD_PLANE_HDR_MULT", 0, UINT_MAX);
+>>>> +   if (!prop)
+>>>> +           return -ENOMEM;
+>>>> +   adev->mode_info.plane_hdr_mult_property = prop;
+>>>> +
+>>>>     return 0;
+>>>>  }
+>>>>  #endif
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>>> index ab9ce6f26c90..65a9d62ffbe4 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>>> @@ -387,6 +387,10 @@ struct amdgpu_mode_info {
+>>>>      * linearize content with or without LUT.
+>>>>      */
+>>>>     struct drm_property *plane_degamma_tf_property;
+>>>> +   /**
+>>>> +    * @plane_hdr_mult_property:
+>>>> +    */
+>>>> +   struct drm_property *plane_hdr_mult_property;
+>>>>  #endif
+>>>>  };
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>>> index 005632c1c9ec..bb7307b9cfd5 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>>> @@ -51,6 +51,7 @@
+>>>>
+>>>>  #define AMDGPU_DMUB_NOTIFICATION_MAX 5
+>>>>
+>>>> +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
+>>>>  /*
+>>>>  #include "include/amdgpu_dal_power_if.h"
+>>>>  #include "amdgpu_dm_irq.h"
+>>>> @@ -736,6 +737,17 @@ struct dm_plane_state {
+>>>>      * linearize.
+>>>>      */
+>>>>     enum drm_transfer_function degamma_tf;
+>>>> +   /**
+>>>> +    * @hdr_mult:
+>>>> +    *
+>>>> +    * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
+>>>> +    * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
+>>>> +    * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
+>>>> +    * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
+>>>> +    * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
+>>>> +    * S31.32 sign-magnitude.
+>>>> +    */
+>>>> +   __u64 hdr_mult;
+>>>>  #endif
+>>>>  };
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> index 5b458cc0781c..57169dae8b3d 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>>> @@ -1321,8 +1321,10 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
+>>>>             __drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
+>>>>
+>>>>  #ifdef CONFIG_STEAM_DECK
+>>>> -   if (amdgpu_state)
+>>>> +   if (amdgpu_state) {
+>>>>             amdgpu_state->degamma_tf = DRM_TRANSFER_FUNCTION_DEFAULT;
+>>>> +           amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
+>>>> +   }
+>>>>  #endif
+>>>>  }
+>>>>
+>>>> @@ -1424,11 +1426,11 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
+>>>>  #ifdef CONFIG_STEAM_DECK
+>>>>  int
+>>>>  amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
+>>>> -                                          struct drm_property_blob **blob,
+>>>> -                                          uint64_t blob_id,
+>>>> -                                          ssize_t expected_size,
+>>>> -                                          ssize_t expected_elem_size,
+>>>> -                                          bool *replaced)
+>>>> +                                   struct drm_property_blob **blob,
+>>>> +                                   uint64_t blob_id,
+>>>> +                                   ssize_t expected_size,
+>>>> +                                   ssize_t expected_elem_size,
+>>>> +                                   bool *replaced)
+>>>>  {
+>>>>     struct drm_property_blob *new_blob = NULL;
+>>>>
+>>>> @@ -1482,6 +1484,10 @@ dm_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+>>>>                                        dm->adev->mode_info.plane_degamma_tf_property,
+>>>>                                        DRM_TRANSFER_FUNCTION_DEFAULT);
+>>>>     }
+>>>> +   /* HDR MULT is always available */
+>>>> +   drm_object_attach_property(&plane->base,
+>>>> +                              dm->adev->mode_info.plane_hdr_mult_property,
+>>>> +                              AMDGPU_HDR_MULT_DEFAULT);
+>>>>  }
+>>>>
+>>>>  static int
+>>>> @@ -1507,6 +1513,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+>>>>                     dm_plane_state->degamma_tf = val;
+>>>>                     dm_plane_state->base.color_mgmt_changed = 1;
+>>>>             }
+>>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
+>>>> +           if (dm_plane_state->hdr_mult != val) {
+>>>> +                   dm_plane_state->hdr_mult = val;
+>>>> +                   dm_plane_state->base.color_mgmt_changed = 1;
+>>>> +           }
+>>>>     } else {
+>>>>             drm_dbg_atomic(plane->dev,
+>>>>                            "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+>>>> @@ -1533,6 +1544,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+>>>>                     dm_plane_state->degamma_lut->base.id : 0;
+>>>>     } else if (property == adev->mode_info.plane_degamma_tf_property) {
+>>>>             *val = dm_plane_state->degamma_tf;
+>>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
+>>>> +           *val = dm_plane_state->hdr_mult;
+>>>>     } else {
+>>>>             return -EINVAL;
+>>>>     }
+>>>
+>>>
 
-Dave.
