@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E106FCB69
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 18:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A350B6FCB6C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 18:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1257610E1AD;
-	Tue,  9 May 2023 16:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014A310E1B4;
+	Tue,  9 May 2023 16:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB49710E1AD;
- Tue,  9 May 2023 16:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=R40lkV2CFRJyCp/GbWmiXXzZrCx7rYAB8u56lzxd0dE=; b=sUWvu9WkObboIKA8N9xmaOOikB
- XovxhDb4c7DHuXa3WkeJViMcrgihe0x79b+hitUp2TGNPAiQUK7wmVdQLHFEjS9TTfJH2s6SIh1qH
- 2WUSdshzxcv5tP4NgaHl8geSqADK0Fvr34+J8JL2MB/0X1yOBet1+Z76Kplzpu/Q4OlstFo4e9cK3
- mU6gR6WOMh45tDf/K01tsagGXDx8MPICGdwS0GN5qGmaNUTuYSzcUyorrMflIQmvneY9KSVct2Xyg
- 1G1bunzFDioEItvVn2bXYNgL5c+bsPtJHpAdGzYPrVapXCxxPqvmOekZ7meDX6jBQaudSWkAsml8D
- 7+T05F9Q==;
-Received: from [38.44.72.37] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pwQKn-0052h8-6s; Tue, 09 May 2023 18:37:05 +0200
-Date: Tue, 9 May 2023 15:37:01 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 12/40] drm/amd/display: add plane HDR multiplier
- driver-private property
-Message-ID: <20230509163701.57lf22phumicqv37@mail.igalia.com>
-References: <20230423141051.702990-1-mwen@igalia.com>
- <20230423141051.702990-13-mwen@igalia.com>
- <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E204810E1B4;
+ Tue,  9 May 2023 16:37:18 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-64395e2a715so6040048b3a.3; 
+ Tue, 09 May 2023 09:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683650238; x=1686242238;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TaDF8zy4btueLBSrY9dwMuQHd4N85rvewa4k8qv4+LA=;
+ b=j14RYjsAZP/vRadBipwj+/IsyNXcsgsIAhyw919XbStBA4kce3hQvKJ+cfxL4B2Fyk
+ xDslF7jbK8TYBzo3nv3M5tNKeJjYsIhGrvrv0UPaY8Lqtwx8ww8oFWZxQ5STMCvjOzoo
+ FdS2t9RdlZKcaR+m5JNWNFHI3+/DXPWurM/sx0TXEvdgNiU7+V1XnZ3pLh50ogSibyKq
+ OP+GfeN+rwBzfoUUSKlt5Frrt2rm4uGh7guDSGSq/qLjrguJp2+RNuCGEYuoQXZQ+t2q
+ im4ETpEyj3JKyhI6ChXApXKixbt+M5tce/JMfZdqk/T60jKy6V59XI1JaDR0WK9eW9N0
+ UtvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683650238; x=1686242238;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TaDF8zy4btueLBSrY9dwMuQHd4N85rvewa4k8qv4+LA=;
+ b=JR6Z9A2ceSnE3uT/C/ozIzrqx1sxuHb7Qcd8CFu6OgCNH6GsID+/6TLIZl7sjUVUsm
+ sCr3igNmpcvk1ccPq9/Uoywu8M11L4UwK1Sztb45oHbiGFtmFWy3puaykz0mLuo7y8RG
+ nzVpXLCdB7Ebtz95hNFkLPMiYJHm0yc0sU/wXttIp8gbcO+zeAxDd18XkRrktC60PCWD
+ HF8T3Lrd432JGJ28HgDxMmIUgLr6EKmofeZ9bUvEfsi9KZzdEHbchMWjpGO7jectnwjr
+ usuUn+X/0HPWhohsd+h6WmPQ1MiPLrdVAcDnWrkkw5vSSdENo4NdnbsfXyt/kZ6AerZe
+ nGHg==
+X-Gm-Message-State: AC+VfDy8AChSFFnlRtkLRkbW0V0hT4R56aMSpC3ToeoO/gNykLh2n5G5
+ uft4nsUrQBfWs/VUDW5n4qIa0P+Eqvo=
+X-Google-Smtp-Source: ACHHUZ4Fw2eEX9sgR3Z4fMrQfqI4ebENqvBJull5h+TO+c/ePom2r4665yNHkpO6ibZvUcr5PA5kEQ==
+X-Received: by 2002:a05:6a21:6d88:b0:f2:fd1e:efc9 with SMTP id
+ wl8-20020a056a216d8800b000f2fd1eefc9mr19258556pzb.5.1683650237508; 
+ Tue, 09 May 2023 09:37:17 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ y9-20020a63de49000000b0051b7bcb6162sm1547873pgi.81.2023.05.09.09.37.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 09:37:17 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH 1/2] iommu/arm-smmu-qcom: Fix missing adreno_smmu's
+Date: Tue,  9 May 2023 09:37:10 -0700
+Message-Id: <20230509163712.376117-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nfaok3sextt6axef"
-Content-Disposition: inline
-In-Reply-To: <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,216 +71,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, Lepton Wu <lepton@chromium.org>,
+ Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Emma Anholt <emma@anholt.net>,
+ Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Elliot Berman <quic_eberman@quicinc.com>, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
---nfaok3sextt6axef
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When the special handling of qcom,adreno-smmu was moved into
+qcom_smmu_create(), it was overlooked that we didn't have all the
+required entries in qcom_smmu_impl_of_match.  So we stopped getting
+adreno_smmu_priv on sc7180, breaking per-process pgtables.
 
-On 05/08, Harry Wentland wrote:
->=20
->=20
-> On 4/23/23 10:10, Melissa Wen wrote:
-> > From: Joshua Ashton <joshua@froggi.es>
-> >=20
-> > Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
-> > transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
-> > least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier =3D=
- 80
-> > nits for SDR content. So if you want, 203 nits for SDR content, pass in
-> > (203.0 / 80.0).
-> >=20
->=20
-> Is gamescope intending to use this?
+Fixes: 30b912a03d91 ("iommu/arm-smmu-qcom: Move the qcom,adreno-smmu check into qcom_smmu_create")
+Suggested-by: Lepton Wu <lepton@chromium.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I don't think so. Again, I'll double check and drop it accordingly.
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index d1b296b95c86..760d9c43dbd2 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -496,20 +496,21 @@ static const struct qcom_smmu_match_data qcom_smmu_500_impl0_data = {
+ /*
+  * Do not add any more qcom,SOC-smmu-500 entries to this list, unless they need
+  * special handling and can not be covered by the qcom,smmu-500 entry.
+  */
+ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
+ 	{ .compatible = "qcom,msm8996-smmu-v2", .data = &msm8996_smmu_data },
+ 	{ .compatible = "qcom,msm8998-smmu-v2", .data = &qcom_smmu_v2_data },
+ 	{ .compatible = "qcom,qcm2290-smmu-500", .data = &qcom_smmu_500_impl0_data },
+ 	{ .compatible = "qcom,qdu1000-smmu-500", .data = &qcom_smmu_500_impl0_data  },
+ 	{ .compatible = "qcom,sc7180-smmu-500", .data = &qcom_smmu_500_impl0_data },
++	{ .compatible = "qcom,sc7180-smmu-v2", .data = &qcom_smmu_v2_data },
+ 	{ .compatible = "qcom,sc7280-smmu-500", .data = &qcom_smmu_500_impl0_data },
+ 	{ .compatible = "qcom,sc8180x-smmu-500", .data = &qcom_smmu_500_impl0_data },
+ 	{ .compatible = "qcom,sc8280xp-smmu-500", .data = &qcom_smmu_500_impl0_data },
+ 	{ .compatible = "qcom,sdm630-smmu-v2", .data = &qcom_smmu_v2_data },
+ 	{ .compatible = "qcom,sdm845-smmu-v2", .data = &qcom_smmu_v2_data },
+ 	{ .compatible = "qcom,sdm845-smmu-500", .data = &sdm845_smmu_500_data },
+ 	{ .compatible = "qcom,sm6115-smmu-500", .data = &qcom_smmu_500_impl0_data},
+ 	{ .compatible = "qcom,sm6125-smmu-500", .data = &qcom_smmu_500_impl0_data },
+ 	{ .compatible = "qcom,sm6350-smmu-v2", .data = &qcom_smmu_v2_data },
+ 	{ .compatible = "qcom,sm6350-smmu-500", .data = &qcom_smmu_500_impl0_data },
+@@ -540,12 +541,14 @@ struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
+ 		/* Match platform for ACPI boot */
+ 		if (acpi_match_platform_list(qcom_acpi_platlist) >= 0)
+ 			return qcom_smmu_create(smmu, &qcom_smmu_500_impl0_data);
+ 	}
+ #endif
+ 
+ 	match = of_match_node(qcom_smmu_impl_of_match, np);
+ 	if (match)
+ 		return qcom_smmu_create(smmu, match->data);
+ 
++	WARN_ON(of_device_is_compatible(np, "qcom,adreno-smmu"));
++
+ 	return smmu;
+ }
+-- 
+2.40.1
 
-Melissa
-
->=20
-> Harry
->=20
-> > Co-developed-by: Melissa Wen <mwen@igalia.com>
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 +++++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +++
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 12 +++++++++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 25 ++++++++++++++-----
-> >  4 files changed, 41 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_display.c
-> > index 24595906dab1..dd658f162f6f 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> > @@ -1326,6 +1326,12 @@ amdgpu_display_create_color_properties(struct am=
-dgpu_device *adev)
-> >  		return -ENOMEM;
-> >  	adev->mode_info.plane_degamma_tf_property =3D prop;
-> > =20
-> > +	prop =3D drm_property_create_range(adev_to_drm(adev),
-> > +					 0, "AMD_PLANE_HDR_MULT", 0, UINT_MAX);
-> > +	if (!prop)
-> > +		return -ENOMEM;
-> > +	adev->mode_info.plane_hdr_mult_property =3D prop;
-> > +
-> >  	return 0;
-> >  }
-> >  #endif
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_mode.h
-> > index ab9ce6f26c90..65a9d62ffbe4 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> > @@ -387,6 +387,10 @@ struct amdgpu_mode_info {
-> >  	 * linearize content with or without LUT.
-> >  	 */
-> >  	struct drm_property *plane_degamma_tf_property;
-> > +	/**
-> > +	 * @plane_hdr_mult_property:
-> > +	 */
-> > +	struct drm_property *plane_hdr_mult_property;
-> >  #endif
-> >  };
-> > =20
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/driver=
-s/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > index 005632c1c9ec..bb7307b9cfd5 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> > @@ -51,6 +51,7 @@
-> > =20
-> >  #define AMDGPU_DMUB_NOTIFICATION_MAX 5
-> > =20
-> > +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
-> >  /*
-> >  #include "include/amdgpu_dal_power_if.h"
-> >  #include "amdgpu_dm_irq.h"
-> > @@ -736,6 +737,17 @@ struct dm_plane_state {
-> >  	 * linearize.
-> >  	 */
-> >  	enum drm_transfer_function degamma_tf;
-> > +	/**
-> > +	 * @hdr_mult:
-> > +	 *
-> > +	 * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
-> > +	 * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
-> > +	 * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
-> > +	 * Therefore, 1.0 multiplier =3D 80 nits for SDR content.  So if you
-> > +	 * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
-> > +	 * S31.32 sign-magnitude.
-> > +	 */
-> > +	__u64 hdr_mult;
-> >  #endif
-> >  };
-> > =20
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > index 5b458cc0781c..57169dae8b3d 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > @@ -1321,8 +1321,10 @@ static void dm_drm_plane_reset(struct drm_plane =
-*plane)
-> >  		__drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
-> > =20
-> >  #ifdef CONFIG_STEAM_DECK
-> > -	if (amdgpu_state)
-> > +	if (amdgpu_state) {
-> >  		amdgpu_state->degamma_tf =3D DRM_TRANSFER_FUNCTION_DEFAULT;
-> > +		amdgpu_state->hdr_mult =3D AMDGPU_HDR_MULT_DEFAULT;
-> > +	}
-> >  #endif
-> >  }
-> > =20
-> > @@ -1424,11 +1426,11 @@ static void dm_drm_plane_destroy_state(struct d=
-rm_plane *plane,
-> >  #ifdef CONFIG_STEAM_DECK
-> >  int
-> >  amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
-> > -					       struct drm_property_blob **blob,
-> > -					       uint64_t blob_id,
-> > -					       ssize_t expected_size,
-> > -					       ssize_t expected_elem_size,
-> > -					       bool *replaced)
-> > +					struct drm_property_blob **blob,
-> > +					uint64_t blob_id,
-> > +					ssize_t expected_size,
-> > +					ssize_t expected_elem_size,
-> > +					bool *replaced)
-> >  {
-> >  	struct drm_property_blob *new_blob =3D NULL;
-> > =20
-> > @@ -1482,6 +1484,10 @@ dm_plane_attach_color_mgmt_properties(struct amd=
-gpu_display_manager *dm,
-> >  					   dm->adev->mode_info.plane_degamma_tf_property,
-> >  					   DRM_TRANSFER_FUNCTION_DEFAULT);
-> >  	}
-> > +	/* HDR MULT is always available */
-> > +	drm_object_attach_property(&plane->base,
-> > +				   dm->adev->mode_info.plane_hdr_mult_property,
-> > +				   AMDGPU_HDR_MULT_DEFAULT);
-> >  }
-> > =20
-> >  static int
-> > @@ -1507,6 +1513,11 @@ dm_atomic_plane_set_property(struct drm_plane *p=
-lane,
-> >  			dm_plane_state->degamma_tf =3D val;
-> >  			dm_plane_state->base.color_mgmt_changed =3D 1;
-> >  		}
-> > +	} else if (property =3D=3D adev->mode_info.plane_hdr_mult_property) {
-> > +		if (dm_plane_state->hdr_mult !=3D val) {
-> > +			dm_plane_state->hdr_mult =3D val;
-> > +			dm_plane_state->base.color_mgmt_changed =3D 1;
-> > +		}
-> >  	} else {
-> >  		drm_dbg_atomic(plane->dev,
-> >  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
-> > @@ -1533,6 +1544,8 @@ dm_atomic_plane_get_property(struct drm_plane *pl=
-ane,
-> >  			dm_plane_state->degamma_lut->base.id : 0;
-> >  	} else if (property =3D=3D adev->mode_info.plane_degamma_tf_property)=
- {
-> >  		*val =3D dm_plane_state->degamma_tf;
-> > +	} else if (property =3D=3D adev->mode_info.plane_hdr_mult_property) {
-> > +		*val =3D dm_plane_state->hdr_mult;
-> >  	} else {
-> >  		return -EINVAL;
-> >  	}
->=20
->=20
-
---nfaok3sextt6axef
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmRadqwACgkQwqF3j0dL
-ehxMLg//UGvD/CNPh09hk0n0qT3NsizvkT1mfvtGZKGCczyWdTuhPLahM7K2fzXM
-XaKlOhlDxCydvxQObxS5Ocr9aBRvAzf9a6jOMmrod2Zb8dj4b3VyU99K9TNdi/Xj
-UNFd8S1ZhY3B+plRDjxeCAKGia01LrlzHAQ5pbFgKgJAK2jWPsyST9N2NQebdR92
-WbtcG/5jWOHLmVLdspUW5wbFXPoLt5e1ITXjry8dWTyUQz+s3BbpaPO1ZCsinCRO
-sXDBxXmX56MYfLZerntUpYMx6AHmv9vOlwEmTT1CNfu2jlUmUAqpSpBmNLUyjRAi
-SwSti+FNMir9ffA7iDMMWPTcPk1PKc5cs8TuHYnAsGI47x/qQO6IMp4bTJRko5uT
-9voOrhyIIMSVJ58su/1XNxFgHfpWaF4CSHZveeSSijodm1+ao1ZlLIeRmybHERCG
-LBLni/g2a2obx5ex1p/gsqzmur7Gn5nlRgaV0JdxSUMn1jzfOWo0yjsYKofDp/BL
-ryLWSXhv+3HmdBX3wkCI/i4W3XHtUhzZZh3E3ZLTesEWUp/uWJxuDK68D9JMpBgq
-+J3KOhotWkQChz6Fuo4PmfDhtnpPSnWnyAJc5ABknpFtZBaLayor7ccnMJXjpU8I
-EcNTne7BQoh1C84Gxcg/lBXXdh2etqsaVEResyEs1ciXteUNHLw=
-=DTGq
------END PGP SIGNATURE-----
-
---nfaok3sextt6axef--
