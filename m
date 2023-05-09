@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6322C6FC9D6
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3556FC9D8
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:07:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 702BA10E38C;
-	Tue,  9 May 2023 15:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D66FB10E390;
+	Tue,  9 May 2023 15:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA31C10E023
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=pagEJw3NLV4xMAr5TuZwsod5IwX0MmssQbbAtRahZVw=; b=WqgZVpBCd7Za2e8ueVOn6RloJh
- fk2hdEgp4k5hJjXflcZyR9xSzgBIxcQ+R8H3ACVO7DBT7zKIQP95qdlhkjMd3j23q5dF0pZU04imE
- 5+v5eq2dl97k4lECWYiqnE73cAbjAmobJ15esS0RJR2gWDba8IZPdMMZcCf95thg6w951U9ZG/ba4
- bVr+I2gSkSH5lKiTN1DSLe0c4mElXwJ+XI7oAMB865xXgaTMAH8ACwS2Ba4i9PEJSYyAnaQAOuWMI
- p9ITIWndS/7arbdlF39IF4a1QRTA6rABdGx4xyBl8v/QW/6L8vh9uhIU4zYAcKAiWlVRBhdoZeOsc
- zLwgqlCw==;
-Received: from 179-241-20-132.3g.claro.net.br ([179.241.20.132] helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pwOuZ-004xfg-1S; Tue, 09 May 2023 17:05:55 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH 2/2] drm/vkms: Add support for Virtual Hardware mode
-Date: Tue,  9 May 2023 12:05:01 -0300
-Message-Id: <20230509150501.81875-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230509150501.81875-1-mcanal@igalia.com>
-References: <20230509150501.81875-1-mcanal@igalia.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 582E210E390
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:07:45 +0000 (UTC)
+X-UUID: 3d0f50f0ee7b11ed9cb5633481061a41-20230509
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=nbtw0jA5Y+CB2RrQm4TXp8hYl0pAdmvqxpCUQo/y+BA=; 
+ b=Mpw//zWWiD3HOZ9dDdBHXAuWz7I7xatGxPmOKVojycvS6F/v0LF/XNchmHjNdyhD8vhW6L+rVzYsg7g3fJDDFuoywTkvOtRm6w/PLPv5k1lHcTf1OtkH6LOUQe8HJRB2HfQR3fyZgPMuG8ZCa7OsCPQvcfexsgb1X3mfaJrZJeY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.24, REQID:a1c7b91f-253a-437e-986a-757933f8c54b, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.24, REQID:a1c7b91f-253a-437e-986a-757933f8c54b, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:178d4d4, CLOUDID:a9449d3a-de1e-4348-bc35-c96f92f1dcbb,
+ B
+ ulkID:230509220119WFIJEBBA,BulkQuantity:2,Recheck:0,SF:48|38|29|28|17|19,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:41,QS:nil,BEC:nil,COL:0,
+ OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 3d0f50f0ee7b11ed9cb5633481061a41-20230509
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 116390428; Tue, 09 May 2023 23:07:39 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 9 May 2023 23:07:37 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 9 May 2023 23:07:37 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+Subject: [PATCH v3 0/2] Add dynamic connector selection mechanism
+Date: Tue, 9 May 2023 23:07:35 +0800
+Message-ID: <20230509150737.8075-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,251 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Sumera Priyadarsini <sylphrenadin@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To support DSI and eDP as main display connector without modifying
+mtk-drm driver, we add the dynamic connector selection mechanism.
 
-Add a virtual hardware or vblank-less mode as a module to enable VKMS
-to emulate virtual devices. This means no vertical blanking events
-occur and page-flips are completed arbitrarily when required for
-updating the frame.
+Change in v3:
+1. Change max_num comparison statement to max().
 
-Add a new drm_crtc_funcs struct, vkms_vblankless_crtc_funcs, and a
-drm_crtc_helper_funcs struct, vkms_vblankless_crtc_helper_funcs, which
-hold the atomic helpers for virtual hardware mode. The existing
-vkms_crtc_funcs struct and vkms_crtc_helper_funcs struct hold atomic
-helpers for the default vblank mode. This makes the code flow clearer
-and testing the virtual hardware mode easier.
+Change in v2:
+1. rebase on linux-next: next-20230426
+2. Fix alphabetical order and max_num condition check problem.
 
-Add a function vkms_crtc_composer() which calls the helper function,
-vkms_composer_common() for plane composition in vblank-less mode.
-vkms_crtc_composer() is directly called in the atomic hook in
-vkms_crtc_atomic_flush().
+Change in v1:
+1. based on mediatek-drm maintainer's tree / mediatek-drm-next branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next
 
-However, some CRC captures still use vblanks which causes the
-CRC-based IGT tests to crash. So, no CRC functions are called in
-vblankless mode for now. Therefore, it is not possible to run tests
-that demands CRC captures.
+Jason-JH.Lin (2):
+  drm/mediatek: Add ability to support dynamic connector selection
+  drm/mediatek: Add DSI support for mt8188 vdosys0
 
-This patchset has been tested with the following IGT tests:
-kms_writeback, kms_atomic, kms_lease, and kms_flip. It preserves
-results except for subtests related to CRC reads and vertical
-blanking, in which case, tests skip or fail.
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   2 +
+ drivers/gpu/drm/mediatek/mtk_dpi.c          |   9 ++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 111 +++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   5 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  28 +++++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   8 ++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  49 +++++++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   8 ++
+ drivers/gpu/drm/mediatek/mtk_dsi.c          |   9 ++
+ 9 files changed, 218 insertions(+), 11 deletions(-)
 
-The patch is based on Rodrigo Siqueira's patch [1] and the ensuing
-review.
-
-[1] https://patchwork.freedesktop.org/patch/316851/?series=48469&rev=3
-
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c  | 17 ++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c      | 38 ++++++++++++++++++++++++---
- drivers/gpu/drm/vkms/vkms_drv.c       | 16 ++++++++---
- drivers/gpu/drm/vkms/vkms_drv.h       |  2 ++
- drivers/gpu/drm/vkms/vkms_writeback.c |  8 ++++--
- 5 files changed, 72 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index f488675ccc62..d70e5b656a15 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -285,6 +285,23 @@ void vkms_composer_worker(struct work_struct *work)
- 		drm_crtc_add_crc_entry(crtc, true, frame_start++, &crc32);
- }
- 
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state)
-+{
-+	struct drm_crtc *crtc = crtc_state->base.crtc;
-+	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
-+	bool wb_pending;
-+	u32 crc32 = 0;
-+	int ret;
-+
-+	spin_lock_irq(&out->composer_lock);
-+	wb_pending = crtc_state->wb_pending;
-+	spin_unlock_irq(&out->composer_lock);
-+
-+	ret = vkms_composer_common(crtc_state, out, wb_pending, &crc32);
-+	if (ret)
-+		return;
-+}
-+
- static const char * const pipe_crc_sources[] = {"auto"};
- 
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..2128b6d009d8 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -173,6 +173,14 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
- 	.verify_crc_source	= vkms_verify_crc_source,
- };
- 
-+static const struct drm_crtc_funcs vkms_vblankless_crtc_funcs = {
-+	.set_config             = drm_atomic_helper_set_config,
-+	.page_flip              = drm_atomic_helper_page_flip,
-+	.reset                  = vkms_atomic_crtc_reset,
-+	.atomic_duplicate_state = vkms_atomic_crtc_duplicate_state,
-+	.atomic_destroy_state   = vkms_atomic_crtc_destroy_state,
-+};
-+
- static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 				  struct drm_atomic_state *state)
- {
-@@ -267,6 +275,17 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 	spin_unlock_irq(&vkms_output->lock);
- }
- 
-+static void vkms_vblankless_crtc_atomic_flush(struct drm_crtc *crtc,
-+					      struct drm_atomic_state *state)
-+{
-+	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_crtc_state *vkms_state = to_vkms_crtc_state(crtc->state);
-+
-+	vkms_crtc_composer(vkms_state);
-+
-+	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
-+}
-+
- static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_check	= vkms_crtc_atomic_check,
- 	.atomic_begin	= vkms_crtc_atomic_begin,
-@@ -275,20 +294,33 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_disable	= vkms_crtc_atomic_disable,
- };
- 
-+static const struct drm_crtc_helper_funcs vkms_vblankless_crtc_helper_funcs = {
-+	.atomic_check	= vkms_crtc_atomic_check,
-+	.atomic_flush	= vkms_vblankless_crtc_atomic_flush,
-+};
-+
- int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 		   struct drm_plane *primary, struct drm_plane *cursor)
- {
- 	struct vkms_output *vkms_out = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_device *vkms_dev = drm_device_to_vkms_device(dev);
- 	int ret;
- 
--	ret = drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
--					 &vkms_crtc_funcs, NULL);
-+	if (vkms_dev->config->virtual_hw)
-+		ret = drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
-+						 &vkms_vblankless_crtc_funcs, NULL);
-+	else
-+		ret = drmm_crtc_init_with_planes(dev, crtc, primary, cursor,
-+						 &vkms_crtc_funcs, NULL);
- 	if (ret) {
- 		DRM_ERROR("Failed to init CRTC\n");
- 		return ret;
- 	}
- 
--	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-+	if (vkms_dev->config->virtual_hw)
-+		drm_crtc_helper_add(crtc, &vkms_vblankless_crtc_helper_funcs);
-+	else
-+		drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..c8c029da7980 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,6 +51,10 @@ static bool enable_overlay;
- module_param_named(enable_overlay, enable_overlay, bool, 0444);
- MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
- 
-+static bool enable_virtual_hw;
-+module_param_named(enable_virtual_hw, enable_virtual_hw, bool, 0444);
-+MODULE_PARM_DESC(enable_virtual_hw, "Enable/Disable virtual hardware mode (vblank-less mode)");
-+
- DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
-@@ -99,6 +103,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
- 	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-+	seq_printf(m, "virtual_hw=%d\n", vkmsdev->config->virtual_hw);
- 
- 	return 0;
- }
-@@ -188,10 +193,12 @@ static int vkms_create(struct vkms_config *config)
- 		goto out_devres;
- 	}
- 
--	ret = drm_vblank_init(&vkms_device->drm, 1);
--	if (ret) {
--		DRM_ERROR("Failed to vblank\n");
--		goto out_devres;
-+	if (!vkms_device->config->virtual_hw) {
-+		ret = drm_vblank_init(&vkms_device->drm, 1);
-+		if (ret) {
-+			DRM_ERROR("Failed to vblank\n");
-+			goto out_devres;
-+		}
- 	}
- 
- 	ret = vkms_modeset_init(vkms_device);
-@@ -230,6 +237,7 @@ static int __init vkms_init(void)
- 	config->cursor = enable_cursor;
- 	config->writeback = enable_writeback;
- 	config->overlay = enable_overlay;
-+	config->virtual_hw = enable_virtual_hw;
- 
- 	ret = vkms_create(config);
- 	if (ret)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..6dbf1a6cb634 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -114,6 +114,7 @@ struct vkms_config {
- 	bool writeback;
- 	bool cursor;
- 	bool overlay;
-+	bool virtual_hw;
- 	/* only set when instantiated */
- 	struct vkms_device *dev;
- };
-@@ -156,6 +157,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
- /* Composer Support */
- void vkms_composer_worker(struct work_struct *work);
- void vkms_set_composer(struct vkms_output *out, bool enabled);
-+void vkms_crtc_composer(struct vkms_crtc_state *crtc_state);
- void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y);
- 
- /* Writeback */
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 84a51cd281b9..fcbc115b98ff 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -111,7 +111,10 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
- 
- 	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
--	vkms_set_composer(&vkmsdev->output, false);
-+
-+	if (!vkmsdev->config->virtual_hw)
-+		vkms_set_composer(&vkmsdev->output, false);
-+
- 	kfree(vkmsjob);
- }
- 
-@@ -135,7 +138,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	if (!conn_state)
- 		return;
- 
--	vkms_set_composer(&vkmsdev->output, true);
-+	if (!vkmsdev->config->virtual_hw)
-+		vkms_set_composer(&vkmsdev->output, true);
- 
- 	active_wb = conn_state->writeback_job->priv;
- 	wb_frame_info = &active_wb->wb_frame_info;
 -- 
-2.40.1
+2.18.0
 
