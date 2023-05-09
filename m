@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04A86FC07F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:32:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AFA6FC0B2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:48:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A731810E341;
-	Tue,  9 May 2023 07:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB0210E347;
+	Tue,  9 May 2023 07:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD5D510E341
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 07:32:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 898AF64497;
- Tue,  9 May 2023 07:32:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8ABC4339B;
- Tue,  9 May 2023 07:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1683617527;
- bh=hqRuZTZKPLhm1SCs6rtoJIIQr2UoRO/eHbuyOeqFpCs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pGF8ucgxJ76Y1V0eKtU8tCTnpak94aLBJX/zyqcCTSgvljCowz58Dx42OvNNZDJKY
- eA4mHv1pd0yKBIcuvOpgkm5sb7ATDslllYBS4vl+JLlPk/V9UyKZeVmX69qWV+Lwz5
- e+f3EUR1dQi4etSA11immNQ1FGWQ8vsfVbNbi08Q=
-Date: Tue, 9 May 2023 09:32:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
- bounce buffers
-Message-ID: <2023050949-grueling-verify-a43b@gregkh>
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <20230426141520.0caf4386@meshulam.tesarici.cz>
- <2023042617-wobble-enlighten-9361@gregkh>
- <20230426144439.5674f8bc@meshulam.tesarici.cz>
- <20230509091635.27450bd9@meshulam.tesarici.cz>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B828010E347
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 07:48:08 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f41dceb93bso19356455e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 00:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683618486; x=1686210486;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=omncBa6AelPbADQXzHKZhhm9n16/I3NnAgUAmD05QzE=;
+ b=A7DCz0u4X+4lzxEb8k0mHSG6j52CJqk1BU7v3WYGKM/YwDMjAQZ/uDcb5V1QYazRJM
+ xv5Gqi9LGLru2ATfHstVpvtvnctupCGZF6Y4l5c7W4ZjdTh9+ZTkIRn/uLmGD5Z4JrFH
+ lSZVPKPXvNRY/xrBVIJ9CcjavyRvh7EvY9QyxcSFnF3j6Z6Kkyc4ROCQQyUinkjMUfPI
+ WVXANytanLl5GoU45J2RX7wHBA91EFGJs0oD5c1G7VWPZBWSjjQGMXSNIEhYeObYZ/6R
+ +ygRtCm7D4UDzXujIEU+x7sf9pjd2Ng8XErDnJWJUFzwNYenTnnrTb3J41wFEw3197xP
+ tsLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683618486; x=1686210486;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=omncBa6AelPbADQXzHKZhhm9n16/I3NnAgUAmD05QzE=;
+ b=jnhbqLWLyIsUtVIyyrhp4U7pyzBIXk93oYFhBnlM87OlnZnVVsP5AiJLrCI03VV+HC
+ SP9lUvWO1wWtvFfltwe/04aDgXAcSMrJncKFbNDgVk2b8GuOtaAl9LV+4bPsWfib2swn
+ JppRr+Wl06M1JGOLXsv+MJwTkTGMljEWVt9/ZDfgoTeRbXd38t0uLfpAUsWs3S6czgCK
+ 8DToRuWSc9tUPiAR7Kdn/cdsxCucpWlxKN2d5eIcAziYP/0PReEVF5yuXUBkNmz0qr7f
+ dfhgC+1K/z5z7Zqf0BYf2hlCFbPVhBPlHK3V6DAqlAeJoLK5I4MrK4KgdySgm9eNZBMG
+ poFA==
+X-Gm-Message-State: AC+VfDznq8tghUkAekyjiQGrfyczfuGVydIhe2KJ20CTHtAs7//fAYRM
+ mxTQJaZeiznmXPPct/TpZ58aOw==
+X-Google-Smtp-Source: ACHHUZ7nJYTctDR6/UIqMoUVFLX52kZrSY41kWVdxblWLozZ+50GcME63LITOAglbjpXF790FTUmrw==
+X-Received: by 2002:adf:fe10:0:b0:2d5:39d:514f with SMTP id
+ n16-20020adffe10000000b002d5039d514fmr8355593wrr.65.1683618486584; 
+ Tue, 09 May 2023 00:48:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:79ab:8da0:d16d:9990?
+ ([2a01:e0a:982:cbb0:79ab:8da0:d16d:9990])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a056000008200b0030630120e56sm13354821wrx.57.2023.05.09.00.48.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 00:48:06 -0700 (PDT)
+Message-ID: <43f55714-91ac-5bfd-c8b2-58525ae21d85@linaro.org>
+Date: Tue, 9 May 2023 09:48:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230509091635.27450bd9@meshulam.tesarici.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/2] drm/panel: sharp-ls043t1le01: adjust mode settings
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230507172639.2320934-1-dmitry.baryshkov@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230507172639.2320934-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,100 +81,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Jonathan Corbet <corbet@lwn.net>,
- Will Deacon <will@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
- Ondrej Zary <linux@zary.sk>, Petr Tesarik <petrtesarik@huaweicloud.com>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Robin Murphy <robin.murphy@arm.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 09, 2023 at 09:16:35AM +0200, Petr Tesařík wrote:
-> On Wed, 26 Apr 2023 14:44:39 +0200
-> Petr Tesařík <petr@tesarici.cz> wrote:
+On 07/05/2023 19:26, Dmitry Baryshkov wrote:
+> Using current settings causes panel flickering on APQ8074 dragonboard.
+> Adjust panel settings to follow the vendor-provided mode. This also
+> enables MIPI_DSI_MODE_VIDEO_SYNC_PULSE, which is also specified by the
+> vendor dtsi for the mentioned dragonboard.
 > 
-> > Hi Greg,
-> > 
-> > On Wed, 26 Apr 2023 14:26:36 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > 
-> > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesařík wrote:  
-> > > > Hi,
-> > > > 
-> > > > On Wed, 19 Apr 2023 12:03:52 +0200
-> > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> > > >     
-> > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > > > > 
-> > > > > The goal of my work is to provide more flexibility in the sizing of
-> > > > > SWIOTLB.
-> > > > > 
-> > > > > The software IO TLB was designed with these assumptions:
-> > > > > 
-> > > > > 1. It would not be used much, especially on 64-bit systems.
-> > > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
-> > > > >    handle the few cases which require a bounce buffer.
-> > > > > 3. 64 MiB is little enough that it has no impact on the rest of the
-> > > > >    system.
-> > > > > 
-> > > > > First, if SEV is active, all DMA must be done through shared
-> > > > > unencrypted pages, and SWIOTLB is used to make this happen without
-> > > > > changing device drivers. The software IO TLB size is increased to
-> > > > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > > > approximation. The actual requirements may vary depending on the
-> > > > > amount of I/O and which drivers are used. These factors may not be
-> > > > > know at boot time, i.e. when SWIOTLB is allocated.
-> > > > > 
-> > > > > Second, other colleagues have noticed that they can reliably get
-> > > > > rid of occasional OOM kills on an Arm embedded device by reducing
-> > > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
-> > > > > determining the right value puts additional burden on pre-release
-> > > > > testing, which could be avoided if SWIOTLB is allocated small and
-> > > > > grows only when necessary.    
-> > > > 
-> > > > Now that merging into 6.4 has begun, what about this patch series? I'm
-> > > > eager to get some feedback (positive or negative) and respin the next
-> > > > version.    
-> > > 
-> > > It's the merge window, we can't add new things that haven't been in
-> > > linux-next already.  
-> > 
-> > This is understood. I'm not asking for immediate inclusion.
-> > 
-> > >   Please resubmit it after -rc1 is out.  
-> > 
-> > If you can believe that rebasing to -rc1 will be enough, then I will
-> > also try to believe I'm lucky. ;-)
-> > 
-> > The kind of feedback I really want to get is e.g. about the extra
-> > per-device DMA-specific fields. If they cannot be added to struct
-> > device, then I'd rather start discussing an interim solution, because
-> > getting all existing DMA fields out of that struct will take a lot of
-> > time...
+> Fixes: ee0172383190 ("drm/panel: Add Sharp LS043T1LE01 MIPI DSI panel")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 11 ++++++-----
+>   1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> All right, 6.4-rc1 is out now. The patch series still applies cleanly.
-> 
-> Any comments what must be changed (if anything) to get it in?
+> diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+> index d1ec80a3e3c7..ef148504cf24 100644
+> --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+> +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+> @@ -192,15 +192,15 @@ static int sharp_nt_panel_enable(struct drm_panel *panel)
+>   }
+>   
+>   static const struct drm_display_mode default_mode = {
+> -	.clock = 41118,
+> +	.clock = (540 + 48 + 32 + 80) * (960 + 3 + 10 + 15) * 60 / 1000,
+>   	.hdisplay = 540,
+>   	.hsync_start = 540 + 48,
+> -	.hsync_end = 540 + 48 + 80,
+> -	.htotal = 540 + 48 + 80 + 32,
+> +	.hsync_end = 540 + 48 + 32,
+> +	.htotal = 540 + 48 + 32 + 80,
+>   	.vdisplay = 960,
+>   	.vsync_start = 960 + 3,
+> -	.vsync_end = 960 + 3 + 15,
+> -	.vtotal = 960 + 3 + 15 + 1,
+> +	.vsync_end = 960 + 3 + 10,
+> +	.vtotal = 960 + 3 + 10 + 15,
+>   };
+>   
+>   static int sharp_nt_panel_get_modes(struct drm_panel *panel,
+> @@ -280,6 +280,7 @@ static int sharp_nt_panel_probe(struct mipi_dsi_device *dsi)
+>   	dsi->lanes = 2;
+>   	dsi->format = MIPI_DSI_FMT_RGB888;
+>   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
+> +			MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+>   			MIPI_DSI_MODE_VIDEO_HSE |
+>   			MIPI_DSI_CLOCK_NON_CONTINUOUS |
+>   			MIPI_DSI_MODE_NO_EOT_PACKET;
 
-Try resending it, it's long out of my review queue...
-
-thanks,
-
-greg k-h
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
