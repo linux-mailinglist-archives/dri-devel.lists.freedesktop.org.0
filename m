@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4946FC111
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:57:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370B26FC115
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 10:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D180E10E34A;
-	Tue,  9 May 2023 07:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F21A10E34D;
+	Tue,  9 May 2023 08:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D62810E345;
- Tue,  9 May 2023 07:57:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF6810E349
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 08:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683619052; x=1715155052;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=HyMZvjVK4PWg2zKaACEjXyLpCS8bkLdXvTElw8PwpKo=;
- b=SbO04ES9jEwm6XlcRAc9N7dohbds2voBYDEUhS7hwW572dVO2JnGkeDN
- vQYlTap/ifmS/t7NhJq773qSqf+ImVEnZVj0ei+2efhXOlqGL01S7FU7b
- z/Y3Y/sS33n8oDerj/ICCChcPxmgxO3iqcDHvISH1aul2H4maCzajhFCj
- +XYPiNS3aGRiakjTqzKaqt9sIlwBndeElJSSTxx8KLcysGCV1kdvAxe8L
- MhwbzD+MQ5Gx+65mE7hyM6305N4MSm1XeN3B+xrUkPDvHfqbWErf+B578
- GFH7PntYjxsOyqmH5T4A/a0jRTCRKfEkQ7LBGr4WfKdHzTnyFsvwv/kDS w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="413102012"
-X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="413102012"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ t=1683619255; x=1715155255;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=M8ldeZ8wYKyjh5+JLiPdYoonZd0SIk7CsE32UJHMbgg=;
+ b=fLRu1q297N4vOCwYwKiW+t5yqrOe/55kTZ+iVrZMMmgvvysSLTYT82Qx
+ +te1RfJ7NzrcTkOcp53eId/QsG9gapjf4SnHne6FpIAa2nqC0faBzGBQ+
+ OhR0hykXYE/7eBp/IQ1KgG/wxpvD86/ciWZjipJpLz/P/jBUnNg5OB/WS
+ V/yu2APX2VTwq+LyabZ7Ij0gXd6uktffW099+IKfmA3qtMa9NjxWYserd
+ AT+gQ8/RGH94thmPAK7ogWfARhh4G7gllNZ4ZF1RxfnB1Uu3ZGyPQ0onJ
+ OL799tg8r7FwaZCthCkfhDND7F9PxXLfQJRSoOl5w4Qgl1DEfQYchdcHn A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="413102458"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="413102458"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2023 00:57:25 -0700
+ 09 May 2023 01:00:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="945165860"
-X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="945165860"
-Received: from unknown (HELO localhost) ([10.252.39.92])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2023 00:57:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] drm/i915: Temporary conversion to new GENMASK/BIT
- macros
-In-Reply-To: <20230509051403.2748545-4-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
- <20230509051403.2748545-4-lucas.demarchi@intel.com>
-Date: Tue, 09 May 2023 10:57:19 +0300
-Message-ID: <87cz3andi8.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="763719607"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="763719607"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 09 May 2023 01:00:31 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pwIGs-0001xM-2i;
+ Tue, 09 May 2023 08:00:30 +0000
+Date: Tue, 9 May 2023 15:59:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@hansenpartnership.com,
+ arnd@arndb.de, sam@ravnborg.org, suijingfeng@loongson.cn
+Subject: Re: [PATCH v5 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Message-ID: <202305091533.3zBlgYkC-lkp@intel.com>
+References: <20230508114830.28182-6-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230508114830.28182-6-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,100 +63,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Kevin Brodsky <kevin.brodsky@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 08 May 2023, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> Convert the REG_* macros from i915_reg_defs.h to use the new macros
-> defined in linux/bits.h. This is just to help on the implementation
-> of the new macros and not intended to be applied.
+Hi Thomas,
 
-This drops a number of build time input checks as well as casts to the
-specified types.
+kernel test robot noticed the following build errors:
 
-BR,
-Jani.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to deller-parisc/for-next arnd-asm-generic/master linus/master v6.4-rc1 next-20230509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_reg_defs.h | 28 +++++-----------------------
->  1 file changed, 5 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
-> index 622d603080f9..61fbb8d62b25 100644
-> --- a/drivers/gpu/drm/i915/i915_reg_defs.h
-> +++ b/drivers/gpu/drm/i915/i915_reg_defs.h
-> @@ -17,10 +17,7 @@
->   *
->   * @return: Value with bit @__n set.
->   */
-> -#define REG_BIT(__n)							\
-> -	((u32)(BIT(__n) +						\
-> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&		\
-> -				 ((__n) < 0 || (__n) > 31))))
-> +#define REG_BIT(__n) BIT_U32(__n)
->  
->  /**
->   * REG_BIT8() - Prepare a u8 bit value
-> @@ -30,10 +27,7 @@
->   *
->   * @return: Value with bit @__n set.
->   */
-> -#define REG_BIT8(__n)                                                   \
-> -	((u8)(BIT(__n) +                                                \
-> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__n) &&         \
-> -				 ((__n) < 0 || (__n) > 7))))
-> +#define REG_BIT8(__n) BIT_U8(__n)
->  
->  /**
->   * REG_GENMASK() - Prepare a continuous u32 bitmask
-> @@ -44,11 +38,7 @@
->   *
->   * @return: Continuous bitmask from @__high to @__low, inclusive.
->   */
-> -#define REG_GENMASK(__high, __low)					\
-> -	((u32)(GENMASK(__high, __low) +					\
-> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&	\
-> -				 __is_constexpr(__low) &&		\
-> -				 ((__low) < 0 || (__high) > 31 || (__low) > (__high)))))
-> +#define REG_GENMASK(__high, __low) GENMASK_U32(__high, __low)
->  
->  /**
->   * REG_GENMASK64() - Prepare a continuous u64 bitmask
-> @@ -59,11 +49,7 @@
->   *
->   * @return: Continuous bitmask from @__high to @__low, inclusive.
->   */
-> -#define REG_GENMASK64(__high, __low)					\
-> -	((u64)(GENMASK_ULL(__high, __low) +				\
-> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&		\
-> -				 __is_constexpr(__low) &&		\
-> -				 ((__low) < 0 || (__high) > 63 || (__low) > (__high)))))
-> +#define REG_GENMASK64(__high, __low) GENMASK_ULL(__high, __low)
->  
->  /**
->   * REG_GENMASK8() - Prepare a continuous u8 bitmask
-> @@ -74,11 +60,7 @@
->   *
->   * @return: Continuous bitmask from @__high to @__low, inclusive.
->   */
-> -#define REG_GENMASK8(__high, __low)                                     \
-> -	((u8)(GENMASK(__high, __low) +                                  \
-> -	       BUILD_BUG_ON_ZERO(__is_constexpr(__high) &&      \
-> -				 __is_constexpr(__low) &&               \
-> -				 ((__low) < 0 || (__high) > 7 || (__low) > (__high)))))
-> +#define REG_GENMASK8(__high, __low) GENMASK_U8(__high, __low)
->  
->  /*
->   * Local integer constant expression version of is_power_of_2().
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230508-195052
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230508114830.28182-6-tzimmermann%40suse.de
+patch subject: [PATCH v5 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+config: mips-randconfig-r016-20230507 (https://download.01.org/0day-ci/archive/20230509/202305091533.3zBlgYkC-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c64dc7f407b3faa85d4e81ec762407388c5813c1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230508-195052
+        git checkout c64dc7f407b3faa85d4e81ec762407388c5813c1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/video/fbdev/core/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091533.3zBlgYkC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/video/fbdev/core/cfbfillrect.c: In function 'bitfill_aligned':
+>> drivers/video/fbdev/core/cfbfillrect.c:26:21: error: implicit declaration of function 'fb_writeq'; did you mean 'fb_writel'? [-Werror=implicit-function-declaration]
+      26 | #  define FB_WRITEL fb_writeq
+         |                     ^~~~~~~~~
+   drivers/video/fbdev/core/cfbfillrect.c:50:17: note: in expansion of macro 'FB_WRITEL'
+      50 |                 FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
+         |                 ^~~~~~~~~
+>> drivers/video/fbdev/core/cfbfillrect.c:27:21: error: implicit declaration of function 'fb_readq'; did you mean 'fb_readl'? [-Werror=implicit-function-declaration]
+      27 | #  define FB_READL  fb_readq
+         |                     ^~~~~~~~
+   drivers/video/fbdev/core/cfbfillrect.c:50:37: note: in expansion of macro 'FB_READL'
+      50 |                 FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
+         |                                     ^~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/video/fbdev/core/cfbcopyarea.c: In function 'bitcpy':
+>> drivers/video/fbdev/core/cfbcopyarea.c:37:21: error: implicit declaration of function 'fb_writeq'; did you mean 'fb_writel'? [-Werror=implicit-function-declaration]
+      37 | #  define FB_WRITEL fb_writeq
+         |                     ^~~~~~~~~
+   drivers/video/fbdev/core/cfbcopyarea.c:73:25: note: in expansion of macro 'FB_WRITEL'
+      73 |                         FB_WRITEL( comp( FB_READL(src), FB_READL(dst), first), dst);
+         |                         ^~~~~~~~~
+>> drivers/video/fbdev/core/cfbcopyarea.c:38:21: error: implicit declaration of function 'fb_readq'; did you mean 'fb_readl'? [-Werror=implicit-function-declaration]
+      38 | #  define FB_READL  fb_readq
+         |                     ^~~~~~~~
+   drivers/video/fbdev/core/cfbcopyarea.c:73:42: note: in expansion of macro 'FB_READL'
+      73 |                         FB_WRITEL( comp( FB_READL(src), FB_READL(dst), first), dst);
+         |                                          ^~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +26 drivers/video/fbdev/core/cfbfillrect.c
+
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  21  
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  22  #if BITS_PER_LONG == 32
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  23  #  define FB_WRITEL fb_writel
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  24  #  define FB_READL  fb_readl
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  25  #else
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16 @26  #  define FB_WRITEL fb_writeq
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16 @27  #  define FB_READL  fb_readq
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  28  #endif
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  29  
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  30      /*
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  31       *  Aligned pattern fill using 32/64-bit memory accesses
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  32       */
+^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  33  
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
