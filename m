@@ -2,69 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774C66FC473
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 13:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58396FC480
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 13:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FAA010E37C;
-	Tue,  9 May 2023 11:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D2610E383;
+	Tue,  9 May 2023 11:05:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E93E510E37C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 11:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683630185; x=1715166185;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=L67SAKg0gFeSqyv8C2RvE1OCd2ZFzCKbUgsPtTmEV0k=;
- b=hfzeqEe9ZM/OtasZgXSq2aT/tWsXo6wL30234cOLzqvT07U5+JyUg5rP
- W5Jyq3pqWHw4yykoP687XFHwsywqKXKGE42pHjFHtTDAm7UnW6bLc/ZG4
- rQy8jMiEt1Rn0aeR0Ahkv8OXnfMRciAtOReXlsaAyMK232ZTpuFgLjIoV
- TG50tN8VVCbzWVIuifCmEfZfdT2Jsp7vb0TFpsoL+LbERAghD00uU8B/q
- 6upqCMFmzoJN88Kbo/CeYsoW0/rwfNOwZwtEtSDOyGI1NEf6ZsQxBBtGF
- vemH0e2iKM1n7Eg7kdvCEfvTg227AJcwkBGuW8shdS7850p2f6LIbY1h0 A==;
-X-IronPort-AV: E=Sophos;i="5.99,261,1677538800"; d="scan'208";a="30801865"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 09 May 2023 13:03:02 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 09 May 2023 13:03:02 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 09 May 2023 13:03:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683630182; x=1715166182;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=L67SAKg0gFeSqyv8C2RvE1OCd2ZFzCKbUgsPtTmEV0k=;
- b=WXLV34PZivoKHRT69bhxrKJV211M23i/9bb/EJJ07B+Cp5Oor7FyDlTV
- J0bFGLOKYw965wlPArVnLaCNvzqe3WbDtaLD64avibLACtXY9RsbsEtrq
- zzcxqMvwAkbKd0Y4rhw3fJ8opp+3i1wMBqFt7QvrfPR01wffo2XlRmaq4
- Y4GRKXukfO8RPZ+jzrWPIH3eKX/ClWFzeCFbQk+lIij8qJpSv1UBr2s5f
- MNWAFJ9eD4a1JAL28iiSCzIW+E+RDe8LEjvdESbBNfSnjImQEMU1GD5Kk
- Ml1qitajf3ptX3evVKuxsofcWot0Y+BL/DenPPvhmslVjK1BhCz3jD7/J w==;
-X-IronPort-AV: E=Sophos;i="5.99,261,1677538800"; d="scan'208";a="30801864"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 09 May 2023 13:03:02 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1AE75280056;
- Tue,  9 May 2023 13:03:02 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/1] drm: panel-simple: add missing bus flags for Tianma
- tm070jvhg[30/33]
-Date: Tue, 09 May 2023 13:03:01 +0200
-Message-ID: <13263404.uLZWGnKmhe@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230125145215.3631071-1-alexander.stein@ew.tq-group.com>
-References: <20230125145215.3631071-1-alexander.stein@ew.tq-group.com>
-MIME-Version: 1.0
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8086F10E383
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 11:05:00 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+ by mail.gandi.net (Postfix) with ESMTPSA id 9750EFF806;
+ Tue,  9 May 2023 11:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+ t=1683630298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cDT0BtDNWazrZ4uv2nOgwA/L/iBlds6MCiBQoDX01O8=;
+ b=nSHUVWeB/sHhhhKvC0ANQeATJy/AYsdWCoxH6/rR0iq/mzZY5b0etDsw0+/CMFVtiUQ3Ov
+ xjmj4eLNviD5ppjGWTJjtUBeXTmJ8RT6p2h+pCQAqVdM71f1CHBzdM8yVsjMwxGreTxhiu
+ 2dgJaAq3XqNjRd4sQN/cH18YXNgfZUYSvf4u8fa4EC/96ssNFlZYM3/nD383t2AOlbMn1w
+ zI3KMUaYMg9ZlR1SYVeHQHEpi6eBaFEjPToakJ28UeUKS0mzkXXMtn5XD/2v4gNQQrNDTE
+ TDBj073uecqHyipjvbp3JZPPVwAQ1wetsx+Taa0ZlgNQEzMS+hweEMFlQiGVNQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 May 2023 13:04:50 +0200
+Message-Id: <CSHP4M31IC80.2WGQC75I3PX71@void.crly.cz>
+Subject: Re: [PATCH v4 0/4] drm: sun4i: set proper TCON0 DCLK rate in DSI mode
+From: "Roman Beranek" <me@crly.cz>
+To: "Frank Oltmanns" <frank@oltmanns.dev>
+X-Mailer: aerc 0.15.1
+References: <20230505052110.67514-1-me@crly.cz> <87jzxjp5tp.fsf@oltmanns.dev>
+In-Reply-To: <87jzxjp5tp.fsf@oltmanns.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,60 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Markus Niebel <Markus.Niebel@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Samuel
+ Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-clk@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Ondrej Jirman <megi@xff.cz>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hello Frank,
 
-Another gentle ping.
+On Mon May 8, 2023 at 10:47 AM CEST, Frank Oltmanns wrote:
+> I tested this on my pinephone on drm-next, using additional patches for
+> the pinephone's panel. [1] [2] [3]
 
-Alexander
+Thank you for testing this and all the previous version of this
+patchset. I appreciate your help.
 
-Am Mittwoch, 25. Januar 2023, 15:52:15 CEST schrieb Alexander Stein:
-> From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
->=20
-> The DE signal is active high on this display, fill in the missing
-> bus_flags. This aligns panel_desc with its display_timing.
->=20
-> Fixes: 9a2654c0f62a ("drm/panel: Add and fill drm_panel type field")
-> Fixes: b3bfcdf8a3b6 ("drm/panel: simple: add Tianma TM070JVHG33")
-> Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> b/drivers/gpu/drm/panel/panel-simple.c index 065f378bba9d..fbccaf1cb6f2
-> 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3598,6 +3598,7 @@ static const struct panel_desc tianma_tm070jdhg30 =
-=3D {
->  	},
->  	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
->  	.connector_type =3D DRM_MODE_CONNECTOR_LVDS,
-> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
->  };
->=20
->  static const struct panel_desc tianma_tm070jvhg33 =3D {
-> @@ -3610,6 +3611,7 @@ static const struct panel_desc tianma_tm070jvhg33 =
-=3D {
->  	},
->  	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
->  	.connector_type =3D DRM_MODE_CONNECTOR_LVDS,
-> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
->  };
->=20
->  static const struct display_timing tianma_tm070rvhg71_timing =3D {
+> I played back a 60 fps video (10 seconds) and recorded the panel's
+> output with a 240 fps camera. I noticed only 2 dropped frames, that I
+> account to the imperfect data rate of 107.8MHz instead of 108 MHz due to
+> pll-video0's rate being 294MHz instead of the 297 MHz for reasons I
+> described in the thread on your v2 of this patch [4]).
 
+Yes. That's what should happen, right? Or do you report this as a
+defect?
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Roman
