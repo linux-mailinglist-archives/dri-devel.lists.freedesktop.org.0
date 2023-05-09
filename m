@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293F06FCB64
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 18:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E106FCB69
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 18:37:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9BDC10E19D;
-	Tue,  9 May 2023 16:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1257610E1AD;
+	Tue,  9 May 2023 16:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBF610E192;
- Tue,  9 May 2023 16:35:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB49710E1AD;
+ Tue,  9 May 2023 16:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
@@ -19,30 +19,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=bg5Kd9t2pdkjyZXvpVR64pjQrWF+PhjNMsELu449pYc=; b=M2uNGfyfOyKcn/h9w2nmSZg1Qt
- oKDiWdlpoX14TnIhGzH11zCHOsn9a6xMmxWjRROyyZBY+JVsnew1t3dofaG3Jt+7FcHNc5o9Qk7yr
- ZS8dHlZoXGxc5ZLDXjucVGU/MGkKXm7wc1x0UOv/uBdmrlJPLOQDNCo/WNY1B1stn8rTZTjoink1g
- gyRMPjYBpKVR4Tw0FqyhEIib+r5+59Nq0Mk/FEriq+koJnIoEnRJR2jp8RcNMsERsIBWhJSe8TQKZ
- W85zdhfbpspkpEyYRCzw/Ow6OEzAxMo2Ds+9mi9QqTnxLTxzmhiZxDGvdVTITUo936pDJK4BeFy9d
- SmQEbMHA==;
+ bh=R40lkV2CFRJyCp/GbWmiXXzZrCx7rYAB8u56lzxd0dE=; b=sUWvu9WkObboIKA8N9xmaOOikB
+ XovxhDb4c7DHuXa3WkeJViMcrgihe0x79b+hitUp2TGNPAiQUK7wmVdQLHFEjS9TTfJH2s6SIh1qH
+ 2WUSdshzxcv5tP4NgaHl8geSqADK0Fvr34+J8JL2MB/0X1yOBet1+Z76Kplzpu/Q4OlstFo4e9cK3
+ mU6gR6WOMh45tDf/K01tsagGXDx8MPICGdwS0GN5qGmaNUTuYSzcUyorrMflIQmvneY9KSVct2Xyg
+ 1G1bunzFDioEItvVn2bXYNgL5c+bsPtJHpAdGzYPrVapXCxxPqvmOekZ7meDX6jBQaudSWkAsml8D
+ 7+T05F9Q==;
 Received: from [38.44.72.37] (helo=mail.igalia.com)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pwQJe-0052fe-6X; Tue, 09 May 2023 18:35:54 +0200
-Date: Tue, 9 May 2023 15:35:50 -0100
+ id 1pwQKn-0052h8-6s; Tue, 09 May 2023 18:37:05 +0200
+Date: Tue, 9 May 2023 15:37:01 -0100
 From: Melissa Wen <mwen@igalia.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 09/40] drm/amd/display: move replace blob func to dm
- plane
-Message-ID: <20230509163550.jzu5rxfhnh4sr3j2@mail.igalia.com>
+Subject: Re: [RFC PATCH 12/40] drm/amd/display: add plane HDR multiplier
+ driver-private property
+Message-ID: <20230509163701.57lf22phumicqv37@mail.igalia.com>
 References: <20230423141051.702990-1-mwen@igalia.com>
- <20230423141051.702990-10-mwen@igalia.com>
- <f8871b8f-af40-61df-7a77-a632015c9201@amd.com>
+ <20230423141051.702990-13-mwen@igalia.com>
+ <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="owkghr2ha7ojdk2i"
+ protocol="application/pgp-signature"; boundary="nfaok3sextt6axef"
 Content-Disposition: inline
-In-Reply-To: <f8871b8f-af40-61df-7a77-a632015c9201@amd.com>
+In-Reply-To: <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,7 +68,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---owkghr2ha7ojdk2i
+--nfaok3sextt6axef
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -77,185 +77,194 @@ On 05/08, Harry Wentland wrote:
 >=20
 >=20
 > On 4/23/23 10:10, Melissa Wen wrote:
-> > From amdgpu_dm_plane we can get it for both CRTC and plane color
-> > properties. We are adding new plane properties for AMD driver-private
-> > color mgmt.
+> > From: Joshua Ashton <joshua@froggi.es>
 > >=20
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 37 +------------------
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 35 ++++++++++++++++++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.h   |  7 ++++
-> >  3 files changed, 44 insertions(+), 35 deletions(-)
+> > Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
+> > transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
+> > least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier =3D=
+ 80
+> > nits for SDR content. So if you want, 203 nits for SDR content, pass in
+> > (203.0 / 80.0).
 > >=20
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/d=
-rivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> > index 79324fbab1f1..27d7a8b18013 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> > @@ -344,39 +344,6 @@ dm_crtc_additional_color_mgmt(struct drm_crtc *crt=
-c)
-> >  					   DRM_TRANSFER_FUNCTION_DEFAULT);
-> >  }
-> > =20
-> > -static int
-> > -atomic_replace_property_blob_from_id(struct drm_device *dev,
-> > -					 struct drm_property_blob **blob,
-> > -					 uint64_t blob_id,
-> > -					 ssize_t expected_size,
-> > -					 ssize_t expected_elem_size,
-> > -					 bool *replaced)
-> > -{
-> > -	struct drm_property_blob *new_blob =3D NULL;
-> > -
-> > -	if (blob_id !=3D 0) {
-> > -		new_blob =3D drm_property_lookup_blob(dev, blob_id);
-> > -		if (new_blob =3D=3D NULL)
-> > -			return -EINVAL;
-> > -
-> > -		if (expected_size > 0 &&
-> > -		    new_blob->length !=3D expected_size) {
-> > -			drm_property_blob_put(new_blob);
-> > -			return -EINVAL;
-> > -		}
-> > -		if (expected_elem_size > 0 &&
-> > -		    new_blob->length % expected_elem_size !=3D 0) {
-> > -			drm_property_blob_put(new_blob);
-> > -			return -EINVAL;
-> > -		}
-> > -	}
-> > -
-> > -	*replaced |=3D drm_property_replace_blob(blob, new_blob);
-> > -	drm_property_blob_put(new_blob);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  static int
-> >  amdgpu_dm_atomic_crtc_set_property(struct drm_crtc *crtc,
-> >  				   struct drm_crtc_state *state,
-> > @@ -389,7 +356,7 @@ amdgpu_dm_atomic_crtc_set_property(struct drm_crtc =
-*crtc,
-> >  	int ret;
-> > =20
-> >  	if (property =3D=3D adev->mode_info.shaper_lut_property) {
-> > -		ret =3D atomic_replace_property_blob_from_id(crtc->dev,
-> > +		ret =3D amdgpu_dm_replace_property_blob_from_id(crtc->dev,
-> >  					&acrtc_state->shaper_lut,
-> >  					val,
-> >  					-1, sizeof(struct drm_color_lut),
-> > @@ -397,7 +364,7 @@ amdgpu_dm_atomic_crtc_set_property(struct drm_crtc =
-*crtc,
-> >  		acrtc_state->base.color_mgmt_changed |=3D replaced;
-> >  		return ret;
-> >  	} else if (property =3D=3D adev->mode_info.lut3d_property) {
-> > -		ret =3D atomic_replace_property_blob_from_id(crtc->dev,
-> > +		ret =3D amdgpu_dm_replace_property_blob_from_id(crtc->dev,
-> >  					&acrtc_state->lut3d,
-> >  					val,
-> >  					-1, sizeof(struct drm_color_lut),
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > index 322668973747..4e5498153be2 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> > @@ -1411,6 +1411,41 @@ static void dm_drm_plane_destroy_state(struct dr=
-m_plane *plane,
-> >  	drm_atomic_helper_plane_destroy_state(plane, state);
-> >  }
-> > =20
-> > +#ifdef CONFIG_STEAM_DECK
-> > +int
-> > +amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
-> > +					       struct drm_property_blob **blob,
-> > +					       uint64_t blob_id,
-> > +					       ssize_t expected_size,
-> > +					       ssize_t expected_elem_size,
-> > +					       bool *replaced)
-> > +{
-> > +	struct drm_property_blob *new_blob =3D NULL;
-> > +
-> > +	if (blob_id !=3D 0) {
-> > +		new_blob =3D drm_property_lookup_blob(dev, blob_id);
-> > +		if (new_blob =3D=3D NULL)
-> > +			return -EINVAL;
-> > +
-> > +		if (expected_size > 0 &&
-> > +		    new_blob->length !=3D expected_size) {
-> > +			drm_property_blob_put(new_blob);
-> > +			return -EINVAL;
-> > +		}
-> > +		if (expected_elem_size > 0 &&
-> > +		    new_blob->length % expected_elem_size !=3D 0) {
-> > +			drm_property_blob_put(new_blob);
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> > +	*replaced |=3D drm_property_replace_blob(blob, new_blob);
-> > +	drm_property_blob_put(new_blob);
-> > +
-> > +	return 0;
-> > +}
 >=20
-> amdgpu_dm_plane doesn't seem the right place for it either. Maybe a new
-> amdgpu_dm_helper.c/h?
->=20
-> Alternatively would this make sense to live in DRM core as a helper?
+> Is gamescope intending to use this?
 
-A DRM helper sounds better for me. I'll follow this path.
+I don't think so. Again, I'll double check and drop it accordingly.
 
 Melissa
 
 >=20
 > Harry
 >=20
-> > +#endif
-> > +
-> >  static const struct drm_plane_funcs dm_plane_funcs =3D {
-> >  	.update_plane	=3D drm_atomic_helper_update_plane,
-> >  	.disable_plane	=3D drm_atomic_helper_disable_plane,
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> > index 930f1572f898..1b05ac4c15f6 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> > @@ -51,6 +51,13 @@ int amdgpu_dm_plane_fill_plane_buffer_attributes(str=
-uct amdgpu_device *adev,
-> >  				 bool tmz_surface,
-> >  				 bool force_disable_dcc);
+> > Co-developed-by: Melissa Wen <mwen@igalia.com>
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > Signed-off-by: Joshua Ashton <joshua@froggi.es>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 +++++
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +++
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 12 +++++++++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 25 ++++++++++++++-----
+> >  4 files changed, 41 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_display.c
+> > index 24595906dab1..dd658f162f6f 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+> > @@ -1326,6 +1326,12 @@ amdgpu_display_create_color_properties(struct am=
+dgpu_device *adev)
+> >  		return -ENOMEM;
+> >  	adev->mode_info.plane_degamma_tf_property =3D prop;
 > > =20
-> > +int amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
-> > +					    struct drm_property_blob **blob,
-> > +					    uint64_t blob_id,
-> > +					    ssize_t expected_size,
-> > +					    ssize_t expected_elem_size,
-> > +					    bool *replaced);
+> > +	prop =3D drm_property_create_range(adev_to_drm(adev),
+> > +					 0, "AMD_PLANE_HDR_MULT", 0, UINT_MAX);
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	adev->mode_info.plane_hdr_mult_property =3D prop;
 > > +
-> >  int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
-> >  			 struct drm_plane *plane,
-> >  			 unsigned long possible_crtcs,
+> >  	return 0;
+> >  }
+> >  #endif
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_mode.h
+> > index ab9ce6f26c90..65a9d62ffbe4 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> > @@ -387,6 +387,10 @@ struct amdgpu_mode_info {
+> >  	 * linearize content with or without LUT.
+> >  	 */
+> >  	struct drm_property *plane_degamma_tf_property;
+> > +	/**
+> > +	 * @plane_hdr_mult_property:
+> > +	 */
+> > +	struct drm_property *plane_hdr_mult_property;
+> >  #endif
+> >  };
+> > =20
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/driver=
+s/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > index 005632c1c9ec..bb7307b9cfd5 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > @@ -51,6 +51,7 @@
+> > =20
+> >  #define AMDGPU_DMUB_NOTIFICATION_MAX 5
+> > =20
+> > +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
+> >  /*
+> >  #include "include/amdgpu_dal_power_if.h"
+> >  #include "amdgpu_dm_irq.h"
+> > @@ -736,6 +737,17 @@ struct dm_plane_state {
+> >  	 * linearize.
+> >  	 */
+> >  	enum drm_transfer_function degamma_tf;
+> > +	/**
+> > +	 * @hdr_mult:
+> > +	 *
+> > +	 * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
+> > +	 * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
+> > +	 * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
+> > +	 * Therefore, 1.0 multiplier =3D 80 nits for SDR content.  So if you
+> > +	 * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
+> > +	 * S31.32 sign-magnitude.
+> > +	 */
+> > +	__u64 hdr_mult;
+> >  #endif
+> >  };
+> > =20
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > index 5b458cc0781c..57169dae8b3d 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > @@ -1321,8 +1321,10 @@ static void dm_drm_plane_reset(struct drm_plane =
+*plane)
+> >  		__drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
+> > =20
+> >  #ifdef CONFIG_STEAM_DECK
+> > -	if (amdgpu_state)
+> > +	if (amdgpu_state) {
+> >  		amdgpu_state->degamma_tf =3D DRM_TRANSFER_FUNCTION_DEFAULT;
+> > +		amdgpu_state->hdr_mult =3D AMDGPU_HDR_MULT_DEFAULT;
+> > +	}
+> >  #endif
+> >  }
+> > =20
+> > @@ -1424,11 +1426,11 @@ static void dm_drm_plane_destroy_state(struct d=
+rm_plane *plane,
+> >  #ifdef CONFIG_STEAM_DECK
+> >  int
+> >  amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
+> > -					       struct drm_property_blob **blob,
+> > -					       uint64_t blob_id,
+> > -					       ssize_t expected_size,
+> > -					       ssize_t expected_elem_size,
+> > -					       bool *replaced)
+> > +					struct drm_property_blob **blob,
+> > +					uint64_t blob_id,
+> > +					ssize_t expected_size,
+> > +					ssize_t expected_elem_size,
+> > +					bool *replaced)
+> >  {
+> >  	struct drm_property_blob *new_blob =3D NULL;
+> > =20
+> > @@ -1482,6 +1484,10 @@ dm_plane_attach_color_mgmt_properties(struct amd=
+gpu_display_manager *dm,
+> >  					   dm->adev->mode_info.plane_degamma_tf_property,
+> >  					   DRM_TRANSFER_FUNCTION_DEFAULT);
+> >  	}
+> > +	/* HDR MULT is always available */
+> > +	drm_object_attach_property(&plane->base,
+> > +				   dm->adev->mode_info.plane_hdr_mult_property,
+> > +				   AMDGPU_HDR_MULT_DEFAULT);
+> >  }
+> > =20
+> >  static int
+> > @@ -1507,6 +1513,11 @@ dm_atomic_plane_set_property(struct drm_plane *p=
+lane,
+> >  			dm_plane_state->degamma_tf =3D val;
+> >  			dm_plane_state->base.color_mgmt_changed =3D 1;
+> >  		}
+> > +	} else if (property =3D=3D adev->mode_info.plane_hdr_mult_property) {
+> > +		if (dm_plane_state->hdr_mult !=3D val) {
+> > +			dm_plane_state->hdr_mult =3D val;
+> > +			dm_plane_state->base.color_mgmt_changed =3D 1;
+> > +		}
+> >  	} else {
+> >  		drm_dbg_atomic(plane->dev,
+> >  			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+> > @@ -1533,6 +1544,8 @@ dm_atomic_plane_get_property(struct drm_plane *pl=
+ane,
+> >  			dm_plane_state->degamma_lut->base.id : 0;
+> >  	} else if (property =3D=3D adev->mode_info.plane_degamma_tf_property)=
+ {
+> >  		*val =3D dm_plane_state->degamma_tf;
+> > +	} else if (property =3D=3D adev->mode_info.plane_hdr_mult_property) {
+> > +		*val =3D dm_plane_state->hdr_mult;
+> >  	} else {
+> >  		return -EINVAL;
+> >  	}
 >=20
 >=20
 
---owkghr2ha7ojdk2i
+--nfaok3sextt6axef
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmRadmYACgkQwqF3j0dL
-ehzmDA//Un7neD4yKZusVn8I3pYKqbStTsF02aiWzppht/8rYFe+Q+ZOrBWXhr3G
-nfgZFpuMIfPDa2MtYhwhdWsZD3NyDx0+VodNZSTdpOEoOz/79rh2rUhGgJmpbBwr
-cdhN5v5cBxu1qm+zGjxOcWIvL3e1jBppooMi9FBCrvN37sdXUzUbAG8t7Co55KLo
-LPSQEcTSSy44x2aFM7dTOYOYnz5NwwLtq2db1N87gFHOEP6OAw2BKWmEajMHbRva
-mqRvQSOWa+S9BIh6BsLBEEsmH4nKPTVigaOXnv0JOfpUW50EztLwknpnwS50X817
-x7ctjk9lnYI7rU1RixHE6Y8PGXGvK4lAY3YNjY+ANO35iy9HqnR+3tCMpO5z4i96
-K8E69VP0KU72zkiIdPtnd1wV85ZkhKrvw/fkpeKrleEfvqSj36ffkgvJwB637xV4
-HkSG9c5tevYgWh5iuhYWgpOzc4T496Uuc0Pjw+4gzX7ErX+hBXyAnWSbkRcVIsV6
-SX1W0ZN8L1yJX8eAIO6sDvXqdhpF/wBo5tsrABhniBgo84Mhkmiac6EI0lNTlXqF
-EIPC6FTV3AoYq+MXWI3Ad2yRtP8lTGk0Vt8TkG3zM80lmIt5r24v1u7U7IJgQSpz
-TKf8WskuFflZYNIbgF/xS88FZob6Sv6kOs9tVjCPiEiQp5njMTU=
-=OpAo
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmRadqwACgkQwqF3j0dL
+ehxMLg//UGvD/CNPh09hk0n0qT3NsizvkT1mfvtGZKGCczyWdTuhPLahM7K2fzXM
+XaKlOhlDxCydvxQObxS5Ocr9aBRvAzf9a6jOMmrod2Zb8dj4b3VyU99K9TNdi/Xj
+UNFd8S1ZhY3B+plRDjxeCAKGia01LrlzHAQ5pbFgKgJAK2jWPsyST9N2NQebdR92
+WbtcG/5jWOHLmVLdspUW5wbFXPoLt5e1ITXjry8dWTyUQz+s3BbpaPO1ZCsinCRO
+sXDBxXmX56MYfLZerntUpYMx6AHmv9vOlwEmTT1CNfu2jlUmUAqpSpBmNLUyjRAi
+SwSti+FNMir9ffA7iDMMWPTcPk1PKc5cs8TuHYnAsGI47x/qQO6IMp4bTJRko5uT
+9voOrhyIIMSVJ58su/1XNxFgHfpWaF4CSHZveeSSijodm1+ao1ZlLIeRmybHERCG
+LBLni/g2a2obx5ex1p/gsqzmur7Gn5nlRgaV0JdxSUMn1jzfOWo0yjsYKofDp/BL
+ryLWSXhv+3HmdBX3wkCI/i4W3XHtUhzZZh3E3ZLTesEWUp/uWJxuDK68D9JMpBgq
++J3KOhotWkQChz6Fuo4PmfDhtnpPSnWnyAJc5ABknpFtZBaLayor7ccnMJXjpU8I
+EcNTne7BQoh1C84Gxcg/lBXXdh2etqsaVEResyEs1ciXteUNHLw=
+=DTGq
 -----END PGP SIGNATURE-----
 
---owkghr2ha7ojdk2i--
+--nfaok3sextt6axef--
