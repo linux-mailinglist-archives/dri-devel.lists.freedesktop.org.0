@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A62A6FC9D4
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77A96FC9D5
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AAA10E386;
-	Tue,  9 May 2023 15:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D68F10E023;
+	Tue,  9 May 2023 15:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D588E10E023
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:05:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 578EB10E023
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=jHa6CPDFuj+jx40hNfLAmMtwCq8EHXIxRo6PzzN2Gck=; b=SYCyeIQ2QII/9xh5k1eXBEa1A5
- dku+ea1M7sPSF/XGUHPk++tZjXsCfKaPJxVZZwI+R930jfdz787J0ROOW3nLvG9fahZNeuPXpFtSD
- Oe3SgJa3NzbNbYQCCxJO5cP/r4HN9rkTkSqj82YAqfm7iz9i7wgobKJYVv0UjvuXzyuZParCzuF6Z
- u6+K+OUz4lJ1L600NUErLjj1cByn/CPK2z63K40um3O+piJCqsZpxlNl8BETEjeW3eUQYou0NI7WW
- rK/d8jaYh+0aEOSS0X+ceO4eGoGtOnlTruY+MqQPbV1FtAaM15CfxBpSSupCOsh/Ct8RT0y4EI+AC
- 22Hzgu7g==;
+ bh=mqbwDK0oua4eLEV7xfDqRwStcIbAyhs8EQpD1SNvfAs=; b=AaFAmwyUXOxVxz+fmPkw7Q1Q7F
+ FkxjaBHeGx0A5+bgWEGHTMi5bpTvjZfKVB9IjZhs2AhUIO6o5KT+AZOyqQNFdaK7B0jOILcjcsgxd
+ +9uaaL3YS/kafnASWV1otDuElDHBf+k2/OAYvHHt4IZ0X/MsR/mlGcQ2e+plZUlortO1E/gwimRMM
+ f2pclDFU8ydXUNB6TPOSpL3cRxs0xlw5b578cjPv1uoX0tT4OySMUSnfud/KayMkVncXUEvaRGSJW
+ R7bZ086ax0A9LTg5xeM/+58QMditZP7/q3mnNYylvAFEydPsWSz/YrHcu0eMeQFRYIWwFRd2GAhMZ
+ q+8nTwMw==;
 Received: from 179-241-20-132.3g.claro.net.br ([179.241.20.132] helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pwOuQ-004xfg-MO; Tue, 09 May 2023 17:05:47 +0200
+ id 1pwOuU-004xfg-SQ; Tue, 09 May 2023 17:05:51 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH 0/2] drm/vkms: Enable Virtual Hardware support
-Date: Tue,  9 May 2023 12:04:59 -0300
-Message-Id: <20230509150501.81875-1-mcanal@igalia.com>
+Subject: [PATCH 1/2] drm/vkms: Refactor vkms_composer_worker() as preparation
+ for virtual HW
+Date: Tue,  9 May 2023 12:05:00 -0300
+Message-Id: <20230509150501.81875-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230509150501.81875-1-mcanal@igalia.com>
+References: <20230509150501.81875-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -54,56 +57,88 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+ Sumera Priyadarsini <sylphrenadin@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset is a rebase of a series sent a while ago that intended
-to enable virtual hardware support on the VKMS. The original patchset,
-developed by Sumera Priyadarsini, is available on [1].
+Add a new function vkms_composer_common(). The actual plane
+composition work has been moved to the helper function,
+vkms_composer_common(), which is called by vkms_composer_worker() and
+will be called in the implementation of the virtual HW mode as well.
 
-From the original patchset, not much has changed. It was essentially
-just rebasing the code to the new VKMS composition structure.
+Co-developed-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 38 ++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-The virtual hardware mode can be enabled by using the following
-command:
-    modprobe vkms enable_virtual_hw=1
-
-The first patch is prep-work for adding the virtual HW mode. It
-refactors the plane composition in VKMS by adding a helper function
-vkms_composer_common() which can be used for both vblank-mode and
-vblankless-mode.
-
-The second patch adds the virtual hardware support as a module
-parameter option. It adds a new atomic helper functions for the
-virtual mode and uses the existing atomic helpers for vblank mode.
-This gives us two sets of drm_crtc_funcs and drm_crtc_helper_funcs
-structs for both modes, making the code flow cleaner and easier to
-debug.
-
-This patchset has been tested with the following IGT tests:
-kms_writeback, kms_atomic, kms_lease, and kms_flip and preserves
-results, except for subtests related to CRC reads and vertical
-blanking. In which case, tests skip or fail.
-
-[1] https://patchwork.freedesktop.org/series/93277/
-
-Best Regards,
-- Maíra Canal
-
-Maíra Canal (1):
-  drm/vkms: Refactor vkms_composer_worker() as preparation for virtual HW
-
-Sumera Priyadarsini (1):
-  drm/vkms: Add support for Virtual Hardware mode
-
- drivers/gpu/drm/vkms/vkms_composer.c  | 55 ++++++++++++++++++++-------
- drivers/gpu/drm/vkms/vkms_crtc.c      | 38 ++++++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.c       | 16 ++++++--
- drivers/gpu/drm/vkms/vkms_drv.h       |  2 +
- drivers/gpu/drm/vkms/vkms_writeback.c |  8 +++-
- 5 files changed, 97 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 906d3df40cdb..f488675ccc62 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -212,6 +212,30 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
+ 	return ret;
+ }
+ 
++static int vkms_composer_common(struct vkms_crtc_state *crtc_state,
++				struct vkms_output *out, bool wb_pending, uint32_t *crc32)
++{
++	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
++	int ret;
++
++	if (wb_pending)
++		ret = compose_active_planes(active_wb, crtc_state, crc32);
++	else
++		ret = compose_active_planes(NULL, crtc_state, crc32);
++
++	if (ret)
++		return ret;
++
++	if (wb_pending) {
++		drm_writeback_signal_completion(&out->wb_connector, 0);
++		spin_lock_irq(&out->composer_lock);
++		crtc_state->wb_pending = false;
++		spin_unlock_irq(&out->composer_lock);
++	}
++
++	return 0;
++}
++
+ /**
+  * vkms_composer_worker - ordered work_struct to compute CRC
+  *
+@@ -227,7 +251,6 @@ void vkms_composer_worker(struct work_struct *work)
+ 						struct vkms_crtc_state,
+ 						composer_work);
+ 	struct drm_crtc *crtc = crtc_state->base.crtc;
+-	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+ 	bool crc_pending, wb_pending;
+ 	u64 frame_start, frame_end;
+@@ -251,21 +274,10 @@ void vkms_composer_worker(struct work_struct *work)
+ 	if (!crc_pending)
+ 		return;
+ 
+-	if (wb_pending)
+-		ret = compose_active_planes(active_wb, crtc_state, &crc32);
+-	else
+-		ret = compose_active_planes(NULL, crtc_state, &crc32);
+-
++	ret = vkms_composer_common(crtc_state, out, wb_pending, &crc32);
+ 	if (ret)
+ 		return;
+ 
+-	if (wb_pending) {
+-		drm_writeback_signal_completion(&out->wb_connector, 0);
+-		spin_lock_irq(&out->composer_lock);
+-		crtc_state->wb_pending = false;
+-		spin_unlock_irq(&out->composer_lock);
+-	}
+-
+ 	/*
+ 	 * The worker can fall behind the vblank hrtimer, make sure we catch up.
+ 	 */
 -- 
 2.40.1
 
