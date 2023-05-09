@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516AF6FC2EB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 11:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BE76FC2D1
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 11:31:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A56710E380;
-	Tue,  9 May 2023 09:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E09610E373;
+	Tue,  9 May 2023 09:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A4410E371
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 09:36:56 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3499UdFx071916;
- Tue, 9 May 2023 04:30:39 -0500
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D6E10E375
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 09:31:40 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3499UeCa022677;
+ Tue, 9 May 2023 04:30:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1683624639;
- bh=MUAqpjxDeFf+pV2Ertpwdw1zhAaxf1hBkl86Kqxd1SI=;
+ s=ti-com-17Q1; t=1683624640;
+ bh=3Q3ciKVeqIMyoHoDpCtW7XsVd4ZVGVikacZK0eWJmZU=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=wnONW0nJOEUbw28vRdlSmmt+iWGGBeYWMUZn9mTM1XqdJskApo9cMf3qK7JFnxHT6
- kPUWEtElEO3Qf1j/Q0+cj50K2WhcySNfA57GIS5UgQGn+/J6eexVtBrPeRxx/SD/NL
- 3MLxyU2/EOhM35AVku1ewVFW48PRVbXSvuRYOt48=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3499UdZ9032337
+ b=FIffJWXWvbgSz+vxJUrj1X+Gkc4uXJiten1ggPhUU0QfHafMGNdxyrjmMl6L2OqcS
+ dm7+Yyqz3JWBMGCdGvIvaBHpex6S8EN3cMEN6hh7mddWVB2w9aJavhuJ4RJQZFcWRI
+ uDpesr4O4J+vJVyhssXe4+ydUjaA2ODgy0nIsg3k=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3499Uejs022235
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 9 May 2023 04:30:39 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 9 May 2023 04:30:40 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 9
- May 2023 04:30:38 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ May 2023 04:30:40 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 9 May 2023 04:30:38 -0500
+ Frontend Transport; Tue, 9 May 2023 04:30:40 -0500
 Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3499Ucwg084916;
- Tue, 9 May 2023 04:30:38 -0500
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3499UdkR084935;
+ Tue, 9 May 2023 04:30:39 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
  Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -48,9 +48,9 @@ To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
  Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
  Boris Brezillon <boris.brezillon@collabora.com>, Francesco Dolcini
  <francesco@dolcini.it>
-Subject: [PATCH v6 1/8] drm/bridge: tfp410: Support format negotiation hooks
-Date: Tue, 9 May 2023 15:00:29 +0530
-Message-ID: <20230509093036.3303-2-a-bhatia1@ti.com>
+Subject: [PATCH v6 2/8] drm/bridge: tfp410: Set input_bus_flags in atomic_check
+Date: Tue, 9 May 2023 15:00:30 +0530
+Message-ID: <20230509093036.3303-3-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230509093036.3303-1-a-bhatia1@ti.com>
 References: <20230509093036.3303-1-a-bhatia1@ti.com>
@@ -80,72 +80,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 
-With new connector model, tfp410 will not create the connector and
-SoC driver will rely on format negotiation to setup the encoder format.
+input_bus_flags are specified in drm_bridge_timings (legacy) as well
+as drm_bridge_state->input_bus_cfg.flags
 
-Support format negotiations hooks in the drm_bridge_funcs.
-Use helper functions for state management.
+The flags from the timings will be deprecated. Bridges are supposed
+to validate and set the bridge state flags from atomic_check.
 
-Input format is the one selected by the bridge from DT properties.
+Implement atomic_check hook for the same.
 
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-[a-bhatia1: Removed output fmt condition check]
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
 
 Notes:
-    changes from v1:
-    * Use only MEDIA_BUS_FMT_FIXED for output
+    changes from v4:
+    * fix a warning Reported-by: kernel test robot <lkp@intel.com>
 
-    changes from V5:
-    * Dropped the output format check condition because the output
-      format for HDMI bridges should be RGB888_1X24 and not FIXED.
-      Hence, also dropped Tomi Valkeinen's and Laurent Pinchart's
-      R-b tags.
+    changes from v5:
+    * Moved the return statement here from patch 4 (where it was added
+      by mistake).
 
- drivers/gpu/drm/bridge/ti-tfp410.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/gpu/drm/bridge/ti-tfp410.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index ab63225cd635..7dacc7e03eee 100644
+index 7dacc7e03eee..631ae8f11a77 100644
 --- a/drivers/gpu/drm/bridge/ti-tfp410.c
 +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -206,12 +206,38 @@ static enum drm_mode_status tfp410_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
+@@ -228,6 +228,21 @@ static u32 *tfp410_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	return input_fmts;
  }
  
-+static u32 *tfp410_get_input_bus_fmts(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state,
-+				      u32 output_fmt,
-+				      unsigned int *num_input_fmts)
++static int tfp410_atomic_check(struct drm_bridge *bridge,
++			       struct drm_bridge_state *bridge_state,
++			       struct drm_crtc_state *crtc_state,
++			       struct drm_connector_state *conn_state)
 +{
 +	struct tfp410 *dvi = drm_bridge_to_tfp410(bridge);
-+	u32 *input_fmts;
 +
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+	input_fmts[0] = dvi->bus_format;
-+
-+	return input_fmts;
++	/*
++	 * There might be flags negotiation supported in future.
++	 * Set the bus flags in atomic_check statically for now.
++	 */
++	bridge_state->input_bus_cfg.flags = dvi->timings.input_bus_flags;
++	return 0;
 +}
 +
  static const struct drm_bridge_funcs tfp410_bridge_funcs = {
  	.attach		= tfp410_attach,
  	.detach		= tfp410_detach,
- 	.enable		= tfp410_enable,
- 	.disable	= tfp410_disable,
- 	.mode_valid	= tfp410_mode_valid,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts = tfp410_get_input_bus_fmts,
+@@ -238,6 +253,7 @@ static const struct drm_bridge_funcs tfp410_bridge_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_get_input_bus_fmts = tfp410_get_input_bus_fmts,
++	.atomic_check = tfp410_atomic_check,
  };
  
  static const struct drm_bridge_timings tfp410_default_timings = {
