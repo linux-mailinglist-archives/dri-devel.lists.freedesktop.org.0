@@ -2,77 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700BA6FBC1C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 02:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8E66FBC25
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 02:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F8410E0AC;
-	Tue,  9 May 2023 00:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D8910E326;
+	Tue,  9 May 2023 00:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 529D710E31D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 00:48:43 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2ac89e6a5a1so45630281fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 May 2023 17:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683593321; x=1686185321;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1lzmlWPoQrGWW/oFjCS6ule6bte9k1/D4wXcMLKMj98=;
- b=Lw3hqCrXauny7MRb6KpT8X5icjyE2GQ2FgZACC1KIrFbogeFB5gXLo1WRVyhmPCDaq
- FNrDzmsI1QyFeiXdUC2iCAYSFaZLXVsiRuXT4dZXAR7hPon2jyjkwZ44cv4iXDGcHvvY
- ZJ8onHUPXH/frl5OnAY/7KQdrr+PILipxcqBMzgcftbmB8WuECICjPS2BKk1VnBYfhud
- QmulsGek8dGWlRv8/Ym6X+etHuE/rrOo+pFnBqvgeL0uvHj/x1r4o73vYQZLeQ5O72NK
- pbE6/Iv8RiLDrbHtEMYqs52Isc3N3xTqsFpn2x9BWhgGtG3pUGTsnTtlpU93OM86mu/d
- Ms6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683593321; x=1686185321;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1lzmlWPoQrGWW/oFjCS6ule6bte9k1/D4wXcMLKMj98=;
- b=g6GxE3RFPhPjiafC+x5CcFIhbxXOuB/3x5ZN9CvKKNJxL66wp1Lj5bah7uL9k/xJSD
- J59/ug7XhLK3NkGGt7KkOHsp5TzLx8Uy9xWOVUlQZ8WDCjcYTHRt7bN5+JWqsc++Fp9u
- iju4NVkle15pBFftNRZUA+Sf9weqARwfWQUCuHY8rFNfBzpnBUMzI7rpBZxdY+Qqjd+D
- yG88evG8ybYA1u211hgw3DDZEEqL0zK9fRHKu+V5b/Xc7iBI2NAqKKyWP29eAvWmV2Fo
- 9lbIC4eKr1nsCFEFWSPck6DbJ19rtA1Xk4Swiv7r8/pTbKWlOXQZXM4dHqip1rxuotdq
- B4Xw==
-X-Gm-Message-State: AC+VfDyYgYFConfYHV2D04NmrGgPpMjBb9ViO8shGs9hpUr6weBIpx5N
- gGRkKz+bUUOkRsl50+lh4RM2qQ==
-X-Google-Smtp-Source: ACHHUZ6i07bnhuq04+qehKFZ7QRGgdUS6dRas5Gbp6pbeTQ7xm9zMQ78UveUpoLUc6OsFUtceb5yLA==
-X-Received: by 2002:a2e:6e18:0:b0:2ad:9783:bca with SMTP id
- j24-20020a2e6e18000000b002ad97830bcamr245610ljc.27.1683593321027; 
- Mon, 08 May 2023 17:48:41 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- a15-20020a05651c010f00b002ad988efd73sm343073ljb.14.2023.05.08.17.48.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 17:48:40 -0700 (PDT)
-Message-ID: <db0ec6eb-578a-9684-6caa-559abe27015c@linaro.org>
-Date: Tue, 9 May 2023 03:48:40 +0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6001410E321;
+ Tue,  9 May 2023 00:51:12 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3490jiEv023960; Tue, 9 May 2023 00:51:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=cUEebjqm+EV2xT7FXHfuiStCdJK79pH3VQ+P0d2mD68=;
+ b=A8KpZUjQoiYFQZ4zhFb8iGa0LTZqre2UbJ9Ym9VrSoAZfSjXQ/InXS9eyMqOCuzZIDZ2
+ Oel+GhyNUVOiC6NeLTNtiksXBPB8JXAVACvqHGMXgRHDRpmxbGpJD6ZCpJr2DhjIK7CX
+ E9SBKVcxHmcOyppFS8MupTm3aYjr2wjrj/VkgYvvMUd4B8HU3cYUP5IKqehUG20kC9Vo
+ 4N25UHuzNcBc4ldruyF5sLLIteWeCph9Rk0RVefiTroMbbX4ocYNogq3YlcEPGJOUYpR
+ bNzO8H78/ph5U5u38RbpmP7aDiejbgN3pbusJfUwTSroLz34emLMTTYjYWCpHTM1hdT6 eA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qf77h8e79-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 May 2023 00:51:10 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3490p92B012653
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 9 May 2023 00:51:09 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 8 May 2023
+ 17:51:09 -0700
+Message-ID: <c969a71a-e922-80f3-fce1-a6b469c75ebe@quicinc.com>
+Date: Mon, 8 May 2023 17:51:08 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 3/4] drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature
- flag
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
- <20230405-add-dsc-support-v2-3-1072c70e9786@quicinc.com>
- <i6i2xj2tuy5mcxsj674d77kfdb3ne6immkmrzw5f6u4bfx2sth@ef7fzrhdyypx>
- <1d7ccb5f-55c2-3b3a-df97-2c17beffabfc@quicinc.com>
- <0aa4130d-bb37-4743-10e5-fd518276f4a2@linaro.org>
- <9aad0f0a-f168-5162-68a0-9e9cde21c1f6@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9aad0f0a-f168-5162-68a0-9e9cde21c1f6@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v6 6/7] drm/msm/dsi: update hdisplay calculation for
+ dsi_timing_setup
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>
+References: <20230329-rfc-msm-dsc-helper-v6-0-cb7f59f0f7fb@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v6-6-cb7f59f0f7fb@quicinc.com>
+ <ynr6n5p2envixdn6pycjo4fat6n64xe4pkplhq5c2ukhi2q2tf@hqlsuusl66cl>
+ <7ef70055-610c-8ab6-9e3b-515cf3fa542f@quicinc.com>
+ <2r5rgl2rxrdognhlisruwgw74stefxmsmmqutz7wd3r4oxy52o@kd4ne4y2dc3u>
+ <zuviqzvqnw5cgn3mg7ha55kqggmlxageijryoyv7q4eh3d2h6t@lhegcj7ixd4z>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <zuviqzvqnw5cgn3mg7ha55kqggmlxageijryoyv7q4eh3d2h6t@lhegcj7ixd4z>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pPPgd3QmP3ph-aPKaWuUEt8z8Xl6qX5y
+X-Proofpoint-ORIG-GUID: pPPgd3QmP3ph-aPKaWuUEt8z8Xl6qX5y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_17,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 mlxlogscore=999
+ adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305090006
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,80 +89,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/05/2023 03:28, Abhinav Kumar wrote:
-> 
-> 
-> On 5/8/2023 4:08 PM, Dmitry Baryshkov wrote:
->> On 09/05/2023 00:46, Jessica Zhang wrote:
+
+
+On 5/7/2023 11:34 AM, Marijn Suijten wrote:
+> On 2023-05-07 17:27:33, Marijn Suijten wrote:
+>> On 2023-05-04 15:05:15, Abhinav Kumar wrote:
 >>>
 >>>
->>> On 5/7/2023 9:00 AM, Marijn Suijten wrote:
->>>> On 2023-05-05 14:23:50, Jessica Zhang wrote:
->>>>> Add DATA_COMPRESS feature flag to DPU INTF block.
+>>> On 5/4/2023 2:56 PM, Marijn Suijten wrote:
+>>>> On 2023-04-12 16:25:20, Jessica Zhang wrote:
+>>>>> hdisplay for compressed images should be calculated as bytes_per_slice *
+>>>>> slice_count. Thus, use MSM DSC helper to calculate hdisplay for
+>>>>> dsi_timing_setup instead of directly using mode->hdisplay.
 >>>>>
->>>>> In DPU 7.x and later, DSC/DCE enablement registers have been moved 
->>>>> from
->>>>> PINGPONG to INTF.
+>>>>> Changes in v3:
+>>>>> - Split from previous patch
+>>>>> - Initialized hdisplay as uncompressed pclk per line at the beginning of
+>>>>>     dsi_timing_setup as to not break dual DSI calculations
 >>>>>
->>>>> As core_rev (and related macros) was removed from the dpu_kms 
->>>>> struct, the
->>>>> most straightforward way to indicate the presence of this register 
->>>>> would be
->>>>> to have a feature flag.
+>>>>> Changes in v4:
+>>>>> - Moved pclk_per_intf calculations to DSC hdisplay adjustments
+>>>>>
+>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
+>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> index 508577c596ff..ae966d4e349d 100644
+>>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> @@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>>>>>    		 * pulse width same
+>>>>>    		 */
+>>>>>    		h_total -= hdisplay;
+>>>>> -		hdisplay /= 3;
+>>>>> +		hdisplay = msm_dsc_get_pclk_per_intf(msm_host->dsc) / 3;
 >>>>
->>>> Irrelevant.  Even though core_rev was still in mainline until recently,
->>>> we always hardcoded the features in the catalog and only used core_rev
->>>> to select a dpu_mdss_cfg catalog entry.  There is no "if version >= X
->>>> then enable feature Y" logic, this manually-enabled feature flag is the
->>>> only, correct way to do it.
+>>>> This patch is unfortunately regressing the Sony Xperia XZ3 (sdm845,
+>>>> single DSI), which will only show garbage when it is applied.
+>>>>
+>>>> Are you sure this is correct, and the helper is returning the right
+>>>> values?  I'll see if I can help review and validate those later, and
+>>>> debug if necessary.
+>>>>
+>>>> - Marijn
 >>>
->>> Hi Marijn,
->>>
->>> Understood. FWIW, if we do find more register bit-level differences 
->>> between HW versions in the future, it might make more sense to keep 
->>> the HW catalog small and bring core_rev back, rather than keep adding 
->>> these kinds of small differences to caps.
+>>> To help us debug these kind of issues, can you pls point us to your
+>>> panel driver?
 >>
->> Let's see how it goes. Abhinav suggested that there might be feature 
->> differences inside the DPU generations (and even inside the single DPU 
->> major/minor combo). So I'm not sure what core_rev will bring us.
->>
+>> https://github.com/SoMainline/linux/commit/b154ea72e6c2ca0d4a33a28cc24e3a762dba4948
 > 
-> It allows us to have if MDSS_REV() checks which are convenient for some 
-> calculations / bit programming which we dont want to expose in the 
-> catalog as they cannot be classified as a hw cap as such or atleast we 
-> dont want them to be classified as such.
+> I found the fix myself after piecing together the hints provided across
+> the many different patch series.  This panel driver assigns
+> slice_count=1 based on downstream's qcom,mdss-dsc-slice-per-pkt = <1>,
+> but as per the many slice_count-related fixes the latter DT parameter is
+> a QCOM-specific hardware feature, whereas slice_count is simply the
+> number of slices per line.
 > 
->> Let's land the platforms which are ready (or if there is anything 
->> close to be submitted). I'll post the next proposal for the catalog 
->> cleanups close to -rc4, when the dust settles then we can have one or 
->> two weaks for the discussion and polishing.
->>
->> I'd like to consider:
->> - inlining foo_BLK macros, if that makes adding new features easier
->> - reformat of clk_ctrls
->> - maybe reintroduction of per-generation feature masks instead of 
->> keeping them named after the random SoC
->> - maybe a rework of mdss_irqs / INTFn_INTR. We already have this info 
->> in hw catalog.
->>
->> Comments are appreciated.
->>
+> Since a line is a scanline, and that panel has a width of hdisplay=1440
+> and a slice_width of 720, the number of slices spanning a line is simply
+> slice_count=hdisplay/slice_width=2.  This makes the panel work again
+> atop the four-or-so-series without a revert of this patch.
 > 
-> I would say, lets wait for DSC to settle. Atleast the parts already on 
-> the list. Continuous rebase of features already on the list is becoming 
-> time consuming because of overlapping catalog reworks.
+> Is it a big ask to request a single, coherent series fixing all uses of
+> slice_count - and implementing support for slice-per-pkt - instead of
+> having the patches spread across multiple series?  That makes it much
+> easier to cover ground here and review this series, as slice_count seems
+> to be used everywhere where downstream used slice_per_pkt - even I
+> mistakenly used it after assuming it was the same based on the original
+> patches.
 
-As I wrote, -rc4. Until that time, I'd expect DSC to be settled and 
-accepted.
+Hi Marijn,
 
--- 
-With best wishes
-Dmitry
+Just want to document the changes we agreed on regarding the slice_count 
+fixes:
 
+I will move "drm/msm/dsi: Fix calculation for pkt_per_line" to the "Add 
+DSC v1.2 Support for DSI" series so that all the 
+slice_count/slice_per_pkt fixes are consolidated.
+
+In addition I will also add a patch in "Add DSC v1.2 Support for DSI" to 
+remove the incorrect `dsc->slice_count = 1` line in dsi_update_dsc_timing().
+
+Thanks,
+
+Jessica Zhang
+
+> 
+> - Marijn
