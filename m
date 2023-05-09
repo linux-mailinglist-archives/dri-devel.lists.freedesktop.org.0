@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6856FC9D9
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:07:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E87C6FCA69
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 17:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3C7310E392;
-	Tue,  9 May 2023 15:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9706010E397;
+	Tue,  9 May 2023 15:42:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4375710E391
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:07:46 +0000 (UTC)
-X-UUID: 3d2a1a66ee7b11ed9cb5633481061a41-20230509
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=q1/xa42nik0zt26jT44GIBCwJZlsjd2xmitd+zLAJAY=; 
- b=ClxbYFMpnor4O37pr+LjKf3xK0slPbchxdqli4U1hpUm19VZFueJfolba/tqKs8Glp9SduQj7HlDApc8HwYryRKmeFR/hIcPud1C0J07VFiz/ivKlyL2osFKJsCmwgYzktmGLBjBYzhXLVcmrhNYsmvIZaibRN4X+qJi5+bUHdU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.24, REQID:ecd82797-9204-41e2-86c9-03c33800fdfd, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:70
-X-CID-INFO: VERSION:1.1.24, REQID:ecd82797-9204-41e2-86c9-03c33800fdfd, IP:0,
- URL
- :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
- ON:quarantine,TS:70
-X-CID-META: VersionHash:178d4d4, CLOUDID:4d8349c0-e32c-4c97-918d-fbb3fc224d4e,
- B
- ulkID:2305092201325DMH1BLI,BulkQuantity:4,Recheck:0,SF:17|19|48|38|29|28,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:41,QS:nil,BEC:nil,COL
- :0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 3d2a1a66ee7b11ed9cb5633481061a41-20230509
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1009660247; Tue, 09 May 2023 23:07:39 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 9 May 2023 23:07:38 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 9 May 2023 23:07:38 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
- <amergnat@baylibre.com>
-Subject: [PATCH v3 2/2] drm/mediatek: Add DSI support for mt8188 vdosys0
-Date: Tue, 9 May 2023 23:07:37 +0800
-Message-ID: <20230509150737.8075-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230509150737.8075-1-jason-jh.lin@mediatek.com>
-References: <20230509150737.8075-1-jason-jh.lin@mediatek.com>
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637CE10E113
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 15:42:44 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id
+ d75a77b69052e-3ef34c49cb9so182261cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 08:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1683646963; x=1686238963;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8fiW2eMPa3JcRn87r8tgH6+Zw6xv+kBmIa1Z3UxaYsE=;
+ b=liBfYH3VMjZJNljdRzneVIXYxFCVvNhvCaa9K+zpTNyp3TSvfKZm2kJBKZdtZrhkHg
+ Jzu9UQbL7+AMMU8OmlymvReEYlwlWi+hcC+p//agUPD59j6myTKw3isrlNBZ4UZ5hhQE
+ 66dz8XMYpwnRwahBw1CybEUexL+G77JhdxqKorjS+/gMGredPkW3UzWUdWqpnj77+NJZ
+ ian4cHr+/pkGzTHwMSNr0si20dbCuQL58ABSBzdm1tMqqfDtEWkduMk6wZhowpMawwPp
+ qL/nJlcXAwOmX1Bz8vH3PTllyMYcHUB2V0eupd+7qcEMs7ZqYQ4PIpl7fkRywe1cHKbP
+ VdJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683646963; x=1686238963;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8fiW2eMPa3JcRn87r8tgH6+Zw6xv+kBmIa1Z3UxaYsE=;
+ b=PLJNzbhIZQGXFp139E6vMHdH3Tn5m3QgULH4Cbd715Mqwbb2hjFQCn7htffc4lVPN+
+ kO2Q2+5yC/NszzW5Amdpgyylbv6fA70pJftkCUBx5MzvVppaoVUnxqrgFssI8vzq23GD
+ 8oODteUheJ36bvzTh+ANmn/oiMRRIK+6vcE5GjsYQfiFyiEJr8kia8FxbJlNYFti12tm
+ cWVxTCbMNw2Xwa+ruy9dW5WPAhrw92nh+dXd6TZn7Hb6X6WOMRAfggM+kBiIeXc5SOzO
+ 9L30kfzkLMidVMNBMZYXfeNjZ/r2eRAoSq8Mpe93rk4TcyYuvNEOcbjdIoTSQX7oGz82
+ 58KQ==
+X-Gm-Message-State: AC+VfDw7P+2XYWuh4i9jKkmYcv5mJo+AhWIJo1SSXQM4yIhI6jApph6y
+ PVI6cnjfoYLFggWPl7gajbv/9aUDKCDZVL3CJi7/oA==
+X-Google-Smtp-Source: ACHHUZ7C7pgU55PCY9BaDVb25aW2mHoo+2xQgp1Pu4YxvFKZXAYbhIAieDk9gBa8KMPxOXLu2jAPL0tYarLvHr5kP50=
+X-Received: by 2002:a05:622a:c7:b0:3ef:3083:a437 with SMTP id
+ p7-20020a05622a00c700b003ef3083a437mr436622qtw.18.1683646962948; Tue, 09 May
+ 2023 08:42:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <CAHwB_NLBLEUiu__fE9F=j0KFssq7Lxfz8WUnbR0C6yi=zsboJw@mail.gmail.com>
+ <20230509025153.1321446-1-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20230509025153.1321446-1-yangcong5@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@google.com>
+Date: Tue, 9 May 2023 08:42:30 -0700
+Message-ID: <CAD=FV=Xp_OoxJH38skQswjK_AWwJ5P2OmgjnXLog9bAht0CL6A@mail.gmail.com>
+Subject: Re: [v2] drm/panel: Modify innolux hj110iz panel inital code
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,94 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>, Johnson Wang <johnson.wang@mediatek.com>,
- Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, hsinyi@google.com,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSI as main display output for mt8188 vdosys0.
+Hi,
 
-Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     | 1 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 5 +++++
- drivers/gpu/drm/mediatek/mtk_dsi.c          | 9 +++++++++
- 4 files changed, 16 insertions(+)
+On Mon, May 8, 2023 at 7:52=E2=80=AFPM Cong Yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> There is a problem of screen shake on the old panel. So increase the
+> panel GOP component pull-down circuit size in hardware, and update the
+> initialization code at the same time. The new initialization code mainly
+> modifles the following.
+>
+> a)adjusted for GOP timing. When Display sleep in, raise all GOP signals
+> to VGHO and then drop to GND.
+> b)Increased the Vertical back Porch and Vertical pulse width, so need to
+> update vsync_end and vtotal and CLK in drm_display_mode.
+>
+> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> ---
+> v2: Modify commit message
+>
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 397 +++++++++++-------
+>  1 file changed, 235 insertions(+), 162 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 72c57442f965..bf06ccb65652 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -48,6 +48,7 @@ int mtk_dpi_encoder_index(struct device *dev);
- 
- void mtk_dsi_ddp_start(struct device *dev);
- void mtk_dsi_ddp_stop(struct device *dev);
-+int mtk_dsi_encoder_index(struct device *dev);
- 
- int mtk_gamma_clk_enable(struct device *dev);
- void mtk_gamma_clk_disable(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index fe20ce26b19f..214233d36487 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -318,6 +318,7 @@ static const struct mtk_ddp_comp_funcs ddp_dsc = {
- static const struct mtk_ddp_comp_funcs ddp_dsi = {
- 	.start = mtk_dsi_ddp_start,
- 	.stop = mtk_dsi_ddp_stop,
-+	.encoder_index = mtk_dsi_encoder_index,
- };
- 
- static const struct mtk_ddp_comp_funcs ddp_gamma = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index d8c49614a107..7ea4dc87c558 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -191,8 +191,13 @@ static const unsigned int mt8188_mtk_ddp_main_routes_0[] = {
- 	DDP_COMPONENT_DP_INTF0
- };
- 
-+static const unsigned int mt8188_mtk_ddp_main_routes_1[] = {
-+	DDP_COMPONENT_DSI0
-+};
-+
- static const struct mtk_drm_route mt8188_mtk_ddp_main_routes[] = {
- 	{0, ARRAY_SIZE(mt8188_mtk_ddp_main_routes_0), mt8188_mtk_ddp_main_routes_0},
-+	{0, ARRAY_SIZE(mt8188_mtk_ddp_main_routes_1), mt8188_mtk_ddp_main_routes_1},
- };
- 
- static const unsigned int mt8192_mtk_ddp_main[] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 7d5250351193..f9d2d5447e2e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -865,6 +865,15 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 	return ret;
- }
- 
-+int mtk_dsi_encoder_index(struct device *dev)
-+{
-+	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-+	int encoder_index = drm_encoder_index(&dsi->encoder);
-+
-+	dev_dbg(dev, "encoder index:%d", encoder_index);
-+	return encoder_index;
-+}
-+
- static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
- {
- 	int ret;
--- 
-2.18.0
+Every time I see the opaque changes to the pile of "DCS_CMD" arrays I
+feel obliged to grumble a bit, but as I've said before I guess it's
+OK-ish...
 
+Thus, this patch seems fine to me:
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Just to make sure there are no objections, I'll give this ~1 week and
+then I'll land it to drm-misc-next.
+
+-Doug
