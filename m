@@ -2,62 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6236FC912
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 16:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7FB6FC91F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 16:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6693C10E269;
-	Tue,  9 May 2023 14:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A8C10E374;
+	Tue,  9 May 2023 14:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A161E10E269
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 14:32:54 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id
- a1e0cc1a2514c-77d049b9040so31106452241.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 07:32:54 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4019310E393
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 14:35:20 +0000 (UTC)
+X-UUID: b67892a8ee7611ed9cb5633481061a41-20230509
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=rziC0v24pfuGOkwT5prfjB1pqxTnCRMZBZE3DrGXg0I=; 
+ b=nQ/qoCAkJrlYhHy46neNsz/IfV/aZGxERp38tOxzRxZWLRcv1uRc+DDF9FdT8UnYdOmEddTibrNSRnz6ko1Q5hL7RQKoSbROM4+Dv8AP57XNm5ZXJ2DJCclnGSuhklC9yEev9QhdRTaHBDrUs/hdDUmW4SjjxjZvbeprhwN7kgk=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.24, REQID:83960446-21e1-4994-889a-9868f26f0262, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:178d4d4, CLOUDID:330549c0-e32c-4c97-918d-fbb3fc224d4e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: b67892a8ee7611ed9cb5633481061a41-20230509
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 712049865; Tue, 09 May 2023 22:35:15 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 9 May 2023 22:35:14 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 9 May 2023 22:35:13 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RXIdBUv4FIRT9JmE+BDFyUM666xAr+lHO+Ln5LMZMXN3CXeJfAvpuCaZ1rMZDzUipkkJ3RYJWdy4KVBeVnCBJNL8RoihHlcU4qDufZFjejVMs8kH6TjIUfa7NsjcIZKKVbDv3cxSPtOKRLRfYiHXUk4EXTvaRUq5gl45rPHlChepQMUp7Q15vMjMdBjpw2FwBxyGsUjGfuX2YSUKwdV75j+kT8U6xtPAbYCgpqceGiT5WJcXNI7TTjuELQqWfZ1OSJfVE3W15jNkxJlomL6FTvGwa/tGFWHjUQgAPPWLYj1TkDOWIImfRru19AHi1POP/Fig5PcEefasZCWgWdOeuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8v88UaHkz8aO0R8oc4cVMLU7u6Ldh7jfNGWAiW9jTFc=;
+ b=FV5WGC2uJRxWpwAAuP6uctTWw2uOLExG3ALxs4hi1brsoAVUORd57CdvEyfq2NuPO9pifM/bCjjx+RBIdRkEtu4cXQnEVKgHQaFvm2UVH/+MmpuHOtzgTbKi9EZPZIcf2GvjA4V1ANupZQku1lOL46nHK1q3sWDCmZMhgdjPQktmGBGYSkDglVKJBKS3rTy14XvhAgLnLN2auMqpFVFSrAkzWfrz6s6Mw5wLJFC9Wu4NyK0ad1HBMvq1FduM5pr7TAnK9cF5cOEq9YAvGrcNHWlcZ/buFuE2ED8Fq8laO+WmyTleVPx2MVULEYnlw4B5Zf9sbUnqcPoymErwyfSBNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1683642773; x=1686234773;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4zUvAZSKV3HL8Tg9bmt9WAOkdplE7glNRTewuJl7q9Q=;
- b=Ff8NxoxpEyfjWvW0Jo/P2xjEjOxHqMA6a6Ch2fFYH02Q/tM4mTlJ2BuDDqf7lul2nj
- x66jWZiJmmGb2LA2jWaE4sy5xxyDe0OS+aCjQa3mhrD+XOJPJIoQMZPHWvkUT1wZlSkR
- LZDGF/gAOJqGmeZSfRhVmyCDLBaa3g+CPWgM1ypHWA0nSa67tIRW/oldCCQrGcxbYHru
- zhyDt/kOxePGqpK7x7sjvh4IZhuZOecuJecUq4BKqwVhvT6LJ36o3JxVM/GRicuGsRfo
- zNzHf23qTPdypuOqKcDrcUFl0OMqskwLeFVg29DRn8EQyUkp3lHZ8uv7XbiSSZ2kulJV
- tuWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683642773; x=1686234773;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4zUvAZSKV3HL8Tg9bmt9WAOkdplE7glNRTewuJl7q9Q=;
- b=VnDjJkI9r2bkbZ/MNE1VHtNhrcL/e6J/Ne1pliQvt1aXoX4xhZnM7R16GXPfZMVFtP
- o9rxUr8SmjTfOWNQNHdCiPJYxZ3Ot+8gYXaK5GpFdze89oJ1lbGTBdT6mmQbmzJ13jI2
- S+hLVK9onka4jiR9Td4/LXtO96V9aY26op33gTAGGNhfLO+NjVauSZxru+oVK6UUruUB
- DHx1zGWCwjI9bo1tgkyODTVFy3QFJEGYA/WAZ+L4Px1O131qulo/Hyuu3NEX2VLsddK9
- o3jcEHlNIiUdAcTj97Xb2SKwUmdbIR4p9NG9MM3zp6RrCfpuNgz5L3dqGVgV2cZ8zW55
- jjMA==
-X-Gm-Message-State: AC+VfDw0eQIVMGPVV7Bo0Hws3K39mGLnHAfFBMGbupNeVF+NV8w01Fxw
- RhjQeqsuSEZAzOAHbgi4kDxppMCi+oBaXmalvmGjJQ==
-X-Google-Smtp-Source: ACHHUZ4ddQfLLDgVaMl3/dUW8UZP6kzqIRZ8R10/7XGHInET9nkqOd9v9SffrsUpwwT+gkj69Hx/hXrd87BZTDHg3Uw=
-X-Received: by 2002:a1f:bf49:0:b0:44f:e32a:148 with SMTP id
- p70-20020a1fbf49000000b0044fe32a0148mr4356906vkf.8.1683642772960; Tue, 09 May
- 2023 07:32:52 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8v88UaHkz8aO0R8oc4cVMLU7u6Ldh7jfNGWAiW9jTFc=;
+ b=P86glPC3TLgrN1hMabCBGP9PFToKSMq3qP2MWm3aLoSTTlN6YZ5r+E5mvaXSvro8JUsrQQjrQJSOuGi51GGz7pXwoesPs/YU1v6eJEA7b/R2V/YDp0ZHG2LwlH9ErFAvvADlA+FxHSpJqzVoyH06CoyIi73qPBcQm25Jlf9541k=
+Received: from PU1PR03MB3062.apcprd03.prod.outlook.com (2603:1096:803:3b::21)
+ by KL1PR03MB5948.apcprd03.prod.outlook.com (2603:1096:820:87::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 14:35:11 +0000
+Received: from PU1PR03MB3062.apcprd03.prod.outlook.com
+ ([fe80::66d9:2bd0:26ba:d9bb]) by PU1PR03MB3062.apcprd03.prod.outlook.com
+ ([fe80::66d9:2bd0:26ba:d9bb%7]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 14:35:11 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v3 00/11] MediaTek DDP GAMMA - 12-bit LUT support
+Thread-Topic: [PATCH v3 00/11] MediaTek DDP GAMMA - 12-bit LUT support
+Thread-Index: AQHZgBdlwcmOJ71eeUOm0LT0SEWvAK9SBrsA
+Date: Tue, 9 May 2023 14:35:11 +0000
+Message-ID: <5b53273cd76cc2a6453c2c04036760ca5e776def.camel@mediatek.com>
+References: <20230506123549.101727-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230506123549.101727-1-angelogioacchino.delregno@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PU1PR03MB3062:EE_|KL1PR03MB5948:EE_
+x-ms-office365-filtering-correlation-id: 0da024d1-92da-4e24-6664-08db509a986f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: A+KNbanquDNVsw0IJmhHAhytcSiNYCwrSygixhRIIiH2c3DJwkG9HQ71IaKCN8VXDGbcs+PXNF24PPWqBTtclM8PNVllerVAYvyaFhTUmleOe/oIsrmgKmk07weC6DFkU6KZBUsyV8BR8jOlEqbNKU6tbN5Uc9GMT6BqRG6idqkt8mtTl4Pzr87le74noyiW7cbs1+swq6TmBzDK+TUWA2eYtjb2Csv6CZguYIvklY661XADjyq9lZIZ5wPMRy7K9L4qAKwU+QOy/9lzF6e8nJdRXJuFVtfeqVScfgOGzrlpbHOd+b8f0w9zuTFLQIGxQzCqN7sdNHU/pDef3sWALAkdT5wxErAdCIMfTiO81p7MPYrWuIk7N/Td7ONuUilIG7UW0O1IcrryWMwmibTa/dve02Z8/vD31NuNfMDbKrvAMHF+W70hKEfyGfdaiP97pVS43cKxaGEA5n/ziPQ+YzJeotbmy75lwqmsUbpS02ZlogzUVClrM3iBvcFYJCxV9o/s9ihYMmzPoZumihXLfoVRj/R7mIXT+TrDihvDqKbGpzj4D+U9uhEC3/ei5bqgl/IDawZRdlLN7lgLAKxFy4js+tobMIUVHZv8/yWSYpc=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PU1PR03MB3062.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199021)(6486002)(85182001)(36756003)(966005)(66476007)(186003)(38100700002)(316002)(6506007)(26005)(6512007)(66946007)(64756008)(86362001)(66556008)(66446008)(41300700001)(91956017)(4326008)(5660300002)(83380400001)(478600001)(2616005)(38070700005)(110136005)(7416002)(54906003)(71200400001)(76116006)(122000001)(8936002)(2906002)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dEZFUEhxZGJQUXY0Y3FCZGd1ZDhoZnJYMDZKcXNFTTVCdW83Nk8yQURpbjhj?=
+ =?utf-8?B?WldZT2NZc01OYlk2cndWd1dmL0srUHo3bUMxUkh1amZRc1hwamt6MFF1ODVE?=
+ =?utf-8?B?TjZZWC9GTURJWjRvSHMrWDZ0YTg3SVZ0VTFhenkyd3dNTEJOcGFHQlZmRlhT?=
+ =?utf-8?B?dnNWOWhSZFZTTmVKVkVNMXpuOWl3RHROb2VVMWxrTUpieGlHUWQ3MGNQNnpj?=
+ =?utf-8?B?di95ZnNYcS9xQTdoU3VmemtmSnNSVHp4WWdMSTZSN2l3dVFHb3BMNjZvRTZI?=
+ =?utf-8?B?T21aMlREL2U3TmdEVVZiSlJWM29BaFpkdndKbUIwTVBsSW9Vam5sMkozc2tt?=
+ =?utf-8?B?OCtEU1pqVGJWRDllM2R2VU1rdWhZTENGRGR4SVN5RHRxZFBiV1BqcWR3SzFW?=
+ =?utf-8?B?R25Xcld2TzhrL045ajhNSFRING5oeFFwOWtaczZmTnVTMHpGVkcxYmxOZFU5?=
+ =?utf-8?B?YkJuWUVFOEdFNUtUa0RBeDJldmhFNUUyQ1Zra2VuaEJjRGZzNnBpd3NWSzlJ?=
+ =?utf-8?B?VVMvOHIrYTdtV0ZHRyt2WnNaNGlRSTVvVVByYlNKaEpXV1pkdFoxZkNJS2tR?=
+ =?utf-8?B?cm1PcWtzeHovN0YzaTBmbk1BdWg5bjhmNEdNZ1VDd2pBMjQ1T3dONkJqM2RU?=
+ =?utf-8?B?eFhoY0toTmFkeDRaeEJ4S2lpcFNBSER2UlpLaUpqa1I2WkQwZm0yNklRc1k3?=
+ =?utf-8?B?NmpNaUJjQXJnOFlDdUFweFJJUnoybTJ2TEJOVVdFMngxNEtmRXROMFBSOVo5?=
+ =?utf-8?B?eCtyN0hsVGJsZUtVTzNYaHpiMERaQUludzkreWR5YXhMa0VvbU91MS9uaW1r?=
+ =?utf-8?B?YU10WGt1aDRQeGlmYmlNUHVKZzJOSG1XQ3dTaHhzQ1NZVmVLck1YUi9tMWR6?=
+ =?utf-8?B?WkRjSGZBM2ZCNkpRMzB1UDJTZEh3STgyM0JGMEo3SkFKTUtDTzdjVllUYklD?=
+ =?utf-8?B?QnBtU2ZQSlFSRE5FQ2poUGplR0tyYU9vL0Frd0V5V1NXa0cwUkxUN1NTbjJp?=
+ =?utf-8?B?cDFPVXhYYWNVcVhidThPWVFwU3lWdmd1QXBidHdxMEpOcWs5emM1QkFJSmNB?=
+ =?utf-8?B?K05MQ0N2L1lLQ2phdk9hVWI0NlN5dFduNTZOdktZNzJ2YVJVVFVwTDd6RUgy?=
+ =?utf-8?B?S2JEN1o5UFIwclZTTGtXNnRuSVVoaHNPMW1WRWNOaXRSTTNnZlR0YVE0NDVT?=
+ =?utf-8?B?SmI2d0JWTkQxQ3pUWGJscVZZalNCUjhEZWY1Y1JkM0c0bThVYytLM2Q4ODEz?=
+ =?utf-8?B?KytHQXRhWmZ4dERVNkx1eHVSSHlkaVBBbS8xMlB0Rk4wcGlNNnRFRGJycjRL?=
+ =?utf-8?B?N2dtbWVxbTJHT1Uwa3ZhK29rQ1NweEpGNXF4dTkxYlRvYjVmb202bHZ4RVVh?=
+ =?utf-8?B?OUhaYmd0VHZkR2JZSnVDMlRvUUFBa1RQUEtmOVpBNUtPbUVWbmdoMU5yZ3Ru?=
+ =?utf-8?B?cUtKVmhzMisvYUFuMTNSSlJST2dnZnUyWU0vSXZpUHR6dGNOTmZGTW9LMi9K?=
+ =?utf-8?B?eWJpQnBBb2svOVE1WktjY2JBQmtRUW1Za2lnOENxeS9Kb1FRU1FwazBPT2h0?=
+ =?utf-8?B?OEgxUjNRSytVWUNyRVlhcmkrS3BPS3N5MU5DMEVyZExzdWF3SjNkUm1yMW9X?=
+ =?utf-8?B?ZGUyM0g0bGVCV1haRnplL1RSSUtKRDBwTUNxS3JRNCttM3NPMnNoUXNYNEtq?=
+ =?utf-8?B?T2ZVeTYxSFhWMXdETHl4NFBFTkE4WUhlNDVYZDQvTThiYlArd1FOSktxRFkz?=
+ =?utf-8?B?S3ZYMmlhSU5zNnUxYzhTZURjeTVqRjZWeE44ZGZvU2t2ZXFHM0lHN3huakdC?=
+ =?utf-8?B?anRlSzlTMjYzRzd5a0ExOTJxM1lEQ2FiMXN0eDZWWVhQZzFwQlMwMDZuT1hj?=
+ =?utf-8?B?bjg2a0NYRmNUcXZ4cDUzVW9wZW9UMXpSYmdHdkVlMFN6TUFHUUVIcmc3U3ZV?=
+ =?utf-8?B?N1hzRnc5djJVSkM0NFI2R0tsa21FeHpnQzNlZ05jWHg4QVh3MkpRd0RmeTJE?=
+ =?utf-8?B?d3cwYkRoUVBHMVlTWHlGem5jV2xXakdnQ1dnMnhyKzY4Z0d6ZWptZ2xxeWJh?=
+ =?utf-8?B?MGp5a2xHczZ1WTlqd0hlQkt6TldUcGtmTkhHQkQ5anpFNU1JSnFFVVhJelFp?=
+ =?utf-8?B?OThkUEFVQWd5YU1uQ0xscGN5RkZlckJ6b0VNOUlGR1RRVkZFOFh0NzNCNlky?=
+ =?utf-8?B?eXc9PQ==?=
+Content-ID: <B91DF8B6A24A9D4E95E1AF830859B558@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-53-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230507162616.1368908-53-u.kleine-koenig@pengutronix.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 9 May 2023 15:32:37 +0100
-Message-ID: <CAPY8ntCeMU6eCvNf8XXt54uiEnrfRV8LZ1Uqd2DNM9QKrbtHYQ@mail.gmail.com>
-Subject: Re: [PATCH 52/53] drm/vc4: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PU1PR03MB3062.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0da024d1-92da-4e24-6664-08db509a986f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2023 14:35:11.5648 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DZTeJXeYae/N+rJGm7AAAFG7BIAvdUoMyF3gdNEFE9GXaENnsyCmFXbB7EPWNcAEJBIUCct0Ev0uNdskDJbZBbkWUIHXn2A1YyCutQKCLas=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB5948
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_005_1404025664.30819131"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,283 +158,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 7 May 2023 at 17:27, Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->
-> Trivially convert the vc4 drm drivers from always returning zero in the
-> remove callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+--__=_Part_Boundary_005_1404025664.30819131
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thanks for the patch - looks good.
+PHByZT4NCkhpJiMzMjtBbmdlbG8sDQoNCkp1c3QmIzMyO3JlbWluZGVyJiMzMjt0aGVyZSYjMzI7
+aXMmIzMyO2EmIzMyO2R0LWJpbmRpbmcmIzMyO3BhdGNoJiMzMjtbMV0NClsxXSYjMzI7ZHQtYmlu
+ZGluZ3M6JiMzMjttZWRpYXRlazomIzMyO0FkZCYjMzI7Z2FtbWEmIzMyO2NvbXBhdGlibGUmIzMy
+O2ZvciYjMzI7bXQ4MTk1DQoNCmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9s
+aW51eC1tZWRpYXRlay9wYXRjaC8yMDIyMDkxMjAxMzAwNi4yNzU0MS0zLWphc29uLWpoLmxpbkBt
+ZWRpYXRlay5jb20vDQoNCk9uJiMzMjtTYXQsJiMzMjsyMDIzLTA1LTA2JiMzMjthdCYjMzI7MTQ6
+MzUmIzMyOyswMjAwLCYjMzI7QW5nZWxvR2lvYWNjaGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7
+d3JvdGU6DQomZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7
+ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtzJiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNo
+bWVudHMmIzMyO3VudGlsDQomZ3Q7JiMzMjt5b3UmIzMyO2hhdmUmIzMyO3ZlcmlmaWVkJiMzMjt0
+aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29udGVudC4NCiZndDsmIzMyOw0KJmd0
+OyYjMzI7DQomZ3Q7JiMzMjtDaGFuZ2VzJiMzMjtpbiYjMzI7djM6DQomZ3Q7JiMzMjsmIzMyOy0m
+IzMyO0ZpeGVkJiMzMjtpc3N1ZXMmIzMyO2R1ZSYjMzI7dG8mIzMyO3ZhcmlhYmxlcyYjMzI7cmVu
+YW1pbmcmIzMyO2R1cmluZyYjMzI7Y2xlYW51cCYjMzI7KG9vcHMpDQomZ3Q7JiMzMjsmIzMyOy0m
+IzMyO1RoaXMmIzMyO2lzJiMzMjthY3R1YWxseSYjMzI7dGhlJiMzMjtyaWdodCYjMzI7c2VyaWVz
+LCYjMzI7c2luY2UmIzMyO3YyJiMzMjt3YXMmIzMyO3Rha2VuJiMzMjtmcm9tJiMzMjt0aGUNCiZn
+dDsmIzMyOyYjMzI7JiMzMjsmIzMyO3dyb25nJiMzMjtrZXJuZWwmIzMyO3RyZWUuLi4uJiMzMjs6
+LSkNCiZndDsmIzMyOw0KJmd0OyYjMzI7Q2hhbmdlcyYjMzI7aW4mIzMyO3YyOg0KJmd0OyYjMzI7
+JiMzMjstJiMzMjtBZGRlZCYjMzI7ZXhwbGljaXQmIzMyO2luY2x1c2lvbiYjMzI7b2YmIzMyO2xp
+bnV4L2JpdGZpZWxkLmgmIzMyO2luJiMzMjtwYXRjaCYjMzI7WzA2LzExXQ0KJmd0OyYjMzI7DQom
+Z3Q7JiMzMjtUaGlzJiMzMjtzZXJpZXMmIzMyO2FkZHMmIzMyO3N1cHBvcnQmIzMyO2ZvciYjMzI7
+R0FNTUEmIzMyO0lQJiMzMjtyZXF1aXJpbmcmIzMyO2FuZC9vciYjMzI7c3VwcG9ydGluZw0KJmd0
+OyYjMzI7YSYjMzI7MTItYml0cyYjMzI7TFVUJiMzMjt1c2luZyYjMzI7YSYjMzI7c2xpZ2h0bHkm
+IzMyO2RpZmZlcmVudCYjMzI7cmVnaXN0ZXImIzMyO2xheW91dCYjMzI7YW5kDQomZ3Q7JiMzMjtw
+cm9ncmFtbWluZw0KJmd0OyYjMzI7c2VxdWVuY2UmIzMyO2ZvciYjMzI7bXVsdGlwbGUmIzMyO0xV
+VCYjMzI7YmFua3M6JiMzMjt0aGlzJiMzMjtJUCYjMzI7dmVyc2lvbiYjMzI7aXMmIzMyO2N1cnJl
+bnRseSYjMzI7Zm91bmQNCiZndDsmIzMyO29uJiMzMjthJiMzMjtudW1iZXImIzMyO29mJiMzMjtT
+b0NzLCYjMzI7bm90JiMzMjtvbmx5JiMzMjtpbmNsdWRpbmcmIzMyO3RoZSYjMzI7Q2hyb21lYm9v
+ay9Jb1QmIzMyO29yaWVudGVkDQomZ3Q7JiMzMjtLb21wYW5pbyYjMzI7MTIwMC8xMzgwJiMzMjtN
+VDgxOTUvTVQ4MTk1VCwmIzMyO2J1dCYjMzI7YWxzbyYjMzI7U21hcnRwaG9uZSYjMzI7Y2hpcHMm
+IzMyO3N1Y2gmIzMyO2FzDQomZ3Q7JiMzMjt0aGUmIzMyO0RpbWVuc2l0eSYjMzI7OTIwMCYjMzI7
+KE1UNjk4NSkmIzMyO2FuZCYjMzI7b3RoZXJzLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtUaGlzJiMz
+MjtzZXJpZXMmIzMyO3dhcyYjMzI7dGVzdGVkJiMzMjtvbiYjMzI7TVQ4MTk1LCYjMzI7TVQ4MTky
+LCYjMzI7TVQ4MTczLCYjMzI7TVQ2Nzk1Og0KJmd0OyYjMzI7JiMzMjsqJiMzMjtNVDY3OTUsJiMz
+MjtNVDgxOTIsJiMzMjtNVDgxNzM6JiMzMjtObyYjMzI7cmVncmVzc2lvbiwmIzMyO3dvcmtzJiMz
+MjtmaW5lLg0KJmd0OyYjMzI7JiMzMjsqJiMzMjtNVDgxOTU6JiMzMjtDb2xvciYjMzI7Y29ycmVj
+dGlvbiYjMzI7aXMmIzMyO2ZpbmFsbHkmIzMyO3dvcmtpbmchDQoNClRoYW5rcyYjMzI7Zm9yJiMz
+Mjt5b3VyJiMzMjtoZWxwJiMzMjs6KQ0KDQpSZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCiZndDsm
+IzMyOw0KJmd0OyYjMzI7QW5nZWxvR2lvYWNjaGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7KDEw
+KToNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0ZWs6JiMzMjtnYW1tYTomIzMyO1JlZHVj
+ZSYjMzI7aW5kZW50YXRpb24mIzMyO2luJiMzMjttdGtfZ2FtbWFfc2V0X2NvbW1vbigpDQomZ3Q7
+JiMzMjsmIzMyOyYjMzI7ZHJtL21lZGlhdGVrOiYjMzI7Z2FtbWE6JiMzMjtTdXBwb3J0JiMzMjtT
+b0MmIzMyO3NwZWNpZmljJiMzMjtMVVQmIzMyO3NpemUNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0v
+bWVkaWF0ZWs6JiMzMjtnYW1tYTomIzMyO0ltcHJvdmUmIzMyO2FuZCYjMzI7c2ltcGxpZnkmIzMy
+O0hXJiMzMjtMVVQmIzMyO2NhbGN1bGF0aW9uDQomZ3Q7JiMzMjsmIzMyOyYjMzI7ZHJtL21lZGlh
+dGVrOiYjMzI7Z2FtbWE6JiMzMjtFbmFibGUmIzMyO3RoZSYjMzI7R2FtbWEmIzMyO0xVVCYjMzI7
+dGFibGUmIzMyO29ubHkmIzMyO2FmdGVyDQomZ3Q7JiMzMjtwcm9ncmFtbWluZw0KJmd0OyYjMzI7
+JiMzMjsmIzMyO2RybS9tZWRpYXRlazomIzMyO2dhbW1hOiYjMzI7VXNlJiMzMjtiaXRmaWVsZCYj
+MzI7bWFjcm9zDQomZ3Q7JiMzMjsmIzMyOyYjMzI7ZHJtL21lZGlhdGVrOiYjMzI7Z2FtbWE6JiMz
+MjtTdXBwb3J0JiMzMjtzcGVjaWZ5aW5nJiMzMjtudW1iZXImIzMyO29mJiMzMjtiaXRzJiMzMjtw
+ZXImIzMyO0xVVA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtjb21wb25lbnQNCiZndDsm
+IzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0ZWs6JiMzMjtnYW1tYTomIzMyO1N1cHBvcnQmIzMyO211
+bHRpLWJhbmsmIzMyO2dhbW1hJiMzMjtMVVQNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0
+ZWs6JiMzMjtnYW1tYTomIzMyO0FkZCYjMzI7c3VwcG9ydCYjMzI7Zm9yJiMzMjsxMi1iaXQmIzMy
+O0xVVCYjMzI7YW5kJiMzMjtNVDgxOTUNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0ZWs6
+JiMzMjtnYW1tYTomIzMyO01ha2UmIzMyO3N1cmUmIzMyO3JlbGF5JiMzMjttb2RlJiMzMjtpcyYj
+MzI7ZGlzYWJsZWQNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0ZWs6JiMzMjtnYW1tYTom
+IzMyO1Byb2dyYW0mIzMyO2dhbW1hJiMzMjtMVVQmIzMyO3R5cGUmIzMyO2ZvciYjMzI7ZGVzY2Vu
+ZGluZyYjMzI7b3INCiZndDsmIzMyO3Jpc2luZw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtKYXNvbi1K
+SC5MaW4mIzMyOygxKToNCiZndDsmIzMyOyYjMzI7JiMzMjtkcm0vbWVkaWF0ZWs6JiMzMjtnYW1t
+YTomIzMyO0FkanVzdCYjMzI7bXRrX2RybV9nYW1tYV9zZXRfY29tbW9uJiMzMjtwYXJhbWV0ZXJz
+DQomZ3Q7JiMzMjsNCiZndDsmIzMyOyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+aXNwX2FhbC5jJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyOyYjMzI7JiMzMjsyJiMzMjsr
+LQ0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfZHJ2Lmgm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7fCYjMzI7JiMzMjsmIzMyOzMmIzMyOystDQomZ3Q7JiMz
+MjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9nYW1tYS5jJiMzMjsmIzMy
+OyYjMzI7fCYjMzI7MTk3JiMzMjsrKysrKysrKysrKysrKysrKy0NCiZndDsmIzMyOy0tDQomZ3Q7
+JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOyYjMzI7NCYjMzI7Ky0NCiZndDsmIzMyOyYjMzI7
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5oJiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyO3wmIzMyOyYjMzI7JiMzMjsxJiMzMjstDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMmIzMyO3wmIzMyOyYjMzI7JiMzMjsxJiMz
+MjsrDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9j
+b21wLmgmIzMyO3wmIzMyOyYjMzI7JiMzMjs5JiMzMjsrDQomZ3Q7JiMzMjsmIzMyOzcmIzMyO2Zp
+bGVzJiMzMjtjaGFuZ2VkLCYjMzI7MTgxJiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MzYmIzMyO2Rl
+bGV0aW9ucygtKQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjstLQ0KJmd0OyYjMzI7Mi40MC4xDQomZ3Q7
+JiMzMjsNCiZndDsmIzMyOw0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioq
+KioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioq
+KioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdl
+IChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3By
+aWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUg
+dW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9u
+bHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9u
+LCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMg
+ZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBp
+ZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5
+b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGll
+dmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ug
+bm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1h
+aWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGlu
+ZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3Nl
+IHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlv
+dSENCjwvcHJlPjwhLS19LS0+
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+--__=_Part_Boundary_005_1404025664.30819131
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> ---
->  drivers/gpu/drm/vc4/vc4_crtc.c | 5 ++---
->  drivers/gpu/drm/vc4/vc4_dpi.c  | 5 ++---
->  drivers/gpu/drm/vc4/vc4_drv.c  | 6 ++----
->  drivers/gpu/drm/vc4/vc4_dsi.c  | 6 ++----
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 5 ++---
->  drivers/gpu/drm/vc4/vc4_hvs.c  | 5 ++---
->  drivers/gpu/drm/vc4/vc4_txp.c  | 5 ++---
->  drivers/gpu/drm/vc4/vc4_v3d.c  | 5 ++---
->  drivers/gpu/drm/vc4/vc4_vec.c  | 5 ++---
->  9 files changed, 18 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crt=
-c.c
-> index bef9d45ef1df..7610e841ef3c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> @@ -1450,15 +1450,14 @@ static int vc4_crtc_dev_probe(struct platform_dev=
-ice *pdev)
->         return component_add(&pdev->dev, &vc4_crtc_ops);
->  }
->
-> -static int vc4_crtc_dev_remove(struct platform_device *pdev)
-> +static void vc4_crtc_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_crtc_ops);
-> -       return 0;
->  }
->
->  struct platform_driver vc4_crtc_driver =3D {
->         .probe =3D vc4_crtc_dev_probe,
-> -       .remove =3D vc4_crtc_dev_remove,
-> +       .remove_new =3D vc4_crtc_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_crtc",
->                 .of_match_table =3D vc4_crtc_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.=
-c
-> index f518d6e59ed6..e67856ae9d75 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-> @@ -391,15 +391,14 @@ static int vc4_dpi_dev_probe(struct platform_device=
- *pdev)
->         return component_add(&pdev->dev, &vc4_dpi_ops);
->  }
->
-> -static int vc4_dpi_dev_remove(struct platform_device *pdev)
-> +static void vc4_dpi_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_dpi_ops);
-> -       return 0;
->  }
->
->  struct platform_driver vc4_dpi_driver =3D {
->         .probe =3D vc4_dpi_dev_probe,
-> -       .remove =3D vc4_dpi_dev_remove,
-> +       .remove_new =3D vc4_dpi_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_dpi",
->                 .of_match_table =3D vc4_dpi_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.=
-c
-> index 0ccaee57fe9a..cee41e318bf9 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -439,11 +439,9 @@ static int vc4_platform_drm_probe(struct platform_de=
-vice *pdev)
->         return component_master_add_with_match(dev, &vc4_drm_ops, match);
->  }
->
-> -static int vc4_platform_drm_remove(struct platform_device *pdev)
-> +static void vc4_platform_drm_remove(struct platform_device *pdev)
->  {
->         component_master_del(&pdev->dev, &vc4_drm_ops);
-> -
-> -       return 0;
->  }
->
->  static const struct of_device_id vc4_of_match[] =3D {
-> @@ -456,7 +454,7 @@ MODULE_DEVICE_TABLE(of, vc4_of_match);
->
->  static struct platform_driver vc4_platform_driver =3D {
->         .probe          =3D vc4_platform_drm_probe,
-> -       .remove         =3D vc4_platform_drm_remove,
-> +       .remove_new     =3D vc4_platform_drm_remove,
->         .driver         =3D {
->                 .name   =3D "vc4-drm",
->                 .of_match_table =3D vc4_of_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.=
-c
-> index a5c075f802e4..839d7d682842 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> @@ -1830,20 +1830,18 @@ static int vc4_dsi_dev_probe(struct platform_devi=
-ce *pdev)
->         return 0;
->  }
->
-> -static int vc4_dsi_dev_remove(struct platform_device *pdev)
-> +static void vc4_dsi_dev_remove(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct vc4_dsi *dsi =3D dev_get_drvdata(dev);
->
->         mipi_dsi_host_unregister(&dsi->dsi_host);
->         vc4_dsi_put(dsi);
-> -
-> -       return 0;
->  }
->
->  struct platform_driver vc4_dsi_driver =3D {
->         .probe =3D vc4_dsi_dev_probe,
-> -       .remove =3D vc4_dsi_dev_remove,
-> +       .remove_new =3D vc4_dsi_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_dsi",
->                 .of_match_table =3D vc4_dsi_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index ea22c9bf223a..0c4aef532521 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -3561,10 +3561,9 @@ static int vc4_hdmi_dev_probe(struct platform_devi=
-ce *pdev)
->         return component_add(&pdev->dev, &vc4_hdmi_ops);
->  }
->
-> -static int vc4_hdmi_dev_remove(struct platform_device *pdev)
-> +static void vc4_hdmi_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_hdmi_ops);
-> -       return 0;
->  }
->
->  static const struct vc4_hdmi_variant bcm2835_variant =3D {
-> @@ -3660,7 +3659,7 @@ static const struct dev_pm_ops vc4_hdmi_pm_ops =3D =
-{
->
->  struct platform_driver vc4_hdmi_driver =3D {
->         .probe =3D vc4_hdmi_dev_probe,
-> -       .remove =3D vc4_hdmi_dev_remove,
-> +       .remove_new =3D vc4_hdmi_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_hdmi",
->                 .of_match_table =3D vc4_hdmi_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.=
-c
-> index 4da66ef96783..04af672caacb 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -1061,10 +1061,9 @@ static int vc4_hvs_dev_probe(struct platform_devic=
-e *pdev)
->         return component_add(&pdev->dev, &vc4_hvs_ops);
->  }
->
-> -static int vc4_hvs_dev_remove(struct platform_device *pdev)
-> +static void vc4_hvs_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_hvs_ops);
-> -       return 0;
->  }
->
->  static const struct of_device_id vc4_hvs_dt_match[] =3D {
-> @@ -1075,7 +1074,7 @@ static const struct of_device_id vc4_hvs_dt_match[]=
- =3D {
->
->  struct platform_driver vc4_hvs_driver =3D {
->         .probe =3D vc4_hvs_dev_probe,
-> -       .remove =3D vc4_hvs_dev_remove,
-> +       .remove_new =3D vc4_hvs_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_hvs",
->                 .of_match_table =3D vc4_hvs_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.=
-c
-> index ef5cab2a3aa9..8152c8325c13 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -577,10 +577,9 @@ static int vc4_txp_probe(struct platform_device *pde=
-v)
->         return component_add(&pdev->dev, &vc4_txp_ops);
->  }
->
-> -static int vc4_txp_remove(struct platform_device *pdev)
-> +static void vc4_txp_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_txp_ops);
-> -       return 0;
->  }
->
->  static const struct of_device_id vc4_txp_dt_match[] =3D {
-> @@ -590,7 +589,7 @@ static const struct of_device_id vc4_txp_dt_match[] =
-=3D {
->
->  struct platform_driver vc4_txp_driver =3D {
->         .probe =3D vc4_txp_probe,
-> -       .remove =3D vc4_txp_remove,
-> +       .remove_new =3D vc4_txp_remove,
->         .driver =3D {
->                 .name =3D "vc4_txp",
->                 .of_match_table =3D vc4_txp_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.=
-c
-> index 29a664c8bf44..04ac7805e6d5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -532,10 +532,9 @@ static int vc4_v3d_dev_probe(struct platform_device =
-*pdev)
->         return component_add(&pdev->dev, &vc4_v3d_ops);
->  }
->
-> -static int vc4_v3d_dev_remove(struct platform_device *pdev)
-> +static void vc4_v3d_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_v3d_ops);
-> -       return 0;
->  }
->
->  const struct of_device_id vc4_v3d_dt_match[] =3D {
-> @@ -547,7 +546,7 @@ const struct of_device_id vc4_v3d_dt_match[] =3D {
->
->  struct platform_driver vc4_v3d_driver =3D {
->         .probe =3D vc4_v3d_dev_probe,
-> -       .remove =3D vc4_v3d_dev_remove,
-> +       .remove_new =3D vc4_v3d_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_v3d",
->                 .of_match_table =3D vc4_v3d_dt_match,
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.=
-c
-> index a3782d05cd66..0bbda1872881 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -818,15 +818,14 @@ static int vc4_vec_dev_probe(struct platform_device=
- *pdev)
->         return component_add(&pdev->dev, &vc4_vec_ops);
->  }
->
-> -static int vc4_vec_dev_remove(struct platform_device *pdev)
-> +static void vc4_vec_dev_remove(struct platform_device *pdev)
->  {
->         component_del(&pdev->dev, &vc4_vec_ops);
-> -       return 0;
->  }
->
->  struct platform_driver vc4_vec_driver =3D {
->         .probe =3D vc4_vec_dev_probe,
-> -       .remove =3D vc4_vec_dev_remove,
-> +       .remove_new =3D vc4_vec_dev_remove,
->         .driver =3D {
->                 .name =3D "vc4_vec",
->                 .of_match_table =3D vc4_vec_dt_match,
-> --
-> 2.39.2
->
+SGkgQW5nZWxvLA0KDQpKdXN0IHJlbWluZGVyIHRoZXJlIGlzIGEgZHQtYmluZGluZyBwYXRjaCBb
+MV0NClsxXSBkdC1iaW5kaW5nczogbWVkaWF0ZWs6IEFkZCBnYW1tYSBjb21wYXRpYmxlIGZvciBt
+dDgxOTUNCg0KaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlh
+dGVrL3BhdGNoLzIwMjIwOTEyMDEzMDA2LjI3NTQxLTMtamFzb24tamgubGluQG1lZGlhdGVrLmNv
+bS8NCg0KT24gU2F0LCAyMDIzLTA1LTA2IGF0IDE0OjM1ICswMjAwLCBBbmdlbG9HaW9hY2NoaW5v
+IERlbCBSZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNr
+IGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVyaWZpZWQgdGhl
+IHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBDaGFuZ2VzIGluIHYzOg0KPiAgLSBG
+aXhlZCBpc3N1ZXMgZHVlIHRvIHZhcmlhYmxlcyByZW5hbWluZyBkdXJpbmcgY2xlYW51cCAob29w
+cykNCj4gIC0gVGhpcyBpcyBhY3R1YWxseSB0aGUgcmlnaHQgc2VyaWVzLCBzaW5jZSB2MiB3YXMg
+dGFrZW4gZnJvbSB0aGUNCj4gICAgd3Jvbmcga2VybmVsIHRyZWUuLi4uIDotKQ0KPiANCj4gQ2hh
+bmdlcyBpbiB2MjoNCj4gIC0gQWRkZWQgZXhwbGljaXQgaW5jbHVzaW9uIG9mIGxpbnV4L2JpdGZp
+ZWxkLmggaW4gcGF0Y2ggWzA2LzExXQ0KPiANCj4gVGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZv
+ciBHQU1NQSBJUCByZXF1aXJpbmcgYW5kL29yIHN1cHBvcnRpbmcNCj4gYSAxMi1iaXRzIExVVCB1
+c2luZyBhIHNsaWdodGx5IGRpZmZlcmVudCByZWdpc3RlciBsYXlvdXQgYW5kDQo+IHByb2dyYW1t
+aW5nDQo+IHNlcXVlbmNlIGZvciBtdWx0aXBsZSBMVVQgYmFua3M6IHRoaXMgSVAgdmVyc2lvbiBp
+cyBjdXJyZW50bHkgZm91bmQNCj4gb24gYSBudW1iZXIgb2YgU29Dcywgbm90IG9ubHkgaW5jbHVk
+aW5nIHRoZSBDaHJvbWVib29rL0lvVCBvcmllbnRlZA0KPiBLb21wYW5pbyAxMjAwLzEzODAgTVQ4
+MTk1L01UODE5NVQsIGJ1dCBhbHNvIFNtYXJ0cGhvbmUgY2hpcHMgc3VjaCBhcw0KPiB0aGUgRGlt
+ZW5zaXR5IDkyMDAgKE1UNjk4NSkgYW5kIG90aGVycy4NCj4gDQo+IFRoaXMgc2VyaWVzIHdhcyB0
+ZXN0ZWQgb24gTVQ4MTk1LCBNVDgxOTIsIE1UODE3MywgTVQ2Nzk1Og0KPiAgKiBNVDY3OTUsIE1U
+ODE5MiwgTVQ4MTczOiBObyByZWdyZXNzaW9uLCB3b3JrcyBmaW5lLg0KPiAgKiBNVDgxOTU6IENv
+bG9yIGNvcnJlY3Rpb24gaXMgZmluYWxseSB3b3JraW5nIQ0KDQpUaGFua3MgZm9yIHlvdXIgaGVs
+cCA6KQ0KDQpSZWdhcmRzLA0KSmFzb24tSkguTGluDQoNCj4gDQo+IEFuZ2Vsb0dpb2FjY2hpbm8g
+RGVsIFJlZ25vICgxMCk6DQo+ICAgZHJtL21lZGlhdGVrOiBnYW1tYTogUmVkdWNlIGluZGVudGF0
+aW9uIGluIG10a19nYW1tYV9zZXRfY29tbW9uKCkNCj4gICBkcm0vbWVkaWF0ZWs6IGdhbW1hOiBT
+dXBwb3J0IFNvQyBzcGVjaWZpYyBMVVQgc2l6ZQ0KPiAgIGRybS9tZWRpYXRlazogZ2FtbWE6IElt
+cHJvdmUgYW5kIHNpbXBsaWZ5IEhXIExVVCBjYWxjdWxhdGlvbg0KPiAgIGRybS9tZWRpYXRlazog
+Z2FtbWE6IEVuYWJsZSB0aGUgR2FtbWEgTFVUIHRhYmxlIG9ubHkgYWZ0ZXINCj4gcHJvZ3JhbW1p
+bmcNCj4gICBkcm0vbWVkaWF0ZWs6IGdhbW1hOiBVc2UgYml0ZmllbGQgbWFjcm9zDQo+ICAgZHJt
+L21lZGlhdGVrOiBnYW1tYTogU3VwcG9ydCBzcGVjaWZ5aW5nIG51bWJlciBvZiBiaXRzIHBlciBM
+VVQNCj4gICAgIGNvbXBvbmVudA0KPiAgIGRybS9tZWRpYXRlazogZ2FtbWE6IFN1cHBvcnQgbXVs
+dGktYmFuayBnYW1tYSBMVVQNCj4gICBkcm0vbWVkaWF0ZWs6IGdhbW1hOiBBZGQgc3VwcG9ydCBm
+b3IgMTItYml0IExVVCBhbmQgTVQ4MTk1DQo+ICAgZHJtL21lZGlhdGVrOiBnYW1tYTogTWFrZSBz
+dXJlIHJlbGF5IG1vZGUgaXMgZGlzYWJsZWQNCj4gICBkcm0vbWVkaWF0ZWs6IGdhbW1hOiBQcm9n
+cmFtIGdhbW1hIExVVCB0eXBlIGZvciBkZXNjZW5kaW5nIG9yDQo+IHJpc2luZw0KPiANCj4gSmFz
+b24tSkguTGluICgxKToNCj4gICBkcm0vbWVkaWF0ZWs6IGdhbW1hOiBBZGp1c3QgbXRrX2RybV9n
+YW1tYV9zZXRfY29tbW9uIHBhcmFtZXRlcnMNCj4gDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2Rpc3BfYWFsLmMgICAgIHwgICAyICstDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2Rpc3BfZHJ2LmggICAgIHwgICAzICstDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2Rpc3BfZ2FtbWEuYyAgIHwgMTk3ICsrKysrKysrKysrKysrKysrLQ0KPiAtLQ0KPiAg
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5jICAgICB8ICAgNCArLQ0KPiAg
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fY3J0Yy5oICAgICB8ICAgMSAtDQo+ICBk
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jIHwgICAxICsNCj4gIGRy
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmggfCAgIDkgKw0KPiAgNyBm
+aWxlcyBjaGFuZ2VkLCAxODEgaW5zZXJ0aW9ucygrKSwgMzYgZGVsZXRpb25zKC0pDQo+IA0KPiAt
+LQ0KPiAyLjQwLjENCj4gDQo+IA0K
+
+--__=_Part_Boundary_005_1404025664.30819131--
+
