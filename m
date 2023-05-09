@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAD36FC49A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 13:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DF66FC4B3
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 13:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B360810E387;
-	Tue,  9 May 2023 11:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 940FB10E388;
+	Tue,  9 May 2023 11:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AA5210E387;
- Tue,  9 May 2023 11:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683630539; x=1715166539;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dXP6jE6h6gxYAw8DQHf88A0e90eMUD0J0N4hUUvMJ0M=;
- b=FOQTTg1lPmaoslH8kWqAjHwGjyWqOvRrYt6N5r7Sw8dC1iHPHp7qEw8P
- jFepRVVoullOrzNSPmuDr/IoeWPN+GygJFDyaOf+IHtTIZR59c9i8ShGJ
- C89E+fFjyD7ONeeAoaAzIVK/KuaaKAQ62zmpNaeNYWXyHqBKXbAIlvj1Z
- fjLzFJ/rSkZgEUlhdu78RmLqdlQUoOTmdIcJDCgsgwgc1QQ3hUb0Dw2YM
- ZMd4WSAshdCOds23jbPzuWUk7O93cvTY2wxb7IM2nka1y22aK7ySBlO6Q
- oHOKy20L+N09VXlJsK4ktyr109tD+66FlT5IBFpp25uGLvIhPX+tAqc26 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349932146"
-X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="349932146"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2023 04:08:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="701802205"
-X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; d="scan'208";a="701802205"
-Received: from aanokhov-mobl.ccr.corp.intel.com (HELO intel.com)
- ([10.252.38.157])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2023 04:08:55 -0700
-Date: Tue, 9 May 2023 13:08:53 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: fei.yang@intel.com
-Subject: Re: [PATCH v7 2/2] drm/i915: use pat_index instead of cache_level
-Message-ID: <ZFopxZtZAOfiEviI@ashyti-mobl2.lan>
-References: <20230508234854.4028658-1-fei.yang@intel.com>
- <20230508234854.4028658-3-fei.yang@intel.com>
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4749010E388
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 11:12:21 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id
+ 3f1490d57ef6-b9d8b458e10so7361231276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 04:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683630740; x=1686222740;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=O+AtwPwXPZlp/x5nJkkCBaOlYDV83aySbZPDW4HW+Ks=;
+ b=HOmFRHQ2CGgJGUmh5sxSRX/cHyAlfs0He1YcCwUGt/kvIdjXiZVz7xhA+MnwFqMURm
+ XETqZd8VkjC55dbMw6IcaJGxixIgQL1p9+Cd4Y7GjdlyFLhAwaTVYHZrrRBQZNnY6GRa
+ BEWFlXxrA7LQAvwKR/RwkoPq7S24CBVL/TE48aIROCvrcu0apEzL9KzyhLrvCtgTk7eU
+ GOhZx8fpt9fn7m+Ca8mfsyrbQ5Mdteum0XLGOQAU4bm2M4bmiouLjHma1F1lrbkDhp3m
+ 9/fmviKxf3yNj3OoB6y5dTF92i3KSYLxRHnDclg+hbFWH6QqXKutinXVcIzaw7ek7WUJ
+ mCqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683630740; x=1686222740;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O+AtwPwXPZlp/x5nJkkCBaOlYDV83aySbZPDW4HW+Ks=;
+ b=GFozw6851plp09HO4UrcHpymrDQuroVv1nzejrpUxMVd2tSRi4+XfFUDvswE/zpUWs
+ pkO3LZHQcN3/Rad/ZUIwK6Fq1q9NuJ2+jrFKRbLjzg1aACEvfXRO+sIFUKJUiPtV8JAs
+ oF2106FOg0+nui/CVaZJd9Gke5N3y9JlVHtqm5jXnBInQHuh/TfVM3hTPzfvn+9WecMo
+ 2TtcI3YkwLCjWTaPdZUKcNMDdvVKz67fuzG7yfPx9jAf4XB1/aTmWKc2kqmfckaXXDyP
+ qZZi5qaWSh4dNxYqC9XSagwdutm/d7VMIEWGHL3arOl1ZxJAKm8P6yJFGueKrcdbAoWA
+ HKxw==
+X-Gm-Message-State: AC+VfDy2IpaJ80HrVtGzF3TC7Q8VijoaFTtHQ9E3s9zP0LYchU/GEKmr
+ aOJVXeScHbWDurJKpUEnYvlSaz+DAK6k3974dopQ9g==
+X-Google-Smtp-Source: ACHHUZ7LNWGXsH5ngDCkMQSeQBUdW9HlHh4f1cvgaN8Fn0DQyw7TEC/v0WbmUraisWvo/nYB5xTL7/87v2KHSJ9yXrU=
+X-Received: by 2002:a25:ade5:0:b0:b99:93d5:26dd with SMTP id
+ d37-20020a25ade5000000b00b9993d526ddmr14771104ybe.20.1683630739827; Tue, 09
+ May 2023 04:12:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230508234854.4028658-3-fei.yang@intel.com>
+References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
+ <20230405-add-dsc-support-v2-3-1072c70e9786@quicinc.com>
+ <i6i2xj2tuy5mcxsj674d77kfdb3ne6immkmrzw5f6u4bfx2sth@ef7fzrhdyypx>
+ <1d7ccb5f-55c2-3b3a-df97-2c17beffabfc@quicinc.com>
+ <0aa4130d-bb37-4743-10e5-fd518276f4a2@linaro.org>
+ <chw4jhkwbtml3w3ha6beubvvil4jsr7wuzahfif2mzkcmsqhwj@wgm7axq2o6wk>
+In-Reply-To: <chw4jhkwbtml3w3ha6beubvvil4jsr7wuzahfif2mzkcmsqhwj@wgm7axq2o6wk>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 9 May 2023 14:12:08 +0300
+Message-ID: <CAA8EJpoW_rrvTP8kt2gHKZA+0Jez0_dKay3XGs+3_CaHQK7+Wg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature
+ flag
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +72,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+On Tue, 9 May 2023 at 10:00, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> On 2023-05-09 02:08:52, Dmitry Baryshkov wrote:
+> > On 09/05/2023 00:46, Jessica Zhang wrote:
+> > >
+> > >
+> > > On 5/7/2023 9:00 AM, Marijn Suijten wrote:
+> > >> On 2023-05-05 14:23:50, Jessica Zhang wrote:
+> > >>> Add DATA_COMPRESS feature flag to DPU INTF block.
+> > >>>
+> > >>> In DPU 7.x and later, DSC/DCE enablement registers have been moved from
+> > >>> PINGPONG to INTF.
+> > >>>
+> > >>> As core_rev (and related macros) was removed from the dpu_kms struct,
+> > >>> the
+> > >>> most straightforward way to indicate the presence of this register
+> > >>> would be
+> > >>> to have a feature flag.
+> > >>
+> > >> Irrelevant.  Even though core_rev was still in mainline until recently,
+> > >> we always hardcoded the features in the catalog and only used core_rev
+> > >> to select a dpu_mdss_cfg catalog entry.  There is no "if version >= X
+> > >> then enable feature Y" logic, this manually-enabled feature flag is the
+> > >> only, correct way to do it.
+> > >
+> > > Hi Marijn,
+> > >
+> > > Understood. FWIW, if we do find more register bit-level differences
+> > > between HW versions in the future, it might make more sense to keep the
+> > > HW catalog small and bring core_rev back, rather than keep adding these
+> > > kinds of small differences to caps.
+> >
+> > Let's see how it goes. Abhinav suggested that there might be feature
+> > differences inside the DPU generations (and even inside the single DPU
+> > major/minor combo). So I'm not sure what core_rev will bring us.
+> >
+> > Let's land the platforms which are ready (or if there is anything close
+> > to be submitted).
+>
+> You mean waiting for catalog changes on the list specifically, so the
+> DSC series as well as SM6350/SM6375?  I do intend to send SM6125 now
+> that the INTF TE series (required for it, as well as for SM63**) seems
+> to be generally accepted, but have been quite busy with the DSC series
+> on the list as we're now unblocking many Xperia's to finally have
+> display!
 
-On Mon, May 08, 2023 at 04:48:54PM -0700, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
-> 
-> Currently the KMD is using enum i915_cache_level to set caching policy for
-> buffer objects. This is flaky because the PAT index which really controls
-> the caching behavior in PTE has far more levels than what's defined in the
-> enum. In addition, the PAT index is platform dependent, having to translate
-> between i915_cache_level and PAT index is not reliable, and makes the code
-> more complicated.
-> 
-> >From UMD's perspective there is also a necessity to set caching policy for
-> performance fine tuning. It's much easier for the UMD to directly use PAT
-> index because the behavior of each PAT index is clearly defined in Bspec.
-> Having the abstracted i915_cache_level sitting in between would only cause
-> more ambiguity. PAT is expected to work much like MOCS already works today,
-> and by design userspace is expected to select the index that exactly
-> matches the desired behavior described in the hardware specification.
-> 
-> For these reasons this patch replaces i915_cache_level with PAT index. Also
-> note, the cache_level is not completely removed yet, because the KMD still
-> has the need of creating buffer objects with simple cache settings such as
-> cached, uncached, or writethrough. For kernel objects, cache_level is used
-> for simplicity and backward compatibility. For Pre-gen12 platforms PAT can
-> have 1:1 mapping to i915_cache_level, so these two are interchangeable. see
-> the use of LEGACY_CACHELEVEL.
-> 
-> One consequence of this change is that gen8_pte_encode is no longer working
-> for gen12 platforms due to the fact that gen12 platforms has different PAT
-> definitions. In the meantime the mtl_pte_encode introduced specfically for
-> MTL becomes generic for all gen12 platforms. This patch renames the MTL
-> PTE encode function into gen12_pte_encode and apply it to all gen12. Even
-> though this change looks unrelated, but separating them would temporarily
-> break gen12 PTE encoding, thus squash them in one patch.
-> 
-> Special note: this patch changes the way caching behavior is controlled in
-> the sense that some objects are left to be managed by userspace. For such
-> objects we need to be careful not to change the userspace settings.There
-> are kerneldoc and comments added around obj->cache_coherent, cache_dirty,
-> and how to bypass the checkings by i915_gem_object_has_cache_level. For
-> full understanding, these changes need to be looked at together with the
-> two follow-up patches, one disables the {set|get}_caching ioctl's and the
-> other adds set_pat extension to the GEM_CREATE uAPI.
-> 
-> Bspec: 63019
-> 
-> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-> Signed-off-by: Fei Yang <fei.yang@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-> 
-> To be squashed
+Yes, please send it, as you find time. No time pressure.
 
-Ha! you forgot to remove this... I also do the same :)
+>
+> The catalog addition is "pretty much ready", let me know if you'd like
+> it to be sent in prior to your cleanup.
 
-No worries, if the patch is right I'll fix it before pushing it.
-
-Tvrtko? Any opinion?
-
-Andi
+-- 
+With best wishes
+Dmitry
