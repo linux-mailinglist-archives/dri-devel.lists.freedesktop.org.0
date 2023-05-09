@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CB66FBCEF
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 04:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D8C6FBCF2
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 04:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9247A10E193;
-	Tue,  9 May 2023 02:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A20710E1CE;
+	Tue,  9 May 2023 02:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B17510E193
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 02:14:10 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B54110E193
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 02:14:11 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6682385FD2;
- Tue,  9 May 2023 04:14:05 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 8BA0784788;
+ Tue,  9 May 2023 04:14:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1683598446;
- bh=Ji2HhlHFfCXY74FqMvczOZ+BR43BKRG9fT3pCghkDOc=;
+ s=phobos-20191101; t=1683598448;
+ bh=SIC05a1h6bRWGMz9RDdtOyxBzwCAwNUqEJPqWKbzSxc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UXvkBSM7YUZrBsk3SPuAJ54ycJwY/CoXwC5HR4ZqFMNbkndwzGlW+1qC7TkjUJtup
- 1ND/b9iAlZsSdqnShsm2ndKVgANyB6Ua66mwWq4W5pgfxyVEV+KQDtKYFYfH2WukPr
- /RvlF9A/TMhUVLofvdmWKphePRZm86BXC+dn2hVnEMdmFz0kGovJd0hG2jdt7SUF+t
- M7KSwldGXKDzgxhbpTNZfb4ASgxiMNKY0bHWCMQ08qS/KAiRYBF7XduOEoNNgaErYs
- Qz70fW70rkcTNIsPc0PpfFod6d/izuaSlRdyLfhP45MgGI5k4j01a8FvEbeEJi9YYI
- f6D+sZW4prluw==
-Message-ID: <05b44685-d6a7-5f6e-0f55-04c96e94a9e1@denx.de>
-Date: Tue, 9 May 2023 02:02:39 +0200
+ b=aMeANNK+KgPlA8gSVw6iwHDK5qOPrrNoMCyGrDKeLXHJjGXMB01w2l0TPVRok5pxu
+ CYFZQQzBwg6m0cLdqDuI+y1kdmedWI/SEFyf4zKZunINZ0uJPFeoGMayZtDstQGbD/
+ lzfIW0ACxfKWsmCvGW4a5i/u+y+cr8Ob2dHEGtk6DI0sQGe3Eu9oJNOnF+GwqLJqkM
+ ru8JpSQ8h/n4CMeLldiRcTPwPGeoFRPaUBkwAKXjRzRgb37qQQuNQjhNIQmvS9Cizu
+ 7bT9f8vg9cmB5qzX7KYeF6tHAmoP/63KDhHotbDjDG9jEqENNdpz69Wrh0OFS3vyyh
+ s5WCFZf/otDJA==
+Message-ID: <211f0b07-568e-509d-464a-2f8821d300d7@denx.de>
+Date: Tue, 9 May 2023 02:11:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v5 2/6] drm: lcdif: Drop unnecessary NULL pointer check on
- lcdif->bridge
+Subject: Re: [PATCH v5 3/6] drm: lcdif: Determine bus format and flags in
+ ->atomic_check()
 Content-Language: en-US
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20230508055740.635256-1-victor.liu@nxp.com>
- <20230508055740.635256-3-victor.liu@nxp.com>
+ <20230508055740.635256-4-victor.liu@nxp.com>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230508055740.635256-3-victor.liu@nxp.com>
+In-Reply-To: <20230508055740.635256-4-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -68,69 +67,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 5/8/23 07:57, Liu Ying wrote:
+> Instead of determining LCDIF output bus format and bus flags in
+> ->atomic_enable(), do that in ->atomic_check().  This is a
+> preparation for the upcoming patch to check consistent bus format
+> and bus flags across all first downstream bridges in ->atomic_check().
+> New lcdif_crtc_state structure is introduced to cache bus format
+> and bus flags states in ->atomic_check() so that they can be read
+> in ->atomic_enable().
+> 
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 
-Hi,
-
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> index 262bc43b1079..e54200a9fcb9 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> @@ -394,7 +394,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
->   	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
->   	u32 bus_flags = 0;
->   
-> -	if (lcdif->bridge && lcdif->bridge->timings)
-> +	if (lcdif->bridge->timings)
->   		bus_flags = lcdif->bridge->timings->input_bus_flags;
->   	else if (bridge_state)
->   		bus_flags = bridge_state->input_bus_cfg.flags;
-> @@ -463,30 +463,21 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
->   	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
->   	struct drm_bridge_state *bridge_state = NULL;
->   	struct drm_device *drm = lcdif->drm;
-> -	u32 bus_format = 0;
-> +	u32 bus_format;
->   	dma_addr_t paddr;
->   
-> -	/* If there is a bridge attached to the LCDIF, use its bus format */
-> -	if (lcdif->bridge) {
-> -		bridge_state =
-> -			drm_atomic_get_new_bridge_state(state,
-> -							lcdif->bridge);
-> -		if (!bridge_state)
-> -			bus_format = MEDIA_BUS_FMT_FIXED;
-> -		else
-> -			bus_format = bridge_state->input_bus_cfg.format;
-> -
-> -		if (bus_format == MEDIA_BUS_FMT_FIXED) {
-> -			dev_warn_once(drm->dev,
-> -				      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
-> -				      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
-> -			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> -		}
-> -	}
-> +	bridge_state = drm_atomic_get_new_bridge_state(state, lcdif->bridge);
-> +	if (!bridge_state)
-> +		bus_format = MEDIA_BUS_FMT_FIXED;
-> +	else
-> +		bus_format = bridge_state->input_bus_cfg.format;
-
-The code below seems to change the logic slightly.
-
-Could it happen that:
-- bridge_state is valid (i.e. non-NULL)
-- bridge_state->input_bus_cfg.format is set to 0 (i.e. not set) ?
-   (note that MEDIA_BUS_FMT_FIXED is defined as 0x0001)
-
-> -	/* If all else fails, default to RGB888_1X24 */
-> -	if (!bus_format)
-> +	if (bus_format == MEDIA_BUS_FMT_FIXED) {
-> +		dev_warn_once(drm->dev,
-> +			      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
-> +			      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
->   		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> +	}
->   
->   	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
-
-[...]
+Reviewed-by: Marek Vasut <marex@denx.de>
