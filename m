@@ -2,68 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E9B6FC18C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 10:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87B16FC1A4
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 10:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71BCD10E353;
-	Tue,  9 May 2023 08:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBC310E357;
+	Tue,  9 May 2023 08:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB7110E353;
- Tue,  9 May 2023 08:17:47 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2ac785015d6so59673051fa.0; 
- Tue, 09 May 2023 01:17:47 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B16D410E359
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 08:23:09 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f423521b10so15860345e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 01:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683620264; x=1686212264;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=OjTLAwcSfW33yi30YSBcw2vId/+hADodVzww3zES9GU=;
- b=pHWE8RHyZks9GcELTy0ukoOUNcI9+D0e9F2EmQhVtAoUGDkCrnf2DUuh8C4EyyycvQ
- uSL6qTMRoGc3hn2ekX18vYYaJyp5R63NwzvSnFNfLybEnFuJIgOgajdzEUgLEURellYv
- CuMSnktwYlEUsf7OZZMTftJeJCFE3WXqh+wbJNKiNRjEePTzZRGMA27rNZXFx2hozNcV
- zHQKlVhn9jP4ZfHQDn7SIzEEDF4Fk1FCV9ddSOXjDXTrPT3rOW6B3gBrxlKJrIlW6Vh8
- wY0zTS8FdUnT/8KUEagK7NrOzzfpdsRATCIpZHxt5+e/N9pb3RyRQj3Avdld/UoWv5h1
- CuMg==
+ d=linaro.org; s=google; t=1683620588; x=1686212588;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=j9JYCKCf1vXfiWnciejpaoAckqnOG85wqGdoyhe4Y6g=;
+ b=a/kSkitMC1bsP3pwDE+s05+7P5ZumP5gM3wQUb1kFeg1m6KY2HyeIn2ADTpXMf6SnQ
+ 4vDa3njYrxESupeKPSN8v5QOWoTFu2oo2N1IJ0sELwcpo3N3NojCfjPH8oALMonKTep5
+ w7qRq5CJFmZK93k453qDCQ3h+QKcKqLp0QGJMDqhxVsCjuZ+Pr9dNRl6/gpSM8HPUMVw
+ ivdA+hgL0B+FI/xXOemTY3Lp8Fd4rI7vYacRnDJnGwtElycBwYRQxhp1/mhxZs7CD0Xq
+ HllSICr0ukwg/e9A9K3JxVpz7buDVIvq0s+l4YgtHJmAYfoGcY03KJBWJUy70I9jkG7C
+ oLYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683620264; x=1686212264;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OjTLAwcSfW33yi30YSBcw2vId/+hADodVzww3zES9GU=;
- b=jOcDmB6+DGxVojxjMPZkOT3MjWOH7J5tDy/a+/4coPNsdICL4KTnXXG7oY37wJdiUU
- lJ9ZbrK3TyXBUGqKtndMlqI8/DUifKbrfjwKCuS1B+wzwteUTwlF+ZAerzSRwTt2vpD6
- 9XKSqKUQDhcdniDLS/LvKfny0pi1gy+8221Bt1hzZIeVFK9dlkqGdFiJW352dq3vsGDV
- pId1KQmefqEBqgspHa+eSBjfW7mqnVMLgYW3/FgPMFInRi/yW7VUse3to762e/ULsHS4
- 3v5hqiGjBDP0t5EL9u66jKc+7Y7Dat+On5gWI8Ls3m0UjJAapWJQA7x5P1TnfVut4cQO
- KLJQ==
-X-Gm-Message-State: AC+VfDw0BXobwllVXn9Pk5Y1ciGBd2InjR7ExINHbjdv//9wLSwYkiHM
- fMBTMtQH6FSPI65w1y5TJ64=
-X-Google-Smtp-Source: ACHHUZ7LmCOCJAG91ndd96qEzYRQHJZz/LW5LKu+Xq4HKJz+vwFXFAqATkDKJpUyyv74wyXlx4VOxw==
-X-Received: by 2002:a2e:3211:0:b0:2a8:ba15:eb6f with SMTP id
- y17-20020a2e3211000000b002a8ba15eb6fmr578855ljy.6.1683620264268; 
- Tue, 09 May 2023 01:17:44 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- 22-20020ac24856000000b004f252f48e5fsm264614lfy.40.2023.05.09.01.17.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 01:17:43 -0700 (PDT)
-Date: Tue, 9 May 2023 11:17:40 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Steven Kucharzyk <stvr_8888@comcast.net>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-Message-ID: <20230509111740.006136cd@eldfell>
-In-Reply-To: <20230508185409.07501f40@n2pa>
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <ZFUgnMI4IIbv78By@phenom.ffwll.local>
- <-srJIIP1y4EoWtJAfk4_EaRpo7i2x1lXu0HKX4wLHcsmMfnrCdMb0EpPHOdedfZitFpdxIl3rDjBceq_UtYhQSIyJmNMVase-Oa9iP-RQ2o=@emersion.fr>
- <ZFVe1EPIV65ZpaQv@phenom.ffwll.local>
- <DN4DsX1iIafGb2QiXpToAtyTLkdWlCDgHjsIoC_bq9QN0iEVnuZYRH3AM6ER8AtpT0glLr_CUplpU4V7YEI1_lxcYXGeBdX54cdsO3X7-PY=@emersion.fr>
- <20230508185409.07501f40@n2pa>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20221208; t=1683620588; x=1686212588;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j9JYCKCf1vXfiWnciejpaoAckqnOG85wqGdoyhe4Y6g=;
+ b=QQBOMEqwCv+Jz4oJ8TRKvyzS5+qd2YnlrJ2SLqau2TdGQdZQZUPs+ZXf2uQP2Xdkbd
+ +59baxUFFK+u9q8yTWax7TKW95Vi3xIATfLCaGJ+awIayS4KD+m3oYpj0TS4eVNx8F5i
+ 1KKeGlAbDa28e/Taa0UiuKcYWjJb293X9jCjplIQt8hliguFKPCY5Bd7Btha9MUj7AIm
+ FXGURTG1qj3fFwmYJ/RcmxS5clkPLkGYGafTXf1pIsGLez7fc1O2Zcjck76FGPToXbbF
+ 0k2E5zGDmkd0SmrGI8itaY9J0Yt7CSCdspDDZV6lUJvfNzPw9PnNdat0JajtUze6Auj2
+ 2PEQ==
+X-Gm-Message-State: AC+VfDxNZGTncORJqtArQLd31M0zgpmKcH0qKILztQCx9IaQOfybsuER
+ 4TbyKfVRGEK+ZrKSwAmlJEBnaw==
+X-Google-Smtp-Source: ACHHUZ54f2i9McLhYrAjMcUVxDpqqTAmjHfyYouggBiIHlZFhtc+t/XPoQYc8FODcWIsZ0xzURMJ8g==
+X-Received: by 2002:a1c:f615:0:b0:3f1:952c:3c70 with SMTP id
+ w21-20020a1cf615000000b003f1952c3c70mr8125203wmc.40.1683620587575; 
+ Tue, 09 May 2023 01:23:07 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:79ab:8da0:d16d:9990?
+ ([2a01:e0a:982:cbb0:79ab:8da0:d16d:9990])
+ by smtp.gmail.com with ESMTPSA id
+ r9-20020a5d4e49000000b003047ea78b42sm13401361wrt.43.2023.05.09.01.23.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 01:23:07 -0700 (PDT)
+Message-ID: <44c47800-0913-b122-77ae-5ce0e5d4b443@linaro.org>
+Date: Tue, 9 May 2023 10:23:06 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6PWX2paZD=YKgFnrO0/WtVD";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 2/4] drm/msm/dsi: Fix compressed word count calculation
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
+ <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
+ <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
+ <32d473a6-f7a5-9aa6-85cf-0f77f1c071ce@quicinc.com>
+ <4cf2e9ab-7e08-fb26-d924-8ea8141d9f58@linaro.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <4cf2e9ab-7e08-fb26-d924-8ea8141d9f58@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,70 +88,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- wayland-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/6PWX2paZD=YKgFnrO0/WtVD
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 09/05/2023 01:27, Dmitry Baryshkov wrote:
+> On 08/05/2023 23:09, Abhinav Kumar wrote:
+>>
+>>
+>> On 5/3/2023 1:26 AM, Dmitry Baryshkov wrote:
+>>> On 03/05/2023 04:19, Jessica Zhang wrote:
+>>>> Currently, word count is calculated using slice_count. This is incorrect
+>>>> as downstream uses slice per packet, which is different from
+>>>> slice_count.
+>>>>
+>>>> Slice count represents the number of soft slices per interface, and its
+>>>> value will not always match that of slice per packet. For example, it is
+>>>> possible to have cases where there are multiple soft slices per interface
+>>>> but the panel specifies only one slice per packet.
+>>>>
+>>>> Thus, use the default value of one slice per packet and remove slice_count
+>>>> from the word count calculation.
+>>>>
+>>>> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to compute word count")
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
+>>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> index 35c69dbe5f6f..b0d448ffb078 100644
+>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> @@ -996,7 +996,14 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>>>>           if (!msm_host->dsc)
+>>>>               wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
+>>>>           else
+>>>> -            wc = msm_host->dsc->slice_chunk_size * msm_host->dsc->slice_count + 1;
+>>>> +            /*
+>>>> +             * When DSC is enabled, WC = slice_chunk_size * slice_per_packet + 1.
+>>>> +             * Currently, the driver only supports default value of slice_per_packet = 1
+>>>> +             *
+>>>> +             * TODO: Expand drm_panel struct to hold slice_per_packet info
+>>>> +             *       and adjust DSC math to account for slice_per_packet.
+>>>
+>>> slice_per_packet is not a part of the standard DSC, so I'm not sure how that can be implemented. And definitely we should not care about the drm_panel here. It should be either a part of drm_dsc_config, or mipi_dsi_device.
+>>>
+>>
+>> This is not correct.
+>>
+>> It is part of the DSI standard (not DSC standard). Please refer to Figure 40 "One Line Containing One Packet with Data from One or More Compressed Slices" and Figure 41 "One Line Containing More than One Compressed Pixel Stream Packet".
+> 
+> I have reviewed section 8.8.24 and Annex D of the DSI standard.
+> 
+> It is not clear to me, if we can get away with always using slice_per_packet = 1. What is the DSI sink's difference between Fig. 40.(b) and Fig 41?
+> 
+> Are there are known panels that require slice_per_packet != 1? If so, we will have to implement support for such configurations.
+> 
+>> This has details about this. So I still stand by my point that this should be in the drm_panel.
+> 
+> Note, the driver doesn't use drm_panel directly. So slices_per_packet should go to mipi_dsi_device instead (which in turn can be filled from e.g. drm_panel or from any other source).
 
-On Mon, 8 May 2023 18:54:09 -0500
-Steven Kucharzyk <stvr_8888@comcast.net> wrote:
+This is a big question, where should we set those parameters ?
 
-> I'd like to ask if there is a block/flow chart/diagram that has been
-> created that represent the elements that are being discussed for this
-> RFC? If so, would you be so kind as to point me to it or send it to me?
+It's an even bigger questions for panels optionally supporting DSC in Video or Command mode (like the vtdr6130),
+how to select DSC or not ? DT is not an option.
 
-Hi Steven,
+Those should tied to a panel+controller tuple.
 
-the whole point of the design is that there is no predefined block
-diagram or flow chart. It would not fit hardware well, as hardware
-generations and vendors do not generally have a common design. Instead,
-the idea is to model what the hardware can do, and for that each driver
-will create a set of specific pipelines the hardware implements.
-Userspace then choose a pipeline that suits it and populates its
-parameters.
+Neil
 
-As for the elements themselves, we can hopefully define some commonly
-available types, but undoubtedly there will be a few hardware-specific
-elements as well. Otherwise some piece of special hardware functionality
-cannot be used at all.
+> 
+>>
+>>>> +             */
+>>>> +            wc = msm_host->dsc->slice_chunk_size + 1;
+>>>>           dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+>>>>               DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+>>>>
+>>>
+> 
 
-The job of defining a generic pipeline model and mapping that to actual
-hardware elements is left for a userspace library. I expect there will
-be multiple pipeline models, more to be introduced over time. Hence
-putting that in a userspace library instead of carving it in stone at
-the kernel UAPI.
-
-
-Next time, please do use reply-to-all, you have again dropped everyone
-and other mailing lists from the CC.
-
-
-Thanks,
-pq
-
---Sig_/6PWX2paZD=YKgFnrO0/WtVD
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRaAaQACgkQI1/ltBGq
-qqeQ7xAAi8ZuARBTtVzq/AyvqZpMOLuinoPxqtT4aLxJ28xm/jeiFuryQzQKvGN5
-yns+v1Rfy5r3NOTclSY57HFlMbeA+eqd0SBP9oL2mINGV9RWOXmeM/3khxm/ra2L
-EJd1PSbr9W+OxPUCo91klsF0IWlxybE5fQta6LkYTeQtm6ERCDwdmKtXKFRlW2ht
-SfvZ9QEFEw2VtWmW0CjEnKRvESm6RuxzmSB1OcRhG9aFwJ+AHezzaIgeLdwxrZyN
-AtV2sN7cbpYty4oGTJGfbQ+GNQ1/qE56Hyz4ajDIbaZw0KG+1kDYcSERhHPqExIL
-eZyLa0uhVWrnARQIN9gPp8AHsM2+Ojtf1H/b8C9c137WW74tO2Zh2JTWIc9z5NWA
-FQeBEiOmEeaoO71BJ9I6H6VIzFvxJ49bUEfb/eh97+u+DnQQB5kZeAtRAXN9IPUD
-Bxe6puxx/MykRYlJ/h+2abV00SdofgUnQduVaUH2ENFnwNJuszrJ/Zs/yONDG+EI
-/sRPmfnPg5LQlB+wQ4Q6VuH7FSn550Y2nxi1A+tx0pKPFLZ989/an/tokfR1aina
-KLvIlUtEDBxiOaruA22XsiB7F73oKfroq5W7FyxGsmBRxDltFWVQD2HzASinJXEY
-k5nTA985TZo8KPsDINEaqjTHySJS/fdtDvb6mRGlVARl1VruzSU=
-=77Q8
------END PGP SIGNATURE-----
-
---Sig_/6PWX2paZD=YKgFnrO0/WtVD--
