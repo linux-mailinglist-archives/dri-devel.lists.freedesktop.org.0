@@ -1,65 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717B76FCF9B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 22:35:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385436FD17B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 23:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDC9D10E3CE;
-	Tue,  9 May 2023 20:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03A3710E3D2;
+	Tue,  9 May 2023 21:35:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9700E10E3CE
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 20:35:45 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-50c8d87c775so8263024a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 13:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=froggi.es; s=google; t=1683664543; x=1686256543;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CFfrBbjzveV/cBxnUtQTwzuCz8zfeuU2uWdukPGw3Is=;
- b=jIYBQGMgFny7p3ungWiWv+xPBl57NAvyzUPp2H7NLs3TDYl70SKBjkhEQkk3xkopyO
- pF8iWh+eZZguENizEUUVKYiXNGbo/HxypkfEISe95lPPYabeCa6bA4ZOuxEJ93r4ss1e
- +umekLDgYFRTIMO6lfg149vTknUGZL1fWxwFlRcblqoIjIQkGQFp3YDOpMtgnPVf54C0
- 1U60pTHiaRVTsEwN6YGrPXVyYGw8PxstCB0u587wmZDq9ji3cf1gASCOhy/qwZfFrUQF
- JsVDhlOBgP0sVMELfXebXlsNOSAo4vL2bX3fvEc9avEZONzUUQ7qhT4lip4ABeMwnOqS
- NI5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683664543; x=1686256543;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CFfrBbjzveV/cBxnUtQTwzuCz8zfeuU2uWdukPGw3Is=;
- b=OHgWm5yANN2ZAt9Ugeg38pELk/PkZUsrqkIJZpVcOSrN3oJ7rBxt4rFF5jInsUjr1F
- W+bevRHndWa9TXhyl+BoCAz+QzdZbGlCQgEbvEdb66gEXwYrGpwyBBTgSn7f6uDtaTG9
- NGp5EMy6otIf1mA945nuF79mI7mTABsLeIXi4D2QttSitb/pQbv1PwkQkJugx9ztTl8p
- buoS2bGLp4aZXdwpqguONBdNIFquOmylIsm9MJDtF7WoakrGVHokv+f8BrsjeFeBcnCO
- gt9CR46wMoegcNDGZfnX0PyBn3moMt5th8SKHF6AxceBaRTKCPECT3mDeTEpl0EYPVCT
- ZQWg==
-X-Gm-Message-State: AC+VfDx2MkFtUgNGgOu9aM5UuRlP+5d6FCu/6UWhP6Vszt+4M6VCDP0i
- G84dhU29NsiWdZV8hEKiH0F/nCaW5FnMyJ8giVgEOw==
-X-Google-Smtp-Source: ACHHUZ5ssNFjjC91vl7fil11M8Y5BDUhoaCdAiVNKZQpngVt33eZ6X9YZi3Ipa+RwcM2OJVdNZVBJ42tP1DYUz6gVB0=
-X-Received: by 2002:a05:6402:1a48:b0:50b:c3bf:c9ef with SMTP id
- bf8-20020a0564021a4800b0050bc3bfc9efmr13304021edb.40.1683664543662; Tue, 09
- May 2023 13:35:43 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E66F010E002;
+ Tue,  9 May 2023 21:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683668100; x=1715204100;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=0VhGDMX7szgI/jXvFlp7pUy7TnixG0/xz50rzEiEqHc=;
+ b=JLpRtxy0VDx6GcLuZxmeJdJPrTf74LxOZpOG84YSmgZu8LOCFexl+gpC
+ rajheWZJrYjWLvtixoCDNnZwOhd3vYDeUozwk2XDFw4DPupowbkrbFlga
+ nuFRtgCvhBnhnXn+VMUYt9OZr1qiMi8B6XxQyMccyKJ1dM9c3JuJZN276
+ xeZF5kpWfnF9oQagvIUyIqdguCnaYTsrT1LZb/0QUrOPf9XoOde13udPk
+ Xtgahv/hSqFjjXpEHiYSlo6Eq1ql49HnBVkVF1IY4eLRG4oLNzVs+EjSi
+ bMF3okzcfGqRnj0duhkxqU8hxdbdoJ4vWlw/djapHgzUEkSlJX67/gMyA A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="436380279"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; d="scan'208";a="436380279"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2023 14:35:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649498658"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; d="scan'208";a="649498658"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga003.jf.intel.com with ESMTP; 09 May 2023 14:34:59 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 9 May 2023 14:34:59 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 9 May 2023 14:34:58 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 9 May 2023 14:34:58 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 9 May 2023 14:34:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZcS634zHVldLPSMYUnnJeC9i4BNG15aZ08dUQ+3jalOVDTQSIEqqrhuqMsSVQImw79WHIq59BkAP8hTAt6FAUuHayyejNTSBQhOeGkUDt0JzAj0njoFWrejrTvwAXYDJZxPLlcYRain13qP43DHpKkQYzCjMt5LoFV91ALUqf32SOowZsCQyAYLezMyk/C3ZPLu26sqlYSC8YqsWBKZSPBqsszj6nkQq50s3hSANKa6+ywSz9mwAMkIWvry5GR3Iq3rdIzHmFgxDgSMsnVosoZDiDA2RFaZhol4awxnCIgYFKZAD2wu8osY9KObGAH1Zd9hgbJIl8sdC4JqUDz5qmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVjOLe3XhT/YgQrYKIpt6UL4D6gRJxws3vrUOriytB0=;
+ b=fQQajFNo+DRHDeiyULivV4S7jkHjBWqpHV0wbm1CvXklAXp+7QAHbnExfhpernnjB/0JzB1JZQ1jrlPrQ3GNNJU0QSQ5ZCmCcWCCtUukxqHc+UmTN+os796cPvKOblyiJm1M0RA4E2g+e3h/zCFjERDGRYD70mlViZimbBVuELfOjppjNgVK3nwnWjzfAxs00Bg8ZWqI2dymE9AovIirS9koNZS2YqrcqO0P3vF6Lx5xjUIzAOJFp41nclx/i+Mc0VDcSIFx9yvbiYLwio833BadYyObeWXWsr+RKPIYMub69fhEWNuc6RR5SXq3zoCGblqRa2fE1nEfSoYCFC/YEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DM6PR11MB4577.namprd11.prod.outlook.com (2603:10b6:5:2a1::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 21:34:56 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 21:34:55 +0000
+Date: Tue, 9 May 2023 14:34:51 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: Re: [Intel-xe] [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and
+ BIT macros
+Message-ID: <iakuowef3ysobpcpa6f74kolw44zyjepb5byjxljp4mxuwunkn@rdegvnuzbnmi>
+X-Patchwork-Hint: comment
+References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
+ <20230509051403.2748545-3-lucas.demarchi@intel.com>
+ <168364083689.27719.2337781022536351304@gjsousa-mobl2>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <168364083689.27719.2337781022536351304@gjsousa-mobl2>
+X-ClientProxiedBy: BY3PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::23) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-References: <20230423141051.702990-1-mwen@igalia.com>
- <20230423141051.702990-13-mwen@igalia.com>
- <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
- <20230509163701.57lf22phumicqv37@mail.igalia.com>
- <CAEZNXZAfq_6EZHBhBXjMPwOuU10rwKe3SPJpz1hetux=HRF4CQ@mail.gmail.com>
- <fc308aca-4ecf-7db9-3491-9ede18ee5562@amd.com>
-In-Reply-To: <fc308aca-4ecf-7db9-3491-9ede18ee5562@amd.com>
-From: Joshua Ashton <joshua@froggi.es>
-Date: Tue, 9 May 2023 20:35:32 +0000
-Message-ID: <CAEZNXZAFjn2zOEr33qZvEC5h-P4OowJ7sB8MVhBHAzntXBDgjw@mail.gmail.com>
-Subject: Re: [RFC PATCH 12/40] drm/amd/display: add plane HDR multiplier
- driver-private property
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM6PR11MB4577:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44dceb25-e1e5-46b8-d8a4-08db50d53ae2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z/Cj2wvh5Mk3Bo0YIGuaxHqAA8532LinbBIm/gNfalntw7K1A6IDVzp3MdwGBJIyhYlIXF8aruUB2KAmhlgZVKC3qd+bSAnCGGA0YqgAVBilSJn98YHZtQzf82bKU448sZdbpkioj+4lVd4XuiikFVpMioJ7F9FnI1dCSl97ftftUIcJEQzA9/luROwJeVcgcydKbR/9nM/pVzkE9tLFYGMgSqSgwR/5ynG1+V2ShCX0tiE20PZcSALeR7fhREai5GH7V7VSWZAg2WrHwldAuVw2UVQHhOo8jHEsraCDKA0EjDl5nVN7M5fYLZLDCk2cf8uQaEjN+vDkJ2xSjwPA0MNCyDfLWaOvcuxUgP/i97e2/A1LWnMKOLN33snepKsFLEHzpvWtjoAM6bGl89r3ek2BcJKrZjWnlFjTNpyKcyxUnAu/y4XSZo5q5xo51ucC4EGsdBB/dVEqR5PJUrNX7rM3E+R6jjm+SIfjICtgR8c1xSiiiiatCxoo3KIROZ4Yh9pCL3SL2DGZTNg5zfZzmEu+qDWJEr0C0l+IvP758BRNVdlX04vyHqDJFFbLusBIaiJiIvJMSOaHW/u8W1lnwYSAtFHfpvhQy6NWu1BnSd19i30vO/oY0oxVaScAapPR
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(7916004)(366004)(376002)(39860400002)(136003)(346002)(396003)(451199021)(6512007)(6506007)(186003)(9686003)(2906002)(26005)(6666004)(6486002)(66946007)(86362001)(66556008)(82960400001)(4326008)(41300700001)(6636002)(316002)(66476007)(54906003)(478600001)(33716001)(7416002)(6862004)(8676002)(8936002)(5660300002)(38100700002)(27256005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iBtOR1IE3aHL/6t1J3IX65PhlLBR8j/FEdwvZDAxz4kOYJgNytdInKU4e6qW?=
+ =?us-ascii?Q?ZLvpPC6TueITr32BJ9lcekVWcyHxGoxqtl7EFvzFH/zk+mSEqw6TxOCRMOPN?=
+ =?us-ascii?Q?SBQ/Rs27ouuFDBBxQhy2kcg9yD+/yAHu3Evw5kKBWi3RmWMK/iuysN2zDA9m?=
+ =?us-ascii?Q?zHrklPSVWsN8CV524C6+tlxgdfKktXk0hHpSYYYwXHJJT8wjdpLqrYI9JeoB?=
+ =?us-ascii?Q?tt3vDtzfd2yxkUeA0W5VqiQB5AtRR5hjSC0Rw1UOdN1650WNzTGte8pQuNTa?=
+ =?us-ascii?Q?QBl1stOY/WDAeDHj34gl3v83m6lU8T0/Ih3EgZbrPYUg2HcpQviDBhgMiHye?=
+ =?us-ascii?Q?WHNI05Cl0I26E/vMfZRWTgJuLX5KygOfd2ILOc4o+X5vCG0KNv5AXNENy/lK?=
+ =?us-ascii?Q?RSRxTHBYuGZo3uAorE3Ih+hCtH6ms/cLPaggtfUag74Bt/Li0VdfPyiB2BFF?=
+ =?us-ascii?Q?P276jYlfZhITIDkGnmQeUQXSOQU7/OecEj2JwteADV1+0SYjc32chvzYFwGS?=
+ =?us-ascii?Q?JPtMLRqPGZmGAjGRnVbwWh4JQ5fmqfOU1ZywsqeLGZLL2jybDD9ivW5ikLG/?=
+ =?us-ascii?Q?IBZftMnRwfY0QAlcSBTV+uKXUq7DsopDT5qDigpMZe5LzeGQye/wslaL3WYm?=
+ =?us-ascii?Q?uUp2ZFdU69BdyRH6SheM8IF4X8xdLlGUeELPBUYogs8THTrQlEyMECYEwb6S?=
+ =?us-ascii?Q?7eZmur9fkPMEenDti/jpbfyfLmkVmd5rsBYoZZeUzgrIgrCHlS27S5b9lgxi?=
+ =?us-ascii?Q?CiED3xVqwepbUN/Ug9CQ27+sA6P8+TBp4O5eLSn0PDFXGjTXsZMjsUOeZGu0?=
+ =?us-ascii?Q?iP0z0lCNsipPRhVNkOrWOhfwK8nE6jJ0H+uOyvv91Ms2jWmIBIEp1u1cBMBV?=
+ =?us-ascii?Q?M/yj5+4r/rRSC5Eab90gMCLeS2EF7H7CBTWIVrkbpSdnIUuzMo9USMzBe8HK?=
+ =?us-ascii?Q?b9Y74UCcz+vTDkKtmi7B0peBpAqqetrtyC31JI8aLavY5QPGpcseE/j3hC2p?=
+ =?us-ascii?Q?zLXlwpW+qpV9xzUQjnaxWlTxVd6OAXHxLxXfxAqkli1dkGDTNp7k2zyQyIPK?=
+ =?us-ascii?Q?VI1B7WRDbU0ExICGRpj5nZMvpjUKC4729nVhWZCL2iS4kiOTb+QNkt0oj0my?=
+ =?us-ascii?Q?2TWNIt6xVqAoDwNIUzZTch7z7J/PF4wxg8zmL1OXwnaz5klmaTTcHHzPsQ5O?=
+ =?us-ascii?Q?1csVTLkuNBpV8T/8cVLXCtGhsNFfebl1pWN9AKHz38JAoM87NGKLPJ121l99?=
+ =?us-ascii?Q?pSQor83dJj3Zm1PXVajGVxnN+UwcQh/tJCOfB8SMMOImWboC0AySWVM+HQ6a?=
+ =?us-ascii?Q?QrAnJTzmIE4J0IuTA5mBi5p45at7PRZY6pAvKGZsNZpYX1DxLLcFYetYchPP?=
+ =?us-ascii?Q?L8hK72tWjOqtJtmCkOlUILaWwuudemJXzw0Doakr/B/VNWX1f39Hlq+5CsJZ?=
+ =?us-ascii?Q?COisX5XhBCfRZZE5BnaeX6luZD2tZWBwxtD1LpRBVClsS+St3kh7hAnssNku?=
+ =?us-ascii?Q?N+X2jIKAOv14BQ1Pj2+toeQH7qHju629/biWXU1nho7U0g775APk99CGgBXv?=
+ =?us-ascii?Q?w9RbHmzBWmVj3XMiOIOZ108LFUS5+jShvbylZ7sEHgjlO2rxXGTr7WurXylO?=
+ =?us-ascii?Q?Vw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44dceb25-e1e5-46b8-d8a4-08db50d53ae2
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 21:34:55.1486 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FB4StLGrZxO9sKD97I1n1KWIIJ2vRsKG4s8naueaSanr7fhsOmS4Q8HFAB6MrWyE1BdNtKJuI23Si7UWkuo/bkGMQ3gqj/zzDDgM1OtYrHI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4577
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,201 +150,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, sungjoon.kim@amd.com
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FWIW, we technically do use it right now, but it is always set to 1 in S.31.32.
+On Tue, May 09, 2023 at 11:00:36AM -0300, Gustavo Sousa wrote:
+>Quoting Lucas De Marchi (2023-05-09 02:14:02)
+>>Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
+>>masks for fixed-width types and also the corresponding BIT_U32(),
+>>BIT_U16() and BIT_U8().
+>>
+>>All of those depend on a new "U" suffix added to the integer constant.
+>>Due to naming clashes it's better to call the macro U32. Since C doesn't
+>>have a proper suffix for short and char types, the U16 and U18 variants
+>>just use U32 with one additional check in the BIT_* macros to make
+>>sure the compiler gives an error when the those types overflow.
+>>The BIT_U16() and BIT_U8() need the help of GENMASK_INPUT_CHECK(),
+>>as otherwise they would allow an invalid bit to be passed. Hence
+>>implement them in include/linux/bits.h rather than together with
+>>the other BIT* variants.
+>>
+>>The following test file is is used to test this:
+>>
+>>        $ cat mask.c
+>>        #include <linux/types.h>
+>>        #include <linux/bits.h>
+>>
+>>        static const u32 a = GENMASK_U32(31, 0);
+>>        static const u16 b = GENMASK_U16(15, 0);
+>>        static const u8 c = GENMASK_U8(7, 0);
+>>        static const u32 x = BIT_U32(31);
+>>        static const u16 y = BIT_U16(15);
+>>        static const u8 z = BIT_U8(7);
+>>
+>>        #if FAIL
+>>        static const u32 a2 = GENMASK_U32(32, 0);
+>>        static const u16 b2 = GENMASK_U16(16, 0);
+>>        static const u8 c2 = GENMASK_U8(8, 0);
+>>        static const u32 x2 = BIT_U32(32);
+>>        static const u16 y2 = BIT_U16(16);
+>>        static const u8 z2 = BIT_U8(8);
+>>        #endif
+>>
+>>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>---
+>> include/linux/bits.h       | 22 ++++++++++++++++++++++
+>> include/uapi/linux/const.h |  2 ++
+>> include/vdso/const.h       |  1 +
+>> 3 files changed, 25 insertions(+)
+>>
+>>diff --git a/include/linux/bits.h b/include/linux/bits.h
+>>index 7c0cf5031abe..ff4786c99b8c 100644
+>>--- a/include/linux/bits.h
+>>+++ b/include/linux/bits.h
+>>@@ -42,4 +42,26 @@
+>> #define GENMASK_ULL(h, l) \
+>>        (GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
+>>
+>>+#define __GENMASK_U32(h, l) \
+>>+  (((~U32(0)) - (U32(1) << (l)) + 1) & \
+>>+   (~U32(0) >> (32 - 1 - (h))))
+>>+#define GENMASK_U32(h, l) \
+>>+  (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U32(h, l))
+>>+
+>>+#define __GENMASK_U16(h, l) \
+>>+  ((U32(0xffff) - (U32(1) << (l)) + 1) & \
+>>+   (U32(0xffff) >> (16 - 1 - (h))))
+>>+#define GENMASK_U16(h, l) \
+>>+  (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U16(h, l))
+>>+
+>>+#define __GENMASK_U8(h, l) \
+>>+  (((U32(0xff)) - (U32(1) << (l)) + 1) & \
+>>+   (U32(0xff) >> (8 - 1 - (h))))
+>>+#define GENMASK_U8(h, l) \
+>>+  (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U8(h, l))
+>
+>I wonder if we should use BIT_U* variants in the above to ensure the values are
+>valid. If so, we get a nice boundary check and we also can use a single
+>definition for the mask generation:
+>
+>  #define __GENMASK_U32(h, l) \
+>          (((~U32(0)) - (U32(1) << (l)) + 1) & \
+>           (~U32(0) >> (32 - 1 - (h))))
 
-Before we used shaper + 3D LUT we did use it for scaling SDR content,
-but given we always have a shaper + 3D LUT it made sense for us to
-roll that into there.
+the boundary for h and l are already covered here because (32 - 1 - (h))
+would lead to a negative value if h >= 32. Similar reason for l
 
-On Tue, 9 May 2023 at 20:00, Harry Wentland <harry.wentland@amd.com> wrote:
+Doing ~U32(0) didn't work for me as it wouldn't catch the invalid values
+due to expanding to U32_MAX
+
+
+>  #define GENMASK_U32(h, l) \
+>          (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U32(BIT_U32(h), BIT_U32(l)))
+
+							^^^^
+that doesn't really work as BIT_U32(h) would expand here,
+creating the equivalent of
+
+	~U32(0) >> (32 - 1 - (BIT_U32(h))),
+
+which is not what we want
+
+>  #define GENMASK_U16(h, l) \
+>          (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U32(BIT_U16(h), BIT_U16(l)))
+>  #define GENMASK_U8(h, l) \
+>          (GENMASK_INPUT_CHECK(h, l) + __GENMASK_U32(BIT_U8(h), BIT_U8(l)))
 >
-> On 5/9/23 12:54, Joshua Ashton wrote:
-> > We currently do not have a use for this as we settled on per-plane 3D
-> > LUT + Shaper, but we might end up wanting to use in our scRGB stack
-> > someday so I would like to keep it.
-> >
+>>+
+>>+#define BIT_U32(nr)       _BITU32(nr)
+>>+#define BIT_U16(nr)       (GENMASK_INPUT_CHECK(16 - 1, nr) + (U32(1) << (nr)))
+>>+#define BIT_U8(nr)        (GENMASK_INPUT_CHECK(32 - 1, nr) + (U32(1) << (nr)))
 >
-> uAPI should always have a userspace that uses it. But if we go
-> and put it behind an #ifdef anyways I don't mind taking this
-> if we foresee use for it in the near future. A gamescope experiment
-> showing how this can be used to scale sRGB planes would be great.
-> I assume that's sort of how you intend to use it.
+>Shouldn't this be GENMASK_INPUT_CHECK(8 - 1, nr)?
+
+ugh, good catch. Thanks
+
+I will think if I can come up with something that reuses a single
+__GENMASK_U(). Meanwhile I improved my negative tests to cover more
+cases.
+
+Lucas De Marchi
+
+
+
 >
-> Harry
+>--
+>Gustavo Sousa
 >
-> > On Tue, 9 May 2023 at 16:37, Melissa Wen <mwen@igalia.com> wrote:
-> >>
-> >> On 05/08, Harry Wentland wrote:
-> >>>
-> >>>
-> >>> On 4/23/23 10:10, Melissa Wen wrote:
-> >>>> From: Joshua Ashton <joshua@froggi.es>
-> >>>>
-> >>>> Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
-> >>>> transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
-> >>>> least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
-> >>>> nits for SDR content. So if you want, 203 nits for SDR content, pass in
-> >>>> (203.0 / 80.0).
-> >>>>
-> >>>
-> >>> Is gamescope intending to use this?
-> >>
-> >> I don't think so. Again, I'll double check and drop it accordingly.
-> >>
-> >> Melissa
-> >>
-> >>>
-> >>> Harry
-> >>>
-> >>>> Co-developed-by: Melissa Wen <mwen@igalia.com>
-> >>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> >>>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> >>>> ---
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 +++++
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +++
-> >>>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 12 +++++++++
-> >>>>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 25 ++++++++++++++-----
-> >>>>  4 files changed, 41 insertions(+), 6 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> >>>> index 24595906dab1..dd658f162f6f 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> >>>> @@ -1326,6 +1326,12 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
-> >>>>             return -ENOMEM;
-> >>>>     adev->mode_info.plane_degamma_tf_property = prop;
-> >>>>
-> >>>> +   prop = drm_property_create_range(adev_to_drm(adev),
-> >>>> +                                    0, "AMD_PLANE_HDR_MULT", 0, UINT_MAX);
-> >>>> +   if (!prop)
-> >>>> +           return -ENOMEM;
-> >>>> +   adev->mode_info.plane_hdr_mult_property = prop;
-> >>>> +
-> >>>>     return 0;
-> >>>>  }
-> >>>>  #endif
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> >>>> index ab9ce6f26c90..65a9d62ffbe4 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> >>>> @@ -387,6 +387,10 @@ struct amdgpu_mode_info {
-> >>>>      * linearize content with or without LUT.
-> >>>>      */
-> >>>>     struct drm_property *plane_degamma_tf_property;
-> >>>> +   /**
-> >>>> +    * @plane_hdr_mult_property:
-> >>>> +    */
-> >>>> +   struct drm_property *plane_hdr_mult_property;
-> >>>>  #endif
-> >>>>  };
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>>> index 005632c1c9ec..bb7307b9cfd5 100644
-> >>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>>> @@ -51,6 +51,7 @@
-> >>>>
-> >>>>  #define AMDGPU_DMUB_NOTIFICATION_MAX 5
-> >>>>
-> >>>> +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
-> >>>>  /*
-> >>>>  #include "include/amdgpu_dal_power_if.h"
-> >>>>  #include "amdgpu_dm_irq.h"
-> >>>> @@ -736,6 +737,17 @@ struct dm_plane_state {
-> >>>>      * linearize.
-> >>>>      */
-> >>>>     enum drm_transfer_function degamma_tf;
-> >>>> +   /**
-> >>>> +    * @hdr_mult:
-> >>>> +    *
-> >>>> +    * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
-> >>>> +    * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
-> >>>> +    * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
-> >>>> +    * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
-> >>>> +    * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
-> >>>> +    * S31.32 sign-magnitude.
-> >>>> +    */
-> >>>> +   __u64 hdr_mult;
-> >>>>  #endif
-> >>>>  };
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> >>>> index 5b458cc0781c..57169dae8b3d 100644
-> >>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> >>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> >>>> @@ -1321,8 +1321,10 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
-> >>>>             __drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
-> >>>>
-> >>>>  #ifdef CONFIG_STEAM_DECK
-> >>>> -   if (amdgpu_state)
-> >>>> +   if (amdgpu_state) {
-> >>>>             amdgpu_state->degamma_tf = DRM_TRANSFER_FUNCTION_DEFAULT;
-> >>>> +           amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
-> >>>> +   }
-> >>>>  #endif
-> >>>>  }
-> >>>>
-> >>>> @@ -1424,11 +1426,11 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
-> >>>>  #ifdef CONFIG_STEAM_DECK
-> >>>>  int
-> >>>>  amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
-> >>>> -                                          struct drm_property_blob **blob,
-> >>>> -                                          uint64_t blob_id,
-> >>>> -                                          ssize_t expected_size,
-> >>>> -                                          ssize_t expected_elem_size,
-> >>>> -                                          bool *replaced)
-> >>>> +                                   struct drm_property_blob **blob,
-> >>>> +                                   uint64_t blob_id,
-> >>>> +                                   ssize_t expected_size,
-> >>>> +                                   ssize_t expected_elem_size,
-> >>>> +                                   bool *replaced)
-> >>>>  {
-> >>>>     struct drm_property_blob *new_blob = NULL;
-> >>>>
-> >>>> @@ -1482,6 +1484,10 @@ dm_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
-> >>>>                                        dm->adev->mode_info.plane_degamma_tf_property,
-> >>>>                                        DRM_TRANSFER_FUNCTION_DEFAULT);
-> >>>>     }
-> >>>> +   /* HDR MULT is always available */
-> >>>> +   drm_object_attach_property(&plane->base,
-> >>>> +                              dm->adev->mode_info.plane_hdr_mult_property,
-> >>>> +                              AMDGPU_HDR_MULT_DEFAULT);
-> >>>>  }
-> >>>>
-> >>>>  static int
-> >>>> @@ -1507,6 +1513,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
-> >>>>                     dm_plane_state->degamma_tf = val;
-> >>>>                     dm_plane_state->base.color_mgmt_changed = 1;
-> >>>>             }
-> >>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
-> >>>> +           if (dm_plane_state->hdr_mult != val) {
-> >>>> +                   dm_plane_state->hdr_mult = val;
-> >>>> +                   dm_plane_state->base.color_mgmt_changed = 1;
-> >>>> +           }
-> >>>>     } else {
-> >>>>             drm_dbg_atomic(plane->dev,
-> >>>>                            "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
-> >>>> @@ -1533,6 +1544,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
-> >>>>                     dm_plane_state->degamma_lut->base.id : 0;
-> >>>>     } else if (property == adev->mode_info.plane_degamma_tf_property) {
-> >>>>             *val = dm_plane_state->degamma_tf;
-> >>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
-> >>>> +           *val = dm_plane_state->hdr_mult;
-> >>>>     } else {
-> >>>>             return -EINVAL;
-> >>>>     }
-> >>>
-> >>>
->
+>>+
+>> #endif /* __LINUX_BITS_H */
+>>diff --git a/include/uapi/linux/const.h b/include/uapi/linux/const.h
+>>index a429381e7ca5..3a4e152520f4 100644
+>>--- a/include/uapi/linux/const.h
+>>+++ b/include/uapi/linux/const.h
+>>@@ -22,9 +22,11 @@
+>> #define _AT(T,X)       ((T)(X))
+>> #endif
+>>
+>>+#define _U32(x)           (_AC(x, U))
+>> #define _UL(x)         (_AC(x, UL))
+>> #define _ULL(x)                (_AC(x, ULL))
+>>
+>>+#define _BITU32(x)        (_U32(1) << (x))
+>> #define _BITUL(x)      (_UL(1) << (x))
+>> #define _BITULL(x)     (_ULL(1) << (x))
+>>
+>>diff --git a/include/vdso/const.h b/include/vdso/const.h
+>>index 94b385ad438d..417384a9795b 100644
+>>--- a/include/vdso/const.h
+>>+++ b/include/vdso/const.h
+>>@@ -4,6 +4,7 @@
+>>
+>> #include <uapi/linux/const.h>
+>>
+>>+#define U32(x)            (_U32(x))
+>> #define UL(x)          (_UL(x))
+>> #define ULL(x)         (_ULL(x))
+>>
+>>--
+>>2.40.1
+>>
