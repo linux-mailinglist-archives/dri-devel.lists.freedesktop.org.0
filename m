@@ -2,79 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0F96FCE5C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 21:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98C86FCECA
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 21:53:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF58610E3C5;
-	Tue,  9 May 2023 19:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AAA010E119;
+	Tue,  9 May 2023 19:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E6310E1B0;
- Tue,  9 May 2023 19:15:39 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349IGSXv016010; Tue, 9 May 2023 19:15:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=NEwpD0MHi33YJ73MMvOp8SyW+BSA/M2HMWq8AH4/Gz4=;
- b=eNx2lY+nZyq47BdcsdSRKJ/X/hADn5p2WgusHUHpPCD+PserzeClowvDp6JFm1JBxj+u
- QVr+SDVLFGpgY2q4jYqp9aVr32zhxNguSqdRak0Q/r4+IRlqNacGwxIcYXVvUAOiGbPO
- ZUpZWopgjPy+InsKq7QtSaFsV4JAXTcvjD7BgMCYuOIaWEH2kHf0XnwVL28KGu7uyaZx
- A8uz5JH6ZpqJ+q6CKKYT/Tt8tCCjJIvfLm8GNK+oTJdFnVk7r5vQK2y6hcP3BN4n0Nal
- VrwtwOM6u29WZTMrmc7eYmargHSPRuzowMWkN5GDGzoqUSV82+X6tlnYuY7P4leWkn/1 3w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qf77ktnyn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 19:15:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 349JFITQ018728
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 9 May 2023 19:15:19 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 9 May 2023
- 12:15:18 -0700
-Message-ID: <1345a125-f745-4fe3-0f5e-bfe84225958d@quicinc.com>
-Date: Tue, 9 May 2023 12:15:17 -0700
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F16A10E119;
+ Tue,  9 May 2023 19:53:25 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-966287b0f72so688500766b.0; 
+ Tue, 09 May 2023 12:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683662001; x=1686254001;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W3WrRAi3384wFghozI17WE6ul9NCCM8HHVMXgLURGig=;
+ b=ZQfgg80afrytOR7Remgs7b7RL/AIBUkMKFK/dJ5ifo83pAaN52WZ2+9iaRlqlPx/Uk
+ Ig26a3Q2f9rqO4gYsuUyaegg1a0OtVfZ6tzwZ41owrMb38McbgX+RXUOhJPKQj1Pl+di
+ E+R5Y1JTyPF3HHFf9Q3LsN/yIezwEXkBb6ODMA5Y7lRWd6GgjdD4W/ZYs8GxN0S3IyCE
+ wOWrmGmt68KXHC570HTrubWmXVLEA0OdxwNe23wCJVKbEeHomVvPBuEovjWcsjz5cIF7
+ BQ3w5EmggJfbTfUP6jqLRS5+v4GvjRmHSXaonHjzRQBvFDbEBnx19dNzxdShuK13m4//
+ sslQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683662001; x=1686254001;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W3WrRAi3384wFghozI17WE6ul9NCCM8HHVMXgLURGig=;
+ b=L9++jf5rEfWorh9tQLZRfnhk5NEcMq7S8nP+I6TKoLY1G9B8sUD/QHnwOik62PQBhv
+ 1n6HEPoO/qEctZUZzjUgmnYhE91ByIHx5322FcHS5329P4KEO0CU8lWGBNSeFXd7WMKn
+ QFrYvU/AznyZ1iJ/3R2tNBMOjwUDzaprea6VrjTL02a3lS1b8cBrx3zPJilm6zuCA31f
+ d/IwQ9oNwDsbvWC5Go+GA+IiljDjCDF7tXjT/MJRanJU/2fLfMilfzZTfzgYVJT83YgS
+ 4ELoQxBXMfmFf/CX+Pz0HFcAHzg+2lt0hvlybPiNMtztcgDbu1g/3kk9Vz3rMyuiHR4w
+ kLiw==
+X-Gm-Message-State: AC+VfDwJQD/P/e/Z9iv2j2adB35Q0INmmPa2+Y+s/YMUghfqdKv+F3HM
+ 6TPYlqwie3qhs7Eeskzf91JwW0gXFgb2ZRN8pPg=
+X-Google-Smtp-Source: ACHHUZ6YOqiF9temZSPkJZtkjwLkgpY4R6/5qJ+t/HchTJizyg/DqaD7IxiS14dr2bFcfew5y8GKo5013eOnHkkjqCk=
+X-Received: by 2002:a17:907:2cc7:b0:94e:d7b0:64d4 with SMTP id
+ hg7-20020a1709072cc700b0094ed7b064d4mr14630823ejc.47.1683662000946; Tue, 09
+ May 2023 12:53:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] Revert "drm/msm/dp: Remove INIT_SETUP delay"
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Leonard Lausen
- <leonard@lausen.nl>, Bjorn Andersson <andersson@kernel.org>
-References: <b0cc40d5-6de1-91cc-e2cd-f47cc53551e4@quicinc.com>
- <ebbcd56ac883d3c3d3024d368fab63d26e02637a@lausen.nl>
- <20230508021536.txtamifw2vkfncnx@ripper>
- <3802269cd54ce105ef6dece03b1b9af575b4fa06@lausen.nl>
- <ad351c02-1c29-3601-53e8-f8cdeca2ac63@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ad351c02-1c29-3601-53e8-f8cdeca2ac63@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CUQmunFR2A588q0l-jFDQdWMkkhVJJSt
-X-Proofpoint-ORIG-GUID: CUQmunFR2A588q0l-jFDQdWMkkhVJJSt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-09_12,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- suspectscore=0 adultscore=0 mlxlogscore=934 lowpriorityscore=0
- phishscore=0 impostorscore=0 spamscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305090159
+References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
+ <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
+ <CA+hFU4x++RDOxkc-_ZvDtQs3DtupwDV0KJyD3YAgrdh4daLotA@mail.gmail.com>
+ <CAPM=9twjPr9fiJwbyNS9j=mCKmLhxbTjB5Vzq9F+Du8sdHac-A@mail.gmail.com>
+ <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
+In-Reply-To: <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 10 May 2023 05:53:08 +1000
+Message-ID: <CAPM=9tyOFhE0zC8540KBOkDaZE1c3zTtke_vX=DEkMTmo04A4Q@mail.gmail.com>
+Subject: Re: [RFC] Plane color pipeline KMS uAPI
+To: Harry Wentland <harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,152 +72,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, regressions@lists.linux.dev,
- Nikita Travkin <nikita@trvn.ru>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, Aleix Pol <aleixpol@kde.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 10 May 2023 at 00:31, Harry Wentland <harry.wentland@amd.com> wrote=
+:
+>
+>
+>
+> On 5/7/23 19:14, Dave Airlie wrote:
+> > On Sat, 6 May 2023 at 08:21, Sebastian Wick <sebastian.wick@redhat.com>=
+ wrote:
+> >>
+> >> On Fri, May 5, 2023 at 10:40=E2=80=AFPM Dave Airlie <airlied@gmail.com=
+> wrote:
+> >>>
+> >>> On Fri, 5 May 2023 at 01:23, Simon Ser <contact@emersion.fr> wrote:
+> >>>>
+> >>>> Hi all,
+> >>>>
+> >>>> The goal of this RFC is to expose a generic KMS uAPI to configure th=
+e color
+> >>>> pipeline before blending, ie. after a pixel is tapped from a plane's
+> >>>> framebuffer and before it's blended with other planes. With this new=
+ uAPI we
+> >>>> aim to reduce the battery life impact of color management and HDR on=
+ mobile
+> >>>> devices, to improve performance and to decrease latency by skipping
+> >>>> composition on the 3D engine. This proposal is the result of discuss=
+ions at
+> >>>> the Red Hat HDR hackfest [1] which took place a few days ago. Engine=
+ers
+> >>>> familiar with the AMD, Intel and NVIDIA hardware have participated i=
+n the
+> >>>> discussion.
+> >>>>
+> >>>> This proposal takes a prescriptive approach instead of a descriptive=
+ approach.
+> >>>> Drivers describe the available hardware blocks in terms of low-level
+> >>>> mathematical operations, then user-space configures each block. We d=
+ecided
+> >>>> against a descriptive approach where user-space would provide a high=
+-level
+> >>>> description of the colorspace and other parameters: we want to give =
+more
+> >>>> control and flexibility to user-space, e.g. to be able to replicate =
+exactly the
+> >>>> color pipeline with shaders and switch between shaders and KMS pipel=
+ines
+> >>>> seamlessly, and to avoid forcing user-space into a particular color =
+management
+> >>>> policy.
+> >>>
+> >>> I'm not 100% sold on the prescriptive here, let's see if someone can
+> >>> get me over the line with some questions later.
+> >>>
+> >>> My feeling is color pipeline hw is not a done deal, and that hw
+> >>> vendors will be revising/evolving/churning the hw blocks for a while
+> >>> longer, as there is no real standards in the area to aim for, all the
+> >>> vendors are mostly just doing whatever gets Windows over the line and
+> >>> keeps hw engineers happy. So I have some concerns here around forward=
+s
+> >>> compatibility and hence the API design.
+> >>>
+> >>> I guess my main concern is if you expose a bunch of hw blocks and
+> >>> someone comes up with a novel new thing, will all existing userspace
+> >>> work, without falling back to shaders?
+> >>> Do we have minimum guarantees on what hardware blocks have to be
+> >>> exposed to build a useable pipeline?
+> >>> If a hardware block goes away in a new silicon revision, do I have to
+> >>> rewrite my compositor? or will it be expected that the kernel will
+> >>> emulate the old pipelines on top of whatever new fancy thing exists.
+> >>
+> >> I think there are two answers to those questions.
+> >
+> > These aren't selling me much better :-)
+> >>
+> >> The first one is that right now KMS already doesn't guarantee that
+> >> every property is supported on all hardware. The guarantee we have is
+> >> that properties that are supported on a piece of hardware on a
+> >> specific kernel will be supported on the same hardware on later
+> >> kernels. The color pipeline is no different here. For a specific piece
+> >> of hardware a newer kernel might only change the pipelines in a
+> >> backwards compatible way and add new pipelines.
+> >>
+> >> So to answer your question: if some hardware with a novel pipeline
+> >> will show up it might not be supported and that's fine. We already
+> >> have cases where some hardware does not support the gamma lut property
+> >> but only the CSC property and that breaks night light because we never
+> >> bothered to write a shader fallback. KMS provides ways to offload work
+> >> but a generic user space always has to provide a fallback and this
+> >> doesn't change. Hardware specific user space on the other hand will
+> >> keep working with the forward compatibility guarantees we want to
+> >> provide.
+> >
+> > In my mind we've screwed up already, isn't a case to be made for
+> > continue down the same path.
+> >
+> > The kernel is meant to be a hardware abstraction layer, not just a
+> > hardware exposure layer. The kernel shouldn't set policy and there are
+> > cases where it can't act as an abstraction layer (like where you need
+> > a compiler), but I'm not sold that this case is one of those yet. I'm
+> > open to being educated here on why it would be.
+> >
+>
+> Thanks for raising these points. When I started out looking at color
+> management I favored the descriptive model. Most other HW vendors
+> I've talked to also tell me that they think about descriptive APIs
+> since that allows HW vendors to map that to whatever their HW supports.
+>
+> Sebastian, Pekka, and others managed to change my mind about this
+> but I still keep having difficult questions within AMD.
+>
+> Sebastian, Pekka, and Jonas have already done a good job to describe
+> our reasoning behind the prescriptive model. It might be helpful to
+> see how different the results of different tone-mapping operators
+> can look:
+>
+> http://helgeseetzen.com/wp-content/uploads/2017/06/HS1.pdf
+>
+> According to my understanding all other platforms that have HDR now
+> have a single compositor. At least that's true for Windows. This allows
+> driver developers to tune their tone-mapping algorithm to match the
+> algorithm used by the compositor when offloading plane composition.
+>
+> This is not true on Linux, where we have a myriad of compositors for
+> good reasons, many of which have a different view of how they want color
+> management to look like. Even if we would come up with an API that lets
+> compositors define their input, output, scaling, and blending space in
+> detail it would still not be feasible to describe the minutia of
+> the tone-mapping algorithms, hence leading to differences in output
+> when KMS color management is used.
+>
+> I am debating whether we need to be serious about a userspace library
+> (or maybe a user-mode driver) to provide an abstraction from the
+> descriptive to the prescriptive model. HW vendors need a way to provide
+> timely support for new HW generations without requiring updates to a
+> large number of compositors.
 
+There are also other vendor side effects to having this in userspace.
 
-On 5/8/2023 4:30 AM, Dmitry Baryshkov wrote:
-> On 08/05/2023 14:02, Leonard Lausen wrote:
->> Abhinav Kumar <quic_abhinavk@quicinc.com> writes:
->>> On 5/7/2023 7:15 PM, Bjorn Andersson wrote:
->>>> When booting with the cable connected on my X13s, 100 is long enough 
->>>> for
->>>> my display to time out and require me to disconnect and reconnect the
->>>> cable again.
->>>>
->>>> Do we have any idea of why the reduction to 0 is causing an issue when
->>>> using the internal HPD?
->>>>
->>>> Regards,
->>>> Bjorn
->>> Yes, we do know why this is causing an issue. The cleaner patch for this
->>> will be posted this week.
->>
->> Great!
->>
->>> There is no need to add the 100ms delay back yet.
->>>
->>> thanks for posting this but NAK on this patch till we post the fix this
->>> week.
->>>
->>> Appreciate a bit of patience till then.
->>
->> This regression is already part of the 6.3 stable release series. Will
->> the new patch qualify for inclusion in 6.3.y? Or will it be part of 6.4
->> and this revert should go into 6.3.y?
-> 
-> This is a tough situation, as landing a revert will break x13s, as noted 
-> by Bjorn. Given that the workaround is known at this moment, I would 
-> like to wait for the patch from Abhinav to appear, then we can decide 
-> which of the fixes should go to the stable kernel.
-> 
->>
->> Even with this revert, there are additional regressions in 6.3 causing
->> dpu errors and blank external display upon suspending and resuming the
->> system while an external display is connected. Will your new patch also
->> fix these regressions?
->>
->> [  275.025497] [drm:dpu_encoder_phys_vid_wait_for_commit_done:488] 
->> [dpu error]vblank timeout
->> [  275.025514] [drm:dpu_kms_wait_for_commit_done:510] [dpu error]wait 
->> for commit done returned -110
->> [  275.064141] [drm:dpu_encoder_frame_done_timeout:2382] [dpu 
->> error]enc33 frame done timeout
->>
->> followed by a kernel panic if any modification to the display settings
->> is done, such as disabling the external display:
-> 
-> Interesting crash, thank you for the report.
-> 
+Will the library have a loader?
+Will it allow proprietary plugins?
+Will it allow proprietary reimplementations?
+What will happen when a vendor wants distros to ship *their*
+proprietary fork of said library?
 
-This is a different crash but the root-cause of both the issues is the 
-bridge hpd_enable/disable series.
+How would NVIDIA integrate this with their proprietary stack?
 
-https://patchwork.freedesktop.org/patch/514414/
-
-This is breaking the sequence and logic of internal hpd as per my 
-discussion with kuogee.
-
-We are analyzing the issue and the fix internally first and once we 
-figure out all the details will post it.
-
->>
->> [  341.631287] Hardware name: Google Lazor (rev3 - 8) (DT)
->> [  341.631290] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS 
->> BTYPE=--)
->> [  341.631296] pc : do_raw_spin_unlock+0xb8/0xc4
->> [  341.631310] lr : do_raw_spin_unlock+0x78/0xc4
->> [  341.631315] sp : ffffffc01100b880
->> [  341.631317] x29: ffffffc01100b880 x28: 0000000000000028 x27: 
->> 0000000000000038
->> [  341.631326] x26: ffffff808c89e180 x25: ffffffef33e39920 x24: 
->> 0000000000000000
->> [  341.631333] x23: ffffffef33e3ca0c x22: 0000000000000002 x21: 
->> ffffff808345ded8
->> [  341.631339] x20: ffffff808345ded0 x19: 000000000000001e x18: 
->> 0000000000000000
->> [  341.631345] x17: 0048000000000460 x16: 0441043b04600438 x15: 
->> 04380000089807d0
->> [  341.631351] x14: 07b0089807800780 x13: 0000000000000068 x12: 
->> 0000000000000001
->> [  341.631357] x11: ffffffef3413bb76 x10: 0000000000000bb0 x9 : 
->> ffffffef33e3d6bc
->> [  341.631363] x8 : ffffff808c89ed90 x7 : ffffff80b1c9f738 x6 : 
->> 0000000000000001
->> [  341.631370] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 
->> ffffff808345def0
->> [  341.631375] x2 : 00000000dead4ead x1 : 0000000000000003 x0 : 
->> 0000000000000000
->> [  341.631383] Kernel panic - not syncing: Asynchronous SError Interrupt
->> [  341.631386] CPU: 3 PID: 1520 Comm: kwin_wayland Not tainted 
->> 6.3.0-stb-cbq+ #2
->> [  341.631390] Hardware name: Google Lazor (rev3 - 8) (DT)
->> [  341.631393] Call trace:
->> [  341.631395]  dump_backtrace+0xc8/0x104
->> [  341.631402]  show_stack+0x20/0x30
->> [  341.631407]  dump_stack_lvl+0x48/0x60
->> [  341.631414]  dump_stack+0x18/0x24
->> [  341.631419]  panic+0x130/0x2fc
->> [  341.631425]  nmi_panic+0x54/0x78
->> [  341.631428]  arm64_serror_panic+0x74/0x80
->> [  341.631434]  arm64_is_fatal_ras_serror+0x6c/0x8c
->> [  341.631439]  do_serror+0x48/0x60
->> [  341.631444]  el1h_64_error_handler+0x30/0x48
->> [  341.631450]  el1h_64_error+0x68/0x6c
->> [  341.631455]  do_raw_spin_unlock+0xb8/0xc4
->> [  341.631460]  _raw_spin_unlock_irq+0x18/0x38
->> [  341.631466]  __wait_for_common+0xb8/0x154
->> [  341.631472]  wait_for_completion_timeout+0x28/0x34
->> [  341.631477]  dp_ctrl_push_idle+0x3c/0x88
->> [  341.631483]  dp_bridge_disable+0x20/0x2c
->> [  341.631488]  drm_atomic_bridge_chain_disable+0x8c/0xb8
->> [  341.631495]  drm_atomic_helper_commit_modeset_disables+0x198/0x450
->> [  341.631501]  msm_atomic_commit_tail+0x1c8/0x36c
->> [  341.631507]  commit_tail+0x80/0x108
->> [  341.631512]  drm_atomic_helper_commit+0x114/0x118
->> [  341.631516]  drm_atomic_commit+0xb4/0xe0
->> [  341.631522]  drm_mode_atomic_ioctl+0x6b0/0x890
->> [  341.631527]  drm_ioctl_kernel+0xe4/0x164
->> [  341.631534]  drm_ioctl+0x35c/0x3bc
->> [  341.631539]  vfs_ioctl+0x30/0x50
->> [  341.631547]  __arm64_sys_ioctl+0x80/0xb4
->> [  341.631552]  invoke_syscall+0x84/0x11c
->> [  341.631558]  el0_svc_common.constprop.0+0xc0/0xec
->> [  341.631563]  do_el0_svc+0x94/0xa4
->> [  341.631567]  el0_svc+0x2c/0x54
->> [  341.631570]  el0t_64_sync_handler+0x94/0x100
->> [  341.631575]  el0t_64_sync+0x194/0x198
->> [  341.631580] SMP: stopping secondary CPUs
->> [  341.831615] Kernel Offset: 0x2f2b200000 from 0xffffffc008000000
->> [  341.831618] PHYS_OFFSET: 0x80000000
->> [  341.831620] CPU features: 0x400000,61500506,3200720b
->> [  341.831623] Memory Limit: none
-> 
+Dave.
