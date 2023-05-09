@@ -2,78 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EE76FC21F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 10:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B6A6FC289
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 11:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F5210E360;
-	Tue,  9 May 2023 08:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1D410E361;
+	Tue,  9 May 2023 09:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E3010E360
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 08:55:03 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f13c577e36so6171753e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 01:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683622501; x=1686214501;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4YxxQK+wiM5yVyNgpMSG0TOEJ7YD/+lVYXEmRXzy+30=;
- b=ZkXjB1V/I/WymHc2O3RDo+lAYrY4Wwc/jzzWCequ7uArQ0y9Ye3NvI3nA23y+IvEqh
- 9bM7sqdkfFEc7mcHfWOgc4K58gM0Zc3spzyrnqSX06pKjJ0NozMQffftFI+yQurYagsJ
- DW68CBmIs05+dYyqglEtgHn9roqdTX9VlvzzYuL5UfsnMJ0BLhVihikHvI6y6yjCtpBt
- 4MkYAT++4CQNyFv3zacRh88YzVlBZCfMVd5G/1lszMQEmYuykHjvvj408T5fQt9at6+3
- ymhppjNkxd0zKsR9dHx5FFnonNBP/zBnamsFTcMCmCy/Cn6kcFBUG4yRe6VCtS3pw77M
- GGvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683622501; x=1686214501;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4YxxQK+wiM5yVyNgpMSG0TOEJ7YD/+lVYXEmRXzy+30=;
- b=hX8txHzMHcCdSpj9C7ZYGNmz4ZoaHpK3+hoTxSAVW5Dw8HrBBO+XlgQp6XyCsZvavt
- Lk11cZCcJ4PDK1ZXQPIHPNbtWT9GSws70mZakMKfdTN6d4kE/5YzFGxHatjPlT+yFRqn
- 3NZtjc6qs5Le3W/J2v1N5jagU9mWk1sC6GSgWM6RTTlm35YWgsCAcmnhqh9GCucyr95x
- etmhPtY/u+2aNAnL2NE1osGKNgUkbF8rARwN8WU0yWyPxAw0E03SKWLDWQYw2Qe+m9Hj
- MNxvZvgKOSzeneyazCydZoi/xBDyblNByRoWidP/0Va5jkRLVtQsjaK43RE9F1T/xTty
- xsIg==
-X-Gm-Message-State: AC+VfDzxYqZlaBfiIkoPD0K/nVfGUiZk8xLodsvZIa6HJS1CftvIis8g
- Z1N+trlpNOEAvTOb4CZ+m1f+Mw==
-X-Google-Smtp-Source: ACHHUZ5U2haqvrGbrOgHYCkNQpbTQe9E93ardKbOmdf6oDwOCZB7eVND5mvGrgfShBowxHJLzQQTqg==
-X-Received: by 2002:a05:6512:484:b0:4cb:280b:33c9 with SMTP id
- v4-20020a056512048400b004cb280b33c9mr645975lfq.24.1683622501072; 
- Tue, 09 May 2023 01:55:01 -0700 (PDT)
-Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
- by smtp.gmail.com with ESMTPSA id
- q22-20020ac24a76000000b004f13bc97b00sm272740lfp.119.2023.05.09.01.54.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 01:55:00 -0700 (PDT)
-Message-ID: <cd8cfbd5-1bde-08d8-dbb5-5489820d6a45@linaro.org>
-Date: Tue, 9 May 2023 10:54:59 +0200
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com
+ [14.137.139.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1FB10E361
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 09:19:10 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.18.147.229])
+ by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4QFskr1YtVz9xFrp
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 17:08:04 +0800 (CST)
+Received: from A2101119013HW2.china.huawei.com (unknown [10.81.212.219])
+ by APP2 (Coremail) with SMTP id GxC2BwDHdz7lD1pksN2OAg--.5S2;
+ Tue, 09 May 2023 10:18:45 +0100 (CET)
+From: Petr Tesarik <petrtesarik@huaweicloud.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Borislav Petkov <bp@suse.de>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Kim Phillips <kim.phillips@amd.com>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+ linux-kernel@vger.kernel.org (open list),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ iommu@lists.linux.dev (open list:DMA MAPPING HELPERS)
+Subject: [PATCH v2 RESEND 0/7] Allow dynamic allocation of software IO TLB
+ bounce buffers
+Date: Tue,  9 May 2023 11:18:12 +0200
+Message-Id: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 2/4] drm/msm/dsi: Fix compressed word count calculation
-Content-Language: en-US
-To: neil.armstrong@linaro.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com>
- <20230405-add-dsc-support-v1-2-6bc6f03ae735@quicinc.com>
- <a60a9f37-bb43-6e2b-2535-995e9fae250a@linaro.org>
- <32d473a6-f7a5-9aa6-85cf-0f77f1c071ce@quicinc.com>
- <4cf2e9ab-7e08-fb26-d924-8ea8141d9f58@linaro.org>
- <44c47800-0913-b122-77ae-5ce0e5d4b443@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <44c47800-0913-b122-77ae-5ce0e5d4b443@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GxC2BwDHdz7lD1pksN2OAg--.5S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw18WF1rGrW5WFyrWF1xKrg_yoW5GrWfpF
+ WYk34jvrn8tryxu3yxCr4xWa4rGan5Zay3Ga9Yvrn5ZFW5Gr9FvwnrtrW5J3s8Cr4xXF4F
+ qr1qvr15CFyfuaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvSb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+ 6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+ AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+ x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAK
+ zI0EY4vE52x082I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+ 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWr
+ XVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+ vEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+ ZEXa7IU86BT5UUUUU==
+X-CM-SenderInfo: hshw23xhvd2x3n6k3tpzhluzxrxghudrp/
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,93 +80,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: petr@tesarici.cz, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Petr Tesarik <petr.tesarik.ext@huawei.com>
 
+The goal of my work is to provide more flexibility in the sizing of
+SWIOTLB.
 
-On 9.05.2023 10:23, Neil Armstrong wrote:
-> On 09/05/2023 01:27, Dmitry Baryshkov wrote:
->> On 08/05/2023 23:09, Abhinav Kumar wrote:
->>>
->>>
->>> On 5/3/2023 1:26 AM, Dmitry Baryshkov wrote:
->>>> On 03/05/2023 04:19, Jessica Zhang wrote:
->>>>> Currently, word count is calculated using slice_count. This is incorrect
->>>>> as downstream uses slice per packet, which is different from
->>>>> slice_count.
->>>>>
->>>>> Slice count represents the number of soft slices per interface, and its
->>>>> value will not always match that of slice per packet. For example, it is
->>>>> possible to have cases where there are multiple soft slices per interface
->>>>> but the panel specifies only one slice per packet.
->>>>>
->>>>> Thus, use the default value of one slice per packet and remove slice_count
->>>>> from the word count calculation.
->>>>>
->>>>> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to compute word count")
->>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>> ---
->>>>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 9 ++++++++-
->>>>>   1 file changed, 8 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>> index 35c69dbe5f6f..b0d448ffb078 100644
->>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>> @@ -996,7 +996,14 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->>>>>           if (!msm_host->dsc)
->>>>>               wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
->>>>>           else
->>>>> -            wc = msm_host->dsc->slice_chunk_size * msm_host->dsc->slice_count + 1;
->>>>> +            /*
->>>>> +             * When DSC is enabled, WC = slice_chunk_size * slice_per_packet + 1.
->>>>> +             * Currently, the driver only supports default value of slice_per_packet = 1
->>>>> +             *
->>>>> +             * TODO: Expand drm_panel struct to hold slice_per_packet info
->>>>> +             *       and adjust DSC math to account for slice_per_packet.
->>>>
->>>> slice_per_packet is not a part of the standard DSC, so I'm not sure how that can be implemented. And definitely we should not care about the drm_panel here. It should be either a part of drm_dsc_config, or mipi_dsi_device.
->>>>
->>>
->>> This is not correct.
->>>
->>> It is part of the DSI standard (not DSC standard). Please refer to Figure 40 "One Line Containing One Packet with Data from One or More Compressed Slices" and Figure 41 "One Line Containing More than One Compressed Pixel Stream Packet".
->>
->> I have reviewed section 8.8.24 and Annex D of the DSI standard.
->>
->> It is not clear to me, if we can get away with always using slice_per_packet = 1. What is the DSI sink's difference between Fig. 40.(b) and Fig 41?
->>
->> Are there are known panels that require slice_per_packet != 1? If so, we will have to implement support for such configurations.
->>
->>> This has details about this. So I still stand by my point that this should be in the drm_panel.
->>
->> Note, the driver doesn't use drm_panel directly. So slices_per_packet should go to mipi_dsi_device instead (which in turn can be filled from e.g. drm_panel or from any other source).
-> 
-> This is a big question, where should we set those parameters ?
-> 
-> It's an even bigger questions for panels optionally supporting DSC in Video or Command mode (like the vtdr6130),
-> how to select DSC or not ? DT is not an option.
-Compressed vs uncompressed modes, maybe? Would be nice to make this
-togglable from userspace.. But then it may not scale for panels with e.g.
-10 resolutions, all cmd/vid/dsc/nodsc
+The software IO TLB was designed with these assumptions:
 
+1. It would not be used much, especially on 64-bit systems.
+2. A small fixed memory area (64 MiB by default) is sufficient to
+   handle the few cases which require a bounce buffer.
+3. 64 MiB is little enough that it has no impact on the rest of the
+   system.
 
-Konrad
-> 
-> Those should tied to a panel+controller tuple.
-> 
-> Neil
-> 
->>
->>>
->>>>> +             */
->>>>> +            wc = msm_host->dsc->slice_chunk_size + 1;
->>>>>           dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
->>>>>               DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
->>>>>
->>>>
->>
-> 
+First, if SEV is active, all DMA must be done through shared
+unencrypted pages, and SWIOTLB is used to make this happen without
+changing device drivers. The software IO TLB size is increased to
+6% of total memory in sev_setup_arch(), but that is more of an
+approximation. The actual requirements may vary depending on the
+amount of I/O and which drivers are used. These factors may not be
+know at boot time, i.e. when SWIOTLB is allocated.
+
+Second, other colleagues have noticed that they can reliably get
+rid of occasional OOM kills on an Arm embedded device by reducing
+the SWIOTLB size. This can be achieved with a kernel parameter, but
+determining the right value puts additional burden on pre-release
+testing, which could be avoided if SWIOTLB is allocated small and
+grows only when necessary.
+
+Changes from RFC:
+- Track dynamic buffers per device instead of per swiotlb
+- Use a linked list instead of a maple tree
+- Move initialization of swiotlb fields of struct device to a
+  helper function
+- Rename __lookup_dyn_slot() to lookup_dyn_slot_locked()
+- Introduce per-device flag if dynamic buffers are in use
+- Add one more user of DMA_ATTR_MAY_SLEEP
+- Add kernel-doc comments for new (and some old) code
+- Properly escape '*' in dma-attributes.rst
+
+Petr Tesarik (7):
+  swiotlb: Use a helper to initialize swiotlb fields in struct device
+  swiotlb: Move code around in preparation for dynamic bounce buffers
+  dma-mapping: introduce the DMA_ATTR_MAY_SLEEP attribute
+  swiotlb: Dynamically allocated bounce buffers
+  swiotlb: Add a boot option to enable dynamic bounce buffers
+  drm: Use DMA_ATTR_MAY_SLEEP from process context
+  swiotlb: per-device flag if there are dynamically allocated buffers
+
+ .../admin-guide/kernel-parameters.txt         |   6 +-
+ Documentation/core-api/dma-attributes.rst     |  10 +
+ drivers/base/core.c                           |   4 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +-
+ drivers/gpu/drm/drm_prime.c                   |   2 +-
+ include/linux/device.h                        |  12 +
+ include/linux/dma-mapping.h                   |   6 +
+ include/linux/swiotlb.h                       |  54 ++-
+ kernel/dma/swiotlb.c                          | 382 ++++++++++++++++--
+ 9 files changed, 443 insertions(+), 35 deletions(-)
+
+-- 
+2.25.1
+
