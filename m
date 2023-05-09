@@ -1,50 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4969C6FBB9C
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 01:52:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026966FBBBD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 02:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B08B510E027;
-	Mon,  8 May 2023 23:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6778A10E05D;
+	Tue,  9 May 2023 00:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D5110E160;
- Mon,  8 May 2023 23:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683589916; x=1715125916;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6bbddHMBqcFu9ixSB2aPrAwq70XlBP0bKJs6BPY1xd4=;
- b=YwZu1sfMfDagoHPNX05aCwJq71cUSX3e6Rc71t8lYF5AChp6cue0Wn0p
- RGYWCjGYXPGTRQo7i1UJqZWdkpUw0CtCvogSG6x3n5GsAJPYXbJBhbLbK
- oPKnhBd4N9TLAFA+bRsV+uoYm3vRqZq+MxeOUhaiVrd+ghcRQvJG8aBnG
- Jkak0YynyYB+T9+2YoeWKpxOqgasTYqrRiloIm+qWIE53zmBJdKCjhCAc
- LfMbOjkty0Lh8Zhsiqmfj8Sa9w8d/XgGTwHy8A7SWIpTkFZcfOnER3XYy
- NbUk+sM/hYdqmlQRMnJTwCoHc2tNZQGt/JDiKclvhi0nz+C/x2VAN+o00 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="348605482"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="348605482"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2023 16:51:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="701613528"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; d="scan'208";a="701613528"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 May 2023 16:51:55 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 4/4] drm/i915: Allow user to set cache at BO creation
-Date: Mon,  8 May 2023 16:52:50 -0700
-Message-Id: <20230508235250.4028749-5-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230508235250.4028749-1-fei.yang@intel.com>
-References: <20230508235250.4028749-1-fei.yang@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDF710E05D;
+ Tue,  9 May 2023 00:00:15 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 348McX2R025295; Tue, 9 May 2023 00:00:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=cP644vxFEnuaq+QtuLolN7H6tCQK5Xhu+hJjts/Za70=;
+ b=hdNWiJGNumrf+wHcJb0OhWcWCZq4eR7ycDjbYLIttrYycqoTNC9mCem+4EmHsCaks/9T
+ CydqkDJEGuaEcAMYEglX9hOn+enbzKp6Pun45Ss+Owi9czJp+RcYw5pa4X3DrSjEF3J8
+ uU7HBat/HL8YPJhni1q81QqB9cO2yct37c0MQhPvY1z0wm5qrhVkH9VpYtiVq3JZVB+6
+ P6kQxyPr2Pc6kcXAHHyrJZzF5EYyrUfZE8TexwMrl1t1C4lc0D6KIqqHrTBZARQe27bM
+ jlG0wF9fG6aqDKhRTOieR21Rv7XJJW2nGy7R3MPDfToUGlfn13myFRXedWvODeQDFpnu 2A== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qf7850cfw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 May 2023 00:00:14 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34900D9F006263
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 9 May 2023 00:00:13 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 8 May 2023
+ 17:00:12 -0700
+Message-ID: <f99c5891-5d46-b39e-929a-00aedb068fb5@quicinc.com>
+Date: Mon, 8 May 2023 17:00:12 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [Freedreno] [PATCH v2 4/4] drm/msm/dpu: Set DATA_COMPRESS for
+ command mode
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
+ <20230405-add-dsc-support-v2-4-1072c70e9786@quicinc.com>
+ <j5wa45g4v6swvsiakl23azu7qgxtdllf2gav5wdc7s7zukxe4c@jkcu2wnyn6rn>
+ <baa25817-4a0d-551d-a351-21cc1525a932@quicinc.com>
+In-Reply-To: <baa25817-4a0d-551d-a351-21cc1525a932@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: QBar3oebH9jA8Nv2xS7BoBDWjAVa9JQO
+X-Proofpoint-GUID: QBar3oebH9jA8Nv2xS7BoBDWjAVa9JQO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_17,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ bulkscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305080161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,241 +86,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
 
-To comply with the design that buffer objects shall have immutable
-cache setting through out their life cycle, {set, get}_caching ioctl's
-are no longer supported from MTL onward. With that change caching
-policy can only be set at object creation time. The current code
-applies a default (platform dependent) cache setting for all objects.
-However this is not optimal for performance tuning. The patch extends
-the existing gem_create uAPI to let user set PAT index for the object
-at creation time.
-The new extension is platform independent, so UMD's can switch to using
-this extension for older platforms as well, while {set, get}_caching are
-still supported on these legacy paltforms for compatibility reason.
 
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
- include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
- tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
- 4 files changed, 114 insertions(+)
+On 5/8/2023 4:17 PM, Jessica Zhang wrote:
+> 
+> 
+> On 5/7/2023 9:06 AM, Marijn Suijten wrote:
+>> On 2023-05-05 14:23:51, Jessica Zhang wrote:
+>>> Add a DPU INTF op to set DATA_COMPRESS register for command mode 
+>>> panels if
+>>> the DPU_INTF_DATA_COMPRESS feature flag is set. This flag needs to be
+>>> enabled in order for DSC v1.2 to work.
+>>>
+>>> Note: These changes are for command mode only. Video mode changes will
+>>> be posted along with the DSC v1.2 support for DP.
+>>
+>> Nit: the "command mode" parts of both paragraphs only apply to the call
+>> in dpu_encoder_phys_cmd, right?  If so, and the INTF op remains the same
+>> for video mode (but only the call needs to be added to the
+>> dpu_encoder_phy_vid), make this a bit more clear in your commit message.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index bfe1dbda4cb7..644a936248ad 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -245,6 +245,7 @@ struct create_ext {
- 	unsigned int n_placements;
- 	unsigned int placement_mask;
- 	unsigned long flags;
-+	unsigned int pat_index;
- };
- 
- static void repr_placements(char *buf, size_t size,
-@@ -394,11 +395,39 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
- 	return 0;
- }
- 
-+static int ext_set_pat(struct i915_user_extension __user *base, void *data)
-+{
-+	struct create_ext *ext_data = data;
-+	struct drm_i915_private *i915 = ext_data->i915;
-+	struct drm_i915_gem_create_ext_set_pat ext;
-+	unsigned int max_pat_index;
-+
-+	BUILD_BUG_ON(sizeof(struct drm_i915_gem_create_ext_set_pat) !=
-+		     offsetofend(struct drm_i915_gem_create_ext_set_pat, rsvd));
-+
-+	if (copy_from_user(&ext, base, sizeof(ext)))
-+		return -EFAULT;
-+
-+	max_pat_index = INTEL_INFO(i915)->max_pat_index;
-+
-+	if (ext.pat_index > max_pat_index) {
-+		drm_dbg(&i915->drm, "PAT index is invalid: %u\n",
-+			ext.pat_index);
-+		return -EINVAL;
-+	}
-+
-+	ext_data->pat_index = ext.pat_index;
-+
-+	return 0;
-+}
-+
- static const i915_user_extension_fn create_extensions[] = {
- 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
- 	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
-+	[I915_GEM_CREATE_EXT_SET_PAT] = ext_set_pat,
- };
- 
-+#define PAT_INDEX_NOT_SET	0xffff
- /**
-  * i915_gem_create_ext_ioctl - Creates a new mm object and returns a handle to it.
-  * @dev: drm device pointer
-@@ -418,6 +447,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
- 		return -EINVAL;
- 
-+	ext_data.pat_index = PAT_INDEX_NOT_SET;
- 	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
- 				   create_extensions,
- 				   ARRAY_SIZE(create_extensions),
-@@ -454,5 +484,11 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
-+	if (ext_data.pat_index != PAT_INDEX_NOT_SET) {
-+		i915_gem_object_set_pat_index(obj, ext_data.pat_index);
-+		/* Mark pat_index is set by UMD */
-+		obj->pat_set_by_user = true;
-+	}
-+
- 	return i915_gem_publish(obj, file, &args->size, &args->handle);
- }
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 46a19b099ec8..97ac6fb37958 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -208,6 +208,12 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
- 	if (!(obj->flags & I915_BO_ALLOC_USER))
- 		return false;
- 
-+	/*
-+	 * Always flush cache for UMD objects at creation time.
-+	 */
-+	if (obj->pat_set_by_user)
-+		return true;
-+
- 	/*
- 	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
- 	 * possible for userspace to bypass the GTT caching bits set by the
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index dba7c5a5b25e..03c5c314846e 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3630,9 +3630,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3747,6 +3751,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
-diff --git a/tools/include/uapi/drm/i915_drm.h b/tools/include/uapi/drm/i915_drm.h
-index 8df261c5ab9b..8cdcdb5fac26 100644
---- a/tools/include/uapi/drm/i915_drm.h
-+++ b/tools/include/uapi/drm/i915_drm.h
-@@ -3607,9 +3607,13 @@ struct drm_i915_gem_create_ext {
- 	 *
- 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
- 	 * struct drm_i915_gem_create_ext_protected_content.
-+	 *
-+	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
-+	 * struct drm_i915_gem_create_ext_set_pat.
- 	 */
- #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
- #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
-+#define I915_GEM_CREATE_EXT_SET_PAT 2
- 	__u64 extensions;
- };
- 
-@@ -3724,6 +3728,38 @@ struct drm_i915_gem_create_ext_protected_content {
- 	__u32 flags;
- };
- 
-+/**
-+ * struct drm_i915_gem_create_ext_set_pat - The
-+ * I915_GEM_CREATE_EXT_SET_PAT extension.
-+ *
-+ * If this extension is provided, the specified caching policy (PAT index) is
-+ * applied to the buffer object.
-+ *
-+ * Below is an example on how to create an object with specific caching policy:
-+ *
-+ * .. code-block:: C
-+ *
-+ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
-+ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
-+ *              .pat_index = 0,
-+ *      };
-+ *      struct drm_i915_gem_create_ext create_ext = {
-+ *              .size = PAGE_SIZE,
-+ *              .extensions = (uintptr_t)&set_pat_ext,
-+ *      };
-+ *
-+ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
-+ *      if (err) ...
-+ */
-+struct drm_i915_gem_create_ext_set_pat {
-+	/** @base: Extension link. See struct i915_user_extension. */
-+	struct i915_user_extension base;
-+	/** @pat_index: PAT index to be set */
-+	__u32 pat_index;
-+	/** @rsvd: reserved for future use */
-+	__u32 rsvd;
-+};
-+
- /* ID of the protected content session managed by i915 when PXP is active */
- #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
- 
--- 
-2.25.1
+(Sorry, forgot to address this comment in my initial reply)
 
+The op will be available for video mode to use, but most likely video 
+mode will set DATA_COMPRESS (or call dpu_hw_intf_enable_compression()) 
+directly in dpu_hw_intf_setup_timing_engine().
+
+Thanks,
+
+Jessica Zhang
+
+>>
+>>> Changes in v2:
+>>> - Fixed whitespace issue in macro definition
+>>> - Read INTF_CONFIG2 before writing to DATA_COMPRESS bit
+>>> - Only set dpu_hw_intf_ops.data_compress if DATA_COMPRESS feature is set
+>>> - Removed `inline` from dpu_hw_intf_enable_compression declaration
+>>>
+>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  3 +++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 11 +++++++++++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          |  2 ++
+>>>   3 files changed, 16 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> index d8ed85a238af..1a4c20f02312 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> @@ -68,6 +68,9 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>>>                   phys_enc->hw_intf,
+>>>                   true,
+>>>                   phys_enc->hw_pp->idx);
+>>> +
+>>> +    if (phys_enc->hw_intf->ops.enable_compression)
+>>> +        phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
+>>>   }
+>>>   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int 
+>>> irq_idx)
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> index 6485500eedb8..322c55a5042c 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> @@ -91,6 +91,14 @@
+>>>   #define INTF_CFG2_DATABUS_WIDEN    BIT(0)
+>>>   #define INTF_CFG2_DATA_HCTL_EN    BIT(4)
+>>> +#define INTF_CFG2_DCE_DATA_COMPRESS     BIT(12)
+>>> +
+>>> +static void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
+>>> +{
+>>> +    u32 intf_cfg2 = DPU_REG_READ(&ctx->hw, INTF_CONFIG2);
+>>> +
+>>> +    DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2 | 
+>>> INTF_CFG2_DCE_DATA_COMPRESS);
+>>
+>> I'm not sure if it's more idiomatic to write:
+>>
+>>      intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>>
+>> On a separate line.
+> 
+> Hi Marijn,
+> 
+> Sounds good.
+> 
+>>
+>>> +}
+>>
+>> Move the function close to the bottom of this file.  Right now all the
+>> functions are defined approximately in the same order as they're listed
+>> in the header and assigned in _setup_intf_ops().
+> 
+> Acked.
+> 
+>>
+>>>   static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+>>>           const struct intf_timing_params *p,
+>>> @@ -542,6 +550,9 @@ static void _setup_intf_ops(struct 
+>>> dpu_hw_intf_ops *ops,
+>>>           ops->vsync_sel = dpu_hw_intf_vsync_sel;
+>>>           ops->disable_autorefresh = dpu_hw_intf_disable_autorefresh;
+>>>       }
+>>> +
+>>> +    if (cap & BIT(DPU_INTF_DATA_COMPRESS))
+>>> +        ops->enable_compression = dpu_hw_intf_enable_compression;
+>>>   }
+>>>   struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>>> index 73b0885918f8..a8def68a5ec2 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>>> @@ -70,6 +70,7 @@ struct intf_status {
+>>>    * @get_autorefresh:            Retrieve autorefresh config from 
+>>> hardware
+>>>    *                              Return: 0 on success, -ETIMEDOUT on 
+>>> timeout
+>>>    * @vsync_sel:                  Select vsync signal for tear-effect 
+>>> configuration
+>>> + * @enable_compression: Enable data compression
+>>
+>> Indent to match above.
+> 
+> Sure, is the plan to correct the whitespace in the first half of the 
+> comment block in the future?
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+>>
+>> - Marijn
+>>
+>>>    */
+>>>   struct dpu_hw_intf_ops {
+>>>       void (*setup_timing_gen)(struct dpu_hw_intf *intf,
+>>> @@ -107,6 +108,7 @@ struct dpu_hw_intf_ops {
+>>>        * Disable autorefresh if enabled
+>>>        */
+>>>       void (*disable_autorefresh)(struct dpu_hw_intf *intf, uint32_t 
+>>> encoder_id, u16 vdisplay);
+>>> +    void (*enable_compression)(struct dpu_hw_intf *intf);
+>>>   };
+>>>   struct dpu_hw_intf {
+>>>
+>>> -- 
+>>> 2.40.1
+>>>
