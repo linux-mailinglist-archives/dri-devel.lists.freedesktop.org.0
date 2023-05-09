@@ -1,39 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC8D6FBFC6
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:00:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 105696FC04B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 09:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C9D10E331;
-	Tue,  9 May 2023 07:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0537210E32D;
+	Tue,  9 May 2023 07:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D96810E331
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 07:00:21 +0000 (UTC)
-Received: from SoMainline.org (unknown [89.205.226.248])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59B4210E32D
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 07:16:41 +0000 (UTC)
+Received: from meshulam.tesarici.cz
+ (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
+ [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 9976A1FA7E;
- Tue,  9 May 2023 09:00:05 +0200 (CEST)
-Date: Tue, 9 May 2023 08:59:58 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 3/4] drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature
- flag
-Message-ID: <chw4jhkwbtml3w3ha6beubvvil4jsr7wuzahfif2mzkcmsqhwj@wgm7axq2o6wk>
-References: <20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com>
- <20230405-add-dsc-support-v2-3-1072c70e9786@quicinc.com>
- <i6i2xj2tuy5mcxsj674d77kfdb3ne6immkmrzw5f6u4bfx2sth@ef7fzrhdyypx>
- <1d7ccb5f-55c2-3b3a-df97-2c17beffabfc@quicinc.com>
- <0aa4130d-bb37-4743-10e5-fd518276f4a2@linaro.org>
+ by bee.tesarici.cz (Postfix) with ESMTPSA id BA506156323;
+ Tue,  9 May 2023 09:16:36 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz;
+ dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+ t=1683616597; bh=8evGPagrRUmEhFWx53rwyRMnzB1sop/iziZGU7noxh8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=dV93bLA79agVk16Rcji7TLih39mWi4xLWCmkivJgCefXpLDgde71MaV5bIkOOteEB
+ FT2jcsltXkODY1wl9A2JEyMdMLLVXIQEJShi3iSLYE2CbePzunz8DgkFVndj2Y9jZF
+ hNuIP/e+xMENcJkYAPxpFH+Zjm2vfjOeCGBJlm6UKM3tRaGYavDhB2AvJUik58HcwV
+ LiL6RALy9xipayRtxG/rCHjLx/TwbGBXT6HBhXP7VbkAq6JZ3kLcVzmR0XRpFdSK6a
+ q4mPUim3Qd2JptB8foLwRCVAU9zsVaFtzL0iYOsnWOZN9Txg7djUm0BYtsIsv0sbag
+ beJdD44cBiDeQ==
+Date: Tue, 9 May 2023 09:16:35 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB
+ bounce buffers
+Message-ID: <20230509091635.27450bd9@meshulam.tesarici.cz>
+In-Reply-To: <20230426144439.5674f8bc@meshulam.tesarici.cz>
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+ <20230426141520.0caf4386@meshulam.tesarici.cz>
+ <2023042617-wobble-enlighten-9361@gregkh>
+ <20230426144439.5674f8bc@meshulam.tesarici.cz>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0aa4130d-bb37-4743-10e5-fd518276f4a2@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +58,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Muchun Song <muchun.song@linux.dev>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Jonathan Corbet <corbet@lwn.net>,
+ Will Deacon <will@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, "open list:DMA
+ MAPPING HELPERS" <iommu@lists.linux.dev>, Borislav Petkov <bp@suse.de>,
+ Won Chung <wonchung@google.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Zhen Lei <thunder.leizhen@huawei.com>, Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Petr Tesarik <petr.tesarik.ext@huawei.com>, Kees Cook <keescook@chromium.org>,
+ Ondrej Zary <linux@zary.sk>, Petr Tesarik <petrtesarik@huaweicloud.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-09 02:08:52, Dmitry Baryshkov wrote:
-> On 09/05/2023 00:46, Jessica Zhang wrote:
-> > 
-> > 
-> > On 5/7/2023 9:00 AM, Marijn Suijten wrote:
-> >> On 2023-05-05 14:23:50, Jessica Zhang wrote:
-> >>> Add DATA_COMPRESS feature flag to DPU INTF block.
-> >>>
-> >>> In DPU 7.x and later, DSC/DCE enablement registers have been moved from
-> >>> PINGPONG to INTF.
-> >>>
-> >>> As core_rev (and related macros) was removed from the dpu_kms struct, 
-> >>> the
-> >>> most straightforward way to indicate the presence of this register 
-> >>> would be
-> >>> to have a feature flag.
-> >>
-> >> Irrelevant.  Even though core_rev was still in mainline until recently,
-> >> we always hardcoded the features in the catalog and only used core_rev
-> >> to select a dpu_mdss_cfg catalog entry.  There is no "if version >= X
-> >> then enable feature Y" logic, this manually-enabled feature flag is the
-> >> only, correct way to do it.
-> > 
-> > Hi Marijn,
-> > 
-> > Understood. FWIW, if we do find more register bit-level differences 
-> > between HW versions in the future, it might make more sense to keep the 
-> > HW catalog small and bring core_rev back, rather than keep adding these 
-> > kinds of small differences to caps.
-> 
-> Let's see how it goes. Abhinav suggested that there might be feature 
-> differences inside the DPU generations (and even inside the single DPU 
-> major/minor combo). So I'm not sure what core_rev will bring us.
-> 
-> Let's land the platforms which are ready (or if there is anything close 
-> to be submitted).
+On Wed, 26 Apr 2023 14:44:39 +0200
+Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
 
-You mean waiting for catalog changes on the list specifically, so the
-DSC series as well as SM6350/SM6375?  I do intend to send SM6125 now
-that the INTF TE series (required for it, as well as for SM63**) seems
-to be generally accepted, but have been quite busy with the DSC series
-on the list as we're now unblocking many Xperia's to finally have
-display!
+> Hi Greg,
+>=20
+> On Wed, 26 Apr 2023 14:26:36 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>=20
+> > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wrote:=
+ =20
+> > > Hi,
+> > >=20
+> > > On Wed, 19 Apr 2023 12:03:52 +0200
+> > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > >    =20
+> > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > >=20
+> > > > The goal of my work is to provide more flexibility in the sizing of
+> > > > SWIOTLB.
+> > > >=20
+> > > > The software IO TLB was designed with these assumptions:
+> > > >=20
+> > > > 1. It would not be used much, especially on 64-bit systems.
+> > > > 2. A small fixed memory area (64 MiB by default) is sufficient to
+> > > >    handle the few cases which require a bounce buffer.
+> > > > 3. 64 MiB is little enough that it has no impact on the rest of the
+> > > >    system.
+> > > >=20
+> > > > First, if SEV is active, all DMA must be done through shared
+> > > > unencrypted pages, and SWIOTLB is used to make this happen without
+> > > > changing device drivers. The software IO TLB size is increased to
+> > > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > > approximation. The actual requirements may vary depending on the
+> > > > amount of I/O and which drivers are used. These factors may not be
+> > > > know at boot time, i.e. when SWIOTLB is allocated.
+> > > >=20
+> > > > Second, other colleagues have noticed that they can reliably get
+> > > > rid of occasional OOM kills on an Arm embedded device by reducing
+> > > > the SWIOTLB size. This can be achieved with a kernel parameter, but
+> > > > determining the right value puts additional burden on pre-release
+> > > > testing, which could be avoided if SWIOTLB is allocated small and
+> > > > grows only when necessary.   =20
+> > >=20
+> > > Now that merging into 6.4 has begun, what about this patch series? I'm
+> > > eager to get some feedback (positive or negative) and respin the next
+> > > version.   =20
+> >=20
+> > It's the merge window, we can't add new things that haven't been in
+> > linux-next already. =20
+>=20
+> This is understood. I'm not asking for immediate inclusion.
+>=20
+> >   Please resubmit it after -rc1 is out. =20
+>=20
+> If you can believe that rebasing to -rc1 will be enough, then I will
+> also try to believe I'm lucky. ;-)
+>=20
+> The kind of feedback I really want to get is e.g. about the extra
+> per-device DMA-specific fields. If they cannot be added to struct
+> device, then I'd rather start discussing an interim solution, because
+> getting all existing DMA fields out of that struct will take a lot of
+> time...
 
-The catalog addition is "pretty much ready", let me know if you'd like
-it to be sent in prior to your cleanup.
+All right, 6.4-rc1 is out now. The patch series still applies cleanly.
 
-> I'll post the next proposal for the catalog cleanups 
-> close to -rc4, when the dust settles then we can have one or two weaks 
-> for the discussion and polishing.
-> 
-> I'd like to consider:
-> - inlining foo_BLK macros, if that makes adding new features easier
+Any comments what must be changed (if anything) to get it in?
 
-Sounds like a good idea.
-
-> - reformat of clk_ctrls
-> - maybe reintroduction of per-generation feature masks instead of 
-> keeping them named after the random SoC
-
-Yes that would make things more clear.  Or we can inline them entirely
-though that might accidentally diverge SoCs and revisions.
-
-> - maybe a rework of mdss_irqs / INTFn_INTR. We already have this info in 
-> hw catalog.
-
-Sounds good as well, that should get rid of some "duplication".
-
-- Marijn
+Thanks,
+Petr T
