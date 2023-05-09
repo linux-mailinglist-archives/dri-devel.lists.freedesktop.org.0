@@ -1,69 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DD66FC70F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 14:51:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B918E6FC757
+	for <lists+dri-devel@lfdr.de>; Tue,  9 May 2023 15:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED64E10E0D5;
-	Tue,  9 May 2023 12:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC3B10E100;
+	Tue,  9 May 2023 13:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6FBF10E0D5
- for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 12:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683636701; x=1715172701;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Jm7y1445mWGdcBJyO2CI2gHNLLlTZ4MZzOJ1Vnswg3I=;
- b=psK1IGiTP7hT/e3+wt/xiaW5Ikz9LaJ28x9HPgQdTmFy37XCKTZEg4Fg
- itVaUzkLyM6m/mOpF3jcrvoIRrjg0F4fYnyJwyjlJUlDg1KJBL58jXpQB
- 4gbGvWNStG5uAz6PGMi6LHf58x3vMRS+cntB9k0HaDIQ2X3Z8243o3Zh0
- 8FU+IAq9FEnIPSLQS0PVGffyEGmpTRGfzhSR4qI3jlLo8KE269gTbVrBD
- fj2epXYgUJXdACGU5yjd75snE79WSZX3VDTVsuZx/AgW4FjaJ4XY09O24
- ejqcRhOqO5aEBkDvSIMOAj0W/c3C6TGHeEFPbH1CKtpDMTgqsqFWLP/w7 g==;
-X-IronPort-AV: E=Sophos;i="5.99,262,1677538800"; d="scan'208";a="30805255"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 09 May 2023 14:51:37 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 09 May 2023 14:51:37 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 09 May 2023 14:51:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1683636697; x=1715172697;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Jm7y1445mWGdcBJyO2CI2gHNLLlTZ4MZzOJ1Vnswg3I=;
- b=Jsa7kkBFfJ/TdgapI21KY9DeZ+2S8tO75xw7B4gIzuoOP4FRXT2fAswR
- HOnkAe4mKXRvkwO209KbC30kF2VLNernx3hJzHVIVvB8/gEefwv+3T+xD
- Ms0UeM4G4BKTfmVCHysUr/wJK5kz3+oaDA24AjH0Ug+lZukARoa3hcdEW
- NiV/Qbl2BOJI6h/9IleCb290kQr7xltNu+hzBDTZgwiMtX0o1vuJQEH1+
- cRtPjLKGikayA+dyBTtyzzdpeJk5Lge+OHF63gjPah6aaGHd9vcLKmeM7
- 2rzfyDkSbvpov3U4ikq/tRmEFV0jp9NN9GmbEm50IQFCZ6oWfAEtKo21G Q==;
-X-IronPort-AV: E=Sophos;i="5.99,262,1677538800"; d="scan'208";a="30805254"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 09 May 2023 14:51:37 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B7F10E13F
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 13:01:32 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 11B8E280056;
- Tue,  9 May 2023 14:51:37 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/2] drm: fsl-dcu: Use dev_err_probe
-Date: Tue, 09 May 2023 14:51:36 +0200
-Message-ID: <3231831.aeNJFYEL58@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230117110801.2069761-1-alexander.stein@ew.tq-group.com>
-References: <20230117110801.2069761-1-alexander.stein@ew.tq-group.com>
+ by mx1.riseup.net (Postfix) with ESMTPS id 4QFywC5NhWzDqQf
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 May 2023 13:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1683637291; bh=LBtNFLE4rSHTDT4vGpk1meBnyAlvr1A80tjp6koEN4Y=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=PwnXGZfchTXL2dGb3iuzmphWLHjLYdNw4RC0pv83DrVFbBsa2jpu4A4Dzl/aWxYIr
+ BEd8/r3nEAM8VsIA4p4vcU9lWPhkC7SVFAvlZ7ulS+FBT7ALDpPucriVgKeoxmRX0G
+ 9jvHE+zjGPCvnDYRARWgeGRlDYP/m/4p2tiVW4u4=
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4QFywB5Kdmz9tDM;
+ Tue,  9 May 2023 13:01:30 +0000 (UTC)
+X-Riseup-User-ID: F81916BD69713E85127CE74A03FB33058067503EA1E777353FBDA435BC5A0F2D
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4QFyw82mKhzFqgl;
+ Tue,  9 May 2023 13:01:28 +0000 (UTC)
+Message-ID: <6bf288c7-e903-4a92-1453-65471b3e564d@riseup.net>
+Date: Tue, 9 May 2023 10:01:24 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Subject: Re: [PATCH] MAINTAINERS: Add Maira to VKMS maintainers
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>
+References: <20230508141038.327160-1-mairacanal@riseup.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20230508141038.327160-1-mairacanal@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,47 +64,30 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 5/8/23 11:10, Maíra Canal wrote:
+> I've been contributing to VKMS with improvements, reviews, testing and
+> debugging. Therefore, add myself as a co-maintainer of the VKMS driver.
+> 
+> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 
-another gentle ping.
+Applied to drm/drm-misc (drm-misc-next).
 
-Alexander
+Best Regards,
+- Maíra Canal
 
-Am Dienstag, 17. Januar 2023, 12:08:00 CEST schrieb Alexander Stein:
-> fsl_dcu_drm_modeset_init can return -EPROBE_DEFER, so use dev_err_probe
-> to remove an invalid error message and add it to deferral description.
->=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c index
-> 8579c7629f5e..418887654bac 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -103,10 +103,8 @@ static int fsl_dcu_load(struct drm_device *dev,
-> unsigned long flags) int ret;
->=20
->  	ret =3D fsl_dcu_drm_modeset_init(fsl_dev);
-> -	if (ret < 0) {
-> -		dev_err(dev->dev, "failed to initialize mode setting\n");
-> -		return ret;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(dev->dev, ret, "failed to initialize=20
-mode
-> setting\n");
->=20
->  	ret =3D drm_vblank_init(dev, dev->mode_config.num_crtc);
->  	if (ret < 0) {
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 276298cfc7ee..63e9b1e8c113 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6721,6 +6721,7 @@ F:	drivers/gpu/drm/udl/
+>   DRM DRIVER FOR VIRTUAL KERNEL MODESETTING (VKMS)
+>   M:	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+>   M:	Melissa Wen <melissa.srw@gmail.com>
+> +M:	Maíra Canal <mairacanal@riseup.net>
+>   R:	Haneen Mohammed <hamohammed.sa@gmail.com>
+>   R:	Daniel Vetter <daniel@ffwll.ch>
+>   L:	dri-devel@lists.freedesktop.org
