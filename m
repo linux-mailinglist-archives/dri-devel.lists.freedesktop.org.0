@@ -1,81 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D3A6FDE8C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 15:30:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB6F6FDF2C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 15:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 325EA10E496;
-	Wed, 10 May 2023 13:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEECC10E497;
+	Wed, 10 May 2023 13:51:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 573CE10E496;
- Wed, 10 May 2023 13:29:56 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-6434e263962so5435033b3a.2; 
- Wed, 10 May 2023 06:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683725395; x=1686317395;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OrTJVzC+N9h0nc4ZEduLU/NeM+jyxDAulMwnlFxtxlY=;
- b=kcGS4d9Ff2Pu8W5Olf1KJebhCAujWewMOB6b0tIuJLOPlgbGAi0+EHQL06R/FR2b4l
- 7Q+TwEvxESLbJQSotuf0OAMuigufp3algJowPWUKPD0aFpKy6GG2HVUc32f8hQgC8h4k
- 6Tgx7e0YVqZLcxIYq2lBBO4Jww+ybjKvmz0ZV5exuG0oytodCIFo++EYDNC6LULe16Gq
- W7B/S9rvB1M1H0+1nrr0zadgBkqQ6PgGuNWZpB5k19HOM70VgqSaNaT0nnsoRt/LhYIA
- JJtE+KHDYYND+ke9umBSAxYlCC2F9z96tPVFciQG4K4mtF1qbUZQR9+uYfY46rC7dbyH
- FJeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683725395; x=1686317395;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OrTJVzC+N9h0nc4ZEduLU/NeM+jyxDAulMwnlFxtxlY=;
- b=M27D0CHqeaaS3r8OKYOXTl2kYQe+6nlls/aOt9miNWYBiL8hU1cVjRQiFUW++3vhMv
- /nxtl45m/HIfTFLwFzt7bdjGhfvf8g1xCAfHoNopqmWGN6Y5t848phZzQ5IMjVcQI3pl
- r2Mxtzo3jlVmFgAxH4+u9OrP73sO0flGURf/5P1H3TkNNDrvJWosdTqmKfjTmmoQw2lE
- /6pjvNPVNWVYB+uc8QRCU+1AeB5DxolpoUwss/UbiL70aXaEfcqNLUkzOuk05D3AQXSS
- UcTj5R4WtYpVIrSzp/upqZifjrcBLlL6tDnGIY4vasMcZbj9NBgCZwuvnUC1SWHKJNWQ
- w3/Q==
-X-Gm-Message-State: AC+VfDxZIXf57sxDfrvULkW3hr6kRg+P9oSm003lffQb2V3WaIs1cIow
- QTwCB8kFp6LgxGUSgND/en0=
-X-Google-Smtp-Source: ACHHUZ7GzCWcQ4sO6wa/oMA7dIBZeJ9MBwS332ZFkL0WO3bHNFgWW4AFCg5oMkj7bOXj98w5QLwlfg==
-X-Received: by 2002:a05:6a00:2289:b0:625:fe95:f120 with SMTP id
- f9-20020a056a00228900b00625fe95f120mr23709634pfe.8.1683725395276; 
- Wed, 10 May 2023 06:29:55 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-53.three.co.id.
- [116.206.28.53]) by smtp.gmail.com with ESMTPSA id
- x9-20020aa784c9000000b006475f831838sm2524832pfn.30.2023.05.10.06.29.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 06:29:54 -0700 (PDT)
-Message-ID: <cfb6bcf7-a6c2-7e52-d7dd-3e054574942e@gmail.com>
-Date: Wed, 10 May 2023 20:29:44 +0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20611.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::611])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56BDD10E495;
+ Wed, 10 May 2023 13:51:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k9OWUdlVTg+s6wMlaHTzgERo0GnWonT7ksie83Wua/xnDcH84s3YQOq8tXOquxddtBowPqwArB63RbUlsKNxLMtTOxTLtUU3o7oudicLDheGpdyfgXkstneftpUvfa9uNyTC84BX3RmilZ8QklUUgcTR49+TwvK1AgvWX2JpV8ASn76Gmr8T9Zvqec66Od1mFa1Xu8bsTO7ps8Mp8lUceL/9uyHehRhxOsFH+SUWUCghrAkqKuEfc+B83Wmfc7g2dG4qpxv3IpBLPrxE/cy8e7ePG6M1YfJBmv2TwNKW4uNsmusLU10MeIVgJoL3KoPFGU6IQ/uV62Rpux+tEv4nPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9eJhCYE9y+7+7RZai3bIi0/dC5uaBYttN3zrwFiDiRU=;
+ b=dFobctY5A8jMFYd9FFtuT++eE18OvK1kfcSAAY6hLk+9DINzQzbX7Kv+oMDzB1zm1bjLox4JaO47aNRHw4hqu+BAzK4TEzWw2pqEtnfGedKXN4q7V+jZb2EAvdAVOSDxmClKRiAokZQ71kJhfKI9MlqA5zlw6QouNBVP54uzCBCy4NXxRCO48pwH70jo9oOQscws0QvbVw0trP7Q21rS60joxEc+jSpIeKFvPNcgpui+d9oT6l8dvhoRT3KNdj+hLEi1pribO+H10rDM0bFtV8aZRDQbpyh0Cisp2qSP9UxE+F4M3Kv1dSRMtdmVcemWxhxA4Fl6mwYoB+UzRXsh5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9eJhCYE9y+7+7RZai3bIi0/dC5uaBYttN3zrwFiDiRU=;
+ b=LDHtTbTaFOW5S4vrMvaxOhQBFT9QTS6/xxRsTcaQLB8kQziRkGD9JwazG4U9mPab201+Kg+uk0F4km511fGn2m9EDej0eS6Gf+XNWQXhweglKw0nxreX6MfTMuQdLfN548Jxj64ljcA3MD9RGlODNHFusgTWMuqMkE1ptWSraHs=
+Received: from BN9PR03CA0118.namprd03.prod.outlook.com (2603:10b6:408:fd::33)
+ by SJ1PR12MB6243.namprd12.prod.outlook.com (2603:10b6:a03:456::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Wed, 10 May
+ 2023 13:51:25 +0000
+Received: from BN8NAM11FT071.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fd:cafe::e2) by BN9PR03CA0118.outlook.office365.com
+ (2603:10b6:408:fd::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20 via Frontend
+ Transport; Wed, 10 May 2023 13:51:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT071.mail.protection.outlook.com (10.13.177.92) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6387.20 via Frontend Transport; Wed, 10 May 2023 13:51:24 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 10 May
+ 2023 08:51:24 -0500
+Received: from desktop-host.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Wed, 10 May 2023 08:51:18 -0500
+From: <vitaly.prosyak@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <christian.koenig@amd.com>, <alexander.deucher@amd.com>,
+ <Luben.Tuikov@amd.com>
+Subject: [PATCH] drm/sched: Check scheduler work queue before calling timeout
+ handling
+Date: Wed, 10 May 2023 09:51:11 -0400
+Message-ID: <20230510135111.58631-1-vitaly.prosyak@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: Fwd: Kernel 5.11 crashes when it boots, it produces black screen.
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Le Ma <le.ma@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, "Jiadong.Zhu" <Jiadong.Zhu@amd.com>,
- Yang Wang <KevinYang.Wang@amd.com>, Candice Li <candice.li@amd.com>,
- Xiaojian Du <Xiaojian.Du@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <c2168e4f-4d47-0d5d-a1b7-d237f0760df8@gmail.com>
- <9cf29c20-5b82-89bb-0927-e6f66b3bd8d5@leemhuis.info>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <9cf29c20-5b82-89bb-0927-e6f66b3bd8d5@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT071:EE_|SJ1PR12MB6243:EE_
+X-MS-Office365-Filtering-Correlation-Id: 959203cc-c306-4790-7b97-08db515da4ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OOxMXYiVmh960CsF+geQ7GyaeergiM9syZWIHu78cxdg/IIuHwHhlwgi/J5CrVWVDyVPaKKsLgLOe1yTg9hhWKKo1GxwmXCeoAhSvnaEvkcyFsiRk13yx2kVzdeELUyWNcVIPQKAC/LJyxk0aT022vSNNnYcVUhfJIP6MlJ+ULUoRQ7eOh2uXY/EsRwiMVQQO6hiMzDONnanGeKvhV9Pkx2QwGPi50W45BFHgdZKQEZdlqOL7Qxk0v2iuiO3TWcvLpbo8QjsxaOa9vwq0Ax3jg+Sc9mcT2h69Bna+fj3e63UDOZIRuxe2utAkLhE3xHEXHZDBDgJ4O11v2ErOwfuCn4JeynIue0n34RImel0U5mFWySkXcaPxA8fJI+dGaqZeHUt6sfaNvJqL1uqO/5Nt+BTVnihK/o1VtBMEpAOAEj5G8G/HPt/UQu4IJiuANCCo0StD8ast7/wIm0UzXuiUZ/rxDnVe/pOJbs6Zpc65iliwzkQKUcYCbOwc8k2N5qa2XzDERQuvzB1tVOpwUyw4rgs3WjHwkKGIwiEiH1mVgZF7T1DlHyDv5A6yl7G5jKgsLFygFJijZj+F7xxmnZh6Wwbhe0F68cFBQpBZsRU8S8/AwC9nrF6bQNeTk1lJRVdoJBvFeUpZGndAgbzHgBW2MsFaakiuI49bbigThrFhcCswVi81M01nYBykZku8swTRFwMgVsAMRWLW3aSQQxjL1nxP+LKq0U2f71yii9aP5c=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(396003)(376002)(136003)(39860400002)(451199021)(46966006)(36840700001)(40470700004)(36860700001)(36756003)(82310400005)(83380400001)(356005)(70586007)(2876002)(316002)(336012)(86362001)(8676002)(8936002)(2906002)(6636002)(41300700001)(81166007)(5660300002)(40480700001)(4326008)(70206006)(426003)(40460700003)(47076005)(450100002)(26005)(186003)(1076003)(110136005)(2616005)(6666004)(7696005)(82740400003)(478600001)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2023 13:51:24.3489 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 959203cc-c306-4790-7b97-08db515da4ee
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT071.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6243
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,55 +102,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Azamat S. Kalimoulline" <turtle@bazon.ru>,
- max <kernel-ODwfxu5zp4@maxxor.org>
+Cc: Luben Tuikov <luben.tuikov@amd.com>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/10/23 16:51, Linux regression tracking (Thorsten Leemhuis) wrote:
-> Bagas, thx for all your help with regression tracking, much appreciated
-> (side note, as I'm curious for a while already: what is your motivation?
-> Just want to help? But whatever, any help is great!).
-> 
+From: Vitaly Prosyak <vitaly.prosyak@amd.com>
 
-I did this when I was on "gabut" (an Indonesian slang term that means
-doing nothing but get rewarded). In other words, I was finding a task
-when there is no documentation review or issues that needs to be worked
-on.
+During an IGT GPU reset test we see again oops despite of
+commit 0c8c901aaaebc9 (drm/sched: Check scheduler ready before calling
+timeout handling).
 
-> That being said: I'm not sure if I like what you did in this particular
-> case, as developers might start getting annoyed by regression tracking
-> if we throw too many bug reports of lesser quality before their feet --
-> and then they might start to ignore us, which we really need to prevent.
-> 
-> That's why I would not have forwarded that report at this point of time,
-> mainly for these reasons:
-> 
->  * The initial report is quite old already, as it fall through the
-> cracks (not good, but happens; sorry Azamat!). Hence in this case it
-> would definitely be better to *first* ask the reporter to check if the
-> problem still happens with latest mainline (or at least latest stable)
-> before involving the kernel developers, as it might have been fixed
-> already.
-> 
+It uses ready condition whether to call drm_sched_fault which unwind
+the TDR leads to GPU reset.
+However it looks the ready condition is overloaded with other meanings,
+for example, for the following stack is related GPU reset :
 
-Oh dear, I have already seen the bug age (two years old, from Reported
-date).
+0  gfx_v9_0_cp_gfx_start
+1  gfx_v9_0_cp_gfx_resume
+2  gfx_v9_0_cp_resume
+3  gfx_v9_0_hw_init
+4  gfx_v9_0_resume
+5  amdgpu_device_ip_resume_phase2
 
->  * This might not be a amdgpu bug at all; in fact the other bug the
-> reporter mentioned was an iommu thing. Hence this might be one of those
-> regressions where a bisection is the only way to get down to the
-> problem. Sure, sending a few developers a quick inquiry along the lines
-> of "do you maybe have an idea what's up there" is fine, but that's not
-> what you did in your mail. Your list of recipients is also quite long;
-> that's risky: if you do that too often, as then they might start
-> ignoring mail from you.
-> 
+does the following:
+	/* start the ring */
+	gfx_v9_0_cp_gfx_start(adev);
+	ring->sched.ready = true;
 
-Oops, I was blindly copy-paste get_maintainer.pl list at that time.
+The same approach is for other ASICs as well :
+gfx_v8_0_cp_gfx_resume
+gfx_v10_0_kiq_resume, etc...
 
-Anyway, thanks for the reminder!
+As a result, our GPU reset test causes GPU fault which calls unconditionally gfx_v9_0_fault
+and then drm_sched_fault. However now it depends on whether the interrupt service routine
+drm_sched_fault is executed after gfx_v9_0_cp_gfx_start is completed which sets the ready
+field of the scheduler to true even  for uninitialized schedulers and causes oops vs
+no fault or when ISR  drm_sched_fault is completed prior  gfx_v9_0_cp_gfx_start and
+NULL pointer dereference does not occur.
 
+Use the field timeout_wq  to prevent oops for uninitialized schedulers.
+The field could be initialized by the work queue of resetting the domain.
+
+Fixes: 0c8c901aaaebc9 ("drm/sched: Check scheduler ready before calling timeout handling")
+
+v1: Corrections to commit message (Luben)
+Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 649fac2e1ccb..670b7997f389 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -308,7 +308,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+  */
+ void drm_sched_fault(struct drm_gpu_scheduler *sched)
+ {
+-	if (sched->ready)
++	if (sched->timeout_wq)
+ 		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, 0);
+ }
+ EXPORT_SYMBOL(drm_sched_fault);
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
 
