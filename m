@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0611D6FD93E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 10:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5B06FD959
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 10:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA9210E45D;
-	Wed, 10 May 2023 08:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55E1D10E459;
+	Wed, 10 May 2023 08:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0692510E459;
- Wed, 10 May 2023 08:27:04 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-643bb9cdd6eso4500504b3a.1; 
- Wed, 10 May 2023 01:27:04 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010E710E459
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 08:30:44 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ 98e67ed59e1d1-24e25e2808fso6355129a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 01:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683707224; x=1686299224;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1683707444; x=1686299444;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fGI6Lm0AtHzSQXtW9u+HWh/q47GLCgh6RMnfXKjtk10=;
- b=YnwK0D3uKISsnbmkLu/Sz2qEaUpF/rrJT6uvrOoLYwds3FdiFRlmjeK476qnd3MGE9
- AJdtQgkElfru8rnQ2nKkw1UTf/5MfGgd9GnsCVqvHrkuD+Emyu2IBMWaIJmUVRi5RxG4
- sMisuF/kJ4orfSI6BK56uzDEOAjgthG/g/oY/TWl+MN49yBtsIIca3n8+bwT67POXErD
- embuMk0HH8YV1SA0WHY4yqOoYeh4r5EBo24AxQcTR65mDc6KIrAC0MvG6pQ9pXRD57PT
- F/hWGRPfhJP6LE/bSa6zVUUxJ/pd7L/60Lw1VYq80XAovRMRZz+kJ7zuqngQnWOr6snr
- iYug==
+ bh=+Gj4rNe9q8jSfWDp/ypQzgo3GKje+dWPaI3Tr4ZM2VU=;
+ b=dEPAnIzT0WteEAlWgQg7YSoPFVzNp99Rl56DGMWH71YEGSZPGGPwPhPRh38UGT1Clb
+ nsQsUc0wzyj3CBgFs37GGPG1AYVWQzKwpVolW3wqGbXZeSU/VcFnLbdOQMnXL1ak/jxt
+ wNIj/cmrWKZKK7Qq4jg9z6PAOTCYfA+1QHw/7/6EoTc5vWEoE1NPKBsNqyA4p5PwwVfe
+ H7ZMTk7LoVHXZp7DjisXYZwEANq+XJeiQ0ZCImSmICgHyJ9NxPVJZLvBtxEh4ofJqydj
+ qeNjcXL+AvyBhmK+7jp88LDQjmYPtxbtxe27bBdomNNIeIWzSRPeCaOp0HuBLNlNRYaw
+ Ly/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683707224; x=1686299224;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fGI6Lm0AtHzSQXtW9u+HWh/q47GLCgh6RMnfXKjtk10=;
- b=NZK5W3CyCs8fcwZp45sgwxMPz+EEDPr/AfplbXAmvip4RvN8KL79NRBtISeJzIduaY
- X/LVxfZUwTbft/rqBXhJDKlAbot51bXuhpo9RoHq8Xu7vpWeGlukDvSkpAxJUB24h9xO
- 3oT5+jkKXXLe64odiM7N7fOupdng/f2L7Kasu2e5CRT9Mdjnn4kVUF34NTn5ZO/f4prq
- 66nheaxf3zeAOz1rji8ynFq53W+fpfICGcKjPWtHVq6umoc0j/ICdX0a/mWwa7RRN5UY
- 7nvk+l8tYZlUC3n79WPfDlOpgdBxKhW9hyhYFYdK6qOxHCz9dP9srFh1vLjKbwxt7nSJ
- PidA==
-X-Gm-Message-State: AC+VfDzMl9WORbvm8X8laC0c28CzOEhMra+BtYXAC++1XucZjUjheN1i
- IWcU2HAAzhheLhayZubVQOg=
-X-Google-Smtp-Source: ACHHUZ7G4coGPv/o20Pt3xAf2wqBDv9uLRjifxHDFgKM8gjudvDiKaJ8QVkC6VJLFijHhAiDaiMFGg==
-X-Received: by 2002:a05:6a20:6a14:b0:d9:250:665c with SMTP id
- p20-20020a056a206a1400b000d90250665cmr20275025pzk.15.1683707224082; 
- Wed, 10 May 2023 01:27:04 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id.
- [180.214.233.68]) by smtp.gmail.com with ESMTPSA id
- p15-20020a63fe0f000000b00514256c05c2sm2671485pgh.7.2023.05.10.01.26.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 01:27:03 -0700 (PDT)
-Message-ID: <c2168e4f-4d47-0d5d-a1b7-d237f0760df8@gmail.com>
-Date: Wed, 10 May 2023 15:26:56 +0700
+ d=1e100.net; s=20221208; t=1683707444; x=1686299444;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+Gj4rNe9q8jSfWDp/ypQzgo3GKje+dWPaI3Tr4ZM2VU=;
+ b=aftsioTUzU2UEvJWfCkFS/zjaoklPKD4hgA3z8OrFsLWLgsEJEasx/xKk50rchxOlu
+ Q0idIUXdvALinxgDQt7Oq35Y2cxfG9U1DWP2a00ZWKYM9sNriD/taCATw8lGqBA3ekzV
+ O6i9jHZ462UdYzNf8tr6q31x/k8jYcpQk58/Poo+5ktrIO1t11R31W1TEVCc0W2jYnON
+ kih0gWcIbRfG3OH8TwBU1zDIX2kbw90Z7QOGdAEe2xDfV3gSJ9Lqc/+awm1GM8/YVXaQ
+ DePiuOi+c0lTPvmz5Q+K5oYKiuDLqT5FCXm0u+lh0sbFYEkYSyhowUrkkUwYVrCm6yn1
+ 4X8A==
+X-Gm-Message-State: AC+VfDw2ivmjfcxV29rrRLyZ2yTT4pugMPsMTyfkt5mP3M37td06M5ht
+ /27zm7tb+K40dI67rTCTFXQEnFChtR+Jy1GZ420=
+X-Google-Smtp-Source: ACHHUZ4Br5vyvQv5lHgaPPiZAKCUUEir6+fEHPRg8sLb5SXW3EPjOff6aRIYLKC9Qq/A4C4xPbWuMDqOdu9mxWX2M5w=
+X-Received: by 2002:a17:90b:1997:b0:250:2337:9b96 with SMTP id
+ mv23-20020a17090b199700b0025023379b96mr17550693pjb.9.1683707443869; Wed, 10
+ May 2023 01:30:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Le Ma <le.ma@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, "Jiadong.Zhu" <Jiadong.Zhu@amd.com>,
- Yang Wang <KevinYang.Wang@amd.com>, Candice Li <candice.li@amd.com>,
- Xiaojian Du <Xiaojian.Du@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: Kernel 5.11 crashes when it boots, it produces black screen.
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230508055740.635256-1-victor.liu@nxp.com>
+ <20230508055740.635256-3-victor.liu@nxp.com>
+ <05b44685-d6a7-5f6e-0f55-04c96e94a9e1@denx.de>
+In-Reply-To: <05b44685-d6a7-5f6e-0f55-04c96e94a9e1@denx.de>
+From: Ying Liu <gnuiyl@gmail.com>
+Date: Wed, 10 May 2023 16:30:32 +0800
+Message-ID: <CAOcKUNXjvOMXtf2FVwjhWNbdwQy82T+wz-QN7ukAOmQo5DKQ2w@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] drm: lcdif: Drop unnecessary NULL pointer check on
+ lcdif->bridge
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,33 +71,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Azamat S. Kalimoulline" <turtle@bazon.ru>,
- max <kernel-ODwfxu5zp4@maxxor.org>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, kernel@pengutronix.de,
+ Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ alexander.stein@ew.tq-group.com, krzysztof.kozlowski@linaro.org,
+ robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
+ shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
+ LW@karo-electronics.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, May 9, 2023 at 10:14=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
+>
+> On 5/8/23 07:57, Liu Ying wrote:
+>
+> Hi,
+
 Hi,
 
-I noticed a regression report on Bugzilla ([1]). As many developers don't
-have a look on it, I decided to forward it by email. See the report
-for the full thread.
+>
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/=
+lcdif_kms.c
+> > index 262bc43b1079..e54200a9fcb9 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > @@ -394,7 +394,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_d=
+rm_private *lcdif,
+> >       struct drm_display_mode *m =3D &lcdif->crtc.state->adjusted_mode;
+> >       u32 bus_flags =3D 0;
+> >
+> > -     if (lcdif->bridge && lcdif->bridge->timings)
+> > +     if (lcdif->bridge->timings)
+> >               bus_flags =3D lcdif->bridge->timings->input_bus_flags;
+> >       else if (bridge_state)
+> >               bus_flags =3D bridge_state->input_bus_cfg.flags;
+> > @@ -463,30 +463,21 @@ static void lcdif_crtc_atomic_enable(struct drm_c=
+rtc *crtc,
+> >       struct drm_display_mode *m =3D &lcdif->crtc.state->adjusted_mode;
+> >       struct drm_bridge_state *bridge_state =3D NULL;
+> >       struct drm_device *drm =3D lcdif->drm;
+> > -     u32 bus_format =3D 0;
+> > +     u32 bus_format;
+> >       dma_addr_t paddr;
+> >
+> > -     /* If there is a bridge attached to the LCDIF, use its bus format=
+ */
+> > -     if (lcdif->bridge) {
+> > -             bridge_state =3D
+> > -                     drm_atomic_get_new_bridge_state(state,
+> > -                                                     lcdif->bridge);
+> > -             if (!bridge_state)
+> > -                     bus_format =3D MEDIA_BUS_FMT_FIXED;
+> > -             else
+> > -                     bus_format =3D bridge_state->input_bus_cfg.format=
+;
+> > -
+> > -             if (bus_format =3D=3D MEDIA_BUS_FMT_FIXED) {
+> > -                     dev_warn_once(drm->dev,
+> > -                                   "Bridge does not provide bus format=
+, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
+> > -                                   "Please fix bridge driver by handli=
+ng atomic_get_input_bus_fmts.\n");
+> > -                     bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
+> > -             }
+> > -     }
+> > +     bridge_state =3D drm_atomic_get_new_bridge_state(state, lcdif->br=
+idge);
+> > +     if (!bridge_state)
+> > +             bus_format =3D MEDIA_BUS_FMT_FIXED;
+> > +     else
+> > +             bus_format =3D bridge_state->input_bus_cfg.format;
+>
+> The code below seems to change the logic slightly.
+>
+> Could it happen that:
+> - bridge_state is valid (i.e. non-NULL)
+> - bridge_state->input_bus_cfg.format is set to 0 (i.e. not set) ?
+>    (note that MEDIA_BUS_FMT_FIXED is defined as 0x0001)
 
-Quoting from the report:
+Yes, bridge_state->input_bus_cfg.format could be zero.
+Will keep the below default MEDIA_BUS_FMT_RGB888_1X24
+bus format setting in next version.
 
->  Azamat S. Kalimoulline 2021-04-06 15:45:08 UTC
-> 
-> Same as in https://bugzilla.kernel.org/show_bug.cgi?id=212133, but not StoneyRidge related. I have same issue in 5.11.9 kernel, but on Renoir architecture. I have AMD Ryzen 5 PRO 4650U with Radeon Graphics. Same stuck on loading initial ramdisk. modprobe.blacklist=amdgpu 3` didn't help to boot. Same stuck. Also iommu=off and acpi=off too. 5.10.26 boots fine. I boot via efi and I have no option boot without it.
+Regards,
+Liu Ying
 
-Azamat, can you try reproducing this issue on latest mainline?
-
-Anyway, let me add this regression to regzbot:
-
-#regzbot introduced: v5.10..v5.11 https://bugzilla.kernel.org/show_bug.cgi?id=212579
-#regzbot title: Booting kernel on AMD Ryzen 5 PRO stucks in loading initrd
-
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=212579
-
--- 
-An old man doll... just what I always wanted! - Clara
+>
+> > -     /* If all else fails, default to RGB888_1X24 */
+> > -     if (!bus_format)
+> > +     if (bus_format =3D=3D MEDIA_BUS_FMT_FIXED) {
+> > +             dev_warn_once(drm->dev,
+> > +                           "Bridge does not provide bus format, assumi=
+ng MEDIA_BUS_FMT_RGB888_1X24.\n"
+> > +                           "Please fix bridge driver by handling atomi=
+c_get_input_bus_fmts.\n");
+> >               bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
+> > +     }
+> >
+> >       clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
+>
+> [...]
