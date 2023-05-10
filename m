@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA016FE3F8
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 20:20:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7FC6FE413
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 20:36:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 997E910E500;
-	Wed, 10 May 2023 18:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A7710E063;
+	Wed, 10 May 2023 18:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7077A10E500
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 18:20:37 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:41422.1440474362
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 60D1C1001EA;
- Thu, 11 May 2023 02:20:32 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-85667d6c59-lhcrq with ESMTP id
- 2e0243989df1455fa5a7afdcf2c485d3 for tzimmermann@suse.de; 
- Thu, 11 May 2023 02:20:34 CST
-X-Transaction-ID: 2e0243989df1455fa5a7afdcf2c485d3
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
-Date: Thu, 11 May 2023 02:20:31 +0800
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A5710E063;
+ Wed, 10 May 2023 18:36:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683743772; x=1715279772;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1Vzc4TnF6i2+1Soe9M7OcZYLpblf1RuPuI3eR5Ov1Bs=;
+ b=jdkfQq70P3KFu1UCRaI2rzQgGRM9AOJmj+xkwkh4moa3rxWVJeZeq4rR
+ uB3yEo4CYx2LAhy5J1u8hUQGwpaKaF7HoDxzysP/gW31PjADpdNPNs509
+ Bdg+6F/ESW6mejP8JjPVt06j8bWcBnHNJy+4PcOBcx5VNS9NkmHjJO+6z
+ 0aat0iCJBVuFkNzh63B3wcEp5Hthg4/wTkyaQJQiPpevQtZlZIpolp4fn
+ 1ps2Rh5cFkEyJ7CMcq6hLsLEHqSKuEw3/8gERbnHGkUo5ZV1sxDwMcS9T
+ GwB+IAioLvbAvKBuWKsSLaB48nGuYQhd6xfsjTnqVy3EU/DX6yMdbgr6a A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="352486649"
+X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; d="scan'208";a="352486649"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2023 11:36:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="823633618"
+X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; d="scan'208";a="823633618"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2023 11:36:11 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/hwmon: Silence UBSAN uninitialized bool variable
+ warning
+Date: Wed, 10 May 2023 11:36:06 -0700
+Message-Id: <20230510183606.2480777-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
- sam@ravnborg.org
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-2-tzimmermann@suse.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230510110557.14343-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,92 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thomas
+Loading i915 on UBSAN enabled kernels (CONFIG_UBSAN/CONFIG_UBSAN_BOOL)
+causes the following warning:
 
+  UBSAN: invalid-load in drivers/gpu/drm/i915/gt/uc/intel_uc.c:558:2
+  load of value 255 is not a valid value for type '_Bool'
+  Call Trace:
+   dump_stack_lvl+0x57/0x7d
+   ubsan_epilogue+0x5/0x40
+   __ubsan_handle_load_invalid_value.cold+0x43/0x48
+   __uc_init_hw+0x76a/0x903 [i915]
+   ...
+   i915_driver_probe+0xfb1/0x1eb0 [i915]
+   i915_pci_probe+0xbe/0x2d0 [i915]
 
-I love your patch, yet something to improve:
+The warning happens because during probe i915_hwmon is still not available
+which results in the output boolean variable *old remaining
+uninitialized. Silence the warning by initializing the variable to an
+arbitrary value.
 
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/i915_hwmon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On 2023/5/10 19:05, Thomas Zimmermann wrote:
-> Fix coding style. No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->   drivers/video/fbdev/matrox/matroxfb_accel.c | 6 +++---
->   drivers/video/fbdev/matrox/matroxfb_base.h  | 4 ++--
->   2 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/video/fbdev/matrox/matroxfb_accel.c b/drivers/video/fbdev/matrox/matroxfb_accel.c
-> index 9cb0685feddd..ce51227798a1 100644
-> --- a/drivers/video/fbdev/matrox/matroxfb_accel.c
-> +++ b/drivers/video/fbdev/matrox/matroxfb_accel.c
-> @@ -88,7 +88,7 @@
->   
->   static inline void matrox_cfb4_pal(u_int32_t* pal) {
->   	unsigned int i;
-> -	
-> +
->   	for (i = 0; i < 16; i++) {
->   		pal[i] = i * 0x11111111U;
->   	}
-> @@ -96,7 +96,7 @@ static inline void matrox_cfb4_pal(u_int32_t* pal) {
->   
->   static inline void matrox_cfb8_pal(u_int32_t* pal) {
->   	unsigned int i;
-> -	
-> +
->   	for (i = 0; i < 16; i++) {
->   		pal[i] = i * 0x01010101U;
->   	}
-> @@ -482,7 +482,7 @@ static void matroxfb_1bpp_imageblit(struct matrox_fb_info *minfo, u_int32_t fgx,
->   			/* Tell... well, why bother... */
->   			while (height--) {
->   				size_t i;
-> -				
-> +
->   				for (i = 0; i < step; i += 4) {
->   					/* Hope that there are at least three readable bytes beyond the end of bitmap */
->   					fb_writel(get_unaligned((u_int32_t*)(chardata + i)),mmio.vaddr);
-> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h b/drivers/video/fbdev/matrox/matroxfb_base.h
-> index 958be6805f87..c93c69bbcd57 100644
-> --- a/drivers/video/fbdev/matrox/matroxfb_base.h
-> +++ b/drivers/video/fbdev/matrox/matroxfb_base.h
-> @@ -301,9 +301,9 @@ struct matrox_altout {
->   	int		(*verifymode)(void* altout_dev, u_int32_t mode);
->   	int		(*getqueryctrl)(void* altout_dev,
->   					struct v4l2_queryctrl* ctrl);
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index a3bdd9f68a458..685663861bc0b 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
++++ b/drivers/gpu/drm/i915/i915_hwmon.c
+@@ -502,8 +502,11 @@ void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old)
+ 	struct i915_hwmon *hwmon = i915->hwmon;
+ 	u32 r;
+ 
+-	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
++	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit)) {
++		/* Fix uninitialized bool variable warning */
++		*old = false;
+ 		return;
++	}
+ 
+ 	mutex_lock(&hwmon->hwmon_lock);
+ 
+-- 
+2.38.0
 
-Noticed that there are plenty of coding style problems in matroxfb_base.h,
-
-why you only fix a few of them?   Take this two line as an example, 
-shouldn't
-
-they be fixed also as following?
-
-
-  	int		(*verifymode)(void *altout_dev, u_int32_t mode);
-  	int		(*getqueryctrl)(void *altout_dev,
-  					struct v4l2_queryctrl *ctrl);
-
-
-> -	int		(*getctrl)(void* altout_dev,
-> +	int		(*getctrl)(void *altout_dev,
->   				   struct v4l2_control* ctrl);
-> -	int		(*setctrl)(void* altout_dev,
-> +	int		(*setctrl)(void *altout_dev,
->   				   struct v4l2_control* ctrl);
->   };
->   
