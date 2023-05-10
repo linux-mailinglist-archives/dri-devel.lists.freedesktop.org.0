@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869926FE774
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 00:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77ABD6FE76E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 00:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D16F10E569;
-	Wed, 10 May 2023 22:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3704D10E566;
+	Wed, 10 May 2023 22:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5007810E162;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA2C10E10A;
  Wed, 10 May 2023 22:46:30 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34AMhT5S010591; Wed, 10 May 2023 22:46:28 GMT
+ 34AMhQxE002729; Wed, 10 May 2023 22:46:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : date :
  subject : mime-version : content-type : content-transfer-encoding :
  message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=VzsN7Gy3La6QxPIpEZC7XefE1GKPHXl5fyRRtB61Pak=;
- b=Ym2tZhgMCiWTPvBSmRzj+VMFTMpE2FzRSCJvIlKnSYgPXVKzUIAmNIwFrEh9ZJKFd2pv
- MBQ5oVC14SSZ0I+iMEJC6vEGJ+zce1BZWf3KiYQenj+yuTYQkrkTNRHGYfU0K1EH25zO
- M0DboO1jFB9H4Sb1pFlC7gnb6wSATY20e4l/9cHHY1cjuheEH2AiUOuFdmKOF4TOoayO
- bHep0mgrv9OzX0K0i+Jt4Gv+GWRr69OyzJBMYbAziuvZs/nL06c5q4T4ecyaZ8Imy+ZS
- 0mWrMiMgAsgw2fq3p5lZ4LWnpev0bro6qZGxGXxNvpLy3Xl3UlEZJL/wlDCalCXkrBoa jw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ bh=lYpGJOLG8oyrp5edVj42DlByQslVW5Uti5JgBGX46cU=;
+ b=JDP+FIIKLVUSGLPMTSjIu4X0ZFaIZJMDV6Nv1rP0f37P+HygdiaijkeCLA2ecBZasOIW
+ NNkuuh9ju2UCa4sBY5YLxNyhJh4h+QGTWhl0MPoAnGY27dTPeplMoShonN1HtuYFWbrn
+ 3VsYUzkxJ6NtgjgUitjakUkf26srdoi87rf3jIhw5Oijf2zJxsbU6liXBg4/WdFz7xix
+ ayWVIGAyeLAJ7Tvb4+Ol61QagcyCJcGI0SEifY3+OMjirrbAiuWQ8IVwAJtCS2Pfia9v
+ cpf22Q5xNAOusHLndC3bsfxz1L79ejZ59BY6DfXgedQlCMWtty1Ixn56VjJse9PrW24m 2g== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qgett0n8m-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qg79cspfq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 May 2023 22:46:28 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34AMkRZV013656
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34AMkR18008626
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 May 2023 22:46:27 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,21 +41,21 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.986.42; Wed, 10 May 2023 15:46:27 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Wed, 10 May 2023 15:45:57 -0700
-Subject: [PATCH v8 6/8] drm/msm/dpu: Fix slice_last_group_size calculation
+Date: Wed, 10 May 2023 15:45:58 -0700
+Subject: [PATCH v8 7/8] drm/msm/dsi: Use MSM and DRM DSC helper methods
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20230329-rfc-msm-dsc-helper-v8-6-2c9b2bb1209c@quicinc.com>
+Message-ID: <20230329-rfc-msm-dsc-helper-v8-7-2c9b2bb1209c@quicinc.com>
 References: <20230329-rfc-msm-dsc-helper-v8-0-2c9b2bb1209c@quicinc.com>
 In-Reply-To: <20230329-rfc-msm-dsc-helper-v8-0-2c9b2bb1209c@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 X-Mailer: b4 0.13-dev-bfdf5
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1683758785; l=1214;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1683758785; l=1861;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=l4q4Dk/9thO1KabTL7scWISmGG9y12VmtfnDtkniZmM=;
- b=12J7+8dT5OVxBHAOiy2B39WppH+OlO1R1uiM1aD//fHwGl6yUv05EwzOJo8vgzDl5NSqIj1si
- obmpY6UwS0PAJVRG5L7G1YZR7N5wF97dYQrvdB1L0QQyPjeecqYQIIj
+ bh=nsgdTHa6FN4ktZvas/CRYQ8cXqMZhzwbQ0B6zaei1uE=;
+ b=gsRerPR8TLpc3Tson8rwR9DcUaR8uWJxyuPYCPz6FVutl/6ZkaBy7IXkPeXxNwO4TuyYjmtro
+ 5O1VhpJONEKAcUxMxKxWZjP5JNeZNr2a/1ur5WZkbbddnv4e/ZU6ncT
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -64,17 +64,17 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: i1l4eHHNXdS_0og_zaTi_HLbsHLCzXnY
-X-Proofpoint-GUID: i1l4eHHNXdS_0og_zaTi_HLbsHLCzXnY
+X-Proofpoint-GUID: 3Vmme1g3RakeGuj3As6AhrNpYUhHPp-H
+X-Proofpoint-ORIG-GUID: 3Vmme1g3RakeGuj3As6AhrNpYUhHPp-H
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=932
- priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0 adultscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305100188
+ phishscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=846 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305100188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,34 +96,54 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Correct the math for slice_last_group_size so that it matches the
-calculations downstream.
+Use MSM and DRM DSC helper methods to configure DSC for DSI.
 
-Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-index 1e11c0fb0545..ddaec05151cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
-@@ -56,9 +56,10 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
- 	if (is_cmd_mode)
- 		initial_lines += 1;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 74d38f90398a..508577c596ff 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -28,6 +28,7 @@
+ #include "dsi.xml.h"
+ #include "sfpb.xml.h"
+ #include "dsi_cfg.h"
++#include "msm_dsc_helper.h"
+ #include "msm_kms.h"
+ #include "msm_gem.h"
+ #include "phy/dsi_phy.h"
+@@ -848,7 +849,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ 	/* first calculate dsc parameters and then program
+ 	 * compress mode registers
+ 	 */
+-	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
++	slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
  
--	slice_last_group_size = 3 - (dsc->slice_width % 3);
-+	slice_last_group_size = (dsc->slice_width + 2) % 3;
-+
- 	data = (initial_lines << 20);
--	data |= ((slice_last_group_size - 1) << 18);
-+	data |= (slice_last_group_size << 18);
- 	/* bpp is 6.4 format, 4 LSBs bits are for fractional part */
- 	data |= (dsc->bits_per_pixel << 8);
- 	data |= (dsc->block_pred_enable << 7);
+ 	/*
+ 	 * If slice_count is greater than slice_per_intf
+@@ -858,7 +859,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
+ 	if (dsc->slice_count > slice_per_intf)
+ 		dsc->slice_count = 1;
+ 
+-	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
++	total_bytes_per_intf = msm_dsc_get_bytes_per_intf(dsc, hdisplay);
+ 
+ 	eol_byte_num = total_bytes_per_intf % 3;
+ 	pkt_per_line = slice_per_intf / dsc->slice_count;
+@@ -1759,7 +1760,7 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
+ 		return ret;
+ 	}
+ 
+-	dsc->initial_scale_value = 32;
++	drm_dsc_set_initial_scale_value(dsc);
+ 	dsc->line_buf_depth = dsc->bits_per_component + 1;
+ 
+ 	return drm_dsc_compute_rc_parameters(dsc);
 
 -- 
 2.40.1
