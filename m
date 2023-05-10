@@ -1,45 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E786FE1FF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E33A86FE1F4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:55:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CCF10E4D9;
-	Wed, 10 May 2023 15:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D35E10E4CD;
+	Wed, 10 May 2023 15:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A3B10E4D5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:58:14 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 18E9DD32BB
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:48:14 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 073A0C000C;
- Wed, 10 May 2023 15:48:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1683733690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o8C8MXrqjqKXj0eKsxGXL9GkrBq/7JcKAOeht6U8KtQ=;
- b=jrmGFUr2y+aOVqpJ1iPloWve2lq8N4iHH6SoENv2W/wV94WrcuwK8jOqlG7rPvLt6gckhN
- gvzm94tlydwTS5IAluF6icZG/5auLBEKIUhgJgnsgZCsJseLP8iZ2duxFoPVJ4FFI8itRm
- Qqltvlr4+O7bdd/MMgublxvFBUvHaam1Dyc9gIvpT11ca+1kPdL3p56QFa2XGUC9GDbfWR
- LPr75aieSdqJVFFIkFxE8wtBPDxETpKU28oNQ/9FeOoRq+dpF9Zmn1XihIqsgVtb50GrRw
- xVSkPb4DRopl5PhnUFfgsGAZWDgZdxOS5uNNF0+QR1Ocw0KLQ5Oq3ITr6KVtvA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 5/5] gpu: host1x: Stop open-coding of_device_uevent()
-Date: Wed, 10 May 2023 17:48:03 +0200
-Message-Id: <20230510154803.189096-6-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230510154803.189096-1-miquel.raynal@bootlin.com>
-References: <20230510154803.189096-1-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7DA010E4CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:55:06 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7102A580906;
+ Wed, 10 May 2023 11:55:04 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Wed, 10 May 2023 11:55:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1683734104; x=1683741304; bh=SC
+ KFLRlOu8wMdidaM2MzVAEF3HdgavF0+zWaNr+e62A=; b=A2W0dNaRkjw2NxKUw2
+ y9/WuIWb6k0ZeUb1NuFzsS81Djn7IGJMUkuEFMR7fOflHeNjpOhtvktN1Odc5a0z
+ xPeBgoaCSeAf07UyKrt22YgIieCX3VuYjmzsZ7acBcr9Vhsn43rDMIHBy+tup+62
+ e+b15zL9TwSOE1pwhAWbOyPIs3zDrZiqpL0xF3vLdAvyOzLuSDBSNUGza0tnoSHo
+ GMsx9rsH+NakbnyqBJiDC4rcPPI7eVaCFnr8L802UJnuqWqjK25aunX4hbyjyfUK
+ TAeWqnelfG1gYDmfx0Kz6XhPuM40oPbxxV6++qmIkLZLhhFkjR/B8N0W7z0+yWPj
+ EhEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1683734104; x=1683741304; bh=SCKFLRlOu8wMd
+ idaM2MzVAEF3HdgavF0+zWaNr+e62A=; b=eIQYFAE5hZb+cnbQVSJEeeGsDPFhq
+ wvSnouTayKkhqt7LWXqhWBFjSVYpoREhn3/6XGgVCsgiUb6sEjigqqvglXS25Pyy
+ X8KK1j6AiBuX7bJeATzfhXCIbvweqMnpWjMHFLv6ODWKcvH6eD1oaw/l5FQuDA8J
+ 8ppL8Q4hETUca4ibTrpNmQ9U9eOdtgSe77XLucvhyxq+bxxWUs/X9wHs2KwYV+0J
+ Re8DQdzhPlu/QXxoS/a7Svwl9gcSfF2VIXS6JKfnP6DYDvNYmu863O/WiMzQxNHe
+ n/cwLQVAIPwbhFKgrPGUuqey6mWhQOSMQM9kPgIUqsT/4JmMnP/fmlp7Q==
+X-ME-Sender: <xms:V75bZI0QCyndvyxZhVbdVguFOeHQt11Pw2iNy0w2g7WiqadNq1Ytlw>
+ <xme:V75bZDHWhjp05aUzpFpWCQSYtdCrLKEGuxx9zSEVIglAQacPOJCHfurShIToWBue-
+ 2trSsWy2DhMgrv4E4o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegiedgjedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepveevgeegffejueeiudehfefhhefgudejteejleeujeejffeuiedufeevfffh
+ hfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:V75bZA6RZfoG5BTYXRp8gTwgZ97mM-O_9pdcTzrGJBDim0LwUysyjQ>
+ <xmx:V75bZB3DXP8AYHeRD6YAVpZW_OGrMUKEYOBMBP0JZqlkMzywaXOVyA>
+ <xmx:V75bZLHlylKFiZVp5FEdY30IJbVOcNVUqvyVlYjqsg3FINwqU_kuyw>
+ <xmx:WL5bZE11XKy2XwogTzJ8hN3VFODqmdERBDmO_-kO_jNl7o2u12Ii7A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 2BCEFB60086; Wed, 10 May 2023 11:55:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+Mime-Version: 1.0
+Message-Id: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+In-Reply-To: <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+ <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+Date: Wed, 10 May 2023 17:54:18 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "kernel test robot" <lkp@intel.com>, "Helge Deller" <deller@gmx.de>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, suijingfeng@loongson.cn
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,93 +93,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-tegra@vger.kernel.org,
- Frank Rowand <frowand.list@gmail.com>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is apparently no reasons to open-code of_device_uevent() besides:
-- The helper receives a struct device while we want to use the of_node
-  member of the struct device *parent*.
-- of_device_uevent() could not be called by modules because of a missing
-  EXPORT_SYMBOL*().
-
-In practice, the former point is not very constraining, just calling
-of_device_uevent(dev->parent, ...) would have made the trick.
-
-The latter point is more an observation rather than a real blocking
-point because nothing prevented of_uevent() (called by the inline
-function of_device_uevent()) to be exported to modules. In practice,
-this helper is now exported, so nothing prevent us from using
-of_device_uevent() anymore.
-
-Let's use the core helper directly instead of open-coding it.
-
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
----
-
-This patch depends on the changes performed earlier in the series under
-the drivers/of/ folder.
----
- drivers/gpu/host1x/bus.c | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 4d16a3396c4a..6434a183fb72 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -338,34 +338,15 @@ static int host1x_device_match(struct device *dev, struct device_driver *drv)
- 	return strcmp(dev_name(dev), drv->name) == 0;
- }
+On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
+> Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
+>> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
  
-+/*
-+ * Note that this is really only needed for backwards compatibility
-+ * with libdrm, which parses this information from sysfs and will
-+ * fail if it can't find the OF_FULLNAME, specifically.
-+ */
- static int host1x_device_uevent(const struct device *dev,
- 				struct kobj_uevent_env *env)
- {
--	struct device_node *np = dev->parent->of_node;
--	unsigned int count = 0;
--	struct property *p;
--	const char *compat;
--
--	/*
--	 * This duplicates most of of_device_uevent(), but the latter cannot
--	 * be called from modules and operates on dev->of_node, which is not
--	 * available in this case.
--	 *
--	 * Note that this is really only needed for backwards compatibility
--	 * with libdrm, which parses this information from sysfs and will
--	 * fail if it can't find the OF_FULLNAME, specifically.
--	 */
--	add_uevent_var(env, "OF_NAME=%pOFn", np);
--	add_uevent_var(env, "OF_FULLNAME=%pOF", np);
--
--	of_property_for_each_string(np, "compatible", p, compat) {
--		add_uevent_var(env, "OF_COMPATIBLE_%u=%s", count, compat);
--		count++;
--	}
--
--	add_uevent_var(env, "OF_COMPATIBLE_N=%u", count);
--
--	return 0;
-+	return of_device_uevent((const struct device *)&dev->parent, env);
- }
- 
- static int host1x_dma_configure(struct device *dev)
--- 
-2.34.1
+>> I think that's a preexisting bug and I have no idea what the
+>> correct solution is. Looking for HD64461 shows it being used
+>> both with inw/outw and readw/writew, so there is no way to have
+>> the correct type. The sh __raw_readw() definition hides this bug,
+>> but that is a problem with arch/sh and it probably hides others
+>> as well.
+>
+> The constant HD64461_IOBASE is defined as integer at
+>
+> 
+> https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/hd64461.h#L17
+>
+> but fb_readw() expects a volatile-void pointer. I guess we could add a 
+> cast somewhere to silence the problem. In the current upstream code, 
+> that appears to be done by sh's __raw_readw() internally:
+>
+> 
+> https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/io.h#L35
 
+Sure, that would make it build again, but that still doesn't make the
+code correct, since it's completely unclear what base address the
+HD64461_IOBASE is relative to. The hp6xx platform code only passes it
+through inw()/outw(), which take an offset relative to sh_io_port_base,
+but that is not initialized on hp6xx. I tried to find in the history
+when it broke, apparently that was in 2007 commit 34a780a0afeb ("sh:
+hp6xx pata_platform support."), which removed the custom inw/outw
+implementations.
+
+      Arnd
