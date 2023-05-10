@@ -2,32 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F6D6FE273
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 18:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58A96FE2BC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 18:48:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0121110E327;
-	Wed, 10 May 2023 16:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D80710E258;
+	Wed, 10 May 2023 16:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7353010E327
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 16:27:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F3421063;
- Wed, 10 May 2023 09:27:58 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E464A3F67D;
- Wed, 10 May 2023 09:27:12 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: chunkuang.hu@kernel.org,
-	p.zabel@pengutronix.de
-Subject: [PATCH v2] drm/mediatek: Stop using iommu_present()
-Date: Wed, 10 May 2023 17:27:09 +0100
-Message-Id: <49bafdabd2263cfc543bb22fb7f1bf32ea6bfd22.1683735862.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9775410E258
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 16:48:25 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so254594245e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 09:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683737303; x=1686329303;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MwVVyzBwHFgq5mjt1+OBVM71N6e1slDHiUKoKcjYW0Q=;
+ b=yy0HCIvUH4Sd4z+3E6svVggUDeh72opPe44l+Bem25petIjeKIIYzQqIWoBHzl0UNL
+ u8N7qm1cfYKJD1Ud9Mt207BcE7wIRoHy5kG7p3GN6XH5gbPk9a9QsPQFB8wRk7t3ofPb
+ irL1km6PsxvZruvN922JFOGjHAm15x9jXWprgf38trxk65/fHgrIdA5B21I1Eaxx5U5U
+ Vr9vc6Ht/FGK2UikGQRSwBVMjn+MURFnJaJB+b6VjaIY9OW2l6qZWYznyy4flM8XPjzv
+ T7OLdbQBdX4JqZsW5cTIjUhOJ0XTVn+QRau4Lu2oA7/p/THSVE1O6yCmsl+0iv+PveoN
+ oQdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683737303; x=1686329303;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MwVVyzBwHFgq5mjt1+OBVM71N6e1slDHiUKoKcjYW0Q=;
+ b=AoTk+JH/mEPwkYcNLwU/4SLxAfoyHnkMtTA7/DZv0C2joMik0UBDDnJ8/UUoRyAAX+
+ ue6yHhMuf8bIc8ZlbWrIq6DJqBpI7Fj1mrx+l6HjKN0/uKSlh/sVGONAWwKQwsIAKQJW
+ rVtEC09mm5l6yVDswpZcS15+rK833Xr1LzpfevguftbI9OqOqLOqI6FH+1aCh9ozHV1F
+ Bi3hOHNuAFTRxwGwrXisZZBZNPjtP2TqPYx2X/JC6mqvTZhtDpUN1eiWOOpWOrMZXSo8
+ rBk8O/pbVxX1PAEKLnbGIBjADndh0EKTPXbSMsfFhIIUuhbOW07V2V5GtnuD8BHgBiLZ
+ zA0A==
+X-Gm-Message-State: AC+VfDwoGF8nATglFHy7QpWqluJL1etT0aoMTZ6gPebApzr8c0BylWdO
+ oNBIcYBtwiBztVYAenzvdatMJg==
+X-Google-Smtp-Source: ACHHUZ6pAsUXjnPzQPlETYmn2EITVP8Au3ALpgkfd7X43evubc0YmSsEetI21aWFcNDrnelF4WvqLw==
+X-Received: by 2002:a05:600c:3b91:b0:3f1:7b63:bf0e with SMTP id
+ n17-20020a05600c3b9100b003f17b63bf0emr12869963wms.18.1683737303342; 
+ Wed, 10 May 2023 09:48:23 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ y5-20020a1c4b05000000b003f429d59e37sm6135075wma.34.2023.05.10.09.48.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 09:48:21 -0700 (PDT)
+Date: Wed, 10 May 2023 19:48:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH] accel/qaic: silence some uninitialized variable warnings
+Message-ID: <d4c73c29-b604-4b0c-92bb-000369b0a5d7@kili.mountain>
+References: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
+ <2d1fb58f-f98b-ba17-65e9-9ea4b467102a@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2d1fb58f-f98b-ba17-65e9-9ea4b467102a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,45 +72,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the pointless check. If an IOMMU is providing transparent DMA API
-ops for any device(s) we care about, the DT code will have enforced the
-appropriate probe ordering already.
+On Wed, May 10, 2023 at 08:57:03AM -0600, Jeffrey Hugo wrote:
+> On 5/3/2023 4:41 AM, Dan Carpenter wrote:
+> > Smatch complains that these are not initialized if get_cntl_version()
+> > fails but we still print them in the debug message.  Not the end of
+> > the world, but true enough.  Let's just initialize them to a dummy value
+> > to make the checker happy.
+> > 
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> Thanks for the cleanup.
+> 
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> 
+> Could use a fixes tag
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
+The fixes tag thing could have gone either way.  It's really minor.
 
-v2: Rebase to 6.4-rc1
+> and also I'd prefer to maintain the style of sorting
+> the variable declaration lines by line length.  Given the minor nature of
+> these nits, I plan to address them.
 
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 ----
- 1 file changed, 4 deletions(-)
+Thanks!
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6dcb4ba2466c..3e677eb0dc70 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -5,7 +5,6 @@
-  */
- 
- #include <linux/component.h>
--#include <linux/iommu.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
- #include <linux/of_platform.h>
-@@ -582,9 +581,6 @@ static int mtk_drm_bind(struct device *dev)
- 	struct drm_device *drm;
- 	int ret, i;
- 
--	if (!iommu_present(&platform_bus_type))
--		return -EPROBE_DEFER;
--
- 	pdev = of_find_device_by_node(private->mutex_node);
- 	if (!pdev) {
- 		dev_err(dev, "Waiting for disp-mutex device %pOF\n",
--- 
-2.39.2.101.g768bb238c484.dirty
-
+regards,
+dan carpenter
