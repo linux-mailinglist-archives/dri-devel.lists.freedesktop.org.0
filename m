@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28286FE4BF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 22:04:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972FF6FE4F9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 22:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE6F10E515;
-	Wed, 10 May 2023 20:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0B410E008;
+	Wed, 10 May 2023 20:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B98CD10E515
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 20:04:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0196610E008
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 20:22:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1683749060; i=deller@gmx.de;
- bh=nTCvHy9/JOb5ufHMih/Ur+xSNY4cEQR1MIROSz16dJE=;
+ t=1683750171; i=deller@gmx.de;
+ bh=71yZV2JQcApfTrhONnETnE0pxU6au3GHH9JpPsMSV8M=;
  h=X-UI-Sender-Class:Date:From:To:Subject;
- b=CzgQ0mXMAus38b8EUnLwJ6fmdcu4pVyJrjApJCEHL6edP17bLXphwAuerqqnVS6zX
- 1/tLS6AVKHQxHIpFEkVVrua5edACPcIR9pO0qvXAQeQOiBtqQ43sdkhFy64KTGzUO/
- jvxoHk/mawhDvJG9cDWsd5pRB1957bRLu58lLg9nt/j2O4yoOwLhKWDqQg+NSJiXg8
- 3f3M+VFDZKz7WS+hC2sYzMhxFD0j3ITJTNWaFuB7+sUaIag2jQHgds5USsHMsxlO3F
- 5YVItQyYcgeWS+Tr5klUqN5S+qxQUHh6jz86UOOlYNmXE/LDApY9Btm7vsW3Udxjd5
- 0mAelzp/9f05Q==
+ b=a8Olt5pQW4cifNIfT8BcG8A7JrPDPgYahXCUa1ffGiu7o2B7HIJMDHrbPzdRfFHpZ
+ 6noD0AvQRvT+mKFd3VLY4RTZ7Y5OifB4NTg/MIR7bskITa3BA5dernx1K18dd0XwvY
+ pwJ/RC4jtBztlZB+fOYbiJNF/dSVg0eU1HnONXvq20e9BFZqh7sqaC5acD/cfeE699
+ GeQzegsLk+bwZJtdlRF64gLdT4G9z0UBixIWjATHyvlbas53vm0h+pHyb9VWeTZr8r
+ cz9nPgQ8T+g4qZPHsOeWADdNdcng3+igBY17jfRniYPH+2BMwf3h94lxwDHLePW9hF
+ swj6YQEYAwiDg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from p100 ([94.134.155.121]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mo6qv-1qXDTj1qKR-00pdZc; Wed, 10
- May 2023 22:04:20 +0200
-Date: Wed, 10 May 2023 22:04:18 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MN5eR-1pfzm344Ht-00J1c8; Wed, 10
+ May 2023 22:22:51 +0200
+Date: Wed, 10 May 2023 22:22:49 +0200
 From: Helge Deller <deller@gmx.de>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-parisc@vger.kernel.org
-Subject: [PATCH v3] console/parisc: Fix STI console on 64-bit only machines
-Message-ID: <ZFv4wt5LT857xDrm@p100>
+Subject: [PATCH v4] console/parisc: Fix STI console on 64-bit only machines
+Message-ID: <ZFv9GUYLmgi9GA3P@p100>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:JJdXvpMUrlnm1ITBTrxlxT1XXQ4ty/uItCu0l2pHgS1S5hm77ml
- Q3/dRoTp4NKWudGiXyTfWjPyvZeIrZlx82UzxEKIVI7CmUbNA/NZOqgGjASRE7ZwJTgUfVM
- Rn52t6VWRGmcyjhmNyPOB8FQukVUCQP23GB9MhkIy55KZYii4pSr+tHstFVq2D28hcUiZWi
- RkfmKTzI456lPmDrMyz/g==
+X-Provags-ID: V03:K1:rIdWoNVy91cgDGu3Gry0w7PErslTTUluffCWzE3jtJkBeFXs/HF
+ cpnxEKwAyuQBFteM/KRcR3ZnWt9/R3xXmGo5C3jNuHrUjYr1A2aSDQdM5cAAMx4a1nNtYRN
+ 3rag/kRu2IgaiouuGBnPkbxC2G7/O75fmZvZdVW/VleoJWIAN1N+UX8oy+0mRYJBYQw71pi
+ sqBMtMl1XImtnsDDnWkeg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aQcZVFdrWoE=;mDao+9GYfezjRIZMxD2kmWyfqW5
- i9zWTxbwthdGAQIIvEdwux65BcPm9gYcEYGn6gyMCILHEZz4mrsk1kWZNQ5i9WVWkmanUngwV
- rlZnzH9XXC9lhli/ZztYYCfuES3627v+3pt+Qje/EYKeR6aodTvZMt+HqobXdgaKuzu/z5OtH
- BNrzbQN1Cr4LGqYBpbFI87Cp4vSfJ2t1akNuIXfq5cncAfAb/nym8t+6dahf5dvbG1wL8wDsd
- MobAMMPJqmDXUIL390IDQ0NY+txB1snr3Vol+U+8G/whGt90A14L+eGtN7IOOx3GWr1MOCQzn
- xDxcKmlFNEEj1M/WasbBQtgRzCd7U4O84AuMf10bxnjEbfxT2731hkjJbIVRQh+csUPYifqT+
- pZzBWi3JuHOEXfc0APWZNC41PLJcIkBTVYDFgohVjqHxuobTLnveasbqFlCQ/2KLcsIzrfRHx
- ScTxohMdLsiDVL1/23+a+zaBklfM0N3TYWHB8l7YODewSVmPxoWRVIDzZl86QUmr9Cw/hM8xS
- AeQ/rMVM5q7wdYO1rO+IwreWItU3tw8Xl9dXIhtFb2doZ0NeuCryHBzZH84YouuhWcbkAgKiV
- fdNccRH4S4y1k5Zx69/7w1UyjK13dIL4qaR8cD4LCqo+7gyeEAUcZLAhN0I3tg3r8R1avYnrE
- gmanGcXXMi2QMZO5xGQ3n/bYAc51cSlrJzlp7lW06BlGsvPnRLeMIbnyViDREgJNA8l7bZRLR
- YD2teoghbrQ83tCOc0SWRJN6H+c03Ad+hFFntovqjRBut2b7x+bj39A0WMYrwrqLQAO55zFFn
- mN3PhojTz7G+qTVHLxvUkO1+RYqEReqW+Pd8aXiltYTLJIzv/WEq97bGCr305mPjbJxQvvimv
- Zc00z7VkGsnJMmVJvnWjqwRpGqFxqpaO/g4+G/nSySfhtQmD3iLHUeZ64AE06lz9cQ1mIHUuJ
- 1n21mz2pEbcIrgOSdWB7jM+808I=
+UI-OutboundReport: notjunk:1;M01:P0:9F5YFsbqeDU=;XA4mvCareI89Z1mVJtWeBiNKle3
+ 9wrGUAcaItYC1e8YJ0ZPXZbu34lJgU+38ZQwyGpNXj8xDT0zbe981pyBszGOe+AQ0lf+jDSUV
+ JekVbYdsX7jRniJeiwaO8PyfBTPuCyoVaqeAuQUfZCPEk69FrnvUDwy2yoPU5lR6grx/0onQD
+ qhFalylogr+SIoaLyJ6FtkcQKmuhmcYnUd2uDq4NYh/zQqysvnLwPFgW3FH01E52dAYoIVQWM
+ 51TWeo9ykvwQjRtUvQK29bHuycLB8dB1iK72llFhvhEq+xi01Oqt8FluDgkWWWnjx1kZd1e8o
+ YS7as9sbp2iqumIUvXsxEGnUIEmH3iPo6T1x4YyFFHb/7EuJRgMlrJ/3Ai8GYrmFmyrazJ8eW
+ pISWhphjudoA0VOVLtPsBuTrHjh6/pUPPLM+m35rWdN6wiPgXJZuVsdf6ZF/TW7j2cN5F2O0t
+ UJqIyw6jKCzn5imxHC/ZgeqjK+pVSOUZdEtgVqQLql8N5/JhjUoqYGvsslDna2MMzfLcjTrwq
+ Sow0YYzeBQEq36Chj23EaiEKiVfdaHtlEI4cfpUiMeRLVE0xWVcdtt/5NgErdK9bqlPW/yeTu
+ KYZ31ylnuZeBEkZCAHAdRIPGONR27LUsOriV1nyL4vDu0vhXBkF250lYlAVDh9cqoI7DNY/sT
+ 8UhXrseQJau7klfLlRDJS/U4UuBotUiBAILZ6Ex9wFpXAwa8xlrfYYr1hXvIFNqqUGX2z5QVT
+ DiZysBur5IhPRVQ5a5KBoTxO5TBiCSh6Kfd0AgqK1iyaDYS1LSERpoAkcoc5pw9JqioWQqnZI
+ D/sE/5tctl6fexygd2Eo+Bxdge8EjDT/Fq6RJfgmZJs5qm17kPIWP9NauoN8nBnnc4i+Dygbn
+ cT5/hscENUKU58p5akFHzuyTJcGBlEYRfpYIBskO89qbGfJinkTuBhou2uIO+rPjDD0wPxfDZ
+ dY69Og==
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,8 +82,15 @@ When calling 32-bit code from a 64-bit kernel one may need to copy
 contents on the CPU stack from high memory down below the 4GB limit.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-
 =2D--
+ arch/parisc/include/asm/pdc.h |   4 +-
+ arch/parisc/kernel/firmware.c |  21 +++--
+ drivers/video/fbdev/stifb.c   |   4 +-
+ drivers/video/sticore.c       | 159 ++++++++++++++++++++++------------
+ include/video/sticore.h       |  42 ++++-----
+ 5 files changed, 143 insertions(+), 87 deletions(-)
+
+v4: resend to avoid merge conflicts, no code changes
 v3: Fix check for overflow of 32-bit pointers
 v2: Forward-ported to apply cleanly on drm-misc-next git tree
 
@@ -679,3 +686,6 @@ est) */
 
  	/* all following fields are initialized by the generic routines */
  	int text_planes;
+=2D-
+2.38.1
+
