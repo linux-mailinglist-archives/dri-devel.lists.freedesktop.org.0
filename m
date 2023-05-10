@@ -2,123 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9366FD2DC
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 00:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4826FD482
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 05:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A5810E43E;
-	Tue,  9 May 2023 22:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924DE10E18E;
+	Wed, 10 May 2023 03:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30C6810E43C;
- Tue,  9 May 2023 22:55:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MTMUZ8BJBOJPOZnTzfvs1Vb/aUGBxh6+RXeux6rAMNR9uv443R10Sm2XQVXfd9sSpzCwt7POl8nfwCMTbF/ro+xpfK1wC77YfAL8XAjHH+IO0ZQ+FZjqptHIZGYKLEZmMUxI1jaeUgI/C8ilIOSA5UG2rZxZhBf0ZVNWZQPtV8OBX2X3ZEv287D7qlgqBb541yKidqi7BYqk5py/lKyvddhY5nRdyAJ55sdaOAAbcCJ/CoKOpe5apyd7DbxIGw+3yjtfba3FOMxGZrojuMM5bRmh+SVRuwptifSKbrlkrjEgG1XWW6/MU0W0sJjEG/rxeZEa5/DlZMb2xTjCSWZxTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wcwkuP9fq45XHaoRgsYGy4XSJw1WXH0JSGS4LoSTWMU=;
- b=IGF2YSqWEyE9RILDKXipXNXM6M34yYOsQGxpaDTHpL71K/4r0cOGbDx4aq71A1glUG7yzpmRCNmxkD3UDC692JjV2rvCJGf16ByhIUrIgAgkUZ0hU/C78ljfo+vk/1/wuEIIGDhU+ZfRoKGPDmWYYyynTzhNC/ITe4RDNtHWpzyvq7KjiPFq6Gju7YqPIeVmBt/qAUR/KC8MtFjEKoOlSKtYdK96zMWJLRy9zOUXiC81QNgILKCASxF0JCCWtmxC3Xfbiv4FMUbZZMh9UWFpFcND/OnY/WDIjWlC1xtikU9vv0WvuxiWeEMCMt+gI6ZMO14zBv8rDlgW2zOgPHmdCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wcwkuP9fq45XHaoRgsYGy4XSJw1WXH0JSGS4LoSTWMU=;
- b=hupzyo2vMUk/QboGooSwJMqo7qXchTV9Z1B1QR7Dmw6Qvyk/uFEqO73Z3FRmkhTa+8xB+KuYSFli108EVBHKOzyKrSdZL+OP/amgzUq598t9ihCVX5Kj5i2prmc0g2j5/UtKs7um9ljdB4lUCXCRzqWdrCAigawjSHF9m7GyAzs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM6PR12MB4975.namprd12.prod.outlook.com (2603:10b6:5:1bd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
- 2023 22:55:50 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::4666:2db3:db1e:810c]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::4666:2db3:db1e:810c%6]) with mapi id 15.20.6387.018; Tue, 9 May 2023
- 22:55:50 +0000
-Message-ID: <c46e0ec2-87cc-83a8-c371-a7b11ba8ea2f@amd.com>
-Date: Tue, 9 May 2023 18:55:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [RFC PATCH 12/40] drm/amd/display: add plane HDR multiplier
- driver-private property
-Content-Language: en-US
-To: Joshua Ashton <joshua@froggi.es>
-References: <20230423141051.702990-1-mwen@igalia.com>
- <20230423141051.702990-13-mwen@igalia.com>
- <5bbd49b6-ad09-607f-521d-96f9d8eb3b20@amd.com>
- <20230509163701.57lf22phumicqv37@mail.igalia.com>
- <CAEZNXZAfq_6EZHBhBXjMPwOuU10rwKe3SPJpz1hetux=HRF4CQ@mail.gmail.com>
- <fc308aca-4ecf-7db9-3491-9ede18ee5562@amd.com>
- <CAEZNXZAFjn2zOEr33qZvEC5h-P4OowJ7sB8MVhBHAzntXBDgjw@mail.gmail.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <CAEZNXZAFjn2zOEr33qZvEC5h-P4OowJ7sB8MVhBHAzntXBDgjw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0040.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::26) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFB310E18E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 03:42:06 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id
+ e9e14a558f8ab-333866a265fso38124715ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 May 2023 20:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1683690125; x=1686282125;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KoxWVoYqD+4gV3KBow/UtDgyZNAdKql45E4uDHQVhwc=;
+ b=NuuLFcl5w3cPb9iZ5sGP8fjZmIlyvc1bQ8GViAVcWB7JtZ3NFVOoSSk60Q9KsBHS+4
+ Vmb+n7F0Qh3Xn1Tov3uM0952B851pVYVlOOdtXfF8vmaJKWpOqPH4C226ffUerU/p0H/
+ praGBWo1JBM67Uk/D3hq04Y/zktciE6V0rJaE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683690125; x=1686282125;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KoxWVoYqD+4gV3KBow/UtDgyZNAdKql45E4uDHQVhwc=;
+ b=Cip26Xa3F4cf2BYg0OfCkWZo5haJ7RBxGeeCnfuu+B58BrrlQdT4KcT6EeYoxNIcFt
+ 1Dhr6z2tA/tSDmEapQoImgAe8dPcuKhX50kzUE2fpb8c0EjAxScsPxwVujtTMiwSNtwH
+ 0rwFRawS24CdWtHdVXTpCVTzcjKljQpnwappT0V4Qe1pbxmdIB/DjkwpAcDUaeriZ1HM
+ vZqEPupDJ3M85tU4eeaU0lvqppCBQo3o3fOOPD+4/RLketfSdztPr2fXGiGZVxnm3//+
+ osDfUvkoD2lOFUtohnaL6hBCcIC03mb8DfKwkHjm1M9PkPPETaKLQaap4IH4CGSpTet1
+ NcMQ==
+X-Gm-Message-State: AC+VfDwicZQoxNSu3Sq5kS0KjIGCh/Ceb2fEVcaHorFsPoV6AtHwFaR9
+ ZIgGQAQ97RWtJHJkEie1e/qp1SmfKfHWUzIfJwnr8g==
+X-Google-Smtp-Source: ACHHUZ6dSzV4MbROWJZLBDrIhEyuEGSOEy8vQrfj49GTj91xnlp3qXPHYE+dNldgd5I1sLr7cDIK1iRzi4s0q6GxRcE=
+X-Received: by 2002:a92:d245:0:b0:330:f7b3:ea4 with SMTP id
+ v5-20020a92d245000000b00330f7b30ea4mr12064340ilg.2.1683690125299; Tue, 09 May
+ 2023 20:42:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM6PR12MB4975:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35065936-1543-4b2a-15f1-08db50e088d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qbkH9WZnnJtTpi/MkDI5gDFx0VIdnIsfEK2ShqfDq7KqSmDD5if2wSZU3Kks4EmCo/mqL+4OoC3xaV3KNvAQjSxaHyIsvxcmfoArOEz/dnII8ctiz/gACZ3pYppBWMEXQtLDGhMSjzJ2a4qU0CMxgBu4rJYq4gBlxcq0ZJYXpR/3hD4Nb+88xf7Xat4nTutL0j/cGN12vLbTapTg7kL66adLupjXI0pG7yYNhH9r6xgZ3bqcBsT2kpFsv3A/KgF5vjvSiXr22po5HId/HEKVPC9ZOROfgM46JEOZuE+5jP50zXJWB2ls73vdddqDxIFMME/sko+962tDY3+tsefN4hKiUwpLXuTpUlnsA8kHZhpSUOhcdlV/VXoYHqHmJJ+0G93lG78AFrYijCGnebbitd5jmZ6jdooxCHV+J0H6xdti2FP3UdTTo5XRr7yINEFHytZ0dSXbrn3ilEOE66wS/mD0DlyDblrJpBgVK6hAILerIoI0HTkws/WcYdBi0+PxTnGNV7GCPXtna/3t/MTxCGbh4bpI8hH3DE51yQcMGD76W3SVe7cr2ZtEP5/7U4RjO84y30OvLpjbeZeL6OeMrdnhSq8uI1VEUf85QAzKiOTOnnPRiop1fxSM2C6VyhUCE7VsCfXUyNHgIX9Ir2qkdw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(451199021)(5660300002)(54906003)(31686004)(6486002)(41300700001)(8936002)(8676002)(6666004)(316002)(26005)(6506007)(6512007)(44832011)(66476007)(478600001)(66556008)(4326008)(66946007)(6916009)(53546011)(83380400001)(186003)(2616005)(2906002)(31696002)(86362001)(38100700002)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0N1ZWdmOEx1MWhiVEtqdWt3VDhaV3QvOHdISDEwWUJOVEpobWdoTU1tanMy?=
- =?utf-8?B?RThCUGRtMXgvam11L0tsV1ZDMTlsN1QyVkI3NXNsdmFjZVpjMWkyRXE1RzQ2?=
- =?utf-8?B?bWNXODhaRXhiL2FyL1M0anVqMW5ncUh6NUdOdWQ0clV3RzhxVFJYaHVNM3hX?=
- =?utf-8?B?OXNSeU41N1RlM29kc2VwZFlhN3hCT1BCR2Y4d2hzYjcwMllLYXJXbVhIU3g3?=
- =?utf-8?B?QUxxTXJDS1hISlFLRDgzWllyMk55RDdPcVdiQVBOZUJEeEJRYlNKR3FObllP?=
- =?utf-8?B?NHJmVnM0SWJ2TzJIckFYSmZaMVNkTW5iZzM0aHpTR0tzZW50YVNqVHNXL3Y4?=
- =?utf-8?B?bFArZTdnZHhJUlk1SjlzaEZreEZyc3R5RTFLK1BoUkFCWWk2bFZDcUdNMjNx?=
- =?utf-8?B?Tmtrc25HSTEwL1VTVVNtNlNwTjZycEdONk9acWVEQXZ5MzBrTXlhczZPWnI5?=
- =?utf-8?B?eGVoWjdIRDVQZVJyR0hHN1hmYXlhbmJGRHRrTzg1UDlTTzY3b2MzSlMyb0du?=
- =?utf-8?B?UU43MXUxUFhSOVZCNHJTb2FTV3YyRXdzUWJEU3ZMcWxNTmZ4RHVjbnFPaEJ2?=
- =?utf-8?B?UUtQd3h4TnZXeS85UDhOOFY0RS81QnNnTDJlZmt5YWZ5UmM5cEVrYVFUSitX?=
- =?utf-8?B?YXZEK1MzbHJPaEVFSUUzMTJDM3cwMnJ5NlNlWXV6UmNQR3ZGc3ZDNjVjVVYx?=
- =?utf-8?B?enFxUkgvQ0haRUs1R2dROFRLK0hVeW90eVl2TG0xWi9QOGtya0I3TlpyaDdo?=
- =?utf-8?B?S1FDazFVT0l5blFSYStndWIyNVdhUDhmc3JudUVjOVRNWWlkWWYxbDZaUUxW?=
- =?utf-8?B?T0pRamlrWGZ6V1V1eFRzN3phU0c1cjZ0ZWZtODlWalNpcDIyV01xQlQ4cndr?=
- =?utf-8?B?TkZndHFpV1pFLzZ4QzFKajZmY0ZaSzczR0h4UEUwSld4UlN6YkRxZCtwRUtx?=
- =?utf-8?B?WlRkd1VXL0tQaGNWOFJzdTF4bzZzV0tVb1A4bXFsWDdrMDNuREtCM2xma1pL?=
- =?utf-8?B?UERFT0hiZ1NXUXlucEtnSXZFN3JubVNhUk5Zc2JOelNhUHFLcnJqMThGR3cz?=
- =?utf-8?B?QUc2ZXpmWnJRb0lSOFRGc2ZJbFRqMW44TWpPY0VHcHpWZytzMmxPRGdxbjdw?=
- =?utf-8?B?eFg5RXZwNmNwanBtQmlIUkViYW4zS2huV3BWb2RaM3dhZVROV1dYV3RReHlI?=
- =?utf-8?B?KzA2N1JIUUtrK1EveU0xcnVFcDZ6QVdyOE1VTEtCR3djYUtHSnhiUmdYbHpZ?=
- =?utf-8?B?bnFOSUNmbC9UQlNLNGxwdTJIWms1QWxlM2xabWNjZGhqOW1KTXFWemtIeGh1?=
- =?utf-8?B?dHYwd2ZqcGs4Um9HTW5RdUFuaUttNDVCK0RMNkFVbTJRYWExSEM5S2VUVlh6?=
- =?utf-8?B?aG1jckg3VUI4M2wzQ2xlSFp0M1JibFJNZFV2cTJUQkxSK1JVVUloNjZPMG82?=
- =?utf-8?B?bWFia0NmMWlNWXBmQmpZaHBCNi8yOTBKOWdtblQ3MERjZTVCOTl6WDMyc2Ew?=
- =?utf-8?B?UXdrMG5zQTRlYmhLNTVqeC95QWdSbEh3Q2ZCRVEyL05oYVdHWktSaVp0SXp1?=
- =?utf-8?B?cVVtcHNIQ2t3RnZCTnovbm9JY0xXeEhwblpqRzB2VTdKYXgrdWp6enZxejFs?=
- =?utf-8?B?WmsrVjNqSEtFSElzcnBjaFlSS29kMXB6b3lyZkVsdTBUOGZJb1U1cU1PaXc3?=
- =?utf-8?B?ZTNvVzdxYUF6TFhkc0R1V2k5YXdjR0tNT1RibUhXaTU1QW8rVGprYkswMk1i?=
- =?utf-8?B?ZTBxUVZLM21IUEVneUFQRlE1N214K2t4MjJTSmtEWFN5UUdaMVA2dEVDSjhn?=
- =?utf-8?B?Q1AzaEc2WklaRjl3MUlsOGlkS3hzNS9tQWVOaSt5RE0yQ0dBczVTQ09hSFlF?=
- =?utf-8?B?ajNzMWp5TEhiSUl3dVhibWg2aEVPTk5TWkljUDJuSENyUzBTajBwRk5uUjcr?=
- =?utf-8?B?R0NyRzBXdXQrUCtiUk81Yktpc1p1Qkd2NktZb3E4Q0F2OEFFWmc3Qzlrek9Q?=
- =?utf-8?B?QVVjbWd3S2FxKzZBemc3b2JmdXdEWThPZlRXNjgzMkcxWHc3Z1JvajJUVmJx?=
- =?utf-8?B?cmpXSFNRQ3k3MnMyUk9tVEM4dEhLOURpQWxUaW1kcnFmNklQOUtnUzFQUFds?=
- =?utf-8?Q?tqzLDqcTbqfkQZaK3Oqd6Ndhh?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35065936-1543-4b2a-15f1-08db50e088d0
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 22:55:50.3462 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1NE+QMtMKlNNssXjzIT41qvB3BTCHS+pcyKuuz/acO86nWi5b46XGuxU8RGpxpF3R9U0Nb0/SpzsrCQllmYWMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4975
+References: <20230331091145.737305-1-treapking@chromium.org>
+ <20230331091145.737305-5-treapking@chromium.org>
+ <CAE-0n51E5foFWQAsA73662_5e6XP426wuUCVVmcS5UWwiYpDmw@mail.gmail.com>
+ <CAEXTbpdcbB_z4ZGCGzc-cM74ECKyxekbroKCWFnhH8eR=4HmvA@mail.gmail.com>
+ <CAE-0n50atfmr-bFh5XtTCm4WpSijJGSe0B5JP8ni7CCYk7Bs5A@mail.gmail.com>
+ <CAE-0n51Qy-KDGHOCr4Smpebq1fCURqvJ2RJz6KAtVpv5e+DSGA@mail.gmail.com>
+ <CAEXTbpeKe1dVHp9cauMN-9nQb35oJ-ZhdFV-8BiWzjjhWAy0Zg@mail.gmail.com>
+ <CAE-0n50bj303jou==v6eMabrZ3EL6Cq7tPJmCj9vM_B7FA8s2g@mail.gmail.com>
+In-Reply-To: <CAE-0n50bj303jou==v6eMabrZ3EL6Cq7tPJmCj9vM_B7FA8s2g@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 10 May 2023 11:41:54 +0800
+Message-ID: <CAEXTbpcWfYV_58pw_VupjhAFZsUU3pkLRN_8JoASyLLBmgTYqQ@mail.gmail.com>
+Subject: Re: [PATCH v15 04/10] dt-bindings: display: bridge: anx7625: Add
+ mode-switch support
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,210 +73,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
- linux-kernel@vger.kernel.org, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com, sungjoon.kim@amd.com
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ jagan@amarulasolutions.com, Chen-Yu Tsai <wenst@chromium.org>,
+ devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
++Jagan who worked on a similar design and initiated the thread.
 
+Hi Stephen,
 
-On 5/9/23 16:35, Joshua Ashton wrote:
-> FWIW, we technically do use it right now, but it is always set to 1 in S.31.32.
-> 
-> Before we used shaper + 3D LUT we did use it for scaling SDR content,
-> but given we always have a shaper + 3D LUT it made sense for us to
-> roll that into there.
-> 
+On Sat, Apr 29, 2023 at 12:47=E2=80=AFPM Stephen Boyd <swboyd@chromium.org>=
+ wrote:
+>
+> Quoting Pin-yen Lin (2023-04-20 02:10:46)
+> > On Thu, Apr 20, 2023 at 2:10=E2=80=AFPM Stephen Boyd <swboyd@chromium.o=
+rg> wrote:
+> > >
+> > > Quoting Stephen Boyd (2023-04-13 17:22:46)
+> > > > Quoting Pin-yen Lin (2023-04-13 02:50:44)
+> > > > >
+> > > > > Actually the `mode-switch` property here is mainly because
+> > > > > `fwnode_typec_mux_get`[1] and `typec_mux_match`[2] only return ma=
+tches
+> > > > > when the property is present. I am not sure what side effects wou=
+ld be
+> > > > > if I remove the ID-matching condition in `typec_mux_match`, so I =
+added
+> > > > > the property here.
+> > > > >
+> > > > > Is it feasible to remove the `mode-switch` property here given th=
+e
+> > > > > existing implementation of the Type-C framework?
+> > > >
+> > > > Omitting the mode-switch property would require changes to the type=
+-c
+> > > > framework.
+> > > >
+> > > > I'm wondering if we can have this anx driver register mode switches=
+ for
+> > > > however many endpoints exist in the output port all the time when t=
+he
+> > > > aux-bus node doesn't exist. Then the type-c framework can walk from=
+ the
+> > > > usb-c-connector to each connected node looking for a device that is=
+ both
+> > > > a drm_bridge and a mode-switch. When it finds that combination, it =
+knows
+> > > > that the mode-switch has been found. This hinges on the idea that a
+> > > > device that would have the mode-switch property is a drm_bridge and
+> > > > would register a mode-switch with the type-c framework.
+> > > >
+> > > > It may be a little complicated though, because we would only regist=
+er
+> > > > one drm_bridge for the input to this anx device. The type-c walking=
+ code
+> > > > would need to look at the graph endpoint, and find the parent devic=
+e to
+> > > > see if it is a drm_bridge.
+> > >
+> > > I've been thinking more about this. I think we should only have the
+> > > 'mode-switch' property possible when the USB input pins (port@2) are
+> > > connected and the DPI input pins are connected (port@0). Probably you
+> > > don't have that case though?
+> >
+> > No we don't have the use case that uses the USB input pins on anx7625.
+> > >
+> > > In your case, this device should register either one or two drm_bridg=
+es
+> > > that connect to whatever downstream is actually muxing the 2 DP lanes
+> > > with the USB SS lanes onto the usb-c-connector.
+> >
+> > What do you mean by "muxing the 2 DP lanes with the USB SS lanes''? In
+> > our use case, the USB data lanes from both ports are connected to a
+> > USB hub, but the DP lanes are muxed by the crosspoint switch on
+> > anx7625. HPD and AUX for the external display are muxed by the EC. You
+> > can find the diagram at
+> > https://lore.kernel.org/linux-usb/YxGzk6DNAt0aCvIY@chromium.org/
+>
+> I mean that you must have some sort of orientation switch hardware that
+> takes the 2 DP lanes and the 2 USB SuperSpeed "lanes" or "pairs" and
+> puts them all onto a usb-c-connector. The usb-c-connector node can't be
+> connected directly to the anx7625 in your diagram because there must be
+> some sort of "flipper" that does the orientation control. Otherwise the
+> usb-c-connector wouldn't work if the user flipped the cable. Probably
+> this is some TCPC or redriver controlled by the EC.
+>
+> >
+> > > If that is the EC for
+> > > ChromeOS, then the EC should have a binding that accepts some number =
+of
+> > > input ports for DP. The EC would act as a drm_bridge, or in this case
+> > > probably two bridges, and also as two type-c switches for each
+> > > drm_bridge corresponding to the usb-c-connector nodes. When DP is on =
+the
+> > > cable, the type-c switch/mux would signal to the drm_bridge that the
+> > > display is 'connected' via DRM_BRIDGE_OP_DETECT and struct
+> > > drm_bridge_funcs::detect(). Then the drm_bridge in this anx part woul=
+d
+> > > implement struct drm_bridge_funcs::atomic_enable() and configure the
+> > > crosspoint switch the right way depending on the reg property of the
+> > > output node in port@1.
+> >
+> > So there will be two drm bridges that act as the downstreams for
+> > anx7625, and we find the downstream with connector_status_connected to
+> > configure the crosspoint switch? How do we support that kind of
+> > topology given that the drm bridge chain is currently a list? Are you
+> > suggesting making the bridge topology to a tree, or maintaining the
+> > two downstreams inside the anx7625 driver and not attaching them to
+> > the bridge chain?
+>
+> Good point. I'm suggesting to make the drm bridge chain into a tree. We
+> need to teach drm_bridge core about a mux, and have some logic to
+> navigate atomically switching from one output to another. I was talking
+> with dianders@ and he was suggesting to use bridge attach/detach for
+> this. I'm not sure that will work though because that hook is only
+> called when the encoder is attached to the bridge.
+>
+> It may also turn out that this helps with DP multi-stream transport
+> (MST). As far as I can recall DP MST doesn't mesh well with drm_bridge
+> designs because it wants to operate on a drm_connector and
+> drm_bridge_connector_init() wants to make only one drm_connector for a
+> chain of bridges. If you squint, the anx7625 could be an MST "branch"
+> that only supports one drm_connector being enabled at a time. Maybe that
+> is what we should do here, make drm_bridge support creating more than
+> one drm_connector and when there is a mux in the tree it walks both
+> sides and runs a callback similar to struct
+> drm_dp_mst_topology_cbs::add_connector() to tell the encoder that
+> there's another possible drm_connector here.
 
-Ah, that's good. No problem then.
+I have been surveying the approaches to change the bridge chain in
+runtime, and I found this thread[1]. Quoting from Daniel:
+"... exchanging the bridge chain isn't supported, there's no locking
+for that since it's assumed to be invariant over the lifetime of the
+drm_device instance. The simplest way to make that happen right now is to
+have 2 drm_encoder instances, one with the lvds bridge chain, the other
+with the hdmi bridge chain, and select the right encoder/bridge chain
+depending upon which output userspace picks.
+...
+I wouldn't try to make bridge chains exchangeable instead, that's
+headaches - e.g. with dp mst we've also opted for a bunch of fake
+drm_encoders to model that kind of switching."
 
-Harry
+I'm not sure how we register two encoders properly, though. Do we make
+the encoder driver check all the downstream bridges and register two
+drm_encoder when a bridge is acting as a mux?
 
-> On Tue, 9 May 2023 at 20:00, Harry Wentland <harry.wentland@amd.com> wrote:
->>
->> On 5/9/23 12:54, Joshua Ashton wrote:
->>> We currently do not have a use for this as we settled on per-plane 3D
->>> LUT + Shaper, but we might end up wanting to use in our scRGB stack
->>> someday so I would like to keep it.
->>>
->>
->> uAPI should always have a userspace that uses it. But if we go
->> and put it behind an #ifdef anyways I don't mind taking this
->> if we foresee use for it in the near future. A gamescope experiment
->> showing how this can be used to scale sRGB planes would be great.
->> I assume that's sort of how you intend to use it.
->>
->> Harry
->>
->>> On Tue, 9 May 2023 at 16:37, Melissa Wen <mwen@igalia.com> wrote:
->>>>
->>>> On 05/08, Harry Wentland wrote:
->>>>>
->>>>>
->>>>> On 4/23/23 10:10, Melissa Wen wrote:
->>>>>> From: Joshua Ashton <joshua@froggi.es>
->>>>>>
->>>>>> Multiplier to 'gain' the plane. When PQ is decoded using the fixed func
->>>>>> transfer function to the internal FP16 fb, 1.0 -> 80 nits (on AMD at
->>>>>> least) When sRGB is decoded, 1.0 -> 1.0.  Therefore, 1.0 multiplier = 80
->>>>>> nits for SDR content. So if you want, 203 nits for SDR content, pass in
->>>>>> (203.0 / 80.0).
->>>>>>
->>>>>
->>>>> Is gamescope intending to use this?
->>>>
->>>> I don't think so. Again, I'll double check and drop it accordingly.
->>>>
->>>> Melissa
->>>>
->>>>>
->>>>> Harry
->>>>>
->>>>>> Co-developed-by: Melissa Wen <mwen@igalia.com>
->>>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>>>>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
->>>>>> ---
->>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 +++++
->>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +++
->>>>>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 12 +++++++++
->>>>>>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 25 ++++++++++++++-----
->>>>>>  4 files changed, 41 insertions(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->>>>>> index 24595906dab1..dd658f162f6f 100644
->>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->>>>>> @@ -1326,6 +1326,12 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
->>>>>>             return -ENOMEM;
->>>>>>     adev->mode_info.plane_degamma_tf_property = prop;
->>>>>>
->>>>>> +   prop = drm_property_create_range(adev_to_drm(adev),
->>>>>> +                                    0, "AMD_PLANE_HDR_MULT", 0, UINT_MAX);
->>>>>> +   if (!prop)
->>>>>> +           return -ENOMEM;
->>>>>> +   adev->mode_info.plane_hdr_mult_property = prop;
->>>>>> +
->>>>>>     return 0;
->>>>>>  }
->>>>>>  #endif
->>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
->>>>>> index ab9ce6f26c90..65a9d62ffbe4 100644
->>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
->>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
->>>>>> @@ -387,6 +387,10 @@ struct amdgpu_mode_info {
->>>>>>      * linearize content with or without LUT.
->>>>>>      */
->>>>>>     struct drm_property *plane_degamma_tf_property;
->>>>>> +   /**
->>>>>> +    * @plane_hdr_mult_property:
->>>>>> +    */
->>>>>> +   struct drm_property *plane_hdr_mult_property;
->>>>>>  #endif
->>>>>>  };
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>>>>> index 005632c1c9ec..bb7307b9cfd5 100644
->>>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->>>>>> @@ -51,6 +51,7 @@
->>>>>>
->>>>>>  #define AMDGPU_DMUB_NOTIFICATION_MAX 5
->>>>>>
->>>>>> +#define AMDGPU_HDR_MULT_DEFAULT (0x100000000LL)
->>>>>>  /*
->>>>>>  #include "include/amdgpu_dal_power_if.h"
->>>>>>  #include "amdgpu_dm_irq.h"
->>>>>> @@ -736,6 +737,17 @@ struct dm_plane_state {
->>>>>>      * linearize.
->>>>>>      */
->>>>>>     enum drm_transfer_function degamma_tf;
->>>>>> +   /**
->>>>>> +    * @hdr_mult:
->>>>>> +    *
->>>>>> +    * Multiplier to 'gain' the plane.  When PQ is decoded using the fixed
->>>>>> +    * func transfer function to the internal FP16 fb, 1.0 -> 80 nits (on
->>>>>> +    * AMD at least). When sRGB is decoded, 1.0 -> 1.0, obviously.
->>>>>> +    * Therefore, 1.0 multiplier = 80 nits for SDR content.  So if you
->>>>>> +    * want, 203 nits for SDR content, pass in (203.0 / 80.0).  Format is
->>>>>> +    * S31.32 sign-magnitude.
->>>>>> +    */
->>>>>> +   __u64 hdr_mult;
->>>>>>  #endif
->>>>>>  };
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>>>>> index 5b458cc0781c..57169dae8b3d 100644
->>>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->>>>>> @@ -1321,8 +1321,10 @@ static void dm_drm_plane_reset(struct drm_plane *plane)
->>>>>>             __drm_atomic_helper_plane_reset(plane, &amdgpu_state->base);
->>>>>>
->>>>>>  #ifdef CONFIG_STEAM_DECK
->>>>>> -   if (amdgpu_state)
->>>>>> +   if (amdgpu_state) {
->>>>>>             amdgpu_state->degamma_tf = DRM_TRANSFER_FUNCTION_DEFAULT;
->>>>>> +           amdgpu_state->hdr_mult = AMDGPU_HDR_MULT_DEFAULT;
->>>>>> +   }
->>>>>>  #endif
->>>>>>  }
->>>>>>
->>>>>> @@ -1424,11 +1426,11 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
->>>>>>  #ifdef CONFIG_STEAM_DECK
->>>>>>  int
->>>>>>  amdgpu_dm_replace_property_blob_from_id(struct drm_device *dev,
->>>>>> -                                          struct drm_property_blob **blob,
->>>>>> -                                          uint64_t blob_id,
->>>>>> -                                          ssize_t expected_size,
->>>>>> -                                          ssize_t expected_elem_size,
->>>>>> -                                          bool *replaced)
->>>>>> +                                   struct drm_property_blob **blob,
->>>>>> +                                   uint64_t blob_id,
->>>>>> +                                   ssize_t expected_size,
->>>>>> +                                   ssize_t expected_elem_size,
->>>>>> +                                   bool *replaced)
->>>>>>  {
->>>>>>     struct drm_property_blob *new_blob = NULL;
->>>>>>
->>>>>> @@ -1482,6 +1484,10 @@ dm_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
->>>>>>                                        dm->adev->mode_info.plane_degamma_tf_property,
->>>>>>                                        DRM_TRANSFER_FUNCTION_DEFAULT);
->>>>>>     }
->>>>>> +   /* HDR MULT is always available */
->>>>>> +   drm_object_attach_property(&plane->base,
->>>>>> +                              dm->adev->mode_info.plane_hdr_mult_property,
->>>>>> +                              AMDGPU_HDR_MULT_DEFAULT);
->>>>>>  }
->>>>>>
->>>>>>  static int
->>>>>> @@ -1507,6 +1513,11 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
->>>>>>                     dm_plane_state->degamma_tf = val;
->>>>>>                     dm_plane_state->base.color_mgmt_changed = 1;
->>>>>>             }
->>>>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
->>>>>> +           if (dm_plane_state->hdr_mult != val) {
->>>>>> +                   dm_plane_state->hdr_mult = val;
->>>>>> +                   dm_plane_state->base.color_mgmt_changed = 1;
->>>>>> +           }
->>>>>>     } else {
->>>>>>             drm_dbg_atomic(plane->dev,
->>>>>>                            "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
->>>>>> @@ -1533,6 +1544,8 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
->>>>>>                     dm_plane_state->degamma_lut->base.id : 0;
->>>>>>     } else if (property == adev->mode_info.plane_degamma_tf_property) {
->>>>>>             *val = dm_plane_state->degamma_tf;
->>>>>> +   } else if (property == adev->mode_info.plane_hdr_mult_property) {
->>>>>> +           *val = dm_plane_state->hdr_mult;
->>>>>>     } else {
->>>>>>             return -EINVAL;
->>>>>>     }
->>>>>
->>>>>
->>
+[1]: https://www.spinics.net/lists/dri-devel/msg340511.html
 
+>
+> >
+> > Also, if we still register mode switches on the two downstream
+> > bridges, why do you prefer that over the original approach that
+> > register switches in the anx7625 driver?
+>
+> I prefer to not have a mode-switch property here for a couple reasons:
+>
+>  1. The binding is usb type-c specific, and in the case of the IT6505
+>  part there is nothing that indicates this is a usb type-c piece of
+>  hardware. The IT6505 is simply a display bridge. The anx7625 part
+>  actually does accept usb signals though, but that isn't being used or
+>  described here. That's where my disclaimer about mode-switch making
+>  sense applies when the usb input is used.
+>
+>  2. Putting mode-switch into the graph endpoint nodes is awkward. It is
+>  a device property, and graph nodes are not devices. Some patches in
+>  this series have to work around this fact and special case the graph
+>  walking logic to treat the graph itself as a place to look for the
+>  property.
+>
+>  3. The mode-switch property probably isn't necessary at all. The DT
+>  reviewers have been asking why it is needed. The EC driver that
+>  registers the usb-c-connectors can be the mode-switch and the
+>  orientation-switch. And in reality, it _is_ both. The DP signals and
+>  the USB signals go to the TCPC/redriver that is controlled by the EC
+>  and the EC is the device that's doing the mode switching to push DP and
+>  USB through the TCPC/redriver out on the right pins of the
+>  usb-c-connector.
+>
+> I guess another way to think about it is that the DP signal coming out
+> of the anx7625 part is not "usb type-c" at all, unless the USB signal is
+> coming out on the other side of the crosspoint switch and all four lanes
+> are wired to some usb-c-connector or redriver. Similarly, the situation
+> could look like trogdor, where DP is produced by the DP PHY in the SoC
+> and goes through an analog mux to steer DP to one or the other TCPC
+> that's wired to the usb-c-connector. There isn't any driver to control
+> that mux, but if there was it would be a gpio controlled mux that would
+> be a drm_bridge, because there isn't anything type-c about this
+> hardware.
+>
+> And finally, I can see a possibility where the IT6505 is actually wired
+> to two different dp-connector ports. In that situation, there is no
+> type-c involvement, but we would still want to expose that to userspace
+> as two drm_connectors where only one encoder can be attached to them. If
+> we did that with drm_bridge, then anyone could make these sorts of
+> chains with muxes and it would present a sane userspace interface.
+
+Thanks for the detailed explanation. Yes, our use case in this series
+is not related to the USB-C port from the bridge's perspective. The
+bridge only cares about the output changes, and it doesn't need to
+know whether the downstream is a USB-C port or a DP connector.
+
+Best regards,
+Pin-yen
