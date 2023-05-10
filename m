@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DCC6FE245
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 18:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E79B6FE252
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 18:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9FE10E266;
-	Wed, 10 May 2023 16:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E02B310E0EC;
+	Wed, 10 May 2023 16:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4068910E266
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 16:22:00 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7740B10E0EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 16:24:16 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 08E0E85D1E;
- Wed, 10 May 2023 18:21:55 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 957D6847D4;
+ Wed, 10 May 2023 18:24:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1683735717;
- bh=Dk/OU7wmaNZMLcevPTKhSodBVPmPPaEdH0F0dmzNl2M=;
+ s=phobos-20191101; t=1683735852;
+ bh=YfK3NDPm4uKljhmxMm5kl6PuadMMC7H4LxZSFWINyaI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZSkl1dXoZsDv1eX3hF75wsrkCvp7b4/rkOSTIjabE6uuoC7CLLQQQ8iCNJPnF2ASq
- Iir6mJpGphckwT24UkqmYcoKfzsxWTH0NpLPU8nNKII7od7uiPMaZzS79TIYApMb/5
- 6bFLCKg9EQznt86htrJTKdxELxWX07SKYnHN1okVOXlnZmXxeSXE3KjNl2zlELE/K9
- 83eEAAAwfOBlFoftCYEsg+KjOxmh/gpOKZRR9z9QrwWwCg4SGO0vMCzDVop5xYB+0e
- 8f8SReLFliXL5HedAEEGByhAEE2+z7l7pZ+grUHftMTuT9otgoynEkHcNPr1K5DWXh
- CiwG+azR4dAag==
-Message-ID: <e26ab6fa-a273-81a6-bb28-356deca07563@denx.de>
-Date: Wed, 10 May 2023 18:21:55 +0200
+ b=tncnbaAvVd8OKACynXOSURQ1gI4KvC9aQGZeUURjbmKK0gQVluw+uL7sF6E7Anfde
+ 2TXh/K0M0EXWViSi9XrF2k1bNwYUa2p0M27T5RD5JMRgsAwPi1F5bvgHdF+mXdlazO
+ pATsr40sS3uNF6VafaqniXmjgUramxTD4Lf85UqJDvMx0yyTHCMqPqkpkC/7bnPmYa
+ lcQj+0hDr8PtFl2Gx7WBCyHMeFfo55Smu1+0tJT5BeQOe4O3jeZPzNIl0HaHKe5i4s
+ dRNIy8HQKNdBuPqQ7lkmXAZs1g3ZEGecKO4hWpK9odAVFKcswaYG0WOTLOy8NR9AGD
+ Pr70KskTkkj2w==
+Message-ID: <b3b77a65-5109-0e29-99c5-6cefaba0492c@denx.de>
+Date: Wed, 10 May 2023 18:24:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v6 2/6] drm: lcdif: Drop unnecessary NULL pointer check on
- lcdif->bridge
+Subject: Re: [PATCH v6 5/6] drm: lcdif: Add multiple encoders and first
+ bridges support
 Content-Language: en-US
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20230510092450.4024730-1-victor.liu@nxp.com>
- <20230510092450.4024730-3-victor.liu@nxp.com>
+ <20230510092450.4024730-6-victor.liu@nxp.com>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230510092450.4024730-3-victor.liu@nxp.com>
+In-Reply-To: <20230510092450.4024730-6-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -67,12 +68,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 5/10/23 11:24, Liu Ying wrote:
-> A valid bridge is already found in lcdif_attach_bridge() and set
-> to lcdif->bridge, so lcdif->bridge cannot be a NULL pointer. Drop
-> the unnecessary NULL pointer check in KMS stage.
+> The single LCDIF embedded in i.MX93 SoC may drive multiple displays
+> simultaneously.  Look at LCDIF output port's remote port parents to
+> find all enabled first bridges.  Add an encoder for each found bridge
+> and attach the bridge to the encoder.  This is a preparation for
+> adding i.MX93 LCDIF support.
 > 
 > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v5->v6:
+> * Drop MAX_DISPLAYS macro. (Marek)
+> * Drop the encoder member in struct lcdif_drm_private.
+> * Drop endpoint id check.
+
+It might be nice to check (based on driver data for each IP variant) the 
+encoder count, but that can be a separate patch.
 
 Reviewed-by: Marek Vasut <marex@denx.de>
+
+Thanks !
+
+btw if this doesn't get picked by someone in like a week or two, let me 
+know and I'll apply this via drm-misc .
