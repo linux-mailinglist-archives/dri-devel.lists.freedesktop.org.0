@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9888D6FE12A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:08:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D0E6FDF87
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:04:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B5810E4C8;
-	Wed, 10 May 2023 15:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C886C10E49B;
+	Wed, 10 May 2023 14:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC98A10E466
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 08:52:51 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-30786c6082dso2994993f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 01:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683708770; x=1686300770;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sRhXhkL36qHDCTJUPZJ0gK4JtbzzIKwrgaPUffLmcS4=;
- b=oG8mhrPN17kkUirhBiS9xZM7Nax7ezuXWWn0z7PndTZ7BTrMJoaOch4OdduhXkfI/f
- F1tcjT9OW1w49Za65TxRxLWsa9AL+CNPIfkH/jdoiHdrE6d0se+xpilb9SaU/rerV+Wt
- 4GFVTbr+8REGG65ejKLrTU1YW1y+aLP4O00vl9Bh8M5xPYuySq67zgv6JW+bn7harRR+
- oLOzsTjCdD0tHiDuZeOM9QnRzJR5PXNTlGnUH7wrqVbXaQqk0WXabCF5fX8h+zMKdVm1
- WferQ9/7qxOGapUd9MCkFIUIyz7ci2aXsW9lKl6Ou1AO7idtk9agds/AY87tU/a901/B
- Zy5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683708770; x=1686300770;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sRhXhkL36qHDCTJUPZJ0gK4JtbzzIKwrgaPUffLmcS4=;
- b=ZCpayx70v5toA8Blivl60wQSXROBrQcUCWPGdKsmxOK6AZfFeQ303g5w//dtQDSTYY
- pSmlhYcMLPXajqR1MrnV/yKGHJTktXinmvye10YBnTtJKuSRGKRTHiWnNrLC9siHtBHr
- RMp7ZfyXeWRWS/HuraHWF0+dErrLO/WtCmnCNoeny9dpd2mNBunOTqDJ/edlvCBWdeFr
- pp6SD19nyjrew9uT64zN1eP/zVxDRb0O9zdI4wNIq97CG4ThYtKmUOUzMkBeuT9thtm1
- 77egKJRXse9XcPtjP4VsAXKh4zkhA9v7Qt4W9jYTkhz1ZtzyfQGMBL2SAnMv7a7wdndY
- yQaw==
-X-Gm-Message-State: AC+VfDzGAtCYNixPlCyqKIgueNJVhfeigXv3hohJ7xuc3R7wV4dRipz6
- tCk1GOsMOqZzYChkLpOd8tg=
-X-Google-Smtp-Source: ACHHUZ7ih61hE9Yfr+pU8+QPzsVKR+QvTP+Uv980w8E1G8xoVAtDcpQ/O5PinNK/Mlk2eFtDJjKS/g==
-X-Received: by 2002:a5d:5082:0:b0:307:a36b:e7a5 with SMTP id
- a2-20020a5d5082000000b00307a36be7a5mr3554624wrt.60.1683708769923; 
- Wed, 10 May 2023 01:52:49 -0700 (PDT)
-Received: from koko.localdomain (cgn-89-1-213-9.nc.de. [89.1.213.9])
- by smtp.gmail.com with ESMTPSA id
- e15-20020a5d4e8f000000b0030629536e64sm16730766wru.30.2023.05.10.01.52.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 01:52:49 -0700 (PDT)
-From: Maximilian Weigand <mweigand2017@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: [PATCH v2] backlight: lm3630a: turn off both led strings when display
- is blank
-Date: Wed, 10 May 2023 10:52:39 +0200
-Message-Id: <20230510085239.1253896-1-mweigand2017@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEF210E49B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 14:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683727448; x=1715263448;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Weuc/6wmFMlzgZQqjXSqsrKdE93+EcAW+jgAmHsBAc4=;
+ b=Ixho5MbDlAFV8ZJNP/LQtQbDmfDHnNKj9b3tt0DmiDPNAy388dqYzxN4
+ 5H7WLVCzF3+WtCROsO26l3DnJaMiOQwK+Md2QIfMzXncJGUr9ekl/AB4u
+ fL/0A/+S3ZwLtHbQNYzXzPvRhkzD2tm5UX1C3RYpL22AwDhi1c33np9FD
+ 5YQJIjSeVXdSZfkyuRGyN0h/joCa67MZCiGwYkwF8mIUNln3nKC62w9BI
+ aV+pvditBZuUpV6zIEZQS9YIV0xQkLDaXxRm1gk6iQaUKIVG1J3ZyLnFk
+ 8aadsogDlRbvSlIMpmD9ydAUjgkHUgIP86XSJVuoZM7pGXY+P1gOug2TY Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="350253430"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="350253430"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2023 07:03:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="768924681"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="768924681"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 10 May 2023 07:03:33 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pwkPk-0003Li-2b;
+ Wed, 10 May 2023 14:03:32 +0000
+Date: Wed, 10 May 2023 22:03:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@hansenpartnership.com,
+ arnd@arndb.de, sam@ravnborg.org, suijingfeng@loongson.cn
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Message-ID: <202305102136.eMjTSPwH-lkp@intel.com>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 10 May 2023 15:07:55 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510110557.14343-6-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,54 +63,441 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maximilian Weigand <mweigand@mweigand.net>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maximilian Weigand <mweigand@mweigand.net>
+Hi Thomas,
 
-Use backlight_is_blank() to determine if the led strings should be turned
-off in the update_status() functions of both strings.
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
----
-Changes in v2:
-- fix description, replace display_is_black() with backlight_is_black()
-- use backlight_get_brightness() instead of accessing the property
-  directly
+[auto build test WARNING on drm-misc/drm-misc-next]
+[cannot apply to deller-parisc/for-next arnd-asm-generic/master linus/master davem-sparc/master v6.4-rc1 next-20230510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- drivers/video/backlight/lm3630a_bl.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230510-190752
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230510110557.14343-6-tzimmermann%40suse.de
+patch subject: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+config: sh-randconfig-r024-20230509 (https://download.01.org/0day-ci/archive/20230510/202305102136.eMjTSPwH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/46cc7edd7f28cc167c5b38d0e4f0aa8c3ac67328
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230510-190752
+        git checkout 46cc7edd7f28cc167c5b38d0e4f0aa8c3ac67328
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/video/fbdev/
 
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index d8c42acecb5d..faf92c8d70c1 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -202,7 +202,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
- 	usleep_range(1000, 2000);
- 	/* minimum brightness is 0x04 */
- 	ret = lm3630a_write(pchip, REG_BRT_A, bl->props.brightness);
--	if (bl->props.brightness < 0x4)
-+
-+	if (backlight_is_blank(bl) || (backlight_get_brightness(bl) < 0x4))
-+		/* turn the string off  */
- 		ret |= lm3630a_update(pchip, REG_CTRL, LM3630A_LEDA_ENABLE, 0);
- 	else
- 		ret |= lm3630a_update(pchip, REG_CTRL,
-@@ -277,7 +279,9 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
- 	usleep_range(1000, 2000);
- 	/* minimum brightness is 0x04 */
- 	ret = lm3630a_write(pchip, REG_BRT_B, bl->props.brightness);
--	if (bl->props.brightness < 0x4)
-+
-+	if (backlight_is_blank(bl) || (backlight_get_brightness(bl) < 0x4))
-+		/* turn the string off  */
- 		ret |= lm3630a_update(pchip, REG_CTRL, LM3630A_LEDB_ENABLE, 0);
- 	else
- 		ret |= lm3630a_update(pchip, REG_CTRL,
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305102136.eMjTSPwH-lkp@intel.com/
 
-base-commit: ac9a78681b921877518763ba0e89202254349d1b
---
-2.39.2
+All warnings (new ones prefixed by >>):
 
+   cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/video/fbdev/hitfb.c:27:
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 1 of 'fb_readw' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:93:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)       /* Accelerator Configuration Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:47:25: note: in expansion of macro 'HD64461_GRCFGR'
+      47 |         while (fb_readw(HD64461_GRCFGR) & HD64461_GRCFGR_ACCSTATUS) ;
+         |                         ^~~~~~~~~~~~~~
+   In file included from arch/sh/include/asm/fb.h:5,
+                    from include/linux/fb.h:19,
+                    from drivers/video/fbdev/hitfb.c:22:
+   include/asm-generic/fb.h:52:57: note: expected 'const volatile void *' but argument is of type 'unsigned int'
+      52 | static inline u16 fb_readw(const volatile void __iomem *addr)
+         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_start':
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:93:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)       /* Accelerator Configuration Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:53:30: note: in expansion of macro 'HD64461_GRCFGR'
+      53 |                 fb_writew(6, HD64461_GRCFGR);
+         |                              ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:93:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)       /* Accelerator Configuration Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:55:30: note: in expansion of macro 'HD64461_GRCFGR'
+      55 |                 fb_writew(7, HD64461_GRCFGR);
+         |                              ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_set_dest':
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:116:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     116 | #define HD64461_BBTDWR          HD64461_IO_OFFSET(0x105c)       /* Destination Block Width Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:66:28: note: in expansion of macro 'HD64461_BBTDWR'
+      66 |         fb_writew(width-1, HD64461_BBTDWR);
+         |                            ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:117:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     117 | #define HD64461_BBTDHR          HD64461_IO_OFFSET(0x105e)       /* Destination Block Height Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:67:29: note: in expansion of macro 'HD64461_BBTDHR'
+      67 |         fb_writew(height-1, HD64461_BBTDHR);
+         |                             ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:115:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     115 | #define HD64461_BBTDSARL        HD64461_IO_OFFSET(0x105a)       /* Destination Start Address Register (L) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:69:35: note: in expansion of macro 'HD64461_BBTDSARL'
+      69 |         fb_writew(saddr & 0xffff, HD64461_BBTDSARL);
+         |                                   ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:114:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     114 | #define HD64461_BBTDSARH        HD64461_IO_OFFSET(0x1058)       /* Destination Start Address Register (H) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:70:32: note: in expansion of macro 'HD64461_BBTDSARH'
+      70 |         fb_writew(saddr >> 16, HD64461_BBTDSARH);
+         |                                ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_bitblt':
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:122:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     122 | #define HD64461_BBTROPR         HD64461_IO_OFFSET(0x1068)       /* ROP Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:83:24: note: in expansion of macro 'HD64461_BBTROPR'
+      83 |         fb_writew(rop, HD64461_BBTROPR);
+         |                        ^~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:123:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     123 | #define HD64461_BBTMDR          HD64461_IO_OFFSET(0x106a)       /* BitBLT Mode Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:94:49: note: in expansion of macro 'HD64461_BBTMDR'
+      94 |                         fb_writew((1 << 5) | 1, HD64461_BBTMDR);
+         |                                                 ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:123:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     123 | #define HD64461_BBTMDR          HD64461_IO_OFFSET(0x106a)       /* BitBLT Mode Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:96:38: note: in expansion of macro 'HD64461_BBTMDR'
+      96 |                         fb_writew(1, HD64461_BBTMDR);
+         |                                      ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:123:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     123 | #define HD64461_BBTMDR          HD64461_IO_OFFSET(0x106a)       /* BitBLT Mode Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:101:45: note: in expansion of macro 'HD64461_BBTMDR'
+     101 |                         fb_writew((1 << 5), HD64461_BBTMDR);
+         |                                             ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:123:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     123 | #define HD64461_BBTMDR          HD64461_IO_OFFSET(0x106a)       /* BitBLT Mode Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:103:38: note: in expansion of macro 'HD64461_BBTMDR'
+     103 |                         fb_writew(0, HD64461_BBTMDR);
+         |                                      ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:116:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     116 | #define HD64461_BBTDWR          HD64461_IO_OFFSET(0x105c)       /* Destination Block Width Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:110:26: note: in expansion of macro 'HD64461_BBTDWR'
+     110 |         fb_writew(width, HD64461_BBTDWR);
+         |                          ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:117:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     117 | #define HD64461_BBTDHR          HD64461_IO_OFFSET(0x105e)       /* Destination Block Height Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:111:27: note: in expansion of macro 'HD64461_BBTDHR'
+     111 |         fb_writew(height, HD64461_BBTDHR);
+         |                           ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:113:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     113 | #define HD64461_BBTSSARL        HD64461_IO_OFFSET(0x1056)       /* Source Start Address Register (L) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:112:35: note: in expansion of macro 'HD64461_BBTSSARL'
+     112 |         fb_writew(saddr & 0xffff, HD64461_BBTSSARL);
+         |                                   ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:112:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     112 | #define HD64461_BBTSSARH        HD64461_IO_OFFSET(0x1054)       /* Source Start Address Register (H) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:113:32: note: in expansion of macro 'HD64461_BBTSSARH'
+     113 |         fb_writew(saddr >> 16, HD64461_BBTSSARH);
+         |                                ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:115:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     115 | #define HD64461_BBTDSARL        HD64461_IO_OFFSET(0x105a)       /* Destination Start Address Register (L) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:114:35: note: in expansion of macro 'HD64461_BBTDSARL'
+     114 |         fb_writew(daddr & 0xffff, HD64461_BBTDSARL);
+         |                                   ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:114:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     114 | #define HD64461_BBTDSARH        HD64461_IO_OFFSET(0x1058)       /* Destination Start Address Register (H) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:115:32: note: in expansion of macro 'HD64461_BBTDSARH'
+     115 |         fb_writew(daddr >> 16, HD64461_BBTDSARH);
+         |                                ^~~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:121:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     121 | #define HD64461_BBTMARL         HD64461_IO_OFFSET(0x1066)       /* Mask Start Address Register (L) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:118:43: note: in expansion of macro 'HD64461_BBTMARL'
+     118 |                 fb_writew(maddr & 0xffff, HD64461_BBTMARL);
+         |                                           ^~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:120:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     120 | #define HD64461_BBTMARH         HD64461_IO_OFFSET(0x1064)       /* Mask Start Address Register (H) */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:119:40: note: in expansion of macro 'HD64461_BBTMARH'
+     119 |                 fb_writew(maddr >> 16, HD64461_BBTMARH);
+         |                                        ^~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_fillrect':
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:122:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     122 | #define HD64461_BBTROPR         HD64461_IO_OFFSET(0x1068)       /* ROP Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:130:35: note: in expansion of macro 'HD64461_BBTROPR'
+     130 |                 fb_writew(0x00f0, HD64461_BBTROPR);
+         |                                   ^~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:123:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+     123 | #define HD64461_BBTMDR          HD64461_IO_OFFSET(0x106a)       /* BitBLT Mode Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:131:31: note: in expansion of macro 'HD64461_BBTMDR'
+     131 |                 fb_writew(16, HD64461_BBTMDR);
+         |                               ^~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:92:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      92 | #define HD64461_GRSCR           HD64461_IO_OFFSET(0x1042)       /* Solid Color Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:135:35: note: in expansion of macro 'HD64461_GRSCR'
+     135 |                                   HD64461_GRSCR);
+         |                                   ^~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:92:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      92 | #define HD64461_GRSCR           HD64461_IO_OFFSET(0x1042)       /* Solid Color Register */
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:140:48: note: in expansion of macro 'HD64461_GRSCR'
+     140 |                         fb_writew(rect->color, HD64461_GRSCR);
+         |                                                ^~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_pan_display':
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 2 of 'fb_writew' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:53:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      53 | #define HD64461_LCDCBAR         HD64461_IO_OFFSET(0x1000)
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:165:56: note: in expansion of macro 'HD64461_LCDCBAR'
+     165 |         fb_writew((yoffset*info->fix.line_length)>>10, HD64461_LCDCBAR);
+         |                                                        ^~~~~~~~~~~~~~~
+   include/asm-generic/fb.h:86:60: note: expected 'volatile void *' but argument is of type 'unsigned int'
+      86 | static inline void fb_writew(u16 b, volatile void __iomem *addr)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/hitfb.c: At top level:
+   drivers/video/fbdev/hitfb.c:170:5: warning: no previous prototype for 'hitfb_blank' [-Wmissing-prototypes]
+     170 | int hitfb_blank(int blank_mode, struct fb_info *info)
+         |     ^~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c: In function 'hitfb_blank':
+   arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 1 of 'fb_readw' makes pointer from integer without a cast [-Wint-conversion]
+      18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 unsigned int
+   arch/sh/include/asm/hd64461.h:70:33: note: in expansion of macro 'HD64461_IO_OFFSET'
+      70 | #define HD64461_LDR1            HD64461_IO_OFFSET(0x1010)
+         |                                 ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/hitfb.c:175:30: note: in expansion of macro 'HD64461_LDR1'
+     175 |                 v = fb_readw(HD64461_LDR1);
+
+
+vim +/fb_readw +18 arch/sh/include/asm/hd64461.h
+
+^1da177e4c3f41 include/asm-sh/hd64461/hd64461.h Linus Torvalds     2005-04-16  15  
+be15d65d97f924 include/asm-sh/hd64461.h         Kristoffer Ericson 2007-07-12  16  /* Area 6 - Slot 0 - memory and/or IO card */
+bec36eca6f5d1d arch/sh/include/asm/hd64461.h    Paul Mundt         2009-05-15  17  #define HD64461_IOBASE		0xb0000000
+bec36eca6f5d1d arch/sh/include/asm/hd64461.h    Paul Mundt         2009-05-15 @18  #define HD64461_IO_OFFSET(x)	(HD64461_IOBASE + (x))
+bec36eca6f5d1d arch/sh/include/asm/hd64461.h    Paul Mundt         2009-05-15  19  #define	HD64461_PCC0_BASE	HD64461_IO_OFFSET(0x8000000)
+be15d65d97f924 include/asm-sh/hd64461.h         Kristoffer Ericson 2007-07-12  20  #define	HD64461_PCC0_ATTR	(HD64461_PCC0_BASE)				/* 0xb80000000 */
+be15d65d97f924 include/asm-sh/hd64461.h         Kristoffer Ericson 2007-07-12  21  #define	HD64461_PCC0_COMM	(HD64461_PCC0_BASE+HD64461_PCC_WINDOW)		/* 0xb90000000 */
+be15d65d97f924 include/asm-sh/hd64461.h         Kristoffer Ericson 2007-07-12  22  #define	HD64461_PCC0_IO		(HD64461_PCC0_BASE+2*HD64461_PCC_WINDOW)	/* 0xba0000000 */
+^1da177e4c3f41 include/asm-sh/hd64461/hd64461.h Linus Torvalds     2005-04-16  23  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
