@@ -2,56 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601446FE0E6
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9643B6FE149
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3627E10E4BD;
-	Wed, 10 May 2023 14:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD1110E025;
+	Wed, 10 May 2023 15:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 392DE10E4BD;
- Wed, 10 May 2023 14:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683730760; x=1715266760;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=5PcR85UP60W1q4JTlwAaNEIiLv3C4MtG+bgQlozaZAU=;
- b=ezezgabZuGpi/mh1m6UpjvksZm5pcYA/KDxi4zihy/Hflmd9fzpkz9wf
- uJs0LRZfsTPwWqyCUg5B66BdRXiR8CEWpJO4qLaDJTlVqA4vxvny6CDJW
- MOpRlUTo4D8yRIzGaf5jmug+EeuOsodKlYz6b6K7uQw1j7biHT5HAFe/K
- aLXyUjKKRbw2sNxJ1wvIW1oNssD6c0+0XjpSf5yvNMpuIkJUIVHXV+QmK
- AsSkAqrMogRWMcSsukyk2aC8ArDSudGVDdA14ZzQHj2en2UrqxG015y1b
- NwDZk0pLlz7ye4VpDVQkIl3W5jJrIIHfqLSp1GNBNA0CXKQ7eY+LJj3wS Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="352424385"
-X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
- d="scan'208,217";a="352424385"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2023 07:59:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="676875225"
-X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
- d="scan'208,217";a="676875225"
-Received: from mfalalee-mobl1.ger.corp.intel.com (HELO [10.252.39.242])
- ([10.252.39.242])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2023 07:59:15 -0700
-Content-Type: multipart/alternative;
- boundary="------------L9LEjtZf5zN6LJSFQm2Vgkmg"
-Message-ID: <4d6fbce3-a676-f648-7a09-6f6dcc4bdb46@linux.intel.com>
-Date: Wed, 10 May 2023 16:59:01 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26CC10E025
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:11:31 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 510F0219B6;
+ Wed, 10 May 2023 15:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683731488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7GsHyu8BvvIG88YAPiapZikCJddAHgbSm3iY5gZ+5dk=;
+ b=V8nPnqE0W5b4eUiWzQWhjNJ+C5HSzklnAHRgDHMEMT2D/nAtfFUt4PJtvGYHXoqJAhHmjS
+ f1Q/NSs731ZytgowSNTQojiyMv04CSHs5HN8CYKNKIDoE3H5mqDxaOk5gf0Cha/n23+cWg
+ 645svPiTSTK5o8Bpf0PfPqg3IxhsMWs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683731488;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7GsHyu8BvvIG88YAPiapZikCJddAHgbSm3iY5gZ+5dk=;
+ b=ldSZ6sCgE7NATIvrxbps1bEgqObcnKzzD1pe2ZDCOsPoPZYQGRxO3Wg2orrUIG0RK882lm
+ TyzJ1u0RNETmF8CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D359213519;
+ Wed, 10 May 2023 15:11:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FLw9Mh+0W2TxSAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 10 May 2023 15:11:27 +0000
+Message-ID: <238513df-4a39-75d4-9012-20d7d8526706@suse.de>
+Date: Wed, 10 May 2023 17:11:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 0/4] Add support for DRM cgroup memory accounting.
-To: Tejun Heo <tj@kernel.org>
-References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
- <ZFVeI2DKQXddKDNl@slm.duckdns.org>
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
 Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <ZFVeI2DKQXddKDNl@slm.duckdns.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-6-tzimmermann@suse.de>
+ <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
+ <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
+ <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bePUrlBG7J50eUzAHryxDe2t"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,279 +73,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- intel-xe@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
+ sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
+ linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
+ javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
+ suijingfeng@loongson.cn, arnd@arndb.de, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------L9LEjtZf5zN6LJSFQm2Vgkmg
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bePUrlBG7J50eUzAHryxDe2t
+Content-Type: multipart/mixed; boundary="------------nmuFXWNHp9OPw0gTQ9dL40wM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: deller@gmx.de, javierm@redhat.com, daniel@ffwll.ch, vgupta@kernel.org,
+ chenhuacai@kernel.org, kernel@xen0n.name, davem@davemloft.net,
+ James.Bottomley@hansenpartnership.com, arnd@arndb.de, sam@ravnborg.org,
+ suijingfeng@loongson.cn, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org
+Message-ID: <238513df-4a39-75d4-9012-20d7d8526706@suse.de>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-6-tzimmermann@suse.de>
+ <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
+ <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
+ <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
+
+--------------nmuFXWNHp9OPw0gTQ9dL40wM
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hey,
+SGkgR2VlcnQNCg0KQW0gMTAuMDUuMjMgdW0gMTY6MzQgc2NocmllYiBHZWVydCBVeXR0ZXJo
+b2V2ZW46DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFdlZCwgTWF5IDEwLCAyMDIzIGF0IDQ6
+MjDigK9QTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6
+DQo+PiBBbSAxMC4wNS4yMyB1bSAxNDozNCBzY2hyaWViIEdlZXJ0IFV5dHRlcmhvZXZlbjoN
+Cj4+PiBPbiBXZWQsIE1heSAxMCwgMjAyMyBhdCAxOjA24oCvUE0gVGhvbWFzIFppbW1lcm1h
+bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4+PiBJbXBsZW1lbnQgZnJhbWVi
+dWZmZXIgSS9PIGhlbHBlcnMsIHN1Y2ggYXMgZmJfcmVhZCooKSBhbmQgZmJfd3JpdGUqKCks
+DQo+Pj4+IGluIHRoZSBhcmNoaXRlY3R1cmUncyA8YXNtL2ZiLmg+IGhlYWRlciBmaWxlIG9y
+IHRoZSBnZW5lcmljIG9uZS4NCj4+Pj4NCj4+Pj4gVGhlIGNvbW1vbiBjYXNlIGhhcyBiZWVu
+IHRoZSB1c2Ugb2YgcmVndWxhciBJL08gZnVuY3Rpb25zLCBzdWNoIGFzDQo+Pj4+IF9fcmF3
+X3JlYWRiKCkgb3IgbWVtc2V0X2lvKCkuIEEgZmV3IGFyY2hpdGVjdHVyZXMgdXNlZCBwbGFp
+biBzeXN0ZW0tDQo+Pj4+IG1lbW9yeSByZWFkcyBhbmQgd3JpdGVzLiBTcGFyYyB1c2VkIGhl
+bHBlcnMgZm9yIGl0cyBTQnVzLg0KPj4+Pg0KPj4+PiBUaGUgYXJjaGl0ZWN0dXJlcyB0aGF0
+IHVzZWQgc3BlY2lhbCBjYXNlcyBwcm92aWRlIHRoZSBzYW1lIGNvZGUgaW4NCj4+Pj4gdGhl
+aXIgX19yYXdfKigpIEkvTyBoZWxwZXJzLiBTbyB0aGUgcGF0Y2ggcmVwbGFjZXMgdGhpcyBj
+b2RlIHdpdGggdGhlDQo+Pj4+IF9fcmF3XyooKSBmdW5jdGlvbnMgYW5kIG1vdmVzIGl0IHRv
+IDxhc20tZ2VuZXJpYy9mYi5oPiBmb3IgYWxsDQo+Pj4+IGFyY2hpdGVjdHVyZXMuDQo+Pj4+
+DQo+Pj4+IHY2Og0KPj4+PiAgICAgICAgICAgKiBmaXggZmJfcmVhZHEoKS9mYl93cml0ZXEo
+KSBvbiA2NC1iaXQgbWlwcyAoa2VybmVsIHRlc3Qgcm9ib3QpDQo+Pj4+IHY1Og0KPj4+PiAg
+ICAgICAgICAgKiBpbmNsdWRlIDxsaW51eC9pby5oPiBpbiA8YXNtLWdlbmVyaWMvZmI+OyBm
+aXggczM5MCBidWlsZA0KPj4+PiB2NDoNCj4+Pj4gICAgICAgICAgICogaWE2NCwgbG9vbmdh
+cmNoLCBzcGFyYzY0OiBhZGQgZmJfbWVtKigpIHRvIGFyY2ggaGVhZGVycw0KPj4+PiAgICAg
+ICAgICAgICB0byBrZWVwIGN1cnJlbnQgc2VtYW50aWNzIChBcm5kKQ0KPj4+PiB2MzoNCj4+
+Pj4gICAgICAgICAgICogaW1wbGVtZW50IGFsbCBhcmNoaXRlY3R1cmVzIHdpdGggZ2VuZXJp
+YyBoZWxwZXJzDQo+Pj4+ICAgICAgICAgICAqIHN1cHBvcnQgcmVvcmRlcmluZyBhbmQgbmF0
+aXZlIGJ5dGUgb3JkZXIgKEdlZXJ0LCBBcm5kKQ0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+Pj4gVGVzdGVk
+LWJ5OiBTdWkgSmluZ2ZlbmcgPHN1aWppbmdmZW5nQGxvb25nc29uLmNuPg0KPj4+PiBSZXZp
+ZXdlZC1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4NCj4gDQo+Pj4+IC0tLSBh
+L2FyY2gvbWlwcy9pbmNsdWRlL2FzbS9mYi5oDQo+Pj4+ICsrKyBiL2FyY2gvbWlwcy9pbmNs
+dWRlL2FzbS9mYi5oDQo+Pj4+IEBAIC0xMiw2ICsxMiwyOCBAQCBzdGF0aWMgaW5saW5lIHZv
+aWQgZmJfcGdwcm90ZWN0KHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1
+Y3QgKnZtYSwNCj4+Pj4gICAgfQ0KPj4+PiAgICAjZGVmaW5lIGZiX3BncHJvdGVjdCBmYl9w
+Z3Byb3RlY3QNCj4+Pj4NCj4+Pj4gKy8qDQo+Pj4+ICsgKiBNSVBTIGRvZXNuJ3QgZGVmaW5l
+IF9fcmF3XyBJL08gbWFjcm9zLCBzbyB0aGUgaGVscGVycw0KPj4+PiArICogaW4gPGFzbS1n
+ZW5lcmljL2ZiLmg+IGRvbid0IGdlbmVyYXRlIGZiX3JlYWRxKCkgYW5kDQo+Pj4+ICsgKiBm
+Yl93cml0ZSgpLiBXZSBoYXZlIHRvIHByb3ZpZGUgdGhlbSBoZXJlLg0KPj4+DQo+Pj4gTUlQ
+UyBkb2VzIG5vdCBpbmNsdWRlIDxhc20tZ2VuZXJpYy9pby5oPiwgIG5vciBkZWZpbmUgaXRz
+IG93bg0KPj4NCj4+IEkga25vdywgdGhhdCdzIHdoeSB0aGUgVE9ETyBzYXlzIHRvIGNvbnZl
+cnQgaXQgdG8gZ2VuZXJpYyBJL08uDQo+Pg0KPj4+IF9fcmF3X3JlYWRxKCkgYW5kIF9fcmF3
+X3dyaXRlcSgpLi4uDQo+Pg0KPj4gSXQgZG9lc24ndCBkZWZpbmUgdGhvc2UgbWFjcm9zLCBi
+dXQgaXQgZ2VuZXJhdGVzIGZ1bmN0aW9uIGNhbGxzIG9mIHRoZQ0KPj4gc2FtZSBuYW1lcy4g
+Rm9sbG93IHRoZSBtYWNyb3MgYXQNCj4+DQo+Pg0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxp
+bi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9hcmNoL21pcHMvaW5jbHVkZS9hc20vaW8uaCNM
+MzU3DQo+Pg0KPj4gSXQgZXhwYW5kcyB0byBhIHZhcmlldHkgb2YgaGVscGVycywgaW5jbHVk
+aW5nIF9fcmF3XyooKS4NCj4gDQo+IFRoYW5rcywgSSBmb3Jnb3QgTUlQUyBpcyB1c2luZyB0
+aGVzZSBncmVwLXVuZnJpZW5kbHkgZmFjdG9yaWVzLi4uDQo+IA0KPj4+PiArICoNCj4+Pj4g
+KyAqIFRPRE86IENvbnZlcnQgTUlQUyB0byBnZW5lcmljIEkvTy4gVGhlIGhlbHBlcnMgYmVs
+b3cgY2FuDQo+Pj4+ICsgKiAgICAgICB0aGVuIGJlIHJlbW92ZWQuDQo+Pj4+ICsgKi8NCj4+
+Pj4gKyNpZmRlZiBDT05GSUdfNjRCSVQNCj4+Pj4gK3N0YXRpYyBpbmxpbmUgdTY0IGZiX3Jl
+YWRxKGNvbnN0IHZvbGF0aWxlIHZvaWQgX19pb21lbSAqYWRkcikNCj4+Pj4gK3sNCj4+Pj4g
+KyAgICAgICByZXR1cm4gX19yYXdfcmVhZHEoYWRkcik7DQo+Pj4NCj4+PiAuLi4gc28gaG93
+IGNhbiB0aGlzIGNhbGwgd29yaz8NCj4+DQo+PiBPbiA2NC1iaXQgYnVpbGRzLCB0aGVyZSdz
+IF9fcmF3X3JlYWRxKCkgYW5kIF9fcmF3X3dyaXRlcSgpLg0KPj4NCj4+IEF0IGZpcnN0LCBJ
+IHRyaWVkIHRvIGRvIHRoZSByaWdodCB0aGluZyBhbmQgY29udmVydCBNSVBTIHRvIHdvcmsg
+d2l0aA0KPj4gPGFzbS1nZW5lcmljL2lvLmg+LiBCdXQgdGhhdCBjcmVhdGVkIGEgdG9uIG9m
+IGZvbGxvdy11cCBlcnJvcnMgaW4gb3RoZXINCj4+IGhlYWRlcnMuIFNvIGZvciBub3csIGl0
+J3MgYmV0dGVyIHRvIGhhbmRsZSB0aGlzIHByb2JsZW0gaW4gYXNtL2ZiLmguDQo+IA0KPiBT
+byBpc24ndCBqdXN0IGFkZGluZw0KPiANCj4gICAgICAjZGVmaW5lIF9fcmF3X3JlYWRxIF9f
+cmF3X3JlYWRxDQo+ICAgICAgI2RlZmluZSBfX3Jhd193cml0ZXEgX19yYXdfd3JpdGVxDQo+
+IA0KPiB0byBhcmNoL21pcHMvaW5jbHVkZS9hc20vaW8uaCBzdWZmaWNpZW50IHRvIG1ha2Ug
+PGFzbS1nZW5lcmljL2ZiLmg+DQo+IGRvIHRoZSByaWdodCB0aGluZz8NCg0KVGhhdCB3b3Jr
+cy4gSSBoYWQgYSBwYXRjaCB0aGF0IGFkZHMgYWxsIG1pc3NpbmcgZGVmaW5lcyB0byBNSVBT
+JyBpby5oLiANClRoZW4gSSB3ZW50IHdpdGggdGhlIGN1cnJlbnQgZml4LCB3aGljaCBpcyBz
+ZWxmLWNvbnRhaW5lZCB3aXRoaW4gZmJkZXYuIA0KQnV0IEknZCBsZWF2ZSBpdCB0byBhcmNo
+IG1haW50YWluZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCj4gDQo+IEdye29l
+dGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+
+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
+DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3Nl
+IDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcg
+TXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFH
+IE51ZXJuYmVyZykNCg==
 
-On 2023-05-05 21:50, Tejun Heo wrote:
-> Hello,
->
-> On Wed, May 03, 2023 at 10:34:56AM +0200, Maarten Lankhorst wrote:
->> RFC as I'm looking for comments.
->>
->> For long running compute, it can be beneficial to partition the GPU memory
->> between cgroups, so each cgroup can use its maximum amount of memory without
->> interfering with other scheduled jobs. Done properly, this can alleviate the
->> need for eviction, which might result in a job being terminated if the GPU
->> doesn't support mid-thread preemption or recoverable page faults.
->>
->> This is done by adding a bunch of knobs to cgroup:
->> drm.capacity: Shows maximum capacity of each resource region.
->> drm.max: Display or limit max amount of memory.
->> drm.current: Current amount of memory in use.
->>
->> TTM has not been made cgroup aware yet, so instead of evicting from
->> the current cgroup to stay within the cgroup limits, it simply returns
->> the error -ENOSPC to userspace.
->>
->> I've used Tvrtko's cgroup controller series as a base, but it implemented
->> scheduling weight, not memory accounting, so I only ended up keeping the
->> base patch.
->>
->> Xe is not upstream yet, so the driver specific patch will only apply on
->> https://gitlab.freedesktop.org/drm/xe/kernel
-> Some high-level feedbacks.
->
-> * There have been multiple attempts at this but the track record is kinda
->    poor. People don't seem to agree what should constitute DRM memory and how
->    they should be accounted / controlled.
+--------------nmuFXWNHp9OPw0gTQ9dL40wM--
 
-Thanks for the feedback.
+--------------bePUrlBG7J50eUzAHryxDe2t
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I think for a lot of drivers, what is VRAM might have different meaning, but the intention
-is it being accounted in the same way. Most drivers use TTM, which has a standard way
-of allocating memory, and a standard way of evicting VRAM.
+-----BEGIN PGP SIGNATURE-----
 
-This makes it very useful for the usecase which I'm looking at, long running compute.
-When you have long running jobs, you don't want them to be interrupted because a completely
-unrelated process needs some VRAM, and one of the compute jobs buffers are being evicted.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRbtB8FAwAAAAAACgkQlh/E3EQov+DI
+OQ/7Bh2dGdIpUoZFmIzv8q/RW/ZRQu70vozaAGSwIj4W59gjrfbWhlRscy2ihp/+9MgdjDPByjMC
+huW3PLu6r/dG820Z19YD7yaqfiZiXykzvUGNKaJMwUvZnHSPR2EOW5guvhK+wQaSRnAiuGUUly8C
+Qc46ymt6o6SbZX4uFY9+ye3FY/ilEXY4ydngwypgcjsepbop9MVvMv1uyvn055gvbT37j2Cjwa2P
+qDSZbiZEmweX4/rtaF2bYOj64NfVIBAvi1I63kTYPuafn/0meleXyGC1iVjk3cYoDBG9gQ5TMJiV
+PUMNC20LIju+wZphH8Irh1yuqwsa797sIfiTz4cw0fXWzgEqvBTUC2reBS1aGEyj4sW2M+qyZGdG
++efx+P1jAs2j/sm+3fvWXjIqZmxFXAPx3asI/zFJ5GUldFSTFVmcck/+sRN1MDTpOFWu3n3x0fw3
+SlIZP/R0mWQb5IRzn0eGeVs68mfhW2tb9IlRUmP1lZ97bn4faMPzGCHVsb3CLiURBjv9xU1khgtg
+MMlQS5yqmT+cM9Cf6frXdBMFTAmd5TyKiUaXdsz8yJAAj7Q0tdEu0gFubYY1CKRwtswzxjLJC66W
+cNc40si5mk77HnbK6MLfcTF/ZPG6EtbGNAZCODLobe3ivg+xFN3W+wKOxZwXM07dOkIus9vPbvx5
+LQQ=
+=sdVp
+-----END PGP SIGNATURE-----
 
-Some hardware does not support mid-thread preemption or page fault recovery, this means that
-when memory is evicted, the compute job is terminated.
-
-The full problem statement is in drm-compute.rst in the memory accounting patch.
-
-> * I like Tvrtko's scheduling patchset because it exposes a generic interface
->    which makes sense regardless of hardware details and then each driver can
->    implement the configured control in whatever way they can. However, even
->    for that, there doesn't seem much buy-in from other drivers.
-
-Yeah, that is correct. But it tries to solve a different part of the problem.
-
-> * This proposal seems narrowly scoped trying to solve a specific problem
->    which may not translate to different hardware configurations. Please let
->    me know if I got that wrong, but if that's the case, I think a better and
->    easier approach might be just being a part of the misc controller. That
->    doesn't require much extra code and should be able to provide everything
->    necessary for statically limiting specific resources.
-
-The misc controller is not granular enough. A single computer may have any number of
-graphics cards, some of them with multiple regions of vram inside a single card.
-
-For compute and shared hosting you might want to limit the usage of a single memory
-region on a single card, and then limit the same limits for the rest too, to prevent
-triggering eviction.
-
-The current version doesn't handle eviction correctly, because I was still working
-on it and I wanted to post a RFC. As a result, the case where resource limit is hit
-will evict the device's entire memory or get stuck in a loop. With some changes, the
-next version will not have this bug. This results in a few changes to the core code. [1]
-
-In the next version, I will move all the code for handling the resource limit to
-TTM's eviction layer, because otherwise it cannot handle the resource limit correctly.
-
-The effect of moving the code to TTM, is that it will make the code even more generic
-for drivers that have vram and use TTM. When using TTM, you only have to describe your
-VRAM, update some fields in the TTM manager and (un)register your device with the
-cgroup handler on (un)load. It's quite trivial to add vram accounting to amdgpu and
-nouveau. [2]
-
-If you want to add a knob for scheduling weight for a process, it makes sense to
-also add resource usage as a knob, otherwise the effect of that knob is very
-limited. So even for Tvrtko's original proposed usecase, it would make sense.
-
-Cheers,
-~Maarten
-
---------
-[1] Compared to this version:
-  static inline int drmcg_try_charge(struct drmcgroup_state **drmcs,
-+                                  struct drmcgroup_state **limitcs,
-                                    struct drmcgroup_device *cgdev,
-                                    u32 index, u64 size)
-
-This now returns which cgroup's limit is hit on -EAGAIN.
-
-+bool drmcs_grouped(struct drmcgroup_state *limitcs,
-+                  struct drmcgroup_state *testcs);
-Tells if testcs is the same as limitcs, or a subgroup of it. This allows us to
-skip evicting when it's unneeded. If we want to add a min, it will make sense
-to pass the size too, to skip some subcgroups below min.
-
-+void drmcs_put(struct drmcgroup_state *drmcs);
-Drops the limitcs ref.
--------------------
-[2] With the next version, I can very easily implement the cgroup handling on amdgpu too:
-- embed a struct drmcgroup_device inside amdgpu_device.
-- In amdgpu_vram_mgr_init, populate the struct drmcgroup_device.regions[0] for vram,
-   and set ttm_resource_manager->cg to &adev->drmcgroup_device
-- Call drmcg_register_device after, and drmcg_unregister_device after cleaning up vram.
-
-So if anyone wants to limit VRAM on amdgpu or qxl or nouveau (left as exercise for reader)
-afterwards, it will work as intended, while the driver doesn't have to be cgroups aware.
-
---------------L9LEjtZf5zN6LJSFQm2Vgkmg
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hey,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2023-05-05 21:50, Tejun Heo wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:ZFVeI2DKQXddKDNl@slm.duckdns.org">
-      <pre class="moz-quote-pre" wrap="">Hello,
-
-On Wed, May 03, 2023 at 10:34:56AM +0200, Maarten Lankhorst wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">RFC as I'm looking for comments.
-
-For long running compute, it can be beneficial to partition the GPU memory
-between cgroups, so each cgroup can use its maximum amount of memory without
-interfering with other scheduled jobs. Done properly, this can alleviate the
-need for eviction, which might result in a job being terminated if the GPU
-doesn't support mid-thread preemption or recoverable page faults.
-
-This is done by adding a bunch of knobs to cgroup:
-drm.capacity: Shows maximum capacity of each resource region.
-drm.max: Display or limit max amount of memory.
-drm.current: Current amount of memory in use.
-
-TTM has not been made cgroup aware yet, so instead of evicting from
-the current cgroup to stay within the cgroup limits, it simply returns
-the error -ENOSPC to userspace.
-
-I've used Tvrtko's cgroup controller series as a base, but it implemented
-scheduling weight, not memory accounting, so I only ended up keeping the
-base patch.
-
-Xe is not upstream yet, so the driver specific patch will only apply on
-<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/drm/xe/kernel">https://gitlab.freedesktop.org/drm/xe/kernel</a>
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Some high-level feedbacks.
-
-* There have been multiple attempts at this but the track record is kinda
-  poor. People don't seem to agree what should constitute DRM memory and how
-  they should be accounted / controlled.</pre>
-    </blockquote>
-    <pre>Thanks for the feedback.
-
-I think for a lot of drivers, what is VRAM might have different meaning, but the intention
-is it being accounted in the same way. Most drivers use TTM, which has a standard way
-of allocating memory, and a standard way of evicting VRAM.
-
-This makes it very useful for the usecase which I'm looking at, long running compute.
-When you have long running jobs, you don't want them to be interrupted because a completely
-unrelated process needs some VRAM, and one of the compute jobs buffers are being evicted.
-
-Some hardware does not support mid-thread preemption or page fault recovery, this means that
-when memory is evicted, the compute job is terminated.
-
-The full problem statement is in drm-compute.rst in the memory accounting patch.
-
-</pre>
-    <blockquote type="cite" cite="mid:ZFVeI2DKQXddKDNl@slm.duckdns.org">
-      <pre class="moz-quote-pre" wrap="">* I like Tvrtko's scheduling patchset because it exposes a generic interface
-  which makes sense regardless of hardware details and then each driver can
-  implement the configured control in whatever way they can. However, even
-  for that, there doesn't seem much buy-in from other drivers.</pre>
-    </blockquote>
-    <pre>Yeah, that is correct. But it tries to solve a different part of the problem.</pre>
-    <blockquote type="cite" cite="mid:ZFVeI2DKQXddKDNl@slm.duckdns.org">
-      <pre class="moz-quote-pre" wrap="">* This proposal seems narrowly scoped trying to solve a specific problem
-  which may not translate to different hardware configurations. Please let
-  me know if I got that wrong, but if that's the case, I think a better and
-  easier approach might be just being a part of the misc controller. That
-  doesn't require much extra code and should be able to provide everything
-  necessary for statically limiting specific resources.
-</pre>
-    </blockquote>
-    <pre>The misc controller is not granular enough. A single computer may have any number of
-graphics cards, some of them with multiple regions of vram inside a single card.
-
-For compute and shared hosting you might want to limit the usage of a single memory
-region on a single card, and then limit the same limits for the rest too, to prevent
-triggering eviction.
-
-The current version doesn't handle eviction correctly, because I was still working
-on it and I wanted to post a RFC. As a result, the case where resource limit is hit
-will evict the device's entire memory or get stuck in a loop. With some changes, the
-next version will not have this bug. This results in a few changes to the core code. [1]
-
-In the next version, I will move all the code for handling the resource limit to
-TTM's eviction layer, because otherwise it cannot handle the resource limit correctly.
-
-The effect of moving the code to TTM, is that it will make the code even more generic
-for drivers that have vram and use TTM. When using TTM, you only have to describe your
-VRAM, update some fields in the TTM manager and (un)register your device with the
-cgroup handler on (un)load. It's quite trivial to add vram accounting to amdgpu and
-nouveau. [2]
-
-If you want to add a knob for scheduling weight for a process, it makes sense to
-also add resource usage as a knob, otherwise the effect of that knob is very
-limited. So even for Tvrtko's original proposed usecase, it would make sense.
-
-Cheers,
-~Maarten
-
---------
-[1] Compared to this version:
- static inline int drmcg_try_charge(struct drmcgroup_state **drmcs,
-+                                  struct drmcgroup_state **limitcs,
-                                   struct drmcgroup_device *cgdev,
-                                   u32 index, u64 size)
-
-This now returns which cgroup's limit is hit on -EAGAIN.
-
-+bool drmcs_grouped(struct drmcgroup_state *limitcs,
-+                  struct drmcgroup_state *testcs);
-Tells if testcs is the same as limitcs, or a subgroup of it. This allows us to
-skip evicting when it's unneeded. If we want to add a min, it will make sense
-to pass the size too, to skip some subcgroups below min.
-
-+void drmcs_put(struct drmcgroup_state *drmcs);
-Drops the limitcs ref.
--------------------
-[2] With the next version, I can very easily implement the cgroup handling on amdgpu too:
-- embed a struct drmcgroup_device inside amdgpu_device.
-- In amdgpu_vram_mgr_init, populate the struct drmcgroup_device.regions[0] for vram,
-  and set ttm_resource_manager-&gt;cg to &amp;adev-&gt;drmcgroup_device
-- Call drmcg_register_device after, and drmcg_unregister_device after cleaning up vram.
-
-So if anyone wants to limit VRAM on amdgpu or qxl or nouveau (left as exercise for reader)
-afterwards, it will work as intended, while the driver doesn't have to be cgroups aware.
-
-</pre>
-  </body>
-</html>
-
---------------L9LEjtZf5zN6LJSFQm2Vgkmg--
+--------------bePUrlBG7J50eUzAHryxDe2t--
