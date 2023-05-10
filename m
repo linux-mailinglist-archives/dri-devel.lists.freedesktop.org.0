@@ -1,66 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9643B6FE149
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:11:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC426FE1FD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 17:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD1110E025;
-	Wed, 10 May 2023 15:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3F510E4D6;
+	Wed, 10 May 2023 15:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E26CC10E025
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:11:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 510F0219B6;
- Wed, 10 May 2023 15:11:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683731488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7GsHyu8BvvIG88YAPiapZikCJddAHgbSm3iY5gZ+5dk=;
- b=V8nPnqE0W5b4eUiWzQWhjNJ+C5HSzklnAHRgDHMEMT2D/nAtfFUt4PJtvGYHXoqJAhHmjS
- f1Q/NSs731ZytgowSNTQojiyMv04CSHs5HN8CYKNKIDoE3H5mqDxaOk5gf0Cha/n23+cWg
- 645svPiTSTK5o8Bpf0PfPqg3IxhsMWs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683731488;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7GsHyu8BvvIG88YAPiapZikCJddAHgbSm3iY5gZ+5dk=;
- b=ldSZ6sCgE7NATIvrxbps1bEgqObcnKzzD1pe2ZDCOsPoPZYQGRxO3Wg2orrUIG0RK882lm
- TyzJ1u0RNETmF8CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D359213519;
- Wed, 10 May 2023 15:11:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FLw9Mh+0W2TxSAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 10 May 2023 15:11:27 +0000
-Message-ID: <238513df-4a39-75d4-9012-20d7d8526706@suse.de>
-Date: Wed, 10 May 2023 17:11:27 +0200
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77FC610E4D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:58:12 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 823C8CC1F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 15:48:10 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 70F2CC0008;
+ Wed, 10 May 2023 15:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1683733684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WoIOANVWdL0y5NcqhIK3a/G8U5mkm1Ghbop7k5ySOhk=;
+ b=Rd3d4ufks9H8+MFvwd9uWILnq9BHpac5TSVlyaIfx5FiU+NOdCVUKjT0oc43j2oZegyNzn
+ BXnSqpoCr02fjgy25wvCFPaWqaRviURasbmfeDG0aK0GymSBFrrPX5BuKixDem2XayZoF8
+ e5h19iXJm1R87Udx6qlnaYHq9O3zX7RGmXDndSidb3ecZl9f9L5fm2PLqz9JRK1GMG7sZL
+ LaSGFiqdSTwBRmLAIIJe95eA+Du/FtrlAeKDgo/6wW+jIf3/VJpqbAc+CKjlFZOwqn5W7G
+ FfVITgIQ8gYiM5kpYG6EWtadeSaHh2qReOLzrOm02Aoov7drJtk/GPiqPEfcQA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH 0/5] of: More 'device' vs. 'module' cleanups
+Date: Wed, 10 May 2023 17:47:58 +0200
+Message-Id: <20230510154803.189096-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-6-tzimmermann@suse.de>
- <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
- <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
- <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------bePUrlBG7J50eUzAHryxDe2t"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,141 +50,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- suijingfeng@loongson.cn, arnd@arndb.de, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- davem@davemloft.net
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, linux-tegra@vger.kernel.org,
+ Frank Rowand <frowand.list@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------bePUrlBG7J50eUzAHryxDe2t
-Content-Type: multipart/mixed; boundary="------------nmuFXWNHp9OPw0gTQ9dL40wM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: deller@gmx.de, javierm@redhat.com, daniel@ffwll.ch, vgupta@kernel.org,
- chenhuacai@kernel.org, kernel@xen0n.name, davem@davemloft.net,
- James.Bottomley@hansenpartnership.com, arnd@arndb.de, sam@ravnborg.org,
- suijingfeng@loongson.cn, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org
-Message-ID: <238513df-4a39-75d4-9012-20d7d8526706@suse.de>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-6-tzimmermann@suse.de>
- <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
- <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
- <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
+Hello,
 
---------------nmuFXWNHp9OPw0gTQ9dL40wM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+As part of a previous series, Rob suggested that keeping too much logic
+in of/device.c was backward and would benefit from a gradual cleanup
+with the hope some day to move the remaining helpers into inline
+functions wrapping the proper of_*() methods.
 
-SGkgR2VlcnQNCg0KQW0gMTAuMDUuMjMgdW0gMTY6MzQgc2NocmllYiBHZWVydCBVeXR0ZXJo
-b2V2ZW46DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFdlZCwgTWF5IDEwLCAyMDIzIGF0IDQ6
-MjDigK9QTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6
-DQo+PiBBbSAxMC4wNS4yMyB1bSAxNDozNCBzY2hyaWViIEdlZXJ0IFV5dHRlcmhvZXZlbjoN
-Cj4+PiBPbiBXZWQsIE1heSAxMCwgMjAyMyBhdCAxOjA24oCvUE0gVGhvbWFzIFppbW1lcm1h
-bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4+PiBJbXBsZW1lbnQgZnJhbWVi
-dWZmZXIgSS9PIGhlbHBlcnMsIHN1Y2ggYXMgZmJfcmVhZCooKSBhbmQgZmJfd3JpdGUqKCks
-DQo+Pj4+IGluIHRoZSBhcmNoaXRlY3R1cmUncyA8YXNtL2ZiLmg+IGhlYWRlciBmaWxlIG9y
-IHRoZSBnZW5lcmljIG9uZS4NCj4+Pj4NCj4+Pj4gVGhlIGNvbW1vbiBjYXNlIGhhcyBiZWVu
-IHRoZSB1c2Ugb2YgcmVndWxhciBJL08gZnVuY3Rpb25zLCBzdWNoIGFzDQo+Pj4+IF9fcmF3
-X3JlYWRiKCkgb3IgbWVtc2V0X2lvKCkuIEEgZmV3IGFyY2hpdGVjdHVyZXMgdXNlZCBwbGFp
-biBzeXN0ZW0tDQo+Pj4+IG1lbW9yeSByZWFkcyBhbmQgd3JpdGVzLiBTcGFyYyB1c2VkIGhl
-bHBlcnMgZm9yIGl0cyBTQnVzLg0KPj4+Pg0KPj4+PiBUaGUgYXJjaGl0ZWN0dXJlcyB0aGF0
-IHVzZWQgc3BlY2lhbCBjYXNlcyBwcm92aWRlIHRoZSBzYW1lIGNvZGUgaW4NCj4+Pj4gdGhl
-aXIgX19yYXdfKigpIEkvTyBoZWxwZXJzLiBTbyB0aGUgcGF0Y2ggcmVwbGFjZXMgdGhpcyBj
-b2RlIHdpdGggdGhlDQo+Pj4+IF9fcmF3XyooKSBmdW5jdGlvbnMgYW5kIG1vdmVzIGl0IHRv
-IDxhc20tZ2VuZXJpYy9mYi5oPiBmb3IgYWxsDQo+Pj4+IGFyY2hpdGVjdHVyZXMuDQo+Pj4+
-DQo+Pj4+IHY2Og0KPj4+PiAgICAgICAgICAgKiBmaXggZmJfcmVhZHEoKS9mYl93cml0ZXEo
-KSBvbiA2NC1iaXQgbWlwcyAoa2VybmVsIHRlc3Qgcm9ib3QpDQo+Pj4+IHY1Og0KPj4+PiAg
-ICAgICAgICAgKiBpbmNsdWRlIDxsaW51eC9pby5oPiBpbiA8YXNtLWdlbmVyaWMvZmI+OyBm
-aXggczM5MCBidWlsZA0KPj4+PiB2NDoNCj4+Pj4gICAgICAgICAgICogaWE2NCwgbG9vbmdh
-cmNoLCBzcGFyYzY0OiBhZGQgZmJfbWVtKigpIHRvIGFyY2ggaGVhZGVycw0KPj4+PiAgICAg
-ICAgICAgICB0byBrZWVwIGN1cnJlbnQgc2VtYW50aWNzIChBcm5kKQ0KPj4+PiB2MzoNCj4+
-Pj4gICAgICAgICAgICogaW1wbGVtZW50IGFsbCBhcmNoaXRlY3R1cmVzIHdpdGggZ2VuZXJp
-YyBoZWxwZXJzDQo+Pj4+ICAgICAgICAgICAqIHN1cHBvcnQgcmVvcmRlcmluZyBhbmQgbmF0
-aXZlIGJ5dGUgb3JkZXIgKEdlZXJ0LCBBcm5kKQ0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+Pj4gVGVzdGVk
-LWJ5OiBTdWkgSmluZ2ZlbmcgPHN1aWppbmdmZW5nQGxvb25nc29uLmNuPg0KPj4+PiBSZXZp
-ZXdlZC1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4NCj4gDQo+Pj4+IC0tLSBh
-L2FyY2gvbWlwcy9pbmNsdWRlL2FzbS9mYi5oDQo+Pj4+ICsrKyBiL2FyY2gvbWlwcy9pbmNs
-dWRlL2FzbS9mYi5oDQo+Pj4+IEBAIC0xMiw2ICsxMiwyOCBAQCBzdGF0aWMgaW5saW5lIHZv
-aWQgZmJfcGdwcm90ZWN0KHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1
-Y3QgKnZtYSwNCj4+Pj4gICAgfQ0KPj4+PiAgICAjZGVmaW5lIGZiX3BncHJvdGVjdCBmYl9w
-Z3Byb3RlY3QNCj4+Pj4NCj4+Pj4gKy8qDQo+Pj4+ICsgKiBNSVBTIGRvZXNuJ3QgZGVmaW5l
-IF9fcmF3XyBJL08gbWFjcm9zLCBzbyB0aGUgaGVscGVycw0KPj4+PiArICogaW4gPGFzbS1n
-ZW5lcmljL2ZiLmg+IGRvbid0IGdlbmVyYXRlIGZiX3JlYWRxKCkgYW5kDQo+Pj4+ICsgKiBm
-Yl93cml0ZSgpLiBXZSBoYXZlIHRvIHByb3ZpZGUgdGhlbSBoZXJlLg0KPj4+DQo+Pj4gTUlQ
-UyBkb2VzIG5vdCBpbmNsdWRlIDxhc20tZ2VuZXJpYy9pby5oPiwgIG5vciBkZWZpbmUgaXRz
-IG93bg0KPj4NCj4+IEkga25vdywgdGhhdCdzIHdoeSB0aGUgVE9ETyBzYXlzIHRvIGNvbnZl
-cnQgaXQgdG8gZ2VuZXJpYyBJL08uDQo+Pg0KPj4+IF9fcmF3X3JlYWRxKCkgYW5kIF9fcmF3
-X3dyaXRlcSgpLi4uDQo+Pg0KPj4gSXQgZG9lc24ndCBkZWZpbmUgdGhvc2UgbWFjcm9zLCBi
-dXQgaXQgZ2VuZXJhdGVzIGZ1bmN0aW9uIGNhbGxzIG9mIHRoZQ0KPj4gc2FtZSBuYW1lcy4g
-Rm9sbG93IHRoZSBtYWNyb3MgYXQNCj4+DQo+Pg0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxp
-bi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9hcmNoL21pcHMvaW5jbHVkZS9hc20vaW8uaCNM
-MzU3DQo+Pg0KPj4gSXQgZXhwYW5kcyB0byBhIHZhcmlldHkgb2YgaGVscGVycywgaW5jbHVk
-aW5nIF9fcmF3XyooKS4NCj4gDQo+IFRoYW5rcywgSSBmb3Jnb3QgTUlQUyBpcyB1c2luZyB0
-aGVzZSBncmVwLXVuZnJpZW5kbHkgZmFjdG9yaWVzLi4uDQo+IA0KPj4+PiArICoNCj4+Pj4g
-KyAqIFRPRE86IENvbnZlcnQgTUlQUyB0byBnZW5lcmljIEkvTy4gVGhlIGhlbHBlcnMgYmVs
-b3cgY2FuDQo+Pj4+ICsgKiAgICAgICB0aGVuIGJlIHJlbW92ZWQuDQo+Pj4+ICsgKi8NCj4+
-Pj4gKyNpZmRlZiBDT05GSUdfNjRCSVQNCj4+Pj4gK3N0YXRpYyBpbmxpbmUgdTY0IGZiX3Jl
-YWRxKGNvbnN0IHZvbGF0aWxlIHZvaWQgX19pb21lbSAqYWRkcikNCj4+Pj4gK3sNCj4+Pj4g
-KyAgICAgICByZXR1cm4gX19yYXdfcmVhZHEoYWRkcik7DQo+Pj4NCj4+PiAuLi4gc28gaG93
-IGNhbiB0aGlzIGNhbGwgd29yaz8NCj4+DQo+PiBPbiA2NC1iaXQgYnVpbGRzLCB0aGVyZSdz
-IF9fcmF3X3JlYWRxKCkgYW5kIF9fcmF3X3dyaXRlcSgpLg0KPj4NCj4+IEF0IGZpcnN0LCBJ
-IHRyaWVkIHRvIGRvIHRoZSByaWdodCB0aGluZyBhbmQgY29udmVydCBNSVBTIHRvIHdvcmsg
-d2l0aA0KPj4gPGFzbS1nZW5lcmljL2lvLmg+LiBCdXQgdGhhdCBjcmVhdGVkIGEgdG9uIG9m
-IGZvbGxvdy11cCBlcnJvcnMgaW4gb3RoZXINCj4+IGhlYWRlcnMuIFNvIGZvciBub3csIGl0
-J3MgYmV0dGVyIHRvIGhhbmRsZSB0aGlzIHByb2JsZW0gaW4gYXNtL2ZiLmguDQo+IA0KPiBT
-byBpc24ndCBqdXN0IGFkZGluZw0KPiANCj4gICAgICAjZGVmaW5lIF9fcmF3X3JlYWRxIF9f
-cmF3X3JlYWRxDQo+ICAgICAgI2RlZmluZSBfX3Jhd193cml0ZXEgX19yYXdfd3JpdGVxDQo+
-IA0KPiB0byBhcmNoL21pcHMvaW5jbHVkZS9hc20vaW8uaCBzdWZmaWNpZW50IHRvIG1ha2Ug
-PGFzbS1nZW5lcmljL2ZiLmg+DQo+IGRvIHRoZSByaWdodCB0aGluZz8NCg0KVGhhdCB3b3Jr
-cy4gSSBoYWQgYSBwYXRjaCB0aGF0IGFkZHMgYWxsIG1pc3NpbmcgZGVmaW5lcyB0byBNSVBT
-JyBpby5oLiANClRoZW4gSSB3ZW50IHdpdGggdGhlIGN1cnJlbnQgZml4LCB3aGljaCBpcyBz
-ZWxmLWNvbnRhaW5lZCB3aXRoaW4gZmJkZXYuIA0KQnV0IEknZCBsZWF2ZSBpdCB0byBhcmNo
-IG1haW50YWluZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQoNCj4gDQo+IEdye29l
-dGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+
-IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3Nl
-IDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcg
-TXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFH
-IE51ZXJuYmVyZykNCg==
+Link: https://lore.kernel.org/lkml/CAL_JsqJE43qfYzHUuCJsbaPPBTbYX05Q7FFmPTjPFZ3Dmz_mXg@mail.gmail.com/
 
---------------nmuFXWNHp9OPw0gTQ9dL40wM--
+A few of these "conversions" happened in the series I was originally
+working on. At this time I actually wrote a few other changes,
+completely unrelated to my original series, but still following Rob's
+cleanup idea: here they are.
 
---------------bePUrlBG7J50eUzAHryxDe2t
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Link: https://lore.kernel.org/lkml/20230307165359.225361-1-miquel.raynal@bootlin.com/
 
------BEGIN PGP SIGNATURE-----
+The last step of this series is to actually remove a copy of one of
+these helpers which I think is not needed. This drivers/gpu/ patch
+depends on the previous changes.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRbtB8FAwAAAAAACgkQlh/E3EQov+DI
-OQ/7Bh2dGdIpUoZFmIzv8q/RW/ZRQu70vozaAGSwIj4W59gjrfbWhlRscy2ihp/+9MgdjDPByjMC
-huW3PLu6r/dG820Z19YD7yaqfiZiXykzvUGNKaJMwUvZnHSPR2EOW5guvhK+wQaSRnAiuGUUly8C
-Qc46ymt6o6SbZX4uFY9+ye3FY/ilEXY4ydngwypgcjsepbop9MVvMv1uyvn055gvbT37j2Cjwa2P
-qDSZbiZEmweX4/rtaF2bYOj64NfVIBAvi1I63kTYPuafn/0meleXyGC1iVjk3cYoDBG9gQ5TMJiV
-PUMNC20LIju+wZphH8Irh1yuqwsa797sIfiTz4cw0fXWzgEqvBTUC2reBS1aGEyj4sW2M+qyZGdG
-+efx+P1jAs2j/sm+3fvWXjIqZmxFXAPx3asI/zFJ5GUldFSTFVmcck/+sRN1MDTpOFWu3n3x0fw3
-SlIZP/R0mWQb5IRzn0eGeVs68mfhW2tb9IlRUmP1lZ97bn4faMPzGCHVsb3CLiURBjv9xU1khgtg
-MMlQS5yqmT+cM9Cf6frXdBMFTAmd5TyKiUaXdsz8yJAAj7Q0tdEu0gFubYY1CKRwtswzxjLJC66W
-cNc40si5mk77HnbK6MLfcTF/ZPG6EtbGNAZCODLobe3ivg+xFN3W+wKOxZwXM07dOkIus9vPbvx5
-LQQ=
-=sdVp
------END PGP SIGNATURE-----
+Thanks, Miquèl
 
---------------bePUrlBG7J50eUzAHryxDe2t--
+Miquel Raynal (5):
+  of: module: Mutate of_device_modalias() into two helpers
+  of: module: Mutate of_device_uevent() into two helpers
+  of: module: Mutate of_device_uevent_modalias() into two helpers
+  of: module: Export of_uevent()
+  gpu: host1x: Stop open-coding of_device_uevent()
+
+ drivers/gpu/host1x/bus.c  | 31 +++-----------
+ drivers/of/device.c       | 90 ---------------------------------------
+ drivers/of/module.c       | 82 +++++++++++++++++++++++++++++++++++
+ include/linux/of.h        | 21 +++++++++
+ include/linux/of_device.h | 39 ++++++++++++++---
+ 5 files changed, 141 insertions(+), 122 deletions(-)
+
+-- 
+2.34.1
+
