@@ -1,65 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E2A6FE061
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:34:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F60A6FE0DC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC8A10E4B8;
-	Wed, 10 May 2023 14:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BAF10E4BC;
+	Wed, 10 May 2023 14:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E288610E4B8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 14:34:49 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-559e53d1195so105820617b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 07:34:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683729288; x=1686321288;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ozQA/cDvPs2H88bJoE4ZEXy4NN+hc65oP+0zn7oNwKg=;
- b=WHfjjJjIZRPi9PW0kHLk3cJYLIPCSVxzf8vSG4RNtm0/TKc9qDOvP7FybLZ1QgBaFc
- NyWCNOlD0Y1dvQxJd0OO5I/cyVvh8XYDa6r9/1JthwZwQVKyTBbVcnMV0BAUvfGY4kdk
- 2yzN7Em2fNXRVmHtYQQyf2bW3ha63cG8eemaLD7XIKZRKBesy6kQygleJYbWmd2LS/ro
- cpfonufUw6x3TpnzRjuJVRErh4f2wDtL9oV/WXoseSaXqJkGqSUu0ZYHLe4wNss7GagV
- jkOv5zTHmyZyYGp3UYjF8Qprbugp0wR3GR4ilWsOi26NJPkhRU0/zL/MsL/8hbi+NUrm
- EcKw==
-X-Gm-Message-State: AC+VfDwxXvbP3aShbbQYs+uY+OifT/2eTe2m9v/jOEO0WA4gHtmCGg5f
- 3TEE/b+unBED0yCXmR6I8DRy5WQC2lYpGQ==
-X-Google-Smtp-Source: ACHHUZ4O/MK4JosxtRJ0n+LdQs4btX3QctQqgcQcJU11NBx4sGK7paU6SozO8+YnF4v/7OCbjBkrpA==
-X-Received: by 2002:a0d:e207:0:b0:55a:37bf:6a2e with SMTP id
- l7-20020a0de207000000b0055a37bf6a2emr22059658ywe.26.1683729288243; 
- Wed, 10 May 2023 07:34:48 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- v190-20020a0dd3c7000000b00560df23d30csm429341ywd.117.2023.05.10.07.34.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 07:34:47 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-b9d881ad689so9313561276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 07:34:46 -0700 (PDT)
-X-Received: by 2002:a05:6902:18c6:b0:b99:5707:4e6f with SMTP id
- ck6-20020a05690218c600b00b9957074e6fmr23871358ybb.32.1683729286388; Wed, 10
- May 2023 07:34:46 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 474CA10E4BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 14:57:11 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34AE8D0k014769; Wed, 10 May 2023 14:57:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=sM0lPnSnMR85dWalCPE6DM0jV4KlJsaqVN8HJDT/jJI=;
+ b=HccFqMlxfqarfy4KiEqPD+LE6H8SSUECSowCbYHa/CELhlaOlLxqwWGXLHh+2ONzJKyT
+ jOw689IWLCk+KY5iDo6oo6wzw4Ey2TZqMEpAeUnEZwYv9B8uvzkJzIPQsEj1ufkYCJ7X
+ gyBqE81K0cAXufwF3Eb6ZzQGbHxfH55VLQIwUFiTeEuSenP5KXmOWeI5a1ml8MFZAy2g
+ w/8rqVYSoYZLNoo+CjPKlC0H23rI+LZWRW9SK31xsVWwR78lU/c36VH+oCHRwh3PKN5G
+ NnouW4Ic3YobTe1gMtRcAnAEbP7Arf0ZqaCdkS8KR+WVgD42Go7E3E/4cAFV6UdYqa77 yg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qfw3d1s17-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 14:57:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34AEv49n028154
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 14:57:04 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 10 May
+ 2023 07:57:04 -0700
+Message-ID: <2d1fb58f-f98b-ba17-65e9-9ea4b467102a@quicinc.com>
+Date: Wed, 10 May 2023 08:57:03 -0600
 MIME-Version: 1.0
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-6-tzimmermann@suse.de>
- <CAMuHMdVV-MQV3C_o6JxPj23h3zo0kMmsn9ZEWJxsrzr6YpKmyg@mail.gmail.com>
- <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
-In-Reply-To: <487ff03b-d753-972f-7a06-a1d5efda917d@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 10 May 2023 16:34:34 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
-Message-ID: <CAMuHMdWQLF6QZi4j5Yg3oiy8dMbuApk+r=5c2tSLvYxvAaudMA@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: silence some uninitialized variable warnings
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Mug3i2VXkPTwLSIbbbTCpYZj0m2y0eCw
+X-Proofpoint-GUID: Mug3i2VXkPTwLSIbbbTCpYZj0m2y0eCw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ mlxlogscore=846 mlxscore=0 bulkscore=0 suspectscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305100121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,117 +82,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org, James.Bottomley@hansenpartnership.com,
- sparclinux@vger.kernel.org, kernel@xen0n.name, sam@ravnborg.org,
- linux-arch@vger.kernel.org, deller@gmx.de, chenhuacai@kernel.org,
- javierm@redhat.com, vgupta@kernel.org, linux-snps-arc@lists.infradead.org,
- suijingfeng@loongson.cn, arnd@arndb.de, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- davem@davemloft.net
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 5/3/2023 4:41 AM, Dan Carpenter wrote:
+> Smatch complains that these are not initialized if get_cntl_version()
+> fails but we still print them in the debug message.  Not the end of
+> the world, but true enough.  Let's just initialize them to a dummy value
+> to make the checker happy.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-On Wed, May 10, 2023 at 4:20=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 10.05.23 um 14:34 schrieb Geert Uytterhoeven:
-> > On Wed, May 10, 2023 at 1:06=E2=80=AFPM Thomas Zimmermann <tzimmermann@=
-suse.de> wrote:
-> >> Implement framebuffer I/O helpers, such as fb_read*() and fb_write*(),
-> >> in the architecture's <asm/fb.h> header file or the generic one.
-> >>
-> >> The common case has been the use of regular I/O functions, such as
-> >> __raw_readb() or memset_io(). A few architectures used plain system-
-> >> memory reads and writes. Sparc used helpers for its SBus.
-> >>
-> >> The architectures that used special cases provide the same code in
-> >> their __raw_*() I/O helpers. So the patch replaces this code with the
-> >> __raw_*() functions and moves it to <asm-generic/fb.h> for all
-> >> architectures.
-> >>
-> >> v6:
-> >>          * fix fb_readq()/fb_writeq() on 64-bit mips (kernel test robo=
-t)
-> >> v5:
-> >>          * include <linux/io.h> in <asm-generic/fb>; fix s390 build
-> >> v4:
-> >>          * ia64, loongarch, sparc64: add fb_mem*() to arch headers
-> >>            to keep current semantics (Arnd)
-> >> v3:
-> >>          * implement all architectures with generic helpers
-> >>          * support reordering and native byte order (Geert, Arnd)
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> >> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Thanks for the cleanup.
 
-> >> --- a/arch/mips/include/asm/fb.h
-> >> +++ b/arch/mips/include/asm/fb.h
-> >> @@ -12,6 +12,28 @@ static inline void fb_pgprotect(struct file *file, =
-struct vm_area_struct *vma,
-> >>   }
-> >>   #define fb_pgprotect fb_pgprotect
-> >>
-> >> +/*
-> >> + * MIPS doesn't define __raw_ I/O macros, so the helpers
-> >> + * in <asm-generic/fb.h> don't generate fb_readq() and
-> >> + * fb_write(). We have to provide them here.
-> >
-> > MIPS does not include <asm-generic/io.h>,  nor define its own
->
-> I know, that's why the TODO says to convert it to generic I/O.
->
-> > __raw_readq() and __raw_writeq()...
->
-> It doesn't define those macros, but it generates function calls of the
-> same names. Follow the macros at
->
->
-> https://elixir.bootlin.com/linux/latest/source/arch/mips/include/asm/io.h=
-#L357
->
-> It expands to a variety of helpers, including __raw_*().
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-Thanks, I forgot MIPS is using these grep-unfriendly factories...
-
-> >> + *
-> >> + * TODO: Convert MIPS to generic I/O. The helpers below can
-> >> + *       then be removed.
-> >> + */
-> >> +#ifdef CONFIG_64BIT
-> >> +static inline u64 fb_readq(const volatile void __iomem *addr)
-> >> +{
-> >> +       return __raw_readq(addr);
-> >
-> > ... so how can this call work?
->
-> On 64-bit builds, there's __raw_readq() and __raw_writeq().
->
-> At first, I tried to do the right thing and convert MIPS to work with
-> <asm-generic/io.h>. But that created a ton of follow-up errors in other
-> headers. So for now, it's better to handle this problem in asm/fb.h.
-
-So isn't just adding
-
-    #define __raw_readq __raw_readq
-    #define __raw_writeq __raw_writeq
-
-to arch/mips/include/asm/io.h sufficient to make <asm-generic/fb.h>
-do the right thing?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Could use a fixes tag, and also I'd prefer to maintain the style of 
+sorting the variable declaration lines by line length.  Given the minor 
+nature of these nits, I plan to address them.
