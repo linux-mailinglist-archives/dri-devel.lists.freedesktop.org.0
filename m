@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5B06FD959
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 10:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FD86FD995
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 10:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E1D10E459;
-	Wed, 10 May 2023 08:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 002CD10E463;
+	Wed, 10 May 2023 08:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010E710E459
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 08:30:44 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-24e25e2808fso6355129a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 01:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683707444; x=1686299444;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+Gj4rNe9q8jSfWDp/ypQzgo3GKje+dWPaI3Tr4ZM2VU=;
- b=dEPAnIzT0WteEAlWgQg7YSoPFVzNp99Rl56DGMWH71YEGSZPGGPwPhPRh38UGT1Clb
- nsQsUc0wzyj3CBgFs37GGPG1AYVWQzKwpVolW3wqGbXZeSU/VcFnLbdOQMnXL1ak/jxt
- wNIj/cmrWKZKK7Qq4jg9z6PAOTCYfA+1QHw/7/6EoTc5vWEoE1NPKBsNqyA4p5PwwVfe
- H7ZMTk7LoVHXZp7DjisXYZwEANq+XJeiQ0ZCImSmICgHyJ9NxPVJZLvBtxEh4ofJqydj
- qeNjcXL+AvyBhmK+7jp88LDQjmYPtxbtxe27bBdomNNIeIWzSRPeCaOp0HuBLNlNRYaw
- Ly/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683707444; x=1686299444;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+Gj4rNe9q8jSfWDp/ypQzgo3GKje+dWPaI3Tr4ZM2VU=;
- b=aftsioTUzU2UEvJWfCkFS/zjaoklPKD4hgA3z8OrFsLWLgsEJEasx/xKk50rchxOlu
- Q0idIUXdvALinxgDQt7Oq35Y2cxfG9U1DWP2a00ZWKYM9sNriD/taCATw8lGqBA3ekzV
- O6i9jHZ462UdYzNf8tr6q31x/k8jYcpQk58/Poo+5ktrIO1t11R31W1TEVCc0W2jYnON
- kih0gWcIbRfG3OH8TwBU1zDIX2kbw90Z7QOGdAEe2xDfV3gSJ9Lqc/+awm1GM8/YVXaQ
- DePiuOi+c0lTPvmz5Q+K5oYKiuDLqT5FCXm0u+lh0sbFYEkYSyhowUrkkUwYVrCm6yn1
- 4X8A==
-X-Gm-Message-State: AC+VfDw2ivmjfcxV29rrRLyZ2yTT4pugMPsMTyfkt5mP3M37td06M5ht
- /27zm7tb+K40dI67rTCTFXQEnFChtR+Jy1GZ420=
-X-Google-Smtp-Source: ACHHUZ4Br5vyvQv5lHgaPPiZAKCUUEir6+fEHPRg8sLb5SXW3EPjOff6aRIYLKC9Qq/A4C4xPbWuMDqOdu9mxWX2M5w=
-X-Received: by 2002:a17:90b:1997:b0:250:2337:9b96 with SMTP id
- mv23-20020a17090b199700b0025023379b96mr17550693pjb.9.1683707443869; Wed, 10
- May 2023 01:30:43 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 363D010E45F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 08:37:06 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:45248.711497179
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 0FE43102969;
+ Wed, 10 May 2023 16:36:58 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-85667d6c59-lhcrq with ESMTP id
+ 8ebd37e3e9f24f0b8fb8fc6bae1f9d22 for maarten.lankhorst@linux.intel.com; 
+ Wed, 10 May 2023 16:37:01 CST
+X-Transaction-ID: 8ebd37e3e9f24f0b8fb8fc6bae1f9d22
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <54fb1691-af8c-8c11-7d92-523cb4a2415f@189.cn>
+Date: Wed, 10 May 2023 16:36:58 +0800
 MIME-Version: 1.0
-References: <20230508055740.635256-1-victor.liu@nxp.com>
- <20230508055740.635256-3-victor.liu@nxp.com>
- <05b44685-d6a7-5f6e-0f55-04c96e94a9e1@denx.de>
-In-Reply-To: <05b44685-d6a7-5f6e-0f55-04c96e94a9e1@denx.de>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Wed, 10 May 2023 16:30:32 +0800
-Message-ID: <CAOcKUNXjvOMXtf2FVwjhWNbdwQy82T+wz-QN7ukAOmQo5DKQ2w@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] drm: lcdif: Drop unnecessary NULL pointer check on
- lcdif->bridge
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v12 0/2] drm: add kms driver for loongson display
+ controller
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230504080406.1213623-1-suijingfeng@loongson.cn>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20230504080406.1213623-1-suijingfeng@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,103 +57,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, kernel@pengutronix.de,
- Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
+Cc: loongson-kernel@lists.loongnix.cn, nathan@kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- alexander.stein@ew.tq-group.com, krzysztof.kozlowski@linaro.org,
- robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
- LW@karo-electronics.de
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 9, 2023 at 10:14=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
->
-> On 5/8/23 07:57, Liu Ying wrote:
->
-> Hi,
+ping ?
 
-Hi,
-
+On 2023/5/4 16:04, Sui Jingfeng wrote:
+> Loongson display controller IP has been integrated in both Loongson north
+> bridge chipset(ls7a1000/ls7a2000) and Loongson SoCs(ls2k1000/ls2k2000), it
+> has been even included in Loongson self-made BMC products.
 >
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/=
-lcdif_kms.c
-> > index 262bc43b1079..e54200a9fcb9 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > @@ -394,7 +394,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_d=
-rm_private *lcdif,
-> >       struct drm_display_mode *m =3D &lcdif->crtc.state->adjusted_mode;
-> >       u32 bus_flags =3D 0;
-> >
-> > -     if (lcdif->bridge && lcdif->bridge->timings)
-> > +     if (lcdif->bridge->timings)
-> >               bus_flags =3D lcdif->bridge->timings->input_bus_flags;
-> >       else if (bridge_state)
-> >               bus_flags =3D bridge_state->input_bus_cfg.flags;
-> > @@ -463,30 +463,21 @@ static void lcdif_crtc_atomic_enable(struct drm_c=
-rtc *crtc,
-> >       struct drm_display_mode *m =3D &lcdif->crtc.state->adjusted_mode;
-> >       struct drm_bridge_state *bridge_state =3D NULL;
-> >       struct drm_device *drm =3D lcdif->drm;
-> > -     u32 bus_format =3D 0;
-> > +     u32 bus_format;
-> >       dma_addr_t paddr;
-> >
-> > -     /* If there is a bridge attached to the LCDIF, use its bus format=
- */
-> > -     if (lcdif->bridge) {
-> > -             bridge_state =3D
-> > -                     drm_atomic_get_new_bridge_state(state,
-> > -                                                     lcdif->bridge);
-> > -             if (!bridge_state)
-> > -                     bus_format =3D MEDIA_BUS_FMT_FIXED;
-> > -             else
-> > -                     bus_format =3D bridge_state->input_bus_cfg.format=
-;
-> > -
-> > -             if (bus_format =3D=3D MEDIA_BUS_FMT_FIXED) {
-> > -                     dev_warn_once(drm->dev,
-> > -                                   "Bridge does not provide bus format=
-, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
-> > -                                   "Please fix bridge driver by handli=
-ng atomic_get_input_bus_fmts.\n");
-> > -                     bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
-> > -             }
-> > -     }
-> > +     bridge_state =3D drm_atomic_get_new_bridge_state(state, lcdif->br=
-idge);
-> > +     if (!bridge_state)
-> > +             bus_format =3D MEDIA_BUS_FMT_FIXED;
-> > +     else
-> > +             bus_format =3D bridge_state->input_bus_cfg.format;
+> This display controller is a PCI device. It has two display pipes and each
+> display pipe support a primary plane and a cursor plane. For the DC in the
+> ls7a1000 and ls2k1000, each display pipe has a DVO output interface which
+> provide RGB888 signals, vertical & horizontal synchronisations and pixel
+> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum resolution
+> of each display pipe is 2048x2048 according to the hardware spec.
 >
-> The code below seems to change the logic slightly.
+> For the DC in LS7A2000, each display pipe is equipped with a built-in HDMI
+> encoder which is compliant with the HDMI 1.4 specification, thus it support
+> 3840x2160@30Hz. The first display pipe is also equipped with a transparent
+> vga encoder which is parallel with the HDMI encoder. The DC in LS7A2000 is
+> more complete compare with the one in old chips, besides above feature, it
+> has two hardware cursors, two hardware vblank counter and two scanout
+> position recorders unit. It also support tiled framebuffer format which
+> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
 >
-> Could it happen that:
-> - bridge_state is valid (i.e. non-NULL)
-> - bridge_state->input_bus_cfg.format is set to 0 (i.e. not set) ?
->    (note that MEDIA_BUS_FMT_FIXED is defined as 0x0001)
-
-Yes, bridge_state->input_bus_cfg.format could be zero.
-Will keep the below default MEDIA_BUS_FMT_RGB888_1X24
-bus format setting in next version.
-
-Regards,
-Liu Ying
-
+> v1 -> v2:
+>   1) Use hpd status reg when polling for ls7a2000
+>   2) Fix all warnings emerged when compile with W=1
 >
-> > -     /* If all else fails, default to RGB888_1X24 */
-> > -     if (!bus_format)
-> > +     if (bus_format =3D=3D MEDIA_BUS_FMT_FIXED) {
-> > +             dev_warn_once(drm->dev,
-> > +                           "Bridge does not provide bus format, assumi=
-ng MEDIA_BUS_FMT_RGB888_1X24.\n"
-> > +                           "Please fix bridge driver by handling atomi=
-c_get_input_bus_fmts.\n");
-> >               bus_format =3D MEDIA_BUS_FMT_RGB888_1X24;
-> > +     }
-> >
-> >       clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
+> v2 -> v3:
+>   1) Add COMPILE_TEST in Kconfig and make the driver off by default
+>   2) Alphabetical sorting headers (Thomas)
+>   3) Untangle register access functions as much as possible (Thomas)
+>   4) Switch to TTM based memory manager and prefer cached mapping
+>      for Loongson SoC (Thomas)
+>   5) Add chip id detection method, now all models are distinguishable.
+>   6) Revise builtin HDMI phy driver, nearly all main stream mode
+>      below 4K@30Hz is tested, this driver supported these mode very
+>      well including clone display mode and extend display mode.
 >
-> [...]
+> v3 -> v4:
+>   1) Quickly fix a small mistake.
+>
+> v4 -> v5:
+>   1) Drop potential support for Loongson 2K series SoC temporary,
+>      this part should be resend with the DT binding patch in the future.
+>   2) Add per display pipe debugfs support to the builtin HDMI encoder.
+>   3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+>   4) Rewrite encoder and connector initialization part, untangle it
+>      according to the chip(Thomas).
+>
+> v5 -> v6:
+>   1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
+>   2) Fix all typos I could found, make sentences and code more readable
+>   3) Untangle lsdc_hdmi*_connector_detect() function according to the pipe
+>   4) After a serious consideration, we rename this driver as loongson.
+>      Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+>      LS2K2000. Besides, there are also drivers about the external encoder,
+>      HDMI audio driver and vbios support etc. This patch only provide DC
+>      driver part, my teammate Li Yi believe that loongson will be more
+>      suitable for loongson graphics than lsdc in the long run.
+>
+>      loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+>
+> v6 -> v7:
+>   1) Add prime support, self-sharing is works. sharing buffer with etnaviv
+>      is also tested, and its works with limitation.
+>   2) Implement buffer objects tracking with list_head.
+>   3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+>   4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+>      during BO creation. Patch V1 ~ V6 of this series no longer works
+>      on latest kernel. Thus, we send V7 to revival them.
+>
+> v7 -> v8:
+>   1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>   2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>   3) Pageflip tested on the virtual terminal with following commands
+>
+>      modetest -M loongson -s 32:1920x1080 -v
+>      modetest -M loongson -s 34:1920x1080 -v -F tiles
+>
+>     It works like a charm, when running pageflip test with dual screnn
+>     configuration, another two additional bo created by the modetest
+>     emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+>     enough.
+>
+>     # cat bos
+>
+>         bo[0000]: size:     8112kB VRAM
+>         bo[0001]: size:       16kB VRAM
+>         bo[0002]: size:       16kB VRAM
+>         bo[0003]: size:    16208kB VRAM
+>         bo[0004]: size:     8112kB VRAM
+>         bo[0005]: size:     8112kB VRAM
+>
+> v8 -> v9:
+>   1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
+>   2) Using pci_get_domain_bus_and_slot to get the GPU device.
+>   3) Other minor improvements.
+>
+>   Those patches are tested on ls3a5000 + ls7a1000 CRB, ls3a5000 + ls7a2000
+>   evb, and lemote a1901 board(ls3a4000 + ls7a1000). On loongson mips CPU,
+>   the write combine support should be enabled, to get a decent performance
+>   for writing framebuffer data to the VRAM.
+>
+> v9 -> v10:
+>   1) Revise lsdc_drm_freeze() to implement S3 completely and correctly.
+>      I suddenly realized that pinned buffer can not move and VRAM lost
+>      power when sleep to RAM. Thus, the data in the buffer who is pinned
+>      in VRAM will get lost when resume. Yet it's not big problem because
+>      we are software rendering solution which relay on the CPU update the
+>      front framebuffer. We can see the garbage data when resume from S3,
+>      but the screen will show correct image as I move the cursor. This is
+>      due to the cpu repaint. v10 of this patch make S3 perfect by unpin
+>      all of BOs in VRAM, evict them all to system RAM.
+>
+> v10 -> v11:
+>   1) On double screen case, the single giant framebuffer is referenced by
+>      two GEM object, hence, it will be pinned by prepare_fb() at lease two
+>      times. This cause its pin count > 1. V10 of this patch only unpin VRAM
+>      BOs once when suspend, which is not correct on double screen case. V11
+>      of this patch unpin BOs until its pin count reach to zero when suspend.
+>      Then, we make the S3 support complete finally. With v11, I can't see
+>      any garbage data after resume. Teste on both ls7a1000 and ls7a2000
+>      platform, with single screen and double screen configuration tested.
+>   2) Fix vblank wait timeout when disable CRTC.
+>   3) Test against IGT, at least fbdev test and kms_flip test of it passed,
+>      while most tests of it passed.
+>   4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
+>   5) Drop a few common hardware features description in lsdc_desc (Emil)
+>   6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in dumb
+>      create function. (Emil)
+>   7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
+>
+> v11 -> v12:
+>   none
+>
+> Sui Jingfeng (2):
+>    MAINTAINERS: add maintainers for DRM LOONGSON driver
+>    drm: add kms driver for loongson display controller
+>
+>   MAINTAINERS                                 |    7 +
+>   drivers/gpu/drm/Kconfig                     |    2 +
+>   drivers/gpu/drm/Makefile                    |    1 +
+>   drivers/gpu/drm/loongson/Kconfig            |   17 +
+>   drivers/gpu/drm/loongson/Makefile           |   19 +
+>   drivers/gpu/drm/loongson/ls7a1000_outputs.c |  160 +++
+>   drivers/gpu/drm/loongson/ls7a2000_outputs.c |  534 ++++++++++
+>   drivers/gpu/drm/loongson/lsdc_crtc.c        | 1064 +++++++++++++++++++
+>   drivers/gpu/drm/loongson/lsdc_debugfs.c     |   78 ++
+>   drivers/gpu/drm/loongson/lsdc_device.c      |  104 ++
+>   drivers/gpu/drm/loongson/lsdc_drv.c         |  484 +++++++++
+>   drivers/gpu/drm/loongson/lsdc_drv.h         |  485 +++++++++
+>   drivers/gpu/drm/loongson/lsdc_gem.c         |  319 ++++++
+>   drivers/gpu/drm/loongson/lsdc_gem.h         |   37 +
+>   drivers/gpu/drm/loongson/lsdc_gfxpll.c      |  199 ++++
+>   drivers/gpu/drm/loongson/lsdc_gfxpll.h      |   52 +
+>   drivers/gpu/drm/loongson/lsdc_i2c.c         |  179 ++++
+>   drivers/gpu/drm/loongson/lsdc_i2c.h         |   29 +
+>   drivers/gpu/drm/loongson/lsdc_irq.c         |   81 ++
+>   drivers/gpu/drm/loongson/lsdc_irq.h         |   16 +
+>   drivers/gpu/drm/loongson/lsdc_output.h      |   21 +
+>   drivers/gpu/drm/loongson/lsdc_pixpll.c      |  485 +++++++++
+>   drivers/gpu/drm/loongson/lsdc_pixpll.h      |   86 ++
+>   drivers/gpu/drm/loongson/lsdc_plane.c       |  639 +++++++++++
+>   drivers/gpu/drm/loongson/lsdc_probe.c       |   56 +
+>   drivers/gpu/drm/loongson/lsdc_probe.h       |   12 +
+>   drivers/gpu/drm/loongson/lsdc_regs.h        |  400 +++++++
+>   drivers/gpu/drm/loongson/lsdc_ttm.c         |  547 ++++++++++
+>   drivers/gpu/drm/loongson/lsdc_ttm.h         |   88 ++
+>   29 files changed, 6201 insertions(+)
+>   create mode 100644 drivers/gpu/drm/loongson/Kconfig
+>   create mode 100644 drivers/gpu/drm/loongson/Makefile
+>   create mode 100644 drivers/gpu/drm/loongson/ls7a1000_outputs.c
+>   create mode 100644 drivers/gpu/drm/loongson/ls7a2000_outputs.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_device.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
+>
