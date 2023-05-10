@@ -2,96 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA536FDFBA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5C66FDFC5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 May 2023 16:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 398E710E4A1;
-	Wed, 10 May 2023 14:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAD8F10E4A8;
+	Wed, 10 May 2023 14:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3656D10E49D;
- Wed, 10 May 2023 14:14:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FviK0Mo5Cy3XOjM2eKkHG8sUN9WLvqTrvV1ExFdT2n4bYMIJoOuG9NMvvGQZ8GLymDIp6TlJiF3vr3/mPHlcAqxi8j/cdZn2kDcKlvFXqgv7/YWZ8Y65mAlFj1Bv5CxIrVJ2/fFkxSzQsZtImJ3tRTRAkVyToa8Y+YSpXOki3fsn8djhxhSZ4NkBaQQ8Sc0/f7QAfFpbkE8XPEWO/Px4CIKVKiBsgnvS3MRi53IQrFkzw4FfsG3T84lMBHDsO+/gee5kdN1xKB/ot8QRchWojPreDptvKwrxxLglAkWJHigfl/PZKcwYQ97e93riPOJC/jgrYp9T+wHjG6isAZE83w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGix8vX3McA0cf8I6qO4FkJP7si891v63HHV8q8xqEE=;
- b=QZ8FGtR573GiRPX0/7f+NxaYpemLgItZs0KIjYO6ujJiQGTj8QgzBs9lpxBhSuyYMpdVcV42AbPOZDgLEzYfB5Xu7/6KmkMgxSxf99gDvJAa4Pm5a5N5yRjBCZdxBPg2IHo4ZfQAEOOCP0pkILy9nUjaLGVFUQFCsG1v0EkvKO5E+vgK3J7gOXnCC6vjn1DAlP4CgKyFfgKL0ar5ZkKxmcfFbi1j5QS8Ki9J0JtJA49kKvhq1CG7FUhePpowEC9Qox/D6SBz0sbE94U75ovhBWMBSOCVrWYhGVDzY9IYNRGJGTTg5Oh8/AtL8BGT6WeataU6WwhrkcIrh0vGuosGjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGix8vX3McA0cf8I6qO4FkJP7si891v63HHV8q8xqEE=;
- b=pHeCym9czwxi2TiRUwY0fv8FY48TInawY1WLocDnq9cvsUW7WrDamrnkvkayuFYvekgo9IhHgF0PmuDpqppNpprCgAQetC8SLgWc7fO7M2CFm4i5MSnMpJJBEZOBTJQJSuer4oG6a+3MeeAIY1MLntxFnUKpLsGuLrRd/Es6ZIM=
-Received: from BN8PR15CA0026.namprd15.prod.outlook.com (2603:10b6:408:c0::39)
- by DM4PR12MB8522.namprd12.prod.outlook.com (2603:10b6:8:18f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.19; Wed, 10 May
- 2023 14:14:24 +0000
-Received: from BL02EPF0000EE3F.namprd05.prod.outlook.com
- (2603:10b6:408:c0:cafe::c) by BN8PR15CA0026.outlook.office365.com
- (2603:10b6:408:c0::39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20 via Frontend
- Transport; Wed, 10 May 2023 14:14:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL02EPF0000EE3F.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6387.21 via Frontend Transport; Wed, 10 May 2023 14:14:24 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 10 May
- 2023 09:14:23 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 10 May
- 2023 07:14:23 -0700
-Received: from desktop-host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 10 May 2023 09:14:23 -0500
-From: <vitaly.prosyak@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <christian.koenig@amd.com>, <alexander.deucher@amd.com>
-Subject: [PATCH] drm/sched: Check scheduler work queue before calling timeout
- handling
-Date: Wed, 10 May 2023 10:14:20 -0400
-Message-ID: <20230510141420.69186-1-vitaly.prosyak@amd.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3DB10E4A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 14:16:13 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5CFC4580437;
+ Wed, 10 May 2023 10:16:11 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Wed, 10 May 2023 10:16:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1683728171; x=1683735371; bh=V2
+ 31ipRgvlb0JsA/vw7lkaJwJ/EU1whQFMWkiWFARX4=; b=QDwDJwdPNOvmhCdCh1
+ X1AzrK6ph+oBrK0NV15G0CQ8a9EDXGHxarQ3pDgVXF+shwORiOHLGunzBgsDgzsu
+ 3Jk7Q6CBdAdljBawM7jn7aRJKvOJJNChqOIJnvjDb1LbTSD3CH6/2QlhdGYgNfl2
+ KWG51s9KkKlvip8YE8wc3Quv5zW5dDk4YJO64662MGeubJQjnW5D32UmiJgetsNX
+ dyn7OqjxwCqpNLnU2jDpnlW9P3voCJQ1fKWAlav6KrP4TEUwdjKp5o3Eva+Ijevj
+ NPQceRpOvnU+fYqKcug9ffwTp5pTpOjAm3p426I5mfBr77W7I2RNO2FW7dEKduwK
+ zgRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1683728171; x=1683735371; bh=V231ipRgvlb0J
+ sA/vw7lkaJwJ/EU1whQFMWkiWFARX4=; b=B5hQd3yatPe3qSoPzFvzPZJAmfD0K
+ dxk5GGZvu2u4FdCE4FJoefX8jsJZJD35cLnXZ2y5Cu6AxTtjYpw2UKLTE1xfnGnO
+ 1s5E87JphmtKXAutHOshfD4lN4UfDh9LmoUP7KN8YRGE/at8TtsJHl9liZsqLodQ
+ 912B+XAj1UxofPVezlCMErSfoYkdf/ARyg2yjcpYZs3SFx1pOAtM+E/yKdUnak0T
+ yF54H/cWDqVRszmOqNnYzTeuGdUmcmYH0gP9jBBcbVPy7V2e/XoF3RdirCLxC+Jz
+ jjH2KGbh58BDdgHKhWK08bfQc7iMT6LBy6YiFvlui8XyiAxtzcHwpwDnA==
+X-ME-Sender: <xms:KKdbZPWWyAbxIJr9yq7gAvPfcyHNKlbGruUy2p_rYKQB2CjcucJMHw>
+ <xme:KKdbZHmA2gI4C84zAmw1RBGc_9stP0sDzYCTVKzXgiyLz_shij5DahgL70OcWoa5R
+ LUrkzcCHQ_q11h8XLA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegiedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:KKdbZLbBYdtcvHvgeoBb_WM2dfH1Kxrj1-tEPwl_7I61ehCH0wdMxg>
+ <xmx:KKdbZKVqVOn-9ph_fmLkrDW81AOHaxQMHIsUCLmdBfoM2j2A0Bm7-A>
+ <xmx:KKdbZJlqIdOOjUvzb00Yyxi6XvFRuZECGtoLKONQ5G6hG083DJ0rGA>
+ <xmx:K6dbZLVPpbWVfjK3RMLY0JT5mhgDGnkq-fxyLxVnEi84wVrL9oSx9g>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id DD83BB6008D; Wed, 10 May 2023 10:16:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+Mime-Version: 1.0
+Message-Id: <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+In-Reply-To: <202305102136.eMjTSPwH-lkp@intel.com>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+Date: Wed, 10 May 2023 16:15:46 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, suijingfeng@loongson.cn
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3F:EE_|DM4PR12MB8522:EE_
-X-MS-Office365-Filtering-Correlation-Id: f758f453-faa9-469b-270b-08db5160db68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZAcfNDAQVG4NO8NCDGc6eNBM3865BWKbxHAgySH9wZXEcpW1nyN33IzogWdWDzlBSUXqpWm61/RXLdn1jfrAl4fUHOT+P6PO2qd4tOxTABYEj2gkG4tUa3CoyAxnK95vFLg/VpOHdotUtYwQGHTStF4jjHurRdq3PDmYrIZcfzTmODZVYal2YgbPKs16eFPtjPWpd7ons0Dtou/1HeEAiQa9nEYKjrC72T195zTuxO0Pa4tBoMZreBb6B2qzhQzug/A2j1n8+eUUKg+V5w/4vyve2xCowz+e6/x28BaIxTTCmMF7+lBB+DutGmq8uxASa9r04jSe4Ki2bd6xMJrTh9mrrHJizUyVYIzyFdkOnb5UzBW5veolXq7kIQcRCbjDWoa7SzZahJEgtLUnB145tUzjonnafeJPaFhvN1MmHP+GIdfLBfUvsyhNBxQ/67IJKzvc6LVr+RCqMNIoG5WFpEQTxpZn+hIR+qYHQ2YZGpiVIshhY4q5BmtX/NIcdN7fU7RTDCjEuWZZFltr+6RQyFN03YmEpjWctuqCXNIFPOopyfjD6pSR8rORrE8xrXZJx0nGZY12I/+ecjxs45GCJ9llfK9jHpzDBX3hlsjFSbyHI7b2nf1x51z9N/LJCgMSMKyfqUVH9x15N5vv/HzrzhhXAfz5Xd5Cidw6Ydz2vScGOuFkvgVcM9mBYIhmOVd/X4twKDFC3IJWzJyTDR2PGlR3CGeDGLIqT8WisM8x+Tpn1InZQB1TCCevUl18KkoN1AHYgpwnwWStolyqVeow5w==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(39860400002)(396003)(376002)(136003)(451199021)(40470700004)(36840700001)(46966006)(82310400005)(81166007)(1076003)(186003)(26005)(426003)(2616005)(47076005)(83380400001)(36860700001)(40480700001)(336012)(36756003)(40460700003)(7696005)(356005)(70586007)(70206006)(450100002)(316002)(2876002)(2906002)(6636002)(4326008)(5660300002)(41300700001)(8936002)(8676002)(86362001)(82740400003)(110136005)(478600001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2023 14:14:24.2334 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f758f453-faa9-469b-270b-08db5160db68
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3F.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8522
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,68 +91,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vitaly Prosyak <vitaly.prosyak@amd.com>
+On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
 
-During an IGT GPU reset test we see again oops despite of
-commit 0c8c901aaaebc9 (drm/sched: Check scheduler ready before calling
-timeout handling).
+>
+>    cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory 
+> [-Wmissing-include-dirs]
+>    cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory 
+> [-Wmissing-include-dirs]
+>    In file included from drivers/video/fbdev/hitfb.c:27:
+>    drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
+>>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 1 of 'fb_readw' makes pointer from integer without a cast [-Wint-conversion]
+>       18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+>          |                                 ^~~~~~~~~~~~~~~~~~~~~~
+>          |                                 |
+>          |                                 unsigned int
+>    arch/sh/include/asm/hd64461.h:93:33: note: in expansion of macro 
+> 'HD64461_IO_OFFSET'
+>       93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)    
+>    /* Accelerator Configuration Register */
+>          |                                 ^~~~~~~~~~~~~~~~~
+>    drivers/video/fbdev/hitfb.c:47:25: note: in expansion of macro 
+> 'HD64461_GRCFGR'
+>       47 |         while (fb_readw(HD64461_GRCFGR) & 
+> HD64461_GRCFGR_ACCSTATUS) ;
 
-It uses ready condition whether to call drm_sched_fault which unwind
-the TDR leads to GPU reset.
-However it looks the ready condition is overloaded with other meanings,
-for example, for the following stack is related GPU reset :
+I think that's a preexisting bug and I have no idea what the
+correct solution is. Looking for HD64461 shows it being used
+both with inw/outw and readw/writew, so there is no way to have
+the correct type. The sh __raw_readw() definition hides this bug,
+but that is a problem with arch/sh and it probably hides others
+as well.
 
-0  gfx_v9_0_cp_gfx_start
-1  gfx_v9_0_cp_gfx_resume
-2  gfx_v9_0_cp_resume
-3  gfx_v9_0_hw_init
-4  gfx_v9_0_resume
-5  amdgpu_device_ip_resume_phase2
-
-does the following:
-	/* start the ring */
-	gfx_v9_0_cp_gfx_start(adev);
-	ring->sched.ready = true;
-
-The same approach is for other ASICs as well :
-gfx_v8_0_cp_gfx_resume
-gfx_v10_0_kiq_resume, etc...
-
-As a result, our GPU reset test causes GPU fault which calls unconditionally gfx_v9_0_fault
-and then drm_sched_fault. However now it depends on whether the interrupt service routine
-drm_sched_fault is executed after gfx_v9_0_cp_gfx_start is completed which sets the ready
-field of the scheduler to true even  for uninitialized schedulers and causes oops vs
-no fault or when ISR  drm_sched_fault is completed prior  gfx_v9_0_cp_gfx_start and
-NULL pointer dereference does not occur.
-
-Use the field timeout_wq  to prevent oops for uninitialized schedulers.
-The field could be initialized by the work queue of resetting the domain.
-
-Fixes: 0c8c901aaaebc9 ("drm/sched: Check scheduler ready before calling timeout handling")
-
-v1: Corrections to commit message (Luben)
-Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 649fac2e1ccb..670b7997f389 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -308,7 +308,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
-  */
- void drm_sched_fault(struct drm_gpu_scheduler *sched)
- {
--	if (sched->ready)
-+	if (sched->timeout_wq)
- 		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, 0);
- }
- EXPORT_SYMBOL(drm_sched_fault);
--- 
-2.25.1
-
+       Arnd
