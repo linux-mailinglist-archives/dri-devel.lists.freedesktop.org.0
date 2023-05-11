@@ -1,109 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754D96FF410
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 16:25:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D54F6FF413
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 16:26:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F8810E276;
-	Thu, 11 May 2023 14:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32FE410E27B;
+	Thu, 11 May 2023 14:26:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2104.outbound.protection.outlook.com [40.107.95.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE5210E276
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 14:25:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MyzWV1D/Ej6ZdIYqNW0M1u+kclk3nYUXXL5mSr8G/AqVbt+eGXB9hzKm8GkGT9lY1uWVEfJUURtv0IwaYKNb1LNffoewTrnGTk1L+iLQab25k5yn53a12qZhzkpy6PNzgLXU/GVhG06x7tyZ/dv/lpn3/2hRi8nrCDT9e27grf1LYiFmFam/FZamKp3g9QEa+6TOh7uGzEonjaECUlaP4NCrl4lTHmGfOvsd4Lmc+/s8PhSww/nwD7l4xu9arJt6CcsLHz3d1n0v3041hXs333LlhpZZrAfuFQkYQjxfioBuEIIe0w2IksBNYGg+wNwS43HfjvfFLaB+5KuFtLDorQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9U79cpNmwvm6S3UJXs8MwGghonS9fR6yAEI+zHP42Ls=;
- b=WXpMpxKOytENBNFvlW6QgRByz3Yl3wZePD/h5I7GloOUW21Ylr47ZDejwXXkiz4quKIuJH2gMWNZfsnDprI7JHpVw+Yajw+Tov8YjW3JHYdRjKu+F96SS5IAeB4CX1KVpMuKaBepnYiX40i1whkjrrLBpVrmWGqEydEEKbNHME3XWoPxDrPZm5Tfxir+SCKjfEib0fsjyfyuXDuflEs1XzU/i96MPuH7Xdb/kjD22DPOpKE3gKkBEWg5Eg0H+4mFAklGbd6jm+eU7XBUBfI7ziOrSptnZ8NAk0EAjmquy8a0ZLBd2GqhLZVjfQN+ugn8DIMVHZb/VyJdHAUlRof87w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F05210E271;
+ Thu, 11 May 2023 14:25:59 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id
+ 5614622812f47-38ede2e0e69so4602788b6e.2; 
+ Thu, 11 May 2023 07:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9U79cpNmwvm6S3UJXs8MwGghonS9fR6yAEI+zHP42Ls=;
- b=pLJzfq73NMguBR4vZNGHJcQGwCnwWK0QL0NqJsdQ7LtjD22rIy1YoRsiQwS8NDYUT51tYDDItULQQh67mSoNsvkQDrULPd934bJ0T7JR5FNqXKWKOsAwxhxxbKoZv/ccKLI8CMduD8O4lLVKZXotzupuQxIAQtVhYYDPCeHuFGQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CH2PR13MB3637.namprd13.prod.outlook.com (2603:10b6:610:90::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.22; Thu, 11 May
- 2023 14:25:51 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6387.020; Thu, 11 May 2023
- 14:25:50 +0000
-Date: Thu, 11 May 2023 16:25:38 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining files
-Message-ID: <ZFz64scVmh8uN/wM@corigine.com>
-References: <20230511133406.78155-1-bagasdotme@gmail.com>
- <20230511133406.78155-4-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511133406.78155-4-bagasdotme@gmail.com>
-X-ClientProxiedBy: AM0PR03CA0039.eurprd03.prod.outlook.com (2603:10a6:208::16)
- To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+ d=gmail.com; s=20221208; t=1683815158; x=1686407158;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EUMshOhJ/jCmOAXf0wSXeoJInJRRSEiHUd4QhJk0RRA=;
+ b=DBl+lObSFhApj2jZOTQrUAOrwRIAf4xArfq5YCzK0SszrY7+8QX++/DM1qlgt14Z4R
+ qEopsANTv+hPnlePep+XdcNtxdNulvw4P5qNfXchJTTbUCd4MSP29UPZAWuBhn0ffsNe
+ uhXM+8dw1jy9CJHT+Ql38XqBeVvflRY7TBo3m4f6CCuzjIKoMFKj/JS2HWrh7bdfKWuB
+ jUFxRKvMdOMAQoKc0pJI563yjY1+zqSRmyDiRVXpx0HsB3WrccNCpvBiX+VEv4xtPcB7
+ UtSTAo8Q5KxkKiY0EdMzMlhESgiq2VDLZO4Z51EjGPKslAyjqv3+PuBbQGS8w2KckX/T
+ 1POw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683815158; x=1686407158;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EUMshOhJ/jCmOAXf0wSXeoJInJRRSEiHUd4QhJk0RRA=;
+ b=QighbE5YFfFiYoGz1/p1fVU+/i8LtFXxBuWHTAnk8qAWTCESKxF/+IlswWT4AHdQF9
+ kDZeS3oVs8CSlpDqNkzCwNvO0RWXb+2EeZX3JTrPKfnEM5RL0rvnU67/R1sl43s0Vh2n
+ 2sPw5FyzhdjI52m1cRamw7PkpKh8wNruSCe05pn74fQ8hI3CdleBPL7NMopU+P14yZvl
+ 3ExbQsF04VJrAJFTIg89on/L7KGdIFq3U2c8Gg1wz8WyW2BejfH0RvbP2JdGPFN+TRd/
+ WoybPZYNFO/K5+OVdip/z0ilywh7LOLGlyjuNGgBMzg+Fo02R4i5N24B0dnXmR4/tJf8
+ E67w==
+X-Gm-Message-State: AC+VfDz3GUA1bst8CnuoTyuB2HSkz16U1XOC0g6s7NQyO6/6Di01Ol5W
+ H/IcATMckaHT10LxYsu/apcnVjQK0rVNAtAm9RWmkD5X
+X-Google-Smtp-Source: ACHHUZ7poZgOitdfQqtIlPzYx5Qk56gFW9JRYK0fJ/hsY7AKW7RFp3/ZwhYX+SOn+yAUhmAJCncEuRY5yF/6vgL4jRQ=
+X-Received: by 2002:a05:6808:59:b0:38e:eaf:cf29 with SMTP id
+ v25-20020a056808005900b0038e0eafcf29mr4889151oic.29.1683815157913; Thu, 11
+ May 2023 07:25:57 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH2PR13MB3637:EE_
-X-MS-Office365-Filtering-Correlation-Id: da5a6976-e4f9-4f30-7d25-08db522b9eca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wltKjp7WkHO3K7pXD3W/0K5rT597FOWCj+i0W+WvFVdEaHyAskLvv92HSd1hLgUpJVIt8w1EnroFU2spwPo8ER7lSB+umanU5WIFj5xfTBgTABvwTDwLVNDobmgn/4vlXG3DSnNZkjxY2WKkdDqouek+Iv81xpyoq4zJKUdPD76rsrvC/uJpPUnqJQkc7s7WrwxmQXqjYg6Un1+H797vHKlXTx667pbjRFJu1+eWJH6JJbBhgbidZK+YbSNLzQoWcnEY0NU1Bbpiyhj4nTpqCg9pZdlwV7SWS9pzKbFfv7RG9HL53AXX3TDgWIxQA9HXfwoXgfRsA4yJ+iPp2B3C8MzQK+HNfj31KtW16veJTxh6WrGTngneAMFLLbplopUX/AsrksY4bI6/7xgUFpaWvhO0pzTII6gXe0S7/2R7XlafOj06xtLX9nJK9PwWZdqNfU8r6C3ljJBykHj9+ggchPkWmEkNHcMa+06EkWfW0PwD5gGDdFVKSSdJWC1RugCjUgCPS5+v+09N8Dg+Jkn5YxvT8UsdJdGcc2c7QCZwpR7uhiMTVjipPIkNO/QIVY16SQCVRz+Boojq1T7md4xPl4IOq9C8BfBC2mcyOuGZoL66w+qXsrn+scgVQOaXVZ8b+0Kvy068ahR+QIjfyWXze2PxuzZKcbs0BfCh6V3lG4k=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(396003)(376002)(136003)(346002)(39840400004)(451199021)(38100700002)(5660300002)(478600001)(6486002)(6666004)(8676002)(8936002)(316002)(6506007)(186003)(6512007)(6916009)(66946007)(66476007)(66556008)(4326008)(41300700001)(4744005)(2906002)(7406005)(7416002)(54906003)(44832011)(86362001)(36756003)(2616005)(41080700001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wfdUi372akd6Dlev+CNPWCjKmUUQkKLBKmuqlj/4HMg/n/XFGWiuQyzRRJ6n?=
- =?us-ascii?Q?FsSNBhzs7hYqL5pNXGLoDuSYxSKKSWXiyg9badAhyX515WHsGMjHnzwzgr11?=
- =?us-ascii?Q?qRRBaGIJ8S1Gl5OsOA3P95U+vqk+q5krOFvssHRHrsk0c7sxcqavw38KhcBM?=
- =?us-ascii?Q?Pmh13k8wsaQ2jdgNovQXFTb9DRxcfglnarKK9yjj/GoZK6JOetPGG+NmkDpU?=
- =?us-ascii?Q?ySbrfHLORrYplnJJf+z+CxSlsB3E/bYhMShNOAvMpo8HmNhPQHFDlXl4Sjag?=
- =?us-ascii?Q?TghOk34n/l6VfYmOOhD655f5bOG9uSivZZsIXs008GTOLy3qH9fzaNXxIoCg?=
- =?us-ascii?Q?Pa4LabvrsRNKHQIVMqjGx9JyO/oadSzi1VdDJ4679adDMnDgDqmPMUM2gm9h?=
- =?us-ascii?Q?O7ADbz0CbQogzBhJ9KTa3Bqv1w5jITjP1/xlEMw/7kmQED0hIkvo01njs7+p?=
- =?us-ascii?Q?GODn13o7EowqF4K8M3mmgccnZ1090J7J0sA7GsIPBjeWyXu5lYMVAGjrzbwv?=
- =?us-ascii?Q?lTVCbKI3ra3hMC8dyjwXK6DWU+sJM1Ce2AHY3BsyjFfsYtVpTikDsDGKAdTB?=
- =?us-ascii?Q?KYSaHrRxn3UtRfgMYnzApnSNzE/iIOZMiJ88inP6AZ3wSuJZcLq7LAVJXbEp?=
- =?us-ascii?Q?P2GTMBWXvF6UslL2Jf9qUd1fUhhLZcQL+AVKDxz+yrZXqG8nV6gijIbfdeFR?=
- =?us-ascii?Q?aOWMCuYRnrvQlCQsg0ssC3EFlS+pjHQL8kzDU9cdGhD8huPWW6wdzA/r8iF6?=
- =?us-ascii?Q?JmhWisdsx20EVuR4LMXphEuYzEylhpJYh8tzat+FiR6ZQaNk5qQOvQdFocSI?=
- =?us-ascii?Q?G3uJwU7cpTdmceylP8ME/DX8+Ir4X+4jVXQ0cn+bs6chpbiv9SDvVkbdgMjW?=
- =?us-ascii?Q?eGiFrSjka+n02pS54HR7a4k/9pLKh5Z07B9ozM83M0m2GCkG5WKI3TaPSz+3?=
- =?us-ascii?Q?PaxuMnAj28S21MOSE2mCwQKmvm2aqIMjRdMrqXZzGRzqOvQEsMvP0zXXUjht?=
- =?us-ascii?Q?qHezG9Ni8uSjjCZD5olP+xsz0oPRx6yggMp1YtjNN6tVASxvttUZ+PiWU2IK?=
- =?us-ascii?Q?NaB2alqC/BZU4e6CjDyT+AgSjBkRlM6gZueA9xwkv7cdJzoopqv7KdbQ664J?=
- =?us-ascii?Q?XWIZlT61Lv962zoJQrO98ClGOweuUcH35V+4n9USwU6KIEeCA2suvODKaIDS?=
- =?us-ascii?Q?IemKcc68G97ax5chZeobOQEm6cYpucYbBgAt1A6Bn0OKKCd2IT3iDGg3cgTk?=
- =?us-ascii?Q?0Ur/yElzXlMSCxBaAN1yeSi+eSoJhFClGELTS5yGoZevD/QD2DusSMxMVghj?=
- =?us-ascii?Q?jRWKf/a4heeBFLYAgpyGTG66PsCECjoqu9G8AmEVBVYV20vrifh7oMEkWbfu?=
- =?us-ascii?Q?BhSx4ypP3VKqQ6GNed5bREMItbWsW6xqkLWFBqOLp0YJ7ti8Z4bm16zTDmva?=
- =?us-ascii?Q?tELJreiRwCz4mRuNhk3HB5+ymhI+pKc6e30JIAM9xvm3HHbIKgRhHE4w6SO/?=
- =?us-ascii?Q?de3Plr7ZevqCgpfY9iTOzB4v9WSKGdwoVffx3CRRWamxJPqS99qGxtcXNc9g?=
- =?us-ascii?Q?pZZlYi4hirYpjtyeLjr2UCbUTrn3XMdcE3Fw+nkv3+SSud1P9ksxTYipiV+1?=
- =?us-ascii?Q?Y1+XBVo8zc2F7IFwnGXSC0Iw9m56aRWBoelopRDWVKcbRx865vpfBooFX6hu?=
- =?us-ascii?Q?FHlfVg=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da5a6976-e4f9-4f30-7d25-08db522b9eca
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 14:25:50.6995 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hF/Dqw6shsXOj3VyXj1FShoV3VwTkV7WNKDi90Te6ML0uPTW9yAtLoqOGNtlDYUSw/KRrmIhrIAmsDuY8dtWd2FBRTLFSvn0iUd5w8yTZfw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR13MB3637
+References: <20230509163712.376117-1-robdclark@gmail.com>
+In-Reply-To: <20230509163712.376117-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 11 May 2023 07:25:46 -0700
+Message-ID: <CAF6AEGv4kThhyCEhf3NeqTSwVT5X7rgxM5nuM_jq3aFbfUHpqA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iommu/arm-smmu-qcom: Fix missing adreno_smmu's
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,48 +68,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>, Tom Rix <trix@redhat.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Minghao Chi <chi.minghao@zte.com.cn>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Archana <craechal@gmail.com>, Yang Yingliang <yangyingliang@huawei.com>,
- Jacob Keller <jacob.e.keller@intel.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- Sam Creasey <sammy@sammy.net>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Jay Vosburgh <j.vosburgh@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Jan Kara <jack@suse.com>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Karsten Keil <isdn@linux-pingi.de>, Deepak R Varma <drv@mailo.com>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- Stephen Hemminger <stephen@networkplumber.org>,
- Diederik de Haas <didi.debian@cknow.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>,
- Thomas Davis <tadavis@lbl.gov>
+Cc: Rob Clark <robdclark@chromium.org>, Lepton Wu <lepton@chromium.org>,
+ Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Emma Anholt <emma@anholt.net>,
+ Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Elliot Berman <quic_eberman@quicinc.com>, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 11, 2023 at 08:33:59PM +0700, Bagas Sanjaya wrote:
-> Previous batches of SPDX conversion missed bond_main.c and bonding_priv.h
-> because these files doesn't mention intended GPL version. Add SPDX identifier
-> to these files, assuming GPL 1.0+.
+On Tue, May 9, 2023 at 9:37=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
+e:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> When the special handling of qcom,adreno-smmu was moved into
+> qcom_smmu_create(), it was overlooked that we didn't have all the
+> required entries in qcom_smmu_impl_of_match.  So we stopped getting
+> adreno_smmu_priv on sc7180, breaking per-process pgtables.
+>
+> Fixes: 30b912a03d91 ("iommu/arm-smmu-qcom: Move the qcom,adreno-smmu chec=
+k into qcom_smmu_create")
+> Suggested-by: Lepton Wu <lepton@chromium.org>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Any chance I could get an ack for landing this fix via msm-fixes?
+Broken per-process pgtables is kind of a serious regression..
 
+BR,
+-R
+
+> ---
+>  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/a=
+rm/arm-smmu/arm-smmu-qcom.c
+> index d1b296b95c86..760d9c43dbd2 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> @@ -496,20 +496,21 @@ static const struct qcom_smmu_match_data qcom_smmu_=
+500_impl0_data =3D {
+>  /*
+>   * Do not add any more qcom,SOC-smmu-500 entries to this list, unless th=
+ey need
+>   * special handling and can not be covered by the qcom,smmu-500 entry.
+>   */
+>  static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[=
+] =3D {
+>         { .compatible =3D "qcom,msm8996-smmu-v2", .data =3D &msm8996_smmu=
+_data },
+>         { .compatible =3D "qcom,msm8998-smmu-v2", .data =3D &qcom_smmu_v2=
+_data },
+>         { .compatible =3D "qcom,qcm2290-smmu-500", .data =3D &qcom_smmu_5=
+00_impl0_data },
+>         { .compatible =3D "qcom,qdu1000-smmu-500", .data =3D &qcom_smmu_5=
+00_impl0_data  },
+>         { .compatible =3D "qcom,sc7180-smmu-500", .data =3D &qcom_smmu_50=
+0_impl0_data },
+> +       { .compatible =3D "qcom,sc7180-smmu-v2", .data =3D &qcom_smmu_v2_=
+data },
+>         { .compatible =3D "qcom,sc7280-smmu-500", .data =3D &qcom_smmu_50=
+0_impl0_data },
+>         { .compatible =3D "qcom,sc8180x-smmu-500", .data =3D &qcom_smmu_5=
+00_impl0_data },
+>         { .compatible =3D "qcom,sc8280xp-smmu-500", .data =3D &qcom_smmu_=
+500_impl0_data },
+>         { .compatible =3D "qcom,sdm630-smmu-v2", .data =3D &qcom_smmu_v2_=
+data },
+>         { .compatible =3D "qcom,sdm845-smmu-v2", .data =3D &qcom_smmu_v2_=
+data },
+>         { .compatible =3D "qcom,sdm845-smmu-500", .data =3D &sdm845_smmu_=
+500_data },
+>         { .compatible =3D "qcom,sm6115-smmu-500", .data =3D &qcom_smmu_50=
+0_impl0_data},
+>         { .compatible =3D "qcom,sm6125-smmu-500", .data =3D &qcom_smmu_50=
+0_impl0_data },
+>         { .compatible =3D "qcom,sm6350-smmu-v2", .data =3D &qcom_smmu_v2_=
+data },
+>         { .compatible =3D "qcom,sm6350-smmu-500", .data =3D &qcom_smmu_50=
+0_impl0_data },
+> @@ -540,12 +541,14 @@ struct arm_smmu_device *qcom_smmu_impl_init(struct =
+arm_smmu_device *smmu)
+>                 /* Match platform for ACPI boot */
+>                 if (acpi_match_platform_list(qcom_acpi_platlist) >=3D 0)
+>                         return qcom_smmu_create(smmu, &qcom_smmu_500_impl=
+0_data);
+>         }
+>  #endif
+>
+>         match =3D of_match_node(qcom_smmu_impl_of_match, np);
+>         if (match)
+>                 return qcom_smmu_create(smmu, match->data);
+>
+> +       WARN_ON(of_device_is_compatible(np, "qcom,adreno-smmu"));
+> +
+>         return smmu;
+>  }
+> --
+> 2.40.1
+>
