@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1616FEFBE
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 12:14:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B81D66FF000
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 12:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2874710E220;
-	Thu, 11 May 2023 10:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA50110E5D1;
+	Thu, 11 May 2023 10:37:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274D110E21E;
- Thu, 11 May 2023 10:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683800049; x=1715336049;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=OX6/RLsUKcu9rpPuGAmUsq6PrFANuvVqJn6z7EUYoHE=;
- b=dQYWMa1djTPA9nCkoytAoRVIvc1ysPx6r4XG59tQsUGRKs+3AGy3FTWY
- Mjz7yTOzYyMXcvmBWlh+vyH4ZMD751vRexMcN5Qt5FMYw4BTp8X9ndv57
- ZfgAtc8o61OtgAo8BJn+kHlNVnRKtLzjn6lRy4pel+9g+z65yyymn/cIh
- y8nFU4Pce4ApOX3MtJYDDmSViWWPq//LXY9jY5CBLaZRUsnpRfUktcTXL
- 19mrZ3iGWP8XbDuhVcsPXVPrMrUWfKvCfS36GF1zU0NBiVg1V+a/q1A83
- loH2i3jV6Q6A6raJZpYEfoeH6Wr1kDJLLZFvvT63txplMM81wkAICESro w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="350490023"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="350490023"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 03:14:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="946094895"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="946094895"
-Received: from thenehan-mobl1.ger.corp.intel.com (HELO [10.213.214.244])
- ([10.213.214.244])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 03:14:03 -0700
-Message-ID: <562bd20d-36b9-a617-92cc-460f2eece22e@linux.intel.com>
-Date: Thu, 11 May 2023 11:14:01 +0100
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E915210E219;
+ Thu, 11 May 2023 10:37:22 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4ec8149907aso9784504e87.1; 
+ Thu, 11 May 2023 03:37:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683801440; x=1686393440;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=q0wiMX47tfUWeNg3duzwzyAu2wMRvaFF756FNcokCYk=;
+ b=rk58LmN6d6WDVVF1xzh2A9cxDkoyRTPhzSRqa52gmmjLc50hwWIGl99DVwOqHbXIEr
+ BC2m56EoTv25wCYVyoUCWKGePfoAYABgbaPfIWeHuDcFLeiQwP/IN6Dq1gTQw48C49Qm
+ TAoSwokLthrFYZDWGfR1f4qDtzSVest/IijpDs956/z8ctLfZgBRCixJMjLOlNj/OWup
+ IYcY74CP1v3Pv96tbvarlN6d/0Rth/nr+vH2Y1gkdl8KUQgrq9wgNaaT5yA+PipwteP2
+ q9h62jGeg5f5GaBe7zoL+PB0vw79Yd94FZ4PoOSAvpS+0ihgJs4vf2lbBaPjPzcT00FJ
+ n2kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683801440; x=1686393440;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q0wiMX47tfUWeNg3duzwzyAu2wMRvaFF756FNcokCYk=;
+ b=E7mX2Rgnmw2hD2RwI5lzzvVlI/vju0L9AjRLDllGOcSW3aOvs2XnmjWX+Km9+bw9mL
+ oqgtzURYa1OQaTZnSOxzLafZ4vqkRbMNZh6xccMa56JUHZoEQVJQt36D7j9LEiFCjLa5
+ kh5qS7qt2IckrX/KFDD+FEmaMEyVxOrYCeWvMUAu7plPuUnG3v1NxSIAjLbXwUh03G0n
+ x1RJ6yoYv8reodFZI+c3BckY6lHGanGkuVvBkjE5Y+VXX1dwNccwXIbDPZGO6TXHdfHf
+ 9TrBNxJIF7EjN1c88qxOy9zVznSYTBiQJmgnxTYX0Fs1oDQ3+ErTJFjjgrWivpbQMYE/
+ gvfg==
+X-Gm-Message-State: AC+VfDyQICLTyazt3X2Z54FUr9vOVWKvE/2MqVAeAQoZePmRxmjPTbo/
+ WXaMBOBHYfs/xt9EBqEuNgZ9CxXRQ+PYBwwK
+X-Google-Smtp-Source: ACHHUZ63BJNm4qir9GzkztmxXSDvucWpCp0BmoEslJAI5FfqG1RJ4vnl4unVr7FPSqjjZsKo2ex26A==
+X-Received: by 2002:a19:f602:0:b0:4f1:8dfa:aec9 with SMTP id
+ x2-20020a19f602000000b004f18dfaaec9mr1962068lfe.69.1683801440009; 
+ Thu, 11 May 2023 03:37:20 -0700 (PDT)
+Received: from localhost.localdomain ([2001:998:22:0:e4f1:43bf:23ee:cc40])
+ by smtp.gmail.com with ESMTPSA id
+ y11-20020ac2446b000000b004d40e22c1eesm1064446lfl.252.2023.05.11.03.37.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 May 2023 03:37:19 -0700 (PDT)
+From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/fourcc: define Intel Meteorlake related ccs modifiers
+Date: Thu, 11 May 2023 13:37:13 +0300
+Message-Id: <20230511103714.5194-1-juhapekka.heikkila@gmail.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [RFC PATCH 0/4] Add support for DRM cgroup memory
- accounting.
-Content-Language: en-US
-To: Tejun Heo <tj@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
- <ZFVeI2DKQXddKDNl@slm.duckdns.org>
- <4d6fbce3-a676-f648-7a09-6f6dcc4bdb46@linux.intel.com>
- <ZFvmaGNo0buQEUi1@slm.duckdns.org>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZFvmaGNo0buQEUi1@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add Tile4 type ccs modifiers with aux buffer needed for MTL
 
-On 10/05/2023 19:46, Tejun Heo wrote:
-> Hello,
-> 
-> On Wed, May 10, 2023 at 04:59:01PM +0200, Maarten Lankhorst wrote:
->> The misc controller is not granular enough. A single computer may have any number of
->> graphics cards, some of them with multiple regions of vram inside a single card.
-> 
-> Extending the misc controller to support dynamic keys shouldn't be that
-> difficult.
-> 
-> ...
->> In the next version, I will move all the code for handling the resource limit to
->> TTM's eviction layer, because otherwise it cannot handle the resource limit correctly.
->>
->> The effect of moving the code to TTM, is that it will make the code even more generic
->> for drivers that have vram and use TTM. When using TTM, you only have to describe your
->> VRAM, update some fields in the TTM manager and (un)register your device with the
->> cgroup handler on (un)load. It's quite trivial to add vram accounting to amdgpu and
->> nouveau. [2]
->>
->> If you want to add a knob for scheduling weight for a process, it makes sense to
->> also add resource usage as a knob, otherwise the effect of that knob is very
->> limited. So even for Tvrtko's original proposed usecase, it would make sense.
-> 
-> It does make sense but unlike Tvrtko's scheduling weights what's being
-> proposed doesn't seem to encapsulate GPU memory resource in a generic enough
-> manner at least to my untrained eyes. ie. w/ drm.weight, I don't need any
-> specific knoweldge of how a specific GPU operates to say "this guy should
-> get 2x processing power over that guy". This more or less holds for other
-> major resources including CPU, memory and IO. What you're proposing seems a
-> lot more tied to hardware details and users would have to know a lot more
-> about how memory is configured on that particular GPU.
-> 
-> Now, if this is inherent to how all, or at least most, GPUs operate, sure,
-> but otherwise let's start small in terms of interface and not take up space
-> which should be for something universal. If this turns out to be the way,
-> expanding to take up the generic interface space isn't difficult.
-> 
-> I don't know GPU space so please educate me where I'm wrong.
+Cc: dri-devel@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+---
+ include/uapi/drm/drm_fourcc.h | 43 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-I was hoping it might be passable in principle (in some form, pending 
-discussion on semantics) given how Maarten's proposal starts with only 
-very specific per-device-per-memory regions controls, which is 
-applicable to many devices. And hard limit at that, which probably has 
-less complicated semantics, or at least implementation.
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index de703c6be969..cbe214adf1e4 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -657,6 +657,49 @@ extern "C" {
+  */
+ #define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 12)
+ 
++/*
++ * Intel color control surfaces (CCS) for display ver 14 render compression.
++ *
++ * The main surface is tile4 and at plane index 0, the CCS is linear and
++ * at index 1. A 64B CCS cache line corresponds to an area of 4x1 tiles in
++ * main surface. In other words, 4 bits in CCS map to a main surface cache
++ * line pair. The main surface pitch is required to be a multiple of four
++ * tile4 widths.
++ */
++#define I915_FORMAT_MOD_4_TILED_MTL_RC_CCS fourcc_mod_code(INTEL, 13)
++
++/*
++ * Intel color control surfaces (CCS) for display ver 14 media compression
++ *
++ * The main surface is tile4 and at plane index 0, the CCS is linear and
++ * at index 1. A 64B CCS cache line corresponds to an area of 4x1 tiles in
++ * main surface. In other words, 4 bits in CCS map to a main surface cache
++ * line pair. The main surface pitch is required to be a multiple of four
++ * tile4 widths. For semi-planar formats like NV12, CCS planes follow the
++ * Y and UV planes i.e., planes 0 and 1 are used for Y and UV surfaces,
++ * planes 2 and 3 for the respective CCS.
++ */
++#define I915_FORMAT_MOD_4_TILED_MTL_MC_CCS fourcc_mod_code(INTEL, 14)
++
++/*
++ * Intel Color Control Surface with Clear Color (CCS) for display ver 14 render
++ * compression.
++ *
++ * The main surface is tile4 and is at plane index 0 whereas CCS is linear
++ * and at index 1. The clear color is stored at index 2, and the pitch should
++ * be ignored. The clear color structure is 256 bits. The first 128 bits
++ * represents Raw Clear Color Red, Green, Blue and Alpha color each represented
++ * by 32 bits. The raw clear color is consumed by the 3d engine and generates
++ * the converted clear color of size 64 bits. The first 32 bits store the Lower
++ * Converted Clear Color value and the next 32 bits store the Higher Converted
++ * Clear Color value when applicable. The Converted Clear Color values are
++ * consumed by the DE. The last 64 bits are used to store Color Discard Enable
++ * and Depth Clear Value Valid which are ignored by the DE. A CCS cache line
++ * corresponds to an area of 4x1 tiles in the main surface. The main surface
++ * pitch is required to be a multiple of 4 tile widths.
++ */
++#define I915_FORMAT_MOD_4_TILED_MTL_RC_CCS_CC fourcc_mod_code(INTEL, 15)
++
+ /*
+  * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+  *
+-- 
+2.25.1
 
-My understanding of the proposal is that the allocation either fits, or 
-it evicts from the parent's hierarchy (if possible) and then fits, or it 
-fails. Which sounds simple enough.
-
-I do however agree that it is a limited use case. So from the negative 
-side of the debating camp I have to ask if this use case could be simply 
-satisfied by providing a driver/device global over commit yes/no 
-control? In other words, is it really important to partition the vram 
-space ahead of time, and from the kernel side too? Wouldn't the relevant 
-(highly specialised) applications work just fine with global over commit 
-disabled? Even if the option to configure their maximum allowed working 
-set from the userspace side was needed.
-
-Or if we conclude cgroup controller is the way to go, would adding less 
-specific limits make it more palatable? I am thinking here some generic 
-"device memory resident". Not per device, not per memory region. So 
-userspace/admins have some chance of configuring generic limits. That 
-would require coming up with more generic use cases though so another 
-thing to discuss. Like who would use that and for what.
-
-Assuming also we can agree that "device memory resident" is a 
-stable/solid concept across drm. Should be easier than for integrated 
-GPUs, for which I have to admit I currently don't remember if 
-allocations are already consistently covered by the memory controller. 
-Even if they are ownership is probably wrong.
-
-Group ownership is possibly a concern in this proposal too. Because I 
-remember the previous attempt of adding some drm stats to memcg 
-explained that for instance on Android all buffers are allocated by a 
-central process and then handed over to other processes. So transferring 
-ownership was explained as critical.
-
-Regards,
-
-Tvrtko
-
-P.S.
-On the matter of naming the uapi interface - in any case I wouldn't use 
-the "unqualified" drm namespace such as drm.max/current/capacity. I 
-think all those should include a specific prefix to signify it is about 
-memory. In some way.
