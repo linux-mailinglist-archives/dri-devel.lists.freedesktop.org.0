@@ -2,68 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A506FEE04
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 10:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA886FEEAD
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 11:24:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB7710E5C1;
-	Thu, 11 May 2023 08:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED6110E167;
+	Thu, 11 May 2023 09:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F71410E5C0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 08:48:48 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f42c865534so28005035e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 01:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683794926; x=1686386926;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MavG6Kk9Pe4HL8j0/etWioEuDmEHCWaEC1JE6orX7J8=;
- b=NxXdF6IBega8jFYuWRkcRkfYvkDka8+uB3602hlNkRCCOIaUDNICbSKD55cWEW8SJc
- GCUnzVdCB2GM+oMnpi0pUGK3ZAciq05gaus6Jl415AJDnoYltrMsXoj4gjsukrqg6a+p
- G86oMsjtNTL6zNdLj5KbG0Eg3xW5MKYfYWDO6ZAFdCkn97UJ5tBJo+cIs1U+8q1Fgv+K
- 3lGonlm90bIZR/9/4+6L47VXHPVWgfDVt2geFOgLMDScX25vPeSlsRCEkHt3V4ESBb5J
- YpxV4yIJTYxY1/2QYAkGbbLhv8xskuMQB6Iysg9LR44sX5HACNEIXqUNPt6R8wcxC8v9
- z44A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683794926; x=1686386926;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MavG6Kk9Pe4HL8j0/etWioEuDmEHCWaEC1JE6orX7J8=;
- b=akcOmhR/paZD2BjXIYCdCnCoDvyUhXot9QntcQb5ZZSMmOMa9nZ1o8G6ZNJSIrFEtV
- 57Y992sqVh2+LCQftv1NG4KPLJmF2Uhm2tErrW3jNbAeOnQChHeJuD2qPtmRXclOajRU
- wYqAwzy+B4asfsKmXvyktkdrWcFjQ8YZDDpfzibP+fF7f9CP/iSCm9ChnTiER76sCGCQ
- kvseQfDs/hOMOpLNaHo/py0Bcxb4gKpnXOrv9OXvZqrsEJ7Zmx34Yg4RHsG/yGy41TTB
- 8eOy2c3C9uMoYYubhpWErA4/w4lh8no2pQnhfoDWCeTc5dOuV0cTZtsbmjsk7CvdE6Z0
- SomQ==
-X-Gm-Message-State: AC+VfDxUfr9xJ/pfuCYVGAalq8tRNSykLlEPHoKaI9fJN/bCdWm/me4U
- U+Fu/7T2u4pkxI5Nzcr8rjgqYA==
-X-Google-Smtp-Source: ACHHUZ6FxN8xnWtJ2s+Qw/vMfGQbDW2EOFTHMfzqCuWj9Tjx6S+HdeZIbvhZc1lxPKciTJMffPqKPw==
-X-Received: by 2002:a5d:4fd1:0:b0:2f4:e96e:3c86 with SMTP id
- h17-20020a5d4fd1000000b002f4e96e3c86mr15638478wrw.14.1683794926354; 
- Thu, 11 May 2023 01:48:46 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- z6-20020adff746000000b002f103ca90cdsm19707750wrp.101.2023.05.11.01.48.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 01:48:46 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>
-In-Reply-To: <20230508083826.1016206-1-victor.liu@nxp.com>
-References: <20230508083826.1016206-1-victor.liu@nxp.com>
-Subject: Re: [PATCH v2 0/2] drm/panel: panel-simple: Add BOE
- EV121WXM-N10-1850 panel support
-Message-Id: <168379492556.1992146.7262967209295860985.b4-ty@linaro.org>
-Date: Thu, 11 May 2023 10:48:45 +0200
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E5FF10E167
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 09:24:20 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:41672.1278492290
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id A55DC102960;
+ Thu, 11 May 2023 17:24:14 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-85667d6c59-fm8l8 with ESMTP id
+ 5b86e81d35b5461da10c14d4d6e27d84 for tzimmermann@suse.de; 
+ Thu, 11 May 2023 17:24:17 CST
+X-Transaction-ID: 5b86e81d35b5461da10c14d4d6e27d84
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <70c03ea4-c863-d3f7-c057-421f31c57238@189.cn>
+Date: Thu, 11 May 2023 17:24:13 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
+ vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ davem@davemloft.net, James.Bottomley@HansenPartnership.com, arnd@arndb.de,
+ sam@ravnborg.org
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-2-tzimmermann@suse.de>
+ <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
+ <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,36 +58,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: conor+dt@kernel.org, sam@ravnborg.org, krzysztof.kozlowski@linaro.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On Mon, 08 May 2023 16:38:24 +0800, Liu Ying wrote:
-> This patch series aims to add BOE EV121WXM-N10-1850 panel support
-> in the DRM simple panel driver.
-> 
-> Patch 1/2 adds dt-bindings support for the panel.
-> Patch 2/2 adds the panel support in the DRM simple panel driver.
-> 
-> v1->v2:
-> * Add Krzysztof's A-b tag on patch 1/2.
-> * Use struct display_timing in patch 2/2 to tell minimum and maximum
->   pixel clock rates.
-> * Set bus_flags to DRM_BUS_FLAG_DE_HIGH in struct panel_desc in patch 2/2.
-> 
-> [...]
+On 2023/5/11 15:55, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 10.05.23 um 20:20 schrieb Sui Jingfeng:
+>> Hi, Thomas
+>>
+>>
+>> I love your patch, yet something to improve:
+>>
+>>
+>> On 2023/5/10 19:05, Thomas Zimmermann wrote:
+>>> Fix coding style. No functional changes.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+>>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>>> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> ---
+>>>   drivers/video/fbdev/matrox/matroxfb_accel.c | 6 +++---
+>>>   drivers/video/fbdev/matrox/matroxfb_base.h  | 4 ++--
+>>>   2 files changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/video/fbdev/matrox/matroxfb_accel.c 
+>>> b/drivers/video/fbdev/matrox/matroxfb_accel.c
+>>> index 9cb0685feddd..ce51227798a1 100644
+>>> --- a/drivers/video/fbdev/matrox/matroxfb_accel.c
+>>> +++ b/drivers/video/fbdev/matrox/matroxfb_accel.c
+>>> @@ -88,7 +88,7 @@
+>>>   static inline void matrox_cfb4_pal(u_int32_t* pal) {
+>>>       unsigned int i;
+>>> -
+>>> +
+>>>       for (i = 0; i < 16; i++) {
+>>>           pal[i] = i * 0x11111111U;
+>>>       }
+>>> @@ -96,7 +96,7 @@ static inline void matrox_cfb4_pal(u_int32_t* pal) {
+>>>   static inline void matrox_cfb8_pal(u_int32_t* pal) {
+>>>       unsigned int i;
+>>> -
+>>> +
+>>>       for (i = 0; i < 16; i++) {
+>>>           pal[i] = i * 0x01010101U;
+>>>       }
+>>> @@ -482,7 +482,7 @@ static void matroxfb_1bpp_imageblit(struct 
+>>> matrox_fb_info *minfo, u_int32_t fgx,
+>>>               /* Tell... well, why bother... */
+>>>               while (height--) {
+>>>                   size_t i;
+>>> -
+>>> +
+>>>                   for (i = 0; i < step; i += 4) {
+>>>                       /* Hope that there are at least three readable 
+>>> bytes beyond the end of bitmap */
+>>> fb_writel(get_unaligned((u_int32_t*)(chardata + i)),mmio.vaddr);
+>>> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h 
+>>> b/drivers/video/fbdev/matrox/matroxfb_base.h
+>>> index 958be6805f87..c93c69bbcd57 100644
+>>> --- a/drivers/video/fbdev/matrox/matroxfb_base.h
+>>> +++ b/drivers/video/fbdev/matrox/matroxfb_base.h
+>>> @@ -301,9 +301,9 @@ struct matrox_altout {
+>>>       int        (*verifymode)(void* altout_dev, u_int32_t mode);
+>>>       int        (*getqueryctrl)(void* altout_dev,
+>>>                       struct v4l2_queryctrl* ctrl);
+>>
+>> Noticed that there are plenty of coding style problems in 
+>> matroxfb_base.h,
+>>
+>> why you only fix a few of them?   Take this two line as an example, 
+>> shouldn't
+>>
+>> they be fixed also as following?
+>
+> I configured my text editor to remove trailing whitespaces 
+> automatically. That keeps my own patches free of them.  But the editor 
+> removes all trailing whitespaces, including those that have been there 
+> before. If I encounter such a case, I split out the whitespace fix and 
+> submit it separately.
+>
+> But the work I do within fbdev is mostly for improving DRM. For the 
+> other issues in this file, I don't think that matroxfb should even be 
+> around any longer. Fbdev has been deprecated for a long time. But a 
+> small number of drivers are still in use and we still need its 
+> framebuffer console. So someone should either put significant effort 
+> into maintaining fbdev, or it should be phased out. But neither is 
+> happening.
+>
+Ok, no problem, that sound fine and reasonable then.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+The lines being modified has trailing whitespaces.
 
-[1/2] dt-bindings: display: simple: Add BOE EV121WXM-N10-1850 panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0bd5bd65cd2e4d1335ea6c17cd2c8664decbc630
-[2/2] drm/panel: panel-simple: Add BOE EV121WXM-N10-1850 panel support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8bb7c7bca5b70f3cd22d95b4d36029295c4274f6
+And I tested your patch again last night on loongarch and mips platform.
 
--- 
-Neil
+It still works in my testing case.
 
+> Best regards
+> Thomas
+>
+>>
+>>
+>>       int        (*verifymode)(void *altout_dev, u_int32_t mode);
+>>       int        (*getqueryctrl)(void *altout_dev,
+>>                       struct v4l2_queryctrl *ctrl);
+>>
+>>
+>>> -    int        (*getctrl)(void* altout_dev,
+>>> +    int        (*getctrl)(void *altout_dev,
+>>>                      struct v4l2_control* ctrl);
+>>> -    int        (*setctrl)(void* altout_dev,
+>>> +    int        (*setctrl)(void *altout_dev,
+>>>                      struct v4l2_control* ctrl);
+>>>   };
+>
