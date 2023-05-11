@@ -2,75 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D377002F0
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4277002F2
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 698B710E622;
-	Fri, 12 May 2023 08:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6011510E637;
+	Fri, 12 May 2023 08:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48BF710E073
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 15:34:51 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34BEXimc009368; Thu, 11 May 2023 15:34:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=mvWpFNBqIZ3K+SPGiMWgBjURs/bSbyQGKKt/UcYADzY=;
- b=MpDy02Q6mEEkoKRsZSv5TGHEe12Dk5PgKmXpKljSye7wA5Q5UVN7D60AqquJmFxTRPqQ
- kd0ejdU1n0JAAYwVOoZzqAKd7W6x4iy1h9uhY8a2odMnGo9JttKIYWd1pZqT7kHWvX+N
- TJfJzhkllb4elkavIDPgZOsU9nNdhP8tKmqcrZvIn+DTgO9GE7rFeGRwz2MGrFjQsZU2
- TbxK6+22BLc0MRbmtEyOHND4YOE+5UfydKvcoZdu7qsowNh9XGQeUVoxyu48jLSBeYxv
- mQgHGzXjqSAJBob/74TW9P1XzZGt0pmwd95PEgBERQtraB2BAaIsn7G6ktcuNt8qHf2v hA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qh27tr5u8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 15:34:43 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34BFYgH7026650
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 15:34:42 GMT
-Received: from [10.110.38.53] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 11 May
- 2023 08:34:42 -0700
-Message-ID: <a144e830-acf8-55c6-c323-d049095e9fac@quicinc.com>
-Date: Thu, 11 May 2023 08:34:34 -0700
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0679B10E0B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 18:26:23 +0000 (UTC)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+ by mx.sberdevices.ru (Postfix) with ESMTP id D310E5FD0C;
+ Thu, 11 May 2023 21:26:20 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+ s=mail; t=1683829580;
+ bh=5nTAfm/pvw11kHJn8DB2F1CXjcxkc985Z7SnZU2jNZw=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+ b=AgMOHm0+2/cEkhAS9xFjJ3Watg2imQsL3Nimrvhnksp0qHif0wmln6Iavj/w451dv
+ jJNEdbOuhpuDfNa1h+S4SjZEazN2+v+NFJ+AB+7+0xl8zyBEhant2cu0l7G0SMO1Pz
+ vNK9qbrNjnn+oRsju0bDj8J2hOgubkP1FMvLzTcLJuwEjHEywCroEAJzEg3J9DXWSp
+ v24jfo6DMf/y+vvEs+nl2mF89lgsaEMMSyAF8tEeczWIpU4bTDuec6vWoFCxsFCvV+
+ x3qIK3d163DzMdNrKTjKYSMegDJvg7NyXV7WlBnGXRqZwZgFgGcc1OK2fCpXDn26fd
+ /AJM8X2VaQt7g==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru
+ [172.16.1.4]) by mx.sberdevices.ru (Postfix) with ESMTP;
+ Thu, 11 May 2023 21:26:16 +0300 (MSK)
+Message-ID: <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
+Date: Thu, 11 May 2023 21:21:34 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] accel/qaic: silence some uninitialized variable warnings
-To: Dan Carpenter <dan.carpenter@linaro.org>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>
-References: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RESEND PATCH v3] mtd: rawnand: macronix: OTP access for
+ MX30LFxG18AC
 Content-Language: en-US
-From: Carl Vanderlip <quic_carlv@quicinc.com>
-In-Reply-To: <d11ee378-7b06-4b5e-b56f-d66174be1ab3@kili.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>
+References: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
+From: Arseniy Krasnov <avkrasnov@sberdevices.ru>
+In-Reply-To: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: yLaaiaKONj9PnGubx_VSs_GiiEp7rKF7
-X-Proofpoint-GUID: yLaaiaKONj9PnGubx_VSs_GiiEp7rKF7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-11_12,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 clxscore=1011
- malwarescore=0 phishscore=0 suspectscore=0 mlxscore=0 spamscore=0
- mlxlogscore=636 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305110134
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
+ bases: 2023/05/11 10:21:00 #21259776
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-Mailman-Approved-At: Fri, 12 May 2023 08:48:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,20 +69,273 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, linux-mtd@lists.infradead.org,
+ oxffffaa@gmail.com, kernel@sberdevices.ru,
+ Mason Yang <masonccyang@mxic.com.tw>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/3/2023 3:41 AM, Dan Carpenter wrote:
-> Smatch complains that these are not initialized if get_cntl_version()
-> fails but we still print them in the debug message.  Not the end of
-> the world, but true enough.  Let's just initialize them to a dummy value
-> to make the checker happy.
+Cc: Mason Yang <masonccyang@mxic.com.tw> and Boris Brezillon <boris.brezillon@collabora.com>
+
+On 11.05.2023 18:21, Arseniy Krasnov wrote:
+> This adds support for OTP area access on MX30LFxG18AC chip series.
 > 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-LGTM
-
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Changelog:
+>   v1 -> v2:
+>   * Add slab.h include due to kernel test robot error.
+>   v2 -> v3:
+>   * Use 'uint64_t' as input argument for 'do_div()' instead
+>     of 'unsigned long' due to kernel test robot error.
+> 
+> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+> ---
+>  drivers/mtd/nand/raw/nand_macronix.c | 213 +++++++++++++++++++++++++++
+>  1 file changed, 213 insertions(+)
+> 
+> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
+> index 1472f925f386..2301f990678e 100644
+> --- a/drivers/mtd/nand/raw/nand_macronix.c
+> +++ b/drivers/mtd/nand/raw/nand_macronix.c
+> @@ -6,6 +6,7 @@
+>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
+>   */
+>  
+> +#include <linux/slab.h>
+>  #include "linux/delay.h"
+>  #include "internals.h"
+>  
+> @@ -31,6 +32,20 @@
+>  
+>  #define MXIC_CMD_POWER_DOWN 0xB9
+>  
+> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP	0x90
+> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE	0
+> +#define MACRONIX_30LFXG18AC_OTP_PAGES		30
+> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE	2112
+> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE	\
+> +	(MACRONIX_30LFXG18AC_OTP_START_PAGE *	\
+> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES	\
+> +	(MACRONIX_30LFXG18AC_OTP_PAGES *	\
+> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+> +
+> +#define MACRONIX_30LFXG18AC_OTP_EN		BIT(0)
+> +#define MACRONIX_30LFXG18AC_OTP_LOCKED		BIT(1)
+> +
+>  struct nand_onfi_vendor_macronix {
+>  	u8 reserved;
+>  	u8 reliability_func;
+> @@ -316,6 +331,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
+>  	chip->ops.resume = mxic_nand_resume;
+>  }
+>  
+> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+> +					    size_t *retlen,
+> +					    struct otp_info *buf)
+> +{
+> +	if (len < sizeof(*buf))
+> +		return -EINVAL;
+> +
+> +	/* Don't know how to check that OTP is locked. */
+> +	buf->locked = 0;
+> +	buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+> +	buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+> +
+> +	*retlen = sizeof(*buf);
+> +
+> +	return 0;
+> +}
+> +
+> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
+> +{
+> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+> +
+> +	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
+> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> +				 feature_buf);
+> +}
+> +
+> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
+> +{
+> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+> +
+> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> +				 feature_buf);
+> +}
+> +
+> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+> +					loff_t offs_in_flash,
+> +					size_t len, size_t *retlen,
+> +					u_char *buf, bool write)
+> +{
+> +	struct nand_chip *nand;
+> +	size_t bytes_handled;
+> +	off_t offs_in_page;
+> +	uint64_t page;
+> +	void *dma_buf;
+> +	int ret;
+> +
+> +	/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+> +	 * so allocate properly aligned memory for it. This is
+> +	 * needed because cross page accesses may lead to unaligned
+> +	 * buffer address for DMA.
+> +	 */
+> +	dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+> +	if (!dma_buf)
+> +		return -ENOMEM;
+> +
+> +	nand = mtd_to_nand(mtd);
+> +	nand_select_target(nand, 0);
+> +
+> +	ret = macronix_30lfxg18ac_otp_enable(nand);
+> +	if (ret)
+> +		goto out_otp;
+> +
+> +	page = offs_in_flash;
+> +	/* 'page' will be result of division. */
+> +	offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+> +	bytes_handled = 0;
+> +
+> +	while (bytes_handled < len &&
+> +	       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+> +		size_t bytes_to_handle;
+> +
+> +		bytes_to_handle = min_t(size_t, len - bytes_handled,
+> +					MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+> +					offs_in_page);
+> +
+> +		if (write) {
+> +			memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+> +			ret = nand_prog_page_op(nand, page, offs_in_page,
+> +						dma_buf, bytes_to_handle);
+> +		} else {
+> +			ret = nand_read_page_op(nand, page, offs_in_page,
+> +						dma_buf, bytes_to_handle);
+> +			if (!ret)
+> +				memcpy(&buf[bytes_handled], dma_buf,
+> +				       bytes_to_handle);
+> +		}
+> +		if (ret)
+> +			goto out_otp;
+> +
+> +		bytes_handled += bytes_to_handle;
+> +		offs_in_page = 0;
+> +		page++;
+> +	}
+> +
+> +	*retlen = bytes_handled;
+> +
+> +out_otp:
+> +	if (ret)
+> +		dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+> +
+> +	ret = macronix_30lfxg18ac_otp_disable(nand);
+> +	WARN(ret, "failed to leave OTP mode after %s\n",
+> +	     write ? "write" : "read");
+> +	nand_deselect_target(nand);
+> +	kfree(dma_buf);
+> +
+> +	return ret;
+> +}
+> +
+> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
+> +					 size_t len, size_t *rlen,
+> +					 const u_char *buf)
+> +{
+> +	return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
+> +					    true);
+> +}
+> +
+> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
+> +					size_t len, size_t *rlen,
+> +					u_char *buf)
+> +{
+> +	return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
+> +}
+> +
+> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
+> +					size_t len)
+> +{
+> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+> +	struct nand_chip *nand;
+> +	int ret;
+> +
+> +	if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
+> +	    len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
+> +		return -EINVAL;
+> +
+> +	dev_dbg(&mtd->dev, "locking OTP\n");
+> +
+> +	nand = mtd_to_nand(mtd);
+> +	nand_select_target(nand, 0);
+> +
+> +	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
+> +			 MACRONIX_30LFXG18AC_OTP_LOCKED;
+> +	ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> +				feature_buf);
+> +	if (ret) {
+> +		dev_err(&mtd->dev,
+> +			"failed to lock OTP (set features): %i\n", ret);
+> +		nand_deselect_target(nand);
+> +		return ret;
+> +	}
+> +
+> +	/* Do dummy page prog with zero address. */
+> +	feature_buf[0] = 0;
+> +	ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
+> +	if (ret)
+> +		dev_err(&mtd->dev,
+> +			"failed to lock OTP (page prog): %i\n", ret);
+> +
+> +	ret = macronix_30lfxg18ac_otp_disable(nand);
+> +	WARN(ret, "failed to leave OTP mode after lock\n");
+> +
+> +	nand_deselect_target(nand);
+> +
+> +	return ret;
+> +}
+> +
+> +static void macronix_nand_setup_otp(struct nand_chip *chip)
+> +{
+> +	static const char * const supported_otp_models[] = {
+> +		"MX30LF1G18AC",
+> +		"MX30LF2G18AC",
+> +		"MX30LF4G18AC",
+> +	};
+> +	struct mtd_info *mtd;
+> +
+> +	if (!chip->parameters.supports_set_get_features)
+> +		return;
+> +
+> +	if (match_string(supported_otp_models,
+> +			 ARRAY_SIZE(supported_otp_models),
+> +			 chip->parameters.model) < 0)
+> +		return;
+> +
+> +	bitmap_set(chip->parameters.get_feature_list,
+> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+> +	bitmap_set(chip->parameters.set_feature_list,
+> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+> +
+> +	mtd = nand_to_mtd(chip);
+> +	mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
+> +	mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
+> +	mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
+> +	mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
+> +	mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
+> +	mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
+> +}
+> +
+>  static int macronix_nand_init(struct nand_chip *chip)
+>  {
+>  	if (nand_is_slc(chip))
+> @@ -325,6 +537,7 @@ static int macronix_nand_init(struct nand_chip *chip)
+>  	macronix_nand_onfi_init(chip);
+>  	macronix_nand_block_protection_support(chip);
+>  	macronix_nand_deep_power_down_support(chip);
+> +	macronix_nand_setup_otp(chip);
+>  
+>  	return 0;
+>  }
