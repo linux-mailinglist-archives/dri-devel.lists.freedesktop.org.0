@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4138F6FF670
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 17:50:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E346FF6A9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 18:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0424E10E065;
-	Thu, 11 May 2023 15:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E9C10E073;
+	Thu, 11 May 2023 16:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F4410E065;
- Thu, 11 May 2023 15:49:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 177E5619AC;
- Thu, 11 May 2023 15:49:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 389D8C433EF;
- Thu, 11 May 2023 15:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683820195;
- bh=RzwjDhzV3yJQDSeDJjbJnBZmMPRfwj3OgBfoVE7uCZ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CmeVwW1UCj956nS4l+FsyOehTGzvQKTenh+zQTKFD0wnPkSOn/sWszEVoQ8zQzW8l
- zTmFUxreErTlpUOrJ0TrXrwFBLx618+rg+iC32Jp19R11GR8VJL82VPDw8zjVDMYTI
- CofwSQYq2OJwazwdqGwdE4IKCiGOe3uJY3yWowDmSD5L8myiVHp56t+lGNPslsgRaa
- N+ugMdrakI5tfPFzJFxfaX6FDfRzoeQueUQFHk3/g2qGI9C2sXXaC99/np8MA2kkVQ
- lrOiqTv50JAIrU79R7KV1S1pQh9sHB7VK4/Ee8MHlu0p85VCn+gsAeqkYH/28PfXqI
- u7CkQ8CFsn6Dw==
-Date: Thu, 11 May 2023 08:53:31 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v1 1/2] drm/msm/dp: enable HDP plugin/unplugged
- interrupts to hpd_enable/disable
-Message-ID: <20230511155331.2jmfe7xcs5tihdgb@ripper>
-References: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
- <1683750665-8764-2-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJprtQF0x_LCOTrt5bvRnJ+xRz6QxLF6QAP-4Pff6V5TJ2g@mail.gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC5710E073
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 16:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1683820542; i=deller@gmx.de;
+ bh=hOxitp/yaN+69Px02kO6cECAR4+bMiAqGcDDxqr5bj4=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=l6yXOKZHiIm0r5i3aB2VqyGZ6FuFRvtQYKlkazZt+BMEEiCtluT0fIJqlgCBk043R
+ mWg99aCTX7wBfotON0L+6tMKq/aErO5mfCEWPLVRpiuJ71pyBflp1FCJEYlCJf9Caq
+ a/6wh8GFGxE2ZO7H0SVlRGNGI17x0BLHH2syt8i8VfqCTyTReq1di9VJfniRBjVUJZ
+ oa56VC14pOGYEfaciSzV48cAbYidst77uhPN4bvEE/Y1tNtcEhGPuDSKW4ia0Ac/ko
+ VM57mr/EMj9/Ge45vTDbTDlw+USWhobidTnDdVQAMHB02xosXEU8EIEyPJR346pqDm
+ XyUvOjkMbrjzA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.146.253]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5VD8-1qHjVs0yja-0170TE; Thu, 11
+ May 2023 17:55:42 +0200
+Message-ID: <b7e5e4b9-a0c9-96aa-e264-a8ccfac5a768@gmx.de>
+Date: Thu, 11 May 2023 17:55:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprtQF0x_LCOTrt5bvRnJ+xRz6QxLF6QAP-4Pff6V5TJ2g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drivers: fbdev: arcfb: Fix error handling in arcfb_probe()
+To: Zongjie Li <u202112089@hust.edu.cn>, Andrew Morton <akpm@osdl.org>
+References: <20230509112727.3899-1-u202112089@hust.edu.cn>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230509112727.3899-1-u202112089@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nvQGXvbSKhOGnAlC8Od/eLS2GcfsQZ1vvzME7KQ87ecMofiVpZX
+ SyeEslrtNOhQytv9cNg74BGJvt+mH/zcrvC9JFzzVh7mbxLzXSojOwIlmrgTXkcOQPygW7t
+ V1ue1iviHLZcsSe06gTBsAostoo6dPrnW9uFokywYQxo3hCn7kJBu+gxD8nHyIi/Jt/Yulj
+ JY4Q6WSmmZu9R/NSs/BlA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Tq06VYnPlLk=;jg+peQKOTkC+a8UGg6dWmC1XLVD
+ F9j3X8jN/rZ4cVDTjKl6Wqw1IPlIjT7uPo/1vMpBuhq24yqt3dH3q2dmJRpKWKClq+7d4+uqR
+ k525TYJ5pn6EAtO90i2n9XZgqXt3F8p6S1c4yb+YM5qx4hpXUZTjyeqFzMM8DKVnonT36sf7h
+ 7tFNbTOffh242zi5TectolQG08lrAf4Y+8JtFCPOytM0wXHw8FTCrMUm27x8Qrlui6nsSawXx
+ 6/uckt4pymCNLwZhvUKrPGF+iEpe7EmRmCmMzd4NkLH7aBNyL506sKy+/pGoqznp+5XW5uS/Q
+ rOUymI1TMuwSfkeo+53s2RkXMkDF/vR/TjhvzYSSmo8tUfNMjgfnE9jVthRh9/Br7ZPCPxh0U
+ PpUv36NsWtytjOrF0VMOQRBGiPxAnULGfgkt0wKt5w6r/BLzjYMIyDW/iAM45lJeqhbg0mqXu
+ CaBHNdisH5T15ChCFC7uoDiz6uYcNUDiwhyMPhTlmyJd8wuPSVPXGPBfGAAX2BweB9hy7dsDS
+ 1WNqZcPeuimehW/gdXVysqykctkayfKQlZY8rl2zdsV2Y3SNvX/qXv0jgQ60FipzP7bohjew4
+ HokCHv22NAvp9A8nUTCHivb+cHbLcLMlKVqQW0G1GAW1HtG+FIh5pwp6kL8peOGDDwez4z/Um
+ APGrB9sNkht5W61vABGwacZfD0ioSNeuIdeHUpuWgbfHzYKZETYmn9aXF3VyuyLZe9eN8l+TF
+ O980rEcdI0JxhSocQy6tRD2fVwRQVezjqReUw76C8u/StOBXoVGClOzEudmX6JGqF/bg5m7K9
+ XGAv7I51IAt4kP1l8hhikVgseHixJ5T5EnM2X7Wd3u19Mt+03e3mmrya3gWVwoOdkfuSvTW8T
+ U0uzLnNmW8l03L2mV+xVc67xn/qlOQXqFs0+v+K9CdMDTNyVnadkIw35pFp2TKQEto6s85It+
+ 6MaG7MpiKBDi048Ah+/VTdpRu3I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,144 +71,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: hust-os-kernel-patches@googlegroups.com, linux-fbdev@vger.kernel.org,
+ Dongliang Mu <dzm91@hust.edu.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 11, 2023 at 07:24:46AM +0300, Dmitry Baryshkov wrote:
-> On Wed, 10 May 2023 at 23:31, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
-> >
-> > The internal_hpd flag was introduced to handle external DP HPD derived from GPIO
-> > pinmuxed into DP controller. HPD plug/unplug interrupts cannot be enabled until
-> > internal_hpd flag is set to true.
-> > At both bootup and resume time, the DP driver will enable external DP
-> > plugin interrupts and handle plugin interrupt accordingly. Unfortunately
-> > dp_bridge_hpd_enable() bridge ops function was called to set internal_hpd
-> > flag to true later than where DP driver expected during bootup time.
-> >
-> > This causes external DP plugin event to not get detected and display stays blank.
-> > Move enabling HDP plugin/unplugged interrupts to dp_bridge_hpd_enable()/disable() to
-> > set internal_hpd to true along with enabling HPD plugin/unplugged interrupts
-> > simultaneously to avoid timing issue during bootup and resume.
-> >
-> > Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable callbacks")
-> > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> 
-> Thanks for debugging this!
-> 
-> However after looking at the driver I think there is more than this.
-> 
-> We have several other places gated on internal_hpd flag, where we do
-> not have a strict ordering of events.
-> I see that dp_hpd_plug_handle() and dp_hpd_unplug_handle() also toggle
-> DP_DP_IRQ_HPD_INT_MASK and DP_DP_HPD_REPLUG_INT_MASK depending on
-> internal_hpd. Can we toggle all 4 interrupts from the
-> hpd_enable/hpd_disable functions? If we can do it, then I think we can
-> drop the internal_hpd flag completely.
-> 
+On 5/9/23 13:27, Zongjie Li wrote:
+> Smatch complains that:
+> arcfb_probe() warn: 'irq' from request_irq() not released on lines: 587.
+>
+> Fix error handling in the arcfb_probe() function. If IO addresses are
+> not provided or framebuffer registration fails, the code will jump to
+> the err_addr or err_register_fb label to release resources.
+> If IRQ request fails, previously allocated resources will be freed.
+>
+> Fixes: 1154ea7dcd8e ("[PATCH] Framebuffer driver for Arc LCD board")
+> Signed-off-by: Zongjie Li <u202112089@hust.edu.cn>
+> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
 
-Yes, that's what I believe the DRM framework intend us to do.
+applied.
 
-The problem, and reason why I didn't do tat in my series, was that in
-order to update the INT_MASKs you need to clock the IP-block and that's
-done elsewhere.
+Thanks!
+Helge
 
-So, for the internal_hpd case, it seems appropriate to pm_runtime_get()
-in hpd_enable() and unmask the HPD interrupts, and mask the interrupts
-and pm_runtime_put() in hpd_disable().
+> ---
+>   drivers/video/fbdev/arcfb.c | 15 +++++++++------
+>   1 file changed, 9 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/arcfb.c b/drivers/video/fbdev/arcfb.c
+> index 45e64016db32..024d0ee4f04f 100644
+> --- a/drivers/video/fbdev/arcfb.c
+> +++ b/drivers/video/fbdev/arcfb.c
+> @@ -523,7 +523,7 @@ static int arcfb_probe(struct platform_device *dev)
+>
+>   	info =3D framebuffer_alloc(sizeof(struct arcfb_par), &dev->dev);
+>   	if (!info)
+> -		goto err;
+> +		goto err_fb_alloc;
+>
+>   	info->screen_base =3D (char __iomem *)videomemory;
+>   	info->fbops =3D &arcfb_ops;
+> @@ -535,7 +535,7 @@ static int arcfb_probe(struct platform_device *dev)
+>
+>   	if (!dio_addr || !cio_addr || !c2io_addr) {
+>   		printk(KERN_WARNING "no IO addresses supplied\n");
+> -		goto err1;
+> +		goto err_addr;
+>   	}
+>   	par->dio_addr =3D dio_addr;
+>   	par->cio_addr =3D cio_addr;
+> @@ -551,12 +551,12 @@ static int arcfb_probe(struct platform_device *dev=
+)
+>   			printk(KERN_INFO
+>   				"arcfb: Failed req IRQ %d\n", par->irq);
+>   			retval =3D -EBUSY;
+> -			goto err1;
+> +			goto err_addr;
+>   		}
+>   	}
+>   	retval =3D register_framebuffer(info);
+>   	if (retval < 0)
+> -		goto err1;
+> +		goto err_register_fb;
+>   	platform_set_drvdata(dev, info);
+>   	fb_info(info, "Arc frame buffer device, using %dK of video memory\n",
+>   		videomemorysize >> 10);
+> @@ -580,9 +580,12 @@ static int arcfb_probe(struct platform_device *dev)
+>   	}
+>
+>   	return 0;
+> -err1:
+> +
+> +err_register_fb:
+> +	free_irq(par->irq, info);
+> +err_addr:
+>   	framebuffer_release(info);
+> -err:
+> +err_fb_alloc:
+>   	vfree(videomemory);
+>   	return retval;
+>   }
 
-
-But for edp and external HPD-signal we also need to make sure power is
-on while something is connected...
-
-> I went on and checked other places where it is used:
-> - dp_hpd_unplug_handle(), guarding DP_DP_HPD_PLUG_INT_MASK toggling. I
-> think we can drop these two calls completely. The function is under
-> the event_mutex protection, so other events can not interfere.
-> - dp_bridge_hpd_notify(). What is the point of this check? If some
-> other party informs us of the HPD event, we'd better handle it instead
-> of dropping it. Correct?  In other words, I'd prefer seeing the
-> hpd_event_thread removal. Instead of that I think that on
-> HPD/plug/unplug/etc. IRQ the driver should call into the drm stack,
-> then the hpd_notify call should process those events.
-> 
-
-I agree, that seems to be what's expected of us from the DRM framework.
-
-Regards,
-Bjorn
-
-> 
-> > ---
-> >  drivers/gpu/drm/msm/dp/dp_display.c | 27 ++++++++++++++-------------
-> >  1 file changed, 14 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > index 3e13acdf..71aa944 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > @@ -1088,13 +1088,6 @@ static void dp_display_config_hpd(struct dp_display_private *dp)
-> >         dp_display_host_init(dp);
-> >         dp_catalog_ctrl_hpd_config(dp->catalog);
-> >
-> > -       /* Enable plug and unplug interrupts only if requested */
-> > -       if (dp->dp_display.internal_hpd)
-> > -               dp_catalog_hpd_config_intr(dp->catalog,
-> > -                               DP_DP_HPD_PLUG_INT_MASK |
-> > -                               DP_DP_HPD_UNPLUG_INT_MASK,
-> > -                               true);
-> > -
-> >         /* Enable interrupt first time
-> >          * we are leaving dp clocks on during disconnect
-> >          * and never disable interrupt
-> > @@ -1396,12 +1389,6 @@ static int dp_pm_resume(struct device *dev)
-> >
-> >         dp_catalog_ctrl_hpd_config(dp->catalog);
-> >
-> > -       if (dp->dp_display.internal_hpd)
-> > -               dp_catalog_hpd_config_intr(dp->catalog,
-> > -                               DP_DP_HPD_PLUG_INT_MASK |
-> > -                               DP_DP_HPD_UNPLUG_INT_MASK,
-> > -                               true);
-> > -
-> >         if (dp_catalog_link_is_connected(dp->catalog)) {
-> >                 /*
-> >                  * set sink to normal operation mode -- D0
-> > @@ -1801,15 +1788,29 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
-> >  {
-> >         struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> >         struct msm_dp *dp_display = dp_bridge->dp_display;
-> > +       struct dp_display_private *dp;
-> > +
-> > +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> >
-> >         dp_display->internal_hpd = true;
-> > +       dp_catalog_hpd_config_intr(dp->catalog,
-> > +                               DP_DP_HPD_PLUG_INT_MASK |
-> > +                               DP_DP_HPD_UNPLUG_INT_MASK,
-> > +                               true);
-> >  }
-> >
-> >  void dp_bridge_hpd_disable(struct drm_bridge *bridge)
-> >  {
-> >         struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> >         struct msm_dp *dp_display = dp_bridge->dp_display;
-> > +       struct dp_display_private *dp;
-> > +
-> > +       dp = container_of(dp_display, struct dp_display_private, dp_display);
-> >
-> > +       dp_catalog_hpd_config_intr(dp->catalog,
-> > +                               DP_DP_HPD_PLUG_INT_MASK |
-> > +                               DP_DP_HPD_UNPLUG_INT_MASK,
-> > +                               false);
-> >         dp_display->internal_hpd = false;
-> >  }
-> 
-> --
-> With best wishes
-> Dmitry
