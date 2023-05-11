@@ -1,83 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2525A6FEAC5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 06:38:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B236FEACE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 06:39:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084A110E593;
-	Thu, 11 May 2023 04:38:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33D610E596;
+	Thu, 11 May 2023 04:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C975D10E593;
- Thu, 11 May 2023 04:38:28 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34B48r60026430; Thu, 11 May 2023 04:38:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=kmyzR9/pCuKiBXEkNSt3Wpkwdf0YHBcrmnucUAJVQFU=;
- b=Ud6Qr4duA0s1jclb1+08B/KZRhp1JuPIWHKLrjNykPUpTU1UGTOkkdQD2u1iFC0fruKH
- ejLyRPyEJzG/vocIqFWf5aRibIMxx7zdrB/6IcbsFe5zBXIRNEwMJBcKeZKJ4eCgk1AS
- 7RrbETUeElzbsj3hh3yrNkWIovH8EnslfGO6aSCKBBp0kUr2dXw3SFrhkfv0git4fbdD
- /ElpJBbnxRBWPlE/dVgD2DnjxMMT7Ijw9D/+a4DlMX2ByLUWC+8vT6u2XG8Y/QrEw+ME
- O0f2lFFbcCiGP9eiOOfn0v5Iy2NhhALHDnPBCQBvYwkvzgf2rIAYvU1nM7loNMP908rE bQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qg79ct6k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 04:38:23 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34B4cLmU020629
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 04:38:21 GMT
-Received: from [10.110.82.209] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 10 May
- 2023 21:38:20 -0700
-Message-ID: <1a6109ae-7c83-c04e-60c9-dfca6b83d662@quicinc.com>
-Date: Wed, 10 May 2023 21:38:20 -0700
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD83E10E597
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 04:39:51 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4ec8eca56cfso9047178e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 21:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683779989; x=1686371989;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RQLVQkJFQ/faBhReu2ueMCnuIL91erqtpVqo/xwpkJA=;
+ b=D4lhAg7XBxsQvcgiGqj2A2Pe7cz2On2AVz9DbCfrPHcv5Dh+DhMWrSVMWG6k1lPhkZ
+ ODBX+x2DkOQpouMBuON+g7kVOf3ETKJ3Hu58IemXW9WVL9Bf1vvZLjNPU72KqftDQtu7
+ cpiRZAZ6GMk4KBuLyj3klfr2ERw7WV+tfcqQH0jRJcs/7pDfpUXrq4w9G4/ex6U+BP0i
+ L+8oQAfAC0Dz9nuEFD8ZJwhLDDGKhx9+Ra7CWIAOEhWD3LtvtCw0YR8Slz5+9vdq43jo
+ 0O2/cRkr1gRINCTwSO0xH2psg5uhW0J9yI++K9OHbNt2M4bULuqJHjo2ibe4esh7I0Kb
+ 5cVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683779989; x=1686371989;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RQLVQkJFQ/faBhReu2ueMCnuIL91erqtpVqo/xwpkJA=;
+ b=gwGGS8w/nq31RwrRTr1sFhTrzR+rhM0saH3bwk1H0wVsSXnMI3c6wDX0hz6+42BAjT
+ /Gf+6zx+GGdvqn9fZ6fMHuyFqYnfU0TAtJm2QSZYp1wdXY6ZOC4jxfIIn8uE7nZb/3pR
+ x2zN8TAj3YW0339AEF3eliqsF2989/p5F0FeFDNgY0xGCi8AMCF0nraToJGo3BaITwPv
+ DjmD4EY8+uz4Ixj7+h6MPgk68KeJCJexY60EhtludjpAEOj5oIZvprOv8GalNO2gG8e/
+ LJ1PEljsE1NjpaU5NXpmBNdE3h7VXZ2L9B2eCY+Jf/2SsD9aIZXGRqGn59HbBXaJoe7a
+ 4ixg==
+X-Gm-Message-State: AC+VfDyb0/BqkNQ3GpAqL9SPMyo3XLm/wsWsPecYTtekqdr7Kf1T8QF+
+ wyM0ENiXZ7CTUEs62Q0U7i0ptw==
+X-Google-Smtp-Source: ACHHUZ6lH8Hu+PVvErghf0IC43biqp7n5FEPCrQxf3iBmTdwCKHD7ha7oZ50swemwg0PykcylFrJhQ==
+X-Received: by 2002:ac2:4e63:0:b0:4f0:1a32:ca23 with SMTP id
+ y3-20020ac24e63000000b004f01a32ca23mr2342580lfs.40.1683779989399; 
+ Wed, 10 May 2023 21:39:49 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a05651211c700b004f1430ee142sm965115lfr.17.2023.05.10.21.39.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 21:39:48 -0700 (PDT)
+Message-ID: <a6146d03-18d1-b1c6-cdbb-d3527cb9021a@linaro.org>
+Date: Thu, 11 May 2023 07:39:48 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 Subject: Re: [PATCH v6 2/8] drm/msm/dpu: add DPU_PINGPONG_DSC feature bit for
  DPU < 7.0.0
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
 References: <1683756453-22050-1-git-send-email-quic_khsieh@quicinc.com>
  <1683756453-22050-3-git-send-email-quic_khsieh@quicinc.com>
  <b4438422-f24b-7fc1-18cf-3cebdd777530@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <b4438422-f24b-7fc1-18cf-3cebdd777530@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: rFFFP__dUEzwIEK5vlI8wxfpwS8KT_sQ
-X-Proofpoint-ORIG-GUID: rFFFP__dUEzwIEK5vlI8wxfpwS8KT_sQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=786 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305110037
+ <1a6109ae-7c83-c04e-60c9-dfca6b83d662@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1a6109ae-7c83-c04e-60c9-dfca6b83d662@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,87 +91,43 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/10/2023 9:29 PM, Dmitry Baryshkov wrote:
-> On 11/05/2023 01:07, Kuogee Hsieh wrote:
->> DPU < 7.0.0 requires the PINGPONG block to be involved during
->> DSC setting up. Since DPU >= 7.0.0, enabling and starting the DSC
->> encoder engine moved to INTF with the help of the flush mechanism.
+On 11/05/2023 07:38, Abhinav Kumar wrote:
 > 
-> Nit: was moved.
 > 
->> Add a DPU_PINGPONG_DSC feature bit to restrict the availability of
->> dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_{enable,disable}() on the
->> PINGPONG block to DPU < 7.0.0 hardware, as the registers are not
->> available [in the PINGPONG block] on DPU 7.0.0 and higher anymore.
-> 
-> this looks good
-> 
->> Existing call-sites to these callbacks already skip calling into
->> them if the function pointer is NULL.
-> 
-> This is more relevant for patch 3 commit message.
-> 
->> Add DPU_PINGPONG_DSC feature
->> bit to all chipset with DPU < 7.0.0.
-> 
-> This is incorrect, as we do not change the catalog in this patch.
-> 
-
-Sorry but why not? The changes done to dpu_hw_catalog.c do exactly that.
-
+> On 5/10/2023 9:29 PM, Dmitry Baryshkov wrote:
+>> On 11/05/2023 01:07, Kuogee Hsieh wrote:
+>>> DPU < 7.0.0 requires the PINGPONG block to be involved during
+>>> DSC setting up. Since DPU >= 7.0.0, enabling and starting the DSC
+>>> encoder engine moved to INTF with the help of the flush mechanism.
 >>
->> changes in v6:
->> -- split patches and rearrange to keep catalog related files at this 
->> patch
+>> Nit: was moved.
 >>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 6 +++---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 4 +++-
->>   2 files changed, 6 insertions(+), 4 deletions(-)
+>>> Add a DPU_PINGPONG_DSC feature bit to restrict the availability of
+>>> dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_{enable,disable}() on the
+>>> PINGPONG block to DPU < 7.0.0 hardware, as the registers are not
+>>> available [in the PINGPONG block] on DPU 7.0.0 and higher anymore.
 >>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> index 82b58c6..78e4bf6 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> @@ -76,13 +76,13 @@
->>       (BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
->>   #define PINGPONG_SDM845_MASK \
->> -    (BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE))
->> +    (BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE) | 
->> BIT(DPU_PINGPONG_DSC))
->>   #define PINGPONG_SDM845_TE2_MASK \
->> -    (PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
->> +    (PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2) | 
->> BIT(DPU_PINGPONG_DSC))
->>   #define PINGPONG_SM8150_MASK \
->> -    (BIT(DPU_PINGPONG_DITHER))
->> +    (BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_DSC))
->>   #define CTL_SC7280_MASK \
->>       (BIT(DPU_CTL_ACTIVE_CFG) | \
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> index 6ee48f0..dc0a4da 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->> @@ -144,7 +144,8 @@ enum {
->>    * @DPU_PINGPONG_TE2        Additional tear check block for split pipes
->>    * @DPU_PINGPONG_SPLIT      PP block supports split fifo
->>    * @DPU_PINGPONG_SLAVE      PP block is a suitable slave for split fifo
->> - * @DPU_PINGPONG_DITHER,    Dither blocks
->> + * @DPU_PINGPONG_DITHER     Dither blocks
->> + * @DPU_PINGPONG_DSC        PP ops functions required for DSC
->>    * @DPU_PINGPONG_MAX
->>    */
->>   enum {
->> @@ -153,6 +154,7 @@ enum {
->>       DPU_PINGPONG_SPLIT,
->>       DPU_PINGPONG_SLAVE,
->>       DPU_PINGPONG_DITHER,
->> +    DPU_PINGPONG_DSC,
->>       DPU_PINGPONG_MAX
->>   };
+>> this looks good
+>>
+>>> Existing call-sites to these callbacks already skip calling into
+>>> them if the function pointer is NULL.
+>>
+>> This is more relevant for patch 3 commit message.
+>>
+>>> Add DPU_PINGPONG_DSC feature
+>>> bit to all chipset with DPU < 7.0.0.
+>>
+>> This is incorrect, as we do not change the catalog in this patch.
+>>
 > 
+> Sorry but why not? The changes done to dpu_hw_catalog.c do exactly that.
+
+Because the patch does not add this feature bit to any of the chipsets. 
+I think the relevant patch was lost somewhere during the rework/rebase.
+
+
+
+-- 
+With best wishes
+Dmitry
+
