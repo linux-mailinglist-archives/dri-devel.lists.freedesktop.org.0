@@ -1,72 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6466FF7FB
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 19:03:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4156FF7FD
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 19:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0B910E55A;
-	Thu, 11 May 2023 17:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB0D10E578;
+	Thu, 11 May 2023 17:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E30010E55A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:02:57 +0000 (UTC)
+X-Greylist: delayed 167952 seconds by postgrey-1.36 at gabe;
+ Thu, 11 May 2023 17:03:42 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91BEA10E578
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1683824541; i=deller@gmx.de;
- bh=TUfys7E+944TFOkISLZBtPQGBgxCF4KtXqESXjvmNFU=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=scv9qxT93PJ7A0UpCn69G+Ly5nTi+CXfVcQmXYY0h5U3YKxRkMjuKYktk2on7nOFP
- +AXaTie+FVz84ad9703BT/WeO4aZ7ptb8tnaiPfzz6ORJatrz384WE4XZ8i9GYVhna
- 7KmGx8EJWaX1F5XLWgxdLVx7/8Nv5MzpRCysPIfOrdmu9U/LbeEaZxifvRcrDJL3fS
- tL8aoUk5gGBorCdu0HZi7DBndQn+2pRPNZBWktrMw3KCcIZEMSqDrxjeC3V6adWcZu
- etqXIWGauT8+6v/BDBVW/JNiEzv+ZuzNug/MObZqzswP6TaulVmOafXNvyFot1jhf6
- L9qea8qKFiFcA==
+ t=1683824604; i=deller@gmx.de;
+ bh=7I9Jkkt/NmTQ9fRkJEgnoFvGjrbuva3u2fJtZdk8Bxw=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=ALzCbmtWN2xEOqU55rIotE6XGC3duk2BaJ1exKCD3m2323OpGFMOEuNu7jSJznOXf
+ 4jIMUYCQWzTYfathZNy9R3WR8l81KsItrhQVjqzcwgyEkn6W/Qc4wrwmKWQZBUXDnf
+ zM90xkR5niOEzZ8D9gu3aBQdR/493U/dwdxevQsxCps+s11oWZ2ntWhjvxzA4008SJ
+ SIMuXqehbGJsdEQHFrHreULM3L1vrqcke68gC47vb7r5bIazQ7xHOA61B+1yHr/Yqt
+ TeWMLLHqNZL13tLSpR/iASgkfmgQj7DFR4Dl28KX2gzLbKATyL3dhvcCSS7G0sE8bB
+ 5a7L5Xp6lLPZA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([94.134.146.253]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MiJZO-1qRW5D0kr8-00fRyc; Thu, 11
- May 2023 19:02:21 +0200
-Message-ID: <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
-Date: Thu, 11 May 2023 19:02:19 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYvcG-1pk2fM0hNo-00UtD8; Thu, 11
+ May 2023 19:03:24 +0200
+Message-ID: <e7067cfb-9279-7811-03a0-aa7807423f07@gmx.de>
+Date: Thu, 11 May 2023 19:03:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
+Subject: Re: [PATCH v2] video: imsttfb: Fix use after free bug in
+ imsttfb_probe due to lack of error-handling of init_imstt
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
- <15330273260@189.cn>, geert@linux-m68k.org, javierm@redhat.com,
- daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
- kernel@xen0n.name, davem@davemloft.net, arnd@arndb.de, sam@ravnborg.org
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-2-tzimmermann@suse.de>
- <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
- <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
- <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
- <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
+To: Zheng Wang <zyytlz.wz@163.com>
+References: <20230427030841.2384157-1-zyytlz.wz@163.com>
 From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
-In-Reply-To: <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
+In-Reply-To: <20230427030841.2384157-1-zyytlz.wz@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ufxNy/weZGscP6z1+yJxtdDriOq+3MhqVBYT0w/Jb/4wi8A99Ir
- q3ByFzMRRO4dUqy7hFc+cC6yNkkK2QSqIE54t5POprgelcLfG2ncw6s4alEeJ111FqnqJFa
- 8Kp05TDsMboSk///SW2zrtsgTJUrfeLaADKzc6qnZG/Mlam9qihDJzKya1HMoK80D71UubL
- wAcLsIQy/lrxpKfcj/x1Q==
+X-Provags-ID: V03:K1:k+taHfTALszqr4Kw7n1Z8Vy6ExMuab4R2Bp9DOHOdiJMSnlKQ8j
+ Ar/ZTg85twVxmjOGGjOsP6skjdTeTThiOVJvaw28G/rZoangacNc5ArR3u+MXErbfqVH/rp
+ XccIOPKeRbocGf6A4x75fAus7eGziCrKUYFTmJoXnX6vHR6S9+OnkeCsK/vPDb4AQ1oQ2WW
+ 3QLTma1L0iTTxb9xq568w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1SaGdAIIpdA=;9AItiyXmKn/Gp7RMlGxwmCRodmr
- CWgfSrtW37wCM0eDyOgjgDthyt7iwvZxUQNOKI/GSiLUf5QrDOLS3fBoliHuMG2JxPPo3p6zW
- ys7XBwtkfXF6888crwuYFTFYt6DOu8MUXAPTy5QpV1zcCkbORuigAI4JMNScZW9U4R6zwl608
- lDCYZHTHDaoX1sFBFD/F7hSovTMkxooObtEJe3lLBtrcj02z+3iC9IaPTZp1Dk+u0NTRLhOc2
- p3Ni45n755W/QPjVeW64D5nwYN+WN0c1NM4Q0E/Zy0inYF4QmTAnINJ42+nqRIXzOp4CDefOD
- TahZjko9NbIqPwZDlv2ca65IJISU4ZXxyl0CwIfRWK3PrPROxY5R4Qp28iMuzuMl2GEZrdS8n
- gxXGsBtGQhWh6PPcbDeZ6EEzWeoZDZOdAXsNpXnd1lNQpvUyx4Yed/88XM/rafMboYdnaJmBY
- orb7xp1ZfLXqbaGCUzGh02pxQ/oBKek13pI6o6sB4sZ/ZnO/43dbfdpvjILnA6kV6O0V1Jhx/
- YofcmeYIg9H1KJgoIkTdN1KELUR9kzilR4xETfVWMdC8dkXeqUh1AGaOqag3iU97brNv/ilLD
- n2NltCLggIAu4psorNUxCx705HkK2uFfOWi6B3r4RbX5V4/D0CMzUIpSEwd6oB7ORk+5BY8qN
- e2LFmWrtkGd55nGb+MBbTFccLE6jNdNW/qAolaxEYq21PiSA+WwkPnW3Toelu0Y2EjDlaO/mD
- VB2IIkHuaI15Ctzb5wVa613FEyt2c6/6K9hRfXtRGn8O5pItAxtb4okfEUTgdd+jMOxNy4zAb
- UoaCQv8l1eBXdWgQwQ0m1Z3zIDXeLrJODqLk2XTzGJxg+WyWQTzHJtHIVuSSxfkyhT2wdwEBA
- ic+AnpERUoBaWMpNmC2aEGeMMWq6Qnz4FCozkmhRStfC1q501JfllQvAz40v6a9zMa+ZE9N4b
- eVR7qc1FPZIoBv1aUAH2VDqh+Ww=
+UI-OutboundReport: notjunk:1;M01:P0:ly589kscYps=;kx/4L3VmFDejlgGqJDg9SyD8iFF
+ bbvaW+A38KNF4+z69frWEoc3cGiS1zKIyC2GSjm9c26OGjuohOrUHy1Vwc2/lV9yDzMPu3YU5
+ tE2agaIUHo/WMopFWKz92h7e4ylrcsvlSEXjHNVxlO+gMo1R0vTYuR6FCtEFwYiyDXxeslCbw
+ sjn1U41t+KBDuNPjhX0qFwcKPD9XuicbYpJBLOtvdzonnJhT6GfIp3hfcW2QZAzfpzsv3kY8G
+ 0OLUfbAr+1EuFwxJ/ypz9EhbJPpH9NHgvVDb/SL0IMdyCUe2xBLAHUXbPryU0z7NFh31b4vgV
+ cRI9z7+elQZAlaRPBXnXbDF8z5W/JUd93M2dhekjpHmJxMq1X4e6ga/Fry22PjnQ7WjHh+utg
+ zXw22wWsbVIGx5U+vPBqJiE7OpeaQoC5Oqbftasos9ElOjktkbtRgtQxw1e+QYap3yYX4L4qw
+ UUymW5W9Klalj4E1q6MgLrFlBj6vzD6hHimiYJUzSqolc57dXTCkYkkNZS4me5DxWKdzBnsGJ
+ xNltQrpkH/S1Wu9b2O/KW2usqDUb5Cowb2h3fe85QazaoVDui1n447gul93rjRaqTOH28HMOC
+ 9SKTeDw4BQv+VNllSl2LMUuJhL+ytl44jDfHMWM3+Sd4JCs28cb4DsDpn5mIQJmRGJwlq2rk/
+ wnw3+eF4y0+y/epPcg8qnkEiCWguzOH1M91DFaUoD13tDK4DtDswsgldRwdEjlek6Bzgkfebb
+ 4aWKFNX/V6kwlX4NuZ2tGcxZD6l1HSsx0UB6n9q5H2KOBDivYsiWZmr2HLwgYQ32Q6VF4VChj
+ vOZxribwsRqK6lTPWievdpinNLZiilQuWA83yKyyhBBvHxnXZYS/3EXSGjrlmnFcE6VsUmlJi
+ RQX0B4CreUCcPWffx47Q8RmYFpKdNGQCj0Veje+j1M+f+Rew9Nua8sf860YunKQJ4vFiUMHkZ
+ dkTPq0om+Css7JMQH0FE3+ub2g8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,106 +74,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: alex000young@gmail.com, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, 1395428693sheep@gmail.com,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/11/23 16:27, Thomas Zimmermann wrote:
->>> But the work I do within fbdev is mostly for improving DRM.
->>
->> Sure.
->>
->>> For the
->>> other issues in this file, I don't think that matroxfb should even be
->>> around any longer. Fbdev has been deprecated for a long time. But a
->>> small number of drivers are still in use and we still need its
->>> framebuffer console. So someone should either put significant effort
->>> into maintaining fbdev, or it should be phased out. But neither is
->>> happening.
->>
->> You're wrong.
+On 4/27/23 05:08, Zheng Wang wrote:
+> A use-after-free bug may occur if init_imstt invokes framebuffer_release
+> and free the info ptr. The caller, imsttfb_probe didn't notice that and
+> still keep the ptr as private data in pdev.
 >
-
-> I'm not. I don't claim that these drivers are all broken. But fbdev
-> as a whole is bit-rotting and no one attempts to address this. There
-> are several recent examples of this:
+> If we remove the driver which will call imsttfb_remove to make cleanup,
+> UAF happens.
 >
-> * I recently send out a 100-patches series to improve parameter
-> parsing and avoid memory leaks. That got shot down. I didn't attempt
-> to support parameter parsing for module builds.
-
-Your work is appreciated and it wasn't shot down, but it wasn't perfect ei=
-ther.
-
-> * There's been a 15-yrs old bug in fbdev's read/write where they
-> return an incorrect value.
-
-?
-
-> * See the other discussion on this patchset on the state of hitfb.
+> Fix it by return error code if bad case happens in init_imstt.
 >
-> * The fbdev code I recently cleaned up had bugs in how it uses some
-> of fbdev's basic building blocks (see the screen_base/screen_buffer
-> confusion).
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
 
-As you said... some (little-used/outdated) drivers may have issues
-which of course show up if one starts to clean up, as you do.
-On a per-driver basis it can make sense to drop a specific driver.
-
-> * <asm-generic/fb.h> has been in the tree since 2009 and no one
-> attempted to include it until now.
->
-> None of this is a sign of good maintenance.
-> As I've worked on DRM's fbdev emulation a lot, I try to be a good
-> kernel citizen and clean up in fbdev as well when I see a problem.> But =
-I'd really like to see most of these drivers being moved into
-> staging and deleted soon afterwards. Users will complain about those
-> drivers that are really still required. Those might be worth to spend
-> effort on.
-
-I'd really like to see a way forward and get the required drivers over to
-DRM, e.g. based on your simpledrm driver.
-If there is a way to get basic on-screen 2D bitblt and fillrect support,
-it would drop the need for most of the fbdev drivers.
-The current way of bitblt'ing from a buffer on regular basis istoo slow fo=
-r such older cards. Even on new hardware in emulators there
-is a big slowdown visible.
-
->> You don't mention that for most older machines DRM isn't an
->> acceptable way to go due to it's limitations, e.g. it's low-speed
->> due to missing 2D-acceleration for older cards and and it's
->> incapability to change screen resolution at runtime (just to name
->> two of the bigger limitations here).
->
-> You can change resolution at runtime; just not through fbdev ioctls.
-> There's no technical limitation here. No one found any use for this,
-> so it's not there.
-
-fbdev drivers would need that when ported to DRM.
->> So, unless we somehow find a good way to move such drivers over to
->> DRM (with a set of minimal 2D acceleration), they are still
->> important.
->
-> 2d acceleration is mostly useful for the framebuffer console.
-
-and X11
-
-> You can
-> do that with DRM and drivers have (nouveau). It just didn't make a
-> meaningful difference in most cases.
-
-if nouveau got it, can't it be done for simpledrm in a generic way too?
-
->> Actually, I just did test matroxfb and pm2fb successfully a few
->> days back, and they worked. For some smaller issues I've prepared
->> patches, which are on hold due conflicts with your latest
->> file-move-around- and whitespace-changes which are partly in
->> drm-misc. And I do have some upcoming additional patches for
->> console support.
-
+applied.
+Thanks!
 Helge
+
+> ---
+> v2:
+> - add return error code in another location.
+> ---
+>   drivers/video/fbdev/imsttfb.c | 15 ++++++++-------
+>   1 file changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/imsttfb.c b/drivers/video/fbdev/imsttfb=
+.c
+> index bea45647184e..975dd682fae4 100644
+> --- a/drivers/video/fbdev/imsttfb.c
+> +++ b/drivers/video/fbdev/imsttfb.c
+> @@ -1347,7 +1347,7 @@ static const struct fb_ops imsttfb_ops =3D {
+>   	.fb_ioctl 	=3D imsttfb_ioctl,
+>   };
+>
+> -static void init_imstt(struct fb_info *info)
+> +static int init_imstt(struct fb_info *info)
+>   {
+>   	struct imstt_par *par =3D info->par;
+>   	__u32 i, tmp, *ip, *end;
+> @@ -1420,7 +1420,7 @@ static void init_imstt(struct fb_info *info)
+>   	    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres)))=
+ {
+>   		printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->va=
+r.yres, info->var.bits_per_pixel);
+>   		framebuffer_release(info);
+> -		return;
+> +		return -ENODEV;
+>   	}
+>
+>   	sprintf(info->fix.id, "IMS TT (%s)", par->ramdac =3D=3D IBM ? "IBM" :=
+ "TVP");
+> @@ -1456,12 +1456,13 @@ static void init_imstt(struct fb_info *info)
+>
+>   	if (register_framebuffer(info) < 0) {
+>   		framebuffer_release(info);
+> -		return;
+> +		return -ENODEV;
+>   	}
+>
+>   	tmp =3D (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
+>   	fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
+>   		info->fix.id, info->fix.smem_len >> 20, tmp);
+> +	return 0;
+>   }
+>
+>   static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device=
+_id *ent)
+> @@ -1529,10 +1530,10 @@ static int imsttfb_probe(struct pci_dev *pdev, c=
+onst struct pci_device_id *ent)
+>   	if (!par->cmap_regs)
+>   		goto error;
+>   	info->pseudo_palette =3D par->palette;
+> -	init_imstt(info);
+> -
+> -	pci_set_drvdata(pdev, info);
+> -	return 0;
+> +	ret =3D init_imstt(info);
+> +	if (!ret)
+> +		pci_set_drvdata(pdev, info);
+> +	return ret;
+>
+>   error:
+>   	if (par->dc_regs)
+
