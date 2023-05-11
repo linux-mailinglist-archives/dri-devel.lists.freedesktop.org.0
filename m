@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FF86FF2F5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374026FF2F9
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A61410E253;
-	Thu, 11 May 2023 13:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2647110E261;
+	Thu, 11 May 2023 13:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 438B610E0F7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:34:20 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-6439df6c268so5375057b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:34:20 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713B710E251
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:34:21 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-64395e2a715so8630906b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683812060; x=1686404060;
+ d=gmail.com; s=20221208; t=1683812061; x=1686404061;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nFOqkcQLLXbcUCNMC4nXxtnD0IYkCz/oJKuj034INls=;
- b=ZCUHyyVcvAAoCdOafCtA4n7c8liYHGSBLP/9JWCiIyfBsuOFYnb9Od2VddtQTddZsB
- tSZdSk7DSwOjGdyyZAqeYlijt6hojNfFE9q+yFk2EvKYTCzx0UEv7g3XyibLY81uTKaa
- o4AZJt2FbG4isB7qvKcMsxVon1NizgL13UxUJaWMwemV/epyrmm6IrXao1eYUrabtyRp
- MOZ4P5hGjVnMhCXIwpGBAp+rGz86SHC0XtIl7cC3iFruuaXK+pZ+R4Db9QVFVxjFiUTB
- vx6puMKL8dLHZqnrsnHVyysyczSXGGLH9GmpAda5Os8zbpmx0AQLNgPvUxmQxiIugo85
- IGag==
+ bh=RsvhjdJ96ntIxsMiGpISSADki1JCUqV8akNIjg6qYNQ=;
+ b=RLm1Z4+I9ZqxDMfqOxEbRktK7MHUZ6BislKFd4vk5MQP+hxHsvNxlRQ8huH7AWczGC
+ Pt4wVDz7ub/1CgQq/Aa5t/bMPvFUIEMBnkr6valeDJpX2IeFWOsxOmjV8Wna3MGkHui4
+ wdbswQLL4Gr0mOBaIDqesz6VbdR7l9fsFoVhUsAkN5lxQm38Fhhu9GhQOjFYujPXWprb
+ wH4pivA+QYm9wLlOwQ4hTSLstz2xFFDn2SBWWnsIPrInKhcUHww1zgY22V/vk8tPLi4C
+ x0BLH0qa7nMWUmcgKaoFVIIP6uaFF+2BNMqTnbq25qkcCNwPzPEJqqR2MxUXHolmDunM
+ 0UuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683812060; x=1686404060;
+ d=1e100.net; s=20221208; t=1683812061; x=1686404061;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nFOqkcQLLXbcUCNMC4nXxtnD0IYkCz/oJKuj034INls=;
- b=bfdry24kqDhzOJSWXccwuPdjp5ImM0h9obOZcKaZYOg/sPa+qqZ1qB04PH8uxUn4Ay
- pY/VifweFf2WeVk7S1kgpyAEJfTRMjJq8gJKAqUGG5yPu6JMUhdUfB0Xt+es+3kkeGEu
- HISN5FsMqkwuQkpxjwL12r04NzfeoWA8iC6gv4k0an4p2Co5zrnrzW8gGM9481+nofH4
- VUQYjsPeYvPMl0gX/YOIozsvQI7xnxe1GSMtpkKUiyIFMhDdkKj+1nkvrumhKdWrqhI+
- l8HKtqwvZc1Rds/N4OW86Z7v7+RhRwsb8Arpgi2jVSAkKSanLwVneCVhdqp2xMAkTVgc
- myfA==
-X-Gm-Message-State: AC+VfDz/Mrh8TwqEuwUIM5hoIwMLOyPI2fatwMx6rKKdkdA/SMovZKfJ
- bRDLQRajnt9BKnyAt+IeLcQ=
-X-Google-Smtp-Source: ACHHUZ5Yi06llRCu2mM9uS4jssvYi6G9YBgC/4EKP+eX38MkFDoX6HanBhqoBSMudy9nftfmGF4Umg==
-X-Received: by 2002:a05:6a00:24d1:b0:646:ec88:998c with SMTP id
- d17-20020a056a0024d100b00646ec88998cmr14586028pfv.15.1683812059640; 
- Thu, 11 May 2023 06:34:19 -0700 (PDT)
+ bh=RsvhjdJ96ntIxsMiGpISSADki1JCUqV8akNIjg6qYNQ=;
+ b=O12gGq00GM9ep5Y4Rp+X5rC/7g0F8MijS0KfsocunSlQb2eaj/HN8g95js+A2Lo+mf
+ NQCxZJsUgBgNTILdd9SWLyhiRbtx9grnGwC0qgNa5yyBFHOaSl9e6fhJfBuvGfDMRyFa
+ Cb0RywGgOlu1JcHdZ9fUYZgoAEGSAO6QfKTyFLkLyTuZXnge0NqWM/7NVfqoaFW2td/H
+ qOjUN5oHJFwfh1q5rGdsggp1fHjmcrvp0MeoU0Cpw4+JVXblrwdkUgEL9aDhw2e8muf5
+ fSaw2BegB6XSlUrJL/cj365tYQ+VZK0TQsLNNt2AHzGzRSu2mvUtLX+CXfYr+aoAIBcT
+ 8kyg==
+X-Gm-Message-State: AC+VfDxr3c2aychffmVCgxY9pdZNtbkWm3aMTy0wJ8jrbkuRZvJDXtul
+ gxxjvSOGaOwqyQ37QxmJpY4=
+X-Google-Smtp-Source: ACHHUZ6zECQCJE3075jyqS4CM91H1WwzMQ84EOryKcwcxEnrXxgMjgj2hgcfxD9eruWg6E8IW/VTgA==
+X-Received: by 2002:a05:6a20:918b:b0:101:4348:3e44 with SMTP id
+ v11-20020a056a20918b00b0010143483e44mr12787576pzd.12.1683812060884; 
+ Thu, 11 May 2023 06:34:20 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
  by smtp.gmail.com with ESMTPSA id
- u18-20020aa78492000000b006470a6ef529sm4895458pfn.88.2023.05.11.06.34.18
+ e35-20020a635463000000b0051b70c8d446sm4968249pgm.73.2023.05.11.06.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 06:34:18 -0700 (PDT)
+ Thu, 11 May 2023 06:34:19 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
- id CE01210680B; Thu, 11 May 2023 20:34:10 +0700 (WIB)
+ id 0C9BD106979; Thu, 11 May 2023 20:34:11 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -61,20 +61,19 @@ To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Staging Drivers <linux-staging@lists.linux.dev>,
  Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
  Linux Kernel Actions <linux-actions@lists.infradead.org>
-Subject: [PATCH 08/10] drivers: watchdog: Replace GPL license notice with SPDX
- identifier
-Date: Thu, 11 May 2023 20:34:04 +0700
-Message-Id: <20230511133406.78155-9-bagasdotme@gmail.com>
+Subject: [PATCH 09/10] udf: Replace license notice with SPDX identifier
+Date: Thu, 11 May 2023 20:34:05 +0700
+Message-Id: <20230511133406.78155-10-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
 References: <20230511133406.78155-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9182; i=bagasdotme@gmail.com;
- h=from:subject; bh=48g2oyfhDHzUYBcXnko4ERoWGH+5mzIFU4TjL0WXw5E=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx706EdjQ3Bpu1Twi42FI6vT95XrVWDUdKo+Hmoq+Bp
- R2m/7Z3lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCJqUxkZ2pLttPzk0g/vXPhS
- MiFKNqeiidehNv92k+mC+nWTpsgfYfjvZ5//pTFbMiRnzwGOuooo1XJXIwnOZy0ZVfO3H11z5gs
- vAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14877; i=bagasdotme@gmail.com;
+ h=from:subject; bh=tey5LajupxhReMk4nez7njbiOBtLjbLleZ6OYhO4cd8=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx7074Bv5MzL4mdvT4uTkNi1r4w956vDarXWsQ+Kpvj
+ 0tyvtLxjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyEwZqR4WnbjTsTFl7b2ewf
+ wtlm4yVpkjePZ4GwR56A9rtXf+dqJDD8r2+fKLXuK2tyBUusyTe3D48/pJW5Pp3X+TTXcZVBxtJ
+ TnAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Type: text/plain; charset=UTF-8
@@ -94,286 +93,453 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Kate Stewart <kstewart@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
  Tom Rix <trix@redhat.com>, Dominik Brodowski <linux@dominikbrodowski.net>,
  Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Jonas Jensen <jonas.jensen@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
  Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
  Dan Carpenter <error27@gmail.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Marc Zyngier <maz@kernel.org>, Minghao Chi <chi.minghao@zte.com.cn>,
- Oleg Drokin <green@crimea.edu>, Simon Horman <simon.horman@corigine.com>,
+ Minghao Chi <chi.minghao@zte.com.cn>, Simon Horman <simon.horman@corigine.com>,
  Jacob Keller <jacob.e.keller@intel.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
- Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
- Sylver Bruneau <sylver.bruneau@googlemail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
+ Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
  Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
  Kalle Valo <kvalo@kernel.org>, Yang Yingliang <yangyingliang@huawei.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
  "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
  David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Ray Lehtiniemi <rayl@mail.com>, Archana <craechal@gmail.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Karsten Keil <isdn@linux-pingi.de>,
- Deepak R Varma <drv@mailo.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Archana <craechal@gmail.com>,
+ Karsten Keil <isdn@linux-pingi.de>, Deepak R Varma <drv@mailo.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "David S. Miller" <davem@davemloft.net>,
- Denis Turischev <denis@compulab.co.il>,
  Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
  =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
  Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many watchdog drivers's source files has already SPDX license
-identifier, while some remaining doesn't.
+Except Kconfig and Makefile, all source files for UDF filesystem doesn't
+bear SPDX license identifier. Add appropriate license identifier while
+replacing boilerplates.
 
-Convert notices on remaining files to SPDX identifier.
-
-Cc: Ray Lehtiniemi <rayl@mail.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>
-Cc: Andrey Panin <pazke@donpac.ru>
-Cc: Oleg Drokin <green@crimea.edu>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Jonas Jensen <jonas.jensen@gmail.com>
-Cc: Sylver Bruneau <sylver.bruneau@googlemail.com>
-Cc: Andrew Sharp <andy.sharp@lsi.com>
-Cc: Denis Turischev <denis@compulab.co.il>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/watchdog/ep93xx_wdt.c     | 5 +----
- drivers/watchdog/ibmasr.c         | 3 +--
- drivers/watchdog/m54xx_wdt.c      | 4 +---
- drivers/watchdog/max63xx_wdt.c    | 5 +----
- drivers/watchdog/moxart_wdt.c     | 4 +---
- drivers/watchdog/octeon-wdt-nmi.S | 5 +----
- drivers/watchdog/orion_wdt.c      | 4 +---
- drivers/watchdog/rtd119x_wdt.c    | 2 +-
- drivers/watchdog/sb_wdog.c        | 5 +----
- drivers/watchdog/sbc_fitpc2_wdt.c | 4 +---
- drivers/watchdog/ts4800_wdt.c     | 4 +---
- drivers/watchdog/ts72xx_wdt.c     | 4 +---
- 12 files changed, 12 insertions(+), 37 deletions(-)
+ fs/udf/balloc.c    |  6 +-----
+ fs/udf/dir.c       |  6 +-----
+ fs/udf/directory.c |  6 +-----
+ fs/udf/ecma_167.h  | 24 +-----------------------
+ fs/udf/file.c      |  6 +-----
+ fs/udf/ialloc.c    |  6 +-----
+ fs/udf/inode.c     |  6 +-----
+ fs/udf/lowlevel.c  |  6 +-----
+ fs/udf/misc.c      |  6 +-----
+ fs/udf/namei.c     |  6 +-----
+ fs/udf/osta_udf.h  | 24 +-----------------------
+ fs/udf/partition.c |  6 +-----
+ fs/udf/super.c     |  6 +-----
+ fs/udf/symlink.c   |  6 +-----
+ fs/udf/truncate.c  |  6 +-----
+ fs/udf/udftime.c   | 19 +------------------
+ fs/udf/unicode.c   |  6 +-----
+ 17 files changed, 17 insertions(+), 134 deletions(-)
 
-diff --git a/drivers/watchdog/ep93xx_wdt.c b/drivers/watchdog/ep93xx_wdt.c
-index 38e26f160b9a57..f5d70842617fe9 100644
---- a/drivers/watchdog/ep93xx_wdt.c
-+++ b/drivers/watchdog/ep93xx_wdt.c
+diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
+index 14b9db4c80f03f..a56eb6975d19c8 100644
+--- a/fs/udf/balloc.c
++++ b/fs/udf/balloc.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * Watchdog driver for Cirrus Logic EP93xx family of devices.
+  * balloc.c
   *
-@@ -11,10 +12,6 @@
-  * Copyright (c) 2012 H Hartley Sweeten <hsweeten@visionengravers.com>
-  *	Convert to a platform device and use the watchdog framework API
+@@ -5,11 +6,6 @@
+  *	Block allocation handling routines for the OSTA-UDF(tm) filesystem.
   *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
 - *
-  * This watchdog fires after 250msec, which is a too short interval
-  * for us to rely on the user space daemon alone. So we ping the
-  * wdt each ~200msec and eventually stop doing it if the user space
-diff --git a/drivers/watchdog/ibmasr.c b/drivers/watchdog/ibmasr.c
-index 4a22fe15208630..df03f3b2659a3e 100644
---- a/drivers/watchdog/ibmasr.c
-+++ b/drivers/watchdog/ibmasr.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * IBM Automatic Server Restart driver.
+  *  (C) 1999-2001 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
   *
-@@ -6,8 +7,6 @@
-  * Based on driver written by Pete Reynolds.
-  * Copyright (c) IBM Corporation, 1998-2004.
-  *
-- * This software may be used and distributed according to the terms
-- * of the GNU Public License, incorporated herein by reference.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/m54xx_wdt.c b/drivers/watchdog/m54xx_wdt.c
-index f388a769dbd33d..9ca80b6c1790b6 100644
---- a/drivers/watchdog/m54xx_wdt.c
-+++ b/drivers/watchdog/m54xx_wdt.c
+diff --git a/fs/udf/dir.c b/fs/udf/dir.c
+index 212393b12c2266..015e17382f975e 100644
+--- a/fs/udf/dir.c
++++ b/fs/udf/dir.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * drivers/watchdog/m54xx_wdt.c
+  * dir.c
   *
-@@ -11,9 +12,6 @@
-  *  Copyright 2004 (c) MontaVista, Software, Inc.
-  *  Based on sa1100 driver, Copyright (C) 2000 Oleg Drokin <green@crimea.edu>
+@@ -5,11 +6,6 @@
+  *  Directory handling routines for the OSTA-UDF(tm) filesystem.
   *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/max63xx_wdt.c b/drivers/watchdog/max63xx_wdt.c
-index 9e1541cfae0d89..811f6dabad2c08 100644
---- a/drivers/watchdog/max63xx_wdt.c
-+++ b/drivers/watchdog/max63xx_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * drivers/char/watchdog/max63xx_wdt.c
-  *
-@@ -5,10 +6,6 @@
-  *
-  * Copyright (C) 2009 Marc Zyngier <maz@misterjones.org>
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
 - *
-  * This driver assumes the watchdog pins are memory mapped (as it is
-  * the case for the Arcom Zeus). Should it be connected over GPIOs or
-  * another interface, some abstraction will have to be introduced.
-diff --git a/drivers/watchdog/moxart_wdt.c b/drivers/watchdog/moxart_wdt.c
-index 6340a1f5f471b2..c87873c7d13f86 100644
---- a/drivers/watchdog/moxart_wdt.c
-+++ b/drivers/watchdog/moxart_wdt.c
-@@ -1,3 +1,4 @@
+  *  (C) 1998-2004 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/directory.c b/fs/udf/directory.c
+index 654536d2b60976..3b65d5dc70b008 100644
+--- a/fs/udf/directory.c
++++ b/fs/udf/directory.c
+@@ -1,14 +1,10 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * MOXA ART SoCs watchdog driver.
+  * directory.c
   *
-@@ -5,9 +6,6 @@
+  * PURPOSE
+  *	Directory related functions
   *
-  * Jonas Jensen <jonas.jensen@gmail.com>
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
+- * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
   */
  
- #include <linux/clk.h>
-diff --git a/drivers/watchdog/octeon-wdt-nmi.S b/drivers/watchdog/octeon-wdt-nmi.S
-index 97f6eb7b5a8e04..e308cc74392018 100644
---- a/drivers/watchdog/octeon-wdt-nmi.S
-+++ b/drivers/watchdog/octeon-wdt-nmi.S
-@@ -1,8 +1,5 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
+ #include "udfdecl.h"
+diff --git a/fs/udf/ecma_167.h b/fs/udf/ecma_167.h
+index de17a97e866742..961e7bf5cb5c00 100644
+--- a/fs/udf/ecma_167.h
++++ b/fs/udf/ecma_167.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
  /*
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file "COPYING" in the main directory of this archive
-- * for more details.
+  * ecma_167.h
+  *
+@@ -8,29 +9,6 @@
+  * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
+  * All rights reserved.
+  *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
 - *
-  * Copyright (C) 2007-2017 Cavium, Inc.
-  */
- #include <asm/asm.h>
-diff --git a/drivers/watchdog/orion_wdt.c b/drivers/watchdog/orion_wdt.c
-index 5ec2dd8fd5fa3d..938b357a12b911 100644
---- a/drivers/watchdog/orion_wdt.c
-+++ b/drivers/watchdog/orion_wdt.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * drivers/watchdog/orion_wdt.c
-  *
-@@ -5,9 +6,6 @@
-  *
-  * Author: Sylver Bruneau <sylver.bruneau@googlemail.com>
-  *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/rtd119x_wdt.c b/drivers/watchdog/rtd119x_wdt.c
-index 95c8d7abce42e6..1c3c36e9779739 100644
---- a/drivers/watchdog/rtd119x_wdt.c
-+++ b/drivers/watchdog/rtd119x_wdt.c
-@@ -1,9 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
- /*
-  * Realtek RTD129x watchdog
-  *
-  * Copyright (c) 2017 Andreas Färber
-  *
-- * SPDX-License-Identifier: GPL-2.0+
-  */
- 
- #include <linux/bitops.h>
-diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-index 504be461f992a9..00b35eddf9395f 100644
---- a/drivers/watchdog/sb_wdog.c
-+++ b/drivers/watchdog/sb_wdog.c
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0 OR GPL-2.0 */
- /*
-  * Watchdog driver for SiByte SB1 SoCs
-  *
-@@ -38,10 +39,6 @@
-  *	(c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-  *						All Rights Reserved.
-  *
-- *	This program is free software; you can redistribute it and/or
-- *	modify it under the terms of the GNU General Public License
-- *	version 1 or 2 as published by the Free Software Foundation.
+- * Alternatively, this software may be distributed under the terms of the
+- * GNU Public License ("GPL").
 - *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
   */
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-diff --git a/drivers/watchdog/sbc_fitpc2_wdt.c b/drivers/watchdog/sbc_fitpc2_wdt.c
-index 13db71e165836e..141fcbd11c4c82 100644
---- a/drivers/watchdog/sbc_fitpc2_wdt.c
-+++ b/drivers/watchdog/sbc_fitpc2_wdt.c
+ /**
+diff --git a/fs/udf/file.c b/fs/udf/file.c
+index 8238f742377bab..a13622121a63c5 100644
+--- a/fs/udf/file.c
++++ b/fs/udf/file.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * Watchdog driver for SBC-FITPC2 board
+  * file.c
   *
-@@ -5,9 +6,6 @@
+@@ -5,11 +6,6 @@
+  *  File handling routines for the OSTA-UDF(tm) filesystem.
   *
-  * Adapted from the IXP2000 watchdog driver by Deepak Saxena.
-  *
-- * This file is licensed under  the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME " WATCHDOG: " fmt
-diff --git a/drivers/watchdog/ts4800_wdt.c b/drivers/watchdog/ts4800_wdt.c
-index 0ea554c7cda579..9d7d7ad876a788 100644
---- a/drivers/watchdog/ts4800_wdt.c
-+++ b/drivers/watchdog/ts4800_wdt.c
-@@ -1,11 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Watchdog driver for TS-4800 based boards
-  *
-  * Copyright (c) 2015 - Savoir-faire Linux
-  *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/watchdog/ts72xx_wdt.c b/drivers/watchdog/ts72xx_wdt.c
-index bf918f5fa13175..bb53dc481006c9 100644
---- a/drivers/watchdog/ts72xx_wdt.c
-+++ b/drivers/watchdog/ts72xx_wdt.c
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-1999 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/ialloc.c b/fs/udf/ialloc.c
+index 8d50121778a57d..67a869cbf5987b 100644
+--- a/fs/udf/ialloc.c
++++ b/fs/udf/ialloc.c
 @@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
  /*
-  * Watchdog driver for Technologic Systems TS-72xx based SBCs
-  * (TS-7200, TS-7250 and TS-7260). These boards have external
-@@ -8,9 +9,6 @@
+  * ialloc.c
   *
-  * This driver is based on ep93xx_wdt and wm831x_wdt drivers.
+@@ -5,11 +6,6 @@
+  *	Inode allocation handling routines for the OSTA-UDF(tm) filesystem.
   *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2. This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+index 1e71e04ae8f6b9..7c1e083223211c 100644
+--- a/fs/udf/inode.c
++++ b/fs/udf/inode.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * inode.c
+  *
+@@ -5,11 +6,6 @@
+  *  Inode handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/lowlevel.c b/fs/udf/lowlevel.c
+index c87ed942d07653..28fc91f12da911 100644
+--- a/fs/udf/lowlevel.c
++++ b/fs/udf/lowlevel.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * lowlevel.c
+  *
+@@ -5,11 +6,6 @@
+  *  Low Level Device Routines for the UDF filesystem
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1999-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/misc.c b/fs/udf/misc.c
+index 3777468d06ce58..c0eaad4d0d86ff 100644
+--- a/fs/udf/misc.c
++++ b/fs/udf/misc.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * misc.c
+  *
+@@ -5,11 +6,6 @@
+  *	Miscellaneous routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+diff --git a/fs/udf/namei.c b/fs/udf/namei.c
+index fd20423d3ed24c..6d6cd24c7c2536 100644
+--- a/fs/udf/namei.c
++++ b/fs/udf/namei.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * namei.c
+  *
+@@ -5,11 +6,6 @@
+  *      Inode name handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *      This file is distributed under the terms of the GNU General Public
+- *      License (GPL). Copies of the GPL can be obtained from:
+- *              ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *      Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 1999-2000 Stelias Computing Inc
+  *
+diff --git a/fs/udf/osta_udf.h b/fs/udf/osta_udf.h
+index 157de0ec0cd530..85a5924873aeb5 100644
+--- a/fs/udf/osta_udf.h
++++ b/fs/udf/osta_udf.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
+ /*
+  * osta_udf.h
+  *
+@@ -8,29 +9,6 @@
+  * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
+  * All rights reserved.
+  *
+- * Redistribution and use in source and binary forms, with or without
+- * modification, are permitted provided that the following conditions
+- * are met:
+- * 1. Redistributions of source code must retain the above copyright
+- *    notice, this list of conditions, and the following disclaimer,
+- *    without modification.
+- * 2. The name of the author may not be used to endorse or promote products
+- *    derived from this software without specific prior written permission.
+- *
+- * Alternatively, this software may be distributed under the terms of the
+- * GNU Public License ("GPL").
+- *
+- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+- * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
+- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+- * SUCH DAMAGE.
   */
  
- #include <linux/platform_device.h>
+ /**
+diff --git a/fs/udf/partition.c b/fs/udf/partition.c
+index 5bcfe78d5cabe9..7d78be28929906 100644
+--- a/fs/udf/partition.c
++++ b/fs/udf/partition.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * partition.c
+  *
+@@ -5,11 +6,6 @@
+  *      Partition handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *      This file is distributed under the terms of the GNU General Public
+- *      License (GPL). Copies of the GPL can be obtained from:
+- *              ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *      Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *
+  * HISTORY
+diff --git a/fs/udf/super.c b/fs/udf/super.c
+index 6304e3c5c3d969..80bee18ec6e1f4 100644
+--- a/fs/udf/super.c
++++ b/fs/udf/super.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * super.c
+  *
+@@ -15,11 +16,6 @@
+  *    https://www.iso.org/
+  *
+  * COPYRIGHT
+- *  This file is distributed under the terms of the GNU General Public
+- *  License (GPL). Copies of the GPL can be obtained from:
+- *    ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *  Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998 Dave Boynton
+  *  (C) 1998-2004 Ben Fennema
+  *  (C) 2000 Stelias Computing Inc
+diff --git a/fs/udf/symlink.c b/fs/udf/symlink.c
+index a34c8c4e6d2109..0b91b2c92bddb8 100644
+--- a/fs/udf/symlink.c
++++ b/fs/udf/symlink.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * symlink.c
+  *
+@@ -5,11 +6,6 @@
+  *	Symlink handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1998-2001 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
+  *
+diff --git a/fs/udf/truncate.c b/fs/udf/truncate.c
+index 2e7ba234bab8b8..3fb6c2abb4dc34 100644
+--- a/fs/udf/truncate.c
++++ b/fs/udf/truncate.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * truncate.c
+  *
+@@ -5,11 +6,6 @@
+  *	Truncate handling routines for the OSTA-UDF(tm) filesystem.
+  *
+  * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+- *
+  *  (C) 1999-2004 Ben Fennema
+  *  (C) 1999 Stelias Computing Inc
+  *
+diff --git a/fs/udf/udftime.c b/fs/udf/udftime.c
+index fce4ad976c8c29..d525ea68725f1c 100644
+--- a/fs/udf/udftime.c
++++ b/fs/udf/udftime.c
+@@ -1,21 +1,4 @@
+-/* Copyright (C) 1993, 1994, 1995, 1996, 1997 Free Software Foundation, Inc.
+-   This file is part of the GNU C Library.
+-   Contributed by Paul Eggert (eggert@twinsun.com).
+-
+-   The GNU C Library is free software; you can redistribute it and/or
+-   modify it under the terms of the GNU Library General Public License as
+-   published by the Free Software Foundation; either version 2 of the
+-   License, or (at your option) any later version.
+-
+-   The GNU C Library is distributed in the hope that it will be useful,
+-   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
+-
+-   You should have received a copy of the GNU Library General Public
+-   License along with the GNU C Library; see the file COPYING.LIB.  If not,
+-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+-   Boston, MA 02111-1307, USA.  */
++/* SPDX-License-Identifier: GPL-2.0-only */
+ 
+ /*
+  * dgb 10/02/98: ripped this from glibc source to help convert timestamps
+diff --git a/fs/udf/unicode.c b/fs/udf/unicode.c
+index 622569007b530b..5d6b66e15fcded 100644
+--- a/fs/udf/unicode.c
++++ b/fs/udf/unicode.c
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * unicode.c
+  *
+@@ -11,11 +12,6 @@
+  *	UTF-8 is explained in the IETF RFC XXXX.
+  *		ftp://ftp.internic.net/rfc/rfcxxxx.txt
+  *
+- * COPYRIGHT
+- *	This file is distributed under the terms of the GNU General Public
+- *	License (GPL). Copies of the GPL can be obtained from:
+- *		ftp://prep.ai.mit.edu/pub/gnu/GPL
+- *	Each contributing author retains all rights to their own work.
+  */
+ 
+ #include "udfdecl.h"
 -- 
 An old man doll... just what I always wanted! - Clara
 
