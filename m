@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED476FEAA6
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 06:32:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A8F6FEAAB
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 06:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38D7210E0EF;
-	Thu, 11 May 2023 04:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B19510E594;
+	Thu, 11 May 2023 04:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444DD10E593
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 04:32:00 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4f24ceae142so5670982e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 21:32:00 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B7610E594
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 04:32:22 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2ac8c0fbb16so74144481fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 21:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683779518; x=1686371518;
+ d=linaro.org; s=google; t=1683779540; x=1686371540;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Yz+/Gk20g+rLGD9WBqQz3JvVt45c9RNumBRgkU0bdyw=;
- b=N8h9ee/xWvRf4UaTxhHbwQgJxKrv8cIPetiBZilEpEZwxJII3ZcffGh0nUKGo9FkmT
- eyonX/IijDXvHdXOW402QHUaxD8/bWy7L3A9fLDS2I9u3jdBr638sziE+LeG04kuIQ7p
- 0r7NxXT2TapP2bcL2VAIK20sUQuSOq5pSVGa+U4BzGZk+4vj4FRyR4WPTo6k9mPgu2V2
- yjJyN0Jom5mlNoQIeHnnQbDUlg2/MzENetAgPAI4SEtX8lFVjrYD9K2rKwaijTwLvNKM
- c6noAvXg48hb0Tn8jQqU2bS1y0Aqk4pcimTKf0j1QokOY1IPwhIf9mRZzYNXNUZJQGvz
- OLHA==
+ bh=/fZFm+JnD3HFWQBsOX43ZNxNVH7brnnd/ur7Hm3Pkxg=;
+ b=CXZF7Z20QEgTREai8N9LOpTty5Bke8VUoaSb4+5TPg7hT50ChZJe5n7yWLr5AYkzcJ
+ NxzoVOV0qfE4O0If5SsIqh2q1xAnlUXPcfnS9a7TLy3FOdXdeUT2yBkV3UgFl18fyJ3E
+ bfgDZwzrzwmh5caYfpbSBmgk+BEcWl2atgdmoOAaKv76cazSNpOQBPj+nvfZtFfrVZz3
+ tW+Y1hMjtMpvYmN3UuiI6cAiDCk0VEepY4O71h37FY09xOXJrttRsC6MjSelRSwiuCJL
+ wJhoz5yvsRSVFpn4PNIAicxgELINAdXwFLRAQHjxvM8AIgG9BCQk5YYzOHxQT6LwLcVY
+ vGAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683779518; x=1686371518;
+ d=1e100.net; s=20221208; t=1683779540; x=1686371540;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yz+/Gk20g+rLGD9WBqQz3JvVt45c9RNumBRgkU0bdyw=;
- b=Zy3B6WeFqU7s/hqixMTO1sB7PZPImlQH4+f/AJ3o2EdkE2AwZVqG7+6vY/hS8DmtsB
- pkUB1T7KFyg+uEvXnlUtupTnphU0r7QMDqstfMWxPrsUiMUgsrMhSEyoCSlxxsT787aY
- 2KGw83dS14+XwC/SFw7K9tT+bvMIhkB0oMV0fA3RYn9T4TPbmQV3lNvaU1wkJydBREYB
- Ad0ONCpDraQWxxhQC/i9BctWMeTZJPUyVDM0OfpyNj6OSzHKhd278nHb11VO4jdDqsQg
- VNkB0yA9ouOwIEALS1B3cdU9oWU0swhHH1Ih4UakIiHmxeUGnhnhCI0nJ4QCS/dSQbCG
- Ha/Q==
-X-Gm-Message-State: AC+VfDwPM/RdnQiA4Zj28wX7Jb5TFaUVACaYZWHbbWrdv/MiZVAthnDi
- Fk5wa9Nwmp76c6g88ktj0StvAw==
-X-Google-Smtp-Source: ACHHUZ7gmShjR3g56HV3TeLijQNuVXEg1vd+aF/vlRc2UFIDY5gqky/Jpf/uNjU1oWK+JIQC0IB9Mg==
-X-Received: by 2002:ac2:54a8:0:b0:4ed:b842:3a99 with SMTP id
- w8-20020ac254a8000000b004edb8423a99mr2683287lfk.59.1683779513330; 
- Wed, 10 May 2023 21:31:53 -0700 (PDT)
+ bh=/fZFm+JnD3HFWQBsOX43ZNxNVH7brnnd/ur7Hm3Pkxg=;
+ b=HWcHTeP3aEXDRkSjLaGbpqoBXiE0+rDpm4ZKV/dEeZWu7MxP4KTMThsPV/GSBCw02a
+ GzyFH3dJ0Fk/iet4SOLxuY8d8f6Zp82015lvOSRpGijnr5pKbigpP9qY94XQk5vUw3Rg
+ bq/OjYof9EpzlK+vkOZTI4tYio0giKEYw0KYfGvAqeZRgggNWv6RZC0VnUckHH/CTr8n
+ vpFgRyxLca6DWc89WaiQbSUBl9UYDbrJG2QSln5XsvJb21B3MRNNKycOyOkn7qA6eVAk
+ lvtimsLpCuZ7EJcfPODB2879uPye4o4KoE85oPBKYvbiiYdTpcjNu0n75Q1nw97savbc
+ 7JTQ==
+X-Gm-Message-State: AC+VfDxZ581bxFagLYkb/oKIo0KkULjATVll1TKN32VAaKQpNOqFjZJr
+ MUQj8bdSl5Oofm1phqMh/vDMpg==
+X-Google-Smtp-Source: ACHHUZ6apjC2HOcRzLnDFGzNFE7HRyDFwjWl+ULrE2cF5wbMaZ5Aj7O+iD+E7Y4dMT5duaVR9DWVKw==
+X-Received: by 2002:a2e:884e:0:b0:2ac:7304:c94d with SMTP id
+ z14-20020a2e884e000000b002ac7304c94dmr2976098ljj.41.1683779540595; 
+ Wed, 10 May 2023 21:32:20 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- m25-20020ac24259000000b004f13ca69dc8sm962020lfl.72.2023.05.10.21.31.52
+ a6-20020a19f806000000b004db1a7e6decsm966447lff.205.2023.05.10.21.32.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 21:31:52 -0700 (PDT)
-Message-ID: <02797bdd-a292-5891-ce73-8a174d62ac7d@linaro.org>
-Date: Thu, 11 May 2023 07:31:52 +0300
+ Wed, 10 May 2023 21:32:20 -0700 (PDT)
+Message-ID: <f3685a18-7431-dfd5-ce84-f0ad3a21fc57@linaro.org>
+Date: Thu, 11 May 2023 07:32:19 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
@@ -98,16 +98,15 @@ On 11/05/2023 01:07, Kuogee Hsieh wrote:
 > 
 > changes in v6:
 > -- split patches and keep the function file handles DPU_PINGPONG_DSC bit at this patch
-
-Please correct me if I'm wrong, the overall suggestion was to have 
-actual catalog changes before this patch. However I do not see this 
-feature bit being enabled at all!
-
 > 
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
 >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 6 ++++++
 >   1 file changed, 6 insertions(+)
+
+For the patch itself:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > 
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
 > index 79e4576..e7f47a4 100644
