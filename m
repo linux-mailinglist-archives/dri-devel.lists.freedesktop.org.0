@@ -2,81 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E219E6FF1D2
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:49:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BCD6FF1DF
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECEB010E1D7;
-	Thu, 11 May 2023 12:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3783310E1E2;
+	Thu, 11 May 2023 12:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85EB610E1D7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:49:24 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id A028D2B069A3;
- Thu, 11 May 2023 08:49:20 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Thu, 11 May 2023 08:49:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1683809360; x=1683816560; bh=d2I3MJoGb9Q0k1pggTIspxukMh9F288HwWB
- EZkJydBM=; b=EaT8QDsGJiHFxT+LJIqn2fEflreLZWqKGpVDwbrPLYvL1wt4nLg
- Wa1WNW+6odEbrT8vWG4Kqkt+XnHCbupWK6S+GXNiSev5T5S8qdVptnwvrdvaaypO
- DxjOXrlGw3MTnH2SHlm0saVDo2Vd/MH+coOuqnxVibh+pIY7tCYKM91yc2+lwfAY
- 8Uc2AImEQiSqaPkFH2OZMZZ6uXWu/+4L6TrxtkbPQuvAgmwNbIpat8dyWeE65WLr
- FepOVjK9s4dKMRV4F5hYmRYR+t6pmOJCCfLHN3yAKTmYYofcqSRReJX/58keVUGZ
- /qacxa7dNgui0WGS51SJYWw3o+gkd4E/o3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1683809360; x=1683816560; bh=d2I3MJoGb9Q0k1pggTIspxukMh9F288HwWB
- EZkJydBM=; b=jB9XvrdWPUTvwh1iDY/3NDQnzSrog8ELb1h9L6ikkVOhDtmVDz3
- UXAE5Lfnsb1qGvgzMXsuGMtW7DAOXrZUF0n3em0sgcghRqYnzwQRhIBzcvAHtYIC
- dz7ZcosF3AQPao+lh5E5QQNhIUKMyozAL6w1I/BEh06mRkVMXxyIKxgQjVFOBQJs
- +qn35bkU+cxGHXhW0HPtsju+GE+7hIaFH7AtuAcdjCwDuIBXfwJgaXumToGqAG9v
- sbHIo24d/eBn7IIu6FJKuWDyuFr9H2c8qDhKBrLkmoqiDvXdpn6+vGeMFizRdU44
- I9XCsw3OdQRl8ibPdLeZecXx1RH0d+WvXTQ==
-X-ME-Sender: <xms:TuRcZA4pAKPMmi7NEPfI-jLSQXmHRDtm7W6A9M2gFiJw_2zwTZ9fKA>
- <xme:TuRcZB4r0tClLPdVZMNorjPuw_9H3qKfjnEZHs0h_BMh80peLqqeNakHDRm_wYK_v
- C2p3s5VZ5IB8O7TQ28>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgheeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
- rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
- htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
- gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:TuRcZPenQXcfeUqmz-DfyRWxTt2mOy2jd9F75_W0kvLW9Zg0R_GJjg>
- <xmx:TuRcZFLacxJD9zWaXSC8lel2meoqhOP82JKYSavCgBWS3l9n_bXBbA>
- <xmx:TuRcZEJlVY3mEQHhFeaLrOMkszBMbmlk-SePu_RRbt-YzeFdA5a8jw>
- <xmx:UORcZBYC0UB6UD24jDdNcFRC8O72IQAijFL3Wl-pXlCc3rY08CNRqgVB5t4>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A9369B60086; Thu, 11 May 2023 08:49:18 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
-Mime-Version: 1.0
-Message-Id: <4976d32d-b73f-49e5-9e15-78786d77dc8f@app.fastmail.com>
-In-Reply-To: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
- <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
-Date: Thu, 11 May 2023 14:48:58 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Content-Type: text/plain;charset=utf-8
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B5C10E1E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1683809487; i=deller@gmx.de;
+ bh=eFYLN6F5bFhm67uKdYzCmoVU74IITBITOytmfNfUOwo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=elykZzdMBPnv2xSMxaXM8ITy8ZlWFPkhzhxqceLr4zhw5dF1blzutXPpMqx4yspqk
+ WJBTHCKAXb/kKO46b0kDXf/cqC6TtrU0VM38WZtqLWqHzBC+/fe0B8ofjTkF7cmVW2
+ IZtel2c4s8Y1A71w320FOcwYkqrxYSKVAGKrgGCO/RwaUdqQtNL71pTEB11EKIit+o
+ s5Pap/yoMu4JGUuHof1Hnbtjt88NBv/CMJxqo9wb19+v6j35WIl2JOcYCHWFvAMPcR
+ cN3xPZSIS0etA9AQNvl02gDSvQnYvKR3yco1k2zA42F5r6NfKdO3r7YApZZLO6NvFM
+ a56E8as57Mg6g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.77.61] ([109.43.178.145]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MF3DW-1pzHdP2cJM-00FXG2; Thu, 11
+ May 2023 14:51:27 +0200
+Message-ID: <752f0e2b-e069-6221-1ee0-99306f2c718a@gmx.de>
+Date: Thu, 11 May 2023 14:51:20 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 00/15] fbdev: Remove trailing whitespaces
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20230331092314.2209-1-tzimmermann@suse.de>
+ <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6Y7HeAbZUQde2AYeXmfB+eJF2RE4ajjMj+FWzqwzqAt1KBFtH2M
+ sIyZzwyg35nuFq06yVAv3NLD8MbOVrIfdb9FQ+HL3nfYkIxTkqO67YbzhXQ1IvUxNDDLnva
+ TSzEbiFtm+DGJjLkrOgO9BUtkgNhGgIjGVXk78oBYqdO/27FujNpSwYOG1gCrr9IP/9ynt8
+ M+Zox5/vWZnTPeOYzMvXg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bykEU37XipQ=;zMCr8gLPGBs3INqEGBO3Lfulqg0
+ yJIlyF6Ow8H67rbpeVNTv199Xrj00Wd6hULU/d5YI0+kfKkja2PZJgBHNj06Oay2tXHqcEKX7
+ ZfnNmKz/2QbI6m8DRvMCHy49G5ZIZPba3ExQcHVFEWYCO0p2RGJV/m0/xCucm+5D+NGgMOfek
+ vgpdxCyRGiB8CYBz1rwUxk5qdQdLLZOhRdwfzuT0OD/jHv5hfuhX13IZ28jMsro5sZ9TrFjrw
+ F2x13W762XqmKvAbMR6ROkvRU2BW9v5KiGq9IuzPKI84kOGoe4nwe4qAh2+jz4nxqMuLEwrMR
+ fHi2++3SK2/ru9duaDRfVdl01YiUgd45IfDhaPPia3Bnrz0HAsZVss/d4s7qvVZSOtATF11M9
+ Rilq52bJ3JSyyQ8tf8p4Z0NZ5RR93Ctd8Ze5oE2r91otTlRwRG8wrrmSOCKNLp05kodsDyYQP
+ oEBLTSFLFnEWFiXs4P+dUhBRluH/up0ej5syN77DIVb4MNHfo22ji9bZl6yFrMndgDah701ok
+ ablU0Ab0JUHN9HR2gKhPegKPfi3txjjbBNzBZbIOKIIzqjPlCk+2KELkAukBZ6AWAZNksJrsP
+ qQJJOeDSUhIfWGfr/xtFqHXWpZB6U+P5BK0SD9fcFhv9BIiv2LViouXQlrTiHYysvaR7hNFXy
+ Tln+UdCpufvdrPsLJwGaELBi+XkG57gUp1yBGPSLeG9aUij8oJwN8DUeKgViRuUvca4SEbXos
+ zckMJjze0CYPEy4NnthS1WOver2Km+T3m3+VZCTN0B5JrJrgB9Cl7OmCMEi4+cSxBJldtJsEl
+ T88/wuxJUn2i92dOn3vMjOiJN4IemsPUEBSd3ZLaRn8VbF195YQsdIv9dZYb8rri0biGrAZn7
+ KYx5LaLmaiNPU1Fn9/xMKNGH/XT9NySAgRCIJKn7XLOAygS9/au6GmJEcK0DrRaEa8RNItA0k
+ NgCn8w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +73,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
- Sam Ravnborg <sam@ravnborg.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- kernel test robot <lkp@intel.com>, Artur Rojek <contact@artur-rojek.eu>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
- suijingfeng@loongson.cn, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- "David S . Miller" <davem@davemloft.net>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 11, 2023, at 14:35, Geert Uytterhoeven wrote:
-> CC Artur, who's working on HP Jornada 680.
->
-> On Wed, May 10, 2023 at 5:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
-wrote:
->> On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
->> > Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
->> >> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
->
-> See also commit 4aafae27d0ce73f8 ("sh: hd64461 tidying."), which
-> claims they are no longer needed.
->
-> Don't the I/O port macros just treat the port as an absolute base addr=
-ess
-> when sh_io_port_base isn't set?
+Hi Thomas,
 
-As far as I can tell, sh_io_port_base gets initialized to '-1'
-specifically to prevent that from working by accident. So it's
-almost treated as an absolute base address, but the off-by-one
-offset ensures this never actually works unless it was first
-set to the correct value.
+On 5/11/23 14:08, Thomas Zimmermann wrote:
+> I thought these patches would go through the fbdev tree, but I could
+> not find them v6.4-rc1. Please review the remaining ones, so that I
+> can merge them via drm-misc.
 
-      Arnd
+Sorry, I thought you had planned to take them through drm-misc anyway,
+so I didn't applied them.
+
+I just reviewed them again, and you may add my
+Acked-by: Helge Deller <deller@gmx.de>
+
+Alternatively I can apply them now to fbdev and send them for -rc2.
+Just let me know your preference.
+
+Helge
+
+
+>
+> Best regards
+> Thomas
+>
+> Am 31.03.23 um 11:22 schrieb Thomas Zimmermann:
+>> The trailing whitespaces are annoying. So remove them. No
+>> functional changes. Some of the patches has already been
+>> acked by Helge.
+>>
+>> Thomas Zimmermann (15):
+>> =C2=A0=C2=A0 fbdev/68328fb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/atmel_lcdfb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/cg14: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/controlfb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/g364fb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/hgafb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/hpfb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/macfb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/maxinefb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/p9100: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/platinumfb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/sa1100fb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/stifb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/valkyriefb: Remove trailing whitespaces
+>> =C2=A0=C2=A0 fbdev/vfb: Remove trailing whitespaces
+>>
+>> =C2=A0 drivers/video/fbdev/68328fb.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12=
+ +--
+>> =C2=A0 drivers/video/fbdev/atmel_lcdfb.c |=C2=A0=C2=A0 2 +-
+>> =C2=A0 drivers/video/fbdev/cg14.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 2 +-
+>> =C2=A0 drivers/video/fbdev/controlfb.c=C2=A0=C2=A0 |=C2=A0 34 +++----
+>> =C2=A0 drivers/video/fbdev/g364fb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 6 +-
+>> =C2=A0 drivers/video/fbdev/hgafb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0 36 +++----
+>> =C2=A0 drivers/video/fbdev/hpfb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 8 +-
+>> =C2=A0 drivers/video/fbdev/macfb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0 10 +-
+>> =C2=A0 drivers/video/fbdev/maxinefb.c=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2=
+ +-
+>> =C2=A0 drivers/video/fbdev/p9100.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0=C2=A0 4 +-
+>> =C2=A0 drivers/video/fbdev/platinumfb.c=C2=A0 |=C2=A0 30 +++---
+>> =C2=A0 drivers/video/fbdev/sa1100fb.c=C2=A0=C2=A0=C2=A0 |=C2=A0 32 +++-=
+--
+>> =C2=A0 drivers/video/fbdev/stifb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+| 156 +++++++++++++++---------------
+>> =C2=A0 drivers/video/fbdev/valkyriefb.c=C2=A0 |=C2=A0 14 +--
+>> =C2=A0 drivers/video/fbdev/vfb.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 10 +-
+>> =C2=A0 15 files changed, 179 insertions(+), 179 deletions(-)
+>>
+>
+
