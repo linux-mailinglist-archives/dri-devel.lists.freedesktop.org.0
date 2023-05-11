@@ -2,41 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569DF6FEC12
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 08:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB556FEBB4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 08:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824D310E5AD;
-	Thu, 11 May 2023 06:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDD7B10E5BB;
+	Thu, 11 May 2023 06:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174D910E5A5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:20:21 +0000 (UTC)
-Received: from [10.12.176.125] ([10.12.176.125])
- (user=m202071377@hust.edu.cn mech=PLAIN bits=0)
- by mx1.hust.edu.cn  with ESMTP id 34B6IdG3005001-34B6IdG5005001
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Thu, 11 May 2023 14:18:39 +0800
-Message-ID: <9935262d-a68b-edbf-0329-f755cbf99c45@hust.edu.cn>
-Date: Thu, 11 May 2023 14:18:39 +0800
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D07D10E5B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:22:51 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4f139de8cefso44147292e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 23:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683786169; x=1686378169;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Ok/yWtmx8n4MjOgj7oJyyfHNKdZTN8Sz//bwyuJpfb0=;
+ b=mYB6/+n03E9FXnsSXhKj2JYJw3UuWlXL8ZsRrsdwcXSZiNfRC6aye0Png7zmLh0Fbv
+ s0Z+pr/eSPLY5agYxqFosjFGlGR9ENgftuwfOV+Y8v6bNmRX2IAAb8fFOAQW6ucwK2CO
+ 3S4m9nO1gDd+5+dHHBGc/1w5KeZuUk5PTETZMTu7IgdaInBiawe1vKY2veaTWvvdo7wu
+ FF6pEGE8zWizMt2F3KwIOa27O6f6KQtGcXAjhlA/Ue4nx6uZyCuuhrNjJR0Pj7BlpAFl
+ FVgkXRL2ZchbInDGcCu51ZY2C1LKDnBzVL8HfiVMkNK2Yxep9sbiSoNhxfZYUdgwnOV7
+ +dfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683786169; x=1686378169;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ok/yWtmx8n4MjOgj7oJyyfHNKdZTN8Sz//bwyuJpfb0=;
+ b=WiQWlIigZ6LAsAzZ85rGVyf6OUeOna6iJuwr7qBWUABkd8h02y31hZky4osTLLPlb9
+ 7Y6eXiCMOm6w++9pgxT+7swbNaWjsCSxcTLMjL1I9fWOnwYyQdwwrsMfG60VkcqeHJv4
+ eLZrIi+Cs1anJK1DLbF4cc58/XVzQ60EJ3g674WafI8dpp3jdImmnfHOma0M1woL6nHw
+ S2at7qilAjUeys9asnuESOkBblswBUG+MRsbNYHKmN5iAfA7Ebpr5Zse1UmCqzzpaVa9
+ 45xGCEClofe7EK8mH01vgXBfZA/Lzv6PetHa5TEsHJ6XgeozQxxMmJ4YDKXSd9QMjcU1
+ V3Bg==
+X-Gm-Message-State: AC+VfDwVFH+LErFavzimM/IeOV/ZnjncAjeGWZlN+/izAy9VUV2e0w/F
+ uC5Xe6INcYY0pBSqQRIUSZoadQ==
+X-Google-Smtp-Source: ACHHUZ4bMuVr1+zC+aGqt++aokyLQYIrEZcQA+vdJ23/lEOwOplKoLFq54FpiTL6Zu4vSbQq3pXljA==
+X-Received: by 2002:a05:6512:39c7:b0:4e8:5c66:e01e with SMTP id
+ k7-20020a05651239c700b004e85c66e01emr2702538lfu.21.1683786169280; 
+ Wed, 10 May 2023 23:22:49 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ y10-20020ac2446a000000b004f24cb9ef14sm988860lfl.47.2023.05.10.23.22.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 23:22:48 -0700 (PDT)
+Message-ID: <1b1c29f9-3b11-b06b-3443-7f29acea0896@linaro.org>
+Date: Thu, 11 May 2023 09:22:47 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] drm: sun4i_tcon: use devm_clk_get_enabled in
- `sun4i_tcon_init_clocks`
-Content-Language: en-US
-To: XuDong Liu <m202071377@hust.edu.cn>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Boris Brezillon
- <bbrezillon@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-References: <20230430112347.4689-1-m202071377@hust.edu.cn>
-From: XuDong Liu <m202071377@hust.edu.cn>
-In-Reply-To: <20230430112347.4689-1-m202071377@hust.edu.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v7 2/8] drm/display/dsc: add helper to set semi-const
+ parameters
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230329-rfc-msm-dsc-helper-v7-0-df48a2c54421@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v7-2-df48a2c54421@quicinc.com>
+ <tl5zijcxx7326jdgr6lyjptvvvyxosoupz3vekvhex3vnviw5t@3vswzg244tme>
+ <05021e78-6c1a-b4b1-6312-4dd3f1647074@quicinc.com>
+ <7eeac1dd-8cd1-60e7-5dc0-f8f5adc18ffe@linaro.org>
+ <mbiijomkmkrwixpbg2rnpv3hb5y7gnsqqv2rkektgh4xvxig6u@iazy42chd7b5>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <mbiijomkmkrwixpbg2rnpv3hb5y7gnsqqv2rkektgh4xvxig6u@iazy42chd7b5>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-FEAS-AUTH-USER: m202071377@hust.edu.cn
-X-Mailman-Approved-At: Thu, 11 May 2023 06:58:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,115 +83,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dongliang Mu <dzm91@hust.edu.cn>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/4/30 19:23, XuDong Liu wrote:
-> Smatch reports:
-> drivers/gpu/drm/sun4i/sun4i_tcon.c:805 sun4i_tcon_init_clocks() warn:
-> 'tcon->clk' from clk_prepare_enable() not released on lines: 792,801.
+On 11/05/2023 09:18, Marijn Suijten wrote:
+> On 2023-05-11 07:26:28, Dmitry Baryshkov wrote:
+>> On 11/05/2023 01:35, Jessica Zhang wrote:
+>>>
+>>>
+>>> On 5/9/2023 11:29 PM, Marijn Suijten wrote:
+>>>> On 2023-05-09 15:06:48, Jessica Zhang wrote:
+>>>>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>
+>>>>> Add a helper setting config values which are typically constant across
+>>>>> operating modes (table E-4 of the standard) and mux_word_size (which is
+>>>>> a const according to 3.5.2).
+>>>>>
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>>
+>>>> Same question about ordering.
+>>>
+>>> Hi Marijn,
+>>>
+>>> This patch was authored by Dmitry and originally part of his DRM DSC
+>>> helpers series [1], but was removed from that series for mergeability
+>>> reasons.
+>>>
+>>> Looking over the kernel documentation, the last Signed-off-by should be
+>>> from the patch submitter [2], so I think my s-o-b tag should be at the
+>>> bottom.
 > 
-> In the function sun4i_tcon_init_clocks(), tcon->clk and tcon->sclk0 are
-> not disabled in the error handling, which affects the release of
-> these variable. Although sun4i_tcon_bind(), which calls
-> sun4i_tcon_init_clocks(), use sun4i_tcon_free_clocks to disable the
-> variables mentioned, but the error handling branch of
-> sun4i_tcon_init_clocks() ignores the required disable process.
+> That's true, but I also think the S-o-B at the top should match the
+>   From: author.
+
+I'd say, this is usual, but not the required order of tags.
+
 > 
-> To fix this issue, use the devm_clk_get_enabled to automatically
-> balance enable and disabled calls. As original implementation use
-> sun4i_tcon_free_clocks() to disable clk explicitly, we delete the
-> related calls and error handling that are no longer needed.
+>>> As for the order in the previous patch, I can add a duplicate s-o-b
+>>> before Dmitry's so that it reflects the history of the patch.
+>>
+>> I think this is an overkill. Instead you can drop my SOB from the patch
+>> 1. We do not need this level of detail.
+>>
+>> For this patch the ordering of tags is correct.
 > 
-> Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
-> Fixes: b14e945bda8a ("drm/sun4i: tcon: Prepare and enable TCON channel 0 clock at init")
-> Fixes: 8e9240472522 ("drm/sun4i: support TCONs without channel 1")
-> Fixes: 34d698f6e349 ("drm/sun4i: Add has_channel_0 TCON quirk")
-> Signed-off-by: XuDong Liu <m202071377@hust.edu.cn>
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
-> The issue is discovered by static analysis, and the patch is not tested
-> yet.
-> ---
->   drivers/gpu/drm/sun4i/sun4i_tcon.c | 19 ++++---------------
->   1 file changed, 4 insertions(+), 15 deletions(-)
+> So indeed, that either means duplicating the S-o-B or dropping it
+> entirely as we do not care that it was part of that series earlier.
+> Dmitry will likely sign this off once again when picking the patches.
+
+Yes.
+
+I'd suggest the following tags:
+
+Patch 1 (Add flatness...):
+From: Jessica
+SOB: Jessica
+
+Patches 2 (add helper to set) and 3 (use DRM DSC helpers):
+From: Dmitry
+SOB: Dmitry
+SOB: Jessica
+
+
 > 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index 523a6d787921..936796851ffd 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -778,21 +778,19 @@ static irqreturn_t sun4i_tcon_handler(int irq, void *private)
->   static int sun4i_tcon_init_clocks(struct device *dev,
->   				  struct sun4i_tcon *tcon)
->   {
-> -	tcon->clk = devm_clk_get(dev, "ahb");
-> +	tcon->clk = devm_clk_get_enabled(dev, "ahb");
->   	if (IS_ERR(tcon->clk)) {
->   		dev_err(dev, "Couldn't get the TCON bus clock\n");
->   		return PTR_ERR(tcon->clk);
->   	}
-> -	clk_prepare_enable(tcon->clk);
->   
->   	if (tcon->quirks->has_channel_0) {
-> -		tcon->sclk0 = devm_clk_get(dev, "tcon-ch0");
-> +		tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
->   		if (IS_ERR(tcon->sclk0)) {
->   			dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
->   			return PTR_ERR(tcon->sclk0);
->   		}
->   	}
-> -	clk_prepare_enable(tcon->sclk0);
->   
->   	if (tcon->quirks->has_channel_1) {
->   		tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
-> @@ -805,12 +803,6 @@ static int sun4i_tcon_init_clocks(struct device *dev,
->   	return 0;
->   }
->   
-> -static void sun4i_tcon_free_clocks(struct sun4i_tcon *tcon)
-> -{
-> -	clk_disable_unprepare(tcon->sclk0);
-> -	clk_disable_unprepare(tcon->clk);
-> -}
-> -
->   static int sun4i_tcon_init_irq(struct device *dev,
->   			       struct sun4i_tcon *tcon)
->   {
-> @@ -1223,14 +1215,14 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
->   	ret = sun4i_tcon_init_regmap(dev, tcon);
->   	if (ret) {
->   		dev_err(dev, "Couldn't init our TCON regmap\n");
-> -		goto err_free_clocks;
-> +		goto err_assert_reset;
->   	}
->   
->   	if (tcon->quirks->has_channel_0) {
->   		ret = sun4i_dclk_create(dev, tcon);
->   		if (ret) {
->   			dev_err(dev, "Couldn't create our TCON dot clock\n");
-> -			goto err_free_clocks;
-> +			goto err_assert_reset;
->   		}
->   	}
->   
-> @@ -1293,8 +1285,6 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
->   err_free_dotclock:
->   	if (tcon->quirks->has_channel_0)
->   		sun4i_dclk_free(tcon);
-> -err_free_clocks:
-> -	sun4i_tcon_free_clocks(tcon);
->   err_assert_reset:
->   	reset_control_assert(tcon->lcd_rst);
->   	return ret;
-> @@ -1308,7 +1298,6 @@ static void sun4i_tcon_unbind(struct device *dev, struct device *master,
->   	list_del(&tcon->list);
->   	if (tcon->quirks->has_channel_0)
->   		sun4i_dclk_free(tcon);
-> -	sun4i_tcon_free_clocks(tcon);
->   }
->   
->   static const struct component_ops sun4i_tcon_ops = {
-Ping?
+> - Marijn
+
+-- 
+With best wishes
+Dmitry
+
