@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1807F6FF2F6
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E4C6FF337
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8663C10E242;
-	Thu, 11 May 2023 13:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D064810E0F7;
+	Thu, 11 May 2023 13:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBFEE10E251
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:34:20 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-64395e2a715so8630872b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683812060; x=1686404060;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+qd85DAYUoVARV/UQur45Soj2gLrv6sKgolbKo4DNkY=;
- b=ZCDul+K7uLaQUZcXDKjVmbjfoExTphoXNgcqea3sH4Mq2pae9JTgDXEapkrH4LBnCh
- koFeeQfJmQ/FOkKcsWd4DY+MU7XEE8CM9bYo3QzTCAxZj8nHJpu2Ojmzcx4x7dMdaKRi
- r42UuJpeDO16/vpnGD3bIfCUOHKLECsNnlnSY0IUpA3UjbR/qkFQ37AKt572PdaDlIj+
- a6jSyVhx6NBA24M+nI19A2Xg/+hij072amXHVqmZNjr2RISKa95pBQKmpVN9s1rSFb93
- XRkPKcrigM+U77/k7SlYt0i2NmGnpGi8yYDR6z2VXLyJPJQm2duIWIbEZPSeSYNASCoS
- 7bsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683812060; x=1686404060;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+qd85DAYUoVARV/UQur45Soj2gLrv6sKgolbKo4DNkY=;
- b=Qj6jPhFmXYg7zLB9wl+d82JnGnVrmZ4Z0mcRyMskmGm4X8jfX28Fp+iBxHs4t15zfV
- 7S3Bs24jIb+skIla7Yi5t51Yo8ZL74av95NvT2aRfy8jumlaqMHhbvdcjBMo4yvdTf9u
- UI0R33BS4Rh9sDgR4ZeWwDvWVD+UXBUUAqXvX/dl1WvYl3qwVMYWPEDk00h2P2hfma30
- bBPHt7s2WAKgKd8+t8MEB/Va9/NMvG4wq/XgRmU5+mpfDQRJ4kDq+f16GTtbM13QQ9um
- LzFrkm05MzHaDwptqXJXeiT9QmSjOB5jZrSBxzXArhB0HvszulKgvltkNrc/XH/tWEvM
- Imag==
-X-Gm-Message-State: AC+VfDyx9iUWi23iN0b1KRFG294f6rpdDKRav58zueNo5DlvWxLepF3Y
- 1mc4rxMdlG4MMQ6KMM/kArc=
-X-Google-Smtp-Source: ACHHUZ6D1SmSibupox7jsjkuLOX/BB/O6IqNdA+Os6V+bkJDhi1wS+hKNMOJm73kAVRAOMQT58zlbA==
-X-Received: by 2002:a05:6a00:248f:b0:634:970e:ca09 with SMTP id
- c15-20020a056a00248f00b00634970eca09mr26611634pfv.30.1683812059896; 
- Thu, 11 May 2023 06:34:19 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
- by smtp.gmail.com with ESMTPSA id
- b26-20020aa7871a000000b00641114ef2dbsm5497963pfo.90.2023.05.11.06.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 06:34:18 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id E53961068BF; Thu, 11 May 2023 20:34:11 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>
-Subject: [PATCH 10/10] include: synclink: Replace GPL license notice with SPDX
- identifier
-Date: Thu, 11 May 2023 20:34:06 +0700
-Message-Id: <20230511133406.78155-11-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
-References: <20230511133406.78155-1-bagasdotme@gmail.com>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=834; i=bagasdotme@gmail.com;
- h=from:subject; bh=hknv61wvlrkkgOugXTBTgrVsX3ozvkcF0YqHFnV1tm8=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx706mnu9+bem1/mXJ3iyvGzNfCv0wiV53KaXoSk6/8
- jqzUoPFHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZgIgzkjw6aA6292CMWIVB2c
- 9u2Mg8RUF/vsKTt1a0IW2F+WdlrdpcTIcGjZ7ygRkU//zwUuvxuUsYZRqtz4vqDKvpnWvMreTmW
- JPAA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B191C10E0F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:41:05 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id 06E522B05DDC;
+ Thu, 11 May 2023 09:41:02 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Thu, 11 May 2023 09:41:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1683812462; x=1683819662; bh=bN
+ MS+yJaTUyOEJLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=pbfvNGcEhT5R087tiN
+ QnEE33cGWBvS5AiGVm1gu96LmUVgkxF03e4K96Ei9qPwA7fiKdXmlXU35YSty4lV
+ upc6nhsgrNKO1Zu5vJdZRzsTYt5+zUsNa1/G1LgbSdyvZAkWWcimIWPpFpGxaLK6
+ hH7/y6eKFwClAzo+2pbOB483InnbRNbufNRaxh3CrbmLD7GhYXkCtmotomtbcOHW
+ NAkD92i1A1Bqcysq66C1J4W0/8Ffr4tm/CjkCymgi72EioBx6dkJg+rOhYWSOSEQ
+ rfFDwhYNZARWUi2ZC5uIDwtU5o7jO6mXg31RmRIKFygPD4lgfPnMU2vHZpWLzWR9
+ tY6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1683812462; x=1683819662; bh=bNMS+yJaTUyOE
+ JLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=NUVaoKGjAUB1IvBp3dt6JHnnJHLVm
+ 5FazabUKUOC3zaEmLNyDQKpBgQBJXDhw6415JSYAsI7vcdS5XzphHJbcm+e1RYhU
+ llcs9weTW01qk5AxUBbjOtH2kzwx7xePfQXIMcfPmjZGOSYBauaruz9JqW/61W85
+ heX8lT7nka5DtfPGfdG7S5QpZIuNTpDxxrHbUPJHanrVYS+a2Xfw0XBnyLyCziCN
+ FQo1Pxm5MNwRhnbgYrHcF3+uL/xmCS5YxmDTGoWN77KSYtOLmS5dlADRru9/PWae
+ uUp8Kzt4lULTaZjWcoN7X0TwqmJ+FUlxtD2Zae1Lsi2pmq9JY+k/goTzg==
+X-ME-Sender: <xms:bfBcZMNSgCzv51ibNqiMadxkekdHAGVmhQZVB7Xg4Ch3ubv8oc_OqQ>
+ <xme:bfBcZC-LuOp4qL-OBOPp41xrwYUB7X6JxntaEUrPpvOl-0LjASR1mtr0iBts6oiZU
+ CITzOT_9aVK9gzgF74>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgieekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+ hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:bfBcZDTVU8Z1aHlCiwHMzI3BQFNOhMCOOgQIyHMelQO9w3lKyBypBg>
+ <xmx:bfBcZEvrEazOWER04N0wAeZIGr8U1lNFD45nasK99m4-LBGcCbMMFQ>
+ <xmx:bfBcZEdVboxFWTIW74hVqDVfva2XernqNuoZ92ynPmme6ph_Ri3bvw>
+ <xmx:bvBcZKe-JadH7ZmJYk5LO7CV-vuIG1KgQLl2SxyA8Qajy4KAMUmi0_Uv4kk>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 81468B60089; Thu, 11 May 2023 09:41:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+Mime-Version: 1.0
+Message-Id: <d27e359c-1ea3-4d08-b124-e794fd372b28@app.fastmail.com>
+In-Reply-To: <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+ <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+ <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+ <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+ <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
+Date: Thu, 11 May 2023 15:40:28 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Artur Rojek" <contact@artur-rojek.eu>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,58 +89,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
- Tom Rix <trix@redhat.com>, Dominik Brodowski <linux@dominikbrodowski.net>,
- Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
- Dan Carpenter <error27@gmail.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Minghao Chi <chi.minghao@zte.com.cn>, Simon Horman <simon.horman@corigine.com>,
- Jacob Keller <jacob.e.keller@intel.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
- Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Kalle Valo <kvalo@kernel.org>, Yang Yingliang <yangyingliang@huawei.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Archana <craechal@gmail.com>,
- Karsten Keil <isdn@linux-pingi.de>, Deepak R Varma <drv@mailo.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>,
- Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Daniel Mack <daniel@zonque.org>
+Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
+ Sam Ravnborg <sam@ravnborg.org>, Linux-Arch <linux-arch@vger.kernel.org>,
+ kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
+ suijingfeng@loongson.cn, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace unversioned GPL license notice with appropriate SPDX
-identifier, which is GPL 1.0+.
+On Thu, May 11, 2023, at 15:22, Artur Rojek wrote:
+> On 2023-05-11 14:35, Geert Uytterhoeven wrote:
+>> 
+>> CC Artur, who's working on HP Jornada 680.
+> Thanks for CC'ing me - I faced this exact issue while working on my
+> (still not upstreamed) hd6446x PCMCIA controller driver. The PCMCIA
+> subsystem uses `inb/outb`, which expect the `sh_io_port_base` to be set
+> to something else than the default `-1`. At first I tried to set it to
+> `0xa0000000`, so that all I/O goes through the fixed, non-cacheable P2
+> area. That however broke some other driver code (I had no time to debug
+> which one). Eventually I ended up taking a suggestion from a MIPS PCMCIA
+> driver [1] and simply substract the broken `sh_io_port_base` address
+> from `HD64461_IOBASE`, as the base for `socket.io_offset`. This way all
+> the PCMCIA `inb/outb` accesses are absolute, no matter what the
+> `sh_io_port_base` is set to. This of course is a very ugly solution and
+> we should instead fix the root cause of this mess. I will have a better
+> look at this patch set and the problem at hand at a later date.
+>
+> Cheers,
+> Artur
+>
+> [1] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pcmcia/db1xxx_ss.c?h=v6.4-rc1#n527
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- include/linux/synclink.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I think the best fix would be to change all those drivers away
+from using inb/outb to readb/writeb, except when they access the
+actual PCMCIA I/O space behind the bridge.
 
-diff --git a/include/linux/synclink.h b/include/linux/synclink.h
-index f1405b1c71ba15..2c8436f08da44a 100644
---- a/include/linux/synclink.h
-+++ b/include/linux/synclink.h
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * SyncLink Multiprotocol Serial Adapter Driver
-  *
-@@ -5,8 +6,6 @@
-  *
-  * Copyright (C) 1998-2000 by Microgate Corporation
-  *
-- * Redistribution of this file is permitted under
-- * the terms of the GNU Public License (GPL)
-  */
- #ifndef _SYNCLINK_H_
- #define _SYNCLINK_H_
--- 
-An old man doll... just what I always wanted! - Clara
+On most of the modern architectures, inb(addr) now turns into
+approximately readb(PCI_IOBASE + addr), with a bit of extra
+logic to deal with endianess and barrier semantics.
 
+PCI_IOBASE in turn tends to be a hardcoded virtual address
+to which the physical I/O space window gets mapped during
+early boot, though you can also #define it to sh_io_port_base
+if you want to allocate the virtual address dynamically and
+leave the existing logic unchanged.
+
+Setting sh_io_port_base to zero however is a problem for any
+driver that passes a small port number into it -- this then
+turns into a user space pointer dereference, which is trivially
+exploitable.
+
+     Arnd
