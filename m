@@ -1,74 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF636FF6B2
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 18:02:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 248D56FF713
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 18:24:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7510E510;
-	Thu, 11 May 2023 16:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A399410E56F;
+	Thu, 11 May 2023 16:24:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC8810E50D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 16:02:49 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2ac8091351eso93777221fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 09:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683820967; x=1686412967;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6JhqElOO9wIra7p8jkoQ6oyPJCsu2/1z8AlYyPP+pK8=;
- b=i3hR/e1zkUJ8KCwu0pnMdd3DQLKf87WThuG23PMElsyxRiUc5D7uNAhELupVPR+ByA
- Fte5Lfy3dc2/mW8mZqN1XWM3ySAfJ2RFNmQgXG+46pDwTywlAKIVx4n9q7p+YqIF2DKF
- toCEOUOyNrdf6r67PCw6k4KEzuV71E/jNNv4d+qxlQnSrS5s23+emf8Jxmjg+BLtHv5f
- Me0OISTu6cu2lEnRn1J3Gc3xIBGMwzpR49065T0AyTcLkn1MBuSuLj8fDAZBGXW5tN81
- 1vQW3nYbUFXepsjdyETxaMei5mVSOy8TNlDyEWR1luTauQqZy5qtAAVNV0K+KaA4fJ0S
- Qtiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683820967; x=1686412967;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6JhqElOO9wIra7p8jkoQ6oyPJCsu2/1z8AlYyPP+pK8=;
- b=PTmbZczRshSw+VJkQvEXuh9uNJi9aeHwIRSUPL6ledG7xnJdCW+J3eWWChXDMNvWzI
- uPCoxsfyrKRwOKiyLPFXYbdvaONiqlB3yKsTt7LQqFqr1Eio2rsmjqm973hHCPiwQrKp
- R4f5/Cf2mYGSWa0Z9ceHoXGRD/zPgvGKq2wqy4Pvfo7daPTbUevdue4zY/RAHY/XuKrW
- Ps34otZ3DPqg3ckGR67eUpQFxsK/ZEe2kVHt/Es9bXtgdiRdmEA6Bhnl+Zr4tJlxYFpJ
- Ob3qMMEmsFeyW2zmEPyPPqKM7wdDc05nal4D7r/MUNjcHKpPMxpvCmpUHkagNf89tc9A
- oVHA==
-X-Gm-Message-State: AC+VfDzulxpj8gq6XDz3Kno5uWNXRpZPiQOWhs/IMa951WK+AtGYgfEc
- bdJ9SvvFc4AwDJJJfBKfSmLqnA==
-X-Google-Smtp-Source: ACHHUZ65rAjslkw7nhzx/aWI/cyLqvEoKlMIiSOkzyYwrTXiCP4u00NghNDfKKM7DQZRj0CoLa14Ug==
-X-Received: by 2002:a2e:924b:0:b0:2ad:beff:cd9c with SMTP id
- v11-20020a2e924b000000b002adbeffcd9cmr1045393ljg.53.1683820967538; 
- Thu, 11 May 2023 09:02:47 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- z18-20020a2e9b92000000b002ada45ce1fbsm1104368lji.128.2023.05.11.09.02.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 09:02:47 -0700 (PDT)
-Message-ID: <89938fdd-d0d0-b0c1-7717-4a2bc00236f5@linaro.org>
-Date: Thu, 11 May 2023 19:02:46 +0300
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF8610E088
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 16:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1683822227; i=deller@gmx.de;
+ bh=+1RFIFdc+C/sb8btmAfnn4ecF6JeppQ7CGFV7/Ay2bo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=fE4EWlNpT+ffSVec/R0JBr0E35YQQCr+5MrexDeEuUi4zEG00TTEyNNIu9S1+fYZG
+ x+3wQYYS5GZL4f7lOylNuxYkgeEToeU7kHttMI+lrzAe0uIQ0S8EeapZz/UBTPSKKq
+ ZJwj83/GtkJe7x5RQJRp9hmY8hHZj8Wl4KP+YLRBX/BevRH188AjN0kSmwGnT6UveV
+ rZ8SQKT4OAX7pwlRgCz/XkzUrnPGOvMtQp4o90s7eFRlRSf12cpSW7VU5BDZSS0DmM
+ p35c0DsFv6IOr/ikF0TnCNQrgAhEv4xF+0Ej+x4eAgo7+Bf8gRgD+ZNG6vylepESqi
+ W0COL/VAhsGyw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.146.253]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEFvp-1q4bLD3YJR-00ABLJ; Thu, 11
+ May 2023 18:23:46 +0200
+Message-ID: <89099ac6-21f7-3538-8830-57baba256684@gmx.de>
+Date: Thu, 11 May 2023 18:23:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v1 0/2] enable HDP plugin/unplugged interrupts to
- hpd_enable/disable
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-2-tzimmermann@suse.de>
+ <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
+ <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+ <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
+ <CAMuHMdX8piLhEbV+pcWvdn1OEGH9N5FwDOQcqNcEjBx3=ThjXA@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAMuHMdX8piLhEbV+pcWvdn1OEGH9N5FwDOQcqNcEjBx3=ThjXA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Foe+rnRUWx1zv0MsG5wa8oCmb8hm03NsqOLRkbJVE8zj+/xiq0n
+ b8NpDWKOWKr9xolj9cXeyt/T+2KXVc+HBhP9wcESOcxgTnp++n2tJaucjr7D+/zoK7VMQti
+ KgeWtm2+Tyy+WBdpRQUwT+L76AN1GzxRgmvzGt5+Gou4Kc1On99MIFqlFqvuu2oSD/7mW4c
+ P96Km7cNwRsSxhlrlQlPw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:tRn2ltmsACE=;nl+rb0eZLjTlsBi8ry+FawmYWr4
+ Ba0MjNp33t95BTJ76lIn3rM5Kg3q/0x6zrbrMvOMegKnxQSsu1sgwN/vdv27yHDuJUELb5pug
+ MJu72pXO7s22JdtaHCIWzasuYXuCYNcJBFH66c/jUBJHrXB5VNEG7TjcBE6azIQWviyRNT8t+
+ ZCCyS9CdugrTXvTUW5AExeXyRtZUqcZU7jOaxdUwueZGlFBGmHl72zRBQ3p/J28tU4mcJOr4O
+ N7MpSHY8mrzhlgBNig8FMlAEB00JzY4r14I29xksd7QkyB6S/xxiFGBVEm8+XvE37ZJ4us4Dz
+ jPMZo28GQR77BwNisX0d+C+zqt24+KbMZouWbmTwH7F941TB95mO8NdWt2oqFCl0uBiDXS5al
+ HUZ62VBwQDFzd9SA1l9IUuZCEAgtADr/rgCvMGaQ6OHhS8IwyHcSIgYBuV3BFULyeocIp68mj
+ UelAQzpsTVpy6bSrQUFdFL0EfxGxePbi9zAxuAhP+ThrwlZnCdf4+3vsm2LQ7ZDc+OpLX9t1O
+ 6Hs+B1Ky8MfwsTH1E9WlXc7HudPh1PK0az73mKVUNc+mb5MDI4kWWQO2oiXMpF5U2h5z3K35f
+ RgtVTiLSaiWwlI0YupqlfTVnqg48qpHm8VE2gY0wr/DXJIIXNVdgva/fKoQMLlxiJhTkAf4aE
+ ifOCYRFAp0U82332QQea44OgHIKN0yYvCGJ9omilyJYOGm8RMQDdtsd81cZ6Lk66FC87c/kVu
+ xwNRKIgSqx1Uuhqww/OMPuIew86pIFTJ6cUteHtf22IPFsmpMj/IPb+JcNcVsPC7lhijAPCO3
+ VRFT3fzCegDlqDFfyJdeJyNW3mQHBkstK0RP0TiWt3jAxBnFO1bS64WYtJFqxsomnTaiwnpvB
+ Ct21SREXi+2+KHqH2ZbMUiHNt/aVwy0WLa+p4cWihWh8+y2ydMRbGHrerl1Vn6278Ex9QZQrL
+ hxk5vQuzgTF7FoByk3utstkJDUw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,43 +76,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ arnd@arndb.de, linux-kernel@vger.kernel.org, chenhuacai@kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-parisc@vger.kernel.org,
+ vgupta@kernel.org, sparclinux@vger.kernel.org, kernel@xen0n.name,
+ linux-snps-arc@lists.infradead.org, sam@ravnborg.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/05/2023 23:31, Kuogee Hsieh wrote:
-> There is bug report on exteranl DP display does not work.
-> This patch add below two patches to fix the problem.
-> 1) enable HDP plugin/unplugged interrupts to hpd_enable/disable
-> 2) add mutex to protect internal_hpd against race condition between different threads
->      
-> 
-> Kuogee Hsieh (2):
->    drm/msm/dp: enable HDP plugin/unplugged interrupts to
->      hpd_enable/disable
->    drm/msm/dp: add mutex to protect internal_hpd against race condition
->      between different threads
-> 
->   drivers/gpu/drm/msm/dp/dp_display.c | 37 +++++++++++++++++++++++--------------
->   1 file changed, 23 insertions(+), 14 deletions(-)
-> 
+On 5/11/23 15:10, Geert Uytterhoeven wrote:
+> Hi Helge,
+>
+> On Thu, May 11, 2023 at 3:05=E2=80=AFPM Helge Deller <deller@gmx.de> wro=
+te:
+>> On 5/11/23 09:55, Thomas Zimmermann wrote:
+>>> But the work I do within fbdev is mostly for improving DRM.
+>>
+>> Sure.
+>>
+>>> For the
+>>> other issues in this file, I don't think that matroxfb should even be
+>>> around any longer. Fbdev has been deprecated for a long time. But a
+>>> small number of drivers are still in use and we still need its
+>>> framebuffer console. So someone should either put significant effort
+>>> into maintaining fbdev, or it should be phased out. But neither is
+>>> happening.
+>>
+>> You're wrong.
+>>
+>> You don't mention that for most older machines DRM isn't an acceptable
+>> way to go due to it's limitations, e.g. it's low-speed due to missing
+>> 2D-acceleration for older cards and and it's incapability to change scr=
+een
+>> resolution at runtime (just to name two of the bigger limitations here)=
+.
+>> So, unless we somehow find a good way to move such drivers over to DRM
+>> (with a set of minimal 2D acceleration), they are still important.
+>
+> DRM can change resolution at runtime,
 
-BTW: Kuogee, what happened to the patchset promised at [1] ?
+Right, sure.
 
-In the reply, [2], I asked you to remove DP_HPD_INIT_SETUP completely, 
-and then you went silent.
+> just not through the fbdev API.
 
-[1] 
-https://lore.kernel.org/dri-devel/4c733721-855a-85fd-82a9-9af0f80fc02e@quicinc.com/ 
+... and sadly the simpledrm-based drivers neither.
 
+> Or do you mean the resolution of the text console, akin to
+> "fbset <mode>"?
 
-[2] 
-https://lore.kernel.org/dri-devel/358262c3-e501-3c7f-7502-f0323cdcc634@linaro.org/
+yes.
 
--- 
-With best wishes
-Dmitry
+> I have to admit I do not know if there is a command
+> line tool to do that...
 
+Helge
