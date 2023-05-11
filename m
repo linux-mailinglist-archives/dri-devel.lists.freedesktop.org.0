@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107CC6FFD1C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 01:18:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6286FFD26
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 01:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DE110E606;
-	Thu, 11 May 2023 23:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2183910E617;
+	Thu, 11 May 2023 23:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0BC10E5FB;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A93610E5FE;
  Thu, 11 May 2023 23:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1683847074; x=1715383074;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xzMIDSOH/b8Si9iUxyqK2ji73OvQIfDkSyvCGpKPBS8=;
- b=QHXfkQoPRH7CEoZq5D5P3eDg4zZavum1wD2+p4ghmC8acyC7Ve1V5B/n
- MRKgl73M7gK+w4h9EOS0bQ0zMIdbxodmt2aFPWeLXvbBr+MUh+hMSOBuF
- 7vAEnTXrTFKO7ji1oEFo/E05vhgNeBeLf8+B2umJspILuVJSlVNju8hf6
- QpmkwIBfogPvB066NJ3dcNv79iP8xDNXFZi9aIHPIeKCGpJDeFmQAaz0m
- 2rPG0MSjBe9jzoq3xTvLf3/eKcMd0Sat02lt0Q5MK19SSEuB7YcOY+nj4
- FlYdArkPmGkU+SlMHXXiwGvc9sKA3p+7C1yp69C4qNaQi71flD2Jj3Jve w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="378794003"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="378794003"
+ bh=8SFcL0erINhukxTNL7GDSlNQ2j7cyUWzmStSlrDvxB0=;
+ b=n4GBmgLymfdTQ9EZRYOfdYlkkz9wzmvvnhxlRFx6m3PEFvo6f5Zgo5sM
+ 2AWUciI9ZS3aV+g+n+FS3IBAd9Gclv1UfScFORoCegwI5nSq6LH7bfFhc
+ 9cVZ2yuynswXUQ76h52KH84RH8VT0npt90X5XqjvuMy4eC7EoXlAJnEov
+ sLz1AjxjdIZq6uzlEHfzIrN9CUbT2wyUQJJae6O437Fcg9MHBa4k784mo
+ U2BqKB6HalHxqdTWD7v1MaiFjpdzeyF6UzWlXjr1haQSFcFtmj9Refrpt
+ 2aYSiVVv8HjGKT6lhbFsUYvh0daqWZ5jrPvwzFGnGvIlSXh3TPJGvHBrC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="378794006"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="378794006"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2023 16:17:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="874164387"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="874164387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="874164391"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="874164391"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by orsmga005.jf.intel.com with ESMTP; 11 May 2023 16:17:42 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v11 6/8] drm/i915/uapi/pxp: Add a GET_PARAM for PXP
-Date: Thu, 11 May 2023 16:17:36 -0700
-Message-Id: <20230511231738.1077674-7-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v11 7/8] drm/i915/pxp: On MTL,
+ KCR enabling doesn't wait on tee component
+Date: Thu, 11 May 2023 16:17:37 -0700
+Message-Id: <20230511231738.1077674-8-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230511231738.1077674-1-alan.previn.teres.alexis@intel.com>
 References: <20230511231738.1077674-1-alan.previn.teres.alexis@intel.com>
@@ -66,153 +67,72 @@ Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because of the additional firmware, component-driver and
-initialization depedencies required on MTL platform before a
-PXP context can be created, UMD calling for PXP creation as a
-way to get-caps can take a long time. An actual real world
-customer stack has seen this happen in the 4-to-8 second range
-after the kernel starts (which sees MESA's init appear in the
-middle of this range as the compositor comes up). To avoid
-unncessary delays experienced by the UMD for get-caps purposes,
-add a GET_PARAM for I915_PARAM_PXP_SUPPORT.
+On legacy platforms, KCR HW enabling is done at the time the mei
+component interface is bound. It's also disabled during unbind.
+However, for MTL onwards, we don't depend on a tee component
+to start sending GSC-CS firmware messages.
 
-However, some failures can still occur after all the depedencies
-are met (such as firmware init flow failure, bios configurations
-or SOC fusing not allowing PXP enablement). Those scenarios will
-only be known to user space when it attempts creating a PXP context
-and is documented in the GEM UAPI headers.
-
-While making this change, create a helper that is common to both
-GET_PARAM caller and intel_pxp_start since the latter does
-similar checks.
+Thus, immediately enable (or disable) KCR HW on PXP's init,
+fini and resume.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Acked-by: Jordan Justen <jordan.l.justen@intel.com>
 ---
- drivers/gpu/drm/i915/i915_getparam.c |  7 +++++++
- drivers/gpu/drm/i915/pxp/intel_pxp.c | 29 +++++++++++++++++++++-------
- drivers/gpu/drm/i915/pxp/intel_pxp.h |  1 +
- include/uapi/drm/i915_drm.h          | 19 ++++++++++++++++++
- 4 files changed, 49 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c | 15 ++++++++++++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c    |  3 ++-
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-index 2238e096c957..6f11d7eaa91a 100644
---- a/drivers/gpu/drm/i915/i915_getparam.c
-+++ b/drivers/gpu/drm/i915/i915_getparam.c
-@@ -5,6 +5,8 @@
- #include "gem/i915_gem_mman.h"
- #include "gt/intel_engine_user.h"
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+index 4bc276daca16..8dc41de3f6f7 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+@@ -10,6 +10,7 @@
+ #include "gt/uc/intel_gsc_uc_heci_cmd_submit.h"
  
-+#include "pxp/intel_pxp.h"
-+
- #include "i915_cmd_parser.h"
  #include "i915_drv.h"
- #include "i915_getparam.h"
-@@ -102,6 +104,11 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
- 		if (value < 0)
- 			return value;
- 		break;
-+	case I915_PARAM_PXP_STATUS:
-+		value = intel_pxp_get_readiness_status(i915->pxp);
-+		if (value < 0)
-+			return value;
-+		break;
- 	case I915_PARAM_MMAP_GTT_VERSION:
- 		/* Though we've started our numbering from 1, and so class all
- 		 * earlier versions as 0, in effect their value is undefined as
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-index b600d68de2a4..f143eadbc253 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-@@ -358,23 +358,38 @@ void intel_pxp_end(struct intel_pxp *pxp)
++#include "intel_pxp.h"
+ #include "intel_pxp_cmd_interface_42.h"
+ #include "intel_pxp_cmd_interface_43.h"
+ #include "intel_pxp_gsccs.h"
+@@ -422,10 +423,22 @@ gsccs_allocate_execution_resource(struct intel_pxp *pxp)
+ 
+ void intel_pxp_gsccs_fini(struct intel_pxp *pxp)
+ {
++	intel_wakeref_t wakeref;
++
+ 	gsccs_destroy_execution_resource(pxp);
++	with_intel_runtime_pm(&pxp->ctrl_gt->i915->runtime_pm, wakeref)
++		intel_pxp_fini_hw(pxp);
  }
  
- /*
-- * the arb session is restarted from the irq work when we receive the
-- * termination completion interrupt
-+ * this helper is used by both intel_pxp_start and by
-+ * the GET_PARAM IOCTL that user space calls. Thus, the
-+ * return values here should match the UAPI spec.
-  */
--int intel_pxp_start(struct intel_pxp *pxp)
-+int intel_pxp_get_readiness_status(struct intel_pxp *pxp)
+ int intel_pxp_gsccs_init(struct intel_pxp *pxp)
  {
--	int ret = 0;
--
- 	if (!intel_pxp_is_enabled(pxp))
- 		return -ENODEV;
- 
- 	if (HAS_ENGINE(pxp->ctrl_gt, GSC0)) {
- 		if (wait_for(intel_pxp_gsccs_is_ready_for_sessions(pxp), 250))
--			return -ENXIO;
-+			return 2;
- 	} else {
- 		if (wait_for(pxp_component_bound(pxp), 250))
--			return -ENXIO;
-+			return 2;
- 	}
-+	return 1;
-+}
+-	return gsccs_allocate_execution_resource(pxp);
++	int ret;
++	intel_wakeref_t wakeref;
 +
-+/*
-+ * the arb session is restarted from the irq work when we receive the
-+ * termination completion interrupt
-+ */
-+int intel_pxp_start(struct intel_pxp *pxp)
-+{
-+	int ret = 0;
-+
-+	ret = intel_pxp_get_readiness_status(pxp);
-+	if (ret < 0)
-+		return ret;
-+	else if (ret > 1)
-+		return -EIO; /* per UAPI spec, user may retry later */
++	ret = gsccs_allocate_execution_resource(pxp);
++	if (!ret) {
++		with_intel_runtime_pm(&pxp->ctrl_gt->i915->runtime_pm, wakeref)
++			intel_pxp_init_hw(pxp);
++	}
++	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+index 4f836b317424..1a04067f61fc 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+@@ -43,8 +43,9 @@ void intel_pxp_resume_complete(struct intel_pxp *pxp)
+ 	 * The PXP component gets automatically unbound when we go into S3 and
+ 	 * re-bound after we come out, so in that scenario we can defer the
+ 	 * hw init to the bind call.
++	 * NOTE: GSC-CS backend doesn't rely on components.
+ 	 */
+-	if (!pxp->pxp_component)
++	if (!HAS_ENGINE(pxp->ctrl_gt, GSC0) && !pxp->pxp_component)
+ 		return;
  
- 	mutex_lock(&pxp->arb_mutex);
- 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-index 3ded0890cd27..17e6dbc86b38 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-@@ -26,6 +26,7 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
- void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
- void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
- 
-+int intel_pxp_get_readiness_status(struct intel_pxp *pxp);
- int intel_pxp_start(struct intel_pxp *pxp);
- void intel_pxp_end(struct intel_pxp *pxp);
- 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 0aa3190e7654..ba40855dbc93 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -771,6 +771,25 @@ typedef struct drm_i915_irq_wait {
-  */
- #define I915_PARAM_OA_TIMESTAMP_FREQUENCY 57
- 
-+/*
-+ * Query the status of PXP support in i915.
-+ *
-+ * The query can fail in the following scenarios with the listed error codes:
-+ *     -ENODEV = PXP support is not available on the GPU device or in the
-+ *               kernel due to missing component drivers or kernel configs.
-+ *
-+ * If the IOCTL is successful, the returned parameter will be set to one of
-+ * the following values:
-+ *     1 = PXP feature is supported and is ready for use.
-+ *     2 = PXP feature is supported but should be ready soon (pending
-+ *         initialization of non-i915 system dependencies).
-+ *
-+ * NOTE: When param is supported (positive return values), user space should
-+ *       still refer to the GEM PXP context-creation UAPI header specs to be
-+ *       aware of possible failure due to system state machine at the time.
-+ */
-+#define I915_PARAM_PXP_STATUS		 58
-+
- /* Must be kept compact -- no holes and well documented */
- 
- /**
+ 	intel_pxp_init_hw(pxp);
 -- 
 2.39.0
 
