@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7096FF101
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:03:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1983A6FF11A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C989210E0CF;
-	Thu, 11 May 2023 12:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8266F10E0C6;
+	Thu, 11 May 2023 12:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D36AC10E0CF;
- Thu, 11 May 2023 12:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683806574; x=1715342574;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pgKwgNGYg+F+j98b2qPTjWsB/OPTbOcSNjg9AVmnpys=;
- b=NWf8wbNjS+7DXLiRUZY9AMC5Jek6cJJxBAs2v1PqXzUg68gPToMDLXa5
- Ath38zVF63ClVIDgRpPlgnGYDEnfG2t60kIYRF+NvnTI+7yF9kr2rczOY
- FDrZ6M23OP2wa7n9hBq+Rm86ldrN7OxjfvkWRs7FYQ0x86mWGQw3LHiLa
- 0HXS/U6DuLXnMBNtr4xe8TbeKpqsh+Wsv+tY7LaAkj2kpCHCkoqe374En
- svclQshGpEeEsju0i90v31chxTxxOzu+MevFDQymlJIu8+JYlXZKFoIgs
- ZAT6HWaw1Jj9mx0AO0Y0p2DnPLH/SsG8cLUFV/ugcepAOfc4H5tpTE9Yb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="436810423"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="436810423"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 05:02:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="873957221"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="873957221"
-Received: from thenehan-mobl1.ger.corp.intel.com (HELO [10.213.214.244])
- ([10.213.214.244])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 05:02:52 -0700
-Message-ID: <5c7abe53-aa76-e16d-4276-e53d8138bc55@linux.intel.com>
-Date: Thu, 11 May 2023 13:02:50 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2BD810E09C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:08:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 469161FE61;
+ Thu, 11 May 2023 12:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683806916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5MGkVsgnhs8IWI9sfEAa7kwgPCjf/d/kSbX6xJ66Ln0=;
+ b=htKpn0oBhvlAqMRhw/46x4kkkkR/GMqnoqjLoEplq+CLkVVwvE3RRr3BUnAp1Ot6Mxo1eB
+ /QSTYcUWYLfAg4jq2srWTOkXdeOQR+9yTDVx/jBa3z8JhYYNm6f+JNBSIy8RVp/BZKfoZ1
+ LIvURqH3UNQ242r7MPgxrS9YYBdrFt0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683806916;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5MGkVsgnhs8IWI9sfEAa7kwgPCjf/d/kSbX6xJ66Ln0=;
+ b=KC2jQdIFIdCMrdu99oT39tR+6Z/n/xZeRgEGI3VgyDUJEWlVOYKU6G1Y8HAC/dluhJt4fX
+ 3pfIT8motglS5MBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1FAA0134B2;
+ Thu, 11 May 2023 12:08:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vHHJBsTaXGTNdwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 May 2023 12:08:36 +0000
+Message-ID: <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
+Date: Thu, 11 May 2023 14:08:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [Intel-gfx] [PATCH v7 2/2] drm/i915: use pat_index instead of
- cache_level
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 00/15] fbdev: Remove trailing whitespaces
 Content-Language: en-US
-To: "Yang, Fei" <fei.yang@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20230508234854.4028658-1-fei.yang@intel.com>
- <20230508234854.4028658-3-fei.yang@intel.com>
- <1eba1d94-427e-c8fe-9d58-69b52d1545e4@linux.intel.com>
- <SN6PR11MB25746DE12E35850DF6772BA29A769@SN6PR11MB2574.namprd11.prod.outlook.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <SN6PR11MB25746DE12E35850DF6772BA29A769@SN6PR11MB2574.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: deller@gmx.de, Javier Martinez Canillas <javierm@redhat.com>
+References: <20230331092314.2209-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230331092314.2209-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uKqNAYd4TEMJEyo6lLFdO5r0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,133 +69,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>, "Roper,
- Matthew D" <matthew.d.roper@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uKqNAYd4TEMJEyo6lLFdO5r0
+Content-Type: multipart/mixed; boundary="------------gmalK9ZbmC0i5kFea2aAG9me";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, Javier Martinez Canillas <javierm@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
+Subject: Re: [PATCH 00/15] fbdev: Remove trailing whitespaces
+References: <20230331092314.2209-1-tzimmermann@suse.de>
+In-Reply-To: <20230331092314.2209-1-tzimmermann@suse.de>
 
-On 09/05/2023 18:12, Yang, Fei wrote:
->  > On 09/05/2023 00:48, fei.yang@intel.com wrote:
->  >> From: Fei Yang <fei.yang@intel.com>
->  >>
->  >> Currently the KMD is using enum i915_cache_level to set caching 
-> policy for
->  >> buffer objects. This is flaky because the PAT index which really 
-> controls
->  >> the caching behavior in PTE has far more levels than what's defined 
-> in the
->  >> enum. In addition, the PAT index is platform dependent, having to 
-> translate
->  >> between i915_cache_level and PAT index is not reliable, and makes 
-> the code
->  >> more complicated.
->  >>
->  >> From UMD's perspective there is also a necessity to set caching 
-> policy for
->  >> performance fine tuning. It's much easier for the UMD to directly 
-> use PAT
->  >> index because the behavior of each PAT index is clearly defined in 
-> Bspec.
->  >> Having the abstracted i915_cache_level sitting in between would only 
-> cause
->  >> more ambiguity. PAT is expected to work much like MOCS already works 
-> today,
->  >> and by design userspace is expected to select the index that exactly
->  >> matches the desired behavior described in the hardware specification.
->  >>
->  >> For these reasons this patch replaces i915_cache_level with PAT 
-> index. Also
->  >> note, the cache_level is not completely removed yet, because the KMD 
-> still
->  >> has the need of creating buffer objects with simple cache settings 
-> such as
->  >> cached, uncached, or writethrough. For kernel objects, cache_level 
-> is used
->  >> for simplicity and backward compatibility. For Pre-gen12 platforms 
-> PAT can
->  >> have 1:1 mapping to i915_cache_level, so these two are 
-> interchangeable. see
->  >> the use of LEGACY_CACHELEVEL.
->  >>
->  >> One consequence of this change is that gen8_pte_encode is no longer 
-> working
->  >> for gen12 platforms due to the fact that gen12 platforms has 
-> different PAT
->  >> definitions. In the meantime the mtl_pte_encode introduced 
-> specfically for
->  >> MTL becomes generic for all gen12 platforms. This patch renames the MTL
->  >> PTE encode function into gen12_pte_encode and apply it to all gen12. 
-> Even
->  >> though this change looks unrelated, but separating them would 
-> temporarily
->  >> break gen12 PTE encoding, thus squash them in one patch.
->  >>
->  >> Special note: this patch changes the way caching behavior is 
-> controlled in
->  >> the sense that some objects are left to be managed by userspace. For 
-> such
->  >> objects we need to be careful not to change the userspace settings.There
->  >> are kerneldoc and comments added around obj->cache_coherent, 
-> cache_dirty,
->  >> and how to bypass the checkings by i915_gem_object_has_cache_level. For
->  >> full understanding, these changes need to be looked at together with the
->  >> two follow-up patches, one disables the {set|get}_caching ioctl's 
-> and the
->  >> other adds set_pat extension to the GEM_CREATE uAPI.
->  >>
->  >> Bspec: 63019
->  >>
->  >> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
->  >> Signed-off-by: Fei Yang <fei.yang@intel.com>
->  >> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->  >> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+--------------gmalK9ZbmC0i5kFea2aAG9me
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-[snip]
+KHBpbmcpDQoNCkhpLA0KDQpJIHRob3VnaHQgdGhlc2UgcGF0Y2hlcyB3b3VsZCBnbyB0aHJv
+dWdoIHRoZSBmYmRldiB0cmVlLCBidXQgSSBjb3VsZCBub3QgDQpmaW5kIHRoZW0gdjYuNC1y
+YzEuIFBsZWFzZSByZXZpZXcgdGhlIHJlbWFpbmluZyBvbmVzLCBzbyB0aGF0IEkgY2FuIA0K
+bWVyZ2UgdGhlbSB2aWEgZHJtLW1pc2MuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCkFt
+IDMxLjAzLjIzIHVtIDExOjIyIHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+IFRoZSB0
+cmFpbGluZyB3aGl0ZXNwYWNlcyBhcmUgYW5ub3lpbmcuIFNvIHJlbW92ZSB0aGVtLiBObw0K
+PiBmdW5jdGlvbmFsIGNoYW5nZXMuIFNvbWUgb2YgdGhlIHBhdGNoZXMgaGFzIGFscmVhZHkg
+YmVlbg0KPiBhY2tlZCBieSBIZWxnZS4NCj4gDQo+IFRob21hcyBaaW1tZXJtYW5uICgxNSk6
+DQo+ICAgIGZiZGV2LzY4MzI4ZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAg
+ICBmYmRldi9hdG1lbF9sY2RmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+ICAg
+IGZiZGV2L2NnMTQ6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAgICBmYmRldi9j
+b250cm9sZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAgICBmYmRldi9nMzY0
+ZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAgICBmYmRldi9oZ2FmYjogUmVt
+b3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+ICAgIGZiZGV2L2hwZmI6IFJlbW92ZSB0cmFp
+bGluZyB3aGl0ZXNwYWNlcw0KPiAgICBmYmRldi9tYWNmYjogUmVtb3ZlIHRyYWlsaW5nIHdo
+aXRlc3BhY2VzDQo+ICAgIGZiZGV2L21heGluZWZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVz
+cGFjZXMNCj4gICAgZmJkZXYvcDkxMDA6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0K
+PiAgICBmYmRldi9wbGF0aW51bWZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4g
+ICAgZmJkZXYvc2ExMTAwZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAgICBm
+YmRldi9zdGlmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+ICAgIGZiZGV2L3Zh
+bGt5cmllZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiAgICBmYmRldi92ZmI6
+IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPiANCj4gICBkcml2ZXJzL3ZpZGVvL2Zi
+ZGV2LzY4MzI4ZmIuYyAgICAgfCAgMTIgKy0tDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9h
+dG1lbF9sY2RmYi5jIHwgICAyICstDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9jZzE0LmMg
+ICAgICAgIHwgICAyICstDQo+ICAgZHJpdmVycy92aWRlby9mYmRldi9jb250cm9sZmIuYyAg
+IHwgIDM0ICsrKy0tLS0NCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jICAgICAg
+fCAgIDYgKy0NCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2hnYWZiLmMgICAgICAgfCAgMzYg
+KysrLS0tLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvaHBmYi5jICAgICAgICB8ICAgOCAr
+LQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvbWFjZmIuYyAgICAgICB8ICAxMCArLQ0KPiAg
+IGRyaXZlcnMvdmlkZW8vZmJkZXYvbWF4aW5lZmIuYyAgICB8ICAgMiArLQ0KPiAgIGRyaXZl
+cnMvdmlkZW8vZmJkZXYvcDkxMDAuYyAgICAgICB8ICAgNCArLQ0KPiAgIGRyaXZlcnMvdmlk
+ZW8vZmJkZXYvcGxhdGludW1mYi5jICB8ICAzMCArKystLS0NCj4gICBkcml2ZXJzL3ZpZGVv
+L2ZiZGV2L3NhMTEwMGZiLmMgICAgfCAgMzIgKysrLS0tDQo+ICAgZHJpdmVycy92aWRlby9m
+YmRldi9zdGlmYi5jICAgICAgIHwgMTU2ICsrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
+LQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdmFsa3lyaWVmYi5jICB8ICAxNCArLS0NCj4g
+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3ZmYi5jICAgICAgICAgfCAgMTAgKy0NCj4gICAxNSBm
+aWxlcyBjaGFuZ2VkLCAxNzkgaW5zZXJ0aW9ucygrKSwgMTc5IGRlbGV0aW9ucygtKQ0KPiAN
+Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAx
+NDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15
+ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBO
+dWVybmJlcmcpDQo=
 
->  >> +                                          node.start,
->  >> +                                          i915_gem_get_pat_index(i915,
->  >> +                                                                 
-> I915_CACHE_NONE), 0);
->  >>                        wmb(); /* flush modifications to the GGTT 
-> (insert_page) */
->  >>                } else {
->  >>                        page_base += offset & PAGE_MASK;
->  >> @@ -1142,6 +1148,19 @@ int i915_gem_init(struct drm_i915_private 
-> *dev_priv)
->  >>        unsigned int i;
->  >>        int ret;
->  >>
->  >> +     /*
->  >> +      * In the proccess of replacing cache_level with pat_index a 
-> tricky
->  >> +      * dependency is created on the definition of the enum 
-> i915_cache_level.
->  >> +      * in case this enum is changed, PTE encode would be broken.
->  >
->  >_I_n
-> 
-> Sorry, what does this mean?
+--------------gmalK9ZbmC0i5kFea2aAG9me--
 
-Start of sentence, capital 'i'.
+--------------uKqNAYd4TEMJEyo6lLFdO5r0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-[snip]
+-----BEGIN PGP SIGNATURE-----
 
->  > With a pinky promise to improve this all in the near future I won't
->  > grumble to loudly. :) I haven't read all the details, I leave that to
->  > other reviewers, and also assuming some final tweaks as indicated above
->  > please.
-> 
-> Thanks for all the suggestions, really appreciated.
-> May I add your Acked-by?
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRc2sMFAwAAAAAACgkQlh/E3EQov+AX
+eA//URXSljl9D6RTDAOddCWG1gAUaAjCIlBu6oe1ZjSlDX4pgvBwEFIsKrkMJ8opHUsl16CZsJqW
+4u+sU5BIVxFd4mLnNUMYjW9AOokkMYCtJQAtrFB6w5i9VIH4OgowYAEGOqQ/v8/mXbYtbgNQIA+P
+hA49afD2qrkhaZumfDMd6YI6nI1cjC3h5JEfw0IhyrmcLphYT9ooMwFug/X5fs4OLI9xE0YITy9W
+ztU5L2mVWCjp9ktoqcfNxfbYPq69Ras/bBluseM+o02NbCNoJV6hLFkWOEOxcjy2VIMqelCwCaFb
+VOS7s+5/IpMWXgcxGpkBskEQ1mi5pJDPLnl4XaJrJQ35ajMZeCwAL4qNM4UaXwhsagfjiOF5SYAx
+LxLrHXulITYEr7tUVhFTGuEUlYjyLXNklMgEIKitxtlKnmtXrUw5gakmqqlZW/KGzGg3z5d6eurR
+w6KA/6n1YBDoJykzxDlSOa7x5S2CjjNEC7Sg8TkDrbbjxzo0G/u5MvoFF/eFXYKniNfC7A/D8LtW
+ERVdmQD0gravajiLPz01N0UsxKGCmSFUpi66yGovHR86+giRM2s1GN8vJvPkPfGh0LMIaY9RKitK
+IHpewqrTn2tHFIaoZhSbrz1JbmJIKeiNpoGkPPVIqKd9A5Kp8IJZMpeHhowgyxZZlaVQ2vzJx18N
+xPQ=
+=DE55
+-----END PGP SIGNATURE-----
 
-I can't make myself do it since I really don't like the design that 
-much. That's why I said I will not grumble too loudly.
-
-Jira for follow up clean since we both agreed something more elegant is 
-possible would be appreciated though.
-
-Regards,
-
-Tvrtko
+--------------uKqNAYd4TEMJEyo6lLFdO5r0--
