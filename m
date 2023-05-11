@@ -2,65 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168456FF1A8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA576FF1B1
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:39:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D75F10E0EA;
-	Thu, 11 May 2023 12:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882F010E1CB;
+	Thu, 11 May 2023 12:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6A210E0EA
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:36:07 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-55a26b46003so129630847b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 05:36:07 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E60710E1CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:39:36 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2ac87e7806aso79710111fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 05:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683808772; x=1686400772;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sguCADxh6/8JZhFfgnCw2t9kQNtuJnhKvTXcCcJKeVo=;
+ b=N+cChiVGWGTovdxW3imjqG5act1QQ5KtOXb3rtHLD0O5XukjYbg4R8yAFzaKwsj0LV
+ sw26mEJ4W2mmwpCqPIz/MEc9EQoRXJRPXV95YPcUdrkNXSLeKcwBT2cm9C1L+p+15dpr
+ 2I6soBLa49oUYkTYkhbTtNs8tOFwxOiBNiP7z0uAqxtfQjmImVisFnxkF5u0k6k/t6pY
+ O0XkPrRpnSIpg9+5p6XpcY5Ax06D8WwHsdxn2h4MDX2SVSW6otTrHULi2pD5B9+N7Syy
+ eDWZx0fD9yAF6aAbOvxMrxefdna9pQ7gzLCjaHjYmEXVDiUUqx04bgounx98mhAekQTd
+ QfSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683808566; x=1686400566;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bccEgTIv+NuBZ7b0m7HvDAcmdwRNosK16KRrDt/LqxI=;
- b=DfpWeqkayEH7Y+Mc8uDufG5jmRbU26B1GGepy+nBuLyYoEcMSf0aoVZfR6EtmQIP0S
- po1Wu4SUTNiT+EFXSfI4bhT2lm9i1gwdoaV+FtkTGIJxhDLFYkl4av8poAzstjNpD+pM
- 9duc469SlFJqXD7Il0jAGuu4YmOmSBRt7o2ClWVqlAL0IyXd/P3vPDRUrTZXgpgAyaT5
- JnZU3Uls+n4yxD4x/jQ4pzKaSP9WPjR0kVreNT/gjci71b2JJLHNJXHN0nUMlvPNh2Ze
- usP6oRsAmZO9TOULysfebRtYV00ccQuDJy3Hnnxsb/KZFsPR3lEZhr49LfQbIHxQmacw
- Z3Yw==
-X-Gm-Message-State: AC+VfDyTRTXJqN1aOS++4ydKBv+EH7ZDeuDehysoEgUr8MMXG7xnDIsp
- F8XXrjUfmRPU7yS3n6fxaE+Ye1FiZPQGJw==
-X-Google-Smtp-Source: ACHHUZ5gvQEMJiZXVl8DRnpCN7QhbkeW0Mi1DOOPCJznQYybIagoXg+S5VhSxxi9Kc8/lVN3ra3oXA==
-X-Received: by 2002:a81:9202:0:b0:559:e54d:4dde with SMTP id
- j2-20020a819202000000b00559e54d4ddemr22503702ywg.8.1683808565996; 
- Thu, 11 May 2023 05:36:05 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
- [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
- l127-20020a0dfb85000000b0054c082bad36sm4859405ywf.120.2023.05.11.05.36.03
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20221208; t=1683808772; x=1686400772;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sguCADxh6/8JZhFfgnCw2t9kQNtuJnhKvTXcCcJKeVo=;
+ b=AADnmbbvfmB5mS0aed1aVOdobVnb2wgtL/vDgpNBUlnjVb0GP2QsRvggZ6hJ4We6gK
+ c+yk9r9s/BMFc2jGh68ieEh6T//LT0idZZPxBCDMy41dEVyobb6llzuQyHIxAGx0TgpD
+ Ki2vg2iJ1rMOVCkdVEFk3Wg+W/WgQBC2r09aDaj51uQmGPMjAOQNJvQdxuVTTHmPcF7a
+ 8O5tiPN9TPxDRHyfAeEXKJuN3EjMkotlyqaViO0rdpREV81GNbaJDnv1hF3k9f7VODGJ
+ /xoTJjt5D//rGPt4e+dRdSGHJIOABowZyOQOvKGSgw1ijymiKoYbLr27oUo+LCTTF8YB
+ uZvg==
+X-Gm-Message-State: AC+VfDxLxIKdCMIh7Zm3noINoS3k0aYb7697iNBOFqJp00VaCgy0xcvV
+ NU4Dr6Rm6ZaAExJxXBTNS8/daQ==
+X-Google-Smtp-Source: ACHHUZ6+tTZyN721QPlPxPuC2A0OHeNX3tT1BQq7UBNV3ZI/xQJB2a24CSnNTYmrGnjbCg+GxE97XQ==
+X-Received: by 2002:a2e:3211:0:b0:2a8:ba15:eb6f with SMTP id
+ y17-20020a2e3211000000b002a8ba15eb6fmr3164629ljy.6.1683808771890; 
+ Thu, 11 May 2023 05:39:31 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ v23-20020a2e9617000000b002a8bc9918d4sm2374591ljh.97.2023.05.11.05.39.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 05:36:04 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-559eae63801so129597007b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 05:36:03 -0700 (PDT)
-X-Received: by 2002:a81:8a05:0:b0:556:1b32:343b with SMTP id
- a5-20020a818a05000000b005561b32343bmr19413336ywg.45.1683808563363; Thu, 11
- May 2023 05:36:03 -0700 (PDT)
+ Thu, 11 May 2023 05:39:31 -0700 (PDT)
+Message-ID: <894ea5be-5126-b72b-ad88-4f06cb5c11ca@linaro.org>
+Date: Thu, 11 May 2023 15:39:30 +0300
 MIME-Version: 1.0
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 May 2023 14:35:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
-Message-ID: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/msm/iommu: Fix null pointer dereference in no-IOMMU
+ case
+Content-Language: en-GB
+To: Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230508-6-4-drm-msm-iommu-fixup-v1-1-a7a21ec94f5b@z3ntu.xyz>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230508-6-4-drm-msm-iommu-fixup-v1-1-a7a21ec94f5b@z3ntu.xyz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +81,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
- Sam Ravnborg <sam@ravnborg.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- kernel test robot <lkp@intel.com>, Artur Rojek <contact@artur-rojek.eu>,
- Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
- suijingfeng@loongson.cn, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+On 08/05/2023 23:26, Luca Weiss wrote:
+> In the case that no IOMMU is available, msm_iommu_new can return NULL
+> which should be handled. Without we will get a NULL pointer dereference
+> in the next statement when we try to use the mmu variable.
+> 
+> Fixes: 8cceb773f565 ("drm/msm/adreno: stall translation on fault for all GPU families")
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+> ---
+>   drivers/gpu/drm/msm/msm_iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-CC Artur, who's working on HP Jornada 680.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Wed, May 10, 2023 at 5:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
-> On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
-> > Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
-> >> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
->
-> >> I think that's a preexisting bug and I have no idea what the
-> >> correct solution is. Looking for HD64461 shows it being used
-> >> both with inw/outw and readw/writew, so there is no way to have
-> >> the correct type. The sh __raw_readw() definition hides this bug,
-> >> but that is a problem with arch/sh and it probably hides others
-> >> as well.
-> >
-> > The constant HD64461_IOBASE is defined as integer at
-> >
-> >
-> > https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/hd64=
-461.h#L17
-> >
-> > but fb_readw() expects a volatile-void pointer. I guess we could add a
-> > cast somewhere to silence the problem. In the current upstream code,
-> > that appears to be done by sh's __raw_readw() internally:
-> >
-> >
-> > https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/io.h=
-#L35
->
-> Sure, that would make it build again, but that still doesn't make the
-> code correct, since it's completely unclear what base address the
-> HD64461_IOBASE is relative to. The hp6xx platform code only passes it
-> through inw()/outw(), which take an offset relative to sh_io_port_base,
-> but that is not initialized on hp6xx. I tried to find in the history
-> when it broke, apparently that was in 2007 commit 34a780a0afeb ("sh:
-> hp6xx pata_platform support."), which removed the custom inw/outw
-> implementations.
+-- 
+With best wishes
+Dmitry
 
-See also commit 4aafae27d0ce73f8 ("sh: hd64461 tidying."), which
-claims they are no longer needed.
-
-Don't the I/O port macros just treat the port as an absolute base address
-when sh_io_port_base isn't set?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
