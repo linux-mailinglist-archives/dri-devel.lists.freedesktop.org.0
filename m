@@ -1,82 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E4C6FF337
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:41:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D21A6FF3DC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 16:18:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D064810E0F7;
-	Thu, 11 May 2023 13:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC9710E259;
+	Thu, 11 May 2023 14:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B191C10E0F7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:41:05 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 06E522B05DDC;
- Thu, 11 May 2023 09:41:02 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Thu, 11 May 2023 09:41:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1683812462; x=1683819662; bh=bN
- MS+yJaTUyOEJLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=pbfvNGcEhT5R087tiN
- QnEE33cGWBvS5AiGVm1gu96LmUVgkxF03e4K96Ei9qPwA7fiKdXmlXU35YSty4lV
- upc6nhsgrNKO1Zu5vJdZRzsTYt5+zUsNa1/G1LgbSdyvZAkWWcimIWPpFpGxaLK6
- hH7/y6eKFwClAzo+2pbOB483InnbRNbufNRaxh3CrbmLD7GhYXkCtmotomtbcOHW
- NAkD92i1A1Bqcysq66C1J4W0/8Ffr4tm/CjkCymgi72EioBx6dkJg+rOhYWSOSEQ
- rfFDwhYNZARWUi2ZC5uIDwtU5o7jO6mXg31RmRIKFygPD4lgfPnMU2vHZpWLzWR9
- tY6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1683812462; x=1683819662; bh=bNMS+yJaTUyOE
- JLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=NUVaoKGjAUB1IvBp3dt6JHnnJHLVm
- 5FazabUKUOC3zaEmLNyDQKpBgQBJXDhw6415JSYAsI7vcdS5XzphHJbcm+e1RYhU
- llcs9weTW01qk5AxUBbjOtH2kzwx7xePfQXIMcfPmjZGOSYBauaruz9JqW/61W85
- heX8lT7nka5DtfPGfdG7S5QpZIuNTpDxxrHbUPJHanrVYS+a2Xfw0XBnyLyCziCN
- FQo1Pxm5MNwRhnbgYrHcF3+uL/xmCS5YxmDTGoWN77KSYtOLmS5dlADRru9/PWae
- uUp8Kzt4lULTaZjWcoN7X0TwqmJ+FUlxtD2Zae1Lsi2pmq9JY+k/goTzg==
-X-ME-Sender: <xms:bfBcZMNSgCzv51ibNqiMadxkekdHAGVmhQZVB7Xg4Ch3ubv8oc_OqQ>
- <xme:bfBcZC-LuOp4qL-OBOPp41xrwYUB7X6JxntaEUrPpvOl-0LjASR1mtr0iBts6oiZU
- CITzOT_9aVK9gzgF74>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgieekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
- hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:bfBcZDTVU8Z1aHlCiwHMzI3BQFNOhMCOOgQIyHMelQO9w3lKyBypBg>
- <xmx:bfBcZEvrEazOWER04N0wAeZIGr8U1lNFD45nasK99m4-LBGcCbMMFQ>
- <xmx:bfBcZEdVboxFWTIW74hVqDVfva2XernqNuoZ92ynPmme6ph_Ri3bvw>
- <xmx:bvBcZKe-JadH7ZmJYk5LO7CV-vuIG1KgQLl2SxyA8Qajy4KAMUmi0_Uv4kk>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 81468B60089; Thu, 11 May 2023 09:41:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
-Mime-Version: 1.0
-Message-Id: <d27e359c-1ea3-4d08-b124-e794fd372b28@app.fastmail.com>
-In-Reply-To: <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
- <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
- <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
-Date: Thu, 11 May 2023 15:40:28 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Artur Rojek" <contact@artur-rojek.eu>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2068.outbound.protection.outlook.com [40.107.237.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E2710E259;
+ Thu, 11 May 2023 14:18:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zk5+lvq+HaSZ8n8lJIa+jW2fCjmFXfoiE38Gr0BK/hX04REE4XxNesiGkcXTCyyaiPnuMV7TL5STWU6GdyrgUD4Cd5UKJbjPSbyjM2RsM0OAXg2Hl1WIYVIB0P4Z7A5SeHBcuAt7BGRKuQaSu2pY6wXTbDEQFx6FVI5djCjBm0J+U4DllAq48w+gEZC2iMWUazfflNfFnGqFp/1gTPZ3UUnVDyxD3Dl8QngCe3z0KKQHKjuxArv80g5LOAo1Fl3+W+Dir8Y7oGwrllpEOXSvmggZ8/8CIpal/MiwjPYp2W8u9lPuRiDUqnIK/LQf4ekZFn4SV3ohxNAZG4iCFVn69Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zhLvi8DWP8MGfc9ZcprvecLF37eKfASrNuMmur/Gzjw=;
+ b=XKvwPzDCxm09yXXTcGU68ifWQFOl5p5xfqaYq+WVilU8k4qGad79nIBFVTWcNv04SkN31k9EEmzGdVndebQU0bltmd6uyakFowyhHqvojYvTbJhwbNxXCo/9RdrvAUQ8A/RmE62xTB925jNaTHNuNAX5UzSOJ6s2OW4jhWhqoBqyojHA01etVzjIfoNqA+HBGWq+kBMYP8oOisRaweM+MR5HzzLquI12Sn/7KARoofNg9lh0voCwtVvEmlUCj6Ca1ugY7xzYUY2Q322TQGdGhGJFbidrO5fiZyWm0arsgqxzUBhgF9kaSQ2OIp3NYi/PeGNVVu5qW5gFLhygf/IfkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zhLvi8DWP8MGfc9ZcprvecLF37eKfASrNuMmur/Gzjw=;
+ b=W60n16rSHKcM15eNefU7PX/2v4vdxGK/4bYHMOhRuOtV0v4mWCiEBT9D7pLsbRwGlMjG6kjCEQ31j3OJCgR9+q75UyDuuaR9b+begV669gjUrTKJ/04PjYgoWv0AaAASN1R63uSrQ9ft4o9IcXxif1zSRVOuhUtsk7V65s92uX4=
+Received: from DS7PR06CA0042.namprd06.prod.outlook.com (2603:10b6:8:54::23) by
+ PH7PR12MB8124.namprd12.prod.outlook.com (2603:10b6:510:2ba::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.18; Thu, 11 May
+ 2023 14:18:10 +0000
+Received: from DM6NAM11FT112.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:54:cafe::66) by DS7PR06CA0042.outlook.office365.com
+ (2603:10b6:8:54::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.22 via Frontend
+ Transport; Thu, 11 May 2023 14:18:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT112.mail.protection.outlook.com (10.13.173.77) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6387.22 via Frontend Transport; Thu, 11 May 2023 14:18:10 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 11 May
+ 2023 09:18:09 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.4
+Date: Thu, 11 May 2023 10:17:55 -0400
+Message-ID: <20230511141755.7896-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT112:EE_|PH7PR12MB8124:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fa3bf96-3a01-48d0-7aba-08db522a8c7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ByfD4P35phWvfeTxm9wQrPAmzNzosTjHQq1AY17PvB41yV+lU17wyOhs+YglzvOTMvndkfmFIESV3mmyF0GUkrBBq1tiPxP9Cy2uKyNvj8soWPYJiaaNrkYXjLVCT5mFKdWP9QSiPoFp/tIhQWiO0I0uagH5iOM89t6nG+94MlK9EHaS19JpNxA/8401j2qh/oHcLO8E0OdNwalrBTtimQmrj7TgFJ5J/0E7X8hsPGOU3cf3M7iaS5CXlwGXRZByMk4Ykm8k6Cd+gQ8eACdv1vtag1y9fAyT2zIS53rkRkkFRxwRWc2sjauvSqPt52egct0lasYDJye/wsOaWZ0q3INbz+olwxHMDGdaiWvCehhKsL7GbtGIaLfcY+494aM8w7a4hLhjlGDFBN94kHURdpHKOyVBP26SaZLu0nrQYxgUZbYcn8fIha3txgnJ3vkdOzKeXImZ6VjmPmOf4p/+YxPi43LHaUSn/Gx2VwIeBC4qk82TE4LhRaS8KlugSJcEmwypEyKW8jLEmN4UWiIwGSdwnC1B279WbNPOZ7PHnbCuas0N00eRPocSBdWIVwJiuGbLOyo3+c6D38tGgDYdeJg7RSxnSYckIut6oWJBDuQrpQGBldSNOFIS1K0k3jHFalJxZhxIuQBVdyiVgFY3XyXdLw5lUpaqjMS+HDs+UQzrYfRSnoiGoPEoVjBq8RxrtNvBPmpMHTD62no0om1edZ8RnxOShEkmfO7TbUehqoc=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(396003)(451199021)(46966006)(40470700004)(36840700001)(7696005)(356005)(16526019)(82740400003)(1076003)(26005)(336012)(86362001)(426003)(40480700001)(41300700001)(2616005)(6666004)(47076005)(36756003)(82310400005)(186003)(966005)(83380400001)(81166007)(36860700001)(70206006)(70586007)(110136005)(478600001)(40460700003)(4326008)(8936002)(316002)(8676002)(5660300002)(2906002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 14:18:10.1217 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa3bf96-3a01-48d0-7aba-08db522a8c7a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT112.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,64 +99,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
- Sam Ravnborg <sam@ravnborg.org>, Linux-Arch <linux-arch@vger.kernel.org>,
- kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
- suijingfeng@loongson.cn, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 11, 2023, at 15:22, Artur Rojek wrote:
-> On 2023-05-11 14:35, Geert Uytterhoeven wrote:
->> 
->> CC Artur, who's working on HP Jornada 680.
-> Thanks for CC'ing me - I faced this exact issue while working on my
-> (still not upstreamed) hd6446x PCMCIA controller driver. The PCMCIA
-> subsystem uses `inb/outb`, which expect the `sh_io_port_base` to be set
-> to something else than the default `-1`. At first I tried to set it to
-> `0xa0000000`, so that all I/O goes through the fixed, non-cacheable P2
-> area. That however broke some other driver code (I had no time to debug
-> which one). Eventually I ended up taking a suggestion from a MIPS PCMCIA
-> driver [1] and simply substract the broken `sh_io_port_base` address
-> from `HD64461_IOBASE`, as the base for `socket.io_offset`. This way all
-> the PCMCIA `inb/outb` accesses are absolute, no matter what the
-> `sh_io_port_base` is set to. This of course is a very ugly solution and
-> we should instead fix the root cause of this mess. I will have a better
-> look at this patch set and the problem at hand at a later date.
->
-> Cheers,
-> Artur
->
-> [1] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pcmcia/db1xxx_ss.c?h=v6.4-rc1#n527
+Hi Dave, Daniel,
 
-I think the best fix would be to change all those drivers away
-from using inb/outb to readb/writeb, except when they access the
-actual PCMCIA I/O space behind the bridge.
+Fixes for 6.4.
 
-On most of the modern architectures, inb(addr) now turns into
-approximately readb(PCI_IOBASE + addr), with a bit of extra
-logic to deal with endianess and barrier semantics.
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
 
-PCI_IOBASE in turn tends to be a hardcoded virtual address
-to which the physical I/O space window gets mapped during
-early boot, though you can also #define it to sh_io_port_base
-if you want to allocate the virtual address dynamically and
-leave the existing logic unchanged.
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
 
-Setting sh_io_port_base to zero however is a problem for any
-driver that passes a small port number into it -- this then
-turns into a user space pointer dereference, which is trivially
-exploitable.
+are available in the Git repository at:
 
-     Arnd
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2023-05-11
+
+for you to fetch changes up to 996e93a3fe74dcf9d467ae3020aea42cc3ff65e3:
+
+  drm/amdgpu: change gfx 11.0.4 external_id range (2023-05-11 09:11:14 -0400)
+
+----------------------------------------------------------------
+amdgpu:
+- VCN3 fixes
+- APUs always support PCI atomics
+- Legacy power management fixes
+- DCN 3.1.4 fix
+- DCFCLK fix
+- Fix several RAS irq refcount mismatches
+- GPU Reset fix
+- GFX 11.0.4 fix
+
+----------------------------------------------------------------
+Alvin Lee (1):
+      drm/amd/display: Enforce 60us prefetch for 200Mhz DCFCLK modes
+
+Guchun Chen (4):
+      drm/amd/pm: parse pp_handle under appropriate conditions
+      drm/amdgpu: disable sdma ecc irq only when sdma RAS is enabled in suspend
+      drm/amd/pm: avoid potential UBSAN issue on legacy asics
+      drm/amdgpu/gfx: disable gfx9 cp_ecc_error_irq only when enabling legacy gfx ras
+
+Horatio Zhang (1):
+      drm/amdgpu: drop gfx_v11_0_cp_ecc_error_irq_funcs
+
+Leo Chen (1):
+      drm/amd/display: Add symclk workaround during disable link output
+
+Lin.Cao (1):
+      drm/amdgpu: Fix vram recover doesn't work after whole GPU reset (v2)
+
+Saleemkhan Jamadar (1):
+      drm/amdgpu/jpeg: Remove harvest checking for JPEG3
+
+Thong Thai (1):
+      drm/amdgpu/nv: update VCN 3 max HEVC encoding resolution
+
+Yifan Zhang (2):
+      drm/amdgpu: set gfx9 onwards APU atomics support to be true
+      drm/amdgpu: change gfx 11.0.4 external_id range
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 12 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  8 ++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             | 46 ---------------
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  3 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c             |  1 +
+ drivers/gpu/drm/amd/amdgpu/nv.c                    | 22 ++++++--
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  8 ++-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |  2 +-
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c   | 65 ++++++++++++++++++++++
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h   |  2 +
+ .../gpu/drm/amd/display/dc/dcn314/dcn314_init.c    |  2 +-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.c |  5 +-
+ .../amd/display/dc/dml/dcn32/display_mode_vba_32.h |  1 +
+ drivers/gpu/drm/amd/pm/amdgpu_dpm.c                | 25 ++++++---
+ 14 files changed, 131 insertions(+), 71 deletions(-)
