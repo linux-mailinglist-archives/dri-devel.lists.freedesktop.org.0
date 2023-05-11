@@ -2,73 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983CE6FEBC3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 08:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6230D6FEBD4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 08:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A99610E5AA;
-	Thu, 11 May 2023 06:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D0A10E5AB;
+	Thu, 11 May 2023 06:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D8C89207
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:28:22 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2ac87e7806aso75593361fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 May 2023 23:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683786500; x=1686378500;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VkKw6ZJBdEv1VTWUTJzAPl6i/3wgR4mhq3aqwGsAmdA=;
- b=K2hymQ87e1u+8I9WMgX/eLRbWKyt+C50E3VVcTu2KszPWB4w/uRXgCNXT7NIy2UC4L
- bhuKTbAKzC/DqCzOlzIYh7uHkku1MTnLPmhZqvDQxu0e9INtPEIXPhE25pgF9wsmwg/d
- 8IsSbD0xP5DfjNZzQORKGpbIcUfqK78RX00v+zmslW6wcbVVgBmkRW4RqB9COpmZ0q2u
- gdMEZUPJHZ9Gx3OghSkvMfwZcxUWe7TPRUfNXmcEvXYQP97ueiQeGr8UN8exJhaZw4kn
- voHaDcV2zb/XplucKY6PPhqxPa++LO+hStJrlGQhR5KQ38iocc7IlS9wZ2euM/paqRQE
- 6cww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683786500; x=1686378500;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VkKw6ZJBdEv1VTWUTJzAPl6i/3wgR4mhq3aqwGsAmdA=;
- b=MLMB9hmDHphUW9TfWKxdcT9DXBf/HVWTWoQnujVnfY1PzUqFlMXXqvx+5R8BVNN0t0
- WoGnpQUc35D8TvYji5KvsIXGiXpoNEQAMkZWxh2ZWSij6l8IdLSV19OIje0Tz7vzR6Xr
- YTLIt6GiHfahEGNn4xAHgZimdSfOfEbSiU4uS9ytK2/lRtN7o7AcTSEVRHowipyiQGaU
- X3i7YA9NhyeOtGhIXk6kK+IcCSWISvNMx7u6xrczv2qlmOEXHNDasXUqPEXKF+LVpIcc
- H4siBxJQZL28gml4TvNlEhxCha9totpuJmZX7aZJ34ebZGS1N7Wuvocx9BB16bcJXMPu
- PhYA==
-X-Gm-Message-State: AC+VfDxmSolMoRWl1ayB2125DGADvmoqU+TR3Wdxzcp9N1vkUTF6Mgrc
- eqyruVTkjhqbUQQnsxY8WVyYhw==
-X-Google-Smtp-Source: ACHHUZ7047nQKa2OkrfRPPMeF3vprp0FemWK+Zik3moRd+4v+8oXqjo/B5MHCt6M39YWpy53E/pb0w==
-X-Received: by 2002:a2e:9907:0:b0:2ad:8a4b:6a9e with SMTP id
- v7-20020a2e9907000000b002ad8a4b6a9emr2646101lji.26.1683786500410; 
- Wed, 10 May 2023 23:28:20 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f25-20020a2e9199000000b002a8bb52d994sm2274326ljg.25.2023.05.10.23.28.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 23:28:19 -0700 (PDT)
-Message-ID: <8c883eb6-26f7-8f82-04a4-d3a556d90138@linaro.org>
-Date: Thu, 11 May 2023 09:28:18 +0300
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk
+ [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9BA210E5AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+ bh=RtWxN7e4QjgKeMqyRm8+weDfqFq3jfnkuzd3W1qjtiM=; b=jw/mMH9qT+/rpGk7mfI4YGlPGe
+ uWTb2lZmqfZIuwVdgWuQnLtmQkWFasYr7kqa7CUIFVCLKRFtUvi1n8Qd+6fMBYIIAbvrl/GdFxv2J
+ lqAmLygNJHA+XCTSh+mldXiQG+o7dI8T8FS5MrntPj1B3P2ekHWFpwYFdC4tjvXb2QUArkaE0igA9
+ oZtyK6diEXw40KxwmYst51pwkoEifoIuQGmWWNdXLmKJ3cCOtTTeK1EclD5jXQT9bgdhOYp/vs0Fz
+ UBoWWTUbFlQsarbW1h9IC4EJZW1ubTxAV15CCwSdzwFvYrZWcxDjqD9Lezep+zRrsTgNjjVxyMM2m
+ zJpZGunw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pwzyw-001dzq-0x; Thu, 11 May 2023 06:40:54 +0000
+Date: Thu, 11 May 2023 07:40:54 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-buf/sync_file: Use fdget()
+Message-ID: <20230511064054.GM3390869@ZenIV>
+References: <202305051103396748797@zte.com.cn>
+ <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v7 4/8] drm/msm: Add MSM-specific DSC helper methods
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230329-rfc-msm-dsc-helper-v7-0-df48a2c54421@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v7-4-df48a2c54421@quicinc.com>
- <4jjgeylpyofynlybonwuveumwvyjphtnbtctu6pwdrigckropw@dmkahbb3au3d>
- <489fb0ea-3b37-f7ed-0183-f4cb1b003326@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <489fb0ea-3b37-f7ed-0183-f4cb1b003326@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,240 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: ye.xingchen@zte.com.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ gustavo@padovan.org, sumit.semwal@linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/05/2023 00:03, Jessica Zhang wrote:
+On Fri, May 05, 2023 at 10:22:09AM +0200, Christian K�nig wrote:
+> Am 05.05.23 um 05:03 schrieb ye.xingchen@zte.com.cn:
+> > From: Ye Xingchen <ye.xingchen@zte.com.cn>
+> > 
+> > convert the fget() use to fdget().
 > 
-> 
-> On 5/9/2023 11:33 PM, Marijn Suijten wrote:
->> On 2023-05-09 15:06:50, Jessica Zhang wrote:
->>> Introduce MSM-specific DSC helper methods, as some calculations are
->>> common between DP and DSC.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/Makefile         |  1 +
->>>   drivers/gpu/drm/msm/msm_dsc_helper.c | 26 ++++++++++++++
->>>   drivers/gpu/drm/msm/msm_dsc_helper.h | 69 
->>> ++++++++++++++++++++++++++++++++++++
->>>   3 files changed, 96 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
->>> index 7274c41228ed..b814fc80e2d5 100644
->>> --- a/drivers/gpu/drm/msm/Makefile
->>> +++ b/drivers/gpu/drm/msm/Makefile
->>> @@ -94,6 +94,7 @@ msm-y += \
->>>       msm_atomic_tracepoints.o \
->>>       msm_debugfs.o \
->>>       msm_drv.o \
->>> +    msm_dsc_helper.o \
->>>       msm_fb.o \
->>>       msm_fence.o \
->>>       msm_gem.o \
->>> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.c 
->>> b/drivers/gpu/drm/msm/msm_dsc_helper.c
->>> new file mode 100644
->>> index 000000000000..29feb3e3b5a4
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.c
->>> @@ -0,0 +1,26 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/*
->>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->>> reserved
->>> + */
->>> +
->>> +#include <linux/kernel.h>
->>> +#include <drm/drm_fixed.h>
->>> +
->>> +#include "msm_dsc_helper.h"
->>> +
->>> +s64 msm_dsc_get_bytes_per_soft_slice(struct drm_dsc_config *dsc)
->>> +{
->>> +    return drm_fixp_from_fraction(dsc->slice_width * 
->>> msm_dsc_get_bpp_int(dsc), 8);
->>
->> How about using dsc->slice_chunk_size?
-> 
-> Hi Marijn,
-> 
-> Thanks for pointing this out. However, I would prefer to keep this fixed 
-> point version of the slice_chunk_size math as the downstream DP math 
-> also uses fixed point [1].
+> Well the rational is missing. Why should we do that?
 
-This is pretty weak argument. Especially since this particular piece of 
-code does lots of wrong or inefficient things.
+We very definitely should not.  The series appears to be
+pure cargo-culting and it's completely wrong.
 
-> 
-> If we are able to confirm that integer math also works for DP, we will 
-> make the change to use slice_chunk_size within the DP DSC series.
+There is such thing as unwarranted use of fget().  Under some
+conditions converting to fdget() is legitimate *and* is an
+improvement.  HOWEVER, those conditions are not met in this case.
 
-This is why we usually do not accept API-only series. It is next to 
-imposible to judge if the API is good enough without the actual users.
+Background: references in descriptor table do contribute to
+struct file refcount.  fget() finds the reference by descriptor
+and returns it, having bumped the refcount.  In case when
+descriptor table is shared, we must do that - otherwise e.g.
+close() or dup2() from another thread could very well have
+destroyed the struct file we'd just found.  However, if
+descriptor table is *NOT* shared, there's no need to mess
+with refcount at all.  Provided that
+	* we are not grabbing the reference to keep it (stash
+into some data structure, etc.); as soon as we return from
+syscall, the reference in descriptor table is fair game for
+e.g. close(2).  Or exit(2), for that matter.
+	* we remember whether it was shared or not - we can't
+just recheck that when we are done with the file; after all,
+descriptor table might have been shared when we looked the file up,
+but another thread might've died since then and left it not
+shared anymore.
+	* we do not rip the same reference out of our descriptor
+table ourselves - not without seriously convoluted precautions.
+Very few places in the kernel can lead to closing descriptors,
+so in practice it only becomes a problem when a particularly
+ugly ioctl decides that it would be neat to close some descriptor(s).
+Example of such convolutions: binder_deferred_fd_close().
 
-> 
-> I also want to note that this math has stayed the same throughout all 7 
-> revisions. In the interest of making review more efficient, I think it 
-> would be helpful to point out important details like this early on in 
-> the process. That way we can address major concerns early on and keep 
-> the number of revisions per series low.
+fdget() returns a pair that consists of struct file reference
+*AND* indication whether we have grabbed a reference.  fdput()
+takes such pair.
 
-This is not always possible. We grasp the details of the patchset as we 
-review and dive into the patchset under the review and other close 
-enough patches/commits. So it is infrequent but still valid when at some 
-point a reviewer (or the author) would come up with the comments 
-demanding significant changes to the patch.
+Both are inlined, and compiler is smart enough to split the
+pair into two separate local variables.  The underlying
+primitive actually stashes the "have grabbed the refcount"
+into the LSB of returned word; see __to_fd() in include/linux/file.h
+for details.  It really generates a decent code and a plenty of
+places where we want a file by descriptor are just fine with it.
 
-> 
-> [1] 
-> https://github.com/ianmacd/gts6lwifi/blob/master/drivers/gpu/drm/msm/dp/dp_panel.c#L335
-> 
->>
->>> +}
->>> +
->>> +u32 msm_dsc_get_bytes_per_intf(struct drm_dsc_config *dsc, int 
->>> intf_width)
->>> +{
->>> +    u32 bytes_per_soft_slice;
->>> +    s64 bytes_per_soft_slice_fp;
->>> +    int slice_per_intf = msm_dsc_get_slice_per_intf(dsc, intf_width);
->>> +
->>> +    bytes_per_soft_slice_fp = msm_dsc_get_bytes_per_soft_slice(dsc);
->>> +    bytes_per_soft_slice = drm_fixp2int_ceil(bytes_per_soft_slice_fp);
->>> +
->>> +    return bytes_per_soft_slice * slice_per_intf;
->>> +}
->>> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h 
->>> b/drivers/gpu/drm/msm/msm_dsc_helper.h
->>> new file mode 100644
->>> index 000000000000..38f3651d0b79
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
->>> @@ -0,0 +1,69 @@
->>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>> +/*
->>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->>> reserved
->>> + */
->>> +
->>> +#ifndef MSM_DSC_HELPER_H_
->>> +#define MSM_DSC_HELPER_H_
->>> +
->>> +#include <linux/bug.h>
->>> +#include <linux/math.h>
->>> +#include <drm/display/drm_dsc_helper.h>
->>> +
->>> +/*
->>> + * Helper methods for MSM specific DSC calculations that are common 
->>> between timing engine,
->>> + * DSI, and DP.
->>> + */
->>> +
->>> +/**
->>> + * msm_dsc_get_bpp_int - get bits per pixel integer value
->>
->> For all function docs, don't forget the trailing parenthesis after the
->> function name: msm_dsc_get_bpp_int()
->>
->> https://www.kernel.org/doc/html/next/doc-guide/kernel-doc.html#function-documentation
-> 
-> Acked.
-> 
->>
->>> + * @dsc: Pointer to drm dsc config struct
->>> + * Returns: BPP integer value
->>> + */
->>> +static inline int msm_dsc_get_bpp_int(struct drm_dsc_config *dsc)
->>> +{
->>> +    WARN_ON_ONCE(dsc->bits_per_pixel & 0xf);
->>> +    return dsc->bits_per_pixel >> 4;
->>> +}
->>> +
->>> +/**
->>> + * msm_dsc_get_slice_per_intf - get number of slices per interface
->>> + * @dsc: Pointer to drm dsc config struct
->>> + * @intf_width: interface width
->>> + * Returns: Integer representing the slice per interface
->>> + */
->>> +static inline int msm_dsc_get_slice_per_intf(struct drm_dsc_config 
->>> *dsc, int intf_width)
->>> +{
->>> +    return DIV_ROUND_UP(intf_width, dsc->slice_width);
->>
->> Looks good.
->>
->>> +}
->>> +
->>> +/**
->>> + * msm_dsc_get_bytes_per_line - Calculate bytes per line
->>> + * @dsc: Pointer to drm dsc config struct
->>> + * Returns: Integer value representing pclk per interface
->>> + *
->>> + * Note: This value will then be passed along to DSI and DP for some 
->>> more
->>> + * calculations. This is because DSI and DP divide the pclk_per_intf 
->>> value
->>> + * by different values depending on if widebus is enabled.
->>> + */
->>> +static inline int msm_dsc_get_bytes_per_line(struct drm_dsc_config 
->>> *dsc)
->>> +{
->>> +    return DIV_ROUND_UP(dsc->slice_width * dsc->slice_count * 
->>> msm_dsc_get_bpp_int(dsc), 8);
->>
->> dsc->slice_chunk_size * dsc->slice_count?
-> 
-> Acked.
-> 
->>
->>> +}
->>> +
->>> +/**
->>> + * msm_dsc_get_bytes_per_soft_slice - get size of each soft slice 
->>> for dsc
->>
->> Explain to the reader what a "soft" slice is?
-> 
-> A soft slice is a slice defined in software as opposed to "hard slices" 
-> that are defined by hardware.
-> 
-> Since the slice-related variables in drm_dsc_config hold information 
-> related to soft slices and there is no separate variable for hard 
-> slices, I'll change this name to *_get_bytes_per_slice instead.
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
->>
->> - Marijn
->>
->>> + * @dsc: Pointer to drm dsc config struct
->>> + * Returns: s31.32 fixed point value representing bytes per soft slice
->>> + */
->>> +s64 msm_dsc_get_bytes_per_soft_slice(struct drm_dsc_config *dsc);
->>> +
->>> +/**
->>> + * msm_dsc_get_bytes_per_intf - get total bytes per interface
->>> + * @dsc: Pointer to drm dsc config struct
->>> + * @intf_width: interface width
->>> + * Returns: u32 value representing bytes per interface
->>> + */
->>> +u32 msm_dsc_get_bytes_per_intf(struct drm_dsc_config *dsc, int 
->>> intf_width);
->>> +
->>> +#endif /* MSM_DSC_HELPER_H_ */
->>>
->>> -- 
->>> 2.40.1
->>>
+This patch is flat-out broken, since it loses the "have we bumped
+the refcount" information - the callers do not get it.
 
--- 
-With best wishes
-Dmitry
-
+It might be possible to massage the calling conventions to enable
+the conversion to fdget(), but it's not obvious that result would
+be cleaner and in any case, the patch in question doesn't even
+try that.
