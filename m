@@ -1,73 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA3D6FF23E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:12:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0896FF2D3
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB32F10E21B;
-	Thu, 11 May 2023 13:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357BB10E0D1;
+	Thu, 11 May 2023 13:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED05D10E1F6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:12:08 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 73A6621C6F;
- Thu, 11 May 2023 13:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683810727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF9A10E0D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:31:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683811870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ohHx0dB5stZHxx1QwNPGIYWhm6cQbAfXveuQMp0Xhok=;
- b=Ab7WVuywszEo8kd4WGaZFjxb5VfJAu+Wm5pjJ9tFqnmLgyO3tRAFFzZCTZ1NG0NMo++9rZ
- twcnx/lHKLyzEf9Sli3EIkwn4BLWo8Zs+w/4CdT7BnN4+/curF3+QARGk1UnkC5Xs9izLu
- nMY8ZBUbUJyfjosb4kcuZTavVJ2/GSs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683810727;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ohHx0dB5stZHxx1QwNPGIYWhm6cQbAfXveuQMp0Xhok=;
- b=Eufw4Qi7idm6pzo+V0V5fVyhSYo8QqX3kj50NGgnzQa1YVEyo2+GLC5czjqkbtS04rdD4d
- VTvOaH9dbWSUzCCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EAE3F138FA;
- Thu, 11 May 2023 13:12:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id z6fnN6bpXGR8HQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 11 May 2023 13:12:06 +0000
-Message-ID: <cee24e80-cc41-00bc-06a2-37f1e2cad8ef@suse.de>
-Date: Thu, 11 May 2023 15:12:06 +0200
+ bh=UNjSXYigSjFKy+QUeKCUEASx47pCMdyUi/tX4R1i/fw=;
+ b=cwgFq8N8ee7zoxigcCVWoU6Cvrgyk0OTRm0acYZaE3CXTkVNB5zSldidznSIPn/G7otrc+
+ zGTuK/QoD4FOSDavNcV7XIHVl4EgJSLvSjDnw+6D9d3AEGMZFEJVwxpdRim3ucJ2bsjGau
+ s1teMiKKYClB1yxR6tRFkT1Y8KhXBzo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-517-MSdyodf3NmK1SFbjMnIbzA-1; Thu, 11 May 2023 09:31:08 -0400
+X-MC-Unique: MSdyodf3NmK1SFbjMnIbzA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f42d18a079so17122485e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:31:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683811867; x=1686403867;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UNjSXYigSjFKy+QUeKCUEASx47pCMdyUi/tX4R1i/fw=;
+ b=EQJ3ElKRWS9pEYl7pp8HStdxmp1qzloVprYBBimybtKU/7tFuzEG2aIkdBN7WsCpkD
+ Vh1H1iX9duDF1tQeRPh+OIEZ2vEg3rj02FThIrEl1QSbmc3Ma16oOndB+dDvvdusmQjj
+ z9P3Ale9kD0W7AUdmorsQXVBrakMK4xMeTq1G87lXgo22OqooD0fXHqHuKpg6qH2xIFN
+ wo2A5FW13zKUehN72PcKCCi845x10g62T5jRgsfF0EAmWPytdNFSJSTBR7jMeQAzmtPf
+ DfsZ+9A3yI6cOaTLYb0d/OpXsZtIkLbYJR0GiKpjr1jpijMq6hw3iJVW95hGOCv5ARJE
+ dgrw==
+X-Gm-Message-State: AC+VfDyRh6vSSwzAbuM9vA+dyEXjytybjfsxUsymzEHfE5ldi7GqpCmk
+ w7QYRkq6G/ME/Q/Ht+yIyLA0UtUK1Kr+Q7eraLq0eELKsPRQ0UQKKTFV8R623AdfTGKe81aqMpc
+ pwAQWI/9d+a1pphwRVhEgqk8BFs2v
+X-Received: by 2002:a1c:f715:0:b0:3f1:661e:4686 with SMTP id
+ v21-20020a1cf715000000b003f1661e4686mr16029358wmh.7.1683811867015; 
+ Thu, 11 May 2023 06:31:07 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7L9to6DXGbiJOc7XWLzmBnCCDcfKe7PVBm5u+458DsvZQv52Cv7TLitHiLYrOTKBgMtsdHNg==
+X-Received: by 2002:a1c:f715:0:b0:3f1:661e:4686 with SMTP id
+ v21-20020a1cf715000000b003f1661e4686mr16029337wmh.7.1683811866731; 
+ Thu, 11 May 2023 06:31:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ c20-20020a7bc014000000b003ef64affec7sm25670321wmb.22.2023.05.11.06.31.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 06:31:06 -0700 (PDT)
+Message-ID: <761364fc-7e21-581d-4fd4-d81cd27bd4b1@redhat.com>
+Date: Thu, 11 May 2023 15:31:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2] drm/mgag200: Fix gamma lut not initialized.
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+References: <20230510131034.284078-1-jfalempe@redhat.com>
+ <3cdf3215-99ac-5000-1911-28639c4e6248@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <3cdf3215-99ac-5000-1911-28639c4e6248@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------csNkQJKshpNqf00r4DiJQ5jr"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,115 +88,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Phil Oester <kernel@linuxace.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------csNkQJKshpNqf00r4DiJQ5jr
-Content-Type: multipart/mixed; boundary="------------fYR0XvuIElrjcrLGf1ubCpxL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <cee24e80-cc41-00bc-06a2-37f1e2cad8ef@suse.de>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+On 11/05/2023 14:26, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 10.05.23 um 15:10 schrieb Jocelyn Falempe:
+>> When mgag200 switched from simple KMS to regular atomic helpers,
+>> the initialization of the gamma settings was lost.
+>> This leads to a black screen, if the bios/uefi doesn't use the same
+>> pixel color depth.
+>>
+>> v2: rebase on top of drm-misc-fixes, and add Cc stable tag.
+> 
+> Looks good. Please add the patch to drm-misc-fixes.
+Applied to drm-misc-fixes
 
---------------fYR0XvuIElrjcrLGf1ubCpxL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks
 
-SGkNCg0KQW0gMTAuMDUuMjMgdW0gMTc6NTQgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBXZWQsIE1heSAxMCwgMjAyMywgYXQgMTY6MjcsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gQW0gMTAuMDUuMjMgdW0gMTY6MTUgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPj4+
-IE9uIFdlZCwgTWF5IDEwLCAyMDIzLCBhdCAxNjowMywga2VybmVsIHRlc3Qgcm9ib3Qgd3Jv
-dGU6DQo+ICAgDQo+Pj4gSSB0aGluayB0aGF0J3MgYSBwcmVleGlzdGluZyBidWcgYW5kIEkg
-aGF2ZSBubyBpZGVhIHdoYXQgdGhlDQo+Pj4gY29ycmVjdCBzb2x1dGlvbiBpcy4gTG9va2lu
-ZyBmb3IgSEQ2NDQ2MSBzaG93cyBpdCBiZWluZyB1c2VkDQo+Pj4gYm90aCB3aXRoIGludy9v
-dXR3IGFuZCByZWFkdy93cml0ZXcsIHNvIHRoZXJlIGlzIG5vIHdheSB0byBoYXZlDQo+Pj4g
-dGhlIGNvcnJlY3QgdHlwZS4gVGhlIHNoIF9fcmF3X3JlYWR3KCkgZGVmaW5pdGlvbiBoaWRl
-cyB0aGlzIGJ1ZywNCj4+PiBidXQgdGhhdCBpcyBhIHByb2JsZW0gd2l0aCBhcmNoL3NoIGFu
-ZCBpdCBwcm9iYWJseSBoaWRlcyBvdGhlcnMNCj4+PiBhcyB3ZWxsLg0KPj4NCj4+IFRoZSBj
-b25zdGFudCBIRDY0NDYxX0lPQkFTRSBpcyBkZWZpbmVkIGFzIGludGVnZXIgYXQNCj4+DQo+
-Pg0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9h
-cmNoL3NoL2luY2x1ZGUvYXNtL2hkNjQ0NjEuaCNMMTcNCj4+DQo+PiBidXQgZmJfcmVhZHco
-KSBleHBlY3RzIGEgdm9sYXRpbGUtdm9pZCBwb2ludGVyLiBJIGd1ZXNzIHdlIGNvdWxkIGFk
-ZCBhDQo+PiBjYXN0IHNvbWV3aGVyZSB0byBzaWxlbmNlIHRoZSBwcm9ibGVtLiBJbiB0aGUg
-Y3VycmVudCB1cHN0cmVhbSBjb2RlLA0KPj4gdGhhdCBhcHBlYXJzIHRvIGJlIGRvbmUgYnkg
-c2gncyBfX3Jhd19yZWFkdygpIGludGVybmFsbHk6DQo+Pg0KPj4NCj4+IGh0dHBzOi8vZWxp
-eGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zaC9pbmNsdWRlL2Fz
-bS9pby5oI0wzNQ0KPiANCj4gU3VyZSwgdGhhdCB3b3VsZCBtYWtlIGl0IGJ1aWxkIGFnYWlu
-LCBidXQgdGhhdCBzdGlsbCBkb2Vzbid0IG1ha2UgdGhlDQo+IGNvZGUgY29ycmVjdCwgc2lu
-Y2UgaXQncyBjb21wbGV0ZWx5IHVuY2xlYXIgd2hhdCBiYXNlIGFkZHJlc3MgdGhlDQo+IEhE
-NjQ0NjFfSU9CQVNFIGlzIHJlbGF0aXZlIHRvLiBUaGUgaHA2eHggcGxhdGZvcm0gY29kZSBv
-bmx5IHBhc3NlcyBpdA0KPiB0aHJvdWdoIGludygpL291dHcoKSwgd2hpY2ggdGFrZSBhbiBv
-ZmZzZXQgcmVsYXRpdmUgdG8gc2hfaW9fcG9ydF9iYXNlLA0KPiBidXQgdGhhdCBpcyBub3Qg
-aW5pdGlhbGl6ZWQgb24gaHA2eHguIEkgdHJpZWQgdG8gZmluZCBpbiB0aGUgaGlzdG9yeQ0K
-PiB3aGVuIGl0IGJyb2tlLCBhcHBhcmVudGx5IHRoYXQgd2FzIGluIDIwMDcgY29tbWl0IDM0
-YTc4MGEwYWZlYiAoInNoOg0KPiBocDZ4eCBwYXRhX3BsYXRmb3JtIHN1cHBvcnQuIiksIHdo
-aWNoIHJlbW92ZWQgdGhlIGN1c3RvbSBpbncvb3V0dw0KPiBpbXBsZW1lbnRhdGlvbnMuDQoN
-Ckl0IGp1c3Qgb2NjdXJlZCB0byBtZSB0aGF0IHRoZXNlIGZiX3JlYWQgYW5kIGZiX3dyaXRl
-IGNhbGxzIGFyZSBwcm9iYWJseSANCmFsbCB3cm9uZy4gVGhlIGZiXyBpbnRlcmZhY2VzIGFy
-ZSBmb3IgZnJhbWVidWZmZXIgSS9PIG1lbW9yeS4gVGhlIGRyaXZlciANCnVzZXMgdGhlbSB0
-byBhY2Nlc3MgdGhlIHJlZ3VsYXIgc3RhdGUgcmVnaXN0ZXJzLiBUaGUgd3JpdGV3KCkgb24g
-c2ggaXMgDQpkZWZpbml0ZWx5IGRpZmZlcmVudC4gWzFdDQoNCkkgYXNzdW1lIHRoYXQgaXQg
-b25seSB3b3JrcyBiZWNhdXNlIENPTkZJR19TV0FQX0lPX1NQQUNFIFsyXSBpcyBub3Qgc2V0
-IA0KaW4gaHA2eHhfZGVmY29uZmlnLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQpbMV0g
-DQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2FyY2gv
-c2gvaW5jbHVkZS9hc20vaW8uaCNMNTUNClsyXSANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4u
-Y29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zaC9pbmNsdWRlL21hY2gtY29tbW9uL21h
-Y2gvbWFuZ2xlLXBvcnQuaCNMMjINCg0KPiANCj4gICAgICAgIEFybmQNCg0KLS0gDQpUaG9t
-YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
-ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
-ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
-TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+-- 
 
+Jocelyn
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2171155
+>> Fixes: 1baf9127c482 ("drm/mgag200: Replace simple-KMS with regular 
+>> atomic helpers")
+>> Cc: <stable@vger.kernel.org>
+>> Tested-by: Phil Oester <kernel@linuxace.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
+>> b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> index 0a5aaf78172a..576c4c838a33 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> @@ -640,6 +640,11 @@ void mgag200_crtc_helper_atomic_enable(struct 
+>> drm_crtc *crtc, struct drm_atomic_
+>>       if (funcs->pixpllc_atomic_update)
+>>           funcs->pixpllc_atomic_update(crtc, old_state);
+>> +    if (crtc_state->gamma_lut)
+>> +        mgag200_crtc_set_gamma(mdev, format, 
+>> crtc_state->gamma_lut->data);
+>> +    else
+>> +        mgag200_crtc_set_gamma_linear(mdev, format);
+>> +
+>>       mgag200_enable_display(mdev);
+>>       if (funcs->enable_vidrst)
+>>
+>> base-commit: a26cc2934331b57b5a7164bff344f0a2ec245fc0
+> 
 
---------------fYR0XvuIElrjcrLGf1ubCpxL--
-
---------------csNkQJKshpNqf00r4DiJQ5jr
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRc6aYFAwAAAAAACgkQlh/E3EQov+Ag
-uw//fVmGD3oa58g/+yOsfKrcscQpscH8H8HRvjfJLYMo1MNUxYFCVGF+MD0cfXp9q2mAGFgoT/0C
-aOd66yxyWdJTps9gvIlIoBpZn5mFh9K+DnHQddH4K0ARbwumRFLBo1GyLS39hh4MITD2ekJvbH2Z
-mdxsGu9YydDbcFosLyBPc9iPJa9kBLST+x36w8OF2+Sf9ca13zB4D2INGJAWwr5DDr76qY4EBsHw
-GVLP/XQ0laeDmfS+x86TydjDgCE+tZkOsrLGvRJecERjlR+Oba2rERyXKtFlGDS3X9fkVuE2MEfF
-+dexHckNzfvDsWupYZZG3yOpEFBS//c001IxHevFQtEbViBEZRPvnUIUEdRQaZQg+UaFwNmp6qS3
-6fzR84hU1xviP3PMr4Obm/VgvU9GraY3pD/JhIelEsUVSBIHWUS/uGVWBf2uMFXfXImswNHZoSFc
-d+3orJO9EVQj5U8deI13WhU/1R+obpZJeYETPKSPsg0MUHSYydmvMjNIKAoYlXewpezQRFdxrmti
-qtuR4dNYl5vq5y/B6vtYMuydBtII0LQN5jRD/yKjM0hdo+ga7+FEtBqumqSONljzXqSrVuC4ryKj
-pNJQJgFM0aHZq0FVVy4PC4+pBDGPt8hoPxfvAlsKpwz4BZUGSg3WxGZwPu1ZAe9bvl4GH00DZ1r1
-nUo=
-=e+Ht
------END PGP SIGNATURE-----
-
---------------csNkQJKshpNqf00r4DiJQ5jr--
