@@ -1,74 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA576FF1B1
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:39:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E219E6FF1D2
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882F010E1CB;
-	Thu, 11 May 2023 12:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECEB010E1D7;
+	Thu, 11 May 2023 12:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E60710E1CB
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:39:36 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2ac87e7806aso79710111fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 05:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683808772; x=1686400772;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sguCADxh6/8JZhFfgnCw2t9kQNtuJnhKvTXcCcJKeVo=;
- b=N+cChiVGWGTovdxW3imjqG5act1QQ5KtOXb3rtHLD0O5XukjYbg4R8yAFzaKwsj0LV
- sw26mEJ4W2mmwpCqPIz/MEc9EQoRXJRPXV95YPcUdrkNXSLeKcwBT2cm9C1L+p+15dpr
- 2I6soBLa49oUYkTYkhbTtNs8tOFwxOiBNiP7z0uAqxtfQjmImVisFnxkF5u0k6k/t6pY
- O0XkPrRpnSIpg9+5p6XpcY5Ax06D8WwHsdxn2h4MDX2SVSW6otTrHULi2pD5B9+N7Syy
- eDWZx0fD9yAF6aAbOvxMrxefdna9pQ7gzLCjaHjYmEXVDiUUqx04bgounx98mhAekQTd
- QfSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683808772; x=1686400772;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sguCADxh6/8JZhFfgnCw2t9kQNtuJnhKvTXcCcJKeVo=;
- b=AADnmbbvfmB5mS0aed1aVOdobVnb2wgtL/vDgpNBUlnjVb0GP2QsRvggZ6hJ4We6gK
- c+yk9r9s/BMFc2jGh68ieEh6T//LT0idZZPxBCDMy41dEVyobb6llzuQyHIxAGx0TgpD
- Ki2vg2iJ1rMOVCkdVEFk3Wg+W/WgQBC2r09aDaj51uQmGPMjAOQNJvQdxuVTTHmPcF7a
- 8O5tiPN9TPxDRHyfAeEXKJuN3EjMkotlyqaViO0rdpREV81GNbaJDnv1hF3k9f7VODGJ
- /xoTJjt5D//rGPt4e+dRdSGHJIOABowZyOQOvKGSgw1ijymiKoYbLr27oUo+LCTTF8YB
- uZvg==
-X-Gm-Message-State: AC+VfDxLxIKdCMIh7Zm3noINoS3k0aYb7697iNBOFqJp00VaCgy0xcvV
- NU4Dr6Rm6ZaAExJxXBTNS8/daQ==
-X-Google-Smtp-Source: ACHHUZ6+tTZyN721QPlPxPuC2A0OHeNX3tT1BQq7UBNV3ZI/xQJB2a24CSnNTYmrGnjbCg+GxE97XQ==
-X-Received: by 2002:a2e:3211:0:b0:2a8:ba15:eb6f with SMTP id
- y17-20020a2e3211000000b002a8ba15eb6fmr3164629ljy.6.1683808771890; 
- Thu, 11 May 2023 05:39:31 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- v23-20020a2e9617000000b002a8bc9918d4sm2374591ljh.97.2023.05.11.05.39.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 05:39:31 -0700 (PDT)
-Message-ID: <894ea5be-5126-b72b-ad88-4f06cb5c11ca@linaro.org>
-Date: Thu, 11 May 2023 15:39:30 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/msm/iommu: Fix null pointer dereference in no-IOMMU
- case
-Content-Language: en-GB
-To: Luca Weiss <luca@z3ntu.xyz>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230508-6-4-drm-msm-iommu-fixup-v1-1-a7a21ec94f5b@z3ntu.xyz>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230508-6-4-drm-msm-iommu-fixup-v1-1-a7a21ec94f5b@z3ntu.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85EB610E1D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:49:24 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id A028D2B069A3;
+ Thu, 11 May 2023 08:49:20 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Thu, 11 May 2023 08:49:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1683809360; x=1683816560; bh=d2I3MJoGb9Q0k1pggTIspxukMh9F288HwWB
+ EZkJydBM=; b=EaT8QDsGJiHFxT+LJIqn2fEflreLZWqKGpVDwbrPLYvL1wt4nLg
+ Wa1WNW+6odEbrT8vWG4Kqkt+XnHCbupWK6S+GXNiSev5T5S8qdVptnwvrdvaaypO
+ DxjOXrlGw3MTnH2SHlm0saVDo2Vd/MH+coOuqnxVibh+pIY7tCYKM91yc2+lwfAY
+ 8Uc2AImEQiSqaPkFH2OZMZZ6uXWu/+4L6TrxtkbPQuvAgmwNbIpat8dyWeE65WLr
+ FepOVjK9s4dKMRV4F5hYmRYR+t6pmOJCCfLHN3yAKTmYYofcqSRReJX/58keVUGZ
+ /qacxa7dNgui0WGS51SJYWw3o+gkd4E/o3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1683809360; x=1683816560; bh=d2I3MJoGb9Q0k1pggTIspxukMh9F288HwWB
+ EZkJydBM=; b=jB9XvrdWPUTvwh1iDY/3NDQnzSrog8ELb1h9L6ikkVOhDtmVDz3
+ UXAE5Lfnsb1qGvgzMXsuGMtW7DAOXrZUF0n3em0sgcghRqYnzwQRhIBzcvAHtYIC
+ dz7ZcosF3AQPao+lh5E5QQNhIUKMyozAL6w1I/BEh06mRkVMXxyIKxgQjVFOBQJs
+ +qn35bkU+cxGHXhW0HPtsju+GE+7hIaFH7AtuAcdjCwDuIBXfwJgaXumToGqAG9v
+ sbHIo24d/eBn7IIu6FJKuWDyuFr9H2c8qDhKBrLkmoqiDvXdpn6+vGeMFizRdU44
+ I9XCsw3OdQRl8ibPdLeZecXx1RH0d+WvXTQ==
+X-ME-Sender: <xms:TuRcZA4pAKPMmi7NEPfI-jLSQXmHRDtm7W6A9M2gFiJw_2zwTZ9fKA>
+ <xme:TuRcZB4r0tClLPdVZMNorjPuw_9H3qKfjnEZHs0h_BMh80peLqqeNakHDRm_wYK_v
+ C2p3s5VZ5IB8O7TQ28>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+ gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:TuRcZPenQXcfeUqmz-DfyRWxTt2mOy2jd9F75_W0kvLW9Zg0R_GJjg>
+ <xmx:TuRcZFLacxJD9zWaXSC8lel2meoqhOP82JKYSavCgBWS3l9n_bXBbA>
+ <xmx:TuRcZEJlVY3mEQHhFeaLrOMkszBMbmlk-SePu_RRbt-YzeFdA5a8jw>
+ <xmx:UORcZBYC0UB6UD24jDdNcFRC8O72IQAijFL3Wl-pXlCc3rY08CNRqgVB5t4>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A9369B60086; Thu, 11 May 2023 08:49:18 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+Mime-Version: 1.0
+Message-Id: <4976d32d-b73f-49e5-9e15-78786d77dc8f@app.fastmail.com>
+In-Reply-To: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+ <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+ <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+ <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+Date: Thu, 11 May 2023 14:48:58 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,26 +89,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ sparclinux@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>,
+ Sam Ravnborg <sam@ravnborg.org>, Linux-Arch <linux-arch@vger.kernel.org>,
+ kernel test robot <lkp@intel.com>, Artur Rojek <contact@artur-rojek.eu>,
+ Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
+ suijingfeng@loongson.cn, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/05/2023 23:26, Luca Weiss wrote:
-> In the case that no IOMMU is available, msm_iommu_new can return NULL
-> which should be handled. Without we will get a NULL pointer dereference
-> in the next statement when we try to use the mmu variable.
-> 
-> Fixes: 8cceb773f565 ("drm/msm/adreno: stall translation on fault for all GPU families")
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
-> ---
->   drivers/gpu/drm/msm/msm_iommu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, May 11, 2023, at 14:35, Geert Uytterhoeven wrote:
+> CC Artur, who's working on HP Jornada 680.
+>
+> On Wed, May 10, 2023 at 5:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
+>> On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
+>> > Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
+>> >> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
+>
+> See also commit 4aafae27d0ce73f8 ("sh: hd64461 tidying."), which
+> claims they are no longer needed.
+>
+> Don't the I/O port macros just treat the port as an absolute base addr=
+ess
+> when sh_io_port_base isn't set?
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+As far as I can tell, sh_io_port_base gets initialized to '-1'
+specifically to prevent that from working by accident. So it's
+almost treated as an absolute base address, but the off-by-one
+offset ensures this never actually works unless it was first
+set to the correct value.
 
--- 
-With best wishes
-Dmitry
-
+      Arnd
