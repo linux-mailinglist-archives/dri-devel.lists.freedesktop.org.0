@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D636FFA91
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 21:41:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A209C6FFA9B
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 21:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1AF710E5F0;
-	Thu, 11 May 2023 19:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAD110E5F3;
+	Thu, 11 May 2023 19:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C4910E5F0;
- Thu, 11 May 2023 19:41:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 054DE65151;
- Thu, 11 May 2023 19:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00097C433A1;
- Thu, 11 May 2023 19:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683834059;
- bh=h1AhJQfHCacMoYvXPXKTx1wKJ2WlHGlTurkWEQgISlI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p2TYaVqkQ8TR1HMb4yUreBylDr1XOzQJ6vI5fqAKtjlxIf/tPJNpRHb7BzjWSGs7Z
- FqsU4EhlV/YocbqjU6LTDKZFly6rnSDUfyeEcm/XRlp/jfxCx3JumLdhWX4JbPJvHz
- t4e96epXZAfyvDBSrn3zLIBUquIGuAOnnV/5N78k72jbAfHbZ2MMJARpPRxYWL2lKD
- Ebzt7mE8YTrHv5OddrW60NVvZH+xfArUBtGZZOePQjNdFY3IaDFazmo1JPNCdfAAwU
- H6JZq357o7XXLvZYDUiGTKnVta/q/YINBb+FRBhr34XbO9c5pDf4jWA+z05xfgEDjC
- 0aOYaADicyJaw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 5/5] drm/amdgpu: Use the default reset when
- loading or reloading the driver
-Date: Thu, 11 May 2023 15:40:22 -0400
-Message-Id: <20230511194025.623614-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230511194025.623614-1-sashal@kernel.org>
-References: <20230511194025.623614-1-sashal@kernel.org>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A17510E5F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 19:41:28 +0000 (UTC)
+Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4QHMhl6XKrz9sYt;
+ Thu, 11 May 2023 19:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1683834088; bh=4h8Ra9CR8xjr0wCe3vaijr9yKD8rR42rteBbonIOJH4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lWS2UVHEQKkYK3c6wB+5tjgBISYPIOFeP7z9GCYwDf8LUOy3Y575lhB8melvFpeqq
+ 9TpppE9k+Aq6zgn6pEOOIHVbOjvfh+DLjAfBRnWu9ML0zSiVl0OL3sKQgb5Jc7jtyL
+ 6LDWA7lL5f6egBZvu7hElTcHmXqfSkmwZ5HlMvcQ=
+X-Riseup-User-ID: 02092D3560BB1E5D5E5C649D56A3E80E69179BF3F63A6D204A6B53A6767813E5
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4QHMhj3SpvzFqgX;
+ Thu, 11 May 2023 19:41:25 +0000 (UTC)
+Message-ID: <87fb8f63-ae38-33eb-08ef-7410b52b4f98@riseup.net>
+Date: Thu, 11 May 2023 16:41:23 -0300
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Subject: Re: [PATCH v2 2/2] drm/vkms: Fix RGB565 pixel conversion
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>
+References: <20230507202848.207608-1-mcanal@igalia.com>
+ <20230507202848.207608-2-mcanal@igalia.com>
+From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
+In-Reply-To: <20230507202848.207608-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,86 +56,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, andrey.grodzovsky@amd.com,
- lijo.lazar@amd.com, Amaranath.Somalapuram@amd.com,
- lyndonli <Lyndon.Li@amd.com>, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- Yunxiang Li <Yunxiang.Li@amd.com>, YiPeng.Chai@amd.com,
- mario.limonciello@amd.com, Feifei Xu <Feifei.Xu@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Bokun.Zhang@amd.com,
- Kenneth Feng <kenneth.feng@amd.com>, christian.koenig@amd.com,
- Hawking.Zhang@amd.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: lyndonli <Lyndon.Li@amd.com>
 
-[ Upstream commit 4eea7fb980dc44545a32eec92e2662053b34cd9d ]
 
-Below call trace and errors are observed when reloading
-amdgpu driver with the module parameter reset_method=3.
+On 07/05/23 17:28, Maíra Canal wrote:
+> Currently, the pixel conversion isn't rounding the fixed-point values
+> before assigning it to the RGB coefficients, which is causing the IGT
+> pixel-format tests to fail. So, use the drm_fixp2int_round() fixed-point
+> helper to round the values when assigning it to the RGB coefficients.
+> 
+> Tested with igt@kms_plane@pixel-format and igt@kms_plane@pixel-format-source-clamping.
+> 
+> Fixes: 89b03aeaef16 ("drm/vkms: fix 32bit compilation error by replacing macros")
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
 
-It should do a default reset when loading or reloading the
-driver, regardless of the module parameter reset_method.
+Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-v2: add comments inside and modify commit messages.
+Best Regards,
+~Arthur Grillo
 
-[  +2.180243] [drm] psp gfx command ID_LOAD_TOC(0x20) failed
-and response status is (0x0)
-[  +0.000011] [drm:psp_hw_start [amdgpu]] *ERROR* Failed to load toc
-[  +0.000890] [drm:psp_hw_start [amdgpu]] *ERROR* PSP tmr init failed!
-[  +0.020683] [drm:amdgpu_fill_buffer [amdgpu]] *ERROR* Trying to
-clear memory with ring turned off.
-[  +0.000003] RIP: 0010:amdgpu_bo_release_notify+0x1ef/0x210 [amdgpu]
-[  +0.000004] Call Trace:
-[  +0.000003]  <TASK>
-[  +0.000008]  ttm_bo_release+0x2c4/0x330 [amdttm]
-[  +0.000026]  amdttm_bo_put+0x3c/0x70 [amdttm]
-[  +0.000020]  amdgpu_bo_free_kernel+0xe6/0x140 [amdgpu]
-[  +0.000728]  psp_v11_0_ring_destroy+0x34/0x60 [amdgpu]
-[  +0.000826]  psp_hw_init+0xe7/0x2f0 [amdgpu]
-[  +0.000813]  amdgpu_device_fw_loading+0x1ad/0x2d0 [amdgpu]
-[  +0.000731]  amdgpu_device_init.cold+0x108e/0x2002 [amdgpu]
-[  +0.001071]  ? do_pci_enable_device+0xe1/0x110
-[  +0.000011]  amdgpu_driver_load_kms+0x1a/0x160 [amdgpu]
-[  +0.000729]  amdgpu_pci_probe+0x179/0x3a0 [amdgpu]
-
-Signed-off-by: lyndonli <Lyndon.Li@amd.com>
-Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
-Reviewed-by: Feifei Xu <Feifei.Xu@amd.com>
-Reviewed-by: Kenneth Feng <kenneth.feng@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 7e940a3bba978..3af9bde986f08 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3494,6 +3494,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	int r, i;
- 	bool px = false;
- 	u32 max_MBps;
-+	int tmp;
- 
- 	adev->shutdown = false;
- 	adev->flags = flags;
-@@ -3693,7 +3694,13 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 				}
- 			}
- 		} else {
-+			tmp = amdgpu_reset_method;
-+			/* It should do a default reset when loading or reloading the driver,
-+			 * regardless of the module parameter reset_method.
-+			 */
-+			amdgpu_reset_method = AMD_RESET_METHOD_NONE;
- 			r = amdgpu_asic_reset(adev);
-+			amdgpu_reset_method = tmp;
- 			if (r) {
- 				dev_err(adev->dev, "asic reset on init failed\n");
- 				goto failed;
--- 
-2.39.2
-
+> 
+> v1 -> v2: https://lore.kernel.org/dri-devel/20230425153353.238844-1-mcanal@igalia.com/T/
+> 
+> * Use drm_fixp2int_round() to fix the pixel conversion instead of casting
+>   the values to s32 (Melissa Wen).
+> 
+> ---
+>  drivers/gpu/drm/vkms/vkms_formats.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 8d948c73741e..b11342026485 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -97,9 +97,9 @@ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+>  	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+>  
+>  	out_pixel->a = (u16)0xffff;
+> -	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+> -	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+> -	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
+> +	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
+> +	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
+> +	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
+>  }
+>  
+>  void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+> @@ -216,9 +216,9 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+>  		s64 fp_g = drm_int2fixp(in_pixels[x].g);
+>  		s64 fp_b = drm_int2fixp(in_pixels[x].b);
+>  
+> -		u16 r = drm_fixp2int(drm_fixp_div(fp_r, fp_rb_ratio));
+> -		u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
+> -		u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
+> +		u16 r = drm_fixp2int_round(drm_fixp_div(fp_r, fp_rb_ratio));
+> +		u16 g = drm_fixp2int_round(drm_fixp_div(fp_g, fp_g_ratio));
+> +		u16 b = drm_fixp2int_round(drm_fixp_div(fp_b, fp_rb_ratio));
+>  
+>  		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
+>  	}
