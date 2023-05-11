@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40BB6FF1EA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 14:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB776FF214
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057C010E1EC;
-	Thu, 11 May 2023 12:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7754410E206;
+	Thu, 11 May 2023 13:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2E810E1EC
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 12:53:30 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E5A1A21C3E;
- Thu, 11 May 2023 12:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683809608; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q57nowApJTPvcrb6Y7xTxsvUy6Mm+joXgzVju4TjPaw=;
- b=PlKZkUQoZoM9MK9T4uzUUp+RgSgqOJZw7HHmtL6dxkDQFqZxEkQ4DlP3EISHr0uvTjNX8F
- GTwIXbAjCWrz5b+ns5/tEsVvdT9reAr1hQIeE0wpclWiGL0ikJEdbnJV4N9qetSpIC2zq/
- 9ummeVDbKaB4Xdxn2aw/+fZAq4A3Pt4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683809608;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q57nowApJTPvcrb6Y7xTxsvUy6Mm+joXgzVju4TjPaw=;
- b=xo1O484x7t1DnQocRZWcr9pNMF2PBPPAV+J96qNVbWv8JE8+nEZPLq5qEjDDg1j+QUyxFI
- 5Sj0HT6bSbgyTEAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAC5C138FA;
- Thu, 11 May 2023 12:53:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ffigMEjlXGT7EgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 11 May 2023 12:53:28 +0000
-Message-ID: <5a0a1ed1-3aa2-0026-52f7-60bd5dcba8b8@suse.de>
-Date: Thu, 11 May 2023 14:53:28 +0200
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DDD10E206
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1683810308; i=deller@gmx.de;
+ bh=NQqZVO7q0AzD6O3qUHr/zOC6q7eA09+N7H7wJE1dLgo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=IwhEYcVfW0U0V0dlTNp9aXOlVY1SmmwaAnbT7uRf1l1it7kwkmN/5bFxi1r3BvcXI
+ 4lrcxpFo9mTSqRZMqNKCGzwSgnMsXGvPqkwfq1mpPHMW1X3pi2mqD+Ymlm5ElyfTrO
+ F4BcgvgnDCSF0UAeDjWX7XH44qGuhW54Et5madzLYkwP5vx4fUDiGmHgzOwk25PNaC
+ NyoUSmPIem5R3pL13+e+1zTkxMe9r1nEvGM7k4Z6/Olq3q5FJ3oNCbJ9I4HC3O4F2s
+ BTfHJCfxj23Ojaw3Fux9pJQkHwFt5rTizFIQF6MJRBZ2c98ILBMlabrTmfzuQ6bGl1
+ 6/XNE2+HV+elA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.77.61] ([109.43.178.145]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MwQT9-1qDfYk49Rt-00sMYT; Thu, 11
+ May 2023 15:05:08 +0200
+Message-ID: <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
+Date: Thu, 11 May 2023 15:05:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 00/15] fbdev: Remove trailing whitespaces
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
 Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>
-References: <20230331092314.2209-1-tzimmermann@suse.de>
- <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
- <752f0e2b-e069-6221-1ee0-99306f2c718a@gmx.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <752f0e2b-e069-6221-1ee0-99306f2c718a@gmx.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------owcoLx6QOddydwDDgzsS5Q2f"
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
+ <15330273260@189.cn>, geert@linux-m68k.org, javierm@redhat.com,
+ daniel@ffwll.ch, vgupta@kernel.org, chenhuacai@kernel.org,
+ kernel@xen0n.name, davem@davemloft.net, arnd@arndb.de, sam@ravnborg.org
+References: <20230510110557.14343-1-tzimmermann@suse.de>
+ <20230510110557.14343-2-tzimmermann@suse.de>
+ <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
+ <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xuEOlcJHM9j74UL03mkKgceEShxgamhjob7lybOe4cSo0vz1X2x
+ BVAJGbjak/DT0G0C8FIsSEmPJzCeX1Sr0L3wH0HoDfhOoKuF+A2+4m/Hr4TSOCHpKfhNytZ
+ wakn4EPMStBz08AlWasJn2HnXJxm/rmNuYCy4rIrm8xpJ+NPc0wNuaKYFJvLVpxj4mKHDSR
+ a3GbIV2wnVdX/HqY8Uhdw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/9D0KbTrXMA=;02q5SnDmGt7rAOe4hQK+ROjDdR2
+ pjzMz18/ot1pLTQSwGJMJABUW9hA4sq6VmyKNzZ6Pl7M6j1HowqK0GrjdnxQCB0UHWr9jiwAK
+ eZ9s4vh0AaJVq5mIRSXMlP8IBla+2sFu5/0Yt2ebw2wUZfgKSA0kTkRN6sa4biFPKjN+BH0Vt
+ QEz6JW1vWVTwirv5roA+wmopZh2hyF6rGME9AaMAYa++4fAvRSOqSM8h5Tt1HT8uDChp33jQu
+ /bZPrQSV9U9kkTKmg3F/NNI9DAcoq5zfRMitqLq+mTZf/nAiiy+Cu7zoBKb6bmR54hUsGkucK
+ AAUUYP/YLCKJSahYYbAf471k2CoeEvlqW0mUtuGq2sTpyeRDaB7LL19eCAJQD6v6YWfSjjyML
+ 8h4ItTnLLo+4Dy5ESCEBBJPjjxxwWKxWnqViAZh2s1aGq8ZI8QOtcNc2E8atCD73tJOxyIm5R
+ G8MuOyWNFgy5PvXdlyRMvCflHKRdcpzpf7soPm0+VwnZXYckI9uPMGbO+1/h4LAxCkC0Tpm2k
+ O76wXCx3k1IUxRQMSQ/QF2hml10A9LARj8VyWpP0sazJQoLLiyxoNKHYXhsH/mXyed2lfSPiB
+ noVepWJ9lUbT6yRcqB2fI+1/2e5g7dIYLnHDtswOQRYSx7yp7ZuOTKbIj7bjX5E/yi6Lsvrn9
+ /6iIDw5xyHoFeXq10NxvYIJ/qbPygdSi6HrdWjLNM/7GpJekf24KcF6z37GLTrvqEeF9geDQz
+ zWF36or0s9iY7CNkIGoUkw4nob8fGPRWAAcYKZTYXhIuGti8jYdJv17hdPmZH46KC9ng9n2x3
+ AfMwM3IqdCMfSSw+mhvE8QBFZzme30ua2CzDpgjkvg0Qt1AS1yiAJl7QxN3dyf5KgPNuP+zu5
+ zgbmbvXr8gWD1jJqzgd2L/GnNcJGBKw5jn6W0591BeirwUT9Wa1ykM7r7Xt58VSkwhELokBjl
+ apc1vQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,106 +77,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------owcoLx6QOddydwDDgzsS5Q2f
-Content-Type: multipart/mixed; boundary="------------QAGkNXj7Iw000KoTXyMj2rU5";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <5a0a1ed1-3aa2-0026-52f7-60bd5dcba8b8@suse.de>
-Subject: Re: [PATCH 00/15] fbdev: Remove trailing whitespaces
-References: <20230331092314.2209-1-tzimmermann@suse.de>
- <e2f54d17-debc-62f4-3644-8baea4a88b10@suse.de>
- <752f0e2b-e069-6221-1ee0-99306f2c718a@gmx.de>
-In-Reply-To: <752f0e2b-e069-6221-1ee0-99306f2c718a@gmx.de>
+On 5/11/23 09:55, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 10.05.23 um 20:20 schrieb Sui Jingfeng:
+>> Hi, Thomas
+>>
+>>
+>> I love your patch, yet something to improve:
+>>
+>>
+>> On 2023/5/10 19:05, Thomas Zimmermann wrote:
+>>> Fix coding style. No functional changes.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+>>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>>> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> ---
+>>> =C2=A0 drivers/video/fbdev/matrox/matroxfb_accel.c | 6 +++---
+>>> =C2=A0 drivers/video/fbdev/matrox/matroxfb_base.h=C2=A0 | 4 ++--
+>>> =C2=A0 2 files changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/video/fbdev/matrox/matroxfb_accel.c b/drivers/vid=
+eo/fbdev/matrox/matroxfb_accel.c
+>>> index 9cb0685feddd..ce51227798a1 100644
+>>> --- a/drivers/video/fbdev/matrox/matroxfb_accel.c
+>>> +++ b/drivers/video/fbdev/matrox/matroxfb_accel.c
+>>> @@ -88,7 +88,7 @@
+>>> =C2=A0 static inline void matrox_cfb4_pal(u_int32_t* pal) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int i;
+>>> -
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 16; i++) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pal[i] =3D i * =
+0x11111111U;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> @@ -96,7 +96,7 @@ static inline void matrox_cfb4_pal(u_int32_t* pal) {
+>>> =C2=A0 static inline void matrox_cfb8_pal(u_int32_t* pal) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int i;
+>>> -
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 16; i++) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pal[i] =3D i * =
+0x01010101U;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> @@ -482,7 +482,7 @@ static void matroxfb_1bpp_imageblit(struct matrox_=
+fb_info *minfo, u_int32_t fgx,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 /* Tell... well, why bother... */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 while (height--) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t i;
+>>> -
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < step; i +=3D 4) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Hope that the=
+re are at least three readable bytes beyond the end of bitmap */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb_writel(get_un=
+aligned((u_int32_t*)(chardata + i)),mmio.vaddr);
+>>> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h b/drivers/vide=
+o/fbdev/matrox/matroxfb_base.h
+>>> index 958be6805f87..c93c69bbcd57 100644
+>>> --- a/drivers/video/fbdev/matrox/matroxfb_base.h
+>>> +++ b/drivers/video/fbdev/matrox/matroxfb_base.h
+>>> @@ -301,9 +301,9 @@ struct matrox_altout {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (*verifymode)(void* altout_dev, u_int32_t mode);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (*getqueryctrl)(void* altout_dev,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_quer=
+yctrl* ctrl);
+>>
+>> Noticed that there are plenty of coding style problems in matroxfb_base=
+.h,
+>>
+>> why you only fix a few of them?=C2=A0=C2=A0 Take this two line as an ex=
+ample, shouldn't
+>>
+>> they be fixed also as following?
+>
+> I configured my text editor to remove trailing whitespaces
+> automatically. That keeps my own patches free of them.  But the
+> editor removes all trailing whitespaces, including those that have
+> been there before. If I encounter such a case, I split out the
+> whitespace fix and submit it separately.
+>
+> But the work I do within fbdev is mostly for improving DRM.
 
---------------QAGkNXj7Iw000KoTXyMj2rU5
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Sure.
 
-SGkNCg0KQW0gMTEuMDUuMjMgdW0gMTQ6NTEgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IEhp
-IFRob21hcywNCj4gDQo+IE9uIDUvMTEvMjMgMTQ6MDgsIFRob21hcyBaaW1tZXJtYW5uIHdy
-b3RlOg0KPj4gSSB0aG91Z2h0IHRoZXNlIHBhdGNoZXMgd291bGQgZ28gdGhyb3VnaCB0aGUg
-ZmJkZXYgdHJlZSwgYnV0IEkgY291bGQNCj4+IG5vdCBmaW5kIHRoZW0gdjYuNC1yYzEuIFBs
-ZWFzZSByZXZpZXcgdGhlIHJlbWFpbmluZyBvbmVzLCBzbyB0aGF0IEkNCj4+IGNhbiBtZXJn
-ZSB0aGVtIHZpYSBkcm0tbWlzYy4NCj4gDQo+IFNvcnJ5LCBJIHRob3VnaHQgeW91IGhhZCBw
-bGFubmVkIHRvIHRha2UgdGhlbSB0aHJvdWdoIGRybS1taXNjIGFueXdheSwNCj4gc28gSSBk
-aWRuJ3QgYXBwbGllZCB0aGVtLg0KPiANCj4gSSBqdXN0IHJldmlld2VkIHRoZW0gYWdhaW4s
-IGFuZCB5b3UgbWF5IGFkZCBteQ0KPiBBY2tlZC1ieTogSGVsZ2UgRGVsbGVyIDxkZWxsZXJA
-Z214LmRlPg0KPiANCj4gQWx0ZXJuYXRpdmVseSBJIGNhbiBhcHBseSB0aGVtIG5vdyB0byBm
-YmRldiBhbmQgc2VuZCB0aGVtIGZvciAtcmMyLg0KPiBKdXN0IGxldCBtZSBrbm93IHlvdXIg
-cHJlZmVyZW5jZS4NCg0KUGxlYXNlIGRvLiBIYXZpbmcgdGhlbSBpbiAtcmMyIGlzIGV2ZW4g
-YmV0dGVyLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBIZWxnZQ0KPiANCj4g
-DQo+Pg0KPj4gQmVzdCByZWdhcmRzDQo+PiBUaG9tYXMNCj4+DQo+PiBBbSAzMS4wMy4yMyB1
-bSAxMToyMiBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4+IFRoZSB0cmFpbGluZyB3
-aGl0ZXNwYWNlcyBhcmUgYW5ub3lpbmcuIFNvIHJlbW92ZSB0aGVtLiBObw0KPj4+IGZ1bmN0
-aW9uYWwgY2hhbmdlcy4gU29tZSBvZiB0aGUgcGF0Y2hlcyBoYXMgYWxyZWFkeSBiZWVuDQo+
-Pj4gYWNrZWQgYnkgSGVsZ2UuDQo+Pj4NCj4+PiBUaG9tYXMgWmltbWVybWFubiAoMTUpOg0K
-Pj4+IMKgwqAgZmJkZXYvNjgzMjhmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+
-Pj4gwqDCoCBmYmRldi9hdG1lbF9sY2RmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2Vz
-DQo+Pj4gwqDCoCBmYmRldi9jZzE0OiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4+
-PiDCoMKgIGZiZGV2L2NvbnRyb2xmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+
-Pj4gwqDCoCBmYmRldi9nMzY0ZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPj4+
-IMKgwqAgZmJkZXYvaGdhZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPj4+IMKg
-wqAgZmJkZXYvaHBmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+Pj4gwqDCoCBm
-YmRldi9tYWNmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+Pj4gwqDCoCBmYmRl
-di9tYXhpbmVmYjogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+Pj4gwqDCoCBmYmRl
-di9wOTEwMDogUmVtb3ZlIHRyYWlsaW5nIHdoaXRlc3BhY2VzDQo+Pj4gwqDCoCBmYmRldi9w
-bGF0aW51bWZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4+PiDCoMKgIGZiZGV2
-L3NhMTEwMGZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4+PiDCoMKgIGZiZGV2
-L3N0aWZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4+PiDCoMKgIGZiZGV2L3Zh
-bGt5cmllZmI6IFJlbW92ZSB0cmFpbGluZyB3aGl0ZXNwYWNlcw0KPj4+IMKgwqAgZmJkZXYv
-dmZiOiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4+Pg0KPj4+IMKgIGRyaXZlcnMv
-dmlkZW8vZmJkZXYvNjgzMjhmYi5jwqDCoMKgwqAgfMKgIDEyICstLQ0KPj4+IMKgIGRyaXZl
-cnMvdmlkZW8vZmJkZXYvYXRtZWxfbGNkZmIuYyB8wqDCoCAyICstDQo+Pj4gwqAgZHJpdmVy
-cy92aWRlby9mYmRldi9jZzE0LmPCoMKgwqDCoMKgwqDCoCB8wqDCoCAyICstDQo+Pj4gwqAg
-ZHJpdmVycy92aWRlby9mYmRldi9jb250cm9sZmIuY8KgwqAgfMKgIDM0ICsrKy0tLS0NCj4+
-PiDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2czNjRmYi5jwqDCoMKgwqDCoCB8wqDCoCA2ICst
-DQo+Pj4gwqAgZHJpdmVycy92aWRlby9mYmRldi9oZ2FmYi5jwqDCoMKgwqDCoMKgIHzCoCAz
-NiArKystLS0tDQo+Pj4gwqAgZHJpdmVycy92aWRlby9mYmRldi9ocGZiLmPCoMKgwqDCoMKg
-wqDCoCB8wqDCoCA4ICstDQo+Pj4gwqAgZHJpdmVycy92aWRlby9mYmRldi9tYWNmYi5jwqDC
-oMKgwqDCoMKgIHzCoCAxMCArLQ0KPj4+IMKgIGRyaXZlcnMvdmlkZW8vZmJkZXYvbWF4aW5l
-ZmIuY8KgwqDCoCB8wqDCoCAyICstDQo+Pj4gwqAgZHJpdmVycy92aWRlby9mYmRldi9wOTEw
-MC5jwqDCoMKgwqDCoMKgIHzCoMKgIDQgKy0NCj4+PiDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2
-L3BsYXRpbnVtZmIuY8KgIHzCoCAzMCArKystLS0NCj4+PiDCoCBkcml2ZXJzL3ZpZGVvL2Zi
-ZGV2L3NhMTEwMGZiLmPCoMKgwqAgfMKgIDMyICsrKy0tLQ0KPj4+IMKgIGRyaXZlcnMvdmlk
-ZW8vZmJkZXYvc3RpZmIuY8KgwqDCoMKgwqDCoCB8IDE1NiArKysrKysrKysrKysrKystLS0t
-LS0tLS0tLS0tLS0NCj4+PiDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3ZhbGt5cmllZmIuY8Kg
-IHzCoCAxNCArLS0NCj4+PiDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3ZmYi5jwqDCoMKgwqDC
-oMKgwqDCoCB8wqAgMTAgKy0NCj4+PiDCoCAxNSBmaWxlcyBjaGFuZ2VkLCAxNzkgaW5zZXJ0
-aW9ucygrKSwgMTc5IGRlbGV0aW9ucygtKQ0KPj4+DQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMg
-WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
-b2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJu
-YmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNE
-b25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+> For the
+> other issues in this file, I don't think that matroxfb should even be
+> around any longer. Fbdev has been deprecated for a long time. But a
+> small number of drivers are still in use and we still need its
+> framebuffer console. So someone should either put significant effort
+> into maintaining fbdev, or it should be phased out. But neither is
+> happening.
 
---------------QAGkNXj7Iw000KoTXyMj2rU5--
+You're wrong.
 
---------------owcoLx6QOddydwDDgzsS5Q2f
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+You don't mention that for most older machines DRM isn't an acceptable
+way to go due to it's limitations, e.g. it's low-speed due to missing
+2D-acceleration for older cards and and it's incapability to change screen
+resolution at runtime (just to name two of the bigger limitations here).
+So, unless we somehow find a good way to move such drivers over to DRM
+(with a set of minimal 2D acceleration), they are still important.
 
------BEGIN PGP SIGNATURE-----
+Actually, I just did test matroxfb and pm2fb successfully a few days back,=
+ and
+they worked. For some smaller issues I've prepared patches, which are on h=
+old
+due conflicts with your latest file-move-around- and whitespace-changes wh=
+ich are partly
+in drm-misc.
+And I do have some upcoming additional patches for console support.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRc5UgFAwAAAAAACgkQlh/E3EQov+C2
-oxAAr6Q/jY6ryrXBsi9dl6MxuYYCxMgZHPi2Nzu/QDBr8lI1rYUwFawJh+9PILqJX+5i9lRkrgGR
-GrJ70WWAB/f2mBAZrT2Xa0xaJLYt9tJsPtvGRkWX1rCgUvUMhJho5xze6Zz4umysW33DILM2QzLE
-N1aRpodLiaMM9TlEBEc8UZ1SLRyVo1CeDtWcaJFmk63BqaQ1tFVQYm7nwHkRbqeU8rtARWzulGxF
-QOCBQGCjtSHec1ugJp5eSGGMtBmUto0xTT8FNl7po8MxuSNY1PF7phB7hkzxNRIhesJBwIcgcjW+
-gHUFUeiZoJtN/u0N1asyQrlX55IjlrXMnTGwhCI+n2r3U2pMOjYaeEPU4PYmIj+bUAtnZ3hweSOO
-6Fxx7YoDl6OzwlM0+8C2K3b5/0A82cRckifkleqSGQazCSNK1k8nMIPIikC+1lP9r9ttgify7ZbL
-B7W1lXvi40LWhTzOYruUFaJYjG+WvjL+QY//oJeW5f64yeHTkh0Ufkoc9m7XZOwb1r9mh2ycYRoV
-w2m3dB2uqoivmOrDKwZAufG45czraYGguZxxR8wI3JEpQ3k8Dbtl5x7ReKKhvpRKXteAzLQJ6M8Z
-y3ndk208+x9CMsw/D6pJl6flTx/PsPu1ZM0Yvp329eRQ+1fwn6/Q9VgOciou/OqnelyTx3uoqnQ9
-0go=
-=DKnt
------END PGP SIGNATURE-----
-
---------------owcoLx6QOddydwDDgzsS5Q2f--
+Helge
