@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBBE6FF54E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 16:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160D96FF550
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 16:59:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD4210E4FC;
-	Thu, 11 May 2023 14:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA7B10E4F9;
+	Thu, 11 May 2023 14:59:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF9F10E4F7;
- Thu, 11 May 2023 14:59:14 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-64384274895so6219116b3a.2; 
- Thu, 11 May 2023 07:59:14 -0700 (PDT)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1519110E4F9;
+ Thu, 11 May 2023 14:59:15 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 98e67ed59e1d1-24dfc3c662eso5994016a91.3; 
+ Thu, 11 May 2023 07:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683817153; x=1686409153;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jxmpm6QJhLjfIu7rdhWCC28olrB5FLthXZJk0Cftfj8=;
- b=EKUXk1wUCFkUgZ4mO/Dxzdegw+zmKOoNYNpA058P6CE1+TGsguw8yR9Wq+esTyeRVl
- JX+/2Og+Kk+6LHAjVUHWV39vnZ4IybuU/wPKCy6YNuqicFZOugXBuLICBVmu4Rka84ru
- d27IjH+XFL2I7Ftfp+etgrKbpZkEwv9kubh+Cln8JQOozf+hOp1G99QaByl0FFmqdSgM
- oIibYbWtBvMVPJ6tn+Pg7SiNDlMbVb+cTKr5qI5BJ4cn0sbRwmDZPR1CemoSwK78ucLs
- GDOAoPTRDaSmkSLz+QcU/ppv0tcWv0y5q83o/xv9NZcngyMpcunQtu48At56mSFnWVOa
- cgyQ==
+ d=gmail.com; s=20221208; t=1683817155; x=1686409155;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=osWWYYQseCvJCBZt1Q3stKtUhhbUrnP9MQ0pNGBM3gY=;
+ b=XAwtDDfL4AebuXak7bNPPI87nvTlXoYVEeNLYlT0BUwe4sk+v7jj2fSMAaMAVEkLac
+ ASTV+Qd+a+iHRSsrr45q79TD3dqZjxXhxlxvWMDbkTRuogCV00CMQWXjxNJczItOgTLg
+ yIXphxYtHPyqzJRpdLXhyd5kbt7fPsdqfPUEjC07crjg5JAzPfBYhLSaXouULyYUbUSb
+ yAMWFEkA+uKWjPKiyonpbvNWr5WZeGFVeMqxrMvKzKfS2KZtz78sVhZ1nO2EDLxnlvnb
+ 5K6F6qy+H8TL5DZ0JLMmh9pfcfZ/e0whO3kjLiwSmpyWIyju/Pm3UibZf+n+1Ksn+Lci
+ AmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683817153; x=1686409153;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jxmpm6QJhLjfIu7rdhWCC28olrB5FLthXZJk0Cftfj8=;
- b=bXstsz1GmhN/JzEj2JRI9Y94HG1lWN4pVOuk5tFN/yxGxH8PdNozxf2ZvlMQWfzDcZ
- BX7qUUzTEj+gnUEW1Xma4GGnh+uPT0cw5o9Wxju86+2xSg7e6USiRJeeOISxSvD7gqst
- +dNDWfpcULpSNIIw+D73ZCs9TjwfPi9sy0UUOmpIR2jPqSOubzZNE7U5zat3XhBLUKpH
- SWVWQF0KRKXZI4BUlmhoZsEZ7O2+3JSX7DUCa3zlnmx6g0Ow15MiWsMkr5qedfh+5itO
- sMMBcLsFYIeoxLPfd3gF1J7PgY3O/ajujHks0PACTWG4ADmCAvqwz/MdjDS+Fgz4wxT8
- buvA==
-X-Gm-Message-State: AC+VfDy2qD3p88wgFemo4RMI4lPTjO+xbTQZ2MpttkvibG9aoJSgpEHr
- 4fKFT3ihRRFtV6tx0FdC+FHukYbOKVA=
-X-Google-Smtp-Source: ACHHUZ4UChDZreBdWe7eD7dyF2UmkYB9pYAOAMp4I4A3/HPsdFfgnvoASPCeFX9RddExMgANHVAwlw==
-X-Received: by 2002:a05:6a00:2401:b0:63b:5501:6795 with SMTP id
- z1-20020a056a00240100b0063b55016795mr27904487pfh.24.1683817152786; 
- Thu, 11 May 2023 07:59:12 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683817155; x=1686409155;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=osWWYYQseCvJCBZt1Q3stKtUhhbUrnP9MQ0pNGBM3gY=;
+ b=eMYLWFicD34DV4Z5w2+uSyRvp0kQu+HSfkwEXCt3KnNMfQz9jM7fj8plOq3SP5YItJ
+ kY9OPnF5JkxMt0iarMmIdC+xj1Wl2TK8cXc88b9Eon+eMvLMkQl/hybLpj0oApqmyTWE
+ OzRGknZIBEm9MN4a8C+RiDvsfBw8R6zEHt/ftlmATkmCrCSJQiBMd7XVbIYlWXNtuO4y
+ f9ffyPf8ncSR520lXDtAmx62GnZFdcbvPIRbFuMVGiv/dADj0Y7CtPNsdb0MIntjBH5f
+ PwTO8xKcT9G8ANJSpXzeasRcH+HsnbtPOXtE8iRYrV86KVqCgazzcq+6yO4HeSg130ew
+ gQ+Q==
+X-Gm-Message-State: AC+VfDxWVfFMRfEhXATezVal3x00azUzu5C7eb8DggXc4XPKzcwPCKc7
+ foYdxMUB7B4wYHBKqrrXMD551n9zVB8=
+X-Google-Smtp-Source: ACHHUZ5R5SEh6hgEPBhrxyDoUJPaDfMiz4Rtx25aiaUxPLerkMMf/9r2TREIx7jtkfBBQqUHdw7JYQ==
+X-Received: by 2002:a17:90b:1992:b0:24e:55c3:89af with SMTP id
+ mv18-20020a17090b199200b0024e55c389afmr21638386pjb.18.1683817154440; 
+ Thu, 11 May 2023 07:59:14 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- i8-20020aa79088000000b006430cb02bd5sm5390140pfa.168.2023.05.11.07.59.12
+ a1-20020a17090acb8100b0024e2980574asm15558660pju.4.2023.05.11.07.59.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 07:59:12 -0700 (PDT)
+ Thu, 11 May 2023 07:59:14 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	iommu@lists.linux-foundation.org
-Subject: [PATCH v3 1/2] iommu/arm-smmu-qcom: Fix missing adreno_smmu's
-Date: Thu, 11 May 2023 07:59:05 -0700
-Message-Id: <20230511145908.597683-1-robdclark@gmail.com>
+Subject: [PATCH v3 2/2] drm/msm: Be more shouty if per-process pgtables aren't
+ working
+Date: Thu, 11 May 2023 07:59:06 -0700
+Message-Id: <20230511145908.597683-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230511145908.597683-1-robdclark@gmail.com>
+References: <20230511145908.597683-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,81 +75,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Lepton Wu <lepton@chromium.org>,
- Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, Will Deacon <will@kernel.org>,
- linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- Adam Skladowski <a39.skl@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
- Elliot Berman <quic_eberman@quicinc.com>,
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-When the special handling of qcom,adreno-smmu was moved into
-qcom_smmu_create(), it was overlooked that we didn't have all the
-required entries in qcom_smmu_impl_of_match.  So we stopped getting
-adreno_smmu_priv on sc7180, breaking per-process pgtables.
+Otherwise it is not always obvious if a dt or iommu change is causing us
+to fall back to global pgtable.
 
-Fixes: 30b912a03d91 ("iommu/arm-smmu-qcom: Move the qcom,adreno-smmu check into qcom_smmu_create")
-Suggested-by: Lepton Wu <lepton@chromium.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/msm/msm_iommu.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index d1b296b95c86..66e191773099 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -496,20 +496,21 @@ static const struct qcom_smmu_match_data qcom_smmu_500_impl0_data = {
- /*
-  * Do not add any more qcom,SOC-smmu-500 entries to this list, unless they need
-  * special handling and can not be covered by the qcom,smmu-500 entry.
-  */
- static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
- 	{ .compatible = "qcom,msm8996-smmu-v2", .data = &msm8996_smmu_data },
- 	{ .compatible = "qcom,msm8998-smmu-v2", .data = &qcom_smmu_v2_data },
- 	{ .compatible = "qcom,qcm2290-smmu-500", .data = &qcom_smmu_500_impl0_data },
- 	{ .compatible = "qcom,qdu1000-smmu-500", .data = &qcom_smmu_500_impl0_data  },
- 	{ .compatible = "qcom,sc7180-smmu-500", .data = &qcom_smmu_500_impl0_data },
-+	{ .compatible = "qcom,sc7180-smmu-v2", .data = &qcom_smmu_v2_data },
- 	{ .compatible = "qcom,sc7280-smmu-500", .data = &qcom_smmu_500_impl0_data },
- 	{ .compatible = "qcom,sc8180x-smmu-500", .data = &qcom_smmu_500_impl0_data },
- 	{ .compatible = "qcom,sc8280xp-smmu-500", .data = &qcom_smmu_500_impl0_data },
- 	{ .compatible = "qcom,sdm630-smmu-v2", .data = &qcom_smmu_v2_data },
- 	{ .compatible = "qcom,sdm845-smmu-v2", .data = &qcom_smmu_v2_data },
- 	{ .compatible = "qcom,sdm845-smmu-500", .data = &sdm845_smmu_500_data },
- 	{ .compatible = "qcom,sm6115-smmu-500", .data = &qcom_smmu_500_impl0_data},
- 	{ .compatible = "qcom,sm6125-smmu-500", .data = &qcom_smmu_500_impl0_data },
- 	{ .compatible = "qcom,sm6350-smmu-v2", .data = &qcom_smmu_v2_data },
- 	{ .compatible = "qcom,sm6350-smmu-500", .data = &qcom_smmu_500_impl0_data },
-@@ -540,12 +541,18 @@ struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
- 		/* Match platform for ACPI boot */
- 		if (acpi_match_platform_list(qcom_acpi_platlist) >= 0)
- 			return qcom_smmu_create(smmu, &qcom_smmu_500_impl0_data);
- 	}
- #endif
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index 418e1e06cdde..9b19124c9bd0 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -227,21 +227,26 @@ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
+ 	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(parent->dev);
+ 	struct msm_iommu *iommu = to_msm_iommu(parent);
+ 	struct msm_iommu_pagetable *pagetable;
+ 	const struct io_pgtable_cfg *ttbr1_cfg = NULL;
+ 	struct io_pgtable_cfg ttbr0_cfg;
+ 	int ret;
  
- 	match = of_match_node(qcom_smmu_impl_of_match, np);
- 	if (match)
- 		return qcom_smmu_create(smmu, match->data);
- 
-+	/* If you hit this WARN_ON() you are missing an entry in the
-+	 * qcom_smmu_impl_of_match[] table, and GPU per-process page-
-+	 * tables will be broken.
-+	 */
-+	WARN_ON(of_device_is_compatible(np, "qcom,adreno-smmu"));
+ 	/* Get the pagetable configuration from the domain */
+ 	if (adreno_smmu->cookie)
+ 		ttbr1_cfg = adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
+-	if (!ttbr1_cfg)
 +
- 	return smmu;
- }
++	/*
++	 * If you hit this WARN_ONCE() you are probably missing an entry in
++	 * qcom_smmu_impl_of_match[] in arm-smmu-qcom.c
++	 */
++	if (WARN_ONCE(!ttbr1_cfg, "No per-process page tables"))
+ 		return ERR_PTR(-ENODEV);
+ 
+ 	pagetable = kzalloc(sizeof(*pagetable), GFP_KERNEL);
+ 	if (!pagetable)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	msm_mmu_init(&pagetable->base, parent->dev, &pagetable_funcs,
+ 		MSM_MMU_IOMMU_PAGETABLE);
+ 
+ 	/* Clone the TTBR1 cfg as starting point for TTBR0 cfg: */
 -- 
 2.40.1
 
