@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74366FEE03
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 10:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A506FEE04
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 10:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D1510E5BF;
-	Thu, 11 May 2023 08:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB7710E5C1;
+	Thu, 11 May 2023 08:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A9810E5BF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 08:48:47 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-30796c0cbcaso4623110f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 01:48:47 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F71410E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 08:48:48 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f42c865534so28005035e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 01:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683794925; x=1686386925;
+ d=linaro.org; s=google; t=1683794926; x=1686386926;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jYXOA8zWM3jNNbfPJj41pkQhEa8v8qdITfpT3KLBxPc=;
- b=Z5R4tmsGyw3Ok5zpXFWjfLJAkGcAakaxt2Jg2ZIDMsU5FnsiYM9EU3QWaMWHBZjkcI
- O+/cjOULwsKc4EnOKHpaM9Ho2mrBKfKGEo+OdCqBMNG/+lDk7FlbJVBZA16eBRj9NWCZ
- FG0amxGw/vnv1olwuwzjKPE3xZi/SVt12SNfmxGcVPYPCuwA6/SE5Fu9uSY+hIvsVHHg
- 6QZoJwBp1AKHVO4Q33xF8s0Wac52yKUVxNfTmWg9Y4z/sZuTVakmFxXXJ7FiPHri34Nc
- WIeWGJH1GvfEYlbB1MaCXA1++rN3QDt8v7rR3cqtbDfuumk6qmIxucy4Iq+hcA03eb7F
- z2WA==
+ bh=MavG6Kk9Pe4HL8j0/etWioEuDmEHCWaEC1JE6orX7J8=;
+ b=NxXdF6IBega8jFYuWRkcRkfYvkDka8+uB3602hlNkRCCOIaUDNICbSKD55cWEW8SJc
+ GCUnzVdCB2GM+oMnpi0pUGK3ZAciq05gaus6Jl415AJDnoYltrMsXoj4gjsukrqg6a+p
+ G86oMsjtNTL6zNdLj5KbG0Eg3xW5MKYfYWDO6ZAFdCkn97UJ5tBJo+cIs1U+8q1Fgv+K
+ 3lGonlm90bIZR/9/4+6L47VXHPVWgfDVt2geFOgLMDScX25vPeSlsRCEkHt3V4ESBb5J
+ YpxV4yIJTYxY1/2QYAkGbbLhv8xskuMQB6Iysg9LR44sX5HACNEIXqUNPt6R8wcxC8v9
+ z44A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683794925; x=1686386925;
+ d=1e100.net; s=20221208; t=1683794926; x=1686386926;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jYXOA8zWM3jNNbfPJj41pkQhEa8v8qdITfpT3KLBxPc=;
- b=OllmBZMxV+nHaAFgwX0e/+HRBhDNQNPHsWeBrCGiGOZHQ0atlxzi6kNmEpv4BXaJIY
- YC1k6WR0motwsRl8yMkFsTQdxj5VTu1mOAeiidiNI1Imo54QTnyoRlSeqliT+lXNppEO
- Fzp5gdruJIbK3yytx3EnboLJSRtKER+6/kaAz6vPgVs3odOYWZz+NsPuVHbBI/TczJY1
- QVmNbvrFJiEqteYBhGXdTQav9FbBA+DE41NJJFUBaDTAUdF26PGViq2da4/E6KZAMt1O
- vGxC5zSz0hIjzpksSsNlmKuyLuv5A9Fes9VJz+SGzy1dlJm1mozYHCpktJzkvHcqOM/X
- Y2lQ==
-X-Gm-Message-State: AC+VfDy0dt/tembnKHqmluAQfTWtk4mfhoZUTgza8P9ReLRhzEc14dZY
- agBgE+I5nvBV1gr8jOvMZGpSOQ==
-X-Google-Smtp-Source: ACHHUZ7DvajCB9jH6R+ncwbVGAAsE30eCK9r3LX38KBGLTpcIkya0694Nlh8PjtSMrXjtonaRDQYYg==
-X-Received: by 2002:adf:e547:0:b0:2e4:bfa0:8c30 with SMTP id
- z7-20020adfe547000000b002e4bfa08c30mr15384948wrm.47.1683794925436; 
- Thu, 11 May 2023 01:48:45 -0700 (PDT)
+ bh=MavG6Kk9Pe4HL8j0/etWioEuDmEHCWaEC1JE6orX7J8=;
+ b=akcOmhR/paZD2BjXIYCdCnCoDvyUhXot9QntcQb5ZZSMmOMa9nZ1o8G6ZNJSIrFEtV
+ 57Y992sqVh2+LCQftv1NG4KPLJmF2Uhm2tErrW3jNbAeOnQChHeJuD2qPtmRXclOajRU
+ wYqAwzy+B4asfsKmXvyktkdrWcFjQ8YZDDpfzibP+fF7f9CP/iSCm9ChnTiER76sCGCQ
+ kvseQfDs/hOMOpLNaHo/py0Bcxb4gKpnXOrv9OXvZqrsEJ7Zmx34Yg4RHsG/yGy41TTB
+ 8eOy2c3C9uMoYYubhpWErA4/w4lh8no2pQnhfoDWCeTc5dOuV0cTZtsbmjsk7CvdE6Z0
+ SomQ==
+X-Gm-Message-State: AC+VfDxUfr9xJ/pfuCYVGAalq8tRNSykLlEPHoKaI9fJN/bCdWm/me4U
+ U+Fu/7T2u4pkxI5Nzcr8rjgqYA==
+X-Google-Smtp-Source: ACHHUZ6FxN8xnWtJ2s+Qw/vMfGQbDW2EOFTHMfzqCuWj9Tjx6S+HdeZIbvhZc1lxPKciTJMffPqKPw==
+X-Received: by 2002:a5d:4fd1:0:b0:2f4:e96e:3c86 with SMTP id
+ h17-20020a5d4fd1000000b002f4e96e3c86mr15638478wrw.14.1683794926354; 
+ Thu, 11 May 2023 01:48:46 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- z6-20020adff746000000b002f103ca90cdsm19707750wrp.101.2023.05.11.01.48.44
+ z6-20020adff746000000b002f103ca90cdsm19707750wrp.101.2023.05.11.01.48.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 01:48:45 -0700 (PDT)
+ Thu, 11 May 2023 01:48:46 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230507172639.2320934-1-dmitry.baryshkov@linaro.org>
-References: <20230507172639.2320934-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 1/2] drm/panel: sharp-ls043t1le01: adjust mode settings
-Message-Id: <168379492469.1992146.2328488621044620059.b4-ty@linaro.org>
-Date: Thu, 11 May 2023 10:48:44 +0200
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>
+In-Reply-To: <20230508083826.1016206-1-victor.liu@nxp.com>
+References: <20230508083826.1016206-1-victor.liu@nxp.com>
+Subject: Re: [PATCH v2 0/2] drm/panel: panel-simple: Add BOE
+ EV121WXM-N10-1850 panel support
+Message-Id: <168379492556.1992146.7262967209295860985.b4-ty@linaro.org>
+Date: Thu, 11 May 2023 10:48:45 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -76,26 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: conor+dt@kernel.org, sam@ravnborg.org, krzysztof.kozlowski@linaro.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, linux-imx@nxp.com,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Sun, 07 May 2023 20:26:38 +0300, Dmitry Baryshkov wrote:
-> Using current settings causes panel flickering on APQ8074 dragonboard.
-> Adjust panel settings to follow the vendor-provided mode. This also
-> enables MIPI_DSI_MODE_VIDEO_SYNC_PULSE, which is also specified by the
-> vendor dtsi for the mentioned dragonboard.
+On Mon, 08 May 2023 16:38:24 +0800, Liu Ying wrote:
+> This patch series aims to add BOE EV121WXM-N10-1850 panel support
+> in the DRM simple panel driver.
 > 
+> Patch 1/2 adds dt-bindings support for the panel.
+> Patch 2/2 adds the panel support in the DRM simple panel driver.
 > 
+> v1->v2:
+> * Add Krzysztof's A-b tag on patch 1/2.
+> * Use struct display_timing in patch 2/2 to tell minimum and maximum
+>   pixel clock rates.
+> * Set bus_flags to DRM_BUS_FLAG_DE_HIGH in struct panel_desc in patch 2/2.
+> 
+> [...]
 
 Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-[1/2] drm/panel: sharp-ls043t1le01: adjust mode settings
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=dee23b2c9e3ff46d59c5d45e1436eceb878e7c9a
-[2/2] drm/panel: sharp-ls043t1le01: drop dummy functions and data fields
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=7e8ba34d357127e2c93f18123d09b5c817156512
+[1/2] dt-bindings: display: simple: Add BOE EV121WXM-N10-1850 panel
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0bd5bd65cd2e4d1335ea6c17cd2c8664decbc630
+[2/2] drm/panel: panel-simple: Add BOE EV121WXM-N10-1850 panel support
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8bb7c7bca5b70f3cd22d95b4d36029295c4274f6
 
 -- 
 Neil
