@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12546FF2F0
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:34:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 651596FF2EF
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 15:34:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BC210E243;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0D410E240;
 	Thu, 11 May 2023 13:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7F3710E240
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C779310E0F7
  for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 13:34:16 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-64115eef620so57910709b3a.1
+Received: by mail-pf1-x429.google.com with SMTP id
+ d2e1a72fcca58-6436e075166so6483531b3a.0
  for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 06:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20221208; t=1683812056; x=1686404056;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XPQCkH64CNFAQt/WeXCfUvrIoglaGTPj4GtDmz/dzcQ=;
- b=afwzm1NJKhY/AGMm4Ukn8Imuqv9CCQxXBvXEUTCs/qMHxCAIFSog6kU+C4CeaJtk1d
- FkLcNbqx2GplOXyzHHJaY+ER1f/PJOy6Fg4EHIHb5OPxQTfL2HV08JF8B2wpaCu03/SE
- 8jF6K0FVmX9SDxcY7WmQaqOo/BwIYVijsAheX7ZBNYfAM43CnSh6pyFBbhRsYRJNmNhY
- oSg1PXZ3TgpG4sorx/zMULZ9WhUr3Zd0Specs8gaJyWoi4MWQlbldF6ljQudY4c/VxSF
- yBi6cjqRmp53+v0keU1WhJ1snXq1qJmW3cPOBixJYCcl44ZdHxz0fS0+s840C4O/weyb
- qDJQ==
+ bh=HoKyuHLfT/Y/QsL6VxzM/0MIfBb45C0FJHVlIVZz104=;
+ b=kkVZKiYfEcCdoefsHaMhY1LIJItNpc1tc2IkQ/P+y072+Ftr3ATNGwAODW9yC5oabG
+ lEVaDH26i2znzLMUxRJPlsSCkYKqfolieTzP6Op/omkT7lGqQNPID45STOHP88j40PHE
+ puk1llPOZExeQrW5GiXQmUvCU68ptpxpzfambpAih93AlGWzJXCamE4pEMGY6qBxi0/N
+ zX5gKuRwM5LL7wVXU6dm8aK+rKng53ZDCsV6QLz9opk7Gl8I2gx3cad5YOuCQ1OBYycl
+ y1ZR0SEmToaFBNROxpc8cIoUbIQfEQ5lbLJZbtSRWlIpPfcakFPxkySVAmqnm2WFEtJD
+ hP1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683812056; x=1686404056;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XPQCkH64CNFAQt/WeXCfUvrIoglaGTPj4GtDmz/dzcQ=;
- b=BWLQiOws3iHgn6IGL7/VfdF9CvXDXksg4+mJE7W/Cai1fd32YujcK9ieW8h/8NNz7C
- PUthzUA+4UFMP8ZLNlFIu9R0OT0t/MDN3DxpWrjRVlFzvW37urnwXpwzhd9yEVUtZDyF
- Ovq3gdec4qGA5qY/aXD4gSfmRrZsYrh6uSrGDQilBecf54JSnVellfPRvOaj5HGG3WIi
- QVq+uskTGx01B2n03SV6Mq1g6REcQ8W7+u1wArMU3P8HDJU6ohDrWO2mmVTRQ8UEjEyI
- zS75vl4/y1tl9xBey9PVP6KdI1f2O4k3GBlNXwr/WXKz3hEVKSj79T0pbdPHY4JQpPQX
- PfHg==
-X-Gm-Message-State: AC+VfDxpWgoxGaWRwh4K6JnPT8a0fejFy0w/HQCxdKkyFyonfI24TCDJ
- CsBhiWes4WBvyPkMej0YlrQ=
-X-Google-Smtp-Source: ACHHUZ4O1Jat5CJArv133r+VpyuY8MQSaAtCOvha77FamvBMtlmldVdj4KXYHlWxeZOFjIPmFy4Zqw==
-X-Received: by 2002:a05:6a20:3ca9:b0:f3:3ea5:5185 with SMTP id
- b41-20020a056a203ca900b000f33ea55185mr25359361pzj.10.1683812055664; 
+ bh=HoKyuHLfT/Y/QsL6VxzM/0MIfBb45C0FJHVlIVZz104=;
+ b=MuEnUhNx8jL2dQc1yiZo5PkQzWmZK1h46czP/BA4HpDchKb4YDYmLVwbaCe5DnPuZv
+ LryOvBKVdak8hvouxJar1jhJW1QZaLzES4SwYHTFzgafaYQZq0rcavPHTna3etPGxFHY
+ rfU50uzndnWsb4xSkAK9I36plxvl1USOzKmOPeqqyf2rzlCPhTlXF1gRfqW6G2/AEf3R
+ sYTQ971H4ssO9HfRuNGm+lGymd6G+PG4u2GRnKEmwS0FrmqQa87v49r8dct05f0klkD/
+ iZ0q4r842sj+WIAgODLvOZZtirFrT123p9RUOkkuDxuwDm9aJSdlTfvTPnqhAIcGBz1F
+ IbCg==
+X-Gm-Message-State: AC+VfDxGtDISCDihxPjLDPhRqUqD1Rzo9JRo3b9JipY1ZdUpHlUwnbw1
+ iL3lIbgG/g7L6Hgv+FVDEGw=
+X-Google-Smtp-Source: ACHHUZ4262YHOoAdK0Uxg1/cglS/7wigxDC7J/l5c10IuMlaf9GDBAHt/NGAsZh1zd2FtAkAw0wtWA==
+X-Received: by 2002:a05:6a00:14c8:b0:63b:4e99:807d with SMTP id
+ w8-20020a056a0014c800b0063b4e99807dmr30877582pfu.8.1683812055845; 
  Thu, 11 May 2023 06:34:15 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-92.three.co.id. [180.214.232.92])
  by smtp.gmail.com with ESMTPSA id
- x25-20020a62fb19000000b00640e01dfba0sm5468631pfm.175.2023.05.11.06.34.14
+ t23-20020a62ea17000000b0062cf75a9e6bsm5304247pfh.131.2023.05.11.06.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 11 May 2023 06:34:15 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
- id E58141067A9; Thu, 11 May 2023 20:34:09 +0700 (WIB)
+ id 1E783106796; Thu, 11 May 2023 20:34:09 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -61,20 +61,19 @@ To: Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Linux Staging Drivers <linux-staging@lists.linux.dev>,
  Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
  Linux Kernel Actions <linux-actions@lists.infradead.org>
-Subject: [PATCH 02/10] mISDN: Replace GPL notice boilerplate with SPDX
- identifier
-Date: Thu, 11 May 2023 20:33:58 +0700
-Message-Id: <20230511133406.78155-3-bagasdotme@gmail.com>
+Subject: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining files
+Date: Thu, 11 May 2023 20:33:59 +0700
+Message-Id: <20230511133406.78155-4-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511133406.78155-1-bagasdotme@gmail.com>
 References: <20230511133406.78155-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4139; i=bagasdotme@gmail.com;
- h=from:subject; bh=cJS8ef+qojTtJfUCqsZFkSaB82TgDOnvwkt3EGdvflA=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx747Fz56X8GZ15aRzh97mM8+U03ALmneF+dT5Zxb3L
- by5b3+S6ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEWDwY/nCc93sU6xFW5SS2
- dSGr18XStuYJxZMfz1gS9iRGYZrrczuGfzrtmVY9x9cIby/a/8Sdf0rADrNJqZ+mJkuee7Kw6rn
- BZX4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2266; i=bagasdotme@gmail.com;
+ h=from:subject; bh=AbejYIDoCHeefbQ32iun0DrWErMv9kzK4SAlm6OQaX4=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDCkx747PkA9/cfxz2Ifqa3XbZI53SLo7dFo4Oppqt3OfP
+ Ggdve1YRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACbi/4CRoe3mvdbgL1GSWv5G
+ P7/8TQrJdrn+UtAjeFv6ncg1f632X2Vk2Cwokqki0NzUGPFRxdqA694fs0/OHL+elKf5NGY18m9
+ kAwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -104,6 +103,7 @@ Cc: Kate Stewart <kstewart@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
  Kalle Valo <kvalo@kernel.org>, Yang Yingliang <yangyingliang@huawei.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
  David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
  Wim Van Sebroeck <wim@linux-watchdog.org>, Archana <craechal@gmail.com>,
@@ -113,128 +113,71 @@ Cc: Kate Stewart <kstewart@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
  Stephen Hemminger <stephen@networkplumber.org>,
  Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
  =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Daniel Mack <daniel@zonque.org>
+ Daniel Mack <daniel@zonque.org>, Thomas Davis <tadavis@lbl.gov>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace unversioned GPL notice boilerplate on dsp_* with SPDX identifier
-for GPL 1.0+. These files missed previous SPDX conversion batches
-due to not specifying GPL version.
+Previous batches of SPDX conversion missed bond_main.c and bonding_priv.h
+because these files doesn't mention intended GPL version. Add SPDX identifier
+to these files, assuming GPL 1.0+.
 
+Cc: Thomas Davis <tadavis@lbl.gov>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Cc: Stephen Hemminger <stephen@networkplumber.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/isdn/mISDN/dsp_audio.c    | 4 +---
- drivers/isdn/mISDN/dsp_blowfish.c | 4 +---
- drivers/isdn/mISDN/dsp_cmx.c      | 4 +---
- drivers/isdn/mISDN/dsp_core.c     | 3 +--
- drivers/isdn/mISDN/dsp_dtmf.c     | 4 +---
- drivers/isdn/mISDN/dsp_tones.c    | 4 +---
- 6 files changed, 6 insertions(+), 17 deletions(-)
+ drivers/net/bonding/bond_main.c    | 1 +
+ drivers/net/bonding/bonding_priv.h | 4 +---
+ include/net/bonding.h              | 4 +---
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/isdn/mISDN/dsp_audio.c b/drivers/isdn/mISDN/dsp_audio.c
-index bbef98e7a16efb..869c3a7d92a981 100644
---- a/drivers/isdn/mISDN/dsp_audio.c
-+++ b/drivers/isdn/mISDN/dsp_audio.c
-@@ -1,12 +1,10 @@
+diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+index 3fed888629f7b5..93fc7b38835c07 100644
+--- a/drivers/net/bonding/bond_main.c
++++ b/drivers/net/bonding/bond_main.c
+@@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-1.0-or-later */
  /*
-  * Audio support data for mISDN_dsp.
+  * originally based on the dummy device.
   *
-  * Copyright 2002/2003 by Andreas Eversberg (jolly@eversberg.eu)
-  * Rewritten by Peter
+diff --git a/drivers/net/bonding/bonding_priv.h b/drivers/net/bonding/bonding_priv.h
+index 48cdf3a49a7d74..9570ceb0830327 100644
+--- a/drivers/net/bonding/bonding_priv.h
++++ b/drivers/net/bonding/bonding_priv.h
+@@ -1,3 +1,4 @@
++/* SPDX-License-Identifier: GPL-1.0-or-later */
+ /*
+  * Bond several ethernet interfaces into a Cisco, running 'Etherchannel'.
   *
-- * This software may be used and distributed according to the terms
-- * of the GNU General Public License, incorporated herein by reference.
+@@ -7,9 +8,6 @@
+  * BUT, I'm the one who modified it for ethernet, so:
+  * (c) Copyright 1999, Thomas Davis, tadavis@lbl.gov
+  *
+- *	This software may be used and distributed according to the terms
+- *	of the GNU Public License, incorporated herein by reference.
 - *
   */
  
- #include <linux/delay.h>
-diff --git a/drivers/isdn/mISDN/dsp_blowfish.c b/drivers/isdn/mISDN/dsp_blowfish.c
-index 0aa572f3858da7..bd83aacf9ffd96 100644
---- a/drivers/isdn/mISDN/dsp_blowfish.c
-+++ b/drivers/isdn/mISDN/dsp_blowfish.c
-@@ -1,11 +1,9 @@
+ #ifndef _BONDING_PRIV_H
+diff --git a/include/net/bonding.h b/include/net/bonding.h
+index a60a24923b5599..09053e1107d095 100644
+--- a/include/net/bonding.h
++++ b/include/net/bonding.h
+@@ -1,3 +1,4 @@
 +/* SPDX-License-Identifier: GPL-1.0-or-later */
  /*
-  * Blowfish encryption/decryption for mISDN_dsp.
+  * Bond several ethernet interfaces into a Cisco, running 'Etherchannel'.
   *
-  * Copyright Andreas Eversberg (jolly@eversberg.eu)
+@@ -7,9 +8,6 @@
+  * BUT, I'm the one who modified it for ethernet, so:
+  * (c) Copyright 1999, Thomas Davis, tadavis@lbl.gov
   *
-- * This software may be used and distributed according to the terms
-- * of the GNU General Public License, incorporated herein by reference.
+- *	This software may be used and distributed according to the terms
+- *	of the GNU Public License, incorporated herein by reference.
 - *
   */
  
- #include <linux/mISDNif.h>
-diff --git a/drivers/isdn/mISDN/dsp_cmx.c b/drivers/isdn/mISDN/dsp_cmx.c
-index 357b87592eb48c..b9b3fbb5791121 100644
---- a/drivers/isdn/mISDN/dsp_cmx.c
-+++ b/drivers/isdn/mISDN/dsp_cmx.c
-@@ -1,11 +1,9 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * Audio crossconnecting/conferrencing (hardware level).
-  *
-  * Copyright 2002 by Andreas Eversberg (jolly@eversberg.eu)
-  *
-- * This software may be used and distributed according to the terms
-- * of the GNU General Public License, incorporated herein by reference.
-- *
-  */
- 
- /*
-diff --git a/drivers/isdn/mISDN/dsp_core.c b/drivers/isdn/mISDN/dsp_core.c
-index 386084530c2f85..800ad56d21285e 100644
---- a/drivers/isdn/mISDN/dsp_core.c
-+++ b/drivers/isdn/mISDN/dsp_core.c
-@@ -1,10 +1,9 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * Author       Andreas Eversberg (jolly@eversberg.eu)
-  * Based on source code structure by
-  *		Karsten Keil (keil@isdn4linux.de)
-  *
-- *		This file is (c) under GNU PUBLIC LICENSE
-- *
-  * Thanks to    Karsten Keil (great drivers)
-  *              Cologne Chip (great chips)
-  *
-diff --git a/drivers/isdn/mISDN/dsp_dtmf.c b/drivers/isdn/mISDN/dsp_dtmf.c
-index 642f30be5ce249..baf69d585afe00 100644
---- a/drivers/isdn/mISDN/dsp_dtmf.c
-+++ b/drivers/isdn/mISDN/dsp_dtmf.c
-@@ -1,12 +1,10 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * DTMF decoder.
-  *
-  * Copyright            by Andreas Eversberg (jolly@eversberg.eu)
-  *			based on different decoders such as ISDN4Linux
-  *
-- * This software may be used and distributed according to the terms
-- * of the GNU General Public License, incorporated herein by reference.
-- *
-  */
- 
- #include <linux/mISDNif.h>
-diff --git a/drivers/isdn/mISDN/dsp_tones.c b/drivers/isdn/mISDN/dsp_tones.c
-index 8389e2105cdcf6..becfb1dd60d631 100644
---- a/drivers/isdn/mISDN/dsp_tones.c
-+++ b/drivers/isdn/mISDN/dsp_tones.c
-@@ -1,11 +1,9 @@
-+/* SPDX-License-Identifier: GPL-1.0-or-later */
- /*
-  * Audio support data for ISDN4Linux.
-  *
-  * Copyright Andreas Eversberg (jolly@eversberg.eu)
-  *
-- * This software may be used and distributed according to the terms
-- * of the GNU General Public License, incorporated herein by reference.
-- *
-  */
- 
- #include <linux/gfp.h>
+ #ifndef _NET_BONDING_H
 -- 
 An old man doll... just what I always wanted! - Clara
 
