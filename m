@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F486FEF3F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 11:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910836FEF96
+	for <lists+dri-devel@lfdr.de>; Thu, 11 May 2023 12:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12DB10E218;
-	Thu, 11 May 2023 09:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77EE10E5CB;
+	Thu, 11 May 2023 10:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6553210E218
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 09:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683798681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x1jyXwsXVLuabwuQiSz7oK3LCRImDJ1zXmlKCN7QRGM=;
- b=gnHpHfvZYczaeuYBHoTdxzVxbiaoIPcgXPv4RY8mjtvGb4AZ3tuQVob66Lkhz5IHabU5os
- O7qz2CUL02dmFcDqNMq8/jC6wRnJe4SO8MmSyvs9uzj2MjuPqA4NTagf9PTgLNeaZrjWUk
- nBKsjUO6NWn5gE2ZgjC9RzJQaOA+YYY=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-Bp90J4STNC-rT-E0Nf8sTQ-1; Thu, 11 May 2023 05:51:20 -0400
-X-MC-Unique: Bp90J4STNC-rT-E0Nf8sTQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4ec8133c419so669528e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 02:51:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798679; x=1686390679;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=x1jyXwsXVLuabwuQiSz7oK3LCRImDJ1zXmlKCN7QRGM=;
- b=gjmpp2E/rx7GyXHIiSig1oP7A2Ee4Y7qaC+RdvCIDUYh8CYkeiLVrhXx9/eQvIE+Xm
- v8eCcYgf+oC3SANFDhYIavbT2+POxCE+nUk6mOOi9jZnPPUU0cs4uaM17EODFIo825Aw
- fAOqkcuAFmA17J3q82cnXQBi6ZlNmPSfsWb3krM+a2xN9qYZ9UKX3ThDl1/iv2Z5fiMf
- XQmOW0H3ykkr4qiw6z1I0jRwff5zrHeYqZimmwkB+ZjRtZD0CIVGSnK9tZ/FiNu3NglQ
- fmo74nXQ3GLNO/hlLcRE8aG+YrIUHm0x0NxK0qga/ApBkD62oz/VG3DPMDG3ZeTIinZu
- lPSA==
-X-Gm-Message-State: AC+VfDwrhoz8R/wCaOntd3ieQwb2kOrBd6X54Sb0kIHnNaHg/CZkdjVp
- MY6hLYWmGMD4ONaOb3BGrThFWwITOrX/MkcJ3/dlBvdNedEP6zMZcrRHrCu4L5ux3FW+6eXwvhZ
- zSdztnGyexQQT8r8Mvxe6XEbDSGvdu4ZibpVQto9pBJ72
-X-Received: by 2002:a2e:2204:0:b0:2ac:78d3:bbf0 with SMTP id
- i4-20020a2e2204000000b002ac78d3bbf0mr5778295lji.4.1683798679436; 
- Thu, 11 May 2023 02:51:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ564mlml45SxBZ5Hz7DOsiUWy7mVGeS+CYGSOYwpvH8HHxK01eulIS4vxUv8VdMVMNY9EBK5PqtiMXbulDu2Es=
-X-Received: by 2002:a2e:2204:0:b0:2ac:78d3:bbf0 with SMTP id
- i4-20020a2e2204000000b002ac78d3bbf0mr5778291lji.4.1683798679109; Thu, 11 May
- 2023 02:51:19 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2066810E5C8;
+ Thu, 11 May 2023 10:03:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683799394; x=1715335394;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QlT9To/OXd8EOJgtiTI8cBaN4OaCchdOcuG26O4bS00=;
+ b=U/4pwlahc+E5N5fH9o27ywR+K5AqXm0VyqaXYUuenoqn1HVbKF0jwsfu
+ sCokzkYOIQ8v2tbS0/TvUoVj5TA/a+jinRtxE0INUs8vf1vYVxVJHKt0Q
+ HiP9CrI39v2uIHXW6LaWgacuTFB4UM6IF3chGyfNkGhFdrBumMCDeZWa1
+ CtX1LI31KizVISsmUYCAgjo8p+OnWyFPMc8KziXsDcBOl201CwnBMU6L/
+ CqwRQSLAak9uzKEbjEewNITkwKDfhJVP/f6Fg2SaZuPdJtJLZRFMw7SeY
+ y8TKVnwp2Pi5dudKP2dUdsTu7rBNgQYXkXOgrbL5V1JplRZ6SauIWWHAW A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="353549909"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="353549909"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 03:03:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="843886962"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="843886962"
+Received: from acharach-mobl.ger.corp.intel.com (HELO [10.251.219.38])
+ ([10.251.219.38])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 03:03:06 -0700
+Message-ID: <56668e29-f697-bd9b-2c13-182e8456dbce@linux.intel.com>
+Date: Thu, 11 May 2023 12:03:04 +0200
 MIME-Version: 1.0
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
- <CA+hFU4x++RDOxkc-_ZvDtQs3DtupwDV0KJyD3YAgrdh4daLotA@mail.gmail.com>
- <CAPM=9twjPr9fiJwbyNS9j=mCKmLhxbTjB5Vzq9F+Du8sdHac-A@mail.gmail.com>
- <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
- <CAPM=9tyOFhE0zC8540KBOkDaZE1c3zTtke_vX=DEkMTmo04A4Q@mail.gmail.com>
- <QL28tg_ZcXPQ1W5l8Hp3rDlvyKuMh09kjGHpj1GRKVrMqlB-hNI2F6FzRSP-NyfkMpk6tsO55t8UYF6Uk9b7IF1O1BHH1WKc88kNTgY2Ugk=@emersion.fr>
- <ZFtO2bMQOWVhRkSG@redhat.com>
-In-Reply-To: <ZFtO2bMQOWVhRkSG@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 11 May 2023 11:51:07 +0200
-Message-ID: <CACO55tvzdOU4hnqbpTsd=_SeP0GHt235w=NGL74Oq0Fd35V6HQ@mail.gmail.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-To: =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.0
+Subject: Re: [RFC PATCH 0/4] Add support for DRM cgroup memory accounting.
+Content-Language: en-US
+To: Tejun Heo <tj@kernel.org>
+References: <20230503083500.645848-1-maarten.lankhorst@linux.intel.com>
+ <ZFVeI2DKQXddKDNl@slm.duckdns.org>
+ <4d6fbce3-a676-f648-7a09-6f6dcc4bdb46@linux.intel.com>
+ <ZFvmaGNo0buQEUi1@slm.duckdns.org>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <ZFvmaGNo0buQEUi1@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +64,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, Aleix Pol <aleixpol@kde.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Joshua Ashton <joshua@froggi.es>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 10, 2023 at 9:59=E2=80=AFAM Jonas =C3=85dahl <jadahl@redhat.com=
-> wrote:
->
-> On Tue, May 09, 2023 at 08:22:30PM +0000, Simon Ser wrote:
-> > On Tuesday, May 9th, 2023 at 21:53, Dave Airlie <airlied@gmail.com> wro=
-te:
-> >
-> > > There are also other vendor side effects to having this in userspace.
-> > >
-> > > Will the library have a loader?
-> > > Will it allow proprietary plugins?
-> > > Will it allow proprietary reimplementations?
-> > > What will happen when a vendor wants distros to ship their
-> > > proprietary fork of said library?
-> > >
-> > > How would NVIDIA integrate this with their proprietary stack?
-> >
-> > Since all color operations exposed by KMS are standard, the library
-> > would just be a simple one: no loader, no plugin, no proprietary pieces=
-,
-> > etc.
-> >
->
-> There might be pipelines/color-ops only exposed by proprietary out of
-> tree drivers; the operation types and semantics should ideally be
-> defined upstream, but the code paths would in practice be vendor
-> specific, potentially without any upstream driver using them. It should
-> be clear whether an implementation that makes such a pipeline work is in
-> scope for the upstream library.
->
-> The same applies to the kernel; it must be clear whether pipeline
-> elements that potentially will only be exposed by out of tree drivers
-> will be acceptable upstream, at least as documented operations.
->
+Hey,
 
-they aren't. All code in the kernel needs to be used by in-tree
-drivers otherwise it's fair to delete it. DRM requires any UAPI change
-to have a real open source user in space user.
-
-Nvidia knows this and they went to great lengths to fulfill this
-requirement in the past. They'll manage.
-
+On 2023-05-10 20:46, Tejun Heo wrote:
+> Hello,
 >
-> Jonas
+> On Wed, May 10, 2023 at 04:59:01PM +0200, Maarten Lankhorst wrote:
+>> The misc controller is not granular enough. A single computer may have any number of
+>> graphics cards, some of them with multiple regions of vram inside a single card.
+> Extending the misc controller to support dynamic keys shouldn't be that
+> difficult.
 >
+> ...
+>> In the next version, I will move all the code for handling the resource limit to
+>> TTM's eviction layer, because otherwise it cannot handle the resource limit correctly.
+>>
+>> The effect of moving the code to TTM, is that it will make the code even more generic
+>> for drivers that have vram and use TTM. When using TTM, you only have to describe your
+>> VRAM, update some fields in the TTM manager and (un)register your device with the
+>> cgroup handler on (un)load. It's quite trivial to add vram accounting to amdgpu and
+>> nouveau. [2]
+>>
+>> If you want to add a knob for scheduling weight for a process, it makes sense to
+>> also add resource usage as a knob, otherwise the effect of that knob is very
+>> limited. So even for Tvrtko's original proposed usecase, it would make sense.
+> It does make sense but unlike Tvrtko's scheduling weights what's being
+> proposed doesn't seem to encapsulate GPU memory resource in a generic enough
+> manner at least to my untrained eyes. ie. w/ drm.weight, I don't need any
+> specific knoweldge of how a specific GPU operates to say "this guy should
+> get 2x processing power over that guy". This more or less holds for other
+> major resources including CPU, memory and IO. What you're proposing seems a
+> lot more tied to hardware details and users would have to know a lot more
+> about how memory is configured on that particular GPU.
+
+There's not much need of knowing the specifics of a card, but there might
+be a need of knowing the workload to determine what allocation limits to set.
+
+I've left region to be implementation specific, but it would make sense to
+standardise it.
+TTM, the layer used by drivers that support VRAM, have the following regions:
+* sysmem - All system memory allocated; includes evicted VRAM.
+* mapped - All physical system memory that is mapped to the GPU, when unbound
+           moves to sysmem. When evicting VRAM to sysmem, it's temporarily
+           mapped here.
+* vramN - All VRAM regions of the device.
+* driver specific regions - probably doesn't make sense to put in cgroup at all,
+  this includes stolen from the PoC.
+
+That leaves the question, what regions would make sense for a cgroup?
+Since vramN can be moved to mapped and sysmem (VRAM eviction, suspend/resume,
+driver_madvise), it becomes a subject of debate if we should include the other
+regions, since things become complicated fast.
+
+For the first iteration, I focus on a single category, vramN.
+
+Even when not knowing anything about a GPU, it will be easy to partition its
+memory like that.
+
+If you can assign a weight for the scheduler, then you can also partition it's
+vram by parsing /drm.capacity for total amount, and then splitting it across
+cgroups.
+
+
+> Now, if this is inherent to how all, or at least most, GPUs operate, sure,
+> but otherwise let's start small in terms of interface and not take up space
+> which should be for something universal. If this turns out to be the way,
+> expanding to take up the generic interface space isn't difficult.
+>
+> I don't know GPU space so please educate me where I'm wrong.
+
+Most GPU's have dedicated vram that works roughly in the same way, some
+integrated chips like i915 or arm use shared memory from the host system
+only. I would say amd, nvidia and intel's chips with dedicated memory work
+roughly in the same way for vram.
+
+I hope this explains it a little bit more,
+
+~Maarten
 
