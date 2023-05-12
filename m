@@ -1,72 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051EB6FFDD0
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 02:17:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 554606FFE0A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 02:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 584DC10E603;
-	Fri, 12 May 2023 00:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8DF10E60B;
+	Fri, 12 May 2023 00:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4CB10E603
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 00:17:48 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-50bc25f0c7dso16756972a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1683850663; x=1686442663;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=A8SW9YoumdQ8cXqFALi795RyrEYhnQ1pvgweAzLFr0w=;
- b=C058dF6y+mfJ89SQm6Q3anr/4ebdu9+eETydzkGC/8JLRV5v78l6p0MvNeSO4xupp2
- dleH5zI15hZY3itpmykHGc5PSMo2AQzlBNd8Hbt5nnA0JrOWnSQM82E3o7gRFhDB6a44
- yRpYhF/X7YT+WGo1a3UHcJ49JoOlf5zfLYvUM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683850663; x=1686442663;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=A8SW9YoumdQ8cXqFALi795RyrEYhnQ1pvgweAzLFr0w=;
- b=jGjULKKMyyNS6rVL0oqv047Lo8f7dzv5tVyWmvYbDxt61B7/m8squYkZGgsUbDLd+y
- Bv7tL29DYfmC11BHWN1a43fCx+tFjh7gD+nLSm4yHAryCKupG2R0VV7Uw5t0KlGdWltK
- ysGqRxjps3CdKxY8a2HBnDfA8UyKeXr/Fa/P5GLr8uB9Zk1zALk1QGoiZRQhxd632FIo
- kRs3uzQkFjvPSV0Cqi1gm7iSVzhcfKq03ePmH2k6xA7cbNFPxsX1R0/5ikrCIvYXb841
- i3dw35wXwrVoDVTxxHGHyesYGXqm0OGnBcrPK7HCs9dT9e9zNZ7KNHmCnNhVB2HhkIQi
- g1RQ==
-X-Gm-Message-State: AC+VfDyRuhJJPGYW8GuUjOQMUCJztaDoVUIO+5p+/72VW51tQKKn09Sj
- o/2QPmKHkI3l64DnBKuhPTHbRR5SaSEhVg6NsoYxoA==
-X-Google-Smtp-Source: ACHHUZ6Q4WZwr5s2Ql2u5hNHwbRL2rjjKIc1NAM6+LMDRWekRklweK+4yh0kYyz/72gcKSuxFIuXlg==
-X-Received: by 2002:a17:907:9606:b0:932:7f5c:4bb2 with SMTP id
- gb6-20020a170907960600b009327f5c4bb2mr22851891ejc.75.1683850663705; 
- Thu, 11 May 2023 17:17:43 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- e27-20020a170906249b00b0095707b7dd04sm4545873ejb.42.2023.05.11.17.17.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 17:17:43 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-50dba8a52dcso26322a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:17:42 -0700 (PDT)
-X-Received: by 2002:a50:d4ce:0:b0:502:2af:7b1d with SMTP id
- e14-20020a50d4ce000000b0050202af7b1dmr10146edj.3.1683850662405; Thu, 11 May
- 2023 17:17:42 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535C410E05C;
+ Fri, 12 May 2023 00:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683851563; x=1715387563;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=USvhsWMgy+dxxT3E1oKND05yXNeNid6kfTdUn0KPBRU=;
+ b=d2isjgfbqT/Rhz7RrnYfAaWaEKSncCtIvvmfKb99XX6AOVk0ww1DHVhy
+ Q5WND5QGOZozpm+p/PA4fdwA2SewI6gGVkE8BXd8D3Fbrjg+alqetpdfu
+ Q2HnNwyN4lqLK1jKWeP81YeG7utEw4y0sYDMxBKv8iAFbIFTA4lX/fvN5
+ l+sdBCTtK/GrpJs8VehFaXGm8IrNVV18Ro56uM6chyFFVlxQJkiddGlTy
+ UimE5F2Zxcy2D4fgYpmiuiOXBeLVIVVEBiRGrN+zkBNT4JR9onfNWJRjo
+ 7V666v4AUkel6OcMdZuDBoGv8mjgDswANu+3TuhzW37S4RX43fKejfm/p A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353787358"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="353787358"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 17:32:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="811850496"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="811850496"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga002.fm.intel.com with ESMTP; 11 May 2023 17:32:42 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 11 May 2023 17:32:41 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 11 May 2023 17:32:41 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 11 May 2023 17:32:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kjLgzlfW/qoasTJF779EEKZSvfI6Em+qowOj0hkRLYjmTt643FzFloaGwn6Q8libPtf9VHyvO9fnbdDVfl2yUlVlyJiB3UAk27xIlNiCS1xtPfohHPplVA+aIJ5EP+h0925fKLKnLMSdEzrrpe4/1jKiXgNHT+91TDinaE7vBHUaRtaYGjgbsORJMtANV5uElFY4ti0SLTIQYdodqdSO+b6GjeWd+6dOdfPNG1tvtkDtNEPlPiAwHD3MgWIEQ98LBszhgqTS7b8JOxXXD6C+45eBCDk3Ix5vnb9v0lbdRsP81GtxpHtqSGFueL/Z6IAyUeXiPt7k5B8masy7mfzFLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6XwFXrLAttQP9G7zGSBRm+FhhTWlvGKB+JYmpq3Gcx8=;
+ b=jM5v2ZFGgBY8AXvbk+YZ5rgCtxyxIH99DY7UQqsB0vS+nJp+3z9VQeVO1tJLEJdpm8aUa9dALy+5xQ0wvagZ1gloiwzmpGtu2NH/7LFAHKIV0X4TXdMHZIZt1rsZGyfJv/7EJAv1GdRAVjvpVDodew35lecysNnWRgowlji+oS46nTXDJot5nlA4xDhPqqOIEPEPjRvlstaaepO4w+iFaS+8MrK/REEDnsxIhSDwXytoQdcBbBuceDfQqufMgh6b957lO0ywWgjxH4k9ianfaBcUFWpWQ0/EYA+lXk+oxnVB0KGxZXJXNwyQnj9bfe3q4KxSOYSHxkmuTa+CJfQ0oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com (2603:10b6:8:5e::7) by
+ PH8PR11MB6997.namprd11.prod.outlook.com (2603:10b6:510:223::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.20; Fri, 12 May
+ 2023 00:32:04 +0000
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::df8c:4a33:f53a:9a2e]) by DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::df8c:4a33:f53a:9a2e%5]) with mapi id 15.20.6387.018; Fri, 12 May 2023
+ 00:32:04 +0000
+From: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v11 0/8] drm/i915/pxp: Add MTL PXP Support
+Thread-Topic: [PATCH v11 0/8] drm/i915/pxp: Add MTL PXP Support
+Thread-Index: AQHZhF7qYw1Nk6S7/EqZcJ0bekmm2K9VyV8A
+Date: Fri, 12 May 2023 00:32:04 +0000
+Message-ID: <DM4PR11MB5971E945184C58025FF06B3D87759@DM4PR11MB5971.namprd11.prod.outlook.com>
+References: <20230511231738.1077674-1-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20230511231738.1077674-1-alan.previn.teres.alexis@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5971:EE_|PH8PR11MB6997:EE_
+x-ms-office365-filtering-correlation-id: 7f4b739f-e6bb-43c4-ac4d-08db52804f6c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: l6SEqDrt+uKIkT8GmJOBPsiL700Dfm0qx2eVK41pRcUxR39laEsx93x0Hbvg75x0BWxJvMfFLjhLkKxsp4PQ+bH1TTb2LbmZI32/+nqYj3FHx2AsXaYuhMUwkbP+wF2NSkZfmfoS3M7K4WdA/RiBoCFOyByDHfiKcfuIBDeqOqpD1ecbKhnQVMMgmmtdPAV4B90Rewm1rGj1QxpuG1USKuc9O5CN8olJrknc9hA6RhCWNAZ9Mpc4Sryf3LjfzTukpXBokvd1cRnb9X7JwtZdjM2I/egyLB+BF3u1bkKydzQHimXDRvjhsDYnUojKDzmHSczuX55fcx/X1yaOPhBvmpN6qyuQLzgjuDMk87G+Mdxz68eimOvEGJBEfWRRrAOQ7vzA5dn6XR/ojuZhEkXKRFxAXpxtEL2RKhBepk191wEoqv8bgugQG2HvOp55VYSKHv1WUl949EgnT66tKPS8RSZEVHeB2s3HaDu/oAY0riZynyHOG//gwbAJ9NCALkQicYAb64j+Oswuq3H07u9gUTi6HbnmeeiOBdI7bxqbxI8nf43drAScgvzccimJsvXAqsObas5MMYzIdFPjQkXYMTh73tWjjXhvsbOr8NFrXr9EF/z3k+NcyaKpctZmGS/z
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5971.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(376002)(346002)(396003)(366004)(136003)(451199021)(9686003)(478600001)(186003)(53546011)(6506007)(107886003)(26005)(83380400001)(66899021)(33656002)(7696005)(71200400001)(8936002)(86362001)(122000001)(316002)(5660300002)(52536014)(41300700001)(38070700005)(38100700002)(55016003)(8676002)(66946007)(110136005)(64756008)(66556008)(66446008)(4326008)(2906002)(30864003)(82960400001)(54906003)(66476007)(76116006);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8+j/xq0KPEed0zFZPY+4BL59L+Lbt4TRlCF4tUif92sLGWThsCZ5dMc0AZCV?=
+ =?us-ascii?Q?usXxsUyxuUaeUmSevLaqX8Zk/CpJrwNx13PnhoaXxNwyUmKA0CUZA+VSB9UK?=
+ =?us-ascii?Q?a4G8XkESGNDzOGfaLYGJ1TulWjOuy2JksuYH5Sq4c+CeFx7RCFnJPuNt2OjC?=
+ =?us-ascii?Q?lbIr+dQ9BDcsX+xFPgC+ZtvyD+TBoVeNLooxtI7iYKQREMLPnRTxZuaKIlVo?=
+ =?us-ascii?Q?9Jg1P+wFjU+AqnsJjxkBpeka16mM+34XWy9iZNeBeAOdxyZqHKkol1q0xhVb?=
+ =?us-ascii?Q?dfoBdnIUFeBdKCie1m22Sxm3eDCxe62TzPm2ArvWFADZjP8HAgYwxKH92+vw?=
+ =?us-ascii?Q?8VKaEndEHc2saZjUuGgFqbL7cTwRBZuzXHoPWueTmxv2+ZPIK5Nz8GK4Yi/O?=
+ =?us-ascii?Q?dMR45FX0isMtFp/AEYa9FRS/SzlHmHhe9d/rau9jc7Zt9GeeDTUTi/XTmj9x?=
+ =?us-ascii?Q?T1+9i1kU+nesoHRFN98sha/xYfjMf+zEmkynVMwfr1qZUYqtTWbYtD15OReG?=
+ =?us-ascii?Q?m1NYLkdAhoPXVg4de5rY0uoGvfDT2LOFkynHIqcd1WcV4YsXFy95Ru+xz1rF?=
+ =?us-ascii?Q?mQCHy2ghjaqd0TgjGJFvt3ooIhdy/URgUYNZb4vYDSSzu8vAyo4b6QBL2cje?=
+ =?us-ascii?Q?ZuhBhmMuJotY8pSbTWo6EMgDJbYKPcI94cbiJ3dDT0kAiWn89HvHn0jp3TdL?=
+ =?us-ascii?Q?EGiydiR9E5k7QNduz785BSIfijT7G5DskcKMfKhG8uy41hAcXTai3yApfvsg?=
+ =?us-ascii?Q?jptLzA0F/aLMoQ+M/o56hQz/WQ0iCMZvdnTKbzj15b6BjUKjUOxHCRNRLlZ/?=
+ =?us-ascii?Q?yw618iraHmicefC35vt2EyclAKaDjX9sSkRWuZFDiI3OfXc6BIJn2iiWrst+?=
+ =?us-ascii?Q?nZ22uHtdGwHdQ2UwZRUaJCDRzgCalE5m8vv8t++e/ZqInObCYOAK0XA41CVm?=
+ =?us-ascii?Q?iVKVRRJe7guxczUZISeYfc8S5UrPYCP2zmhWiSvIF/PyoQNpkcMtdPGYfjPo?=
+ =?us-ascii?Q?A2VbFs143/FwbBvky51uk5Nh328u46m7zbiSSB3xHTmJrOlDd/8UaKn8iiqe?=
+ =?us-ascii?Q?GXkdByhByL84vhMrELszT/oqHJxx6V/x1mFY+fXZh5XuQaDx0TjDObYahIPs?=
+ =?us-ascii?Q?QzIH3vBe/VOT/EG+KpopfCU5mlW3x76lgZ//dG0Qrp4Q7w1umxC0vte/A/ZR?=
+ =?us-ascii?Q?wLDeskC5R4edVn3MyuQrwJdZU1tDmt7VUymw8maSI/m1QV8zZT/U80z1tHYq?=
+ =?us-ascii?Q?HlGs60CgkaOJoyi2oej3k8hX6LXF0AgZULX6Df+XNVQgMkpEGS8q70ZozkaR?=
+ =?us-ascii?Q?LxJz0tazdBVKT5hR82rmPenbKBByc778YRJSOySXzhnEr0NGYvYjrNEMd8Ld?=
+ =?us-ascii?Q?GUgcdBKGJQPYEeVmCGs6e3YD+rviYMeallSLOgJMRF0QXVBirTdHdgKS/EZT?=
+ =?us-ascii?Q?uy9tK0WXnFoPBoQpx9/70+5fH6jP4UPnCOM8O3l2Jioh8W6tau9yWSFra9L1?=
+ =?us-ascii?Q?VadP1c6AJ3fbZDZL0f/qSDsCkUgyFgh5MDXCC97yDEDbUZqJaV32UsOKjP1d?=
+ =?us-ascii?Q?xWWn7N+w7R/qV1hDXqv4N0GGgw92CbQAghJe50pRtP8356G7ya+EXI1o0qQe?=
+ =?us-ascii?Q?5Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
- <141b928d-6165-f282-b8e6-f140cb09333d@collabora.com>
- <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
- <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
-In-Reply-To: <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Thu, 11 May 2023 17:17:30 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
-Message-ID: <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000096c54605fb740851"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5971.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4b739f-e6bb-43c4-ac4d-08db52804f6c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2023 00:32:04.4479 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wDDNy/wrpOVKer/PWCsyW+mqOl1cJnix9rmaHBDQH3mRGmS1deGX4Kq3ldocTLIx+vPgzRK7JXFrLOO3vTiJBksKOGep5SOYHF2rMZJlt9A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6997
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,269 +146,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@redhat.com>, kernel@collabora.com,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>, Juston Li <justonli@chromium.org>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "Justen,
+ Jordan L" <jordan.l.justen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000096c54605fb740851
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patches and the reviews. Pushed.
 
-On Mon, May 8, 2023 at 6:59=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
-e:
+- Radhakrishna(RK) Sripada
 
-> On Wed, May 3, 2023 at 10:07=E2=80=AFAM Gurchetan Singh
-> <gurchetansingh@chromium.org> wrote:
-> >
-> >
-> >
-> > On Mon, May 1, 2023 at 8:38=E2=80=AFAM Dmitry Osipenko <
-> dmitry.osipenko@collabora.com> wrote:
-> >>
-> >> On 4/16/23 14:52, Dmitry Osipenko wrote:
-> >> > We have multiple Vulkan context types that are awaiting for the
-> addition
-> >> > of the sync object DRM UAPI support to the VirtIO-GPU kernel driver:
-> >> >
-> >> >  1. Venus context
-> >> >  2. Native contexts (virtio-freedreno, virtio-intel, virtio-amdgpu)
-> >> >
-> >> > Mesa core supports DRM sync object UAPI, providing Vulkan drivers
-> with a
-> >> > generic fencing implementation that we want to utilize.
-> >> >
-> >> > This patch adds initial sync objects support. It creates fundament
-> for a
-> >> > further fencing improvements. Later on we will want to extend the
-> VirtIO-GPU
-> >> > fencing API with passing fence IDs to host for waiting, it will be a
-> new
-> >> > additional VirtIO-GPU IOCTL and more. Today we have several
-> VirtIO-GPU context
-> >> > drivers in works that require VirtIO-GPU to support sync objects UAP=
-I.
-> >> >
-> >> > The patch is heavily inspired by the sync object UAPI implementation
-> of the
-> >> > MSM driver.
-> >>
-> >> Gerd, do you have any objections to merging this series?
-> >>
-> >> We have AMDGPU [1] and Intel [2] native context WIP drivers depending =
-on
-> >> the sync object support. It is the only part missing from kernel today
-> >> that is wanted by the native context drivers. Otherwise, there are few
-> >> other things in Qemu and virglrenderer left to sort out.
-> >>
-> >> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21658
-> >> [2]
-> https://gitlab.freedesktop.org/digetx/mesa/-/commits/native-context-iris
-> >
-> >
-> > I'm not saying this change isn't good, just it's probably possible to
-> implement the native contexts (even up to even VK1.2) without it.  But th=
-is
-> patch series may be the most ergonomic way to do it, given how Mesa is
-> designed.  But you probably want one of Mesa MRs reviewed first before
-> merging (I added a comment on the amdgpu change) and that is a requiremen=
-t
-> [a].
-> >
-> > [a] "The userspace side must be fully reviewed and tested to the
-> standards of that user space project. For e.g. mesa this means piglit
-> testcases and review on the mailing list. This is again to ensure that th=
-e
-> new interface actually gets the job done." -- from the requirements
-> >
->
-> tbh, the syncobj support is all drm core, the only driver specifics is
-> the ioctl parsing.  IMHO existing tests and the two existing consumers
-> are sufficient.  (Also, considering that additional non-drm
-> dependencies involved.)
->
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Al=
+an
+> Previn
+> Sent: Thursday, May 11, 2023 4:18 PM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>; Ursul=
+in,
+> Tvrtko <tvrtko.ursulin@intel.com>; Juston Li <justonli@chromium.org>; dri=
+-
+> devel@lists.freedesktop.org; Ceraolo Spurio, Daniele
+> <daniele.ceraolospurio@intel.com>; Landwerlin, Lionel G
+> <lionel.g.landwerlin@intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+> Justen, Jordan L <jordan.l.justen@intel.com>
+> Subject: [PATCH v11 0/8] drm/i915/pxp: Add MTL PXP Support
+>=20
+> This series enables PXP on MTL. On ADL/TGL platforms, we rely on
+> the mei driver via the i915-mei PXP component interface to establish
+> a connection to the security firmware via the HECI device interface.
+> That interface is used to create and teardown the PXP ARB session.
+> PXP ARB session is created when protected contexts are created.
+>=20
+> In this series, the front end behaviors and interfaces (uapi) remain
+> the same. We add backend support for MTL but with MTL we directly use
+> the GSC-CS engine on the MTL GPU device to send messages to the PXP
+> (a.k.a. GSC a.k.a graphics-security) firmware. With MTL, the format
+> of the message is slightly different with a 2-layer packetization
+> that is explained in detail in Patch #3. Also, the second layer
+> which is the actual PXP firmware packet is now rev'd to version 4.3
+> for MTL that is defined in Patch #5.
+>=20
+> Take note that Patch #4 adds the buffer allocation and gsccs-send-
+> message without actually being called by the arb-creation code
+> which gets added in Patch #5. Additionally, a seperate series being
+> reviewed is introducing a change for session teardown (in pxp front-
+> end layer that will need backend support by both legacy and gsccs).
+> If we squash all of these together (buffer-alloc, send-message,
+> arb-creation and, in future, session-termination), the single patch
+> will be rather large. That said, we are keeping Patch #4 and #5
+> separate for now, but at merge time, we can squash them together
+> if maintainer requires it.
+>=20
+> Changes from prior revs:
+>    v1 : - fixed when building with CONFIG_PXP disabled.
+>         - more alignment with gsc_mtl_header structure from the HDCP
+>    v2 : - (all following changes as per reviews from Daniele)
+>         - squashed Patch #1 from v1 into the next one.
+>         - replaced unnecessary "uses_gsccs" boolean in the pxp
+>           with "HAS_ENGINE(pxp->ctrl_gt, GSC0)".
+>         - moved the stashing of gsccs resources from a dynamically
+>           allocated opaque handle to an explicit sub-struct in
+>           'struct intel_pxp'.
+>         - moved the buffer object allocations from Patch #1 of this
+>           series to Patch #5 (but keep the context allocation in
+>           Patch #1).
+>         - used the kernel default ppgtt for the gsccs context.
+>         - optimized the buffer allocation and deallocation code
+>           and drop the need to stash the drm_i915_gem_object.
+>         - use a macro with the right mmio reg base (depending
+>           on root-tile vs media-tile) along with common relative
+>           offset to access all KCR registers thus minimizing
+>           changes to the KCR register access codes.
+>         - fixed bugs in the heci packet request submission code
+>           in Patch #3 (of this series)
+>         - add comments in the mtl-gsc-heci-header regarding the
+>           host-session-handle.
+>         - re-use tee-mutex instead of introducing a gsccs specific
+>           cmd mutex.
+>         - minor cosmetic improvements in Patch #5.
+> 	- before creating arb session, ensure intel_pxp_start
+>           first ensures the GSC FW is up and running.
+>         - use 2 second timeout for the pending-bit scenario when
+>           sending command to GSC-FW as per specs.
+>         - simplify intel_pxp_get_irq_gt with addition comments
+>         - redo Patch #7 to minimize the changes without introducing
+>           a common  abstraction helper for suspend/resume/init/fini
+>           codes that have to change the kcr power state.
+>    v3 : - rebase onto latest drm-tip with the updated firmware
+>           session invalidation flow
+>         - on Patch#1: move 'mutex_init(&pxp->tee_mutex)' to a common
+>           init place in intel_pxp_init since its needed everywhere
+>           (Daniele)
+>         - on Patch#1: remove unneccasary "ce->vm =3D i915_vm_get(vm);"
+>           (Daniele)
+>         - on Patch#2: move the introduction of host_session_handle to
+>           Patch#4 where it starts getting used.
+>         - on Patch#4: move host-session-handle initialization to the
+>           allocate-resources during gsccs-init (away from Patch#5)
+>           and add the required call to PXP-firmware to cleanup the
+>           host-session-handle in destroy-resources during gsccs-fini
+>         - on Patch#5: add dispatching of arb session termination
+>           firmware cmd during session teardown (as per latest
+>           upstream flows)
+>    v4 : - Added proper initialization and cleanup of host-session-handle
+>           that the gsc firmware expects.
+>         - Fix the stream-session-key invalidation instruction for MTL.
+>    v5 : - In Patch #4, move the tee_mutex locking to after we check for
+>           valid vma allocations.
+>         - In Patch #5, wait for intel_huc_is_authenticated instead of
+>           intel_uc_fw_is_running(gsc-fw) before starting ARB session.
+>         - In Patch #5, increase the necessary timeouts at the top-level
+>           (PXP arb session creation / termination) to accomodate SLA of
+>           GSC firmware when busy with pending-bit responses.
+>         - In Patch #5, remove redundant host_session_handle init as
+>           we need a single handle that is already initialized during
+>           execution_resource init in Patch #4.
+>         - In Patch #8, increase the wait timeout for termination to
+>           align with the same SLA.
+>    v6 : - (multiple patches) always name variables of type struct
+>           gsccs_session_resources * as 'exec_res'. (Daniele).
+>         - In gsccs_allocate_execution_resource, always put and take the
+>           contexts vm to enforce its the default pxp->ctrl_gt->vm.
+>           (Daniele)
+>         - In Patch #3: Rebase with the upstream-merged version of the
+>           intel_gsc_uc_heci_cmd_submit.* files that was part of the hdcp
+>           merge (adding only the difference of the non-priv submision).
+>           Fix the non-priv submission helper to use the ww-aware versions
+>           of request creation + submission (some re-ordeing and calling
+>           i915_gem_ww_ctx_init and intel_context_pin_ww). (Alan)
+>         - In Patch #4: Misc coding styling improvements (Daniele).
+>           Replace PXP43_MAX_HECI_IN_SIZE and PXP43_MAX_HECI_OUT_SIZE
+>           with PXP43_MAX_HECI_INOUT_SIZE to simplify the size checking.
+>           Clear the MTL-GSC-HECI header's validity marker of the output
+>           packet before submission to avoid stale values (Daniele).
+>           Fix a bug with the gsccs_allocate_execution_resource error
+>           condition bailing out when out of mem (Daniele).
+>         - In Patch #5: Add intel_gsc_uc_fw_proxy_init_done when starting
+>           arb session (in front-end code) when called on platforms with G=
+SC
+>           engine (Daniele). Update the fw-response-error reporting to
+>           match what is being merged upstream for the ADL case (Daniele).
+>         - Old Patch #6: Remove this patch completely. We don't need to
+>           use the root-gt's uncore to handle KCR irq / power registers.
+>           (Daniele).
+>         - New Patch #6: Update the documentation in i915 UAPI for PXP
+>           context creation to include additional error meanings that was
+>           always there in upstream code but just never documented. (Alan)=
+.
+>           Add a GET_PARAM for PXP support so that UMDs won't have to crea=
+te
+>           a PXP context to know if it's available since that method would
+>           suffer a longer delay if called too early in kernel startup
+>           because of the additional dependencies on devices with GSC engi=
+ne.
+>           (Tvrtko, Alan, Rodrigo, Lionel).
+>         - Patch #7: Move intel_pxp_init_hw into backend code to be
+>           consistent with legacy mei-pxp based tee transport. (Daniele).
+>         - Patch #8: With 3 places now being aware of mei-pxp vs gsccs-pxp
+>           difference in timeouts for round trip delays when communicating
+>           with pxp firmware (getting fw commands sent and receiving the
+>           reply), add a helper for this. (Daniele)
+>    v7 : - In Patch #3: Minor cosmetics and remove unnecessary
+>           EXEC_OBJECT_WRITE when moving bb to active. (Daniele)
+>         - In Patch #4: Minor cosmetic fixes. (Daniele)
+>         - In Patch #5: Pull in the fixups for missing documentation of
+>           legacy UAPI behavior of PXP context creation errors values
+>           from Patch #6 to Patch #5. Also, add a comment to explain
+>           why GSC_REPLY_LATENCY_MS is 210 milisec. (Daniele)
+>         - In Patch #6: See first change of Patch #5.
+>    v8 : - Tweaked the GET_PARAM for PXP so that positive values returned
+>           user-space can differentiate "PXP is supported and ready" vs
+>           "PXP is supported but will be ready soon" (Jorden)
+>    v9 : - Rebased to the latest drm-tip to resolve rebase conflicts.
+>           All patches reviewed, waiting on Ack from UMD side.
+>    v10: - Rebased to latest. Fixed spelling mistake in Patch6 commit msg.
+>=20
+> Alan Previn (8):
+>   drm/i915/pxp: Add GSC-CS back-end resource init and cleanup
+>   drm/i915/pxp: Add MTL hw-plumbing enabling for KCR operation
+>   drm/i915/pxp: Add MTL helpers to submit Heci-Cmd-Packet to GSC
+>   drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+>   drm/i915/pxp: Add ARB session creation and cleanup
+>   drm/i915/uapi/pxp: Add a GET_PARAM for PXP
+>   drm/i915/pxp: On MTL, KCR enabling doesn't wait on tee component
+>   drm/i915/pxp: Enable PXP with MTL-GSC-CS
+>=20
+>  drivers/gpu/drm/i915/Makefile                 |   1 +
+>  drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   3 +-
+>  .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 102 ++++
+>  .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |  26 +-
+>  drivers/gpu/drm/i915/i915_getparam.c          |   7 +
+>  drivers/gpu/drm/i915/i915_pci.c               |   1 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c          | 102 +++-
+>  drivers/gpu/drm/i915/pxp/intel_pxp.h          |   2 +
+>  .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |  24 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |   6 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 444 ++++++++++++++++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |  43 ++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |   3 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_regs.h     |  27 ++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  25 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      |   2 -
+>  drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  20 +
+>  include/uapi/drm/i915_drm.h                   |  34 ++
+>  18 files changed, 831 insertions(+), 41 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+>  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+>  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_regs.h
+>=20
+>=20
+> base-commit: 978798460589f59097961875e0ffdbec6a11c9b5
+> --
+> 2.39.0
 
-Can we get one of the Mesa MRs reviewed first?  There's currently no
-virtio-intel MR AFAICT, and the amdgpu one is marked as "Draft:".
-
-Even for the amdgpu, Pierre suggests the feature "will be marked as
-experimental both in Mesa and virglrenderer" and we can revise as needed.
-The DRM requirements seem to warn against adding an UAPI too hastily...
-
-You can get the deqp-vk 1.2 tests to pass with the current UAPI, if you
-just change your mesa <--> virglrenderer protocol a little.  Perhaps that
-way is even better, since you plumb the in sync-obj into host-side command
-submission.
-
-Without inter-context sharing of the fence, this MR really only adds guest
-kernel syntactic sugar.
-
-Note I'm not against syntactic sugar, but I just want to point out that you
-can likely merge the native context work without any UAPI changes, in case
-it's not clear.
-
-If this was for the core drm syncobj implementation, and not just
-> driver ioctl parsing and wiring up the core helpers, I would agree
-> with you.
->
-
-There are several possible and viable paths to get the features in question
-(VK1.2 syncobjs, and inter-context fence sharing).  There are paths
-entirely without the syncobj, paths that only use the syncobj for the
-inter-context fence sharing case and create host syncobjs for VK1.2, paths
-that also use guest syncobjs in every proxied command submission.
-
-It's really hard to tell which one is better.  Here's my suggestion:
-
-1) Get the native contexts reviewed/merged in Mesa/virglrenderer using the
-current UAPI.  Options for VK1.2 include: pushing down the syncobjs to the
-host, and simulating the syncobj (as already done).  It's fine to mark
-these contexts as "experimental" like msm-experimental.  That will allow
-you to experiment with the protocols, come up with tests, and hopefully
-determine an answer to the host versus guest syncobj question.
-
-2) Once you've completed (1), try to add UAPI changes for features that are
-missing or things that are suboptimal with the knowledge gained from doing
-(2).
-
-WDYT?
-
-
->
-> BR,
-> -R
->
-
---00000000000096c54605fb740851
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 8, 2023 at 6:59=E2=80=AFA=
-M Rob Clark &lt;<a href=3D"mailto:robdclark@gmail.com" target=3D"_blank">ro=
-bdclark@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Wed, May 3, 2023 at 10:07=E2=80=AFAM Gurchetan Singh<br=
->
-&lt;<a href=3D"mailto:gurchetansingh@chromium.org" target=3D"_blank">gurche=
-tansingh@chromium.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, May 1, 2023 at 8:38=E2=80=AFAM Dmitry Osipenko &lt;<a href=3D"=
-mailto:dmitry.osipenko@collabora.com" target=3D"_blank">dmitry.osipenko@col=
-labora.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On 4/16/23 14:52, Dmitry Osipenko wrote:<br>
-&gt;&gt; &gt; We have multiple Vulkan context types that are awaiting for t=
-he addition<br>
-&gt;&gt; &gt; of the sync object DRM UAPI support to the VirtIO-GPU kernel =
-driver:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 1. Venus context<br>
-&gt;&gt; &gt;=C2=A0 2. Native contexts (virtio-freedreno, virtio-intel, vir=
-tio-amdgpu)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Mesa core supports DRM sync object UAPI, providing Vulkan dri=
-vers with a<br>
-&gt;&gt; &gt; generic fencing implementation that we want to utilize.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; This patch adds initial sync objects support. It creates fund=
-ament for a<br>
-&gt;&gt; &gt; further fencing improvements. Later on we will want to extend=
- the VirtIO-GPU<br>
-&gt;&gt; &gt; fencing API with passing fence IDs to host for waiting, it wi=
-ll be a new<br>
-&gt;&gt; &gt; additional VirtIO-GPU IOCTL and more. Today we have several V=
-irtIO-GPU context<br>
-&gt;&gt; &gt; drivers in works that require VirtIO-GPU to support sync obje=
-cts UAPI.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; The patch is heavily inspired by the sync object UAPI impleme=
-ntation of the<br>
-&gt;&gt; &gt; MSM driver.<br>
-&gt;&gt;<br>
-&gt;&gt; Gerd, do you have any objections to merging this series?<br>
-&gt;&gt;<br>
-&gt;&gt; We have AMDGPU [1] and Intel [2] native context WIP drivers depend=
-ing on<br>
-&gt;&gt; the sync object support. It is the only part missing from kernel t=
-oday<br>
-&gt;&gt; that is wanted by the native context drivers. Otherwise, there are=
- few<br>
-&gt;&gt; other things in Qemu and virglrenderer left to sort out.<br>
-&gt;&gt;<br>
-&gt;&gt; [1] <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_re=
-quests/21658" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedeskt=
-op.org/mesa/mesa/-/merge_requests/21658</a><br>
-&gt;&gt; [2] <a href=3D"https://gitlab.freedesktop.org/digetx/mesa/-/commit=
-s/native-context-iris" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
-freedesktop.org/digetx/mesa/-/commits/native-context-iris</a><br>
-&gt;<br>
-&gt;<br>
-&gt; I&#39;m not saying this change isn&#39;t good, just it&#39;s probably =
-possible to implement the native contexts (even up to even VK1.2) without i=
-t.=C2=A0 But this patch series may be the most ergonomic way to do it, give=
-n how Mesa is designed.=C2=A0 But you probably want one of Mesa MRs reviewe=
-d first before merging (I added a comment on the amdgpu change) and that is=
- a requirement [a].<br>
-&gt;<br>
-&gt; [a] &quot;The userspace side must be fully reviewed and tested to the =
-standards of that user space project. For e.g. mesa this means piglit testc=
-ases and review on the mailing list. This is again to ensure that the new i=
-nterface actually gets the job done.&quot; -- from the requirements<br>
-&gt;<br>
-<br>
-tbh, the syncobj support is all drm core, the only driver specifics is<br>
-the ioctl parsing.=C2=A0 IMHO existing tests and the two existing consumers=
-<br>
-are sufficient.=C2=A0 (Also, considering that additional non-drm<br>
-dependencies involved.)<br></blockquote><div><br></div><div>Can we get one =
-of the Mesa MRs reviewed first?=C2=A0 There&#39;s currently no virtio-intel=
- MR AFAICT, and the amdgpu one is marked as &quot;Draft:&quot;.=C2=A0=C2=A0=
-</div><div><br></div><div>Even for the amdgpu, Pierre suggests the feature =
-&quot;will be marked as experimental both in Mesa and virglrenderer&quot; a=
-nd we can revise as needed.=C2=A0 The DRM requirements seem to warn against=
- adding an UAPI too hastily...</div><div><br></div><div>You can get the deq=
-p-vk 1.2 tests to pass with the current UAPI, if you just change your mesa =
-&lt;--&gt; virglrenderer protocol a little.=C2=A0 Perhaps that way is even =
-better, since you plumb the in sync-obj into host-side command submission.=
-=C2=A0=C2=A0</div><div><br></div><div>Without inter-context sharing of the =
-fence, this MR really only adds guest kernel syntactic sugar.</div><div><br=
-></div><div>Note I&#39;m not against syntactic sugar, but I just want to po=
-int out that you can likely merge the native context work without any UAPI =
-changes, in case it&#39;s not clear.=C2=A0 =C2=A0=C2=A0</div><div><br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-If this was for the core drm syncobj implementation, and not just<br>
-driver ioctl parsing and wiring up the core helpers, I would agree<br>
-with you.<br></blockquote><div><br></div><div>There are several possible an=
-d viable paths to get the features in question (VK1.2 syncobjs, and inter-c=
-ontext fence sharing).=C2=A0 There are paths entirely without the syncobj, =
-paths that only use the syncobj for the inter-context fence sharing case an=
-d create host syncobjs for VK1.2, paths that also use guest syncobjs in eve=
-ry proxied command submission.=C2=A0=C2=A0</div><div><br></div><div>It&#39;=
-s really hard to tell which one is better.=C2=A0 Here&#39;s my suggestion:<=
-/div><div><br></div><div>1) Get the native contexts reviewed/merged in Mesa=
-/virglrenderer using the current UAPI.=C2=A0 Options for VK1.2 include: pus=
-hing down the syncobjs to the host, and simulating the syncobj (as already =
-done).=C2=A0 It&#39;s fine to mark these contexts as &quot;experimental&quo=
-t; like msm-experimental.=C2=A0 That will allow you to experiment with the =
-protocols, come up with tests, and hopefully determine an answer to the hos=
-t versus guest syncobj question.=C2=A0=C2=A0</div><div><br></div><div>2) On=
-ce you&#39;ve completed (1), try to add UAPI changes for features that are =
-missing or things that are suboptimal with the knowledge gained from doing =
-(2).=C2=A0=C2=A0</div><div><br></div><div>WDYT?</div><div>=C2=A0<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-BR,<br>
--R<br>
-</blockquote></div></div>
-
---00000000000096c54605fb740851--
