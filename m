@@ -1,71 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6065F70012C
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 09:14:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A84ED700165
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 09:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D6410E0B9;
-	Fri, 12 May 2023 07:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C64F10E0FF;
+	Fri, 12 May 2023 07:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCAC010E0B9
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 07:14:11 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6B43F21ACB;
- Fri, 12 May 2023 07:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683875647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RcUdtUJi2PiQqtiCm7buM/8oG8q6kjEOFUqHBNaWTB0=;
- b=Nw0d3oFZxDSa7IfLjfDrSR+TzdkfKONkQW8fA2olBrfbE90iR66gp/gydm2oG515e8UXZH
- oS0iBpkmPtEFCOhAX76ee5UI2y7D9W16qvQh0uV0tOpfwnPgJ38EHcUZclwyC3+X6qQfou
- Qp1Znt2cgQGYdJFKjA1lfcO45eYUFWY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683875647;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RcUdtUJi2PiQqtiCm7buM/8oG8q6kjEOFUqHBNaWTB0=;
- b=I+4xdyt5xiE4rAPr+mHysMDmE6WlFySs/2DEoM9e6vS/cd1kzU/0in5ohXcDT7Q3Kqw8XE
- 0Uv1FzH1JAKbkvDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0424413499;
- Fri, 12 May 2023 07:14:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JFNHOz7nXWTqfAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 07:14:06 +0000
-Message-ID: <226e8c7c-2b61-02e8-c779-1c247b695fc2@suse.de>
-Date: Fri, 12 May 2023 09:14:06 +0200
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC9410E0E3;
+ Fri, 12 May 2023 07:24:37 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-4f1411e8111so10733757e87.1; 
+ Fri, 12 May 2023 00:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683876273; x=1686468273;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=La9PpFfjWL0Y3YHKUEFNn6ANLbC+TpXLpG1eydOu7X8=;
+ b=F0ZNRdGgi1/vjyAB1CgLHZo9THAFh2sAg4TWz9oiYrK1GJ/mPF3BROuhGw/mgNCWST
+ 1SArx00tCs5bRkufY72fqLU5eWlx1OS5HKBCAIqUlABDrQdCk4GG+mkzUoPzTiwvaQKl
+ A5cc+0FK/jt2/o4Vv216xSsTX8lg0nrbCIFMOAjIHrexyV6ariju+L7aT1mi6rCQ2t0W
+ qd2WuNoFawcwA25sVDeKumCD1X19KXUvT2C+88FFl2KfHe+wbTKeyhji6jsfqpOjXL1p
+ pFRC6JCOvOWNU8jx7AHyS2F4rER9NgRnERdQ0S7VuIQ2HlHGJme9RbLMxs71l5Vlu7h0
+ jfvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683876273; x=1686468273;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=La9PpFfjWL0Y3YHKUEFNn6ANLbC+TpXLpG1eydOu7X8=;
+ b=Y4uDcbVZ5x/hnGC89ukBhft21k4fVt7c4cixJ5xgVYKryqtzotgKe0idK6aDQu4UZg
+ IgXVEDpIz2CnlAuJafBbFSC2i0Wq3I816hcpXrw6ZBjfAzf/wFLyFp/y0kRIUdyx8+kf
+ 6ilw1VDUKly1iRZcXPRCenSuRBD7UAeiGpgSKBLZ7vg6r1rkyZcMy64dlnQRaO3v0vya
+ mIYIJy59MesBEDJQlSOxqXyOz2T41dgo9OIulZAXtyhRBus/ta1cSdxwriz8IK8JUIpe
+ kVV6LhXVLvnOAPZdJdtMjdJtAy804atA5BJulq5T2TrN0vXrJeiGhjErNENuHr1T2wSj
+ IUlA==
+X-Gm-Message-State: AC+VfDwS+qyuNMcmEN2M1807btI9FFAbTf9Xxa7vyIkxutDPfaar0O6t
+ 0w361bqqURcYYR0xe0SukbM=
+X-Google-Smtp-Source: ACHHUZ4KsDpr21U4PYEpr+H6QQmyKpPyTYQ8OIo1xOE7gEDMKHzT2fkU7JcCl/ooNoFuRIOc4tGkFw==
+X-Received: by 2002:a05:6512:374d:b0:4b5:26f3:2247 with SMTP id
+ a13-20020a056512374d00b004b526f32247mr3661410lfs.69.1683876272518; 
+ Fri, 12 May 2023 00:24:32 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ w12-20020a05651204cc00b004efd57ba3d1sm1371553lfq.57.2023.05.12.00.24.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 00:24:32 -0700 (PDT)
+Date: Fri, 12 May 2023 10:24:10 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC] Plane color pipeline KMS uAPI
+Message-ID: <20230512102410.402bf4b5@eldfell>
+In-Reply-To: <k6yN8_WlW_AoQ7bxsopuqRsCxAbjFJ_vpM3iJjy_st--rHf305SsBVubqMbNDkSm4ez1ygoPH2Dc7VffRQjlZBk4fyKFpcZpQGpSA5vA6G0=@emersion.fr>
+References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
+ <CAPM=9tz54Jc1HSjdh5A7iG4X8Gvgg46qu7Ezvgnmj4N6gbY+Kw@mail.gmail.com>
+ <CA+hFU4x++RDOxkc-_ZvDtQs3DtupwDV0KJyD3YAgrdh4daLotA@mail.gmail.com>
+ <CAPM=9twjPr9fiJwbyNS9j=mCKmLhxbTjB5Vzq9F+Du8sdHac-A@mail.gmail.com>
+ <e903d920-788f-7d70-c6f0-1faaac3c9843@amd.com>
+ <CAPM=9tyOFhE0zC8540KBOkDaZE1c3zTtke_vX=DEkMTmo04A4Q@mail.gmail.com>
+ <QL28tg_ZcXPQ1W5l8Hp3rDlvyKuMh09kjGHpj1GRKVrMqlB-hNI2F6FzRSP-NyfkMpk6tsO55t8UYF6Uk9b7IF1O1BHH1WKc88kNTgY2Ugk=@emersion.fr>
+ <ZFtO2bMQOWVhRkSG@redhat.com>
+ <CACO55tvzdOU4hnqbpTsd=_SeP0GHt235w=NGL74Oq0Fd35V6HQ@mail.gmail.com>
+ <CAEZNXZCCn7ZFgyy-NzpSEp0wB0L7PZ-jheHmMWkgQq5pQ+930A@mail.gmail.com>
+ <k6yN8_WlW_AoQ7bxsopuqRsCxAbjFJ_vpM3iJjy_st--rHf305SsBVubqMbNDkSm4ez1ygoPH2Dc7VffRQjlZBk4fyKFpcZpQGpSA5vA6G0=@emersion.fr>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Sui Jingfeng <15330273260@189.cn>,
- geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, arnd@arndb.de, sam@ravnborg.org
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-2-tzimmermann@suse.de>
- <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
- <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
- <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
- <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
- <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CpjIwvptAxhso7bcVtW45TYd"
+Content-Type: multipart/signed; boundary="Sig_/1UTASAXjt1GgJoFSWCoqY9J";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,158 +81,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Victoria Brekenfeld <victoria@system76.com>, Melissa Wen <mwen@igalia.com>,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
+ Aleix Pol <aleixpol@kde.org>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CpjIwvptAxhso7bcVtW45TYd
-Content-Type: multipart/mixed; boundary="------------arN0JqGEEJ97vExxMBPaev5v";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Helge Deller <deller@gmx.de>, Sui Jingfeng <15330273260@189.cn>,
- geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
- vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
- davem@davemloft.net, arnd@arndb.de, sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arch@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- sparclinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-parisc@vger.kernel.org
-Message-ID: <226e8c7c-2b61-02e8-c779-1c247b695fc2@suse.de>
-Subject: Re: [PATCH v6 1/6] fbdev/matrox: Remove trailing whitespaces
-References: <20230510110557.14343-1-tzimmermann@suse.de>
- <20230510110557.14343-2-tzimmermann@suse.de>
- <0e13efbf-9a48-6e70-fdf3-8290f28c6dc7@189.cn>
- <a2315b9a-0747-1f0f-1f0a-1c6773931db4@suse.de>
- <15fe1489-f0fa-bbf6-ec08-a270bd4f1559@gmx.de>
- <e7bd021c-1a6b-6e47-143a-36ae2fd2fe6b@suse.de>
- <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
-In-Reply-To: <1c7ca6d3-76d7-047b-42ac-716e12946f90@gmx.de>
+--Sig_/1UTASAXjt1GgJoFSWCoqY9J
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------arN0JqGEEJ97vExxMBPaev5v
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, 11 May 2023 19:29:27 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-SGkNCg0KQW0gMTEuMDUuMjMgdW0gMTk6MDIgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IE9u
-IDUvMTEvMjMgMTY6MjcsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBCdXQgdGhl
-IHdvcmsgSSBkbyB3aXRoaW4gZmJkZXYgaXMgbW9zdGx5IGZvciBpbXByb3ZpbmcgRFJNLg0K
-Pj4+DQo+Pj4gU3VyZS4NCj4+Pg0KPj4+PiBGb3IgdGhlDQo+Pj4+IG90aGVyIGlzc3VlcyBp
-biB0aGlzIGZpbGUsIEkgZG9uJ3QgdGhpbmsgdGhhdCBtYXRyb3hmYiBzaG91bGQgZXZlbiBi
-ZQ0KPj4+PiBhcm91bmQgYW55IGxvbmdlci4gRmJkZXYgaGFzIGJlZW4gZGVwcmVjYXRlZCBm
-b3IgYSBsb25nIHRpbWUuIEJ1dCBhDQo+Pj4+IHNtYWxsIG51bWJlciBvZiBkcml2ZXJzIGFy
-ZSBzdGlsbCBpbiB1c2UgYW5kIHdlIHN0aWxsIG5lZWQgaXRzDQo+Pj4+IGZyYW1lYnVmZmVy
-IGNvbnNvbGUuIFNvIHNvbWVvbmUgc2hvdWxkIGVpdGhlciBwdXQgc2lnbmlmaWNhbnQgZWZm
-b3J0DQo+Pj4+IGludG8gbWFpbnRhaW5pbmcgZmJkZXYsIG9yIGl0IHNob3VsZCBiZSBwaGFz
-ZWQgb3V0LiBCdXQgbmVpdGhlciBpcw0KPj4+PiBoYXBwZW5pbmcuDQo+Pj4NCj4+PiBZb3Un
-cmUgd3JvbmcuDQo+Pg0KPiANCj4+IEknbSBub3QuIEkgZG9uJ3QgY2xhaW0gdGhhdCB0aGVz
-ZSBkcml2ZXJzIGFyZSBhbGwgYnJva2VuLiBCdXQgZmJkZXYNCj4+IGFzIGEgd2hvbGUgaXMg
-Yml0LXJvdHRpbmcgYW5kIG5vIG9uZSBhdHRlbXB0cyB0byBhZGRyZXNzIHRoaXMuIFRoZXJl
-DQo+PiBhcmUgc2V2ZXJhbCByZWNlbnQgZXhhbXBsZXMgb2YgdGhpczoNCj4+DQo+PiAqIEkg
-cmVjZW50bHkgc2VuZCBvdXQgYSAxMDAtcGF0Y2hlcyBzZXJpZXMgdG8gaW1wcm92ZSBwYXJh
-bWV0ZXINCj4+IHBhcnNpbmcgYW5kIGF2b2lkIG1lbW9yeSBsZWFrcy4gVGhhdCBnb3Qgc2hv
-dCBkb3duLiBJIGRpZG4ndCBhdHRlbXB0DQo+PiB0byBzdXBwb3J0IHBhcmFtZXRlciBwYXJz
-aW5nIGZvciBtb2R1bGUgYnVpbGRzLg0KPiANCj4gWW91ciB3b3JrIGlzIGFwcHJlY2lhdGVk
-IGFuZCBpdCB3YXNuJ3Qgc2hvdCBkb3duLCBidXQgaXQgd2Fzbid0IHBlcmZlY3QgDQo+IGVp
-dGhlci4NCj4gDQo+PiAqIFRoZXJlJ3MgYmVlbiBhIDE1LXlycyBvbGQgYnVnIGluIGZiZGV2
-J3MgcmVhZC93cml0ZSB3aGVyZSB0aGV5DQo+PiByZXR1cm4gYW4gaW5jb3JyZWN0IHZhbHVl
-Lg0KPiANCj4gPw0KDQpUaGlzIG9uZToNCg0KaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0
-b3Aub3JnL3BhdGNoLzUzNDY2OC8/c2VyaWVzPTExNjkzMSZyZXY9Mg0KDQo+IA0KPj4gKiBT
-ZWUgdGhlIG90aGVyIGRpc2N1c3Npb24gb24gdGhpcyBwYXRjaHNldCBvbiB0aGUgc3RhdGUg
-b2YgaGl0ZmIuDQo+Pg0KPj4gKiBUaGUgZmJkZXYgY29kZSBJIHJlY2VudGx5IGNsZWFuZWQg
-dXAgaGFkIGJ1Z3MgaW4gaG93IGl0IHVzZXMgc29tZQ0KPj4gb2YgZmJkZXYncyBiYXNpYyBi
-dWlsZGluZyBibG9ja3MgKHNlZSB0aGUgc2NyZWVuX2Jhc2Uvc2NyZWVuX2J1ZmZlcg0KPj4g
-Y29uZnVzaW9uKS4NCj4gDQo+IEFzIHlvdSBzYWlkLi4uIHNvbWUgKGxpdHRsZS11c2VkL291
-dGRhdGVkKSBkcml2ZXJzIG1heSBoYXZlIGlzc3Vlcw0KPiB3aGljaCBvZiBjb3Vyc2Ugc2hv
-dyB1cCBpZiBvbmUgc3RhcnRzIHRvIGNsZWFuIHVwLCBhcyB5b3UgZG8uDQo+IE9uIGEgcGVy
-LWRyaXZlciBiYXNpcyBpdCBjYW4gbWFrZSBzZW5zZSB0byBkcm9wIGEgc3BlY2lmaWMgZHJp
-dmVyLg0KPiANCj4+ICogPGFzbS1nZW5lcmljL2ZiLmg+IGhhcyBiZWVuIGluIHRoZSB0cmVl
-IHNpbmNlIDIwMDkgYW5kIG5vIG9uZQ0KPj4gYXR0ZW1wdGVkIHRvIGluY2x1ZGUgaXQgdW50
-aWwgbm93Lg0KPj4NCj4+IE5vbmUgb2YgdGhpcyBpcyBhIHNpZ24gb2YgZ29vZCBtYWludGVu
-YW5jZS4NCg0KTGV0IG1lIGFkZCB0aGF0IEknbSBub3QgcG9pbnRpbmcgZmluZ2VycyBhdCBh
-bnlvbmUuIEl0J3MganVzdCB0aGUgDQpjdXJyZW50IHN0YXR1cyBBRkFJQ1QuDQoNCj4+IEFz
-IEkndmUgd29ya2VkIG9uIERSTSdzIGZiZGV2IGVtdWxhdGlvbiBhIGxvdCwgSSB0cnkgdG8g
-YmUgYSBnb29kDQo+PiBrZXJuZWwgY2l0aXplbiBhbmQgY2xlYW4gdXAgaW4gZmJkZXYgYXMg
-d2VsbCB3aGVuIEkgc2VlIGEgcHJvYmxlbS4+IA0KPj4gQnV0IEknZCByZWFsbHkgbGlrZSB0
-byBzZWUgbW9zdCBvZiB0aGVzZSBkcml2ZXJzIGJlaW5nIG1vdmVkIGludG8NCj4+IHN0YWdp
-bmcgYW5kIGRlbGV0ZWQgc29vbiBhZnRlcndhcmRzLiBVc2VycyB3aWxsIGNvbXBsYWluIGFi
-b3V0IHRob3NlDQo+PiBkcml2ZXJzIHRoYXQgYXJlIHJlYWxseSBzdGlsbCByZXF1aXJlZC4g
-VGhvc2UgbWlnaHQgYmUgd29ydGggdG8gc3BlbmQNCj4+IGVmZm9ydCBvbi4NCj4gDQo+IEkn
-ZCByZWFsbHkgbGlrZSB0byBzZWUgYSB3YXkgZm9yd2FyZCBhbmQgZ2V0IHRoZSByZXF1aXJl
-ZCBkcml2ZXJzIG92ZXIgdG8NCj4gRFJNLCBlLmcuIGJhc2VkIG9uIHlvdXIgc2ltcGxlZHJt
-IGRyaXZlci4NCj4gSWYgdGhlcmUgaXMgYSB3YXkgdG8gZ2V0IGJhc2ljIG9uLXNjcmVlbiAy
-RCBiaXRibHQgYW5kIGZpbGxyZWN0IHN1cHBvcnQsDQo+IGl0IHdvdWxkIGRyb3AgdGhlIG5l
-ZWQgZm9yIG1vc3Qgb2YgdGhlIGZiZGV2IGRyaXZlcnMuDQo+IFRoZSBjdXJyZW50IHdheSBv
-ZiBiaXRibHQnaW5nIGZyb20gYSBidWZmZXIgb24gcmVndWxhciBiYXNpcyBpc3RvbyBzbG93
-IA0KPiBmb3Igc3VjaCBvbGRlciBjYXJkcy4gRXZlbiBvbiBuZXcgaGFyZHdhcmUgaW4gZW11
-bGF0b3JzIHRoZXJlDQo+IGlzIGEgYmlnIHNsb3dkb3duIHZpc2libGUuDQoNCkknZCBiZSBo
-YXBweSB0byB0cnkgdG8gZHJvcCB0aGUgdW51c2VkL29ic29sZXRlL2Jyb2tlbiBkcml2ZXJz
-LiBGb3IgdGhlIA0KcmVzdCwgSSdkIGRlc2lnbmF0ZSBmYmRldiBhcyBhIGdyYXBoaWNzIGNv
-bnNvbGUgZm9yIHN5c3RlbXMgd2l0aG91dCB0ZXh0IA0KbW9kZS4gSSB0aGluayB0aGF0IHdh
-cyB0aGUgb3JpZ2luYWwgaW50ZW50aW9uLg0KDQo+IA0KPj4+IFlvdSBkb24ndCBtZW50aW9u
-IHRoYXQgZm9yIG1vc3Qgb2xkZXIgbWFjaGluZXMgRFJNIGlzbid0IGFuDQo+Pj4gYWNjZXB0
-YWJsZSB3YXkgdG8gZ28gZHVlIHRvIGl0J3MgbGltaXRhdGlvbnMsIGUuZy4gaXQncyBsb3ct
-c3BlZWQNCj4+PiBkdWUgdG8gbWlzc2luZyAyRC1hY2NlbGVyYXRpb24gZm9yIG9sZGVyIGNh
-cmRzIGFuZCBhbmQgaXQncw0KPj4+IGluY2FwYWJpbGl0eSB0byBjaGFuZ2Ugc2NyZWVuIHJl
-c29sdXRpb24gYXQgcnVudGltZSAoanVzdCB0byBuYW1lDQo+Pj4gdHdvIG9mIHRoZSBiaWdn
-ZXIgbGltaXRhdGlvbnMgaGVyZSkuDQo+Pg0KPj4gWW91IGNhbiBjaGFuZ2UgcmVzb2x1dGlv
-biBhdCBydW50aW1lOyBqdXN0IG5vdCB0aHJvdWdoIGZiZGV2IGlvY3Rscy4NCj4+IFRoZXJl
-J3Mgbm8gdGVjaG5pY2FsIGxpbWl0YXRpb24gaGVyZS4gTm8gb25lIGZvdW5kIGFueSB1c2Ug
-Zm9yIHRoaXMsDQo+PiBzbyBpdCdzIG5vdCB0aGVyZS4NCj4gDQo+IGZiZGV2IGRyaXZlcnMg
-d291bGQgbmVlZCB0aGF0IHdoZW4gcG9ydGVkIHRvIERSTS4NCg0KV2h5PyBVc2Vyc3BhY2Ug
-d291bGQgdGhlbiBzaW1wbHkgdXNlIERSTSBpb2N0bHMgdG8gc2V0IHRoZSBkaXNwbGF5IG1v
-ZGUuDQoNCj4+PiBTbywgdW5sZXNzIHdlIHNvbWVob3cgZmluZCBhIGdvb2Qgd2F5IHRvIG1v
-dmUgc3VjaCBkcml2ZXJzIG92ZXIgdG8NCj4+PiBEUk0gKHdpdGggYSBzZXQgb2YgbWluaW1h
-bCAyRCBhY2NlbGVyYXRpb24pLCB0aGV5IGFyZSBzdGlsbA0KPj4+IGltcG9ydGFudC4NCj4+
-DQo+PiAyZCBhY2NlbGVyYXRpb24gaXMgbW9zdGx5IHVzZWZ1bCBmb3IgdGhlIGZyYW1lYnVm
-ZmVyIGNvbnNvbGUuDQo+IA0KPiBhbmQgWDExDQo+IA0KPj4gWW91IGNhbg0KPj4gZG8gdGhh
-dCB3aXRoIERSTSBhbmQgZHJpdmVycyBoYXZlIChub3V2ZWF1KS4gSXQganVzdCBkaWRuJ3Qg
-bWFrZSBhDQo+PiBtZWFuaW5nZnVsIGRpZmZlcmVuY2UgaW4gbW9zdCBjYXNlcy4NCj4gDQo+
-IGlmIG5vdXZlYXUgZ290IGl0LCBjYW4ndCBpdCBiZSBkb25lIGZvciBzaW1wbGVkcm0gaW4g
-YSBnZW5lcmljIHdheSB0b28/DQoNClByb2JhYmx5IG5vLCBhcyBpdCBkZXBlbmRzIG9uIHRo
-ZSBoYXJkd2FyZSBmZWF0dXJlcy4gVGhlIERSTSBkcml2ZXIgDQp3b3VsZCBoYXZlIHRvIGlt
-cGxlbWVudCBpdCdzIG93biBmYmRldiBzdXBwb3J0LiBUaGF0J3Mgbm90IHRvbyANCmNvbXBs
-aWNhdGVkLCBidXQgc3RpbGwgbm90IHBvcnRhYmxlIGFtb25nIGRyaXZlcnMuDQoNCj4gDQo+
-Pj4gQWN0dWFsbHksIEkganVzdCBkaWQgdGVzdCBtYXRyb3hmYiBhbmQgcG0yZmIgc3VjY2Vz
-c2Z1bGx5IGEgZmV3DQo+Pj4gZGF5cyBiYWNrLCBhbmQgdGhleSB3b3JrZWQuIEZvciBzb21l
-IHNtYWxsZXIgaXNzdWVzIEkndmUgcHJlcGFyZWQNCj4+PiBwYXRjaGVzLCB3aGljaCBhcmUg
-b24gaG9sZCBkdWUgY29uZmxpY3RzIHdpdGggeW91ciBsYXRlc3QNCj4+PiBmaWxlLW1vdmUt
-YXJvdW5kLSBhbmQgd2hpdGVzcGFjZS1jaGFuZ2VzIHdoaWNoIGFyZSBwYXJ0bHkgaW4NCj4+
-PiBkcm0tbWlzYy4gQW5kIEkgZG8gaGF2ZSBzb21lIHVwY29taW5nIGFkZGl0aW9uYWwgcGF0
-Y2hlcyBmb3INCj4+PiBjb25zb2xlIHN1cHBvcnQuDQo+IA0KPiBIZWxnZQ0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEg
-TnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJl
-dyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykN
-Cg==
+> On Thursday, May 11th, 2023 at 18:56, Joshua Ashton <joshua@froggi.es> wr=
+ote:
+>=20
+> > When we are talking about being 'prescriptive' in the API, are we
+> > outright saying we don't want to support arbitrary 3D LUTs, or are we
+> > just offering certain algorithms to be 'executed' for a plane/crtc/etc
+> > in the atomic API? I am confused... =20
+>=20
+> From a kernel PoV:
+>=20
+> - Prescriptive =3D here are the available hardware blocks, feel free to
+>   configure each as you like
+> - Descriptive =3D give me the source and destination color-spaces and I
+>   take care of everything
+>=20
+> This proposal is a prescriptive API. We haven't explored _that_ much
+> how a descriptive API would look like, probably it can include some way
+> to do Night Light and similar features but not sure how high-level
+> they'd look like. A descriptive API is inherently more restrictive than
+> a prescriptive API.
 
---------------arN0JqGEEJ97vExxMBPaev5v--
+Right. Just like Jonas said, an arbitrary 3D LUT is a well-defined
+mathematical operation with no semantics at all, therefore it is a
+prescriptive element. A 3D LUT does not fit well in a descriptive API
+design, one would need to jump through lots of hoops to turn it into
+something descriptive'ish (like ICC does).
 
---------------CpjIwvptAxhso7bcVtW45TYd
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+I think Joshua mixed up the definitions of "descriptive" and
+"prescriptive".
+
+If Gamescope was using a descriptive KMS UAPI, then it would have very
+little or no say in what color operations are done and how.
+
+If Gamescope is using prescriptive KMS UAPI, then Gamescope has to know
+exactly what it wants to do, how it wants to achieve that, and map that
+to the available mathematical processing blocks.
+
+A descriptive UAPI would mean all color policy is in the kernel. A
+prescriptive UAPI means all policy is in userspace.
+
+Wayland uses the opposite design principle of KMS UAPI. Wayland is
+descriptive, KMS is prescriptive. This puts the color policy into a
+Wayland compositor. If we have a library converting descriptive to
+prescriptive, then that library contains a policy.
+
+Going from descriptive to prescriptive is easy, just add policy. Going
+from prescriptive to descriptive is practically impossible, because
+you'd have to "subtract" any policy that has already been applied, in
+order to understand what the starting point was.
+
+Coming back to KMS, the color transformations must be prescriptive, but
+then we also need to be able to send descriptive information to video
+sinks so that video sinks understand what our pixel values mean.
+
+
+Thanks,
+pq
+
+--Sig_/1UTASAXjt1GgJoFSWCoqY9J
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRd5z4FAwAAAAAACgkQlh/E3EQov+B5
-Jw/8DTcD7AgKgsFpdF4cm40Pzgaqzq5MGz7PikuLGkWQAa8s9xMv3R5S9ZqOe34fjGFOkhZLxgFt
-7NamEUbAbjrHOfJ497O2oS3QzIiizOJGGta7gkocMbKpufCliP9TVPsL8QM9LlYQBtpbDQ+R3x9B
-mhxWNzAhg5zhAQmy43QKLGnIKjmf1wCM71p0z1hox/YB2fqNJPGrq/3jqgB1x77fkO6n6ut6iw0j
-OyNFGVMlwHyurrjzZ4VzeXsxkuAe02BVWNxdbH6/Aq/bl+AIF9WqXVyYL2qFiSjbP8TiIpEmeXCI
-+z8xleLPMbxhhDemjoBeEKHmiyKtBCgImDg/k9NdWvFD1KLXk9bhW9NEJWl97Po5hZ8Na46P8gvX
-Y6HMAaoibsfPlw2V/3hE1nko3NtOPcxSAdAvmXWej1N3hQehoL/yy8PBDqBVppAu8syfzdufFJlY
-SCKkKMIdFdQYyr3Bb4SoGVgSfxMXGUJGRk0yIIChiDNiWw+NvnN/Tmsr9xZWA7tosNJzZmmVdFEN
-ZfWzekH5Sq6dHlIJRfTBnIzKfpiW7jlS9G7yXSo0srXgT9OTXfCpfRlEcWTOLeFMD4eo3eRqKtV8
-Cnzzaaqktx4NEHpDBeUDNUt5bguFGClqz3sTPIxMtzvDhVhWfNn+GipP0hJPxAI87DuxDtpAUGfz
-5P4=
-=57wd
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmRd6ZoACgkQI1/ltBGq
+qqd+HRAAiVtR5GBIzcVFDCUCQ+RdqRDBMBHxDBJOkwTJAg/QbaIgIdaLRUCtcsM7
+630hQosxLXMR88z2u+wbPHbnnmx89mPmyfVtreXzgWWS8k93mDGFabVSKusPrB3J
+pGfBfGMNnfTKd9cDP7QGTVYZ9gdtLQSfTX8VyWMlRnlg9GRkZoBRxLOTTKFYDy2S
+kx5vmQvBr6ey7F+nGWVBdXgNnOk/YKOHaY2pKZKlK42GKYqooARX5sKBm4f1VUDF
+AGVPV2lzJn82aQvo1DvzGa0NgxQjwqlC9YHPea+R3WS0Ry5DvgDr+7C+uIPpxXcp
+E5gP88zb9ewdPtnu9InCSQiG3qtEpZpj600HQWm3wsM8iUghsBuTyLgBIOVt6Hbs
+MyPoEi/HMH+MNQRYNes4eW8/nG2cF07THfvW//hG0t3PHely8hgLdBb0MF53TbGB
+SG0i92u3HjFynms4RdshTEHnwA5jJXbBr81nnaEcZnxRQIso+KCZyzI44/2R27N/
+RZW0QdAjx69T9dpEAdMJqxnV2L1xhW1roNArHU5zbo7D8ghPacy37Sytc3n7j4bB
+in89Z9SUgFo2+z80jD19aopuEwK11jTZrrEM3/A92gYPUD3+9fDSrG4aRPo9FZCb
+GwIEQTrjm3fvtEQVxBEMWHtlAoAYMhwTkh2Xrmd14DWgCD/wShQ=
+=NPgJ
 -----END PGP SIGNATURE-----
 
---------------CpjIwvptAxhso7bcVtW45TYd--
+--Sig_/1UTASAXjt1GgJoFSWCoqY9J--
