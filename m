@@ -2,74 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18B1700E48
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 20:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E37700E54
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 20:03:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2421510E252;
-	Fri, 12 May 2023 18:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB57410E208;
+	Fri, 12 May 2023 18:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E1D10E285;
- Fri, 12 May 2023 18:00:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34CDhka5007081; Fri, 12 May 2023 18:00:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=0GCtZqMJbHB9WSz+xlE/2FHQ6DTJ+rDjKtLKoU03nC0=;
- b=AdqJEuB1imGuCW/q9Q4sL3OIym7xCSB8C1WAzHegNQSxKMX+UB9N7iINeDtRcpjPhKn5
- Mv4lun1/ILbcPySPR3yqldXI77yb3EAM2gpnYG/wMOF6VJfevPlzk+9dx3VJyiejXb+n
- QoO+ZFnWXOabDU08uob8WLFroQ4NLNhNRSZ0uINwB2h5bRdyMTv0Kb98qOy6Hv1an0Qt
- lobV18asFxi1uLoyO9aDqX6XD9fjUQThD0W8GkBc2gpJkJp/0GrhADc7smVh7PaCtWpp
- uJs1Z1d+CGhnmdxbqwvZufPyClInzqac2XElTKHqRGOnh3aRp0ItJp84A7DAb5DkxjNI TA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qhes21nyw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 18:00:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34CI0jZj005990
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 18:00:45 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 12 May 2023 11:00:44 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v8 8/8] drm/msm/dpu: tear down DSC data path when DSC disabled
-Date: Fri, 12 May 2023 11:00:23 -0700
-Message-ID: <1683914423-17612-9-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E5710E221
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 18:03:11 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4ec8149907aso11986502e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1683914588; x=1686506588;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=wX35csAzyFHnVisSwqQUmM55/FGS5IjRbvk+3PARSIY=;
+ b=LkIyLmh7YkVvVJ6EY/UaSJfOCHOZ7lrPp1AXhNw+dBTO64ls2762UQMe8Wg75N8uqO
+ etv7DfqD8OdH/pp2S3wkVip4CUpj/yR8ezy/NKnhg1mfOOtBKWC6boc4DDvx1alg2hcZ
+ EXlclIBCqttJZ5IdHJB/W+2DJzWqpJ0U0i6fY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683914588; x=1686506588;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wX35csAzyFHnVisSwqQUmM55/FGS5IjRbvk+3PARSIY=;
+ b=URsnTvGNMbJPZjg1GXw8lrNDX0JlY4TsDyJ7s2+F2LmseegNYN8A/3Go5mWmyXJTHY
+ lRAUSl5BJFwRZrpbKhhdEXv4HbpUCRk5EaMzwKZBBrUT1l+1qdKxJoLXVkWwCpe0qV1d
+ HViOtCiFjeN9e8/oG4ObIJDHk/kOM5McEiUjUX0lF/6sPSwReCK5x5nogKinyPa72/If
+ vLrUwk7F5uaqb7OgjFO1tOM7L7VYeVZ1jnwxiAezXb/TiMendFyNtp2AWXVvc3WLqWpr
+ wHQWgnm1ntNlLtb8ZYB5khRbD7AlVWj6uzyt+JaFdN0S+2NSWsJR/ZDSqy8yIS0losjD
+ XMlQ==
+X-Gm-Message-State: AC+VfDwiin09s1ihk4OF+ebutobhStPjsAxtT7ljHjYBpOSQuxF+mUqG
+ 4dDWZg+z/rOmQWUhwCmp27MQ7S3TmrH6NWoq6l+QAA==
+X-Google-Smtp-Source: ACHHUZ6PaqBOAHi370NUX7PmynPhgX949UwtsRLRySAJxMzlzmUq+lXxvttUdtc5tbCV15gkYvMmpUGa1Yv56ikLq3U=
+X-Received: by 2002:a05:6512:21a9:b0:4eb:30f9:eeca with SMTP id
+ c9-20020a05651221a900b004eb30f9eecamr3740062lft.28.1683914587723; Fri, 12 May
+ 2023 11:03:07 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 12 May 2023 11:03:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: mYH_mqU_RCiB2YgPgiP6_KqLgw4mY88a
-X-Proofpoint-GUID: mYH_mqU_RCiB2YgPgiP6_KqLgw4mY88a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-12_10,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 adultscore=0
- mlxscore=0 suspectscore=0 mlxlogscore=975 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305120150
+In-Reply-To: <CAA8EJpokAoGni7vNwuijs7EvmjCweO3pgChij3Qx3OUkVTVpiQ@mail.gmail.com>
+References: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683750665-8764-2-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJprtQF0x_LCOTrt5bvRnJ+xRz6QxLF6QAP-4Pff6V5TJ2g@mail.gmail.com>
+ <20230511155331.2jmfe7xcs5tihdgb@ripper>
+ <5ef83699-01de-d062-6239-9bb834c70458@linaro.org>
+ <8ac0b5f5-27da-2b28-8f10-b2fca447511a@quicinc.com>
+ <CAA8EJpokAoGni7vNwuijs7EvmjCweO3pgChij3Qx3OUkVTVpiQ@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 12 May 2023 11:03:07 -0700
+Message-ID: <CAE-0n51SHQhUJiY=BJp8CQQ1aTAOxeMDr2+NX_vpmjN_cyJJrA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/msm/dp: enable HDP plugin/unplugged interrupts
+ to hpd_enable/disable
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,117 +74,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, sean@poorly.run,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unset DSC_ACTIVE bit at dpu_hw_ctl_reset_intf_cfg_v1(),
-dpu_encoder_unprep_dsc() and dpu_encoder_dsc_pipe_clr() functions
-to tear down DSC data path if DSC data path was setup previous.
+Quoting Dmitry Baryshkov (2023-05-11 17:54:19)
+> On Fri, 12 May 2023 at 03:16, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+> > 1) DP with GPIO: No downstream drm_bridge are connected, is_edp = false
+> > and internal HPD-logic is in used (internal_hpd = true). Power needs to
+> > be on at all times etc.
+> >
+> > 2) DP without GPIO: Downstream drm_bridge connected, is_edp = false and
+> > internal HPD-logic should not be used/enabled (internal_hpd = false).
+> > Power doesn't need to be on unless hpd_notify is invoked to tell us that
+> > there's something connected...
+> >
+> > - dp_bridge_hpd_notify(). What is the point of this check? <== i have
+> > below two questions,
+> >
+> > 1) can you explain when/what this dp_bridge_hpd_notify() will be called?
+>
+> The call chain is drm_bridge_hpd_notify() ->
+> drm_bridge_connector_hpd_notify() -> .hpd_notify() for all drm_bridge
+> in chain
+>
+> One should add a call to drm_bridge_hpd_notify() when the hotplug
+> event has been detected.
+>
+> Also please note the patch https://patchwork.freedesktop.org/patch/484432/
+>
+> >
+> > 2) is dp_bridge_hpd_notify() only will be called at above case #2? and
+> > it will not be used by case #1?
+>
+> Once the driver calls drm_bridge_hpd_notify() in the hpd path, the
+> hpd_notify callbacks will be called in case#1 too.
+>
+> BTW: I don't see drm_bridge_hpd_notify() or
+> drm_kms_{,connector_}_hotplug_event() HPD notifications in the DP
+> driver at all. This should be fixed.
+>
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 43 +++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  |  7 +++++
- 2 files changed, 50 insertions(+)
+Is dp_bridge_hpd_notify() being called by
+drm_helper_probe_single_connector_modes() when the connectors are
+detected?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 5cae70e..ee999ce 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1214,6 +1214,44 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
- 	mutex_unlock(&dpu_enc->enc_lock);
- }
- 
-+static void dpu_encoder_dsc_pipe_clr(struct dpu_encoder_virt *dpu_enc,
-+				     struct dpu_hw_dsc *hw_dsc,
-+				     struct dpu_hw_pingpong *hw_pp)
-+{
-+	struct dpu_encoder_phys *cur_master = dpu_enc->cur_master;
-+	struct dpu_hw_ctl *ctl;
-+
-+	ctl = cur_master->hw_ctl;
-+
-+	if (hw_dsc->ops.dsc_disable)
-+		hw_dsc->ops.dsc_disable(hw_dsc);
-+
-+	if (hw_pp->ops.disable_dsc)
-+		hw_pp->ops.disable_dsc(hw_pp);
-+
-+	if (hw_dsc->ops.dsc_bind_pingpong_blk)
-+		hw_dsc->ops.dsc_bind_pingpong_blk(hw_dsc, PINGPONG_NONE);
-+
-+	if (ctl->ops.update_pending_flush_dsc)
-+		ctl->ops.update_pending_flush_dsc(ctl, hw_dsc->idx);
-+}
-+
-+static void dpu_encoder_unprep_dsc(struct dpu_encoder_virt *dpu_enc)
-+{
-+	/* coding only for 2LM, 2enc, 1 dsc config */
-+	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-+	int i;
-+
-+	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-+		hw_pp[i] = dpu_enc->hw_pp[i];
-+		hw_dsc[i] = dpu_enc->hw_dsc[i];
-+
-+		if (hw_pp[i] && hw_dsc[i])
-+			dpu_encoder_dsc_pipe_clr(dpu_enc, hw_dsc[i], hw_pp[i]);
-+	}
-+}
-+
- static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
- 					struct drm_atomic_state *state)
- {
-@@ -2090,6 +2128,9 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
- 					phys_enc->hw_pp->merge_3d->idx);
- 	}
- 
-+	if (dpu_enc->dsc)
-+		dpu_encoder_unprep_dsc(dpu_enc);
-+
- 	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
- 	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
- 
-@@ -2101,6 +2142,8 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
- 	if (phys_enc->hw_pp->merge_3d)
- 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
- 
-+	intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
-+
- 	if (ctl->ops.reset_intf_cfg)
- 		ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index f3a50cc..aec3b08 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -577,6 +577,7 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	u32 intf_active = 0;
- 	u32 wb_active = 0;
- 	u32 merge3d_active = 0;
-+	u32 dsc_active;
- 
- 	/*
- 	 * This API resets each portion of the CTL path namely,
-@@ -606,6 +607,12 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 		wb_active &= ~BIT(cfg->wb - WB_0);
- 		DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
- 	}
-+
-+	if (cfg->dsc) {
-+		dsc_active = DPU_REG_READ(c, CTL_DSC_ACTIVE);
-+		dsc_active &= ~cfg->dsc;
-+		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
-+	}
- }
- 
- static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
--- 
-2.7.4
+I see drm_helper_probe_detect() calls connector->funcs->detect() which I
+think calls
+drm_bridge_connector_funcs::drm_bridge_connector_hpd_notify() but I
+haven't confirmed yet. The 'detect' bridge is the DP bridge in msm
+driver
 
+         if (!dp_display->is_edp) {
+                bridge->ops =
+                        DRM_BRIDGE_OP_DETECT |
+
+so if the bridge_connector is being used then I think when fill_modes()
+is called we'll run the detect cycle and call the hpd_notify callbacks
+on the bridge chain.
