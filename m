@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB5C7005CA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 12:41:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2647005CB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 12:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CCE10E67B;
-	Fri, 12 May 2023 10:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D46F110E67C;
+	Fri, 12 May 2023 10:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A941010E67B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 10:41:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 281AF10E67B
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 10:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=amP6hjnm3w5731OIEzuPNd7PXAVX4NF0Jx8glviiWcw=; b=iiYnpaOdeFmC+PBiDwC3+7XBEV
- zF2Xc4MAHurTRyHDScHBcLwH8Rye8nL1JmcgoRjal7WhUZbaV9GeuXhe6EuJ6weq5dqydutoy15en
- hGoK9KKvYStQukRKPJ3tcvJ7SXdPeQSxqTfiCO95BjFGfB51sOqBoaS0ptXv6DU3LYDjrjXl4DZfA
- evn2N0xPgxARQ85QbLnfGUi/a/udAGtfFi/IsvwmcYo4qKPg+JG/cDy7YrHGITCJh1yRc/ts+ho1i
- 0/UKlfkTICrwhshMLfE81uSLjjgcdifhntmisnlwBiu+VFC0HNlolHn4e3Gacph2UuRpH7j+4a6h/
- gy7GT5DQ==;
+ bh=ISowlXRJpxVb+xTSbDtJ1LdH0iB6v4Zby/Sy7D5ZbqE=; b=cKMCMcClDaBWzIC9xvhFy2hd/3
+ cjsTlyJItjRdizRZ0Flo5iNNhMP3xT3wyMWGhL2yH8jBs0HuzKExrz9FC9RfvLoPN6m6qF2ftPpFK
+ OZf7nGCFaTbsunwELfHWdj2IbhG+GsmwrWVqJPVIZVepwaFTBhwWQiGxI+7LPi53uKmPMA1WH2KyB
+ uotrfIP89/wmxOMd+J0byg40p0JBF/4xEDFhx8DxON3Pwd6pM2uSy5TirwuYa8BbHRgHASvUPUuTK
+ oS63K+lqKUpxjcGnnehuX/VX+oTis51DG/E8m+5QibZhTKULgACJYf5dMJOtBsfNgJJgI3xnyY5C7
+ R2k67Byw==;
 Received: from [177.34.168.16] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pxQDF-007gnd-Cl; Fri, 12 May 2023 12:41:25 +0200
+ id 1pxQDI-007gnd-Kl; Fri, 12 May 2023 12:41:29 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH v3 1/2] drm: Add fixed-point helper to get rounded integer
- values
-Date: Fri, 12 May 2023 07:40:44 -0300
-Message-Id: <20230512104044.65034-1-mcanal@igalia.com>
+Subject: [PATCH v3 2/2] drm/vkms: Fix RGB565 pixel conversion
+Date: Fri, 12 May 2023 07:40:45 -0300
+Message-Id: <20230512104044.65034-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230512104044.65034-1-mcanal@igalia.com>
+References: <20230512104044.65034-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -59,43 +60,54 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a new fixed-point helper to allow us to return the rounded value
-of our fixed point value.
+Currently, the pixel conversion isn't rounding the fixed-point values
+before assigning it to the RGB coefficients, which is causing the IGT
+pixel-format tests to fail. So, use the drm_fixp2int_round() fixed-point
+helper to round the values when assigning it to the RGB coefficients.
+
+Tested with igt@kms_plane@pixel-format and igt@kms_plane@pixel-format-source-clamping.
 
 [v2]:
-    * Create the function drm_fixp2int_round() (Melissa Wen).
-[v3]:
-    * Use drm_fixp2int() instead of shifting manually (Arthur Grillo).
+    * Use drm_fixp2int_round() to fix the pixel conversion instead of
+      casting the values to s32 (Melissa Wen).
 
+Fixes: 89b03aeaef16 ("drm/vkms: fix 32bit compilation error by replacing macros")
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- include/drm/drm_fixed.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/vkms/vkms_formats.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-index 255645c1f9a8..6ea339d5de08 100644
---- a/include/drm/drm_fixed.h
-+++ b/include/drm/drm_fixed.h
-@@ -71,6 +71,7 @@ static inline u32 dfixed_div(fixed20_12 A, fixed20_12 B)
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index ebacb8efa055..5945da0beba6 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -106,9 +106,9 @@ static void RGB565_to_argb_u16(u8 *src_pixels, struct pixel_argb_u16 *out_pixel)
+ 	s64 fp_b = drm_int2fixp(rgb_565 & 0x1f);
+ 
+ 	out_pixel->a = (u16)0xffff;
+-	out_pixel->r = drm_fixp2int(drm_fixp_mul(fp_r, fp_rb_ratio));
+-	out_pixel->g = drm_fixp2int(drm_fixp_mul(fp_g, fp_g_ratio));
+-	out_pixel->b = drm_fixp2int(drm_fixp_mul(fp_b, fp_rb_ratio));
++	out_pixel->r = drm_fixp2int_round(drm_fixp_mul(fp_r, fp_rb_ratio));
++	out_pixel->g = drm_fixp2int_round(drm_fixp_mul(fp_g, fp_g_ratio));
++	out_pixel->b = drm_fixp2int_round(drm_fixp_mul(fp_b, fp_rb_ratio));
  }
  
- #define DRM_FIXED_POINT		32
-+#define DRM_FIXED_POINT_HALF	16
- #define DRM_FIXED_ONE		(1ULL << DRM_FIXED_POINT)
- #define DRM_FIXED_DECIMAL_MASK	(DRM_FIXED_ONE - 1)
- #define DRM_FIXED_DIGITS_MASK	(~DRM_FIXED_DECIMAL_MASK)
-@@ -87,6 +88,11 @@ static inline int drm_fixp2int(s64 a)
- 	return ((s64)a) >> DRM_FIXED_POINT;
- }
+ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state *plane, int y)
+@@ -232,9 +232,9 @@ static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
+ 		s64 fp_g = drm_int2fixp(in_pixels[x].g);
+ 		s64 fp_b = drm_int2fixp(in_pixels[x].b);
  
-+static inline int drm_fixp2int_round(s64 a)
-+{
-+	return drm_fixp2int(a + (1 << (DRM_FIXED_POINT_HALF - 1)));
-+}
-+
- static inline int drm_fixp2int_ceil(s64 a)
- {
- 	if (a > 0)
+-		u16 r = drm_fixp2int(drm_fixp_div(fp_r, fp_rb_ratio));
+-		u16 g = drm_fixp2int(drm_fixp_div(fp_g, fp_g_ratio));
+-		u16 b = drm_fixp2int(drm_fixp_div(fp_b, fp_rb_ratio));
++		u16 r = drm_fixp2int_round(drm_fixp_div(fp_r, fp_rb_ratio));
++		u16 g = drm_fixp2int_round(drm_fixp_div(fp_g, fp_g_ratio));
++		u16 b = drm_fixp2int_round(drm_fixp_div(fp_b, fp_rb_ratio));
+ 
+ 		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
+ 	}
 -- 
 2.40.1
 
