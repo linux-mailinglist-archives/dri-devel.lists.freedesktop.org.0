@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1897002D1
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:42:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590A77002DE
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:42:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE49010E646;
-	Fri, 12 May 2023 08:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A35E10E653;
+	Fri, 12 May 2023 08:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44A0C10E1AC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572A810E595;
  Fri, 12 May 2023 08:41:59 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0C8202043A;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 500FC2043B;
  Fri, 12 May 2023 08:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1683880917; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aDapZGq3snIdNViE9zp5XIjmGvfoCzJuG8gNtaD7oZ0=;
- b=c1YePbQL6JnHEDj2KjK7YJco5DUwpIxOK5+DePlL8YZzzru7SeijpQAdU4Ql7ZrfNtLw6S
- OKFP373wjNIoZMWgzHaYWNTMv96pPko5Pmw++laTm56nxPbgjaD003DUcj7J6+n34Ty7Mz
- a88fg1iuN3ISvEKKg3OuWv5CwCmyE4I=
+ bh=mjuO+DxwR+YcO4n2FyX/dbJKiEf4TVp7gUioRCpA2lE=;
+ b=IZRNxrtHGu0dxUAJX2sQPRM7gNsTKHYrEP0W/ERcJ8iwOu9CPS3eprCrJDEMM8c+IszlN1
+ cbUD/jNny49BU5YH+7EFz2qYbx83thn9yzZvhid2bIpfSdQ7v+RnV5OLwqWX3LSJgEq5KW
+ KhNfbgcoM5r7bS5Qx5lk9QV1+Sh5meE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1683880917;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aDapZGq3snIdNViE9zp5XIjmGvfoCzJuG8gNtaD7oZ0=;
- b=QvPsrF7e3YQDOeqg+LLHX0sk8fcAfGA4j2MmE28pPSZ2jccf4nmOnwDkuzsAxbvtR3cf1W
- U7YY4veYenYuQUDw==
+ bh=mjuO+DxwR+YcO4n2FyX/dbJKiEf4TVp7gUioRCpA2lE=;
+ b=r7guFR5Xv9rWXRQaaSnjfpviJje2A+6SyiXKKbGF8Hlb7NhKr2o6aijVezJO/1Eh3Ogkxy
+ jygU2c4iPNoI0ZCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B8F7E13466;
- Fri, 12 May 2023 08:41:56 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1022113A0A;
+ Fri, 12 May 2023 08:41:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iPZeLNT7XWQZKQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 08:41:56 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gCQcA9X7XWQZKQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 08:41:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH 08/11] drm/tegra: Use regular fbdev I/O helpers
-Date: Fri, 12 May 2023 10:41:49 +0200
-Message-Id: <20230512084152.31233-9-tzimmermann@suse.de>
+Subject: [PATCH 09/11] drm/fb-helper: Export helpers for marking damage areas
+Date: Fri, 12 May 2023 10:41:50 +0200
+Message-Id: <20230512084152.31233-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512084152.31233-1-tzimmermann@suse.de>
 References: <20230512084152.31233-1-tzimmermann@suse.de>
@@ -70,114 +70,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>, freedreno@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-helpers. Tegra does not use damage handling, so DRM's fbdev helpers
-are mere wrappers around the fbdev code.
-
-Add CONFIG_DRM_TEGRA_FBDEV_EMULATION to select the necessary
-Kconfig options automatically. Make fbdev emulation depend on
-the new config option.
-
-By using fbdev helpers directly within each DRM fbdev emulation,
-we can eventually remove DRM's wrapper functions entirely.
+Export drm_fb_helper_damage() and drm_fb_helper_damage_range(), which
+handle damage areas for fbdev emulation. This is a temporary export
+that allows to move the DRM I/O helpers for fbdev into drivers. Only
+fbdev-generic and i915 need them. Both will be updated to implement
+damage handling by themselves and the exported functions will be removed.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>
 ---
- drivers/gpu/drm/tegra/Kconfig  |  9 +++++++++
- drivers/gpu/drm/tegra/Makefile |  2 +-
- drivers/gpu/drm/tegra/drm.h    |  2 +-
- drivers/gpu/drm/tegra/fbdev.c  | 11 ++++++-----
- 4 files changed, 17 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 19 +++++++++++++++++--
+ include/drm/drm_fb_helper.h     |  4 ++++
+ 2 files changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
-index 56453ca277c2..8d04549ad671 100644
---- a/drivers/gpu/drm/tegra/Kconfig
-+++ b/drivers/gpu/drm/tegra/Kconfig
-@@ -12,6 +12,7 @@ config DRM_TEGRA
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
-+	select DRM_TEGRA_FBDEV_EMULATION if DRM_FBDEV_EMULATION
- 	select TEGRA_HOST1X
- 	select INTERCONNECT
- 	select IOMMU_IOVA
-@@ -41,3 +42,11 @@ config DRM_TEGRA_STAGING
- 	  If unsure, choose N.
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index f0e9549b6bd7..8724e08c518b 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -625,13 +625,15 @@ static void drm_fb_helper_add_damage_clip(struct drm_fb_helper *helper, u32 x, u
+ 	spin_unlock_irqrestore(&helper->damage_lock, flags);
+ }
  
- endif
+-static void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
+-				 u32 width, u32 height)
++/* Don't use in new code. */
++void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
++			  u32 width, u32 height)
+ {
+ 	drm_fb_helper_add_damage_clip(helper, x, y, width, height);
+ 
+ 	schedule_work(&helper->damage_work);
+ }
++EXPORT_SYMBOL(drm_fb_helper_damage);
+ 
+ /*
+  * Convert memory region into area of scanlines and pixels per
+@@ -670,6 +672,19 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
+ 	drm_rect_init(clip, x1, y1, x2 - x1, y2 - y1);
+ }
+ 
++/* Don't use in new code. */
++void drm_fb_helper_damage_range(struct drm_fb_helper *fb_helper, off_t off, size_t len)
++{
++	struct fb_info *info = fb_helper->info;
++	struct drm_rect damage_area;
 +
-+config DRM_TEGRA_FBDEV_EMULATION
-+	bool
-+	depends on DRM_TEGRA
-+	select FB_SYS_COPYAREA
-+	select FB_SYS_FILLRECT
-+	select FB_SYS_FOPS
-+	select FB_SYS_IMAGEBLIT
-diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makefile
-index 6fc4b504e786..2ae9fb5d9213 100644
---- a/drivers/gpu/drm/tegra/Makefile
-+++ b/drivers/gpu/drm/tegra/Makefile
-@@ -29,6 +29,6 @@ tegra-drm-y := \
++	drm_fb_helper_memory_range_to_clip(info, off, len, &damage_area);
++	drm_fb_helper_damage(fb_helper, damage_area.x1, damage_area.y1,
++			     drm_rect_width(&damage_area),
++			     drm_rect_height(&damage_area));
++}
++EXPORT_SYMBOL(drm_fb_helper_damage_range);
++
+ /**
+  * drm_fb_helper_deferred_io() - fbdev deferred_io callback function
+  * @info: fb_info struct pointer
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 72032c354a30..80c402f4e379 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -253,6 +253,10 @@ void drm_fb_helper_fill_info(struct fb_info *info,
+ 			     struct drm_fb_helper *fb_helper,
+ 			     struct drm_fb_helper_surface_size *sizes);
  
- tegra-drm-y += trace.o
++void drm_fb_helper_damage(struct drm_fb_helper *helper, u32 x, u32 y,
++			  u32 width, u32 height);
++void drm_fb_helper_damage_range(struct drm_fb_helper *helper, off_t off, size_t len);
++
+ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
  
--tegra-drm-$(CONFIG_DRM_FBDEV_EMULATION) += fbdev.o
-+tegra-drm-$(CONFIG_DRM_TEGRA_FBDEV_EMULATION) += fbdev.o
- 
- obj-$(CONFIG_DRM_TEGRA) += tegra-drm.o
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index f9d18e8cf6ab..874e93ef4e47 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -192,7 +192,7 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
- 					struct drm_file *file,
- 					const struct drm_mode_fb_cmd2 *cmd);
- 
--#ifdef CONFIG_DRM_FBDEV_EMULATION
-+#if defined(CONFIG_DRM_TEGRA_FBDEV_EMULATION)
- void tegra_fbdev_setup(struct drm_device *drm);
- #else
- static inline void tegra_fbdev_setup(struct drm_device *drm)
-diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-index dca9eccae466..144d851e566f 100644
---- a/drivers/gpu/drm/tegra/fbdev.c
-+++ b/drivers/gpu/drm/tegra/fbdev.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/console.h>
-+#include <linux/fb.h>
- #include <linux/vmalloc.h>
- 
- #include <drm/drm_drv.h>
-@@ -59,11 +60,11 @@ static void tegra_fbdev_fb_destroy(struct fb_info *info)
- static const struct fb_ops tegra_fb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_read = drm_fb_helper_sys_read,
--	.fb_write = drm_fb_helper_sys_write,
--	.fb_fillrect = drm_fb_helper_sys_fillrect,
--	.fb_copyarea = drm_fb_helper_sys_copyarea,
--	.fb_imageblit = drm_fb_helper_sys_imageblit,
-+	.fb_read = fb_sys_read,
-+	.fb_write = fb_sys_write,
-+	.fb_fillrect = sys_fillrect,
-+	.fb_copyarea = sys_copyarea,
-+	.fb_imageblit = sys_imageblit,
- 	.fb_mmap = tegra_fb_mmap,
- 	.fb_destroy = tegra_fbdev_fb_destroy,
- };
+ ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
 -- 
 2.40.1
 
