@@ -1,71 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58134700E70
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 20:13:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1944E700E83
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 20:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDBE410E22A;
-	Fri, 12 May 2023 18:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C6C10E23B;
+	Fri, 12 May 2023 18:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
  [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71F9E10E22A
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 18:13:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA5F10E239
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 18:17:23 +0000 (UTC)
 Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2ac81d2bfbcso110925061fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:13:08 -0700 (PDT)
+ 38308e7fff4ca-2ac770a99e2so110862411fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683915186; x=1686507186;
+ d=linaro.org; s=google; t=1683915442; x=1686507442;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=uKD+LoFNXdeJroT3MlEs5tmlumv0cQy/KCdwnSxoZK8=;
- b=VLoPyIveRs40es+1Zdi7/hqZ2yvU/choqNvtv3z+3a0MVMCQcLn0cFMhBXOLI/lVsQ
- TX90Civo7BLEzZElnQyzMJZ8xvrxB2quS71fH3LOkptwpklKHTahe0P6NWNmQScM0H4L
- nUdO6kgNJ3U5Ytf3TD4fx4uWx67VOpr7adGXuatWuwOfz/rhwbcHj0e4/RMviFzRIFcG
- VIO0Ok+SxEM47uRQPz1AunL6nfUty21jLgzCF6xzL2c032UZ2T6dB5ROK8Osk3TqX03G
- qwOJgYbZw6NZD3YNhEe61UOWD0Yuv+HyChwxSPNSBjr5kWywLVT8k4psJp8Kj57tEMve
- xfJg==
+ bh=p8LjK4ZemVtaeznMyMIjTyfuWDgeRicQP0JV6f2MQjA=;
+ b=ZsgX14HdZNUYY5EXlI9ncQqhjLmQvtPy2jmPMxVkmmJw8LNvnEO7iHtFtV1Bwmb1Yy
+ 6UDRDix+mPm03ryv0SACodMr8watklVxv9180YcYCWLZ7K/2KcDxSGhi0O2qU10fcTBn
+ PfP4c79Ahhqan/sd47iWZqpvLzyLrF1QKzyyq24j7hcZwoI0zbopmDkwvGe08ug2XBrv
+ +NtxgXtpIY3wQ5OBMqFsbBXJzTmO/xKU0Xn+hleDGxQwlYX9r7Aly+0BxgKk07lxWKOu
+ dGE9aHk/w1j1oU+IJMcIUBuNE6WhPglt1HKUPfFTjIJcfHFiyYsx0jcWdjvMvldQ7qyC
+ mXRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683915186; x=1686507186;
+ d=1e100.net; s=20221208; t=1683915442; x=1686507442;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uKD+LoFNXdeJroT3MlEs5tmlumv0cQy/KCdwnSxoZK8=;
- b=fdq0UXuKwhfu5HlfeUirIhxOOHpdE5JJKGvHWeXmgb5W8RUhywgQu6S/Bu8dmwMgRV
- amRtgk/s40BSybiOvnYF5nlqb5WAeczjD7AWEuSv4DdTUpfcVpxvXOvHWsG+09nTNOlE
- hS2YofPWnfuw+DOPG66OSeviqgUZyRtpv9po+fDfWMrCcVf1NryjGgMSWkHlRT4nQSzz
- JJrMNa2tzhK6uQJTHC5IIMPCXvmH9AdRjlrfT0qYMbszbcGq21TsMnhngMR8UGjMGzlR
- L7hhH9g99BU1sYL13DhZRhuZ5XP/JC7cQQX+ydbPSlawagVVy46q0gc0BtJTLBanF3Sd
- cpFg==
-X-Gm-Message-State: AC+VfDwNXhA7aesIsvekZ1A3GihHszY/RBmxjRJ21QnurWV/AGiuhTWQ
- c1oSbhk31SZJH/axBk3ZzXszoQ==
-X-Google-Smtp-Source: ACHHUZ6XRMgKnPqEWJyYc/6mw+o+JZPDKh3xXIcQh+pV773C4JK7LbdiAPNfIiOQ3XOMFcWzQ6iivA==
-X-Received: by 2002:a2e:9b97:0:b0:2ad:98a6:4af0 with SMTP id
- z23-20020a2e9b97000000b002ad98a64af0mr4602161lji.23.1683915186220; 
- Fri, 12 May 2023 11:13:06 -0700 (PDT)
+ bh=p8LjK4ZemVtaeznMyMIjTyfuWDgeRicQP0JV6f2MQjA=;
+ b=esOmSdnxnliBciQJ9ksG5SG5g3sSeQEFqmCIpRR06B42FgVd///gP/mygRRHfNtL3E
+ PVjsDuSlOaYLmKounYfcL7Dqy+sK/r3qKGvKE1vZCNGBli+dizLCC5nHDOhLp5uKMWV5
+ DS03WE8Z4+w83dLgYaz7DoGQF9zdVgYM3F7xmDy/pM5U+0+G80mDSv5Qib5n0eDPSzPs
+ urhDY20M37rBSafHyWDWNtomBJ7HLz/nnRSGJJTKrAe00fjwx0xbCxB7V9zYQG9adQm1
+ t8CFKEyoM+YmYDbxNnUglP/acHhOgcQ68XqzYWUczvl7UYuj4KE7O6vEg+nLNyroynix
+ yv2A==
+X-Gm-Message-State: AC+VfDwCFZJcEjLv2XaeAGBnWVUq25kh03ebhISCU4+6fePZgLjGnt9e
+ ByWNwidSMtyXP3Zrr5OkVbiIQA==
+X-Google-Smtp-Source: ACHHUZ56KzPHcvyVXISoCDT+BjPuF8ObSV6drs7BIb1OVrKaHr38w2ZoACWKPgKAHJ2TLDMqp0aFUg==
+X-Received: by 2002:a2e:94c7:0:b0:2aa:41a1:cd6c with SMTP id
+ r7-20020a2e94c7000000b002aa41a1cd6cmr4049471ljh.23.1683915441876; 
+ Fri, 12 May 2023 11:17:21 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- u24-20020a2e8558000000b002a7746800d0sm2844004ljj.130.2023.05.12.11.13.05
+ u12-20020a2e9b0c000000b002ab397f1b0bsm2876929lji.3.2023.05.12.11.17.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 11:13:05 -0700 (PDT)
-Message-ID: <053819bd-b3c4-a72c-9316-85d974082ad6@linaro.org>
-Date: Fri, 12 May 2023 21:13:04 +0300
+ Fri, 12 May 2023 11:17:21 -0700 (PDT)
+Message-ID: <bbdef42d-1458-9acc-9233-d9a63d92d7bc@linaro.org>
+Date: Fri, 12 May 2023 21:17:20 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/msm/dp: add module parameter for PSR
+Subject: Re: [PATCH v8 2/8] drm/msm/dpu: add DPU_PINGPONG_DSC feature bit for
+ DPU < 7.0.0
 Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-3-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
+In-Reply-To: <1683914423-17612-3-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,80 +82,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- quic_jesszhan@quicinc.com, swboyd@chromium.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/04/2023 02:28, Abhinav Kumar wrote:
-> On sc7280 where eDP is the primary display, PSR is causing
-> IGT breakage even for basic test cases like kms_atomic and
-> kms_atomic_transition. Most often the issue starts with below
-> stack so providing that as reference
+On 12/05/2023 21:00, Kuogee Hsieh wrote:
+> DPU < 7.0.0 requires the PINGPONG block to be involved during
+> DSC setting up. Since DPU >= 7.0.0, enabling and starting the DSC
+> encoder engine was moved to INTF with the help of the flush mechanism.
+> Add a DPU_PINGPONG_DSC feature bit to restrict the availability of
+> dpu_hw_pp_setup_dsc() and dpu_hw_pp_dsc_{enable,disable}() on the
+> PINGPONG block to DPU < 7.0.0 hardware, as the registers are not
+> available [in the PINGPONG block] on DPU 7.0.0 and higher anymore.
+> Add DPU_PINGPONG_DSC to PINGPONG_SDM845_MASK, PINGPONG_SDM845_TE2_MASK
+> and PINGPONG_SM8150_MASK which is used for all DPU < 7.0 chipsets.
 > 
-> Call trace:
->   dpu_encoder_assign_crtc+0x64/0x6c
->   dpu_crtc_enable+0x188/0x204
->   drm_atomic_helper_commit_modeset_enables+0xc0/0x274
->   msm_atomic_commit_tail+0x1a8/0x68c
->   commit_tail+0xb0/0x160
->   drm_atomic_helper_commit+0x11c/0x124
->   drm_atomic_commit+0xb0/0xdc
->   drm_atomic_connector_commit_dpms+0xf4/0x110
->   drm_mode_obj_set_property_ioctl+0x16c/0x3b0
->   drm_connector_property_set_ioctl+0x4c/0x74
->   drm_ioctl_kernel+0xec/0x15c
->   drm_ioctl+0x264/0x408
->   __arm64_sys_ioctl+0x9c/0xd4
->   invoke_syscall+0x4c/0x110
->   el0_svc_common+0x94/0xfc
->   do_el0_svc+0x3c/0xb0
->   el0_svc+0x2c/0x7c
->   el0t_64_sync_handler+0x48/0x114
->   el0t_64_sync+0x190/0x194
-> ---[ end trace 0000000000000000 ]---
-> [drm-dp] dp_ctrl_push_idle: PUSH_IDLE pattern timedout
+> changes in v6:
+> -- split patches and rearrange to keep catalog related files at this patch
 > 
-> Other basic use-cases still seem to work fine hence add a
-> a module parameter to allow toggling psr enable/disable till
-> PSR related issues are hashed out with IGT.
-
-For the reference: Bjorn reported that he has issues with VT on a 
-PSR-enabled laptops. This patch fixes the issue for him
+> changes in v7:
+> -- rewording commit text as suggested at review comments
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Single nit below
+
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 6 +++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 4 +++-
+>   2 files changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 628b0e248db6..dba43167de66 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -28,6 +28,10 @@
->   #include "dp_audio.h"
->   #include "dp_debug.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 82b58c6..78e4bf6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -76,13 +76,13 @@
+>   	(BIT(DPU_DIM_LAYER) | BIT(DPU_MIXER_COMBINED_ALPHA))
 >   
-> +static bool psr_enabled = false;
-> +module_param(psr_enabled, bool, 0);
-> +MODULE_PARM_DESC(psr_enabled, "enable PSR for eDP and DP displays");
-> +
->   #define HPD_STRING_SIZE 30
+>   #define PINGPONG_SDM845_MASK \
+> -	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE))
+> +	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_TE) | BIT(DPU_PINGPONG_DSC))
 >   
+>   #define PINGPONG_SDM845_TE2_MASK \
+> -	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+> +	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2) | BIT(DPU_PINGPONG_DSC))
+>   
+>   #define PINGPONG_SM8150_MASK \
+> -	(BIT(DPU_PINGPONG_DITHER))
+> +	(BIT(DPU_PINGPONG_DITHER) | BIT(DPU_PINGPONG_DSC))
+>   
+>   #define CTL_SC7280_MASK \
+>   	(BIT(DPU_CTL_ACTIVE_CFG) | \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 6ee48f0..dc0a4da 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -144,7 +144,8 @@ enum {
+>    * @DPU_PINGPONG_TE2        Additional tear check block for split pipes
+>    * @DPU_PINGPONG_SPLIT      PP block supports split fifo
+>    * @DPU_PINGPONG_SLAVE      PP block is a suitable slave for split fifo
+> - * @DPU_PINGPONG_DITHER,    Dither blocks
+> + * @DPU_PINGPONG_DITHER     Dither blocks
+
+Ideally this should be a separate commit. It is irrelevant to 
+DPU_PINGPONG_DSC
+
+> + * @DPU_PINGPONG_DSC        PP ops functions required for DSC
+>    * @DPU_PINGPONG_MAX
+>    */
 >   enum {
-> @@ -407,7 +411,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+> @@ -153,6 +154,7 @@ enum {
+>   	DPU_PINGPONG_SPLIT,
+>   	DPU_PINGPONG_SLAVE,
+>   	DPU_PINGPONG_DITHER,
+> +	DPU_PINGPONG_DSC,
+>   	DPU_PINGPONG_MAX
+>   };
 >   
->   	edid = dp->panel->edid;
->   
-> -	dp->dp_display.psr_supported = dp->panel->psr_cap.version;
-> +	dp->dp_display.psr_supported = dp->panel->psr_cap.version && psr_enabled;
->   
->   	dp->audio_supported = drm_detect_monitor_audio(edid);
->   	dp_panel_handle_sink_request(dp->panel);
 
 -- 
 With best wishes
