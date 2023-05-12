@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2947006B6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:25:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3B07006CB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:28:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D39610E686;
-	Fri, 12 May 2023 11:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5DB10E688;
+	Fri, 12 May 2023 11:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC35B10E686;
- Fri, 12 May 2023 11:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683890726; x=1715426726;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=DLcxuGg90W0qpFb37T2Z/r5Za1skwRRI/1oJiKzq3+Y=;
- b=iuOCP06S3ZDrVCk0w2Oe8o+EIJ85iryjnf1BbFj/VouM8FdMjWJbH/vR
- AUZC1IcIdRWkai4QdMIgDj0Hn9yrup1+IOZMdBStvCmofcoHv+JvjCH2z
- aZIJ0Ge/+vv32+o1mYrZ0RwC14PFoDJVqFy38Rx8RQj0lA79x3+lK66oJ
- GgsxGf28B4bNJ4k1vMgcomrXY7XNKld1NBjvKka85Rodpv5nRTu77oJDH
- 1hLl74TnRPHQ2eb8+JhLwYK2r406iV+ySiEa+NL6fJYXGN/diFa5iduW9
- Oh3ufhr2nuNNs3YDPaxcbLVyz2FHxyn5KAA9oFrJLwoQRa7U7ABOWZGqL g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="335287280"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="335287280"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2023 04:25:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="824331254"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="824331254"
-Received: from tsavina-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.63.51])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2023 04:25:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-In-Reply-To: <ZF4fi5B7PPlgZBOI@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
- <20230509051403.2748545-3-lucas.demarchi@intel.com>
- <ZF4fi5B7PPlgZBOI@smile.fi.intel.com>
-Date: Fri, 12 May 2023 14:25:18 +0300
-Message-ID: <87pm75kd0h.fsf@intel.com>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD2B10E688
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:28:10 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-55aa1da9d4aso173411827b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 04:28:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683890889; x=1686482889;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jRL0mFkBIJ4KpIHNQ0nXnFUPNdCjxMZJfjytXJxyHUs=;
+ b=M8OzFrPPLqQKGUJy/sxfm6r25dWZpenIKvqw759tW6wHTjIJ5uU4d7GJu/dp3hvCMX
+ dKkpBa4X634+/TvafOg/V/8uk2bv3JMq9ai+7zpmx7aF1rS2z2IGcjcYeRNXLwTvWtF5
+ 1tD9fSlFwcGgCW0Uum6ahkpMMsExAkPQBXu13MYD8hLwZ+ArrYp/pydIIuHvKrxa5gdF
+ jiuTXiCE1/yqyGD3S09bNgDEPIn9ZJ3OLHfo0pCaCwnhm/SRgqNwnPv8T01hgVxQS3gt
+ 6UvxhR2CUt3kxdiK5ChNFQKz6B94RERu7WiI51WZKsbbT7WA+9nW94Qm/3YUCNMiR47a
+ H6wg==
+X-Gm-Message-State: AC+VfDxwFfUP7DK820c1OUzZGqIstfLTrLvGInYWul7bO7WVzl3FJifN
+ pvMFIHOhTW1DyhF0mPLW+GYV1TFTg3iv/A==
+X-Google-Smtp-Source: ACHHUZ61hYHepj755WkINY+JyahTAf7s+oOuTZ/yUbMIybAOrY0g8hNbLqTn5u2HibyMyamixYCR7Q==
+X-Received: by 2002:a0d:eb4d:0:b0:556:e3eb:de38 with SMTP id
+ u74-20020a0deb4d000000b00556e3ebde38mr26678514ywe.0.1683890889093; 
+ Fri, 12 May 2023 04:28:09 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ r10-20020a0de80a000000b0055d6ae09dedsm5594579ywe.127.2023.05.12.04.28.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 04:28:07 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-55a00da4e53so173393657b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 04:28:07 -0700 (PDT)
+X-Received: by 2002:a0d:d691:0:b0:539:1b13:3d64 with SMTP id
+ y139-20020a0dd691000000b005391b133d64mr23825102ywd.48.1683890887026; Fri, 12
+ May 2023 04:28:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-5-bagasdotme@gmail.com>
+In-Reply-To: <20230512100620.36807-5-bagasdotme@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 12 May 2023 13:27:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWrApnnmC+p_+jeVsswc-_JRSK3FtvpS2X4PrscBCZtAA@mail.gmail.com>
+Message-ID: <CAMuHMdWrApnnmC+p_+jeVsswc-_JRSK3FtvpS2X4PrscBCZtAA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] net: ethernet: 8390: Replace GPL boilerplate
+ with SPDX identifier
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,42 +71,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, Kevin Brodsky <kevin.brodsky@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Simon Horman <simon.horman@corigine.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Eric Dumazet <edumazet@google.com>,
+ "David A . Hinds" <dahinds@users.sourceforge.net>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Greg Ungerer <gerg@linux-m68k.org>,
+ Andy Gospodarek <andy@greyhouse.net>, Bruce Abbott <bhabbott@inhb.co.nz>,
+ Topi Kanerva <topi@susanna.oulu.fi>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+ Peter De Schrijver <p2@mind.be>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
+ Sam Creasey <sammy@sammy.net>, Donald Becker <becker@scyld.com>,
+ Alain Malek <Alain.Malek@cryogen.com>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
+ Jan Kara <jack@suse.com>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alan Cox <alan@linux.intel.com>, Karsten Keil <isdn@linux-pingi.de>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Philippe Ombredanne <pombredanne@nexb.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 May 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> On Mon, May 08, 2023 at 10:14:02PM -0700, Lucas De Marchi wrote:
->> Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
->> masks for fixed-width types and also the corresponding BIT_U32(),
->> BIT_U16() and BIT_U8().
+Hi Bagas,
+
+On Fri, May 12, 2023 at 12:08=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
+m> wrote:
+> Replace GPL boilerplate notice on remaining files with appropriate SPDX
+> tag. For files mentioning COPYING, use GPL 2.0; otherwise GPL 1.0+.
 >
-> Why?
+> Cc: David A. Hinds <dahinds@users.sourceforge.net>
+> Cc: Donald Becker <becker@scyld.com>
+> Cc: Peter De Schrijver <p2@mind.be>
+> Cc: Topi Kanerva <topi@susanna.oulu.fi>
+> Cc: Alain Malek <Alain.Malek@cryogen.com>
+> Cc: Bruce Abbott <bhabbott@inhb.co.nz>
+> Cc: Alan Cox <alan@linux.intel.com>
+> Acked-by: Greg Ungerer <gerg@linux-m68k.org>
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-The main reason is that GENMASK() and BIT() size varies for 32/64 bit
-builds.
+Thanks for your patch!
 
+> --- a/drivers/net/ethernet/8390/apne.c
+> +++ b/drivers/net/ethernet/8390/apne.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-1.0+
 
-BR,
-Jani.
+As per the removed lines below, this should be GPL-2.0-only.
 
+>  /*
+>   * Amiga Linux/68k 8390 based PCMCIA Ethernet Driver for the Amiga 1200
+>   *
+> @@ -19,12 +20,6 @@
+>   *
+>   * ---------------------------------------------------------------------=
+-------
+>   *
+> - * This file is subject to the terms and conditions of the GNU General P=
+ublic
+> - * License.  See the file COPYING in the main directory of the Linux
+> - * distribution for more details.
+> - *
+> - * ---------------------------------------------------------------------=
+-------
+> - *
+>   */
 >
->> All of those depend on a new "U" suffix added to the integer constant.
->> Due to naming clashes it's better to call the macro U32. Since C doesn't
->> have a proper suffix for short and char types, the U16 and U18 variants
->> just use U32 with one additional check in the BIT_* macros to make
->> sure the compiler gives an error when the those types overflow.
->> The BIT_U16() and BIT_U8() need the help of GENMASK_INPUT_CHECK(),
->> as otherwise they would allow an invalid bit to be passed. Hence
->> implement them in include/linux/bits.h rather than together with
->> the other BIT* variants.
 >
-> So, we have _Generic() in case you still wish to implement this.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> --- a/drivers/net/ethernet/8390/hydra.c
+> +++ b/drivers/net/ethernet/8390/hydra.c
+> @@ -1,10 +1,8 @@
+> +// SPDX-License-Identifier: GPL-1.0+
+
+Likewise.
+
+> +
+>  /* New Hydra driver using generic 8390 core */
+>  /* Based on old hydra driver by Topi Kanerva (topi@susanna.oulu.fi) */
+>
+> -/* This file is subject to the terms and conditions of the GNU General  =
+    */
+> -/* Public License.  See the file COPYING in the main directory of the   =
+    */
+> -/* Linux distribution for more details.                                 =
+    */
+> -
+>  /* Peter De Schrijver (p2@mind.be) */
+>  /* Oldenburg 2000 */
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
