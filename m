@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0A1700070
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 08:29:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C22700071
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 08:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B96F10E630;
-	Fri, 12 May 2023 06:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3CA10E62F;
+	Fri, 12 May 2023 06:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90FF410E62A;
- Fri, 12 May 2023 06:29:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BBF10E62F;
+ Fri, 12 May 2023 06:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683872944; x=1715408944;
+ t=1683872947; x=1715408947;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=p1bdSE1VGclkCkvEzj0PE28QyJ+DwoOVpUqjrHRrGoc=;
- b=gVikXNrwUJq8twSDSH5j0u06McfnJB9TwiacC/bu622q96fB4YZgygge
- kfsVZA3u+rcdFiZc52NduqO37wzsL0q4HITASB76233AFtOg2IDCX4QUO
- efLLr0eaHum0JJ/p1OZPYX4GhfxSjCuhf49s+KFOnnnNoIgPLnJsshvv7
- BtY3isL0+riHKU0Q2pEIjQSuieVPxJBEKemHpxj8vlJWqYD//JhaBTuOo
- rZ3bf9ylMIsSGvcRiY+n2NBkao/CFq9PzblkSXkAX/p1v4e2xQUpJ4de6
- VqNXlzZEpGh8DLlwNv9Qa/9wSrZ0s8kL/uE2pd0FLOuRQ2wTi0kaNCEsK Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350741948"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="350741948"
+ bh=oH+wkAeifPINlzniI5Tjkpl4lKBIqdYSa3tIN5j54fY=;
+ b=VhWww7pGPfb0aLO5uifbHQTKU5idSehhsoPMsfO4E/r6l5zbJn+F/Dkb
+ wOhVnTc4GpzgxyGwzWXLcerWhTvTEJxTpmyaPzyq4EaPG1dvxhsWyqy6p
+ W7l3Tmuec0khMM/T+Zf8l1TL4Zd5iJoUjWzKOc77VmPt5ggrZWCnp7JeB
+ pEBvAqhV/T/9itkqhVoUZEnvYURl0oG+Bzkoudbe8wsDoKeBN8SJ7FURp
+ wOCz10EUeHqZ6OaFiEHd6JKnBzdncZQ00FW2/YnGOBem7rHs2aENuu0fX
+ XG3AN2nSgyMKOUEq4UGJ7cWcDp+y3hYz26XWKX85K+zWEiHtalk1dmWSh w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350741953"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="350741953"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 23:29:04 -0700
+ 11 May 2023 23:29:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="811941293"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="811941293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="811941297"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="811941297"
 Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2023 23:29:02 -0700
+ 11 May 2023 23:29:04 -0700
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/13] drm/i915/dp: Remove extra logs for printing DSC info
-Date: Fri, 12 May 2023 11:54:10 +0530
-Message-Id: <20230512062417.2584427-7-ankit.k.nautiyal@intel.com>
+Subject: [PATCH 07/13] drm/display/dp: Fix the DP DSC Receiver cap size
+Date: Fri, 12 May 2023 11:54:11 +0530
+Message-Id: <20230512062417.2584427-8-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
 References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
@@ -63,28 +63,32 @@ Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSC compressed bpp and slice counts are already getting printed at the
-end of dsc compute config. Remove extra logs.
+DP DSC Receiver Capabilities are exposed via DPCD 60h-6Fh.
+Fix the DSC RECEIVER CAP SIZE accordingly.
+
+Fixes: ffddc4363c28 ("drm/dp: Add DP DSC DPCD receiver capability size define and missing SHIFT")
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: <stable@vger.kernel.org> # v5.0+
 
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 3 ---
- 1 file changed, 3 deletions(-)
+ include/drm/display/drm_dp.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index bca80c0793e9..a7cc9d418f22 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1765,9 +1765,6 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 								output_bpp);
- 		}
- 		pipe_config->dsc.slice_count = dsc_dp_slice_count;
--		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
--			    pipe_config->dsc.compressed_bpp,
--			    pipe_config->dsc.slice_count);
- 	}
- 	/*
- 	 * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index b046f79f4744..e6e86a134ddd 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -1537,7 +1537,7 @@ enum drm_dp_phy {
+ 
+ #define DP_BRANCH_OUI_HEADER_SIZE	0xc
+ #define DP_RECEIVER_CAP_SIZE		0xf
+-#define DP_DSC_RECEIVER_CAP_SIZE        0xf
++#define DP_DSC_RECEIVER_CAP_SIZE        0x10 /* DSC Capabilities 0x60 through 0x6F */
+ #define EDP_PSR_RECEIVER_CAP_SIZE	2
+ #define EDP_DISPLAY_CTL_CAP_SIZE	3
+ #define DP_LTTPR_COMMON_CAP_SIZE	8
 -- 
 2.25.1
 
