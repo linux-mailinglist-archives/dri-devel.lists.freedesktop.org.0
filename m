@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B67700673
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B587006A1
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:23:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD00010E67F;
-	Fri, 12 May 2023 11:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A0110E685;
+	Fri, 12 May 2023 11:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D9010E67E;
- Fri, 12 May 2023 11:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683890067; x=1715426067;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=b2bSeUNs7PpWjC5QOLRCXQ3B+M8q/ixInf2CByxcbkc=;
- b=gj9XEe2VknQn6wEV8Y05OvawKu3ykM1mrh+gPLW2X82B/i6VmAqhuqMK
- kWkiB1pcCTrcsCrubFa5NqdfXe39bgqUyqiHBoV1HrQZlaJ62W8RlfcCJ
- BUm/qZFjMUlR3OhshgV5ccUjJPg0xohlBd0HxFkR7PEkanLIEPnoymYke
- nBkVUtlIpzqzeKa2vXFOrVXha48Y2wOfZhmNgpUSrKqYkN1elKXtxGGJd
- Q+uQEbSPo7MmvCjy+erntMIXtJxYPjEr7JfRxpOYxSQXdG/hMT/+YUHg8
- NuFQERLSq1RbYPIvx/SB0VJM2d8d3j6J5Q7UTnam8GDRAnnwAPbeyADua Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="378900273"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="378900273"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2023 04:14:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730785709"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="730785709"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga008.jf.intel.com with ESMTP; 12 May 2023 04:14:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pxQj5-0004b6-3D; Fri, 12 May 2023 14:14:19 +0300
-Date: Fri, 12 May 2023 14:14:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-Message-ID: <ZF4fi5B7PPlgZBOI@smile.fi.intel.com>
-References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
- <20230509051403.2748545-3-lucas.demarchi@intel.com>
+X-Greylist: delayed 315 seconds by postgrey-1.36 at gabe;
+ Fri, 12 May 2023 11:22:56 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8848C10E685
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:22:56 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-249-VSjj4jpZOom7AJRUgPGuWQ-1; Fri, 12 May 2023 12:16:32 +0100
+X-MC-Unique: VSjj4jpZOom7AJRUgPGuWQ-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 12 May
+ 2023 12:16:30 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 12 May 2023 12:16:30 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Thomas Zimmermann' <tzimmermann@suse.de>, "deller@gmx.de"
+ <deller@gmx.de>, "geert@linux-m68k.org" <geert@linux-m68k.org>,
+ "javierm@redhat.com" <javierm@redhat.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>, "vgupta@kernel.org" <vgupta@kernel.org>,
+ "chenhuacai@kernel.org" <chenhuacai@kernel.org>, "kernel@xen0n.name"
+ <kernel@xen0n.name>, "davem@davemloft.net" <davem@davemloft.net>,
+ "James.Bottomley@HansenPartnership.com"
+ <James.Bottomley@HansenPartnership.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "sam@ravnborg.org" <sam@ravnborg.org>, "suijingfeng@loongson.cn"
+ <suijingfeng@loongson.cn>
+Subject: RE: [PATCH v7 1/7] fbdev/hitfb: Cast I/O offset to address
+Thread-Topic: [PATCH v7 1/7] fbdev/hitfb: Cast I/O offset to address
+Thread-Index: AQHZhLwIoJOHAKlHvkaeoWR92INTOa9We4fw
+Date: Fri, 12 May 2023 11:16:30 +0000
+Message-ID: <c25758dd7b4a4563b0d33c751da8cf6d@AcuMS.aculab.com>
+References: <20230512102444.5438-1-tzimmermann@suse.de>
+ <20230512102444.5438-2-tzimmermann@suse.de>
+In-Reply-To: <20230512102444.5438-2-tzimmermann@suse.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230509051403.2748545-3-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,36 +67,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- intel-gfx@lists.freedesktop.org, Kevin Brodsky <kevin.brodsky@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+ kernel test robot <lkp@intel.com>,
+ "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+ "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+ "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Artur Rojek <contact@artur-rojek.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 08, 2023 at 10:14:02PM -0700, Lucas De Marchi wrote:
-> Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
-> masks for fixed-width types and also the corresponding BIT_U32(),
-> BIT_U16() and BIT_U8().
+From: Thomas Zimmermann
+> Sent: 12 May 2023 11:25
+>=20
+> Cast I/O offsets to pointers to use them with I/O functions. The I/O
+> functions expect pointers of type 'volatile void __iomem *', but the
+> offsets are plain integers. Build warnings are
+>=20
+>   ../drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
+>   ../arch/x86/include/asm/hd64461.h:18:33: warning: passing argument 1 of=
+ 'fb_readw' makes pointer
+> from integer without a cast [-Wint-conversion]
+>    18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+>       |                                 ^~~~~~~~~~~~~~~~~~~~~~
+...
+>    52 | static inline u16 fb_readw(const volatile void __iomem *addr)
+>       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>=20
+> This patch only fixes the build warnings. It's not clear if the I/O
+> offsets can legally be passed to the I/O helpers. It was apparently
+> broken in 2007 when custom inw()/outw() helpers got removed by
+> commit 34a780a0afeb ("sh: hp6xx pata_platform support."). Fixing the
+> driver would require setting the I/O base address.
 
-Why?
+Did you try changing the definition of HD64461_IOBASE to include
+a (volatile void __iomem *) cast?
+A lot less churn...
 
-> All of those depend on a new "U" suffix added to the integer constant.
-> Due to naming clashes it's better to call the macro U32. Since C doesn't
-> have a proper suffix for short and char types, the U16 and U18 variants
-> just use U32 with one additional check in the BIT_* macros to make
-> sure the compiler gives an error when the those types overflow.
-> The BIT_U16() and BIT_U8() need the help of GENMASK_INPUT_CHECK(),
-> as otherwise they would allow an invalid bit to be passed. Hence
-> implement them in include/linux/bits.h rather than together with
-> the other BIT* variants.
+I'm guessing that 'sh' deosn't have in/out instructions so this
+is something that is always mapped at a fixed kernel virtual address?
 
-So, we have _Generic() in case you still wish to implement this.
+=09David
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
