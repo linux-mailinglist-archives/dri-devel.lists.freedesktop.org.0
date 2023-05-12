@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8187003DA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:33:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71414700410
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:41:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B21910E65E;
-	Fri, 12 May 2023 09:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1463910E65C;
+	Fri, 12 May 2023 09:41:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB6910E65D;
- Fri, 12 May 2023 09:33:41 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDCC10E65C;
+ Fri, 12 May 2023 09:41:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683884021; x=1715420021;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Zzi+KvvP2mA1bQRxXad7qbjXitF7ZmVqJu89HhazqRI=;
- b=PWsltBpbRiq1ORWYz89I+ZgucOJatX8X2djd9NamW3wZ0UT4J6SqmFsN
- bFl92EoXjgphGP8cv8mwrmCAd2UoQRoH0l80JxIi5E2tx+wRFh4KPbXWr
- kPQw1F7a9sAKg1oI/hIcvvj6Ey2mEGXF5keT7MLP4FzyhRCVaWmDbxsBL
- d/BFVzM5/123O3Mqo5BQ8pIuGAh2HxkisyZJ1tISBXIUjSLfjDblNUmy4
- X9LYIcn+Ir2VyhWM/Gf+Yu2eCW3nCRVpItuvkJ01w3wgaph/IiNOjyNZN
- TdwZsl4O8KiKRF799dKQfVqNGX/JysX6+V7q5g9uZDZSIptlUNb3PghS8 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="340062582"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="340062582"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2023 02:33:40 -0700
+ t=1683884501; x=1715420501;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Ml4e/WSWA27STqZR9yeyutwTu0stdOuinFsNGLsdYFw=;
+ b=PmWYkpLG6CqbJ4yvWhTyjgL+fkOo0BD7Hc7O3ZH4Yib3eg2Nb9el5R9r
+ S7nfYkukZCdxiQaCR+oiObbdI2Zw1lp9yJJ7UfKO2ConZnWXAQKKon1J1
+ 2/VzlP6xn9tiMCDHgkgew4Ils5+teH8vWy3HzQXNeUS+K9BlHcPG1Oj01
+ ArvidlaJIQcqbKwYEULdSWwW0m5anIfmGdAya5kj4/O80KrBwnyRHpxEV
+ Mes29SBxQbQkkLk5Mgn5FYEwMetrm2A5qOfpuP1VWLDraTQLeICVEmqb3
+ G4WFS2IOQAOeSqBeUcL/ZpVnW5ix7ClX+HhG3P4dTSxTsHegCoMmRipFs Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="352998232"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="352998232"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2023 02:41:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="789753801"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="789753801"
-Received: from mmilbred-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.219.202])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2023 02:33:37 -0700
-Date: Fri, 12 May 2023 11:33:33 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="703136389"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="703136389"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.27.56])
+ ([10.213.27.56])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2023 02:41:39 -0700
+Message-ID: <0a540009-d31a-9faf-8d56-2c85ce53e0a9@intel.com>
+Date: Fri, 12 May 2023 11:41:37 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
 Subject: Re: [Intel-gfx] [PATCH] drm/i915/hwmon: Silence UBSAN uninitialized
  bool variable warning
-Message-ID: <ZF4H7Q92rVoas3Hb@ashyti-mobl2.lan>
+Content-Language: en-US
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
 References: <20230510183606.2480777-1-ashutosh.dixit@intel.com>
- <87y1luepbx.wl-ashutosh.dixit@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y1luepbx.wl-ashutosh.dixit@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230510183606.2480777-1-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,86 +64,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ashutosh,
-
-On Thu, May 11, 2023 at 10:43:30AM -0700, Dixit, Ashutosh wrote:
-> On Wed, 10 May 2023 11:36:06 -0700, Ashutosh Dixit wrote:
-> >
-> > Loading i915 on UBSAN enabled kernels (CONFIG_UBSAN/CONFIG_UBSAN_BOOL)
-> > causes the following warning:
-> >
-> >   UBSAN: invalid-load in drivers/gpu/drm/i915/gt/uc/intel_uc.c:558:2
-> >   load of value 255 is not a valid value for type '_Bool'
-> >   Call Trace:
-> >    dump_stack_lvl+0x57/0x7d
-> >    ubsan_epilogue+0x5/0x40
-> >    __ubsan_handle_load_invalid_value.cold+0x43/0x48
-> >    __uc_init_hw+0x76a/0x903 [i915]
-> >    ...
-> >    i915_driver_probe+0xfb1/0x1eb0 [i915]
-> >    i915_pci_probe+0xbe/0x2d0 [i915]
-> >
-> > The warning happens because during probe i915_hwmon is still not available
-> > which results in the output boolean variable *old remaining
-> > uninitialized.
+On 10.05.2023 20:36, Ashutosh Dixit wrote:
+> Loading i915 on UBSAN enabled kernels (CONFIG_UBSAN/CONFIG_UBSAN_BOOL)
+> causes the following warning:
 > 
-> Note that the variable was uninitialized in this case but it was never used
-> uninitialized (the variable was not needed when it was uninitialized). So
-> there was no bug in the code. UBSAN warning is just complaining about the
-> uninitialized variable being passed into a function (where it is not used).
+>    UBSAN: invalid-load in drivers/gpu/drm/i915/gt/uc/intel_uc.c:558:2
+>    load of value 255 is not a valid value for type '_Bool'
+>    Call Trace:
+>     dump_stack_lvl+0x57/0x7d
+>     ubsan_epilogue+0x5/0x40
+>     __ubsan_handle_load_invalid_value.cold+0x43/0x48
+>     __uc_init_hw+0x76a/0x903 [i915]
+>     ...
+>     i915_driver_probe+0xfb1/0x1eb0 [i915]
+>     i915_pci_probe+0xbe/0x2d0 [i915]
 > 
-> Also the variable can be initialized in the caller (__uc_init_hw) too and
-> it will fix this issue. However in __uc_init_hw the assumption is that the
-> variable will be initialized in the callee (i915_hwmon_power_max_disable),
-> so that is how I have done it in this patch.
+> The warning happens because during probe i915_hwmon is still not available
+> which results in the output boolean variable *old remaining
+> uninitialized. Silence the warning by initializing the variable to an
+> arbitrary value.
 > 
-> I thought these clarifications will help with the review.
+> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
-I think we should not just consider what's now but also what can
-come later. The use of pl1en is not 100% future proof and
-therefore your patch, even though now is not fixing anything,
-might avoid wrong uses in the future.
 
-I'm just wondering, though, why not initializing the variable at
-it's declaration. As you wish.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+Regards
+Andrzej
 
-Andi
-
-> Thanks.
-> --
-> Ashutosh
+> ---
+>   drivers/gpu/drm/i915/i915_hwmon.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> > Silence the warning by initializing the variable to an arbitrary value.
-> >
-> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/i915_hwmon.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> > index a3bdd9f68a458..685663861bc0b 100644
-> > --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> > +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> > @@ -502,8 +502,11 @@ void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old)
-> >	struct i915_hwmon *hwmon = i915->hwmon;
-> >	u32 r;
-> >
-> > -	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-> > +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit)) {
-> > +		/* Fix uninitialized bool variable warning */
-> > +		*old = false;
-> >		return;
-> > +	}
-> >
-> >	mutex_lock(&hwmon->hwmon_lock);
-> >
-> > --
-> > 2.38.0
-> >
+> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+> index a3bdd9f68a458..685663861bc0b 100644
+> --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> @@ -502,8 +502,11 @@ void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old)
+>   	struct i915_hwmon *hwmon = i915->hwmon;
+>   	u32 r;
+>   
+> -	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit)) {
+> +		/* Fix uninitialized bool variable warning */
+> +		*old = false;
+>   		return;
+> +	}
+>   
+>   	mutex_lock(&hwmon->hwmon_lock);
+>   
+
