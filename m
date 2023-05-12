@@ -1,65 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AEF70032F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:01:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2163A700353
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 164FC10E643;
-	Fri, 12 May 2023 09:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30A10E64A;
+	Fri, 12 May 2023 09:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F0410E643
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1683882078; i=deller@gmx.de;
- bh=4D3XUSWnCSSAWlF6+7uZxsWEXBLcmrqEjFR7ovNJzz0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=p4o7z/lHuR4e5+N2TnvWcvMexpVyywYzIRxPyTBjbaHI3VSgvAQ6tDVTI9pQwUJsF
- ah05MDTwysUro9rEgJwFZggpP547H8D9vJQWuUmf+bAYslKgUTjHBAVhXFXtfvTEZs
- EzLEogogvO1+xLQQBC4fe96Gh4qUhC/pPnnodyA6cUlOUzedhrG9SRUcZiOzusymYO
- b8vsLy8T4Twve/08dulqQKsrKmX6pzJUNPZ1DQoe+0M5RQBzP9vrc6vxceZYDn1nWb
- UOucdM3xf07YIxC1LacRTbT21I8bc9vyqN/Rfvl/bIziLomqd/sZfLk9CJSAiscy1+
- dx3BcXhMaM/yg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.159.185]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M3UZG-1pwqgW3Xpy-000aqJ; Fri, 12
- May 2023 11:01:18 +0200
-Message-ID: <eae112c1-4bb7-bdbe-9382-e8fbb6f1df2e@gmx.de>
-Date: Fri, 12 May 2023 11:01:18 +0200
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF85210E64A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:06:08 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-6434e65d808so10274544b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 02:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683882368; x=1686474368;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BUkwR5dAglmPcY5nHDbrbDUmEm/Czvqol0O0KFuiob8=;
+ b=EsOpvrz8oFiaamtTwXnlCFLbdqUpYc15ryzTzPnULkAUJ5PsxIC2FamepHTQ9vxJUo
+ 7hiFmErMgyPGoSAse+smqWasoWMlfVSh9GD2osKdeABJHg67mA/iS8vuIoGsYTfrBRPr
+ 5WH6Dw5j5eH+bxMRz4bxS0CwpwjCN4Qqw/CB/ON2fcHX3iht/v64JwKi8JHqb2vltP3z
+ LogBmtroPw5FGg3+H9+h0WXdJKJsbQaY6sUo8vQkr+LpWZmk7bZT0gatzGfQFcbJiJo9
+ k1j0c1nZZLck2LHRMCfiuE+xDGZtdcpoZubsCR3JCv27zPXiBadfozdQhAc1w7smV2PR
+ uBZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683882368; x=1686474368;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BUkwR5dAglmPcY5nHDbrbDUmEm/Czvqol0O0KFuiob8=;
+ b=RWHKqhcGZgUGv068vENAkqwPw0dGb9NFKlxiqnb8SidOZ55/NDfDAStKsNbyjNK1Ww
+ avAmulckGAdd1RfUChvuzJ/v32oHHo2mK4z5pGy4qWWh6SrvaOMFSq5knU7hJu8A2E0h
+ Q5/X7lE/hH1Q6nn9b/zPaHYHfowgXc/Lz4GCeeN1CANJpEN+YgpOlIv3lEibabZ8v3Bs
+ 1xYnMJ3n2LNccFhdWeK+fppVCLQo15Msv9UUP9JwFW0T+IK5W+DConD7u4E2Mwo6CgwF
+ 0GAxvC9YDrINdOkqGoMlabTU71MGqweGX1goYZWAC0Xut2FwlHwI2u5rgy/5WV0gmI9f
+ echg==
+X-Gm-Message-State: AC+VfDxwDPL16ZZ/9D2hzJHzEJUqD+FiB97z8uEkzJii8MoP3ZSXP05b
+ Bt2vGNA/3c/cqChMHM3fWQI=
+X-Google-Smtp-Source: ACHHUZ4DD4qzlVtl1MATp+SSQ4wN/DopjFHr357B6Org73qjEYGN3SP7rZVm5nzvAwWRUD4DmIZ0jQ==
+X-Received: by 2002:a05:6a00:1747:b0:644:ad29:fd5a with SMTP id
+ j7-20020a056a00174700b00644ad29fd5amr27781559pfc.21.1683882367855; 
+ Fri, 12 May 2023 02:06:07 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-8.three.co.id.
+ [116.206.28.8]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a62bd04000000b006413d1dc4adsm6584368pff.110.2023.05.12.02.05.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 02:06:07 -0700 (PDT)
+Message-ID: <2883e834-eccd-937e-0f3e-2d787994d4cf@gmail.com>
+Date: Fri, 12 May 2023 16:05:52 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] fbdev: modedb: Add a 1920x1080 at 60 Hz video mode
+Subject: Re: [PATCH 08/10] drivers: watchdog: Replace GPL license notice with
+ SPDX identifier
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20230511133406.78155-1-bagasdotme@gmail.com>
+ <20230511133406.78155-9-bagasdotme@gmail.com>
+ <46c263f6-dd9c-408c-b3e0-bfb2676c6505@roeck-us.net>
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <ZERQiub7tuTxHCUy@p100>
- <CAMuHMdXZuqj=vwTmHmnBHgZ975dD_m_Gk6Q1=CsGCqzcfcMbsA@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAMuHMdXZuqj=vwTmHmnBHgZ975dD_m_Gk6Q1=CsGCqzcfcMbsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/FSbBnpOCtQci8GgTe0RrJpYbl9jib6+W0hicI8ggItdZsaHn73
- q11zd6P/10dltWj4vdkx1G8fAfJgibSc1TKOnp65dCuXEJzp551hCO8zBsyKW1gg+hWMWY1
- nnxYztWNu7saVCqqKFNax5gdWXERblaek2zv8NlvzJABMlUo+mmjVGAcFT/Dd65PpWso6c5
- U4oMOGN4xRgz4pfKM9zlA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Hckivzs+PdU=;Uqh4VQb5JJy6GheIxR4SNyg1ioD
- 5O3/QOWZ6lR8n2FlkxVz3+3Am8dbgvcJoRVlb6taldNX1azbmNR7YSr9DOKqF0VBClbT6G/sD
- sl7JCy68w9mE+s5BvyZlh6x097shyUZNthQ2p06urtM4dYBkG7TDeAyskJmSPiHg1CXkS0Pbw
- B17CgEs/uyEBa1TxFln2ze/1nmh+NC/CdYAz9Er8wjDWVShpBUSoGUey3TR//+jRBRs8TERGW
- hxMvGhm2/Ao+5vr+84KFpErdh2SbU2VLJ1BXbGvBlji93Flq+F0YyiJnW0GqKnu33I6KAQW1L
- if6gFpwpbE1Rbj8i7UKm4MiIfk1qm+fJN//iBIP+V6bZ0oSXs8HuYaiQWv3Y2BK2UEsDKrQe6
- R7aVN4m14wt8p6DX202hv5A+OFTcJHG20ZddDtgxur6ofbXH0W2u0Q+ebieUdCLB968wJYa+j
- 5OmsxHzaEbm4Vkl/x4h5r2nqlu/iRKfIzbOoXdZCOjTEIdrTTtpJo4sZ/QSd5EFjQq4+Napv9
- YLVKigrFYEZUmar9WRNx8xb6GcngGcgLjnKp0lzzL9Ct2IrCUR/jBzrU292bby7ooqsW8iQCC
- f7/9tMkA4pm/m9gUX0KTs7uYoDm0uds4fK4AkFdqZOFqXZ59ajNpCTKswAKMq8vsu9voAb3cM
- LRKYMtKmopXeBYgWzAIb3OO87x7YL4a6C9ukGykglVRW3k6lunw5Grouwttd+hz4nmpfAtAoQ
- foIPCgALeM4TLSAX4mfXJMo25mUh4YBKn6HExfDLQeTIpexas5DU+HT5vrfOUv6pK15buMb1Q
- 1+pIEsaVbysvQb150DzslrWTA/ydmDz50oEU2UmnKSbGF5zLXDokNOsVUZYhYLS8ES9CvhjUS
- P0q8zA+GMO2lC9DJaXizB1UFCtr0n9wBclKFZfk8cmd9qSEM9+Ax0v6woGLdFsHubmxNedGsP
- DW64G7vMLQQR/AecHnNIGs0gHU4=
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <46c263f6-dd9c-408c-b3e0-bfb2676c6505@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,49 +79,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>, Tom Rix <trix@redhat.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Pavel Machek <pavel@ucw.cz>, Jonas Jensen <jonas.jensen@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
+ Sylver Bruneau <sylver.bruneau@googlemail.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, Marc Zyngier <maz@kernel.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Minghao Chi <chi.minghao@zte.com.cn>,
+ Yang Yingliang <yangyingliang@huawei.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Archana <craechal@gmail.com>, Simon Horman <simon.horman@corigine.com>,
+ Jacob Keller <jacob.e.keller@intel.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
+ Sam Creasey <sammy@sammy.net>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Jan Kara <jack@suse.com>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>,
+ Oleg Drokin <green@crimea.edu>, Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Andrew Sharp <andy.sharp@lsi.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Ray Lehtiniemi <rayl@mail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Karsten Keil <isdn@linux-pingi.de>,
+ Deepak R Varma <drv@mailo.com>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Denis Turischev <denis@compulab.co.il>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/12/23 09:44, Geert Uytterhoeven wrote:
-> Hi Helge,
->
-> On Sat, Apr 22, 2023 at 11:27=E2=80=AFPM Helge Deller <deller@gmx.de> wr=
-ote:
->> Add typical resolution for Full-HD monitors.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->
->> --- a/drivers/video/fbdev/core/modedb.c
->> +++ b/drivers/video/fbdev/core/modedb.c
->> @@ -257,6 +257,10 @@ static const struct fb_videomode modedb[] =3D {
->>          { NULL, 72, 480, 300, 33386, 40, 24, 11, 19, 80, 3, 0,
->>                  FB_VMODE_DOUBLE },
->>
->> +       /* 1920x1080 @ 60 Hz, 67.3 kHz hsync */
->> +       { NULL, 60, 1920, 1080, 6734, 148, 88, 63, 4, 44, 5, 0,
->> +               FB_SYNC_HOR_HIGH_ACT | FB_SYNC_VERT_HIGH_ACT },
->
-> This matches [1], except for the "63", which looks like a typo for "36"
-> (total number of lines should be 1125, not 1152).
+On 5/11/23 22:08, Guenter Roeck wrote:
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+> 
+> This was supposed to be a C++ style comment for C source files.
+> Has the rule changed ?
+> 
 
-Thanks Geert!
+Oops, I don't see checkpatch. Will fix.
 
-I fixed it in the git tree.
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+> 
+> The text below suggests that this should be GPL1+.
+> 
 
-Helge
+OK, will fix.
 
->
->> +
->>          /* 1920x1200 @ 60 Hz, 74.5 Khz hsync */
->>          { NULL, 60, 1920, 1200, 5177, 128, 336, 1, 38, 208, 3,
->>                  FB_SYNC_HOR_HIGH_ACT | FB_SYNC_VERT_HIGH_ACT,
->
-> [1] https://projectf.io/posts/video-timings-vga-720p-1080p/#hd-1920x1080=
--60-hz
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
+Thanks for review!
+
+-- 
+An old man doll... just what I always wanted! - Clara
 
