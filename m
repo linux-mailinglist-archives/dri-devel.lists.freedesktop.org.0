@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B587006A1
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:23:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 245E070068F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 13:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A0110E685;
-	Fri, 12 May 2023 11:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06BF10E011;
+	Fri, 12 May 2023 11:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 315 seconds by postgrey-1.36 at gabe;
- Fri, 12 May 2023 11:22:56 UTC
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8848C10E685
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:22:56 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-249-VSjj4jpZOom7AJRUgPGuWQ-1; Fri, 12 May 2023 12:16:32 +0100
-X-MC-Unique: VSjj4jpZOom7AJRUgPGuWQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 12 May
- 2023 12:16:30 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 12 May 2023 12:16:30 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Thomas Zimmermann' <tzimmermann@suse.de>, "deller@gmx.de"
- <deller@gmx.de>, "geert@linux-m68k.org" <geert@linux-m68k.org>,
- "javierm@redhat.com" <javierm@redhat.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "vgupta@kernel.org" <vgupta@kernel.org>,
- "chenhuacai@kernel.org" <chenhuacai@kernel.org>, "kernel@xen0n.name"
- <kernel@xen0n.name>, "davem@davemloft.net" <davem@davemloft.net>,
- "James.Bottomley@HansenPartnership.com"
- <James.Bottomley@HansenPartnership.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "suijingfeng@loongson.cn"
- <suijingfeng@loongson.cn>
-Subject: RE: [PATCH v7 1/7] fbdev/hitfb: Cast I/O offset to address
-Thread-Topic: [PATCH v7 1/7] fbdev/hitfb: Cast I/O offset to address
-Thread-Index: AQHZhLwIoJOHAKlHvkaeoWR92INTOa9We4fw
-Date: Fri, 12 May 2023 11:16:30 +0000
-Message-ID: <c25758dd7b4a4563b0d33c751da8cf6d@AcuMS.aculab.com>
-References: <20230512102444.5438-1-tzimmermann@suse.de>
- <20230512102444.5438-2-tzimmermann@suse.de>
-In-Reply-To: <20230512102444.5438-2-tzimmermann@suse.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2306410E011
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 11:21:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EB618654DA;
+ Fri, 12 May 2023 11:21:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BAFDC4339C;
+ Fri, 12 May 2023 11:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1683890482;
+ bh=iWf2+ctagbyxUJDf+uXJKZH3IsmKptDDA43LqE8XhlM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qLJYR024ZODCYOIVYMBlBnFZwAYsInhdb5q77puh/dedefB3jaUxD0n1Gw6Jo19NR
+ 2+bM4PZ/7XPv0DYBdM5jPr1oBUSWlbM/b9uyM/hCEHLvQnb7PCPqjPfYEJw3p7R23G
+ OCQAKnTy0UL9jyZo9VQ3GjmrD6X5nKQYbL3vCGn8=
+Date: Fri, 12 May 2023 20:21:15 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2 05/10] net: ethernet: i825xx: Replace GPL boilerplate
+ with SPDX identifier
+Message-ID: <2023051205-shrouded-cymbal-7b9c@gregkh>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-6-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230512100620.36807-6-bagasdotme@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +51,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
- kernel test robot <lkp@intel.com>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
- "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
- "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Artur Rojek <contact@artur-rojek.eu>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Simon Horman <simon.horman@corigine.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Eric Dumazet <edumazet@google.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Andy Gospodarek <andy@greyhouse.net>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
+ Donald Becker <becker@scyld.com>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
+ Jan Kara <jack@suse.com>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Michael Hipp <hippm@informatik.uni-tuebingen.de>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Karsten Keil <isdn@linux-pingi.de>,
+ Richard Hirst <richard@sleepie.demon.co.uk>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Philippe Ombredanne <pombredanne@nexb.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann
-> Sent: 12 May 2023 11:25
->=20
-> Cast I/O offsets to pointers to use them with I/O functions. The I/O
-> functions expect pointers of type 'volatile void __iomem *', but the
-> offsets are plain integers. Build warnings are
->=20
->   ../drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
->   ../arch/x86/include/asm/hd64461.h:18:33: warning: passing argument 1 of=
- 'fb_readw' makes pointer
-> from integer without a cast [-Wint-conversion]
->    18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
->       |                                 ^~~~~~~~~~~~~~~~~~~~~~
-...
->    52 | static inline u16 fb_readw(const volatile void __iomem *addr)
->       |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->=20
-> This patch only fixes the build warnings. It's not clear if the I/O
-> offsets can legally be passed to the I/O helpers. It was apparently
-> broken in 2007 when custom inw()/outw() helpers got removed by
-> commit 34a780a0afeb ("sh: hp6xx pata_platform support."). Fixing the
-> driver would require setting the I/O base address.
+On Fri, May 12, 2023 at 05:06:16PM +0700, Bagas Sanjaya wrote:
+> Replace unversioned GPL boilerplate notice on remaining i825xx files
+> with appropriate SPDX identifier. For files that contains "extension to
+> Linux kernel", use GPL 2.0, otherwise GPL 1.0+.
+> 
+> Cc: Donald Becker <becker@scyld.com>
+> Cc: Michael Hipp <hippm@informatik.uni-tuebingen.de>
+> Cc: Richard Hirst <richard@sleepie.demon.co.uk>
+> Cc: Sam Creasey <sammy@sammy.net>
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/net/ethernet/i825xx/82596.c      | 5 ++---
+>  drivers/net/ethernet/i825xx/lasi_82596.c | 5 ++---
+>  drivers/net/ethernet/i825xx/lib82596.c   | 5 ++---
+>  drivers/net/ethernet/i825xx/sun3_82586.c | 4 +---
+>  drivers/net/ethernet/i825xx/sun3_82586.h | 4 +---
+>  5 files changed, 8 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/i825xx/82596.c b/drivers/net/ethernet/i825xx/82596.c
+> index 3ee89ae496d0ca..773d7aa29ef5fc 100644
+> --- a/drivers/net/ethernet/i825xx/82596.c
+> +++ b/drivers/net/ethernet/i825xx/82596.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-1.0+
+>  /* 82596.c: A generic 82596 ethernet driver for linux. */
+>  /*
+>     Based on Apricot.c
+> @@ -31,9 +32,7 @@
+>     Driver skeleton
+>     Written 1993 by Donald Becker.
+>     Copyright 1993 United States Government as represented by the Director,
+> -   National Security Agency. This software may only be used and distributed
+> -   according to the terms of the GNU General Public License as modified by SRC,
+> -   incorporated herein by reference.
+> +   National Security Agency.
+>  
+>     The author may be reached as becker@scyld.com, or C/O
+>     Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+> diff --git a/drivers/net/ethernet/i825xx/lasi_82596.c b/drivers/net/ethernet/i825xx/lasi_82596.c
+> index 0af70094aba341..3e53e0c243ba04 100644
+> --- a/drivers/net/ethernet/i825xx/lasi_82596.c
+> +++ b/drivers/net/ethernet/i825xx/lasi_82596.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-1.0+
+>  /* lasi_82596.c -- driver for the intel 82596 ethernet controller, as
+>     munged into HPPA boxen .
+>  
+> @@ -59,9 +60,7 @@
+>     Driver skeleton
+>     Written 1993 by Donald Becker.
+>     Copyright 1993 United States Government as represented by the Director,
+> -   National Security Agency. This software may only be used and distributed
+> -   according to the terms of the GNU General Public License as modified by SRC,
+> -   incorporated herein by reference.
+> +   National Security Agency.
+>  
+>     The author may be reached as becker@scyld.com, or C/O
+>     Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+> diff --git a/drivers/net/ethernet/i825xx/lib82596.c b/drivers/net/ethernet/i825xx/lib82596.c
+> index ca2fb303fcc6f6..67d248a7a6f49e 100644
+> --- a/drivers/net/ethernet/i825xx/lib82596.c
+> +++ b/drivers/net/ethernet/i825xx/lib82596.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-1.0+
+>  /* lasi_82596.c -- driver for the intel 82596 ethernet controller, as
+>     munged into HPPA boxen .
+>  
+> @@ -59,9 +60,7 @@
+>     Driver skeleton
+>     Written 1993 by Donald Becker.
+>     Copyright 1993 United States Government as represented by the Director,
+> -   National Security Agency. This software may only be used and distributed
+> -   according to the terms of the GNU General Public License as modified by SRC,
+> -   incorporated herein by reference.
+> +   National Security Agency.
+>  
+>     The author may be reached as becker@scyld.com, or C/O
+>     Scyld Computing Corporation, 410 Severn Ave., Suite 210, Annapolis MD 21403
+> diff --git a/drivers/net/ethernet/i825xx/sun3_82586.c b/drivers/net/ethernet/i825xx/sun3_82586.c
+> index 3909c6a0af89f9..f05f016cb3b0ea 100644
+> --- a/drivers/net/ethernet/i825xx/sun3_82586.c
+> +++ b/drivers/net/ethernet/i825xx/sun3_82586.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
 
-Did you try changing the definition of HD64461_IOBASE to include
-a (volatile void __iomem *) cast?
-A lot less churn...
+As you are mixing GPL-1.0 and GPL-2.0 conversions in the same patch, you
+need to break this up and provide the justification for why you choose
+the specific license for each one, as you can't just lump them all
+together and expect us to understand the reasoning when you didn't
+provide any.
 
-I'm guessing that 'sh' deosn't have in/out instructions so this
-is something that is always mapped at a fixed kernel virtual address?
+thanks,
 
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+greg k-h
