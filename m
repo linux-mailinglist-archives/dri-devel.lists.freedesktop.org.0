@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D377008E1
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 15:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A0700907
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 15:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A13F110E6B9;
-	Fri, 12 May 2023 13:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D63D10E6B3;
+	Fri, 12 May 2023 13:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033E710E6A4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 13:14:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A0726229E6;
- Fri, 12 May 2023 13:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1683897292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g3I2dAT8366+ROozP6HDSUhQz0IesKX8ZgohOghL0xU=;
- b=HMLHUxosusDuQL2j9yv1XWG1J3diNcF4W+naepqPV+3uHnZqDTsA0XNbsmlI+xI0xSBk1W
- lU0CEa60y+pWI1g3PLe6OkDtan+B1sjsk6Qh4LS3sglRYQ33pow/OI3CJZBcipsjtFV9rz
- bavjV1CN9EUz6p5rmCs8iklNM2ZYk5o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1683897292;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g3I2dAT8366+ROozP6HDSUhQz0IesKX8ZgohOghL0xU=;
- b=yVZMrjrrh4WMVLz8+6Hcyn23gGLFeRPU1vNjmyNl8+SYgYxE7JEX3wauwXTGx4HwPRdBqd
- gR+dobFmSCILXjCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7B91313466;
- Fri, 12 May 2023 13:14:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BbMeHsw7XmT0NwAAMHmgww
- (envelope-from <jack@suse.cz>); Fri, 12 May 2023 13:14:52 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
- id 17D85A0754; Fri, 12 May 2023 15:14:52 +0200 (CEST)
-Date: Fri, 12 May 2023 15:14:52 +0200
-From: Jan Kara <jack@suse.cz>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH 09/10] udf: Replace license notice with SPDX identifier
-Message-ID: <20230512131452.q3sj77h54qqec355@quack3>
-References: <20230511133406.78155-1-bagasdotme@gmail.com>
- <20230511133406.78155-10-bagasdotme@gmail.com>
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0761710E6B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 13:20:23 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-55a5e0f5b1aso97318297b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 06:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683897622; x=1686489622;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Q1ufTI0N/A8HGHpsL+5b5N6TDgFlJEMJVUrvN/3+6Z8=;
+ b=QWYNohvJzTmJ6q30YpRS8FTgZPSycw88I72yrG+4iM9NQEdvurffkd8ouvc6RS1BhT
+ wYDrjmTzMYQPLIyElWLXnonVETgBeuMFQ43WDXyGD7OpZPQ9hweZq/LeYe2v0jAB70l/
+ owWHr5LkRHvwZWUtIKr1edL/p0j4Lj82osgABrXBsSHDYQhwIoiRwgjpg2g8TcdX+iDn
+ YbjqV5tkhc0WTuG06uddYRysNAmplW4SgJc/8KnaIupcyi8lSfm9O74wULEOjC1/Z7Hg
+ 9yC7tX6fnIrA5OZ6qHTbb/4CCA7m/WYSqjMq+rd/Hj1TLodVpPwNDcU/eJqXzRHzojbQ
+ uQ4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683897622; x=1686489622;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q1ufTI0N/A8HGHpsL+5b5N6TDgFlJEMJVUrvN/3+6Z8=;
+ b=ItBO+QdZtL7neAyRIOlpKmGHI12TeJ60/ffPH1Hk0Ni/wQPMsc0rZA1ps8ocSuNNz+
+ yx3+xR0hIrKGAeYSLGSCXN/O9tVOMNxzaLPvv5XkLQonmF4fIwwXV4VDukQ9qOlRXVzY
+ gM5/wgrPXRn1R9yzH4PIvJQU4DGQi/fFM9ILOq5zcdZ8N4yvi+7sy/DS7Fv9YzQ1jPE5
+ GHJTNeiMx+OF+tA23Wwrj0SE073e54PN3O/5VXKepXazHNEEwEKgOdsMPOj+fr4/Q9ug
+ kgwGtvZJF2G//TtK4MGiq1PHhJRvbyh5ULHYXlPEKEInLBvV2RuaUkxGxypZfrS4l2fJ
+ uEHg==
+X-Gm-Message-State: AC+VfDx5BkmnQJvs9tqcRCTI/x+/ZPCX6e30l3GvtLpoYRZgxXtqn0e5
+ hbILiHJMbfDG75XzdzsmWiag6pSqZbAHqOUqu89xWg==
+X-Google-Smtp-Source: ACHHUZ4FgTKnRcizzvuJHbXx0AUa2LC8h+NkYcZvuVzEViTBNa5PLLiGvAvRN495BEDo/Y8l17i/YU1Hz3rhY1qiln4=
+X-Received: by 2002:a81:5b41:0:b0:55a:59cb:4c1a with SMTP id
+ p62-20020a815b41000000b0055a59cb4c1amr24094471ywb.14.1683897622455; Fri, 12
+ May 2023 06:20:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230511133406.78155-10-bagasdotme@gmail.com>
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+In-Reply-To: <20230102112927.26565-12-tzimmermann@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 12 May 2023 15:20:11 +0200
+Message-ID: <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,477 +70,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>, Tom Rix <trix@redhat.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Minghao Chi <chi.minghao@zte.com.cn>,
- Yang Yingliang <yangyingliang@huawei.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Archana <craechal@gmail.com>, Simon Horman <simon.horman@corigine.com>,
- Jacob Keller <jacob.e.keller@intel.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- Sam Creasey <sammy@sammy.net>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Jay Vosburgh <j.vosburgh@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Jan Kara <jack@suse.com>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Karsten Keil <isdn@linux-pingi.de>, Deepak R Varma <drv@mailo.com>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- Diederik de Haas <didi.debian@cknow.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
+Cc: javierm@redhat.com, mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
+ jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 11-05-23 20:34:05, Bagas Sanjaya wrote:
-> Except Kconfig and Makefile, all source files for UDF filesystem doesn't
-> bear SPDX license identifier. Add appropriate license identifier while
-> replacing boilerplates.
-> 
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  fs/udf/balloc.c    |  6 +-----
->  fs/udf/dir.c       |  6 +-----
->  fs/udf/directory.c |  6 +-----
->  fs/udf/ecma_167.h  | 24 +-----------------------
->  fs/udf/file.c      |  6 +-----
->  fs/udf/ialloc.c    |  6 +-----
->  fs/udf/inode.c     |  6 +-----
->  fs/udf/lowlevel.c  |  6 +-----
->  fs/udf/misc.c      |  6 +-----
->  fs/udf/namei.c     |  6 +-----
->  fs/udf/osta_udf.h  | 24 +-----------------------
->  fs/udf/partition.c |  6 +-----
->  fs/udf/super.c     |  6 +-----
->  fs/udf/symlink.c   |  6 +-----
->  fs/udf/truncate.c  |  6 +-----
->  fs/udf/udftime.c   | 19 +------------------
->  fs/udf/unicode.c   |  6 +-----
->  17 files changed, 17 insertions(+), 134 deletions(-)
-> 
-> diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
-> index 14b9db4c80f03f..a56eb6975d19c8 100644
-> --- a/fs/udf/balloc.c
-> +++ b/fs/udf/balloc.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * balloc.c
->   *
-> @@ -5,11 +6,6 @@
->   *	Block allocation handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1999-2001 Ben Fennema
->   *  (C) 1999 Stelias Computing Inc
->   *
+Sorry for late regression detection but this patch regresses
+the Integrator AB IMPD-1 graphics, I bisected down to this
+patch.
 
-So the explicit copyright speaks about GPL license but your SPDX identifier
-speaks about GPLv2 only. I don't think we can change the license like this?
-It applies also to some other UDF files you convert...
+On Mon, Jan 2, 2023 at 12:30=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 
-								Honza
+> Fix the color-format selection of the single-probe helper. Go
+> through all user-specified values and test each for compatibility
+> with the driver. If none is supported, use the driver-provided
+> default. This guarantees that the console is always available in
+> any color format at least.
+>
+> Until now, the format selection of the single-probe helper tried
+> to either use a user-specified format or a 32-bit default format.
+> If the user-specified format was not supported by the driver, the
+> selection failed and the display remained blank.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> diff --git a/fs/udf/dir.c b/fs/udf/dir.c
-> index 212393b12c2266..015e17382f975e 100644
-> --- a/fs/udf/dir.c
-> +++ b/fs/udf/dir.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * dir.c
->   *
-> @@ -5,11 +6,6 @@
->   *  Directory handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-2004 Ben Fennema
->   *
->   * HISTORY
-> diff --git a/fs/udf/directory.c b/fs/udf/directory.c
-> index 654536d2b60976..3b65d5dc70b008 100644
-> --- a/fs/udf/directory.c
-> +++ b/fs/udf/directory.c
-> @@ -1,14 +1,10 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * directory.c
->   *
->   * PURPOSE
->   *	Directory related functions
->   *
-> - * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
->   */
->  
->  #include "udfdecl.h"
-> diff --git a/fs/udf/ecma_167.h b/fs/udf/ecma_167.h
-> index de17a97e866742..961e7bf5cb5c00 100644
-> --- a/fs/udf/ecma_167.h
-> +++ b/fs/udf/ecma_167.h
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
->  /*
->   * ecma_167.h
->   *
-> @@ -8,29 +9,6 @@
->   * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
->   * All rights reserved.
->   *
-> - * Redistribution and use in source and binary forms, with or without
-> - * modification, are permitted provided that the following conditions
-> - * are met:
-> - * 1. Redistributions of source code must retain the above copyright
-> - *    notice, this list of conditions, and the following disclaimer,
-> - *    without modification.
-> - * 2. The name of the author may not be used to endorse or promote products
-> - *    derived from this software without specific prior written permission.
-> - *
-> - * Alternatively, this software may be distributed under the terms of the
-> - * GNU Public License ("GPL").
-> - *
-> - * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-> - * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-> - * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-> - * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
-> - * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-> - * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-> - * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-> - * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-> - * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-> - * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-> - * SUCH DAMAGE.
->   */
->  
->  /**
-> diff --git a/fs/udf/file.c b/fs/udf/file.c
-> index 8238f742377bab..a13622121a63c5 100644
-> --- a/fs/udf/file.c
-> +++ b/fs/udf/file.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * file.c
->   *
-> @@ -5,11 +6,6 @@
->   *  File handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *  This file is distributed under the terms of the GNU General Public
-> - *  License (GPL). Copies of the GPL can be obtained from:
-> - *    ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *  Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-1999 Dave Boynton
->   *  (C) 1998-2004 Ben Fennema
->   *  (C) 1999-2000 Stelias Computing Inc
-> diff --git a/fs/udf/ialloc.c b/fs/udf/ialloc.c
-> index 8d50121778a57d..67a869cbf5987b 100644
-> --- a/fs/udf/ialloc.c
-> +++ b/fs/udf/ialloc.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * ialloc.c
->   *
-> @@ -5,11 +6,6 @@
->   *	Inode allocation handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-2001 Ben Fennema
->   *
->   * HISTORY
-> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-> index 1e71e04ae8f6b9..7c1e083223211c 100644
-> --- a/fs/udf/inode.c
-> +++ b/fs/udf/inode.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * inode.c
->   *
-> @@ -5,11 +6,6 @@
->   *  Inode handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *  This file is distributed under the terms of the GNU General Public
-> - *  License (GPL). Copies of the GPL can be obtained from:
-> - *    ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *  Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998 Dave Boynton
->   *  (C) 1998-2004 Ben Fennema
->   *  (C) 1999-2000 Stelias Computing Inc
-> diff --git a/fs/udf/lowlevel.c b/fs/udf/lowlevel.c
-> index c87ed942d07653..28fc91f12da911 100644
-> --- a/fs/udf/lowlevel.c
-> +++ b/fs/udf/lowlevel.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * lowlevel.c
->   *
-> @@ -5,11 +6,6 @@
->   *  Low Level Device Routines for the UDF filesystem
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1999-2001 Ben Fennema
->   *
->   * HISTORY
-> diff --git a/fs/udf/misc.c b/fs/udf/misc.c
-> index 3777468d06ce58..c0eaad4d0d86ff 100644
-> --- a/fs/udf/misc.c
-> +++ b/fs/udf/misc.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * misc.c
->   *
-> @@ -5,11 +6,6 @@
->   *	Miscellaneous routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998 Dave Boynton
->   *  (C) 1998-2004 Ben Fennema
->   *  (C) 1999-2000 Stelias Computing Inc
-> diff --git a/fs/udf/namei.c b/fs/udf/namei.c
-> index fd20423d3ed24c..6d6cd24c7c2536 100644
-> --- a/fs/udf/namei.c
-> +++ b/fs/udf/namei.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * namei.c
->   *
-> @@ -5,11 +6,6 @@
->   *      Inode name handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *      This file is distributed under the terms of the GNU General Public
-> - *      License (GPL). Copies of the GPL can be obtained from:
-> - *              ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *      Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-2004 Ben Fennema
->   *  (C) 1999-2000 Stelias Computing Inc
->   *
-> diff --git a/fs/udf/osta_udf.h b/fs/udf/osta_udf.h
-> index 157de0ec0cd530..85a5924873aeb5 100644
-> --- a/fs/udf/osta_udf.h
-> +++ b/fs/udf/osta_udf.h
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: BSD-2-Clause OR GPL-1.0-only */
->  /*
->   * osta_udf.h
->   *
-> @@ -8,29 +9,6 @@
->   * Copyright (c) 2017-2019  Pali Rohár <pali@kernel.org>
->   * All rights reserved.
->   *
-> - * Redistribution and use in source and binary forms, with or without
-> - * modification, are permitted provided that the following conditions
-> - * are met:
-> - * 1. Redistributions of source code must retain the above copyright
-> - *    notice, this list of conditions, and the following disclaimer,
-> - *    without modification.
-> - * 2. The name of the author may not be used to endorse or promote products
-> - *    derived from this software without specific prior written permission.
-> - *
-> - * Alternatively, this software may be distributed under the terms of the
-> - * GNU Public License ("GPL").
-> - *
-> - * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-> - * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-> - * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-> - * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR
-> - * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-> - * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-> - * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-> - * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-> - * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-> - * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-> - * SUCH DAMAGE.
->   */
->  
->  /**
-> diff --git a/fs/udf/partition.c b/fs/udf/partition.c
-> index 5bcfe78d5cabe9..7d78be28929906 100644
-> --- a/fs/udf/partition.c
-> +++ b/fs/udf/partition.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * partition.c
->   *
-> @@ -5,11 +6,6 @@
->   *      Partition handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *      This file is distributed under the terms of the GNU General Public
-> - *      License (GPL). Copies of the GPL can be obtained from:
-> - *              ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *      Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-2001 Ben Fennema
->   *
->   * HISTORY
-> diff --git a/fs/udf/super.c b/fs/udf/super.c
-> index 6304e3c5c3d969..80bee18ec6e1f4 100644
-> --- a/fs/udf/super.c
-> +++ b/fs/udf/super.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * super.c
->   *
-> @@ -15,11 +16,6 @@
->   *    https://www.iso.org/
->   *
->   * COPYRIGHT
-> - *  This file is distributed under the terms of the GNU General Public
-> - *  License (GPL). Copies of the GPL can be obtained from:
-> - *    ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *  Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998 Dave Boynton
->   *  (C) 1998-2004 Ben Fennema
->   *  (C) 2000 Stelias Computing Inc
-> diff --git a/fs/udf/symlink.c b/fs/udf/symlink.c
-> index a34c8c4e6d2109..0b91b2c92bddb8 100644
-> --- a/fs/udf/symlink.c
-> +++ b/fs/udf/symlink.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * symlink.c
->   *
-> @@ -5,11 +6,6 @@
->   *	Symlink handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1998-2001 Ben Fennema
->   *  (C) 1999 Stelias Computing Inc
->   *
-> diff --git a/fs/udf/truncate.c b/fs/udf/truncate.c
-> index 2e7ba234bab8b8..3fb6c2abb4dc34 100644
-> --- a/fs/udf/truncate.c
-> +++ b/fs/udf/truncate.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * truncate.c
->   *
-> @@ -5,11 +6,6 @@
->   *	Truncate handling routines for the OSTA-UDF(tm) filesystem.
->   *
->   * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
-> - *
->   *  (C) 1999-2004 Ben Fennema
->   *  (C) 1999 Stelias Computing Inc
->   *
-> diff --git a/fs/udf/udftime.c b/fs/udf/udftime.c
-> index fce4ad976c8c29..d525ea68725f1c 100644
-> --- a/fs/udf/udftime.c
-> +++ b/fs/udf/udftime.c
-> @@ -1,21 +1,4 @@
-> -/* Copyright (C) 1993, 1994, 1995, 1996, 1997 Free Software Foundation, Inc.
-> -   This file is part of the GNU C Library.
-> -   Contributed by Paul Eggert (eggert@twinsun.com).
-> -
-> -   The GNU C Library is free software; you can redistribute it and/or
-> -   modify it under the terms of the GNU Library General Public License as
-> -   published by the Free Software Foundation; either version 2 of the
-> -   License, or (at your option) any later version.
-> -
-> -   The GNU C Library is distributed in the hope that it will be useful,
-> -   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> -   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> -   Library General Public License for more details.
-> -
-> -   You should have received a copy of the GNU Library General Public
-> -   License along with the GNU C Library; see the file COPYING.LIB.  If not,
-> -   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-> -   Boston, MA 02111-1307, USA.  */
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  
->  /*
->   * dgb 10/02/98: ripped this from glibc source to help convert timestamps
-> diff --git a/fs/udf/unicode.c b/fs/udf/unicode.c
-> index 622569007b530b..5d6b66e15fcded 100644
-> --- a/fs/udf/unicode.c
-> +++ b/fs/udf/unicode.c
-> @@ -1,3 +1,4 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
->  /*
->   * unicode.c
->   *
-> @@ -11,11 +12,6 @@
->   *	UTF-8 is explained in the IETF RFC XXXX.
->   *		ftp://ftp.internic.net/rfc/rfcxxxx.txt
->   *
-> - * COPYRIGHT
-> - *	This file is distributed under the terms of the GNU General Public
-> - *	License (GPL). Copies of the GPL can be obtained from:
-> - *		ftp://prep.ai.mit.edu/pub/gnu/GPL
-> - *	Each contributing author retains all rights to their own work.
->   */
->  
->  #include "udfdecl.h"
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Before this patch:
+
+[drm] Initialized pl111 1.0.0 20170317 for c1000000.display on minor 0
+drm-clcd-pl111 c1000000.display: [drm] requested bpp 16, scaled depth down =
+to 15
+drm-clcd-pl111 c1000000.display: enable IM-PD1 CLCD connectors
+Console: switching to colour frame buffer device 80x30
+drm-clcd-pl111 c1000000.display: [drm] fb0: pl111drmfb frame buffer device
+
+After this patch:
+
+[drm] Initialized pl111 1.0.0 20170317 for c1000000.display on minor 0
+drm-clcd-pl111 c1000000.display: [drm] bpp/depth value of 16/16 not support=
+ed
+drm-clcd-pl111 c1000000.display: [drm] No compatible format found
+drm-clcd-pl111 c1000000.display: [drm] *ERROR* fbdev: Failed to setup
+generic emulation (ret=3D-12)
+
+It seems the bpp downscaling stopped to work?
+
+This is the driver:
+drivers/gpu/drm/pl111/pl111_versatile.c
+with the pl110_impd1 variant, so these are the supported modes:
+
+/* PL110 pixel formats for Integrator, vanilla PL110 */
+static const u32 pl110_integrator_pixel_formats[] =3D {
+        DRM_FORMAT_ABGR8888,
+        DRM_FORMAT_XBGR8888,
+        DRM_FORMAT_ARGB8888,
+        DRM_FORMAT_XRGB8888,
+        DRM_FORMAT_ABGR1555,
+        DRM_FORMAT_XBGR1555,
+        DRM_FORMAT_ARGB1555,
+        DRM_FORMAT_XRGB1555,
+};
+(...)
+/*
+ * The IM-PD1 variant is a PL110 with a bunch of broken, or not
+ * yet implemented features
+ */
+static const struct pl111_variant_data pl110_impd1 =3D {
+        .name =3D "PL110 IM-PD1",
+        .is_pl110 =3D true,
+        .broken_clockdivider =3D true,
+        .broken_vblank =3D true,
+        .formats =3D pl110_integrator_pixel_formats,
+        .nformats =3D ARRAY_SIZE(pl110_integrator_pixel_formats),
+        .fb_bpp =3D 16,
+};
+
+Notice the absence of RGB565!
+Then we initialized the frambuffer like this:
+
+        drm_fbdev_dma_setup(drm, priv->variant->fb_bpp);
+
+And as you see priv->variant->fb_bpp will be 16, so we want some
+16bpp mode however the only supported depth is 15 (the 1555 modes)
+so it would use that by scaling back depth to 15.
+
+However after this patch that doesn't work anymore.
+
+Any hints on how we can fix this?
+
+Yours,
+Linus Walleij
