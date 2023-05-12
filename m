@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1A0700377
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9006970037C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:20:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B473210E64F;
-	Fri, 12 May 2023 09:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2DD10E65A;
+	Fri, 12 May 2023 09:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5692A10E64F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:16:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F11710E65A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:20:17 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
  [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3361B2D8;
- Fri, 12 May 2023 11:15:52 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27AE62D8;
+ Fri, 12 May 2023 11:20:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1683882953;
- bh=8aj3gkZp6VDWp4PUGeLKxpnkIoSmqes4md/485PvAn0=;
+ s=mail; t=1683883207;
+ bh=VWGt5kixjdflXkuIyYInfnTF9iqkcIMqcEq7zHEeUyg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kt4q7hr3Votllg0InPdSLsBr00s8bqAP8YwqlaiSKPbOK6Nq1YZimlPDhBZNEfaQi
- 65CpfaNHB3EfNCVxUtuDRdf3bAw1NIat7ki1GqsCWFeViCjKah0YkmwzmgHc3kqVsl
- y0U9QyscePQ28eNJZOqoijXNK+pgB6Iu4TjW7kp0=
-Message-ID: <db9b4117-b030-49a7-3732-2fc39d089ee2@ideasonboard.com>
-Date: Fri, 12 May 2023 12:15:57 +0300
+ b=LfeCd0790PtQdJvMeHHStWDDAJYIIxXLA5QR3V/hZ0qhjo2DsJlxOmtj86PnaMsWF
+ RCaiF7djORTh6qc7BUOzt3kg4sfO63Ud8mQ7mPomLXPU5DlcfjzFlQNb0m/wG9RTkc
+ ZByDZZfcZUynwdw3yypt3+Gj65+Qq5oVJ2rYUV5w=
+Message-ID: <37799ac8-b3ad-ad0c-a104-82249ba7b387@ideasonboard.com>
+Date: Fri, 12 May 2023 12:20:12 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v6 3/8] drm/bridge: mhdp8546: Add minimal format
- negotiation
+Subject: Re: [PATCH v6 0/8] drm/tidss: Use new connector model for tidss
 Content-Language: en-US
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -42,9 +41,8 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Francesco Dolcini <francesco@dolcini.it>
 References: <20230509093036.3303-1-a-bhatia1@ti.com>
- <20230509093036.3303-4-a-bhatia1@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230509093036.3303-4-a-bhatia1@ti.com>
+In-Reply-To: <20230509093036.3303-1-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,62 +65,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/05/2023 12:30, Aradhya Bhatia wrote:
-> From: Nikhil Devshatwar <nikhil.nd@ti.com>
+> Hi all,
 > 
-> With new connector model, mhdp bridge will not create the connector and
-> SoC driver will rely on format negotiation to setup the encoder format.
+> I have picked up this long standing series from Nikhil Devshatwar[1].
 > 
-> Support minimal format negotiations hooks in the drm_bridge_funcs.
-> Complete format negotiation can be added based on EDID data.
-> This patch adds the minimal required support to avoid failure
-> after moving to new connector model.
+> This series moves the tidss to using new connectoe model, where the SoC
+> driver (tidss) creates the connector and all the bridges are attached
+> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
+> to support format negotiation and and 'simple' encoder to expose it to
+> the userspace.
 > 
-> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Since the bridges do not create the connector, the bus_format and
+> bus_flag is set via atomic hooks.
+> 
+> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
+> drivers as a first step before moving the connector model.
+> 
+> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
+> and J721E-SK. Display support for AM625 SoC has not been added upstream
+> and is a WIP. To test this series on AM625 based platforms, basic
+> display support patches, (for driver + devicetree), can be found in
+> the "next_AttachNoConn" branch on my github fork[2].
 
-You need to add your SoB to this and the other patches.
+Not exactly related to this series, but I was testing this with J7 EVM 
+and a Dell DP monitor.
 
-> ---
-> 
-> Notes:
-> 
->      changes from v1:
->      * cosmetic fixes, commit message update.
-> 
->      changes from v5:
->      * dropped the default_bus_format variable and directly assigned
->        MEDIA_BUS_FMT_RGB121212_1X36 to input_fmts.
-> 
->   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
->   1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index f6822dfa3805..623e4235c94f 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -2146,6 +2146,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
->   	return &cdns_mhdp_state->base;
->   }
->   
-> +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					 struct drm_bridge_state *bridge_state,
-> +					 struct drm_crtc_state *crtc_state,
-> +					 struct drm_connector_state *conn_state,
-> +					 u32 output_fmt,
-> +					 unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	if (output_fmt != MEDIA_BUS_FMT_FIXED)
-> +		return NULL;
+I'm seeing DPCD errors quite often, which also sometimes cause link 
+training errors. E.g.:
 
-The tfp410 and sii902x drivers don't have the above check. Why does mhdp 
-need it? Or the other way, why don't tfp410 and sii902x need it?
+cdns-mhdp8546 a000000.dp-bridge: Failed to read DPCD addr 0
 
-I guess at the moment we always do get MEDIA_BUS_FMT_FIXED as the out 
-fmt (in all three bridge drivers), don't we?
+cdns-mhdp8546 a000000.dp-bridge: Failed to adjust Link Training.
+
+I tested retrying the read/write when it fails, and that seemed to help 
+a bit, but not always. Are you using the firmware that's on the upstream 
+linux-firmware repo?
 
   Tomi
 
