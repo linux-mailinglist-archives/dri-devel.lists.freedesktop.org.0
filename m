@@ -2,68 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2062370035E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1A0700377
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 11:16:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718FF10E655;
-	Fri, 12 May 2023 09:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B473210E64F;
+	Fri, 12 May 2023 09:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A105210E655
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:07:47 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 98e67ed59e1d1-24e5d5782edso9090135a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 02:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683882466; x=1686474466;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oseHv6VTSzckslEr5MWLMD1wKR85pm76Ym5jt2vFoxI=;
- b=XjEIPEkNIvghUZ4sYuX1fCWrgg44BfoxhHVaks66vlF5xl5VUv4r3isABKr/LsYPYw
- Tly6RKPK9BcyMqYvoSOgRdb9WA1254+yurUnYVBO0DpOoyToddB4r3IDlbeJVvJS+aIS
- cIU73rW7ZyB8UfQOdcYe9RWtl8aAXPzz839ZP++4bXfB0lpVKXJehz/EqhRzVPYRv+B7
- z7mpm7xHQaI6a3VIN/7jkY+uvr6L4PuFjgQ3/VPChSlkqopIjEq5foFvjsooPNWZXn2w
- NREm8Inimbied+1qeFmwZQ/2mm1A2tVHyBhiD6Ze7c52BViC2yJfu7/XZ2TmVWhspGu9
- +Wyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683882466; x=1686474466;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oseHv6VTSzckslEr5MWLMD1wKR85pm76Ym5jt2vFoxI=;
- b=l/dgU6/VRscqcy5kFRCVsNz2DX3IkEuZOQ5j4hJpliJB+d2xb1U2m9u5L94BxtXCzN
- zXm5WTWy1phT8AUH/wYjVvwIFq8O0kI/USENhCDMx+cMmtXCSApEo76FR8+2siC1hQBx
- ixfG+mPmeLtsyztTBZExvd+e8hxH+lVj57X0u13Bs9Z81BVbETdIlQnW7Be3205o6I74
- l5AQmWxrr1KXvHvAHkuLMuv8ZD+7eOTEeZPVW2R5VmLTJHUfnbh/j2byHb4gKwYA58ou
- hfnlNaM6IR/2JCise7UDpxnowI0lSylXrJoBuFksCu+i38z1A9u/5STjfZ83v49nEHv4
- VVmw==
-X-Gm-Message-State: AC+VfDwzGejQLCeiVtfg0obDWa1x8wPj6iahZz7krK4k97fbIVV+T9+1
- GW4ChjWPwzs9ENw5Mbb52S0=
-X-Google-Smtp-Source: ACHHUZ7+b/oOCYYoASqforqMy2MxURpPVBmI0FXSJlR2iCNI8DK+oJQKKZTGyZQoOcDqitWf1y1ZzA==
-X-Received: by 2002:a17:90a:b317:b0:250:78d0:f797 with SMTP id
- d23-20020a17090ab31700b0025078d0f797mr18003584pjr.41.1683882466461; 
- Fri, 12 May 2023 02:07:46 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-8.three.co.id.
- [116.206.28.8]) by smtp.gmail.com with ESMTPSA id
- cq2-20020a17090af98200b002508f0ac3edsm8373161pjb.53.2023.05.12.02.07.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 02:07:46 -0700 (PDT)
-Message-ID: <51c2577a-b9d9-4f6e-e79b-c2c324b72347@gmail.com>
-Date: Fri, 12 May 2023 16:07:33 +0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5692A10E64F
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 09:16:04 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3361B2D8;
+ Fri, 12 May 2023 11:15:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1683882953;
+ bh=8aj3gkZp6VDWp4PUGeLKxpnkIoSmqes4md/485PvAn0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kt4q7hr3Votllg0InPdSLsBr00s8bqAP8YwqlaiSKPbOK6Nq1YZimlPDhBZNEfaQi
+ 65CpfaNHB3EfNCVxUtuDRdf3bAw1NIat7ki1GqsCWFeViCjKah0YkmwzmgHc3kqVsl
+ y0U9QyscePQ28eNJZOqoijXNK+pgB6Iu4TjW7kp0=
+Message-ID: <db9b4117-b030-49a7-3732-2fc39d089ee2@ideasonboard.com>
+Date: Fri, 12 May 2023 12:15:57 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 00/10] Treewide GPL SPDX conversion (love letter to Didi)
+Subject: Re: [PATCH v6 3/8] drm/bridge: mhdp8546: Add minimal format
+ negotiation
 Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>
-References: <20230511133406.78155-1-bagasdotme@gmail.com>
- <20230511174105.63b7a6ae@kernel.org>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230511174105.63b7a6ae@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Francesco Dolcini <francesco@dolcini.it>
+References: <20230509093036.3303-1-a-bhatia1@ti.com>
+ <20230509093036.3303-4-a-bhatia1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230509093036.3303-4-a-bhatia1@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,59 +59,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>, Tom Rix <trix@redhat.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Eric Dumazet <edumazet@google.com>, Viresh Kumar <viresh.kumar@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Gaosheng Cui <cuigaosheng1@huawei.com>, Andy Gospodarek <andy@greyhouse.net>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Minghao Chi <chi.minghao@zte.com.cn>,
- Yang Yingliang <yangyingliang@huawei.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Archana <craechal@gmail.com>, Simon Horman <simon.horman@corigine.com>,
- Jacob Keller <jacob.e.keller@intel.com>, David Airlie <airlied@redhat.com>,
- Paolo Abeni <pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- Sam Creasey <sammy@sammy.net>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Jay Vosburgh <j.vosburgh@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Jan Kara <jack@suse.com>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Karsten Keil <isdn@linux-pingi.de>, Deepak R Varma <drv@mailo.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Diederik de Haas <didi.debian@cknow.org>,
- Linux Networking <netdev@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/12/23 07:41, Jakub Kicinski wrote:
-> On Thu, 11 May 2023 20:33:56 +0700 Bagas Sanjaya wrote:
->> I trigger this patch series because of Didi's GPL full name fixes
->> attempt [1], for which all of them had been NAKed. In many cases, the
->> appropriate correction is to use SPDX license identifier instead.
->>
->> Often, when replacing license notice boilerplates with their equivalent
->> SPDX identifier, the notice doesn't mention explicit GPL version. Greg
->> [2] replied this question by falling back to GPL 1.0 (more precisely
->> GPL 1.0+ in order to be compatible with GPL 2.0 used by Linux kernel),
->> although there are exceptions (mostly resolved by inferring from
->> older patches covering similar situation).
+On 09/05/2023 12:30, Aradhya Bhatia wrote:
+> From: Nikhil Devshatwar <nikhil.nd@ti.com>
 > 
-> Should you be CCing linux-spdx@ on this?
+> With new connector model, mhdp bridge will not create the connector and
+> SoC driver will rely on format negotiation to setup the encoder format.
+> 
+> Support minimal format negotiations hooks in the drm_bridge_funcs.
+> Complete format negotiation can be added based on EDID data.
+> This patch adds the minimal required support to avoid failure
+> after moving to new connector model.
+> 
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-Oops, I forgot to Cc that list. Will do in v2.
+You need to add your SoB to this and the other patches.
 
--- 
-An old man doll... just what I always wanted! - Clara
+> ---
+> 
+> Notes:
+> 
+>      changes from v1:
+>      * cosmetic fixes, commit message update.
+> 
+>      changes from v5:
+>      * dropped the default_bus_format variable and directly assigned
+>        MEDIA_BUS_FMT_RGB121212_1X36 to input_fmts.
+> 
+>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index f6822dfa3805..623e4235c94f 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -2146,6 +2146,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
+>   	return &cdns_mhdp_state->base;
+>   }
+>   
+> +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
+> +					 struct drm_bridge_state *bridge_state,
+> +					 struct drm_crtc_state *crtc_state,
+> +					 struct drm_connector_state *conn_state,
+> +					 u32 output_fmt,
+> +					 unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
+> +
+> +	*num_input_fmts = 0;
+> +
+> +	if (output_fmt != MEDIA_BUS_FMT_FIXED)
+> +		return NULL;
+
+The tfp410 and sii902x drivers don't have the above check. Why does mhdp 
+need it? Or the other way, why don't tfp410 and sii902x need it?
+
+I guess at the moment we always do get MEDIA_BUS_FMT_FIXED as the out 
+fmt (in all three bridge drivers), don't we?
+
+  Tomi
 
