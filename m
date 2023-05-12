@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA5E70076B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 14:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD3C700855
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 14:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DBA10E695;
-	Fri, 12 May 2023 12:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F8710E158;
+	Fri, 12 May 2023 12:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4C210E695
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 12:02:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 254FF10E58C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 12:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683892972;
+ s=mimecast20190719; t=1683895628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RAs/4nxfcMFyg2HMPmspBZO1jWwkNauHuupqA+XX4a4=;
- b=SKj2a4SthO+Bv5ALxdbuTcpf592wFh3uPxjjXnzGda5HyXW45gVbfLLLrVbvoalOg4+qMY
- U3K5ZKXsFHDZzSwlU0QUMUNwd4CYhuQb/wCoW568H/WFUJee+9j+GFQhw2XHBTXnB2RHRD
- KH0VMkd0yV9oxrJLBXv8ntKtD48YhlQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
+ b=XL+hS5yJIXXRAfLS/s0hp/WXL2tRcg/dBkgRRWJ66lckBGNqx+uIyX14cz/sppj8Oe2W6n
+ 4YoyGQJA9IwpShWvmj+9CmJFGLcDLqR4tcE6nxxfJhYRqhCdyo0+KTcm4bvUtCcI8NdF2C
+ 22Alqtmra8F6qtJbrgZyg1rn8Gp5oh0=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-20-3uexAkd2PLqpcJRciKpPhg-1; Fri, 12 May 2023 08:02:48 -0400
-X-MC-Unique: 3uexAkd2PLqpcJRciKpPhg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f422dc5ee5so35897125e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 05:02:48 -0700 (PDT)
+ us-mta-630-0EQEJRF4PrOrLMXRg9K9Cw-1; Fri, 12 May 2023 08:47:05 -0400
+X-MC-Unique: 0EQEJRF4PrOrLMXRg9K9Cw-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ 71dfb90a1353d-44fb0ee32e3so2089958e0c.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 05:47:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683892967; x=1686484967;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RAs/4nxfcMFyg2HMPmspBZO1jWwkNauHuupqA+XX4a4=;
- b=iWjjHIgqdVeq3aadGfNGAzN0LSTAvhETI0NgvI3OImcqgz0LwaTr/QpNqWujZFgcA1
- LQgGvIQ9bh4MNdFeIMIUc3A/g392Nq0Cc2RxsdIjE3B06WlvlDrGt2VPz8Dj8NwAltAz
- N/x6B1WaoPs9ZrAYl+dcDGg14bKfvPq7/HzklsLJuNVv99JfcGY5AxQ5djF1HnF/i2Ux
- 7AUqXeb3543OHtRGZZaX674YhGfG435NXrf0AcMK3Jfjvx0aSBM/tQ9NK67hgL3/DcPi
- 8k0klOf2Vfk9tlfFHFgEaGXglfYUufxf36R7bnaFUCU2HClujygk5zJhJMidxX4Kxkfq
- ikbg==
-X-Gm-Message-State: AC+VfDxWp7C6UjXI2TKrEEORLro/Nr5Z1K0yKH0TJwqV/EvRGFPsC+qZ
- 3Np9ljjcqj64EjgSVhi4P+uT9wjNNyE0aXTdhp4OQrNIXjNYswAYHt/kB/0i1M5RLJmp0FBDF5Q
- N6xZfLnrtMlJGyNGgurKvX7vM/bdG
-X-Received: by 2002:a7b:c381:0:b0:3f1:819d:d046 with SMTP id
- s1-20020a7bc381000000b003f1819dd046mr19644167wmj.5.1683892967304; 
- Fri, 12 May 2023 05:02:47 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5fvpMIjT+Pk3DwjS3y+l8kVbtbSlkIGLjRil5kTUCGo+INLDkRdEH6D48w0NoTg9f7K//t2Q==
-X-Received: by 2002:a7b:c381:0:b0:3f1:819d:d046 with SMTP id
- s1-20020a7bc381000000b003f1819dd046mr19644147wmj.5.1683892967030; 
- Fri, 12 May 2023 05:02:47 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n3-20020a5d4003000000b003063176ef0dsm23285317wrp.97.2023.05.12.05.02.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 05:02:46 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/ssd130x: Fix include guard name
-Date: Fri, 12 May 2023 14:02:31 +0200
-Message-Id: <20230512120232.304603-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.40.1
+ d=1e100.net; s=20221208; t=1683895624; x=1686487624;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dJgqlXLztFl0MBoQFQIqJTCsGooWxTVjQq7Oro5jGqw=;
+ b=Ua/pkXvYbdCaIMpKbHo+ImtpvkdiXFLseQIZx7sTK8/JTqyC2oXz2bQpIKT2mXUpOM
+ h2112/Ss7SMl8ZldFVkh3Bic6aLzFYm3MJdiB/qRQuoubSHtmBgyN/u1Q5YUfrXqXP0Y
+ UMcJvw4nPB2Z0ou0bKCTlzrDpYReehaEz0SJKOKyN2Wqdi4EW018aM+w09Nftk1zmAjq
+ RLi16sVttrZ8d+B+62fysanc6/7ErErhGSDBB2Q+0Xbqs0w2S53JZcf5ZwYRvCJq5Nub
+ vrxN4sV8lm0Md/5qdqmbVJw5H7PD4SFyFNNWx8ppqe2vgfayh4IAFbK2Co8/umTK1Bzo
+ 24mw==
+X-Gm-Message-State: AC+VfDzoocTOWKgdVvhdkuhlXuKO15kiGjo1c6U1LH1y24rgm2CgT/8O
+ Zdk/isprEsYXTj7EgPMHI4VqSeoOFI2QdjSWAfqbawlrTHwEdR1LCy9jdNMkpgaFyOdEhE8CJrF
+ 2U0/TDg4cn8mX0/nNRDFJboBk0E4Lms2GCaG2P1Og3zBv
+X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id
+ u63-20020a1fdd42000000b0043c290c25e8mr8337243vkg.6.1683895624645; 
+ Fri, 12 May 2023 05:47:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7yZxumejHu+zJzEaaKqa6xt9pvg90H/4AFuwccsjqfjD5b2ojZakUIS11JCd4jdY0ELP7Fv4O8lj5wR8QlcEU=
+X-Received: by 2002:a1f:dd42:0:b0:43c:290c:25e8 with SMTP id
+ u63-20020a1fdd42000000b0043c290c25e8mr8337198vkg.6.1683895624367; Fri, 12 May
+ 2023 05:47:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
+In-Reply-To: <20230512100620.36807-9-bagasdotme@gmail.com>
+From: Richard Fontana <rfontana@redhat.com>
+Date: Fri, 12 May 2023 08:46:53 -0400
+Message-ID: <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+To: Bagas Sanjaya <bagasdotme@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +79,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Simon Horman <simon.horman@corigine.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Eric Dumazet <edumazet@google.com>, Jonas Jensen <jonas.jensen@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gospodarek <andy@greyhouse.net>,
+ Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+ Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
+ Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
+ Jan Kara <jack@suse.com>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Ray Lehtiniemi <rayl@mail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alan Cox <alan@linux.intel.com>, Alessandro Zummo <a.zummo@towertech.it>,
+ Karsten Keil <isdn@linux-pingi.de>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Denis Turischev <denis@compulab.co.il>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Philippe Ombredanne <pombredanne@nexb.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a leftover from an early iteration of the driver when it was still
-named ssd1307 instead of ssd130x. Change it for consistency with the rest.
+On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
 
- drivers/gpu/drm/solomon/ssd130x.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
+> index 504be461f992a9..822bf8905bf3ce 100644
+> --- a/drivers/watchdog/sb_wdog.c
+> +++ b/drivers/watchdog/sb_wdog.c
+> @@ -1,3 +1,4 @@
+> +// SPDX-License-Identifier: GPL-1.0+
+>  /*
+>   * Watchdog driver for SiByte SB1 SoCs
+>   *
+> @@ -38,10 +39,6 @@
+>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+>   *                                             All Rights Reserved.
+>   *
+> - *     This program is free software; you can redistribute it and/or
+> - *     modify it under the terms of the GNU General Public License
+> - *     version 1 or 2 as published by the Free Software Foundation.
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-index 03038c1b6476..db03ee5db392 100644
---- a/drivers/gpu/drm/solomon/ssd130x.h
-+++ b/drivers/gpu/drm/solomon/ssd130x.h
-@@ -10,8 +10,8 @@
-  * Copyright 2012 Free Electrons
-  */
- 
--#ifndef __SSD1307X_H__
--#define __SSD1307X_H__
-+#ifndef __SSD130X_H__
-+#define __SSD130X_H__
- 
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
-@@ -94,4 +94,4 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap);
- void ssd130x_remove(struct ssd130x_device *ssd130x);
- void ssd130x_shutdown(struct ssd130x_device *ssd130x);
- 
--#endif /* __SSD1307X_H__ */
-+#endif /* __SSD130X_H__ */
--- 
-2.40.1
+Shouldn't this be
+// SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
+(or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
 
