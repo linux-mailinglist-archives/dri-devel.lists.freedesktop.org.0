@@ -2,46 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FAA701164
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 23:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390DC70120D
+	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 00:12:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06E310E2C4;
-	Fri, 12 May 2023 21:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC8B410E301;
+	Fri, 12 May 2023 22:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE3910E2C4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 21:35:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DC38B6401D;
- Fri, 12 May 2023 21:35:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011DCC433D2;
- Fri, 12 May 2023 21:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683927308;
- bh=ssPoigezhCRrDjg7mcA2KStxlVolfI3YMYndQSDR72E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rnWJ+EWH6NpSxhEi+rjIYtoO0FVqUzj+M2yz0JL6ra6laKLTgsewUkAJGF7WDI7db
- kAMtFsNX2vDmy63695efG66uBHWQLnMGPinOgtPVd4knXqdExsA3zrvoIoHRB9lb3N
- BZbZhqEV6/kl0ZSGozTekrAacngCLqYGsopfJKkPhpkK3k0l4lptSMdDGS1i0q7+9S
- mBVdrlmEhvFX8CPNgd3rLUSR8GlL+RyA/vXFDMydaftSdcXg+KMQHW/qjGqbgz+tz9
- uFBcTtAVC8QM0LM2G+BJxUJQlPEcJrlZmaEPJOxoR7zQtletlJG8vCQCsIyDpc7AeY
- HFIAh5kfx00+w==
-Date: Fri, 12 May 2023 22:35:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 04/13] dt-bindings: display: add Amlogic MIPI DSI Host
- Controller bindings
-Message-ID: <20230512-elevation-stream-8acf60905d6b@spud>
-References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
- <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-4-2592c29ea263@linaro.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B10F10E301;
+ Fri, 12 May 2023 22:12:52 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34CJV4Vw007070; Fri, 12 May 2023 22:12:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=VVizRQKcWCpCClkAkR9NZqD5wtkGxP5QdY/8A9RhRXs=;
+ b=g6+4H9ormg0GgMALNIla/sd8EmNq2O8ON1QKwH0D4/Fu9r/DpnFm+rRzSWRN0PRIgveW
+ 2TGYC3fT0nXSXNgufU2K3+FuVfrqI/tM+jHTZG0hO+xkMhwSXWyPDxjBkVS67W/9TIAi
+ lQaBoOPASN85z3meAeSgtVn4Ym15KhMu/qflyTdZUgAgE0ZV82lK84CmtnpaeI8YpEyM
+ mQxua0MHJ0118GLMkyiDdUWfDNp32J5DwzMcAe/y3Gxm/icWLOjHtq3tePekw9smJpI7
+ zjUS7l1nLyuHGC8CJP7yHVT9Ie2qMWIsTHlMLs6itOdHP0876HlJ/JFAdqln49IDisl1 HA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qhayt2nbn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 May 2023 22:12:46 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34CMCjk3007642
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 May 2023 22:12:45 GMT
+Received: from [10.110.82.209] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 12 May
+ 2023 15:12:45 -0700
+Message-ID: <ea7af397-1840-f15b-6f56-2d0559b8be4d@quicinc.com>
+Date: Fri, 12 May 2023 15:12:44 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="s/aEe9Onk7m7s45t"
-Content-Disposition: inline
-In-Reply-To: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-4-2592c29ea263@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH v2 02/13] drm/msm/dpu: take plane rotation into
+ account for wide planes
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-3-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230321011821.635977-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Z_81LZdljGe2nvR291JA4PzZVSqmg8AP
+X-Proofpoint-GUID: Z_81LZdljGe2nvR291JA4PzZVSqmg8AP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-12_14,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=886
+ phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0 adultscore=0
+ impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305120186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,191 +85,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-clk@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Nicolas Belin <nbelin@baylibre.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---s/aEe9Onk7m7s45t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 12, 2023 at 03:11:35PM +0200, Neil Armstrong wrote:
-> The Amlogic G12A, G12B & SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiv=
-er (ver 1.21a),
-> with a custom glue managing the IP resets, clock and data input similar t=
-o the DW-HDMI Glue
-> on the same Amlogic SoCs.
->=20
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> Take into account the plane rotation and flipping when calculating src
+> positions for the wide plane parts.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-This looks fine to me,
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-but I would like Krzysztof to take a look too to be on the safe side!
-
-Cheers,
-Conor.
+Do we need to have a fixes tag for this? This means we dont consider 
+rotation while calculating src position today which is a bug?
 
 > ---
->  .../display/amlogic,meson-g12a-dw-mipi-dsi.yaml    | 117 +++++++++++++++=
-++++++
->  1 file changed, 117 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-g12a=
--dw-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson=
--g12a-dw-mipi-dsi.yaml
-> new file mode 100644
-> index 000000000000..8169c7e93ff5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/amlogic,meson-g12a-dw-mip=
-i-dsi.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2020 BayLibre, SAS
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/amlogic,meson-g12a-dw-mipi-ds=
-i.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
+>   1 file changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 2e63eb0a2f3f..d43e04fc4578 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -887,16 +887,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		return -EINVAL;
+>   	}
+>   
+> -	pipe_cfg->src_rect = new_plane_state->src;
+> -
+> -	/* state->src is 16.16, src_rect is not */
+> -	pipe_cfg->src_rect.x1 >>= 16;
+> -	pipe_cfg->src_rect.x2 >>= 16;
+> -	pipe_cfg->src_rect.y1 >>= 16;
+> -	pipe_cfg->src_rect.y2 >>= 16;
+> -
+> -	pipe_cfg->dst_rect = new_plane_state->dst;
+> -
+>   	fb_rect.x2 = new_plane_state->fb->width;
+>   	fb_rect.y2 = new_plane_state->fb->height;
+>   
+> @@ -912,6 +902,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   
+>   	max_linewidth = pdpu->catalog->caps->max_linewidth;
+>   
+> +	/* state->src is 16.16, src_rect is not */
+> +	drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
 > +
-> +title: Amlogic specific extensions to the Synopsys Designware MIPI DSI H=
-ost Controller
+> +	pipe_cfg->dst_rect = new_plane_state->dst;
 > +
-> +maintainers:
-> +  - Neil Armstrong <neil.armstrong@linaro.org>
+> +	drm_rect_rotate(&pipe_cfg->src_rect,
+> +			new_plane_state->fb->width, new_plane_state->fb->height,
+> +			new_plane_state->rotation);
 > +
-> +description: |
-> +  The Amlogic Meson Synopsys Designware Integration is composed of
-> +  - A Synopsys DesignWare MIPI DSI Host Controller IP
-> +  - A TOP control block controlling the Clocks & Resets of the IP
-> +
-> +allOf:
-> +  - $ref: dsi-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,meson-g12a-dw-mipi-dsi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 3
-> +
-> +  clock-names:
-> +    minItems: 3
-> +    items:
-> +      - const: pclk
-> +      - const: bit_clk
-> +      - const: px_clk
-> +      - const: meas_clk
-> +
-> +  resets:
-> +    minItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: top
-> +
-> +  phys:
-> +    minItems: 1
-> +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input node to receive pixel data.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: DSI output node to panel.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - phys
-> +  - phy-names
-> +  - ports
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    dsi@7000 {
-> +          compatible =3D "amlogic,meson-g12a-dw-mipi-dsi";
-> +          reg =3D <0x6000 0x400>;
-> +          resets =3D <&reset_top>;
-> +          reset-names =3D "top";
-> +          clocks =3D <&clk_pclk>, <&bit_clk>, <&clk_px>;
-> +          clock-names =3D "pclk", "bit_clk", "px_clk";
-> +          phys =3D <&mipi_dphy>;
-> +          phy-names =3D "dphy";
-> +
-> +          ports {
-> +              #address-cells =3D <1>;
-> +              #size-cells =3D <0>;
-> +
-> +              /* VPU VENC Input */
-> +              mipi_dsi_venc_port: port@0 {
-> +                  reg =3D <0>;
-> +
-> +                  mipi_dsi_in: endpoint {
-> +                       remote-endpoint =3D <&dpi_out>;
-> +                  };
-> +              };
-> +
-> +              /* DSI Output */
-> +              mipi_dsi_panel_port: port@1 {
-> +                  reg =3D <1>;
-> +
-> +                  mipi_out_panel: endpoint {
-> +                      remote-endpoint =3D <&mipi_in_panel>;
-> +                  };
-> +              };
-> +          };
-> +    };
->=20
-> --=20
-> 2.34.1
->=20
+>   	if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+>   		/*
+>   		 * In parallel multirect case only the half of the usual width
+> @@ -959,6 +958,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+>   	}
+>   
+> +	drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> +			    new_plane_state->fb->width, new_plane_state->fb->height,
+> +			    new_plane_state->rotation);
+> +	if (r_pipe->sspp)
 
---s/aEe9Onk7m7s45t
-Content-Type: application/pgp-signature; name="signature.asc"
+Dont you need to check for if (r_pipe_cfg) here and not if 
+(r_pipe->sspp) because parameter you are passing is the r_pipe_cfg to 
+drm_rect_rotate_inv().
 
------BEGIN PGP SIGNATURE-----
+So we rotated the pipe_cfg once, then rotated_inv it to restore the 
+rectangle to its original state, but r_pipe_cfg's rectangle was never 
+rotated as it was not allocated before this function so it will remain 
+in inverse rotated state now right?
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZF6xBQAKCRB4tDGHoIJi
-0lkLAP9aw2fomhWlSF6eQEZVTD8Xm33bApDDIK5TJfpd9yZupQD8DFLo/uqOZeTX
-Sifp4pc02lgSSSXPXhf84CIoaGUoHAU=
-=h7tW
------END PGP SIGNATURE-----
 
---s/aEe9Onk7m7s45t--
+> +		drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> +				    new_plane_state->fb->width, new_plane_state->fb->height,
+> +				    new_plane_state->rotation);
+> +
+>   	ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+>   	if (ret)
+>   		return ret;
