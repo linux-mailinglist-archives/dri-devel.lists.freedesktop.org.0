@@ -1,84 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9C17004DA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 12:07:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1212E700512
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 12:17:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9199810E675;
-	Fri, 12 May 2023 10:07:19 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0C610E66E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 10:07:04 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id
- 41be03b00d2f7-53033a0b473so4033146a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 03:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683886024; x=1686478024;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AEkf8gWG96+9b1qBPiSXz5T2EndzrX4ufiHLwT0g7bA=;
- b=NtT2Weul5m/pMpgN7JMgRZwAS7itAs93/P0LzS4vUShEcK4Wgq6OBo6+Iatwn9wpVD
- gjwOOVQF9lpQUpgZtCaIQd72ZQugKVSyWb/PZE3vbwTwZfVQOVRMM5yFDD9yOMR8F8v9
- Q6mqq6T2rl9lqGnp0ASIgno/r7T1raas8x36CbHSlmTglCyt796jfNmZNms+AHHWvurY
- bpdR4yzAgfnxl9sTBuFoAQ83WYpg4uDnVq+BVTki6Qok27DFkNkCpOj+hRAet1+egzhD
- pOlOJRvO3bBmkfuIVwyM2IrmdnbNpKYJ1dCyJSgwjBaFgR6C5YpCvelGbphwVnKpkpl7
- XTUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683886024; x=1686478024;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AEkf8gWG96+9b1qBPiSXz5T2EndzrX4ufiHLwT0g7bA=;
- b=LFJOz9+t33ILPd0sUccJ8+szn3bNb6JR2zLRH31onK+7qbcSfgaNZJC2uqnKZfqwr6
- viOfWgfTHHLYfLXm4E5kJEYZIjqSkUoqOIqma9nLcg+OI+fJvTYFVDRWkmHgdTp7ysSP
- OzVyLOB03Y7Iv1yMXll+TYcfrs0Vj40x9iB/mCv3AjDgtPWBI6ytsj1X4XlgZhJP62WO
- BitBAw/6TiPoL1o6wdZfTriiUhUbrlWBCl9Sg4u4rYZbdTDc1mrffHH1AjYnNyfnNfiE
- y+n7TW10ATKXR/w+J3CUow/+tgrF0ntrOY/Shklg1ewbSIg9n2MJdVN/mc3E/np6m2oM
- pDyg==
-X-Gm-Message-State: AC+VfDwuepedk+4ZVG/F8U6SYh/8brrd7chB6QFivyzLTw3p7YK10gvy
- 3ThpSmJUXgu3PgM0iQwVV1U=
-X-Google-Smtp-Source: ACHHUZ7imq7bgHR/sJmRlazsESDion5s8yIT3WhCK3D8T5obXOuXCzu+YMDtulbCky0jUvuEXkpPNA==
-X-Received: by 2002:a17:902:a609:b0:1ac:946e:4690 with SMTP id
- u9-20020a170902a60900b001ac946e4690mr12908005plq.49.1683886023679; 
- Fri, 12 May 2023 03:07:03 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-58.three.co.id. [116.206.12.58])
- by smtp.gmail.com with ESMTPSA id
- n21-20020a170902969500b001a634e79af0sm7528924plp.283.2023.05.12.03.07.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 03:07:03 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id 49702106B43; Fri, 12 May 2023 17:06:56 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>
-Subject: [PATCH v2 10/10] include: synclink: Replace GPL license notice with
- SPDX identifier
-Date: Fri, 12 May 2023 17:06:21 +0700
-Message-Id: <20230512100620.36807-11-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230512100620.36807-1-bagasdotme@gmail.com>
-References: <20230512100620.36807-1-bagasdotme@gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D01D10E67A;
+	Fri, 12 May 2023 10:17:35 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7018E10E66E;
+ Fri, 12 May 2023 10:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683886652; x=1715422652;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=3/95fRj2EkkxaM7Yveha+KQ0wprsHNG0Enylo82W5Tc=;
+ b=m9/Htw82NoXxoRb9D7ezW13YRiZPFzrH/YvhcZgMjy2myAt5p8nkC1GS
+ laredrj/ETnpyYl4LhCi4QBB5eirGCDsrXH6lQZfGVz+wmat75tGP8g1e
+ jVCW5EyzLge2YENAFvGkznjEDmzo7AlinNGe2vngF/2DvcNEgU/FL1G4J
+ mM1ekovyOZm3k0OaKz6Hjdmh7o4HJzZQZNh6AfbAy27zRVHCEAnjkXisG
+ PJHyqB9RNSdtm/4mFoRu7OfqKZWg4DG9OIgA6DzTaVqrQ5L95WhlAsqxp
+ kAnPB2IGLlFbKaBRLKjk+0tuHWFp0QMWsiYou4scsjagBSdEQFCW5z/ys g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="437090240"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="437090240"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2023 03:17:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="677616353"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; d="scan'208";a="677616353"
+Received: from mmilbred-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.219.202])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2023 03:17:28 -0700
+Date: Fri, 12 May 2023 12:17:24 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i1915/guc: Fix probe injection CI
+ failures after recent change
+Message-ID: <ZF4SNE/XNXi75W5d@ashyti-mobl2.lan>
+References: <20230510205556.312999-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=bagasdotme@gmail.com;
- h=from:subject; bh=PkQY9HnKXIwg0IaXpF33XHuRDzB1ZRiNQ1FLD5oV4q4=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDClx/DNlZ3lanJT7p1ayYymLq+t2lUf7xU5xTbIv2zq/P
- c1cwzS3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPZwsnI0DSB1bvrwoZSud8H
- 0ne/3frdnuH0pjxjmXVPMvvE5m9y3cPwP/SEaKC5kN1FhVtfGU8aFdcIxYbGRS4xOZrN1MAp9PA
- sNwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510205556.312999-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,53 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Simon Horman <simon.horman@corigine.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Eric Dumazet <edumazet@google.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gospodarek <andy@greyhouse.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
- Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Philippe Ombredanne <pombredanne@nexb.com>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, David Airlie <airlied@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Karsten Keil <isdn@linux-pingi.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>,
- Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Daniel Mack <daniel@zonque.org>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Intel-GFX@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, DRI-Devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace unversioned GPL license notice with appropriate SPDX
-identifier, which is GPL 1.0+.
+Hi John,
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- include/linux/synclink.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Wed, May 10, 2023 at 01:55:56PM -0700, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> A recent change bumped a 'notice' message up to 'error' level for
+> debug builds to help trap incorrect configurations in CI systems.
+> Unfortunaetly, tha error condition in question is triggered by the
 
-diff --git a/include/linux/synclink.h b/include/linux/synclink.h
-index f1405b1c71ba15..85195634c81dfa 100644
---- a/include/linux/synclink.h
-+++ b/include/linux/synclink.h
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-1.0+ */
- /*
-  * SyncLink Multiprotocol Serial Adapter Driver
-  *
-@@ -5,8 +6,6 @@
-  *
-  * Copyright (C) 1998-2000 by Microgate Corporation
-  *
-- * Redistribution of this file is permitted under
-- * the terms of the GNU Public License (GPL)
-  */
- #ifndef _SYNCLINK_H_
- #define _SYNCLINK_H_
--- 
-An old man doll... just what I always wanted! - Clara
+/tha/the/
 
+> error injection probe test. So change the message again to be 'probe
+> error' level instead.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Fixes: 760133d42f0a ("drm/i915/uc: Make unexpected firmware versions an error in debug builds")
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Andi
+
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index 4ec7df9ed5ff3..e467d9af61876 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -18,7 +18,7 @@
+>  #include "i915_reg.h"
+>  
+>  #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)
+> -#define UNEXPECTED	gt_err
+> +#define UNEXPECTED	gt_probe_error
+>  #else
+>  #define UNEXPECTED	gt_notice
+>  #endif
+> -- 
+> 2.39.1
