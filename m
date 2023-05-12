@@ -1,73 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F657025EA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5C07025E9
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF5110E14D;
-	Mon, 15 May 2023 07:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBEE410E140;
+	Mon, 15 May 2023 07:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F43010E28A
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 13:14:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5343D2225C;
- Fri, 12 May 2023 13:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683897267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vT/R3PsdI/1sURxV66XoglSLT9Wc6TGMzQUNQ6f+Kzg=;
- b=1Gk1TurzRmIwLiiJ1S0QFJMoNFIvVLfVV2/CluRuqaVT7kyk53X0knKoYw2Tgi9laEHTAF
- DOJPFl9SZrrBcT8HnvhVonK5rSy+kGn+kMu2HY8KlW3akNQodQWbr5XdhBEB2A7AX5PNUO
- DgK7Ni+IKgXMLPlxSy2FYEa/a5GZ/F4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683897267;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vT/R3PsdI/1sURxV66XoglSLT9Wc6TGMzQUNQ6f+Kzg=;
- b=jrarGo0IOotAITjzSF0Q2TDEbr/STyxCIGJuzqZLf2zOPbVaIZHmpEQBh1SNDI62l6g/qe
- /94Z4uvRjASZJgBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 096DC13466;
- Fri, 12 May 2023 13:14:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JaX+AbM7XmTGNwAAMHmgww
- (envelope-from <afaerber@suse.de>); Fri, 12 May 2023 13:14:27 +0000
-Message-ID: <f52cd21e-2a71-159c-ca7f-b3ef9a679e44@suse.de>
-Date: Fri, 12 May 2023 15:14:26 +0200
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C8E10E0C2;
+ Fri, 12 May 2023 19:26:21 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id
+ 41be03b00d2f7-52c30fa5271so5450870a12.0; 
+ Fri, 12 May 2023 12:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683919581; x=1686511581;
+ h=content-disposition:mime-version:message-id:subject:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Yz4DYKSNmBeEVN5VVceILj1aZ1bLp7+YNm7+Yoele00=;
+ b=GdGO7tJ4IIUXweKlz+dCEQNC4Jf9giqrZ6IQWsiG1yctoFoJUmWBZf1pDY+NSPN5EF
+ 8QHk5X08ZDhLvo1aTU9OeDLX7TNJt7TYJiZn3Ddz38fWq//zCdSzINTj/mdDUd0ryo43
+ kpyAnVNpeI6uFrEAFnQkIrmNluVRMi8FDSTuho8UK8nD02zBM1GLG78rAVDqdqzhvlBj
+ TTlB554DoFhi6MzAJYNLUUDhY9H6/IoYnPKa1GwkYcZteDq0Ae0iVRqpkkyOLY2cYk1c
+ hjH8FdKRI9UuLEhJPsWUzT/CmUi0ThL8rox40SCNkRv4N87OV8bbNKARNFVU0A3Mb77a
+ lllw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683919581; x=1686511581;
+ h=content-disposition:mime-version:message-id:subject:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yz4DYKSNmBeEVN5VVceILj1aZ1bLp7+YNm7+Yoele00=;
+ b=aeQxa2rhLCi0MeilFmzS22KVBxSvpfhXC01Zl0kBeKdFpwpT+a5vl3YVE+eHjhCbm4
+ ZZ/3fEd1KsQa3fC+g09HDWKd0VXTFA1bxstR5MUkQJ13jEBoIIhg2v8KzD1wkGEnb91T
+ Yg9EMXdSrM4zzBK0LreEtA0gKo4Ed3TCMHuA14jaYSlooZAtZTRA4YqNHhecp1qdiTcI
+ 7OIBg/AKUb4QuyBTDWx0COVLXK0oFte+yzx9dz8G7z1470lMOm16uYjfXdmnE87yyTQQ
+ 6u7gTF6LetIe5TDTlbuL6zfqiSjVSPToEmJ4Pjav3+vwLnEtCK7DcZVmNStRkm06VwN2
+ QnhQ==
+X-Gm-Message-State: AC+VfDyPxqJGMP3SloeXuDPFLBr4IKnLkJBkYfA3FZfYK1XK0xYFKmvs
+ SB8XTfR5x5zyPuFzQ3XJKkY=
+X-Google-Smtp-Source: ACHHUZ4oAT/GxHasWc1+hnu5yWxpHeEJ05uQYZwgtlcpevP5ZF9ks5XZ87fIDTRvaTXgidAuos4Pww==
+X-Received: by 2002:a17:902:e54b:b0:1ac:712d:2032 with SMTP id
+ n11-20020a170902e54b00b001ac712d2032mr25367398plf.50.1683919580676; 
+ Fri, 12 May 2023 12:26:20 -0700 (PDT)
+Received: from yoga ([2400:1f00:13:5d8c:29b4:3ace:81ca:10f])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020a63f701000000b0051b8172fa68sm7171336pgh.38.2023.05.12.12.26.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 12:26:20 -0700 (PDT)
+Date: Sat, 13 May 2023 00:56:13 +0530
+From: Anup Sharma <anupnewsmail@gmail.com>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] gpu: drm: nouveau: nvkm: engine: gr: Remove Unneeded semicolon
+Message-ID: <ZF6S1bg2AzuBjhxW@yoga>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>
-References: <20230512100620.36807-1-bagasdotme@gmail.com>
- <20230512100620.36807-9-bagasdotme@gmail.com>
-From: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
-In-Reply-To: <20230512100620.36807-9-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Mon, 15 May 2023 07:18:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,79 +73,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Simon Horman <simon.horman@corigine.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Eric Dumazet <edumazet@google.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Andy Gospodarek <andy@greyhouse.net>,
- Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
- Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
- Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
- Denis Turischev <denis@compulab.co.il>,
- Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Philippe Ombredanne <pombredanne@nexb.com>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Ray Lehtiniemi <rayl@mail.com>, Alan Cox <alan@linux.intel.com>,
- Alessandro Zummo <a.zummo@towertech.it>, Karsten Keil <isdn@linux-pingi.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonas Jensen <jonas.jensen@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Remove the extra semicolon at end. Issue identified using
+semicolon.cocci Coccinelle semantic patch.
+Warning:
+drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:423:31-32: Unneeded semicolon
 
-Am 12.05.23 um 12:06 schrieb Bagas Sanjaya:
-> Many watchdog drivers's source files has already SPDX license
-> identifier, while some remaining doesn't.
-> 
-> Convert notices on remaining files to SPDX identifier. While at it,
-> also move SPDX identifier for drivers/watchdog/rtd119x_wdt.c to the
-> top of file (as in other files).
-> 
-> Cc: Ray Lehtiniemi <rayl@mail.com>
-> Cc: Alessandro Zummo <a.zummo@towertech.it>
-> Cc: Andrey Panin <pazke@donpac.ru>
-> Cc: Oleg Drokin <green@crimea.edu>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Jonas Jensen <jonas.jensen@gmail.com>
-> Cc: Sylver Bruneau <sylver.bruneau@googlemail.com>
-> Cc: Andrew Sharp <andy.sharp@lsi.com>
-> Cc: Denis Turischev <denis@compulab.co.il>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Alan Cox <alan@linux.intel.com>
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-[...]
-> diff --git a/drivers/watchdog/rtd119x_wdt.c b/drivers/watchdog/rtd119x_wdt.c
-> index 95c8d7abce42e6..984905695dde51 100644
-> --- a/drivers/watchdog/rtd119x_wdt.c
-> +++ b/drivers/watchdog/rtd119x_wdt.c
-> @@ -1,9 +1,9 @@
-> +// SPDX-License-Identifier: GPL-2.0+
->   /*
->    * Realtek RTD129x watchdog
->    *
->    * Copyright (c) 2017 Andreas Färber
->    *
-> - * SPDX-License-Identifier: GPL-2.0+
->    */
->   
->   #include <linux/bitops.h>
+Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Andreas Färber <afaerber@suse.de> # for RTD119x
-
-Thanks,
-Andreas
-
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+index 5f20079c3660..204516891ece 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -420,7 +420,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
+ 			return ret;
+ 	} else {
+ 		ret = nvkm_memory_map(gr->attrib_cb, 0, chan->vmm, chan->attrib_cb,
+-				      &args, sizeof(args));;
++				      &args, sizeof(args));
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
-SUSE Software Solutions Germany GmbH
-Frankenstraße 146, 90461 Nürnberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nürnberg)
+2.34.1
+
