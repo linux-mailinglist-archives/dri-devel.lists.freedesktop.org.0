@@ -1,81 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5FA6FFDCD
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 02:17:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 051EB6FFDD0
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 02:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6B810E600;
-	Fri, 12 May 2023 00:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584DC10E603;
+	Fri, 12 May 2023 00:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A7810E600;
- Fri, 12 May 2023 00:16:57 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34C0Gp5D030211; Fri, 12 May 2023 00:16:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=jSj+NhCwQKjZy4GYJIlA34ECE1KfkQwQTzcR7Ko1TyI=;
- b=YjxKrPbwEKfziIBfKwrZArch2ZTYryI2MvORjyoYPkH9iwKuaLe+yj9X4heQWPJnlzkV
- tfLruHMKOj9CfDTQaNf6npjNlDqIjlP2ruJdEJkUBthtAVWg3QWs2Sgw1mNtZpBKjiI6
- Gge5nuf34u2QsSCldVELB5g088UB5ahsmLAsAaLzK81GSNZd85vOKhMxkMxq4T0VI5Rp
- sEodNdaoBin/f82a7Mb56tQ/vYG+VKGy5JsgHoL8VGvwuRGfIQL/JACv4u/KYFT2rVzA
- 5zFdQmfc4rKcFm6t5CaOk/fwYGWkvkA8E9xah7RCOGAqNPo0IWu0vXMW1so/dH+x8Gry Lg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qh24h14rb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 00:16:51 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34C0GoKG008076
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 00:16:50 GMT
-Received: from [10.110.12.203] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 11 May
- 2023 17:16:48 -0700
-Message-ID: <8ac0b5f5-27da-2b28-8f10-b2fca447511a@quicinc.com>
-Date: Thu, 11 May 2023 17:16:48 -0700
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4CB10E603
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 00:17:48 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc25f0c7dso16756972a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1683850663; x=1686442663;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=A8SW9YoumdQ8cXqFALi795RyrEYhnQ1pvgweAzLFr0w=;
+ b=C058dF6y+mfJ89SQm6Q3anr/4ebdu9+eETydzkGC/8JLRV5v78l6p0MvNeSO4xupp2
+ dleH5zI15hZY3itpmykHGc5PSMo2AQzlBNd8Hbt5nnA0JrOWnSQM82E3o7gRFhDB6a44
+ yRpYhF/X7YT+WGo1a3UHcJ49JoOlf5zfLYvUM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683850663; x=1686442663;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A8SW9YoumdQ8cXqFALi795RyrEYhnQ1pvgweAzLFr0w=;
+ b=jGjULKKMyyNS6rVL0oqv047Lo8f7dzv5tVyWmvYbDxt61B7/m8squYkZGgsUbDLd+y
+ Bv7tL29DYfmC11BHWN1a43fCx+tFjh7gD+nLSm4yHAryCKupG2R0VV7Uw5t0KlGdWltK
+ ysGqRxjps3CdKxY8a2HBnDfA8UyKeXr/Fa/P5GLr8uB9Zk1zALk1QGoiZRQhxd632FIo
+ kRs3uzQkFjvPSV0Cqi1gm7iSVzhcfKq03ePmH2k6xA7cbNFPxsX1R0/5ikrCIvYXb841
+ i3dw35wXwrVoDVTxxHGHyesYGXqm0OGnBcrPK7HCs9dT9e9zNZ7KNHmCnNhVB2HhkIQi
+ g1RQ==
+X-Gm-Message-State: AC+VfDyRuhJJPGYW8GuUjOQMUCJztaDoVUIO+5p+/72VW51tQKKn09Sj
+ o/2QPmKHkI3l64DnBKuhPTHbRR5SaSEhVg6NsoYxoA==
+X-Google-Smtp-Source: ACHHUZ6Q4WZwr5s2Ql2u5hNHwbRL2rjjKIc1NAM6+LMDRWekRklweK+4yh0kYyz/72gcKSuxFIuXlg==
+X-Received: by 2002:a17:907:9606:b0:932:7f5c:4bb2 with SMTP id
+ gb6-20020a170907960600b009327f5c4bb2mr22851891ejc.75.1683850663705; 
+ Thu, 11 May 2023 17:17:43 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
+ [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
+ e27-20020a170906249b00b0095707b7dd04sm4545873ejb.42.2023.05.11.17.17.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 17:17:43 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-50dba8a52dcso26322a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:17:42 -0700 (PDT)
+X-Received: by 2002:a50:d4ce:0:b0:502:2af:7b1d with SMTP id
+ e14-20020a50d4ce000000b0050202af7b1dmr10146edj.3.1683850662405; Thu, 11 May
+ 2023 17:17:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v1 1/2] drm/msm/dp: enable HDP plugin/unplugged interrupts
- to hpd_enable/disable
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <andersson@kernel.org>
-References: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
- <1683750665-8764-2-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJprtQF0x_LCOTrt5bvRnJ+xRz6QxLF6QAP-4Pff6V5TJ2g@mail.gmail.com>
- <20230511155331.2jmfe7xcs5tihdgb@ripper>
- <5ef83699-01de-d062-6239-9bb834c70458@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <5ef83699-01de-d062-6239-9bb834c70458@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: tdGTkWR988iNGxlCtpmtFJy7_L1naaGi
-X-Proofpoint-ORIG-GUID: tdGTkWR988iNGxlCtpmtFJy7_L1naaGi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-11_19,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305120000
+References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
+ <141b928d-6165-f282-b8e6-f140cb09333d@collabora.com>
+ <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
+ <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
+In-Reply-To: <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Thu, 11 May 2023 17:17:30 -0700
+X-Gmail-Original-Message-ID: <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
+Message-ID: <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000096c54605fb740851"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,184 +79,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>, kernel@collabora.com,
+ Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--00000000000096c54605fb740851
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/11/2023 8:57 AM, Dmitry Baryshkov wrote:
-> On 11/05/2023 18:53, Bjorn Andersson wrote:
->> On Thu, May 11, 2023 at 07:24:46AM +0300, Dmitry Baryshkov wrote:
->>> On Wed, 10 May 2023 at 23:31, Kuogee Hsieh <quic_khsieh@quicinc.com> 
->>> wrote:
->>>>
->>>> The internal_hpd flag was introduced to handle external DP HPD 
->>>> derived from GPIO
->>>> pinmuxed into DP controller. HPD plug/unplug interrupts cannot be 
->>>> enabled until
->>>> internal_hpd flag is set to true.
->>>> At both bootup and resume time, the DP driver will enable external DP
->>>> plugin interrupts and handle plugin interrupt accordingly. 
->>>> Unfortunately
->>>> dp_bridge_hpd_enable() bridge ops function was called to set 
->>>> internal_hpd
->>>> flag to true later than where DP driver expected during bootup time.
->>>>
->>>> This causes external DP plugin event to not get detected and 
->>>> display stays blank.
->>>> Move enabling HDP plugin/unplugged interrupts to 
->>>> dp_bridge_hpd_enable()/disable() to
->>>> set internal_hpd to true along with enabling HPD plugin/unplugged 
->>>> interrupts
->>>> simultaneously to avoid timing issue during bootup and resume.
->>>>
->>>> Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable 
->>>> callbacks")
->>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>
->>> Thanks for debugging this!
->>>
->>> However after looking at the driver I think there is more than this.
->>>
->>> We have several other places gated on internal_hpd flag, where we do
->>> not have a strict ordering of events.
->>> I see that dp_hpd_plug_handle() and dp_hpd_unplug_handle() also toggle
->>> DP_DP_IRQ_HPD_INT_MASK and DP_DP_HPD_REPLUG_INT_MASK depending on
->>> internal_hpd. Can we toggle all 4 interrupts from the
->>> hpd_enable/hpd_disable functions? If we can do it, then I think we can
->>> drop the internal_hpd flag completely.
->>>
->>
->> Yes, that's what I believe the DRM framework intend us to do.
->>
->> The problem, and reason why I didn't do tat in my series, was that in
->> order to update the INT_MASKs you need to clock the IP-block and that's
->> done elsewhere.
->>
->> So, for the internal_hpd case, it seems appropriate to pm_runtime_get()
->> in hpd_enable() and unmask the HPD interrupts, and mask the interrupts
->> and pm_runtime_put() in hpd_disable().
->>
->>
->> But for edp and external HPD-signal we also need to make sure power is
->> on while something is connected...
+On Mon, May 8, 2023 at 6:59=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
+e:
+
+> On Wed, May 3, 2023 at 10:07=E2=80=AFAM Gurchetan Singh
+> <gurchetansingh@chromium.org> wrote:
+> >
+> >
+> >
+> > On Mon, May 1, 2023 at 8:38=E2=80=AFAM Dmitry Osipenko <
+> dmitry.osipenko@collabora.com> wrote:
+> >>
+> >> On 4/16/23 14:52, Dmitry Osipenko wrote:
+> >> > We have multiple Vulkan context types that are awaiting for the
+> addition
+> >> > of the sync object DRM UAPI support to the VirtIO-GPU kernel driver:
+> >> >
+> >> >  1. Venus context
+> >> >  2. Native contexts (virtio-freedreno, virtio-intel, virtio-amdgpu)
+> >> >
+> >> > Mesa core supports DRM sync object UAPI, providing Vulkan drivers
+> with a
+> >> > generic fencing implementation that we want to utilize.
+> >> >
+> >> > This patch adds initial sync objects support. It creates fundament
+> for a
+> >> > further fencing improvements. Later on we will want to extend the
+> VirtIO-GPU
+> >> > fencing API with passing fence IDs to host for waiting, it will be a
+> new
+> >> > additional VirtIO-GPU IOCTL and more. Today we have several
+> VirtIO-GPU context
+> >> > drivers in works that require VirtIO-GPU to support sync objects UAP=
+I.
+> >> >
+> >> > The patch is heavily inspired by the sync object UAPI implementation
+> of the
+> >> > MSM driver.
+> >>
+> >> Gerd, do you have any objections to merging this series?
+> >>
+> >> We have AMDGPU [1] and Intel [2] native context WIP drivers depending =
+on
+> >> the sync object support. It is the only part missing from kernel today
+> >> that is wanted by the native context drivers. Otherwise, there are few
+> >> other things in Qemu and virglrenderer left to sort out.
+> >>
+> >> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21658
+> >> [2]
+> https://gitlab.freedesktop.org/digetx/mesa/-/commits/native-context-iris
+> >
+> >
+> > I'm not saying this change isn't good, just it's probably possible to
+> implement the native contexts (even up to even VK1.2) without it.  But th=
+is
+> patch series may be the most ergonomic way to do it, given how Mesa is
+> designed.  But you probably want one of Mesa MRs reviewed first before
+> merging (I added a comment on the amdgpu change) and that is a requiremen=
+t
+> [a].
+> >
+> > [a] "The userspace side must be fully reviewed and tested to the
+> standards of that user space project. For e.g. mesa this means piglit
+> testcases and review on the mailing list. This is again to ensure that th=
+e
+> new interface actually gets the job done." -- from the requirements
+> >
 >
-> I think this is already handled by the existing code, see calls to the 
-> dp_display_host_init().
+> tbh, the syncobj support is all drm core, the only driver specifics is
+> the ioctl parsing.  IMHO existing tests and the two existing consumers
+> are sufficient.  (Also, considering that additional non-drm
+> dependencies involved.)
 >
->>
->>> I went on and checked other places where it is used:
->>> - dp_hpd_unplug_handle(), guarding DP_DP_HPD_PLUG_INT_MASK toggling. I
->>> think we can drop these two calls completely. The function is under
->>> the event_mutex protection, so other events can not interfere.
->>> - dp_bridge_hpd_notify(). What is the point of this check? If some
->>> other party informs us of the HPD event, we'd better handle it instead
->>> of dropping it. Correct?  In other words, I'd prefer seeing the
->>> hpd_event_thread removal. Instead of that I think that on
->>> HPD/plug/unplug/etc. IRQ the driver should call into the drm stack,
->>> then the hpd_notify call should process those events.
->>>
-1) DP with GPIO: No downstream drm_bridge are connected, is_edp = false
-and internal HPD-logic is in used (internal_hpd = true). Power needs to
-be on at all times etc.
 
-2) DP without GPIO: Downstream drm_bridge connected, is_edp = false and
-internal HPD-logic should not be used/enabled (internal_hpd = false).
-Power doesn't need to be on unless hpd_notify is invoked to tell us that
-there's something connected...
+Can we get one of the Mesa MRs reviewed first?  There's currently no
+virtio-intel MR AFAICT, and the amdgpu one is marked as "Draft:".
 
-- dp_bridge_hpd_notify(). What is the point of this check? <== i have 
-below two questions,
+Even for the amdgpu, Pierre suggests the feature "will be marked as
+experimental both in Mesa and virglrenderer" and we can revise as needed.
+The DRM requirements seem to warn against adding an UAPI too hastily...
 
-1) can you explain when/what this dp_bridge_hpd_notify() will be called?
+You can get the deqp-vk 1.2 tests to pass with the current UAPI, if you
+just change your mesa <--> virglrenderer protocol a little.  Perhaps that
+way is even better, since you plumb the in sync-obj into host-side command
+submission.
 
-2) is dp_bridge_hpd_notify() only will be called at above case #2? and 
-it will not be used by case #1?
+Without inter-context sharing of the fence, this MR really only adds guest
+kernel syntactic sugar.
 
+Note I'm not against syntactic sugar, but I just want to point out that you
+can likely merge the native context work without any UAPI changes, in case
+it's not clear.
 
-
->>
->> I agree, that seems to be what's expected of us from the DRM framework.
->>
->> Regards,
->> Bjorn
->>
->>>
->>>> ---
->>>>   drivers/gpu/drm/msm/dp/dp_display.c | 27 ++++++++++++++-------------
->>>>   1 file changed, 14 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> index 3e13acdf..71aa944 100644
->>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> @@ -1088,13 +1088,6 @@ static void dp_display_config_hpd(struct 
->>>> dp_display_private *dp)
->>>>          dp_display_host_init(dp);
->>>>          dp_catalog_ctrl_hpd_config(dp->catalog);
->>>>
->>>> -       /* Enable plug and unplug interrupts only if requested */
->>>> -       if (dp->dp_display.internal_hpd)
->>>> -               dp_catalog_hpd_config_intr(dp->catalog,
->>>> -                               DP_DP_HPD_PLUG_INT_MASK |
->>>> -                               DP_DP_HPD_UNPLUG_INT_MASK,
->>>> -                               true);
->>>> -
->>>>          /* Enable interrupt first time
->>>>           * we are leaving dp clocks on during disconnect
->>>>           * and never disable interrupt
->>>> @@ -1396,12 +1389,6 @@ static int dp_pm_resume(struct device *dev)
->>>>
->>>>          dp_catalog_ctrl_hpd_config(dp->catalog);
->>>>
->>>> -       if (dp->dp_display.internal_hpd)
->>>> -               dp_catalog_hpd_config_intr(dp->catalog,
->>>> -                               DP_DP_HPD_PLUG_INT_MASK |
->>>> -                               DP_DP_HPD_UNPLUG_INT_MASK,
->>>> -                               true);
->>>> -
->>>>          if (dp_catalog_link_is_connected(dp->catalog)) {
->>>>                  /*
->>>>                   * set sink to normal operation mode -- D0
->>>> @@ -1801,15 +1788,29 @@ void dp_bridge_hpd_enable(struct drm_bridge 
->>>> *bridge)
->>>>   {
->>>>          struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
->>>>          struct msm_dp *dp_display = dp_bridge->dp_display;
->>>> +       struct dp_display_private *dp;
->>>> +
->>>> +       dp = container_of(dp_display, struct dp_display_private, 
->>>> dp_display);
->>>>
->>>>          dp_display->internal_hpd = true;
->>>> +       dp_catalog_hpd_config_intr(dp->catalog,
->>>> +                               DP_DP_HPD_PLUG_INT_MASK |
->>>> +                               DP_DP_HPD_UNPLUG_INT_MASK,
->>>> +                               true);
->>>>   }
->>>>
->>>>   void dp_bridge_hpd_disable(struct drm_bridge *bridge)
->>>>   {
->>>>          struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
->>>>          struct msm_dp *dp_display = dp_bridge->dp_display;
->>>> +       struct dp_display_private *dp;
->>>> +
->>>> +       dp = container_of(dp_display, struct dp_display_private, 
->>>> dp_display);
->>>>
->>>> +       dp_catalog_hpd_config_intr(dp->catalog,
->>>> +                               DP_DP_HPD_PLUG_INT_MASK |
->>>> +                               DP_DP_HPD_UNPLUG_INT_MASK,
->>>> +                               false);
->>>>          dp_display->internal_hpd = false;
->>>>   }
->>>
->>> -- 
->>> With best wishes
->>> Dmitry
+If this was for the core drm syncobj implementation, and not just
+> driver ioctl parsing and wiring up the core helpers, I would agree
+> with you.
 >
+
+There are several possible and viable paths to get the features in question
+(VK1.2 syncobjs, and inter-context fence sharing).  There are paths
+entirely without the syncobj, paths that only use the syncobj for the
+inter-context fence sharing case and create host syncobjs for VK1.2, paths
+that also use guest syncobjs in every proxied command submission.
+
+It's really hard to tell which one is better.  Here's my suggestion:
+
+1) Get the native contexts reviewed/merged in Mesa/virglrenderer using the
+current UAPI.  Options for VK1.2 include: pushing down the syncobjs to the
+host, and simulating the syncobj (as already done).  It's fine to mark
+these contexts as "experimental" like msm-experimental.  That will allow
+you to experiment with the protocols, come up with tests, and hopefully
+determine an answer to the host versus guest syncobj question.
+
+2) Once you've completed (1), try to add UAPI changes for features that are
+missing or things that are suboptimal with the knowledge gained from doing
+(2).
+
+WDYT?
+
+
+>
+> BR,
+> -R
+>
+
+--00000000000096c54605fb740851
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 8, 2023 at 6:59=E2=80=AFA=
+M Rob Clark &lt;<a href=3D"mailto:robdclark@gmail.com" target=3D"_blank">ro=
+bdclark@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On Wed, May 3, 2023 at 10:07=E2=80=AFAM Gurchetan Singh<br=
+>
+&lt;<a href=3D"mailto:gurchetansingh@chromium.org" target=3D"_blank">gurche=
+tansingh@chromium.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, May 1, 2023 at 8:38=E2=80=AFAM Dmitry Osipenko &lt;<a href=3D"=
+mailto:dmitry.osipenko@collabora.com" target=3D"_blank">dmitry.osipenko@col=
+labora.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On 4/16/23 14:52, Dmitry Osipenko wrote:<br>
+&gt;&gt; &gt; We have multiple Vulkan context types that are awaiting for t=
+he addition<br>
+&gt;&gt; &gt; of the sync object DRM UAPI support to the VirtIO-GPU kernel =
+driver:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 1. Venus context<br>
+&gt;&gt; &gt;=C2=A0 2. Native contexts (virtio-freedreno, virtio-intel, vir=
+tio-amdgpu)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Mesa core supports DRM sync object UAPI, providing Vulkan dri=
+vers with a<br>
+&gt;&gt; &gt; generic fencing implementation that we want to utilize.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; This patch adds initial sync objects support. It creates fund=
+ament for a<br>
+&gt;&gt; &gt; further fencing improvements. Later on we will want to extend=
+ the VirtIO-GPU<br>
+&gt;&gt; &gt; fencing API with passing fence IDs to host for waiting, it wi=
+ll be a new<br>
+&gt;&gt; &gt; additional VirtIO-GPU IOCTL and more. Today we have several V=
+irtIO-GPU context<br>
+&gt;&gt; &gt; drivers in works that require VirtIO-GPU to support sync obje=
+cts UAPI.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The patch is heavily inspired by the sync object UAPI impleme=
+ntation of the<br>
+&gt;&gt; &gt; MSM driver.<br>
+&gt;&gt;<br>
+&gt;&gt; Gerd, do you have any objections to merging this series?<br>
+&gt;&gt;<br>
+&gt;&gt; We have AMDGPU [1] and Intel [2] native context WIP drivers depend=
+ing on<br>
+&gt;&gt; the sync object support. It is the only part missing from kernel t=
+oday<br>
+&gt;&gt; that is wanted by the native context drivers. Otherwise, there are=
+ few<br>
+&gt;&gt; other things in Qemu and virglrenderer left to sort out.<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_re=
+quests/21658" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedeskt=
+op.org/mesa/mesa/-/merge_requests/21658</a><br>
+&gt;&gt; [2] <a href=3D"https://gitlab.freedesktop.org/digetx/mesa/-/commit=
+s/native-context-iris" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
+freedesktop.org/digetx/mesa/-/commits/native-context-iris</a><br>
+&gt;<br>
+&gt;<br>
+&gt; I&#39;m not saying this change isn&#39;t good, just it&#39;s probably =
+possible to implement the native contexts (even up to even VK1.2) without i=
+t.=C2=A0 But this patch series may be the most ergonomic way to do it, give=
+n how Mesa is designed.=C2=A0 But you probably want one of Mesa MRs reviewe=
+d first before merging (I added a comment on the amdgpu change) and that is=
+ a requirement [a].<br>
+&gt;<br>
+&gt; [a] &quot;The userspace side must be fully reviewed and tested to the =
+standards of that user space project. For e.g. mesa this means piglit testc=
+ases and review on the mailing list. This is again to ensure that the new i=
+nterface actually gets the job done.&quot; -- from the requirements<br>
+&gt;<br>
+<br>
+tbh, the syncobj support is all drm core, the only driver specifics is<br>
+the ioctl parsing.=C2=A0 IMHO existing tests and the two existing consumers=
+<br>
+are sufficient.=C2=A0 (Also, considering that additional non-drm<br>
+dependencies involved.)<br></blockquote><div><br></div><div>Can we get one =
+of the Mesa MRs reviewed first?=C2=A0 There&#39;s currently no virtio-intel=
+ MR AFAICT, and the amdgpu one is marked as &quot;Draft:&quot;.=C2=A0=C2=A0=
+</div><div><br></div><div>Even for the amdgpu, Pierre suggests the feature =
+&quot;will be marked as experimental both in Mesa and virglrenderer&quot; a=
+nd we can revise as needed.=C2=A0 The DRM requirements seem to warn against=
+ adding an UAPI too hastily...</div><div><br></div><div>You can get the deq=
+p-vk 1.2 tests to pass with the current UAPI, if you just change your mesa =
+&lt;--&gt; virglrenderer protocol a little.=C2=A0 Perhaps that way is even =
+better, since you plumb the in sync-obj into host-side command submission.=
+=C2=A0=C2=A0</div><div><br></div><div>Without inter-context sharing of the =
+fence, this MR really only adds guest kernel syntactic sugar.</div><div><br=
+></div><div>Note I&#39;m not against syntactic sugar, but I just want to po=
+int out that you can likely merge the native context work without any UAPI =
+changes, in case it&#39;s not clear.=C2=A0 =C2=A0=C2=A0</div><div><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+If this was for the core drm syncobj implementation, and not just<br>
+driver ioctl parsing and wiring up the core helpers, I would agree<br>
+with you.<br></blockquote><div><br></div><div>There are several possible an=
+d viable paths to get the features in question (VK1.2 syncobjs, and inter-c=
+ontext fence sharing).=C2=A0 There are paths entirely without the syncobj, =
+paths that only use the syncobj for the inter-context fence sharing case an=
+d create host syncobjs for VK1.2, paths that also use guest syncobjs in eve=
+ry proxied command submission.=C2=A0=C2=A0</div><div><br></div><div>It&#39;=
+s really hard to tell which one is better.=C2=A0 Here&#39;s my suggestion:<=
+/div><div><br></div><div>1) Get the native contexts reviewed/merged in Mesa=
+/virglrenderer using the current UAPI.=C2=A0 Options for VK1.2 include: pus=
+hing down the syncobjs to the host, and simulating the syncobj (as already =
+done).=C2=A0 It&#39;s fine to mark these contexts as &quot;experimental&quo=
+t; like msm-experimental.=C2=A0 That will allow you to experiment with the =
+protocols, come up with tests, and hopefully determine an answer to the hos=
+t versus guest syncobj question.=C2=A0=C2=A0</div><div><br></div><div>2) On=
+ce you&#39;ve completed (1), try to add UAPI changes for features that are =
+missing or things that are suboptimal with the knowledge gained from doing =
+(2).=C2=A0=C2=A0</div><div><br></div><div>WDYT?</div><div>=C2=A0<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+BR,<br>
+-R<br>
+</blockquote></div></div>
+
+--00000000000096c54605fb740851--
