@@ -2,35 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A1E7025ED
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F657025EA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3D410E152;
-	Mon, 15 May 2023 07:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF5110E14D;
+	Mon, 15 May 2023 07:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA2E810E682;
- Fri, 12 May 2023 11:15:30 +0000 (UTC)
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 12 May
- 2023 14:15:28 +0300
-Received: from KANASHIN1.fintech.ru (10.0.253.125) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 12 May
- 2023 14:15:28 +0300
-From: Natalia Petrova <n.petrova@fintech.ru>
-To: Ben Skeggs <bskeggs@redhat.com>
-Subject: [PATCH] drm/nouveau/dp: check for NULL nv_connector->native_mode
-Date: Fri, 12 May 2023 14:15:26 +0300
-Message-ID: <20230512111526.82408-1-n.petrova@fintech.ru>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F43010E28A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 13:14:29 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5343D2225C;
+ Fri, 12 May 2023 13:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683897267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vT/R3PsdI/1sURxV66XoglSLT9Wc6TGMzQUNQ6f+Kzg=;
+ b=1Gk1TurzRmIwLiiJ1S0QFJMoNFIvVLfVV2/CluRuqaVT7kyk53X0knKoYw2Tgi9laEHTAF
+ DOJPFl9SZrrBcT8HnvhVonK5rSy+kGn+kMu2HY8KlW3akNQodQWbr5XdhBEB2A7AX5PNUO
+ DgK7Ni+IKgXMLPlxSy2FYEa/a5GZ/F4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683897267;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vT/R3PsdI/1sURxV66XoglSLT9Wc6TGMzQUNQ6f+Kzg=;
+ b=jrarGo0IOotAITjzSF0Q2TDEbr/STyxCIGJuzqZLf2zOPbVaIZHmpEQBh1SNDI62l6g/qe
+ /94Z4uvRjASZJgBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 096DC13466;
+ Fri, 12 May 2023 13:14:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id JaX+AbM7XmTGNwAAMHmgww
+ (envelope-from <afaerber@suse.de>); Fri, 12 May 2023 13:14:27 +0000
+Message-ID: <f52cd21e-2a71-159c-ca7f-b3ef9a679e44@suse.de>
+Date: Fri, 12 May 2023 15:14:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
+From: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+In-Reply-To: <20230512100620.36807-9-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.253.125]
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
 X-Mailman-Approved-At: Mon, 15 May 2023 07:18:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,49 +81,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, Karol Herbst <kherbst@redhat.com>,
- nouveau@lists.freedesktop.org, Natalia Petrova <n.petrova@fintech.ru>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Simon Horman <simon.horman@corigine.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Eric Dumazet <edumazet@google.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Andy Gospodarek <andy@greyhouse.net>,
+ Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
+ Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
+ Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
+ Denis Turischev <denis@compulab.co.il>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
+ Philippe Ombredanne <pombredanne@nexb.com>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Ray Lehtiniemi <rayl@mail.com>, Alan Cox <alan@linux.intel.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, Karsten Keil <isdn@linux-pingi.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonas Jensen <jonas.jensen@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>, Jan Kara <jack@suse.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add checking for NULL before calling nouveau_connector_detect_depth() in
-nouveau_connector_get_modes() function because nv_connector->native_mode
-could be dereferenced there since connector pointer passed to
-nouveau_connector_detect_depth() and the same value of
-nv_connector->native_mode is used there.
+Hi,
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Am 12.05.23 um 12:06 schrieb Bagas Sanjaya:
+> Many watchdog drivers's source files has already SPDX license
+> identifier, while some remaining doesn't.
+> 
+> Convert notices on remaining files to SPDX identifier. While at it,
+> also move SPDX identifier for drivers/watchdog/rtd119x_wdt.c to the
+> top of file (as in other files).
+> 
+> Cc: Ray Lehtiniemi <rayl@mail.com>
+> Cc: Alessandro Zummo <a.zummo@towertech.it>
+> Cc: Andrey Panin <pazke@donpac.ru>
+> Cc: Oleg Drokin <green@crimea.edu>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Jonas Jensen <jonas.jensen@gmail.com>
+> Cc: Sylver Bruneau <sylver.bruneau@googlemail.com>
+> Cc: Andrew Sharp <andy.sharp@lsi.com>
+> Cc: Denis Turischev <denis@compulab.co.il>
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: Alan Cox <alan@linux.intel.com>
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+[...]
+> diff --git a/drivers/watchdog/rtd119x_wdt.c b/drivers/watchdog/rtd119x_wdt.c
+> index 95c8d7abce42e6..984905695dde51 100644
+> --- a/drivers/watchdog/rtd119x_wdt.c
+> +++ b/drivers/watchdog/rtd119x_wdt.c
+> @@ -1,9 +1,9 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+>   /*
+>    * Realtek RTD129x watchdog
+>    *
+>    * Copyright (c) 2017 Andreas Färber
+>    *
+> - * SPDX-License-Identifier: GPL-2.0+
+>    */
+>   
+>   #include <linux/bitops.h>
 
-Fixes: d4c2c99bdc83 ("drm/nouveau/dp: remove broken display depth function, use the improved one")
+Acked-by: Andreas Färber <afaerber@suse.de> # for RTD119x
 
-Signed-off-by: Natalia Petrova <n.petrova@fintech.ru>
----
- drivers/gpu/drm/nouveau/nouveau_connector.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks,
+Andreas
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 086b66b60d91..5dbf025e6873 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -966,7 +966,7 @@ nouveau_connector_get_modes(struct drm_connector *connector)
- 	/* Determine display colour depth for everything except LVDS now,
- 	 * DP requires this before mode_valid() is called.
- 	 */
--	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS)
-+	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS && nv_connector->native_mode)
- 		nouveau_connector_detect_depth(connector);
- 
- 	/* Find the native mode if this is a digital panel, if we didn't
-@@ -987,7 +987,7 @@ nouveau_connector_get_modes(struct drm_connector *connector)
- 	 * "native" mode as some VBIOS tables require us to use the
- 	 * pixel clock as part of the lookup...
- 	 */
--	if (connector->connector_type == DRM_MODE_CONNECTOR_LVDS)
-+	if (connector->connector_type == DRM_MODE_CONNECTOR_LVDS && nv_connector->native_mode)
- 		nouveau_connector_detect_depth(connector);
- 
- 	if (nv_encoder->dcb->type == DCB_OUTPUT_TV)
 -- 
-2.34.1
-
+SUSE Software Solutions Germany GmbH
+Frankenstraße 146, 90461 Nürnberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nürnberg)
