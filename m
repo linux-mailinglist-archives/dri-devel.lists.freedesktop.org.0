@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544667002D5
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00E27002E8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 10:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 703F710E64C;
-	Fri, 12 May 2023 08:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FAA210E667;
+	Fri, 12 May 2023 08:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8F710E143;
- Fri, 12 May 2023 08:41:57 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47ADA10E626;
+ Fri, 12 May 2023 08:41:59 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C5AEC2277F;
- Fri, 12 May 2023 08:41:55 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1973C20439;
+ Fri, 12 May 2023 08:41:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683880915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1683880916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CPj8PSVa733w7x7xFCz+v5D3fSwmoptM8FaSvfFesA4=;
- b=E4qQaRYrBMXM9qzhTmOCzGzXKqXrw+Kac1y/5XRkbdPnpNKr5won871BZ7dbfQT6B0DvXl
- JsMNcGDEGaKhqPcw7rFBmkeGrKA/rrPHyqN4tFOoPe9wHreCqrti0i3UQXxcNNtGj88hCu
- qa1q198G8HZkCWQkXwYQMUzrTnXqiP0=
+ bh=txJMPZPrX+cezG81MFeFiAbDpsCYTcij5lftNUBYvCQ=;
+ b=1N9EdwfkKq135vmw7b1hlgw5mO7fWmQi8f3XDy9/DR2L4e7zsS3tsUU1xQqJsiNlVwknBz
+ DZ6FxeqM17ykBSmrwO7mqdwST0Fs+znj2OXbtCTBHecnd/KSW+NJ6gM2T8htDCQEkJZllG
+ nztaCrh4ubXdF5ysJm+68UtpBaMfniM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683880915;
+ s=susede2_ed25519; t=1683880916;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CPj8PSVa733w7x7xFCz+v5D3fSwmoptM8FaSvfFesA4=;
- b=1rOz6zhbuJKgqdK+TAWnurZZCKL9goFz9qADinfTLap1nyF1XNvAyoUH+vsplTgH5i0WQj
- ZGKX+BhSYFJsGRCw==
+ bh=txJMPZPrX+cezG81MFeFiAbDpsCYTcij5lftNUBYvCQ=;
+ b=0wTTlT3fZqFbTdyXVBjZFB9hKMlSTMC5yhkrCP6Qgk2OV6I1mPymkMW8ec/6zuh7Uu4KgZ
+ 3p4gyyXNaUEbOQAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 79BA413466;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C92B713A0A;
  Fri, 12 May 2023 08:41:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qE7nHNP7XWQZKQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id uHdFMNP7XWQZKQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 12 May 2023 08:41:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH 04/11] drm/radeon: Use regular fbdev I/O helpers
-Date: Fri, 12 May 2023 10:41:45 +0200
-Message-Id: <20230512084152.31233-5-tzimmermann@suse.de>
+Subject: [PATCH 05/11] drm/fbdev-dma: Use regular fbdev I/O helpers
+Date: Fri, 12 May 2023 10:41:46 +0200
+Message-Id: <20230512084152.31233-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512084152.31233-1-tzimmermann@suse.de>
 References: <20230512084152.31233-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,20 +69,18 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-helpers. Radeon does not use damage handling, so DRM's fbdev helpers
+helpers. Fbdev-dma does not use damage handling, so DRM's fbdev helpers
 are mere wrappers around the fbdev code.
 
-Add CONFIG_DRM_RADEON_FBDEV_EMULATION to select the necessary
+Add CONFIG_DRM_FBDEV_DMA_EMULATION to select the necessary
 Kconfig options automatically. Make fbdev emulation depend on
 the new config option.
 
@@ -91,92 +88,92 @@ By using fbdev helpers directly within each DRM fbdev emulation,
 we can eventually remove DRM's wrapper functions entirely.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 ---
- drivers/gpu/drm/radeon/Kconfig        | 8 ++++++++
- drivers/gpu/drm/radeon/Makefile       | 2 +-
- drivers/gpu/drm/radeon/radeon_fbdev.c | 9 ++++-----
- drivers/gpu/drm/radeon/radeon_mode.h  | 2 +-
- 4 files changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/Kconfig         |  9 +++++++++
+ drivers/gpu/drm/Makefile        |  2 +-
+ drivers/gpu/drm/drm_fbdev_dma.c | 12 +++++++-----
+ include/drm/drm_fbdev_dma.h     |  2 +-
+ 4 files changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
-index e19d77d58810..66b741d96cc4 100644
---- a/drivers/gpu/drm/radeon/Kconfig
-+++ b/drivers/gpu/drm/radeon/Kconfig
-@@ -8,6 +8,7 @@ config DRM_RADEON
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HELPER
-         select DRM_KMS_HELPER
-+	select DRM_RADEON_FBDEV_EMULATION if DRM_FBDEV_EMULATION
- 	select DRM_SUBALLOC_HELPER
-         select DRM_TTM
- 	select DRM_TTM_HELPER
-@@ -39,3 +40,10 @@ config DRM_RADEON_USERPTR
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index ba3fb04bb691..c007cb75715e 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -223,9 +223,18 @@ config DRM_TTM_HELPER
+ config DRM_GEM_DMA_HELPER
+ 	tristate
+ 	depends on DRM
++	select DRM_FBDEV_DMA_EMULATION if DRM_FBDEV_EMULATION
  	help
- 	  This option selects CONFIG_MMU_NOTIFIER if it isn't already
- 	  selected to enabled full userptr support.
-+
-+config DRM_RADEON_FBDEV_EMULATION
+ 	  Choose this if you need the GEM DMA helper functions
+ 
++config DRM_FBDEV_DMA_EMULATION
 +	bool
-+	depends on DRM_RADEON
-+	select FB_CFB_COPYAREA
-+	select FB_CFB_FILLRECT
-+	select FB_CFB_IMAGEBLIT
-diff --git a/drivers/gpu/drm/radeon/Makefile b/drivers/gpu/drm/radeon/Makefile
-index a8734b7d0485..46c1446196a9 100644
---- a/drivers/gpu/drm/radeon/Makefile
-+++ b/drivers/gpu/drm/radeon/Makefile
-@@ -76,7 +76,7 @@ radeon-y += \
- 	vce_v1_0.o \
- 	vce_v2_0.o
++	depends on DRM_GEM_DMA_HELPER
++	select FB_SYS_COPYAREA
++	select FB_SYS_FILLRECT
++	select FB_SYS_FOPS
++	select FB_SYS_IMAGEBLIT
++
+ config DRM_GEM_SHMEM_HELPER
+ 	tristate
+ 	depends on DRM && MMU
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index a33257d2bc7f..d94821d37c2d 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -82,7 +82,7 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+ obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
  
--radeon-$(CONFIG_DRM_FBDEV_EMULATION) += radeon_fbdev.o
-+radeon-$(CONFIG_DRM_RADEON_FBDEV_EMULATION) += radeon_fbdev.o
- radeon-$(CONFIG_VGA_SWITCHEROO) += radeon_atpx_handler.o
- radeon-$(CONFIG_ACPI) += radeon_acpi.o
+ drm_dma_helper-y := drm_gem_dma_helper.o
+-drm_dma_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_dma.o
++drm_dma_helper-$(CONFIG_DRM_FBDEV_DMA_EMULATION) += drm_fbdev_dma.o
+ drm_dma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
+ obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
  
-diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-index fe76e29910ef..dcabe527f9c0 100644
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -24,6 +24,7 @@
-  *     David Airlie
-  */
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index 728deffcc0d9..09a36dc38c43 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: MIT
  
 +#include <linux/fb.h>
- #include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/vga_switcheroo.h>
-@@ -193,11 +194,9 @@ static const struct fb_ops radeon_fbdev_fb_ops = {
++
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_helper.h>
+@@ -64,12 +66,12 @@ static const struct fb_ops drm_fbdev_dma_fb_ops = {
+ 	.owner = THIS_MODULE,
+ 	.fb_open = drm_fbdev_dma_fb_open,
+ 	.fb_release = drm_fbdev_dma_fb_release,
+-	.fb_read = drm_fb_helper_sys_read,
+-	.fb_write = drm_fb_helper_sys_write,
++	.fb_read = fb_sys_read,
++	.fb_write = fb_sys_write,
  	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_open = radeon_fbdev_fb_open,
- 	.fb_release = radeon_fbdev_fb_release,
--	.fb_read = drm_fb_helper_cfb_read,
--	.fb_write = drm_fb_helper_cfb_write,
--	.fb_fillrect = drm_fb_helper_cfb_fillrect,
--	.fb_copyarea = drm_fb_helper_cfb_copyarea,
--	.fb_imageblit = drm_fb_helper_cfb_imageblit,
-+	.fb_fillrect = cfb_fillrect,
-+	.fb_copyarea = cfb_copyarea,
-+	.fb_imageblit = cfb_imageblit,
- 	.fb_destroy = radeon_fbdev_fb_destroy,
+-	.fb_fillrect = drm_fb_helper_sys_fillrect,
+-	.fb_copyarea = drm_fb_helper_sys_copyarea,
+-	.fb_imageblit = drm_fb_helper_sys_imageblit,
++	.fb_fillrect = sys_fillrect,
++	.fb_copyarea = sys_copyarea,
++	.fb_imageblit = sys_imageblit,
+ 	.fb_destroy = drm_fbdev_dma_fb_destroy,
+ 	.fb_mmap = drm_fbdev_dma_fb_mmap,
  };
+diff --git a/include/drm/drm_fbdev_dma.h b/include/drm/drm_fbdev_dma.h
+index 2da7ee784133..3e96ad069136 100644
+--- a/include/drm/drm_fbdev_dma.h
++++ b/include/drm/drm_fbdev_dma.h
+@@ -5,7 +5,7 @@
  
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index 1decdcec0264..c5a8e25a4c97 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -939,7 +939,7 @@ void dce4_program_fmt(struct drm_encoder *encoder);
- void dce8_program_fmt(struct drm_encoder *encoder);
+ struct drm_device;
  
- /* fbdev layer */
--#if defined(CONFIG_DRM_FBDEV_EMULATION)
-+#if defined(CONFIG_DRM_RADEON_FBDEV_EMULATION)
- void radeon_fbdev_setup(struct radeon_device *rdev);
- void radeon_fbdev_set_suspend(struct radeon_device *rdev, int state);
- bool radeon_fbdev_robj_is_fb(struct radeon_device *rdev, struct radeon_bo *robj);
+-#ifdef CONFIG_DRM_FBDEV_EMULATION
++#if defined(CONFIG_DRM_FBDEV_DMA_EMULATION)
+ void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp);
+ #else
+ static inline void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
 -- 
 2.40.1
 
