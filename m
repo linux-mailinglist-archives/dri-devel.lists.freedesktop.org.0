@@ -2,64 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01726FFE2E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 02:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48A76FFE6C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 03:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39C6510E088;
-	Fri, 12 May 2023 00:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25C7F10E605;
+	Fri, 12 May 2023 01:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF7A10E096
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 00:54:31 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id
- 3f1490d57ef6-ba6f4365d73so654646276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 May 2023 17:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683852871; x=1686444871;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=13QXrDUunIKS3nzQg7+Y1LNFFExufB7mhjww9OSaI8E=;
- b=yv1Aa0DVgbmRTQkD15m6TtlspfJ7PzwXL2nXvLpU70QfFaBqC1ZfiWzwhTRcKvE/zz
- d9wRHDY1pc9TlM9+eUhRU2dLWh+hPHGJCVco7faJTF8+7O18gd384Xq7u6UibbahCyK/
- tp/2OaK7mSJO5DPV++bvh6CRqD1xc5SD7kIAgQaXk2xmC2bqaZdAXWfaixSZO6O19Epd
- kRh3bTe0Kf0CLB2L17bBFPxhp53JuuhXHjCIhw++6slNvoNlDqADguKmzt2QVYrbkxrH
- iSTfijY7nWhqB4pAYpOHGeU/HOvuVBb64GxmCN2C07JwaGHiYJwV7wZh68ZvLkPH8GAM
- 65KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683852871; x=1686444871;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=13QXrDUunIKS3nzQg7+Y1LNFFExufB7mhjww9OSaI8E=;
- b=EIDRRk5EOJD9r2Nm1McazmRs45KJaCwQAkXVxTxdpWAwkkBElyV7jgtNn52pFBfTYX
- KGF3ggd72WIk6tH9765wvi/2vnODzH2kX9KcMKoB2T86vsQUP8b+s/+KQ+K7FmDdIwty
- Ud6nSYrUnNcfzjmQH4hqzBT7qc3xcsiryeyhlFt3+RqTxxg4q8zkHMlJiEp1N7F1BLcH
- 6FBdS1SJq5hSFziKxdj3ll8H6wOpFD9yJpigJ2WKGn59jDIASlwZ+nSCjZA5RY1KGv4l
- zIFzgIdcOd0Cy38Q13IrBBsgwEIn+rH9xffJpRRJPVBf3h4v+8JwkmN8FFotaLEjlHbx
- TyUA==
-X-Gm-Message-State: AC+VfDwcM+TlDiwLh0VQLh6cnvfoe71W9J1DPkNF1LePvast3uzJj3sA
- XmJ4IyhODRs2Bhk3uEq2idhEwLNg/iqr1alP677SQg==
-X-Google-Smtp-Source: ACHHUZ6zkj2jHzJNInf49SFDRu6Bq9VJMsYGKJu/kXQsYy2rYOra+A374VNd1ggRwTE5R7JxkHjyk1m8Mg6ijUN5VeA=
-X-Received: by 2002:a25:fd6:0:b0:b9d:b22e:6082 with SMTP id
- 205-20020a250fd6000000b00b9db22e6082mr21017812ybp.3.1683852870690; Thu, 11
- May 2023 17:54:30 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F3F910E605;
+ Fri, 12 May 2023 01:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683855104; x=1715391104;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=4OJh3x8jAFXfpr9qsJMczy46//uV3/JCNoYn7W1BRC0=;
+ b=CVwY0QuDpuwJSfTlzojZiyGejpnJvqupGL9v1asL3Zkvwp7bQuyO3BCK
+ VzLc+poTkvUhlyJlEMjvD68QAcPqKG8BSu6AEHtEQWY8gZX+NlwTJqnaV
+ rRJ/3U7c3KROn4cyGM2uK/A2SVH0ExuSd+xEVes75Hf55dW2xFphkeLQH
+ 8uac2zupu5tNBCNFoLeN0FiFVqaRYavoF0yh8NSD5mmdhclrW9RVBE7mk
+ MQHMJ25i4aiyGf/ymb28sBi1WVglsQBMjbNGSbvujOxHRZNuNtPpjwcvM
+ vm/mUh5uGXJlHAelp3FwcaYKZVb2/RXVJsztYK/Wk7yQ2uFRh9K35GfWs g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="416300721"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="416300721"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 18:31:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="677477076"
+X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; d="scan'208";a="677477076"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga006.jf.intel.com with ESMTP; 11 May 2023 18:31:41 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 11 May 2023 18:31:41 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 11 May 2023 18:31:41 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 11 May 2023 18:31:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=atuRSuxvpQRvhzVdLpErm9QaLQMKN6JBEraRYAGKKt2gNOO7INq7MaL4I4zVxo6JdPct3L7kQS3mP3BvDJ4H+hSvctjq6ZDV+gWd3l4vtH/fl20pIpf7qwFZqd66xuEHzmpCnbGHIj1zr9viuarH+K1n738G1+mdNVLLxHuP5VqKHowYV7m+WnqiWNNQrv0qLMRdCXgR2hvaUaARzUdrrRXkCWCiBbWCZzEirGa+BeIWiSspnKCOUPfgkeJmJgUC+M9e6WWuWrN6A2qEj9lCwCBg/J3UHseVg7oTUka0YrTqzT+BhNFnTlePJbU0ewyodo3d25sb2CCz/NmIhb2AKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vRAJAbZEVRghu4UQjJ/vZV3ByOvUiNeQSltJBr4ADy0=;
+ b=LZuPbcs20yK/maKFv3+zThLWo3cKkhYu/9ozVfvP+F3kI4JvBOai+BmZpBuHY5q+tfmxI7uVchWNoeBWp3u1lpMSGX3Pz8NIir5IzSN1vdYpvYNE1yegwQvYkpDGLHdCQ3bwSHlAeeSyqSVZX7El4e6jBvSL2rMTakASPzPDO8rfsrwehqp9/dZCIwLWCj2I2DuSAxo92kMlKAG3N+Db71h4cxrHK1YpWa4UDY2dddA79r4ZstA8yLSx9eR/cAHyoE/ROn2hbOYBN7D+3avs331LMj6SCEtBcrIaAnLKX3AUlGX2NsmyMnDSppE05c2kW45T791wHQO51vV85/V7vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA1PR11MB7753.namprd11.prod.outlook.com (2603:10b6:208:421::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.36; Fri, 12 May
+ 2023 01:31:39 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::ff06:a115:e4eb:680e%4]) with mapi id 15.20.6387.022; Fri, 12 May 2023
+ 01:31:38 +0000
+Date: Fri, 12 May 2023 01:31:20 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [Intel-xe] [PATCH 2/2] drm/xe: Properly remove the vma from the
+ vm::notifer::rebind_list when destroyed
+Message-ID: <ZF2W6A1qHheFeWef@DUT025-TGLU.fm.intel.com>
+References: <20230510141932.413348-1-thomas.hellstrom@linux.intel.com>
+ <20230510141932.413348-3-thomas.hellstrom@linux.intel.com>
+ <ZF0BoLJBupaVg+t4@DUT025-TGLU.fm.intel.com>
+ <503087d4-694d-fe7e-17a0-ee5a5ec80011@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <503087d4-694d-fe7e-17a0-ee5a5ec80011@linux.intel.com>
+X-ClientProxiedBy: BYAPR07CA0030.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::43) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-References: <1683750665-8764-1-git-send-email-quic_khsieh@quicinc.com>
- <1683750665-8764-2-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJprtQF0x_LCOTrt5bvRnJ+xRz6QxLF6QAP-4Pff6V5TJ2g@mail.gmail.com>
- <20230511155331.2jmfe7xcs5tihdgb@ripper>
- <5ef83699-01de-d062-6239-9bb834c70458@linaro.org>
- <8ac0b5f5-27da-2b28-8f10-b2fca447511a@quicinc.com>
-In-Reply-To: <8ac0b5f5-27da-2b28-8f10-b2fca447511a@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 12 May 2023 03:54:19 +0300
-Message-ID: <CAA8EJpokAoGni7vNwuijs7EvmjCweO3pgChij3Qx3OUkVTVpiQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] drm/msm/dp: enable HDP plugin/unplugged interrupts
- to hpd_enable/disable
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA1PR11MB7753:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10b32193-1da0-43e1-af44-08db5288a17b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2CdjOXufMdKsQRu1S7i+TjpLX4++z3naExo+GxlcXE9AuW3JBT8NMSNk1fF0YzYtY5at15D4tNaSq9Ye3taXWjt7okO32XGvtlLiX+5yWETiZh6gi6clU/2ac6J1mQXJb8Tn30jscPohwSmZkqufyS23RzLNyXqQwENX2JWKtnu/U3iP7y+oPdkjhDlrW2GqU8Sut+S7+YCY7UiKRrwwb94jruvEfj65aURSAtZQ6NX0Z4GXIivpoWBNaZDFoBaPw1rGZxCCJD62lZ8U+8qGb4nkYsFNLZeoNPjv8FuJ1sTpCAaKAuGUFpsqbIuKdm4pECCKlafFYZFsh0/BJihOURWKjoYYl9+Nq/I6VLSZG/dJvJFurZPnwE+/Eo7vlmrEpRijxZtv0vyt/b4qG0LmYWNqsD3NPrQuW0cEZEUBSbgCGiapiC3t4kuYn1P4qshxGZfm4TMB8rluE5Qxa00ZD898DB609MQua6Idj3zgt4L1haki7fjZLz4k9glMWCQxvmbWkmdxBCrx10RnEnyjXNNMc1hx/vLwgDLnd6brnXCXRUwkLBiuUA2FWCY9fXmS
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199021)(186003)(478600001)(86362001)(6486002)(38100700002)(6666004)(8676002)(5660300002)(44832011)(82960400001)(8936002)(66476007)(66556008)(66946007)(316002)(41300700001)(4326008)(6512007)(6506007)(53546011)(6916009)(26005)(2906002)(66574015)(83380400001)(66899021);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?NA4RGEiNwyqDxUJ8wkG93yQLhLpOPu7mn8QK0v8GR8UnoIOxQ06rzqLkk3?=
+ =?iso-8859-1?Q?oEYDTyf8Lyz+k2pfh77ENnKMKSIzuCfz+ehBJVup80rmww06kwfDx7IcRc?=
+ =?iso-8859-1?Q?r/cls6e9UKx0Gjp/gbPFmfNR++aSjMQq33dGUckiRNJj78Mz5QqEp8Ewqr?=
+ =?iso-8859-1?Q?wlf/aqLAihU+jdWgQ8mtkF72uIlflvnLSnGB6F0krV26Fs0uYMtJuzaHrh?=
+ =?iso-8859-1?Q?JChUhHUq+4uoRuiV0Uyepfpyz01qTEQTfa2H2k7WAiOmr/HT9FasvvNqRc?=
+ =?iso-8859-1?Q?rnL3dLigXYdJURawj5ZzSnD8ArpkJq+kneYc410D9X6lnjOxaff2k3lB3E?=
+ =?iso-8859-1?Q?ss+sjeR4dkOt0/QnUJQ30C87cPGb5RvUsQBHOUDhPWjhYkOMYo1mVnZRdb?=
+ =?iso-8859-1?Q?tDprelTzc8I4upXGfEw4ApUGY/MpGXUgj0zYYRlRh4xhb2UrWUR8jXeeSC?=
+ =?iso-8859-1?Q?G4xQZWdOW/iNCkzEiqxFmBhAeTTXPHXX8TIm6Vqv6w25GeUTiuWbIrKPoQ?=
+ =?iso-8859-1?Q?i3G/QxKhxfP3VYLuCjp/6/DwhGlYAKsU3EHYqdv3/DonfOZ8z1OEJZ33EM?=
+ =?iso-8859-1?Q?5MVTWZrzgupweEVfy32KyQlA7veo5MYb1Ks+J2ZaPd3HQ1bRUqPFUQ5Y+B?=
+ =?iso-8859-1?Q?Q/hkoXxPrN+oAZStZ4frqMvlwFjwzkJdoWZht9EsXSwjRyfjrQLAXO14W1?=
+ =?iso-8859-1?Q?OvttBih8VOEl205gEqgTVhvIz5Pe1JhaAXInbGmlMzDw66rAOVaC0n3+iN?=
+ =?iso-8859-1?Q?UlUgxwksjbWQCQBB+QJ3Maxcax0qO+HdgfiqRXlzmfJHCE+XN+ipGzPDYX?=
+ =?iso-8859-1?Q?WdCq4Jie+w8ZRWd/Tw68hgtKqDvsQcQXD1yoYANnPyvBV7N6i1aFL2LzS9?=
+ =?iso-8859-1?Q?V9nvpMudkzhmK3HfUYwwNOvvHLaJ5IwHDG4H4w0zYeX0BB0LUSupOPG9ev?=
+ =?iso-8859-1?Q?1oeQ/Fo0HDVOzhYlomBAvGUwZmdb83BAn9JlczkP/bz6ngZz4WJtep23TX?=
+ =?iso-8859-1?Q?Qq+N5EgROvJb4F4D1bL+fQ5aK9LWFJBop/voqrv6QhA32xHPojhsH7Zu+M?=
+ =?iso-8859-1?Q?19JAh/ZBEZUt9+S/PCf/yQQQ4gmOPbYQ3bEeansHVsr2B84A3ckDwQsxNZ?=
+ =?iso-8859-1?Q?urvbC3NRyyzGlRUPkuNI54HIscwZOEbNKUNhQlfvruOXjytabYCIRLjeTK?=
+ =?iso-8859-1?Q?bl7w3UnwEtKKTlnaJj4xEhJ/53Sh4lZ4dp+6Q0dlI82QMgXhA2dtWyS7Wx?=
+ =?iso-8859-1?Q?2hP66Fm4DjVYtnO422bIOLxyO8JJYRl9DewCdkviMJZX1UHV6Pobd3uHn+?=
+ =?iso-8859-1?Q?1Fumor33Oh9DHLtHPzjpf58pSpwwVOjQL+qfqNFnjsOMk+31swKDhcNyWC?=
+ =?iso-8859-1?Q?isMA4Z8QYwOrCaQNpqWnBSYgMoycn3fTqHAuSJ9EGyVRhnGYR3N4kIUMhc?=
+ =?iso-8859-1?Q?0ZA4g32B1Chj7daOqQJqrfQ6OehZ9+woeD+SpE4cjrmBdMmjdwN05bWyOR?=
+ =?iso-8859-1?Q?nkFqYdXQOAyCF6hHp6FK6DJ/lwQ6jgdCL6w3U+fKelKEPWNFxq+9WXPnZz?=
+ =?iso-8859-1?Q?FocYjcxdM90gRakpM4xs7+ypHUaTyXbsOdHj1heuPCbLMdeHSmf4TZvq/+?=
+ =?iso-8859-1?Q?W1R2hlKj8/cSedUKlnmTtB1pBzLMBByvSiWXUOHhhlWX7lmjACxTtvEg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10b32193-1da0-43e1-af44-08db5288a17b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 01:31:38.4216 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hlEJgvXNwAoWZjKAARrQR07uG6VWYO6TOalqA7rAUFMyhpNzrmEKOaIcg7WFJBoXNkTjYe5ezorz3VCAK3R0gQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7753
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,211 +148,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
- quic_abhinavk@quicinc.com, Bjorn Andersson <andersson@kernel.org>,
- dianders@chromium.org, dri-devel@lists.freedesktop.org, swboyd@chromium.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, sean@poorly.run,
- linux-arm-msm@vger.kernel.org
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 May 2023 at 03:16, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
->
-> On 5/11/2023 8:57 AM, Dmitry Baryshkov wrote:
-> > On 11/05/2023 18:53, Bjorn Andersson wrote:
-> >> On Thu, May 11, 2023 at 07:24:46AM +0300, Dmitry Baryshkov wrote:
-> >>> On Wed, 10 May 2023 at 23:31, Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >>> wrote:
-> >>>>
-> >>>> The internal_hpd flag was introduced to handle external DP HPD
-> >>>> derived from GPIO
-> >>>> pinmuxed into DP controller. HPD plug/unplug interrupts cannot be
-> >>>> enabled until
-> >>>> internal_hpd flag is set to true.
-> >>>> At both bootup and resume time, the DP driver will enable external DP
-> >>>> plugin interrupts and handle plugin interrupt accordingly.
-> >>>> Unfortunately
-> >>>> dp_bridge_hpd_enable() bridge ops function was called to set
-> >>>> internal_hpd
-> >>>> flag to true later than where DP driver expected during bootup time.
-> >>>>
-> >>>> This causes external DP plugin event to not get detected and
-> >>>> display stays blank.
-> >>>> Move enabling HDP plugin/unplugged interrupts to
-> >>>> dp_bridge_hpd_enable()/disable() to
-> >>>> set internal_hpd to true along with enabling HPD plugin/unplugged
-> >>>> interrupts
-> >>>> simultaneously to avoid timing issue during bootup and resume.
-> >>>>
-> >>>> Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable
-> >>>> callbacks")
-> >>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >>>
-> >>> Thanks for debugging this!
-> >>>
-> >>> However after looking at the driver I think there is more than this.
-> >>>
-> >>> We have several other places gated on internal_hpd flag, where we do
-> >>> not have a strict ordering of events.
-> >>> I see that dp_hpd_plug_handle() and dp_hpd_unplug_handle() also toggle
-> >>> DP_DP_IRQ_HPD_INT_MASK and DP_DP_HPD_REPLUG_INT_MASK depending on
-> >>> internal_hpd. Can we toggle all 4 interrupts from the
-> >>> hpd_enable/hpd_disable functions? If we can do it, then I think we can
-> >>> drop the internal_hpd flag completely.
-> >>>
-> >>
-> >> Yes, that's what I believe the DRM framework intend us to do.
-> >>
-> >> The problem, and reason why I didn't do tat in my series, was that in
-> >> order to update the INT_MASKs you need to clock the IP-block and that's
-> >> done elsewhere.
-> >>
-> >> So, for the internal_hpd case, it seems appropriate to pm_runtime_get()
-> >> in hpd_enable() and unmask the HPD interrupts, and mask the interrupts
-> >> and pm_runtime_put() in hpd_disable().
-> >>
-> >>
-> >> But for edp and external HPD-signal we also need to make sure power is
-> >> on while something is connected...
-> >
-> > I think this is already handled by the existing code, see calls to the
-> > dp_display_host_init().
-> >
-> >>
-> >>> I went on and checked other places where it is used:
-> >>> - dp_hpd_unplug_handle(), guarding DP_DP_HPD_PLUG_INT_MASK toggling. I
-> >>> think we can drop these two calls completely. The function is under
-> >>> the event_mutex protection, so other events can not interfere.
-> >>> - dp_bridge_hpd_notify(). What is the point of this check? If some
-> >>> other party informs us of the HPD event, we'd better handle it instead
-> >>> of dropping it. Correct?  In other words, I'd prefer seeing the
-> >>> hpd_event_thread removal. Instead of that I think that on
-> >>> HPD/plug/unplug/etc. IRQ the driver should call into the drm stack,
-> >>> then the hpd_notify call should process those events.
-> >>>
-> 1) DP with GPIO: No downstream drm_bridge are connected, is_edp = false
-> and internal HPD-logic is in used (internal_hpd = true). Power needs to
-> be on at all times etc.
->
-> 2) DP without GPIO: Downstream drm_bridge connected, is_edp = false and
-> internal HPD-logic should not be used/enabled (internal_hpd = false).
-> Power doesn't need to be on unless hpd_notify is invoked to tell us that
-> there's something connected...
->
-> - dp_bridge_hpd_notify(). What is the point of this check? <== i have
-> below two questions,
->
-> 1) can you explain when/what this dp_bridge_hpd_notify() will be called?
+On Thu, May 11, 2023 at 05:38:11PM +0200, Thomas Hellström wrote:
+> 
+> On 5/11/23 16:54, Matthew Brost wrote:
+> > On Wed, May 10, 2023 at 04:19:32PM +0200, Thomas Hellström wrote:
+> > > If a vma was destroyed with the bo evicted, it might happen that we forget
+> > > to remove it from the notifer::rebind_list. Fix to make sure that really
+> > > happens.
+> > > 
+> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > > ---
+> > >   drivers/gpu/drm/xe/xe_vm.c | 9 +++++++++
+> > >   1 file changed, 9 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> > > index 5f93d78c2e58..f54b3b7566c9 100644
+> > > --- a/drivers/gpu/drm/xe/xe_vm.c
+> > > +++ b/drivers/gpu/drm/xe/xe_vm.c
+> > > @@ -978,6 +978,15 @@ static void xe_vma_destroy(struct xe_vma *vma, struct dma_fence *fence)
+> > >   	} else {
+> > >   		xe_bo_assert_held(vma->bo);
+> > >   		list_del(&vma->bo_link);
+> > > +		/*
+> > > +		 * TODO: We can do an advisory check for list link empty here,
+> > > +		 * if this lock becomes too costly. Nobody can re-add to the
+> > > +		 * bo to the vm::notifier::rebind_list at this point since we
+> > > +		 * have the bo lock.
+> > > +		 */
+> > IMO grab isn't a big deal, not sure this is worth such a lengthly comment.
+> 
+> Ok, I'll remove it.
+> 
+> 
+> > 
+> > > +		 spin_lock(&vm->notifier.list_lock);
+> > > +		 list_del(&vma->notifier.rebind_link);
+> > Can you safe call list_del on an empty list? I thought that call blows
+> > up hence we have a bunch of if (!list_empty()) checks before calling
+> > list_del all over the driver.
+> 
+> Good question. Looking at the implementation it definitely looks possible,
+> and I have LIST_DEBUG turned on when testing, so I assume it would have
+> blown up otherwise.
+> 
 
-The call chain is drm_bridge_hpd_notify() ->
-drm_bridge_connector_hpd_notify() -> .hpd_notify() for all drm_bridge
-in chain
+It looks like 2 deletes will blow up but delete on a empty list is fine.
 
-One should add a call to drm_bridge_hpd_notify() when the hotplug
-event has been detected.
+With that:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Also please note the patch https://patchwork.freedesktop.org/patch/484432/
-
->
-> 2) is dp_bridge_hpd_notify() only will be called at above case #2? and
-> it will not be used by case #1?
-
-Once the driver calls drm_bridge_hpd_notify() in the hpd path, the
-hpd_notify callbacks will be called in case#1 too.
-
-BTW: I don't see drm_bridge_hpd_notify() or
-drm_kms_{,connector_}_hotplug_event() HPD notifications in the DP
-driver at all. This should be fixed.
-
->
->
->
-> >>
-> >> I agree, that seems to be what's expected of us from the DRM framework.
-> >>
-> >> Regards,
-> >> Bjorn
-> >>
-> >>>
-> >>>> ---
-> >>>>   drivers/gpu/drm/msm/dp/dp_display.c | 27 ++++++++++++++-------------
-> >>>>   1 file changed, 14 insertions(+), 13 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> index 3e13acdf..71aa944 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> @@ -1088,13 +1088,6 @@ static void dp_display_config_hpd(struct
-> >>>> dp_display_private *dp)
-> >>>>          dp_display_host_init(dp);
-> >>>>          dp_catalog_ctrl_hpd_config(dp->catalog);
-> >>>>
-> >>>> -       /* Enable plug and unplug interrupts only if requested */
-> >>>> -       if (dp->dp_display.internal_hpd)
-> >>>> -               dp_catalog_hpd_config_intr(dp->catalog,
-> >>>> -                               DP_DP_HPD_PLUG_INT_MASK |
-> >>>> -                               DP_DP_HPD_UNPLUG_INT_MASK,
-> >>>> -                               true);
-> >>>> -
-> >>>>          /* Enable interrupt first time
-> >>>>           * we are leaving dp clocks on during disconnect
-> >>>>           * and never disable interrupt
-> >>>> @@ -1396,12 +1389,6 @@ static int dp_pm_resume(struct device *dev)
-> >>>>
-> >>>>          dp_catalog_ctrl_hpd_config(dp->catalog);
-> >>>>
-> >>>> -       if (dp->dp_display.internal_hpd)
-> >>>> -               dp_catalog_hpd_config_intr(dp->catalog,
-> >>>> -                               DP_DP_HPD_PLUG_INT_MASK |
-> >>>> -                               DP_DP_HPD_UNPLUG_INT_MASK,
-> >>>> -                               true);
-> >>>> -
-> >>>>          if (dp_catalog_link_is_connected(dp->catalog)) {
-> >>>>                  /*
-> >>>>                   * set sink to normal operation mode -- D0
-> >>>> @@ -1801,15 +1788,29 @@ void dp_bridge_hpd_enable(struct drm_bridge
-> >>>> *bridge)
-> >>>>   {
-> >>>>          struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> >>>>          struct msm_dp *dp_display = dp_bridge->dp_display;
-> >>>> +       struct dp_display_private *dp;
-> >>>> +
-> >>>> +       dp = container_of(dp_display, struct dp_display_private,
-> >>>> dp_display);
-> >>>>
-> >>>>          dp_display->internal_hpd = true;
-> >>>> +       dp_catalog_hpd_config_intr(dp->catalog,
-> >>>> +                               DP_DP_HPD_PLUG_INT_MASK |
-> >>>> +                               DP_DP_HPD_UNPLUG_INT_MASK,
-> >>>> +                               true);
-> >>>>   }
-> >>>>
-> >>>>   void dp_bridge_hpd_disable(struct drm_bridge *bridge)
-> >>>>   {
-> >>>>          struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-> >>>>          struct msm_dp *dp_display = dp_bridge->dp_display;
-> >>>> +       struct dp_display_private *dp;
-> >>>> +
-> >>>> +       dp = container_of(dp_display, struct dp_display_private,
-> >>>> dp_display);
-> >>>>
-> >>>> +       dp_catalog_hpd_config_intr(dp->catalog,
-> >>>> +                               DP_DP_HPD_PLUG_INT_MASK |
-> >>>> +                               DP_DP_HPD_UNPLUG_INT_MASK,
-> >>>> +                               false);
-> >>>>          dp_display->internal_hpd = false;
-> >>>>   }
-> >>>
-> >>> --
-> >>> With best wishes
-> >>> Dmitry
-> >
-
-
-
--- 
-With best wishes
-Dmitry
+> /Thomas
+> 
+> 
+> > 
+> > Matt
+> > 
+> > > +		 spin_unlock(&vm->notifier.list_lock);
+> > >   		if (!vma->bo->vm)
+> > >   			vm_remove_extobj(vma);
+> > >   	}
+> > > -- 
+> > > 2.39.2
+> > > 
