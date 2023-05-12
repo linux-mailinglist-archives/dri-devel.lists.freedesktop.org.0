@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC390700AD0
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 16:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693D1700B2F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 17:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8059510E117;
-	Fri, 12 May 2023 14:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D75F10E6D3;
+	Fri, 12 May 2023 15:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E4F10E117
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 14:57:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D008361713
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 14:57:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D1BFC4339E
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 14:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683903444;
- bh=RO6sBL9qFppI3iEMDjQPMgfPEFrjKlKZNOlyi6y+TXA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=s+STrIek///VtKsxq4HoAljpLBBpl6WqDChO5kz5ndOmGJb1nFwwjqFMeNB+vej0T
- pArI1y5lXI/as7piuLxUk2DMLFc38NnDgWJyaLXzi9HRL9kb8zHRhtT/HfFbAImM1l
- edeozTk0HsJg8G4e9iwaYsfByubjk3/x2C0XEy+5RN9kiKEqJVsHDbIi/WWBTEDRYw
- uu63qmUBiQnUFDKXgqlK/SwEAjr7QsBxobjnttOo9gv0WtSfXFKStZ3cAzrodICVzj
- sKqnJ4RzFpUxaYJZi7h29GK6cRhErKQ7VjcWzw7ZkSCMyyCFnlezlCK0MsDVrd7uML
- PIVdmE6dIHqeg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 271B2C43144; Fri, 12 May 2023 14:57:24 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217432] AMDGPU crash on shutdown
-Date: Fri, 12 May 2023 14:57:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jhnmlkvch9@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217432-2300-esR4mqqmQK@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217432-2300@https.bugzilla.kernel.org/>
-References: <bug-217432-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 388 seconds by postgrey-1.36 at gabe;
+ Fri, 12 May 2023 15:16:56 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C60610E6D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 15:16:56 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 4D7391C0ABB; Fri, 12 May 2023 17:10:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1683904224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m+tuCGTpWa1yn/iDsjxKmoSoh9Y6nyn25fuTmBqNyqo=;
+ b=YPWarCic8gSCff9zOS5ukcu0QErdCHhYcqvd+5PE0F9EtHhoeKtCfXuMAJVYrr9oUIDjVo
+ uavrz8JnHpV2uxRg69NUiExtZeDf75S3H4ltUN4Ez8A5qnJ7IolKBLFZHqkJvjkn99ljuD
+ N9c0F8PZbOMGvnQW2qcwM3RpXEktfKg=
+Date: Fri, 12 May 2023 17:09:57 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] video/aperture: fix typos
+Message-ID: <ZF5WxRrQwVjUuD6z@localhost>
+References: <20230404040101.2165600-1-suijingfeng@loongson.cn>
+ <0ad03743-0224-b154-a149-e3e4d54b252d@suse.de>
+ <87355fex1f.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87355fex1f.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +49,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>,
+ Helge Deller <deller@gmx.de>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217432
+Hi!
 
---- Comment #4 from Jonny Mako (jhnmlkvch9@gmail.com) ---
-Kernel version 6.3.1-arch2-1 #1 SMP PREEMPT_DYNAMIC Wed, 10 May 2023 08:54:=
-47
-+0000 x86_64 GNU/Linux
+> > Am 04.04.23 um 06:01 schrieb Sui Jingfeng:
+> >>   EFI FB, VESA FB or VGA FB etc are belong to firmware based framebuffer
+> >>   driver.
+> >
+> 
+...
+> I fixed that before applying, also removed the "are" in the sentence
+> above, since it sounded off and repharsed subject line as "Fix typos
+> in comments".
 
---=20
-You may reply to this email to add a comment.
+I seem to remember that 'all your bases are belong to us' is an old
+meme, but that was probably not intentional here.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best regards,
+						Pavel
+
+-- 
