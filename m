@@ -2,112 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86AF701008
-	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 23:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6838D70100D
+	for <lists+dri-devel@lfdr.de>; Fri, 12 May 2023 23:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB76110E2B7;
-	Fri, 12 May 2023 21:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26D6A10E2BB;
+	Fri, 12 May 2023 21:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37A810E2B7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 21:02:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230512210227euoutp019d6a509c293c8cb5c0ead881b7eb9bbf~egS6EN88G1380913809euoutp010
- for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 21:02:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230512210227euoutp019d6a509c293c8cb5c0ead881b7eb9bbf~egS6EN88G1380913809euoutp010
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1683925347;
- bh=snYc3AaUnMxozrOKWE2koPU90RtCRf+1sDe5897xL1I=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=lWGPKarD3uqVcSItshPBXVFEKINSdjcrzSzY0viuAWXBEcjkI6Ao2e6pKxgLWAWve
- ILUWNlIrruRln5DnkcPfKixsv2++NiLt5veQnw4znHrwdP7g/e/GNhr5OA42n5l0ua
- 1Tb3HjIl9S2mqqdDKEQ0dULZLOaGbmeqBgDPx2zg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230512210226eucas1p197f78c33383550b74ca3e04056887013~egS5Zo6Pi1153111531eucas1p1D;
- Fri, 12 May 2023 21:02:26 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id E7.9A.35386.269AE546; Fri, 12
- May 2023 22:02:26 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20230512210225eucas1p1709c154945bfbcaf221eef18dec31672~egS4qR6Sx0341103411eucas1p1I;
- Fri, 12 May 2023 21:02:25 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20230512210225eusmtrp2667401bccef92188a70c106e5d8480b8~egS4pnHqY0884508845eusmtrp2N;
- Fri, 12 May 2023 21:02:25 +0000 (GMT)
-X-AuditID: cbfec7f4-cc9ff70000028a3a-29-645ea96269d0
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 8C.5E.14344.169AE546; Fri, 12
- May 2023 22:02:25 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20230512210225eusmtip28124dbb9b691ef97b4f38d8e161ca1a8~egS33gBNB0166201662eusmtip2C;
- Fri, 12 May 2023 21:02:25 +0000 (GMT)
-Message-ID: <7a83b8c1-88ff-0ae6-9c3b-d49fc08c7ac0@samsung.com>
-Date: Fri, 12 May 2023 23:02:25 +0200
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E991C10E2B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 21:04:52 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2ac785015d7so114764091fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 May 2023 14:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683925490; x=1686517490;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Q+iTh12Z2leEAD3XW+LoERKl7Jd7SOmJOUXDeevVhZg=;
+ b=VyHtaMdIQVDJw/yMYxiidA9NgIfUYGs4EBFZklpoE8ZX2Z36d2vYu51idP5ID9vYJL
+ 0lM0Yog90wTads2MHWBn2UAe+B/cTf/HpyGfwdnIRfTCV7kDuhS+nB903JpLjfTyF1su
+ A74KPY/x1NRLWLtSkih32A/04P2UyyvI+dd7teYKqCf2u8l8zOmPEJpRG/iaG64i92Qb
+ VLAUfpIW9Q/JLsu2f2FV9Ck637IQ+mIQWJ4EzKEluPuidNmHApoLWckM4NlSWV//oBrb
+ 8Zn9uLlT3IS7lpij/p4eGsjHA6FuUZ7+5K64msIigChOVG4epvwuvbmtnJOhWXAmOdnf
+ bHeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683925490; x=1686517490;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q+iTh12Z2leEAD3XW+LoERKl7Jd7SOmJOUXDeevVhZg=;
+ b=ecsup3npOBRCRY0j/ei1u7MezDQr0Rj9KZsrGy449zpB/+OQN2nRaoc5xjmUrEE0ct
+ MwqNKrufUu7m77Fhfq/QcxI5FypbaWO76/OoNVWhr00CddwX6cQ6s642Gev5ki496uRO
+ 3lGJ4pLaJYbH6j8i7s57A3iiB/ltVPuv1f1JApnPTjAljG8oxEXXO5PEOzschSNMW1tZ
+ ynkBLuYo98jIDYYivnlvQ2AiDRb2JkjdrdTnmh4LAPRipCyvBKtryw9/59uko2Dhnk6t
+ 1FrJCndYLrs1C1kl7k+Vb8QRdIkgQFo2Sr7MHD272aSxcGc1uddPuLLDthqnir1q3MQN
+ cvww==
+X-Gm-Message-State: AC+VfDwByCd1DCe72dB6CQHGjjOsW3KHH9si89QUtahotIkhaQC8YIo1
+ HdGsXbGIkidRJd2YzUTzX4sEJw==
+X-Google-Smtp-Source: ACHHUZ5/iyIkXM1BVpnShgqzOq8KnjqtENdU83lxy1xmRXrE/3SGCyjE6VEtS+C0kxRP++HOPlQLew==
+X-Received: by 2002:ac2:5ec5:0:b0:4ec:89d3:a8a2 with SMTP id
+ d5-20020ac25ec5000000b004ec89d3a8a2mr4630987lfq.43.1683925490449; 
+ Fri, 12 May 2023 14:04:50 -0700 (PDT)
+Received: from [192.168.2.40] ([194.204.33.9])
+ by smtp.gmail.com with ESMTPSA id
+ 4-20020ac24844000000b004edc3bd7fa1sm1583226lfy.201.2023.05.12.14.04.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 14:04:49 -0700 (PDT)
+Message-ID: <8687ce7f-c208-b240-ae9f-c7e565d92755@linaro.org>
+Date: Sat, 13 May 2023 00:04:47 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH V5 5/6] drm: bridge: samsung-dsim: Dynamically configure
- DPHY timing
-Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAHCN7xKq_hZXWZVMG0xFK_zGfm18ag48a83BtL5OyE6VJ3FMTA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v8 5/8] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-6-git-send-email-quic_khsieh@quicinc.com>
+ <41243dc6-eb9d-dea6-f945-cb1f6594a2a4@linaro.org>
+ <ca5e6ae2-c134-820a-c5e0-c5a07fccfc4e@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <ca5e6ae2-c134-820a-c5e0-c5a07fccfc4e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFKsWRmVeSWpSXmKPExsWy7djP87pJK+NSDPY/UbO4c/s0s8Xuq93s
- FvcXf2axuPL1PZtF79JzrBZfNk1gs3g+fx2jxck3V1ksHsy9yWTROXEJu8XlXXPYLN60NTJa
- vD29gd3i/c5bjBaT5t1ktZjRdpnVQcBj7cf7rB4vlzcwe8xuuMjiMW/WCRaPnbPusnvM7pjJ
- 6rF4z0smj02rOtk8jlxdzOpxYsIlJo871/awedzvPs7k0f/XwOPzJjmPA3tb2AL4o7hsUlJz
- MstSi/TtErgyNl8/yVbwWKBi+uOwBsbFvF2MnBwSAiYSu57uY+1i5OIQEljBKHFs/2MmCOcL
- o8STs7fYQaqEBD4zSixapAXTcXDyHzaI+HJGifYmfYiGj4wSa3+8YAZJ8ArYSbx+d4cJxGYR
- UJV49m42O0RcUOLkzCcsILaoQKrEqs0XweqFBaIkDn5cCTaUWUBc4taT+WC9IgIeEgeOXGQB
- WcAsMJtF4sHZZWCD2AQMJbredgE1cHBwCgRK7LjKDdErL9G8dTYzSL2EwCtOiZlbP7FDXO0i
- seXDekYIW1ji1fEtUHEZif875zNBNLQzSiz4fR/KmcAo0fD8FlSHtcSdc7/AtjELaEqs36UP
- EXaU2H2rCSwsIcAnceOtIMQRfBKTtk1nhgjzSnS0CUFUq0nMOr4Obu3BC5eYJzAqzUIKlllI
- 3p+F5J1ZCHsXMLKsYhRPLS3OTU8tNspLLdcrTswtLs1L10vOz93ECEyep/8d/7KDcfmrj3qH
- GJk4GA8xSnAwK4nwvl0SnSLEm5JYWZValB9fVJqTWnyIUZqDRUmcV9v2ZLKQQHpiSWp2ampB
- ahFMlomDU6qBKUuoRttYXVGqL9C2/CLLr0ezmY97dXqUNTocqjIM+jvROF92+5q7KU13eZY2
- p/FsMDZoYrdyXHvGyiHjnOxd6Ye7D+sJ74865Z98tu2QabYW+9m5jJO0kldclnmlv95qWa7T
- 3pvG7lGLO1RUdy6WO86gtytYd7USg+zKZya9zeyb3jyRdfjY/0hge0t/238l9WqNiu0N99U/
- uD5lnsJxeP3fK60VP0584Tv64evVnvDqeds5t3kap603/F9Zfiny0Yd6t9tf4ot0/Wb869vj
- c69a0Xal4m7dO0+D/r1o6ru33Cdu09lOG+OD502fnlx28Uzha/f5ojNq8m75J+zJevekZtqm
- 8FndN0982OC0UImlOCPRUIu5qDgRABSc87MNBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplleLIzCtJLcpLzFFi42I5/e/4Pd3ElXEpBtfuGlrcuX2a2WL31W52
- i/uLP7NYXPn6ns2id+k5VosvmyawWTyfv47R4uSbqywWD+beZLLonLiE3eLyrjlsFm/aGhkt
- 3p7ewG7xfuctRotJ826yWsxou8zqIOCx9uN9Vo+XyxuYPWY3XGTxmDfrBIvHzll32T1md8xk
- 9Vi85yWTx6ZVnWweR64uZvU4MeESk8eda3vYPO53H2fy6P9r4PF5k5zHgb0tbAH8UXo2Rfml
- JakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZm6+fZCt4LFAx
- /XFYA+Ni3i5GTg4JAROJg5P/sHUxcnEICSxllDjY0c4OkZCRODmtgRXCFpb4c60Lqug9o8Tq
- x+tZQBK8AnYSr9/dYQKxWQRUJZ69m80OEReUODnzCViNqECqxMmlN8BsYYEoiYMfV7KB2MwC
- 4hK3nswH6xUR8JA4cOQiC8gCZoG5LBIN67cxgySEBI4wSWyZnghiswkYSnS9BbmCg4NTIFBi
- x1VuiDlmEl1buxghbHmJ5q2zmScwCs1CcsYsJOtmIWmZhaRlASPLKkaR1NLi3PTcYiO94sTc
- 4tK8dL3k/NxNjMB0se3Yzy07GFe++qh3iJGJg/EQowQHs5II79sl0SlCvCmJlVWpRfnxRaU5
- qcWHGE2BYTGRWUo0OR+YsPJK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NTC1KLYPqY
- ODilGpjyLQ5zd558PEOtRSIi6MDdrVnqxQ/+hf2bF3zkhdTsfOuIepddH5vdn6g/X27ps4GL
- V3m76T5+5v1PHdx6+D/P/TVv4ccip9nbXvFKXDS8ZePsUhMccit6C7Pp0i/xm3df7DKaVvPI
- UJExZ1+DxOXPfVb+UbUzrr510ttTt2FN+d98JZYucavo5r+bxLMvG398euKzaMW/33qfN2pP
- OPlCtCn4rk+7dGzTRNHeq8lzPL6FP2FjPvhgM6OT1L9WvzUFmZmWCZnKwbfqdXe8Pd/b/yJS
- qNr3zXIOyyNPfv0QTj/+amqJvSa735SSZTFZc4WlKrTPfpnz1b8vVnhRb9ycH+GmPy23mj2b
- E6T7Z4YSS3FGoqEWc1FxIgDzNsHCoAMAAA==
-X-CMS-MailID: 20230512210225eucas1p1709c154945bfbcaf221eef18dec31672
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b
-References: <20230506192453.725621-1-aford173@gmail.com>
- <20230506192453.725621-6-aford173@gmail.com>
- <275064c0e6c814d8e8fda6bcf70d6e8c3bdc3011.camel@pengutronix.de>
- <CGME20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b@eucas1p1.samsung.com>
- <CAHCN7xKq_hZXWZVMG0xFK_zGfm18ag48a83BtL5OyE6VJ3FMTA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,61 +83,605 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, aford@beaconembedded.com,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>, Michael Walle <michael@walle.cc>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Chen-Yu Tsai <wenst@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.05.2023 22:00, Adam Ford wrote:
-> On Fri, May 12, 2023 at 2:37 PM Lucas Stach <l.stach@pengutronix.de> wrote:
->> Am Samstag, dem 06.05.2023 um 14:24 -0500 schrieb Adam Ford:
->>> The DPHY timings are currently hard coded. Since the input
->>> clock can be variable, the phy timings need to be variable
->>> too.  Add an additional variable to the driver data to enable
->>> this feature to prevent breaking boards that don't support it.
+On 12/05/2023 23:48, Kuogee Hsieh wrote:
+> 
+> On 5/12/2023 11:19 AM, Dmitry Baryshkov wrote:
+>> On 12/05/2023 21:00, Kuogee Hsieh wrote:
+>>> Add support for DSC 1.2 by providing the necessary hooks to program
+>>> the DPU DSC 1.2 encoder.
 >>>
->>> The phy_mipi_dphy_get_default_config function configures the
->>> DPHY timings in pico-seconds, and a small macro converts those
->>> timings into clock cycles based on the pixel clock rate.
+>>> Changes in v3:
+>>> -- fixed kernel test rebot report that "__iomem *off" is declared but 
+>>> not
+>>>     used at dpu_hw_dsc_config_1_2()
+>>> -- unrolling thresh loops
 >>>
->> This week I finally had some time to take a deeper look at this series
->> and test it on some of my systems.
-> Thanks for testing this!
->> This patch causes issues when the burst clock rate is fixed by
->> supplying the DT entry. Instead of describing the issue below, I'm
->> attaching the patch that makes things work on my system.
-> Oops, sorry about that.
->
->> I would appreciate if you could test this one on your side. Feel free
->> to squash it into yours if you find it working properly.
-> I reviewed your patch, and it looks like it makes a lot of sense.
-> If it works, I'll squash them together and add your name to the sign-off.
->
->> Also I would almost bet that dynamic_dphy is working on the Exynos
->> boards with that fix added. So if anyone with access to those boards
->> would like to give it a shot, we may be able to get rid of the
->> hardcoded PHY parameters altogether, which would be a nice cleanup.
-> I wondered the same thing, but I didn't want to create more work for
-> Marek S and since there was so much churn getting the original driver
-> ported, I thought it would be the safest thing to try to give the
-> imx8m m/n/p the features without breaking the Exynos.
->
-> Marek S - Do you want me to post this file without the extra checks to
-> see if it still works with Exynos?
+>>> Changes in v4:
+>>> -- delete DPU_DSC_HW_REV_1_1
+>>> -- delete off and used real register name directly
+>>>
+>>> Changes in v7:
+>>> -- replace offset with sblk->enc.base
+>>> -- replace ss with slice
+>>>
+>>> Changes in v8:
+>>> -- fixed checkpatch warning
+>>>
+>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/Makefile                   |   1 +
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  32 ++-
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h     |  14 +-
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c | 382 
+>>> +++++++++++++++++++++++++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c         |   7 +-
+>>>   5 files changed, 432 insertions(+), 4 deletions(-)
+>>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>>> index b814fc8..b9af5e4 100644
+>>> --- a/drivers/gpu/drm/msm/Makefile
+>>> +++ b/drivers/gpu/drm/msm/Makefile
+>>> @@ -65,6 +65,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>>>       disp/dpu1/dpu_hw_catalog.o \
+>>>       disp/dpu1/dpu_hw_ctl.o \
+>>>       disp/dpu1/dpu_hw_dsc.o \
+>>> +    disp/dpu1/dpu_hw_dsc_1_2.o \
+>>>       disp/dpu1/dpu_hw_interrupts.o \
+>>>       disp/dpu1/dpu_hw_intf.o \
+>>>       disp/dpu1/dpu_hw_lm.o \
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> index dc0a4da..4eda2cc 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>> @@ -1,6 +1,6 @@
+>>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>>>   /*
+>>> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights 
+>>> reserved.
+>>> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All 
+>>> rights reserved.
+>>>    * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights 
+>>> reserved.
+>>>    */
+>>>   @@ -244,12 +244,18 @@ enum {
+>>>   };
+>>>     /**
+>>> - * DSC features
+>>> + * DSC sub-blocks/features
+>>>    * @DPU_DSC_OUTPUT_CTRL       Configure which PINGPONG block gets
+>>>    *                            the pixel output from this DSC.
+>>> + * @DPU_DSC_HW_REV_1_2        DSC block supports dsc 1.1 and 1.2
+>>> + * @DPU_DSC_NATIVE_422_EN     Supports native422 and native420 encoding
+>>> + * @DPU_DSC_MAX
+>>>    */
+>>>   enum {
+>>>       DPU_DSC_OUTPUT_CTRL = 0x1,
+>>> +    DPU_DSC_HW_REV_1_2,
+>>> +    DPU_DSC_NATIVE_422_EN,
+>>> +    DPU_DSC_MAX
+>>>   };
+>>>     /**
+>>> @@ -306,6 +312,14 @@ struct dpu_pp_blk {
+>>>   };
+>>>     /**
+>>> + * struct dpu_dsc_blk - DSC Encoder sub-blk information
+>>> + * @info:   HW register and features supported by this sub-blk
+>>> + */
+>>> +struct dpu_dsc_blk {
+>>> +    DPU_HW_SUBBLK_INFO;
+>>> +};
+>>> +
+>>> +/**
+>>>    * enum dpu_qos_lut_usage - define QoS LUT use cases
+>>>    */
+>>>   enum dpu_qos_lut_usage {
+>>> @@ -452,6 +466,17 @@ struct dpu_pingpong_sub_blks {
+>>>   };
+>>>     /**
+>>> + * struct dpu_dsc_sub_blks - DSC sub-blks
+>>> + * @enc: DSC encoder sub block
+>>> + * @ctl: DSC controller sub block
+>>> + *
+>>> + */
+>>> +struct dpu_dsc_sub_blks {
+>>> +    struct dpu_dsc_blk enc;
+>>> +    struct dpu_dsc_blk ctl;
+>>> +};
+>>> +
+>>> +/**
+>>>    * dpu_clk_ctrl_type - Defines top level clock control signals
+>>>    */
+>>>   enum dpu_clk_ctrl_type {
+>>> @@ -605,10 +630,13 @@ struct dpu_merge_3d_cfg  {
+>>>    * struct dpu_dsc_cfg - information of DSC blocks
+>>>    * @id                 enum identifying this block
+>>>    * @base               register offset of this block
+>>> + * @len:               length of hardware block
+>>>    * @features           bit mask identifying sub-blocks/features
+>>> + * @sblk               sub-blocks information
+>>>    */
+>>>   struct dpu_dsc_cfg {
+>>>       DPU_HW_BLK_INFO;
+>>> +    const struct dpu_dsc_sub_blks *sblk;
+>>>   };
+>>>     /**
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+>>> index 138080a..44fd624 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+>>> @@ -1,5 +1,8 @@
+>>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>>> -/* Copyright (c) 2020-2022, Linaro Limited */
+>>> +/*
+>>> + * Copyright (c) 2020-2022, Linaro Limited
+>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>>> reserved
+>>> + */
+>>>     #ifndef _DPU_HW_DSC_H
+>>>   #define _DPU_HW_DSC_H
+>>> @@ -69,6 +72,15 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(const struct 
+>>> dpu_dsc_cfg *cfg,
+>>>           void __iomem *addr);
+>>>     /**
+>>> + * dpu_hw_dsc_init_1_2 - initializes the v1.2 DSC hw driver block
+>>> + * @cfg:  DSC catalog entry for which driver object is required
+>>> + * @addr: Mapped register io address of MDP
+>>> + * Returns: Error code or allocated dpu_hw_dsc context
+>>> + */
+>>> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+>>> +                       void __iomem *addr);
+>>> +
+>>> +/**
+>>>    * dpu_hw_dsc_destroy - destroys dsc driver context
+>>>    * @dsc:   Pointer to dsc driver context returned by dpu_hw_dsc_init
+>>>    */
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+>>> new file mode 100644
+>>> index 00000000..5bd84bd
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+>>> @@ -0,0 +1,382 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>> +/*
+>>> + * Copyright (c) 2020-2021, The Linux Foundation. All rights reserved.
+>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>>> reserved
+>>> + */
+>>> +
+>>> +#include <drm/display/drm_dsc_helper.h>
+>>> +
+>>> +#include "dpu_kms.h"
+>>> +#include "dpu_hw_catalog.h"
+>>> +#include "dpu_hwio.h"
+>>> +#include "dpu_hw_mdss.h"
+>>> +#include "dpu_hw_dsc.h"
+>>> +
+>>> +#define DSC_CMN_MAIN_CNF           0x00
+>>> +
+>>> +/* DPU_DSC_ENC register offsets */
+>>> +#define ENC_DF_CTRL                0x00
+>>> +#define ENC_GENERAL_STATUS         0x04
+>>> +#define ENC_HSLICE_STATUS          0x08
+>>> +#define ENC_OUT_STATUS             0x0C
+>>> +#define ENC_INT_STAT               0x10
+>>> +#define ENC_INT_CLR                0x14
+>>> +#define ENC_INT_MASK               0x18
+>>> +#define DSC_MAIN_CONF              0x30
+>>> +#define DSC_PICTURE_SIZE           0x34
+>>> +#define DSC_SLICE_SIZE             0x38
+>>> +#define DSC_MISC_SIZE              0x3C
+>>> +#define DSC_HRD_DELAYS             0x40
+>>> +#define DSC_RC_SCALE               0x44
+>>> +#define DSC_RC_SCALE_INC_DEC       0x48
+>>> +#define DSC_RC_OFFSETS_1           0x4C
+>>> +#define DSC_RC_OFFSETS_2           0x50
+>>> +#define DSC_RC_OFFSETS_3           0x54
+>>> +#define DSC_RC_OFFSETS_4           0x58
+>>> +#define DSC_FLATNESS_QP            0x5C
+>>> +#define DSC_RC_MODEL_SIZE          0x60
+>>> +#define DSC_RC_CONFIG              0x64
+>>> +#define DSC_RC_BUF_THRESH_0        0x68
+>>> +#define DSC_RC_BUF_THRESH_1        0x6C
+>>> +#define DSC_RC_BUF_THRESH_2        0x70
+>>> +#define DSC_RC_BUF_THRESH_3        0x74
+>>> +#define DSC_RC_MIN_QP_0            0x78
+>>> +#define DSC_RC_MIN_QP_1            0x7C
+>>> +#define DSC_RC_MIN_QP_2            0x80
+>>> +#define DSC_RC_MAX_QP_0            0x84
+>>> +#define DSC_RC_MAX_QP_1            0x88
+>>> +#define DSC_RC_MAX_QP_2            0x8C
+>>> +#define DSC_RC_RANGE_BPG_OFFSETS_0 0x90
+>>> +#define DSC_RC_RANGE_BPG_OFFSETS_1 0x94
+>>> +#define DSC_RC_RANGE_BPG_OFFSETS_2 0x98
+>>> +
+>>> +/* DPU_DSC_CTL register offsets */
+>>> +#define DSC_CTL                    0x00
+>>> +#define DSC_CFG                    0x04
+>>> +#define DSC_DATA_IN_SWAP           0x08
+>>> +#define DSC_CLK_CTRL               0x0C
+>>> +
+>>> +static inline int _dsc_calc_ob_max_addr(struct dpu_hw_dsc *hw_dsc, 
+>>> int num_ss)
+>>> +{
+>>> +    int max_addr = 2400 / num_ss;
+>>> +
+>>> +    if (hw_dsc->caps->features & BIT(DPU_DSC_NATIVE_422_EN))
+>>> +        max_addr /= 2;
+>>> +
+>>> +    return max_addr - 1;
+>>> +};
+>>> +
+>>> +static inline void dpu_hw_dsc_disable_1_2(struct dpu_hw_dsc *hw_dsc)
+>>> +{
+>>> +    struct dpu_hw_blk_reg_map *hw;
+>>> +    const struct dpu_dsc_sub_blks *sblk;
+>>> +
+>>> +    if (!hw_dsc)
+>>> +        return;
+>>> +
+>>> +    hw = &hw_dsc->hw;
+>>> +    sblk = hw_dsc->caps->sblk;
+>>> +    DPU_REG_WRITE(hw, sblk->ctl.base + DSC_CFG, 0);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + ENC_DF_CTRL, 0);
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_MAIN_CONF, 0);
+>>> +}
+>>> +
+>>> +static inline void dpu_hw_dsc_config_1_2(struct dpu_hw_dsc *hw_dsc,
+>>> +                     struct drm_dsc_config *dsc,
+>>> +                     u32 mode,
+>>> +                     u32 initial_lines)
+>>> +{
+>>> +    struct dpu_hw_blk_reg_map *hw;
+>>> +    const struct dpu_dsc_sub_blks *sblk;
+>>> +    u32 data = 0;
+>>> +    u32 det_thresh_flatness;
+>>> +    u32 num_active_slice_per_enc;
+>>> +    u32 bpp;
+>>> +
+>>> +    if (!hw_dsc || !dsc)
+>>> +        return;
+>>> +
+>>> +    hw = &hw_dsc->hw;
+>>> +
+>>> +    sblk = hw_dsc->caps->sblk;
+>>> +
+>>> +    if (mode & DSC_MODE_SPLIT_PANEL)
+>>> +        data |= BIT(0);
+>>> +
+>>> +    if (mode & DSC_MODE_MULTIPLEX)
+>>> +        data |= BIT(1);
+>>> +
+>>> +    num_active_slice_per_enc = dsc->slice_count;
+>>> +    if (mode & DSC_MODE_MULTIPLEX)
+>>> +        num_active_slice_per_enc = dsc->slice_count >> 1;
+>>> +
+>>> +    data |= (num_active_slice_per_enc & 0x3) << 7;
+>>> +
+>>> +    DPU_REG_WRITE(hw, DSC_CMN_MAIN_CNF, data);
+>>> +
+>>> +    data = (initial_lines & 0xff);
+>>> +
+>>> +    if (mode & DSC_MODE_VIDEO)
+>>> +        data |= BIT(9);
+>>> +
+>>> +    data |= (_dsc_calc_ob_max_addr(hw_dsc, num_active_slice_per_enc) 
+>>> << 18);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + ENC_DF_CTRL, data);
+>>> +
+>>> +    data = (dsc->dsc_version_minor & 0xf) << 28;
+>>> +    if (dsc->dsc_version_minor == 0x2) {
+>>> +        if (dsc->native_422)
+>>> +            data |= BIT(22);
+>>> +        if (dsc->native_420)
+>>> +            data |= BIT(21);
+>>> +    }
+>>> +
+>>> +    bpp = dsc->bits_per_pixel;
+>>> +    /* as per hw requirement bpp should be programmed
+>>> +     * twice the actual value in case of 420 or 422 encoding
+>>> +     */
+>>> +    if (dsc->native_422 || dsc->native_420)
+>>> +        bpp = 2 * bpp;
+>>> +    data |= (dsc->block_pred_enable ? 1 : 0) << 20;
+>>> +    data |= bpp << 10;
+>>> +    data |= (dsc->line_buf_depth & 0xf) << 6;
+>>> +    data |= dsc->convert_rgb << 4;
+>>> +    data |= dsc->bits_per_component & 0xf;
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_MAIN_CONF, data);
+>>> +
+>>> +    data = (dsc->pic_width & 0xffff) |
+>>> +        ((dsc->pic_height & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_PICTURE_SIZE, data);
+>>> +
+>>> +    data = (dsc->slice_width & 0xffff) |
+>>> +        ((dsc->slice_height & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_SLICE_SIZE, data);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_MISC_SIZE,
+>>> +              (dsc->slice_chunk_size) & 0xffff);
+>>> +
+>>> +    data = (dsc->initial_xmit_delay & 0xffff) |
+>>> +        ((dsc->initial_dec_delay & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_HRD_DELAYS, data);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_SCALE,
+>>> +              dsc->initial_scale_value & 0x3f);
+>>> +
+>>> +    data = (dsc->scale_increment_interval & 0xffff) |
+>>> +        ((dsc->scale_decrement_interval & 0x7ff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_SCALE_INC_DEC, data);
+>>> +
+>>> +    data = (dsc->first_line_bpg_offset & 0x1f) |
+>>> +        ((dsc->second_line_bpg_offset & 0x1f) << 5);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_OFFSETS_1, data);
+>>> +
+>>> +    data = (dsc->nfl_bpg_offset & 0xffff) |
+>>> +        ((dsc->slice_bpg_offset & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_OFFSETS_2, data);
+>>> +
+>>> +    data = (dsc->initial_offset & 0xffff) |
+>>> +        ((dsc->final_offset & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_OFFSETS_3, data);
+>>> +
+>>> +    data = (dsc->nsl_bpg_offset & 0xffff) |
+>>> +        ((dsc->second_line_offset_adj & 0xffff) << 16);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_OFFSETS_4, data);
+>>> +
+>>> +    data = (dsc->flatness_min_qp & 0x1f);
+>>> +    data |= (dsc->flatness_max_qp & 0x1f) << 5;
+>>> +
+>>> +    det_thresh_flatness = drm_dsc_calculate_flatness_det_thresh(dsc);
+>>> +    data |= (det_thresh_flatness & 0xff) << 10;
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_FLATNESS_QP, data);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MODEL_SIZE,
+>>> +              (dsc->rc_model_size) & 0xffff);
+>>> +
+>>> +    data = dsc->rc_edge_factor & 0xf;
+>>> +    data |= (dsc->rc_quant_incr_limit0 & 0x1f) << 8;
+>>> +    data |= (dsc->rc_quant_incr_limit1 & 0x1f) << 13;
+>>> +    data |= (dsc->rc_tgt_offset_high & 0xf) << 20;
+>>> +    data |= (dsc->rc_tgt_offset_low & 0xf) << 24;
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_CONFIG, data);
+>>> +
+>>> +    /* program the dsc wrapper */
+>>> +    data = BIT(0); /* encoder enable */
+>>> +    if (dsc->native_422)
+>>> +        data |= BIT(8);
+>>> +    else if (dsc->native_420)
+>>> +        data |= BIT(9);
+>>> +    if (!dsc->convert_rgb)
+>>> +        data |= BIT(10);
+>>> +    if (dsc->bits_per_component == 8)
+>>> +        data |= BIT(11);
+>>> +    if (mode & DSC_MODE_SPLIT_PANEL)
+>>> +        data |= BIT(12);
+>>> +    if (mode & DSC_MODE_MULTIPLEX)
+>>> +        data |= BIT(13);
+>>> +    if (!(mode & DSC_MODE_VIDEO))
+>>> +        data |= BIT(17);
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->ctl.base + DSC_CFG, data);
+>>> +}
+>>> +
+>>> +static inline void dpu_hw_dsc_config_thresh_1_2(struct dpu_hw_dsc 
+>>> *hw_dsc,
+>>> +                        struct drm_dsc_config *dsc)
+>>> +{
+>>> +    struct dpu_hw_blk_reg_map *hw;
+>>> +    const struct dpu_dsc_sub_blks *sblk;
+>>> +    struct drm_dsc_rc_range_parameters *rc;
+>>> +
+>>> +    if (!hw_dsc || !dsc)
+>>> +        return;
+>>> +
+>>> +    hw = &hw_dsc->hw;
+>>> +
+>>> +    sblk = hw_dsc->caps->sblk;
+>>> +
+>>> +    rc = dsc->rc_range_params;
+>>> +
+>>> +    /*
+>>> +     * With BUF_THRESH -- 14 in total
+>>> +     * each register contains 4 thresh values with the last register
+>>> +     * containing only 2 thresh values
+>>> +     */
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_BUF_THRESH_0,
+>>> +              (dsc->rc_buf_thresh[0] << 0) |
+>>> +              (dsc->rc_buf_thresh[1] << 8) |
+>>> +              (dsc->rc_buf_thresh[2] << 16) |
+>>> +              (dsc->rc_buf_thresh[3] << 24));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_BUF_THRESH_1,
+>>> +              (dsc->rc_buf_thresh[4] << 0) |
+>>> +              (dsc->rc_buf_thresh[5] << 8) |
+>>> +              (dsc->rc_buf_thresh[6] << 16) |
+>>> +              (dsc->rc_buf_thresh[7] << 24));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_BUF_THRESH_2,
+>>> +              (dsc->rc_buf_thresh[8] << 0) |
+>>> +              (dsc->rc_buf_thresh[9] << 8) |
+>>> +              (dsc->rc_buf_thresh[10] << 16) |
+>>> +              (dsc->rc_buf_thresh[11] << 24));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_BUF_THRESH_3,
+>>> +              (dsc->rc_buf_thresh[12] << 0) |
+>>> +              (dsc->rc_buf_thresh[13] << 8));
+>>> +
+>>> +    /*
+>>> +     * with min/max_QP -- 5 bits
+>>> +     * each register contains 5 min_qp or max_qp for total of 15
+>>> +     *
+>>> +     * With BPG_OFFSET -- 6 bits
+>>> +     * each register contains 5 BPG_offset for total of 15
+>>> +     */
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MIN_QP_0,
+>>> +              (rc[0].range_min_qp << 0) |
+>>> +              (rc[1].range_min_qp << 5) |
+>>> +              (rc[2].range_min_qp << 10) |
+>>> +              (rc[3].range_min_qp << 15) |
+>>> +              (rc[4].range_min_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MAX_QP_0,
+>>> +              (rc[0].range_max_qp << 0) |
+>>> +              (rc[1].range_max_qp << 5) |
+>>> +              (rc[2].range_max_qp << 10) |
+>>> +              (rc[3].range_max_qp << 15) |
+>>> +              (rc[4].range_max_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_RANGE_BPG_OFFSETS_0,
+>>> +              (rc[0].range_bpg_offset << 0) |
+>>> +              (rc[1].range_bpg_offset << 6) |
+>>> +              (rc[2].range_bpg_offset << 12) |
+>>> +              (rc[3].range_bpg_offset << 18) |
+>>> +              (rc[4].range_bpg_offset << 24));
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MIN_QP_1,
+>>> +              (rc[5].range_min_qp << 0) |
+>>> +              (rc[6].range_min_qp << 5) |
+>>> +              (rc[7].range_min_qp << 10) |
+>>> +              (rc[8].range_min_qp << 15) |
+>>> +              (rc[9].range_min_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MAX_QP_1,
+>>> +              (rc[5].range_max_qp << 0) |
+>>> +              (rc[6].range_max_qp << 5) |
+>>> +              (rc[7].range_max_qp << 10) |
+>>> +              (rc[8].range_max_qp << 15) |
+>>> +              (rc[9].range_max_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_RANGE_BPG_OFFSETS_1,
+>>> +              (rc[5].range_bpg_offset << 0) |
+>>> +              (rc[6].range_bpg_offset << 6) |
+>>> +              (rc[7].range_bpg_offset << 12) |
+>>> +              (rc[8].range_bpg_offset << 18) |
+>>> +              (rc[9].range_bpg_offset << 24));
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MIN_QP_2,
+>>> +              (rc[10].range_min_qp << 0) |
+>>> +              (rc[11].range_min_qp << 5) |
+>>> +              (rc[12].range_min_qp << 10) |
+>>> +              (rc[13].range_min_qp << 15) |
+>>> +              (rc[14].range_min_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_MAX_QP_2,
+>>> +              (rc[10].range_max_qp << 0) |
+>>> +              (rc[11].range_max_qp << 5) |
+>>> +              (rc[12].range_max_qp << 10) |
+>>> +              (rc[13].range_max_qp << 15) |
+>>> +              (rc[14].range_max_qp << 20));
+>>> +    DPU_REG_WRITE(hw, sblk->enc.base + DSC_RC_RANGE_BPG_OFFSETS_2,
+>>> +              (rc[10].range_bpg_offset << 0) |
+>>> +              (rc[11].range_bpg_offset << 6) |
+>>> +              (rc[12].range_bpg_offset << 12) |
+>>> +              (rc[13].range_bpg_offset << 18) |
+>>> +              (rc[14].range_bpg_offset << 24));
+>>> +}
+>>> +
+>>> +static inline void dpu_hw_dsc_bind_pingpong_blk_1_2(struct 
+>>> dpu_hw_dsc *hw_dsc,
+>>> +                            const enum dpu_pingpong pp)
+>>> +{
+>>> +    struct dpu_hw_blk_reg_map *hw;
+>>> +    const struct dpu_dsc_sub_blks *sblk;
+>>> +    int mux_cfg = 0xf; /* Disabled */
+>>> +
+>>> +    hw = &hw_dsc->hw;
+>>> +
+>>> +    sblk = hw_dsc->caps->sblk;
+>>> +
+>>> +    if (pp)
+>>> +        mux_cfg = (pp - PINGPONG_0) & 0x7;
+>>
+>> Do we need an unbind support here like we do for the DSC 1.1?
+> 
+> PINGPONG_NONE is used for unbind. (exactly same as DSC 1.1).
+> 
+> Are you wand DRM_DEBUG_KMS(...) add here same as DSC 1.1?
 
-Feel free to send me patches to test or just point to your 
-work-in-progress git repo.
+No, that's fine. I'd have probably preferred an explicit if-else, but 
+this is also fine.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Best regards
+> 
+> 
+>>
+>>> +
+>>> +    DPU_REG_WRITE(hw, sblk->ctl.base + DSC_CTL, mux_cfg);
+>>> +}
+>>> +
+>>> +static void _setup_dcs_ops_1_2(struct dpu_hw_dsc_ops *ops,
+>>> +                   const unsigned long features)
+>>> +{
+>>> +    ops->dsc_disable = dpu_hw_dsc_disable_1_2;
+>>> +    ops->dsc_config = dpu_hw_dsc_config_1_2;
+>>> +    ops->dsc_config_thresh = dpu_hw_dsc_config_thresh_1_2;
+>>> +    ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk_1_2;
+>>> +}
+>>> +
+>>> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+>>> +                       void __iomem *addr)
+>>> +{
+>>> +    struct dpu_hw_dsc *c;
+>>> +
+>>> +    c = kzalloc(sizeof(*c), GFP_KERNEL);
+>>> +    if (!c)
+>>> +        return ERR_PTR(-ENOMEM);
+>>> +
+>>> +    c->hw.blk_addr = addr + cfg->base;
+>>> +    c->hw.log_mask = DPU_DBG_MASK_DSC;
+>>> +
+>>> +    c->idx = cfg->id;
+>>> +    c->caps = cfg;
+>>> +    _setup_dcs_ops_1_2(&c->ops, c->caps->features);
+>>> +
+>>> +    return c;
+>>> +}
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> index f0fc704..502dd60 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> @@ -1,6 +1,7 @@
+>>>   // SPDX-License-Identifier: GPL-2.0-only
+>>>   /*
+>>>    * Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+>>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>>> reserved.
+>>>    */
+>>>     #define pr_fmt(fmt)    "[drm:%s] " fmt, __func__
+>>> @@ -246,7 +247,11 @@ int dpu_rm_init(struct dpu_rm *rm,
+>>>           struct dpu_hw_dsc *hw;
+>>>           const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>>>   -        hw = dpu_hw_dsc_init(dsc, mmio);
+>>> +        if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
+>>> +            hw = dpu_hw_dsc_init_1_2(dsc, mmio);
+>>> +        else
+>>> +            hw = dpu_hw_dsc_init(dsc, mmio);
+>>> +
+>>>           if (IS_ERR_OR_NULL(hw)) {
+>>>               rc = PTR_ERR(hw);
+>>>               DPU_ERROR("failed dsc object creation: err %d\n", rc);
+>>
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+With best wishes
+Dmitry
 
