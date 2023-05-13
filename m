@@ -2,39 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C667D70184E
-	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 18:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60A5701932
+	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 20:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA6D10E0FB;
-	Sat, 13 May 2023 16:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA6A110E012;
+	Sat, 13 May 2023 18:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E7DE10E0FB
- for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 16:52:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.99,272,1677510000"; d="scan'208";a="162745869"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 14 May 2023 01:52:44 +0900
-Received: from localhost.localdomain (unknown [10.226.92.8])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3A6C440065DF;
- Sun, 14 May 2023 01:52:35 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Wolfram Sang <wsa@kernel.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
-Date: Sat, 13 May 2023 17:52:23 +0100
-Message-Id: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
-References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83D6210E012
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 18:28:30 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd37ca954so99296875a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 11:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684002506; x=1686594506;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/skyL1sLWdeVWQOTLH4B/eNUzzrc9hV+v4n2aX70iXk=;
+ b=G0WSmFIDrbVpJnxA9vpq/+boMjF9sbPpuRcq/wRTF+rvSiPClVefSbA/Jm14QEe6PX
+ BXt+NA2Bbavm3P/r6lUp+m42FltmWO2O2Eo+W9Y2YjVaObvHtfcVQeKMGEkhMIP1EvHr
+ RxYaVGxah6XG4y7V8ffKGPej4l7rM/TxK2jSHEWLR6AIplNAhqjjLptXJAfQnbBd6ooD
+ dk71FI55LsAlOFey7nU7iP4DPulUDmZiLTi9pfMSkcXAZ4VYcABlBQM1RiXRIfEy0JJN
+ snHoVzbzI6sxKlgJO4SlWsiBWaJXpjiaSjNi02viIIhOjY7O9QniU+IXRz7CDIAVh2c1
+ n5vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684002506; x=1686594506;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/skyL1sLWdeVWQOTLH4B/eNUzzrc9hV+v4n2aX70iXk=;
+ b=R0GUYISHqOsYBs1z0azcVgyxXiZH1TdVdM1Omb+dNFsnO8EuTwhRIZdZ6OTkoBccC/
+ 0kynb2U/6My5GjYZheVFBFbHgirlgExbDkAxXxMhbe9Mmt8zr7jbbOXVe7xgPai7R99V
+ hcfZhpCLyQ0KdQTAIzCvyW7CqvsiiStRs1ftHuWrMPWR5K2J10nk+CjX0U8FMb5Ts+6V
+ xM31pl19jgZxyWiwlwaMJPjlG6GbS7+q5zrjtXf28eaoaHWXzlhBWCarcn6ijZZazmQd
+ +1waJZC0wJ/05g3XjYvSl2eUqMvl2sut3qj3pox3lFUPlVp10PTHWNZHW/uTR3xtUV9G
+ W18w==
+X-Gm-Message-State: AC+VfDzflHL8R2zLJSmFjtnq2/JDNriMlCLnFaZWoPpTh0bUZWSvc9VW
+ M9BF2lExeTa/xD3Cr7XiO6u61Q==
+X-Google-Smtp-Source: ACHHUZ6BZjAGfoNRaV4SZYpzLVlE5wxvvxIlWnwclnXWyUvW+KjYeL4jTHPXBIuhzNmNzRxBc6Fsmw==
+X-Received: by 2002:a17:907:1c8c:b0:965:cac1:53ad with SMTP id
+ nb12-20020a1709071c8c00b00965cac153admr28615039ejc.8.1684002506136; 
+ Sat, 13 May 2023 11:28:26 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ba68:e5c9:694e:c6e4?
+ ([2a02:810d:15c0:828:ba68:e5c9:694e:c6e4])
+ by smtp.gmail.com with ESMTPSA id
+ de9-20020a1709069bc900b0094e6a9c1d24sm7172177ejc.12.2023.05.13.11.28.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 May 2023 11:28:25 -0700 (PDT)
+Message-ID: <5cb38be4-a27f-dc1a-cbb9-c195505a9e7c@linaro.org>
+Date: Sat, 13 May 2023 20:28:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 01/13] dt-bindings: clk: g12a-clkc: export VCLK2_SEL
+ and add CTS_ENCL clock ids
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,185 +89,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Jonas Karlman <jonas@kwiboo.se>, Antonio Borneo <antonio.borneo@foss.st.com>,
- Lee Jones <lee@kernel.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org,
- linux-i2c@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-device and another for rtc device.
+On 12/05/2023 15:11, Neil Armstrong wrote:
+> Expose VCLK2_SEL clock id and add new ids for the CTS_ENCL and CTS_ENCL_SEL
+> clocks on G12A compatible SoCs.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/clk/meson/g12a.h              | 1 -
+>  include/dt-bindings/clock/g12a-clkc.h | 3 +++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 
-Enhance i2c_new_ancillary_device() to instantiate a real device.
-(eg: Instantiate rtc device from PMIC driver)
+Bindings must be a separate patch from the driver changes. If this
+causes bisectability issues, this means entire solution breaks ABI and
+is not appropriate anyway...
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3:
- * New patch
-
-Ref:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 ++--
- drivers/i2c/i2c-core-base.c                  | 38 ++++++++++++++++----
- drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
- drivers/media/i2c/adv7604.c                  |  3 +-
- include/linux/i2c.h                          |  3 +-
- 5 files changed, 39 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..86306b010a0a 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
- 	int ret;
- 
- 	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
--						ADV7511_CEC_I2C_ADDR_DEFAULT);
-+				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv->i2c_cec))
- 		return PTR_ERR(adv->i2c_cec);
- 
-@@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 	adv7511_packet_disable(adv7511, 0xffff);
- 
- 	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
--					ADV7511_EDID_I2C_ADDR_DEFAULT);
-+					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_edid)) {
- 		ret = PTR_ERR(adv7511->i2c_edid);
- 		goto uninit_regulators;
-@@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 		     adv7511->i2c_edid->addr << 1);
- 
- 	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
--					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-+					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_packet)) {
- 		ret = PTR_ERR(adv7511->i2c_packet);
- 		goto err_i2c_unregister_edid;
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ae3af738b03f..4f0964326968 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -1122,15 +1122,17 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * @client: Handle to the primary client
-  * @name: Handle to specify which secondary address to get
-  * @default_addr: Used as a fallback if no secondary address was specified
-+ * @aux_device_name: Ancillary device name
-  * Context: can sleep
-  *
-  * I2C clients can be composed of multiple I2C slaves bound together in a single
-  * component. The I2C client driver then binds to the master I2C slave and needs
-- * to create I2C dummy clients to communicate with all the other slaves.
-+ * to create I2C ancillary clients to communicate with all the other slaves.
-  *
-- * This function creates and returns an I2C dummy client whose I2C address is
-- * retrieved from the platform firmware based on the given slave name. If no
-- * address is specified by the firmware default_addr is used.
-+ * This function creates and returns an I2C ancillary client whose I2C address
-+ * is retrieved from the platform firmware based on the given slave name. If no
-+ * address is specified by the firmware default_addr is used. If no aux_device_
-+ * name is specified by the firmware, it will create an I2C dummy client.
-  *
-  * On DT-based platforms the address is retrieved from the "reg" property entry
-  * cell whose "reg-names" value matches the slave name.
-@@ -1139,10 +1141,12 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * i2c_unregister_device(); or an ERR_PTR to describe the error.
-  */
- struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
--						const char *name,
--						u16 default_addr)
-+					    const char *name,
-+					    u16 default_addr,
-+					    const char *aux_device_name)
- {
- 	struct device_node *np = client->dev.of_node;
-+	struct i2c_client *i2c_aux_client;
- 	u32 addr = default_addr;
- 	int i;
- 
-@@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
- 	}
- 
- 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
--	return i2c_new_dummy_device(client->adapter, addr);
-+
-+	if (aux_device_name) {
-+		struct i2c_board_info info;
-+		size_t aux_device_name_len = strlen(aux_device_name);
-+
-+		if (aux_device_name_len > I2C_NAME_SIZE - 1) {
-+			dev_err(&client->adapter->dev, "Invalid device name\n");
-+			return ERR_PTR(-EINVAL);
-+		}
-+
-+		memset(&info, 0, sizeof(struct i2c_board_info));
-+
-+		memcpy(info.type, aux_device_name, aux_device_name_len);
-+		info.addr = addr;
-+
-+		i2c_aux_client = i2c_new_client_device(client->adapter, &info);
-+	} else {
-+		i2c_aux_client = i2c_new_dummy_device(client->adapter, addr);
-+	}
-+
-+	return i2c_aux_client;
- }
- EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
- 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 4498d78a2357..5bdf7b0c6bf3 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
- 		state->i2c_clients[i] = i2c_new_ancillary_device(
- 				state->client,
- 				adv748x_default_addresses[i].name,
--				adv748x_default_addresses[i].default_addr);
-+				adv748x_default_addresses[i].default_addr, NULL);
- 
- 		if (IS_ERR(state->i2c_clients[i])) {
- 			adv_err(state, "failed to create i2c client %u\n", i);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3d0898c4175e..63fa44c9d27c 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2935,7 +2935,8 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
- 	else
- 		new_client = i2c_new_ancillary_device(client,
- 				adv76xx_default_addresses[page].name,
--				adv76xx_default_addresses[page].default_addr);
-+				adv76xx_default_addresses[page].default_addr,
-+				NULL);
- 
- 	if (!IS_ERR(new_client))
- 		io_write(sd, io_reg, new_client->addr << 1);
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 13a1ce38cb0c..0ce344724209 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 addr
- struct i2c_client *
- i2c_new_ancillary_device(struct i2c_client *client,
- 			 const char *name,
--			 u16 default_addr);
-+			 u16 default_addr,
-+			 const char *aux_device_name);
- 
- void i2c_unregister_device(struct i2c_client *client);
- 
--- 
-2.25.1
+Best regards,
+Krzysztof
 
