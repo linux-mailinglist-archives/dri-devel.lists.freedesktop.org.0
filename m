@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DF3701A09
-	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 23:20:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB15701ADA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 01:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA05F10E137;
-	Sat, 13 May 2023 21:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A0710E004;
+	Sat, 13 May 2023 23:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553BA10E12A
- for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 21:20:06 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7FBED3EEAA;
- Sat, 13 May 2023 23:20:04 +0200 (CEST)
-Date: Sat, 13 May 2023 23:20:03 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v10 3/8] drm/msm/dsi: use DRM DSC helpers for DSC setup
-Message-ID: <6f3v5xmv66yw7mxecwqbrj6mxlfos3cwosb6xqs7hjbgrjgfqz@acm27l7qot5f>
-References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v10-3-4cb21168c227@quicinc.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB20A10E004
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 23:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1684020733; i=deller@gmx.de;
+ bh=SRmDwUFqGUcQmCnmVWdS3FEsmlpLAJuYjqZvx9svZa0=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=MUZDoRyghQbYkqc71wT+L6/Ve/TGOn4h9Mc4mA5SfVN7mElJ/9MrnjlrhtayJNtRP
+ N2hWtlaEs0npo2zGrsQahuItDrWusbnP2iCEPEm3DUg1x5oh5DPJ7fjLiXTOUfoWqx
+ TfDbKF2A8vGLj1aFQr6nVN73pUNuXksZUKcilibSw1FJ5fPSSXIt6NHkSsKTvYmDUx
+ bIt/7Pl1lKAPQzxvUmR3zm0N8bHYewQJtK9no3aAOUhnJbccdbHxMtMyolaeeO4Z7R
+ Xp+ZEwW4b1bG9JEh9/W+F6WIUaQS+3k88Mv8B55cmt+B4LBXc6cXVTn4RK3SV7PuBl
+ P0D40rVZNrfxg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([94.134.158.250]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MA7GS-1prxMl1MFu-00BfUo; Sun, 14
+ May 2023 01:32:13 +0200
+Date: Sun, 14 May 2023 01:32:11 +0200
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and updates for v6.4-rc2
+Message-ID: <ZGAd+wWXxlA+zvSs@ls3530>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v10-3-4cb21168c227@quicinc.com>
+X-Provags-ID: V03:K1:e5kq1JmyenAeohlC4uy0CW15Z5i3kYHetAUwTdkjat9XA5IclU5
+ IadjSQLKnhJNFA2V+rmGhlCt6w8+QDXJyVCuHnkZX/VEwIqOc6cKNXa7I44NLuybB0xt8+P
+ xCGFufl47siRAn9dX9OEJ0I7qUyHc9wrwUgXJaHWtq9v3uHQozWa5sRxFHxrhIW1eQGokig
+ +cH358Q7Cx9txsXUIAAHA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NS4rebfBi/8=;M6/vgmVt1dUOUVYXMhgXDFl6FXN
+ KGFO6Vj85QYSRloEdVkgZCfbwBXXcVi4boSxTrBEgEtYjxectLEGhAlSRZNZ8bLu+GUN+B9iO
+ 3AfLP7Qi3++gkY3otYCWPI+JRHUPLwWmR+kts2FdKnHJTXfr3cmZOcvInqB4o4qxpcmGSJTbL
+ 4U9oGg08Ysnj6fsiTppYm/ZIjxsZWFRy0+Ds2vDfAE90QKJ9B+CbtCuED31MAJiMR2hylaFRh
+ qCXvOczMiLvPxOjFautZixb8puyWTIPg7FFn/y6RvHbv2cV5JJmynCVX4kcsmHvcy1jB2RkU4
+ z9dBOQxyaTs2sHwiavWS5tozlwik/KizTntJeqL1mfUsouhlA6mDLd7dErsWOmoOMQYliWHYY
+ vbRS19D/LHURO0vamn9bD43CKS8SJnKWZ19kS4O7hM63kUj9+KYdexrGZqQz5KiWEAN6l+IPg
+ mWPeayRfvgDKRhGasVCbVJd9VP3NGoCsy0+UZcSy2aI7kRuD8iZdepFvcIxw44SnqGtVog1ji
+ Vbi9bQ/9X9Dq8Mv1tQG2239X0j78gLl7CJTdmbPDdGpG8dFIeLIEDh8uVnyN8omGlU6mlP4rX
+ YvymRGqBmrAaIWrTcLAu4vIBa8ysF1ss+f6CeeuAWPAAR+DdZkYFz+fjl547Z/t68R0PlUVqI
+ PCg5qAyX7YUKacU0KxaWC5ufOLaMqux2iRjMn/LBSPQbjT37dxedFl44qT7hepHchJx/+YtPh
+ YSUBCLjmAxz3xponeg0q/8apTNYKaAxqoTXQoE1rIO/66ybxbT1DFBmPaCJ/xykRnXa2FcKpP
+ QHWUqwyFGKnnR8+H71tXkxcHtz8guExGq68ffs/mm2SBU748R5DeKtKofTTuiqLGDPl1h7Pft
+ WJE0bAA5eUVJpnt1g4Ow7e+11TiH6GQlc9f0aJ40U96TKwMhUWHT/fi8amaDmFPhghfsDBokH
+ THy1Sw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,133 +68,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-12 14:32:13, Jessica Zhang wrote:
-> 
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Use new DRM DSC helpers to setup DSI DSC configuration. The
-> initial_scale_value needs to be adjusted according to the standard, but
-> this is a separate change.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
 
-All the parameters check out.
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+are available in the Git repository at:
 
-(And as asked elsewhere: is it valuable to have t-b on top of this r-b,
- for all the devices/boards/SoCs/panels I have these patches working
- on?)
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.4-rc2
 
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 61 +++++---------------------------------
->  1 file changed, 8 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 961689a255c4..74d38f90398a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -1731,28 +1731,9 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
->  	return -EINVAL;
->  }
->  
-> -static u32 dsi_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
-> -	0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54, 0x62,
-> -	0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
-> -};
-> -
-> -/* only 8bpc, 8bpp added */
-> -static char min_qp[DSC_NUM_BUF_RANGES] = {
-> -	0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 13
-> -};
-> -
-> -static char max_qp[DSC_NUM_BUF_RANGES] = {
-> -	4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 13, 13, 15
-> -};
-> -
-> -static char bpg_offset[DSC_NUM_BUF_RANGES] = {
-> -	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
-> -};
-> -
->  static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc)
->  {
-> -	int i;
-> -	u16 bpp = dsc->bits_per_pixel >> 4;
-> +	int ret;
->  
->  	if (dsc->bits_per_pixel & 0xf) {
->  		DRM_DEV_ERROR(&msm_host->pdev->dev, "DSI does not support fractional bits_per_pixel\n");
-> @@ -1764,49 +1745,23 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
->  		return -EOPNOTSUPP;
->  	}
->  
-> -	dsc->rc_model_size = 8192;
-> -	dsc->first_line_bpg_offset = 12;
-> -	dsc->rc_edge_factor = 6;
-> -	dsc->rc_tgt_offset_high = 3;
-> -	dsc->rc_tgt_offset_low = 3;
->  	dsc->simple_422 = 0;
->  	dsc->convert_rgb = 1;
->  	dsc->vbr_enable = 0;
->  
-> -	/* handle only bpp = bpc = 8 */
-> -	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++)
-> -		dsc->rc_buf_thresh[i] = dsi_dsc_rc_buf_thresh[i];
-> +	drm_dsc_set_const_params(dsc);
-> +	drm_dsc_set_rc_buf_thresh(dsc);
->  
-> -	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
-> -		dsc->rc_range_params[i].range_min_qp = min_qp[i];
-> -		dsc->rc_range_params[i].range_max_qp = max_qp[i];
-> -		/*
-> -		 * Range BPG Offset contains two's-complement signed values that fill
-> -		 * 8 bits, yet the registers and DCS PPS field are only 6 bits wide.
-> -		 */
+for you to fetch changes up to 0bdf1ad8d10bd4e50a8b1a2c53d15984165f7fea:
 
-I wish drm_dsc_setup_rc_params() used this comment :)
+  fbdev: stifb: Fix info entry in sti_struct on error path (2023-05-12 11:50:33 +0200)
 
-> -		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i] & DSC_RANGE_BPG_OFFSET_MASK;
-> +	/* handle only bpp = bpc = 8, pre-SCR panels */
-> +	ret = drm_dsc_setup_rc_params(dsc, DRM_DSC_1_1_PRE_SCR);
-> +	if (ret) {
-> +		DRM_DEV_ERROR(&msm_host->pdev->dev, "could not find DSC RC parameters\n");
-> +		return ret;
->  	}
->  
-> -	dsc->initial_offset = 6144;		/* Not bpp 12 */
-> -	if (bpp != 8)
-> -		dsc->initial_offset = 2048;	/* bpp = 12 */
-> -
-> -	if (dsc->bits_per_component <= 10)
-> -		dsc->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
-> -	else
-> -		dsc->mux_word_size = DSC_MUX_WORD_SIZE_12_BPC;
-> -
-> -	dsc->initial_xmit_delay = 512;
->  	dsc->initial_scale_value = 32;
-> -	dsc->first_line_bpg_offset = 12;
->  	dsc->line_buf_depth = dsc->bits_per_component + 1;
->  
-> -	/* bpc 8 */
-> -	dsc->flatness_min_qp = 3;
-> -	dsc->flatness_max_qp = 12;
-> -	dsc->rc_quant_incr_limit0 = 11;
-> -	dsc->rc_quant_incr_limit1 = 11;
-> -
->  	return drm_dsc_compute_rc_parameters(dsc);
->  }
->  
-> 
-> -- 
-> 2.40.1
-> 
+----------------------------------------------------------------
+fbdev fixes and updates for kernel 6.4-rc2:
+
+- use after free fix in imsttfb (Zheng Wang)
+- fix error handling in arcfb (Zongjie Li)
+- lots of whitespace cleanups (Thomas Zimmermann)
+- add 1920x1080 modedb entry (me)
+
+----------------------------------------------------------------
+Helge Deller (2):
+      fbdev: modedb: Add 1920x1080 at 60 Hz video mode
+      fbdev: stifb: Fix info entry in sti_struct on error path
+
+Thomas Zimmermann (15):
+      fbdev: 68328fb: Remove trailing whitespaces
+      fbdev: atmel_lcdfb: Remove trailing whitespaces
+      fbdev: cg14: Remove trailing whitespaces
+      fbdev: controlfb: Remove trailing whitespaces
+      fbdev: g364fb: Remove trailing whitespaces
+      fbdev: hgafb: Remove trailing whitespaces
+      fbdev: hpfb: Remove trailing whitespaces
+      fbdev: macfb: Remove trailing whitespaces
+      fbdev: maxinefb: Remove trailing whitespaces
+      fbdev: p9100: Remove trailing whitespaces
+      fbdev: platinumfb: Remove trailing whitespaces
+      fbdev: sa1100fb: Remove trailing whitespaces
+      fbdev: stifb: Remove trailing whitespaces
+      fbdev: valkyriefb: Remove trailing whitespaces
+      fbdev: vfb: Remove trailing whitespaces
+
+Zheng Wang (1):
+      fbdev: imsttfb: Fix use after free bug in imsttfb_probe
+
+Zongjie Li (1):
+      fbdev: arcfb: Fix error handling in arcfb_probe()
+
+ drivers/video/fbdev/68328fb.c     |  12 +--
+ drivers/video/fbdev/arcfb.c       |  15 ++--
+ drivers/video/fbdev/atmel_lcdfb.c |   2 +-
+ drivers/video/fbdev/cg14.c        |   2 +-
+ drivers/video/fbdev/controlfb.c   |  34 ++++-----
+ drivers/video/fbdev/core/modedb.c |   5 ++
+ drivers/video/fbdev/g364fb.c      |   6 +-
+ drivers/video/fbdev/hgafb.c       |  36 ++++-----
+ drivers/video/fbdev/hpfb.c        |   8 +-
+ drivers/video/fbdev/imsttfb.c     |  15 ++--
+ drivers/video/fbdev/macfb.c       |  10 +--
+ drivers/video/fbdev/maxinefb.c    |   2 +-
+ drivers/video/fbdev/p9100.c       |   4 +-
+ drivers/video/fbdev/platinumfb.c  |  30 ++++----
+ drivers/video/fbdev/sa1100fb.c    |  32 ++++----
+ drivers/video/fbdev/stifb.c       | 157 +++++++++++++++++++-------------------
+ drivers/video/fbdev/valkyriefb.c  |  14 ++--
+ drivers/video/fbdev/vfb.c         |  10 +--
+ 18 files changed, 202 insertions(+), 192 deletions(-)
