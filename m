@@ -1,74 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BBF70177C
-	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 15:43:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C667D70184E
+	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 18:52:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE1C10E0BF;
-	Sat, 13 May 2023 13:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA6D10E0FB;
+	Sat, 13 May 2023 16:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06D4810E0BF
- for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 13:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683985432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9DB3tShWsmKkupSG4kjkSPgdjSDVuKYI2Ix/HxUCEp4=;
- b=LBYaZTyg9JeTRgrq5b0RG9NGoWpWfb45uBcbo9s0TXNSCsfBlK9cQXDLUwuip2VCUPDRuz
- WQUUIp0A5ekT1Jbp91t+yQf2KPm1bA8shMH4da81MHbxOYrqYXbxi5+FjfZh0JINaB3lRf
- 7odei2rnSurutWyqUkXcVyEIG9XqxjA=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-531-c8Pl_lCrMJmg0AtzDf_33w-1; Sat, 13 May 2023 09:43:51 -0400
-X-MC-Unique: c8Pl_lCrMJmg0AtzDf_33w-1
-Received: by mail-vk1-f198.google.com with SMTP id
- 71dfb90a1353d-450ddbc9431so2322630e0c.2
- for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 06:43:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683985430; x=1686577430;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9DB3tShWsmKkupSG4kjkSPgdjSDVuKYI2Ix/HxUCEp4=;
- b=f5gNsiQ6MG3J6i/7EWEdyzLNdOLRu1d5NQ8J6pgcK1+ziljtJQp9abugS1X3fl6L76
- EwFjYWYnMr0BRWq/d0V51FADE145H4uCQ5iGaXRFBYiPW/7BUmwQcgZEyC+DQbLZyQ4Q
- JP76xnZDNf8c+MBQum/L2syaF3rhJofVDwohX8WpYyzX0j1egaR5EbT6a1ZrYq7tTI0a
- X4TSHkg4jZqJXWk4R26eD4xpsW2QUYwHLM3gGTBcVhT2mVUhxDGThn6PzpH5j1ktliG+
- RJuduLFNX3b0FjlcUReB+INH39gh209OgoRX2kivuKEh9qA4HYUayTmU/1qKPjcZ/MBK
- SkEw==
-X-Gm-Message-State: AC+VfDzqKWUYB8FBCZHn0vQRnrfMtS5C3+Z+xg/O3OFMSZMO+zymns+D
- AEWeyZqmbq+qg3FmkENUf5s/9yFpucXGFtxhmXR7t28WjgrfogmYZnVBrwgHI0N4yEBlL942ZlI
- uKxmG6KgyuaPkxaQ7rOvHNS9fG2QlWGvT1JNQsCknVXOk
-X-Received: by 2002:a1f:cf44:0:b0:43c:6e7d:60b0 with SMTP id
- f65-20020a1fcf44000000b0043c6e7d60b0mr8278768vkg.15.1683985430632; 
- Sat, 13 May 2023 06:43:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6OKoxadeHskX30zk/2SxsIYXX7yuqtDMX0XJgUO0uD/088ZwUUrLZ6CEQ62Rv0aKLCGZw53hFwRxRMhCBVNTA=
-X-Received: by 2002:a1f:cf44:0:b0:43c:6e7d:60b0 with SMTP id
- f65-20020a1fcf44000000b0043c6e7d60b0mr8278732vkg.15.1683985430363; Sat, 13
- May 2023 06:43:50 -0700 (PDT)
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E7DE10E0FB
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 16:52:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.99,272,1677510000"; d="scan'208";a="162745869"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 14 May 2023 01:52:44 +0900
+Received: from localhost.localdomain (unknown [10.226.92.8])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3A6C440065DF;
+ Sun, 14 May 2023 01:52:35 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Wolfram Sang <wsa@kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
+Date: Sat, 13 May 2023 17:52:23 +0100
+Message-Id: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
+References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20230512100620.36807-1-bagasdotme@gmail.com>
- <20230512100620.36807-9-bagasdotme@gmail.com>
- <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
- <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
-In-Reply-To: <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
-From: Richard Fontana <rfontana@redhat.com>
-Date: Sat, 13 May 2023 09:43:39 -0400
-Message-ID: <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,84 +47,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Simon Horman <simon.horman@corigine.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Eric Dumazet <edumazet@google.com>, Jonas Jensen <jonas.jensen@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gospodarek <andy@greyhouse.net>,
- Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
- Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
- Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Jan Kara <jack@suse.com>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Ray Lehtiniemi <rayl@mail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Alan Cox <alan@linux.intel.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Karsten Keil <isdn@linux-pingi.de>, Linux Networking <netdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- Denis Turischev <denis@compulab.co.il>,
- Diederik de Haas <didi.debian@cknow.org>,
- Philippe Ombredanne <pombredanne@nexb.com>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jonas Karlman <jonas@kwiboo.se>, Antonio Borneo <antonio.borneo@foss.st.com>,
+ Lee Jones <lee@kernel.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org,
+ linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 13, 2023 at 6:53=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On 5/12/23 19:46, Richard Fontana wrote:
-> > On Fri, May 12, 2023 at 6:07=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail=
-.com> wrote:
-> >
-> >
-> >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-> >> index 504be461f992a9..822bf8905bf3ce 100644
-> >> --- a/drivers/watchdog/sb_wdog.c
-> >> +++ b/drivers/watchdog/sb_wdog.c
-> >> @@ -1,3 +1,4 @@
-> >> +// SPDX-License-Identifier: GPL-1.0+
-> >>  /*
-> >>   * Watchdog driver for SiByte SB1 SoCs
-> >>   *
-> >> @@ -38,10 +39,6 @@
-> >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-> >>   *                                             All Rights Reserved.
-> >>   *
-> >> - *     This program is free software; you can redistribute it and/or
-> >> - *     modify it under the terms of the GNU General Public License
-> >> - *     version 1 or 2 as published by the Free Software Foundation.
-> >
-> > Shouldn't this be
-> > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
-> > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
-> >
->
-> Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
-> doesn't have negation operator (NOT), thus the licensing requirement
-> on the above notice can't be expressed reliably in SPDX here.
->
-> [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+device and another for rtc device.
 
-The GPL identifiers in recent versions of SPDX include an `-only` and
-an `-or-later` variant. So I don't see why you can't represent it as
-`GPL-1.0-only OR GPL-2.0-only`. From what I understand the kernel
-requires/prefers use of the earlier approach to GPL identifiers (which
-was better in my opinion) under which `GPL-1.0 OR GPL-2.0` would at
-least be semantically similar. I don't see why you need a negation
-operator in this case. You have other patches where you used the
-`-only` identifiers.
+Enhance i2c_new_ancillary_device() to instantiate a real device.
+(eg: Instantiate rtc device from PMIC driver)
 
-Richard
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v3:
+ * New patch
+
+Ref:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 ++--
+ drivers/i2c/i2c-core-base.c                  | 38 ++++++++++++++++----
+ drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
+ drivers/media/i2c/adv7604.c                  |  3 +-
+ include/linux/i2c.h                          |  3 +-
+ 5 files changed, 39 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index ddceafa7b637..86306b010a0a 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ 	int ret;
+ 
+ 	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
+-						ADV7511_CEC_I2C_ADDR_DEFAULT);
++				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv->i2c_cec))
+ 		return PTR_ERR(adv->i2c_cec);
+ 
+@@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 	adv7511_packet_disable(adv7511, 0xffff);
+ 
+ 	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
+-					ADV7511_EDID_I2C_ADDR_DEFAULT);
++					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv7511->i2c_edid)) {
+ 		ret = PTR_ERR(adv7511->i2c_edid);
+ 		goto uninit_regulators;
+@@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 		     adv7511->i2c_edid->addr << 1);
+ 
+ 	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
+-					ADV7511_PACKET_I2C_ADDR_DEFAULT);
++					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv7511->i2c_packet)) {
+ 		ret = PTR_ERR(adv7511->i2c_packet);
+ 		goto err_i2c_unregister_edid;
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index ae3af738b03f..4f0964326968 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -1122,15 +1122,17 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * @client: Handle to the primary client
+  * @name: Handle to specify which secondary address to get
+  * @default_addr: Used as a fallback if no secondary address was specified
++ * @aux_device_name: Ancillary device name
+  * Context: can sleep
+  *
+  * I2C clients can be composed of multiple I2C slaves bound together in a single
+  * component. The I2C client driver then binds to the master I2C slave and needs
+- * to create I2C dummy clients to communicate with all the other slaves.
++ * to create I2C ancillary clients to communicate with all the other slaves.
+  *
+- * This function creates and returns an I2C dummy client whose I2C address is
+- * retrieved from the platform firmware based on the given slave name. If no
+- * address is specified by the firmware default_addr is used.
++ * This function creates and returns an I2C ancillary client whose I2C address
++ * is retrieved from the platform firmware based on the given slave name. If no
++ * address is specified by the firmware default_addr is used. If no aux_device_
++ * name is specified by the firmware, it will create an I2C dummy client.
+  *
+  * On DT-based platforms the address is retrieved from the "reg" property entry
+  * cell whose "reg-names" value matches the slave name.
+@@ -1139,10 +1141,12 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * i2c_unregister_device(); or an ERR_PTR to describe the error.
+  */
+ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+-						const char *name,
+-						u16 default_addr)
++					    const char *name,
++					    u16 default_addr,
++					    const char *aux_device_name)
+ {
+ 	struct device_node *np = client->dev.of_node;
++	struct i2c_client *i2c_aux_client;
+ 	u32 addr = default_addr;
+ 	int i;
+ 
+@@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+ 	}
+ 
+ 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+-	return i2c_new_dummy_device(client->adapter, addr);
++
++	if (aux_device_name) {
++		struct i2c_board_info info;
++		size_t aux_device_name_len = strlen(aux_device_name);
++
++		if (aux_device_name_len > I2C_NAME_SIZE - 1) {
++			dev_err(&client->adapter->dev, "Invalid device name\n");
++			return ERR_PTR(-EINVAL);
++		}
++
++		memset(&info, 0, sizeof(struct i2c_board_info));
++
++		memcpy(info.type, aux_device_name, aux_device_name_len);
++		info.addr = addr;
++
++		i2c_aux_client = i2c_new_client_device(client->adapter, &info);
++	} else {
++		i2c_aux_client = i2c_new_dummy_device(client->adapter, addr);
++	}
++
++	return i2c_aux_client;
+ }
+ EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+ 
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 4498d78a2357..5bdf7b0c6bf3 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
+ 		state->i2c_clients[i] = i2c_new_ancillary_device(
+ 				state->client,
+ 				adv748x_default_addresses[i].name,
+-				adv748x_default_addresses[i].default_addr);
++				adv748x_default_addresses[i].default_addr, NULL);
+ 
+ 		if (IS_ERR(state->i2c_clients[i])) {
+ 			adv_err(state, "failed to create i2c client %u\n", i);
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 3d0898c4175e..63fa44c9d27c 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -2935,7 +2935,8 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
+ 	else
+ 		new_client = i2c_new_ancillary_device(client,
+ 				adv76xx_default_addresses[page].name,
+-				adv76xx_default_addresses[page].default_addr);
++				adv76xx_default_addresses[page].default_addr,
++				NULL);
+ 
+ 	if (!IS_ERR(new_client))
+ 		io_write(sd, io_reg, new_client->addr << 1);
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index 13a1ce38cb0c..0ce344724209 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 addr
+ struct i2c_client *
+ i2c_new_ancillary_device(struct i2c_client *client,
+ 			 const char *name,
+-			 u16 default_addr);
++			 u16 default_addr,
++			 const char *aux_device_name);
+ 
+ void i2c_unregister_device(struct i2c_client *client);
+ 
+-- 
+2.25.1
 
