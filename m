@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFC97019B4
-	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 22:43:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DF3701A09
+	for <lists+dri-devel@lfdr.de>; Sat, 13 May 2023 23:20:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D825210E136;
-	Sat, 13 May 2023 20:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA05F10E137;
+	Sat, 13 May 2023 21:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E629610E136
- for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 20:43:14 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 553BA10E12A
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 May 2023 21:20:06 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DD1253F290;
- Sat, 13 May 2023 22:43:11 +0200 (CEST)
-Date: Sat, 13 May 2023 22:43:10 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7FBED3EEAA;
+ Sat, 13 May 2023 23:20:04 +0200 (CEST)
+Date: Sat, 13 May 2023 23:20:03 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v5 2/8] drm/i915/dsc: move rc_buf_thresh values to common
- helper
-Message-ID: <bo57bsntndvef4l3xtzhh54m6trdouhg253r6aqhbdc33idp6x@5dwgslu6fbm7>
-References: <20230504153511.4007320-1-dmitry.baryshkov@linaro.org>
- <20230504153511.4007320-3-dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v10 3/8] drm/msm/dsi: use DRM DSC helpers for DSC setup
+Message-ID: <6f3v5xmv66yw7mxecwqbrj6mxlfos3cwosb6xqs7hjbgrjgfqz@acm27l7qot5f>
+References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v10-3-4cb21168c227@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230504153511.4007320-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v10-3-4cb21168c227@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,144 +42,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, freedreno@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-04 18:35:05, Dmitry Baryshkov wrote:
+On 2023-05-12 14:32:13, Jessica Zhang wrote:
 > 
-> The rc_buf_thresh values are common to all DSC implementations. Move
-> them to the common helper together with the code to propagage them to
-
-Propagate*
-
-> the drm_dsc_config.
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> Use new DRM DSC helpers to setup DSI DSC configuration. The
+> initial_scale_value needs to be adjusted according to the standard, but
+> this is a separate change.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-After right-shifting these values by 6 they are indeed, as promised,
-identical to the values used in MSM.
+All the parameters check out.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-If a tested-by is relevant in addition to r-b, let me know.  This works
-(no regressions) on quite a few MSM devices on my end.
-(same question for the other patches)
-
-- Marijn
+(And as asked elsewhere: is it valuable to have t-b on top of this r-b,
+ for all the devices/boards/SoCs/panels I have these patches working
+ on?)
 
 > ---
->  drivers/gpu/drm/display/drm_dsc_helper.c  | 35 +++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_vdsc.c | 24 +---------------
->  include/drm/display/drm_dsc_helper.h      |  1 +
->  3 files changed, 37 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 61 +++++---------------------------------
+>  1 file changed, 8 insertions(+), 53 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
-> index c869c6e51e2b..be91abe2cfb2 100644
-> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
-> @@ -270,6 +270,41 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 961689a255c4..74d38f90398a 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1731,28 +1731,9 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
+>  	return -EINVAL;
 >  }
->  EXPORT_SYMBOL(drm_dsc_pps_payload_pack);
 >  
-> +/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
-> +static const u16 drm_dsc_rc_buf_thresh[] = {
-> +	896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
-> +	7744, 7872, 8000, 8064
-> +};
-> +
-> +/**
-> + * drm_dsc_set_rc_buf_thresh() - Set thresholds for the RC model
-> + * in accordance with the DSC 1.2 specification.
-> + *
-> + * @vdsc_cfg: DSC Configuration data partially filled by driver
-> + */
-> +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg)
-> +{
-> +	int i;
-> +
-> +	BUILD_BUG_ON(ARRAY_SIZE(drm_dsc_rc_buf_thresh) !=
-> +		     DSC_NUM_BUF_RANGES - 1);
-> +	BUILD_BUG_ON(ARRAY_SIZE(drm_dsc_rc_buf_thresh) !=
-> +		     ARRAY_SIZE(vdsc_cfg->rc_buf_thresh));
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_dsc_rc_buf_thresh); i++)
-> +		vdsc_cfg->rc_buf_thresh[i] = drm_dsc_rc_buf_thresh[i] >> 6;
-> +
-> +	/*
-> +	 * For 6bpp, RC Buffer threshold 12 and 13 need a different value
-> +	 * as per C Model
-> +	 */
-> +	if (vdsc_cfg->bits_per_pixel == 6 << 4) {
-> +		vdsc_cfg->rc_buf_thresh[12] = 7936 >> 6;
-> +		vdsc_cfg->rc_buf_thresh[13] = 8000 >> 6;
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_dsc_set_rc_buf_thresh);
-> +
->  /**
->   * drm_dsc_compute_rc_parameters() - Write rate control
->   * parameters to the dsc configuration defined in
-> diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
-> index 7003ae9f683a..2fd08375bbe3 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
-> @@ -37,12 +37,6 @@ enum COLUMN_INDEX_BPC {
->  	MAX_COLUMN_INDEX
->  };
->  
-> -/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
-> -static const u16 rc_buf_thresh[] = {
-> -	896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
-> -	7744, 7872, 8000, 8064
+> -static u32 dsi_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
+> -	0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54, 0x62,
+> -	0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
 > -};
 > -
->  struct rc_parameters {
->  	u16 initial_xmit_delay;
->  	u8 first_line_bpg_offset;
-> @@ -543,23 +537,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
->  
->  	vdsc_cfg->bits_per_component = pipe_config->pipe_bpp / 3;
->  
-> -	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
-> -		/*
-> -		 * six 0s are appended to the lsb of each threshold value
-> -		 * internally in h/w.
-> -		 * Only 8 bits are allowed for programming RcBufThreshold
-> -		 */
-> -		vdsc_cfg->rc_buf_thresh[i] = rc_buf_thresh[i] >> 6;
-> -	}
+> -/* only 8bpc, 8bpp added */
+> -static char min_qp[DSC_NUM_BUF_RANGES] = {
+> -	0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 13
+> -};
 > -
-> -	/*
-> -	 * For 6bpp, RC Buffer threshold 12 and 13 need a different value
-> -	 * as per C Model
-> -	 */
-> -	if (compressed_bpp == 6) {
-> -		vdsc_cfg->rc_buf_thresh[12] = 0x7C;
-> -		vdsc_cfg->rc_buf_thresh[13] = 0x7D;
-> -	}
-> +	drm_dsc_set_rc_buf_thresh(vdsc_cfg);
+> -static char max_qp[DSC_NUM_BUF_RANGES] = {
+> -	4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 13, 13, 15
+> -};
+> -
+> -static char bpg_offset[DSC_NUM_BUF_RANGES] = {
+> -	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+> -};
+> -
+>  static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc_config *dsc)
+>  {
+> -	int i;
+> -	u16 bpp = dsc->bits_per_pixel >> 4;
+> +	int ret;
 >  
->  	/*
->  	 * From XE_LPD onwards we supports compression bpps in steps of 1
-> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-> index 8b41edbbabab..706ba1d34742 100644
-> --- a/include/drm/display/drm_dsc_helper.h
-> +++ b/include/drm/display/drm_dsc_helper.h
-> @@ -14,6 +14,7 @@ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
->  int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
->  void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
->  			      const struct drm_dsc_config *dsc_cfg);
-> +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
->  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
+>  	if (dsc->bits_per_pixel & 0xf) {
+>  		DRM_DEV_ERROR(&msm_host->pdev->dev, "DSI does not support fractional bits_per_pixel\n");
+> @@ -1764,49 +1745,23 @@ static int dsi_populate_dsc_params(struct msm_dsi_host *msm_host, struct drm_dsc
+>  		return -EOPNOTSUPP;
+>  	}
 >  
->  #endif /* _DRM_DSC_HELPER_H_ */
+> -	dsc->rc_model_size = 8192;
+> -	dsc->first_line_bpg_offset = 12;
+> -	dsc->rc_edge_factor = 6;
+> -	dsc->rc_tgt_offset_high = 3;
+> -	dsc->rc_tgt_offset_low = 3;
+>  	dsc->simple_422 = 0;
+>  	dsc->convert_rgb = 1;
+>  	dsc->vbr_enable = 0;
+>  
+> -	/* handle only bpp = bpc = 8 */
+> -	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++)
+> -		dsc->rc_buf_thresh[i] = dsi_dsc_rc_buf_thresh[i];
+> +	drm_dsc_set_const_params(dsc);
+> +	drm_dsc_set_rc_buf_thresh(dsc);
+>  
+> -	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+> -		dsc->rc_range_params[i].range_min_qp = min_qp[i];
+> -		dsc->rc_range_params[i].range_max_qp = max_qp[i];
+> -		/*
+> -		 * Range BPG Offset contains two's-complement signed values that fill
+> -		 * 8 bits, yet the registers and DCS PPS field are only 6 bits wide.
+> -		 */
+
+I wish drm_dsc_setup_rc_params() used this comment :)
+
+> -		dsc->rc_range_params[i].range_bpg_offset = bpg_offset[i] & DSC_RANGE_BPG_OFFSET_MASK;
+> +	/* handle only bpp = bpc = 8, pre-SCR panels */
+> +	ret = drm_dsc_setup_rc_params(dsc, DRM_DSC_1_1_PRE_SCR);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(&msm_host->pdev->dev, "could not find DSC RC parameters\n");
+> +		return ret;
+>  	}
+>  
+> -	dsc->initial_offset = 6144;		/* Not bpp 12 */
+> -	if (bpp != 8)
+> -		dsc->initial_offset = 2048;	/* bpp = 12 */
+> -
+> -	if (dsc->bits_per_component <= 10)
+> -		dsc->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
+> -	else
+> -		dsc->mux_word_size = DSC_MUX_WORD_SIZE_12_BPC;
+> -
+> -	dsc->initial_xmit_delay = 512;
+>  	dsc->initial_scale_value = 32;
+> -	dsc->first_line_bpg_offset = 12;
+>  	dsc->line_buf_depth = dsc->bits_per_component + 1;
+>  
+> -	/* bpc 8 */
+> -	dsc->flatness_min_qp = 3;
+> -	dsc->flatness_max_qp = 12;
+> -	dsc->rc_quant_incr_limit0 = 11;
+> -	dsc->rc_quant_incr_limit1 = 11;
+> -
+>  	return drm_dsc_compute_rc_parameters(dsc);
+>  }
+>  
+> 
 > -- 
-> 2.39.2
+> 2.40.1
 > 
