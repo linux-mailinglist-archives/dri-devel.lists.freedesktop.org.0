@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2713701FD9
-	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 23:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE3E701FDF
+	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 23:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A90810E0E2;
-	Sun, 14 May 2023 21:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA0410E113;
+	Sun, 14 May 2023 21:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC47410E0DD
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 21:29:52 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD69810E0DD;
+ Sun, 14 May 2023 21:31:46 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 959193F324;
- Sun, 14 May 2023 23:29:50 +0200 (CEST)
-Date: Sun, 14 May 2023 23:29:49 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CE6F23F250;
+ Sun, 14 May 2023 23:31:44 +0200 (CEST)
+Date: Sun, 14 May 2023 23:31:43 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v10 8/8] drm/msm/dsi: update hdisplay calculation for
- dsi_timing_setup
-Message-ID: <5jqvxyy7ixfpwzepgseqwwz5elyn2qhxa4qdwhxcw7xbkvle4l@rijv4uq5wsb7>
-References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v10-8-4cb21168c227@quicinc.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v8 0/8] add DSC 1.2 dpu supports
+Message-ID: <h6vc4delvatto3vyyho5io3ebs2yhmgrchnxcprca56my6fflb@4fcb334sdmpn>
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v10-8-4cb21168c227@quicinc.com>
+In-Reply-To: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,48 +42,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, swboyd@chromium.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-12 14:32:18, Jessica Zhang wrote:
-> 
-> hdisplay for compressed images should be calculated as bytes_per_slice *
-> slice_count. Thus, use MSM DSC helper to calculate hdisplay for
-> dsi_timing_setup instead of directly using mode->hdisplay.
+Asked this before: change the title to "DPU support" (capital "DPU",
+singular "support") if this series keeps being resent.
 
-As mentioned in review on an earlier revision, is there any sort of
-clarification you can provide here to explain the cases where
-hdisplay!=bytes_per_line?  That goes a long way towards justifying this
-change.  Thanks!
+On 2023-05-12 11:00:15, Kuogee Hsieh wrote:
+> 
+> This series adds the DPU side changes to support DSC 1.2 encoder. This
+> was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
+> The DSI and DP parts will be pushed later on top of this change.
+> This seriel is rebase on [1], [2] and catalog fixes from rev-4 of [3].
+
+series*
+
+rebased*
+
+Also I think it's not just the catalog fixes but everything now, because
+we were both touching HW block implementations?
 
 - Marijn
 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> [1]: https://patchwork.freedesktop.org/series/116851/
+> [2]: https://patchwork.freedesktop.org/series/116615/
+> [3]: https://patchwork.freedesktop.org/series/112332/
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 9eeda018774e..739f62643cc5 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  		 * pulse width same
->  		 */
->  		h_total -= hdisplay;
-> -		hdisplay /= 3;
-> +		hdisplay = msm_dsc_get_bytes_per_line(msm_host->dsc) / 3;
->  		h_total += hdisplay;
->  		ha_end = ha_start + hdisplay;
->  	}
+> Abhinav Kumar (2):
+>   drm/msm/dpu: add dsc blocks for remaining chipsets in catalog
+>   drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
+> 
+> Kuogee Hsieh (6):
+>   drm/msm/dpu: add DPU_PINGPONG_DSC feature bit for DPU < 7.0.0
+>   drm/msm/dpu: test DPU_PINGPONG_DSC bit before assign DSC ops to
+>     PINGPONG
+>   drm/msm/dpu: Introduce PINGPONG_NONE to disconnect DSC from PINGPONG
+>   drm/msm/dpu: add support for DSC encoder v1.2 engine
+>   drm/msm/dpu: separate DSC flush update out of interface
+>   drm/msm/dpu: tear down DSC data path when DSC disabled
+> 
+>  drivers/gpu/drm/msm/Makefile                       |   1 +
+>  .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |   7 +
+>  .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  11 +
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
+>  .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  59 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  31 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  36 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  29 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  10 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  14 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  15 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 382 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   6 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
+>  19 files changed, 649 insertions(+), 27 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
 > 
 > -- 
-> 2.40.1
+> 2.7.4%%
 > 
