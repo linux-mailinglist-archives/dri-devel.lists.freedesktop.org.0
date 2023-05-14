@@ -1,71 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCAD701D49
-	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 14:29:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214E2701D8D
+	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 15:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC4A10E04F;
-	Sun, 14 May 2023 12:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4917389F27;
+	Sun, 14 May 2023 13:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB7010E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 12:29:28 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-50bd37ca954so103384394a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 05:29:28 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1B310E05F
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 13:08:32 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-643557840e4so12682660b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 06:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684067367; x=1686659367;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1684069711; x=1686661711;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ArPtIJuVSpHEWwLn92TXk9woMkM3EW+VzLEi/vFr524=;
- b=S/kTiPFxAcro3pd2LeYSuXVNjtSAQ+tcJAwBTwBhfR2TDep/tIB9iOPGqSz45hKJdN
- tHAkQBb5G4MSDtqYIUYIorm+jrW8p6yov+tcUSKtpclbGyxdCEr1AWXCaWgNBBIFF4r3
- R5twIEtIWXXgQYM/4kwdIqdTbOrDUbiffyTKaR4r7CvidjQTKxbq3EpLcVGCuALLBhnu
- GUsMGKMyJDihULtL1goX1c37HIjy9X8JQMfvcWKRAULKHhJ9A7xqne8F3rxC5SpmdRO9
- LanHknxPtb5IfUqZm69kciw0Fg5UP4E+Gxac2n/4sGQ4RlNIK2ji76gYB65Af6d9vbwE
- 4Hig==
+ bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
+ b=JgFgXkWGfmHspAu7HjxcvhDThdTjCYb1GNamypAn0LCFacWj8H5PF8YNDKsh/tltmv
+ LqdKH0NNZhsyay3GsncvplLD3ClamfUcj0OyLTHNhYu9JaddW/YiogoN5e0ZyVELkp0R
+ KTQ/K5Sn/xBtjAra7xamVhMaa1QU94H6fvOpT4+AqUlfDjFYBsVyt/meC8Jj4tZo1sbR
+ 586YES8hrpWNVFyydRbUXQL6dvIElCzLk2YWjgEmqvytADeUUHamD87e09ZifRyBLLio
+ 6yfsTPDGlXTuK79WwdedbhKlxetYYbIcNS4hYFQl+hr9HZMGmSmNi+xdUho7RYx/SL60
+ dI2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684067367; x=1686659367;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1684069711; x=1686661711;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ArPtIJuVSpHEWwLn92TXk9woMkM3EW+VzLEi/vFr524=;
- b=NIWEAPar7EUK9Nyt7ydZcQL13QK/rD7Q+tOyOzIWS8YmygY7kbAXq8cd7eJfS/wvL3
- 2oEFK/OZ8j4Fn0I1zB3dL7CIWGG2B9aut/3Qu+O+nrlIyTgHSsuVPru3BKJsTDDhxRV1
- /QNPdvL9w7NmXwWF+sQxnRX8h/2XSHWUOCfbNcc/qbGxx9s2+TsWi1ghBL2CMfMB5ABB
- JjAtCZavxwpPwaosM+BrlRq/2vG2e9SYmhhLS0mmkI5IzpIBxpTpTlznSSBTnngKZEba
- M/hLmTbJ0+0nN+nBXKAlCmGiwIeKNguwaSS/wGXxqslnhPQEyQ0FCER5M/OvLiBdY+Ro
- 4Dgg==
-X-Gm-Message-State: AC+VfDylmm0bBtY+MWvzhCSuyiqu/YPCCdBmlqZlpWZCIJD4L0U/xh7s
- Nz1oZb8nKdP2/4EC/U0Rxt0iWg==
-X-Google-Smtp-Source: ACHHUZ6APBK8weoIXl7BwELg8P/pCZohgm3GayyKL2i1zQLIS6SWmmey3j4vbhvbdV5o0ce/gRIP9A==
-X-Received: by 2002:a17:907:701:b0:94f:236b:9e3a with SMTP id
- xb1-20020a170907070100b0094f236b9e3amr24151004ejb.3.1684067366686; 
- Sun, 14 May 2023 05:29:26 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:715f:ddce:f2ba:123b?
- ([2a02:810d:15c0:828:715f:ddce:f2ba:123b])
+ bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
+ b=XOjUrUYRHBLQuwX20H+nSS7QnB+USjjYMsYz0TrKO2fwboFyv8PGJN8sukd39BHDqD
+ WBvfN6LUoG6hZWVdNU7Tqq/RsgK7WzkVpwWCUyFsN5v4rtlFxREEe5UEdBCKZoqoftw5
+ nzv0ByLZERm/01JBwBpy9GNnSfQoYUR2v/rNNdNIoUhcDlTJ3J3HWwXa1wCzKBAjZjBC
+ P36+J40kh55BKDMUHXDAAjU82wOqz3udt8Wvw+QdnjR4D1d4wR/B1Es/SJkXf00DRqP/
+ vkT0kktMoRq/jejDI13E80aF3DaFrWZOnnnTzj7ESeuiDUnt+eFkxGryh0ne261tI5Vk
+ aFVg==
+X-Gm-Message-State: AC+VfDwUprG5KSCagZgGfl9eE1e10zZ1WeV3Ir9pdCyDHVSmLlhA4hhv
+ 1envO9RMTMbpzi9sA0gbDco=
+X-Google-Smtp-Source: ACHHUZ5ut8+Hg2HyxrT4MXIOvyVb3bS836tjfmXkxs1tJNydk4q379JJXY2tKiMm5x8T7vuA9c0e3w==
+X-Received: by 2002:a05:6a20:3d28:b0:103:9c25:99a3 with SMTP id
+ y40-20020a056a203d2800b001039c2599a3mr18361027pzi.59.1684069711559; 
+ Sun, 14 May 2023 06:08:31 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- p25-20020a1709065dd900b0094f1d0bad81sm8109373ejv.139.2023.05.14.05.29.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 May 2023 05:29:26 -0700 (PDT)
-Message-ID: <a6e549e3-a898-c7b2-1c72-4c6fa2866388@linaro.org>
-Date: Sun, 14 May 2023 14:29:24 +0200
+ b30-20020a631b1e000000b0050bd4bb900csm9760255pgb.71.2023.05.14.06.08.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 May 2023 06:08:30 -0700 (PDT)
+Date: Sun, 14 May 2023 06:08:29 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
+ with SPDX identifier
+Message-ID: <511814a0-0c42-4813-9473-13748d6c6cb0@roeck-us.net>
+References: <20230512100620.36807-1-bagasdotme@gmail.com>
+ <20230512100620.36807-9-bagasdotme@gmail.com>
+ <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
+ <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
+ <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
+ <2023051414-headroom-maimed-553c@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 1/2] dt-bindings: samsung,mipi-dsim: Add
- 'lane-polarities'
-Content-Language: en-US
-To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
-References: <20230514114625.98372-1-festevam@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230514114625.98372-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2023051414-headroom-maimed-553c@gregkh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +80,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Simon Horman <simon.horman@corigine.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Richard Fontana <rfontana@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Jonas Jensen <jonas.jensen@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gospodarek <andy@greyhouse.net>,
+ Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
+ Linux Staging Drivers <linux-staging@lists.linux.dev>,
+ Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
+ Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
+ Sam Creasey <sammy@sammy.net>,
+ Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
+ Jan Kara <jack@suse.com>,
+ Linux Kernel Actions <linux-actions@lists.infradead.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Ray Lehtiniemi <rayl@mail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alan Cox <alan@linux.intel.com>, Alessandro Zummo <a.zummo@towertech.it>,
+ Karsten Keil <isdn@linux-pingi.de>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+ Denis Turischev <denis@compulab.co.il>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Philippe Ombredanne <pombredanne@nexb.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/05/2023 13:46, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On Sun, May 14, 2023 at 12:07:28AM +0900, Greg Kroah-Hartman wrote:
+> On Sat, May 13, 2023 at 09:43:39AM -0400, Richard Fontana wrote:
+> > On Sat, May 13, 2023 at 6:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > >
+> > > On 5/12/23 19:46, Richard Fontana wrote:
+> > > > On Fri, May 12, 2023 at 6:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > > >
+> > > >
+> > > >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
+> > > >> index 504be461f992a9..822bf8905bf3ce 100644
+> > > >> --- a/drivers/watchdog/sb_wdog.c
+> > > >> +++ b/drivers/watchdog/sb_wdog.c
+> > > >> @@ -1,3 +1,4 @@
+> > > >> +// SPDX-License-Identifier: GPL-1.0+
+> > > >>  /*
+> > > >>   * Watchdog driver for SiByte SB1 SoCs
+> > > >>   *
+> > > >> @@ -38,10 +39,6 @@
+> > > >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
+> > > >>   *                                             All Rights Reserved.
+> > > >>   *
+> > > >> - *     This program is free software; you can redistribute it and/or
+> > > >> - *     modify it under the terms of the GNU General Public License
+> > > >> - *     version 1 or 2 as published by the Free Software Foundation.
+> > > >
+> > > > Shouldn't this be
+> > > > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
+> > > > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
+> > > >
+> > >
+> > > Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
+> > > doesn't have negation operator (NOT), thus the licensing requirement
+> > > on the above notice can't be expressed reliably in SPDX here.
+> > >
+> > > [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+> > 
+> > The GPL identifiers in recent versions of SPDX include an `-only` and
+> > an `-or-later` variant.
 > 
-> The Samsung DSIM IP block allows the inversion of the clock and
-> data lanes.
+> But Linux does not use the newer versions of SPDX given that we started
+> the conversion before the "-only" variant came out.  Let's stick with
+> the original one please before worrying about converting to a newer
+> version of SPDX and mixing things up.
 > 
-> Add an optional property called 'lane-polarities' that describes the
-> polarities of the MIPI DSI clock and data lanes.
 
+Either case I'd prefer to have no conversion if there is no means
+to express the original license (ie GPL-1.0 or GPL-2.0 and nothing else)
+in acceptable SPDX form.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Thanks,
+Guenter
