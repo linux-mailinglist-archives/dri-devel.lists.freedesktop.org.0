@@ -1,73 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214E2701D8D
-	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 15:08:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5BC701E5C
+	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 19:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4917389F27;
-	Sun, 14 May 2023 13:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17AD810E07E;
+	Sun, 14 May 2023 17:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1B310E05F
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 13:08:32 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-643557840e4so12682660b3a.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 06:08:32 -0700 (PDT)
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F67810E095
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 17:01:40 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-55d2e87048cso173717667b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 10:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684069711; x=1686661711;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
- b=JgFgXkWGfmHspAu7HjxcvhDThdTjCYb1GNamypAn0LCFacWj8H5PF8YNDKsh/tltmv
- LqdKH0NNZhsyay3GsncvplLD3ClamfUcj0OyLTHNhYu9JaddW/YiogoN5e0ZyVELkp0R
- KTQ/K5Sn/xBtjAra7xamVhMaa1QU94H6fvOpT4+AqUlfDjFYBsVyt/meC8Jj4tZo1sbR
- 586YES8hrpWNVFyydRbUXQL6dvIElCzLk2YWjgEmqvytADeUUHamD87e09ZifRyBLLio
- 6yfsTPDGlXTuK79WwdedbhKlxetYYbIcNS4hYFQl+hr9HZMGmSmNi+xdUho7RYx/SL60
- dI2Q==
+ d=linaro.org; s=google; t=1684083699; x=1686675699;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2UHE6KlW9JyEYO4rMr/i63nT9UiBXdbXXzrRs9yxmkU=;
+ b=RPKTeggauu5yKDq3wGbtAgtozDUWB6aA+Niak68nX+2zDqgRHObtdkLgGG+ZS2s62q
+ AQM5/zSZhEl6sm9upmDn+HR9bAEO/uu3Ori8BkiQDeEv7r58e46h6gLcP7/IPJpbuQhS
+ ICnC6i6cT2fqe8mNqWMod+M5DcSyf0ddQN+1s6p/UHwwJmxZa9a0M/PG4KqWgFRqukFY
+ NT7QlCB+4sUJCU5ujJMlS5tJWvLjyWj1FtHwYgK9qlwe6z1A6SFU3NydcxRDYXb04rvc
+ 9EUeFGRjjaW0qh9gLJ3Zbp/vQ4tJSA1Pw7oM6NDFfOosBrCvWyBHnHvEWe7qOjCmd45S
+ b6BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684069711; x=1686661711;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y5XEouAH/P1Pc1xR/i0kwTIYjZQ4lEbXoXqgUXs2Qrc=;
- b=XOjUrUYRHBLQuwX20H+nSS7QnB+USjjYMsYz0TrKO2fwboFyv8PGJN8sukd39BHDqD
- WBvfN6LUoG6hZWVdNU7Tqq/RsgK7WzkVpwWCUyFsN5v4rtlFxREEe5UEdBCKZoqoftw5
- nzv0ByLZERm/01JBwBpy9GNnSfQoYUR2v/rNNdNIoUhcDlTJ3J3HWwXa1wCzKBAjZjBC
- P36+J40kh55BKDMUHXDAAjU82wOqz3udt8Wvw+QdnjR4D1d4wR/B1Es/SJkXf00DRqP/
- vkT0kktMoRq/jejDI13E80aF3DaFrWZOnnnTzj7ESeuiDUnt+eFkxGryh0ne261tI5Vk
- aFVg==
-X-Gm-Message-State: AC+VfDwUprG5KSCagZgGfl9eE1e10zZ1WeV3Ir9pdCyDHVSmLlhA4hhv
- 1envO9RMTMbpzi9sA0gbDco=
-X-Google-Smtp-Source: ACHHUZ5ut8+Hg2HyxrT4MXIOvyVb3bS836tjfmXkxs1tJNydk4q379JJXY2tKiMm5x8T7vuA9c0e3w==
-X-Received: by 2002:a05:6a20:3d28:b0:103:9c25:99a3 with SMTP id
- y40-20020a056a203d2800b001039c2599a3mr18361027pzi.59.1684069711559; 
- Sun, 14 May 2023 06:08:31 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- b30-20020a631b1e000000b0050bd4bb900csm9760255pgb.71.2023.05.14.06.08.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 May 2023 06:08:30 -0700 (PDT)
-Date: Sun, 14 May 2023 06:08:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 08/10] drivers: watchdog: Replace GPL license notice
- with SPDX identifier
-Message-ID: <511814a0-0c42-4813-9473-13748d6c6cb0@roeck-us.net>
-References: <20230512100620.36807-1-bagasdotme@gmail.com>
- <20230512100620.36807-9-bagasdotme@gmail.com>
- <CAC1cPGy=78yo2XcJPNZVvdjBr2-XzSq76JrAinSe42=sNdGv3w@mail.gmail.com>
- <ef31b33f-8e66-4194-37e3-916b53cf7088@gmail.com>
- <CAC1cPGzznK8zoLaT1gBjpHP1eKFvTKKi+SW6xuXF3B8aHN27=g@mail.gmail.com>
- <2023051414-headroom-maimed-553c@gregkh>
+ d=1e100.net; s=20221208; t=1684083699; x=1686675699;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2UHE6KlW9JyEYO4rMr/i63nT9UiBXdbXXzrRs9yxmkU=;
+ b=G29plDlsi+/tfzM+9tiAlE7T4D92pDJVkJipf7dI1sjJYXrrAS49G9LThP40fR82xs
+ 4moOwpXXIBXwM0NI1lU8SnjlN33d4sHf6IeGj0Fe+zYJD/dpIGPQnHlWY4682JUkDcsA
+ G6MOpBEmkd5Jifn3o2zyUXXOdcydatD2mUZSt7gqZg/Rt7rJPMrM6zU0SKweofaT2CDs
+ zLGxb6DERA+oWTntzBy/Gpbqg1O87I7h5OaEXe2RlkOEobPKX+4Xa44DOZrYHyGyJD0F
+ vMCS7dn+xbLOg2OTiHJJawTzB5R1ehrWPL+cNSSfxex84o6YDoVMiEG2bva8zBldBe5m
+ SBaw==
+X-Gm-Message-State: AC+VfDycLO2T1shJIXgP05UrHTosJeR5fg6+eAKF8O+0qIZ2KZPkThY3
+ mR2X9Q3+ItGtlBcfFpI8EGFunZgjwwi/AIf8vjMYCA==
+X-Google-Smtp-Source: ACHHUZ6CIWv7Cilknh4FESFfjsUlP+18hc9999+7vuxr0cmZZf09oa3qy8n/zP5ZyAmBRAUuuyuzlPz6QAxgVJIsHeE=
+X-Received: by 2002:a81:4985:0:b0:55a:577f:eff9 with SMTP id
+ w127-20020a814985000000b0055a577feff9mr29769040ywa.28.1684083699008; Sun, 14
+ May 2023 10:01:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2023051414-headroom-maimed-553c@gregkh>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-3-dmitry.baryshkov@linaro.org>
+ <ea7af397-1840-f15b-6f56-2d0559b8be4d@quicinc.com>
+In-Reply-To: <ea7af397-1840-f15b-6f56-2d0559b8be4d@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 14 May 2023 20:01:28 +0300
+Message-ID: <CAA8EJppbXavJCT4ErBoW2cBjRoabFK58UQ39T6h96Ovm8yMdEQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/13] drm/msm/dpu: take plane rotation into
+ account for wide planes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,88 +69,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Simon Horman <simon.horman@corigine.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Richard Fontana <rfontana@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Jonas Jensen <jonas.jensen@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Andy Gospodarek <andy@greyhouse.net>,
- Sylver Bruneau <sylver.bruneau@googlemail.com>, Marc Zyngier <maz@kernel.org>,
- Linux Staging Drivers <linux-staging@lists.linux.dev>,
- Linux SPDX Licenses <linux-spdx@vger.kernel.org>,
- Oleg Drokin <green@crimea.edu>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrey Panin <pazke@donpac.ru>,
- Sam Creasey <sammy@sammy.net>,
- Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Jan Kara <jack@suse.com>,
- Linux Kernel Actions <linux-actions@lists.infradead.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Andrew Sharp <andy.sharp@lsi.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- David Airlie <airlied@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Ray Lehtiniemi <rayl@mail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Alan Cox <alan@linux.intel.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Karsten Keil <isdn@linux-pingi.de>, Linux Networking <netdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
- Denis Turischev <denis@compulab.co.il>,
- Diederik de Haas <didi.debian@cknow.org>,
- Philippe Ombredanne <pombredanne@nexb.com>,
- "David S. Miller" <davem@davemloft.net>, Daniel Mack <daniel@zonque.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 14, 2023 at 12:07:28AM +0900, Greg Kroah-Hartman wrote:
-> On Sat, May 13, 2023 at 09:43:39AM -0400, Richard Fontana wrote:
-> > On Sat, May 13, 2023 at 6:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > >
-> > > On 5/12/23 19:46, Richard Fontana wrote:
-> > > > On Fri, May 12, 2023 at 6:07 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > > >
-> > > >
-> > > >> diff --git a/drivers/watchdog/sb_wdog.c b/drivers/watchdog/sb_wdog.c
-> > > >> index 504be461f992a9..822bf8905bf3ce 100644
-> > > >> --- a/drivers/watchdog/sb_wdog.c
-> > > >> +++ b/drivers/watchdog/sb_wdog.c
-> > > >> @@ -1,3 +1,4 @@
-> > > >> +// SPDX-License-Identifier: GPL-1.0+
-> > > >>  /*
-> > > >>   * Watchdog driver for SiByte SB1 SoCs
-> > > >>   *
-> > > >> @@ -38,10 +39,6 @@
-> > > >>   *     (c) Copyright 1996 Alan Cox <alan@lxorguk.ukuu.org.uk>,
-> > > >>   *                                             All Rights Reserved.
-> > > >>   *
-> > > >> - *     This program is free software; you can redistribute it and/or
-> > > >> - *     modify it under the terms of the GNU General Public License
-> > > >> - *     version 1 or 2 as published by the Free Software Foundation.
-> > > >
-> > > > Shouldn't this be
-> > > > // SPDX-License-Identifier: GPL-1.0 OR GPL-2.0
-> > > > (or in current SPDX notation GPL-1.0-only OR GPL-2.0-only) ?
-> > > >
-> > >
-> > > Nope, as it will fail spdxcheck.py. Also, SPDX specification [1]
-> > > doesn't have negation operator (NOT), thus the licensing requirement
-> > > on the above notice can't be expressed reliably in SPDX here.
-> > >
-> > > [1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
-> > 
-> > The GPL identifiers in recent versions of SPDX include an `-only` and
-> > an `-or-later` variant.
-> 
-> But Linux does not use the newer versions of SPDX given that we started
-> the conversion before the "-only" variant came out.  Let's stick with
-> the original one please before worrying about converting to a newer
-> version of SPDX and mixing things up.
-> 
+On Sat, 13 May 2023 at 01:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> > Take into account the plane rotation and flipping when calculating src
+> > positions for the wide plane parts.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+> Do we need to have a fixes tag for this? This means we dont consider
+> rotation while calculating src position today which is a bug?
 
-Either case I'd prefer to have no conversion if there is no means
-to express the original license (ie GPL-1.0 or GPL-2.0 and nothing else)
-in acceptable SPDX form.
+Hmm, I thought that I had a check forbidding rotation with the current
+approach, but I don't see it. Most probably I thought about it and
+then forgot to add it.
+The proper fix should be to disallow it for static SSPP case. I'll
+include the patch into v3.
 
-Thanks,
-Guenter
+>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
+> >   1 file changed, 17 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index 2e63eb0a2f3f..d43e04fc4578 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -887,16 +887,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >               return -EINVAL;
+> >       }
+> >
+> > -     pipe_cfg->src_rect = new_plane_state->src;
+> > -
+> > -     /* state->src is 16.16, src_rect is not */
+> > -     pipe_cfg->src_rect.x1 >>= 16;
+> > -     pipe_cfg->src_rect.x2 >>= 16;
+> > -     pipe_cfg->src_rect.y1 >>= 16;
+> > -     pipe_cfg->src_rect.y2 >>= 16;
+> > -
+> > -     pipe_cfg->dst_rect = new_plane_state->dst;
+> > -
+> >       fb_rect.x2 = new_plane_state->fb->width;
+> >       fb_rect.y2 = new_plane_state->fb->height;
+> >
+> > @@ -912,6 +902,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >
+> >       max_linewidth = pdpu->catalog->caps->max_linewidth;
+> >
+> > +     /* state->src is 16.16, src_rect is not */
+> > +     drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> > +
+> > +     pipe_cfg->dst_rect = new_plane_state->dst;
+> > +
+> > +     drm_rect_rotate(&pipe_cfg->src_rect,
+> > +                     new_plane_state->fb->width, new_plane_state->fb->height,
+> > +                     new_plane_state->rotation);
+> > +
+> >       if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> >               /*
+> >                * In parallel multirect case only the half of the usual width
+> > @@ -959,6 +958,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >               r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+> >       }
+> >
+> > +     drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> > +                         new_plane_state->fb->width, new_plane_state->fb->height,
+> > +                         new_plane_state->rotation);
+> > +     if (r_pipe->sspp)
+>
+> Dont you need to check for if (r_pipe_cfg) here and not if
+> (r_pipe->sspp) because parameter you are passing is the r_pipe_cfg to
+> drm_rect_rotate_inv().
+
+Of course not. r_pipe_cfg is a pointer to the field in pstate. We know
+that it can not be NULL.
+
+>
+> So we rotated the pipe_cfg once, then rotated_inv it to restore the
+> rectangle to its original state, but r_pipe_cfg's rectangle was never
+> rotated as it was not allocated before this function so it will remain
+> in inverse rotated state now right?
+
+No. r_pipe_cfg is set beforehand to the half of the rotated pipe_cfg.
+
+> > +             drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> > +                                 new_plane_state->fb->width, new_plane_state->fb->height,
+> > +                                 new_plane_state->rotation);
+> > +
+> >       ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+> >       if (ret)
+> >               return ret;
+
+
+
+--
+With best wishes
+Dmitry
