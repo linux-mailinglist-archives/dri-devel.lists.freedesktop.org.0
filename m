@@ -2,64 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861F17025EF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034AC7025EB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE5FB10E157;
-	Mon, 15 May 2023 07:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B616710E150;
+	Mon, 15 May 2023 07:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE65110E023
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 15:32:26 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id
- d2e1a72fcca58-643b60855c8so9888606b3a.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 08:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684078346; x=1686670346;
- h=to:cc:date:message-id:subject:mime-version
- :content-transfer-encoding:from:from:to:cc:subject:date:message-id
- :reply-to; bh=odfI42LfjFjYiGmwpoXU0rW2oYspEJ1vTnNK/Z96H8c=;
- b=OnVJnmY6QHxGZqUdS0J3SREG4B4wqa4mOHwWZf0Cd2ILURG9dy2xYYah2nmv74PlK8
- b10o554L4nfXz06SWtlIIVhNQLmW2dwnDsiBwcjVppTsVA59wUMH6ReeZ066yRtPEtHy
- nsSUMzA/Q8fI1bOpl8l7AxUX5E6J9hqY2N5m0u/TzzjfLznBegcyKVrB9u13PUuSbUkV
- sdBX7NTRZUmj4uy5nE8luQUooFhx+shX1O2f6QvioimTQrqAOVZ/V/Nmgr5jL7E8VvGr
- QrCIdgUaMmDRVkmvHtLesSUyVKdbssBXUxukxnZ9punOcGEiVPiraAFLB1mWLK5J7eWo
- CdEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684078346; x=1686670346;
- h=to:cc:date:message-id:subject:mime-version
- :content-transfer-encoding:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=odfI42LfjFjYiGmwpoXU0rW2oYspEJ1vTnNK/Z96H8c=;
- b=NMNJy3ktnqP7gTaX/2/a9MjnlD8ajuOWCjdR+MiScB6YzNQBIWZllxdTiya/ZhhES3
- 9BELDP9Rmt2zfpEKTJXT0gXZDS84j4crBUtwCafDyI/PW3buOVRGljSBZz7hF4c4DGmY
- yQoRdwDGgVIf9/5fswMO3M482EsgvchNJYgI01ZwRf6EUcORk00u1dr8/59saj/NScnF
- x/YDbk5f8gnxS/ysHBg2b5W10IEN75nGI4rReIewYYziZOTa+ynCJkS4oDIS3IEKoPhq
- ES9UqNzt9XB0DvELUVAPD7S32H/hPy6UWSvtGusScnOJM1LRVUVzXK4JakXJSQ87qR9d
- AtgQ==
-X-Gm-Message-State: AC+VfDwMRJY4JMN65LRiKkbQZxSO3fUqHjDazr1Ed/Qc0rydxTKCZSs8
- 0BleIrYSg+tJpv8z7dS09w==
-X-Google-Smtp-Source: ACHHUZ4n2HyH6Ze3g1I+wxRZZDTQyiZB6i+vO6JhaJQwzmorCJl0hsvRi9t7bHVxgYAMXsZjv2SAuA==
-X-Received: by 2002:a05:6a21:32a2:b0:ff:6120:e9b9 with SMTP id
- yt34-20020a056a2132a200b000ff6120e9b9mr37183414pzb.39.1684078345683; 
- Sun, 14 May 2023 08:32:25 -0700 (PDT)
-Received: from smtpclient.apple ([110.226.25.172])
- by smtp.gmail.com with ESMTPSA id
- c16-20020aa78810000000b0063b7b811ce8sm10135030pfo.205.2023.05.14.08.32.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 14 May 2023 08:32:25 -0700 (PDT)
-From: Swapnil Raicha <raicha21swapnil@gmail.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
-Subject: Re: [PATCH v1 1/4] drm/panel: simple: Add AUO G101EVN010 panel support
-Message-Id: <4B9C9FF7-F338-4449-8841-BCC3D423EB76@gmail.com>
-Date: Sun, 14 May 2023 21:02:02 +0530
-To: alex.gonzalez@digi.com
-X-Mailer: Apple Mail (2.3731.500.231)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2F710E033
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 18:54:37 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 72A9360C95;
+ Sun, 14 May 2023 18:54:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40684C433D2;
+ Sun, 14 May 2023 18:54:30 +0000 (UTC)
+Date: Sun, 14 May 2023 19:54:27 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Petr Tesarik <petrtesarik@huaweicloud.com>
+Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
+ dynamically allocated buffers
+Message-ID: <ZGEuYxR2PM6wHeDh@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
 X-Mailman-Approved-At: Mon, 15 May 2023 07:18:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,30 +45,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- linux-imx@nxp.com, kernel@pengutronix.de, fabio.estevam@nxp.com,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, petr@tesarici.cz,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+On Tue, May 09, 2023 at 11:18:19AM +0200, Petr Tesarik wrote:
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index d1d2b8557b30..e340e0f06dce 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -516,6 +516,9 @@ struct device_physical_location {
+>   * @dma_io_tlb_dyn_slots:
+>   *		Dynamically allocated bounce buffers for this device.
+>   *		Not for driver use.
+> + * @dma_io_tlb_have_dyn:
+> + *		Does this device have any dynamically allocated bounce
+> + *		buffers? Not for driver use.
+>   * @archdata:	For arch-specific additions.
+>   * @of_node:	Associated device tree node.
+>   * @fwnode:	Associated device node supplied by platform firmware.
+> @@ -623,6 +626,7 @@ struct device {
+>  	struct io_tlb_mem *dma_io_tlb_mem;
+>  	spinlock_t dma_io_tlb_dyn_lock;
+>  	struct list_head dma_io_tlb_dyn_slots;
+> +	bool dma_io_tlb_have_dyn;
+>  #endif
+>  	/* arch specific additions */
+>  	struct dev_archdata	archdata;
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index daa2064f2ede..8cbb0bebb0bc 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -152,7 +152,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+>  
+>  	return mem &&
+>  		(is_swiotlb_fixed(mem, paddr) ||
+> -		 (mem->allow_dyn && is_swiotlb_dyn(dev, paddr)));
+> +		 /* Pairs with smp_store_release() in swiotlb_dyn_map()
+> +		  * and swiotlb_dyn_unmap().
+> +		  */
+> +		 (smp_load_acquire(&dev->dma_io_tlb_have_dyn) &&
+> +		  is_swiotlb_dyn(dev, paddr)));
+>  }
+>  
+>  static inline bool is_swiotlb_force_bounce(struct device *dev)
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 81eab1c72c50..e8be3ee50f18 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -642,6 +642,9 @@ static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
+>  
+>  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+>  	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
+> +	if (!dev->dma_io_tlb_have_dyn)
+> +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
+> +		smp_store_release(&dev->dma_io_tlb_have_dyn, true);
+>  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
 
-I am currently working on STM32MP1 based custom board and using the =
-auo,g101evn010 panel.
+I'm not sure this works. What this seems to do is that if the caller of
+is_swiotlb_buffer() sees the flag set, it's guaranteed that something
+was added to the dma_io_tlb_dyn_slots list. But the reverse is not
+necessarily true. IOW, if something was added to the list, there is a
+brief window where the dma_io_tlb_have_dyn flag is still false. In the
+general case, I doubt any ordering between list_add() and the flag
+setting changes anything since neither of them may be visible to another
+CPU.
 
-The panel comes up but the colours are not as expected.
-One observation is that when I pull down the notification bar on the =
-Android Screen on the panel, due to the overlay of the notification, the =
-colours in the background seems to be perfect then.
+What you need is for a 'paddr' added to the dynamic list to be correctly
+identified by another CPU as dynamic swiotlb. That other CPU doesn't
+check random addresses but only those returned by the DMA API. Such
+values would be normally passed through a memory location (e.g. driver
+local structures) and that's what you want to order against.
 
-Not getting where to look at for this issue.
-Seems to me an issue related to DRM.
+What I mean is that a 'dev->blah = paddr' needs to be ordered _after_
+your flag setting. So you need the either the 'blah = paddr' assignment
+to have release semantics or the flag setting to be an
+smp_store_acquire() (but we don't have such thing). You'd have to use an
+explicit smp_wmb() barrier after the flag setting (it can be outside the
+lock). The spin_unlock() is not sufficient since it only has release
+semantics. I also don't think the ordering between list_add() and flag
+setting matters since the smp_wmb() would ensure that both are visible
+when the 'paddr' value made it to the other CPU.
 
-Can you please suggest a solution for the same.
+Similarly on the is_swiotlb_buffer() side, you want the flag reading to
+be ordered after the 'blah = paddr' is observed. Here the
+smp_load_acquire() is sufficient.
 
-Waiting for a reply.
+>  	return page_to_phys(slot->page);
+> @@ -668,6 +671,9 @@ static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
+>  	unsigned long flags;
+>  
+>  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> +	if (list_is_singular(&dev->dma_io_tlb_dyn_slots))
+> +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
+> +		smp_store_release(&dev->dma_io_tlb_have_dyn, false);
+>  	slot = lookup_dyn_slot_locked(dev, tlb_addr);
+>  	list_del(&slot->node);
+>  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);
 
-Regards,
-Swapnil Raicha.=
+As with the map case, I don't think the ordering between list_del() and
+the flag setting matters. If you unmap the last dynamic buffer, the
+worst that can happen is that an is_swiotlb_buffer() call attempts a
+read of the list but the flag will eventually become visible. There
+shouldn't be another caller trying to unmap the same paddr (in well
+behaved drivers).
+
+Now, thinking about the list_head access and the flag ordering, since it
+doesn't matter, you might as well not bother with the flag at all and
+rely on list_add() and list_empty() ordering vs the hypothetical 'blah'
+access. Both of these use READ/WRITE_ONCE() for setting
+dma_io_tlb_dyn_slots.next. You only need an smp_wmb() after the
+list_add() and an smp_rmb() before a list_empty() check in
+is_swiotlb_buffer(), no dma_iotlb_have_dyn variable.
+
+That's my reasoning but to be absolutely sure, you can pass that through
+some formal modelling.
+
+-- 
+Catalin
