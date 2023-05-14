@@ -1,63 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4015B701F0A
-	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 20:43:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C25DA701FAA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 May 2023 23:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79ECB8911F;
-	Sun, 14 May 2023 18:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0843310E0D7;
+	Sun, 14 May 2023 21:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A785E10E033;
- Sun, 14 May 2023 18:43:20 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4f2510b2b98so9445804e87.3; 
- Sun, 14 May 2023 11:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684089798; x=1686681798;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wIbnvgmJCDQh9UHtsuRNkB0HCn83qO85MVUMP60gjIE=;
- b=kjV0uaXcPYLTGQvCeLALCIjuGNxIgWU+OQiEPGiN81CvvcrShdwbFYfq3wYf9LrEY/
- HFNkHmzViZf6uaOv7YNvevIW1HdmnPubQ6LSiGrtbqCKD2QtZQ5fKsYoP721h9eLy3C9
- PMOwqCpkaCwZG8fCUvZXlO4Bl9jZhuyXOysMs4DOpmAU/6t3PhPFmN8LDJtyh6ONxnb/
- GtO5el/QZOyLs4XYmRKyFOUhlxqdbwlJHlLQ5JlwnKk9zOtAnyUUrDb3SqCiPEU4rgkB
- JvLsYIkEBNMZfb/eGKGQYyPZbvyUSH8QWhf4iAxkzv33FCj+339AOib/kwtTg2P8A1Xi
- RDzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684089798; x=1686681798;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wIbnvgmJCDQh9UHtsuRNkB0HCn83qO85MVUMP60gjIE=;
- b=MmProqMwOpIW+SrnMI8JysgLYssLs4FlWe/k92qnm9dWbbp7iEYDjpn6u44J3psQmw
- o9Sv42xjXDqLiAWulgOs12TI4OQR1Hh2O8n9PD6OMvtNg2sQ6Pe1KCCLG+vU7SadulM5
- t6Eypn4qcOK78aBifob8av+jaJEcsv7NU6SFN2dk94eXxFDrzYp5qu4KFlaUWSXKH5YH
- c7RY2TUsNhb3lGbkjrV6uCyjOo2t0qYhVnu1HvFXngOozqfiEq0pR2SMp5TlMfygYalB
- MY81wnscuDAfxra9TPC7gwvP0VvxSLO2dbITh0sKor1fb8JxmJTOEVtu1nG0lf0Qpf+7
- kb6g==
-X-Gm-Message-State: AC+VfDwgTZGcKe0Ezy9HbcaFcx1oVrZXBPDbykbXEuljYjgdc8LduCuF
- JsIp/sLNTmAe86paVA2dhXfSbCEtAa2c/w==
-X-Google-Smtp-Source: ACHHUZ7PGcdsEvSS4/GYTyWxrZXI+WGSVbAqmv19un9LM4YpyX5mbOqVnMrLY4YjLR6Oabua9TD4yg==
-X-Received: by 2002:a05:6512:943:b0:4f1:496a:de8e with SMTP id
- u3-20020a056512094300b004f1496ade8emr4238540lft.27.1684089797437; 
- Sun, 14 May 2023 11:43:17 -0700 (PDT)
-Received: from localhost.localdomain (91-156-196-125.elisa-laajakaista.fi.
- [91.156.196.125]) by smtp.gmail.com with ESMTPSA id
- g11-20020a19ac0b000000b004efd3c2b746sm2254332lfc.162.2023.05.14.11.43.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 May 2023 11:43:16 -0700 (PDT)
-From: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/fourcc: define Intel Meteorlake related ccs modifiers
-Date: Sun, 14 May 2023 21:42:39 +0300
-Message-Id: <20230514184240.6184-1-juhapekka.heikkila@gmail.com>
-X-Mailer: git-send-email 2.40.0
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7C610E0DC
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 21:11:10 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 15EEE3EF03;
+ Sun, 14 May 2023 23:11:04 +0200 (CEST)
+Date: Sun, 14 May 2023 23:11:00 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v10 2/8] drm/display/dsc: add helper to set semi-const
+ parameters
+Message-ID: <yfb77nwhufoaosbf7z5zutqm76ofd72ikqinumc7uoonghhcji@5s6jk6slt6ev>
+References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v10-2-4cb21168c227@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v10-2-4cb21168c227@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +44,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Tile4 type ccs modifiers with aux buffer needed for MTL
+On 2023-05-12 14:32:12, Jessica Zhang wrote:
+> 
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Add a helper setting config values which are typically constant across
+> operating modes (table E-4 of the standard) and mux_word_size (which is
+> a const according to 3.5.2).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/display/drm_dsc_helper.c | 22 ++++++++++++++++++++++
+>  include/drm/display/drm_dsc_helper.h     |  1 +
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
+> index 65e810a54257..b9c4e10ced41 100644
+> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
+> @@ -270,6 +270,28 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
+>  }
+>  EXPORT_SYMBOL(drm_dsc_pps_payload_pack);
+>  
+> +/**
+> + * drm_dsc_set_const_params() - Set DSC parameters considered typically
+> + * constant across operation modes
+> + *
+> + * @vdsc_cfg:
+> + * DSC Configuration data partially filled by driver
 
-Bspec: 49251, 49252, 49253
-Cc: dri-devel@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Signed-off-by: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-Reviewed-by: Matt Atwood <matthew.s.atwood@intel.com>
----
- include/uapi/drm/drm_fourcc.h | 43 +++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Nit: could have been on one line in the strange event that this has to
+be resent.
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index de703c6be969..8db7fd3f743e 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -657,6 +657,49 @@ extern "C" {
-  */
- #define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 12)
- 
-+/*
-+ * Intel Color Control Surfaces (CCS) for display ver. 14 render compression.
-+ *
-+ * The main surface is tile4 and at plane index 0, the CCS is linear and
-+ * at index 1. A 64B CCS cache line corresponds to an area of 4x1 tiles in
-+ * main surface. In other words, 4 bits in CCS map to a main surface cache
-+ * line pair. The main surface pitch is required to be a multiple of four
-+ * tile4 widths.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_MTL_RC_CCS fourcc_mod_code(INTEL, 13)
-+
-+/*
-+ * Intel Color Control Surfaces (CCS) for display ver. 14 media compression
-+ *
-+ * The main surface is tile4 and at plane index 0, the CCS is linear and
-+ * at index 1. A 64B CCS cache line corresponds to an area of 4x1 tiles in
-+ * main surface. In other words, 4 bits in CCS map to a main surface cache
-+ * line pair. The main surface pitch is required to be a multiple of four
-+ * tile4 widths. For semi-planar formats like NV12, CCS planes follow the
-+ * Y and UV planes i.e., planes 0 and 1 are used for Y and UV surfaces,
-+ * planes 2 and 3 for the respective CCS.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_MTL_MC_CCS fourcc_mod_code(INTEL, 14)
-+
-+/*
-+ * Intel Color Control Surface with Clear Color (CCS) for display ver. 14 render
-+ * compression.
-+ *
-+ * The main surface is tile4 and is at plane index 0 whereas CCS is linear
-+ * and at index 1. The clear color is stored at index 2, and the pitch should
-+ * be ignored. The clear color structure is 256 bits. The first 128 bits
-+ * represents Raw Clear Color Red, Green, Blue and Alpha color each represented
-+ * by 32 bits. The raw clear color is consumed by the 3d engine and generates
-+ * the converted clear color of size 64 bits. The first 32 bits store the Lower
-+ * Converted Clear Color value and the next 32 bits store the Higher Converted
-+ * Clear Color value when applicable. The Converted Clear Color values are
-+ * consumed by the DE. The last 64 bits are used to store Color Discard Enable
-+ * and Depth Clear Value Valid which are ignored by the DE. A CCS cache line
-+ * corresponds to an area of 4x1 tiles in the main surface. The main surface
-+ * pitch is required to be a multiple of 4 tile widths.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_MTL_RC_CCS_CC fourcc_mod_code(INTEL, 15)
-+
- /*
-  * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
-  *
--- 
-2.25.1
+- Marijn
 
+> + */
+> +void drm_dsc_set_const_params(struct drm_dsc_config *vdsc_cfg)
+> +{
+<snip>
