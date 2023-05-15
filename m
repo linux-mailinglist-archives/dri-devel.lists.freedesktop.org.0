@@ -1,67 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91138702DD6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:17:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD0C702CFD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 14:44:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F195610E1DA;
-	Mon, 15 May 2023 13:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 433DE10E1BE;
+	Mon, 15 May 2023 12:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2356 seconds by postgrey-1.36 at gabe;
- Mon, 15 May 2023 13:17:47 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A3810E1D5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:17:47 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FBEC0U012016; Mon, 15 May 2023 14:38:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=selector1;
- bh=C32TBRVdktwQzHv4Hb9kGIbGc9gWRr1UiGA7i4gu28c=;
- b=KOLkSr346r3axUqgxh1EKwUVufgprJqMt/ERbEIXgSC3zQbPwTWGlqpalAvASIK1gS/d
- SlCZYEAuJI+jfNkNKiN+DP0l8IVeTfoCXlRncyu2jWN+UB2sHUDEbTmG/vUfgRDIgt8l
- o8P4w3/odxRJ5AXeTalIPDpnBMg44coVqTGwqBKtbZqOYIeZvWKdk1AT8x26ZbuDRvWi
- p5D6+ABmq8JGnGkVwrrz9ejtkqkNlNLFAOA8HApE0GPkVlV6QI7591GnwIMIuBPRB6Sm
- 5dNR5ogjnOwNDpPADE010LonViDBtF4NYJ50f4GPfJXXzTlRwoOaUy5fp7aml+0QEHzW qg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qkgqwsyy8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 14:38:25 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 766F310002A;
- Mon, 15 May 2023 14:38:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6C1062309C5;
- Mon, 15 May 2023 14:38:24 +0200 (CEST)
-Received: from localhost (10.129.178.187) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 15 May
- 2023 14:38:22 +0200
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-Subject: [PATCH RESEND] drm/stm: ltdc: fix late dereference check
-Date: Mon, 15 May 2023 14:38:18 +0200
-Message-ID: <20230515123818.93971-1-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA28D10E1B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 12:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684154684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cZmYTRAn7NU2pb19zTAYR+mb+ybNs5nlZD8A2O1lVGg=;
+ b=I3hZwCl/ur4DITE2CwjtGBehhwbxgPjUjb/tLbYi/WTVHNQfozx4p6tlY9va/kF6+MAUC1
+ f8euj6FywH7ODXyPN2U9ty0KQ7Ow+Aay0jMgtmEBbTNm10bY8mIGUAHktvVT5XHR43F5qw
+ WmqfN1NbqHoLkJ4co5Q8pWHPc/zNta4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-658-8urREn7QO1qT6Y_WDYQ2lA-1; Mon, 15 May 2023 08:44:43 -0400
+X-MC-Unique: 8urREn7QO1qT6Y_WDYQ2lA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f08900caadso16122465e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 05:44:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684154682; x=1686746682;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cZmYTRAn7NU2pb19zTAYR+mb+ybNs5nlZD8A2O1lVGg=;
+ b=WH4I7D7f4oT6G1wghM3ZM0R/U+NjwywNrgz8/nzxd8TmkhqijgrDNxHbTyut1pCsnV
+ Arqyl07qb5nYXpz4TejeP0sl5ETyqJdm/gNxCoyxhaVPtASCvrHpbh8nSlFsrME4GOmk
+ 3dZ2tF/2fGIjJFUgahlFRfxsmvOtc169pVSPaRuOPCqzpszqcIlWN4T9jFPZpOO9BsXd
+ bZJZBppcweIjHQVAW3ZYGhjQDV9L6uGOjppIizd6gy7DawfPBBo/8lJSBlydpEILx44/
+ Kp5eibER+6gsvQR4DIh2db11DzyJyJ1DVYvbdFDPdTVa3CWK7YuX1+QVvu4LWaJ+wjqy
+ EM7A==
+X-Gm-Message-State: AC+VfDz8Ya84SCoF025uEaDv6XOg5nWrKeIYtGDxysikMAxFnvUoZU91
+ jIhriB/kYPmXx/8a4HMJRrX7IaWr0IOGenjIwyoRrMiQoEr3qkb1dWp929aUNCIm2pBbSC22KDY
+ h5k+DlPa9nEfzN3tsZp0Y3rfRGIDV
+X-Received: by 2002:a05:600c:35cf:b0:3f4:f204:4968 with SMTP id
+ r15-20020a05600c35cf00b003f4f2044968mr8731449wmq.1.1684154682178; 
+ Mon, 15 May 2023 05:44:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ76ly2s9BWGl+80vve46j05skeM6iSlOiqEvBV8GMj96bvOhN4iMHwcgu7nH9/0EeHx5tw9DQ==
+X-Received: by 2002:a05:600c:35cf:b0:3f4:f204:4968 with SMTP id
+ r15-20020a05600c35cf00b003f4f2044968mr8731434wmq.1.1684154681806; 
+ Mon, 15 May 2023 05:44:41 -0700 (PDT)
+Received: from kherbst.pingu (ip1f1032e8.dynamic.kabel-deutschland.de.
+ [31.16.50.232]) by smtp.gmail.com with ESMTPSA id
+ t25-20020a1c7719000000b003f43f82001asm17024977wmi.31.2023.05.15.05.44.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 05:44:41 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau: bring back blit subchannel for pre nv50 GPUs
+Date: Mon, 15 May 2023 14:44:39 +0200
+Message-Id: <20230515124439.257585-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.129.178.187]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_09,2023-05-05_01,2023-02-09_01
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,48 +80,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
+Cc: nouveau@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In ltdc_crtc_set_crc_source(), struct drm_crtc was dereferenced in a
-container_of() before the pointer check. This could cause a kernel panic.
+1ba6113a90a0 removed a lot of the kernel GPU channel, but method 0x128
+was important as otherwise the GPU spams us with `CACHE_ERROR` messages.
 
-Fix this smatch warning:
-drivers/gpu/drm/stm/ltdc.c:1124 ltdc_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 1119)
+We use the blit subchannel inside our vblank handling, so we should keep
+at least this part.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/201
+Fixes: 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
 ---
- drivers/gpu/drm/stm/ltdc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_chan.c |  1 +
+ drivers/gpu/drm/nouveau/nouveau_chan.h |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c  | 19 ++++++++++++++++---
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 03c6becda795..b8be4c1db423 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1145,7 +1145,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+index e648ecd0c1a0..3dfbc374478e 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -90,6 +90,7 @@ nouveau_channel_del(struct nouveau_channel **pchan)
+ 		if (cli)
+ 			nouveau_svmm_part(chan->vmm->svmm, chan->inst);
  
- static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- {
--	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
-+	struct ltdc_device *ldev;
- 	int ret;
++		nvif_object_dtor(&chan->blit);
+ 		nvif_object_dtor(&chan->nvsw);
+ 		nvif_object_dtor(&chan->gart);
+ 		nvif_object_dtor(&chan->vram);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
+index e06a8ffed31a..bad7466bd0d5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.h
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
+@@ -53,6 +53,7 @@ struct nouveau_channel {
+ 	u32 user_put;
  
- 	DRM_DEBUG_DRIVER("\n");
-@@ -1153,6 +1153,8 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- 	if (!crtc)
- 		return -ENODEV;
+ 	struct nvif_object user;
++	struct nvif_object blit;
  
-+	ldev = crtc_to_ltdc(crtc);
+ 	struct nvif_event kill;
+ 	atomic_t killed;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index cc7c5b4a05fd..59e040a93a41 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -369,15 +369,28 @@ nouveau_accel_gr_init(struct nouveau_drm *drm)
+ 		ret = nvif_object_ctor(&drm->channel->user, "drmNvsw",
+ 				       NVDRM_NVSW, nouveau_abi16_swclass(drm),
+ 				       NULL, 0, &drm->channel->nvsw);
 +
- 	if (source && strcmp(source, "auto") == 0) {
- 		ldev->crc_active = true;
- 		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
++		if (ret == 0) {
++			u32 blit_class = device->info.chipset >= 0x11 ? 0x009f : 0x005f;
++			ret = nvif_object_ctor(&drm->channel->user, "drmBlit",
++					       0x005f, blit_class,
++					       NULL, 0, &drm->channel->blit);
++		}
++
+ 		if (ret == 0) {
+ 			struct nvif_push *push = drm->channel->chan.push;
+-			ret = PUSH_WAIT(push, 2);
+-			if (ret == 0)
++			ret = PUSH_WAIT(push, 8);
++			if (ret == 0) {
++				PUSH_NVSQ(push, NV05F, 0x0000, drm->channel->blit.handle);
++				PUSH_NVSQ(push, NV09F, 0x0120, 0,
++						       0x0124, 1,
++						       0x0128, 2);
+ 				PUSH_NVSQ(push, NV_SW, 0x0000, drm->channel->nvsw.handle);
++			}
+ 		}
+ 
+ 		if (ret) {
+-			NV_ERROR(drm, "failed to allocate sw class, %d\n", ret);
++			NV_ERROR(drm, "failed to allocate sw or blit class, %d\n", ret);
+ 			nouveau_accel_gr_fini(drm);
+ 			return;
+ 		}
 -- 
-2.25.1
+2.40.1
 
