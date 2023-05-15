@@ -2,65 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21017032CC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252D57032D3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC76510E11A;
-	Mon, 15 May 2023 16:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB5A10E11B;
+	Mon, 15 May 2023 16:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F21EF10E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:22:16 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-50bd2d7ba74so113197182a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:22:16 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9A9D10E11B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:22:55 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-307a8386946so5140935f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684167735; x=1686759735;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HqUKnr7IQo6kAfIcW46mPtLrFF4JcKeEB/JMB18Eu9o=;
- b=IFOu69xMjQDkgS9weEDled/TdBHMLC8yBGornivzVwLbLX77xvDFLzkoUqW7hi9p1t
- CKaI3h/mDs5Z3JBQ7MBKkh9y4mCkeCX/9i6zRH7s4LBA8ibeKmgux3dAFjRGbwEy+Z36
- ApdQ3qPRZq5UXS2EtTjNC8uyb85BQCuYuGUK0hXmgkcbX7bT17ABTP5SS1jxo54Q0Ujy
- sjdtshj3OT9BXTu3drUjNDncIEBpqNBRRZdoPTJ71PUWyi5VNtciC6D7wzTEJ4XUfXuC
- F3vVSQyZ0Awq5Df63fkIJlHVjiGg/Xx2nrna0EMvpaA52kV2CS0e9KDA0wpEYhJfaeYp
- 7kNg==
+ d=linaro.org; s=google; t=1684167774; x=1686759774;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=L/BFaR2bXmYV85aZ3VRwxHXRXyNTTuSJM62QQ7kJk14=;
+ b=XobnY8dEDD5WdDsk8tbcbCChwsRbJjuhaQcAVTQG6QA4fd8oGxrcXKJ1AgPzDHF4YF
+ iuFoC+kO9NnOf4NjasgKbvGzdkx3vkK8Vq3z5lpynoTjyuR6lI9Wlh5JrwXm9ki5bFUa
+ lvU4eBabnuZjU1+dgRWwwJuO54dZGOF5z31g2iCiTDMwzccWs0cGGRjNZR1rGlMg57za
+ fAt81vYy5OUbGayVg5t4ljnYrTMa20FH+fdAh7okT3u+OZP+B5LNYEG5nyGV/U915VHL
+ ILtJEcIOXMFzppP2iokbEhnB+qHCcr8HCYzYwbQ5eoCcBoJTw1ZMppByQhzC10RLlXj2
+ aVtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684167735; x=1686759735;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HqUKnr7IQo6kAfIcW46mPtLrFF4JcKeEB/JMB18Eu9o=;
- b=cvkROa2pmU8c7B46doh4pd+V/t+nlxH/naPfXLziAzSXlk0zpM1r20rqzi+a53Faga
- jAc84Ijz8jC1wRsxRpshAP91AlU2xxi/FvrHxGS2PIZEu6TiF6Om0KxxhMqfWSZyTRlB
- 6wO8iU+xV3tM2DD+UjReA51LK81JEhBvp4K6GeEMIw778uTmx0wvZvrQnulA8W4gu0/t
- cTdjGEdTTDD8QPjj2wJiDrlhJpcAsOJkysDRKjeg4yR9qy45xvdciS+CNKQ98751RTH3
- Ptb72Gkd8cCc+736+h8lPpkSjlF6ZteqI78k9FyNdkm1e21gzMI4zjMjDbZ9wn1i2bVl
- bzUw==
-X-Gm-Message-State: AC+VfDwFMxuUp402pj9SYn/Wex+kxPYouCplykAWOx10xcZ2mQ0dfCAh
- 9+EMjSIYyo18ywcN5CpKhndfRQ==
-X-Google-Smtp-Source: ACHHUZ4LIljnAHBUrSfA9rndvPnsXVWvxuzuNDX+pSF5zFw9AsRvRtnw68XknYeYz635GIn79GF7dw==
-X-Received: by 2002:a17:907:3ea8:b0:953:37d9:282f with SMTP id
- hs40-20020a1709073ea800b0095337d9282fmr28963636ejc.38.1684167734983; 
- Mon, 15 May 2023 09:22:14 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:6470:25b8:7c2d:1992?
- ([2a02:810d:15c0:828:6470:25b8:7c2d:1992])
+ d=1e100.net; s=20221208; t=1684167774; x=1686759774;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=L/BFaR2bXmYV85aZ3VRwxHXRXyNTTuSJM62QQ7kJk14=;
+ b=cPtrJ9f+SZOhAbwNVNoWJc1zxTwW0J40wI0AqrKGgL77Z9DA2qy+/ZYnH95jixDmR0
+ RDEhOL+bM5KCNJMs6TAKUnESheorOXWT7v2cPzmtDm3cSj7/n922TJl+wvAQDxSziFBo
+ ai2oHuj/sm5edy2upGax2u04SgqMjDaEcGi162LCg73hDjdMyOj20AkS8zM5JAOfz1Lb
+ KEU4HkdQSh93MX6MP+81DHT1ZX/107tZEpVKiWgaOzUJg4ZuA94HZbmhaEnJFxAec7BV
+ r2G9UdLGeKhVhMrjWflHNqw4uF6C9Cgs9azqcRlGNhKRZR2NLD4Jzsb2rqPvlT7+xNTf
+ G3qA==
+X-Gm-Message-State: AC+VfDy37e6/fDBpclsFUZRWoFLkjqqzGI9jUM2+50jbIS640/odk9hT
+ r43o5L3HCTu7rfaa2aFVMEXU3Q==
+X-Google-Smtp-Source: ACHHUZ45LY914ONoEcieAp+9ip6x5dmqMig4lZWDIrIooklY3Q93vho3dB48zUvDlbhW6BuZmPpLZw==
+X-Received: by 2002:a05:6000:1b8f:b0:306:2b31:5935 with SMTP id
+ r15-20020a0560001b8f00b003062b315935mr19815654wru.55.1684167773728; 
+ Mon, 15 May 2023 09:22:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ee7:a396:6195:bb56?
+ ([2a01:e0a:982:cbb0:ee7:a396:6195:bb56])
  by smtp.gmail.com with ESMTPSA id
- fy7-20020a1709069f0700b00965af4c7f07sm9645534ejc.20.2023.05.15.09.22.13
+ u19-20020a7bc053000000b003f09d7b6e20sm37425314wmc.2.2023.05.15.09.22.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 May 2023 09:22:14 -0700 (PDT)
-Message-ID: <80da6b9e-ba82-d2c9-2854-b444635150fd@linaro.org>
-Date: Mon, 15 May 2023 18:22:12 +0200
+ Mon, 15 May 2023 09:22:53 -0700 (PDT)
+Message-ID: <9cba6384-123b-1cd1-ed02-08365a0ed529@linaro.org>
+Date: Mon, 15 May 2023 18:22:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 04/13] dt-bindings: display: add Amlogic MIPI DSI Host
- Controller bindings
+ Thunderbird/102.10.1
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v4 01/13] dt-bindings: clk: g12a-clkc: export VCLK2_SEL
+ and add CTS_ENCL clock ids
 Content-Language: en-US
-To: neil.armstrong@linaro.org, Jerome Brunet <jbrunet@baylibre.com>,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
  <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
@@ -71,12 +74,14 @@ To: neil.armstrong@linaro.org, Jerome Brunet <jbrunet@baylibre.com>,
  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>
 References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
- <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-4-2592c29ea263@linaro.org>
- <fe2f22c7-8c39-faf3-bc65-a7c089200134@linaro.org>
- <eaa3ecd0-dcf0-01d8-b3ea-9dd900215839@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <eaa3ecd0-dcf0-01d8-b3ea-9dd900215839@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
+ <5cb38be4-a27f-dc1a-cbb9-c195505a9e7c@linaro.org>
+ <9fa0662e-8854-05f9-da7f-ec8e08d2badf@linaro.org>
+ <d5c030f9-2f4d-25cc-b922-d00f5033ac37@linaro.org>
+ <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,6 +95,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
  linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
@@ -97,45 +103,57 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2023 18:15, Neil Armstrong wrote:
-> On 13/05/2023 20:32, Krzysztof Kozlowski wrote:
->> On 12/05/2023 15:11, Neil Armstrong wrote:
->>> The Amlogic G12A, G12B & SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a),
->>> with a custom glue managing the IP resets, clock and data input similar to the DW-HDMI Glue
->>> on the same Amlogic SoCs.
+On 15/05/2023 18:15, Krzysztof Kozlowski wrote:
+> On 15/05/2023 18:13, Krzysztof Kozlowski wrote:
+>> On 15/05/2023 18:06, Neil Armstrong wrote:
+>>> On 13/05/2023 20:28, Krzysztof Kozlowski wrote:
+>>>> On 12/05/2023 15:11, Neil Armstrong wrote:
+>>>>> Expose VCLK2_SEL clock id and add new ids for the CTS_ENCL and CTS_ENCL_SEL
+>>>>> clocks on G12A compatible SoCs.
+>>>>>
+>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>> ---
+>>>>>    drivers/clk/meson/g12a.h              | 1 -
+>>>>>    include/dt-bindings/clock/g12a-clkc.h | 3 +++
+>>>>>    2 files changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> Bindings must be a separate patch from the driver changes. If this
+>>>> causes bisectability issues, this means entire solution breaks ABI and
+>>>> is not appropriate anyway...
+>>>
+>>> This is basically how we handled CLK IDs on Amlogic clk bindings for the
+>>> last years, the amount of changes is very low and rather exceptional
+>>> compared to early development stage.
 >>
->> Please wrap commit message according to Linux coding style / submission
->> process (neither too early nor over the limit):
->> https://elixir.bootlin.com/linux/v5.18-rc4/source/Documentation/process/submitting-patches.rst#L586
+>> The commits with bindings are used in devicetree-rebasing repo, so we
+>> want them to be separate.
+
+A lot of commits changes the bindings and other part of the kernel source,
+it was solved with git filter-repo a long time ago.
+While I understand in an ideal world those commits should only touch
+Documentation/bindings, it's sometime not possible.
+
+>>
+>> Meson is the only or almost the only platform making such changes. I
+>> don't get why, because the conflict could be easily avoided with using
+>> different names for defines in bindings and local clock. Approach of
+>> having bindings strictly tied with driver commit is never desired.
+
+If we did it now, we would have make it differently and expose all the clock
+IDs on the bindings like on Qcom, be sure of that.
+
 > 
-> This message may be automatic, but context is always important when reviewing,
-> this commit message is a re-spin on v3 that was reviewed by rob but I decided to remove the review
-> tags since I added a new clock and did some other cleanups.
+> Also one more argument maybe not relevant here but for other cases -
+> this makes literally impossible to include the clock ID in DTS in the
+> same kernel revision, because you must not merge driver branch to DTS
+> branch. SoC folks were complaining about this many times.
+
+Actually we handle this very simply by having such patches merged in a immutable
+branch merged in the clock and DT pull-requests, it worked perfectly so far
+and neither Stephen or Arnd complained about that.
+
 > 
-> While the process describes "how the patch itself *should* be formatted", it's a best effort
-> and not a blocker.
-
-Other issues are blockers.
-
+> Best regards,
+> Krzysztof
 > 
-> I'll fix the wrapping since you pointed out, but referring to the submitting-patches.rst
-> file (from a very old v5.18-rc4 version) is kind of childish.
-
-It's just a link stored in automated responses, what's here childish?
-It's still valid in current cycle! Look:
-
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-What's the difference? Srsly, I can point you to submitting patches
-without reference to specific line if you wish... Or you can check by
-yourself.
-
-I give the same reviews to so many people that have templates and Elixir
-happens to be the only place allowing bookmarking specific line. Which
-is helpful for beginners because the entire doc is huge.
-
-I can make an exception for you and never paste direct links.
-
-Best regards,
-Krzysztof
 
