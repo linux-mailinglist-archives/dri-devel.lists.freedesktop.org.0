@@ -2,54 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74229703069
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3656703095
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E120610E212;
-	Mon, 15 May 2023 14:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDC210E204;
+	Mon, 15 May 2023 14:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC4510E20D;
- Mon, 15 May 2023 14:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684161895; x=1715697895;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dbdYZxpv8Dp836KhZ0+xTY5eyMUNNRfcGEvrAv4PrQ0=;
- b=I2R0HLxIFqKWlM9tYXqKzsU1mEInDWsStqCJCd7zpZcVP2t4VQRgv+a1
- VzotjXxm4e7DbTAL/dPEVcoPb+xbm/3Itkh4/b3QUpoWUfoxFU5NLDI3Q
- JoEwTIk9S2tnu9RUImcxGXE6TQt9+VhwZkr0afLJ803kxkGz/DcFE5RJ4
- T+yxD0gFGs5aKK0sqj0Ags0VGZ9JKPdr7VpPYkGm8mZhGWWXAwxEFKEsW
- lzeeFMK9B2dltXxegGUVZ80M3Ci2wWQt1u6jPqVwax8iQTtBUGBOTq7+4
- JSTuCtPv7Z6Vb0Msys4q99hPntnkOmtDJ4Ricqf8FfJczTXoQPhf+kGjR A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="416870168"
-X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; d="scan'208";a="416870168"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2023 07:44:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="695035485"
-X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; d="scan'208";a="695035485"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga007.jf.intel.com with SMTP; 15 May 2023 07:44:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 15 May 2023 17:44:51 +0300
-Date: Mon, 15 May 2023 17:44:51 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH 05/13] drm/i915/intel_cdclk: Add vdsc with bigjoiner
- constraints on min_cdlck
-Message-ID: <ZGJFYziCKeW-vfpF@intel.com>
-References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
- <20230512062417.2584427-6-ankit.k.nautiyal@intel.com>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFDD10E204
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 14:52:08 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f420618d5bso63589155e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:52:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684162326; x=1686754326; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=I6PGsaxxe+r0/tgEPfoiZneEqJdU4NADxCmDaQhFL68=;
+ b=QBUPDu0mnTKpIi/wGbo9UgpiCqziYGcMj3hQWPNefHgGAfqJ8lVJErWsufoP7gVWl/
+ MuKN4tEX1pZzLr340OCucG7rs4ehSVdPZ56+kGhAkPSHTFEanh+UOGRKxl0frSuERoQi
+ znFDPcNKbBBfN9G+5GNepJLzQ0wZAO8nLN1JBJsH87VkOTZzGqNF3dV7QfkvbFQbWwzC
+ 8JItnIfYJ0m+YlLGiaXwATFgD5y70Nki5rbnME2c/ITNCpP6jTEfV2/BTzQHtJXbr5Ix
+ ZLYZvkgxPg66jjZAKiLqfZ7H0BYHkg7RRJ+3Kpz8v/kkce6/YnkPjUmtUNTBVfQ11JjK
+ kiqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684162326; x=1686754326;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I6PGsaxxe+r0/tgEPfoiZneEqJdU4NADxCmDaQhFL68=;
+ b=kjYJ9xJsdMlrAZekn1sbcYlq40H2ErCPH+iKwDYg5EDeAUL2z9cJeI4H4RiqyHmlIJ
+ /9/4dSX/8DH3rWKtIVuOijs6dSI2lSN7QFSO0uNXQI8oAohys0j2pXnCL6MY5V/T2FYS
+ +Ak4aXeGIwb28TGQmLw+kw3rYYUXitC/5wF5xofekzojaSoum4Kdw2pMDeHL2wzuelso
+ n7nWASz/wJsVbtbHhixbeiXPrzooq43YED6BuSaMdH4rC9gerXHDldFNDSzjeFIv7H20
+ s2ztdVAQVy3tBYPcO7wP7MRM98oCQJunhpC6QhMGeOQQmwys88UH/PMYr9HJWMzdrUwG
+ qwDw==
+X-Gm-Message-State: AC+VfDw9IAHgUFZcKC94716vlNgQch0PEoGCFyKiIoP7dFUF+x2sNY8V
+ HxxEq23Uqd0jvGctBbziIXDWoQ==
+X-Google-Smtp-Source: ACHHUZ5PnVTE8/BjOvD4cpmnU1SfNcpaeP+ththsz81R4NjZ9b8l1B6aIXxY1tdG8cXWxh3+7kD4ow==
+X-Received: by 2002:a1c:f310:0:b0:3f1:74bd:bc22 with SMTP id
+ q16-20020a1cf310000000b003f174bdbc22mr22887492wmq.6.1684162326437; 
+ Mon, 15 May 2023 07:52:06 -0700 (PDT)
+Received: from localhost ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a05600c204100b003f4e47c6504sm14774860wmg.21.2023.05.15.07.52.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 07:52:05 -0700 (PDT)
+Date: Mon, 15 May 2023 16:52:05 +0200
+From: Julien Stephan <jstephan@baylibre.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 2/2] phy: mtk-mipi-csi: add driver for CSI phy
+Message-ID: <jx2ndeoli3ozjiydygwclrpqmwftgf2gv4kfr6dyclf2cyh4hk@fnhvqeef5w4f>
+References: <20230515090551.1251389-1-jstephan@baylibre.com>
+ <20230515090551.1251389-3-jstephan@baylibre.com>
+ <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
+ <ynrvqt24hjgng25r2xa3hxj35cvgotx7sdfrbqfjcvj3foegmr@4lqhen5yu6fh>
+ <85500bcc-c5e8-8ce2-edea-233de86c2d35@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230512062417.2584427-6-ankit.k.nautiyal@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <85500bcc-c5e8-8ce2-edea-233de86c2d35@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +76,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, intel-gfx@lists.freedesktop.org,
- anusha.srivatsa@intel.com, navaremanasi@google.com,
- dri-devel@lists.freedesktop.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, chunkuang.hu@kernel.org,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, krzysztof.kozlowski@linaro.org,
+ linux-mediatek@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
+ Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
+ "moderated list:ARM/Mediatek USB3 PHY DRIVER"
+ <linux-arm-kernel@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 12, 2023 at 11:54:09AM +0530, Ankit Nautiyal wrote:
-> As per Bsepc:49259, Bigjoiner BW check puts restriction on the
-> compressed bpp for a given CDCLK, pixelclock in cases where
-> Bigjoiner + DSC are used.
-> 
-> Currently compressed bpp is computed first, and it is ensured that
-> the bpp will work at least with the max CDCLK freq.
-> 
-> Since the CDCLK is computed later, lets account for Bigjoiner BW
-> check while calculating Min CDCLK.
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_cdclk.c | 49 ++++++++++++++++++----
->  1 file changed, 42 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
-> index 6bed75f1541a..3532640c5027 100644
-> --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
-> +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
-> @@ -2520,6 +2520,46 @@ static int intel_planes_min_cdclk(const struct intel_crtc_state *crtc_state)
->  	return min_cdclk;
->  }
->  
-> +static int intel_vdsc_min_cdclk(const struct intel_crtc_state *crtc_state)
-> +{
-> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-> +	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
-> +	int min_cdclk = 0;
-> +
-> +	/*
-> +	 * When we decide to use only one VDSC engine, since
-> +	 * each VDSC operates with 1 ppc throughput, pixel clock
-> +	 * cannot be higher than the VDSC clock (cdclk)
-> +	 */
-> +	if (!crtc_state->dsc.dsc_split)
-> +		min_cdclk = max(min_cdclk, (int)crtc_state->pixel_rate);
-> +
-> +	if (crtc_state->bigjoiner_pipes) {
-> +		/*
-> +		 * According to Bigjoiner bw check:
-> +		 * compressed_bpp <= PPC * CDCLK * Big joiner Interface bits / Pixel clock
-> +		 *
-> +		 * We have already computed compressed_bpp, so now compute the min CDCLK that
-> +		 * is required to support this compressed_bpp.
-> +		 *
-> +		 * => CDCLK >= compressed_bpp * Pixel clock / (PPC * Bigjoiner Interface bits)
-> +		 *
-> +		 * Since Num of pipes joined = 2, and PPC = 2 with bigjoiner
-> +		 * => CDCLK >= compressed_bpp * pixel_rate  / Bigjoiner Interface bits
-> +		 *
-> +		 * #TODO Bspec mentions to account for FEC overhead while using pixel clock.
-> +		 * Check if we need to use FEC overhead in the above calculations.
-> +		 */
-> +		int bigjoiner_interface_bits = DISPLAY_VER(i915) > 13 ? 36 : 24;
-> +		int min_cdclk_bj = crtc_state->dsc.compressed_bpp * crtc_state->pixel_rate /
-> +				   bigjoiner_interface_bits;
+On Mon, May 15, 2023 at 04:22:38PM +0200, AngeloGioacchino Del Regno wrote:
+> Il 15/05/23 15:36, Julien Stephan ha scritto:
+> > On Mon, May 15, 2023 at 02:22:52PM +0200, AngeloGioacchino Del Regno wrote:
+> > > Il 15/05/23 11:05, Julien Stephan ha scritto:
+> >   ..snip..
+> > > > +	port->is_cdphy = of_property_read_bool(dev->of_node, "mediatek,is_cdphy");
+> > >
+> > > This driver doesn't support C-PHY mode, so you either add support for that, or in
+> > > my opinion you should simply refuse to probe it, as it is *dysfunctional* for the
+> > > unsupported case (and might even introduce unstabilities).
+> > >
+> > > 	/* At the moment, only D-PHY mode is supported */
+> > > 	if (!port->is_cdphy)
+> > > 		return -EINVAL;
+> > >
+> > > Also, please don't use underscores for devicetree properties: "mediatek,is-cdphy"
+> > > is fine.
+> > >
+> > Hi Angelo,
+> > You are right this driver does not support C-PHY mode, but some of the
+> > PHYs themselves support BOTH C-PHY AND D-PHY. The idea of `is_cdphy` variable
+> > is to know if the CSI port supports BOTH C-PHY AND D-PHY or only DPHY.
+> > For example mt8365 has 2 PHYs: CSI0 and CSI1. CSI1 support only D-PHY,
+> > while CSI0 can be configured in C-PHY or D-PHY. Registers for CD-PHY and
+> > D-PHY are almost identical, except that CD-PHY compatible has some extra
+> > bitfields to configure properly the mode and the lanes (because supporting
+> > trios for CD-PHY).
+> > If C-PHY support is eventually added into the driver, I think we will need
+> > another variable such as `mode` to know the mode. I was also thinking
+> > of adding a phy argument to determine if the mode is C-PHY or D-PHY.
+> >
+> > So here, I don't want to stop the probe if `is_cdphy` variable is set to
+> > true. Does it make sense ?
+> >
+>
+> Comments in the code convinced me that the other PHYs providing only C or D PHY
+> support weren't compatible at all with this driver.
+>
+> I got it now - but at this point can you please add a comment in the code actually
+> clarifying that this driver supports both PHYs providing *only* D-PHY and ones
+> providing selectable C-or-D PHY?
+>
+> That clarified, it would not make sense to stop probing if it's not a CDPHY because
+> as you said there might be a D-only PHY that would be actually supported here.
+>
+> Regards,
+> Angelo
+>
+>
+Ok, I will add a comment in the code to make it more clear.
 
-pixel_rate is the downscale adjusted thing, so it doesn't seem
-like the correct thing to use here.
-
-Hmm. Assuming that the single VDSC engine really throttles the entire
-pipe to 1 PPC then we should probably account for the 1 vs. 2 PPC
-difference in *_plane_min_cdclk() and intel_pixel_rate_to_cdclk()
-directly. Currently all of those assume 2 PPC.
-
-> +
-> +		min_cdclk = max(min_cdclk, min_cdclk_bj);
-> +	}
-> +
-> +	return min_cdclk;
-> +}
-> +
->  int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
->  {
->  	struct drm_i915_private *dev_priv =
-> @@ -2591,13 +2631,8 @@ int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
->  	/* Account for additional needs from the planes */
->  	min_cdclk = max(intel_planes_min_cdclk(crtc_state), min_cdclk);
->  
-> -	/*
-> -	 * When we decide to use only one VDSC engine, since
-> -	 * each VDSC operates with 1 ppc throughput, pixel clock
-> -	 * cannot be higher than the VDSC clock (cdclk)
-> -	 */
-> -	if (crtc_state->dsc.compression_enable && !crtc_state->dsc.dsc_split)
-> -		min_cdclk = max(min_cdclk, (int)crtc_state->pixel_rate);
-> +	if (crtc_state->dsc.compression_enable)
-> +		min_cdclk = max(min_cdclk, intel_vdsc_min_cdclk(crtc_state));
->  
->  	/*
->  	 * HACK. Currently for TGL/DG2 platforms we calculate
-> -- 
-> 2.25.1
-
--- 
-Ville Syrjälä
-Intel
+Regards
+Julien
