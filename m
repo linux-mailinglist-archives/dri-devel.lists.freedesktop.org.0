@@ -1,75 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEF07021FD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 05:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDCC7022BF
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 06:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA1D610E12B;
-	Mon, 15 May 2023 03:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD510E11F;
+	Mon, 15 May 2023 04:14:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C294310E120;
- Mon, 15 May 2023 03:03:09 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34F2u0Hg012814; Mon, 15 May 2023 03:03:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=2PieqsEAV4sxv39i1McboDZR6TpeKwDnoJxMYkJ2cIw=;
- b=CbXNuhiscsWVSeC/jxPNK8L9bekJj6vl/H7E6C+ibc5qlO8mFNcJPPyaE5XnlQMPtbs8
- +JPmyxQgJAmnDC4zBTcOoanGKOg20CP8rRFkBfGaPN4IUExeTuixs4KtNNRioyuexOTf
- v2LwqfqPWysZ5HYXgXFUal6+WmMUkAcAcVg9QMoowxVgHNdoseGdo40RiSNBFmQejGZQ
- gZOwHhTFGFC0QrklNl3tbx61XZSDKUIwPInDEtpcolJSqDYDWVhDf4HXr/aLKJF/aLKK
- L6pQV3vvX1apqBINOJJ9h0k3kxDFTtYg3HxgEvhPh6xytVXYBuk6LZjR6WhCQTklwNnJ mA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qj1gxtnn7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 03:03:03 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34F3337V030193
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 03:03:03 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Sun, 14 May 2023 20:03:02 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: [PATCH 3/3] drm/msm/dp: Clean up pdev/dev duplication in dp_power
-Date: Sun, 14 May 2023 20:02:56 -0700
-Message-ID: <20230515030256.300104-3-quic_bjorande@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230515030256.300104-1-quic_bjorande@quicinc.com>
-References: <20230515030256.300104-1-quic_bjorande@quicinc.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EDFD10E11F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 04:14:02 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc37e1525so22721310a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 21:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684124039; x=1686716039;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UAfAyWJM6kDeKOF0uWuVmOKeYtigMn9m5Gm4oYh5/1k=;
+ b=in7SNlKvFLMHyBOPoGWT0A0A43nuv+Y8QLz/dXuudygoMg757DOFucNKj5GDVHE3Py
+ xyjFGk9HqZ/jTOgUZ2ektMx3/DYT95Fi09HJDTbEn2PoTlBY8gDzcACcjb+imJE6zEC7
+ o7nL4LBROMfhX0j2GDBKUl29lPF51ddML2i1JeVqbXgRPpQcV5w05PTOOuyBnEBZZrVq
+ doB5tnq6jAePO4qECM0pAiHy0Hk2XZGRJgCQ2e1Y+8eBIg8UfFbQkUwwubd4kPjPtpcv
+ p9I4KKbg1DjeUFSnjXd1zb6nbNwWbbkTY2PHVC9nq/s6s9eRWVOBPjFNs58ll9numVaI
+ 3Hpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684124039; x=1686716039;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UAfAyWJM6kDeKOF0uWuVmOKeYtigMn9m5Gm4oYh5/1k=;
+ b=PTsj2sY/5fYIdrS+jheoRTWlfoeth+v3WWAH6l9eQKePXYve0pYmVb0Hk6g2lcPHie
+ iSHT2CN32a+wU06FLRmLyEwqPj15Mv5Op9CVVw1+A5vR1pgnH/I9rtY8RCCj2wzgN3KC
+ 571djEildPxtc186FI4RHqEp3gUJUOeFivvMAMHv8GJLbR3yxp4Gm9OFKYuzCYpv2aya
+ Qpzme41p7+YEbBvDc3ZZwXrjj89s7f1cZluP21xGQ8wsrE7k6gqSHbRWj4FHvVAOjjVS
+ YVbWIW7Wlrh6IDVHV3q6fEHw7oeM+h6/vIKja2OWDTjuLztqXybvIedycNspBnYyFOMG
+ MDcg==
+X-Gm-Message-State: AC+VfDzHI8+/ACWZY1DKuBY78mJmjtuQ3CUUQ2AOck6JHO1apOH1RAae
+ ITBy4soHek4v02HdhlxQrbTf5+ddtEI/UxPHfIA=
+X-Google-Smtp-Source: ACHHUZ6voWTaTMIowSruvmBEdLbuJphCoWLq/VwBTeCuUyR+0/V6maMf2Q702YBKlZOG7A4qipBa10dRKNUwfdaW8t0=
+X-Received: by 2002:aa7:d058:0:b0:510:503e:1a1b with SMTP id
+ n24-20020aa7d058000000b00510503e1a1bmr2489031edo.25.1684124039494; Sun, 14
+ May 2023 21:13:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: IH7g2MK2smO5TxVH9_N9SXfw7d4BmASx
-X-Proofpoint-ORIG-GUID: IH7g2MK2smO5TxVH9_N9SXfw7d4BmASx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-14_18,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 spamscore=0
- clxscore=1015 mlxlogscore=999 priorityscore=1501 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150024
+References: <20230507144753.192959-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230507144753.192959-1-krzysztof.kozlowski@linaro.org>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 15 May 2023 13:13:23 +0900
+Message-ID: <CAAQKjZNx2xp-tzfpEhA4ET94bTtaV_P6P+P6bQiDTnR_4zG3Ew@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: g2d: staticize stubs in header
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,101 +68,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: linux-samsung-soc@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dp_power module keeps track of both the DP controller's struct
-platform_device and struct device - with the prior pulled out of the
-dp_parser module.
+Hi Krzysztof,
 
-Clean up the duplication by dropping the platform_device reference and
-just track the passed struct device.
+2023=EB=85=84 5=EC=9B=94 7=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 11:48, K=
+rzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Stubs for !CONFIG_DRM_EXYNOS_G2D case in the header should be static
+> inline:
 
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_power.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Same patch[1] was posted before so I picked up the previous one.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index 031d2eefef07..9be645f91211 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -14,7 +14,6 @@
- 
- struct dp_power_private {
- 	struct dp_parser *parser;
--	struct platform_device *pdev;
- 	struct device *dev;
- 	struct drm_device *drm_dev;
- 	struct clk *link_clk_src;
-@@ -28,7 +27,7 @@ static int dp_power_clk_init(struct dp_power_private *power)
- {
- 	int rc = 0;
- 	struct dss_module_power *core, *ctrl, *stream;
--	struct device *dev = &power->pdev->dev;
-+	struct device *dev = power->dev;
- 
- 	core = &power->parser->mp[DP_CORE_PM];
- 	ctrl = &power->parser->mp[DP_CTRL_PM];
-@@ -153,7 +152,7 @@ int dp_power_client_init(struct dp_power *dp_power)
- 
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
--	pm_runtime_enable(&power->pdev->dev);
-+	pm_runtime_enable(power->dev);
- 
- 	return dp_power_clk_init(power);
- }
-@@ -164,7 +163,7 @@ void dp_power_client_deinit(struct dp_power *dp_power)
- 
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
--	pm_runtime_disable(&power->pdev->dev);
-+	pm_runtime_disable(power->dev);
- }
- 
- int dp_power_init(struct dp_power *dp_power, bool flip)
-@@ -174,11 +173,11 @@ int dp_power_init(struct dp_power *dp_power, bool flip)
- 
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
--	pm_runtime_get_sync(&power->pdev->dev);
-+	pm_runtime_get_sync(power->dev);
- 
- 	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
- 	if (rc)
--		pm_runtime_put_sync(&power->pdev->dev);
-+		pm_runtime_put_sync(power->dev);
- 
- 	return rc;
- }
-@@ -190,7 +189,7 @@ int dp_power_deinit(struct dp_power *dp_power)
- 	power = container_of(dp_power, struct dp_power_private, dp_power);
- 
- 	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
--	pm_runtime_put_sync(&power->pdev->dev);
-+	pm_runtime_put_sync(power->dev);
- 	return 0;
- }
- 
-@@ -199,12 +198,11 @@ struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser)
- 	struct dp_power_private *power;
- 	struct dp_power *dp_power;
- 
--	power = devm_kzalloc(&parser->pdev->dev, sizeof(*power), GFP_KERNEL);
-+	power = devm_kzalloc(dev, sizeof(*power), GFP_KERNEL);
- 	if (!power)
- 		return ERR_PTR(-ENOMEM);
- 
- 	power->parser = parser;
--	power->pdev = parser->pdev;
- 	power->dev = dev;
- 
- 	dp_power = &power->dp_power;
--- 
-2.39.2
+[1] [PATCH] drm/exynos: fix g2d_open/close helper function definitions
+(kernel.org)
 
+Thanks,
+Inki Dae
+
+>
+>   drivers/gpu/drm/exynos/exynos_drm_g2d.h:37:5: warning: no previous prot=
+otype for =E2=80=98g2d_open=E2=80=99 [-Wmissing-prototypes]
+>   drivers/gpu/drm/exynos/exynos_drm_g2d.h:42:6: warning: no previous prot=
+otype for =E2=80=98g2d_close=E2=80=99 [-Wmissing-prototypes]
+>
+> Fixes: eb4d9796fa34 ("drm/exynos: g2d: Convert to driver component API")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.h b/drivers/gpu/drm/ex=
+ynos/exynos_drm_g2d.h
+> index 74ea3c26dead..1a5ae781b56c 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.h
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
+> @@ -34,11 +34,11 @@ static inline int exynos_g2d_exec_ioctl(struct drm_de=
+vice *dev, void *data,
+>         return -ENODEV;
+>  }
+>
+> -int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
+> +static inline int g2d_open(struct drm_device *drm_dev, struct drm_file *=
+file)
+>  {
+>         return 0;
+>  }
+>
+> -void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
+> +static inline void g2d_close(struct drm_device *drm_dev, struct drm_file=
+ *file)
+>  { }
+>  #endif
+> --
+> 2.34.1
+>
