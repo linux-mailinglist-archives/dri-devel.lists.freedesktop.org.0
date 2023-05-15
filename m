@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BC9702E91
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:42:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82928702EB8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37EAD10E1D4;
-	Mon, 15 May 2023 13:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86DD10E1D5;
+	Mon, 15 May 2023 13:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9429910E1D4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:41:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=kaQS3MvAO8Onztb0hBGDwJBRWvPAQlh+5ulUONmzNsw=; b=s202GYQzcA5A+nVmpwQOLkU5Yb
- orOyO6/iK64RuoGd9l0TIfeoA/CPwwHxRjvS5MOjxM7aoVmr7IeK3pl6BzyNiAlmwPn1c1S1shXgn
- h751DgiZcUz+TEjxyKTbHJLcTYb0Tcu70wmI0pgi/khbt8gj9cf4K6xMI9pGcU59MRcRMzoLFabjR
- +ea4XP1H9tt4IGtIn7Wn94ZH47enoM9sMwcHNHTesrJTaEnGpQPAVOcGI6rxGiiFjOTg0r7w3VrPa
- btWmY1mrKLRD9TX+bFn33DMZYAV6EPLUYGH3jTKsgcMPLCDlTepPVVCYh66miE3NZwfgiuTA32BdQ
- QSDJazdA==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=bowie.sc.usp.br)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pyYST-009tR6-UY; Mon, 15 May 2023 15:41:50 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
- atomic commit
-Date: Mon, 15 May 2023 10:41:33 -0300
-Message-Id: <20230515134133.108780-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11F310E1D5;
+ Mon, 15 May 2023 13:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684158671; x=1715694671;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=j7T61y8BuhzBAuiqVQj29xbrPcpXMiytN/YPhkiOn2M=;
+ b=AyxaviuL9AD7ZaiFfiuLgvQ4hNanXZM6ahDZKNFCiTKm9W310YZ/IcHi
+ /wn+sibLp4YpNhZsTZAgz5aq86uvIP2bfBTqN6f+kI3zdUpU5FRO0IEkI
+ PBfgTMPn/fvxoIfGebVvtY0CdeYfHlxcofdZMDo2iySyC4If+X5Azfv09
+ PY/0JKamBS5iILPPMOCrxhYBIULOKykXnr7QdQTbsgGO6isfwHcouOfNF
+ CNTWcmyWk01IA0pAv2gZCfJC9tc3kiwY8DbD2jisp1ncTPWaHnp1EE/SY
+ ZIZ5Iboplepn9nKT3y57itxcfnY3iLWVfO9BWAoL7cGQ0I1C9QwsNszUy w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="414601112"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="414601112"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2023 06:51:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="700966526"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="700966526"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by orsmga002.jf.intel.com with SMTP; 15 May 2023 06:51:08 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 15 May 2023 16:51:07 +0300
+Date: Mon, 15 May 2023 16:51:07 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 04/13] drm/i915/dp: Update Bigjoiner interface bits for
+ computing compressed bpp
+Message-ID: <ZGI4y-6NKngtl0wh@intel.com>
+References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
+ <20230512062417.2584427-5-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230512062417.2584427-5-ankit.k.nautiyal@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,128 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+Cc: stanislav.lisovskiy@intel.com, intel-gfx@lists.freedesktop.org,
+ anusha.srivatsa@intel.com, navaremanasi@google.com,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, it is possible for the composer to be set as enabled and then
-as disabled without a proper call for the vkms_vblank_simulate(). This
-is problematic, because the driver would skip one CRC output, causing CRC
-tests to fail. Therefore, we need to make sure that, for each time the
-composer is set as enabled, a composer job is added to the queue.
+On Fri, May 12, 2023 at 11:54:08AM +0530, Ankit Nautiyal wrote:
+> In Bigjoiner check for DSC, bigjoiner interface bits for DP for
+> DISPLAY > 13 is 36 (Bspec: 49259).
+> 
+> v2: Corrected Display ver to 13.
+> 
+> v3: Follow convention for conditional statement. (Ville)
+> 
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 24de25551a49..bca80c0793e9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -783,8 +783,9 @@ u16 intel_dp_dsc_get_max_compressed_bpp(struct drm_i915_private *i915,
+>  	bits_per_pixel = min(bits_per_pixel, max_bpp_small_joiner_ram);
+>  
+>  	if (bigjoiner) {
+> +		int bigjoiner_interface_bits = DISPLAY_VER(i915) > 13 ? 36 : 24;
 
-In order to provide this guarantee, add a mutex that will lock before
-the composer is set as enabled and will unlock only after the composer
-job is added to the queue. This way, we can have a guarantee that the
-driver won't skip a CRC entry.
+'x >= 14' is the usual convention.
 
-This race-condition is affecting the IGT test "writeback-check-output",
-making the test fail and also, leaking writeback framebuffers, as the
-writeback job is queued, but it is not signaled. This patch avoids both
-problems.
+with that
+Reviewed-by: Ville Syrj‰l‰ <ville.syrjala@linux.intel.com>
 
-Signed-off-by: Ma√≠ra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c |  9 +++++++--
- drivers/gpu/drm/vkms/vkms_crtc.c     | 14 +++++++-------
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 +-
- 3 files changed, 15 insertions(+), 10 deletions(-)
+>  		u32 max_bpp_bigjoiner =
+> -			i915->display.cdclk.max_cdclk_freq * 48 /
+> +			i915->display.cdclk.max_cdclk_freq * 2 * bigjoiner_interface_bits /
+>  			intel_dp_mode_to_fec_clock(mode_clock);
+>  
+>  		bits_per_pixel = min(bits_per_pixel, max_bpp_bigjoiner);
+> -- 
+> 2.25.1
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdb..e65104a2203d 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -320,10 +320,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
- 	if (enabled)
- 		drm_crtc_vblank_get(&out->crtc);
- 
--	spin_lock_irq(&out->lock);
-+	mutex_lock(&out->lock);
- 	old_enabled = out->composer_enabled;
- 	out->composer_enabled = enabled;
--	spin_unlock_irq(&out->lock);
-+
-+	/* the composition wasn't enabled, so unlock the lock to make sure the lock
-+	 * will be balanced even if we have a failed commit
-+	 */
-+	if (!out->composer_enabled)
-+		mutex_unlock(&out->lock);
- 
- 	if (old_enabled)
- 		drm_crtc_vblank_put(&out->crtc);
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..5a0ee9530748 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	struct drm_crtc *crtc = &output->crtc;
- 	struct vkms_crtc_state *state;
- 	u64 ret_overrun;
--	bool ret, fence_cookie;
-+	bool ret, fence_cookie, composer_enabled;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
-@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	if (ret_overrun != 1)
- 		pr_warn("%s: vblank timer overrun\n", __func__);
- 
--	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
- 
- 	state = output->composer_state;
--	spin_unlock(&output->lock);
-+	composer_enabled = output->composer_enabled;
-+	mutex_unlock(&output->lock);
- 
--	if (state && output->composer_enabled) {
-+	if (state && composer_enabled) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		/* update frame_start only if a queued vkms_composer_worker()
-@@ -241,7 +241,7 @@ static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
- 	/* This lock is held across the atomic commit to block vblank timer
- 	 * from scheduling vkms_composer_worker until the composer is updated
- 	 */
--	spin_lock_irq(&vkms_output->lock);
-+	mutex_lock(&vkms_output->lock);
- }
- 
- static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
-@@ -264,7 +264,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 
- 	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
- 
--	spin_unlock_irq(&vkms_output->lock);
-+	mutex_unlock(&vkms_output->lock);
- }
- 
- static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
-@@ -290,7 +290,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
--	spin_lock_init(&vkms_out->lock);
-+	mutex_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
- 
- 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..883266bb0d4a 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -99,7 +99,7 @@ struct vkms_output {
- 	/* ordered wq for composer_work */
- 	struct workqueue_struct *composer_workq;
- 	/* protects concurrent access to composer */
--	spinlock_t lock;
-+	struct mutex lock;
- 
- 	/* protected by @lock */
- 	bool composer_enabled;
 -- 
-2.40.1
-
+Ville Syrj‰l‰
+Intel
