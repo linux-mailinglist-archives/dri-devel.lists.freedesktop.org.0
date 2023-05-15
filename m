@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573E1702EBE
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C29E702ECC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0FA10E077;
-	Mon, 15 May 2023 13:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B9310E1DD;
+	Mon, 15 May 2023 13:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B93D10E077
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:52:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA1C10E1DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=2o7BlJPC0mCLKXOG8WJdUqvpRveP+c2YhyOQkpN1D9E=; b=cEHojLeBrf2WZ1i0lB5wDLYRj2
- anuADGrTxg7Ug6vf/27N0pbPrdPsxM0zqhZzNAoLFzvzkmtu5DNjFOfQ24BTMkj109ZLD9UPc6/Pi
- pLZA0dQwG8Kesfm41gbKLcwCQBK7XPOt7UwFSOmcjkXAB1YL1gj92QCPpYHqQMd3K3Adb2W9t9VhJ
- rRufflXN/T+nCI6O0tM06zwoEQxSHtdWmqHaAgEhsj73QZh6VwxXf05Uw/3yViwJlbNgmchdfKAp1
- 26h4KIHx1zGQY86Wxdk52CylCvQh9Ql2mSpnEiONDFQj40Sxpb9fz03CCUTBk2F8DQ3kIKmgsCw+w
- u32fPeJA==;
+ bh=v9GAcsKdGg/JndGpVaxs0/qX3c0S430mZQB4bH0O0l4=; b=VTVOoycVm9art6VNVIparGVFki
+ 9vAbCdKRSoz5GnwiRp0vCPuBqv8odJmxTg0JrGBED8yKPAqg661Ml2KeVUCrmPZfdfmKk3SMg34Nq
+ opYY0GaEWB2dX0WzEa1ycTrl/NNybEhX0Pj4FQEoTj6IBb79GO43Enzckiyr54npKJOyriYJ7sP/z
+ Z1JL3Zs3LgjYyEY/o749SzG4VMWutCmkq9P9YQpqBDIoAqbj8imuBQnhBrYPHQNfu2YIm/c2UCa2y
+ 42Fo9BERt0pht6Falsm4oVgmy56c2+JoyMApJTcSd4VQVidt6TIOQd7KOW5uHN7lBPxWNJJzZ9N57
+ BSQR6Upw==;
 Received: from gwsc.sc.usp.br ([143.107.225.16] helo=bowie.sc.usp.br)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pyYcm-009tiB-Oe; Mon, 15 May 2023 15:52:29 +0200
+ id 1pyYcq-009tiB-LV; Mon, 15 May 2023 15:52:33 +0200
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH 0/3] drm/vkms: Minor Improvements
-Date: Mon, 15 May 2023 10:52:02 -0300
-Message-Id: <20230515135204.115393-1-mcanal@igalia.com>
+Subject: [PATCH 1/3] drm/vkms: Reduce critical section
+Date: Mon, 15 May 2023 10:52:03 -0300
+Message-Id: <20230515135204.115393-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230515135204.115393-1-mcanal@igalia.com>
+References: <20230515135204.115393-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -58,32 +60,38 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series addresses some minor improvements to the writeback
-functionality. The first patch intends to reduce the critical section
-of a spinlock by removing assignments that don't need to be protected
-by a lock. The second patch enables the support for ARGB8888 on the
-writeback. Finally, the third patch refactors the pixel conversion
-functions of the writeback functionality. This patch is a follow-up of
-a previous patchset [1], in which Melissa suggested to apply the same
-refactor to the writeback pixel conversion functions.
+The spinlock composer_lock protects the variables crc_pending,
+wb_pending, frame_start and frame_end, which are variables that are used
+by the composer worker. There is no need to protect the wb_frame_info
+information with a spinlock. Therefore, reduce the critical section of
+the lock by removing the assignments to the wb_frame_info from the
+critical section.
 
-[1] https://lore.kernel.org/dri-devel/20230418130525.128733-1-mcanal@igalia.com/T/
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vkms/vkms_writeback.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Best Regards,
-- Maíra
-
-Maíra Canal (3):
-  drm/vkms: Reduce critical section
-  drm/vkms: Enable ARGB8888 support for writeback
-  drm/vkms: Isolate writeback pixel conversion functions
-
- drivers/gpu/drm/vkms/vkms_composer.c  |   4 +-
- drivers/gpu/drm/vkms/vkms_drv.h       |   4 +-
- drivers/gpu/drm/vkms/vkms_formats.c   | 140 +++++++++++---------------
- drivers/gpu/drm/vkms/vkms_formats.h   |   2 +-
- drivers/gpu/drm/vkms/vkms_writeback.c |   9 +-
- 5 files changed, 68 insertions(+), 91 deletions(-)
-
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 84a51cd281b9..9a126f678d73 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -142,11 +142,13 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 
+ 	spin_lock_irq(&output->composer_lock);
+ 	crtc_state->active_writeback = active_wb;
++	crtc_state->wb_pending = true;
++	spin_unlock_irq(&output->composer_lock);
++
+ 	wb_frame_info->offset = fb->offsets[0];
+ 	wb_frame_info->pitch = fb->pitches[0];
+ 	wb_frame_info->cpp = fb->format->cpp[0];
+-	crtc_state->wb_pending = true;
+-	spin_unlock_irq(&output->composer_lock);
++
+ 	drm_writeback_queue_job(wb_conn, connector_state);
+ 	active_wb->wb_write = get_line_to_frame_function(wb_format);
+ 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
 -- 
 2.40.1
 
