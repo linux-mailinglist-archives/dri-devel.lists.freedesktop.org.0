@@ -2,44 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2BE7032C2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21017032CC
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:22:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F5010E105;
-	Mon, 15 May 2023 16:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC76510E11A;
+	Mon, 15 May 2023 16:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6209710E105
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:20:46 +0000 (UTC)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 88585857D7;
- Mon, 15 May 2023 18:20:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1684167643;
- bh=ontb/x9XZ0kw86B6BWIOYGU4b1G0OLncCYQ6sfzq2oM=;
- h=From:To:Cc:Subject:Date:From;
- b=e5/I6ZM3QKyGZ89NGohmDOZMQsh5f+bPakweKt3nhTPFjrOTMi4IsG8AlWbXYVdyG
- Id33jmoEWbUgs58ltdlwzaov8QxgIEZ0hk7EepNUV1sb9/no+GAvvMk1iEE8DhS0zz
- gFSKNdNOYpLIyuxMkd8a0RNFYIr/yG1gA8KRHRT+aavFUILj9XWAQcBSEMAHU7o01N
- aAaeVF72SDL0wfiVT2TT5+FgLw0zSVzvH6No9NaOXYUuI0kr0NzNGth67HTHkHv6vN
- 5bKmQGgfWAgMQm4CLbUnpuj5WWDNtB+SY5oaXx//XZblOPCRmLdXIsNTEkk/RwlMb8
- 2lD89RsL5tWJg==
-From: Marek Vasut <marex@denx.de>
-To: devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: bridge: tc358867: Document
- TC358867/TC9595 compatible
-Date: Mon, 15 May 2023 18:20:33 +0200
-Message-Id: <20230515162033.66986-1-marex@denx.de>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21EF10E11A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:22:16 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd2d7ba74so113197182a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684167735; x=1686759735;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HqUKnr7IQo6kAfIcW46mPtLrFF4JcKeEB/JMB18Eu9o=;
+ b=IFOu69xMjQDkgS9weEDled/TdBHMLC8yBGornivzVwLbLX77xvDFLzkoUqW7hi9p1t
+ CKaI3h/mDs5Z3JBQ7MBKkh9y4mCkeCX/9i6zRH7s4LBA8ibeKmgux3dAFjRGbwEy+Z36
+ ApdQ3qPRZq5UXS2EtTjNC8uyb85BQCuYuGUK0hXmgkcbX7bT17ABTP5SS1jxo54Q0Ujy
+ sjdtshj3OT9BXTu3drUjNDncIEBpqNBRRZdoPTJ71PUWyi5VNtciC6D7wzTEJ4XUfXuC
+ F3vVSQyZ0Awq5Df63fkIJlHVjiGg/Xx2nrna0EMvpaA52kV2CS0e9KDA0wpEYhJfaeYp
+ 7kNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684167735; x=1686759735;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HqUKnr7IQo6kAfIcW46mPtLrFF4JcKeEB/JMB18Eu9o=;
+ b=cvkROa2pmU8c7B46doh4pd+V/t+nlxH/naPfXLziAzSXlk0zpM1r20rqzi+a53Faga
+ jAc84Ijz8jC1wRsxRpshAP91AlU2xxi/FvrHxGS2PIZEu6TiF6Om0KxxhMqfWSZyTRlB
+ 6wO8iU+xV3tM2DD+UjReA51LK81JEhBvp4K6GeEMIw778uTmx0wvZvrQnulA8W4gu0/t
+ cTdjGEdTTDD8QPjj2wJiDrlhJpcAsOJkysDRKjeg4yR9qy45xvdciS+CNKQ98751RTH3
+ Ptb72Gkd8cCc+736+h8lPpkSjlF6ZteqI78k9FyNdkm1e21gzMI4zjMjDbZ9wn1i2bVl
+ bzUw==
+X-Gm-Message-State: AC+VfDwFMxuUp402pj9SYn/Wex+kxPYouCplykAWOx10xcZ2mQ0dfCAh
+ 9+EMjSIYyo18ywcN5CpKhndfRQ==
+X-Google-Smtp-Source: ACHHUZ4LIljnAHBUrSfA9rndvPnsXVWvxuzuNDX+pSF5zFw9AsRvRtnw68XknYeYz635GIn79GF7dw==
+X-Received: by 2002:a17:907:3ea8:b0:953:37d9:282f with SMTP id
+ hs40-20020a1709073ea800b0095337d9282fmr28963636ejc.38.1684167734983; 
+ Mon, 15 May 2023 09:22:14 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:6470:25b8:7c2d:1992?
+ ([2a02:810d:15c0:828:6470:25b8:7c2d:1992])
+ by smtp.gmail.com with ESMTPSA id
+ fy7-20020a1709069f0700b00965af4c7f07sm9645534ejc.20.2023.05.15.09.22.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 09:22:14 -0700 (PDT)
+Message-ID: <80da6b9e-ba82-d2c9-2854-b444635150fd@linaro.org>
+Date: Mon, 15 May 2023 18:22:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 04/13] dt-bindings: display: add Amlogic MIPI DSI Host
+ Controller bindings
+Content-Language: en-US
+To: neil.armstrong@linaro.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-4-2592c29ea263@linaro.org>
+ <fe2f22c7-8c39-faf3-bc65-a7c089200134@linaro.org>
+ <eaa3ecd0-dcf0-01d8-b3ea-9dd900215839@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <eaa3ecd0-dcf0-01d8-b3ea-9dd900215839@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,73 +90,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358867/TC9595 devices are compatible with the predecessor TC358767.
-Document compatible strings for the new devices, so they can be discerned
-in board DTs. Update the title to match description in the process.
+On 15/05/2023 18:15, Neil Armstrong wrote:
+> On 13/05/2023 20:32, Krzysztof Kozlowski wrote:
+>> On 12/05/2023 15:11, Neil Armstrong wrote:
+>>> The Amlogic G12A, G12B & SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a),
+>>> with a custom glue managing the IP resets, clock and data input similar to the DW-HDMI Glue
+>>> on the same Amlogic SoCs.
+>>
+>> Please wrap commit message according to Linux coding style / submission
+>> process (neither too early nor over the limit):
+>> https://elixir.bootlin.com/linux/v5.18-rc4/source/Documentation/process/submitting-patches.rst#L586
+> 
+> This message may be automatic, but context is always important when reviewing,
+> this commit message is a re-spin on v3 that was reviewed by rob but I decided to remove the review
+> tags since I added a new clock and did some other cleanups.
+> 
+> While the process describes "how the patch itself *should* be formatted", it's a best effort
+> and not a blocker.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
----
- .../bindings/display/bridge/toshiba,tc358767.yaml  | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Other issues are blockers.
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-index e1494b5007cba..0521261b04a9c 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -4,16 +4,24 @@
- $id: http://devicetree.org/schemas/display/bridge/toshiba,tc358767.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Toshiba TC358767 eDP bridge
-+title: Toshiba TC358767/TC358867/TC9595 DSI/DPI/eDP bridge
- 
- maintainers:
-   - Andrey Gusakov <andrey.gusakov@cogentembedded.com>
- 
--description: The TC358767 is bridge device which converts DSI/DPI to eDP/DP
-+description: |
-+  The TC358767/TC358867/TC9595 is bridge device which
-+  converts DSI/DPI to eDP/DP .
- 
- properties:
-   compatible:
--    const: toshiba,tc358767
-+    oneOf:
-+      - items:
-+          - enum:
-+              - toshiba,tc358867
-+              - toshiba,tc9595
-+          - const: toshiba,tc358767
-+      - const: toshiba,tc358767
- 
-   reg:
-     enum:
--- 
-2.39.2
+> 
+> I'll fix the wrapping since you pointed out, but referring to the submitting-patches.rst
+> file (from a very old v5.18-rc4 version) is kind of childish.
+
+It's just a link stored in automated responses, what's here childish?
+It's still valid in current cycle! Look:
+
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+What's the difference? Srsly, I can point you to submitting patches
+without reference to specific line if you wish... Or you can check by
+yourself.
+
+I give the same reviews to so many people that have templates and Elixir
+happens to be the only place allowing bookmarking specific line. Which
+is helpful for beginners because the entire doc is huge.
+
+I can make an exception for you and never paste direct links.
+
+Best regards,
+Krzysztof
 
