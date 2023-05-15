@@ -2,87 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252D57032D3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9E57033DE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 18:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB5A10E11B;
-	Mon, 15 May 2023 16:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0EAE10E262;
+	Mon, 15 May 2023 16:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9A9D10E11B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:22:55 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-307a8386946so5140935f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684167774; x=1686759774;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=L/BFaR2bXmYV85aZ3VRwxHXRXyNTTuSJM62QQ7kJk14=;
- b=XobnY8dEDD5WdDsk8tbcbCChwsRbJjuhaQcAVTQG6QA4fd8oGxrcXKJ1AgPzDHF4YF
- iuFoC+kO9NnOf4NjasgKbvGzdkx3vkK8Vq3z5lpynoTjyuR6lI9Wlh5JrwXm9ki5bFUa
- lvU4eBabnuZjU1+dgRWwwJuO54dZGOF5z31g2iCiTDMwzccWs0cGGRjNZR1rGlMg57za
- fAt81vYy5OUbGayVg5t4ljnYrTMa20FH+fdAh7okT3u+OZP+B5LNYEG5nyGV/U915VHL
- ILtJEcIOXMFzppP2iokbEhnB+qHCcr8HCYzYwbQ5eoCcBoJTw1ZMppByQhzC10RLlXj2
- aVtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684167774; x=1686759774;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=L/BFaR2bXmYV85aZ3VRwxHXRXyNTTuSJM62QQ7kJk14=;
- b=cPtrJ9f+SZOhAbwNVNoWJc1zxTwW0J40wI0AqrKGgL77Z9DA2qy+/ZYnH95jixDmR0
- RDEhOL+bM5KCNJMs6TAKUnESheorOXWT7v2cPzmtDm3cSj7/n922TJl+wvAQDxSziFBo
- ai2oHuj/sm5edy2upGax2u04SgqMjDaEcGi162LCg73hDjdMyOj20AkS8zM5JAOfz1Lb
- KEU4HkdQSh93MX6MP+81DHT1ZX/107tZEpVKiWgaOzUJg4ZuA94HZbmhaEnJFxAec7BV
- r2G9UdLGeKhVhMrjWflHNqw4uF6C9Cgs9azqcRlGNhKRZR2NLD4Jzsb2rqPvlT7+xNTf
- G3qA==
-X-Gm-Message-State: AC+VfDy37e6/fDBpclsFUZRWoFLkjqqzGI9jUM2+50jbIS640/odk9hT
- r43o5L3HCTu7rfaa2aFVMEXU3Q==
-X-Google-Smtp-Source: ACHHUZ45LY914ONoEcieAp+9ip6x5dmqMig4lZWDIrIooklY3Q93vho3dB48zUvDlbhW6BuZmPpLZw==
-X-Received: by 2002:a05:6000:1b8f:b0:306:2b31:5935 with SMTP id
- r15-20020a0560001b8f00b003062b315935mr19815654wru.55.1684167773728; 
- Mon, 15 May 2023 09:22:53 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ee7:a396:6195:bb56?
- ([2a01:e0a:982:cbb0:ee7:a396:6195:bb56])
- by smtp.gmail.com with ESMTPSA id
- u19-20020a7bc053000000b003f09d7b6e20sm37425314wmc.2.2023.05.15.09.22.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 May 2023 09:22:53 -0700 (PDT)
-Message-ID: <9cba6384-123b-1cd1-ed02-08365a0ed529@linaro.org>
-Date: Mon, 15 May 2023 18:22:52 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D1110E23A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:42:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7BEA962882;
+ Mon, 15 May 2023 16:42:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816F9C433D2;
+ Mon, 15 May 2023 16:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1684168927;
+ bh=GnuTKGySGlfr07daI7HAiFk0boCdBF/4zjHSMFSEV+4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MwTIC4XKqdsNIkumCSV4/32VCJ7wjjUWO2LJYyKgN5ZOTHcVDmcc3OGPgM+pJaFY/
+ qF2DaCCOa4RLe0mrifWN3Wp2rNqdWCjOZGi8FfT2h3/DSnm/lNxWeKfOHmkTruxucm
+ q0BZ1hcOn/2+t5h7RVv1rI6hGp6Z6TMW6UWMZZXA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 4.19 085/191] linux/vt_buffer.h: allow either builtin or
+ modular for macros
+Date: Mon, 15 May 2023 18:25:22 +0200
+Message-Id: <20230515161710.354269644@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230515161707.203549282@linuxfoundation.org>
+References: <20230515161707.203549282@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v4 01/13] dt-bindings: clk: g12a-clkc: export VCLK2_SEL
- and add CTS_ENCL clock ids
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
- <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
- <5cb38be4-a27f-dc1a-cbb9-c195505a9e7c@linaro.org>
- <9fa0662e-8854-05f9-da7f-ec8e08d2badf@linaro.org>
- <d5c030f9-2f4d-25cc-b922-d00f5033ac37@linaro.org>
- <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,65 +52,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
- linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2023 18:15, Krzysztof Kozlowski wrote:
-> On 15/05/2023 18:13, Krzysztof Kozlowski wrote:
->> On 15/05/2023 18:06, Neil Armstrong wrote:
->>> On 13/05/2023 20:28, Krzysztof Kozlowski wrote:
->>>> On 12/05/2023 15:11, Neil Armstrong wrote:
->>>>> Expose VCLK2_SEL clock id and add new ids for the CTS_ENCL and CTS_ENCL_SEL
->>>>> clocks on G12A compatible SoCs.
->>>>>
->>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>> ---
->>>>>    drivers/clk/meson/g12a.h              | 1 -
->>>>>    include/dt-bindings/clock/g12a-clkc.h | 3 +++
->>>>>    2 files changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> Bindings must be a separate patch from the driver changes. If this
->>>> causes bisectability issues, this means entire solution breaks ABI and
->>>> is not appropriate anyway...
->>>
->>> This is basically how we handled CLK IDs on Amlogic clk bindings for the
->>> last years, the amount of changes is very low and rather exceptional
->>> compared to early development stage.
->>
->> The commits with bindings are used in devicetree-rebasing repo, so we
->> want them to be separate.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-A lot of commits changes the bindings and other part of the kernel source,
-it was solved with git filter-repo a long time ago.
-While I understand in an ideal world those commits should only touch
-Documentation/bindings, it's sometime not possible.
+[ Upstream commit 2b76ffe81e32afd6d318dc4547e2ba8c46207b77 ]
 
->>
->> Meson is the only or almost the only platform making such changes. I
->> don't get why, because the conflict could be easily avoided with using
->> different names for defines in bindings and local clock. Approach of
->> having bindings strictly tied with driver commit is never desired.
+Fix build errors on ARCH=alpha when CONFIG_MDA_CONSOLE=m.
+This allows the ARCH macros to be the only ones defined.
 
-If we did it now, we would have make it differently and expose all the clock
-IDs on the bindings like on Qcom, be sure of that.
+In file included from ../drivers/video/console/mdacon.c:37:
+../arch/alpha/include/asm/vga.h:17:40: error: expected identifier or '(' before 'volatile'
+   17 | static inline void scr_writew(u16 val, volatile u16 *addr)
+      |                                        ^~~~~~~~
+../include/linux/vt_buffer.h:24:34: note: in definition of macro 'scr_writew'
+   24 | #define scr_writew(val, addr) (*(addr) = (val))
+      |                                  ^~~~
+../include/linux/vt_buffer.h:24:40: error: expected ')' before '=' token
+   24 | #define scr_writew(val, addr) (*(addr) = (val))
+      |                                        ^
+../arch/alpha/include/asm/vga.h:17:20: note: in expansion of macro 'scr_writew'
+   17 | static inline void scr_writew(u16 val, volatile u16 *addr)
+      |                    ^~~~~~~~~~
+../arch/alpha/include/asm/vga.h:25:29: error: expected identifier or '(' before 'volatile'
+   25 | static inline u16 scr_readw(volatile const u16 *addr)
+      |                             ^~~~~~~~
 
-> 
-> Also one more argument maybe not relevant here but for other cases -
-> this makes literally impossible to include the clock ID in DTS in the
-> same kernel revision, because you must not merge driver branch to DTS
-> branch. SoC folks were complaining about this many times.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Link: https://lore.kernel.org/r/20230329021529.16188-1-rdunlap@infradead.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/linux/vt_buffer.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Actually we handle this very simply by having such patches merged in a immutable
-branch merged in the clock and DT pull-requests, it worked perfectly so far
-and neither Stephen or Arnd complained about that.
+diff --git a/include/linux/vt_buffer.h b/include/linux/vt_buffer.h
+index 848db1b1569ff..919d999a8c1db 100644
+--- a/include/linux/vt_buffer.h
++++ b/include/linux/vt_buffer.h
+@@ -16,7 +16,7 @@
+ 
+ #include <linux/string.h>
+ 
+-#if defined(CONFIG_VGA_CONSOLE) || defined(CONFIG_MDA_CONSOLE)
++#if IS_ENABLED(CONFIG_VGA_CONSOLE) || IS_ENABLED(CONFIG_MDA_CONSOLE)
+ #include <asm/vga.h>
+ #endif
+ 
+-- 
+2.39.2
 
-> 
-> Best regards,
-> Krzysztof
-> 
+
 
