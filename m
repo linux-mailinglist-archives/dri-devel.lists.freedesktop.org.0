@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BDD7026FC
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 10:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF41702700
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 10:18:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27AB10E16B;
-	Mon, 15 May 2023 08:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF2B10E16D;
+	Mon, 15 May 2023 08:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9D9110E16B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 08:17:03 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-94f9cd65b1aso335535566b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 01:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1684138619; x=1686730619;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xXXIa0SG9wbz5/D/IhjDOFuNfq4mxzG+fvBmBSfOzoU=;
- b=aPoIMSMFhuswED2FXxs3zgoT8Xnco0v1zPENcW0zP2eDOkz99spwxQguBYhSrvwFQ+
- /r/C+CfxWvcH+2UQahWxhnx2PRKMdEcvTIrpd7SoDU++8qGe5q1KMpAtt3Dsik8ShRuO
- /K+y5j5OsFVPq23CI8ad/lkyeZMiXuF0w8Znc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684138619; x=1686730619;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xXXIa0SG9wbz5/D/IhjDOFuNfq4mxzG+fvBmBSfOzoU=;
- b=c50SxAG3pHEbavbRX5LMmUde6P22NgzM2oeRLKExIRYwksWAas3h+Y7BWZBWoyt0yE
- QwGCp4hLNSIne60G+yIOorJllGnzFmxiP+TlP0IpyilrvW0OI823ThRW21H/QaYpyk0H
- xI772OxeRL3TKrrnEg7rZy2Jq8jqkOfOZPtudR5Li5LU+5kSm2vZrKyZLs6VKQRqRxEK
- XBkDZOFHfOOqQdaP53mIxcKbev/cptbVRL3FYBjBa2KvKsccMHJL6m30DkLs5i/QxUWU
- CHL+aZjaeSe4ROKK18foRPiFgGqnZrv5Gj5vWJG1T+EC1Zukr8VoWYZicDxaSP7Ry4NP
- 35Og==
-X-Gm-Message-State: AC+VfDzFteYO52yp3I3tUwO5W/crw1Mnsiest9FC7J26xIG0lYnGu2Qz
- A3CMkPoQ3mQUVIlQMu0mHfEw2g==
-X-Google-Smtp-Source: ACHHUZ6MmBnd/60/FDMPYNjUgSSWd4JgT0wLOPOmT/bBEzljWR2R7hFO4DAFzj4EJpQpha3MafcqAw==
-X-Received: by 2002:a17:906:64cd:b0:965:a6c1:9b96 with SMTP id
- p13-20020a17090664cd00b00965a6c19b96mr28159704ejn.2.1684138619156; 
- Mon, 15 May 2023 01:16:59 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- i19-20020a170906265300b0096595cc0810sm9197089ejc.72.2023.05.15.01.16.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 01:16:58 -0700 (PDT)
-Date: Mon, 15 May 2023 10:16:56 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D89B10E16D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 08:17:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DE11A21CCD;
+ Mon, 15 May 2023 08:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684138676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gEZBXNjkREGViXkJCKCWwF+tgNd+jJejCR3k6ULxrwg=;
+ b=CtxaFYMzqweYmEucb/rfLfXGS8oo0XeS9lUTqrxAoIIwAwr/JvoNVZ9+96NWvT+qscISOi
+ 5CE0qbqiwWCwr1zshzg2SFVYVvPKY9lPzJhbXzrrthez1hHx4bGZ0E1jg7qHHeaNnRiUK7
+ /Lxga+8kufwJNfEYCASBnLBAe0Hy1EQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684138676;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gEZBXNjkREGViXkJCKCWwF+tgNd+jJejCR3k6ULxrwg=;
+ b=jlqhnxMMF74OZGktJ2nbt1Ml47r1rSriwlICvT5jJWEh4+bRGbMKxbikE5iwIJ9QCFI6Jh
+ pZ2gm6IKz7AW8yCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B8F38138E5;
+ Mon, 15 May 2023 08:17:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +RT1K7TqYWQvJQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 08:17:56 +0000
+Message-ID: <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
+Date: Mon, 15 May 2023 10:17:55 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
 Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
  selection
-Message-ID: <ZGHqeLcWw5tEL3Fy@phenom.ffwll.local>
+To: Linus Walleij <linus.walleij@linaro.org>
 References: <20230102112927.26565-1-tzimmermann@suse.de>
  <20230102112927.26565-12-tzimmermann@suse.de>
  <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
  <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+ <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xX28nCpQFYN0W8HNRUNb4rWP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,97 +79,92 @@ Cc: mairacanal@riseup.net, javierm@redhat.com, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 12, 2023 at 04:11:48PM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 12.05.23 um 15:20 schrieb Linus Walleij:
-> > Sorry for late regression detection but this patch regresses
-> > the Integrator AB IMPD-1 graphics, I bisected down to this
-> > patch.
-> [...]
-> > This is the driver:
-> > drivers/gpu/drm/pl111/pl111_versatile.c
-> > with the pl110_impd1 variant, so these are the supported modes:
-> > 
-> > /* PL110 pixel formats for Integrator, vanilla PL110 */
-> > static const u32 pl110_integrator_pixel_formats[] = {
-> >          DRM_FORMAT_ABGR8888,
-> >          DRM_FORMAT_XBGR8888,
-> >          DRM_FORMAT_ARGB8888,
-> >          DRM_FORMAT_XRGB8888,
-> >          DRM_FORMAT_ABGR1555,
-> >          DRM_FORMAT_XBGR1555,
-> >          DRM_FORMAT_ARGB1555,
-> >          DRM_FORMAT_XRGB1555,
-> > };
-> > (...)
-> > /*
-> >   * The IM-PD1 variant is a PL110 with a bunch of broken, or not
-> >   * yet implemented features
-> >   */
-> > static const struct pl111_variant_data pl110_impd1 = {
-> >          .name = "PL110 IM-PD1",
-> >          .is_pl110 = true,
-> >          .broken_clockdivider = true,
-> >          .broken_vblank = true,
-> >          .formats = pl110_integrator_pixel_formats,
-> >          .nformats = ARRAY_SIZE(pl110_integrator_pixel_formats),
-> >          .fb_bpp = 16,
-> > };
-> > 
-> > Notice the absence of RGB565!
-> > Then we initialized the frambuffer like this:
-> > 
-> >          drm_fbdev_dma_setup(drm, priv->variant->fb_bpp);
-> > 
-> > And as you see priv->variant->fb_bpp will be 16, so we want some
-> > 16bpp mode however the only supported depth is 15 (the 1555 modes)
-> > so it would use that by scaling back depth to 15.
-> > 
-> > However after this patch that doesn't work anymore.
-> > 
-> > Any hints on how we can fix this?
-> 
-> According to a quick grep for fb_bpp, it's only used for the call to
-> drm_fbdev_dma_setup(), right? In this case, you should set it to 15 for the
-> models without rgb565. The switch at [1] should then pick the correct
-> values.
-> 
-> The preferred_bpp parameter had a change in semantics. It used to be the
-> number of bits per pixel. But that makes it hard to select between RGB1555
-> and RGB565.  So it's now a special color-mode value that works like the
-> kernel's video= parameter. Values of 15 and 32 are different from the rest.
-> That switch at [1] explains it. Maybe you should rename fb_bpp to color_mode
-> for clarity.
-> 
-> Let me know if this helps.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xX28nCpQFYN0W8HNRUNb4rWP
+Content-Type: multipart/mixed; boundary="------------tU8HY0VDmHNBK0XkZ5cwILue";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: mairacanal@riseup.net, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, jose.exposito89@gmail.com
+Message-ID: <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+ <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
+ <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
+ <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+In-Reply-To: <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
 
-Shouldn't the helpers try to do this automatically? I think they kinda did
-that in the past in some limited circumstances like this ...
--Daniel
+--------------tU8HY0VDmHNBK0XkZ5cwILue
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> Best regards
-> Thomas
-> 
-> [1] https://elixir.bootlin.com/linux/v6.4-rc1/source/drivers/gpu/drm/drm_fb_helper.c#L1827
-> 
-> > 
-> > Yours,
-> > Linus Walleij
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+SGkNCg0KQW0gMTUuMDUuMjMgdW0gMTA6MDEgc2NocmllYiBMaW51cyBXYWxsZWlqOg0KPiBP
+biBGcmksIE1heSAxMiwgMjAyMyBhdCA0OjEx4oCvUE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6
+aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPiANCj4+PiBBbnkgaGludHMgb24gaG93IHdl
+IGNhbiBmaXggdGhpcz8NCj4+DQo+PiBBY2NvcmRpbmcgdG8gYSBxdWljayBncmVwIGZvciBm
+Yl9icHAsIGl0J3Mgb25seSB1c2VkIGZvciB0aGUgY2FsbCB0bw0KPj4gZHJtX2ZiZGV2X2Rt
+YV9zZXR1cCgpLCByaWdodD8gSW4gdGhpcyBjYXNlLCB5b3Ugc2hvdWxkIHNldCBpdCB0byAx
+NSBmb3INCj4+IHRoZSBtb2RlbHMgd2l0aG91dCByZ2I1NjUuIFRoZSBzd2l0Y2ggYXQgWzFd
+IHNob3VsZCB0aGVuIHBpY2sgdGhlDQo+PiBjb3JyZWN0IHZhbHVlcy4NCj4gDQo+IEkgdHJp
+ZWQgdGhpcy4gSXQgZG9lcyB3b3JrIGJldHRlciwgdGhlIHNlbGVjdGVkIGZvcm1hdCBiZWNv
+bWVzDQo+IA0KPiAweDM1MzE1MjU4ID0gTEUgJzUnLCAnMScsICdSJywgJ1giID0gJ1gnLCAn
+UicsICcxJywgJzUnLCA9DQo+IERSTV9GT1JNQVRfWFJHQjE1NTUuDQoNClRoYXQncyBnb29k
+IG5ld3MuDQoNCj4gDQo+IEJ1dCB0aGUgZGlzcGxheSBpcyBmbGlja2VyaW5nIGxpa2UgY3Jh
+enkgc28gdGhlIHVwZGF0aW5nIGZyZXF1ZW5jeSBpcw0KPiB0b3RhbGx5IG9mZiwgd2hpY2gg
+aXMgYmVjYXVzZSBpdCBkb2VzIG5vdCBzY2FsZSBkb3duIHRoZSByZXNvbHV0aW9uLA0KPiB0
+aGUgcHJpbnQgdXNlZCB0byBiZToNCj4gDQo+IENvbnNvbGU6IHN3aXRjaGluZyB0byBjb2xv
+dXIgZnJhbWUgYnVmZmVyIGRldmljZSA4MHgzMA0KPiBkcm0tY2xjZC1wbDExMSBjMTAwMDAw
+MC5kaXNwbGF5OiBbZHJtXSBmYjA6IHBsMTExZHJtZmIgZnJhbWUgYnVmZmVyIGRldmljZQ0K
+PiANCj4gSXQgaXMgbm93Og0KPiANCj4gQ29uc29sZTogc3dpdGNoaW5nIHRvIGNvbG91ciBm
+cmFtZSBidWZmZXIgZGV2aWNlIDEwMHgzNw0KPiBkcm0tY2xjZC1wbDExMSBjMTAwMDAwMC5k
+aXNwbGF5OiBbZHJtXSBmYjA6IHBsMTExZHJtZmIgZnJhbWUgYnVmZmVyIGRldmljZQ0KPiAN
+Cj4gMTAweDM3ISAoaS5lLiA4MDB4Mjk2KSwgdGhpcyBkaXNwbGF5IGNhbiBvbmx5IGRvIDY0
+MHgyNDAuDQo+IEFueSBpZGVhIHdoYXQgZWxzZSBpcyBnb2luZyB3cm9uZyBoZXJlPyBPciBp
+cyB0aGlzIGFub3RoZXIgcmVncmVzc2lvbg0KPiBvbiB0b3Agb2YgdGhlIGZpcnN0IHJlZ3Jl
+c3Npb24gLi4uIEkgd2FzIHVuZGVyIHRoZSBpbXByZXNzaW9uIHRoYXQNCj4geW91ciBjaGFu
+Z2Ugd2FzIG9ubHkgYWJvdXQgZm9ybWF0cyBub3QgcmVzb2x1dGlvbnMuDQoNCklmIHlvdXIg
+ZGlzcGxheSBvbmx5IHN1cHBvcnRzIDY0MHgyNDAsIHlvdSBzaG91bGQgZmlsdGVyIG91dCBh
+bGwgdGhlIA0Kb3RoZXIgbW9kZXMgaW4gdGhlIGRyaXZlciwgaWYgbmVjZXNzYXJ5LiBUbyBt
+ZSwgdGhhdCBzZWVtcyBmaXgtd29ydGh5IGluIA0KYW55IGNhc2UuDQoNCkl0J3MgaW1wb3J0
+YW50IHRoYXQgdGhlIGtlcm5lbCdzIGNvbnNvbGUgaXMgYWx3YXlzIGF2YWlsYWJsZS4gV2Ug
+aGFkIA0KcmVwb3J0cyB3aGVyZSB0aGUgZGlzcGxheSByZW1haW5lZCBkYXJrLCB3aGljaCBp
+cyBub3QgYWNjZXB0YWJsZSBmb3IgdGhlIA0KY29uc29sZS4gVGhlcmVmb3JlIG91ciBmYmRl
+diBoZWxwZXJzIG5vdyB0cnkgaGFyZGVyIHRvIGEgZmluZCBhIHdvcmtpbmcgDQpkaXNwbGF5
+IHNldHVwLiBJdCBjb3VsZCBiZSB0aGF0IHRoaXMgaW50ZXJmZXJlcyB3aXRoIHlvdXIgZHJp
+dmVyIHNvbWVob3cuDQoNCkFzIHlvdSBzYXksIHRoaXMgcGF0Y2ggaXMgb25seSBhYm91dCBz
+ZWxlY3RpbmcgYSBjb2xvciBmb3JtYXQuIFRoZXJlJ3MgDQpwcm9iYWJseSBhbm90aGVyIHJl
+Z3Jlc3Npb24gZWxzZXdoZXJlLg0KDQpDYW4geW91IHRyeSB0byBiaXNlY3QgYWdhaW4gd2l0
+aCB5b3VyIGN1cnJlbnQgZml4IG9uIHRvcD8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
+PiANCj4gWW91cnMsDQo+IExpbnVzIFdhbGxlaWoNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2Vy
+bWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJv
+dWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
+--------------tU8HY0VDmHNBK0XkZ5cwILue--
 
+--------------xX28nCpQFYN0W8HNRUNb4rWP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRh6rMFAwAAAAAACgkQlh/E3EQov+Do
+oQ/9GTEhz8w5tBbsCGuCat5wmhGgdL/AJB+Dy/0c03P7kWNuHyiNRD52SBBC6M0baBWUrb7TBV7u
+lQXRJukEE6oc+pexJml7QgVtA5yr/8i5hdrOv+QraXCfax1C6Ut5mllMNCbttn9R6NRF0+zjux9t
+/tlx7eiNtfbecBNhbcvct8w/HrPM1hL7rMkSw8qSE3LYqY2pKW7VFvGhLzFgrjKJOC8FMhZ31p3V
+EwmzC3gLZYsOSaxSvn1nmYrQ74SeLwy3Nxkf+5MP1T3oYkFhsW2XQgCgWOt6AasJgKB4jcQT6GLV
+Vty9+LEzczxTa1XfG1sRcTQsIvCRPnIts7AeuZOT6OewnpwiGzCK0FOq9fkRJ+Gq6P5D/VnMS4o+
+cbCSW6WzMO6ZnpSKno/ivErRnts/j+arnuR8hceBNTMwBVPsGVtfRJ5ZxIE5aMqC8sR+AxQ568FU
+JxtIRU2ZJ6xUGgv68KX2rYH1XvTO7O/EOMWMvhoyBiu1hiPSSrOElA/+9ZYTLQWIdy8IdN6y8qKz
+2i2bsxk8QRFnh4DHfqUqRStb+jHlw6QSZABHLds6HiBGSqGToKIyZ3ao+rN3X46eQzHY6zh37sZI
+aygG9yL9xRgcRlHD0Q2tKkhgg6aPwaL6sOyCMTv/7zisbfLk1uY/fE8Dv4SWG1rK4pfH0ksQQoRb
+pTo=
+=4r4d
+-----END PGP SIGNATURE-----
+
+--------------xX28nCpQFYN0W8HNRUNb4rWP--
