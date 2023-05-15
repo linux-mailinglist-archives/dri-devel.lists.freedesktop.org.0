@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8EC70DBCD
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 13:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC48712275
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 10:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF37F10E08F;
-	Tue, 23 May 2023 11:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F1D10E7C3;
+	Fri, 26 May 2023 08:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D3010E08F
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 11:53:30 +0000 (UTC)
-Received: from meshulam.tesarici.cz
- (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
- [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id 75D1B13EC96;
- Tue, 23 May 2023 13:53:22 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz;
- dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1684842803; bh=d6sBFXltoE20c/IX/UAU/Ri7MVflMAa8Fx6QDXIIeYY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lSCFcHv/NCVANzoIXMtxnRDs3UobLxMl601xF8gYdPBua0rJrhRORYcDdp6FW2pxj
- imlF/OMK1ueWXtYEvpcLJIBweA/xlyR9wx5rLxpKtYeripsM1Zp1Nx00okUBdb0zh7
- fCjvtMpVjyGNeUWSyFJ8PzFdq9NuZ7AlyzO1hP+hw7i9q/aHuNYytc/lY5cebUTeoz
- sQnvmTNSij9i0Lj9a//NncTW+YX00UVF6kmHAaKm4AsqxByN6K5hgY1o1nRuBXo/H0
- dB6URP45McgxVE8PMjZHbDZK9u/slbhsJe8wAhpg0hdboZmUAkQaPPnaEXIC8gk2I7
- NUlSP9iRKWbXA==
-Date: Tue, 23 May 2023 13:53:17 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230523135317.6b9e086f@meshulam.tesarici.cz>
-In-Reply-To: <ZGyNQxY6By1QdXur@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
- <20230516083942.0303b5fb@meshulam.tesarici.cz>
- <ZGPEgsplBSsI9li3@arm.com>
- <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
- <20230517132748.2e250f9c@meshulam.tesarici.cz>
- <ZGyNQxY6By1QdXur@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAB510E7C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:43:09 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34Q3smpe009646; Fri, 26 May 2023 10:43:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=iYf5opzHnb4xi5FvJIZarBtUot+AEW2Tg8GAN5tiIHE=;
+ b=Ezz6XeA/GsNSPq28bCT8JCaRZeEOzPvModBsUFsdQve6XhsFpEi/hyENTQkOqgnMo+m7
+ juzwQM48LMD1hCgon92HAArxpphDaTzDmiH5O0/abPkKJlzRfbq61sKej/NsU3e5T4H0
+ YfAnQL30AVZG4zplljBFQFFASiqH8x2J3yggINRijdAz5rdaV1Qe/d0Rn5GIir7H49S5
+ OwiU7QZYwS+nHYzuC3PyhJnur/ksEwZX5sv4mcfRcL2I1ygdBOwCphruKra88NptNVgJ
+ omMxKGG6w5HXJBZW+GLBZTedxaOT/G7wJd2ZcTD75IxfBgnxf0+U5NtdE12gbCX0tota uA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qru86vt4q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 26 May 2023 10:43:06 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 45060100039;
+ Fri, 26 May 2023 10:43:06 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2C42921A8F9;
+ Fri, 26 May 2023 10:43:06 +0200 (CEST)
+Received: from [10.48.0.148] (10.48.0.148) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 26 May
+ 2023 10:43:05 +0200
+Message-ID: <8c3ab04c-7fa8-63a3-a4b2-1a76fc7d6c54@foss.st.com>
+Date: Mon, 15 May 2023 18:02:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/stm: Fix resolution bitmasks
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, Yannick FERTRE <yannick.fertre@foss.st.com>, 
+ <dri-devel@lists.freedesktop.org>
+References: <20221011231048.505967-1-marex@denx.de>
+ <93a77911-e9b2-d2e1-4fff-41f63c87376b@foss.st.com>
+ <3ce425c7-978f-64e7-0630-b9aa5d1af55c@foss.st.com>
+ <e7593ac2-fa0a-18ff-d286-2f4080bd5b86@denx.de>
+ <58147ea7-d0dc-439d-5610-b293513b0e75@denx.de>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <58147ea7-d0dc-439d-5610-b293513b0e75@denx.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.48.0.148]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,58 +76,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E.
- McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 May 2023 10:54:11 +0100
-Catalin Marinas <catalin.marinas@arm.com> wrote:
 
-> On Wed, May 17, 2023 at 01:27:48PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Wed, 17 May 2023 08:35:10 +0200
-> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote: =20
-> > > Anyway, my greatest objection to allocating additional swiotlb chunks=
- is
-> > > that _all_ of them must be searched to determine that the physical
-> > > address does _not_ belong to a swiotlb, incurring performance penalty=
- =20
-> >=20
-> > I thought about this part again, and I overlooked one option. We can
-> > track only the _active_ swiotlbs for each device. If a device never
-> > needs a swiotlb, there is no active swiotlb, and is_swiotlb_buffer()
-> > short-circuits to false. This should avoid all collateral damage to
-> > innocent devices. =20
->=20
-> Does this work with dma-buf or does dma-buf not allow swiotlb bouncing?
+On 10/14/22 19:15, Marek Vasut wrote:
+> On 10/14/22 17:55, Marek Vasut wrote:
+>> On 10/14/22 15:42, Yannick FERTRE wrote:
+>>> Hi Marek,
+>>
+>> Hello Yannick,
+>>
+>>> The genmask of regsiter SSCR, BPCR & others were setted accordly to 
+>>> the chipset stm32f4.
+>>
+>> So that means:
+>> F4 -> 2048x2048 framebuffer
+>> H7/MP1 -> 4096x4096 framebuffer
+>> ?
+> 
+> Worse
+> 
+> F4 is 2048x2048
+> F7 is 4096x2048
+> MP1 is 4096x4096
+> 
+> and there is no IDR register on F4/F7 like on MP1, or is there ?
+> 
+> How else can we tell those LTDC versions apart ?
+> 
+> 
 
-Currently, it does work with dma-buf. OTOH Christoph is apparently not
-very happy about it and would rather implement alternative mechanisms to
-let dma-buf allocate buffers so that they do not require swiotlb. See
-his reply here:
+Dear Marek,
+Many thanks for your patch (and sorry for this late reply).
+Your patch is good and fixes this ltdc driver source code vs. the 
+related reference manual.
+imho, it will not be an issue for F4 & F7 series if these bit-fields are 
+"bigger" as I am pretty sure stm32 MCUs are not really using such high 
+resolutions.
+Yannick already replied with his reviewed-by. I add my
 
-  https://lkml.org/lkml/2023/4/7/38
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
 
-OTOH if you're asking because of swiotlb use by encrypted VM guests,
-the answer might be different.
+If you agree, I will merge your patch really soon.
 
-Cheers
-Petr T
+
+Dear Yannick,
+You may add to your todo list to double check if there is a need to 
+detect stm32 MCUs vs. these bit-field sizes...
+
+Many thanks
+Philippe :-)
