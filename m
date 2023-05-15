@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5E0704650
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:27:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AABF0704657
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E26F910E308;
-	Tue, 16 May 2023 07:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D650510E30C;
+	Tue, 16 May 2023 07:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA6D10E178
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:23:54 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUNq-0004G7-84; Mon, 15 May 2023 11:20:46 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUNQ-000KQl-8J; Mon, 15 May 2023 11:20:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUNP-004cYH-B9; Mon, 15 May 2023 11:20:19 +0200
-Date: Mon, 15 May 2023 11:20:19 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Inki Dae <daeinki@gmail.com>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
- void
-Message-ID: <20230515092019.a3uwmofkkujo772g@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <CAAQKjZP5jhwFg9sNndpa6_7G6HoV76heQbt=knoOEZZskexrhg@mail.gmail.com>
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 725C210E18E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:54:45 +0000 (UTC)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+ by mx.sberdevices.ru (Postfix) with ESMTP id 6BC685FD10;
+ Mon, 15 May 2023 12:54:42 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+ s=mail; t=1684144482;
+ bh=pE9eOV4oU3ksz/xYNs1wrzR9bNl02gxrZwXBsVparOw=;
+ h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+ b=Jf4x2ADycoe3NLsdSbCswtvuMXXIU5QMrlOvF0QX8XQYuyTbH7D8DAco/uuTcwV1/
+ mFKENoVZb5f7yftBg3J450spyvEhiFPK5jmrdiqpuKlGv7aVoYXRZSC+Ad+wUIJdYP
+ nHcqxPfKaxBYFcJ6HGu/CPcurmFNuKz6aTTtuS/Z/l5jYW04DOX7AE7DoJSlsfnp7a
+ yZI+l5Y+pznhaDTKOycHMRHYqx+4gOgG81JSPKMsF+gqiGVus9h6/kPb93WmYM5c+I
+ 7SGO1BJmYfCcT+yYMV74tMJmNS7Z2N4L7QFlt4s9tTdNyGVACdoF+iEUaUXKa9zAT2
+ yLNb/n49xLsvg==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru
+ [172.16.1.4]) by mx.sberdevices.ru (Postfix) with ESMTP;
+ Mon, 15 May 2023 12:54:38 +0300 (MSK)
+Message-ID: <aa67ee8b-898b-319b-f167-b554700842b3@sberdevices.ru>
+Date: Mon, 15 May 2023 12:49:50 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="suzv37z45wvm64m4"
-Content-Disposition: inline
-In-Reply-To: <CAAQKjZP5jhwFg9sNndpa6_7G6HoV76heQbt=knoOEZZskexrhg@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RESEND PATCH v3] mtd: rawnand: macronix: OTP access for
+ MX30LFxG18AC
+Content-Language: en-US
+From: Arseniy Krasnov <avkrasnov@sberdevices.ru>
+To: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>
+References: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
+ <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
+In-Reply-To: <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30,
+ bases: 2023/05/15 04:03:00 #21308474
+X-KSMG-AntiVirus-Status: Clean, skipped
 X-Mailman-Approved-At: Tue, 16 May 2023 07:27:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,157 +70,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
- Rahul T R <r-ravikumar@ti.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Miaoqian Lin <linmq006@gmail.com>, linux-aspeed@lists.ozlabs.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Yongqin Liu <yongqin.liu@linaro.org>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
- lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
- Steven Price <steven.price@arm.com>, linux-rockchip@lists.infradead.org,
- Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Tian Tao <tiantao6@hisilicon.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Karol Herbst <kherbst@redhat.com>,
- Yuan Can <yuancan@huawei.com>, Michal Simek <michal.simek@xilinx.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
- nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Guo Zhengkui <guozhengkui@vivo.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Paul Cercueil <paul@crapouillou.net>, Tomi Valkeinen <tomba@kernel.org>,
- Deepak R Varma <drv@mailo.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>, John Stultz <jstultz@google.com>,
- Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, Liu Shixin <liushixin2@huawei.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org,
- Jayshri Pawar <jpawar@cadence.com>, Jonas Karlman <jonas@kwiboo.se>,
- Russell King <linux@armlinux.org.uk>, Qiang Yu <yuq825@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
- linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Liu Ying <victor.liu@nxp.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, linux-mtd@lists.infradead.org,
+ oxffffaa@gmail.com, kernel@sberdevices.ru,
+ Mason Yang <masonccyang@mxic.com.tw>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello @Miquel!
 
---suzv37z45wvm64m4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry, but who could review this patch? :) IIUC this logic is very hw specific and we need
+someone who knows it well? I tested this patch on our devices (with already known Meson NAND
+controller).
 
-On Mon, May 15, 2023 at 04:50:57PM +0900, Inki Dae wrote:
-> Hi,
->=20
-> 2023=EB=85=84 5=EC=9B=94 8=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 1:32, =
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4 =
-=EC=9E=91=EC=84=B1:
-> >
-> > Hello,
-> >
-> > this patch series adapts the platform drivers below drivers/gpu/drm
-> > to use the .remove_new() callback. Compared to the traditional .remove()
-> > callback .remove_new() returns no value. This is a good thing because
->=20
-> First of all, I apologize for the delay in providing my review comments.
->=20
-> Not related to this patch but seems that the "remove_new" callback
-> naming implicitly implies that there is no need to return anything
-> since its return type is void. To help users understand the intended
-> behavior based on the callback name, how about considering a modified
-> naming convention like "remove_no_return" or something similar?
->=20
-> The relevant patch has already been merged as outlined below,
-> author Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> 2022-12-09
-> 16:09:14 +0100
-> committer Greg Kroah-Hartman <gregkh@linuxfoundation.org> 2023-01-17
-> 19:04:17 +0100
-> commit 5c5a7680e67ba6fbbb5f4d79fa41485450c1985c (patch)
-> tree 0b6dbc003a6bb4a3f7fb084d31326bbfa3ba3f7c
-> parent 7bbb89b420d9e290cb34864832de8fcdf2c140dc (diff)
-> download linux-5c5a7680e67ba6fbbb5f4d79fa41485450c1985c.tar.gz
-> platform: Provide a remove callback that returns no value
->=20
-> Maybe a trivial thing but how about renaming it? I think the postfix,
-> 'new', is a very generic word. I think you could introduce another
-> patch for it if you think it's reasonable.
+Thanks, Arseniy
 
-=2Eremove_new is only a temporary name. Once all drivers are converted,
-=2Eremove is changed to return void and then all drivers are converted
-back. While "remove_new" might not be a brilliant name choice, touching
-all already converted drivers again just to improve the temporary
-measures doesn't sound right.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---suzv37z45wvm64m4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRh+VIACgkQj4D7WH0S
-/k7epggAlsMX1TbSjMAIV+LPNrZU/ErXl1QWJt2/nA/iQmxppFkkR19U334HeeZf
-VXsu0FwIvUZpfndnO3hCw3pvEa4gQiTo7reQsd28ECZaLwTVQYvp6o/LceTtaOJ2
-5+FeefPV0mHxQ6SiXZ7g7aA4gkkw2iJY9s7LaPHHXw0jpyOpcZHlNzJioLe4RHdT
-eFYzR99DVhYH81tw8szT4fpAS3Vw2Eqq5PyQHDRT12PrJdM0Ig+3ei53DU4adRWh
-w/kH6vGx2XBIbqNrXq5AcSjVnMvrKq7iKPRxMCz58JC4oCirfqT+7tGWbOgJLLEx
-BCbOuZXZE9d8Thjrbo3cXVRujnhsLg==
-=GMrP
------END PGP SIGNATURE-----
-
---suzv37z45wvm64m4--
+On 11.05.2023 21:21, Arseniy Krasnov wrote:
+> Cc: Mason Yang <masonccyang@mxic.com.tw> and Boris Brezillon <boris.brezillon@collabora.com>
+> 
+> On 11.05.2023 18:21, Arseniy Krasnov wrote:
+>> This adds support for OTP area access on MX30LFxG18AC chip series.
+>>
+>> Changelog:
+>>   v1 -> v2:
+>>   * Add slab.h include due to kernel test robot error.
+>>   v2 -> v3:
+>>   * Use 'uint64_t' as input argument for 'do_div()' instead
+>>     of 'unsigned long' due to kernel test robot error.
+>>
+>> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+>> ---
+>>  drivers/mtd/nand/raw/nand_macronix.c | 213 +++++++++++++++++++++++++++
+>>  1 file changed, 213 insertions(+)
+>>
+>> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
+>> index 1472f925f386..2301f990678e 100644
+>> --- a/drivers/mtd/nand/raw/nand_macronix.c
+>> +++ b/drivers/mtd/nand/raw/nand_macronix.c
+>> @@ -6,6 +6,7 @@
+>>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
+>>   */
+>>  
+>> +#include <linux/slab.h>
+>>  #include "linux/delay.h"
+>>  #include "internals.h"
+>>  
+>> @@ -31,6 +32,20 @@
+>>  
+>>  #define MXIC_CMD_POWER_DOWN 0xB9
+>>  
+>> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP	0x90
+>> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE	0
+>> +#define MACRONIX_30LFXG18AC_OTP_PAGES		30
+>> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE	2112
+>> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE	\
+>> +	(MACRONIX_30LFXG18AC_OTP_START_PAGE *	\
+>> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES	\
+>> +	(MACRONIX_30LFXG18AC_OTP_PAGES *	\
+>> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>> +
+>> +#define MACRONIX_30LFXG18AC_OTP_EN		BIT(0)
+>> +#define MACRONIX_30LFXG18AC_OTP_LOCKED		BIT(1)
+>> +
+>>  struct nand_onfi_vendor_macronix {
+>>  	u8 reserved;
+>>  	u8 reliability_func;
+>> @@ -316,6 +331,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
+>>  	chip->ops.resume = mxic_nand_resume;
+>>  }
+>>  
+>> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+>> +					    size_t *retlen,
+>> +					    struct otp_info *buf)
+>> +{
+>> +	if (len < sizeof(*buf))
+>> +		return -EINVAL;
+>> +
+>> +	/* Don't know how to check that OTP is locked. */
+>> +	buf->locked = 0;
+>> +	buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+>> +	buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+>> +
+>> +	*retlen = sizeof(*buf);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
+>> +{
+>> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>> +
+>> +	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
+>> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>> +				 feature_buf);
+>> +}
+>> +
+>> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
+>> +{
+>> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>> +
+>> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>> +				 feature_buf);
+>> +}
+>> +
+>> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+>> +					loff_t offs_in_flash,
+>> +					size_t len, size_t *retlen,
+>> +					u_char *buf, bool write)
+>> +{
+>> +	struct nand_chip *nand;
+>> +	size_t bytes_handled;
+>> +	off_t offs_in_page;
+>> +	uint64_t page;
+>> +	void *dma_buf;
+>> +	int ret;
+>> +
+>> +	/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+>> +	 * so allocate properly aligned memory for it. This is
+>> +	 * needed because cross page accesses may lead to unaligned
+>> +	 * buffer address for DMA.
+>> +	 */
+>> +	dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+>> +	if (!dma_buf)
+>> +		return -ENOMEM;
+>> +
+>> +	nand = mtd_to_nand(mtd);
+>> +	nand_select_target(nand, 0);
+>> +
+>> +	ret = macronix_30lfxg18ac_otp_enable(nand);
+>> +	if (ret)
+>> +		goto out_otp;
+>> +
+>> +	page = offs_in_flash;
+>> +	/* 'page' will be result of division. */
+>> +	offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+>> +	bytes_handled = 0;
+>> +
+>> +	while (bytes_handled < len &&
+>> +	       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+>> +		size_t bytes_to_handle;
+>> +
+>> +		bytes_to_handle = min_t(size_t, len - bytes_handled,
+>> +					MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+>> +					offs_in_page);
+>> +
+>> +		if (write) {
+>> +			memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+>> +			ret = nand_prog_page_op(nand, page, offs_in_page,
+>> +						dma_buf, bytes_to_handle);
+>> +		} else {
+>> +			ret = nand_read_page_op(nand, page, offs_in_page,
+>> +						dma_buf, bytes_to_handle);
+>> +			if (!ret)
+>> +				memcpy(&buf[bytes_handled], dma_buf,
+>> +				       bytes_to_handle);
+>> +		}
+>> +		if (ret)
+>> +			goto out_otp;
+>> +
+>> +		bytes_handled += bytes_to_handle;
+>> +		offs_in_page = 0;
+>> +		page++;
+>> +	}
+>> +
+>> +	*retlen = bytes_handled;
+>> +
+>> +out_otp:
+>> +	if (ret)
+>> +		dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+>> +
+>> +	ret = macronix_30lfxg18ac_otp_disable(nand);
+>> +	WARN(ret, "failed to leave OTP mode after %s\n",
+>> +	     write ? "write" : "read");
+>> +	nand_deselect_target(nand);
+>> +	kfree(dma_buf);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
+>> +					 size_t len, size_t *rlen,
+>> +					 const u_char *buf)
+>> +{
+>> +	return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
+>> +					    true);
+>> +}
+>> +
+>> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
+>> +					size_t len, size_t *rlen,
+>> +					u_char *buf)
+>> +{
+>> +	return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
+>> +}
+>> +
+>> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
+>> +					size_t len)
+>> +{
+>> +	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>> +	struct nand_chip *nand;
+>> +	int ret;
+>> +
+>> +	if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
+>> +	    len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
+>> +		return -EINVAL;
+>> +
+>> +	dev_dbg(&mtd->dev, "locking OTP\n");
+>> +
+>> +	nand = mtd_to_nand(mtd);
+>> +	nand_select_target(nand, 0);
+>> +
+>> +	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
+>> +			 MACRONIX_30LFXG18AC_OTP_LOCKED;
+>> +	ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>> +				feature_buf);
+>> +	if (ret) {
+>> +		dev_err(&mtd->dev,
+>> +			"failed to lock OTP (set features): %i\n", ret);
+>> +		nand_deselect_target(nand);
+>> +		return ret;
+>> +	}
+>> +
+>> +	/* Do dummy page prog with zero address. */
+>> +	feature_buf[0] = 0;
+>> +	ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
+>> +	if (ret)
+>> +		dev_err(&mtd->dev,
+>> +			"failed to lock OTP (page prog): %i\n", ret);
+>> +
+>> +	ret = macronix_30lfxg18ac_otp_disable(nand);
+>> +	WARN(ret, "failed to leave OTP mode after lock\n");
+>> +
+>> +	nand_deselect_target(nand);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void macronix_nand_setup_otp(struct nand_chip *chip)
+>> +{
+>> +	static const char * const supported_otp_models[] = {
+>> +		"MX30LF1G18AC",
+>> +		"MX30LF2G18AC",
+>> +		"MX30LF4G18AC",
+>> +	};
+>> +	struct mtd_info *mtd;
+>> +
+>> +	if (!chip->parameters.supports_set_get_features)
+>> +		return;
+>> +
+>> +	if (match_string(supported_otp_models,
+>> +			 ARRAY_SIZE(supported_otp_models),
+>> +			 chip->parameters.model) < 0)
+>> +		return;
+>> +
+>> +	bitmap_set(chip->parameters.get_feature_list,
+>> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>> +	bitmap_set(chip->parameters.set_feature_list,
+>> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>> +
+>> +	mtd = nand_to_mtd(chip);
+>> +	mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
+>> +	mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
+>> +	mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
+>> +	mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
+>> +	mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
+>> +	mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
+>> +}
+>> +
+>>  static int macronix_nand_init(struct nand_chip *chip)
+>>  {
+>>  	if (nand_is_slc(chip))
+>> @@ -325,6 +537,7 @@ static int macronix_nand_init(struct nand_chip *chip)
+>>  	macronix_nand_onfi_init(chip);
+>>  	macronix_nand_block_protection_support(chip);
+>>  	macronix_nand_deep_power_down_support(chip);
+>> +	macronix_nand_setup_otp(chip);
+>>  
+>>  	return 0;
+>>  }
