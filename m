@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE37970361E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434247038F2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:36:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F016B10E08A;
-	Mon, 15 May 2023 17:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF0710E0CD;
+	Mon, 15 May 2023 17:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D7110E043;
- Mon, 15 May 2023 17:06:50 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C716A10E0CC;
+ Mon, 15 May 2023 17:36:43 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FFRAnV025909; Mon, 15 May 2023 17:06:43 GMT
+ 34FEe0oS019587; Mon, 15 May 2023 17:36:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GUZuaEr5DqjLFnGMOXqvJAZ+xhnMQ/LjFIHBQEd029Y=;
- b=Lx1WBcPMdfOXGCB3C+HR4OXZ7vaiBAAxasP730ArEWcSlaw/EAht/G9esImUgWXK/pPP
- zmxRsRCbjPexDQoddbFWv3/uEk9IJazh/Y8oSdex9WMWREjHhWOK13wIK1appdhtZrE6
- dNppUULEcbrcIlBOD6UxkWlous2JMeoJ6sQxq36lzASY/D7ST90jtIDWxjSARMXNDNnb
- EVJsaG5hrQskdM0vPdcvRdYMyEZBPUnBpF3JJktQ8e0hZgLrYKoM2h800Rd+0xGIaV5E
- yHaJxt6JkUaO2HNCmqcKqbzvbjTiC73E/GR4wLaecoMDljJmn1D9CJQ+0ZBsm8TLDVrR Tw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=95YgKa5kg+vGYYSezP6hUvogp30nDpiOGNBR43ipbYA=;
+ b=N58KBmfDPA7zhuWnaeF5g/up/WWmyENhy+Zhc4urF4MJLl9YRegsd3OpkdgsQ7TnBE7D
+ kNdsc/R2VjF6PXF6Obz2Fja8+l6mMTBfb0MRsEPlk+pC8bm++yNuRsa9mL0rcwWvneFw
+ YYYpXgF8ClQQGjkMvF2MVrhCwtZrboFmX/15/w2U/OqXNJoYA3JIL1Ro38uGylJpYKjB
+ 6H5qFOAXjbGCBVvzSN0Hnot6VIGg5fd7c13BidPhi8c9G3rPFU0oh30LQ2pzFYSZxOO4
+ 4Xdyx8ASiHmzLcK0vgYwJrmJXLYzNae1wHMip0GrD+SP8KJq/BZrix0daTDg4Ou4cZWY UQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qj1vr4jm3-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkjr018vp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 17:06:43 +0000
+ Mon, 15 May 2023 17:36:36 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FH6flr030458
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FHaZpr031288
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 17:06:41 GMT
+ Mon, 15 May 2023 17:36:35 GMT
 Received: from [10.71.110.189] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 15 May
- 2023 10:06:41 -0700
-Message-ID: <08b4b6b3-1401-c2dc-0270-c8f7d538ed9c@quicinc.com>
-Date: Mon, 15 May 2023 10:06:33 -0700
+ 2023 10:36:34 -0700
+Message-ID: <4f6387d1-550d-7bcc-3198-731a8abc3191@quicinc.com>
+Date: Mon, 15 May 2023 10:36:34 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 Subject: Re: [PATCH v8 5/8] drm/msm/dpu: add support for DSC encoder v1.2
  engine
+Content-Language: en-US
 To: Marijn Suijten <marijn.suijten@somainline.org>
 References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
  <1683914423-17612-6-git-send-email-quic_khsieh@quicinc.com>
  <mxdr37vle6x4wvidyh2tc5w77oqve556ogk4nu47efdjbstz6i@vz5hkydgie5g>
-Content-Language: en-US
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 In-Reply-To: <mxdr37vle6x4wvidyh2tc5w77oqve556ogk4nu47efdjbstz6i@vz5hkydgie5g>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: _13y9YlaiUOyWmXt8vKw3wCszCBOIy0X
-X-Proofpoint-ORIG-GUID: _13y9YlaiUOyWmXt8vKw3wCszCBOIy0X
+X-Proofpoint-ORIG-GUID: hkCjky64qp0HXbh9AQKp3qthSWdXa0HH
+X-Proofpoint-GUID: hkCjky64qp0HXbh9AQKp3qthSWdXa0HH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_15,2023-05-05_01,2023-02-09_01
+ definitions=2023-05-15_16,2023-05-05_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150143
+ impostorscore=0 clxscore=1015
+ spamscore=0 malwarescore=0 phishscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305150148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -330,12 +330,10 @@ On 5/14/2023 3:18 PM, Marijn Suijten wrote:
 > Can you write out "ob" fully?
 >
 > These don't need to be marked "inline", same below.
-are you means all functions in this file doe snot to be marked as inline?
 >
 >> +{
 >> +	int max_addr = 2400 / num_ss;
 > ss -> slice (or subslice), right?
-slice (softslice)
 >
 >> +
 >> +	if (hw_dsc->caps->features & BIT(DPU_DSC_NATIVE_422_EN))
@@ -465,6 +463,7 @@ slice (softslice)
 >> +	data = (dsc->scale_increment_interval & 0xffff) |
 >> +		((dsc->scale_decrement_interval & 0x7ff) << 16);
 > Is it correct that increment and decrement have a different amount of
+yes, 10 bits for decrement and 16 bits for increment
 > bits?
 >
 >> +
