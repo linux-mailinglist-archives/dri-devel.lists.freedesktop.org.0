@@ -1,148 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633B77040ED
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 00:24:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 438247040EC
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 00:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0654D10E2AF;
-	Mon, 15 May 2023 22:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8724910E2AC;
+	Mon, 15 May 2023 22:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D78510E2AF;
- Mon, 15 May 2023 22:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684189452; x=1715725452;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=445l22pEshsWVV+aVepaD9wcblQkj2trxvxpt9Q8tzM=;
- b=YHTyNX4juhw8LSIH335DYUxMKznlFr/q5cv8V/AUQ52rUWlnApwDG6kp
- vuMr7wb1fUf1y2BL3fOmHleIAauiR2QkaJ+6N7P5sPXJRAM89g+v+qavo
- Q4qlJUeTWtFdvfuc9j0K63x0NKtdsEg1qI6QwKCDjc3y/w0OkjLKz2P7F
- iSwRSgHVHGvS/uaJV2Elv/Aot/k3venrrltco/8rVfCNOPz4yHtXCicHF
- FlcPi3lPMCgvvpoJKviKvScOUwfn76qnr2IGWTEqaGd0vmMr8T8IIn0+l
- FnmwyNpkOqXLwkh7i61Qu+xLE2XHH076FUAh5W1h2OjrmxUaG2gpXiH0Q w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="379493499"
-X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; d="scan'208";a="379493499"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2023 15:24:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="875372384"
-X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; d="scan'208";a="875372384"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga005.jf.intel.com with ESMTP; 15 May 2023 15:24:11 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 15 May 2023 15:24:10 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 15 May 2023 15:24:10 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 15 May 2023 15:24:07 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fvoMKln9qCkzBjo2NYmdNFZrYfdODrxJ01Bkhyf5mRYsizO1AI7JU3dYRJNLeoPqyZpjyaj2GqVisWw29/6VjHFTDi/3012VPmUkgK64irOmX2a9mALSbYxfCQjbzv6awJdXf6kpMU+M1cXKCjqbpm04bkQ3jP9uI+K4GYuDvssIF6QErxDfKMWKCrUsJLp8tuN8dl0nzpF2PJbuPt7Di6ok/GvZlIzJ38u64jliri2ixw3OmwXNqNmuIh5tr/+b/cBn71KKx2HVgfxWsdaxhzitjutbxTCV9EUAD/KY/sne0dTbUtb4WfmfPIcNJQsw8pJAReSm1L4igRi5cLuxQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+O753gCEUF5nLi4cc5RfT8JRTY0IZ5TABbANIwwmq6E=;
- b=Ksd91TX6wtnEcbREER1IXMOCrQHbqYzKeTXKPUU60jmLUPURzGqkQNB13d/V/hz5WFgCORDu/YlTfM18UkTuQR0h9NQYlY94aUTyB6bzLPofHyEe1KsdpQINAC1P0orBtnyqbW930p9/JugRG94J6zPuiuTgi/zEy5fGr2y0Rhu5eMuca6Xr5kce4ZonMSZnGBbs0LH2Vsy/rQHkeB/lib8AxVsQtm/zQZJnxC/xGDyD25Z78JclutwfTHDUw8XVDZABVBTvkiq5SC5PkYOkkJr4rhqHwUqrfG4zoQqojv+k4+7+hhNjfQVaXUSC5WstISOPEfGR3l/WNH9hVD/7hQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com (2603:10b6:a03:1c1::23)
- by CYYPR11MB8432.namprd11.prod.outlook.com (2603:10b6:930:be::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
- 2023 22:24:00 +0000
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::5ec8:e1d9:fbae:5b2a]) by BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::5ec8:e1d9:fbae:5b2a%4]) with mapi id 15.20.6387.030; Mon, 15 May 2023
- 22:24:00 +0000
-Message-ID: <35ab4783-ab78-a245-7067-d7a3f35d0063@intel.com>
-Date: Mon, 15 May 2023 15:23:58 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/i915/guc/slpc: Disable rps_boost debugfs
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-References: <20230512235603.431386-1-vinay.belgaumkar@intel.com>
- <87fs81dpz6.wl-ashutosh.dixit@intel.com>
-Content-Language: en-US
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-In-Reply-To: <87fs81dpz6.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR20CA0020.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::33) To BY5PR11MB4274.namprd11.prod.outlook.com
- (2603:10b6:a03:1c1::23)
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEDC10E2AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 22:24:03 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id AF8E11FA71;
+ Tue, 16 May 2023 00:24:00 +0200 (CEST)
+Date: Tue, 16 May 2023 00:23:59 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v8 7/8] drm/msm/dpu: add DSC 1.2 hw blocks for relevant
+ chipsets
+Message-ID: <y2whfntyo2rbrg3taazjdw5sijle6k6swzl4uutcxm6tmuayh4@uxdur74uasua>
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-8-git-send-email-quic_khsieh@quicinc.com>
+ <cmoqfe5nunreajdvu2vk3ztwkbjesivgejjoi2wmsxske5gq3q@lr25iuwmuevb>
+ <ccef1e88-5c38-0759-523a-c957854697ef@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4274:EE_|CYYPR11MB8432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 009e058b-6a44-4a99-13ae-08db559314e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: swSpqEnOy0+Yq1juZKsCpcWYx83Tqk18pZ/FmbsuDygLZE9CRdJJzOD+zR91q2iVbhPDKqfnzqb5qbk4FxoMLS8zH8+HB54C+S4OSbaux7pgMXMxDTKyYg7JHhSt4qZWi6ORRYAd7r/Mg/2GYae/jFqbVMkO+H5Do060I2FLHmrVqQs7MqeIL+P/zPFPFSt9D2CdwMcwsDt96RAuRb99xvC2JgCjphEdROnPaFkqkiv6bwY0ODCZSooubD8XcucTOIU2V7gXSoaoZzJwmR2shYp4YNLehw36uI8O10VzOfZnxO6aI9RCuL3V+lRAvtJCPqUkowY3PGz+Gym1hPG7TB7ImWTO6ldLxefUMbQJ1CAfZzhDSNQ5DRli3PFW5BPTQYsfIdEXXuRwnQ2XhxDSiAbUzXy/GsG5+gplQWokqE1t8V4xpBFYBKv1BLc+/Invs/aTvI2wCCs/pBagHLN4kYvsYhYDiD7nvuTg+OrvmCLAEHI9M1KG+GGqnFXUYx6LSIzUOVPvfHkZYES1RPrs66/hc2gEOp26E+8Lt1vCHkkx/P4Oo8sXE8wLFNQOotW55s91PgsMZzTnzl+fZZ9XLJ4rhxC/Y7mGy/JmOfy9AEI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4274.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(396003)(39860400002)(366004)(136003)(376002)(451199021)(66556008)(37006003)(450100002)(478600001)(6636002)(4326008)(66476007)(66946007)(316002)(966005)(6486002)(8936002)(2906002)(6862004)(8676002)(41300700001)(5660300002)(26005)(82960400001)(31696002)(86362001)(38100700002)(2616005)(186003)(6512007)(53546011)(6506007)(36756003)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkNnUUxLOWFLSm9aVFFNdzZVN2JMc1VKa0M2ajJyK0xwaXdJamt5VUdNdUY0?=
- =?utf-8?B?SFQ1dEVSR3NtdkUwcTdXdEpvbFlraVg0M09UTHI0MnFhRnZxZGlDSmorNTZj?=
- =?utf-8?B?ZUpUTDhDejg2Y3NWWTVWTTVyRE16dnZoWmZZRjBPbzViL2R1cnN3RzF4bVRy?=
- =?utf-8?B?SFhNUW1VYnFkazdFNmUrVEY2UndLaWFBZXBEUnd6c09pOGFobkZxYkFkanlu?=
- =?utf-8?B?ZnVCczNQK3lLRDNGNjhncmEyczNlWDJxTGRuTlV6U2V2TFQ5SkNPYlg1Vm5B?=
- =?utf-8?B?cDlOZndEdjY1am5JSHR2MVB3amZ0Uis1blJCZTM4UTJndko2UUMzODQ5d2tm?=
- =?utf-8?B?aU5Gbk1xdlk3aE45TlAzdDEzMXNBZklkRnpKL0JwRURvdWJEQVFWaXBZMkRh?=
- =?utf-8?B?MlJsWi9rbXhubzR4TkRqMmZndDZWcDIwa1l0eGdmLzZVS09ESHgxanR5UHI1?=
- =?utf-8?B?RjlkZWdvVGtJdlgvODJvbjBpMWwwckEraURBalBBalRyVTM1WCthL0hUSUpu?=
- =?utf-8?B?ZTZ1MnR3M3hJaDNEOGtmWXZueVlqWUx1TVBib2pBdXVqR0xhZ1JCdDJRVklF?=
- =?utf-8?B?QkNlVVU2OVZReW1ZeTZFYjlJL3o2VjJIT1BlQ09oNmRZTll5QXdaMFJ3ZFdZ?=
- =?utf-8?B?cERYVS8yN3BBaE9KemhhNmVWZHM0Vjg5RERRb3ExSWg3eFdUVlJ1dXYzdzJB?=
- =?utf-8?B?ZGhyNmpoYU0rQVhvaDUrSitzTXY5VXJXZkJXVzJ1a1VidjJRVVNQZk40c1dn?=
- =?utf-8?B?ZmQrV3N1OHBQNUFTQXNVMnIzWUNXY1FIalpJbGlkL3ZLc3Z6SUFyZWJkOWda?=
- =?utf-8?B?cFM2anhIU1ZWS1VpRnV5SWlwMERaV0VQc1Y3ekhaalhPL3lIai9RaVpJd2po?=
- =?utf-8?B?T043R1ludnd1RVpqYlA4ZUlyMkNWK2R4NGZ6dUxLcy82Tk5sZGFxSmtlYzRa?=
- =?utf-8?B?Z3Yzc08vNmRmandHbW1VU2dDcFJHYzNNQXRFYTZTTlVrTkVxL0J3ZEZqOXdE?=
- =?utf-8?B?eEhscTZQL0lWZmRBblhtRTdRV1RleCtHSnRobVVSUnRKZ01vQjNZZW9YU0Ez?=
- =?utf-8?B?RTlQNW9UY2h3UGdkd3RKWmlPaDlqWnRRUUJmS0t0NWN3bVJOK1Q3WkJQWVRw?=
- =?utf-8?B?czlRTFVlRzF3WjdFSXVBUWlCNk5qakRseXJtdzljTC9lRlR4azFHbW1md05j?=
- =?utf-8?B?VnBTZUhxSDFJcUx4dXRRelhtSGxtYjZQN2VSWXZaNnpVYTJXUVI5d2pPSXha?=
- =?utf-8?B?VVgrM0VpbGMxd3FWTFprUmNDay9QZEE1Z1laSUZVTGJIN1RtWFo4NGVuS1ll?=
- =?utf-8?B?NkQva3RxbXhNelhBSzFqbTNjNjRpRlVvZThPS2NDVkZOQWNxN0JXbnk1ME5o?=
- =?utf-8?B?U0tFTmFjM25wUnV0ZmY5RkQvNU9hNElTYitoSmdOcVpTdGs2c08vb0JWYjZS?=
- =?utf-8?B?b2hEdWQ5bFp1QTl4S1NPQUJTY3llcjBENDhpQlFQdWRQb3JuSkR4dXZDdnVs?=
- =?utf-8?B?Ym1QQWtlSlYzSVJBQzdWaDBDOWgvR2ZNT091UGZNWUs5dE00MG1rNGhYQktL?=
- =?utf-8?B?bVM1RE11cEk4QUY5eU9vUloySmkwc2ZCWFhuMTlxUS96UGpRREs5aGhPWmti?=
- =?utf-8?B?MWlwcHVYSFN4QW0ySTkyMXVzY0FzVURIOXJ5YVA2bFlKc1RzeEtyL1MrRzFL?=
- =?utf-8?B?Ty9yTzBob1NIMWd3azU5aDhqR1FmR2hDUVdkTnlTMlRjQ3VaS2NuV2FkVlVR?=
- =?utf-8?B?QlFmakVGazlNWU9mSk5NOWFldEdkbHNJTnNXZVZuc3U5THI2U0ovSmdvZ0dK?=
- =?utf-8?B?VW5wRFJqQ0EzTEV5TE53OVJOaXJJbllmbnl3N0M0SVA1dDhpc2FHVGNWY0x5?=
- =?utf-8?B?T2hmWFBDcXJnRDlBdS9tU0hBeTBhYWU0ekRGSGoxc05kaExObXZ6YStsNmx6?=
- =?utf-8?B?Y25Kd3VYUEpNYTRWTXVJSm1TTURycThKUjlxU1FXZU9ycjhnYkx5UzNzUmQx?=
- =?utf-8?B?bWpNckY3TnhmN2hqdG5uSEh0R29WV3VMaGdRbTlUdXMzbUpFejRRbW1wdzli?=
- =?utf-8?B?Tit6SER2ZFFYSUx3dnF2c3FMYUN5VUw4Y1RxM3BBbkQvYVJSYVFmYWlvQlN6?=
- =?utf-8?B?ekJaUnJjNFQrQ1pPTFZUTlJ6d2IrczdqbHlSUWRKSS9qd3lyWFl3THYzNzRG?=
- =?utf-8?B?U1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 009e058b-6a44-4a99-13ae-08db559314e1
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4274.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2023 22:24:00.3896 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kTsTuj8LJ+40UDahEYP8IdlBmqHEJ3G0NlhiZ2uVWiiZzog3VfGDJZs7saf7wCh79DAQTXW1KKJ3RFTWgslRa2F4HfVRpucK5d1umCD+JBQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8432
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ccef1e88-5c38-0759-523a-c957854697ef@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,42 +46,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, andersson@kernel.org,
+ freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-05-15 15:03:46, Abhinav Kumar wrote:
+> On 5/15/2023 2:21 PM, Marijn Suijten wrote:
+> > On 2023-05-12 11:00:22, Kuogee Hsieh wrote:
+> >>
+> >> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>
+> >> Add DSC 1.2 hardware blocks to the catalog with necessary sub-block and
+> >> feature flag information.  Each display compression engine (DCE) contains
+> >> dual hard slice DSC encoders so both share same base address but with
+> >> its own different sub block address.
+> > 
+> > Can we have an explanation of hard vs soft slices in some commit message
+> > and/or code documentation?
+> > 
+> 
+> Not in this one. It wont look appropriate. I would rather remove "hard" 
+> to avoid confusion.
 
-On 5/12/2023 5:39 PM, Dixit, Ashutosh wrote:
-> On Fri, 12 May 2023 16:56:03 -0700, Vinay Belgaumkar wrote:
-> Hi Vinay,
->
->> rps_boost debugfs shows host turbo related info. This is not valid
->> when SLPC is enabled.
-> A couple of thoughts about this. It appears people are know only about
-> rps_boost_info and don't know about guc_slpc_info? So:
->
-> a. Instead of hiding the rps_boost_info file do we need to print there
->     saying "SLPC is enabled, go look at guc_slpc_info"?
-rps_boost_info has an eval() function which disables the interface when 
-RPS is OFF. This is indeed the case here, so shouldn't we just follow 
-that instead of trying to link the two?
->
-> b. Or, even just call guc_slpc_info_show from rps_boost_show (so the two
->     files will show the same SLPC information)?
+That is totally fine, let's remove it instead.
 
-slpc_info has a lot of other info like the SLPC state, not sure that 
-matches up with the rps_boost_info name.
+<snip>
+> >> +	DSC_BLK_1_2("dce_0", DSC_0, 0x80000, 0x100, 0, dsc_sblk_0),
+> > 
+> > Downstream says that the size is 0x10 (and 0x100 for the enc sblk, 0x10
+> > for the ctl sblk).  This simply fills it up to the start of the enc sblk
+> > so that we can see all registers in the dump?  After all only
+> > DSC_CMN_MAIN_CNF is defined in the main register space, so 0x10 is
+> > adequate.
+> > 
+> 
+> .len today is always only for the dump. and yes even here we have only 
+> 0x100 for the enc and 0x10 for the ctl.
+> 
+> +static const struct dpu_dsc_sub_blks dsc_sblk_0 = {
+> +	.enc = {.base = 0x100, .len = 0x100},
+> +	.ctl = {.base = 0xF00, .len = 0x10},
+> +};
+> 
+> The issue here is that, the dpu snapshot does not handle sub_blk parsing 
+> today. Its a to-do item. So for that reason, 0x100 was used here to 
+> atleast get the full encoder dumps.
 
-Thanks,
+But then you don't see the ENC block?  It starts at 0x100 (or 0x200) so
+then the length should be longer... it should in fact depend on even/odd
+DCE then?
 
-Vinay.
+> 
+> >> +	DSC_BLK_1_2("dce_0", DSC_1, 0x80000, 0x100, 0, dsc_sblk_1),
+> > 
+> > Should we add an extra suffix to the name to indicate which hard-slice
+> > DSC encoder it is?  i.e. "dce_0_0" and "dce_0_1" etc?
+> 
+> Ok, that should be fine. We can add it.
 
->
-> Ashutosh
->
->
->> guc_slpc_info already shows the number of boosts.  Add num_waiters there
->> as well and disable rps_boost when SLPC is enabled.
->>
->> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/7632
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Great, thanks!
+
+> >> +	DSC_BLK_1_2("dce_1", DSC_2, 0x81000, 0x100, BIT(DPU_DSC_NATIVE_422_EN), dsc_sblk_0),
+> >> +	DSC_BLK_1_2("dce_1", DSC_3, 0x81000, 0x100, BIT(DPU_DSC_NATIVE_422_EN), dsc_sblk_1),
+> > 
+> 
+> > See comment below about loose BIT() in features.
+> 
+> Responded below.
+> > 
+> >> +};
+> >> +
+> >>   static const struct dpu_intf_cfg sm8350_intf[] = {
+> >>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+> >>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+> >> @@ -215,6 +227,8 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
+> >>   	.dspp = sm8350_dspp,
+> >>   	.pingpong_count = ARRAY_SIZE(sm8350_pp),
+> >>   	.pingpong = sm8350_pp,
+> >> +	.dsc = sm8350_dsc,
+> >> +	.dsc_count = ARRAY_SIZE(sm8350_dsc),
+> > 
+> > Count goes first **everywhere else**, let's not break consistency here.
+> > 
+> 
+> the order of DSC entries is swapped for all chipsets. Please refer to 
+> dpu_sc8180x_cfg, dpu_sm8250_cfg etc.
+
+Thanks for confirming that this is not the case in a followup mail :)
+
+> So if you are talking about consistency, this is actually consistent 
+> with whats present in other chipsets.
+> 
+> If you are very particular about this, then once this lands, you can 
+> change the order for all of them in another change.
+> 
+> Same answer for all swap comments.
+<snip>
+> >> +/*
+> >> + * NOTE: Each display compression engine (DCE) contains dual hard
+> >> + * slice DSC encoders so both share same base address but with
+> >> + * its own different sub block address.
+> >> + */
+> >> +#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
+> > 
+> > There are no address values here so this comment doesn't seem very
+> > useful, and it is already duplicated on every DSC block array, where the
+> > duplication is more visible.  Drop the comment here?
+> > 
+> 
+> _base is the address. So base address. Does that clarify things?
+
+This is referring to the NOTE: comment above.  There's _base as address
+here, yes, but there's no context here that it'll be used in duplicate
+fashion, unlike the SoC catalog files.  The request is to just drop it
+here as it adds no value.
+
+> >> +	{\
+> >> +	.name = _name, .id = _id, \
+> >> +	.base = _base, .len = _len, \
+> > 
+> > The len is always 0x100 (downstream says 0x10), should we hardcode it
+> > here and drop _len?  We can always add it back if a future revision
+> > starts changing it, but that's not the case currently.
+> > 
+> >> +	.features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
+> > 
+> > We don't willy-nilly append bits like that: should there be global
+> > feature flags?
+> 
+> So this approach is actually better. This macro is a DSC_1_2 macro so it 
+> will have the 1.2 feature flag and other features like native_422 
+> support of that encoder are ORed on top of it. Nothing wrong with this.
+
+I agree it is better, but we seem to be very selective in whether to
+stick to the "old" principles in DPU versus applying a new pattern that
+isn't used elsewhere yet (i.e. your request to _not_ shuffle the order
+of .dsc and .dsc_count assignment to match other .x and .x_count, and do
+that in a future patch instead).  If we want to be consistent
+everywhere, these should be #defines that we'll flatten out in a
+followup if at all.
+
+> > Or is this the start of a new era where we expand those defines in-line
+> > and drop them altogether?  I'd much prefer that but we should first
+> > align on this direction (and then also make the switch globally in a
+> > followup).
+> > 
+> 
+> Its case by case. No need to generalize.
+> 
+> In this the feature flag ORed with the base feature flag of DSC_1_2 
+> makes it more clear.
+
+- Marijn
