@@ -2,34 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986EA7025E6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14922702443
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 08:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59DE710E13B;
-	Mon, 15 May 2023 07:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C639D10E126;
+	Mon, 15 May 2023 06:16:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
- Mon, 15 May 2023 01:42:43 UTC
-Received: from mail.nfschina.com (unknown [42.101.60.195])
- by gabe.freedesktop.org (Postfix) with SMTP id 576AC10E037;
- Mon, 15 May 2023 01:42:42 +0000 (UTC)
-Received: from localhost.localdomain (unknown [180.167.10.98])
- by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id 5E51618011A402; 
- Mon, 15 May 2023 09:34:32 +0800 (CST)
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-To: Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amdgpu: remove unnecessary (void*) conversions
-Date: Mon, 15 May 2023 09:34:28 +0800
-Message-Id: <20230515013428.38798-1-suhui@nfschina.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42D2E10E126
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 06:16:02 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-3077d134028so7242338f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 May 2023 23:16:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684131360; x=1686723360;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5BPkIUsnqT9GahOW3fInFew2Yz3mR1xWSCLsfNLCaFA=;
+ b=UH1zp+P7ZSiPjsEYWkZJ/Jnlt623yqm85fGFw/WDL+kaGg3ZQ4SeRrfN8xytTA+pZa
+ A9x5gz82gjNrFdwV1Dnvf/qFGHUaqnx7V5CNlXGP//OE4RzA9eOxqcx2ndT7VH4+Rp/Z
+ i4l7TFY0wbiq32IC6iJ7VgYAdrQGM3EsjQc9xvx+K5lkAQlLgUsB4xmVm1BRNmG1UvnC
+ y3ieabclwPGmQu0ZJGazMWFbXachIVuz2ykpp1zH8xC+Mp87/Oojyrt5ZLA+S75vv0Dp
+ 4HjJR9+/1UM6rkkfJE0NT9LIXOxxfXSMgqAQnt1UGp+NihzGrV7pwOx83SJGJfwtNWbY
+ uaQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684131360; x=1686723360;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5BPkIUsnqT9GahOW3fInFew2Yz3mR1xWSCLsfNLCaFA=;
+ b=DHDHi5epQrlHGMlHSnIrzyPMXsEPB2hEd8XxmF2koF4KhP5qGre7gng9kRrteG8QW3
+ qbPzoRsazYmXx1DhZDblGbufUz9xVB+3hqBtU03JWPStsfxCb+I58rotMNCZMlhMGMlR
+ 66J2iIKBvWtwNZN/gxt8ihYz5c3ZRjHXWaCg0ylc6f3ZvSg5xX1w7T5TOOQ4F6vG59YU
+ IPJc7n8YBN5l/0sdH6KO74aH25yiRdzx7YaSIH6r0vQkrCTCqj/Bwy/wZRGe+vFPi/hV
+ +6w4K8MTWKUuLCH/AEnVetBegvYhHw+yBPO3NWOSZsEVBYIIuDyjZHG18VrWFIHc3yHZ
+ b1Pw==
+X-Gm-Message-State: AC+VfDzXZkEjMrukZSO+GDNGo0xtf3bSlu0lYX3OPDYbItysabQczbEF
+ 2zmkb3/KPNZNUK/NgPmOj7Ntu7cgQKP3435+NXA=
+X-Google-Smtp-Source: ACHHUZ5+pxIK/LF+0uvyAPhaqxSLcdZqK44kbIFKd6QpHLEDKtNXFa6jeDXr9vyybt5k5Y2w4RUfTg==
+X-Received: by 2002:a5d:6981:0:b0:306:43bc:806f with SMTP id
+ g1-20020a5d6981000000b0030643bc806fmr22103823wru.24.1684131360135; 
+ Sun, 14 May 2023 23:16:00 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ n19-20020a1c7213000000b003f4268f51f5sm21570739wmc.0.2023.05.14.23.15.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 May 2023 23:15:57 -0700 (PDT)
+Date: Mon, 15 May 2023 09:15:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: maxime@cerno.tech
+Subject: [bug report] drm: Use the state pointer directly in planes
+ atomic_check
+Message-ID: <d6bcdcb3-8b60-4c72-8102-55ec6a0ea45c@kili.mountain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 15 May 2023 07:18:38 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,111 +69,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Su Hui <suhui@nfschina.com>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No need cast (void*) to (struct amdgpu_device *).
+Hello Maxime Ripard,
 
-Signed-off-by: Su Hui <suhui@nfschina.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c   | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c      | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+This is a semi-automatic email about new static checker warnings.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index f60753f97ac5..c837e0bf2cfc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1470,7 +1470,7 @@ int amdgpu_debugfs_regs_init(struct amdgpu_device *adev)
- 
- static int amdgpu_debugfs_test_ib_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 	struct drm_device *dev = adev_to_drm(adev);
- 	int r = 0, i;
- 
-@@ -1581,7 +1581,7 @@ static int amdgpu_debugfs_benchmark(void *data, u64 val)
- 
- static int amdgpu_debugfs_vm_info_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 	struct drm_device *dev = adev_to_drm(adev);
- 	struct drm_file *file;
- 	int r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index f52d0ba91a77..f0615a43b3cc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -835,7 +835,7 @@ static const struct dma_fence_ops amdgpu_job_fence_ops = {
- #if defined(CONFIG_DEBUG_FS)
- static int amdgpu_debugfs_fence_info_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 	int i;
- 
- 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 863cb668e000..28f79cf8c3fb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -948,7 +948,7 @@ int amdgpu_mode_dumb_create(struct drm_file *file_priv,
- #if defined(CONFIG_DEBUG_FS)
- static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 	struct drm_device *dev = adev_to_drm(adev);
- 	struct drm_file *file;
- 	int r;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-index 4ff348e10e4d..49a4238a120e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-@@ -436,7 +436,7 @@ int amdgpu_ib_ring_tests(struct amdgpu_device *adev)
- 
- static int amdgpu_debugfs_sa_info_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 
- 	seq_printf(m, "--------------------- DELAYED --------------------- \n");
- 	amdgpu_sa_bo_dump_debug_info(&adev->ib_pools[AMDGPU_IB_POOL_DELAYED],
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 0efb38539d70..9f9274249b57 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -1441,7 +1441,7 @@ void amdgpu_disable_vblank_kms(struct drm_crtc *crtc)
- 
- static int amdgpu_debugfs_firmware_info_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 	struct drm_amdgpu_info_firmware fw_info;
- 	struct drm_amdgpu_query_fw query_fw;
- 	struct atom_context *ctx = adev->mode_info.atom_context;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 2cd081cbf706..21f340ed4cca 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2164,7 +2164,7 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
- 
- static int amdgpu_ttm_page_pool_show(struct seq_file *m, void *unused)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
-+	struct amdgpu_device *adev = m->private;
- 
- 	return ttm_pool_debugfs(&adev->mman.bdev.pool, m);
- }
--- 
-2.30.2
+The patch dec92020671c: "drm: Use the state pointer directly in 
+planes atomic_check" from Feb 19, 2021, leads to the following Smatch 
+complaint:
 
+    drivers/gpu/drm/armada/armada_plane.c:97 armada_drm_plane_atomic_check()
+    warn: variable dereferenced before check 'state' (see line 84)
+
+drivers/gpu/drm/armada/armada_plane.c
+    81  int armada_drm_plane_atomic_check(struct drm_plane *plane,
+    82          struct drm_atomic_state *state)
+    83  {
+    84          struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+                                                                                         ^^^^^
+state is deferenced here.
+
+    85                                                                                   plane);
+    86          struct armada_plane_state *st = to_armada_plane_state(new_plane_state);
+    87          struct drm_crtc *crtc = new_plane_state->crtc;
+    88          struct drm_crtc_state *crtc_state;
+    89          bool interlace;
+    90          int ret;
+    91  
+    92          if (!new_plane_state->fb || WARN_ON(!new_plane_state->crtc)) {
+    93                  new_plane_state->visible = false;
+    94                  return 0;
+    95          }
+    96  
+    97          if (state)
+
+This used to check "if (new_plane_state->state)".  If state is NULL then
+we will already have crashed.
+
+    98                  crtc_state = drm_atomic_get_existing_crtc_state(state,
+    99                                                                  crtc);
+   100          else
+   101                  crtc_state = crtc->state;
+   102  
+   103          ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+   104                                                    0,
+   105                                                    INT_MAX, true, false);
+
+regards,
+dan carpenter
