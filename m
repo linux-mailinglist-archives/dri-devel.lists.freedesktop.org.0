@@ -1,79 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941E0703CF1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 20:45:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB09703CFF
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 20:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6066710E24C;
-	Mon, 15 May 2023 18:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FC210E24D;
+	Mon, 15 May 2023 18:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 910D110E24B;
- Mon, 15 May 2023 18:45:14 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FEftmV028937; Mon, 15 May 2023 18:45:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=UFssbCY2KyWDITNgDeCM+fkwZR9LV6Xnno4JzIb2RJA=;
- b=ifYaGA773Ib4zpNlcMxgb9QNm4RCdbZ/MsXYQlFNqxueKuUo9nQFYQl5w0jkrtlzTQc6
- bRTiIOVGhND6aLWH+m/jLCnhwtVYUJoKfwOeseGC+feg7jl/ENo++QJn1ZayVpADgfjI
- 2l8RBIqlxATVNam7Pg2UO71HCeuEVJX/fh9aOB/fIUErpW0r8OAQD7p0OkW7FaTU4O0z
- qkSwXLz8s0gtr5w+GPYEwbkBrn4Lt5rDH/RC1e1ClOIhNr6RDfL7CexektGccPR0vqeM
- JOvV5U9wc9bsjpFpV5dw2z2rCn9S+nuf2bBU84T/lGK6lwJ13P2PE54fSz7YBOcKX8jb 2w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkkq998ru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 18:45:08 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FIj71H015207
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 18:45:07 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 15 May
- 2023 11:45:07 -0700
-Message-ID: <94d4bc54-74c5-f565-a75e-766fdc458f75@quicinc.com>
-Date: Mon, 15 May 2023 11:45:06 -0700
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5AC10E24F
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 18:48:59 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f27b65bbf9so4361974e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 11:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684176537; x=1686768537;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iTBWs9VN/AmEk5vXMNYksrxne0o7kn1chFKcCzHHpNU=;
+ b=OfaA86AQomUNauoaFFPAvp3N+WxOxPoBcEeP/Gjw1guhaydm3FI/3cQZlWmwOCjFPi
+ X8gab610LUS17dQH5D4A13bMC9ARjpVwDt2glchCCIUO9CtoaGpTJR3YSnLRxnBD36/U
+ Ts0l9jG+xFfL8jWyHT6jKuqdpRPd1onYvl1I+K/jtkdyA7XuQiqGyvQPrCR2Z9DRhOfZ
+ ETv3nrX3aQILZjZMsswt9S/upRVOmL0Zz3Q9xDa+22ONb0fxYulAiIrW8SGG2xhTFvhb
+ OAYWmxgQXvMk4VKX6BWPVc/CdR4kaDIzq8eNdTGEencaRY7v5S1MEaldvYge7eUazfq+
+ grTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684176537; x=1686768537;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iTBWs9VN/AmEk5vXMNYksrxne0o7kn1chFKcCzHHpNU=;
+ b=a3SKPW5Ip2PlIF3lDnEZDXvqdyLbLdaR8nKQMBaDApGeQga2zrYXMy5srBIY5e1SDF
+ AGR+yhNIJdS1pjv3A23TR6nPbaHDwvlBtfMYhjH5LcdrXscwk7dZpiutAes4TiGLgoMQ
+ /8I1EVxuH1dI7qRN6XPixxrzhUxv9Q0HWcu6Z7HK2G7LKm8zX6lw7PgoYP1OmG+mhdth
+ 9qRKSzkEPI7zh65yslJQ3B3TJdQsZE58yb24YIKyfJAyTB/gLepVkSuSQxNAZKU0+jYh
+ O/3wYmDQFWGqySYyJUzKH4Mwbm6SL6NUyWinaflN41RPDpax0zpGA8ymKMUDCLK7p/Lv
+ 9x8Q==
+X-Gm-Message-State: AC+VfDz9FvA7wUJRMvXSQkcvVY3D+5tWIex5s194iupSRYKkPnxP7IxA
+ NKpnkNeKFL3uXlcBGA0qMXQ=
+X-Google-Smtp-Source: ACHHUZ79wHJB/Ghdi7Cm4011cCmntxQXuFSxHB/31ZlUzeFBiBemCtGnbVt+2cD1sM0VJ+L0Xyrh5w==
+X-Received: by 2002:a19:5214:0:b0:4f3:8411:f146 with SMTP id
+ m20-20020a195214000000b004f38411f146mr913589lfb.68.1684176536567; 
+ Mon, 15 May 2023 11:48:56 -0700 (PDT)
+Received: from komp.lan (83.24.33.169.ipv4.supernova.orange.pl. [83.24.33.169])
+ by smtp.gmail.com with ESMTPSA id
+ z5-20020ac24f85000000b004ec8de8ab43sm2655742lfs.139.2023.05.15.11.48.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 11:48:56 -0700 (PDT)
+From: Maya Matuszczyk <maccraft123mc@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm: panel-orientation-quirks: Change Air's quirk to support
+ Air Plus
+Date: Mon, 15 May 2023 20:48:43 +0200
+Message-Id: <20230515184843.1552612-1-maccraft123mc@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC PATCH v2 02/13] drm/msm/dpu: take plane rotation into
- account for wide planes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
- <20230321011821.635977-3-dmitry.baryshkov@linaro.org>
- <ea7af397-1840-f15b-6f56-2d0559b8be4d@quicinc.com>
- <CAA8EJppbXavJCT4ErBoW2cBjRoabFK58UQ39T6h96Ovm8yMdEQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppbXavJCT4ErBoW2cBjRoabFK58UQ39T6h96Ovm8yMdEQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: JgPaponmBZeqmTm10Cck27IUcrrLMDit
-X-Proofpoint-ORIG-GUID: JgPaponmBZeqmTm10Cck27IUcrrLMDit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_17,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- mlxscore=0 adultscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305150158
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,124 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+It turned out that Aya Neo Air Plus had a different board name than
+expected.
+This patch changes Aya Neo Air's quirk to account for that, as both
+devices share "Air" in DMI product name.
 
+Tested on Air claiming to be an Air Pro, and on Air Plus.
 
-On 5/14/2023 10:01 AM, Dmitry Baryshkov wrote:
-> On Sat, 13 May 2023 at 01:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
->>> Take into account the plane rotation and flipping when calculating src
->>> positions for the wide plane parts.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> Do we need to have a fixes tag for this? This means we dont consider
->> rotation while calculating src position today which is a bug?
-> 
-> Hmm, I thought that I had a check forbidding rotation with the current
-> approach, but I don't see it. Most probably I thought about it and
-> then forgot to add it.
-> The proper fix should be to disallow it for static SSPP case. I'll
-> include the patch into v3.
-> 
->>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
->>>    1 file changed, 17 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index 2e63eb0a2f3f..d43e04fc4578 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -887,16 +887,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>>                return -EINVAL;
->>>        }
->>>
->>> -     pipe_cfg->src_rect = new_plane_state->src;
->>> -
->>> -     /* state->src is 16.16, src_rect is not */
->>> -     pipe_cfg->src_rect.x1 >>= 16;
->>> -     pipe_cfg->src_rect.x2 >>= 16;
->>> -     pipe_cfg->src_rect.y1 >>= 16;
->>> -     pipe_cfg->src_rect.y2 >>= 16;
->>> -
->>> -     pipe_cfg->dst_rect = new_plane_state->dst;
->>> -
->>>        fb_rect.x2 = new_plane_state->fb->width;
->>>        fb_rect.y2 = new_plane_state->fb->height;
->>>
->>> @@ -912,6 +902,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>>
->>>        max_linewidth = pdpu->catalog->caps->max_linewidth;
->>>
->>> +     /* state->src is 16.16, src_rect is not */
->>> +     drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
->>> +
->>> +     pipe_cfg->dst_rect = new_plane_state->dst;
->>> +
->>> +     drm_rect_rotate(&pipe_cfg->src_rect,
->>> +                     new_plane_state->fb->width, new_plane_state->fb->height,
->>> +                     new_plane_state->rotation);
->>> +
->>>        if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
->>>                /*
->>>                 * In parallel multirect case only the half of the usual width
->>> @@ -959,6 +958,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->>>                r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
->>>        }
->>>
->>> +     drm_rect_rotate_inv(&pipe_cfg->src_rect,
->>> +                         new_plane_state->fb->width, new_plane_state->fb->height,
->>> +                         new_plane_state->rotation);
->>> +     if (r_pipe->sspp)
->>
->> Dont you need to check for if (r_pipe_cfg) here and not if
->> (r_pipe->sspp) because parameter you are passing is the r_pipe_cfg to
->> drm_rect_rotate_inv().
-> 
-> Of course not. r_pipe_cfg is a pointer to the field in pstate. We know
-> that it can not be NULL.
-> 
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ack, and my bad for not checking that r_pipe_cfg points to a field in 
-pstate but .... it was just weird though that you are checking for 
-r_pipe->sspp before calling a method which really doesnt care if its 
-null or not. How about you use drm_rect_visible(r_pipe_cfg->src_rect)
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index b1a38e6ce2f8..0cb646cb04ee 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -179,7 +179,7 @@ static const struct dmi_system_id orientation_data[] = {
+ 	}, {	/* AYA NEO AIR */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
+-		  DMI_MATCH(DMI_BOARD_NAME, "AIR"),
++		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
+ 		},
+ 		.driver_data = (void *)&lcd1080x1920_leftside_up,
+ 	}, {	/* AYA NEO NEXT */
+-- 
+2.40.1
 
-If its not set, it wont be visible too.
-
->>
->> So we rotated the pipe_cfg once, then rotated_inv it to restore the
->> rectangle to its original state, but r_pipe_cfg's rectangle was never
->> rotated as it was not allocated before this function so it will remain
->> in inverse rotated state now right?
-> 
-> No. r_pipe_cfg is set beforehand to the half of the rotated pipe_cfg.
-> 
-
-Ok i got it now. Instead of directly operating on the plane_state's 
-rectangle which makes you to invert again why not just use a temporary 
-drm_rect which stores the rotated pipe_cfg->src_rect. That way you dont 
-have to invert anything?
-
->>> +             drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
->>> +                                 new_plane_state->fb->width, new_plane_state->fb->height,
->>> +                                 new_plane_state->rotation);
->>> +
->>>        ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
->>>        if (ret)
->>>                return ret;
-> 
-> 
-> 
-> --
-> With best wishes
-> Dmitry
