@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB09703CFF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 20:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41B7703D52
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 21:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88FC210E24D;
-	Mon, 15 May 2023 18:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4187C10E255;
+	Mon, 15 May 2023 19:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5AC10E24F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 18:48:59 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f27b65bbf9so4361974e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 11:48:58 -0700 (PDT)
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com
+ [IPv6:2607:f8b0:4864:20::54a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A69F10E255
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 19:07:35 +0000 (UTC)
+Received: by mail-pg1-x54a.google.com with SMTP id
+ 41be03b00d2f7-528cb2ec137so6694249a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 12:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684176537; x=1686768537;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iTBWs9VN/AmEk5vXMNYksrxne0o7kn1chFKcCzHHpNU=;
- b=OfaA86AQomUNauoaFFPAvp3N+WxOxPoBcEeP/Gjw1guhaydm3FI/3cQZlWmwOCjFPi
- X8gab610LUS17dQH5D4A13bMC9ARjpVwDt2glchCCIUO9CtoaGpTJR3YSnLRxnBD36/U
- Ts0l9jG+xFfL8jWyHT6jKuqdpRPd1onYvl1I+K/jtkdyA7XuQiqGyvQPrCR2Z9DRhOfZ
- ETv3nrX3aQILZjZMsswt9S/upRVOmL0Zz3Q9xDa+22ONb0fxYulAiIrW8SGG2xhTFvhb
- OAYWmxgQXvMk4VKX6BWPVc/CdR4kaDIzq8eNdTGEencaRY7v5S1MEaldvYge7eUazfq+
- grTg==
+ d=google.com; s=20221208; t=1684177654; x=1686769654;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=xFQ6BaKkjgdTBjpn34wxJVuNtEcQXtwUwEd7418PjqE=;
+ b=JuYLR5X0h/SijvimdD4P6z8hE52bUlPctx7U3AXULuAYdPapAYdXj4OHLU+jesv1e9
+ MHD8Lj1brV1Npy46pM9iEXGc7wGUTxWx5S45qz+oF49+y23jmGnaSXuWfuvxKy9KlI32
+ Hj3tzhYZW0L7IEI7hrXAP0QK8j1h/iBkzVacQ4G+iCXVlem0u2jrysU5Jy1+pmmQkIiS
+ 37u1TKNLXuqkmFNxlKyPYyrXLxlhP+oe0s01snkpX8vow2muHJ/gJ/9E3/Z8g6E6znWq
+ LjYx6A8GjdqjoJArA5vnUgfV49yAKbwmFV4Q/QmYgCdQHL8+QmSU6eGY5cEBbL26CcKy
+ ee8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684176537; x=1686768537;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iTBWs9VN/AmEk5vXMNYksrxne0o7kn1chFKcCzHHpNU=;
- b=a3SKPW5Ip2PlIF3lDnEZDXvqdyLbLdaR8nKQMBaDApGeQga2zrYXMy5srBIY5e1SDF
- AGR+yhNIJdS1pjv3A23TR6nPbaHDwvlBtfMYhjH5LcdrXscwk7dZpiutAes4TiGLgoMQ
- /8I1EVxuH1dI7qRN6XPixxrzhUxv9Q0HWcu6Z7HK2G7LKm8zX6lw7PgoYP1OmG+mhdth
- 9qRKSzkEPI7zh65yslJQ3B3TJdQsZE58yb24YIKyfJAyTB/gLepVkSuSQxNAZKU0+jYh
- O/3wYmDQFWGqySYyJUzKH4Mwbm6SL6NUyWinaflN41RPDpax0zpGA8ymKMUDCLK7p/Lv
- 9x8Q==
-X-Gm-Message-State: AC+VfDz9FvA7wUJRMvXSQkcvVY3D+5tWIex5s194iupSRYKkPnxP7IxA
- NKpnkNeKFL3uXlcBGA0qMXQ=
-X-Google-Smtp-Source: ACHHUZ79wHJB/Ghdi7Cm4011cCmntxQXuFSxHB/31ZlUzeFBiBemCtGnbVt+2cD1sM0VJ+L0Xyrh5w==
-X-Received: by 2002:a19:5214:0:b0:4f3:8411:f146 with SMTP id
- m20-20020a195214000000b004f38411f146mr913589lfb.68.1684176536567; 
- Mon, 15 May 2023 11:48:56 -0700 (PDT)
-Received: from komp.lan (83.24.33.169.ipv4.supernova.orange.pl. [83.24.33.169])
- by smtp.gmail.com with ESMTPSA id
- z5-20020ac24f85000000b004ec8de8ab43sm2655742lfs.139.2023.05.15.11.48.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 11:48:56 -0700 (PDT)
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm: panel-orientation-quirks: Change Air's quirk to support
- Air Plus
-Date: Mon, 15 May 2023 20:48:43 +0200
-Message-Id: <20230515184843.1552612-1-maccraft123mc@gmail.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ d=1e100.net; s=20221208; t=1684177654; x=1686769654;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xFQ6BaKkjgdTBjpn34wxJVuNtEcQXtwUwEd7418PjqE=;
+ b=R7aIXSnya0KLB+oVL8jBh9zS6FoAy3YbG+3LjOGbYhFCa4D56VoXlGAfjH/4kOoXPH
+ sHPa9yruB3KtnKJ7Jp+Kivp9NXUNlIshe37ium/p/341cQDzJH5JbK+owxT9wOjXv40I
+ ZP/55VHKC4kSKCx8H6m6dV9ccWTLlCVlC7I04PAaPdXziK8fpM2fG8604vL9614xCe/x
+ qvxty2kbtOwfadpTWRr+FBH60ODzta3KRa+eh7j46qU8MALJV9oHOPKvcfUJmGEhjNdj
+ NowgPoEi+gDFZr7DLYfI5vn25T8FMB/WxAAR40nX4bkXrSd4dQDgab6yDFfvgBTJC8hu
+ KJrg==
+X-Gm-Message-State: AC+VfDzqQBfr8mO/HOgpc+Khtd5z7GDnHbPrq59EIZSiXop5fxxwWRFy
+ 2dmES2BIloAyYDxW/Pc42AmDUIFvUSY=
+X-Google-Smtp-Source: ACHHUZ4P6L9nc0hf9pk7PqVX9406UpgOTZdsuzGyBat9IwfSmmaZ8nUqj18ulapGHZTegPpSzUo6g677OqY=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a63:6b4a:0:b0:4fc:2058:fa29 with SMTP id
+ g71-20020a636b4a000000b004fc2058fa29mr9542105pgc.1.1684177654484; Mon, 15 May
+ 2023 12:07:34 -0700 (PDT)
+Date: Mon, 15 May 2023 12:07:33 -0700
+In-Reply-To: <b61d5999a4fc6d50b7e073cc3c3efa8fe79bbd94.1684097002.git.lstoakes@gmail.com>
+Mime-Version: 1.0
+References: <cover.1684097001.git.lstoakes@gmail.com>
+ <b61d5999a4fc6d50b7e073cc3c3efa8fe79bbd94.1684097002.git.lstoakes@gmail.com>
+Message-ID: <ZGKC9fHoE+kDs0ar@google.com>
+Subject: Re: [PATCH v5 1/6] mm/gup: remove unused vmas parameter from
+ get_user_pages()
+From: Sean Christopherson <seanjc@google.com>
+To: Lorenzo Stoakes <lstoakes@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +71,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ amd-gfx@lists.freedesktop.org, "H . Peter Anvin" <hpa@zytor.com>,
+ x86@kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-sgx@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Christian Konig <christian.koenig@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Pavel Begunkov <asml.silence@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turned out that Aya Neo Air Plus had a different board name than
-expected.
-This patch changes Aya Neo Air's quirk to account for that, as both
-devices share "Air" in DMI product name.
+On Sun, May 14, 2023, Lorenzo Stoakes wrote:
+> No invocation of get_user_pages() use the vmas parameter, so remove it.
+>=20
+> The GUP API is confusing and caveated. Recent changes have done much to
+> improve that, however there is more we can do. Exporting vmas is a prime
+> target as the caller has to be extremely careful to preclude their use
+> after the mmap_lock has expired or otherwise be left with dangling
+> pointers.
+>=20
+> Removing the vmas parameter focuses the GUP functions upon their primary
+> purpose - pinning (and outputting) pages as well as performing the action=
+s
+> implied by the input flags.
+>=20
+> This is part of a patch series aiming to remove the vmas parameter
+> altogether.
+>=20
+> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Acked-by: Christian K=EF=BF=BDnig <christian.koenig@amd.com> (for radeon =
+parts)
+> Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
+> ---
+>  arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+>  drivers/misc/sgi-gru/grufault.c     | 2 +-
+>  include/linux/mm.h                  | 3 +--
+>  mm/gup.c                            | 9 +++------
+>  mm/gup_test.c                       | 5 ++---
+>  virt/kvm/kvm_main.c                 | 2 +-
+>  7 files changed, 10 insertions(+), 15 deletions(-)
 
-Tested on Air claiming to be an Air Pro, and on Air Plus.
+Acked-by: Sean Christopherson <seanjc@google.com> (KVM)
 
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index cb5c13eee193..eaa5bb8dbadc 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2477,7 +2477,7 @@ static inline int check_user_page_hwpoison(unsigned=
+ long addr)
+>  {
+>  	int rc, flags =3D FOLL_HWPOISON | FOLL_WRITE;
+> =20
+> -	rc =3D get_user_pages(addr, 1, flags, NULL, NULL);
+> +	rc =3D get_user_pages(addr, 1, flags, NULL);
+>  	return rc =3D=3D -EHWPOISON;
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index b1a38e6ce2f8..0cb646cb04ee 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -179,7 +179,7 @@ static const struct dmi_system_id orientation_data[] = {
- 	}, {	/* AYA NEO AIR */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
--		  DMI_MATCH(DMI_BOARD_NAME, "AIR"),
-+		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
- 		},
- 		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* AYA NEO NEXT */
--- 
-2.40.1
+Unrelated to this patch, I think there's a pre-existing bug here.  If gup()=
+ returns
+a valid page, KVM will leak the refcount and unintentionally pin the page. =
+ That's
+highly unlikely as check_user_page_hwpoison() is called iff get_user_pages_=
+unlocked()
+fails (called by hva_to_pfn_slow()), but it's theoretically possible that u=
+serspace
+could change the VMAs between hva_to_pfn_slow() and check_user_page_hwpoiso=
+n() since
+KVM doesn't hold any relevant locks at this point.
 
+E.g. if there's no VMA during hva_to_pfn_{fast,slow}(), npages=3D=3D-EFAULT=
+ and KVM
+will invoke check_user_page_hwpoison().  If userspace installs a valid mapp=
+ing
+after hva_to_pfn_slow() but before KVM acquires mmap_lock, then gup() will =
+find
+a valid page.
+
+I _think_ the fix is to simply delete this code. The bug was introduced by =
+commit
+fafc3dbaac64 ("KVM: Replace is_hwpoison_address with __get_user_pages").  A=
+t that
+time, KVM didn't check for "npages =3D=3D -EHWPOISON" from the first call t=
+o
+get_user_pages_unlocked().  Later on, commit 0857b9e95c1a ("KVM: Enable asy=
+nc page
+fault processing") reworked the caller to be:
+
+	mmap_read_lock(current->mm);
+	if (npages =3D=3D -EHWPOISON ||
+	      (!async && check_user_page_hwpoison(addr))) {
+		pfn =3D KVM_PFN_ERR_HWPOISON;
+		goto exit;
+	}
+
+where async really means NOWAIT, so that the hwpoison use of gup() didn't s=
+leep.
+
+    KVM: Enable async page fault processing
+   =20
+    If asynchronous hva_to_pfn() is requested call GUP with FOLL_NOWAIT to
+    avoid sleeping on IO. Check for hwpoison is done at the same time,
+    otherwise check_user_page_hwpoison() will call GUP again and will put
+    vcpu to sleep.
+
+There are other potential problems too, e.g. the hwpoison call doesn't hono=
+r
+the recently introduced @interruptible flag.
+
+I don't see any reason to keep check_user_page_hwpoison(), KVM can simply r=
+ely on
+the "npages =3D=3D -EHWPOISON" check.   get_user_pages_unlocked() is guaran=
+teed to be
+called with roughly equivalent flags, and the flags that aren't equivalent =
+are
+arguably bugs in check_user_page_hwpoison(), e.g. assuming FOLL_WRITE is wr=
+ong.
+
+TL;DR: Go ahead with this change, I'll submit a separate patch to delete th=
+e
+buggy KVM code.
