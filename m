@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41B7703D52
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 21:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10ADB703D6A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 21:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4187C10E255;
-	Mon, 15 May 2023 19:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7667410E258;
+	Mon, 15 May 2023 19:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com
- [IPv6:2607:f8b0:4864:20::54a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A69F10E255
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 19:07:35 +0000 (UTC)
-Received: by mail-pg1-x54a.google.com with SMTP id
- 41be03b00d2f7-528cb2ec137so6694249a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 12:07:35 -0700 (PDT)
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D1210E258
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 19:13:01 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-559e2051d05so187561017b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 12:13:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1684177654; x=1686769654;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=xFQ6BaKkjgdTBjpn34wxJVuNtEcQXtwUwEd7418PjqE=;
- b=JuYLR5X0h/SijvimdD4P6z8hE52bUlPctx7U3AXULuAYdPapAYdXj4OHLU+jesv1e9
- MHD8Lj1brV1Npy46pM9iEXGc7wGUTxWx5S45qz+oF49+y23jmGnaSXuWfuvxKy9KlI32
- Hj3tzhYZW0L7IEI7hrXAP0QK8j1h/iBkzVacQ4G+iCXVlem0u2jrysU5Jy1+pmmQkIiS
- 37u1TKNLXuqkmFNxlKyPYyrXLxlhP+oe0s01snkpX8vow2muHJ/gJ/9E3/Z8g6E6znWq
- LjYx6A8GjdqjoJArA5vnUgfV49yAKbwmFV4Q/QmYgCdQHL8+QmSU6eGY5cEBbL26CcKy
- ee8g==
+ d=linaro.org; s=google; t=1684177980; x=1686769980;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=buMTvzj30ZgxcgwVKLFoA6Hv/2Gc4z76k5nbzhdcfcE=;
+ b=kGyzVwdggUf0TCs+S9ne4HxjpOQvYeVlI94Z+wRM6wFu5WZrHEVjGgS/gcr5u6sSQu
+ 6bvrmsBvXMxD4J/AJXeUUdkaENEfKxofPyDqT6r/ILnw25Leaj2iL7fkxQyrTQapODEE
+ Jf88zY6aaay7/kJJGEGT5cjSetRMC1GROJtF/UPVsbHDCX8sda8ktlMz13MnZZzrkoGQ
+ QEPzI8r9Tq7hnJRZ4AqIFdHEZBuenL49+dTg56lrPvHyTSwYG4QDkJml13BgGM2QaJPh
+ lKgff229nsQi6PVUMa7a2yvIYKfomzUfgTXr6x0sY874tUgTDf8HEEBStYlna/e02Sv5
+ H2oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684177654; x=1686769654;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=xFQ6BaKkjgdTBjpn34wxJVuNtEcQXtwUwEd7418PjqE=;
- b=R7aIXSnya0KLB+oVL8jBh9zS6FoAy3YbG+3LjOGbYhFCa4D56VoXlGAfjH/4kOoXPH
- sHPa9yruB3KtnKJ7Jp+Kivp9NXUNlIshe37ium/p/341cQDzJH5JbK+owxT9wOjXv40I
- ZP/55VHKC4kSKCx8H6m6dV9ccWTLlCVlC7I04PAaPdXziK8fpM2fG8604vL9614xCe/x
- qvxty2kbtOwfadpTWRr+FBH60ODzta3KRa+eh7j46qU8MALJV9oHOPKvcfUJmGEhjNdj
- NowgPoEi+gDFZr7DLYfI5vn25T8FMB/WxAAR40nX4bkXrSd4dQDgab6yDFfvgBTJC8hu
- KJrg==
-X-Gm-Message-State: AC+VfDzqQBfr8mO/HOgpc+Khtd5z7GDnHbPrq59EIZSiXop5fxxwWRFy
- 2dmES2BIloAyYDxW/Pc42AmDUIFvUSY=
-X-Google-Smtp-Source: ACHHUZ4P6L9nc0hf9pk7PqVX9406UpgOTZdsuzGyBat9IwfSmmaZ8nUqj18ulapGHZTegPpSzUo6g677OqY=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a63:6b4a:0:b0:4fc:2058:fa29 with SMTP id
- g71-20020a636b4a000000b004fc2058fa29mr9542105pgc.1.1684177654484; Mon, 15 May
- 2023 12:07:34 -0700 (PDT)
-Date: Mon, 15 May 2023 12:07:33 -0700
-In-Reply-To: <b61d5999a4fc6d50b7e073cc3c3efa8fe79bbd94.1684097002.git.lstoakes@gmail.com>
-Mime-Version: 1.0
-References: <cover.1684097001.git.lstoakes@gmail.com>
- <b61d5999a4fc6d50b7e073cc3c3efa8fe79bbd94.1684097002.git.lstoakes@gmail.com>
-Message-ID: <ZGKC9fHoE+kDs0ar@google.com>
-Subject: Re: [PATCH v5 1/6] mm/gup: remove unused vmas parameter from
- get_user_pages()
-From: Sean Christopherson <seanjc@google.com>
-To: Lorenzo Stoakes <lstoakes@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ d=1e100.net; s=20221208; t=1684177980; x=1686769980;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=buMTvzj30ZgxcgwVKLFoA6Hv/2Gc4z76k5nbzhdcfcE=;
+ b=giXnl8Ly3hXzImnlW/PUokGm33TEE6gpY/PWnmJsp4oh/ZyEkcf+PRyOGH0pDA3k4y
+ 5fhgKgls0pYiE/hs/5JUmfVhzxqE6WkgKfZ3FynYBlqi09Y0Ivt9qXAKQ5Y5WVSksbMp
+ DSBi+0vF/4ZpnuNviykm3nTHa5nhtHtUhtpexTopRbyOIw1Q3uXrPqLt/Ae6ZOXCGh5P
+ xqKdK48xCTknnoQu7MvgBDeZSxH2RFPNQT0nuHipLCSn56PqrpYRDtKjwYhlTQPmKSxg
+ dUxksmevsVLWAjrHKOXwQgB7K5o4CGFeYaE8HZXJuC8IGoYxUW5mVju2e5WKzjn8NqaU
+ MLcw==
+X-Gm-Message-State: AC+VfDyyo5VrTy1anIXOZUG79F4vWPdkifbxg1d+byD6u08bIHY93Rv3
+ 9SOhNMLxj7rys6cSUrwoZVEDpdh6iXlmz/9XoRkgQw==
+X-Google-Smtp-Source: ACHHUZ4zo5Odlu/M+PIPJ0+/SGozXBDUG7yCyRfqLCsT/XHyRTLU8KzMao1l25ceAAxmRbqbJPdevypdm7mTatLG5yQ=
+X-Received: by 2002:a0d:ebd6:0:b0:54f:d816:895d with SMTP id
+ u205-20020a0debd6000000b0054fd816895dmr36270831ywe.28.1684177980506; Mon, 15
+ May 2023 12:13:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-3-dmitry.baryshkov@linaro.org>
+ <ea7af397-1840-f15b-6f56-2d0559b8be4d@quicinc.com>
+ <CAA8EJppbXavJCT4ErBoW2cBjRoabFK58UQ39T6h96Ovm8yMdEQ@mail.gmail.com>
+ <94d4bc54-74c5-f565-a75e-766fdc458f75@quicinc.com>
+In-Reply-To: <94d4bc54-74c5-f565-a75e-766fdc458f75@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 15 May 2023 22:12:49 +0300
+Message-ID: <CAA8EJpqWZ0X-npaMEQ6=fzyT-G+fvX_-=DsUjPnqdiuP_RO_ag@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 02/13] drm/msm/dpu: take plane rotation into
+ account for wide planes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,134 +71,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, "H . Peter Anvin" <hpa@zytor.com>,
- x86@kernel.org, Matthew Wilcox <willy@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
- John Hubbard <jhubbard@nvidia.com>, Borislav Petkov <bp@alien8.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-sgx@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xinhui Pan <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- Christian Konig <christian.koenig@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Pavel Begunkov <asml.silence@gmail.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 14, 2023, Lorenzo Stoakes wrote:
-> No invocation of get_user_pages() use the vmas parameter, so remove it.
->=20
-> The GUP API is confusing and caveated. Recent changes have done much to
-> improve that, however there is more we can do. Exporting vmas is a prime
-> target as the caller has to be extremely careful to preclude their use
-> after the mmap_lock has expired or otherwise be left with dangling
-> pointers.
->=20
-> Removing the vmas parameter focuses the GUP functions upon their primary
-> purpose - pinning (and outputting) pages as well as performing the action=
-s
-> implied by the input flags.
->=20
-> This is part of a patch series aiming to remove the vmas parameter
-> altogether.
->=20
-> Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Acked-by: Christian K=EF=BF=BDnig <christian.koenig@amd.com> (for radeon =
-parts)
-> Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
-> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
-> ---
->  arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
->  drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
->  drivers/misc/sgi-gru/grufault.c     | 2 +-
->  include/linux/mm.h                  | 3 +--
->  mm/gup.c                            | 9 +++------
->  mm/gup_test.c                       | 5 ++---
->  virt/kvm/kvm_main.c                 | 2 +-
->  7 files changed, 10 insertions(+), 15 deletions(-)
+On Mon, 15 May 2023 at 21:45, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 5/14/2023 10:01 AM, Dmitry Baryshkov wrote:
+> > On Sat, 13 May 2023 at 01:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> >>> Take into account the plane rotation and flipping when calculating src
+> >>> positions for the wide plane parts.
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>
+> >> Do we need to have a fixes tag for this? This means we dont consider
+> >> rotation while calculating src position today which is a bug?
+> >
+> > Hmm, I thought that I had a check forbidding rotation with the current
+> > approach, but I don't see it. Most probably I thought about it and
+> > then forgot to add it.
+> > The proper fix should be to disallow it for static SSPP case. I'll
+> > include the patch into v3.
+> >
+> >>
+> >>> ---
+> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 27 ++++++++++++++---------
+> >>>    1 file changed, 17 insertions(+), 10 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> index 2e63eb0a2f3f..d43e04fc4578 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> @@ -887,16 +887,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>                return -EINVAL;
+> >>>        }
+> >>>
+> >>> -     pipe_cfg->src_rect = new_plane_state->src;
+> >>> -
+> >>> -     /* state->src is 16.16, src_rect is not */
+> >>> -     pipe_cfg->src_rect.x1 >>= 16;
+> >>> -     pipe_cfg->src_rect.x2 >>= 16;
+> >>> -     pipe_cfg->src_rect.y1 >>= 16;
+> >>> -     pipe_cfg->src_rect.y2 >>= 16;
+> >>> -
+> >>> -     pipe_cfg->dst_rect = new_plane_state->dst;
+> >>> -
+> >>>        fb_rect.x2 = new_plane_state->fb->width;
+> >>>        fb_rect.y2 = new_plane_state->fb->height;
+> >>>
+> >>> @@ -912,6 +902,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>
+> >>>        max_linewidth = pdpu->catalog->caps->max_linewidth;
+> >>>
+> >>> +     /* state->src is 16.16, src_rect is not */
+> >>> +     drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> >>> +
+> >>> +     pipe_cfg->dst_rect = new_plane_state->dst;
+> >>> +
+> >>> +     drm_rect_rotate(&pipe_cfg->src_rect,
+> >>> +                     new_plane_state->fb->width, new_plane_state->fb->height,
+> >>> +                     new_plane_state->rotation);
+> >>> +
+> >>>        if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> >>>                /*
+> >>>                 * In parallel multirect case only the half of the usual width
+> >>> @@ -959,6 +958,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>                r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+> >>>        }
+> >>>
+> >>> +     drm_rect_rotate_inv(&pipe_cfg->src_rect,
+> >>> +                         new_plane_state->fb->width, new_plane_state->fb->height,
+> >>> +                         new_plane_state->rotation);
+> >>> +     if (r_pipe->sspp)
+> >>
+> >> Dont you need to check for if (r_pipe_cfg) here and not if
+> >> (r_pipe->sspp) because parameter you are passing is the r_pipe_cfg to
+> >> drm_rect_rotate_inv().
+> >
+> > Of course not. r_pipe_cfg is a pointer to the field in pstate. We know
+> > that it can not be NULL.
+> >
+>
+> Ack, and my bad for not checking that r_pipe_cfg points to a field in
+> pstate but .... it was just weird though that you are checking for
+> r_pipe->sspp before calling a method which really doesnt care if its
+> null or not. How about you use drm_rect_visible(r_pipe_cfg->src_rect)
+>
+> If its not set, it wont be visible too.
 
-Acked-by: Sean Christopherson <seanjc@google.com> (KVM)
+I think it is better for the uniformity to check for r_pipe->sspp:
+this is the condition that is used all over the driver to check that
+r_pipe is used.
 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index cb5c13eee193..eaa5bb8dbadc 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -2477,7 +2477,7 @@ static inline int check_user_page_hwpoison(unsigned=
- long addr)
->  {
->  	int rc, flags =3D FOLL_HWPOISON | FOLL_WRITE;
-> =20
-> -	rc =3D get_user_pages(addr, 1, flags, NULL, NULL);
-> +	rc =3D get_user_pages(addr, 1, flags, NULL);
->  	return rc =3D=3D -EHWPOISON;
+>
+> >>
+> >> So we rotated the pipe_cfg once, then rotated_inv it to restore the
+> >> rectangle to its original state, but r_pipe_cfg's rectangle was never
+> >> rotated as it was not allocated before this function so it will remain
+> >> in inverse rotated state now right?
+> >
+> > No. r_pipe_cfg is set beforehand to the half of the rotated pipe_cfg.
+> >
+>
+> Ok i got it now. Instead of directly operating on the plane_state's
+> rectangle which makes you to invert again why not just use a temporary
+> drm_rect which stores the rotated pipe_cfg->src_rect. That way you dont
+> have to invert anything?
 
-Unrelated to this patch, I think there's a pre-existing bug here.  If gup()=
- returns
-a valid page, KVM will leak the refcount and unintentionally pin the page. =
- That's
-highly unlikely as check_user_page_hwpoison() is called iff get_user_pages_=
-unlocked()
-fails (called by hva_to_pfn_slow()), but it's theoretically possible that u=
-serspace
-could change the VMAs between hva_to_pfn_slow() and check_user_page_hwpoiso=
-n() since
-KVM doesn't hold any relevant locks at this point.
+I don't think this will work. I explicitly rotate & invert rotation to
+get correct coordinates for both source and destination rectangles.
+Doing it otherwise would require us to manually implement this in the
+DPU driver.
 
-E.g. if there's no VMA during hva_to_pfn_{fast,slow}(), npages=3D=3D-EFAULT=
- and KVM
-will invoke check_user_page_hwpoison().  If userspace installs a valid mapp=
-ing
-after hva_to_pfn_slow() but before KVM acquires mmap_lock, then gup() will =
-find
-a valid page.
+>
+> >>> +             drm_rect_rotate_inv(&r_pipe_cfg->src_rect,
+> >>> +                                 new_plane_state->fb->width, new_plane_state->fb->height,
+> >>> +                                 new_plane_state->rotation);
+> >>> +
+> >>>        ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+> >>>        if (ret)
+> >>>                return ret;
+> >
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-I _think_ the fix is to simply delete this code. The bug was introduced by =
-commit
-fafc3dbaac64 ("KVM: Replace is_hwpoison_address with __get_user_pages").  A=
-t that
-time, KVM didn't check for "npages =3D=3D -EHWPOISON" from the first call t=
-o
-get_user_pages_unlocked().  Later on, commit 0857b9e95c1a ("KVM: Enable asy=
-nc page
-fault processing") reworked the caller to be:
 
-	mmap_read_lock(current->mm);
-	if (npages =3D=3D -EHWPOISON ||
-	      (!async && check_user_page_hwpoison(addr))) {
-		pfn =3D KVM_PFN_ERR_HWPOISON;
-		goto exit;
-	}
 
-where async really means NOWAIT, so that the hwpoison use of gup() didn't s=
-leep.
-
-    KVM: Enable async page fault processing
-   =20
-    If asynchronous hva_to_pfn() is requested call GUP with FOLL_NOWAIT to
-    avoid sleeping on IO. Check for hwpoison is done at the same time,
-    otherwise check_user_page_hwpoison() will call GUP again and will put
-    vcpu to sleep.
-
-There are other potential problems too, e.g. the hwpoison call doesn't hono=
-r
-the recently introduced @interruptible flag.
-
-I don't see any reason to keep check_user_page_hwpoison(), KVM can simply r=
-ely on
-the "npages =3D=3D -EHWPOISON" check.   get_user_pages_unlocked() is guaran=
-teed to be
-called with roughly equivalent flags, and the flags that aren't equivalent =
-are
-arguably bugs in check_user_page_hwpoison(), e.g. assuming FOLL_WRITE is wr=
-ong.
-
-TL;DR: Go ahead with this change, I'll submit a separate patch to delete th=
-e
-buggy KVM code.
+-- 
+With best wishes
+Dmitry
