@@ -1,50 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E531570398B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:43:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 897677039FA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D72310E0CC;
-	Mon, 15 May 2023 17:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2107E10E0FC;
+	Mon, 15 May 2023 17:47:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8A610E0CC
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 17:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=fqvFeHqmKCMHySPrpw7LmvcOX8WEkqN8R0ZmmJ8wedU=;
- b=LuflRTNROY0CD/SiMRa00x4NM6Ba/5KTNjWTIw8iM/ymbOPFU7XTgc6q5gyZ/RxhcGu3BdwMovzCp
- jkO2iHve1fpUDPs5+9sEyMW9owAADTy0xdwPW0I7B6mFXa8uI7kYxnTSgBbw5MbodbHGNWpUka4U21
- 7h4mUNZZX/nMZg5diOgd58PYk8p/9e90AdYpUcl38rMb+77YaK9AcriBKJ5UvxbVNk7QjI4MPHaVyF
- s+s7BzbpNWkYsKbeS7jVjPPHWkqG4Mb0166SVe8vsZWwNVVX/aHNDon2Im1qM6q5MFmwgr1q7CV7Lj
- I89SkTPK+tfPo/g4wL5kRwP0R5bKAxA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=fqvFeHqmKCMHySPrpw7LmvcOX8WEkqN8R0ZmmJ8wedU=;
- b=m5Ru3cp+fr+MYVaiT66lh06RTG0M0Yo3MAHPI8gz+3ae51FIPn6TF9LZlN4ODMpJHOnJ+Mwz6Vd71
- GaCU+trDA==
-X-HalOne-ID: fb2cb6b5-f347-11ed-8278-99461c6a3fe8
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id fb2cb6b5-f347-11ed-8278-99461c6a3fe8;
- Mon, 15 May 2023 17:43:22 +0000 (UTC)
-Date: Mon, 15 May 2023 19:43:20 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 03/12] drm/exynos: Use regular fbdev I/O helpers
-Message-ID: <20230515174320.GA1745913@ravnborg.org>
-References: <20230515094033.2133-1-tzimmermann@suse.de>
- <20230515094033.2133-4-tzimmermann@suse.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1578610E0E6;
+ Mon, 15 May 2023 17:47:01 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34FHCnhK010977; Mon, 15 May 2023 17:46:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=AKq3OA68Xdh2Pwr0i6y5rLL9DOMYklqjB584l2l1Ee8=;
+ b=otVEz15wmw2pcJ2YRHfZi7mxB5/+FXPTsgzER9jF21mPskXshj6McZFJgMbv8e6qfW9m
+ z4oktvKsbVHSsG3Yl3y7wsbR/LrskDhbieu+dwcf18IykeZyAogxTCWX26cnJ5kmTZor
+ 6BIgpqsXL+xcpS0UYeV39S0ZbACqY6ZC5YTFzi33MeyecdD2Hzx1H4v4ysk+w+lIsptw
+ t/mRxLFH9ye8sHt7Z92gGfDelUCPro4gz/QYculUZ7MDyATD7ImQlRfqxlHZQmvXbM4P
+ VcpGWaoHGwDdXqGYvHTpDnq5uwQoWDF8Pvr8si6N8p1FrJufjf/O3SS47VpiHt3bGCuv Uw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkjwds83k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 17:46:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FHksn8021026
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 17:46:54 GMT
+Received: from [10.71.110.189] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 15 May
+ 2023 10:46:53 -0700
+Message-ID: <1fd8fd48-9a0a-774c-1366-ea4c893f3b25@quicinc.com>
+Date: Mon, 15 May 2023 10:46:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230515094033.2133-4-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v8 5/8] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-6-git-send-email-quic_khsieh@quicinc.com>
+ <41243dc6-eb9d-dea6-f945-cb1f6594a2a4@linaro.org>
+ <w6uswjuf7fiorrplqzhrpg3vrjbbdd3bgaxej5l6ez3pebn3d5@ytuxhim25j6q>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <w6uswjuf7fiorrplqzhrpg3vrjbbdd3bgaxej5l6ez3pebn3d5@ytuxhim25j6q>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: PigQ09qt6WdvzSy-Qk0yH7QxqHjPzdTp
+X-Proofpoint-GUID: PigQ09qt6WdvzSy-Qk0yH7QxqHjPzdTp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-15_16,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305150149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,105 +87,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Alim Akhtar <alim.akhtar@samsung.com>, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- javierm@redhat.com, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Mon, May 15, 2023 at 11:40:24AM +0200, Thomas Zimmermann wrote:
-> Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-> helpers. Exynos does not use damage handling, so DRM's fbdev helpers
-> are mere wrappers around the fbdev code.
-> 
-> By using fbdev helpers directly within each DRM fbdev emulation,
-> we can eventually remove DRM's wrapper functions entirely.
-> 
-> v2:
-> 	* use FB_IO_HELPERS option
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> ---
->  drivers/gpu/drm/exynos/Kconfig            |  1 +
->  drivers/gpu/drm/exynos/Makefile           |  2 +-
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 10 +++++-----
->  3 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/Kconfig b/drivers/gpu/drm/exynos/Kconfig
-> index 0cb92d651ff1..7ca7e1dab52c 100644
-> --- a/drivers/gpu/drm/exynos/Kconfig
-> +++ b/drivers/gpu/drm/exynos/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_EXYNOS
->  	select DRM_DISPLAY_HELPER if DRM_EXYNOS_DP
->  	select DRM_KMS_HELPER
->  	select VIDEOMODE_HELPERS
-> +	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
->  	select SND_SOC_HDMI_CODEC if SND_SOC
->  	help
->  	  Choose this option if you have a Samsung SoC Exynos chipset.
-> diff --git a/drivers/gpu/drm/exynos/Makefile b/drivers/gpu/drm/exynos/Makefile
-> index 2fd2f3ee4fcf..233a66036584 100644
-> --- a/drivers/gpu/drm/exynos/Makefile
-> +++ b/drivers/gpu/drm/exynos/Makefile
-> @@ -6,7 +6,6 @@
->  exynosdrm-y := exynos_drm_drv.o exynos_drm_crtc.o exynos_drm_fb.o \
->  		exynos_drm_gem.o exynos_drm_plane.o exynos_drm_dma.o
->  
-> -exynosdrm-$(CONFIG_DRM_FBDEV_EMULATION) += exynos_drm_fbdev.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS_FIMD)	+= exynos_drm_fimd.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS5433_DECON)	+= exynos5433_drm_decon.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS7_DECON)	+= exynos7_drm_decon.o
-> @@ -23,5 +22,6 @@ exynosdrm-$(CONFIG_DRM_EXYNOS_ROTATOR)	+= exynos_drm_rotator.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS_SCALER)	+= exynos_drm_scaler.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS_GSC)	+= exynos_drm_gsc.o
->  exynosdrm-$(CONFIG_DRM_EXYNOS_MIC)     += exynos_drm_mic.o
-> +exynosdrm-$(CONFIG_DRM_FBDEV_EMULATION)	+= exynos_drm_fbdev.o
-What does this change do?
-Maybe something that was left by accident?
+On 5/14/2023 2:46 PM, Marijn Suijten wrote:
+> On 2023-05-12 21:19:19, Dmitry Baryshkov wrote:
+> <snip.
+>>> +static inline void dpu_hw_dsc_bind_pingpong_blk_1_2(struct dpu_hw_dsc *hw_dsc,
+>>> +						    const enum dpu_pingpong pp)
+>>> +{
+>>> +	struct dpu_hw_blk_reg_map *hw;
+>>> +	const struct dpu_dsc_sub_blks *sblk;
+>>> +	int mux_cfg = 0xf; /* Disabled */
+>>> +
+>>> +	hw = &hw_dsc->hw;
+>>> +
+>>> +	sblk = hw_dsc->caps->sblk;
+>>> +
+>>> +	if (pp)
+>>> +		mux_cfg = (pp - PINGPONG_0) & 0x7;
+>> Do we need an unbind support here like we do for the DSC 1.1?
+>>
+>>> +
+>>> +	DPU_REG_WRITE(hw, sblk->ctl.base + DSC_CTL, mux_cfg);
+>>> +}
+> <snip>
+>
+> Friendly request to strip/snip unneeded context (as done in this reply)
+> to make it easier to spot the conversation, and replies to it.
+>
+> - Marijn
 
-	Sam
+Thanks for suggestion.
 
->  
->  obj-$(CONFIG_DRM_EXYNOS)		+= exynosdrm.o
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> index ea4b3d248aac..b3333dd1d087 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -8,6 +8,8 @@
->   *	Seung-Woo Kim <sw0312.kim@samsung.com>
->   */
->  
-> +#include <linux/fb.h>
-> +
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fb_helper.h>
-> @@ -49,11 +51,9 @@ static const struct fb_ops exynos_drm_fb_ops = {
->  	.owner		= THIS_MODULE,
->  	DRM_FB_HELPER_DEFAULT_OPS,
->  	.fb_mmap        = exynos_drm_fb_mmap,
-> -	.fb_read	= drm_fb_helper_cfb_read,
-> -	.fb_write	= drm_fb_helper_cfb_write,
-> -	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
-> -	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
-> -	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
-> +	.fb_fillrect	= cfb_fillrect,
-> +	.fb_copyarea	= cfb_copyarea,
-> +	.fb_imageblit	= cfb_imageblit,
->  	.fb_destroy	= exynos_drm_fb_destroy,
->  };
->  
-> -- 
-> 2.40.1
+How can I do that?
+
+just manually delete unneeded context?
+
+Or are they other way (tricks) to do it automatically?
+
+
