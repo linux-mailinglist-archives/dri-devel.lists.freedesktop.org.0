@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B91D704187
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 01:57:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFCE704188
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 01:57:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC22E10E0DE;
-	Mon, 15 May 2023 23:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E9510E2BC;
+	Mon, 15 May 2023 23:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F3310E162
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 23:57:28 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id
- e9e14a558f8ab-33131d7a26eso94349715ab.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:57:28 -0700 (PDT)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90A7D10E2CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 23:57:30 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id
+ e9e14a558f8ab-332cc0efe88so87750065ab.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 16:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684195047; x=1686787047;
+ d=gmail.com; s=20221208; t=1684195049; x=1686787049;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dygmSIeKyL1Qr6osm0gPJv6LRBfSTNTnVZ/IpsRKoBs=;
- b=ifiSs08y2MIXBn42MVs3fNmMJZNFceO8x5OBZxjHHuPseUh9GHHt2QVVxaJ1tjr0rH
- 4lgxmX4/5PLmd3TS0m4VoQvGK0siotAuZaVUL57vq0Fr+x3Zxddw3A3lTreQhjcQxqNH
- tnGG9MYqlx8tz0qt9vIMxWNuiqR0XCqgIE3nTul09t7jYA3Ah59gZ4cEDExLcAGXScxB
- ciVkw5p668JwtFCQ3SI+dfCZYKEUZ0v9xU1L5iTLhd1y1DlxGg579Gx/Q4QUEIZ6GeII
- CHOCMUvoC7stPSQY2HtFkjcojT26Kq2ty1+wlzns4ijmz2vXBiY/KU5/MZ3UftgwI1SD
- x+dQ==
+ bh=KhmHVm3biAYbsxZZFqn6S1mZ25+9+Btd76fwE2r61yM=;
+ b=jPFoih2JerTXMPTvzSfu70Qlo1kT35sMk9aeKJmYOIXqS8Uv4sjwsLw26Au/WwdM70
+ oxFKDJU2QY5iIosliXX3Z2H1Ln5Pj4rLx0ISa0i9FE/S8IrEA7sVz+B4fw4KqdTPDLRg
+ t8uVn3dHwT01yJ9tIjYeWeMbQEdHsYaEJPB7UIE5NoQ+PuKnESv7P7PjyLS69FHtKP55
+ OIRwJed9MULFFElE4bW6SNMVbDLX8UQdon+5b/TLF2nOzU4oYN1h8jxE0noY9vrh8AC1
+ ECwrJj4j65zr7MXmQnzv4NlaM3r7ECu61UuHgcV+85Bd4xdMZW8qqpneBtwi91P4UxD+
+ R5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684195047; x=1686787047;
+ d=1e100.net; s=20221208; t=1684195049; x=1686787049;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dygmSIeKyL1Qr6osm0gPJv6LRBfSTNTnVZ/IpsRKoBs=;
- b=A/cUTacF5BtP4FcCkvhLulHhkP3/gjYNQrEZfIs9yiAuo9W2j3cI5/o//wiD76xPIP
- 96t6QojvusEPEzRMzYeEKIFIVEmg/HObOPxHvW1w59EdAVkKxZsVi90qTBBoyQyZHJCJ
- idrGt6BbYh7JYDRa1MtivwNreC4a/XEdxA5FFHePpUBnOpcgajQR3dPCDi3FSMmasru9
- YqWHepkzA9YC/cLMtIVQ0qBVNUp8Pf5UCPbTq+hsFhTHt/HX5BysYL+75PzGE3Zrrq58
- wdmr7QotsdyGOGUG49eBErjc4uTEhtVT84S2BlNegmY3uGcIdUYpoDfepAlycN9DKMWv
- JH+Q==
-X-Gm-Message-State: AC+VfDx+SdszP9W2iN+TpYPfa6H4JhLN6uutYU6FKSu/5JQjmpWltVgL
- UvSg1MAZSq1HeGo20fb9ClhziD3SoWs=
-X-Google-Smtp-Source: ACHHUZ6evfIxkAscIh79dMFR3cgzi0moXGEy9Fy4vlp+9hRCEen8qyXWbLURAPkFLQPKP8NXCqRz2w==
-X-Received: by 2002:a92:d403:0:b0:326:3a39:89d0 with SMTP id
- q3-20020a92d403000000b003263a3989d0mr23300881ilm.1.1684195047045; 
- Mon, 15 May 2023 16:57:27 -0700 (PDT)
+ bh=KhmHVm3biAYbsxZZFqn6S1mZ25+9+Btd76fwE2r61yM=;
+ b=CzNOiD+LSDVLLfYEffJa/iU+xPk4oslMpRXKTPXdk3MnIAQ8DCB5IQOhy49LeNigr3
+ ih14CgnoXikEXGaMQlm1nUwQeDyqnAAWZZYL+M4BsMkyFdlxhwG6pZ1MLwd3vKZIhYpi
+ qTTXczWWv8Bvjs252R6YJwSeJLPvevzldADL+hM65gg+e1JBTBqpi0LEn/7My1Oo/wpP
+ X2P7gSW0YwFHHDMxJTg+abftnW2bgHlUSlYL74IB6Q0EDVRdQg9BEHTqZDFf4tMUH39j
+ UK0oC1LTTJ1H7w53OAU06UAkQs07zsyH6dtFZZHa2zrud79I61Vm5obZo6oGhHpGTsdC
+ uOaQ==
+X-Gm-Message-State: AC+VfDxrWUGWkfarUagfgnjlKq1wuhcinE/iGPuoYJokxEGy0SoK/KR7
+ oMQt1RFqH1JAR0VT/DblnPZ7qRi9Xis=
+X-Google-Smtp-Source: ACHHUZ40FhhFFnZOCOFF/BcvjFoJhXNoFnG7UHB06L42VB+ehdL2H7dF0A/DZ2jPNO0oO/eHDTptjg==
+X-Received: by 2002:a05:6e02:546:b0:335:542b:aa48 with SMTP id
+ i6-20020a056e02054600b00335542baa48mr20490228ils.19.1684195048768; 
+ Mon, 15 May 2023 16:57:28 -0700 (PDT)
 Received: from aford-B741.lan ([2601:447:d001:897f:61e0:9fee:1bca:ea3c])
  by smtp.gmail.com with ESMTPSA id
- f6-20020a056638112600b00411b5ea8576sm7427851jar.108.2023.05.15.16.57.25
+ f6-20020a056638112600b00411b5ea8576sm7427851jar.108.2023.05.15.16.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 16:57:26 -0700 (PDT)
+ Mon, 15 May 2023 16:57:28 -0700 (PDT)
 From: Adam Ford <aford173@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V6 1/6] drm: bridge: samsung-dsim: fix blanking packet size
- calculation
-Date: Mon, 15 May 2023 18:57:08 -0500
-Message-Id: <20230515235713.232939-2-aford173@gmail.com>
+Subject: [PATCH V6 2/6] drm: bridge: samsung-dsim: Fix PMS Calculator on
+ imx8m[mnp]
+Date: Mon, 15 May 2023 18:57:09 -0500
+Message-Id: <20230515235713.232939-3-aford173@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230515235713.232939-1-aford173@gmail.com>
 References: <20230515235713.232939-1-aford173@gmail.com>
@@ -74,7 +74,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
  Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
  Frieder Schrempf <frieder.schrempf@kontron.de>, linux-kernel@vger.kernel.org,
@@ -85,57 +85,135 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lucas Stach <l.stach@pengutronix.de>
+According to Table 13-45 of the i.MX8M Mini Reference Manual, the min
+and max values for M and the frequency range for the VCO_out
+calculator were incorrect.  This information was contradicted in other
+parts of the mini, nano and plus manuals.  After reaching out to my
+NXP Rep, when confronting him about discrepencies in the Nano manual,
+he responded with:
+ "Yes it is definitely wrong, the one that is part
+  of the NOTE in MIPI_DPHY_M_PLLPMS register table against PMS_P,
+  PMS_M and PMS_S is not correct. I will report this to Doc team,
+  the one customer should be take into account is the Table 13-40
+  DPHY PLL Parameters and the Note above."
 
-Scale the blanking packet sizes to match the ratio between HS clock
-and DPI interface clock. The controller seems to do internal scaling
-to the number of active lanes, so we don't take those into account.
+These updated values also match what is used in the NXP downstream
+kernel.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+To fix this, make new variables to hold the min and max values of m
+and the minimum value of VCO_out, and update the PMS calculator to
+use these new variables instead of using hard-coded values to keep
+the backwards compatibility with other parts using this driver.
+
+Fixes: 4d562c70c4dc ("drm: bridge: samsung-dsim: Add i.MX8M Mini/Nano support")
 Signed-off-by: Adam Ford <aford173@gmail.com>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 22 ++++++++++++++++++++--
+ include/drm/bridge/samsung-dsim.h     |  3 +++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index e0a402a85787..2be3b58624c3 100644
+index 2be3b58624c3..bf4b33d2de76 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -874,17 +874,29 @@ static void samsung_dsim_set_display_mode(struct samsung_dsim *dsi)
- 	u32 reg;
+@@ -405,6 +405,9 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.m_min = 41,
++	.m_max = 125,
++	.min_freq = 500,
+ };
  
- 	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
-+		int byte_clk_khz = dsi->burst_clk_rate / 1000 / 8;
-+		int hfp = (m->hsync_start - m->hdisplay) * byte_clk_khz / m->clock;
-+		int hbp = (m->htotal - m->hsync_end) * byte_clk_khz / m->clock;
-+		int hsa = (m->hsync_end - m->hsync_start) * byte_clk_khz / m->clock;
-+
-+		/* remove packet overhead when possible */
-+		hfp = max(hfp - 6, 0);
-+		hbp = max(hbp - 6, 0);
-+		hsa = max(hsa - 6, 0);
-+
-+		dev_dbg(dsi->dev, "calculated hfp: %u, hbp: %u, hsa: %u",
-+			hfp, hbp, hsa);
-+
- 		reg = DSIM_CMD_ALLOW(0xf)
- 			| DSIM_STABLE_VFP(m->vsync_start - m->vdisplay)
- 			| DSIM_MAIN_VBP(m->vtotal - m->vsync_end);
- 		samsung_dsim_write(dsi, DSIM_MVPORCH_REG, reg);
+ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+@@ -418,6 +421,9 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.m_min = 41,
++	.m_max = 125,
++	.min_freq = 500,
+ };
  
--		reg = DSIM_MAIN_HFP(m->hsync_start - m->hdisplay)
--			| DSIM_MAIN_HBP(m->htotal - m->hsync_end);
-+		reg = DSIM_MAIN_HFP(hfp) | DSIM_MAIN_HBP(hbp);
- 		samsung_dsim_write(dsi, DSIM_MHPORCH_REG, reg);
+ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+@@ -429,6 +435,9 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
+ 	.num_bits_resol = 11,
+ 	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
++	.m_min = 41,
++	.m_max = 125,
++	.min_freq = 500,
+ };
  
- 		reg = DSIM_MAIN_VSA(m->vsync_end - m->vsync_start)
--			| DSIM_MAIN_HSA(m->hsync_end - m->hsync_start);
-+			| DSIM_MAIN_HSA(hsa);
- 		samsung_dsim_write(dsi, DSIM_MSYNC_REG, reg);
- 	}
- 	reg =  DSIM_MAIN_HRESOL(m->hdisplay, num_bits_resol) |
+ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+@@ -441,6 +450,9 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
+ 	.num_bits_resol = 12,
+ 	.pll_p_offset = 13,
+ 	.reg_values = exynos5433_reg_values,
++	.m_min = 41,
++	.m_max = 125,
++	.min_freq = 500,
+ };
+ 
+ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+@@ -453,6 +465,9 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
+ 	.num_bits_resol = 12,
+ 	.pll_p_offset = 13,
+ 	.reg_values = exynos5422_reg_values,
++	.m_min = 41,
++	.m_max = 125,
++	.min_freq = 500,
+ };
+ 
+ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
+@@ -469,6 +484,9 @@ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
+ 	 */
+ 	.pll_p_offset = 14,
+ 	.reg_values = imx8mm_dsim_reg_values,
++	.m_min = 64,
++	.m_max = 1023,
++	.min_freq = 1050,
+ };
+ 
+ static const struct samsung_dsim_driver_data *
+@@ -547,12 +565,12 @@ static unsigned long samsung_dsim_pll_find_pms(struct samsung_dsim *dsi,
+ 			tmp = (u64)fout * (_p << _s);
+ 			do_div(tmp, fin);
+ 			_m = tmp;
+-			if (_m < 41 || _m > 125)
++			if (_m < driver_data->m_min || _m > driver_data->m_max)
+ 				continue;
+ 
+ 			tmp = (u64)_m * fin;
+ 			do_div(tmp, _p);
+-			if (tmp < 500 * MHZ ||
++			if (tmp < driver_data->min_freq  * MHZ ||
+ 			    tmp > driver_data->max_freq * MHZ)
+ 				continue;
+ 
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+index ba5484de2b30..a1a5b2b89a7a 100644
+--- a/include/drm/bridge/samsung-dsim.h
++++ b/include/drm/bridge/samsung-dsim.h
+@@ -54,11 +54,14 @@ struct samsung_dsim_driver_data {
+ 	unsigned int has_freqband:1;
+ 	unsigned int has_clklane_stop:1;
+ 	unsigned int num_clks;
++	unsigned int min_freq;
+ 	unsigned int max_freq;
+ 	unsigned int wait_for_reset;
+ 	unsigned int num_bits_resol;
+ 	unsigned int pll_p_offset;
+ 	const unsigned int *reg_values;
++	u16 m_min;
++	u16 m_max;
+ };
+ 
+ struct samsung_dsim_host_ops {
 -- 
 2.39.2
 
