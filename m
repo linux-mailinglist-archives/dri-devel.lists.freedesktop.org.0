@@ -1,49 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2BF702816
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:16:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9ADB702867
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:26:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8B1910E17A;
-	Mon, 15 May 2023 09:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B533A10E178;
+	Mon, 15 May 2023 09:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234DF10E17A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:16:09 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUJJ-0003bq-GO; Mon, 15 May 2023 11:16:05 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUJH-000KQ7-QJ; Mon, 15 May 2023 11:16:03 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pyUJG-004cSX-RM; Mon, 15 May 2023 11:16:02 +0200
-Date: Mon, 15 May 2023 11:16:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Inki Dae <daeinki@gmail.com>
-Subject: Re: [PATCH 18/53] drm/exynos: Convert to platform remove callback
- returning void
-Message-ID: <20230515091602.7tyzortaowrzmqqo@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-19-u.kleine-koenig@pengutronix.de>
- <CAAQKjZN0DpnjpybZaEYz=eS4khTbY7RdS4i0-rC_-O_jk1iY-g@mail.gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB2A310E178
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:26:41 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 54F3121D27;
+ Mon, 15 May 2023 09:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684142800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PUxYYoXO6aEsBUHTHLoERG9b7wWxb4y9COLcbOp/5Ks=;
+ b=ReOUQ66vrM8aVnN/PNx6FHLKg29NKVh0b7Y92P5dJOm27Cqx672/p61QXTz6wy8iazSEwx
+ t9Wy9EMiFankJFtokCEDb0KToTgZTRv6soukKMu/UAQjwROONEJEtPe1EXE+sxn+L8a3jT
+ MkXFtqNQxgrmtj7G+/vTPvoo4n3EqLY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684142800;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PUxYYoXO6aEsBUHTHLoERG9b7wWxb4y9COLcbOp/5Ks=;
+ b=vqbndfO52m+tqyF/gG6m+pG5PXfji3O/Ud/CmsOQabEDSD0hWZwA3v1yNNq5vuaK58EVJO
+ bYDVRPz0MgV1DZCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF2F513466;
+ Mon, 15 May 2023 09:26:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AoZmNc/6YWR4SAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:26:39 +0000
+Message-ID: <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
+Date: Mon, 15 May 2023 11:26:38 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="y5vle46a7hdut33r"
-Content-Disposition: inline
-In-Reply-To: <CAAQKjZN0DpnjpybZaEYz=eS4khTbY7RdS4i0-rC_-O_jk1iY-g@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+Content-Language: en-US
+To: Linus Walleij <linus.walleij@linaro.org>
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+ <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
+ <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
+ <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+ <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
+ <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------SaSDJpgtexyvDuTJULeTxuxU"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,67 +76,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, kernel@pengutronix.de,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: mairacanal@riseup.net, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------SaSDJpgtexyvDuTJULeTxuxU
+Content-Type: multipart/mixed; boundary="------------6IwX2cCEsWXWQlDWyfFWeUzX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: mairacanal@riseup.net, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, jose.exposito89@gmail.com
+Message-ID: <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+ <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
+ <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
+ <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+ <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
+ <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
+In-Reply-To: <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
 
---y5vle46a7hdut33r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------6IwX2cCEsWXWQlDWyfFWeUzX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Mon, May 15, 2023 at 04:32:00PM +0900, Inki Dae wrote:
-> Hi,
->=20
-> 2023=EB=85=84 5=EC=9B=94 8=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 1:27, =
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4 =
-=EC=9E=91=EC=84=B1:
-> >
-> > The .remove() callback for a platform driver returns an int which makes
-> > many driver authors wrongly assume it's possible to do error handling by
-> > returning an error code. However the value returned is (mostly) ignored
-> > and this typically results in resource leaks. To improve here there is a
-> > quest to make the remove callback return void. In the first step of this
-> > quest all drivers are converted to .remove_new() which already returns
-> > void.
-> >
-> > Trivially convert the exynos drm drivers from always returning zero in
-> > the remove callback to the void returning variant.
->=20
-> Could you please update exynos_drm_vidi.c also? Seems you missed.
+SGkNCg0KQW0gMTUuMDUuMjMgdW0gMTA6NTkgc2NocmllYiBMaW51cyBXYWxsZWlqOg0KPiBP
+biBNb24sIE1heSAxNSwgMjAyMyBhdCAxMDoxN+KAr0FNIFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+IEFtIDE1LjA1LjIzIHVtIDEwOjAxIHNj
+aHJpZWIgTGludXMgV2FsbGVpajoNCj4gDQo+Pj4gQnV0IHRoZSBkaXNwbGF5IGlzIGZsaWNr
+ZXJpbmcgbGlrZSBjcmF6eSBzbyB0aGUgdXBkYXRpbmcgZnJlcXVlbmN5IGlzDQo+Pj4gdG90
+YWxseSBvZmYsIHdoaWNoIGlzIGJlY2F1c2UgaXQgZG9lcyBub3Qgc2NhbGUgZG93biB0aGUg
+cmVzb2x1dGlvbiwNCj4+PiB0aGUgcHJpbnQgdXNlZCB0byBiZToNCj4+Pg0KPj4+IENvbnNv
+bGU6IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSA4MHgzMA0KPj4+
+IGRybS1jbGNkLXBsMTExIGMxMDAwMDAwLmRpc3BsYXk6IFtkcm1dIGZiMDogcGwxMTFkcm1m
+YiBmcmFtZSBidWZmZXIgZGV2aWNlDQo+Pj4NCj4+PiBJdCBpcyBub3c6DQo+Pj4NCj4+PiBD
+b25zb2xlOiBzd2l0Y2hpbmcgdG8gY29sb3VyIGZyYW1lIGJ1ZmZlciBkZXZpY2UgMTAweDM3
+DQo+Pj4gZHJtLWNsY2QtcGwxMTEgYzEwMDAwMDAuZGlzcGxheTogW2RybV0gZmIwOiBwbDEx
+MWRybWZiIGZyYW1lIGJ1ZmZlciBkZXZpY2UNCj4+Pg0KPj4+IDEwMHgzNyEgKGkuZS4gODAw
+eDI5NiksIHRoaXMgZGlzcGxheSBjYW4gb25seSBkbyA2NDB4MjQwLg0KPj4+IEFueSBpZGVh
+IHdoYXQgZWxzZSBpcyBnb2luZyB3cm9uZyBoZXJlPyBPciBpcyB0aGlzIGFub3RoZXIgcmVn
+cmVzc2lvbg0KPj4+IG9uIHRvcCBvZiB0aGUgZmlyc3QgcmVncmVzc2lvbiAuLi4gSSB3YXMg
+dW5kZXIgdGhlIGltcHJlc3Npb24gdGhhdA0KPj4+IHlvdXIgY2hhbmdlIHdhcyBvbmx5IGFi
+b3V0IGZvcm1hdHMgbm90IHJlc29sdXRpb25zLg0KPj4NCj4+IElmIHlvdXIgZGlzcGxheSBv
+bmx5IHN1cHBvcnRzIDY0MHgyNDAsIHlvdSBzaG91bGQgZmlsdGVyIG91dCBhbGwgdGhlDQo+
+PiBvdGhlciBtb2RlcyBpbiB0aGUgZHJpdmVyLCBpZiBuZWNlc3NhcnkuIFRvIG1lLCB0aGF0
+IHNlZW1zIGZpeC13b3J0aHkgaW4NCj4+IGFueSBjYXNlLg0KPiANCj4gSSB0aGluayBJIGZv
+dW5kIHRoaXMsIHRoZSBiYW5kd2lkdGggbGltaXQgY2FsY3VsYXRpb24gaW4NCj4gZHJpdmVy
+cy9ncHUvZHJtL3BsMTExL3BsMTExX2Rpc3BsYXkuYyB3YXMgdXNpbmcgdGhlIGJwcCBmcm9t
+DQo+IHRoZSBjb25maWcgYW5kIHRoaXMgd2FzIGRlY3JlYXNlZCBmcm9tIDE2IHRvIDE1IGFu
+ZCBhcyBpdCBkZXRlcm1pbmVkDQo+IGNwcCBieSBkaXZpZGluZyBicHAvOCB0aGlzIGRlY3Jl
+YXNlZCBmcm9tIDIgYnl0ZXMgdG8gMSBieXRlLg0KPiANCj4gVGVzdGluZyB3aXRoIERJVl9S
+T1VORF9VUCgpIGluIGNvbWJpbmF0aW9uIHdpdGggdGhlIHByZXZpb3VzDQo+IGZpeCENCg0K
+R3JlYXQuIEl0J3MgdGhlIGNvZGUgaW4gbW9kZV92YWxpZCwgcmlnaHQ/IFRoYXQgZml4IHNo
+b3VsZCBiZSBnb29kIA0KZW5vdWdoIGZvciBub3cuIEluIHRoZSBsb25nIHRlcm0sIHdlIGNv
+dWxkIG1ha2Ugc29tZSBvZiB0aGUgaW50ZXJuYWwgDQpmYi1oZWxwZXIgY29kZSBhdmFpbGFi
+bGUgdG8gZHJpdmVycy4gWW91J2QgdGhlbiBiZSBhYmxlIHRvIHVzZSBpdCB0byBnZXQgDQp0
+aGUgZGVwdGgvYnBwIHZhbHVlcyBmb3IgdGhlIGNvbG9yIG1vZGUuDQoNCkJlc3QgcmVnYXJk
+cw0KVGhvbWFzDQoNCj4gDQo+IFlvdXJzLA0KPiBMaW51cyBXYWxsZWlqDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
+dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
+IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-This one cannot be trivially converted as vidi_remove() doensn't return
-zero in all cases. I didn't grok the details about ctx->raw_edid and
-don't know if skipping component_del() is right or not.
 
-If you know the driver, feel free to address this.
+--------------6IwX2cCEsWXWQlDWyfFWeUzX--
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---y5vle46a7hdut33r
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------SaSDJpgtexyvDuTJULeTxuxU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRh+FEACgkQj4D7WH0S
-/k6HRgf9HY3yWZaML7K5a0dBuvYi0q/tvr4cD6GAN3/3VjillX69yUO9eJ5wtDHs
-E05ob9kgXrZc4xfVy5F1lMb5rgsPWah4W6Fsr4SOtxXP/bTNZrgeyMngZK6pp0R+
-NRwwX7mlsxZNIBavnlBPw9ytlIwCG9uI4TPd51v+Gk/jN87D+PoPVoRx171/bW5n
-DlJh6NiINGvkmx+pjnAqHEG5DechPRrL/yDoxNGG7pnvNnx+/kwic4FgU1GrNS3/
-s0GLO5l8LiVpa4k5s1/mUPDruK9I3v7W8ryO3/DZhgfnzKunQSkEKNFEkD8JREft
-2PDkIu9zfWBYm0QKt1aOYSyCjM7g/w==
-=leeg
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRh+s4FAwAAAAAACgkQlh/E3EQov+Bu
+7RAAw5GTVJFquC/bwxdHuPaqDiFf8F1hxvENwOD2Isjy0mzylqcSW/szLF3utI5BT9H4q/iPAQA0
+B9HbcXSKLw/M/T0QmEOEAVlhPbXxn86xtDMtcjC+nOKoZU6PHsJI2HjoYtHMeDPHdGjw7PrH2o9/
+QwaykU667uF428aocj50smSCIlK09NaVLrxA5lK6bidSvnsfP9hNxW+5a021d/ODXO0RsB9jNcdj
+oBH4zXC0NLznHjtL1Qlo554tzE+xi+3TxqPKOuzGyWPz73LQm/0BpxO2nZWvroRU4k8OZrwkon7w
+dB+hOlPG5cyjlxlDRH5K4vYEQmkA/NGRSG61yUoUlyPM+QZhnCjTSeegNGj0IIZsJF+NZD/d2v9f
+Kp8dvJxG848TsIW9pqdoaC8ay0AhGutakN5s4qASPOfp+UVxZp0mkWsYnCEdZ4Fnj21irog5jryr
+8d8eJFMh6MlqU6iFEJmoQUH7WTsvNiYsJj2SBOw5+6Z44b7yEbfK/BOmxZaOlOLaGNTB1NoYHqC1
+veYco0W/mprZhOInAho82EQb43t2c/IZqLDD6PFDQSYk2IgnC3wmV5nDs8xeSES/g4e/r0/WttfV
+13h2xXnDgItDRmYFEL4VWNYhPU1wEXMCHKrBJOBoaKr+8kxkDk7N9BGwFz5n86axfD4MFWwl6+vU
+s94=
+=FwDZ
 -----END PGP SIGNATURE-----
 
---y5vle46a7hdut33r--
+--------------SaSDJpgtexyvDuTJULeTxuxU--
