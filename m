@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F1E703C2E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 20:13:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE60703BF3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 20:08:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7873010E041;
-	Mon, 15 May 2023 18:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E90610E239;
+	Mon, 15 May 2023 18:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 501 seconds by postgrey-1.36 at gabe;
- Mon, 15 May 2023 18:13:28 UTC
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25D5D10E1AA
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 18:13:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=UptWDb0iV+o5z9X0WCR+BXDLg76JezuxOuI+dHBMTFQ=; b=Qy9A1xp6X5B+8V/DvHWTppHAwc
- SKkr6BUxJhjQuZ/c06v/6lU9OZqDrCGxI7X36o4YEMCUubNf4ydxEr5ijBPJx5CwDHgOal8epTBCK
- 66yrnn7h56UIpYVNeXkockpA5LcNknYNa991IzYY14MszuY7fsOzvhqZ8bfRTrIbdrQh8g0zTKoVi
- 5YzvMrjOahyBDT20+XOvujFnHsK9vY2cwD9XVm5IAgxuzpG8kbhAX6urQEi8uZYTicu5LVsdP1ot5
- mVq/jIgSUHCThI3dQfNKAPIupLSdKt78qRxS2ei1YrXoQh91aJi758yrgkJwOADZWXx265PEIsXF9
- A2F6Zcrw==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58784)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1pycZ1-0004Or-Ra; Mon, 15 May 2023 19:04:51 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1pycYy-0008Oh-U4; Mon, 15 May 2023 19:04:48 +0100
-Date: Mon, 15 May 2023 19:04:48 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 02/12] drm/armada: Use regular fbdev I/O helpers
-Message-ID: <ZGJ0QIQrF/a0Wkri@shell.armlinux.org.uk>
-References: <20230515094033.2133-1-tzimmermann@suse.de>
- <20230515094033.2133-3-tzimmermann@suse.de>
- <20230515175544.GB1745913@ravnborg.org>
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB53B10E1AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 18:08:32 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-55a8019379fso121121827b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 11:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684174111; x=1686766111;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ro8tmlMGAw+gcvacmTcSTaJjQF8eWJk6fA6Unv/Jk28=;
+ b=ZiF16qVzHpH1+nrMbvksLWNYUu/EwpDqaweGBrTdItutk6MJ5koNhu/n4KBpJirsY7
+ rr0nYXeQ8KqGCeAraXCDpI4H93jRoRFQpUbBsT8ksrSR1DsM/YfA4OVtZFgdHHnOMIad
+ 53STU/PWwGPnCyeRBcCTiFltMl66f3ZLZ+6PTBYeEKm+cYrApG4APn60WgzDta0YH18r
+ ZsOPXMNazF/kFRifnVHszo3CqDy3V7XRyFP9LYAO0DWznx1qTon9/9DC+i/r/VDh2XSF
+ yg/gKWEB6oDusL/SNmU5T+wqJYQHau//BzlYUXr3xFyxoMF+MclXrfNqQNUgTTvEK10x
+ KcUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684174111; x=1686766111;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ro8tmlMGAw+gcvacmTcSTaJjQF8eWJk6fA6Unv/Jk28=;
+ b=VwB66Hk6aCWgLN1Eh3UCpDRLhLoUNC23ZP4osfkTU7uJiR27FSpx/IC2f9KAPvdSPl
+ LCtP7CMcnfywAkRFc/V1kA2PkLJxb1iOhIFGIX4P0eAfZTOKMXnRihn7v1Nhu7u6W3vJ
+ EJ4Kp29XXo9joHBuAVm4LhYInp0W+j2lOi5tKM+oFNJJtA4f64pKRcPa/TDbwaI4gXZC
+ ZmK/0u0CgVEwBI5VhD1C+sy9MahIsAcWganNfp4jqgTSlo5/IolvqUegzu+DfXDnYPrg
+ GBZbnhzRDA3wWDNgdx+/G/Nhxux02uBWUPreENJrGSW8Ksse5SE8rAnFcS6WkJ0Cv7X/
+ UtDQ==
+X-Gm-Message-State: AC+VfDyPIZD8vH1r5iXIzY2qCn7iqPTHbabl0+nkI7bdF2y/MBrbATtc
+ kw4IuApQo1a/O0Y9PD10NOTEDBI1C6/ZoJDTHiom/g==
+X-Google-Smtp-Source: ACHHUZ6Z4HjdtsvLUTBfEEJpcucb/2KcKAXw85OfHM0Szwvs5toBGa3MOzyeUX7rMhZxYpj5F9J4fR4ysvAAMC1yXxQ=
+X-Received: by 2002:a81:8a05:0:b0:55a:30f3:119 with SMTP id
+ a5-20020a818a05000000b0055a30f30119mr32369437ywg.35.1684174111398; Mon, 15
+ May 2023 11:08:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230515175544.GB1745913@ravnborg.org>
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-6-git-send-email-quic_khsieh@quicinc.com>
+ <41243dc6-eb9d-dea6-f945-cb1f6594a2a4@linaro.org>
+ <w6uswjuf7fiorrplqzhrpg3vrjbbdd3bgaxej5l6ez3pebn3d5@ytuxhim25j6q>
+ <1fd8fd48-9a0a-774c-1366-ea4c893f3b25@quicinc.com>
+In-Reply-To: <1fd8fd48-9a0a-774c-1366-ea4c893f3b25@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 15 May 2023 21:08:20 +0300
+Message-ID: <CAA8EJpqKRJ0nqQMDXdcSYEZapsKfxAsevcKnWPcsEVv+9P05fg@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] drm/msm/dpu: add support for DSC encoder v1.2
+ engine
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,113 +71,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_abhinavk@quicinc.com, andersson@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ quic_jesszhan@quicinc.com, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, sean@poorly.run,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 15, 2023 at 07:55:44PM +0200, Sam Ravnborg wrote:
-> Hi Thomas,
-> 
-> On Mon, May 15, 2023 at 11:40:23AM +0200, Thomas Zimmermann wrote:
-> > Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-> > helpers. Armada does not use damage handling, so DRM's fbdev helpers
-> > are mere wrappers around the fbdev code.
-> > 
-> > By using fbdev helpers directly within each DRM fbdev emulation,
-> > we can eventually remove DRM's wrapper functions entirely.
-> > 
-> > v2:
-> > 	* use FB_IO_HELPERS option
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Russell King <linux@armlinux.org.uk>
-> > ---
-> >  drivers/gpu/drm/armada/Kconfig        | 1 +
-> >  drivers/gpu/drm/armada/armada_fbdev.c | 9 ++++-----
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/armada/Kconfig b/drivers/gpu/drm/armada/Kconfig
-> > index f5c66d89ba99..5afade25e217 100644
-> > --- a/drivers/gpu/drm/armada/Kconfig
-> > +++ b/drivers/gpu/drm/armada/Kconfig
-> > @@ -3,6 +3,7 @@ config DRM_ARMADA
-> >  	tristate "DRM support for Marvell Armada SoCs"
-> >  	depends on DRM && HAVE_CLK && ARM && MMU
-> >  	select DRM_KMS_HELPER
-> > +	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
-> >  	help
-> >  	  Support the "LCD" controllers found on the Marvell Armada 510
-> >  	  devices.  There are two controllers on the device, each controller
-> > diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-> > index 0a5fd1aa86eb..6c3bbaf53569 100644
-> > --- a/drivers/gpu/drm/armada/armada_fbdev.c
-> > +++ b/drivers/gpu/drm/armada/armada_fbdev.c
-> > @@ -5,6 +5,7 @@
-> >   */
-> >  
-> >  #include <linux/errno.h>
-> > +#include <linux/fb.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> >  
-> > @@ -34,11 +35,9 @@ static void armada_fbdev_fb_destroy(struct fb_info *info)
-> >  static const struct fb_ops armada_fb_ops = {
-> >  	.owner		= THIS_MODULE,
-> >  	DRM_FB_HELPER_DEFAULT_OPS,
-> > -	.fb_read	= drm_fb_helper_cfb_read,
-> > -	.fb_write	= drm_fb_helper_cfb_write,
-> I had expected to see
-> .fb_read = fb_io_read,
-> 
-> But maybe this only used when using damage handling?
-> 
-> Likewise for drm_fb_helper_cfb_write.
-> 
-> ??
-> 
-> > -	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
-> > -	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
-> > -	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
-> > +	.fb_fillrect	= cfb_fillrect,
-> > +	.fb_copyarea	= cfb_copyarea,
-> > +	.fb_imageblit	= cfb_imageblit,
-> 
-> This part is as expected.
+On Mon, 15 May 2023 at 20:47, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+>
+> On 5/14/2023 2:46 PM, Marijn Suijten wrote:
+> > On 2023-05-12 21:19:19, Dmitry Baryshkov wrote:
+> > <snip.
+> >>> +static inline void dpu_hw_dsc_bind_pingpong_blk_1_2(struct dpu_hw_dsc *hw_dsc,
+> >>> +                                               const enum dpu_pingpong pp)
+> >>> +{
+> >>> +   struct dpu_hw_blk_reg_map *hw;
+> >>> +   const struct dpu_dsc_sub_blks *sblk;
+> >>> +   int mux_cfg = 0xf; /* Disabled */
+> >>> +
+> >>> +   hw = &hw_dsc->hw;
+> >>> +
+> >>> +   sblk = hw_dsc->caps->sblk;
+> >>> +
+> >>> +   if (pp)
+> >>> +           mux_cfg = (pp - PINGPONG_0) & 0x7;
+> >> Do we need an unbind support here like we do for the DSC 1.1?
+> >>
+> >>> +
+> >>> +   DPU_REG_WRITE(hw, sblk->ctl.base + DSC_CTL, mux_cfg);
+> >>> +}
+> > <snip>
+> >
+> > Friendly request to strip/snip unneeded context (as done in this reply)
+> > to make it easier to spot the conversation, and replies to it.
+> >
+> > - Marijn
+>
+> Thanks for suggestion.
+>
+> How can I do that?
+>
+> just manually delete unneeded context?
+>
+> Or are they other way (tricks) to do it automatically?
 
-Well, to me it looks like this has gone through an entire circular set
-of revisions:
-
-commit e8b70e4dd7b5dad7c2379de6e0851587bf86bfd6
-Author: Archit Taneja <architt@codeaurora.org>
-Date:   Wed Jul 22 14:58:04 2015 +0530
-
-    drm/armada: Use new drm_fb_helper functions
-
--       .fb_fillrect    = cfb_fillrect,
--       .fb_copyarea    = cfb_copyarea,
--       .fb_imageblit   = cfb_imageblit,
-+       .fb_fillrect    = drm_fb_helper_cfb_fillrect,
-+       .fb_copyarea    = drm_fb_helper_cfb_copyarea,
-+       .fb_imageblit   = drm_fb_helper_cfb_imageblit,
-
-commit 983780918c759fdbbf0bf033e701bbff75d2af23
-Author: Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Thu Nov 3 16:14:40 2022 +0100
-
-    drm/fb-helper: Perform all fbdev I/O with the same implementation
-
-+       .fb_read        = drm_fb_helper_cfb_read,
-+       .fb_write       = drm_fb_helper_cfb_write,
-
-and now effectively those two changes are being reverted, so we'd
-now be back to the pre-July 2015 state of affairs. As I believe
-the fbdev layer has been stable, this change merely reverts the
-driver back to what it once was.
+No automation can deduce what is irrelevant to the mail. So we do this manually.
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+With best wishes
+Dmitry
