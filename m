@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80908702DF2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:20:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA93702E5A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:37:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FA310E1DC;
-	Mon, 15 May 2023 13:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9F710E1DF;
+	Mon, 15 May 2023 13:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39BBA10E1D5;
- Mon, 15 May 2023 13:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684156834; x=1715692834;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=vk3MP0dR/qJwHu+wkKoimXE8DW0/t2thW/pmtWShnHU=;
- b=ewHClnBWUbOofcZXjg0KvLxAduKflKezZrEqOiJwStarf3tUe2/SWnc9
- BErf/zVIM2G/4ZiCmEiI3uGYCRe2LAhYlKZ3zLXa2FHxjVRoXYWaY0rd3
- cIqqgCcRlZbOuWwTloLU1rN6zt9Li2/O0JlqWKM2o7eDShTMl+SbINBix
- DYoql1qNGph8jGSLykqDHkdE1pO+2HRlRT1lp1qWzasdpkYAYVyRIQufG
- X/3tiDPXz2ZA71VV+lZollRRXKeB60w3188M0UBLjbnXC5AVvhdIHYnmP
- RYaCseeH6Z2X+53GUabZIaOtNgNlXjPwUpI/2BQlVxTTP+6b/mKXDusAU Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="330817158"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="330817158"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2023 06:20:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="731623597"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="731623597"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga008.jf.intel.com with SMTP; 15 May 2023 06:20:30 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 15 May 2023 16:20:29 +0300
-Date: Mon, 15 May 2023 16:20:29 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH 01/13] drm/i915/dp: Consider output_format while
- computing dsc bpp
-Message-ID: <ZGIxnayBXmOUz8YT@intel.com>
-References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
- <20230512062417.2584427-2-ankit.k.nautiyal@intel.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F019B10E1DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:37:00 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-3090408e09bso1989693f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 06:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684157819; x=1686749819; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=siTWifPxX1aManif72YDrV0r+hmOKzstfDGYR/mGvqU=;
+ b=rLHZSu5M7RzoKDhFsx1ys87yhSCrDbWTxAgMMuBUgps5wawJ0qQvajd4EV/blhJUvk
+ mf5SlkcbLuA8LQevhATGAuZ6wjKw0sknNT/LGwNU5+EfeNKDoO8I3NjrWVIy5NChlcuS
+ 9Lbiuf195fFKr6LR39RnmNs01s5xd/KUVGZRE+n9trEW2NK2OXJLc8KoU7wDZGa/G9Pb
+ psPo42k4wG7g5mczy7duZj9mXmPUeOu5pmaTEENyjhV176o+wMZ/TH9J18i8HfN+rxZp
+ Dw1w6WJ9FPpJIGhAiNvGnIB0JqtPz4Ue8rpbx4/nqbRZUXbxK29X0s5Ea9XMNHS67GoL
+ bPkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684157819; x=1686749819;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=siTWifPxX1aManif72YDrV0r+hmOKzstfDGYR/mGvqU=;
+ b=UFf87WS+QtunxVxJKD4Yu+8ALE1ztK9K+KwJ6BZ51q1cyvIAEJd8k50UxTEJHSuyvb
+ YgIKPLHv3PfPTYqg+i1l/plZ8c/dR2nd0HPGNvXIzjGKUI9bDTnyzLKQd9mUcVB0x/ty
+ hbxKLVFyrxMNsGdqXuRycFMeao6hkG5y2y04WMZF74Jkd9g+jCHeB+mclcLrJoFSWGgn
+ kiur4MvQXIpv3Cyc3R8H8R04fZOHyj5fi+uYz1svAqoRn+oAXufQdTIMhz+2VR9nRhXh
+ Le7JbiMfNm9gtrsojBqxg1u2KYc1gxXUb58cNSDwDe3o8j20NYzMUX36bRI2aFbPr1Wc
+ yDJA==
+X-Gm-Message-State: AC+VfDzNXYxqq7gM/S8CJ+xW6D+apueza9NftCsnN+t5UZjyEGOY7Qlp
+ 6OspuYxHp5oIZ10OispcX4tFmQ==
+X-Google-Smtp-Source: ACHHUZ4Rdql4HTts8WmrVYcQw4kCaOVth/28CmVLcDZlzwc9HN6Pxehp2ST/CdMixqBydRN1GYH6FQ==
+X-Received: by 2002:a5d:4b91:0:b0:306:2a1a:d265 with SMTP id
+ b17-20020a5d4b91000000b003062a1ad265mr23135895wrt.58.1684157818781; 
+ Mon, 15 May 2023 06:36:58 -0700 (PDT)
+Received: from localhost ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
+ by smtp.gmail.com with ESMTPSA id
+ w3-20020a05600018c300b002fe96f0b3acsm32786586wrq.63.2023.05.15.06.36.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 06:36:58 -0700 (PDT)
+Date: Mon, 15 May 2023 15:36:57 +0200
+From: Julien Stephan <jstephan@baylibre.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 2/2] phy: mtk-mipi-csi: add driver for CSI phy
+Message-ID: <ynrvqt24hjgng25r2xa3hxj35cvgotx7sdfrbqfjcvj3foegmr@4lqhen5yu6fh>
+References: <20230515090551.1251389-1-jstephan@baylibre.com>
+ <20230515090551.1251389-3-jstephan@baylibre.com>
+ <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230512062417.2584427-2-ankit.k.nautiyal@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,130 +74,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, intel-gfx@lists.freedesktop.org,
- anusha.srivatsa@intel.com, navaremanasi@google.com,
- dri-devel@lists.freedesktop.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, chunkuang.hu@kernel.org,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, krzysztof.kozlowski@linaro.org,
+ linux-mediatek@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
+ Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
+ "moderated list:ARM/Mediatek USB3 PHY DRIVER"
+ <linux-arm-kernel@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 12, 2023 at 11:54:05AM +0530, Ankit Nautiyal wrote:
-> While using DSC the compressed bpp is computed assuming RGB output
-> format. Consider the output_format and compute the compressed bpp
-> during mode valid and compute config steps.
-> 
-> For DP-MST we currently use RGB output format only, so continue
-> using RGB while computing compressed bpp for MST case.
-> 
-> v2: Use output_bpp instead for pipe_bpp to clamp compressed_bpp. (Ville)
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+On Mon, May 15, 2023 at 02:22:52PM +0200, AngeloGioacchino Del Regno wrote:
+> Il 15/05/23 11:05, Julien Stephan ha scritto:
+ ..snip..
+> > +	port->is_cdphy = of_property_read_bool(dev->of_node, "mediatek,is_cdphy");
+>
+> This driver doesn't support C-PHY mode, so you either add support for that, or in
+> my opinion you should simply refuse to probe it, as it is *dysfunctional* for the
+> unsupported case (and might even introduce unstabilities).
+>
+> 	/* At the moment, only D-PHY mode is supported */
+> 	if (!port->is_cdphy)
+> 		return -EINVAL;
+>
+> Also, please don't use underscores for devicetree properties: "mediatek,is-cdphy"
+> is fine.
+>
+Hi Angelo,
+You are right this driver does not support C-PHY mode, but some of the
+PHYs themselves support BOTH C-PHY AND D-PHY. The idea of `is_cdphy` variable
+is to know if the CSI port supports BOTH C-PHY AND D-PHY or only DPHY.
+For example mt8365 has 2 PHYs: CSI0 and CSI1. CSI1 support only D-PHY,
+while CSI0 can be configured in C-PHY or D-PHY. Registers for CD-PHY and
+D-PHY are almost identical, except that CD-PHY compatible has some extra
+bitfields to configure properly the mode and the lanes (because supporting
+trios for CD-PHY).
+If C-PHY support is eventually added into the driver, I think we will need
+another variable such as `mode` to know the mode. I was also thinking
+of adding a phy argument to determine if the mode is C-PHY or D-PHY.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+So here, I don't want to stop the probe if `is_cdphy` variable is set to
+true. Does it make sense ?
 
-> ---
->  drivers/gpu/drm/i915/display/intel_dp.c     | 19 +++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_dp.h     |  1 +
->  drivers/gpu/drm/i915/display/intel_dp_mst.c |  1 +
->  3 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 0cc57681dc4d..263c30948117 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -734,6 +734,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
->  				u32 link_clock, u32 lane_count,
->  				u32 mode_clock, u32 mode_hdisplay,
->  				bool bigjoiner,
-> +				enum intel_output_format output_format,
->  				u32 pipe_bpp,
->  				u32 timeslots)
->  {
-> @@ -758,6 +759,10 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
->  	bits_per_pixel = ((link_clock * lane_count) * timeslots) /
->  			 (intel_dp_mode_to_fec_clock(mode_clock) * 8);
->  
-> +	/* Bandwidth required for 420 is half, that of 444 format */
-> +	if (output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
-> +		bits_per_pixel *= 2;
-> +
->  	drm_dbg_kms(&i915->drm, "Max link bpp is %u for %u timeslots "
->  				"total bw %u pixel clock %u\n",
->  				bits_per_pixel, timeslots,
-> @@ -1151,11 +1156,16 @@ intel_dp_mode_valid(struct drm_connector *_connector,
->  
->  	if (HAS_DSC(dev_priv) &&
->  	    drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)) {
-> +		enum intel_output_format sink_format, output_format;
-> +		int pipe_bpp;
-> +
-> +		sink_format = intel_dp_sink_format(connector, mode);
-> +		output_format = intel_dp_output_format(connector, sink_format);
->  		/*
->  		 * TBD pass the connector BPC,
->  		 * for now U8_MAX so that max BPC on that platform would be picked
->  		 */
-> -		int pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, U8_MAX);
-> +		pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, U8_MAX);
->  
->  		/*
->  		 * Output bpp is stored in 6.4 format so right shift by 4 to get the
-> @@ -1175,6 +1185,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
->  							    target_clock,
->  							    mode->hdisplay,
->  							    bigjoiner,
-> +							    output_format,
->  							    pipe_bpp, 64) >> 4;
->  			dsc_slice_count =
->  				intel_dp_dsc_get_slice_count(intel_dp,
-> @@ -1707,6 +1718,7 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->  							    adjusted_mode->crtc_clock,
->  							    adjusted_mode->crtc_hdisplay,
->  							    pipe_config->bigjoiner_pipes,
-> +							    pipe_config->output_format,
->  							    pipe_bpp,
->  							    timeslots);
->  			/*
-> @@ -1742,9 +1754,12 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->  		 * calculation procedure is bit different for MST case.
->  		 */
->  		if (compute_pipe_bpp) {
-> +			u16 output_bpp = intel_dp_output_bpp(pipe_config->output_format,
-> +							     pipe_config->pipe_bpp);
-> +
->  			pipe_config->dsc.compressed_bpp = min_t(u16,
->  								dsc_max_output_bpp >> 4,
-> -								pipe_config->pipe_bpp);
-> +								output_bpp);
->  		}
->  		pipe_config->dsc.slice_count = dsc_dp_slice_count;
->  		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-> index ef39e4f7a329..db86c2b71c1f 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
-> @@ -107,6 +107,7 @@ u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
->  				u32 link_clock, u32 lane_count,
->  				u32 mode_clock, u32 mode_hdisplay,
->  				bool bigjoiner,
-> +				enum intel_output_format output_format,
->  				u32 pipe_bpp,
->  				u32 timeslots);
->  u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 63d61e610210..ee28bb89bffe 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -973,6 +973,7 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
->  							    target_clock,
->  							    mode->hdisplay,
->  							    bigjoiner,
-> +							    INTEL_OUTPUT_FORMAT_RGB,
->  							    pipe_bpp, 64) >> 4;
->  			dsc_slice_count =
->  				intel_dp_dsc_get_slice_count(intel_dp,
-> -- 
-> 2.25.1
+Regards
+Julien
 
--- 
-Ville Syrjälä
-Intel
+.. snip..
+> > +
+> > +	phy = devm_phy_create(dev, NULL, &mtk_dphy_ops);
+> > +	if (IS_ERR(phy)) {
+> > +		dev_err(dev, "Failed to create PHY: %ld\n", PTR_ERR(phy));
+> > +		return PTR_ERR(phy);
+> > +	}
+>
+> Regards,
+> Angelo
+>
