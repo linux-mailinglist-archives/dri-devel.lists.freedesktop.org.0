@@ -1,59 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92F8702A62
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 12:20:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 501FC702A6F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 12:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0911C10E193;
-	Mon, 15 May 2023 10:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF4110E009;
+	Mon, 15 May 2023 10:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD4BE10E193;
- Mon, 15 May 2023 10:20:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684146044; x=1715682044;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=jsLc8i68xEC9JMqzwbvTBigsxEb2nUEaRjTTHYZ3cy0=;
- b=OlTeg6NOz6biuTT1rCjtloPt3IRPniihblU5UIG5swTkPrG9oWWuEOBR
- vYR7aHylZM47ybnYeUYntJSZN9LkGASUE7yohKcPPkNBsepxxWIA6Vr4+
- 1AIeVWsjNuiX7LVGo7LLDMlIeB3q8AiN5nnw90h96oQC/v7o+/JXE5aBq
- NvHgv6p2xe9I+z6l5Sgcz8goWREAe34bS36tOu1mrZFwzoQqDZ49qSQAp
- yHVwLKfV1uV4TuGCD7j5OSiyudvdKFUggU0iD5U8hu/ynPSvaPFl101qW
- ZAdtcthiJFwH4uLlSbzzViG4Z93gtERaBACmDagIQWQNDnalR/NvI3u3X Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="351198108"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="351198108"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2023 03:20:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="812888756"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; d="scan'208";a="812888756"
-Received: from zolayode-mobl.ger.corp.intel.com (HELO [10.213.214.133])
- ([10.213.214.133])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2023 03:20:41 -0700
-Message-ID: <6ebba088-68e3-3f6e-4ccc-f29ab5d66fa9@linux.intel.com>
-Date: Mon, 15 May 2023 11:20:39 +0100
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9294410E009
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 10:25:38 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id
+ 41be03b00d2f7-517c840f181so6638243a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 03:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684146338; x=1686738338;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0SJD8s7/vlpUC+r9xw+PjNSxoRA6UPLfFdFyhR8/9gI=;
+ b=KQHaZ6uirginWKjs5TjDpahbCg8auMau95vKtwgMirG1+Nx9CWp3NOpLX8tTx+m0ub
+ MkfiOuAivpTEOc4Fg2xgwghITnNL0fEmgZMtTqJNoG6hTgfoSM5zJ+7L/VH3RmPdxiCg
+ vfq+Aj+DdAaw1FH4pn6jydaMxBk5pRgcqvx+/MkxbKYbQwAcfXoEEm3wVrN5xt0cKHeo
+ yk/RbOgs6gx2zgtHpX0s7ShO+YMaBL8g4zknoaXEjPOSZBHPttoZimmD+YS0bWR+yGOD
+ rh1t1Tw+FWrjyZyWGC/K9j68ROiUGDNliednQmA0C3WIxb3prGpBGiwJojFqb15AgmIt
+ u4SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684146338; x=1686738338;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0SJD8s7/vlpUC+r9xw+PjNSxoRA6UPLfFdFyhR8/9gI=;
+ b=G9RKdSfPyzsRoa9vN9ND3qbdovVut1Tia9Gy8hTPeKCDy0iUdkwKu24eX1VF8Ux18B
+ eRJr884VPsR2pHapUIwl8IvuJqE9txNoHQq1nRXTyZzQ9rxgoHtxAyIx+qvBWOfudIl9
+ Jb+sWsUoqrta6j6k4EMec6hsw9XfkMt2yrm4i1VaO+SJ6XO4q8AouWOWSmevR02O8fJ8
+ F5M3hHjV8eN8JDpTzWymqU2c1H/8iSA86L9EoYatQwjuKZfCl8PaqsCWQe8jqfxjCm/R
+ Vla0DHks3gyiwylvy9ZNXx4/ag2hYVnOyXmNy0UUc+6QOMZFPpMvCAFN/oAhJdI9VDgY
+ M/+g==
+X-Gm-Message-State: AC+VfDwBl7W8ndUXiHOIqSrcB8TIrJLnPY2dIVg239lwW1invGihfksm
+ 5MJx9IYHYbIlmtnMMGNMBrgkTSP1j4lqneZGNx4=
+X-Google-Smtp-Source: ACHHUZ7VZh44ksmzDFTWNKgZ/ZRBATJGXm44xz2asG416oMZTokNGZRbtejpG45L9VAFCD3q+1W5gnYg7STctGGcD8E=
+X-Received: by 2002:a17:90a:cf95:b0:24e:4c8:3ae5 with SMTP id
+ i21-20020a17090acf9500b0024e04c83ae5mr34750211pju.28.1684146337573; Mon, 15
+ May 2023 03:25:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v7 4/4] drm/i915: Allow user to set cache at BO creation
-Content-Language: en-US
-To: Jordan Justen <jordan.l.justen@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, fei.yang@intel.com
-References: <20230509165942.2155-1-fei.yang@intel.com>
- <20230509165942.2155-5-fei.yang@intel.com>
- <ZFwXOPV9eY0mCSyz@ashyti-mobl2.lan>
- <168392127300.1245490.15218496130423132985@jljusten-skl>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <168392127300.1245490.15218496130423132985@jljusten-skl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230506192453.725621-1-aford173@gmail.com>
+ <20230506192453.725621-6-aford173@gmail.com>
+ <275064c0e6c814d8e8fda6bcf70d6e8c3bdc3011.camel@pengutronix.de>
+ <CGME20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b@eucas1p1.samsung.com>
+ <CAHCN7xKq_hZXWZVMG0xFK_zGfm18ag48a83BtL5OyE6VJ3FMTA@mail.gmail.com>
+ <7a83b8c1-88ff-0ae6-9c3b-d49fc08c7ac0@samsung.com>
+ <CAHCN7xLZNvMx=U9=Fp=qrG9xaMhU1PS_nQO5FfC2S+XLO8YLXQ@mail.gmail.com>
+ <96150852-84ce-f750-2e2e-8cb53cde5719@samsung.com>
+In-Reply-To: <96150852-84ce-f750-2e2e-8cb53cde5719@samsung.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 15 May 2023 05:25:26 -0500
+Message-ID: <CAHCN7x+thNWWTfyARTdXb_zbdo2Aq-gqjs3kqSXB6nczsoFnRw@mail.gmail.com>
+Subject: Re: [PATCH V5 5/6] drm: bridge: samsung-dsim: Dynamically configure
+ DPHY timing
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +76,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arkadiusz Hiler <arek@hiler.eu>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Petri Latvala <adrinael@adrinael.net>, Matt Roper <matthew.d.roper@intel.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jagan Teki <jagan@amarulasolutions.com>, Michael Walle <michael@walle.cc>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, May 15, 2023 at 2:37=E2=80=AFAM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 13.05.2023 06:25, Adam Ford wrote:
+> > On Fri, May 12, 2023 at 4:02=E2=80=AFPM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> On 12.05.2023 22:00, Adam Ford wrote:
+> >>> On Fri, May 12, 2023 at 2:37=E2=80=AFPM Lucas Stach <l.stach@pengutro=
+nix.de> wrote:
+> >>>> Am Samstag, dem 06.05.2023 um 14:24 -0500 schrieb Adam Ford:
+> >>>>> The DPHY timings are currently hard coded. Since the input
+> >>>>> clock can be variable, the phy timings need to be variable
+> >>>>> too.  Add an additional variable to the driver data to enable
+> >>>>> this feature to prevent breaking boards that don't support it.
+> >>>>>
+> >>>>> The phy_mipi_dphy_get_default_config function configures the
+> >>>>> DPHY timings in pico-seconds, and a small macro converts those
+> >>>>> timings into clock cycles based on the pixel clock rate.
+> >>>>>
+> >>>> This week I finally had some time to take a deeper look at this seri=
+es
+> >>>> and test it on some of my systems.
+> >>> Thanks for testing this!
+> >>>> This patch causes issues when the burst clock rate is fixed by
+> >>>> supplying the DT entry. Instead of describing the issue below, I'm
+> >>>> attaching the patch that makes things work on my system.
+> >>> Oops, sorry about that.
+> >>>
+> >>>> I would appreciate if you could test this one on your side. Feel fre=
+e
+> >>>> to squash it into yours if you find it working properly.
+> >>> I reviewed your patch, and it looks like it makes a lot of sense.
+> >>> If it works, I'll squash them together and add your name to the sign-=
+off.
+> > That worked really well, I'll add it to my WIP directory since Marek S
+> > said he'd test the other proposal of dropping the dynamic phy flag and
+> > corresponding check in favor of pushing everyone to the same code.
+> >
+> >>>> Also I would almost bet that dynamic_dphy is working on the Exynos
+> >>>> boards with that fix added. So if anyone with access to those boards
+> >>>> would like to give it a shot, we may be able to get rid of the
+> >>>> hardcoded PHY parameters altogether, which would be a nice cleanup.
+> >>> I wondered the same thing, but I didn't want to create more work for
+> >>> Marek S and since there was so much churn getting the original driver
+> >>> ported, I thought it would be the safest thing to try to give the
+> >>> imx8m m/n/p the features without breaking the Exynos.
+> >>>
+> >>> Marek S - Do you want me to post this file without the extra checks t=
+o
+> >>> see if it still works with Exynos?
+> >> Feel free to send me patches to test or just point to your
+> >> work-in-progress git repo.
+> > Thanks for testing this, Marek S.  My work-in-progress branch is:
+> >
+> > https://protect2.fireeye.com/v1/url?k=3D2eeb1ed9-4e098384-2eea9596-000b=
+abd9f1ba-9ad5c339e5ea6e4d&q=3D1&e=3D652be603-d622-4d0e-95d3-639656ab1af1&u=
+=3Dhttps%3A%2F%2Fgithub.com%2Faford173%2Flinux%2Ftree%2Fdsim-updates-wip
+> >
+> > Depending on what you find will determine how I modify the next
+> > revision of the code I push, so I very much appreciate your feedback.
+> > Hopefully the suggestion from Lucas will work for your applications
+> > and we can reduce some of the code complexity.
+>
+> The above mentioned 'dsim-updates-wip' branch works fine on all my
+> Exynos based boards.
 
-On 12/05/2023 20:54, Jordan Justen wrote:
-> On 2023-05-10 15:14:16, Andi Shyti wrote:
->> Hi,
->>
->> On Tue, May 09, 2023 at 09:59:42AM -0700, fei.yang@intel.com wrote:
->>> From: Fei Yang <fei.yang@intel.com>
->>>
->>> To comply with the design that buffer objects shall have immutable
->>> cache setting through out their life cycle, {set, get}_caching ioctl's
->>> are no longer supported from MTL onward. With that change caching
->>> policy can only be set at object creation time. The current code
->>> applies a default (platform dependent) cache setting for all objects.
->>> However this is not optimal for performance tuning. The patch extends
->>> the existing gem_create uAPI to let user set PAT index for the object
->>> at creation time.
->>> The new extension is platform independent, so UMD's can switch to using
->>> this extension for older platforms as well, while {set, get}_caching are
->>> still supported on these legacy paltforms for compatibility reason.
->>>
->>> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
->>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>> Signed-off-by: Fei Yang <fei.yang@intel.com>
->>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->>
->> just for a matter of completeness, this is new uapi is tested
->> through the "create-ext-set-pat" test case from the "gem_create"
->> igt test[1]. Can any of the igt maintainers give it a look,
->> comment and ack?
->>
->> The mesa merge request is here [2]. As there is a merge request
->> in progress, would anyone from mesa be so kind to give an ack to
->> this patch, as well?
->>
->> With the mesa ack in place this patch should be ready to go and
->> I'm looking forward to having it in.
-> 
-> I tested my MR [2] in our CI. There was some bad news, but I don't
-> think it needs to block these patches.
-> 
-> The good news was that I found that OpenGL testing with our iris
-> driver appeared to have ok results when using this interface.
-> 
-> But, our Vulkan Anvil driver was not stable with the current patches
-> in the Mesa MR. We will need to debug this further before using the
-> interface on Vulkan.
-> 
-> I don't suspect that this is an issue with the kernel interface, so
-> you can add:
-> 
-> Tested-by: Jordan Justen <jordan.l.justen@intel.com>
+Thank you for testing.  I'll work on squashing some of the patches
+together and eliminating some of the duplicative stuff so the end
+result should be the same as what is in WIP and submit another
+revision soon.
 
-I had a browse through the Mesa merge request and it looks all r-b-ed to 
-me. To confirm - it will get merged when we merge the i915 half?
+thanks!
 
-Could you also give an a-b for the i915 patch please?
-
-Regards,
-
-Tvrtko
+adam
+>
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
