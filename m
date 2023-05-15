@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21DC702FCA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:31:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 886B3702FC8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:31:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D48710E201;
-	Mon, 15 May 2023 14:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB4510E1FC;
+	Mon, 15 May 2023 14:30:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F42010E1F8;
- Mon, 15 May 2023 14:30:51 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1aad5245632so91351995ad.3; 
- Mon, 15 May 2023 07:30:51 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DEB10E1F8;
+ Mon, 15 May 2023 14:30:53 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-643bb9cdd6eso10656137b3a.1; 
+ Mon, 15 May 2023 07:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684161051; x=1686753051;
+ d=gmail.com; s=20221208; t=1684161052; x=1686753052;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Iod2HA8RXIaY6bEo4iIsHcjoOi8lEUL6tKacYY2zxQ=;
- b=Du3SrjPlot9vra7vbm15yFa+93msV8VwbrGyqpMGM1cd4yp2vF8DMR4WF/5//MtR4a
- tfH27KhLeXo5IkusOkoa5qcwAMEFJujYdk5jpqE6lYYS27eSO/4JJb/JomSJ75syzh/T
- SVdeViCXi6VHGAYauuFRDpd1Xw9VcWA5SBKYRvljB3wt0rAHQOXk2sEpQJmpRDQJK7R7
- fXmCkn3Pq3U2OEVZS84AbNjdDNDEaufXb0byGfqk4qIslZV3TEdWzujNR6RLN43FTq36
- /N/15875d+hjrGfSRb8xHAThnqJd70tSoSUqp0IidUEYaIYVzd36SmrnKWZShzEUJtlN
- MPow==
+ bh=IPtbgHx5pvKBNpqMIwwso4Kz83kyTXBOXbUJsvgFKio=;
+ b=h7IgYrEFwajKVJ586ZDDv70DkO3URA7qqNdbXJOx6+Hy4RCSrL2yPbZXywpq5w6+y4
+ OcoXUxVoAoSkDrQ4pUVNlZHW4Q+gOGshZ0pzsm/pRn0m2/+qqVnYLEyj/nmVo+E2PCjA
+ oAGUhjP5fB/ZEu8VEDM0iixekXob7I7Fkmh0xnZtD1ZyNM3EiaCW3nvDp88RklNt1ahl
+ rPCpSkv8Z61oCgLpUUVqiqyvDpj/s4bkH1xNGTtZ0P6ZSczXe3gnr7vQXr1H0zdmRRY5
+ vS65EHnMET4ad642Ra39vqN01oJqPOMw3McMQGgdAt+e0OTKBK1sme3h5tYjYJ6vjw7h
+ /vKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684161051; x=1686753051;
+ d=1e100.net; s=20221208; t=1684161052; x=1686753052;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Iod2HA8RXIaY6bEo4iIsHcjoOi8lEUL6tKacYY2zxQ=;
- b=HCvPAlB+Ftywvl9mo8KOUSyZO+SpCfTBnkUd+J45iK0HclHVuPe7LhWeEH3C6SK5n8
- OEG1C09yXpsHk9YLkiLzwZk3ajhIjRJQjE4fPdjmoenVyFSZwRPpjX9+wXwZDnV53WeP
- g+8l2Lx9ZCUBuVvY7ORxX4Qxk+JgP2MBRAYdRJzWXwNJPkzraHbCpR97hmYZ4ceJasvh
- doFFqWOFV9zaGAcTATapIw6c1ZOMMUGagQgAwJGUIe9hsfxArRHEpHuVmWJUy5IXYiwU
- JRnqQwR7McwgQJxUC9iHkpXicn/4SxgHI0YPrABbLnEOurCmYu93v9e9AY2Ld5afhlku
- s2Hw==
-X-Gm-Message-State: AC+VfDzvdERSJbehudYIfL16sevEyzuUHX/z/Wqnc3Dsnrxf852Y3Zt/
- Y+vV/N68rHOJpVfm3u+uQFaOsBf55BM=
-X-Google-Smtp-Source: ACHHUZ4vFqF6P3tMA+yr/XvkAuwzFZ1n/my0C/J6X12mO1Rl1F99uQYMriijeaUTHNs1fDNQrEcC4g==
-X-Received: by 2002:a17:902:d483:b0:1ac:896f:f655 with SMTP id
- c3-20020a170902d48300b001ac896ff655mr31761178plg.50.1684161050822; 
- Mon, 15 May 2023 07:30:50 -0700 (PDT)
+ bh=IPtbgHx5pvKBNpqMIwwso4Kz83kyTXBOXbUJsvgFKio=;
+ b=URpT5RMjC4D7ObTQaNAqS10GeiTRvDt6dYThz3tehWlW3EdlKbeaUTCHWXxON1GAa9
+ aMoSbYdeLttYT2cnGr4Bmka91m91GA1RYlXyca1fXb0JaCg9Y+BGZlR5B0eZutoR7F1y
+ HyI3aiUiu8VFztwY2vZ9E+4sz9XjaxCaNkrSG9iuCtdeDih7O/cqxAipsAQ7LCWeKMFc
+ ZrcGN4DxZiquI+gdGYGvlx+S5+cr1lTGnY0+wgRPWBgz8UjzUmHH0kkuSrXllX+wSa7G
+ CgR53K2AZ2JDmOy0StZuc9MfHq9zg5zreJezfCnV5RmEbhkSF1UjG0GW0Rmj1Cj1Lkxl
+ fe2w==
+X-Gm-Message-State: AC+VfDwtQfhx9h/Kkf3THsqOqc+yz10CbWDBdgFgkrcrpYF1hxirtRWp
+ TQbzbOGtEkJSu6L0NciVs52TM0+U1Q4=
+X-Google-Smtp-Source: ACHHUZ5W5LyVqcEpb0f8ngjuy8aCj0jQZi+Th7CZErNuBgiTOji2SVBxyRpp2T43jz8bd0rNaKk8Mg==
+X-Received: by 2002:a05:6a21:9988:b0:100:3964:6cb with SMTP id
+ ve8-20020a056a21998800b00100396406cbmr36102198pzb.40.1684161052599; 
+ Mon, 15 May 2023 07:30:52 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- z2-20020a170903018200b001ae12378732sm3171573plg.300.2023.05.15.07.30.50
+ s145-20020a632c97000000b0050bc4ca9024sm11564000pgs.65.2023.05.15.07.30.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 07:30:50 -0700 (PDT)
+ Mon, 15 May 2023 07:30:52 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/9] drm: Add common fdinfo helper
-Date: Mon, 15 May 2023 07:30:09 -0700
-Message-Id: <20230515143023.801167-3-robdclark@gmail.com>
+Subject: [PATCH v4 3/9] drm/msm: Switch to fdinfo helper
+Date: Mon, 15 May 2023 07:30:10 -0700
+Message-Id: <20230515143023.801167-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515143023.801167-1-robdclark@gmail.com>
 References: <20230515143023.801167-1-robdclark@gmail.com>
@@ -74,229 +74,124 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Sean Paul <sean@poorly.run>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  Christopher Healy <healych@amazon.com>,
- open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Handle a bit of the boiler-plate in a single case, and make it easier to
-add some core tracked stats.  This also ensures consistent behavior
-across drivers for standardised fields.
+Now that we have a common helper, use it.
 
-v2: Update drm-usage-stats.rst, 64b client-id, rename drm_show_fdinfo
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/gpu/drm-usage-stats.rst | 10 +++++++-
- drivers/gpu/drm/drm_file.c            | 35 +++++++++++++++++++++++++++
- include/drm/drm_drv.h                 |  7 ++++++
- include/drm/drm_file.h                |  4 +++
- 4 files changed, 55 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_drv.c | 11 +++++------
+ drivers/gpu/drm/msm/msm_gpu.c |  2 --
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 72d069e5dacb..552195fb1ea3 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -119,14 +119,22 @@ value until a monotonic update is seen.
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 2f2f9e42c519..467c689a95f2 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1036,57 +1036,56 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_PREP, msm_ioctl_gem_cpu_prep, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_FINI, msm_ioctl_gem_cpu_fini, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_GEM_SUBMIT,   msm_ioctl_gem_submit,   DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_WAIT_FENCE,   msm_ioctl_wait_fence,   DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_GEM_MADVISE,  msm_ioctl_gem_madvise,  DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+ };
  
- - drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
- 
- Engine identifier string must be the same as the one specified in the
- drm-engine-<str> tag and shall contain the maximum frequency for the given
- engine.  Taken together with drm-cycles-<str>, this can be used to calculate
- percentage utilization of the engine, whereas drm-engine-<str> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
- 
-+Implementation Details
-+======================
-+
-+Drivers should use drm_show_fdinfo() in their `struct file_operations`, and
-+implement &drm_driver.show_fdinfo if they wish to provide any stats which
-+are not provided by drm_show_fdinfo().  But even driver specific stats should
-+be documented above and where possible, aligned with other drivers.
-+
- Driver specific implementations
--===============================
-+-------------------------------
- 
- :ref:`i915-usage-stats`
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index a51ff8cee049..6d5bdd684ae2 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -141,28 +141,31 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-  *
-  * This allocates a new DRM file context. It is not linked into any context and
-  * can be used by the caller freely. Note that the context keeps a pointer to
-  * @minor, so it must be freed before @minor is.
-  *
-  * RETURNS:
-  * Pointer to newly allocated context, ERR_PTR on failure.
-  */
- struct drm_file *drm_file_alloc(struct drm_minor *minor)
+-static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
++static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
  {
-+	static atomic64_t ident = ATOMIC_INIT(0);
- 	struct drm_device *dev = minor->dev;
- 	struct drm_file *file;
+-	struct drm_file *file = f->private_data;
+ 	struct drm_device *dev = file->minor->dev;
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct drm_printer p = drm_seq_file_printer(m);
+ 
+ 	if (!priv->gpu)
+ 		return;
+ 
+-	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
++	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, p);
+ }
+ 
+ static const struct file_operations fops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_GEM_FOPS,
+-	.show_fdinfo = msm_fop_show_fdinfo,
++	.show_fdinfo = drm_show_fdinfo,
+ };
+ 
+ static const struct drm_driver msm_driver = {
+ 	.driver_features    = DRIVER_GEM |
+ 				DRIVER_RENDER |
+ 				DRIVER_ATOMIC |
+ 				DRIVER_MODESET |
+ 				DRIVER_SYNCOBJ,
+ 	.open               = msm_open,
+-	.postclose           = msm_postclose,
++	.postclose          = msm_postclose,
+ 	.lastclose          = drm_fb_helper_lastclose,
+ 	.dumb_create        = msm_gem_dumb_create,
+ 	.dumb_map_offset    = msm_gem_dumb_map_offset,
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+ 	.gem_prime_mmap     = msm_gem_prime_mmap,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = msm_debugfs_init,
+ #endif
++	.show_fdinfo        = msm_show_fdinfo,
+ 	.ioctls             = msm_ioctls,
+ 	.num_ioctls         = ARRAY_SIZE(msm_ioctls),
+ 	.fops               = &fops,
+ 	.name               = "msm",
+ 	.desc               = "MSM Snapdragon DRM",
+ 	.date               = "20130625",
+ 	.major              = MSM_VERSION_MAJOR,
+ 	.minor              = MSM_VERSION_MINOR,
+ 	.patchlevel         = MSM_VERSION_PATCHLEVEL,
+ };
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index b1647b851018..52db90e34ead 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -144,22 +144,20 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+ 		return ret;
+ 
+ 	gpu->suspend_count++;
+ 
+ 	return 0;
+ }
+ 
+ void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 			 struct drm_printer *p)
+ {
+-	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
+-	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
+ 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+ 	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+ 	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
+ }
+ 
+ int msm_gpu_hw_init(struct msm_gpu *gpu)
+ {
  	int ret;
  
- 	file = kzalloc(sizeof(*file), GFP_KERNEL);
- 	if (!file)
- 		return ERR_PTR(-ENOMEM);
- 
-+	/* Get a unique identifier for fdinfo: */
-+	file->client_id = atomic64_inc_return(&ident);
- 	file->pid = get_pid(task_pid(current));
- 	file->minor = minor;
- 
- 	/* for compatibility root is always authenticated */
- 	file->authenticated = capable(CAP_SYS_ADMIN);
- 
- 	INIT_LIST_HEAD(&file->lhead);
- 	INIT_LIST_HEAD(&file->fbs);
- 	mutex_init(&file->fbs_lock);
- 	INIT_LIST_HEAD(&file->blobs);
-@@ -861,20 +864,52 @@ EXPORT_SYMBOL(drm_send_event_locked);
- void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
- {
- 	unsigned long irqflags;
- 
- 	spin_lock_irqsave(&dev->event_lock, irqflags);
- 	drm_send_event_helper(dev, e, 0);
- 	spin_unlock_irqrestore(&dev->event_lock, irqflags);
- }
- EXPORT_SYMBOL(drm_send_event);
- 
-+/**
-+ * drm_show_fdinfo - helper for drm file fops
-+ * @seq_file: output stream
-+ * @f: the device file instance
-+ *
-+ * Helper to implement fdinfo, for userspace to query usage stats, etc, of a
-+ * process using the GPU.  See also &drm_driver.show_fdinfo.
-+ *
-+ * For text output format description please see Documentation/gpu/drm-usage-stats.rst
-+ */
-+void drm_show_fdinfo(struct seq_file *m, struct file *f)
-+{
-+	struct drm_file *file = f->private_data;
-+	struct drm_device *dev = file->minor->dev;
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	drm_printf(&p, "drm-driver:\t%s\n", dev->driver->name);
-+	drm_printf(&p, "drm-client-id:\t%llu\n", file->client_id);
-+
-+	if (dev_is_pci(dev->dev)) {
-+		struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+		drm_printf(&p, "drm-pdev:\t%04x:%02x:%02x.%d\n",
-+			   pci_domain_nr(pdev->bus), pdev->bus->number,
-+			   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
-+	}
-+
-+	if (dev->driver->show_fdinfo)
-+		dev->driver->show_fdinfo(&p, file);
-+}
-+EXPORT_SYMBOL(drm_show_fdinfo);
-+
- /**
-  * mock_drm_getfile - Create a new struct file for the drm device
-  * @minor: drm minor to wrap (e.g. #drm_device.primary)
-  * @flags: file creation mode (O_RDWR etc)
-  *
-  * This create a new struct file that wraps a DRM file context around a
-  * DRM minor. This mimicks userspace opening e.g. /dev/dri/card0, but without
-  * invoking userspace. The struct file may be operated on using its f_op
-  * (the drm_device.driver.fops) to mimick userspace operations, or be supplied
-  * to userspace facing functions as an internal/anonymous client.
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 5b86bb7603e7..5edf2a13733b 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -394,20 +394,27 @@ struct drm_driver {
- 	 * Called by the user via ioctl.
- 	 *
- 	 * Returns:
- 	 *
- 	 * Zero on success, negative errno on failure.
- 	 */
- 	int (*dumb_map_offset)(struct drm_file *file_priv,
- 			       struct drm_device *dev, uint32_t handle,
- 			       uint64_t *offset);
- 
-+	/**
-+	 * @show_fdinfo:
-+	 *
-+	 * Print device specific fdinfo.  See Documentation/gpu/drm-usage-stats.rst.
-+	 */
-+	void (*show_fdinfo)(struct drm_printer *p, struct drm_file *f);
-+
- 	/** @major: driver major number */
- 	int major;
- 	/** @minor: driver minor number */
- 	int minor;
- 	/** @patchlevel: driver patch level */
- 	int patchlevel;
- 	/** @name: driver name */
- 	char *name;
- 	/** @desc: driver description */
- 	char *desc;
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 0d1f853092ab..6de6d0e9c634 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -251,20 +251,23 @@ struct drm_file {
- 	 * primary nodes and authentication <drm_primary_node>`.
- 	 */
- 	struct drm_master *master;
- 
- 	/** @master_lookup_lock: Serializes @master. */
- 	spinlock_t master_lookup_lock;
- 
- 	/** @pid: Process that opened this file. */
- 	struct pid *pid;
- 
-+	/** @client_id: A unique id for fdinfo */
-+	u64 client_id;
-+
- 	/** @magic: Authentication magic, see @authenticated. */
- 	drm_magic_t magic;
- 
- 	/**
- 	 * @lhead:
- 	 *
- 	 * List of all open files of a DRM device, linked into
- 	 * &drm_device.filelist. Protected by &drm_device.filelist_mutex.
- 	 */
- 	struct list_head lhead;
-@@ -430,14 +433,15 @@ int drm_event_reserve_init(struct drm_device *dev,
- 			   struct drm_file *file_priv,
- 			   struct drm_pending_event *p,
- 			   struct drm_event *e);
- void drm_event_cancel_free(struct drm_device *dev,
- 			   struct drm_pending_event *p);
- void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e);
- void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
- void drm_send_event_timestamp_locked(struct drm_device *dev,
- 				     struct drm_pending_event *e,
- 				     ktime_t timestamp);
-+void drm_show_fdinfo(struct seq_file *m, struct file *f);
- 
- struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
- 
- #endif /* _DRM_FILE_H_ */
+ 	WARN_ON(!mutex_is_locked(&gpu->lock));
 -- 
 2.40.1
 
