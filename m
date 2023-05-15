@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88475702895
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A76770289C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BAC10E18B;
-	Mon, 15 May 2023 09:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8699310E18D;
+	Mon, 15 May 2023 09:30:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1BE10E18E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:29:58 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4efe8991b8aso14877739e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 02:29:58 -0700 (PDT)
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0CB910E18D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:30:53 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-55aa1da9d4aso218902587b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 02:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684142993; x=1686734993;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9cHgRTt5ciQcLth2917TOaI71QUNMjPwJlxqviRQlkI=;
- b=cSqShpTOI8Qp1A4BovqjgmYBLEVspYUBWl8ze433vBCnCcZmetofZfwPc8xTP1U+WI
- hdUwuRw5Lo/kwnwaZoZy7LAIx5r4u9AalZ/cuhUqa0wmywYXt2DnfB7QQh5whmjqQE3X
- +tpokuNbiehrP1gN3igiNQNIRRRJekYbuQmHAPbniecT4qyQM5xtLoLhSBSQvt6zh7Va
- aRBJkMX3/Rt8y6mZZZDdM6p2vs5uRek5ZuCnEDu0krwylfqKuDcWziB/VctZT1BmlwCc
- itdd9AJfdWVkCTAkJuVZLfZOjFw9i7uVu0cAbVLeiJ1pRPM5WMYASk5lidOw+JstPCZB
- NhHA==
+ d=linaro.org; s=google; t=1684143052; x=1686735052;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A5HVddrLO4VbxVo027rV2P/x57tsHFKWdwCAhtYMAxE=;
+ b=TN13Gw+87AfRdcii2pT2TNUW03S6Qfsr390oJQf/HMbmUJvKDE7b3rrzPfjiuDFzO0
+ 0B90Euaw4KatLguyam/1vMR1rd8owBBmyB1bnFd+mkplzj/31JgV+2rDsdWv9Ssezdgn
+ qarSl/dv+CTwlRF/6DtefiFLVO4sjAfCESoS6DHmEFpaWxFO6TnhEa+lL+UqZ9cy2id0
+ fSM4MJ35LkQIYHxCHT4MFrk0/+gHu5OTRIrenPQGND/EkSCM6bNqSdRDHvdvzO3T7m7P
+ ni+AvGXjo1uZsNAiaUDRaB4SAdH1v9SsLe3Ps6MerT576xMcLF57UO9YGF21R8p2vITu
+ 2cTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684142993; x=1686734993;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9cHgRTt5ciQcLth2917TOaI71QUNMjPwJlxqviRQlkI=;
- b=Uy8gZYU5mc4aYuLirqGTrW6N8KuO12TRhTQptYuHHnm5Er7bTQHxOOBOSvw1Dre1iB
- 8LzK5sMybDoR3XdyrN1DwBCRVsUvk84qOK1wwE3+PwkmF/wFtvLDetDFrCiKZn4+13f+
- dKWM3UPM8/Dl0KqtAE9Rd2EH6FrhG92uWfogBeGw0zByjpK/UGRYjtit3rIHtRFpHcaG
- 0Xd46aFnLqY7lo8wHZ4D39vnE31+pSVi3A9mQhx5XX77Y+CSBSNKa44AmTdwdKQ1f5wF
- sviCJb/FX8QEVvSyrNsN45EI9yR/cba3CQ4Fv7gmv39N44YHvUqvYF2AS6d9ERPtDsJ1
- apDQ==
-X-Gm-Message-State: AC+VfDz/lJQEJTdweZOGR8/DB/yo207t4m8mSH1iXZ5GgtJNb5zEkRmZ
- nWOIaLsyuamLEIajW8LmSZ3LoQtOL293LzfliIY=
-X-Google-Smtp-Source: ACHHUZ7HbfNI2S8ZI6vYnnU5B4f0S/n0M0PYa+0OWdGAyOatpYbQDDz4ChTPE7d35/eCOiyR8D6dMw==
-X-Received: by 2002:ac2:4ac7:0:b0:4f2:5442:511d with SMTP id
- m7-20020ac24ac7000000b004f25442511dmr168349lfp.29.1684142993381; 
- Mon, 15 May 2023 02:29:53 -0700 (PDT)
-Received: from Linus-Dell.lan ([85.235.12.238])
- by smtp.gmail.com with ESMTPSA id
- 2-20020ac24842000000b004f134f7cff3sm2508926lfy.167.2023.05.15.02.29.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 02:29:53 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Subject: [PATCH] drm/pl111: Fix FB depth on IMPD-1 framebuffer
-Date: Mon, 15 May 2023 11:29:43 +0200
-Message-Id: <20230515092943.1401558-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.40.0
+ d=1e100.net; s=20221208; t=1684143052; x=1686735052;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=A5HVddrLO4VbxVo027rV2P/x57tsHFKWdwCAhtYMAxE=;
+ b=OUM8p0VV/X06gXjy8+Qa9rrzepBmHkY5vOdhKnh8byL8LF6e1Tsi9OewVA6wTdaBGX
+ SxbiD3QdzCDMly2RD4xgqr68ksUwqX1at/MbEV9m9EcYve5/gbh5+DTjhDW6PLTZRfR/
+ 3aqOsw/Mo4CyE6FoH/iNE0PvfiTW+uBFvks0yVM+M4zx+D879mQWa3xwQ4kd8mppmeey
+ wSzvaePG6VAzdih0200umstNSLfmp/o3yqcAloYijLFr5CHnRlb6n1SBse1Uj+5A+kzJ
+ bVRFXwtqsgOCjN1CJEzLMVYo8nrhYVw19x0NolTrq5NFrvcel88O70zMWMeBldvWG9/B
+ CPqg==
+X-Gm-Message-State: AC+VfDxsK/ZYfvy/02YBcZIpwsPcYlz8btoLN7g4dAy4xczfqKsRBC1j
+ LvOoVTO5ms2/W6SJRTGa4fK7xaa4h/4gNNHjx96DZQ==
+X-Google-Smtp-Source: ACHHUZ53cbL1qOTjniX6VMa/odEjFqcQrgXvzjQa7eIJPu8Cg0KBTQs4biQ3B6AHyW7wAa/3POtyGr5Voby7Lj1Ds70=
+X-Received: by 2002:a81:5456:0:b0:559:e965:fee7 with SMTP id
+ i83-20020a815456000000b00559e965fee7mr28767440ywb.41.1684143052438; Mon, 15
+ May 2023 02:30:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230102112927.26565-1-tzimmermann@suse.de>
+ <20230102112927.26565-12-tzimmermann@suse.de>
+ <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
+ <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
+ <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
+ <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
+ <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
+ <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
+In-Reply-To: <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 15 May 2023 11:30:40 +0200
+Message-ID: <CACRpkdaE=v=eyazZ-scUX=SpOB9_CkVe5V9yK_GrSR=wWTt8NA@mail.gmail.com>
+Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
+ selection
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,179 +76,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org,
- Emma Anholt <emma@anholt.net>
+Cc: mairacanal@riseup.net, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The last argument to the function drm_fbdev_dma_setup() was
-changed from desired BPP to desired depth.
+On Mon, May 15, 2023 at 11:26=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
 
-In our case the desired depth was 15 but BPP was 16, so we
-specified 16 as BPP and we relied on the FB emulation core to
-select a format with a suitable depth for the limited bandwidth
-and end up with e.g. XRGB1555 like in the past:
+> > I think I found this, the bandwidth limit calculation in
+> > drivers/gpu/drm/pl111/pl111_display.c was using the bpp from
+> > the config and this was decreased from 16 to 15 and as it determined
+> > cpp by dividing bpp/8 this decreased from 2 bytes to 1 byte.
+> >
+> > Testing with DIV_ROUND_UP() in combination with the previous
+> > fix!
+>
+> Great. It's the code in mode_valid, right? That fix should be good
+> enough for now. In the long term, we could make some of the internal
+> fb-helper code available to drivers. You'd then be able to use it to get
+> the depth/bpp values for the color mode.
 
-[drm] Initialized pl111 1.0.0 20170317 for c1000000.display on minor 0
-drm-clcd-pl111 c1000000.display: [drm] requested bpp 16, scaled depth down to 15
-drm-clcd-pl111 c1000000.display: enable IM-PD1 CLCD connectors
-Console: switching to colour frame buffer device 80x30
-drm-clcd-pl111 c1000000.display: [drm] fb0: pl111drmfb frame buffer device
+Yeah I sent a patch, check it out!
 
-However the current code will fail at that:
-
-[drm] Initialized pl111 1.0.0 20170317 for c1000000.display on minor 0
-drm-clcd-pl111 c1000000.display: [drm] bpp/depth value of 16/16 not supported
-drm-clcd-pl111 c1000000.display: [drm] No compatible format found
-drm-clcd-pl111 c1000000.display: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-12)
-
-Fix this by passing the desired depth of 15 for the IM/PD-1 display
-instead of 16 to drm_fbdev_dma_setup().
-
-The desired depth is however in turn used for bandwidth limiting
-calculations and that was done with a simple / integer division,
-whereas we now have to modify that to use DIV_ROUND_UP() so that
-we get DIV_ROUND_UP(15, 2) = 2 not 15/2 = 1.
-
-After this the display works again on the Integrator/AP IM/PD-1.
-
-Cc: Emma Anholt <emma@anholt.net>
-Cc: stable@vger.kernel.org
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 37c90d589dc0 ("drm/fb-helper: Fix single-probe color-format selection")
-Link: https://lore.kernel.org/dri-devel/20230102112927.26565-1-tzimmermann@suse.de/
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/pl111/pl111_display.c   |  2 +-
- drivers/gpu/drm/pl111/pl111_drm.h       |  4 ++--
- drivers/gpu/drm/pl111/pl111_drv.c       |  8 ++++----
- drivers/gpu/drm/pl111/pl111_versatile.c | 10 +++++-----
- 4 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/pl111/pl111_display.c b/drivers/gpu/drm/pl111/pl111_display.c
-index 6afdf260a4e2..b9fe926a49e8 100644
---- a/drivers/gpu/drm/pl111/pl111_display.c
-+++ b/drivers/gpu/drm/pl111/pl111_display.c
-@@ -53,7 +53,7 @@ pl111_mode_valid(struct drm_simple_display_pipe *pipe,
- {
- 	struct drm_device *drm = pipe->crtc.dev;
- 	struct pl111_drm_dev_private *priv = drm->dev_private;
--	u32 cpp = priv->variant->fb_bpp / 8;
-+	u32 cpp = DIV_ROUND_UP(priv->variant->fb_depth, 8);
- 	u64 bw;
- 
- 	/*
-diff --git a/drivers/gpu/drm/pl111/pl111_drm.h b/drivers/gpu/drm/pl111/pl111_drm.h
-index 2a46b5bd8576..d1fe756444ee 100644
---- a/drivers/gpu/drm/pl111/pl111_drm.h
-+++ b/drivers/gpu/drm/pl111/pl111_drm.h
-@@ -114,7 +114,7 @@ struct drm_minor;
-  *	extensions to the control register
-  * @formats: array of supported pixel formats on this variant
-  * @nformats: the length of the array of supported pixel formats
-- * @fb_bpp: desired bits per pixel on the default framebuffer
-+ * @fb_depth: desired depth per pixel on the default framebuffer
-  */
- struct pl111_variant_data {
- 	const char *name;
-@@ -126,7 +126,7 @@ struct pl111_variant_data {
- 	bool st_bitmux_control;
- 	const u32 *formats;
- 	unsigned int nformats;
--	unsigned int fb_bpp;
-+	unsigned int fb_depth;
- };
- 
- struct pl111_drm_dev_private {
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index 4b2a9e9753f6..43049c8028b2 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -308,7 +308,7 @@ static int pl111_amba_probe(struct amba_device *amba_dev,
- 	if (ret < 0)
- 		goto dev_put;
- 
--	drm_fbdev_dma_setup(drm, priv->variant->fb_bpp);
-+	drm_fbdev_dma_setup(drm, priv->variant->fb_depth);
- 
- 	return 0;
- 
-@@ -351,7 +351,7 @@ static const struct pl111_variant_data pl110_variant = {
- 	.is_pl110 = true,
- 	.formats = pl110_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl110_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- };
- 
- /* RealView, Versatile Express etc use this modern variant */
-@@ -376,7 +376,7 @@ static const struct pl111_variant_data pl111_variant = {
- 	.name = "PL111",
- 	.formats = pl111_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl111_pixel_formats),
--	.fb_bpp = 32,
-+	.fb_depth = 32,
- };
- 
- static const u32 pl110_nomadik_pixel_formats[] = {
-@@ -405,7 +405,7 @@ static const struct pl111_variant_data pl110_nomadik_variant = {
- 	.is_lcdc = true,
- 	.st_bitmux_control = true,
- 	.broken_vblank = true,
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- };
- 
- static const struct amba_id pl111_id_table[] = {
-diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
-index 1b436b75fd39..00c3ebd32359 100644
---- a/drivers/gpu/drm/pl111/pl111_versatile.c
-+++ b/drivers/gpu/drm/pl111/pl111_versatile.c
-@@ -316,7 +316,7 @@ static const struct pl111_variant_data pl110_integrator = {
- 	.broken_vblank = true,
- 	.formats = pl110_integrator_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl110_integrator_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- };
- 
- /*
-@@ -330,7 +330,7 @@ static const struct pl111_variant_data pl110_impd1 = {
- 	.broken_vblank = true,
- 	.formats = pl110_integrator_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl110_integrator_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 15,
- };
- 
- /*
-@@ -343,7 +343,7 @@ static const struct pl111_variant_data pl110_versatile = {
- 	.external_bgr = true,
- 	.formats = pl110_versatile_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl110_versatile_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- };
- 
- /*
-@@ -355,7 +355,7 @@ static const struct pl111_variant_data pl111_realview = {
- 	.name = "PL111 RealView",
- 	.formats = pl111_realview_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl111_realview_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- };
- 
- /*
-@@ -367,7 +367,7 @@ static const struct pl111_variant_data pl111_vexpress = {
- 	.name = "PL111 Versatile Express",
- 	.formats = pl111_realview_pixel_formats,
- 	.nformats = ARRAY_SIZE(pl111_realview_pixel_formats),
--	.fb_bpp = 16,
-+	.fb_depth = 16,
- 	.broken_clockdivider = true,
- };
- 
--- 
-2.34.1
-
+Yours,
+Linus Walleij
