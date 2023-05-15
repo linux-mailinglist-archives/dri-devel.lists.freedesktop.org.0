@@ -1,69 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A76770289C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:30:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B42DD702911
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8699310E18D;
-	Mon, 15 May 2023 09:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FA810E1AD;
+	Mon, 15 May 2023 09:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0CB910E18D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:30:53 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-55aa1da9d4aso218902587b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 02:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684143052; x=1686735052;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=A5HVddrLO4VbxVo027rV2P/x57tsHFKWdwCAhtYMAxE=;
- b=TN13Gw+87AfRdcii2pT2TNUW03S6Qfsr390oJQf/HMbmUJvKDE7b3rrzPfjiuDFzO0
- 0B90Euaw4KatLguyam/1vMR1rd8owBBmyB1bnFd+mkplzj/31JgV+2rDsdWv9Ssezdgn
- qarSl/dv+CTwlRF/6DtefiFLVO4sjAfCESoS6DHmEFpaWxFO6TnhEa+lL+UqZ9cy2id0
- fSM4MJ35LkQIYHxCHT4MFrk0/+gHu5OTRIrenPQGND/EkSCM6bNqSdRDHvdvzO3T7m7P
- ni+AvGXjo1uZsNAiaUDRaB4SAdH1v9SsLe3Ps6MerT576xMcLF57UO9YGF21R8p2vITu
- 2cTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684143052; x=1686735052;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=A5HVddrLO4VbxVo027rV2P/x57tsHFKWdwCAhtYMAxE=;
- b=OUM8p0VV/X06gXjy8+Qa9rrzepBmHkY5vOdhKnh8byL8LF6e1Tsi9OewVA6wTdaBGX
- SxbiD3QdzCDMly2RD4xgqr68ksUwqX1at/MbEV9m9EcYve5/gbh5+DTjhDW6PLTZRfR/
- 3aqOsw/Mo4CyE6FoH/iNE0PvfiTW+uBFvks0yVM+M4zx+D879mQWa3xwQ4kd8mppmeey
- wSzvaePG6VAzdih0200umstNSLfmp/o3yqcAloYijLFr5CHnRlb6n1SBse1Uj+5A+kzJ
- bVRFXwtqsgOCjN1CJEzLMVYo8nrhYVw19x0NolTrq5NFrvcel88O70zMWMeBldvWG9/B
- CPqg==
-X-Gm-Message-State: AC+VfDxsK/ZYfvy/02YBcZIpwsPcYlz8btoLN7g4dAy4xczfqKsRBC1j
- LvOoVTO5ms2/W6SJRTGa4fK7xaa4h/4gNNHjx96DZQ==
-X-Google-Smtp-Source: ACHHUZ53cbL1qOTjniX6VMa/odEjFqcQrgXvzjQa7eIJPu8Cg0KBTQs4biQ3B6AHyW7wAa/3POtyGr5Voby7Lj1Ds70=
-X-Received: by 2002:a81:5456:0:b0:559:e965:fee7 with SMTP id
- i83-20020a815456000000b00559e965fee7mr28767440ywb.41.1684143052438; Mon, 15
- May 2023 02:30:52 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3517810E18A;
+ Mon, 15 May 2023 09:40:38 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CC1891F749;
+ Mon, 15 May 2023 09:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684143634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gmr4FfaH5fbVmlkPgeABvPLh70AOaXqGDduq6NJ5ewI=;
+ b=HpNO9MAQmtFT0yZbTdZhHZmp8ZPFMHBzlHtwh31/3eOPlc7YuselHO3PrhTKLIIdYrpcc2
+ yC/MUpPcKq0V3gL1sfNqXEfpioV/utCoqMoBevvXfeJIV3ghSjd6AHvy2XnInEn7rrzxin
+ yDT9gUB2X5QNfk6+Rqi+VQnDwfrpyew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684143634;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gmr4FfaH5fbVmlkPgeABvPLh70AOaXqGDduq6NJ5ewI=;
+ b=4pKrYyAEyEMbX3hdJ4z9QYEPh45rqeWWpG6ZCOLivDWeKEx/er2DoKqzb/RJCcDjiJXzJE
+ pM7snHdKQ6tgHNAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6EE5513466;
+ Mon, 15 May 2023 09:40:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5OD4GRL+YWTeTwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:40:34 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
+Subject: [PATCH v2 00/12] drm/fbdev: Remove DRM's helpers for fbdev I/O
+Date: Mon, 15 May 2023 11:40:21 +0200
+Message-Id: <20230515094033.2133-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-12-tzimmermann@suse.de>
- <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
- <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
- <CACRpkdamUcATRymMLxe5X9QHXbEZ9S4rd7KfEkVAV2gUXAaG7g@mail.gmail.com>
- <27ba33a6-2949-a303-14b0-9985b4514e3b@suse.de>
- <CACRpkdbSAc174ejXT9V+kZfRQeiq48J1=kDQvoLvH_tF+qXKtA@mail.gmail.com>
- <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
-In-Reply-To: <61a08812-c452-b146-bb24-71aeaea26e33@suse.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 15 May 2023 11:30:40 +0200
-Message-ID: <CACRpkdaE=v=eyazZ-scUX=SpOB9_CkVe5V9yK_GrSR=wWTt8NA@mail.gmail.com>
-Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
- selection
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,28 +65,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mairacanal@riseup.net, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- jose.exposito89@gmail.com
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 15, 2023 at 11:26=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
-e.de> wrote:
+DRM provides a number of wrappers around fbdev cfb_() sys_(), fb_io_()
+and fb_sys_() helpers. The DRM functions don't provide any additional
+functionality for most DRM drivers. So remove them and call the fbdev
+I/O helpers directly.
 
-> > I think I found this, the bandwidth limit calculation in
-> > drivers/gpu/drm/pl111/pl111_display.c was using the bpp from
-> > the config and this was decreased from 16 to 15 and as it determined
-> > cpp by dividing bpp/8 this decreased from 2 bytes to 1 byte.
-> >
-> > Testing with DIV_ROUND_UP() in combination with the previous
-> > fix!
->
-> Great. It's the code in mode_valid, right? That fix should be good
-> enough for now. In the long term, we could make some of the internal
-> fb-helper code available to drivers. You'd then be able to use it to get
-> the depth/bpp values for the color mode.
+The DRM fbdev I/O wrappers were originally added because <linux/fb.h>
+does not protect its content with CONFIG_FB. DRM fbdev emulation did
+not build if the config option had been disabled. This has been
+fixed. For fbdev-generic and i915, the wrappers added support for damage
+handling. But this is better handled within the two callers, as each
+is special in its damage handling.
 
-Yeah I sent a patch, check it out!
+Patch 1 adds several internal Kconfig otpions that DRM drivers (and
+possibly other fbdev code) will use to select the correct set of I/O
+helpers.
 
-Yours,
-Linus Walleij
+Patches 2 to 9 replace the DRM wrappers in a number of fbdev emulations.
+Patch 10 exports two helpers for damage handling. Patches 11 and 12
+update fbdev-generic and i915 with the help of the exported functions.
+The patches also remove DRM's fbdev I/O helpers, which are now unused.
+
+DRM's fbdev helpers had to select fbdev I/O helpers for I/O and for
+system memory. Each fbdev emulation now selects the correct helpers
+for itself. Depending on the selected DRM drivers, kernel builds will
+now only contain the necessary fbdev I/O helpers and might be slightly
+smaller in size.
+
+v2:
+	* simplify Kconfig handling (Sam)
+
+Thomas Zimmermann (12):
+  fbdev: Add Kconfig options to select different fb_ops helpers
+  drm/armada: Use regular fbdev I/O helpers
+  drm/exynos: Use regular fbdev I/O helpers
+  drm/gma500: Use regular fbdev I/O helpers
+  drm/radeon: Use regular fbdev I/O helpers
+  drm/fbdev-dma: Use regular fbdev I/O helpers
+  drm/msm: Use regular fbdev I/O helpers
+  drm/omapdrm: Use regular fbdev I/O helpers
+  drm/tegra: Use regular fbdev I/O helpers
+  drm/fb-helper: Export helpers for marking damage areas
+  drm/fbdev-generic: Implement dedicated fbdev I/O helpers
+  drm/i915: Implement dedicated fbdev I/O helpers
+
+ drivers/gpu/drm/Kconfig                    |  10 +-
+ drivers/gpu/drm/armada/Kconfig             |   1 +
+ drivers/gpu/drm/armada/armada_fbdev.c      |   9 +-
+ drivers/gpu/drm/drm_fb_helper.c            | 233 ++-------------------
+ drivers/gpu/drm/drm_fbdev_dma.c            |  12 +-
+ drivers/gpu/drm/drm_fbdev_generic.c        |  47 ++++-
+ drivers/gpu/drm/exynos/Kconfig             |   1 +
+ drivers/gpu/drm/exynos/Makefile            |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  10 +-
+ drivers/gpu/drm/gma500/Kconfig             |   1 +
+ drivers/gpu/drm/gma500/fbdev.c             |   9 +-
+ drivers/gpu/drm/i915/Kconfig               |   1 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  51 ++++-
+ drivers/gpu/drm/msm/Kconfig                |   1 +
+ drivers/gpu/drm/msm/msm_fbdev.c            |  12 +-
+ drivers/gpu/drm/omapdrm/Kconfig            |   1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |  12 +-
+ drivers/gpu/drm/radeon/Kconfig             |   1 +
+ drivers/gpu/drm/radeon/radeon_fbdev.c      |   9 +-
+ drivers/gpu/drm/tegra/Kconfig              |   1 +
+ drivers/gpu/drm/tegra/fbdev.c              |  11 +-
+ drivers/video/fbdev/Kconfig                |  21 ++
+ include/drm/drm_fb_helper.h                |  84 +-------
+ 23 files changed, 184 insertions(+), 356 deletions(-)
+
+
+base-commit: 451e49cfbaa90720149e63f4fa9c7824013c783d
+-- 
+2.40.1
+
