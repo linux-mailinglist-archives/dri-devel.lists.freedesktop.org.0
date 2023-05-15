@@ -2,66 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220AB702777
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 10:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FC3702787
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 10:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6576410E182;
-	Mon, 15 May 2023 08:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F62210E174;
+	Mon, 15 May 2023 08:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC73810E17A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 08:42:22 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6A610E174
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 08:48:53 +0000 (UTC)
+Received: from meshulam.tesarici.cz
+ (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
+ [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DFCCE21D5C;
- Mon, 15 May 2023 08:42:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684140140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SL8/mzh6/v8wpmj2l3KJaiJLCGPWVT+Gh48t14X3TIU=;
- b=FlojKPdqBI8xpjuk/wLFK0QS8MmDlgEZCnBOVf9urdwUd7w24ITKVUwhTHwnWIsntLuX/F
- P2+dw7vlHdZf3/ANqff5tek8rXUY0sxm9tHZGMr/E5+HY7wg8buWYzKQmEX+3i5cwEwQkm
- ITaaMNd+HkFpH/zNvKrv9fk0ZV3zbvk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684140140;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SL8/mzh6/v8wpmj2l3KJaiJLCGPWVT+Gh48t14X3TIU=;
- b=Ovgh0XO16DrSLtDMGyWw10iTnM1CfgBD02bdufT2q9xm0/vNbBVujj2Z84Bggw2hLSjk6C
- /o8Ba8SpZmbxCHBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BAD29138E5;
- Mon, 15 May 2023 08:42:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rBqCLGzwYWToMQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 08:42:20 +0000
-Message-ID: <1dfbcb14-8efa-e9f3-7d82-301fa08771dc@suse.de>
-Date: Mon, 15 May 2023 10:42:20 +0200
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by bee.tesarici.cz (Postfix) with ESMTPSA id 1D16D15F16F;
+ Mon, 15 May 2023 10:48:48 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz;
+ dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+ t=1684140528; bh=tStAwueOxbXDMBwSLNTJ9Qsuwa6+o5KusDWfCkARZKs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=iH23OyGTr4tc1eztxSRC7l5DyGiPYJCtProPLZW0bSCFOghwW/tINr+gJraHtwGry
+ hX72zLn8R/XonT8ju3AnubkdQpZTJZAV6EpvpedhqTn/K2s23lm9d5q9YeWEC4fImw
+ xn45833kH9Y4z/8Gkb/OZjH2nRPRqo0gmtt7ovFRS7gqvveT1jnIIVSvWHsiBlDiQ2
+ EIXlYIBZjGenSLF92tW6bjW8pzmeZYOMluUfdjGybfuSiBlNwooy5dBWhi6PoMQIaj
+ 3Fe3KCsXq2kAY34gB1tRoD4jNkukE+Txg9XTDFtk3uLqX+vjXhnaeEwJtdiCer9VTq
+ ErmGi5SmkKILw==
+Date: Mon, 15 May 2023 10:48:47 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
+ dynamically allocated buffers
+Message-ID: <20230515104847.6dfdf31b@meshulam.tesarici.cz>
+In-Reply-To: <ZGEuYxR2PM6wHeDh@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
+ <ZGEuYxR2PM6wHeDh@arm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
- selection
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-12-tzimmermann@suse.de>
- <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
- <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
- <ZGHqeLcWw5tEL3Fy@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <ZGHqeLcWw5tEL3Fy@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------hzf01N0HP6raeZsZZN4bedi1"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,136 +57,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mairacanal@riseup.net, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- jose.exposito89@gmail.com
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, "Rafael
+ J. Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, "open list:DMA
+ MAPPING HELPERS" <iommu@lists.linux.dev>, Borislav Petkov <bp@suse.de>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------hzf01N0HP6raeZsZZN4bedi1
-Content-Type: multipart/mixed; boundary="------------b04MPKQA6uBYGOEr4gkCZQJ0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: mairacanal@riseup.net, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, jose.exposito89@gmail.com
-Message-ID: <1dfbcb14-8efa-e9f3-7d82-301fa08771dc@suse.de>
-Subject: Re: [PATCH v3 11/13] drm/fb-helper: Fix single-probe color-format
- selection
-References: <20230102112927.26565-1-tzimmermann@suse.de>
- <20230102112927.26565-12-tzimmermann@suse.de>
- <CACRpkdZAqnWcq+fzAY0HjHN5=nDHMqb7g9mZNtLM9x4y40vvAw@mail.gmail.com>
- <fb0b39a3-4f21-72a8-d707-ea65fdde45fc@suse.de>
- <ZGHqeLcWw5tEL3Fy@phenom.ffwll.local>
-In-Reply-To: <ZGHqeLcWw5tEL3Fy@phenom.ffwll.local>
+Hi Catalin,
 
---------------b04MPKQA6uBYGOEr4gkCZQJ0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Sun, 14 May 2023 19:54:27 +0100
+Catalin Marinas <catalin.marinas@arm.com> wrote:
 
-SGkNCg0KQW0gMTUuMDUuMjMgdW0gMTA6MTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
-biBGcmksIE1heSAxMiwgMjAyMyBhdCAwNDoxMTo0OFBNICswMjAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMTIuMDUuMjMgdW0gMTU6MjAgc2Nocmll
-YiBMaW51cyBXYWxsZWlqOg0KPj4+IFNvcnJ5IGZvciBsYXRlIHJlZ3Jlc3Npb24gZGV0ZWN0
-aW9uIGJ1dCB0aGlzIHBhdGNoIHJlZ3Jlc3Nlcw0KPj4+IHRoZSBJbnRlZ3JhdG9yIEFCIElN
-UEQtMSBncmFwaGljcywgSSBiaXNlY3RlZCBkb3duIHRvIHRoaXMNCj4+PiBwYXRjaC4NCj4+
-IFsuLi5dDQo+Pj4gVGhpcyBpcyB0aGUgZHJpdmVyOg0KPj4+IGRyaXZlcnMvZ3B1L2RybS9w
-bDExMS9wbDExMV92ZXJzYXRpbGUuYw0KPj4+IHdpdGggdGhlIHBsMTEwX2ltcGQxIHZhcmlh
-bnQsIHNvIHRoZXNlIGFyZSB0aGUgc3VwcG9ydGVkIG1vZGVzOg0KPj4+DQo+Pj4gLyogUEwx
-MTAgcGl4ZWwgZm9ybWF0cyBmb3IgSW50ZWdyYXRvciwgdmFuaWxsYSBQTDExMCAqLw0KPj4+
-IHN0YXRpYyBjb25zdCB1MzIgcGwxMTBfaW50ZWdyYXRvcl9waXhlbF9mb3JtYXRzW10gPSB7
-DQo+Pj4gICAgICAgICAgIERSTV9GT1JNQVRfQUJHUjg4ODgsDQo+Pj4gICAgICAgICAgIERS
-TV9GT1JNQVRfWEJHUjg4ODgsDQo+Pj4gICAgICAgICAgIERSTV9GT1JNQVRfQVJHQjg4ODgs
-DQo+Pj4gICAgICAgICAgIERSTV9GT1JNQVRfWFJHQjg4ODgsDQo+Pj4gICAgICAgICAgIERS
-TV9GT1JNQVRfQUJHUjE1NTUsDQo+Pj4gICAgICAgICAgIERSTV9GT1JNQVRfWEJHUjE1NTUs
-DQo+Pj4gICAgICAgICAgIERSTV9GT1JNQVRfQVJHQjE1NTUsDQo+Pj4gICAgICAgICAgIERS
-TV9GT1JNQVRfWFJHQjE1NTUsDQo+Pj4gfTsNCj4+PiAoLi4uKQ0KPj4+IC8qDQo+Pj4gICAg
-KiBUaGUgSU0tUEQxIHZhcmlhbnQgaXMgYSBQTDExMCB3aXRoIGEgYnVuY2ggb2YgYnJva2Vu
-LCBvciBub3QNCj4+PiAgICAqIHlldCBpbXBsZW1lbnRlZCBmZWF0dXJlcw0KPj4+ICAgICov
-DQo+Pj4gc3RhdGljIGNvbnN0IHN0cnVjdCBwbDExMV92YXJpYW50X2RhdGEgcGwxMTBfaW1w
-ZDEgPSB7DQo+Pj4gICAgICAgICAgIC5uYW1lID0gIlBMMTEwIElNLVBEMSIsDQo+Pj4gICAg
-ICAgICAgIC5pc19wbDExMCA9IHRydWUsDQo+Pj4gICAgICAgICAgIC5icm9rZW5fY2xvY2tk
-aXZpZGVyID0gdHJ1ZSwNCj4+PiAgICAgICAgICAgLmJyb2tlbl92YmxhbmsgPSB0cnVlLA0K
-Pj4+ICAgICAgICAgICAuZm9ybWF0cyA9IHBsMTEwX2ludGVncmF0b3JfcGl4ZWxfZm9ybWF0
-cywNCj4+PiAgICAgICAgICAgLm5mb3JtYXRzID0gQVJSQVlfU0laRShwbDExMF9pbnRlZ3Jh
-dG9yX3BpeGVsX2Zvcm1hdHMpLA0KPj4+ICAgICAgICAgICAuZmJfYnBwID0gMTYsDQo+Pj4g
-fTsNCj4+Pg0KPj4+IE5vdGljZSB0aGUgYWJzZW5jZSBvZiBSR0I1NjUhDQo+Pj4gVGhlbiB3
-ZSBpbml0aWFsaXplZCB0aGUgZnJhbWJ1ZmZlciBsaWtlIHRoaXM6DQo+Pj4NCj4+PiAgICAg
-ICAgICAgZHJtX2ZiZGV2X2RtYV9zZXR1cChkcm0sIHByaXYtPnZhcmlhbnQtPmZiX2JwcCk7
-DQo+Pj4NCj4+PiBBbmQgYXMgeW91IHNlZSBwcml2LT52YXJpYW50LT5mYl9icHAgd2lsbCBi
-ZSAxNiwgc28gd2Ugd2FudCBzb21lDQo+Pj4gMTZicHAgbW9kZSBob3dldmVyIHRoZSBvbmx5
-IHN1cHBvcnRlZCBkZXB0aCBpcyAxNSAodGhlIDE1NTUgbW9kZXMpDQo+Pj4gc28gaXQgd291
-bGQgdXNlIHRoYXQgYnkgc2NhbGluZyBiYWNrIGRlcHRoIHRvIDE1Lg0KPj4+DQo+Pj4gSG93
-ZXZlciBhZnRlciB0aGlzIHBhdGNoIHRoYXQgZG9lc24ndCB3b3JrIGFueW1vcmUuDQo+Pj4N
-Cj4+PiBBbnkgaGludHMgb24gaG93IHdlIGNhbiBmaXggdGhpcz8NCj4+DQo+PiBBY2NvcmRp
-bmcgdG8gYSBxdWljayBncmVwIGZvciBmYl9icHAsIGl0J3Mgb25seSB1c2VkIGZvciB0aGUg
-Y2FsbCB0bw0KPj4gZHJtX2ZiZGV2X2RtYV9zZXR1cCgpLCByaWdodD8gSW4gdGhpcyBjYXNl
-LCB5b3Ugc2hvdWxkIHNldCBpdCB0byAxNSBmb3IgdGhlDQo+PiBtb2RlbHMgd2l0aG91dCBy
-Z2I1NjUuIFRoZSBzd2l0Y2ggYXQgWzFdIHNob3VsZCB0aGVuIHBpY2sgdGhlIGNvcnJlY3QN
-Cj4+IHZhbHVlcy4NCj4+DQo+PiBUaGUgcHJlZmVycmVkX2JwcCBwYXJhbWV0ZXIgaGFkIGEg
-Y2hhbmdlIGluIHNlbWFudGljcy4gSXQgdXNlZCB0byBiZSB0aGUNCj4+IG51bWJlciBvZiBi
-aXRzIHBlciBwaXhlbC4gQnV0IHRoYXQgbWFrZXMgaXQgaGFyZCB0byBzZWxlY3QgYmV0d2Vl
-biBSR0IxNTU1DQo+PiBhbmQgUkdCNTY1LiAgU28gaXQncyBub3cgYSBzcGVjaWFsIGNvbG9y
-LW1vZGUgdmFsdWUgdGhhdCB3b3JrcyBsaWtlIHRoZQ0KPj4ga2VybmVsJ3MgdmlkZW89IHBh
-cmFtZXRlci4gVmFsdWVzIG9mIDE1IGFuZCAzMiBhcmUgZGlmZmVyZW50IGZyb20gdGhlIHJl
-c3QuDQo+PiBUaGF0IHN3aXRjaCBhdCBbMV0gZXhwbGFpbnMgaXQuIE1heWJlIHlvdSBzaG91
-bGQgcmVuYW1lIGZiX2JwcCB0byBjb2xvcl9tb2RlDQo+PiBmb3IgY2xhcml0eS4NCj4+DQo+
-PiBMZXQgbWUga25vdyBpZiB0aGlzIGhlbHBzLg0KPiANCj4gU2hvdWxkbid0IHRoZSBoZWxw
-ZXJzIHRyeSB0byBkbyB0aGlzIGF1dG9tYXRpY2FsbHk/IEkgdGhpbmsgdGhleSBraW5kYSBk
-aWQNCj4gdGhhdCBpbiB0aGUgcGFzdCBpbiBzb21lIGxpbWl0ZWQgY2lyY3Vtc3RhbmNlcyBs
-aWtlIHRoaXMgLi4uDQoNClRoYXQgd2FzIHRoZSBpbnRlbnRpb24sIGJ1dCBpdCBuZXZlciBy
-ZWFsbHkgd29ya2VkIGF0IGFsbC4gSUlSQyB0aGUgDQpjb2xvci1mb3JtYXQgc2VsZWN0aW9u
-IG1peGVkIHVwIGRlcHRoIGFuZCBicHAgdmFsdWVzIGZyZWVseS4gRmFjdG9yIGluIA0KdGhl
-IGNvbW1hbmQtbGluZSBvdmVycmlkZSAodmlkZW89QGJwcCkgYW5kIHNvbWUgb2RkIGNhc2Ug
-aGFzIGFsd2F5cyBiZWVuIA0KYnJva2VuLg0KDQpTbyBmYmRldiBlbXVsYXRpb24gbm93IG1v
-c3RseSB1c2VzIHRoZSBjb2xvci1tb2RlIHZhbHVlIHRoYXQgd29ya3MgYXMgb24gDQp0aGUg
-Y29tbWFuZCBsaW5lLiBUaGUgY3VycmVudCBzZW1hbnRpY3MgaXM6DQoNCiAgKiBzZWxlY3Qg
-dGhlIHVzZXItZ2l2ZW4gY29sb3IgbW9kZSwgaWYgbm9uLXplcm8NCiAgKiBzZWxlY3QgdGhl
-IGRyaXZlci1naXZlbiBjb2xvciBtb2RlLCBpZiBub24temVybw0KICAqIG90aGVyd2lzZSBz
-ZWxlY3QgYSBjb2xvciBtb2RlIG9mIDMyIGJ5IGRlZmF1bHQgKHRoYXQncyBYUkdCODg4OCkN
-Cg0KQW5kIGxhdGVyIGR1cmluZyBmYl9wcm9iZToNCg0KICAqIHRyeSB0aGUgc2VsZWN0ZWQg
-Y29sb3IgbW9kZQ0KICAqIG90aGVyd2lzZSB0cnkgdG8gYXV0by1kZXRlY3QgaWYgdGhlIHNl
-bGVjdGVkIGNvbG9yIG1vZGUgZG9lc24ndCB3b3JrLA0KICAqIG90aGVyd2lzZSB1c2UgWFJH
-Qjg4ODggYXMgYSBsYXN0IHJlc29ydA0KDQpUaGF0IG5pY2VseSBzcGxpdHMgdGhlIGNvZGUg
-aW50byBjb2xvci1tb2RlIHNlbGVjdGlvbiBhbmQgY29sb3ItZm9ybWF0IA0Kc2VsZWN0aW9u
-LiBBbmQgYWxsIHRoZSBwdWJsaWMgaW50ZXJmYWNlcyAoY29tbWFuZCBsaW5lLCANCmRybV9m
-YmRldl97fV9zZXR1cCgpLCBldGMpIHVzZSB0aGUgc2FtZSBzZW1hbnRpY3MsIHdoaWNoIGlz
-IHRoZSBjb2xvciBtb2RlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC1EYW5pZWwN
-Cj4gDQo+Pg0KPj4gQmVzdCByZWdhcmRzDQo+PiBUaG9tYXMNCj4+DQo+PiBbMV0gaHR0cHM6
-Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuNC1yYzEvc291cmNlL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZmJfaGVscGVyLmMjTDE4MjcNCj4+DQo+Pj4NCj4+PiBZb3VycywNCj4+PiBM
-aW51cyBXYWxsZWlqDQo+Pg0KPj4gLS0gDQo+PiBUaG9tYXMgWmltbWVybWFubg0KPj4gR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KPj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJIDQo+PiBGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2Vy
-bWFueQ0KPj4gR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQs
-IEJvdWRpZW4gTW9lcm1hbg0KPj4gSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo+IA0KPiAN
-Cj4gDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5z
-dHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBB
-bmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4
-MDkgKEFHIE51ZXJuYmVyZykNCg==
+> On Tue, May 09, 2023 at 11:18:19AM +0200, Petr Tesarik wrote:
+> > diff --git a/include/linux/device.h b/include/linux/device.h
+> > index d1d2b8557b30..e340e0f06dce 100644
+> > --- a/include/linux/device.h
+> > +++ b/include/linux/device.h
+> > @@ -516,6 +516,9 @@ struct device_physical_location {
+> >   * @dma_io_tlb_dyn_slots:
+> >   *		Dynamically allocated bounce buffers for this device.
+> >   *		Not for driver use.
+> > + * @dma_io_tlb_have_dyn:
+> > + *		Does this device have any dynamically allocated bounce
+> > + *		buffers? Not for driver use.
+> >   * @archdata:	For arch-specific additions.
+> >   * @of_node:	Associated device tree node.
+> >   * @fwnode:	Associated device node supplied by platform firmware.
+> > @@ -623,6 +626,7 @@ struct device {
+> >  	struct io_tlb_mem *dma_io_tlb_mem;
+> >  	spinlock_t dma_io_tlb_dyn_lock;
+> >  	struct list_head dma_io_tlb_dyn_slots;
+> > +	bool dma_io_tlb_have_dyn;
+> >  #endif
+> >  	/* arch specific additions */
+> >  	struct dev_archdata	archdata;
+> > diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> > index daa2064f2ede..8cbb0bebb0bc 100644
+> > --- a/include/linux/swiotlb.h
+> > +++ b/include/linux/swiotlb.h
+> > @@ -152,7 +152,11 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+> >  
+> >  	return mem &&
+> >  		(is_swiotlb_fixed(mem, paddr) ||
+> > -		 (mem->allow_dyn && is_swiotlb_dyn(dev, paddr)));
+> > +		 /* Pairs with smp_store_release() in swiotlb_dyn_map()
+> > +		  * and swiotlb_dyn_unmap().
+> > +		  */
+> > +		 (smp_load_acquire(&dev->dma_io_tlb_have_dyn) &&
+> > +		  is_swiotlb_dyn(dev, paddr)));
+> >  }
+> >  
+> >  static inline bool is_swiotlb_force_bounce(struct device *dev)
+> > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> > index 81eab1c72c50..e8be3ee50f18 100644
+> > --- a/kernel/dma/swiotlb.c
+> > +++ b/kernel/dma/swiotlb.c
+> > @@ -642,6 +642,9 @@ static phys_addr_t swiotlb_dyn_map(struct device *dev, phys_addr_t orig_addr,
+> >  
+> >  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> >  	list_add(&slot->node, &dev->dma_io_tlb_dyn_slots);
+> > +	if (!dev->dma_io_tlb_have_dyn)
+> > +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
+> > +		smp_store_release(&dev->dma_io_tlb_have_dyn, true);
+> >  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);  
+> 
+> I'm not sure this works. What this seems to do is that if the caller of
+> is_swiotlb_buffer() sees the flag set, it's guaranteed that something
+> was added to the dma_io_tlb_dyn_slots list. But the reverse is not
+> necessarily true. IOW, if something was added to the list, there is a
+> brief window where the dma_io_tlb_have_dyn flag is still false. In the
+> general case, I doubt any ordering between list_add() and the flag
+> setting changes anything since neither of them may be visible to another
+> CPU.
 
---------------b04MPKQA6uBYGOEr4gkCZQJ0--
+Thank you for the review! This patch probably needs a bit more
+explanation.
 
---------------hzf01N0HP6raeZsZZN4bedi1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The goal is to avoid taking a spin lock in the mkost common case that
+the dynamic list is empty. The only required invariant is:
 
------BEGIN PGP SIGNATURE-----
+  When the flag is clear, it is safe to skip the list.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRh8GwFAwAAAAAACgkQlh/E3EQov+Bo
-3RAAs6grFayZF3HR3Y2NTkx5S/ytmD9eyGJBWSnP0fJdYTFdhdpVtPG/QsFWzuq51K1eTGwAHCim
-iti819fKQRfO4OfJplbghmytBSHaHE2+HZVLDr8pflkZA0IdL17EsvHyc2jNAkhaCFIe7XkkhkA0
-Dckebwc5dR6YDdKOUrSbPiTTV/RM5HXuMIkAypq5HcjXmmrY560vjsdlcnSmbtaHlGmg51TUWCuw
-AQIy8nMWZU3XGWOBgsY8FIfdUKL2LKmNRkIOMnDm6m8r+QmQ6zl99SdlVSaXUH1GHxdRalclK1Np
-VzrMf5yFPMQP3f5VGXwTWAnIcwqgF8xHzecqfpNDrBsmjH2XPYzj1uQV9rv++mGhomK+h+H/XgxZ
-IZd2O6G/Iss6hN3Oqm58Gp+ZRaXXm7gy8RjWFaUErOjwjjrDbP2y+8G73mTtaDsZkQH/ivJjVQfD
-QtmXPYzCqNxrJC7R4vsLaJymy2BV8erxtJQvXEQ7i9cujifqTbue5mTqo6n/PBBpqlkcRFrjDKtm
-470ae7JOiUpoCbxGkGrk/RDE6BqUMTpcFXhN4mSrK5KVQVv7pUtnuxnYi0cQblufp7ca78/B+t6N
-zNCED98eT4iNFF1eX6Q7rx9QfCWi1hEVwrEbPO7q0GDJw4yTeVBxAPxnCpJhlTezIiBx5bQMZuEj
-V8s=
-=SzN4
------END PGP SIGNATURE-----
+It's not a bug to walk an empty list, it's merely less efficient. Such
+race window would be acceptable. OTOH that's not your concern if I
+understand you correctly.
 
---------------hzf01N0HP6raeZsZZN4bedi1--
+> What you need is for a 'paddr' added to the dynamic list to be correctly
+> identified by another CPU as dynamic swiotlb. That other CPU doesn't
+> check random addresses but only those returned by the DMA API.
+
+Yes, that's correct.
+
+> Such
+> values would be normally passed through a memory location (e.g. driver
+> local structures) and that's what you want to order against.
+
+This would certainly work, but I'm not sure I need it. My only goal is
+that when the flag is set, the new value is observed by all CPUs on the
+next call to is_swiotlb_buffer().
+
+> What I mean is that a 'dev->blah = paddr' needs to be ordered _after_
+> your flag setting. So you need the either the 'blah = paddr' assignment
+> to have release semantics or the flag setting to be an
+> smp_store_acquire() (but we don't have such thing). You'd have to use an
+> explicit smp_wmb() barrier after the flag setting (it can be outside the
+> lock). The spin_unlock() is not sufficient since it only has release
+> semantics.
+
+Understood. The spinlock is supposed to order changes to the list, not
+to the flag.
+
+> I also don't think the ordering between list_add() and flag
+> setting matters since the smp_wmb() would ensure that both are visible
+> when the 'paddr' value made it to the other CPU.
+
+If the flag makes it before the list, then the other CPU will walk the
+list only after acquiring dma_io_tlb_dyn_lock, and that's what the list
+is ordered against.
+
+I don't think there is any concern if the list makes it before the
+flag, as long as the new value of the flag is observed on the next call
+to is_swiotlb_buffer (on any CPU).
+
+> Similarly on the is_swiotlb_buffer() side, you want the flag reading to
+> be ordered after the 'blah = paddr' is observed. Here the
+> smp_load_acquire() is sufficient.
+> 
+> >  	return page_to_phys(slot->page);
+> > @@ -668,6 +671,9 @@ static void swiotlb_dyn_unmap(struct device *dev, phys_addr_t tlb_addr,
+> >  	unsigned long flags;
+> >  
+> >  	spin_lock_irqsave(&dev->dma_io_tlb_dyn_lock, flags);
+> > +	if (list_is_singular(&dev->dma_io_tlb_dyn_slots))
+> > +		/* Pairs with smp_load_acquire() in is_swiotlb_buffer() */
+> > +		smp_store_release(&dev->dma_io_tlb_have_dyn, false);
+> >  	slot = lookup_dyn_slot_locked(dev, tlb_addr);
+> >  	list_del(&slot->node);
+> >  	spin_unlock_irqrestore(&dev->dma_io_tlb_dyn_lock, flags);  
+> 
+> As with the map case, I don't think the ordering between list_del() and
+> the flag setting matters. If you unmap the last dynamic buffer, the
+> worst that can happen is that an is_swiotlb_buffer() call attempts a
+> read of the list but the flag will eventually become visible. There
+> shouldn't be another caller trying to unmap the same paddr (in well
+> behaved drivers).
+> 
+> Now, thinking about the list_head access and the flag ordering, since it
+> doesn't matter, you might as well not bother with the flag at all and
+> rely on list_add() and list_empty() ordering vs the hypothetical 'blah'
+> access. Both of these use READ/WRITE_ONCE() for setting
+> dma_io_tlb_dyn_slots.next. You only need an smp_wmb() after the
+> list_add() and an smp_rmb() before a list_empty() check in
+> is_swiotlb_buffer(), no dma_iotlb_have_dyn variable.
+
+Wait, let me check that I understand you right. Do you suggest that I
+convert dma_io_tlb_dyn_slots to a lockless list and get rid of the
+spinlock?
+
+I'm sure it can be done for list_add() and list_del(). I'll have
+to think about list_move().
+
+> That's my reasoning but to I'll have be absolutely sure, you can pass that through
+> some formal modelling.
+
+Good idea. Especially if I try to get rid of the lock.
+
+Petr T
