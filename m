@@ -2,60 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D23F703FE8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 23:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79020704012
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 23:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E469410E288;
-	Mon, 15 May 2023 21:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30EC510E292;
+	Mon, 15 May 2023 21:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247E510E288;
- Mon, 15 May 2023 21:37:53 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id
- 5614622812f47-394690088acso3022660b6e.0; 
- Mon, 15 May 2023 14:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684186672; x=1686778672;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FVMuxsS2AyLD1/V6++7XAV6yzgy8hSgIj+BDEQpjE54=;
- b=W9HDZcGnI9+ek1B7bA8FaHB9lwyhGmNZ1EgymTz3gar98sh3Or8gWpjTUZc98Vvuxu
- RLCv0qc+o81LEY28txxkm6OUX5ktmYkyrWoYejBEnUjE1FXTTECubtbB+xCc1wfchBho
- YjtINtPiVfdbLFbnZyW8aqLfOcBlqmf7Vg/mcugnITYr5ttiwln0rsGs0SYqlimKhpYe
- kvnh3BcyRJFam57GY671VH2x7ZcUq4kZWhA4fLrDKpjLKMHfhbkFm+CysfYuYtejBUi3
- NNc/1943cCWeqscFO2U7Pgy7P3uk+7LuYKdtfhgT5cujuwq9lnBBRjAMXKCOD//R02r/
- Rdyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684186672; x=1686778672;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FVMuxsS2AyLD1/V6++7XAV6yzgy8hSgIj+BDEQpjE54=;
- b=dbmfKQ9W7BAax6goRIeznu0TsGcCMqyodHGfMx0UCzRhjlA7vzEDEsJR6Nru5dB5mY
- zkWl42StyXwO8q36wXYmuiINGmwkDF1w7llFslGGq3El50cRbndk5JEAL1zKrHdwfvs0
- RtRjPRxFaqtnbQzcf2MJFOWf2kpCFrqcZCyP2kig6Ilyh9kpYA/3QoxXhdnu0yYBFDum
- 1zG03ogrnNnAE1UiAX3yboSGMWSt/9MXMopp0NgvhCylqCqqGgpYNLirzMX2p9VK6cLl
- pbAVBsnixYE1Qu0L3xcFea+h9dv3HE/ApKiDmScKjmTXvq/8dIYimCDjU1jHwGUc2oiA
- orLA==
-X-Gm-Message-State: AC+VfDxa2ZQiQcCshUzO19NrgFwt/4GxezW3Ej3fSaEX24DD4Y/2nJC8
- 0Tz7NVyB0e73F1i6dTIAvi94Ix/KU0vUQzF6ctU=
-X-Google-Smtp-Source: ACHHUZ5K6xhtdZFLWfE9KZFvociY3IW0kLIpPtgnTWZicz58dwr3NJLbILYSjo9mLv2/bBwnM3yBG58OdClHpPvuPN8=
-X-Received: by 2002:a05:6808:211f:b0:395:dd60:852c with SMTP id
- r31-20020a056808211f00b00395dd60852cmr5465165oiw.43.1684186671678; Mon, 15
- May 2023 14:37:51 -0700 (PDT)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C1C10E292
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 21:52:34 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7E5223F327;
+ Mon, 15 May 2023 23:52:31 +0200 (CEST)
+Date: Mon, 15 May 2023 23:52:30 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Subject: Re: [PATCH v8 6/8] drm/msm/dpu: separate DSC flush update out of
+ interface
+Message-ID: <r5rbbaz5gms5d2wdheuvqoij4ld5qiyz2kxrjjqkpyzy4v2zdq@44q2zgkrxpgt>
+References: <1683914423-17612-1-git-send-email-quic_khsieh@quicinc.com>
+ <1683914423-17612-7-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-References: <20230515013428.38798-1-suhui@nfschina.com>
-In-Reply-To: <20230515013428.38798-1-suhui@nfschina.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 15 May 2023 17:37:40 -0400
-Message-ID: <CADnq5_ND5fdXh0=HubG9xh9D30ZNQSQwVgQ9GasxmwB_mtWdMA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: remove unnecessary (void*) conversions
-To: Su Hui <suhui@nfschina.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1683914423-17612-7-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,142 +43,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, swboyd@chromium.org, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On 2023-05-12 11:00:21, Kuogee Hsieh wrote:
+> 
+> Current DSC flush update is piggyback inside dpu_hw_ctl_intf_cfg_v1().
 
-Alex
+Can you rewrite "is piggyback"?  Something like "Currently DSC flushing
+happens during interface configuration".  And it's intf configuration
+**on the CTL**, which makes this extra confusing.
 
-On Mon, May 15, 2023 at 3:18=E2=80=AFAM Su Hui <suhui@nfschina.com> wrote:
->
-> No need cast (void*) to (struct amdgpu_device *).
->
-> Signed-off-by: Su Hui <suhui@nfschina.com>
+> This patch separates DSC flush away from dpu_hw_ctl_intf_cfg_v1() by
+
+Drop "This patch".  Then, separates -> Separate
+
+> adding dpu_hw_ctl_update_pending_flush_dsc_v1() to handle both per
+> DSC engine and DSC flush bits at same time to make it consistent with
+
+Make that per-DSC with a hyphen.
+
+> the location of flush programming of other dpu sub blocks.
+
+DPU sub-blocks.
+
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 4 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c   | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c      | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     | 2 +-
->  6 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_debugfs.c
-> index f60753f97ac5..c837e0bf2cfc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> @@ -1470,7 +1470,7 @@ int amdgpu_debugfs_regs_init(struct amdgpu_device *=
-adev)
->
->  static int amdgpu_debugfs_test_ib_show(struct seq_file *m, void *unused)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->         struct drm_device *dev =3D adev_to_drm(adev);
->         int r =3D 0, i;
->
-> @@ -1581,7 +1581,7 @@ static int amdgpu_debugfs_benchmark(void *data, u64=
- val)
->
->  static int amdgpu_debugfs_vm_info_show(struct seq_file *m, void *unused)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->         struct drm_device *dev =3D adev_to_drm(adev);
->         struct drm_file *file;
->         int r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_fence.c
-> index f52d0ba91a77..f0615a43b3cc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -835,7 +835,7 @@ static const struct dma_fence_ops amdgpu_job_fence_op=
-s =3D {
->  #if defined(CONFIG_DEBUG_FS)
->  static int amdgpu_debugfs_fence_info_show(struct seq_file *m, void *unus=
-ed)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->         int i;
->
->         for (i =3D 0; i < AMDGPU_MAX_RINGS; ++i) {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_gem.c
-> index 863cb668e000..28f79cf8c3fb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -948,7 +948,7 @@ int amdgpu_mode_dumb_create(struct drm_file *file_pri=
-v,
->  #if defined(CONFIG_DEBUG_FS)
->  static int amdgpu_debugfs_gem_info_show(struct seq_file *m, void *unused=
-)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->         struct drm_device *dev =3D adev_to_drm(adev);
->         struct drm_file *file;
->         int r;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_ib.c
-> index 4ff348e10e4d..49a4238a120e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-> @@ -436,7 +436,7 @@ int amdgpu_ib_ring_tests(struct amdgpu_device *adev)
->
->  static int amdgpu_debugfs_sa_info_show(struct seq_file *m, void *unused)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->
->         seq_printf(m, "--------------------- DELAYED --------------------=
-- \n");
->         amdgpu_sa_bo_dump_debug_info(&adev->ib_pools[AMDGPU_IB_POOL_DELAY=
-ED],
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_kms.c
-> index 0efb38539d70..9f9274249b57 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -1441,7 +1441,7 @@ void amdgpu_disable_vblank_kms(struct drm_crtc *crt=
-c)
->
->  static int amdgpu_debugfs_firmware_info_show(struct seq_file *m, void *u=
-nused)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->         struct drm_amdgpu_info_firmware fw_info;
->         struct drm_amdgpu_query_fw query_fw;
->         struct atom_context *ctx =3D adev->mode_info.atom_context;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.c
-> index 2cd081cbf706..21f340ed4cca 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -2164,7 +2164,7 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device=
- *adev, int mem_type)
->
->  static int amdgpu_ttm_page_pool_show(struct seq_file *m, void *unused)
->  {
-> -       struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
-;
-> +       struct amdgpu_device *adev =3D m->private;
->
->         return ttm_pool_debugfs(&adev->mman.bdev.pool, m);
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 14 ++++++++++++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c  | 22 ++++++++++++++++------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h  | 10 ++++++++++
+>  3 files changed, 38 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index ffa6f04..5cae70e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1834,12 +1834,18 @@ dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
+>  	return DIV_ROUND_UP(total_pixels, dsc->slice_width);
 >  }
-> --
-> 2.30.2
->
+>  
+> -static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+> +static void dpu_encoder_dsc_pipe_cfg(struct dpu_encoder_virt *dpu_enc,
+
+Why not pass hw_ctl directly?  The other blocks are directly passed as
+well, and the caller already has cur_master.  Otherwise we might as well
+inline the for loops.  Same question for the new _clr call added in
+patch 8/8.
+
+> +				     struct dpu_hw_dsc *hw_dsc,
+>  				     struct dpu_hw_pingpong *hw_pp,
+>  				     struct drm_dsc_config *dsc,
+>  				     u32 common_mode,
+>  				     u32 initial_lines)
+>  {
+> +	struct dpu_encoder_phys *cur_master = dpu_enc->cur_master;
+> +	struct dpu_hw_ctl *ctl;
+> +
+> +	ctl = cur_master->hw_ctl;
+
+Assign this directly at declaration, just like cur_master (but
+irrelevant if you pass this directly instead).
+
+> +
+>  	if (hw_dsc->ops.dsc_config)
+>  		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode, initial_lines);
+>  
+> @@ -1854,6 +1860,9 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+>  
+>  	if (hw_pp->ops.enable_dsc)
+>  		hw_pp->ops.enable_dsc(hw_pp);
+> +
+> +	if (ctl->ops.update_pending_flush_dsc)
+> +		ctl->ops.update_pending_flush_dsc(ctl, hw_dsc->idx);
+>  }
+>  
+>  static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+> @@ -1898,7 +1907,8 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+>  	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
+>  
+>  	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+> -		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
+> +		dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
+> +					 dsc_common_mode, initial_lines);
+>  }
+>  
+>  void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 4f7cfa9..f3a50cc 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -139,6 +139,11 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+>  				CTL_DSPP_n_FLUSH(dspp - DSPP_0),
+>  				ctx->pending_dspp_flush_mask[dspp - DSPP_0]);
+>  		}
+> +
+> +	if (ctx->pending_flush_mask & BIT(DSC_IDX))
+> +		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH,
+> +			      ctx->pending_dsc_flush_mask);
+
+When are we setting this to zero again?
+
+Same question for the other masks, only the global pending_flush_mask
+and pending_dspp_flush_mask are reset in dpu_hw_ctl_clear_pending_flush.
+
+> +
+>  	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
+>  }
+>  
+> @@ -285,6 +290,13 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
+>  	ctx->pending_flush_mask |= BIT(MERGE_3D_IDX);
+>  }
+>  
+> +static void dpu_hw_ctl_update_pending_flush_dsc_v1(struct dpu_hw_ctl *ctx,
+> +						   enum dpu_dsc dsc_num)
+> +{
+> +	ctx->pending_dsc_flush_mask |= BIT(dsc_num - DSC_0);
+> +	ctx->pending_flush_mask |= BIT(DSC_IDX);
+> +}
+> +
+>  static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
+>  	enum dpu_dspp dspp, u32 dspp_sub_blk)
+>  {
+> @@ -502,9 +514,6 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
+>  		mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
+>  
+> -	if (cfg->dsc)
+> -		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH, cfg->dsc);
+> -
+>  	if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+>  		mode_sel |= BIT(17);
+>  
+> @@ -524,10 +533,8 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+>  	if (cfg->merge_3d)
+>  		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+>  			      BIT(cfg->merge_3d - MERGE_3D_0));
+
+Can we have a newline here?
+
+> -	if (cfg->dsc) {
+> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
+
+Found the reason why this patch (as one of the few) is needed to get
+display working on my SM8150/SM8250 devices: the semantic change is that
+BIT() was missing around DSC_IDX here.
+(It wasn't hampering SDM845 because it doesn't have a configurable
+ crossbar, i.e. DPU_CTL_ACTIVE_CFG)
+
+Manually reverting this patch and adding BIT() indeed also fixes the
+issue.
+
+This semantic change should be documented in the description and with a
+Fixes: (and Reported-by:?), or as a separate preliminary patch for
+clarity.
+
+> +	if (cfg->dsc)
+>  		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+> -	}
+>  }
+>  
+>  static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+> @@ -630,6 +637,9 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+>  		ops->update_pending_flush_merge_3d =
+>  			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
+>  		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
+> +
+
+And while adding a newline above, drop the one here.
+
+> +		ops->update_pending_flush_dsc =
+> +			dpu_hw_ctl_update_pending_flush_dsc_v1;
+>  	} else {
+>  		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
+>  		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 6292002..d4869a0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -158,6 +158,15 @@ struct dpu_hw_ctl_ops {
+>  		enum dpu_dspp blk, u32 dspp_sub_blk);
+>  
+>  	/**
+> +	 * OR in the given flushbits to the cached pending_(dsc_)flush_mask
+> +	 * No effect on hardware
+> +	 * @ctx       : ctl path ctx pointer
+> +	 * @blk       : interface block index
+
+Can you drop the spaces before the colon (:)?  That's wrong and will be
+fixed elsewhere later.
+
+> +	 */
+> +	void (*update_pending_flush_dsc)(struct dpu_hw_ctl *ctx,
+> +					 enum dpu_dsc blk);
+
+Indent with a single tab to match the rest.
+
+> +
+> +	/**
+>  	 * Write the value of the pending_flush_mask to hardware
+>  	 * @ctx       : ctl path ctx pointer
+>  	 */
+> @@ -245,6 +254,7 @@ struct dpu_hw_ctl {
+>  	u32 pending_wb_flush_mask;
+>  	u32 pending_merge_3d_flush_mask;
+>  	u32 pending_dspp_flush_mask[DSPP_MAX - DSPP_0];
+> +	u32 pending_dsc_flush_mask;
+
+Don't forget to add this to the doc-comment, or did you skip it by
+intention because pending_merge_3d_flush_mask and
+pending_dspp_flush_mask are missing as well?
+
+- Marijn
+
+>  
+>  	/* ops */
+>  	struct dpu_hw_ctl_ops ops;
+> -- 
+> 2.7.4
+> 
