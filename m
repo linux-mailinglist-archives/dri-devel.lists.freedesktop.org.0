@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF34703984
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC950703B14
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 19:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B626B10E044;
-	Mon, 15 May 2023 17:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC6DB10E03B;
+	Mon, 15 May 2023 17:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCFC010E044
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 17:43:15 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA34310E03B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 17:59:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1E38C62B23;
- Mon, 15 May 2023 17:43:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11BCBC433D2;
- Mon, 15 May 2023 17:43:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D21E863020;
+ Mon, 15 May 2023 17:59:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD6EC433EF;
+ Mon, 15 May 2023 17:59:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1684172592;
+ s=korg; t=1684173549;
  bh=GnuTKGySGlfr07daI7HAiFk0boCdBF/4zjHSMFSEV+4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W+QMW/86tEhreD3z8mJj0IfD7UAJHyEc6T3wz1J7ZoVVuvuSI/IYvdRI2xiS2onM+
- 4rySRdDJuuwJozJT/2FQHlocMgXja1wlivSLWh6cYZ7fsWFCpckKZZw1cwnzx5N9jh
- +c3bAEgXQV/VgPm3Vb9QyjI8wjW3ZRN1gXj6hk50=
+ b=jij7zj5KEpEI467gjBQD3hAdZuZZHtySCfzefVlMWCuyo/lr0HHx7AMy61WN2G5Dm
+ P97dgzTK8L8qgVHVRUEGkKBVULocz6eQlBN7ZkhLmFsj5JFkU4cEgc2xOLoK7+SwIv
+ aGFmywExHFXNqErfqrK08HNWqU5GJSanq/yUw9xU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 5.10 204/381] linux/vt_buffer.h: allow either builtin or
+Subject: [PATCH 5.4 130/282] linux/vt_buffer.h: allow either builtin or
  modular for macros
-Date: Mon, 15 May 2023 18:27:35 +0200
-Message-Id: <20230515161746.023536518@linuxfoundation.org>
+Date: Mon, 15 May 2023 18:28:28 +0200
+Message-Id: <20230515161726.123094846@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230515161736.775969473@linuxfoundation.org>
-References: <20230515161736.775969473@linuxfoundation.org>
+In-Reply-To: <20230515161722.146344674@linuxfoundation.org>
+References: <20230515161722.146344674@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
