@@ -1,67 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092CD702F36
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:07:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB8B702F52
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6419010E1E1;
-	Mon, 15 May 2023 14:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A9210E062;
+	Mon, 15 May 2023 14:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 763FA10E1E1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 14:07:13 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3063afa2372so11988261f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:07:13 -0700 (PDT)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A2710E062;
+ Mon, 15 May 2023 14:11:51 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1929818d7faso72026350fac.0; 
+ Mon, 15 May 2023 07:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684159629; x=1686751629; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=n75gxWwijMMTI9GiXx1bdZzw1eSKDQ/JY3MbdqyyfJ8=;
- b=MybEwHb7tKFR+czM65dq6Won8HWSGsgYs9IN4ez2NUgHvZhPq/Fjq3SQvBRDwj2apk
- TQlRnqRGsmPdmCCiuAQcNV5mzBWUfS345LKMeMaqnYmHN1XGmlqe+rc1IsW5hQGIN2hY
- Sk7HLb6fGLLzfm46sD0+z8iN/0C24ndOXGjNqF6egg+usyu0Bf3KHWzTofwatANRJWl4
- NM6U67P7oQUYPeY4ghnVyPngLeXR/uhODxoz4qrOAMKkje2MBG2F+8kinM7BX0ZLPHGd
- S/9F6uqsD+yaKQT/H6KccQdorGqjBBxvsrr+IBeIoiXO2e2PeafrSkbg/OX5wBedzpfb
- rR2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684159629; x=1686751629;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1684159910; x=1686751910;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n75gxWwijMMTI9GiXx1bdZzw1eSKDQ/JY3MbdqyyfJ8=;
- b=BeTVHCGZMLN4rXK/tTpHAFw/XSI1OuA/iHUK/7WwnJxzywIqf+2zYpm7CZuduwWa/Y
- LdNP5y4i3REvFz85J894tbZzGqARHSQ/qu+kq/3Cg5QaNz1i9DG5E2Zz9YFVVuey8pNE
- i1+XlQc+7vUdvSH4fn4XJB/Ee4OQ16AadJ/NTc6MMYNzlJ3YUpRdu90EHGgHEzfiDwS3
- oG4AQTPQ3z0vbN+lhKoNya6IzuZaY36XyrpcTPrVL2rNs7RxiE4rgXFlAfq0RtodrE9a
- Xotdb1tCL3y/V8ZrDfP73chZwPe7pCLGjQBmb/4P0wrs/a3ObvsJbQ4YlUBuCt4N8AAi
- 3Jbw==
-X-Gm-Message-State: AC+VfDyE75vp2myTKV3dCZ/M+OSAhTrBgslJyZvmyi6Oqpqmo5HGuS3z
- RP9TNyQh63sC7vljlCpSzJBrLsG921wMc+uQvbZw3Z5i
-X-Google-Smtp-Source: ACHHUZ79hANfbDvpP6oNPyXKE1ftm/gHtkEaa9Icb1GGlaeSnOsVu4I4PEo/Jz9DCazNFmJCLmAmFg==
-X-Received: by 2002:adf:e492:0:b0:306:2dd6:95d3 with SMTP id
- i18-20020adfe492000000b003062dd695d3mr30832770wrm.22.1684159629085; 
- Mon, 15 May 2023 07:07:09 -0700 (PDT)
-Received: from localhost ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a05600c224200b003f4253ddb7dsm23548392wmm.43.2023.05.15.07.07.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 07:07:08 -0700 (PDT)
-Date: Mon, 15 May 2023 16:07:07 +0200
-From: Julien Stephan <jstephan@baylibre.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 2/2] phy: mtk-mipi-csi: add driver for CSI phy
-Message-ID: <b2nk4jw2hpy4ndoq4cojazkn6h3tra2zjffhiswb7aqryabf7q@mkbtzhzcbivv>
-References: <20230515090551.1251389-1-jstephan@baylibre.com>
- <20230515090551.1251389-3-jstephan@baylibre.com>
- <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
+ bh=p6klH7lGRee9p3zL+y3yYDz1Mo74eQ/ZGlGDY1d4SJ8=;
+ b=sCHYWoEl/r7hKZSDGDmLfCPpPd7E47QEYW3x8MbOxPeCRhv1CV+HlAaIrfm1LcFcLH
+ XEbFz9jw+weu9mFwgrF+7KTA2I4/fV7DYR1jKTSmDCBtwZWWhvAHBwMlVqLNtkiEAffk
+ jepHKnu4dhzHZOORfj5zJV/j3IA72JK6Jpwozinq7FL4e0q5Hn3KSeOcBNIoheUf41VD
+ M7DJDEcSdn/2wS2Dab0jeAE3qPrZj75rtBob/Ck3LJEd0O3nxnoWvfclX1rCrapByNYw
+ pohWHW4WLREO3T/Wn1gGrkoAuDeQw7j33xikmKUewSXLJYM0HVJXo6ZscgG4/OtP5VQB
+ wTeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684159910; x=1686751910;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p6klH7lGRee9p3zL+y3yYDz1Mo74eQ/ZGlGDY1d4SJ8=;
+ b=UJ99YDTaq1s0jj/Z7VqRB50o7HdGL8DXBJIGAm5nvXHTatV8+wNnxTsvPgsUPQbeJZ
+ efXzhhZiuvbKJ/wYjAs+AdWiz4o5DhpX6LExvVrIMx0DmAMvEEkG33JyKzzmsWAXUvdq
+ hQBM9LViCdFQEDnnT6jXF+ZmmNwk1dOqJ0unvsvDHWVQsDs4lWY4s5G0g8zXkZYJf0A/
+ +8WFBBj1QeqqOG1R/o2nDRrpXT1tUdJ5qG6TVHiGnKkW7ixKwsCQ6HaukFUF70b0HvAY
+ H4LtlcF/jbieR9KfZzoAocAKGuW3ObMyxDuj/grAHrJCXlCR42grbthdvB8BV5F/MAW+
+ gBlQ==
+X-Gm-Message-State: AC+VfDzlWDnlNEGncZxiW6k1jVbl56RgnCFnzkFS9PyVbwvAcldEleen
+ qKcffTf6SMwWqNaB1RzxkSFvuYvVzJAXATH0+vM=
+X-Google-Smtp-Source: ACHHUZ6hswmGitPnovNcuyXvStM5qdj58yGJkZIf508UaOF0AdET+AUn58DT7NbbSC+sp4hSvEY04p3ZxsueM7TOyMg=
+X-Received: by 2002:a05:6870:e6d5:b0:18e:3e05:51e6 with SMTP id
+ s21-20020a056870e6d500b0018e3e0551e6mr17667911oak.24.1684159910535; Mon, 15
+ May 2023 07:11:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
+References: <20230515013428.38798-1-suhui@nfschina.com>
+ <ebe9d98c-148d-4694-8f97-96bacd0b9f7d@kili.mountain>
+In-Reply-To: <ebe9d98c-148d-4694-8f97-96bacd0b9f7d@kili.mountain>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 May 2023 10:11:39 -0400
+Message-ID: <CADnq5_Nei-XHsD8DQkpUGZwZAik5X-S1R3znOJGD1X2jAxD6_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove unnecessary (void*) conversions
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,48 +69,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>, chunkuang.hu@kernel.org,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- Vinod Koul <vkoul@kernel.org>,
- "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, krzysztof.kozlowski@linaro.org,
- linux-mediatek@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
- Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
- "moderated list:ARM/Mediatek USB3 PHY DRIVER"
- <linux-arm-kernel@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Su Hui <suhui@nfschina.com>, Xinhui.Pan@amd.com,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 15, 2023 at 02:22:52PM +0200, AngeloGioacchino Del Regno wrote:
-> > +#define CSIxB_OFFSET		0x1000
+On Mon, May 15, 2023 at 3:17=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 >
-> What if we grab two (or three?) iospaces from devicetree?
+> On Mon, May 15, 2023 at 09:34:28AM +0800, Su Hui wrote:
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_debugfs.c
+> > index f60753f97ac5..c837e0bf2cfc 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > @@ -1470,7 +1470,7 @@ int amdgpu_debugfs_regs_init(struct amdgpu_device=
+ *adev)
+> >
+> >  static int amdgpu_debugfs_test_ib_show(struct seq_file *m, void *unuse=
+d)
+> >  {
+> > -     struct amdgpu_device *adev =3D (struct amdgpu_device *)m->private=
+;
+> > +     struct amdgpu_device *adev =3D m->private;
+> >       struct drm_device *dev =3D adev_to_drm(adev);
+> >       int r =3D 0, i;
+> >
 >
-> - base (global)
-> - csi_a
-> - csi_b
+> This declaration block was originally written in reverse Christmas tree
+> order:
 >
-> That would make it possible to maybe eventually extend this driver to more
-> versions (older or newer) of the CSI PHY IP without putting fixes offsets
-> inside of platform data structures and such.
+>         long long long variable name;
+>         medium length name;
+>         short name;
 >
-Hi Angelo,
-The register bank of the CSI port is divided into 2:
-* from base address to base + 0x1000 (port A)
-* from base + 0x1000 to base +0x2000 (port B)
-Some CSI port can be configured in 4D1C mode (4 data + 1 clock) using
-the whole register bank from base to base + 0x2000 or in 2D1C mode (2 data +
-1 clock) and use either port A or port B.
+> So you probably want to change the order now that the lengths have
+> changed.  Same in the other places as well.
 
-For example  mt8365 has CSI0 that can be used either in 4D1C mode or in
-2 * 2D1C and CSI1 which can use only 4D1C mode
+I don't think it's possible due to the variable dependencies unless
+you separate the declarations and assignments which doesn't seem like
+a net win to me.
 
-2D1C mode can not be tested and is not implemented in the driver so
-I guess adding csi_a and csi_b reg value may be confusing?
+Alex
 
-What do you think?
-
-Regards,
-Julien
+>
+> regards,
+> dan carpenter
+>
