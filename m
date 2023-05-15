@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B552170292F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3139702974
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA9410E1E6;
-	Mon, 15 May 2023 09:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF1710E198;
+	Mon, 15 May 2023 09:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954EF10E197;
- Mon, 15 May 2023 09:40:40 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887AC10E198
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 09:47:05 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3B6CF21D38;
- Mon, 15 May 2023 09:40:39 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2ED9E21D53;
+ Mon, 15 May 2023 09:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684143639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1684144024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x/ukCFzbN07fn8ALvdz1hMDvC2v9v6ch1Yiaceo0YOo=;
- b=Jx+lBh8GYrGyDI/X7iciwc7luLhdvN4bzVFkRuUqKuQm606adqkzJb4JBWWzuEAmEwub6X
- l64210xks++BezoYsvKRRnVIJTSjmvEDFjCOpQPR4HYG6KrYz5dFhfd6Ru+tekXjHBQbeg
- d9DP0um/s+0ZbC6lLLj21ACWqfQjoWE=
+ bh=7H+R9VthtjKfDqNZk9coKfqQbuQUuLqCLBzlFwu14pM=;
+ b=OJ7Xsg+I517gydLOKZ9wWZuAzT76SSSGUpRxFwtR8xs7PgN9bSZYlsHKmCbRjyW5Yk2N4x
+ XfTMn3Drmeeri3ROKNuT+WUU96JhJ7SUxANSpX9rt+vzqQoEl+cul+YW+en5WFmPX5/ql9
+ ufe8AwbcZIqgviWCynke7bbNYaRwe74=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684143639;
+ s=susede2_ed25519; t=1684144024;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x/ukCFzbN07fn8ALvdz1hMDvC2v9v6ch1Yiaceo0YOo=;
- b=iv3Q59R2N8CIeokEPkJq8DE1uD56ygCZlgDnnH7d+RejKamfGu2K3dVxksiau9B3RerW1M
- s2magME+htFYNBCA==
+ bh=7H+R9VthtjKfDqNZk9coKfqQbuQUuLqCLBzlFwu14pM=;
+ b=4rprNJpVHfJB6Tsb1J+1WE0kUQ+5wk5KO+ytiOR4lQwB8Whp/PvYhDPvAozq+ISs+pGKTU
+ xfV1fi7m6EqOnFAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF7A4138FE;
- Mon, 15 May 2023 09:40:38 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0979B13466;
+ Mon, 15 May 2023 09:47:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mBiqMRb+YWTeTwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:40:38 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v2 12/12] drm/i915: Implement dedicated fbdev I/O helpers
-Date: Mon, 15 May 2023 11:40:33 +0200
-Message-Id: <20230515094033.2133-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230515094033.2133-1-tzimmermann@suse.de>
-References: <20230515094033.2133-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id KYNQAZj/YWSQUwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:47:04 +0000
+Message-ID: <1181b534-dc7f-99d4-0e44-a0a54f23cdab@suse.de>
+Date: Mon, 15 May 2023 11:47:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] drm/pl111: Fix FB depth on IMPD-1 framebuffer
+Content-Language: en-US
+To: Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>
+References: <20230515092943.1401558-1-linus.walleij@linaro.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230515092943.1401558-1-linus.walleij@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------gmjqEeMLNgClOxIi5SMuYO2q"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,321 +71,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Emma Anholt <emma@anholt.net>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement dedicated fbdev helpers for framebuffer I/O instead
-of using DRM's helpers. i915 was the only caller of the DRM
-helpers, so remove them from the helper module.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------gmjqEeMLNgClOxIi5SMuYO2q
+Content-Type: multipart/mixed; boundary="------------0zUVvHWyACXG30Uq48I0dDHq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>
+Cc: stable@vger.kernel.org, Emma Anholt <emma@anholt.net>
+Message-ID: <1181b534-dc7f-99d4-0e44-a0a54f23cdab@suse.de>
+Subject: Re: [PATCH] drm/pl111: Fix FB depth on IMPD-1 framebuffer
+References: <20230515092943.1401558-1-linus.walleij@linaro.org>
+In-Reply-To: <20230515092943.1401558-1-linus.walleij@linaro.org>
 
-v2:
-	* use FB_IO_HELPERS options
+--------------0zUVvHWyACXG30Uq48I0dDHq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/Kconfig                    |   3 -
- drivers/gpu/drm/drm_fb_helper.c            | 107 ---------------------
- drivers/gpu/drm/i915/Kconfig               |   1 +
- drivers/gpu/drm/i915/display/intel_fbdev.c |  51 ++++++++--
- include/drm/drm_fb_helper.h                |  39 --------
- 5 files changed, 46 insertions(+), 155 deletions(-)
+SGkNCg0KQW0gMTUuMDUuMjMgdW0gMTE6Mjkgc2NocmllYiBMaW51cyBXYWxsZWlqOg0KPiBU
+aGUgbGFzdCBhcmd1bWVudCB0byB0aGUgZnVuY3Rpb24gZHJtX2ZiZGV2X2RtYV9zZXR1cCgp
+IHdhcw0KPiBjaGFuZ2VkIGZyb20gZGVzaXJlZCBCUFAgdG8gZGVzaXJlZCBkZXB0aC4NCj4g
+DQo+IEluIG91ciBjYXNlIHRoZSBkZXNpcmVkIGRlcHRoIHdhcyAxNSBidXQgQlBQIHdhcyAx
+Niwgc28gd2UNCj4gc3BlY2lmaWVkIDE2IGFzIEJQUCBhbmQgd2UgcmVsaWVkIG9uIHRoZSBG
+QiBlbXVsYXRpb24gY29yZSB0bw0KPiBzZWxlY3QgYSBmb3JtYXQgd2l0aCBhIHN1aXRhYmxl
+IGRlcHRoIGZvciB0aGUgbGltaXRlZCBiYW5kd2lkdGgNCj4gYW5kIGVuZCB1cCB3aXRoIGUu
+Zy4gWFJHQjE1NTUgbGlrZSBpbiB0aGUgcGFzdDoNCj4gDQo+IFtkcm1dIEluaXRpYWxpemVk
+IHBsMTExIDEuMC4wIDIwMTcwMzE3IGZvciBjMTAwMDAwMC5kaXNwbGF5IG9uIG1pbm9yIDAN
+Cj4gZHJtLWNsY2QtcGwxMTEgYzEwMDAwMDAuZGlzcGxheTogW2RybV0gcmVxdWVzdGVkIGJw
+cCAxNiwgc2NhbGVkIGRlcHRoIGRvd24gdG8gMTUNCj4gZHJtLWNsY2QtcGwxMTEgYzEwMDAw
+MDAuZGlzcGxheTogZW5hYmxlIElNLVBEMSBDTENEIGNvbm5lY3RvcnMNCj4gQ29uc29sZTog
+c3dpdGNoaW5nIHRvIGNvbG91ciBmcmFtZSBidWZmZXIgZGV2aWNlIDgweDMwDQo+IGRybS1j
+bGNkLXBsMTExIGMxMDAwMDAwLmRpc3BsYXk6IFtkcm1dIGZiMDogcGwxMTFkcm1mYiBmcmFt
+ZSBidWZmZXIgZGV2aWNlDQo+IA0KPiBIb3dldmVyIHRoZSBjdXJyZW50IGNvZGUgd2lsbCBm
+YWlsIGF0IHRoYXQ6DQo+IA0KPiBbZHJtXSBJbml0aWFsaXplZCBwbDExMSAxLjAuMCAyMDE3
+MDMxNyBmb3IgYzEwMDAwMDAuZGlzcGxheSBvbiBtaW5vciAwDQo+IGRybS1jbGNkLXBsMTEx
+IGMxMDAwMDAwLmRpc3BsYXk6IFtkcm1dIGJwcC9kZXB0aCB2YWx1ZSBvZiAxNi8xNiBub3Qg
+c3VwcG9ydGVkDQo+IGRybS1jbGNkLXBsMTExIGMxMDAwMDAwLmRpc3BsYXk6IFtkcm1dIE5v
+IGNvbXBhdGlibGUgZm9ybWF0IGZvdW5kDQo+IGRybS1jbGNkLXBsMTExIGMxMDAwMDAwLmRp
+c3BsYXk6IFtkcm1dICpFUlJPUiogZmJkZXY6IEZhaWxlZCB0byBzZXR1cCBnZW5lcmljIGVt
+dWxhdGlvbiAocmV0PS0xMikNCj4gDQo+IEZpeCB0aGlzIGJ5IHBhc3NpbmcgdGhlIGRlc2ly
+ZWQgZGVwdGggb2YgMTUgZm9yIHRoZSBJTS9QRC0xIGRpc3BsYXkNCj4gaW5zdGVhZCBvZiAx
+NiB0byBkcm1fZmJkZXZfZG1hX3NldHVwKCkuDQo+IA0KPiBUaGUgZGVzaXJlZCBkZXB0aCBp
+cyBob3dldmVyIGluIHR1cm4gdXNlZCBmb3IgYmFuZHdpZHRoIGxpbWl0aW5nDQo+IGNhbGN1
+bGF0aW9ucyBhbmQgdGhhdCB3YXMgZG9uZSB3aXRoIGEgc2ltcGxlIC8gaW50ZWdlciBkaXZp
+c2lvbiwNCj4gd2hlcmVhcyB3ZSBub3cgaGF2ZSB0byBtb2RpZnkgdGhhdCB0byB1c2UgRElW
+X1JPVU5EX1VQKCkgc28gdGhhdA0KPiB3ZSBnZXQgRElWX1JPVU5EX1VQKDE1LCAyKSA9IDIg
+bm90IDE1LzIgPSAxLg0KPiANCj4gQWZ0ZXIgdGhpcyB0aGUgZGlzcGxheSB3b3JrcyBhZ2Fp
+biBvbiB0aGUgSW50ZWdyYXRvci9BUCBJTS9QRC0xLg0KPiANCj4gQ2M6IEVtbWEgQW5ob2x0
+IDxlbW1hQGFuaG9sdC5uZXQ+DQo+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+IFN1
+Z2dlc3RlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+
+IEZpeGVzOiAzN2M5MGQ1ODlkYzAgKCJkcm0vZmItaGVscGVyOiBGaXggc2luZ2xlLXByb2Jl
+IGNvbG9yLWZvcm1hdCBzZWxlY3Rpb24iKQ0KPiBMaW5rOiBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9kcmktZGV2ZWwvMjAyMzAxMDIxMTI5MjcuMjY1NjUtMS10emltbWVybWFubkBzdXNl
+LmRlLw0KPiBTaWduZWQtb2ZmLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxp
+bmFyby5vcmc+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCg0KVGhlIG9ubHkgaXNzdWUgaXMgdGhlIHVzZSBvZiBmYl9kZXB0aCBo
+ZXJlLiBEZXB0aCBpbiBEUk0gaXMgdGhlIG51bWJlciANCm9mIGNvbG9yIGJpdHMgaW4gYSBw
+aXhlbC4gZmJfZGVwdGggaXMgbm90IGNvcnJlY3QgaWYgdGhlIHZhbHVlIGlzIDMyLiANCjMy
+LWJpdCBjb2xvciBoYXMgb25seSAyNCBjb2xvciBiaXRzLiBJdCdzIHlvdXIgY2hvaWNlLCBi
+dXQgSSdkIHJlbmFtZSANCnRoZSBmaWVsZCB0byBjb2xvcl9tb2RlLiBJIGV4cGVjdCB0aGF0
+IHRoaXMgd2lsbCBiZSB0aGUgbmFtZSB3ZSdsbCANCmV2ZW50dWFsbHkgYWRvcHQgdGhyb3Vn
+aG91dCB0aGUgY29kZSBiYXNlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IC0tLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kaXNwbGF5LmMgICB8ICAyICstDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2RybS5oICAgICAgIHwgIDQgKystLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kcnYuYyAgICAgICB8ICA4ICsrKyst
+LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX3ZlcnNhdGlsZS5jIHwgMTAg
+KysrKystLS0tLQ0KPiAgIDQgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMTIg
+ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BsMTEx
+L3BsMTExX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kaXNwbGF5
+LmMNCj4gaW5kZXggNmFmZGYyNjBhNGUyLi5iOWZlOTI2YTQ5ZTggMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kaXNwbGF5LmMNCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3BsMTExL3BsMTExX2Rpc3BsYXkuYw0KPiBAQCAtNTMsNyArNTMsNyBAQCBw
+bDExMV9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSwN
+Cj4gICB7DQo+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkcm0gPSBwaXBlLT5jcnRjLmRldjsN
+Cj4gICAJc3RydWN0IHBsMTExX2RybV9kZXZfcHJpdmF0ZSAqcHJpdiA9IGRybS0+ZGV2X3By
+aXZhdGU7DQo+IC0JdTMyIGNwcCA9IHByaXYtPnZhcmlhbnQtPmZiX2JwcCAvIDg7DQo+ICsJ
+dTMyIGNwcCA9IERJVl9ST1VORF9VUChwcml2LT52YXJpYW50LT5mYl9kZXB0aCwgOCk7DQo+
+ICAgCXU2NCBidzsNCj4gICANCj4gICAJLyoNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9wbDExMS9wbDExMV9kcm0uaCBiL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9k
+cm0uaA0KPiBpbmRleCAyYTQ2YjViZDg1NzYuLmQxZmU3NTY0NDRlZSAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2RybS5oDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9wbDExMS9wbDExMV9kcm0uaA0KPiBAQCAtMTE0LDcgKzExNCw3IEBAIHN0cnVj
+dCBkcm1fbWlub3I7DQo+ICAgICoJZXh0ZW5zaW9ucyB0byB0aGUgY29udHJvbCByZWdpc3Rl
+cg0KPiAgICAqIEBmb3JtYXRzOiBhcnJheSBvZiBzdXBwb3J0ZWQgcGl4ZWwgZm9ybWF0cyBv
+biB0aGlzIHZhcmlhbnQNCj4gICAgKiBAbmZvcm1hdHM6IHRoZSBsZW5ndGggb2YgdGhlIGFy
+cmF5IG9mIHN1cHBvcnRlZCBwaXhlbCBmb3JtYXRzDQo+IC0gKiBAZmJfYnBwOiBkZXNpcmVk
+IGJpdHMgcGVyIHBpeGVsIG9uIHRoZSBkZWZhdWx0IGZyYW1lYnVmZmVyDQo+ICsgKiBAZmJf
+ZGVwdGg6IGRlc2lyZWQgZGVwdGggcGVyIHBpeGVsIG9uIHRoZSBkZWZhdWx0IGZyYW1lYnVm
+ZmVyDQo+ICAgICovDQo+ICAgc3RydWN0IHBsMTExX3ZhcmlhbnRfZGF0YSB7DQo+ICAgCWNv
+bnN0IGNoYXIgKm5hbWU7DQo+IEBAIC0xMjYsNyArMTI2LDcgQEAgc3RydWN0IHBsMTExX3Zh
+cmlhbnRfZGF0YSB7DQo+ICAgCWJvb2wgc3RfYml0bXV4X2NvbnRyb2w7DQo+ICAgCWNvbnN0
+IHUzMiAqZm9ybWF0czsNCj4gICAJdW5zaWduZWQgaW50IG5mb3JtYXRzOw0KPiAtCXVuc2ln
+bmVkIGludCBmYl9icHA7DQo+ICsJdW5zaWduZWQgaW50IGZiX2RlcHRoOw0KPiAgIH07DQo+
+ICAgDQo+ICAgc3RydWN0IHBsMTExX2RybV9kZXZfcHJpdmF0ZSB7DQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
+cGwxMTEvcGwxMTFfZHJ2LmMNCj4gaW5kZXggNGIyYTllOTc1M2Y2Li40MzA0OWM4MDI4YjIg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kcnYuYw0KPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmMNCj4gQEAgLTMwOCw3ICsz
+MDgsNyBAQCBzdGF0aWMgaW50IHBsMTExX2FtYmFfcHJvYmUoc3RydWN0IGFtYmFfZGV2aWNl
+ICphbWJhX2RldiwNCj4gICAJaWYgKHJldCA8IDApDQo+ICAgCQlnb3RvIGRldl9wdXQ7DQo+
+ICAgDQo+IC0JZHJtX2ZiZGV2X2RtYV9zZXR1cChkcm0sIHByaXYtPnZhcmlhbnQtPmZiX2Jw
+cCk7DQo+ICsJZHJtX2ZiZGV2X2RtYV9zZXR1cChkcm0sIHByaXYtPnZhcmlhbnQtPmZiX2Rl
+cHRoKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQo+ICAgDQo+IEBAIC0zNTEsNyArMzUxLDcg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwbDExMV92YXJpYW50X2RhdGEgcGwxMTBfdmFyaWFu
+dCA9IHsNCj4gICAJLmlzX3BsMTEwID0gdHJ1ZSwNCj4gICAJLmZvcm1hdHMgPSBwbDExMF9w
+aXhlbF9mb3JtYXRzLA0KPiAgIAkubmZvcm1hdHMgPSBBUlJBWV9TSVpFKHBsMTEwX3BpeGVs
+X2Zvcm1hdHMpLA0KPiAtCS5mYl9icHAgPSAxNiwNCj4gKwkuZmJfZGVwdGggPSAxNiwNCj4g
+ICB9Ow0KPiAgIA0KPiAgIC8qIFJlYWxWaWV3LCBWZXJzYXRpbGUgRXhwcmVzcyBldGMgdXNl
+IHRoaXMgbW9kZXJuIHZhcmlhbnQgKi8NCj4gQEAgLTM3Niw3ICszNzYsNyBAQCBzdGF0aWMg
+Y29uc3Qgc3RydWN0IHBsMTExX3ZhcmlhbnRfZGF0YSBwbDExMV92YXJpYW50ID0gew0KPiAg
+IAkubmFtZSA9ICJQTDExMSIsDQo+ICAgCS5mb3JtYXRzID0gcGwxMTFfcGl4ZWxfZm9ybWF0
+cywNCj4gICAJLm5mb3JtYXRzID0gQVJSQVlfU0laRShwbDExMV9waXhlbF9mb3JtYXRzKSwN
+Cj4gLQkuZmJfYnBwID0gMzIsDQo+ICsJLmZiX2RlcHRoID0gMzIsDQo+ICAgfTsNCj4gICAN
+Cj4gICBzdGF0aWMgY29uc3QgdTMyIHBsMTEwX25vbWFkaWtfcGl4ZWxfZm9ybWF0c1tdID0g
+ew0KPiBAQCAtNDA1LDcgKzQwNSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGwxMTFfdmFy
+aWFudF9kYXRhIHBsMTEwX25vbWFkaWtfdmFyaWFudCA9IHsNCj4gICAJLmlzX2xjZGMgPSB0
+cnVlLA0KPiAgIAkuc3RfYml0bXV4X2NvbnRyb2wgPSB0cnVlLA0KPiAgIAkuYnJva2VuX3Zi
+bGFuayA9IHRydWUsDQo+IC0JLmZiX2JwcCA9IDE2LA0KPiArCS5mYl9kZXB0aCA9IDE2LA0K
+PiAgIH07DQo+ICAgDQo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBhbWJhX2lkIHBsMTExX2lk
+X3RhYmxlW10gPSB7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwx
+MTFfdmVyc2F0aWxlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfdmVyc2F0aWxl
+LmMNCj4gaW5kZXggMWI0MzZiNzVmZDM5Li4wMGMzZWJkMzIzNTkgMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV92ZXJzYXRpbGUuYw0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfdmVyc2F0aWxlLmMNCj4gQEAgLTMxNiw3ICszMTYs
+NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBsMTExX3ZhcmlhbnRfZGF0YSBwbDExMF9pbnRl
+Z3JhdG9yID0gew0KPiAgIAkuYnJva2VuX3ZibGFuayA9IHRydWUsDQo+ICAgCS5mb3JtYXRz
+ID0gcGwxMTBfaW50ZWdyYXRvcl9waXhlbF9mb3JtYXRzLA0KPiAgIAkubmZvcm1hdHMgPSBB
+UlJBWV9TSVpFKHBsMTEwX2ludGVncmF0b3JfcGl4ZWxfZm9ybWF0cyksDQo+IC0JLmZiX2Jw
+cCA9IDE2LA0KPiArCS5mYl9kZXB0aCA9IDE2LA0KPiAgIH07DQo+ICAgDQo+ICAgLyoNCj4g
+QEAgLTMzMCw3ICszMzAsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBsMTExX3ZhcmlhbnRf
+ZGF0YSBwbDExMF9pbXBkMSA9IHsNCj4gICAJLmJyb2tlbl92YmxhbmsgPSB0cnVlLA0KPiAg
+IAkuZm9ybWF0cyA9IHBsMTEwX2ludGVncmF0b3JfcGl4ZWxfZm9ybWF0cywNCj4gICAJLm5m
+b3JtYXRzID0gQVJSQVlfU0laRShwbDExMF9pbnRlZ3JhdG9yX3BpeGVsX2Zvcm1hdHMpLA0K
+PiAtCS5mYl9icHAgPSAxNiwNCj4gKwkuZmJfZGVwdGggPSAxNSwNCj4gICB9Ow0KPiAgIA0K
+PiAgIC8qDQo+IEBAIC0zNDMsNyArMzQzLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwbDEx
+MV92YXJpYW50X2RhdGEgcGwxMTBfdmVyc2F0aWxlID0gew0KPiAgIAkuZXh0ZXJuYWxfYmdy
+ID0gdHJ1ZSwNCj4gICAJLmZvcm1hdHMgPSBwbDExMF92ZXJzYXRpbGVfcGl4ZWxfZm9ybWF0
+cywNCj4gICAJLm5mb3JtYXRzID0gQVJSQVlfU0laRShwbDExMF92ZXJzYXRpbGVfcGl4ZWxf
+Zm9ybWF0cyksDQo+IC0JLmZiX2JwcCA9IDE2LA0KPiArCS5mYl9kZXB0aCA9IDE2LA0KPiAg
+IH07DQo+ICAgDQo+ICAgLyoNCj4gQEAgLTM1NSw3ICszNTUsNyBAQCBzdGF0aWMgY29uc3Qg
+c3RydWN0IHBsMTExX3ZhcmlhbnRfZGF0YSBwbDExMV9yZWFsdmlldyA9IHsNCj4gICAJLm5h
+bWUgPSAiUEwxMTEgUmVhbFZpZXciLA0KPiAgIAkuZm9ybWF0cyA9IHBsMTExX3JlYWx2aWV3
+X3BpeGVsX2Zvcm1hdHMsDQo+ICAgCS5uZm9ybWF0cyA9IEFSUkFZX1NJWkUocGwxMTFfcmVh
+bHZpZXdfcGl4ZWxfZm9ybWF0cyksDQo+IC0JLmZiX2JwcCA9IDE2LA0KPiArCS5mYl9kZXB0
+aCA9IDE2LA0KPiAgIH07DQo+ICAgDQo+ICAgLyoNCj4gQEAgLTM2Nyw3ICszNjcsNyBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IHBsMTExX3ZhcmlhbnRfZGF0YSBwbDExMV92ZXhwcmVzcyA9
+IHsNCj4gICAJLm5hbWUgPSAiUEwxMTEgVmVyc2F0aWxlIEV4cHJlc3MiLA0KPiAgIAkuZm9y
+bWF0cyA9IHBsMTExX3JlYWx2aWV3X3BpeGVsX2Zvcm1hdHMsDQo+ICAgCS5uZm9ybWF0cyA9
+IEFSUkFZX1NJWkUocGwxMTFfcmVhbHZpZXdfcGl4ZWxfZm9ybWF0cyksDQo+IC0JLmZiX2Jw
+cCA9IDE2LA0KPiArCS5mYl9kZXB0aCA9IDE2LA0KPiAgIAkuYnJva2VuX2Nsb2NrZGl2aWRl
+ciA9IHRydWUsDQo+ICAgfTsNCj4gICANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 92a782827b7b..bb2e48cc6cd6 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -133,9 +133,6 @@ config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
- 	depends on DRM_KMS_HELPER
- 	depends on FB=y || FB=DRM_KMS_HELPER
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
- 	select FRAMEBUFFER_CONSOLE if !EXPERT
- 	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
- 	default y
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ba0a808f14ee..5927896ad8f6 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -729,113 +729,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- }
- EXPORT_SYMBOL(drm_fb_helper_deferred_io);
- 
--/**
-- * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to read from framebuffer memory
-- * @count: number of bytes to read from framebuffer memory
-- * @ppos: read offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes read on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos)
--{
--	return fb_io_read(info, buf, count, ppos);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_read);
--
--/**
-- * drm_fb_helper_cfb_write - Implements struct &fb_ops.fb_write for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to write to framebuffer memory
-- * @count: number of bytes to write to framebuffer memory
-- * @ppos: write offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes written on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos)
--{
--	struct drm_fb_helper *helper = info->par;
--	loff_t pos = *ppos;
--	ssize_t ret;
--	struct drm_rect damage_area;
--
--	ret = fb_io_write(info, buf, count, ppos);
--	if (ret <= 0)
--		return ret;
--
--	if (helper->funcs->fb_dirty) {
--		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
--		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
--				     drm_rect_width(&damage_area),
--				     drm_rect_height(&damage_area));
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_write);
--
--/**
-- * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
-- * @info: fbdev registered by the helper
-- * @rect: info about rectangle to fill
-- *
-- * A wrapper around cfb_fillrect implemented by fbdev core
-- */
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_fillrect(info, rect);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
--
--/**
-- * drm_fb_helper_cfb_copyarea - wrapper around cfb_copyarea
-- * @info: fbdev registered by the helper
-- * @area: info about area to copy
-- *
-- * A wrapper around cfb_copyarea implemented by fbdev core
-- */
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_copyarea(info, area);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
--
--/**
-- * drm_fb_helper_cfb_imageblit - wrapper around cfb_imageblit
-- * @info: fbdev registered by the helper
-- * @image: info about image to blit
-- *
-- * A wrapper around cfb_imageblit implemented by fbdev core
-- */
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_imageblit(info, image);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
--
- /**
-  * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
-  * @fb_helper: driver-allocated fbdev helper, can be NULL
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index e4f4d2e3fdfe..01b5a8272a27 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -17,6 +17,7 @@ config DRM_I915
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
-+	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
- 	select RELAY
- 	select I2C
- 	select I2C_ALGOBIT
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index aab1ae74a8f7..64aeacef703d 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -28,6 +28,7 @@
- #include <linux/console.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-+#include <linux/fb.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-@@ -84,6 +85,20 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
- 	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
- }
- 
-+static ssize_t intel_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-+				    size_t count, loff_t *ppos)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+	loff_t pos = *ppos;
-+	ssize_t ret;
-+
-+	ret = fb_io_write(info, buf, count, ppos);
-+	if (ret > 0)
-+		drm_fb_helper_damage_range(helper, pos, ret);
-+
-+	return ret;
-+}
-+
- static int intel_fbdev_set_par(struct fb_info *info)
- {
- 	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
-@@ -121,6 +136,30 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
- 
-+static void intel_fbdev_fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_fillrect(info, rect);
-+	drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-+}
-+
-+static void intel_fbdev_fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_copyarea(info, area);
-+	drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-+}
-+
-+static void intel_fbdev_fb_imageblit(struct fb_info *info, const struct fb_image *image)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_imageblit(info, image);
-+	drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-+}
-+
- static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- {
- 	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-@@ -134,13 +173,13 @@ static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_set_par = intel_fbdev_set_par,
--	.fb_read = drm_fb_helper_cfb_read,
--	.fb_write = drm_fb_helper_cfb_write,
--	.fb_fillrect = drm_fb_helper_cfb_fillrect,
--	.fb_copyarea = drm_fb_helper_cfb_copyarea,
--	.fb_imageblit = drm_fb_helper_cfb_imageblit,
--	.fb_pan_display = intel_fbdev_pan_display,
-+	.fb_read = fb_io_read,
-+	.fb_write = intel_fbdev_fb_write,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_pan_display = intel_fbdev_pan_display,
-+	.fb_fillrect = intel_fbdev_fb_fillrect,
-+	.fb_copyarea = intel_fbdev_fb_copyarea,
-+	.fb_imageblit = intel_fbdev_fb_imageblit,
- 	.fb_mmap = intel_fbdev_mmap,
- };
- 
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index e3240d749a43..15f03d8fb5cd 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -259,18 +259,6 @@ void drm_fb_helper_damage_range(struct drm_fb_helper *helper, off_t off, size_t
- 
- void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
- 
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos);
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos);
--
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect);
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area);
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image);
--
- void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, bool suspend);
- void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
- 					bool suspend);
-@@ -386,33 +374,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
- 	return -ENODEV;
- }
- 
--static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--					     size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--					      size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--					      const struct fb_fillrect *rect)
--{
--}
--
--static inline void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--					      const struct fb_copyarea *area)
--{
--}
--
--static inline void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--					       const struct fb_image *image)
--{
--}
--
- static inline void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper,
- 					     bool suspend)
- {
--- 
-2.40.1
+--------------0zUVvHWyACXG30Uq48I0dDHq--
 
+--------------gmjqEeMLNgClOxIi5SMuYO2q
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRh/5cFAwAAAAAACgkQlh/E3EQov+Bz
+8hAAh49gH0bRgPzQoJQT3PXTs6b13f9SAM2NY19HsitFXhfPFJtEG7mVl2NVSRTprXVN7eUnmjh8
+EArJhzsG9fp5zjbQ/nb5/OfTEipzeI6ZXramffhNIp0LSlHFqBU0Xv2q+QLfWkIv7E30EG35kQqF
+6SOk8O6IWOrHKiENXpLMC2iPIlq0f9Exw+FfgtPoftOClfFET3rkxfhWkvE0KJjL9T8h2S+/hLRb
+uUx6GqLUZJL3eq/jw6vwpW/Xu0NcnlT9oxwj5LyNu9DBLWwu8e+hNjE8PYU+4eSNMGHf5CV3y66I
+MyL4QC3eQUnzD4OYdAoE3upH//jE/NbCEC4N95wUt14px2g/yBY8HPtZzDugRmY2ieTy2+5pvmt4
+7RmDKfy0vQddsVsudVTyCbSb5T2dsXlQRv30UL7a1okR08pzfjrSQy+0Ad3GqJ3BavJkjr4XA6GN
+kADh7MvOuFTzgNDZXBB0ba602TOrF5kyMxM6X/8dCzZQGVfLURZ+x4zJC4RJJ8Pwl2ZvVKYVZTX1
+yTjxNQq3xMRlEDqrH/U6qhIGWDOusJd9feRv1p2WrTO3p8X/IJ3i27qOQb0zwouLGcE9c6UZyDFD
+wjwul6qZymdY0IHbkFGGxMzVfier8ltPZzSJ1+Qs0WaUNIxukVR8QrA23WMaaWUIIG37TJJnDjcA
+qkU=
+=rC7r
+-----END PGP SIGNATURE-----
+
+--------------gmjqEeMLNgClOxIi5SMuYO2q--
