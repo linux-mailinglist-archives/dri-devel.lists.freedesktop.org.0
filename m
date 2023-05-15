@@ -1,98 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C527044C6
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 07:40:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA73704658
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FD210E2DE;
-	Tue, 16 May 2023 05:40:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8041F10E30B;
+	Tue, 16 May 2023 07:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE93A10E2E4
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 05:40:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ffElhMWby9mKIt3iHk0c2TnkPMe/EOro/hEsrpIx/prPVLId2AhGBbuX+jR9vZFqOEE3yJ2EkB7ieUktg8yh5gsv4C4gRiZdVquV8w1KV/HCQE6g6qxVS0MtUWKmsKy7eYh35g6HoznFUC9mNSgyUgXMLzz0DuPPZn00SsX4CYksdc4+Un//mgZwY6OV0x/WNomjaM5rg/sX6qhTOT3lCT1EoYn4rhA6MrIt0j2da+fc5pHy9we2yvUOfojnx7CRMHR87lWPLSt/M74Ykjy6mEjPg17QJ3jHTaFyTPEz/ezWwnVB5X1+jsi9t1xueS0YKrWW/bLW1GPlc72PdU9UBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lTqy0kiJ16I69pKNEj7Uwj/qiomvttMwO6EIM+mQGk8=;
- b=TAsXIdgZ4zGAiZvg3MHz/T24yBBe+Z4IxfT1VL29mHL76A5jxGKWrBpUR6lLZLoW7dWlzxSUy7CSV8ua8lG/Zm2020mtUaTc2Xi6XV+/fOxqJNMip/TKH25T5lP8doENFG53aZ6cs83jP9jiBS41LBxhpPbDwcYJY12V88+T0/MAq2KaDsHTMjRrjfllyAVwjz0275phBIEDnx8csCoXgDsVEJNWi/1TzPa67quU6F8YsOgy/sHESGbcb4sTAE6W92to7753v/lxfkVNd/WjzdlIjzOQxAJDIVXHM8v8HMUU96raaAxHs8FQ2KUoN9+IaBGjXu3KbMvJTRTicKIalA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lTqy0kiJ16I69pKNEj7Uwj/qiomvttMwO6EIM+mQGk8=;
- b=HFIfDt049ZVsWHnNYZuEEsSnzgZguSvESPJyLnzZUvdaD5w4V30Ag2NrWFlGcrtu6eWxHoBBvb8HQbwMqz5D88R6AGUm8IFu35PaKO36tI21S6f0ueu9D590u6NXu/uPTbf0L4MwxV6eYo89NAIrKOgKZcUJ6+d1xOMAYSpycYo=
-Received: from MW4PR04CA0248.namprd04.prod.outlook.com (2603:10b6:303:88::13)
- by SA1PR12MB8643.namprd12.prod.outlook.com (2603:10b6:806:387::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Tue, 16 May
- 2023 05:40:01 +0000
-Received: from CO1NAM11FT032.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:88:cafe::5e) by MW4PR04CA0248.outlook.office365.com
- (2603:10b6:303:88::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33 via Frontend
- Transport; Tue, 16 May 2023 05:40:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT032.mail.protection.outlook.com (10.13.174.218) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 05:40:01 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 16 May
- 2023 00:40:00 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 15 May
- 2023 22:40:00 -0700
-Received: from alan-new-dev.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 16 May 2023 00:39:58 -0500
-From: Alan Liu <HaoPing.Liu@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 7/7] drm/amd/display: Block the requests for secure display
- ROI/CRC until data ready
-Date: Tue, 16 May 2023 13:39:31 +0800
-Message-ID: <20230516053931.1700117-8-HaoPing.Liu@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
-References: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDEA10E15F;
+ Mon, 15 May 2023 07:51:36 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9659443fb56so1940914966b.2; 
+ Mon, 15 May 2023 00:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684137094; x=1686729094;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cfDqT6X1hpnQXZe1MRUmzHPyHIv4YDADYndQ1imD+oM=;
+ b=QEzBGKrSjRdyzYe6ieOdJODPeNUdYdnBUcfXpn0/moCF5bU4GDKao8GZRQQbw0ScSj
+ hEalhWz2jHazrnbym08knKa0kriRSwPike6V7qFdb0SYkq5ZdsbY7DsO7FPGWFcQZc4I
+ yx7v9MO0EFs1BsS1BzlrMU/49f38+CFEbN6cwavsTi/YNhpLd6/f7T/SGEGYx3nr8Hyq
+ 96GIg2iw6p9BedFsBmDM+AKZnAYeClMxXQ4dl34JgRS9vWkoZvXTodDnKACwzKvENSpl
+ oGu3By0XqyO1n0TJjlvlzyTkzr2Q3JL9FS6JcHCYIaNwZPRY3PgIiLlR3XqzyirohV+9
+ 19TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684137094; x=1686729094;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cfDqT6X1hpnQXZe1MRUmzHPyHIv4YDADYndQ1imD+oM=;
+ b=dazo6CPwxuBxz2bUJxhE5lU01GVbkDiERxwjjUIih3rmYo1f5hsa3YmPeJm72RGjMT
+ DPkcH/fiRCWHzaGcDevSptkCukZkxLHhL7d1Zy5Z6uHAKu13BzDMXSSWK56H9w/vWZXB
+ MKxKU3bA3EM5ibZveQxu/qgbXd1Cc7QJoh/sDvsVoxDDX8+ZIkBlwdcK3aHQm0C4i5ZR
+ RqXiFVZxr4EipgtOAyJBF4JcNWTr6qVsbDsCBe9aLHdN9/4spy1lSq1D1vCJLtzYoOzT
+ kNuk7S00KZHkPByoTP+VfuegCZJQm18/Z1wWx8bTqo9aDdh4KS/dsWygyO/CBbfXclE0
+ oy1w==
+X-Gm-Message-State: AC+VfDyY82OX6GUSwkiSGQxJq5TdZ6SpO1oPXaoyH3yFh49Gq/hbKoFn
+ SqLn0YgrWxDcC+Ltiz/cwbJTYBoqdPxrZfn0gxI=
+X-Google-Smtp-Source: ACHHUZ73K81XIZGLByuufDfxqMz465SRmfWrwBUtXlzEFG2IITIGcj/PIpOa0fmbOAVOCPKBAxevZY68jzd4AtlbsQg=
+X-Received: by 2002:a17:907:7211:b0:96b:4ed5:a1c9 with SMTP id
+ dr17-20020a170907721100b0096b4ed5a1c9mr1098991ejc.51.1684137093827; Mon, 15
+ May 2023 00:51:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT032:EE_|SA1PR12MB8643:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20affe10-866a-4eb7-83fc-08db55cffe28
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +fxO8mjfhBbSeIcMvZkK28DHg04dWcPwvU2fXTKpNBajQsnH3eQoVACD2cLVqz85Q3BK+YHc3bqND75F0FMq8fsp3xXMr/myTgoSqaOrCrH+EzFxqUBQ9adfjLBoiDXissL5ISyf4v9/1VORtqaxd7P99FwSq4bE5b/HYxxyaS52Ok5ctvnDTBgZtD1KsAN9P9g+YfQR1lEt8gcs+AdAvIzZ5UFNDU4grHJtqLC+G/R8XthSaz0X1AlQty17lltCrPGSaxeW3q+DiDjiCcsCn5piW3toqOstg1SFK8DWmlUA7fpfpsJ35/k4E9y4pmuvQ1EDnMmKZ0Nd3S2jsGkzAxVsxdwpoHu2XGXLNhkhUnJcyhz7JwYhvuLbgOm24yzvLbbfyMCby9WWEqgkLWH5L+AElv4+Trwg6uHK/AyODqnEpRVxCULAA0Z+D3ekchctc13sMGX4RXqKhihzDfOdlD6wBjZqPG7jt5GJfzm/VoVPP5xlSJ7Lt/t9ARNqkKiAwvRH2J7NXKPgFmD694MH0ApZJJjCZ1VK1eE4IQg3496P5q48wF9I+vNf7py4RviL2T8AW5DDgaBIysa1qT772Y7k9tP/DeLXO+xlWa1dBjZhZuv0T23N4f5BASgGHL8qYQnwd409OVtlPIgRr+DgZ4sN9hHrqFbHSUkYKV8rp2cDJNYms7OZl0Exvpr697dqkMlRVpNYc47M7yl5iBqmJ9kVSTikUgAsKzvtCU10Rgf416Kc/1uFjfCn2bRyP059N+Hhd1rkD3uZz5WzgIx2bg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(376002)(136003)(396003)(39860400002)(451199021)(46966006)(36840700001)(40470700004)(478600001)(40460700003)(54906003)(8676002)(86362001)(8936002)(5660300002)(2906002)(36756003)(82310400005)(4326008)(6916009)(70586007)(70206006)(82740400003)(356005)(81166007)(316002)(40480700001)(41300700001)(36860700001)(47076005)(186003)(2616005)(1076003)(26005)(83380400001)(336012)(426003)(7696005)(6666004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 05:40:01.2154 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20affe10-866a-4eb7-83fc-08db55cffe28
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT032.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8643
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 15 May 2023 16:50:57 +0900
+Message-ID: <CAAQKjZP5jhwFg9sNndpa6_7G6HoV76heQbt=knoOEZZskexrhg@mail.gmail.com>
+Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
+ void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 16 May 2023 07:27:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,88 +70,370 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, wayne.lin@amd.com, lili.gong@amd.com
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
+ Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, Joel@pengutronix.de,
+ Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Miaoqian Lin <linmq006@gmail.com>,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Rahul T R <r-ravikumar@ti.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-aspeed@lists.ozlabs.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
+ lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alain Volmat <alain.volmat@foss.st.com>, linux-mips@vger.kernel.org,
+ Liu Ying <victor.liu@nxp.com>, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, John Stultz <jstultz@google.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Yuan Can <yuancan@huawei.com>, Michal Simek <michal.simek@xilinx.com>,
+ linux-tegra@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
+ nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Guo Zhengkui <guozhengkui@vivo.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Liu Shixin <liushixin2@huawei.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Deepak R Varma <drv@mailo.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Shawn Guo <shawnguo@kernel.org>, Yannick Fertre <yannick.fertre@foss.st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Sandy Huang <hjc@rock-chips.com>, Paul Cercueil <paul@crapouillou.net>,
+ James@pengutronix.de, Marek Vasut <marex@denx.de>,
+ linux-renesas-soc@vger.kernel.org, Jayshri Pawar <jpawar@cadence.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the user requests for secure display ROI or CRC data, the
-request will be blocked until the CRC result of current frame is
-calculated and updated to secure display ctx in vline0 irq handler.
+Hi,
 
-Signed-off-by: Alan Liu <HaoPing.Liu@amd.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c      | 8 +++++++-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  | 1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  | 1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 4 ++++
- 4 files changed, 13 insertions(+), 1 deletion(-)
+2023=EB=85=84 5=EC=9B=94 8=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 1:32, Uw=
+e Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4 =EC=
+=9E=91=EC=84=B1:
+>
+> Hello,
+>
+> this patch series adapts the platform drivers below drivers/gpu/drm
+> to use the .remove_new() callback. Compared to the traditional .remove()
+> callback .remove_new() returns no value. This is a good thing because
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ee016d5be7ac..7b7ff9a5458a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8864,7 +8864,12 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 				(struct drm_roi *)dm_new_crtc_state->secure_display_state.roi_blob->data;
- 
- 			if (roi_data->secure_display_enable) {
-+				struct secure_display_context *secure_display_ctx =
-+					&dm->secure_display_ctxs[acrtc->crtc_id];
-+
- 				if (!amdgpu_dm_crc_window_is_activated(crtc)) {
-+					init_completion(&secure_display_ctx->crc.completion);
-+
- 					/* Enable secure display: set crc source to "crtc" */
- 					amdgpu_dm_crtc_set_secure_display_crc_source(crtc, "crtc");
- 
-@@ -8874,7 +8879,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 					spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
- 					acrtc->dm_irq_params.window_param.activated = true;
- 					spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
--				}
-+				} else
-+					reinit_completion(&secure_display_ctx->crc.completion);
- 
- 				/* Update ROI: copy ROI from dm_crtc_state to dm_irq_params */
- 				spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-index f0ccf29af4f8..85cedd207c8d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-@@ -619,6 +619,7 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
- 		secure_display_ctx->crc.crc_R = crc[0];
- 		secure_display_ctx->crc.crc_G = crc[1];
- 		secure_display_ctx->crc.crc_B = crc[2];
-+		complete_all(&secure_display_ctx->crc.completion);
- 	}
- 
- 	spin_unlock_irqrestore(&secure_display_ctx->crc.lock, flags1);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-index 1b85d60488b6..64a0fd0f165f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-@@ -46,6 +46,7 @@ struct crc_data {
- 	uint32_t crc_B;
- 	uint32_t frame_count;
- 	spinlock_t lock;
-+	struct completion completion;
- };
- 
- struct crc_window_param {
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 0e9834e0506d..af1c4a62a482 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -380,6 +380,10 @@ static int amdgpu_dm_crtc_atomic_get_property(struct drm_crtc *crtc,
- 	struct secure_display_context *secure_display_ctx =
- 		&adev->dm.secure_display_ctxs[crtc->index];
- 
-+	if (amdgpu_dm_crc_window_is_activated(crtc))
-+		wait_for_completion_interruptible_timeout(
-+			&secure_display_ctx->crc.completion, 10 * HZ);
-+
- 	if (property == adev->dm.secure_display_roi_property)
- 		*val = (dm_state->secure_display_state.roi_blob)
- 			? dm_state->secure_display_state.roi_blob->base.id : 0;
--- 
-2.34.1
+First of all, I apologize for the delay in providing my review comments.
 
+Not related to this patch but seems that the "remove_new" callback
+naming implicitly implies that there is no need to return anything
+since its return type is void. To help users understand the intended
+behavior based on the callback name, how about considering a modified
+naming convention like "remove_no_return" or something similar?
+
+The relevant patch has already been merged as outlined below,
+author Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> 2022-12-09
+16:09:14 +0100
+committer Greg Kroah-Hartman <gregkh@linuxfoundation.org> 2023-01-17
+19:04:17 +0100
+commit 5c5a7680e67ba6fbbb5f4d79fa41485450c1985c (patch)
+tree 0b6dbc003a6bb4a3f7fb084d31326bbfa3ba3f7c
+parent 7bbb89b420d9e290cb34864832de8fcdf2c140dc (diff)
+download linux-5c5a7680e67ba6fbbb5f4d79fa41485450c1985c.tar.gz
+platform: Provide a remove callback that returns no value
+
+Maybe a trivial thing but how about renaming it? I think the postfix,
+'new', is a very generic word. I think you could introduce another
+patch for it if you think it's reasonable.
+
+Thanks,
+Inki Dae
+
+> the driver core doesn't (and cannot) cope for errors during remove. The
+> only effect of a non-zero return value in .remove() is that the driver
+> core emits a warning. The device is removed anyhow and an early return
+> from .remove() usually yields a resource leak.
+>
+> By changing the remove callback to return void driver authors cannot
+> reasonably (but wrongly) assume any more that there happens some kind of
+> cleanup later.
+>
+> Best regards
+> Uwe
+>
+> Uwe Kleine-K=C3=B6nig (53):
+>   drm/komeda: Convert to platform remove callback returning void
+>   drm/arm/hdlcd: Convert to platform remove callback returning void
+>   drm/arm/malidp: Convert to platform remove callback returning void
+>   drm/armada: Convert to platform remove callback returning void
+>   drm/aspeed: Convert to platform remove callback returning void
+>   drm/atmel-hlcdc: Convert to platform remove callback returning void
+>   drm/bridge: cdns-dsi: Convert to platform remove callback returning
+>     void
+>   drm/bridge: display-connector: Convert to platform remove callback
+>     returning void
+>   drm/bridge: fsl-ldb: Convert to platform remove callback returning
+>     void
+>   drm/imx/imx8*: Convert to platform remove callback returning void
+>   drm/bridge: lvds-codec: Convert to platform remove callback returning
+>     void
+>   drm/bridge: nwl-dsi: Convert to platform remove callback returning
+>     void
+>   drm/bridge: simple-bridge: Convert to platform remove callback
+>     returning void
+>   drm/bridge: synopsys: Convert to platform remove callback returning
+>     void
+>   drm/bridge: thc63lvd1024: Convert to platform remove callback
+>     returning void
+>   drm/bridge: tfp410: Convert to platform remove callback returning void
+>   drm/etnaviv: Convert to platform remove callback returning void
+>   drm/exynos: Convert to platform remove callback returning void
+>   drm/fsl-dcu: Convert to platform remove callback returning void
+>   drm/hisilicon: Convert to platform remove callback returning void
+>   drm/imx/dcss: Convert to platform remove callback returning void
+>   drm/imx/ipuv3: Convert to platform remove callback returning void
+>   drm/ingenic: Convert to platform remove callback returning void
+>   drm/kmb: Convert to platform remove callback returning void
+>   drm/lima: Convert to platform remove callback returning void
+>   drm/logicvc: Convert to platform remove callback returning void
+>   drm/mcde: Convert to platform remove callback returning void
+>   drm/mediatek: Convert to platform remove callback returning void
+>   drm/mediatek: Convert to platform remove callback returning void
+>   drm/meson: Convert to platform remove callback returning void
+>   drm/msm: Convert to platform remove callback returning void
+>   drm/mxsfb: Convert to platform remove callback returning void
+>   drm/nouveau: Convert to platform remove callback returning void
+>   drm/omap: Convert to platform remove callback returning void
+>   drm/panel: Convert to platform remove callback returning void
+>   drm/panfrost: Convert to platform remove callback returning void
+>   drm/rcar-du: Convert to platform remove callback returning void
+>   drm/rockchip: Convert to platform remove callback returning void
+>   drm/shmobile: Convert to platform remove callback returning void
+>   drm/sprd: Convert to platform remove callback returning void
+>   drm/sti: Convert to platform remove callback returning void
+>   drm/stm: Convert to platform remove callback returning void
+>   drm/sun4i: Convert to platform remove callback returning void
+>   drm/tegra: Convert to platform remove callback returning void
+>   drm/tests: helpers: Convert to platform remove callback returning void
+>   drm/tidss: Convert to platform remove callback returning void
+>   drm/tilcdc: Convert to platform remove callback returning void
+>   drm/tiny: Convert to platform remove callback returning void
+>   drm/tiny: Convert to platform remove callback returning void
+>   drm/tve200: Convert to platform remove callback returning void
+>   drm/v3d: Convert to platform remove callback returning void
+>   drm/vc4: Convert to platform remove callback returning void
+>   drm/xlnx/zynqmp_dpsub: Convert to platform remove callback returning
+>     void
+>
+>  drivers/gpu/drm/arm/display/komeda/komeda_drv.c     | 5 ++---
+>  drivers/gpu/drm/arm/hdlcd_drv.c                     | 5 ++---
+>  drivers/gpu/drm/arm/malidp_drv.c                    | 5 ++---
+>  drivers/gpu/drm/armada/armada_crtc.c                | 5 ++---
+>  drivers/gpu/drm/armada/armada_drv.c                 | 5 ++---
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c             | 6 ++----
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c        | 6 ++----
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c      | 6 ++----
+>  drivers/gpu/drm/bridge/display-connector.c          | 6 ++----
+>  drivers/gpu/drm/bridge/fsl-ldb.c                    | 6 ++----
+>  drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c         | 6 ++----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c        | 6 ++----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 6 ++----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     | 6 ++----
+>  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        | 6 ++----
+>  drivers/gpu/drm/bridge/lvds-codec.c                 | 6 ++----
+>  drivers/gpu/drm/bridge/nwl-dsi.c                    | 5 ++---
+>  drivers/gpu/drm/bridge/simple-bridge.c              | 6 ++----
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 ++----
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c       | 6 ++----
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c  | 6 ++----
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c | 6 ++----
+>  drivers/gpu/drm/bridge/thc63lvd1024.c               | 6 ++----
+>  drivers/gpu/drm/bridge/ti-tfp410.c                  | 6 ++----
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 6 ++----
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c               | 5 ++---
+>  drivers/gpu/drm/exynos/exynos5433_drm_decon.c       | 6 ++----
+>  drivers/gpu/drm/exynos/exynos7_drm_decon.c          | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_dp.c                  | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c             | 5 ++---
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c             | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c            | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c            | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c             | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c             | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_mic.c             | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_rotator.c         | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c          | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_hdmi.c                | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_mixer.c               | 6 ++----
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c           | 6 ++----
+>  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c        | 6 ++----
+>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c     | 5 ++---
+>  drivers/gpu/drm/imx/dcss/dcss-drv.c                 | 6 ++----
+>  drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c             | 6 ++----
+>  drivers/gpu/drm/imx/ipuv3/imx-drm-core.c            | 5 ++---
+>  drivers/gpu/drm/imx/ipuv3/imx-ldb.c                 | 5 ++---
+>  drivers/gpu/drm/imx/ipuv3/imx-tve.c                 | 5 ++---
+>  drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c              | 5 ++---
+>  drivers/gpu/drm/imx/ipuv3/parallel-display.c        | 6 ++----
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c           | 6 ++----
+>  drivers/gpu/drm/ingenic/ingenic-ipu.c               | 5 ++---
+>  drivers/gpu/drm/kmb/kmb_drv.c                       | 5 ++---
+>  drivers/gpu/drm/lima/lima_drv.c                     | 5 ++---
+>  drivers/gpu/drm/logicvc/logicvc_drm.c               | 6 ++----
+>  drivers/gpu/drm/mcde/mcde_drv.c                     | 6 ++----
+>  drivers/gpu/drm/mcde/mcde_dsi.c                     | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_cec.c                  | 5 ++---
+>  drivers/gpu/drm/mediatek/mtk_disp_aal.c             | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c           | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_color.c           | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_gamma.c           | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_merge.c           | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c             | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c            | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_dp.c                   | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_dpi.c                  | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c              | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                  | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c                 | 5 ++---
+>  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 6 ++----
+>  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c             | 5 ++---
+>  drivers/gpu/drm/meson/meson_drv.c                   | 6 ++----
+>  drivers/gpu/drm/meson/meson_dw_hdmi.c               | 6 ++----
+>  drivers/gpu/drm/msm/adreno/adreno_device.c          | 5 ++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c             | 6 ++----
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c            | 6 ++----
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c            | 5 ++---
+>  drivers/gpu/drm/msm/dp/dp_display.c                 | 6 ++----
+>  drivers/gpu/drm/msm/dsi/dsi.c                       | 6 ++----
+>  drivers/gpu/drm/msm/hdmi/hdmi.c                     | 6 ++----
+>  drivers/gpu/drm/msm/hdmi/hdmi_phy.c                 | 6 ++----
+>  drivers/gpu/drm/msm/msm_drv.c                       | 6 ++----
+>  drivers/gpu/drm/msm/msm_mdss.c                      | 6 ++----
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c                   | 6 ++----
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c                   | 6 ++----
+>  drivers/gpu/drm/nouveau/nouveau_platform.c          | 5 ++---
+>  drivers/gpu/drm/omapdrm/dss/dispc.c                 | 5 ++---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c                   | 6 ++----
+>  drivers/gpu/drm/omapdrm/dss/dss.c                   | 6 ++----
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c                 | 5 ++---
+>  drivers/gpu/drm/omapdrm/dss/hdmi5.c                 | 5 ++---
+>  drivers/gpu/drm/omapdrm/dss/venc.c                  | 5 ++---
+>  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c            | 9 +++------
+>  drivers/gpu/drm/omapdrm/omap_drv.c                  | 6 ++----
+>  drivers/gpu/drm/panel/panel-lvds.c                  | 6 ++----
+>  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c         | 6 ++----
+>  drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c     | 6 ++----
+>  drivers/gpu/drm/panel/panel-simple.c                | 6 ++----
+>  drivers/gpu/drm/panfrost/panfrost_drv.c             | 5 ++---
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c                  | 6 ++----
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c               | 6 ++----
+>  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c              | 6 ++----
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c                 | 6 ++----
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c             | 6 ++----
+>  drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c            | 6 ++----
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c     | 6 ++----
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c              | 6 ++----
+>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c     | 6 ++----
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c         | 6 ++----
+>  drivers/gpu/drm/rockchip/inno_hdmi.c                | 6 ++----
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 6 ++----
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c         | 6 ++----
+>  drivers/gpu/drm/rockchip/rockchip_lvds.c            | 6 ++----
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c        | 6 ++----
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c         | 6 ++----
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c            | 6 ++----
+>  drivers/gpu/drm/sprd/sprd_dpu.c                     | 6 ++----
+>  drivers/gpu/drm/sprd/sprd_drm.c                     | 5 ++---
+>  drivers/gpu/drm/sprd/sprd_dsi.c                     | 6 ++----
+>  drivers/gpu/drm/sti/sti_compositor.c                | 5 ++---
+>  drivers/gpu/drm/sti/sti_drv.c                       | 6 ++----
+>  drivers/gpu/drm/sti/sti_dvo.c                       | 5 ++---
+>  drivers/gpu/drm/sti/sti_hda.c                       | 5 ++---
+>  drivers/gpu/drm/sti/sti_hdmi.c                      | 6 ++----
+>  drivers/gpu/drm/sti/sti_hqvdp.c                     | 5 ++---
+>  drivers/gpu/drm/sti/sti_tvout.c                     | 5 ++---
+>  drivers/gpu/drm/stm/drv.c                           | 6 ++----
+>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c               | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_backend.c               | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_drv.c                   | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_frontend.c              | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c              | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c                  | 6 ++----
+>  drivers/gpu/drm/sun4i/sun4i_tv.c                    | 6 ++----
+>  drivers/gpu/drm/sun4i/sun6i_drc.c                   | 6 ++----
+>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c              | 6 ++----
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c               | 6 ++----
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c                 | 6 ++----
+>  drivers/gpu/drm/sun4i/sun8i_tcon_top.c              | 6 ++----
+>  drivers/gpu/drm/tegra/dpaux.c                       | 6 ++----
+>  drivers/gpu/drm/tests/drm_kunit_helpers.c           | 5 ++---
+>  drivers/gpu/drm/tidss/tidss_drv.c                   | 6 ++----
+>  drivers/gpu/drm/tilcdc/tilcdc_panel.c               | 6 ++----
+>  drivers/gpu/drm/tiny/arcpgu.c                       | 6 ++----
+>  drivers/gpu/drm/tiny/ofdrm.c                        | 6 ++----
+>  drivers/gpu/drm/tiny/simpledrm.c                    | 6 ++----
+>  drivers/gpu/drm/tve200/tve200_drv.c                 | 6 ++----
+>  drivers/gpu/drm/v3d/v3d_drv.c                       | 6 ++----
+>  drivers/gpu/drm/vc4/vc4_crtc.c                      | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_dpi.c                       | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_drv.c                       | 6 ++----
+>  drivers/gpu/drm/vc4/vc4_dsi.c                       | 6 ++----
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                      | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_hvs.c                       | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_txp.c                       | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_v3d.c                       | 5 ++---
+>  drivers/gpu/drm/vc4/vc4_vec.c                       | 5 ++---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c                 | 6 ++----
+>  159 files changed, 319 insertions(+), 597 deletions(-)
+>
+>
+> base-commit: 457391b0380335d5e9a5babdec90ac53928b23b4
+> --
+> 2.39.2
+>
