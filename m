@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE8C702929
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD90702913
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 11:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0969910E1C5;
-	Mon, 15 May 2023 09:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD43610E1B0;
+	Mon, 15 May 2023 09:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36EE010E18F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F4110E18E;
  Mon, 15 May 2023 09:40:38 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4FC231F8AA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AA9361F8D7;
  Mon, 15 May 2023 09:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1684143636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oEflm68smLlu+8JIBbAdW2z0uLilKVJj7+U36OCXbI=;
- b=fA/TrdzdcVKmi18JjXcaUf3sYvfcl8IViJj+1NRzASTnnE1LJKZkjTn5ureg5I5GnG9+OV
- vqGuNGQTfKMI4mQGk/tqMqT0Cw4c9UGVijcJtUebmdkZ+C5kllEoU3qBMNMlad2khPWgle
- jJJDZjtDXYyobypvhlNxVJ5jwFfhi0M=
+ bh=T//tfEEUsUlXNaEiKBIRCSCuec02xIqnWeb1TK1YORk=;
+ b=sMHUF86N8lIUl6Svx4Te6paLZb/Hjp9geXAXBymcixlSBboAAX7mrtBcr/tUPxuSt+gSNL
+ nw0ZSGgMmd7R1ZB+B+GNSw4ofwjLAG3m+72BYCh8OVJWur1HOm4EHK+QMMh/UJeYKctwf+
+ jT+QYW0UXG4Dn+MqrVDcmx4+6vdYxSY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1684143636;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oEflm68smLlu+8JIBbAdW2z0uLilKVJj7+U36OCXbI=;
- b=SoObgpBcCJpkyhysqio8cc0a3gCT278PFzkjo9/YuMnQKCeuef71AAHqBH7Va+YkeyigrW
- ViPFd6Sv970B5IDg==
+ bh=T//tfEEUsUlXNaEiKBIRCSCuec02xIqnWeb1TK1YORk=;
+ b=lgaGOMImeMiE4KmKNX+cqf5pRvRwskR8O/D5jJKRZ7oIEgXRUD0MG6rWfMSVnqzORfGOBV
+ eJzK/J3B7962wNAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EFC9913466;
- Mon, 15 May 2023 09:40:35 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 548DD138FE;
+ Mon, 15 May 2023 09:40:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EFiBORP+YWTeTwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:40:35 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uDOrExT+YWTeTwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 May 2023 09:40:36 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v2 04/12] drm/gma500: Use regular fbdev I/O helpers
-Date: Mon, 15 May 2023 11:40:25 +0200
-Message-Id: <20230515094033.2133-5-tzimmermann@suse.de>
+Subject: [PATCH v2 05/12] drm/radeon: Use regular fbdev I/O helpers
+Date: Mon, 15 May 2023 11:40:26 +0200
+Message-Id: <20230515094033.2133-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515094033.2133-1-tzimmermann@suse.de>
 References: <20230515094033.2133-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,15 +70,17 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-helpers. Gma500 does not use damage handling, so DRM's fbdev helpers
+helpers. Radeon does not use damage handling, so DRM's fbdev helpers
 are mere wrappers around the fbdev code.
 
 By using fbdev helpers directly within each DRM fbdev emulation,
@@ -87,40 +90,43 @@ v2:
 	* use FB_IO_HELPERS option
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 ---
- drivers/gpu/drm/gma500/Kconfig | 1 +
- drivers/gpu/drm/gma500/fbdev.c | 9 ++++-----
+ drivers/gpu/drm/radeon/Kconfig        | 1 +
+ drivers/gpu/drm/radeon/radeon_fbdev.c | 9 ++++-----
  2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-index 2efc0eb41c64..cd3d92725ed4 100644
---- a/drivers/gpu/drm/gma500/Kconfig
-+++ b/drivers/gpu/drm/gma500/Kconfig
-@@ -3,6 +3,7 @@ config DRM_GMA500
- 	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
- 	depends on DRM && PCI && X86 && MMU
- 	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/radeon/Kconfig b/drivers/gpu/drm/radeon/Kconfig
+index e19d77d58810..fe498c8af1bb 100644
+--- a/drivers/gpu/drm/radeon/Kconfig
++++ b/drivers/gpu/drm/radeon/Kconfig
+@@ -11,6 +11,7 @@ config DRM_RADEON
+ 	select DRM_SUBALLOC_HELPER
+         select DRM_TTM
+ 	select DRM_TTM_HELPER
 +	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
- 	select I2C
- 	select I2C_ALGOBIT
- 	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
-diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-index 62287407e717..60005c3d01d0 100644
---- a/drivers/gpu/drm/gma500/fbdev.c
-+++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -5,6 +5,7 @@
-  *
-  **************************************************************************/
+ 	select SND_HDA_COMPONENT if SND_HDA_CORE
+ 	select POWER_SUPPLY
+ 	select HWMON
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index fe76e29910ef..dcabe527f9c0 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -24,6 +24,7 @@
+  *     David Airlie
+  */
  
 +#include <linux/fb.h>
- #include <linux/pfn_t.h>
- 
- #include <drm/drm_crtc_helper.h>
-@@ -136,11 +137,9 @@ static const struct fb_ops psb_fbdev_fb_ops = {
- 	.owner = THIS_MODULE,
+ #include <linux/pci.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/vga_switcheroo.h>
+@@ -193,11 +194,9 @@ static const struct fb_ops radeon_fbdev_fb_ops = {
  	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_setcolreg = psb_fbdev_fb_setcolreg,
+ 	.fb_open = radeon_fbdev_fb_open,
+ 	.fb_release = radeon_fbdev_fb_release,
 -	.fb_read = drm_fb_helper_cfb_read,
 -	.fb_write = drm_fb_helper_cfb_write,
 -	.fb_fillrect = drm_fb_helper_cfb_fillrect,
@@ -129,9 +135,9 @@ index 62287407e717..60005c3d01d0 100644
 +	.fb_fillrect = cfb_fillrect,
 +	.fb_copyarea = cfb_copyarea,
 +	.fb_imageblit = cfb_imageblit,
- 	.fb_mmap = psb_fbdev_fb_mmap,
- 	.fb_destroy = psb_fbdev_fb_destroy,
+ 	.fb_destroy = radeon_fbdev_fb_destroy,
  };
+ 
 -- 
 2.40.1
 
