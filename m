@@ -2,70 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACFB702ED3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 15:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092CD702F36
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 16:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3379B892D3;
-	Mon, 15 May 2023 13:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6419010E1E1;
+	Mon, 15 May 2023 14:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 066A710E1E7
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 13:53:19 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FA5aib001358; Mon, 15 May 2023 15:53:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=wJTVVQU6gHrKP7FxazviMV+fmvh7U/y/xzaBWMZNeRo=;
- b=SjpatxYSG2dv6B3MYE3CvtLdw7i136p3ksBZcnil9pCa/6QKOxgs5EhZUEe7JPuEJyRS
- ZMlt4Cdje+8/cuA6YAylc/24b7TENZll1oRYeT0J3gE5+lxFk1hVAtas9g2RkKkX3Ezs
- B9aIvaB3mV5Viy7VPxAT1/55U25X78NU35JpgseN8AsQ40muTeCQ67SJr1yXPD+TFZDg
- UP6hOSwaDNfHQcTgE2YASGTQ2rRWqKUzsXwk5W4pSyIL8UAACbzLB4unCOHHpwCWBvQT
- iYh1wq5UUrows+HrWs+VCPdnCJECZ5sZoEw0Vd17ZvjtFR3YApv9PeelcAFBz33UiutD Og== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qj1w0jttw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 15:53:16 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CEFC1100034;
- Mon, 15 May 2023 15:53:15 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7E081237D90;
- Mon, 15 May 2023 15:53:15 +0200 (CEST)
-Received: from [10.129.178.187] (10.129.178.187) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 15 May
- 2023 15:53:15 +0200
-Message-ID: <9be85e4c-4cdb-03fc-f3a4-253c076fcb52@foss.st.com>
-Date: Mon, 15 May 2023 15:53:14 +0200
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 763FA10E1E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 14:07:13 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-3063afa2372so11988261f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684159629; x=1686751629; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=n75gxWwijMMTI9GiXx1bdZzw1eSKDQ/JY3MbdqyyfJ8=;
+ b=MybEwHb7tKFR+czM65dq6Won8HWSGsgYs9IN4ez2NUgHvZhPq/Fjq3SQvBRDwj2apk
+ TQlRnqRGsmPdmCCiuAQcNV5mzBWUfS345LKMeMaqnYmHN1XGmlqe+rc1IsW5hQGIN2hY
+ Sk7HLb6fGLLzfm46sD0+z8iN/0C24ndOXGjNqF6egg+usyu0Bf3KHWzTofwatANRJWl4
+ NM6U67P7oQUYPeY4ghnVyPngLeXR/uhODxoz4qrOAMKkje2MBG2F+8kinM7BX0ZLPHGd
+ S/9F6uqsD+yaKQT/H6KccQdorGqjBBxvsrr+IBeIoiXO2e2PeafrSkbg/OX5wBedzpfb
+ rR2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684159629; x=1686751629;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n75gxWwijMMTI9GiXx1bdZzw1eSKDQ/JY3MbdqyyfJ8=;
+ b=BeTVHCGZMLN4rXK/tTpHAFw/XSI1OuA/iHUK/7WwnJxzywIqf+2zYpm7CZuduwWa/Y
+ LdNP5y4i3REvFz85J894tbZzGqARHSQ/qu+kq/3Cg5QaNz1i9DG5E2Zz9YFVVuey8pNE
+ i1+XlQc+7vUdvSH4fn4XJB/Ee4OQ16AadJ/NTc6MMYNzlJ3YUpRdu90EHGgHEzfiDwS3
+ oG4AQTPQ3z0vbN+lhKoNya6IzuZaY36XyrpcTPrVL2rNs7RxiE4rgXFlAfq0RtodrE9a
+ Xotdb1tCL3y/V8ZrDfP73chZwPe7pCLGjQBmb/4P0wrs/a3ObvsJbQ4YlUBuCt4N8AAi
+ 3Jbw==
+X-Gm-Message-State: AC+VfDyE75vp2myTKV3dCZ/M+OSAhTrBgslJyZvmyi6Oqpqmo5HGuS3z
+ RP9TNyQh63sC7vljlCpSzJBrLsG921wMc+uQvbZw3Z5i
+X-Google-Smtp-Source: ACHHUZ79hANfbDvpP6oNPyXKE1ftm/gHtkEaa9Icb1GGlaeSnOsVu4I4PEo/Jz9DCazNFmJCLmAmFg==
+X-Received: by 2002:adf:e492:0:b0:306:2dd6:95d3 with SMTP id
+ i18-20020adfe492000000b003062dd695d3mr30832770wrm.22.1684159629085; 
+ Mon, 15 May 2023 07:07:09 -0700 (PDT)
+Received: from localhost ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
+ by smtp.gmail.com with ESMTPSA id
+ a2-20020a05600c224200b003f4253ddb7dsm23548392wmm.43.2023.05.15.07.07.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 07:07:08 -0700 (PDT)
+Date: Mon, 15 May 2023 16:07:07 +0200
+From: Julien Stephan <jstephan@baylibre.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 2/2] phy: mtk-mipi-csi: add driver for CSI phy
+Message-ID: <b2nk4jw2hpy4ndoq4cojazkn6h3tra2zjffhiswb7aqryabf7q@mkbtzhzcbivv>
+References: <20230515090551.1251389-1-jstephan@baylibre.com>
+ <20230515090551.1251389-3-jstephan@baylibre.com>
+ <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 42/53] drm/stm: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230507162616.1368908-43-u.kleine-koenig@pengutronix.de>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20230507162616.1368908-43-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.187]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_11,2023-05-05_01,2023-02-09_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd6067b2-660a-8f2c-697d-26814a9dc131@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,32 +74,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
- linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>, chunkuang.hu@kernel.org,
+ "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, krzysztof.kozlowski@linaro.org,
+ linux-mediatek@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
+ Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
+ "moderated list:ARM/Mediatek USB3 PHY DRIVER"
+ <linux-arm-kernel@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
-
-On 5/7/23 18:26, Uwe Kleine-König wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is a
-> quest to make the remove callback return void. In the first step of this
-> quest all drivers are converted to .remove_new() which already returns
-> void.
+On Mon, May 15, 2023 at 02:22:52PM +0200, AngeloGioacchino Del Regno wrote:
+> > +#define CSIxB_OFFSET		0x1000
 >
-> Trivially convert the stm drm drivers from always returning zero in the
-> remove callback to the void returning variant.
+> What if we grab two (or three?) iospaces from devicetree?
 >
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> - base (global)
+> - csi_a
+> - csi_b
+>
+> That would make it possible to maybe eventually extend this driver to more
+> versions (older or newer) of the CSI PHY IP without putting fixes offsets
+> inside of platform data structures and such.
+>
+Hi Angelo,
+The register bank of the CSI port is divided into 2:
+* from base address to base + 0x1000 (port A)
+* from base + 0x1000 to base +0x2000 (port B)
+Some CSI port can be configured in 4D1C mode (4 data + 1 clock) using
+the whole register bank from base to base + 0x2000 or in 2D1C mode (2 data +
+1 clock) and use either port A or port B.
 
+For example  mt8365 has CSI0 that can be used either in 4D1C mode or in
+2 * 2D1C and CSI1 which can use only 4D1C mode
 
-Acked-by: Raphaël Gallais-Pou <raphael.gallais-pou@foss.st.com>
+2D1C mode can not be tested and is not implemented in the driver so
+I guess adding csi_a and csi_b reg value may be confusing?
 
+What do you think?
 
-Thanks for you patch
-
-Raphaël G.-P.
-
+Regards,
+Julien
