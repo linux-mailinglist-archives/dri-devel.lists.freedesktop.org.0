@@ -2,114 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDED70262C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E2770267B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 May 2023 09:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E10210E165;
-	Mon, 15 May 2023 07:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 299EE10E169;
+	Mon, 15 May 2023 07:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5867410E165
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:37:13 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230515073709euoutp018d82062218a40cf511657d71d0d8579e~fQPpQ7Af91179411794euoutp01D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:37:09 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230515073709euoutp018d82062218a40cf511657d71d0d8579e~fQPpQ7Af91179411794euoutp01D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1684136229;
- bh=4KVBCJXgjWN0Hfg1ujzfNt5lNWZZNCCIrttFNFjwUpU=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=sDhIqKcHoZLpgEqpjd/FuVq2fPTvW+2NrGAwVd4NfP3A2zGq8tu5dCIZJTdeGMWHs
- J2LIRqootv8pROkXMsz7T4MFYFIMe3ngu27NcWF3RcJskL/lKEf10iarnsqeYXO5f8
- 3D9cTkLH/tukKRGdHpbiFi+RYElKhe660Pq1rrmo=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230515073709eucas1p29c564ba328648042a733701fdad05b27~fQPo_u1c21745717457eucas1p2d;
- Mon, 15 May 2023 07:37:09 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id A5.D1.35386.521E1646; Mon, 15
- May 2023 08:37:09 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20230515073708eucas1p2b1fc755549303023853b9ff334d733ce~fQPomwoTU2607326073eucas1p2z;
- Mon, 15 May 2023 07:37:08 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230515073708eusmtrp17f21f8b7f5c7f6d5563b9dc8baa9ba0a~fQPomBB6o0468804688eusmtrp1A;
- Mon, 15 May 2023 07:37:08 +0000 (GMT)
-X-AuditID: cbfec7f4-cc9ff70000028a3a-f2-6461e1255a4b
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 37.FD.14344.421E1646; Mon, 15
- May 2023 08:37:08 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20230515073707eusmtip2d024c237d4978bedb932fa0ffdd1bc55~fQPnpS9Cu3245332453eusmtip2C;
- Mon, 15 May 2023 07:37:07 +0000 (GMT)
-Message-ID: <96150852-84ce-f750-2e2e-8cb53cde5719@samsung.com>
-Date: Mon, 15 May 2023 09:37:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH V5 5/6] drm: bridge: samsung-dsim: Dynamically configure
- DPHY timing
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2135.outbound.protection.outlook.com [40.107.114.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B750710E16B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 07:57:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OD5qhZZTL6yz7m9PZ6EI42oLQwbyRdKznfx9HbK6kHDEyx55Ri0x2FPxJAk2BryIr+KW5WyFKxZWnxJYunqF3khc0lywuoReATdlkaeoudNzS+Dkn3Jw4C8r4hbHO6ZCqMlYcgXNZRKvwwZWvmCP/Xf8YWPQEKyV3ZmrHf/ov7B1Rs9329gKp3AySbs05lseGT+CbNW33x9LRKcFWKhQOo4P6uMrxl9grBwf8xFlzHKiJvszvITJeYWOI2+CSRarxK1J/Bclqox0Xn+YwD+TiA9qs2RxqCfoto7WrnVw2mnooGc3WIHkJbyN6xlozwQw5qX9snSWaS/PVjETK5dJ3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ExFUzSR3gOdeKTmjIjbTP3TFtj9JDC4c/ouuWgQn/IY=;
+ b=fiyIAwdb675Pd7lEfH8ImNdC2fYid9feE1DjwP0lLawoQB0toboW47F3ELsCbG0qm6Xd+3wpmeoCEDAKID6u1UzDac6Pt1V0Ad7qYmX05kKPtY8q+n7pGf+Fzkt3+aCp5jCjJ1jN9zqGxPOOfqZf7DrVOy2ot24FqnePjRLIStCUqlr6Hzg/A3V1AQy41zYggReRkKWXYkw8ohcjY45Se1xP3rDMHNsulK815xvdppR8aarmX7QB9VDrmZliQz+nGnlLGQKxOIsEy5E483TaywRdsTLB1I8vfgfHqaumVdw9DctI/tkuEhe2VuV7usfH74DWiTjnRPK1catr8tT4mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ExFUzSR3gOdeKTmjIjbTP3TFtj9JDC4c/ouuWgQn/IY=;
+ b=gYX4e7bq/dMTWUYPcb3o7uznUEWjboFgpNEkgLVvEoBwz1tw6xiIdJlMi4AVInK/xup0KWrLwq40DeWNOu+H8exs0Bs11QlP9BPW17Pn3FJVDNE4rfhfchkQPK995btg0CKrpAmL7aLUhFRmgaObsyd2XuCVRcFqTB8NlsW7PUs=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYVPR01MB10829.jpnprd01.prod.outlook.com (2603:1096:400:2af::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Mon, 15 May
+ 2023 07:57:35 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6387.030; Mon, 15 May 2023
+ 07:57:35 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Philipp
+ Zabel <p.zabel@pengutronix.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>
+Subject: RE: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Thread-Topic: [PATCH v9 RESEND 0/5] Add RZ/{G2L, G2LC} and RZ/V2L Display Unit
+ support
+Thread-Index: AQHZfN4p/b5orSrwk0ai5QpLpQqzGK9bCteA
+Date: Mon, 15 May 2023 07:57:35 +0000
+Message-ID: <OS0PR01MB59220E8306506F3E0B17968A86789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAHCN7xLZNvMx=U9=Fp=qrG9xaMhU1PS_nQO5FfC2S+XLO8YLXQ@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrDKsWRmVeSWpSXmKPExsWy7djPc7qqDxNTDO70s1rcuX2a2WL31W52
- i/uLP7NYXPn6ns2id+k5VosvmyawWTyfv47R4uSbqywWD+beZLLonLiE3eLyrjlsFm/aGhkt
- 3p7ewG7xfuctRotJ826yWsxou8zqIOCx9uN9Vo+XyxuYPWY3XGTxmDfrBIvHzll32T1md8xk
- 9Vi85yWTx6ZVnWweR64uZvU4MeESk8eda3vYPO53H2fy6P9r4PF5k5zHgb0tbAH8UVw2Kak5
- mWWpRfp2CVwZz59PZy/olqzoaOlmb2BcL9LFyMkhIWAiseLrYdYuRi4OIYEVjBK7lvxjA0kI
- CXxhlLiwtwQi8ZlR4sTDTSwwHd83fWCESCxnlGg5sZkJouMjo8S2g4UgNq+AnUTz/QmsIDaL
- gKrElKdTmCHighInZz4BGyQqkCqxavNFsLiwQJTEwY8rwTYzC4hL3HoyH2ymiICSxN0zf8GW
- MQscZJHonXcOrIhNwFCi620XmM0pEChxc+d5RohmeYnmrbOZQRokBF5xSly+3gl1tovEsdUv
- 2CBsYYlXx7ewQ9gyEqcn97BANLQzSiz4fZ8JwpnAKNHw/BYjRJW1xJ1zv4C6OYBWaEqs36UP
- EXaU2H2rCSwsIcAnceOtIMQRfBKTtk1nhgjzSnS0CUFUq0nMOr4Obu3BC5eYJzAqzUIKl1lI
- /p+F5J1ZCHsXMLKsYhRPLS3OTU8tNspLLdcrTswtLs1L10vOz93ECEygp/8d/7KDcfmrj3qH
- GJk4GA8xSnAwK4nwts+MTxHiTUmsrEotyo8vKs1JLT7EKM3BoiTOq217MllIID2xJDU7NbUg
- tQgmy8TBKdXAtHS+YV3fp0/z3aMdGVV6A+V+yKTYvd5yXPEGR9a/QFZHo0s6Wi7T1JatS289
- Oi/5QEbKI8FL6g++iXzp8XTS8HzBsK67ZPeS9O8+bf+LbrkLZxU0xImuPfxu5sfpM5JKovf7
- vVxlwxjbsNEwTv+zudjiNB63T+sPzzw9s8xj0j0VJbvl+x64BVfJ/D+mdjFf4E/2J7d38/cE
- G9g95P35R/F1sNK98p5U1nk2Dpula7apb7D8pG+itsiV/cHdI36C2QZfVUV+Vnu+WBDz9vvW
- 959jTdykp8/Lmf7Wdvbnx/HlP57OWHXYL/9Fqv/rPRYcLdfcGkLZndlD35gqX+th3lUQduqt
- 2E73qXPn2F+LUWIpzkg01GIuKk4EAJu9Pq8PBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnleLIzCtJLcpLzFFi42I5/e/4PV2Vh4kpBqc/aVjcuX2a2WL31W52
- i/uLP7NYXPn6ns2id+k5VosvmyawWTyfv47R4uSbqywWD+beZLLonLiE3eLyrjlsFm/aGhkt
- 3p7ewG7xfuctRotJ826yWsxou8zqIOCx9uN9Vo+XyxuYPWY3XGTxmDfrBIvHzll32T1md8xk
- 9Vi85yWTx6ZVnWweR64uZvU4MeESk8eda3vYPO53H2fy6P9r4PF5k5zHgb0tbAH8UXo2Rfml
- JakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZz59PZy/olqzo
- aOlmb2BcL9LFyMkhIWAi8X3TB8YuRi4OIYGljBLzO9+xQSRkJE5Oa2CFsIUl/lzrYoMoes8o
- MeXJDrAEr4CdRPP9CWA2i4CqxJSnU5gh4oISJ2c+YQGxRQVSJU4uvQFmCwtESRz8uBJsAbOA
- uMStJ/OZQGwRASWJu2f+gl3BLHCYRWL99eVgQ4UEDjBLzPinCmKzCRhKdL3tAmvmFAiUuLnz
- PCPEIDOJrq1dULa8RPPW2cwTGIVmIbljFpJ9s5C0zELSsoCRZRWjSGppcW56brGRXnFibnFp
- Xrpecn7uJkZgyth27OeWHYwrX33UO8TIxMF4iFGCg1lJhLd9ZnyKEG9KYmVValF+fFFpTmrx
- IUZTYGBMZJYSTc4HJq28knhDMwNTQxMzSwNTSzNjJXFez4KORCGB9MSS1OzU1ILUIpg+Jg5O
- qQamnWsmZCefLrn4aq3c7+9sdW5nFsUv97pxSackk32N5elNz6JezFM9HlhYvenPxWtb8n+v
- X7V9Wef75XfYIi167yQGn5h7cPaupCCLeO9zJiarTsw7+FTkwFxDU6GWvW9c1ime33Dn8LmA
- n0faN8lPrpgfVP3jYN5Z+yauD2bq67c37uU8Fs3C+bsprKlgtvyX01ftS28svDVb5svS2RPk
- rjKGOr2b/t+eT22SasB85sz832WdT1ZqLzx33vSAEfNDC4WIw9z/lQq2XCn9tnLLj7zS199y
- Llw0bfMuvO4rnLxMYJX33Zxt3xna+7g2Wj7L/KnMKl1nI/HM3yB24oWwSe8qtzPtWrZIyPPc
- lg+S3J+UWIozEg21mIuKEwHxgbUWogMAAA==
-X-CMS-MailID: 20230515073708eucas1p2b1fc755549303023853b9ff334d733ce
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b
-References: <20230506192453.725621-1-aford173@gmail.com>
- <20230506192453.725621-6-aford173@gmail.com>
- <275064c0e6c814d8e8fda6bcf70d6e8c3bdc3011.camel@pengutronix.de>
- <CGME20230512200115eucas1p180198d430c17b044e34d66b7246d4a7b@eucas1p1.samsung.com>
- <CAHCN7xKq_hZXWZVMG0xFK_zGfm18ag48a83BtL5OyE6VJ3FMTA@mail.gmail.com>
- <7a83b8c1-88ff-0ae6-9c3b-d49fc08c7ac0@samsung.com>
- <CAHCN7xLZNvMx=U9=Fp=qrG9xaMhU1PS_nQO5FfC2S+XLO8YLXQ@mail.gmail.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYVPR01MB10829:EE_
+x-ms-office365-filtering-correlation-id: 548ce80c-74ad-4091-add0-08db551a0b7e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Z643srN1Es99iFkeKk2E+YZy1JJzBWGOGinjwdLx2aldHLwbp8SxA0jThUzCAjO6LWFljinC6ti9bRfSbVKCbEN1Ev4M5UeR8ok336u9qCwwV/9GnGmjSXOcuSpS9qmZmvCcgw12eOpcePOCi33BWrxN0OUk9odROPsV7o+pnkXA/v56fGlseMEhhCf0b9MWRcbV9P0q4avTUBowcj7fI4mQaCaOBzKQGeH61xpJNXZvXSY8RfgeuQMpHnbukB3Uq0xr0gRX9YPTFu+gGU6N5agJDzTe09mZmR5oJthtrSqIL/bANt5ASNqfoqYL9SsRWfQDYhbry/xefU1jdvwI/oI1UiqAqvd5HCgEO1zhZr1x2PzPea4euMz6EGHiRkvHubG6zuLrXVPycilC7wfPDml2qZsivuFHtha60bBPlV0Cny6aKR8CMpIptERMeXgH2mNjMo65Y9Ftid14PVTvG4hDao/W7UtagXjfXvz6qs+yxEByjW4fXpFpLaUXIcS0pbTkFrl4943MQmWVPYD9ZiZoJrvHo0JrGMowdnk7F8AZs8HAbYJ3yRRqrIzsNAFGdEaiwgbKuNq8dZSXXhGFKcQvylmdhAt6x+sehqBQNcj8QT5dBlnI6ykdkEBdee7v
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(451199021)(316002)(64756008)(4326008)(66946007)(2906002)(76116006)(5660300002)(52536014)(8936002)(8676002)(30864003)(66556008)(66476007)(66446008)(41300700001)(86362001)(54906003)(110136005)(478600001)(55016003)(7696005)(71200400001)(26005)(186003)(33656002)(6506007)(83380400001)(107886003)(122000001)(9686003)(38070700005)(38100700002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8k3zQUI9yL9Ff95+X4bBGXuyqu2s0DivnJ3fXGrwoD+jpGR2Kx29JlBodw5h?=
+ =?us-ascii?Q?07EZXPCuRDpPvV5q9l0zGZFVzjxJ9IHSizKOc9AIeJ+AXDkmV3YyJuR3aNug?=
+ =?us-ascii?Q?2UCygiEmSj2okrSndXiSwF1rGorgu1karvMuslTVD9lddNZhmeBb72NRT0EL?=
+ =?us-ascii?Q?wWwunJfYVoXETD2xdZAGleNhtViCYJy5Uf24D36JQ8TpYbAwEiJ/uftG7XFq?=
+ =?us-ascii?Q?XRKykSr7AGoJchsv7bXfj3X+SGvgMh999RI/Mtl8f+0ZhUp6SGYdnShiQRAu?=
+ =?us-ascii?Q?e0yAm9/LdAn0PwBL6hClsvLwMio5LJNbmPPcNir2rSeXveKc3XN4eDqAmjAf?=
+ =?us-ascii?Q?ZHX0UNpU9gDFdZfxQ1Q1wFQOfknAN51qD9c8zyRN2zD8r5DrvhdEQHDJoQvs?=
+ =?us-ascii?Q?tBOuLpCYIOH4LQ7jMNaKb/fKmAsXAPsiXh4h0te6LsDTJKUuE3xOy4qfO+Oh?=
+ =?us-ascii?Q?AP8J9wB8tq1euxW92AuCqc5AdXSNyOrq1OE75IEf6SKCrT5pkptLdRwznzlS?=
+ =?us-ascii?Q?zqA1m0IzflkxYjfg7Jj/CXEP5Ia27dD5xMWl+INDYdP9o8/53QEQq+At20ei?=
+ =?us-ascii?Q?zt8+HbVDffyGzw/k32BNtekV/h6Rai9SCDWyKzZNOHXWZKrqb8qhF5vi9i5W?=
+ =?us-ascii?Q?TwMbL2MDwGro+rDruVm2roatmvJA5sikvwS3SaJTkdrxihe6Qu3YYt17vQ7o?=
+ =?us-ascii?Q?XGXVrXXdFtrriLNnGsc4/BnORmNoIt24JZiyF9u76YOE5uxseEBKb76/CEPl?=
+ =?us-ascii?Q?hxcUQwL7Ay5+5kNLOv6s7mpoP4DHakWJ7P0L8U0qeW/NW8o0S1e+CGPsvjlo?=
+ =?us-ascii?Q?NEa//hG659OdrojB0AJX9fitFnfu/Z8Lg9Vitth/Cps3xnDZNleTB88SIxS0?=
+ =?us-ascii?Q?or9LDH4eOQeXAb+nljw08TXjqc9SckQ5HufbPmGT2dJpKy+KycAC1LTqH7fl?=
+ =?us-ascii?Q?Ur4GDrbwS8vjhi2UBmcX1C1b2DAaV0lTr4mp76Ah/GyYjtaRHFQZtsAUEFQE?=
+ =?us-ascii?Q?ABR7bCh/FN0iwA8Ph/+3tD/yAKnW4x0tDFprWfiwGu0lwBK5W5S7eHMOGr5q?=
+ =?us-ascii?Q?v7Hy06SuH4IFCbKSvEvfwIL2k3iMc/Tuua2vMM5+8hja/aUPOLmZpb8btwW0?=
+ =?us-ascii?Q?d+hkbq2uEphVBvUYlywo9cLGvLpJsfGQmZra48mhT6nGh3//vdlJ/T+L2lkj?=
+ =?us-ascii?Q?QmvlxNj2bpiK9bu6xblD/CeJeozckCXnJNhrHQEltEpbJNBKxTBKPFpAhTHt?=
+ =?us-ascii?Q?vH6AXJCK0MlN55wGaniDnR85DNC3YhgM7ui28riLyiY2nyaDiXr2ve9O3rMz?=
+ =?us-ascii?Q?6CU7cnivD7udWMDH6yARpOAAJwvrCemWxKRchMCVwK3seH3nTSi5IF7/8srj?=
+ =?us-ascii?Q?x8Rw1JG3oNOdUDO2p02oPDuSPMC4ZZumolw+n0X1BODAr8osHiTTvP00kupg?=
+ =?us-ascii?Q?U4vUZkScrWpsjFssgV5S9Lh2On1oKBeiiFI4+kdismr24G3oeFwsERe8rs/0?=
+ =?us-ascii?Q?SaM0qVhwYz1xkMbn5CjJ0x9pNKvzVoBAHwHM/y9+Oh6YGDUI+M+n6AfIdI6Q?=
+ =?us-ascii?Q?0ud+yxaf86HG13QFOQPh4fhJ83q5+/rENpWpumrb?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 548ce80c-74ad-4091-add0-08db551a0b7e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2023 07:57:35.3141 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rRKY0+bnoS96yc/sGh3dFyPr04XI4K1ir5XNLBtxfTvR0jzCzh9okOasGBy+wON3xmjGmVcFCLfHEULhIcS3ROEQ2uOvk7xCbX5mv1116x8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10829
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,77 +122,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>, Michael Walle <michael@walle.cc>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Chen-Yu Tsai <wenst@chromium.org>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.05.2023 06:25, Adam Ford wrote:
-> On Fri, May 12, 2023 at 4:02 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> On 12.05.2023 22:00, Adam Ford wrote:
->>> On Fri, May 12, 2023 at 2:37 PM Lucas Stach <l.stach@pengutronix.de> wrote:
->>>> Am Samstag, dem 06.05.2023 um 14:24 -0500 schrieb Adam Ford:
->>>>> The DPHY timings are currently hard coded. Since the input
->>>>> clock can be variable, the phy timings need to be variable
->>>>> too.  Add an additional variable to the driver data to enable
->>>>> this feature to prevent breaking boards that don't support it.
->>>>>
->>>>> The phy_mipi_dphy_get_default_config function configures the
->>>>> DPHY timings in pico-seconds, and a small macro converts those
->>>>> timings into clock cycles based on the pixel clock rate.
->>>>>
->>>> This week I finally had some time to take a deeper look at this series
->>>> and test it on some of my systems.
->>> Thanks for testing this!
->>>> This patch causes issues when the burst clock rate is fixed by
->>>> supplying the DT entry. Instead of describing the issue below, I'm
->>>> attaching the patch that makes things work on my system.
->>> Oops, sorry about that.
->>>
->>>> I would appreciate if you could test this one on your side. Feel free
->>>> to squash it into yours if you find it working properly.
->>> I reviewed your patch, and it looks like it makes a lot of sense.
->>> If it works, I'll squash them together and add your name to the sign-off.
-> That worked really well, I'll add it to my WIP directory since Marek S
-> said he'd test the other proposal of dropping the dynamic phy flag and
-> corresponding check in favor of pushing everyone to the same code.
->
->>>> Also I would almost bet that dynamic_dphy is working on the Exynos
->>>> boards with that fix added. So if anyone with access to those boards
->>>> would like to give it a shot, we may be able to get rid of the
->>>> hardcoded PHY parameters altogether, which would be a nice cleanup.
->>> I wondered the same thing, but I didn't want to create more work for
->>> Marek S and since there was so much churn getting the original driver
->>> ported, I thought it would be the safest thing to try to give the
->>> imx8m m/n/p the features without breaking the Exynos.
->>>
->>> Marek S - Do you want me to post this file without the extra checks to
->>> see if it still works with Exynos?
->> Feel free to send me patches to test or just point to your
->> work-in-progress git repo.
-> Thanks for testing this, Marek S.  My work-in-progress branch is:
->
-> https://protect2.fireeye.com/v1/url?k=2eeb1ed9-4e098384-2eea9596-000babd9f1ba-9ad5c339e5ea6e4d&q=1&e=652be603-d622-4d0e-95d3-639656ab1af1&u=https%3A%2F%2Fgithub.com%2Faford173%2Flinux%2Ftree%2Fdsim-updates-wip
->
-> Depending on what you find will determine how I modify the next
-> revision of the code I push, so I very much appreciate your feedback.
-> Hopefully the suggestion from Lucas will work for your applications
-> and we can reduce some of the code complexity.
+Hi All,
 
-The above mentioned 'dsim-updates-wip' branch works fine on all my 
-Exynos based boards.
+Gentle ping. Are we happy with this patch series?
 
+Cheers,
+Biju
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+> Subject: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+> support
+>=20
+> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> Video signal processor (VSPD) and Display unit(DU). The output of LCDC
+> is connected to Display parallel interface and MIPI link video
+> interface.
+>=20
+> The output from DSI is connected to ADV7535.
+>=20
+> Created a vendor specific directory renesas and moved all renesas drm
+> drivers to it (rcar-du and shmobile). Then added support for RZ/G2L DU
+> DRM driver by creating rz_du directory.
+>=20
+> Ref:
+>=20
+>=20
+> v8->v9:
+>  * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+>  * Added Rb tag from Laurent and Geert for patch#3.
+>  * Dropped reset_control_assert() from error patch for
+> rzg2l_du_crtc_get() as
+>    suggested by Philipp Zabel.
+>  * Added Rb tag from Laurent oatch#5.
+>  * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+> v7->v8:
+>  * Moved rcar-du and shmobile DRM drivers to renesas specific vendor
+> directory.
+>  * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+>  * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+>  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating
+> rz_du folder.
+>  * Updated MAINTAINERS entries.
+> v6->v7:
+>  * Split DU lib and  RZ/G2L du driver as separate patch series as
+>    DU support added to more platforms based on RZ/G2L alike SoCs.
+>  * Rebased to latest drm-tip.
+>  * Added patch #2 for binding support for RZ/V2L DU
+>  * Added patch #4 for driver support for RZ/V2L DU
+>  * Added patch #5 for SoC DTSI support for RZ/G2L DU
+>  * Added patch #6 for SoC DTSI support for RZ/V2L DU
+>  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L}
+> SoCs.
+>  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+> v5->v6:
+>  * Merged DU lib and RZ/G2L du driver in same patch series
+>  * Rebased to latest drm-misc.
+>  * Merged patch#1 to RZ/G2L Driver patch.
+>  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+>  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+>=20
+> v4->v5:
+>  * Added Rb tag from Rob for binding patch.
+>  * Started using RCar DU libs(kms, vsp and encoder)
+>  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+>    rcar_du_format_info and rcar_du_encoder.
+> v3->v4:
+>  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-
+> du
+>  * started using same compatible for RZ/G2{L,LC}
+>  * Removed rzg2l_du_group.h and struct rzg2l_du_group
+>  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+>  * Removed rzg2l_du_group_restart
+>  * Updated rzg2l_du_crtc_set_display_timing
+>  * Removed mode_valid callback.
+>  * Updated rzg2l_du_crtc_create() parameters
+>  * Updated compatible
+>  * Removed RZG2L_DU_MAX_GROUPS
+> V2->v3:
+>  * Added new bindings for RZ/G2L DU
+>  * Removed indirection and created new DRM driver based on R-Car DU
+> v1->v2:
+>  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+>  * Updated commit description for bindings
+>  * Removed LCDC references from bindings
+>  * Changed clock name from du.0->aclk from bindings
+>  * Changed reset name from du.0->du from bindings
+>  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+>  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+>  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+>  * Added forward declaration for struct reset_control
+>=20
+> [1]
+>=20
+> Biju Das (5):
+>   drm: Place Renesas drivers in a separate dir
+>   dt-bindings: display: Document Renesas RZ/G2L DU bindings
+>   dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+>   drm: Add RZ/G2L DU Support
+>   MAINTAINERS: Add maintainer for RZ DU drivers
+>=20
+>  .../bindings/display/renesas,rzg2l-du.yaml    | 129 +++
+>  MAINTAINERS                                   |  16 +-
+>  drivers/gpu/drm/Kconfig                       |   4 +-
+>  drivers/gpu/drm/Makefile                      |   3 +-
+>  drivers/gpu/drm/renesas/Kconfig               |   5 +
+>  drivers/gpu/drm/renesas/Makefile              |   5 +
+>  drivers/gpu/drm/{ =3D> renesas}/rcar-du/Kconfig |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/Makefile    |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_cmm.c  |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_cmm.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_crtc.c  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_crtc.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_drv.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_drv.h   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_encoder.c   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_encoder.h   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_group.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_group.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_kms.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_kms.h   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_plane.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_plane.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_regs.h  |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_vsp.c   |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_du_vsp.h   |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_writeback.c |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_du_writeback.h |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_dw_hdmi.c  |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_lvds.c |   0
+>  .../gpu/drm/{ =3D> renesas}/rcar-du/rcar_lvds.h |   0
+>  .../{ =3D> renesas}/rcar-du/rcar_lvds_regs.h    |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_mipi_dsi.c |   0
+>  .../drm/{ =3D> renesas}/rcar-du/rcar_mipi_dsi.h |   0
+>  .../rcar-du/rcar_mipi_dsi_regs.h              |   0
+>  .../{ =3D> renesas}/rcar-du/rzg2l_mipi_dsi.c    |   0
+>  .../rcar-du/rzg2l_mipi_dsi_regs.h             |   0
+>  drivers/gpu/drm/renesas/rz-du/Kconfig         |  20 +
+>  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 714 ++++++++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  99 +++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 188 +++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  89 ++
+> .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 112 +++
+> .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  28 +
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 770 ++++++++++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 430 ++++++++++
+> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  94 +++
+>  .../gpu/drm/{ =3D> renesas}/shmobile/Kconfig    |   0
+>  .../gpu/drm/{ =3D> renesas}/shmobile/Makefile   |   0
+>  .../shmobile/shmob_drm_backlight.c            |   0
+>  .../shmobile/shmob_drm_backlight.h            |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_crtc.c   |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_crtc.h   |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_drv.c    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_drv.h    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_kms.c    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_kms.h    |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_plane.c  |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_plane.h  |   0
+>  .../{ =3D> renesas}/shmobile/shmob_drm_regs.h   |   0
+>  62 files changed, 2816 insertions(+), 8 deletions(-)  create mode
+> 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+>  create mode 100644 drivers/gpu/drm/renesas/Kconfig  create mode 100644
+> drivers/gpu/drm/renesas/Makefile  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/Kconfig (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/Makefile (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_cmm.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_cmm.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_crtc.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_crtc.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_drv.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_drv.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_encoder.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_encoder.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_group.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_group.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_kms.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_kms.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_plane.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_plane.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_regs.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_vsp.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_vsp.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_du_writeback.c (100%)  rename drivers/gpu/drm/{ =3D=
+>
+> renesas}/rcar-du/rcar_du_writeback.h (100%)  rename drivers/gpu/drm/{ =3D=
+>
+> renesas}/rcar-du/rcar_dw_hdmi.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_lvds_regs.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi.c (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi.h (100%)  rename drivers/gpu/drm/{ =3D>
+> renesas}/rcar-du/rcar_mipi_dsi_regs.h (100%)  rename drivers/gpu/drm/{
+> =3D> renesas}/rcar-du/rzg2l_mipi_dsi.c (100%)  rename drivers/gpu/drm/{ =
+=3D>
+> renesas}/rcar-du/rzg2l_mipi_dsi_regs.h (100%)  create mode 100644
+> drivers/gpu/drm/renesas/rz-du/Kconfig
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+>  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+>  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/Kconfig (100%)  rename
+> drivers/gpu/drm/{ =3D> renesas}/shmobile/Makefile (100%)  rename
+> drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_backlight.c (100%)
+> rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_backlight.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_crtc.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_crtc.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_drv.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_drv.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_kms.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_kms.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_plane.c
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_plane.h
+> (100%)  rename drivers/gpu/drm/{ =3D> renesas}/shmobile/shmob_drm_regs.h
+> (100%)
+>=20
+> --
+> 2.25.1
 
