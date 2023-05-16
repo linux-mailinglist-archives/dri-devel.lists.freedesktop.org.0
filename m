@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626F0704636
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:21:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3409704640
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA6110E2FA;
-	Tue, 16 May 2023 07:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB2210E300;
+	Tue, 16 May 2023 07:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5226110E2FB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:21:10 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f41d087b3bso106261685e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:21:10 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7D210E300
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:24:28 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-306f2b42a86so9021812f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684221668; x=1686813668;
+ d=linaro.org; s=google; t=1684221866; x=1686813866;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=/9dx6R//z1RQpkhpsooU3dvEBQ61yF1rCpRuUAhlSyU=;
- b=OzfiKpEokqMpwSBb7CcRlXceL550ISmoDpO+8RmxURTiv5fNOzmkePwHC+uZh11WhS
- 2BBL7SWGz83UnXDL2NQ7iED7vbuU/1S8hynshCBG6L9zOGpMdjs3cNr2sFH55WU2HtJi
- T7w5brtvR86e5HF2Qzu1PPgbCEklk8ymYSFenuC2WrFFy25qCnG/PxhVIMdUCNBfxE37
- X1ZNbwSyB5yvWo1vwsRJXQzZl/ER++IA3jyWuVAV9Dnl2qKy3a9NX0FUEjZUo87ZT46l
- v8Y+nlHqyY8M8EfwAQ19+n5xMJnuww/kHAneWwOYKBQ7DC4FpCeFrQjrNLe3WoMLBkqG
- Y+yQ==
+ bh=mriKUD+ePrXG2DRWD5gePTJ4sodjlKWYwwduKOxs8DI=;
+ b=ST7RVOqLOXdhN4AiR9ZC4VSzODuLCFiQUdBe6NgMcrufpcWwPo6JVRYDK5b+vltIZP
+ 1kfmvNZ4dqGp0NINctE6TF4Uho6L+j7NuBrkGaybeHGliwi9c4ARwxdSfYI067feVfJ6
+ PLs1SyMVNcrw2cVCuXKWzPQJ4tucHmRMrBQi0yNye/HqqcEl2JBTY79hrHoIbNA/VO/m
+ 8yx/rM9qno6IF7169ccBU5OoNTegeJqbnQXGOfD1IlaIcx+/FgsFkq020uoXm/H+r9WM
+ DSdn34eAIwgarpCEaQs/evNpITPAlBQrwwxCkWgMqRaMIGDGbEV4vXE+kEoNifFU31+T
+ WGsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684221668; x=1686813668;
+ d=1e100.net; s=20221208; t=1684221866; x=1686813866;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/9dx6R//z1RQpkhpsooU3dvEBQ61yF1rCpRuUAhlSyU=;
- b=b4VwjGsCwtu5Fi8ZUYL4Q1uw07fI7MI9/pCM32lUjHB+4E2LgdlI32DzR3X6OOoBZi
- eAJcq8fZkYEz1s2d3aZcR3q5qBjXsmOQJshV9BrwiRW9vM3QwYY/yWgSul4Hej+6K677
- Gt1BdIyMRpN4LU0+ZrqlwkmHzEQs005SNWIe/Vd4yx01apqYS+X+TuVONMjZuc+bwryp
- UNsN2XBsLd22W93m2i2bqrBJQUHAVELyIIMRZMpTgQz0Ub6ICTwKhvrtAQnVVUaCZItW
- ghQ1hpKTuqLTVwIjZSvlktO1EvCjryNj+oujSjVOtuwmXqEW6giD8vMBPgps/JNxTpsu
- gDYw==
-X-Gm-Message-State: AC+VfDzytYW+8LxwHmn2RVxoWSMdORPh4kVJ4p3K6w8LQtdD6Y57aHYJ
- XerLwjBLuxexh6+VbEAbxq9PnwcFuOkELRMFHQ1+mw==
-X-Google-Smtp-Source: ACHHUZ4Xc+eQioisYBeXVxVzJy8AIzGtt2Jh3W/8exKfh8FPHzNgTkPgHSxp1nFkXhvr/V+R1BvMcQ==
-X-Received: by 2002:a05:600c:2144:b0:3f4:2438:e201 with SMTP id
- v4-20020a05600c214400b003f42438e201mr19423225wml.21.1684221667960; 
- Tue, 16 May 2023 00:21:07 -0700 (PDT)
+ bh=mriKUD+ePrXG2DRWD5gePTJ4sodjlKWYwwduKOxs8DI=;
+ b=A/Cf32hqXB68pasFmaDovGs7zk/2/sFf36HA4GiyYT0l3nRdQACrELm/l5nmnDzFCi
+ e2IHPYJckKWtoU+8Di+1qAx2RMM3C8bc8RLFYt80Q2H47l2KW3VTGfL7ideG+oaY7zRJ
+ g0Ct/9eHO30XNkzAOk7ow2MnHJM9hLoiNmMP98NPqK476tA6pJT9Qr7yzgoW0JRxQyxH
+ ea16SxQ+Ctv5dEfqD7Qynxot0Re/544vYP2+UggqVGLQ6svmpvUsP9c7gtmE0yTJEsIa
+ xes3OTREVfBLR+rTw4GnpuyO7Wg/KLzuXPpgqA6QmjixSR/iS4M+5eKTRY2SSbqlL9EN
+ P8yA==
+X-Gm-Message-State: AC+VfDylUAwsgOxF7AH6Vp+ao92pzgNPEY2VGMlD+w98KufmQ3roV7Ss
+ GjHWaG2rPsfo/RYSSnfUVELmwA==
+X-Google-Smtp-Source: ACHHUZ5eFVgdU2s3k3MqpDCk0kG6vETBeL0nlTrXDSSeUAK0qUoOayOQCHMXkBKW56cq1tLSWvBWMQ==
+X-Received: by 2002:adf:f245:0:b0:306:2d28:d556 with SMTP id
+ b5-20020adff245000000b003062d28d556mr22320151wrp.34.1684221866463; 
+ Tue, 16 May 2023 00:24:26 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:86be:97a:a043:77a8?
  ([2a01:e0a:982:cbb0:86be:97a:a043:77a8])
  by smtp.gmail.com with ESMTPSA id
- l24-20020a1ced18000000b003f4290720cbsm1259658wmh.29.2023.05.16.00.21.06
+ r7-20020adff107000000b003012030a0c6sm1548409wro.18.2023.05.16.00.24.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 00:21:07 -0700 (PDT)
-Message-ID: <305382fd-2312-59d9-e2d3-25a17e0a2158@linaro.org>
-Date: Tue, 16 May 2023 09:21:06 +0200
+ Tue, 16 May 2023 00:24:25 -0700 (PDT)
+Message-ID: <b43f0808-8ac8-746f-6cbc-5396722261aa@linaro.org>
+Date: Tue, 16 May 2023 09:24:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v6 3/8] drm/bridge: mhdp8546: Add minimal format
- negotiation
+Subject: Re: [PATCH v6 4/8] drm/bridge: mhdp8546: Set input_bus_flags from
+ atomic_check
 Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
  Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -73,13 +72,11 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Francesco Dolcini <francesco@dolcini.it>
 References: <20230509093036.3303-1-a-bhatia1@ti.com>
- <20230509093036.3303-4-a-bhatia1@ti.com>
- <db9b4117-b030-49a7-3732-2fc39d089ee2@ideasonboard.com>
- <d2777edc-151d-7f06-30c4-4634fdb6a63d@ti.com>
+ <20230509093036.3303-5-a-bhatia1@ti.com>
 Organization: Linaro Developer Services
-In-Reply-To: <d2777edc-151d-7f06-30c4-4634fdb6a63d@ti.com>
+In-Reply-To: <20230509093036.3303-5-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,107 +97,116 @@ Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2023 17:59, Aradhya Bhatia wrote:
-> Hi Tomi,
+On 09/05/2023 11:30, Aradhya Bhatia wrote:
+> From: Nikhil Devshatwar <nikhil.nd@ti.com>
 > 
-> On 12-May-23 14:45, Tomi Valkeinen wrote:
->> On 09/05/2023 12:30, Aradhya Bhatia wrote:
->>> From: Nikhil Devshatwar <nikhil.nd@ti.com>
->>>
->>> With new connector model, mhdp bridge will not create the connector and
->>> SoC driver will rely on format negotiation to setup the encoder format.
->>>
->>> Support minimal format negotiations hooks in the drm_bridge_funcs.
->>> Complete format negotiation can be added based on EDID data.
->>> This patch adds the minimal required support to avoid failure
->>> after moving to new connector model.
->>>
->>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
->>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->>
->> You need to add your SoB to this and the other patches.
+> input_bus_flags are specified in drm_bridge_timings (legacy) as well
+> as drm_bridge_state->input_bus_cfg.flags
 > 
-> Okay!
+> The flags from the timings will be deprecated. Bridges are supposed
+> to validate and set the bridge state flags from atomic_check.
 > 
->>
->>> ---
->>>
->>> Notes:
->>>
->>>       changes from v1:
->>>       * cosmetic fixes, commit message update.
->>>
->>>       changes from v5:
->>>       * dropped the default_bus_format variable and directly assigned
->>>         MEDIA_BUS_FMT_RGB121212_1X36 to input_fmts.
->>>
->>>    .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
->>>    1 file changed, 25 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> index f6822dfa3805..623e4235c94f 100644
->>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> @@ -2146,6 +2146,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge
->>> *bridge)
->>>        return &cdns_mhdp_state->base;
->>>    }
->>>    +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
->>> +                     struct drm_bridge_state *bridge_state,
->>> +                     struct drm_crtc_state *crtc_state,
->>> +                     struct drm_connector_state *conn_state,
->>> +                     u32 output_fmt,
->>> +                     unsigned int *num_input_fmts)
->>> +{
->>> +    u32 *input_fmts;
->>> +
->>> +    *num_input_fmts = 0;
->>> +
->>> +    if (output_fmt != MEDIA_BUS_FMT_FIXED)
->>> +        return NULL;
->>
->> The tfp410 and sii902x drivers don't have the above check. Why does mhdp
->> need it? Or the other way, why don't tfp410 and sii902x need it?
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> [a-bhatia1: replace timings in cdns_mhdp_platform_info by input_bus_flags]
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
 > 
-> I had removed this condition in order to follow status quo, from the
-> ITE-66121 HDMI bridge driver.
+> Notes:
 > 
-> The idea would have been to drop this for MHDP as well, but I guess I
-> overlooked this one.
+>      changes from v5:
+>      * removed the wrongly addded return statement in tfp410 driver.
+>      * replaced the timings field in cdns_mhdp_platform_info by
+>        input_bus_flags field, in order to get rid of bridge->timings
+>        altogether.
 > 
-> However...
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c  | 11 ++++++++---
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h  |  2 +-
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c |  9 ++++-----
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h |  2 +-
+>   4 files changed, 14 insertions(+), 10 deletions(-)
 > 
->> I guess at the moment we always do get MEDIA_BUS_FMT_FIXED as the out
->> fmt (in all three bridge drivers), don't we?
-> 
-> ... I tested again to ensure that the above is indeed the case. And
-> ended up catching some odd behavior.
-> 
-> It turns out that for all the HDMI bridges (TFP410, SII902X, ITE-66121),
-> the format negotiation doesn't stop at output_fmt = MEDIA_BUS_FMT_FIXED.
-> The {bridge}_get_input_format API gets called again with the output_fmt
-> = MEDIA_BUS_FMT_RGB24_1X24.
-> 
-> This doesn't happen with the MHDP driver. Format negotiation with MHDP
-> bridge stops after one round, at output_fmt = MEDIA_BUS_FMT_FIXED.
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index 623e4235c94f..a677b1267525 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -2189,6 +2189,13 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>   		return -EINVAL;
+>   	}
+>   
+> +	/*
+> +	 * There might be flags negotiation supported in future.
+> +	 * Set the bus flags in atomic_check statically for now.
+> +	 */
+> +	if (mhdp->info)
+> +		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
+> +
+>   	mutex_unlock(&mhdp->link_mutex);
+>   	return 0;
+>   }
+> @@ -2554,8 +2561,6 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+>   	mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
+>   			   DRM_BRIDGE_OP_HPD;
+>   	mhdp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+> -	if (mhdp->info)
+> -		mhdp->bridge.timings = mhdp->info->timings;
 
-This is because the bridge negociation logic will test with all possible
-output formats from the chain, and won't stop at first working test.
-
-If your bridge only supports a single input format, it should return the
-same format whatever output_fmt is tried.
-
-So indeed remove this test on mhdp aswell, or filter out invalid output
-formats.
-
-The MEDIA_BUS_FMT_FIXED is when there's no output format to test, so this
-should be always supported.
+Won't this cause a breakage because at this point in time bridge.timings->input_bus_flags
+seems to be still used by tidss right ?
 
 Neil
 
-> 
-> 
-> Regards
-> Aradhya
+>   
+>   	ret = phy_init(mhdp->phy);
+>   	if (ret) {
+> @@ -2642,7 +2647,7 @@ static const struct of_device_id mhdp_ids[] = {
+>   #ifdef CONFIG_DRM_CDNS_MHDP8546_J721E
+>   	{ .compatible = "ti,j721e-mhdp8546",
+>   	  .data = &(const struct cdns_mhdp_platform_info) {
+> -		  .timings = &mhdp_ti_j721e_bridge_timings,
+> +		  .input_bus_flags = &mhdp_ti_j721e_bridge_input_bus_flags,
+>   		  .ops = &mhdp_ti_j721e_ops,
+>   	  },
+>   	},
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> index bedddd510d17..bad2fc0c7306 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> @@ -336,7 +336,7 @@ struct cdns_mhdp_bridge_state {
+>   };
+>   
+>   struct cdns_mhdp_platform_info {
+> -	const struct drm_bridge_timings *timings;
+> +	const u32 *input_bus_flags;
+>   	const struct mhdp_platform_ops *ops;
+>   };
+>   
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+> index dfe1b59514f7..12d04be4e242 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+> @@ -71,8 +71,7 @@ const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
+>   	.disable = cdns_mhdp_j721e_disable,
+>   };
+>   
+> -const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings = {
+> -	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+> -			   DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
+> -			   DRM_BUS_FLAG_DE_HIGH,
+> -};
+> +const u32
+> +mhdp_ti_j721e_bridge_input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+> +				       DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
+> +				       DRM_BUS_FLAG_DE_HIGH;
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+> index 97d20d115a24..5ddca07a4255 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+> @@ -14,6 +14,6 @@
+>   struct mhdp_platform_ops;
+>   
+>   extern const struct mhdp_platform_ops mhdp_ti_j721e_ops;
+> -extern const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings;
+> +extern const u32 mhdp_ti_j721e_bridge_input_bus_flags;
+>   
+>   #endif /* !CDNS_MHDP8546_J721E_H */
 
