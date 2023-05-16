@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9947044C4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 07:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF427044C5
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 07:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D783710E2DF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E442F10E2E0;
 	Tue, 16 May 2023 05:40:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2089.outbound.protection.outlook.com [40.107.95.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0178210E2D6
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 05:39:56 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A72D810E2D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 05:39:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gOi6kfKki6WlvwAocbxDrcb6Mq5hIJtV5D9j7rg3m+K14okeVE6wkPJNAog+sCIrxInYcuOB6nofc7qnckwKrHUSmMo5nKSl1Zawb8x17yoxDsMBzlTphKVfUR0gGoCtD6Yz7wQ89ZS6wGU5vuL5YzRKlWphiOsaBh1T3U5SmbHCZZbHNlFXjKVGc4irzQ3c5zMax70/uWCY+KUXy2jxO3FHQCcqwZD3h3LtecWR79hs0mTT5DOWINyhCeCKLTERnHjdqjjpkcXj8ZePJqyILxmoTPwOnjfWVBfaHL6VP46deigkY1hl7mw7vMgsjw3rAsHJpYWGA5aJyzA61MjzpA==
+ b=Z+y8tM2FUb0MJdRi+E8wPccbl7xWPe5fbH4wcxhl5fhqaAeqeuP6GGCbMUEsUEJTM87Yq4CwfIS7bqwPflXClFOkyW4ZtR52u2mewCXz8Awg3sUcovaEpx2yxOmsKLW5Soc9NsOpXvHo0GgaTF7nyauLHAeG62GMvg0PfLXK/RXoIlzw0Ukm591wo2yEFGM9+yEZbGRxBdoc3DZZ4+7HoPlUwYQQMve9ua5CA+82exp5vodSulo6zxDJbsh2Y64MuvSkg/VV2SR6o6Tlu+AqrZi3aAPoomz7y3V0WqvBuCYlekbbxis1p8rinP+xwfkD1KPZ6QitejthVFtnfPEsxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=menevtcfHh6sl6gXB+KTjKNyRZmH92+HqlWh0WAnZJk=;
- b=HqVMuWAIEx3C5jFyQ/80vyy/OfEAK5awFLWthPFj+LHT67uHihoB0ZSRxvKUttMVVuKDgUirQm/Hjs0r7ZcHzJ+xbBnZgAaF8imK8TnEVMYmja2WiRQ89Gl7JKZvwmfgt/3HuNSmdwnOTm1WESWjsXmH8/lY7TpdoYjHFZqIR/oGuq/PVAchcjmNkX6n8gdj1Zt9ryylrq6lP9TRqSg2mbwmCFPMyICgT9qQL17hKHDUp+K4Td78t/18uJwOu6PqdO71Bn+cjobUJY5mFf8bmwNVDr+dEkfTzYeTvrYvZqcYPDIlsQK2cWzTSOdJGZD6z2g2aCVISQQFBrwRBQ8qjQ==
+ bh=oHJ4tWioPLI246wXAlBlk8gBlJ0XqEpNb14dtxET4AY=;
+ b=g/7bRLrqWmCn9JvzUwgXoYPCAFxM/G4v2kNPD5GLNLgtg+EI3elYAdpoiZ1spye1NULLMAvffRev6ZuIblxBB4d8S+7UeC/WpQMz7gmxhmWXqDpGV3zh3SDnNLoH3xsDsM0LZtNOFlLSaSd3PcF4ixG2J2b/k5/3NFmrsa6lqSgB54onv++xliWWXoRYaG+XnhJvtPioa4W3aqIXUbs6eIR+jrTCIaUbyeUJF22EisIuSrj7EdL44aqsF3IEvIp7b7pmFF8h7MTwS3MOq4mPuSV0AeyuQFIttnhHU1bmxwieHJ+L4+nv+VQ9PyrZzD0w37WBADhg3iWC7LFXJdXcHQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=menevtcfHh6sl6gXB+KTjKNyRZmH92+HqlWh0WAnZJk=;
- b=Qw9plM52v+LJXANVwIqk+6UA/kvW7G/h0ssaEhIlMmeyYhUKk73naLocTfg9HfquvKmVljGwsT+2KY1ox9yyCI0lbb3S2LB/tkVI+iW+KCwuA8JggHFGR3RCnM5N+ivOzt/+gwczCZS9gfSMjyVI5zTjZ+i1+WIYcoyRE3IddFs=
-Received: from DM6PR03CA0097.namprd03.prod.outlook.com (2603:10b6:5:333::30)
- by CY8PR12MB7172.namprd12.prod.outlook.com (2603:10b6:930:5b::7) with
+ bh=oHJ4tWioPLI246wXAlBlk8gBlJ0XqEpNb14dtxET4AY=;
+ b=SlbLddmkRFNoD3pkBuXuxdNPvdGr0nFPF2sKtW1GrW+JHxAbrWIJmKf0TI4/mGgK8fA5wj1SjWXDZhbnRIcHKFoyIRpGLKsw/KzXtCgqGVQLMCrmuHDe/CXvF8Sq7m8CYe9h/D2/rg/57t5tYBQElOZQd3r6X0g2Si+G0ahv8iA=
+Received: from MW4PR04CA0233.namprd04.prod.outlook.com (2603:10b6:303:87::28)
+ by DS7PR12MB5911.namprd12.prod.outlook.com (2603:10b6:8:7c::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Tue, 16 May
- 2023 05:39:54 +0000
-Received: from DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:333:cafe::bc) by DM6PR03CA0097.outlook.office365.com
- (2603:10b6:5:333::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.18; Tue, 16 May
+ 2023 05:39:56 +0000
+Received: from CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:87:cafe::d5) by MW4PR04CA0233.outlook.office365.com
+ (2603:10b6:303:87::28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33 via Frontend
- Transport; Tue, 16 May 2023 05:39:54 +0000
+ Transport; Tue, 16 May 2023 05:39:56 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT013.mail.protection.outlook.com (10.13.173.142) with Microsoft SMTP
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT083.mail.protection.outlook.com (10.13.174.92) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 05:39:53 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 05:39:56 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 16 May
- 2023 00:39:53 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 15 May
- 2023 22:39:53 -0700
+ 2023 00:39:55 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 16 May
+ 2023 00:39:55 -0500
 Received: from alan-new-dev.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 16 May 2023 00:39:51 -0500
+ Transport; Tue, 16 May 2023 00:39:53 -0500
 From: Alan Liu <HaoPing.Liu@amd.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/7] drm/amd/display: Add new blob properties for secure
- display CRC
-Date: Tue, 16 May 2023 13:39:27 +0800
-Message-ID: <20230516053931.1700117-4-HaoPing.Liu@amd.com>
+Subject: [PATCH 4/7] drm/amd/display: Implement set/get functions for secure
+ display CRC properties
+Date: Tue, 16 May 2023 13:39:28 +0800
+Message-ID: <20230516053931.1700117-5-HaoPing.Liu@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
 References: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
@@ -73,26 +73,26 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT013:EE_|CY8PR12MB7172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a658bf2-ae62-4543-9f93-08db55cff9ce
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT083:EE_|DS7PR12MB5911:EE_
+X-MS-Office365-Filtering-Correlation-Id: fddb1820-18df-4031-1ad9-08db55cffb4c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +Kgcq+pXL6RqMGP1TOrKljnx2Mj3WaOtx0QhvpFwdjomdq0kqtqL7p1aX2H29uUhNUcuqycVW4xDheJwdlFobC8w13I+OKEShdvoVgWuTq38gvOv8Eszyfn3dIyImC11qXB690ZxaoaLWLJqCLTrufmjBd4fitLBQMaxXACieWK7GoNqLKoT7HWz53vul0QQwYM8L/RcMJbd+9cLSNsYk19GXT0awsmanEcKxQWs66D62dGnPeVcnR05/PYXrJ2NokdYU3b/4MzwamgFMyF8zfDE2OMdqhJAiWNGOGgug/kI/fivhiXtjlOEnkLwCXPdtGJBDY1KL6bSWPKRgpXTGXYCrm1IyV7YzzxNRAVz1QLg6t9qVJ/VBhzbNcEnR6WdzDnTXRDrLr0aIgVcA4GOXoilrTC08CeLw/6oLILcAReM8P7X02uEXRRpQC99wKc+BQmJ7IDYAAdfsDOjYk07IMOwgQEESZI5zfvXLjug/4/S/IkVBiLWemrnyfSVnhe+ZjioT7J82znh6W9Nl0FGoQdRaOsDT8d/X0GvePbHWTD/qYNVJg4aJsyGkXvrvhJpcfhO/x0uBVX9X54MyBQ9c4ThEYRLuDRfHcD1F3fUQ7Tn3Wqs3mRQHBquHlc2sUusoAeoTquy/7P4sy+PZsNqMwfVCQqWWjQFIBU5axQHAOPuivNhl6LVt84pc1Qou7eCeORi3AGv68cB3C+HUAu1Zdv7GHAWhqdpDKxTjzn0zgQhbL+pzbJ6/boolfocvOtNWF2o7fMHvcQW3xD83FuwoQ==
+X-Microsoft-Antispam-Message-Info: t/Mq25K67CKh2emBqcdcwBzU4AuMunbs1ZT2zlnSXUS9Zuhsa3UGLGRP5wzTKvJv5H08QWuC5tRBh/qOHiulyutoZbYmOpqbjIEtixSfBDuAcDn/Razg+TKz/nGPwH+IcJHx3aeitwW5TOFZsHObiJ2sJSiwr7xFdyTfaRoQLOofmU8S9Lr031AlzkoZcOPvfI/+aTyVNzBFV/M+hEjaZ/70BLEO3GO9yCI9du0QBoG5WD++MJVZv5Df38xDb0k1S7yECGPUTuauh/jnCLBO/LY9Ay7FsJ1LmawSO7EkuKFfUWcfaVHryXRnm/krtWi3cBKAzFaOrNC/dhACXhxW6A9StqZPd5bWsHpCfyY3/PdcCvIH5kbR65Bcw/qOHbR7h+t8oS67e9Vi8U2XXu6kK8Q5y7Cu9Pfn93o8zodrGBu97NaijkkkB0bKbF7z7CO93AeOqSjrD4v7hacwDYn7+FUWE5rtz3KfpN6eBmdQz2tstlJDOa+wG1x96lQEEVYs1Tv5HFQ+tIcPK+isb+UK40KhlUctk3QuM9w26anjmTByf7jIRNEgX9GkSF3lcqANV2cBMsVtFNNgokP0FWp+kh1QASgXpAg+i6w0sklA1phnWhy+6d3kDrjlhP8SQPL1xJlQY/cBssPI73SBve9aka9udJb24GzaVhWYjZiEHntmM9wpkmish0xpJRGbLm4Zq9E9fsPDoyQIuiiG6nBlplfMVSyL2Y+aUqEvrSjqPVuJelv0H3ywLWbbeJvUoFGK1ILrx794ilzrfW1CK3u+7w==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(376002)(39860400002)(346002)(451199021)(40470700004)(36840700001)(46966006)(40480700001)(82310400005)(2616005)(336012)(316002)(4326008)(186003)(426003)(41300700001)(6666004)(40460700003)(36860700001)(47076005)(478600001)(83380400001)(54906003)(70206006)(1076003)(26005)(7696005)(2906002)(6916009)(70586007)(36756003)(86362001)(8676002)(356005)(81166007)(82740400003)(8936002)(5660300002)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(136003)(346002)(396003)(376002)(451199021)(46966006)(36840700001)(40470700004)(81166007)(40480700001)(316002)(4326008)(6916009)(186003)(26005)(86362001)(1076003)(70206006)(70586007)(40460700003)(82310400005)(54906003)(478600001)(356005)(8936002)(36756003)(5660300002)(7696005)(47076005)(6666004)(83380400001)(36860700001)(2906002)(41300700001)(82740400003)(8676002)(426003)(336012)(2616005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 05:39:53.9935 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a658bf2-ae62-4543-9f93-08db55cff9ce
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 05:39:56.4154 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fddb1820-18df-4031-1ad9-08db55cffb4c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7172
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5911
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,150 +109,88 @@ Cc: Alan Liu <HaoPing.Liu@amd.com>, wayne.lin@amd.com, lili.gong@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new blob properties and implement the property creation and
-attachment functions for the CRC result values of secure display.
+Implement set/get functions as the callback for userspace to get the CRC
+result values of the corresponding ROI configuration of secure display.
 
 Signed-off-by: Alan Liu <HaoPing.Liu@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 +++
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  1 +
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h | 10 ++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 23 ++++++++++++++++---
- include/uapi/drm/drm_mode.h                   | 19 +++++++++++++++
- 5 files changed, 53 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 38 ++++++++++++++++++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index ee57c659f230..74e42257a608 100644
+index 74e42257a608..b389b1d1c370 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -503,6 +503,9 @@ struct amdgpu_display_manager {
- 
- 	/* properties for secure_display ROI configuration */
- 	struct drm_property *secure_display_roi_property;
-+
-+	/* properties for secure_display CRC information */
-+	struct drm_property *secure_display_crc_property;
- #endif
- 	/**
- 	 * @hpd_rx_offload_wq:
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-index e7259ec1d644..a83cabb9b1a6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-@@ -550,6 +550,7 @@ amdgpu_dm_crtc_secure_display_create_contexts(struct amdgpu_device *adev)
- 		DRM_ERROR("amdgpu: failed to create secure display properties.\n");
- 
- 	for (i = 0; i < adev->mode_info.num_crtc; i++) {
-+		spin_lock_init(&secure_display_ctxs[i].crc.lock);
- 		INIT_WORK(&secure_display_ctxs[i].forward_roi_work, amdgpu_dm_forward_crc_window);
- 		INIT_WORK(&secure_display_ctxs[i].notify_ta_work, amdgpu_dm_crtc_notify_ta_to_read);
- 		secure_display_ctxs[i].crtc = &adev->mode_info.crtcs[i]->base;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-index 66f29e3de9f9..f2def8c20d83 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-@@ -40,6 +40,14 @@ enum amdgpu_dm_pipe_crc_source {
- };
- 
+@@ -736,6 +736,7 @@ struct dm_crtc_state {
  #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
-+struct crc_data {
-+	uint32_t crc_R;
-+	uint32_t crc_G;
-+	uint32_t crc_B;
-+	uint32_t frame_count;
-+	spinlock_t lock;
-+};
-+
- struct crc_window_param {
- 	uint16_t x_start;
- 	uint16_t y_start;
-@@ -64,6 +72,8 @@ struct secure_display_context {
- 
- 	/* Region of Interest (ROI) */
- 	struct rect rect;
-+
-+	struct crc_data crc;
- };
+ 	struct {
+ 		struct drm_property_blob *roi_blob;
++		struct drm_property_blob *crc_blob;
+ 		bool roi_changed : 1;
+ 	} secure_display_state;
  #endif
- 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index e1a17f2d6f2d..4457eac8273e 100644
+index 4457eac8273e..0e9834e0506d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -299,16 +299,30 @@ int amdgpu_dm_crtc_create_secure_display_properties(struct amdgpu_device *adev)
- {
- 	struct amdgpu_display_manager *dm = &adev->dm;
- 	struct drm_device *dev = adev_to_drm(adev);
--	struct drm_property *roi_prop;
-+	struct drm_property *roi_prop, *crc_prop;
+@@ -359,6 +359,10 @@ static int amdgpu_dm_crtc_atomic_set_property(struct drm_crtc *crtc,
+ 		dm_state->secure_display_state.roi_changed |=
+ 			drm_property_replace_blob(old_blob, new_blob);
  
- 	roi_prop = drm_property_create(dev, DRM_MODE_PROP_BLOB,
- 					"SECURE_DISPLAY_ROI", 0);
--	if (!roi_prop)
--		return -ENOMEM;
++	} else if (property == adev->dm.secure_display_crc_property) {
++		/* don't let user set CRC data */
++		return -EPERM;
 +
-+	crc_prop = drm_property_create(dev, DRM_MODE_PROP_BLOB,
-+					"SECURE_DISPLAY_CRC", 0);
-+
-+	if (!roi_prop || !crc_prop)
-+		goto fail;
+ 	} else
+ 		return -EINVAL;
  
- 	dm->secure_display_roi_property = roi_prop;
-+	dm->secure_display_crc_property = crc_prop;
+@@ -373,12 +377,44 @@ static int amdgpu_dm_crtc_atomic_get_property(struct drm_crtc *crtc,
+ 	struct drm_device *dev = crtc->dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct dm_crtc_state *dm_state = to_dm_crtc_state(crtc_state);
++	struct secure_display_context *secure_display_ctx =
++		&adev->dm.secure_display_ctxs[crtc->index];
+ 
+ 	if (property == adev->dm.secure_display_roi_property)
+ 		*val = (dm_state->secure_display_state.roi_blob)
+ 			? dm_state->secure_display_state.roi_blob->base.id : 0;
+ 
+-	else
++	else if (property == adev->dm.secure_display_crc_property) {
++		struct drm_crc *blob_data;
++		struct drm_property_blob *blob;
++		unsigned long flag;
++
++		if (!amdgpu_dm_crc_window_is_activated(crtc)) {
++			*val = 0;
++			return 0;
++		}
++
++		/* save new value to blob */
++		blob = drm_property_create_blob(dev,
++						sizeof(struct drm_crc),
++						NULL);
++		if (IS_ERR(blob)) {
++			*val = 0;
++			return -ENOMEM;
++		}
++
++		blob_data = (struct drm_crc *) blob->data;
++		spin_lock_irqsave(&secure_display_ctx->crc.lock, flag);
++		blob_data->crc_r = secure_display_ctx->crc.crc_R;
++		blob_data->crc_g = secure_display_ctx->crc.crc_G;
++		blob_data->crc_b = secure_display_ctx->crc.crc_B;
++		blob_data->frame_count = secure_display_ctx->crc.frame_count;
++		spin_unlock_irqrestore(&secure_display_ctx->crc.lock, flag);
++
++		drm_property_replace_blob(&dm_state->secure_display_state.crc_blob, blob);
++		*val = blob->base.id;
++
++	} else
+ 		return -EINVAL;
  
  	return 0;
-+
-+fail:
-+	if (roi_prop)
-+		drm_property_destroy(dev, roi_prop);
-+
-+	if (crc_prop)
-+		drm_property_destroy(dev, roi_prop);
-+
-+	return -ENOMEM;
- }
- 
- void amdgpu_dm_crtc_attach_secure_display_properties(struct amdgpu_device *adev,
-@@ -318,6 +332,9 @@ void amdgpu_dm_crtc_attach_secure_display_properties(struct amdgpu_device *adev,
- 
- 	if (dm->secure_display_roi_property)
- 		drm_object_attach_property(&crtc->base, dm->secure_display_roi_property, 0);
-+
-+	if (dm->secure_display_crc_property)
-+		drm_object_attach_property(&crtc->base, dm->secure_display_crc_property, 0);
- }
- 
- static int amdgpu_dm_crtc_atomic_set_property(struct drm_crtc *crtc,
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 98e0a0aaa1c3..8c488ce59e7a 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1323,6 +1323,25 @@ struct drm_roi {
- 	__u8 pad[7];
- };
- 
-+/**
-+ * struct drm_crc - The CRC value of the corresponding ROI of secure display.
-+ * @crc_r: CRC value of red color.
-+ * @crc_g: CRC value of green color.
-+ * @crc_b: CRC value of blue color.
-+ * @frame_count: a referenced frame count to indicate which frame the CRC values
-+ *  are generated at.
-+ *
-+ * Userspace uses this structure to retrieve the CRC value of the current ROI of
-+ * secure display. @frame_count will be reset once a new ROI is updated or it reaches
-+ * its maximum value.
-+ */
-+struct drm_crc {
-+	__u32 crc_r;
-+	__u32 crc_g;
-+	__u32 crc_b;
-+	__u32 frame_count;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
 -- 
 2.34.1
 
