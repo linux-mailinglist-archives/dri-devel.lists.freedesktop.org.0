@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479897047B4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 10:25:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274807047B6
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 10:25:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACCFD10E320;
-	Tue, 16 May 2023 08:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA2310E322;
+	Tue, 16 May 2023 08:25:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122E810E320
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:25:21 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-55a20a56a01so239119497b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 01:25:21 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB0910E322
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:25:27 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-3075e802738so12654779f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 01:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1684225520; x=1686817520;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1684225525; x=1686817525;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7Xo3t6EtqmIthrprYRpSgcUeeyfiYcd11CO7AIyEdOM=;
- b=JUUbr9NEB4qwoLKBk5/71k/n13gkgHLV6DwoKB/PT7PLX0ceLnDFeZsnvBB8ftUt9m
- HXcvvLJhadir0Up20KLdn7y5EfFtFZLzqdCF0h+t5MDb+hX8YaOMnLPyTM4kdCDLYZC6
- ce8zkT4za3RA8dAwDQzu0sUCBZyiguT2LQ9Lo=
+ bh=t0kKvU8VcjZDCawm1uzpgifPJsmcOM7ycSUxGftpKlg=;
+ b=U9snYiuAjXyog/pObORtqBLp74KZGAJqnQBHSstncHnnEKbrGJKl08+B+62YqdBMKN
+ 0ubaX4H7k5IGggRg57I4qwEJQwS2vhLyOJ2FnayJLRqEVWPsSJp/24NNlIFP8qPs7NsU
+ JcJEl8IXtyJLkfAMrMq8ri8qucR710Ewj8Oe8SiXX4nIZOTcFwWrU4uJP3WGI2FyNUzC
+ 6VryLEOtlCz19nQo6UmOQr60v1Z338VVzph+Q3ovng2XtdKn+qd1W5YAKREewjjOgEU7
+ Xg2vwuL+B7zoCEsbjgr1uZdcbc7l6pQUy7gZh+UnVGh9TxnDbnSEb5ovDJKDAUOMIR0D
+ em7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684225520; x=1686817520;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1684225525; x=1686817525;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7Xo3t6EtqmIthrprYRpSgcUeeyfiYcd11CO7AIyEdOM=;
- b=F+9p6dNari8DRz2In5GassnarXkaAtcFMxGsCel7YGTn7bqRDheGz2r+BPoRPbQBJV
- oWq3PxSb3COyzh7Jhs5xC9cke0/2FEFhM02krg62zdevuk0NA2RgotiHU+aS4IXi+rzh
- An89Cna3pIPEcNAdWG8XzjzVpaw83/leFc9H2I8kv6G7pC15opG5xJ7VWmkI4BZCP5rq
- RYa7NJpkv5e8q9HnMyGI2U0iGX4iqmdffflfm5vy0bnUx7YN3zI0bs/6yPEMR9py7lig
- bgY6xIJ0QZAdw+zJgRFTk2xLmk8e1MfalekgfoLJa40ePrXX1/Uk/TmqMAaOicJwA+41
- B8Dg==
-X-Gm-Message-State: AC+VfDw38Iv2mX6l8+PJlCSj56k5/gOPrBESaFie2dc9108bvab2ZIqX
- MSV5ofKVeRUtkE3ZYU+4hr2Z9lmcw8EBfaqzaO7yNg==
-X-Google-Smtp-Source: ACHHUZ4J6iP0LN5Jw0VmSCf8vyYacYGKM2I0zqVv1whEfPCs4wGS+PuzyoQ0UKJgVXQjyEmV1Vt+rAP+tBZL0pXnqrY=
-X-Received: by 2002:a0d:ea06:0:b0:55a:e109:89b8 with SMTP id
- t6-20020a0dea06000000b0055ae10989b8mr30640059ywe.24.1684225520537; Tue, 16
- May 2023 01:25:20 -0700 (PDT)
+ bh=t0kKvU8VcjZDCawm1uzpgifPJsmcOM7ycSUxGftpKlg=;
+ b=XJTIhpLrarIkbdaLkyhVak5dL3TNJ0LUzIyr0ix/ldfptQIrdb5MJc2aZzjfMp8Ejl
+ 8dv13ZnO8fBOOWleYNf6KWfgSKVB/GvWoEdZ7k30DIPoHb0bjPJbIafk05PGF9rD9xKj
+ UqBZNC7qZePVeex7c3AJbX/GtBuwGtHMOjb+fUINAzRsAh/3OCRwUO2ivytG3a67ZPSw
+ vhDtk3xnc/3kUOAnbCWsn2i97aWxjuiaP//OVmKjwnZhQat9CUx4l4TizD66yQt/K08E
+ p5fCzrbnV/8Pr4UCETlyiRaMyWo7QbSRalwads9mEh229wx6qp7nsBK/CCvrLr30lHlR
+ nTUw==
+X-Gm-Message-State: AC+VfDy0A1jtrAMmyAnaSsK0LxGaIxDj+9fqkHsaOe1x9OJQAS9ENblQ
+ JaWxzFPbjLZI0SJJl3xwUtDCLQ==
+X-Google-Smtp-Source: ACHHUZ45Ql6xlhC/ZvqBRbGxOQz1rTz/nyVnET70PNRzfh6zOHMn4ARYGPyEwcNil7BmrD1rfXVBww==
+X-Received: by 2002:adf:fe0e:0:b0:306:2f91:302e with SMTP id
+ n14-20020adffe0e000000b003062f91302emr30760857wrr.21.1684225525080; 
+ Tue, 16 May 2023 01:25:25 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ r14-20020a5d494e000000b003063a92bbf5sm1727505wrs.70.2023.05.16.01.25.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 May 2023 01:25:24 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: sam@ravnborg.org, airlied@gmail.com, daniel@ffwll.ch, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ dri-devel@lists.freedesktop.org, Shuijing Li <shuijing.li@mediatek.com>
+In-Reply-To: <20230515094955.15982-1-shuijing.li@mediatek.com>
+References: <20230515094955.15982-1-shuijing.li@mediatek.com>
+Subject: Re: [PATCH v4 0/2] Reduce lcm_reset to DSI LP11 send cmd time
+Message-Id: <168422552431.63953.12117354484480390668.b4-ty@linaro.org>
+Date: Tue, 16 May 2023 10:25:24 +0200
 MIME-Version: 1.0
-References: <20230513201030.514861-1-marex@denx.de>
- <CAMty3ZCYCzawWuEGUWhsxSmuMORoeij=VEGGhn0-yRaQ7_1_uA@mail.gmail.com>
- <62a849cf-46f4-b01b-15b7-6b2bafe2972f@denx.de>
-In-Reply-To: <62a849cf-46f4-b01b-15b7-6b2bafe2972f@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 16 May 2023 13:55:09 +0530
-Message-ID: <CAMty3ZC76XV-WP4w9CxOZ5KE3w9_FVMXTdqkfi0JJ0FsLQr3gQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Drop panel_bridge post_disable
- call
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,104 +76,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Project_Global_Chrome_Upstream_Group@mediatek.com, jitao.shi@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 16, 2023 at 1:47=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
->
-> On 5/16/23 10:12, Jagan Teki wrote:
-> > Hi Marek and Neil,
-> >
-> > On Sun, May 14, 2023 at 1:40=E2=80=AFAM Marek Vasut <marex@denx.de> wro=
-te:
-> >>
-> >> This panel_bridge post_disable callback is called from the bridge chai=
-n now,
-> >> so drop the explicit call here. This fixes call imbalance, where this =
-driver
-> >> does not call ->pre_enable, but does call ->post_disable . In case eit=
-her of
-> >> the two callbacks implemented in one of the panel or bridge drivers co=
-ntains
-> >> any operation with refcounted object, like regulator, this would make =
-kernel
-> >> complain about the imbalance.
-> >>
-> >> This can be triggered e.g. with ST7701 driver, which operates on regul=
-ators
-> >> in its prepare/unprepare callbacks, which are called from pre_enable/p=
-ost_disable
-> >> callbacks respectively. The former is called once, the later twice, du=
-ring
-> >> entry to suspend.
-> >>
-> >> Drop the post_disable call to fix the imbalance.
-> >>
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> ---
-> >> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> >> Cc: Antonio Borneo <antonio.borneo@foss.st.com>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >> Cc: Jonas Karlman <jonas@kwiboo.se>
-> >> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> >> Cc: Marek Vasut <marex@denx.de>
-> >> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> >> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> >> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> >> Cc: Robert Foss <robert.foss@linaro.org>
-> >> Cc: Vincent Abriou <vincent.abriou@st.com>
-> >> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> ---
-> >>   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 ---------
-> >>   1 file changed, 9 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/g=
-pu/drm/bridge/synopsys/dw-mipi-dsi.c
-> >> index b2efecf7d1603..63ac972547361 100644
-> >> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> >> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> >> @@ -859,15 +859,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disabl=
-e(struct drm_bridge *bridge,
-> >>           */
-> >>          dw_mipi_dsi_set_mode(dsi, 0);
-> >>
-> >> -       /*
-> >> -        * TODO Only way found to call panel-bridge post_disable &
-> >> -        * panel unprepare before the dsi "final" disable...
-> >> -        * This needs to be fixed in the drm_bridge framework and the =
-API
-> >> -        * needs to be updated to manage our own call chains...
-> >> -        */
-> >> -       if (dsi->panel_bridge->funcs->post_disable)
-> >> -               dsi->panel_bridge->funcs->post_disable(dsi->panel_brid=
-ge);
-> >> -
-> >
-> > If my understanding was correct, the controller set the low-speed DCS
-> > in pre_enable and high-speed DCS in enable. So I'm thinking this
-> > explicit post_disable still needs to revert the operation within the
-> > bridge chain. I didn't test this but trying to understand how the
-> > existing behaviour is satisfied if we drop this.
->
-> Did I miss a panel_bridge pre_enable call somewhere in the driver ?
-> Where is it ?
+Hi,
 
-Haa, sorry the next bridge pre_enable.  driver setting the
-command-mode (low-speed) in mode_set so when the next bridge
-pre_enable is called, low-speed DCS can be sent, then the bridge
-enable() sets video mode (high-speed). This is where an explicit
-post_disable would be required, this is what I understood so far.
+On Mon, 15 May 2023 17:49:53 +0800, Shuijing Li wrote:
+> The panel spec stipulates that after lcm_reset is pulled high, cmd
+> should be sent to initialize the panel. Within the allowable range of
+> the DSI spec, this time needs to be reduced to avoid panel exceptions.
+> 
+> Base on the branch of linus/master v6.3.
+> 
+> Change since v3:
+> 1. Rebase.
+> 
+> [...]
 
-Jagan.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/2] drm/panel: boe-tv101wum-nl6: Remove extra delay
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=fe7f4e8d496552f880d7368b482d2ccac33780b7
+[2/2] drm/panel: boe-tv101wum-nl6: Fine tune the panel power sequence
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=812562b8d881ce6d33fed8052b3a10b718430fb5
+
+-- 
+Neil
+
