@@ -2,57 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC90704ED7
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 15:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557AB704EEE
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 15:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC35610E0F4;
-	Tue, 16 May 2023 13:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E7810E1CB;
+	Tue, 16 May 2023 13:13:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B7910E0F4
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 13:09:23 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-64ab2a37812so5365073b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684242563; x=1686834563;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=JnI2mCTgjLo9sKDeUzzDpzJIwWSO6LoMJa5F9uksNBE=;
- b=LSxpzNIphCX4pdKDAYRhRH09p5YyLtm9cdJSaSlo84MLRIqXWrTEFHI1F86TQye0V6
- 1ts0UmaJhmUZo2SNSqNjxMIDlJ2X48cecPF03fG0SQ0PAcaUAYmq3PLTUBqtZaOgkOTz
- ot14jzU8Td/a+Mb7GYRqxcgncsVIWmTDRC0XfVsnyG3R8I2SCarQ28hLJUD7oBcuGmXn
- Y8+YPKd8fEpJ4NoiQL/a0bjNrsf1z+9v9N2LaK9rNIbghD3PhKMV+3KKNkzMaDIjceRb
- tOp/rF0KRDqyjGion2UzHUvuNJ7gWlsmsyWdAmpahQJ+XjKB/gt9/i15TuOXtA0tNzuV
- XHwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684242563; x=1686834563;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JnI2mCTgjLo9sKDeUzzDpzJIwWSO6LoMJa5F9uksNBE=;
- b=Je65zkhWxrTaURBAEc7dFnKB0Qt+t9ZqcMtOt98qR8fNgJ+E8UpCozMNzgmyfF0/Sq
- qVu5lC2rQ54led0SvGvBvBQ55YK2jCWFFFjAvJphFUkHLe3tqyO/V6DAknyQIJ9pw7gK
- s90KcuW8qHDTPMg+F3q2GrYEr/6Hus+tg+BAd9dKlwDqDJ4jw0MdNaMuWNb7GUXHZV6z
- KLavmNmgBjRTjBaP/QAccujQr+qEadVC7CmpQhikBwbYOuiXAwk4qPoFH5epbUK+ahRJ
- o8KzXIOwdJiKpOR0K+NnSwYJ9A/qlB/o7ombmTb1VfwVGACy4RNLQEmulfGIUDubh6Xs
- nLNw==
-X-Gm-Message-State: AC+VfDyOxDZi9YO6Si03RFpSXHS0rl3AazLqNArwOHn5+R/H1igidZCh
- p5xF/Gkh3iLDN5+JDUolT4Y6yyj9/Il+gF2jaGY=
-X-Google-Smtp-Source: ACHHUZ5+Nhs4AlA41VRX7XHReaGKnGgZl0brEkEPSTE8PDEC4sfbygO22G292BwjZGl/f+FmG+dJAgmuStgvDpfJwKU=
-X-Received: by 2002:a17:903:1ca:b0:1ad:bccc:af77 with SMTP id
- e10-20020a17090301ca00b001adbcccaf77mr25885743plh.18.1684242562600; Tue, 16
- May 2023 06:09:22 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7277E10E1C2;
+ Tue, 16 May 2023 13:13:07 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 261CB1FE6D;
+ Tue, 16 May 2023 13:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684242785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ogdt9jSbi0tvxD4d3F6VeNsH8BYjTttGkeT43PALy5E=;
+ b=wYGJ6+OnghGS2a+yu/AjPwtJV17WnSvQQCiAnSED73wvJV7x0V5FddzCwSJryuKnOToMut
+ cUWvNND+TVir4jApxrF4N4dFhQvfglinuNu0lbjcDS9jJNxFRmBHqe1gEBO4yoKD1tsDtq
+ hxiePLzY8LITkzD+iySVZ3hYhjKhQgo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684242785;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ogdt9jSbi0tvxD4d3F6VeNsH8BYjTttGkeT43PALy5E=;
+ b=+R5i2rwoPF/2rMlRCY+3hyEXs0TvhAHXyIwKUnOtGJ+MIkPvnYpWXa8+/R+Hr2vtCBo/oZ
+ Rs3QdcTwPZRcXeBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B3544138F5;
+ Tue, 16 May 2023 13:13:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3RSvKmCBY2SzQAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 16 May 2023 13:13:04 +0000
+Message-ID: <297a1808-f36a-1bbb-8a7e-dd41c5ee2a7b@suse.de>
+Date: Tue, 16 May 2023 15:13:04 +0200
 MIME-Version: 1.0
-From: =?UTF-8?B?UGF1bG8gUGF2YcSNacSH?= <pavacic.p@gmail.com>
-Date: Tue, 16 May 2023 15:09:11 +0200
-Message-ID: <CAO9szn18KsR0c+U8EEY1=xnmsKMxy6SEArMUic0z=aYJDVwWCQ@mail.gmail.com>
-Subject: [PATCH v2] dt-bindings: display: panel: add panel-mipi-dsi-bringup
-To: krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com, 
- robh+dt@kernel.org, daniel@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v2 02/12] drm/armada: Use regular fbdev I/O helpers
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <20230515094033.2133-1-tzimmermann@suse.de>
+ <20230515094033.2133-3-tzimmermann@suse.de>
+ <20230515175544.GB1745913@ravnborg.org>
+ <ZGJ0QIQrF/a0Wkri@shell.armlinux.org.uk>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ZGJ0QIQrF/a0Wkri@shell.armlinux.org.uk>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2T0MthFqqog40rzw0G3raXj4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,126 +73,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dt-bindings documentation for panel-mipi-dsi-bringup which currently
-supports fannal,c3004 panel. Also added fannal to vendor-prefixes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2T0MthFqqog40rzw0G3raXj4
+Content-Type: multipart/mixed; boundary="------------VmgaSFKk8JQLm74FK1PaEpjV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, javierm@redhat.com, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <297a1808-f36a-1bbb-8a7e-dd41c5ee2a7b@suse.de>
+Subject: Re: [PATCH v2 02/12] drm/armada: Use regular fbdev I/O helpers
+References: <20230515094033.2133-1-tzimmermann@suse.de>
+ <20230515094033.2133-3-tzimmermann@suse.de>
+ <20230515175544.GB1745913@ravnborg.org>
+ <ZGJ0QIQrF/a0Wkri@shell.armlinux.org.uk>
+In-Reply-To: <ZGJ0QIQrF/a0Wkri@shell.armlinux.org.uk>
 
-v2 changelog:
-  - revised driver title, now describes purpose
-  - revised description, now describes hw
-  - revised maintainers, now has only 1 mail
-  - removed diacritics from commit/commit author
-  - properties/compatible is now enum
-  - compatible using only lowercase
-  - revised dts example
-  - modified MAINTAINERS in this commit (instead of driver commit)
-  - dt_bindings_check checked yml
-  - checkpatch warning fixed
+--------------VmgaSFKk8JQLm74FK1PaEpjV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
----
- .../display/panel/panel-mipi-dsi-bringup.yaml | 54 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- MAINTAINERS                                   |  6 +++
- 3 files changed, 62 insertions(+)
- create mode 100644
-Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
+SGkNCg0KQW0gMTUuMDUuMjMgdW0gMjA6MDQgc2NocmllYiBSdXNzZWxsIEtpbmcgKE9yYWNs
+ZSk6DQo+IE9uIE1vbiwgTWF5IDE1LCAyMDIzIGF0IDA3OjU1OjQ0UE0gKzAyMDAsIFNhbSBS
+YXZuYm9yZyB3cm90ZToNCj4+IEhpIFRob21hcywNCj4+DQo+PiBPbiBNb24sIE1heSAxNSwg
+MjAyMyBhdCAxMTo0MDoyM0FNICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+
+PiBVc2UgdGhlIHJlZ3VsYXIgZmJkZXYgaGVscGVycyBmb3IgZnJhbWVidWZmZXIgSS9PIGlu
+c3RlYWQgb2YgRFJNJ3MNCj4+PiBoZWxwZXJzLiBBcm1hZGEgZG9lcyBub3QgdXNlIGRhbWFn
+ZSBoYW5kbGluZywgc28gRFJNJ3MgZmJkZXYgaGVscGVycw0KPj4+IGFyZSBtZXJlIHdyYXBw
+ZXJzIGFyb3VuZCB0aGUgZmJkZXYgY29kZS4NCj4+Pg0KPj4+IEJ5IHVzaW5nIGZiZGV2IGhl
+bHBlcnMgZGlyZWN0bHkgd2l0aGluIGVhY2ggRFJNIGZiZGV2IGVtdWxhdGlvbiwNCj4+PiB3
+ZSBjYW4gZXZlbnR1YWxseSByZW1vdmUgRFJNJ3Mgd3JhcHBlciBmdW5jdGlvbnMgZW50aXJl
+bHkuDQo+Pj4NCj4+PiB2MjoNCj4+PiAJKiB1c2UgRkJfSU9fSEVMUEVSUyBvcHRpb24NCj4+
+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
+dXNlLmRlPg0KPj4+IENjOiBSdXNzZWxsIEtpbmcgPGxpbnV4QGFybWxpbnV4Lm9yZy51az4N
+Cj4+PiAtLS0NCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvS2NvbmZpZyAgICAgICAg
+fCAxICsNCj4+PiAgIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2ZiZGV2LmMgfCA5
+ICsrKystLS0tLQ0KPj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUg
+ZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Fy
+bWFkYS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2FybWFkYS9LY29uZmlnDQo+Pj4gaW5k
+ZXggZjVjNjZkODliYTk5Li41YWZhZGUyNWUyMTcgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2FybWFkYS9LY29uZmlnDQo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fy
+bWFkYS9LY29uZmlnDQo+Pj4gQEAgLTMsNiArMyw3IEBAIGNvbmZpZyBEUk1fQVJNQURBDQo+
+Pj4gICAJdHJpc3RhdGUgIkRSTSBzdXBwb3J0IGZvciBNYXJ2ZWxsIEFybWFkYSBTb0NzIg0K
+Pj4+ICAgCWRlcGVuZHMgb24gRFJNICYmIEhBVkVfQ0xLICYmIEFSTSAmJiBNTVUNCj4+PiAg
+IAlzZWxlY3QgRFJNX0tNU19IRUxQRVINCj4+PiArCXNlbGVjdCBGQl9JT19IRUxQRVJTIGlm
+IERSTV9GQkRFVl9FTVVMQVRJT04NCj4+PiAgIAloZWxwDQo+Pj4gICAJICBTdXBwb3J0IHRo
+ZSAiTENEIiBjb250cm9sbGVycyBmb3VuZCBvbiB0aGUgTWFydmVsbCBBcm1hZGEgNTEwDQo+
+Pj4gICAJICBkZXZpY2VzLiAgVGhlcmUgYXJlIHR3byBjb250cm9sbGVycyBvbiB0aGUgZGV2
+aWNlLCBlYWNoIGNvbnRyb2xsZXINCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2FybWFkYS9hcm1hZGFfZmJkZXYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRh
+X2ZiZGV2LmMNCj4+PiBpbmRleCAwYTVmZDFhYTg2ZWIuLjZjM2JiYWY1MzU2OSAxMDA2NDQN
+Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9mYmRldi5jDQo+Pj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZmJkZXYuYw0KPj4+IEBAIC01
+LDYgKzUsNyBAQA0KPj4+ICAgICovDQo+Pj4gICANCj4+PiAgICNpbmNsdWRlIDxsaW51eC9l
+cnJuby5oPg0KPj4+ICsjaW5jbHVkZSA8bGludXgvZmIuaD4NCj4+PiAgICNpbmNsdWRlIDxs
+aW51eC9rZXJuZWwuaD4NCj4+PiAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4+PiAg
+IA0KPj4+IEBAIC0zNCwxMSArMzUsOSBAQCBzdGF0aWMgdm9pZCBhcm1hZGFfZmJkZXZfZmJf
+ZGVzdHJveShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4+PiAgIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgZmJfb3BzIGFybWFkYV9mYl9vcHMgPSB7DQo+Pj4gICAJLm93bmVyCQk9IFRISVNfTU9E
+VUxFLA0KPj4+ICAgCURSTV9GQl9IRUxQRVJfREVGQVVMVF9PUFMsDQo+Pj4gLQkuZmJfcmVh
+ZAk9IGRybV9mYl9oZWxwZXJfY2ZiX3JlYWQsDQo+Pj4gLQkuZmJfd3JpdGUJPSBkcm1fZmJf
+aGVscGVyX2NmYl93cml0ZSwNCj4+IEkgaGFkIGV4cGVjdGVkIHRvIHNlZQ0KPj4gLmZiX3Jl
+YWQgPSBmYl9pb19yZWFkLA0KPj4NCj4+IEJ1dCBtYXliZSB0aGlzIG9ubHkgdXNlZCB3aGVu
+IHVzaW5nIGRhbWFnZSBoYW5kbGluZz8NCj4+DQo+PiBMaWtld2lzZSBmb3IgZHJtX2ZiX2hl
+bHBlcl9jZmJfd3JpdGUuDQo+Pg0KPj4gPz8NCj4+DQo+Pj4gLQkuZmJfZmlsbHJlY3QJPSBk
+cm1fZmJfaGVscGVyX2NmYl9maWxscmVjdCwNCj4+PiAtCS5mYl9jb3B5YXJlYQk9IGRybV9m
+Yl9oZWxwZXJfY2ZiX2NvcHlhcmVhLA0KPj4+IC0JLmZiX2ltYWdlYmxpdAk9IGRybV9mYl9o
+ZWxwZXJfY2ZiX2ltYWdlYmxpdCwNCj4+PiArCS5mYl9maWxscmVjdAk9IGNmYl9maWxscmVj
+dCwNCj4+PiArCS5mYl9jb3B5YXJlYQk9IGNmYl9jb3B5YXJlYSwNCj4+PiArCS5mYl9pbWFn
+ZWJsaXQJPSBjZmJfaW1hZ2VibGl0LA0KPj4NCj4+IFRoaXMgcGFydCBpcyBhcyBleHBlY3Rl
+ZC4NCj4gDQo+IFdlbGwsIHRvIG1lIGl0IGxvb2tzIGxpa2UgdGhpcyBoYXMgZ29uZSB0aHJv
+dWdoIGFuIGVudGlyZSBjaXJjdWxhciBzZXQNCj4gb2YgcmV2aXNpb25zOg0KPiANCj4gY29t
+bWl0IGU4YjcwZTRkZDdiNWRhZDdjMjM3OWRlNmUwODUxNTg3YmY4NmJmZDYNCj4gQXV0aG9y
+OiBBcmNoaXQgVGFuZWphIDxhcmNoaXR0QGNvZGVhdXJvcmEub3JnPg0KPiBEYXRlOiAgIFdl
+ZCBKdWwgMjIgMTQ6NTg6MDQgMjAxNSArMDUzMA0KPiANCj4gICAgICBkcm0vYXJtYWRhOiBV
+c2UgbmV3IGRybV9mYl9oZWxwZXIgZnVuY3Rpb25zDQo+IA0KPiAtICAgICAgIC5mYl9maWxs
+cmVjdCAgICA9IGNmYl9maWxscmVjdCwNCj4gLSAgICAgICAuZmJfY29weWFyZWEgICAgPSBj
+ZmJfY29weWFyZWEsDQo+IC0gICAgICAgLmZiX2ltYWdlYmxpdCAgID0gY2ZiX2ltYWdlYmxp
+dCwNCj4gKyAgICAgICAuZmJfZmlsbHJlY3QgICAgPSBkcm1fZmJfaGVscGVyX2NmYl9maWxs
+cmVjdCwNCj4gKyAgICAgICAuZmJfY29weWFyZWEgICAgPSBkcm1fZmJfaGVscGVyX2NmYl9j
+b3B5YXJlYSwNCj4gKyAgICAgICAuZmJfaW1hZ2VibGl0ICAgPSBkcm1fZmJfaGVscGVyX2Nm
+Yl9pbWFnZWJsaXQsDQo+IA0KPiBjb21taXQgOTgzNzgwOTE4Yzc1OWZkYmJmMGJmMDMzZTcw
+MWJiZmY3NWQyYWYyMw0KPiBBdXRob3I6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
+bkBzdXNlLmRlPg0KPiBEYXRlOiAgIFRodSBOb3YgMyAxNjoxNDo0MCAyMDIyICswMTAwDQo+
+IA0KPiAgICAgIGRybS9mYi1oZWxwZXI6IFBlcmZvcm0gYWxsIGZiZGV2IEkvTyB3aXRoIHRo
+ZSBzYW1lIGltcGxlbWVudGF0aW9uDQo+IA0KPiArICAgICAgIC5mYl9yZWFkICAgICAgICA9
+IGRybV9mYl9oZWxwZXJfY2ZiX3JlYWQsDQo+ICsgICAgICAgLmZiX3dyaXRlICAgICAgID0g
+ZHJtX2ZiX2hlbHBlcl9jZmJfd3JpdGUsDQo+IA0KPiBhbmQgbm93IGVmZmVjdGl2ZWx5IHRo
+b3NlIHR3byBjaGFuZ2VzIGFyZSBiZWluZyByZXZlcnRlZCwgc28gd2UnZA0KPiBub3cgYmUg
+YmFjayB0byB0aGUgcHJlLUp1bHkgMjAxNSBzdGF0ZSBvZiBhZmZhaXJzLiBBcyBJIGJlbGll
+dmUNCj4gdGhlIGZiZGV2IGxheWVyIGhhcyBiZWVuIHN0YWJsZSwgdGhpcyBjaGFuZ2UgbWVy
+ZWx5IHJldmVydHMgdGhlDQo+IGRyaXZlciBiYWNrIHRvIHdoYXQgaXQgb25jZSB3YXMuDQoN
+Ck5vdCBxdWl0ZS4gT25lIGxvbmctc3RhbmRpbmcgcHJvYmxlbSBoYXMgYmVlbiB0aGF0IGZi
+ZGV2IGRvZXMgbm90IA0KcHJvdGVjdCBpdHMgcHVibGljIGludGVyZmFjZXMgd2l0aCBDT05G
+SUdfRkIuIElmIGZiZGV2IGhhZCBiZWVuIA0KZGlzYWJsZWQsIERSTSBkcml2ZXJzIGNvdWxk
+IG5vIGxvbmdlciBiZSBsaW5rZWQvbG9hZGVkLiBEUk0gd3JhcHBlcnMgDQpzb2x2ZWQgdGhp
+cy4gVGhlIGlzc3VlIGhhcyByZWNlbnRseSBiZWVuIGZpeGVkIGZvciBhbGwgb2YgRFJNLiBE
+Uk0gZG9lcyANCm5vdCBidWlsZCBpdCdzIGZiZGV2IGVtdWxhdGlvbiBpZiBDT05GSUdfRkIg
+aGFzIGJlZW4gZGlzYWJsZWQuDQoNCkFub3RoZXIgdGhpbmcgd2FzIHRoYXQgdGhlIG9yaWdp
+bmFsIERSTSB3cmFwcGVycyBtaWdodCBoYXZlIGJlZW4gDQpkaWZmZXJlbnQgZnJvbSBmYmRl
+didzIEkvTyBoZWxwZXJzIGluIHN1YnRsZSB3YXlzLiBCdXQgbm93IHRoZXkgYXJlIA0Kc2lt
+cGxlIHdyYXBwZXJzIGFyb3VuZCB0aGVpciBmYmRldiBjb3VudGVycGFydHM7IHBsdXMgdGhl
+IG9wdGlvbiBvZiANCmFkZGl0aW9uYWwgZGFtYWdlIGhhbmRsaW5nLiAgQnV0IHN1Y2ggZGFt
+YWdlIGhhbmRsaW5nIGlzIGJldHRlciANCmltcGxlbWVudGVkIGJ5IHRoZSBkcml2ZXIgaXRz
+ZWxmLiBUaGUgdHdvIGNhc2VzIHRoYXQgcmVxdWlyZSBpdCwgaTkxNSANCmFuZCBmYmRldi1n
+ZW5lcmljLCBhcmUgZGlmZmVyZW50IGVub3VnaCB0aGF0IGVhY2ggc2hvdWxkIHByb2JhYmx5
+IGhhdmUgDQppdCdzIG93biBjb2RlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0
+NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXll
+cnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51
+ZXJuYmVyZykNCg==
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-b/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-new file mode 100644
-index 000000000000..c9e2b545657e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-mipi-dsi-bringup.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MIPI DSI Bringup Panel Porting Bindings
-+
-+description: |
-+  MIPI DSI Bringup Panel porting bindings to be used for a collection of panels
-+  from different manufacturers which don't require backlight control from the
-+  driver and have a single reset pin which is required to be passed as an
-+  argument.
-+
-+maintainers:
-+  - Paulo Pavacic <pavacic.p@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+
-+  compatible:
-+    enum:
-+      # compatible must be listed in alphabetical order, ordered by compatible.
-+      # The description in the comment is mandatory for each compatible.
-+
-+        # Fannal 480x800 panel
-+      - fannal,c3004
-+
-+  reg: true
-+  reset-gpios: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    //example on IMX8MM where GPIO pin 9 is used as a reset pin
-+    mipi_dsi@32e10000 {
-+        panel@0 {
-+            compatible = "fannal,c3004";
-+            reg = <0>;
-+            pinctrl-0 = <&pinctrl_mipi_dsi_rst>;
-+            pinctrl-names = "default";
-+            reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 82d39ab0231b..f962750f630a 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -462,6 +462,8 @@ patternProperties:
-     description: Facebook
-   "^fairphone,.*":
-     description: Fairphone B.V.
-+  "^fannal,.*":
-+    description: Fannal Electronics Co., Ltd
-   "^faraday,.*":
-     description: Faraday Technology Corporation
-   "^fastrax,.*":
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e0ad886d3163..46f988ee60bd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6566,6 +6566,12 @@ T:    git git://anongit.freedesktop.org/drm/drm-misc
- F:    Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
- F:    drivers/gpu/drm/tiny/panel-mipi-dbi.c
+--------------VmgaSFKk8JQLm74FK1PaEpjV--
 
-+DRM DRIVER FOR MIPI DSI BRINGUP
-+M:    Paulo Pavacic <pavacic.p@gmail.com>
-+S:    Maintained
-+C:    mipi-dsi-bringup:matrix.org
-+F:    Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-+
- DRM DRIVER FOR MSM ADRENO GPU
- M:    Rob Clark <robdclark@gmail.com>
- M:    Abhinav Kumar <quic_abhinavk@quicinc.com>
--- 
-2.40.1
+--------------2T0MthFqqog40rzw0G3raXj4
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRjgWAFAwAAAAAACgkQlh/E3EQov+AP
+jRAAwwKH9s/OU5FEOdFhofJdQds0AENMzHbfz4wwkve69TDD5BypitQp2nS84xFHvd7AZK2K2S/J
+ZQPOQQ5TJHpC1PfYRstQtN4l/Db0E3P3xFYhjgdIUxa/B/ICiB1zrLcl/N8gvrXm81DCiZonTJzP
+WPJGhQV+VQwjc06//ynbyeRtrxLUar6ZPBscBtmKo1vPmpbgeAj7AonyPKE7YuiHL5dmSgIdS0/h
+fr393sm9KwhdKHFpnQAcsrabAUCu4+T10EcYWeJXjNYQvi5ptbVMoyjV+1MySeOTne+IJ21LoTNP
+oXJ3v8BJd+w9xm6vdfnhIkhlXi5cAIZjAMA65984bERd3PygsKYLzYOtm7XsKE34ZGcUfOCyTBwu
+f4MMGt8toM22ToQJg29meHpceO7oWOY7HzpOrfnRXqkW+bdZdBkn3OJVWu5T1QhShnUKriyNN0zu
+GmiCTFZUSrRI75V+UHK8I86LZGbUwoLdHWizBWBh7ZFsTYyYSh375LmtV8Iplxl7+Y9viYcxkBO2
+USfeCw3mgNGcxtAeCX1KrkD0SvW24izC8/Wh8469Mfw/WD+gKgpQXPJSe4ot18mRzXcEQDUij34Z
+sAN3+oVetyb+9Qi5F303/SwUGkvhfTD2vIINJzUGvJxvqJOy4lDX8xdjDxjgEIY+6NCgf01diiYC
+qTE=
+=XZcT
+-----END PGP SIGNATURE-----
+
+--------------2T0MthFqqog40rzw0G3raXj4--
