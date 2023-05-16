@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7BA705339
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 18:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A1C705346
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 18:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3183D10E25B;
-	Tue, 16 May 2023 16:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D177810E065;
+	Tue, 16 May 2023 16:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E581310E086;
- Tue, 16 May 2023 16:08:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 038311FF77;
- Tue, 16 May 2023 16:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684253332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/5zPscgIXFE62i014tFNvlGObfZ+Zc22FlJk7qe2yjo=;
- b=1kFrHtPwq/eOjBNPvC8yRsQDMlKbqVVALAYbJremA9BqrdDiKcplLE82kjJg31BN5YMMdV
- vfAYpGsreX2opYvZceEgnF1lHxQCmn1u9KRne36ymoRu0ZVNjspX96T/VjDpPKUejkcRgZ
- 3WCG6cmUPYEIzIsB1igNnL3Ho1obTGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684253332;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/5zPscgIXFE62i014tFNvlGObfZ+Zc22FlJk7qe2yjo=;
- b=aKMV7cYBqz5v4MLueIZOgFi9XVA+LfoD8JGQTAjSNALId1xWwF6xKhoiA+6FvNSYoCH5sI
- uQKTgTXLpNLdFYAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2DBC138F5;
- Tue, 16 May 2023 16:08:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ho9eMpOqY2S1GgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 16 May 2023 16:08:51 +0000
-Message-ID: <05927999-389e-3a42-9b0d-3da9bc695d94@suse.de>
-Date: Tue, 16 May 2023 18:08:51 +0200
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D0F10E065;
+ Tue, 16 May 2023 16:11:26 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ 006d021491bc7-54fb3ef9c53so2932464eaf.3; 
+ Tue, 16 May 2023 09:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684253485; x=1686845485;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vaBNU8MoQeniJsGNNOBBa/mrT/HUCmYPBQz0uJsYTKk=;
+ b=lRRoV+0YuzxOkiOFqqCvVHdlLGS4oyyAKLLXMB9376khWuRNYCM7JA4g3M8veQV0R8
+ zAXhSU94bNifjBQ3b2JioSPp0MEvtpnaf0C6JzFeGop8bTw6BkzMGW54Ak0Y58V23Buy
+ 6NE9354L2b8t2DmGMQQVzGzzue4Lznnh8p8BHTMZcOU14QhaYJVX6A2tA57JWajhKUo5
+ F5lqZGBaxCv6Z7e5XovCl2etN3iU9LRL2jSG+GeSTaxGARw5XhCX8Zve1WEz16KpDQu7
+ 2HC3FsYP2F8zY1MToRgU+oKv+p31IzTDPykGwpK72s3lRLITcL9FnIfNn+nnyD/mPf49
+ prPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684253485; x=1686845485;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vaBNU8MoQeniJsGNNOBBa/mrT/HUCmYPBQz0uJsYTKk=;
+ b=XpZDQCabMkzHGYgQjbs2s8aptooJW31lP/HzxyRrbx6SNNCLHjwwD5poXqhbowaQZp
+ jQF5Ox/eKlbUMJPJxhHt6Rvxkl5dw6baqIL741d/rLGnmRAQj1GUyfdMkDtstXvco8qG
+ Hsn9/YooUSJm8DQOtiaXszZUG2qgMWbob0RVm5oZMayvcFntVVWEFIeiluLxc3zr5bIb
+ u9CRObz6sWv9Rm+OHnzmwcK8yec6GAwARcXVXX9MEQPuolDyThNUYUHneqE92cTk4CS7
+ qmAIsA86n5Prye5TBfCKMTLaPx2b4Nrm0RQ2fqQeZL354mGFrSaqOre1gzrgMMGtahS+
+ 8YSA==
+X-Gm-Message-State: AC+VfDxYN1zJmzm7N28fOG3IqVLG/aj+WSlfK8SGhOOn1PMYtf/Alr+L
+ +5mRzci9y/BB4E1MQWGrF7/mJLUiUI1aVCY+4FQ=
+X-Google-Smtp-Source: ACHHUZ4nvADM2PqszlRkzOK5G/Xhpqv1ZOXy6ubNOt5o8TJ6PwaF/S7EmxC/jQbfFjcqOx3/3fDOlHEVLN2h+uxmtFE=
+X-Received: by 2002:a4a:9297:0:b0:54f:4498:115c with SMTP id
+ i23-20020a4a9297000000b0054f4498115cmr11490762ooh.9.1684253485199; Tue, 16
+ May 2023 09:11:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] drm/ttm: let struct ttm_device_funcs be placed in rodata
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 References: <20230309123700.528641-1-jani.nikula@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230309123700.528641-1-jani.nikula@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Erae4kpIS6O0hmJP2FbZwFAC"
+ <d844e8f4-dbfe-15a6-32db-4ab928fad77d@amd.com> <87bkl29jk0.fsf@intel.com>
+ <875y8sitv5.fsf@intel.com>
+In-Reply-To: <875y8sitv5.fsf@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 16 May 2023 12:11:14 -0400
+Message-ID: <CADnq5_NL-Ouh5-NRaoRknPDRTq2NDKWcHKxDEXfmkuqgWL54kw@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: let struct ttm_device_funcs be placed in rodata
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +71,102 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Erae4kpIS6O0hmJP2FbZwFAC
-Content-Type: multipart/mixed; boundary="------------8f3oB6FWUtT7KSTY0hh0qw1O";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Message-ID: <05927999-389e-3a42-9b0d-3da9bc695d94@suse.de>
-Subject: Re: [PATCH] drm/ttm: let struct ttm_device_funcs be placed in rodata
-References: <20230309123700.528641-1-jani.nikula@intel.com>
-In-Reply-To: <20230309123700.528641-1-jani.nikula@intel.com>
+On Tue, May 16, 2023 at 4:05=E2=80=AFAM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+>
+> On Thu, 09 Mar 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> > On Thu, 09 Mar 2023, Christian K=C3=B6nig <christian.koenig@amd.com> wr=
+ote:
+> >> Am 09.03.23 um 13:37 schrieb Jani Nikula:
+> >>> Make the struct ttm_device_funcs pointers const so the data can be pl=
+aced in rodata.
+> >>>
+> >>> Cc: Christian Koenig <christian.koenig@amd.com>
+> >>> Cc: Huang Rui <ray.huang@amd.com>
+> >>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >>
+> >> Good idea, Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com=
+>
+> >
+> > Thanks!
+> >
+> >> Should I push it to drm-misc-next or do you need it on some other bran=
+ch?
+> >
+> > Go ahead, I'm not urgently depending on it.
+>
+> Christian, I guess this fell between the cracks? Can I just push it to
+> drm-misc-next?
 
---------------8f3oB6FWUtT7KSTY0hh0qw1O
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Go ahead.  Christian is out of the office this week.
 
-DQoNCkFtIDA5LjAzLjIzIHVtIDEzOjM3IHNjaHJpZWIgSmFuaSBOaWt1bGE6DQo+IE1ha2Ug
-dGhlIHN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzIHBvaW50ZXJzIGNvbnN0IHNvIHRoZSBkYXRh
-IGNhbiBiZSBwbGFjZWQgaW4gcm9kYXRhLg0KPiANCj4gQ2M6IENocmlzdGlhbiBLb2VuaWcg
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IEh1YW5nIFJ1aSA8cmF5Lmh1YW5n
-QGFtZC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBp
-bnRlbC5jb20+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZp
-Y2UuYyB8IDIgKy0NCj4gICBpbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oICAgICB8IDQg
-KystLQ0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Rldmlj
-ZS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMNCj4gaW5kZXggYWUyZjE5
-ZGM5ZjgxLi5hNzFiYjEzNjJkZTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2RldmljZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Rldmlj
-ZS5jDQo+IEBAIC0xOTAsNyArMTkwLDcgQEAgRVhQT1JUX1NZTUJPTCh0dG1fZGV2aWNlX3N3
-YXBvdXQpOw0KPiAgICAqIFJldHVybnM6DQo+ICAgICogITA6IEZhaWx1cmUuDQo+ICAgICov
-DQo+IC1pbnQgdHRtX2RldmljZV9pbml0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBzdHJ1
-Y3QgdHRtX2RldmljZV9mdW5jcyAqZnVuY3MsDQo+ICtpbnQgdHRtX2RldmljZV9pbml0KHN0
-cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBjb25zdCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyAq
-ZnVuY3MsDQo+ICAgCQkgICAgc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgYWRkcmVzc19z
-cGFjZSAqbWFwcGluZywNCj4gICAJCSAgICBzdHJ1Y3QgZHJtX3ZtYV9vZmZzZXRfbWFuYWdl
-ciAqdm1hX21hbmFnZXIsDQo+ICAgCQkgICAgYm9vbCB1c2VfZG1hX2FsbG9jLCBib29sIHVz
-ZV9kbWEzMikNCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgg
-Yi9pbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oDQo+IGluZGV4IDU2ZTgyYmEyZDA0Ni4u
-YzIyZjMwNTM1Yzg0IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2Rldmlj
-ZS5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgNCj4gQEAgLTIyMyw3
-ICsyMjMsNyBAQCBzdHJ1Y3QgdHRtX2RldmljZSB7DQo+ICAgCSAqIEBmdW5jczogRnVuY3Rp
-b24gdGFibGUgZm9yIHRoZSBkZXZpY2UuDQo+ICAgCSAqIENvbnN0YW50IGFmdGVyIGJvIGRl
-dmljZSBpbml0DQo+ICAgCSAqLw0KPiAtCXN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzICpmdW5j
-czsNCj4gKwljb25zdCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyAqZnVuY3M7DQo+ICAgDQo+
-ICAgCS8qKg0KPiAgIAkgKiBAc3lzbWFuOiBSZXNvdXJjZSBtYW5hZ2VyIGZvciB0aGUgc3lz
-dGVtIGRvbWFpbi4NCj4gQEAgLTI4Nyw3ICsyODcsNyBAQCBzdGF0aWMgaW5saW5lIHZvaWQg
-dHRtX3NldF9kcml2ZXJfbWFuYWdlcihzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwgaW50IHR5
-cGUsDQo+ICAgCWJkZXYtPm1hbl9kcnZbdHlwZV0gPSBtYW5hZ2VyOw0KPiAgIH0NCj4gICAN
-Cj4gLWludCB0dG1fZGV2aWNlX2luaXQoc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYsIHN0cnVj
-dCB0dG1fZGV2aWNlX2Z1bmNzICpmdW5jcywNCj4gK2ludCB0dG1fZGV2aWNlX2luaXQoc3Ry
-dWN0IHR0bV9kZXZpY2UgKmJkZXYsIGNvbnN0IHN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzICpm
-dW5jcywNCj4gICAJCSAgICBzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBhZGRyZXNzX3Nw
-YWNlICptYXBwaW5nLA0KPiAgIAkJICAgIHN0cnVjdCBkcm1fdm1hX29mZnNldF9tYW5hZ2Vy
-ICp2bWFfbWFuYWdlciwNCj4gICAJCSAgICBib29sIHVzZV9kbWFfYWxsb2MsIGJvb2wgdXNl
-X2RtYTMyKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
-c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
-QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
-ODA5IChBRyBOdWVybmJlcmcpDQo=
+Alex
 
---------------8f3oB6FWUtT7KSTY0hh0qw1O--
-
---------------Erae4kpIS6O0hmJP2FbZwFAC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRjqpMFAwAAAAAACgkQlh/E3EQov+AZ
-cA/9GQsrHyuhAwqtqcnaHe3zUgemDtpOaxNzmMERYTk5EdGbHcq2eVG5IOe17OzfUcS9m/fXxSa6
-tD9GGPGrl8mEWUfLK4Zm21OX5W60K+E9lyk99lyJFjFz0QDyHDRBH9Gk4OF05cJTZwyGSpMCA9rY
-f3GRuFmxkACAkSMVmzDHVOI4bbNtfj+GsY3bkJimSLlexfMkK/OgIKyOJoE1G4TPHEwKeokfu9lW
-hc0/RnUf155fz8jOS4Lt/w4HiFPhSA5O90EbjUePGtavcKeGC/hg6kbo79l72nS1cU+uiD9PucUK
-Fmn0+nK2ZAufz68TylE+0/yPyMmVSpXG8xR4ruRX43QPR2ML1fGNjdmSc2XbP8ZUhpnTuu4tH+gp
-X+140NcBnWwmtsTLYpYbmptpxA0VPayI5N7xR4gVlya1MvWJhg3e+ZTY6HWzhp1LrazDrY2EdL06
-RB01aC62VGNYPznwo27ssjHTBbhbDqAg4lOodgUW0XghZzXJ4b8pifq6oZjzok5iBO+nXq0oEXUP
-urxAIMjfBm4lIX6SzIqJQjeKTIeeZe2kKYecZoRi36Ef2iQ4yHvGOTF8WIknlcM0xZpT9VfoRT6L
-wx09gWNHBTacAD+Nz+N1KfQzKSFip7ZTDdBVpq8EpWSDgo/+BN8ULN8P9Sk5isBxWwj/l2hG1IHE
-p6s=
-=xn6A
------END PGP SIGNATURE-----
-
---------------Erae4kpIS6O0hmJP2FbZwFAC--
+>
+> BR,
+> Jani.
+>
+>
+> >
+> > BR,
+> > Jani.
+> >
+> >>
+> >> Christian.
+> >>
+> >>> ---
+> >>>   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+> >>>   include/drm/ttm/ttm_device.h     | 4 ++--
+> >>>   2 files changed, 3 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/t=
+tm_device.c
+> >>> index ae2f19dc9f81..a71bb1362de4 100644
+> >>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> >>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> >>> @@ -190,7 +190,7 @@ EXPORT_SYMBOL(ttm_device_swapout);
+> >>>    * Returns:
+> >>>    * !0: Failure.
+> >>>    */
+> >>> -int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs=
+ *funcs,
+> >>> +int ttm_device_init(struct ttm_device *bdev, const struct ttm_device=
+_funcs *funcs,
+> >>>                 struct device *dev, struct address_space *mapping,
+> >>>                 struct drm_vma_offset_manager *vma_manager,
+> >>>                 bool use_dma_alloc, bool use_dma32)
+> >>> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_devic=
+e.h
+> >>> index 56e82ba2d046..c22f30535c84 100644
+> >>> --- a/include/drm/ttm/ttm_device.h
+> >>> +++ b/include/drm/ttm/ttm_device.h
+> >>> @@ -223,7 +223,7 @@ struct ttm_device {
+> >>>      * @funcs: Function table for the device.
+> >>>      * Constant after bo device init
+> >>>      */
+> >>> -   struct ttm_device_funcs *funcs;
+> >>> +   const struct ttm_device_funcs *funcs;
+> >>>
+> >>>     /**
+> >>>      * @sysman: Resource manager for the system domain.
+> >>> @@ -287,7 +287,7 @@ static inline void ttm_set_driver_manager(struct =
+ttm_device *bdev, int type,
+> >>>     bdev->man_drv[type] =3D manager;
+> >>>   }
+> >>>
+> >>> -int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs=
+ *funcs,
+> >>> +int ttm_device_init(struct ttm_device *bdev, const struct ttm_device=
+_funcs *funcs,
+> >>>                 struct device *dev, struct address_space *mapping,
+> >>>                 struct drm_vma_offset_manager *vma_manager,
+> >>>                 bool use_dma_alloc, bool use_dma32);
+> >>
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
