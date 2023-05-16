@@ -1,69 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BAB704630
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:20:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 626F0704636
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E53910E2F9;
-	Tue, 16 May 2023 07:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA6110E2FA;
+	Tue, 16 May 2023 07:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A940410E2F9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:19:54 +0000 (UTC)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5226110E2FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:21:10 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f41d087b3bso106261685e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1684221594; x=1715757594;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Zsil0wQenxKUxZ9//tX+iP27Tp++b+IWmCCHT7p8wyU=;
- b=AeLEJM+Sn1Mw6VAY3yNlDgDSNwK+cKfoy6O694Ot9DFz43n8VXCkqzZc
- pSt0DHtChAhxN4U2TPt/LQNlaPeDr8z/9XZgwXTQnNP4POtL78HYsARQj
- FwH1XJQFGUrRNOE6eR2eNV2Y8uQMmCpclJdl+mUXI3y6I0/bjYgwk+9p7
- 0KcmaEBEhlcaZfn3UBDsQdQLAgg9JH2afIqD3xSFM8dSGrDTOZgKUf5qf
- zIIpJJfHExU1qwTCUTpqqUrGGILGjc+/Msnudqa6FvOlnCRC/D0QR5Uq6
- J1oufawDSRaFWqvxZCycxRyvzgovaDyI9F/yboWXjGKYai0Goh5Ns/zV4 Q==;
-X-IronPort-AV: E=Sophos;i="5.99,278,1677538800"; d="scan'208";a="30924837"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 16 May 2023 09:19:52 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 16 May 2023 09:19:52 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 16 May 2023 09:19:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1684221592; x=1715757592;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Zsil0wQenxKUxZ9//tX+iP27Tp++b+IWmCCHT7p8wyU=;
- b=qV/rkGE550gu+xbyyVgsN4PabXQKbfoo8xRbrEe4jII9Yu373lrAUW0K
- Uc5Kkmy2VRDYkYkcFafDkb830wizqj76rRJB5dX404kYNHZdySDyECbl7
- F7TtneByTemXpnkWTMSEHkVIoSPcy4xHZAOv5SFUaOUCmFnFR5HSebMin
- ffQarsjmhV5HI0HjwyQuBrJlzVtnin6nwn8AFpAlhEJa4dLNHw2vINmHE
- PSd/n4sPl77ySdeTAOxvFcjoXaHMy1chunrrudvmeyNVALd1hNg0Pt9Sl
- nIQ/kQZwHiv1y29Kyrz4wpny6KO/yRl1+ATdXHan08hRjNhfiYnP45Cxs w==;
-X-IronPort-AV: E=Sophos;i="5.99,278,1677538800"; d="scan'208";a="30924836"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 16 May 2023 09:19:51 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7DAD2280056;
- Tue, 16 May 2023 09:19:51 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/bridge: tc358767: explicitly set readable registers
-Date: Tue, 16 May 2023 09:19:49 +0200
-Message-Id: <20230516071949.375264-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+ d=linaro.org; s=google; t=1684221668; x=1686813668;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=/9dx6R//z1RQpkhpsooU3dvEBQ61yF1rCpRuUAhlSyU=;
+ b=OzfiKpEokqMpwSBb7CcRlXceL550ISmoDpO+8RmxURTiv5fNOzmkePwHC+uZh11WhS
+ 2BBL7SWGz83UnXDL2NQ7iED7vbuU/1S8hynshCBG6L9zOGpMdjs3cNr2sFH55WU2HtJi
+ T7w5brtvR86e5HF2Qzu1PPgbCEklk8ymYSFenuC2WrFFy25qCnG/PxhVIMdUCNBfxE37
+ X1ZNbwSyB5yvWo1vwsRJXQzZl/ER++IA3jyWuVAV9Dnl2qKy3a9NX0FUEjZUo87ZT46l
+ v8Y+nlHqyY8M8EfwAQ19+n5xMJnuww/kHAneWwOYKBQ7DC4FpCeFrQjrNLe3WoMLBkqG
+ Y+yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684221668; x=1686813668;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/9dx6R//z1RQpkhpsooU3dvEBQ61yF1rCpRuUAhlSyU=;
+ b=b4VwjGsCwtu5Fi8ZUYL4Q1uw07fI7MI9/pCM32lUjHB+4E2LgdlI32DzR3X6OOoBZi
+ eAJcq8fZkYEz1s2d3aZcR3q5qBjXsmOQJshV9BrwiRW9vM3QwYY/yWgSul4Hej+6K677
+ Gt1BdIyMRpN4LU0+ZrqlwkmHzEQs005SNWIe/Vd4yx01apqYS+X+TuVONMjZuc+bwryp
+ UNsN2XBsLd22W93m2i2bqrBJQUHAVELyIIMRZMpTgQz0Ub6ICTwKhvrtAQnVVUaCZItW
+ ghQ1hpKTuqLTVwIjZSvlktO1EvCjryNj+oujSjVOtuwmXqEW6giD8vMBPgps/JNxTpsu
+ gDYw==
+X-Gm-Message-State: AC+VfDzytYW+8LxwHmn2RVxoWSMdORPh4kVJ4p3K6w8LQtdD6Y57aHYJ
+ XerLwjBLuxexh6+VbEAbxq9PnwcFuOkELRMFHQ1+mw==
+X-Google-Smtp-Source: ACHHUZ4Xc+eQioisYBeXVxVzJy8AIzGtt2Jh3W/8exKfh8FPHzNgTkPgHSxp1nFkXhvr/V+R1BvMcQ==
+X-Received: by 2002:a05:600c:2144:b0:3f4:2438:e201 with SMTP id
+ v4-20020a05600c214400b003f42438e201mr19423225wml.21.1684221667960; 
+ Tue, 16 May 2023 00:21:07 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:86be:97a:a043:77a8?
+ ([2a01:e0a:982:cbb0:86be:97a:a043:77a8])
+ by smtp.gmail.com with ESMTPSA id
+ l24-20020a1ced18000000b003f4290720cbsm1259658wmh.29.2023.05.16.00.21.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 May 2023 00:21:07 -0700 (PDT)
+Message-ID: <305382fd-2312-59d9-e2d3-25a17e0a2158@linaro.org>
+Date: Tue, 16 May 2023 09:21:06 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v6 3/8] drm/bridge: mhdp8546: Add minimal format
+ negotiation
+Content-Language: en-US
+To: Aradhya Bhatia <a-bhatia1@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Francesco Dolcini <francesco@dolcini.it>
+References: <20230509093036.3303-1-a-bhatia1@ti.com>
+ <20230509093036.3303-4-a-bhatia1@ti.com>
+ <db9b4117-b030-49a7-3732-2fc39d089ee2@ideasonboard.com>
+ <d2777edc-151d-7f06-30c4-4634fdb6a63d@ti.com>
+Organization: Linaro Developer Services
+In-Reply-To: <d2777edc-151d-7f06-30c4-4634fdb6a63d@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,228 +92,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This map was created from register map from datasheet (section 5.1.2).
-Unused registers are stated by address, so they show up in debugfs as well.
+On 15/05/2023 17:59, Aradhya Bhatia wrote:
+> Hi Tomi,
+> 
+> On 12-May-23 14:45, Tomi Valkeinen wrote:
+>> On 09/05/2023 12:30, Aradhya Bhatia wrote:
+>>> From: Nikhil Devshatwar <nikhil.nd@ti.com>
+>>>
+>>> With new connector model, mhdp bridge will not create the connector and
+>>> SoC driver will rely on format negotiation to setup the encoder format.
+>>>
+>>> Support minimal format negotiations hooks in the drm_bridge_funcs.
+>>> Complete format negotiation can be added based on EDID data.
+>>> This patch adds the minimal required support to avoid failure
+>>> after moving to new connector model.
+>>>
+>>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>
+>> You need to add your SoB to this and the other patches.
+> 
+> Okay!
+> 
+>>
+>>> ---
+>>>
+>>> Notes:
+>>>
+>>>       changes from v1:
+>>>       * cosmetic fixes, commit message update.
+>>>
+>>>       changes from v5:
+>>>       * dropped the default_bus_format variable and directly assigned
+>>>         MEDIA_BUS_FMT_RGB121212_1X36 to input_fmts.
+>>>
+>>>    .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
+>>>    1 file changed, 25 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> index f6822dfa3805..623e4235c94f 100644
+>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> @@ -2146,6 +2146,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge
+>>> *bridge)
+>>>        return &cdns_mhdp_state->base;
+>>>    }
+>>>    +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
+>>> +                     struct drm_bridge_state *bridge_state,
+>>> +                     struct drm_crtc_state *crtc_state,
+>>> +                     struct drm_connector_state *conn_state,
+>>> +                     u32 output_fmt,
+>>> +                     unsigned int *num_input_fmts)
+>>> +{
+>>> +    u32 *input_fmts;
+>>> +
+>>> +    *num_input_fmts = 0;
+>>> +
+>>> +    if (output_fmt != MEDIA_BUS_FMT_FIXED)
+>>> +        return NULL;
+>>
+>> The tfp410 and sii902x drivers don't have the above check. Why does mhdp
+>> need it? Or the other way, why don't tfp410 and sii902x need it?
+> 
+> I had removed this condition in order to follow status quo, from the
+> ITE-66121 HDMI bridge driver.
+> 
+> The idea would have been to drop this for MHDP as well, but I guess I
+> overlooked this one.
+> 
+> However...
+> 
+>> I guess at the moment we always do get MEDIA_BUS_FMT_FIXED as the out
+>> fmt (in all three bridge drivers), don't we?
+> 
+> ... I tested again to ensure that the above is indeed the case. And
+> ended up catching some odd behavior.
+> 
+> It turns out that for all the HDMI bridges (TFP410, SII902X, ITE-66121),
+> the format negotiation doesn't stop at output_fmt = MEDIA_BUS_FMT_FIXED.
+> The {bridge}_get_input_format API gets called again with the output_fmt
+> = MEDIA_BUS_FMT_RGB24_1X24.
+> 
+> This doesn't happen with the MHDP driver. Format negotiation with MHDP
+> bridge stops after one round, at output_fmt = MEDIA_BUS_FMT_FIXED.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-When dumping the registers in debugfs there are a lot of unused and/or
-undocumented addresses. Instead explicitly state each readable register.
+This is because the bridge negociation logic will test with all possible
+output formats from the chain, and won't stop at first working test.
 
- drivers/gpu/drm/bridge/tc358767.c | 195 +++++++++++++++++++++++++++++-
- 1 file changed, 194 insertions(+), 1 deletion(-)
+If your bridge only supports a single input format, it should return the
+same format whatever output_fmt is tried.
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 91f7cb56a654..954881ad5bdc 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1781,7 +1781,200 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
- 
- static bool tc_readable_reg(struct device *dev, unsigned int reg)
- {
--	return reg != SYSCTRL;
-+	switch (reg) {
-+	/* DSI D-PHY Layer */
-+	case 0x004:
-+	case 0x020:
-+	case 0x024:
-+	case 0x028:
-+	case 0x02c:
-+	case 0x030:
-+	case 0x038:
-+	case 0x040:
-+	case 0x044:
-+	case 0x048:
-+	case 0x04c:
-+	case 0x050:
-+	case 0x054:
-+	/* DSI PPI Layer */
-+	case PPI_STARTPPI:
-+	case 0x108:
-+	case 0x110:
-+	case PPI_LPTXTIMECNT:
-+	case PPI_LANEENABLE:
-+	case PPI_TX_RX_TA:
-+	case 0x140:
-+	case PPI_D0S_ATMR:
-+	case PPI_D1S_ATMR:
-+	case 0x14c:
-+	case 0x150:
-+	case PPI_D0S_CLRSIPOCOUNT:
-+	case PPI_D1S_CLRSIPOCOUNT:
-+	case PPI_D2S_CLRSIPOCOUNT:
-+	case PPI_D3S_CLRSIPOCOUNT:
-+	case 0x180:
-+	case 0x184:
-+	case 0x188:
-+	case 0x18c:
-+	case 0x190:
-+	case 0x1a0:
-+	case 0x1a4:
-+	case 0x1a8:
-+	case 0x1ac:
-+	case 0x1b0:
-+	case 0x1c0:
-+	case 0x1c4:
-+	case 0x1c8:
-+	case 0x1cc:
-+	case 0x1d0:
-+	case 0x1e0:
-+	case 0x1e4:
-+	case 0x1f0:
-+	case 0x1f4:
-+	/* DSI Protocol Layer */
-+	case DSI_STARTDSI:
-+	case 0x208:
-+	case DSI_LANEENABLE:
-+	case 0x214:
-+	case 0x218:
-+	case 0x220:
-+	case 0x224:
-+	case 0x228:
-+	case 0x230:
-+	/* DSI General */
-+	case 0x300:
-+	/* DSI Application Layer */
-+	case 0x400:
-+	case 0x404:
-+	/* DPI */
-+	case DPIPXLFMT:
-+	/* Parallel Output */
-+	case POCTRL:
-+	/* Video Path0 Configuration */
-+	case VPCTRL0:
-+	case HTIM01:
-+	case HTIM02:
-+	case VTIM01:
-+	case VTIM02:
-+	case VFUEN0:
-+	/* System */
-+	case TC_IDREG:
-+	case 0x504:
-+	case SYSSTAT:
-+	case SYSRSTENB:
-+	case SYSCTRL:
-+	/* I2C */
-+	case 0x520:
-+	/* GPIO */
-+	case GPIOM:
-+	case GPIOC:
-+	case GPIOO:
-+	case GPIOI:
-+	/* Interrupt */
-+	case INTCTL_G:
-+	case INTSTS_G:
-+	case 0x570:
-+	case 0x574:
-+	case INT_GP0_LCNT:
-+	case INT_GP1_LCNT:
-+	/* DisplayPort Control */
-+	case DP0CTL:
-+	/* DisplayPort Clock */
-+	case DP0_VIDMNGEN0:
-+	case DP0_VIDMNGEN1:
-+	case DP0_VMNGENSTATUS:
-+	case 0x628:
-+	case 0x62c:
-+	case 0x630:
-+	/* DisplayPort Main Channel */
-+	case DP0_SECSAMPLE:
-+	case DP0_VIDSYNCDELAY:
-+	case DP0_TOTALVAL:
-+	case DP0_STARTVAL:
-+	case DP0_ACTIVEVAL:
-+	case DP0_SYNCVAL:
-+	case DP0_MISC:
-+	/* DisplayPort Aux Channel */
-+	case DP0_AUXCFG0:
-+	case DP0_AUXCFG1:
-+	case DP0_AUXADDR:
-+	case 0x66c:
-+	case 0x670:
-+	case 0x674:
-+	case 0x678:
-+	case 0x67c:
-+	case 0x680:
-+	case 0x684:
-+	case 0x688:
-+	case DP0_AUXSTATUS:
-+	case DP0_AUXI2CADR:
-+	/* DisplayPort Link Training */
-+	case DP0_SRCCTRL:
-+	case DP0_LTSTAT:
-+	case DP0_SNKLTCHGREQ:
-+	case DP0_LTLOOPCTRL:
-+	case DP0_SNKLTCTRL:
-+	case 0x6e8:
-+	case 0x6ec:
-+	case 0x6f0:
-+	case 0x6f4:
-+	/* DisplayPort Audio */
-+	case 0x700:
-+	case 0x704:
-+	case 0x708:
-+	case 0x70c:
-+	case 0x710:
-+	case 0x714:
-+	case 0x718:
-+	case 0x71c:
-+	case 0x720:
-+	/* DisplayPort Source Control */
-+	case DP1_SRCCTRL:
-+	/* DisplayPort PHY */
-+	case DP_PHY_CTRL:
-+	case 0x810:
-+	case 0x814:
-+	case 0x820:
-+	case 0x840:
-+	/* I2S */
-+	case 0x880:
-+	case 0x888:
-+	case 0x88c:
-+	case 0x890:
-+	case 0x894:
-+	case 0x898:
-+	case 0x89c:
-+	case 0x8a0:
-+	case 0x8a4:
-+	case 0x8a8:
-+	case 0x8ac:
-+	case 0x8b0:
-+	case 0x8b4:
-+	/* PLL */
-+	case DP0_PLLCTRL:
-+	case DP1_PLLCTRL:
-+	case PXL_PLLCTRL:
-+	case PXL_PLLPARAM:
-+	case SYS_PLLPARAM:
-+	/* HDCP */
-+	case 0x980:
-+	case 0x984:
-+	case 0x988:
-+	case 0x98c:
-+	case 0x990:
-+	case 0x994:
-+	case 0x998:
-+	case 0x99c:
-+	case 0x9a0:
-+	case 0x9a4:
-+	case 0x9a8:
-+	case 0x9ac:
-+	/* Debug */
-+	case TSTCTL:
-+	case PLL_DBG:
-+		return true;
-+	}
-+	return false;
- }
- 
- static const struct regmap_range tc_volatile_ranges[] = {
--- 
-2.34.1
+So indeed remove this test on mhdp aswell, or filter out invalid output
+formats.
+
+The MEDIA_BUS_FMT_FIXED is when there's no output format to test, so this
+should be always supported.
+
+Neil
+
+> 
+> 
+> Regards
+> Aradhya
 
