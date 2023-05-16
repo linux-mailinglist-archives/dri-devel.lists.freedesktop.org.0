@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C800704947
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:30:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC02704949
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A0710E32D;
-	Tue, 16 May 2023 09:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3418910E330;
+	Tue, 16 May 2023 09:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B199610E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEFF10E32D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E1D13626E2;
- Tue, 16 May 2023 09:30:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725D7C433D2;
- Tue, 16 May 2023 09:30:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 19F0661943
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7C33C4339B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684229436;
- bh=cXssXXGrkb0oa3mOitMui8K4dCsNk80VYpdcoF3gJqw=;
- h=From:To:Cc:Subject:Date:From;
- b=r4PEhXEGhzD2iJQKJ9gKkY87OSszrsR/lTvdx3jVwJNrTQQt5Pf6oJL5Uiiztf8au
- eFuHD5h3pGwDwTD3PCHSD8uZiakF/912mj7KvwgcCgzaKFz876kLL4ixVkHyHtLAsc
- 9axCPq3sph/qNHuQzq2t6vRUEAMF3kuKbI/OsuR1Mp8GKdM9/D9SHOBpQHcjjD1Evh
- //VhDdfsbMufzqliMltp7z0ZSQWaTJlh4+GTdZubyIEu/L3YVoLwpM/S2L/PaefgO7
- 4D5RiYK8xLC4I8BCg6OaDHq4pCa3cYocZ7OqRKRJUDJNsHK7B6xDOwbJ172KCMLH7Z
- rDc83jin3lpJQ==
+ s=k20201202; t=1684229437;
+ bh=lO/xF8qPB7bRjrjMk1aaJ+uyYYfDgmdYOiT4Tp6boq4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=cqhLIdGyG1ebNgOKSBbdySE/phggHgCg08+JMZUt0Aos3KlLQFa5OzfbJgATJi4Oa
+ 6wOqppBzUVYfa6GGvotQq5AeaFXbgPqr4nK3Lx23z8M2q5GX0ytb9hIC2D4FGz1xNE
+ HojWtzPR7tgMwjf5Owiy3qM+Q6P1LUAiytyXCWJfGJ8Y6xIGuWZ7pbQq/x6sKLsDgT
+ XswxYEftvPG2A1umZOSZUuIx4sI1+CX7tYIcz/T80HAPkECwPGieHVPtrPmQaqpDxv
+ lLS6Gx4kg+gYeS9d6nDmQVbgF60JFnNXX4hCCKzVc4Fh8p/X+zT/HMJmneRH3Jr97T
+ VTzaWlCZcj3ig==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/12] accel/habanalabs: rename security functions related
- arguments
-Date: Tue, 16 May 2023 12:30:19 +0300
-Message-Id: <20230516093030.1220526-1-ogabbay@kernel.org>
+Subject: [PATCH 02/12] accel/habanalabs: set unused bit as reserved
+Date: Tue, 16 May 2023 12:30:20 +0300
+Message-Id: <20230516093030.1220526-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230516093030.1220526-1-ogabbay@kernel.org>
+References: <20230516093030.1220526-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,177 +51,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Koby Elbaz <kelbaz@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Koby Elbaz <kelbaz@habana.ai>
+Get latest f/w gaudi2 interface file which marks unused
+bist_need_iatu_config bit in cold_rst_data structure as reserved bit.
 
-Make the argument names specify the registers array represent
-registers that should be unsecured so the user can access them.
-
-Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/security.c | 57 +++++++++++-----------
- 1 file changed, 29 insertions(+), 28 deletions(-)
+ drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/common/security.c b/drivers/accel/habanalabs/common/security.c
-index dc23ff57c91a..fe913965dbad 100644
---- a/drivers/accel/habanalabs/common/security.c
-+++ b/drivers/accel/habanalabs/common/security.c
-@@ -284,14 +284,14 @@ void hl_secure_block(struct hl_device *hdev,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @regs_array: register array
-- * @regs_array_size: register array size
-+ * @user_regs_array: unsecured register array
-+ * @user_regs_array_size: unsecured register array size
-  * @mask: enabled instances mask: 1- enabled, 0- disabled
-  */
- int hl_init_pb_with_mask(struct hl_device *hdev, u32 num_dcores,
- 		u32 dcore_offset, u32 num_instances, u32 instance_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size,
--		const u32 *regs_array, u32 regs_array_size, u64 mask)
-+		const u32 *user_regs_array, u32 user_regs_array_size, u64 mask)
- {
- 	int i, j;
- 	struct hl_block_glbl_sec *glbl_sec;
-@@ -303,8 +303,8 @@ int hl_init_pb_with_mask(struct hl_device *hdev, u32 num_dcores,
- 		return -ENOMEM;
- 
- 	hl_secure_block(hdev, glbl_sec, blocks_array_size);
--	hl_unsecure_registers(hdev, regs_array, regs_array_size, 0, pb_blocks,
--			glbl_sec, blocks_array_size);
-+	hl_unsecure_registers(hdev, user_regs_array, user_regs_array_size, 0,
-+			pb_blocks, glbl_sec, blocks_array_size);
- 
- 	/* Fill all blocks with the same configuration */
- 	for (i = 0 ; i < num_dcores ; i++) {
-@@ -336,19 +336,19 @@ int hl_init_pb_with_mask(struct hl_device *hdev, u32 num_dcores,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @regs_array: register array
-- * @regs_array_size: register array size
-+ * @user_regs_array: unsecured register array
-+ * @user_regs_array_size: unsecured register array size
-  *
-  */
- int hl_init_pb(struct hl_device *hdev, u32 num_dcores, u32 dcore_offset,
- 		u32 num_instances, u32 instance_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size,
--		const u32 *regs_array, u32 regs_array_size)
-+		const u32 *user_regs_array, u32 user_regs_array_size)
- {
- 	return hl_init_pb_with_mask(hdev, num_dcores, dcore_offset,
- 			num_instances, instance_offset, pb_blocks,
--			blocks_array_size, regs_array, regs_array_size,
--			ULLONG_MAX);
-+			blocks_array_size, user_regs_array,
-+			user_regs_array_size, ULLONG_MAX);
- }
- 
- /**
-@@ -364,15 +364,15 @@ int hl_init_pb(struct hl_device *hdev, u32 num_dcores, u32 dcore_offset,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @regs_range_array: register range array
-- * @regs_range_array_size: register range array size
-+ * @user_regs_range_array: unsecured register range array
-+ * @user_regs_range_array_size: unsecured register range array size
-  * @mask: enabled instances mask: 1- enabled, 0- disabled
-  */
- int hl_init_pb_ranges_with_mask(struct hl_device *hdev, u32 num_dcores,
- 		u32 dcore_offset, u32 num_instances, u32 instance_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size,
--		const struct range *regs_range_array, u32 regs_range_array_size,
--		u64 mask)
-+		const struct range *user_regs_range_array,
-+		u32 user_regs_range_array_size, u64 mask)
- {
- 	int i, j, rc = 0;
- 	struct hl_block_glbl_sec *glbl_sec;
-@@ -384,8 +384,8 @@ int hl_init_pb_ranges_with_mask(struct hl_device *hdev, u32 num_dcores,
- 		return -ENOMEM;
- 
- 	hl_secure_block(hdev, glbl_sec, blocks_array_size);
--	rc = hl_unsecure_registers_range(hdev, regs_range_array,
--			regs_range_array_size, 0, pb_blocks, glbl_sec,
-+	rc = hl_unsecure_registers_range(hdev, user_regs_range_array,
-+			user_regs_range_array_size, 0, pb_blocks, glbl_sec,
- 			blocks_array_size);
- 	if (rc)
- 		goto free_glbl_sec;
-@@ -422,19 +422,20 @@ int hl_init_pb_ranges_with_mask(struct hl_device *hdev, u32 num_dcores,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @regs_range_array: register range array
-- * @regs_range_array_size: register range array size
-+ * @user_regs_range_array: unsecured register range array
-+ * @user_regs_range_array_size: unsecured register range array size
-  *
-  */
- int hl_init_pb_ranges(struct hl_device *hdev, u32 num_dcores,
- 		u32 dcore_offset, u32 num_instances, u32 instance_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size,
--		const struct range *regs_range_array, u32 regs_range_array_size)
-+		const struct range *user_regs_range_array,
-+		u32 user_regs_range_array_size)
- {
- 	return hl_init_pb_ranges_with_mask(hdev, num_dcores, dcore_offset,
- 			num_instances, instance_offset, pb_blocks,
--			blocks_array_size, regs_range_array,
--			regs_range_array_size, ULLONG_MAX);
-+			blocks_array_size, user_regs_range_array,
-+			user_regs_range_array_size, ULLONG_MAX);
- }
- 
- /**
-@@ -447,14 +448,14 @@ int hl_init_pb_ranges(struct hl_device *hdev, u32 num_dcores,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @regs_array: register array
-- * @regs_array_size: register array size
-+ * @user_regs_array: unsecured register array
-+ * @user_regs_array_size: unsecured register array size
-  *
-  */
- int hl_init_pb_single_dcore(struct hl_device *hdev, u32 dcore_offset,
- 		u32 num_instances, u32 instance_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size,
--		const u32 *regs_array, u32 regs_array_size)
-+		const u32 *user_regs_array, u32 user_regs_array_size)
- {
- 	int i, rc = 0;
- 	struct hl_block_glbl_sec *glbl_sec;
-@@ -466,8 +467,8 @@ int hl_init_pb_single_dcore(struct hl_device *hdev, u32 dcore_offset,
- 		return -ENOMEM;
- 
- 	hl_secure_block(hdev, glbl_sec, blocks_array_size);
--	rc = hl_unsecure_registers(hdev, regs_array, regs_array_size, 0,
--			pb_blocks, glbl_sec, blocks_array_size);
-+	rc = hl_unsecure_registers(hdev, user_regs_array, user_regs_array_size,
-+			0, pb_blocks, glbl_sec, blocks_array_size);
- 	if (rc)
- 		goto free_glbl_sec;
- 
-@@ -495,8 +496,8 @@ int hl_init_pb_single_dcore(struct hl_device *hdev, u32 dcore_offset,
-  * @instance_offset: offset between instances
-  * @pb_blocks: blocks array
-  * @blocks_array_size: blocks array size
-- * @user_regs_range_array: register range array
-- * @user_regs_range_array_size: register range array size
-+ * @user_regs_range_array: unsecured register range array
-+ * @user_regs_range_array_size: unsecured register range array size
-  *
-  */
- int hl_init_pb_ranges_single_dcore(struct hl_device *hdev, u32 dcore_offset,
+diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
+index 8522f24deac0..18ca147b1c86 100644
+--- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
++++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
+@@ -62,7 +62,7 @@ struct gaudi2_cold_rst_data {
+ 			u32 fake_security_enable : 1;
+ 			u32 fake_sig_validation_en : 1;
+ 			u32 bist_skip_enable : 1;
+-			u32 bist_need_iatu_config : 1;
++			u32 reserved1 : 1;
+ 			u32 fake_bis_compliant : 1;
+ 			u32 wd_rst_cause_arm : 1;
+ 			u32 wd_rst_cause_arcpid : 1;
 -- 
 2.40.1
 
