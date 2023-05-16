@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE9E705ABF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 00:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3B7705AC6
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 00:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE2810E379;
-	Tue, 16 May 2023 22:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB45B10E37D;
+	Tue, 16 May 2023 22:49:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01AB210E379
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 22:46:06 +0000 (UTC)
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52EE10E06E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 22:49:30 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id DA7BB202E3;
- Wed, 17 May 2023 00:46:01 +0200 (CEST)
-Date: Wed, 17 May 2023 00:45:59 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id DFB30202F5;
+ Wed, 17 May 2023 00:49:28 +0200 (CEST)
+Date: Wed, 17 May 2023 00:49:27 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [Freedreno] [PATCH v10 8/8] drm/msm/dsi: update hdisplay
- calculation for dsi_timing_setup
-Message-ID: <45htnhfupwmiiuxy53osahrd6lpaz4my2apbqhxw6uuwlq5vxl@qhvf6guwk3np>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v10 4/8] drm/msm: Add MSM-specific DSC helper methods
+Message-ID: <v4qix3bdxj3ykmjsokzrtubozdqh2fnh4mevpiz6v2y63csjb7@hddxgbi4yjgn>
 References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v10-8-4cb21168c227@quicinc.com>
- <5jqvxyy7ixfpwzepgseqwwz5elyn2qhxa4qdwhxcw7xbkvle4l@rijv4uq5wsb7>
- <43a07bc1-d758-242a-7017-f566daadc35c@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v10-4-4cb21168c227@quicinc.com>
+ <kx3be4c2okye2ts4rzy4j4ltnveixf7v4rxp5v4tl2irvevg6t@c5tuelunmn4c>
+ <0e8a8af5-5ab8-c1b9-e08d-909072cc9b76@quicinc.com>
+ <4cbqbu47vcshskl4npyzos5r7gxipjbbzyfvdfx7fenfh4mzmx@jj6lrysp35du>
+ <a5a56711-3607-407c-aa8f-aed39a41fb73@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <43a07bc1-d758-242a-7017-f566daadc35c@quicinc.com>
+In-Reply-To: <a5a56711-3607-407c-aa8f-aed39a41fb73@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,53 +46,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-16 11:18:17, Jessica Zhang wrote:
-> On 5/14/2023 2:29 PM, Marijn Suijten wrote:
-> > On 2023-05-12 14:32:18, Jessica Zhang wrote:
+On 2023-05-16 01:07:05, Dmitry Baryshkov wrote:
+> 
+> On 16/05/2023 01:01, Marijn Suijten wrote:
+> > On 2023-05-15 13:29:21, Jessica Zhang wrote:
+> > <snip>
+> >>> Const, as requested elsewhere.  But this function is not used anywhere
+> >>> in any of the series (because we replaced the usages with more sensible
+> >>> member accesses like slice_chunk_size).
 > >>
-> >> hdisplay for compressed images should be calculated as bytes_per_slice *
-> >> slice_count. Thus, use MSM DSC helper to calculate hdisplay for
-> >> dsi_timing_setup instead of directly using mode->hdisplay.
+> >> Acked.
+> >>
+> >> I would prefer to keep this helper so that we have a way to easily get
+> >> BPP information from the DRM DSC config in the future, but if you'd
+> >> prefer we add this helper then, I'm also ok with that.
 > > 
-> > As mentioned in review on an earlier revision, is there any sort of
-> > clarification you can provide here to explain the cases where
-> > hdisplay!=bytes_per_line?  That goes a long way towards justifying this
-> > change.  Thanks!
+> > The inverse helper is available ad DSC_BPP in drm_dsc_helper.c.  Perhaps
+> > we can move the two variants to the header and define them uniformly?
+> > This isn't MSM-specific it seems (i.e. the format supports fractional
+> > bpp but no RC parameters appear to be defined for such a format yet).
 > 
-> Hi Marijn,
-> 
-> Sorry for not responding to this in the earlier revision, I think I 
-> missed the original comment.
-> 
-> Please correct me if I'm wrong, but I'm guessing the question here is 
-> why we can't keep the hdisplay adjustment as `hdisplay /= 3` and have to 
-> go out of our way to recalculate hdisplay before doing the `/ 3`.
-> 
-> This is because the original adjustment only works for BPP = 8. By using 
-> the msm_dsc_get_bytes_per_line() here, we can generalize this adjustment 
-> to work for cases where BPP != 8.
+> I think DSC_BPP was removed (around v2 or v3 if I read changelog correctly).
 
-I am fully aware that the original computation only works for BPP=8 and
-even mentioned so in v7 review [1].  The question / request is instead
-to include such context in your commit message, rather than the
-nondescriptive "should be calculated as" -> who says that and why?
-Stating that the current approach was only working for BPP=8 (hence why
-currently tested panels are working fine) but that this isn't a
-long-term solution if we starts upporting other BPP is a proper
-justification to make this change.
+Seems like it was removed at some point indeed, and now the helper file
+picked up an identically named DSC_BPP macro but with the inverse
+implementation :) - at least it's a *.c file.
 
-[1]: https://lore.kernel.org/linux-arm-msm/ju7647tlogo25fnhswgp7zn67syvsjy2ldjugvygh3z4rxtdrx@kb76evjvulgw/
+Perhaps we can make it more consistent by defining both ways with
+concise macros in a header.
 
-> Thanks,
+> As for the fraction-point BPP, I think AMD supports .5 bpp granularity, 
+> see drivers/gpu/drm/amd/display/dc/dml/dsc/qp_tables.h
 
-Thanks for looking into improving this!
+That won't use the helper then.
+
+> With best wishes
+> Dmitry
 
 - Marijn
