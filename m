@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B63A70467B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86544704707
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C071010E315;
-	Tue, 16 May 2023 07:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C66E897F0;
+	Tue, 16 May 2023 07:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD1110E315
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:33:36 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f475366522so44378155e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684222414; x=1686814414;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=P1CBJQZk3nGmqnh1NX99wMR8/HbaWCbVhluByi1E/gg=;
- b=pMUTGbpAVkJpZjmzKAwmaGe0oxW+idx19mZBzGO8T7sASsXGOoszO7B9g24JwqctTg
- Q/C+mLYjgX3HmsYGFYXv66qaTGxhfovd9fZKGXUOPhO+IyF+waGh7wERbv8FSpqwaqJU
- WWjwvSn3twE+l36M2A4x1HzAlDIdjL0KN/y6tlO6t3bjFSz4Mg8fSQj9X4N9DvvmC2/7
- M4/qpi4jxvX6ZlqfoO4H4+vJMy6k/rFKxVi6ttQaUWU9wTrA9d274OuHjDoup0SaudzR
- hfJCJHNPZXqnhxDujYeFK6LY6JtevZ6s8jqmq6jJ9XHw3UbTFE1KU/movbkrq65O8Bpb
- 5s3w==
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADEF810E194
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:53:21 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-759200f12baso472315485a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:53:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684222414; x=1686814414;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=P1CBJQZk3nGmqnh1NX99wMR8/HbaWCbVhluByi1E/gg=;
- b=SispjG8Jqu1f1Uo7cI9w5W4MQJy2qVfTDWdxZ7pZsht9KGdSLsoJ/+nZXCuv+XW4vh
- UlwqFZDRCiONIgQrdDO0KPsMTTgyN1u3Ul15ybXtf4G3sgEyBQuFDxqfzRBEe9rrK3e6
- J3YxZOiEl7YLf7e0R1rB5l8NMh7YK1RsKn/6JmdJ/2pB7hQtILaa7nWMiQejr6LxLITn
- mVB57/moUvty0IiUHLMgtJe2MMNq8cXabCrHu97T3UgJtXe2CIYqcYNxB8lMvttfpKCT
- E0fFYIKZl3cLyXNlA2DaY2BlIxzPlFNptacuvWwO41YSyfvgNC6LLHbxebKdSzQYX2Ij
- qAgw==
-X-Gm-Message-State: AC+VfDwV7FL9JqsblZ1Ss8PNSObstxRuQoiKtnimRlpy3CYbjShi0eVn
- nrdwR5LUDWOCdXXoMvVz+Wu7ug==
-X-Google-Smtp-Source: ACHHUZ6GJ0ORKzdRChRfD5ma+PIzXWFlPMPfAWorlFKHdguQ2khCw+kSy3PYMaaIMfb1ppTLM1mlkg==
-X-Received: by 2002:a1c:7703:0:b0:3f4:2c8f:d2d3 with SMTP id
- t3-20020a1c7703000000b003f42c8fd2d3mr15548980wmi.20.1684222414539; 
- Tue, 16 May 2023 00:33:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:86be:97a:a043:77a8?
- ([2a01:e0a:982:cbb0:86be:97a:a043:77a8])
- by smtp.gmail.com with ESMTPSA id
- c6-20020a7bc846000000b003f3157988f8sm1305903wml.26.2023.05.16.00.33.33
+ d=1e100.net; s=20221208; t=1684223600; x=1686815600;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f07seKr4m5/OlhMAPO3dIAn75k2cEFtJb88wHoo4wJk=;
+ b=SgStBw5pcbH5zgKDj9HO1K3iHpjW5Os/Of1+YPCgNhxYDwPysLJvwPK9/SkOniVk4S
+ s1SkJ/gTRz7N+pp5fzjlNd/7Owz361GviAGi7VWZAsGJvkEBKWEVR3pJ5Glf9qSYxRii
+ 7UPF/Zfl/g7V0GvPvDZiCAWltSqK9u6o6M0whOpq+uj6qFRLq7DeXYaXE1rUGydDzePp
+ vG5s7GZIVeJmAb7fK+GCwAbztBJbXICzYKuSHSuSXnR1A9aghSj5xpY4rijz9Ot8vNZK
+ IJcojlNEZ1GnPt//o3BjAmEUZrm/tsI0SzTdKAS+xMMOmKBfa3S5tHcAvom3btFDSh04
+ 1ygA==
+X-Gm-Message-State: AC+VfDwgU+cwXBkAwROgoNsUhPmR4gZW212o4YiSjxAfXMQr5Rm6fmNb
+ 9HRY64Muazd95PSMHlQ1KfjumUfQ+XO1hw==
+X-Google-Smtp-Source: ACHHUZ6UDfpRhsANbQhORSONC+DebVldcv0yF2O58OT/sB1VhJvkYhUN3xzPTn/Y5Q2nSK9CwxFlpQ==
+X-Received: by 2002:a05:6214:1243:b0:5c5:1a25:edf0 with SMTP id
+ r3-20020a056214124300b005c51a25edf0mr61731212qvv.26.1684223599818; 
+ Tue, 16 May 2023 00:53:19 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
+ [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
+ ow7-20020a05620a820700b0074ced3e0004sm432802qkn.63.2023.05.16.00.53.19
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 00:33:34 -0700 (PDT)
-Message-ID: <e819f7c7-5023-ce9b-3787-1fb152745f0e@linaro.org>
-Date: Tue, 16 May 2023 09:33:33 +0200
+ Tue, 16 May 2023 00:53:19 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-3f52d303bcdso19391631cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:53:19 -0700 (PDT)
+X-Received: by 2002:a0d:df45:0:b0:55a:671b:4685 with SMTP id
+ i66-20020a0ddf45000000b0055a671b4685mr32388112ywe.46.1684223280201; Tue, 16
+ May 2023 00:48:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 2/2] drm/bridge: ti-sn65dsi83: Fix enable/disable flow
- to meet spec
-Content-Language: en-US
-To: Frieder Schrempf <frieder@fris.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Robert Foss <rfoss@kernel.org>
-References: <20230503163313.2640898-1-frieder@fris.de>
- <20230503163313.2640898-3-frieder@fris.de>
-Organization: Linaro Developer Services
-In-Reply-To: <20230503163313.2640898-3-frieder@fris.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
+ <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 16 May 2023 09:47:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
+Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,101 +70,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ dri-devel@lists.freedesktop.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-renesas-soc@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>,
+ Lee Jones <lee@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/05/2023 18:33, Frieder Schrempf wrote:
-> From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> 
-> The datasheet describes the following initialization flow including
-> minimum delay times between each step:
-> 
-> 1. DSI data lanes need to be in LP-11 and the clock lane in HS mode
-> 2. toggle EN signal
-> 3. initialize registers
-> 4. enable PLL
-> 5. soft reset
-> 6. enable DSI stream
-> 7. check error status register
-> 
-> To meet this requirement we need to make sure the host bridge's
-> pre_enable() is called first by using the pre_enable_prev_first
-> flag.
-> 
-> Furthermore we need to split enable() into pre_enable() which covers
-> steps 2-5 from above and enable() which covers step 7 and is called
-> after the host bridge's enable().
-> 
-> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> ---
-> Changes for v2:
-> * Drop RFC
-> ---
->   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 ++++++++++++++++---
->   1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 75286c9afbb9..a82f10b8109f 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -321,8 +321,8 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
->   	return dsi_div - 1;
->   }
->   
-> -static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-> -				    struct drm_bridge_state *old_bridge_state)
-> +static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
-> +					struct drm_bridge_state *old_bridge_state)
->   {
->   	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
->   	struct drm_atomic_state *state = old_bridge_state->base.state;
-> @@ -484,11 +484,22 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->   	/* Trigger reset after CSR register update. */
->   	regmap_write(ctx->regmap, REG_RC_RESET, REG_RC_RESET_SOFT_RESET);
->   
-> +	/* Wait for 10ms after soft reset as specified in datasheet */
-> +	usleep_range(10000, 12000);
-> +}
-> +
-> +static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-> +				    struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-> +	unsigned int pval;
-> +
->   	/* Clear all errors that got asserted during initialization. */
->   	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->   	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
->   
-> -	usleep_range(10000, 12000);
-> +	/* Wait for 1ms and check for errors in status register */
-> +	usleep_range(1000, 1100);
->   	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->   	if (pval)
->   		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> @@ -555,6 +566,7 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
->   	.attach			= sn65dsi83_attach,
->   	.detach			= sn65dsi83_detach,
->   	.atomic_enable		= sn65dsi83_atomic_enable,
-> +	.atomic_pre_enable	= sn65dsi83_atomic_pre_enable,
->   	.atomic_disable		= sn65dsi83_atomic_disable,
->   	.mode_valid		= sn65dsi83_mode_valid,
->   
-> @@ -697,6 +709,7 @@ static int sn65dsi83_probe(struct i2c_client *client)
->   
->   	ctx->bridge.funcs = &sn65dsi83_funcs;
->   	ctx->bridge.of_node = dev->of_node;
-> +	ctx->bridge.pre_enable_prev_first = true;
->   	drm_bridge_add(&ctx->bridge);
->   
->   	ret = sn65dsi83_host_attach(ctx);
+Hi Biju,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Sat, May 13, 2023 at 6:52=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+> device and another for rtc device.
+>
+> Enhance i2c_new_ancillary_device() to instantiate a real device.
+> (eg: Instantiate rtc device from PMIC driver)
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3:
+>  * New patch
+
+Thanks for your patch!
+
+Looks correct to me, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Some suggestions for improvement below...
+
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct=
+ i2c_client *client,
+>         }
+>
+>         dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, a=
+ddr);
+> -       return i2c_new_dummy_device(client->adapter, addr);
+> +
+> +       if (aux_device_name) {
+> +               struct i2c_board_info info;
+> +               size_t aux_device_name_len =3D strlen(aux_device_name);
+> +
+> +               if (aux_device_name_len > I2C_NAME_SIZE - 1) {
+> +                       dev_err(&client->adapter->dev, "Invalid device na=
+me\n");
+> +                       return ERR_PTR(-EINVAL);
+> +               }
+
+strscpy() return value?
+
+> +
+> +               memset(&info, 0, sizeof(struct i2c_board_info));
+
+The call to memset() would not be needed if info would be initialized
+at declaration time, i.e.
+
+    struct i2c_board_info info =3D { .addr =3D addr };
+
+Or, use I2C_BOARD_INFO(), to guarantee initialization is aligned
+with whatever future changes made to i2c_board_info? But that relies
+on providing the name at declaration time, which we already have in
+i2c_new_dummy_device().
+
+So I suggest to add a name parameter to i2c_new_dummy_device(),
+rename it to __i2c_new_dummy_device(), and create a wrapper for
+compatibility with existing users:
+
+    struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter
+*adapter, u16 address,
+                                             const char *name)
+    {
+            struct i2c_board_info info =3D {
+                    I2C_BOARD_INFO("dummy", address),
+            };
+
+            if (name) {
+                    ssize_ret =3D strscpy(info.type, name, sizeof(info.type=
+));
+
+                    if (ret < 0)
+                            return ERR_PTR(dev_err_probe(&client->adapter->=
+dev,
+                                           ret, "Invalid device name\n");
+            }
+
+            return i2c_new_client_device(adapter, &info);
+    }
+
+> +
+> +               memcpy(info.type, aux_device_name, aux_device_name_len);
+> +               info.addr =3D addr;
+> +
+> +               i2c_aux_client =3D i2c_new_client_device(client->adapter,=
+ &info);
+> +       } else {
+> +               i2c_aux_client =3D i2c_new_dummy_device(client->adapter, =
+addr);
+> +       }
+> +
+> +       return i2c_aux_client;
+>  }
+>  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
