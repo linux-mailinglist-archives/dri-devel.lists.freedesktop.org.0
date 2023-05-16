@@ -2,81 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40143704615
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BAB704630
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012DE10E2F8;
-	Tue, 16 May 2023 07:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E53910E2F9;
+	Tue, 16 May 2023 07:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F45610E2F8
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:16:14 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f42711865eso62216905e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:16:14 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A940410E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684221371; x=1686813371;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=oiBlv5aXhyE1YrAkeylL1umyw4Re1O8pIBJgTabc1FQ=;
- b=RbJEbnh1z/xaER3RNUgf5EOZSOC80EEKBoUosRbeqy1rFudkKmVyHLaAVDOa2P6d5y
- ZqJGkrbz2RiezmpZ/BwBMtj3wNNKYReGLRfghwy+QDxWtOE89Tz2oFFEixsgt44LhGEi
- pyEPMh8brRRXj0yC2KDo1Rf9EpBUb7D8CHOxPY1lxlCSCaNfOlrPJVv6ijXvfGWJyyW5
- hbf+2U9/XPVPZ+k/074/0ZmE2x6BgTPwxbU/+4jLpatsvlclPa1dQkYM3kGghrz4MCg2
- j+2rObxkblkWZq72m9uOJ1BGeTjXKk7Dbzh9a4H8umoQGcETd/fqfneuyhg0v/6MARm0
- c6VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684221371; x=1686813371;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oiBlv5aXhyE1YrAkeylL1umyw4Re1O8pIBJgTabc1FQ=;
- b=k9qBVVzyYyWETDW+Fi8nTWV0ajEUS42sX/By3J1H6D9ZggGNuGFzqzaGGsXd1Q9G7U
- 6m6jKp06M8V2j8RTx2rYPgWMYGkucGH768An8FkIjuDuLtTPDACIZME0v/9noXRO5Juf
- gZloPmEY0zQ5iyEau5cwvVz8e9gIF9KtMH2cVNhqh1+VVm6NmPms/gVzLpvHtFUu8UDa
- Vjo9lmCKH332LgY0cB0gLdtV+yGxd5FPgL4of7RRnqSWCINPZC79GWE+fYkFvZZNr4Sd
- /divWJGMUV/jwmdOCTDv5s0jKhqIN+8ezerLFSEG4R/zLh+lWZNU+/cR+Xos+xKRbyLY
- p9oQ==
-X-Gm-Message-State: AC+VfDyIJ24DfDhZuZTAGEHo/fhiqE4Pur4HI78Qub3/t44X4I06ebA+
- cje5at5xI8YRaouNeM6cIfl3Ag==
-X-Google-Smtp-Source: ACHHUZ6AXpYudBAFRiEXH4ZUFOhCaeBWcGirPae8q4ocfNIe/vPMVrz3fxWrayC5kbNtb738ZEXg7w==
-X-Received: by 2002:a05:600c:2101:b0:3f4:2174:b28f with SMTP id
- u1-20020a05600c210100b003f42174b28fmr21031622wml.2.1684221371369; 
- Tue, 16 May 2023 00:16:11 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:86be:97a:a043:77a8?
- ([2a01:e0a:982:cbb0:86be:97a:a043:77a8])
- by smtp.gmail.com with ESMTPSA id
- g2-20020a056000118200b003079ed1f0a0sm1526408wrx.44.2023.05.16.00.16.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 00:16:10 -0700 (PDT)
-Message-ID: <fa513824-17cb-cf88-fd9b-0fc4e14da03d@linaro.org>
-Date: Tue, 16 May 2023 09:16:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v6 5/8] drm/bridge: sii902x: Support format negotiation
- hooks
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1684221594; x=1715757594;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Zsil0wQenxKUxZ9//tX+iP27Tp++b+IWmCCHT7p8wyU=;
+ b=AeLEJM+Sn1Mw6VAY3yNlDgDSNwK+cKfoy6O694Ot9DFz43n8VXCkqzZc
+ pSt0DHtChAhxN4U2TPt/LQNlaPeDr8z/9XZgwXTQnNP4POtL78HYsARQj
+ FwH1XJQFGUrRNOE6eR2eNV2Y8uQMmCpclJdl+mUXI3y6I0/bjYgwk+9p7
+ 0KcmaEBEhlcaZfn3UBDsQdQLAgg9JH2afIqD3xSFM8dSGrDTOZgKUf5qf
+ zIIpJJfHExU1qwTCUTpqqUrGGILGjc+/Msnudqa6FvOlnCRC/D0QR5Uq6
+ J1oufawDSRaFWqvxZCycxRyvzgovaDyI9F/yboWXjGKYai0Goh5Ns/zV4 Q==;
+X-IronPort-AV: E=Sophos;i="5.99,278,1677538800"; d="scan'208";a="30924837"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 16 May 2023 09:19:52 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 16 May 2023 09:19:52 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 16 May 2023 09:19:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1684221592; x=1715757592;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Zsil0wQenxKUxZ9//tX+iP27Tp++b+IWmCCHT7p8wyU=;
+ b=qV/rkGE550gu+xbyyVgsN4PabXQKbfoo8xRbrEe4jII9Yu373lrAUW0K
+ Uc5Kkmy2VRDYkYkcFafDkb830wizqj76rRJB5dX404kYNHZdySDyECbl7
+ F7TtneByTemXpnkWTMSEHkVIoSPcy4xHZAOv5SFUaOUCmFnFR5HSebMin
+ ffQarsjmhV5HI0HjwyQuBrJlzVtnin6nwn8AFpAlhEJa4dLNHw2vINmHE
+ PSd/n4sPl77ySdeTAOxvFcjoXaHMy1chunrrudvmeyNVALd1hNg0Pt9Sl
+ nIQ/kQZwHiv1y29Kyrz4wpny6KO/yRl1+ATdXHan08hRjNhfiYnP45Cxs w==;
+X-IronPort-AV: E=Sophos;i="5.99,278,1677538800"; d="scan'208";a="30924836"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 16 May 2023 09:19:51 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7DAD2280056;
+ Tue, 16 May 2023 09:19:51 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230509093036.3303-1-a-bhatia1@ti.com>
- <20230509093036.3303-6-a-bhatia1@ti.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230509093036.3303-6-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/1] drm/bridge: tc358767: explicitly set readable registers
+Date: Tue, 16 May 2023 09:19:49 +0200
+Message-Id: <20230516071949.375264-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,73 +77,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/05/2023 11:30, Aradhya Bhatia wrote:
-> With new connector model, sii902x will not create the connector, when
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and SoC driver will rely on format
-> negotiation to setup the encoder format.
-> 
-> Support format negotiations hooks in the drm_bridge_funcs.
-> Use helper functions for state management.
-> 
-> Input format is selected to MEDIA_BUS_FMT_RGB888_1X24 as default, as is
-> the case with older model.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
->   drivers/gpu/drm/bridge/sii902x.c | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-> index ef66461e7f7c..662b6cb4aa62 100644
-> --- a/drivers/gpu/drm/bridge/sii902x.c
-> +++ b/drivers/gpu/drm/bridge/sii902x.c
-> @@ -473,6 +473,28 @@ static struct edid *sii902x_bridge_get_edid(struct drm_bridge *bridge,
->   	return sii902x_get_edid(sii902x, connector);
->   }
->   
-> +static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +						     struct drm_bridge_state *bridge_state,
-> +						     struct drm_crtc_state *crtc_state,
-> +						     struct drm_connector_state *conn_state,
-> +						     u32 output_fmt,
-> +						     unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +	u32 default_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	input_fmts[0] = default_bus_format;
-> +	*num_input_fmts = 1;
-> +
-> +	return input_fmts;
-> +}
-> +
->   static const struct drm_bridge_funcs sii902x_bridge_funcs = {
->   	.attach = sii902x_bridge_attach,
->   	.mode_set = sii902x_bridge_mode_set,
-> @@ -480,6 +502,10 @@ static const struct drm_bridge_funcs sii902x_bridge_funcs = {
->   	.enable = sii902x_bridge_enable,
->   	.detect = sii902x_bridge_detect,
->   	.get_edid = sii902x_bridge_get_edid,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_get_input_bus_fmts = sii902x_bridge_atomic_get_input_bus_fmts,
->   };
->   
->   static int sii902x_mute(struct sii902x *sii902x, bool mute)
+This map was created from register map from datasheet (section 5.1.2).
+Unused registers are stated by address, so they show up in debugfs as well.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+When dumping the registers in debugfs there are a lot of unused and/or
+undocumented addresses. Instead explicitly state each readable register.
+
+ drivers/gpu/drm/bridge/tc358767.c | 195 +++++++++++++++++++++++++++++-
+ 1 file changed, 194 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 91f7cb56a654..954881ad5bdc 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -1781,7 +1781,200 @@ static const struct drm_bridge_funcs tc_edp_bridge_funcs = {
+ 
+ static bool tc_readable_reg(struct device *dev, unsigned int reg)
+ {
+-	return reg != SYSCTRL;
++	switch (reg) {
++	/* DSI D-PHY Layer */
++	case 0x004:
++	case 0x020:
++	case 0x024:
++	case 0x028:
++	case 0x02c:
++	case 0x030:
++	case 0x038:
++	case 0x040:
++	case 0x044:
++	case 0x048:
++	case 0x04c:
++	case 0x050:
++	case 0x054:
++	/* DSI PPI Layer */
++	case PPI_STARTPPI:
++	case 0x108:
++	case 0x110:
++	case PPI_LPTXTIMECNT:
++	case PPI_LANEENABLE:
++	case PPI_TX_RX_TA:
++	case 0x140:
++	case PPI_D0S_ATMR:
++	case PPI_D1S_ATMR:
++	case 0x14c:
++	case 0x150:
++	case PPI_D0S_CLRSIPOCOUNT:
++	case PPI_D1S_CLRSIPOCOUNT:
++	case PPI_D2S_CLRSIPOCOUNT:
++	case PPI_D3S_CLRSIPOCOUNT:
++	case 0x180:
++	case 0x184:
++	case 0x188:
++	case 0x18c:
++	case 0x190:
++	case 0x1a0:
++	case 0x1a4:
++	case 0x1a8:
++	case 0x1ac:
++	case 0x1b0:
++	case 0x1c0:
++	case 0x1c4:
++	case 0x1c8:
++	case 0x1cc:
++	case 0x1d0:
++	case 0x1e0:
++	case 0x1e4:
++	case 0x1f0:
++	case 0x1f4:
++	/* DSI Protocol Layer */
++	case DSI_STARTDSI:
++	case 0x208:
++	case DSI_LANEENABLE:
++	case 0x214:
++	case 0x218:
++	case 0x220:
++	case 0x224:
++	case 0x228:
++	case 0x230:
++	/* DSI General */
++	case 0x300:
++	/* DSI Application Layer */
++	case 0x400:
++	case 0x404:
++	/* DPI */
++	case DPIPXLFMT:
++	/* Parallel Output */
++	case POCTRL:
++	/* Video Path0 Configuration */
++	case VPCTRL0:
++	case HTIM01:
++	case HTIM02:
++	case VTIM01:
++	case VTIM02:
++	case VFUEN0:
++	/* System */
++	case TC_IDREG:
++	case 0x504:
++	case SYSSTAT:
++	case SYSRSTENB:
++	case SYSCTRL:
++	/* I2C */
++	case 0x520:
++	/* GPIO */
++	case GPIOM:
++	case GPIOC:
++	case GPIOO:
++	case GPIOI:
++	/* Interrupt */
++	case INTCTL_G:
++	case INTSTS_G:
++	case 0x570:
++	case 0x574:
++	case INT_GP0_LCNT:
++	case INT_GP1_LCNT:
++	/* DisplayPort Control */
++	case DP0CTL:
++	/* DisplayPort Clock */
++	case DP0_VIDMNGEN0:
++	case DP0_VIDMNGEN1:
++	case DP0_VMNGENSTATUS:
++	case 0x628:
++	case 0x62c:
++	case 0x630:
++	/* DisplayPort Main Channel */
++	case DP0_SECSAMPLE:
++	case DP0_VIDSYNCDELAY:
++	case DP0_TOTALVAL:
++	case DP0_STARTVAL:
++	case DP0_ACTIVEVAL:
++	case DP0_SYNCVAL:
++	case DP0_MISC:
++	/* DisplayPort Aux Channel */
++	case DP0_AUXCFG0:
++	case DP0_AUXCFG1:
++	case DP0_AUXADDR:
++	case 0x66c:
++	case 0x670:
++	case 0x674:
++	case 0x678:
++	case 0x67c:
++	case 0x680:
++	case 0x684:
++	case 0x688:
++	case DP0_AUXSTATUS:
++	case DP0_AUXI2CADR:
++	/* DisplayPort Link Training */
++	case DP0_SRCCTRL:
++	case DP0_LTSTAT:
++	case DP0_SNKLTCHGREQ:
++	case DP0_LTLOOPCTRL:
++	case DP0_SNKLTCTRL:
++	case 0x6e8:
++	case 0x6ec:
++	case 0x6f0:
++	case 0x6f4:
++	/* DisplayPort Audio */
++	case 0x700:
++	case 0x704:
++	case 0x708:
++	case 0x70c:
++	case 0x710:
++	case 0x714:
++	case 0x718:
++	case 0x71c:
++	case 0x720:
++	/* DisplayPort Source Control */
++	case DP1_SRCCTRL:
++	/* DisplayPort PHY */
++	case DP_PHY_CTRL:
++	case 0x810:
++	case 0x814:
++	case 0x820:
++	case 0x840:
++	/* I2S */
++	case 0x880:
++	case 0x888:
++	case 0x88c:
++	case 0x890:
++	case 0x894:
++	case 0x898:
++	case 0x89c:
++	case 0x8a0:
++	case 0x8a4:
++	case 0x8a8:
++	case 0x8ac:
++	case 0x8b0:
++	case 0x8b4:
++	/* PLL */
++	case DP0_PLLCTRL:
++	case DP1_PLLCTRL:
++	case PXL_PLLCTRL:
++	case PXL_PLLPARAM:
++	case SYS_PLLPARAM:
++	/* HDCP */
++	case 0x980:
++	case 0x984:
++	case 0x988:
++	case 0x98c:
++	case 0x990:
++	case 0x994:
++	case 0x998:
++	case 0x99c:
++	case 0x9a0:
++	case 0x9a4:
++	case 0x9a8:
++	case 0x9ac:
++	/* Debug */
++	case TSTCTL:
++	case PLL_DBG:
++		return true;
++	}
++	return false;
+ }
+ 
+ static const struct regmap_range tc_volatile_ranges[] = {
+-- 
+2.34.1
+
