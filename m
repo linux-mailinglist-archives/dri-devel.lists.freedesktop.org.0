@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D447052EF
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 17:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7BA705339
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 18:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4455210E013;
-	Tue, 16 May 2023 15:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3183D10E25B;
+	Tue, 16 May 2023 16:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E36E10E013
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 15:57:31 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-9659f452148so2620869566b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684252649; x=1686844649;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YFdAn7Fjdx2rJ76WHO6PHBO3/n+aln2mjGgewNBmIEI=;
- b=xzH/noe4FPt7EO71KI0vquLTW+TrbA+rUf+puD69bV1jN0AeX/h/DHAOk+/wwPcG5t
- eQ6rIsmmGDb9JTEroExeeJ4RDEwZZHCMDml/QV/iH1B5ZcAWC+IKKKWzvhzs+561hj5A
- 6t4viK34YdbKkul6MGS6Q6+rhN2xlvD88wMdWP9/51Y2P3BHNbn7MWTU0x20m88Aouk9
- 299qYKp5omOenGCPn28tdD4rIeQ7noxSPkQBTuS5DGuAmOCtWKEDZoNLjMchuI9bacil
- pf7pUWmbk+2jxN6zeDC9SlMfF2D4DX82/voQUhI81UQ72aw5u38ebMfUpSwAZs3ddFMX
- mR1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684252649; x=1686844649;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YFdAn7Fjdx2rJ76WHO6PHBO3/n+aln2mjGgewNBmIEI=;
- b=L9Exa/5lYFaRwlfxAWMa52WKdasT+XW1C76QtIkE9rWSamvW8qvWh/kNoF9w4jaJnh
- gfCq5raKLeGiQPdu+wnh2pxS526oWZJkaHXqcf/0tqvDlfjj/6kwqEcqRKf1g5twvxlL
- RPJsYEVClx6wBcdrMtdgh2ccnsJIuIwcuzVFSYCQwhiA2TlHI1eKbaWBGGjCyPmmrosp
- 3iFM23v9xX9NdMTJH70BnQl65mIZ3PjXc+GDZ2FLZAq2PJrhfoih+CMnYG1FWmY/wplv
- qFS50RGcAFKqel9aEq8hm+CPn09xu6bs34oMv+dXAmkyfSOZ21TNRRVQFSdHWFSYgz7N
- tAnQ==
-X-Gm-Message-State: AC+VfDzc9G2CtN5mwtLV6t+31oNJm7FtfiERq4tZvMUBG3QL4CB8VlyO
- fZP84xdXFMgbUBBaZ69MtelR+oKccv7vY7zIb7Q=
-X-Google-Smtp-Source: ACHHUZ4LicxoTrUfWiE2B86KO8Cl3YoygDk/rLnT/Sw4BYRU6yHuzrzZFmi7+8KBxCsQ26l23fn97A==
-X-Received: by 2002:a17:907:7e8f:b0:969:e7da:fcb1 with SMTP id
- qb15-20020a1709077e8f00b00969e7dafcb1mr29092821ejc.13.1684252649625; 
- Tue, 16 May 2023 08:57:29 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:77d1:16a1:abe1:84fc?
- ([2a02:810d:15c0:828:77d1:16a1:abe1:84fc])
- by smtp.gmail.com with ESMTPSA id
- l21-20020a170906a41500b00965c6c63ea3sm11074850ejz.35.2023.05.16.08.57.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 08:57:29 -0700 (PDT)
-Message-ID: <023f6cf9-0f08-f27e-d203-5ff78faf110f@linaro.org>
-Date: Tue, 16 May 2023 17:57:28 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E581310E086;
+ Tue, 16 May 2023 16:08:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 038311FF77;
+ Tue, 16 May 2023 16:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684253332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5zPscgIXFE62i014tFNvlGObfZ+Zc22FlJk7qe2yjo=;
+ b=1kFrHtPwq/eOjBNPvC8yRsQDMlKbqVVALAYbJremA9BqrdDiKcplLE82kjJg31BN5YMMdV
+ vfAYpGsreX2opYvZceEgnF1lHxQCmn1u9KRne36ymoRu0ZVNjspX96T/VjDpPKUejkcRgZ
+ 3WCG6cmUPYEIzIsB1igNnL3Ho1obTGU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684253332;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5zPscgIXFE62i014tFNvlGObfZ+Zc22FlJk7qe2yjo=;
+ b=aKMV7cYBqz5v4MLueIZOgFi9XVA+LfoD8JGQTAjSNALId1xWwF6xKhoiA+6FvNSYoCH5sI
+ uQKTgTXLpNLdFYAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2DBC138F5;
+ Tue, 16 May 2023 16:08:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ho9eMpOqY2S1GgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 16 May 2023 16:08:51 +0000
+Message-ID: <05927999-389e-3a42-9b0d-3da9bc695d94@suse.de>
+Date: Tue, 16 May 2023 18:08:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] dt-bindings: display: panel: add panel-mipi-dsi-bringup
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] drm/ttm: let struct ttm_device_funcs be placed in rodata
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+References: <20230309123700.528641-1-jani.nikula@intel.com>
 Content-Language: en-US
-To: =?UTF-8?B?UGF1bG8gUGF2YcSNacSH?= <pavacic.p@gmail.com>,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com,
- robh+dt@kernel.org, daniel@ffwll.ch
-References: <CAO9szn18KsR0c+U8EEY1=xnmsKMxy6SEArMUic0z=aYJDVwWCQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAO9szn18KsR0c+U8EEY1=xnmsKMxy6SEArMUic0z=aYJDVwWCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230309123700.528641-1-jani.nikula@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Erae4kpIS6O0hmJP2FbZwFAC"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,191 +69,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/05/2023 15:09, Paulo Pavačić wrote:
-> Add dt-bindings documentation for panel-mipi-dsi-bringup which currently
-> supports fannal,c3004 panel. Also added fannal to vendor-prefixes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Erae4kpIS6O0hmJP2FbZwFAC
+Content-Type: multipart/mixed; boundary="------------8f3oB6FWUtT7KSTY0hh0qw1O";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Message-ID: <05927999-389e-3a42-9b0d-3da9bc695d94@suse.de>
+Subject: Re: [PATCH] drm/ttm: let struct ttm_device_funcs be placed in rodata
+References: <20230309123700.528641-1-jani.nikula@intel.com>
+In-Reply-To: <20230309123700.528641-1-jani.nikula@intel.com>
 
-Thank you for your patch. There is something to discuss/improve.
+--------------8f3oB6FWUtT7KSTY0hh0qw1O
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> v2 changelog:
+DQoNCkFtIDA5LjAzLjIzIHVtIDEzOjM3IHNjaHJpZWIgSmFuaSBOaWt1bGE6DQo+IE1ha2Ug
+dGhlIHN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzIHBvaW50ZXJzIGNvbnN0IHNvIHRoZSBkYXRh
+IGNhbiBiZSBwbGFjZWQgaW4gcm9kYXRhLg0KPiANCj4gQ2M6IENocmlzdGlhbiBLb2VuaWcg
+PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IEh1YW5nIFJ1aSA8cmF5Lmh1YW5n
+QGFtZC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBp
+bnRlbC5jb20+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9kZXZp
+Y2UuYyB8IDIgKy0NCj4gICBpbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oICAgICB8IDQg
+KystLQ0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Rldmlj
+ZS5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fZGV2aWNlLmMNCj4gaW5kZXggYWUyZjE5
+ZGM5ZjgxLi5hNzFiYjEzNjJkZTQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
+dG0vdHRtX2RldmljZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Rldmlj
+ZS5jDQo+IEBAIC0xOTAsNyArMTkwLDcgQEAgRVhQT1JUX1NZTUJPTCh0dG1fZGV2aWNlX3N3
+YXBvdXQpOw0KPiAgICAqIFJldHVybnM6DQo+ICAgICogITA6IEZhaWx1cmUuDQo+ICAgICov
+DQo+IC1pbnQgdHRtX2RldmljZV9pbml0KHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBzdHJ1
+Y3QgdHRtX2RldmljZV9mdW5jcyAqZnVuY3MsDQo+ICtpbnQgdHRtX2RldmljZV9pbml0KHN0
+cnVjdCB0dG1fZGV2aWNlICpiZGV2LCBjb25zdCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyAq
+ZnVuY3MsDQo+ICAgCQkgICAgc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgYWRkcmVzc19z
+cGFjZSAqbWFwcGluZywNCj4gICAJCSAgICBzdHJ1Y3QgZHJtX3ZtYV9vZmZzZXRfbWFuYWdl
+ciAqdm1hX21hbmFnZXIsDQo+ICAgCQkgICAgYm9vbCB1c2VfZG1hX2FsbG9jLCBib29sIHVz
+ZV9kbWEzMikNCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgg
+Yi9pbmNsdWRlL2RybS90dG0vdHRtX2RldmljZS5oDQo+IGluZGV4IDU2ZTgyYmEyZDA0Ni4u
+YzIyZjMwNTM1Yzg0IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2Rldmlj
+ZS5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgNCj4gQEAgLTIyMyw3
+ICsyMjMsNyBAQCBzdHJ1Y3QgdHRtX2RldmljZSB7DQo+ICAgCSAqIEBmdW5jczogRnVuY3Rp
+b24gdGFibGUgZm9yIHRoZSBkZXZpY2UuDQo+ICAgCSAqIENvbnN0YW50IGFmdGVyIGJvIGRl
+dmljZSBpbml0DQo+ICAgCSAqLw0KPiAtCXN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzICpmdW5j
+czsNCj4gKwljb25zdCBzdHJ1Y3QgdHRtX2RldmljZV9mdW5jcyAqZnVuY3M7DQo+ICAgDQo+
+ICAgCS8qKg0KPiAgIAkgKiBAc3lzbWFuOiBSZXNvdXJjZSBtYW5hZ2VyIGZvciB0aGUgc3lz
+dGVtIGRvbWFpbi4NCj4gQEAgLTI4Nyw3ICsyODcsNyBAQCBzdGF0aWMgaW5saW5lIHZvaWQg
+dHRtX3NldF9kcml2ZXJfbWFuYWdlcihzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwgaW50IHR5
+cGUsDQo+ICAgCWJkZXYtPm1hbl9kcnZbdHlwZV0gPSBtYW5hZ2VyOw0KPiAgIH0NCj4gICAN
+Cj4gLWludCB0dG1fZGV2aWNlX2luaXQoc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYsIHN0cnVj
+dCB0dG1fZGV2aWNlX2Z1bmNzICpmdW5jcywNCj4gK2ludCB0dG1fZGV2aWNlX2luaXQoc3Ry
+dWN0IHR0bV9kZXZpY2UgKmJkZXYsIGNvbnN0IHN0cnVjdCB0dG1fZGV2aWNlX2Z1bmNzICpm
+dW5jcywNCj4gICAJCSAgICBzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBhZGRyZXNzX3Nw
+YWNlICptYXBwaW5nLA0KPiAgIAkJICAgIHN0cnVjdCBkcm1fdm1hX29mZnNldF9tYW5hZ2Vy
+ICp2bWFfbWFuYWdlciwNCj4gICAJCSAgICBib29sIHVzZV9kbWFfYWxsb2MsIGJvb2wgdXNl
+X2RtYTMyKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
+c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
+QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
+ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Please put changelog after ---
+--------------8f3oB6FWUtT7KSTY0hh0qw1O--
 
-Missing user of the bindings - driver or DTS. Please sent patches
-together as patchset.
+--------------Erae4kpIS6O0hmJP2FbZwFAC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRjqpMFAwAAAAAACgkQlh/E3EQov+AZ
+cA/9GQsrHyuhAwqtqcnaHe3zUgemDtpOaxNzmMERYTk5EdGbHcq2eVG5IOe17OzfUcS9m/fXxSa6
+tD9GGPGrl8mEWUfLK4Zm21OX5W60K+E9lyk99lyJFjFz0QDyHDRBH9Gk4OF05cJTZwyGSpMCA9rY
+f3GRuFmxkACAkSMVmzDHVOI4bbNtfj+GsY3bkJimSLlexfMkK/OgIKyOJoE1G4TPHEwKeokfu9lW
+hc0/RnUf155fz8jOS4Lt/w4HiFPhSA5O90EbjUePGtavcKeGC/hg6kbo79l72nS1cU+uiD9PucUK
+Fmn0+nK2ZAufz68TylE+0/yPyMmVSpXG8xR4ruRX43QPR2ML1fGNjdmSc2XbP8ZUhpnTuu4tH+gp
+X+140NcBnWwmtsTLYpYbmptpxA0VPayI5N7xR4gVlya1MvWJhg3e+ZTY6HWzhp1LrazDrY2EdL06
+RB01aC62VGNYPznwo27ssjHTBbhbDqAg4lOodgUW0XghZzXJ4b8pifq6oZjzok5iBO+nXq0oEXUP
+urxAIMjfBm4lIX6SzIqJQjeKTIeeZe2kKYecZoRi36Ef2iQ4yHvGOTF8WIknlcM0xZpT9VfoRT6L
+wx09gWNHBTacAD+Nz+N1KfQzKSFip7ZTDdBVpq8EpWSDgo/+BN8ULN8P9Sk5isBxWwj/l2hG1IHE
+p6s=
+=xn6A
+-----END PGP SIGNATURE-----
 
->   - revised driver title, now describes purpose
->   - revised description, now describes hw
->   - revised maintainers, now has only 1 mail
->   - removed diacritics from commit/commit author
->   - properties/compatible is now enum
->   - compatible using only lowercase
->   - revised dts example
->   - modified MAINTAINERS in this commit (instead of driver commit)
->   - dt_bindings_check checked yml
->   - checkpatch warning fixed
-> 
-> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
-> ---
->  .../display/panel/panel-mipi-dsi-bringup.yaml | 54 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  MAINTAINERS                                   |  6 +++
->  3 files changed, 62 insertions(+)
->  create mode 100644
-> Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-
-Still wrong filename. You did not respond to my previous comments, so I
-don't really understand what's this.
-
-Judging by compatible, this should be fannal,c3004.yaml
-
-If not, explain please.
-
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-> b/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-> new file mode 100644
-> index 000000000000..c9e2b545657e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/panel-mipi-dsi-bringup.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MIPI DSI Bringup Panel Porting Bindings
-
-Drop Bindings. I don't understand what is "Porting" in the terms of
-hardware. If it these are bindings for Panel, please write here proper
-hardware.
-
-> +
-> +description: |
-> +  MIPI DSI Bringup Panel porting bindings to be used for a collection of panels
-
-I have no clue what is "Bringup panel". Is it technical term for some
-type of panels?
-
-> +  from different manufacturers which don't require backlight control from the
-> +  driver and have a single reset pin which is required to be passed as an
-> +  argument.
-
-Drop "driver"
-
-> +
-> +maintainers:
-> +  - Paulo Pavacic <pavacic.p@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +
-
-Drop blank line.
-
-> +  compatible:
-> +    enum:
-> +      # compatible must be listed in alphabetical order, ordered by compatible.
-> +      # The description in the comment is mandatory for each compatible.
-
-Drop above comment.
-
-> +
-> +        # Fannal 480x800 panel
-> +      - fannal,c3004
-> +
-> +  reg: true
-> +  reset-gpios: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    //example on IMX8MM where GPIO pin 9 is used as a reset pin
-
-This is a friendly reminder during the review process.
-
-It seems my previous comments were not fully addressed. Maybe my
-feedback got lost between the quotes, maybe you just forgot to apply it.
-Please go back to the previous discussion and either implement all
-requested changes or keep discussing them.
-
-Thank you.
-
-I asked to drop the comment.
-
-> +    mipi_dsi@32e10000 {
-
-dsi {
-
-There is no way it was correct in current form.
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-> +        panel@0 {
-> +            compatible = "fannal,c3004";
-> +            reg = <0>;
-> +            pinctrl-0 = <&pinctrl_mipi_dsi_rst>;
-> +            pinctrl-names = "default";
-> +            reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
-> +        };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 82d39ab0231b..f962750f630a 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -462,6 +462,8 @@ patternProperties:
->      description: Facebook
->    "^fairphone,.*":
->      description: Fairphone B.V.
-> +  "^fannal,.*":
-> +    description: Fannal Electronics Co., Ltd
->    "^faraday,.*":
->      description: Faraday Technology Corporation
->    "^fastrax,.*":
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e0ad886d3163..46f988ee60bd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6566,6 +6566,12 @@ T:    git git://anongit.freedesktop.org/drm/drm-misc
->  F:    Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
->  F:    drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> 
-> +DRM DRIVER FOR MIPI DSI BRINGUP
-> +M:    Paulo Pavacic <pavacic.p@gmail.com>
-> +S:    Maintained
-> +C:    mipi-dsi-bringup:matrix.org
-
-Missing protocol. See explanation of C: entry at the beginning.
-
-> +F:    Documentation/devicetree/bindings/display/panel/panel-mipi-dsi-bringup.yaml
-> +
->  DRM DRIVER FOR MSM ADRENO GPU
->  M:    Rob Clark <robdclark@gmail.com>
->  M:    Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-Best regards,
-Krzysztof
-
+--------------Erae4kpIS6O0hmJP2FbZwFAC--
