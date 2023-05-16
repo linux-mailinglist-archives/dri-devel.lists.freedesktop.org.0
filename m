@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC987704568
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 08:39:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2E270458B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 08:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D853110E2EA;
-	Tue, 16 May 2023 06:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D480510E2F4;
+	Tue, 16 May 2023 06:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A74DD10E2EE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:39:50 +0000 (UTC)
-Received: from meshulam.tesarici.cz
- (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
- [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id 5607D15ECA7;
- Tue, 16 May 2023 08:39:44 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz;
- dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1684219184; bh=GvZkso4wSp29I9UC5ou2LvzBueQMmr8nTqiYnF2tc68=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bXcUm28jyCTk8XZfjeaXuhCYuSVhILOLJOYVsQp5yurbY/HvcLYP+flkRN3p9uaOe
- rjuzxhEAwGu95O9ANOpee0YKhkMB6My1Fdcvhct/583WSZ/xppqypr7C+Fr4vdaW4G
- CeN6F2zempSCB0+j7aq8WwB4l9r/e21xhRkovCg8PsgIXfjpMbR7xuv3N6UqIK3wno
- LfrcGmRtMxead9d4XO7+tPnqUx8eTfj4nFWA7ITrPtEYzLHqbpIm0fzWkPaIcWE362
- 2KLKzF0/Bba19VnCPm64p7CWnDIyGY289o2o+mbUEdJg2rX54/brkOf2er4OFSnVxy
- NpLYVugc8jvZQ==
-Date: Tue, 16 May 2023 08:39:42 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230516083942.0303b5fb@meshulam.tesarici.cz>
-In-Reply-To: <20230516061309.GA7219@lst.de>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39F1410E2F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:50:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4DA8C61FC5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:50:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0A07C4339E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684219856;
+ bh=OVP/rerETkXsjJ0I6Oo86srhf+okaQ4WPHGI2BJ0adU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=cX0gUuIWjuMYOeF8xYopDOXyaLqObrvjwvfDoNS3Zd/QpCrSheAGqFQR4KtRpv0Ga
+ 8EP1ivUqUtGAisYjKu/NX7BIzLQI9GceJrzQ9pA6OwvbeWRsfWfkh/GaD/jir/TFD+
+ QWakD3Gst/TFIJ4rE5QLubI9QNTLNfdhluMzhSY3wYVxKnAZbVEyDF/izaZbkmcWEX
+ XCQC0TTztcuz+qQf8blIe95/AjaTI1q7xuujtxK6LvZF+ba7aUWP0496qJM7+TM/Hy
+ vsfnFk784nN64prOcWzmdRO/yBJqiXhl4M7VyTjZvZ+bji6FzELiqL24cABMmmUZ0c
+ 4cYLvZdPpwCUA==
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-561a33b6d63so971457b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 May 2023 23:50:56 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzLZx6KuLKYiwB/JpEUUcIbVpkk5qlGgSygMT+cfPaG/79UpvHM
+ T1i4cXXNeHBHFO/DpiUbyFHM5SifzJ1NWdHU4oE=
+X-Google-Smtp-Source: ACHHUZ797wJH62FhSxc0l09+6zJ+7Djyy3aB4kp9B63Ei2gpKIZqgZUgw3jpLrG2e+qYrge+r721aglIYLNutMGush8=
+X-Received: by 2002:a81:52d0:0:b0:55a:20d5:e103 with SMTP id
+ g199-20020a8152d0000000b0055a20d5e103mr33500157ywb.34.1684219855580; Mon, 15
+ May 2023 23:50:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230512064655.82246-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230512064655.82246-1-yang.lee@linux.alibaba.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Tue, 16 May 2023 09:50:28 +0300
+X-Gmail-Original-Message-ID: <CAFCwf139EwbAnhf4RJXxLmxPA4gZGjrMNCJv55muncBMMp8BAA@mail.gmail.com>
+Message-ID: <CAFCwf139EwbAnhf4RJXxLmxPA4gZGjrMNCJv55muncBMMp8BAA@mail.gmail.com>
+Subject: Re: [PATCH -next] habanalabs: Fix some kernel-doc comments
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,80 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Kim Phillips <kim.phillips@amd.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, "open list:DMA
- MAPPING HELPERS" <iommu@lists.linux.dev>, Borislav Petkov <bp@suse.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
-
-On Tue, 16 May 2023 08:13:09 +0200
-Christoph Hellwig <hch@lst.de> wrote:
-
-> On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrote:
-> > FWIW, I don't think the approach you have implemented here will be
-> > practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
-> > is that dma_direct_alloc_pages() and dma_direct_free_pages() must
-> > call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
-> > VMs, these calls are expensive because they require a hypercall to the host,
-> > and the operation on the host isn't trivial either.  I haven't measured the
-> > overhead, but doing a hypercall on every DMA map operation and on
-> > every unmap operation has long been something we thought we must
-> > avoid.  The fixed swiotlb bounce buffer space solves this problem by
-> > doing set_decrypted() in batch at boot time, and never
-> > doing set_encrypted().  
-> 
-> I also suspect it doesn't really scale too well due to the number of
-> allocations.  I suspect a better way to implement things would be to
-> add more large chunks that are used just like the main swiotlb buffers.
-> 
-> That is when we run out of space try to allocate another chunk of the
-> same size in the background, similar to what we do with the pool in
-> dma-pool.c.  This means we'll do a fairly large allocation, so we'll
-> need compaction or even CMA to back it up, but the other big upside
-> is that it also reduces the number of buffers that need to be checked
-> in is_swiotlb_buffer or the free / sync side.
-
-I have considered this approach. The two main issues I ran into were:
-
-1. MAX_ORDER allocations were too small (at least with 4K pages), and
-   even then they would often fail.
-
-2. Allocating from CMA did work but only from process context.
-   I made a stab at modifying the CMA allocator to work from interrupt
-   context, but there are non-trivial interactions with the buddy
-   allocator. Making them safe from interrupt context looked like a
-   major task.
-
-I also had some fears about the length of the dynamic buffer list. I
-observed maximum length for block devices, and then it roughly followed
-the queue depth. Walking a few hundred buffers was still fast enough.
-I admit the list length may become an issue with high-end NVMe and
-I/O-intensive applications.
-
-Last but not least, when many smaller swiotlb chunks are allocated, they
-must be kept in a list (or another data structure), somewhat reducing the
-performance win. OK, one thing I did *not* consider back then was
-allocating these additional swiotlb chunks per device. It looks a bit
-too wasteful.
-
-Petr T
+On Fri, May 12, 2023 at 9:47=E2=80=AFAM Yang Li <yang.lee@linux.alibaba.com=
+> wrote:
+>
+> Make the description of @regs_range_array and @regs_range_array_size
+> to @user_regs_range_array and @user_regs_range_array_size  to silence
+> the warnings:
+>
+> drivers/accel/habanalabs/common/security.c:506: warning: Function paramet=
+er or member 'user_regs_range_array' not described in 'hl_init_pb_ranges_si=
+ngle_dcore'
+> drivers/accel/habanalabs/common/security.c:506: warning: Function paramet=
+er or member 'user_regs_range_array_size' not described in 'hl_init_pb_rang=
+es_single_dcore'
+> drivers/accel/habanalabs/common/security.c:506: warning: Excess function =
+parameter 'regs_range_array' description in 'hl_init_pb_ranges_single_dcore=
+'
+> drivers/accel/habanalabs/common/security.c:506: warning: Excess function =
+parameter 'regs_range_array_size' description in 'hl_init_pb_ranges_single_=
+dcore'
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D4940
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/accel/habanalabs/common/security.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/accel/habanalabs/common/security.c b/drivers/accel/h=
+abanalabs/common/security.c
+> index 297e6e44fd0c..dc23ff57c91a 100644
+> --- a/drivers/accel/habanalabs/common/security.c
+> +++ b/drivers/accel/habanalabs/common/security.c
+> @@ -495,8 +495,8 @@ int hl_init_pb_single_dcore(struct hl_device *hdev, u=
+32 dcore_offset,
+>   * @instance_offset: offset between instances
+>   * @pb_blocks: blocks array
+>   * @blocks_array_size: blocks array size
+> - * @regs_range_array: register range array
+> - * @regs_range_array_size: register range array size
+> + * @user_regs_range_array: register range array
+> + * @user_regs_range_array_size: register range array size
+>   *
+>   */
+>  int hl_init_pb_ranges_single_dcore(struct hl_device *hdev, u32 dcore_off=
+set,
+> --
+> 2.20.1.7.g153144c
+>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Applied to -next.
+Thanks,
+Oded
