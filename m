@@ -1,64 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398A07060CF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A81047060D8
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE17310E3BD;
-	Wed, 17 May 2023 07:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F4E10E3C2;
+	Wed, 17 May 2023 07:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5319110E27D
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 16:44:22 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f41d087b24so78979765e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1684255460; x=1686847460; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9RRIvZyK8CQAM0dAt4H7LQ/6jjtstZYibAABduiNmKg=;
- b=1pki32CkIzhFh7JpQ37UTbB0z/0EiqVq7PJo2o0rHD72vTZTKzznUr+zstjp6pW7Ek
- 5Nncvby+RBLpFydfYP84Daneai9k97DsMIaSrrbDD2SGqejUaoLaDb0kwqmgr6LTOVBM
- EEZ0w0sgFmstOkKPYLbUfMogrU9cEIaCLDXfBZicSZMEg6NLwUAlaWZoUQNcHuT9Y1e5
- xkgjVm2RC8QFLOhwL+EmZsEC7sLbKn/TUoGwMc9S928xL1uFyTbzKBPxqhNiqBE1wjVw
- mM4oNJk0AEedy4oa0o3oQ4fzrwbHGgQyzhjNX2iz0tBRCnhfq/utsw5L2htW22SNNyMk
- 9T8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684255460; x=1686847460;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9RRIvZyK8CQAM0dAt4H7LQ/6jjtstZYibAABduiNmKg=;
- b=cdUZ8qv77IcgYYXHaxH8MfZO6H8kB1iE6tOoJ0opx6hUd/evn7vBVom10KQO+0AVYb
- iKPOyjM2YyHGUWbRZ8oi4OqunkKsbpsSeCwLZr2gerCgRmR2iPbO0bSJmLZXvWXCzKEQ
- vToIuDY0TPizisXhajlx2Bc3TPkD8gLLy0D4M4bSx9JE30+7fit0tZzyKf8Fdq32jEHr
- suYH013ty/TFnf6k+pSQgUTKluSqCCNxIx3K9K0QcEg2/wuOtw9aY+paRQN/Ftu4+HbY
- qbfnaNVqtyVp8f5xA+iDymlCa7oVk5FDSQM6QOuUWiDdmkUK8l0oUmt5b8S1cQGQc3I1
- Ybvg==
-X-Gm-Message-State: AC+VfDwYyuH/mFxcgBBsCi+e/cHE61PyLb0IPLcXNILLTHmtBXX/XG+e
- GLqgDiYUsrSQ9d3bzlqK+l08rE8D+IURUzctJSE=
-X-Google-Smtp-Source: ACHHUZ5PPeGhNUMDjhJMuSkkih/heMu/8CXLe09tt0djJBA5eZwtYs6f1RnDINUQqmnUi5x8iIBd0g==
-X-Received: by 2002:a7b:ca51:0:b0:3f4:2148:e8e5 with SMTP id
- m17-20020a7bca51000000b003f42148e8e5mr23269068wml.1.1684255460042; 
- Tue, 16 May 2023 09:44:20 -0700 (PDT)
-Received: from localhost.localdomain ([188.27.132.2])
- by smtp.gmail.com with ESMTPSA id
- h18-20020adffd52000000b003063db8f45bsm3219899wrs.23.2023.05.16.09.44.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 May 2023 09:44:19 -0700 (PDT)
-From: Alexandru Ardelean <alex@shruggie.ro>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: adv7511: Fix low refresh rate register for ADV7533/5
-Date: Tue, 16 May 2023 19:44:16 +0300
-Message-Id: <20230516164416.11616-1-alex@shruggie.ro>
-X-Mailer: git-send-email 2.40.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B2010E358
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 17:59:39 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 32F6163C98;
+ Tue, 16 May 2023 17:59:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99991C433D2;
+ Tue, 16 May 2023 17:59:33 +0000 (UTC)
+Date: Tue, 16 May 2023 18:59:30 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
+ buffers
+Message-ID: <ZGPEgsplBSsI9li3@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
+ <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <20230516061309.GA7219@lst.de>
+ <20230516083942.0303b5fb@meshulam.tesarici.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230516083942.0303b5fb@meshulam.tesarici.cz>
 X-Mailman-Approved-At: Wed, 17 May 2023 07:08:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,43 +48,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bogdan Togorean <bogdan.togorean@analog.com>,
- Alexandru Ardelean <alex@shruggie.ro>
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ Borislav Petkov <bp@suse.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Kees Cook <keescook@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bogdan Togorean <bogdan.togorean@analog.com>
+On Tue, May 16, 2023 at 08:39:42AM +0200, Petr Tesařík wrote:
+> On Tue, 16 May 2023 08:13:09 +0200
+> Christoph Hellwig <hch@lst.de> wrote:
+> > On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrote:
+> > > FWIW, I don't think the approach you have implemented here will be
+> > > practical to use for CoCo VMs (SEV, TDX, whatever else).  The problem
+> > > is that dma_direct_alloc_pages() and dma_direct_free_pages() must
+> > > call dma_set_decrypted() and dma_set_encrypted(), respectively.  In CoCo
+> > > VMs, these calls are expensive because they require a hypercall to the host,
+> > > and the operation on the host isn't trivial either.  I haven't measured the
+> > > overhead, but doing a hypercall on every DMA map operation and on
+> > > every unmap operation has long been something we thought we must
+> > > avoid.  The fixed swiotlb bounce buffer space solves this problem by
+> > > doing set_decrypted() in batch at boot time, and never
+> > > doing set_encrypted().  
+> > 
+> > I also suspect it doesn't really scale too well due to the number of
+> > allocations.  I suspect a better way to implement things would be to
+> > add more large chunks that are used just like the main swiotlb buffers.
+> > 
+> > That is when we run out of space try to allocate another chunk of the
+> > same size in the background, similar to what we do with the pool in
+> > dma-pool.c.  This means we'll do a fairly large allocation, so we'll
+> > need compaction or even CMA to back it up, but the other big upside
+> > is that it also reduces the number of buffers that need to be checked
+> > in is_swiotlb_buffer or the free / sync side.
+> 
+> I have considered this approach. The two main issues I ran into were:
+> 
+> 1. MAX_ORDER allocations were too small (at least with 4K pages), and
+>    even then they would often fail.
+> 
+> 2. Allocating from CMA did work but only from process context.
+>    I made a stab at modifying the CMA allocator to work from interrupt
+>    context, but there are non-trivial interactions with the buddy
+>    allocator. Making them safe from interrupt context looked like a
+>    major task.
 
-For ADV7533 and ADV7535 low refresh rate is selected using
-bits [3:2] of 0x4a main register.
-So depending on ADV model write 0xfb or 0x4a register.
+Can you kick off a worker thread when the swiotlb allocation gets past
+some reserve limit? It still has a risk of failing to bounce until the
+swiotlb buffer is extended.
 
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
-Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
----
- drivers/gpu/drm/i2c/adv7511.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+> I also had some fears about the length of the dynamic buffer list. I
+> observed maximum length for block devices, and then it roughly followed
+> the queue depth. Walking a few hundred buffers was still fast enough.
+> I admit the list length may become an issue with high-end NVMe and
+> I/O-intensive applications.
 
-diff --git a/drivers/gpu/drm/i2c/adv7511.c b/drivers/gpu/drm/i2c/adv7511.c
-index 61aa824d45d2..e016105a8fbe 100644
---- a/drivers/gpu/drm/i2c/adv7511.c
-+++ b/drivers/gpu/drm/i2c/adv7511.c
-@@ -729,8 +729,13 @@ static void adv7511_encoder_mode_set(struct drm_encoder *encoder,
- 	else
- 		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
- 
--	regmap_update_bits(adv7511->regmap, 0xfb,
--		0x6, low_refresh_rate << 1);
-+	if (adv7511->type == ADV7511)
-+		regmap_update_bits(adv7511->regmap, 0xfb,
-+			0x6, low_refresh_rate << 1);
-+	else
-+		regmap_update_bits(adv7511->regmap, 0x4a,
-+			0xc, low_refresh_rate << 2);
-+
- 	regmap_update_bits(adv7511->regmap, 0x17,
- 		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
- 
+You could replace the list with an rbtree, O(log n) look-up vs O(n),
+could be faster if you have many bounces active.
+
 -- 
-2.40.1
-
+Catalin
