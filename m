@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86544704707
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B85770471D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 09:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C66E897F0;
-	Tue, 16 May 2023 07:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0972410E318;
+	Tue, 16 May 2023 07:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADEF810E194
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:53:21 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-759200f12baso472315485a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:53:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684223600; x=1686815600;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=f07seKr4m5/OlhMAPO3dIAn75k2cEFtJb88wHoo4wJk=;
- b=SgStBw5pcbH5zgKDj9HO1K3iHpjW5Os/Of1+YPCgNhxYDwPysLJvwPK9/SkOniVk4S
- s1SkJ/gTRz7N+pp5fzjlNd/7Owz361GviAGi7VWZAsGJvkEBKWEVR3pJ5Glf9qSYxRii
- 7UPF/Zfl/g7V0GvPvDZiCAWltSqK9u6o6M0whOpq+uj6qFRLq7DeXYaXE1rUGydDzePp
- vG5s7GZIVeJmAb7fK+GCwAbztBJbXICzYKuSHSuSXnR1A9aghSj5xpY4rijz9Ot8vNZK
- IJcojlNEZ1GnPt//o3BjAmEUZrm/tsI0SzTdKAS+xMMOmKBfa3S5tHcAvom3btFDSh04
- 1ygA==
-X-Gm-Message-State: AC+VfDwgU+cwXBkAwROgoNsUhPmR4gZW212o4YiSjxAfXMQr5Rm6fmNb
- 9HRY64Muazd95PSMHlQ1KfjumUfQ+XO1hw==
-X-Google-Smtp-Source: ACHHUZ6UDfpRhsANbQhORSONC+DebVldcv0yF2O58OT/sB1VhJvkYhUN3xzPTn/Y5Q2nSK9CwxFlpQ==
-X-Received: by 2002:a05:6214:1243:b0:5c5:1a25:edf0 with SMTP id
- r3-20020a056214124300b005c51a25edf0mr61731212qvv.26.1684223599818; 
- Tue, 16 May 2023 00:53:19 -0700 (PDT)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
- [209.85.160.175]) by smtp.gmail.com with ESMTPSA id
- ow7-20020a05620a820700b0074ced3e0004sm432802qkn.63.2023.05.16.00.53.19
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 00:53:19 -0700 (PDT)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-3f52d303bcdso19391631cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 00:53:19 -0700 (PDT)
-X-Received: by 2002:a0d:df45:0:b0:55a:671b:4685 with SMTP id
- i66-20020a0ddf45000000b0055a671b4685mr32388112ywe.46.1684223280201; Tue, 16
- May 2023 00:48:00 -0700 (PDT)
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47B1110E314
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 07:55:19 +0000 (UTC)
+Received: from meshulam.tesarici.cz
+ (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
+ [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by bee.tesarici.cz (Postfix) with ESMTPSA id C0F70162782;
+ Tue, 16 May 2023 09:55:14 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz;
+ dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+ t=1684223715; bh=ltmMIkpXlWFWJgW4qrm50FfrVYKnQeXJbbPUFDmFZTg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=VKfP35Lh1yXXj9553giwHfdTZoqsQDB37mWTxTJThZdSRN23daQlBOpnXS9vL05Pg
+ uC97J1Kf+D1G2AwXt1C7FLvgYDKD0/C5ExaeYz7u0qPEJUjwJCKoWatDmvB35NtVzn
+ BmagPSlWyaTvBjs2zOwAk/N9k1i37nKeAhyrN8ffWS9V54bEeKWRGeiNbkqNAWa8d5
+ XLjxx+zEidTK0pogygEvPM7zA4KD0atcnJzN2BW2Rho8T/2tOcndLtEfRMxZSfYTl9
+ xKoY9Niyr2ZVu7EXnpXxIRj1RtczCxJ/ATZTJK9rUSOhVzqosNzYWOYazX0+6rThnu
+ dpDfs+OJ47qHg==
+Date: Tue, 16 May 2023 09:55:12 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
+ dynamically allocated buffers
+Message-ID: <20230516095512.3c99c35e@meshulam.tesarici.cz>
+In-Reply-To: <ZGJdtmP13pv06xDH@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
+ <ZGEuYxR2PM6wHeDh@arm.com>
+ <20230515104847.6dfdf31b@meshulam.tesarici.cz>
+ <20230515120054.0115a4eb@meshulam.tesarici.cz>
+ <ZGJdtmP13pv06xDH@arm.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com>
- <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 May 2023 09:47:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,134 +60,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-renesas-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Antonio Borneo <antonio.borneo@foss.st.com>,
- Lee Jones <lee@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-i2c@vger.kernel.org
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>, "Rafael
+ J. Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, "open list:DMA
+ MAPPING HELPERS" <iommu@lists.linux.dev>, Borislav Petkov <bp@suse.de>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On Mon, 15 May 2023 17:28:38 +0100
+Catalin Marinas <catalin.marinas@arm.com> wrote:
 
-On Sat, May 13, 2023 at 6:52=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-> device and another for rtc device.
->
-> Enhance i2c_new_ancillary_device() to instantiate a real device.
-> (eg: Instantiate rtc device from PMIC driver)
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3:
->  * New patch
+> (some of you replies may have been filtered to various of my mailboxes,
+> depending on which lists you cc'ed; replying here)
+>=20
+> On Mon, May 15, 2023 at 12:00:54PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Mon, 15 May 2023 10:48:47 +0200
+> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote: =20
+> > > On Sun, 14 May 2023 19:54:27 +0100
+> > > Catalin Marinas <catalin.marinas@arm.com> wrote: =20
+> > > > Now, thinking about the list_head access and the flag ordering, sin=
+ce it
+> > > > doesn't matter, you might as well not bother with the flag at all a=
+nd
+> > > > rely on list_add() and list_empty() ordering vs the hypothetical 'b=
+lah'
+> > > > access. Both of these use READ/WRITE_ONCE() for setting
+> > > > dma_io_tlb_dyn_slots.next. You only need an smp_wmb() after the
+> > > > list_add() and an smp_rmb() before a list_empty() check in =20
+> >                       ^^^^^^^^^
+> > Got it, finally. Well, that's exactly something I don't want to do.
+> > For example, on arm64 (seeing your email address), smp_rmb() translates
+> > to a "dsb ld" instruction. I would expect that this is more expensive
+> > than a "ldar", generated by smp_load_acquire(). =20
+>=20
+> It translates to a dmb ishld which is on par with ldar (dsb is indeed a
+> lot more expensive but that's not generated here).
 
-Thanks for your patch!
+You're right, dsb is generated for the non-smp barrier variants. Thanks
+for the correction.
 
-Looks correct to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > is_swiotlb_buffer(), no dma_iotlb_have_dyn variable.   =20
+> > >=20
+> > > Wait, let me check that I understand you right. Do you suggest that I
+> > > convert dma_io_tlb_dyn_slots to a lockless list and get rid of the
+> > > spinlock?
+> > >=20
+> > > I'm sure it can be done for list_add() and list_del(). I'll have
+> > > to think about list_move(). =20
+> >=20
+> > Hm, even the documentation of llist_empty() says that it is "not
+> > guaranteed to be accurate or up to date". If it could be, I'm quite
+> > sure the authors would have gladly implemented it as such. =20
+>=20
+> It doesn't but neither does your flag.
 
-Some suggestions for improvement below...
+Yes, I have already agreed in another sub-thread.
 
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct=
- i2c_client *client,
->         }
->
->         dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, a=
-ddr);
-> -       return i2c_new_dummy_device(client->adapter, addr);
-> +
-> +       if (aux_device_name) {
-> +               struct i2c_board_info info;
-> +               size_t aux_device_name_len =3D strlen(aux_device_name);
-> +
-> +               if (aux_device_name_len > I2C_NAME_SIZE - 1) {
-> +                       dev_err(&client->adapter->dev, "Invalid device na=
-me\n");
-> +                       return ERR_PTR(-EINVAL);
-> +               }
+> If you want a guarantee, you'd
+> need locks because a llist_empty() on its own can race with other
+> llist_add/del_*() that may not yet be visible to a CPU at exactly that
+> moment. BTW, the llist implementation cannot delete a random element, so
+> not sure this is suitable for your implementation (it can only delete
+> the first element or the whole list).
+>=20
+> I do think you need to change your invariants and not rely on an
+> absolute list_empty() or some flag:
+>=20
+> P0:
+> 	list_add(paddr);
+> 	WRITE_ONCE(blah, paddr);
+>=20
+> P1:
+> 	paddr =3D READ_ONCE(blah);
+> 	list_empty();
+>=20
+> Your invariant (on P1) should be blah =3D=3D paddr =3D> !list_empty(). If
+> there is another P2 removing paddr from the list, this wouldn't work
+> (nor your flag) but the assumption is that a correctly written driver
+> that still has a reference to paddr doesn't use it after being removed
+> from the list (i.e. it doesn't do a dma_unmap(paddr) and still continue
+> to use this paddr for e.g. dma_sync()).
 
-strscpy() return value?
+Right. In other words, given any paddr:
 
-> +
-> +               memset(&info, 0, sizeof(struct i2c_board_info));
+  a. Either it is on the list, and then the list cannot become empty by
+     any concurrent code.
 
-The call to memset() would not be needed if info would be initialized
-at declaration time, i.e.
+  a. Or it is not on the list, but then we may skip the search
+     regardless of any races with other CPUs.
 
-    struct i2c_board_info info =3D { .addr =3D addr };
+> For such invariant, you'd need ordering between list_add() and the
+> write of paddr (smp_wmb() would do). On P1, you need an smp_rmb() before
+> list_empty() since the implementation does a READ_ONCE only).
 
-Or, use I2C_BOARD_INFO(), to guarantee initialization is aligned
-with whatever future changes made to i2c_board_info? But that relies
-on providing the name at declaration time, which we already have in
-i2c_new_dummy_device().
+I agree.
 
-So I suggest to add a name parameter to i2c_new_dummy_device(),
-rename it to __i2c_new_dummy_device(), and create a wrapper for
-compatibility with existing users:
+> You still need the locks for list modifications and list traversal as I
+> don't see how you can use the llist implementation with random element
+> removal.
 
-    struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter
-*adapter, u16 address,
-                                             const char *name)
-    {
-            struct i2c_board_info info =3D {
-                    I2C_BOARD_INFO("dummy", address),
-            };
+That's right. It might even perform better than a truly non-blocking
+list (cf. Valois, Harris, Zhang).
 
-            if (name) {
-                    ssize_ret =3D strscpy(info.type, name, sizeof(info.type=
-));
+> There is another scenario to take into account on the list_del() side.
+> Let's assume that there are other elements on the list, so
+> list_empty() =3D=3D false:
+>=20
+> P0:
+> 	list_del(paddr);
+> 	/* the memory gets freed, added to some slab or page free list */
+> 	WRITE_ONCE(slab_free_list, __va(paddr));
+>=20
+> P1:
+> 	paddr =3D __pa(READ_ONCE(slab_free_list));/* re-allocating paddr freed o=
+n P0 */
+> 	if (!list_empty()) {			/* assuming other elements on the list */
+> 		/* searching the list */
+> 		list_for_each() {
+> 			if (pos->paddr) =3D=3D __pa(vaddr))
+> 				/* match */
+> 		}
+> 	}
+>=20
+> On P0, you want the list update to be visible before the memory is freed
+> (and potentially reallocated on P1). An smp_wmb() on P0 would do. For
+> P1, we don't care about list_empty() as there can be other elements
+> already. But we do want any list elements reading during the search to
+> be ordered after the slab_free_list reading. The smp_rmb() you'd add for
+> the case above would suffice.
 
-                    if (ret < 0)
-                            return ERR_PTR(dev_err_probe(&client->adapter->=
-dev,
-                                           ret, "Invalid device name\n");
-            }
+Yes, but to protect against concurrent insertions/deletions, a spinlock
+is held while searching the list. The spin lock provides the necessary
+memory barriers implicitly.
 
-            return i2c_new_client_device(adapter, &info);
-    }
+Again, thank you very much for your time!
 
-> +
-> +               memcpy(info.type, aux_device_name, aux_device_name_len);
-> +               info.addr =3D addr;
-> +
-> +               i2c_aux_client =3D i2c_new_client_device(client->adapter,=
- &info);
-> +       } else {
-> +               i2c_aux_client =3D i2c_new_dummy_device(client->adapter, =
-addr);
-> +       }
-> +
-> +       return i2c_aux_client;
->  }
->  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Petr T
