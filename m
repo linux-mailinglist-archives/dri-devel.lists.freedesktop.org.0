@@ -2,41 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2B17060D4
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398A07060CF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AED0710E3C8;
-	Wed, 17 May 2023 07:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE17310E3BD;
+	Wed, 17 May 2023 07:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A359610E33B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 11:22:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B81C36386D;
- Tue, 16 May 2023 11:22:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5D5C433D2;
- Tue, 16 May 2023 11:22:05 +0000 (UTC)
-Date: Tue, 16 May 2023 12:22:02 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
- dynamically allocated buffers
-Message-ID: <ZGNnWmw4eDsh9hBN@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
- <ZGEuYxR2PM6wHeDh@arm.com>
- <20230515104847.6dfdf31b@meshulam.tesarici.cz>
- <20230515120054.0115a4eb@meshulam.tesarici.cz>
- <ZGJdtmP13pv06xDH@arm.com>
- <20230516095512.3c99c35e@meshulam.tesarici.cz>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5319110E27D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 16:44:22 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f41d087b24so78979765e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1684255460; x=1686847460; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9RRIvZyK8CQAM0dAt4H7LQ/6jjtstZYibAABduiNmKg=;
+ b=1pki32CkIzhFh7JpQ37UTbB0z/0EiqVq7PJo2o0rHD72vTZTKzznUr+zstjp6pW7Ek
+ 5Nncvby+RBLpFydfYP84Daneai9k97DsMIaSrrbDD2SGqejUaoLaDb0kwqmgr6LTOVBM
+ EEZ0w0sgFmstOkKPYLbUfMogrU9cEIaCLDXfBZicSZMEg6NLwUAlaWZoUQNcHuT9Y1e5
+ xkgjVm2RC8QFLOhwL+EmZsEC7sLbKn/TUoGwMc9S928xL1uFyTbzKBPxqhNiqBE1wjVw
+ mM4oNJk0AEedy4oa0o3oQ4fzrwbHGgQyzhjNX2iz0tBRCnhfq/utsw5L2htW22SNNyMk
+ 9T8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684255460; x=1686847460;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9RRIvZyK8CQAM0dAt4H7LQ/6jjtstZYibAABduiNmKg=;
+ b=cdUZ8qv77IcgYYXHaxH8MfZO6H8kB1iE6tOoJ0opx6hUd/evn7vBVom10KQO+0AVYb
+ iKPOyjM2YyHGUWbRZ8oi4OqunkKsbpsSeCwLZr2gerCgRmR2iPbO0bSJmLZXvWXCzKEQ
+ vToIuDY0TPizisXhajlx2Bc3TPkD8gLLy0D4M4bSx9JE30+7fit0tZzyKf8Fdq32jEHr
+ suYH013ty/TFnf6k+pSQgUTKluSqCCNxIx3K9K0QcEg2/wuOtw9aY+paRQN/Ftu4+HbY
+ qbfnaNVqtyVp8f5xA+iDymlCa7oVk5FDSQM6QOuUWiDdmkUK8l0oUmt5b8S1cQGQc3I1
+ Ybvg==
+X-Gm-Message-State: AC+VfDwYyuH/mFxcgBBsCi+e/cHE61PyLb0IPLcXNILLTHmtBXX/XG+e
+ GLqgDiYUsrSQ9d3bzlqK+l08rE8D+IURUzctJSE=
+X-Google-Smtp-Source: ACHHUZ5PPeGhNUMDjhJMuSkkih/heMu/8CXLe09tt0djJBA5eZwtYs6f1RnDINUQqmnUi5x8iIBd0g==
+X-Received: by 2002:a7b:ca51:0:b0:3f4:2148:e8e5 with SMTP id
+ m17-20020a7bca51000000b003f42148e8e5mr23269068wml.1.1684255460042; 
+ Tue, 16 May 2023 09:44:20 -0700 (PDT)
+Received: from localhost.localdomain ([188.27.132.2])
+ by smtp.gmail.com with ESMTPSA id
+ h18-20020adffd52000000b003063db8f45bsm3219899wrs.23.2023.05.16.09.44.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 May 2023 09:44:19 -0700 (PDT)
+From: Alexandru Ardelean <alex@shruggie.ro>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: adv7511: Fix low refresh rate register for ADV7533/5
+Date: Tue, 16 May 2023 19:44:16 +0300
+Message-Id: <20230516164416.11616-1-alex@shruggie.ro>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230516095512.3c99c35e@meshulam.tesarici.cz>
 X-Mailman-Approved-At: Wed, 17 May 2023 07:08:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,92 +72,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Bogdan Togorean <bogdan.togorean@analog.com>,
+ Alexandru Ardelean <alex@shruggie.ro>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 16, 2023 at 09:55:12AM +0200, Petr Tesařík wrote:
-> On Mon, 15 May 2023 17:28:38 +0100
-> Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > There is another scenario to take into account on the list_del() side.
-> > Let's assume that there are other elements on the list, so
-> > list_empty() == false:
-> > 
-> > P0:
-> > 	list_del(paddr);
-> > 	/* the memory gets freed, added to some slab or page free list */
-> > 	WRITE_ONCE(slab_free_list, __va(paddr));
-> > 
-> > P1:
-> > 	paddr = __pa(READ_ONCE(slab_free_list));/* re-allocating paddr freed on P0 */
-> > 	if (!list_empty()) {			/* assuming other elements on the list */
-> > 		/* searching the list */
-> > 		list_for_each() {
-> > 			if (pos->paddr) == __pa(vaddr))
-> > 				/* match */
-> > 		}
-> > 	}
-> > 
-> > On P0, you want the list update to be visible before the memory is freed
-> > (and potentially reallocated on P1). An smp_wmb() on P0 would do. For
-> > P1, we don't care about list_empty() as there can be other elements
-> > already. But we do want any list elements reading during the search to
-> > be ordered after the slab_free_list reading. The smp_rmb() you'd add for
-> > the case above would suffice.
-> 
-> Yes, but to protect against concurrent insertions/deletions, a spinlock
-> is held while searching the list. The spin lock provides the necessary
-> memory barriers implicitly.
+From: Bogdan Togorean <bogdan.togorean@analog.com>
 
-Well, mostly. The spinlock acquire/release semantics ensure that
-accesses within the locked region are not observed outside the
-lock/unlock. But it doesn't guarantee anything about accesses outside
-such region in relation to the accesses within the region. For example:
+For ADV7533 and ADV7535 low refresh rate is selected using
+bits [3:2] of 0x4a main register.
+So depending on ADV model write 0xfb or 0x4a register.
 
-P0:
-	spin_lock_irqsave(&swiotlb_dyn_lock);
-	list_del(paddr);
-	spin_unlock_irqrestore(&swiotlb_dyn_lock);
+Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+---
+ drivers/gpu/drm/i2c/adv7511.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-	/* the blah write below can be observed before list_del() above */
-	WRITE_ONCE(blah, paddr);
-
-	/* that's somewhat tricker but slab_free_list update can also be
-	 * seen before list_del() above on certain architectures */
-	spin_lock_irqsave(&slab_lock);
- 	WRITE_ONCE(slab_free_list, __va(paddr));
-	spin_unlock_irqrestore(&slab_lock);
-
-On most architectures, the writing of the pointer to a slab structure
-(assuming some spinlocks) would be ordered against the list_del() from
-the swiotlb code. Apart from powerpc where the spin_unlock() is not
-necessarily ordered against the subsequent spin_lock(). The architecture
-selects ARCH_WEAK_RELEASE_ACQUIRE which in turns makes
-smp_mb__after_unlock_lock() an smp_mb() (rather than no-op on all the
-other architectures).
-
-On arm64 we have smp_mb__after_spinlock() which ensures that memory
-accesses prior to spin_lock() are not observed after accesses within the
-locked region. I don't think this matters for your case but I thought
-I'd mention it.
-
+diff --git a/drivers/gpu/drm/i2c/adv7511.c b/drivers/gpu/drm/i2c/adv7511.c
+index 61aa824d45d2..e016105a8fbe 100644
+--- a/drivers/gpu/drm/i2c/adv7511.c
++++ b/drivers/gpu/drm/i2c/adv7511.c
+@@ -729,8 +729,13 @@ static void adv7511_encoder_mode_set(struct drm_encoder *encoder,
+ 	else
+ 		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
+ 
+-	regmap_update_bits(adv7511->regmap, 0xfb,
+-		0x6, low_refresh_rate << 1);
++	if (adv7511->type == ADV7511)
++		regmap_update_bits(adv7511->regmap, 0xfb,
++			0x6, low_refresh_rate << 1);
++	else
++		regmap_update_bits(adv7511->regmap, 0x4a,
++			0xc, low_refresh_rate << 2);
++
+ 	regmap_update_bits(adv7511->regmap, 0x17,
+ 		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+ 
 -- 
-Catalin
+2.40.1
+
