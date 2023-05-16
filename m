@@ -2,51 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E233E7047E8
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 10:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA41704813
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 10:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE0B10E321;
-	Tue, 16 May 2023 08:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F8910E231;
+	Tue, 16 May 2023 08:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4AD110E321
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:34:21 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id DFA33846B6;
- Tue, 16 May 2023 10:34:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1684226059;
- bh=A5acqp/4WdCSFy50HcfkS2iPU0flc8/YzU1yBOO969k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=wJW7d475TX8fMXq1YrVTp2Tl5CRKmGolOkzJ3a4Cx3UWBzFaCIpag/OF21S3e8YVj
- 1nyQWTRLbdTbm9/xKuQcnRiXqD2JvIRtBbyXUCw+BAPPWqpNNrrtULXQWRPocpGo+9
- jMlrUCIlJGqKxGKwO1/BladfT/gsmSxOsAlForkEq2iWzJaA47XxyMrsmzNKtc0mT6
- hI5Ta/dvhbtCYHktIlzS07+4sVWerIdoCi0accLLP9jgkU2fIx0j7g+8ko+9XJCh4y
- ky7xW9ypgQnHnEqzqG+trEYS+ViONDLr3s6oswCpBQfPXxX9A1CXaU4svljhtuksfm
- zEKy+eW4OuzDQ==
-Message-ID: <a235a4e1-9562-6694-ee09-110d3eb92380@denx.de>
-Date: Tue, 16 May 2023 10:34:18 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Drop panel_bridge post_disable
- call
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20230513201030.514861-1-marex@denx.de>
- <CAMty3ZCYCzawWuEGUWhsxSmuMORoeij=VEGGhn0-yRaQ7_1_uA@mail.gmail.com>
- <62a849cf-46f4-b01b-15b7-6b2bafe2972f@denx.de>
- <CAMty3ZC76XV-WP4w9CxOZ5KE3w9_FVMXTdqkfi0JJ0FsLQr3gQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZC76XV-WP4w9CxOZ5KE3w9_FVMXTdqkfi0JJ0FsLQr3gQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4038010E32C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:45:09 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 522B65810AF;
+ Tue, 16 May 2023 04:45:08 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Tue, 16 May 2023 04:45:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1684226708; x=1684233908; bh=u/
+ Wz5MhNACKrizGF564GZclX7WtuKcDjHIIc2sgb46k=; b=LZwQORTPNRSuxtpmnd
+ ncA/M0GDtg3dh7wxSU7uqTrOJWQ0JudOtVmLMg6+XYJJN7JkkhOaqWr9JMUJ1LYN
+ qlsXhsVFZwKdFi7LcqNMpziHyx+mheLQlbmWNeBmG7grA0HCXVgHp5i5BFWTv7Zk
+ c6MbjEN04eqMeNz2WPg04ABVYJiNbL2d4kHKuk9xBc/be9SRSFSG3sdJ2P+YmXuM
+ sWJERm3eaXVLB70uKqLNxSMUjmQZH6ZZra9iVh2PASs3OS1MyTeDVJMwZ8sqRMtF
+ jVJTgCxreoiAubEYMI1cLq2h2/KsLcGqMlxUJTbEv7GhFoqyI5CridlFzwyCyASg
+ t9Aw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1684226708; x=1684233908; bh=u/Wz5MhNACKri
+ zGF564GZclX7WtuKcDjHIIc2sgb46k=; b=dIM0d/rWDZRxe7l2yHA8Ys/6jAjJ1
+ jzn5PVRh0UI3hEhDGSbYeitApDeupBmoKf8Z9yRSFCrmvoM7bvYQ3l15E7isPivU
+ Cl+5R+XQQCgSYMG/DRxE/H01o6IhPDbLn9fEsKAlOzn2y4vEsgLxNVmB5WNNJZ9h
+ 93ORydUw+VR3p9D5ITaAuZuQ7rIwHhvawr06BPgUH40iOl0/7UbJYdV7H0cNSn6U
+ sAliTsQlKy3hNA7w4PU7Rf87KgM8UDglyqB3tAmaTM+4RSnE+H/GmMrPd/buYSlM
+ w4deceGtaJ8L0m5z3S2tBm5Z7Pt35x0TcDCS+QcRR/N8CCnn3GO4dySDQ==
+X-ME-Sender: <xms:k0JjZHYINi_B2oYrUdT0aJgPICFzDz-f3r20UBg6F9qO6G1GhhxfXw>
+ <xme:k0JjZGa6WQ40P-MeUsiDH97ab1HHMRq3UjfkwX3sF4ds5FYVgY4rFUEwYEt861uJ2
+ WyKDPTJfKgrJkbVQkg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehledgtdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:k0JjZJ9ZFPvUQMdXbAcgS7dLsrFIbc8_NFycwgYtMqV52neATnsIkA>
+ <xmx:k0JjZNpupvUMEJJbur4eJj0b5lnHQ5_2TRz-gy8bZxP9efgBLd7hDw>
+ <xmx:k0JjZCrTsJg_ZlDnOiKui63PzKX-TM63SjAnwzZ8wbPJHvFGGygA7w>
+ <xmx:lEJjZKB3kWYt21PwpKFT5sM6_1Q5NhXKizj5u523ggsCHuQu0KNR9Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8FDBDB60086; Tue, 16 May 2023 04:45:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+Mime-Version: 1.0
+Message-Id: <2fabe721-7434-43e7-bae5-088a42ba128d@app.fastmail.com>
+In-Reply-To: <9cba6384-123b-1cd1-ed02-08365a0ed529@linaro.org>
+References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
+ <5cb38be4-a27f-dc1a-cbb9-c195505a9e7c@linaro.org>
+ <9fa0662e-8854-05f9-da7f-ec8e08d2badf@linaro.org>
+ <d5c030f9-2f4d-25cc-b922-d00f5033ac37@linaro.org>
+ <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
+ <9cba6384-123b-1cd1-ed02-08365a0ed529@linaro.org>
+Date: Tue, 16 May 2023 10:44:44 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Kevin Hilman" <khilman@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Vinod Koul" <vkoul@kernel.org>,
+ "Kishon Vijay Abraham I" <kishon@kernel.org>,
+ "Sam Ravnborg" <sam@ravnborg.org>
+Subject: Re: [PATCH v4 01/13] dt-bindings: clk: g12a-clkc: export VCLK2_SEL
+ and add CTS_ENCL clock ids
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,92 +101,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/16/23 10:25, Jagan Teki wrote:
-> On Tue, May 16, 2023 at 1:47 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 5/16/23 10:12, Jagan Teki wrote:
->>> Hi Marek and Neil,
->>>
->>> On Sun, May 14, 2023 at 1:40 AM Marek Vasut <marex@denx.de> wrote:
->>>>
->>>> This panel_bridge post_disable callback is called from the bridge chain now,
->>>> so drop the explicit call here. This fixes call imbalance, where this driver
->>>> does not call ->pre_enable, but does call ->post_disable . In case either of
->>>> the two callbacks implemented in one of the panel or bridge drivers contains
->>>> any operation with refcounted object, like regulator, this would make kernel
->>>> complain about the imbalance.
->>>>
->>>> This can be triggered e.g. with ST7701 driver, which operates on regulators
->>>> in its prepare/unprepare callbacks, which are called from pre_enable/post_disable
->>>> callbacks respectively. The former is called once, the later twice, during
->>>> entry to suspend.
->>>>
->>>> Drop the post_disable call to fix the imbalance.
->>>>
->>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>> ---
->>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>>> Cc: Antonio Borneo <antonio.borneo@foss.st.com>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> Cc: David Airlie <airlied@gmail.com>
->>>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->>>> Cc: Jonas Karlman <jonas@kwiboo.se>
->>>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->>>> Cc: Marek Vasut <marex@denx.de>
->>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
->>>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->>>> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
->>>> Cc: Robert Foss <robert.foss@linaro.org>
->>>> Cc: Vincent Abriou <vincent.abriou@st.com>
->>>> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> ---
->>>>    drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 ---------
->>>>    1 file changed, 9 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>>> index b2efecf7d1603..63ac972547361 100644
->>>> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
->>>> @@ -859,15 +859,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
->>>>            */
->>>>           dw_mipi_dsi_set_mode(dsi, 0);
->>>>
->>>> -       /*
->>>> -        * TODO Only way found to call panel-bridge post_disable &
->>>> -        * panel unprepare before the dsi "final" disable...
->>>> -        * This needs to be fixed in the drm_bridge framework and the API
->>>> -        * needs to be updated to manage our own call chains...
->>>> -        */
->>>> -       if (dsi->panel_bridge->funcs->post_disable)
->>>> -               dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
->>>> -
->>>
->>> If my understanding was correct, the controller set the low-speed DCS
->>> in pre_enable and high-speed DCS in enable. So I'm thinking this
->>> explicit post_disable still needs to revert the operation within the
->>> bridge chain. I didn't test this but trying to understand how the
->>> existing behaviour is satisfied if we drop this.
->>
->> Did I miss a panel_bridge pre_enable call somewhere in the driver ?
->> Where is it ?
-> 
-> Haa, sorry the next bridge pre_enable.  driver setting the
-> command-mode (low-speed) in mode_set so when the next bridge
-> pre_enable is called, low-speed DCS can be sent, then the bridge
-> enable() sets video mode (high-speed). This is where an explicit
-> post_disable would be required, this is what I understood so far.
+On Mon, May 15, 2023, at 18:22, neil.armstrong@linaro.org wrote:
+> On 15/05/2023 18:15, Krzysztof Kozlowski wrote:
+>> On 15/05/2023 18:13, Krzysztof Kozlowski wrote:
+>> 
+>> Also one more argument maybe not relevant here but for other cases -
+>> this makes literally impossible to include the clock ID in DTS in the
+>> same kernel revision, because you must not merge driver branch to DTS
+>> branch. SoC folks were complaining about this many times.
+>
+> Actually we handle this very simply by having such patches merged in a immutable
+> branch merged in the clock and DT pull-requests, it worked perfectly so far
+> and neither Stephen or Arnd complained about that.
 
-So, in the end, all is good with this patch or is there anything missing ?
+It's usually benign if you just add a new clk at the end of the binding
+header, as that doesn't touch the internal header file in the same
+commit. I'm certainly happier about drivers that just use numbers from
+a datasheet instead of having to come up with numbers to stick in a binding
+because the hardware is entirely irregular, but there is usually no point
+trying to complain about bad hardware to the driver authors -- I unsterstand
+you are just trying to make things work.
+
+I agree with Krzysztof that using the same identifiers in the local
+header and in the binding is just making your life harder for no
+reason, and if you are the only ones doing it this way, it would
+help to change it. Maybe just add a namespace prefix to all the internal
+macros so the next time you move one into the documented bindings you
+can do it with the same immutable branch hack but not include the
+driver changes in the dt branch.
+
+    Arnd
