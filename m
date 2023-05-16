@@ -1,80 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B1D705B02
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 01:10:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0980705B41
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 01:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52C5110E381;
-	Tue, 16 May 2023 23:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA39F10E383;
+	Tue, 16 May 2023 23:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E0A10E381;
- Tue, 16 May 2023 23:10:11 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34GN1XSm016407; Tue, 16 May 2023 23:10:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=m26SABZTBPUYrSLg+2NR/jGJWv+OH4uAok55fXj/I3o=;
- b=FM0i/Il5OgKq2LTAI2IjJZrzcZIGgt50WPJAFYYuLDzEvdi1wnD3fDSjhlRCC+DZseql
- DwPRYUifoTmsDdk/LH9qzVAput8Ql+VKBYhm5ERieU6i9NTIlrMLLiHU4pmcHD54pU7c
- Qhb8ibddixzlNxCAKWEjhwYhUfs5k7nY9xGG8Wydjh50N5hoybs8FlvA3R8WZY6QG9I5
- lu1FzQ8LIUUQrce28dA+aG8Xt38bsSZYmMPvrB/szON3vfpHYkQMaS4nDLguaLK/k2J+
- 0el56QtVJC4jWBL1kkqPod+ncpNmAbZHA+ldT3ou6SOGghMqa9aMSz3HMoNiiGsswumh 0g== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmh32r743-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 May 2023 23:10:08 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34GNA8cm002472
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 May 2023 23:10:08 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 16 May
- 2023 16:10:07 -0700
-Message-ID: <170f78ac-361a-ec5f-ce89-9153b41c203f@quicinc.com>
-Date: Tue, 16 May 2023 16:10:07 -0700
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17C5810E380
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 23:22:34 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-2ac82b07eb3so86081fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 16:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684279353; x=1686871353;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F0lqRcsSsQH0bBfoyNKX+3AOqI8xO1VZEspaatlK78k=;
+ b=uA7/LYKh5HNBNHXQxR6NRDVGEgME5E/5oAkzu0StP2gjzSumdlZ5g/rL//IZqzjU2A
+ +gViSD7O4lfppe164q8n3Xky20BhzZGAf9iDiwAoTUlqsRsCx4UDh6Y/4F2Pbhdlqr7y
+ yYeUOjhEnhKVEUFdeF5UPkS2h3e5qRfnS4HxxaJ5HaIUa+T1kYHvOhBXJczw9/U8vjEa
+ hDN85Ae1svLt7wJIHQffrL0BDY/BTIN9Q+HdpgaykIIQbVNyGHRd8tDHTu7LnyBvKsIg
+ aZw8IXL3rbqbK4RVyIEKRlyjXcgTXQjY6UuJ/rLJ0hPQ0Z1PI90sjmJFeIddz1YMZvjs
+ ypXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684279353; x=1686871353;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F0lqRcsSsQH0bBfoyNKX+3AOqI8xO1VZEspaatlK78k=;
+ b=V3AqHWUmHqpLFY1YAdOY4ZWZxlGajXleQrwKRHa4jXP56v7nDPNxdzMiaIHOD0NJpb
+ RyjmgSvM0vaIf9f7mxihfBO2R+o5aLyrht6HiKr+Iw1c4ZpJDd1/P1tpje4LsigRAwPT
+ vZiGC8tVCSgc5+xmcsOc7SCXDTSSjgbvOYQK62Q03WNQyXh1UOX/hTSz28UIitQVEoSi
+ c05feM/SZorEwyZnzQH+NDteJ0ZPRqkNLBb9iW4mIVM6Vo4j382Hq8BxOC9ZQRdzXVcY
+ AkTzPjBH9d0CrFbACAl3sQO3fgtWEDHiPnfrlQAs76O44KSvafqxz4M3pIkRm7B6U8wR
+ jN1g==
+X-Gm-Message-State: AC+VfDwIC5+0dM0HpMEg61GsHaDPKiQ2OVShW0VWfwrS8ALO6tDb6kC3
+ SumAMYivWppRRjfrzkeT8kxxWQ==
+X-Google-Smtp-Source: ACHHUZ6pKQ/IyOU0B/3fMGnHOQ5asgHXtu0mkqxW5VGYBRoXChUBKHyVyTbPwB9oD8Q/wqE0YYfidg==
+X-Received: by 2002:a2e:8851:0:b0:2ac:8e69:c06d with SMTP id
+ z17-20020a2e8851000000b002ac8e69c06dmr9126360ljj.49.1684279352762; 
+ Tue, 16 May 2023 16:22:32 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ e4-20020a2e9e04000000b002aecfa8c58bsm1321531ljk.40.2023.05.16.16.22.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 May 2023 16:22:32 -0700 (PDT)
+Message-ID: <fdd07b5b-a3f5-0cbf-0d71-602d0b3b9847@linaro.org>
+Date: Wed, 17 May 2023 02:22:31 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [PATCH v10 8/8] drm/msm/dsi: update hdisplay
- calculation for dsi_timing_setup
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v10-8-4cb21168c227@quicinc.com>
- <5jqvxyy7ixfpwzepgseqwwz5elyn2qhxa4qdwhxcw7xbkvle4l@rijv4uq5wsb7>
- <43a07bc1-d758-242a-7017-f566daadc35c@quicinc.com>
- <45htnhfupwmiiuxy53osahrd6lpaz4my2apbqhxw6uuwlq5vxl@qhvf6guwk3np>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <45htnhfupwmiiuxy53osahrd6lpaz4my2apbqhxw6uuwlq5vxl@qhvf6guwk3np>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 1/2] iommu/arm-smmu-qcom: Fix missing adreno_smmu's
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux-foundation.org
+References: <20230516222039.907690-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230516222039.907690-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: mILN6RZ1y6OOaggs2bUrOuxksGD9DzMj
-X-Proofpoint-GUID: mILN6RZ1y6OOaggs2bUrOuxksGD9DzMj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_12,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305160196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,63 +78,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Rob Clark <robdclark@chromium.org>, Lepton Wu <lepton@chromium.org>,
+ Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, Will Deacon <will@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>, stable@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Melody Olvera <quic_molvera@quicinc.com>,
+ Elliot Berman <quic_eberman@quicinc.com>, freedreno@lists.freedesktop.org,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/16/2023 3:45 PM, Marijn Suijten wrote:
-> On 2023-05-16 11:18:17, Jessica Zhang wrote:
->> On 5/14/2023 2:29 PM, Marijn Suijten wrote:
->>> On 2023-05-12 14:32:18, Jessica Zhang wrote:
->>>>
->>>> hdisplay for compressed images should be calculated as bytes_per_slice *
->>>> slice_count. Thus, use MSM DSC helper to calculate hdisplay for
->>>> dsi_timing_setup instead of directly using mode->hdisplay.
->>>
->>> As mentioned in review on an earlier revision, is there any sort of
->>> clarification you can provide here to explain the cases where
->>> hdisplay!=bytes_per_line?  That goes a long way towards justifying this
->>> change.  Thanks!
->>
->> Hi Marijn,
->>
->> Sorry for not responding to this in the earlier revision, I think I
->> missed the original comment.
->>
->> Please correct me if I'm wrong, but I'm guessing the question here is
->> why we can't keep the hdisplay adjustment as `hdisplay /= 3` and have to
->> go out of our way to recalculate hdisplay before doing the `/ 3`.
->>
->> This is because the original adjustment only works for BPP = 8. By using
->> the msm_dsc_get_bytes_per_line() here, we can generalize this adjustment
->> to work for cases where BPP != 8.
+On 17/05/2023 01:20, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> I am fully aware that the original computation only works for BPP=8 and
-> even mentioned so in v7 review [1].  The question / request is instead
-> to include such context in your commit message, rather than the
-> nondescriptive "should be calculated as" -> who says that and why?
-> Stating that the current approach was only working for BPP=8 (hence why
-> currently tested panels are working fine) but that this isn't a
-> long-term solution if we starts upporting other BPP is a proper
-> justification to make this change.
-
-Sounds good, will add this to the commit message.
-
-Thanks,
-
-Jessica Zhang
-
+> When the special handling of qcom,adreno-smmu was moved into
+> qcom_smmu_create(), it was overlooked that we didn't have all the
+> required entries in qcom_smmu_impl_of_match.  So we stopped getting
+> adreno_smmu_priv on sc7180, breaking per-process pgtables.
 > 
-> [1]: https://lore.kernel.org/linux-arm-msm/ju7647tlogo25fnhswgp7zn67syvsjy2ldjugvygh3z4rxtdrx@kb76evjvulgw/
-> 
->> Thanks,
-> 
-> Thanks for looking into improving this!
-> 
-> - Marijn
+> Fixes: 30b912a03d91 ("iommu/arm-smmu-qcom: Move the qcom,adreno-smmu check into qcom_smmu_create")
+> Cc: <stable@vger.kernel.org>
+> Suggested-by: Lepton Wu <lepton@chromium.org>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
+
