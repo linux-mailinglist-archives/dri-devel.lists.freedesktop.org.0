@@ -1,48 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EC270551D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 19:37:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95121705535
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 19:44:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB0610E356;
-	Tue, 16 May 2023 17:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA2610E052;
+	Tue, 16 May 2023 17:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD28D10E357;
- Tue, 16 May 2023 17:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684258650; x=1715794650;
- h=date:from:to:cc:subject:message-id;
- bh=uqH4MXSym2/2MfnUmJQjhh6WvqrJgQFs46ETSmTZB0s=;
- b=FXaA3qzmCBLVVQZpdC5JRUXESVsqL27JOkE1NlBOIDDhMZ8C+1rMcmC7
- aoQskpkcQRKz22V/o8olmqwillIUSuVKdhh1w66YvvxgqHKnqM/9XRpao
- DapOwePEYv520o31cT+QiV74kfky4ZJ/5IK//HAyI2O4BNOVoXPXwaRuX
- wrDrKT6oiO6oyXCm9uzrVWPezSBfTh+Sg0Qia3DkbL9MCy9YFiD/nwuU6
- AkVX5UFu8ELSCTC2YN0sJE4nr0+0nCFIcx54ohNcvJYj20B0B3V8Lrs3h
- dnkTg5hwVQuyMImUcE+E225boomu7BLPRQJRAkj6y7FpOmFqvfRr+0cm1 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="414949587"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="414949587"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 May 2023 10:37:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="1031376637"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="1031376637"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 16 May 2023 10:37:26 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pyyc1-0007fE-2W;
- Tue, 16 May 2023 17:37:25 +0000
-Date: Wed, 17 May 2023 01:36:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
- 885df05bf634d589fbf030c3751614eaa453fb5d
-Message-ID: <20230516173633.o6H1n%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA22C10E052
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 17:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1684259054; i=deller@gmx.de;
+ bh=28Q2XTKI3jOrWHGJRY35mfdpvNOlP9oZTBSK7WL8Bjk=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=eXaGMvBKqACcsFqkTyYRfQM2481JQl71DzQiEIaVDzUVH1aDV1H4R33xqAwl3T9xg
+ WyGs2k/8xP0S2HR/CekXsMf6yLBmqry4QSYxr4BvpJva3Ks/s2ycdHnF+/EoAr+h6u
+ NIoYxuVUMWztf2AdYwAzRMjkS9hI8Pd8dMPpn7VuHOMlyOdCyXRmWCYoqqSUxHBvmw
+ evV8w3qjZaKNyexAvtHeNQIrjaAsxgulFEKp3nDKkDglGurFZX71jPAWLjfTwmgGYG
+ s4H5RwDK7jPGN43mnLsgqXe6Vt8DhM5WO+h9lRK2vxVHJEwQX4XP6bFslTwNi3OGd0
+ TeuNvCu0UJvAw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.150.20]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5mKP-1qDPOg4AKR-017Dz0; Tue, 16
+ May 2023 19:44:14 +0200
+Message-ID: <df527e53-3148-02f0-241b-fbc5e28b1618@gmx.de>
+Date: Tue, 16 May 2023 19:44:09 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v7 1/7] fbdev/hitfb: Cast I/O offset to address
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, geert@linux-m68k.org,
+ javierm@redhat.com, daniel@ffwll.ch, vgupta@kernel.org,
+ chenhuacai@kernel.org, kernel@xen0n.name, davem@davemloft.net,
+ James.Bottomley@HansenPartnership.com, arnd@arndb.de, sam@ravnborg.org,
+ suijingfeng@loongson.cn
+References: <20230512102444.5438-1-tzimmermann@suse.de>
+ <20230512102444.5438-2-tzimmermann@suse.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230512102444.5438-2-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:rSOrO+0jt4O4RzM9l14Bz6wfGEKXucA0j3Waundj3xcBKFDFc52
+ MmW0hsb8NLlq0rH9mMz/XUMz+PTuDsa6n+7OMeP7elMOy6xV14Nc64lHY1vMLN09t7CrUAU
+ aro3xE6YuZBtr5yHHhTsC4g3TbNooxbmvDC+2u1zgRm2sKkzCxIS3lxPvtY+OC7z04Uhti5
+ 72FlfAhLCIiPZ2ZVXmmOQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ecBgGlwkX5Y=;oQwXswBOboXoEMT5pniOW9e5zDy
+ TDc0juyT2oeDOAYSymZ4Yve6mAwtAQYgC4JulDpsWI54/lpT/3D7R4HTWQBItkMqSmELB7Tfh
+ k/xHSW5SHoW+vvUk5sL4+IR5vxCspl8eKgpH3nyPYnge684GFJK7ApwoTiF0bEeuMEPeE0f98
+ 5nKB5Ki2nXvssTP6YWZstlRi9vmm7UDfKmr6dJC7XQRSdL459sxpPqb6y5Py+VeOtrwRswQ9b
+ mgX6Q416C2OMUv1g2qvDpI/CUwPMRZVR7PdDu0s1ziJFjAoZ4bpAU0a2Amuhqx8ipGBYPgxy9
+ 8K9IWqbt6vD0urHXico4zJpR6rXjjdvRQeMftW7c4y+Mn7o+Gzt+zxbKNHywWhVRr/GF+ybXC
+ yB72kKK2MPCb8Ol4bxPSD2qxRs+u6yR+B5tS0PfJiS96Acllk7UA/0W8kS5K14nUpMPF1nBjW
+ SgGVsJmvnSiuIjlbaZLisaUJpWXTZIYL9DjVqv50wqiLFUrTuaMcFH8IXzLv29VjHSZNEOpBo
+ DUYeBfYKUtlMQjLEL/KhlDZ//O00ulUgDkRDV3l+HMC3KDxM4w1qVuyk9g6rR1gHVFvtRMw4B
+ pKUdaCegbB6YWC3baOTepNotkyxry/FsXyBxefzaocIcXxJipYn7OyR61jwcy7DFoul70oAn1
+ 0a2ZvSp2XLUaT8vIUNhNrNECPa3NCDdrWfNByBWiFrW8o/WVtK5oM6zVT1IzOnAYuzrkDTjAD
+ uoZnelK3f6VSOHLd7t16PWGRCXk7M6eV8Pew6pM1LwlLxJGYb0XchPIobzDo+3uuXqgw8k1x/
+ qfxDOSuCv3W9gkj/I6aq7QqrnHkYz1J9yv4wny00fCDTmiez/GMrUxjchUPzeZj1hpyqCP4Kg
+ AodCMcCoACTsxxNkm24VDBz4N08R7D9G25UWZxxPaXTBo0szFnbZxYJX0JCcEfySdyg7jco/x
+ Rp2dTA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,322 +76,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, linux-ext4@vger.kernel.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Artur Rojek <contact@artur-rojek.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: INFO setup_repo_specs: /db/releases/20230516180935/lkp-src/repo/*/linux-next
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 885df05bf634d589fbf030c3751614eaa453fb5d  Add linux-next specific files for 20230516
+On 5/12/23 12:24, Thomas Zimmermann wrote:
+> Cast I/O offsets to pointers to use them with I/O functions. The I/O
+> functions expect pointers of type 'volatile void __iomem *', but the
+> offsets are plain integers. Build warnings are
+>
+>    ../drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
+>    ../arch/x86/include/asm/hd64461.h:18:33: warning: passing argument 1 =
+of 'fb_readw' makes pointer from integer without a cast [-Wint-conversion]
+>     18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
+>        |                                 ^~~~~~~~~~~~~~~~~~~~~~
+>        |                                 |
+>        |                                 unsigned int
+>    ../arch/x86/include/asm/hd64461.h:93:33: note: in expansion of macro =
+'HD64461_IO_OFFSET'
+>     93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)      =
+ /* Accelerator Configuration Register */
+>        |                                 ^~~~~~~~~~~~~~~~~
+>    ../drivers/video/fbdev/hitfb.c:47:25: note: in expansion of macro 'HD=
+64461_GRCFGR'
+>     47 |         while (fb_readw(HD64461_GRCFGR) & HD64461_GRCFGR_ACCSTA=
+TUS) ;
+>        |                         ^~~~~~~~~~~~~~
+>    In file included from ../arch/x86/include/asm/fb.h:15,
+>    from ../include/linux/fb.h:19,
+>    from ../drivers/video/fbdev/hitfb.c:22:
+>    ../include/asm-generic/fb.h:52:57: note: expected 'const volatile voi=
+d *' but argument is of type 'unsigned int'
+>     52 | static inline u16 fb_readw(const volatile void __iomem *addr)
+>        |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>
+> This patch only fixes the build warnings. It's not clear if the I/O
+> offsets can legally be passed to the I/O helpers. It was apparently
+> broken in 2007 when custom inw()/outw() helpers got removed by
+> commit 34a780a0afeb ("sh: hp6xx pata_platform support."). Fixing the
+> driver would require setting the I/O base address.
 
-Warning reports:
+I think your patch is the best you can do for now... So...
 
-https://lore.kernel.org/oe-kbuild-all/202304200812.6UqNDVZy-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202305152341.oiSjRpv6-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202305162245.wtaLIXf3-lkp@intel.com
+Acked-by: Helge Deller <deller@gmx.de>
 
-Warning: (recently discovered and may have been fixed)
+Thanks!
+Helge
 
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: fec-11-45 (if the link has no caption the label must precede a section header)
-drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
-drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6396:21: warning: variable 'count' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm.c:138:15: warning: variable 'feature_support' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:499:13: warning: variable 'j' set but not used [-Wunused-but-set-variable]
 
-Unverified Warning (likely false positive, please contact us if interested):
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202305102136.eMjTSPwH-lkp@=
+intel.com/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Artur Rojek <contact@artur-rojek.eu>
+> ---
+>   drivers/video/fbdev/hitfb.c | 122 ++++++++++++++++++++----------------
+>   1 file changed, 69 insertions(+), 53 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/hitfb.c b/drivers/video/fbdev/hitfb.c
+> index 3033f5056976..7737923b7a0a 100644
+> --- a/drivers/video/fbdev/hitfb.c
+> +++ b/drivers/video/fbdev/hitfb.c
+> @@ -42,17 +42,33 @@ static struct fb_fix_screeninfo hitfb_fix =3D {
+>   	.accel		=3D FB_ACCEL_NONE,
+>   };
+>
+> +static volatile void __iomem *hitfb_offset_to_addr(unsigned int offset)
+> +{
+> +	return (__force volatile void __iomem *)(uintptr_t)offset;
+> +}
+> +
+> +static u16 hitfb_readw(unsigned int offset)
+> +{
+> +	return fb_readw(hitfb_offset_to_addr(offset));
+> +}
+> +
+> +static void hitfb_writew(u16 value, unsigned int offset)
+> +{
+> +	fb_writew(value, hitfb_offset_to_addr(offset));
+> +}
+> +
+>   static inline void hitfb_accel_wait(void)
+>   {
+> -	while (fb_readw(HD64461_GRCFGR) & HD64461_GRCFGR_ACCSTATUS) ;
+> +	while (hitfb_readw(HD64461_GRCFGR) & HD64461_GRCFGR_ACCSTATUS)
+> +		;
+>   }
+>
+>   static inline void hitfb_accel_start(int truecolor)
+>   {
+>   	if (truecolor) {
+> -		fb_writew(6, HD64461_GRCFGR);
+> +		hitfb_writew(6, HD64461_GRCFGR);
+>   	} else {
+> -		fb_writew(7, HD64461_GRCFGR);
+> +		hitfb_writew(7, HD64461_GRCFGR);
+>   	}
+>   }
+>
+> @@ -63,11 +79,11 @@ static inline void hitfb_accel_set_dest(int truecolo=
+r, u16 dx, u16 dy,
+>   	if (truecolor)
+>   		saddr <<=3D 1;
+>
+> -	fb_writew(width-1, HD64461_BBTDWR);
+> -	fb_writew(height-1, HD64461_BBTDHR);
+> +	hitfb_writew(width-1, HD64461_BBTDWR);
+> +	hitfb_writew(height-1, HD64461_BBTDHR);
+>
+> -	fb_writew(saddr & 0xffff, HD64461_BBTDSARL);
+> -	fb_writew(saddr >> 16, HD64461_BBTDSARH);
+> +	hitfb_writew(saddr & 0xffff, HD64461_BBTDSARL);
+> +	hitfb_writew(saddr >> 16, HD64461_BBTDSARH);
+>
+>   }
+>
+> @@ -80,7 +96,7 @@ static inline void hitfb_accel_bitblt(int truecolor, u=
+16 sx, u16 sy, u16 dx,
+>
+>   	height--;
+>   	width--;
+> -	fb_writew(rop, HD64461_BBTROPR);
+> +	hitfb_writew(rop, HD64461_BBTROPR);
+>   	if ((sy < dy) || ((sy =3D=3D dy) && (sx <=3D dx))) {
+>   		saddr =3D WIDTH * (sy + height) + sx + width;
+>   		daddr =3D WIDTH * (dy + height) + dx + width;
+> @@ -91,32 +107,32 @@ static inline void hitfb_accel_bitblt(int truecolor=
+, u16 sx, u16 sy, u16 dx,
+>   				maddr =3D
+>   				    (((width >> 4) + 1) * (height + 1) - 1) * 2;
+>
+> -			fb_writew((1 << 5) | 1, HD64461_BBTMDR);
+> +			hitfb_writew((1 << 5) | 1, HD64461_BBTMDR);
+>   		} else
+> -			fb_writew(1, HD64461_BBTMDR);
+> +			hitfb_writew(1, HD64461_BBTMDR);
+>   	} else {
+>   		saddr =3D WIDTH * sy + sx;
+>   		daddr =3D WIDTH * dy + dx;
+>   		if (mask_addr) {
+> -			fb_writew((1 << 5), HD64461_BBTMDR);
+> +			hitfb_writew((1 << 5), HD64461_BBTMDR);
+>   		} else {
+> -			fb_writew(0, HD64461_BBTMDR);
+> +			hitfb_writew(0, HD64461_BBTMDR);
+>   		}
+>   	}
+>   	if (truecolor) {
+>   		saddr <<=3D 1;
+>   		daddr <<=3D 1;
+>   	}
+> -	fb_writew(width, HD64461_BBTDWR);
+> -	fb_writew(height, HD64461_BBTDHR);
+> -	fb_writew(saddr & 0xffff, HD64461_BBTSSARL);
+> -	fb_writew(saddr >> 16, HD64461_BBTSSARH);
+> -	fb_writew(daddr & 0xffff, HD64461_BBTDSARL);
+> -	fb_writew(daddr >> 16, HD64461_BBTDSARH);
+> +	hitfb_writew(width, HD64461_BBTDWR);
+> +	hitfb_writew(height, HD64461_BBTDHR);
+> +	hitfb_writew(saddr & 0xffff, HD64461_BBTSSARL);
+> +	hitfb_writew(saddr >> 16, HD64461_BBTSSARH);
+> +	hitfb_writew(daddr & 0xffff, HD64461_BBTDSARL);
+> +	hitfb_writew(daddr >> 16, HD64461_BBTDSARH);
+>   	if (mask_addr) {
+>   		maddr +=3D mask_addr;
+> -		fb_writew(maddr & 0xffff, HD64461_BBTMARL);
+> -		fb_writew(maddr >> 16, HD64461_BBTMARH);
+> +		hitfb_writew(maddr & 0xffff, HD64461_BBTMARL);
+> +		hitfb_writew(maddr >> 16, HD64461_BBTMARH);
+>   	}
+>   	hitfb_accel_start(truecolor);
+>   }
+> @@ -127,17 +143,17 @@ static void hitfb_fillrect(struct fb_info *p, cons=
+t struct fb_fillrect *rect)
+>   		cfb_fillrect(p, rect);
+>   	else {
+>   		hitfb_accel_wait();
+> -		fb_writew(0x00f0, HD64461_BBTROPR);
+> -		fb_writew(16, HD64461_BBTMDR);
+> +		hitfb_writew(0x00f0, HD64461_BBTROPR);
+> +		hitfb_writew(16, HD64461_BBTMDR);
+>
+>   		if (p->var.bits_per_pixel =3D=3D 16) {
+> -			fb_writew(((u32 *) (p->pseudo_palette))[rect->color],
+> +			hitfb_writew(((u32 *) (p->pseudo_palette))[rect->color],
+>   				  HD64461_GRSCR);
+>   			hitfb_accel_set_dest(1, rect->dx, rect->dy, rect->width,
+>   					     rect->height);
+>   			hitfb_accel_start(1);
+>   		} else {
+> -			fb_writew(rect->color, HD64461_GRSCR);
+> +			hitfb_writew(rect->color, HD64461_GRSCR);
+>   			hitfb_accel_set_dest(0, rect->dx, rect->dy, rect->width,
+>   					     rect->height);
+>   			hitfb_accel_start(0);
+> @@ -162,7 +178,7 @@ static int hitfb_pan_display(struct fb_var_screeninf=
+o *var,
+>   	if (xoffset !=3D 0)
+>   		return -EINVAL;
+>
+> -	fb_writew((yoffset*info->fix.line_length)>>10, HD64461_LCDCBAR);
+> +	hitfb_writew((yoffset*info->fix.line_length)>>10, HD64461_LCDCBAR);
+>
+>   	return 0;
+>   }
+> @@ -172,33 +188,33 @@ int hitfb_blank(int blank_mode, struct fb_info *in=
+fo)
+>   	unsigned short v;
+>
+>   	if (blank_mode) {
+> -		v =3D fb_readw(HD64461_LDR1);
+> +		v =3D hitfb_readw(HD64461_LDR1);
+>   		v &=3D ~HD64461_LDR1_DON;
+> -		fb_writew(v, HD64461_LDR1);
+> +		hitfb_writew(v, HD64461_LDR1);
+>
+> -		v =3D fb_readw(HD64461_LCDCCR);
+> +		v =3D hitfb_readw(HD64461_LCDCCR);
+>   		v |=3D HD64461_LCDCCR_MOFF;
+> -		fb_writew(v, HD64461_LCDCCR);
+> +		hitfb_writew(v, HD64461_LCDCCR);
+>
+> -		v =3D fb_readw(HD64461_STBCR);
+> +		v =3D hitfb_readw(HD64461_STBCR);
+>   		v |=3D HD64461_STBCR_SLCDST;
+> -		fb_writew(v, HD64461_STBCR);
+> +		hitfb_writew(v, HD64461_STBCR);
+>   	} else {
+> -		v =3D fb_readw(HD64461_STBCR);
+> +		v =3D hitfb_readw(HD64461_STBCR);
+>   		v &=3D ~HD64461_STBCR_SLCDST;
+> -		fb_writew(v, HD64461_STBCR);
+> +		hitfb_writew(v, HD64461_STBCR);
+>
+> -		v =3D fb_readw(HD64461_LCDCCR);
+> +		v =3D hitfb_readw(HD64461_LCDCCR);
+>   		v &=3D ~(HD64461_LCDCCR_MOFF | HD64461_LCDCCR_STREQ);
+> -		fb_writew(v, HD64461_LCDCCR);
+> +		hitfb_writew(v, HD64461_LCDCCR);
+>
+>   		do {
+> -		    v =3D fb_readw(HD64461_LCDCCR);
+> +		    v =3D hitfb_readw(HD64461_LCDCCR);
+>   		} while(v&HD64461_LCDCCR_STBACK);
+>
+> -		v =3D fb_readw(HD64461_LDR1);
+> +		v =3D hitfb_readw(HD64461_LDR1);
+>   		v |=3D HD64461_LDR1_DON;
+> -		fb_writew(v, HD64461_LDR1);
+> +		hitfb_writew(v, HD64461_LDR1);
+>   	}
+>   	return 0;
+>   }
+> @@ -211,10 +227,10 @@ static int hitfb_setcolreg(unsigned regno, unsigne=
+d red, unsigned green,
+>
+>   	switch (info->var.bits_per_pixel) {
+>   	case 8:
+> -		fb_writew(regno << 8, HD64461_CPTWAR);
+> -		fb_writew(red >> 10, HD64461_CPTWDR);
+> -		fb_writew(green >> 10, HD64461_CPTWDR);
+> -		fb_writew(blue >> 10, HD64461_CPTWDR);
+> +		hitfb_writew(regno << 8, HD64461_CPTWAR);
+> +		hitfb_writew(red >> 10, HD64461_CPTWDR);
+> +		hitfb_writew(green >> 10, HD64461_CPTWDR);
+> +		hitfb_writew(blue >> 10, HD64461_CPTWDR);
+>   		break;
+>   	case 16:
+>   		if (regno >=3D 16)
+> @@ -302,11 +318,11 @@ static int hitfb_set_par(struct fb_info *info)
+>   		break;
+>   	}
+>
+> -	fb_writew(info->fix.line_length, HD64461_LCDCLOR);
+> -	ldr3 =3D fb_readw(HD64461_LDR3);
+> +	hitfb_writew(info->fix.line_length, HD64461_LCDCLOR);
+> +	ldr3 =3D hitfb_readw(HD64461_LDR3);
+>   	ldr3 &=3D ~15;
+>   	ldr3 |=3D (info->var.bits_per_pixel =3D=3D 8) ? 4 : 8;
+> -	fb_writew(ldr3, HD64461_LDR3);
+> +	hitfb_writew(ldr3, HD64461_LDR3);
+>   	return 0;
+>   }
+>
+> @@ -337,9 +353,9 @@ static int hitfb_probe(struct platform_device *dev)
+>   	hitfb_fix.smem_start =3D HD64461_IO_OFFSET(0x02000000);
+>   	hitfb_fix.smem_len =3D 512 * 1024;
+>
+> -	lcdclor =3D fb_readw(HD64461_LCDCLOR);
+> -	ldvndr =3D fb_readw(HD64461_LDVNDR);
+> -	ldr3 =3D fb_readw(HD64461_LDR3);
+> +	lcdclor =3D hitfb_readw(HD64461_LCDCLOR);
+> +	ldvndr =3D hitfb_readw(HD64461_LDVNDR);
+> +	ldr3 =3D hitfb_readw(HD64461_LDR3);
+>
+>   	switch (ldr3 & 15) {
+>   	default:
+> @@ -429,9 +445,9 @@ static int hitfb_suspend(struct device *dev)
+>   	u16 v;
+>
+>   	hitfb_blank(1,0);
+> -	v =3D fb_readw(HD64461_STBCR);
+> +	v =3D hitfb_readw(HD64461_STBCR);
+>   	v |=3D HD64461_STBCR_SLCKE_IST;
+> -	fb_writew(v, HD64461_STBCR);
+> +	hitfb_writew(v, HD64461_STBCR);
+>
+>   	return 0;
+>   }
+> @@ -440,12 +456,12 @@ static int hitfb_resume(struct device *dev)
+>   {
+>   	u16 v;
+>
+> -	v =3D fb_readw(HD64461_STBCR);
+> +	v =3D hitfb_readw(HD64461_STBCR);
+>   	v &=3D ~HD64461_STBCR_SLCKE_OST;
+>   	msleep(100);
+> -	v =3D fb_readw(HD64461_STBCR);
+> +	v =3D hitfb_readw(HD64461_STBCR);
+>   	v &=3D ~HD64461_STBCR_SLCKE_IST;
+> -	fb_writew(v, HD64461_STBCR);
+> +	hitfb_writew(v, HD64461_STBCR);
+>   	hitfb_blank(0,0);
+>
+>   	return 0;
 
-fs/ext4/verity.c:316 ext4_get_verity_descriptor_location() error: uninitialized symbol 'desc_size_disk'.
-fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
-kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
-
-Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- alpha-randconfig-r021-20230515
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- alpha-randconfig-r033-20230516
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
-|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arc-randconfig-r025-20230515
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arc-randconfig-r043-20230515
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- arm-randconfig-c034-20230515
-|   `-- drivers-gpu-drm-bridge-tc358768.c:Unneeded-semicolon
-|-- arm-randconfig-m041-20230516
-|   `-- fs-ext4-verity.c-ext4_get_verity_descriptor_location()-error:uninitialized-symbol-desc_size_disk-.
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- csky-randconfig-r014-20230515
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- i386-randconfig-m041-20230515
-|   |-- fs-ext4-verity.c-ext4_get_verity_descriptor_location()-error:uninitialized-symbol-desc_size_disk-.
-|   `-- fs-xfs-scrub-fscounters.c-xchk_fscounters()-warn:ignoring-unreachable-code.
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- ia64-randconfig-s041-20230515
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- loongarch-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- loongarch-defconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- loongarch-randconfig-c44-20230515
-|   `-- drivers-gpu-drm-bridge-tc358768.c:Unneeded-semicolon
-|-- loongarch-randconfig-r035-20230516
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- mips-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- openrisc-buildonly-randconfig-r006-20230515
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- openrisc-randconfig-s051-20230515
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- powerpc-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- riscv-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- s390-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- sparc64-randconfig-s052-20230515
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-|-- x86_64-allnoconfig
-|   `-- Documentation-output-frontend.h.rst:WARNING:undefined-label:fec-(if-the-link-has-no-caption-the-label-must-precede-a-section-header)
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-amdgpu_gfx.c:warning:variable-j-set-but-not-used
-`-- x86_64-randconfig-m001-20230515
-    `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
-clang_recent_errors
-`-- arm64-buildonly-randconfig-r005-20230515
-    `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dce-dmub_abm.c:warning:variable-feature_support-set-but-not-used
-
-elapsed time: 853m
-
-configs tested: 183
-configs skipped: 5
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r003-20230515   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r021-20230515   gcc  
-alpha                randconfig-r033-20230516   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                  randconfig-r025-20230515   gcc  
-arc                  randconfig-r043-20230515   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                            dove_defconfig   clang
-arm                        multi_v5_defconfig   clang
-arm                  randconfig-r024-20230515   clang
-arm                  randconfig-r046-20230515   clang
-arm                           sunxi_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64        buildonly-randconfig-r005-20230515   clang
-arm64                               defconfig   gcc  
-arm64                randconfig-r003-20230515   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r006-20230515   gcc  
-csky                 randconfig-r014-20230515   gcc  
-hexagon                          alldefconfig   clang
-hexagon                             defconfig   clang
-hexagon              randconfig-r023-20230515   clang
-hexagon              randconfig-r026-20230515   clang
-hexagon              randconfig-r034-20230516   clang
-hexagon              randconfig-r041-20230515   clang
-hexagon              randconfig-r045-20230515   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230515   clang
-i386                 randconfig-a002-20230515   clang
-i386                 randconfig-a003-20230515   clang
-i386                 randconfig-a004-20230515   clang
-i386                 randconfig-a005-20230515   clang
-i386                 randconfig-a006-20230515   clang
-i386                 randconfig-a011-20230515   gcc  
-i386                 randconfig-a012-20230515   gcc  
-i386                 randconfig-a013-20230515   gcc  
-i386                 randconfig-a014-20230515   gcc  
-i386                 randconfig-a015-20230515   gcc  
-i386                 randconfig-a016-20230515   gcc  
-i386                 randconfig-i051-20230515   clang
-i386                 randconfig-i052-20230515   clang
-i386                 randconfig-i053-20230515   clang
-i386                 randconfig-i054-20230515   clang
-i386                 randconfig-i055-20230515   clang
-i386                 randconfig-i056-20230515   clang
-i386                 randconfig-i061-20230515   clang
-i386                 randconfig-i062-20230515   clang
-i386                 randconfig-i063-20230515   clang
-i386                 randconfig-i064-20230515   clang
-i386                 randconfig-i065-20230515   clang
-i386                 randconfig-i066-20230515   clang
-i386                          randconfig-i071   clang
-i386                          randconfig-i072   gcc  
-i386                          randconfig-i073   clang
-i386                          randconfig-i074   gcc  
-i386                          randconfig-i075   clang
-i386                          randconfig-i076   gcc  
-i386                 randconfig-i081-20230515   gcc  
-i386                 randconfig-i082-20230515   gcc  
-i386                 randconfig-i083-20230515   gcc  
-i386                 randconfig-i084-20230515   gcc  
-i386                 randconfig-i085-20230515   gcc  
-i386                 randconfig-i086-20230515   gcc  
-i386                 randconfig-i091-20230515   clang
-i386                 randconfig-i092-20230515   clang
-i386                 randconfig-i093-20230515   clang
-i386                 randconfig-i094-20230515   clang
-i386                 randconfig-i095-20230515   clang
-i386                 randconfig-i096-20230515   clang
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r035-20230516   gcc  
-m68k                             allmodconfig   gcc  
-m68k         buildonly-randconfig-r001-20230515   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme147_defconfig   gcc  
-m68k                 randconfig-r032-20230516   gcc  
-microblaze           randconfig-r013-20230515   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                       bmips_be_defconfig   gcc  
-mips                  cavium_octeon_defconfig   clang
-mips                     cu1000-neo_defconfig   clang
-mips                     cu1830-neo_defconfig   clang
-mips                      maltasmvp_defconfig   gcc  
-mips                 randconfig-r002-20230515   gcc  
-mips                 randconfig-r004-20230515   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r005-20230515   gcc  
-openrisc     buildonly-randconfig-r006-20230515   gcc  
-openrisc                    or1ksim_defconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                       ebony_defconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                        fsp2_defconfig   clang
-powerpc                      pasemi_defconfig   gcc  
-powerpc                     stx_gp3_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r036-20230516   gcc  
-riscv                randconfig-r042-20230515   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r012-20230515   gcc  
-s390                 randconfig-r044-20230515   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r001-20230515   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r015-20230515   gcc  
-sparc                       sparc64_defconfig   gcc  
-sparc64              randconfig-r011-20230515   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r002-20230515   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230515   clang
-x86_64               randconfig-a002-20230515   clang
-x86_64               randconfig-a003-20230515   clang
-x86_64               randconfig-a004-20230515   clang
-x86_64               randconfig-a005-20230515   clang
-x86_64               randconfig-a006-20230515   clang
-x86_64               randconfig-a011-20230515   gcc  
-x86_64               randconfig-a012-20230515   gcc  
-x86_64               randconfig-a013-20230515   gcc  
-x86_64               randconfig-a014-20230515   gcc  
-x86_64               randconfig-a015-20230515   gcc  
-x86_64               randconfig-a016-20230515   gcc  
-x86_64               randconfig-r016-20230515   gcc  
-x86_64               randconfig-x051-20230515   gcc  
-x86_64               randconfig-x052-20230515   gcc  
-x86_64               randconfig-x053-20230515   gcc  
-x86_64               randconfig-x054-20230515   gcc  
-x86_64               randconfig-x055-20230515   gcc  
-x86_64               randconfig-x056-20230515   gcc  
-x86_64               randconfig-x061-20230515   gcc  
-x86_64               randconfig-x062-20230515   gcc  
-x86_64               randconfig-x063-20230515   gcc  
-x86_64               randconfig-x064-20230515   gcc  
-x86_64               randconfig-x065-20230515   gcc  
-x86_64               randconfig-x066-20230515   gcc  
-x86_64                        randconfig-x071   clang
-x86_64                        randconfig-x072   gcc  
-x86_64                        randconfig-x073   clang
-x86_64                        randconfig-x074   gcc  
-x86_64                        randconfig-x075   clang
-x86_64                        randconfig-x076   gcc  
-x86_64               randconfig-x081-20230515   clang
-x86_64               randconfig-x082-20230515   clang
-x86_64               randconfig-x083-20230515   clang
-x86_64               randconfig-x084-20230515   clang
-x86_64               randconfig-x085-20230515   clang
-x86_64               randconfig-x086-20230515   clang
-x86_64               randconfig-x091-20230515   gcc  
-x86_64               randconfig-x092-20230515   gcc  
-x86_64               randconfig-x093-20230515   gcc  
-x86_64               randconfig-x094-20230515   gcc  
-x86_64               randconfig-x095-20230515   gcc  
-x86_64               randconfig-x096-20230515   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                         virt_defconfig   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
