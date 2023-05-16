@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EB1704956
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:31:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DAE704955
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C0210E33C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A5C10E338;
 	Tue, 16 May 2023 09:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD7210E337
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2C5310E33B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DAFA26368E;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4DDA6636E9;
+ Tue, 16 May 2023 09:30:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42B3C433D2;
  Tue, 16 May 2023 09:30:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F19FC4339B;
- Tue, 16 May 2023 09:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684229450;
- bh=RPeG7il0fG73XCeZa2IMJtEo5DGH2b+5ndrp7FGxxfY=;
+ s=k20201202; t=1684229451;
+ bh=wjTM3ZJdzQWf6sAyVetSz+MgGpmQ4ynNtBHWcXxTirE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XFx4wK6QDqzJyz3mgX2UFbb5h+q7n1WQytFFZ9KVbhk1P9okJKfqANY60vIwpifoY
- x0fS9hxN587ovz+u5+qN98uaz1/GnSjRa6Awi9L9ZgxrWx6qGpxhgLtpuiCeKoBXzM
- yH2iDf/MbO8KCpltVrQu/yTKEqJ56WXBClQhJ1M96dUJm37V2qi6aJETiJP7/KbWIB
- 38Jwem0vikhebPnLABoelkiwYyr+EIYs3uNLhAF63F0J4k89L8F0fJDZjoNckwiPwU
- yV/K93f5lApRZbY8LNbM1j+srLJQBPgN+zLZiaVTjCAygInjaEh9yqxV+Cr/RJ9J8H
- QomHVUOMmfc2g==
+ b=YXuUCxPVpxyzuxn8Qbn3RSfLAmJLyP+Pv1gzUuNd/qWlpLtI20CP37RX/cH2koRHC
+ lY8E2ZHAjU5M3V6lFHPxhF6JY3P80xsvUa3QCLffC9HZ06IHDeQvCnecQY96EXo2ui
+ LcQ0G31vZpjnCjVpMk/Bu2sIypxg7zXVmSbcWThqAa+Hmlf62gVOvAgaGBEewR8bnz
+ /dBGbLFsgRn4RQffLz5gHZN6+IcG9MDwfDfXLTyRDtJbuC+/Q36pHr8Q0elT5vGine
+ 8BuPvkGAumcqpZEogGP+8lDO5fDXIlCFJFqH7LjZzsve3GxeDGNnsBSz0hmsx7xmAC
+ NegBZ+9zEer2w==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/12] accel/habanalabs: update state when loading boot fit
-Date: Tue, 16 May 2023 12:30:29 +0300
-Message-Id: <20230516093030.1220526-11-ogabbay@kernel.org>
+Subject: [PATCH 12/12] accel/habanalabs: mask part of hmmu page fault captured
+ address
+Date: Tue, 16 May 2023 12:30:30 +0300
+Message-Id: <20230516093030.1220526-12-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230516093030.1220526-1-ogabbay@kernel.org>
 References: <20230516093030.1220526-1-ogabbay@kernel.org>
@@ -51,80 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Koby Elbaz <kelbaz@habana.ai>
+Cc: Dani Liberman <dliberman@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Koby Elbaz <kelbaz@habana.ai>
+From: Dani Liberman <dliberman@habana.ai>
 
-Any FW component we load must be followed by a corresponding state
-update. However, it seems that so far we skipped doing so for the
-bootfit case, so fix that.
+When receiving page fault from hmmu, the captured address is scrambled
+both by HW and by driver. The driver part is unscrambled but the HW
+part isn't getting unscrambled.
+To avoid declaring wrong address, the HW scrambled part will be
+masked.
 
-Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/firmware_if.c | 25 ++++++++-----------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
-index eb51d7f70aec..acbc1a6b5cb1 100644
---- a/drivers/accel/habanalabs/common/firmware_if.c
-+++ b/drivers/accel/habanalabs/common/firmware_if.c
-@@ -2486,16 +2486,6 @@ static int hl_fw_dynamic_load_image(struct hl_device *hdev,
- 	if (rc)
- 		goto release_fw;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 4981b8eb0ff5..1cb2b72e1cd2 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -162,6 +162,9 @@
+ #define PSOC_RAZWI_ENG_STR_SIZE 128
+ #define PSOC_RAZWI_MAX_ENG_PER_RTR 5
  
--	/* update state according to boot stage */
--	if (cur_fwc == FW_COMP_BOOT_FIT) {
--		struct cpu_dyn_regs *dyn_regs;
--
--		dyn_regs = &fw_loader->dynamic_loader.comm_desc.cpu_dyn_regs;
--		hl_fw_boot_fit_update_state(hdev,
--				le32_to_cpu(dyn_regs->cpu_boot_dev_sts0),
--				le32_to_cpu(dyn_regs->cpu_boot_dev_sts1));
--	}
--
- 	/* copy boot fit to space allocated by FW */
- 	rc = hl_fw_dynamic_copy_image(hdev, fw, fw_loader);
- 	if (rc)
-@@ -2798,6 +2788,14 @@ static int hl_fw_dynamic_init_cpu(struct hl_device *hdev,
- 		goto protocol_err;
- 	}
- 
-+	rc = hl_fw_dynamic_wait_for_boot_fit_active(hdev, fw_loader);
-+	if (rc)
-+		goto protocol_err;
++/* HW scrambles only bits 0-25 */
++#define HW_UNSCRAMBLED_BITS_MASK GENMASK_ULL(63, 26)
 +
-+	hl_fw_boot_fit_update_state(hdev,
-+			le32_to_cpu(dyn_regs->cpu_boot_dev_sts0),
-+			le32_to_cpu(dyn_regs->cpu_boot_dev_sts1));
+ struct gaudi2_razwi_info {
+ 	u32 axuser_xy;
+ 	u32 rtr_ctrl;
+@@ -8835,11 +8838,16 @@ static void gaudi2_handle_page_error(struct hl_device *hdev, u64 mmu_base, bool
+ 	addr <<= 32;
+ 	addr |= RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_PAGE_ERROR_CAPTURE_VA));
+ 
+-	if (!is_pmmu)
++	if (is_pmmu) {
++		dev_err_ratelimited(hdev->dev, "PMMU page fault on va 0x%llx\n", addr);
++	} else {
 +
- 	/*
- 	 * when testing FW load (without Linux) on PLDM we don't want to
- 	 * wait until boot fit is active as it may take several hours.
-@@ -2807,10 +2805,6 @@ static int hl_fw_dynamic_init_cpu(struct hl_device *hdev,
- 	if (hdev->pldm && !(hdev->fw_components & FW_TYPE_LINUX))
- 		return 0;
+ 		addr = gaudi2_mmu_descramble_addr(hdev, addr);
++		addr &= HW_UNSCRAMBLED_BITS_MASK;
++		dev_err_ratelimited(hdev->dev, "HMMU page fault on va range 0x%llx - 0x%llx\n",
++				addr, addr + ~HW_UNSCRAMBLED_BITS_MASK);
++	}
  
--	rc = hl_fw_dynamic_wait_for_boot_fit_active(hdev, fw_loader);
--	if (rc)
--		goto protocol_err;
--
- 	/* Enable DRAM scrambling before Linux boot and after successful
- 	 *  UBoot
- 	 */
-@@ -2844,7 +2838,8 @@ static int hl_fw_dynamic_init_cpu(struct hl_device *hdev,
- 	if (rc)
- 		goto protocol_err;
+-	dev_err_ratelimited(hdev->dev, "%s page fault on va 0x%llx\n",
+-				is_pmmu ? "PMMU" : "HMMU", addr);
+ 	hl_handle_page_fault(hdev, addr, 0, is_pmmu, event_mask);
  
--	hl_fw_linux_update_state(hdev, le32_to_cpu(dyn_regs->cpu_boot_dev_sts0),
-+	hl_fw_linux_update_state(hdev,
-+				le32_to_cpu(dyn_regs->cpu_boot_dev_sts0),
- 				le32_to_cpu(dyn_regs->cpu_boot_dev_sts1));
- 
- 	hl_fw_dynamic_update_linux_interrupt_if(hdev);
+ 	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID), 0);
 -- 
 2.40.1
 
