@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9A7704953
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B97704957
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E554F10E33E;
-	Tue, 16 May 2023 09:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACB810E33D;
+	Tue, 16 May 2023 09:30:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4072410E332
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C8810E332
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9F638636F4;
- Tue, 16 May 2023 09:30:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8652BC4339B;
- Tue, 16 May 2023 09:30:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9E6F061943;
+ Tue, 16 May 2023 09:30:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F277C433D2;
+ Tue, 16 May 2023 09:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684229444;
- bh=UM6Fu68kl9EPislM+80WzXGN7+pkmGWlLtWA2iEnsvY=;
+ s=k20201202; t=1684229446;
+ bh=j8JPpe5z4kKX6LBvE2fhN30j+2bbtjGRbliObItIk/Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AFNOjXV6fvmEw988hD/F+rRyriZOpG+a5X/tq/JoP+y1IwyJ34qRuhGjp239qQxQN
- yAsAHgW9nQI5hyKvg6lS7MdcJT9v0REFMEOQrnlYn1CRJmX+6UopVSJZZjbkqFFYkj
- pI3HcMX7K5PvWNoPf0lCPjWDrdfUICwVqGuAijLJqbl2xDmjTlzrB4qM9X7NB1uHb7
- ctlBTTRvkPXeL4vBDTblqJ7YIiOKAC4LMgjefvGwkX/l5N4eTe75ReNYLFaMLLueyZ
- d2iRRKnod3EzxQ/6P9X7nw1M5ul9zqKcFY+HeOwyHp8zfaxB7vByX5iHMHXvaDZffp
- +HCuTa9S/aJRg==
+ b=VTsQUpNAAxz4u8bTSCEHfGenrlL/6SRqI12RcZ6MPTeicHhArPlDTAYaPa4DVvYFU
+ nTlle3K3bsv5S+R38EF4mo95LFS/4MLI1+BwX/Xkg6VXnSc0b900HCseo+xnBxW67r
+ mlUpY0qFRfezDragmHQNMhtNQ2StQXDnSB4aS5uYx/qlFg43krC7Drs+4IZrYA2swn
+ VDb9jMdmBtETFLYikKXx/toYrg5ue44Uz7AxJpAoQ6BgsjsDapn9S/32ocGFhfioON
+ BMtdKD4TWLvKpRt4ENGG2EUGxrYvWKJbu1Z4+ifTLm46mKKQJFQcyHm+olFW8iQt9F
+ VLvoL5hbm10kw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/12] accel/habanalabs: remove support for mmu disable
-Date: Tue, 16 May 2023 12:30:25 +0300
-Message-Id: <20230516093030.1220526-7-ogabbay@kernel.org>
+Subject: [PATCH 08/12] accel/habanalabs: use binning info when handling razwi
+Date: Tue, 16 May 2023 12:30:26 +0300
+Message-Id: <20230516093030.1220526-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230516093030.1220526-1-ogabbay@kernel.org>
 References: <20230516093030.1220526-1-ogabbay@kernel.org>
@@ -51,606 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: Dani Liberman <dliberman@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+From: Dani Liberman <dliberman@habana.ai>
 
-As mmu disable mode is only used for bring-up stages, let's remove this
-option and all code related to it.
+When receiving sei interrupt from tpc or decoder, we need to check
+the binning mask because if the engine is binned, the razwi info
+won't be in the router of the binned engine, instead will be in the
+router of the substitute engine.
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../accel/habanalabs/common/command_buffer.c  |   6 -
- .../habanalabs/common/command_submission.c    |  22 ++--
- drivers/accel/habanalabs/common/debugfs.c     |  23 +---
- drivers/accel/habanalabs/common/habanalabs.h  |  18 +--
- .../accel/habanalabs/common/habanalabs_drv.c  |   2 -
- .../habanalabs/common/habanalabs_ioctl.c      |   9 +-
- drivers/accel/habanalabs/common/memory.c      | 104 +-----------------
- drivers/accel/habanalabs/common/mmu/mmu.c     |  56 ++--------
- drivers/accel/habanalabs/gaudi/gaudi.c        |   6 +-
- drivers/accel/habanalabs/goya/goya.c          |   3 -
- .../accel/habanalabs/goya/goya_coresight.c    |   9 +-
- 11 files changed, 26 insertions(+), 232 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/command_buffer.c b/drivers/accel/habanalabs/common/command_buffer.c
-index 6e09f48750a0..08f7aee42624 100644
---- a/drivers/accel/habanalabs/common/command_buffer.c
-+++ b/drivers/accel/habanalabs/common/command_buffer.c
-@@ -27,12 +27,6 @@ static int cb_map_mem(struct hl_ctx *ctx, struct hl_cb *cb)
- 		return -EINVAL;
- 	}
- 
--	if (!hdev->mmu_enable) {
--		dev_err_ratelimited(hdev->dev,
--				"Cannot map CB because MMU is disabled\n");
--		return -EINVAL;
--	}
--
- 	if (cb->is_mmu_mapped)
- 		return 0;
- 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index 4ec28af3ed78..104c3ce60655 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -280,14 +280,8 @@ bool cs_needs_timeout(struct hl_cs *cs)
- 
- static bool is_cb_patched(struct hl_device *hdev, struct hl_cs_job *job)
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index b8644d87f817..a6aa17d86820 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -8040,7 +8040,7 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
+ 				u8 module_sub_idx, u64 *event_mask)
  {
--	/*
--	 * Patched CB is created for external queues jobs, and for H/W queues
--	 * jobs if the user CB was allocated by driver and MMU is disabled.
--	 */
--	return (job->queue_type == QUEUE_TYPE_EXT ||
--			(job->queue_type == QUEUE_TYPE_HW &&
--					job->is_kernel_allocated_cb &&
--					!hdev->mmu_enable));
-+	/* Patched CB is created for external queues jobs */
-+	return (job->queue_type == QUEUE_TYPE_EXT);
- }
+ 	bool via_sft = false;
+-	u32 hbw_rtr_id, lbw_rtr_id, dcore_id, dcore_rtr_id, eng_id;
++	u32 hbw_rtr_id, lbw_rtr_id, dcore_id, dcore_rtr_id, eng_id, binned_idx;
+ 	u64 hbw_rtr_mstr_if_base_addr, lbw_rtr_mstr_if_base_addr;
+ 	u32 hbw_shrd_aw = 0, hbw_shrd_ar = 0;
+ 	u32 lbw_shrd_aw = 0, lbw_shrd_ar = 0;
+@@ -8048,6 +8048,13 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
  
- /*
-@@ -363,14 +357,13 @@ static void hl_complete_job(struct hl_device *hdev, struct hl_cs_job *job)
- 		}
- 	}
- 
--	/* For H/W queue jobs, if a user CB was allocated by driver and MMU is
--	 * enabled, the user CB isn't released in cs_parser() and thus should be
-+	/* For H/W queue jobs, if a user CB was allocated by driver,
-+	 * the user CB isn't released in cs_parser() and thus should be
- 	 * released here. This is also true for INT queues jobs which were
- 	 * allocated by driver.
- 	 */
--	if ((job->is_kernel_allocated_cb &&
--		((job->queue_type == QUEUE_TYPE_HW && hdev->mmu_enable) ||
--				job->queue_type == QUEUE_TYPE_INT))) {
-+	if (job->is_kernel_allocated_cb &&
-+			(job->queue_type == QUEUE_TYPE_HW || job->queue_type == QUEUE_TYPE_INT)) {
- 		atomic_dec(&job->user_cb->cs_cnt);
- 		hl_cb_put(job->user_cb);
- 	}
-@@ -1951,8 +1944,7 @@ static int cs_ioctl_signal_wait_create_jobs(struct hl_device *hdev,
- 	else
- 		cb_size = hdev->asic_funcs->get_signal_cb_size(hdev);
- 
--	cb = hl_cb_kernel_create(hdev, cb_size,
--				q_type == QUEUE_TYPE_HW && hdev->mmu_enable);
-+	cb = hl_cb_kernel_create(hdev, cb_size, q_type == QUEUE_TYPE_HW);
- 	if (!cb) {
- 		atomic64_inc(&ctx->cs_counters.out_of_mem_drop_cnt);
- 		atomic64_inc(&cntr->out_of_mem_drop_cnt);
-diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
-index 29b78c7cf5de..9e84a47a21dc 100644
---- a/drivers/accel/habanalabs/common/debugfs.c
-+++ b/drivers/accel/habanalabs/common/debugfs.c
-@@ -255,9 +255,6 @@ static int vm_show(struct seq_file *s, void *data)
- 	u64 j;
- 	int i;
- 
--	if (!dev_entry->hdev->mmu_enable)
--		return 0;
--
- 	mutex_lock(&dev_entry->ctx_mem_hash_mutex);
- 
- 	list_for_each_entry(ctx, &dev_entry->ctx_mem_hash_list, debugfs_list) {
-@@ -436,9 +433,6 @@ static int mmu_show(struct seq_file *s, void *data)
- 	u64 virt_addr = dev_entry->mmu_addr, phys_addr;
- 	int i;
- 
--	if (!hdev->mmu_enable)
--		return 0;
--
- 	if (dev_entry->mmu_asid == HL_KERNEL_ASID_ID)
- 		ctx = hdev->kernel_ctx;
- 	else
-@@ -496,9 +490,6 @@ static ssize_t mmu_asid_va_write(struct file *file, const char __user *buf,
- 	char *c;
- 	ssize_t rc;
- 
--	if (!hdev->mmu_enable)
--		return count;
--
- 	if (count > sizeof(kbuf) - 1)
- 		goto err;
- 	if (copy_from_user(kbuf, buf, count))
-@@ -535,9 +526,6 @@ static int mmu_ack_error(struct seq_file *s, void *data)
- 	struct hl_device *hdev = dev_entry->hdev;
- 	int rc;
- 
--	if (!hdev->mmu_enable)
--		return 0;
--
- 	if (!dev_entry->mmu_cap_mask) {
- 		dev_err(hdev->dev, "mmu_cap_mask is not set\n");
- 		goto err;
-@@ -563,9 +551,6 @@ static ssize_t mmu_ack_error_value_write(struct file *file,
- 	char kbuf[MMU_KBUF_SIZE];
- 	ssize_t rc;
- 
--	if (!hdev->mmu_enable)
--		return count;
--
- 	if (count > sizeof(kbuf) - 1)
- 		goto err;
- 
-@@ -661,9 +646,6 @@ static bool hl_is_device_va(struct hl_device *hdev, u64 addr)
- {
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
- 
--	if (!hdev->mmu_enable)
--		goto out;
--
- 	if (prop->dram_supports_virtual_memory &&
- 		(addr >= prop->dmmu.start_addr && addr < prop->dmmu.end_addr))
- 		return true;
-@@ -675,7 +657,7 @@ static bool hl_is_device_va(struct hl_device *hdev, u64 addr)
- 	if (addr >= prop->pmmu_huge.start_addr &&
- 		addr < prop->pmmu_huge.end_addr)
- 		return true;
--out:
+ 	switch (module) {
+ 	case RAZWI_TPC:
++		sprintf(initiator_name, "TPC_%u", module_idx);
++		if (hdev->tpc_binning) {
++			binned_idx = __ffs(hdev->tpc_binning);
++			if (binned_idx == module_idx)
++				module_idx = TPC_ID_DCORE0_TPC6;
++		}
 +
- 	return false;
- }
+ 		hbw_rtr_id = gaudi2_tpc_initiator_hbw_rtr_id[module_idx];
  
-@@ -685,9 +667,6 @@ static bool hl_is_device_internal_memory_va(struct hl_device *hdev, u64 addr,
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
- 	u64 dram_start_addr, dram_end_addr;
- 
--	if (!hdev->mmu_enable)
--		return false;
--
- 	if (prop->dram_supports_virtual_memory) {
- 		dram_start_addr = prop->dmmu.start_addr;
- 		dram_end_addr = prop->dmmu.end_addr;
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index ea0914d08bdc..e2341a75a4b7 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -115,18 +115,6 @@ enum hl_mmu_page_table_location {
- 	MMU_NUM_PGT_LOCATIONS	/* num of PGT locations */
- };
- 
--/**
-- * enum hl_mmu_enablement - what mmu modules to enable
-- * @MMU_EN_NONE: mmu disabled.
-- * @MMU_EN_ALL: enable all.
-- * @MMU_EN_PMMU_ONLY: Enable only the PMMU leaving the DMMU disabled.
-- */
--enum hl_mmu_enablement {
--	MMU_EN_NONE = 0,
--	MMU_EN_ALL = 1,
--	MMU_EN_PMMU_ONLY = 3,	/* N/A for Goya/Gaudi */
--};
--
- /*
-  * HL_RSVD_SOBS 'sync stream' reserved sync objects per QMAN stream
-  * HL_RSVD_MONS 'sync stream' reserved monitors per QMAN stream
-@@ -3319,7 +3307,7 @@ struct hl_reset_info {
-  * @nic_ports_mask: Controls which NIC ports are enabled. Used only for testing.
-  * @fw_components: Controls which f/w components to load to the device. There are multiple f/w
-  *                 stages and sometimes we want to stop at a certain stage. Used only for testing.
-- * @mmu_enable: Whether to enable or disable the device MMU(s). Used only for testing.
-+ * @mmu_disable: Disable the device MMU(s). Used only for testing.
-  * @cpu_queues_enable: Whether to enable queues communication vs. the f/w. Used only for testing.
-  * @pldm: Whether we are running in Palladium environment. Used only for testing.
-  * @hard_reset_on_fw_events: Whether to do device hard-reset when a fatal event is received from
-@@ -3482,7 +3470,7 @@ struct hl_device {
- 	/* Parameters for bring-up to be upstreamed */
- 	u64				nic_ports_mask;
- 	u64				fw_components;
--	u8				mmu_enable;
-+	u8				mmu_disable;
- 	u8				cpu_queues_enable;
- 	u8				pldm;
- 	u8				hard_reset_on_fw_events;
-@@ -3827,8 +3815,6 @@ struct pgt_info *hl_mmu_hr_get_alloc_next_hop(struct hl_ctx *ctx,
- 							u64 curr_pte, bool *is_new_hop);
- int hl_mmu_hr_get_tlb_info(struct hl_ctx *ctx, u64 virt_addr, struct hl_mmu_hop_info *hops,
- 							struct hl_hr_mmu_funcs *hr_func);
--void hl_mmu_swap_out(struct hl_ctx *ctx);
--void hl_mmu_swap_in(struct hl_ctx *ctx);
- int hl_mmu_if_set_funcs(struct hl_device *hdev);
- void hl_mmu_v1_set_funcs(struct hl_device *hdev, struct hl_mmu_funcs *mmu);
- void hl_mmu_v2_hr_set_funcs(struct hl_device *hdev, struct hl_mmu_funcs *mmu);
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 70fb2df9a93b..446f444a1c7e 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -307,7 +307,6 @@ static void set_driver_behavior_per_device(struct hl_device *hdev)
- {
- 	hdev->nic_ports_mask = 0;
- 	hdev->fw_components = FW_TYPE_ALL_TYPES;
--	hdev->mmu_enable = MMU_EN_ALL;
- 	hdev->cpu_queues_enable = 1;
- 	hdev->pldm = 0;
- 	hdev->hard_reset_on_fw_events = 1;
-@@ -382,7 +381,6 @@ static int fixup_device_params(struct hl_device *hdev)
- 	/* If CPU queues not enabled, no way to do heartbeat */
- 	if (!hdev->cpu_queues_enable)
- 		hdev->heartbeat = 0;
--
- 	fixup_device_params_per_asic(hdev, tmp_timeout);
- 
- 	return 0;
-diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-index 4368e6c9a23a..9a8be9395fb2 100644
---- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-@@ -62,7 +62,7 @@ static int hw_ip_info(struct hl_device *hdev, struct hl_info_args *args)
- 	hw_ip.device_id = hdev->asic_funcs->get_pci_id(hdev);
- 	hw_ip.sram_base_address = prop->sram_user_base_address;
- 	hw_ip.dram_base_address =
--			hdev->mmu_enable && prop->dram_supports_virtual_memory ?
-+			prop->dram_supports_virtual_memory ?
- 			prop->dmmu.start_addr : prop->dram_user_base_address;
- 	hw_ip.tpc_enabled_mask = prop->tpc_enabled_mask & 0xFF;
- 	hw_ip.tpc_enabled_mask_ext = prop->tpc_enabled_mask;
-@@ -71,11 +71,8 @@ static int hw_ip_info(struct hl_device *hdev, struct hl_info_args *args)
- 
- 	dram_available_size = prop->dram_size - dram_kmd_size;
- 
--	if (hdev->mmu_enable == MMU_EN_ALL)
--		hw_ip.dram_size = DIV_ROUND_DOWN_ULL(dram_available_size,
--				prop->dram_page_size) * prop->dram_page_size;
--	else
--		hw_ip.dram_size = dram_available_size;
-+	hw_ip.dram_size = DIV_ROUND_DOWN_ULL(dram_available_size, prop->dram_page_size) *
-+				prop->dram_page_size;
- 
- 	if (hw_ip.dram_size > PAGE_SIZE)
- 		hw_ip.dram_enabled = 1;
-diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-index a7b6a273ce21..4fc72a07d2f5 100644
---- a/drivers/accel/habanalabs/common/memory.c
-+++ b/drivers/accel/habanalabs/common/memory.c
-@@ -1034,30 +1034,6 @@ static void unmap_phys_pg_pack(struct hl_ctx *ctx, u64 vaddr,
- 	}
- }
- 
--static int get_paddr_from_handle(struct hl_ctx *ctx, struct hl_mem_in *args,
--					u64 *paddr)
--{
--	struct hl_device *hdev = ctx->hdev;
--	struct hl_vm *vm = &hdev->vm;
--	struct hl_vm_phys_pg_pack *phys_pg_pack;
--	u32 handle;
--
--	handle = lower_32_bits(args->map_device.handle);
--	spin_lock(&vm->idr_lock);
--	phys_pg_pack = idr_find(&vm->phys_pg_pack_handles, handle);
--	if (!phys_pg_pack) {
--		spin_unlock(&vm->idr_lock);
--		dev_err(hdev->dev, "no match for handle %u\n", handle);
--		return -EINVAL;
--	}
--
--	*paddr = phys_pg_pack->pages[0];
--
--	spin_unlock(&vm->idr_lock);
--
--	return 0;
--}
--
- /**
-  * map_device_va() - map the given memory.
-  * @ctx: pointer to the context structure.
-@@ -2094,76 +2070,6 @@ static int export_dmabuf_from_addr(struct hl_ctx *ctx, u64 addr, u64 size, u64 o
- 	return rc;
- }
- 
--static int mem_ioctl_no_mmu(struct hl_fpriv *hpriv, union hl_mem_args *args)
--{
--	struct hl_device *hdev = hpriv->hdev;
--	u64 block_handle, device_addr = 0;
--	struct hl_ctx *ctx = hpriv->ctx;
--	u32 handle = 0, block_size;
--	int rc;
--
--	switch (args->in.op) {
--	case HL_MEM_OP_ALLOC:
--		if (args->in.alloc.mem_size == 0) {
--			dev_err(hdev->dev, "alloc size must be larger than 0\n");
--			rc = -EINVAL;
--			goto out;
--		}
--
--		/* Force contiguous as there are no real MMU
--		 * translations to overcome physical memory gaps
--		 */
--		args->in.flags |= HL_MEM_CONTIGUOUS;
--		rc = alloc_device_memory(ctx, &args->in, &handle);
--
--		memset(args, 0, sizeof(*args));
--		args->out.handle = (__u64) handle;
--		break;
--
--	case HL_MEM_OP_FREE:
--		rc = free_device_memory(ctx, &args->in);
--		break;
--
--	case HL_MEM_OP_MAP:
--		if (args->in.flags & HL_MEM_USERPTR) {
--			dev_err(hdev->dev, "Failed to map host memory when MMU is disabled\n");
--			rc = -EPERM;
--		} else {
--			rc = get_paddr_from_handle(ctx, &args->in, &device_addr);
--			memset(args, 0, sizeof(*args));
--			args->out.device_virt_addr = device_addr;
--		}
--
--		break;
--
--	case HL_MEM_OP_UNMAP:
--		rc = 0;
--		break;
--
--	case HL_MEM_OP_MAP_BLOCK:
--		rc = map_block(hdev, args->in.map_block.block_addr, &block_handle, &block_size);
--		args->out.block_handle = block_handle;
--		args->out.block_size = block_size;
--		break;
--
--	case HL_MEM_OP_EXPORT_DMABUF_FD:
--		dev_err(hdev->dev, "Failed to export dma-buf object when MMU is disabled\n");
--		rc = -EPERM;
--		break;
--
--	case HL_MEM_OP_TS_ALLOC:
--		rc = allocate_timestamps_buffers(hpriv, &args->in, &args->out.handle);
--		break;
--	default:
--		dev_err(hdev->dev, "Unknown opcode for memory IOCTL\n");
--		rc = -EINVAL;
--		break;
--	}
--
--out:
--	return rc;
--}
--
- static void ts_buff_release(struct hl_mmap_mem_buf *buf)
- {
- 	struct hl_ts_buff *ts_buff = buf->private;
-@@ -2282,9 +2188,6 @@ int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data)
- 		return -EBUSY;
- 	}
- 
--	if (!hdev->mmu_enable)
--		return mem_ioctl_no_mmu(hpriv, args);
--
- 	switch (args->in.op) {
- 	case HL_MEM_OP_ALLOC:
- 		if (args->in.alloc.mem_size == 0) {
-@@ -2779,13 +2682,10 @@ int hl_vm_ctx_init(struct hl_ctx *ctx)
- 	atomic64_set(&ctx->dram_phys_mem, 0);
- 
- 	/*
--	 * - If MMU is enabled, init the ranges as usual.
--	 * - If MMU is disabled, in case of host mapping, the returned address
--	 *   is the given one.
- 	 *   In case of DRAM mapping, the returned address is the physical
- 	 *   address of the memory related to the given handle.
- 	 */
--	if (!ctx->hdev->mmu_enable)
-+	if (ctx->hdev->mmu_disable)
- 		return 0;
- 
- 	dram_range_start = prop->dmmu.start_addr;
-@@ -2835,7 +2735,7 @@ void hl_vm_ctx_fini(struct hl_ctx *ctx)
- 	struct hl_mem_in args;
- 	int i;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return;
- 
- 	hl_debugfs_remove_ctx_mem_hash(hdev, ctx);
-diff --git a/drivers/accel/habanalabs/common/mmu/mmu.c b/drivers/accel/habanalabs/common/mmu/mmu.c
-index f379e5b461a6..b2145716c605 100644
---- a/drivers/accel/habanalabs/common/mmu/mmu.c
-+++ b/drivers/accel/habanalabs/common/mmu/mmu.c
-@@ -44,7 +44,7 @@ int hl_mmu_init(struct hl_device *hdev)
- {
- 	int rc = -EOPNOTSUPP;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return 0;
- 
- 	mutex_init(&hdev->mmu_lock);
-@@ -82,7 +82,7 @@ int hl_mmu_init(struct hl_device *hdev)
-  */
- void hl_mmu_fini(struct hl_device *hdev)
- {
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return;
- 
- 	if (hdev->mmu_func[MMU_DR_PGT].fini != NULL)
-@@ -107,7 +107,7 @@ int hl_mmu_ctx_init(struct hl_ctx *ctx)
- 	struct hl_device *hdev = ctx->hdev;
- 	int rc = -EOPNOTSUPP;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return 0;
- 
- 	if (hdev->mmu_func[MMU_DR_PGT].ctx_init != NULL) {
-@@ -145,7 +145,7 @@ void hl_mmu_ctx_fini(struct hl_ctx *ctx)
- {
- 	struct hl_device *hdev = ctx->hdev;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return;
- 
- 	if (hdev->mmu_func[MMU_DR_PGT].ctx_fini != NULL)
-@@ -233,7 +233,7 @@ int hl_mmu_unmap_page(struct hl_ctx *ctx, u64 virt_addr, u32 page_size, bool flu
- 	u64 real_virt_addr;
- 	bool is_dram_addr;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return 0;
- 
- 	is_dram_addr = hl_is_dram_va(hdev, virt_addr);
-@@ -301,7 +301,7 @@ int hl_mmu_map_page(struct hl_ctx *ctx, u64 virt_addr, u64 phys_addr, u32 page_s
- 	bool is_dram_addr;
- 
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return 0;
- 
- 	is_dram_addr = hl_is_dram_va(hdev, virt_addr);
-@@ -472,46 +472,6 @@ int hl_mmu_unmap_contiguous(struct hl_ctx *ctx, u64 virt_addr, u32 size)
- 	return rc;
- }
- 
--/*
-- * hl_mmu_swap_out - marks all mapping of the given ctx as swapped out
-- *
-- * @ctx: pointer to the context structure
-- *
-- */
--void hl_mmu_swap_out(struct hl_ctx *ctx)
--{
--	struct hl_device *hdev = ctx->hdev;
--
--	if (!hdev->mmu_enable)
--		return;
--
--	if (hdev->mmu_func[MMU_DR_PGT].swap_out != NULL)
--		hdev->mmu_func[MMU_DR_PGT].swap_out(ctx);
--
--	if (hdev->mmu_func[MMU_HR_PGT].swap_out != NULL)
--		hdev->mmu_func[MMU_HR_PGT].swap_out(ctx);
--}
--
--/*
-- * hl_mmu_swap_in - marks all mapping of the given ctx as swapped in
-- *
-- * @ctx: pointer to the context structure
-- *
-- */
--void hl_mmu_swap_in(struct hl_ctx *ctx)
--{
--	struct hl_device *hdev = ctx->hdev;
--
--	if (!hdev->mmu_enable)
--		return;
--
--	if (hdev->mmu_func[MMU_DR_PGT].swap_in != NULL)
--		hdev->mmu_func[MMU_DR_PGT].swap_in(ctx);
--
--	if (hdev->mmu_func[MMU_HR_PGT].swap_in != NULL)
--		hdev->mmu_func[MMU_HR_PGT].swap_in(ctx);
--}
--
- static void hl_mmu_pa_page_with_offset(struct hl_ctx *ctx, u64 virt_addr,
- 						struct hl_mmu_hop_info *hops,
- 						u64 *phys_addr)
-@@ -594,7 +554,7 @@ int hl_mmu_get_tlb_info(struct hl_ctx *ctx, u64 virt_addr,
- 	int pgt_residency, rc;
- 	bool is_dram_addr;
- 
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return -EOPNOTSUPP;
- 
- 	prop = &hdev->asic_prop;
-@@ -625,7 +585,7 @@ int hl_mmu_get_tlb_info(struct hl_ctx *ctx, u64 virt_addr,
- 
- int hl_mmu_if_set_funcs(struct hl_device *hdev)
- {
--	if (!hdev->mmu_enable)
-+	if (hdev->mmu_disable)
- 		return 0;
- 
- 	switch (hdev->asic_type) {
-diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
-index a1697581c218..056e2ef44afb 100644
---- a/drivers/accel/habanalabs/gaudi/gaudi.c
-+++ b/drivers/accel/habanalabs/gaudi/gaudi.c
-@@ -1469,8 +1469,7 @@ static int gaudi_collective_wait_create_job(struct hl_device *hdev,
- 	}
- 
- 	/* Allocate internal mapped CB for non patched CBs */
--	cb = hl_cb_kernel_create(hdev, cb_size,
--			hdev->mmu_enable && !patched_cb);
-+	cb = hl_cb_kernel_create(hdev, cb_size, !patched_cb);
- 	if (!cb) {
- 		atomic64_inc(&ctx->cs_counters.out_of_mem_drop_cnt);
- 		atomic64_inc(&cntr->out_of_mem_drop_cnt);
-@@ -3644,9 +3643,6 @@ static int gaudi_mmu_init(struct hl_device *hdev)
- 	u64 hop0_addr;
- 	int rc, i;
- 
--	if (!hdev->mmu_enable)
--		return 0;
--
- 	if (gaudi->hw_cap_initialized & HW_CAP_MMU)
- 		return 0;
- 
-diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/habanalabs/goya/goya.c
-index fb0ac9df841a..7c685e6075f6 100644
---- a/drivers/accel/habanalabs/goya/goya.c
-+++ b/drivers/accel/habanalabs/goya/goya.c
-@@ -2671,9 +2671,6 @@ int goya_mmu_init(struct hl_device *hdev)
- 	u64 hop0_addr;
- 	int rc, i;
- 
--	if (!hdev->mmu_enable)
--		return 0;
--
- 	if (goya->hw_cap_initialized & HW_CAP_MMU)
- 		return 0;
- 
-diff --git a/drivers/accel/habanalabs/goya/goya_coresight.c b/drivers/accel/habanalabs/goya/goya_coresight.c
-index e7ac3046cfaa..a6d6cc38bcd8 100644
---- a/drivers/accel/habanalabs/goya/goya_coresight.c
-+++ b/drivers/accel/habanalabs/goya/goya_coresight.c
-@@ -371,13 +371,8 @@ static int goya_etr_validate_address(struct hl_device *hdev, u64 addr,
- 		return false;
- 	}
- 
--	if (hdev->mmu_enable) {
--		range_start = prop->dmmu.start_addr;
--		range_end = prop->dmmu.end_addr;
--	} else {
--		range_start = prop->dram_user_base_address;
--		range_end = prop->dram_end_address;
--	}
-+	range_start = prop->dmmu.start_addr;
-+	range_end = prop->dmmu.end_addr;
- 
- 	return hl_mem_area_inside_range(addr, size, range_start, range_end);
- }
+ 		if (hl_is_fw_sw_ver_below(hdev, 1, 9) &&
+@@ -8056,7 +8063,6 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
+ 			lbw_rtr_id = DCORE0_RTR0;
+ 		else
+ 			lbw_rtr_id = gaudi2_tpc_initiator_lbw_rtr_id[module_idx];
+-		sprintf(initiator_name, "TPC_%u", module_idx);
+ 		break;
+ 	case RAZWI_MME:
+ 		sprintf(initiator_name, "MME_%u", module_idx);
+@@ -8115,9 +8121,14 @@ static void gaudi2_ack_module_razwi_event_handler(struct hl_device *hdev,
+ 		sprintf(initiator_name, "NIC_%u", module_idx);
+ 		break;
+ 	case RAZWI_DEC:
++		sprintf(initiator_name, "DEC_%u", module_idx);
++		if (hdev->decoder_binning) {
++			binned_idx = __ffs(hdev->decoder_binning);
++			if (binned_idx == module_idx)
++				module_idx = DEC_ID_PCIE_VDEC1;
++		}
+ 		hbw_rtr_id = gaudi2_dec_initiator_hbw_rtr_id[module_idx];
+ 		lbw_rtr_id = gaudi2_dec_initiator_lbw_rtr_id[module_idx];
+-		sprintf(initiator_name, "DEC_%u", module_idx);
+ 		break;
+ 	case RAZWI_ROT:
+ 		hbw_rtr_id = gaudi2_rot_initiator_hbw_rtr_id[module_idx];
 -- 
 2.40.1
 
