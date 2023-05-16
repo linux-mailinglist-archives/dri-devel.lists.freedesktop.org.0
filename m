@@ -2,61 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A770E7060D6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2B17060D4
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F7710E3C0;
-	Wed, 17 May 2023 07:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AED0710E3C8;
+	Wed, 17 May 2023 07:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E4A910E32C
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 08:50:52 +0000 (UTC)
-Received: by mail-qv1-xf2c.google.com with SMTP id
- 6a1803df08f44-61b2f654b54so65823826d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 01:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1684227051; x=1686819051;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=p37xwemRmvnMXu7zqr8qUEOysKIfWHCVcW7gNj+l5QU=;
- b=UKvp3fhWeZx9ULyqR0fJ2b8IIphHErsKHgT3ekfjUzT0dPT/72zzWYnFQ7DbKuGzdZ
- AwQcq/xH+6cQyOV90IVQKIKAGSPlMtbAdE9Q7JhXQ75Ug3qMC1+6Sn2yGQYN8dr2JN38
- EES2HGoo7uwcV4yiFFKhTejy36iH8cDQMTw4Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684227051; x=1686819051;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=p37xwemRmvnMXu7zqr8qUEOysKIfWHCVcW7gNj+l5QU=;
- b=B9Fu23s6UqNvqinaZF1a2fDDVWDu8SMoMD7OPCJSmBHlPm5CND1jdmg3ikbMRx5Otj
- Sf/f7IDhL72gw/ocEwzyifdzBuEApdUfGhB/fpQ/HK9EapRGXY+rsTV5MeZ1Wd4AHw9y
- o5zfe9lnCDLUNoP6JFuOhYq577NQ+nbQ8YUCOXGUlImBI9p/Vvkld715UcUr0qN8w5bS
- zQSZ6/OyvF8mYdNAKyyetZt59j8NVznCy4R9C+DLYqrBEk9resML9BuIzulRFfdpbLSZ
- gJD3wIFIX1WmOmhhTPw3KF0UISF+XszHYZKz9Ba6xOY2551/DnuK/goNpmyX7pW/xx0n
- Mq+Q==
-X-Gm-Message-State: AC+VfDyBfo9w8iZ70tGNA2M4xMhfF9et4yr0uosx+kbFacTKQ+lJEAlN
- xtHiuBBpiRE8mxfWefF/SLH0cHJd8/paRHF3H7LnMg==
-X-Google-Smtp-Source: ACHHUZ4HrFSbd8Ul5hJPPrcQADlTXsL1z1pUBhxD4DHWR3lIZfNg3Gc5XtR0neHQgTIONuEpRzL/OQ==
-X-Received: by 2002:ad4:5bcc:0:b0:623:6b1a:c5f1 with SMTP id
- t12-20020ad45bcc000000b006236b1ac5f1mr6566466qvt.4.1684227050912; 
- Tue, 16 May 2023 01:50:50 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.pdxnet.pdxeng.ch
- (mob-5-90-62-17.net.vodafone.it. [5.90.62.17])
- by smtp.gmail.com with ESMTPSA id
- i11-20020a0cf48b000000b005fe4a301350sm5497335qvm.48.2023.05.16.01.50.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 May 2023 01:50:50 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: simple: fix active size for Ampire
- AM-480272H3TMQW-T01H
-Date: Tue, 16 May 2023 10:50:39 +0200
-Message-Id: <20230516085039.3797303-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A359610E33B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 11:22:11 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B81C36386D;
+ Tue, 16 May 2023 11:22:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5D5C433D2;
+ Tue, 16 May 2023 11:22:05 +0000 (UTC)
+Date: Tue, 16 May 2023 12:22:02 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v2 RESEND 7/7] swiotlb: per-device flag if there are
+ dynamically allocated buffers
+Message-ID: <ZGNnWmw4eDsh9hBN@arm.com>
+References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
+ <69f9e058bb1ad95905a62a4fc8461b064872af97.1683623618.git.petr.tesarik.ext@huawei.com>
+ <ZGEuYxR2PM6wHeDh@arm.com>
+ <20230515104847.6dfdf31b@meshulam.tesarici.cz>
+ <20230515120054.0115a4eb@meshulam.tesarici.cz>
+ <ZGJdtmP13pv06xDH@arm.com>
+ <20230516095512.3c99c35e@meshulam.tesarici.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230516095512.3c99c35e@meshulam.tesarici.cz>
 X-Mailman-Approved-At: Wed, 17 May 2023 07:08:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,48 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
- Thierry Reding <treding@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ Borislav Petkov <bp@suse.de>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
+ open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous setting was related to the overall dimension and not to the
-active display area.
-In the "PHYSICAL SPECIFICATIONS" section, the datasheet shows the
-following parameters:
+On Tue, May 16, 2023 at 09:55:12AM +0200, Petr Tesařík wrote:
+> On Mon, 15 May 2023 17:28:38 +0100
+> Catalin Marinas <catalin.marinas@arm.com> wrote:
+> > There is another scenario to take into account on the list_del() side.
+> > Let's assume that there are other elements on the list, so
+> > list_empty() == false:
+> > 
+> > P0:
+> > 	list_del(paddr);
+> > 	/* the memory gets freed, added to some slab or page free list */
+> > 	WRITE_ONCE(slab_free_list, __va(paddr));
+> > 
+> > P1:
+> > 	paddr = __pa(READ_ONCE(slab_free_list));/* re-allocating paddr freed on P0 */
+> > 	if (!list_empty()) {			/* assuming other elements on the list */
+> > 		/* searching the list */
+> > 		list_for_each() {
+> > 			if (pos->paddr) == __pa(vaddr))
+> > 				/* match */
+> > 		}
+> > 	}
+> > 
+> > On P0, you want the list update to be visible before the memory is freed
+> > (and potentially reallocated on P1). An smp_wmb() on P0 would do. For
+> > P1, we don't care about list_empty() as there can be other elements
+> > already. But we do want any list elements reading during the search to
+> > be ordered after the slab_free_list reading. The smp_rmb() you'd add for
+> > the case above would suffice.
+> 
+> Yes, but to protect against concurrent insertions/deletions, a spinlock
+> is held while searching the list. The spin lock provides the necessary
+> memory barriers implicitly.
 
- ----------------------------------------------------------
-|       Item        |         Specifications        | unit |
- ----------------------------------------------------------
-| Display area      | 98.7 (W) x 57.5 (H)           |  mm  |
- ----------------------------------------------------------
-| Overall dimension | 105.5(W) x 67.2(H) x 4.96(D)  |  mm  |
- ----------------------------------------------------------
+Well, mostly. The spinlock acquire/release semantics ensure that
+accesses within the locked region are not observed outside the
+lock/unlock. But it doesn't guarantee anything about accesses outside
+such region in relation to the accesses within the region. For example:
 
-Fixes: 966fea78adf23 ("drm/panel: simple: Add support for Ampire AM-480272H3TMQW-T01H")
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
----
+P0:
+	spin_lock_irqsave(&swiotlb_dyn_lock);
+	list_del(paddr);
+	spin_unlock_irqrestore(&swiotlb_dyn_lock);
 
- drivers/gpu/drm/panel/panel-simple.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+	/* the blah write below can be observed before list_del() above */
+	WRITE_ONCE(blah, paddr);
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 065f378bba9d..d8efbcee9bc1 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -759,8 +759,8 @@ static const struct panel_desc ampire_am_480272h3tmqw_t01h = {
- 	.num_modes = 1,
- 	.bpc = 8,
- 	.size = {
--		.width = 105,
--		.height = 67,
-+		.width = 99,
-+		.height = 58,
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
+	/* that's somewhat tricker but slab_free_list update can also be
+	 * seen before list_del() above on certain architectures */
+	spin_lock_irqsave(&slab_lock);
+ 	WRITE_ONCE(slab_free_list, __va(paddr));
+	spin_unlock_irqrestore(&slab_lock);
+
+On most architectures, the writing of the pointer to a slab structure
+(assuming some spinlocks) would be ordered against the list_del() from
+the swiotlb code. Apart from powerpc where the spin_unlock() is not
+necessarily ordered against the subsequent spin_lock(). The architecture
+selects ARCH_WEAK_RELEASE_ACQUIRE which in turns makes
+smp_mb__after_unlock_lock() an smp_mb() (rather than no-op on all the
+other architectures).
+
+On arm64 we have smp_mb__after_spinlock() which ensures that memory
+accesses prior to spin_lock() are not observed after accesses within the
+locked region. I don't think this matters for your case but I thought
+I'd mention it.
+
 -- 
-2.32.0
-
+Catalin
