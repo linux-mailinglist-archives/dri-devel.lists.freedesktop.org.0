@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DAE704955
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 11:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72223704A2D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 12:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A5C10E338;
-	Tue, 16 May 2023 09:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3070210E349;
+	Tue, 16 May 2023 10:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2C5310E33B
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 09:30:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4DDA6636E9;
- Tue, 16 May 2023 09:30:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42B3C433D2;
- Tue, 16 May 2023 09:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684229451;
- bh=wjTM3ZJdzQWf6sAyVetSz+MgGpmQ4ynNtBHWcXxTirE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YXuUCxPVpxyzuxn8Qbn3RSfLAmJLyP+Pv1gzUuNd/qWlpLtI20CP37RX/cH2koRHC
- lY8E2ZHAjU5M3V6lFHPxhF6JY3P80xsvUa3QCLffC9HZ06IHDeQvCnecQY96EXo2ui
- LcQ0G31vZpjnCjVpMk/Bu2sIypxg7zXVmSbcWThqAa+Hmlf62gVOvAgaGBEewR8bnz
- /dBGbLFsgRn4RQffLz5gHZN6+IcG9MDwfDfXLTyRDtJbuC+/Q36pHr8Q0elT5vGine
- 8BuPvkGAumcqpZEogGP+8lDO5fDXIlCFJFqH7LjZzsve3GxeDGNnsBSz0hmsx7xmAC
- NegBZ+9zEer2w==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/12] accel/habanalabs: mask part of hmmu page fault captured
- address
-Date: Tue, 16 May 2023 12:30:30 +0300
-Message-Id: <20230516093030.1220526-12-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230516093030.1220526-1-ogabbay@kernel.org>
-References: <20230516093030.1220526-1-ogabbay@kernel.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 120EC10E343;
+ Tue, 16 May 2023 10:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684231926; x=1715767926;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xrTIYGxTa/AI4UsPVRGNe6sRGMbPC9u9MqFGTuoMCMM=;
+ b=GwmawGgwLlZ8AZKV7Hsibic70EW7YCwq+Uxawxe0hwWKWZJx9yF9a44o
+ f0lWKT6KChE01NKJ/JiTAtcAe8x185OecmK0gzsEE9Ff7o3E4I3YTr7NM
+ J2ia0BR9vEt9joUCN8wFSHfetKUbjOZEuvLOCHWz3usKAp5uRnLWqgKyH
+ XcbisILOgimrL97YpaS6T+dbV0Bj+9yDU9V+X8S51U7oxRSX99b5qsp8Z
+ q49hpHinNWDT13xzy/RMMhyGb/rM+mJSmuXzmkMooTnMIMkci5Sm+TuyZ
+ C5Sa1MoMfQyx6PP4d19ljr/sNWzw8X7TmvhjzeixnLaeQjBtmL6iknMPm g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="379611793"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="379611793"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2023 03:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="731940749"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="731940749"
+Received: from unknown (HELO intel.com) ([10.237.72.65])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2023 03:11:56 -0700
+Date: Tue, 16 May 2023 13:11:50 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 05/13] drm/i915/intel_cdclk: Add vdsc with bigjoiner
+ constraints on min_cdlck
+Message-ID: <ZGNWnP1/vWckkAkA@intel.com>
+References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
+ <20230512062417.2584427-6-ankit.k.nautiyal@intel.com>
+ <ZGJFYziCKeW-vfpF@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZGJFYziCKeW-vfpF@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,59 +61,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dani Liberman <dliberman@habana.ai>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>, anusha.srivatsa@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dani Liberman <dliberman@habana.ai>
+On Mon, May 15, 2023 at 05:44:51PM +0300, Ville Syrjälä wrote:
+> On Fri, May 12, 2023 at 11:54:09AM +0530, Ankit Nautiyal wrote:
+> > As per Bsepc:49259, Bigjoiner BW check puts restriction on the
+> > compressed bpp for a given CDCLK, pixelclock in cases where
+> > Bigjoiner + DSC are used.
+> > 
+> > Currently compressed bpp is computed first, and it is ensured that
+> > the bpp will work at least with the max CDCLK freq.
+> > 
+> > Since the CDCLK is computed later, lets account for Bigjoiner BW
+> > check while calculating Min CDCLK.
+> > 
+> > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_cdclk.c | 49 ++++++++++++++++++----
+> >  1 file changed, 42 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > index 6bed75f1541a..3532640c5027 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > @@ -2520,6 +2520,46 @@ static int intel_planes_min_cdclk(const struct intel_crtc_state *crtc_state)
+> >  	return min_cdclk;
+> >  }
+> >  
+> > +static int intel_vdsc_min_cdclk(const struct intel_crtc_state *crtc_state)
+> > +{
+> > +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+> > +	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
+> > +	int min_cdclk = 0;
+> > +
+> > +	/*
+> > +	 * When we decide to use only one VDSC engine, since
+> > +	 * each VDSC operates with 1 ppc throughput, pixel clock
+> > +	 * cannot be higher than the VDSC clock (cdclk)
+> > +	 */
+> > +	if (!crtc_state->dsc.dsc_split)
+> > +		min_cdclk = max(min_cdclk, (int)crtc_state->pixel_rate);
+> > +
+> > +	if (crtc_state->bigjoiner_pipes) {
+> > +		/*
+> > +		 * According to Bigjoiner bw check:
+> > +		 * compressed_bpp <= PPC * CDCLK * Big joiner Interface bits / Pixel clock
+> > +		 *
+> > +		 * We have already computed compressed_bpp, so now compute the min CDCLK that
+> > +		 * is required to support this compressed_bpp.
+> > +		 *
+> > +		 * => CDCLK >= compressed_bpp * Pixel clock / (PPC * Bigjoiner Interface bits)
+> > +		 *
+> > +		 * Since Num of pipes joined = 2, and PPC = 2 with bigjoiner
+> > +		 * => CDCLK >= compressed_bpp * pixel_rate  / Bigjoiner Interface bits
+> > +		 *
+> > +		 * #TODO Bspec mentions to account for FEC overhead while using pixel clock.
+> > +		 * Check if we need to use FEC overhead in the above calculations.
+> > +		 */
+> > +		int bigjoiner_interface_bits = DISPLAY_VER(i915) > 13 ? 36 : 24;
+> > +		int min_cdclk_bj = crtc_state->dsc.compressed_bpp * crtc_state->pixel_rate /
+> > +				   bigjoiner_interface_bits;
+> 
+> pixel_rate is the downscale adjusted thing, so it doesn't seem
+> like the correct thing to use here.
+> 
+> Hmm. Assuming that the single VDSC engine really throttles the entire
+> pipe to 1 PPC then we should probably account for the 1 vs. 2 PPC
+> difference in *_plane_min_cdclk() and intel_pixel_rate_to_cdclk()
+> directly. Currently all of those assume 2 PPC.
 
-When receiving page fault from hmmu, the captured address is scrambled
-both by HW and by driver. The driver part is unscrambled but the HW
-part isn't getting unscrambled.
-To avoid declaring wrong address, the HW scrambled part will be
-masked.
+Main thing is to properly align that one you propose above with that check,
+where we decide how many VDSC engines to use:
 
-Signed-off-by: Dani Liberman <dliberman@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+        /*
+         * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
+         * is greater than the maximum Cdclock and if slice count is even
+         * then we need to use 2 VDSC instances.
+         */
+        if (adjusted_mode->crtc_clock > dev_priv->max_cdclk_freq) {
+                if (pipe_config->dsc.slice_count > 1) {
+                        pipe_config->dsc.dsc_split = true;
+                } else {
+                        drm_dbg_kms(&dev_priv->drm,
+                                    "Cannot split stream to use 2 VDSC instances\n");
+                        return -EINVAL;
+                }
+        }
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 4981b8eb0ff5..1cb2b72e1cd2 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -162,6 +162,9 @@
- #define PSOC_RAZWI_ENG_STR_SIZE 128
- #define PSOC_RAZWI_MAX_ENG_PER_RTR 5
- 
-+/* HW scrambles only bits 0-25 */
-+#define HW_UNSCRAMBLED_BITS_MASK GENMASK_ULL(63, 26)
-+
- struct gaudi2_razwi_info {
- 	u32 axuser_xy;
- 	u32 rtr_ctrl;
-@@ -8835,11 +8838,16 @@ static void gaudi2_handle_page_error(struct hl_device *hdev, u64 mmu_base, bool
- 	addr <<= 32;
- 	addr |= RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_PAGE_ERROR_CAPTURE_VA));
- 
--	if (!is_pmmu)
-+	if (is_pmmu) {
-+		dev_err_ratelimited(hdev->dev, "PMMU page fault on va 0x%llx\n", addr);
-+	} else {
-+
- 		addr = gaudi2_mmu_descramble_addr(hdev, addr);
-+		addr &= HW_UNSCRAMBLED_BITS_MASK;
-+		dev_err_ratelimited(hdev->dev, "HMMU page fault on va range 0x%llx - 0x%llx\n",
-+				addr, addr + ~HW_UNSCRAMBLED_BITS_MASK);
-+	}
- 
--	dev_err_ratelimited(hdev->dev, "%s page fault on va 0x%llx\n",
--				is_pmmu ? "PMMU" : "HMMU", addr);
- 	hl_handle_page_fault(hdev, addr, 0, is_pmmu, event_mask);
- 
- 	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID), 0);
--- 
-2.40.1
+Otherwise I agree that we should do that check preferrably in *_plane_min_cdclk
+and use plane data rate which is adjusted after scaling is applied(I think we even have correspondent function there)
+It is strange that scaling wasn't mentioned in BSpec formula.
+I would also say that we should account for number of slices(i.e VDSC engines) now only in Bigjoiner case, but always, as I understand that number can be different not only for Bigjoiner cases.
 
+Stan
+
+
+> 
+> > +
+> > +		min_cdclk = max(min_cdclk, min_cdclk_bj);
+> > +	}
+> > +
+> > +	return min_cdclk;
+> > +}
+> > +
+> >  int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
+> >  {
+> >  	struct drm_i915_private *dev_priv =
+> > @@ -2591,13 +2631,8 @@ int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
+> >  	/* Account for additional needs from the planes */
+> >  	min_cdclk = max(intel_planes_min_cdclk(crtc_state), min_cdclk);
+> >  
+> > -	/*
+> > -	 * When we decide to use only one VDSC engine, since
+> > -	 * each VDSC operates with 1 ppc throughput, pixel clock
+> > -	 * cannot be higher than the VDSC clock (cdclk)
+> > -	 */
+> > -	if (crtc_state->dsc.compression_enable && !crtc_state->dsc.dsc_split)
+> > -		min_cdclk = max(min_cdclk, (int)crtc_state->pixel_rate);
+> > +	if (crtc_state->dsc.compression_enable)
+> > +		min_cdclk = max(min_cdclk, intel_vdsc_min_cdclk(crtc_state));
+> >  
+> >  	/*
+> >  	 * HACK. Currently for TGL/DG2 platforms we calculate
+> > -- 
+> > 2.25.1
+> 
+> -- 
+> Ville Syrjälä
+> Intel
