@@ -1,90 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6483070542E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 18:40:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42751705462
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 18:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF5E10E040;
-	Tue, 16 May 2023 16:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAAF10E27B;
+	Tue, 16 May 2023 16:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B896510E040;
- Tue, 16 May 2023 16:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1684255229; i=markus.elfring@web.de;
- bh=ugGZ0+AcIOuo/HAtpRBpxao7uXTu538oDGUS9TwKnp4=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=mzYFy4ygsqmQ1+L78eMdev+pH3UCStf+7Q4aTNzILqloE0HP2XCf30FsbQ7YokQrz
- zUebobHTuGHM9SVr3E2kP3Gh3MDQ3mbedVpdgI+cpkA62ZpxH/XcwGkSFe1MtAkKth
- dq6CFLimjwUmrGgMm3upxbLA5HyFlSt6WlZs25L/XU6Ne2zvzoSj5zi55O7eWC8Cqi
- ZbqSmcXrC/EJplNbYq0QM4REhl+XKbab815LECfqDRNSc6rLHUADnqVevP6MSbtJK8
- lU0mtpZQE2D8N4e9F8508qtQxOMq/03il3/qBep/kLL5DKA4WyTJzDvSQbwzw+ZI4P
- 9f0LZgWwy532Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.83]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MLijs-1phQq43FGy-00Hzei; Tue, 16
- May 2023 18:40:28 +0200
-Message-ID: <591e4d84-ab96-a8db-09fb-968a630d606e@web.de>
-Date: Tue, 16 May 2023 18:40:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/5] drm/amd/display: Move three variable assignments
- behind condition checks in trigger_hotplug()
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alan Liu <HaoPing.Liu@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
- Alexey Kodanev <aleksei.kodanev@bell-sw.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Candice Li <candice.li@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- David Tadokoro <davidbtadokoro@usp.br>, Eryk Brol <eryk.brol@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, hersen wu <hersenxs.wu@amd.com>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Jun Lei <jun.lei@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Stanley Yang <Stanley.Yang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Tom Rix <trix@redhat.com>, Victor Zhao <Victor.Zhao@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Zhan Liu <zhan.liu@amd.com>, Felix Kuehling <felix.kuehling@amd.com>
-References: <40c60719-4bfe-b1a4-ead7-724b84637f55@web.de>
- <1a11455f-ab57-dce0-1677-6beb8492a257@web.de>
- <2258ce64-2a14-6778-8319-b342b06a1f33@web.de>
- <89048a5f-2dbb-012c-41f5-7c300e8415f5@web.de>
- <edf173d9-8b59-ecab-99d0-1063b51574a9@amd.com>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <edf173d9-8b59-ecab-99d0-1063b51574a9@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:EHvyR9sPQDdoSI8E24MjTjBHNE34IrFkXfakpw4cbttBrv/0NAc
- yMDhr+DbA/ZVFn0IZ7Lo4HeGvVILE+ExYeuzr25ctpzJQv1g+8EZVSsMvSF8kG7RQ/m8LgU
- fCYJwcbtQKSQUIr73PDMT/XE+kBc32CfSV0i+ig/doCjxTHUE8Tnux9ZNXdFLwhv6WcP9o9
- roETPDsP0WDGglxMRkqaQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Zvzo7aMxB44=;7I9lorAPtcorqLfbaixEFqdnXOE
- alQy5LjJqBLLH6IPFEyZf7O6NjWoIkFTgALzBSWtSEb1SWXIsXvg257F26LV9QibgkCcWh+3f
- s+xYoOYTc0M4MCP9MzBur8wviENNM9IpGpORwQso/HMU3ZcdWtJbYosDmbGalsaunrp+19RoJ
- lKdrlwU920vOp7cb2A54kmj48rGr48fDbtOwyl1ijf8GwYylIWtk/iG7kzlYgvF+rbJBCN1Tf
- ZLParTtg+OaoU6gCiU1cWYCs0B5zP0ZyDH7SCWvVSw2KCApZtCkktPqALrsWqtkljGszM3jgg
- xl9BwDwX+enDYA4YDNGv1CA1ngWiDpJy9BouQcMf98VD84Q7bpwHsb28itOLcc4tAHZLtlEGc
- Vym54VSHHaZfs4q3/IhHrXyuy1pnoJMKeQduhF+ylStH5g8VoyX36Y4USzeud01TB9kI08mhz
- RCRrb+wlo5araoOSCd9El2NDrH6gSJYj6iw9b3GZZ54o3lVUru05N8xYVxHEUhOU9qK9NqXsq
- 3sHgSGl1wq6/3ZnOro83wp7Ix2At49nMXRBuF3BT6yM1Snu7V6CWIRZlVDyXAAfXGIiiSRRsf
- 4T+bwx55aN4Rfjo6LEhBL/9CK/KvrT5qm4qQpj39gIOtrtMDuj1n1To8tGxlFIjvh7pp5iaVw
- QIUyPv+lHrbxh0j412Qg5IEV3ebNttbOIMDfpt9PlUpp1LZAjucbB8T7/brZIxwioUV7bMOtd
- dxFi+CMM6stf6Z3Spg0LsPcfKyol3O2swCn5ephfuTDGHLE9mHdWVquRgR+HxSJJFuHL+9bUr
- Uj3pmotM+ZE3JG+pPx09fh/W9c1dc3/Xp36JLzmoWjzQui6pG2icwremJEpoCSG1rp74gmxk9
- 4/a7ruL5i1lScPGZhIUkpEnbCLr9qA3gtZOFvjxa8UE55tEdgEsyRY7U/BDZmrIu5xvofPdXU
- bB7afA==
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3039910E27B;
+ Tue, 16 May 2023 16:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684256052; x=1715792052;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=ozjfJBHYBbAm5X+YYnlOyx+UUC5Y3vCqJBhWUKpfg+Q=;
+ b=ak1FcqV+0uEJ/MV+2cfGgNHErlNs9TwEs19NMzz2bRddLWq/7/wZQEvI
+ balWqY82EHPijiz9/EZYut8UrysC0quR56HpAVfteYGiYBQzozq2BBe5m
+ 4Mnz43jq+T58HAmpN//Kk3mLme0/X8x4CxueieCbqt1vOu6MT7DRU/SDP
+ MWMm3/FjuYOTBRzdDooih8+n7RhH9914VNWgV5ZQOJundt9YzGicm/c5i
+ 2WNtpd3E3AmBHInYL0dgfsjF/Z29BC6Qm/vFC6yrwYWktfGq65I4v+WBh
+ Ea8Z1nWoadFxb/sX8q8/oODu4srAe7HnEFjSARVwitDow4/PBoraqYaDZ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="331150377"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="331150377"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2023 09:54:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="771129552"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; d="scan'208";a="771129552"
+Received: from samie-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.213.20])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2023 09:54:10 -0700
+Date: Tue, 16 May 2023 09:54:01 -0700
+Message-ID: <87edngp68m.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/pmu: Change bitmask of enabled events to u32
+In-Reply-To: <20230516092445.184823-1-tvrtko.ursulin@linux.intel.com>
+References: <20230516092445.184823-1-tvrtko.ursulin@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,28 +60,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Cc: Intel-gfx@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> The address of a data structure member was determined before
->> a corresponding null pointer check in the implementation of
->> the function =E2=80=9Ctrigger_hotplug=E2=80=9D.
->>
->> Thus avoid the risk for undefined behaviour by moving the assignment
->> for three local variables behind some condition checks.
+On Tue, 16 May 2023 02:24:45 -0700, Tvrtko Ursulin wrote:
 >
-> It might be that the NULL check doesn't make sense in the first place, b=
-ut since I'm not an expert for this code I can't fully judge.
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> Having it as u64 was a confusing (but harmless) mistake.
+>
+> Also add some asserts to make sure the internal field does not overflow
+> in the future.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> ---
+> I am not entirely sure the __builtin_constant_p->BUILD_BUG_ON branch will
+> work with all compilers. Lets see...
+>
+> Compile tested only.
+> ---
+>  drivers/gpu/drm/i915/i915_pmu.c | 32 ++++++++++++++++++++++----------
+>  1 file changed, 22 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index 7ece883a7d95..8736b3418f88 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -50,7 +50,7 @@ static u8 engine_event_instance(struct perf_event *event)
+>	return (event->attr.config >> I915_PMU_SAMPLE_BITS) & 0xff;
+>  }
+>
+> -static bool is_engine_config(u64 config)
+> +static bool is_engine_config(const u64 config)
+>  {
+>	return config < __I915_PMU_OTHER(0);
+>  }
+> @@ -82,15 +82,28 @@ static unsigned int other_bit(const u64 config)
+>
+>  static unsigned int config_bit(const u64 config)
+>  {
+> +	unsigned int bit;
+> +
+>	if (is_engine_config(config))
+> -		return engine_config_sample(config);
+> +		bit = engine_config_sample(config);
+>	else
+> -		return other_bit(config);
+> +		bit = other_bit(config);
+> +
+> +	if (__builtin_constant_p(config))
+> +		BUILD_BUG_ON(bit >
+> +			     BITS_PER_TYPE(typeof_member(struct i915_pmu,
+> +							 enable)) - 1);
 
-Will the source code and patch review evolve any more?
+Given that config comes from the event (it is event->attr.config), can this
+ever be a builtin constant?
 
+> +	else
+> +		WARN_ON_ONCE(bit >
+> +			     BITS_PER_TYPE(typeof_member(struct i915_pmu,
+> +							 enable)) - 1);
 
-> On the other hand the patches clearly look like nice cleanups to me, so =
-feel free to add an Acked-by: Christian K=C3=B6nig <christian.koenig@amd.c=
-om> to the series.
+There is really an even stricter limit on what the bit can be, which is the
+total number of possible events but anyway this is good enough. So this
+patch is:
 
-Will such a positive feedback trigger any further collateral evolution?
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
-Regards,
-Markus
+> +
+> +	return bit;
+>  }
+>
+> -static u64 config_mask(u64 config)
+> +static u32 config_mask(const u64 config)
+>  {
+> -	return BIT_ULL(config_bit(config));
+> +	return BIT(config_bit(config));
+>  }
+>
+>  static bool is_engine_event(struct perf_event *event)
+> @@ -633,11 +646,10 @@ static void i915_pmu_enable(struct perf_event *event)
+>  {
+>	struct drm_i915_private *i915 =
+>		container_of(event->pmu, typeof(*i915), pmu.base);
+> +	const unsigned int bit = event_bit(event);
+>	struct i915_pmu *pmu = &i915->pmu;
+>	unsigned long flags;
+> -	unsigned int bit;
+>
+> -	bit = event_bit(event);
+>	if (bit == -1)
+>		goto update;
+>
+> @@ -651,7 +663,7 @@ static void i915_pmu_enable(struct perf_event *event)
+>	GEM_BUG_ON(bit >= ARRAY_SIZE(pmu->enable_count));
+>	GEM_BUG_ON(pmu->enable_count[bit] == ~0);
+>
+> -	pmu->enable |= BIT_ULL(bit);
+> +	pmu->enable |= BIT(bit);
+>	pmu->enable_count[bit]++;
+>
+>	/*
+> @@ -698,7 +710,7 @@ static void i915_pmu_disable(struct perf_event *event)
+>  {
+>	struct drm_i915_private *i915 =
+>		container_of(event->pmu, typeof(*i915), pmu.base);
+> -	unsigned int bit = event_bit(event);
+> +	const unsigned int bit = event_bit(event);
+>	struct i915_pmu *pmu = &i915->pmu;
+>	unsigned long flags;
+>
+> @@ -734,7 +746,7 @@ static void i915_pmu_disable(struct perf_event *event)
+>	 * bitmask when the last listener on an event goes away.
+>	 */
+>	if (--pmu->enable_count[bit] == 0) {
+> -		pmu->enable &= ~BIT_ULL(bit);
+> +		pmu->enable &= ~BIT(bit);
+>		pmu->timer_enabled &= pmu_needs_timer(pmu, true);
+>	}
+>
+> --
+> 2.39.2
+>
