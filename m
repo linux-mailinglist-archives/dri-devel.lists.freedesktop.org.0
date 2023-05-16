@@ -1,78 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15451704E76
-	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 14:59:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8875704E8D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 May 2023 15:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40ACA10E0A4;
-	Tue, 16 May 2023 12:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED0F10E09C;
+	Tue, 16 May 2023 13:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114C210E09C
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 12:59:32 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-4eff4ea8e39so16176319e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 05:59:32 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC65510E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 13:02:43 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1aaea3909d1so131556135ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 06:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684241969; x=1686833969;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RyX6rQJR1BZQe9Yc57Xp/rJrQBCXKFM6w6ZuIQmIOyk=;
- b=vms5vFb83wjTEUFScjnZ39oGL9tY2MRnQCrmiM+Z9r8mbDubZnpRtiI94iw7RQHBiG
- NQlmg0NnQK5UWCHQAo7xRz5Bc228a9R01ftilJ6IUT2lUm5XaaUNSQ7OHnjcBvRofMEx
- DGSsneyG3NEoZzAE3kgVBc0ixpS/9nduEN/bFcMq8BwFjTY3Z6bTTX1rSe0gM9EpFiut
- DySc6CxiBo/ZSeaiwij+VNx4FBjDaKaRNnar8q8HgHujQln+VWp3L75DJgnMTrvIWeXj
- 1zkAMj7IT0v7Ktd0k0c/MGkTFc20GDtFYo3o8TvPg0zX+03jq1aybpoUMCqea/zXSymx
- 6MTw==
+ d=gmail.com; s=20221208; t=1684242163; x=1686834163;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kaXORhz+8RW894yoFfhPFe4LLGnVYgme5zSeBCWCFHk=;
+ b=EHiMiNDFqzYZH5BSekJGhS8x7xb1zcmnIC701W+wG85+uJQPEJdKPET0bsK1LXHZJQ
+ IcDScvY88OyXCdEXFqij1pGx17YZNgkM3Ff+FMp7W5gocdRo2lm9rnd7pwHTeaigt0Jy
+ ew0IioPC+UFdRDyDR1hNECB9IYyn1rDdZcFS/7ukvhjavNMlrlhvk3wwNW/xRjHENNyI
+ QNfamb/pddXHv/uPkGPD7zxlblSCOKcVjD9P4G6GB3/TsbIwb0vKLxjlEsFUJQhcOXaJ
+ y/b1yWsdIb/1eaHvzpym4AKUlUIgAzlzu9J8B1wJU0PEJIMtZIShmRomeR3yNYVfvIyR
+ rqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684241969; x=1686833969;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RyX6rQJR1BZQe9Yc57Xp/rJrQBCXKFM6w6ZuIQmIOyk=;
- b=M2+oJBourpKVo70PFfPYH67r6j/kCAZ6ewAJ6sSvG9zV6tXDsq3bKpGt7E8Fr7Ia1j
- GPpj/0TEf4RYXfDEgm/oqFG/apoRcbbZviWTGP5yFa2C8QXhXfgJMbB2EwiVykBfia2u
- Rqc4EAh4jI9UNXzsHK/RM1qNdnJKSiuYquMXqjEp8fVqsL0l9XQTeZ8qYiZ4L8MYeizW
- OHpdTsdz1EOlbvorDlIrrotOoFzSmzT9Ab0JQoXoA1qZsjDjorg0l2EiKWDEk72oUSKZ
- 00qGhVeZAwhSz9rwMioXp/on6t3iyOClRtIuLSKiu9XdlkTqk6S90ZQJZYCvSTqVrk0r
- D3hA==
-X-Gm-Message-State: AC+VfDxtYLdVAREZN6wbEp8oCXMxfntfjmMzU/qxlinvpu6SfoFeii0b
- c8/WrCx6uJ8jQG6E46en0Vxvx3sTwvDIesy945c=
-X-Google-Smtp-Source: ACHHUZ5jrcPyi1Sklbq+EVgE6AzuXgiM/acWnd8fwfuhTH5xW6E3kNQ1fnoEjsH+AEPeI1ou78pHOA==
-X-Received: by 2002:ac2:5dc4:0:b0:4ef:6ed9:7af2 with SMTP id
- x4-20020ac25dc4000000b004ef6ed97af2mr7847544lfq.8.1684241968852; 
- Tue, 16 May 2023 05:59:28 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- c9-20020ac244a9000000b004f387d97dafsm360065lfm.147.2023.05.16.05.59.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 May 2023 05:59:28 -0700 (PDT)
-Message-ID: <19853086-3486-54e9-7926-e6eb9fc0d243@linaro.org>
-Date: Tue, 16 May 2023 15:59:27 +0300
+ d=1e100.net; s=20221208; t=1684242163; x=1686834163;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kaXORhz+8RW894yoFfhPFe4LLGnVYgme5zSeBCWCFHk=;
+ b=gtIf7WbUvVO8fvP851068Cnpqub1ttaq15sVmwHkoHE7+vRIj37EQxlGpU2gz+SYaF
+ sj1IFUAn38tqj1mBzXcqHP5e+XIa0XIFRnNi1sFI+TAsXI225Nqc0mefdm9jMMjPzrL5
+ cY3v1U2ytPfDT6Bo3Woiahy/0wtxh9q9NVOUmbR3ikaLYyaif+czH7Aw1VGsGQX9UIgi
+ Vm52zCvSsxIARMIBLXcdMyPg4aTHoiyWa8r+rcwLtBRvh/DEpjeDW4ZR6/7xxxhcCUjf
+ ln0QFpguPTx2Z0s/OCZB5VfjYanv8GtdUZ7VYBwGPIwC/OgJRYCNhictvoO31dJbN9mV
+ z54w==
+X-Gm-Message-State: AC+VfDzh09paTbGKWCqPSG36/V632GsZJLkCTSNOxzwWk73MXzHYpZdz
+ N3WX2CATga7Bam+iwpNidy9lmuoVj62Gi6YpfAQ=
+X-Google-Smtp-Source: ACHHUZ51C0wEaA3yJ4UzgPmQyHJvXvfxH09GFBbgghyInTN0AWx4Cn/7unwTxVUGykHy2mSFqHyAPkaq0GDsPlkgo0w=
+X-Received: by 2002:a17:902:ea07:b0:1ac:b0c5:77e5 with SMTP id
+ s7-20020a170902ea0700b001acb0c577e5mr26208073plg.68.1684242162562; Tue, 16
+ May 2023 06:02:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v5 0/8] drm/i915: move DSC RC tables to drm_dsc_helper.c
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Suraj Kandpal <suraj.kandpal@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230504153511.4007320-1-dmitry.baryshkov@linaro.org>
- <871qjij6vx.fsf@intel.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <871qjij6vx.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230515235713.232939-1-aford173@gmail.com>
+ <20230515235713.232939-7-aford173@gmail.com>
+ <CAGXv+5EDYvjOiAWDnQsrrp=0iWm54N+pR3O43xDFXYE=UxAw-g@mail.gmail.com>
+In-Reply-To: <CAGXv+5EDYvjOiAWDnQsrrp=0iWm54N+pR3O43xDFXYE=UxAw-g@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 16 May 2023 08:02:30 -0500
+Message-ID: <CAHCN7xKdr1syQS6RKNnuAuEEbsbDQjEnOdJcYdaFNDEnYVuK6w@mail.gmail.com>
+Subject: Re: [PATCH V6 6/6] drm: bridge: samsung-dsim: Support non-burst mode
+To: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,85 +70,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2023 12:12, Jani Nikula wrote:
-> On Thu, 04 May 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->> Other platforms (msm) will benefit from sharing the DSC config setup
->> functions. This series moves parts of static DSC config data from the
->> i915 driver to the common helpers to be used by other drivers.
->>
->> Note: the RC parameters were cross-checked against config files found in
->> DSC model 2021062, 20161212 (and 20150914). The first patch modifies
->> tables according to those config files, while preserving parameter
->> values using the code. I have not changed one of the values in the
->> pre-SCR config file as it clearly looks like a typo in the config file,
->> considering the table E in DSC 1.1 and in the DSC 1.1 SCR.
-> 
-> As I believe I've said before, I think it's fine to merge these either
-> via drm-intel or drm-misc. Which do you prefer?
+On Mon, May 15, 2023 at 10:26=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
+wrote:
+>
+> On Tue, May 16, 2023 at 7:57=E2=80=AFAM Adam Ford <aford173@gmail.com> wr=
+ote:
+> >
+> > The high-speed clock is hard-coded to the burst-clock
+> > frequency specified in the device tree.  However, when
+> > using devices like certain bridge chips without burst mode
+> > and varying resolutions and refresh rates, it may be
+> > necessary to set the high-speed clock dynamically based
+> > on the desired pixel clock for the connected device.
+> >
+> > This also removes the need to set a clock speed from
+> > the device tree for non-burst mode operation, since the
+> > pixel clock rate is the rate requested from the attached
+> > device like a bridge chip.  This should have no impact
+> > for people using burst-mode and setting the burst clock
+> > rate is still required for those users.  If the burst
+> > clock is not present, change the error message to
+> > dev_info indicating the clock use the pixel clock.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> > ---
+> >  drivers/gpu/drm/bridge/samsung-dsim.c | 27 +++++++++++++++++++++------
+> >  1 file changed, 21 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
+idge/samsung-dsim.c
+> > index 3944b7cfbbdf..03b21d13f067 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -655,16 +655,28 @@ static unsigned long samsung_dsim_set_pll(struct =
+samsung_dsim *dsi,
+> >
+> >         dsi->hs_clock =3D fout;
+> >
+> > +       dsi->hs_clock =3D fout;
+> > +
+>
+> Not sure about the double assignment. Was this caused by a rebase?
 
-No strong preference. Maybe drm-misc would be easier for us to 
-back-merge it into msm/next. Otherwise it is up to you.
+Oops,
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
->>
->> Chances since v4:
->> - Rebased on top of drm-intel-next
->> - Cut the first 8 patches of the series to ease merging. The rest of the
->>    patches will go afterwards.
->>
->> Chances since v3:
->> - Rebased on top of drm-intel-next
->> - Dropped the msm patch to make patchset fully mergeable through
->>    drm-intel
->> - Made drm_dsc_set_const_params() ignore rc_model_size, picked up
->>    drm_dsc_set_initial_scale_value() patch by Jessica and switched
->>    intel_vdsc.c to use those two helpers.
->> - Added a patch to make i915 actually use rc_tgt_offset_high,
->>    rc_tgt_offset_low and rc_edge_factor from struct drm_dsc_config.
->>
->> Chances since v2:
->> - Rebased on top of drm-intel-next
->>
->> Chances since v1:
->> - Made drm_dsc_rc_buf_thresh static rather than exporting it
->> - Switched drm_dsc_rc_buf_thresh loop to use ARRAY_SIZE. Added
->>    BUILD_BUG_ON's to be sure that array sizes are correct
->> - Fixed rc_parameters_data indentation to be logical and tidy
->> - Fixed drm_dsc_setup_rc_params() kerneldoc
->> - Added a clause to drm_dsc_setup_rc_params() to verify bpp and bpc
->>    being set.
->> - Fixed range_bpg_offset programming in calculate_rc_params()
->> - Fixed bpp vs bpc bug in intel_dsc_compute_params()
->> - Added FIXME comment next to the customizations in
->>    intel_dsc_compute_params().
->>
->> Dmitry Baryshkov (8):
->>    drm/i915/dsc: change DSC param tables to follow the DSC model
->>    drm/i915/dsc: move rc_buf_thresh values to common helper
->>    drm/i915/dsc: move DSC tables to DRM DSC helper
->>    drm/i915/dsc: stop using interim structure for calculated params
->>    drm/display/dsc: use flat array for rc_parameters lookup
->>    drm/display/dsc: split DSC 1.2 and DSC 1.1 (pre-SCR) parameters
->>    drm/display/dsc: include the rest of pre-SCR parameters
->>    drm/display/dsc: add YCbCr 4:2:2 and 4:2:0 RC parameters
->>
->>   drivers/gpu/drm/display/drm_dsc_helper.c  | 986 ++++++++++++++++++++++
->>   drivers/gpu/drm/i915/display/intel_vdsc.c | 443 ++--------
->>   include/drm/display/drm_dsc_helper.h      |   9 +
->>   3 files changed, 1042 insertions(+), 396 deletions(-)
-> 
+I moved this to the previous patch since the updated dphy changes
+needed to know the hs_clock. I must forgot to check this when I
+applied the subsequent patch, so the double assignment appeared.  I am
+surprised the patch tool didn't complain.  I guess the good news is
+that nothing is broken, but the bad news is I have to spam everyone
+with a V7.  I'll wait a couple days to see if anything finds anything
+else.
 
--- 
-With best wishes
-Dmitry
-
+adam
+>
+> ChenYu
+>
+> >         return fout;
+> >  }
+> >
+> >  static int samsung_dsim_enable_clock(struct samsung_dsim *dsi)
+> >  {
+> > -       unsigned long hs_clk, byte_clk, esc_clk;
+> > +       unsigned long hs_clk, byte_clk, esc_clk, pix_clk;
+> >         unsigned long esc_div;
+> >         u32 reg;
+> > +       struct drm_display_mode *m =3D &dsi->mode;
+> > +       int bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
+> > +
+> > +       /* m->clock is in KHz */
+> > +       pix_clk =3D m->clock * 1000;
+> > +
+> > +       /* Use burst_clk_rate if available, otherwise use the pix_clk *=
+/
+> > +       if (dsi->burst_clk_rate)
+> > +               hs_clk =3D samsung_dsim_set_pll(dsi, dsi->burst_clk_rat=
+e);
+> > +       else
+> > +               hs_clk =3D samsung_dsim_set_pll(dsi, DIV_ROUND_UP(pix_c=
+lk * bpp, dsi->lanes));
+> >
+> > -       hs_clk =3D samsung_dsim_set_pll(dsi, dsi->burst_clk_rate);
+> >         if (!hs_clk) {
+> >                 dev_err(dsi->dev, "failed to configure DSI PLL\n");
+> >                 return -EFAULT;
+> > @@ -935,7 +947,7 @@ static void samsung_dsim_set_display_mode(struct sa=
+msung_dsim *dsi)
+> >         u32 reg;
+> >
+> >         if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO) {
+> > -               int byte_clk_khz =3D dsi->burst_clk_rate / 1000 / 8;
+> > +               int byte_clk_khz =3D dsi->hs_clock / 1000 / 8;
+> >                 int hfp =3D (m->hsync_start - m->hdisplay) * byte_clk_k=
+hz / m->clock;
+> >                 int hbp =3D (m->htotal - m->hsync_end) * byte_clk_khz /=
+ m->clock;
+> >                 int hsa =3D (m->hsync_end - m->hsync_start) * byte_clk_=
+khz / m->clock;
+> > @@ -1785,10 +1797,13 @@ static int samsung_dsim_parse_dt(struct samsung=
+_dsim *dsi)
+> >                         return PTR_ERR(pll_clk);
+> >         }
+> >
+> > +       /* If it doesn't exist, use pixel clock instead of failing */
+> >         ret =3D samsung_dsim_of_read_u32(node, "samsung,burst-clock-fre=
+quency",
+> > -                                      &dsi->burst_clk_rate, 0);
+> > -       if (ret < 0)
+> > -               return ret;
+> > +                                      &dsi->burst_clk_rate, 1);
+> > +       if (ret < 0) {
+> > +               dev_info(dev, "Using pixel clock for HS clock frequency=
+\n");
+> > +               dsi->burst_clk_rate =3D 0;
+> > +       }
+> >
+> >         ret =3D samsung_dsim_of_read_u32(node, "samsung,esc-clock-frequ=
+ency",
+> >                                        &dsi->esc_clk_rate, 0);
+> > --
+> > 2.39.2
+> >
