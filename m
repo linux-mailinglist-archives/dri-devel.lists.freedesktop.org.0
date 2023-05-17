@@ -2,73 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD663707BC7
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 10:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B74707BCF
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 10:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30A0E10E4E9;
-	Thu, 18 May 2023 08:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87FA210E4F4;
+	Thu, 18 May 2023 08:20:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 398 seconds by postgrey-1.36 at gabe;
- Wed, 17 May 2023 18:15:31 UTC
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A137D10E45D;
- Wed, 17 May 2023 18:15:31 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu
- (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sailus)
- by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QM1M16wqLz49Q4J;
- Wed, 17 May 2023 21:08:45 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
- t=1684346928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tiLcdj+637utbguDBNkK5wark73uP2Co8cs3kwg/U9Q=;
- b=jQUSyk2FZQA1vU6JewWipW+cdKwkZDlarhm1oGeeUNfSLDKi7I7q62g58ZGvOO9vBAPKY0
- J/MvGuTDf2yOvFIclsp8tkj/EdPQVLFQ0+2Eri6T92PfgxSN3hAOzY6hhngEX6DSBOQVT8
- Chqp+7MCbdGbjn1kLst9swohuuh3Fo8Ubl1BRz0h8cJD2m/VdrYwzIQeC/U10PbFUWvQhj
- sugObrCuBmliu8g1nPfyOVEExa64L8KOQC2hwXgcBXEQ9DUKBNmih9SUpitpbgSF43Rekr
- gAW+P/AU3sWC5I2HbYck7iSyZpa0locfKYx0vJFbsaOt14HXUdQR9WMBtfeovQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
- s=lahtoruutu; t=1684346928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tiLcdj+637utbguDBNkK5wark73uP2Co8cs3kwg/U9Q=;
- b=ovVYV30Wze3B8zwIdQiQ7irLhEb2cTtgixz94tIKAnEZw68IViapHBsjkEl47BpSaAsd1s
- jP3KQ0q39yl3O7Syslicamj0onYzWPtHuGAvyD9ojslDHrr1+8BDbLhJ9RkRKEVu5UKicP
- Be67/au/bGigpWGiVZjmnc+PDIkzsmW1QF4Q6sHE5NzzVDAXprdtc5FXBT+9tVJVt3a9Ev
- 09moEyMXLR7F4dCoF+nDDJ1vsu0dU07taKsowvCR6tXV0txj/CpfZ8c+gbt4OEcXY1edpu
- RcF1fnA04082M0Rf28NZkW/ThszPcJKzcwXMFyxwcly8CS2QiyPOcrljrqZjsg==
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684346928; a=rsa-sha256; cv=none;
- b=H1iG8yu+ooQ78ue0lMr+mkXE4wKY7y+poodJyXet7ili2TXm1glQWtgLb+ILV4WoOBsVI2
- +oa5fpbhPPUoY8YSungTdIeiu7JFDBfHDd2/PQmHHom1SEnpW0AB/YRHifpkjg/dlZ5B/c
- njsxCv8gigEebQJ8AczrHMj5QuCPC9i3HjZFWFyQDd4ZorkBVirN/zUrx0xvOoLzXEEk/M
- ZTeUSejxiJGsdR4cXLuQZasn1JtYwOL/lijQFM3HfUmuszyvWh47MCpdOwqv/CHnZm21lQ
- iJ5Q5zlAHvUa4P7PSl/+B4JwJ2ISLzimL29XA7Av2CIAKgFmSj4hKan3/2Yifg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4173A634C94;
- Wed, 17 May 2023 21:08:45 +0300 (EEST)
-Date: Wed, 17 May 2023 21:08:45 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH 3/3] media: v4l2-core: Describe privacy_led field of
- v4l2_subdev
-Message-ID: <ZGUYLR4QT7Wb/Ly9@valkosipuli.retiisi.eu>
-References: <20230203100215.31852-1-bagasdotme@gmail.com>
- <20230203100215.31852-4-bagasdotme@gmail.com>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C3510E270;
+ Wed, 17 May 2023 19:25:38 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f42d937d2eso7950065e9.2; 
+ Wed, 17 May 2023 12:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684351536; x=1686943536;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tvBvKq78j+8ZO0sz/gcDiszQ/0Gmc90EAVmVpzMrEXI=;
+ b=nfT3DV5jdC7gxwPrB/ZKtPnYKQ25gnkriwDG+lhLVAFjGa2OetNGiE9gmXcXovGYCZ
+ Q3kF9JnLaH5lvilBxfIpE1fO/wxjDmjWesKGbNm17C2MuNhCciajaM9AX2mvr64+T1pp
+ tmFn0ISHaDw9UvQ0vkVUpL7vfPfkMQdv9i9dA1ycdyrdDtgoXSGJNQidYAU+sxl1Vl/Z
+ xgRB1Pc4DOqGRA+7foY8MKfdB7FJRw/LCZhhzyQsCEEJEv1Q2jjwotxrXcQoTeFfMZFS
+ ONu7altJvB7HoYyawfb5c4BafqJkYTmhOmtqrpwujLCHwMbnglsU9EG/H4SLt5bpbyNW
+ X8aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684351536; x=1686943536;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tvBvKq78j+8ZO0sz/gcDiszQ/0Gmc90EAVmVpzMrEXI=;
+ b=MVHheNcz/Vzzms0d+Tg/GhiuOX1xIJx+vALOqiVgQr1lxTCOxVwP21kvRsB+qFStpH
+ D99tQBAdS5qJC7LPN8z9lqna/dXjazTtSwrbveeXzwmjE4OakvzY/+KhKkg39zlXlbO/
+ O5X775hpZ6NvQWczsVddE916eoUVcTSDq6lpdrO/9ZGUs3GH21IYEboeQVzih42cd+l+
+ LoENQO/PQio+cYN9KSvl5SGqJQf+ML5J8jhGnvubtGXzuzzSHnOLn5geSc8Om7uvg98v
+ bnWhs8DJjMEyOjELBDTZKryZnty6E2ZoqcH3Xt3jnGq7ynQCD+qt+z0z1XbuiI3gExcD
+ y+AA==
+X-Gm-Message-State: AC+VfDwn6oFP0N/W3Pf0xRblBJopLlzRj0g79ZWxG9NY7kKsIEL410SG
+ GNwFEddbt+mlb0Tzc9VYR9g=
+X-Google-Smtp-Source: ACHHUZ6bsCbUCY0r6E6dZjjVwGP76WCyzce1QcEy5aU0k29CWJV6pgBDdw+tD0qwF6dXuTCLd2aOmQ==
+X-Received: by 2002:a1c:f711:0:b0:3f5:1a4:a08d with SMTP id
+ v17-20020a1cf711000000b003f501a4a08dmr9995991wmh.7.1684351536409; 
+ Wed, 17 May 2023 12:25:36 -0700 (PDT)
+Received: from lucifer.home (host86-156-84-164.range86-156.btcentralplus.com.
+ [86.156.84.164]) by smtp.googlemail.com with ESMTPSA id
+ p4-20020a05600c358400b003f1738d0d13sm4252469wmq.1.2023.05.17.12.25.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 May 2023 12:25:35 -0700 (PDT)
+From: Lorenzo Stoakes <lstoakes@gmail.com>
+To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v6 1/6] mm/gup: remove unused vmas parameter from
+ get_user_pages()
+Date: Wed, 17 May 2023 20:25:33 +0100
+Message-Id: <589e0c64794668ffc799651e8d85e703262b1e9d.1684350871.git.lstoakes@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <cover.1684350871.git.lstoakes@gmail.com>
+References: <cover.1684350871.git.lstoakes@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230203100215.31852-4-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 18 May 2023 08:20:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,62 +77,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>,
- Srinivasan Shanmugam <srinivasan.s@intel.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Intel Graphics Development List <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Gustavo Sousa <gustavo.sousa@intel.com>, Hans de Goede <hdegoede@redhat.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Matt Roper <matthew.d.roper@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Christoph Hellwig <hch@lst.de>,
+ x86@kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+ John Hubbard <jhubbard@nvidia.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-sgx@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Lorenzo Stoakes <lstoakes@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Christian Konig <christian.koenig@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Pavel Begunkov <asml.silence@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bagas,
+No invocation of get_user_pages() use the vmas parameter, so remove it.
 
-On Fri, Feb 03, 2023 at 05:02:15PM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reported htmldocs warning:
-> 
-> include/media/v4l2-subdev.h:1088: warning: Function parameter or member 'privacy_led' not described in 'v4l2_subdev'
-> 
-> Describe privacy_led field to fix the warning.
-> 
-> Link: https://lore.kernel.org/linux-next/20230203135303.32da1fc6@canb.auug.org.au/
-> Fixes: 10d96e289fbd77 ("media: v4l2-core: Make the v4l2-core code enable/disable the privacy LED if present")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  include/media/v4l2-subdev.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 1ef5bbbf9d38c8..3e7a97c0657e1c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1033,6 +1033,7 @@ struct v4l2_subdev_platform_data {
->   * @active_state: Active state for the subdev (NULL for subdevs tracking the
->   *		  state internally). Initialized by calling
->   *		  v4l2_subdev_init_finalize().
-> + * @privacy_led: Privacy LED associated with the sub-device.
->   * @enabled_streams: Bitmask of enabled streams used by
->   *		     v4l2_subdev_enable_streams() and
->   *		     v4l2_subdev_disable_streams() helper functions for fallback
+The GUP API is confusing and caveated. Recent changes have done much to
+improve that, however there is more we can do. Exporting vmas is a prime
+target as the caller has to be extremely careful to preclude their use
+after the mmap_lock has expired or otherwise be left with dangling
+pointers.
 
-I'm not sure how this ever was an issue --- privacy_led field was
-documented in the same patch that added it.
+Removing the vmas parameter focuses the GUP functions upon their primary
+purpose - pinning (and outputting) pages as well as performing the actions
+implied by the input flags.
 
+This is part of a patch series aiming to remove the vmas parameter
+altogether.
+
+Suggested-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Acked-by: Christian König <christian.koenig@amd.com> (for radeon parts)
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Sean Christopherson <seanjc@google.com> (KVM)
+Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
+---
+ arch/x86/kernel/cpu/sgx/ioctl.c     | 2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+ drivers/misc/sgi-gru/grufault.c     | 2 +-
+ include/linux/mm.h                  | 3 +--
+ mm/gup.c                            | 9 +++------
+ mm/gup_test.c                       | 5 ++---
+ virt/kvm/kvm_main.c                 | 2 +-
+ 7 files changed, 10 insertions(+), 15 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/sgx/ioctl.c b/arch/x86/kernel/cpu/sgx/ioctl.c
+index 21ca0a831b70..5d390df21440 100644
+--- a/arch/x86/kernel/cpu/sgx/ioctl.c
++++ b/arch/x86/kernel/cpu/sgx/ioctl.c
+@@ -214,7 +214,7 @@ static int __sgx_encl_add_page(struct sgx_encl *encl,
+ 	if (!(vma->vm_flags & VM_MAYEXEC))
+ 		return -EACCES;
+ 
+-	ret = get_user_pages(src, 1, 0, &src_page, NULL);
++	ret = get_user_pages(src, 1, 0, &src_page);
+ 	if (ret < 1)
+ 		return -EFAULT;
+ 
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 2220cdf6a3f6..3a9db030f98f 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -359,7 +359,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_device *bdev, struct ttm_tt *ttm
+ 		struct page **pages = ttm->pages + pinned;
+ 
+ 		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+-				   pages, NULL);
++				   pages);
+ 		if (r < 0)
+ 			goto release_pages;
+ 
+diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+index b836936e9747..378cf02a2aa1 100644
+--- a/drivers/misc/sgi-gru/grufault.c
++++ b/drivers/misc/sgi-gru/grufault.c
+@@ -185,7 +185,7 @@ static int non_atomic_pte_lookup(struct vm_area_struct *vma,
+ #else
+ 	*pageshift = PAGE_SHIFT;
+ #endif
+-	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page, NULL) <= 0)
++	if (get_user_pages(vaddr, 1, write ? FOLL_WRITE : 0, &page) <= 0)
+ 		return -EFAULT;
+ 	*paddr = page_to_phys(page);
+ 	put_page(page);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index db3f66ed2f32..2c1a92bf5626 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2382,8 +2382,7 @@ long pin_user_pages_remote(struct mm_struct *mm,
+ 			   unsigned int gup_flags, struct page **pages,
+ 			   struct vm_area_struct **vmas, int *locked);
+ long get_user_pages(unsigned long start, unsigned long nr_pages,
+-			    unsigned int gup_flags, struct page **pages,
+-			    struct vm_area_struct **vmas);
++		    unsigned int gup_flags, struct page **pages);
+ long pin_user_pages(unsigned long start, unsigned long nr_pages,
+ 		    unsigned int gup_flags, struct page **pages,
+ 		    struct vm_area_struct **vmas);
+diff --git a/mm/gup.c b/mm/gup.c
+index 90d9b65ff35c..b8189396f435 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -2294,8 +2294,6 @@ long get_user_pages_remote(struct mm_struct *mm,
+  * @pages:      array that receives pointers to the pages pinned.
+  *              Should be at least nr_pages long. Or NULL, if caller
+  *              only intends to ensure the pages are faulted in.
+- * @vmas:       array of pointers to vmas corresponding to each page.
+- *              Or NULL if the caller does not require them.
+  *
+  * This is the same as get_user_pages_remote(), just with a less-flexible
+  * calling convention where we assume that the mm being operated on belongs to
+@@ -2303,16 +2301,15 @@ long get_user_pages_remote(struct mm_struct *mm,
+  * obviously don't pass FOLL_REMOTE in here.
+  */
+ long get_user_pages(unsigned long start, unsigned long nr_pages,
+-		unsigned int gup_flags, struct page **pages,
+-		struct vm_area_struct **vmas)
++		    unsigned int gup_flags, struct page **pages)
+ {
+ 	int locked = 1;
+ 
+-	if (!is_valid_gup_args(pages, vmas, NULL, &gup_flags, FOLL_TOUCH))
++	if (!is_valid_gup_args(pages, NULL, NULL, &gup_flags, FOLL_TOUCH))
+ 		return -EINVAL;
+ 
+ 	return __get_user_pages_locked(current->mm, start, nr_pages, pages,
+-				       vmas, &locked, gup_flags);
++				       NULL, &locked, gup_flags);
+ }
+ EXPORT_SYMBOL(get_user_pages);
+ 
+diff --git a/mm/gup_test.c b/mm/gup_test.c
+index 8ae7307a1bb6..9ba8ea23f84e 100644
+--- a/mm/gup_test.c
++++ b/mm/gup_test.c
+@@ -139,8 +139,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+ 						 pages + i);
+ 			break;
+ 		case GUP_BASIC_TEST:
+-			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i,
+-					    NULL);
++			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i);
+ 			break;
+ 		case PIN_FAST_BENCHMARK:
+ 			nr = pin_user_pages_fast(addr, nr, gup->gup_flags,
+@@ -161,7 +160,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+ 						    pages + i, NULL);
+ 			else
+ 				nr = get_user_pages(addr, nr, gup->gup_flags,
+-						    pages + i, NULL);
++						    pages + i);
+ 			break;
+ 		default:
+ 			ret = -EINVAL;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index cb5c13eee193..eaa5bb8dbadc 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2477,7 +2477,7 @@ static inline int check_user_page_hwpoison(unsigned long addr)
+ {
+ 	int rc, flags = FOLL_HWPOISON | FOLL_WRITE;
+ 
+-	rc = get_user_pages(addr, 1, flags, NULL, NULL);
++	rc = get_user_pages(addr, 1, flags, NULL);
+ 	return rc == -EHWPOISON;
+ }
+ 
 -- 
-Kind regards,
+2.40.1
 
-Sakari Ailus
