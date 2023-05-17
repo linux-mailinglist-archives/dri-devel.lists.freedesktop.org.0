@@ -2,65 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D1D706EC5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A471706EDD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37F8810E063;
-	Wed, 17 May 2023 16:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDE010E22C;
+	Wed, 17 May 2023 16:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42AEB10E063
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:53:50 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-510d0e40c6eso1370771a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684342428; x=1686934428;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=3hIDvPEdjftlVYbqhIG0JXGHdNlYOdLmSjve7aY9Eo0=;
- b=LuAGyfOolGY2lv4bXLQZDUlCkYAFbMjVgJBhtQ35ZvoRANe0rP+NbkFwtPlSSeIKq/
- Z1ELa4OdH1BhZPPVuEcS54mWAsAWMdI99jGP8mvKnKSUwftMqm5xSRaOfxTPxFqtkLxY
- qdUkIgvZbQvT+RLeoqerdDueR+U+biU/Yr3n0d7E/Y5DiwxKMmqsHwOlN18at7sz3xX0
- hix+tDpT085M0KrBRn5JxxVnqtP8l3xr6wG5PX+qP30zi+WThJQQGkTX+BzXAmY+WljI
- 684VChIFfk5qFuVy1ZK+D6QjxLctgUm4HmqkW+vvQDOPqCPVkbasYZ1D9Mdfy/5Rs9bJ
- aCjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684342428; x=1686934428;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3hIDvPEdjftlVYbqhIG0JXGHdNlYOdLmSjve7aY9Eo0=;
- b=K6ZxuCxFMnxALp5lQIW5zL20g00WCu3Xf/Uc4okEBKKfzWXyEchjnkA4EqtfFN/eED
- mgQIBZqHVK5AsPO3HZLmvn2J9p3tsg0+ozaofHO09bg304/4ZvR1sobnZ4Si5VDuJ9Zs
- /Hl8Gr5NQY9cHu9Y16YoPQG2dYUUTiP/cQxGkca4pG7IkYK4fSx7FIBm1fo1GIgVyrIu
- 1WZyOtPQ1rUXyZqqZdKXU4oiysO2c8HrKfzPIzG3grjORrkpbpBOTU146Id5HgqVJz1y
- Gi9BHkVwTOMpzXwIDn98vlUG6EZSkIzDXSmYgH30NHxBO/Gb5mosaBMT2onJIlfga33L
- kpcA==
-X-Gm-Message-State: AC+VfDwx1Kc8Z6nPYg4m3O+rByexixA6NGl+WCDuJAlIToOUNwrdfWli
- Vymex/8BZNh1k6uqb9jjgU8CIw==
-X-Google-Smtp-Source: ACHHUZ41XuiV/6uHDBhzp+l1Rm28KeZOiUPPrRFoy46T5x5hqEOTvHbPfGD88VINkhOzOmp9caPxnQ==
-X-Received: by 2002:a17:906:9b86:b0:96a:5a59:92cb with SMTP id
- dd6-20020a1709069b8600b0096a5a5992cbmr24102081ejc.47.1684342428067; 
- Wed, 17 May 2023 09:53:48 -0700 (PDT)
-Received: from krzk-bin ([2a02:810d:15c0:828:c9ff:4c84:dd21:568d])
- by smtp.gmail.com with ESMTPSA id
- mc27-20020a170906eb5b00b00966330021e9sm12332628ejb.47.2023.05.17.09.53.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 May 2023 09:53:47 -0700 (PDT)
-Date: Wed, 17 May 2023 18:53:44 +0200
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Alexandre Bailon <abailon@baylibre.com>
-Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
-Message-ID: <20230517165344.6gzwzkwzu44noyqm@krzk-bin>
-References: <20230517145237.295461-1-abailon@baylibre.com>
- <20230517145237.295461-8-abailon@baylibre.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21E910E22C
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:56:40 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34HGVB3I000606; Wed, 17 May 2023 16:56:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=XughtEUspHfgU669yLfCX1SyL04SgRLhqAMGwN/BM2Y=;
+ b=C61BbnKU+JzQHa3bHhf75+ebiV7CRZjKiD7VCuczrUP0uZoKzyLwZl7tQiZ0tgaYcoH0
+ nRuQi2H2ovIWPX+yGCTPYa6RTjymtht7WgrJfvGWn0O7eWvP61lRtOq8lWBenEtMqOgT
+ YGx1LWxCO3Nj/Pj2E9AyJrj/r1nmjfFDSGn8DmpQSSGBd5xpCSGNbdNX656KtPXkMCWt
+ TO+F/jPY7HaLOCjp+MMngBSSM8oFkiYDEAfak5oz/LAQEwL4bqkor9XckVSqcrJgqYDj
+ +6pde4MqgqHnOx4nRCA0eneTsINcWV4lU0CHQhaNOzx+8o6exZbrYQp522fDPp/z7I0/ VA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmbk7b4b9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 16:56:31 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HGuUkU002903
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 16:56:30 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 17 May 2023 09:56:29 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <trix@redhat.com>, <ogabbay@kernel.org>, <nathan@kernel.org>,
+ <ndesaulniers@google.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <quic_carlv@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
+ <quic_pkanojiy@quicinc.com>
+Subject: [PATCH v2] accel/qaic: initialize ret variable to 0
+Date: Wed, 17 May 2023 10:56:05 -0600
+Message-ID: <20230517165605.16770-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230517145237.295461-8-abailon@baylibre.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: IagSNZbJVzCCjD0k8azwN8yeQiIQfR7F
+X-Proofpoint-ORIG-GUID: IagSNZbJVzCCjD0k8azwN8yeQiIQfR7F
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-17_02,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1011
+ adultscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0 suspectscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305170138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,54 +81,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, bero@baylibre.com, khilman@baylibre.com,
- nbelin@baylibre.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- conor+dt@kernel.org, linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- jstephan@baylibre.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de, christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 May 2023 16:52:37 +0200, Alexandre Bailon wrote:
-> This adds the device tree bindings for the APU DRM driver.
-> 
-> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
-> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
->  1 file changed, 38 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> 
+From: Tom Rix <trix@redhat.com>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+clang static analysis reports
+drivers/accel/qaic/qaic_data.c:610:2: warning: Undefined or garbage
+  value returned to caller [core.uninitialized.UndefReturn]
+        return ret;
+        ^~~~~~~~~~
 
-yamllint warnings/errors:
+From a code analysis of the function, the ret variable is only set some
+of the time but is always returned.  This suggests ret can return
+uninitialized garbage. However BO allocation will ensure ret is always
+set in reality.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: 'maintainers' is a required property
-	hint: Metaschema for devicetree binding documentation
-	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-./Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/gpu/mtk,apu-drm.yaml#
-Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dts:18.15-22.11: Warning (unit_address_vs_reg): /example-0/apu@0: node has a unit name, but no reg or ranges property
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dtb: apu@0: remoteproc: [[4294967295, 4294967295]] is too short
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+Initialize ret to 0 to silence the warning.
 
-doc reference errors (make refcheckdocs):
+Fixes: ff13be830333 ("accel/qaic: Add datapath")
+Signed-off-by: Tom Rix <trix@redhat.com>
+[jhugo: Reword commit text]
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ drivers/accel/qaic/qaic_data.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-See https://patchwork.ozlabs.org/patch/1782720
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index 8ab26e64b231..e42c1f9ffff8 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -591,7 +591,7 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
+ 	struct qaic_bo *bo = to_qaic_bo(obj);
+ 	unsigned long offset = 0;
+ 	struct scatterlist *sg;
+-	int ret;
++	int ret = 0;
+ 
+ 	if (obj->import_attach)
+ 		return -EINVAL;
+-- 
+2.40.1
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
