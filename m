@@ -1,74 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755E4707286
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 21:45:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A780C7072B6
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 22:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C52510E470;
-	Wed, 17 May 2023 19:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D871710E28C;
+	Wed, 17 May 2023 20:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1E3410E470
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 19:45:24 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-969f90d71d4so183467866b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 12:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684352722; x=1686944722;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DE2bkq/ui14lTBLwtUifajE1EvCpc5Pz1BLS66HrLtI=;
- b=pv0XlTzQm0AHDjnYWXA2DFOwY89iONL+pcihwOPnY2/55ELz63O65AuRo8sYRyVtfY
- j4tyirV1rIXbj4sCHOWqTTlOuOSMW2jmK6+rtIOpV7Ka2tulKz/6eWhdbUWijx9Bu6Gb
- ByIIf6pn51KS6teavMyaKat3eWK8I4nOHiWfDQvcdP/Uw0gfXBXnQIrIc/pz6cz6nVR5
- Iy4x6JykOjawxDUZa1NyETS4srgGmwuaVLOaP/oJC0+uKgaPHr9cFO+fpRAAlIcMNtcy
- nhs72woQacj+sq+ZLnu7DXHUJfQ74vtfFxKgtJUnmVCafSnNEWvepe5r3nD9pz3VWUP9
- vy6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684352722; x=1686944722;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DE2bkq/ui14lTBLwtUifajE1EvCpc5Pz1BLS66HrLtI=;
- b=IGyjLRttPVJqM9ucM/f0OVK4p35L0qJWQFiNVI5w1+N9d4hXQw4/Ih6TVfFJ04RCJN
- 4N5LurFGxvONmUtUKYvQ8yMUIiNziRgWU3oQw1v1XWv/eTYgx3xixqYVYIgOpSKmJwNB
- 66zb/Et806OrlTYtpN9K4+5jkC/Z0GaFyiH7hPZHg1aeeu/3gC/53mj1LT225M16KmGz
- X+gV8yxw1vzpVJ6y6f+T4WS/I9ZaD4HfPYyS9buSsfnrlkF+KKVPkPeiEp6T5wqxd8mF
- cle2sB3W5ptmgoDAdczgoUv4svwvPk2X+waGjg0e2cqiiKZzZ6EvDJzf1ojgCIda8IfV
- f1RA==
-X-Gm-Message-State: AC+VfDyQBSy9xutKWMDEJzPHEAVML6KlvosK9Aya+l5yOiWpmE219DSz
- uIrDupglS1U1tnox4Obbu0hEOQ==
-X-Google-Smtp-Source: ACHHUZ6Tj8zelM2VZpR/AEzeGAQ8zj37niuO6NRBJvg0WI4NbhdxMvKTFTAAd3TJm0rHrq+VS/nWuA==
-X-Received: by 2002:a17:906:eec9:b0:94f:73db:b390 with SMTP id
- wu9-20020a170906eec900b0094f73dbb390mr34695874ejb.65.1684352722678; 
- Wed, 17 May 2023 12:45:22 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d7a:e7cc:21b3:c435?
- ([2a02:810d:15c0:828:d7a:e7cc:21b3:c435])
- by smtp.gmail.com with ESMTPSA id
- tf8-20020a1709078d8800b0096a2b6de3a4sm10504747ejc.122.2023.05.17.12.45.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 May 2023 12:45:22 -0700 (PDT)
-Message-ID: <032699a0-9a43-953a-60e9-59a515a26cef@linaro.org>
-Date: Wed, 17 May 2023 21:45:20 +0200
+X-Greylist: delayed 357 seconds by postgrey-1.36 at gabe;
+ Wed, 17 May 2023 20:05:31 UTC
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8275910E475
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 20:05:31 +0000 (UTC)
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lahtoruutu.iki.fi (Postfix) with ESMTPS id 4QM3pl47HWz49Q47
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 22:59:27 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
+ t=1684353567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uT4QeccEOPKkK7gGYPYPm3Y9FH1yk/CYJCXvyI1gFcg=;
+ b=LBWv9yX6RcrGy9BlscsbpA4Q+fVHj+eChk9ugZspdM16GPtQuhgrETgWp798sNUzWAv8Ae
+ sYB8osC2eX4k+c/XQMkg1dC0NagMiplKKCY/DLI41sh5c5kQwJo0rq8x1ZDsAjXxvuXuaG
+ xLdkbhpVW67gZNfHq3WMgnEaitxxcUxypX93WktbOgmV0q1ayq9StRLioswDHR65RPIh/L
+ 1/rqMmpLz5m61dDVE0KKxmGKjBJRuJZdVvOHZyo2bRIZeTsdcGg7GqcBC0DnhNGz/Fezks
+ N+O6Ux5a+4S5OdkUIITQpv7i5w+hpKW6E72iLCffT/zkLF5z682rs/CguqJxsg==
+Received: from darkstar.musicnaut.iki.fi (85-76-146-199-nat.elisa-mobile.fi
+ [85.76.146.199])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: aaro.koskinen)
+ by meesny.iki.fi (Postfix) with ESMTPSA id 4QM3pT6zgSzyWs;
+ Wed, 17 May 2023 22:59:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+ t=1684353557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uT4QeccEOPKkK7gGYPYPm3Y9FH1yk/CYJCXvyI1gFcg=;
+ b=WZFEpJpuxHgdL66a5PaD1yNk7SpgMp9G9guhbNAaUh3HEUxnbuFWcPk8rHcB/dQQJaayMK
+ upe+8t3l5YMswlkboqSxW1TMcS8P/5RX1nVRVXD5ExA19T8y7uQqsCZL1U0nsnp5cTTAW4
+ WqLdFf44BWpW+Gcb+Kix2JvPsvJMOEE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+ s=meesny; t=1684353557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uT4QeccEOPKkK7gGYPYPm3Y9FH1yk/CYJCXvyI1gFcg=;
+ b=uqZALiO1J2n/ZSQ1Zg25g0VKOhsOJ/6Qt1tM/2HyGw+suNSH0P3c0GzRaRzizaWMSFNnCo
+ kXUNe5mMx5fBj+8WBcmDkoSMxVBjAarDMIXN1vF1ZIB9LxTfhPvbYuxL0RtKrJA9x3X5j+
+ m2hOXBKV8p6FLsSV8qUVN62sMFztjCM=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=aaro.koskinen smtp.mailfrom=aaro.koskinen@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684353557; a=rsa-sha256; cv=none;
+ b=RKAECBWDBO58k84XgosU1UrhQq2r0jPWNipNo3Gi0fMRoUGJZblm+3P1vXugNvU+LqaNyh
+ c2O6jMu7dk5j7DzRa8mJccrAhHhiOFueDQPGfrq0HfU5IqmE4NrXeiRgdWhUIROwa4xfNf
+ 00KimNUa/R4AbP591nbysQnVZMJjE/A=
+Date: Wed, 17 May 2023 22:59:11 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v4 1/4] Input: ads7846 - Convert to use software nodes
+Message-ID: <20230517195911.GG271152@darkstar.musicnaut.iki.fi>
+References: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
+ <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 5/7] drm/apu: allow platform driver to implement their own
- mmap function
-Content-Language: en-US
-To: Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de
-References: <20230517145237.295461-1-abailon@baylibre.com>
- <20230517145237.295461-6-abailon@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230517145237.295461-6-abailon@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +86,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
- khilman@baylibre.com, jstephan@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-media@vger.kernel.org, sumit.semwal@linaro.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tony Lindgren <tony@atomide.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Andreas Kemnade <andreas@kemnade.info>,
+ linux-input@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-spi@vger.kernel.org,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/05/2023 16:52, Alexandre Bailon wrote:
-> From: Julien Stephan <jstephan@baylibre.com>
-> 
-> By default we will call drm_gem_mmap() unless the apu driver has
-> declared it's own mmap handler.
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+Hi,
 
-One does not have to review own code. We all assume that we send good
-code which we do not have to review by ourselves (by the author). We
-also assume we make mistakes, which we cannot find, thus other person's
-review is important.
+This does not compile as nokia770_ads7846_props is declared twice,
+and nokia770_cbus_props and nokia770_mpuio_gpiochip_swnode are missing.
 
-Adding own review tag suggests you added them mechanically, so I doubt
-that they really happened.
+On Mon, May 08, 2023 at 11:20:06PM +0200, Linus Walleij wrote:
+> +static const struct software_node_ref_args nokia770_cbus_gpio_refs[] = {
+> +	SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 9, 0),
+> +	SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 10, 0),
+> +	SOFTWARE_NODE_REFERENCE(&nokia770_mpuio_gpiochip_swnode, 11, 0),
+> +};
 
-Anyway, your SoB is missing.
+These should be nokia770_mpuio_gpiochip_node.
 
-Best regards,
-Krzysztof
+> +static const struct property_entry nokia770_ads7846_props[] = {
+> +	PROPERTY_ENTRY_REF_ARRAY("gpios", nokia770_cbus_gpio_refs),
+> +	{ }
+>  };
 
+This should be nokia770_cbus_props.
+
+A.
