@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC2A705F0C
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 07:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3051705F95
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 07:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BF610E3A1;
-	Wed, 17 May 2023 05:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B756E10E04B;
+	Wed, 17 May 2023 05:49:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77E7E10E3A1;
- Wed, 17 May 2023 05:02:41 +0000 (UTC)
-X-UUID: 97ba50cf53c147aaa6f2d5b5e43098f3-20230517
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:d2b87ce7-df4a-4b37-adae-eb666f7a01d2, IP:15,
- URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-INFO: VERSION:1.1.22, REQID:d2b87ce7-df4a-4b37-adae-eb666f7a01d2, IP:15,
- UR
- L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-5
-X-CID-META: VersionHash:120426c, CLOUDID:73f4116c-2f20-4998-991c-3b78627e4938,
- B
- ulkID:230517130233VKXSJLJ6,BulkQuantity:0,Recheck:0,SF:17|19|44|38|24|102,
- TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 97ba50cf53c147aaa6f2d5b5e43098f3-20230517
-X-User: liucong2@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <liucong2@kylinos.cn>) (Generic MTA)
- with ESMTP id 247450098; Wed, 17 May 2023 13:02:31 +0800
-From: Cong Liu <liucong2@kylinos.cn>
-To: liucong2@kylinos.cn, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/i915: Fix memory leaks in function live_nop_switch
-Date: Wed, 17 May 2023 13:02:03 +0800
-Message-Id: <20230517050204.4111874-1-liucong2@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230508085016.437836-1-liucong2@kylinos.cn>
-References: <20230508085016.437836-1-liucong2@kylinos.cn>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE4610E04B
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 05:49:31 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34H5n0gn091258;
+ Wed, 17 May 2023 00:49:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1684302540;
+ bh=eNrolphY6yk67IJIelraK50kaxoNQrZkHDoM8K/Tsc8=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=HgcZ4703Eq2e1z6I5DbXOxHQafDbSgseThsDnnFFUw8aJUIaW1q/cMa339wLSqhv/
+ IiBEM1amhxnTt42QQMLRd355NKsJP1qXacYQBB4iBqVIUE278LsAiby1bKmDf/aUKZ
+ nfqjM/NtCNwY457b+iMX3AiL+4T1XX1VEJxm4QHk=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34H5n0vG091236
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 17 May 2023 00:49:00 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 17
+ May 2023 00:48:58 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 17 May 2023 00:48:58 -0500
+Received: from [172.24.217.121] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34H5mqD2013298;
+ Wed, 17 May 2023 00:48:53 -0500
+Message-ID: <1b95b75d-1b81-806b-7b7f-34cd93c9d0ec@ti.com>
+Date: Wed, 17 May 2023 11:18:52 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v6 4/8] drm/bridge: mhdp8546: Set input_bus_flags from
+ atomic_check
+Content-Language: en-US
+To: <neil.armstrong@linaro.org>, Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha
+ <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Francesco Dolcini
+ <francesco@dolcini.it>
+References: <20230509093036.3303-1-a-bhatia1@ti.com>
+ <20230509093036.3303-5-a-bhatia1@ti.com>
+ <b43f0808-8ac8-746f-6cbc-5396722261aa@linaro.org>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <b43f0808-8ac8-746f-6cbc-5396722261aa@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,90 +74,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Be sure to properly free the allocated memory before exiting
-the live_nop_switch function.
+Hi Neil,
 
-Signed-off-by: Cong Liu <liucong2@kylinos.cn>
-Suggested-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+On 16-May-23 12:54, Neil Armstrong wrote:
+> On 09/05/2023 11:30, Aradhya Bhatia wrote:
+>> From: Nikhil Devshatwar <nikhil.nd@ti.com>
+>>
+>> input_bus_flags are specified in drm_bridge_timings (legacy) as well
+>> as drm_bridge_state->input_bus_cfg.flags
+>>
+>> The flags from the timings will be deprecated. Bridges are supposed
+>> to validate and set the bridge state flags from atomic_check.
+>>
+>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+>> [a-bhatia1: replace timings in cdns_mhdp_platform_info by
+>> input_bus_flags]
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> ---
+>>
+>> Notes:
+>>
+>>      changes from v5:
+>>      * removed the wrongly addded return statement in tfp410 driver.
+>>      * replaced the timings field in cdns_mhdp_platform_info by
+>>        input_bus_flags field, in order to get rid of bridge->timings
+>>        altogether.
+>>
+>>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c  | 11 ++++++++---
+>>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h  |  2 +-
+>>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c |  9 ++++-----
+>>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h |  2 +-
+>>   4 files changed, 14 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> index 623e4235c94f..a677b1267525 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> @@ -2189,6 +2189,13 @@ static int cdns_mhdp_atomic_check(struct
+>> drm_bridge *bridge,
+>>           return -EINVAL;
+>>       }
+>>   +    /*
+>> +     * There might be flags negotiation supported in future.
+>> +     * Set the bus flags in atomic_check statically for now.
+>> +     */
+>> +    if (mhdp->info)
+>> +        bridge_state->input_bus_cfg.flags =
+>> *mhdp->info->input_bus_flags;
+>> +
+>>       mutex_unlock(&mhdp->link_mutex);
+>>       return 0;
+>>   }
+>> @@ -2554,8 +2561,6 @@ static int cdns_mhdp_probe(struct
+>> platform_device *pdev)
+>>       mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
+>>                  DRM_BRIDGE_OP_HPD;
+>>       mhdp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+>> -    if (mhdp->info)
+>> -        mhdp->bridge.timings = mhdp->info->timings;
+> 
+> Won't this cause a breakage because at this point in time
+> bridge.timings->input_bus_flags
+> seems to be still used by tidss right ?
+> 
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index a81fa6a20f5a..2fb125d0cb5e 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -66,7 +66,7 @@ static int live_nop_switch(void *arg)
- 		ctx[n] = live_context(i915, file);
- 		if (IS_ERR(ctx[n])) {
- 			err = PTR_ERR(ctx[n]);
--			goto out_file;
-+			goto out_ctx;
- 		}
- 	}
- 
-@@ -82,7 +82,7 @@ static int live_nop_switch(void *arg)
- 			this = igt_request_alloc(ctx[n], engine);
- 			if (IS_ERR(this)) {
- 				err = PTR_ERR(this);
--				goto out_file;
-+				goto out_ctx;
- 			}
- 			if (rq) {
- 				i915_request_await_dma_fence(this, &rq->fence);
-@@ -96,7 +96,7 @@ static int live_nop_switch(void *arg)
- 			intel_gt_set_wedged(to_gt(i915));
- 			i915_request_put(rq);
- 			err = -EIO;
--			goto out_file;
-+			goto out_ctx;
- 		}
- 		i915_request_put(rq);
- 
-@@ -107,7 +107,7 @@ static int live_nop_switch(void *arg)
- 
- 		err = igt_live_test_begin(&t, i915, __func__, engine->name);
- 		if (err)
--			goto out_file;
-+			goto out_ctx;
- 
- 		end_time = jiffies + i915_selftest.timeout_jiffies;
- 		for_each_prime_number_from(prime, 2, 8192) {
-@@ -120,7 +120,7 @@ static int live_nop_switch(void *arg)
- 				this = igt_request_alloc(ctx[n % nctx], engine);
- 				if (IS_ERR(this)) {
- 					err = PTR_ERR(this);
--					goto out_file;
-+					goto out_ctx;
- 				}
- 
- 				if (rq) { /* Force submission order */
-@@ -165,7 +165,7 @@ static int live_nop_switch(void *arg)
- 
- 		err = igt_live_test_end(&t);
- 		if (err)
--			goto out_file;
-+			goto out_ctx;
- 
- 		pr_info("Switch latencies on %s: 1 = %lluns, %lu = %lluns\n",
- 			engine->name,
-@@ -173,6 +173,8 @@ static int live_nop_switch(void *arg)
- 			prime - 1, div64_u64(ktime_to_ns(times[1]), prime - 1));
- 	}
- 
-+out_ctx:
-+	kfree(ctx);
- out_file:
- 	fput(file);
- 	return err;
--- 
-2.34.1
+tidss was using the bridge.timings->input_bus_flags before the 7th
+patch[1] in this series.
+
+After the patch, it only relies on bridge_state and display_info for bus
+flags and formats.
 
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+Regards
+Aradhya
+
+[1]: https://lore.kernel.org/all/20230509093036.3303-8-a-bhatia1@ti.com/
+
+
+> 
+>>         ret = phy_init(mhdp->phy);
+>>       if (ret) {
+>> @@ -2642,7 +2647,7 @@ static const struct of_device_id mhdp_ids[] = {
+>>   #ifdef CONFIG_DRM_CDNS_MHDP8546_J721E
+>>       { .compatible = "ti,j721e-mhdp8546",
+>>         .data = &(const struct cdns_mhdp_platform_info) {
+>> -          .timings = &mhdp_ti_j721e_bridge_timings,
+>> +          .input_bus_flags = &mhdp_ti_j721e_bridge_input_bus_flags,
+>>             .ops = &mhdp_ti_j721e_ops,
+>>         },
+>>       },
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>> index bedddd510d17..bad2fc0c7306 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+>> @@ -336,7 +336,7 @@ struct cdns_mhdp_bridge_state {
+>>   };
+>>     struct cdns_mhdp_platform_info {
+>> -    const struct drm_bridge_timings *timings;
+>> +    const u32 *input_bus_flags;
+>>       const struct mhdp_platform_ops *ops;
+>>   };
+>>   diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+>> index dfe1b59514f7..12d04be4e242 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
+>> @@ -71,8 +71,7 @@ const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
+>>       .disable = cdns_mhdp_j721e_disable,
+>>   };
+>>   -const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings = {
+>> -    .input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+>> -               DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
+>> -               DRM_BUS_FLAG_DE_HIGH,
+>> -};
+>> +const u32
+>> +mhdp_ti_j721e_bridge_input_bus_flags =
+>> DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+>> +                       DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
+>> +                       DRM_BUS_FLAG_DE_HIGH;
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+>> index 97d20d115a24..5ddca07a4255 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
+>> @@ -14,6 +14,6 @@
+>>   struct mhdp_platform_ops;
+>>     extern const struct mhdp_platform_ops mhdp_ti_j721e_ops;
+>> -extern const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings;
+>> +extern const u32 mhdp_ti_j721e_bridge_input_bus_flags;
+>>     #endif /* !CDNS_MHDP8546_J721E_H */
+> 
