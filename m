@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCA0705BCF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 02:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646F9705BC2
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 02:08:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2A910E3A8;
-	Wed, 17 May 2023 00:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB1510E394;
+	Wed, 17 May 2023 00:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDBDA10E38E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:07:48 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f00d41df22so7398355e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 17:07:48 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC6C10E399
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:07:49 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f38bea8be8so6360167e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 17:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684282066; x=1686874066;
+ d=linaro.org; s=google; t=1684282067; x=1686874067;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BmEGwl1dtwXNhBVAE3u5X5GcBU4ls7eYTmNONq4yQ1A=;
- b=UY5+jLgXkqNC+WK8xUIupfW3bYG1N3JkQPDGmWAfZi5MORcSpz9iwWZf8szq6B/V5F
- miYgIDITX3C8dkJfl66xnc0h0Md1callTSQKdE8Ot0+ecRic8/hyQtF4mjJ3md1aQy1Q
- jMS2JKdV99wm23IHF+rPAbHyYeDUNuOjdQXvmeGKsFdt15QIVu3YQBUHpXZhN4r70Q01
- 677YRFjKa/Ng3rljDdmmbkLAS0hWtxgE8dp/aHSaovn8uOGmitJb0ZkJHyoNxdoXr8Z6
- DvW+fqOeeZNUqfsN1x895M92jmH/2rvpoawDi+5ZSSUAHb8wqm1vecR2NtpvmU18TOYt
- h4Fg==
+ bh=cVfiPBdhFERE3MSCI/4M/pl4dyV9mu9uWJQnCTr+ZfY=;
+ b=I04TJF0I3zLGNX8zTaVdJuNzSac6vnG7IDVC+0pXtBY3oMuc7CE6CBhJ/MEHwcta/A
+ w1ZSYqptoGbhnBgkorqFLBAan0AikoPF+Tp5PD7MJoFAw/UTokd2Jv5aPmVWFEkhT7zM
+ 2xpsrC8HWQH19tVR3D0DmgyZIYGFA4jYXkYNmRbt2IDmLEMmf7Be6y72mpGlPeBVrWRP
+ wbvGZ+94nfqbfAnnbcEfBykOyRzKPij9YuzQbDJs4WoXgIThb8zl8oouQfHRsY8+ykO4
+ gAznPh0hApux5OpVxSKofhSNXBwzVuByXbzV7EHjX18IKTQwOUU0wa/pb64++/WsFNI5
+ BuNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684282066; x=1686874066;
+ d=1e100.net; s=20221208; t=1684282067; x=1686874067;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BmEGwl1dtwXNhBVAE3u5X5GcBU4ls7eYTmNONq4yQ1A=;
- b=f59FFFMmhwfsJ7Q51PVEavE0m90YF6FVe7wuqQEu+GU2GSc2bRVKRcyyQjspRLk+k8
- atVQ/exou8vXjTLZrC3CKhGqlQ4t4JiDLx+9L5J+ZHj94gP+VFVGTm0EXNUuzpT3mzVM
- j2IMgTaoVMNGKlGgHXP4R8GFhCd/o5MhvZ0AFkXiAP96gmpXsqjThhidzRlanAor/ELD
- hYDcf6GrW+7A4f0Q+ngCcuPPmqGLQcOmVdhj69Y+lxpx7qTObE1AzXCM3pZvBwYP9Usz
- fhOfru0YwQRzEbwL1enI0C9DjFU0ygnB/gHZiPVajYUJpKyZe4Segq0pSb1MN0oKJnAQ
- Ph+A==
-X-Gm-Message-State: AC+VfDybtqo7z56qioVtuthWB17wmdTyaeJd9/RE2H9EyZ73+iI1r71W
- l1S9e2m9YKYRO/k1gKSYYVsuMQ==
-X-Google-Smtp-Source: ACHHUZ5BEYvyvgAH3tVaeyEhhqnVIoukLibN18jkY7nxSTlkTJUwm1JI1DHIfYNNdZTlbDpRMSh7Dw==
-X-Received: by 2002:a2e:9b94:0:b0:295:d7a8:559b with SMTP id
- z20-20020a2e9b94000000b00295d7a8559bmr117470lji.10.1684282066688; 
- Tue, 16 May 2023 17:07:46 -0700 (PDT)
+ bh=cVfiPBdhFERE3MSCI/4M/pl4dyV9mu9uWJQnCTr+ZfY=;
+ b=erb7Yc7qze1TfP8n0CLqhYsyCU/Hb+1D2Xw8ga8FatsSjf4AbAHuMVRapZznHRx913
+ zhjfBn+s4/H5U+SWFUV2WmPbk158fzD26bObfPF32Re1a7Uj6F20szdBE2bxyxs3VFr7
+ DyirhsjBRYBuYSJTGoFz3iAGgB/pr3rcfclp6cVjUeINWaod/Jj0RFXOg7Tf648caPSH
+ yMGsreyaPgVKmE21ZYuxo2ff+ypKCvY9TkAO7mup28Sd+aWZdZlr8Bn0yPUWTyzZ4t6w
+ upoyekoc16NrZMbn+sodJAIdQ32MAWwQnLDpL/YG/dkmQhWmPktJR5bcYL/byTkzY6om
+ gTXA==
+X-Gm-Message-State: AC+VfDzVd602f+S6VVko7WxI/28gUZUIrSlYzR19m7cmGO3Ix362Zklt
+ FWE5cSjFF8UtGc1wlq7Yll/R3g==
+X-Google-Smtp-Source: ACHHUZ6imfgLPLmRktEy4UBoJNqhXAbkzCXXszdUfSIAoa+Yardui1F1b3jGWAao9FgNi6GMM8n9pA==
+X-Received: by 2002:a2e:87ce:0:b0:2a2:ac00:4de4 with SMTP id
+ v14-20020a2e87ce000000b002a2ac004de4mr94729ljj.22.1684282067415; 
+ Tue, 16 May 2023 17:07:47 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- y22-20020a2e9d56000000b002ac71095b61sm4214858ljj.64.2023.05.16.17.07.45
+ y22-20020a2e9d56000000b002ac71095b61sm4214858ljj.64.2023.05.16.17.07.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 May 2023 17:07:46 -0700 (PDT)
+ Tue, 16 May 2023 17:07:47 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -60,10 +60,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v6 5/8] drm/display/dsc: use flat array for rc_parameters
- lookup
-Date: Wed, 17 May 2023 03:07:37 +0300
-Message-Id: <20230517000740.2102599-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 6/8] drm/display/dsc: split DSC 1.2 and DSC 1.1 (pre-SCR)
+ parameters
+Date: Wed, 17 May 2023 03:07:38 +0300
+Message-Id: <20230517000740.2102599-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230517000740.2102599-1-dmitry.baryshkov@linaro.org>
 References: <20230517000740.2102599-1-dmitry.baryshkov@linaro.org>
@@ -81,462 +81,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Next commits are going to add support for additional RC parameter lookup
-tables. These tables are going to use different bpp/bpc combinations,
-thus it makes little sense to keep the 2d array for RC parameters.
-Switch to using the flat array.
+The array of rc_parameters contains a mixture of parameters from DSC 1.1
+and DSC 1.2 standards. Split these tow configuration arrays in
+preparation to adding more configuration data.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/display/drm_dsc_helper.c | 228 +++++++++++------------
- 1 file changed, 108 insertions(+), 120 deletions(-)
+ drivers/gpu/drm/display/drm_dsc_helper.c  | 139 ++++++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_vdsc.c |  10 +-
+ include/drm/display/drm_dsc_helper.h      |   7 +-
+ 3 files changed, 129 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
-index 122a292bbc8f..acb93d4116e0 100644
+index acb93d4116e0..f9d01d72c1ff 100644
 --- a/drivers/gpu/drm/display/drm_dsc_helper.c
 +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
-@@ -305,24 +305,6 @@ void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg)
- }
- EXPORT_SYMBOL(drm_dsc_set_rc_buf_thresh);
+@@ -325,10 +325,88 @@ struct rc_parameters_data {
+ #define DSC_BPP(bpp)	((bpp) << 4)
  
--enum ROW_INDEX_BPP {
--	ROW_INDEX_6BPP = 0,
--	ROW_INDEX_8BPP,
--	ROW_INDEX_10BPP,
--	ROW_INDEX_12BPP,
--	ROW_INDEX_15BPP,
--	MAX_ROW_INDEX
--};
--
--enum COLUMN_INDEX_BPC {
--	COLUMN_INDEX_8BPC = 0,
--	COLUMN_INDEX_10BPC,
--	COLUMN_INDEX_12BPC,
--	COLUMN_INDEX_14BPC,
--	COLUMN_INDEX_16BPC,
--	MAX_COLUMN_INDEX
--};
--
- struct rc_parameters {
- 	u16 initial_xmit_delay;
- 	u8 first_line_bpg_offset;
-@@ -334,21 +316,31 @@ struct rc_parameters {
- 	struct drm_dsc_rc_range_parameters rc_range_params[DSC_NUM_BUF_RANGES];
- };
- 
-+struct rc_parameters_data {
-+	u8 bpp;
-+	u8 bpc;
-+	struct rc_parameters params;
-+};
-+
-+#define DSC_BPP(bpp)	((bpp) << 4)
-+
  /*
-  * Selected Rate Control Related Parameter Recommended Values
-  * from DSC_v1.11 spec & C Model release: DSC_model_20161212
+- * Selected Rate Control Related Parameter Recommended Values
+- * from DSC_v1.11 spec & C Model release: DSC_model_20161212
++ * Rate Control Related Parameter Recommended Values from DSC_v1.1 spec prior
++ * to DSC 1.1 fractional bpp underflow SCR (DSC_v1.1_E1.pdf)
++ *
++ * Cross-checked against C Model releases: DSC_model_20161212 and 20210623
   */
--static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
-+static const struct rc_parameters_data rc_parameters[] = {
- 	{
--		/* 6BPP/8BPC */
-+		.bpp = DSC_BPP(6), .bpc = 8,
- 		{ 768, 15, 6144, 3, 13, 11, 11, {
- 			{ 0, 4, 0 }, { 1, 6, -2 }, { 3, 8, -2 }, { 4, 8, -4 },
- 			{ 5, 9, -6 }, { 5, 9, -6 }, { 6, 9, -6 }, { 6, 10, -8 },
- 			{ 7, 11, -8 }, { 8, 12, -10 }, { 9, 12, -10 }, { 10, 12, -12 },
- 			{ 10, 12, -12 }, { 11, 12, -12 }, { 13, 14, -12 }
- 			}
--		},
--		/* 6BPP/10BPC */
-+		}
-+	},
+-static const struct rc_parameters_data rc_parameters[] = {
++static const struct rc_parameters_data rc_parameters_pre_scr[] = {
 +	{
-+		.bpp = DSC_BPP(6), .bpc = 10,
- 		{ 768, 15, 6144, 7, 17, 15, 15, {
- 			{ 0, 8, 0 }, { 3, 10, -2 }, { 7, 12, -2 }, { 8, 12, -4 },
- 			{ 9, 13, -6 }, { 9, 13, -6 }, { 10, 13, -6 }, { 10, 14, -8 },
-@@ -356,8 +348,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 14, 16, -12 }, { 14, 16, -12 }, { 15, 16, -12 },
- 			{ 17, 18, -12 }
- 			}
--		},
--		/* 6BPP/12BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(6), .bpc = 12,
- 		{ 768, 15, 6144, 11, 21, 19, 19, {
- 			{ 0, 12, 0 }, { 5, 14, -2 }, { 11, 16, -2 }, { 12, 16, -4 },
- 			{ 13, 17, -6 }, { 13, 17, -6 }, { 14, 17, -6 }, { 14, 18, -8 },
-@@ -365,8 +359,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 18, 20, -12 }, { 18, 20, -12 }, { 19, 20, -12 },
- 			{ 21, 22, -12 }
- 			}
--		},
--		/* 6BPP/14BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(6), .bpc = 14,
- 		{ 768, 15, 6144, 15, 25, 23, 23, {
- 			{ 0, 16, 0 }, { 7, 18, -2 }, { 15, 20, -2 }, { 16, 20, -4 },
- 			{ 17, 21, -6 }, { 17, 21, -6 }, { 18, 21, -6 }, { 18, 22, -8 },
-@@ -374,8 +370,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 22, 24, -12 }, { 22, 24, -12 }, { 23, 24, -12 },
- 			{ 25, 26, -12 }
- 			}
--		},
--		/* 6BPP/16BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(6), .bpc = 16,
- 		{ 768, 15, 6144, 19, 29, 27, 27, {
- 			{ 0, 20, 0 }, { 9, 22, -2 }, { 19, 24, -2 }, { 20, 24, -4 },
- 			{ 21, 25, -6 }, { 21, 25, -6 }, { 22, 25, -6 }, { 22, 26, -8 },
-@@ -383,18 +381,20 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 26, 28, -12 }, { 26, 28, -12 }, { 27, 28, -12 },
- 			{ 29, 30, -12 }
- 			}
--		},
-+		}
- 	},
- 	{
--		/* 8BPP/8BPC */
 +		.bpp = DSC_BPP(8), .bpc = 8,
- 		{ 512, 12, 6144, 3, 12, 11, 11, {
- 			{ 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
- 			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
- 			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
- 			{ 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
- 			}
--		},
--		/* 8BPP/10BPC */
++		{ 512, 12, 6144, 3, 12, 11, 11, {
++			{ 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
++			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
++			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
++			{ 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
++			}
 +		}
 +	},
 +	{
 +		.bpp = DSC_BPP(8), .bpc = 10,
- 		{ 512, 12, 6144, 7, 16, 15, 15, {
- 			/*
- 			 * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
-@@ -405,8 +405,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
- 			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
- 			}
--		},
--		/* 8BPP/12BPC */
++		{ 512, 12, 6144, 7, 16, 15, 15, {
++			/*
++			 * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
++			 * VESA DSC 1.1 Table E-5 sets it to 4.
++			 */
++			{ 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
++			{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
++			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
++			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
++			}
 +		}
 +	},
 +	{
 +		.bpp = DSC_BPP(8), .bpc = 12,
- 		{ 512, 12, 6144, 11, 20, 19, 19, {
- 			{ 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
- 			{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
-@@ -414,8 +416,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
- 			{ 21, 23, -12 }
- 			}
--		},
--		/* 8BPP/14BPC */
++		{ 512, 12, 6144, 11, 20, 19, 19, {
++			{ 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
++			{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
++			{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
++			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
++			{ 21, 23, -12 }
++			}
 +		}
 +	},
 +	{
-+		.bpp = DSC_BPP(8), .bpc = 14,
- 		{ 512, 12, 6144, 15, 24, 23, 23, {
- 			{ 0, 12, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 12, 17, -2 },
- 			{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
-@@ -423,8 +427,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 17, 23, -12 }, { 17, 23, -12 }, { 21, 24, -12 },
- 			{ 24, 25, -12 }
- 			}
--		},
--		/* 8BPP/16BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(8), .bpc = 16,
- 		{ 512, 12, 6144, 19, 28, 27, 27, {
- 			{ 0, 12, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 15, 20, -2 },
- 			{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
-@@ -432,26 +438,30 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 21, 27, -12 }, { 21, 27, -12 }, { 25, 28, -12 },
- 			{ 28, 29, -12 }
- 			}
--		},
-+		}
- 	},
- 	{
--		/* 10BPP/8BPC */
-+		.bpp = DSC_BPP(10), .bpc = 8,
- 		{ 410, 15, 5632, 3, 12, 11, 11, {
- 			{ 0, 3, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 2, 6, -2 },
- 			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
- 			{ 3, 9, -8 }, { 3, 9, -10 }, { 5, 10, -10 }, { 5, 10, -10 },
- 			{ 5, 11, -12 }, { 7, 11, -12 }, { 11, 12, -12 }
- 			}
--		},
--		/* 10BPP/10BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(10), .bpc = 10,
- 		{ 410, 15, 5632, 7, 16, 15, 15, {
- 			{ 0, 7, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 6, 10, -2 },
- 			{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
- 			{ 7, 13, -8 }, { 7, 13, -10 }, { 9, 14, -10 }, { 9, 14, -10 },
- 			{ 9, 15, -12 }, { 11, 15, -12 }, { 15, 16, -12 }
- 			}
--		},
--		/* 10BPP/12BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(10), .bpc = 12,
- 		{ 410, 15, 5632, 11, 20, 19, 19, {
- 			{ 0, 11, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 10, 14, -2 },
- 			{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
-@@ -459,8 +469,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 13, 18, -10 }, { 13, 19, -12 }, { 15, 19, -12 },
- 			{ 19, 20, -12 }
- 			}
--		},
--		/* 10BPP/14BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(10), .bpc = 14,
- 		{ 410, 15, 5632, 15, 24, 23, 23, {
- 			{ 0, 11, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 13, 18, -2 },
- 			{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
-@@ -468,8 +480,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 17, 22, -10 }, { 17, 23, -12 }, { 19, 23, -12 },
- 			{ 23, 24, -12 }
- 			}
--		},
--		/* 10BPP/16BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(10), .bpc = 16,
- 		{ 410, 15, 5632, 19, 28, 27, 27, {
- 			{ 0, 11, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 16, 20, -2 },
- 			{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
-@@ -477,26 +491,30 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 21, 26, -10 }, { 21, 27, -12 }, { 23, 27, -12 },
- 			{ 27, 28, -12 }
- 			}
--		},
-+		}
- 	},
- 	{
--		/* 12BPP/8BPC */
 +		.bpp = DSC_BPP(12), .bpc = 8,
- 		{ 341, 15, 2048, 3, 12, 11, 11, {
- 			{ 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
- 			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
- 			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
- 			{ 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
- 			}
--		},
--		/* 12BPP/10BPC */
++		{ 341, 15, 2048, 3, 12, 11, 11, {
++			{ 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
++			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
++			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
++			{ 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
++			}
 +		}
 +	},
 +	{
 +		.bpp = DSC_BPP(12), .bpc = 10,
- 		{ 341, 15, 2048, 7, 16, 15, 15, {
- 			{ 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
- 			{ 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
- 			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
- 			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
- 			}
--		},
--		/* 12BPP/12BPC */
++		{ 341, 15, 2048, 7, 16, 15, 15, {
++			{ 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
++			{ 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
++			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
++			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
++			}
 +		}
 +	},
 +	{
 +		.bpp = DSC_BPP(12), .bpc = 12,
++		{ 341, 15, 2048, 11, 20, 19, 19, {
++			{ 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
++			{ 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
++			{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
++			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
++			{ 21, 23, -12 }
++			}
++		}
++	},
++	{ /* sentinel */ }
++};
++
++/*
++ * Selected Rate Control Related Parameter Recommended Values from DSC v1.2, v1.2a, v1.2b and
++ * DSC_v1.1_E1 specs.
++ *
++ * Cross-checked against C Model releases: DSC_model_20161212 and 20210623
++ */
++static const struct rc_parameters_data rc_parameters_1_2_444[] = {
+ 	{
+ 		.bpp = DSC_BPP(6), .bpc = 8,
+ 		{ 768, 15, 6144, 3, 13, 11, 11, {
+@@ -388,22 +466,18 @@ static const struct rc_parameters_data rc_parameters[] = {
+ 		{ 512, 12, 6144, 3, 12, 11, 11, {
+ 			{ 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+ 			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+-			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
+-			{ 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
++			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 10, -10 }, { 5, 11, -12 },
++			{ 5, 11, -12 }, { 9, 12, -12 }, { 12, 13, -12 }
+ 			}
+ 		}
+ 	},
+ 	{
+ 		.bpp = DSC_BPP(8), .bpc = 10,
+ 		{ 512, 12, 6144, 7, 16, 15, 15, {
+-			/*
+-			 * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
+-			 * VESA DSC 1.1 Table E-5 sets it to 4.
+-			 */
+-			{ 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
++			{ 0, 8, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
+ 			{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+-			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+-			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
++			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 14, -10 }, { 9, 15, -12 },
++			{ 9, 15, -12 }, { 13, 16, -12 }, { 16, 17, -12 }
+ 			}
+ 		}
+ 	},
+@@ -412,9 +486,9 @@ static const struct rc_parameters_data rc_parameters[] = {
+ 		{ 512, 12, 6144, 11, 20, 19, 19, {
+ 			{ 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
+ 			{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+-			{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+-			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+-			{ 21, 23, -12 }
++			{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 18, -10 },
++			{ 13, 19, -12 }, { 13, 19, -12 }, { 17, 20, -12 },
++			{ 20, 21, -12 }
+ 			}
+ 		}
+ 	},
+@@ -498,8 +572,8 @@ static const struct rc_parameters_data rc_parameters[] = {
+ 		{ 341, 15, 2048, 3, 12, 11, 11, {
+ 			{ 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+ 			{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+-			{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
+-			{ 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
++			{ 3, 8, -8 }, { 3, 9, -10 }, { 5, 9, -10 }, { 5, 9, -12 },
++			{ 5, 9, -12 }, { 7, 10, -12 }, { 10, 11, -12 }
+ 			}
+ 		}
+ 	},
+@@ -508,8 +582,8 @@ static const struct rc_parameters_data rc_parameters[] = {
+ 		{ 341, 15, 2048, 7, 16, 15, 15, {
+ 			{ 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
+ 			{ 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+-			{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+-			{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
++			{ 7, 12, -8 }, { 7, 13, -10 }, { 9, 13, -10 }, { 9, 13, -12 },
++			{ 9, 13, -12 }, { 11, 14, -12 }, { 14, 15, -12 }
+ 			}
+ 		}
+ 	},
+@@ -518,9 +592,9 @@ static const struct rc_parameters_data rc_parameters[] = {
  		{ 341, 15, 2048, 11, 20, 19, 19, {
  			{ 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
  			{ 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
-@@ -504,8 +522,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
- 			{ 21, 23, -12 }
- 			}
--		},
--		/* 12BPP/14BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(12), .bpc = 14,
- 		{ 341, 15, 2048, 15, 24, 23, 23, {
- 			{ 0, 6, 2 }, { 7, 10, 0 }, { 9, 13, 0 }, { 11, 16, -2 },
- 			{ 14, 17, -4 }, { 15, 18, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
-@@ -513,8 +533,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 17, 21, -12 }, { 17, 21, -12 }, { 19, 22, -12 },
- 			{ 22, 23, -12 }
- 			}
--		},
--		/* 12BPP/16BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(12), .bpc = 16,
- 		{ 341, 15, 2048, 19, 28, 27, 27, {
- 			{ 0, 6, 2 }, { 6, 11, 0 }, { 11, 15, 0 }, { 14, 18, -2 },
- 			{ 18, 21, -4 }, { 19, 22, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
-@@ -522,26 +544,30 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 21, 25, -12 }, { 21, 25, -12 }, { 23, 26, -12 },
- 			{ 26, 27, -12 }
- 			}
--		},
-+		}
- 	},
- 	{
--		/* 15BPP/8BPC */
-+		.bpp = DSC_BPP(15), .bpc = 8,
- 		{ 273, 15, 2048, 3, 12, 11, 11, {
- 			{ 0, 0, 10 }, { 0, 1, 8 }, { 0, 1, 6 }, { 0, 2, 4 },
- 			{ 1, 2, 2 }, { 1, 3, 0 }, { 1, 3, -2 }, { 2, 4, -4 },
- 			{ 2, 5, -6 }, { 3, 5, -8 }, { 4, 6, -10 }, { 4, 7, -10 },
- 			{ 5, 7, -12 }, { 7, 8, -12 }, { 8, 9, -12 }
- 			}
--		},
--		/* 15BPP/10BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(15), .bpc = 10,
- 		{ 273, 15, 2048, 7, 16, 15, 15, {
- 			{ 0, 2, 10 }, { 2, 5, 8 }, { 3, 5, 6 }, { 4, 6, 4 },
- 			{ 5, 6, 2 }, { 5, 7, 0 }, { 5, 7, -2 }, { 6, 8, -4 },
- 			{ 6, 9, -6 }, { 7, 9, -8 }, { 8, 10, -10 }, { 8, 11, -10 },
- 			{ 9, 11, -12 }, { 11, 12, -12 }, { 12, 13, -12 }
- 			}
--		},
--		/* 15BPP/12BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(15), .bpc = 12,
- 		{ 273, 15, 2048, 11, 20, 19, 19, {
- 			{ 0, 4, 10 }, { 2, 7, 8 }, { 4, 9, 6 }, { 6, 11, 4 },
- 			{ 9, 11, 2 }, { 9, 11, 0 }, { 9, 12, -2 }, { 10, 12, -4 },
-@@ -549,8 +575,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 13, 15, -10 }, { 13, 15, -12 }, { 15, 16, -12 },
- 			{ 16, 17, -12 }
- 			}
--		},
--		/* 15BPP/14BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(15), .bpc = 14,
- 		{ 273, 15, 2048, 15, 24, 23, 23, {
- 			{ 0, 4, 10 }, { 3, 8, 8 }, { 6, 11, 6 }, { 9, 14, 4 },
- 			{ 13, 15, 2 }, { 13, 15, 0 }, { 13, 16, -2 }, { 14, 16, -4 },
-@@ -558,8 +586,10 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 17, 19, -10 }, { 17, 19, -12 }, { 19, 20, -12 },
- 			{ 20, 21, -12 }
- 			}
--		},
--		/* 15BPP/16BPC */
-+		}
-+	},
-+	{
-+		.bpp = DSC_BPP(15), .bpc = 16,
- 		{ 273, 15, 2048, 19, 28, 27, 27, {
- 			{ 0, 4, 10 }, { 4, 9, 8 }, { 8, 13, 6 }, { 12, 17, 4 },
- 			{ 17, 19, 2 }, { 17, 20, 0 }, { 17, 20, -2 }, { 18, 20, -4 },
-@@ -568,59 +598,21 @@ static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
- 			{ 24, 25, -12 }
+-			{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+-			{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+-			{ 21, 23, -12 }
++			{ 11, 16, -8 }, { 11, 17, -10 }, { 13, 17, -10 },
++			{ 13, 17, -12 }, { 13, 17, -12 }, { 15, 18, -12 },
++			{ 18, 19, -12 }
  			}
  		}
--	}
-+	},
-+	{ /* sentinel */ }
+ 	},
+@@ -602,7 +676,8 @@ static const struct rc_parameters_data rc_parameters[] = {
+ 	{ /* sentinel */ }
  };
  
--static int get_row_index_for_rc_params(u16 compressed_bpp)
--{
--	switch (compressed_bpp) {
--	case 6:
--		return ROW_INDEX_6BPP;
--	case 8:
--		return ROW_INDEX_8BPP;
--	case 10:
--		return ROW_INDEX_10BPP;
--	case 12:
--		return ROW_INDEX_12BPP;
--	case 15:
--		return ROW_INDEX_15BPP;
--	default:
--		return -EINVAL;
--	}
--}
--
--static int get_column_index_for_rc_params(u8 bits_per_component)
--{
--	switch (bits_per_component) {
--	case 8:
--		return COLUMN_INDEX_8BPC;
--	case 10:
--		return COLUMN_INDEX_10BPC;
--	case 12:
--		return COLUMN_INDEX_12BPC;
--	case 14:
--		return COLUMN_INDEX_14BPC;
--	case 16:
--		return COLUMN_INDEX_16BPC;
--	default:
--		return -EINVAL;
--	}
--}
--
--static const struct rc_parameters *get_rc_params(u16 compressed_bpp,
-+static const struct rc_parameters *get_rc_params(u16 dsc_bpp,
+-static const struct rc_parameters *get_rc_params(u16 dsc_bpp,
++static const struct rc_parameters *get_rc_params(const struct rc_parameters_data *rc_parameters,
++						 u16 dsc_bpp,
  						 u8 bits_per_component)
  {
--	int row_index, column_index;
--
--	row_index = get_row_index_for_rc_params(compressed_bpp);
--	if (row_index < 0)
--		return NULL;
-+	int i;
+ 	int i;
+@@ -622,11 +697,13 @@ static const struct rc_parameters *get_rc_params(u16 dsc_bpp,
+  * function.
+  *
+  * @vdsc_cfg: DSC Configuration data partially filled by driver
++ * @type: operating mode and standard to follow
+  *
+  * Return: 0 or -error code in case of an error
+  */
+-int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
++int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_type type)
+ {
++	const struct rc_parameters_data *data;
+ 	const struct rc_parameters *rc_params;
+ 	int i;
  
--	column_index = get_column_index_for_rc_params(bits_per_component);
--	if (column_index < 0)
--		return NULL;
-+	for (i = 0; rc_parameters[i].bpp; i++)
-+		if (rc_parameters[i].bpp == dsc_bpp &&
-+		    rc_parameters[i].bpc == bits_per_component)
-+			return &rc_parameters[i].params;
- 
--	return &rc_parameters[row_index][column_index];
-+	return NULL;
- }
- 
- /**
-@@ -642,11 +634,7 @@ int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
+@@ -634,7 +711,19 @@ int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
  			 !vdsc_cfg->bits_per_component))
  		return -EINVAL;
  
--	/* fractional BPP is not supported */
--	if (vdsc_cfg->bits_per_pixel & 0xf)
--		return -EINVAL;
--
--	rc_params = get_rc_params(vdsc_cfg->bits_per_pixel >> 4,
-+	rc_params = get_rc_params(vdsc_cfg->bits_per_pixel,
+-	rc_params = get_rc_params(vdsc_cfg->bits_per_pixel,
++	switch (kind) {
++	case DRM_DSC_1_2_444:
++		data = rc_parameters_1_2_444;
++		break;
++	case DRM_DSC_1_1_PRE_SCR:
++		data = rc_parameters_pre_scr;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	rc_params = get_rc_params(data,
++				  vdsc_cfg->bits_per_pixel,
  				  vdsc_cfg->bits_per_component);
  	if (!rc_params)
  		return -EINVAL;
+diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+index d4340b18c18d..bd9116d2cd76 100644
+--- a/drivers/gpu/drm/i915/display/intel_vdsc.c
++++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+@@ -226,7 +226,15 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+ 	if (DISPLAY_VER(dev_priv) >= 13) {
+ 		calculate_rc_params(vdsc_cfg);
+ 	} else {
+-		ret = drm_dsc_setup_rc_params(vdsc_cfg);
++		if ((compressed_bpp == 8 ||
++		     compressed_bpp == 12) &&
++		    (vdsc_cfg->bits_per_component == 8 ||
++		     vdsc_cfg->bits_per_component == 10 ||
++		     vdsc_cfg->bits_per_component == 12))
++			ret = drm_dsc_setup_rc_params(vdsc_cfg, DRM_DSC_1_1_PRE_SCR);
++		else
++			ret = drm_dsc_setup_rc_params(vdsc_cfg, DRM_DSC_1_2_444);
++
+ 		if (ret)
+ 			return ret;
+ 
+diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
+index 1681791f65a5..66eac7276d04 100644
+--- a/include/drm/display/drm_dsc_helper.h
++++ b/include/drm/display/drm_dsc_helper.h
+@@ -10,12 +10,17 @@
+ 
+ #include <drm/display/drm_dsc.h>
+ 
++enum drm_dsc_params_type {
++	DRM_DSC_1_2_444,
++	DRM_DSC_1_1_PRE_SCR, /* legacy params from DSC 1.1 */
++};
++
+ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
+ int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
+ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
+ 			      const struct drm_dsc_config *dsc_cfg);
+ void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
+-int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg);
++int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_type type);
+ int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
+ 
+ #endif /* _DRM_DSC_HELPER_H_ */
 -- 
 2.39.2
 
