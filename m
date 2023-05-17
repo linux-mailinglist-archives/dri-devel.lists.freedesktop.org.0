@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C10D7062F1
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 10:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C27706310
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 10:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6A110E107;
-	Wed, 17 May 2023 08:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 582A610E3CD;
+	Wed, 17 May 2023 08:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FF010E107
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 08:32:39 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-965ddb2093bso63926566b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 01:32:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684312358; x=1686904358;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aWitSHiMOT4coKgFlzLg7KYluG3UUdq8GESJECXOiJo=;
- b=ZDjysRqZkqvYqOiAxYXP5en70O41y4PMGStzeR2KSskajjek6DPKOkN7rwYJADSunf
- bw/b0dQ8vxN88mNng1C3HRksj4InazOzddCCtYRU3momPUP+sFAnmXAoNU5kY48FiI/g
- dSKrBcu34c3eoumV7Z+tutJhpbMl2AEZfDk3tpSxoWNIjUfXYpAQnsbMxziwrIP3izXb
- 6+TDNJ4af3oWy2gXIfh4jJTJuJFdLBL13vN5FDJIaQx6uq0oCa9OJHQHDJROELIAUkKv
- oSTSxmW0v2homiGBJnNHwsfCq2eK/xekmVtzWC8U9llLNAEbkWSYIaqWiBpvNAfb+TEd
- 8SMA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 698F410E3CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 08:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684312711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Awr4gRZsdLGQYIUyMmed1KNNdKfsJvua5DQtUGISNWs=;
+ b=MDd63lb9lBuv8ujcA3EyjNe1W58J1YNGQPq5p0vEHTfyTN0MehFytLuVruh/KlYlhLNyuh
+ kw3XUMKcTe6c+smUWd+BXTlU1MNobbgBd/mF3DPSCmeIVptwsLxwu0lyzle8IUtjmO8O/F
+ +7z/nKFOlv1lOxdb/xztAA/KMHqDyA8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-199-5s5AvnBmM0CKJEGQ_id09g-1; Wed, 17 May 2023 04:38:26 -0400
+X-MC-Unique: 5s5AvnBmM0CKJEGQ_id09g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f41dcf1e28so1761155e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 01:38:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684312358; x=1686904358;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aWitSHiMOT4coKgFlzLg7KYluG3UUdq8GESJECXOiJo=;
- b=RDY5kwDZfjzNNJdazAFJYVSD9/U1ca60WINsHewFj6U8UHOI4qwAASbvuCzNP8OwW+
- yUMTeZCHHmuDjXXW2rljAXa+i7Sm+2q9IgzjLoseECFcm6F8J33u59OsmB+Br0nF0xdM
- DBSqNY4poP3p8gh4mkfICr96PvvS7gFDappz7R6Tzmnc89qUdTmi/xX+8cqkV8dJ7Ly2
- zL+uwjXdRQ9gwFxuipKfAatrHusiH1YPPaktPgX8e+WRK4oXyJOMHwTNE4/yeNYd246A
- 4018RWpbA+Kw5nqpGmmHps+caHtLMfpoYKJHCM7Coh8Db8sQOSRvb6hGCpI30L0zv0FI
- gRvw==
-X-Gm-Message-State: AC+VfDyBwPimP2o8krMSXJna5nEBtAkcpRyrItku8vzFCWr6LObhRo1J
- pg36ZtRk25SrqoP4S/KwUf5TYQ==
-X-Google-Smtp-Source: ACHHUZ5lTHcklO65Tbda/84467VNgoKGANYGw+A+KZDBbn31EhEdfTRKaT6JKayUE+IvTUYh+tFpxg==
-X-Received: by 2002:a17:907:1c84:b0:969:f677:11b7 with SMTP id
- nb4-20020a1709071c8400b00969f67711b7mr31440550ejc.20.1684312358276; 
- Wed, 17 May 2023 01:32:38 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:c9ff:4c84:dd21:568d?
- ([2a02:810d:15c0:828:c9ff:4c84:dd21:568d])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a17090655c400b009660449b9a3sm11955786ejp.25.2023.05.17.01.32.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 May 2023 01:32:37 -0700 (PDT)
-Message-ID: <250e0e95-9f34-5fb7-aa5d-61b227dc9cf1@linaro.org>
-Date: Wed, 17 May 2023 10:32:36 +0200
+ d=1e100.net; s=20221208; t=1684312705; x=1686904705;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Awr4gRZsdLGQYIUyMmed1KNNdKfsJvua5DQtUGISNWs=;
+ b=QDwTDdJh1jfmelFf6NLrOmoeNap0O+Ge6xIWchBcSEaDj3ZYXlN0EHV1+jwowhlh+k
+ yCdrroe0iXoK9Ebo8UNDuqrpwncKfrl9hWKLsa/MyhfY+I4ULfEbQCojfpQtS0lx0hTv
+ xVH67ggp+QGYtVPRWi5yU2tzIsNiASbx5thELD2RmFqPpbzwdFRrubLGiUhZwui/cYxX
+ 0pdRzSEvcqjCoXYeLpnMCkseY8dlljSb67kqMIK+31owiFa3rLSCmOpm5obUXH9ZabrE
+ bB3p3SUvKuLmENNpxk36mw/hWoexJMTS4NLxNFWM/wRmjhbjauXAkI1fCvsTWsMPCTXh
+ uN9A==
+X-Gm-Message-State: AC+VfDwzpmkth+yclW516GBy8wDMLVeDLvrBhg67UVUrjQ9QmZYD80vT
+ nYr1V6rnN1YEnDHI4HYwOC6xlrXklRslx0tVXBMa6GZh92mLnRQ/2c/5MqCQRQr++ite/W+t/Gr
+ N0aXcU+pxdbLmagLNBfbJJbMTmNL0
+X-Received: by 2002:a05:600c:296:b0:3f4:1dd9:e9e4 with SMTP id
+ 22-20020a05600c029600b003f41dd9e9e4mr25183087wmk.4.1684312705172; 
+ Wed, 17 May 2023 01:38:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5+xQB/WwSfZGlVBWz3pf1X3XrZ6616+LvJs0buY0t+QlE+UE09KziCsrhgVjdn2XBjNLyu9g==
+X-Received: by 2002:a05:600c:296:b0:3f4:1dd9:e9e4 with SMTP id
+ 22-20020a05600c029600b003f41dd9e9e4mr25183070wmk.4.1684312704870; 
+ Wed, 17 May 2023 01:38:24 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y26-20020a7bcd9a000000b003f42a75ac2asm1536196wmj.23.2023.05.17.01.38.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 May 2023 01:38:24 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
+ liyi <liyi@loongson.cn>
+Subject: Re: [PATCH] drm/drm_atomic.h: fixup typos
+In-Reply-To: <20230517082322.3230271-1-suijingfeng@loongson.cn>
+References: <20230517082322.3230271-1-suijingfeng@loongson.cn>
+Date: Wed, 17 May 2023 10:38:23 +0200
+Message-ID: <877ct79wu8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] dt-bindings: display: panel: add panel-mipi-dsi-bringup
-Content-Language: en-US
-To: Paulo Pavacic <pavacic.p@gmail.com>
-References: <CAO9szn18KsR0c+U8EEY1=xnmsKMxy6SEArMUic0z=aYJDVwWCQ@mail.gmail.com>
- <023f6cf9-0f08-f27e-d203-5ff78faf110f@linaro.org>
- <CAO9szn1EsbuPSRrOW8CLqhp+QUcL=9NE93FAwsg2n3htd_aJTw@mail.gmail.com>
- <97124cb1-4f45-22d5-418f-568f8a68deec@linaro.org>
- <356bfe96-75e6-1c6d-0049-d664e719a266@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <356bfe96-75e6-1c6d-0049-d664e719a266@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,31 +83,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/05/2023 10:29, Paulo Pavacic wrote:
-> Hello,
-> 
-> If I understood you correctly you'd prefer it to be named 
-> fannal,c3004.yaml?
 
-This is what I wrote:
-"Judging by compatible, this should be fannal,c3004.yaml"
+Hello Sui,
 
->  My logic is that if more panels were to be added that 
-> means that each one would have yaml files that would look exactly the 
-> same with the same user.
+I would still add something to the commit description even when your
+changes are trivial.
 
-It's not a big deal. Although anyway why would other panels have exactly
-the same supplies and all other properties?
+Sui Jingfeng <suijingfeng@loongson.cn> writes:
 
-BTW, you miss there supply.
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
 
+The fixes look good to me though
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
 Best regards,
-Krzysztof
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
