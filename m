@@ -1,72 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC7D706EFD
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 19:05:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54705706F6B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 19:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A7C10E1F5;
-	Wed, 17 May 2023 17:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C65210E094;
+	Wed, 17 May 2023 17:28:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA5AB10E1F5
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 17:05:04 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34HDSQc4015581; Wed, 17 May 2023 19:04:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=9W/aSpUxJmkATSMYBkvf8JxR9pYleKOzKrYpx1aWW3s=;
- b=sF/xOCzBWtzRIa9NfQykUhAYW9bdpi4BfqVd+u0QM+zVm8BwtMKvt5RKwyLBIisrS0oR
- 5gGnY7Tk3ad0uxOVO9gOGzmHbktlfijDg8n+xakYesyoDHksavafdBUG4gbZJqBvJ82W
- DFd7LXEkP+nJvqLj/AXc66wMlkIZ6uuXTfL4aNGT6+Nu7nQa6gzjVnNyBZzTPiAlc40t
- ESmdzGMpWoagJ8rmGzqP9CtRdN4NTq6zU5h2ZwLs3UmatRMz82aMZT2nvXJbUIUAtNUJ
- 2smMikZsEJeBeTn9xzDO8cd7MnSbfV49yjoZkle6SriTjs45hAmzw6RAlJ904FVa7xbz mA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qm7tfj1m6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 19:04:40 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 932B310002A;
- Wed, 17 May 2023 19:04:39 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8202924F270;
- Wed, 17 May 2023 19:04:39 +0200 (CEST)
-Received: from [10.129.178.187] (10.129.178.187) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 17 May
- 2023 19:04:39 +0200
-Message-ID: <e963370c-7018-243a-712d-62ca8463bfd8@foss.st.com>
-Date: Wed, 17 May 2023 19:04:39 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5DFA10E094
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 17:28:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D88DB6347B;
+ Wed, 17 May 2023 17:28:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3619C4339B;
+ Wed, 17 May 2023 17:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684344523;
+ bh=C3rhU6ql3cfx2nqHQAamUs5eDbPSPa+ws3rxF+aWa1s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RD5m7lY8p7R/XOcqyBVFFZfqAIWQot+4Wz9y1pVEPguZz2/zJZLnuJutREWwZWyNY
+ 8dvbV1paGoF2P0cxi6Uhrp5PFkO1JcmumAbu0u+pR+SmGiC96WQYfYVph3FNqAyNJO
+ g8+KA1tA0og4KZkEz20nLQ6lUA4RKKJ6JKWYCuSSoKkLOb7jU/skUjv2Sq9R7JC12Y
+ k6wrrngs03G61v7aIAMQsOHNgQxLFr/Av1eu2qQt6F99nsjB89kk8KazKnTkI3+bzA
+ 0ttHn01LOdkGQ/rvn9VobAo0bcVV9/GLcaQWQ0AhBh8CG/27P16Ji+ywYPDyAASVPX
+ W5hLvuK5Yeb2w==
+Date: Wed, 17 May 2023 18:28:36 +0100
+From: Conor Dooley <conor@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
+Message-ID: <20230517-deceptive-filtrate-9acd07071371@spud>
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-8-abailon@baylibre.com>
+ <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 3/3] ARM: dts: stm32: fix several DT warnings on
- stm32mp15
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>
-References: <20230517143542.284029-1-raphael.gallais-pou@foss.st.com>
- <20230517143542.284029-4-raphael.gallais-pou@foss.st.com>
- <f64de05b-8854-4345-80c2-f424968defdc@denx.de>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <f64de05b-8854-4345-80c2-f424968defdc@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.187]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-17_02,2023-05-17_02,2023-02-09_01
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DPep3TX9ZmccIKnm"
+Content-Disposition: inline
+In-Reply-To: <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,67 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@dh-electronics.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, Alexandre Bailon <abailon@baylibre.com>,
+ krzysztof.kozlowski+dt@linaro.org, sumit.semwal@linaro.org, bero@baylibre.com,
+ khilman@baylibre.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ jstephan@baylibre.com, nbelin@baylibre.com, linux-kernel@vger.kernel.org,
+ tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek
 
-On 5/17/23 17:41, Marek Vasut wrote:
-> On 5/17/23 16:35, Raphael Gallais-Pou wrote:
->
-> Hi,
->
->> diff --git a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
->> b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
->> index 0f1110e42c93..a6e2e20f12fa 100644
->> --- a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
->> +++ b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
->> @@ -457,8 +457,7 @@ &ltdc {
->>       status = "okay";
->>         port {
->> -        ltdc_ep0_out: endpoint@0 {
->> -            reg = <0>;
->> +        ltdc_ep0_out: endpoint {
->>               remote-endpoint = <&sii9022_in>;
->>           };
->>       };
->
-> This LTDC port/endpoint stuff always scares me, because I always feel I get it
-> wrong.
->
-> I believe the LTDC does have one "port" , correct.
->
-> But I think (?) that the LTDC has two endpoints, endpoint@0 for DPI (parallel
-> output out of the SoC) and endpoint@1 for DSI (internal connection into the
-> DSI serializer) ?
+--DPep3TX9ZmccIKnm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You are correct indeed, I rushed the patch and did not thought about this. I
-agree that this can be confusing, as I also take some time to think through it.
+On Wed, May 17, 2023 at 05:04:00PM +0200, AngeloGioacchino Del Regno wrote:
+> Il 17/05/23 16:52, Alexandre Bailon ha scritto:
+> > This adds the device tree bindings for the APU DRM driver.
+> >=20
+> > Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> > Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> >   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>=20
+> mediatek,mt(model)-apu.yaml
+>=20
+> >   1 file changed, 38 insertions(+)
+> >   create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.=
+yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/D=
+ocumentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> > new file mode 100644
+> > index 000000000000..6f432d3ea478
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> > @@ -0,0 +1,38 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: AI Processor Unit DRM
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,apu-drm
+>=20
+> const: mediatek,mt8195-apu (or whatever else).
 
->
-> Only one of the endpoints can be connected at a time, but there are actually
-> two endpoints in the LTDC port {} node, aren't there ?
-Yes, they are mutually exclusive.
->
-> So the original description should be OK I think , maybe #address/#size-cells
-> are missing instead ?
+Aye, and drop the references to DRM in the title field too (and add the
+vendor name?).
 
-Thing is: this file is only included in two device-trees : stm32mp157c-dk1.dts
-and stm32mp157c-dk2.dts.
+>=20
+> ...besides, I don't think that this patch even belongs to this series? :-)
+> Spoiler alert! :-)
 
-Among those two files there is only one which adds a second endpoint. Thus if
-the fields are set higher in the hierarchy, a warning yields.
+Well, I do not know what this means - but if it is being respun as part
+of some other work, a description field should be added to the binding.
 
-One way to do it would be to make the endpoint@0 go down in the device-tree with
-its dependencies, so that both endpoints are the same level without generating
-noise.
-
-
-Raphaël
-
-
+Cheers,
+Conor.
 
 
+--DPep3TX9ZmccIKnm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGUOxAAKCRB4tDGHoIJi
+0tq/AQCEx0ykFfDTB4Fn6jIhxnkBk2YlIWinWZykIWz+PlyIaQD7B+GkFiVdN1GH
+F6vvIFXtMcll02nyunl0Xx5gYXvbzAQ=
+=+2H9
+-----END PGP SIGNATURE-----
+
+--DPep3TX9ZmccIKnm--
