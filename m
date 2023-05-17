@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259AC705CB9
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 03:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ED6705D87
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 04:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D2710E12C;
-	Wed, 17 May 2023 01:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6365110E38E;
+	Wed, 17 May 2023 02:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6280A10E096;
- Wed, 17 May 2023 01:58:36 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:42626.2114773713
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 7D6F9102973;
- Wed, 17 May 2023 09:58:31 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-2qvwx with ESMTP id
- 810a8ff56b7f48219248832b0e786209 for tzimmermann@suse.de; 
- Wed, 17 May 2023 09:58:33 CST
-X-Transaction-ID: 810a8ff56b7f48219248832b0e786209
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <80b4b615-0a71-89e8-3a58-fbeb8a9a06e8@189.cn>
-Date: Wed, 17 May 2023 09:58:30 +0800
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629D510E38E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 02:55:33 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-64ab2a37812so9958166b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 May 2023 19:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684292132; x=1686884132;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jMclfiyGo0qMnOEsUXx6eVybC9kQxJH7wp/u50FaUx8=;
+ b=Yn0BnxDZ0zaDQueocMV3NBj+K2Seb7mJCi3qIT5OJO3pMtumpwRD/p9iVrNdpUl/bb
+ ESckLUrRIwmX8IHeE4NClmcy500ZzX/XVCC5ZWtoAiPSUzTRAvMd9k7VFMwJsohV8wdM
+ Ozpd51FIuOmGcNpzLMnohfq+EdFPkoemzGF3pT1Nyy8GaJtkei4yUmsZx/2olmd6mIcc
+ oWeKt9tvWNYuXsv7RkaO3vI+xcXN+mtQxXiLbC8aqP1Ap+Ay2YZIuLmUh3bBsBeuc1Et
+ EN3zzSUqIwzDLjFnjBoJJi/0KZTaTCizcCsv0O4KLCWzVs9IRH8PIqh8uL3wEeUGEJrc
+ LONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684292132; x=1686884132;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jMclfiyGo0qMnOEsUXx6eVybC9kQxJH7wp/u50FaUx8=;
+ b=NzjQzoGRjI2fCAvz4WuHNj+2ZdLBQAuYrUN2UR+2YV9kgLUKVkEAgaogN1TilmKTpn
+ Z728cWjp74mBOFNpgtte24004siUmFFkQ9HJrzrSVOlq7Ozm8W1ic+h3ZYYL9TlMD+qD
+ rx5RioDEPYmfJwX+UFwdtYUnYuTg/gyHZgrZUpH+MHqF/o1BrHgdX3tTUEeJZJhtWegp
+ dS6ZGX0udAm1XVsfO8YJHPo2KoPVw6cse0LXpJHJ2jg0iVBatwLAjgTlB6GM+VASbek5
+ Fojjsk22G5qU54JHlv0wIBNUuDFZ8ccp7aZlsIPDal2mvAyUT2SmUcxoykw2r6lPd5Re
+ fQAQ==
+X-Gm-Message-State: AC+VfDyrCzmRGjMzh9mNevnQ9YPCuxEACWnxF5E4Zm3sh9vPswShMIGM
+ kU1+lMFnXw7RyNs4XWWE5Pb6M+abzHw9jfn9HZpg82BV3XI=
+X-Google-Smtp-Source: ACHHUZ45UOXr3NZOxad66JB/0zbsfWFh/S4VbTo38RTehwxLZsxSN31juSyIHYGpDexXKnpqRGfeTD1Bwk9cYubX3BQ=
+X-Received: by 2002:a17:903:41c8:b0:1ac:6fc3:6beb with SMTP id
+ u8-20020a17090341c800b001ac6fc36bebmr994634ple.9.1684292131687; Tue, 16 May
+ 2023 19:55:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [v2,11/12] drm/fbdev-generic: Implement dedicated fbdev I/O
- helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- javierm@redhat.com, sam@ravnborg.org
-References: <20230515094033.2133-12-tzimmermann@suse.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230515094033.2133-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230515235713.232939-1-aford173@gmail.com>
+ <20230515235713.232939-6-aford173@gmail.com>
+In-Reply-To: <20230515235713.232939-6-aford173@gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 16 May 2023 21:55:19 -0500
+Message-ID: <CAHCN7xL8qkCgXEE3nZvmwbWGO5GtF+37eOVYq63djGOHDaSdmA@mail.gmail.com>
+Subject: Re: [PATCH V6 5/6] drm: bridge: samsung-dsim: Dynamically configure
+ DPHY timing
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,327 +70,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, linux-kernel@vger.kernel.org,
+ Jagan Teki <jagan@amarulasolutions.com>, Michael Walle <michael@walle.cc>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thomas
-
-
-After apply your patch set, the kernel with 
-arch/loongarch/configs/loongson3_defconfig
-
-can not finish compile anymore.  gcc complains:
-
-
-   AR      drivers/gpu/built-in.a
-   AR      drivers/built-in.a
-   AR      built-in.a
-   AR      vmlinux.a
-   LD      vmlinux.o
-   OBJCOPY modules.builtin.modinfo
-   GEN     modules.builtin
-   GEN     .vmlinux.objs
-   MODPOST Module.symvers
-ERROR: modpost: "fb_sys_write" [drivers/gpu/drm/drm_kms_helper.ko] 
-undefined!
-ERROR: modpost: "sys_imageblit" [drivers/gpu/drm/drm_kms_helper.ko] 
-undefined!
-ERROR: modpost: "sys_fillrect" [drivers/gpu/drm/drm_kms_helper.ko] 
-undefined!
-ERROR: modpost: "sys_copyarea" [drivers/gpu/drm/drm_kms_helper.ko] 
-undefined!
-ERROR: modpost: "fb_sys_read" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
-make: *** [Makefile:1978: modpost] Error 2
-
-
-On 2023/5/15 17:40, Thomas Zimmermann wrote:
-> Implement dedicated fbdev helpers for framebuffer I/O instead
-> of using DRM's helpers. Fbdev-generic was the only caller of the
-> DRM helpers, so remove them from the helper module.
+On Mon, May 15, 2023 at 6:57=E2=80=AFPM Adam Ford <aford173@gmail.com> wrot=
+e:
 >
-> v2:
-> 	* use FB_SYS_HELPERS_DEFERRED option
+> The DPHY timings are currently hard coded. Since the input
+> clock can be variable, the phy timings need to be variable
+> too.  To facilitate this, we need to cache the hs_clock
+> based on what is generated from the PLL.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> The phy_mipi_dphy_get_default_config_for_hsclk function
+> configures the DPHY timings in pico-seconds, and a small macro
+> converts those timings into clock cycles based on the hs_clk.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Tested-by: Michael Walle <michael@walle.cc>
 > ---
->   drivers/gpu/drm/Kconfig             |   6 +-
->   drivers/gpu/drm/drm_fb_helper.c     | 107 ----------------------------
->   drivers/gpu/drm/drm_fbdev_generic.c |  47 ++++++++++--
->   include/drm/drm_fb_helper.h         |  41 -----------
->   4 files changed, 43 insertions(+), 158 deletions(-)
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 57 +++++++++++++++++++++++----
+>  include/drm/bridge/samsung-dsim.h     |  1 +
+>  2 files changed, 51 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 77fb10ddd8a2..92a782827b7b 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -95,6 +95,7 @@ config DRM_KUNIT_TEST
->   config DRM_KMS_HELPER
->   	tristate
->   	depends on DRM
-> +	select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index 08266303c261..3944b7cfbbdf 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -218,6 +218,8 @@
+>
+>  #define OLD_SCLK_MIPI_CLK_NAME         "pll_clk"
+>
+> +#define PS_TO_CYCLE(ps, hz) DIV64_U64_ROUND_CLOSEST(((ps) * (hz)), 10000=
+00000000ULL)
+> +
+>  static const char *const clk_names[5] =3D {
+>         "bus_clk",
+>         "sclk_mipi",
+> @@ -651,6 +653,8 @@ static unsigned long samsung_dsim_set_pll(struct sams=
+ung_dsim *dsi,
+>                 reg =3D samsung_dsim_read(dsi, DSIM_STATUS_REG);
+>         } while ((reg & DSIM_PLL_STABLE) =3D=3D 0);
+>
+> +       dsi->hs_clock =3D fout;
+> +
+>         return fout;
+>  }
+>
+> @@ -698,13 +702,46 @@ static void samsung_dsim_set_phy_ctrl(struct samsun=
+g_dsim *dsi)
+>         const struct samsung_dsim_driver_data *driver_data =3D dsi->drive=
+r_data;
+>         const unsigned int *reg_values =3D driver_data->reg_values;
+>         u32 reg;
+> +       struct phy_configure_opts_mipi_dphy cfg;
+> +       int clk_prepare, lpx, clk_zero, clk_post, clk_trail;
+> +       int hs_exit, hs_prepare, hs_zero, hs_trail;
+> +       unsigned long long byte_clock =3D dsi->hs_clock / 8;
+>
+>         if (driver_data->has_freqband)
+>                 return;
+>
+> +       phy_mipi_dphy_get_default_config_for_hsclk(dsi->hs_clock,
+> +                                                  dsi->lanes, &cfg);
+> +
+> +       /*
+> +        * TODO:
+> +        * The tech reference manual for i.MX8M Mini/Nano/Plus
+> +        * doesn't state what the definition of the PHYTIMING
+> +        * bits are beyond their address and bit position.
+> +        * After reviewing NXP's downstream code, it appears
+> +        * that the various PHYTIMING registers take the number
+> +        * of cycles and use various dividers on them.  This
+> +        * calculation does not result in an exact match to the
+> +        * downstream code, but it is very close, and it appears
+> +        * to sync at a variety of resolutions. If someone
+> +        * can get a more accurate mathematical equation needed
+> +        * for these registers, this should be updated.
+> +        */
 
-Here, select FB_SYS_HELPERS helps resolve the above issue mentioned.
+Marek Szyprowski -
 
->   	help
->   	  CRTC helpers for KMS drivers.
->   
-> @@ -135,11 +136,6 @@ config DRM_FBDEV_EMULATION
->   	select FB_CFB_FILLRECT
->   	select FB_CFB_COPYAREA
->   	select FB_CFB_IMAGEBLIT
-> -	select FB_DEFERRED_IO
-> -	select FB_SYS_FOPS
-> -	select FB_SYS_FILLRECT
-> -	select FB_SYS_COPYAREA
-> -	select FB_SYS_IMAGEBLIT
->   	select FRAMEBUFFER_CONSOLE if !EXPERT
->   	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
->   	default y
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 8724e08c518b..ba0a808f14ee 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -729,113 +729,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
->   }
->   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
->   
-> -/**
-> - * drm_fb_helper_sys_read - Implements struct &fb_ops.fb_read for system memory
-> - * @info: fb_info struct pointer
-> - * @buf: userspace buffer to read from framebuffer memory
-> - * @count: number of bytes to read from framebuffer memory
-> - * @ppos: read offset within framebuffer memory
-> - *
-> - * Returns:
-> - * The number of bytes read on success, or an error code otherwise.
-> - */
-> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
-> -			       size_t count, loff_t *ppos)
-> -{
-> -	return fb_sys_read(info, buf, count, ppos);
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_sys_read);
-> -
-> -/**
-> - * drm_fb_helper_sys_write - Implements struct &fb_ops.fb_write for system memory
-> - * @info: fb_info struct pointer
-> - * @buf: userspace buffer to write to framebuffer memory
-> - * @count: number of bytes to write to framebuffer memory
-> - * @ppos: write offset within framebuffer memory
-> - *
-> - * Returns:
-> - * The number of bytes written on success, or an error code otherwise.
-> - */
-> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
-> -				size_t count, loff_t *ppos)
-> -{
-> -	struct drm_fb_helper *helper = info->par;
-> -	loff_t pos = *ppos;
-> -	ssize_t ret;
-> -	struct drm_rect damage_area;
-> -
-> -	ret = fb_sys_write(info, buf, count, ppos);
-> -	if (ret <= 0)
-> -		return ret;
-> -
-> -	if (helper->funcs->fb_dirty) {
-> -		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
-> -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
-> -				     drm_rect_width(&damage_area),
-> -				     drm_rect_height(&damage_area));
-> -	}
-> -
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_sys_write);
-> -
-> -/**
-> - * drm_fb_helper_sys_fillrect - wrapper around sys_fillrect
-> - * @info: fbdev registered by the helper
-> - * @rect: info about rectangle to fill
-> - *
-> - * A wrapper around sys_fillrect implemented by fbdev core
-> - */
-> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
-> -				const struct fb_fillrect *rect)
-> -{
-> -	struct drm_fb_helper *helper = info->par;
-> -
-> -	sys_fillrect(info, rect);
-> -
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
-> -
-> -/**
-> - * drm_fb_helper_sys_copyarea - wrapper around sys_copyarea
-> - * @info: fbdev registered by the helper
-> - * @area: info about area to copy
-> - *
-> - * A wrapper around sys_copyarea implemented by fbdev core
-> - */
-> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
-> -				const struct fb_copyarea *area)
-> -{
-> -	struct drm_fb_helper *helper = info->par;
-> -
-> -	sys_copyarea(info, area);
-> -
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
-> -
-> -/**
-> - * drm_fb_helper_sys_imageblit - wrapper around sys_imageblit
-> - * @info: fbdev registered by the helper
-> - * @image: info about image to blit
-> - *
-> - * A wrapper around sys_imageblit implemented by fbdev core
-> - */
-> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
-> -				 const struct fb_image *image)
-> -{
-> -	struct drm_fb_helper *helper = info->par;
-> -
-> -	sys_imageblit(info, image);
-> -
-> -	if (helper->funcs->fb_dirty)
-> -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-> -}
-> -EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
-> -
->   /**
->    * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
->    * @info: fb_info struct pointer
-> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-> index 8e5148bf40bb..f53fc49e34a4 100644
-> --- a/drivers/gpu/drm/drm_fbdev_generic.c
-> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> @@ -34,6 +34,43 @@ static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
->   	return 0;
->   }
->   
-> +static ssize_t drm_fbdev_generic_fb_write(struct fb_info *info, const char __user *buf,
-> +					  size_t count, loff_t *ppos)
-> +{
-> +	struct drm_fb_helper *helper = info->par;
-> +	loff_t pos = *ppos;
-> +	ssize_t ret;
+I was curious to know if you have any opinion on this TODO note and/or
+if you have any stuff you can share about how the values of the
+following variables are configured?
 > +
-> +	ret = fb_sys_write(info, buf, count, ppos);
-> +	if (ret > 0)
-> +		drm_fb_helper_damage_range(helper, pos, ret);
-> +	return ret;
-> +}
+> +       lpx =3D PS_TO_CYCLE(cfg.lpx, byte_clock);
+> +       hs_exit =3D PS_TO_CYCLE(cfg.hs_exit, byte_clock);
+> +       clk_prepare =3D PS_TO_CYCLE(cfg.clk_prepare, byte_clock);
+> +       clk_zero =3D PS_TO_CYCLE(cfg.clk_zero, byte_clock);
+> +       clk_post =3D PS_TO_CYCLE(cfg.clk_post, byte_clock);
+> +       clk_trail =3D PS_TO_CYCLE(cfg.clk_trail, byte_clock);
+> +       hs_prepare =3D PS_TO_CYCLE(cfg.hs_prepare, byte_clock);
+> +       hs_zero =3D PS_TO_CYCLE(cfg.hs_zero, byte_clock);
+> +       hs_trail =3D PS_TO_CYCLE(cfg.hs_trail, byte_clock);
 > +
-> +static void drm_fbdev_generic_fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
-> +{
-> +	struct drm_fb_helper *helper = info->par;
+
+These 'work' but they don't exactly match the NXP reference code, but
+they're not significantly different.  The NXP reference manual doesn't
+describe how these registers are set, they only publish the register
+and bits used.  Since you work for Samsung, I was hoping you might
+have inside information to know if this is a reasonable approach.
+
+thanks
+
+adam
+
+>         /* B D-PHY: D-PHY Master & Slave Analog Block control */
+>         reg =3D reg_values[PHYCTRL_ULPS_EXIT] | reg_values[PHYCTRL_VREG_L=
+P] |
+>                 reg_values[PHYCTRL_SLEW_UP];
 > +
-> +	sys_fillrect(info, rect);
-> +	drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-> +}
+>         samsung_dsim_write(dsi, DSIM_PHYCTRL_REG, reg);
+>
+>         /*
+> @@ -712,7 +749,9 @@ static void samsung_dsim_set_phy_ctrl(struct samsung_=
+dsim *dsi)
+>          * T HS-EXIT: Time that the transmitter drives LP-11 following a =
+HS
+>          *      burst
+>          */
+> -       reg =3D reg_values[PHYTIMING_LPX] | reg_values[PHYTIMING_HS_EXIT]=
+;
 > +
-> +static void drm_fbdev_generic_fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
-> +{
-> +	struct drm_fb_helper *helper = info->par;
+> +       reg  =3D DSIM_PHYTIMING_LPX(lpx) | DSIM_PHYTIMING_HS_EXIT(hs_exit=
+);
 > +
-> +	sys_copyarea(info, area);
-> +	drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-> +}
+>         samsung_dsim_write(dsi, DSIM_PHYTIMING_REG, reg);
+>
+>         /*
+> @@ -728,10 +767,11 @@ static void samsung_dsim_set_phy_ctrl(struct samsun=
+g_dsim *dsi)
+>          * T CLK-TRAIL: Time that the transmitter drives the HS-0 state a=
+fter
+>          *      the last payload clock bit of a HS transmission burst
+>          */
+> -       reg =3D reg_values[PHYTIMING_CLK_PREPARE] |
+> -               reg_values[PHYTIMING_CLK_ZERO] |
+> -               reg_values[PHYTIMING_CLK_POST] |
+> -               reg_values[PHYTIMING_CLK_TRAIL];
 > +
-> +static void drm_fbdev_generic_fb_imageblit(struct fb_info *info, const struct fb_image *image)
-> +{
-> +	struct drm_fb_helper *helper = info->par;
+> +       reg =3D DSIM_PHYTIMING1_CLK_PREPARE(clk_prepare)  |
+> +             DSIM_PHYTIMING1_CLK_ZERO(clk_zero)        |
+> +             DSIM_PHYTIMING1_CLK_POST(clk_post)        |
+> +             DSIM_PHYTIMING1_CLK_TRAIL(clk_trail);
+>
+>         samsung_dsim_write(dsi, DSIM_PHYTIMING1_REG, reg);
+>
+> @@ -744,8 +784,11 @@ static void samsung_dsim_set_phy_ctrl(struct samsung=
+_dsim *dsi)
+>          * T HS-TRAIL: Time that the transmitter drives the flipped diffe=
+rential
+>          *      state after last payload data bit of a HS transmission bu=
+rst
+>          */
+> -       reg =3D reg_values[PHYTIMING_HS_PREPARE] | reg_values[PHYTIMING_H=
+S_ZERO] |
+> -               reg_values[PHYTIMING_HS_TRAIL];
 > +
-> +	sys_imageblit(info, image);
-> +	drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-> +}
+> +       reg =3D DSIM_PHYTIMING2_HS_PREPARE(hs_prepare) |
+> +             DSIM_PHYTIMING2_HS_ZERO(hs_zero) |
+> +             DSIM_PHYTIMING2_HS_TRAIL(hs_trail);
 > +
->   static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
->   {
->   	struct drm_fb_helper *fb_helper = info->par;
-> @@ -56,12 +93,12 @@ static const struct fb_ops drm_fbdev_generic_fb_ops = {
->   	.owner		= THIS_MODULE,
->   	.fb_open	= drm_fbdev_generic_fb_open,
->   	.fb_release	= drm_fbdev_generic_fb_release,
-> -	.fb_read	= drm_fb_helper_sys_read,
-> -	.fb_write	= drm_fb_helper_sys_write,
-> +	.fb_read	= fb_sys_read,
-> +	.fb_write	= drm_fbdev_generic_fb_write,
->   	DRM_FB_HELPER_DEFAULT_OPS,
-> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> +	.fb_fillrect	= drm_fbdev_generic_fb_fillrect,
-> +	.fb_copyarea	= drm_fbdev_generic_fb_copyarea,
-> +	.fb_imageblit	= drm_fbdev_generic_fb_imageblit,
->   	.fb_mmap	= fb_deferred_io_mmap,
->   	.fb_destroy	= drm_fbdev_generic_fb_destroy,
->   };
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 80c402f4e379..e3240d749a43 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -259,18 +259,6 @@ void drm_fb_helper_damage_range(struct drm_fb_helper *helper, off_t off, size_t
->   
->   void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
->   
-> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
-> -			       size_t count, loff_t *ppos);
-> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
-> -				size_t count, loff_t *ppos);
-> -
-> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
-> -				const struct fb_fillrect *rect);
-> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
-> -				const struct fb_copyarea *area);
-> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
-> -				 const struct fb_image *image);
-> -
->   ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
->   			       size_t count, loff_t *ppos);
->   ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
-> @@ -398,35 +386,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
->   	return -ENODEV;
->   }
->   
-> -static inline ssize_t drm_fb_helper_sys_read(struct fb_info *info,
-> -					     char __user *buf, size_t count,
-> -					     loff_t *ppos)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -static inline ssize_t drm_fb_helper_sys_write(struct fb_info *info,
-> -					      const char __user *buf,
-> -					      size_t count, loff_t *ppos)
-> -{
-> -	return -ENODEV;
-> -}
-> -
-> -static inline void drm_fb_helper_sys_fillrect(struct fb_info *info,
-> -					      const struct fb_fillrect *rect)
-> -{
-> -}
-> -
-> -static inline void drm_fb_helper_sys_copyarea(struct fb_info *info,
-> -					      const struct fb_copyarea *area)
-> -{
-> -}
-> -
-> -static inline void drm_fb_helper_sys_imageblit(struct fb_info *info,
-> -					       const struct fb_image *image)
-> -{
-> -}
-> -
->   static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
->   					     size_t count, loff_t *ppos)
->   {
+>         samsung_dsim_write(dsi, DSIM_PHYTIMING2_REG, reg);
+>  }
+>
+> diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsu=
+ng-dsim.h
+> index a1a5b2b89a7a..d9d431e3b65a 100644
+> --- a/include/drm/bridge/samsung-dsim.h
+> +++ b/include/drm/bridge/samsung-dsim.h
+> @@ -93,6 +93,7 @@ struct samsung_dsim {
+>
+>         u32 pll_clk_rate;
+>         u32 burst_clk_rate;
+> +       u32 hs_clock;
+>         u32 esc_clk_rate;
+>         u32 lanes;
+>         u32 mode_flags;
+> --
+> 2.39.2
+>
