@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B9A7067EF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 14:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561F5706860
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 14:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F0C10E416;
-	Wed, 17 May 2023 12:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9C810E40F;
+	Wed, 17 May 2023 12:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2FC10E416
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 12:21:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1684326074; x=1715862074;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=SUFh3N3WI6LJHs4Tb4cavLoyJwWTG/jZH6Px9P+g+Vs=;
- b=c2pb2y0OzDOFyT4XCldqTpNc4sOeHK7+B63xgj/8MkevMlJ2LeafkFsw
- hZwQ60I8CECdiyCn4hj9BgJEAYHZTWV59pFYOyyvovfIzvmEOIGbthWK5
- wwrQYICEqP7u1tljMyN1sTZTzJW1bVwC9TyBlVh43lkvXod8HzknagoKf
- Ltaqf0+LSvQ4QkbFOpmKSQyuWFtlp1TWmeqhhVX4lFNq9bEnUoi/HaJVa
- N9uAMqi5VfGt+dQP/ejSi5Pgy3y2i7fD6eEeyo1pnJ85DkxnBSyhtiFXI
- krysU2U2N/ydyyGWoaYnYfp2pDvOc/4Y/9JTCFHs8WVU/0PBxRCgOVwpA Q==;
-X-IronPort-AV: E=Sophos;i="5.99,282,1677538800"; d="scan'208";a="30961808"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 17 May 2023 14:21:11 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Wed, 17 May 2023 14:21:11 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Wed, 17 May 2023 14:21:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1684326071; x=1715862071;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=SUFh3N3WI6LJHs4Tb4cavLoyJwWTG/jZH6Px9P+g+Vs=;
- b=mbEChUPBvJ+j8k4ESYb0qayC156/hW/S+ezBXLTUttRkVKKue1q5TXLn
- NgjUuLEEXbztBfIZvCMLRWlpK3a/mDDPql0AskscsjPRZC0pYFKaVSEob
- oMOfgzQsMX/CH/ndFzlLmWzOO1KjNYFN/JmGjQFNnNBvoFM3BSBhRTPiY
- 8g3aEYFYIWXQ4mNHFWbuPBG8KiO5RGcJhb8NJk2ktlqG/gwlLbwP9Twqo
- fMT38xB6nIW6A/eZm/clAXUHIMvZ1NJJjtS1kpxas/areGVQfGM9s5Tn/
- jgZfZ1phwH0yFjCrN/GGEMYQFtMPuUuVmos7C5qoQkT+kjGtsqeERc9A+ g==;
-X-IronPort-AV: E=Sophos;i="5.99,282,1677538800"; d="scan'208";a="30961807"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 17 May 2023 14:21:11 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 00C1A28008A;
- Wed, 17 May 2023 14:21:10 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/bridge: tc358767: Switch to devm MIPI-DSI helpers
-Date: Wed, 17 May 2023 14:21:06 +0200
-Message-Id: <20230517122107.1766673-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F3610E40F
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 12:41:38 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34HCbwaF024412; Wed, 17 May 2023 12:41:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=4rXcL78Aoz/KapA9CBe6JT5xgTLh3UB8VZsi6jbe2vk=;
+ b=PeQ43KQpY/fXHVrfkPEJKsNtmWgii0t8W5lLK20JaS6tz0zPhS3gxzOqQCyEYSHKuDSQ
+ TJSTWFm8Mi8WengGXr6IUWQu7hNfKqR6OVa4efbXXiBgIZApI7rQDZFaKaqV4cdLf844
+ O1iAWsMajp9iEb/VGDkA+x5uzKW17Lsda2tpZGy2hzY9Ih1eODn8wBhsk0Qat7r6WxUs
+ ElPjKnyiEcDzW3yrnlLTRxeXOeiMHgEV4PM/T76ncJDEXsd0l6RWQqbP5TGk7vhqrv6a
+ /py1GUOR+WfrtVByeS7VZML8hsNcMQEwURCly4umDUy/p/G0YxJY0CBRM+zNJ2TvXv8D tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qmxvprjrf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 12:41:27 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34HCdaAG004493;
+ Wed, 17 May 2023 12:41:26 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qmxvprjpk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 12:41:26 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34H2pWu0013154;
+ Wed, 17 May 2023 12:41:24 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qj264st55-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 12:41:24 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34HCfLAn4915808
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 May 2023 12:41:22 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC5B52004E;
+ Wed, 17 May 2023 12:41:21 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CB77120040;
+ Wed, 17 May 2023 12:41:20 +0000 (GMT)
+Received: from [9.171.70.117] (unknown [9.171.70.117])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 17 May 2023 12:41:20 +0000 (GMT)
+Message-ID: <db6db5d49e236548c26fbaa2e16462463814d7ff.camel@linux.ibm.com>
+Subject: Re: [PATCH v4 38/41] video: handle HAS_IOPORT dependencies
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>
+Date: Wed, 17 May 2023 14:41:20 +0200
+In-Reply-To: <87ba918b-214b-a58a-ecc4-17b0bd00e8f8@suse.de>
+References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+ <20230516110038.2413224-39-schnelle@linux.ibm.com>
+ <87ba918b-214b-a58a-ecc4-17b0bd00e8f8@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Fv8AV45wpM57H2AdwCW3pQ7xuCLTXciP
+X-Proofpoint-ORIG-GUID: qlt7I83N3LVQYDYq29k-Jl55JLicOqNJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-17_02,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ priorityscore=1501 bulkscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305170103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +99,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSI device registering and attaching needs to be undone upon
-deregistration. This fixes module unload/load.
+On Tue, 2023-05-16 at 19:21 +0200, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 16.05.23 um 13:00 schrieb Niklas Schnelle:
+> > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and friend=
+s
+> > not being declared. We thus need to add HAS_IOPORT as dependency for
+> > those drivers using them and guard inline code in headers.
+> >=20
+> > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> > Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> > ---
+> > Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
+> >        per-subsystem patches may be applied independently
+> >=20
+> >   drivers/video/console/Kconfig |  1 +
+> >   drivers/video/fbdev/Kconfig   | 21 +++++++++++----------
+> >   include/video/vga.h           |  8 ++++++++
+>=20
+> Those are 3 different things. It might be preferable to not handle them=
+=20
+> under the video/ umbrella.
+>=20
+> >   3 files changed, 20 insertions(+), 10 deletions(-)
+> >=20
+> > diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kcon=
+fig
+> > index 22cea5082ac4..64974eaa3ac5 100644
+> > --- a/drivers/video/console/Kconfig
+> > +++ b/drivers/video/console/Kconfig
+> > @@ -10,6 +10,7 @@ config VGA_CONSOLE
+> >   	depends on !4xx && !PPC_8xx && !SPARC && !M68K && !PARISC &&  !SUPER=
+H && \
+> >   		(!ARM || ARCH_FOOTBRIDGE || ARCH_INTEGRATOR || ARCH_NETWINDER) && \
+> >   		!ARM64 && !ARC && !MICROBLAZE && !OPENRISC && !S390 && !UML
+> > +	depends on HAS_IOPORT
+> >   	select APERTURE_HELPERS if (DRM || FB || VFIO_PCI_CORE)
+> >   	default y
+> >   	help
+> > diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> > index 96e91570cdd3..a56c57dd839b 100644
+> > --- a/drivers/video/fbdev/Kconfig
+> > +++ b/drivers/video/fbdev/Kconfig
+> > @@ -335,7 +335,7 @@ config FB_IMX
+> >  =20
+> >   config FB_CYBER2000
+> >   	tristate "CyberPro 2000/2010/5000 support"
+> > -	depends on FB && PCI && (BROKEN || !SPARC64)
+> > +	depends on FB && PCI && HAS_IOPORT && (BROKEN || !SPARC64)
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -429,6 +429,7 @@ config FB_FM2
+> >   config FB_ARC
+> >   	tristate "Arc Monochrome LCD board support"
+> >   	depends on FB && (X86 || COMPILE_TEST)
+> > +	depends on HAS_IOPORT
+> >   	select FB_SYS_FILLRECT
+> >   	select FB_SYS_COPYAREA
+> >   	select FB_SYS_IMAGEBLIT
+> > @@ -1332,7 +1333,7 @@ config FB_ATY_BACKLIGHT
+> >  =20
+> >   config FB_S3
+> >   	tristate "S3 Trio/Virge support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -1393,7 +1394,7 @@ config FB_SAVAGE_ACCEL
+> >  =20
+> >   config FB_SIS
+> >   	tristate "SiS/XGI display support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -1424,7 +1425,7 @@ config FB_SIS_315
+> >  =20
+> >   config FB_VIA
+> >   	tristate "VIA UniChrome (Pro) and Chrome9 display support"
+> > -	depends on FB && PCI && GPIOLIB && I2C && (X86 || COMPILE_TEST)
+> > +	depends on FB && PCI && GPIOLIB && I2C && HAS_IOPORT && (X86 || COMPI=
+LE_TEST)
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -1463,7 +1464,7 @@ endif
+> >  =20
+> >   config FB_NEOMAGIC
+> >   	tristate "NeoMagic display support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_MODE_HELPERS
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> > @@ -1493,7 +1494,7 @@ config FB_KYRO
+> >  =20
+> >   config FB_3DFX
+> >   	tristate "3Dfx Banshee/Voodoo3/Voodoo5 display support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_IMAGEBLIT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> > @@ -1543,7 +1544,7 @@ config FB_VOODOO1
+> >  =20
+> >   config FB_VT8623
+> >   	tristate "VIA VT8623 support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -1558,7 +1559,7 @@ config FB_VT8623
+> >  =20
+> >   config FB_TRIDENT
+> >   	tristate "Trident/CyberXXX/CyberBlade support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -1581,7 +1582,7 @@ config FB_TRIDENT
+> >  =20
+> >   config FB_ARK
+> >   	tristate "ARK 2000PV support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > @@ -2195,7 +2196,7 @@ config FB_SSD1307
+> >  =20
+> >   config FB_SM712
+> >   	tristate "Silicon Motion SM712 framebuffer support"
+> > -	depends on FB && PCI
+> > +	depends on FB && PCI && HAS_IOPORT
+> >   	select FB_CFB_FILLRECT
+> >   	select FB_CFB_COPYAREA
+> >   	select FB_CFB_IMAGEBLIT
+> > diff --git a/include/video/vga.h b/include/video/vga.h
+> > index 947c0abd04ef..f4b806b85c86 100644
+> > --- a/include/video/vga.h
+> > +++ b/include/video/vga.h
+> > @@ -203,18 +203,26 @@ extern int restore_vga(struct vgastate *state);
+> >  =20
+> >   static inline unsigned char vga_io_r (unsigned short port)
+> >   {
+> > +#ifdef CONFIG_HAS_IOPORT
+> >   	return inb_p(port);
+> > +#else
+> > +	return 0xff;
+> > +#endif
+> >   }
+> >  =20
+> >   static inline void vga_io_w (unsigned short port, unsigned char val)
+> >   {
+> > +#ifdef CONFIG_HAS_IOPORT
+> >   	outb_p(val, port);
+> > +#endif
+> >   }
+> >  =20
+> >   static inline void vga_io_w_fast (unsigned short port, unsigned char =
+reg,
+> >   				  unsigned char val)
+> >   {
+> > +#ifdef CONFIG_HAS_IOPORT
+> >   	outw(VGA_OUT16VAL (val, reg), port);
+> > +#endif
+> >   }
+>=20
+> It feels wrong that these helpers silently do nothing. I'd enclose them=
+=20
+> in CONFIG_HAS_IOPORT entirely. The drivers that use them unconditionally=
+=20
+> would then fail to build.
+>=20
+> Best regards
+> Thomas
 
-Fixes: bbfd3190b656 ("drm/bridge: tc358767: Add DSI-to-DPI mode support")
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Just for the record the (reduced) call trace:
-sysfs: cannot create duplicate filename '/devices/platform/soc@0/32c00000.bus/32e60000.dsi/32e60000.dsi.0'
-CPU: 2 PID: 445 Comm: modprobe Not tainted 6.4.0-rc2-next-20230517+ #1682 5d8500234c8d4f852cf1af088c7787a58761a89a
-Hardware name: TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MPxL (DT)
-Call trace:
- dump_backtrace+0x94/0x110
- show_stack+0x14/0x1c
- dump_stack_lvl+0x44/0x58
- dump_stack+0x14/0x1c
- sysfs_warn_dup+0x60/0x78
- sysfs_create_dir_ns+0xdc/0xf4
- create_dir+0x28/0x108
- kobject_add_internal+0x88/0x204
- kobject_add+0x90/0x104
- device_add+0xf8/0x4fc
- mipi_dsi_device_register_full.part.0+0xc4/0x148
- mipi_dsi_device_register_full+0x1c/0x58
- tc_mipi_dsi_host_attach+0xa0/0x140 [tc358767 28feaae6fd7f7414a09273d9032c2a0e1f2a8870]
- tc_probe+0x364/0x528 [tc358767 28feaae6fd7f7414a09273d9032c2a0e1f2a8870]
- i2c_device_probe+0x100/0x2d8
+Ok yeah, I was looking at the call sites like vga_w_fast() that use
+either an HAS_IOPORT dependent function or a writew() based one and so
+if I #ifdef the regbase !=3D NULL check we could end up with a NULL
+derference but I guess that is kind of what we want since clearly
+something is wrong if the driver tries to do I/O port access despite it
+not being available.
 
- drivers/gpu/drm/bridge/tc358767.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 37731aaa45f4..82f9fe14e5f9 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2108,7 +2108,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
- 	if (dsi_lanes < 0)
- 		return dsi_lanes;
- 
--	dsi = mipi_dsi_device_register_full(host, &info);
-+	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
- 	if (IS_ERR(dsi))
- 		return dev_err_probe(dev, PTR_ERR(dsi),
- 				     "failed to create dsi device\n");
-@@ -2119,7 +2119,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 
--	ret = mipi_dsi_attach(dsi);
-+	ret = devm_mipi_dsi_attach(dev, dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
- 		return ret;
--- 
-2.34.1
-
+Thanks,
+Niklas
