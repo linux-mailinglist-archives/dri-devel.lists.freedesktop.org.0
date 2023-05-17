@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109C8706655
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 13:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C3E706678
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 13:18:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19C710E3E7;
-	Wed, 17 May 2023 11:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C71510E3ED;
+	Wed, 17 May 2023 11:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEFC10E3E7
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 11:14:36 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id
- 41be03b00d2f7-51b4ef5378bso557168a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 04:14:36 -0700 (PDT)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C32BE10E3ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 11:17:57 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-55a5a830238so4572237b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 04:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684322075; x=1686914075;
+ d=amarulasolutions.com; s=google; t=1684322276; x=1686914276;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/Xmg0O869YONDDMLwqg9d/3/NvawOKxY5WTUQTRsXs4=;
- b=gsJEmNx011NZDQBVn9JarypfjzrP9WDlPO7alzVcBkMUU3laeNeMqHKj4nr+jW5QdI
- qVdDN5bKAkOPmAq6ylek2sXRXvoUuOg4emMTSyPwJLa4Q18TTNOucGsksdBOqhX/KWjA
- mEIlXPOd6mlzFtobzaxjdNn+RhpNTJSPJkZikEWuqKBspfslOO2/kRGWTKDeWwGYdK40
- v0Ukvahg6BqNlM7NKd2PT7Hpycuvcx2WG/2JsqRWXek03dksyzMlMLw6Z9sHUm97wMxs
- rP7Mo/lsYRtsWagPT1kzP3C4VX/MpSGr9QJN6BtHXTp4iAzdDIMdCasaPi2MNC6aZrfa
- RHpg==
+ bh=2WCELhKKHIosJqimbc1keXrYAK+9jP7I652VYp3oomc=;
+ b=Sr9bMRUCBLk/cK5Y7vzL4ws/XWFokZJidhi87yFG15dr/w+u5nV4QmLODp5NEJWKNC
+ CeHP1/f250JUltkvHI7jQwbt/S2BQ+NqyFXz6rusUXTqnT45YM0SfMjQvtueDZ61c/he
+ fcGVN/It/8I3WPEBWy7fTmxpT3TgphO4/+y6c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684322075; x=1686914075;
+ d=1e100.net; s=20221208; t=1684322276; x=1686914276;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/Xmg0O869YONDDMLwqg9d/3/NvawOKxY5WTUQTRsXs4=;
- b=YAxnyg6XWxh/cPXFX2DM7m+D7g3ZENi1Q9/Ko1mW0sXbL4CDFfN8uHD+rODCVtiGlC
- PQZu2jLVGoj/TuVCStOO+j+T8xrTetVKdbZbCHQGqDzCYLwpqRvBX0PWVg7E1DWlGz6P
- 5jrUp7eiD9HNcZKOyDJsZyfBEpqWt8mNqYrPMsZHsKquA7G3KhCTTuciUCWYry3hYt/D
- w6f5AuqynDWAIzgQYQhYmYJbFpCvdggIWuOoGhmoyQHz94LInRZSDmanBFjjVAQ2lsY+
- ejMbsS4s8lb6N8kzQjfNdSYBBpWqkzyDV6B7WWrjZTiB6jm/SZ3OUr8IfuOTTZPqsViS
- P89g==
-X-Gm-Message-State: AC+VfDxwJIMyBvVxmdvNDOv2IrU4axIbmkLx6N84+H1UJJm2+i4R0/UX
- 3DNbPi2JL7sUdR0TCZGcmco7n9/ndPqhWReP058=
-X-Google-Smtp-Source: ACHHUZ4OfzYF7x5ng3MrSzcFycroJmBpDU07iAMnA1Ywp/koOW+8aaV/zJ0+iXsq5LZsC/PgdZqKRDC/ykobGmQ1k2g=
-X-Received: by 2002:a17:90a:fcf:b0:253:4c99:6342 with SMTP id
- 73-20020a17090a0fcf00b002534c996342mr681855pjz.46.1684322075405; Wed, 17 May
- 2023 04:14:35 -0700 (PDT)
+ bh=2WCELhKKHIosJqimbc1keXrYAK+9jP7I652VYp3oomc=;
+ b=lKAovQZ/LzTunOjF/svUU8VTyeQrc1PnrAPsTKTs7IWeK4l5ho1s1VJNWzljNHJ6hf
+ dVw6ogxawVl5JbABopzcsLuI2ko+HA3JOiNewVPYDq1qsQISlEAqYcA3QE7qnRjlIHG5
+ e+V9UTizh62UGz+AQ5ENeupfEKH6HJRmn72cN5xkxgxSpA0OL8QF1EZVzDb16BfYiV9/
+ Tuf0R+h+EDiBvPYHdr6I9dr7y6ZaD/RceaFbTuLNVobpv+XMAXUF+f0K0ktvsTS9IMrU
+ k1dVhLlf8/+FqYJB/bSUDqKlaoelyYXsNwT4ZM0Ne03YO7C/8gu7i+TnbbNx5s2rLz2o
+ 0JHA==
+X-Gm-Message-State: AC+VfDxxxXNErRR0BNpQYdkhBlmv4M/D4jheCWGpDuQHkqhKuCKPX1lK
+ 48FfhUAL2AImveGqHaOQ0mn5CB/N3Q9pChbNmYUxaQ==
+X-Google-Smtp-Source: ACHHUZ7ho45fN+FqzJuMIFp6n4beIoWDVJzPSkpc/MqVOHha2wui277QosfgqSZKcOiFyTT21OZ00RXZ08i0odI/RxE=
+X-Received: by 2002:a0d:d54d:0:b0:55a:7722:1401 with SMTP id
+ x74-20020a0dd54d000000b0055a77221401mr36177609ywd.31.1684322276576; Wed, 17
+ May 2023 04:17:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230515235713.232939-1-aford173@gmail.com>
  <20230515235713.232939-5-aford173@gmail.com>
  <CAMty3ZAU3NG8yk1dFB4Y3QtCZ7j7XUTqKHkJVKhhOduc4V5XpQ@mail.gmail.com>
 In-Reply-To: <CAMty3ZAU3NG8yk1dFB4Y3QtCZ7j7XUTqKHkJVKhhOduc4V5XpQ@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 17 May 2023 06:14:23 -0500
-Message-ID: <CAHCN7xKweWg2OtvWzBaBMzEQgV9ychK+U9J3=Z+-0XwR4cHrqA@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 17 May 2023 16:47:44 +0530
+Message-ID: <CAMty3ZAd1EWAfZ6d3TndapSLp7CgY8XRc8JfYt532gsGrgUNiQ@mail.gmail.com>
 Subject: Re: [PATCH V6 4/6] drm: bridge: samsung-dsim: Select
  GENERIC_PHY_MIPI_DPHY
-To: Jagan Teki <jagan@amarulasolutions.com>
+To: Adam Ford <aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,7 +79,7 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 17, 2023 at 6:05=E2=80=AFAM Jagan Teki <jagan@amarulasolutions.=
+On Wed, May 17, 2023 at 4:34=E2=80=AFPM Jagan Teki <jagan@amarulasolutions.=
 com> wrote:
 >
 > Hi Adam,
@@ -117,22 +114,7 @@ onfig
 > Is it really required? phy is optional as it is not required for
 > imx8mm/n/p as of now. May be we can add it while supporting it.
 
-This was added to the series because build errors were reported
-without it due to the fact that I added calls to
-phy_mipi_dphy_get_default_config_for_hsclk.
-Selecting this config option guarantees
-phy_mipi_dphy_get_default_config_for_hsclk will be built and removes
-the build error for Exynos and some 32-bit builds.
+Haa, look like the next patch is using it. sorry.
 
-phy_mipi_dphy_get_default_config_for_hsclk sets the DSI configurations
-like lpx, hs_exit, clk_prepare, clk_zero, clk_trail, hs_prepare,
-hs_zero and hs_trail and those need to be
-dynamic in order to functional at various resolutions.  I did try
-leaving the hard-coded values you used, and I wasn't successful in
-getting much to sync.
-
-adam
-
->
-> Thanks,
-> Jagan.
+Thanks,
+Jagan.
