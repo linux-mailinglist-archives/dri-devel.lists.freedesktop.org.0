@@ -2,37 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3B47075AF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 00:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58ADC7075C2
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 01:01:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0214B10E2DD;
-	Wed, 17 May 2023 22:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120BB10E2E1;
+	Wed, 17 May 2023 23:01:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36D8310E2DD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 22:58:47 +0000 (UTC)
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4F510E2D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 23:01:28 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 75436202ED;
- Thu, 18 May 2023 00:58:45 +0200 (CEST)
-Date: Thu, 18 May 2023 00:58:44 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B82542048D;
+ Thu, 18 May 2023 01:01:26 +0200 (CEST)
+Date: Thu, 18 May 2023 01:01:25 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v11 1/9] drm/display/dsc: Add flatness and initial scale
- value calculations
-Message-ID: <dhkvnr3inohrkxpwlhia65zip6m5f766scxniluv42xzjibqae@vczzpgynsmos>
-References: <20230329-rfc-msm-dsc-helper-v11-0-30270e1eeac3@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v11-1-30270e1eeac3@quicinc.com>
- <oqodgwsp4hybx5fzy7n72kl64t4bjrb5rvxbytledcjeh6a2cg@474be3fom6rm>
- <f50cf783-2cb2-44c1-7aa3-e009407fba74@quicinc.com>
+Subject: Re: [PATCH v12 5/9] drm/msm: Add MSM-specific DSC helper methods
+Message-ID: <pzqbkdgpiilcaqm2qezqp6qrmybt2d2wmiqifcq77h3i2uhjzf@pc5aeykhxknh>
+References: <20230329-rfc-msm-dsc-helper-v12-0-9cdb7401f614@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v12-5-9cdb7401f614@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f50cf783-2cb2-44c1-7aa3-e009407fba74@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v12-5-9cdb7401f614@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,62 +51,72 @@ Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-17 14:32:42, Jessica Zhang wrote:
+On 2023-05-17 15:27:18, Jessica Zhang wrote:
+> Introduce MSM-specific DSC helper methods, as some calculations are
+> common between DP and DSC.
 > 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/msm_dsc_helper.h | 38 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
 > 
-> On 5/17/2023 2:13 PM, Marijn Suijten wrote:
-> > On 2023-05-17 11:51:10, Jessica Zhang wrote:
-> >> Add helpers to calculate det_thresh_flatness and initial_scale_value as
-> >> these calculations are defined within the DSC spec.
-> >>
-> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > 
-> > Was this r-b dropped because of changing the return types in v10->v11?
-> 
-> Hi Marijn,
-> 
-> Yea. I'm not sure what the protocol is for keeping/dropping r-b tags, so 
-> dropped the r-b because I wasn't sure if the change counted as significant.
+> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h b/drivers/gpu/drm/msm/msm_dsc_helper.h
+> new file mode 100644
+> index 000000000000..c7d7ed026368
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+> + *
+> + * Helper methods for MSM-specific DSC calculations that are common between timing engine,
+> + * DSI, and DP.
+> + */
+> +
+> +#ifndef MSM_DSC_HELPER_H_
+> +#define MSM_DSC_HELPER_H_
+> +
+> +#include <linux/math.h>
+> +#include <drm/display/drm_dsc_helper.h>
+> +
+> +/**
+> + * msm_dsc_calculate_slices_per_intf() - get number of slices per interface
 
-Yeah, seems to be standard practice on nontrivial changes but in this
-case I left a review on a patch that already has my r-b, and you changed
-exactly what I requested.  Probably fine either way.
+Oh no, we just went to get to match the function below, and now this is
+back at calculate.  My bad, I wasn't clear enough in previous review: I
+meant the ext after the -, so "get number of" -> "calculate number of".
+
+Sorry!
+
+> + * @dsc: Pointer to drm dsc config struct
+> + * @intf_width: interface width in pixels
+> + * Returns: Integer representing the number of slices for the given interface
+> + */
+> +static inline u32 msm_dsc_calculate_slices_per_intf(const struct drm_dsc_config *dsc, int intf_width)
+
+u32... also for intf_width?
 
 - Marijn
 
+> +{
+> +	return DIV_ROUND_UP(intf_width, dsc->slice_width);
+> +}
+> +
+> +/**
+> + * msm_dsc_get_bytes_per_line() - calculate bytes per line
+> + * @dsc: Pointer to drm dsc config struct
+> + * Returns: Integer value representing bytes per line. DSI and DP need
+> + *          to perform further calculations to turn this into pclk_per_intf,
+> + *          such as dividing by different values depending on if widebus is enabled.
+> + */
+> +static inline u32 msm_dsc_get_bytes_per_line(const struct drm_dsc_config *dsc)
+> +{
+> +	return dsc->slice_count * dsc->slice_chunk_size;
+> +}
+> +
+> +#endif /* MSM_DSC_HELPER_H_ */
 > 
-> Thanks,
+> -- 
+> 2.40.1
 > 
-> Jessica Zhang
-> 
-> > 
-> > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > 
-> >> ---
-> >>   include/drm/display/drm_dsc_helper.h | 10 ++++++++++
-> >>   1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-> >> index 0bb0c3afd740..528dfb5e25fc 100644
-> >> --- a/include/drm/display/drm_dsc_helper.h
-> >> +++ b/include/drm/display/drm_dsc_helper.h
-> >> @@ -25,5 +25,15 @@ void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
-> >>   int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_kind kind);
-> >>   int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
-> >>   
-> >> +static inline u8 drm_dsc_initial_scale_value(const struct drm_dsc_config *dsc)
-> >> +{
-> >> +	return 8 * dsc->rc_model_size / (dsc->rc_model_size - dsc->initial_offset);
-> >> +}
-> >> +
-> >> +static inline u32 drm_dsc_flatness_det_thresh(const struct drm_dsc_config *dsc)
-> >> +{
-> >> +	return 2 << (dsc->bits_per_component - 8);
-> >> +}
-> >> +
-> >>   #endif /* _DRM_DSC_HELPER_H_ */
-> >>   
-> >>
-> >> -- 
-> >> 2.40.1
-> >>
