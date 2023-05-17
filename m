@@ -1,52 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4C2706038
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 08:35:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7312E706099
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B18A510E3B3;
-	Wed, 17 May 2023 06:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C81010E3B1;
+	Wed, 17 May 2023 07:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB8F10E3B3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 06:35:19 +0000 (UTC)
-Received: from meshulam.tesarici.cz
- (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
- [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id A0961164A94;
- Wed, 17 May 2023 08:35:11 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz;
- dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1684305312; bh=OLBy/x4SffLRIOOouJqRnn62gILl6SxpisS1Gqyl1uc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=H41WNv6w/2JbwP/Snmi4AP7/GpeB5JStxv3IZhBqAeNNqhG+gfIAMUFYoClvkd3p3
- wmS0syF6/BK/hhoR2y/vDfDPnPT/vhhcKyvpDCQVeLDQfTyPzHwpaRKQ9q4kfZGHy1
- vH3Gb40ebT6bnnqA4fZQtCC9eNBRH45oOixeX6DK4F9PdE2EsEFroG180PKge9Gk6Z
- KFQD3xSAYDxgZ79tP8S1ERZwfJcG4f08/p2I1ESaNEeupqvToKY2ZLCfA9DILOJr+a
- cwWMGPNN/R7EdGRUlfSSoWIKl6g/cPg5ZVPhKLRTskMDpyonlv0x6wxEOgG+zdJpQ/
- /NbPvNlYZyqRw==
-Date: Wed, 17 May 2023 08:35:10 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
-In-Reply-To: <ZGPEgsplBSsI9li3@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
- <20230516083942.0303b5fb@meshulam.tesarici.cz>
- <ZGPEgsplBSsI9li3@arm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A996210E3B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:02:33 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-ba829e17aacso479352276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:02:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684306952; x=1686898952;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kb66cM90aorprDoD+fU8o0Tfbn5W3STJm5DAIXq91ZM=;
+ b=Rh45pGn2krlWTx6Kr7g4TEIgv9DYGVlg/Q9gwZ32pyqa7F5+gQOTIOElGN5q4fcjGW
+ LzoAY8HQjeQWhWw+IZa3NS0wyHMLK8coPcQtk8SL+qgXFXY4v0Wiqh3P5gkXU2JTtauL
+ doYzosd1CXWaRBwKC34eXxmPk4sHDNetORfrp5qBVIkHYPfStqi6e9y3mLN/9+eaPjcw
+ ULp1zyQE8/VfKLqNK1F+mxBXAGA2yv3uoiUZh+EbWLuZep+2nfZjxmlkqN9STRCDP3iu
+ 2t8Yn4Ylh3+QdFIM8r4DD/VcqMIbdRiA5qMxMmcxaSBcaA4WmCHkY5FwXfXShnDy+oPE
+ LYbQ==
+X-Gm-Message-State: AC+VfDz6ZEYEDDUH9AvHOXS4lwXbahQPSmcbcghUy98/81Q217S+0LsF
+ Px0nASwqlIbToKRiXk+5ETNUMgfwPVZIzQ==
+X-Google-Smtp-Source: ACHHUZ5INjj1SvsR9z+6RKwBnkcjzr1yJWnOYFUKCpAOPxwAQHyxZnFZgsrC22yk4zh5XB+TMifKsw==
+X-Received: by 2002:a25:3781:0:b0:ba8:206c:6702 with SMTP id
+ e123-20020a253781000000b00ba8206c6702mr3385478yba.47.1684306952105; 
+ Wed, 17 May 2023 00:02:32 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ e17-20020a256911000000b00b9f4343547csm386202ybc.41.2023.05.17.00.02.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 May 2023 00:02:31 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-ba71cd7ce7fso464937276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:02:31 -0700 (PDT)
+X-Received: by 2002:a25:c7cb:0:b0:ba7:5f08:ba07 with SMTP id
+ w194-20020a25c7cb000000b00ba75f08ba07mr10396212ybe.33.1684306950735; Wed, 17
+ May 2023 00:02:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230516202257.559952-1-arnd@kernel.org>
+In-Reply-To: <20230516202257.559952-1-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 May 2023 09:02:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
+Message-ID: <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,146 +69,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Kim Phillips <kim.phillips@amd.com>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E.
- McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Catalin,
+Hi Arnd,
 
-On Tue, 16 May 2023 18:59:30 +0100
-Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Tue, May 16, 2023 at 10:23=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> There is a global function with this name on sparc, but no
+> global declaration:
+>
+> drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototype fo=
+r 'get_fb_unmapped_area'
+>
+> Make the generic definition static to avoid this warning. On
+> sparc, this is never seen.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-> On Tue, May 16, 2023 at 08:39:42AM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Tue, 16 May 2023 08:13:09 +0200
-> > Christoph Hellwig <hch@lst.de> wrote: =20
-> > > On Mon, May 15, 2023 at 07:43:52PM +0000, Michael Kelley (LINUX) wrot=
-e: =20
-> > > > FWIW, I don't think the approach you have implemented here will be
-> > > > practical to use for CoCo VMs (SEV, TDX, whatever else).  The probl=
-em
-> > > > is that dma_direct_alloc_pages() and dma_direct_free_pages() must
-> > > > call dma_set_decrypted() and dma_set_encrypted(), respectively.  In=
- CoCo
-> > > > VMs, these calls are expensive because they require a hypercall to =
-the host,
-> > > > and the operation on the host isn't trivial either.  I haven't meas=
-ured the
-> > > > overhead, but doing a hypercall on every DMA map operation and on
-> > > > every unmap operation has long been something we thought we must
-> > > > avoid.  The fixed swiotlb bounce buffer space solves this problem by
-> > > > doing set_decrypted() in batch at boot time, and never
-> > > > doing set_encrypted().   =20
-> > >=20
-> > > I also suspect it doesn't really scale too well due to the number of
-> > > allocations.  I suspect a better way to implement things would be to
-> > > add more large chunks that are used just like the main swiotlb buffer=
-s.
-> > >=20
-> > > That is when we run out of space try to allocate another chunk of the
-> > > same size in the background, similar to what we do with the pool in
-> > > dma-pool.c.  This means we'll do a fairly large allocation, so we'll
-> > > need compaction or even CMA to back it up, but the other big upside
-> > > is that it also reduces the number of buffers that need to be checked
-> > > in is_swiotlb_buffer or the free / sync side. =20
-> >=20
-> > I have considered this approach. The two main issues I ran into were:
-> >=20
-> > 1. MAX_ORDER allocations were too small (at least with 4K pages), and
-> >    even then they would often fail.
-> >=20
-> > 2. Allocating from CMA did work but only from process context.
-> >    I made a stab at modifying the CMA allocator to work from interrupt
-> >    context, but there are non-trivial interactions with the buddy
-> >    allocator. Making them safe from interrupt context looked like a
-> >    major task. =20
->=20
-> Can you kick off a worker thread when the swiotlb allocation gets past
-> some reserve limit? It still has a risk of failing to bounce until the
-> swiotlb buffer is extended.
+Thanks for your patch!
 
-Yes, this can be done, and some form of a worker thread is in fact on
-my roadmap. Initially, I want to see the impact of a "dumb" algorithm
-and get some feedback from people like you. Glad your ideas move in a
-similar direction as mine. :-)
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1468,7 +1468,7 @@ __releases(&info->lock)
+>  }
+>
+>  #if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && !defined(CONFIG_M=
+MU)
+> -unsigned long get_fb_unmapped_area(struct file *filp,
+> +static unsigned long get_fb_unmapped_area(struct file *filp,
+>                                    unsigned long addr, unsigned long len,
+>                                    unsigned long pgoff, unsigned long fla=
+gs)
+>  {
 
-> > I also had some fears about the length of the dynamic buffer list. I
-> > observed maximum length for block devices, and then it roughly followed
-> > the queue depth. Walking a few hundred buffers was still fast enough.
-> > I admit the list length may become an issue with high-end NVMe and
-> > I/O-intensive applications. =20
->=20
-> You could replace the list with an rbtree, O(log n) look-up vs O(n),
-> could be faster if you have many bounces active.
+LGTM, as this is unrelated to the SPARC function, and SPARC does
+not support nommu (yet? ;-)
 
-I could also do it for individual allocations. And I did it.
+drivers/video/fbdev/Kconfig:config FB_PROVIDE_GET_FB_UNMAPPED_AREA
+drivers/video/fbdev/Kconfig-    bool
+drivers/video/fbdev/Kconfig-    depends on FB
+drivers/video/fbdev/Kconfig-    help
+drivers/video/fbdev/Kconfig-      Allow generic frame-buffer to
+provide get_fb_unmapped_area
+drivers/video/fbdev/Kconfig-      function.
 
-First, the paddr lookup does not search for a specific key in the tree,
-but rather for a match within a range. The maple tree was invented for
-exactly this purpose, so that's what I tried. There are some caveats
-when using maple trees from interrupt context, but I made the necessary
-modifications in my local tree.
+Probably you want to update this help text, too. E.g.
+"to provide shareable character device support on nommu"?
 
-I ran my tests against a SATA virtio disk in an x86-64 VM booted with
-swiotlb=3Dforce. The results were:
+This seems to be selected only by DRM_STM.
 
-     Compared to plain linked list
-small-rw       -6.6%  (4KiB, 1 thread)
-parallel-rw   -10.5%  (64KiB, 4 threads)
-big-rw         -8.5%  (1MiB, 1 thread)
+Gr{oetje,eeting}s,
 
-Of course, these numbers say nothing about the performance of a maple
-tree for tracking additional swiotlb chunks, because the mix of
-additions, deletions and lookups will be different, but my point is
-that a "better" data structure may not always be better.
+                        Geert
 
-My testing also suggests that the lookup path is extremely hot. It was
-very sensitive even to small changes (like moving the flag setting
-before deletion).
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Anyway, my greatest objection to allocating additional swiotlb chunks is
-that _all_ of them must be searched to determine that the physical
-address does _not_ belong to a swiotlb, incurring performance penalty
-for non-constrained (presumably fast) devices that do not need a
-swiotlb. Sure, this is irrelevant for CoCo VMs where all devices must
-use swiotlb, but we've seen other scenarios which benefit from a
-dynamically sized swiotlb. It's a bit frustrating if a cheap wifi
-adapter reduces your disk performance...
-
-Besides, if the list or tree of swiotlb chunks is protected with a
-lock, this lock becomes contended.
-
-Last but not least, the allocation size is dynamic in theory, but it
-would most likely never shrink, because a swiotlb chunk can be freed
-only if it is completely unused, which may never happen after a spike,
-because some mappings are rather long-lived (which is probably wrong
-but it's the current state).
-
-Much of the above can be solved if additional swiotlb chunks are
-allocated per device. OTOH I am a bit concerned about increasing memory
-requirements. After all, one of the use cases is to reduce kernel
-memory footprint on mobile devices.
-
-To say something positive, I have also found one upside to additional
-swiotlb chunks: They make it possible to meet all alignment and boundary
-crossing constraints (unlike plain CMA allocations).
-
-Petr T
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
