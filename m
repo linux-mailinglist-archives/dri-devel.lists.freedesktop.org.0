@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FFA707243
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 21:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B05D707255
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 21:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12F110E469;
-	Wed, 17 May 2023 19:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82ED10E464;
+	Wed, 17 May 2023 19:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F43110E285
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 19:36:18 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34HJ85C7009230; Wed, 17 May 2023 19:36:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=3CvJjTFDBBGbjsEpRMixb/b2QnSDoZ7DAlJA0PNNj9k=;
- b=ct4i+An4RBTDJfLoS8lzW8CV2g8uquwYWUx2O+rgtI3DUbOdpLrKTc/ESQzYgwAIfzKc
- vDq42VdhTuDwhxgnj6qMxJWKCMMjeIKAacwGj9CpZvu+kJCHfpew7mdpttABPCiMSVzv
- nSfMpK+2YBMwn0QQdt+Os/zsaYCWBYCBI1mYCLwHiNrmLAD3dYuqPZDQvHMSVMGslarU
- VC0NF97dCeFRLxbdG8QFQNY/ui6omI8eB2QoYF6rVpZTpDP4DQfyRwxXk0c8Xr1WA3b+
- H8Y1lhhFqlrlAJZHJ8xj7aq+hV4ZQ+VyhMHKo6WnGhplRvKYJrZ82A4bevExc5FjUNnB RQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmxyp10gr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 19:36:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HJaDtW031222
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 19:36:13 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 17 May 2023 12:36:12 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <ogabbay@kernel.org>, <jacek.lawrynowicz@linux.intel.com>,
- <quic_pkanojiy@quicinc.com>, <stanislaw.gruszka@linux.intel.com>,
- <quic_carlv@quicinc.com>, <quic_ajitpals@quicinc.com>
-Subject: [PATCH 5/5] accel/qaic: Fix NNC message corruption
-Date: Wed, 17 May 2023 13:35:40 -0600
-Message-ID: <20230517193540.14323-6-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230517193540.14323-1-quic_jhugo@quicinc.com>
-References: <20230517193540.14323-1-quic_jhugo@quicinc.com>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C777A10E464
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 19:38:19 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcb229adaso2195615a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 12:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684352298; x=1686944298;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rYmCHe0UBx3C/dX8F6gPo606NtkPLb/fdOD1RWdJzkg=;
+ b=bbeQg4UD9JQf6erRpGuPGkJefSXLT4EZPw4GEbdgBk0mXwtrOrR9bcUXhDi2lPmrN2
+ SY7yGEyaW4rOcHsYnmhfbfOIS6WJ1P72cT7qjNOpW9e9rc3FGcQFKOsbTXyqHZrtQ899
+ lqRpczEhCKHYqw4X4HXrLygrQOA/mDNmvSVqGhyLDEWHWAB/zQr8JeHGMe+cc++jTX3+
+ eSn13zJdh+MYPqS1jaJc+8KRvKuuUOk4u1xn97NQgP9w5RgbAMncMp8edZUiMeKMhSn8
+ 2tX7xLkDwu4v49tQ/OTjPCt9qR94Xz6440yAu01sLictaBqTjYddsFD9G6rN0sIRFkMS
+ RaSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684352298; x=1686944298;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rYmCHe0UBx3C/dX8F6gPo606NtkPLb/fdOD1RWdJzkg=;
+ b=ZmCvQCNE4xB2E1Q6gLkC7pISbM+qIlnRNvLon0iEPzYQZkrLKxz/bFh37tiYNjGiR3
+ 91ngSge61QXordKxcut0AKOX5uZPThc0+bCv0qRgzppg2CEjIPShVaL2k8B+MTuZsefb
+ ODHXpwbOlRvoP08Vv9IN5EKO6BA86npjwp18dfw3tJmBbpqaAm4J7Cu0phdHoJ9D/sZw
+ dokQl0x0CDzdTsbiB9WpTAznJyOYF5flKwPUXxKA7qyEfLcFhUL6nhF+HQfHKrBGSjS+
+ SK81RLtvj3cac/8WR3qxLaTiIDCFxsb901gjAbLySXmzmrcBx7R2fAbHE7XM2Khi0tXC
+ yP7Q==
+X-Gm-Message-State: AC+VfDz3zvBlAIfHJw7S6GeZ6vDcqrLLYIkq6+C4vZoh7DWFMg7lpuRH
+ eVHbmOmZlQT0pGtp6IxGBWmCktr4A4M+Q9UgcyNejg==
+X-Google-Smtp-Source: ACHHUZ6obEbka8NNsbD0h9cxmp9F7B27iNr6Z+hy4ts3KoIhfXd8UU80M7LYR8OdkLm5EMLFayAcTw==
+X-Received: by 2002:a17:907:97d0:b0:96a:2210:add8 with SMTP id
+ js16-20020a17090797d000b0096a2210add8mr25616124ejc.8.1684352297680; 
+ Wed, 17 May 2023 12:38:17 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d7a:e7cc:21b3:c435?
+ ([2a02:810d:15c0:828:d7a:e7cc:21b3:c435])
+ by smtp.gmail.com with ESMTPSA id
+ h15-20020a1709067ccf00b0094f23480619sm12833636ejp.172.2023.05.17.12.38.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 May 2023 12:38:17 -0700 (PDT)
+Message-ID: <f0469fcb-a1ef-77a2-a8ab-40ab8d91bff7@linaro.org>
+Date: Wed, 17 May 2023 21:38:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
+Content-Language: en-US
+To: Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-8-abailon@baylibre.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230517145237.295461-8-abailon@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 8NB7hlq_CWI09biYXn4AEfAZpFEat7bf
-X-Proofpoint-GUID: 8NB7hlq_CWI09biYXn4AEfAZpFEat7bf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-17_04,2023-05-17_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 impostorscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305170162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,87 +80,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
+ khilman@baylibre.com, jstephan@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If msg_xfer() is unable to queue part of a NNC message because the MHI ring
-is full, it will attempt to give the QSM some time to drain the queue.
-However, if QSM fails to make any room, msg_xfer() will fail and tell the
-caller to try again.  This is problematic because part of the message may
-have been committed to the ring and there is no mechanism to revoke that
-content.  This will cause QSM to receive a corrupt message.
+On 17/05/2023 16:52, Alexandre Bailon wrote:
+> This adds the device tree bindings for the APU DRM driver.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
 
-The better way to do this is to check if the ring has enough space for the
-entire message before committing any of the message.  Since msg_xfer() is
-under the cntl_mutex no one else can come in and consume the space.
+There are so many errors in this patch... that for sure it was not
+tested. Reduced review, except what was already said:
 
-Fixes: 129776ac2e38 ("accel/qaic: Add control path")
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
----
- drivers/accel/qaic/qaic_control.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+> ---
+>  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> new file mode 100644
+> index 000000000000..6f432d3ea478
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: AI Processor Unit DRM
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,apu-drm
 
-diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index 9e39b1a324f7..5c57f7b4494e 100644
---- a/drivers/accel/qaic/qaic_control.c
-+++ b/drivers/accel/qaic/qaic_control.c
-@@ -997,14 +997,34 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
- 	struct xfer_queue_elem elem;
- 	struct wire_msg *out_buf;
- 	struct wrapper_msg *w;
-+	long ret = -EAGAIN;
-+	int xfer_count = 0;
- 	int retry_count;
--	long ret;
- 
- 	if (qdev->in_reset) {
- 		mutex_unlock(&qdev->cntl_mutex);
- 		return ERR_PTR(-ENODEV);
- 	}
- 
-+	/* Attempt to avoid a partial commit of a message */
-+	list_for_each_entry(w, &wrappers->list, list)
-+		xfer_count++;
-+
-+	for (retry_count = 0; retry_count < QAIC_MHI_RETRY_MAX; retry_count++) {
-+		if (xfer_count <= mhi_get_free_desc_count(qdev->cntl_ch, DMA_TO_DEVICE)) {
-+			ret = 0;
-+			break;
-+		}
-+		msleep_interruptible(QAIC_MHI_RETRY_WAIT_MS);
-+		if (signal_pending(current))
-+			break;
-+	}
-+
-+	if (ret) {
-+		mutex_unlock(&qdev->cntl_mutex);
-+		return ERR_PTR(ret);
-+	}
-+
- 	elem.seq_num = seq_num;
- 	elem.buf = NULL;
- 	init_completion(&elem.xfer_done);
-@@ -1038,16 +1058,9 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
- 	list_for_each_entry(w, &wrappers->list, list) {
- 		kref_get(&w->ref_count);
- 		retry_count = 0;
--retry:
- 		ret = mhi_queue_buf(qdev->cntl_ch, DMA_TO_DEVICE, &w->msg, w->len,
- 				    list_is_last(&w->list, &wrappers->list) ? MHI_EOT : MHI_CHAIN);
- 		if (ret) {
--			if (ret == -EAGAIN && retry_count++ < QAIC_MHI_RETRY_MAX) {
--				msleep_interruptible(QAIC_MHI_RETRY_WAIT_MS);
--				if (!signal_pending(current))
--					goto retry;
--			}
--
- 			qdev->cntl_lost_buf = true;
- 			kref_put(&w->ref_count, free_wrapper);
- 			mutex_unlock(&qdev->cntl_mutex);
--- 
-2.40.1
+drm is not hardware. Drop everywhere or explain the acronym. If you
+explain it like Linux explains, then: drm is not hardware.
+
+> +
+> +  remoteproc:
+> +    maxItems: 2
+> +    description:
+> +      Handle to remoteproc devices controlling the APU
+
+Missing type/ref. Does not look like generic property, so missing vendor
+prefix.
+
+> +
+> +  iova:
+> +    maxItems: 1
+> +    description:
+> +      Address and size of virtual memory that could used by the APU
+
+So it is a reg?
+
+> +
+> +required:
+> +  - compatible
+> +  - remoteproc
+> +  - iova
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    apu@0 {
+
+Where is reg? @0 says you have it...
+
+> +      compatible = "mediatek,apu-drm";
+> +      remoteproc = <&vpu0>, <&vpu1>;
+> +      iova = <0 0x60000000 0 0x10000000>;
+
+Why would you store virtual address, not real, in DT? Let's say you have
+some randomization like KASLR. How is it going to work? Drop, it is not
+hardware property.
+
+Best regards,
+Krzysztof
 
