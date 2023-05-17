@@ -2,75 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C27706310
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 10:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A220706326
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 10:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 582A610E3CD;
-	Wed, 17 May 2023 08:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F20D10E3C5;
+	Wed, 17 May 2023 08:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 698F410E3CD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 08:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684312711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Awr4gRZsdLGQYIUyMmed1KNNdKfsJvua5DQtUGISNWs=;
- b=MDd63lb9lBuv8ujcA3EyjNe1W58J1YNGQPq5p0vEHTfyTN0MehFytLuVruh/KlYlhLNyuh
- kw3XUMKcTe6c+smUWd+BXTlU1MNobbgBd/mF3DPSCmeIVptwsLxwu0lyzle8IUtjmO8O/F
- +7z/nKFOlv1lOxdb/xztAA/KMHqDyA8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-199-5s5AvnBmM0CKJEGQ_id09g-1; Wed, 17 May 2023 04:38:26 -0400
-X-MC-Unique: 5s5AvnBmM0CKJEGQ_id09g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f41dcf1e28so1761155e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 01:38:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684312705; x=1686904705;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Awr4gRZsdLGQYIUyMmed1KNNdKfsJvua5DQtUGISNWs=;
- b=QDwTDdJh1jfmelFf6NLrOmoeNap0O+Ge6xIWchBcSEaDj3ZYXlN0EHV1+jwowhlh+k
- yCdrroe0iXoK9Ebo8UNDuqrpwncKfrl9hWKLsa/MyhfY+I4ULfEbQCojfpQtS0lx0hTv
- xVH67ggp+QGYtVPRWi5yU2tzIsNiASbx5thELD2RmFqPpbzwdFRrubLGiUhZwui/cYxX
- 0pdRzSEvcqjCoXYeLpnMCkseY8dlljSb67kqMIK+31owiFa3rLSCmOpm5obUXH9ZabrE
- bB3p3SUvKuLmENNpxk36mw/hWoexJMTS4NLxNFWM/wRmjhbjauXAkI1fCvsTWsMPCTXh
- uN9A==
-X-Gm-Message-State: AC+VfDwzpmkth+yclW516GBy8wDMLVeDLvrBhg67UVUrjQ9QmZYD80vT
- nYr1V6rnN1YEnDHI4HYwOC6xlrXklRslx0tVXBMa6GZh92mLnRQ/2c/5MqCQRQr++ite/W+t/Gr
- N0aXcU+pxdbLmagLNBfbJJbMTmNL0
-X-Received: by 2002:a05:600c:296:b0:3f4:1dd9:e9e4 with SMTP id
- 22-20020a05600c029600b003f41dd9e9e4mr25183087wmk.4.1684312705172; 
- Wed, 17 May 2023 01:38:25 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5+xQB/WwSfZGlVBWz3pf1X3XrZ6616+LvJs0buY0t+QlE+UE09KziCsrhgVjdn2XBjNLyu9g==
-X-Received: by 2002:a05:600c:296:b0:3f4:1dd9:e9e4 with SMTP id
- 22-20020a05600c029600b003f41dd9e9e4mr25183070wmk.4.1684312704870; 
- Wed, 17 May 2023 01:38:24 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y26-20020a7bcd9a000000b003f42a75ac2asm1536196wmj.23.2023.05.17.01.38.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 May 2023 01:38:24 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
- liyi <liyi@loongson.cn>
-Subject: Re: [PATCH] drm/drm_atomic.h: fixup typos
-In-Reply-To: <20230517082322.3230271-1-suijingfeng@loongson.cn>
-References: <20230517082322.3230271-1-suijingfeng@loongson.cn>
-Date: Wed, 17 May 2023 10:38:23 +0200
-Message-ID: <877ct79wu8.fsf@minerva.mail-host-address-is-not-set>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C063D10E3C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 08:41:27 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:36902.606101932
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id CFB771002B1;
+ Wed, 17 May 2023 16:41:22 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-prw2v with ESMTP id
+ f2cf8a95b7ad40ae9100f5bdcd0d8cca for tzimmermann@suse.de; 
+ Wed, 17 May 2023 16:41:23 CST
+X-Transaction-ID: f2cf8a95b7ad40ae9100f5bdcd0d8cca
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <abecad9f-f6d7-1dca-68d3-a96b492a4c56@189.cn>
+Date: Wed, 17 May 2023 16:41:21 +0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/drm_atomic_helper.c: fix a typo
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230517041602.3225325-1-suijingfeng@loongson.cn>
+ <40689882-6771-97c7-f771-d57ceefd052a@suse.de>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <40689882-6771-97c7-f771-d57ceefd052a@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,29 +56,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Sui Jingfeng <15330273260@189.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, thanks a lot
 
-Hello Sui,
 
-I would still add something to the commit description even when your
-changes are trivial.
+Please help to take a look drm/loongson at 
+https://patchwork.freedesktop.org/series/113566/ ?
 
-Sui Jingfeng <suijingfeng@loongson.cn> writes:
+let's merge it if no big problem?
 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
 
-The fixes look good to me though
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+On 2023/5/17 15:24, Thomas Zimmermann wrote:
+> Merged. Thanks a lot.
+>
+> Am 17.05.23 um 06:16 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <15330273260@189.cn>
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c 
+>> b/drivers/gpu/drm/drm_atomic_helper.c
+>> index e0ab555aad2c..41b8066f61ff 100644
+>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>> @@ -3154,7 +3154,7 @@ int drm_atomic_helper_update_plane(struct 
+>> drm_plane *plane,
+>>   EXPORT_SYMBOL(drm_atomic_helper_update_plane);
+>>     /**
+>> - * drm_atomic_helper_disable_plane - Helper for primary plane 
+>> disable using * atomic
+>> + * drm_atomic_helper_disable_plane - Helper for primary plane 
+>> disable using atomic
+>>    * @plane: plane to disable
+>>    * @ctx: lock acquire context
+>>    *
+>
