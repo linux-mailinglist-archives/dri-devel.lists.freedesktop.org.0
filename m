@@ -2,95 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F59D707648
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 01:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3E770765C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 01:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ADA610E2FE;
-	Wed, 17 May 2023 23:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B41110E4C2;
+	Wed, 17 May 2023 23:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20606.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::606])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E4F10E2E6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 23:08:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VcJKXQQISP1+5aL/Uox7ZFu/l/QpEGRtpiUS/C8tgMAsZL1AGPD+SXU4JKfqH+cKk7O5sXg1oElSKErK1UROqiGvJXbF313sNmNKY3gQOiomdkd393tnEaPxAxAS9kF0oyaySPDlvtaQ5USUSa5ezo8t5W2jl4BsvJDPEGyeso6rSqsilEEN4JBPcO1QfBwNCWRpJvJrbmBX/LlV/GKqt2ZXr2saoW34ZpBJg9ckfQr63d4wLt3c+n0iLqhL5BfA3bLE2vvDo4lSI+XRk3za7zYzypT94IfPUBvp7j15UEvxyBw0qkuzYb8Shpykmdpf4U8E7b51QvLWibNzNvpzcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GPJJUmR81EUrooW1t8kd5MXzZe5SzeoaVAxfhdWbxFg=;
- b=nngoZseR4NUozaOExabZUYRd4A3BodKzTMNDyUvleD7K4RUY5MhAOLM7cf53CD/uDLopXfjRF4M1b06L26NFkN3SmqYocbAHnFpa/tsId0OyPDoCTepY+UsFTtzZUtb1OUzXD8mabc0rGD7oTA7AGfKmhpWIt0LsUJiHfeJp753Dl8XmdvZmxWwb2wFBOi8LyA16rjU/zGMtwFU9D95x3yPirYhE9lNc1NU9qcnMvJ4kR2zvFY0BRWKldwyndC9GOWKfFvS669pWEdQW6u/vRsb3SHk4kaqcAyF31z2GELdGEKrVk1XyGTK23GfDwbiadjE44Jytq/Djx8iX9WOFIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GPJJUmR81EUrooW1t8kd5MXzZe5SzeoaVAxfhdWbxFg=;
- b=UbloITUP1lcYrX2TdRn8du+0fLaqycjo+/lYZ7bf9h7V8YvqXbcQ3AlGMW0zdqG0Sejkc14fWK2BcHXAPtmX7niI2EC8xjyNN1MvFwYSAnbk++7Dz/dOtZs7+N9C8Otj5zXW3mFZ6CJ4fSfrN9N/9uQZ+6EOhNRryoZy4mqpSbk=
-Received: from MW4PR04CA0149.namprd04.prod.outlook.com (2603:10b6:303:84::34)
- by MW4PR12MB7482.namprd12.prod.outlook.com (2603:10b6:303:212::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Wed, 17 May
- 2023 23:08:48 +0000
-Received: from CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:84:cafe::c6) by MW4PR04CA0149.outlook.office365.com
- (2603:10b6:303:84::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.17 via Frontend
- Transport; Wed, 17 May 2023 23:08:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT083.mail.protection.outlook.com (10.13.174.92) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.19 via Frontend Transport; Wed, 17 May 2023 23:08:48 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 17 May
- 2023 18:08:46 -0500
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/sched: Rename to drm_sched_wakeup_if_canqueue()
-Date: Wed, 17 May 2023 19:08:20 -0400
-Message-ID: <20230517230820.371572-3-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230517230820.371572-1-luben.tuikov@amd.com>
-References: <20230517230820.371572-1-luben.tuikov@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 019EE10E2E7;
+ Wed, 17 May 2023 23:22:44 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34HMxhPP019648; Wed, 17 May 2023 23:22:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=hUbA3URmTGJE56PdDudnP72n27MNQz3qCtNpALMkXtE=;
+ b=FZsV5olTVz8TVObt978fI7iG6K2N0NENjqvygPHMnCXvJe1aQaB1mrRdc43YXjYBtC5v
+ mDN2W4OHiuYEBGY8kBA/G50RMCCc6uyT69TBMa1Uue7J2SKsQt5ncnR09dbNF++lc+lf
+ QzVH9DvmMlpjIL12ZWmQOFP07ApLiWsPevCptoby/dRAJp7Nz82lRKGH7hHGioU3Akaw
+ bF+pLFPRD0Ek3wjtBLSI77PH0xrJSqUvdsg3xXZtbi5EqEfBWJAUKKPyYBAmEsoTNiy0
+ US3x1YpcL5ZCxkkfQQbFIq0+jy83cGTSlnXAbZlIaK0D+ITYDziDkvRJKYBMq1qny1VB 0Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmts29yk1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 23:22:39 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HNMcfJ032549
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 23:22:39 GMT
+Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 17 May
+ 2023 16:22:38 -0700
+Message-ID: <51f0439c-a5e8-b47a-21af-7bbbc944ca53@quicinc.com>
+Date: Wed, 17 May 2023 16:22:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-check-string-leak: v1.1
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT083:EE_|MW4PR12MB7482:EE_
-X-MS-Office365-Filtering-Correlation-Id: 496fa16b-bd55-4ad8-038c-08db572bac07
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Gge2R3SCaISY7f2qsozDWkBHKOaY10tnoYZ+TpynKaY148dlHmmJWm/jmOketMxCHef3EyskfAiQYKBODQALHorglxiDW9IpsOzazD2r+JZrcezedvrh2jUI2XiHSHU53kRrTbaLZU+848okcYHxcs/hN0Lq6wTL8D+s5SaXEGDKKJXflfWfgwIXjHhgDtvLH2+ZATJDsrvyx5HbG31L17WKf3UqTwxLAl0JVoYlJ+AGA51OZa1T4OdAkSY9SP4B2j8NlKmBHVEdNztpRSoPLmrV/WEhKa/Era5N74HlRUqbFbyqXd4rFk2B/OgxQsWy9/j9biQthxL4y3W263OFu/znHbCgLrvcWgMG71J0LZNUl49/gtkS/Q0LrJsq9r+skxRYV/zAohHl+Z97sQp10YrMyL1gbZUiMC6W+7q7qaXUsWvigOd4/7JrtGslHUXv+0tP9sWYrk/UHtsATQAIdURfPKn7Oy9S2WOQyzerFHlnsJIsu+MsWZFy62VVMShq0ycrowyjbcyP0AH61qfouW6IJBQgjCmAvedv/euTfmHoFYOZiBgsXycRrsB9vaJ6XG3yGoiS8I/kyTG/uNavItzQzRf1KunZzOndy3jL5bOzYuIsZ4heze1IFRPRqR+WNfzXcVRrOJZ7xJt9OyBnVp75Xqx53GO+4wecWKP0wA0gHcjSV6NWWGwVcKnkeU7TVOSINo0fhOySDgMFcKE5nOs6n5DHb6N1KIY4+MmNDSJTVxalVfERPJrUGq1KZlkAdeM6tmeVoClWEaDcT0OzwA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(396003)(346002)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(40460700003)(4326008)(70586007)(6916009)(478600001)(70206006)(86362001)(316002)(54906003)(36756003)(83380400001)(66574015)(47076005)(1076003)(26005)(16526019)(336012)(186003)(426003)(36860700001)(2616005)(5660300002)(8936002)(44832011)(41300700001)(8676002)(82740400003)(82310400005)(40480700001)(81166007)(2906002)(356005)(6666004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2023 23:08:48.2845 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 496fa16b-bd55-4ad8-038c-08db572bac07
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT083.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7482
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v10 7/8] drm/msm/dpu: add DSC 1.2 hw blocks for relevant
+ chipsets
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <1684360919-28458-1-git-send-email-quic_khsieh@quicinc.com>
+ <1684360919-28458-8-git-send-email-quic_khsieh@quicinc.com>
+ <w7xre5jdot3fpe3ldj6vcnvribpbalfvova5hhmbgvgvkrcm34@xqvsc5ga2knb>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <w7xre5jdot3fpe3ldj6vcnvribpbalfvova5hhmbgvgvkrcm34@xqvsc5ga2knb>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: SMtPvud4DbmpjK5WAPRtu_wd9bpczX6U
+X-Proofpoint-ORIG-GUID: SMtPvud4DbmpjK5WAPRtu_wd9bpczX6U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-17_04,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 clxscore=1015 lowpriorityscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305170191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,86 +86,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: sean@poorly.run, quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename drm_sched_wakeup() to drm_sched_wakeup_if_canqueue() since the former
-is misleading, as it wakes up the GPU scheduler _only if_ more jobs can be
-queued to the underlying hardware.
 
-This distinction is important to make, since the wake conditional in the GPU
-scheduler thread wakes up when other conditions are also true, e.g. when there
-are jobs to be cleaned. For instance, a user might want to wake up the
-scheduler only because there are more jobs to clean, but whether we can queue
-more jobs is irrelevant.
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
- drivers/gpu/drm/scheduler/sched_main.c   | 6 +++---
- include/drm/gpu_scheduler.h              | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+On 5/17/2023 3:47 PM, Marijn Suijten wrote:
+> Title: "DPU >= 7.0" instead of "relevant chipsets" to match the others.
+> 
+> On 2023-05-17 15:01:58, Kuogee Hsieh wrote:
+>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> Add DSC 1.2 hardware blocks to the catalog with necessary sub-block and
+>> feature flag information.  Each display compression engine (DCE) contains
+>> dual DSC encoders so both share same base address but with
+>> its own different sub block address.
+> 
+> If you reword it, also reflow this line.
+> 
+>>
+>> changes in v4:
+>> -- delete DPU_DSC_HW_REV_1_1
+>> -- re arrange sc8280xp_dsc[]
+>>
+>> changes in v4:
+>> -- fix checkpatch warning
+>>
+>> changes in v10:
+>> -- remove hard slice from commit text
+> 
+> It is still mentioned in the diff though, that's why I originally
+> requested a better place to describe it.
+> 
+>> -- replace DPU_DSC_NATIVE_422_EN with DPU_DSC_NATIVE_42x_EN
+>> -- change DSC_BLK_1_2 .len from 0x100 to 0x29c
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+>>
+>> kuogee: catalog.h
+> 
+> What's this for?  This file isn't touched in this patch.
+> 
+>> ---
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 14 ++++++++++++
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  7 ++++++
+>>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   | 16 ++++++++++++++
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 14 ++++++++++++
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 14 ++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 25 +++++++++++++++++++++-
+>>   6 files changed, 89 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+>> index 500cfd0..d90486f 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+>> @@ -153,6 +153,18 @@ static const struct dpu_merge_3d_cfg sm8350_merge_3d[] = {
+>>   	MERGE_3D_BLK("merge_3d_2", MERGE_3D_2, 0x50000),
+>>   };
+>>   
+>> +/*
+>> + * NOTE: Each display compression engine (DCE) contains dual hard
+>> + * slice DSC encoders so both share same base address but with
+>> + * its own different sub block address.
+>> + */
+>> +static const struct dpu_dsc_cfg sm8350_dsc[] = {
+>> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
+>> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
+>> +};
+>> +
+>>   static const struct dpu_intf_cfg sm8350_intf[] = {
+>>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+>>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+>> @@ -215,6 +227,8 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
+>>   	.dspp = sm8350_dspp,
+>>   	.pingpong_count = ARRAY_SIZE(sm8350_pp),
+>>   	.pingpong = sm8350_pp,
+>> +	.dsc_count = ARRAY_SIZE(sm8350_dsc),
+>> +	.dsc = sm8350_dsc,
+>>   	.merge_3d_count = ARRAY_SIZE(sm8350_merge_3d),
+>>   	.merge_3d = sm8350_merge_3d,
+>>   	.intf_count = ARRAY_SIZE(sm8350_intf),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> index 5646713..52609b8 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> @@ -93,6 +93,11 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+>>   	PP_BLK_DITHER("pingpong_3", PINGPONG_3, 0x6c000, 0, sc7280_pp_sblk, -1, -1),
+>>   };
+>>   
+>> +/* NOTE: sc7280 only has one DSC hard slice encoder */
+>> +static const struct dpu_dsc_cfg sc7280_dsc[] = {
+>> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
+>> +};
+>> +
+>>   static const struct dpu_intf_cfg sc7280_intf[] = {
+>>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+>>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+>> @@ -149,6 +154,8 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+>>   	.mixer = sc7280_lm,
+>>   	.pingpong_count = ARRAY_SIZE(sc7280_pp),
+>>   	.pingpong = sc7280_pp,
+>> +	.dsc_count = ARRAY_SIZE(sc7280_dsc),
+>> +	.dsc = sc7280_dsc,
+>>   	.intf_count = ARRAY_SIZE(sc7280_intf),
+>>   	.intf = sc7280_intf,
+>>   	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+>> index 808aacd..a84cf36 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+>> @@ -141,6 +141,20 @@ static const struct dpu_merge_3d_cfg sc8280xp_merge_3d[] = {
+>>   	MERGE_3D_BLK("merge_3d_2", MERGE_3D_2, 0x50000),
+>>   };
+>>   
+>> +/*
+>> + * NOTE: Each display compression engine (DCE) contains dual hard
+>> + * slice DSC encoders so both share same base address but with
+>> + * its own different sub block address.
+>> + */
+>> +static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
+>> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
+>> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
+>> +	DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x29c, 0, dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x29c, 0, dsc_sblk_1),
+>> +};
+>> +
+>>   /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
+>>   static const struct dpu_intf_cfg sc8280xp_intf[] = {
+>>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+>> @@ -216,6 +230,8 @@ const struct dpu_mdss_cfg dpu_sc8280xp_cfg = {
+>>   	.dspp = sc8280xp_dspp,
+>>   	.pingpong_count = ARRAY_SIZE(sc8280xp_pp),
+>>   	.pingpong = sc8280xp_pp,
+>> +	.dsc_count = ARRAY_SIZE(sc8280xp_dsc),
+>> +	.dsc = sc8280xp_dsc,
+>>   	.merge_3d_count = ARRAY_SIZE(sc8280xp_merge_3d),
+>>   	.merge_3d = sc8280xp_merge_3d,
+>>   	.intf_count = ARRAY_SIZE(sc8280xp_intf),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+>> index 1a89ff9..1620622 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+>> @@ -161,6 +161,18 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
+>>   	MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x65f00),
+>>   };
+>>   
+>> +/*
+>> + * NOTE: Each display compression engine (DCE) contains dual hard
+>> + * slice DSC encoders so both share same base address but with
+>> + * its own different sub block address.
+>> + */
+>> +static const struct dpu_dsc_cfg sm8450_dsc[] = {
+>> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
+>> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
+>> +};
+>> +
+>>   static const struct dpu_intf_cfg sm8450_intf[] = {
+>>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+>>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+>> @@ -223,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
+>>   	.dspp = sm8450_dspp,
+>>   	.pingpong_count = ARRAY_SIZE(sm8450_pp),
+>>   	.pingpong = sm8450_pp,
+>> +	.dsc_count = ARRAY_SIZE(sm8450_dsc),
+>> +	.dsc = sm8450_dsc,
+>>   	.merge_3d_count = ARRAY_SIZE(sm8450_merge_3d),
+>>   	.merge_3d = sm8450_merge_3d,
+>>   	.intf_count = ARRAY_SIZE(sm8450_intf),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>> index 497b34c..6582a14 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+>> @@ -165,6 +165,18 @@ static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
+>>   	MERGE_3D_BLK("merge_3d_3", MERGE_3D_3, 0x66700),
+>>   };
+>>   
+>> +/*
+>> + * NOTE: Each display compression engine (DCE) contains dual hard
+>> + * slice DSC encoders so both share same base address but with
+>> + * its own different sub block address.
+>> + */
+>> +static const struct dpu_dsc_cfg sm8550_dsc[] = {
+>> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
+>> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
+>> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
+>> +};
+>> +
+>>   static const struct dpu_intf_cfg sm8550_intf[] = {
+>>   	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+>>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+>> @@ -227,6 +239,8 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
+>>   	.dspp = sm8550_dspp,
+>>   	.pingpong_count = ARRAY_SIZE(sm8550_pp),
+>>   	.pingpong = sm8550_pp,
+>> +	.dsc_count = ARRAY_SIZE(sm8550_dsc),
+>> +	.dsc = sm8550_dsc,
+>>   	.merge_3d_count = ARRAY_SIZE(sm8550_merge_3d),
+>>   	.merge_3d = sm8550_merge_3d,
+>>   	.intf_count = ARRAY_SIZE(sm8550_intf),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index f2a1535..9612ab5 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> @@ -1,6 +1,6 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>> - * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+>> + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+>>    */
+>>   
+>>   #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+>> @@ -522,6 +522,16 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>>   /*************************************************************
+>>    * DSC sub blocks config
+>>    *************************************************************/
+>> +static const struct dpu_dsc_sub_blks dsc_sblk_0 = {
+>> +	.enc = {.base = 0x100, .len = 0x100},
+>> +	.ctl = {.base = 0xF00, .len = 0x10},
+>> +};
+>> +
+>> +static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
+>> +	.enc = {.base = 0x200, .len = 0x100},
+>> +	.ctl = {.base = 0xF80, .len = 0x10},
+>> +};
+>> +
+>>   #define DSC_BLK(_name, _id, _base, _features) \
+>>   	{\
+>>   	.name = _name, .id = _id, \
+>> @@ -529,6 +539,19 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>>   	.features = _features, \
+>>   	}
+>>   
+>> +/*
+>> + * NOTE: Each display compression engine (DCE) contains dual hard
+>> + * slice DSC encoders so both share same base address but with
+>> + * its own different sub block address.
+>> + */
+> 
+> I still think this comment is superfluous (and doesn't even apply
+> generically, see i.e. sc7280) and should best be kept exclusively in the
+> SoC-specific catalog files.
+> 
+> - Marijn
+> 
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index cfb433e9200586..371b44fb4bacf4 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -342,7 +342,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
- 		container_of(cb, struct drm_sched_entity, cb);
- 
- 	drm_sched_entity_clear_dep(f, cb);
--	drm_sched_wakeup(entity->rq->sched);
-+	drm_sched_wakeup_if_canqueue(entity->rq->sched);
- }
- 
- /**
-@@ -565,7 +565,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
- 			drm_sched_rq_update_fifo(entity, submit_ts);
- 
--		drm_sched_wakeup(entity->rq->sched);
-+		drm_sched_wakeup_if_canqueue(entity->rq->sched);
- 	}
- }
- EXPORT_SYMBOL(drm_sched_entity_push_job);
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 8739322c30321b..f437dbe62112cc 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -860,12 +860,12 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
- }
- 
- /**
-- * drm_sched_wakeup - Wake up the scheduler when it is ready
-- *
-+ * drm_sched_wakeup_if_canqueue - Wake up the scheduler
-  * @sched: scheduler instance
-  *
-+ * Wake up the scheduler if we can queue jobs.
-  */
--void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
-+void drm_sched_wakeup_if_canqueue(struct drm_gpu_scheduler *sched)
- {
- 	if (drm_sched_can_queue(sched))
- 		wake_up_interruptible(&sched->wake_up_worker);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 31d1f5166c79fe..a05dd01e264842 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -549,7 +549,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-                                    unsigned int num_sched_list);
- 
- void drm_sched_job_cleanup(struct drm_sched_job *job);
--void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
-+void drm_sched_wakeup_if_canqueue(struct drm_gpu_scheduler *sched);
- void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
- void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
- void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
--- 
-2.40.1
+sc7280 is the only exception as it has only one encoder. But, by and 
+large, for all other chipsets this is true and hence kept here.
 
+The main reason for this comment is people should not get confused that 
+how come two DSC encoders have the same base address.
+
+>> +#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
+>> +	{\
+>> +	.name = _name, .id = _id, \
+>> +	.base = _base, .len = _len, \
+>> +	.features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
+>> +	.sblk = &_sblk, \
+>> +	}
+>> +
+>>   /*************************************************************
+>>    * INTF sub blocks config
+>>    *************************************************************/
+>> -- 
+>> 2.7.4
+>>
