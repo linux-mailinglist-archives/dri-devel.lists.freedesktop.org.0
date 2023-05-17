@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7E1706C93
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 17:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708A4706CCE
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 17:28:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8EB10E447;
-	Wed, 17 May 2023 15:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3749B10E448;
+	Wed, 17 May 2023 15:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E23310E446;
- Wed, 17 May 2023 15:23:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684337020; x=1715873020;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=kkLqJ3cCJniWzST0mH4nTp9MHVf4aGt3b6XaZGdoT0Y=;
- b=DFIqxYwF4LTtta/MFCLee7FSHQn8k0r+pUhRh6vZ4ApVFtBV4F9oQ8rO
- x98ZDYrTB3WiE1WgO3J+kTWJd6sjlZGaGCZUyPP+UvBbyyOEJUfoT65NN
- 7VcCEYSparxZGvKYOvXDe51B2usRWU5uTay2gsvX4jM7kBw4sCVEH4Afu
- dQ8slotM3xD0QU8+VD5jeND5NNkb3LN/iuANA2oFLtpRsrTs3JmCtlRgz
- EAGf5dpaL33F+HRk6paJMVfT0RsPaxfx5NWpZvCtDtC3B3TbAxAZ4sAxp
- TzzZTjcNRVoVWiv5vNf33/Nb2b6TUEqvBkgheQfAbAvu9ycLGdnvdvh0H A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="438132130"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; d="scan'208";a="438132130"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2023 08:23:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="846129295"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; d="scan'208";a="846129295"
-Received: from fskirtun-mobl-g8.ger.corp.intel.com (HELO
- mwauld-desk1.intel.com) ([10.252.15.194])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2023 08:23:37 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [PATCH v5 1/7] drm: fix drmm_mutex_init()
-Date: Wed, 17 May 2023 16:22:38 +0100
-Message-Id: <20230517152244.348171-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0D1210E448
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 15:28:21 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ 46e09a7af769-6ab2d14e999so693415a34.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 08:28:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684337300; x=1686929300;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=RASfi4C6iFM4Ndi70/5KgD6n2tXBLGdQMzw0G7ZIRkw=;
+ b=ASeVrVsHP/IcHg2PaZeDS+TpWK8y19bLbBF8WlNef0s8MLlYNCdN7dIvFJbWK5Eo3U
+ sML7uUJ3CxUQuAxspvhHA0Sd92P8j7jhL0m0sQcbkPAfo4WZFB/RnJPP1YrCRib6GLVd
+ LamrRm5vheP+H7J25780yof6JWAWsDnzsi7/JmIF7RZ06PZeol73TIxjOAp+phEmlzUG
+ 13B2kEkYTDGxSMuPYrBt6n4omHzrMDHwFLaAjtvXIXyp8iJFYP/hqLZojhC9CwtOkH8C
+ 9lKWwnv4ernhop6pgxZV7QICMb4iLtBKqrBxnnNbTC8Wc9uESTVYvQL38OlcltFcuA59
+ WEZw==
+X-Gm-Message-State: AC+VfDyzyBZcY5N/8p4urrIQZkwrJjHSTfkWi8EQxQRzbR/5sk04JesF
+ tROfp20iHWOjDXuPGeMiLA==
+X-Google-Smtp-Source: ACHHUZ6ijD9N5SseCCQ1cWe5HZUVSbftXF5bMVUuAmhW+DgCGKOm3XkKpKsWZ5OlaP5anPyYkVoUGA==
+X-Received: by 2002:a05:6830:14c9:b0:6ab:840:c498 with SMTP id
+ t9-20020a05683014c900b006ab0840c498mr15482515otq.33.1684337300240; 
+ Wed, 17 May 2023 08:28:20 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ di10-20020a0568303a0a00b006a5db4474c8sm13400347otb.33.2023.05.17.08.28.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 May 2023 08:28:19 -0700 (PDT)
+Received: (nullmailer pid 894363 invoked by uid 1000);
+ Wed, 17 May 2023 15:28:17 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Alexandre Bailon <abailon@baylibre.com>
+In-Reply-To: <20230517145237.295461-8-abailon@baylibre.com>
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-8-abailon@baylibre.com>
+Message-Id: <168433729744.894347.3314650002007733913.robh@kernel.org>
+Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
+Date: Wed, 17 May 2023 10:28:17 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,105 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ sumit.semwal@linaro.org, bero@baylibre.com, khilman@baylibre.com,
+ nbelin@baylibre.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ jstephan@baylibre.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com, linux-kernel@vger.kernel.org,
+ tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In mutex_init() lockdep seems to identify a lock by defining a static
-key for each lock class. However if we wrap the whole thing in a
-function the static key will be the same for everything calling that
-function, which looks to be the case for drmm_mutex_init(). This then
-results in impossible lockdep splats since lockdep thinks completely
-unrelated locks are the same lock class. The other issue is that when
-looking at splats we lose the actual lock name, where instead of seeing
-something like xe->mem_access.lock for the name, we just see something
-generic like lock#8.
 
-Attempt to fix this by converting drmm_mutex_init() into a macro, which
-should ensure that mutex_init() behaves as expected.
+On Wed, 17 May 2023 16:52:37 +0200, Alexandre Bailon wrote:
+> This adds the device tree bindings for the APU DRM driver.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> 
 
-Reported-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Fixes: e13f13e039dc ("drm: Add DRM-managed mutex_init()")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/drm_managed.c | 26 --------------------------
- include/drm/drm_managed.h     | 23 ++++++++++++++++++++++-
- 2 files changed, 22 insertions(+), 27 deletions(-)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-index 4cf214de50c4..71c49819a7a2 100644
---- a/drivers/gpu/drm/drm_managed.c
-+++ b/drivers/gpu/drm/drm_managed.c
-@@ -263,29 +263,3 @@ void drmm_kfree(struct drm_device *dev, void *data)
- 	free_dr(dr_match);
- }
- EXPORT_SYMBOL(drmm_kfree);
--
--static void drmm_mutex_release(struct drm_device *dev, void *res)
--{
--	struct mutex *lock = res;
--
--	mutex_destroy(lock);
--}
--
--/**
-- * drmm_mutex_init - &drm_device-managed mutex_init()
-- * @dev: DRM device
-- * @lock: lock to be initialized
-- *
-- * Returns:
-- * 0 on success, or a negative errno code otherwise.
-- *
-- * This is a &drm_device-managed version of mutex_init(). The initialized
-- * lock is automatically destroyed on the final drm_dev_put().
-- */
--int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
--{
--	mutex_init(lock);
--
--	return drmm_add_action_or_reset(dev, drmm_mutex_release, lock);
--}
--EXPORT_SYMBOL(drmm_mutex_init);
-diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-index 359883942612..01f977e91933 100644
---- a/include/drm/drm_managed.h
-+++ b/include/drm/drm_managed.h
-@@ -105,6 +105,27 @@ char *drmm_kstrdup(struct drm_device *dev, const char *s, gfp_t gfp);
- 
- void drmm_kfree(struct drm_device *dev, void *data);
- 
--int drmm_mutex_init(struct drm_device *dev, struct mutex *lock);
-+static inline void __drmm_mutex_release(struct drm_device *dev, void *res)
-+{
-+	struct mutex *lock = res;
-+
-+	mutex_destroy(lock);
-+}
-+
-+/**
-+ * drmm_mutex_init - &drm_device-managed mutex_init()
-+ * @dev: DRM device
-+ * @lock: lock to be initialized
-+ *
-+ * Returns:
-+ * 0 on success, or a negative errno code otherwise.
-+ *
-+ * This is a &drm_device-managed version of mutex_init(). The initialized
-+ * lock is automatically destroyed on the final drm_dev_put().
-+ */
-+#define drmm_mutex_init(dev, lock) ({					     \
-+	mutex_init(lock);						     \
-+	drmm_add_action_or_reset(dev, __drmm_mutex_release, lock);	     \
-+})									     \
- 
- #endif
--- 
-2.40.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: 'maintainers' is a required property
+	hint: Metaschema for devicetree binding documentation
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+./Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/gpu/mtk,apu-drm.yaml#
+Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dts:18.15-22.11: Warning (unit_address_vs_reg): /example-0/apu@0: node has a unit name, but no reg or ranges property
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.example.dtb: apu@0: remoteproc: [[4294967295, 4294967295]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230517145237.295461-8-abailon@baylibre.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
