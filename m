@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CD7706BC3
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 16:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718FA706C08
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 17:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B90210E43D;
-	Wed, 17 May 2023 14:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F62C10E43F;
+	Wed, 17 May 2023 15:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9359D10E435
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 14:52:53 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id
- ffacd0b85a97d-3093a6311dcso872833f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:52:53 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9311010E433;
+ Wed, 17 May 2023 15:02:29 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id
+ 5614622812f47-39462726590so603693b6e.1; 
+ Wed, 17 May 2023 08:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684335171; x=1686927171; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1684335748; x=1686927748;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9mr1L/m4ima+2h/NhXtcjqbHddpi6u41EWoGArxh1iQ=;
- b=pdG2+3ODw0cGuNg/LORzvNsUqX1IiweDfrWioVGocQZDWZOWLRqkDaX4MTzyiQe1c7
- pkyEeUQ7xqMrhFPqgtTXbdZp3T0rwW0l0BIMsILSnzXcX/Sd7NVDoMo/aiSxsYvHmvbE
- 9CFhqMy1vU2U8NqgvLhl8WgFol9WpTF6r6EFUqq/RKyHw1v7dAJHBpN4C35EGlhKFu2m
- bv8X2zua8yim+q2TU1Nwjf+yYUMToKg1IrzAFE9ZZPxUgS9V2JJXJY3xZezoYKEGwVXh
- 5JUMdyDg8DXWWvuNp3X07uEX8GvfXlSZm2H1ourLwVfh0bfHuRQHtAUbRtnalP8rK24w
- 5aJA==
+ bh=TKbmhk5mhG7z3c3GAxFFuhJB73vX3ZYT4E6sRw2hPow=;
+ b=TZctVmK4SsezfrFblmqY4kNM+2qKf4p7EtidnfmNRpw5VxHTGl4l17tTIRgcFVDVn5
+ UJc44Cvq9A6Clc2qwpTAA5CX7NABaFRjmcFJwo0PFuvoXtdP6pqmkQuJrC6G4Fzj9Av1
+ TFTmEmbmYbHVQU9fgtrq5uXwwf0LofM0lCKU3tHmFYqoxtkp8V9N+bSLj5cf4OjzcpRD
+ shT3WIPsPurmjQvrsDFEvNgTFTG1ZP10cfFF04jMe+zuMSTfYcY70NKu+aDaNXKLe5tQ
+ oso/tR8vRUm7OIYHOg4iSvol8YiZRHqnH22nlfOvkPKNKiyraLpLeJvOH5zwZC4ctXeJ
+ psRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684335171; x=1686927171;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1684335748; x=1686927748;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9mr1L/m4ima+2h/NhXtcjqbHddpi6u41EWoGArxh1iQ=;
- b=G6MqWWZnwoPTwUnUMR0JTgIxEYKntRxy8h5MJ7f2oDmDKfhATTBlbMDoEuTZ8K7DOw
- S+Rk4++BWs6NAtpqoMKoPEaUVehqlmMSyKIa/AAXJfk3vNhIQ0grV6h4+F/3Khom6ee9
- O+qnSpyuBQ7zYhzn713vpxdqA4y/9qEcakaX1tlMXYTzd88zofRhhSYF2CGT2TUGizkK
- cDv61LAW18yDVQcxPZWrVbOwz+HUDWW4mO3nzjQrBOSQYKZp6gsQNW2RwB/7ZaeDy6K/
- w0gdLRV128l7hYMe4fgqZlFoJAJMLwvmlflRUSn5UTY+/OVVAGAL783WAWjPe1GCVLXS
- dLrA==
-X-Gm-Message-State: AC+VfDzZuLqaXAOUuhgG4iEgn9XtN/6x4xd76pLOhCTl3kuqa3cSmYpq
- R24+hYc5ENUNgxgLzMn3YWna4g==
-X-Google-Smtp-Source: ACHHUZ7D+XIYOY7fwEt1VA+EKenIzVfyhPoXQPx4ACohe42JP1CZtzERdmroTv625PctD16NHx1kmg==
-X-Received: by 2002:adf:e450:0:b0:307:97dd:1de2 with SMTP id
- t16-20020adfe450000000b0030797dd1de2mr930581wrm.25.1684335171626; 
- Wed, 17 May 2023 07:52:51 -0700 (PDT)
-Received: from blaptop.baylibre
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id
- v11-20020a5d678b000000b002f7780eee10sm2979098wru.59.2023.05.17.07.52.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 May 2023 07:52:51 -0700 (PDT)
-From: Alexandre Bailon <abailon@baylibre.com>
-To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de
-Subject: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
-Date: Wed, 17 May 2023 16:52:37 +0200
-Message-Id: <20230517145237.295461-8-abailon@baylibre.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230517145237.295461-1-abailon@baylibre.com>
-References: <20230517145237.295461-1-abailon@baylibre.com>
+ bh=TKbmhk5mhG7z3c3GAxFFuhJB73vX3ZYT4E6sRw2hPow=;
+ b=NWDEzmYyDMrhzGrki9BF8JnU1uFmFEZXPyQyvptIJhf5Vs133/iIqvxirGbnJZursu
+ oPUsK0YqyR6+9OY0XnB7hP2tnGIy+jnhGRdmGXAEVZfwnEIVmteywh9los6Tu+JrX7Rc
+ CUa7hMCcmy6v+3htbmgYCCrxJ+7ljJmuI0xLZaE4yGOyazMOmCpBGo7cizVNInevNni3
+ O75wCT2NHXNdAbT1X76BmbMyHXaQZNcgnhVyj6z5d46rujtaodBmH1J0WwTz7fowplo4
+ Yg2iU8XYHb8jE6be7HQjkl5Wllr0EUDYfcJw74OGOtfS5qwv5f/PlyFKpa9t5jA2jZUZ
+ s7Lg==
+X-Gm-Message-State: AC+VfDxN/tpcZJncqIoUgc7FLDUF7HH/XpnATVWDtoUUgB1OAgRL9XSE
+ TL20LFaLu68B6G3QMdophYJSd7nN9LEdU0aKGZo=
+X-Google-Smtp-Source: ACHHUZ7aekQb1x9F9rvCDp8f4Co46L85wUPMG2eUHozGqDTVgXG17TiuLqwkS7GGKNHVH5ueX5ugwwp+hC9sSyt+NbQ=
+X-Received: by 2002:a05:6870:5383:b0:192:b208:bc96 with SMTP id
+ h3-20020a056870538300b00192b208bc96mr21573960oan.4.1684335748295; Wed, 17 May
+ 2023 08:02:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230509102239.2935744-1-zhenguo.yin@amd.com>
+ <20230509102239.2935744-2-zhenguo.yin@amd.com>
+In-Reply-To: <20230509102239.2935744-2-zhenguo.yin@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 17 May 2023 11:02:17 -0400
+Message-ID: <CADnq5_NbpWOhUWcKB8_4xdzs5gjMONQMYyuX7sfwvXjb=5TRyg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/scheduler: avoid infinite loop if entity's
+ dependency is a scheduled error fence
+To: ZhenGuo Yin <zhenguo.yin@amd.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +71,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
- khilman@baylibre.com, jstephan@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, Alexandre Bailon <abailon@baylibre.com>,
- robh+dt@kernel.org, linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-media@vger.kernel.org, sumit.semwal@linaro.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: monk.liu@amd.com, jingwen.chen@amd.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the device tree bindings for the APU DRM driver.
++ dri-devel for scheduler
 
-Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
-Reviewed-by: Julien Stephan <jstephan@baylibre.com>
----
- .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-
-diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-new file mode 100644
-index 000000000000..6f432d3ea478
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-@@ -0,0 +1,38 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: AI Processor Unit DRM
-+
-+properties:
-+  compatible:
-+    const: mediatek,apu-drm
-+
-+  remoteproc:
-+    maxItems: 2
-+    description:
-+      Handle to remoteproc devices controlling the APU
-+
-+  iova:
-+    maxItems: 1
-+    description:
-+      Address and size of virtual memory that could used by the APU
-+
-+required:
-+  - compatible
-+  - remoteproc
-+  - iova
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    apu@0 {
-+      compatible = "mediatek,apu-drm";
-+      remoteproc = <&vpu0>, <&vpu1>;
-+      iova = <0 0x60000000 0 0x10000000>;
-+    };
-+
-+...
--- 
-2.39.2
-
+On Tue, May 9, 2023 at 6:23=E2=80=AFAM ZhenGuo Yin <zhenguo.yin@amd.com> wr=
+ote:
+>
+> [Why]
+> drm_sched_entity_add_dependency_cb ignores the scheduled fence and return=
+ false.
+> If entity's dependency is a schedulerd error fence and drm_sched_stop is =
+called
+> due to TDR, drm_sched_entity_pop_job will wait for the dependency infinit=
+ely.
+>
+> [How]
+> Do not wait or ignore the scheduled error fence, add drm_sched_entity_wak=
+eup
+> callback for the dependency with scheduled error fence.
+>
+> Signed-off-by: ZhenGuo Yin <zhenguo.yin@amd.com>
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index d3f4ada6a68e..96e173b0a6c6 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -384,7 +384,7 @@ static bool drm_sched_entity_add_dependency_cb(struct=
+ drm_sched_entity *entity)
+>         }
+>
+>         s_fence =3D to_drm_sched_fence(fence);
+> -       if (s_fence && s_fence->sched =3D=3D sched &&
+> +       if (!fence->error && s_fence && s_fence->sched =3D=3D sched &&
+>             !test_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &fence->flags)) {
+>
+>                 /*
+> --
+> 2.35.1
+>
