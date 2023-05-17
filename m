@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3495E706B48
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 16:36:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA52F706B46
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 16:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AA410E42F;
-	Wed, 17 May 2023 14:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8BD10E429;
+	Wed, 17 May 2023 14:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6AD10E429
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 14:36:07 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A328B10E42A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 14:36:06 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34HDa5sX015648; Wed, 17 May 2023 16:35:54 +0200
+ 34HEQUdp019431; Wed, 17 May 2023 16:35:50 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=selector1;
- bh=VuzeyXx3vDBXZhDujSRxX5i79czlhrzhUuiXRpr3N40=;
- b=AQiuWLU6iRw5GkOGfFxlcKLXsZkK9GoUNRrQmRklj9IWm912eziPag+F0YFNEGbhZERO
- 2/JFqMLIWNoXmSia21EVZdAKIRKdIb9IYtHeRGW8KT2mXUY1Yg9R5gl7/QOennSOxvLZ
- F7y9/CZzUQU+G1HZw2qDB09Gay1c0lQMXOOLIQRFyFUI1mXzeXVQuAuiiwNcLh9DW6Wq
- 8zDaPeUXCnBAALY/Iwj78naPbbdybcRVtAXQL4db2SnbZahueFOQujY8tKbvVsqFI2fO
- WEHupVVeCsyOSCJckQR11vo745nfM9L5CDg7Kz1PiuVbYr0bAxlXh87WD8ma3vOwUTYj Dg== 
+ bh=d9aTm5B43JWWioWzzlRT1g++6WPBHk064sWw8VwqBx8=;
+ b=jy/e6Cmc8xa84BHPPf6Wmv8LH74e4zRIPP5iA+socKRqiBh8fbsTWdmMO1vUAdzHZUjT
+ q6LJNKQQQv98WaCBL4nY2/9zJqQM3UzkTerUwGPw5nMZIerc9VOxU5C+KvzovTzt/RX9
+ 1If+zL4HletCFsWWmtBOLODalJg1R4G3BpNQE2rXlfJf2eeNdpS9nLsyUg5WfnyzAs4e
+ AgQPyP3QhlAu9SBVe0GPizk2Ek/e88SkyFYJq7Hh15AcN5UfupeH83qgJXJNhAoJZmN5
+ 3gWLZTB4RWU+qOqAJUeYS+WX2Skp4Z6QD14iSGDYocBvWccL8cefzzKliPcThCfAC3Tv PQ== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qm7tfh59d-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qmtefk65v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 16:35:54 +0200
+ Wed, 17 May 2023 16:35:50 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 38798100034;
- Wed, 17 May 2023 16:35:49 +0200 (CEST)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1B7DA10002A;
+ Wed, 17 May 2023 16:35:50 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 30B2423356C;
- Wed, 17 May 2023 16:35:49 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 10B3123356C;
+ Wed, 17 May 2023 16:35:50 +0200 (CEST)
 Received: from localhost (10.129.178.187) by SHFDAG1NODE2.st.com
  (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 17 May
- 2023 16:35:48 +0200
+ 2023 16:35:49 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
  Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -47,10 +47,9 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
  <alexandre.torgue@foss.st.com>, Marek Vasut <marex@denx.de>, Philippe Cornu
  <philippe.cornu@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>
-Subject: [PATCH v3 2/3] dt-bindings: display: st,
- stm32-dsi: Remove unnecessary fields
-Date: Wed, 17 May 2023 16:35:41 +0200
-Message-ID: <20230517143542.284029-3-raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v3 3/3] ARM: dts: stm32: fix several DT warnings on stm32mp15
+Date: Wed, 17 May 2023 16:35:42 +0200
+Message-ID: <20230517143542.284029-4-raphael.gallais-pou@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230517143542.284029-1-raphael.gallais-pou@foss.st.com>
 References: <20230517143542.284029-1-raphael.gallais-pou@foss.st.com>
@@ -81,29 +80,238 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"#address-cells" and "#size-cells" are two properties that are not
-mandatory. For instance, the DSI could refer to a bridge outside the scope
-of the node rather than include a 'panel@0' subnode. By doing so, address
-and size fields become then unnecessary, creating a warning at build time.
+Several warnings regarding LTDC and DSI on stm32mp15* device-trees remains.
+
+Those concern:
+  * "#size-cells" and "#address-cells" wrongly used
+  * residual "reg" property appearing on endpoints where it could be
+    avoided
+  * Changed 'panel-dsi@0' to 'panel@0' according to dsi-controller.yaml
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- Documentation/devicetree/bindings/display/st,stm32-dsi.yaml | 2 --
- 1 file changed, 2 deletions(-)
+ arch/arm/boot/dts/stm32mp151.dtsi                      |  5 -----
+ arch/arm/boot/dts/stm32mp157.dtsi                      |  7 -------
+ .../dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts    |  6 ++++--
+ .../boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts   |  6 ++++--
+ .../stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts  |  3 +--
+ arch/arm/boot/dts/stm32mp157c-dk2.dts                  |  8 ++++++++
+ arch/arm/boot/dts/stm32mp157c-ev1.dts                  | 10 +++++++---
+ arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts              |  3 +--
+ arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi     |  6 +-----
+ arch/arm/boot/dts/stm32mp15xx-dkx.dtsi                 |  3 +--
+ 10 files changed, 27 insertions(+), 30 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-index c488308d7be1..53560052aaf0 100644
---- a/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
-@@ -74,8 +74,6 @@ properties:
-                   - const: 2
+diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
+index a98ae58e2c1c..bf3830dca742 100644
+--- a/arch/arm/boot/dts/stm32mp151.dtsi
++++ b/arch/arm/boot/dts/stm32mp151.dtsi
+@@ -1529,11 +1529,6 @@ ltdc: display-controller@5a001000 {
+ 			clock-names = "lcd";
+ 			resets = <&rcc LTDC_R>;
+ 			status = "disabled";
+-
+-			port {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-			};
+ 		};
  
- required:
--  - "#address-cells"
--  - "#size-cells"
-   - compatible
-   - reg
-   - clocks
+ 		iwdg2: watchdog@5a002000 {
+diff --git a/arch/arm/boot/dts/stm32mp157.dtsi b/arch/arm/boot/dts/stm32mp157.dtsi
+index 54e73ccea446..5e733cd16ff9 100644
+--- a/arch/arm/boot/dts/stm32mp157.dtsi
++++ b/arch/arm/boot/dts/stm32mp157.dtsi
+@@ -24,14 +24,7 @@ dsi: dsi@5a000000 {
+ 			clock-names = "pclk", "ref", "px_clk";
+ 			resets = <&rcc DSI_R>;
+ 			reset-names = "apb";
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+ 			status = "disabled";
+-
+-			ports {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-			};
+ 		};
+ 	};
+ };
+diff --git a/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts b/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts
+index 9a2a4bc7d079..4279b26547df 100644
+--- a/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts
++++ b/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts
+@@ -49,6 +49,9 @@ &dsi {
+ 	phy-dsi-supply = <&reg18>;
+ 
+ 	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		port@0 {
+ 			reg = <0>;
+ 			dsi_in: endpoint {
+@@ -104,8 +107,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&dsi_in>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts b/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts
+index 390ee8c05754..efba54289820 100644
+--- a/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts
++++ b/arch/arm/boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts
+@@ -49,6 +49,9 @@ &dsi {
+ 	phy-dsi-supply = <&reg18>;
+ 
+ 	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		port@0 {
+ 			reg = <0>;
+ 			dsi_in_ltdc: endpoint {
+@@ -104,8 +107,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_out_dsi: endpoint@0 {
+-			reg = <0>;
++		ltdc_out_dsi: endpoint {
+ 			remote-endpoint = <&dsi_in_ltdc>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts b/arch/arm/boot/dts/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts
+index 0d7560ba2950..5116a7785201 100644
+--- a/arch/arm/boot/dts/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts
++++ b/arch/arm/boot/dts/stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts
+@@ -81,8 +81,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&panel_in>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp157c-dk2.dts b/arch/arm/boot/dts/stm32mp157c-dk2.dts
+index ab13e340f4ef..4bef2300ed7c 100644
+--- a/arch/arm/boot/dts/stm32mp157c-dk2.dts
++++ b/arch/arm/boot/dts/stm32mp157c-dk2.dts
+@@ -31,10 +31,15 @@ &cryp1 {
+ };
+ 
+ &dsi {
++	#address-cells = <1>;
++	#size-cells = <0>;
+ 	status = "okay";
+ 	phy-dsi-supply = <&reg18>;
+ 
+ 	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		port@0 {
+ 			reg = <0>;
+ 			dsi_in: endpoint {
+@@ -82,6 +87,9 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		ltdc_ep1_out: endpoint@1 {
+ 			reg = <1>;
+ 			remote-endpoint = <&dsi_in>;
+diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+index ba8e9d9a42fa..49ca94c19b02 100644
+--- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
++++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+@@ -101,9 +101,14 @@ dcmi_0: endpoint {
+ 
+ &dsi {
+ 	phy-dsi-supply = <&reg18>;
++	#address-cells = <1>;
++	#size-cells = <0>;
+ 	status = "okay";
+ 
+ 	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		port@0 {
+ 			reg = <0>;
+ 			dsi_in: endpoint {
+@@ -119,7 +124,7 @@ dsi_out: endpoint {
+ 		};
+ 	};
+ 
+-	panel-dsi@0 {
++	panel@0 {
+ 		compatible = "raydium,rm68200";
+ 		reg = <0>;
+ 		reset-gpios = <&gpiof 15 GPIO_ACTIVE_LOW>;
+@@ -239,8 +244,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&dsi_in>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+index 407ed3952f75..eada9cf257be 100644
+--- a/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
++++ b/arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts
+@@ -161,8 +161,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&panel_input>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi b/arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi
+index 302efac5d26f..e1306f92fd82 100644
+--- a/arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi
++++ b/arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi
+@@ -336,11 +336,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&adv7513_in>;
+ 		};
+ 	};
+diff --git a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
+index 0f1110e42c93..a6e2e20f12fa 100644
+--- a/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
++++ b/arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
+@@ -457,8 +457,7 @@ &ltdc {
+ 	status = "okay";
+ 
+ 	port {
+-		ltdc_ep0_out: endpoint@0 {
+-			reg = <0>;
++		ltdc_ep0_out: endpoint {
+ 			remote-endpoint = <&sii9022_in>;
+ 		};
+ 	};
 -- 
 2.25.1
 
