@@ -2,61 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7312E706099
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950FA7060AA
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:03:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C81010E3B1;
-	Wed, 17 May 2023 07:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8623010E3B4;
+	Wed, 17 May 2023 07:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A996210E3B1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:02:33 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-ba829e17aacso479352276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:02:33 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88D5D10E3B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:03:48 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-966287b0f72so62480766b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684307027; x=1686899027;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=skuWGLhcahKcfpI9gv7EyAfzwDHEZGuI7n4LLTizb9I=;
+ b=xcgAb9uPdAdq0nlFzp3iDfOIwtyGfWnBk7u2+E71JkslkOFLtAD8fhA4D1h/k5gZsI
+ WvNeZoWUuFqtS2GIo8vRwKh5qoZqTDJ6KP5BrDGj+VXcEK6ZudfdBgeH6Yztu1GeAzOr
+ jIFb0Va1Kg9/B97T61jibpyEXt72R6RE7uo+qJYo+as8nb42gGtPc/4l8B6Loyv+qXT2
+ zjE0ftbDZGIAa2AulDsP67AumuvGQucK/et8shEU5UN0G1Po/YYUxz3vyLxxNCLy/qL+
+ 4Tw4+o8uh1wk9ReW5FpREZFG/TWzY3vPJDBKDvj/9MatKtEMmwWJo1J8IdEi/6lwrOvW
+ 4Ugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684306952; x=1686898952;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kb66cM90aorprDoD+fU8o0Tfbn5W3STJm5DAIXq91ZM=;
- b=Rh45pGn2krlWTx6Kr7g4TEIgv9DYGVlg/Q9gwZ32pyqa7F5+gQOTIOElGN5q4fcjGW
- LzoAY8HQjeQWhWw+IZa3NS0wyHMLK8coPcQtk8SL+qgXFXY4v0Wiqh3P5gkXU2JTtauL
- doYzosd1CXWaRBwKC34eXxmPk4sHDNetORfrp5qBVIkHYPfStqi6e9y3mLN/9+eaPjcw
- ULp1zyQE8/VfKLqNK1F+mxBXAGA2yv3uoiUZh+EbWLuZep+2nfZjxmlkqN9STRCDP3iu
- 2t8Yn4Ylh3+QdFIM8r4DD/VcqMIbdRiA5qMxMmcxaSBcaA4WmCHkY5FwXfXShnDy+oPE
- LYbQ==
-X-Gm-Message-State: AC+VfDz6ZEYEDDUH9AvHOXS4lwXbahQPSmcbcghUy98/81Q217S+0LsF
- Px0nASwqlIbToKRiXk+5ETNUMgfwPVZIzQ==
-X-Google-Smtp-Source: ACHHUZ5INjj1SvsR9z+6RKwBnkcjzr1yJWnOYFUKCpAOPxwAQHyxZnFZgsrC22yk4zh5XB+TMifKsw==
-X-Received: by 2002:a25:3781:0:b0:ba8:206c:6702 with SMTP id
- e123-20020a253781000000b00ba8206c6702mr3385478yba.47.1684306952105; 
- Wed, 17 May 2023 00:02:32 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
- e17-20020a256911000000b00b9f4343547csm386202ybc.41.2023.05.17.00.02.31
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20221208; t=1684307027; x=1686899027;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=skuWGLhcahKcfpI9gv7EyAfzwDHEZGuI7n4LLTizb9I=;
+ b=SKV0Zx35GauETI7SjdTsYYVgzqJ8qAcPrkTeCFaoMD4Uczy6BusJeuvBYWsPBua/x7
+ nb/AQRIS74sjJP/nyXHQj3AaWlNgLRzXuUCRUgatFWt+QVYHoUccS4oNCoS+cBIGTPkH
+ 1Luutm9qJyhCR9/FtHXTgjJrY4kchSaj4RoBTtvhAgTuWL7psPw+iWYF9GyPUKh6ygEA
+ 5b7atutS8W12MKyYtahyW1h//MJmdk4dCncES+gYhNZLf0p0wxMKJAK5MtRIBzGzhtTH
+ meAkL1igmscPPil7aXmoWyGla3yF+/e/S3fSW8kHJgx4BOWZjRgiDhBM2Y8j927kj/Ve
+ AfVw==
+X-Gm-Message-State: AC+VfDz7u7u3Ci0hbPMS1U1TnAWp2HsDH7YzXvP3oKsLUOHpOof2rPk9
+ x7KPolVrZNbgjZLiKZi4Qk12Qg==
+X-Google-Smtp-Source: ACHHUZ7PbnK+4EsSURGPM2BgTIgsWuRJr6EknCyxYT2iu2yURY/Jp855T0yFgP+syLZqbCRC0hNxLw==
+X-Received: by 2002:a17:907:3ea5:b0:96b:559e:7f2f with SMTP id
+ hs37-20020a1709073ea500b0096b559e7f2fmr8394708ejc.38.1684307026625; 
+ Wed, 17 May 2023 00:03:46 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:c9ff:4c84:dd21:568d?
+ ([2a02:810d:15c0:828:c9ff:4c84:dd21:568d])
+ by smtp.gmail.com with ESMTPSA id
+ hv7-20020a17090760c700b00965be665811sm11871346ejc.2.2023.05.17.00.03.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 May 2023 00:02:31 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-ba71cd7ce7fso464937276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 00:02:31 -0700 (PDT)
-X-Received: by 2002:a25:c7cb:0:b0:ba7:5f08:ba07 with SMTP id
- w194-20020a25c7cb000000b00ba75f08ba07mr10396212ybe.33.1684306950735; Wed, 17
- May 2023 00:02:30 -0700 (PDT)
+ Wed, 17 May 2023 00:03:46 -0700 (PDT)
+Message-ID: <97124cb1-4f45-22d5-418f-568f8a68deec@linaro.org>
+Date: Wed, 17 May 2023 09:03:45 +0200
 MIME-Version: 1.0
-References: <20230516202257.559952-1-arnd@kernel.org>
-In-Reply-To: <20230516202257.559952-1-arnd@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 May 2023 09:02:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
-Message-ID: <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] dt-bindings: display: panel: add panel-mipi-dsi-bringup
+Content-Language: en-US
+To: Paulo Pavacic <pavacic.p@gmail.com>
+References: <CAO9szn18KsR0c+U8EEY1=xnmsKMxy6SEArMUic0z=aYJDVwWCQ@mail.gmail.com>
+ <023f6cf9-0f08-f27e-d203-5ff78faf110f@linaro.org>
+ <CAO9szn1EsbuPSRrOW8CLqhp+QUcL=9NE93FAwsg2n3htd_aJTw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAO9szn1EsbuPSRrOW8CLqhp+QUcL=9NE93FAwsg2n3htd_aJTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +79,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+On 17/05/2023 00:13, Paulo Pavacic wrote:
+> Hello, thank you for your time to review this patch and sorry for not
+> addressing all of the concerns, it was done unintentionally. This is
+> my first contribution to the Linux kernel and it is quite a process.
+> I have run those two scripts and haven't received any errors I have
+> latest master cloned so I will check what I did wrong.
+> 
+> The thing I would like to get approval on before I try anything else
+> is the name 'panel-mipi-dsi-bringup':
+> 
+>> Still wrong filename. You did not respond to my previous comments, so I
+> don't really understand what's this.
+>>
+>> Judging by compatible, this should be fannal,c3004.yaml
+>>
+>> If not, explain please.
+>>
+>> Missing user of the bindings - driver or DTS. Please sent patches together as patchset.
+> 
+> 
+> I wasn't sure how to name it and this name seemed fit. I'm not sure
+> how to be concise about this, but here is the full story as to why I
+> have done that:
+> 
+> I got a task to enable panel for which working driver wasn't
+> available. I have started testing raydium driver and modifying parts
+> of it until I got it working.
+> Driver was modified quite a lot, new functions, macros and structures
+> were added which resulted in a new driver.
+> Therefore I have made a simple driver which I have submitted for a
+> review which will probably be rejected now due tomany reasons I have
+> noticed after sending it:
+> https://lore.kernel.org/lkml/CAO9szn03msW6pu37Zws5EaFGL10rjp9ugPdCuDvOPuQRU72gVQ@mail.gmail.com/T/
+> 
+> While talking with manufacturers of the panel I have figured out that
+> they aren't that familiar with the Linux kernel.
+> They had previously only enabled  it on bare metal (PLA?) and provided
+> me with the initialization sequences. Initialization sequences are hex
+> values sent over MIPI DSI to initialize panel controller.
+> Initialization sequences sometimes also require delays after certain
+> commands and for different panels it can be very different.
+> I believe I have simplified it so that someone can follow comments
+> inside of the driver and try to enable mipi dsi panel by copy pasting
+> initialization code from bare metal system and doing minor
+> modifications.
+> Since I have targeted this at people who need to enable their panels
+> for the first time name seemed okay. I thought that since there is
+> panel-simple.yml that panel-mipi-dsi-bringup.yml would be acceptable
+> name.
 
-On Tue, May 16, 2023 at 10:23=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
-ote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> There is a global function with this name on sparc, but no
-> global declaration:
->
-> drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototype fo=
-r 'get_fb_unmapped_area'
->
-> Make the generic definition static to avoid this warning. On
-> sparc, this is never seen.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Bindings are for hardware, not driver, so they describe the hardware panel.
 
-Thanks for your patch!
+Best regards,
+Krzysztof
 
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1468,7 +1468,7 @@ __releases(&info->lock)
->  }
->
->  #if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && !defined(CONFIG_M=
-MU)
-> -unsigned long get_fb_unmapped_area(struct file *filp,
-> +static unsigned long get_fb_unmapped_area(struct file *filp,
->                                    unsigned long addr, unsigned long len,
->                                    unsigned long pgoff, unsigned long fla=
-gs)
->  {
-
-LGTM, as this is unrelated to the SPARC function, and SPARC does
-not support nommu (yet? ;-)
-
-drivers/video/fbdev/Kconfig:config FB_PROVIDE_GET_FB_UNMAPPED_AREA
-drivers/video/fbdev/Kconfig-    bool
-drivers/video/fbdev/Kconfig-    depends on FB
-drivers/video/fbdev/Kconfig-    help
-drivers/video/fbdev/Kconfig-      Allow generic frame-buffer to
-provide get_fb_unmapped_area
-drivers/video/fbdev/Kconfig-      function.
-
-Probably you want to update this help text, too. E.g.
-"to provide shareable character device support on nommu"?
-
-This seems to be selected only by DRM_STM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
