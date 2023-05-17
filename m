@@ -1,82 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA84705BD0
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 02:08:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259AC705CB9
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 03:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19E0110E3AB;
-	Wed, 17 May 2023 00:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39D2710E12C;
+	Wed, 17 May 2023 01:58:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2242210E388;
- Wed, 17 May 2023 00:07:47 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34GNgdID010932; Wed, 17 May 2023 00:07:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=4SMVEAH1zC9rMwo82eLAdC4vZTdlbhje86lZmHbv0UE=;
- b=l3LRabwmjg4VtY4jqEgTtP9E/WeKfVva0S7d8v5JT5a9hQXrvI1OGK7+R9KCheCmrA8Z
- cqYYbF8XPPGvKtEo24SEVMevANDvkrJ7J69na8ZhcIJsWBsPV4QSNQSixPNr1Toi2ucu
- nvylOhizlX4O9QF35n5HR9Tu4Z8lShBW/IH6QlXJu50AXg4911TU7ivXQaNJxLqvUhAm
- oQkQ3tPifBeV7Qv+3LzWq1ZRuA65r38Ui7WJClscT+FG+A+xYrI3MpXiYfdohoAGpVpa
- OsfxVNePdAwFFCqw+29QgaEo1yZIgh1+IiRuon/2aNFtobvlWQZYAFdfBq2ruDBS8jew Sw== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkkq9ccs0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 00:07:45 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34H07iTL020007
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 May 2023 00:07:44 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 16 May
- 2023 17:07:43 -0700
-Message-ID: <4c24babe-3983-6406-75a4-eaa432cf39c3@quicinc.com>
-Date: Tue, 16 May 2023 17:07:43 -0700
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6280A10E096;
+ Wed, 17 May 2023 01:58:36 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:42626.2114773713
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 7D6F9102973;
+ Wed, 17 May 2023 09:58:31 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-2qvwx with ESMTP id
+ 810a8ff56b7f48219248832b0e786209 for tzimmermann@suse.de; 
+ Wed, 17 May 2023 09:58:33 CST
+X-Transaction-ID: 810a8ff56b7f48219248832b0e786209
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <80b4b615-0a71-89e8-3a58-fbeb8a9a06e8@189.cn>
+Date: Wed, 17 May 2023 09:58:30 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v10 4/8] drm/msm: Add MSM-specific DSC helper methods
+Subject: Re: [v2,11/12] drm/fbdev-generic: Implement dedicated fbdev I/O
+ helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ javierm@redhat.com, sam@ravnborg.org
+References: <20230515094033.2133-12-tzimmermann@suse.de>
 Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20230329-rfc-msm-dsc-helper-v10-0-4cb21168c227@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v10-4-4cb21168c227@quicinc.com>
- <kx3be4c2okye2ts4rzy4j4ltnveixf7v4rxp5v4tl2irvevg6t@c5tuelunmn4c>
- <0e8a8af5-5ab8-c1b9-e08d-909072cc9b76@quicinc.com>
- <4cbqbu47vcshskl4npyzos5r7gxipjbbzyfvdfx7fenfh4mzmx@jj6lrysp35du>
- <a5a56711-3607-407c-aa8f-aed39a41fb73@linaro.org>
- <v4qix3bdxj3ykmjsokzrtubozdqh2fnh4mevpiz6v2y63csjb7@hddxgbi4yjgn>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <v4qix3bdxj3ykmjsokzrtubozdqh2fnh4mevpiz6v2y63csjb7@hddxgbi4yjgn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: j2yDsnACBkLjXsngOe5nJ45W-2p_9AI1
-X-Proofpoint-ORIG-GUID: j2yDsnACBkLjXsngOe5nJ45W-2p_9AI1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-16_13,2023-05-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- mlxlogscore=863 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- mlxscore=0 adultscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305160203
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20230515094033.2133-12-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,60 +54,327 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Thomas
 
 
-On 5/16/2023 3:49 PM, Marijn Suijten wrote:
-> On 2023-05-16 01:07:05, Dmitry Baryshkov wrote:
->>
->> On 16/05/2023 01:01, Marijn Suijten wrote:
->>> On 2023-05-15 13:29:21, Jessica Zhang wrote:
->>> <snip>
->>>>> Const, as requested elsewhere.  But this function is not used anywhere
->>>>> in any of the series (because we replaced the usages with more sensible
->>>>> member accesses like slice_chunk_size).
->>>>
->>>> Acked.
->>>>
->>>> I would prefer to keep this helper so that we have a way to easily get
->>>> BPP information from the DRM DSC config in the future, but if you'd
->>>> prefer we add this helper then, I'm also ok with that.
->>>
->>> The inverse helper is available ad DSC_BPP in drm_dsc_helper.c.  Perhaps
->>> we can move the two variants to the header and define them uniformly?
->>> This isn't MSM-specific it seems (i.e. the format supports fractional
->>> bpp but no RC parameters appear to be defined for such a format yet).
->>
->> I think DSC_BPP was removed (around v2 or v3 if I read changelog correctly).
-> 
-> Seems like it was removed at some point indeed, and now the helper file
-> picked up an identically named DSC_BPP macro but with the inverse
-> implementation :) - at least it's a *.c file.
-> 
-> Perhaps we can make it more consistent by defining both ways with
-> concise macros in a header.
+After apply your patch set, the kernel with 
+arch/loongarch/configs/loongson3_defconfig
 
-The changes in this series don't touch DSC_BPP so I think moving that 
-might be a change for another time, but I can at least move 
-msm_dsc_get_bpp_int to drm_dsc_helper.h.
+can not finish compile anymore.  gcc complains:
 
-Thanks,
 
-Jessica Zhang
+   AR      drivers/gpu/built-in.a
+   AR      drivers/built-in.a
+   AR      built-in.a
+   AR      vmlinux.a
+   LD      vmlinux.o
+   OBJCOPY modules.builtin.modinfo
+   GEN     modules.builtin
+   GEN     .vmlinux.objs
+   MODPOST Module.symvers
+ERROR: modpost: "fb_sys_write" [drivers/gpu/drm/drm_kms_helper.ko] 
+undefined!
+ERROR: modpost: "sys_imageblit" [drivers/gpu/drm/drm_kms_helper.ko] 
+undefined!
+ERROR: modpost: "sys_fillrect" [drivers/gpu/drm/drm_kms_helper.ko] 
+undefined!
+ERROR: modpost: "sys_copyarea" [drivers/gpu/drm/drm_kms_helper.ko] 
+undefined!
+ERROR: modpost: "fb_sys_read" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
+make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+make: *** [Makefile:1978: modpost] Error 2
 
-> 
->> As for the fraction-point BPP, I think AMD supports .5 bpp granularity,
->> see drivers/gpu/drm/amd/display/dc/dml/dsc/qp_tables.h
-> 
-> That won't use the helper then.
-> 
->> With best wishes
->> Dmitry
-> 
-> - Marijn
+
+On 2023/5/15 17:40, Thomas Zimmermann wrote:
+> Implement dedicated fbdev helpers for framebuffer I/O instead
+> of using DRM's helpers. Fbdev-generic was the only caller of the
+> DRM helpers, so remove them from the helper module.
+>
+> v2:
+> 	* use FB_SYS_HELPERS_DEFERRED option
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/Kconfig             |   6 +-
+>   drivers/gpu/drm/drm_fb_helper.c     | 107 ----------------------------
+>   drivers/gpu/drm/drm_fbdev_generic.c |  47 ++++++++++--
+>   include/drm/drm_fb_helper.h         |  41 -----------
+>   4 files changed, 43 insertions(+), 158 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 77fb10ddd8a2..92a782827b7b 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -95,6 +95,7 @@ config DRM_KUNIT_TEST
+>   config DRM_KMS_HELPER
+>   	tristate
+>   	depends on DRM
+> +	select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
+
+Here, select FB_SYS_HELPERS helps resolve the above issue mentioned.
+
+>   	help
+>   	  CRTC helpers for KMS drivers.
+>   
+> @@ -135,11 +136,6 @@ config DRM_FBDEV_EMULATION
+>   	select FB_CFB_FILLRECT
+>   	select FB_CFB_COPYAREA
+>   	select FB_CFB_IMAGEBLIT
+> -	select FB_DEFERRED_IO
+> -	select FB_SYS_FOPS
+> -	select FB_SYS_FILLRECT
+> -	select FB_SYS_COPYAREA
+> -	select FB_SYS_IMAGEBLIT
+>   	select FRAMEBUFFER_CONSOLE if !EXPERT
+>   	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+>   	default y
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 8724e08c518b..ba0a808f14ee 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -729,113 +729,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
+>   }
+>   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
+>   
+> -/**
+> - * drm_fb_helper_sys_read - Implements struct &fb_ops.fb_read for system memory
+> - * @info: fb_info struct pointer
+> - * @buf: userspace buffer to read from framebuffer memory
+> - * @count: number of bytes to read from framebuffer memory
+> - * @ppos: read offset within framebuffer memory
+> - *
+> - * Returns:
+> - * The number of bytes read on success, or an error code otherwise.
+> - */
+> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
+> -			       size_t count, loff_t *ppos)
+> -{
+> -	return fb_sys_read(info, buf, count, ppos);
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_sys_read);
+> -
+> -/**
+> - * drm_fb_helper_sys_write - Implements struct &fb_ops.fb_write for system memory
+> - * @info: fb_info struct pointer
+> - * @buf: userspace buffer to write to framebuffer memory
+> - * @count: number of bytes to write to framebuffer memory
+> - * @ppos: write offset within framebuffer memory
+> - *
+> - * Returns:
+> - * The number of bytes written on success, or an error code otherwise.
+> - */
+> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+> -				size_t count, loff_t *ppos)
+> -{
+> -	struct drm_fb_helper *helper = info->par;
+> -	loff_t pos = *ppos;
+> -	ssize_t ret;
+> -	struct drm_rect damage_area;
+> -
+> -	ret = fb_sys_write(info, buf, count, ppos);
+> -	if (ret <= 0)
+> -		return ret;
+> -
+> -	if (helper->funcs->fb_dirty) {
+> -		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
+> -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
+> -				     drm_rect_width(&damage_area),
+> -				     drm_rect_height(&damage_area));
+> -	}
+> -
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_sys_write);
+> -
+> -/**
+> - * drm_fb_helper_sys_fillrect - wrapper around sys_fillrect
+> - * @info: fbdev registered by the helper
+> - * @rect: info about rectangle to fill
+> - *
+> - * A wrapper around sys_fillrect implemented by fbdev core
+> - */
+> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
+> -				const struct fb_fillrect *rect)
+> -{
+> -	struct drm_fb_helper *helper = info->par;
+> -
+> -	sys_fillrect(info, rect);
+> -
+> -	if (helper->funcs->fb_dirty)
+> -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
+> -
+> -/**
+> - * drm_fb_helper_sys_copyarea - wrapper around sys_copyarea
+> - * @info: fbdev registered by the helper
+> - * @area: info about area to copy
+> - *
+> - * A wrapper around sys_copyarea implemented by fbdev core
+> - */
+> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
+> -				const struct fb_copyarea *area)
+> -{
+> -	struct drm_fb_helper *helper = info->par;
+> -
+> -	sys_copyarea(info, area);
+> -
+> -	if (helper->funcs->fb_dirty)
+> -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
+> -
+> -/**
+> - * drm_fb_helper_sys_imageblit - wrapper around sys_imageblit
+> - * @info: fbdev registered by the helper
+> - * @image: info about image to blit
+> - *
+> - * A wrapper around sys_imageblit implemented by fbdev core
+> - */
+> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
+> -				 const struct fb_image *image)
+> -{
+> -	struct drm_fb_helper *helper = info->par;
+> -
+> -	sys_imageblit(info, image);
+> -
+> -	if (helper->funcs->fb_dirty)
+> -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+> -}
+> -EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
+> -
+>   /**
+>    * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
+>    * @info: fb_info struct pointer
+> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> index 8e5148bf40bb..f53fc49e34a4 100644
+> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> @@ -34,6 +34,43 @@ static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
+>   	return 0;
+>   }
+>   
+> +static ssize_t drm_fbdev_generic_fb_write(struct fb_info *info, const char __user *buf,
+> +					  size_t count, loff_t *ppos)
+> +{
+> +	struct drm_fb_helper *helper = info->par;
+> +	loff_t pos = *ppos;
+> +	ssize_t ret;
+> +
+> +	ret = fb_sys_write(info, buf, count, ppos);
+> +	if (ret > 0)
+> +		drm_fb_helper_damage_range(helper, pos, ret);
+> +	return ret;
+> +}
+> +
+> +static void drm_fbdev_generic_fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
+> +{
+> +	struct drm_fb_helper *helper = info->par;
+> +
+> +	sys_fillrect(info, rect);
+> +	drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
+> +}
+> +
+> +static void drm_fbdev_generic_fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
+> +{
+> +	struct drm_fb_helper *helper = info->par;
+> +
+> +	sys_copyarea(info, area);
+> +	drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
+> +}
+> +
+> +static void drm_fbdev_generic_fb_imageblit(struct fb_info *info, const struct fb_image *image)
+> +{
+> +	struct drm_fb_helper *helper = info->par;
+> +
+> +	sys_imageblit(info, image);
+> +	drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
+> +}
+> +
+>   static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
+>   {
+>   	struct drm_fb_helper *fb_helper = info->par;
+> @@ -56,12 +93,12 @@ static const struct fb_ops drm_fbdev_generic_fb_ops = {
+>   	.owner		= THIS_MODULE,
+>   	.fb_open	= drm_fbdev_generic_fb_open,
+>   	.fb_release	= drm_fbdev_generic_fb_release,
+> -	.fb_read	= drm_fb_helper_sys_read,
+> -	.fb_write	= drm_fb_helper_sys_write,
+> +	.fb_read	= fb_sys_read,
+> +	.fb_write	= drm_fbdev_generic_fb_write,
+>   	DRM_FB_HELPER_DEFAULT_OPS,
+> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
+> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
+> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
+> +	.fb_fillrect	= drm_fbdev_generic_fb_fillrect,
+> +	.fb_copyarea	= drm_fbdev_generic_fb_copyarea,
+> +	.fb_imageblit	= drm_fbdev_generic_fb_imageblit,
+>   	.fb_mmap	= fb_deferred_io_mmap,
+>   	.fb_destroy	= drm_fbdev_generic_fb_destroy,
+>   };
+> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+> index 80c402f4e379..e3240d749a43 100644
+> --- a/include/drm/drm_fb_helper.h
+> +++ b/include/drm/drm_fb_helper.h
+> @@ -259,18 +259,6 @@ void drm_fb_helper_damage_range(struct drm_fb_helper *helper, off_t off, size_t
+>   
+>   void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
+>   
+> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
+> -			       size_t count, loff_t *ppos);
+> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char __user *buf,
+> -				size_t count, loff_t *ppos);
+> -
+> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
+> -				const struct fb_fillrect *rect);
+> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
+> -				const struct fb_copyarea *area);
+> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
+> -				 const struct fb_image *image);
+> -
+>   ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
+>   			       size_t count, loff_t *ppos);
+>   ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
+> @@ -398,35 +386,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
+>   	return -ENODEV;
+>   }
+>   
+> -static inline ssize_t drm_fb_helper_sys_read(struct fb_info *info,
+> -					     char __user *buf, size_t count,
+> -					     loff_t *ppos)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -static inline ssize_t drm_fb_helper_sys_write(struct fb_info *info,
+> -					      const char __user *buf,
+> -					      size_t count, loff_t *ppos)
+> -{
+> -	return -ENODEV;
+> -}
+> -
+> -static inline void drm_fb_helper_sys_fillrect(struct fb_info *info,
+> -					      const struct fb_fillrect *rect)
+> -{
+> -}
+> -
+> -static inline void drm_fb_helper_sys_copyarea(struct fb_info *info,
+> -					      const struct fb_copyarea *area)
+> -{
+> -}
+> -
+> -static inline void drm_fb_helper_sys_imageblit(struct fb_info *info,
+> -					       const struct fb_image *image)
+> -{
+> -}
+> -
+>   static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
+>   					     size_t count, loff_t *ppos)
+>   {
