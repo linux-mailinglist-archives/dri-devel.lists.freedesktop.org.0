@@ -1,43 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D7470699F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 15:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFAAA7069AE
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 15:23:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685B710E41B;
-	Wed, 17 May 2023 13:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B120B10E41E;
+	Wed, 17 May 2023 13:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43DC110E41B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 13:20:37 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pzH51-0005lI-B6; Wed, 17 May 2023 15:20:35 +0200
-Message-ID: <eeffc9d6ff1b5db2b096f4cde5f88c65d2258b9d.camel@pengutronix.de>
-Subject: Re: [PATCH V6 4/6] drm: bridge: samsung-dsim: Select
- GENERIC_PHY_MIPI_DPHY
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Date: Wed, 17 May 2023 15:20:32 +0200
-In-Reply-To: <CAHCN7xJZMu2u2gydmL9gF16Sd6wVX62kJRpzvZnhQLCtRm-zrQ@mail.gmail.com>
-References: <20230515235713.232939-1-aford173@gmail.com>
- <20230515235713.232939-5-aford173@gmail.com>
- <a0debcb9251aa99326aec44235d39f84c6086096.camel@pengutronix.de>
- <CAHCN7xJZMu2u2gydmL9gF16Sd6wVX62kJRpzvZnhQLCtRm-zrQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BDF10E423
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 13:23:02 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34HAE4FX019286; Wed, 17 May 2023 15:22:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=BZr8fDGfdp37BckovBTdF+2bEwCeqebT3IP9pKPZ1WM=;
+ b=l64+D3Cr1PWnikE0y1Z2JLhDp/I6hhaAcFbCjdqRQfZ2rZYjpp2UYIWqOQAtoQIwyppE
+ ZJshEe/hw8ENmf2R8NmfrzWc2oGoPiv/l5KazZDAgRra5oNKIGchSlVlyjN46SDftuC0
+ 266C+byeTplLlc0JT2GMEX+mQ/CHHLI0NJMM7+JfnxSmRnU5UJKTnhKVEx9vujmn32qU
+ CyMa2eUZDMGkQrpbilZthHilLL3mI/AaCtAhmMoyxYPofB3Ee+VLklQrAYIO594BBlcl
+ qPvbg3Ulce01ZweVMzWrs7EfplUbsXg3xCIA80/tPFAwy0hr8Xnlch7EXPS9TUlif9M6 8w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qmtefjqbe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 15:22:47 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 16750100034;
+ Wed, 17 May 2023 15:22:47 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0DE0E2309C4;
+ Wed, 17 May 2023 15:22:47 +0200 (CEST)
+Received: from localhost (10.129.178.187) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 17 May
+ 2023 15:22:46 +0200
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Marek Vasut <marex@denx.de>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: [PATCH 0/3] STM32 warning cleanup
+Date: Wed, 17 May 2023 15:22:11 +0200
+Message-ID: <20230517132214.254757-1-raphael.gallais-pou@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.129.178.187]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-17_02,2023-05-17_02,2023-02-09_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,66 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, aford@beaconembedded.com,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel@dh-electronics.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 17.05.2023 um 08:02 -0500 schrieb Adam Ford:
-> On Wed, May 17, 2023 at 7:58=E2=80=AFAM Lucas Stach <l.stach@pengutronix.=
-de> wrote:
-> >=20
-> > Am Montag, dem 15.05.2023 um 18:57 -0500 schrieb Adam Ford:
-> > > In order to support variable DPHY timings, it's necessary
-> > > to enable GENERIC_PHY_MIPI_DPHY so phy_mipi_dphy_get_default_config
-> > > can be used to determine the nominal values for a given resolution
-> > > and refresh rate.
-> > >=20
-> > I would just squash this one into the patch introducing the dependency.
->=20
-> I thought Kconfig updates were supposed to be on their own.  Is that
-> not correct?
->=20
-I'm not aware of a general rule for this, but maybe I just missed it.
-Personally I would have added this to the patch introducing the
-dependency, but I'm also fine with keeping it as a separate patch.
+This serie aims to reduce the number of device-tree warnings of
+following boards :
 
-Regards,
-Lucas
+  - STM32F429-DISCO
+  - STM32MP15*
 
+Those warnings were appearing either during build or when checking
+dt-bindings and concern mostly LTDC and DSI IPs and were due to the
+following cases:
 
-> adam
-> >=20
-> > Regards,
-> > Lucas
-> >=20
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/bridge/Kconfig | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/=
-Kconfig
-> > > index f076a09afac0..82c68b042444 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -227,6 +227,7 @@ config DRM_SAMSUNG_DSIM
-> > >       select DRM_KMS_HELPER
-> > >       select DRM_MIPI_DSI
-> > >       select DRM_PANEL_BRIDGE
-> > > +     select GENERIC_PHY_MIPI_DPHY
-> > >       help
-> > >         The Samsung MIPI DSIM bridge controller driver.
-> > >         This MIPI DSIM bridge can be found it on Exynos SoCs and
-> >=20
+  - panel-dsi@0 nodes that needed
+  - unnecessary #address-cells and #size-cells properties
+  - residual 'reg' field on single endpoints
+
+Raphael Gallais-Pou (3):
+  ARM: dts: stm32: fix warnings on stm32f469-disco board
+  dt-bindings: display: st,stm32-dsi: Remove unnecessary fields
+  ARM: dts: stm32: fix several DT warnings on stm32mp15
+
+ .../devicetree/bindings/display/st,stm32-dsi.yaml      |  2 --
+ arch/arm/boot/dts/stm32f469-disco.dts                  |  4 ++--
+ arch/arm/boot/dts/stm32mp151.dtsi                      |  5 -----
+ arch/arm/boot/dts/stm32mp157.dtsi                      |  7 -------
+ .../dts/stm32mp157a-icore-stm32mp1-ctouch2-of10.dts    |  6 ++++--
+ .../boot/dts/stm32mp157a-icore-stm32mp1-edimm2.2.dts   |  6 ++++--
+ .../stm32mp157a-microgea-stm32mp1-microdev2.0-of7.dts  |  3 +--
+ arch/arm/boot/dts/stm32mp157c-dk2.dts                  |  8 ++++++++
+ arch/arm/boot/dts/stm32mp157c-ev1.dts                  | 10 +++++++---
+ arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts              |  3 +--
+ arch/arm/boot/dts/stm32mp15xx-dhcor-avenger96.dtsi     |  6 +-----
+ arch/arm/boot/dts/stm32mp15xx-dkx.dtsi                 |  3 +--
+ 12 files changed, 29 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
 
