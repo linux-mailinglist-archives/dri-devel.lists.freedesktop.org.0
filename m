@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442B1706E95
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1528A706E97
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94D510E1C9;
-	Wed, 17 May 2023 16:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3544610E457;
+	Wed, 17 May 2023 16:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB4C10E45A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:50:23 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2ac80ed7f26so10591121fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:50:23 -0700 (PDT)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E20B10E459
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:50:24 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-2af0f139a22so5011851fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684342221; x=1686934221;
+ d=linaro.org; s=google; t=1684342222; x=1686934222;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=jKJzh3VBdMQOrvlfJ6ldWhmoYbX6WSR7/WgTonW/aWQ=;
- b=YmiF+k1DCo7sJT82Nk4sHD2XysqRnE+/gQkavGhTVbv/wfUHjEY8DCZp2ALGlIVFxK
- vFJI4qnhA+rQycQEkYdzapsq5QVvy9SXn5xlTDOoXdH3J1z58P59pbM7e5MxV4tA0hp3
- rbiaEhfSmmAB1rsLKvlYg6c7wOpxONwYICuOrUPT+3L/+in9V33CHGd/qHhzTf6wO3yG
- +Jvh6u1Zv7vUkNa2k4FikK39n3WwVam404AZmfXKxvskCzetQqAQjfBdSlJA3260QPCp
- 37em6Erd7VhUrUSU/c10E737Ddrm8tAWCQ8bpq2ENKPG9oV1u1LR+ePlOFOzGeCaiwlF
- ZPbw==
+ :reply-to; bh=CoLKDA4nls3CGbrXvxh61SjvP4v8d9SGkB682PI8Y9w=;
+ b=i1dbxqi1eNd4Yl7qbKa/DzCua/Zv8bljh0np7sIKjpbnORXCN9UsIhb5KLwUY+3dBD
+ u3QBbSJoeQafLR5qSuG5M56upGulM+buDf5h6zXgu6IJ/+z9q21Pc4Bh06H2v0pzwbhE
+ yysaAAtLWODaCtqxXB/SZ4cRvzh51IFPxZCyiECJ9CianawcNL6GfVVPvTqSDkChueop
+ sx73h9FNmjFTg9uXTkJr3CFgFEodDdOPEK5UN2HIdTHfxVD6iSTXT3KdPrHm1j8NZHqT
+ jEUZzg3jTxcRCBziiaA3RJUytD4cQN0zjblIst5AZJQCrV4VLjV+Ma8G2xOLMeoh1+4o
+ /4jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684342221; x=1686934221;
+ d=1e100.net; s=20221208; t=1684342222; x=1686934222;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jKJzh3VBdMQOrvlfJ6ldWhmoYbX6WSR7/WgTonW/aWQ=;
- b=QyZiaysCbcjE68QuT15eOjcn30jk3xjTZq8h1lLmom3T/5HmZBRGeh8TdsOZJ0/A78
- FxBAE4rUtfsLZH/AQikfHGRZqqKJzm8XAQmzZKE3IrsLbvDbbWsE6zSAxN+9mx3JjzNE
- TQRIwyLgsq1oXkkuRnkqlsGals9QHdBw3QdUWJp9qaPMp4EEBq5krHQZMK3Rp/vpCTQE
- yZmgHpN1+xaOINLXMUbujbFFosKzPURRdPSoqyKlbMgWTOd2SITOLFR7KSGj2ugYLGia
- FkkT+PI6cQl8O4Fj31TtjvsOAo8Vu03TnJUMw+IBPYleR441OAn8QGKdHkMeVEc8g09x
- iiBw==
-X-Gm-Message-State: AC+VfDwcYGqXrtHGSim4TMnYp0SZneG9OSzjHWVo7Rk6mf4a3oDUy+N4
- JKD3virDTbwAvat8rdNhvFJmoQ==
-X-Google-Smtp-Source: ACHHUZ4scB0qXASKtXLDjxdCzSc8nOLwoqbw3Tshdmgqbc6XZcRpopUJoPcc0s3OQF9oqf10FQSm+g==
-X-Received: by 2002:a2e:9d03:0:b0:2a7:a616:c39 with SMTP id
- t3-20020a2e9d03000000b002a7a6160c39mr9789440lji.48.1684342221526; 
- Wed, 17 May 2023 09:50:21 -0700 (PDT)
+ bh=CoLKDA4nls3CGbrXvxh61SjvP4v8d9SGkB682PI8Y9w=;
+ b=kKyD3FVB/PsLWPhzN9X71Pa9+jOf/q6Bs2G67A9+nBTd7LtL5CBfk66LG31ZN9SFOy
+ FpdGejFp9qYnVNOVhbitkn33bbtyR0leILSXdCpJM5kJG2yhsJxrgcD5ErJ7H1WMNWVQ
+ 5Ur+feNcTxePimp6KstlNhe96DT2Eeq0lXxKnHWsCfLDzc8BOsQsgn6ex7Y20hrnqCpz
+ t7s0F6uFHnR+Zf88pxHf8pFMh94yYBN6w0VL/6X18niVTWCrMuxhelq4TAj7F2Zq63n7
+ W1qFNs3boo7YNs/0cijJMKovANQNfNX73CxZyErK6lrUeWG2Xe1q0C0r26m1nduQTflP
+ EzwA==
+X-Gm-Message-State: AC+VfDxCWghUIKYIlC43JthSId9pM0jj37a2smtoFI4NDJakKh4fX+7j
+ egmv9XkVQSO9j+a2KMwOhUSV0w==
+X-Google-Smtp-Source: ACHHUZ4jLbe6d4GH4iLPsue2yFWhS8POeGWQvmRFqujlYCuVRms6eu9CsVJJf+zBSskasB3XfoOD2w==
+X-Received: by 2002:a2e:a408:0:b0:2ac:6f6f:ff63 with SMTP id
+ p8-20020a2ea408000000b002ac6f6fff63mr11229311ljn.47.1684342222724; 
+ Wed, 17 May 2023 09:50:22 -0700 (PDT)
 Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a2e9cc6000000b002af0e9abaf6sm159224ljj.131.2023.05.17.09.50.20
+ g6-20020a2e9cc6000000b002af0e9abaf6sm159224ljj.131.2023.05.17.09.50.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 May 2023 09:50:21 -0700 (PDT)
+ Wed, 17 May 2023 09:50:22 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 17 May 2023 18:50:12 +0200
-Subject: [PATCH 5/6] drm/msm/a6xx: Use GMU_ALWAYS_ON_COUNTER for
- GMU-equipped GPUs in timestamp
+Date: Wed, 17 May 2023 18:50:13 +0200
+Subject: [PATCH 6/6] drm/msm/a6xx: Fix up GMU region reservations
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230517-topic-a7xx_prep-v1-5-7a964f2e99c2@linaro.org>
+Message-Id: <20230517-topic-a7xx_prep-v1-6-7a964f2e99c2@linaro.org>
 References: <20230517-topic-a7xx_prep-v1-0-7a964f2e99c2@linaro.org>
 In-Reply-To: <20230517-topic-a7xx_prep-v1-0-7a964f2e99c2@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -65,11 +64,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684342212; l=1052;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684342212; l=1342;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=yXq/EvspiDM4WLys1dNWbAg7dVVScVQhvkOnD1ANMBI=;
- b=r6jwsVtQ4nvBF0AJY4c2o98RWESzy2qTp1iwGXmihRYAaw/Lb3C3Gds/eT2qIOq5DsqpEtp6u
- 156ORD/lpIhDMiWaQkypMLl/VUZdMdWCtf9EjO5p0/D/H2C4QjxlzCj
+ bh=btUFgb1HmX4JzaeMKMcU2R1/tETWRJTF/5M21P54ufE=;
+ b=2iOzY8M2I2x7twxabI/OJXdaVxfB9SkZvzqmhiZsOvaZVWXV/x0sZHjUtqXXsmMTWRk4wRQQM
+ 64+sM1IyjWSAs6uhXWBqPJWO2gwmSn1SumxzfMpgnd2I0KV4SOOH3kn
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,33 +90,39 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the always-on counter provided by the GMU to skip having to
-keep the GPU online.
+Change the order of region allocations to make the addresses match
+downstream. This shouldn't matter very much, but helps eliminate one
+more difference when comparing register accesses.
+
+Also, make the log region 16K long. That's what it is, unconditionally
+on A6xx and A7xx.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 8707e8b6ac7e..d2a999b90589 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1664,12 +1664,9 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 8004b582e45f..386c81e1a2f3 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -1614,13 +1614,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 			goto err_memory;
+ 	}
  
- 	mutex_lock(&a6xx_gpu->gmu.lock);
+-	/* Allocate memory for for the HFI queues */
+-	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
++	/* Allocate memory for the GMU log region */
++	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_16K, 0, "log");
+ 	if (ret)
+ 		goto err_memory;
  
--	/* Force the GPU power on so we can read this register */
--	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
--
--	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
--
--	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
-+	*value = gmu_read64(&a6xx_gpu->gmu,
-+			    REG_A6XX_GMU_ALWAYS_ON_COUNTER_L,
-+			    REG_A6XX_GMU_ALWAYS_ON_COUNTER_H);
- 
- 	mutex_unlock(&a6xx_gpu->gmu.lock);
+-	/* Allocate memory for the GMU log region */
+-	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_4K, 0, "log");
++	/* Allocate memory for for the HFI queues */
++	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
+ 	if (ret)
+ 		goto err_memory;
  
 
 -- 
