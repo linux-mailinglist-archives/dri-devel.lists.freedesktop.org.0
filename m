@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E706706E8A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3046706E92
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7EFF10E11E;
-	Wed, 17 May 2023 16:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FAE610E1A9;
+	Wed, 17 May 2023 16:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7891810E11E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:50:16 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2ac831bb762so10326491fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:50:16 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0285C10E127
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 16:50:17 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2ac87e7806aso9744731fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684342214; x=1686934214;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Qu3lyWs3Jbx0/jeZXUB6hf2dlkHallCSn46b3AvlYYI=;
- b=YqE6HhdyUGy4W9xtxxoPucGkbifgxv0R6p3g00l33zbm9pWPUToFqZa3RqRKnWmRbD
- 1LmqI0SC/n5wP/2HoNMrA0CjBg/DMvBk/XPiUzmB/hvx/GuP7MO7e8IQqtRZ3hY/7vPz
- +JutbUhDxW/3WG/Gbs8PGZqEoNqFrogO2ictnvbC93qbBnvbRP1vD2nKMHSIj6SSUKLk
- 1FWumXpW8hi7+2zn5F2EHx+nSsua0rZfYe7rB9Jqrg+gMzHl4CJOsHZcBMJecTjFzqgt
- ++8513xov++McXYwn9Xy8N1XtNwiFgWFyZWFpDygrnqkf9M4gC/ZD5JoazASjVYRQkYu
- 8jtg==
+ d=linaro.org; s=google; t=1684342216; x=1686934216;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=TYnjMvr3c+U3gEgGMSSumyjYrLuRnotb/3F/SfKgnsc=;
+ b=H3+H6CK9OlvzfGPyRfjrVtlkNebZoZL80kYdFo90TWG3Kza3b1d9b0thw7XjQDCR5/
+ QkvT8L0j0o8qGLCDCGQydU8iLbrdgtBDsW/ZpYiw2JhmMT0g1laPA8k4AE8MPwwq9SUk
+ RFBJBgrSlZyEVJZGtGhHlAHp7V4GjGM1CocFggbadNioiBCmT/lIrG3io2TYa6jaTHtf
+ W7jlVRcCHeAfglEIhiR2G3LWrbrCCdPGgcNeuPdR0RxlTU803i06zS97/SN/P6dXHOIk
+ ppAkxOddvRR+SZINU9HvalMy8Z4cJi2uMAe6i9RPVuZaTf1TBz0wwKx0lDggHVYH41EP
+ NpDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684342214; x=1686934214;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Qu3lyWs3Jbx0/jeZXUB6hf2dlkHallCSn46b3AvlYYI=;
- b=Zw/wmMMaQwoG8W51STcMBEqDRVGT+U3AFl8FgmvSHL8Yh9XxNoPCa+uo0MCEM8RoFv
- jBoi8noayEN8wVSlDPuYWcSXD2CI+8EReQm3zZDVoeum7dY+QC0GUzKWenrSViM6RYzi
- cfxYkbSeXVdS/0Ew3V5hhpNp3WzBs/3xxm0EWszzohovmQUz8iaCgzT7ydKG36ZsI8U9
- MjKZXgsCIOysUUKaF4xyV+l7UH4vsh+U3uYMsmifi8DGpuYPg7fWVCE6+P4KFl/hVttl
- V+X6JbI0XyAxAQOaCegcZgE/NARel8zkbllL5S6QqMb9Uz8oqkOukfpuM5ALPFEnDYzN
- GC/Q==
-X-Gm-Message-State: AC+VfDyX55Y28g9cIwg2dRM8s5SDg4yENCphdOZxTWwfCUkmAsaGLd8H
- K6Kja2VDcMea8/JLUaKt1x2fnA==
-X-Google-Smtp-Source: ACHHUZ7B1OkgdyFqV7dA+bLi8NfyBZ5hPdx4Dm9efcTeqthni/6gYdQdU9dCQt6KhxgZntR/mv09GA==
-X-Received: by 2002:a2e:91c5:0:b0:2aa:af16:5c55 with SMTP id
- u5-20020a2e91c5000000b002aaaf165c55mr10779281ljg.44.1684342214593; 
- Wed, 17 May 2023 09:50:14 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684342216; x=1686934216;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TYnjMvr3c+U3gEgGMSSumyjYrLuRnotb/3F/SfKgnsc=;
+ b=aEVuFBHl+ElLFSIDIYTGocRxO831fyuPeeLZbvKKHO2A+vJDD8BVMhjs5qZtHY/yXj
+ LdYShlaOoUgZHyTkb1+gvk8tzpojKxrkvJhPBs2XWNOfQ5OIJOJIhYuqlytMBhxXKest
+ 54oBVEuPnh56mjUkdI6P0CIKdQ3hPPqhXiHUVXkMsQZZyZ8pqBGONgVHOjZfgK1U9ed1
+ WUyYto3Vg8ZfGwHDHoS0WQ9yj86FenTizGIFHE2aoabyxCe66ZJia5mNSVz48+h3LPan
+ qwF9TWz1e1+kBrnf8l+EMFMKExfFZCtXJKjZVWRC/DgeEmsDIhiSBKTV9aWq02LzA7og
+ UDlQ==
+X-Gm-Message-State: AC+VfDxzXx7y1jJTjtsyfFoFHxXlBOPTbxognY28wrfX6KelXOZlboPl
+ irJBfDZUKAaeDK1Kj9RmzR+sbQ==
+X-Google-Smtp-Source: ACHHUZ4ZBHxs0qZdACjv7XhqFKvDKZRmJWH5/RJd5SJTyuDnOfv+PHn0AlDitJ+0f/L2xUrKaDZNng==
+X-Received: by 2002:a2e:3211:0:b0:2a8:ba15:eb6f with SMTP id
+ y17-20020a2e3211000000b002a8ba15eb6fmr9431605ljy.6.1684342215787; 
+ Wed, 17 May 2023 09:50:15 -0700 (PDT)
 Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a2e9cc6000000b002af0e9abaf6sm159224ljj.131.2023.05.17.09.50.12
+ g6-20020a2e9cc6000000b002af0e9abaf6sm159224ljj.131.2023.05.17.09.50.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 May 2023 09:50:14 -0700 (PDT)
+ Wed, 17 May 2023 09:50:15 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH 0/6] Adreno QoL changes
-Date: Wed, 17 May 2023 18:50:07 +0200
-Message-Id: <20230517-topic-a7xx_prep-v1-0-7a964f2e99c2@linaro.org>
+Date: Wed, 17 May 2023 18:50:08 +0200
+Subject: [PATCH 1/6] drm/msm/a6xx: Explain CP_PROTECT_CNTL writes in
+ a6xx_set_cp_protect
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL8FZWQC/x2N0QqDMAxFf0XybKA6trj9iowRa6oBqaXdRkH89
- 4U9nsM93AOKZJUCj+aALF8tukeDrm3ArxwXQZ2NoXf9xV07wvee1CNTra+UJSENxLe7p9mFAFZ
- NXASnzNGv1sXPtpm0ZdD6vxmf5/kDWs6iCHYAAAA=
+Message-Id: <20230517-topic-a7xx_prep-v1-1-7a964f2e99c2@linaro.org>
+References: <20230517-topic-a7xx_prep-v1-0-7a964f2e99c2@linaro.org>
+In-Reply-To: <20230517-topic-a7xx_prep-v1-0-7a964f2e99c2@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684342212; l=971;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684342212; l=1118;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=+el7PqiUKmuBnYDuD93qCjkLN+POO/QcjFGpgw7amf0=;
- b=I+eTif+5OVxiz5T1jAnY0c3EyKvbZtNVmuIgmiwcS4EQl1tWIrD8wAq3ratR8+88fMXU9M0Q+
- Om6Zb11zNzTDegUIrWEsg6zeuEMq3DoyBQjp0ernsgB6ONfhpHSi0Uc
+ bh=aeaKOCz5rng2fUAGM03IzdiKTh6ymb1woS+RnpEksJ8=;
+ b=kDW/wsHgJ4Xp1eVrDnOZAzxAODW5ws6Zqm/96IDWguKJ8oITdolvZOvBjyGjQEJPILzMHfobA
+ T5r2ncZOohjCdxOLtmFco0HTV27E/+hyiab/rQ4ovzpEwkkpSRj6m5y
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,28 +91,32 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series brings some niceties in preparation for A7xx introduction.
-
-It should be fully independent of the GMU wrapper series.
+We have the necessary information, so explain which bit does what.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Konrad Dybcio (6):
-      drm/msm/a6xx: Explain CP_PROTECT_CNTL writes in a6xx_set_cp_protect
-      drm/msm/a6xx: Skip empty protection ranges entries
-      drm/msm/a6xx: Ensure clean GMU state in a6xx_gmu_fw_start
-      drm/msm/a6xx: Improve GMU force shutdown sequence
-      drm/msm/a6xx: Use GMU_ALWAYS_ON_COUNTER for GMU-equipped GPUs in timestamp
-      drm/msm/a6xx: Fix up GMU region reservations
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 21 +++++++++++++++++----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 23 ++++++++++++-----------
- 2 files changed, 29 insertions(+), 15 deletions(-)
----
-base-commit: 065efa589871e93b6610c70c1e9de274ef1f1ba2
-change-id: 20230517-topic-a7xx_prep-787a69c7d0ff
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 9fb214f150dd..deed42675fe2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -771,9 +771,10 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+ 	}
+ 
+ 	/*
+-	 * Enable access protection to privileged registers, fault on an access
+-	 * protect violation and select the last span to protect from the start
+-	 * address all the way to the end of the register address space
++	 * BIT(0) - Enable access protection to privileged registers
++	 * BIT(1) - Enable fault on an access protect violation
++	 * BIT(3) - Select the last span to protect from the start
++	 * 	    address all the way to the end of the register address space
+ 	 */
+ 	gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, BIT(0) | BIT(1) | BIT(3));
+ 
 
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.40.1
 
