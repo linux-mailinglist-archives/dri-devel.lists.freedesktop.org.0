@@ -2,42 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60757707BC4
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 10:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73661707BC1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 10:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C9010E4E5;
-	Thu, 18 May 2023 08:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC3110E097;
+	Thu, 18 May 2023 08:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B268810E3DA
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 09:41:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 815406447A;
- Wed, 17 May 2023 09:41:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC390C433EF;
- Wed, 17 May 2023 09:41:22 +0000 (UTC)
-Date: Wed, 17 May 2023 10:41:19 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <ZGShP6i1Ed0kTF83@arm.com>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
- <20230516083942.0303b5fb@meshulam.tesarici.cz>
- <ZGPEgsplBSsI9li3@arm.com>
- <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
- <20230517065653.GA25016@lst.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC7C010E3E3;
+ Wed, 17 May 2023 10:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684320801; x=1715856801;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tCBTG6EshP8yDnY64rQPzjgjv41iMK/kEF3IhZM1+uU=;
+ b=CquO31RidDLaWlFo1nEsVFJzOIvDpuKsNQsn/vXXP20qJoMqCrYaoBSl
+ CrtC/OV/pJcq2CRPDK5QQX2qXRqUNtPn/LuH9vixl4Vm4npG645EHFlre
+ U4eOZhdo6j2wkl+CQukGucjSY4DDskMeJ6Iz8ERFjoewL563XiY9sRnDS
+ 3+sqOCHwuPIRr9mlU1d3acXnmXIi4qHuWLWm94lGLImF3dNLK3rE4eWj5
+ jiD3rxdmMNyD+ql7nLD9NS05CxPJH9MKYHjfqNCpopU4VAeWQzuChBlQ2
+ pufC3Xq2KyX5FyjzFzXBcFNc1EwjzmZqhHjpG8RZeQTopNWt0J8fhRNmk g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="438071667"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; d="scan'208";a="438071667"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2023 03:53:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="734650965"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; d="scan'208";a="734650965"
+Received: from lnstern-mobl1.amr.corp.intel.com (HELO
+ ijarvine-MOBL2.ger.corp.intel.com) ([10.251.221.185])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 May 2023 03:53:13 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jammy Zhou <Jammy.Zhou@amd.com>,
+ Ken Wang <Qingqing.Wang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/9] drm/amdgpu: Use RMW accessors for changing LNKCTL
+Date: Wed, 17 May 2023 13:52:30 +0300
+Message-Id: <20230517105235.29176-5-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230517105235.29176-1-ilpo.jarvinen@linux.intel.com>
+References: <20230517105235.29176-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230517065653.GA25016@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 18 May 2023 08:20:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,76 +72,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Kim Phillips <kim.phillips@amd.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
- Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Dean Luick <dean.luick@cornelisnetworks.com>,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 17, 2023 at 08:56:53AM +0200, Christoph Hellwig wrote:
-> Just thinking out loud:
-> 
->  - what if we always way overallocate the swiotlb buffer
->  - and then mark the second half / two thirds / <pull some number out
->    of the thin air> slots as used, and make that region available
->    through a special CMA mechanism as ZONE_MOVABLE (but not allowing
->    other CMA allocations to dip into it).
-> 
-> This allows us to have a single slot management for the entire
-> area, but allow reclaiming from it.  We'd probably also need to make
-> this CMA variant irq safe.
+Don't assume that only the driver would be accessing LNKCTL. ASPM
+policy changes can trigger write to LNKCTL outside of driver's control.
+And in the case of upstream bridge, the driver does not even own the
+device it's changing the registers for.
 
-I think this could work. It doesn't need to be ZONE_MOVABLE (and we
-actually need this buffer in ZONE_DMA). But we can introduce a new
-migrate type, MIGRATE_SWIOTLB, and movable page allocations can use this
-range. The CMA allocations go to free_list[MIGRATE_CMA], so they won't
-overlap.
+Use RMW capability accessors which do proper locking to avoid losing
+concurrent updates to the register value.
 
-One of the downsides is that migrating movable pages still needs a
-sleep-able context.
+Fixes: a2e73f56fa62 ("drm/amdgpu: Add support for CIK parts")
+Fixes: 62a37553414a ("drm/amdgpu: add si implementation v10")
+Suggested-by: Lukas Wunner <lukas@wunner.de>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/amd/amdgpu/cik.c | 36 +++++++++-----------------------
+ drivers/gpu/drm/amd/amdgpu/si.c  | 36 +++++++++-----------------------
+ 2 files changed, 20 insertions(+), 52 deletions(-)
 
-Another potential confusion is is_swiotlb_buffer() for pages in this
-range allocated through the normal page allocator. We may need to check
-the slots as well rather than just the buffer boundaries.
-
-(we are actually looking at a MIGRATE_METADATA type for the arm64 memory
-tagging extension which uses a 3% carveout of the RAM for storing the
-tags and people want that reused somehow; we have some WIP patches but
-we'll post them later this summer)
-
-> This could still be combined with more aggressive use of per-device
-> swiotlb area, which is probably a good idea based on some hints.
-> E.g. device could hint an amount of inflight DMA to the DMA layer,
-> and if there are addressing limitations and the amout is large enough
-> that could cause the allocation of a per-device swiotlb area.
-
-If we go for one large-ish per-device buffer for specific cases, maybe
-something similar to the rmem_swiotlb_setup() but which can be
-dynamically allocated at run-time and may live alongside the default
-swiotlb. The advantage is that it uses a similar slot tracking to the
-default swiotlb, no need to invent another. This per-device buffer could
-also be allocated from the MIGRATE_SWIOTLB range if we make it large
-enough at boot. It would be seen just a local accelerator for devices
-that use bouncing frequently or from irq context.
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/cik.c b/drivers/gpu/drm/amd/amdgpu/cik.c
+index de6d10390ab2..9be6da37032a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/cik.c
++++ b/drivers/gpu/drm/amd/amdgpu/cik.c
+@@ -1574,17 +1574,8 @@ static void cik_pcie_gen3_enable(struct amdgpu_device *adev)
+ 			u16 bridge_cfg2, gpu_cfg2;
+ 			u32 max_lw, current_lw, tmp;
+ 
+-			pcie_capability_read_word(root, PCI_EXP_LNKCTL,
+-						  &bridge_cfg);
+-			pcie_capability_read_word(adev->pdev, PCI_EXP_LNKCTL,
+-						  &gpu_cfg);
+-
+-			tmp16 = bridge_cfg | PCI_EXP_LNKCTL_HAWD;
+-			pcie_capability_write_word(root, PCI_EXP_LNKCTL, tmp16);
+-
+-			tmp16 = gpu_cfg | PCI_EXP_LNKCTL_HAWD;
+-			pcie_capability_write_word(adev->pdev, PCI_EXP_LNKCTL,
+-						   tmp16);
++			pcie_capability_set_word(root, PCI_EXP_LNKCTL, PCI_EXP_LNKCTL_HAWD);
++			pcie_capability_set_word(adev->pdev, PCI_EXP_LNKCTL, PCI_EXP_LNKCTL_HAWD);
+ 
+ 			tmp = RREG32_PCIE(ixPCIE_LC_STATUS1);
+ 			max_lw = (tmp & PCIE_LC_STATUS1__LC_DETECTED_LINK_WIDTH_MASK) >>
+@@ -1637,21 +1628,14 @@ static void cik_pcie_gen3_enable(struct amdgpu_device *adev)
+ 				msleep(100);
+ 
+ 				/* linkctl */
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL,
+-							  &tmp16);
+-				tmp16 &= ~PCI_EXP_LNKCTL_HAWD;
+-				tmp16 |= (bridge_cfg & PCI_EXP_LNKCTL_HAWD);
+-				pcie_capability_write_word(root, PCI_EXP_LNKCTL,
+-							   tmp16);
+-
+-				pcie_capability_read_word(adev->pdev,
+-							  PCI_EXP_LNKCTL,
+-							  &tmp16);
+-				tmp16 &= ~PCI_EXP_LNKCTL_HAWD;
+-				tmp16 |= (gpu_cfg & PCI_EXP_LNKCTL_HAWD);
+-				pcie_capability_write_word(adev->pdev,
+-							   PCI_EXP_LNKCTL,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL,
++								   PCI_EXP_LNKCTL_HAWD,
++								   bridge_cfg &
++								   PCI_EXP_LNKCTL_HAWD);
++				pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL,
++								   PCI_EXP_LNKCTL_HAWD,
++								   gpu_cfg &
++								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				/* linkctl2 */
+ 				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+diff --git a/drivers/gpu/drm/amd/amdgpu/si.c b/drivers/gpu/drm/amd/amdgpu/si.c
+index 7f99e130acd0..fd34c2100bd9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si.c
++++ b/drivers/gpu/drm/amd/amdgpu/si.c
+@@ -2276,17 +2276,8 @@ static void si_pcie_gen3_enable(struct amdgpu_device *adev)
+ 			u16 bridge_cfg2, gpu_cfg2;
+ 			u32 max_lw, current_lw, tmp;
+ 
+-			pcie_capability_read_word(root, PCI_EXP_LNKCTL,
+-						  &bridge_cfg);
+-			pcie_capability_read_word(adev->pdev, PCI_EXP_LNKCTL,
+-						  &gpu_cfg);
+-
+-			tmp16 = bridge_cfg | PCI_EXP_LNKCTL_HAWD;
+-			pcie_capability_write_word(root, PCI_EXP_LNKCTL, tmp16);
+-
+-			tmp16 = gpu_cfg | PCI_EXP_LNKCTL_HAWD;
+-			pcie_capability_write_word(adev->pdev, PCI_EXP_LNKCTL,
+-						   tmp16);
++			pcie_capability_set_word(root, PCI_EXP_LNKCTL, PCI_EXP_LNKCTL_HAWD);
++			pcie_capability_set_word(adev->pdev, PCI_EXP_LNKCTL, PCI_EXP_LNKCTL_HAWD);
+ 
+ 			tmp = RREG32_PCIE(PCIE_LC_STATUS1);
+ 			max_lw = (tmp & LC_DETECTED_LINK_WIDTH_MASK) >> LC_DETECTED_LINK_WIDTH_SHIFT;
+@@ -2331,21 +2322,14 @@ static void si_pcie_gen3_enable(struct amdgpu_device *adev)
+ 
+ 				mdelay(100);
+ 
+-				pcie_capability_read_word(root, PCI_EXP_LNKCTL,
+-							  &tmp16);
+-				tmp16 &= ~PCI_EXP_LNKCTL_HAWD;
+-				tmp16 |= (bridge_cfg & PCI_EXP_LNKCTL_HAWD);
+-				pcie_capability_write_word(root, PCI_EXP_LNKCTL,
+-							   tmp16);
+-
+-				pcie_capability_read_word(adev->pdev,
+-							  PCI_EXP_LNKCTL,
+-							  &tmp16);
+-				tmp16 &= ~PCI_EXP_LNKCTL_HAWD;
+-				tmp16 |= (gpu_cfg & PCI_EXP_LNKCTL_HAWD);
+-				pcie_capability_write_word(adev->pdev,
+-							   PCI_EXP_LNKCTL,
+-							   tmp16);
++				pcie_capability_clear_and_set_word(root, PCI_EXP_LNKCTL,
++								   PCI_EXP_LNKCTL_HAWD,
++								   bridge_cfg &
++								   PCI_EXP_LNKCTL_HAWD);
++				pcie_capability_clear_and_set_word(adev->pdev, PCI_EXP_LNKCTL,
++								   PCI_EXP_LNKCTL_HAWD,
++								   gpu_cfg &
++								   PCI_EXP_LNKCTL_HAWD);
+ 
+ 				pcie_capability_read_word(root, PCI_EXP_LNKCTL2,
+ 							  &tmp16);
 -- 
-Catalin
+2.30.2
+
