@@ -1,95 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D93E70767E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 01:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E7D70769E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 01:53:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCFF10E2FD;
-	Wed, 17 May 2023 23:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B2E10E4AB;
+	Wed, 17 May 2023 23:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on20622.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe59::622])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27BDC10E2FD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 23:36:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DKea02I5fPW7o6zF6Ul44UOQ0a249DjvAVUKNdtAU5tuLQZsMQfAn08fm9hUMuH4AV83TlZFQ4Lca4Jp+PbnDMAiIgzQfLb8jCQCkpFSqWs32MeFG6IW+6h47CGIp4QxUV4gBsT+auPp3CvdmGpFR+SPctuciDhA7iZR+/fmn5jQsz8PhNtK9BCgQeQtnT1FlvSP4JxgbphlPpFjkfEH7+coxKMZDM0qMHa2ogBNKBl3iE2+u4QKQRn6sXyh/N3X+xT1qZn859wT/GwRz0buqYAjHoiUii6i2qSMba4nRhXXR+LI2Q2i1ApS/OxZTwHc856+1og20M4sT/nO6FVCyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7wVF2RuHqdN8mKQ9Ls5+dMNlA/zaYBHuaSrOpwnpxqI=;
- b=hzVEf5CHCW3LH6MgxqKe4Brfmdo3WthlAQuQ5FXz9NOTmQfv/P9laV2WvRG1JFoIQXwFtu/WtVDado1O16yKaoryh4LUCiB5hWTNnYzAmkmH01k/HwAa4wZ31yob9P6SHgO5dyYKkNH/kzquUFHIlLOPNbsrLT/Vxkj6vIue3l5xdrbUh84La161cwBgE99Rp14wkEeVYNpu4Bof5rXKoiEPY+hinnUWBzNPMbEQyrZZ2lJc4crNMOeOrU+srR02g4ToKsc0pmZX3OhPdGOo/PCLKkWXNbTLB8a4c3bVyK4wX7qbvUXxNzYoXhgvwLCPlePe8Is+km2ivJXsZ055+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7wVF2RuHqdN8mKQ9Ls5+dMNlA/zaYBHuaSrOpwnpxqI=;
- b=2QgbC/ST2JS/qlKPMR4x3K1VmpDn92gGDwuQUKEy7v2NFuRBHtN+e5J55R2ETsLvoA/laaQd/chhy2kYIT5DiW+T6M54QA3HhVI4Q3iTWi/55sDRYeWP7J5pk76/ftiqKkAB8zTAKfqiYzfu4H7DgJISaGXeJRKOnkmmxO/HG2Q=
-Received: from DM6PR01CA0013.prod.exchangelabs.com (2603:10b6:5:296::18) by
- SA1PR12MB8841.namprd12.prod.outlook.com (2603:10b6:806:376::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.17; Wed, 17 May 2023 23:36:20 +0000
-Received: from DM6NAM11FT103.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:296:cafe::3c) by DM6PR01CA0013.outlook.office365.com
- (2603:10b6:5:296::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.17 via Frontend
- Transport; Wed, 17 May 2023 23:36:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT103.mail.protection.outlook.com (10.13.172.75) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.19 via Frontend Transport; Wed, 17 May 2023 23:36:19 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 17 May
- 2023 18:36:19 -0500
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/sched: Rename to drm_sched_wakeup_if_can_queue()
-Date: Wed, 17 May 2023 19:35:50 -0400
-Message-ID: <20230517233550.377847-2-luben.tuikov@amd.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230517233550.377847-1-luben.tuikov@amd.com>
-References: <20230517233550.377847-1-luben.tuikov@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C89510E035;
+ Wed, 17 May 2023 23:53:38 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34HNbfXg029403; Wed, 17 May 2023 23:53:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=mpxz3jeY/B46qeI4HbNhXtuU9VYiebUbnv4RkVFXRyU=;
+ b=hP5isYQT7Dq2YVsfDqAw+1h52n5gBkrgYEmSxfaDV4vbFaWS+3l2pW2EvtIR1DPKfmKH
+ 20VKkfBgpOvErbMn14CZ0u4t22/tnNWOVIG1dwxN8xRtYO2ac7HiE+ZsKlMf5gDIqKsP
+ yDR0cPJPg2IscOsSCgiV43FRJcrKopgDScxRFPwaho4R/TWf1s8K+jyxl9jdUKIie59E
+ IUP6ZgVsD0R6Bsxe1Dm5DDbbpqyfwCq+ArpyVg21fkhJHtfhm/3JJedd3XeW2ExcXLlV
+ szJ1xKyjsF6KngqHs6xgqfcNMA5aYbGFPtE1j2VQtC/PdQMKC0IxsyzZxwHUzct9RV0d 4A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qn8a601vb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 23:53:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HNrVHC000556
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 May 2023 23:53:31 GMT
+Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 17 May
+ 2023 16:53:31 -0700
+Message-ID: <7b385f62-7818-a28c-0d88-a825f3b58dce@quicinc.com>
+Date: Wed, 17 May 2023 16:53:30 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-check-string-leak: v1.1
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT103:EE_|SA1PR12MB8841:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1c957d0-1cf0-40e5-254c-08db572f846a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t7ABmsgWmdd3HvJcMvA0TLzxTVucXt8YYwoOvyXUUXTGCjTo6J2EQhHalvtMWZFXDrYMyjVBKYiXY8wXTXUIcR9A1QWy5TnA0GbymyWL6AoIWfp2KraEHmH0oF9XW+31CBPr09yb2vHk+Tf+EtVwU99r+oVRPCGUEPAFM2O8OXft1xplhKrXuxRczU9yt0wcrPyYnPnvwT1GoBEsOxmQNace9OFWpJJkkTtINdoz/rVgARDxJXd7M+Gc8Ba+UVx/+zNHc7w+v4ddrlTMs6mEm619bOh5z3AGpWVWJP2ICXeDyUh0fNoTK0/lJUktalH/wVnCDHDN64IV2JVa256aJNumgzeKfoJG6DgySA69G5IizdUNjq7sItCc0GP2sHDWgR2twsrw3NfTngUO3ZEyIKfNB3USlgB3Jc7Mg8er9dA3hIHlfG5EhLtGwQ5Y3WDipUIIEFFYAsJDBJnzi3rDwQrH0YVk2Q2qSjueWLf/Inu58gCU1GQsazRuNKHoFUXl7+nnx7/3+j+wfIn7BMIZh0fFLYKt0Ov/xR9metLluGnorleBmGtyNAhP3zwaUFYsg69kyAbk1sDqMK5365ldHmvK4cxFlegHdkBqjAjcsXQEbalDcUNj0q8cOYG7RbxPWkib7b1VZYoEj9wL2XyZFNWovs+CoLsNsVqmEOsMJJpz/tDE66zOMmM8NestSIe1BybyjNhSIAnE4MVgOv5na9B4i4q6IkneLmfFK/V8acG/VN94OxnvPR9kLll2UqiWzmRSR68BzS1Bo1nduCP/gQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(376002)(136003)(346002)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(8936002)(8676002)(66574015)(5660300002)(44832011)(47076005)(83380400001)(36860700001)(16526019)(26005)(356005)(1076003)(81166007)(186003)(2616005)(426003)(86362001)(82740400003)(40460700003)(41300700001)(40480700001)(6666004)(82310400005)(70586007)(70206006)(336012)(6916009)(36756003)(478600001)(4326008)(316002)(2906002)(54906003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2023 23:36:19.8904 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1c957d0-1cf0-40e5-254c-08db572f846a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT103.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8841
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [RFC PATCH v2 05/13] drm/msm/dpu: get rid of struct
+ dpu_rm_requirements
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-6-dmitry.baryshkov@linaro.org>
+ <a1ba90c2-8144-ccf3-b38e-0dbb549a7481@quicinc.com>
+ <CAA8EJppAaXWpSNMMWTRKVa8=oNyAP7K1LcwusmEY4L-5-nqLow@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJppAaXWpSNMMWTRKVa8=oNyAP7K1LcwusmEY4L-5-nqLow@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: l_Yp6UvRuJLo3TRQv7Flg2AklP8W8PMd
+X-Proofpoint-ORIG-GUID: l_Yp6UvRuJLo3TRQv7Flg2AklP8W8PMd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-17_04,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305170196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,88 +86,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename drm_sched_wakeup() to drm_sched_wakeup_if_canqueue() since the former
-is misleading, as it wakes up the GPU scheduler _only if_ more jobs can be
-queued to the underlying hardware.
 
-This distinction is important to make, since the wake conditional in the GPU
-scheduler thread wakes up when other conditions are also true, e.g. when there
-are jobs to be cleaned. For instance, a user might want to wake up the
-scheduler only because there are more jobs to clean, but whether we can queue
-more jobs is irrelevant.
 
-v2: Separate "canqueue" to "can_queue". (Alex D.)
+On 5/14/2023 10:06 AM, Dmitry Baryshkov wrote:
+> On Sat, 13 May 2023 at 01:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+>>> The struct dpu_rm_requirements was used to wrap display topology and
+>>> hw resources, which meant INTF indices. As of commit ef58e0ad3436
+>>> ("drm/msm/dpu: get INTF blocks directly rather than through RM") the hw
+>>> resources struct was removed, leaving struct dpu_rm_requirements
+>>> containing a single field (topology). Remove the useless wrapper.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>
+>> Irrespective of where we plan to have the topology, this change doesn't
+>> seem incorrect as such.
+>>
+>> The only thing I can think of is when we need more information to be
+>> passed to the RM to allocate the blocks in addition to the topology this
+>> struct could have been expanded.
+>>
+>> So one example I can think of is lets say I want to add CDM block
+>> support. Then that information is outside of topology today because I
+>> will use CDM if my output format is yuv. It has nothing to do with
+>> topology but that block still needs to come from RM.
+> 
+> I'd say, it is a part of the topology. CDM blocks are a part of the
+> pipeline, aren't they?
+> 
+> If you prefer, we can rename msm_display_topology to dpu_rm_requirements itself.
+> 
 
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
- drivers/gpu/drm/scheduler/sched_main.c   | 6 +++---
- include/drm/gpu_scheduler.h              | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+I am fine with renaming msm_display_topology to dpu_rm_requirements.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index cfb433e9200586..68e807ae136ad8 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -342,7 +342,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
- 		container_of(cb, struct drm_sched_entity, cb);
- 
- 	drm_sched_entity_clear_dep(f, cb);
--	drm_sched_wakeup(entity->rq->sched);
-+	drm_sched_wakeup_if_can_queue(entity->rq->sched);
- }
- 
- /**
-@@ -565,7 +565,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
- 			drm_sched_rq_update_fifo(entity, submit_ts);
- 
--		drm_sched_wakeup(entity->rq->sched);
-+		drm_sched_wakeup_if_can_queue(entity->rq->sched);
- 	}
- }
- EXPORT_SYMBOL(drm_sched_entity_push_job);
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 8739322c30321b..b352227a605538 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -860,12 +860,12 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
- }
- 
- /**
-- * drm_sched_wakeup - Wake up the scheduler when it is ready
-- *
-+ * drm_sched_wakeup_if_can_queue - Wake up the scheduler
-  * @sched: scheduler instance
-  *
-+ * Wake up the scheduler if we can queue jobs.
-  */
--void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
-+void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
- {
- 	if (drm_sched_can_queue(sched))
- 		wake_up_interruptible(&sched->wake_up_worker);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 31d1f5166c79fe..e95b4837e5a373 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -549,7 +549,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-                                    unsigned int num_sched_list);
- 
- void drm_sched_job_cleanup(struct drm_sched_job *job);
--void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
-+void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
- void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
- void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
- void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
--- 
-2.40.1
+Because making CDM part of topology wont be right.
 
+>> I know that usually I have lost on these type of discussions saying that
+>> if the code is not there yet, it should be dropped but I do have a plan
+>> to add that support soon probably by the next cycle. That time we will
+>> need some sort of wrapper to hold the topology and "extra" information
+>> to allocate the blocks.
+>>
+>> One alternative ofcourse is to expand dpu_rm_reserve() to accept
+>> something like "needs_cdm" but this is not scalable.
+>>
+>> Thoughts?
+>>
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 69 +++++++--------------
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  2 +-
+>>>    3 files changed, 23 insertions(+), 50 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> index 4ee708264f3b..a2cb23dea0b8 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> @@ -638,7 +638,7 @@ static int dpu_encoder_virt_atomic_check(
+>>>
+>>>                if (!crtc_state->active_changed || crtc_state->enable)
+>>>                        ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+>>> -                                     drm_enc, crtc_state, topology);
+>>> +                                     drm_enc, crtc_state, &topology);
+>>>        }
+>>>
+>>>        trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> index f4dda88a73f7..952e139c0234 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>>> @@ -24,15 +24,6 @@ static inline bool reserved_by_other(uint32_t *res_map, int idx,
+>>>        return res_map[idx] && res_map[idx] != enc_id;
+>>>    }
+>>>
+>>> -/**
+>>> - * struct dpu_rm_requirements - Reservation requirements parameter bundle
+>>> - * @topology:  selected topology for the display
+>>> - * @hw_res:     Hardware resources required as reported by the encoders
+>>> - */
+>>> -struct dpu_rm_requirements {
+>>> -     struct msm_display_topology topology;
+>>> -};
+>>> -
+>>>    int dpu_rm_destroy(struct dpu_rm *rm)
+>>>    {
+>>>        int i;
+>>> @@ -329,14 +320,13 @@ static bool _dpu_rm_check_lm_peer(struct dpu_rm *rm, int primary_idx,
+>>>     *      mixer in rm->pingpong_blks[].
+>>>     * @dspp_idx: output parameter, index of dspp block attached to the layer
+>>>     *      mixer in rm->dspp_blks[].
+>>> - * @reqs: input parameter, rm requirements for HW blocks needed in the
+>>> - *      datapath.
+>>> + * @topology:  selected topology for the display
+>>>     * Return: true if lm matches all requirements, false otherwise
+>>>     */
+>>>    static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+>>>                struct dpu_global_state *global_state,
+>>>                uint32_t enc_id, int lm_idx, int *pp_idx, int *dspp_idx,
+>>> -             struct dpu_rm_requirements *reqs)
+>>> +             struct msm_display_topology *topology)
+>>>    {
+>>>        const struct dpu_lm_cfg *lm_cfg;
+>>>        int idx;
+>>> @@ -361,7 +351,7 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+>>>        }
+>>>        *pp_idx = idx;
+>>>
+>>> -     if (!reqs->topology.num_dspp)
+>>> +     if (!topology->num_dspp)
+>>>                return true;
+>>>
+>>>        idx = lm_cfg->dspp - DSPP_0;
+>>> @@ -383,7 +373,7 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+>>>    static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>                               struct dpu_global_state *global_state,
+>>>                               uint32_t enc_id,
+>>> -                            struct dpu_rm_requirements *reqs)
+>>> +                            struct msm_display_topology *topology)
+>>>
+>>>    {
+>>>        int lm_idx[MAX_BLOCKS];
+>>> @@ -391,14 +381,14 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>        int dspp_idx[MAX_BLOCKS] = {0};
+>>>        int i, j, lm_count = 0;
+>>>
+>>> -     if (!reqs->topology.num_lm) {
+>>> -             DPU_ERROR("invalid number of lm: %d\n", reqs->topology.num_lm);
+>>> +     if (!topology->num_lm) {
+>>> +             DPU_ERROR("invalid number of lm: %d\n", topology->num_lm);
+>>>                return -EINVAL;
+>>>        }
+>>>
+>>>        /* Find a primary mixer */
+>>>        for (i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
+>>> -                     lm_count < reqs->topology.num_lm; i++) {
+>>> +                     lm_count < topology->num_lm; i++) {
+>>>                if (!rm->mixer_blks[i])
+>>>                        continue;
+>>>
+>>> @@ -407,7 +397,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>
+>>>                if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
+>>>                                enc_id, i, &pp_idx[lm_count],
+>>> -                             &dspp_idx[lm_count], reqs)) {
+>>> +                             &dspp_idx[lm_count], topology)) {
+>>>                        continue;
+>>>                }
+>>>
+>>> @@ -415,7 +405,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>
+>>>                /* Valid primary mixer found, find matching peers */
+>>>                for (j = i + 1; j < ARRAY_SIZE(rm->mixer_blks) &&
+>>> -                             lm_count < reqs->topology.num_lm; j++) {
+>>> +                             lm_count < topology->num_lm; j++) {
+>>>                        if (!rm->mixer_blks[j])
+>>>                                continue;
+>>>
+>>> @@ -428,7 +418,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>                        if (!_dpu_rm_check_lm_and_get_connected_blks(rm,
+>>>                                        global_state, enc_id, j,
+>>>                                        &pp_idx[lm_count], &dspp_idx[lm_count],
+>>> -                                     reqs)) {
+>>> +                                     topology)) {
+>>>                                continue;
+>>>                        }
+>>>
+>>> @@ -437,7 +427,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>                }
+>>>        }
+>>>
+>>> -     if (lm_count != reqs->topology.num_lm) {
+>>> +     if (lm_count != topology->num_lm) {
+>>>                DPU_DEBUG("unable to find appropriate mixers\n");
+>>>                return -ENAVAIL;
+>>>        }
+>>> @@ -446,7 +436,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>>>                global_state->mixer_to_enc_id[lm_idx[i]] = enc_id;
+>>>                global_state->pingpong_to_enc_id[pp_idx[i]] = enc_id;
+>>>                global_state->dspp_to_enc_id[dspp_idx[i]] =
+>>> -                     reqs->topology.num_dspp ? enc_id : 0;
+>>> +                     topology->num_dspp ? enc_id : 0;
+>>>
+>>>                trace_dpu_rm_reserve_lms(lm_idx[i] + LM_0, enc_id,
+>>>                                         pp_idx[i] + PINGPONG_0);
+>>> @@ -539,44 +529,30 @@ static int _dpu_rm_make_reservation(
+>>>                struct dpu_rm *rm,
+>>>                struct dpu_global_state *global_state,
+>>>                struct drm_encoder *enc,
+>>> -             struct dpu_rm_requirements *reqs)
+>>> +             struct msm_display_topology *topology)
+>>>    {
+>>>        int ret;
+>>>
+>>> -     ret = _dpu_rm_reserve_lms(rm, global_state, enc->base.id, reqs);
+>>> +     ret = _dpu_rm_reserve_lms(rm, global_state, enc->base.id, topology);
+>>>        if (ret) {
+>>>                DPU_ERROR("unable to find appropriate mixers\n");
+>>>                return ret;
+>>>        }
+>>>
+>>>        ret = _dpu_rm_reserve_ctls(rm, global_state, enc->base.id,
+>>> -                             &reqs->topology);
+>>> +                                topology);
+>>>        if (ret) {
+>>>                DPU_ERROR("unable to find appropriate CTL\n");
+>>>                return ret;
+>>>        }
+>>>
+>>> -     ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
+>>> +     ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, topology);
+>>>        if (ret)
+>>>                return ret;
+>>>
+>>>        return ret;
+>>>    }
+>>>
+>>> -static int _dpu_rm_populate_requirements(
+>>> -             struct drm_encoder *enc,
+>>> -             struct dpu_rm_requirements *reqs,
+>>> -             struct msm_display_topology req_topology)
+>>> -{
+>>> -     reqs->topology = req_topology;
+>>> -
+>>> -     DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
+>>> -                   reqs->topology.num_lm, reqs->topology.num_dsc,
+>>> -                   reqs->topology.num_intf);
+>>> -
+>>> -     return 0;
+>>> -}
+>>> -
+>>>    static void _dpu_rm_clear_mapping(uint32_t *res_mapping, int cnt,
+>>>                                  uint32_t enc_id)
+>>>    {
+>>> @@ -608,9 +584,8 @@ int dpu_rm_reserve(
+>>>                struct dpu_global_state *global_state,
+>>>                struct drm_encoder *enc,
+>>>                struct drm_crtc_state *crtc_state,
+>>> -             struct msm_display_topology topology)
+>>> +             struct msm_display_topology *topology)
+>>>    {
+>>> -     struct dpu_rm_requirements reqs;
+>>>        int ret;
+>>>
+>>>        /* Check if this is just a page-flip */
+>>> @@ -625,13 +600,11 @@ int dpu_rm_reserve(
+>>>        DRM_DEBUG_KMS("reserving hw for enc %d crtc %d\n",
+>>>                      enc->base.id, crtc_state->crtc->base.id);
+>>>
+>>> -     ret = _dpu_rm_populate_requirements(enc, &reqs, topology);
+>>> -     if (ret) {
+>>> -             DPU_ERROR("failed to populate hw requirements\n");
+>>> -             return ret;
+>>> -     }
+>>> +     DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
+>>> +                   topology->num_lm, topology->num_dsc,
+>>> +                   topology->num_intf);
+>>>
+>>> -     ret = _dpu_rm_make_reservation(rm, global_state, enc, &reqs);
+>>> +     ret = _dpu_rm_make_reservation(rm, global_state, enc, topology);
+>>>        if (ret)
+>>>                DPU_ERROR("failed to reserve hw resources: %d\n", ret);
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+>>> index d62c2edb2460..f05697462856 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+>>> @@ -71,7 +71,7 @@ int dpu_rm_reserve(struct dpu_rm *rm,
+>>>                struct dpu_global_state *global_state,
+>>>                struct drm_encoder *drm_enc,
+>>>                struct drm_crtc_state *crtc_state,
+>>> -             struct msm_display_topology topology);
+>>> +             struct msm_display_topology *topology);
+>>>
+>>>    /**
+>>>     * dpu_rm_reserve - Given the encoder for the display chain, release any
+> 
+> 
+> 
