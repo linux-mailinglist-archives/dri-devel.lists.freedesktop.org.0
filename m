@@ -1,55 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99C1706137
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:32:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB654706154
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 09:37:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9B910E3B6;
-	Wed, 17 May 2023 07:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F1C10E0B9;
+	Wed, 17 May 2023 07:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E1D10E3B6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:32:32 +0000 (UTC)
-Received: from meshulam.tesarici.cz
- (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz
- [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32D2610E0B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 07:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1684309019; x=1715845019;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CxUj6AFEjbHX5fYczbKG6dlLshFOiDgXWSAu65pAkgE=;
+ b=FjnZmVuBrkK0FV5CJQT4LhpvTpw+lJjUIehniOXbbVjPbglrso5Wxat4
+ L9Rs3vvh43JH2VdmCnq1HKFMiS77PVbxyTI425q/+R17Hlpl7y5p7YG3e
+ 2EQuNmMvo/LY/2Zw3NqSzPUAJ8mVG9+IEUYgcIwNyyDaz20ncwiX6exEN
+ AONtCfzO+So1JsmsyzuzVIAdaAgzV67v788AfmNY/jGGZmYe965vFabPA
+ b/QT+KOm00N4ieQBNyEdBnseo/rxFAnipolYAmhbZFYyclYq+RyCRnlJ2
+ yhyGQ45tJtOQvtIeuPBV2EuzWpEG5Pc8y/eadNm27mOW0wsmG2iYuvFOz w==;
+X-IronPort-AV: E=Sophos;i="5.99,281,1677538800"; d="scan'208";a="30951775"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 17 May 2023 09:36:56 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 17 May 2023 09:36:56 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 17 May 2023 09:36:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1684309016; x=1715845016;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CxUj6AFEjbHX5fYczbKG6dlLshFOiDgXWSAu65pAkgE=;
+ b=gMaFQoNBtBuikq/h8+fz+ER/PozhbskUdvj67QWGmgyEuMnGWFkR2R+Y
+ tSVErWibcCUo9BOWXvGlrqnaGym4JNI1oBVk4Dr2emywHqxnbmlktCl5b
+ VE7qq4d3tX9KQ6oi/UBHEcSeY1+8oNUAWmIMrberOrdXSZ+MuLhgmU+aV
+ I0TsXqzHuYfQAU55bgGd9bdmJsyzfi2nXpLeNUCsbQb0zou4eP0oljYk7
+ ywajAzU5xfeLP4dJsdhmPWU9fCyu7Zw4Lez/bEC5xX0aewYpvjiLLYROs
+ Bp0/uJgayz0DlUCqtinw8kegUqJ99dohU4dhr2Yrjpur8J88S1UtekUsa g==;
+X-IronPort-AV: E=Sophos;i="5.99,281,1677538800"; d="scan'208";a="30951774"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 17 May 2023 09:36:56 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by bee.tesarici.cz (Postfix) with ESMTPSA id EFCF0164AA5;
- Wed, 17 May 2023 09:32:27 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz;
- dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
- t=1684308748; bh=SMZB1a3FJVckA4uh20yz2Mfq+e2cLIxWHNP75ATsZTs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mCcRh259Vaj22uiaMFcYNHaDzhfPsk/D0QMaoI55cIkowp5s+9dkExQMSa8mLBTUT
- 5HaVl2QV8QtWeIRuctMEN24UM7lmHIfQLwO8UrdS/9TVYOUE95+fnNnOKn5ipXk4AP
- evJWOCMsexuRG8FTtoAxJH7Sw//hc3hTXntur2OBH2Nelzkn8T4G8XWcAjsiAytoqy
- r5NZYBw8QLufWsBkKN5hlx34hE9EcHXlH8z+9sa9hrXKI/4ahp+nATH2KFDs3jtOBc
- mPZ69RpNCTo7KFBnr8LmhqIyqdXTIxSnHkaiJ3XNqz4PLNhJfG4Rz36dVOMuZs/mjk
- 5g6PC4LcI462w==
-Date: Wed, 17 May 2023 09:32:26 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 RESEND 4/7] swiotlb: Dynamically allocated bounce
- buffers
-Message-ID: <20230517093226.77ab1d2a@meshulam.tesarici.cz>
-In-Reply-To: <20230517065653.GA25016@lst.de>
-References: <cover.1683623618.git.petr.tesarik.ext@huawei.com>
- <346abecdb13b565820c414ecf3267275577dbbf3.1683623618.git.petr.tesarik.ext@huawei.com>
- <BYAPR21MB168874BC467BFCEC133A9DCDD7789@BYAPR21MB1688.namprd21.prod.outlook.com>
- <20230516061309.GA7219@lst.de>
- <20230516083942.0303b5fb@meshulam.tesarici.cz>
- <ZGPEgsplBSsI9li3@arm.com>
- <20230517083510.0cd7fa1a@meshulam.tesarici.cz>
- <20230517065653.GA25016@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 16267280087;
+ Wed, 17 May 2023 09:36:56 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 1/1] media: tc358743: register v4l2 async device only after
+ successful setup
+Date: Wed, 17 May 2023 09:36:54 +0200
+Message-Id: <20230517073654.1263973-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,85 +78,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kefeng Wang <wangkefeng.wang@huawei.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Kim Phillips <kim.phillips@amd.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Paul E.
- McKenney" <paulmck@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
+Ensure the device has been setup correctly before registering the v4l2
+async device, thus allowing userspace to access.
 
-On Wed, 17 May 2023 08:56:53 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Change in v2:
+* New approach: Register async device as last step
 
-> Just thinking out loud:
-> 
->  - what if we always way overallocate the swiotlb buffer
->  - and then mark the second half / two thirds / <pull some number out
->    of the thin air> slots as used, and make that region available
->    through a special CMA mechanism as ZONE_MOVABLE (but not allowing
->    other CMA allocations to dip into it).
+This superseeds the patch at [1], but has a different subject due to new
+solution.
 
-This approach has also been considered internally at Huawei, and it
-looked like a viable option, just more complex. We decided to send the
-simple approach first to get some feedback and find out who else might
-be interested in the dynamic sizing of swiotlb (if anyone).
+[1] https://lore.kernel.org/linux-media/20230502140612.2256850-1-alexander.stein@ew.tq-group.com/
 
-> This allows us to have a single slot management for the entire
-> area, but allow reclaiming from it.  We'd probably also need to make
-> this CMA variant irq safe.
+ drivers/media/i2c/tc358743.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Let me recap my internal analysis.
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index ad6a72b2bcf5..9d4bd73469bf 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -2091,9 +2091,6 @@ static int tc358743_probe(struct i2c_client *client)
+ 	state->mbus_fmt_code = MEDIA_BUS_FMT_RGB888_1X24;
+ 
+ 	sd->dev = &client->dev;
+-	err = v4l2_async_register_subdev(sd);
+-	if (err < 0)
+-		goto err_hdl;
+ 
+ 	mutex_init(&state->confctl_mutex);
+ 
+@@ -2151,6 +2148,10 @@ static int tc358743_probe(struct i2c_client *client)
+ 	if (err)
+ 		goto err_work_queues;
+ 
++	err = v4l2_async_register_subdev(sd);
++	if (err < 0)
++		goto err_work_queues;
++
+ 	v4l2_info(sd, "%s found @ 0x%x (%s)\n", client->name,
+ 		  client->addr << 1, client->adapter->name);
+ 
+-- 
+2.34.1
 
-On the pro side:
-
-- no performance penalty for devices that do not use swiotlb
-- all alignment and boundary constraints can be met
-- efficient use of memory for buffers smaller than 1 page
-
-On the con side:
-
-- ZONE_MOVABLE cannot be used for most kernel allocations
-- competition with CMA over precious physical address space
-  (How much should be reserved for CMA and how much for SWIOTLB?)
-
-To quote from Memory hotplug documentation:
-
-Usually, MOVABLE:KERNEL ratios of up to 3:1 or even 4:1 are fine. [...]
-Actual safe zone ratios depend on the workload. Extreme cases, like
-excessive long-term pinning of pages, might not be able to deal with
-ZONE_MOVABLE at all.
-
-This should be no big issue on bare metal (where the motivation is
-addressing limitations), but the size of SWIOTLB in CoCo VMs probably
-needs some consideration.
-
-> This could still be combined with more aggressive use of per-device
-> swiotlb area, which is probably a good idea based on some hints.
-> E.g. device could hint an amount of inflight DMA to the DMA layer,
-> and if there are addressing limitations and the amout is large enough
-> that could cause the allocation of a per-device swiotlb area.
-
-I would not rely on device hints, because it probably depends on
-workload rather than type of device. I'd rather implement some logic
-based on the actual runtime usage pattern. I have some ideas already.
-
-Petr T
