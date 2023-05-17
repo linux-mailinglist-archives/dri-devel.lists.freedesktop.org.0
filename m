@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034C670713D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 20:52:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCD970713A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 20:52:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A861110E463;
-	Wed, 17 May 2023 18:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CAEF10E45A;
+	Wed, 17 May 2023 18:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD98B10E26B;
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FB610E245;
  Wed, 17 May 2023 18:52:26 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34HFxtKl015387; Wed, 17 May 2023 18:52:24 GMT
+ 34HF8M8Y015364; Wed, 17 May 2023 18:52:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : date :
  subject : mime-version : content-type : content-transfer-encoding :
  message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=RHhy4BQjRL/V8G3/bHElshhL0b77U6edHiavgqSVKAY=;
- b=Ax+S7v/muNRGo9lqgxzo/Bn986T/oXGW9CEmYjtrMCYnsMcbdRdxYieaNBFPH+FVAjcN
- 6RvpH7f5yNPOklx8Cbu+ARNZz7wciFvUjEKw5p3yWRnYWFPFNk0axWVUm3PYT/5Ohhoo
- oL9kWqD0hyYa8a37XMNQkSeyjbOMnrgcz+xK+Ui/M8OsOgXca5CqgTbAOTxYd+rG/1Ls
- PELnXGqeu0nQpGm42Ovf29j4n9Xly1G8UznDxZTe3csj7JIIDP2lM6TcdVNvR3fhsonx
- wPcFAgfBeDUn+4hEC4GNAjxORd0YVGjSBq2bE6PvXmwYcaONr1HY4tObhgFqUHQL29Z9 5A== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ bh=T+RG0NCUK7seSOqljeNsqBVRreNAluR7v/tuYQ/EA7o=;
+ b=Jip8dGt8E9jQTA2TE2CYTlsUBbNT+BndEgbVBmmdqR9mYuA0ov/anO1xTVhjCTXBXuj+
+ WRW/2aThpH53PvxpULkQSBYC4j8SYQAeU2BTHUx7s5AO+nT8lO8vcpAVKDpcC5bdUpVt
+ g9A8uah7I2exE/8xL/vbsi3g/HeYzZjUsId8l7A2GlRT3EV1TqXpChyxdNuIyq4zknbj
+ 1nnP8UaIZVS6MHaoOCNJyBKiw5zikVjjNroASMdcSqDNmJcTkPdZ3UHeG9lbSWFrElrm
+ eP9VtZRYDOoxDOAGtnX0yZJGi13vQnehiK90+CDtVwbNkOqExqco1n3Y41DoDUd6DQ1L ig== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmnypj35f-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qmrvhstan-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 17 May 2023 18:52:24 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HIqNAf027634
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34HIqNNp028189
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 17 May 2023 18:52:23 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,21 +41,22 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.986.42; Wed, 17 May 2023 11:52:23 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Wed, 17 May 2023 11:51:14 -0700
-Subject: [PATCH v11 5/9] drm/msm: Add MSM-specific DSC helper methods
+Date: Wed, 17 May 2023 11:51:15 -0700
+Subject: [PATCH v11 6/9] drm/msm/dpu: Use fixed DRM DSC helper for
+ det_thresh_flatness
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20230329-rfc-msm-dsc-helper-v11-5-30270e1eeac3@quicinc.com>
+Message-ID: <20230329-rfc-msm-dsc-helper-v11-6-30270e1eeac3@quicinc.com>
 References: <20230329-rfc-msm-dsc-helper-v11-0-30270e1eeac3@quicinc.com>
 In-Reply-To: <20230329-rfc-msm-dsc-helper-v11-0-30270e1eeac3@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 X-Mailer: b4 0.13-dev-bfdf5
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684349541; l=1849;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684349541; l=1416;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=NsC4aG+BogTkekHTsO5RA/r7O0oDlkboclkkKV2xdMY=;
- b=k3GEw1NJ2T6eSGmd0wXbvrctLz4aFMIq1yuJgCWooPZAciHRAceFCcUI86wPZI39vBB80Mgp1
- ssyOAJd9AMGC5DhJ3ivMtnmvvrmO7luGOlSXO6yhAS9AeoUcGsUyF+e
+ bh=hh1KdptbnGp+cN1KZZ5tztNBtU1X7gYJ7uv+ZikLd4E=;
+ b=GuAuWEZIT9d8hv2+y69OXvUU3z0yh1d/bUhSPSFWDh4dAmdX67l7jX4TJa50BwY0RGaM1I+9z
+ IetYXVTa+clCgkK5r35GM+GmdsCwqnQCsqTeLs1Fre6BfS3fFXSHbJA
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -64,16 +65,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: KMEH0fV_GW37R4L5wfbIwF9YGoyAXrbk
-X-Proofpoint-ORIG-GUID: KMEH0fV_GW37R4L5wfbIwF9YGoyAXrbk
+X-Proofpoint-ORIG-GUID: 5tsiXV6Zoti6ZuqJf0ISgu313H8V0u7i
+X-Proofpoint-GUID: 5tsiXV6Zoti6ZuqJf0ISgu313H8V0u7i
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-17_03,2023-05-17_02,2023-02-09_01
+ definitions=2023-05-17_04,2023-05-17_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
- bulkscore=0 mlxlogscore=621 malwarescore=0 clxscore=1015 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=800
+ impostorscore=0 adultscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305170156
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,58 +97,42 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce MSM-specific DSC helper methods, as some calculations are
-common between DP and DSC.
+The current dpu_hw_dsc calculation for det_thresh_flatness does not
+match the downstream calculation or the DSC spec.
 
+Use the DRM DSC helper for det_thresh_flatness to match downstream
+implementation and the DSC spec.
+
+Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/msm/msm_dsc_helper.h | 38 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h b/drivers/gpu/drm/msm/msm_dsc_helper.h
-new file mode 100644
-index 000000000000..2d366ec7d92d
---- /dev/null
-+++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
-@@ -0,0 +1,38 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
-+ *
-+ * Helper methods for MSM specific DSC calculations that are common between timing engine,
-+ * DSI, and DP.
-+ */
-+
-+#ifndef MSM_DSC_HELPER_H_
-+#define MSM_DSC_HELPER_H_
-+
-+#include <linux/math.h>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+index 4e1396575e6a..3cad6a80af97 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+@@ -3,6 +3,8 @@
+  * Copyright (c) 2020-2022, Linaro Limited
+  */
+ 
 +#include <drm/display/drm_dsc_helper.h>
 +
-+/**
-+ * msm_dsc_get_slices_per_intf() - get number of slices per interface
-+ * @dsc: Pointer to drm dsc config struct
-+ * @intf_width: interface width in pixels
-+ * Returns: Integer representing the number of slices for the given interface
-+ */
-+static inline int msm_dsc_get_slices_per_intf(const struct drm_dsc_config *dsc, int intf_width)
-+{
-+	return DIV_ROUND_UP(intf_width, dsc->slice_width);
-+}
-+
-+/**
-+ * msm_dsc_get_bytes_per_line() - calculate bytes per line
-+ * @dsc: Pointer to drm dsc config struct
-+ * Returns: Integer value representing bytes per line. DSI and DP need
-+ *          to perform further calculations to turn this into pclk_per_intf,
-+ *          such as dividing by different values depending on if widebus is enabled.
-+ */
-+static inline u32 msm_dsc_get_bytes_per_line(const struct drm_dsc_config *dsc)
-+{
-+	return dsc->slice_count * dsc->slice_chunk_size;
-+}
-+
-+#endif /* MSM_DSC_HELPER_H_ */
+ #include "dpu_kms.h"
+ #include "dpu_hw_catalog.h"
+ #include "dpu_hwio.h"
+@@ -102,7 +104,7 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+ 	data |= dsc->final_offset;
+ 	DPU_REG_WRITE(c, DSC_DSC_OFFSET, data);
+ 
+-	det_thresh_flatness = 7 + 2 * (dsc->bits_per_component - 8);
++	det_thresh_flatness = drm_dsc_flatness_det_thresh(dsc);
+ 	data = det_thresh_flatness << 10;
+ 	data |= dsc->flatness_max_qp << 5;
+ 	data |= dsc->flatness_min_qp;
 
 -- 
 2.40.1
