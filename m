@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3629706DD1
-	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:16:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A58B706E05
+	for <lists+dri-devel@lfdr.de>; Wed, 17 May 2023 18:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D76C310E465;
-	Wed, 17 May 2023 16:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FAF910E451;
+	Wed, 17 May 2023 16:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA3B10E450;
- Wed, 17 May 2023 16:16:19 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- 46e09a7af769-6ac8ede63ccso739706a34.2; 
- Wed, 17 May 2023 09:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684340179; x=1686932179;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=XZoSas/Przcs6p2bBcZX+px+j9fsVB4dTbNSWQWc0gM=;
- b=CSD9rb3RghhBOnBe50y2BKYHM9K6hfddhHQbYhizS+xMh/5QUbOY66LfK1WwM3sgP4
- LyVf8q++kwhx5cyM850PUjrr6yANT8Sjk1McfCjmCLNcX4WoG83UehGZ2TsC6MIyLjQQ
- /MDZhf4OTbU8kk9yIUeDv1b09bANDAkqtvGi+R3y8jtEjtDkYnlQKYvGYi1y14Es7/G3
- mPri6hqFGHvaxz3GDLYCLAtyQvb8Le2gi1EiY9lFSr2bNT35h0667BkePgXl8dYlY4nd
- xSkA3BvXDqeOmYrujltk/v/SAyUu5A/pHWL9jGMl+RGK/n3i/e8ENYPJgJekey27XTL7
- QKKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684340179; x=1686932179;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XZoSas/Przcs6p2bBcZX+px+j9fsVB4dTbNSWQWc0gM=;
- b=M6YARkIAN28b+iWdFlkvTCvHX9VdGCsqagFaK1yVh8SBStzPX/2XzalPwmQZXah/2l
- DCFSX5BZhPOQMGMM+90MYz4NaR5OK6W115sOjz+OXN7ADuIJ46Ww79ZwRY6epg4YfbDz
- m/PtQ51v2DKNCkaXeubbwKE9Fr8vKFrEIraHadEAPC3GggQ+zXeOOUjBbzfPUu6xbKeh
- HcaHCqIeb1Y5bma+Ar+ckVq2iVoH/tRYTrM64itWhbEqwTR+RXYAiOZgM+XfI4n7K4Ds
- 7WAo/yY6W1ihndGd+m4+IcaHHJnByGV2DLILgOiHqhrkXuGBJRoC3813hK1yYJpfZjN6
- ZiZA==
-X-Gm-Message-State: AC+VfDzmeABSXs/kg35fYBimI/+03FFkJBAAtuYKaQNQEBEMJFscyjHi
- HNTGQ9/MGFb5Mcem5YnYbK7uL3qTB1TAapmraro=
-X-Google-Smtp-Source: ACHHUZ6MqyaoeR7pvm4ubf0HguB8gkwiyMGZ6wqyCRvqrdP6G4SyxLoDLD6K+GrgQ0vukkN1qXg9wODFwiPyHSa2SjA=
-X-Received: by 2002:aca:190d:0:b0:394:2815:5b37 with SMTP id
- l13-20020aca190d000000b0039428155b37mr12162932oii.30.1684340178871; Wed, 17
- May 2023 09:16:18 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A019C10E44D;
+ Wed, 17 May 2023 16:21:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5927E1F854;
+ Wed, 17 May 2023 16:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684340510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/C+3/F0e+WLGrs2bEAIvYHMMsOeb6poQ7vW8exXr4A=;
+ b=BWJYlLjnXK46wIgN8HoXvp2t+VIjv/3KjJqjlC3BcklFEBESfdj2ZyLRd15ScGo2Uo8VSK
+ CfDuvmkJjsSgE/BdL1oyyH8TKfnWuYAUDagV3RNG0hgpPxT73B1uC1Q5NxNhdzDXz5VQcn
+ lPTcXnpqs5f911aRwL4ypTJaS1GeKjo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684340510;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/C+3/F0e+WLGrs2bEAIvYHMMsOeb6poQ7vW8exXr4A=;
+ b=1wxlK0nXgxus7fq25xkfTAk/43YB0zjkIfLmbUe8ze7TYLpF4eWNMhllP9l5cHBRcfJTd7
+ dKnrC6m474ihzNDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2662613478;
+ Wed, 17 May 2023 16:21:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id pkr8Bx7/ZGSrIAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 17 May 2023 16:21:50 +0000
+Message-ID: <ccc963ec-5328-d418-bb20-88d2776a5b07@suse.de>
+Date: Wed, 17 May 2023 18:21:49 +0200
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 17 May 2023 09:16:07 -0700
-Message-ID: <CAF6AEGvHEcJfp=k6qatmb_SvAeyvy3CBpaPfwLqtNthuEzA_7w@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2023-05-17 for v6.4-rc3
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v5 1/7] drm: fix drmm_mutex_init()
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+References: <20230517152244.348171-1-matthew.auld@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230517152244.348171-1-matthew.auld@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------QhJbSdhquHjdpYawmjA9V081"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,132 +69,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------QhJbSdhquHjdpYawmjA9V081
+Content-Type: multipart/mixed; boundary="------------Crr0JJeib1iB0KKa1V48Eaf0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Matthew Auld <matthew.auld@intel.com>, intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <ccc963ec-5328-d418-bb20-88d2776a5b07@suse.de>
+Subject: Re: [PATCH v5 1/7] drm: fix drmm_mutex_init()
+References: <20230517152244.348171-1-matthew.auld@intel.com>
+In-Reply-To: <20230517152244.348171-1-matthew.auld@intel.com>
 
-A few fixes for v6.4, summary below.  One arm-smmu-qcom fix to
-un-break GPU per-process page-tables which was broken by a small
-refactor in arm-smmu-qcom.  (Also added some WARN()s to make this sort
-of breakage more obvious in the future.)
+--------------Crr0JJeib1iB0KKa1V48Eaf0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The following changes since commit ac7e7c9c65ecfb1fcc99de91cfd6b17a8d4cb9c1:
+SGkNCg0KQW0gMTcuMDUuMjMgdW0gMTc6MjIgc2NocmllYiBNYXR0aGV3IEF1bGQ6DQo+IElu
+IG11dGV4X2luaXQoKSBsb2NrZGVwIHNlZW1zIHRvIGlkZW50aWZ5IGEgbG9jayBieSBkZWZp
+bmluZyBhIHN0YXRpYw0KPiBrZXkgZm9yIGVhY2ggbG9jayBjbGFzcy4gSG93ZXZlciBpZiB3
+ZSB3cmFwIHRoZSB3aG9sZSB0aGluZyBpbiBhDQo+IGZ1bmN0aW9uIHRoZSBzdGF0aWMga2V5
+IHdpbGwgYmUgdGhlIHNhbWUgZm9yIGV2ZXJ5dGhpbmcgY2FsbGluZyB0aGF0DQo+IGZ1bmN0
+aW9uLCB3aGljaCBsb29rcyB0byBiZSB0aGUgY2FzZSBmb3IgZHJtbV9tdXRleF9pbml0KCku
+IFRoaXMgdGhlbg0KPiByZXN1bHRzIGluIGltcG9zc2libGUgbG9ja2RlcCBzcGxhdHMgc2lu
+Y2UgbG9ja2RlcCB0aGlua3MgY29tcGxldGVseQ0KPiB1bnJlbGF0ZWQgbG9ja3MgYXJlIHRo
+ZSBzYW1lIGxvY2sgY2xhc3MuIFRoZSBvdGhlciBpc3N1ZSBpcyB0aGF0IHdoZW4NCj4gbG9v
+a2luZyBhdCBzcGxhdHMgd2UgbG9zZSB0aGUgYWN0dWFsIGxvY2sgbmFtZSwgd2hlcmUgaW5z
+dGVhZCBvZiBzZWVpbmcNCj4gc29tZXRoaW5nIGxpa2UgeGUtPm1lbV9hY2Nlc3MubG9jayBm
+b3IgdGhlIG5hbWUsIHdlIGp1c3Qgc2VlIHNvbWV0aGluZw0KPiBnZW5lcmljIGxpa2UgbG9j
+ayM4Lg0KPiANCj4gQXR0ZW1wdCB0byBmaXggdGhpcyBieSBjb252ZXJ0aW5nIGRybW1fbXV0
+ZXhfaW5pdCgpIGludG8gYSBtYWNybywgd2hpY2gNCj4gc2hvdWxkIGVuc3VyZSB0aGF0IG11
+dGV4X2luaXQoKSBiZWhhdmVzIGFzIGV4cGVjdGVkLg0KDQpJZiB0aGF0J3Mgd2hhdCBpcyBy
+ZXF1aXJlZCwgdGhlbiBPSy4gQnV0IGV2ZW4gd2l0aCB5b3VyIGNvbW1pdCBtZXNhZ2UsIEkg
+DQpmaW5kIGl0IGVudGlyZWx5IG5vbi1vYnZpb3VzIHdoYXQgdGhlIHByb2JsZW0gaXMuIElz
+bid0IHRoZXJlIGEgd2F5IHRvIA0KYW5ub3RhdGUgZHJtbV9tdXRleF9pbml0KCkgc28gdGhh
+dCBsb2NrZGVwIHRyZWF0cyBpdCBsaWtlIGEgcmVndWxhciANCm11dGV4X2luaXQoKT8NCg0K
+QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gUmVwb3J0ZWQtYnk6IFRob21hcyBIZWxs
+c3Ryw7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGxpbnV4LmludGVsLmNvbT4NCj4gRml4ZXM6IGUx
+M2YxM2UwMzlkYyAoImRybTogQWRkIERSTS1tYW5hZ2VkIG11dGV4X2luaXQoKSIpDQo+IENj
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gQ2M6IEpvY2Vs
+eW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCj4gQ2M6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnDQo+IFNpZ25lZC1vZmYtYnk6IE1hdHRoZXcgQXVsZCA8bWF0dGhldy5hdWxk
+QGludGVsLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2VkLmMg
+fCAyNiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9t
+YW5hZ2VkLmggICAgIHwgMjMgKysrKysrKysrKysrKysrKysrKysrKy0NCj4gICAyIGZpbGVz
+IGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9tYW5hZ2VkLmMNCj4gaW5kZXggNGNmMjE0ZGU1MGM0Li43MWM0OTgxOWE3YTIg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5jDQo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5jDQo+IEBAIC0yNjMsMjkgKzI2MywzIEBA
+IHZvaWQgZHJtbV9rZnJlZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhKQ0K
+PiAgIAlmcmVlX2RyKGRyX21hdGNoKTsNCj4gICB9DQo+ICAgRVhQT1JUX1NZTUJPTChkcm1t
+X2tmcmVlKTsNCj4gLQ0KPiAtc3RhdGljIHZvaWQgZHJtbV9tdXRleF9yZWxlYXNlKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKnJlcykNCj4gLXsNCj4gLQlzdHJ1Y3QgbXV0ZXgg
+KmxvY2sgPSByZXM7DQo+IC0NCj4gLQltdXRleF9kZXN0cm95KGxvY2spOw0KPiAtfQ0KPiAt
+DQo+IC0vKioNCj4gLSAqIGRybW1fbXV0ZXhfaW5pdCAtICZkcm1fZGV2aWNlLW1hbmFnZWQg
+bXV0ZXhfaW5pdCgpDQo+IC0gKiBAZGV2OiBEUk0gZGV2aWNlDQo+IC0gKiBAbG9jazogbG9j
+ayB0byBiZSBpbml0aWFsaXplZA0KPiAtICoNCj4gLSAqIFJldHVybnM6DQo+IC0gKiAwIG9u
+IHN1Y2Nlc3MsIG9yIGEgbmVnYXRpdmUgZXJybm8gY29kZSBvdGhlcndpc2UuDQo+IC0gKg0K
+PiAtICogVGhpcyBpcyBhICZkcm1fZGV2aWNlLW1hbmFnZWQgdmVyc2lvbiBvZiBtdXRleF9p
+bml0KCkuIFRoZSBpbml0aWFsaXplZA0KPiAtICogbG9jayBpcyBhdXRvbWF0aWNhbGx5IGRl
+c3Ryb3llZCBvbiB0aGUgZmluYWwgZHJtX2Rldl9wdXQoKS4NCj4gLSAqLw0KPiAtaW50IGRy
+bW1fbXV0ZXhfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgbXV0ZXggKmxv
+Y2spDQo+IC17DQo+IC0JbXV0ZXhfaW5pdChsb2NrKTsNCj4gLQ0KPiAtCXJldHVybiBkcm1t
+X2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBkcm1tX211dGV4X3JlbGVhc2UsIGxvY2spOw0K
+PiAtfQ0KPiAtRVhQT1JUX1NZTUJPTChkcm1tX211dGV4X2luaXQpOw0KPiBkaWZmIC0tZ2l0
+IGEvaW5jbHVkZS9kcm0vZHJtX21hbmFnZWQuaCBiL2luY2x1ZGUvZHJtL2RybV9tYW5hZ2Vk
+LmgNCj4gaW5kZXggMzU5ODgzOTQyNjEyLi4wMWY5NzdlOTE5MzMgMTAwNjQ0DQo+IC0tLSBh
+L2luY2x1ZGUvZHJtL2RybV9tYW5hZ2VkLmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21h
+bmFnZWQuaA0KPiBAQCAtMTA1LDYgKzEwNSwyNyBAQCBjaGFyICpkcm1tX2tzdHJkdXAoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwgY29uc3QgY2hhciAqcywgZ2ZwX3QgZ2ZwKTsNCj4gICAN
+Cj4gICB2b2lkIGRybW1fa2ZyZWUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0
+YSk7DQo+ICAgDQo+IC1pbnQgZHJtbV9tdXRleF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYsIHN0cnVjdCBtdXRleCAqbG9jayk7DQo+ICtzdGF0aWMgaW5saW5lIHZvaWQgX19kcm1t
+X211dGV4X3JlbGVhc2Uoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqcmVzKQ0KPiAr
+ew0KPiArCXN0cnVjdCBtdXRleCAqbG9jayA9IHJlczsNCj4gKw0KPiArCW11dGV4X2Rlc3Ry
+b3kobG9jayk7DQo+ICt9DQo+ICsNCj4gKy8qKg0KPiArICogZHJtbV9tdXRleF9pbml0IC0g
+JmRybV9kZXZpY2UtbWFuYWdlZCBtdXRleF9pbml0KCkNCj4gKyAqIEBkZXY6IERSTSBkZXZp
+Y2UNCj4gKyAqIEBsb2NrOiBsb2NrIHRvIGJlIGluaXRpYWxpemVkDQo+ICsgKg0KPiArICog
+UmV0dXJuczoNCj4gKyAqIDAgb24gc3VjY2Vzcywgb3IgYSBuZWdhdGl2ZSBlcnJubyBjb2Rl
+IG90aGVyd2lzZS4NCj4gKyAqDQo+ICsgKiBUaGlzIGlzIGEgJmRybV9kZXZpY2UtbWFuYWdl
+ZCB2ZXJzaW9uIG9mIG11dGV4X2luaXQoKS4gVGhlIGluaXRpYWxpemVkDQo+ICsgKiBsb2Nr
+IGlzIGF1dG9tYXRpY2FsbHkgZGVzdHJveWVkIG9uIHRoZSBmaW5hbCBkcm1fZGV2X3B1dCgp
+Lg0KPiArICovDQo+ICsjZGVmaW5lIGRybW1fbXV0ZXhfaW5pdChkZXYsIGxvY2spICh7CQkJ
+CQkgICAgIFwNCj4gKwltdXRleF9pbml0KGxvY2spOwkJCQkJCSAgICAgXA0KPiArCWRybW1f
+YWRkX2FjdGlvbl9vcl9yZXNldChkZXYsIF9fZHJtbV9tdXRleF9yZWxlYXNlLCBsb2NrKTsJ
+ICAgICBcDQo+ICt9KQkJCQkJCQkJCSAgICAgXA0KPiAgIA0KPiAgICNlbmRpZg0KDQotLSAN
+ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
+ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0
+NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFu
+ZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVy
+ZykNCg==
 
-  drm/msm/dpu: drop unused macros from hw catalog (2023-04-07 03:54:50 +0300)
+--------------Crr0JJeib1iB0KKa1V48Eaf0--
 
-are available in the Git repository at:
+--------------QhJbSdhquHjdpYawmjA9V081
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2023-05-17
+-----BEGIN PGP SIGNATURE-----
 
-for you to fetch changes up to 5c054db54c43a5fcb5cc81012361f5e3fac37637:
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRk/x0FAwAAAAAACgkQlh/E3EQov+Ak
+aBAArJBDtE13heBa+8ACjCbNw5yssEm+HeNIwywCN0WrFrbfBn9mBgSOVPESfUiDN//eZMZVTZxz
+wfhQr+2N8UDKtVL6aw/6/MJvvBBEGaKrTenzKG6FiA19+Z4K9G2S8t4wLUW86NgFi5v+dR9TTmjl
+UV3FUOySsQwUs2HsVwkF8wXhwO7GUvFCB/ckVAlJgZRzeOb4X9T0Q6BN8nHSJ6Da6LlMdMgZN92o
+kljaqEAdUdIlpCkmVaoMNjAUgWMnprQXV+bYD6DVTDMBhOsKCrLjuUQwGV2aevT338/ER0ytB+U5
+AlX8A1IwRZyVFOeFi9dtTXsG4YDBwL7UKVD9PvVdmaaHE095GccjqpHTZ9t2f7E1/ND+BNtOpYPf
+obuFKzQBKExJLzv6wJ3d3HyJezEeqPfS5zFvO8XRnckz1eJmimFPPOPEXpMeIm9tU97eG0jSS30G
+04OgCSUWb5Fhtot4mZzG/AtbddWyNvFmRTzpd3rNj1h5hi+EwpMd6KRVd1cjKns4GjqbV/v0QnZ+
+d58Eax3gPXvj6ntoaXeYn3ylj7GY28f1Trz1w1y6XrxoMTHQ7lm9ZL16FULKkfcnUZiA0sic1pTN
+DWOTLTKqXIyM0B5pZHvYF4Eg3dXqHRBjF0FD5UXwoW9ZKaJzE1zRSvVIPTyaEOd3445jrH6+ALFV
+rMc=
+=1NI0
+-----END PGP SIGNATURE-----
 
-  drm/msm: Be more shouty if per-process pgtables aren't working
-(2023-05-17 08:53:47 -0700)
-
-----------------------------------------------------------------
-msm-fixes for v6.4-rc3
-
-Display Fixes:
-
-+ Catalog fixes:
- - fix the programmable fetch lines and qos settings of msm8998
-   to match what is present downstream
- - fix the LM pairs for msm8998 to match what is present downstream.
-   The current settings are not right as LMs with incompatible
-   connected blocks are paired
- - remove unused INTF0 interrupt mask from SM6115/QCM2290 as there
-   is no INTF0 present on those chipsets. There is only one DSI on
-   index 1
- - remove TE2 block from relevant chipsets because this is mainly
-   used for ping-pong split feature which is not supported upstream
-   and also for the chipsets where we are removing them in this
-   change, that block is not present as the tear check has been moved
-   to the intf block
- - relocate non-MDP_TOP INTF_INTR offsets from dpu_hwio.h to
-   dpu_hw_interrupts.c to match where they belong
- - fix the indentation for REV_7xxx interrupt masks
- - fix the offset and version for dither blocks of SM8[34]50/SC8280XP
-   chipsets as it was incorrect
- - make the ping-pong blk length 0 for appropriate chipsets as those
-   chipsets only have a dither ping-pong dither block but no other
-   functionality in the base ping-pong
- - remove some duplicate register defines from INTF
-+ Fix the log mask for the writeback block so that it can be enabled
-  correctly via debugfs
-+ unregister the hdmi codec for dp during unbind otherwise it leaks
-  audio codec devices
-+ Yaml change to fix warnings related to 'qcom,master-dsi' and
-  'qcom,sync-dual-dsi'
-
-GPU Fixes:
-
-+ fix submit error path leak
-+ arm-smmu-qcom fix for regression that broke per-process page tables
-+ fix no-iommu crash
-
-----------------------------------------------------------------
-Arnaud Vrac (2):
-      drm/msm/dpu: tweak msm8998 hw catalog values
-      drm/msm/dpu: tweak lm pairings in msm8998 hw catalog
-
-Jianhua Lu (1):
-      dt-bindings: display/msm: dsi-controller-main: Document qcom,
-master-dsi and qcom, sync-dual-dsi
-
-Luca Weiss (1):
-      drm/msm/iommu: Fix null pointer dereference in no-IOMMU case
-
-Marijn Suijten (9):
-      drm/msm/dpu: Assign missing writeback log_mask
-      drm/msm/dpu: Remove unused INTF0 interrupt mask from SM6115/QCM2290
-      drm/msm/dpu: Remove TE2 block and feature from DPU >= 5.0.0 hardware
-      drm/msm/dpu: Move non-MDP_TOP INTF_INTR offsets out of hwio header
-      drm/msm/dpu: Reindent REV_7xxx interrupt masks with tabs
-      drm/msm/dpu: Fix PP_BLK_DIPHER -> DITHER typo
-      drm/msm/dpu: Use V2 DITHER PINGPONG sub-block in SM8[34]50/SC8280XP
-      drm/msm/dpu: Set PINGPONG block length to zero for DPU >= 7.0.0
-      drm/msm/dpu: Remove duplicate register defines from INTF
-
-Rob Clark (5):
-      drm/msm/atomic: Don't try async if crtc not active
-      drm/msm: Fix vmap madv warning
-      drm/msm: Fix submit error-path leaks
-      iommu/arm-smmu-qcom: Fix missing adreno_smmu's
-      drm/msm: Be more shouty if per-process pgtables aren't working
-
-Srinivas Kandagatla (1):
-      drm/msm/dp: unregister audio driver during unbind
-
- .../bindings/display/msm/dsi-controller-main.yaml  | 12 +++++++++++
- .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    | 16 +++++++-------
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  4 ++--
- .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  1 -
- .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  1 -
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 12 +++++------
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  8 +++----
- .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   | 24 ++++++++++-----------
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 16 +++++++-------
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 16 +++++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 17 ++++++---------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  | 23 +++++++++++---------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  5 -----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h           |  3 ---
- drivers/gpu/drm/msm/dp/dp_audio.c                  | 12 +++++++++++
- drivers/gpu/drm/msm/dp/dp_audio.h                  |  2 ++
- drivers/gpu/drm/msm/dp/dp_display.c                |  1 +
- drivers/gpu/drm/msm/msm_atomic.c                   |  2 ++
- drivers/gpu/drm/msm/msm_gem.c                      | 22 +++++++------------
- drivers/gpu/drm/msm/msm_gem_submit.c               | 25 ++++++++++++++++------
- drivers/gpu/drm/msm/msm_iommu.c                    |  9 ++++++--
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         | 10 +++++++++
- 26 files changed, 146 insertions(+), 108 deletions(-)
+--------------QhJbSdhquHjdpYawmjA9V081--
