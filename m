@@ -1,52 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA8F708A23
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 23:08:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A2D708A2A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 23:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D61E10E0DA;
-	Thu, 18 May 2023 21:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C0910E556;
+	Thu, 18 May 2023 21:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA7710E0DA
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 21:08:27 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id
- e9e14a558f8ab-333eb36e510so20571105ab.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 14:08:27 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D37B10E556
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 21:09:17 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-96a2b6de3cbso398463766b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 14:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684444155; x=1687036155;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
+ b=TGR7argf0z8ZhgJu/21nGdGThgR8Or+D63dA/zj8mS+KOyyn7MsXbnBiMvZb49P/T1
+ wm+CJVG6i34RnLFbsCF/9bRb28Rm7vAKvuCsp655+5SEk/vnYKFGa89Bc7u+sYDrcIA4
+ NIaTtdCYE9dLtXDiXfSBAMjzyAT4uABaxrQmoVhtu5Y/5tD7vb3miktce4n77e3e8kS+
+ M3j85AcXJiz4DpL3xl1CQRIPo7SS6EXobIWFgnl/K+u5yAp5/FOmgAEnv9nREzflNKH/
+ dfZggDiU22pFucHgdBrBg0PVzKOebkuzNRGHMI3UKr0KLVjShk7WZ4jlN483uwy+KRw4
+ V+HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684444106; x=1687036106;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oCJmZhikEGgvshSFtgr79kh24UyNzZUnmc8l6fNAyog=;
- b=HpDacQPuO6biJpL2tZOnQ2R9tOUrNkwC87nsVR/UchlLPhMEFjBs70F3VImbnan3No
- QnXBrbAZBopCICb4Q3zJVzRSM1XE7cytecRgEbhW90/ZOuJXOo+ALA70MUMRzh6b8X/D
- vG6yC3FX1c0O4E0T9u8teibXfGO59PWXXYDbHeW7nx50iG6e/7fZWlGiaxNdc0VHB6zb
- xbvovenZe5R65Cio1h38Up+Va1bSXBfRwS2ucvInLPNsLpd3QM+wrF1ATnNYN/b8jxwW
- wtblr1f8190xyYb1y63343ONsvuQLeNU3fSJrqyrgPshFAW0LgwQxvW1ktTE5GrvJT+D
- 4EXw==
-X-Gm-Message-State: AC+VfDx++97i97tpoEFri21nHs+CGqhSGKXkhTUCf3t+C0RQfGFIzGZg
- Vj38toNXuFE8Dk8XZZupTNwj3VHZf3TBypbeGZHre7CRzWW2
-X-Google-Smtp-Source: ACHHUZ6O+AwC9jQ6/HWx9bF4gsIW4ateeFT9tlEiAvl6X0cm+bMtLLafLfqIApH9fHqyJCPWOSItmHrhVXZe54RUpchQdppkkfQY
+ d=1e100.net; s=20221208; t=1684444155; x=1687036155;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rnh3tyDUDMlsulIV/kPw728cW2/MDK+ktFBwUG82RqY=;
+ b=iBHR77DTjf1GRbMj0bsDYCMFHKNFI8+iuH3heXq4OgysCwp0PnnN1DHQVlsrLY8qFN
+ /CrA3/o2LicfeRLk7lCgunPZx3OW/h4auOhjJSijDF7V68kmrYL6ihQibOZebcuX3Fmv
+ 8UidhOxxPhIlUExmlzCMr75qXanxsucB90Y4qIejAiw1om+tZdt8Foj9XA20U9aIBt/t
+ Gw47tXpOXftihzs5yoWLBmGIjRB+pnhDk7B7oKNHTm3wdVhu+dmrzgWYdOW+n6wwVk3e
+ Nhmos857XbreK+gZyNQVIeUNrMnoJ7C1bT0nDQhomYC4iCR7r4KqlMvcQxTYGjd5dh8T
+ iFSA==
+X-Gm-Message-State: AC+VfDzAQqqaHUOqIPfyZj9XkFwJ5fLgAQNyE94FpF+0Vt8Ev7l7P+DH
+ 0Ds+nlWOKSKy0h6tIqZHtZE=
+X-Google-Smtp-Source: ACHHUZ4xYGeWgw813K5HPP+JDjaf07MOHp6X1MaKB4myGbAL1dXQo69yO/4QoJnkEsY0D9X3ii5Y1w==
+X-Received: by 2002:a17:907:3f0d:b0:966:2984:3da0 with SMTP id
+ hq13-20020a1709073f0d00b0096629843da0mr475421ejc.63.1684444155082; 
+ Thu, 18 May 2023 14:09:15 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net.
+ [82.149.1.233]) by smtp.gmail.com with ESMTPSA id
+ b20-20020a056402139400b00508804f3b1dsm950498edv.57.2023.05.18.14.09.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 May 2023 14:09:14 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Roman Beranek <me@crly.cz>
+Subject: Re: [PATCH v4 2/4] ARM: dts: sunxi: rename tcon's clock output
+Date: Thu, 18 May 2023 23:09:13 +0200
+Message-ID: <2281226.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230505052110.67514-3-me@crly.cz>
+References: <20230505052110.67514-1-me@crly.cz>
+ <20230505052110.67514-3-me@crly.cz>
 MIME-Version: 1.0
-X-Received: by 2002:a02:93c7:0:b0:416:5d0f:f494 with SMTP id
- z65-20020a0293c7000000b004165d0ff494mr1952410jah.5.1684444106608; Thu, 18 May
- 2023 14:08:26 -0700 (PDT)
-Date: Thu, 18 May 2023 14:08:26 -0700
-In-Reply-To: <c7b8e69a-cabe-4e17-a511-66179259d1d7@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009e5a1c05fbfe34c5@google.com>
-Subject: Re: [syzbot] [fbdev?] [usb?] WARNING in dlfb_submit_urb/usb_submit_urb
- (2)
-From: syzbot <syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com>
-To: bernie@plugable.com, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, stern@rowland.harvard.edu, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +80,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Frank Oltmanns <frank@oltmanns.dev>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Ondrej Jirman <megi@xff.cz>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Dne petek, 05. maj 2023 ob 07:21:08 CEST je Roman Beranek napisal(a):
+> While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
+> outputs, this doesn't hold for DSI. According manuals from Allwinner,
+> DCLK is an abbreviation of Data Clock, not dotclock, so go with that
+> instead.
+> 
+> Signed-off-by: Roman Beranek <me@crly.cz>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Applied, thanks!
 
-Reported-and-tested-by: syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com
+Best regards,
+Jernej
 
-Tested on:
 
-commit:         a4422ff2 usb: typec: qcom: Add Qualcomm PMIC Type-C dr..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=10b6b9a6280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2414a945e4542ec1
-dashboard link: https://syzkaller.appspot.com/bug?extid=0e22d63dcebb802b9bc8
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1374e5a6280000
-
-Note: testing is done by a robot and is best-effort only.
