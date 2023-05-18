@@ -2,66 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B576708830
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 21:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9996970883A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 21:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E08A10E066;
-	Thu, 18 May 2023 19:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B8010E54C;
+	Thu, 18 May 2023 19:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B913210E066
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 19:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1684436774; i=deller@gmx.de;
- bh=pBy6GELUpzGIiCShn/8+5zqDsJlsfeiFiD+3uO8JbY4=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=GW3ynz/DbLLzEQGUdqVylIi+hc3P+CxSdGHqGnRDPIU7MUlCu/VYRt2psVDzp7v3c
- EIknENG18my1GD9v4SzuuZnfDmmijFT4QR9k5SkfFqWEuWhpk9YR9xuo13dlDDKAVn
- Jx6V9JdZxNAhmhw6eL2zL/REpW3MT4D3dVbLraqoiqKDCqbursJ+/Tgi/6KiwNtgBv
- +Nw3c8FozrBE1ql2uybHnSzCHIBgEEb1PY4QBWFl1cbJCgbnuLDB7AdDjBkyrip8tC
- W3G8wJcIzwVwgcbHkWv0HHG756lTimjCJ8oJ2fUo+EbC/2xSubh+wvD296U4hlGT2x
- OllpUAsKCYchw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ls3530 ([94.134.154.30]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N0XD2-1qKfeU2SEG-00wZAK; Thu, 18
- May 2023 21:06:14 +0200
-Date: Thu, 18 May 2023 21:06:12 +0200
-From: Helge Deller <deller@gmx.de>
-To: Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [syzbot] [fbdev?] [usb?] WARNING in
- dlfb_submit_urb/usb_submit_urb (2)
-Message-ID: <ZGZ3JPLqxCxA2UB6@ls3530>
-References: <0000000000004a222005fbf00461@google.com> <ZGXVANMhn5j/jObU@ls3530>
- <4cd17511-2b60-4c37-baf3-c477cf6d1761@rowland.harvard.edu>
- <be824fbc-cde4-9a2a-8fb4-1ca23f498dca@gmx.de>
- <2905a85f-4a3b-4a4f-b8fb-a4d037d6c591@rowland.harvard.edu>
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6C010E53E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 19:14:41 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 97365203DE;
+ Thu, 18 May 2023 21:14:37 +0200 (CEST)
+Date: Thu, 18 May 2023 21:14:36 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/3] drm/msm/dpu: drop SSPP's SRC subblock
+Message-ID: <375aoihzzqquma4e53zfl7t6xdamlwyb2t36effy44wooylywp@5oz5jl5t54qo>
+References: <20230429012353.2569481-1-dmitry.baryshkov@linaro.org>
+ <20230429012353.2569481-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2905a85f-4a3b-4a4f-b8fb-a4d037d6c591@rowland.harvard.edu>
-X-Provags-ID: V03:K1:Q3nIu3LTT7sasw5uCAZngX5+JzZttsCCWf+9S/T/gP2tfMnOCUW
- BwpHjk/fKNMPjT4KWgBwNKfV0NExzypTNjj+eQqR5yhxduihabVfHEmzpPKMJD+9M7HP9bi
- 24WyALeLnxpLreLUBFlgueLDTY8G6MG7pjNLF0t1Cgwx7NFBMxOsWY4xuVJL2WFELj3bQ4g
- DKf10N5q0OIoLLX8Fnnkw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:y4zdltgRDIg=;hT62BpYCTxJ9wnrrSwFQrUxLRMP
- KNuz5bykn4UaZIUngZnebcjA296bIc/zRl5RwesJytwxfwDe+fjBddoN401UjPTQhKx8I4qSk
- /3ego8neUmYfVMvspZo4F2EgTnHpOjR4UA8SdcrFa/aLk/z31UfrYaFZobhFcPXbq00ZoovQc
- Sl48QUY8soF3JantHxXEJmxvkq8iJXirhxrZ/O4d+bV1nU9KhCfs8yUMwWEtQ97egyj3rXBy+
- KseszST5rP2rKiAgMQbVOu/XOaT4MkFGOE+KT7OiTdm6q/1d0d5tlCbCfst0Ihv4Eho7oezXh
- 94rBavAPPbr1HtpdsLZGOqUE+7m52M9dHmxQSsdey4xaL2UM/kMgsQ/+xE8xsvQJx409a8VBu
- oHi6h2rIoDsMVm9Ynxc6QE5N+nuxggbaUuhBt4Ow/PTtaRWkK7MH7yCwpfOrawBLW/CTCIJAK
- BG+ytBpZCLVMCk0zbLypuHD2wqgyJ8udAoignq42MwIKJmdmBoO2kaLFMTe/WGr6BNwgDhIEM
- 20lW14NRAvIcrq/bmIeLeyT9eGe8GORW4SVtuqFYyXue8ismouoPXyAx7ewdeZhKvhPlC97gw
- SoO49j0sRR+ojtFJPUdtopQ01V4r7vIiKDsHBcc6DBeyQqI515/VxVl0n2gTEM6iqDrhErjYh
- igP1sELoTYPWQhREddoszTq60/0YeSgaWJr7yNPfx3QVSRAha5hZdIreOKv+TDIZOkm0homed
- Ks0bxp9joXqwzav4ryAOyTRoTr/nwVMvrJDeAM7A8N6xpzzxQ8+q39tzdZ0ywvGYhKEzhaZf0
- i3GCLVqony8LJ3fgHdPYf3gDsytTukVp59dUepehu1W3Qf6F5PCFRM+obMC/+E7c4aOnQY72I
- r1nQ1XFoPVsuQaESOIXn46IOfbu8oB1Z1QNmuDF3ZRRRQ9ZWmtKmiCoDvfk4LRj+SR5Qn4wIJ
- WJNz/xyp7ysdprpKDGXkPz4pgSw=
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230429012353.2569481-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,135 +42,494 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- bernie@plugable.com,
- syzbot <syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Alan Stern <stern@rowland.harvard.edu>:
-> On Thu, May 18, 2023 at 04:16:33PM +0200, Helge Deller wrote:
-> > On 5/18/23 15:54, Alan Stern wrote:
-> > > On Thu, May 18, 2023 at 09:34:24AM +0200, Helge Deller wrote:
-> > > > I think this is an informational warning from the USB stack,
-> > >
-> > > It is not informational.  It is a warning that the caller has a bug.
-> >
-> > I'm not a USB expert, so I searched for such bug reports, and it seems
-> > people sometimes faced this warning with different USB devices.
->
-> Yes.
->
-> > > You can't fix a bug by changing the line that reports it from dev_WA=
-RN
-> > > to printk!
-> >
-> > Of course this patch wasn't intended as "fix".
-> > It was intended to see how the udlfb driver behaves in this situation,=
- e.g.
-> > if the driver then crashes afterwards.
-> >
-> > Furthermore, why does usb_submit_urb() prints this WARNING and then co=
-ntinues?
-> > If it's a real bug, why doesn't it returns an error instead?
-> > So, in principle I still think this warning is kind of informational,
-> > which of course points to some kind of problem which should be fixed.
->
-> Depending on the situation, the bug may or may not lead to an error.  At
-> the time the dev_WARN was added, we were less careful about these sorts
-> of checks; I did not want to cause previously working devices to stop
-> working by failing the URB submission.
+On 2023-04-29 04:23:51, Dmitry Baryshkov wrote:
+> The src_blk declares a lame copy of main SSPP register space. It's
+> offset is always 0. It's length has been fixed to 0x150, while SSPP's
 
-Fair enough.
+It's -> its, twice.
 
-> > > In this case it looks like dlfb_usb_probe() or one of the routines i=
-t
-> > > calls is wrong; it assumes that an endpoint has the expected type
-> > > without checking.  More precisely, it thinks an endpoint is BULK whe=
-n
-> > > actually it is INTERRUPT.  That's what needs to be fixed.
-> >
-> > Maybe usb_submit_urb() should return an error so that drivers can
-> > react on it, instead of adding the same kind of checks to all drivers?
->
-> Feel free to submit a patch doing this.
 
-As you wrote above, this may break other drivers too, so I'd leave that
-discussion & decision to the USB maintainers (like you).
 
-> But the checks should be added
-> in any case; without them the drivers are simply wrong.
+> length is now correct. Drop the src_blk and access SSPP registers
+> without additional subblock lookup.
 
-I pushed the hackish patch below through the syz tests which gives this lo=
-g:
-(see https://syzkaller.appspot.com/text?tag=3DCrashLog&x=3D160b7509280000)
-[   77.559566][    T9] usb 1-1: Unable to get valid EDID from device/displ=
-ay
-[   77.587021][    T9] WARNING: BOGUS urb xfer, pipe 3 !=3D type 1 (fix dr=
-iver to choose correct endpoint)
-[   77.596448][    T9] usb 1-1: dlfb_urb_completion - nonzero write bulk s=
-tatus received: -115
-[   77.605308][    T9] usb 1-1: submit urb error: -22
-[   77.613225][    T9] udlfb: probe of 1-1:0.52 failed with error -22
+Note that the block code still calls `dpu_debugfs_create_regset32()` on
+"src_blk", do we want to rename that?
 
-So, basically there is no urgent fix needed for the dlfb fbdev driver,
-as it will gracefully fail as is (which is correct).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-What do you suggest we should do with this syzkaller-bug ?
-I'd rate it as false-alarm, but it will continue to complain because of
-the dev_WARN() in urb.c
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Helge
-=2D--
-
-From: Helge Deller <deller@gmx.de>
-Date: Thu, 18 May 2023 19:03:56 +0200
-Subject: [PATCH] fbdev: udlfb: check endpoint type, again
-
-Temporary patch to anaylze syzbot regression:
-https://syzkaller.appspot.com/bug?extid=3D0e22d63dcebb802b9bc8
-It's not planned to apply as-is!
-
-Fixes: aaf7dbe07385 ("video: fbdev: udlfb: properly check endpoint type")
-Signed-off-by: Helge Deller <deller@gmx.de>
-
-diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
-index 9f3c54032556..bb889a1da3ef 100644
-=2D-- a/drivers/usb/core/urb.c
-+++ b/drivers/usb/core/urb.c
-@@ -500,9 +500,12 @@ int usb_submit_urb(struct urb *urb, gfp_t mem_flags)
- 	 */
-
- 	/* Check that the pipe's type matches the endpoint's type */
--	if (usb_pipe_type_check(urb->dev, urb->pipe))
--		dev_WARN(&dev->dev, "BOGUS urb xfer, pipe %x !=3D type %x\n",
-+	if (usb_pipe_type_check(urb->dev, urb->pipe)) {
-+		/* temporarily use printk() instead of WARN() to fix bug in udlfb drive=
-r */
-+		printk("WARNING: BOGUS urb xfer, pipe %x !=3D type %x (fix driver to ch=
-oose correct endpoint)\n",
- 			usb_pipetype(urb->pipe), pipetypes[xfertype]);
-+		return -EINVAL;
-+	}
-
- 	/* Check against a simple/standard policy */
- 	allowed =3D (URB_NO_TRANSFER_DMA_MAP | URB_NO_INTERRUPT | URB_DIR_MASK |
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index 216d49c9d47e..5e56b2889c8c 100644
-=2D-- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1667,8 +1667,9 @@ static int dlfb_usb_probe(struct usb_interface *intf=
-,
- 	usb_set_intfdata(intf, dlfb);
-
- 	retval =3D usb_find_common_endpoints(intf->cur_altsetting, NULL, &out, N=
-ULL, NULL);
--	if (retval) {
--		dev_err(&intf->dev, "Device should have at lease 1 bulk endpoint!\n");
-+	if (retval || out =3D=3D NULL) {
-+		retval =3D -ENODEV;
-+		dev_err(&intf->dev, "Device should have at least one bulk endpoint!\n")=
-;
- 		goto error;
- 	}
-
+> ---
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  14 +-
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  14 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 128 ++++++++----------
+>  3 files changed, 58 insertions(+), 98 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 03f162af1a50..c3b0db1fdeb2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -13,7 +13,7 @@
+>  #include "dpu_kms.h"
+>  
+>  #define VIG_BASE_MASK \
+> -	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |\
+> +	(BIT(DPU_SSPP_QOS) |\
+>  	BIT(DPU_SSPP_CDP) |\
+>  	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_EXCL_RECT))
+>  
+> @@ -39,7 +39,7 @@
+>  #define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
+>  
+>  #define DMA_MSM8998_MASK \
+> -	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |\
+> +	(BIT(DPU_SSPP_QOS) |\
+>  	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+>  	BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+>  
+> @@ -50,7 +50,7 @@
+>  	(VIG_SC7280_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
+>  
+>  #define DMA_SDM845_MASK \
+> -	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+> +	(BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+>  	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+>  	BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+>  
+> @@ -252,8 +252,6 @@ static const uint32_t wb2_formats[] = {
+>  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
+>  	.maxupscale = MAX_UPSCALE_RATIO, \
+>  	.smart_dma_priority = sdma_pri, \
+> -	.src_blk = {.name = STRCAT("sspp_src_", num), \
+> -		.id = DPU_SSPP_SRC, .base = 0x00, .len = 0x150,}, \
+>  	.scaler_blk = {.name = STRCAT("sspp_scaler", num), \
+>  		.id = qseed_ver, \
+>  		.base = 0xa00, .len = 0xa0,}, \
+> @@ -272,8 +270,6 @@ static const uint32_t wb2_formats[] = {
+>  	.maxdwnscale = MAX_DOWNSCALE_RATIO, \
+>  	.maxupscale = MAX_UPSCALE_RATIO, \
+>  	.smart_dma_priority = sdma_pri, \
+> -	.src_blk = {.name = STRCAT("sspp_src_", num), \
+> -		.id = DPU_SSPP_SRC, .base = 0x00, .len = 0x150,}, \
+>  	.scaler_blk = {.name = STRCAT("sspp_scaler", num), \
+>  		.id = qseed_ver, \
+>  		.base = 0xa00, .len = 0xa0,}, \
+> @@ -292,8 +288,6 @@ static const uint32_t wb2_formats[] = {
+>  	.maxdwnscale = SSPP_UNITY_SCALE, \
+>  	.maxupscale = SSPP_UNITY_SCALE, \
+>  	.smart_dma_priority = sdma_pri, \
+> -	.src_blk = {.name = STRCAT("sspp_src_", num), \
+> -		.id = DPU_SSPP_SRC, .base = 0x00, .len = 0x150,}, \
+>  	.format_list = plane_formats, \
+>  	.num_formats = ARRAY_SIZE(plane_formats), \
+>  	.virt_format_list = plane_formats, \
+> @@ -375,8 +369,6 @@ static const struct dpu_sspp_sub_blks sm8550_dma_sblk_5 = _DMA_SBLK("13", 6);
+>  	.maxdwnscale = SSPP_UNITY_SCALE, \
+>  	.maxupscale = SSPP_UNITY_SCALE, \
+>  	.smart_dma_priority = sdma_pri, \
+> -	.src_blk = {.name = STRCAT("sspp_src_", num), \
+> -		.id = DPU_SSPP_SRC, .base = 0x00, .len = 0x150,}, \
+>  	.format_list = plane_formats_yuv, \
+>  	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
+>  	.virt_format_list = plane_formats, \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 71584cd56fd7..3e92c2c66716 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -64,7 +64,6 @@ enum {
+>  
+>  /**
+>   * SSPP sub-blocks/features
+> - * @DPU_SSPP_SRC             Src and fetch part of the pipes,
+>   * @DPU_SSPP_SCALER_QSEED2,  QSEED2 algorithm support
+>   * @DPU_SSPP_SCALER_QSEED3,  QSEED3 alogorithm support
+>   * @DPU_SSPP_SCALER_QSEED3LITE,  QSEED3 Lite alogorithm support
+> @@ -85,8 +84,7 @@ enum {
+>   * @DPU_SSPP_MAX             maximum value
+>   */
+>  enum {
+> -	DPU_SSPP_SRC = 0x1,
+> -	DPU_SSPP_SCALER_QSEED2,
+> +	DPU_SSPP_SCALER_QSEED2 = 0x1,
+>  	DPU_SSPP_SCALER_QSEED3,
+>  	DPU_SSPP_SCALER_QSEED3LITE,
+>  	DPU_SSPP_SCALER_QSEED4,
+> @@ -278,14 +276,6 @@ enum {
+>  	u32 base; \
+>  	u32 len
+>  
+> -/**
+> - * struct dpu_src_blk: SSPP part of the source pipes
+> - * @info:   HW register and features supported by this sub-blk
+> - */
+> -struct dpu_src_blk {
+> -	DPU_HW_SUBBLK_INFO;
+> -};
+> -
+>  /**
+>   * struct dpu_scaler_blk: Scaler information
+>   * @info:   HW register and features supported by this sub-blk
+> @@ -392,7 +382,6 @@ struct dpu_caps {
+>   * @smart_dma_priority: hw priority of rect1 of multirect pipe
+>   * @max_per_pipe_bw: maximum allowable bandwidth of this pipe in kBps
+>   * @qseed_ver: qseed version
+> - * @src_blk:
+>   * @scaler_blk:
+>   * @csc_blk:
+>   * @hsic:
+> @@ -413,7 +402,6 @@ struct dpu_sspp_sub_blks {
+>  	u32 smart_dma_priority;
+>  	u32 max_per_pipe_bw;
+>  	u32 qseed_ver;
+> -	struct dpu_src_blk src_blk;
+>  	struct dpu_scaler_blk scaler_blk;
+>  	struct dpu_pp_blk csc_blk;
+>  	struct dpu_pp_blk hsic_blk;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index cf70a9bd1034..83a091f978e2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -12,7 +12,7 @@
+>  
+>  #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
+>  
+> -/* DPU_SSPP_SRC */
+> +/* SSPP registers */
+>  #define SSPP_SRC_SIZE                      0x00
+>  #define SSPP_SRC_XY                        0x08
+>  #define SSPP_OUT_SIZE                      0x0c
+> @@ -149,9 +149,6 @@ static int _sspp_subblk_offset(struct dpu_hw_sspp *ctx,
+>  	sblk = ctx->cap->sblk;
+>  
+>  	switch (s_id) {
+> -	case DPU_SSPP_SRC:
+> -		*idx = sblk->src_blk.base;
+> -		break;
+>  	case DPU_SSPP_SCALER_QSEED2:
+>  	case DPU_SSPP_SCALER_QSEED3:
+>  	case DPU_SSPP_SCALER_RGB:
+> @@ -172,9 +169,8 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
+>  {
+>  	struct dpu_hw_sspp *ctx = pipe->sspp;
+>  	u32 mode_mask;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+>  	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+> @@ -185,7 +181,7 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
+>  		 */
+>  		mode_mask = 0;
+>  	} else {
+> -		mode_mask = DPU_REG_READ(&ctx->hw, SSPP_MULTIRECT_OPMODE + idx);
+> +		mode_mask = DPU_REG_READ(&ctx->hw, SSPP_MULTIRECT_OPMODE);
+>  		mode_mask |= pipe->multirect_index;
+>  		if (pipe->multirect_mode == DPU_SSPP_MULTIRECT_TIME_MX)
+>  			mode_mask |= BIT(2);
+> @@ -193,7 +189,7 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
+>  			mode_mask &= ~BIT(2);
+>  	}
+>  
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_MULTIRECT_OPMODE + idx, mode_mask);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_MULTIRECT_OPMODE, mode_mask);
+>  }
+>  
+>  static void _sspp_setup_opmode(struct dpu_hw_sspp *ctx,
+> @@ -247,9 +243,8 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+>  	u32 opmode = 0;
+>  	u32 fast_clear = 0;
+>  	u32 op_mode_off, unpack_pat_off, format_off;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx) || !fmt)
+> +	if (!ctx || !fmt)
+>  		return;
+>  
+>  	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+> @@ -264,7 +259,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+>  	}
+>  
+>  	c = &ctx->hw;
+> -	opmode = DPU_REG_READ(c, op_mode_off + idx);
+> +	opmode = DPU_REG_READ(c, op_mode_off);
+>  	opmode &= ~(MDSS_MDP_OP_FLIP_LR | MDSS_MDP_OP_FLIP_UD |
+>  			MDSS_MDP_OP_BWC_EN | MDSS_MDP_OP_PE_OVERRIDE);
+>  
+> @@ -352,12 +347,12 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+>  			VIG_CSC_10_EN | VIG_CSC_10_SRC_DATAFMT,
+>  			DPU_FORMAT_IS_YUV(fmt));
+>  
+> -	DPU_REG_WRITE(c, format_off + idx, src_format);
+> -	DPU_REG_WRITE(c, unpack_pat_off + idx, unpack);
+> -	DPU_REG_WRITE(c, op_mode_off + idx, opmode);
+> +	DPU_REG_WRITE(c, format_off, src_format);
+> +	DPU_REG_WRITE(c, unpack_pat_off, unpack);
+> +	DPU_REG_WRITE(c, op_mode_off, opmode);
+>  
+>  	/* clear previous UBWC error */
+> -	DPU_REG_WRITE(c, SSPP_UBWC_ERROR_STATUS + idx, BIT(31));
+> +	DPU_REG_WRITE(c, SSPP_UBWC_ERROR_STATUS, BIT(31));
+>  }
+>  
+>  static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
+> @@ -368,9 +363,8 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
+>  	u32 lr_pe[4], tb_pe[4], tot_req_pixels[4];
+>  	const u32 bytemask = 0xff;
+>  	const u32 shortmask = 0xffff;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx) || !pe_ext)
+> +	if (!ctx || !pe_ext)
+>  		return;
+>  
+>  	c = &ctx->hw;
+> @@ -400,21 +394,21 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
+>  	}
+>  
+>  	/* color 0 */
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_LR + idx, lr_pe[0]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_TB + idx, tb_pe[0]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_REQ_PIXELS + idx,
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_LR, lr_pe[0]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_TB, tb_pe[0]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C0_REQ_PIXELS,
+>  			tot_req_pixels[0]);
+>  
+>  	/* color 1 and color 2 */
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_LR + idx, lr_pe[1]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_TB + idx, tb_pe[1]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_REQ_PIXELS + idx,
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_LR, lr_pe[1]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_TB, tb_pe[1]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C1C2_REQ_PIXELS,
+>  			tot_req_pixels[1]);
+>  
+>  	/* color 3 */
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_LR + idx, lr_pe[3]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_TB + idx, lr_pe[3]);
+> -	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_REQ_PIXELS + idx,
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_LR, lr_pe[3]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_TB, lr_pe[3]);
+> +	DPU_REG_WRITE(c, SSPP_SW_PIX_EXT_C3_REQ_PIXELS,
+>  			tot_req_pixels[3]);
+>  }
+>  
+> @@ -453,9 +447,8 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
+>  	struct dpu_hw_blk_reg_map *c;
+>  	u32 src_size, src_xy, dst_size, dst_xy;
+>  	u32 src_size_off, src_xy_off, out_size_off, out_xy_off;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx) || !cfg)
+> +	if (!ctx || !cfg)
+>  		return;
+>  
+>  	c = &ctx->hw;
+> @@ -483,10 +476,10 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
+>  		drm_rect_width(&cfg->dst_rect);
+>  
+>  	/* rectangle register programming */
+> -	DPU_REG_WRITE(c, src_size_off + idx, src_size);
+> -	DPU_REG_WRITE(c, src_xy_off + idx, src_xy);
+> -	DPU_REG_WRITE(c, out_size_off + idx, dst_size);
+> -	DPU_REG_WRITE(c, out_xy_off + idx, dst_xy);
+> +	DPU_REG_WRITE(c, src_size_off, src_size);
+> +	DPU_REG_WRITE(c, src_xy_off, src_xy);
+> +	DPU_REG_WRITE(c, out_size_off, dst_size);
+> +	DPU_REG_WRITE(c, out_xy_off, dst_xy);
+>  }
+>  
+>  static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+> @@ -495,24 +488,23 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+>  	struct dpu_hw_sspp *ctx = pipe->sspp;
+>  	u32 ystride0, ystride1;
+>  	int i;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+>  	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+>  		for (i = 0; i < ARRAY_SIZE(layout->plane_addr); i++)
+> -			DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx + i * 0x4,
+> +			DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + i * 0x4,
+>  					layout->plane_addr[i]);
+>  	} else if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR,
+>  				layout->plane_addr[0]);
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR,
+>  				layout->plane_addr[2]);
+>  	} else {
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC1_ADDR + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC1_ADDR,
+>  				layout->plane_addr[0]);
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC3_ADDR + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC3_ADDR,
+>  				layout->plane_addr[2]);
+>  	}
+>  
+> @@ -522,8 +514,8 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+>  		ystride1 = (layout->plane_pitch[2]) |
+>  			(layout->plane_pitch[3] << 16);
+>  	} else {
+> -		ystride0 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx);
+> -		ystride1 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx);
+> +		ystride0 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE0);
+> +		ystride1 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE1);
+>  
+>  		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+>  			ystride0 = (ystride0 & 0xFFFF0000) |
+> @@ -540,8 +532,8 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
+>  		}
+>  	}
+>  
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx, ystride0);
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx, ystride1);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE0, ystride0);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_SRC_YSTRIDE1, ystride1);
+>  }
+>  
+>  static void dpu_hw_sspp_setup_csc(struct dpu_hw_sspp *ctx,
+> @@ -565,9 +557,8 @@ static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
+>  {
+>  	struct dpu_hw_sspp *ctx = pipe->sspp;
+>  	struct dpu_hw_fmt_layout cfg;
+> -	u32 idx;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+>  	/* cleanup source addresses */
+> @@ -576,9 +567,9 @@ static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
+>  
+>  	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+>  	    pipe->multirect_index == DPU_SSPP_RECT_0)
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR + idx, color);
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR, color);
+>  	else
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR_REC1 + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR_REC1,
+>  				color);
+>  }
+>  
+> @@ -586,39 +577,34 @@ static void dpu_hw_sspp_setup_danger_safe_lut(struct dpu_hw_sspp *ctx,
+>  			u32 danger_lut,
+>  			u32 safe_lut)
+>  {
+> -	u32 idx;
+> -
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_DANGER_LUT + idx, danger_lut);
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_SAFE_LUT + idx, safe_lut);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_DANGER_LUT, danger_lut);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_SAFE_LUT, safe_lut);
+>  }
+>  
+>  static void dpu_hw_sspp_setup_creq_lut(struct dpu_hw_sspp *ctx,
+>  			u64 creq_lut)
+>  {
+> -	u32 idx;
+> -
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+>  	if (ctx->cap && test_bit(DPU_SSPP_QOS_8LVL, &ctx->cap->features)) {
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_0 + idx, creq_lut);
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_1 + idx,
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_0, creq_lut);
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_1,
+>  				creq_lut >> 32);
+>  	} else {
+> -		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT + idx, creq_lut);
+> +		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT, creq_lut);
+>  	}
+>  }
+>  
+>  static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
+>  		struct dpu_hw_pipe_qos_cfg *cfg)
+>  {
+> -	u32 idx;
+>  	u32 qos_ctrl = 0;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> +	if (!ctx)
+>  		return;
+>  
+>  	if (cfg->vblank_en) {
+> @@ -634,23 +620,19 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
+>  	if (cfg->danger_safe_en)
+>  		qos_ctrl |= SSPP_QOS_CTRL_DANGER_SAFE_EN;
+>  
+> -	DPU_REG_WRITE(&ctx->hw, SSPP_QOS_CTRL + idx, qos_ctrl);
+> +	DPU_REG_WRITE(&ctx->hw, SSPP_QOS_CTRL, qos_ctrl);
+>  }
+>  
+>  static void dpu_hw_sspp_setup_cdp(struct dpu_sw_pipe *pipe,
+>  		struct dpu_hw_cdp_cfg *cfg)
+>  {
+>  	struct dpu_hw_sspp *ctx = pipe->sspp;
+> -	u32 idx;
+>  	u32 cdp_cntl = 0;
+>  	u32 cdp_cntl_offset = 0;
+>  
+>  	if (!ctx || !cfg)
+>  		return;
+>  
+> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+> -		return;
+> -
+>  	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+>  	    pipe->multirect_index == DPU_SSPP_RECT_0)
+>  		cdp_cntl_offset = SSPP_CDP_CNTL;
+> @@ -672,13 +654,11 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_sw_pipe *pipe,
+>  static void _setup_layer_ops(struct dpu_hw_sspp *c,
+>  		unsigned long features)
+>  {
+> -	if (test_bit(DPU_SSPP_SRC, &features)) {
+> -		c->ops.setup_format = dpu_hw_sspp_setup_format;
+> -		c->ops.setup_rects = dpu_hw_sspp_setup_rects;
+> -		c->ops.setup_sourceaddress = dpu_hw_sspp_setup_sourceaddress;
+> -		c->ops.setup_solidfill = dpu_hw_sspp_setup_solidfill;
+> -		c->ops.setup_pe = dpu_hw_sspp_setup_pe_config;
+> -	}
+> +	c->ops.setup_format = dpu_hw_sspp_setup_format;
+> +	c->ops.setup_rects = dpu_hw_sspp_setup_rects;
+> +	c->ops.setup_sourceaddress = dpu_hw_sspp_setup_sourceaddress;
+> +	c->ops.setup_solidfill = dpu_hw_sspp_setup_solidfill;
+> +	c->ops.setup_pe = dpu_hw_sspp_setup_pe_config;
+>  
+>  	if (test_bit(DPU_SSPP_QOS, &features)) {
+>  		c->ops.setup_danger_safe_lut =
+> @@ -728,8 +708,8 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+>  	/* add register dump support */
+>  	dpu_debugfs_create_regset32("src_blk", 0400,
+>  			debugfs_root,
+> -			sblk->src_blk.base + cfg->base,
+> -			sblk->src_blk.len,
+> +			cfg->base,
+> +			cfg->len,
+>  			kms);
+>  
+>  	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+> -- 
+> 2.39.2
+> 
