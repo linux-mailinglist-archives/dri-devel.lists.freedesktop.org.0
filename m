@@ -1,151 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9822270829A
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 15:25:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 491487082AE
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 15:30:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF8E10E524;
-	Thu, 18 May 2023 13:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E41710E523;
+	Thu, 18 May 2023 13:30:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF67C10E519;
- Thu, 18 May 2023 13:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684416321; x=1715952321;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=rTqBkQ2h1AsZGjdMjvlbdupxtDr2QmEbhbSy9Z1tbrs=;
- b=GMjXFj6rYnP7NdQS+N+A1WeQT3qc4fXivMwEGBZ543nnBps+qTHB12oX
- LPh/1i+923caB6Ro3ie7QQkjKsr4GYSh8KgNAwpwfDKUtM4d3h15e5+tN
- j/mbQ0WebsLfzykLCiuphmv1eUOhPdiQlXgvyIuV1YOUC+anOnVLHqFzB
- NRFN2aDe8DpEkIBAAlfTbpl5ccgWSu+g+MCo4B6cAVXR6SN5h9gFUwE8H
- kJpQsrp/U3+YoRms32r8bhXk/EQcXKa1CHhJrdptY5tHd9XxnsYKge7NG
- JKFqA2V0Hc/j8HQxTQlbYXWvx6Xy0bxhIgD0LWksP8zhZVo10x50XQXx8 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="438405258"
-X-IronPort-AV: E=Sophos;i="5.99,285,1677571200"; d="scan'208";a="438405258"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2023 06:25:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="791973512"
-X-IronPort-AV: E=Sophos;i="5.99,285,1677571200"; d="scan'208";a="791973512"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP; 18 May 2023 06:25:21 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 18 May 2023 06:25:20 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 18 May 2023 06:25:20 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 18 May 2023 06:25:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aOU3ey02uiKE+R/fAJ8o0ldV7sXNyorc5LGsDTOvu4oT5G9Qu0Yu/CAhMcUAF9y1qF+uGVFxCn9tP2jo/TAt+k8Yqmmaf1V+drKKvE7bPenNa8mMkbmuxnfLZpEUT5bRuxDWHcMhfmC9/QpuhKblZHjs9AdjFiUIfeg8aUPwlVOqQW2i+sChSMqu1+ZCmh9VjUwMvUjOMbP2mP7eLHftV/eZW2+y1yGE+H/cuL1BeZdCSA/mYTLTx7Ir5cgTsERKOaDBLcL7aFv4TrSkzC+CTLuhlOqUhCsHx/AaTzpngXHsBDG7fMXDzE6gtaEIyTPFWsnnvFzWPgZnZcdWBGZfwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4hUP86LmWNRbXjmRxl/pTE1lyEL0XDpmIloRGHg/Ghk=;
- b=jbA40WQ/r2syoOCx3PtSPaKdawFKY9ChPGFIP4juwGhBuW6JnuzZAdrRPsveEexrnsVgWWH1BdGiSkfEeVIbHRirn8koqtT/jdX3muaNbzRGEBqEGBe2DqWQMislSviak/c/E1rRMBnfcmxzfazNbHgDyQJoXtaPf7mNvBG04IlyA7YRSklkuuw2/TtyTNmhWlm4tgelCYr3kGLW9rURPhsl7Dc+DXjPwx2Rg/5CrKIeZfOh/bruZGP1620nt/xVfQsf715GlXGEDeV/i8hCHQ6I7IY7819yfpOYm7Na1jZmu2p7eDrxPELXHwyxVc0OsOeiJx3nGWsUfljQebZiOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SA1PR11MB6920.namprd11.prod.outlook.com (2603:10b6:806:2bb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.19; Thu, 18 May
- 2023 13:25:18 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::d1b9:3221:bc0d:1a9b]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::d1b9:3221:bc0d:1a9b%7]) with mapi id 15.20.6411.019; Thu, 18 May 2023
- 13:25:18 +0000
-Message-ID: <a3bf1980-8526-9481-7c2b-e63119f4fcfb@intel.com>
-Date: Thu, 18 May 2023 18:55:06 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 12/13] drm/i915/dp: Get optimal link config to have best
- compressed bpp
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
- <20230512062417.2584427-13-ankit.k.nautiyal@intel.com>
- <ZGNeYFSFzInncdQm@intel.com> <ZGNrq9lG85tkh2Ym@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <ZGNrq9lG85tkh2Ym@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0064.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:99::21) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C450C10E519;
+ Thu, 18 May 2023 13:30:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8F8F11F381;
+ Thu, 18 May 2023 13:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684416620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RP9fAVMO6riPqMZ4iL2SJY3LXuSGDR5zYLR6oNzVvbg=;
+ b=DRGtcfzksvTNzSaGlYlDBBxYV4swvGrlQFUt+CH57QjOJzfvbyoKBAAzIv52x8ALiPcjrg
+ vtwvg6MmsFpKju8Pz/YiTGDjxh4g87sazojhr3vHQVepWJthy09Rjy2cx/NUPWMdyhnyp7
+ u+1x71+A6YAJLs799F5i2c4tLkwRXik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684416620;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RP9fAVMO6riPqMZ4iL2SJY3LXuSGDR5zYLR6oNzVvbg=;
+ b=XEol8yFO83o+JezNRIrPWDZUUjJm+0Jjq3QkIWM4//HX9UxChomkpBBLi0vynJIHWmeDfO
+ Amqv4aV4acEEtJDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E38A138F5;
+ Thu, 18 May 2023 13:30:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kVMnCmwoZmSLQgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 18 May 2023 13:30:20 +0000
+Message-ID: <eea1a97f-b5cb-3021-147b-bfddfe6639d3@suse.de>
+Date: Thu, 18 May 2023 15:30:19 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SA1PR11MB6920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04c6b9f9-d169-4ef1-73a1-08db57a3523a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WvYMOSTmCU9pKOPbBQ1vpWVBBWfKg0PTY/yRo9DM6LXb7qnwEHQfLyRPoXrvQBvQAL4zsM0ZnfUHxcdKq3oMkQSKPtPqn9if8r3m9EI6hfgLT2JC3hOOOI3cY1a4Tg+G7InDgAzOByhjeb2HDZQ0YBrqNrwsiCYMiG5MkzD4VKQCCyZNnB/8QV726sEpfwpJkOkmYjSzoeeghur4rlAibuLC0es0W2xIkTFXjRIAPwGPBemR/5hObCjkIftBTo8FFEygISjH335/WbwXrgOmyrNfHuwT45u8W1dfTMMl93hPyuuBj3BzIIMVIUcgX8EotuVnAy9V9mwKmkFg50op0fLQ9q+OLSrEwwDjgO2kaUl8rBHrt+kcRdCmBGle/hUCuszHEyvy9zZfC2X6dwFo+Ez/zanvp0tdwW307M4EZuWSz3Xaryq8XT1w2RLVH3Q1oGKtBBVHVTGI6bWcHtTXf8qj7Gx9BTjD8/B+03OGnkzsvS9UztOfcuLAXzXZHVAqEn4A0uUmIu3lT2hlLh0kCG45dXX8vr7UXZ/7ZIyfQkwR8cHI/AgPYM+rDi6Apj4Ke1mxRV5CGTrPcxjo5qfI1QGXYYR9NbgQJqUKFeQFMl8cN/YRQ+yFICBzv2zHyNyMUnwgTNG4SpHB7qde+DycAA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(376002)(136003)(346002)(366004)(396003)(451199021)(83380400001)(55236004)(478600001)(6486002)(6666004)(110136005)(2616005)(53546011)(26005)(6512007)(186003)(36756003)(6506007)(30864003)(2906002)(6636002)(4326008)(38100700002)(41300700001)(66946007)(66556008)(66476007)(5660300002)(82960400001)(86362001)(8676002)(31696002)(316002)(8936002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NE0wL2NrdjJmMk1Qb3o4dmVXNWlMUWhIYXkvcTVIRU9JSGxSNmVkRHloSmhM?=
- =?utf-8?B?T0pvRmhwSWp0d3NhaVE1Y3Fhc1FNdGxVQisyMmkvT1dpTTVYU3BWUVpqUC9n?=
- =?utf-8?B?WUtWOVYxNW5kRXpuaGtmQ000WURDQVd5VFR3Z3Rleld6MG1jaFdRczMwODBG?=
- =?utf-8?B?M3FnUlpBN1NVcG1YK21QbmNadTRyUExRdzI5ZmhMeXNMSkNjazFjV0Zsd1Vq?=
- =?utf-8?B?emk0ZDlJVlpHeTNrcnhLZkRRUk5YRlJ1cHkwb3RqK0tZRnlBK2NKQlZqMjlM?=
- =?utf-8?B?SFBJQWxBdEVZU2ZsQUNEMjNaSjN4SHlJcWUrQ1A3TVUrcDZaYW1OSi81OFdt?=
- =?utf-8?B?ZE1jTzloZUs1QjJWSnd1SWJBWWN4dXp4cVh3VHVhSFp0N1NiWFpiNlFOS28y?=
- =?utf-8?B?S3BxaXM1WXpwTkM0Y2M2dW1PdXJkUGIwU2UwdjU4QzhzQkNndmxsT0NseFhG?=
- =?utf-8?B?UUZDeGpqb3N0QlhIUVV2ZmlIU1FQcGJUdHVzY1hjK0FuS3ZOMTdJR09Uam1w?=
- =?utf-8?B?TXR5aFNycEJKZWhGUStRdUkxbUY1Q1dqTEE2SVZkdmZZc2NKR2o2ck96MWg2?=
- =?utf-8?B?VndwMk1wY0VFaE5lWGF4SEhGbWpaU0dhbU5zc3UxUitMWVAwWVA4YWhHbjFa?=
- =?utf-8?B?VXdLeEFXTkZiTGVoREQ4S3hkSzg3WjFPeWdwRHgyT1JtTmJlTFpJZzk0akRz?=
- =?utf-8?B?UEtvdWZsZnUwcDNXS0NQWWVQWjBDbzNnWGpLdzNzdDNRNTVINE1LUVFuRlQz?=
- =?utf-8?B?Y3J5OWRYUGlTeGFrclV0cytsTk0zQjVoNTVJVkpPa3lDS1ZzMzk3YjZBL3Z3?=
- =?utf-8?B?RWxwOVlDSzc3ZTZnVnN5RkZtZlhSZXNEejM5SmhIWWlQZXZ3MmREVmUyU0hM?=
- =?utf-8?B?OXJHOWQyVS9HUzVlbjV3ZnBORGhJSW1aYXlIZjdmdjgyejl4Z0JSa1gwTHhu?=
- =?utf-8?B?TWE3OU8wdjNFVjFyTFMzdEJJVTRSOUxxMVdHSVdsVHd1K01zV0sySW1NN3ZL?=
- =?utf-8?B?Qk5KckdYS0ppZStJU1d0OXBxbGNoTmNsdjFzVDdkbzNiUGRvNHhJZktWZWdr?=
- =?utf-8?B?cjVRU1lncEo3dkt3MzNtSXZ0VC9HZVVpa2ZhdGpuNkhCRVRQeEJLVjBwSUJp?=
- =?utf-8?B?SlRuWmVQZE9DOE5KUjJsSW1RdVhqaWswMmtmb0V3eVR1T0dsbTE3VnhYRHR2?=
- =?utf-8?B?enV4Yk5WdG0vZUROdjFvckFhU3cvN2hlUzlmTkZ5NSsvbnRjRVBZZjFEZ3Jv?=
- =?utf-8?B?dDI2S0hKOHJWYlQxZklMRlNVMkZ5L3E0djFLK1pub0tvTVd6WG94SjJoL2ZU?=
- =?utf-8?B?MWRUd2IyNGVyVjh0dGV6NFVGOFQ5RnJTQTYvQWpYWTJxZEVjblRoSDhibTdK?=
- =?utf-8?B?SFo4dUZUY1JOdVZZRHh2NmVIcm9SUi9ob2VtUllJQVpYL09mQzVOR1IrTWx2?=
- =?utf-8?B?N1lEQy9ZU0ljRENwWW92Y01hNmk3Uzh3cHJOQTJCeFJVZE5jcmdXdHIwOXhn?=
- =?utf-8?B?bUFUM1l5VzFSWitSUGtjeDJjVkNvVlRhdzVldkxoUUl2UlduTFVjejNvZ0JJ?=
- =?utf-8?B?QU5GMTN2dnJVejBPSkN3ZnhNK2xGK2krTERlOVZzNWZRRTF4Tk83NFhMU25R?=
- =?utf-8?B?bm83VzY5OEFFMS9PdzNtd0M1cnduN0psWVZUR2ZORnNneHIxTU9sa2dCTVNG?=
- =?utf-8?B?MXZTWTNOTTRWcUtUalFPdkFDc2NNRXRnMktqbXlhaWlIT3UxZ1JvQTd6bWtP?=
- =?utf-8?B?TEJuVHYwQ2Y3a3U5elFHWVYvZGJabWwzeC93ZiszUWV6ZE14UE5QY0hFd3pI?=
- =?utf-8?B?dW5Yc3poa2VDdWhKRmVHSHN4bTM5RjhmVGxRdjhMRzNvZ2wxRDhnQUpCNzEx?=
- =?utf-8?B?NldwbUFpbHU0R281OWkzRHZJRFk0MG9lb1RLUmQvNnkyWlY4QUlLM1FZc0RK?=
- =?utf-8?B?ZUdqa2poaGZlWWRFNUJJaC85MnRpRGhNS05MYXhEaHFpYnpCOTBBai8vMUhD?=
- =?utf-8?B?K1I5a2tOL3ZIU3VpeHZlYVlnWVJHclMyZHdkcG1Ba1A5K29HRXVFOE0yMG5Z?=
- =?utf-8?B?UFh6aWpDTkxFbmpsWHA3aEw0d1hBWUVtamJOQVROY0RORnJ4dzNaakxod3VF?=
- =?utf-8?B?QkVLMzZPYjdoRm5TTDk0dTdvbmFvOEZ1ZWk4dEdoamRRZDZDTkZiZng1TFFH?=
- =?utf-8?B?dEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04c6b9f9-d169-4ef1-73a1-08db57a3523a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2023 13:25:17.9109 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MX7HkG53XeEODFrUigcb/uHFY6P/7MkbMI5MKk6SJotBgTuJvBo86KXKx031HJKmDBwHzzalOh7MeEVTKc6v3SYMVXAXv9EnBIdYL9Ebuy4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6920
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [v2,11/12] drm/fbdev-generic: Implement dedicated fbdev I/O
+ helpers
+To: Sui Jingfeng <15330273260@189.cn>, daniel@ffwll.ch, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, javierm@redhat.com,
+ sam@ravnborg.org
+References: <20230515094033.2133-12-tzimmermann@suse.de>
+ <80b4b615-0a71-89e8-3a58-fbeb8a9a06e8@189.cn>
+ <28d2e7d5-7dde-b1f9-3b5f-0ba51f8eaaeb@suse.de>
+ <f1688b87-0b8d-59b0-2fe8-88b2d40c513e@189.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <f1688b87-0b8d-59b0-2fe8-88b2d40c513e@189.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CaLkyQknB5zn9bn0fJaZ0BXD"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,431 +75,343 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, anusha.srivatsa@intel.com,
- navaremanasi@google.com, dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Stan and Ville for the review comments.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------CaLkyQknB5zn9bn0fJaZ0BXD
+Content-Type: multipart/mixed; boundary="------------3aAtJKIBwKHeeZhpF6WFWUpG";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <15330273260@189.cn>, daniel@ffwll.ch, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, javierm@redhat.com,
+ sam@ravnborg.org
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <eea1a97f-b5cb-3021-147b-bfddfe6639d3@suse.de>
+Subject: Re: [v2,11/12] drm/fbdev-generic: Implement dedicated fbdev I/O
+ helpers
+References: <20230515094033.2133-12-tzimmermann@suse.de>
+ <80b4b615-0a71-89e8-3a58-fbeb8a9a06e8@189.cn>
+ <28d2e7d5-7dde-b1f9-3b5f-0ba51f8eaaeb@suse.de>
+ <f1688b87-0b8d-59b0-2fe8-88b2d40c513e@189.cn>
+In-Reply-To: <f1688b87-0b8d-59b0-2fe8-88b2d40c513e@189.cn>
 
-I agree can have some documentation about the values used, instead of 
-magic numbers.
+--------------3aAtJKIBwKHeeZhpF6WFWUpG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Also, Ville's approach for dsc_{sink,source}_{min,max}_bpp() seems good, 
-and that can be used as helpers in MST case too.
+SGkNCg0KQW0gMTguMDUuMjMgdW0gMTQ6NDYgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
+LA0KPiANCj4gT24gMjAyMy81LzE3IDE1OjA3LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToN
+Cj4+IEhpDQo+Pg0KPj4gQW0gMTcuMDUuMjMgdW0gMDM6NTggc2NocmllYiBTdWkgSmluZ2Zl
+bmc6DQo+Pj4gSGksIFRob21hcw0KPj4+DQo+Pj4NCj4+PiBBZnRlciBhcHBseSB5b3VyIHBh
+dGNoIHNldCwgdGhlIGtlcm5lbCB3aXRoIA0KPj4+IGFyY2gvbG9vbmdhcmNoL2NvbmZpZ3Mv
+bG9vbmdzb24zX2RlZmNvbmZpZw0KPj4+DQo+Pj4gY2FuIG5vdCBmaW5pc2ggY29tcGlsZSBh
+bnltb3JlLsKgIGdjYyBjb21wbGFpbnM6DQo+Pj4NCj4+Pg0KPj4+IMKgwqAgQVLCoMKgwqDC
+oMKgIGRyaXZlcnMvZ3B1L2J1aWx0LWluLmENCj4+PiDCoMKgIEFSwqDCoMKgwqDCoCBkcml2
+ZXJzL2J1aWx0LWluLmENCj4+PiDCoMKgIEFSwqDCoMKgwqDCoCBidWlsdC1pbi5hDQo+Pj4g
+wqDCoCBBUsKgwqDCoMKgwqAgdm1saW51eC5hDQo+Pj4gwqDCoCBMRMKgwqDCoMKgwqAgdm1s
+aW51eC5vDQo+Pj4gwqDCoCBPQkpDT1BZIG1vZHVsZXMuYnVpbHRpbi5tb2RpbmZvDQo+Pj4g
+wqDCoCBHRU7CoMKgwqDCoCBtb2R1bGVzLmJ1aWx0aW4NCj4+PiDCoMKgIEdFTsKgwqDCoMKg
+IC52bWxpbnV4Lm9ianMNCj4+PiDCoMKgIE1PRFBPU1QgTW9kdWxlLnN5bXZlcnMNCj4+PiBF
+UlJPUjogbW9kcG9zdDogImZiX3N5c193cml0ZSIgW2RyaXZlcnMvZ3B1L2RybS9kcm1fa21z
+X2hlbHBlci5rb10gDQo+Pj4gdW5kZWZpbmVkIQ0KPj4+IEVSUk9SOiBtb2Rwb3N0OiAic3lz
+X2ltYWdlYmxpdCIgW2RyaXZlcnMvZ3B1L2RybS9kcm1fa21zX2hlbHBlci5rb10gDQo+Pj4g
+dW5kZWZpbmVkIQ0KPj4+IEVSUk9SOiBtb2Rwb3N0OiAic3lzX2ZpbGxyZWN0IiBbZHJpdmVy
+cy9ncHUvZHJtL2RybV9rbXNfaGVscGVyLmtvXSANCj4+PiB1bmRlZmluZWQhDQo+Pj4gRVJS
+T1I6IG1vZHBvc3Q6ICJzeXNfY29weWFyZWEiIFtkcml2ZXJzL2dwdS9kcm0vZHJtX2ttc19o
+ZWxwZXIua29dIA0KPj4+IHVuZGVmaW5lZCENCj4+PiBFUlJPUjogbW9kcG9zdDogImZiX3N5
+c19yZWFkIiBbZHJpdmVycy9ncHUvZHJtL2RybV9rbXNfaGVscGVyLmtvXSANCj4+PiB1bmRl
+ZmluZWQhDQo+Pj4gbWFrZVsxXTogKioqIFtzY3JpcHRzL01ha2VmaWxlLm1vZHBvc3Q6MTM2
+OiBNb2R1bGUuc3ltdmVyc10gRXJyb3IgMQ0KPj4+IG1ha2U6ICoqKiBbTWFrZWZpbGU6MTk3
+ODogbW9kcG9zdF0gRXJyb3IgMg0KPj4NCj4+IFRoYW5rcyBmb3IgcmVwb3J0aW5nIHRoaXMg
+cHJvYmxlbS4gSSBmb3VuZCB0aGF0IGl0J3MgY2F1c2VkIGJ5IGEgdHlwbyANCj4+IGluIHRo
+ZSB2ZXJ5IGZpcnN0IHBhdGNoIDEvNywgd2hlcmUgdGhlc2UgaGVscGVycyBhcmUgbm90IHNl
+bGVjdGVkIA0KPj4gY29ycmVjdGx5LiBXaWxsIGJlIGZpeGVkIGluIHRoZSBuZXh0IHJvdW5k
+Lg0KPj4NCj4gWWVhaCwgdGhpcyBpcyBqdXN0IGEgdHlwby4NCj4gDQo+IFNob3VsZCByZXBs
+YWNlICdGQl9TWVNfSEVMUEVSJyB3aXRoICdGQl9TWVNfSEVMUEVSUycgb24gdGhlIGZpcnN0
+IHBhdGNoIA0KPiBvZiB0aGlzIHNlcmllcy4NCj4gDQo+IA0KPj4gQmVzdCByZWdhcmRzDQo+
+PiBUaG9tYXMNCj4+DQo+Pj4NCj4+Pg0KPj4+IE9uIDIwMjMvNS8xNSAxNzo0MCwgVGhvbWFz
+IFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+IEltcGxlbWVudCBkZWRpY2F0ZWQgZmJkZXYgaGVs
+cGVycyBmb3IgZnJhbWVidWZmZXIgSS9PIGluc3RlYWQNCj4+Pj4gb2YgdXNpbmcgRFJNJ3Mg
+aGVscGVycy4gRmJkZXYtZ2VuZXJpYyB3YXMgdGhlIG9ubHkgY2FsbGVyIG9mIHRoZQ0KPj4+
+PiBEUk0gaGVscGVycywgc28gcmVtb3ZlIHRoZW0gZnJvbSB0aGUgaGVscGVyIG1vZHVsZS4N
+Cj4+Pj4NCj4+Pj4gdjI6DQo+Pj4+IMKgwqDCoMKgKiB1c2UgRkJfU1lTX0hFTFBFUlNfREVG
+RVJSRUQgb3B0aW9uDQo+Pj4+DQo+Pj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJt
+YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4+PiAtLS0NCj4+Pj4gwqAgZHJpdmVycy9n
+cHUvZHJtL0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNiArLQ0KPj4+
+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jwqDCoMKgwqAgfCAxMDcgDQo+
+Pj4+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+Pj4gwqAgZHJpdmVycy9ncHUv
+ZHJtL2RybV9mYmRldl9nZW5lcmljLmMgfMKgIDQ3ICsrKysrKysrKystLQ0KPj4+PiDCoCBp
+bmNsdWRlL2RybS9kcm1fZmJfaGVscGVyLmjCoMKgwqDCoMKgwqDCoMKgIHzCoCA0MSAtLS0t
+LS0tLS0tLQ0KPj4+PiDCoCA0IGZpbGVzIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKyksIDE1
+OCBkZWxldGlvbnMoLSkNCj4+Pj4NCj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL0tjb25maWcNCj4+Pj4gaW5kZXggNzdmYjEw
+ZGRkOGEyLi45MmE3ODI4MjdiN2IgMTAwNjQ0DQo+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9LY29uZmlnDQo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnDQo+Pj4+IEBA
+IC05NSw2ICs5NSw3IEBAIGNvbmZpZyBEUk1fS1VOSVRfVEVTVA0KPj4+PiDCoCBjb25maWcg
+RFJNX0tNU19IRUxQRVINCj4+Pj4gwqDCoMKgwqDCoCB0cmlzdGF0ZQ0KPj4+PiDCoMKgwqDC
+oMKgIGRlcGVuZHMgb24gRFJNDQo+Pj4+ICvCoMKgwqAgc2VsZWN0IEZCX1NZU19IRUxQRVJT
+X0RFRkVSUkVEIGlmIERSTV9GQkRFVl9FTVVMQVRJT04NCj4+Pg0KPj4+IEhlcmUsIHNlbGVj
+dCBGQl9TWVNfSEVMUEVSUyBoZWxwcyByZXNvbHZlIHRoZSBhYm92ZSBpc3N1ZSBtZW50aW9u
+ZWQuDQo+Pj4NCj4gQnV0IHNlbGVjdCBGQl9TWVNfSEVMUEVSUyBoZXJlIGlzIG1vcmUgYmV0
+dGVyLCBJIHRoaW5rLsKgIEJlY2F1c2UgaXQgc2hvdyANCj4gdGhlIG5hdHVyZSB0aGF0DQo+
+IA0KPiBEUk1fS01TX0hFTFBFUiBpcyBkZXBlbmQgb24gRkJfU1lTX0hFTFBFUlMsIEkgdGhp
+bmsgeW91IG1heSB3YW50IGlzb2xhdGUNCj4gDQo+IHRob3NlIGRlcGVuZGVuY3kgd2l0aCBE
+Uk1fRkJERVZfRU1VTEFUSU9OIGd1YXJkLg0KPiANCj4gYXQgbGVhc3QsIHlvdSBzaG91bGQg
+Z3VhcmFudGVlIHRoYXQgZHJtIGl0c2VsZiBjb3VsZCBidWlsdCBhbmQgcnVuIA0KPiBzdGFu
+ZGFsb25lLg0KDQpJbmRlZWQsIGl0IHdvdWxkIGJlIGJldHRlciB0byBzZWxlY3QgdGhpcyBm
+cm9tIERSTV9GQkRFVl9FTVVMQVRJT04uIA0KVGhhbmtzIGZvciB0aGUgcmVtYXJrLiBJJ2xs
+IHVwZGF0ZSB0aGlzIGluIHRoZSBuZXh0IHZlcnNpb24uDQoNCkJlc3QgcmVnYXJkcw0KVGhv
+bWFzDQoNCj4gDQo+IEZiZGV2IGVtdWxhdGlvbiBpcyBhIGNsaWVudCBvZiBkcm0sIG5vdCBy
+ZXZlcnNlLg0KPiANCj4gDQo+IEJ5IHRoZSB3YXksIGRvZXMgRGVuaWFsIGhhcHB5IGFib3V0
+IHRoaXMsDQo+IA0KPiBtYXliZSwgaGUgd2FudCB0aGUgZmJkZXYgZW11bGF0aW9uIDEwMCUg
+bWFkZSBpbiBkcm0/DQo+IA0KPj4+PiDCoMKgwqDCoMKgIGhlbHANCj4+Pj4gwqDCoMKgwqDC
+oMKgwqAgQ1JUQyBoZWxwZXJzIGZvciBLTVMgZHJpdmVycy4NCj4+Pj4gQEAgLTEzNSwxMSAr
+MTM2LDYgQEAgY29uZmlnIERSTV9GQkRFVl9FTVVMQVRJT04NCj4+Pj4gwqDCoMKgwqDCoCBz
+ZWxlY3QgRkJfQ0ZCX0ZJTExSRUNUDQo+Pj4+IMKgwqDCoMKgwqAgc2VsZWN0IEZCX0NGQl9D
+T1BZQVJFQQ0KPj4+PiDCoMKgwqDCoMKgIHNlbGVjdCBGQl9DRkJfSU1BR0VCTElUDQo+Pj4+
+IC3CoMKgwqAgc2VsZWN0IEZCX0RFRkVSUkVEX0lPDQo+Pj4+IC3CoMKgwqAgc2VsZWN0IEZC
+X1NZU19GT1BTDQo+Pj4+IC3CoMKgwqAgc2VsZWN0IEZCX1NZU19GSUxMUkVDVA0KPj4+PiAt
+wqDCoMKgIHNlbGVjdCBGQl9TWVNfQ09QWUFSRUENCj4+Pj4gLcKgwqDCoCBzZWxlY3QgRkJf
+U1lTX0lNQUdFQkxJVA0KPj4+PiDCoMKgwqDCoMKgIHNlbGVjdCBGUkFNRUJVRkZFUl9DT05T
+T0xFIGlmICFFWFBFUlQNCj4+Pj4gwqDCoMKgwqDCoCBzZWxlY3QgRlJBTUVCVUZGRVJfQ09O
+U09MRV9ERVRFQ1RfUFJJTUFSWSBpZiBGUkFNRUJVRkZFUl9DT05TT0xFDQo+Pj4+IMKgwqDC
+oMKgwqAgZGVmYXVsdCB5DQo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiX2hlbHBlci5jIA0KPj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMN
+Cj4+Pj4gaW5kZXggODcyNGUwOGM1MThiLi5iYTBhODA4ZjE0ZWUgMTAwNjQ0DQo+Pj4+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4+Pj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPj4+PiBAQCAtNzI5LDExMyArNzI5LDYgQEAg
+dm9pZCBkcm1fZmJfaGVscGVyX2RlZmVycmVkX2lvKHN0cnVjdCBmYl9pbmZvIA0KPj4+PiAq
+aW5mbywgc3RydWN0IGxpc3RfaGVhZCAqcGFnZXJlZmxpDQo+Pj4+IMKgIH0NCj4+Pj4gwqAg
+RVhQT1JUX1NZTUJPTChkcm1fZmJfaGVscGVyX2RlZmVycmVkX2lvKTsNCj4+Pj4gLS8qKg0K
+Pj4+PiAtICogZHJtX2ZiX2hlbHBlcl9zeXNfcmVhZCAtIEltcGxlbWVudHMgc3RydWN0ICZm
+Yl9vcHMuZmJfcmVhZCBmb3IgDQo+Pj4+IHN5c3RlbSBtZW1vcnkNCj4+Pj4gLSAqIEBpbmZv
+OiBmYl9pbmZvIHN0cnVjdCBwb2ludGVyDQo+Pj4+IC0gKiBAYnVmOiB1c2Vyc3BhY2UgYnVm
+ZmVyIHRvIHJlYWQgZnJvbSBmcmFtZWJ1ZmZlciBtZW1vcnkNCj4+Pj4gLSAqIEBjb3VudDog
+bnVtYmVyIG9mIGJ5dGVzIHRvIHJlYWQgZnJvbSBmcmFtZWJ1ZmZlciBtZW1vcnkNCj4+Pj4g
+LSAqIEBwcG9zOiByZWFkIG9mZnNldCB3aXRoaW4gZnJhbWVidWZmZXIgbWVtb3J5DQo+Pj4+
+IC0gKg0KPj4+PiAtICogUmV0dXJuczoNCj4+Pj4gLSAqIFRoZSBudW1iZXIgb2YgYnl0ZXMg
+cmVhZCBvbiBzdWNjZXNzLCBvciBhbiBlcnJvciBjb2RlIG90aGVyd2lzZS4NCj4+Pj4gLSAq
+Lw0KPj4+PiAtc3NpemVfdCBkcm1fZmJfaGVscGVyX3N5c19yZWFkKHN0cnVjdCBmYl9pbmZv
+ICppbmZvLCBjaGFyIF9fdXNlciAqYnVmLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHNpemVfdCBjb3VudCwgbG9mZl90ICpwcG9zKQ0KPj4+PiAtew0K
+Pj4+PiAtwqDCoMKgIHJldHVybiBmYl9zeXNfcmVhZChpbmZvLCBidWYsIGNvdW50LCBwcG9z
+KTsNCj4+Pj4gLX0NCj4+Pj4gLUVYUE9SVF9TWU1CT0woZHJtX2ZiX2hlbHBlcl9zeXNfcmVh
+ZCk7DQo+Pj4+IC0NCj4+Pj4gLS8qKg0KPj4+PiAtICogZHJtX2ZiX2hlbHBlcl9zeXNfd3Jp
+dGUgLSBJbXBsZW1lbnRzIHN0cnVjdCAmZmJfb3BzLmZiX3dyaXRlIGZvciANCj4+Pj4gc3lz
+dGVtIG1lbW9yeQ0KPj4+PiAtICogQGluZm86IGZiX2luZm8gc3RydWN0IHBvaW50ZXINCj4+
+Pj4gLSAqIEBidWY6IHVzZXJzcGFjZSBidWZmZXIgdG8gd3JpdGUgdG8gZnJhbWVidWZmZXIg
+bWVtb3J5DQo+Pj4+IC0gKiBAY291bnQ6IG51bWJlciBvZiBieXRlcyB0byB3cml0ZSB0byBm
+cmFtZWJ1ZmZlciBtZW1vcnkNCj4+Pj4gLSAqIEBwcG9zOiB3cml0ZSBvZmZzZXQgd2l0aGlu
+IGZyYW1lYnVmZmVyIG1lbW9yeQ0KPj4+PiAtICoNCj4+Pj4gLSAqIFJldHVybnM6DQo+Pj4+
+IC0gKiBUaGUgbnVtYmVyIG9mIGJ5dGVzIHdyaXR0ZW4gb24gc3VjY2Vzcywgb3IgYW4gZXJy
+b3IgY29kZSBvdGhlcndpc2UuDQo+Pj4+IC0gKi8NCj4+Pj4gLXNzaXplX3QgZHJtX2ZiX2hl
+bHBlcl9zeXNfd3JpdGUoc3RydWN0IGZiX2luZm8gKmluZm8sIGNvbnN0IGNoYXIgDQo+Pj4+
+IF9fdXNlciAqYnVmLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNp
+emVfdCBjb3VudCwgbG9mZl90ICpwcG9zKQ0KPj4+PiAtew0KPj4+PiAtwqDCoMKgIHN0cnVj
+dCBkcm1fZmJfaGVscGVyICpoZWxwZXIgPSBpbmZvLT5wYXI7DQo+Pj4+IC3CoMKgwqAgbG9m
+Zl90IHBvcyA9ICpwcG9zOw0KPj4+PiAtwqDCoMKgIHNzaXplX3QgcmV0Ow0KPj4+PiAtwqDC
+oMKgIHN0cnVjdCBkcm1fcmVjdCBkYW1hZ2VfYXJlYTsNCj4+Pj4gLQ0KPj4+PiAtwqDCoMKg
+IHJldCA9IGZiX3N5c193cml0ZShpbmZvLCBidWYsIGNvdW50LCBwcG9zKTsNCj4+Pj4gLcKg
+wqDCoCBpZiAocmV0IDw9IDApDQo+Pj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0K
+Pj4+PiAtDQo+Pj4+IC3CoMKgwqAgaWYgKGhlbHBlci0+ZnVuY3MtPmZiX2RpcnR5KSB7DQo+
+Pj4+IC3CoMKgwqDCoMKgwqDCoCBkcm1fZmJfaGVscGVyX21lbW9yeV9yYW5nZV90b19jbGlw
+KGluZm8sIHBvcywgcmV0LCANCj4+Pj4gJmRhbWFnZV9hcmVhKTsNCj4+Pj4gLcKgwqDCoMKg
+wqDCoMKgIGRybV9mYl9oZWxwZXJfZGFtYWdlKGhlbHBlciwgZGFtYWdlX2FyZWEueDEsIGRh
+bWFnZV9hcmVhLnkxLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBkcm1fcmVjdF93aWR0aCgmZGFtYWdlX2FyZWEpLA0KPj4+PiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1fcmVjdF9oZWlnaHQoJmRhbWFn
+ZV9hcmVhKSk7DQo+Pj4+IC3CoMKgwqAgfQ0KPj4+PiAtDQo+Pj4+IC3CoMKgwqAgcmV0dXJu
+IHJldDsNCj4+Pj4gLX0NCj4+Pj4gLUVYUE9SVF9TWU1CT0woZHJtX2ZiX2hlbHBlcl9zeXNf
+d3JpdGUpOw0KPj4+PiAtDQo+Pj4+IC0vKioNCj4+Pj4gLSAqIGRybV9mYl9oZWxwZXJfc3lz
+X2ZpbGxyZWN0IC0gd3JhcHBlciBhcm91bmQgc3lzX2ZpbGxyZWN0DQo+Pj4+IC0gKiBAaW5m
+bzogZmJkZXYgcmVnaXN0ZXJlZCBieSB0aGUgaGVscGVyDQo+Pj4+IC0gKiBAcmVjdDogaW5m
+byBhYm91dCByZWN0YW5nbGUgdG8gZmlsbA0KPj4+PiAtICoNCj4+Pj4gLSAqIEEgd3JhcHBl
+ciBhcm91bmQgc3lzX2ZpbGxyZWN0IGltcGxlbWVudGVkIGJ5IGZiZGV2IGNvcmUNCj4+Pj4g
+LSAqLw0KPj4+PiAtdm9pZCBkcm1fZmJfaGVscGVyX3N5c19maWxscmVjdChzdHJ1Y3QgZmJf
+aW5mbyAqaW5mbywNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25z
+dCBzdHJ1Y3QgZmJfZmlsbHJlY3QgKnJlY3QpDQo+Pj4+IC17DQo+Pj4+IC3CoMKgwqAgc3Ry
+dWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciA9IGluZm8tPnBhcjsNCj4+Pj4gLQ0KPj4+PiAt
+wqDCoMKgIHN5c19maWxscmVjdChpbmZvLCByZWN0KTsNCj4+Pj4gLQ0KPj4+PiAtwqDCoMKg
+IGlmIChoZWxwZXItPmZ1bmNzLT5mYl9kaXJ0eSkNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGRy
+bV9mYl9oZWxwZXJfZGFtYWdlKGhlbHBlciwgcmVjdC0+ZHgsIHJlY3QtPmR5LCANCj4+Pj4g
+cmVjdC0+d2lkdGgsIHJlY3QtPmhlaWdodCk7DQo+Pj4+IC19DQo+Pj4+IC1FWFBPUlRfU1lN
+Qk9MKGRybV9mYl9oZWxwZXJfc3lzX2ZpbGxyZWN0KTsNCj4+Pj4gLQ0KPj4+PiAtLyoqDQo+
+Pj4+IC0gKiBkcm1fZmJfaGVscGVyX3N5c19jb3B5YXJlYSAtIHdyYXBwZXIgYXJvdW5kIHN5
+c19jb3B5YXJlYQ0KPj4+PiAtICogQGluZm86IGZiZGV2IHJlZ2lzdGVyZWQgYnkgdGhlIGhl
+bHBlcg0KPj4+PiAtICogQGFyZWE6IGluZm8gYWJvdXQgYXJlYSB0byBjb3B5DQo+Pj4+IC0g
+Kg0KPj4+PiAtICogQSB3cmFwcGVyIGFyb3VuZCBzeXNfY29weWFyZWEgaW1wbGVtZW50ZWQg
+YnkgZmJkZXYgY29yZQ0KPj4+PiAtICovDQo+Pj4+IC12b2lkIGRybV9mYl9oZWxwZXJfc3lz
+X2NvcHlhcmVhKHN0cnVjdCBmYl9pbmZvICppbmZvLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBmYl9jb3B5YXJlYSAqYXJlYSkNCj4+Pj4g
+LXsNCj4+Pj4gLcKgwqDCoCBzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyID0gaW5mby0+
+cGFyOw0KPj4+PiAtDQo+Pj4+IC3CoMKgwqAgc3lzX2NvcHlhcmVhKGluZm8sIGFyZWEpOw0K
+Pj4+PiAtDQo+Pj4+IC3CoMKgwqAgaWYgKGhlbHBlci0+ZnVuY3MtPmZiX2RpcnR5KQ0KPj4+
+PiAtwqDCoMKgwqDCoMKgwqAgZHJtX2ZiX2hlbHBlcl9kYW1hZ2UoaGVscGVyLCBhcmVhLT5k
+eCwgYXJlYS0+ZHksIA0KPj4+PiBhcmVhLT53aWR0aCwgYXJlYS0+aGVpZ2h0KTsNCj4+Pj4g
+LX0NCj4+Pj4gLUVYUE9SVF9TWU1CT0woZHJtX2ZiX2hlbHBlcl9zeXNfY29weWFyZWEpOw0K
+Pj4+PiAtDQo+Pj4+IC0vKioNCj4+Pj4gLSAqIGRybV9mYl9oZWxwZXJfc3lzX2ltYWdlYmxp
+dCAtIHdyYXBwZXIgYXJvdW5kIHN5c19pbWFnZWJsaXQNCj4+Pj4gLSAqIEBpbmZvOiBmYmRl
+diByZWdpc3RlcmVkIGJ5IHRoZSBoZWxwZXINCj4+Pj4gLSAqIEBpbWFnZTogaW5mbyBhYm91
+dCBpbWFnZSB0byBibGl0DQo+Pj4+IC0gKg0KPj4+PiAtICogQSB3cmFwcGVyIGFyb3VuZCBz
+eXNfaW1hZ2VibGl0IGltcGxlbWVudGVkIGJ5IGZiZGV2IGNvcmUNCj4+Pj4gLSAqLw0KPj4+
+PiAtdm9pZCBkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQoc3RydWN0IGZiX2luZm8gKmlu
+Zm8sDQo+Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1
+Y3QgZmJfaW1hZ2UgKmltYWdlKQ0KPj4+PiAtew0KPj4+PiAtwqDCoMKgIHN0cnVjdCBkcm1f
+ZmJfaGVscGVyICpoZWxwZXIgPSBpbmZvLT5wYXI7DQo+Pj4+IC0NCj4+Pj4gLcKgwqDCoCBz
+eXNfaW1hZ2VibGl0KGluZm8sIGltYWdlKTsNCj4+Pj4gLQ0KPj4+PiAtwqDCoMKgIGlmICho
+ZWxwZXItPmZ1bmNzLT5mYl9kaXJ0eSkNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgIGRybV9mYl9o
+ZWxwZXJfZGFtYWdlKGhlbHBlciwgaW1hZ2UtPmR4LCBpbWFnZS0+ZHksIA0KPj4+PiBpbWFn
+ZS0+d2lkdGgsIGltYWdlLT5oZWlnaHQpOw0KPj4+PiAtfQ0KPj4+PiAtRVhQT1JUX1NZTUJP
+TChkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQpOw0KPj4+PiAtDQo+Pj4+IMKgIC8qKg0K
+Pj4+PiDCoMKgICogZHJtX2ZiX2hlbHBlcl9jZmJfcmVhZCAtIEltcGxlbWVudHMgc3RydWN0
+ICZmYl9vcHMuZmJfcmVhZCBmb3IgDQo+Pj4+IEkvTyBtZW1vcnkNCj4+Pj4gwqDCoCAqIEBp
+bmZvOiBmYl9pbmZvIHN0cnVjdCBwb2ludGVyDQo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYyANCj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPj4+PiBpbmRleCA4ZTUxNDhiZjQwYmIuLmY1M2ZjNDll
+MzRhNCAxMDA2NDQNCj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5l
+cmljLmMNCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMN
+Cj4+Pj4gQEAgLTM0LDYgKzM0LDQzIEBAIHN0YXRpYyBpbnQgZHJtX2ZiZGV2X2dlbmVyaWNf
+ZmJfcmVsZWFzZShzdHJ1Y3QgDQo+Pj4+IGZiX2luZm8gKmluZm8sIGludCB1c2VyKQ0KPj4+
+PiDCoMKgwqDCoMKgIHJldHVybiAwOw0KPj4+PiDCoCB9DQo+Pj4+ICtzdGF0aWMgc3NpemVf
+dCBkcm1fZmJkZXZfZ2VuZXJpY19mYl93cml0ZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgDQo+
+Pj4+IGNvbnN0IGNoYXIgX191c2VyICpidWYsDQo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+
+Pj4+ICt7DQo+Pj4+ICvCoMKgwqAgc3RydWN0IGRybV9mYl9oZWxwZXIgKmhlbHBlciA9IGlu
+Zm8tPnBhcjsNCj4+Pj4gK8KgwqDCoCBsb2ZmX3QgcG9zID0gKnBwb3M7DQo+Pj4+ICvCoMKg
+wqAgc3NpemVfdCByZXQ7DQo+Pj4+ICsNCj4+Pj4gK8KgwqDCoCByZXQgPSBmYl9zeXNfd3Jp
+dGUoaW5mbywgYnVmLCBjb3VudCwgcHBvcyk7DQo+Pj4+ICvCoMKgwqAgaWYgKHJldCA+IDAp
+DQo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBkcm1fZmJfaGVscGVyX2RhbWFnZV9yYW5nZShoZWxw
+ZXIsIHBvcywgcmV0KTsNCj4+Pj4gK8KgwqDCoCByZXR1cm4gcmV0Ow0KPj4+PiArfQ0KPj4+
+PiArDQo+Pj4+ICtzdGF0aWMgdm9pZCBkcm1fZmJkZXZfZ2VuZXJpY19mYl9maWxscmVjdChz
+dHJ1Y3QgZmJfaW5mbyAqaW5mbywgDQo+Pj4+IGNvbnN0IHN0cnVjdCBmYl9maWxscmVjdCAq
+cmVjdCkNCj4+Pj4gK3sNCj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVs
+cGVyID0gaW5mby0+cGFyOw0KPj4+PiArDQo+Pj4+ICvCoMKgwqAgc3lzX2ZpbGxyZWN0KGlu
+Zm8sIHJlY3QpOw0KPj4+PiArwqDCoMKgIGRybV9mYl9oZWxwZXJfZGFtYWdlKGhlbHBlciwg
+cmVjdC0+ZHgsIHJlY3QtPmR5LCByZWN0LT53aWR0aCwgDQo+Pj4+IHJlY3QtPmhlaWdodCk7
+DQo+Pj4+ICt9DQo+Pj4+ICsNCj4+Pj4gK3N0YXRpYyB2b2lkIGRybV9mYmRldl9nZW5lcmlj
+X2ZiX2NvcHlhcmVhKHN0cnVjdCBmYl9pbmZvICppbmZvLCANCj4+Pj4gY29uc3Qgc3RydWN0
+IGZiX2NvcHlhcmVhICphcmVhKQ0KPj4+PiArew0KPj4+PiArwqDCoMKgIHN0cnVjdCBkcm1f
+ZmJfaGVscGVyICpoZWxwZXIgPSBpbmZvLT5wYXI7DQo+Pj4+ICsNCj4+Pj4gK8KgwqDCoCBz
+eXNfY29weWFyZWEoaW5mbywgYXJlYSk7DQo+Pj4+ICvCoMKgwqAgZHJtX2ZiX2hlbHBlcl9k
+YW1hZ2UoaGVscGVyLCBhcmVhLT5keCwgYXJlYS0+ZHksIGFyZWEtPndpZHRoLCANCj4+Pj4g
+YXJlYS0+aGVpZ2h0KTsNCj4+Pj4gK30NCj4+Pj4gKw0KPj4+PiArc3RhdGljIHZvaWQgZHJt
+X2ZiZGV2X2dlbmVyaWNfZmJfaW1hZ2VibGl0KHN0cnVjdCBmYl9pbmZvICppbmZvLCANCj4+
+Pj4gY29uc3Qgc3RydWN0IGZiX2ltYWdlICppbWFnZSkNCj4+Pj4gK3sNCj4+Pj4gK8KgwqDC
+oCBzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyID0gaW5mby0+cGFyOw0KPj4+PiArDQo+
+Pj4+ICvCoMKgwqAgc3lzX2ltYWdlYmxpdChpbmZvLCBpbWFnZSk7DQo+Pj4+ICvCoMKgwqAg
+ZHJtX2ZiX2hlbHBlcl9kYW1hZ2UoaGVscGVyLCBpbWFnZS0+ZHgsIGltYWdlLT5keSwgDQo+
+Pj4+IGltYWdlLT53aWR0aCwgaW1hZ2UtPmhlaWdodCk7DQo+Pj4+ICt9DQo+Pj4+ICsNCj4+
+Pj4gwqAgc3RhdGljIHZvaWQgZHJtX2ZiZGV2X2dlbmVyaWNfZmJfZGVzdHJveShzdHJ1Y3Qg
+ZmJfaW5mbyAqaW5mbykNCj4+Pj4gwqAgew0KPj4+PiDCoMKgwqDCoMKgIHN0cnVjdCBkcm1f
+ZmJfaGVscGVyICpmYl9oZWxwZXIgPSBpbmZvLT5wYXI7DQo+Pj4+IEBAIC01NiwxMiArOTMs
+MTIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmYl9vcHMgDQo+Pj4+IGRybV9mYmRldl9nZW5l
+cmljX2ZiX29wcyA9IHsNCj4+Pj4gwqDCoMKgwqDCoCAub3duZXLCoMKgwqDCoMKgwqDCoCA9
+IFRISVNfTU9EVUxFLA0KPj4+PiDCoMKgwqDCoMKgIC5mYl9vcGVuwqDCoMKgID0gZHJtX2Zi
+ZGV2X2dlbmVyaWNfZmJfb3BlbiwNCj4+Pj4gwqDCoMKgwqDCoCAuZmJfcmVsZWFzZcKgwqDC
+oCA9IGRybV9mYmRldl9nZW5lcmljX2ZiX3JlbGVhc2UsDQo+Pj4+IC3CoMKgwqAgLmZiX3Jl
+YWTCoMKgwqAgPSBkcm1fZmJfaGVscGVyX3N5c19yZWFkLA0KPj4+PiAtwqDCoMKgIC5mYl93
+cml0ZcKgwqDCoCA9IGRybV9mYl9oZWxwZXJfc3lzX3dyaXRlLA0KPj4+PiArwqDCoMKgIC5m
+Yl9yZWFkwqDCoMKgID0gZmJfc3lzX3JlYWQsDQo+Pj4+ICvCoMKgwqAgLmZiX3dyaXRlwqDC
+oMKgID0gZHJtX2ZiZGV2X2dlbmVyaWNfZmJfd3JpdGUsDQo+Pj4+IMKgwqDCoMKgwqAgRFJN
+X0ZCX0hFTFBFUl9ERUZBVUxUX09QUywNCj4+Pj4gLcKgwqDCoCAuZmJfZmlsbHJlY3TCoMKg
+wqAgPSBkcm1fZmJfaGVscGVyX3N5c19maWxscmVjdCwNCj4+Pj4gLcKgwqDCoCAuZmJfY29w
+eWFyZWHCoMKgwqAgPSBkcm1fZmJfaGVscGVyX3N5c19jb3B5YXJlYSwNCj4+Pj4gLcKgwqDC
+oCAuZmJfaW1hZ2VibGl0wqDCoMKgID0gZHJtX2ZiX2hlbHBlcl9zeXNfaW1hZ2VibGl0LA0K
+Pj4+PiArwqDCoMKgIC5mYl9maWxscmVjdMKgwqDCoCA9IGRybV9mYmRldl9nZW5lcmljX2Zi
+X2ZpbGxyZWN0LA0KPj4+PiArwqDCoMKgIC5mYl9jb3B5YXJlYcKgwqDCoCA9IGRybV9mYmRl
+dl9nZW5lcmljX2ZiX2NvcHlhcmVhLA0KPj4+PiArwqDCoMKgIC5mYl9pbWFnZWJsaXTCoMKg
+wqAgPSBkcm1fZmJkZXZfZ2VuZXJpY19mYl9pbWFnZWJsaXQsDQo+Pj4+IMKgwqDCoMKgwqAg
+LmZiX21tYXDCoMKgwqAgPSBmYl9kZWZlcnJlZF9pb19tbWFwLA0KPj4+PiDCoMKgwqDCoMKg
+IC5mYl9kZXN0cm95wqDCoMKgID0gZHJtX2ZiZGV2X2dlbmVyaWNfZmJfZGVzdHJveSwNCj4+
+Pj4gwqAgfTsNCj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIu
+aCBiL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaA0KPj4+PiBpbmRleCA4MGM0MDJmNGUz
+NzkuLmUzMjQwZDc0OWE0MyAxMDA2NDQNCj4+Pj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Zi
+X2hlbHBlci5oDQo+Pj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaA0KPj4+
+PiBAQCAtMjU5LDE4ICsyNTksNiBAQCB2b2lkIGRybV9mYl9oZWxwZXJfZGFtYWdlX3Jhbmdl
+KHN0cnVjdCANCj4+Pj4gZHJtX2ZiX2hlbHBlciAqaGVscGVyLCBvZmZfdCBvZmYsIHNpemVf
+dA0KPj4+PiDCoCB2b2lkIGRybV9mYl9oZWxwZXJfZGVmZXJyZWRfaW8oc3RydWN0IGZiX2lu
+Zm8gKmluZm8sIHN0cnVjdCANCj4+Pj4gbGlzdF9oZWFkICpwYWdlcmVmbGlzdCk7DQo+Pj4+
+IC1zc2l6ZV90IGRybV9mYl9oZWxwZXJfc3lzX3JlYWQoc3RydWN0IGZiX2luZm8gKmluZm8s
+IGNoYXIgX191c2VyICpidWYsDQo+Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpOw0KPj4+PiAtc3NpemVfdCBk
+cm1fZmJfaGVscGVyX3N5c193cml0ZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY29uc3QgY2hh
+ciANCj4+Pj4gX191c2VyICpidWYsDQo+Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpOw0KPj4+PiAtDQo+Pj4+IC12b2lk
+IGRybV9mYl9oZWxwZXJfc3lzX2ZpbGxyZWN0KHN0cnVjdCBmYl9pbmZvICppbmZvLA0KPj4+
+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBmYl9maWxs
+cmVjdCAqcmVjdCk7DQo+Pj4+IC12b2lkIGRybV9mYl9oZWxwZXJfc3lzX2NvcHlhcmVhKHN0
+cnVjdCBmYl9pbmZvICppbmZvLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGNvbnN0IHN0cnVjdCBmYl9jb3B5YXJlYSAqYXJlYSk7DQo+Pj4+IC12b2lkIGRybV9m
+Yl9oZWxwZXJfc3lzX2ltYWdlYmxpdChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywNCj4+Pj4gLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBmYl9pbWFnZSAq
+aW1hZ2UpOw0KPj4+PiAtDQo+Pj4+IMKgIHNzaXplX3QgZHJtX2ZiX2hlbHBlcl9jZmJfcmVh
+ZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBfX3VzZXIgDQo+Pj4+ICpidWYsDQo+Pj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6ZV90IGNvdW50
+LCBsb2ZmX3QgKnBwb3MpOw0KPj4+PiDCoCBzc2l6ZV90IGRybV9mYl9oZWxwZXJfY2ZiX3dy
+aXRlKHN0cnVjdCBmYl9pbmZvICppbmZvLCBjb25zdCBjaGFyIA0KPj4+PiBfX3VzZXIgKmJ1
+ZiwNCj4+Pj4gQEAgLTM5OCwzNSArMzg2LDYgQEAgc3RhdGljIGlubGluZSBpbnQgDQo+Pj4+
+IGRybV9mYl9oZWxwZXJfZGVmaW9faW5pdChzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVs
+cGVyKQ0KPj4+PiDCoMKgwqDCoMKgIHJldHVybiAtRU5PREVWOw0KPj4+PiDCoCB9DQo+Pj4+
+IC1zdGF0aWMgaW5saW5lIHNzaXplX3QgZHJtX2ZiX2hlbHBlcl9zeXNfcmVhZChzdHJ1Y3Qg
+ZmJfaW5mbyAqaW5mbywNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBjaGFyIF9fdXNlciAqYnVmLCBzaXplX3QgY291bnQsDQo+Pj4+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbG9m
+Zl90ICpwcG9zKQ0KPj4+PiAtew0KPj4+PiAtwqDCoMKgIHJldHVybiAtRU5PREVWOw0KPj4+
+PiAtfQ0KPj4+PiAtDQo+Pj4+IC1zdGF0aWMgaW5saW5lIHNzaXplX3QgZHJtX2ZiX2hlbHBl
+cl9zeXNfd3JpdGUoc3RydWN0IGZiX2luZm8gKmluZm8sDQo+Pj4+IC3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBjaGFyIF9fdXNl
+ciAqYnVmLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+Pj4+IC17DQo+Pj4+
+IC3CoMKgwqAgcmV0dXJuIC1FTk9ERVY7DQo+Pj4+IC19DQo+Pj4+IC0NCj4+Pj4gLXN0YXRp
+YyBpbmxpbmUgdm9pZCBkcm1fZmJfaGVscGVyX3N5c19maWxscmVjdChzdHJ1Y3QgZmJfaW5m
+byAqaW5mbywNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBmYl9maWxscmVjdCAqcmVjdCkNCj4+Pj4gLXsN
+Cj4+Pj4gLX0NCj4+Pj4gLQ0KPj4+PiAtc3RhdGljIGlubGluZSB2b2lkIGRybV9mYl9oZWxw
+ZXJfc3lzX2NvcHlhcmVhKHN0cnVjdCBmYl9pbmZvICppbmZvLA0KPj4+PiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qgc3RydWN0
+IGZiX2NvcHlhcmVhICphcmVhKQ0KPj4+PiAtew0KPj4+PiAtfQ0KPj4+PiAtDQo+Pj4+IC1z
+dGF0aWMgaW5saW5lIHZvaWQgZHJtX2ZiX2hlbHBlcl9zeXNfaW1hZ2VibGl0KHN0cnVjdCBm
+Yl9pbmZvICppbmZvLA0KPj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZmJfaW1hZ2UgKmltYWdlKQ0KPj4+
+PiAtew0KPj4+PiAtfQ0KPj4+PiAtDQo+Pj4+IMKgIHN0YXRpYyBpbmxpbmUgc3NpemVfdCBk
+cm1fZmJfaGVscGVyX2NmYl9yZWFkKHN0cnVjdCBmYl9pbmZvICppbmZvLCANCj4+Pj4gY2hh
+ciBfX3VzZXIgKmJ1ZiwNCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplX3QgY291bnQsIGxvZmZfdCAqcHBvcykNCj4+Pj4g
+wqAgew0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
+c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
+QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
+ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Will add the changes in the next version of the patch.
+--------------3aAtJKIBwKHeeZhpF6WFWUpG--
 
+--------------CaLkyQknB5zn9bn0fJaZ0BXD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Thanks & Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Ankit
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRmKGsFAwAAAAAACgkQlh/E3EQov+Dd
+pw//by3J2lv5ndgY50YBZrQKKn2x3IB9fJzz4hhFqStCGfNMiBh75LBS/T6XPv6z2yPkmfvQirGp
+rp6l+JLJshGKGbozl7j1ABuRm+hL5v8AenBkDBf50cXZ6HaYW4n6p7gg9cT8isQbOlgK0jeakRno
+/KW+NATIZ5QYs+jddDvCwjEtMZ/8FJcM+uYsIqjPu+C/yHQt/74fs5SPH8DuxHekGRNopeN1oe0B
+5n1bHLbItxG4qBZAEhQeN9PQ1QRxqJF8Ugv20V2VIhYX2A91yIkG08u4QQrqV7XVRjMzn4jTl+DG
+BTs25Exmhl2SyCXEXEl3d3h6zPCUheg7lUDH+c87+JD07v/xVcRBD98+roOhAK+a4A9GYr2qlgj2
+mDmccW6y47XVcV24+GDGwrnsdqWAYJJ1kZMvRNSZw1uWU1niO72fsdBs/PZ9bTOKJCeM/q1d6e8N
+B3EgB3U+qlmL/gnNS8jCgY69D6OhmF85oVap0PAlqcIKPy7ZskNotf2CMX9pi2/q41/sWwOQv+q0
+TNCBw8EeaMxTIN9Tc9wfd/lhHR4F9F99x0jlFustXNOSK/Z8kRCKMamfxprH5+twrLD43P0u94/P
+xFaafHOpeblO+P7qnt0Bco7m3xkG2I0fteqXHDzRKWQgz961Xo9qBQcht3fwV2aLOhr3Ic8iwMf6
+kuc=
+=4Ktu
+-----END PGP SIGNATURE-----
 
-
-On 5/16/2023 5:10 PM, Ville Syrjälä wrote:
-> On Tue, May 16, 2023 at 01:43:44PM +0300, Lisovskiy, Stanislav wrote:
->> On Fri, May 12, 2023 at 11:54:16AM +0530, Ankit Nautiyal wrote:
->>> Currently, we take the max lane, rate and pipe bpp, to get the maximum
->>> compressed bpp possible. We then set the output bpp to this value.
->>> This patch provides support to have max bpp, min rate and min lanes,
->>> that can support the min compressed bpp.
->>>
->>> v2:
->>> -Avoid ending up with compressed bpp, same as pipe bpp. (Stan)
->>> -Fix the checks for limits->max/min_bpp while iterating over list of
->>>   valid DSC bpcs. (Stan)
->>>
->>> v3:
->>> -Refactor the code to have pipe bpp/compressed bpp computation and slice
->>> count calculation separately for different cases.
->>>
->>> v4:
->>> -Separate the pipe_bpp calculation for eDP and DP.
->>>
->>> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/display/intel_dp.c | 305 +++++++++++++++++++-----
->>>   1 file changed, 245 insertions(+), 60 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->>> index 39e2bf3d738d..578320220c9a 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->>> @@ -1642,6 +1642,209 @@ static bool intel_dp_dsc_supports_format(struct intel_dp *intel_dp,
->>>   	return drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd, sink_dsc_format);
->>>   }
->>>   
->>> +static bool is_dsc_bw_sufficient(int link_rate, int lane_count, int compressed_bpp,
->>> +				 const struct drm_display_mode *adjusted_mode)
->>> +{
->>> +	int mode_rate = intel_dp_link_required(adjusted_mode->crtc_clock, compressed_bpp);
->>> +	int link_avail = intel_dp_max_data_rate(link_rate, lane_count);
->>> +
->>> +	return mode_rate <= link_avail;
->>> +}
->>> +
->>> +static int dsc_compute_link_config(struct intel_dp *intel_dp,
->>> +				   struct intel_crtc_state *pipe_config,
->>> +				   struct link_config_limits *limits,
->>> +				   int pipe_bpp,
->>> +				   u16 compressed_bpp,
->>> +				   int timeslots)
->>> +{
->>> +	const struct drm_display_mode *adjusted_mode =
->>> +		&pipe_config->hw.adjusted_mode;
->>> +	int link_rate, lane_count;
->>> +	int dsc_max_bpp;
->>> +	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
->>> +	int i;
->>> +
->>> +	for (i = 0; i < intel_dp->num_common_rates; i++) {
->>> +		link_rate = intel_dp_common_rate(intel_dp, i);
->>> +		if (link_rate < limits->min_rate || link_rate > limits->max_rate)
->>> +			continue;
->>> +
->>> +		for (lane_count = limits->min_lane_count;
->>> +		     lane_count <= limits->max_lane_count;
->>> +		     lane_count <<= 1) {
->>> +			dsc_max_bpp = intel_dp_dsc_get_max_compressed_bpp(dev_priv,
->>> +									  link_rate,
->>> +									  lane_count,
->>> +									  adjusted_mode->crtc_clock,
->>> +									  adjusted_mode->crtc_hdisplay,
->>> +									  pipe_config->bigjoiner_pipes,
->>> +									  pipe_config->output_format,
->>> +									  pipe_bpp, timeslots);
->>> +			/*
->>> +			 * According to DSC 1.2a Section 4.1.1 Table 4.1 the maximum
->>> +			 * supported PPS value can be 63.9375 and with the further
->>> +			 * mention that bpp should be programmed double the target bpp
->>> +			 * restricting our target bpp to be 31.9375 at max
->>> +			 */
->>> +			if (pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
->>> +				dsc_max_bpp = min_t(u16, dsc_max_bpp, 31);
->>> +
->>> +			if (compressed_bpp > dsc_max_bpp)
->>> +				continue;
->>> +
->>> +			if (!is_dsc_bw_sufficient(link_rate, lane_count,
->>> +						  compressed_bpp, adjusted_mode))
->>> +				continue;
->>> +
->>> +			pipe_config->lane_count = lane_count;
->>> +			pipe_config->port_clock = link_rate;
->>> +
->>> +			return 0;
->>> +		}
->>> +	}
->>> +
->>> +	return -EINVAL;
->>> +}
->>> +
->>> +static
->>> +u16 intel_dp_dsc_max_sink_compressed_bppx16(struct intel_dp *intel_dp,
->>> +					    struct intel_crtc_state *pipe_config,
->>> +					    int bpc)
->>> +{
->>> +	u16 max_bppx16 = drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd);
->>> +
->>> +	if (max_bppx16)
->>> +		return max_bppx16;
->>> +	/*
->>> +	 * If support not given in DPCD 67h, 68h use the Maximum Allowed bit rate
->>> +	 * values as given in spec Table 2-157 DP v2.0
->>> +	 */
->>> +	switch (pipe_config->output_format) {
->>> +	case INTEL_OUTPUT_FORMAT_RGB:
->>> +	case INTEL_OUTPUT_FORMAT_YCBCR444:
->>> +		return (3 * bpc) << 4;
->>> +	case INTEL_OUTPUT_FORMAT_YCBCR420:
->>> +		return (3 * (bpc / 2)) << 4;
->>> +	default:
->>> +		MISSING_CASE(pipe_config->output_format);
->>> +		break;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static u16 intel_dp_dsc_min_compressed_bppx16(struct intel_crtc_state *pipe_config)
->>> +{
->>> +	switch (pipe_config->output_format) {
->>> +	case INTEL_OUTPUT_FORMAT_RGB:
->>> +	case INTEL_OUTPUT_FORMAT_YCBCR444:
->>> +		return 8 << 4;
->>> +	case INTEL_OUTPUT_FORMAT_YCBCR420:
->>> +		return 6 << 4;
->>> +	default:
->>> +		MISSING_CASE(pipe_config->output_format);
->>> +		break;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int dsc_compute_compressed_bpp(struct intel_dp *intel_dp,
->>> +				      struct intel_crtc_state *pipe_config,
->>> +				      struct link_config_limits *limits,
->>> +				      int pipe_bpp,
->>> +				      int timeslots)
->>> +{
->>> +	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
->>> +	u16 compressed_bpp;
->>> +	int dsc_min_bpp, dsc_src_max_bpp, dsc_sink_max_bpp, dsc_max_bpp;
->>> +	int ret;
->>> +
->>> +	dsc_min_bpp = max(intel_dp_dsc_min_compressed_bppx16(pipe_config) >> 4, 8);
->>> +	if (DISPLAY_VER(dev_priv) <= 12)
->>> +		dsc_src_max_bpp = 23;
->>> +	else
->>> +		dsc_src_max_bpp = 27;
->> I would may be added some comment about what are those "23/27" numbers or
->> may be even created some self-explanatory #define constants for those.
-> I dislike defines like that. They are single use so don't actually
-> do anything in terms of avoiding typoes and other accidental
-> mismatches, and people always seem put them in some random place
-> (eg. top of file) so then it takes extra work to find them.
->
-> The best approach IMO is to just use functions with good names.
-> Eg. in this case we could just have a full set of clear functions:
-> dsc_{sink,source}_{min,max}_bpp() or something along those line.
->
->> Otherwise in a couple of years, even we ourselves might not be able to recall
->> immediately where those numbers are taken from.
->>
->> Otherwise looks good to me,
->>
->> Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
->>
->>> +	dsc_sink_max_bpp =
->>> +		intel_dp_dsc_max_sink_compressed_bppx16(intel_dp,
->>> +							pipe_config, pipe_bpp / 3) >> 4;
->>> +
->>> +	dsc_max_bpp = dsc_sink_max_bpp ? min(dsc_sink_max_bpp, dsc_src_max_bpp) : dsc_src_max_bpp;
->>> +
->>> +	/* Compressed BPP should be less than the Input DSC bpp */
->>> +	dsc_max_bpp = min(dsc_max_bpp, pipe_bpp - 1);
->>> +
->>> +	for (compressed_bpp = dsc_max_bpp;
->>> +	     compressed_bpp >= dsc_min_bpp;
->>> +	     compressed_bpp--) {
->>> +		ret = dsc_compute_link_config(intel_dp,
->>> +					      pipe_config,
->>> +					      limits,
->>> +					      pipe_bpp,
->>> +					      compressed_bpp,
->>> +					      timeslots);
->>> +		if (ret == 0) {
->>> +			pipe_config->dsc.compressed_bpp = compressed_bpp;
->>> +			return 0;
->>> +		}
->>> +	}
->>> +
->>> +	return -EINVAL;
->>> +}
->>> +
->>> +static int intel_dp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
->>> +					 struct intel_crtc_state *pipe_config,
->>> +					 struct drm_connector_state *conn_state,
->>> +					 struct link_config_limits *limits,
->>> +					 int timeslots)
->>> +{
->>> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->>> +	u8 dsc_bpc[3] = {0};
->>> +	u8 dsc_max_bpc, dsc_max_bpp;
->>> +	u8 dsc_min_bpc, dsc_min_bpp;
->>> +	u8 max_req_bpc = conn_state->max_requested_bpc;
->>> +	int i, bpp, ret;
->>> +	int num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
->>> +							   dsc_bpc);
->>> +
->>> +	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
->>> +	if (DISPLAY_VER(i915) >= 12)
->>> +		dsc_max_bpc = min_t(u8, 12, max_req_bpc);
->>> +	else
->>> +		dsc_max_bpc = min_t(u8, 10, max_req_bpc);
->>> +
->>> +	dsc_max_bpp = min(dsc_max_bpc * 3, limits->max_bpp);
->>> +
->>> +	/* Min DSC Input BPC for ICL+ is 8 */
->>> +	dsc_min_bpc = 8;
->>> +	dsc_min_bpp = max(dsc_min_bpc * 3, limits->min_bpp);
->>> +
->>> +	/*
->>> +	 * Get the maximum DSC bpc that will be supported by any valid
->>> +	 * link configuration and compressed bpp.
->>> +	 */
->>> +	for (i = 0; i < num_bpc; i++) {
->>> +		bpp = dsc_bpc[i] * 3;
->>> +
->>> +		if (bpp < dsc_min_bpp)
->>> +			break;
->>> +
->>> +		if (bpp > dsc_max_bpp)
->>> +			continue;
->>> +
->>> +		ret = dsc_compute_compressed_bpp(intel_dp, pipe_config,
->>> +						 limits, bpp, timeslots);
->>> +		if (ret == 0) {
->>> +			pipe_config->pipe_bpp = bpp;
->>> +
->>> +			return 0;
->>> +		}
->>> +	}
->>> +
->>> +	return -EINVAL;
->>> +}
->>> +
->>>   static
->>>   bool is_dsc_pipe_bpp_sufficient(int pipe_bpp)
->>>   {
->>> @@ -1649,6 +1852,31 @@ bool is_dsc_pipe_bpp_sufficient(int pipe_bpp)
->>>   	return (pipe_bpp < 8 * 3);
->>>   }
->>>   
->>> +static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
->>> +					  struct intel_crtc_state *pipe_config,
->>> +					  struct drm_connector_state *conn_state,
->>> +					  struct link_config_limits *limits)
->>> +{
->>> +	/* For eDP use max bpp that can be supported with DSC. */
->>> +	int pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_dp,
->>> +						    conn_state->max_requested_bpc);
->>> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->>> +
->>> +	if (!is_dsc_pipe_bpp_sufficient(pipe_bpp)) {
->>> +		drm_dbg_kms(&i915->drm,
->>> +			    "No DSC support for less than 8bpc\n");
->>> +		return -EINVAL;
->>> +	}
->>> +	pipe_config->pipe_bpp = pipe_bpp;
->>> +	pipe_config->port_clock = limits->max_rate;
->>> +	pipe_config->lane_count = limits->max_lane_count;
->>> +	pipe_config->dsc.compressed_bpp =
->>> +		min_t(u16, drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd) >> 4,
->>> +		      pipe_config->pipe_bpp);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>   int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->>>   				struct intel_crtc_state *pipe_config,
->>>   				struct drm_connector_state *conn_state,
->>> @@ -1671,6 +1899,12 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->>>   	if (!intel_dp_dsc_supports_format(intel_dp, pipe_config->output_format))
->>>   		return -EINVAL;
->>>   
->>> +	/*
->>> +	 * compute pipe bpp is set to false for DP MST DSC case
->>> +	 * and compressed_bpp is calculated same time once
->>> +	 * vpci timeslots are allocated, because overall bpp
->>> +	 * calculation procedure is bit different for MST case.
->>> +	 */
->>>   	if (compute_pipe_bpp) {
->>>   		int pipe_bpp;
->>>   		int forced_bpp = intel_dp->force_dsc_bpc * 3;
->>> @@ -1683,31 +1917,25 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->>>   				 forced_bpp && !is_dsc_pipe_bpp_sufficient(forced_bpp),
->>>   				 "Cannot force dsc bpc:%d, due to dsc bpc limits\n",
->>>   				 intel_dp->force_dsc_bpc);
->>> -
->>> -			pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_dp,
->>> -								conn_state->max_requested_bpc);
->>> -
->>> -			if (!is_dsc_pipe_bpp_sufficient(pipe_bpp)) {
->>> -				drm_dbg_kms(&dev_priv->drm, "No DSC support for less than 8bpc\n");
->>> -				return -EINVAL;
->>> +			if (intel_dp_is_edp(intel_dp))
->>> +				ret = intel_edp_dsc_compute_pipe_bpp(intel_dp, pipe_config,
->>> +								     conn_state, limits);
->>> +			else
->>> +				ret = intel_dp_dsc_compute_pipe_bpp(intel_dp, pipe_config,
->>> +								    conn_state, limits, timeslots);
->>> +			if (ret) {
->>> +				drm_dbg_kms(&dev_priv->drm,
->>> +					    "No Valid pipe bpp for given mode ret = %d\n", ret);
->>> +				return ret;
->>>   			}
->>>   		}
->>> -
->>> -		pipe_config->pipe_bpp = pipe_bpp;
->>>   	}
->>>   
->>> -	/*
->>> -	 * For now enable DSC for max link rate, max lane count.
->>> -	 * Optimize this later for the minimum possible link rate/lane count
->>> -	 * with DSC enabled for the requested mode.
->>> -	 */
->>>   	pipe_config->port_clock = limits->max_rate;
->>>   	pipe_config->lane_count = limits->max_lane_count;
->>>   
->>> +	/* Calculate Slice count */
->>>   	if (intel_dp_is_edp(intel_dp)) {
->>> -		pipe_config->dsc.compressed_bpp =
->>> -			min_t(u16, drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd) >> 4,
->>> -			      pipe_config->pipe_bpp);
->>>   		pipe_config->dsc.slice_count =
->>>   			drm_dp_dsc_sink_max_slice_count(intel_dp->dsc_dpcd,
->>>   							true);
->>> @@ -1717,37 +1945,8 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->>>   			return -EINVAL;
->>>   		}
->>>   	} else {
->>> -		u16 dsc_max_compressed_bpp = 0;
->>>   		u8 dsc_dp_slice_count;
->>>   
->>> -		if (compute_pipe_bpp) {
->>> -			dsc_max_compressed_bpp =
->>> -				intel_dp_dsc_get_max_compressed_bpp(dev_priv,
->>> -								    pipe_config->port_clock,
->>> -								    pipe_config->lane_count,
->>> -								    adjusted_mode->crtc_clock,
->>> -								    adjusted_mode->crtc_hdisplay,
->>> -								    pipe_config->bigjoiner_pipes,
->>> -								    pipe_config->output_format,
->>> -								    pipe_config->pipe_bpp,
->>> -								    timeslots);
->>> -			/*
->>> -			 * According to DSC 1.2a Section 4.1.1 Table 4.1 the maximum
->>> -			 * supported PPS value can be 63.9375 and with the further
->>> -			 * mention that bpp should be programmed double the target bpp
->>> -			 * restricting our target bpp to be 31.9375 at max
->>> -			 */
->>> -			if (pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
->>> -				dsc_max_compressed_bpp = min_t(u16,
->>> -							       dsc_max_compressed_bpp,
->>> -							       31);
->>> -
->>> -			if (!dsc_max_compressed_bpp) {
->>> -				drm_dbg_kms(&dev_priv->drm,
->>> -					    "Compressed BPP not supported\n");
->>> -				return -EINVAL;
->>> -			}
->>> -		}
->>>   		dsc_dp_slice_count =
->>>   			intel_dp_dsc_get_slice_count(intel_dp,
->>>   						     adjusted_mode->crtc_clock,
->>> @@ -1759,20 +1958,6 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
->>>   			return -EINVAL;
->>>   		}
->>>   
->>> -		/*
->>> -		 * compute pipe bpp is set to false for DP MST DSC case
->>> -		 * and compressed_bpp is calculated same time once
->>> -		 * vpci timeslots are allocated, because overall bpp
->>> -		 * calculation procedure is bit different for MST case.
->>> -		 */
->>> -		if (compute_pipe_bpp) {
->>> -			u16 output_bpp = intel_dp_output_bpp(pipe_config->output_format,
->>> -							     pipe_config->pipe_bpp);
->>> -
->>> -			pipe_config->dsc.compressed_bpp = min_t(u16,
->>> -								dsc_max_compressed_bpp,
->>> -								output_bpp);
->>> -		}
->>>   		pipe_config->dsc.slice_count = dsc_dp_slice_count;
->>>   	}
->>>   	/*
->>> -- 
->>> 2.25.1
->>>
+--------------CaLkyQknB5zn9bn0fJaZ0BXD--
