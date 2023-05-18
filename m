@@ -1,31 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB5470845C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 16:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7799270858E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 18:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 333B710E0A6;
-	Thu, 18 May 2023 14:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0669E10E0E9;
+	Thu, 18 May 2023 16:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
- by gabe.freedesktop.org (Postfix) with SMTP id 70D7A10E0A6
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 14:56:18 +0000 (UTC)
-Received: (qmail 916250 invoked by uid 1000); 18 May 2023 10:56:17 -0400
-Date: Thu, 18 May 2023 10:56:17 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [syzbot] [fbdev?] [usb?] WARNING in
- dlfb_submit_urb/usb_submit_urb (2)
-Message-ID: <2905a85f-4a3b-4a4f-b8fb-a4d037d6c591@rowland.harvard.edu>
-References: <0000000000004a222005fbf00461@google.com> <ZGXVANMhn5j/jObU@ls3530>
- <4cd17511-2b60-4c37-baf3-c477cf6d1761@rowland.harvard.edu>
- <be824fbc-cde4-9a2a-8fb4-1ca23f498dca@gmx.de>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AE17510E0E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 16:05:47 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:43896.565364457
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 8FEEE1001B5;
+ Fri, 19 May 2023 00:05:42 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-pgxlx with ESMTP id
+ d6a3c86d67614bdbaa2f337c1ed09c98 for tzimmermann@suse.de; 
+ Fri, 19 May 2023 00:05:44 CST
+X-Transaction-ID: d6a3c86d67614bdbaa2f337c1ed09c98
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <8e176697-b78d-e419-064e-5752f571200c@189.cn>
+Date: Fri, 19 May 2023 00:05:39 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be824fbc-cde4-9a2a-8fb4-1ca23f498dca@gmx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v13 0/2] drm: add kms driver for loongson display
+ controller
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, suijingfeng <15330273260@189.cn>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230515155734.2954149-1-suijingfeng@loongson.cn>
+ <7b77020f-d543-13bf-e178-bc416bcc728d@suse.de>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <7b77020f-d543-13bf-e178-bc416bcc728d@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,52 +59,336 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- syzbot <syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com>,
- linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- bernie@plugable.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 18, 2023 at 04:16:33PM +0200, Helge Deller wrote:
-> On 5/18/23 15:54, Alan Stern wrote:
-> > On Thu, May 18, 2023 at 09:34:24AM +0200, Helge Deller wrote:
-> > > I think this is an informational warning from the USB stack,
-> > 
-> > It is not informational.  It is a warning that the caller has a bug.
-> 
-> I'm not a USB expert, so I searched for such bug reports, and it seems
-> people sometimes faced this warning with different USB devices.
+Hi,
 
-Yes.
+On 2023/5/18 21:38, Thomas Zimmermann wrote:
+> Hi,
+>
+> I don't know the status here, but if it works, you should probably 
+> merge it. I think you first need to get commit access to drm-misc. 
+> That will also allow you to merge the other fixes you sent recently.
+>
+> See
+>
+>
+> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc 
+>
+>
+> for the overall process.
+>
+Thanks for you valuable advice, we don't know that before.
 
-> > You can't fix a bug by changing the line that reports it from dev_WARN
-> > to printk!
-> 
-> Of course this patch wasn't intended as "fix".
-> It was intended to see how the udlfb driver behaves in this situation, e.g.
-> if the driver then crashes afterwards.
-> 
-> Furthermore, why does usb_submit_urb() prints this WARNING and then continues?
-> If it's a real bug, why doesn't it returns an error instead?
-> So, in principle I still think this warning is kind of informational,
-> which of course points to some kind of problem which should be fixed.
+Currently, I'm not good enough to have a commit access.
 
-Depending on the situation, the bug may or may not lead to an error.  At 
-the time the dev_WARN was added, we were less careful about these sorts 
-of checks; I did not want to cause previously working devices to stop 
-working by failing the URB submission.
+I think I work hard to meet the requirement in the long term.
 
-> > In this case it looks like dlfb_usb_probe() or one of the routines it
-> > calls is wrong; it assumes that an endpoint has the expected type
-> > without checking.  More precisely, it thinks an endpoint is BULK when
-> > actually it is INTERRUPT.  That's what needs to be fixed.
-> 
-> Maybe usb_submit_urb() should return an error so that drivers can
-> react on it, instead of adding the same kind of checks to all drivers?
+We observed that you are more professional programmer, and
 
-Feel free to submit a patch doing this.  But the checks should be added 
-in any case; without them the drivers are simply wrong.
+you contribute a lot during the past.
 
-Alan Stern
+We started developing driver by study your patches.
+
+As you patch always come with good document and comments.
+
+drm/loongson driver learns a lot from drm/ast, drm/qxl, drm/mgag200, 
+drm/radeon.
+
+also drm_gem_vram_helper.
+
+Therefore, we are still believe that you are more professional at drm 
+framework layer.
+
+And there no doubt that you have a better understanding toward the 
+atomic modeset than us.
+
+
+We may have better knowledge about our hardware,
+
+We also know that by keeping changes localized to drm/loongson,
+
+It wouldn't make terrible influence on the drm core(and  other side).
+
+
+Therefore, I would like invite you to be the co-maintainer of drm/loongson,
+
+Would you like to accept this? If so I would like to update my patch and 
+send V14.
+
+I will  respect you decision, but I strongly encourage you to agree with 
+this.
+
+I believe that with your guidance and supervise, the quality of this 
+driver can be guaranteed.
+
+
+We could offer(donation) evaluation boards for patch verification,
+
+see more information for the boards available at [1].
+
+LoongArch boards has to burn new firmware before it can be used with 
+upstream kernel.
+
+Please give contact information to us if you are interested in. I will 
+be helpful then because
+
+I know how to burn new firmware.
+
+
+[1] https://github.com/loongson/Firmware
+
+
+By the way, Maxime is also the co-maintainer of drm/sun4i.
+
+During the past there a lot reviewers participate in the process of 
+reviewing drm/loognson.
+
+including Maxime, Krzysztof, Christian, Emil, Rob, Chen and others.
+
+so let's get it merged at next version, don't waste the reviewing effort 
+ever made.
+
+
+> Best regards
+> Thomas
+>
+> Am 15.05.23 um 17:57 schrieb Sui Jingfeng:
+>> Loongson display controller IP has been integrated in both Loongson 
+>> north
+>> bridge chipset(ls7a1000/ls7a2000) and Loongson 
+>> SoCs(ls2k1000/ls2k2000), it
+>> has been even included in Loongson self-made BMC products.
+>>
+>> This display controller is a PCI device. It has two display pipes and 
+>> each
+>> display pipe support a primary plane and a cursor plane. For the DC 
+>> in the
+>> ls7a1000 and ls2k1000, each display pipe has a DVO output interface 
+>> which
+>> provide RGB888 signals, vertical & horizontal synchronisations and pixel
+>> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum 
+>> resolution
+>> of each display pipe is 2048x2048 according to the hardware spec.
+>>
+>> For the DC in LS7A2000, each display pipe is equipped with a built-in 
+>> HDMI
+>> encoder which is compliant with the HDMI 1.4 specification, thus it 
+>> support
+>> 3840x2160@30Hz. The first display pipe is also equipped with a 
+>> transparent
+>> vga encoder which is parallel with the HDMI encoder. The DC in 
+>> LS7A2000 is
+>> more complete compare with the one in old chips, besides above 
+>> feature, it
+>> has two hardware cursors, two hardware vblank counter and two scanout
+>> position recorders unit. It also support tiled framebuffer format which
+>> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
+>>
+>> v1 -> v2:
+>>   1) Use hpd status reg when polling for ls7a2000
+>>   2) Fix all warnings emerged when compile with W=1
+>>
+>> v2 -> v3:
+>>   1) Add COMPILE_TEST in Kconfig and make the driver off by default
+>>   2) Alphabetical sorting headers (Thomas)
+>>   3) Untangle register access functions as much as possible (Thomas)
+>>   4) Switch to TTM based memory manager and prefer cached mapping
+>>      for Loongson SoC (Thomas)
+>>   5) Add chip id detection method, now all models are distinguishable.
+>>   6) Revise builtin HDMI phy driver, nearly all main stream mode
+>>      below 4K@30Hz is tested, this driver supported these mode very
+>>      well including clone display mode and extend display mode.
+>>
+>> v3 -> v4:
+>>   1) Quickly fix a small mistake.
+>>
+>> v4 -> v5:
+>>   1) Drop potential support for Loongson 2K series SoC temporary,
+>>      this part should be resend with the DT binding patch in the future.
+>>   2) Add per display pipe debugfs support to the builtin HDMI encoder.
+>>   3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+>>   4) Rewrite encoder and connector initialization part, untangle it
+>>      according to the chip(Thomas).
+>>
+>> v5 -> v6:
+>>   1) Remove stray code which didn't get used, say 
+>> lsdc_of_get_reserved_ram
+>>   2) Fix all typos I could found, make sentences and code more readable
+>>   3) Untangle lsdc_hdmi*_connector_detect() function according to the 
+>> pipe
+>>   4) After a serious consideration, we rename this driver as loongson.
+>>      Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+>>      LS2K2000. Besides, there are also drivers about the external 
+>> encoder,
+>>      HDMI audio driver and vbios support etc. This patch only provide DC
+>>      driver part, my teammate Li Yi believe that loongson will be more
+>>      suitable for loongson graphics than lsdc in the long run.
+>>
+>>      loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+>>
+>> v6 -> v7:
+>>   1) Add prime support, self-sharing is works. sharing buffer with 
+>> etnaviv
+>>      is also tested, and its works with limitation.
+>>   2) Implement buffer objects tracking with list_head.
+>>   3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+>>   4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+>>      during BO creation. Patch V1 ~ V6 of this series no longer works
+>>      on latest kernel. Thus, we send V7 to revival them.
+>>
+>> v7 -> v8:
+>>   1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>>   2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>>   3) Pageflip tested on the virtual terminal with following commands
+>>
+>>      modetest -M loongson -s 32:1920x1080 -v
+>>      modetest -M loongson -s 34:1920x1080 -v -F tiles
+>>
+>>     It works like a charm, when running pageflip test with dual screnn
+>>     configuration, another two additional bo created by the modetest
+>>     emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+>>     enough.
+>>
+>>     # cat bos
+>>
+>>         bo[0000]: size:     8112kB VRAM
+>>         bo[0001]: size:       16kB VRAM
+>>         bo[0002]: size:       16kB VRAM
+>>         bo[0003]: size:    16208kB VRAM
+>>         bo[0004]: size:     8112kB VRAM
+>>         bo[0005]: size:     8112kB VRAM
+>>
+>> v8 -> v9:
+>>   1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
+>>   2) Using pci_get_domain_bus_and_slot to get the GPU device.
+>>   3) Other minor improvements.
+>>
+>>   Those patches are tested on ls3a5000 + ls7a1000 CRB, ls3a5000 + 
+>> ls7a2000
+>>   evb, and lemote a1901 board(ls3a4000 + ls7a1000). On loongson mips 
+>> CPU,
+>>   the write combine support should be enabled, to get a decent 
+>> performance
+>>   for writing framebuffer data to the VRAM.
+>>
+>> v9 -> v10:
+>>   1) Revise lsdc_drm_freeze() to implement S3 completely and correctly.
+>>      I suddenly realized that pinned buffer can not move and VRAM lost
+>>      power when sleep to RAM. Thus, the data in the buffer who is pinned
+>>      in VRAM will get lost when resume. Yet it's not big problem because
+>>      we are software rendering solution which relay on the CPU update 
+>> the
+>>      front framebuffer. We can see the garbage data when resume from S3,
+>>      but the screen will show correct image as I move the cursor. 
+>> This is
+>>      due to the cpu repaint. v10 of this patch make S3 perfect by unpin
+>>      all of BOs in VRAM, evict them all to system RAM.
+>>
+>> v10 -> v11:
+>>   1) On double screen case, the single giant framebuffer is 
+>> referenced by
+>>      two GEM object, hence, it will be pinned by prepare_fb() at 
+>> lease two
+>>      times. This cause its pin count > 1. V10 of this patch only 
+>> unpin VRAM
+>>      BOs once when suspend, which is not correct on double screen 
+>> case. V11
+>>      of this patch unpin BOs until its pin count reach to zero when 
+>> suspend.
+>>      Then, we make the S3 support complete finally. With v11, I can't 
+>> see
+>>      any garbage data after resume. Tested on both ls7a1000 and ls7a2000
+>>      platform, with single screen and double screen configuration.
+>>   2) Fix vblank wait timeout when disable CRTC.
+>>   3) Test against IGT, at least fbdev test and kms_flip test passed.
+>>   4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
+>>   5) Drop a few common hardware features description in lsdc_desc (Emil)
+>>   6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in 
+>> dumb
+>>      create function. (Emil)
+>>   7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
+>>
+>> v11 -> v12:
+>>   none
+>>
+>> v12 -> v13:
+>>   1) Add benchmark to figure out the bandwidth of the hardware platform.
+>>      Usage:
+>>      # cd /sys/kernel/debug/dri/0/
+>>      # cat benchmark
+>>
+>>   2) VRAM is filled with garbage data if uninitialized, add a buffer
+>>      clearing procedure, clear it on the BO creation time.
+>>   3) Update copyrights and adjust coding style (Huacai)
+>>
+>> Sui Jingfeng (2):
+>>    drm: add kms driver for loongson display controller
+>>    MAINTAINERS: add maintainers for DRM LOONGSON driver
+>>
+>>   MAINTAINERS                                 |    8 +
+>>   drivers/gpu/drm/Kconfig                     |    2 +
+>>   drivers/gpu/drm/Makefile                    |    1 +
+>>   drivers/gpu/drm/loongson/Kconfig            |   17 +
+>>   drivers/gpu/drm/loongson/Makefile           |   21 +
+>>   drivers/gpu/drm/loongson/ls7a1000_outputs.c |  161 +++
+>>   drivers/gpu/drm/loongson/ls7a2000_outputs.c |  531 +++++++++
+>>   drivers/gpu/drm/loongson/lsdc_benchmark.c   |  132 +++
+>>   drivers/gpu/drm/loongson/lsdc_benchmark.h   |   13 +
+>>   drivers/gpu/drm/loongson/lsdc_crtc.c        | 1068 +++++++++++++++++++
+>>   drivers/gpu/drm/loongson/lsdc_debugfs.c     |   91 ++
+>>   drivers/gpu/drm/loongson/lsdc_device.c      |  104 ++
+>>   drivers/gpu/drm/loongson/lsdc_drv.c         |  484 +++++++++
+>>   drivers/gpu/drm/loongson/lsdc_drv.h         |  452 ++++++++
+>>   drivers/gpu/drm/loongson/lsdc_gem.c         |  324 ++++++
+>>   drivers/gpu/drm/loongson/lsdc_gem.h         |   37 +
+>>   drivers/gpu/drm/loongson/lsdc_gfxpll.c      |  199 ++++
+>>   drivers/gpu/drm/loongson/lsdc_gfxpll.h      |   52 +
+>>   drivers/gpu/drm/loongson/lsdc_i2c.c         |  179 ++++
+>>   drivers/gpu/drm/loongson/lsdc_i2c.h         |   29 +
+>>   drivers/gpu/drm/loongson/lsdc_irq.c         |   81 ++
+>>   drivers/gpu/drm/loongson/lsdc_irq.h         |   16 +
+>>   drivers/gpu/drm/loongson/lsdc_output.h      |   21 +
+>>   drivers/gpu/drm/loongson/lsdc_pixpll.c      |  481 +++++++++
+>>   drivers/gpu/drm/loongson/lsdc_pixpll.h      |   86 ++
+>>   drivers/gpu/drm/loongson/lsdc_plane.c       |  639 +++++++++++
+>>   drivers/gpu/drm/loongson/lsdc_probe.c       |   56 +
+>>   drivers/gpu/drm/loongson/lsdc_probe.h       |   12 +
+>>   drivers/gpu/drm/loongson/lsdc_regs.h        |  400 +++++++
+>>   drivers/gpu/drm/loongson/lsdc_ttm.c         |  610 +++++++++++
+>>   drivers/gpu/drm/loongson/lsdc_ttm.h         |   99 ++
+>>   31 files changed, 6406 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/loongson/Kconfig
+>>   create mode 100644 drivers/gpu/drm/loongson/Makefile
+>>   create mode 100644 drivers/gpu/drm/loongson/ls7a1000_outputs.c
+>>   create mode 100644 drivers/gpu/drm/loongson/ls7a2000_outputs.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_device.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+>>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
+>>
+>
