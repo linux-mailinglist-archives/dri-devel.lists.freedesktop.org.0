@@ -2,51 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7799270858E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 18:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E8C70860E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 18:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0669E10E0E9;
-	Thu, 18 May 2023 16:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225B010E1F6;
+	Thu, 18 May 2023 16:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE17510E0E9
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 16:05:47 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:43896.565364457
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 8FEEE1001B5;
- Fri, 19 May 2023 00:05:42 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-pgxlx with ESMTP id
- d6a3c86d67614bdbaa2f337c1ed09c98 for tzimmermann@suse.de; 
- Fri, 19 May 2023 00:05:44 CST
-X-Transaction-ID: d6a3c86d67614bdbaa2f337c1ed09c98
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <8e176697-b78d-e419-064e-5752f571200c@189.cn>
-Date: Fri, 19 May 2023 00:05:39 +0800
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE3110E0CB;
+ Thu, 18 May 2023 16:29:01 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-199fd9a0e62so1624160fac.1; 
+ Thu, 18 May 2023 09:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684427340; x=1687019340;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GU/QbehuPdiis3FPBB/wwGErB67sty3CgLk7RAimgtM=;
+ b=fG846peOIWRolpBHwk0Odd8RmOGM3sEUZXDYvrXdaoU1yo38Llsi748DBrwOur7Nx5
+ XU4PQr1zU0vrbPnaOq/56QU27QpBIksKKNO8ueWh/kiETN7aO4Fa9ByTq3wn7XraGsKG
+ /ESkxYGpdd9aHDzU4qgbQ3m43EaKMMi25StEML8tM6pE1DD9Nu6KbLphcYMZwYZ1h2lV
+ qIUQoernB5OWXb2eG2d+6yE78F9RcaehGf2lNjA8pa0V6h/fkePGF1UetJdZ1bA5Hpv0
+ jxFa4qEcTJlVVCrStv0cnJugsKaFkqKpavhz8bligJ6OCqlt+L+M6c2AbMEW9hSTuy9j
+ tZjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684427340; x=1687019340;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GU/QbehuPdiis3FPBB/wwGErB67sty3CgLk7RAimgtM=;
+ b=SJEUdu/6dULhLOIq8jutslfxvaVIpcTvQYcpr+Bn1tz0QXkp1fFIUk22cWb/Ft8DYg
+ U6dLoKKXAN8jFEX/E5VdFIGpgk3xXiqEs0VddLi2M78LlEZZOXApJNMEDXMkk916d0lB
+ aDM125wvuERcSGbdpAXOyiqZVlXb5mEzBAmEOegNAAazbkGBqNrZX/diC/1UWphDuTm7
+ uh155fhPNqCZPq5m1Ly7YeCWyCBizv50pz2pDJ1SNnvr0TUvQJ1z0FSAMDQoo3XHYgcs
+ Choxe4n+pKibU+mquCyXxtSpqV7AcMibDZiK+Nenl6BpIMpPMcT9IsVZyMJTWkrHsQlw
+ 6tYg==
+X-Gm-Message-State: AC+VfDz1h7mZrKxRiKjiJQBvW5tS94mYBerZrgcU8Gd1FHqeIX4sXEZ8
+ pP1BY7W5YVCWdNJE7txlsizLSZZ2RjG7+PbcwjQ=
+X-Google-Smtp-Source: ACHHUZ7Cba0L5dSEXsajkVCTobT5f2fijlyMwRzbQeTTadci7v1I+bLeSHhzp9m1Z9Tj7+8M5F6HLgrMDmVNUPtf1yg=
+X-Received: by 2002:a05:6808:649:b0:394:27d6:8d98 with SMTP id
+ z9-20020a056808064900b0039427d68d98mr1415180oih.31.1684427339800; Thu, 18 May
+ 2023 09:28:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v13 0/2] drm: add kms driver for loongson display
- controller
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <15330273260@189.cn>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
-References: <20230515155734.2954149-1-suijingfeng@loongson.cn>
- <7b77020f-d543-13bf-e178-bc416bcc728d@suse.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <7b77020f-d543-13bf-e178-bc416bcc728d@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230427175340.1280952-1-robdclark@gmail.com>
+ <20230427175340.1280952-9-robdclark@gmail.com>
+ <135ff649-e50c-50f4-55ba-a1b615865e02@linux.intel.com>
+ <CAF6AEGvKnPgtna4yjN56mMjCLqpjs8B8K152VWxmPs1NdY78vA@mail.gmail.com>
+ <b615ba5e-c15a-226b-959b-e76216015f83@linux.intel.com>
+ <1420ed7c-d3c2-7768-f954-4a88036448a9@linux.intel.com>
+In-Reply-To: <1420ed7c-d3c2-7768-f954-4a88036448a9@linux.intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 18 May 2023 09:28:48 -0700
+Message-ID: <CAF6AEGu40P8LY1H9UjJyfNsgOBtsBrPON3i4Jkj-mjxAbPsreA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] drm/fdinfo: Add comm/cmdline override fields
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,336 +73,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/5/18 21:38, Thomas Zimmermann wrote:
-> Hi,
->
-> I don't know the status here, but if it works, you should probably 
-> merge it. I think you first need to get commit access to drm-misc. 
-> That will also allow you to merge the other fixes you sent recently.
->
-> See
+On Thu, May 18, 2023 at 2:43=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
 >
 >
-> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc 
+> In case you were waiting for me looking at the rest of the series, there
+> was this reply from the previous round I can expand on.
 >
+> On 02/05/2023 08:50, Tvrtko Ursulin wrote:
+> >
+> > On 01/05/2023 17:58, Rob Clark wrote:
+> >> On Fri, Apr 28, 2023 at 4:05=E2=80=AFAM Tvrtko Ursulin
+> >> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>
+> >>>
+> >>> On 27/04/2023 18:53, Rob Clark wrote:
+> >>>> From: Rob Clark <robdclark@chromium.org>
+> >>>>
+> >>>> These are useful in particular for VM scenarios where the process wh=
+ich
+> >>>> has opened to drm device file is just a proxy for the real user in a=
+ VM
+> >>>> guest.
+> >>>>
+> >>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>>> ---
+> >>>>    Documentation/gpu/drm-usage-stats.rst | 18 ++++++++++++++++++
+> >>>>    drivers/gpu/drm/drm_file.c            | 15 +++++++++++++++
+> >>>>    include/drm/drm_file.h                | 19 +++++++++++++++++++
+> >>>>    3 files changed, 52 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/gpu/drm-usage-stats.rst
+> >>>> b/Documentation/gpu/drm-usage-stats.rst
+> >>>> index 58dc0d3f8c58..e4877cf8089c 100644
+> >>>> --- a/Documentation/gpu/drm-usage-stats.rst
+> >>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+> >>>> @@ -73,6 +73,24 @@ scope of each device, in which case `drm-pdev`
+> >>>> shall be present as well.
+> >>>>    Userspace should make sure to not double account any usage
+> >>>> statistics by using
+> >>>>    the above described criteria in order to associate data to
+> >>>> individual clients.
+> >>>>
+> >>>> +- drm-comm-override: <valstr>
+> >>>> +
+> >>>> +Returns the client executable override string.  Some drivers
+> >>>> support letting
+> >>>> +userspace override this in cases where the userspace is simply a
+> >>>> "proxy".
+> >>>> +Such as is the case with virglrenderer drm native context, where
+> >>>> the host
+> >>>> +process is just forwarding command submission, etc, from guest
+> >>>> userspace.
+> >>>> +This allows the proxy to make visible the executable name of the
+> >>>> actual
+> >>>> +app in the VM guest.
+> >>>> +
+> >>>> +- drm-cmdline-override: <valstr>
+> >>>> +
+> >>>> +Returns the client cmdline override string.  Some drivers support
+> >>>> letting
+> >>>> +userspace override this in cases where the userspace is simply a
+> >>>> "proxy".
+> >>>> +Such as is the case with virglrenderer drm native context, where
+> >>>> the host
+> >>>> +process is just forwarding command submission, etc, from guest
+> >>>> userspace.
+> >>>> +This allows the proxy to make visible the cmdline of the actual app
+> >>>> in the
+> >>>> +VM guest.
+> >>>
+> >>> Perhaps it would be okay to save space here by not repeating the
+> >>> description, like:
+> >>>
+> >>> drm-comm-override: <valstr>
+> >>> drm-cmdline-override: <valstr>
+> >>>
+> >>> Long description blah blah...
+> >>> This allows the proxy to make visible the _executable name *and* comm=
+and
+> >>> line_ blah blah..
+> >>>
+> >>>> +
+> >>>>    Utilization
+> >>>>    ^^^^^^^^^^^
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> >>>> index 9321eb0bf020..d7514c313af1 100644
+> >>>> --- a/drivers/gpu/drm/drm_file.c
+> >>>> +++ b/drivers/gpu/drm/drm_file.c
+> >>>> @@ -178,6 +178,8 @@ struct drm_file *drm_file_alloc(struct drm_minor
+> >>>> *minor)
+> >>>>        spin_lock_init(&file->master_lookup_lock);
+> >>>>        mutex_init(&file->event_read_lock);
+> >>>>
+> >>>> +     mutex_init(&file->override_lock);
+> >>>> +
+> >>>>        if (drm_core_check_feature(dev, DRIVER_GEM))
+> >>>>                drm_gem_open(dev, file);
+> >>>>
+> >>>> @@ -292,6 +294,8 @@ void drm_file_free(struct drm_file *file)
+> >>>>        WARN_ON(!list_empty(&file->event_list));
+> >>>>
+> >>>>        put_pid(file->pid);
+> >>>> +     kfree(file->override_comm);
+> >>>> +     kfree(file->override_cmdline);
+> >>>>        kfree(file);
+> >>>>    }
+> >>>>
+> >>>> @@ -995,6 +999,17 @@ void drm_show_fdinfo(struct seq_file *m, struct
+> >>>> file *f)
+> >>>>                           PCI_SLOT(pdev->devfn),
+> >>>> PCI_FUNC(pdev->devfn));
+> >>>>        }
+> >>>>
+> >>>> +     mutex_lock(&file->override_lock);
+> >>>
+> >>> You could add a fast unlocked check before taking the mutex for no ri=
+sk
+> >>> apart a transient false negative. For 99.9999% of userspace it would
+> >>> mean no pointless lock/unlock cycle.
+> >>
+> >> I'm not sure I get your point?  This needs to be serialized against
+> >> userspace setting the override values
+> >
+> > if (file->override_comm || file->override_cmdline) {
+> >      mutex_lock(&file->override_lock);
+> >      if (file->override_comm)
+> >          drm_printf(&p, "drm-comm-override:\t%s\n",
+> >                 file->override_comm);
+> >      if (file->override_cmdline)
+> >          drm_printf(&p, "drm-cmdline-override:\t%s\n",
+> >                 file->override_cmdline);
+> >      mutext_unlock(&file->override_lock);
+> > }
+> >
+> > No risk apart for a transient false negative (which is immaterial for
+> > userspace since fdinfo reads are not ordered versus the override settin=
+g
+> > anyway) and 99.9% of deployments can get by not needing to pointlessly
+> > cycle the lock.
 >
-> for the overall process.
+> This fast path bypass I think is worth it but up to you if you are
+> really opposed. It's just that I don't see a point for cycling the mutex
+> for nothing in majority of cases.
+
+I think it is a premature optimization.. an uncontended lock is "just"
+an atomic.  Yes, atomics can be expensive in a hot path.. but in this
+case it is going to be lost in the noise.  I did look a bit at gputop
+with `perf record` and it is very much not the problem.
+
+> >>>
+> >>>> +     if (file->override_comm) {
+> >>>> +             drm_printf(&p, "drm-comm-override:\t%s\n",
+> >>>> +                        file->override_comm);
+> >>>> +     }
+> >>>> +     if (file->override_cmdline) {
+> >>>> +             drm_printf(&p, "drm-cmdline-override:\t%s\n",
+> >>>> +                        file->override_cmdline);
+> >>>> +     }
+> >>>> +     mutex_unlock(&file->override_lock);
+> >>>> +
+> >>>>        if (dev->driver->show_fdinfo)
+> >>>>                dev->driver->show_fdinfo(&p, file);
+> >>>>    }
+> >>>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> >>>> index 1339e925af52..604d05fa6f0c 100644
+> >>>> --- a/include/drm/drm_file.h
+> >>>> +++ b/include/drm/drm_file.h
+> >>>> @@ -370,6 +370,25 @@ struct drm_file {
+> >>>>         */
+> >>>>        struct drm_prime_file_private prime;
+> >>>>
+> >>>> +     /**
+> >>>> +      * @comm: Overridden task comm
+> >>>> +      *
+> >>>> +      * Accessed under override_lock
+> >>>> +      */
+> >>>> +     char *override_comm;
+> >>>> +
+> >>>> +     /**
+> >>>> +      * @cmdline: Overridden task cmdline
+> >>>> +      *
+> >>>> +      * Accessed under override_lock
+> >>>> +      */
+> >>>> +     char *override_cmdline;
+> >>>> +
+> >>>> +     /**
+> >>>> +      * @override_lock: Serialize access to override_comm and
+> >>>> override_cmdline
+> >>>> +      */
+> >>>> +     struct mutex override_lock;
+> >>>> +
+> >>>
+> >>> I don't think this should go to drm just yet though. Only one driver =
+can
+> >>> make use of it so I'd leave it for later and print from msm_show_fdin=
+fo
+> >>> for now.
+> >>
+> >> This was my original approach but danvet asked that it be moved into
+> >> drm for consistency across drivers.  (And really, I want the in-flight
+> >> amd and intel native-context stuff to motivate adding similar features
+> >> to amdgpu/i915/xe.)
+> >
+> > IMO if implementation is not shared, not even by using helpers, I don't
+> > think data storage should be either, but it's not a deal breaker.
 >
-Thanks for you valuable advice, we don't know that before.
-
-Currently, I'm not good enough to have a commit access.
-
-I think I work hard to meet the requirement in the long term.
-
-We observed that you are more professional programmer, and
-
-you contribute a lot during the past.
-
-We started developing driver by study your patches.
-
-As you patch always come with good document and comments.
-
-drm/loongson driver learns a lot from drm/ast, drm/qxl, drm/mgag200, 
-drm/radeon.
-
-also drm_gem_vram_helper.
-
-Therefore, we are still believe that you are more professional at drm 
-framework layer.
-
-And there no doubt that you have a better understanding toward the 
-atomic modeset than us.
-
-
-We may have better knowledge about our hardware,
-
-We also know that by keeping changes localized to drm/loongson,
-
-It wouldn't make terrible influence on the drm core(and  other side).
-
-
-Therefore, I would like invite you to be the co-maintainer of drm/loongson,
-
-Would you like to accept this? If so I would like to update my patch and 
-send V14.
-
-I will  respect you decision, but I strongly encourage you to agree with 
-this.
-
-I believe that with your guidance and supervise, the quality of this 
-driver can be guaranteed.
-
-
-We could offer(donation) evaluation boards for patch verification,
-
-see more information for the boards available at [1].
-
-LoongArch boards has to burn new firmware before it can be used with 
-upstream kernel.
-
-Please give contact information to us if you are interested in. I will 
-be helpful then because
-
-I know how to burn new firmware.
-
-
-[1] https://github.com/loongson/Firmware
-
-
-By the way, Maxime is also the co-maintainer of drm/sun4i.
-
-During the past there a lot reviewers participate in the process of 
-reviewing drm/loognson.
-
-including Maxime, Krzysztof, Christian, Emil, Rob, Chen and others.
-
-so let's get it merged at next version, don't waste the reviewing effort 
-ever made.
-
-
-> Best regards
-> Thomas
+> To summarise my thoughts on the patch (v4):
 >
-> Am 15.05.23 um 17:57 schrieb Sui Jingfeng:
->> Loongson display controller IP has been integrated in both Loongson 
->> north
->> bridge chipset(ls7a1000/ls7a2000) and Loongson 
->> SoCs(ls2k1000/ls2k2000), it
->> has been even included in Loongson self-made BMC products.
->>
->> This display controller is a PCI device. It has two display pipes and 
->> each
->> display pipe support a primary plane and a cursor plane. For the DC 
->> in the
->> ls7a1000 and ls2k1000, each display pipe has a DVO output interface 
->> which
->> provide RGB888 signals, vertical & horizontal synchronisations and pixel
->> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum 
->> resolution
->> of each display pipe is 2048x2048 according to the hardware spec.
->>
->> For the DC in LS7A2000, each display pipe is equipped with a built-in 
->> HDMI
->> encoder which is compliant with the HDMI 1.4 specification, thus it 
->> support
->> 3840x2160@30Hz. The first display pipe is also equipped with a 
->> transparent
->> vga encoder which is parallel with the HDMI encoder. The DC in 
->> LS7A2000 is
->> more complete compare with the one in old chips, besides above 
->> feature, it
->> has two hardware cursors, two hardware vblank counter and two scanout
->> position recorders unit. It also support tiled framebuffer format which
->> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
->>
->> v1 -> v2:
->>   1) Use hpd status reg when polling for ls7a2000
->>   2) Fix all warnings emerged when compile with W=1
->>
->> v2 -> v3:
->>   1) Add COMPILE_TEST in Kconfig and make the driver off by default
->>   2) Alphabetical sorting headers (Thomas)
->>   3) Untangle register access functions as much as possible (Thomas)
->>   4) Switch to TTM based memory manager and prefer cached mapping
->>      for Loongson SoC (Thomas)
->>   5) Add chip id detection method, now all models are distinguishable.
->>   6) Revise builtin HDMI phy driver, nearly all main stream mode
->>      below 4K@30Hz is tested, this driver supported these mode very
->>      well including clone display mode and extend display mode.
->>
->> v3 -> v4:
->>   1) Quickly fix a small mistake.
->>
->> v4 -> v5:
->>   1) Drop potential support for Loongson 2K series SoC temporary,
->>      this part should be resend with the DT binding patch in the future.
->>   2) Add per display pipe debugfs support to the builtin HDMI encoder.
->>   3) Rewrite atomic_update() for hardware cursors plane(Thomas)
->>   4) Rewrite encoder and connector initialization part, untangle it
->>      according to the chip(Thomas).
->>
->> v5 -> v6:
->>   1) Remove stray code which didn't get used, say 
->> lsdc_of_get_reserved_ram
->>   2) Fix all typos I could found, make sentences and code more readable
->>   3) Untangle lsdc_hdmi*_connector_detect() function according to the 
->> pipe
->>   4) After a serious consideration, we rename this driver as loongson.
->>      Because we also have drivers toward the LoongGPU IP in LS7A2000 and
->>      LS2K2000. Besides, there are also drivers about the external 
->> encoder,
->>      HDMI audio driver and vbios support etc. This patch only provide DC
->>      driver part, my teammate Li Yi believe that loongson will be more
->>      suitable for loongson graphics than lsdc in the long run.
->>
->>      loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
->>
->> v6 -> v7:
->>   1) Add prime support, self-sharing is works. sharing buffer with 
->> etnaviv
->>      is also tested, and its works with limitation.
->>   2) Implement buffer objects tracking with list_head.
->>   3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
->>   4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
->>      during BO creation. Patch V1 ~ V6 of this series no longer works
->>      on latest kernel. Thus, we send V7 to revival them.
->>
->> v7 -> v8:
->>   1) Zero a compile warnnings on 32-bit platform, compile with W=1
->>   2) Revise lsdc_bo_gpu_offset() and minor cleanup
->>   3) Pageflip tested on the virtual terminal with following commands
->>
->>      modetest -M loongson -s 32:1920x1080 -v
->>      modetest -M loongson -s 34:1920x1080 -v -F tiles
->>
->>     It works like a charm, when running pageflip test with dual screnn
->>     configuration, another two additional bo created by the modetest
->>     emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
->>     enough.
->>
->>     # cat bos
->>
->>         bo[0000]: size:     8112kB VRAM
->>         bo[0001]: size:       16kB VRAM
->>         bo[0002]: size:       16kB VRAM
->>         bo[0003]: size:    16208kB VRAM
->>         bo[0004]: size:     8112kB VRAM
->>         bo[0005]: size:     8112kB VRAM
->>
->> v8 -> v9:
->>   1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
->>   2) Using pci_get_domain_bus_and_slot to get the GPU device.
->>   3) Other minor improvements.
->>
->>   Those patches are tested on ls3a5000 + ls7a1000 CRB, ls3a5000 + 
->> ls7a2000
->>   evb, and lemote a1901 board(ls3a4000 + ls7a1000). On loongson mips 
->> CPU,
->>   the write combine support should be enabled, to get a decent 
->> performance
->>   for writing framebuffer data to the VRAM.
->>
->> v9 -> v10:
->>   1) Revise lsdc_drm_freeze() to implement S3 completely and correctly.
->>      I suddenly realized that pinned buffer can not move and VRAM lost
->>      power when sleep to RAM. Thus, the data in the buffer who is pinned
->>      in VRAM will get lost when resume. Yet it's not big problem because
->>      we are software rendering solution which relay on the CPU update 
->> the
->>      front framebuffer. We can see the garbage data when resume from S3,
->>      but the screen will show correct image as I move the cursor. 
->> This is
->>      due to the cpu repaint. v10 of this patch make S3 perfect by unpin
->>      all of BOs in VRAM, evict them all to system RAM.
->>
->> v10 -> v11:
->>   1) On double screen case, the single giant framebuffer is 
->> referenced by
->>      two GEM object, hence, it will be pinned by prepare_fb() at 
->> lease two
->>      times. This cause its pin count > 1. V10 of this patch only 
->> unpin VRAM
->>      BOs once when suspend, which is not correct on double screen 
->> case. V11
->>      of this patch unpin BOs until its pin count reach to zero when 
->> suspend.
->>      Then, we make the S3 support complete finally. With v11, I can't 
->> see
->>      any garbage data after resume. Tested on both ls7a1000 and ls7a2000
->>      platform, with single screen and double screen configuration.
->>   2) Fix vblank wait timeout when disable CRTC.
->>   3) Test against IGT, at least fbdev test and kms_flip test passed.
->>   4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
->>   5) Drop a few common hardware features description in lsdc_desc (Emil)
->>   6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in 
->> dumb
->>      create function. (Emil)
->>   7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
->>
->> v11 -> v12:
->>   none
->>
->> v12 -> v13:
->>   1) Add benchmark to figure out the bandwidth of the hardware platform.
->>      Usage:
->>      # cd /sys/kernel/debug/dri/0/
->>      # cat benchmark
->>
->>   2) VRAM is filled with garbage data if uninitialized, add a buffer
->>      clearing procedure, clear it on the BO creation time.
->>   3) Update copyrights and adjust coding style (Huacai)
->>
->> Sui Jingfeng (2):
->>    drm: add kms driver for loongson display controller
->>    MAINTAINERS: add maintainers for DRM LOONGSON driver
->>
->>   MAINTAINERS                                 |    8 +
->>   drivers/gpu/drm/Kconfig                     |    2 +
->>   drivers/gpu/drm/Makefile                    |    1 +
->>   drivers/gpu/drm/loongson/Kconfig            |   17 +
->>   drivers/gpu/drm/loongson/Makefile           |   21 +
->>   drivers/gpu/drm/loongson/ls7a1000_outputs.c |  161 +++
->>   drivers/gpu/drm/loongson/ls7a2000_outputs.c |  531 +++++++++
->>   drivers/gpu/drm/loongson/lsdc_benchmark.c   |  132 +++
->>   drivers/gpu/drm/loongson/lsdc_benchmark.h   |   13 +
->>   drivers/gpu/drm/loongson/lsdc_crtc.c        | 1068 +++++++++++++++++++
->>   drivers/gpu/drm/loongson/lsdc_debugfs.c     |   91 ++
->>   drivers/gpu/drm/loongson/lsdc_device.c      |  104 ++
->>   drivers/gpu/drm/loongson/lsdc_drv.c         |  484 +++++++++
->>   drivers/gpu/drm/loongson/lsdc_drv.h         |  452 ++++++++
->>   drivers/gpu/drm/loongson/lsdc_gem.c         |  324 ++++++
->>   drivers/gpu/drm/loongson/lsdc_gem.h         |   37 +
->>   drivers/gpu/drm/loongson/lsdc_gfxpll.c      |  199 ++++
->>   drivers/gpu/drm/loongson/lsdc_gfxpll.h      |   52 +
->>   drivers/gpu/drm/loongson/lsdc_i2c.c         |  179 ++++
->>   drivers/gpu/drm/loongson/lsdc_i2c.h         |   29 +
->>   drivers/gpu/drm/loongson/lsdc_irq.c         |   81 ++
->>   drivers/gpu/drm/loongson/lsdc_irq.h         |   16 +
->>   drivers/gpu/drm/loongson/lsdc_output.h      |   21 +
->>   drivers/gpu/drm/loongson/lsdc_pixpll.c      |  481 +++++++++
->>   drivers/gpu/drm/loongson/lsdc_pixpll.h      |   86 ++
->>   drivers/gpu/drm/loongson/lsdc_plane.c       |  639 +++++++++++
->>   drivers/gpu/drm/loongson/lsdc_probe.c       |   56 +
->>   drivers/gpu/drm/loongson/lsdc_probe.h       |   12 +
->>   drivers/gpu/drm/loongson/lsdc_regs.h        |  400 +++++++
->>   drivers/gpu/drm/loongson/lsdc_ttm.c         |  610 +++++++++++
->>   drivers/gpu/drm/loongson/lsdc_ttm.h         |   99 ++
->>   31 files changed, 6406 insertions(+)
->>   create mode 100644 drivers/gpu/drm/loongson/Kconfig
->>   create mode 100644 drivers/gpu/drm/loongson/Makefile
->>   create mode 100644 drivers/gpu/drm/loongson/ls7a1000_outputs.c
->>   create mode 100644 drivers/gpu/drm/loongson/ls7a2000_outputs.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_device.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
->>   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
->>
+> I am not really keen on the split of data fields in common and no common
+> implementation or helpers.
+
+I can go either way on this.. it was danvet that suggested moving to
+drm_file to encourage more standardization.
+
+(But we can also land the meminfo parts of the series without this
+part.. it was just convenient for me to keep them in the same series
+to avoid conflicts)
+
+BR,
+-R
+
+> For what the drm-usage-stats.rst are concerned it looks completely fine.
+> And feature really will be useful in virtualised stacks.
 >
+> Code in this patch is also completely fine.
+>
+> Therefore you can have an r-b on those parts, but with reservations on
+> whether it makes sense to put the fields under drm_file just yet. That
+> should be fine under the r-b rules AFAIU. Ideally you can collect an ack
+> from someone else too.
+>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+> Regards,
+>
+> Tvrtko
+>
+> >
+> > Regards,
+> >
+> > Tvrtko
+> >
+> >>
+> >> BR,
+> >> -R
+> >>
+> >>> Regards,
+> >>>
+> >>> Tvrtko
+> >>>
+> >>>>        /* private: */
+> >>>>    #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> >>>>        unsigned long lock_count; /* DRI1 legacy lock count */
