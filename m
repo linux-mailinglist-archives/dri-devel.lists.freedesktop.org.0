@@ -2,48 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476447081AC
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 14:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382DD708203
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 15:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3411110E09B;
-	Thu, 18 May 2023 12:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4C510E091;
+	Thu, 18 May 2023 13:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35BDE10E030;
- Thu, 18 May 2023 12:46:44 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:37340.1169356039
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id CD0D9100135;
- Thu, 18 May 2023 20:46:38 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-prw2v with ESMTP id
- 0047ede249374502a0ae76a827e3ffab for tzimmermann@suse.de; 
- Thu, 18 May 2023 20:46:39 CST
-X-Transaction-ID: 0047ede249374502a0ae76a827e3ffab
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <f1688b87-0b8d-59b0-2fe8-88b2d40c513e@189.cn>
-Date: Thu, 18 May 2023 20:46:37 +0800
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB5010E091
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 13:03:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jHR8bjW91bLuL7FyWFtm+Wul17wi3XqUnSczHVUi/K7qnd23Q8UgzmumWB9M1olV3TPa+nl3PoEslP5bdVnpMKzkZc1E0CFzzb0OrcVzoqHivvL5FgEsJ4I/DKQO1ojxXb/A9nVxVdEaHtX+k9EakB9WxXeV+hzdmxruDgLNXB0nLbnvjuScXOCzYKl/hI4eVjjw1Jz3UakZ2ufMEbw7XteS4mAPdDaYSORfalqQN0vG8ygovyQqykxad4TBaDaXx+RRG0mIiAQPgCkboX8aOA1m+7EWBYSnyXPnHXcbSG1tabMan6rTacmTMc0eeBtqqq92VLDBId7KwwOB6+MJNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G0lJ7Wx5gOxm0vzQbbBcJu6Ax67UTkyAP7OMpI/WwsE=;
+ b=TOg75ob0eCBagMNhLqdNE0OPoGOuIZnmkd2m1XkWYQj29wWeJqjN2cldFPBIRcIVzQJjJlPOe5CwJqB0tnMRjEv9vys/Pd1nuJ+hbshyo7ZaCnvROfySUIY7Cb2HYjkNSKtS2DnjIuYBTpu95xgbveEYKpDeV4W/CM+KnYPdy+U2BuIBQjj+ub3VOFta5PxqtlpDOHKm8mJ99Xyhi2/aJXDXnhGwXMifMI22ReXN87BXRHlOKCdCrxLFQgDFNT/1yeKdR3np5ZTORGMiRRVGwbcmFYxX0HQk/2B5iAo9N6fEeA0hE6cBUkFfZvtoUweSpthRtRVl0i98fDAnoIPO3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G0lJ7Wx5gOxm0vzQbbBcJu6Ax67UTkyAP7OMpI/WwsE=;
+ b=JIg9R1nApOT+Ct+mnjH2B7/WajFaQBgYY+x0gp9O57oDJN3YgmzKXOnGlny9DkMcJZ5rbHtKP98IziNeaaPREHEaVKPITKqYnTrPSxqgyRv5y5YNF02US6U0P0UW+SZei79+YadB8RbNTlkP0Kng9yISck1UUprR75PlHdU9lE0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ IA1PR12MB8286.namprd12.prod.outlook.com (2603:10b6:208:3f8::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.17; Thu, 18 May
+ 2023 13:03:26 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b59e:105c:f546:4310]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b59e:105c:f546:4310%7]) with mapi id 15.20.6411.017; Thu, 18 May 2023
+ 13:03:26 +0000
+Message-ID: <34ee5d50-d8ac-0ce3-cf60-418ca6888294@amd.com>
+Date: Thu, 18 May 2023 09:03:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [v2,11/12] drm/fbdev-generic: Implement dedicated fbdev I/O
- helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- javierm@redhat.com, sam@ravnborg.org
-References: <20230515094033.2133-12-tzimmermann@suse.de>
- <80b4b615-0a71-89e8-3a58-fbeb8a9a06e8@189.cn>
- <28d2e7d5-7dde-b1f9-3b5f-0ba51f8eaaeb@suse.de>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <28d2e7d5-7dde-b1f9-3b5f-0ba51f8eaaeb@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 2/2] drm/sched: Rename to drm_sched_wakeup_if_can_queue()
+Content-Language: en-CA, en-US
+To: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20230517233550.377847-1-luben.tuikov@amd.com>
+ <20230517233550.377847-2-luben.tuikov@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <20230517233550.377847-2-luben.tuikov@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR01CA0022.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::30)
+ To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|IA1PR12MB8286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84e3385f-6795-4da3-5254-08db57a044d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t04Dg7bfXpK5etlIhyNJp1efqyvEXB8/wSOb3nj7S2VWdEIB9idPxe0lH+r5zpBxuz7wL6YFEB6+5xOa3kNtmKN/Pj07rj+n0q6nEEnBkShmHbSxkgZ6PsoCEiK16wmeyNuK+DhanUUJuwyYRpuduqph6VVk36tF+QA9ZT8KbZONA9VNCNilK+mVzlPqKpGw2w9sZztt0vq50dPkXxBu3ZO5/fzAvFgF6PXhjwem0Ge+bUdYBmnD78jQvRJdjz0W/GbMNGCRqSxyerptuZOLFc1fSma6xYqJa8X4JoWqjUC85rWRUPxAda5oB52Y9mDdLW38P9bUjPfWyU/kQFQQ8dXwuUFWYyAC7JtpmgqqpI0WC9dAL6lxURi3dEOgcMkFf+8fEKhENGW6oPNGnOiLvozdRNug1q2vbW+mJKgXTJpKDWrD2spz/cfI+ESDbrWfFnIHoH+DGM72Yfm0Np6X5C3815Udxxr4Fno+HF3e53RQgnFZBhpgtgc431SoVrj4Z8TjhbEWQc4D0+czJnmcVJTQGt3rMt00GpSqAHC1GFxvlAQppttWbMfDArF/k7YTX1x1zIC4DBN/dsAz6L19iHC92oK5Lf7pvfGYNYCnH5LqMBtOlzauyfKxs9DPz1sKgd1X2W7ayjBaTa/ylUNfTg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199021)(31686004)(31696002)(66556008)(316002)(66946007)(4326008)(66476007)(66574015)(54906003)(6916009)(36756003)(478600001)(86362001)(83380400001)(186003)(2616005)(26005)(53546011)(6512007)(6506007)(8936002)(8676002)(44832011)(2906002)(5660300002)(6486002)(38100700002)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eit6UnVRUFdyUGNNTTVtcEQ5L3J0YkRranFyMkNSaW5KcERwNjBRaHZtVWxa?=
+ =?utf-8?B?cTNHZytUZFdvckxkZjUrQ1l4Y3E4Y0pCR0VqYkNUTWdPcEx0ZmVOZ25UbkdD?=
+ =?utf-8?B?OXBnempkUnVNd2FBZ2MvcUZyWG5QYjhhR2JZYkd0VmRkd3N0Wm5UdStwZkNZ?=
+ =?utf-8?B?RTE5Z1lwcmljQ01OQmJ6VG00TUNIcmZ5eThhTS9PR0U3R1UyUFgrTnBGS1FL?=
+ =?utf-8?B?WU9SSUY4OVc5YnpOY3NQN1JUUTJ6OHVLQ2xtdGxVR3B1QXl3a1ExS1daSVM5?=
+ =?utf-8?B?cWVhZy9CRndKZnBVRGIzSkU0SFQwd3prSk9pSWk3QmtjemhvaWpabkhOU0li?=
+ =?utf-8?B?QytjYk51Y2pEUitvMURSY1NUNDZWWW9mOXhpb29mUHhZRXVmbXlzR0J1T29Y?=
+ =?utf-8?B?VTgrVzFjNXNxcm9kaTgxREZCd2dMSkk0bjlLZ2prWk12NTZ4dmE3S2JpUVF2?=
+ =?utf-8?B?bk8yLzAvb1pjNnhMQlllU0VDQUNBZEZvNzVsWENHSGRkKzRkaHlYQld4Rkg1?=
+ =?utf-8?B?N1lCa1dzWGc3QmU5d0JHNDVkK3VIaWlRNGhMQ3EwY1pyMUlQMEs5YUgyVTBl?=
+ =?utf-8?B?Q2U3OEt5NjRnVUg4Z2V0UnI1YnZqQTNWaEh0WEVEckZJQlY1VDI4S0I4Sksw?=
+ =?utf-8?B?UDQ5azQvNzR3ZGhMZG1rNzdLU0RJMTZTSGlpeHV3eStOcStrbk5FZWsxdEhM?=
+ =?utf-8?B?M3BlWE9XZXFHc285YlRJTVc5azBqeFdTRUlKNTVid20zdUNxTDB0RDh0WTJV?=
+ =?utf-8?B?UStCdUZTbDFtdlQzY3FQeGNKbFNDcEhmRXRjQkRKL3hUaTRaM2lVc3ZQcUt2?=
+ =?utf-8?B?WGQyZkVFanRySzlDRDRBUU9kem9EblkvY0MrbGpTUk9FUytEeEhXeXBCeHhk?=
+ =?utf-8?B?d0lWcXNKcnNQL3hIWlJmaHdmc1lDRjVaZHViUEJJeldpZHU2Umk4SUdsZi9j?=
+ =?utf-8?B?RzFPaHhvYVJwVWhYZzVUMTNDY0VId3pJTFdoZ1JXUGRnaHp0dW81dmdXWkRk?=
+ =?utf-8?B?OFJZbzB3ZHhTR1YxUkVlNDB6eGN0YlRkU1dGWmllY2lXWU41YWFaWm85aVFR?=
+ =?utf-8?B?bUdGdkFYUTdGc3pQWDdpM3dUaFd1ekFBbmVFdFY0b01pcDhyQnNGVFFKc1Rj?=
+ =?utf-8?B?ZXFkNTJuVVJUTTFBV24wbnU0YUVnbTU5V2pxWWJwSzBtd1FtT2dkc1NDNFJS?=
+ =?utf-8?B?VUcrcXJCaHR6eURCUzlFd3QyVStvR295alEzSWpqRzdhdlhpWElQMlpDazhW?=
+ =?utf-8?B?b3hTVU9kVmJBd2lJbG84WElmN25yYmZ6dWNranMzam1SUVRGVUY4U0VzbEN1?=
+ =?utf-8?B?UitMbkFCM1RsVW9TWTRZUGx1Nk44YWdJZnNzVGxQZDVpaXM4NXFlcUpSWkcy?=
+ =?utf-8?B?ZlpmSUNUVWp1RzVES2JJb3g0dHNXZGdDRlBCbStkeHVwQ1J5ZDlDVUdsZFNp?=
+ =?utf-8?B?WE5NZ3NKOUJ1eHlHZkJTN1ZJNXdwTW9nN3RRUXk4VUNPNjMvSVVOWTJsaXVk?=
+ =?utf-8?B?VHU1dWpsVlg5ckYzR1FJa0VvMjlrYWJEcnRjNUwvVFpESVhqMjFRa0c0ZGJP?=
+ =?utf-8?B?eExzVTdXTndXQ3JjWW9ZNUxvREpMckJLUnFYa3Vhd3IrY1FRNlNWWXd4SUhO?=
+ =?utf-8?B?cVZHZ2RCQWkwZ2d2c1lpcTdEMVpmcmlobGpBWU44azd3T0dMakh4RG9vZ0RR?=
+ =?utf-8?B?Uk9kV2hnZEJnTnNFWEJUTzk0RmNhNjBSdm1Yc3pzcWFWeGx3MDlPZTVWay9r?=
+ =?utf-8?B?UGNaTnhBbWFreGg2alRFeEd2RTN3YThORnFEb0ZCTHdnWVo4UE04eUFuN0Yz?=
+ =?utf-8?B?WTIxVC9oNkloSkN0OGdWSjYvYkpnelVoek5hazVQQzlYKzBiTVA5WmxaZzRD?=
+ =?utf-8?B?b1M0eGcweDNLY01obC9ySm8rUndVQUZsYXJUMVZaZlovMnZSMTYrWGRoUFlB?=
+ =?utf-8?B?eVdHWmtHenZuUFFVeE1vM0N3WjJtUWZ1bUo0RFNvbXdJTC80NlBpZStXS2xN?=
+ =?utf-8?B?eGNQVm5hVy90ZXVxbGd1bmdSUWJhYWU4dVA0TFR6ZVdoclhZRHFwaWlOUkZ6?=
+ =?utf-8?B?TUEwK0s4dHFNaEZYaWx6OWhEVzgvSENOMTJzTUFnWkdOaWl1aGZtUmgrNHk2?=
+ =?utf-8?Q?A4zo=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84e3385f-6795-4da3-5254-08db57a044d5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2023 13:03:26.6892 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2UKPePWdi+Ing8vdwWKlLfrJ6lU4JfPjEQ1XMIzituJgA1qqdySEmgq06RAdzpxO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8286
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,388 +126,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2023-05-17 19:35, Luben Tuikov wrote:
+> Rename drm_sched_wakeup() to drm_sched_wakeup_if_canqueue() since the former
+> is misleading, as it wakes up the GPU scheduler _only if_ more jobs can be
+> queued to the underlying hardware.
+> 
+> This distinction is important to make, since the wake conditional in the GPU
+> scheduler thread wakes up when other conditions are also true, e.g. when there
+> are jobs to be cleaned. For instance, a user might want to wake up the
+> scheduler only because there are more jobs to clean, but whether we can queue
+> more jobs is irrelevant.
+> 
+> v2: Separate "canqueue" to "can_queue". (Alex D.)
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
 
-On 2023/5/17 15:07, Thomas Zimmermann wrote:
-> Hi
->
-> Am 17.05.23 um 03:58 schrieb Sui Jingfeng:
->> Hi, Thomas
->>
->>
->> After apply your patch set, the kernel with 
->> arch/loongarch/configs/loongson3_defconfig
->>
->> can not finish compile anymore.  gcc complains:
->>
->>
->>    AR      drivers/gpu/built-in.a
->>    AR      drivers/built-in.a
->>    AR      built-in.a
->>    AR      vmlinux.a
->>    LD      vmlinux.o
->>    OBJCOPY modules.builtin.modinfo
->>    GEN     modules.builtin
->>    GEN     .vmlinux.objs
->>    MODPOST Module.symvers
->> ERROR: modpost: "fb_sys_write" [drivers/gpu/drm/drm_kms_helper.ko] 
->> undefined!
->> ERROR: modpost: "sys_imageblit" [drivers/gpu/drm/drm_kms_helper.ko] 
->> undefined!
->> ERROR: modpost: "sys_fillrect" [drivers/gpu/drm/drm_kms_helper.ko] 
->> undefined!
->> ERROR: modpost: "sys_copyarea" [drivers/gpu/drm/drm_kms_helper.ko] 
->> undefined!
->> ERROR: modpost: "fb_sys_read" [drivers/gpu/drm/drm_kms_helper.ko] 
->> undefined!
->> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
->> make: *** [Makefile:1978: modpost] Error 2
->
-> Thanks for reporting this problem. I found that it's caused by a typo 
-> in the very first patch 1/7, where these helpers are not selected 
-> correctly. Will be fixed in the next round.
->
-Yeah, this is just a typo.
+^ ping!
 
-Should replace 'FB_SYS_HELPER' with 'FB_SYS_HELPERS' on the first patch 
-of this series.
+Regards,
+Luben
 
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
+>  drivers/gpu/drm/scheduler/sched_main.c   | 6 +++---
+>  include/drm/gpu_scheduler.h              | 2 +-
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index cfb433e9200586..68e807ae136ad8 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -342,7 +342,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+>  		container_of(cb, struct drm_sched_entity, cb);
+>  
+>  	drm_sched_entity_clear_dep(f, cb);
+> -	drm_sched_wakeup(entity->rq->sched);
+> +	drm_sched_wakeup_if_can_queue(entity->rq->sched);
+>  }
+>  
+>  /**
+> @@ -565,7 +565,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>  		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>  			drm_sched_rq_update_fifo(entity, submit_ts);
+>  
+> -		drm_sched_wakeup(entity->rq->sched);
+> +		drm_sched_wakeup_if_can_queue(entity->rq->sched);
+>  	}
+>  }
+>  EXPORT_SYMBOL(drm_sched_entity_push_job);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 8739322c30321b..b352227a605538 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -860,12 +860,12 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+>  }
+>  
+>  /**
+> - * drm_sched_wakeup - Wake up the scheduler when it is ready
+> - *
+> + * drm_sched_wakeup_if_can_queue - Wake up the scheduler
+>   * @sched: scheduler instance
+>   *
+> + * Wake up the scheduler if we can queue jobs.
+>   */
+> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
+> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
+>  {
+>  	if (drm_sched_can_queue(sched))
+>  		wake_up_interruptible(&sched->wake_up_worker);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 31d1f5166c79fe..e95b4837e5a373 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -549,7 +549,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>                                     unsigned int num_sched_list);
+>  
+>  void drm_sched_job_cleanup(struct drm_sched_job *job);
+> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
+>  void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+>  void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
+>  void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
 
-> Best regards
-> Thomas
->
->>
->>
->> On 2023/5/15 17:40, Thomas Zimmermann wrote:
->>> Implement dedicated fbdev helpers for framebuffer I/O instead
->>> of using DRM's helpers. Fbdev-generic was the only caller of the
->>> DRM helpers, so remove them from the helper module.
->>>
->>> v2:
->>>     * use FB_SYS_HELPERS_DEFERRED option
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/Kconfig             |   6 +-
->>>   drivers/gpu/drm/drm_fb_helper.c     | 107 
->>> ----------------------------
->>>   drivers/gpu/drm/drm_fbdev_generic.c |  47 ++++++++++--
->>>   include/drm/drm_fb_helper.h         |  41 -----------
->>>   4 files changed, 43 insertions(+), 158 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index 77fb10ddd8a2..92a782827b7b 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -95,6 +95,7 @@ config DRM_KUNIT_TEST
->>>   config DRM_KMS_HELPER
->>>       tristate
->>>       depends on DRM
->>> +    select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
->>
->> Here, select FB_SYS_HELPERS helps resolve the above issue mentioned.
->>
-But select FB_SYS_HELPERS here is more better, I think.  Because it show 
-the nature that
-
-DRM_KMS_HELPER is depend on FB_SYS_HELPERS, I think you may want isolate
-
-those dependency with DRM_FBDEV_EMULATION guard.
-
-at least, you should guarantee that drm itself could built and run 
-standalone.
-
-Fbdev emulation is a client of drm, not reverse.
-
-
-By the way, does Denial happy about this,
-
-maybe, he want the fbdev emulation 100% made in drm?
-
->>>       help
->>>         CRTC helpers for KMS drivers.
->>> @@ -135,11 +136,6 @@ config DRM_FBDEV_EMULATION
->>>       select FB_CFB_FILLRECT
->>>       select FB_CFB_COPYAREA
->>>       select FB_CFB_IMAGEBLIT
->>> -    select FB_DEFERRED_IO
->>> -    select FB_SYS_FOPS
->>> -    select FB_SYS_FILLRECT
->>> -    select FB_SYS_COPYAREA
->>> -    select FB_SYS_IMAGEBLIT
->>>       select FRAMEBUFFER_CONSOLE if !EXPERT
->>>       select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
->>>       default y
->>> diff --git a/drivers/gpu/drm/drm_fb_helper.c 
->>> b/drivers/gpu/drm/drm_fb_helper.c
->>> index 8724e08c518b..ba0a808f14ee 100644
->>> --- a/drivers/gpu/drm/drm_fb_helper.c
->>> +++ b/drivers/gpu/drm/drm_fb_helper.c
->>> @@ -729,113 +729,6 @@ void drm_fb_helper_deferred_io(struct fb_info 
->>> *info, struct list_head *pagerefli
->>>   }
->>>   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
->>> -/**
->>> - * drm_fb_helper_sys_read - Implements struct &fb_ops.fb_read for 
->>> system memory
->>> - * @info: fb_info struct pointer
->>> - * @buf: userspace buffer to read from framebuffer memory
->>> - * @count: number of bytes to read from framebuffer memory
->>> - * @ppos: read offset within framebuffer memory
->>> - *
->>> - * Returns:
->>> - * The number of bytes read on success, or an error code otherwise.
->>> - */
->>> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
->>> -                   size_t count, loff_t *ppos)
->>> -{
->>> -    return fb_sys_read(info, buf, count, ppos);
->>> -}
->>> -EXPORT_SYMBOL(drm_fb_helper_sys_read);
->>> -
->>> -/**
->>> - * drm_fb_helper_sys_write - Implements struct &fb_ops.fb_write for 
->>> system memory
->>> - * @info: fb_info struct pointer
->>> - * @buf: userspace buffer to write to framebuffer memory
->>> - * @count: number of bytes to write to framebuffer memory
->>> - * @ppos: write offset within framebuffer memory
->>> - *
->>> - * Returns:
->>> - * The number of bytes written on success, or an error code otherwise.
->>> - */
->>> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char 
->>> __user *buf,
->>> -                size_t count, loff_t *ppos)
->>> -{
->>> -    struct drm_fb_helper *helper = info->par;
->>> -    loff_t pos = *ppos;
->>> -    ssize_t ret;
->>> -    struct drm_rect damage_area;
->>> -
->>> -    ret = fb_sys_write(info, buf, count, ppos);
->>> -    if (ret <= 0)
->>> -        return ret;
->>> -
->>> -    if (helper->funcs->fb_dirty) {
->>> -        drm_fb_helper_memory_range_to_clip(info, pos, ret, 
->>> &damage_area);
->>> -        drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
->>> -                     drm_rect_width(&damage_area),
->>> -                     drm_rect_height(&damage_area));
->>> -    }
->>> -
->>> -    return ret;
->>> -}
->>> -EXPORT_SYMBOL(drm_fb_helper_sys_write);
->>> -
->>> -/**
->>> - * drm_fb_helper_sys_fillrect - wrapper around sys_fillrect
->>> - * @info: fbdev registered by the helper
->>> - * @rect: info about rectangle to fill
->>> - *
->>> - * A wrapper around sys_fillrect implemented by fbdev core
->>> - */
->>> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
->>> -                const struct fb_fillrect *rect)
->>> -{
->>> -    struct drm_fb_helper *helper = info->par;
->>> -
->>> -    sys_fillrect(info, rect);
->>> -
->>> -    if (helper->funcs->fb_dirty)
->>> -        drm_fb_helper_damage(helper, rect->dx, rect->dy, 
->>> rect->width, rect->height);
->>> -}
->>> -EXPORT_SYMBOL(drm_fb_helper_sys_fillrect);
->>> -
->>> -/**
->>> - * drm_fb_helper_sys_copyarea - wrapper around sys_copyarea
->>> - * @info: fbdev registered by the helper
->>> - * @area: info about area to copy
->>> - *
->>> - * A wrapper around sys_copyarea implemented by fbdev core
->>> - */
->>> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
->>> -                const struct fb_copyarea *area)
->>> -{
->>> -    struct drm_fb_helper *helper = info->par;
->>> -
->>> -    sys_copyarea(info, area);
->>> -
->>> -    if (helper->funcs->fb_dirty)
->>> -        drm_fb_helper_damage(helper, area->dx, area->dy, 
->>> area->width, area->height);
->>> -}
->>> -EXPORT_SYMBOL(drm_fb_helper_sys_copyarea);
->>> -
->>> -/**
->>> - * drm_fb_helper_sys_imageblit - wrapper around sys_imageblit
->>> - * @info: fbdev registered by the helper
->>> - * @image: info about image to blit
->>> - *
->>> - * A wrapper around sys_imageblit implemented by fbdev core
->>> - */
->>> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
->>> -                 const struct fb_image *image)
->>> -{
->>> -    struct drm_fb_helper *helper = info->par;
->>> -
->>> -    sys_imageblit(info, image);
->>> -
->>> -    if (helper->funcs->fb_dirty)
->>> -        drm_fb_helper_damage(helper, image->dx, image->dy, 
->>> image->width, image->height);
->>> -}
->>> -EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
->>> -
->>>   /**
->>>    * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for 
->>> I/O memory
->>>    * @info: fb_info struct pointer
->>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
->>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>> index 8e5148bf40bb..f53fc49e34a4 100644
->>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>> @@ -34,6 +34,43 @@ static int drm_fbdev_generic_fb_release(struct 
->>> fb_info *info, int user)
->>>       return 0;
->>>   }
->>> +static ssize_t drm_fbdev_generic_fb_write(struct fb_info *info, 
->>> const char __user *buf,
->>> +                      size_t count, loff_t *ppos)
->>> +{
->>> +    struct drm_fb_helper *helper = info->par;
->>> +    loff_t pos = *ppos;
->>> +    ssize_t ret;
->>> +
->>> +    ret = fb_sys_write(info, buf, count, ppos);
->>> +    if (ret > 0)
->>> +        drm_fb_helper_damage_range(helper, pos, ret);
->>> +    return ret;
->>> +}
->>> +
->>> +static void drm_fbdev_generic_fb_fillrect(struct fb_info *info, 
->>> const struct fb_fillrect *rect)
->>> +{
->>> +    struct drm_fb_helper *helper = info->par;
->>> +
->>> +    sys_fillrect(info, rect);
->>> +    drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, 
->>> rect->height);
->>> +}
->>> +
->>> +static void drm_fbdev_generic_fb_copyarea(struct fb_info *info, 
->>> const struct fb_copyarea *area)
->>> +{
->>> +    struct drm_fb_helper *helper = info->par;
->>> +
->>> +    sys_copyarea(info, area);
->>> +    drm_fb_helper_damage(helper, area->dx, area->dy, area->width, 
->>> area->height);
->>> +}
->>> +
->>> +static void drm_fbdev_generic_fb_imageblit(struct fb_info *info, 
->>> const struct fb_image *image)
->>> +{
->>> +    struct drm_fb_helper *helper = info->par;
->>> +
->>> +    sys_imageblit(info, image);
->>> +    drm_fb_helper_damage(helper, image->dx, image->dy, 
->>> image->width, image->height);
->>> +}
->>> +
->>>   static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
->>>   {
->>>       struct drm_fb_helper *fb_helper = info->par;
->>> @@ -56,12 +93,12 @@ static const struct fb_ops 
->>> drm_fbdev_generic_fb_ops = {
->>>       .owner        = THIS_MODULE,
->>>       .fb_open    = drm_fbdev_generic_fb_open,
->>>       .fb_release    = drm_fbdev_generic_fb_release,
->>> -    .fb_read    = drm_fb_helper_sys_read,
->>> -    .fb_write    = drm_fb_helper_sys_write,
->>> +    .fb_read    = fb_sys_read,
->>> +    .fb_write    = drm_fbdev_generic_fb_write,
->>>       DRM_FB_HELPER_DEFAULT_OPS,
->>> -    .fb_fillrect    = drm_fb_helper_sys_fillrect,
->>> -    .fb_copyarea    = drm_fb_helper_sys_copyarea,
->>> -    .fb_imageblit    = drm_fb_helper_sys_imageblit,
->>> +    .fb_fillrect    = drm_fbdev_generic_fb_fillrect,
->>> +    .fb_copyarea    = drm_fbdev_generic_fb_copyarea,
->>> +    .fb_imageblit    = drm_fbdev_generic_fb_imageblit,
->>>       .fb_mmap    = fb_deferred_io_mmap,
->>>       .fb_destroy    = drm_fbdev_generic_fb_destroy,
->>>   };
->>> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
->>> index 80c402f4e379..e3240d749a43 100644
->>> --- a/include/drm/drm_fb_helper.h
->>> +++ b/include/drm/drm_fb_helper.h
->>> @@ -259,18 +259,6 @@ void drm_fb_helper_damage_range(struct 
->>> drm_fb_helper *helper, off_t off, size_t
->>>   void drm_fb_helper_deferred_io(struct fb_info *info, struct 
->>> list_head *pagereflist);
->>> -ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
->>> -                   size_t count, loff_t *ppos);
->>> -ssize_t drm_fb_helper_sys_write(struct fb_info *info, const char 
->>> __user *buf,
->>> -                size_t count, loff_t *ppos);
->>> -
->>> -void drm_fb_helper_sys_fillrect(struct fb_info *info,
->>> -                const struct fb_fillrect *rect);
->>> -void drm_fb_helper_sys_copyarea(struct fb_info *info,
->>> -                const struct fb_copyarea *area);
->>> -void drm_fb_helper_sys_imageblit(struct fb_info *info,
->>> -                 const struct fb_image *image);
->>> -
->>>   ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user 
->>> *buf,
->>>                      size_t count, loff_t *ppos);
->>>   ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char 
->>> __user *buf,
->>> @@ -398,35 +386,6 @@ static inline int 
->>> drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
->>>       return -ENODEV;
->>>   }
->>> -static inline ssize_t drm_fb_helper_sys_read(struct fb_info *info,
->>> -                         char __user *buf, size_t count,
->>> -                         loff_t *ppos)
->>> -{
->>> -    return -ENODEV;
->>> -}
->>> -
->>> -static inline ssize_t drm_fb_helper_sys_write(struct fb_info *info,
->>> -                          const char __user *buf,
->>> -                          size_t count, loff_t *ppos)
->>> -{
->>> -    return -ENODEV;
->>> -}
->>> -
->>> -static inline void drm_fb_helper_sys_fillrect(struct fb_info *info,
->>> -                          const struct fb_fillrect *rect)
->>> -{
->>> -}
->>> -
->>> -static inline void drm_fb_helper_sys_copyarea(struct fb_info *info,
->>> -                          const struct fb_copyarea *area)
->>> -{
->>> -}
->>> -
->>> -static inline void drm_fb_helper_sys_imageblit(struct fb_info *info,
->>> -                           const struct fb_image *image)
->>> -{
->>> -}
->>> -
->>>   static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, 
->>> char __user *buf,
->>>                            size_t count, loff_t *ppos)
->>>   {
->
