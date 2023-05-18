@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A3C7080B0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 14:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E12E7080B8
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 14:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D5810E517;
-	Thu, 18 May 2023 12:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0548F10E516;
+	Thu, 18 May 2023 12:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
  [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1ED710E517
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 12:05:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9AF210E516
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 12:07:21 +0000 (UTC)
 Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-55db055b412so27579117b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 05:05:58 -0700 (PDT)
+ 00721157ae682-55a8e9e2c53so17431957b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 05:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1684411558; x=1687003558;
+ d=amarulasolutions.com; s=google; t=1684411641; x=1687003641;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RL3eiATgzSA2ovHT7vBhqzczz2ZnSH9amS5jJrBLHWw=;
- b=IGrqT235/B5ITqxKVojXRk9kSChAVqH2uUb7sfsjkPT2wuWgmXGw40QavnZOBwL1O7
- KWcre8/GceW+jEZfbM1GhQNVRLi71ioS6qOMlvCZ6BmO/u8KdoZYl7X+yTWw/XhDTykP
- wxxSM6JkfhigJnNxVp2cDecSBvxGGnIaGf2dw=
+ bh=6+vYjmpxBNlZuPV45+UQsttMirEjwbsfvsjjU7mymMg=;
+ b=lDHD9kTyu6C900iWJgAaI2zvYQGebe2WQhin5yh6ukpDVVrT7AgP2envsyg2lltUis
+ IlYbmeg4Cul0fO+mjEE5UfTSWx105bkw9tWQ+ekrhA20Oe+A8u8+Ru16OksVoEOR3kL6
+ xlDFjtqfMAJMQ39F+6lcfqIfZcRtxr7sxCm4U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684411558; x=1687003558;
+ d=1e100.net; s=20221208; t=1684411641; x=1687003641;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RL3eiATgzSA2ovHT7vBhqzczz2ZnSH9amS5jJrBLHWw=;
- b=irKGfJxeRrJ4qldZRiMBglmuUtVZszC5XnSUcgUjk8tjb3FY6keziS5Ko2Ws1d8AGK
- AnBMUZofXQJdKBB2kHnFfKD0DvymftMlQWJBPlmofnrhIUllq+bYBUDjlo8XlzOOXKer
- fW9zMkJeddEYdsbAe4aor2cc2nWmtHJwotbGDPKPDvZ/WesP49TLqiskwccgSOJ+oTEk
- cNFtoZyYlXg5kYKk4ifzSurS5oHRZ6l7mQ6UcQC6QOWoRht/mmoQQg4WIpPUzXGRKVgY
- NcL8ccWcFbzd2qL7LMsn0J2hgyPzvC4Q5D+Uw1kBJc9Bq2w3n6CNoDF5sDewDhtkF27j
- R6Zw==
-X-Gm-Message-State: AC+VfDz6vQzO3HAFttycN4n0ULNyI+kTZW6jnq3S9eoPgMdd1JCvLTAC
- 7fW0lQj6NZIbjoC1NVIdssPS6mx/W+8yXtpw6szQSA==
-X-Google-Smtp-Source: ACHHUZ4VtqU+ct+qgqlQijOJr0lmAT4qilj39KRzvbV5+c/1QbK+kt0FxIk7sCik+on6KMT+DuvSXC3nlzNjgVWuXIQ=
-X-Received: by 2002:a05:690c:102:b0:55f:5d6a:97fb with SMTP id
- bd2-20020a05690c010200b0055f5d6a97fbmr1477843ywb.9.1684411557812; Thu, 18 May
- 2023 05:05:57 -0700 (PDT)
+ bh=6+vYjmpxBNlZuPV45+UQsttMirEjwbsfvsjjU7mymMg=;
+ b=Sj4NliUuRd+wZpWzMB4Ooz8NRs/XBdyho1kJorSUvGY9xsJ7iYnwMFA7v7nG4tbNTd
+ yi9woV6tmbxvvfpX5l3Z0zLc7foini2w5+BrdHgLw6DGeFZClZlrE4l/m79gWlsXHIZ5
+ mdXR55Xlk7xRQ4n0at4K0uGODSmXIeQUeGpjwFutWMNfPuFCmcPj/MgbUMKu5xE9TDBT
+ l6NkAEq5FLvdsG0UfbaDbZsmjPN/m6aoktfRMFg0fx5/CNLTR+XrV+BITwqqiRSiCoSb
+ jHYMkY7iu572i9IorOjOZPWNaNDCCtdOCorX4xTs0wrQvDVHr2soHqG04IZJw2Xi5mb9
+ QZdw==
+X-Gm-Message-State: AC+VfDxspCFBifwwPv809xeN+w2g+PIdpyMTM2lsRtAowl7tt/KfXzdQ
+ Mxv/frdE70XCqRgxXPwKv76B3gV488paz/Ydy+EuqA==
+X-Google-Smtp-Source: ACHHUZ5EiaNtu81hJhKkwTw8SJXqjOyng0ZWicULB+i56VjifMMg/QzNv0DBYxkU62rX99FrRPP2foSIL7AQqjuKSVc=
+X-Received: by 2002:a0d:cb8b:0:b0:561:d21d:8ce4 with SMTP id
+ n133-20020a0dcb8b000000b00561d21d8ce4mr1018258ywd.19.1684411640769; Thu, 18
+ May 2023 05:07:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230515235713.232939-1-aford173@gmail.com>
- <20230515235713.232939-6-aford173@gmail.com>
-In-Reply-To: <20230515235713.232939-6-aford173@gmail.com>
+ <20230515235713.232939-7-aford173@gmail.com>
+In-Reply-To: <20230515235713.232939-7-aford173@gmail.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 18 May 2023 17:35:46 +0530
-Message-ID: <CAMty3ZBXO-S_X7H8erzLHmV0ePwq=DXJzmytsg2Vye1rgTk84Q@mail.gmail.com>
-Subject: Re: [PATCH V6 5/6] drm: bridge: samsung-dsim: Dynamically configure
- DPHY timing
+Date: Thu, 18 May 2023 17:37:09 +0530
+Message-ID: <CAMty3ZBqdE8mLiwFa=QRChBYyQnsOEMYqh2Azj4TxbZbErCsBA@mail.gmail.com>
+Subject: Re: [PATCH V6 6/6] drm: bridge: samsung-dsim: Support non-burst mode
 To: Adam Ford <aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,33 +68,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
  Frieder Schrempf <frieder.schrempf@kontron.de>, linux-kernel@vger.kernel.org,
- Michael Walle <michael@walle.cc>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chen-Yu Tsai <wenst@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, May 16, 2023 at 5:27=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
 e:
 >
-> The DPHY timings are currently hard coded. Since the input
-> clock can be variable, the phy timings need to be variable
-> too.  To facilitate this, we need to cache the hs_clock
-> based on what is generated from the PLL.
+> The high-speed clock is hard-coded to the burst-clock
+> frequency specified in the device tree.  However, when
+> using devices like certain bridge chips without burst mode
+> and varying resolutions and refresh rates, it may be
+> necessary to set the high-speed clock dynamically based
+> on the desired pixel clock for the connected device.
 >
-> The phy_mipi_dphy_get_default_config_for_hsclk function
-> configures the DPHY timings in pico-seconds, and a small macro
-> converts those timings into clock cycles based on the hs_clk.
+> This also removes the need to set a clock speed from
+> the device tree for non-burst mode operation, since the
+> pixel clock rate is the rate requested from the attached
+> device like a bridge chip.  This should have no impact
+> for people using burst-mode and setting the burst clock
+> rate is still required for those users.  If the burst
+> clock is not present, change the error message to
+> dev_info indicating the clock use the pixel clock.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> Tested-by: Michael Walle <michael@walle.cc>
 > ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 27 +++++++++++++++++++++------
+>  1 file changed, 21 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index 3944b7cfbbdf..03b21d13f067 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -655,16 +655,28 @@ static unsigned long samsung_dsim_set_pll(struct sa=
+msung_dsim *dsi,
+>
+>         dsi->hs_clock =3D fout;
+>
+> +       dsi->hs_clock =3D fout;
 
+I dropped this and tested it.
+
+Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
 Tested-by: Jagan Teki <jagan@amarulasolutions.com> # imx8mm-icore
