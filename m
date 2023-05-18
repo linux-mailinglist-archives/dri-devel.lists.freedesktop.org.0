@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CCA708B83
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 00:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D173A708BC7
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 00:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C456610E578;
-	Thu, 18 May 2023 22:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1B7510E568;
+	Thu, 18 May 2023 22:37:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611B910E56E
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 22:22:48 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4f2676d62a2so2883213e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 15:22:48 -0700 (PDT)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A98B10E568
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 22:37:24 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-56190515833so3292947b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 15:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684448566; x=1687040566;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i8JseUKXWpuc/CckoDttK7Sy0JkMwOH5zx3JHuSisWM=;
- b=k72/ciEv0LMI8jr2jFWeeQmLA4UG2sQgnNDIHc77sX+4HwSZpA+JOttRF8jtAicd58
- bd4xSo1R13Q1fK6oHhH67EUjmJyYSK3A2sUTVAKLN73mw5HxMLm49hQcHVmPGeNQ2gc7
- Fr8Y09p9tKsuEWzBVuPVT1MoMgv3KWvKEmQYm5JBs866qlvFbfsg/w1itzK+mJxwH8ba
- aYUn6llHshWJBWw9GFRtHTxB8jvmqAm3FL1nIlkSBKLgzz5AIS+8A07Fr3WbHQImPMQB
- SV0rszajC2L997VfgiWeaVIJIb46FzUINlVVcQVyuslhtPnuIHDmuFBO9ZBMwgz5lGkN
- 4OAQ==
+ d=linaro.org; s=google; t=1684449442; x=1687041442;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uGzazlCdHWuX3hWsNbI2OEDB98Bw6+sh7XeaegIXFiA=;
+ b=NgLE1RbBeGJZFWUa8j2EuCGql77/bXVhXhuu6L7MbxvLpCwamGCIJxmGL07h22DK2R
+ zA08MqwZeZk8r7SE3jyEDnhFOmPRq+9aosC8vjkA5FqEoBijnPrivW3n648+KZEGzPEZ
+ CmK7KwARQKpbeGMKmLDcP2EJikqVnYTtSNXsIqE0SbcI9dUD3h/5Ij8y2bziQCERTGo4
+ ajOYAAf+z+vBWvG42ow7CFkhYiABZ0Cyxfreytq5cdFy4lf9qVq9MOezMuh71AjvpOvu
+ ygIdlsmBA2nQW4XrOgbIxq2eB8HTT38J5yEXbNUNv8xbkGhTznZ5mC6WsrpWsg99CNV/
+ Zp7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684448566; x=1687040566;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i8JseUKXWpuc/CckoDttK7Sy0JkMwOH5zx3JHuSisWM=;
- b=Mt4RREUFkklxZIIt6IfuDJC2GAUQSmaqpCq3IZCB5Y53OHSKvpKUs09q1QfqF4JAqR
- FJ/SLhOLknUal6J2PjbEsKnkD5ANFBKYAMHAEEoMV0Jb6oGsofUBtn6aKjgEHHkIuRYr
- btuWV8OsaWOsjMslKqp2YTeGAiUAeSenuchhD+1Yw1KqBkCrn8ly91gcHBJdPj0bUMo2
- swIinvK4fuhafOZqcwvL5ti8GXomTmILSXmSMRlZBZkEhi5fC+SQBJMz6pyc4LNYdDTp
- Vnaix7H6UwbxKTXQEmaUZ6FBfZRqMAg2iG/1JKq2X/k+lLAClfiwLTwjYuB4Nf9KXMIL
- 7xNA==
-X-Gm-Message-State: AC+VfDzKqrYsDllFVAelNHjgr+3V1wn2hTn48x+AIRgzdTldtz3VG3fq
- aLaKT8DdBHn+d4GlTrTMG92bHQ==
-X-Google-Smtp-Source: ACHHUZ5CjPCT3k2acRkFwvYEsutvL5H7iPXc96a2v6WLQ1hv2cqlZTWch1RCkJTkPccRNYAkyprCfA==
-X-Received: by 2002:ac2:5e81:0:b0:4f3:872d:10ff with SMTP id
- b1-20020ac25e81000000b004f3872d10ffmr82273lfq.64.1684448566688; 
- Thu, 18 May 2023 15:22:46 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- o18-20020ac24352000000b004ec7c0f2178sm383860lfl.63.2023.05.18.15.22.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 May 2023 15:22:46 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 9/9] drm/msm/dpu: use common helper for WB and SSPP QoS
- setup
-Date: Fri, 19 May 2023 01:22:38 +0300
-Message-Id: <20230518222238.3815293-10-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230518222238.3815293-1-dmitry.baryshkov@linaro.org>
-References: <20230518222238.3815293-1-dmitry.baryshkov@linaro.org>
+ d=1e100.net; s=20221208; t=1684449442; x=1687041442;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uGzazlCdHWuX3hWsNbI2OEDB98Bw6+sh7XeaegIXFiA=;
+ b=NYr/zto/z/61lJlDJ9ct/SVRSSzPXKl1XEuMMQEIoQD6ZHuBrDeMvAZqjgKtQFG6Nr
+ sqp2s6Awc+g/qzWWB7hqVofEWGFkcVxQ1Lwo4tkmHgsYFNgRI8tGRPIgAXx6emCV6r7e
+ yqpmYV6Z0EA/Ku0DmVa5Im3aj8/HTllrA9iSixJ1Ihoj/eR9UvmfVr8pix5eWDUEMocL
+ KNUhmjSdqOxWRqzmxxCUJH3OHHSVjdWK9WLrLLxCng+pq83y1WwyyqO1LMjoQH9sd6Jt
+ g1h9r7FwWK6oR58my9bKgF4EMIsotL6BBQ3HXBEgyjJZeF2+xgeiE17to0IxaqmsEGkK
+ kq+g==
+X-Gm-Message-State: AC+VfDyGCnkFK+FSKK92t/woUWftNWMmeUyI8jDO2J4kBQH1opdnjwyz
+ 91pv6kUjG/OrzhfmXO65wOTDzSsDrFE83DcJhMESZQ==
+X-Google-Smtp-Source: ACHHUZ7iM6FF05bYNqnGzwV3kSIMvNznkbmzNoFa9nNn2HlE1Ltkf2umC/Q4/V5VMTS5HGJamb4O9aaZekK2oNgsVWQ=
+X-Received: by 2002:a05:690c:102:b0:55f:5d6a:97fb with SMTP id
+ bd2-20020a05690c010200b0055f5d6a97fbmr3426808ywb.9.1684449442351; Thu, 18 May
+ 2023 15:37:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230516-b4-r66451-panel-driver-v1-0-4210bcbb1649@quicinc.com>
+ <20230516-b4-r66451-panel-driver-v1-2-4210bcbb1649@quicinc.com>
+ <3cca2809-fa26-f0cf-2ccc-6737d150b43d@linaro.org>
+ <aeef04c4-7952-2b7c-d673-5c75dda19154@quicinc.com>
+In-Reply-To: <aeef04c4-7952-2b7c-d673-5c75dda19154@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 19 May 2023 01:37:11 +0300
+Message-ID: <CAA8EJpoGhf45H6LwcsNf42ujFbbP7XHPYbVPQPX5bDQz2ZOq_g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel: Add driver for Visionox r66451 panel
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,467 +69,562 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Jeykumar Sankaran <quic_jeykumar@quicinc.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework SSPP and WB code to use common helper for programming QoS
-settings.
+On Fri, 19 May 2023 at 01:17, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+>
+>
+> On 5/17/2023 5:19 PM, Dmitry Baryshkov wrote:
+> > On 16/05/2023 23:20, Jessica Zhang wrote:
+> >> Add support for the 1080x2340 Visionox R66451 AMOLED DSI panel that
+> >> comes with the Qualcomm HDK8350 display expansion pack.
+> >>
+> >> The panel enables display compression (DSC v1.2) by default.
+> >>
+> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/panel/Kconfig                 |   8 +
+> >>   drivers/gpu/drm/panel/Makefile                |   1 +
+> >>   drivers/gpu/drm/panel/panel-visionox-r66451.c | 395
+> >> ++++++++++++++++++++++++++
+> >>   3 files changed, 404 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/panel/Kconfig
+> >> b/drivers/gpu/drm/panel/Kconfig
+> >> index 29cf5fa39ff2..9c2c36dbddf3 100644
+> >> --- a/drivers/gpu/drm/panel/Kconfig
+> >> +++ b/drivers/gpu/drm/panel/Kconfig
+> >> @@ -766,6 +766,14 @@ config DRM_PANEL_VISIONOX_VTDR6130
+> >>         Say Y here if you want to enable support for Visionox
+> >>         VTDR6130 1080x2400 AMOLED DSI panel.
+> >> +config DRM_PANEL_VISIONOX_R66451
+> >> +    tristate "Visionox R66451"
+> >> +    depends on OF
+> >> +    depends on DRM_MIPI_DSI
+> >> +    help
+> >> +      Say Y here if you want to enable support for Visionox
+> >> +      R66451 1080x2340 AMOLED DSI panel.
+> >> +
+> >>   config DRM_PANEL_WIDECHIPS_WS2401
+> >>       tristate "Widechips WS2401 DPI panel driver"
+> >>       depends on SPI && GPIOLIB
+> >> diff --git a/drivers/gpu/drm/panel/Makefile
+> >> b/drivers/gpu/drm/panel/Makefile
+> >> index b3e8ba29edd3..e043a92ee676 100644
+> >> --- a/drivers/gpu/drm/panel/Makefile
+> >> +++ b/drivers/gpu/drm/panel/Makefile
+> >> @@ -78,5 +78,6 @@ obj-$(CONFIG_DRM_PANEL_TPO_TPG110) +=
+> >> panel-tpo-tpg110.o
+> >>   obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
+> >>   obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
+> >>   obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
+> >> +obj-$(CONFIG_DRM_PANEL_VISIONOX_R66451) += panel-visionox-r66451.o
+> >>   obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
+> >>   obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) +=
+> >> panel-xinpeng-xpp055c272.o
+> >> diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c
+> >> b/drivers/gpu/drm/panel/panel-visionox-r66451.c
+> >> new file mode 100644
+> >> index 000000000000..e3648ead3e84
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
+> >> @@ -0,0 +1,395 @@
+> >> +//SPDX-License-Identifier: GPL-2.0-only
+> >> +//Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights
+> >> reserved.
+> >> +
+> >> +#include <linux/backlight.h>
+> >> +#include <linux/delay.h>
+> >> +#include <linux/gpio/consumer.h>
+> >> +#include <linux/module.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/regulator/consumer.h>
+> >> +
+> >> +#include <drm/drm_mipi_dsi.h>
+> >> +#include <drm/drm_modes.h>
+> >> +#include <drm/drm_panel.h>
+> >> +#include <drm/display/drm_dsc.h>
+> >> +#include <drm/display/drm_dsc_helper.h>
+> >> +
+> >> +#include <video/mipi_display.h>
+> >> +
+> >> +struct visionox_r66451 {
+> >> +    struct drm_panel panel;
+> >> +    struct mipi_dsi_device *dsi;
+> >> +    struct gpio_desc *reset_gpio;
+> >> +    struct regulator_bulk_data supplies[2];
+> >> +    bool prepared, enabled;
+> >> +};
+> >> +
+> >> +static inline struct visionox_r66451 *to_visionox_r66451(struct
+> >> drm_panel *panel)
+> >> +{
+> >> +    return container_of(panel, struct visionox_r66451, panel);
+> >> +}
+> >> +
+> >> +static void visionox_r66451_reset(struct visionox_r66451 *ctx)
+> >> +{
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> >> +    usleep_range(10000, 10100);
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >> +    usleep_range(10000, 10100);
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> >> +    usleep_range(10000, 10100);
+> >> +}
+> >> +
+> >> +static int visionox_r66451_on(struct visionox_r66451 *ctx)
+> >> +{
+> >> +    struct mipi_dsi_device *dsi = ctx->dsi;
+> >> +    struct device *dev = &dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> >> +
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xc2,
+> >> +                   0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
+> >> +                   0x09, 0x3c);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
+> >> +                   0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
+> >> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
+> >> +                   0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xde,
+> >> +                   0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
+> >> +                   0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02,
+> >> 0x00, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xc4,
+> >> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xcf,
+> >> +                   0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
+> >> +                   0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> >> +                   0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xd3,
+> >> +                   0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
+> >> +                   0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
+> >> +                   0x3c, 0x9c);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
+> >> +                   0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
+> >> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
+> >> +                   0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xd8,
+> >> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
+> >> +                   0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
+> >> +                   0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xdf,
+> >> +                   0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
+> >> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00,
+> >> 0x39, 0x04, 0x09, 0x34);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
+> >> +    mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> >> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_COLUMN_ADDRESS, 0x00,
+> >> 0x00, 0x04, 0x37);
+> >
+> > Please use mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
+>
+> Hi Dmitry,
+>
+> Acked.
+>
+> >
+> >> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PAGE_ADDRESS, 0x00,
+> >> 0x00, 0x09, 0x23);
+> >
+> > mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
+>
+> Acked.
+>
+> >
+> >> +
+> >> +    ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(120);
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_display_on(dsi);
+> >
+> > Should the mipi_dsi_dcs_set_display_on() (and maybe exit sleep mode) be
+> > a a part of _enable()? Correspondingly _off should IMO be a part of
+> > _disable callback().
+>
+> Acked. Looking at the downstream code, it seems that all the dcs on
+> commands can be sent within _enable() (and similarly for the off
+> commands with _disable()).
 
-Reviewed-by: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 31 ++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   | 19 +----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   | 31 +++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   | 21 +++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     | 29 +------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     | 16 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 85 +++++++------------
- 8 files changed, 100 insertions(+), 136 deletions(-)
+I wouldn't check against the downstream. The distinction is that
+prepare() is called before enabling the video stream and as such it
+usually contains commands to set up the panel parameters. The enable()
+callback is called after starting the video stream, so it should just
+turn on the image output, the backlight, etc..
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-index e7b65f6f53d6..023a9c4ad1db 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-@@ -102,7 +102,7 @@ static void dpu_encoder_phys_wb_set_qos_remap(
- static void dpu_encoder_phys_wb_set_qos(struct dpu_encoder_phys *phys_enc)
- {
- 	struct dpu_hw_wb *hw_wb;
--	struct dpu_hw_wb_qos_cfg qos_cfg;
-+	struct dpu_hw_qos_cfg qos_cfg;
- 	const struct dpu_mdss_cfg *catalog;
- 	const struct dpu_qos_lut_tbl *qos_lut_tb;
- 
-@@ -115,7 +115,7 @@ static void dpu_encoder_phys_wb_set_qos(struct dpu_encoder_phys *phys_enc)
- 
- 	hw_wb = phys_enc->hw_wb;
- 
--	memset(&qos_cfg, 0, sizeof(struct dpu_hw_wb_qos_cfg));
-+	memset(&qos_cfg, 0, sizeof(struct dpu_hw_qos_cfg));
- 	qos_cfg.danger_safe_en = true;
- 	qos_cfg.danger_lut =
- 		catalog->perf->danger_lut_tbl[DPU_QOS_LUT_USAGE_NRT];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 1abe1eca4f42..b364cf75bb3f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -539,30 +539,15 @@ static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
- 				color);
- }
- 
--static void dpu_hw_sspp_setup_danger_safe_lut(struct dpu_hw_sspp *ctx,
--			u32 danger_lut,
--			u32 safe_lut)
-+static void dpu_hw_sspp_setup_qos_lut(struct dpu_hw_sspp *ctx,
-+				      struct dpu_hw_qos_cfg *cfg)
- {
--	if (!ctx)
--		return;
--
--	DPU_REG_WRITE(&ctx->hw, SSPP_DANGER_LUT, danger_lut);
--	DPU_REG_WRITE(&ctx->hw, SSPP_SAFE_LUT, safe_lut);
--}
--
--static void dpu_hw_sspp_setup_creq_lut(struct dpu_hw_sspp *ctx,
--			u64 creq_lut)
--{
--	if (!ctx)
-+	if (!ctx || !cfg)
- 		return;
- 
--	if (ctx->cap && test_bit(DPU_SSPP_QOS_8LVL, &ctx->cap->features)) {
--		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_0, creq_lut);
--		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT_1,
--				creq_lut >> 32);
--	} else {
--		DPU_REG_WRITE(&ctx->hw, SSPP_CREQ_LUT, creq_lut);
--	}
-+	_dpu_hw_setup_qos_lut(&ctx->hw, SSPP_DANGER_LUT,
-+			      test_bit(DPU_SSPP_QOS_8LVL, &ctx->cap->features),
-+			      cfg);
- }
- 
- static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
-@@ -604,9 +589,7 @@ static void _setup_layer_ops(struct dpu_hw_sspp *c,
- 	c->ops.setup_pe = dpu_hw_sspp_setup_pe_config;
- 
- 	if (test_bit(DPU_SSPP_QOS, &features)) {
--		c->ops.setup_danger_safe_lut =
--			dpu_hw_sspp_setup_danger_safe_lut;
--		c->ops.setup_creq_lut = dpu_hw_sspp_setup_creq_lut;
-+		c->ops.setup_qos_lut = dpu_hw_sspp_setup_qos_lut;
- 		c->ops.setup_qos_ctrl = dpu_hw_sspp_setup_qos_ctrl;
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 4278c421b6ac..085f34bc6b88 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -254,25 +254,14 @@ struct dpu_hw_sspp_ops {
- 	void (*setup_sharpening)(struct dpu_hw_sspp *ctx,
- 			struct dpu_hw_sharp_cfg *cfg);
- 
--	/**
--	 * setup_danger_safe_lut - setup danger safe LUTs
--	 * @ctx: Pointer to pipe context
--	 * @danger_lut: LUT for generate danger level based on fill level
--	 * @safe_lut: LUT for generate safe level based on fill level
--	 *
--	 */
--	void (*setup_danger_safe_lut)(struct dpu_hw_sspp *ctx,
--			u32 danger_lut,
--			u32 safe_lut);
- 
- 	/**
--	 * setup_creq_lut - setup CREQ LUT
-+	 * setup_qos_lut - setup QoS LUTs
- 	 * @ctx: Pointer to pipe context
--	 * @creq_lut: LUT for generate creq level based on fill level
--	 *
-+	 * @cfg: LUT configuration
- 	 */
--	void (*setup_creq_lut)(struct dpu_hw_sspp *ctx,
--			u64 creq_lut);
-+	void (*setup_qos_lut)(struct dpu_hw_sspp *ctx,
-+			struct dpu_hw_qos_cfg *cfg);
- 
- 	/**
- 	 * setup_qos_ctrl - setup QoS control
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-index 95d20b9a3f2f..9d2273fd2fed 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-@@ -73,6 +73,19 @@ static u32 dpu_hw_util_log_mask = DPU_DBG_MASK_NONE;
- #define QSEED3LITE_SEP_LUT_SIZE \
- 	        (QSEED3LITE_LUT_SIZE * QSEED3LITE_SEPARABLE_LUTS * sizeof(u32))
- 
-+/* QOS_LUT */
-+#define QOS_DANGER_LUT                    0x00
-+#define QOS_SAFE_LUT                      0x04
-+#define QOS_CREQ_LUT                      0x08
-+#define QOS_QOS_CTRL                      0x0C
-+#define QOS_CREQ_LUT_0                    0x14
-+#define QOS_CREQ_LUT_1                    0x18
-+
-+/* QOS_QOS_CTRL */
-+#define QOS_QOS_CTRL_DANGER_SAFE_EN       BIT(0)
-+#define QOS_QOS_CTRL_DANGER_VBLANK_MASK   GENMASK(5, 4)
-+#define QOS_QOS_CTRL_VBLANK_EN            BIT(16)
-+#define QOS_QOS_CTRL_CREQ_VBLANK_MASK     GENMASK(21, 20)
- 
- void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
- 		u32 reg_off,
-@@ -450,6 +463,24 @@ u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
- 	return 0;
- }
- 
-+void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
-+			   bool qos_8lvl,
-+			   const struct dpu_hw_qos_cfg *cfg)
-+{
-+	DPU_REG_WRITE(c, offset + QOS_DANGER_LUT, cfg->danger_lut);
-+	DPU_REG_WRITE(c, offset + QOS_SAFE_LUT, cfg->safe_lut);
-+
-+	if (qos_8lvl) {
-+		DPU_REG_WRITE(c, offset + QOS_CREQ_LUT_0, cfg->creq_lut);
-+		DPU_REG_WRITE(c, offset + QOS_CREQ_LUT_1, cfg->creq_lut >> 32);
-+	} else {
-+		DPU_REG_WRITE(c, offset + QOS_CREQ_LUT, cfg->creq_lut);
-+	}
-+
-+	DPU_REG_WRITE(c, offset + QOS_QOS_CTRL,
-+		      cfg->danger_safe_en ? QOS_QOS_CTRL_DANGER_SAFE_EN : 0);
-+}
-+
- void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
- 		u32 misr_ctrl_offset,
- 		bool enable, u32 frame_count)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-index dc6e3b795aef..1f6079f47071 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-@@ -305,6 +305,23 @@ struct dpu_drm_scaler_v2 {
- 	struct dpu_drm_de_v1 de;
- };
- 
-+/**
-+ * struct dpu_hw_qos_cfg: pipe QoS configuration
-+ * @danger_lut: LUT for generate danger level based on fill level
-+ * @safe_lut: LUT for generate safe level based on fill level
-+ * @creq_lut: LUT for generate creq level based on fill level
-+ * @creq_vblank: creq value generated to vbif during vertical blanking
-+ * @danger_vblank: danger value generated during vertical blanking
-+ * @vblank_en: enable creq_vblank and danger_vblank during vblank
-+ * @danger_safe_en: enable danger safe generation
-+ */
-+struct dpu_hw_qos_cfg {
-+	u32 danger_lut;
-+	u32 safe_lut;
-+	u64 creq_lut;
-+	bool danger_safe_en;
-+};
-+
- u32 *dpu_hw_util_get_log_mask_ptr(void);
- 
- void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
-@@ -336,6 +353,10 @@ void dpu_setup_cdp(struct dpu_hw_blk_reg_map *c, u32 offset,
- u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
- 		u32 total_fl);
- 
-+void _dpu_hw_setup_qos_lut(struct dpu_hw_blk_reg_map *c, u32 offset,
-+			   bool qos_8lvl,
-+			   const struct dpu_hw_qos_cfg *cfg);
-+
- void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
- 		u32 misr_ctrl_offset,
- 		bool enable,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-index a6de4b82a188..dcffd6cc47fc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
-@@ -49,9 +49,6 @@
- #define WB_OUT_IMAGE_SIZE                     0x2C0
- #define WB_OUT_XY                             0x2C4
- 
--/* WB_QOS_CTRL */
--#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
--
- static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
- 		struct dpu_hw_wb_cfg *data)
- {
-@@ -135,32 +132,14 @@ static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg *wb)
- }
- 
- static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
--		struct dpu_hw_wb_qos_cfg *cfg)
-+		struct dpu_hw_qos_cfg *cfg)
- {
--	struct dpu_hw_blk_reg_map *c = &ctx->hw;
--	u32 qos_ctrl = 0;
--
- 	if (!ctx || !cfg)
- 		return;
- 
--	DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
--	DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
--
--	/*
--	 * for chipsets not using DPU_WB_QOS_8LVL but still using DPU
--	 * driver such as msm8998, the reset value of WB_CREQ_LUT is
--	 * sufficient for writeback to work. SW doesn't need to explicitly
--	 * program a value.
--	 */
--	if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
--		DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
--		DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
--	}
--
--	if (cfg->danger_safe_en)
--		qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
--
--	DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
-+	_dpu_hw_setup_qos_lut(&ctx->hw, WB_DANGER_LUT,
-+			      test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features),
-+			      cfg);
- }
- 
- static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
-index ab3541856258..c7f792eeb55c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
-@@ -21,20 +21,6 @@ struct dpu_hw_wb_cfg {
- 	struct drm_rect crop;
- };
- 
--/**
-- * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
-- * @danger_lut: LUT for generate danger level based on fill level
-- * @safe_lut: LUT for generate safe level based on fill level
-- * @creq_lut: LUT for generate creq level based on fill level
-- * @danger_safe_en: enable danger safe generation
-- */
--struct dpu_hw_wb_qos_cfg {
--	u32 danger_lut;
--	u32 safe_lut;
--	u64 creq_lut;
--	bool danger_safe_en;
--};
--
- /**
-  *
-  * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
-@@ -56,7 +42,7 @@ struct dpu_hw_wb_ops {
- 			struct dpu_hw_wb_cfg *wb);
- 
- 	void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
--			struct dpu_hw_wb_qos_cfg *cfg);
-+			struct dpu_hw_qos_cfg *cfg);
- 
- 	void (*setup_cdp)(struct dpu_hw_wb *ctx,
- 			  const struct dpu_format *fmt,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index c8837d0aa0c3..d66745115917 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -190,12 +190,14 @@ static u64 _dpu_plane_calc_clk(const struct drm_display_mode *mode,
-  * _dpu_plane_calc_fill_level - calculate fill level of the given source format
-  * @plane:		Pointer to drm plane
-  * @pipe:		Pointer to software pipe
-+ * @lut_usage:		LUT usecase
-  * @fmt:		Pointer to source buffer format
-  * @src_width:		width of source buffer
-  * Return: fill level corresponding to the source buffer/format or 0 if error
-  */
- static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
- 		struct dpu_sw_pipe *pipe,
-+		enum dpu_qos_lut_usage lut_usage,
- 		const struct dpu_format *fmt, u32 src_width)
- {
- 	struct dpu_plane *pdpu;
-@@ -207,6 +209,9 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
- 		return 0;
- 	}
- 
-+	if (lut_usage == DPU_QOS_LUT_USAGE_NRT)
-+		return 0;
-+
- 	pdpu = to_dpu_plane(plane);
- 	fixed_buff_size = pdpu->catalog->caps->pixel_ram_size;
- 
-@@ -252,83 +257,58 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 		const struct dpu_format *fmt, struct dpu_sw_pipe_cfg *pipe_cfg)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
--	u64 qos_lut;
--	u32 total_fl = 0, lut_usage;
-+	struct dpu_hw_qos_cfg cfg;
-+	u32 total_fl, lut_usage;
- 
- 	if (!pdpu->is_rt_pipe) {
- 		lut_usage = DPU_QOS_LUT_USAGE_NRT;
- 	} else {
--		total_fl = _dpu_plane_calc_fill_level(plane, pipe, fmt,
--				drm_rect_width(&pipe_cfg->src_rect));
--
- 		if (fmt && DPU_FORMAT_IS_LINEAR(fmt))
- 			lut_usage = DPU_QOS_LUT_USAGE_LINEAR;
- 		else
- 			lut_usage = DPU_QOS_LUT_USAGE_MACROTILE;
- 	}
- 
--	qos_lut = _dpu_hw_get_qos_lut(
--			&pdpu->catalog->perf->qos_lut_tbl[lut_usage], total_fl);
-+	total_fl = _dpu_plane_calc_fill_level(plane, pipe, lut_usage, fmt,
-+				drm_rect_width(&pipe_cfg->src_rect));
-+
-+	cfg.creq_lut = _dpu_hw_get_qos_lut(&pdpu->catalog->perf->qos_lut_tbl[lut_usage], total_fl);
-+	cfg.danger_lut = pdpu->catalog->perf->danger_lut_tbl[lut_usage];
-+	cfg.safe_lut = pdpu->catalog->perf->safe_lut_tbl[lut_usage];
-+
-+	if (pipe->sspp->idx != SSPP_CURSOR0 &&
-+	    pipe->sspp->idx != SSPP_CURSOR1 &&
-+	    pdpu->is_rt_pipe)
-+		cfg.danger_safe_en = true;
-+
-+	DPU_DEBUG_PLANE(pdpu, "pnum:%d ds:%d is_rt:%d\n",
-+		pdpu->pipe - SSPP_VIG0,
-+		cfg.danger_safe_en,
-+		pdpu->is_rt_pipe);
- 
- 	trace_dpu_perf_set_qos_luts(pipe->sspp->idx - SSPP_VIG0,
- 			(fmt) ? fmt->base.pixel_format : 0,
--			pdpu->is_rt_pipe, total_fl, qos_lut, lut_usage);
-+			pdpu->is_rt_pipe, total_fl, cfg.creq_lut, lut_usage);
- 
- 	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s rt:%d fl:%u lut:0x%llx\n",
- 			pdpu->pipe - SSPP_VIG0,
- 			fmt ? (char *)&fmt->base.pixel_format : NULL,
--			pdpu->is_rt_pipe, total_fl, qos_lut);
--
--	pipe->sspp->ops.setup_creq_lut(pipe->sspp, qos_lut);
--}
--
--/**
-- * _dpu_plane_set_danger_lut - set danger/safe LUT of the given plane
-- * @plane:		Pointer to drm plane
-- * @pipe:		Pointer to software pipe
-- * @fmt:		Pointer to source buffer format
-- */
--static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
--		struct dpu_sw_pipe *pipe,
--		const struct dpu_format *fmt)
--{
--	struct dpu_plane *pdpu = to_dpu_plane(plane);
--	u32 danger_lut, safe_lut;
--
--	if (!pdpu->is_rt_pipe) {
--		danger_lut = pdpu->catalog->perf->danger_lut_tbl
--				[DPU_QOS_LUT_USAGE_NRT];
--		safe_lut = pdpu->catalog->perf->safe_lut_tbl
--				[DPU_QOS_LUT_USAGE_NRT];
--	} else {
--		if (fmt && DPU_FORMAT_IS_LINEAR(fmt)) {
--			danger_lut = pdpu->catalog->perf->danger_lut_tbl
--					[DPU_QOS_LUT_USAGE_LINEAR];
--			safe_lut = pdpu->catalog->perf->safe_lut_tbl
--					[DPU_QOS_LUT_USAGE_LINEAR];
--		} else {
--			danger_lut = pdpu->catalog->perf->danger_lut_tbl
--					[DPU_QOS_LUT_USAGE_MACROTILE];
--			safe_lut = pdpu->catalog->perf->safe_lut_tbl
--					[DPU_QOS_LUT_USAGE_MACROTILE];
--		}
--	}
-+			pdpu->is_rt_pipe, total_fl, cfg.creq_lut);
- 
- 	trace_dpu_perf_set_danger_luts(pdpu->pipe - SSPP_VIG0,
- 			(fmt) ? fmt->base.pixel_format : 0,
- 			(fmt) ? fmt->fetch_mode : 0,
--			danger_lut,
--			safe_lut);
-+			cfg.danger_lut,
-+			cfg.safe_lut);
- 
- 	DPU_DEBUG_PLANE(pdpu, "pnum:%d fmt: %4.4s mode:%d luts[0x%x, 0x%x]\n",
- 		pdpu->pipe - SSPP_VIG0,
- 		fmt ? (char *)&fmt->base.pixel_format : NULL,
- 		fmt ? fmt->fetch_mode : -1,
--		danger_lut,
--		safe_lut);
-+		cfg.danger_lut,
-+		cfg.safe_lut);
- 
--	pipe->sspp->ops.setup_danger_safe_lut(pipe->sspp,
--			danger_lut, safe_lut);
-+	pipe->sspp->ops.setup_qos_lut(pipe->sspp, &cfg);
- }
- 
- /**
-@@ -336,7 +316,6 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
-  * @plane:		Pointer to drm plane
-  * @pipe:		Pointer to software pipe
-  * @enable:		true to enable QoS control
-- * @flags:		QoS control mode (enum dpu_plane_qos)
-  */
- static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 	struct dpu_sw_pipe *pipe,
-@@ -1086,10 +1065,6 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
- 	}
- 
- 	_dpu_plane_set_qos_lut(plane, pipe, fmt, pipe_cfg);
--	_dpu_plane_set_danger_lut(plane, pipe, fmt);
--	_dpu_plane_set_qos_ctrl(plane, pipe,
--				pipe->sspp->idx != SSPP_CURSOR0 &&
--				pipe->sspp->idx != SSPP_CURSOR1);
- 
- 	if (pipe->sspp->idx != SSPP_CURSOR0 &&
- 	    pipe->sspp->idx != SSPP_CURSOR1)
+>
+> >
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed on set display on: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(20);
+> >
+> >
+> > Do we need to add here the following line?
+> >
+> > dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+>
+> Do you mean within the return on error block?
+
+Within the return. I think this might depend on the panel itself, see
+how other panels handle toggling MIPI_DSI_MODE_LPM. E.g. panel-dsi-cm
+or panel-novatek-nt35950 unsets MIPI_DSI_MODE_LPM at the end of
+power_on. Some of the panels also toggle LPM while reading or updating
+the backlight.
+
+>
+>  From my understanding, we should be setting the MIPI_DSI_MODE_LPM for
+> panel_on() then unsetting MODE_LPM in panel_off().
+>
+> >
+> >
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int visionox_r66451_off(struct visionox_r66451 *ctx)
+> >> +{
+> >> +    struct mipi_dsi_device *dsi = ctx->dsi;
+> >> +    struct device *dev = &dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_display_off(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to set display off: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(20);
+> >> +
+> >> +    ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(120);
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int visionox_r66451_prepare(struct drm_panel *panel)
+> >> +{
+> >> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+> >> +    struct device *dev = &ctx->dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    if (ctx->prepared)
+> >> +        return 0;
+> >> +
+> >> +    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
+> >> +                    ctx->supplies);
+> >> +    if (ret < 0)
+> >> +        return ret;
+> >> +
+> >> +    visionox_r66451_reset(ctx);
+> >> +
+> >> +    ret = visionox_r66451_on(ctx);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> >> +        gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >> +        regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
+> >> ctx->supplies);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    ctx->prepared = true;
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int visionox_r66451_unprepare(struct drm_panel *panel)
+> >> +{
+> >> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+> >> +    struct device *dev = &ctx->dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    if (!ctx->prepared)
+> >> +        return 0;
+> >> +
+> >> +    ret = visionox_r66451_off(ctx);
+> >> +    if (ret < 0)
+> >> +        dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> >> +
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >> +    regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> >> +
+> >> +    ctx->prepared = false;
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static const struct drm_display_mode visionox_r66451_mode = {
+> >> +    .clock = (1080 + 95 + 1 + 40) * (2340 + 25 + 1 + 4) * 120 / 1000,
+> >> +    .hdisplay = 1080,
+> >> +    .hsync_start = 1080 + 95,
+> >> +    .hsync_end = 1080 + 95 + 1,
+> >> +    .htotal = 1080 + 95 + 1 + 40,
+> >> +    .vdisplay = 2340,
+> >> +    .vsync_start = 2340 + 25,
+> >> +    .vsync_end = 2340 + 25 + 1,
+> >> +    .vtotal = 2340 + 25 + 1 + 4,
+> >> +    .width_mm = 0,
+> >> +    .height_mm = 0,
+> >
+> > Please provide real values here.
+>
+> Acked.
+>
+> >
+> >> +};
+> >> +
+> >> +static int visionox_r66451_enable(struct drm_panel *panel)
+> >> +{
+> >> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+> >> +    struct mipi_dsi_device *dsi = ctx->dsi;
+> >> +    struct drm_dsc_picture_parameter_set pps;
+> >> +    int ret;
+> >> +
+> >> +    if (ctx->enabled)
+> >> +        return 0;
+> >> +
+> >> +    if (!dsi->dsc) {
+> >> +        dev_err(&dsi->dev, "DSC not attached to DSI\n");
+> >> +        return -ENODEV;
+> >> +    }
+> >> +
+> >> +    drm_dsc_pps_payload_pack(&pps, dsi->dsc);
+> >> +    ret = mipi_dsi_picture_parameter_set(dsi, &pps);
+> >> +
+> >> +    ctx->enabled = true;
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int visionox_r66451_disable(struct drm_panel *panel)
+> >> +{
+> >> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+> >> +
+> >> +    ctx->enabled = false;
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int visionox_r66451_get_modes(struct drm_panel *panel,
+> >> +                    struct drm_connector *connector)
+> >> +{
+> >> +    struct drm_display_mode *mode;
+> >> +
+> >> +    mode = drm_mode_duplicate(connector->dev, &visionox_r66451_mode);
+> >> +    if (!mode)
+> >> +        return -ENOMEM;
+> >> +
+> >> +    drm_mode_set_name(mode);
+> >> +
+> >> +    mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> >> +    connector->display_info.width_mm = mode->width_mm;
+> >> +    connector->display_info.height_mm = mode->height_mm;
+> >> +    drm_mode_probed_add(connector, mode);
+> >
+> > Can we use drm_connector_helper_get_modes_fixed() instead?
+>
+> Acked.
+>
+> >
+> >> +
+> >> +    return 1;
+> >> +}
+> >> +
+> >> +static const struct drm_panel_funcs visionox_r66451_funcs = {
+> >> +    .prepare = visionox_r66451_prepare,
+> >> +    .unprepare = visionox_r66451_unprepare,
+> >> +    .get_modes = visionox_r66451_get_modes,
+> >> +    .enable = visionox_r66451_enable,
+> >> +    .disable = visionox_r66451_disable,
+> >> +};
+> >> +
+> >> +static int visionox_r66451_bl_update_status(struct backlight_device *bl)
+> >> +{
+> >> +    struct mipi_dsi_device *dsi = bl_get_data(bl);
+> >> +    u16 brightness = backlight_get_brightness(bl);
+> >> +
+> >> +    return mipi_dsi_dcs_set_display_brightness(dsi,
+> >> cpu_to_le16(brightness));
+> >
+> > mipi_dsi_dcs_set_display_brightness() already converts the brightness,
+> > so you don't need cpu_to_le16 here.
+>
+> Acked.
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> >
+> >> +}
+> >> +
+> >> +static const struct backlight_ops visionox_r66451_bl_ops = {
+> >> +    .update_status = visionox_r66451_bl_update_status,
+> >> +};
+> >> +
+> >> +static struct backlight_device *
+> >> +visionox_r66451_create_backlight(struct mipi_dsi_device *dsi)
+> >> +{
+> >> +    struct device *dev = &dsi->dev;
+> >> +    const struct backlight_properties props = {
+> >> +        .type = BACKLIGHT_RAW,
+> >> +        .brightness = 255,
+> >> +        .max_brightness = 4095,
+> >> +    };
+> >> +
+> >> +    return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
+> >> +                          &visionox_r66451_bl_ops, &props);
+> >> +}
+> >> +
+> >> +static int visionox_r66451_probe(struct mipi_dsi_device *dsi)
+> >> +{
+> >> +    struct device *dev = &dsi->dev;
+> >> +    struct visionox_r66451 *ctx;
+> >> +    struct drm_dsc_config *dsc;
+> >> +    int ret = 0;
+> >> +
+> >> +    ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> >> +    if (!ctx)
+> >> +        return -ENOMEM;
+> >> +
+> >> +    dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
+> >> +    if (!dsc)
+> >> +        return -ENOMEM;
+> >> +
+> >> +    /* Set DSC params */
+> >> +    dsc->dsc_version_major = 0x1;
+> >> +    dsc->dsc_version_minor = 0x2;
+> >> +
+> >> +    dsc->slice_height = 20;
+> >> +    dsc->slice_width = 540;
+> >> +    dsc->slice_count = 2;
+> >> +    dsc->bits_per_component = 8;
+> >> +    dsc->bits_per_pixel = 0x8 << 4;
+> >> +    dsc->block_pred_enable = true;
+> >> +
+> >> +    dsi->dsc = dsc;
+> >> +
+> >> +    ctx->supplies[0].supply = "vddio";
+> >> +    ctx->supplies[1].supply = "vdd";
+> >> +
+> >> +    ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
+> >> +            ctx->supplies);
+> >> +
+> >> +    if (ret < 0)
+> >> +        return ret;
+> >> +
+> >> +    ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> >> +    if (IS_ERR(ctx->reset_gpio))
+> >> +        return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio), "Failed
+> >> to get reset-gpios\n");
+> >> +
+> >> +    ctx->dsi = dsi;
+> >> +    mipi_dsi_set_drvdata(dsi, ctx);
+> >> +
+> >> +    dsi->lanes = 4;
+> >> +    dsi->format = MIPI_DSI_FMT_RGB888;
+> >> +    dsi->mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+> >> +
+> >> +    drm_panel_init(&ctx->panel, dev, &visionox_r66451_funcs,
+> >> DRM_MODE_CONNECTOR_DSI);
+> >> +    ctx->panel.backlight = visionox_r66451_create_backlight(dsi);
+> >> +    if (IS_ERR(ctx->panel.backlight))
+> >> +        return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+> >> +                "Failed to create backlight\n");
+> >> +
+> >> +    drm_panel_add(&ctx->panel);
+> >> +
+> >> +    ret = mipi_dsi_attach(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
+> >> +        drm_panel_remove(&ctx->panel);
+> >> +    }
+> >> +
+> >> +    return ret;
+> >> +}
+> >> +
+> >> +static void visionox_r66451_remove(struct mipi_dsi_device *dsi)
+> >> +{
+> >> +    struct visionox_r66451 *ctx = mipi_dsi_get_drvdata(dsi);
+> >> +    int ret;
+> >> +
+> >> +    ret = mipi_dsi_detach(dsi);
+> >> +    if (ret < 0)
+> >> +        dev_err(&dsi->dev, "Failed to detach DSI host: %d\n", ret);
+> >> +
+> >> +    drm_panel_remove(&ctx->panel);
+> >> +}
+> >> +
+> >> +static const struct of_device_id visionox_r66451_of_match[] = {
+> >> +    {.compatible = "visionox,r66451"},
+> >> +    { /*sentinel*/ }
+> >> +};
+> >> +MODULE_DEVICE_TABLE(of, visionox_r66451_of_match);
+> >> +
+> >> +static struct mipi_dsi_driver visionox_r66451_driver = {
+> >> +    .probe = visionox_r66451_probe,
+> >> +    .remove = visionox_r66451_remove,
+> >> +    .driver = {
+> >> +        .name = "panel-visionox-r66451",
+> >> +        .of_match_table = visionox_r66451_of_match,
+> >> +    },
+> >> +};
+> >> +
+> >> +module_mipi_dsi_driver(visionox_r66451_driver);
+> >> +
+> >> +MODULE_AUTHOR("Jessica Zhang <quic_jesszhan@quicinc.com>");
+> >> +MODULE_DESCRIPTION("Panel driver for the Visionox R66451 AMOLED DSI
+> >> panel");
+> >> +MODULE_LICENSE("GPL");
+> >>
+> >
+> > --
+> > With best wishes
+> > Dmitry
+> >
+
+
+
 -- 
-2.39.2
-
+With best wishes
+Dmitry
