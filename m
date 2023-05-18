@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B46708A8F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 23:29:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85937708AA0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 23:36:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A52E10E562;
-	Thu, 18 May 2023 21:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55A7810E564;
+	Thu, 18 May 2023 21:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3FD10E562
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 21:29:10 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1130C10E564
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 21:36:14 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6613A200CF;
- Thu, 18 May 2023 23:29:08 +0200 (CEST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2A2DC203B0;
+ Thu, 18 May 2023 23:36:13 +0200 (CEST)
+Date: Thu, 18 May 2023 23:36:11 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Thu, 18 May 2023 23:29:08 +0200
-Subject: [PATCH] drm/msm/dpu: Use V4.0 PCC DSPP sub-block in SC7[12]80
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 4/4] drm/msm/dpu: drop DSPP_MSM8998_MASK from hw catalog
+Message-ID: <dexkdzb3wo3jjveys4i2ujh22fbyti5kugie7nl23s7lv63pky@ryycjghsifva>
+References: <20230428223646.23595-1-quic_abhinavk@quicinc.com>
+ <20230428223646.23595-4-quic_abhinavk@quicinc.com>
+ <kap4lpzbv5qihf2k7fdznmx72hrhpx4acjgcng45kxnshxo6ge@gzke6ruy3x6u>
+ <2c688487-a5b1-155c-f73a-69358d03e478@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230518-dpu-sc7180-pcc-version-v1-1-ec9ca4949e3e@somainline.org>
-X-B4-Tracking: v=1; b=H4sIAKOYZmQC/x3N0QrCMAyF4VcZuTbQdhOrryK7aLLoCqOWlA1h7
- N3NvPwPfJwdmmiWBo9uB5Utt/wpFv7SAc+pvAXzZA3Bhd5dfcSprtj45qPDyoyb6Emwj/cUaBB
- iCmCYUhMkTYVn42VdFhuryit//2/P8Th+urb/QX0AAAA=
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Kalyan Thota <quic_kalyant@quicinc.com>
-X-Mailer: b4 0.12.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c688487-a5b1-155c-f73a-69358d03e478@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,81 +44,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_jesszhan@quicinc.com,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to various downstream sources the PCC sub-block inside DSPP is
-version 4.0 since DPU 4.0 and higher, including SC7[12]80 at DPU version
-6.2 and 7.2 respectively.  After correcting the version this struct
-becomes identical to sm8150_dspp_sblk which is used all across the
-catalog: replace uses of sc7180_dspp_sblk with that and remove
-the struct definition for sc7180_dspp_sblk entirely.
+On 2023-05-19 00:26:33, Dmitry Baryshkov wrote:
+> On 18/05/2023 22:41, Marijn Suijten wrote:
+> > On 2023-04-28 15:36:46, Abhinav Kumar wrote:
+> >> Since GC and IGC masks have now been dropped DSPP_MSM8998_MASK
+> >> is same as DSPP_SC7180_MASK. Since DSPP_SC7180_MASK is used more
+> > 
+> > is *the* same
+> 
+> And, I think, a comma is missing before DSPP_MSM8998_MASK.
 
-Fixes: 4259ff7ae509e ("drm/msm/dpu: add support for pcc color block in dpu driver")
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c         | 5 -----
- 3 files changed, 2 insertions(+), 7 deletions(-)
+Possible, but not needed I think; both would work.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-index 8799ed7571190..e39fcfd4e46b1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-@@ -76,7 +76,7 @@ static const struct dpu_lm_cfg sc7180_lm[] = {
- 
- static const struct dpu_dspp_cfg sc7180_dspp[] = {
- 	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
--		 &sc7180_dspp_sblk),
-+		 &sm8150_dspp_sblk),
- };
- 
- static const struct dpu_pingpong_cfg sc7180_pp[] = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index 5957de1859844..307a8edc94076 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -83,7 +83,7 @@ static const struct dpu_lm_cfg sc7280_lm[] = {
- 
- static const struct dpu_dspp_cfg sc7280_dspp[] = {
- 	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
--		 &sc7180_dspp_sblk),
-+		 &sm8150_dspp_sblk),
- };
- 
- static const struct dpu_pingpong_cfg sc7280_pp[] = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 03f162af1a50b..47523751b2023 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -453,11 +453,6 @@ static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
- 		.len = 0x90, .version = 0x10007},
- };
- 
--static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
--	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
--		.len = 0x90, .version = 0x10000},
--};
--
- static const struct dpu_dspp_sub_blks sm8150_dspp_sblk = {
- 	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
- 		.len = 0x90, .version = 0x40000},
+> Note: since the English language is not native for most of the 
+> developers, I usually don't nitpick on these issues provided we can 
+> understand the message without too much trouble (and the mistake doesn't 
+> stand out aloud, begging for it to be fixed).
 
----
-base-commit: 798d276b39e984345d52b933a900a71fa0815928
-change-id: 20230518-dpu-sc7180-pcc-version-389a2b4ebcb2
+I hope you don't mind me pointing them out when they make the reader go
+"huh, a word is missing here", breaking my sentence-parser.
 
-Best regards,
--- 
-Marijn Suijten <marijn.suijten@somainline.org>
+- Marijn
 
+> I will fix missing articles when applying, if I don't forget.
+
+<snip>
