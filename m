@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9817076FD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 02:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3B0707700
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 02:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE62110E4BF;
-	Thu, 18 May 2023 00:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBCEE10E045;
+	Thu, 18 May 2023 00:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1BFD10E4BF
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 00:37:44 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4f004cc54f4so1785961e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 17:37:44 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9004610E045
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 00:38:25 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2ac7462d9f1so15284051fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 May 2023 17:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684370262; x=1686962262;
+ d=linaro.org; s=google; t=1684370304; x=1686962304;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=po7UNoPfe5zteMAenfCEsCJy5ibuGbWHVGywTb2tWkE=;
- b=JsER1UtwtZcLVOBrVZY2jQdJ6RDCMYqgf7tSnsP4SAJd/1/z69VeZd4mYo3x1KmI+J
- gDVrZiB5k1bx/CgDmj/7SgBRddch0R0ON77aOgYINB/p//y2iKxhXS/GrDAJJmLLouWe
- xv0UTLP9iZXl5KHrNH+J58Pabcpi9nCwtmSZRVq28xyZGoGLNSvQhBb3M+lmoCj45r9i
- OajfAzakhTIvIXRBx9aWnSjrzVWCcB89yQYzZv3hS8umzmbMadetsV27PBC+9NHCOly9
- zLnrC/szTlctXjIVGycpiVZ5vTvBR7znRf1UeSOGaznsvu5ZRoDAEGSm1ocyXCSOlbS7
- QiSA==
+ bh=RDmvYByjQsOl+xkWa90beSoV5wSDkboDGuoJ5SmvNAA=;
+ b=N4H0t5CPe+pIpKdkiDxQrEhybD9CUcCPAIgYJSqRHvOdDKr2JoIpXZvDFoeKNiNPZc
+ g+BwOixhYhgipwcMyZ6ggBzdDC9uyAvhZnMkWGsvf0IH2CizwnWv7jufVNAJDcsCqF+q
+ 3i3t1eHqRmsXTBhctRpozFztzBrWA6/qavsHelLfECSxDtWwTLcE2veCsfO8D3poeAme
+ bfM6MGQ9v462jU2+mn2/yTUcWcmkEPRr8f5RMi78V1laYEhxmRgQBsjlhhPU1MwXAiK0
+ Uff+bq7AlYXi4NUbSYGO8VeHT0vSiuWRdyt0xgKBuGD72gitPgfbUfWjuJFzMPP2nHn9
+ Q0kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684370262; x=1686962262;
+ d=1e100.net; s=20221208; t=1684370304; x=1686962304;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=po7UNoPfe5zteMAenfCEsCJy5ibuGbWHVGywTb2tWkE=;
- b=hblKuC2kXinZ8q/Z/uAxw+A1yiixxQ8f5w8p3VtIqm3S0GF6oUjFbwA1NXl4mzj+nD
- Q7USU1x46iYtND4BJ/++qH4JTjjORHgkPyE0DYYJoePx6E+lJX0Fw5+LNgPQ3FDVHj4+
- iaeeZWkY3l0F4vRz7Hi4QRMMDEcJ4GzC6kjX96teyGjgm5avTmAHJFEC2imkyd/tB63+
- 08MQu1BvGNFmQyY5ZP58drFY2TylDz6jeg8LwnrURUv44ia9tL3qe4y8LkqBwhfDCb6y
- U2M2db4hxFuNCu4Z1BvveWW4LhxCJpVBvHaBB+v4kuFvkozbC0P/cVemTdF78rSgMVKr
- vyoA==
-X-Gm-Message-State: AC+VfDxO4CPhn1Vei20qJtDQk/cR43Vnb6SEtl4lSs3NCeCq7tpa5ASs
- 9BUmm7v0wReFoQVKRWFKVS3+HQ==
-X-Google-Smtp-Source: ACHHUZ7uCv+ZI0mUztrk0hmK8n583XK43anSsX1bmIA6B2ZFDMBr3a/me0F+fkS4vq01B5IcoaTnUg==
-X-Received: by 2002:ac2:550f:0:b0:4f3:8244:95e2 with SMTP id
- j15-20020ac2550f000000b004f3824495e2mr713166lfk.50.1684370262289; 
- Wed, 17 May 2023 17:37:42 -0700 (PDT)
+ bh=RDmvYByjQsOl+xkWa90beSoV5wSDkboDGuoJ5SmvNAA=;
+ b=PE/OR0/wy/PYSE7c9ieM5D4P4L8+kKFgF17YOVzHKns/1+rquSl1oWm4BK7ZTlP4JL
+ D/su1KIjXSY9wrHSJagjsasvWJyriAc27Q6Z9WZlOkxhrbxKPEWvF+6U98EJ4pGVHhp0
+ FeUH/Mx4UNH4dPE46hlwiFJg/ybCPjpEx4X2gRoR6DmRN9ux/7tZNti4bDcepTUK6aEQ
+ TTW8cS/8jk/oh9TjvPqOa3ghINZOezMjCg5zWvy1glEo463bUUOcjjjFqZiaGqU4MGXj
+ gzsVAX7xSh84DU3/NLoIRTnNSqDX7YU9HOPOQNAMfCBc583JbnvbQp1oFuaq10K5O2Sf
+ p/dw==
+X-Gm-Message-State: AC+VfDxUc5LGR1TsYIXHPg1XCDqPHpaE/wF9wGx9GU9r2XGgkB3LxUoJ
+ Ln7UDxdAEibzLP0R7biaZQRWkA==
+X-Google-Smtp-Source: ACHHUZ7QefiowKDijq4DSc6g9gj2uUiHjFCOs/9Zc96kTvdluVfgcGJkerE+ZcEjbdlS+ZQakjZVUw==
+X-Received: by 2002:a2e:b172:0:b0:2a7:8150:82c1 with SMTP id
+ a18-20020a2eb172000000b002a7815082c1mr9874787ljm.38.1684370303765; 
+ Wed, 17 May 2023 17:38:23 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- r12-20020a2e994c000000b002ad8bccceb2sm6427ljj.57.2023.05.17.17.37.41
+ k26-20020a2e889a000000b002adaacdb900sm7954lji.42.2023.05.17.17.38.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 May 2023 17:37:41 -0700 (PDT)
-Message-ID: <769abc86-43c9-1f92-e484-108b8b561486@linaro.org>
-Date: Thu, 18 May 2023 03:37:41 +0300
+ Wed, 17 May 2023 17:38:23 -0700 (PDT)
+Message-ID: <1a4158f8-d1ca-4c15-51ee-8eeb721a07a1@linaro.org>
+Date: Thu, 18 May 2023 03:38:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v12 1/9] drm/display/dsc: Add flatness and initial scale
- value calculations
+Subject: Re: [PATCH v12 3/9] drm/display/dsc: Add drm_dsc_get_bpp_int helper
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230329-rfc-msm-dsc-helper-v12-0-9cdb7401f614@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v12-1-9cdb7401f614@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v12-3-9cdb7401f614@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v12-1-9cdb7401f614@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v12-3-9cdb7401f614@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,14 +86,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18/05/2023 01:27, Jessica Zhang wrote:
-> Add helpers to calculate det_thresh_flatness and initial_scale_value as
-> these calculations are defined within the DSC spec.
+> Add helper to get the integer value of drm_dsc_config.bits_per_pixel
 > 
 > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->   include/drm/display/drm_dsc_helper.h | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   include/drm/display/drm_dsc_helper.h | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
