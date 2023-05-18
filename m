@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770C970809C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 14:02:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A3C7080B0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 May 2023 14:06:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 754B310E513;
-	Thu, 18 May 2023 12:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D5810E517;
+	Thu, 18 May 2023 12:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADCB410E513
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 12:02:02 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-ba827c74187so2675597276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 05:02:02 -0700 (PDT)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1ED710E517
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 12:05:58 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-55db055b412so27579117b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 05:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1684411321; x=1687003321;
+ d=amarulasolutions.com; s=google; t=1684411558; x=1687003558;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PvwHGI4vhsZwVAeRbD6Otm9nDrfWfKKFU1vesqzDCe8=;
- b=l3jykI8hIElPtKw7tk+/jISM833pBfdiJgdvWdMi6BcpEB7YmJAvUpaoSIu06aJK/H
- x1eH3hOwGrdDD4cQpkKxLTQdnW8zCvCqIeWnxWStndGnTvIpaSP5U3mYemI4e5+60SGn
- BJTBu/rhJNgpZmYfPlvBj7dwvraL/WwCUmc50=
+ bh=RL3eiATgzSA2ovHT7vBhqzczz2ZnSH9amS5jJrBLHWw=;
+ b=IGrqT235/B5ITqxKVojXRk9kSChAVqH2uUb7sfsjkPT2wuWgmXGw40QavnZOBwL1O7
+ KWcre8/GceW+jEZfbM1GhQNVRLi71ioS6qOMlvCZ6BmO/u8KdoZYl7X+yTWw/XhDTykP
+ wxxSM6JkfhigJnNxVp2cDecSBvxGGnIaGf2dw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684411321; x=1687003321;
+ d=1e100.net; s=20221208; t=1684411558; x=1687003558;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PvwHGI4vhsZwVAeRbD6Otm9nDrfWfKKFU1vesqzDCe8=;
- b=ZxkENUNImYOavhkNnHgMBacBLdYvu5CVnkGJ7xthCF6etQLGQUcX8NxDDxss2y1Yp7
- XYKVmGEAd8frUPgKFdQqtGBdH8ks7D10KjqHQ+CYZmLg6iYCTVv0NODZCGT1O1XKsv3R
- 2KdH7JQFKLZPolPc2vvsCXWzu7sK/68pQzAatGf2+sh9kLkHCGOn5FhmXZVcTaw8POfS
- 6nFtIw3i+8MXpDU4iK1kqNZEW96ggQ71cUhE/MQl8XUFFYHhgexCUPSjrI2qPMkE2wBw
- wRx2OCST35nFmCY/eNOiJz0krB0nJdA0qs/8ed0b8kPDBnSjzejESwiWQRYixNMj8uoh
- +0Rw==
-X-Gm-Message-State: AC+VfDyIuDpv4fCJRH4j/JqZ6GoTQEfR72ws6wZ1m+PQKB3J/Tx+AXPO
- 7Synxp7m1WJwqUZJBZXGS2nawhV6k5HZIIi9/ydfsQ==
-X-Google-Smtp-Source: ACHHUZ7ndfxs4tXBRUlAk90tteKfdFHLiIuvOYQViHFQsuEDwiTZBHFIk3mdtYRJjGVluIGyAL23S0LSEy2xlp2DAJw=
-X-Received: by 2002:a81:a116:0:b0:556:ceb2:c462 with SMTP id
- y22-20020a81a116000000b00556ceb2c462mr911480ywg.2.1684411321524; Thu, 18 May
- 2023 05:02:01 -0700 (PDT)
+ bh=RL3eiATgzSA2ovHT7vBhqzczz2ZnSH9amS5jJrBLHWw=;
+ b=irKGfJxeRrJ4qldZRiMBglmuUtVZszC5XnSUcgUjk8tjb3FY6keziS5Ko2Ws1d8AGK
+ AnBMUZofXQJdKBB2kHnFfKD0DvymftMlQWJBPlmofnrhIUllq+bYBUDjlo8XlzOOXKer
+ fW9zMkJeddEYdsbAe4aor2cc2nWmtHJwotbGDPKPDvZ/WesP49TLqiskwccgSOJ+oTEk
+ cNFtoZyYlXg5kYKk4ifzSurS5oHRZ6l7mQ6UcQC6QOWoRht/mmoQQg4WIpPUzXGRKVgY
+ NcL8ccWcFbzd2qL7LMsn0J2hgyPzvC4Q5D+Uw1kBJc9Bq2w3n6CNoDF5sDewDhtkF27j
+ R6Zw==
+X-Gm-Message-State: AC+VfDz6vQzO3HAFttycN4n0ULNyI+kTZW6jnq3S9eoPgMdd1JCvLTAC
+ 7fW0lQj6NZIbjoC1NVIdssPS6mx/W+8yXtpw6szQSA==
+X-Google-Smtp-Source: ACHHUZ4VtqU+ct+qgqlQijOJr0lmAT4qilj39KRzvbV5+c/1QbK+kt0FxIk7sCik+on6KMT+DuvSXC3nlzNjgVWuXIQ=
+X-Received: by 2002:a05:690c:102:b0:55f:5d6a:97fb with SMTP id
+ bd2-20020a05690c010200b0055f5d6a97fbmr1477843ywb.9.1684411557812; Thu, 18 May
+ 2023 05:05:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230515235713.232939-1-aford173@gmail.com>
- <20230515235713.232939-4-aford173@gmail.com>
-In-Reply-To: <20230515235713.232939-4-aford173@gmail.com>
+ <20230515235713.232939-6-aford173@gmail.com>
+In-Reply-To: <20230515235713.232939-6-aford173@gmail.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 18 May 2023 17:31:50 +0530
-Message-ID: <CAMty3ZBYEi9EUzM3RBk6Uj1wz5sACG41MPYjrMb1QrR3UPrc5g@mail.gmail.com>
-Subject: Re: [PATCH V6 3/6] drm: bridge: samsung-dsim: Fetch
- pll-clock-frequency automatically
+Date: Thu, 18 May 2023 17:35:46 +0530
+Message-ID: <CAMty3ZBXO-S_X7H8erzLHmV0ePwq=DXJzmytsg2Vye1rgTk84Q@mail.gmail.com>
+Subject: Re: [PATCH V6 5/6] drm: bridge: samsung-dsim: Dynamically configure
+ DPHY timing
 To: Adam Ford <aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,28 +69,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
  Frieder Schrempf <frieder.schrempf@kontron.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Michael Walle <michael@walle.cc>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, May 16, 2023 at 5:27=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
 e:
 >
-> Make the pll-clock-frequency optional.  If it's present, use it
-> to maintain backwards compatibility with existing hardware.  If it
-> is absent, read clock rate of "sclk_mipi" to determine the rate.
-> Since it can be optional, change the message from an error to
-> dev_info.
+> The DPHY timings are currently hard coded. Since the input
+> clock can be variable, the phy timings need to be variable
+> too.  To facilitate this, we need to cache the hs_clock
+> based on what is generated from the PLL.
+>
+> The phy_mipi_dphy_get_default_config_for_hsclk function
+> configures the DPHY timings in pico-seconds, and a small macro
+> converts those timings into clock cycles based on the hs_clk.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 > Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Tested-by: Michael Walle <michael@walle.cc>
 > ---
 
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
 Tested-by: Jagan Teki <jagan@amarulasolutions.com> # imx8mm-icore
