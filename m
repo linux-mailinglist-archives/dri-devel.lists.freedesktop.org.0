@@ -2,75 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6286709D09
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EAF709D16
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0978C10E54E;
-	Fri, 19 May 2023 16:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE6210E545;
+	Fri, 19 May 2023 17:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37FD10E54A
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:55:54 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4f3ac867f31so1402664e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:55:54 -0700 (PDT)
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
+ [IPv6:2607:f8b0:4864:20::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C4D10E545;
+ Fri, 19 May 2023 17:00:21 +0000 (UTC)
+Received: by mail-oo1-xc31.google.com with SMTP id
+ 006d021491bc7-5523bd97c64so688573eaf.0; 
+ Fri, 19 May 2023 10:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684515349; x=1687107349;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8u8Cffd9gh33GRz1/pbcBEqZLgNy2eMWL4ehBbFWLjI=;
- b=frBZC/4FCb2QlYrqMh5fSiI43wwxOHGZeClHqaQu1pT9pIifaaeOut2l5G5SeW5L5N
- DWg1O3ITeeYp2clN+vP0J6DApUwMDqFgJ9gcrEsQtRES3vtgwQRZXjoPa7H/2FSAJWH/
- JorcuryfBrDaMeDg4sttp+mazhbdiDF9HZpfK5o0EQNhBRF248NdPzl+UMvemqCozPqJ
- KJvk8AEw+/DytCJhQLO8O4LbZHrgmsXonnYgQCeutXT4+oUHrRGvlSnn20q6Ashj2rAt
- xkBlABn6tSf6yUFIKZHoplxKokwropWI7Eh1Ejz0BBtNR9Zn788YZZE9TM8n9hTDa2z/
- hFfA==
+ d=gmail.com; s=20221208; t=1684515620; x=1687107620;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pQuIkMy/HPKv97ahyctrHLhGA05/LEVhydcSsEpZ0SI=;
+ b=Y3SbFGSh5Jl8RXdDUZC7CLWwQDVmTszasfOjXuIzMo6Bbs9xiZvrv7E3O69fnWMl5/
+ Vfo+rnaDQnTwJxqlES9RS9l14+rVpxMl1XQpRchGexAzF35r1sFy1A7/xPHkTrzwjLj5
+ MxUC74Mu2BiNhVQfdnRiO3PZI6J8/qqGPvgJI1g/CqiBlpQOoWKd2ljk4VColeJAz303
+ bziUdHw8s7UCzDvVKUQx89ZoubQfKYD2z6SMWEotgzINwDZP+9Ndun9AysDty8uqiS0K
+ pm3H7JOqPwE+cykBRNlN6bWroft+DRF/UjCyPrwKFWjh1fMjsUYyFHhc8TICH1+ieAH3
+ AbQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515349; x=1687107349;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8u8Cffd9gh33GRz1/pbcBEqZLgNy2eMWL4ehBbFWLjI=;
- b=kvrbhMyYtdSPpFKGtL3F+R/f01MDmShXJnzsEdsTOdb1AgAbiUr0y+svBtSaT8oi+f
- Nrk/bgaIxfbGjuLnma415/6PTEYyuF2KMeNkhuExllQ0pFRCNpgVtt1Ezq+36Vq9GbU0
- NYzfTzRIQCgXawwfbwlstx5dtjoFQ/90ttyFSHgKiz3BmtEvJ65Zna11NzYTrtpSQRzl
- R8aigKjT63x7pp/DgXQgLbGx+suARqXkyl0QMUwZ/eCUgYLxo302SzoA8PqNjAY3IT6U
- Z5bhkagbCjEAUMSTGR6xAbApqn9QKC9EAqa+L+noHY28N1AlXtuVntc66tWpPkzRBHZu
- r7EA==
-X-Gm-Message-State: AC+VfDyIfXhAylkxiHcHb7yPwdGofmhBqKYZxlmbHhiigUNOeOReyq+K
- 106i2dzcq0gNKM9fHqJ5qmCyT8VfOWqIpBC4EYA=
-X-Google-Smtp-Source: ACHHUZ7f0Yd3ApLNEvVN4yist87EQ8Ddt29lyiXsuzgsN0hmwyzO5avMdxs62WPck07X7DVpNuW5Vw==
-X-Received: by 2002:ac2:5298:0:b0:4f1:5010:4b34 with SMTP id
- q24-20020ac25298000000b004f150104b34mr1215390lfm.18.1684515349191; 
- Fri, 19 May 2023 09:55:49 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- i5-20020ac25225000000b004f13ece6a4fsm656365lfl.101.2023.05.19.09.55.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 May 2023 09:55:48 -0700 (PDT)
-Message-ID: <0c702f15-c842-8eab-cc95-83378236773c@linaro.org>
-Date: Fri, 19 May 2023 19:55:47 +0300
+ d=1e100.net; s=20221208; t=1684515620; x=1687107620;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pQuIkMy/HPKv97ahyctrHLhGA05/LEVhydcSsEpZ0SI=;
+ b=Kt0nh20J8NMIlGkCVaNB+FHGGu/AeodF4ipZ1piq13afULYu5FHBOnEn0DbWSkic24
+ 7+AEPdMCaaNPgjzEm7Jb9mv8n2amiYhN5Gro/IGq0HzAsWw361CBebZ5EcFQseO9/j4R
+ CSD1ySSAPFWCdL68DmDe7UU5HyzGFWnm1TLPmY+YjU0GsHXguSkMsU4t49YTDNru0SCg
+ MUspVvHizrVhPj6Hl6BcDC+1AJy22vTq4zjOd5RSu/ToxARk4xfRNuhVK9eg8Ym4ukC9
+ mY1ytNJSlScnd1ZiAPdXM3af4JL91L/CAPCChU5SnHmSPY3HeKxCrG1cA6Hy5r/WHMki
+ rlyQ==
+X-Gm-Message-State: AC+VfDzjxHZLxP4i4P28zm2WV+rOLTND/UFkFyqAjpYbO+d5sYBZzb6r
+ H+S8I7Z+H+7WdpNFg16vldaL9+5lJGAS+QzHgLo=
+X-Google-Smtp-Source: ACHHUZ6yzfco7XPAo7FXX9wEXzy6Ov3/G3qkO//oLRDznuAjUp1H30ypStrE4c+rMYx6Zrqk9STT8pcfGLSo/hBy+CI=
+X-Received: by 2002:a4a:d24d:0:b0:541:87fe:5b75 with SMTP id
+ e13-20020a4ad24d000000b0054187fe5b75mr1254701oos.1.1684515620580; Fri, 19 May
+ 2023 10:00:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v10 00/10] drm/hdcp: Pull HDCP auth/exchange/check into
- helpers
-Content-Language: en-GB
-To: Mark Yacoub <markyacoub@chromium.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Douglas Anderson <dianders@chromium.org>
-References: <20230419154321.1993419-1-markyacoub@google.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230419154321.1993419-1-markyacoub@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230518135138.990475-1-hch@lst.de>
+In-Reply-To: <20230518135138.990475-1-hch@lst.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 19 May 2023 13:00:09 -0400
+Message-ID: <CADnq5_N-5F+jRe1PTPcPs7wZPXxnV4nm=MfxJAoxzpRkY0CTeQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: stop including swiotlb.h
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,86 +68,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
- freedreno@lists.freedesktop.org, Mark Yacoub <markyacoub@google.com>
+Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/04/2023 18:43, Mark Yacoub wrote:
-> Hi all,
-> This is v10 of the HDCP patches. The patches are authored by Sean Paul.
-> I rebased and addressed the review comments in v6-v10.
-> 
-> Main change in v10 is handling the kernel test bot warnings.
-> 
-> Patches 1-4 focus on moving the common HDCP helpers to common DRM.
-> This introduces a slight change in the original intel flow
-> as it splits the unique driver protocol from the generic implementation.
-> 
-> Patches 5-7 split the HDCP flow on the i915 driver to make use of the common DRM helpers.
-> 
-> Patches 8-10 implement HDCP on MSM driver.
-> 
-> Thanks,
-> -Mark Yacoub
-> 
-> Sean Paul (10):
->    drm/hdcp: Add drm_hdcp_atomic_check()
->    drm/hdcp: Avoid changing crtc state in hdcp atomic check
->    drm/hdcp: Update property value on content type and user changes
->    drm/hdcp: Expand HDCP helper library for enable/disable/check
->    drm/i915/hdcp: Consolidate HDCP setup/state cache
->    drm/i915/hdcp: Retain hdcp_capable return codes
->    drm/i915/hdcp: Use HDCP helpers for i915
->    dt-bindings: msm/dp: Add bindings for HDCP registers
->    arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
+Applied.  Thanks!
 
-Dear i915 maintainers,
-
-I wanted to ping you regarding this patch series. If there are no 
-comments for the series from you side, would it be possible to land 
-Intel-specific and generic patches into drm-intel tree? We will continue 
-working on the msm specific parts and merge them through the msm tree.
-
->    drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
-> 
->   .../bindings/display/msm/dp-controller.yaml   |    7 +-
->   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |    8 +
->   drivers/gpu/drm/display/drm_hdcp_helper.c     | 1224 +++++++++++++++++
->   drivers/gpu/drm/i915/display/intel_atomic.c   |    8 +-
->   drivers/gpu/drm/i915/display/intel_ddi.c      |   32 +-
->   .../drm/i915/display/intel_display_debugfs.c  |   12 +-
->   .../drm/i915/display/intel_display_types.h    |   51 +-
->   drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  352 ++---
->   drivers/gpu/drm/i915/display/intel_dp_mst.c   |   16 +-
->   drivers/gpu/drm/i915/display/intel_hdcp.c     | 1060 +++-----------
->   drivers/gpu/drm/i915/display/intel_hdcp.h     |   48 +-
->   drivers/gpu/drm/i915/display/intel_hdmi.c     |  267 ++--
->   drivers/gpu/drm/msm/Kconfig                   |    1 +
->   drivers/gpu/drm/msm/Makefile                  |    1 +
->   drivers/gpu/drm/msm/dp/dp_catalog.c           |  156 +++
->   drivers/gpu/drm/msm/dp/dp_catalog.h           |   18 +
->   drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
->   drivers/gpu/drm/msm/dp/dp_debug.h             |   11 +-
->   drivers/gpu/drm/msm/dp/dp_display.c           |   39 +-
->   drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
->   drivers/gpu/drm/msm/dp/dp_drm.c               |   39 +-
->   drivers/gpu/drm/msm/dp/dp_drm.h               |    7 +
->   drivers/gpu/drm/msm/dp/dp_hdcp.c              |  389 ++++++
->   drivers/gpu/drm/msm/dp/dp_hdcp.h              |   33 +
->   drivers/gpu/drm/msm/dp/dp_parser.c            |   14 +
->   drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
->   drivers/gpu/drm/msm/dp/dp_reg.h               |   30 +-
->   drivers/gpu/drm/msm/msm_atomic.c              |   19 +
->   include/drm/display/drm_hdcp.h                |  296 ++++
->   include/drm/display/drm_hdcp_helper.h         |   23 +
->   30 files changed, 2867 insertions(+), 1349 deletions(-)
->   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
->   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
-> 
-
--- 
-With best wishes
-Dmitry
-
+On Thu, May 18, 2023 at 9:52=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> amdgpu does not need swiotlb.h, so stop including it.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ttm.c
+> index 2cd081cbf70621..385e04612e4e9b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -38,7 +38,6 @@
+>  #include <linux/seq_file.h>
+>  #include <linux/slab.h>
+>  #include <linux/swap.h>
+> -#include <linux/swiotlb.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/sizes.h>
+>  #include <linux/module.h>
+> --
+> 2.39.2
+>
