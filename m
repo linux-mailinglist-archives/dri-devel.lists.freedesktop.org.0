@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C29709D22
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4DD709D29
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A58D10E591;
-	Fri, 19 May 2023 17:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3182710E5AD;
+	Fri, 19 May 2023 17:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6F510E591
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:04 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-510db954476so4310268a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:03 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C69010E591
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:05 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-510b56724caso2121816a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684515842; x=1687107842;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yI0mSQ2DqrJBtVhWBqNt4YE0D9y7Ke3r1TEApfK+Y8s=;
- b=pc+bPFnBQMB5DdWWjfCASoCdssIXgIseNm/bme4RxwHXpQ4TaWDUvSVpTf3RPBeboV
- qNcfs5L9zfpuxwRLfzN7qNreUCKxHt481E2PyzeUB7zqpKhg0Ie8LELEO8K/QKfCijk7
- 8A+0NXv/5f6zcp2Q7RPXVke2pK1H7WeEDXHpCZIMincmuYMZEPSWWHuIMT6TEkZy1Y3Z
- YXXYTQavMUGtAm08XKJnY95ENuOuBPVKeQEzhpuhG+IlFW+hOFKwtrS2QWKTAVQZ/7q1
- dGgtjuzA88F6tprCjOGqOoMkQJys6wIRyXT2IvzHFip2XnW9VgQM8UZox5gUGQq8pbGw
- 2gdg==
+ d=gmail.com; s=20221208; t=1684515843; x=1687107843;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tMbfgZNtYeRwD9smgGxKkhNix43UFfi2sTWJFSMwRx0=;
+ b=P4xVhmOOzmp4vBNC/eDpPzNpBkI7hhNpQEDfnWtU7yM3gMpNfpZHU8JcOOzqUyrig1
+ lb1stbTLqOeeVbFDPQwMfKCKJMSLcUsSWHSGznckf3/eXD2brfFmt2cuFucD0w3kdPHO
+ nF7XQ8MS7ZjZTzpVtG4sNBuzAAlOuHRjeLZDBmn1GBEvtA56Rm2eq6FVP24jn2kFKb4j
+ S4oAuJb24IkACLDtLOw+DGL4afM1QkRctlTt9rlOfcUPxFru6KZouAT+nTNqrHvWspQs
+ sE2FOuoo9AoKorvldkWNE4qIDKopllcrgQQ9a4jd6Wdvoi8ccLV3Ay9edGJhxLCXshCE
+ BcKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515842; x=1687107842;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yI0mSQ2DqrJBtVhWBqNt4YE0D9y7Ke3r1TEApfK+Y8s=;
- b=GprgApQNzPbFz5eNoGVn7Ca/B+g6QLe12QQwWEOXlp+3OZ/1DYRbIvhezWN8OqNkIy
- QT3XKNtJ6aMgAERKaJQBNsxkmBOeLlKgJEsxgxZwWGLLlsCaZIzv0yyYf5xnUa6pgrT6
- RdfqP0J4VF+2xcTjBf65uJn1wwsSQpnWwcS43PmSlNZRHWzOIN8J7qzX2NleMdUciF6b
- QBEBGhLC7x+6ITYAASwhg0XCAlH+2YtZKSKBGKX7IHVSf5t02JHHPCVkTDTzjaS+pyF0
- H67bPskczbzsFY8EDrYwWMtwdr5I8Dun6BSKFnJ7/vGSJcwEOrOBYFKPvgs0/aa5PlZc
- ct3A==
-X-Gm-Message-State: AC+VfDxPKrXe+yJJu5teEMVUJwzLnz+UVQoBBP+drr0Cbd7zJpVTxh56
- TTC2gjUclEaZiNrDzZkQWUs=
-X-Google-Smtp-Source: ACHHUZ6ITQoFmFv4vzlQeUk4c4DPVUrLLreopFxWyIzHGlMWscdmlLm+iMcBUWcK7gbNYfSx6rkm1w==
-X-Received: by 2002:a17:907:1b24:b0:96f:2b3f:61 with SMTP id
- mp36-20020a1709071b2400b0096f2b3f0061mr2536267ejc.7.1684515841784; 
- Fri, 19 May 2023 10:04:01 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684515843; x=1687107843;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tMbfgZNtYeRwD9smgGxKkhNix43UFfi2sTWJFSMwRx0=;
+ b=cp8rRpoLmwAttGByo8PUXJeyNplZWo/fLOK+XeevZVb59APt5Ia0Q0Y07nEau5cbdd
+ euAtZXZjOdckQv2UzIrIEwnL4cd8QpGsGRrpK2isfis+sWNTJ8xYyiJPxtmWuSHoraQy
+ uAN3upgUN24C05cvpnd2gNSMBdQrq7SJbIFeeVj8CplgVhzZC/aIlVVFdTZUtvZYTOqu
+ 0If3K4mryslEPF5PKRwoV1lyC7qDreUPT0PrmUvlcdumCcgLRTn4Eb/T0PO1We+McVZr
+ 9m19rk/xmBOOtyfHkSv3tlhu3SCrGkgVgshrGPv8FtUd6Hzad0KG7JGEOKU1gantL5GV
+ qH0w==
+X-Gm-Message-State: AC+VfDzhPg9Ayuoll0E3e+emWAw/R1e8D63zO0uKMXlj+e5qBOfPLGgS
+ C9pBiPrDxo2JJqzA5zN29nA=
+X-Google-Smtp-Source: ACHHUZ4kGmVmCGrd+bXfst09wD0FQoK/I6kxSeXm7KDAEPwXQJc939EXnwfTfV8PBLtqAtuhCcQh8A==
+X-Received: by 2002:a17:907:961c:b0:967:4bc7:38c0 with SMTP id
+ gb28-20020a170907961c00b009674bc738c0mr2641931ejc.9.1684515843333; 
+ Fri, 19 May 2023 10:04:03 -0700 (PDT)
 Received: from localhost.my.domain (83.11.222.198.ipv4.supernova.orange.pl.
  [83.11.222.198]) by smtp.gmail.com with ESMTPSA id
- mf13-20020a170906cb8d00b00965ffb8407asm2489988ejb.87.2023.05.19.10.03.59
+ mf13-20020a170906cb8d00b00965ffb8407asm2489988ejb.87.2023.05.19.10.04.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 10:04:01 -0700 (PDT)
+ Fri, 19 May 2023 10:04:02 -0700 (PDT)
 From: Artur Weber <aweber.kernel@gmail.com>
 To: thierry.reding@gmail.com
-Subject: [PATCH v5 0/3] Add Samsung S6D7AA0 panel controller driver
-Date: Fri, 19 May 2023 19:03:51 +0200
-Message-Id: <20230519170354.29610-1-aweber.kernel@gmail.com>
+Subject: [PATCH v5 1/3] dt-bindings: display: panel: Add Samsung S6D7AA0 LCD
+ panel controller
+Date: Fri, 19 May 2023 19:03:52 +0200
+Message-Id: <20230519170354.29610-2-aweber.kernel@gmail.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230519170354.29610-1-aweber.kernel@gmail.com>
+References: <20230519170354.29610-1-aweber.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,52 +83,108 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset adds initial support for Samsung S6D7AA0-based panels.
-Currently, the following panels are supported:
+Add bindings for the S6D7AA0 LCD panel controller, including the
+S6D7AA0-LSL080AL02 panel used in the Samsung Galaxy Tab 3 8.0 family
+of tablets, and the S6D7AA0-LSL080AL03 and S6D7AA0-LTL101AT01 panels
+used in the Samsung Galaxy Tab A 8.0 and 9.7 2015.
 
- - S6D7AA0-LSL080AL02 (Samsung Galaxy Tab 3 8.0)
- - S6D7AA0-LSL080AL03 (Samsung Galaxy Tab A 8.0 2015)
- - S6D7AA0-LTL101AT01 (Samsung Galaxy Tab A 9.7 2015)
-
-Changed in v2:
- - Added commit messages for dt-bindings and MAINTAINERS entry commits
- - dt-bindings: Applied suggestions from Krzysztof Kozlowski
- - driver: Removed unused panel_name property from desc struct
-
-Changed in v3:
- - Correctly applied patch for dt-bindings
-
-Changed in v4:
- - Added support for LSL080AL03 and LTL101AT01 panels
- - Added DSI-controlled backlight support for panels that support it
- - Added vmipi-supply
- - Dropped s6d7aa0_bl_ctl_on function (not universal across all panels)
- - Removed MIPI_DSI_MODE_LPM flag
-
-Changed in v5:
- - Changed compatible to avoid concatenating compatibles
- - Removed '|' from multiline descriptions in DT schema
- - Fixed DT bindings license
-
-Tested-by: Nikita Travkin <nikita@trvn.ru> #ltl101at01
 Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-
-Artur Weber (3):
-  dt-bindings: display: panel: Add Samsung S6D7AA0 LCD panel controller
-  drm/panel: Add Samsung S6D7AA0 panel controller driver
-  MAINTAINERS: Add entry for Samsung S6D7AA0 LCD panel controller driver
-
- .../display/panel/samsung,s6d7aa0.yaml        |  71 +++
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/panel/Kconfig                 |   7 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 585 ++++++++++++++++++
- 5 files changed, 670 insertions(+)
+---
+Changed in v2:
+ - Updated commit message
+ - Added reg to required properties
+ - Reordered required properties
+Changed in v3:
+ - Fixed patch that didn't apply
+Changed in v4:
+ - Added LSL080AL03, LTL101AT01 compatibles
+ - Added description to reset-gpios
+ - Added vmipi-supply, renamed enable-supply to power-supply
+Changed in v5:
+ - Changed compatibles to avoid concatenating multiple model numbers
+ - Removed '|' from multiline descriptions
+ - Fixed license
+---
+ .../display/panel/samsung,s6d7aa0.yaml        | 70 +++++++++++++++++++
+ 1 file changed, 70 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
 
-
-base-commit: ab87f558dcfb2562c3497e89600dec798a446665
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+new file mode 100644
+index 000000000000..45a236d2cc70
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6d7aa0.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S6D7AA0 MIPI-DSI LCD panel controller
++
++maintainers:
++  - Artur Weber <aweber.kernel@gmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          # 1280x800 LSL080AL02 panel
++          - samsung,lsl080al02
++          # 1024x768 LSL080AL03 panel
++          - samsung,lsl080al03
++          # 1024x768 LTL101AT01 panel
++          - samsung,ltl101at01
++      - const: samsung,s6d7aa0
++
++  reg: true
++
++  backlight:
++    description:
++      Backlight to use for the panel. If this property is set on panels
++      that have DSI-based backlight control (LSL080AL03 and LTL101AT01),
++      it overrides the DSI-based backlight.
++
++  reset-gpios:
++    description: Reset GPIO pin, usually GPIO_ACTIVE_LOW.
++
++  power-supply:
++    description:
++      Main power supply for the panel; the exact voltage differs between
++      panels, and is usually somewhere around 3.3-5v.
++
++  vmipi-supply:
++    description: VMIPI supply, usually 1.8v.
++
++required:
++  - compatible
++  - reg
++  - reset-gpios
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,lsl080al02", "samsung,s6d7aa0";
++            reg = <0>;
++            power-supply = <&display_3v3_supply>;
++            reset-gpios = <&gpf0 4 GPIO_ACTIVE_LOW>;
++            backlight = <&backlight>;
++        };
++    };
++
++...
 -- 
 2.40.1
 
