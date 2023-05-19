@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB38709D32
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5316D709D37
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87AF310E5CC;
-	Fri, 19 May 2023 17:04:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E753610E5DB;
+	Fri, 19 May 2023 17:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D41E10E5B4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:36 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4effb818c37so3982791e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:36 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1705A10E5B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:38 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-4f1fe1208a4so3992868e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684515874; x=1687107874;
+ d=linaro.org; s=google; t=1684515876; x=1687107876;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=H1+Xx964Do5+Dd75p0npXtM1tzzF2n1YUbY/5ffcryg=;
- b=thfkMJlDBO8wgthYMNMUetBmtETMvJPAsYrmS0DzsUWpmfaib4gkM6txQeuc6e4vvv
- GyytH2+nPXZg2cxeG4fm49g+VOthlvEgjSWV8yeBcWmv9ge/km0/ZRMyeWQzjSLHk4yj
- QPp+ecXf101QRtMFP39n9kSmcBcLXE3eM+tUHwQrPYdlWPpgccVRQTJO7E1fKQmdFXhz
- eQBZncbZPwGULUtgUf8FU6OKp3JaTMxGryRy+9d/lMXmuA6HT9u5f1EMfbT2UhGkR7K0
- CKkxDT0Qam3x47K4ccxbeLbsyGDOr0MA52V6Ujd70UdmJIaCSiO/jKM6C33b1Cxl6J8Y
- yoxw==
+ :reply-to; bh=Olp/PVXIJr8fEMjOP3fCHDkSYD0xJnBud5aoQtWwMD4=;
+ b=P9a3mKGxCtfXzLKVP5SAo8qOjOSf2qX1HaGd/cu8Xc9t6oXlMn3jlr7AlPWcfXUcGc
+ uUhl0unwQ+QMiJ6B95v/v6z2cKzszb/5BcyqYLd7UX6POBBNCYBgyiW9RxMBgaN6hejk
+ e5D56a96OYOJrhs0upUZj0VDGFDjlBPbXLW5Zn8C16wqz0mPgyN8kUQ3fqDgk7Namlas
+ HVeSscM5QregjAWpfKtNE+sc6VScflt0U/8InDCjzdAoRKFZyZmym1t93dB0RircufHa
+ bGbO6VyI3Gi0Ao+Ofz035mXiB43bMiH19+BPZ+69ER1Vz9PioKXed9KGziR2h0GuwWKh
+ kjzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515874; x=1687107874;
+ d=1e100.net; s=20221208; t=1684515876; x=1687107876;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H1+Xx964Do5+Dd75p0npXtM1tzzF2n1YUbY/5ffcryg=;
- b=lOCbOKihi/AHVsqYM/8Yp2PQmTT2VBkB+7+QgRgWR7f/1Whj0NrLw+v7Fvn6vb/FR9
- eSeumZ4TI/uFbWjTDnHV1DoNP2Jx9TtSbnX1WF2ef/mXdoZfFglKVFVw2zIyUvqB3To7
- j0cscxgJEj0owAyDIgQtCPWzCr/u+pzg6QuoYyuMi8UuI6sxiSwIvOc1E3kkjU4frO9L
- IWzD5EkGZ3uXKXppqDPYxEMcUMeZYhb88+ysQzoZgozZ7QAkIA5QjjqjhPNS31wLrX+X
- DbHE6KSr0tCaKedtPVrM/P7SGv5rhJ+sNQHJQfEzwX+XEzgvyYTYnJxJt04wueG1mYIs
- jP4Q==
-X-Gm-Message-State: AC+VfDxqhySFNzcAt1vHXthNwT7aTb1Mho6R86/DuNmXeRaO3GGlTs2z
- pJZtquyRVvxHI1fYEgR/0ZrmIA==
-X-Google-Smtp-Source: ACHHUZ4mELS3YoypykXV8iWIlO0eUJnwCCZDBcvHgkxqQ8EOSkqseL8HgLFIlG4jNk1ozEpcxJvN/A==
-X-Received: by 2002:ac2:5298:0:b0:4ef:eb50:4d3d with SMTP id
- q24-20020ac25298000000b004efeb504d3dmr1036530lfm.18.1684515874534; 
- Fri, 19 May 2023 10:04:34 -0700 (PDT)
+ bh=Olp/PVXIJr8fEMjOP3fCHDkSYD0xJnBud5aoQtWwMD4=;
+ b=KEGgViaan7qvCM2EX2hi6bwFnFsSEQM+gJZTxcYWfL4bTfWNf93Q7WQZuG76iNoNjb
+ KiSJ2BiCGXsr/SrLcnV/P3nWh2h+ZtuDpavKGRem2WwlPCsEKbzNIQB2bFU15nOOHryV
+ sck5w7XavvinC+IsJOpzgNcxl1U3vJkaByPK7Uavtp2Uag32jUojZWucolwVbdDPmUA4
+ EcBB0MjB4Cn7NEEUZ6Ho7ItcNn2Ri4h02m834yx5/97ar4PXFDhfqRbhfh7Gg/xHGcx+
+ ZDs94yFW84nkMYSuCPvaQqsTQZRRPP2o4RFQqkcIuZKwF3x4NiytN0i/X+1QBJIup+nv
+ YXDQ==
+X-Gm-Message-State: AC+VfDyer1Oq5jYB2Q/FQuhhVcM+a0NFppGAV7vSDstEaeZ6E/yymhpu
+ L1OybUFZvNSkv/YcLJf4oWhfAQ==
+X-Google-Smtp-Source: ACHHUZ4IeHr3sqM5Wn5U1+TjNStYTlQDUVag+a9X5qZ3WvOtBOeS4Z5TH4sFCy3lI4XYAyk9EC+kwg==
+X-Received: by 2002:ac2:4c90:0:b0:4f1:95cf:11eb with SMTP id
+ d16-20020ac24c90000000b004f195cf11ebmr972148lfl.6.1684515876323; 
+ Fri, 19 May 2023 10:04:36 -0700 (PDT)
 Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
  by smtp.gmail.com with ESMTPSA id
- a6-20020a19f806000000b004f38260f196sm654478lff.218.2023.05.19.10.04.32
+ a6-20020a19f806000000b004f38260f196sm654478lff.218.2023.05.19.10.04.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 10:04:34 -0700 (PDT)
+ Fri, 19 May 2023 10:04:35 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Fri, 19 May 2023 19:04:22 +0200
-Subject: [PATCH v4 01/12] dt-bindings: display/msm: dsi-controller-main:
- Add SM6350
+Date: Fri, 19 May 2023 19:04:23 +0200
+Subject: [PATCH v4 02/12] dt-bindings: display/msm: dsi-controller-main:
+ Add SM6375
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230411-topic-straitlagoon_mdss-v4-1-68e7e25d70e1@linaro.org>
+Message-Id: <20230411-topic-straitlagoon_mdss-v4-2-68e7e25d70e1@linaro.org>
 References: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
 In-Reply-To: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -70,11 +70,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
  Joerg Roedel <joro@8bytes.org>, Conor Dooley <conor+dt@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684515870; l=1129;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684515870; l=1145;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=+O75/n498bCPQBt/QSpDKi1r6jFyvKeD8W9H7IyUIm4=;
- b=VMrSRiQHHy1IfOFNgIhJBuew4aa+bzoYEQiURFvzfuY35jhC8ZmvzP63uqDyObnTEPw1tPlJK
- NjlOaMqNxplC8il/61Rj/Lc3mhX2uSte/tj0u4ArOzMhKezg3GsCLCm
+ bh=VsWoYP7GHCgHOv33piyXwEtJ6/KtKH5SJYQ2EDUVEdo=;
+ b=QPzbrNxaTLE/p9WkBiuxekU0fx4pSTlLLWeihi35wm/6b4DUhAxEznO6YIPT1cqT9vE73a++B
+ KIBa/uP4RVtC4cpGHCHGC0eyloeNuPrCeuqwfmpNxDSXB2Gr7rCN3Yh
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,7 +97,7 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the DSI host found on SM6350.
+Add the DSI host found on SM6375.
 
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
@@ -106,22 +106,22 @@ Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index e6c1ebfe8a32..6f367a1fabf8 100644
+index 6f367a1fabf8..f7dc05a65420 100644
 --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -26,6 +26,7 @@ properties:
-               - qcom,sdm660-dsi-ctrl
+@@ -27,6 +27,7 @@ properties:
                - qcom,sdm845-dsi-ctrl
                - qcom,sm6115-dsi-ctrl
-+              - qcom,sm6350-dsi-ctrl
+               - qcom,sm6350-dsi-ctrl
++              - qcom,sm6375-dsi-ctrl
                - qcom,sm8150-dsi-ctrl
                - qcom,sm8250-dsi-ctrl
                - qcom,sm8350-dsi-ctrl
-@@ -285,6 +286,7 @@ allOf:
-           contains:
+@@ -354,6 +355,7 @@ allOf:
              enum:
-               - qcom,msm8998-dsi-ctrl
-+              - qcom,sm6350-dsi-ctrl
+               - qcom,sdm845-dsi-ctrl
+               - qcom,sm6115-dsi-ctrl
++              - qcom,sm6375-dsi-ctrl
      then:
        properties:
          clocks:
