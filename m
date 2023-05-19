@@ -2,118 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFE1708E24
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 05:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E54708E3D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 05:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033B710E5A7;
-	Fri, 19 May 2023 03:10:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D64B110E5A2;
+	Fri, 19 May 2023 03:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA2810E5A7
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 03:10:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YnblvInAFfoxPJkf1BipKx1nL/CVhDC1u3WASDqlR0cP4q6vg9OOz3bUlbaClfVXVJ8ZVZflSp2GFddtalGzbhVBc9x2MxTzJCj4yrXgzd5wEU+dpDKnd7cg26I9vTPLd/rYgiQ+W0yJXQRVjF81uOx6Ou2zSDdU4gPAmTLU9VP7la3abL2nfZKq8SktSKl+a2ojHs+ch6Bs7b3u9dH4o0MbxPd3j1c+PGO0cYDGov324wPEVT9JWP6sufpNkhfD+t30iXEXzTWWLLPdMZjxbW8ixryLJ4XhWAqOIRlkIm5ZCGOB43MR6Db8uquAlCDCCGNoawvf04I+h2iYbd8VOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X/xzZBhxsnYMR6g+PxM113Go50OkDe9y8NOOynJrwo8=;
- b=ly4zSyS7zpM99WUwh7lzHV7Yabk7293tFmMI4CBh9K+C2MbR5OVukrDi2DLT8oqLppZ8vVW/LI8T9tF8bNyFQ0gsNZta8mllTZCjQ3YWf9PkrnaLIImk7FtgjRaAy78AJSp0u+kOoQNyPfZtE9Z+N+VYZHVGK/41SEWzqDXbCklgvgwshlAD3l82LuFQJwuS6AM24vU0IpQZ6SUz2u0oKQ0xOkI/lGZbXETUm+0V+WD8xO4QqebnlFoSrJZGx+A20h4pqnZm2nhTG6UPpAiAPCN/t8SsT1Alivq3UQJZAa5L6PkhUtr4MBmzJQpDrpx/6JeEe46R9JJXejnYka5WDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X/xzZBhxsnYMR6g+PxM113Go50OkDe9y8NOOynJrwo8=;
- b=yh34tv4n2by0jiMy2XMFBP/x4Ab2Y+y0LrrhlxdbS2SCaJHmY2RLSoFnRVQVRYX6kysaZ2aRrQW5v6N626BXl346pPQ2KP/royQZafAfD+QtIjy30i2ofwnstOwdPm8ZO8knGduFm5SMjbu13uzV3x3PBTkSRCYyPCGErtFIz6o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1753.namprd12.prod.outlook.com (2603:10b6:3:10d::16)
- by IA1PR12MB6387.namprd12.prod.outlook.com (2603:10b6:208:389::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.19; Fri, 19 May
- 2023 03:10:35 +0000
-Received: from DM5PR12MB1753.namprd12.prod.outlook.com
- ([fe80::29b3:39df:b69a:7db2]) by DM5PR12MB1753.namprd12.prod.outlook.com
- ([fe80::29b3:39df:b69a:7db2%11]) with mapi id 15.20.6411.018; Fri, 19 May
- 2023 03:10:35 +0000
-Message-ID: <c4768d59-8247-e94b-fdc9-46801beeba07@amd.com>
-Date: Thu, 18 May 2023 23:10:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: linux-next: build failure after merge of the amdgpu tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Alex Deucher <alexdeucher@gmail.com>
-References: <20230519100608.7e836126@canb.auug.org.au>
-From: James Zhu <jamesz@amd.com>
-Organization: AMD RTG
-In-Reply-To: <20230519100608.7e836126@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0128.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::31) To DM5PR12MB1753.namprd12.prod.outlook.com
- (2603:10b6:3:10d::16)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99D510E5A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 03:23:26 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1aaebed5bd6so20551595ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 20:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
+ t=1684466605; x=1687058605; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pNm5udqCbvnX4XXpVIQfqEI5NTUpbX2o76O+K2Dk0ZY=;
+ b=tdlPMz2XZvLEwfBIg0OM6UNf9B7DG9zBhIFqvHgjz/irqTjgZz5ea8w0zxTuT+PC4N
+ uPlzwCx3GfTx49yn371Or0Sb3OdtUUkBD8bAg3s53Oxv2iRPuE/LDTvbUej747cIDTHB
+ ag1o8FrGxItz7lafWVjB8lSaffh8FcATiFIKJ/q7Tv93oga2s4H/J/60FvkOyOEYUPNc
+ QZK36O/yfqlunyFTC6c5Rdn7crcv6ZkZNqK/xKVSVKkAVRefzFo7sZrU0JLscrjQrgnw
+ /6vZyg05ej/RlmQy6snEE5XqY9fs2jDo217VNBy0AZS25BgUbdTps9/ID8643SKB9erb
+ dCdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684466605; x=1687058605;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pNm5udqCbvnX4XXpVIQfqEI5NTUpbX2o76O+K2Dk0ZY=;
+ b=X2LKtJhV6rbA8GVfg6tdolngbUc7VCXESAbIU2xYsgK2lCSkuu5OUMlXoU4qdzUDk5
+ 8TDzy2UL7FcyyBdzhf2ppp7stDkIKZAlHDw/L6bE69jNpWtfCG0cEvG1fbDES3VU1y05
+ AM5+cYF+Nm5mY4ZNNVbG9/MZTR8MdzcIojLWwYWaUKM3i3i5Wd1uVxCGWSUUJ7XFpz0c
+ ZIYwGS5dtiiMxGBF6QRZdjqeCdlq7207o2MtgJUSNxSWXJyozSItwxw1IceBEB273zwa
+ J1tnov2+H7k7qERikV7qtbVjO4LlVaf67DyauPDk2Ka6NrkXVsB2LrHdSDQ1G5gf8MMj
+ wpag==
+X-Gm-Message-State: AC+VfDxgOpKeoko9AjYj3TgEpHDwPRGxJAlMIWGfjz4rq7H4EW3yYl5X
+ 1F2f1pSwNYUM7z9oaJFFojEhdQ==
+X-Google-Smtp-Source: ACHHUZ40Y2EQt77CNzrMQHYqya32tovQxFScskIX1aU97lb182LFU0XTvrVGhJAz/3hP+raYApOFVA==
+X-Received: by 2002:a17:903:492:b0:1ad:ca0e:cf23 with SMTP id
+ jj18-20020a170903049200b001adca0ecf23mr1234979plb.3.1684466605552; 
+ Thu, 18 May 2023 20:23:25 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+ by smtp.gmail.com with ESMTPSA id
+ jk21-20020a170903331500b0019cbe436b87sm2229666plb.81.2023.05.18.20.23.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 May 2023 20:23:25 -0700 (PDT)
+From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com
+Subject: [PATCH] drm/panel: Support for Starry-himax83102-j02 TDDI MIPI-DSI
+ panel
+Date: Fri, 19 May 2023 11:23:16 +0800
+Message-Id: <20230519032316.3464732-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1753:EE_|IA1PR12MB6387:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54c03855-8b2b-4bc6-b1da-08db58169d15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K6s/v6j4eCTPYHgpgHlYQPTg2i6H0TzSTqtrpt3BeAlUiLJENC2QzcZxh4uqstR3vfZjLvwGu2d/nJTFXn7cWW9GukHHEWzhxVAhrrZh6xS8IKvlW7jqkr3fe8p6iIF508xugGu3t8CdQ46APh1aFaUZkZETlMtJeaRFWzfxi+DuZYR0/Waj8PMQr9DzjWCA6QDffdUf1ZFBl7dHDjjJ6NvCLLOu1TaqvUUoJ/p7YCCbBmt9qy+wNeGnCzur1FbJ8GEwsaYDCyBtjf2kt0SfZ8tKKKl94JU3RSmukZ1nrPnvUQ5B7zbDAzH1qzpies6gI1pZUQcRdmWU+CNFZAp+v/v1q8g6gapRbhpbWm5rG5PjngaKBpHZnpLoEPE/l6+nJbBJeaObRbXmfB0n5GOTHWdeBmRx3Fm8lz5QOsUQoEGu2QRrNzJRCNDJdzH5BCZuGeMR7SwjzxNIzWENnmthAGj1i+TD+ERApsENcUVzia/tig9obJUwxNZ1VG9bssOfxxTSUR2Gp7Yq1Z+ZnFUYWTfKJRheHwDx+McQ0SQVyAsSDkZKdLgwTGyFohmmTzEoRWomPgCTDogcQeyi3XR69mTTCKp7SveT77cYpvhUx+w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(366004)(376002)(39860400002)(136003)(451199021)(2906002)(4744005)(478600001)(8676002)(41300700001)(8936002)(31686004)(316002)(54906003)(110136005)(6666004)(6486002)(66946007)(66556008)(66476007)(5660300002)(4326008)(966005)(6512007)(36916002)(53546011)(26005)(6506007)(186003)(38100700002)(2616005)(36756003)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2gzQmJ6WTNtdEdocVZLMXA5NHFiTXlOb2pnMEUrSUx2aGNHajVXR2dtd2hw?=
- =?utf-8?B?Tk9qR0U4M0QzR0lPNHFmOW1VTXRmdlM2bjVkS1QxWW5zeW5lT1BpNTBRUCtN?=
- =?utf-8?B?M09pRVlpbG4vOVhlTGVnQ1lySmhCOHZaSVNRT0dwOTlCcjJGN3B6eW9DN0J3?=
- =?utf-8?B?cTZLbFBTM00zWWVIM0VZY2lMZi95NEtnTnA5dkNpdE9JT1VjZ3E4TWhwMTlB?=
- =?utf-8?B?Y2FDQmVtd0Rnc2F6Y0ZOQmpEOFlZZXFQMlBDUFFYODllZjVOaUhzR25iaHlT?=
- =?utf-8?B?WGtlRVRJWjZyUU5tTjdSVUJDVlpITytYSzZxWWhvL00vVHBXWXVxdGo0YjE5?=
- =?utf-8?B?UmxrNGNSREM1eGl6Y0MyWkRBek5MVnpqUWN4MGw1aWpJUGdZS01lKzRvVFly?=
- =?utf-8?B?bWFnVDlRUDZtSlc5eTdsVmZhV1NYVnMzaHIwZ3BKR0dpZXlrakkveTZaUnFw?=
- =?utf-8?B?WS9XU0tDbG8yd051VURYdUJrZDh2cXhMZURiSmJISEorcjFoSUxKVlVwR0NL?=
- =?utf-8?B?M3kzWlBZM1hPYjhTbjBRcFFvSXJvMXVZMEkxZm1JL2VZZitKY2xFN2VQQmhX?=
- =?utf-8?B?bUxuMHY5a2tqcFBqU2wwV0ExclFkMGNDRWhtTlhqQWkzZHNHMWY0d3ZyRXpO?=
- =?utf-8?B?TTVjK011blp2YU5NMDdBUjJPc3l1OGRMZys3ZndrOGxtWjc5V3BEL0Z3YnR3?=
- =?utf-8?B?RWUrZStDejNMRUttZWJDVHdaTmE0ZGR1RGF2NW9RQUg2VHpteWpPbUMyNm1G?=
- =?utf-8?B?Q0ZpdXhZVXRJQUQyUHN5TkhCMHJnSDRZT0poT1IrN255U0ZBSEVtWk9DU3JE?=
- =?utf-8?B?OXpFWG5zK1VlcjdsdHh3aXFTVVVNWkdQcDVJWE82ekFNbVJZMkY5TXRUMWpM?=
- =?utf-8?B?N1Fad0g1NUcwa2pXa254Z2JsSnNUZWdOUFFsZWR0Ym9OQk5aSnVkTEQwdys5?=
- =?utf-8?B?VUtSTHlZbEZtTEJaOFY5ZHU2TWxWN21tanlUY3Y0dzJWR3BQZFRrMk9Xdmov?=
- =?utf-8?B?amtNWGlZTi9uRlRvU2lwVDlTUkNhK1YzVUkxdDRidXlFUzRaeDFsZ3NqSjFM?=
- =?utf-8?B?RFBUakNHOG9CcFhYRzBNenJoaXNBTG1INlg5SGNiUDZyUkQ0bm5iTng5elMz?=
- =?utf-8?B?QjRhYUsxcEJVK2ZJTXRXNkR2dTlTWmhibGVyMWNSRGhYYjhIQnlIeUthQktU?=
- =?utf-8?B?YWd6aW9UOTdBY0p3ZG91cm1TTm1hWWZaYjdFa1ptbFR1dDhteTJzcEpiNC9o?=
- =?utf-8?B?Y01qL2NhSktqZ0s5NlNRRjYwQzNwQTVVSnEwZWVYbllBZVhxSG5GQURPR0N0?=
- =?utf-8?B?SWpYZ1dFd0VFRmpYSXpzYU9DUTdJY2swV2c3OEpFVUphb2JvcmJNQzRSNFVC?=
- =?utf-8?B?UUpFMlJyN3M3RHp3b1p5UDB1eXhZWUZzVEJDaW9hZzh6YklvaitHM3FoQjFx?=
- =?utf-8?B?UUF5R3ZqblhpZWJJTDk1MmtiaERFUVFDTlZBSlBueU85c21uZXVqNE5kOEdp?=
- =?utf-8?B?TEdBNVZrYmprdWxYdHVsKzEwZ0t0d0p1RXlhbEFhQkl6MUFQcStaL1oxczNW?=
- =?utf-8?B?c0UxRXpQamFKU09ST3p0S3dGd3EyMG02Y3Z5dUU1T2M5Ym9lT2VrTXNGcTU4?=
- =?utf-8?B?ZjZ2dU1jQXRSNHRxNEV3YmhTSjMxMG9SZEtERFNyU0xEVzlYZzNVcG5CZTVw?=
- =?utf-8?B?K3V0NWtRc3llWUVUcDViNUdIWnVSa2VqK1NsRUw3b1BYeDB3TUs2U0FZbzI1?=
- =?utf-8?B?UGlJVlFtTjhRTE5UYzVURElReGhXTTFSTnVEWkZaSGV2bXBwUnpEdzJOazFi?=
- =?utf-8?B?eWNzUTF4Q0dGdzNSTHJ0MmRZQ2tyRndpS29zRmFrUDZuTkdkVW41RVNtWjZI?=
- =?utf-8?B?TURiQmtrek16VHhsS2hDYi9yRDFBV3lwTHZDMjVRVkxGZkY5cmYrbHNvUXFz?=
- =?utf-8?B?bXlyUWRRWGljbWw3KzY5cG04Y25NSUczSTlTNXVmVDZNcVNsdzhUSiszVXdz?=
- =?utf-8?B?eDM3S0lJQVZDdFFZdjNCU0dueFdJclZIN2FzcEd6eHBMUWFTbzJ3aWRxTFly?=
- =?utf-8?B?U2ExbVJyT256N2JHNDBQVlZISWJpZ3dmVnpDdWFJY2tkMzB1ckdSLzNtQ2hW?=
- =?utf-8?Q?G0ORaBUeCt8+qNORr+p++Us60?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54c03855-8b2b-4bc6-b1da-08db58169d15
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2023 03:10:35.2896 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X6HY9ro8jQb1WDVsjvq2S67E8fTo3LqJaljg+Tot8//jOn7sA5zyEZUinpkE2OOG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6387
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,39 +73,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- James Zhu <James.Zhu@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+The Starry-himax83102-j02 panel is a TDDI IC. From the datasheet[1],
+it seems that the touch can communicate successfully only when the RST
+signal is high. Since i2c_hid_core_probe comes after boe_panel_prepare
+let's set the default high for RST at boe_panel_add.
 
-I saw 
-https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c#349
+[1]: https://github.com/HimaxSoftware/Doc/tree/main/Himax_Chipset_Power_Sequence
 
-should not have this error.
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+---
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 103 +++++++++++++++++-
+ 1 file changed, 102 insertions(+), 1 deletion(-)
 
-Thanks!
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 783234ae0f57..0d325fc42bc4 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -36,6 +36,7 @@ struct panel_desc {
+ 	const struct panel_init_cmd *init_cmds;
+ 	unsigned int lanes;
+ 	bool discharge_on_disable;
++	int enable_gpio_init_value;
+ };
+ 
+ struct boe_panel {
+@@ -75,6 +76,75 @@ struct panel_init_cmd {
+ 	.len = sizeof((char[]){__VA_ARGS__}), \
+ 	.data = (char[]){__VA_ARGS__} }
+ 
++static const struct panel_init_cmd starry_himax83102_j02_init_cmd[] = {
++	_INIT_DCS_CMD(0xB9, 0x83, 0x10, 0x21, 0x55, 0x00),
++	_INIT_DCS_CMD(0xB1, 0x2C, 0xB5, 0xB5, 0x31, 0xF1, 0x31, 0xD7, 0x2F, 0x36, 0x36, 0x36, 0x36, 0x1A, 0x8B, 0x11,
++		0x65, 0x00, 0x88, 0xFA, 0xFF, 0xFF, 0x8F, 0xFF, 0x08, 0x74, 0x33),
++	_INIT_DCS_CMD(0xB2, 0x00, 0x47, 0xB0, 0x80, 0x00, 0x12, 0x72, 0x3C, 0xA3, 0x03, 0x03, 0x00, 0x00, 0x88, 0xF5),
++	_INIT_DCS_CMD(0xB4, 0x76, 0x76, 0x76, 0x76, 0x76, 0x76, 0x63, 0x5C, 0x63, 0x5C, 0x01, 0x9E),
++	_INIT_DCS_CMD(0xE9, 0xCD),
++	_INIT_DCS_CMD(0xBA, 0x84),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xBC, 0x1B, 0x04),
++	_INIT_DCS_CMD(0xBE, 0x20),
++	_INIT_DCS_CMD(0xBF, 0xFC, 0xC4),
++	_INIT_DCS_CMD(0xC0, 0x36, 0x36, 0x22, 0x11, 0x22, 0xA0, 0x61, 0x08, 0xF5, 0x03),
++	_INIT_DCS_CMD(0xE9, 0xCC),
++	_INIT_DCS_CMD(0xC7, 0x80),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xE9, 0xC6),
++	_INIT_DCS_CMD(0xC8, 0x97),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xC9, 0x00, 0x1E, 0x13, 0x88, 0x01),
++	_INIT_DCS_CMD(0xCB, 0x08, 0x13, 0x07, 0x00, 0x0F, 0x33),
++	_INIT_DCS_CMD(0xCC, 0x02),
++	_INIT_DCS_CMD(0xE9, 0xC4),
++	_INIT_DCS_CMD(0xD0, 0x03),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xD1, 0x37, 0x06, 0x00, 0x02, 0x04, 0x0C, 0xFF),
++	_INIT_DCS_CMD(0xD2, 0x1F, 0x11, 0x1F),
++	_INIT_DCS_CMD(0xD3, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x08, 0x37, 0x47, 0x34, 0x3B, 0x12, 0x12, 0x03,
++		0x03, 0x32, 0x10, 0x10, 0x00, 0x10, 0x32, 0x10, 0x08, 0x00, 0x08, 0x32, 0x17, 0x94, 0x07, 0x94, 0x00, 0x00),
++	_INIT_DCS_CMD(0xD5, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19, 0x40, 0x40, 0x1A, 0x1A,
++		0x1B, 0x1B, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x20, 0x21, 0x28, 0x29, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18),
++	_INIT_DCS_CMD(0xD6, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x40, 0x40, 0x19, 0x19, 0x1A, 0x1A,
++		0x1B, 0x1B, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x29, 0x28, 0x21, 0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18),
++	_INIT_DCS_CMD(0xD8, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA,
++		0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0xA0),
++	_INIT_DCS_CMD(0xE0, 0x00, 0x09, 0x14, 0x1E, 0x26, 0x48, 0x61, 0x67, 0x6C, 0x67, 0x7D, 0x7F, 0x80, 0x8B, 0x87, 0x8F, 0x98, 0xAB,
++		0xAB, 0x55, 0x5C, 0x68, 0x73, 0x00, 0x09, 0x14, 0x1E, 0x26, 0x48, 0x61, 0x67, 0x6C, 0x67, 0x7D, 0x7F, 0x80, 0x8B, 0x87, 0x8F, 0x98, 0xAB, 0xAB, 0x55, 0x5C, 0x68, 0x73),
++	_INIT_DCS_CMD(0xE7, 0x0E, 0x10, 0x10, 0x21, 0x2B, 0x9A, 0x02, 0x54, 0x9A, 0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, 0x05, 0x02, 0x02, 0x10),
++	_INIT_DCS_CMD(0xBD, 0x01),
++	_INIT_DCS_CMD(0xB1, 0x01, 0xBF, 0x11),
++	_INIT_DCS_CMD(0xCB, 0x86),
++	_INIT_DCS_CMD(0xD2, 0x3C, 0xFA),
++	_INIT_DCS_CMD(0xE9, 0xC5),
++	_INIT_DCS_CMD(0xD3, 0x00, 0x00, 0x00, 0x00, 0x80, 0x0C, 0x01),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xE7, 0x02, 0x00, 0x28, 0x01, 0x7E, 0x0F, 0x7E, 0x10, 0xA0, 0x00, 0x00, 0x20, 0x40, 0x50, 0x40),
++	_INIT_DCS_CMD(0xBD, 0x02),
++	_INIT_DCS_CMD(0xD8, 0xFF, 0xFF, 0xBF, 0xFE, 0xAA, 0xA0, 0xFF, 0xFF, 0xBF, 0xFE, 0xAA, 0xA0),
++	_INIT_DCS_CMD(0xE7, 0xFE, 0x04, 0xFE, 0x04, 0xFE, 0x04, 0x03, 0x03, 0x03, 0x26, 0x00, 0x26, 0x81, 0x02, 0x40, 0x00, 0x20, 0x9E, 0x04, 0x03, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00),
++	_INIT_DCS_CMD(0xBD, 0x03),
++	_INIT_DCS_CMD(0xE9, 0xC6),
++	_INIT_DCS_CMD(0xB4, 0x03, 0xFF, 0xF8),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xD8, 0x00, 0x2A, 0xAA, 0xA8, 0x00, 0x00, 0x00, 0x2A, 0xAA, 0xA8, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x2A, 0xAA, 0xA8, 			0x00, 0x00, 0x00, 0x2A, 0xAA, 0xA8, 0x00, 0x00),
++	_INIT_DCS_CMD(0xBD, 0x00),
++	_INIT_DCS_CMD(0xE9, 0xC4),
++	_INIT_DCS_CMD(0xBA, 0x96),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xBD, 0x01),
++	_INIT_DCS_CMD(0xE9, 0xC5),
++	_INIT_DCS_CMD(0xBA, 0x4F),
++	_INIT_DCS_CMD(0xE9, 0x3F),
++	_INIT_DCS_CMD(0xBD, 0x00),
++	_INIT_DCS_CMD(0x11),
++	_INIT_DELAY_CMD(120),
++	_INIT_DCS_CMD(0x29),
++	{},
++};
++
+ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
+ 	_INIT_DCS_CMD(0xFF, 0x20),
+ 	_INIT_DCS_CMD(0xFB, 0x01),
+@@ -1620,6 +1690,34 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
+ 	.init_cmds = starry_qfh032011_53g_init_cmd,
+ };
+ 
++static const struct drm_display_mode starry_himax83102_j02_default_mode = {
++	.clock = 161600,
++	.hdisplay = 1200,
++	.hsync_start = 1200 + 40,
++	.hsync_end = 1200 + 40 + 20,
++	.htotal = 1200 + 40 + 20 + 40,
++	.vdisplay = 1920,
++	.vsync_start = 1920 + 116,
++	.vsync_end = 1920 + 116 + 8,
++	.vtotal = 1920 + 116 + 8 + 12,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
++
++static const struct panel_desc starry_himax83102_j02_desc = {
++	.modes = &starry_himax83102_j02_default_mode,
++	.bpc = 8,
++	.size = {
++		.width_mm = 141,
++		.height_mm = 226,
++	},
++	.lanes = 4,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++		      MIPI_DSI_MODE_LPM,
++	.init_cmds = starry_himax83102_j02_init_cmd,
++	.enable_gpio_init_value = 1,
++};
++
+ static int boe_panel_get_modes(struct drm_panel *panel,
+ 			       struct drm_connector *connector)
+ {
+@@ -1694,7 +1792,7 @@ static int boe_panel_add(struct boe_panel *boe)
+ 		return PTR_ERR(boe->enable_gpio);
+ 	}
+ 
+-	gpiod_set_value(boe->enable_gpio, 0);
++	gpiod_set_value(boe->enable_gpio, boe->desc->enable_gpio_init_value);
+ 
+ 	drm_panel_init(&boe->base, dev, &boe_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
+@@ -1793,6 +1891,9 @@ static const struct of_device_id boe_of_match[] = {
+ 	{ .compatible = "starry,2081101qfh032011-53g",
+ 	  .data = &starry_qfh032011_53g_desc
+ 	},
++	{ .compatible = "starry,himax83102-j02",
++	  .data = &starry_himax83102_j02_desc
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, boe_of_match);
+-- 
+2.25.1
 
-James Zhu
-
-On 2023-05-18 20:06, Stephen Rothwell wrote:
-> Hi all,
->
-> After merging the amdgpu tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c: In function 'amdgpu_ctx_init':
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c:348:26: error: 'fpriv' undeclared (first use in this function)
->    348 |         ctx->ctx_mgr = &(fpriv->ctx_mgr);
->        |                          ^~~~~
->
-> Caused by commit
->
->    2458393a4e98 ("drm/amdgpu: keep amdgpu_ctx_mgr in ctx structure")
->
-> I have used the amdgpu tree from next-20230518 for today.
->
