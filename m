@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967D870A150
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 23:09:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DDD70A15E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 23:15:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2C510E584;
-	Fri, 19 May 2023 21:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3997010E60D;
+	Fri, 19 May 2023 21:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A407610E584;
- Fri, 19 May 2023 21:09:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA7DB6181A;
- Fri, 19 May 2023 21:09:48 +0000 (UTC)
-Received: from rdvivi-mobl4 (unknown [192.55.55.52])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp.kernel.org (Postfix) with ESMTPSA id D1892C433D2;
- Fri, 19 May 2023 21:09:45 +0000 (UTC)
-Date: Fri, 19 May 2023 17:09:43 -0400
-From: Rodrigo Vivi <rodrigo.vivi@kernel.org>
-To: Cong Liu <liucong2@kylinos.cn>
-Subject: Re: [PATCH v2] drm/i915: Fix memory leaks in function live_nop_switch
-Message-ID: <ZGfll+nLPL2L6Zyz@rdvivi-mobl4>
-References: <20230508085016.437836-1-liucong2@kylinos.cn>
- <20230517050204.4111874-1-liucong2@kylinos.cn>
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF8210E60D
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 21:15:01 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 88C9E3F7A8;
+ Fri, 19 May 2023 23:14:57 +0200 (CEST)
+Date: Fri, 19 May 2023 23:14:56 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: simplify pixel clk rate handling
+Message-ID: <uzzllinf6vuxfb7levkxjoj7yyr3kydu37eawk2tu5gi3juz56@hyqpwumsg7s4>
+References: <20230118130031.2345941-1-dmitry.baryshkov@linaro.org>
+ <8ebd01e3-00be-b0da-e91a-ab1a4e074074@quicinc.com>
+ <85d0a8c6-f6b4-4cd4-7cc6-b13f37523bd4@linaro.org>
+ <637c1848-0e3f-9f3d-dc56-8f2d5b8de696@quicinc.com>
+ <a9669c51-3171-3751-f249-be4a7f4312c2@linaro.org>
+ <9a505edb-f3e8-ade4-8d4e-629bc2840f29@quicinc.com>
+ <100f7525-35ed-a2a2-6672-e5874e0a1ac5@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230517050204.4111874-1-liucong2@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <100f7525-35ed-a2a2-6672-e5874e0a1ac5@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,95 +49,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 17, 2023 at 01:02:03PM +0800, Cong Liu wrote:
-> Be sure to properly free the allocated memory before exiting
-> the live_nop_switch function.
+On 2023-05-19 22:37:34, Dmitry Baryshkov wrote:
+<snip>
+> >>>>>> +    ret = cfg_hnd->ops->calc_clk_rate(msm_host);
+> >>>>>
+> >>>>> I am not too sure what we are gaining by this.
+> >>>>>
+> >>>>> Its not that we are replacing dsi_get_pclk_rate().
+> >>>>>
+> >>>>> We are moving the dsi_get_pclk_rate() from the calc_clk_rate() to 
+> >>>>> the msm_dsi_host_get_phy_clk_req().
+> >>>>>
+> >>>>> Also, with this change, dsi_calc_clk_rate_6g() looks kind of empty 
+> >>>>> to stand on its own.
+> >>>>>
+> >>>>> The original intention of the calc_clk_rate() op seems to be 
+> >>>>> calculate and store all the clocks (byte, pixel and esc).
+> >>>>>
+> >>>>> Why change that behavior by breaking it up?
+> >>>>
+> >>>> Unification between platforms. Both v2 and 6g platforms call 
+> >>>> dsi_calc_pclk(). Let's just move it to a common code path.
+> >>>
+> >>> Hi Dmitry,
+> >>>
+> >>> I think what Abhinav means here is that the meaning and functionality 
+> >>> of calc_clk_rate() changes with this patch.
+> >>>
+> >>> Before, calc_clk_rate() does *all* the clk_rate calculations and 
+> >>> assignments. But after this change, it will only calculate and assign 
+> >>> the escape clk rate.
+> >>>
+> >>> I agree with Abhinav that this change renders the calc_clk_rate() op 
+> >>> misleading as it will not calculate all of the clock rates anymore.
+> >>
+> >> Would it make sense if I rename it to calc_other_clock_rates()?
+> >>
+> > 
+> > Not really. I would rather still have it separate and drop this patch.
+> > 
+> > So even if pixel clock calculation looks common today between v2 and 6g, 
+> > lets say tomorrow there is a 7g or 8g which needs some other math there, 
+> > I think this is the right place where it should stay so that we 
+> > calculate all clocks together.
 > 
-> Signed-off-by: Cong Liu <liucong2@kylinos.cn>
-> Suggested-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Ack.
 
-pushed, thanks for the patch
+Unfortunate, but okay.  Then don't forget to send the following hunk of
+this patch in isolation:
 
-> ---
->  .../gpu/drm/i915/gem/selftests/i915_gem_context.c  | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+    -	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) * bpp;
+    +	pclk_bpp = msm_host->pixel_clk_rate * bpp;
+
+- Marijn
+
+> >> Moving pclk calculation to the core code emphasises that pclk 
+> >> calculation is common between v2 and 6g hosts.
+> >>
+> >>>
+> >>> Thanks,
+> >>>
+> >>> Jessica Zhang
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>       if (ret) {
+> >>>>>>           pr_err("%s: unable to calc clk rate, %d\n", __func__, ret);
+> >>>>>>           return;
+> >>>>
+> >>>> -- 
+> >>>> With best wishes
+> >>>> Dmitry
+> >>>>
+> >>
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index a81fa6a20f5a..2fb125d0cb5e 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -66,7 +66,7 @@ static int live_nop_switch(void *arg)
->  		ctx[n] = live_context(i915, file);
->  		if (IS_ERR(ctx[n])) {
->  			err = PTR_ERR(ctx[n]);
-> -			goto out_file;
-> +			goto out_ctx;
->  		}
->  	}
->  
-> @@ -82,7 +82,7 @@ static int live_nop_switch(void *arg)
->  			this = igt_request_alloc(ctx[n], engine);
->  			if (IS_ERR(this)) {
->  				err = PTR_ERR(this);
-> -				goto out_file;
-> +				goto out_ctx;
->  			}
->  			if (rq) {
->  				i915_request_await_dma_fence(this, &rq->fence);
-> @@ -96,7 +96,7 @@ static int live_nop_switch(void *arg)
->  			intel_gt_set_wedged(to_gt(i915));
->  			i915_request_put(rq);
->  			err = -EIO;
-> -			goto out_file;
-> +			goto out_ctx;
->  		}
->  		i915_request_put(rq);
->  
-> @@ -107,7 +107,7 @@ static int live_nop_switch(void *arg)
->  
->  		err = igt_live_test_begin(&t, i915, __func__, engine->name);
->  		if (err)
-> -			goto out_file;
-> +			goto out_ctx;
->  
->  		end_time = jiffies + i915_selftest.timeout_jiffies;
->  		for_each_prime_number_from(prime, 2, 8192) {
-> @@ -120,7 +120,7 @@ static int live_nop_switch(void *arg)
->  				this = igt_request_alloc(ctx[n % nctx], engine);
->  				if (IS_ERR(this)) {
->  					err = PTR_ERR(this);
-> -					goto out_file;
-> +					goto out_ctx;
->  				}
->  
->  				if (rq) { /* Force submission order */
-> @@ -165,7 +165,7 @@ static int live_nop_switch(void *arg)
->  
->  		err = igt_live_test_end(&t);
->  		if (err)
-> -			goto out_file;
-> +			goto out_ctx;
->  
->  		pr_info("Switch latencies on %s: 1 = %lluns, %lu = %lluns\n",
->  			engine->name,
-> @@ -173,6 +173,8 @@ static int live_nop_switch(void *arg)
->  			prime - 1, div64_u64(ktime_to_ns(times[1]), prime - 1));
->  	}
->  
-> +out_ctx:
-> +	kfree(ctx);
->  out_file:
->  	fput(file);
->  	return err;
 > -- 
-> 2.34.1
+> With best wishes
+> Dmitry
 > 
-> 
-> No virus found
-> 		Checked by Hillstone Network AntiVirus
