@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174C6709CA2
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6286709D09
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC7F10E4E0;
-	Fri, 19 May 2023 16:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0978C10E54E;
+	Fri, 19 May 2023 16:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7EFC10E4E0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:42:34 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2af2958db45so4671131fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:42:34 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37FD10E54A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:55:54 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4f3ac867f31so1402664e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684514553; x=1687106553;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=linaro.org; s=google; t=1684515349; x=1687107349;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=143EakvyOuVdHkumYHBraHpbTfkxgJP6S3+u9gTOH5w=;
- b=H6i68wdNAUIf4PQUqwLssDsY3GknAmQxtXtb71tGZxPoWwlYnwRqr8auBnpdr1ktOm
- 9dBuw/oXX5ve66KfRi9b/9NAbhOgrtNe7xPpuWXNOnoUgzDZStfuCNo3L3MzZ8i3R67N
- UtAtpvq2RUUreDOuy5FhTDT0bGgGBgWynt2GiadslacGJNXaVFgolXG9lakRzjMWLgm+
- 9ZiE87SjX2xi0dhJaqcEGBp7kn17U5hVlZblqBGVuNoVj7u4guslAG6HNZ+xvQb5nycM
- DgoCNnBo6BqbBYJ5DV6lxEAstGCkCAwf9g6xDGxApWAeBWzUIg+BsjLxlLUssp12Lldx
- H5dA==
+ bh=8u8Cffd9gh33GRz1/pbcBEqZLgNy2eMWL4ehBbFWLjI=;
+ b=frBZC/4FCb2QlYrqMh5fSiI43wwxOHGZeClHqaQu1pT9pIifaaeOut2l5G5SeW5L5N
+ DWg1O3ITeeYp2clN+vP0J6DApUwMDqFgJ9gcrEsQtRES3vtgwQRZXjoPa7H/2FSAJWH/
+ JorcuryfBrDaMeDg4sttp+mazhbdiDF9HZpfK5o0EQNhBRF248NdPzl+UMvemqCozPqJ
+ KJvk8AEw+/DytCJhQLO8O4LbZHrgmsXonnYgQCeutXT4+oUHrRGvlSnn20q6Ashj2rAt
+ xkBlABn6tSf6yUFIKZHoplxKokwropWI7Eh1Ejz0BBtNR9Zn788YZZE9TM8n9hTDa2z/
+ hFfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684514553; x=1687106553;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=1e100.net; s=20221208; t=1684515349; x=1687107349;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=143EakvyOuVdHkumYHBraHpbTfkxgJP6S3+u9gTOH5w=;
- b=YFAIAp2j2XIYkdiWinD6RjUTF69uiFemezildBAUjTh/udHFD01BWOkJ95geYTYIUV
- 2DrKnHqyym/eKimTlSaO0Ng+bXSuCQfE2Cur4HZvuQ7S7HJUXGxB9fyc6I6BrpbBaTGY
- QB+vO0qAPf0yaFw7/DL7Mpc/T5FbDRHv+4x3iJ5N77QrUkf9W4pnsSdB74P0r8D+3TLf
- 0+VvqiHs6J2Jcpk1yQuvn298ig3pgTb0iBp/H42OMckMGNnue4/mP9QVDdFLzBU/k5nZ
- +3sXQaLGC/as/51RoWdDaviiNTd7p+0nhlvWx1HGEBPqfbO0zwy3/Fb2v+UzadCHIQA+
- NDkA==
-X-Gm-Message-State: AC+VfDybOYn0QrbXcXf6kkoWaZ7NvzMLuZ+KyTw9zp5SpTUTtexo7scd
- e0ckc9QtYYVzR4zdE5V+Fb/tfA==
-X-Google-Smtp-Source: ACHHUZ5CdyVB0/lT15XzwEt1IwNhkaSEWNdeA1DBJ6SV+PZd+UtKzg7gmtugTSK7682fQLSzo6Qxpw==
-X-Received: by 2002:a2e:9008:0:b0:2a8:e44e:c75a with SMTP id
- h8-20020a2e9008000000b002a8e44ec75amr896865ljg.32.1684514553045; 
- Fri, 19 May 2023 09:42:33 -0700 (PDT)
+ bh=8u8Cffd9gh33GRz1/pbcBEqZLgNy2eMWL4ehBbFWLjI=;
+ b=kvrbhMyYtdSPpFKGtL3F+R/f01MDmShXJnzsEdsTOdb1AgAbiUr0y+svBtSaT8oi+f
+ Nrk/bgaIxfbGjuLnma415/6PTEYyuF2KMeNkhuExllQ0pFRCNpgVtt1Ezq+36Vq9GbU0
+ NYzfTzRIQCgXawwfbwlstx5dtjoFQ/90ttyFSHgKiz3BmtEvJ65Zna11NzYTrtpSQRzl
+ R8aigKjT63x7pp/DgXQgLbGx+suARqXkyl0QMUwZ/eCUgYLxo302SzoA8PqNjAY3IT6U
+ Z5bhkagbCjEAUMSTGR6xAbApqn9QKC9EAqa+L+noHY28N1AlXtuVntc66tWpPkzRBHZu
+ r7EA==
+X-Gm-Message-State: AC+VfDyIfXhAylkxiHcHb7yPwdGofmhBqKYZxlmbHhiigUNOeOReyq+K
+ 106i2dzcq0gNKM9fHqJ5qmCyT8VfOWqIpBC4EYA=
+X-Google-Smtp-Source: ACHHUZ7f0Yd3ApLNEvVN4yist87EQ8Ddt29lyiXsuzgsN0hmwyzO5avMdxs62WPck07X7DVpNuW5Vw==
+X-Received: by 2002:ac2:5298:0:b0:4f1:5010:4b34 with SMTP id
+ q24-20020ac25298000000b004f150104b34mr1215390lfm.18.1684515349191; 
+ Fri, 19 May 2023 09:55:49 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a2e3e0b000000b002aa40d705a5sm895992lja.11.2023.05.19.09.42.32
+ i5-20020ac25225000000b004f13ece6a4fsm656365lfl.101.2023.05.19.09.55.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 May 2023 09:42:32 -0700 (PDT)
-Message-ID: <e4824511-1148-83ee-b6e9-4f819e655f32@linaro.org>
-Date: Fri, 19 May 2023 19:42:31 +0300
+ Fri, 19 May 2023 09:55:48 -0700 (PDT)
+Message-ID: <0c702f15-c842-8eab-cc95-83378236773c@linaro.org>
+Date: Fri, 19 May 2023 19:55:47 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v1 3/3] msm: skip the atomic commit of self refresh while
- PSR running
+Subject: Re: [PATCH v10 00/10] drm/hdcp: Pull HDCP auth/exchange/check into
+ helpers
 Content-Language: en-GB
+To: Mark Yacoub <markyacoub@chromium.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Douglas Anderson <dianders@chromium.org>
+References: <20230419154321.1993419-1-markyacoub@google.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vinod Polimera <vpolimer@qti.qualcomm.com>
-References: <1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com>
- <1680271114-1534-4-git-send-email-quic_vpolimer@quicinc.com>
- <CAA8EJppc3LDQy2RgVZbWki4Y-_FOTK67Y8RfK5Bm9gqdfqMjqQ@mail.gmail.com>
- <BN0PR02MB8173E9FF869F7EEFCE1F5410E4929@BN0PR02MB8173.namprd02.prod.outlook.com>
- <CAA8EJprj5cmB_STfv45NDCJ_e=aWfwMgaNmGkQBqFa8fQq6gQw@mail.gmail.com>
-In-Reply-To: <CAA8EJprj5cmB_STfv45NDCJ_e=aWfwMgaNmGkQBqFa8fQq6gQw@mail.gmail.com>
+In-Reply-To: <20230419154321.1993419-1-markyacoub@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,85 +83,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- "Bjorn Andersson \(QUIC\)" <quic_bjorande@quicinc.com>,
- "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org, Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/04/2023 19:11, Dmitry Baryshkov wrote:
-> On Mon, 3 Apr 2023 at 15:01, Vinod Polimera <vpolimer@qti.qualcomm.com> wrote:
->>
->>> On Fri, 31 Mar 2023 at 16:59, Vinod Polimera <quic_vpolimer@quicinc.com>
->>> wrote:
->>>>
->>>> In certain CPU stress conditions, there can be a delay in scheduling commit
->>>> work and it was observed that PSR commit from a different work queue
->>> was
->>>> scheduled. Avoid these commits as display is already in PSR mode.
->>>>
->>>> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
->>>> ---
->>>>   drivers/gpu/drm/msm/msm_atomic.c | 3 +++
->>>>   1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/msm_atomic.c
->>> b/drivers/gpu/drm/msm/msm_atomic.c
->>>> index 645fe53..f8141bb 100644
->>>> --- a/drivers/gpu/drm/msm/msm_atomic.c
->>>> +++ b/drivers/gpu/drm/msm/msm_atomic.c
->>>> @@ -192,6 +192,9 @@ int msm_atomic_check(struct drm_device *dev,
->>> struct drm_atomic_state *state)
->>>>                          new_crtc_state->mode_changed = true;
->>>>                          state->allow_modeset = true;
->>>>                  }
->>>> +
->>>> +               if (old_crtc_state->self_refresh_active && new_crtc_state-
->>>> self_refresh_active)
->>>> +                       return -EINVAL;
->>>
->>> EINVAL here means that atomic_check will fail if both old and new
->>> states are in SR mode. For example, there might be a mode set for
->>> another CRTC (while keeping this one in SR mode). I don't think this
->>> is correct. We should skip/shortcut the commit, that's true. But I
->>> doubt that returning an error here is a proper way to do this. Please
->>> correct me if I'm wrong.
->>
->> If there is a modeset on same crtc with a different connector. The new_crtc_state will not have self_refresh_active set.
->> Self_refresh_active is set from the helper library, which will duplicate the old_state and just adds self_refresh_active to true and active to false.
->> so we can be confident that if we are checking for self_refresh_active status then it should be coming from the library call.
->>
->> Also the EINVAL is returned to the self_refresh library API and the function will be retired.
+On 19/04/2023 18:43, Mark Yacoub wrote:
+> Hi all,
+> This is v10 of the HDCP patches. The patches are authored by Sean Paul.
+> I rebased and addressed the review comments in v6-v10.
 > 
-> Maybe I misunderstand you here. However, in this way EINVAL is
-> returned to drm_atomic_check_only() and not to the SR code.
+> Main change in v10 is handling the kernel test bot warnings.
+> 
+> Patches 1-4 focus on moving the common HDCP helpers to common DRM.
+> This introduces a slight change in the original intel flow
+> as it splits the unique driver protocol from the generic implementation.
+> 
+> Patches 5-7 split the HDCP flow on the i915 driver to make use of the common DRM helpers.
+> 
+> Patches 8-10 implement HDCP on MSM driver.
+> 
+> Thanks,
+> -Mark Yacoub
+> 
+> Sean Paul (10):
+>    drm/hdcp: Add drm_hdcp_atomic_check()
+>    drm/hdcp: Avoid changing crtc state in hdcp atomic check
+>    drm/hdcp: Update property value on content type and user changes
+>    drm/hdcp: Expand HDCP helper library for enable/disable/check
+>    drm/i915/hdcp: Consolidate HDCP setup/state cache
+>    drm/i915/hdcp: Retain hdcp_capable return codes
+>    drm/i915/hdcp: Use HDCP helpers for i915
+>    dt-bindings: msm/dp: Add bindings for HDCP registers
+>    arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
 
-Unless anybody objects, I'm going to drop this patch now. The issue 
-should be solved in the framework itself.
+Dear i915 maintainers,
 
+I wanted to ping you regarding this patch series. If there are no 
+comments for the series from you side, would it be possible to land 
+Intel-specific and generic patches into drm-intel tree? We will continue 
+working on the msm specific parts and merge them through the msm tree.
+
+>    drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
 > 
->> And self_refresh_active is cleared on every commit : https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/drm_atomic_state_helper.c#n158
+>   .../bindings/display/msm/dp-controller.yaml   |    7 +-
+>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |    8 +
+>   drivers/gpu/drm/display/drm_hdcp_helper.c     | 1224 +++++++++++++++++
+>   drivers/gpu/drm/i915/display/intel_atomic.c   |    8 +-
+>   drivers/gpu/drm/i915/display/intel_ddi.c      |   32 +-
+>   .../drm/i915/display/intel_display_debugfs.c  |   12 +-
+>   .../drm/i915/display/intel_display_types.h    |   51 +-
+>   drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  352 ++---
+>   drivers/gpu/drm/i915/display/intel_dp_mst.c   |   16 +-
+>   drivers/gpu/drm/i915/display/intel_hdcp.c     | 1060 +++-----------
+>   drivers/gpu/drm/i915/display/intel_hdcp.h     |   48 +-
+>   drivers/gpu/drm/i915/display/intel_hdmi.c     |  267 ++--
+>   drivers/gpu/drm/msm/Kconfig                   |    1 +
+>   drivers/gpu/drm/msm/Makefile                  |    1 +
+>   drivers/gpu/drm/msm/dp/dp_catalog.c           |  156 +++
+>   drivers/gpu/drm/msm/dp/dp_catalog.h           |   18 +
+>   drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
+>   drivers/gpu/drm/msm/dp/dp_debug.h             |   11 +-
+>   drivers/gpu/drm/msm/dp/dp_display.c           |   39 +-
+>   drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+>   drivers/gpu/drm/msm/dp/dp_drm.c               |   39 +-
+>   drivers/gpu/drm/msm/dp/dp_drm.h               |    7 +
+>   drivers/gpu/drm/msm/dp/dp_hdcp.c              |  389 ++++++
+>   drivers/gpu/drm/msm/dp/dp_hdcp.h              |   33 +
+>   drivers/gpu/drm/msm/dp/dp_parser.c            |   14 +
+>   drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+>   drivers/gpu/drm/msm/dp/dp_reg.h               |   30 +-
+>   drivers/gpu/drm/msm/msm_atomic.c              |   19 +
+>   include/drm/display/drm_hdcp.h                |  296 ++++
+>   include/drm/display/drm_hdcp_helper.h         |   23 +
+>   30 files changed, 2867 insertions(+), 1349 deletions(-)
+>   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+>   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
 > 
-> And this means that this check will not trigger at all, if I'm not
-> mistaken. You've added code to msm_atomic_check(), so
-> drm_self_refresh_helper_alter_state() was not called (yet) and thus
-> new_crtc_state->self_refresh_active is set to false, fresh after
-> crtc's duplicate_state.
-> 
-> --
-> With best wishes
-> Dmitry
 
 -- 
 With best wishes
