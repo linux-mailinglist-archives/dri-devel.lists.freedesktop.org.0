@@ -2,63 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F405F709A44
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 16:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B0F709A64
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 16:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D4210E486;
-	Fri, 19 May 2023 14:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5131310E148;
+	Fri, 19 May 2023 14:50:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA61810E4E3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 14:44:41 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-ba8374001abso4583784276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 07:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684507480; x=1687099480;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jmkRRs7o/GrPNRsnjEmMyXFmswNShBvbUzfAdFFg2lA=;
- b=EG9aXbSIdcA1ohGCDssqlAv1sYmD7uy1RoRvD42jkR53WsD2SU8bCAxOp2BItdethp
- 93YHZHPDU7/XVof+6RLI2oUPDtsZHJm7UyrwQedqHmGpsK8VVZ5c0KuzV6k2mayPSgfA
- F8KSYUrwHzpznqFfmVkMzFhY6pKqp8QXFCC/ZYvo+q+Hb+X5POzy9LRScVtEgNYu0FAN
- Vbmr03KIbGD9Cv9UxeCe5j4j+bGUJ1OEYfy+XH9A1fsdluKJSMFq7QushEU6FIAR9lPE
- oHnMU7FjXGrQEZco4R3V01bPViT4JRGIfI+iQJhKsEj46nMgTtBzD2cb1XKDeoqJC7a4
- JUaA==
-X-Gm-Message-State: AC+VfDzH/brI5ZtE/bjgen7SMgywIDVOIrHy82nLZOBWcggO618sU9uN
- sNheoSFNYKU3su8DBTMFR9mD2OvrfCQa0w==
-X-Google-Smtp-Source: ACHHUZ4mVROlhV8lFou2aGHCZJhjpjtP7AuYS4FJ1UnaATU/5Y2kpdZ+P2T1NeFApIx6X8cXOfXZOQ==
-X-Received: by 2002:a25:aacc:0:b0:ba8:1912:1f0b with SMTP id
- t70-20020a25aacc000000b00ba819121f0bmr1833093ybi.22.1684507480223; 
- Fri, 19 May 2023 07:44:40 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com.
- [209.85.128.176]) by smtp.gmail.com with ESMTPSA id
- x136-20020a25ce8e000000b00ba87e9b5bf9sm1076021ybe.45.2023.05.19.07.44.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 May 2023 07:44:39 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-56186035b61so44827947b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 07:44:39 -0700 (PDT)
-X-Received: by 2002:a0d:c043:0:b0:562:7f3:bee6 with SMTP id
- b64-20020a0dc043000000b0056207f3bee6mr2059739ywd.45.1684507479276; Fri, 19
- May 2023 07:44:39 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10DD910E148
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 14:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1684507765; i=deller@gmx.de;
+ bh=Pj1LG5Utwzy7oSUbGmPubC+BUUsniVXrDIxDTOEkeOI=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=tSCZRXCEu4HR2Kz+W3QijBKl9VTLiHC2N49HMFK+w1Hpq7F3BeCUmSxaeverRIduK
+ YvbL2Ymxs0+Kp5aDW7gqVB49juie7ExHaJUlFUs2v60jM15gQ9mF3aH93i9x42RO9w
+ 9TXAzSs37I291wPx/bn8A73o/OlsLsYSYYE85DjzxMVaEA6yxB3HCFa+shHTzK9pxS
+ cPh+lmhPc3rkF4R1AOlxE6B/2vE5tYm+MxGhTMIvL78Q81QkBfWiGyuLYO4zWOaHMG
+ 7hMnRilqDEXHeNRHjRPli5KXdm75BbFjdPjnsy5XqmnG2eFTxlZUPrDjQdX+ZaePe4
+ vJWTj7xRB3auQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.152.232]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBDj4-1prnPX0fpm-00ChEA; Fri, 19
+ May 2023 16:49:25 +0200
+Message-ID: <ade998d7-abd7-3514-a8d4-25c3ec71b171@gmx.de>
+Date: Fri, 19 May 2023 16:49:22 +0200
 MIME-Version: 1.0
-References: <20230516202257.559952-1-arnd@kernel.org>
- <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
- <ZGeJsYmPU/7CHJRV@ls3530>
-In-Reply-To: <ZGeJsYmPU/7CHJRV@ls3530>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 May 2023 16:44:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVTGcVoNh3EUK-K--=X5kf+c5Un6aDms-gP3QhgEKZUwg@mail.gmail.com>
-Message-ID: <CAMuHMdVTGcVoNh3EUK-K--=X5kf+c5Un6aDms-gP3QhgEKZUwg@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 37/41] fbdev: atyfb: Remove unused clock determination
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>
+References: <20230516110038.2413224-1-schnelle@linux.ibm.com>
+ <20230516110038.2413224-38-schnelle@linux.ibm.com>
+ <ZGN2FKSBkMREujgR@intel.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <ZGN2FKSBkMREujgR@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:imFSKe5fuE/OhtLKAsIULRQNuTzYdH/PCC+1ZlOSr9/KeiGoYxz
+ fYJzRc92qIRdL1vlEzKoSpyTFB2X9aetsOZCaYtRapiztiYKf/98SjySwc5QkoBZWZzWEkF
+ q0qexuWtAyK2XftNY9AlO8p9mW8zcBnBT2sDv400OmcOY2R9U7KuLU2NI085SY0Z71BsqbC
+ exRh04UzyoRal5s7TuQrw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:F6hcsYgijK4=;LujMkLAJlcpsClyXQ5ix44Lyzv1
+ pG/GAlVohiISVUdZUHbMVfGS1jS7GysZKXL0FMzoapBoGi2pXdgoFLOAyd1o2oQcbR8ek8qgb
+ 0Aade+CEV7000j7xt17IPxA89E7yJANid1SDclfwD0Vu+2pQCW1COH1OQr5JgHajjwY9u+cvn
+ hDxcqJHuJsDUBLG35UF8FcXwajiEv8alXQqRPU7J3TN2S2fGfGy56X6RpP1lXdwV29ftk/9LK
+ m4MS5skf4XWXnY272t1Ug6nLndfivDAiPNlqrZ02hnbhLaLJFSi2uRbkIaaP6fjmS6FCj9WIO
+ K+CCejY/g1os2LGVCrkGywZexGtloihZ/znNBovLll+IyFbbQX5PV4AoNvC9AXp2ELcEqZ3N3
+ 7Sl8mBkm6J4PEuJcggvbbcnCcL2Nt4658krAYzEFf7L6BS63+ygY4UZn1ZWXL4APN9s7lwpeD
+ O8k02ZtSvS2SNSrZDT6zd/mXV4m5Fo1e1ndvOmOlwqWn47in6/a3s2buDlBWcYwmaP2Zx+0yj
+ xjkh5d9MwfTWwIhn2KD3sX8I9MOb3raC012xJMMQxY6ecSIVKwr8cYorbQsNKtmiQp6HkIBp0
+ RfCETpwmwnwtikLsnsIjbK91deGnT/9OqKnB+dkWtRVBtlvobqnev0x3fQWLgSFwaKWiMmhaM
+ YPpuXwTig6zfYRgU6iZx1z2N566sx0hIFVkE8BRtMgIdlFSusxojz68tCpXe+UjkR6xCH9b1B
+ 5VXVVewjb4uniWy5nWm6Zrf9lJfRXCLlvPujACn6vB2XHRHQpQoIS2ZctTw1p/UIU7NoirNOS
+ 6/iapCj0rZfeR3ZxR1Hg8CshejQS9EqHSR0i98kWpM2K400vfe1TFKmZH9ozJfIEfJhxHZexg
+ GzzL6a7L8Sa8kM/QlauRe3mfbOrCtB+o1HB4Yot8sOOROs0s4+YGExAiW5NPj/SbFk91nQLq0
+ PBdmFaze2TUblHbilaOlhHirXv4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,120 +74,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Arnd Bergmann <arnd@arndb.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helge,
+On 5/16/23 14:24, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Tue, May 16, 2023 at 01:00:33PM +0200, Niklas Schnelle wrote:
+>> Just below the removed lines par->clk_wr_offset is hard coded to 3 so
+>> there is no use in determining a different clock just to then ignore it
+>> anyway. This also removes the only I/O port use remaining in the driver
+>> allowing it to be built without CONFIG_HAS_IOPORT.
+>>
+>> Link: https://lore.kernel.org/all/ZBx5aLo5h546BzBt@intel.com/
+>> Suggested-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+>> ---
+>> Note: The HAS_IOPORT Kconfig option was added in v6.4-rc1 so
+>>        per-subsystem patches may be applied independently
 
-On Fri, May 19, 2023 at 4:37=E2=80=AFPM Helge Deller <deller@gmx.de> wrote:
-> * Geert Uytterhoeven <geert@linux-m68k.org>:
-> > On Tue, May 16, 2023 at 10:23=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
-> wrote:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > There is a global function with this name on sparc, but no
-> > > global declaration:
-> > >
-> > > drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototyp=
-e for 'get_fb_unmapped_area'
-> > >
-> > > Make the generic definition static to avoid this warning. On
-> > > sparc, this is never seen.
-> > >
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > > --- a/drivers/video/fbdev/core/fbmem.c
-> > > +++ b/drivers/video/fbdev/core/fbmem.c
-> > > @@ -1468,7 +1468,7 @@ __releases(&info->lock)
-> > >  }
-> > >
-> > >  #if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && !defined(CONF=
-IG_MMU)
-> > > -unsigned long get_fb_unmapped_area(struct file *filp,
-> > > +static unsigned long get_fb_unmapped_area(struct file *filp,
-> > >                                    unsigned long addr, unsigned long =
-len,
-> > >                                    unsigned long pgoff, unsigned long=
- flags)
-> > >  {
-> >
-> > LGTM, as this is unrelated to the SPARC function, and SPARC does
-> > not support nommu (yet? ;-)
-> >
-> > drivers/video/fbdev/Kconfig:config FB_PROVIDE_GET_FB_UNMAPPED_AREA
-> > drivers/video/fbdev/Kconfig-    bool
-> > drivers/video/fbdev/Kconfig-    depends on FB
-> > drivers/video/fbdev/Kconfig-    help
-> > drivers/video/fbdev/Kconfig-      Allow generic frame-buffer to
-> > provide get_fb_unmapped_area
-> > drivers/video/fbdev/Kconfig-      function.
-> >
-> > Probably you want to update this help text, too. E.g.
-> > "to provide shareable character device support on nommu"?
->
-> I've added Geerts suggestions and made it dependend on !MMU.
->
-> Applied to fbdev git tree as below.
->
-> Thanks!
-> Helge
->
->
-> From 9adfa68ca0ddd63007cdce60a8ffcb493bb30d97 Mon Sep 17 00:00:00 2001
-> From: Arnd Bergmann <arnd@arndb.de>
-> Subject: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
->
-> There is a global function with this name on sparc, but no
-> global declaration:
->
-> drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototype fo=
-r 'get_fb_unmapped_area'
->
-> Make the generic definition static to avoid this warning. On
-> sparc, this is never seen.
->
-> Edit by Helge:
-> Update Kconfig text as suggested by Geert Uytterhoeven and make it depend=
-end on
-> !MMU.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Helge Deller <deller@gmx.de>
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 96e91570cdd3..1688875a07de 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -121,10 +121,10 @@ config FB_SYS_IMAGEBLIT
->
->  config FB_PROVIDE_GET_FB_UNMAPPED_AREA
->         bool
-> -       depends on FB
-> +       depends on FB && !MMU
+applied this patch to fbdev git tree.
 
-I expect this to cause a Kconfig warning when enabling DRM_STM
-with MMU=3Dy (e.g. multi_v7_defconfig).
-ARCH_STM32 seems to support both MMU=3Dy and MMU=3Dn.
+Thanks!
 
->         help
->           Allow generic frame-buffer to provide get_fb_unmapped_area
-> -         function.
-> +         function to provide shareable character device support on nommu=
-.
+Helge
+
+>>
+>>   drivers/video/fbdev/aty/atyfb_base.c | 5 -----
+>>   1 file changed, 5 deletions(-)
+>>
+>> diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev=
+/aty/atyfb_base.c
+>> index b02e4e645035..cba2b113b28b 100644
+>> --- a/drivers/video/fbdev/aty/atyfb_base.c
+>> +++ b/drivers/video/fbdev/aty/atyfb_base.c
+>> @@ -3498,11 +3498,6 @@ static int atyfb_setup_generic(struct pci_dev *p=
+dev, struct fb_info *info,
+>>   	if (ret)
+>>   		goto atyfb_setup_generic_fail;
+>>   #endif
+>> -	if (!(aty_ld_le32(CRTC_GEN_CNTL, par) & CRTC_EXT_DISP_EN))
+>> -		par->clk_wr_offset =3D (inb(R_GENMO) & 0x0CU) >> 2;
+>> -	else
+>> -		par->clk_wr_offset =3D aty_ld_8(CLOCK_CNTL, par) & 0x03U;
+>> -
+>>   	/* according to ATI, we should use clock 3 for acelerated mode */
+>>   	par->clk_wr_offset =3D 3;
+>>
+>> --
+>> 2.39.2
 >
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
