@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE757092C7
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 11:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC607092C9
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 11:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25B5610E5F1;
-	Fri, 19 May 2023 09:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05D910E10C;
+	Fri, 19 May 2023 09:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAF210E10C;
- Fri, 19 May 2023 09:14:58 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6D110E5EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:15:37 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E6A9566066EC;
- Fri, 19 May 2023 10:14:56 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2A69C6606842;
+ Fri, 19 May 2023 10:15:34 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1684487697;
- bh=rfNWjmL86YwQm6pTgAm9tHvkvMaRj2oJyaFyfwzuc1k=;
+ s=mail; t=1684487734;
+ bh=cAzerlz2ktFyeiGx3TN+5S1PEBRGhKaN65/TtDdbOLc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kB8sAeMeoNUBu2sHu6y6lRwbG7VelDZdrAPyFa0y1i+e8VdeVvU/z8YprFs2oHlOX
- JNspljK+04CD/EJUKCrICu2wPrt7nuXN4dFteqNKoVX5cpb2kv0RBemVNwKE6c6M1n
- znaawhIJ7fifHTLAPHri4IQTmuhT0MEsjrIVz90keg6g2dbjS8KsXgnkG7GOY9WHLf
- Fg6200Q1cPD19kzhLs/At4K7kmlPkmqYbIZw0RKAcPR2FKr6INdTSAje+1/vHWYhke
- EUSYg/1luDxAgdwxzvIHfgSvDdPrAnFQ8MOsDVtNmfoMD/dv1v7KB+6UM5rd8BL9rL
- PfAH83NBCr5lw==
-Date: Fri, 19 May 2023 11:14:53 +0200
+ b=Wdn42oXeDSJ5YUBkMb7FPNqfkemm4p577yPCI92PfKbP7qz4giIshoa66iQsZVAxT
+ 52pRpvvF0FCq304fC5Q5S9ynTBJ7aNlf4aY2wc+O6SkYZXQFZr4TeNLJoWHc2DxXlG
+ KLwo6Lws3GA99mPyE/dw4GInCHCVgepIw6OAOt21wIxvINStxJfgtRJoZKtId0rEc+
+ QnetGsM5wJmzuUeQqbDRgHs+lw/LPRoIo7fTvv42d35Iif3eonmSf6rsX7/FoO1N97
+ xzbYFtqwfr6ILUa0efev3tWgcDq+iDHx9qXdrbOmz88C+ZUOe/YHVh6rvT9oaFF0dw
+ xeR7EPx0ocBmg==
+Date: Fri, 19 May 2023 11:15:31 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v2] drm: fix drmm_mutex_init()
-Message-ID: <20230519111453.1a6aeb95@collabora.com>
-In-Reply-To: <20230519090733.489019-1-matthew.auld@intel.com>
-References: <20230519090733.489019-1-matthew.auld@intel.com>
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Subject: Re: [PATCH] drm/managed: Define drmm_mutex_init() as a macro to fix
+ lockdep
+Message-ID: <20230519111531.57501858@collabora.com>
+In-Reply-To: <CAM0jSHNhH77Q99Xmprz-=U9J0Oi3L=W8g99dABZ3Cxb7LO21cw@mail.gmail.com>
+References: <20230519085525.1275339-1-boris.brezillon@collabora.com>
+ <CAM0jSHNhH77Q99Xmprz-=U9J0Oi3L=W8g99dABZ3Cxb7LO21cw@mail.gmail.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,125 +55,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org
+Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 May 2023 10:07:33 +0100
-Matthew Auld <matthew.auld@intel.com> wrote:
+On Fri, 19 May 2023 10:05:27 +0100
+Matthew Auld <matthew.william.auld@gmail.com> wrote:
 
-> In mutex_init() lockdep identifies a lock by defining a special static
-> key for each lock class. However if we wrap the macro in a function,
-> like in drmm_mutex_init(), we end up generating:
->=20
-> int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
-> {
->       static struct lock_class_key __key;
->=20
->       __mutex_init((lock), "lock", &__key);
->       ....
-> }
->=20
-> The static __key here is what lockdep uses to identify the lock class,
-> however since this is just a normal function the key here will be
-> created once, where all callers then use the same key. In effect the
-> mutex->depmap.key will be the same pointer for different
-> drmm_mutex_init() callers. This then results in impossible lockdep
-> splats since lockdep thinks completely unrelated locks are the same lock
-> class.
->=20
-> To fix this turn drmm_mutex_init() into a macro such that it generates a
-> different "static struct lock_class_key __key" for each invocation,
-> which looks to be inline with what mutex_init() wants.
->=20
-> v2:
->   - Revamp the commit message with clearer explanation of the issue.
->   - Rather export __drmm_mutex_release() than static inline.
->=20
-> Reported-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Reported-by: Sarah Walker <sarah.walker@imgtec.com>
-> Fixes: e13f13e039dc ("drm: Add DRM-managed mutex_init()")
-> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> On Fri, 19 May 2023 at 09:55, Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > drmm_mutex_init() needs to be defined as a macro if we want
+> > lockdep to classify locks properly. If we don't do that, all locks
+> > will be considered as belonging to the same lock class, leading to
+> > false positive deadlock reports.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Reported-by: Sarah Walker <sarah.walker@imgtec.com>  
+> 
+> Yeah, we also encountered the same issue. Patch is here:
+> https://patchwork.freedesktop.org/patch/537605/?series=117891&rev=2
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> ---
->  drivers/gpu/drm/drm_managed.c | 22 ++--------------------
->  include/drm/drm_managed.h     | 18 +++++++++++++++++-
->  2 files changed, 19 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 4cf214de50c4..c21c3f623033 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -264,28 +264,10 @@ void drmm_kfree(struct drm_device *dev, void *data)
->  }
->  EXPORT_SYMBOL(drmm_kfree);
-> =20
-> -static void drmm_mutex_release(struct drm_device *dev, void *res)
-> +void __drmm_mutex_release(struct drm_device *dev, void *res)
->  {
->  	struct mutex *lock =3D res;
-> =20
->  	mutex_destroy(lock);
->  }
-> -
-> -/**
-> - * drmm_mutex_init - &drm_device-managed mutex_init()
-> - * @dev: DRM device
-> - * @lock: lock to be initialized
-> - *
-> - * Returns:
-> - * 0 on success, or a negative errno code otherwise.
-> - *
-> - * This is a &drm_device-managed version of mutex_init(). The initialized
-> - * lock is automatically destroyed on the final drm_dev_put().
-> - */
-> -int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
-> -{
-> -	mutex_init(lock);
-> -
-> -	return drmm_add_action_or_reset(dev, drmm_mutex_release, lock);
-> -}
-> -EXPORT_SYMBOL(drmm_mutex_init);
-> +EXPORT_SYMBOL(__drmm_mutex_release);
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 359883942612..ad08f834af40 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -105,6 +105,22 @@ char *drmm_kstrdup(struct drm_device *dev, const cha=
-r *s, gfp_t gfp);
-> =20
->  void drmm_kfree(struct drm_device *dev, void *data);
-> =20
-> -int drmm_mutex_init(struct drm_device *dev, struct mutex *lock);
-> +void __drmm_mutex_release(struct drm_device *dev, void *res);
-> +
-> +/**
-> + * drmm_mutex_init - &drm_device-managed mutex_init()
-> + * @dev: DRM device
-> + * @lock: lock to be initialized
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + *
-> + * This is a &drm_device-managed version of mutex_init(). The initialized
-> + * lock is automatically destroyed on the final drm_dev_put().
-> + */
-> +#define drmm_mutex_init(dev, lock) ({					     \
-> +	mutex_init(lock);						     \
-> +	drmm_add_action_or_reset(dev, __drmm_mutex_release, lock);	     \
-> +})									     \
-> =20
->  #endif
-
+Cool! Added my R-b to this patch.
