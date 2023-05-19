@@ -2,81 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1AF709F68
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 20:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4C9709F75
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 20:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBAAC10E5FE;
-	Fri, 19 May 2023 18:50:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7EB10E5C9;
+	Fri, 19 May 2023 18:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C184410E601
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 18:50:03 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4f27b65bbf9so4056122e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 11:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684522202; x=1687114202;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HTUEsS20+JWfFefGFxAlmb68/xkcFppSNirNHBfFJGA=;
- b=UU98q5EnmW7KMZZAlzm7ITG5fh0J558Aki64lr9kuoXzScUd4PKrwzpCLp3V2J1Gs9
- A0bpqkO3SdR4aoLp+dx/6fLLp9shqwZazDcKxsavE6N8TIdxPCEUvw7fYC40BIlDq9Uy
- 8Pstm7Bw9jt++JwvhrHH2HaRSdyQpPs3Iql6CzkqXd8ppPXj6qXa2pdGfb724U7U+LCo
- 2F9S706SA7Cdb5H5bcQiFK+xbnwp/7Dqe8Z6ginVbHpUlv1Rp1ZU4H1xojiJNnnKe7a4
- J680SUmQHug1+O1pss2AOrdp7YHtMvDpjppSGQntWOd/5pedDLT+hzdAZsgkeo/oN5+a
- h/SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684522202; x=1687114202;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HTUEsS20+JWfFefGFxAlmb68/xkcFppSNirNHBfFJGA=;
- b=BASzsc/3bAh0w2SUsO50R4UBMEZDiGAlkMs4bYT5oVLu3YDvRiICMOW1QVpUlbr6nF
- xLD7129lDgopU9yGR9kcSbK3BvY0G+HzhbrSbBN5Fw5RwhPn+wmgcDFQuc/GuGtdhXTl
- YyzL/ldt3g8AynMaPmdqvZ94+Mq7SFl89QzTEdFem5NsKlFT86I4l14fvVEK6FiTNJjM
- s+lph+4wlpm5ME6J52UaOl5ode8SZiwTwX5XdFtjtNrks7mqHyC5bWcKXR9ytJg3yU5v
- LULxbem59hgHSk0EWQVL9mvIavUfr4Bohq9Tos6TCUbqMDMANVutrXHNJnrP0fFqlH6J
- HEAw==
-X-Gm-Message-State: AC+VfDw36eVMQaEDBOmyXfMqknpe+JUDN+fjVIY8VAl9FPXWpB3V+qVn
- YNShe87XZNwtSowiev1EOSQB0w==
-X-Google-Smtp-Source: ACHHUZ43IwIVha+deIV66TxN19aXSfFVWdZZsAoghj3lkwx8EWyN30cvOUHL1ecRK7AQxbPzKA6IAA==
-X-Received: by 2002:a05:6512:147:b0:4f3:93d4:2bc7 with SMTP id
- m7-20020a056512014700b004f393d42bc7mr1259838lfo.36.1684522201760; 
- Fri, 19 May 2023 11:50:01 -0700 (PDT)
-Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
- by smtp.gmail.com with ESMTPSA id
- x20-20020ac25dd4000000b004f37bd02a89sm678373lfq.287.2023.05.19.11.50.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 11:50:01 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Fri, 19 May 2023 20:49:59 +0200
-Subject: [PATCH v2] drm/msm/dpu: Set DPU_DATA_HCTL_EN for in INTF_SC7180_MASK
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F15110E601;
+ Fri, 19 May 2023 18:54:37 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34JCKiWo016404; Fri, 19 May 2023 18:54:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=a6zDXIG1qatj7sxr4/E0YCanwWp6LIxVe2ifimyRmrQ=;
+ b=RZlKxfEz55MAp5J8LS9ypbqFRhcY9rlRGOjXqA5RRD5rv1T5OuFhBqXn2U/6caynyInI
+ rYDL5ZuRv+upQ+Eefd8+yXLbheBZc2xBG2XrAQ56OMeki6XVi2huvnYqoxzr8gxmgexR
+ I0tkxquGINySzbT1T0Jzpp1mjir1ShRneQN9XF2Q5S+PdLFDrZGx4AlV0D2CXjGPjPz9
+ zMZOlItpHYHXQDzOcdflTKwseObqPCIBmYgbDngwCir4miLc2kaddyj0P/Ri341mxFg0
+ oTX/PzUy+M6PwefOGM3xxX4HIR37xI7ag6iqpdR2Ce62DL/gmLKLEkiCuJXXZMxdz4XE 9g== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qnwk4jcr3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 May 2023 18:54:31 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JIsE5e006731
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 May 2023 18:54:14 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 19 May
+ 2023 11:54:14 -0700
+Message-ID: <637c1848-0e3f-9f3d-dc56-8f2d5b8de696@quicinc.com>
+Date: Fri, 19 May 2023 11:54:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230508-topic-hctl_en-v2-1-e7bea9f1f5dd@linaro.org>
-X-B4-Tracking: v=1; b=H4sIANbEZ2QC/3WNQQqDMBBFryJZd0qMKKar3qNISeJoBkIiEyst4
- t2buu/yPfj/7SIjE2Zxq3bBuFGmFAuoSyWcN3FGoLGwUFI1spU9rGkhB96t4YkRGmOt1tp0Tmt
- RNtZkBMsmOl9W8RVCkQvjRO8z8hgKe8pr4s/Z3Oqf/Xe/1VCDnHrbjlMncWzvgaLhdE08i+E4j
- i9bE/tdwAAAAA==
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Kalyan Thota <quic_kalyant@quicinc.com>, 
- Shubhashree Dhar <dhar@codeaurora.org>, 
- Raviteja Tamatam <travitej@codeaurora.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684522200; l=1779;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=pAP/phIYSh7fnR3TZQDt1S75nNfckM/QPQMkcpx1MHk=;
- b=rj0I0SkomI8uK3sxTU6N+M/TsYvAYp6mC3zNbbLftt+9EDVyjRN/yxroXTIbaQbeCe5jkQQWJ
- V2OsjvS6+ejAyhgX0axt2BVK9sX9Fys7RbW/io9F1g9F1a+hayUXayF
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: simplify pixel clk rate handling
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20230118130031.2345941-1-dmitry.baryshkov@linaro.org>
+ <8ebd01e3-00be-b0da-e91a-ab1a4e074074@quicinc.com>
+ <85d0a8c6-f6b4-4cd4-7cc6-b13f37523bd4@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <85d0a8c6-f6b4-4cd4-7cc6-b13f37523bd4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: HQ5eoOe-UsA9DTguwaTaxN9HFa5qRmKk
+X-Proofpoint-ORIG-GUID: HQ5eoOe-UsA9DTguwaTaxN9HFa5qRmKk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-19_14,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305190162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,58 +86,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Bjorn
+ Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DPU5 and newer targets enable this unconditionally. Move it from the
-SC7280 mask to the SC7180 one.
 
-Fixes: 7e6ee55320f0 ("drm/msm/disp/dpu1: enable DATA_HCTL_EN for sc7280 target")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
-Depends on:
-https://lore.kernel.org/linux-arm-msm/20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com/
----
-Changes in v2:
-- Use a more fitting fixes tag
-- Add braces around 7280 macro definition (checkpatch)
-- Link to v1: https://lore.kernel.org/r/20230508-topic-hctl_en-v1-1-0f8b5df60ed5@linaro.org
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 27420fc863d6..005f09fcf334 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -98,9 +98,12 @@
- #define INTF_SDM845_MASK (0)
- 
- #define INTF_SC7180_MASK \
--	(BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE) | BIT(DPU_INTF_STATUS_SUPPORTED))
-+	(BIT(DPU_INTF_INPUT_CTRL) | \
-+	 BIT(DPU_INTF_TE) | \
-+	 BIT(DPU_INTF_STATUS_SUPPORTED) | \
-+	 BIT(DPU_DATA_HCTL_EN))
- 
--#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN) | BIT(DPU_INTF_DATA_COMPRESS)
-+#define INTF_SC7280_MASK (INTF_SC7180_MASK | BIT(DPU_INTF_DATA_COMPRESS))
- 
- #define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
- 			 BIT(DPU_WB_UBWC) | \
+On 3/28/2023 6:04 AM, Dmitry Baryshkov wrote:
+> On 26/01/2023 02:07, Abhinav Kumar wrote:
+>>
+>>
+>> On 1/18/2023 5:00 AM, Dmitry Baryshkov wrote:
+>>> Move a call to dsi_calc_pclk() out of calc_clk_rate directly towards
+>>> msm_dsi_host_get_phy_clk_req(). It is called for both 6g and v2 hosts.
+>>>
+>>> Also, while we are at it, replace another dsi_get_pclk_rate() invocation
+>>> with using the stored value at msm_host->pixel_clk_rate.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>   drivers/gpu/drm/msm/dsi/dsi.h      |  4 ++--
+>>>   drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  2 +-
+>>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 24 ++++++++++++------------
+>>>   3 files changed, 15 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+>>> b/drivers/gpu/drm/msm/dsi/dsi.h
+>>> index bd3763a5d723..93ec54478eb6 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+>>> @@ -129,8 +129,8 @@ int dsi_dma_base_get_6g(struct msm_dsi_host 
+>>> *msm_host, uint64_t *iova);
+>>>   int dsi_dma_base_get_v2(struct msm_dsi_host *msm_host, uint64_t 
+>>> *iova);
+>>>   int dsi_clk_init_v2(struct msm_dsi_host *msm_host);
+>>>   int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
+>>> -int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool 
+>>> is_bonded_dsi);
+>>> -int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool 
+>>> is_bonded_dsi);
+>>> +int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host);
+>>> +int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host);
+>>>   void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, 
+>>> struct mipi_dsi_host *host);
+>>>   void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
+>>>   struct drm_dsc_config *msm_dsi_host_get_dsc_config(struct 
+>>> mipi_dsi_host *host);
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h 
+>>> b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>>> index 44be4a88aa83..5106e66846c3 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>>> @@ -51,7 +51,7 @@ struct msm_dsi_host_cfg_ops {
+>>>       void* (*tx_buf_get)(struct msm_dsi_host *msm_host);
+>>>       void (*tx_buf_put)(struct msm_dsi_host *msm_host);
+>>>       int (*dma_base_get)(struct msm_dsi_host *msm_host, uint64_t 
+>>> *iova);
+>>> -    int (*calc_clk_rate)(struct msm_dsi_host *msm_host, bool 
+>>> is_bonded_dsi);
+>>> +    int (*calc_clk_rate)(struct msm_dsi_host *msm_host);
+>>>   };
+>>>   struct msm_dsi_cfg_handler {
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
+>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> index 18fa30e1e858..7d99a108bff6 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> @@ -616,28 +616,21 @@ static void dsi_calc_pclk(struct msm_dsi_host 
+>>> *msm_host, bool is_bonded_dsi)
+>>>   }
+>>> -int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool 
+>>> is_bonded_dsi)
+>>> +int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host)
+>>>   {
+>>> -    if (!msm_host->mode) {
+>>> -        pr_err("%s: mode not set\n", __func__);
+>>> -        return -EINVAL;
+>>> -    }
+>>> -
+>>> -    dsi_calc_pclk(msm_host, is_bonded_dsi);
+>>>       msm_host->esc_clk_rate = clk_get_rate(msm_host->esc_clk);
+>>> +
+>>>       return 0;
+>>>   }
+>>> -int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool 
+>>> is_bonded_dsi)
+>>> +int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host)
+>>>   {
+>>>       u32 bpp = dsi_get_bpp(msm_host->format);
+>>>       u64 pclk_bpp;
+>>>       unsigned int esc_mhz, esc_div;
+>>>       unsigned long byte_mhz;
+>>> -    dsi_calc_pclk(msm_host, is_bonded_dsi);
+>>> -
+>>> -    pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) 
+>>> * bpp;
+>>> +    pclk_bpp = msm_host->pixel_clk_rate * bpp;
+>>>       do_div(pclk_bpp, 8);
+>>>       msm_host->src_clk_rate = pclk_bpp;
+>>> @@ -2292,7 +2285,14 @@ void msm_dsi_host_get_phy_clk_req(struct 
+>>> mipi_dsi_host *host,
+>>>       const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+>>>       int ret;
+>>> -    ret = cfg_hnd->ops->calc_clk_rate(msm_host, is_bonded_dsi);
+>>> +    if (!msm_host->mode) {
+>>> +        pr_err("%s: mode not set\n", __func__);
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    dsi_calc_pclk(msm_host, is_bonded_dsi);
+>>> +
+>>> +    ret = cfg_hnd->ops->calc_clk_rate(msm_host);
+>>
+>> I am not too sure what we are gaining by this.
+>>
+>> Its not that we are replacing dsi_get_pclk_rate().
+>>
+>> We are moving the dsi_get_pclk_rate() from the calc_clk_rate() to the 
+>> msm_dsi_host_get_phy_clk_req().
+>>
+>> Also, with this change, dsi_calc_clk_rate_6g() looks kind of empty to 
+>> stand on its own.
+>>
+>> The original intention of the calc_clk_rate() op seems to be calculate 
+>> and store all the clocks (byte, pixel and esc).
+>>
+>> Why change that behavior by breaking it up?
+> 
+> Unification between platforms. Both v2 and 6g platforms call 
+> dsi_calc_pclk(). Let's just move it to a common code path.
 
----
-base-commit: c47189dee0decd9ecc1e65ae376ad6d4b0b7f1f2
-change-id: 20230508-topic-hctl_en-3abb999a6c99
+Hi Dmitry,
 
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+I think what Abhinav means here is that the meaning and functionality of 
+calc_clk_rate() changes with this patch.
 
+Before, calc_clk_rate() does *all* the clk_rate calculations and 
+assignments. But after this change, it will only calculate and assign 
+the escape clk rate.
+
+I agree with Abhinav that this change renders the calc_clk_rate() op 
+misleading as it will not calculate all of the clock rates anymore.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>
+>>>       if (ret) {
+>>>           pr_err("%s: unable to calc clk rate, %d\n", __func__, ret);
+>>>           return;
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
