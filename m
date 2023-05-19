@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C7B708DDD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 04:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771A6708DE0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 04:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63ABC10E5A1;
-	Fri, 19 May 2023 02:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF9E10E5A3;
+	Fri, 19 May 2023 02:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4781710E5A1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 02:37:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684463838; x=1715999838;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gPVLxIgLjrPophpUuE+ZF3za491E2E6KrFr2sELiUXI=;
- b=Skvim25YKcxwzE9rV4SmdOwgWbzio3IKm4UfqdaT8cbLuBCthBWVROdn
- ZHo61azBjbb3FZlw2rYa3qrGw0yhWP9hjf7tV0IfWXL3h3aTdzFBSyyFx
- PRg2SGK+BOVazJ2/s0YfTdyeRdS+PS1Z2wE2kzyaH38yGHZL2EbpcrDYN
- dXgAxFLpJKA/qT2RzjRZ1REvpaxakwjryZS3h6fMTXSP5EKUxAcpc3Cpd
- uDxlwfanjx3lOH2i7X/5XII8eAqdPRqWOQJLu4IGxQoM/AFJEUgU2APAu
- O0VLsHjfuapaHqlRr48i1QICmzf25XQRrLjtVSvO9yNQyEyW7pJXX/HKp Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="352278826"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; d="scan'208";a="352278826"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2023 19:37:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="814565295"
-X-IronPort-AV: E=Sophos;i="6.00,175,1681196400"; d="scan'208";a="814565295"
-Received: from refaase-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.221.245])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2023 19:37:04 -0700
-Date: Fri, 19 May 2023 04:37:01 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm/exynos: vidi: fix a wrong error return
-Message-ID: <ZGbgza6w6taNIXAl@ashyti-mobl2.lan>
-References: <CGME20230519000408epcas1p4f5d90f588e7250d2d168d2943adef4f7@epcas1p4.samsung.com>
- <20230519000407.60744-1-inki.dae@samsung.com>
- <ZGbCO9/5yEstym+c@ashyti-mobl2.lan>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4727410E5A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 02:38:58 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2af1c884b08so4209681fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 May 2023 19:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684463936; x=1687055936;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hB8ttbepI7FxJGTYR5m6g7q7o+wcPnq3jGd8N1SpVCI=;
+ b=VjfmbfbVfpbbbE3GuO+Zf+g5r78woNV9IpiPnccmMFoSwn4LBwoHwaDREb9ushjW4a
+ mEIJRsGlSxhmgyFfrDeanBXRxkQrmwqVfnRuHGl7DaMLyzmN92Eoc6UztdV+KIeIYNCD
+ FX3cfLLjm1n/wyIyxX5WfTT4dRZIS+qWspiF1P+b7uOoI7kT3tHoCfPl5LkkMYBYifQ3
+ azGjaX14vVY8lLJyTwaZI05B5wWdVB4H6aPYv8e/bXTvCwi2o8FzPPaahi+vH+VBsycV
+ ZHSk2pSuBtrrqMJhQn/xRyvErGri/M45E/RJQJeYmwKnNk4/foWyOXMOR4PQbUsnwNHb
+ PEZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684463936; x=1687055936;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hB8ttbepI7FxJGTYR5m6g7q7o+wcPnq3jGd8N1SpVCI=;
+ b=ZJcZwflaUpF6jOhajK0d5HGT/1aNQctJGpmi8XUgoxnatQgpLLnndIWT+EwoyxDh1d
+ ZIc1Pk1XHL36mxM8fKWKhFzoIVMM3vjuVRzi54mAm5qK5FmDLIDx6KEvErzF5mFoSuWj
+ 44LdLZSu7F/SfvhD/6cClDWdcm7RVedRUWzFrfe64jC8D4VetctzG1rvXDSbpZFwCP7C
+ h3AXc4IePqpc90pmFurk8S2Yub/ngcUQzMb7YuHje5cbBnIQKJFlQmz3hWJQNoeh/tZM
+ uEE5Lnv+g+GvWWiCa2lJzJxIi0WKHQ+efuvO0qOWZ62/4x4AbMUf7GEjyPAPzLwVA/8O
+ HHgQ==
+X-Gm-Message-State: AC+VfDw+1kXEF3Ju6hMSriD7fB5iR3U+UWI4sq/0tiVxEBt7B+D4HBZq
+ WHz/qJ+ziAIG5P/r/9OMcWRAYnvtIShGLesbRzs=
+X-Google-Smtp-Source: ACHHUZ5BnGhVzZ2iYRIc5cTse2COPb6iSeJskh97TwpEPM05paE6PQ4l4p042CJNRhdiesdH2TGB/A==
+X-Received: by 2002:a05:651c:1693:b0:2af:2094:acdd with SMTP id
+ bd19-20020a05651c169300b002af2094acddmr127190ljb.14.1684463936505; 
+ Thu, 18 May 2023 19:38:56 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ s15-20020a2e2c0f000000b002af25598ef9sm25906ljs.0.2023.05.18.19.38.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 May 2023 19:38:56 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 0/7] drm/msm/dpu: simplify DPU encoder init
+Date: Fri, 19 May 2023 05:38:48 +0300
+Message-Id: <20230519023855.3840907-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGbCO9/5yEstym+c@ashyti-mobl2.lan>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,72 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Inki,
+Rework dpu_encoder initialization code, simplifying calling sequences
+and separating common init parts.
 
-On Fri, May 19, 2023 at 02:26:40AM +0200, Andi Shyti wrote:
-> Hi Inki,
-> 
-> On Fri, May 19, 2023 at 09:04:07AM +0900, Inki Dae wrote:
-> > Fix a wrong error return by dropping an error return.
-> > 
-> > When vidi driver is remvoed, if ctx->raw_edid isn't same as fake_edid_info
-> > then only what we have to is to free ctx->raw_edid so that driver removing
-> > can work correctly - it's not an error case.
-> > 
-> > Signed-off-by: Inki Dae <inki.dae@samsung.com>
-> > ---
-> >  drivers/gpu/drm/exynos/exynos_drm_vidi.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> > index 4d56c8c799c5..f5e1adfcaa51 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> > @@ -469,8 +469,6 @@ static int vidi_remove(struct platform_device *pdev)
-> >  	if (ctx->raw_edid != (struct edid *)fake_edid_info) {
-> >  		kfree(ctx->raw_edid);
-> >  		ctx->raw_edid = NULL;
-> > -
-> > -		return -EINVAL;
-> 
-> It doesn't look right to me, I think the correct patch should be:
-> 
-> -       if (ctx->raw_edid != (struct edid *)fake_edid_info) {
-> -               kfree(ctx->raw_edid);
-> -               ctx->raw_edid = NULL;
-> -
-> -               return -EINVAL;
-> -       }
-> -
-> +       ctx->raw_edid = NULL;
-> 
-> because "ctx->raw_edid" points to a non allocated memory in the
-> .data segment and you cannot free it.
-> 
-> A follow-up cleanup should be to remove the "const" from
-> fake_edid_info because you are assigning its address to pointers
-> (raw_edid), so that what's the point for having it const? You are
-> just fooling the compiler :)
+Changes since v1:
+- Withdrawn two pathes for a later consideration
+- Changed dpu_encoder_phys_init() to return void (Abhinav)
+- Added small simplifications of dpu_encoder_phys_cmd_init() and
+  dpu_encoder_phys_wb_init()
 
-please ignore, this is what happens when reading patches at
-2.26am, that a "!=" becomes "==". The patch is correct, still
-some cleanups is needed here, though.
+Dmitry Baryshkov (7):
+  drm/msm/dpu: merge dpu_encoder_init() and dpu_encoder_setup()
+  drm/msm/dpu: separate common function to init physical encoder
+  drm/msm/dpu: drop duplicated intf/wb indices from encoder structs
+  drm/msm/dpu: inline dpu_encoder_get_wb()
+  drm/msm/dpu: call dpu_rm_get_intf() from dpu_encoder_get_intf()
+  drm/msm/dpu: drop temp variable from dpu_encoder_phys_cmd_init()
+  drm/msm/dpu: simplify dpu_encoder_phys_wb_init()
 
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 178 ++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  14 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  15 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  35 ++--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  19 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  35 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  87 ++++-----
+ 7 files changed, 140 insertions(+), 243 deletions(-)
 
-Andi
+-- 
+2.39.2
 
-PS I was actually sleeping and this woke me up :)
-
-> Andi
-> 
-> >  	}
-> >  
-> >  	component_del(&pdev->dev, &vidi_component_ops);
-> > -- 
-> > 2.25.1
