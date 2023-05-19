@@ -2,34 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD043709EF9
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 20:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA84E709F21
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 20:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B59EF10E5E4;
-	Fri, 19 May 2023 18:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D669110E095;
+	Fri, 19 May 2023 18:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8261E10E095
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 18:18:08 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6F87D1F58D;
- Fri, 19 May 2023 20:18:03 +0200 (CEST)
-Date: Fri, 19 May 2023 20:18:01 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v4 00/12] SM63(50|75) DPU support
-Message-ID: <dktpk4msw3v7y4tgyovcqels34urqzm3fcocygn6ocufws3kev@bd5zcy572cle>
-References: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9668E10E095
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 18:34:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8385D61861;
+ Fri, 19 May 2023 18:34:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24FF6C433D2;
+ Fri, 19 May 2023 18:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684521276;
+ bh=eeko69CoO8ZrCLhtBQPdoKb6TrEQeWu0O7r9Z4y9WyI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JlJEz5/fnfTeVT2F9T0JGJYwTG5ZOKk0uPVzkWYsehaV7usdCNAIu2Z2/r8v8s+rH
+ u8HYQSvGExfEQDNk26ID9aVGrlaAEU+ax0gjbdULERwkzpYY/wHz1XhhM73074LkRb
+ PGQGQGL+QXufYkxcwom4NzC4/OQwDL/kJOnVUpxF0fEtwneheu4roB5C++12c44qH2
+ Z2VVcTnO2ni7jAtcXuWBWBnZmzbsONKr9ikIFEBbBBE9LWrK2v9Nqpsh1OnclfukSM
+ pZwD3NCNzvarD3kereEo8SlKMybREFlwaFMkz8oLho7oYT3ot5sNTva9jwZfuXUhKQ
+ u4b1Onax2BMdQ==
+Date: Fri, 19 May 2023 19:34:31 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Artur Weber <aweber.kernel@gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: display: panel: Add Samsung S6D7AA0
+ LCD panel controller
+Message-ID: <20230519-catatonic-swimmer-80b086ae0586@spud>
+References: <20230519170354.29610-1-aweber.kernel@gmail.com>
+ <20230519170354.29610-2-aweber.kernel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZbsHYCLMrj/q3z3Z"
 Content-Disposition: inline
-In-Reply-To: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
+In-Reply-To: <20230519170354.29610-2-aweber.kernel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,107 +54,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+ Nikita Travkin <nikita@trvn.ru>, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-19 19:04:21, Konrad Dybcio wrote:
-> v3 -> v4:
-> - Drop adding new QoS LUT entries
-> - Add safe_lut_tbl for both SoCs
 
-I may not have pinged you correctly with this message [1], but can you
-add the DSC configuration for both SoCs?
+--ZbsHYCLMrj/q3z3Z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1]: https://lore.kernel.org/linux-arm-msm/u47xthqfjxpbbzjbvnrz4qa2f2m3aip4iose7cwuhzg4raf7db@qxbos7u55wko/
-
-- Marijn
-
-> 
-> Depends on:
-> - https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-0-27ce1a5ab5c6@somainline.org/
-> 
-> v3: https://lore.kernel.org/r/20230411-topic-straitlagoon_mdss-v3-0-9837d6b3516d@linaro.org
-> 
-> v2 -> v3:
-> - Don't duplicate qcm2290_lm_sblk
-> - Use DEFAULT_DPU_LINE_WIDTH defines
-> - Fix up sspp clk assignments for sm6350
-> - Add 6350-6375-common QoS data straight to the common file
->   instead of moving it around after adding it
-> - Fix up iommu compatible order before adding new entries
-> - Reuse sm6350 msm_mdss_data for sm6375
-> - INTF_SC7180_MASK -> INTF_SC7280_MASK (enable HCTL) on 6375
-> - use double tabs in catalog headers
-> - remove one unused entry in 6350 dpu_qos_lut_entry
-> - add missing tear IRQs, drop INTF0 irq on 6375
-> - don't overduplicate DPU bindings, reuse 7180
-> - Pick up tags
-> - Rebase on INTF_TE v4 and next-20230504
-> 
-> Depends on:
-> - https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v4-0-27ce1a5ab5c6@somainline.org/
-> 
-> v2: https://lore.kernel.org/r/20230411-topic-straitlagoon_mdss-v2-0-5def73f50980@linaro.org
-> 
-> v1 -> v2:
-> - Rebase on the DPU catalog rework and INTF_TE
-> - Fix QSEED(3L/4) discrepancies
-> - Fixed DMA/cursor discrepancies for 6350
-> - No deduplication, that's gonna be handled in catalogrework 2:
->   "the return of the catalogrework"
-> - Split MDSS & DPU binding additions
-> - Drop "Allow variable SSPP/INTF_BLK size", that got in w/ the rework
-> - Split MDSS and DPU additions
-> - Pick up Rob's acks
-> 
-> Depends on (and based on): https://lore.kernel.org/linux-arm-msm/20230411-dpu-intf-te-v2-0-ef76c877eb97@somainline.org/T/#t
-> 
-> v1: https://lore.kernel.org/linux-arm-msm/20230211122656.1479141-1-konrad.dybcio@linaro.org/
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+On Fri, May 19, 2023 at 07:03:52PM +0200, Artur Weber wrote:
+> Add bindings for the S6D7AA0 LCD panel controller, including the
+> S6D7AA0-LSL080AL02 panel used in the Samsung Galaxy Tab 3 8.0 family
+> of tablets, and the S6D7AA0-LSL080AL03 and S6D7AA0-LTL101AT01 panels
+> used in the Samsung Galaxy Tab A 8.0 and 9.7 2015.
+>=20
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 > ---
-> Konrad Dybcio (12):
->       dt-bindings: display/msm: dsi-controller-main: Add SM6350
->       dt-bindings: display/msm: dsi-controller-main: Add SM6375
->       dt-bindings: display/msm: sc7180-dpu: Describe SM6350 and SM6375
->       dt-bindings: display/msm: Add SM6350 MDSS
->       dt-bindings: display/msm: Add SM6375 MDSS
->       drm/msm/dpu: Add SM6350 support
->       drm/msm: mdss: Add SM6350 support
->       drm/msm/dpu: Add SM6375 support
->       drm/msm: mdss: Add SM6375 support
->       iommu/arm-smmu-qcom: Sort the compatible list alphabetically
->       iommu/arm-smmu-qcom: Add SM6375 DPU compatible
->       iommu/arm-smmu-qcom: Add SM6350 DPU compatible
-> 
->  .../bindings/display/msm/dsi-controller-main.yaml  |   4 +
->  .../bindings/display/msm/qcom,sc7180-dpu.yaml      |  23 ++-
->  .../bindings/display/msm/qcom,sm6350-mdss.yaml     | 214 ++++++++++++++++++++
->  .../bindings/display/msm/qcom,sm6375-mdss.yaml     | 216 +++++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 188 ++++++++++++++++++
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h | 153 +++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   6 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +
->  drivers/gpu/drm/msm/msm_mdss.c                     |  10 +
->  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   6 +-
->  11 files changed, 821 insertions(+), 3 deletions(-)
-> ---
-> base-commit: c437aff71b13c5ca77821ec1bab98ca7e18716d0
-> change-id: 20230411-topic-straitlagoon_mdss-8f34cacd5e26
-> 
-> Best regards,
-> -- 
-> Konrad Dybcio <konrad.dybcio@linaro.org>
-> 
+> Changed in v2:
+>  - Updated commit message
+>  - Added reg to required properties
+>  - Reordered required properties
+> Changed in v3:
+>  - Fixed patch that didn't apply
+> Changed in v4:
+>  - Added LSL080AL03, LTL101AT01 compatibles
+>  - Added description to reset-gpios
+>  - Added vmipi-supply, renamed enable-supply to power-supply
+> Changed in v5:
+>  - Changed compatibles to avoid concatenating multiple model numbers
+>  - Removed '|' from multiline descriptions
+>  - Fixed license
+
+Looks like you've resolved the things Krzysztof and Rob took issue with.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+--ZbsHYCLMrj/q3z3Z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGfBNwAKCRB4tDGHoIJi
+0u0GAP9naF1Vwzu/CY4ARw7Njk+TP9o/o4hxhuUWXHEbiUuBlwEAoblSB3j14JWx
+NEOpn/W7lrzZa4Ggt66sk+s2FdulmwY=
+=/BPW
+-----END PGP SIGNATURE-----
+
+--ZbsHYCLMrj/q3z3Z--
