@@ -2,50 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CAB7093DD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 11:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDBA70952E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 12:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3D10E34C;
-	Fri, 19 May 2023 09:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6EA10E0A9;
+	Fri, 19 May 2023 10:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4470910E14E;
- Fri, 19 May 2023 09:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684489261; x=1716025261;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=jjSgRuyJkBnG/vrWLXUL4ivDFw/8Ieq66WjecBNhUAg=;
- b=I7w82F+jvU+j+71+xmVd8YTk6GwcgQneVzbOtkM8odpZqxt8ApyZa66b
- jWtdprv76R6Gh8Ja0tTfZ6AApxq9eEMI4iOfsOV4s2zl7W0pqa+DCgG6c
- rApGCbAvEfCmeHjat6+pW7Y03cxLZHaG1XqvVzmby63ouy4jS4v4/Mggo
- aPfQu53eMRMtr4W9Y3f8iSQU6z9I4netixqJ07AB+YzFhMNxu+wWMbY9p
- mqQJjc/wE+cJxdF8BgtuJilBq2JNzA8inu1q4VV35P1oJ0g/c/oyurlLu
- DNswLoHgPqSel2RdzoiyE12SF16fvQpoR60jo8tNOEkcWTpyRKo9ovHO0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="354684349"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="354684349"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2023 02:41:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="767556568"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="767556568"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2023 02:40:58 -0700
-Date: Fri, 19 May 2023 11:40:56 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v2] drm: fix drmm_mutex_init()
-Message-ID: <20230519094056.GB650806@linux.intel.com>
-References: <20230519090733.489019-1-matthew.auld@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E70110E080
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1684492696; i=deller@gmx.de;
+ bh=ms3RDIelSxdWVnz+v+z9XPddozX1qPFluv8VIGAgkDE=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=T02R7bIGOTjrA0+bwrttwkuIhtYTzk0tJZNRAXFCIz+zOaqee8vviwJSA95WJs7qc
+ xNxYASFkiRIf8V6K1R439W0HsdShTw4Tt3L7JgQ5/gCSro9OfW1rS7KCykCXmhudt2
+ by3Q/pwiHvN/faSpC0j6lT8pOSRG11vi7rIT0XD6U/QjZmKH6CRKS7xzowreF9KG3y
+ 2PvYYHR/DOS3pqT7La7ok4tNegNa3iRduGEwQPewcF93UeM3eiLPQrXjp1HxY+DPNb
+ X3OqUUPmyOtUajxkkhJeIFDyW9hVBu0iwx9S3hKzXPLGHAgcf7HMlLWPsRC4LOj52E
+ cLOWRHqKIRA5w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.152.232]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N0XCw-1qKuey0oT6-00wT8I; Fri, 19
+ May 2023 12:38:16 +0200
+Message-ID: <6e93305a-2d70-d411-3e36-c536449295dd@gmx.de>
+Date: Fri, 19 May 2023 12:38:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230519090733.489019-1-matthew.auld@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [syzbot] [fbdev?] [usb?] WARNING in
+ dlfb_submit_urb/usb_submit_urb (2)
+Content-Language: en-US
+To: Alan Stern <stern@rowland.harvard.edu>
+References: <0000000000004a222005fbf00461@google.com> <ZGXVANMhn5j/jObU@ls3530>
+ <4cd17511-2b60-4c37-baf3-c477cf6d1761@rowland.harvard.edu>
+ <be824fbc-cde4-9a2a-8fb4-1ca23f498dca@gmx.de>
+ <2905a85f-4a3b-4a4f-b8fb-a4d037d6c591@rowland.harvard.edu>
+ <ZGZ3JPLqxCxA2UB6@ls3530>
+ <c7b8e69a-cabe-4e17-a511-66179259d1d7@rowland.harvard.edu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <c7b8e69a-cabe-4e17-a511-66179259d1d7@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZXXu5QJebCOL1y2vAej2hv25kqaBHNpllfPqeQk61VVfGfN0uxj
+ rDbNuPXhmZwoO8Bh77jibdYml7o85GpkNC7HYIrxf/4FEbTPQVnh1opEZf98chq3X+aR6ev
+ LkejgSggZvP+FjMllSTwWbL8ZouKcGtCaN/sWsDCnzz/Yp1NXMqrBrpSPVwidXHKOHdCBiS
+ 8+iqe/D/ZWJug/U5YVTNQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uqAs2hR1cdI=;axiGn9AtPsyxX55BDtk41QN+dea
+ aio/2fcCaOf+DcmhcJkyiQ7+En7Aq3W1TAU2aqDa/wrP+J+JpisZwaqQdi44sstBvclOwdbi2
+ zb4vKVdGG15AZktv2D1hv2Zw/ouNMD71FMYhyUsXXrMta409xPlNvaE0pIN5npEfnB01rkhmL
+ 4ixo1Gcz0242fgSwcj7KQlGEMr/TBnWdlDc9H57rAfK6jFEy+IiHa9yDUtySZ2LvyP8VyywRu
+ dFsiMAgapHiKB90cPBTXUPVJboVMnr11qtHxmb6Ku7NZk1pYbExcMUOG5BvY6U481sruYSZDJ
+ WBOiRRA5MJtcNmahBpSOnzZePkABldMJ8LPBVhl7RX1Zwn/LKRqy+pdKs+Qevivjz3d8hqpsG
+ nj1PlPXZLT09NEuUks9eCGhVJEHciuszQL+NJ5h9E0IL1l6j8ceYby2XnS48YTp2MNlr99GnH
+ zcx9WFG9cu5OAv5PvHggwg+1YnktKRvyKAbOwQFsgSSBE6gqh8wPAnaFZiu1ltII9QPKskHqn
+ Nb7Rf4Wm22JRCEb5w/FP77CmvrEKAkUmXdAmM5YXwhPtAZbK2XcUoy83WNKTbNv+nwDUpYnvY
+ 42Zw/A4aGCw75ea2kNfVN8XvSuvKhh72SxwGvFI4e2bs6QEl7G8U93JRqXzIywyMpyne/kjxs
+ QoSXyNK8RMwxQWdv626drSD3A5pGfyvsS29i9MxoKRhhszX1bANb58P4WsrI+YZoxXVHx/inU
+ Zu6YB6LVTKZstsPyC6F0eTUtKiolPMwXqjpLhZN2DQ4HQWNa5tKJ31x/gVUSmQTRr7ge+mI76
+ y66ip4z5emYhIaJ7iVKkxPuKd59KfjzYM1sZTEmu0AP0fjZi5baPCC+ciNQJjZEdTAEw+88R/
+ bpMsCjIv5pKW0IbkcX7obAGJz7WOds8IG8Os1lSVsZNG3yyLI+PYFcDna6uBtPXW6fBFCrDo+
+ ioeVbg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +77,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ syzbot <syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com>,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+ bernie@plugable.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 19, 2023 at 10:07:33AM +0100, Matthew Auld wrote:
-> In mutex_init() lockdep identifies a lock by defining a special static
-> key for each lock class. However if we wrap the macro in a function,
-> like in drmm_mutex_init(), we end up generating:
-> 
-> int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
-> {
->       static struct lock_class_key __key;
-> 
->       __mutex_init((lock), "lock", &__key);
->       ....
-> }
-> 
-> The static __key here is what lockdep uses to identify the lock class,
-> however since this is just a normal function the key here will be
-> created once, where all callers then use the same key. In effect the
-> mutex->depmap.key will be the same pointer for different
-> drmm_mutex_init() callers. This then results in impossible lockdep
-> splats since lockdep thinks completely unrelated locks are the same lock
-> class.
-> 
-> To fix this turn drmm_mutex_init() into a macro such that it generates a
-> different "static struct lock_class_key __key" for each invocation,
-> which looks to be inline with what mutex_init() wants.
-> 
-> v2:
->   - Revamp the commit message with clearer explanation of the issue.
->   - Rather export __drmm_mutex_release() than static inline.
-> 
-> Reported-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reported-by: Sarah Walker <sarah.walker@imgtec.com>
-> Fixes: e13f13e039dc ("drm: Add DRM-managed mutex_init()")
-> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+On 5/18/23 22:35, Alan Stern wrote:
+> On Thu, May 18, 2023 at 09:06:12PM +0200, Helge Deller wrote:
+>> * Alan Stern <stern@rowland.harvard.edu>:
+>>> On Thu, May 18, 2023 at 04:16:33PM +0200, Helge Deller wrote:
+>>>> On 5/18/23 15:54, Alan Stern wrote:
+>>>>> In this case it looks like dlfb_usb_probe() or one of the routines i=
+t
+>>>>> calls is wrong; it assumes that an endpoint has the expected type
+>>>>> without checking.  More precisely, it thinks an endpoint is BULK whe=
+n
+>>>>> actually it is INTERRUPT.  That's what needs to be fixed.
+>>>>
+>>>> Maybe usb_submit_urb() should return an error so that drivers can
+>>>> react on it, instead of adding the same kind of checks to all drivers=
+?
+>>>
+>>> Feel free to submit a patch doing this.
+>>
+>> As you wrote above, this may break other drivers too, so I'd leave that
+>> discussion & decision to the USB maintainers (like you).
+>>
+>>> But the checks should be added
+>>> in any case; without them the drivers are simply wrong.
+>>
+>> I pushed the hackish patch below through the syz tests which gives this=
+ log:
+>> (see https://syzkaller.appspot.com/text?tag=3DCrashLog&x=3D160b75092800=
+00)
+>> [   77.559566][    T9] usb 1-1: Unable to get valid EDID from device/di=
+splay
+>> [   77.587021][    T9] WARNING: BOGUS urb xfer, pipe 3 !=3D type 1 (fix=
+ driver to choose correct endpoint)
+>> [   77.596448][    T9] usb 1-1: dlfb_urb_completion - nonzero write bul=
+k status received: -115
+>> [   77.605308][    T9] usb 1-1: submit urb error: -22
+>> [   77.613225][    T9] udlfb: probe of 1-1:0.52 failed with error -22
+>>
+>> So, basically there is no urgent fix needed for the dlfb fbdev driver,
+>> as it will gracefully fail as is (which is correct).
+>>
+>> What do you suggest we should do with this syzkaller-bug ?
+>> I'd rate it as false-alarm, but it will continue to complain because of
+>> the dev_WARN() in urb.c
+>
+> Let's try this patch instead.  It might contain a stupid error because I
+> haven't even tried to compile it, but it ought to fix the real problem.
 
-Regards
-Stanislaw
+Patch looks good and survived the test.
+
+Will you send a proper patch to the fbdev mailing list, so that I can
+include it?
+
+Helge
+
+>
+> #syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.gi=
+t a4422ff22142
+>
+> Index: usb-devel/drivers/video/fbdev/udlfb.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- usb-devel.orig/drivers/video/fbdev/udlfb.c
+> +++ usb-devel/drivers/video/fbdev/udlfb.c
+> @@ -1652,7 +1652,7 @@ static int dlfb_usb_probe(struct usb_int
+>   	struct fb_info *info;
+>   	int retval;
+>   	struct usb_device *usbdev =3D interface_to_usbdev(intf);
+> -	struct usb_endpoint_descriptor *out;
+> +	static u8 out_ep[] =3D {1 + USB_DIR_OUT, 0};
+>
+>   	/* usb initialization */
+>   	dlfb =3D kzalloc(sizeof(*dlfb), GFP_KERNEL);
+> @@ -1666,9 +1666,9 @@ static int dlfb_usb_probe(struct usb_int
+>   	dlfb->udev =3D usb_get_dev(usbdev);
+>   	usb_set_intfdata(intf, dlfb);
+>
+> -	retval =3D usb_find_common_endpoints(intf->cur_altsetting, NULL, &out,=
+ NULL, NULL);
+> -	if (retval) {
+> -		dev_err(&intf->dev, "Device should have at lease 1 bulk endpoint!\n")=
+;
+> +	if (!usb_check_bulk_endpoints(intf, out_ep)) {
+> +		dev_err(&intf->dev, "Invalid DisplayLink device!\n");
+> +		retval =3D -EINVAL;
+>   		goto error;
+>   	}
+>
+
