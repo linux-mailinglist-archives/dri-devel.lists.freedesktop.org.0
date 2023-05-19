@@ -1,68 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0A3709B9E
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 17:49:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EC7709E76
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:44:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9A710E546;
-	Fri, 19 May 2023 15:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2150410E4D9;
+	Fri, 19 May 2023 17:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1701C10E4DD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 15:49:43 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2ac8d9399d5so39275671fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 08:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684511382; x=1687103382;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WnOy3xXVbZBcw8tuSp38bYTCu1PvdF8k1HAWiCvu54c=;
- b=VVkR2j/NOlOxHM/B7faQwk8qAx3TeoxX8ZLAfFNPxP6hFUbXZp+NSG5VKylzZNeIT8
- VWoegMs/s9JiiunagKPhteWANGdCT0RDgucig0YlP0j2/1sajx9RjdH31bWK7I+QpDQ/
- 5vhJYyFATJoLrg0KA7B79OMue9inxxI+YroL99O9SBeDcx2thAQoc0H+UG60GHDGoBUp
- ibdUcusD/QcVAorhVRlD4d2UdzsOsD/4ol02ieK9DAr5LK29TDEOzkCO82t882CqIw7y
- PFhDSntGWja8cuu6Da8GIod3sQmYt4q/UzSkTE8IjtCFIZfC1K6t/wPZAavDOab5MDVg
- e7og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684511382; x=1687103382;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WnOy3xXVbZBcw8tuSp38bYTCu1PvdF8k1HAWiCvu54c=;
- b=cHcYm+aqIzKAsfWvL5PBGgDF+NbMPI/W0TaVpjvFsyl+0E9Dak+1UajeKvppkhwxhq
- NW+Lt50cnUetutICf2Yx+89Zm08ISD+Upv/5MSM3bEEO1RDOaNonh2SaqOSSR5KPnlgU
- fT4Jb9qUXFM65E0XQmoQTj8LnxSQq+uSzYH0dRTDAA1ekPgbWh8EImiUfBP0N5/jVMSE
- XauTT/iBnbhM6JIIO5KWknEVKmCJhJ8koTupK/GAz4UvF6Bisi2TDvyVB5dimME/LSU9
- 5Lhk7uwCv8FpEBVwneeP+UTeRudw+yBHnfsw5GtbbDQ0f86ErmZNz4LZZhOdZis3o+6k
- fAqA==
-X-Gm-Message-State: AC+VfDwnEj8XDA6xtDe1OB/QLoqQVVSdMOwPFjovYu0XM+NgfP3FAhCo
- hjc8xAPO3o6gXa8sMa++XIbKQw==
-X-Google-Smtp-Source: ACHHUZ5unJI7LT83cS2mbrlmzrYyfmxct/dzSY9H+Vz1NTmvfESLjsasBB6t3LWhi88e2P8kNYRPWQ==
-X-Received: by 2002:a2e:984d:0:b0:2ad:dd7e:6651 with SMTP id
- e13-20020a2e984d000000b002addd7e6651mr989010ljj.43.1684511382103; 
- Fri, 19 May 2023 08:49:42 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- d22-20020a2e96d6000000b002ab59a09d75sm873333ljj.120.2023.05.19.08.49.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 08:49:41 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 4/4] drm/msm/mdp5: move resource allocation to the _probe
- function
-Date: Fri, 19 May 2023 18:49:38 +0300
-Message-Id: <20230519154938.3929839-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230519154938.3929839-1-dmitry.baryshkov@linaro.org>
-References: <20230519154938.3929839-1-dmitry.baryshkov@linaro.org>
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15D2E10E080
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:34 +0000 (UTC)
+Received: from loongson.cn (unknown [10.2.5.197])
+ by gateway (Coremail) with SMTP id _____8BxJumvSWdkAiQKAA--.17697S3;
+ Fri, 19 May 2023 18:04:31 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.2.5.197])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxi7asSWdkDs1pAA--.48016S3; 
+ Fri, 19 May 2023 18:04:29 +0800 (CST)
+Subject: Re: [v13,1/2] drm: add kms driver for loongson display controller
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ suijingfeng <15330273260@189.cn>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230515155734.2954149-2-suijingfeng@loongson.cn>
+From: Liu Peibao <liupeibao@loongson.cn>
+Message-ID: <d06cb599-5040-628e-a45b-270dfe0c2db4@loongson.cn>
+Date: Fri, 19 May 2023 18:04:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20230515155734.2954149-2-suijingfeng@loongson.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxi7asSWdkDs1pAA--.48016S3
+X-CM-SenderInfo: xolx1vpled0qxorr0wxvrqhubq/1tbiAQAQCmRmFX4ZygAAsh
+X-Coremail-Antispam: 1Uk129KBjvJXoW3CrWkJFy5Zr45try5Zr4xJFb_yoWDKr1fpF
+ 43Ca4FkrWDJF42yr9xA3W8GFyrZa4fXFWS9F47J3sIg3yDAryDZrn8ZFW5JrW7ZFy7X342
+ qr92grW7G3Wak3DanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bq8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
+ w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+ I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
+ jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
+ AI1cAE67vIY487MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCa
+ FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+ IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI
+ 42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+ IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+ aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcbAwUUUUU
+X-Mailman-Approved-At: Fri, 19 May 2023 17:44:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,184 +70,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: loongson-kernel@lists.loongnix.cn, Li Yi <liyi@loongson.cn>,
+ Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To let the probe function bail early if any of the resources is
-unavailable, move resource allocattion from kms_init directly to the
-probe callback.
+I test this on my 3A5000 + 7A1000 and 3A5000 + 7A2000 desktop,
+and this works well, so:
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 100 ++++++++++-------------
- 1 file changed, 44 insertions(+), 56 deletions(-)
+Tested-by: Liu Peibao <liupeibao@loongson.cn>
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 7fd89c93a491..2881bf17d649 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -554,20 +554,16 @@ static int mdp5_kms_init(struct drm_device *dev)
- 	struct platform_device *pdev;
- 	struct mdp5_kms *mdp5_kms;
- 	struct mdp5_cfg *config;
--	struct msm_kms *kms;
-+	struct msm_kms *kms = priv->kms;
- 	struct msm_gem_address_space *aspace;
--	int irq, i, ret;
-+	int i, ret;
- 
- 	ret = mdp5_init(to_platform_device(dev->dev), dev);
- 	if (ret)
- 		return ret;
- 
--	/* priv->kms would have been populated by the MDP5 driver */
--	kms = priv->kms;
--	if (!kms)
--		return -ENOMEM;
--
- 	mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
-+
- 	pdev = mdp5_kms->pdev;
- 
- 	ret = mdp_kms_init(&mdp5_kms->base, &kms_funcs);
-@@ -576,15 +572,6 @@ static int mdp5_kms_init(struct drm_device *dev)
- 		goto fail;
- 	}
- 
--	irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
--	if (!irq) {
--		ret = -EINVAL;
--		DRM_DEV_ERROR(&pdev->dev, "failed to get irq\n");
--		goto fail;
--	}
--
--	kms->irq = irq;
--
- 	config = mdp5_cfg_get_config(mdp5_kms->cfg);
- 
- 	/* make sure things are off before attaching iommu (bootloader could
-@@ -787,60 +774,23 @@ static int interface_init(struct mdp5_kms *mdp5_kms)
- static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct mdp5_kms *mdp5_kms;
-+	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
- 	struct mdp5_cfg *config;
- 	u32 major, minor;
- 	int ret;
- 
--	mdp5_kms = devm_kzalloc(&pdev->dev, sizeof(*mdp5_kms), GFP_KERNEL);
--	if (!mdp5_kms) {
--		ret = -ENOMEM;
--		goto fail;
--	}
--
--	spin_lock_init(&mdp5_kms->resource_lock);
--
- 	mdp5_kms->dev = dev;
--	mdp5_kms->pdev = pdev;
- 
- 	ret = mdp5_global_obj_init(mdp5_kms);
- 	if (ret)
- 		goto fail;
- 
--	mdp5_kms->mmio = msm_ioremap(pdev, "mdp_phys");
--	if (IS_ERR(mdp5_kms->mmio)) {
--		ret = PTR_ERR(mdp5_kms->mmio);
--		goto fail;
--	}
--
--	/* mandatory clocks: */
--	ret = get_clk(pdev, &mdp5_kms->axi_clk, "bus", true);
--	if (ret)
--		goto fail;
--	ret = get_clk(pdev, &mdp5_kms->ahb_clk, "iface", true);
--	if (ret)
--		goto fail;
--	ret = get_clk(pdev, &mdp5_kms->core_clk, "core", true);
--	if (ret)
--		goto fail;
--	ret = get_clk(pdev, &mdp5_kms->vsync_clk, "vsync", true);
--	if (ret)
--		goto fail;
--
--	/* optional clocks: */
--	get_clk(pdev, &mdp5_kms->lut_clk, "lut", false);
--	get_clk(pdev, &mdp5_kms->tbu_clk, "tbu", false);
--	get_clk(pdev, &mdp5_kms->tbu_rt_clk, "tbu_rt", false);
--
- 	/* we need to set a default rate before enabling.  Set a safe
- 	 * rate first, then figure out hw revision, and then set a
- 	 * more optimal rate:
- 	 */
- 	clk_set_rate(mdp5_kms->core_clk, 200000000);
- 
--	/* set uninit-ed kms */
--	priv->kms = &mdp5_kms->base.base;
--
- 	pm_runtime_enable(&pdev->dev);
- 	mdp5_kms->rpm_enabled = true;
- 
-@@ -931,15 +881,53 @@ static int mdp5_setup_interconnect(struct platform_device *pdev)
- 
- static int mdp5_dev_probe(struct platform_device *pdev)
- {
--	int ret;
-+	struct mdp5_kms *mdp5_kms;
-+	int ret, irq;
- 
- 	DBG("");
- 
-+	mdp5_kms = devm_kzalloc(&pdev->dev, sizeof(*mdp5_kms), GFP_KERNEL);
-+	if (!mdp5_kms)
-+		return -ENOMEM;
-+
- 	ret = mdp5_setup_interconnect(pdev);
- 	if (ret)
- 		return ret;
- 
--	return msm_drv_probe(&pdev->dev, mdp5_kms_init, NULL);
-+	mdp5_kms->pdev = pdev;
-+
-+	spin_lock_init(&mdp5_kms->resource_lock);
-+
-+	mdp5_kms->mmio = msm_ioremap(pdev, "mdp_phys");
-+	if (IS_ERR(mdp5_kms->mmio))
-+		return PTR_ERR(mdp5_kms->mmio);
-+
-+	/* mandatory clocks: */
-+	ret = get_clk(pdev, &mdp5_kms->axi_clk, "bus", true);
-+	if (ret)
-+		return ret;
-+	ret = get_clk(pdev, &mdp5_kms->ahb_clk, "iface", true);
-+	if (ret)
-+		return ret;
-+	ret = get_clk(pdev, &mdp5_kms->core_clk, "core", true);
-+	if (ret)
-+		return ret;
-+	ret = get_clk(pdev, &mdp5_kms->vsync_clk, "vsync", true);
-+	if (ret)
-+		return ret;
-+
-+	/* optional clocks: */
-+	get_clk(pdev, &mdp5_kms->lut_clk, "lut", false);
-+	get_clk(pdev, &mdp5_kms->tbu_clk, "tbu", false);
-+	get_clk(pdev, &mdp5_kms->tbu_rt_clk, "tbu_rt", false);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return dev_err_probe(&pdev->dev, irq, "failed to get irq\n");
-+
-+	mdp5_kms->base.base.irq = irq;
-+
-+	return msm_drv_probe(&pdev->dev, mdp5_kms_init, &mdp5_kms->base.base);
- }
- 
- static int mdp5_dev_remove(struct platform_device *pdev)
--- 
-2.39.2
+Br,
+Peibao
+
+On 5/15/23 11:57 PM, Sui Jingfeng wrote:
+> Loongson display controller IP has been integrated in both Loongson north
+> bridge chipset(ls7a1000/ls7a2000) and Loongson SoCs(ls2k1000/ls2k2000), it
+> has been even included in Loongson self-made BMC products.
+> 
+> This display controller is a PCI device. It has two display pipes and each
+> display pipe support a primary plane and a cursor plane. For the DC in the
+> ls7a1000 and ls2k1000, each display pipe has a DVO output interface which
+> provide RGB888 signals, vertical & horizontal synchronisations and pixel
+> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum resolution
+> of each display pipe is 2048x2048 according to the hardware spec.
+> 
+> For the DC in LS7A2000, each display pipe is equipped with a built-in HDMI
+> encoder which is compliant with the HDMI 1.4 specification, thus it support
+> 3840x2160@30Hz. The first display pipe is also equipped with a transparent
+> vga encoder which is parallel with the HDMI encoder. The DC in LS7A2000 is
+> more complete compare with the one in old chips, besides above feature, it
+> has two hardware cursors, two hardware vblank counter and two scanout
+> position recorders unit. It also support tiled framebuffer format which
+> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
+> 
+> v1 -> v2:
+>  1) Use hpd status reg when polling for ls7a2000
+>  2) Fix all warnings emerged when compile with W=1
+> 
+> v2 -> v3:
+>  1) Add COMPILE_TEST in Kconfig and make the driver off by default
+>  2) Alphabetical sorting headers (Thomas)
+>  3) Untangle register access functions as much as possible (Thomas)
+>  4) Switch to TTM based memory manager and prefer cached mapping
+>     for Loongson SoC (Thomas)
+>  5) Add chip id detection method, now all models are distinguishable.
+>  6) Revise builtin HDMI phy driver, nearly all main stream mode
+>     below 4K@30Hz is tested, this driver supported these mode very
+>     well including clone display mode and extend display mode.
+> 
+> v3 -> v4:
+>  1) Quickly fix a small mistake.
+> 
+> v4 -> v5:
+>  1) Drop potential support for Loongson 2K series SoC temporary,
+>     this part should be resend with the DT binding patch in the future.
+>  2) Add per display pipe debugfs support to the builtin HDMI encoder.
+>  3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+>  4) Rewrite encoder and connector initialization part, untangle it
+>     according to the chip(Thomas).
+> 
+> v5 -> v6:
+>  1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
+>  2) Fix all typos I could found, make sentences and code more readable
+>  3) Untangle lsdc_hdmi*_connector_detect() function according to the pipe
+>  4) After a serious consideration, we rename this driver as loongson.
+>     Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+>     LS2K2000. Besides, there are also drivers about the external encoder,
+>     HDMI audio driver and vbios support etc. This patch only provide DC
+>     driver part, my teammate Li Yi believe that loongson will be more
+>     suitable for loongson graphics than lsdc in the long run.
+> 
+>     loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+> 
+> v6 -> v7:
+>  1) Add prime support, self-sharing is works. sharing buffer with etnaviv
+>     is also tested, and its works with limitation.
+>  2) Implement buffer objects tracking with list_head.
+>  3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+>  4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+>     during BO creation. Patch V1 ~ V6 of this series no longer works
+>     on latest kernel. Thus, we send V7 to revival them.
+> 
+> v7 -> v8:
+>  1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>  2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>  3) Pageflip tested on the virtual terminal with following commands
+> 
+>     modetest -M loongson -s 32:1920x1080 -v
+>     modetest -M loongson -s 34:1920x1080 -v -F tiles
+> 
+>    It works like a charm, when running pageflip test with dual screnn
+>    configuration, another two additional bo created by the modetest
+>    emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+>    enough.
+> 
+>    # cat bos
+> 
+>        bo[0000]: size:     8112kB VRAM
+>        bo[0001]: size:       16kB VRAM
+>        bo[0002]: size:       16kB VRAM
+>        bo[0003]: size:    16208kB VRAM
+>        bo[0004]: size:     8112kB VRAM
+>        bo[0005]: size:     8112kB VRAM
+> 
+> v8 -> v9:
+>  1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
+>  2) Using pci_get_domain_bus_and_slot to get the GPU device.
+>  3) Other minor improvements.
+> 
+>  Those patches are tested on ls3a5000 + ls7a1000 CRB, ls3a5000 + ls7a2000
+>  evb, and lemote a1901 board(ls3a4000 + ls7a1000). On loongson mips CPU,
+>  the write combine support should be enabled, to get a decent performance
+>  for writing framebuffer data to the VRAM.
+> 
+> v9 -> v10:
+>  1) Revise lsdc_drm_freeze() to implement S3 completely and correctly.
+>     I suddenly realized that pinned buffer can not move and VRAM lost
+>     power when sleep to RAM. Thus, the data in the buffer who is pinned
+>     in VRAM will get lost when resume. Yet it's not big problem because
+>     we are software rendering solution which relay on the CPU update the
+>     front framebuffer. We can see the garbage data when resume from S3,
+>     but the screen will show correct image as I move the cursor. This is
+>     due to the cpu repaint. v10 of this patch make S3 perfect by unpin
+>     all of BOs in VRAM, evict them all to system RAM.
+> 
+> v10 -> v11:
+>  1) On double screen case, the single giant framebuffer is referenced by
+>     two GEM object, hence, it will be pinned by prepare_fb() at lease two
+>     times. This cause its pin count > 1. V10 of this patch only unpin VRAM
+>     BOs once when suspend, which is not correct on double screen case. V11
+>     of this patch unpin BOs until its pin count reach to zero when suspend.
+>     Then, we make the S3 support complete finally. With v11, I can't see
+>     any garbage data after resume. Tested on both ls7a1000 and ls7a2000
+>     platform, with single screen and double screen configuration.
+>  2) Fix vblank wait timeout when disable CRTC.
+>  3) Test against IGT, at least fbdev test and kms_flip test passed.
+>  4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
+>  5) Drop a few common hardware features description in lsdc_desc (Emil)
+>  6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in dumb
+>     create function. (Emil)
+>  7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
+> 
+> v11 -> v12:
+>  none
+> 
+> v12 -> v13:
+>  1) Add benchmark to figure out the bandwidth of the hardware platform.
+>     Usage:
+>     # cd /sys/kernel/debug/dri/0/
+>     # cat benchmark
+> 
+>  2) VRAM is filled with garbage data if uninitialized, add a buffer
+>     clearing procedure, clear it on the BO creation time.
+>  3) Update copyrights and adjust coding style (Huacai)
+> 
+> Signed-off-by: Li Yi <liyi@loongson.cn>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/Kconfig                     |    2 +
+>  drivers/gpu/drm/Makefile                    |    1 +
+>  drivers/gpu/drm/loongson/Kconfig            |   17 +
+>  drivers/gpu/drm/loongson/Makefile           |   21 +
+>  drivers/gpu/drm/loongson/ls7a1000_outputs.c |  161 +++
+>  drivers/gpu/drm/loongson/ls7a2000_outputs.c |  531 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_benchmark.c   |  132 +++
+>  drivers/gpu/drm/loongson/lsdc_benchmark.h   |   13 +
+>  drivers/gpu/drm/loongson/lsdc_crtc.c        | 1068 +++++++++++++++++++
+>  drivers/gpu/drm/loongson/lsdc_debugfs.c     |   91 ++
+>  drivers/gpu/drm/loongson/lsdc_device.c      |  104 ++
+>  drivers/gpu/drm/loongson/lsdc_drv.c         |  484 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_drv.h         |  452 ++++++++
+>  drivers/gpu/drm/loongson/lsdc_gem.c         |  324 ++++++
+>  drivers/gpu/drm/loongson/lsdc_gem.h         |   37 +
+>  drivers/gpu/drm/loongson/lsdc_gfxpll.c      |  199 ++++
+>  drivers/gpu/drm/loongson/lsdc_gfxpll.h      |   52 +
+>  drivers/gpu/drm/loongson/lsdc_i2c.c         |  179 ++++
+>  drivers/gpu/drm/loongson/lsdc_i2c.h         |   29 +
+>  drivers/gpu/drm/loongson/lsdc_irq.c         |   81 ++
+>  drivers/gpu/drm/loongson/lsdc_irq.h         |   16 +
+>  drivers/gpu/drm/loongson/lsdc_output.h      |   21 +
+>  drivers/gpu/drm/loongson/lsdc_pixpll.c      |  481 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_pixpll.h      |   86 ++
+>  drivers/gpu/drm/loongson/lsdc_plane.c       |  639 +++++++++++
+>  drivers/gpu/drm/loongson/lsdc_probe.c       |   56 +
+>  drivers/gpu/drm/loongson/lsdc_probe.h       |   12 +
+>  drivers/gpu/drm/loongson/lsdc_regs.h        |  400 +++++++
+>  drivers/gpu/drm/loongson/lsdc_ttm.c         |  610 +++++++++++
+>  drivers/gpu/drm/loongson/lsdc_ttm.h         |   99 ++
+>  30 files changed, 6398 insertions(+)
+>  create mode 100644 drivers/gpu/drm/loongson/Kconfig
+>  create mode 100644 drivers/gpu/drm/loongson/Makefile
+>  create mode 100644 drivers/gpu/drm/loongson/ls7a1000_outputs.c
+>  create mode 100644 drivers/gpu/drm/loongson/ls7a2000_outputs.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_device.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
 
