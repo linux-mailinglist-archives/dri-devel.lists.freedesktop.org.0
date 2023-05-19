@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EAF709D16
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0A4709D18
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:01:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE6210E545;
-	Fri, 19 May 2023 17:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B223010E55B;
+	Fri, 19 May 2023 17:01:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C4D10E545;
- Fri, 19 May 2023 17:00:21 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- 006d021491bc7-5523bd97c64so688573eaf.0; 
- Fri, 19 May 2023 10:00:21 -0700 (PDT)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20D0E10E55B;
+ Fri, 19 May 2023 17:01:11 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-19a0988a925so1434571fac.0; 
+ Fri, 19 May 2023 10:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684515620; x=1687107620;
+ d=gmail.com; s=20221208; t=1684515670; x=1687107670;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pQuIkMy/HPKv97ahyctrHLhGA05/LEVhydcSsEpZ0SI=;
- b=Y3SbFGSh5Jl8RXdDUZC7CLWwQDVmTszasfOjXuIzMo6Bbs9xiZvrv7E3O69fnWMl5/
- Vfo+rnaDQnTwJxqlES9RS9l14+rVpxMl1XQpRchGexAzF35r1sFy1A7/xPHkTrzwjLj5
- MxUC74Mu2BiNhVQfdnRiO3PZI6J8/qqGPvgJI1g/CqiBlpQOoWKd2ljk4VColeJAz303
- bziUdHw8s7UCzDvVKUQx89ZoubQfKYD2z6SMWEotgzINwDZP+9Ndun9AysDty8uqiS0K
- pm3H7JOqPwE+cykBRNlN6bWroft+DRF/UjCyPrwKFWjh1fMjsUYyFHhc8TICH1+ieAH3
- AbQA==
+ bh=BscCUYhDrbbZeWwOY16G73CsQ2N1HXyllhvuAAh+zdk=;
+ b=nNGsgocaW2gcBQg7oBg4bdChMCvmeKvbGw6RIiR2BYK8f9aVZ8srVGeiXX67n9KCJH
+ PVckNM6PLUqhPsZPozMnWXhoRuT6AytrafdYrwzjqCfItafhx981hHkeKcWkJFX6oqtT
+ 1ySf0PV5Gy0n0DARb71Uwx5wK8pnEFtji/3w8AV/bB7iaABbwSZTmmWWf1gOavAyg7m1
+ /Zw4ZsTQkDmJesEgmFY4PVAWuwZ4buH8ZQVbxp8RKuZHrcuBBdWVzFVG5p4R2qqaBCRO
+ mP+N/3TQwqFlJTue8LdMVFGlNyO/88PeABj6XCQOEPwrXaQSIoNl0AluinzAZ9CNxxkY
+ LsRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515620; x=1687107620;
+ d=1e100.net; s=20221208; t=1684515670; x=1687107670;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pQuIkMy/HPKv97ahyctrHLhGA05/LEVhydcSsEpZ0SI=;
- b=Kt0nh20J8NMIlGkCVaNB+FHGGu/AeodF4ipZ1piq13afULYu5FHBOnEn0DbWSkic24
- 7+AEPdMCaaNPgjzEm7Jb9mv8n2amiYhN5Gro/IGq0HzAsWw361CBebZ5EcFQseO9/j4R
- CSD1ySSAPFWCdL68DmDe7UU5HyzGFWnm1TLPmY+YjU0GsHXguSkMsU4t49YTDNru0SCg
- MUspVvHizrVhPj6Hl6BcDC+1AJy22vTq4zjOd5RSu/ToxARk4xfRNuhVK9eg8Ym4ukC9
- mY1ytNJSlScnd1ZiAPdXM3af4JL91L/CAPCChU5SnHmSPY3HeKxCrG1cA6Hy5r/WHMki
- rlyQ==
-X-Gm-Message-State: AC+VfDzjxHZLxP4i4P28zm2WV+rOLTND/UFkFyqAjpYbO+d5sYBZzb6r
- H+S8I7Z+H+7WdpNFg16vldaL9+5lJGAS+QzHgLo=
-X-Google-Smtp-Source: ACHHUZ6yzfco7XPAo7FXX9wEXzy6Ov3/G3qkO//oLRDznuAjUp1H30ypStrE4c+rMYx6Zrqk9STT8pcfGLSo/hBy+CI=
-X-Received: by 2002:a4a:d24d:0:b0:541:87fe:5b75 with SMTP id
- e13-20020a4ad24d000000b0054187fe5b75mr1254701oos.1.1684515620580; Fri, 19 May
- 2023 10:00:20 -0700 (PDT)
+ bh=BscCUYhDrbbZeWwOY16G73CsQ2N1HXyllhvuAAh+zdk=;
+ b=TMIJxOqjH7TixfQnac0K0pod29K7xc+PI4FHDg5ZZwQlykiL/J0nggcc4yarJ6L6aL
+ Rvv8oDEgtFRkrpIRQutK3r1nts+/upQs3IPb/xrGDtQq7qxMp8qUNVlw09Zgwlz2pq89
+ XP4e1TX6dNwg4DjvPWvJEfOvUjwL+iLRu6rneMIcTyqAV3eoIr7+q6cORIWJhBocFPGT
+ JYsqGN9jhH60F6frlAe4SVb+EOXEd0ylil0QLNu98hfhQvdEzz1sbhWixRDXYvEl8lv2
+ PL1vhYaQeD37p7bfGF5MbO9+ga9kyTMe3ZuAbFM/WwBuk7NMpRSsYnTM28Ci3YGth9+e
+ lWrQ==
+X-Gm-Message-State: AC+VfDz7IMyRfTdljsQHV8D0PINWbnmdvGUoARW9UYJ9lf6Z5Af3yZ3C
+ akQeiKM8I90aFAevk6Z1UtcI3cnU0qggV/dZt3Q=
+X-Google-Smtp-Source: ACHHUZ4JdyyWFR++dX6pa3JXiXVqqt9CDs4SPAzYIRtQkywKq6WavRq7f9aY3UIHbsx7soKiGSxMfGQWVQTLzox9pZw=
+X-Received: by 2002:a05:6870:5a98:b0:199:b01d:e9ab with SMTP id
+ dt24-20020a0568705a9800b00199b01de9abmr1614938oab.2.1684515669965; Fri, 19
+ May 2023 10:01:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230518135138.990475-1-hch@lst.de>
-In-Reply-To: <20230518135138.990475-1-hch@lst.de>
+References: <20230518135208.996214-1-hch@lst.de>
+In-Reply-To: <20230518135208.996214-1-hch@lst.de>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 19 May 2023 13:00:09 -0400
-Message-ID: <CADnq5_N-5F+jRe1PTPcPs7wZPXxnV4nm=MfxJAoxzpRkY0CTeQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: stop including swiotlb.h
+Date: Fri, 19 May 2023 13:00:58 -0400
+Message-ID: <CADnq5_NcuBpY9piiefc1tt9obj_Wh1GbVW+rSykDhaLAQaFqbg@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: stop including swiotlb.h
 To: Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,26 +79,26 @@ Applied.  Thanks!
 On Thu, May 18, 2023 at 9:52=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
 e:
 >
-> amdgpu does not need swiotlb.h, so stop including it.
+> radeon does not need swiotlb.h, so stop including it.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 -
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 1 -
 >  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.c
-> index 2cd081cbf70621..385e04612e4e9b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -38,7 +38,6 @@
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 2220cdf6a3f680..04df08356d553f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -36,7 +36,6 @@
 >  #include <linux/seq_file.h>
 >  #include <linux/slab.h>
 >  #include <linux/swap.h>
 > -#include <linux/swiotlb.h>
->  #include <linux/dma-buf.h>
->  #include <linux/sizes.h>
->  #include <linux/module.h>
+>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_file.h>
 > --
 > 2.39.2
 >
