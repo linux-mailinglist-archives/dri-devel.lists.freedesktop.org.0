@@ -1,73 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D59709C95
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:39:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396F3709C9C
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:41:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7C810E2BA;
-	Fri, 19 May 2023 16:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4554810E498;
+	Fri, 19 May 2023 16:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0071910E2BA
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:39:46 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34JDrSNv018183; Fri, 19 May 2023 16:39:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=PmwwrCpP7s99PhPdzluX1Sv8XiSbaEIsrIgEmINB0Rk=;
- b=Wf0SRleSvO52qMXB7aGBehpJV6kPHzKuuhCOvZuJTg8l9rA4j/y+Sax68jgOMWuj7oJv
- ZbdIFTJ5yH8GbqwNw77+YnYwqw8b2jp2RgHGzlc01uV+FcuYP3oSHhI8//EemjOOtKXx
- +3KCM8G6AQpyucHAp2MyfpZkVjWB/KP5og1wlHGxgBMhk9Pr7UgajlxJAfdiNaQ2Gqob
- vgwLfUP9s2oUHxdWQuH2Oko1hCO84xLvhJw9qhW3tj85auRDkTYCrBlPFoyfXF7pv6cb
- N3t+XMFlMXxrbG2PAa59oBxt7LetLhMI3WJ0OBPZQuTKn1gE5EzETB7RtGGH5l9Eoi+0 jw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qpad1gh8h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 May 2023 16:39:26 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdPGS028036
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 May 2023 16:39:25 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 19 May 2023 09:39:24 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <mani@kernel.org>
-Subject: [PATCH v2 2/2] accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
-Date: Fri, 19 May 2023 10:39:02 -0600
-Message-ID: <20230519163902.4170-3-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230519163902.4170-1-quic_jhugo@quicinc.com>
-References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD9910E498
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:41:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DD22065951;
+ Fri, 19 May 2023 16:41:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B15C4339B;
+ Fri, 19 May 2023 16:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684514492;
+ bh=4V3rIZHGewZ37KX/d7iFBjaOSDGIQLkOkH/I0DBDFZk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u6nL4Rhap4UrrrT3u3HPKgx6cgMELv6DWFxKMKjmI62T4Qa1rW/g8sOjy/CHgM+P9
+ iywesp7c7w0m12ICJqQ/hFY1FfudKuAVfT5qVtEMQ4TI2yhh2kWw/tC+FmKCWNJzUO
+ BXCWUzi43kt85w+AxY+kRAv/gg1uQBiLXgRxhjDmwpr8zz8hcQOUKQFb0sHV2+j8Dq
+ Q8XLRlg3MHVhrgKkP21yO7gAhgc5D9k8Bn5HWSMXk6wrIRtY+I0gyl2IgbnZzNdfEu
+ pYfekqPwpT1DNZ8jtE8fWaJ/bwnErfsiQFxH2h8MgEC7TTL744LsEHGp4PlV0DOM0I
+ F7OzTM4Qaibdw==
+Date: Fri, 19 May 2023 17:41:27 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Paulo Pavacic <pavacic.p@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: add fannal,c3004
+Message-ID: <20230519-emerald-void-066fad80950a@spud>
+References: <20230519142456.2588145-1-pavacic.p@gmail.com>
+ <20230519142456.2588145-2-pavacic.p@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2sHiRmlS5lQ5Mg4baExhW76VCI9KLtuz
-X-Proofpoint-ORIG-GUID: 2sHiRmlS5lQ5Mg4baExhW76VCI9KLtuz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-19_11,2023-05-17_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
- clxscore=1015 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305190141
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bSjCdcTTHsR3DWsJ"
+Content-Disposition: inline
+In-Reply-To: <20230519142456.2588145-2-pavacic.p@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +53,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AIC100 does not initialize the SOC_HW_VERSION MHI register as expected.
-Some instances of AIC100 are observed to have 0xFFFFFFFF in this register
-which makes the controller think that the link is down and return an error
-up to MHI. This results in a failed initialization.
 
-Allow these cards to initialize by advertising
-MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE in the MHI controller.
+--bSjCdcTTHsR3DWsJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Change-Id: I62f31a063abf49e8f22ee2aa630d76babba83c8d
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
----
- drivers/accel/qaic/mhi_controller.c | 1 +
- 1 file changed, 1 insertion(+)
+Hey Paulo,
 
-diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 5036e58e7235..2c85063d8cc6 100644
---- a/drivers/accel/qaic/mhi_controller.c
-+++ b/drivers/accel/qaic/mhi_controller.c
-@@ -400,6 +400,7 @@ static struct mhi_controller_config aic100_config = {
- 	.event_cfg = aic100_events,
- 	.use_bounce_buf = false,
- 	.m2_no_db = false,
-+	.quirks = MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE,
- };
- 
- static int mhi_read_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr, u32 *out)
--- 
-2.40.1
+On Fri, May 19, 2023 at 04:24:55PM +0200, Paulo Pavacic wrote:
+>=20
+> Added fannal to vendor-prefixes and dt bindings for Fannal C3004.
+> Fannal C3004 is a 480x800 MIPI DSI Panel which requires
+> DCS initialization sequences with certain delays between certain
+> commands.
+>=20
+> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
+> ---
+> v3 changelog:
+>   - renamed yml file
+>   - refactored yml file to describe fannal,c3004
+>   - added matrix URI to MAINTAINERS
+> v2 changelog:
+>   - revised driver title, now describes purpose
+>   - revised description, now describes hw
+>   - revised maintainers, now has only 1 mail
+>   - removed diacritics from commit/commit author
+>   - properties/compatible is now enum
+>   - compatible using only lowercase
+>   - revised dts example
+>   - modified MAINTAINERS in this commit (instead of driver commit)
+>   - dt_bindings_check checked yml
+>   - checkpatch warning fixed
+> ---
+>  .../bindings/display/panel/fannal,c3004.yaml  | 75 +++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>  MAINTAINERS                                   |  6 ++
+>  3 files changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/fanna=
+l,c3004.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/panel/fannal,c3004=
+=2Eyaml b/Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
+> new file mode 100644
+> index 000000000000..a86b5ce02aa2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/fannal,c3004.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Fannal C3004 MIPI-DSI
+> +
+> +maintainers:
+> +  - Paulo Pavacic <pavacic.p@gmail.com>
+> +
+> +description: |
+> +  Fannal C3004 is a 480x800 panel which requires DSI DCS
+> +  initialization sequences.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: fannal,c3004
+> +
+> +  reg: true
 
+Are there no restrictions on the number of reg entries?
+
+> +  reset-gpios: true
+
+Can you put a blank line between properties please?
+
+> +
+> +  vdd-supply:
+> +    description: power supply voltage
+> +  vddio-supply:
+> +    description: power supply voltage for IO
+> +
+> +  width-mm:
+> +    description: physical panel width [mm]
+> +  height-mm:
+> +    description: physical panel height [mm]
+
+Here and for the supplies too.
+
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 82d39ab0231b..f962750f630a 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -462,6 +462,8 @@ patternProperties:
+>      description: Facebook
+>    "^fairphone,.*":
+>      description: Fairphone B.V.
+> +  "^fannal,.*":
+> +    description: Fannal Electronics Co., Ltd
+
+This needs to be split into a commit of its own.
+
+Thanks,
+Conor.
+
+>    "^faraday,.*":
+>      description: Faraday Technology Corporation
+>    "^fastrax,.*":
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5c22c828ab46..62374c8424b9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6427,6 +6427,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  F:	Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
+>  F:	drivers/gpu/drm/panel/panel-ebbg-ft8719.c
+> =20
+> +DRM DRIVER FOR FANNAL C3004373132019A
+> +M:	Paulo Pavacic <pavacic.p@gmail.com>
+> +S:	Maintained
+> +C:	matrix:r/mipi-dsi-bringup:matrix.org
+> +F:	Documentation/devicetree/bindings/display/panel/panel-fannal,c3004.ya=
+ml
+> +
+>  DRM DRIVER FOR FARADAY TVE200 TV ENCODER
+>  M:	Linus Walleij <linus.walleij@linaro.org>
+>  S:	Maintained
+> --=20
+> 2.40.1
+>=20
+
+--bSjCdcTTHsR3DWsJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGemtwAKCRB4tDGHoIJi
+0m/XAQDFF3Fpkb5sWicHv3R1bHCis6f+XpiBK1wgB2w4wUaEOgD/fSJGDvvhiqd7
+7z9NZHNub67JEBgyN6uFviSM0saNjAI=
+=hYPC
+-----END PGP SIGNATURE-----
+
+--bSjCdcTTHsR3DWsJ--
