@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C4E7092E1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 11:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CAB7093DD
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 11:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B817010E0AC;
-	Fri, 19 May 2023 09:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3D10E34C;
+	Fri, 19 May 2023 09:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C289F10E0AC
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:21:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4470910E14E;
+ Fri, 19 May 2023 09:41:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684488079; x=1716024079;
+ t=1684489261; x=1716025261;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GkKfBmF6E5I1B54syimenbREv13HM+EuYV61v02IhJk=;
- b=K93AatIZqI66IPEecy33Z2OvTQTG/z0RqqmEm2Ib4c3ycTa49LV76QNB
- rWwG9fsK6lSpgrgBzr4s3EIwYxUUK4Iz5mHHkxSLjA+DiSU7JeRTdOC6v
- HaAk7SBqX5BfxiYUr7GErC+/h3e2V2r+GcWGkeX4GgodpNbsRPjJT1x+f
- NcwfIAXl+jxBUGlXzWCaZkj+n4EDZHkxS2qW6c6Lht7VW3i5zpu7PGyoj
- cdrV6TAaLoSzdzP3KPEEcqnPIf8PJnYWCHsIis+JfTt4vJV76fvXKqDCT
- 93Tn10lfD6adALdF5HU3j0S/ixGuClwVp30bI8p3oP1PTlejlotyF8Zjo Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="354679119"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="354679119"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=jjSgRuyJkBnG/vrWLXUL4ivDFw/8Ieq66WjecBNhUAg=;
+ b=I7w82F+jvU+j+71+xmVd8YTk6GwcgQneVzbOtkM8odpZqxt8ApyZa66b
+ jWtdprv76R6Gh8Ja0tTfZ6AApxq9eEMI4iOfsOV4s2zl7W0pqa+DCgG6c
+ rApGCbAvEfCmeHjat6+pW7Y03cxLZHaG1XqvVzmby63ouy4jS4v4/Mggo
+ aPfQu53eMRMtr4W9Y3f8iSQU6z9I4netixqJ07AB+YzFhMNxu+wWMbY9p
+ mqQJjc/wE+cJxdF8BgtuJilBq2JNzA8inu1q4VV35P1oJ0g/c/oyurlLu
+ DNswLoHgPqSel2RdzoiyE12SF16fvQpoR60jo8tNOEkcWTpyRKo9ovHO0 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="354684349"
+X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="354684349"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2023 02:21:18 -0700
+ 19 May 2023 02:41:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="679990475"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="679990475"
-Received: from refaase-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.221.245])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2023 02:21:16 -0700
-Date: Fri, 19 May 2023 11:21:14 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: =?utf-8?B?77+977+977+9zrHvv70=?= <inki.dae@samsung.com>
-Subject: Re: [PATCH] drm/exynos: vidi: fix a wrong error return
-Message-ID: <ZGc/ipQspaaUf5FX@ashyti-mobl2.lan>
-References: <CGME20230519000408epcas1p4f5d90f588e7250d2d168d2943adef4f7@epcas1p4.samsung.com>
- <20230519000407.60744-1-inki.dae@samsung.com>
- <ZGbCO9/5yEstym+c@ashyti-mobl2.lan>
- <04c401d98a09$898df160$9ca9d420$@samsung.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="767556568"
+X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; d="scan'208";a="767556568"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2023 02:40:58 -0700
+Date: Fri, 19 May 2023 11:40:56 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v2] drm: fix drmm_mutex_init()
+Message-ID: <20230519094056.GB650806@linux.intel.com>
+References: <20230519090733.489019-1-matthew.auld@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <04c401d98a09$898df160$9ca9d420$@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230519090733.489019-1-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +58,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 'Andi Shyti' <andi.shyti@linux.intel.com>,
- 'Andi Shyti' <andi.shyti@kernel.org>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Inki,
-
-> > > @@ -469,8 +469,6 @@ static int vidi_remove(struct platform_device *pdev)
-> > >  	if (ctx->raw_edid != (struct edid *)fake_edid_info) {
-> > >  		kfree(ctx->raw_edid);
-> > >  		ctx->raw_edid = NULL;
-> > > -
-> > > -		return -EINVAL;
-> > 
-> > It doesn't look right to me, I think the correct patch should be:
-> > 
-> > -       if (ctx->raw_edid != (struct edid *)fake_edid_info) {
-> > -               kfree(ctx->raw_edid);
-> > -               ctx->raw_edid = NULL;
-> > -
-> > -               return -EINVAL;
-> > -       }
-> > -
-> > +       ctx->raw_edid = NULL;
-> > 
-> > because "ctx->raw_edid" points to a non allocated memory in the
-> > .data segment and you cannot free it.
-> > 
-> > A follow-up cleanup should be to remove the "const" from
-> > fake_edid_info because you are assigning its address to pointers
-> > (raw_edid), so that what's the point for having it const? You are
-> > just fooling the compiler :)
+On Fri, May 19, 2023 at 10:07:33AM +0100, Matthew Auld wrote:
+> In mutex_init() lockdep identifies a lock by defining a special static
+> key for each lock class. However if we wrap the macro in a function,
+> like in drmm_mutex_init(), we end up generating:
 > 
-> Thanks for review comment. 
+> int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
+> {
+>       static struct lock_class_key __key;
 > 
-> "ctx->raw_edid != fake_edid_info" means that the edid sent by the user through
-> the ictl system call - vidi_connection_ioctl - is used instead of fake one -
-> face_edid_info.
-> In this case, ctx->raw_edid object needs to be released because ctx->raw_edid
-> object is allocated and the edid object sent by user is copied to the ctx-
-> >raw_edid by kmemdup(). :)
+>       __mutex_init((lock), "lock", &__key);
+>       ....
+> }
+> 
+> The static __key here is what lockdep uses to identify the lock class,
+> however since this is just a normal function the key here will be
+> created once, where all callers then use the same key. In effect the
+> mutex->depmap.key will be the same pointer for different
+> drmm_mutex_init() callers. This then results in impossible lockdep
+> splats since lockdep thinks completely unrelated locks are the same lock
+> class.
+> 
+> To fix this turn drmm_mutex_init() into a macro such that it generates a
+> different "static struct lock_class_key __key" for each invocation,
+> which looks to be inline with what mutex_init() wants.
+> 
+> v2:
+>   - Revamp the commit message with clearer explanation of the issue.
+>   - Rather export __drmm_mutex_release() than static inline.
+> 
+> Reported-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reported-by: Sarah Walker <sarah.walker@imgtec.com>
+> Fixes: e13f13e039dc ("drm: Add DRM-managed mutex_init()")
+> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-yes... yes... I sent you another e-mail after this :)
-
-Thanks,
-Andi
+Regards
+Stanislaw
