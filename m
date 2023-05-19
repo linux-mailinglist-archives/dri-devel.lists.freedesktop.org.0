@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4DD709D29
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F84709D21
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3182710E5AD;
-	Fri, 19 May 2023 17:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F6510E4F8;
+	Fri, 19 May 2023 17:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C69010E591
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:05 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-510b56724caso2121816a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:05 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B770010E4F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:03:57 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f1411e8111so3884052e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684515843; x=1687107843;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tMbfgZNtYeRwD9smgGxKkhNix43UFfi2sTWJFSMwRx0=;
- b=P4xVhmOOzmp4vBNC/eDpPzNpBkI7hhNpQEDfnWtU7yM3gMpNfpZHU8JcOOzqUyrig1
- lb1stbTLqOeeVbFDPQwMfKCKJMSLcUsSWHSGznckf3/eXD2brfFmt2cuFucD0w3kdPHO
- nF7XQ8MS7ZjZTzpVtG4sNBuzAAlOuHRjeLZDBmn1GBEvtA56Rm2eq6FVP24jn2kFKb4j
- S4oAuJb24IkACLDtLOw+DGL4afM1QkRctlTt9rlOfcUPxFru6KZouAT+nTNqrHvWspQs
- sE2FOuoo9AoKorvldkWNE4qIDKopllcrgQQ9a4jd6Wdvoi8ccLV3Ay9edGJhxLCXshCE
- BcKg==
+ d=linaro.org; s=google; t=1684515836; x=1687107836;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QXs4aiQLHrio2Nlg6cF/rAKgeR+4aHuEkDi24S6DJvU=;
+ b=MziKeRUTI/2c1rFbmzscJed1ZncaDWeYTTRNnnczF+4Tg3S2dvAghpVh53bNTlaxWN
+ jxtlF4hmxrCyS4/tjmQwaPe7zXuRDu0JVMls1zjw6pblrWgfcdXBIh/bqd2vidq9ygqr
+ Zg0RAvUaG2AeKCAmB5QLH5JCUmHBZxpSeeJUti8OAw9jhut/AIHzf+QJdCnX6SgwwqKw
+ 4/khp8s9QqJSC7zWjixJL9s+SwmSIUvd5DDnz3AEZtIiHOJdKslHK6DvM3xuJBmhsIIp
+ t+wEpHHUktEBqqR3G+X3JnIB5R/lqw6r6XD18JTotIWl35JitI2KIM9l0IyFOZddqvqI
+ NtmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515843; x=1687107843;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tMbfgZNtYeRwD9smgGxKkhNix43UFfi2sTWJFSMwRx0=;
- b=cp8rRpoLmwAttGByo8PUXJeyNplZWo/fLOK+XeevZVb59APt5Ia0Q0Y07nEau5cbdd
- euAtZXZjOdckQv2UzIrIEwnL4cd8QpGsGRrpK2isfis+sWNTJ8xYyiJPxtmWuSHoraQy
- uAN3upgUN24C05cvpnd2gNSMBdQrq7SJbIFeeVj8CplgVhzZC/aIlVVFdTZUtvZYTOqu
- 0If3K4mryslEPF5PKRwoV1lyC7qDreUPT0PrmUvlcdumCcgLRTn4Eb/T0PO1We+McVZr
- 9m19rk/xmBOOtyfHkSv3tlhu3SCrGkgVgshrGPv8FtUd6Hzad0KG7JGEOKU1gantL5GV
- qH0w==
-X-Gm-Message-State: AC+VfDzhPg9Ayuoll0E3e+emWAw/R1e8D63zO0uKMXlj+e5qBOfPLGgS
- C9pBiPrDxo2JJqzA5zN29nA=
-X-Google-Smtp-Source: ACHHUZ4kGmVmCGrd+bXfst09wD0FQoK/I6kxSeXm7KDAEPwXQJc939EXnwfTfV8PBLtqAtuhCcQh8A==
-X-Received: by 2002:a17:907:961c:b0:967:4bc7:38c0 with SMTP id
- gb28-20020a170907961c00b009674bc738c0mr2641931ejc.9.1684515843333; 
- Fri, 19 May 2023 10:04:03 -0700 (PDT)
-Received: from localhost.my.domain (83.11.222.198.ipv4.supernova.orange.pl.
- [83.11.222.198]) by smtp.gmail.com with ESMTPSA id
- mf13-20020a170906cb8d00b00965ffb8407asm2489988ejb.87.2023.05.19.10.04.01
+ d=1e100.net; s=20221208; t=1684515836; x=1687107836;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QXs4aiQLHrio2Nlg6cF/rAKgeR+4aHuEkDi24S6DJvU=;
+ b=UuYGBr0Grk9wXlTD4wZFpyw5cAjXfHIye4bEQYzdb75WL9aHA3Yr5hSlCnj76Zk2lZ
+ LkeB6d+2ngDm4g5pr9tySxTADfMS4vWPgFpWRnSuTqJYx8+eYwsu9dWXbK46UQ6cERB7
+ d7IKTIbezFUgRaMpr9x9jQ9EjmIh4zXRiWyFvGQ0eSkjF06qozUfnOauMuaYoS+Pxj4/
+ GTa9awaidIiE1jiAP/hPzRaDqr7J1hBQAp2CnVYe/K/GIF8rP430KTouzfU9RBRIqCSz
+ YlF8FWP40SUPypVgQ+qWem7bBss2X/uR3yFR5qPb8kfzKqVn6srGrY7WppSZNizbpIln
+ k43w==
+X-Gm-Message-State: AC+VfDz3c5zPMb05WIcy5mT4wcdjK5XMcs4dawRRhWta6PrfU7rHXy/l
+ 77s+hhY+NQQ5TJWyOS+/lu06Fw==
+X-Google-Smtp-Source: ACHHUZ6bJhbgom1BxYi5sgdsDvGMfmj2+rrO36VW3fIP8qiL0zf3oal1c+V+jlnPAG3YAwCRTigCJw==
+X-Received: by 2002:ac2:491a:0:b0:4f2:6387:e1fe with SMTP id
+ n26-20020ac2491a000000b004f26387e1femr1054071lfi.7.1684515834789; 
+ Fri, 19 May 2023 10:03:54 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ f5-20020ac251a5000000b004f2532cfbc1sm661242lfk.81.2023.05.19.10.03.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 10:04:02 -0700 (PDT)
-From: Artur Weber <aweber.kernel@gmail.com>
-To: thierry.reding@gmail.com
-Subject: [PATCH v5 1/3] dt-bindings: display: panel: Add Samsung S6D7AA0 LCD
- panel controller
-Date: Fri, 19 May 2023 19:03:52 +0200
-Message-Id: <20230519170354.29610-2-aweber.kernel@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230519170354.29610-1-aweber.kernel@gmail.com>
-References: <20230519170354.29610-1-aweber.kernel@gmail.com>
+ Fri, 19 May 2023 10:03:54 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2] drm/msm/dpu: drop the regdma configuration
+Date: Fri, 19 May 2023 20:03:53 +0300
+Message-Id: <20230519170353.3936443-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,117 +71,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Nikita Travkin <nikita@trvn.ru>, Artur Weber <aweber.kernel@gmail.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add bindings for the S6D7AA0 LCD panel controller, including the
-S6D7AA0-LSL080AL02 panel used in the Samsung Galaxy Tab 3 8.0 family
-of tablets, and the S6D7AA0-LSL080AL03 and S6D7AA0-LTL101AT01 panels
-used in the Samsung Galaxy Tab A 8.0 and 9.7 2015.
+The regdma is currently not used by the current driver. We have no way
+to practically verify that the regdma is described correctly. Drop it
+now.
 
-Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changed in v2:
- - Updated commit message
- - Added reg to required properties
- - Reordered required properties
-Changed in v3:
- - Fixed patch that didn't apply
-Changed in v4:
- - Added LSL080AL03, LTL101AT01 compatibles
- - Added description to reset-gpios
- - Added vmipi-supply, renamed enable-supply to power-supply
-Changed in v5:
- - Changed compatibles to avoid concatenating multiple model numbers
- - Removed '|' from multiline descriptions
- - Fixed license
----
- .../display/panel/samsung,s6d7aa0.yaml        | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
-new file mode 100644
-index 000000000000..45a236d2cc70
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
-@@ -0,0 +1,70 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/samsung,s6d7aa0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung S6D7AA0 MIPI-DSI LCD panel controller
-+
-+maintainers:
-+  - Artur Weber <aweber.kernel@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          # 1280x800 LSL080AL02 panel
-+          - samsung,lsl080al02
-+          # 1024x768 LSL080AL03 panel
-+          - samsung,lsl080al03
-+          # 1024x768 LTL101AT01 panel
-+          - samsung,ltl101at01
-+      - const: samsung,s6d7aa0
-+
-+  reg: true
-+
-+  backlight:
-+    description:
-+      Backlight to use for the panel. If this property is set on panels
-+      that have DSI-based backlight control (LSL080AL03 and LTL101AT01),
-+      it overrides the DSI-based backlight.
-+
-+  reset-gpios:
-+    description: Reset GPIO pin, usually GPIO_ACTIVE_LOW.
-+
-+  power-supply:
-+    description:
-+      Main power supply for the panel; the exact voltage differs between
-+      panels, and is usually somewhere around 3.3-5v.
-+
-+  vmipi-supply:
-+    description: VMIPI supply, usually 1.8v.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "samsung,lsl080al02", "samsung,s6d7aa0";
-+            reg = <0>;
-+            power-supply = <&display_3v3_supply>;
-+            reset-gpios = <&gpf0 4 GPIO_ACTIVE_LOW>;
-+            backlight = <&backlight>;
-+        };
-+    };
-+
-+...
+Changes since v1:
+- Restored dpu_msm8998_cfg.perf, incorrectly removed previously (Marijn)
+- Also dropped reg_dma pointer from struct dpu_kms (Marijn)
+
+---
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  1 -
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  2 -
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  2 -
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  2 -
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  2 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 40 -------------------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 18 ---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  6 ---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  2 +-
+ 14 files changed, 1 insertion(+), 84 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+index 2b3ae84057df..02e9b26b49b0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+@@ -195,7 +195,6 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+ 	.intf = msm8998_intf,
+ 	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+ 	.vbif = msm8998_vbif,
+-	.reg_dma_count = 0,
+ 	.perf = &msm8998_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+index ceca741e93c9..63009435e258 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+@@ -193,8 +193,6 @@ const struct dpu_mdss_cfg dpu_sdm845_cfg = {
+ 	.intf = sdm845_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sdm845_regdma,
+ 	.perf = &sdm845_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index 282d410269ff..e17398f98734 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -220,8 +220,6 @@ const struct dpu_mdss_cfg dpu_sm8150_cfg = {
+ 	.intf = sm8150_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8150_regdma,
+ 	.perf = &sm8150_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index c57400265f28..d32f939e9c00 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -198,8 +198,6 @@ const struct dpu_mdss_cfg dpu_sc8180x_cfg = {
+ 	.intf = sc8180x_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8150_regdma,
+ 	.perf = &sc8180x_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+index 2c40229ea515..f49fc1690b71 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+@@ -228,8 +228,6 @@ const struct dpu_mdss_cfg dpu_sm8250_cfg = {
+ 	.vbif = sdm845_vbif,
+ 	.wb_count = ARRAY_SIZE(sm8250_wb),
+ 	.wb = sm8250_wb,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8250_regdma,
+ 	.perf = &sm8250_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+index 8799ed757119..0a273ba8cf4f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+@@ -143,8 +143,6 @@ const struct dpu_mdss_cfg dpu_sc7180_cfg = {
+ 	.wb = sc7180_wb,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sdm845_regdma,
+ 	.perf = &sc7180_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index ca107ca8de46..865dc51d0fe5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -211,8 +211,6 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
+ 	.intf = sm8350_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8350_regdma,
+ 	.perf = &sm8350_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index 9aab110b8c44..1ac7ad2ba0da 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -202,8 +202,6 @@ const struct dpu_mdss_cfg dpu_sc8280xp_cfg = {
+ 	.intf = sc8280xp_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sc8280xp_regdma,
+ 	.perf = &sc8280xp_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index 02a259b6b426..41c326fc3792 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -219,8 +219,6 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
+ 	.intf = sm8450_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8450_regdma,
+ 	.perf = &sm8450_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index 9e403034093f..e60ebb6242e3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -224,8 +224,6 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
+ 	.intf = sm8550_intf,
+ 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 	.vbif = sdm845_vbif,
+-	.reg_dma_count = 1,
+-	.dma_cfg = &sm8450_regdma,
+ 	.perf = &sm8550_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 03f162af1a50..57b3c495aeb5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -650,46 +650,6 @@ static const struct dpu_vbif_cfg sdm845_vbif[] = {
+ 	},
+ };
+ 
+-static const struct dpu_reg_dma_cfg sc8280xp_regdma = {
+-	.base = 0x0,
+-	.version = 0x00020000,
+-	.trigger_sel_off = 0x119c,
+-	.xin_id = 7,
+-	.clk_ctrl = DPU_CLK_CTRL_REG_DMA,
+-};
+-
+-static const struct dpu_reg_dma_cfg sdm845_regdma = {
+-	.base = 0x0, .version = 0x1, .trigger_sel_off = 0x119c
+-};
+-
+-static const struct dpu_reg_dma_cfg sm8150_regdma = {
+-	.base = 0x0, .version = 0x00010001, .trigger_sel_off = 0x119c
+-};
+-
+-static const struct dpu_reg_dma_cfg sm8250_regdma = {
+-	.base = 0x0,
+-	.version = 0x00010002,
+-	.trigger_sel_off = 0x119c,
+-	.xin_id = 7,
+-	.clk_ctrl = DPU_CLK_CTRL_REG_DMA,
+-};
+-
+-static const struct dpu_reg_dma_cfg sm8350_regdma = {
+-	.base = 0x400,
+-	.version = 0x00020000,
+-	.trigger_sel_off = 0x119c,
+-	.xin_id = 7,
+-	.clk_ctrl = DPU_CLK_CTRL_REG_DMA,
+-};
+-
+-static const struct dpu_reg_dma_cfg sm8450_regdma = {
+-	.base = 0x0,
+-	.version = 0x00020000,
+-	.trigger_sel_off = 0x119c,
+-	.xin_id = 7,
+-	.clk_ctrl = DPU_CLK_CTRL_REG_DMA,
+-};
+-
+ /*************************************************************
+  * PERF data config
+  *************************************************************/
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 71584cd56fd7..8d62c21b051a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -720,21 +720,6 @@ struct dpu_vbif_cfg {
+ 	u32 memtype_count;
+ 	u32 memtype[MAX_XIN_COUNT];
+ };
+-/**
+- * struct dpu_reg_dma_cfg - information of lut dma blocks
+- * @id                 enum identifying this block
+- * @base               register offset of this block
+- * @features           bit mask identifying sub-blocks/features
+- * @version            version of lutdma hw block
+- * @trigger_sel_off    offset to trigger select registers of lutdma
+- */
+-struct dpu_reg_dma_cfg {
+-	DPU_HW_BLK_INFO;
+-	u32 version;
+-	u32 trigger_sel_off;
+-	u32 xin_id;
+-	enum dpu_clk_ctrl_type clk_ctrl;
+-};
+ 
+ /**
+  * Define CDP use cases
+@@ -850,9 +835,6 @@ struct dpu_mdss_cfg {
+ 	u32 wb_count;
+ 	const struct dpu_wb_cfg *wb;
+ 
+-	u32 reg_dma_count;
+-	const struct dpu_reg_dma_cfg *dma_cfg;
+-
+ 	u32 ad_count;
+ 
+ 	u32 dspp_count;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 0e7a68714e9e..28d74d4d2c1d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1033,12 +1033,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		DPU_DEBUG("VBIF NRT is not defined");
+ 	}
+ 
+-	dpu_kms->reg_dma = msm_ioremap_quiet(dpu_kms->pdev, "regdma");
+-	if (IS_ERR(dpu_kms->reg_dma)) {
+-		dpu_kms->reg_dma = NULL;
+-		DPU_DEBUG("REG_DMA is not defined");
+-	}
+-
+ 	dpu_kms_parse_data_bus_icc_path(dpu_kms);
+ 
+ 	rc = pm_runtime_resume_and_get(&dpu_kms->pdev->dev);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index aca39a4689f4..15111e433f21 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -71,7 +71,7 @@ struct dpu_kms {
+ 	const struct dpu_mdss_cfg *catalog;
+ 
+ 	/* io/register spaces: */
+-	void __iomem *mmio, *vbif[VBIF_MAX], *reg_dma;
++	void __iomem *mmio, *vbif[VBIF_MAX];
+ 
+ 	struct regulator *vdd;
+ 	struct regulator *mmagic;
 -- 
-2.40.1
+2.39.2
 
