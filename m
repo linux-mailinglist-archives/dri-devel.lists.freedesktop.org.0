@@ -2,74 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09139709C15
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6210E709C94
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 18:39:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 421E610E533;
-	Fri, 19 May 2023 16:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7DC10E45E;
+	Fri, 19 May 2023 16:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C64810E2BA
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:11:27 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2af24ee004dso9836881fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 09:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684512685; x=1687104685;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iB4GoJ4t0unqfI6RbJqjJl5q2OVPl3jlWsN9nEHUQOo=;
- b=XimcjwpseN4sg/6ILLyI/wh2VOsqCS8pQ4ecnvF2uepxVZXp6gms4bDvHJSJLBJSMf
- rjo9kZioiKT7Kx8+xZdIyT6d6rtW952XUNS/eZUBY8LHvcKmnTs8BJMffD/k+sc4YnJU
- BJzjSpqG64IO0SzYb/K5KpTURXhBmdTS+GRbsMIxaPBBFslGKC27uRwaxTcJt4PbatBw
- tbzie0boYM2nsDM7YTXxlrvWTssgBXrVaB6dKyFy43QgxyuznaNW3ukHgVL+4eAzVTyL
- rQTFm+h1n20PMECoQvqCf0BTj3a8K/Ti+3xdmQoAF8ko8YpUhd8waQJgZ8I8/Pl/VrUa
- ehBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684512685; x=1687104685;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iB4GoJ4t0unqfI6RbJqjJl5q2OVPl3jlWsN9nEHUQOo=;
- b=MN01Q/yzk7qz1VXmk1k+VrgL1gYGtt8AFCiE+OU4n2s/PHy7s5yLLxPYl9Sh9IWy2t
- 8TpxAvf5ICEjLIwAnGUAUxtXgymIUQXs58gu4LKeVgCGlyPr4crvKygJKkSR7Km3KeQu
- AjeNTrEQcdwzp1WrHfY79iZfHX/zIUf6axddcsAqXoCmqh+1Y1zgPgOUrfKgmYZqe72T
- oTMipQ8klqpf9Z+GsPLYazOp/unSnyKCtafOEOR+NX5RI4idTtAkm1jz9zr9APaqT49z
- gi4AbzkMDaq+A9YEhIjWPQadv0xPa2PFVANQeCmVIVo8Zu/me4jyLzytWSYw8Y2C8Ent
- SPRw==
-X-Gm-Message-State: AC+VfDz6dH8YvBgYQwtQBMTXQX70icSjRcdBvwP8yOGUm6XrF7JtuZQP
- nGoGBTHbUkqAgxFYhSrGWLiAcQ==
-X-Google-Smtp-Source: ACHHUZ5z21vkYtp5meWScZ8B3BaN1oGbfOr57BlfM1oNMpVjSqX6CCEXxlt51V05SdPYFUuSQq/LkQ==
-X-Received: by 2002:ac2:4e4c:0:b0:4f3:ac64:84f5 with SMTP id
- f12-20020ac24e4c000000b004f3ac6484f5mr830298lfr.36.1684512685655; 
- Fri, 19 May 2023 09:11:25 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- v11-20020a2e924b000000b002adc5ea2791sm842378ljg.103.2023.05.19.09.11.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 May 2023 09:11:25 -0700 (PDT)
-Message-ID: <7cbc5958-542a-9119-e16d-9967a2131f1d@linaro.org>
-Date: Fri, 19 May 2023 19:11:24 +0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32AB410E2BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 16:39:46 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34JDR7Qo024834; Fri, 19 May 2023 16:39:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=kgDDoBNwxvR277BxCyv7koD/uI+FCD5MDKi5umWHI6A=;
+ b=V1TRaFijUqb9pIF08MD+X/VzNEF2oT9EwZ5DQn5rCzgO+V0ilO7nyjLut6Do6qw+/4+H
+ fYBtaqKVSxs7I3otNk2DAp3y2pbH9Ur8qBznQON58s3i15pHE7HPIwVnIMNNRHEQG4Ui
+ 1gsDYQJYK7jk7YNPAIgOUKiYnmPcIKR1e2IcM/InkP1SKbX5lOWNCGo/JTVKUhM58i9m
+ 8Lfq+Fd8UmK91kQ3jOSStCMJKvXRfq3bX0xOGLzpJ1v6LshmnduopCchRQtysOuL7Yq7
+ VLfmk9/gI0sbQL8iiykKyWaeOiQMMxxYfob+NmJQC2wLX10SjBEJghFT1KfksXa2dnWX 9A== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qnwk4j0dc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 May 2023 16:39:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34JGdL0m001824
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 May 2023 16:39:21 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 19 May 2023 09:39:20 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <mani@kernel.org>
+Subject: [PATCH v2 0/2] Add MHI quirk for QAIC
+Date: Fri, 19 May 2023 10:39:00 -0600
+Message-ID: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] drm/msm/dpu: remove CRTC frame event callback
- registration
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230102154748.951328-1-dmitry.baryshkov@linaro.org>
- <20230102154748.951328-2-dmitry.baryshkov@linaro.org>
- <bba66f67-8c9a-1372-a3a4-2f19e966b6a0@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <bba66f67-8c9a-1372-a3a4-2f19e966b6a0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
+X-Proofpoint-ORIG-GUID: Gy5WM1UCc3CbqIwU-6Q00Cn-2tX_UmbJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-19_11,2023-05-17_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=732 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305190142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +78,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/01/2023 02:49, Abhinav Kumar wrote:
-> 
-> 
-> On 1/2/2023 7:47 AM, Dmitry Baryshkov wrote:
->> The frame event callback is always set to dpu_crtc_frame_event_cb() (or
->> to NULL) and the data is always either the CRTC itself or NULL
->> (correpondingly). Thus drop the event callback registration, call the
->> dpu_crtc_frame_event_cb() directly and gate on the dpu_enc->crtc
->> assigned using dpu_encoder_assign_crtc().
-> 
-> I suggest you wait till we sort out the PSR series for this, especially 
-> this patch https://patchwork.freedesktop.org/patch/515787/
-> 
-> There is going to be some change in this code when PSR is pushed again 
-> sometime early next week because PSR will touch the crtc assignment code 
-> (dpu_enc->crtc),
-> 
-> Based on how we all like that patch, we can get back to this one as this 
-> one is a minor cleanup.
+With the QAIC driver in -next, I'd like to suggest some MHI changes that
+specific to AIC100 devices, but perhaps provide a framework for other
+device oddities.
 
-As the PSR series have landed, I'd like to point to this patch again.
+AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+issues comes from the device hardware, so host SW needs to work around
+them.
 
-> 
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 17 +--------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    | 14 +++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 41 +++------------------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 10 -----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  4 --
->>   5 files changed, 21 insertions(+), 65 deletions(-)
+Thie first issue, presented in this series, has to do with the
+SOC_HW_VERSION register. This register is suposed to be initialized by the
+hardware prior to the MHI being accessable by the host to contain a
+version string for the SoC of the device. This could be used by the host
+MHI controller software to identify and handle version to version changes.
+The AIC100 hardware does not initialize this register, and thus it
+contains garbage.
 
+This would not be much of a problem normally - the QAIC driver would just
+never use it. However the MHI stack uses this register as part of the init
+sequence and if the controller reports that the register is inaccessable
+then the init sequence fails.  On some AIC100 cards, the garbage value
+ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+indicating the access failed.  The MHI controller cannot tell if that
+value is a PCIe link issue, or just garbage.
+
+QAIC needs a way to tell MHI not to use this register. Other buses have a
+quirk mechanism - a way to describe oddities in a particular
+implementation that have some kind of workaround. Since this seems to be
+the first need for such a thing in MHI, introduce a quirk framework.
+
+The second issue AIC100 has involves the PK Hash registers. A solution for
+this is expected to be proposed in the near future and is anticipated to
+make use of the quirk framework proposed here. With PK Hash, there are two
+oddities to handle. AIC100 does not initialize these registers until the
+SBL is running, which is later than the spec indicates, and in practice
+is after MHI reads/caches them. Also, AIC100 does not have enough
+registers defined to fully report the 5 PK Hash slots, so a custom
+reporting format is defined by the device.
+
+v2:
+-Fix build error
+-Fix typo in commit text
+
+Jeffrey Hugo (2):
+  bus: mhi: host: Add quirk framework and initial quirk
+  accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+
+ drivers/accel/qaic/mhi_controller.c |  1 +
+ drivers/bus/mhi/host/init.c         | 13 +++++++++----
+ include/linux/mhi.h                 | 18 ++++++++++++++++++
+ 3 files changed, 28 insertions(+), 4 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.40.1
 
