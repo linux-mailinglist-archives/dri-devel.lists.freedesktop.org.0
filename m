@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21BE709D42
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5A7709D3E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:04:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A1B10E5F9;
-	Fri, 19 May 2023 17:04:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669A910E5F0;
+	Fri, 19 May 2023 17:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A3710E5C2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:43 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2acb6571922so37895721fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:43 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E79F10E5E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:04:45 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4f1411e8111so3885126e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684515881; x=1687107881;
+ d=linaro.org; s=google; t=1684515883; x=1687107883;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ZIMUdN/6jR2WAEFNDz4fhXTOG/fgl6KYk6woZ8juhH0=;
- b=tzMDJ0FqNw+FA0I3NTZHilNzvTcfKl9NOJ7hqivlcy51fokFkN7nl3CSzlynyfnrKJ
- GH1JV+Sy+GTQS6jursTg1uzVx3wQlRfyPpNFpb4mYdoyr/j/eYDphiuaojWx43CH5p4a
- 2CTRvsFzpkCb8JeudheNBZbiB2I+3DO6avkIfzt6ur33/7CktCz/RaZdfq9mofWwllls
- k/zjwQEboCAaYbHfiLqMenfWYnEbiB06Dnj0gDzKqf+2ktYJf9/8C3XH3Ii95+KeoGUK
- 4MrYb8IydlWU+DE3FVwn2xt0mVPCYN2OBib7kH/MuR94Gdr7jY4hj2gsB3Drj75JXwLY
- DXBQ==
+ :reply-to; bh=fyQ4SahREEJ4DtBtq8s/Np9c14bAmeBy6MP2fg2l05c=;
+ b=TaKSShpCvksa+7fDp+Vo1edb8VCGnlG8symWJJ0jgJ7+yfJ3u8CsqrJlxjJfer4XCU
+ JlZQHZosGjdEMPD0za/1ur9bBscuHKjtdndYhmbbjkHwVLe2xbzp27VN5606BeSq9vDE
+ TvoISz6FeIsa5BfauIHlISCnhEWLVhu9thDy0PcyVvY94yE0YrE7xsHLy7em2BunDMDh
+ msDMaD3s1Cm0t7Utgkbrbk+TSkYDMWFkRjUU3DZqQzkmkuvYMQ+2qj6qJZxYVXq1Gqjd
+ BeGSAqZ5c0ZJ+AEN5lKm+xyBH+n52foSQVG+lV1B3nsr4fCg7s9LmXwVJFev7i4WzQWQ
+ +BiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515881; x=1687107881;
+ d=1e100.net; s=20221208; t=1684515883; x=1687107883;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZIMUdN/6jR2WAEFNDz4fhXTOG/fgl6KYk6woZ8juhH0=;
- b=UEHi/KFTwOH31nMMqzXCNDo9t2k5sqNX1lCu6t5e2OMq9uOWdXv4YUQLvNYR9EO5TM
- aA5sOwxm3GtIsweHrQ9egH6C89Jtv7D7kwtgvCf0XMZQ/SvPvgxUp4OdCBNVZnoR+DUk
- /U2h6s/1MTOGDKmDd+chnn3ruNYlT2QA9mJc6PSmPoWNJVclm6o/29tOXm0+wBS5g5Kn
- 0sc4OqJv70R1XItc7yaa2wjdUjPG1Zo5BCRGpYM5oSoukAhONKv5shaA8Xy6tSz5y7eP
- ft88ZYLsBags90icv4WxscGc54/S9nV/6J7dYYgCZF/j5vLotltJQL3eVBYI1ZUiEP0x
- rkvw==
-X-Gm-Message-State: AC+VfDww/tAttB3Lfw6zM6wl6GyjNQaYf5X/0eNx4cIwty+wOS/oBwDd
- I5keFVcNZLBRuaF6lv0xy2wj8g==
-X-Google-Smtp-Source: ACHHUZ6e8OkxauFBcFuSonjgRkagcKXGFvMi7NzHoumHHsCA6O6r7lZpM/YHrdmSVxtMumDrUbqfKw==
-X-Received: by 2002:a2e:850f:0:b0:2af:1622:a69 with SMTP id
- j15-20020a2e850f000000b002af16220a69mr1089525lji.48.1684515881421; 
- Fri, 19 May 2023 10:04:41 -0700 (PDT)
+ bh=fyQ4SahREEJ4DtBtq8s/Np9c14bAmeBy6MP2fg2l05c=;
+ b=adrPAIoJPdC4n1o5mOzJ9iV2wgzr8LpQ4lJqcgeycgb5Y4JmprvgS+31Coh10it0tu
+ 5VD6ff6cDjj1Psp3gP2Nj7ZL2upQ0aEGjjsYV0WDlOBTGjkqErzTgryyp+1fOuU5UaA8
+ DvvfD1u8UNKFY2F+ejIfEfHgDdNv9ttDf8hqulToftMP5akVhteambWxQG6f+3RjnY82
+ pewES3NfEStOwpAapi3QOGFrdVVaT3v4KaEskYSk9925iKF4y8pTsybs8I41BwRiAtLB
+ FrzWUEQgq2h63C5HnBimc+6qlI1iFbmlk+ZZesZv2yz5BM7pA1CIzYZKBGV4fV7EqKKX
+ srhA==
+X-Gm-Message-State: AC+VfDxUYqvkuRvx76t50ojvlcIXrdqeYRvRscsJtk8Z5jPlk9gmMDRP
+ h7DqQYMjZkjzKQMCbFxQvY8R5Q==
+X-Google-Smtp-Source: ACHHUZ558wqZgyhEUHaFqsvV5uZL+pzUjnGswZqoay5NOSZ6wSFNw8yFLhvT+rqcNEVqYh4Glx2g5w==
+X-Received: by 2002:ac2:485c:0:b0:4f2:40dd:e2cf with SMTP id
+ 28-20020ac2485c000000b004f240dde2cfmr960686lfy.55.1684515883200; 
+ Fri, 19 May 2023 10:04:43 -0700 (PDT)
 Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
  by smtp.gmail.com with ESMTPSA id
- a6-20020a19f806000000b004f38260f196sm654478lff.218.2023.05.19.10.04.39
+ a6-20020a19f806000000b004f38260f196sm654478lff.218.2023.05.19.10.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 May 2023 10:04:41 -0700 (PDT)
+ Fri, 19 May 2023 10:04:42 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Fri, 19 May 2023 19:04:26 +0200
-Subject: [PATCH v4 05/12] dt-bindings: display/msm: Add SM6375 MDSS
+Date: Fri, 19 May 2023 19:04:27 +0200
+Subject: [PATCH v4 06/12] drm/msm/dpu: Add SM6350 support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230411-topic-straitlagoon_mdss-v4-5-68e7e25d70e1@linaro.org>
+Message-Id: <20230411-topic-straitlagoon_mdss-v4-6-68e7e25d70e1@linaro.org>
 References: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
 In-Reply-To: <20230411-topic-straitlagoon_mdss-v4-0-68e7e25d70e1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -69,11 +69,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
  Joerg Roedel <joro@8bytes.org>, Conor Dooley <conor+dt@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684515870; l=7042;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684515870; l=9657;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=s+Spzk/2e7PqcBwMimTOdX5auMNouLwtiaEsT45qphY=;
- b=56kSBjxUSXN3fkiGrChengeR9znlYezBZ2vSTpLrXvJdUGeVcgs4IhyHJzNRQA+AqKbhprAfT
- pREWXHCxq10CIllLvxVimL8WzTZdaiy3SDFzXyY4lfYaKubXAGw+CB/
+ bh=fbAGxdxarCqjbBbVVIDhv+0N+tBnIHACcWCl6GPKK6g=;
+ b=KH0dHx9LJCp5H96JsOfoLUmCKfPiLlKKfq+P5V338RJcChii3qrW/VbMV1+WzRCazH0MBibBQ
+ fYxE7TbSP5WBZWN+FHptv3i4E4shM9I8vyRKW6ejb5uK3YP+io46PEe
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,242 +89,274 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, iommu@lists.linux.dev,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
  freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the SM6375 MDSS.
+Add SM6350 support to the DPU1 driver to enable display output.
 
+It's worth noting that one entry dpu_qos_lut_entry was trimmed off:
+
+{.fl = 0, .lut = 0x0011223344556677 },
+
+due to the fact that newer SoCs dropped the .fl (fill level)-based
+logic and don't provide real values, resulting in all entries but
+the last one being unused.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- .../bindings/display/msm/qcom,sm6375-mdss.yaml     | 216 +++++++++++++++++++++
- 1 file changed, 216 insertions(+)
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 188 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   5 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ 4 files changed, 195 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.yaml
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
 new file mode 100644
-index 000000000000..fb56971ea2a1
+index 000000000000..5d66a194155a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6375-mdss.yaml
-@@ -0,0 +1,216 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/qcom,sm6375-mdss.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+@@ -0,0 +1,188 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023, Linaro Limited
++ */
 +
-+title: Qualcomm SM6375 Display MDSS
++#ifndef _DPU_6_4_SM6350_H
++#define _DPU_6_4_SM6350_H
 +
-+maintainers:
-+  - Konrad Dybcio <konrad.dybcio@linaro.org>
++static const struct dpu_caps sm6350_dpu_caps = {
++	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.max_mixer_blendstages = 0x7,
++	.qseed_type = DPU_SSPP_SCALER_QSEED4,
++	.has_src_split = true,
++	.has_dim_layer = true,
++	.has_idle_pc = true,
++	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
++	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++};
 +
-+description:
-+  SM6375 MSM Mobile Display Subsystem (MDSS), which encapsulates sub-blocks
-+  like DPU display controller, DSI and DP interfaces etc.
++static const struct dpu_ubwc_cfg sm6350_ubwc_cfg = {
++	.ubwc_version = DPU_HW_UBWC_VER_20,
++	.ubwc_swizzle = 6,
++	.highest_bank_bit = 1,
++};
 +
-+$ref: /schemas/display/msm/mdss-common.yaml#
++static const struct dpu_mdp_cfg sm6350_mdp[] = {
++	{
++	.name = "top_0", .id = MDP_TOP,
++	.base = 0x0, .len = 0x494,
++	.features = 0,
++	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
++	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
++	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
++	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
++	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
++	},
++};
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: qcom,sm6375-mdss
++static const struct dpu_ctl_cfg sm6350_ctl[] = {
++	{
++	.name = "ctl_0", .id = CTL_0,
++	.base = 0x1000, .len = 0x1dc,
++	.features = BIT(DPU_CTL_ACTIVE_CFG),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
++	},
++	{
++	.name = "ctl_1", .id = CTL_1,
++	.base = 0x1200, .len = 0x1dc,
++	.features = BIT(DPU_CTL_ACTIVE_CFG),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
++	},
++	{
++	.name = "ctl_2", .id = CTL_2,
++	.base = 0x1400, .len = 0x1dc,
++	.features = BIT(DPU_CTL_ACTIVE_CFG),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
++	},
++	{
++	.name = "ctl_3", .id = CTL_3,
++	.base = 0x1600, .len = 0x1dc,
++	.features = BIT(DPU_CTL_ACTIVE_CFG),
++	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
++	},
++};
 +
-+  clocks:
-+    items:
-+      - description: Display AHB clock from gcc
-+      - description: Display AHB clock
-+      - description: Display core clock
++static const struct dpu_sspp_cfg sm6350_sspp[] = {
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
++		sc7180_vig_sblk_0, 0,  SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
++	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
++		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
++	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK,
++		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
++	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
++		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
++};
 +
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: ahb
-+      - const: core
++static const struct dpu_lm_cfg sm6350_lm[] = {
++	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
++		&sc7180_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
++	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
++		&sc7180_lm_sblk, PINGPONG_1, LM_0, 0),
++};
 +
-+  iommus:
-+    maxItems: 1
++static const struct dpu_dspp_cfg sm6350_dspp[] = {
++	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
++		&sm8150_dspp_sblk),
++};
 +
-+  interconnects:
-+    maxItems: 2
++static struct dpu_pingpong_cfg sm6350_pp[] = {
++	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
++		-1),
++	PP_BLK("pingpong_1", PINGPONG_1, 0x70800, PINGPONG_SM8150_MASK, 0, sdm845_pp_sblk,
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
++		-1),
++};
 +
-+  interconnect-names:
-+    maxItems: 2
++static const struct dpu_intf_cfg sm6350_intf[] = {
++	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x2c0, INTF_DP, 0, 35, INTF_SC7180_MASK,
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
++	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 35, INTF_SC7180_MASK,
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
++};
 +
-+patternProperties:
-+  "^display-controller@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sm6375-dpu
++static const struct dpu_vbif_cfg sm6350_vbif[] = {
++	{
++	.name = "vbif_0", .id = VBIF_RT,
++	.base = 0, .len = 0x1044,
++	.features = BIT(DPU_VBIF_QOS_REMAP),
++	.xin_halt_timeout = 0x4000,
++	.qos_rt_tbl = {
++		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
++		.priority_lvl = sdm845_rt_pri_lvl,
++	},
++	.qos_nrt_tbl = {
++		.npriority_lvl = ARRAY_SIZE(sdm845_nrt_pri_lvl),
++		.priority_lvl = sdm845_nrt_pri_lvl,
++	},
++	.memtype_count = 14,
++	.memtype = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
++	},
++};
 +
-+  "^dsi@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        items:
-+          - const: qcom,sm6375-dsi-ctrl
-+          - const: qcom,mdss-dsi-ctrl
++static const struct dpu_perf_cfg sm6350_perf_data = {
++	.max_bw_low = 4200000,
++	.max_bw_high = 5100000,
++	.min_core_ib = 2500000,
++	.min_llcc_ib = 0,
++	.min_dram_ib = 1600000,
++	.min_prefill_lines = 35,
++	/* TODO: confirm danger_lut_tbl */
++	.danger_lut_tbl = {0xffff, 0xffff, 0x0},
++	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
++	.qos_lut_tbl = {
++		{.nentry = ARRAY_SIZE(sm6350_qos_linear_macrotile),
++		.entries = sm6350_qos_linear_macrotile
++		},
++		{.nentry = ARRAY_SIZE(sm6350_qos_linear_macrotile),
++		.entries = sm6350_qos_linear_macrotile
++		},
++		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
++		.entries = sc7180_qos_nrt
++		},
++	},
++	.cdp_cfg = {
++		{.rd_enable = 1, .wr_enable = 1},
++		{.rd_enable = 1, .wr_enable = 0}
++	},
++	.clk_inefficiency_factor = 105,
++	.bw_inefficiency_factor = 120,
++};
 +
-+  "^phy@[0-9a-f]+$":
-+    type: object
-+    properties:
-+      compatible:
-+        const: qcom,sm6375-dsi-phy-7nm
++const struct dpu_mdss_cfg dpu_sm6350_cfg = {
++	.caps = &sm6350_dpu_caps,
++	.ubwc = &sm6350_ubwc_cfg,
++	.mdp_count = ARRAY_SIZE(sm6350_mdp),
++	.mdp = sm6350_mdp,
++	.ctl_count = ARRAY_SIZE(sm6350_ctl),
++	.ctl = sm6350_ctl,
++	.sspp_count = ARRAY_SIZE(sm6350_sspp),
++	.sspp = sm6350_sspp,
++	.mixer_count = ARRAY_SIZE(sm6350_lm),
++	.mixer = sm6350_lm,
++	.dspp_count = ARRAY_SIZE(sm6350_dspp),
++	.dspp = sm6350_dspp,
++	.pingpong_count = ARRAY_SIZE(sm6350_pp),
++	.pingpong = sm6350_pp,
++	.intf_count = ARRAY_SIZE(sm6350_intf),
++	.intf = sm6350_intf,
++	.vbif_count = ARRAY_SIZE(sm6350_vbif),
++	.vbif = sm6350_vbif,
++	.reg_dma_count = 1,
++	.dma_cfg = &sm8250_regdma,
++	.perf = &sm6350_perf_data,
++	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
++		     BIT(MDP_SSPP_TOP0_INTR2) | \
++		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
++		     BIT(MDP_INTF0_INTR) | \
++		     BIT(MDP_INTF1_INTR) | \
++		     BIT(MDP_INTF1_TEAR_INTR),
++};
 +
-+unevaluatedProperties: false
++#endif
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 9daeaccc4f52..5ef1dffc27dc 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -748,6 +748,10 @@ static const struct dpu_qos_lut_entry sc7180_qos_linear[] = {
+ 	{.fl = 0, .lut = 0x0011222222335777},
+ };
+ 
++static const struct dpu_qos_lut_entry sm6350_qos_linear_macrotile[] = {
++	{.fl = 0, .lut = 0x0011223445566777 },
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,rpmcc.h>
-+    #include <dt-bindings/clock/qcom,sm6375-gcc.h>
-+    #include <dt-bindings/clock/qcom,sm6375-dispcc.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    display-subsystem@5e00000 {
-+        compatible = "qcom,sm6375-mdss";
-+        reg = <0x05e00000 0x1000>;
-+        reg-names = "mdss";
-+
-+        power-domains = <&dispcc MDSS_GDSC>;
-+
-+        clocks = <&gcc GCC_DISP_AHB_CLK>,
-+                 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+        clock-names = "iface", "ahb", "core";
-+
-+        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+
-+        iommus = <&apps_smmu 0x820 0x2>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges;
-+
-+        display-controller@5e01000 {
-+            compatible = "qcom,sm6375-dpu";
-+            reg = <0x05e01000 0x8e030>,
-+                  <0x05eb0000 0x2008>;
-+            reg-names = "mdp", "vbif";
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>,
-+                     <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+                     <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ROT_CLK>,
-+                     <&dispcc DISP_CC_MDSS_VSYNC_CLK>,
-+                     <&gcc GCC_DISP_THROTTLE_CORE_CLK>;
-+            clock-names = "iface",
-+                          "bus",
-+                          "core",
-+                          "lut",
-+                          "rot",
-+                          "vsync",
-+                          "throttle";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+            assigned-clock-rates = <19200000>;
-+
-+            operating-points-v2 = <&mdp_opp_table>;
-+            power-domains = <&rpmpd SM6375_VDDCX>;
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dpu_intf1_out: endpoint {
-+                        remote-endpoint = <&dsi0_in>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dpu_intf2_out: endpoint {
-+                        remote-endpoint = <&dsi1_in>;
-+                    };
-+                };
-+            };
-+        };
-+
-+        dsi@5e94000 {
-+            compatible = "qcom,sm6375-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-+            reg = <0x05e94000 0x400>;
-+            reg-names = "dsi_ctrl";
-+
-+            interrupt-parent = <&mdss>;
-+            interrupts = <4>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-+                     <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_ESC0_CLK>,
-+                     <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&gcc GCC_DISP_HF_AXI_CLK>;
-+            clock-names = "byte",
-+                          "byte_intf",
-+                          "pixel",
-+                          "core",
-+                          "iface",
-+                          "bus";
-+
-+            assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
-+                              <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
-+            assigned-clock-parents = <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>;
-+
-+            operating-points-v2 = <&dsi_opp_table>;
-+            power-domains = <&rpmpd SM6375_VDDMX>;
-+
-+            phys = <&mdss_dsi0_phy>;
-+            phy-names = "dsi";
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    dsi0_in: endpoint {
-+                        remote-endpoint = <&dpu_intf1_out>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    dsi0_out: endpoint {
-+                    };
-+                };
-+            };
-+        };
-+
-+        mdss_dsi0_phy: phy@5e94400 {
-+            compatible = "qcom,sm6375-dsi-phy-7nm";
-+            reg = <0x05e94400 0x200>,
-+                  <0x05e94600 0x280>,
-+                  <0x05e94900 0x264>;
-+            reg-names = "dsi_phy",
-+                        "dsi_phy_lane",
-+                        "dsi_pll";
-+
-+            #clock-cells = <1>;
-+            #phy-cells = <0>;
-+
-+            clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                     <&rpmcc RPM_SMD_XO_CLK_SRC>;
-+            clock-names = "iface", "ref";
-+        };
-+    };
-+...
+ static const struct dpu_qos_lut_entry sm8150_qos_linear[] = {
+ 	{.fl = 0, .lut = 0x0011222222223357 },
+ };
+@@ -803,6 +807,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+ #include "catalog/dpu_6_0_sm8250.h"
+ #include "catalog/dpu_6_2_sc7180.h"
+ #include "catalog/dpu_6_3_sm6115.h"
++#include "catalog/dpu_6_4_sm6350.h"
+ #include "catalog/dpu_6_5_qcm2290.h"
+ 
+ #include "catalog/dpu_7_0_sm8350.h"
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index e9237321df77..67ff78e7bc99 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -880,6 +880,7 @@ extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
+ extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
+ extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
+ extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
++extern const struct dpu_mdss_cfg dpu_sm6350_cfg;
+ extern const struct dpu_mdss_cfg dpu_qcm2290_cfg;
+ extern const struct dpu_mdss_cfg dpu_sm8350_cfg;
+ extern const struct dpu_mdss_cfg dpu_sc7280_cfg;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 0e7a68714e9e..46be7ad8d615 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1286,6 +1286,7 @@ static const struct of_device_id dpu_dt_match[] = {
+ 	{ .compatible = "qcom,sc8180x-dpu", .data = &dpu_sc8180x_cfg, },
+ 	{ .compatible = "qcom,sc8280xp-dpu", .data = &dpu_sc8280xp_cfg, },
+ 	{ .compatible = "qcom,sm6115-dpu", .data = &dpu_sm6115_cfg, },
++	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
+ 	{ .compatible = "qcom,sm8150-dpu", .data = &dpu_sm8150_cfg, },
+ 	{ .compatible = "qcom,sm8250-dpu", .data = &dpu_sm8250_cfg, },
+ 	{ .compatible = "qcom,sm8350-dpu", .data = &dpu_sm8350_cfg, },
 
 -- 
 2.40.1
