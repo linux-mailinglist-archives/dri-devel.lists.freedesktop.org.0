@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B6B709D55
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C81C709D97
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 19:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0FAB10E5B4;
-	Fri, 19 May 2023 17:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 987B710E605;
+	Fri, 19 May 2023 17:10:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA5B10E542
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 17:05:30 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f13d8f74abso4010847e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 10:05:30 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBC5F10E5B8;
+ Fri, 19 May 2023 17:10:30 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-19a1ac5e200so2531971fac.1; 
+ Fri, 19 May 2023 10:10:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684515928; x=1687107928;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tW+IfBA0g2S68983Q4GYfBwGicfanmeJ7cJ4NzLrmh8=;
- b=V585xRsm8CcsnplbCQ6v8bRSw8NP67lu8Y6qp3MaQdh6U4ysP1qSomULxwiyVhVef2
- 9b7QW3V0gmptgFhTqIAONlnbRoPWpnZmkp2wBo4S7Lgt9Sw5CeDaoEXwsQtwJZ/5XBOw
- iZw1pi6OYtwzOFNxcz7br42D7dZVChsjBND4HC2K8zpCWneTFOt2jffTWfcwtGiJ94Er
- mFn4RCoJnGx8/J2n0shYt0Ani4J3Kbq9KPC0gXzsOyY4w9ewPdlfa/3nzjvdAfvxT06E
- ELLKks1QOZdU4+NUxLoCHQTmSwrLx4xHJbj2l9Ba9qvrz1qNghS8FwFkhfO0MBXBo/tJ
- htow==
+ d=gmail.com; s=20221208; t=1684516230; x=1687108230;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=poNphkfZwNdP6GeKL2W2z8I4b6XaR+5+jgr9kWrFxz8=;
+ b=roESMr5O9UgQcD2w6NwXUF7WHCxMJSjcu8W1TdbscQ+GCF3tqbdSN/1THf0GSknwZ2
+ Wy4KVv/tUTz1rdC8vOgNlHKuSNeteUdhMmAGzSgoZjtsDgioJTns8PInOWfhuBjxmkqd
+ TK/zhMAomAg20E7i/rDz8l4sK2+T+kXBTGnucBuw2UzeF7ux3hoskXK1rqd7w6Z3JQNw
+ wMzMDMpfZws8mti7qOCmO0Y26W1xeFw6xBsJZ8supfUTn0e3tEKXb6/7IOyr1Ab5cY46
+ 1x+Vsls920AP2YsQo4tFVhAFLxbrtoK8B2wSLEwZwuHZPWMLBTmj6RVa2rwZAxlR9LAk
+ 37Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684515928; x=1687107928;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tW+IfBA0g2S68983Q4GYfBwGicfanmeJ7cJ4NzLrmh8=;
- b=iIPN6ac+XsfaiH3wJaxbRiq0AbAd4eRsOnEi4zIAdBsgwADrDr3TLyaHgWLNdM8jK6
- DLSMip7GmLjQOIWMoGERXpADE8WheyZZvqhyJCS60uTFjRf3l4Q89LNsA85gUr5F9zAo
- JUzMTn2sUuG1SkKYkgIsIFKj9mP5ZcZyjS5MbvyWZzq6YVeop0wpPLXmRpYuOnKOdyx3
- 67EKZEQBPeC2IbR9KV5qt04aJiYQsQwJtngcQdR/wS511LGdPNnQtMtffpD+2y/SAEL1
- mSdtzr802aQNdkkMGtY4KWs2UdutqzXXDbXB0yg4ZT/fgAvv+a+w2urWYp2eXm3/cAsr
- eyvA==
-X-Gm-Message-State: AC+VfDzyRXK6ff7alpoojixl7DlE6rl9EsAUJQ8mBSL+dfKI+T1t2FFB
- jnA3wdnx4ty1P42Ti65xohI06w==
-X-Google-Smtp-Source: ACHHUZ4jcrhQebDwz+TmRvBxTkMDnYkD/uxxsLi4fsiBGMpuMGr4N8G5ByGWy90gcsy4dRWMJgQvTw==
-X-Received: by 2002:a19:551a:0:b0:4ed:b329:5d85 with SMTP id
- n26-20020a19551a000000b004edb3295d85mr930426lfe.15.1684515928421; 
- Fri, 19 May 2023 10:05:28 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- y16-20020ac24470000000b004f138ab93c7sm648541lfl.264.2023.05.19.10.05.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 May 2023 10:05:26 -0700 (PDT)
-Message-ID: <590c8225-e5aa-5195-51d3-a1a4738d6bfa@linaro.org>
-Date: Fri, 19 May 2023 20:04:59 +0300
+ d=1e100.net; s=20221208; t=1684516230; x=1687108230;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=poNphkfZwNdP6GeKL2W2z8I4b6XaR+5+jgr9kWrFxz8=;
+ b=SJFkYtpavCbwoixe4IDSyc829dKbpMfmJlslMD285v37FlKNULM0XptSs5M2XVdKAF
+ lsTEEC8hCY4RC5pWcvAc76h6bUnK6XE7SWx+HdfIPXTQHOg9mibDp7eagXGX0CgtFXbH
+ AlU+SyPvqEda1RfZ4mbxZWJVwzMZjxEdFIsWDLr069bw/qbjQECOiWE49pJBD1j9GT5n
+ jtk2e2jXVfTq6Hq9EgGSh+dB2wgtqGS+3o1ymGhCaqrrx6Sh19A1JLgkR+Ez2PC0mhCV
+ QdbLrLetp/YoGQCdurThgnrwZ63tb8QUsC6O7m+RppxfS83fbuntJbMFfmCnnV9oV6Uz
+ iQ7Q==
+X-Gm-Message-State: AC+VfDzvd8bhsINAEDLK2yobRYG5j3HYGOghq9MMWbIGzpSuzYzvlQ7N
+ lhpLv6FNmePmFTvoJ+Khd8b7pGtZ+wBhhCz+6ejkXWkQ
+X-Google-Smtp-Source: ACHHUZ7yTXOh02l/eiEu30G7cg1D3eXhmE7kPZzFc1iqb5D2Y8Ok17f72/u4+Pa3zHt+mAXCGrexBzGW+udtQm5wjek=
+X-Received: by 2002:a05:6808:24a:b0:396:3dc7:948c with SMTP id
+ m10-20020a056808024a00b003963dc7948cmr1432453oie.54.1684516229793; Fri, 19
+ May 2023 10:10:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] drm/msm/dpu: drop the regdma configuration
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230519170353.3936443-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230519170353.3936443-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230519153327.231806-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <20230519153327.231806-1-n.zhandarovich@fintech.ru>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 19 May 2023 13:10:18 -0400
+Message-ID: <CADnq5_MWD1p3Aej7Hawo_0sRM+5Og0i7cr1vgvcj=o=oxRujoA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix possible division-by-zero errors
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,30 +68,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: lvc-project@linuxtesting.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/05/2023 20:03, Dmitry Baryshkov wrote:
-> The regdma is currently not used by the current driver. We have no way
-> to practically verify that the regdma is described correctly. Drop it
-> now.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> Changes since v1:
-> - Restored dpu_msm8998_cfg.perf, incorrectly removed previously (Marijn)
-> - Also dropped reg_dma pointer from struct dpu_kms (Marijn)
+In practice this should never happen.  Applied with some minor coding
+style fixes.
+
+Alex
+
+On Fri, May 19, 2023 at 11:33=E2=80=AFAM Nikita Zhandarovich
+<n.zhandarovich@fintech.ru> wrote:
 >
-
-Please ignore this, I forgot about 
-https://patchwork.freedesktop.org/series/116782/
-
--- 
-With best wishes
-Dmitry
-
+> Function rv740_get_decoded_reference_divider() may return 0 due to
+> unpredictable reference divider value calculated in
+> radeon_atom_get_clock_dividers(). This will lead to
+> division-by-zero error once that value is used as a divider
+> in calculating 'clk_s'.
+> While unlikely, this issue should nonetheless be prevented so add a
+> sanity check for such cases by testing 'decoded_ref' value against 0.
+>
+> Found by Linux Verification Center (linuxtesting.org) with static
+> analysis tool SVACE.
+>
+> Fixes: 66229b200598 ("drm/radeon/kms: add dpm support for rv7xx (v4)")
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+>
+> ---
+>  drivers/gpu/drm/radeon/cypress_dpm.c | 7 +++++--
+>  drivers/gpu/drm/radeon/ni_dpm.c      | 7 +++++--
+>  drivers/gpu/drm/radeon/rv740_dpm.c   | 7 +++++--
+>  3 files changed, 15 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/cypress_dpm.c b/drivers/gpu/drm/radeo=
+n/cypress_dpm.c
+> index fdddbbaecbb7..3678b7e384e1 100644
+> --- a/drivers/gpu/drm/radeon/cypress_dpm.c
+> +++ b/drivers/gpu/drm/radeon/cypress_dpm.c
+> @@ -555,10 +555,13 @@ static int cypress_populate_mclk_value(struct radeo=
+n_device *rdev,
+>
+>                 if (radeon_atombios_get_asic_ss_info(rdev, &ss,
+>                                                      ASIC_INTERNAL_MEMORY=
+_SS, vco_freq)) {
+> +                       u32 clk_s, clk_v;
+>                         u32 reference_clock =3D rdev->clock.mpll.referenc=
+e_freq;
+>                         u32 decoded_ref =3D rv740_get_decoded_reference_d=
+ivider(dividers.ref_div);
+> -                       u32 clk_s =3D reference_clock * 5 / (decoded_ref =
+* ss.rate);
+> -                       u32 clk_v =3D ss.percentage *
+> +                       if (!decoded_ref)
+> +                               return -EINVAL;
+> +                       clk_s =3D reference_clock * 5 / (decoded_ref * ss=
+.rate);
+> +                       clk_v =3D ss.percentage *
+>                                 (0x4000 * dividers.whole_fb_div + 0x800 *=
+ dividers.frac_fb_div) / (clk_s * 625);
+>
+>                         mpll_ss1 &=3D ~CLKV_MASK;
+> diff --git a/drivers/gpu/drm/radeon/ni_dpm.c b/drivers/gpu/drm/radeon/ni_=
+dpm.c
+> index 672d2239293e..9ce3e5635efc 100644
+> --- a/drivers/gpu/drm/radeon/ni_dpm.c
+> +++ b/drivers/gpu/drm/radeon/ni_dpm.c
+> @@ -2239,10 +2239,13 @@ static int ni_populate_mclk_value(struct radeon_d=
+evice *rdev,
+>
+>                 if (radeon_atombios_get_asic_ss_info(rdev, &ss,
+>                                                      ASIC_INTERNAL_MEMORY=
+_SS, vco_freq)) {
+> +                       u32 clk_s, clk_v;
+>                         u32 reference_clock =3D rdev->clock.mpll.referenc=
+e_freq;
+>                         u32 decoded_ref =3D rv740_get_decoded_reference_d=
+ivider(dividers.ref_div);
+> -                       u32 clk_s =3D reference_clock * 5 / (decoded_ref =
+* ss.rate);
+> -                       u32 clk_v =3D ss.percentage *
+> +                       if (!decoded_ref)
+> +                               return -EINVAL;
+> +                       clk_s =3D reference_clock * 5 / (decoded_ref * ss=
+.rate);
+> +                       clk_v =3D ss.percentage *
+>                                 (0x4000 * dividers.whole_fb_div + 0x800 *=
+ dividers.frac_fb_div) / (clk_s * 625);
+>
+>                         mpll_ss1 &=3D ~CLKV_MASK;
+> diff --git a/drivers/gpu/drm/radeon/rv740_dpm.c b/drivers/gpu/drm/radeon/=
+rv740_dpm.c
+> index d57a3e1df8d6..ca76efa0f59d 100644
+> --- a/drivers/gpu/drm/radeon/rv740_dpm.c
+> +++ b/drivers/gpu/drm/radeon/rv740_dpm.c
+> @@ -247,10 +247,13 @@ int rv740_populate_mclk_value(struct radeon_device =
+*rdev,
+>
+>                 if (radeon_atombios_get_asic_ss_info(rdev, &ss,
+>                                                      ASIC_INTERNAL_MEMORY=
+_SS, vco_freq)) {
+> +                       u32 clk_s, clk_v;
+>                         u32 reference_clock =3D rdev->clock.mpll.referenc=
+e_freq;
+>                         u32 decoded_ref =3D rv740_get_decoded_reference_d=
+ivider(dividers.ref_div);
+> -                       u32 clk_s =3D reference_clock * 5 / (decoded_ref =
+* ss.rate);
+> -                       u32 clk_v =3D 0x40000 * ss.percentage *
+> +                       if (!decoded_ref)
+> +                               return -EINVAL;
+> +                       clk_s =3D reference_clock * 5 / (decoded_ref * ss=
+.rate);
+> +                       clk_v =3D 0x40000 * ss.percentage *
+>                                 (dividers.whole_fb_div + (dividers.frac_f=
+b_div / 8)) / (clk_s * 10000);
+>
+>                         mpll_ss1 &=3D ~CLKV_MASK;
+> --
+> 2.25.1
+>
