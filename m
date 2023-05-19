@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FACF7099E5
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 16:34:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C481709A01
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 16:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8064510E3A4;
-	Fri, 19 May 2023 14:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FAAC10E47A;
+	Fri, 19 May 2023 14:37:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D9D10E3A4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 14:34:20 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873B810E47A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 14:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1684506838; i=deller@gmx.de;
- bh=w7YcoaOaP2N+PmbApERP+wrQNejz5mO0AaxhtqBD/Ao=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=gmWgCQofgv7RF/MilB/+J+UCAJBKwzF8rtN/15cMbENhIQWIXE8SDt0WkZ9p3HIz4
- 0EAYWrorwtchZcDiGkL+pvqTsKbB/iKCxnFh9XuN558DFAk/leoe061aBsJpPCjwAB
- Comrgpy5l0NqhPEP17kwLH9nAdFa19MAc968hxaGzBa4uRynqMT5GLFzuu/3ikBDj4
- l2XNg/Z9LNpXszquS4bwoVdeh1gww3WxUXf8lYCUJhoJVAnNfHfI2lyvKCR7s+k8eX
- q3oyWBcaykGguRlkqjlaiPH6ChQzwmifspt9FAENZ0wye8NX9MNJsYH48apfI/5HT/
- QOcutxVNRhshw==
+ t=1684507058; i=deller@gmx.de;
+ bh=Guk5OAVaQT2V82v4yw60pBxCCIuR2J3jwqL679tWxM0=;
+ h=X-UI-Sender-Class:Date:From:To:Subject:References:In-Reply-To;
+ b=rdwnwLLYYcCnM5j3hLv80sHbvXK+aAIDx6ycWmyOQ9Spkh67upZDQz1XDhe2VxNvm
+ GdTpVxiFIbljqW5rxBEG1y8z5BE6LZCRgXML4H0qUD0eGy2QvdnkcNb3VAgTYYjpvs
+ LJOTQ2OCCVfKp6Jm8wPOF428e9fYWzgZylbOy2mt9yJ8oZlGwmgfQCNI8sl7KOlTeh
+ 0hwvr39iyAnjvpcEOuAuH+YJHNUDzFY7i17HCLl5/m6zHAZU9EyF0mg07my9rFTJ46
+ MZlqwZXTeI39x5UOt8k+iI4m3IIVO4NagGOCkqA+fCRrkowFRQagQ8v/Ghr8emFIEu
+ dwpgl4swAq1ww==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.152.232]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mw9UK-1qGS4A0EVA-00s8ic; Fri, 19
- May 2023 16:33:58 +0200
-Message-ID: <76a47786-f1e5-80d8-807d-1ab6fa02ebf3@gmx.de>
-Date: Fri, 19 May 2023 16:33:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] fbdev: i810: include i810_main.h in i810_dvt.c
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann
- <arnd@kernel.org>, Antonino Daplas <adaplas@gmail.com>
-References: <20230516202814.561262-1-arnd@kernel.org>
- <87lehngxbr.fsf@intel.com>
+Received: from ls3530 ([94.134.152.232]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8GMk-1qDCUM2cE4-014Blk; Fri, 19
+ May 2023 16:37:38 +0200
+Date: Fri, 19 May 2023 16:37:37 +0200
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <87lehngxbr.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
+Message-ID: <ZGeJsYmPU/7CHJRV@ls3530>
+References: <20230516202257.559952-1-arnd@kernel.org>
+ <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sMvSrVoGkC+EFAh0XcLJmR+jt1VRufyMEAEA8KP+Z4hYvqiNNjW
- c1Rz3EhgDf607LznAh4fD31eR/ITGWz/DRitjr3Ssz/HSWtt4XiqV9ObyhhmWgWC73FpUTq
- uxak5H4vzPdNn3+H76SF4B04XVL/OzLdW3dLPVQLB92KD4ecE30TqtK6XVl5HP+fDSxyVWB
- GevsrpwavzH/FYvIsAs5A==
+In-Reply-To: <CAMuHMdWgVsY8Ur7s9Xy1xMGxOW0WFXWq934aAE9Z884tGuWG_A@mail.gmail.com>
+X-Provags-ID: V03:K1:FmMyGNPGtm42rqLtFFlFWmqrjodEJSPVLrnRqz9h9cq6sxxcUqU
+ oDZ78WlNoVwQ2COO+NSNM6bZ4GQgIMVZk/eXk0MGz3ZIv4bzu0ajXTD9GXiTWb//bEsM67M
+ ySYCoN0LyG9+6ZiDVM9RBOc6KHkf02KRxKhjTJ1tSBp4pQHR8n3IpviE1bmSUPaqtaeu5Uy
+ UQM6Cp0kr97AJWaNxS4Qw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZtCenKypFwE=;0mS62XZeXZOrgQSTNbQXrL7nRxm
- Ciafs2dOZQTAORGhafcMiyIcR1cTMe5VfWrP8fN4uxpWwtvydip7LLEy2ufOIzZibXDgXIFLD
- F/iJd7HlkMkLhuYIMDLRLQRpPSJ1Vo+QetQBANmiKHzChpjdOwWG8El3TqvbI+7dPhwbtbbYu
- vbWDscGc6v60REC823k0cwLFXnatWxbeIi55icTNoyMUhYCXtmH483xcrJZCofp8rtzTCx6ue
- kz4OHJSlrfkaLhGz44OEpUAxSjLAyEATKk7vavoh+AafuTFpBHdsAmQXWGCx3zXFpjM9jndYK
- g0SFbUEYKnbS02spYIrtY8LGeELPY28FFbzBYUxwZBhx/NPLg1PIUDZ2b1FvpZCxOJWifR6lK
- UBwkjRPe5q8QOjH6VJojh2eT4Pp4CsbmxUJT21TIQJwhhGxdrpVmiN6G2ELttdE5fvu7NsebL
- CdeYdEtK7IkNyrvKPMESH5P0kk84kbkwo4Ogx0cCTWUcpBpFmZQ1CWtdJOr7ythlYtGksIoCg
- Z9KoNN3cAdaULf+hwEdYOlgHnM9wIpyE0p92xNHgkecNfz6sSjDibewfsAHbjil+MzNCsc/ms
- GcT7r9FGwqcLjgPGR3ZB+LElXc+C/e8hhrTpDje1ZQhJg+hGsE4EeDFzlW9Pu1OES+qlZsJVy
- OQOZ0XsuVZvSHDl1eN2w+NtkdtGxLq4QvFl0BD/Fymr1G1DydUOQ7Q6xnIejDBS1dMt2malph
- nJ21Majmp9qFmQ1zVMF1rtGtmqQhyIgMbTUtzC8d6GHSs7JPKacIn81506HRa9b9s+EH1y1KM
- YhU0B5cfv5bCyAlqgPDctDHQn2U8WMnn+eN9QzpUIRMrDJE9AZH0SMWilqSShK/M8S5l1Ozsc
- D3U2O2NfsNmdsJFzuFbEKvICAbMHicRgXrk8geIVzG6NbPYOM0cLwscWtEVGoo6+/jnYJQbZO
- m7jQNWJuBtYTlDIQMz3oXLcUV0s=
+UI-OutboundReport: notjunk:1;M01:P0:Kjf9fEEF6jA=;YBr2hg4Nr/IbyhZRzwQFnxJmm9c
+ NdndvQBM2a6oC05XwYmFwaJoVgREJBxd+9+gUhwWvD6+aUcyXydBtbl5ZPwWqIEEDcmL5B/57
+ ic0vHyp5qPGKbyJI+wx6FutVN45wrtLisx6+fmfh7EsXShCc2xQ8xzrtN4dTIq/jPTV+ybR9I
+ JBNYdN7WYPp+1XMHwOdklraFaP2GtkzTyeMU+6p9uWkHs+WDNonyXNZr2Wsvkselq3jyClrRv
+ FpH5LuE2sJyHAA/be8/CUkholRKu0BTJ+HINiJFFzTsb0Ab/Pf9NNfssX7POKSzkNjL+imrEt
+ OX+diiGFwwAY4H9up53Iw0CsBCWc0Y/kCIRjoKWqRWrobcoIqX+5nrpdmEJL+vGOb97rP0N+i
+ AJvHTuXApgmXYTjaUTCUoLicQNidr/VcsZp5RCVYZ8+Y9hIEyKpyKGsxHn/J0lmAidlXD4jHQ
+ 4jTA90Ka22ahVxYNyyyHaMVOmiY+ODuYCpuq1ZD7CCjmrdMXsgwcJpt5ulMf8fhCMASjEpyQ7
+ d2krTN/pxovAB9FvC1seewTOBMv6mpmhiWqcA1i2gr1qcT54GY4cecVYIjkgEJkPoQxVg1+26
+ YYP45+D9maLyp9isBZZIwk0I/J9bDrcRWzUthaNNPm3eB0P/8FA/Xb6TwpFAtAEk8yb2JdYhh
+ DZDjeB4VwIXKd2cXWk6jUpFiAm0Fdm63MJcP/zpxvoN0ZlDbo7jxPVzQKgr5sXZG8AcydCbmJ
+ G1BaGUPe9CVwob7Mxb1i6Ojt/Te0v5L3Y/MRuYCQA6ey445FOPEZZxNxfE26DcxYeMu1GX2YG
+ RfvS71/w3A1vkvu8ktmX9LnyZ+qYx7AEILNDRxFT/DMnhh4Ia7guN8W/uw4N5kwHnc6SyzKYp
+ v487nhqCQVJZMy0KxkU9StS04v69CQekGJloJfXoRqAA7+Rh1r1SetlL82ulnzFwxen+T02Tz
+ qN8DNA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +72,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/17/23 10:46, Jani Nikula wrote:
-> On Tue, 16 May 2023, Arnd Bergmann <arnd@kernel.org> wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> Building with W=3D1 shows that a header needs to be included to
->> make the prototypes visible:
->>
->> drivers/video/fbdev/i810/i810_dvt.c:194:6: error: no previous prototype=
- for 'round_off_xres' [-Werror=3Dmissing-prototypes]
->> drivers/video/fbdev/i810/i810_dvt.c:233:6: error: no previous prototype=
- for 'i810fb_encode_registers' [-Werror=3Dmissing-prototypes]
->> drivers/video/fbdev/i810/i810_dvt.c:245:6: error: no previous prototype=
- for 'i810fb_fill_var_timings' [-Werror=3Dmissing-prototypes]
->> drivers/video/fbdev/i810/i810_dvt.c:279:5: error: no previous prototype=
- for 'i810_get_watermark' [-Werror=3Dmissing-prototypes]
->>
->> Adding the header leads to another warning from a mismatched
->> prototype, so fix this as well:
->>
->> drivers/video/fbdev/i810/i810_dvt.c:280:5: error: conflicting types for=
- 'i810_get_watermark'; have 'u32(struct fb_var_screeninfo *,
+* Geert Uytterhoeven <geert@linux-m68k.org>:
+> Hi Arnd,
 >
-> Changes here look fine,
+> On Tue, May 16, 2023 at 10:23=E2=80=AFPM Arnd Bergmann <arnd@kernel.org>=
+ wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > There is a global function with this name on sparc, but no
+> > global declaration:
+> >
+> > drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototype=
+ for 'get_fb_unmapped_area'
+> >
+> > Make the generic definition static to avoid this warning. On
+> > sparc, this is never seen.
+> >
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -1468,7 +1468,7 @@ __releases(&info->lock)
+> >  }
+> >
+> >  #if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && !defined(CONFI=
+G_MMU)
+> > -unsigned long get_fb_unmapped_area(struct file *filp,
+> > +static unsigned long get_fb_unmapped_area(struct file *filp,
+> >                                    unsigned long addr, unsigned long l=
+en,
+> >                                    unsigned long pgoff, unsigned long =
+flags)
+> >  {
+>
+> LGTM, as this is unrelated to the SPARC function, and SPARC does
+> not support nommu (yet? ;-)
+>
+> drivers/video/fbdev/Kconfig:config FB_PROVIDE_GET_FB_UNMAPPED_AREA
+> drivers/video/fbdev/Kconfig-    bool
+> drivers/video/fbdev/Kconfig-    depends on FB
+> drivers/video/fbdev/Kconfig-    help
+> drivers/video/fbdev/Kconfig-      Allow generic frame-buffer to
+> provide get_fb_unmapped_area
+> drivers/video/fbdev/Kconfig-      function.
+>
+> Probably you want to update this help text, too. E.g.
+> "to provide shareable character device support on nommu"?
 
-applied to fbdev tree.
+I've added Geerts suggestions and made it dependend on !MMU.
+
+Applied to fbdev git tree as below.
 
 Thanks!
 Helge
+
+
+=46rom 9adfa68ca0ddd63007cdce60a8ffcb493bb30d97 Mon Sep 17 00:00:00 2001
+From: Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] fbdev: fbmem: mark get_fb_unmapped_area() static
+
+There is a global function with this name on sparc, but no
+global declaration:
+
+drivers/video/fbdev/core/fbmem.c:1469:15: error: no previous prototype for=
+ 'get_fb_unmapped_area'
+
+Make the generic definition static to avoid this warning. On
+sparc, this is never seen.
+
+Edit by Helge:
+Update Kconfig text as suggested by Geert Uytterhoeven and make it depende=
+nd on
+!MMU.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index 96e91570cdd3..1688875a07de 100644
+=2D-- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -121,10 +121,10 @@ config FB_SYS_IMAGEBLIT
+
+ config FB_PROVIDE_GET_FB_UNMAPPED_AREA
+ 	bool
+-	depends on FB
++	depends on FB && !MMU
+ 	help
+ 	  Allow generic frame-buffer to provide get_fb_unmapped_area
+-	  function.
++	  function to provide shareable character device support on nommu.
+
+ menuconfig FB_FOREIGN_ENDIAN
+ 	bool "Framebuffer foreign endianness support"
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/f=
+bmem.c
+index e808dc86001c..21a108d9f08e 100644
+=2D-- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1467,8 +1467,8 @@ __releases(&info->lock)
+ 	return 0;
+ }
+
+-#if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && !defined(CONFIG_MM=
+U)
+-unsigned long get_fb_unmapped_area(struct file *filp,
++#if defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA)
++static unsigned long get_fb_unmapped_area(struct file *filp,
+ 				   unsigned long addr, unsigned long len,
+ 				   unsigned long pgoff, unsigned long flags)
+ {
+@@ -1494,8 +1494,7 @@ static const struct file_operations fb_fops =3D {
+ 	.open =3D		fb_open,
+ 	.release =3D	fb_release,
+ #if defined(HAVE_ARCH_FB_UNMAPPED_AREA) || \
+-	(defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA) && \
+-	 !defined(CONFIG_MMU))
++	defined(CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA)
+ 	.get_unmapped_area =3D get_fb_unmapped_area,
+ #endif
+ #ifdef CONFIG_FB_DEFERRED_IO
