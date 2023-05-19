@@ -1,63 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88472709893
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 15:41:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D84017099B2
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 16:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E35210E1BA;
-	Fri, 19 May 2023 13:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706D810E45F;
+	Fri, 19 May 2023 14:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60A8210E1BA
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 13:41:45 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id
- 5614622812f47-39431e2b2cdso2393849b6e.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 06:41:45 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47BE310E45F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 14:29:06 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f122ff663eso3681718e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 07:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684503704; x=1687095704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YmeeSYJZ1XGrqcSWpqVD9Vn34UdUZod/JEa/iSUvy+A=;
- b=ZQ2YYWXfCa/okGE3WyeocOBJ0aJHydwuqmNWZMmiW4WIMXrNBHFR/ZZTeAJkZ6X7x+
- +eWGca2NE5drftsiu/yFJOxgZ4HA1xkuK6uau1K37VsqI2ajawrglWjqwj0UBlrf+M+D
- 2qGcKrusom+seoeD0OP8uwwWVGZIg1k15WTO630nOIq0Xxz1Dpip6Eeqro/ic62YPt61
- ZvY9nYcIgZosB4dLmU3ZWgGCXdDJnLoHcAWpx2MBnITSsbkl+ErOHYsQCFrhHQMQIhsZ
- 4uhC3xNpv+A18/hGO2nlvesHTWgWGKevRVcMjrkNtj3SsNaFxSWEqJtGI1UkXXmkHGy4
- +K1g==
+ d=linaro.org; s=google; t=1684506544; x=1687098544;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SXSWp9UT1nFmnhqm3B5R8YXXasDWmGa7xqzY3bdTr7A=;
+ b=kwgATlkhkJ4dpLP5u471YE6mmR19bPExUHdjGal9FiBa7R6o+oSZL+4RnDlhNr6rG+
+ ZBg+fTcrx53sT/mK7GMwZTZP/Np9fiqVxc4O0FfRFGTitrNigCpLb9LPZnTgUBvJPR/S
+ MctcdvBpb9KpbHMWDu8XyEHKPtTur3zxrte8OohbJH7O/giAGZixo7Hd+p7LhLAdQ+3c
+ uHt51bdM/EEISau7rcH0k2u+BDlx0Mvsjsfd5KnOLrX2xNVaOnRAqhk7FW0m1ywKn3Hk
+ /eKpXOsMkVNKTjzqZi3B5wGXQDep9OvqyEnUEvmiT/Ku0mOws+C0JixM6wDb1WCJmjuF
+ +szA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684503704; x=1687095704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YmeeSYJZ1XGrqcSWpqVD9Vn34UdUZod/JEa/iSUvy+A=;
- b=Riu+Fx9TgpquFnLsQsw/SMcq/hLf2gyHSBksdgoZ0c7AtRT2mOCsvDmA43cF3/bHFX
- Zj8fhCgSoZAwhVg0HYYY2pF4D2AKBnqogT4gushYs5n83KL+f/yHiJopDfUmi9Ij4kaN
- uX22KHbe9qEwvzvkT5XoRVVD3bkXcKz+fDM9UCwYsOky06y5XmtwtcdXQ7S9aNMOnnAS
- vB8kPis8TcG573DxcZVIa5CjgBYdycg0GCvdrnBSx7z5zdHUUUpKiWCyLX14WotWqVcj
- mS3Fho/Wv58uP2iSiG7TsqJMjTi9E0/0k55NSroV1zxhQjyvmHS/yb7z6I+fa/6tGQpR
- Givg==
-X-Gm-Message-State: AC+VfDzHWhNQ4kXkzYGxdwyGLAXEDc6nM+H2tkCvZs20w4hEqUAPYOo8
- SlJFqFD/pxzg1bpavMMBsr0F/yddFiEuCJOrUqQ=
-X-Google-Smtp-Source: ACHHUZ4wPVFUzWqWgfCjFPDIH1T+Hnmh8fOIIVZEVIo82dkHqAJMuBXl5NRHLp8iZyoHIgnWCOe4YdOIQ87g2Mf6ZTU=
-X-Received: by 2002:a05:6808:117:b0:397:c26b:6abc with SMTP id
- b23-20020a056808011700b00397c26b6abcmr1143490oie.39.1684503704049; Fri, 19
- May 2023 06:41:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684506544; x=1687098544;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SXSWp9UT1nFmnhqm3B5R8YXXasDWmGa7xqzY3bdTr7A=;
+ b=hUTypR555Fu0DuwNKtijTuV8Kw0PMb1cWb9Mw9SNBTuJ0t+inhbVSIiTQtQTadan4Y
+ nuY9PWW4DOMlnXYwSEicGvlxrOahf3Na75CCSOJTnB/RXjhOklGqlhZcIruOoJncaQW4
+ 8QOp7/lH7iUVa0H3McRoNwYAaRgJn18f6mG8x/L5joWPbkGD/byV9+2r2jI6Hrr7NhUE
+ JAheAkFDVXoKNmYZdff0Xjwc2uc85SgAaU2mUPoUlE6OOug4yDMUVzZ4o1AWEQdriuyD
+ XpYpoNm24Ud9RwXR/2hV9Z6tn8uw+NM5pQjAX19ZR/lNDHNbebtG1TmpS4IYOH0I292+
+ +gBA==
+X-Gm-Message-State: AC+VfDw0/pEt6BXB6PYu3/AQ9M0l1HMvaPItsNBMHW4jxKX1rfSni3de
+ 2nYt0XglLsNR5PIUZ2/UFwrrgA==
+X-Google-Smtp-Source: ACHHUZ6w05g//15CVJcp2ZhyzGhk5MPjyJqW3b/KEHwqEqs+F7QYpnESM/ah/J7f/bBWLjs6GgWeTQ==
+X-Received: by 2002:a05:6512:945:b0:4e9:74a8:134c with SMTP id
+ u5-20020a056512094500b004e974a8134cmr763720lft.43.1684506544001; 
+ Fri, 19 May 2023 07:29:04 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020ac25ec6000000b004f14ecc03f1sm609354lfq.100.2023.05.19.07.29.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 May 2023 07:29:03 -0700 (PDT)
+Message-ID: <1678a177-f9a3-9673-d837-0ec82a4f5c1a@linaro.org>
+Date: Fri, 19 May 2023 17:29:02 +0300
 MIME-Version: 1.0
-References: <20230517233550.377847-1-luben.tuikov@amd.com>
- <20230517233550.377847-2-luben.tuikov@amd.com>
- <34ee5d50-d8ac-0ce3-cf60-418ca6888294@amd.com>
-In-Reply-To: <34ee5d50-d8ac-0ce3-cf60-418ca6888294@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 19 May 2023 09:41:32 -0400
-Message-ID: <CADnq5_NM1J7ZTF3ab6f9dzXygjBMiQvG4jPJgPcAdSmOseq7rg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/sched: Rename to drm_sched_wakeup_if_can_queue()
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/msm/dpu: Use V4.0 PCC DSPP sub-block in SC7[12]80
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Kalyan Thota <quic_kalyant@quicinc.com>
+References: <20230518-dpu-sc7180-pcc-version-v1-1-ec9ca4949e3e@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230518-dpu-sc7180-pcc-version-v1-1-ec9ca4949e3e@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,113 +80,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Series is:
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+On 19/05/2023 00:29, Marijn Suijten wrote:
+> According to various downstream sources the PCC sub-block inside DSPP is
+> version 4.0 since DPU 4.0 and higher, including SC7[12]80 at DPU version
+> 6.2 and 7.2 respectively.  After correcting the version this struct
+> becomes identical to sm8150_dspp_sblk which is used all across the
+> catalog: replace uses of sc7180_dspp_sblk with that and remove
+> the struct definition for sc7180_dspp_sblk entirely.
+> 
+> Fixes: 4259ff7ae509e ("drm/msm/dpu: add support for pcc color block in dpu driver")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c         | 5 -----
+>   3 files changed, 2 insertions(+), 7 deletions(-)
 
-On Thu, May 18, 2023 at 9:03=E2=80=AFAM Luben Tuikov <luben.tuikov@amd.com>=
- wrote:
->
-> On 2023-05-17 19:35, Luben Tuikov wrote:
-> > Rename drm_sched_wakeup() to drm_sched_wakeup_if_canqueue() since the f=
-ormer
-> > is misleading, as it wakes up the GPU scheduler _only if_ more jobs can=
- be
-> > queued to the underlying hardware.
-> >
-> > This distinction is important to make, since the wake conditional in th=
-e GPU
-> > scheduler thread wakes up when other conditions are also true, e.g. whe=
-n there
-> > are jobs to be cleaned. For instance, a user might want to wake up the
-> > scheduler only because there are more jobs to clean, but whether we can=
- queue
-> > more jobs is irrelevant.
-> >
-> > v2: Separate "canqueue" to "can_queue". (Alex D.)
-> >
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Alex Deucher <Alexander.Deucher@amd.com>
-> > Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
->
-> ^ ping!
->
-> Regards,
-> Luben
->
-> > ---
-> >  drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
-> >  drivers/gpu/drm/scheduler/sched_main.c   | 6 +++---
-> >  include/drm/gpu_scheduler.h              | 2 +-
-> >  3 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
-/scheduler/sched_entity.c
-> > index cfb433e9200586..68e807ae136ad8 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > @@ -342,7 +342,7 @@ static void drm_sched_entity_wakeup(struct dma_fenc=
-e *f,
-> >               container_of(cb, struct drm_sched_entity, cb);
-> >
-> >       drm_sched_entity_clear_dep(f, cb);
-> > -     drm_sched_wakeup(entity->rq->sched);
-> > +     drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> >  }
-> >
-> >  /**
-> > @@ -565,7 +565,7 @@ void drm_sched_entity_push_job(struct drm_sched_job=
- *sched_job)
-> >               if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> >                       drm_sched_rq_update_fifo(entity, submit_ts);
-> >
-> > -             drm_sched_wakeup(entity->rq->sched);
-> > +             drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> >       }
-> >  }
-> >  EXPORT_SYMBOL(drm_sched_entity_push_job);
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index 8739322c30321b..b352227a605538 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -860,12 +860,12 @@ static bool drm_sched_can_queue(struct drm_gpu_sc=
-heduler *sched)
-> >  }
-> >
-> >  /**
-> > - * drm_sched_wakeup - Wake up the scheduler when it is ready
-> > - *
-> > + * drm_sched_wakeup_if_can_queue - Wake up the scheduler
-> >   * @sched: scheduler instance
-> >   *
-> > + * Wake up the scheduler if we can queue jobs.
-> >   */
-> > -void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
-> > +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
-> >  {
-> >       if (drm_sched_can_queue(sched))
-> >               wake_up_interruptible(&sched->wake_up_worker);
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 31d1f5166c79fe..e95b4837e5a373 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -549,7 +549,7 @@ void drm_sched_entity_modify_sched(struct drm_sched=
-_entity *entity,
-> >                                     unsigned int num_sched_list);
-> >
-> >  void drm_sched_job_cleanup(struct drm_sched_job *job);
-> > -void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
-> > +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
-> >  void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_=
-job *bad);
-> >  void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recove=
-ry);
-> >  void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
->
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
+
