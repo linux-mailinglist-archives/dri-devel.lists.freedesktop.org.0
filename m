@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906B9709B81
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 17:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C878709B8D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 17:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7438C10E4CD;
-	Fri, 19 May 2023 15:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0DA10E4E3;
+	Fri, 19 May 2023 15:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
- by gabe.freedesktop.org (Postfix) with SMTP id AB62B10E4CD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 15:42:53 +0000 (UTC)
-Received: (qmail 42012 invoked by uid 1000); 19 May 2023 11:42:52 -0400
-Date: Fri, 19 May 2023 11:42:52 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [syzbot] [fbdev?] [usb?] WARNING in
- dlfb_submit_urb/usb_submit_urb (2)
-Message-ID: <c1cf7ff1-c204-4afc-aa9d-890e07d5ec72@rowland.harvard.edu>
-References: <0000000000004a222005fbf00461@google.com> <ZGXVANMhn5j/jObU@ls3530>
- <4cd17511-2b60-4c37-baf3-c477cf6d1761@rowland.harvard.edu>
- <be824fbc-cde4-9a2a-8fb4-1ca23f498dca@gmx.de>
- <2905a85f-4a3b-4a4f-b8fb-a4d037d6c591@rowland.harvard.edu>
- <ZGZ3JPLqxCxA2UB6@ls3530>
- <c7b8e69a-cabe-4e17-a511-66179259d1d7@rowland.harvard.edu>
- <6e93305a-2d70-d411-3e36-c536449295dd@gmx.de>
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A56410E375
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 15:47:54 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2ac90178fdaso37480821fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 08:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684511271; x=1687103271;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RPw2/wB1a5ZqseDCDRMmAwDzMdHfzNEkNDX8ElfTmdw=;
+ b=roV1m639JX7XBsz3BmGSKFiitta7X+SYkGy2N/SMoe3hjkbU8B5jP0y+UTTktFUTkq
+ uF4UH2Hvv5LzERNSR2n9lAEzEK9avypc7/HH2G9ytH5Q/XbkMicNiwnRvSUp/fJQN1X1
+ KkQFc5Zk9h5SFXiCxI6Cx7KBqFBHYOovAZdk7Mn0epJNA4rHXXw18mAQTjObcksOfvZM
+ MWo3qq7jq29BfX5aOcPwAABT6MPlZTMJUD3jzftTVVnkpDoC/ZVYry1OY0l87zN5wGmS
+ 9frG/RfuV53EUVo2zcXiuET7/xGojW6hI7maIYatOIeNaA2dMaB2H1BrNXJZ56HCsOIo
+ SPsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684511271; x=1687103271;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RPw2/wB1a5ZqseDCDRMmAwDzMdHfzNEkNDX8ElfTmdw=;
+ b=EWZxo1NYD5NKyyl2WGhmf6MdtsPyzeb6v/D8LPx+d+2zY+XLCZSxyJeYv1YRANqCOc
+ Z/qrrnPjZs3oY3AgXIJlzDa9hSk297fQnBsvqS/xx1EHAeKaqH8GgcV6hZmILg+TtMm3
+ jJvCvMuiGoCWSTcYDAwG94gbzh4QQX4h9YQ2B3GFajOF3M1TL2Lns50vPh6sM/1UclH8
+ OTNtpmZqWnDxa6+ECLuk6j746epUEB0L48p9THKtGlnMY8TXJqtqVMadlCcq//7gh5p6
+ qNbgfcLKXGHxAiuHS58sCLQdA+ax1jR5RoSSceWoEM5FamVyPrUFjh1GgU+vH6Ag1a0k
+ 39yg==
+X-Gm-Message-State: AC+VfDzGSn0THdmEt1MQ2ApE4qwLRQ8HHSQROTG0Q9sh6r8cxAfz6Rvs
+ TODaylCUZ7iuv0gDswcF8SB7mA==
+X-Google-Smtp-Source: ACHHUZ5mKJcxK22GMxd5QGzvlOE/KNHVP9lo733tvPxBo3D9MLjj4k9kBAbHKUI/5EPokGvqj3AsYA==
+X-Received: by 2002:ac2:59d1:0:b0:4f3:822e:f025 with SMTP id
+ x17-20020ac259d1000000b004f3822ef025mr987754lfn.49.1684511271385; 
+ Fri, 19 May 2023 08:47:51 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ d19-20020ac25453000000b004eff1163c37sm633949lfn.308.2023.05.19.08.47.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 May 2023 08:47:51 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 1/4] drm/msm: allow passing struct msm_kms to
+ msm_drv_probe()
+Date: Fri, 19 May 2023 18:47:47 +0300
+Message-Id: <20230519154750.3929813-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6e93305a-2d70-d411-3e36-c536449295dd@gmx.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,26 +72,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- syzbot <syzbot+0e22d63dcebb802b9bc8@syzkaller.appspotmail.com>,
- linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- bernie@plugable.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 19, 2023 at 12:38:15PM +0200, Helge Deller wrote:
-> Patch looks good and survived the test.
-> 
-> Will you send a proper patch to the fbdev mailing list, so that I can
-> include it?
+In preparation of moving resource allocation to the probe time, allow
+MSM KMS drivers to pass struct msm_kms pointer via msm_drv_probe().
 
-Will do.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 2 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 2 +-
+ drivers/gpu/drm/msm/msm_drv.c            | 6 ++++--
+ drivers/gpu/drm/msm/msm_drv.h            | 3 ++-
+ 5 files changed, 9 insertions(+), 6 deletions(-)
 
-While you're working on this driver, here's a suggestion for another 
-improvement you can make.  The temporary buffer allocations and calls to 
-usb_control_msg() in dlfb_get_edid() and dlfb_select_std_channel() can 
-be replaced with calls to usb_control_msg_recv() and 
-usb_control_msg_send() respectively.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 0e7a68714e9e..ec6fb8634196 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1217,7 +1217,7 @@ static int dpu_kms_init(struct drm_device *ddev)
+ 
+ static int dpu_dev_probe(struct platform_device *pdev)
+ {
+-	return msm_drv_probe(&pdev->dev, dpu_kms_init);
++	return msm_drv_probe(&pdev->dev, dpu_kms_init, NULL);
+ }
+ 
+ static int dpu_dev_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+index 6e37072ed302..e57a1e5f9da0 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+@@ -558,7 +558,7 @@ static const struct dev_pm_ops mdp4_pm_ops = {
+ 
+ static int mdp4_probe(struct platform_device *pdev)
+ {
+-	return msm_drv_probe(&pdev->dev, mdp4_kms_init);
++	return msm_drv_probe(&pdev->dev, mdp4_kms_init, NULL);
+ }
+ 
+ static int mdp4_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index 29ae5c9613f3..7fd89c93a491 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -939,7 +939,7 @@ static int mdp5_dev_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	return msm_drv_probe(&pdev->dev, mdp5_kms_init);
++	return msm_drv_probe(&pdev->dev, mdp5_kms_init, NULL);
+ }
+ 
+ static int mdp5_dev_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index b4cfa44a8a5c..a18a8dde3b4b 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1232,7 +1232,8 @@ const struct component_master_ops msm_drm_ops = {
+ };
+ 
+ int msm_drv_probe(struct device *master_dev,
+-	int (*kms_init)(struct drm_device *dev))
++	int (*kms_init)(struct drm_device *dev),
++	struct msm_kms *kms)
+ {
+ 	struct msm_drm_private *priv;
+ 	struct component_match *match = NULL;
+@@ -1242,6 +1243,7 @@ int msm_drv_probe(struct device *master_dev,
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
++	priv->kms = kms;
+ 	priv->kms_init = kms_init;
+ 	dev_set_drvdata(master_dev, priv);
+ 
+@@ -1277,7 +1279,7 @@ int msm_drv_probe(struct device *master_dev,
+ 
+ static int msm_pdev_probe(struct platform_device *pdev)
+ {
+-	return msm_drv_probe(&pdev->dev, NULL);
++	return msm_drv_probe(&pdev->dev, NULL, NULL);
+ }
+ 
+ static int msm_pdev_remove(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e13a8cbd61c9..6787bd302dfa 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -562,7 +562,8 @@ int msm_pm_prepare(struct device *dev);
+ void msm_pm_complete(struct device *dev);
+ 
+ int msm_drv_probe(struct device *dev,
+-	int (*kms_init)(struct drm_device *dev));
++	int (*kms_init)(struct drm_device *dev),
++	struct msm_kms *kms);
+ void msm_drv_shutdown(struct platform_device *pdev);
+ 
+ 
+-- 
+2.39.2
 
-Alan Stern
