@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DDD70A15E
-	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 23:15:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C6D70A15F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 May 2023 23:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3997010E60D;
-	Fri, 19 May 2023 21:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E385C10E60E;
+	Fri, 19 May 2023 21:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF8210E60D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 21:15:01 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 88C9E3F7A8;
- Fri, 19 May 2023 23:14:57 +0200 (CEST)
-Date: Fri, 19 May 2023 23:14:56 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: simplify pixel clk rate handling
-Message-ID: <uzzllinf6vuxfb7levkxjoj7yyr3kydu37eawk2tu5gi3juz56@hyqpwumsg7s4>
-References: <20230118130031.2345941-1-dmitry.baryshkov@linaro.org>
- <8ebd01e3-00be-b0da-e91a-ab1a4e074074@quicinc.com>
- <85d0a8c6-f6b4-4cd4-7cc6-b13f37523bd4@linaro.org>
- <637c1848-0e3f-9f3d-dc56-8f2d5b8de696@quicinc.com>
- <a9669c51-3171-3751-f249-be4a7f4312c2@linaro.org>
- <9a505edb-f3e8-ade4-8d4e-629bc2840f29@quicinc.com>
- <100f7525-35ed-a2a2-6672-e5874e0a1ac5@linaro.org>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1527A10E60E
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 May 2023 21:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1684530986; i=deller@gmx.de;
+ bh=BMEKab9yz0yeM4E0mNkWw+xqUCHMJoNRwkVvL7pxYGw=;
+ h=X-UI-Sender-Class:From:To:Subject:Date;
+ b=adcoW9+xkJTwpckuSEKkxQN1M71fxIMMY72DelJO7x311utuR8JNo0KIeWamxHtLw
+ 92T12IvFdWFjNzIabq37Sl0CMf/qiTChccehxVK5MNOLkQvpywuxepAVfEnUA0DclJ
+ 0DUfwu0Ocxk0W5OpWMmL/hVe3tTyo3TX2eJIGmBmO3Kf8Y349tUMgqAn66aHd3c1G3
+ l28Pd+h3v5OAfLQuoGEJnWTkl47KWfMReORGWxb11Tvk+61pu6Wlu/JHSBK7U+yqDZ
+ 2n5Reo2IxIZCFf9wtk86x+/I6lrfSkUsKK5xu8uhnQEOBJMGRrD2NpobR+sf3uLWf7
+ kfW+XmVmkny2w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530.fritz.box ([94.134.152.232]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MZktZ-1pc6QP2wq7-00Wm7w; Fri, 19
+ May 2023 23:16:26 +0200
+From: Helge Deller <deller@gmx.de>
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stern@rowland.harvard.edu
+Subject: [PATCH] fbdev: udlfb: Use usb_control_msg_send()
+Date: Fri, 19 May 2023 23:16:25 +0200
+Message-Id: <20230519211625.1072966-1-deller@gmx.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <100f7525-35ed-a2a2-6672-e5874e0a1ac5@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tAhqK71osU+i6Vty4ISHc52tD1C1pbNk0zfiwwYZlIAEeJZeIoG
+ hj9/QBxCeop0yag3/ZV1sKwr87iFknPEbqs8gkSftfYJsJnQoDzetQzYrxibPBICUnLo3xr
+ 6Q78jhUFh/VjynbauhIH0a4S9Gh5Iq1VoVxCSOE7eNv21qrccQxVSkZU7WmfU7K/y3bhIhu
+ vTDaL1aZP87BfMCIdkiFQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7BEwqcsgxo0=;nAeDDHyrZncEvBYIDGh/ShBEhy6
+ bHds20clZIWnC2l32NsFDn6x4RpY/7n2DOUx0mHkpWry/PK1hNQ1N09hfldHG2lSBAxSJGc3A
+ CorH5PInOou+jAeNcFvI6J4g9kpJI3u8dc7LLngsseUov8g6SemDYl6Ottmoe9EHywSXd0Ws3
+ 0ZuzNrwPAwwv8yCRVlhfIrq8L2RykWn77TCinrehj1YHY2kqVl0Yv8twbwZR8qeF7yI6QriJc
+ xe0dlnZdY3rqSfA7fRqZpwqILWFryqrIggedEYWc9yFT23iFl0ZLWTqMo9rHcAoFy0/TgXffJ
+ S033mxrlMb1WI/ouzb0v5i94byogi/17tkeDhAFNPaE7Xyl3G1mpWWIfRoBLQSm2Z3CEOQyZD
+ BszKPguelBpD79aEopGhCjqwhXV7ceYgmw31DWpwh1zQvyWw8G1Azlzw39S+ynYzEqO51PAE2
+ 4QUndH6989tGMPXFIUPpyJQDng+ZSvlLnSYl/6svjd33XRSYZlYPhJOg7pAdxfwCtQotvolV2
+ vbHIrs/58ZVeL6M8VeE+XIa18PObKs8KNOuFOF61mjziqxf6NFnKg06cfhyVCHYDCroFJ0vvz
+ XQ//Ofu3H4IGASND4IA5hEjeYLtTmq9HP0JQwk90SgC05ZD14wBbPNIhll+2Rtv+YpSmHQMO4
+ TSNEUP+0rZ66Vm7rx39cKy0tQe3wrYfcuf/vucMJentinTb5a+TMV44F4j1+pO8Ja5SBrtRZq
+ z25iaXg0JSIrBfk/6EUMgjLVvOsOqZOqN/gqAGOFIQCNBTlEWtMWFhWv/jvawG5eHPkIHNCPx
+ +8vcYPQzd0JTjEGcCqr9IENUcruFxQj8JnrkS4igzCW68qxi/2QER9tk03ItK0JFz7RPjEAlu
+ uIuiAT26vVIgbB7uS8OkRypbQIKclbDcV7g1IiIrLF3Xku2zfa4+KwwE1yvfgN5VwKw6f6Z0b
+ 2HmGHw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,89 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-19 22:37:34, Dmitry Baryshkov wrote:
-<snip>
-> >>>>>> +    ret = cfg_hnd->ops->calc_clk_rate(msm_host);
-> >>>>>
-> >>>>> I am not too sure what we are gaining by this.
-> >>>>>
-> >>>>> Its not that we are replacing dsi_get_pclk_rate().
-> >>>>>
-> >>>>> We are moving the dsi_get_pclk_rate() from the calc_clk_rate() to 
-> >>>>> the msm_dsi_host_get_phy_clk_req().
-> >>>>>
-> >>>>> Also, with this change, dsi_calc_clk_rate_6g() looks kind of empty 
-> >>>>> to stand on its own.
-> >>>>>
-> >>>>> The original intention of the calc_clk_rate() op seems to be 
-> >>>>> calculate and store all the clocks (byte, pixel and esc).
-> >>>>>
-> >>>>> Why change that behavior by breaking it up?
-> >>>>
-> >>>> Unification between platforms. Both v2 and 6g platforms call 
-> >>>> dsi_calc_pclk(). Let's just move it to a common code path.
-> >>>
-> >>> Hi Dmitry,
-> >>>
-> >>> I think what Abhinav means here is that the meaning and functionality 
-> >>> of calc_clk_rate() changes with this patch.
-> >>>
-> >>> Before, calc_clk_rate() does *all* the clk_rate calculations and 
-> >>> assignments. But after this change, it will only calculate and assign 
-> >>> the escape clk rate.
-> >>>
-> >>> I agree with Abhinav that this change renders the calc_clk_rate() op 
-> >>> misleading as it will not calculate all of the clock rates anymore.
-> >>
-> >> Would it make sense if I rename it to calc_other_clock_rates()?
-> >>
-> > 
-> > Not really. I would rather still have it separate and drop this patch.
-> > 
-> > So even if pixel clock calculation looks common today between v2 and 6g, 
-> > lets say tomorrow there is a 7g or 8g which needs some other math there, 
-> > I think this is the right place where it should stay so that we 
-> > calculate all clocks together.
-> 
-> Ack.
+Use the newly introduced usb_control_msg_send() instead of usb_control_msg=
+()
+when selecting the channel.
 
-Unfortunate, but okay.  Then don't forget to send the following hunk of
-this patch in isolation:
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ drivers/video/fbdev/udlfb.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-    -	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) * bpp;
-    +	pclk_bpp = msm_host->pixel_clk_rate * bpp;
+diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+index 256d9b61f4ea..dabc30a09f96 100644
+=2D-- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -1543,24 +1543,16 @@ static const struct device_attribute fb_device_att=
+rs[] =3D {
+ static int dlfb_select_std_channel(struct dlfb_data *dlfb)
+ {
+ 	int ret;
+-	void *buf;
+ 	static const u8 set_def_chn[] =3D {
+ 				0x57, 0xCD, 0xDC, 0xA7,
+ 				0x1C, 0x88, 0x5E, 0x15,
+ 				0x60, 0xFE, 0xC6, 0x97,
+ 				0x16, 0x3D, 0x47, 0xF2  };
 
-- Marijn
+-	buf =3D kmemdup(set_def_chn, sizeof(set_def_chn), GFP_KERNEL);
+-
+-	if (!buf)
+-		return -ENOMEM;
+-
+-	ret =3D usb_control_msg(dlfb->udev, usb_sndctrlpipe(dlfb->udev, 0),
+-			NR_USB_REQUEST_CHANNEL,
++	ret =3D usb_control_msg_send(dlfb->udev, 0, NR_USB_REQUEST_CHANNEL,
+ 			(USB_DIR_OUT | USB_TYPE_VENDOR), 0, 0,
+-			buf, sizeof(set_def_chn), USB_CTRL_SET_TIMEOUT);
+-
+-	kfree(buf);
++			&set_def_chn, sizeof(set_def_chn), USB_CTRL_SET_TIMEOUT,
++			GFP_KERNEL);
 
-> >> Moving pclk calculation to the core code emphasises that pclk 
-> >> calculation is common between v2 and 6g hosts.
-> >>
-> >>>
-> >>> Thanks,
-> >>>
-> >>> Jessica Zhang
-> >>>
-> >>>>
-> >>>>>
-> >>>>>>       if (ret) {
-> >>>>>>           pr_err("%s: unable to calc clk rate, %d\n", __func__, ret);
-> >>>>>>           return;
-> >>>>
-> >>>> -- 
-> >>>> With best wishes
-> >>>> Dmitry
-> >>>>
-> >>
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+ 	return ret;
+ }
+=2D-
+2.40.0
+
