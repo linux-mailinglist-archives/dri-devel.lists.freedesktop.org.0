@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FD270AACF
-	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 22:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE6A70AAD1
+	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 22:01:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3CB910E050;
-	Sat, 20 May 2023 20:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C77810E1A3;
+	Sat, 20 May 2023 20:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3373B10E050
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 345D310E19D
  for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 20:01:09 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f24d8440c9so2573781e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 13:01:08 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4efd6e26585so4944330e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 13:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684612864; x=1687204864;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/m15tgiwhJVpYle1UwrR9+q7qYpgbGWpHSlEeT8UPN0=;
- b=t1mexu5qxJBbBJltPPFF13MB0UFh19PpxpRwP6BJZkVT+8+Who4LFtvR5rRPJ6WZlf
- aF3vLsZKI/6m47koGyPqkQ70UlK6+FCGKwPDvOrnbFC8PNQfhP0qiApWMylsy0yMZfQU
- xvfiVtXg8VSS4yUPKmKCyljjLAAZ6erdXVUaW0xoQUQzWEmQ+vEWGSuF9Rl6a9+GwK04
- MjvFr6NVTJcMeOwmNqAvDtJoBI3hfXJWSgSWQh37YGFopku6dwx6cXsg41nbNgzynZi7
- bz1RCJHueQJ/y9/P6dR+NQfrYqmcGufHo/y4g0Tcz/g1fqtxutbRF7N1sgijjpkaOBXD
- JYRw==
+ d=linaro.org; s=google; t=1684612865; x=1687204865;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kL5WC4XfsCjBMRG17TRvwYrcpAIhfVj8rtH9i+qu5n8=;
+ b=T8EEuoaH9hcVaP0ope0+Ib4TJAIQYcW4nlwT3SIP2Josx4is7qBtx/WUQy+tCC/ohi
+ nG/ycc+0hCWrHEUA2ccL0JWlgr+eP6TjkV5XzyqjHkl7Nc0HuEq+rNzcYCjpyNDcVF57
+ LXkUCSnby0SbyGIMOVlZc+vh1anQuQoRuKuRo6TfaerN4LufY8ugHt+evoT9Dz/3BKBS
+ LqCBjJTRpYxqLYShqSXFrWSAPfCA/u1Aef/IOoLRA4N8tMOeM6oE5DzZLNr2bD5WYdln
+ wwENCEJKUKcG8/YrIGweH7MUmJKK+FMdbHwFkyRqgnvXAeOOE/S3XviK3wrSNq6fvKLM
+ QY5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684612864; x=1687204864;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/m15tgiwhJVpYle1UwrR9+q7qYpgbGWpHSlEeT8UPN0=;
- b=G+Gc60WQPBy6l0Fm3ag8VPBwXmxjhGAiVF2f4dS44OA1+na5TenUfizZHu+82MOmEJ
- VAVM/vGOxBHtxuMJPo/mqkhuRiiIJIbchYswEVClXKbrXldihI3path+mUR4oRqNAYOH
- /MGAZfpAO+jNNjRtwFypwR9n4/n9s0t/mMQ+low1JgfkeYpwBxrod4oYlsXPvqPkRY2p
- yA37SYXtqV5GjtM8SyWMIyQlTNHM+EdARya7jkxqR6tt5yussxebljchXcbBspomdboj
- +vwh4wa9S0UjBCWVKiJxqlbqbRo+VZyX5n6/PXEaBQTwKOrgMEJxmKb2qSVSmt7m0msm
- JjRA==
-X-Gm-Message-State: AC+VfDwmV4DCaxiZsRsbJQhhSUeWdpEbRf77oneSSNJQqtL6sOH2nn9c
- UBJUyTlIgrFEocRZRBoXAKzoCw==
-X-Google-Smtp-Source: ACHHUZ4JAZCnM9aejw/rIPOad6sYyqPsXDK/bsqCMQMPQLijIi9hM33boelYXdGRDoI5/m9y8r3qjw==
-X-Received: by 2002:a05:6512:1048:b0:4f1:276f:a25 with SMTP id
- c8-20020a056512104800b004f1276f0a25mr2170344lfb.5.1684612864403; 
- Sat, 20 May 2023 13:01:04 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684612865; x=1687204865;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kL5WC4XfsCjBMRG17TRvwYrcpAIhfVj8rtH9i+qu5n8=;
+ b=feNEfDiplJsOr5TLOXIpoXW4oJh21vQXeYw8zE1gjvXKX8oL/1S1alzdteGDNvZ5XV
+ n9Drz8TZfdCn4rKA+EiUkxYDeuwIiNuS/xAIaMp0xK7A0x6eBaQX7/75YLDhObVQTP/n
+ o1wLuTJeyviqriCufBpNMsd4lSmeqX33TM60a5iOUFnP84IOk2cBB73Pusrk8NJ7cD+k
+ plyKE5+W1VhDzApmLW+V6l8Cvvbse7tISo9mM5RmAWqLunawwwF+cFEsf+/JUEGah1r2
+ qtlqexJuof5lGjrS+wBZZ52uDRDvVg4Us4YhVFXCU6iTrpKXbRP6tXqZq1FhjjMk2x2d
+ W8hw==
+X-Gm-Message-State: AC+VfDyyNPE3/SlpeG7LOyFkUlatwM31/BrtTkSGacydYTbiQXM0IOor
+ xiK6/1xuR8hKyl3FhUncWtEdHQ==
+X-Google-Smtp-Source: ACHHUZ7iwo3hKsXxSciKJSuSMB9lTFMkik0lRJvgifMQz5iT7xHTeS9p9+1YlAcL/3t2i71b8+eoYw==
+X-Received: by 2002:a2e:a169:0:b0:2af:1761:8f23 with SMTP id
+ u9-20020a2ea169000000b002af17618f23mr2601350ljl.46.1684612865159; 
+ Sat, 20 May 2023 13:01:05 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a05651c014400b002ad9b741959sm418061ljd.76.2023.05.20.13.01.03
+ c4-20020a05651c014400b002ad9b741959sm418061ljd.76.2023.05.20.13.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 May 2023 13:01:03 -0700 (PDT)
+ Sat, 20 May 2023 13:01:04 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 1/2] drm/msm/dsi: remove extra call to dsi_get_pclk_rate()
-Date: Sat, 20 May 2023 23:01:02 +0300
-Message-Id: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 2/2] drm/msm/dsi: use mult_frac for pclk_bpp calculation
+Date: Sat, 20 May 2023 23:01:03 +0300
+Message-Id: <20230520200103.4019607-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
+References: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,35 +81,58 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In dsi_calc_clk_rate_v2() there is no need to call dsi_get_pclk_rate().
-This function has just been called (from dsi_calc_pclk()) and its
-result is stored at msm_host->pixel_clk_rate. Use this variable
-directly.
+Simplify calculations around pixel_clk_rate division. Replace common
+pattern of doing 64-bit multiplication and then a do_div() call with
+simpler mult_frac() invocation.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-
-Changes since v1:
- - Fix typos in commit message (Marijn)
-
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 961689a255c4..2b257b459974 100644
+index 2b257b459974..744f2398a6d6 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -633,7 +633,7 @@ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+@@ -585,7 +585,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
+ 	u8 lanes = msm_host->lanes;
+ 	u32 bpp = dsi_get_bpp(msm_host->format);
+ 	unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
+-	u64 pclk_bpp = (u64)pclk_rate * bpp;
++	unsigned long pclk_bpp;
+ 
+ 	if (lanes == 0) {
+ 		pr_err("%s: forcing mdss_dsi lanes to 1\n", __func__);
+@@ -594,9 +594,9 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
+ 
+ 	/* CPHY "byte_clk" is in units of 16 bits */
+ 	if (msm_host->cphy_mode)
+-		do_div(pclk_bpp, (16 * lanes));
++		pclk_bpp = mult_frac(pclk_rate, bpp, 16 * lanes);
+ 	else
+-		do_div(pclk_bpp, (8 * lanes));
++		pclk_bpp = mult_frac(pclk_rate, bpp, 8 * lanes);
+ 
+ 	return pclk_bpp;
+ }
+@@ -627,15 +627,12 @@ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ {
+ 	u32 bpp = dsi_get_bpp(msm_host->format);
+-	u64 pclk_bpp;
+ 	unsigned int esc_mhz, esc_div;
+ 	unsigned long byte_mhz;
  
  	dsi_calc_pclk(msm_host, is_bonded_dsi);
  
--	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi) * bpp;
-+	pclk_bpp = (u64)msm_host->pixel_clk_rate * bpp;
- 	do_div(pclk_bpp, 8);
- 	msm_host->src_clk_rate = pclk_bpp;
+-	pclk_bpp = (u64)msm_host->pixel_clk_rate * bpp;
+-	do_div(pclk_bpp, 8);
+-	msm_host->src_clk_rate = pclk_bpp;
++	msm_host->src_clk_rate = mult_frac(msm_host->pixel_clk_rate, bpp, 8);
  
+ 	/*
+ 	 * esc clock is byte clock followed by a 4 bit divider,
 -- 
 2.39.2
 
