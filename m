@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF9E70A7F5
-	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 14:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4410270A863
+	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 15:51:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC96910E192;
-	Sat, 20 May 2023 12:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD5C10E16E;
+	Sat, 20 May 2023 13:51:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A10D510E188
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 12:20:17 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f3b314b1d7so1167185e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 05:20:17 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B52110E16E;
+ Sat, 20 May 2023 13:51:05 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 98e67ed59e1d1-2533d74895bso3330694a91.0; 
+ Sat, 20 May 2023 06:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684585216; x=1687177216;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6euEkRodrQgx7ZE9t7r7K+NeHv1LqldRFjOFTB8bWyY=;
- b=BmrH/ZJTnlOU8B8MsGcUTxSs3ldt6wbdkha5Pku8nW8wiesMbU9mNfyY7MrN4V2Gqr
- RLM9scxRukJ/ONiVl2FsY6eDoLKRgfHlIFHVnW3yGkZxHqsyzkcOxFzg8TIpGA3BT8c9
- nXHtqqFpJohjbQNeLqbPPGwTBeK/TU/btYx1zkZFbakqExv6o0z5JGy6ZhPC3MkoQRIr
- CZsWcSPBsbGhnU8JpbytXaPNh2weDBplzjO1VgucrO8AcidNHtppBnIsBiW2L/gbckAN
- dcFefXS2aEZ6Kq53K1na7IRRmYLvYbZohlo99vP8mSpdLLltZHx6ugzO+AwL6Mk6CKg+
- AN4w==
+ d=gmail.com; s=20221208; t=1684590664; x=1687182664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=v1DjKkNqJxAe4f+qRtBPeAc8nITQor5FKijXM6qfCso=;
+ b=NzJBUaOZA5G1WnPV+WkVooIG9lLQAVrTDQ16cKheCsE9jy1VAvjCpC0Ba3XyIfi5nJ
+ 9LWlk3IfKgjqEO4ErgqOTA7eUeTruF13mNro9mGxjz6BpwJuTy4KingJNL3PAERWhjPJ
+ Lp69ICG7lxaJHwR5gShqUY3CusIgX8JXm7z94Y7R/qzg71wOZS8xOxMRBgB5+xY6hsSu
+ S0+uAvAlOgIj8mdKIg2mijFPg8rNL8YGSPFia0FMvZgaKYyS2tFtaFbghIPu5iPjCoo0
+ SqCtsiNMKPJ136R/5CZ72mmPxUDpG8zgYSevDFpqxFBSbHNuHF5lm1KvNEmmygCOfQyN
+ guJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684585216; x=1687177216;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6euEkRodrQgx7ZE9t7r7K+NeHv1LqldRFjOFTB8bWyY=;
- b=gv+0nP2GtrxvsxeDVgPFbBul+5EbgEqnErQHU0SkP9zfY21JOlAw1DTImCeG9ZEeRP
- l4tzOf259O0FgmPAjPsgpe1aCbYiRBYrYqaNLYI12QW9cfIBNaj6stYgSU/CskagbH0B
- WRLuKXqFXBQFV2B5rxu5TD9xj9NppEZ32v+RrHS6m6gdJ91Hi++E3hFln1+WQo88qZ4C
- n2z5El/VNKPjKbxIDtCciV3eiTtsXD4nftKz/4gwyMy7ioETP3V89FJs+8ykEjD6cbNS
- LmVUgMcII3xu88JMcnRDgEkiTcPfBo/aMi6GqqMvZbPkzDl5+fSmscODZNHAcjIDvHdQ
- dGLw==
-X-Gm-Message-State: AC+VfDypefstj92c/tlXgR2L51y1kfhynmjhyZTcw0JClczjHm3SmKVR
- k8B4eqHvsfuzcGwUK/J3rN0/Sg==
-X-Google-Smtp-Source: ACHHUZ58TljU+iUDLDIpGnb1GNrV3kCrtVuNbUTxPr6r/DQkrOHnuSQRaoImSSkim8bcpU5KKyUiNg==
-X-Received: by 2002:ac2:539a:0:b0:4cc:96f8:f9c6 with SMTP id
- g26-20020ac2539a000000b004cc96f8f9c6mr1835216lfh.5.1684585216004; 
- Sat, 20 May 2023 05:20:16 -0700 (PDT)
-Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
+ d=1e100.net; s=20221208; t=1684590664; x=1687182664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v1DjKkNqJxAe4f+qRtBPeAc8nITQor5FKijXM6qfCso=;
+ b=TchRhxTl5qCqYf9rE2jxYksYqCQou/0vXQ2oWmep9s1Q5sy5gTryQoF5QySI/Dt44T
+ 8CcoZHaORH7eyQREA6k15tn14NpWVdSe2UIdm8ekhIwLyZYXOmBayheNnUV8Vf2D8Yqq
+ XeeKcd4ZCZ1L/u6He9/9mAmHwURGFWxUurgyQSe/AUuitMKK37APQNR93NL2QiR62Ht8
+ ISnMh25LLjNxz4BivUgYJei5UAZr1WfbdTLM9PjoSFX0J7ECCLGMESUy54IHH5Kevc2R
+ vDvadF9XcxGqpzRB8s+Jt+VHyjjqYmCY7BMLClUSGWAdUbKAchpbcY9diZsa7oo+pn2C
+ NQQw==
+X-Gm-Message-State: AC+VfDwdhurjrsO0iTCC/P3IcLIU29nRSLE/MWJFnaOF46zNYIAEEHAV
+ MwKbAkzi1tG2Id1VdTZQT1qRQo7RM2U=
+X-Google-Smtp-Source: ACHHUZ6GaD8+abD+X/MQmS2hqD4IMHqYPqXScSS516EF/bZdrcHeYGnN0LSVRqnmFGvDnJ/0sqS3Uw==
+X-Received: by 2002:a17:90b:400a:b0:253:8e47:40b8 with SMTP id
+ ie10-20020a17090b400a00b002538e4740b8mr4286223pjb.1.1684590664240; 
+ Sat, 20 May 2023 06:51:04 -0700 (PDT)
+Received: from debian.me (subs09a-223-255-225-69.three.co.id. [223.255.225.69])
  by smtp.gmail.com with ESMTPSA id
- y6-20020ac24466000000b004f37bd02a89sm244766lfl.287.2023.05.20.05.20.14
+ i7-20020a17090aee8700b0023a84911df2sm1283255pjz.7.2023.05.20.06.51.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 May 2023 05:20:15 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 20 May 2023 14:19:58 +0200
-Subject: [PATCH v7 18/18] drm/msm/a6xx: Add A610 speedbin support
+ Sat, 20 May 2023 06:51:03 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id 21CFB105634; Sat, 20 May 2023 20:50:52 +0700 (WIB)
+Date: Sat, 20 May 2023 20:50:52 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Le Ma <le.ma@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
+ "Jiadong.Zhu" <Jiadong.Zhu@amd.com>,
+ Yang Wang <KevinYang.Wang@amd.com>, Candice Li <candice.li@amd.com>,
+ Xiaojian Du <Xiaojian.Du@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>
+Subject: Re: Fwd: Kernel 5.11 crashes when it boots, it produces black screen.
+Message-ID: <ZGjQPFvnAvN6MJnc@debian.me>
+References: <c2168e4f-4d47-0d5d-a1b7-d237f0760df8@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-gmuwrapper-v7-18-ecc7aab83556@linaro.org>
-References: <20230223-topic-gmuwrapper-v7-0-ecc7aab83556@linaro.org>
-In-Reply-To: <20230223-topic-gmuwrapper-v7-0-ecc7aab83556@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684585186; l=1852;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=aYEnG9+HCzURuVCpcLpZTVlrArU+CPMAgc+RtQYPTAw=;
- b=cBGb71GEz6m+55DZbw5+CIlpa9bA2JR7ff/H/b1bxB27zpReX2GOg7AWcYOzBnWEkZtbP6mJc
- HaVYS9xm5/JBf1ihgp+IOvYeg1spOGFEwJmV78VNSn9B2Aj+MtEE37L
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="BrcuXWEws5Ub7YHG"
+Content-Disposition: inline
+In-Reply-To: <c2168e4f-4d47-0d5d-a1b7-d237f0760df8@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +87,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: "Azamat S. Kalimoulline" <turtle@bazon.ru>,
+ max <kernel-ODwfxu5zp4@maxxor.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A610 is implemented on at least three SoCs: SM6115 (bengal), SM6125
-(trinket) and SM6225 (khaje). Trinket does not support speed binning
-(only a single SKU exists) and we don't yet support khaje upstream.
-Hence, add a fuse mapping table for bengal to allow for per-chip
-frequency limiting.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+--BrcuXWEws5Ub7YHG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index c07b25fc2bd9..d004458ca783 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2102,6 +2102,30 @@ static bool a6xx_progress(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	return progress;
- }
- 
-+static u32 a610_get_speed_bin(u32 fuse)
-+{
-+	/*
-+	 * There are (at least) three SoCs implementing A610: SM6125 (trinket),
-+	 * SM6115 (bengal) and SM6225 (khaje). Trinket does not have speedbinning,
-+	 * as only a single SKU exists and we don't support khaje upstream yet.
-+	 * Hence, this matching table is only valid for bengal and can be easily
-+	 * expanded if need be.
-+	 */
-+
-+	if (fuse == 0)
-+		return 0;
-+	else if (fuse == 206)
-+		return 1;
-+	else if (fuse == 200)
-+		return 2;
-+	else if (fuse == 157)
-+		return 3;
-+	else if (fuse == 127)
-+		return 4;
-+
-+	return UINT_MAX;
-+}
-+
- static u32 a618_get_speed_bin(u32 fuse)
- {
- 	if (fuse == 0)
-@@ -2199,6 +2223,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_gpu *adreno_gpu, u3
- {
- 	u32 val = UINT_MAX;
- 
-+	if (adreno_is_a610(adreno_gpu))
-+		val = a610_get_speed_bin(fuse);
-+
- 	if (adreno_is_a618(adreno_gpu))
- 		val = a618_get_speed_bin(fuse);
- 
+On Wed, May 10, 2023 at 03:26:56PM +0700, Bagas Sanjaya wrote:
+> Anyway, let me add this regression to regzbot:
+>=20
+> #regzbot introduced: v5.10..v5.11 https://bugzilla.kernel.org/show_bug.cg=
+i?id=3D212579
+> #regzbot title: Booting kernel on AMD Ryzen 5 PRO stucks in loading initrd
 
--- 
-2.40.1
+Resolving...
 
+#regzbot resolve: reporter found a workaround to the presumably firmware bug
+
+See [1] for the precise workaround.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=3D216340#c53
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--BrcuXWEws5Ub7YHG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZGjQNQAKCRD2uYlJVVFO
+ow8xAP95LId80yotLjJuCqAvScT3zVqlzU3jw0za7laxNjvTOAD+IoX87VSLE1u5
+TGII8nt/cEhCPC6HB1p6JcsDu48a3Ag=
+=cXnc
+-----END PGP SIGNATURE-----
+
+--BrcuXWEws5Ub7YHG--
