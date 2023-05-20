@@ -1,66 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE6A70AAD1
-	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 22:01:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D9970AB03
+	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 22:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C77810E1A3;
-	Sat, 20 May 2023 20:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA7F10E072;
+	Sat, 20 May 2023 20:49:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 345D310E19D
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 20:01:09 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4efd6e26585so4944330e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 13:01:09 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5761910E072
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 20:49:50 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4f3b337e842so1464142e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 13:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684612865; x=1687204865;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kL5WC4XfsCjBMRG17TRvwYrcpAIhfVj8rtH9i+qu5n8=;
- b=T8EEuoaH9hcVaP0ope0+Ib4TJAIQYcW4nlwT3SIP2Josx4is7qBtx/WUQy+tCC/ohi
- nG/ycc+0hCWrHEUA2ccL0JWlgr+eP6TjkV5XzyqjHkl7Nc0HuEq+rNzcYCjpyNDcVF57
- LXkUCSnby0SbyGIMOVlZc+vh1anQuQoRuKuRo6TfaerN4LufY8ugHt+evoT9Dz/3BKBS
- LqCBjJTRpYxqLYShqSXFrWSAPfCA/u1Aef/IOoLRA4N8tMOeM6oE5DzZLNr2bD5WYdln
- wwENCEJKUKcG8/YrIGweH7MUmJKK+FMdbHwFkyRqgnvXAeOOE/S3XviK3wrSNq6fvKLM
- QY5Q==
+ d=linaro.org; s=google; t=1684615788; x=1687207788;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fqYU5pBw/fosyLtbu99SoFfcl2t7V6t1nbS3X58IuPE=;
+ b=k6zamuW9UmqDDFJzkuGLETMehT8oWegHya8cjibkMxfjNCbEpA4P9yHYLXe80vR7I2
+ FnY9AXD9QjWw9woVs+dfTaU9NvTz/EhBCr6+lmuSGX+tfUllo+Aw+Gj0Ac/4LNhjFbe0
+ QyaiiB+rjF5bh0PnM2F/dXXZ2st8I0aGRywO0yGnsvOmqTLHEO2l4zvwPn949gGQjW5K
+ TQyzvEsfkAnEil9Ek6U4hcWPaJ3xwUZyDEdWL3xoTf+B/eZg/3sgKhNa7Yfok6Ffp7I5
+ IRIZ2SNtdyss6APpC/amQzi6BMHm4+POnuZpI5k8dWxvoJ1T6edCU+Guw5/QUJdMvPUX
+ M1Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684612865; x=1687204865;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kL5WC4XfsCjBMRG17TRvwYrcpAIhfVj8rtH9i+qu5n8=;
- b=feNEfDiplJsOr5TLOXIpoXW4oJh21vQXeYw8zE1gjvXKX8oL/1S1alzdteGDNvZ5XV
- n9Drz8TZfdCn4rKA+EiUkxYDeuwIiNuS/xAIaMp0xK7A0x6eBaQX7/75YLDhObVQTP/n
- o1wLuTJeyviqriCufBpNMsd4lSmeqX33TM60a5iOUFnP84IOk2cBB73Pusrk8NJ7cD+k
- plyKE5+W1VhDzApmLW+V6l8Cvvbse7tISo9mM5RmAWqLunawwwF+cFEsf+/JUEGah1r2
- qtlqexJuof5lGjrS+wBZZ52uDRDvVg4Us4YhVFXCU6iTrpKXbRP6tXqZq1FhjjMk2x2d
- W8hw==
-X-Gm-Message-State: AC+VfDyyNPE3/SlpeG7LOyFkUlatwM31/BrtTkSGacydYTbiQXM0IOor
- xiK6/1xuR8hKyl3FhUncWtEdHQ==
-X-Google-Smtp-Source: ACHHUZ7iwo3hKsXxSciKJSuSMB9lTFMkik0lRJvgifMQz5iT7xHTeS9p9+1YlAcL/3t2i71b8+eoYw==
-X-Received: by 2002:a2e:a169:0:b0:2af:1761:8f23 with SMTP id
- u9-20020a2ea169000000b002af17618f23mr2601350ljl.46.1684612865159; 
- Sat, 20 May 2023 13:01:05 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
+ d=1e100.net; s=20221208; t=1684615788; x=1687207788;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fqYU5pBw/fosyLtbu99SoFfcl2t7V6t1nbS3X58IuPE=;
+ b=GG6HLbsmodYlYWHlUOJDAHFDwvwWNtsZMUFD1EXJv432V5qtDZGMgxkHw4bbLchpiV
+ 8GWd+h189HRzNONkPM1bKXQ+mHcZ63/WtxLh5iSJJLOhO5EnvJGHWkwN4UY1Twd0zTF0
+ fBBimTzX7MVsAl+rHOtX5+234tOm1CA70tWNKH5h+N3zMYwx4iYWXOyl6rgUkHtFmS26
+ zbAtPegWUTr6IbpzkLuRVy4SnQLfRywtK4SP31FDDS6wouXD3D0Z0WhfzK4PCdQw+GoE
+ Ai9ibBenQmQ4wpqlNH44+AosgApIyub1F6ltS9PgatYHtz5mdIZezbL1qUPWMeemHM88
+ f9lQ==
+X-Gm-Message-State: AC+VfDxE3sNZNdf1bDtF3z0vXj9MIRO49T91eldxF2ly0hRG0m+bRaDi
+ pvCRbHIFSTSKmVwnI4KtFmthko7NQUDlm3OrjzM=
+X-Google-Smtp-Source: ACHHUZ7l5Y3JhzRvQohtL0YM5pZWEzOewup9on2iBfVDx+SL10dj1xELlEy5Tsbk98QUjnSPNxse4A==
+X-Received: by 2002:ac2:4d10:0:b0:4f3:b6e9:3e47 with SMTP id
+ r16-20020ac24d10000000b004f3b6e93e47mr787738lfi.53.1684615788014; 
+ Sat, 20 May 2023 13:49:48 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a05651c014400b002ad9b741959sm418061ljd.76.2023.05.20.13.01.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 May 2023 13:01:04 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2 2/2] drm/msm/dsi: use mult_frac for pclk_bpp calculation
-Date: Sat, 20 May 2023 23:01:03 +0300
-Message-Id: <20230520200103.4019607-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
-References: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
+ m14-20020a19520e000000b004f3acfa92c9sm370115lfb.277.2023.05.20.13.49.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 May 2023 13:49:47 -0700 (PDT)
+Message-ID: <50fc88f9-4304-110c-84e8-15dfdeee062f@linaro.org>
+Date: Sat, 20 May 2023 23:49:46 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [Freedreno] [PATCH 02/11] drm/msm/dpu: use the actual lm maximum
+ width instead of a hardcoded value
+Content-Language: en-GB
+To: Jeykumar Sankaran <quic_jeykumar@quicinc.com>,
+ Arnaud Vrac <avrac@freebox.fr>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230419-dpu-tweaks-v1-0-d1bac46db075@freebox.fr>
+ <20230419-dpu-tweaks-v1-2-d1bac46db075@freebox.fr>
+ <6e807c05-a990-5692-3f84-2e4153c8c278@linaro.org>
+ <905b4150-6e15-4172-10cf-19aa0ebf817c@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <905b4150-6e15-4172-10cf-19aa0ebf817c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,65 +84,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify calculations around pixel_clk_rate division. Replace common
-pattern of doing 64-bit multiplication and then a do_div() call with
-simpler mult_frac() invocation.
+On 20/04/2023 20:47, Jeykumar Sankaran wrote:
+> 
+> 
+> On 4/19/2023 3:23 PM, Dmitry Baryshkov wrote:
+>> On 19/04/2023 17:41, Arnaud Vrac wrote:
+>>> This avoids using two LMs instead of one when the display width is lower
+>>> than the maximum supported value. For example on MSM8996/MSM8998, the
+>>> actual maxwidth is 2560, so we would use two LMs for 1280x720 or
+>>> 1920x1080 resolutions, while one is enough.
+>>>
+>>> Signed-off-by: Arnaud Vrac <avrac@freebox.fr>
+>>
+>> While this looks correct (and following what we have in 4.4), later 
+>> vendor kernels specify the topology explicitly. Probably we should 
+>> check this with the hw guys, because it might be the following case: 
+>> even though a single LM can supply the mode, it will spend more power 
+>> compared to two LMs.
+>>
+>>
+> Yes. 2 LM split will allow the HW to run in lower mdp core clock. Can 
+> you maintain the split_threshold in the hw catalog until per mode 
+> topology is available?
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+I don't think it warrants the trouble, unless we have a real usecase 
+when the device is short of LMs.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 2b257b459974..744f2398a6d6 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -585,7 +585,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
- 	u8 lanes = msm_host->lanes;
- 	u32 bpp = dsi_get_bpp(msm_host->format);
- 	unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
--	u64 pclk_bpp = (u64)pclk_rate * bpp;
-+	unsigned long pclk_bpp;
- 
- 	if (lanes == 0) {
- 		pr_err("%s: forcing mdss_dsi lanes to 1\n", __func__);
-@@ -594,9 +594,9 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
- 
- 	/* CPHY "byte_clk" is in units of 16 bits */
- 	if (msm_host->cphy_mode)
--		do_div(pclk_bpp, (16 * lanes));
-+		pclk_bpp = mult_frac(pclk_rate, bpp, 16 * lanes);
- 	else
--		do_div(pclk_bpp, (8 * lanes));
-+		pclk_bpp = mult_frac(pclk_rate, bpp, 8 * lanes);
- 
- 	return pclk_bpp;
- }
-@@ -627,15 +627,12 @@ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- {
- 	u32 bpp = dsi_get_bpp(msm_host->format);
--	u64 pclk_bpp;
- 	unsigned int esc_mhz, esc_div;
- 	unsigned long byte_mhz;
- 
- 	dsi_calc_pclk(msm_host, is_bonded_dsi);
- 
--	pclk_bpp = (u64)msm_host->pixel_clk_rate * bpp;
--	do_div(pclk_bpp, 8);
--	msm_host->src_clk_rate = pclk_bpp;
-+	msm_host->src_clk_rate = mult_frac(msm_host->pixel_clk_rate, bpp, 8);
- 
- 	/*
- 	 * esc clock is byte clock followed by a 4 bit divider,
+Arnaud, I'll mark this patch as Rejected for now, unless it fixes an LM 
+shortage for your platform.
+
+> 
+> Jeykumar S
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 +++++-----
+>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> index 1dc5dbe585723..dd2914726c4f6 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> @@ -53,8 +53,6 @@
+>>>   #define IDLE_SHORT_TIMEOUT    1
+>>> -#define MAX_HDISPLAY_SPLIT 1080
+>>> -
+>>>   /* timeout in frames waiting for frame done */
+>>>   #define DPU_ENCODER_FRAME_DONE_TIMEOUT_FRAMES 5
+>>> @@ -568,10 +566,12 @@ static struct msm_display_topology 
+>>> dpu_encoder_get_topology(
+>>>        */
+>>>       if (intf_count == 2)
+>>>           topology.num_lm = 2;
+>>> -    else if (!dpu_kms->catalog->caps->has_3d_merge)
+>>> -        topology.num_lm = 1;
+>>> +    else if (dpu_kms->catalog->caps->has_3d_merge &&
+>>> +         dpu_kms->catalog->mixer_count > 0 &&
+>>> +         mode->hdisplay > dpu_kms->catalog->mixer[0].sblk->maxwidth)
+>>> +        topology.num_lm = 2;
+>>>       else
+>>> -        topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 
+>>> : 1;
+>>> +        topology.num_lm = 1;
+>>>       if (crtc_state->ctm)
+>>>           topology.num_dspp = topology.num_lm;
+>>>
+>>
+
 -- 
-2.39.2
+With best wishes
+Dmitry
 
