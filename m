@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BD570A9F4
-	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 20:22:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 976D170A9FB
+	for <lists+dri-devel@lfdr.de>; Sat, 20 May 2023 20:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2197110E195;
-	Sat, 20 May 2023 18:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B26510E197;
+	Sat, 20 May 2023 18:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F71810E195
- for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 18:22:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A5D10E197
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 May 2023 18:22:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CA0E360F1A;
- Sat, 20 May 2023 18:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E9F2C433D2;
- Sat, 20 May 2023 18:22:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4FFD760F11;
+ Sat, 20 May 2023 18:22:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2988C433D2;
+ Sat, 20 May 2023 18:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684606939;
- bh=QXOmpFfrX6WqPjEMMraE5Lk9ZwBNgRHBGUmGtOqvR3Y=;
- h=From:To:Cc:Subject:Date:From;
- b=iSwCLec8SCqScGb16+HI4oHFqR/Hs0qviBIURyuZox3ihfrJ4syl5P++GqHyHvxjn
- 4cVsfPSKmaEddgl+kkj0mLWxC/fdsIu6Cnpi6AXxly6wTD/DqIct+xK90YlD466bhT
- AX8CDRggXVSqb1RIAdIRtTk75L2NfelpOM+qUG/pwy62Cq5YzUcSO/8ASVWI6/4HO5
- P2Hin2rMIqKPtYvjhkhMjjPVBE+9H+u4THqKVHnxaPW2x5CRgfJCa+ylpaG8scLcfC
- XP21clreOlOU7iKaw8SXEa7rw+fFbtzfnFWXPiZwyQocuJ8i+eKu5GVjGL+NeWC7Ju
- i2BHXgmhKwgxg==
+ s=k20201202; t=1684606974;
+ bh=MXBwLQEQOJtadl16Ls1/ngTPum3Dxv2eQBBbIQ4NJMM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ftPWk1vLiOfwMMXeb0MEPf1yz2nECxR26jfPAP2AH69kZ1nnfhZlh0DuApmWJ14Qr
+ 628eH6R+JumrGgP9Uza4J+nyq+n7zgsJ111yRmtxRr30fJIWGtwdBou2eSDn2/hMPr
+ zGsA3uOHQ3GQ2Ix6p4y2yPYvQT/UQfk38c4QU7Vkg57E+k3g90x6NpnImI+O4VlrZL
+ HLIqfnrFkwgASJ2hrZeWyk1j/oR19XbnpFpqC3bJrrVTzfwzvlXJ1vcxKGqixrh8QA
+ t5HyJaim4bXTs4puF3IKJvsddNQMGfadA6OAoSgsOMHuZeFFVOL9GLK6TmO7ihvlf2
+ xWIR6c03+CTng==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/11] drm/ast: Fix ARM compatibility
-Date: Sat, 20 May 2023 14:22:04 -0400
-Message-Id: <20230520182215.845131-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 07/11] fbdev: imsttfb: Fix use after free bug in
+ imsttfb_probe
+Date: Sat, 20 May 2023 14:22:10 -0400
+Message-Id: <20230520182215.845131-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230520182215.845131-1-sashal@kernel.org>
+References: <20230520182215.845131-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,49 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jammy Huang <jammy_huang@aspeedtech.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Zheng Wang <zyytlz.wz@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jammy Huang <jammy_huang@aspeedtech.com>
+From: Zheng Wang <zyytlz.wz@163.com>
 
-[ Upstream commit 4327a6137ed43a091d900b1ac833345d60f32228 ]
+[ Upstream commit c75f5a55061091030a13fef71b9995b89bc86213 ]
 
-ARM architecture only has 'memory', so all devices are accessed by
-MMIO if possible.
+A use-after-free bug may occur if init_imstt invokes framebuffer_release
+and free the info ptr. The caller, imsttfb_probe didn't notice that and
+still keep the ptr as private data in pdev.
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230421003354.27767-1-jammy_huang@aspeedtech.com
+If we remove the driver which will call imsttfb_remove to make cleanup,
+UAF happens.
+
+Fix it by return error code if bad case happens in init_imstt.
+
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ast/ast_main.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/imsttfb.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 79a3618679554..754a08c92d3d1 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -423,11 +423,12 @@ struct ast_private *ast_device_create(const struct drm_driver *drv,
- 		return ERR_PTR(-EIO);
+diff --git a/drivers/video/fbdev/imsttfb.c b/drivers/video/fbdev/imsttfb.c
+index 16f272a508112..1b2fb8ed76237 100644
+--- a/drivers/video/fbdev/imsttfb.c
++++ b/drivers/video/fbdev/imsttfb.c
+@@ -1346,7 +1346,7 @@ static const struct fb_ops imsttfb_ops = {
+ 	.fb_ioctl 	= imsttfb_ioctl,
+ };
  
- 	/*
--	 * If we don't have IO space at all, use MMIO now and
--	 * assume the chip has MMIO enabled by default (rev 0x20
--	 * and higher).
-+	 * After AST2500, MMIO is enabled by default, and it should be adopted
-+	 * to be compatible with Arm.
- 	 */
--	if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
-+	if (pdev->revision >= 0x40) {
-+		ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
-+	} else if (!(pci_resource_flags(pdev, 2) & IORESOURCE_IO)) {
- 		drm_info(dev, "platform has no IO space, trying MMIO\n");
- 		ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
+-static void init_imstt(struct fb_info *info)
++static int init_imstt(struct fb_info *info)
+ {
+ 	struct imstt_par *par = info->par;
+ 	__u32 i, tmp, *ip, *end;
+@@ -1419,7 +1419,7 @@ static void init_imstt(struct fb_info *info)
+ 	    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres))) {
+ 		printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->var.yres, info->var.bits_per_pixel);
+ 		framebuffer_release(info);
+-		return;
++		return -ENODEV;
  	}
+ 
+ 	sprintf(info->fix.id, "IMS TT (%s)", par->ramdac == IBM ? "IBM" : "TVP");
+@@ -1455,12 +1455,13 @@ static void init_imstt(struct fb_info *info)
+ 
+ 	if (register_framebuffer(info) < 0) {
+ 		framebuffer_release(info);
+-		return;
++		return -ENODEV;
+ 	}
+ 
+ 	tmp = (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
+ 	fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
+ 		info->fix.id, info->fix.smem_len >> 20, tmp);
++	return 0;
+ }
+ 
+ static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -1523,10 +1524,10 @@ static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (!par->cmap_regs)
+ 		goto error;
+ 	info->pseudo_palette = par->palette;
+-	init_imstt(info);
+-
+-	pci_set_drvdata(pdev, info);
+-	return 0;
++	ret = init_imstt(info);
++	if (!ret)
++		pci_set_drvdata(pdev, info);
++	return ret;
+ 
+ error:
+ 	if (par->dc_regs)
 -- 
 2.39.2
 
