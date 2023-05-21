@@ -1,36 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E6170AF6B
-	for <lists+dri-devel@lfdr.de>; Sun, 21 May 2023 20:14:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E4770AFA7
+	for <lists+dri-devel@lfdr.de>; Sun, 21 May 2023 20:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2708F10E1EE;
-	Sun, 21 May 2023 18:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D847F10E05F;
+	Sun, 21 May 2023 18:50:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8F810E1EE
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 18:14:35 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7EE6E3EBDD;
- Sun, 21 May 2023 20:14:32 +0200 (CEST)
-Date: Sun, 21 May 2023 20:14:31 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 2/2] drm/msm/dpu: drop debugfs regset32 support
-Message-ID: <oxorfp2txvw6azzmq2xvehrvqhi3xyhmxsspnycvg72fevrgnb@jdr332tv5s4t>
-References: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
- <20230521172147.4163085-2-dmitry.baryshkov@linaro.org>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFA610E023;
+ Sun, 21 May 2023 18:50:08 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-513debc49e8so149527a12.0; 
+ Sun, 21 May 2023 11:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684695006; x=1687287006;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hI2OZ0N4nxc5zSXdubBHtpF/Q49iYURNNqXU694p3gI=;
+ b=iJUtLlz5l2yY4W2Re17UxWiap3Yk4g6Se/jwUmS7mex83jT0BK0QWnAejk9d6pysh+
+ 0NsU3wKaPCiP7rC0YFVYUpnRgV0eqqLE44EzlGxjuWrQlCVpLMUfqf9uxLUq4aO9fr5u
+ ZNNMdgAfzbD4iqgAdjhTHNGPmSXgC6Ok7F0qeLUyVhbOe7eBLSYXLvNrGw4W5pXNO63E
+ ryLkJNHtNHilhOZQmMqA03levPKW7brOya9nFz4hCkn0+V6HawNkv9U0V7oBUFWVCvmo
+ iRspEbjelQA8vOvEr3GXD+p3wBF8hPOjLyhgc87V9CcnL+E9XVjhoXBhmtEBxPhz0kWm
+ rTjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684695006; x=1687287006;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hI2OZ0N4nxc5zSXdubBHtpF/Q49iYURNNqXU694p3gI=;
+ b=VMiu6yBw1BnvJxHrwzXJTqgnyhqovGAtkQ5rZl5dBqcHrS/h/+RZe82mXTonoJGelv
+ 69byF+/UL5Xjs/exLfeviUAgK7w+4TcNj0LcNCOAUZsxzzdz01y0H8gH2Inw9S8kFWSS
+ +g/MKTbxJxYKFBqhUbFB5WdEpjeNXBazYxQDTngXicAodRBLhf251aHqZt/CzCN8G8Xk
+ fV+NffsRxx6yEElCk+abUfBI9E+pQNKtnwZUXp8IkgNv4U5yQG4812Y/iwUpSdye0X0z
+ lUr/jyQgmLw3PB4jsvoydrd4YQCA11u53D1HAU8VcSR5c8UbhnqNnGrpFRsQvUhHv3G0
+ /H8g==
+X-Gm-Message-State: AC+VfDy5tNT9OXkZQIP01mSjbPnOjIAuSB9qTnPD0T/axXzGWnTdO2D2
+ 2YrTvXugF85BT6pzgOLRmV9HjzrC2pWQMocIWy3MnlyYJ9k=
+X-Google-Smtp-Source: ACHHUZ4MWtCIpB7vMXxMrX9K8FrnFSbCfBYgMsPz4RrWJaYDSByS43l7zvDsy/zfh8ijxApdqiH8sX8WOlilJXWcQ4I=
+X-Received: by 2002:a05:6402:4307:b0:506:c24e:667d with SMTP id
+ m7-20020a056402430700b00506c24e667dmr7006173edc.4.1684695005838; Sun, 21 May
+ 2023 11:50:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230521172147.4163085-2-dmitry.baryshkov@linaro.org>
+References: <20230509183301.1745462-1-olvaffe@gmail.com>
+ <CAPaKu7TqUt1L-5RUuwEagr2UUs8maOO+FSoS2PEoP9eO1-JJSw@mail.gmail.com>
+ <CADnq5_OsGqg7CoNVgtgr91a+pyBtJzoUOBXHKmGMcOM9hLFkwQ@mail.gmail.com>
+In-Reply-To: <CADnq5_OsGqg7CoNVgtgr91a+pyBtJzoUOBXHKmGMcOM9hLFkwQ@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Sun, 21 May 2023 11:49:54 -0700
+Message-ID: <CAPaKu7SQ0NkDVN3NNRoJxGRQ8x2T2uXcxZJEkt7g2CkEzVU3Sg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] amdgpu: validate drm_amdgpu_gem_va addrs for all ops
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,162 +70,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Philip Yang <Philip.Yang@amd.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Danijel Slivka <danijel.slivka@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Mukul Joshi <mukul.joshi@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Yang Li <yang.lee@linux.alibaba.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-21 20:21:47, Dmitry Baryshkov wrote:
-> Drop the custom DPU's dpu_debugfs_create_regset32() function. With the
-> SSPP user being gone, there is no need in this function. While we are at
-> it also drop unused debugfs declarations from dpu_kms.h.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, May 18, 2023 at 1:12=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Wed, May 17, 2023 at 5:27=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> wro=
+te:
+> >
+> > On Tue, May 9, 2023 at 11:33=E2=80=AFAM Chia-I Wu <olvaffe@gmail.com> w=
+rote:
+> > >
+> > > Extend the address and size validations to AMDGPU_VA_OP_UNMAP and
+> > > AMDGPU_VA_OP_CLEAR by moving the validations to amdgpu_gem_va_ioctl.
+> > >
+> > > Internal users of amdgpu_vm_bo_map are no longer validated but they
+> > > should be fine.
+> > >
+> > > Userspace (radeonsi and radv) seems fine as well.
+> > Does this series make sense?
+>
+> I think so, I haven't had a chance to go through this too closely yet,
+> but amdgpu_vm_bo_map() is used by ROCm as well so we'd need to make
+> sure that removing the checks in patch 1 wouldn't affect that path as
+> well.  The changes in patch 2 look good.  Also, these patches are
+> missing your SOB.
+Indeed.  kfd_ioctl_alloc_memory_of_gpu, for example, does not validate
+va.  I need to keep the validation in amdgpu_vm_bo_map for it at
+least.  I guess it is more ideal for kfd_ioctl_alloc_memory_of_gpu to
+validate, but I am not familiar with amdkfd..
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+I can keep the existing validations, and duplicate them in
+amdgpu_gem_va_ioctl to cover AMDGPU_VA_OP_UNMAP/AMDGPU_VA_OP_CLEAR.
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 65 -------------------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 48 ------------------
->  2 files changed, 113 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index a4293dc0b61b..26597fcb2a09 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -186,71 +186,6 @@ static void dpu_debugfs_danger_init(struct dpu_kms *dpu_kms,
->  
->  }
->  
-> -/*
-> - * Companion structure for dpu_debugfs_create_regset32.
-> - */
-> -struct dpu_debugfs_regset32 {
-> -	uint32_t offset;
-> -	uint32_t blk_len;
-> -	struct dpu_kms *dpu_kms;
-> -};
-> -
-> -static int dpu_regset32_show(struct seq_file *s, void *data)
-> -{
-> -	struct dpu_debugfs_regset32 *regset = s->private;
-> -	struct dpu_kms *dpu_kms = regset->dpu_kms;
-> -	void __iomem *base;
-> -	uint32_t i, addr;
-> -
-> -	if (!dpu_kms->mmio)
-> -		return 0;
-> -
-> -	base = dpu_kms->mmio + regset->offset;
-> -
-> -	/* insert padding spaces, if needed */
-> -	if (regset->offset & 0xF) {
-> -		seq_printf(s, "[%x]", regset->offset & ~0xF);
-> -		for (i = 0; i < (regset->offset & 0xF); i += 4)
-> -			seq_puts(s, "         ");
-> -	}
-> -
-> -	pm_runtime_get_sync(&dpu_kms->pdev->dev);
-> -
-> -	/* main register output */
-> -	for (i = 0; i < regset->blk_len; i += 4) {
-> -		addr = regset->offset + i;
-> -		if ((addr & 0xF) == 0x0)
-> -			seq_printf(s, i ? "\n[%x]" : "[%x]", addr);
-> -		seq_printf(s, " %08x", readl_relaxed(base + i));
-> -	}
-> -	seq_puts(s, "\n");
-> -	pm_runtime_put_sync(&dpu_kms->pdev->dev);
-> -
-> -	return 0;
-> -}
-> -DEFINE_SHOW_ATTRIBUTE(dpu_regset32);
-> -
-> -void dpu_debugfs_create_regset32(const char *name, umode_t mode,
-> -		void *parent,
-> -		uint32_t offset, uint32_t length, struct dpu_kms *dpu_kms)
-> -{
-> -	struct dpu_debugfs_regset32 *regset;
-> -
-> -	if (WARN_ON(!name || !dpu_kms || !length))
-> -		return;
-> -
-> -	regset = devm_kzalloc(&dpu_kms->pdev->dev, sizeof(*regset), GFP_KERNEL);
-> -	if (!regset)
-> -		return;
-> -
-> -	/* make sure offset is a multiple of 4 */
-> -	regset->offset = round_down(offset, 4);
-> -	regset->blk_len = length;
-> -	regset->dpu_kms = dpu_kms;
-> -
-> -	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
-> -}
-> -
->  static void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
->  {
->  	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 797b4ff3e806..66209e2448d2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -141,54 +141,6 @@ struct dpu_global_state
->  struct dpu_global_state
->  	*__must_check dpu_kms_get_global_state(struct drm_atomic_state *s);
->  
-> -/**
-> - * Debugfs functions - extra helper functions for debugfs support
-> - *
-> - * Main debugfs documentation is located at,
-> - *
-> - * Documentation/filesystems/debugfs.rst
-> - *
-> - * @dpu_debugfs_create_regset32: Create 32-bit register dump file
-> - */
-> -
-> -/**
-> - * dpu_debugfs_create_regset32 - Create register read back file for debugfs
-> - *
-> - * This function is almost identical to the standard debugfs_create_regset32()
-> - * function, with the main difference being that a list of register
-> - * names/offsets do not need to be provided. The 'read' function simply outputs
-> - * sequential register values over a specified range.
-> - *
-> - * @name:   File name within debugfs
-> - * @mode:   File mode within debugfs
-> - * @parent: Parent directory entry within debugfs, can be NULL
-> - * @offset: sub-block offset
-> - * @length: sub-block length, in bytes
-> - * @dpu_kms: pointer to dpu kms structure
-> - */
-> -void dpu_debugfs_create_regset32(const char *name, umode_t mode,
-> -		void *parent,
-> -		uint32_t offset, uint32_t length, struct dpu_kms *dpu_kms);
-> -
-> -/**
-> - * dpu_debugfs_get_root - Return root directory entry for KMS's debugfs
-> - *
-> - * The return value should be passed as the 'parent' argument to subsequent
-> - * debugfs create calls.
-> - *
-> - * @dpu_kms: Pointer to DPU's KMS structure
-> - *
-> - * Return: dentry pointer for DPU's debugfs location
-> - */
-> -void *dpu_debugfs_get_root(struct dpu_kms *dpu_kms);
-> -
-> -/**
-> - * DPU info management functions
-> - * These functions/definitions allow for building up a 'dpu_info' structure
-> - * containing one or more "key=value\n" entries.
-> - */
-> -#define DPU_KMS_INFO_MAX_SIZE	4096
-> -
->  /**
->   * Vblank enable/disable functions
->   */
-> -- 
-> 2.39.2
-> 
+>
+> Thanks,
+>
+> Alex
+>
+>
+> Alex
