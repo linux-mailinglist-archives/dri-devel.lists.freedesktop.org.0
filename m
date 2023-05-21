@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BB070AF42
-	for <lists+dri-devel@lfdr.de>; Sun, 21 May 2023 19:22:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580B970AF43
+	for <lists+dri-devel@lfdr.de>; Sun, 21 May 2023 19:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13EB410E1E2;
-	Sun, 21 May 2023 17:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8321B10E1E4;
+	Sun, 21 May 2023 17:21:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FEAD10E073
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 17:21:50 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f00c33c3d6so6039394e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 10:21:50 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 594EB10E073
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 17:21:51 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f1fe1208a4so5724933e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 10:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1684689709; x=1687281709;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=aL7y3wzagnr2HfjgObLdfzPbAHB3ifg2d+IXSFsg1QU=;
- b=GsVAEld/oI9yK0l6q2C4BZv8SsAtZ8rQFk6ByzPLXa6jn+B1/ad44CM4llg0ulPxQp
- R3+M+o32S9oAsar9vfkHrh8ooQ1fUCXhAsftAmxNpXqRrN9KfqMUdExKwsRroadskxdQ
- eiSyKzsG+MrEc9JRIAb/RL/OWKxBzMBjfGdu3TtuH9ZN60qRTvHL/MgaCwKjWrnDPOla
- olJc0iVvrAAVEq9SpSukbiN92wN4P/8FToWQ5pbQpo9PYEY2F23/OrI9OQdt9Hc2qldq
- thwhHMx4xjciiqbR1iWkd2aI+hTDEdO+KZhxEG1yCI69llZckDPf6wvbalOFPJW5Yf2u
- S7Mw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mgxLEMOPT0gpTytEGogztOORlfKpnqmLmCCMXpvq408=;
+ b=wzgFzBSnXJrMhjby5h2pTGKhIu6U1/x0iUEq4X35063OXvW25F6HsmZFgYPCfsTTdH
+ 4KPIURu/kA4l7LbUSO+gsie99WzJ2MV0N3bKTJyy9rxLkGiOOnOJ+JwgjEUzAdZBXCqz
+ 1DMMZFoxUNrlHsUQmbKAW3wrTyf9CELUDp/iJqQ25h9qia+9PTtSnTXjQcnSIRKgQHzs
+ T7ifPAVzzswlHdyqaY0yUQSHDuIdrmIxPfcS2pCqLitKhUVuSf/SMeMUu6iRZejuU4Zj
+ GCXSurK3ug0WuYaAlxNwHlHXrVicLV3e/Vt3qyj5O2GhbO7p2mEkBEUtQf76SJ+v6nEP
+ rkUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1684689709; x=1687281709;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aL7y3wzagnr2HfjgObLdfzPbAHB3ifg2d+IXSFsg1QU=;
- b=PhB+7MF6FaLBavi7Naohpyj+ovhuo/m9uJX/Ca3M9lOcgKZWESBJflHNSp8NhH5AbS
- wyPgj790GIQ0lwBzJkY0IhUIcdxYU1BfvgZuBaBCtiP7/jq6uzw4Ajv7VSeJTu9v5D4Q
- q09699WVcMtg67/zqyUb6gI5bVk1rEJBoI8A8qYIfnLEh6PULxZ2C/i39uKF3I01nRb2
- JIbBnkWVVKA2UHCeJdp2Vg2dqylJO1wZoy67NpqwXtl8IXtA9ggBxqZ7REg2/YhK8QpQ
- P87/TibXXyyn9YyAAjYfvJ0vUJ3gDQzX75Hp7+RI3KgDh/VY0IKHYFLj/LYp5Dy1Q3zb
- 82CQ==
-X-Gm-Message-State: AC+VfDzSd5BjJM4V7jN+0UiivjSvrH0NA1nLR87/Rd9GO68rnPqipwAr
- bPUXdUaanuwbhV3jjMXdA2B5fw==
-X-Google-Smtp-Source: ACHHUZ7evLh/2VEFyCJXkXaDUxmCRMJ0SsM9ISKW0W8NxY03olOJ+t6sUWJPuxoLeVF8dCRm3S4XZA==
-X-Received: by 2002:a19:ee01:0:b0:4f3:a3e0:850e with SMTP id
- g1-20020a19ee01000000b004f3a3e0850emr3063162lfb.35.1684689708684; 
- Sun, 21 May 2023 10:21:48 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mgxLEMOPT0gpTytEGogztOORlfKpnqmLmCCMXpvq408=;
+ b=TXY8cp7Z0D+hhU7FMWwxs3Dkx05hnifyhEEyqdUifoRUCZE8APLGsjjOAync0rmsbw
+ tdm+nXTXRcxda2SBJw+U800xCURgb6Vp5ghIx59aRtDkjUFozJGMHoefUE7lFqzbXrgo
+ NNC0W3uvZ5B5bgE89mfdCJt1CWJruhdTO5Pvn3lqZz92dtDTZ1uuxYdk+imA3M11bDoO
+ pZjHEiaq2bYums5eI6CHK3f2Zsbg7lc+fu5XuTGQhf1VAaLryW1IfftvzYyFBzlv7AR8
+ 7eXT2qor9mNHOEciIG9WT4v34hLWlOl0HNm6bzjaXc+oXywNxYC7HS8x597Ztq4AHxIz
+ OcPg==
+X-Gm-Message-State: AC+VfDwi65ZgXAdY8oCVDtbQcoiSxWIkbJv088euJFKddINhnS8dWW9c
+ EPOmTxfdVidP7KUqiuMaJAPxhQ==
+X-Google-Smtp-Source: ACHHUZ76SVkVTVRWB/MQarR3/eH9v+LKllJsb5ZhP3TvO2FLON1AgvHtmpq3zxTjuWHIzzpcVOrifw==
+X-Received: by 2002:a05:6512:21c:b0:4f0:5b4:4863 with SMTP id
+ a28-20020a056512021c00b004f005b44863mr2182228lfo.0.1684689709392; 
+ Sun, 21 May 2023 10:21:49 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  r22-20020ac24d16000000b004f24cb9ef14sm686339lfi.47.2023.05.21.10.21.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 May 2023 10:21:48 -0700 (PDT)
+ Sun, 21 May 2023 10:21:49 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 1/2] drm/msm/dpu: drop SSPP register dumpers
-Date: Sun, 21 May 2023 20:21:46 +0300
-Message-Id: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 2/2] drm/msm/dpu: drop debugfs regset32 support
+Date: Sun, 21 May 2023 20:21:47 +0300
+Message-Id: <20230521172147.4163085-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
+References: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,50 +81,151 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop SSPP-specifig debugfs register dumps in favour of using
-debugfs/dri/0/kms or devcoredump.
+Drop the custom DPU's dpu_debugfs_create_regset32() function. With the
+SSPP user being gone, there is no need in this function. While we are at
+it also drop unused debugfs declarations from dpu_kms.h.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 25 ---------------------
- 1 file changed, 25 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 65 -------------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 48 ------------------
+ 2 files changed, 113 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index bfd82c2921af..6c5ebee2f7cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -727,31 +727,6 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
- 	debugfs_create_xul("features", 0600,
- 			debugfs_root, (unsigned long *)&hw_pipe->cap->features);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index a4293dc0b61b..26597fcb2a09 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -186,71 +186,6 @@ static void dpu_debugfs_danger_init(struct dpu_kms *dpu_kms,
  
--	/* add register dump support */
--	dpu_debugfs_create_regset32("src_blk", 0400,
--			debugfs_root,
--			sblk->src_blk.base + cfg->base,
--			sblk->src_blk.len,
--			kms);
+ }
+ 
+-/*
+- * Companion structure for dpu_debugfs_create_regset32.
+- */
+-struct dpu_debugfs_regset32 {
+-	uint32_t offset;
+-	uint32_t blk_len;
+-	struct dpu_kms *dpu_kms;
+-};
 -
--	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
--			cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
--			cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
--			cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
--		dpu_debugfs_create_regset32("scaler_blk", 0400,
--				debugfs_root,
--				sblk->scaler_blk.base + cfg->base,
--				sblk->scaler_blk.len,
--				kms);
+-static int dpu_regset32_show(struct seq_file *s, void *data)
+-{
+-	struct dpu_debugfs_regset32 *regset = s->private;
+-	struct dpu_kms *dpu_kms = regset->dpu_kms;
+-	void __iomem *base;
+-	uint32_t i, addr;
 -
--	if (cfg->features & BIT(DPU_SSPP_CSC) ||
--			cfg->features & BIT(DPU_SSPP_CSC_10BIT))
--		dpu_debugfs_create_regset32("csc_blk", 0400,
--				debugfs_root,
--				sblk->csc_blk.base + cfg->base,
--				sblk->csc_blk.len,
--				kms);
+-	if (!dpu_kms->mmio)
+-		return 0;
 -
- 	debugfs_create_u32("xin_id",
- 			0400,
- 			debugfs_root,
+-	base = dpu_kms->mmio + regset->offset;
+-
+-	/* insert padding spaces, if needed */
+-	if (regset->offset & 0xF) {
+-		seq_printf(s, "[%x]", regset->offset & ~0xF);
+-		for (i = 0; i < (regset->offset & 0xF); i += 4)
+-			seq_puts(s, "         ");
+-	}
+-
+-	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+-
+-	/* main register output */
+-	for (i = 0; i < regset->blk_len; i += 4) {
+-		addr = regset->offset + i;
+-		if ((addr & 0xF) == 0x0)
+-			seq_printf(s, i ? "\n[%x]" : "[%x]", addr);
+-		seq_printf(s, " %08x", readl_relaxed(base + i));
+-	}
+-	seq_puts(s, "\n");
+-	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+-
+-	return 0;
+-}
+-DEFINE_SHOW_ATTRIBUTE(dpu_regset32);
+-
+-void dpu_debugfs_create_regset32(const char *name, umode_t mode,
+-		void *parent,
+-		uint32_t offset, uint32_t length, struct dpu_kms *dpu_kms)
+-{
+-	struct dpu_debugfs_regset32 *regset;
+-
+-	if (WARN_ON(!name || !dpu_kms || !length))
+-		return;
+-
+-	regset = devm_kzalloc(&dpu_kms->pdev->dev, sizeof(*regset), GFP_KERNEL);
+-	if (!regset)
+-		return;
+-
+-	/* make sure offset is a multiple of 4 */
+-	regset->offset = round_down(offset, 4);
+-	regset->blk_len = length;
+-	regset->dpu_kms = dpu_kms;
+-
+-	debugfs_create_file(name, mode, parent, regset, &dpu_regset32_fops);
+-}
+-
+ static void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
+ {
+ 	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index 797b4ff3e806..66209e2448d2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -141,54 +141,6 @@ struct dpu_global_state
+ struct dpu_global_state
+ 	*__must_check dpu_kms_get_global_state(struct drm_atomic_state *s);
+ 
+-/**
+- * Debugfs functions - extra helper functions for debugfs support
+- *
+- * Main debugfs documentation is located at,
+- *
+- * Documentation/filesystems/debugfs.rst
+- *
+- * @dpu_debugfs_create_regset32: Create 32-bit register dump file
+- */
+-
+-/**
+- * dpu_debugfs_create_regset32 - Create register read back file for debugfs
+- *
+- * This function is almost identical to the standard debugfs_create_regset32()
+- * function, with the main difference being that a list of register
+- * names/offsets do not need to be provided. The 'read' function simply outputs
+- * sequential register values over a specified range.
+- *
+- * @name:   File name within debugfs
+- * @mode:   File mode within debugfs
+- * @parent: Parent directory entry within debugfs, can be NULL
+- * @offset: sub-block offset
+- * @length: sub-block length, in bytes
+- * @dpu_kms: pointer to dpu kms structure
+- */
+-void dpu_debugfs_create_regset32(const char *name, umode_t mode,
+-		void *parent,
+-		uint32_t offset, uint32_t length, struct dpu_kms *dpu_kms);
+-
+-/**
+- * dpu_debugfs_get_root - Return root directory entry for KMS's debugfs
+- *
+- * The return value should be passed as the 'parent' argument to subsequent
+- * debugfs create calls.
+- *
+- * @dpu_kms: Pointer to DPU's KMS structure
+- *
+- * Return: dentry pointer for DPU's debugfs location
+- */
+-void *dpu_debugfs_get_root(struct dpu_kms *dpu_kms);
+-
+-/**
+- * DPU info management functions
+- * These functions/definitions allow for building up a 'dpu_info' structure
+- * containing one or more "key=value\n" entries.
+- */
+-#define DPU_KMS_INFO_MAX_SIZE	4096
+-
+ /**
+  * Vblank enable/disable functions
+  */
 -- 
 2.39.2
 
