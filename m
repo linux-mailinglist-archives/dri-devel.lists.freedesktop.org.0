@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D7470B100
-	for <lists+dri-devel@lfdr.de>; Sun, 21 May 2023 23:51:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D3270B172
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 00:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1793910E0D0;
-	Sun, 21 May 2023 21:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F6D10E0EB;
+	Sun, 21 May 2023 22:23:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4263C10E0D0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 21:51:35 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4f3b4ed6fdeso1835166e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 14:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684705893; x=1687297893;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kdcfr+Mqe+nejGnID0ER1VhX+tnCrYLDf1fHXZd1m5U=;
- b=h0YmQE4DZlcAoSXrJx+qa03mKVEVBFzc41z3zopqefnykjW46h18ji9/2nd+1yRHaP
- asANOLz5I72uQvPxHiKNRIjduLepWevMK5vqzXWrz8wx5picu5+GmDMFQnIFMq5AqfgP
- S5m7avBpdKUSWhFwktBj6q7KvNNNHbfDUgkwEvUl20qsfhpJLhwj4GW6bEwh/h3FahrX
- OnC222uKGPUp6B6mPBhcGc/hcmHKZhBmSEOQJWCHhFl1xyOzAtWR62T1J+ummyviEB35
- fyJxRfb2dIKuQhUmy7xmVKmNnZY677DFJl1x3Hc1Vp+igkgNUMXnDrtwlXhD5I6VDmxq
- t8ug==
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+ [209.85.210.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03EFB10E0EB
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 22:23:53 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id
+ 46e09a7af769-6af7a84b2bdso357296a34.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 15:23:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684705893; x=1687297893;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kdcfr+Mqe+nejGnID0ER1VhX+tnCrYLDf1fHXZd1m5U=;
- b=jo4TH7iguDPHKN4erRs1LmDY/ld1vUyLf24joN7esaViM05UpB/q6gT4emPwY28yiH
- 2yku/UGIqhIwknICKVi6GkeZybJzsJTlBALHQPszJjrIppLijN8aOJ8p5tuxPoGgx7Xn
- QZqAZcpP7KROEo/18mo3aFiOjRYWfU0DHl/21Kp6TnkO/tIS2xUV3/LLPz+Uq9HjShfb
- oLTVStD0hAD3n7/OAjnd5RHZiHN9O1gI451z0ryJ5oKPeV/B35VgmdltvqH+JoItmdV5
- cxcvoDViMMb90bOWBbtHeUEUaz/oP/lmJAgOeKsh0DqsM0tBAmrRih/sDrjX0NoJyMLc
- vmXQ==
-X-Gm-Message-State: AC+VfDxGCLFdvngIqqHQOp6+IBhVsxGRmrjnfDksY8n84yj3gwOTqLSF
- yaS/N+UUucWHla4wg6CnhPjZPw==
-X-Google-Smtp-Source: ACHHUZ5KbqwqTIOY5qFN3b7VMVAXJqTU1RHjkNFgfuy0TNIJ999sF7RpjYR5HKC07/5BpEiloXsagg==
-X-Received: by 2002:a2e:3213:0:b0:2a9:f114:f168 with SMTP id
- y19-20020a2e3213000000b002a9f114f168mr3093590ljy.46.1684705893285; 
- Sun, 21 May 2023 14:51:33 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- o3-20020a2eb443000000b002aeeda05382sm858204ljm.29.2023.05.21.14.51.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 May 2023 14:51:32 -0700 (PDT)
-Message-ID: <25774b84-701a-5ffa-17ed-e498b594a866@linaro.org>
-Date: Mon, 22 May 2023 00:51:32 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/6] drm/msm/dpu: use UBWC data from MDSS driver
-Content-Language: en-GB
-To: Steev Klimaszewski <steev@kali.org>
-References: <20230521171026.4159495-1-dmitry.baryshkov@linaro.org>
- <CAKXuJqgf-MeQe8kwmBaz7DBP9sxsWHr=AZmsbRfQgVKGg=6iUQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAKXuJqgf-MeQe8kwmBaz7DBP9sxsWHr=AZmsbRfQgVKGg=6iUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ d=1e100.net; s=20221208; t=1684707833; x=1687299833;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=KAY67UCuApho3EFGBTe+ZwXaOBBvqQRkfmzBqO+gFKk=;
+ b=P7r8PtzWyTACd1+PwQqY+UTKbxOxSEaGXBrzrLclXPXfF55Jx/tYDdhTcr+BW67ou5
+ wGQ808/HaEEdqhSna1m2A84cu7rIby6HjLucUr/fNdPU+ugDlVwZnal+h7kWywxQV90K
+ w9IuJA1Vz37KPA44pcHJ2QbZzwsbp71F/p2HP0WMGcyqiHjDe/bDvPbCn1V3iaO1h9iJ
+ oFYF54j1doW1J6/qnaAzxGcsFN2qayB2WLOM4lgXUjYFfTXVAU4xfASd5zlsD1rO8ZPs
+ hrwDv5J27xlU/jP4Ouh+ATdrsmFL7Ikr3Noj8CG/1R0VTg+hrOls0hfTpj9WdpW/RhJ/
+ Tp3w==
+X-Gm-Message-State: AC+VfDwgmjjNcr0bdAO6w4bh0f4qU7mqBCygCwBoVJd/8Sgqr0JEA903
+ mO3Xs3qf377Up/BFzPIEBA==
+X-Google-Smtp-Source: ACHHUZ7L6bXXfCzbawGSRq/3weqfOYxW8zXa/PPv5VJnhrT+5whuhA5JYT6Gqt+riwr27cWsTCTAzA==
+X-Received: by 2002:a9d:5e8f:0:b0:6af:793b:a87 with SMTP id
+ f15-20020a9d5e8f000000b006af793b0a87mr901124otl.28.1684707832800; 
+ Sun, 21 May 2023 15:23:52 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ q25-20020a9d7c99000000b006aaf82bd5a2sm1825160otn.43.2023.05.21.15.23.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 May 2023 15:23:52 -0700 (PDT)
+Received: (nullmailer pid 1541546 invoked by uid 1000);
+ Sun, 21 May 2023 22:23:48 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+In-Reply-To: <20230521-drm-panels-sony-v1-9-541c341d6bee@somainline.org>
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-9-541c341d6bee@somainline.org>
+Message-Id: <168470782808.1541521.2400870342628606112.robh@kernel.org>
+Subject: Re: [PATCH RFC 09/10] dt-bindings: display: panel: Describe Sony
+ Xperia 1 display
+Date: Sun, 21 May 2023 17:23:48 -0500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,69 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/05/2023 00:50, Steev Klimaszewski wrote:
-> Hi Dmitry
-> 
-> On Sun, May 21, 2023 at 12:28 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> Both DPU and MDSS programming requires knowledge of some of UBWC
->> parameters. This results in duplication of UBWC data between MDSS and
->> DPU drivers. To remove such duplication and make the driver more
->> error-prone, export respective configuration from the MDSS driver and
->> make DPU use it, instead of bundling a copy of such data.
->>
-> 
-> Surely you mean less error prone?
 
-Yes, of course!
-
+On Sun, 21 May 2023 23:23:11 +0200, Marijn Suijten wrote:
+> Document an unnamed Samsung Display-IC and 1644x3840@60 6.5" panel found
+> in the Sony Xperia 1.
 > 
->> Dmitry Baryshkov (6):
->>    drm/msm/mdss: correct UBWC programming for SM8550
->>    drm/msm/mdss: rename ubwc_version to ubwc_enc_version
->>    drm/msm/mdss: export UBWC data
->>    drm/msm/mdss: populate missing data
->>    drm/msm/dpu: use MDSS data for programming SSPP
->>    drm/msm/dpu: drop UBWC configuration
->>
->>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  7 --
->>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  7 --
->>   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  5 --
->>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  6 --
->>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  7 --
->>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  7 --
->>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  7 --
->>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  6 --
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 15 ----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 18 ++--
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  7 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 16 +++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  3 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  2 +
->>   drivers/gpu/drm/msm/msm_mdss.c                | 90 ++++++++++++-------
->>   drivers/gpu/drm/msm/msm_mdss.h                | 27 ++++++
->>   22 files changed, 122 insertions(+), 139 deletions(-)
->>   create mode 100644 drivers/gpu/drm/msm/msm_mdss.h
->>
->> --
->> 2.39.2
->>
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  .../display/panel/sony,griffin-samsung.yaml        | 73 ++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+> 
 
--- 
-With best wishes
-Dmitry
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/display/panel/sony,griffin-samsung.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/display/panel/sony,griffin-samsung.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230521-drm-panels-sony-v1-9-541c341d6bee@somainline.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
