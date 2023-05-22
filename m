@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D179570C556
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 20:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D05F70C553
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 20:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D05C910E1FF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBD410E1FD;
 	Mon, 22 May 2023 18:38:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B5910E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 18:38:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D663A62266;
- Mon, 22 May 2023 18:38:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1846C4339B;
- Mon, 22 May 2023 18:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684780726;
- bh=k+ztUyrowKth864y9ceYmAWMGnjd0ateRI2+IBMBGTg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G6zapAYinGWGAXCgi9YCLSqCkeZnvJoOD5d8xvy4wRW6jNl2ohF6pVQ8u56HA5CQU
- 8Za7fHKyr84PXQCmNRIYldR3q/LuumWnYUU+P+c01FQIg2UcLFQRuOE4UdTlSUBoEK
- EpCcqYgAtTPftXzLuCb3kw1HUH4PoXDzk58p1FgYwp+yvR4QYioOn0fqCbJUzZ5dsq
- +YrJ0D8Wlo3UIp0UcgrDkr3H4lx1uQOIkyDFRlOADYWQE66ktZjDb7hCCxU3+OeX+f
- 51gB3iRedQvPG6uMfsJsvNOMkMq9hxwlseWSW48z1BF2ycigUX8oMUut5BHNsxnNV0
- HiIW8YJY3DECg==
-Date: Mon, 22 May 2023 19:38:39 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [PATCH net-next v3 1/6] dt-bindings: net: brcm,unimac-mdio: Add
- asp-v2.0
-Message-ID: <20230522-outshine-resample-f0c96c9345ca@spud>
-References: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
- <1684531184-14009-2-git-send-email-justin.chen@broadcom.com>
- <2be2af5e-d117-fa2c-f960-e7f0c3ca3d0b@conchuod.ie>
- <ce4a0153-1a6b-92d5-b760-489b09bbec73@broadcom.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6EFC10E1FF;
+ Mon, 22 May 2023 18:38:47 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34MIQcgs023090; Mon, 22 May 2023 18:38:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=UEz1lUlshOosLPZ1HNDgWpxltrj31N+9nYNjETbjGNs=;
+ b=Ls518YX8f3xIVq7ZvrAGzWpNSb05Q4A8f26kTAc+Z3qkoMBj0w5M9RDZJvrRkuw5eoIq
+ f3yeB9c/LZ8342huq17W7CEzS7LNqASV/fU/wjJIfGMrGumYJN6X69Gy03sO5LFLzDmr
+ 8wMDiXI+75AkTJPkMDLb7E5TfxDWtOLZUzyAKj2qE5+zrChooslAScAjf5PdgetSQ46L
+ BLj//uBB1v59Jl7/q9Bhjiul5Z7na8k77Dgs6vVy5e+rmt/Lf2Ec2A+gQ3tz4R07nkdt
+ bkikQsdP3hUIrZnO22uF9c1fLnQ39wUudoGSs7cuy2hLu2EVRjtVx/s708FvpJyIkJLJ lg== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qppkdmh3v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 18:38:45 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MIciGN003423
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 18:38:44 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 22 May
+ 2023 11:38:44 -0700
+Message-ID: <373d74d0-808a-15a9-b800-3dd40c313b85@quicinc.com>
+Date: Mon, 22 May 2023 11:38:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 5/5] drm/msm/dsi: Remove incorrect references to
+ slice_count
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230405-add-dsc-support-v3-0-6e1d35a206b3@quicinc.com>
+ <20230405-add-dsc-support-v3-5-6e1d35a206b3@quicinc.com>
+ <1e77e954-570f-e995-ce79-99560fde8d34@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <1e77e954-570f-e995-ce79-99560fde8d34@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce4a0153-1a6b-92d5-b760-489b09bbec73@broadcom.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: IQEkr5z_PzramIYIn3pdl5DV3Fk-45ga
+X-Proofpoint-GUID: IQEkr5z_PzramIYIn3pdl5DV3Fk-45ga
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-22_13,2023-05-22_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ adultscore=0 phishscore=0 mlxscore=0 impostorscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305220157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,70 +88,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org,
- Justin Chen <justin.chen@broadcom.com>, edumazet@google.com,
- justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com, linux@armlinux.org.uk,
- bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- richardcochran@gmail.com, opendmb@gmail.com, Conor Dooley <mail@conchuod.ie>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, christian.koenig@amd.com,
- robh+dt@kernel.org, davem@davemloft.net, hkallweit1@gmail.com
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 22, 2023 at 11:25:54AM -0700, Florian Fainelli wrote:
-> On 5/22/23 11:17, Conor Dooley wrote:
-> > On Fri, May 19, 2023 at 02:19:39PM -0700, Justin Chen wrote:
-> >  > The ASP 2.0 Ethernet controller uses a brcm unimac.
-> >  >
-> >  > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> >  > Signed-off-by: Justin Chen <justin.chen@broadcom.com>
-> >  > ---
-> >  >� Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 2 ++
-> >  >� 1 file changed, 2 insertions(+)
-> >  >
-> >  > diff --git
-> > a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> > b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> >  > index 0be426ee1e44..6684810fcbf0 100644
-> >  > --- a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> >  > +++ b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
-> >  > @@ -22,6 +22,8 @@ properties:
-> >  >������� - brcm,genet-mdio-v3
-> >  >������� - brcm,genet-mdio-v4
-> >  >������� - brcm,genet-mdio-v5
-> >  > +����� - brcm,asp-v2.0-mdio
-> >  > +����� - brcm,asp-v2.1-mdio
-> >  >������� - brcm,unimac-mdio
-> > 
-> > 
-> >  From V(N-1), there was some discussion between Rob & Florian:
-> >  > > How many SoCs does each of these correspond to? SoC specific
-> > compatibles
-> >  > > are preferred to version numbers (because few vendors are disciplined
-> >  > > at versioning and also not changing versions with every Soc).
-> >  >
-> >  > So far there is a 1:1 mapping between the number of versions and the
-> >  > number of SoCs, and the older SoC uses v2.0, while the newer one uses
-> > v2.1.
-> > 
-> > Rob's not around right now, but I don't really get why if there is a 1:1
-> > mapping you don't just name these things after the SoCs?
+
+
+On 5/20/2023 5:32 PM, Dmitry Baryshkov wrote:
+> On 20/05/2023 00:17, Jessica Zhang wrote:
+>> Currently, slice_count is being used to calculate word count and
+>> pkt_per_line. In downstream, these values are calculated using slice per
+>> packet, which is not the same as slice_count.
 > 
-> There is a 1:1 mapping now, but in the future there may be more SoCs with a
-> given implemented version. This is especially true for the MDIO controller
-> which has been largely unchanged since it was introduced.
+> I'd say the reference to downstream is not correct. We have seen cases 
+> where the vendor kernel contained errors. So it should be something like 
+> "Instead these values should be calculated using ...."
 
-Figured that'd be it, but what was written in the previous thread made
-the opposite appear true!
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Hi Dmitry,
 
-> > Also, my mailer **refused** to let me reply to you because of something
-> > to do with a garbage S/MIME signature? Dunno wtf is happening there.
+Acked.
+
+Thanks,
+
+Jessica Zhang
+
 > 
-> Our SMTP server is configured to automatically wrap the message in a S/MIME
-> envelope, nothing invalid though AFAICT. What's your email client?
-
-Mutt - I guess it was user-error because getting S/MIME stuff
-auto-populated the security field on my end. Annoying but w/e...
+>>
+>> Slice count represents the number of soft slices per interface, and its
+>> value will not always match that of slice per packet. For example, it is
+>> possible to have cases where there are multiple soft slices per interface
+>> but the panel specifies only one slice per packet.
+>>
+>> Thus, use the default value of one slice per packet and remove 
+>> slice_count
+>> from the aforementioned calculations.
+>>
+>> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
+>> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to 
+>> compute word count")
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 24 ++++++++++++++----------
+>>   1 file changed, 14 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
+>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index d04f8bbd707d..8c8858ee59ec 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -866,18 +866,15 @@ static void dsi_update_dsc_timing(struct 
+>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>        */
+>>       slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
+>> -    /*
+>> -     * If slice_count is greater than slice_per_intf
+>> -     * then default to 1. This can happen during partial
+>> -     * update.
+>> -     */
+>> -    if (dsc->slice_count > slice_per_intf)
+>> -        dsc->slice_count = 1;
+>> -
+>>       total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+>>       eol_byte_num = total_bytes_per_intf % 3;
+>> -    pkt_per_line = slice_per_intf / dsc->slice_count;
+>> +
+>> +    /*
+>> +     * Default to 1 slice_per_pkt, so pkt_per_line will be equal to
+>> +     * slice per intf.
+>> +     */
+>> +    pkt_per_line = slice_per_intf;
+>>       if (is_cmd_mode) /* packet data type */
+>>           reg = 
+>> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
+>> @@ -1001,7 +998,14 @@ static void dsi_timing_setup(struct msm_dsi_host 
+>> *msm_host, bool is_bonded_dsi)
+>>           if (!msm_host->dsc)
+>>               wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
+>>           else
+>> -            wc = msm_host->dsc->slice_chunk_size * 
+>> msm_host->dsc->slice_count + 1;
+>> +            /*
+>> +             * When DSC is enabled, WC = slice_chunk_size * 
+>> slice_per_packet + 1.
+>> +             * Currently, the driver only supports default value of 
+>> slice_per_packet = 1
+>> +             *
+>> +             * TODO: Expand mipi_dsi_device struct to hold 
+>> slice_per_packet info
+>> +             *       and adjust DSC math to account for 
+>> slice_per_packet.
+>> +             */
+>> +            wc = msm_host->dsc->slice_chunk_size + 1;
+>>           dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+>>               DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
