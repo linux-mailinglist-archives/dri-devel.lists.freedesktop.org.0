@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734C270BECA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BB670BEDF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:57:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0FB210E135;
-	Mon, 22 May 2023 12:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C58010E30C;
+	Mon, 22 May 2023 12:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id BA7C710E135
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 12:53:40 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:34822.850506710
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id E73591002C4;
- Mon, 22 May 2023 20:53:36 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
- bb1ac2a014294584af587b144dad0f46 for jani.nikula@linux.intel.com; 
- Mon, 22 May 2023 20:53:37 CST
-X-Transaction-ID: bb1ac2a014294584af587b144dad0f46
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <e7d2f0c6-efc1-99d0-2d63-aa62080c34b2@189.cn>
-Date: Mon, 22 May 2023 20:53:36 +0800
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48CBA10E30C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 12:57:27 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-ba878d5e75fso8272601276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 05:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684760246; x=1687352246;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LUXBO0rbh+EQ+Hwq/PJXmwkqd/JJT6/GZ5oIe8Ihyqk=;
+ b=pyU0N3/1E2I4DqKiflP6oJezbEvCGTFtQsjgw4w1SFeXKEVGVna/ScfaRYj9qVDNL2
+ C9EIDtjaj2RbPmq1Iu3fF5oAkp+G0w8UIcTwX7m/7aZcsSK0+HhSkogZWjjpJSMlh2IA
+ uq2E6uxARUBTI2P4wJMt/BASs6vXU/tFB0BzcyoA2vd6V8iS0xdZ82JTAIeqmEliJaX2
+ FmQ5ri1am0V84QWjCejxI09Hl38ljE1jkCv7t+yZ0QQvSE+pTpk/m/ZPf3MbQIWzmD51
+ IkXGzQ1VsQ1vcKs3LlVoTH4trFn41zuZp6XeRSSdrJWvlurc1zI62kQY1URHr7/kJyNt
+ ijbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684760246; x=1687352246;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LUXBO0rbh+EQ+Hwq/PJXmwkqd/JJT6/GZ5oIe8Ihyqk=;
+ b=hSRS9K699vKd2a87E+6+jGR1ApeAx5MitdQEprNwKHRHVD7KkUdwdHZPfqpUfuMgYb
+ ZhzahKpU39t07Z4eEMFE7KloMANkS7dVcjBdjfvdeP6gZF8pP79/i+6MW+aaMxZgt/yF
+ jiVXJrO2LMVkjNAIdfbxipLLEeV+ifyqSAaIgjTdz4oXEdxl/bJRQlJJy2O2uNaF5GAN
+ nmqFrgv+qzhy4subEDrxgfJf9OVpLETH1h0NfKaKoO7cda3ad97wENo5/MvLBLJuZYFr
+ meXOhKRg5PmbBc4kCMAizAUIZfl9NA4yiNh3YgMniPMAnJFWd5NNFeyBSyGsYMoM4Ic3
+ HHFw==
+X-Gm-Message-State: AC+VfDztOWHDNiNobgEB0v2geqpsgT8gNkHJXZP8X7ofNtthHsbWwODO
+ iFH88V5D6Od8Tjc6p2NqFoDdfdE86GKoUvRZsZUETg==
+X-Google-Smtp-Source: ACHHUZ7nCM+avx4oQBmZJMpFSowAaZ7UAink2GdFw+06vNd2TrSLgR73S7uKtIEruWA+UlmqfWW1PVkFa6wxDkNEurU=
+X-Received: by 2002:a0d:e886:0:b0:561:d25b:672a with SMTP id
+ r128-20020a0de886000000b00561d25b672amr10951679ywe.21.1684760245841; Mon, 22
+ May 2023 05:57:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/drm_vblank.c: avoid unsigned int to signed int cast
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- David Laight <David.Laight@ACULAB.COM>, Li Yi <liyi@loongson.cn>
-References: <20230516173026.2990705-1-15330273260@189.cn>
- <f6bd362145124f34a1af800dd330f8e9@AcuMS.aculab.com>
- <b23c41b1-e177-c81d-5327-fce5511cb97d@189.cn> <871qj8ob7z.fsf@intel.com>
- <7f81c053-ba60-a4d2-23d6-d0f032acbcff@189.cn> <87ttw4munm.fsf@intel.com>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <87ttw4munm.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-8-541c341d6bee@somainline.org>
+ <4679c741-7877-ce79-4086-08ec4ee9e6bf@linaro.org>
+ <cf5dea0f-5999-6ac4-4f04-9b397ca94fdb@linaro.org>
+In-Reply-To: <cf5dea0f-5999-6ac4-4f04-9b397ca94fdb@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 22 May 2023 15:57:14 +0300
+Message-ID: <CAA8EJprZi3cUN5ytSNvoasP1QCiGhzpLzz9NySEV+6sdhVxL1w@mail.gmail.com>
+Subject: Re: [PATCH RFC 08/10] drm/panel/samsung-sofef03: Add panel driver for
+ Sony Xperia 5 II
+To: neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,353 +70,359 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "loongson-kernel@lists.loongnix.cn" <loongson-kernel@lists.loongnix.cn>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/5/22 20:13, Jani Nikula wrote:
-> On Mon, 22 May 2023, Sui Jingfeng <15330273260@189.cn> wrote:
->> Hi,
->>
->> On 2023/5/22 19:29, Jani Nikula wrote:
->>> On Thu, 18 May 2023, Sui Jingfeng <15330273260@189.cn> wrote:
->>>> On 2023/5/17 18:59, David Laight wrote:
->>>>> From: 15330273260@189.cn
->>>>>> Sent: 16 May 2023 18:30
->>>>>>
->>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>
->>>>>> Both mode->crtc_htotal and mode->crtc_vtotal are u16 type,
->>>>>> mode->crtc_htotal * mode->crtc_vtotal will results a unsigned type.
->>>>> Nope, u16 gets promoted to 'signed int' and the result of the
->>>>> multiply is also signed.
->>>> I believe that signed or unsigned is dependent on the declaration.
->>>>
->>>> I am talk about the math, while you are talking about compiler.
->>>>
->>>> I admit that u16 gets promoted to 'signed int' is true, but this is
->>>> irrelevant,
->>>>
->>>> the point is how to understand the returned value.
->>>>
->>>>
->>>> How does the compiler generate the code is one thing, how do we
->>>> interpret the result is another
->>>>
->>>> How does the compiler generate the code is NOT determined by us, while
->>>> how do we interpret the result is determined by us.
->>>>
->>>>
->>>> I believe that using a u32 type to interpret the result(u16 * u16) is
->>>> always true, it is true in the perspective of *math*.
->>>>
->>>> Integer promotions is the details of C program language. If the result
->>>> of the multiply is signed, then there are risks that
->>>>
->>>> the result is negative, what's the benefit to present this risk to the
->>>> programmer?
->>>>
->>>> What's the benefit to tell me(and others) that u16 * u16 yield a signed
->>>> value? and can be negative?
->>>>
->>>> Using int type as the return type bring concerns to the programmer and
->>>> the user of the function,
->>>>
->>>> even though this is not impossible in practice.
->>> In general, do not use unsigned types in arithmethic to avoid negative
->>> values, because most people will be tripped over by integer promotion
->>> rules, and you'll get negative values anyway.
->>>
->>> I'll bet most people will be surprised to see what this prints:
->>>
->>> #include <stdio.h>
->>> #include <stdint.h>
->>>
->>> int main(void)
->>> {
->>> 	uint16_t x = 0xffff;
->>> 	uint16_t y = 0xffff;
->>> 	uint64_t z = x * y;
->>>
->>> 	printf("0x%016lx\n", z);
->>> 	printf("%ld\n", z);
->> Here, please replace the "%ld\n" with the "%lu\n", then you will see the
->> difference.
->>
->> you are casting the variable 'z' to signed value,  "%d" is for printing
->> signed value, and "%u" is for printing unsigned value.
->>
->>
->> Your simple code explained exactly why you are still in confusion,
-> Am I?
+On Mon, 22 May 2023 at 12:08, Neil Armstrong <neil.armstrong@linaro.org> wrote:
 >
-> Take a look at the values, and explain the math.
-
-I meant the value itself is represent with 2's compliment,
-
-when you print a value with '%ld', then you will get the signed version,
-
-when you print a value with '%lu', then you will get the unsigned version.
-
-The result of a u16*u16 couldn't be negative in math.
-  
-
-But when you using a '%ld' or '%d' to print a unsigned value, then is wrong.
-
-This is also the case which you shouldn't using a int type to store the result of u16*u16.
-
-because when I seen a int type, I will choose '%d' to print it,
-
-when I seen a unsigned int type, I will choose '%u' to print it.
-
-when using a int type as the return type, this could lead people to using '%d' to print
-
-such a value. Then, it generate the confusion as this little test program shows.
-
+> On 22/05/2023 03:23, Dmitry Baryshkov wrote:
+> > On 22/05/2023 00:23, Marijn Suijten wrote:
+> >> The SOFEF03-M Display-IC paired with an unknown panel in the Sony Xperia
+> >> 5 II always uses Display Stream Compression 1.1 and features a 60hz and
+> >> 120hz refresh-rate mode.
+> >>
+> >> Co-developed-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> >
+> > Konrad's S-o-b is also required then
+> >
+> >> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >> ---
+> >>   drivers/gpu/drm/panel/Kconfig                 |  14 +
+> >>   drivers/gpu/drm/panel/Makefile                |   1 +
+> >>   drivers/gpu/drm/panel/panel-samsung-sofef03.c | 423 ++++++++++++++++++++++++++
+> >>   3 files changed, 438 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> >> index 3f11e9906f2cb..8e2668153bce2 100644
+> >> --- a/drivers/gpu/drm/panel/Kconfig
+> >> +++ b/drivers/gpu/drm/panel/Kconfig
+> >> @@ -630,6 +630,20 @@ config DRM_PANEL_SAMSUNG_SOFEF01
+> >>         This panel features a fixed mode of 1080x2520@60.
+> >> +config DRM_PANEL_SAMSUNG_SOFEF03
+> >> +    tristate "Samsung sofef03 Sony Xperia 5 II DSI cmd mode panel"
+> >> +    depends on GPIOLIB
+> >> +    depends on OF
+> >> +    depends on DRM_MIPI_DSI
+> >> +    depends on BACKLIGHT_CLASS_DEVICE
+> >> +    help
+> >> +      Say Y or M here if you want to enable support for the Samsung AMOLED
+> >> +      command mode panel found in the Sony Xperia 5 II smartphone.
+> >> +
+> >> +      This panel uses Display Stream Compression 1.1.
+> >> +
+> >> +      The panel features a 1080x2520@60 and 1080x2520@120 mode.
+> >> +
+> >>   config DRM_PANEL_SEIKO_43WVF1G
+> >>       tristate "Seiko 43WVF1G panel"
+> >>       depends on OF
+> >> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> >> index a4039d0fc9cfb..52dcd82e33120 100644
+> >> --- a/drivers/gpu/drm/panel/Makefile
+> >> +++ b/drivers/gpu/drm/panel/Makefile
+> >> @@ -63,6 +63,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams4
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
+> >>   obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF01) += panel-samsung-sofef01.o
+> >> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF03) += panel-samsung-sofef03.o
+> >>   obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
+> >>   obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
+> >>   obj-$(CONFIG_DRM_PANEL_SHARP_LS037V7DW01) += panel-sharp-ls037v7dw01.o
+> >> diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef03.c b/drivers/gpu/drm/panel/panel-samsung-sofef03.c
+> >> new file mode 100644
+> >> index 0000000000000..2763e1c56b37b
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/panel/panel-samsung-sofef03.c
+> >> @@ -0,0 +1,423 @@
+> >> +// SPDX-License-Identifier: GPL-2.0-only
+> >> +/*
+> >> + * Copyright (c) 2022 Konrad Dybcio <konrad.dybcio@linaro.org>
+> >> + * Copyright (c) 2023 Marijn Suijten <marijn.suijten@somainline.org>
+> >> + */
+> >> +
+> >> +#include <linux/backlight.h>
+> >> +#include <linux/delay.h>
+> >> +#include <linux/gpio/consumer.h>
+> >> +#include <linux/module.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/regulator/consumer.h>
+> >> +
+> >> +#include <video/mipi_display.h>
+> >> +
+> >> +#include <drm/drm_mipi_dsi.h>
+> >> +#include <drm/drm_modes.h>
+> >> +#include <drm/drm_panel.h>
+> >> +#include <drm/drm_probe_helper.h>
+> >> +#include <drm/display/drm_dsc.h>
+> >> +#include <drm/display/drm_dsc_helper.h>
+> >> +
+> >> +static const bool enable_120hz = true;
 >
-> BR,
-> Jani.
+> Maybe this can be a module parameter ? Can you explain why this can't be dynamically changed by a modeset ?
 >
->> that is u16 * u16  can yield a negative value if you use the int as the
->> return type. Because it overflowed.
->>
->>> 	printf("%d\n", x * y);
->>> }
->>>
->>> And it's not that different from what you have below. Your patch doesn't
->>> change anything, and doesn't make it any less confusing.
->>>
->>> BR,
->>> Jani.
->>>
->>>
->>>>>> Using a u32 is enough to store the result, but considering that the
->>>>>> result will be casted to u64 soon after. We use a u64 type directly.
->>>>>> So there no need to cast it to signed type and cast back then.
->>>>> ....
->>>>>> -		int frame_size = mode->crtc_htotal * mode->crtc_vtotal;
->>>>>> +		u64 frame_size = mode->crtc_htotal * mode->crtc_vtotal;
->>>>> ...
->>>>>> -		framedur_ns = div_u64((u64) frame_size * 1000000, dotclock);
->>>>>> +		framedur_ns = div_u64(frame_size * 1000000, dotclock);
->>>>> The (u64) cast is there to extend the value to 64bits, not
->>>>> because the original type is signed.
->>>> Sorry about my expression, I think my sentence did not mention anything
->>>> about 'because the original type is signed'.
->>>>
->>>> In the contrary, my patch eliminated the concerns to the reviewer. It
->>>> say that the results of the multiply can't be negative.
->>>>
->>>> My intent is to tell the compiler we want a unsigned return type, but
->>>> GCC emit 'imul' instruction for the multiply......
->>>>
->>>> I'm using u64 as the return type, because div_u64() function accept a
->>>> u64 type value as its first argument.
->>>>
->>>>> The compiler will detect that the old code is a 32x32 multiply
->>>>> where a 64bit result is needed, that may not be true for the
->>>>> changed code (it would need to track back as far as the u16s).
->>>> I don't believe my code could be wrong.
->>>>
->>>> when you use the word 'may', you are saying that it could be wrong after
->>>> apply my patch.
->>>>
->>>> Then you have to find at least one test example to prove you point, in
->>>> which case my codes generate wrong results.
->>>>
->>>> Again I don't believe you could find one.
->>>>
->>>>> It is not uncommon to force a 64bit result from a multiply
->>>>> by making the constant 64bit. As in:
->>>>> 	div_u64(frame_size * 1000000ULL, dotclock);
->>>> In fact, After apply this patch, the ASM code generated is same with before.
->>>>
->>>> This may because the GCC is smart enough to generate optimized code in
->>>> either case,
->>>>
->>>> I think It could be different with a different optimization-level.
->>>>
->>>> I have tested this patch on three different architecture,  I can not
->>>> find error still.
->>>>
->>>> Below is the assembly extract on x86-64: because GCC generate the same
->>>> code in either case,
->>>>
->>>> so I pasted only one copy here.
->>>>
->>>>
->>>> 0000000000000530 <drm_calc_timestamping_constants>:
->>>>         530:    f3 0f 1e fa              endbr64
->>>>         534:    e8 00 00 00 00           callq  539
->>>> <drm_calc_timestamping_constants+0x9>
->>>>         539:    55                       push   %rbp
->>>>         53a:    48 89 e5                 mov    %rsp,%rbp
->>>>         53d:    41 57                    push   %r15
->>>>         53f:    41 56                    push   %r14
->>>>         541:    41 55                    push   %r13
->>>>         543:    41 54                    push   %r12
->>>>         545:    53                       push   %rbx
->>>>         546:    48 83 ec 18              sub    $0x18,%rsp
->>>>         54a:    4c 8b 3f                 mov    (%rdi),%r15
->>>>         54d:    41 8b 87 6c 01 00 00     mov    0x16c(%r15),%eax
->>>>         554:    85 c0                    test   %eax,%eax
->>>>         556:    0f 84 ec 00 00 00        je     648
->>>> <drm_calc_timestamping_constants+0x118>
->>>>         55c:    44 8b 87 90 00 00 00     mov    0x90(%rdi),%r8d
->>>>         563:    49 89 fc                 mov    %rdi,%r12
->>>>         566:    44 39 c0                 cmp    %r8d,%eax
->>>>         569:    0f 86 40 01 00 00        jbe    6af
->>>> <drm_calc_timestamping_constants+0x17f>
->>>>         56f:    44 8b 76 1c              mov    0x1c(%rsi),%r14d
->>>>         573:    49 8b 8f 40 01 00 00     mov    0x140(%r15),%rcx
->>>>         57a:    48 89 f3                 mov    %rsi,%rbx
->>>>         57d:    45 85 f6                 test   %r14d,%r14d
->>>>         580:    0f 8e d5 00 00 00        jle    65b
->>>> <drm_calc_timestamping_constants+0x12b>
->>>>         586:    0f b7 43 2a              movzwl 0x2a(%rbx),%eax
->>>>         58a:    49 63 f6                 movslq %r14d,%rsi
->>>>         58d:    31 d2                    xor    %edx,%edx
->>>>         58f:    48 89 c7                 mov    %rax,%rdi
->>>>         592:    48 69 c0 40 42 0f 00     imul   $0xf4240,%rax,%rax
->>>>         599:    48 f7 f6                 div    %rsi
->>>>         59c:    31 d2                    xor    %edx,%edx
->>>>         59e:    48 89 45 d0              mov    %rax,-0x30(%rbp)
->>>>         5a2:    0f b7 43 38              movzwl 0x38(%rbx),%eax
->>>>         5a6:    0f af c7                 imul   %edi,%eax
->>>>         5a9:    48 98                    cltq
->>>>         5ab:    48 69 c0 40 42 0f 00     imul   $0xf4240,%rax,%rax
->>>>         5b2:    48 f7 f6                 div    %rsi
->>>>         5b5:    41 89 c5                 mov    %eax,%r13d
->>>>         5b8:    f6 43 18 10              testb  $0x10,0x18(%rbx)
->>>>         5bc:    74 0a                    je     5c8
->>>> <drm_calc_timestamping_constants+0x98>
->>>>         5be:    41 c1 ed 1f              shr    $0x1f,%r13d
->>>>         5c2:    41 01 c5                 add    %eax,%r13d
->>>>         5c5:    41 d1 fd                 sar    %r13d
->>>>         5c8:    4b 8d 04 c0              lea    (%r8,%r8,8),%rax
->>>>         5cc:    48 89 de                 mov    %rbx,%rsi
->>>>         5cf:    49 8d 3c 40              lea    (%r8,%rax,2),%rdi
->>>>         5d3:    8b 45 d0                 mov    -0x30(%rbp),%eax
->>>>         5d6:    48 c1 e7 04              shl    $0x4,%rdi
->>>>         5da:    48 01 cf                 add    %rcx,%rdi
->>>>         5dd:    89 47 78                 mov    %eax,0x78(%rdi)
->>>>         5e0:    48 83 ef 80              sub $0xffffffffffffff80,%rdi
->>>>         5e4:    44 89 6f f4              mov    %r13d,-0xc(%rdi)
->>>>         5e8:    e8 00 00 00 00           callq  5ed
->>>> <drm_calc_timestamping_constants+0xbd>
->>>>         5ed:    0f b7 53 2e              movzwl 0x2e(%rbx),%edx
->>>>         5f1:    0f b7 43 38              movzwl 0x38(%rbx),%eax
->>>>         5f5:    44 0f b7 4b 2a           movzwl 0x2a(%rbx),%r9d
->>>>         5fa:    45 8b 44 24 60           mov    0x60(%r12),%r8d
->>>>         5ff:    4d 85 ff                 test   %r15,%r15
->>>>         602:    0f 84 87 00 00 00        je     68f
->>>> <drm_calc_timestamping_constants+0x15f>
->>>>         608:    49 8b 77 08              mov    0x8(%r15),%rsi
->>>>         60c:    52                       push   %rdx
->>>>         60d:    31 ff                    xor    %edi,%edi
->>>>         60f:    48 c7 c1 00 00 00 00     mov    $0x0,%rcx
->>>>         616:    50                       push   %rax
->>>>         617:    31 d2                    xor    %edx,%edx
->>>>         619:    e8 00 00 00 00           callq  61e
->>>> <drm_calc_timestamping_constants+0xee>
->>>>         61e:    45 8b 44 24 60           mov    0x60(%r12),%r8d
->>>>         623:    4d 8b 7f 08              mov    0x8(%r15),%r15
->>>>         627:    5f                       pop    %rdi
->>>>         628:    41 59                    pop    %r9
->>>>         62a:    8b 45 d0                 mov    -0x30(%rbp),%eax
->>>>         62d:    48 c7 c1 00 00 00 00     mov    $0x0,%rcx
->>>>         634:    4c 89 fe                 mov    %r15,%rsi
->>>>         637:    45 89 f1                 mov    %r14d,%r9d
->>>>         63a:    31 d2                    xor    %edx,%edx
->>>>         63c:    31 ff                    xor    %edi,%edi
->>>>         63e:    50                       push   %rax
->>>>         63f:    41 55                    push   %r13
->>>>         641:    e8 00 00 00 00           callq  646
->>>> <drm_calc_timestamping_constants+0x116>
->>>>         646:    59                       pop    %rcx
->>>>         647:    5e                       pop    %rsi
->>>>         648:    48 8d 65 d8              lea    -0x28(%rbp),%rsp
->>>>         64c:    5b                       pop    %rbx
->>>>         64d:    41 5c                    pop    %r12
->>>>         64f:    41 5d                    pop    %r13
->>>>         651:    41 5e                    pop    %r14
->>>>         653:    41 5f                    pop    %r15
->>>>         655:    5d                       pop    %rbp
->>>>         656:    e9 00 00 00 00           jmpq   65b
->>>> <drm_calc_timestamping_constants+0x12b>
->>>>         65b:    41 8b 54 24 60           mov    0x60(%r12),%edx
->>>>         660:    49 8b 7f 08              mov    0x8(%r15),%rdi
->>>>         664:    44 89 45 c4              mov    %r8d,-0x3c(%rbp)
->>>>         668:    45 31 ed                 xor    %r13d,%r13d
->>>>         66b:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
->>>>         672:    48 89 4d c8              mov    %rcx,-0x38(%rbp)
->>>>         676:    e8 00 00 00 00           callq  67b
->>>> <drm_calc_timestamping_constants+0x14b>
->>>>         67b:    c7 45 d0 00 00 00 00     movl   $0x0,-0x30(%rbp)
->>>>         682:    44 8b 45 c4              mov    -0x3c(%rbp),%r8d
->>>>         686:    48 8b 4d c8              mov    -0x38(%rbp),%rcx
->>>>         68a:    e9 39 ff ff ff           jmpq   5c8
->>>> <drm_calc_timestamping_constants+0x98>
->>>>         68f:    52                       push   %rdx
->>>>         690:    48 c7 c1 00 00 00 00     mov    $0x0,%rcx
->>>>         697:    31 d2                    xor    %edx,%edx
->>>>         699:    31 f6                    xor    %esi,%esi
->>>>         69b:    50                       push   %rax
->>>>         69c:    31 ff                    xor    %edi,%edi
->>>>         69e:    e8 00 00 00 00           callq  6a3
->>>> <drm_calc_timestamping_constants+0x173>
->>>>         6a3:    45 8b 44 24 60           mov    0x60(%r12),%r8d
->>>>         6a8:    58                       pop    %rax
->>>>         6a9:    5a                       pop    %rdx
->>>>         6aa:    e9 7b ff ff ff           jmpq   62a
->>>> <drm_calc_timestamping_constants+0xfa>
->>>>         6af:    49 8b 7f 08              mov    0x8(%r15),%rdi
->>>>         6b3:    4c 8b 67 50              mov    0x50(%rdi),%r12
->>>>         6b7:    4d 85 e4                 test   %r12,%r12
->>>>         6ba:    74 25                    je     6e1
->>>> <drm_calc_timestamping_constants+0x1b1>
->>>>         6bc:    e8 00 00 00 00           callq  6c1
->>>> <drm_calc_timestamping_constants+0x191>
->>>>         6c1:    48 c7 c1 00 00 00 00     mov    $0x0,%rcx
->>>>         6c8:    4c 89 e2                 mov    %r12,%rdx
->>>>         6cb:    48 c7 c7 00 00 00 00     mov    $0x0,%rdi
->>>>         6d2:    48 89 c6                 mov    %rax,%rsi
->>>>         6d5:    e8 00 00 00 00           callq  6da
->>>> <drm_calc_timestamping_constants+0x1aa>
->>>>         6da:    0f 0b                    ud2
->>>>         6dc:    e9 67 ff ff ff           jmpq   648
->>>> <drm_calc_timestamping_constants+0x118>
->>>>         6e1:    4c 8b 27                 mov    (%rdi),%r12
->>>>         6e4:    eb d6                    jmp    6bc
->>>> <drm_calc_timestamping_constants+0x18c>
->>>>         6e6:    66 2e 0f 1f 84 00 00     nopw   %cs:0x0(%rax,%rax,1)
->>>>         6ed:    00 00 00
->>>>         6f0:    90                       nop
->>>>         6f1:    90                       nop
->>>>         6f2:    90                       nop
->>>>         6f3:    90                       nop
->>>>         6f4:    90                       nop
->>>>         6f5:    90                       nop
->>>>         6f6:    90                       nop
->>>>         6f7:    90                       nop
->>>>         6f8:    90                       nop
->>>>         6f9:    90                       nop
->>>>         6fa:    90                       nop
->>>>         6fb:    90                       nop
->>>>         6fc:    90                       nop
->>>>         6fd:    90                       nop
->>>>         6fe:    90                       nop
->>>>         6ff:    90                       nop
->>>>
->>>>
->>>>> 	David
->>>>>
->>>>> -
->>>>> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
->>>>> Registration No: 1397386 (Wales)
->>>>>
+> >> +
+> >> +struct samsung_sofef03_m {
+> >> +    struct drm_panel panel;
+> >> +    struct mipi_dsi_device *dsi;
+> >> +    struct regulator *vddio, *vci;
+> >> +    struct gpio_desc *reset_gpio;
+> >> +    bool prepared;
+> >> +};
+> >> +
+> >> +static inline struct samsung_sofef03_m *to_samsung_sofef03_m(struct drm_panel *panel)
+> >> +{
+> >> +    return container_of(panel, struct samsung_sofef03_m, panel);
+> >> +}
+> >> +
+> >> +static void samsung_sofef03_m_reset(struct samsung_sofef03_m *ctx)
+> >> +{
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> >> +    usleep_range(10000, 11000);
+> >> +}
+> >> +
+> >> +static int samsung_sofef03_m_on(struct samsung_sofef03_m *ctx)
+> >> +{
+> >> +    struct mipi_dsi_device *dsi = ctx->dsi;
+> >> +    struct device *dev = &dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> >> +
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0x9d, 0x01);
+> >> +
+> >> +    ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    usleep_range(10000, 11000);
+> >> +
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x09);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xd5, 0x00, 0x00, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x08);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xee, 0x00, 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to set tear on: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to set column address: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_page_address(dsi, 0, 2520 - 1);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to set page address: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_display_brightness_large(dsi, 100);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to set display brightness: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x83);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x01);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x01);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x02);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xec, 0x02, 0x00, 0x1c, 0x1c);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x0c);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xec, 0x01, 0x19);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+> >> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, BIT(5));
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xc2, 0x2d, 0x27);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0x60, enable_120hz ? 0x10 : 0x00);
+> >> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+> >> +    msleep(110);
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_display_on(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to turn display on: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int samsung_sofef03_m_off(struct samsung_sofef03_m *ctx)
+> >> +{
+> >> +    struct mipi_dsi_device *dsi = ctx->dsi;
+> >> +    struct device *dev = &dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> >> +
+> >> +    ret = mipi_dsi_dcs_set_display_off(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to turn display off: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(20);
+> >> +
+> >> +    ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +    msleep(100);
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static int samsung_sofef03_m_prepare(struct drm_panel *panel)
+> >> +{
+> >> +    struct samsung_sofef03_m *ctx = to_samsung_sofef03_m(panel);
+> >> +    struct drm_dsc_picture_parameter_set pps;
+> >> +    struct device *dev = &ctx->dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    if (ctx->prepared)
+> >> +        return 0;
+> >> +
+> >> +    ret = regulator_enable(ctx->vddio);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to enable vddio regulator: %d\n", ret);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    ret = regulator_enable(ctx->vci);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to enable vci regulator: %d\n", ret);
+> >> +        regulator_disable(ctx->vddio);
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    samsung_sofef03_m_reset(ctx);
+> >> +
+> >> +    ret = samsung_sofef03_m_on(ctx);
+> >> +    if (ret < 0) {
+> >> +        dev_err(dev, "Failed to initialize panel: %d\n", ret);
+> >> +        goto fail;
+> >> +    }
+> >> +
+> >> +    if (ctx->dsi->dsc) {
+> >
+> > Always true
+> >
+> >> +        drm_dsc_pps_payload_pack(&pps, ctx->dsi->dsc);
+> >> +
+> >> +        ret = mipi_dsi_picture_parameter_set(ctx->dsi, &pps);
+> >> +        if (ret < 0) {
+> >> +            dev_err(dev, "failed to transmit PPS: %d\n", ret);
+> >> +            goto fail;
+> >> +        }
+> >> +
+> >> +        ret = mipi_dsi_compression_mode(ctx->dsi, true);
+> >> +        if (ret < 0) {
+> >> +            dev_err(dev, "Failed to enable compression mode: %d\n", ret);
+> >> +            goto fail;
+> >> +        }
+> >> +
+> >> +        msleep(28);
+> >> +    }
+> >> +
+> >> +    ctx->prepared = true;
+> >> +    return 0;
+> >> +
+> >> +fail:
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >> +    regulator_disable(ctx->vci);
+> >> +    regulator_disable(ctx->vddio);
+> >> +    return ret;
+> >> +}
+> >> +
+> >> +static int samsung_sofef03_m_unprepare(struct drm_panel *panel)
+> >> +{
+> >> +    struct samsung_sofef03_m *ctx = to_samsung_sofef03_m(panel);
+> >> +    struct device *dev = &ctx->dsi->dev;
+> >> +    int ret;
+> >> +
+> >> +    if (!ctx->prepared)
+> >> +        return 0;
+> >> +
+> >> +    ret = samsung_sofef03_m_off(ctx);
+> >> +    if (ret < 0)
+> >> +        dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
+> >> +
+> >> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> >> +    regulator_disable(ctx->vci);
+> >> +    regulator_disable(ctx->vddio);
+> >> +
+> >> +    ctx->prepared = false;
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static const struct drm_display_mode samsung_sofef03_m_60hz_mode = {
+> >> +    .clock = (1080 + 156 + 8 + 8) * (2520 + 2393 + 8 + 8) * 60 / 1000,
+> >> +    .hdisplay = 1080,
+> >> +    .hsync_start = 1080 + 156,
+> >> +    .hsync_end = 1080 + 156 + 8,
+> >> +    .htotal = 1080 + 156 + 8 + 8,
+> >> +    .vdisplay = 2520,
+> >> +    .vsync_start = 2520 + 2393,
+> >> +    .vsync_end = 2520 + 2393 + 8,
+> >> +    .vtotal = 2520 + 2393 + 8 + 8,
+> >> +    .width_mm = 61,
+> >> +    .height_mm = 142,
+> >> +};
+> >> +
+> >> +static const struct drm_display_mode samsung_sofef03_m_120hz_mode = {
+> >> +    .clock = (1080 + 56 + 8 + 8) * (2520 + 499 + 8 + 8) * 120 / 1000,
+> >> +    .hdisplay = 1080,
+> >> +    .hsync_start = 1080 + 56,
+> >> +    .hsync_end = 1080 + 56 + 8,
+> >> +    .htotal = 1080 + 56 + 8 + 8,
+> >> +    .vdisplay = 2520,
+> >> +    .vsync_start = 2520 + 499,
+> >> +    .vsync_end = 2520 + 499 + 8,
+> >> +    .vtotal = 2520 + 499 + 8 + 8,
+> >> +    .width_mm = 61,
+> >> +    .height_mm = 142,
+> >> +};
+> >> +
+> >> +static int samsung_sofef03_m_get_modes(struct drm_panel *panel,
+> >> +                   struct drm_connector *connector)
+> >> +{
+> >> +    if (enable_120hz)
+> >
+> > Is it possible to switch between these modes at runtime? It might be logical to define 60 Hz mode as preferred, while allowing users to switch to 120 Hz when required for some reason.
+
+Current panel API does not have a way to handle modesetting. All
+callbacks only get the panel as an input, state is left aside.
+Probably it's time to add atomic_*() versions of these callbacks, so
+that one can pass the state and maybe a connector?
+Or maybe the panel should get lightweight state too, like bridges do.
+
+> >
+> >> +        return drm_connector_helper_get_modes_fixed(connector,
+> >> +                                &samsung_sofef03_m_120hz_mode);
+> >> +    else
+> >> +        return drm_connector_helper_get_modes_fixed(connector,
+> >> +                                &samsung_sofef03_m_60hz_mode);
+> >> +}
+
+-- 
+With best wishes
+Dmitry
