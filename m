@@ -1,71 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8288F70D672
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:00:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2EA70D6E3
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 152B010E3DA;
-	Tue, 23 May 2023 07:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5AF310E405;
+	Tue, 23 May 2023 08:14:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE7610E3DD
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 07:59:56 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f3baf04f0cso3005520e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 00:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684828795; x=1687420795;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h/aoipumKtjIgmVBCWgRH2IIEC1OCL6rlPm9b4d5hh0=;
- b=UqbKskCFs7Yylj9hk2lyeQnecJv2S5XiLMPo7CBLXsyqv9nhEVaK7jYaIEv038CJ60
- 1qbpk+82UE+DJdIvpD8BuQ8g6Z7O9EzcBaeXR9Oe+HepXRI+StsADCOn6m9rYIB1fQST
- RVvX0B4ihaF9/OyksAhqxMHOUZ9ybGrlNC6H7P8GSsc38KA/Ec+wU9k7GqFa9OL+K2Bw
- g1MHwmB0xmqOeN8gg8o8LqQeU5raJPB+E3kIBduR5e5s9sU8N7Pz8RBt1dDoHwwdL6jr
- x8yuI6CoRcRQ6mTMUGvrX7WAF/L/IsnTGd/ZggoxkZOuIo8rdg05zZabhem+qlk9hltP
- l5fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684828795; x=1687420795;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=h/aoipumKtjIgmVBCWgRH2IIEC1OCL6rlPm9b4d5hh0=;
- b=eCPvibG+kRLJQACchXAnZGLDjX/QyBsZPbME3OHNeq/uvW0q6/nlfQCS9J6QVyv4JN
- 5v7Z0AWE5VPFBhsdAhO2r6QrbsrXb5iNk4Q2H/qVy8vYv/jO6Zjn2CmeJzJheOb3EMiz
- EBlBNOy9dyyZeiKHqPgX/29vc+iog1cCV4OszjqTwLcyPNP3tF/JvRRcSiBlwomex9EM
- 2s6GlQD/r+e4M9IjhCTu9O5IchJqYxfS9G8QtygKlcanSUzSf/vGR1XZivlGu8DR9lri
- Ph7bsOtjW0ahZnUT944bFVDJtUos/Txpv9y+L9SDxtBh/DzO5Q+vfzJ/cLo4NqezM2DH
- E4FA==
-X-Gm-Message-State: AC+VfDzSpAu8+26GSPQMJ6EL87lPUycA9dJCoU41dtpTk/zzYfgQQYy6
- fSKaOaTdOwllgdo0XCpO4sERRQ==
-X-Google-Smtp-Source: ACHHUZ4hBzBfGUkzVb30MbKl54siE4/TDVUICuxRJ347mzFww1b7qcAvP1rxrghl9gmrYfd6X7qPlQ==
-X-Received: by 2002:a05:6512:510:b0:4f3:8196:80c8 with SMTP id
- o16-20020a056512051000b004f3819680c8mr3993040lfb.1.1684828794784; 
- Tue, 23 May 2023 00:59:54 -0700 (PDT)
-Received: from [192.168.1.101] (abyk138.neoplus.adsl.tpnet.pl. [83.9.30.138])
- by smtp.gmail.com with ESMTPSA id
- p4-20020a2e9ac4000000b002a774fb7923sm1522807ljj.45.2023.05.23.00.59.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 May 2023 00:59:54 -0700 (PDT)
-Message-ID: <097944b0-fa7a-ad4d-1c3d-e74ab2b977de@linaro.org>
-Date: Tue, 23 May 2023 09:59:53 +0200
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413F410E26A
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 08:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+ t=1684742981; bh=aA1E0+xC/rAqJLb6Jh39PUGRSeGXjVPeIfHkIASardM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GxNeYl2P1gnfXOcmwOovlg6H5jfccMv55Mlm6Y1G/Rj7o8toa/nDZIs4swTV43Y/g
+ cYAQYTAiQC8X1nkbWT/3/uxkWcBz6G3UGpjOeCmxYqh4KFeY8+HF2/fWbWnREobchl
+ iWk2z7ftTFn2LgWhH9gRfUSEFmawzGMG7bpz2kuc=
+Received: from [100.100.57.122] (unknown [58.34.185.106])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7DFEA600DA;
+ Mon, 22 May 2023 16:09:40 +0800 (CST)
+Message-ID: <97fe7af2-0a93-3f28-db6e-40a9b0798d49@xen0n.name>
+Date: Mon, 22 May 2023 16:09:39 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
 Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>
-References: <20230523011522.65351-1-quic_bjorande@quicinc.com>
- <20230523011522.65351-3-quic_bjorande@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc8280xp: Add GPU related nodes
-In-Reply-To: <20230523011522.65351-3-quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+ <73447e35-f4df-9871-6210-b7bf1a3f04fc@189.cn>
+From: WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <73447e35-f4df-9871-6210-b7bf1a3f04fc@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 23 May 2023 08:13:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,234 +61,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mani@kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- johan@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: loongson-kernel@lists.loongnix.cn,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 23.05.2023 03:15, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+On 2023/5/22 16:02, Sui Jingfeng wrote:
+> Hi,
 > 
-> Add Adreno SMMU, GPU clock controller, GMU and GPU nodes for the
-> SC8280XP.
+> On 2023/5/21 20:21, WANG Xuerui wrote:
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/loongson/Kconfig
+>>> @@ -0,0 +1,17 @@
+>>> +# SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +config DRM_LOONGSON
+>>> +    tristate "DRM support for Loongson Graphics"
+>>> +    depends on DRM && PCI && MMU
+>>> +    select DRM_KMS_HELPER
+>>> +    select DRM_TTM
+>>> +    select I2C
+>>> +    select I2C_ALGOBIT
+>>> +    help
+>>> +      This is a DRM driver for Loongson Graphics, it may including
+>>
+>> Drop "it may"; "including" should be enough.
+>>
+> 'it may' is more *precise* here, because currently we don't ship with 
+> the support for loongson 2K series SoC.
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
+> I'm try to be precise as far as I can, we avoid made this driver too 
+> large by ignore loongson 2K series SoC temporary.
+
+That's a good idea! For now the patch is so large that my review reply 
+is said to be dropped by the lists. Focusing on one bunch of similar 
+models first then adding support for the rest not-so-similar models is 
+very friendly towards the reviewing process and will help code quality too.
 
 > 
-> Changes since v1:
-> - Dropped gmu_pdc_seq region from &gmu, as it shouldn't have been used.
-> - Added missing compatible to &adreno_smmu.
-> - Dropped aoss_qmp clock in &gmu and &adreno_smmu.
->  
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 169 +++++++++++++++++++++++++
->  1 file changed, 169 insertions(+)
+>>> +      LS7A2000, LS7A1000, LS2K2000 and LS2K1000 etc. Loongson LS7A
+>>> +      series are bridge chipset, while Loongson LS2K series are SoC.
+>>> +
+>>> +      If "M" is selected, the module will be called loongson.
+>>
+>> Just "loongson"? 
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> index d2a2224d138a..329ec2119ecf 100644
-> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> @@ -6,6 +6,7 @@
->  
->  #include <dt-bindings/clock/qcom,dispcc-sc8280xp.h>
->  #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
-> +#include <dt-bindings/clock/qcom,gpucc-sc8280xp.h>
->  #include <dt-bindings/clock/qcom,rpmh.h>
->  #include <dt-bindings/interconnect/qcom,osm-l3.h>
->  #include <dt-bindings/interconnect/qcom,sc8280xp.h>
-> @@ -2331,6 +2332,174 @@ tcsr: syscon@1fc0000 {
->  			reg = <0x0 0x01fc0000 0x0 0x30000>;
->  		};
->  
-> +		gpu: gpu@3d00000 {
-> +			compatible = "qcom,adreno-690.0", "qcom,adreno";
-> +
-> +			reg = <0 0x03d00000 0 0x40000>,
-> +			      <0 0x03d9e000 0 0x1000>,
-> +			      <0 0x03d61000 0 0x800>;
-> +			reg-names = "kgsl_3d0_reg_memory",
-> +				    "cx_mem",
-> +				    "cx_dbgc";
-> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +			iommus = <&adreno_smmu 0 0xc00>, <&adreno_smmu 1 0xc00>;
-> +			operating-points-v2 = <&gpu_opp_table>;
-> +
-> +			qcom,gmu = <&gmu>;
-> +			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-> +			interconnect-names = "gfx-mem";
-> +			#cooling-cells = <2>;
-> +
-> +			status = "disabled";
-> +
-> +			gpu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-270000000 {
-> +					opp-hz = /bits/ 64 <270000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-> +					opp-peak-kBps = <451000>;
-> +				};
-> +
-> +				opp-410000000 {
-> +					opp-hz = /bits/ 64 <410000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-500000000 {
-> +					opp-hz = /bits/ 64 <500000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-547000000 {
-> +					opp-hz = /bits/ 64 <547000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-606000000 {
-> +					opp-hz = /bits/ 64 <606000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +
-> +				opp-640000000 {
-> +					opp-hz = /bits/ 64 <640000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +
-> +				opp-690000000 {
-> +					opp-hz = /bits/ 64 <690000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +			};
-> +		};
-> +
-> +		gmu: gmu@3d6a000 {
-> +			compatible = "qcom,adreno-gmu-690.0", "qcom,adreno-gmu";
-> +			reg = <0 0x03d6a000 0 0x34000>,
-> +			      <0 0x03de0000 0 0x10000>,
-> +			      <0 0x0b290000 0 0x10000>;
-> +			reg-names = "gmu", "rscc", "gmu_pdc";
-> +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "hfi", "gmu";
-> +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_CXO_CLK>,
-> +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gpucc GPU_CC_AHB_CLK>,
-> +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-> +			clock-names = "gmu",
-> +				      "cxo",
-> +				      "axi",
-> +				      "memnoc",
-> +				      "ahb",
-> +				      "hub",
-> +				      "smmu_vote";
-> +			power-domains = <&gpucc GPU_CC_CX_GDSC>,
-> +					<&gpucc GPU_CC_GX_GDSC>;
-> +			power-domain-names = "cx",
-> +					     "gx";
-> +			iommus = <&adreno_smmu 5 0xc00>;
-> +			operating-points-v2 = <&gmu_opp_table>;
-> +
-> +			status = "disabled";
-I've recently discovered that - and I am not 100% sure - all GMUs are
-cache-coherent. Could you please ask somebody at qc about this?
+> Yes,  when compile this driver as module,  loongson.ko will be generated.
+> 
+>   drm radeon is also doing so, See drm/radeon/Kconfig.
+> 
+>> I know it's like this for ages (at least dating back to the MIPS days) 
+>> but you really don't want to imply Loongson is mainly a GPU company. 
+>> Something like "loongson_drm" or "lsdc" or "gsgpu" could be better. 
+> 
+> No, these name may have backward compatibility problems.
+> 
+> Downstream driver already taken those name.
+> 
+> userspace driver need to differentiate them who is who.
 
-> +
-> +			gmu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-200000000 {
-> +					opp-hz = /bits/ 64 <200000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> +				};
-Missing 500MHz + RPMH_REGULATOR_LEVEL_SVS
+IMO this shouldn't be a problem. Let me try explaining this: currently, 
+upstream / the "new world" doesn't have any support for this driver at 
+all, so any name will work; just use whatever is appropriate from an 
+upstream's perspective, then make the userspace bits recognize both 
+variants, and you'll be fine. And the "existing" userspace drivers can 
+also carry the change, it'll just be a branch never taken in that setup.
 
-(that may be used in the future for hw scheduling)
-> +			};
-> +		};
-> +
-> +		gpucc: clock-controller@3d90000 {
-> +			compatible = "qcom,sc8280xp-gpucc";
-> +			reg = <0 0x03d90000 0 0x9000>;
-> +			clocks = <&rpmhcc RPMH_CXO_CLK>,
-> +				 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
-> +				 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
-> +			clock-names = "bi_tcxo",
-> +				      "gcc_gpu_gpll0_clk_src",
-> +				      "gcc_gpu_gpll0_div_clk_src";
-FWIW the driver doesn't use clock-names, but the binding defines it,
-so I suppose it's fine
+So, I'm still in favor of keeping the upstream "clean" without dubious 
+names like this (bare "loongson"). What do you think about my suggestion 
+above?
 
-> +
-> +			power-domains = <&rpmhpd SC8280XP_GFX>;
-> +			#clock-cells = <1>;
-> +			#reset-cells = <1>;
-> +			#power-domain-cells = <1>;
-> +
-> +			status = "disabled";
-> +		};
-> +
-> +		adreno_smmu: iommu@3da0000 {
-> +			compatible = "qcom,sc8280xp-smmu-500", "qcom,adreno-smmu",
-> +				     "qcom,smmu-500", "arm,mmu-500";
-> +			reg = <0 0x03da0000 0 0x20000>;
-> +			#iommu-cells = <2>;
-> +			#global-interrupts = <2>;
-> +			interrupts = <GIC_SPI 672 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 688 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 689 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-> +				 <&gpucc GPU_CC_AHB_CLK>,
-> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-> +				 <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +				 <&gpucc GPU_CC_HUB_AON_CLK>;
-> +			clock-names = "gcc_gpu_memnoc_gfx_clk",
-> +				      "gcc_gpu_snoc_dvm_gfx_clk",
-> +				      "gpu_cc_ahb_clk",
-> +				      "gpu_cc_hlos1_vote_gpu_smmu_clk",
-> +				      "gpu_cc_cx_gmu_clk",
-> +				      "gpu_cc_hub_cx_int_clk",
-> +				      "gpu_cc_hub_aon_clk";
-> +
-> +			power-domains = <&gpucc GPU_CC_CX_GDSC>;
-> +
-> +			status = "disabled";
-This one should be dma-coherent (per downstream, plus 8350's mmu is for sure)
+-- 
+WANG "xen0n" Xuerui
 
-Konrad
-> +		};
-> +
->  		usb_0_hsphy: phy@88e5000 {
->  			compatible = "qcom,sc8280xp-usb-hs-phy",
->  				     "qcom,usb-snps-hs-5nm-phy";
+Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+
