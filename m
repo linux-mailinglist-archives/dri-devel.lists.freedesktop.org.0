@@ -2,70 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0B570BB4B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2B070BBB7
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 715AE10E2CD;
-	Mon, 22 May 2023 11:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244D810E2CA;
+	Mon, 22 May 2023 11:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2815310E2CB
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:13:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684753997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kd+PsvNileg5XRg62rxcYULjvxE2s9HN/H5lXiFohgM=;
- b=ZldgP6g1wMg9ZwUuT0LFCDkYESJO3o/KRPCubhQuBeTXIOeVnC7XA6v/cJVR6RyDBMdCjM
- tqUxwbBQRoarQB4oxE5I3UL5jI3/HpJK7EP0NM/7+2FEn5+tLH2b5GQROC4sSFKkRTxl/V
- wA+T+lamGN8Zjiah/JSOJ+FP70H9CGg=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-po-iKG8kNheYosOXaI0Vzw-1; Mon, 22 May 2023 07:13:15 -0400
-X-MC-Unique: po-iKG8kNheYosOXaI0Vzw-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4f24f491835so235739e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 04:13:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684753994; x=1687345994;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kd+PsvNileg5XRg62rxcYULjvxE2s9HN/H5lXiFohgM=;
- b=NnDlA0NuheFkOAOcpIOSzRaz2xy/r2dckKiMmDx9Q0oQanRLpACdOl978x7ThEWt/I
- D/D+n+29HjOs/CgVbCSM7EHog3nM1VDUzR85Qzah86V0ZtWhGpQPyXfwzlK2i+YRpckm
- oAMcUSlDwiEW9Eazv/zBaPsGoQ2DWUW0gWpz3LA41YJ4MtmbIkjZ/bKgs5PbGlIpObte
- 5ATivHl8cpthuAPS5nlTP7SJv7dfoqB9Em9nsyFxTUhqRAiYgaMsCCoonPF73jhDXhwc
- S1IJsiC8dV7dhZyjWlWEexJqeIDDqpgxuIE4TWTHVufi5r6OK/l05+1E/xANe/yz8iPb
- kHDw==
-X-Gm-Message-State: AC+VfDysfIPDxdkaA0BTir/+jQqjJJRbtKacM9UxcxGc6L+ePOBtpZ4+
- F7RBlZ+NsT1kX0xo8WAT5F/hpaTLxofdA+YRPF+Avs5+arDf78UoY3P5bEvKmtyaakjL3b+Qq3N
- VO7xs4R7igaSF8P5NECuv1/lThfUfCnOZmfrK+Jv9BsMu
-X-Received: by 2002:a2e:a37a:0:b0:2af:150f:d421 with SMTP id
- i26-20020a2ea37a000000b002af150fd421mr3749238ljn.5.1684753994428; 
- Mon, 22 May 2023 04:13:14 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4+vYH0Nc1ESK4QTZEtrWsGcanm7ymTNCOr4z8IJm7Iru4aBRqsqfYh/jPAqeDcjuMGqcwQ1DLogJOpk7PIIHY=
-X-Received: by 2002:a2e:a37a:0:b0:2af:150f:d421 with SMTP id
- i26-20020a2ea37a000000b002af150fd421mr3749226ljn.5.1684753994119; Mon, 22 May
- 2023 04:13:14 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9454010E2CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:25:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9904F62112;
+ Mon, 22 May 2023 11:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09D50C433EF;
+ Mon, 22 May 2023 11:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684754754;
+ bh=xGkJ38b3C8O+dkPDiA3iPgPFwo6IFyNouanjm+MOViU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mUSZilGIzkzannc8GaIfCWqPaA8thpK6oHQAmg2W/q4fR5F5XXMekESED+Oin4ZQI
+ 9NFZrynT/todzDIS1itoSJF5UnCEvGglQoOGaPDvZvkaBV6bNkJbs581JFmmqzPsIQ
+ I94iXjsBTTW62Zbouvm4Jo4wehUulFlxVqAsTvCs+M5mF3jyFGo9Q5WIbJsS35CC1f
+ lY9uTUIIEIC7JhUW2gDndFJUvqmlV0GdpUJeTuGBaF/sn3pPHK5/8+I8tZPNz4OOCh
+ mYZc5Ngi7Qsljz/pwPEqiticBpZnqotco3cOUUv1Dkrm/x8TamvVwduIOxqD7J8WI8
+ i4mLHhsZMa18w==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/4] accel/habanalabs: remove sim code
+Date: Mon, 22 May 2023 14:25:45 +0300
+Message-Id: <20230522112548.1577359-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230517133112.873856-1-trix@redhat.com>
-In-Reply-To: <20230517133112.873856-1-trix@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 22 May 2023 13:13:02 +0200
-Message-ID: <CACO55tvx_45D6Jnj_HhL0H9DQ-=PezGqucDQ-=-6JD9s_aAZMg@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/acr/ga102: set variable ga102_gsps
- storage-class-specifier to static
-To: Tom Rix <trix@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,42 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bskeggs@redhat.com, gsamaiya@nvidia.com
+Cc: Moti Haimovski <mhaimovski@habana.ai>,
+ Dan Carpenter <dan.carpenter@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+There were a few places where simulator only code got into the upstream.
+Remove those places that can confuse other developers.
 
-On Wed, May 17, 2023 at 3:31=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
->
-> smatch reports
-> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c:49:1: warning: symbol
->   'ga102_gsps' was not declared. Should it be static?
->
-> This variable is only used in its defining file, so it should be static
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c b/drivers/gp=
-u/drm/nouveau/nvkm/subdev/gsp/ga102.c
-> index 525267412c3e..a3996ceca995 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/ga102.c
-> @@ -45,7 +45,7 @@ ga102_gsp_nofw(struct nvkm_gsp *gsp, int ver, const str=
-uct nvkm_gsp_fwif *fwif)
->         return 0;
->  }
->
-> -struct nvkm_gsp_fwif
-> +static struct nvkm_gsp_fwif
->  ga102_gsps[] =3D {
->         { -1, ga102_gsp_nofw, &ga102_gsp },
->         {}
-> --
-> 2.27.0
->
+Fixes: 2a0a839b6a28 ("habanalabs: extend fatal messages to contain PCI info")
+Cc: Moti Haimovski <mhaimovski@habana.ai>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ drivers/accel/habanalabs/common/device.c     | 10 +++------
+ drivers/accel/habanalabs/common/habanalabs.h | 23 ++++----------------
+ 2 files changed, 7 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index cab5a63db8c1..ca15c8d0d042 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2328,13 +2328,9 @@ int hl_device_init(struct hl_device *hdev)
+ 	hdev->disabled = true;
+ 	if (expose_interfaces_on_err)
+ 		cdev_sysfs_debugfs_add(hdev);
+-	if (hdev->pdev)
+-		dev_err(&hdev->pdev->dev,
+-			"Failed to initialize hl%d. Device %s is NOT usable !\n",
+-			hdev->cdev_idx, dev_name(&(hdev)->pdev->dev));
+-	else
+-		pr_err("Failed to initialize hl%d. Device %s is NOT usable !\n",
+-			hdev->cdev_idx, dev_name(&(hdev)->pdev->dev));
++	dev_err(&hdev->pdev->dev,
++		"Failed to initialize hl%d. Device %s is NOT usable !\n",
++		hdev->cdev_idx, dev_name(&(hdev)->pdev->dev));
+ 
+ 	return rc;
+ }
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index e2341a75a4b7..c5aa33eaa826 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -2558,12 +2558,7 @@ void hl_wreg(struct hl_device *hdev, u32 reg, u32 val);
+ 	ktime_t __timeout; \
+ 	u32 __elbi_read; \
+ 	int __rc = 0; \
+-	if (hdev->pdev) \
+-		__timeout = ktime_add_us(ktime_get(), timeout_us); \
+-	else \
+-		__timeout = ktime_add_us(ktime_get(),\
+-				min((u64)(timeout_us * 10), \
+-					(u64) HL_SIM_MAX_TIMEOUT_US)); \
++	__timeout = ktime_add_us(ktime_get(), timeout_us); \
+ 	might_sleep_if(sleep_us); \
+ 	for (;;) { \
+ 		if (elbi) { \
+@@ -2615,13 +2610,7 @@ void hl_wreg(struct hl_device *hdev, u32 reg, u32 val);
+ 	u8 __arr_idx;	\
+ 	int __rc = 0; \
+ 	\
+-	if (hdev->pdev) \
+-		__timeout = ktime_add_us(ktime_get(), timeout_us); \
+-	else \
+-		__timeout = ktime_add_us(ktime_get(),\
+-				min(((u64)timeout_us * 10), \
+-					(u64) HL_SIM_MAX_TIMEOUT_US)); \
+-	\
++	__timeout = ktime_add_us(ktime_get(), timeout_us); \
+ 	might_sleep_if(sleep_us); \
+ 	if (arr_size >= 64) \
+ 		__rc = -EINVAL; \
+@@ -2679,12 +2668,8 @@ void hl_wreg(struct hl_device *hdev, u32 reg, u32 val);
+ 				mem_written_by_device) \
+ ({ \
+ 	ktime_t __timeout; \
+-	if (hdev->pdev) \
+-		__timeout = ktime_add_us(ktime_get(), timeout_us); \
+-	else \
+-		__timeout = ktime_add_us(ktime_get(),\
+-				min((u64)(timeout_us * 100), \
+-					(u64) HL_SIM_MAX_TIMEOUT_US)); \
++	\
++	__timeout = ktime_add_us(ktime_get(), timeout_us); \
+ 	might_sleep_if(sleep_us); \
+ 	for (;;) { \
+ 		/* Verify we read updates done by other cores or by device */ \
+-- 
+2.40.1
 
