@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF6770BD12
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCAE70BD86
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 951AE10E2F2;
-	Mon, 22 May 2023 12:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7688A10E2FA;
+	Mon, 22 May 2023 12:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C6610E2F2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 12:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684757588; x=1716293588;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=++AonsYDYLqQs7dLOxjaxcBD93NhVw1wxQx+Na7d9/E=;
- b=it2qE+kPCGyKSGbnatPs5Gj2F/z/iDHnSRUsqnwo8DOYTUN82p5oQhyC
- 0JfeANtDy5XeT7Tf1ShTp7BNayN6GYA0ToQKADYIy/1WHvcQgPgXUucHB
- BEqgr2cmlOio3Crx8J8bu1z+IFuIndWVw6qBxc0gJrMpkB2Azkvsc75fp
- nYxg2ZUuuhAeHpwfLd8lvCdjJ2PWcMLrlLGZXPfzkdnG2Ydpbeg/kC+Tf
- 8VTLBBP/QulE5ittfODWlkTdyx+MmJt4HzB8h8DLTA9CR1/eqa+u8fKY2
- rX8vkueuX0wtDuzzofIA/XEZLiLC5g56jbxzA6aBBtjVTXU/TI1Y71gkK g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="381129710"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="381129710"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 05:13:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="793264428"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="793264428"
-Received: from andreipo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.228])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 05:13:04 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sui Jingfeng <15330273260@189.cn>, Sui Jingfeng <15330273260@189.cn>,
- David Laight <David.Laight@ACULAB.COM>, Li Yi <liyi@loongson.cn>
-Subject: Re: [PATCH] drm/drm_vblank.c: avoid unsigned int to signed int cast
-In-Reply-To: <7f81c053-ba60-a4d2-23d6-d0f032acbcff@189.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230516173026.2990705-1-15330273260@189.cn>
- <f6bd362145124f34a1af800dd330f8e9@AcuMS.aculab.com>
- <b23c41b1-e177-c81d-5327-fce5511cb97d@189.cn> <871qj8ob7z.fsf@intel.com>
- <7f81c053-ba60-a4d2-23d6-d0f032acbcff@189.cn>
-Date: Mon, 22 May 2023 15:13:01 +0300
-Message-ID: <87ttw4munm.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E5BF10E2FA;
+ Mon, 22 May 2023 12:21:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5A67C21BDE;
+ Mon, 22 May 2023 12:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684758102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zaTjRgfMLlRIsB0CCzFeZYVFV+JrVqY7WkSEoCzv47o=;
+ b=UHpUG3/eGABMoqviRaxJUYzWa0yHnAv0swjZHZxZPazgM5QFzYUSd9H/jRcErRWNCV9nbx
+ LfAnYKqCYZRDwjFLmKCVCVoq8hcV1iuFfgaR9+uPeM3Yx5Qt8hZdDGVGQGefzSU7oblNKg
+ /lm+3RtzhMpuijNw+UmsgNN9bIbfgtE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684758102;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zaTjRgfMLlRIsB0CCzFeZYVFV+JrVqY7WkSEoCzv47o=;
+ b=SmfA33Jlmp+bZsRAaD3iVkitSXNUN5GAVClcBNU2YpzMJ7OhT42v4j2cAB5oWCh2EHIiMZ
+ BIBS+pESsUoWZKDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D81E13776;
+ Mon, 22 May 2023 12:21:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sYdZAlZea2RYVAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 22 May 2023 12:21:42 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
+Subject: [PATCH v3 00/12] drm/fbdev: Remove DRM's helpers for fbdev I/O
+Date: Mon, 22 May 2023 14:21:28 +0200
+Message-Id: <20230522122140.30131-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,592 +65,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "loongson-kernel@lists.loongnix.cn" <loongson-kernel@lists.loongnix.cn>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 May 2023, Sui Jingfeng <15330273260@189.cn> wrote:
-> Hi,
->
-> On 2023/5/22 19:29, Jani Nikula wrote:
->> On Thu, 18 May 2023, Sui Jingfeng <15330273260@189.cn> wrote:
->>> On 2023/5/17 18:59, David Laight wrote:
->>>> From: 15330273260@189.cn
->>>>> Sent: 16 May 2023 18:30
->>>>>
->>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>
->>>>> Both mode->crtc_htotal and mode->crtc_vtotal are u16 type,
->>>>> mode->crtc_htotal * mode->crtc_vtotal will results a unsigned type.
->>>> Nope, u16 gets promoted to 'signed int' and the result of the
->>>> multiply is also signed.
->>> I believe that signed or unsigned is dependent on the declaration.
->>>
->>> I am talk about the math, while you are talking about compiler.
->>>
->>> I admit that u16 gets promoted to 'signed int' is true, but this is
->>> irrelevant,
->>>
->>> the point is how to understand the returned value.
->>>
->>>
->>> How does the compiler generate the code is one thing, how do we
->>> interpret the result is another
->>>
->>> How does the compiler generate the code is NOT determined by us, while
->>> how do we interpret the result is determined by us.
->>>
->>>
->>> I believe that using a u32 type to interpret the result(u16 * u16) is
->>> always true, it is true in the perspective of *math*.
->>>
->>> Integer promotions is the details of C program language. If the result
->>> of the multiply is signed, then there are risks that
->>>
->>> the result is negative, what's the benefit to present this risk to the
->>> programmer?
->>>
->>> What's the benefit to tell me(and others) that u16 * u16 yield a signed
->>> value? and can be negative?
->>>
->>> Using int type as the return type bring concerns to the programmer and
->>> the user of the function,
->>>
->>> even though this is not impossible in practice.
->> In general, do not use unsigned types in arithmethic to avoid negative
->> values, because most people will be tripped over by integer promotion
->> rules, and you'll get negative values anyway.
->>
->> I'll bet most people will be surprised to see what this prints:
->>
->> #include <stdio.h>
->> #include <stdint.h>
->>
->> int main(void)
->> {
->> 	uint16_t x =3D 0xffff;
->> 	uint16_t y =3D 0xffff;
->> 	uint64_t z =3D x * y;
->>
->> 	printf("0x%016lx\n", z);
->> 	printf("%ld\n", z);
->
-> Here, please replace the "%ld\n" with the "%lu\n", then you will see the=
-=20
-> difference.
->
-> you are casting the variable 'z' to signed value,=C2=A0 "%d" is for print=
-ing=20
-> signed value, and "%u" is for printing unsigned value.
->
->
-> Your simple code explained exactly why you are still in confusion,
+DRM provides a number of wrappers around fbdev cfb_() sys_(), fb_io_()
+and fb_sys_() helpers. The DRM functions don't provide any additional
+functionality for most DRM drivers. So remove them and call the fbdev
+I/O helpers directly.
 
-Am I?
+The DRM fbdev I/O wrappers were originally added because <linux/fb.h>
+does not protect its content with CONFIG_FB. DRM fbdev emulation did
+not build if the config option had been disabled. This has been
+fixed. For fbdev-generic and i915, the wrappers added support for damage
+handling. But this is better handled within the two callers, as each
+is special in its damage handling.
 
-Take a look at the values, and explain the math.
+Patch 1 adds several internal Kconfig otpions that DRM drivers (and
+possibly other fbdev code) will use to select the correct set of I/O
+helpers.
+
+Patches 2 to 9 replace the DRM wrappers in a number of fbdev emulations.
+Patch 10 exports two helpers for damage handling. Patches 11 and 12
+update fbdev-generic and i915 with the help of the exported functions.
+The patches also remove DRM's fbdev I/O helpers, which are now unused.
+
+DRM's fbdev helpers had to select fbdev I/O helpers for I/O and for
+system memory. Each fbdev emulation now selects the correct helpers
+for itself. Depending on the selected DRM drivers, kernel builds will
+now only contain the necessary fbdev I/O helpers and might be slightly
+smaller in size.
+
+v3:
+	* fix Kconfig options (Jingfeng)
+	* minimize changes to exynos (Sam)
+v2:
+	* simplify Kconfig handling (Sam)
+
+Thomas Zimmermann (12):
+  fbdev: Add Kconfig options to select different fb_ops helpers
+  drm/armada: Use regular fbdev I/O helpers
+  drm/exynos: Use regular fbdev I/O helpers
+  drm/gma500: Use regular fbdev I/O helpers
+  drm/radeon: Use regular fbdev I/O helpers
+  drm/fbdev-dma: Use regular fbdev I/O helpers
+  drm/msm: Use regular fbdev I/O helpers
+  drm/omapdrm: Use regular fbdev I/O helpers
+  drm/tegra: Use regular fbdev I/O helpers
+  drm/fb-helper: Export helpers for marking damage areas
+  drm/fbdev-generic: Implement dedicated fbdev I/O helpers
+  drm/i915: Implement dedicated fbdev I/O helpers
+
+ drivers/gpu/drm/Kconfig                    |  10 +-
+ drivers/gpu/drm/armada/Kconfig             |   1 +
+ drivers/gpu/drm/armada/armada_fbdev.c      |   9 +-
+ drivers/gpu/drm/drm_fb_helper.c            | 233 ++-------------------
+ drivers/gpu/drm/drm_fbdev_dma.c            |  12 +-
+ drivers/gpu/drm/drm_fbdev_generic.c        |  47 ++++-
+ drivers/gpu/drm/exynos/Kconfig             |   1 +
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  10 +-
+ drivers/gpu/drm/gma500/Kconfig             |   1 +
+ drivers/gpu/drm/gma500/fbdev.c             |   9 +-
+ drivers/gpu/drm/i915/Kconfig               |   1 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  51 ++++-
+ drivers/gpu/drm/msm/Kconfig                |   1 +
+ drivers/gpu/drm/msm/msm_fbdev.c            |  12 +-
+ drivers/gpu/drm/omapdrm/Kconfig            |   1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |  12 +-
+ drivers/gpu/drm/radeon/Kconfig             |   1 +
+ drivers/gpu/drm/radeon/radeon_fbdev.c      |   9 +-
+ drivers/gpu/drm/tegra/Kconfig              |   1 +
+ drivers/gpu/drm/tegra/fbdev.c              |  11 +-
+ drivers/video/fbdev/Kconfig                |  21 ++
+ include/drm/drm_fb_helper.h                |  84 +-------
+ 22 files changed, 183 insertions(+), 355 deletions(-)
 
 
-BR,
-Jani.
+base-commit: f533234d40e8f5b8599bd5bc97fa8e30384aec03
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+-- 
+2.40.1
 
->
-> that is u16 * u16=C2=A0 can yield a negative value if you use the int as =
-the=20
-> return type. Because it overflowed.
->
->> 	printf("%d\n", x * y);
->> }
->>
->> And it's not that different from what you have below. Your patch doesn't
->> change anything, and doesn't make it any less confusing.
->>
->> BR,
->> Jani.
->>
->>
->>>>> Using a u32 is enough to store the result, but considering that the
->>>>> result will be casted to u64 soon after. We use a u64 type directly.
->>>>> So there no need to cast it to signed type and cast back then.
->>>> ....
->>>>> -		int frame_size =3D mode->crtc_htotal * mode->crtc_vtotal;
->>>>> +		u64 frame_size =3D mode->crtc_htotal * mode->crtc_vtotal;
->>>> ...
->>>>> -		framedur_ns =3D div_u64((u64) frame_size * 1000000, dotclock);
->>>>> +		framedur_ns =3D div_u64(frame_size * 1000000, dotclock);
->>>> The (u64) cast is there to extend the value to 64bits, not
->>>> because the original type is signed.
->>> Sorry about my expression, I think my sentence did not mention anything
->>> about 'because the original type is signed'.
->>>
->>> In the contrary, my patch eliminated the concerns to the reviewer. It
->>> say that the results of the multiply can't be negative.
->>>
->>> My intent is to tell the compiler we want a unsigned return type, but
->>> GCC emit 'imul' instruction for the multiply......
->>>
->>> I'm using u64 as the return type, because div_u64() function accept a
->>> u64 type value as its first argument.
->>>
->>>> The compiler will detect that the old code is a 32x32 multiply
->>>> where a 64bit result is needed, that may not be true for the
->>>> changed code (it would need to track back as far as the u16s).
->>> I don't believe my code could be wrong.
->>>
->>> when you use the word 'may', you are saying that it could be wrong after
->>> apply my patch.
->>>
->>> Then you have to find at least one test example to prove you point, in
->>> which case my codes generate wrong results.
->>>
->>> Again I don't believe you could find one.
->>>
->>>> It is not uncommon to force a 64bit result from a multiply
->>>> by making the constant 64bit. As in:
->>>> 	div_u64(frame_size * 1000000ULL, dotclock);
->>> In fact, After apply this patch, the ASM code generated is same with be=
-fore.
->>>
->>> This may because the GCC is smart enough to generate optimized code in
->>> either case,
->>>
->>> I think It could be different with a different optimization-level.
->>>
->>> I have tested this patch on three different architecture,=C2=A0 I can n=
-ot
->>> find error still.
->>>
->>> Below is the assembly extract on x86-64: because GCC generate the same
->>> code in either case,
->>>
->>> so I pasted only one copy here.
->>>
->>>
->>> 0000000000000530 <drm_calc_timestamping_constants>:
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 530:=C2=A0=C2=A0=C2=A0 f3 0f 1e fa=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 endbr64
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 534:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 539
->>> <drm_calc_timestamping_constants+0x9>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 539:=C2=A0=C2=A0=C2=A0 55=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rbp
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 53a:=C2=A0=C2=A0=C2=A0 48 89 e5=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rsp,%rbp
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 53d:=C2=A0=C2=A0=C2=A0 41 57=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %r15
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 53f:=C2=A0=C2=A0=C2=A0 41 56=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %r14
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 541:=C2=A0=C2=A0=C2=A0 41 55=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %r13
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 543:=C2=A0=C2=A0=C2=A0 41 54=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 545:=C2=A0=C2=A0=C2=A0 53=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rbx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 546:=C2=A0=C2=A0=C2=A0 48 83 ec 18=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 sub=C2=A0=
-=C2=A0=C2=A0 $0x18,%rsp
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 54a:=C2=A0=C2=A0=C2=A0 4c 8b 3f=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 (%rdi),%r15
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 54d:=C2=A0=C2=A0=C2=A0 41 8b 87 6c 01 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x16c(%r15),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 554:=C2=A0=C2=A0=C2=A0 85 c0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 test=C2=A0=C2=A0 %eax,%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 556:=C2=A0=C2=A0=C2=A0 0f 84 ec 00 00 00=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 je=C2=A0=C2=A0=C2=A0=C2=A0 648
->>> <drm_calc_timestamping_constants+0x118>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 55c:=C2=A0=C2=A0=C2=A0 44 8b 87 90 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x90(%rdi),%r8d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 563:=C2=A0=C2=A0=C2=A0 49 89 fc=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rdi,%r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 566:=C2=A0=C2=A0=C2=A0 44 39 c0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 cmp=C2=A0=C2=A0=C2=A0 %r8d,%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 569:=C2=A0=C2=A0=C2=A0 0f 86 40 01 00 00=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jbe=C2=A0=C2=A0=C2=A0 6af
->>> <drm_calc_timestamping_constants+0x17f>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 56f:=C2=A0=C2=A0=C2=A0 44 8b 76 1c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x1c(%rsi),%r14d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 573:=C2=A0=C2=A0=C2=A0 49 8b 8f 40 01 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x140(%r15),%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 57a:=C2=A0=C2=A0=C2=A0 48 89 f3=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rsi,%rbx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 57d:=C2=A0=C2=A0=C2=A0 45 85 f6=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 test=C2=A0=C2=A0 %r14d,%r14d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 580:=C2=A0=C2=A0=C2=A0 0f 8e d5 00 00 00=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jle=C2=A0=C2=A0=C2=A0 65b
->>> <drm_calc_timestamping_constants+0x12b>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 586:=C2=A0=C2=A0=C2=A0 0f b7 43 2a=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 movzwl 0x2=
-a(%rbx),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 58a:=C2=A0=C2=A0=C2=A0 49 63 f6=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 movslq %r14d,%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 58d:=C2=A0=C2=A0=C2=A0 31 d2=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edx,%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 58f:=C2=A0=C2=A0=C2=A0 48 89 c7=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rax,%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 592:=C2=A0=C2=A0=C2=A0 48 69 c0 40 42 0f 00 =
-=C2=A0=C2=A0=C2=A0 imul=C2=A0=C2=A0 $0xf4240,%rax,%rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 599:=C2=A0=C2=A0=C2=A0 48 f7 f6=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 div=C2=A0=C2=A0=C2=A0 %rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 59c:=C2=A0=C2=A0=C2=A0 31 d2=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edx,%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 59e:=C2=A0=C2=A0=C2=A0 48 89 45 d0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 %rax,-0x30(%rbp)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5a2:=C2=A0=C2=A0=C2=A0 0f b7 43 38=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 movzwl 0x3=
-8(%rbx),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5a6:=C2=A0=C2=A0=C2=A0 0f af c7=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 imul=C2=A0=C2=A0 %edi,%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5a9:=C2=A0=C2=A0=C2=A0 48 98=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 cltq
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5ab:=C2=A0=C2=A0=C2=A0 48 69 c0 40 42 0f 00 =
-=C2=A0=C2=A0=C2=A0 imul=C2=A0=C2=A0 $0xf4240,%rax,%rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5b2:=C2=A0=C2=A0=C2=A0 48 f7 f6=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 div=C2=A0=C2=A0=C2=A0 %rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5b5:=C2=A0=C2=A0=C2=A0 41 89 c5=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %eax,%r13d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5b8:=C2=A0=C2=A0=C2=A0 f6 43 18 10=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 testb=C2=
-=A0 $0x10,0x18(%rbx)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5bc:=C2=A0=C2=A0=C2=A0 74 0a=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 je=C2=A0=C2=A0=C2=A0=C2=A0 5c8
->>> <drm_calc_timestamping_constants+0x98>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5be:=C2=A0=C2=A0=C2=A0 41 c1 ed 1f=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 shr=C2=A0=
-=C2=A0=C2=A0 $0x1f,%r13d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5c2:=C2=A0=C2=A0=C2=A0 41 01 c5=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 add=C2=A0=C2=A0=C2=A0 %eax,%r13d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5c5:=C2=A0=C2=A0=C2=A0 41 d1 fd=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 sar=C2=A0=C2=A0=C2=A0 %r13d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5c8:=C2=A0=C2=A0=C2=A0 4b 8d 04 c0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 lea=C2=A0=
-=C2=A0=C2=A0 (%r8,%r8,8),%rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5cc:=C2=A0=C2=A0=C2=A0 48 89 de=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rbx,%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5cf:=C2=A0=C2=A0=C2=A0 49 8d 3c 40=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 lea=C2=A0=
-=C2=A0=C2=A0 (%r8,%rax,2),%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5d3:=C2=A0=C2=A0=C2=A0 8b 45 d0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 -0x30(%rbp),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5d6:=C2=A0=C2=A0=C2=A0 48 c1 e7 04=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 shl=C2=A0=
-=C2=A0=C2=A0 $0x4,%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5da:=C2=A0=C2=A0=C2=A0 48 01 cf=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 add=C2=A0=C2=A0=C2=A0 %rcx,%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5dd:=C2=A0=C2=A0=C2=A0 89 47 78=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %eax,0x78(%rdi)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5e0:=C2=A0=C2=A0=C2=A0 48 83 ef 80=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 sub $0xfff=
-fffffffffff80,%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5e4:=C2=A0=C2=A0=C2=A0 44 89 6f f4=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 %r13d,-0xc(%rdi)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5e8:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 5ed
->>> <drm_calc_timestamping_constants+0xbd>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5ed:=C2=A0=C2=A0=C2=A0 0f b7 53 2e=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 movzwl 0x2=
-e(%rbx),%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5f1:=C2=A0=C2=A0=C2=A0 0f b7 43 38=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 movzwl 0x3=
-8(%rbx),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5f5:=C2=A0=C2=A0=C2=A0 44 0f b7 4b 2a=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 movzwl 0x2a(%rbx),%r9d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5fa:=C2=A0=C2=A0=C2=A0 45 8b 44 24 60=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x6=
-0(%r12),%r8d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 5ff:=C2=A0=C2=A0=C2=A0 4d 85 ff=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 test=C2=A0=C2=A0 %r15,%r15
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 602:=C2=A0=C2=A0=C2=A0 0f 84 87 00 00 00=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 je=C2=A0=C2=A0=C2=A0=C2=A0 68f
->>> <drm_calc_timestamping_constants+0x15f>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 608:=C2=A0=C2=A0=C2=A0 49 8b 77 08=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x8(%r15),%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 60c:=C2=A0=C2=A0=C2=A0 52=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rdx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 60d:=C2=A0=C2=A0=C2=A0 31 ff=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edi,%edi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 60f:=C2=A0=C2=A0=C2=A0 48 c7 c1 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 616:=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 617:=C2=A0=C2=A0=C2=A0 31 d2=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edx,%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 619:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 61e
->>> <drm_calc_timestamping_constants+0xee>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 61e:=C2=A0=C2=A0=C2=A0 45 8b 44 24 60=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x6=
-0(%r12),%r8d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 623:=C2=A0=C2=A0=C2=A0 4d 8b 7f 08=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x8(%r15),%r15
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 627:=C2=A0=C2=A0=C2=A0 5f=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 628:=C2=A0=C2=A0=C2=A0 41 59=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %r9
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 62a:=C2=A0=C2=A0=C2=A0 8b 45 d0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 -0x30(%rbp),%eax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 62d:=C2=A0=C2=A0=C2=A0 48 c7 c1 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 634:=C2=A0=C2=A0=C2=A0 4c 89 fe=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %r15,%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 637:=C2=A0=C2=A0=C2=A0 45 89 f1=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %r14d,%r9d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 63a:=C2=A0=C2=A0=C2=A0 31 d2=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edx,%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 63c:=C2=A0=C2=A0=C2=A0 31 ff=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edi,%edi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 63e:=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 63f:=C2=A0=C2=A0=C2=A0 41 55=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %r13
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 641:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 646
->>> <drm_calc_timestamping_constants+0x116>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 646:=C2=A0=C2=A0=C2=A0 59=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 647:=C2=A0=C2=A0=C2=A0 5e=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 648:=C2=A0=C2=A0=C2=A0 48 8d 65 d8=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 lea=C2=A0=
-=C2=A0=C2=A0 -0x28(%rbp),%rsp
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 64c:=C2=A0=C2=A0=C2=A0 5b=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rbx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 64d:=C2=A0=C2=A0=C2=A0 41 5c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 64f:=C2=A0=C2=A0=C2=A0 41 5d=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %r13
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 651:=C2=A0=C2=A0=C2=A0 41 5e=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %r14
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 653:=C2=A0=C2=A0=C2=A0 41 5f=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %r15
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 655:=C2=A0=C2=A0=C2=A0 5d=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rbp
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 656:=C2=A0=C2=A0=C2=A0 e9 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jmpq=C2=A0=C2=A0 65b
->>> <drm_calc_timestamping_constants+0x12b>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 65b:=C2=A0=C2=A0=C2=A0 41 8b 54 24 60=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x6=
-0(%r12),%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 660:=C2=A0=C2=A0=C2=A0 49 8b 7f 08=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x8(%r15),%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 664:=C2=A0=C2=A0=C2=A0 44 89 45 c4=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 %r8d,-0x3c(%rbp)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 668:=C2=A0=C2=A0=C2=A0 45 31 ed=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 xor=C2=A0=C2=A0=C2=A0 %r13d,%r13d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 66b:=C2=A0=C2=A0=C2=A0 48 c7 c6 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 672:=C2=A0=C2=A0=C2=A0 48 89 4d c8=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 %rcx,-0x38(%rbp)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 676:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 67b
->>> <drm_calc_timestamping_constants+0x14b>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 67b:=C2=A0=C2=A0=C2=A0 c7 45 d0 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 movl=C2=A0=C2=A0 $0x0,-0x30(%rbp)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 682:=C2=A0=C2=A0=C2=A0 44 8b 45 c4=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 -0x3c(%rbp),%r8d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 686:=C2=A0=C2=A0=C2=A0 48 8b 4d c8=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 -0x38(%rbp),%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 68a:=C2=A0=C2=A0=C2=A0 e9 39 ff ff ff=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jmpq=C2=A0=C2=A0 5c8
->>> <drm_calc_timestamping_constants+0x98>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 68f:=C2=A0=C2=A0=C2=A0 52=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rdx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 690:=C2=A0=C2=A0=C2=A0 48 c7 c1 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 697:=C2=A0=C2=A0=C2=A0 31 d2=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edx,%edx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 699:=C2=A0=C2=A0=C2=A0 31 f6=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %esi,%esi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 69b:=C2=A0=C2=A0=C2=A0 50=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 push=C2=A0=C2=A0 %rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 69c:=C2=A0=C2=A0=C2=A0 31 ff=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 xor=C2=A0=C2=A0=C2=A0 %edi,%edi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 69e:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 6a3
->>> <drm_calc_timestamping_constants+0x173>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6a3:=C2=A0=C2=A0=C2=A0 45 8b 44 24 60=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 0x6=
-0(%r12),%r8d
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6a8:=C2=A0=C2=A0=C2=A0 58=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rax
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6a9:=C2=A0=C2=A0=C2=A0 5a=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 pop=C2=A0=C2=A0=C2=A0 %rdx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6aa:=C2=A0=C2=A0=C2=A0 e9 7b ff ff ff=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jmpq=C2=A0=C2=A0 62a
->>> <drm_calc_timestamping_constants+0xfa>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6af:=C2=A0=C2=A0=C2=A0 49 8b 7f 08=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x8(%r15),%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6b3:=C2=A0=C2=A0=C2=A0 4c 8b 67 50=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 mov=C2=A0=
-=C2=A0=C2=A0 0x50(%rdi),%r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6b7:=C2=A0=C2=A0=C2=A0 4d 85 e4=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 test=C2=A0=C2=A0 %r12,%r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6ba:=C2=A0=C2=A0=C2=A0 74 25=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 je=C2=A0=C2=A0=C2=A0=C2=A0 6e1
->>> <drm_calc_timestamping_constants+0x1b1>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6bc:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 6c1
->>> <drm_calc_timestamping_constants+0x191>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6c1:=C2=A0=C2=A0=C2=A0 48 c7 c1 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rcx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6c8:=C2=A0=C2=A0=C2=A0 4c 89 e2=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %r12,%rdx
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6cb:=C2=A0=C2=A0=C2=A0 48 c7 c7 00 00 00 00 =
-=C2=A0=C2=A0=C2=A0 mov=C2=A0=C2=A0=C2=A0 $0x0,%rdi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6d2:=C2=A0=C2=A0=C2=A0 48 89 c6=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 %rax,%rsi
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6d5:=C2=A0=C2=A0=C2=A0 e8 00 00 00 00=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 callq=C2=A0 6da
->>> <drm_calc_timestamping_constants+0x1aa>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6da:=C2=A0=C2=A0=C2=A0 0f 0b=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 ud2
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6dc:=C2=A0=C2=A0=C2=A0 e9 67 ff ff ff=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 jmpq=C2=A0=C2=A0 648
->>> <drm_calc_timestamping_constants+0x118>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6e1:=C2=A0=C2=A0=C2=A0 4c 8b 27=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
-=C2=A0 mov=C2=A0=C2=A0=C2=A0 (%rdi),%r12
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6e4:=C2=A0=C2=A0=C2=A0 eb d6=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- =C2=A0=C2=A0=C2=A0 jmp=C2=A0=C2=A0=C2=A0 6bc
->>> <drm_calc_timestamping_constants+0x18c>
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6e6:=C2=A0=C2=A0=C2=A0 66 2e 0f 1f 84 00 00 =
-=C2=A0=C2=A0=C2=A0 nopw=C2=A0=C2=A0 %cs:0x0(%rax,%rax,1)
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6ed:=C2=A0=C2=A0=C2=A0 00 00 00
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f0:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f1:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f2:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f3:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f4:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f5:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f6:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f7:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f8:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6f9:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6fa:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6fb:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6fc:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6fd:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6fe:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>   =C2=A0=C2=A0=C2=A0=C2=A0 6ff:=C2=A0=C2=A0=C2=A0 90=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 nop
->>>
->>>
->>>> 	David
->>>>
->>>> -
->>>> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, =
-MK1 1PT, UK
->>>> Registration No: 1397386 (Wales)
->>>>
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
