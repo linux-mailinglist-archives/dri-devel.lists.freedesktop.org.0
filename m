@@ -2,109 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E4270BC02
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F86970BC1A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82F910E2DE;
-	Mon, 22 May 2023 11:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD7910E2DF;
+	Mon, 22 May 2023 11:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2094.outbound.protection.outlook.com [40.107.100.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2241F10E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:38:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JvggH07zSfnYCf8G92cRqxvFFxRUH9IQoTdCg37SLe/oehFtww3zJRvIRI3k6v88pWRYc5dq74QQaTUJ016ZnRkVCF1po/oMJGK9kfw55MgaYAtNe76HDGBjYMgZIJtdw6aUQM06Aq+LQQUgM5YFME0wT2TaruQ0yAWNtm+mTW9dFgh15OimzMc6xj6wg46HaTWr+OVkLCiRqBRVWgYWFQdp21DOgPRzj8snxudAQquRGo485DWx8+KQ/wUY9JvRa4ssPpypqlUsNspSM5Y3woa2I9VjeWap5hDmljU4PKinuyyATtwGE9T+GDhBSFVz9guXjConjBbAVFNDNKU9vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Mv4gAkCh2BbPLoCq7mDqs8B2vR9FDJQKAljyorAxGw=;
- b=WI9+fyFPrmiIt1FmFdpWkyalt5II3PQ8WdXWWbipZnryeFLotPvde6SNJUzs8v9fDyxUr+UNP8+F3Q+GbEayeZyU/LO9d8UBnu6QQ7qpQ4+ExzBZr3hqxCNs1Nw1PiRSiEGN4jouyb4kQ3NmY4PvABnU//udxdzELTKYumOL1it5w5kjpLlQ9jK7RzoUfcWKkaxP4cMPkJEKiatZYi+t26H1z3mBmz4wbtJVRIBJLRn+3FJYSGLtuYfpiHFXodJrBnaLUiEIroRq4rNfDfZVtFEny3DC41/dQk7oC0h5RBjxwxEwl2NrWGPk8MrqPYRMtaPBAzCetPYMIFX5R0mGCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Mv4gAkCh2BbPLoCq7mDqs8B2vR9FDJQKAljyorAxGw=;
- b=hIdtJXMfSKp3Fxyfd3XHkgo+SrHBPUM6MO9iXKnek6zqZuAS1f6m7KwgPf99g8YxyIoWgD3tgB7caY/F6RQxKVsrNWktlWedeDLavJhcm+H6HLgcLYG6cIxEnMt1Ef10anQ8f+UxPV90lbxZ7vX8HHzZCzTuMBc5CYaPxqz0v9Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CH0PR13MB4700.namprd13.prod.outlook.com (2603:10b6:610:c2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Mon, 22 May
- 2023 11:38:54 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6411.028; Mon, 22 May 2023
- 11:38:53 +0000
-Date: Mon, 22 May 2023 13:38:45 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v3 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <ZGtURVrdqz536ai7@corigine.com>
-References: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
- <1684531184-14009-4-git-send-email-justin.chen@broadcom.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1684531184-14009-4-git-send-email-justin.chen@broadcom.com>
-X-ClientProxiedBy: AM4PR0902CA0016.eurprd09.prod.outlook.com
- (2603:10a6:200:9b::26) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACEF810E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:44:36 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 2645C1FE83;
+ Mon, 22 May 2023 11:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684755872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RXgpxboI1bw9eXRQKxoN/Zr/TelBo2erFp+oCAN6jQ4=;
+ b=xshnHi/ZPGtf5PnerhW07I/ZJ3gtuXaQXOMW1lqWJPHulL6JCwemBTdT6hrFHwIIHSed4v
+ ea2F1eVZy8EXq+1FsNxVQTtwHaY1yz1Ptq/ScwtUkJim3RYiBlETvetX0UbmO4Ety9M0ni
+ hwzOSYQrMj/LOTJYuPl9EjduENWCBiQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684755872;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RXgpxboI1bw9eXRQKxoN/Zr/TelBo2erFp+oCAN6jQ4=;
+ b=VCaQEPWIJMQFKfvjU2QqgEyFocOltgb1T0Aku6lMo9jnDOFeFltWYrRg398m5sQNJb9NTE
+ E4mo0IqKd9uklYBQ==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id D0A092C141;
+ Mon, 22 May 2023 11:44:31 +0000 (UTC)
+Date: Mon, 22 May 2023 13:44:30 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
+Message-ID: <20230522114430.GA15906@kitsune.suse.cz>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-3-cyril@debamax.com>
+ <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+ <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH0PR13MB4700:EE_
-X-MS-Office365-Filtering-Correlation-Id: cebcf2f8-acfe-4b79-2a4f-08db5ab91ee0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OMCpb4LcFoDeC3Mk2wf4N55dbw9ICdlWBZLoj0GBYoD3XtMtcpYcBwpcRjivXfLvmsjnl2/9wX0YRwCmPTMTAHvJS7MKUL1/4YYZPTnyxdtYu1iCZLhWEdFKIanaAXg49+T7FnOarF+0HczS51GcNoKaItE2kxFl5FT0xEgNavux6Sq7UdNggagp7Ze9dfk0aa/u3I3G0U5ZtHvBmFIC3Gvvzt5cAbDTe091fT+vAIvHenDMn8fQZRsxF6pzT+iWhTgMDgC5fToaa4jUAOeGjGmPgVAHgpwUM8woAf8WSxlfTXbDNytIIVsS4TvG4rMPybiXYs4gh8IbuIS4fqYyHvNggBVbEw2y0Qk6XCPZnvfNPqahti9kTQUxe3+vi7ZspynI4/7d3hr0vZqqMoVJJsm79a81iNaIJez82NQT37uZYYEETbfmpP63ZHDyXziYxYXM8TXS46l4SCBvSVLagcHItKAdyFoR/3+XYK60fKoTsM224iSDky6vU6E3sLCxTP5WMmyaPORm+nTX8bime4/yfZNT+nCSI9neu+smAXcSLF3a+HJ/5k7Rbb4ud+UIMZsgmereNEJMr7KttIk51D7YTJDoPvMb92oLa02IhiE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(39830400003)(396003)(366004)(346002)(451199021)(2906002)(5660300002)(44832011)(7416002)(8676002)(8936002)(41300700001)(316002)(66476007)(66556008)(66946007)(478600001)(6916009)(4326008)(36756003)(6666004)(6486002)(6506007)(6512007)(38100700002)(86362001)(2616005)(186003)(83380400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PV4dodSeGbVkN93XpPG8pG4kzgcYRssQIgLgSkuhQDAMqIBxzEPFNKQTA07m?=
- =?us-ascii?Q?J9kT6PznBpTTMxYnG7mNbgvc75zL2g1TMcIziJjnGZaTotCgoR2c+Udk4FRQ?=
- =?us-ascii?Q?C8E0tvWM4aKV0CrGEI5z7w0A6fcclrycZqwtbBTjspG7SKvp4G4ylMM/dEtA?=
- =?us-ascii?Q?XD/PsjsGpKi9SjQYPFCsuTSRZ1YByZWUMFgVN7r0ZaueFa/kH9SqcF9OaofJ?=
- =?us-ascii?Q?lnn5V86RbGPyFzsDCWs+ggAyf3UHMziydbOdPBWclpC5cDUM9J1b+LUR6hYK?=
- =?us-ascii?Q?XwGrNVw+Ka55eg5G96W09WbrzLiujaAOSnSZOriW8Wl7VcBcODWy0ttu41GS?=
- =?us-ascii?Q?1MWTSqSiWzAyE+b9ooLF9Ykh/cl/0cJTt3v9eqymGxhcBYC6Ew1w6kAIOGpo?=
- =?us-ascii?Q?uIGxENf4X3e4i0BdFy9RZsheKMZMTGReSNrwGSgqUYxPu98X5q26tqsyumkE?=
- =?us-ascii?Q?IpEX7v7ifzntk2xiCs8wzLZaQ8nXdd4T6qEKvJiySYjX22RotI/bP08Beft8?=
- =?us-ascii?Q?xA0Rn/FUalGIzw1pOhMTvGvzP/Xa2m+YoIHNNpbGje0PbXVFy2WLauzreJ4Q?=
- =?us-ascii?Q?7aVKS1HVWQn4t5DY3mzPyEtAlNrzjCR3PDE+wNaU3Qx2afpb3rR1DdAGkWaO?=
- =?us-ascii?Q?twK+lOO3fHVIS7K8up12cy0M0VWQVmDqH9z3mBvI9uzsHpBRWEtUDd79fmvW?=
- =?us-ascii?Q?6qist4Hqx/GA8Zp/mKnK9HJiMCdCxNz0/FPTkdYO7QM0bfFWUxFbzRlDLiDu?=
- =?us-ascii?Q?sYMT17R9DHzfk5zfyUejvqOtDcgRIJoQZpwgdKtJC7Vee/EEoC0VURZmWDKg?=
- =?us-ascii?Q?cEDTGWBAymd2VzXj8wyPABTgoTsDT1ACIc3glQ/gYf5WsZab5HQsPNP5lWMs?=
- =?us-ascii?Q?+9lgNNBYUluvDo5rlsB5JQ3/j+XyH8nP/LMNaANxU+m2IfKOkqsmvwl3aq5g?=
- =?us-ascii?Q?BR7lWAKW2rZQATzE6i2vVo1uKw1T/yI4HVl6DcCy42svVS2xn7UIQ2WStyt9?=
- =?us-ascii?Q?r/HJ+eq6ZeKdxgZ1HmU+5nuHwK3ZbBaaoDLS+PVdl68bA3L5Wc9LUdXTjYiP?=
- =?us-ascii?Q?4L7m6VZg3OredY/kj6T0DE6oszuNZpHpCgDAlDqHnmvYyZS9tOPvKFvbn+u3?=
- =?us-ascii?Q?KtZ9l8g6kkztI9zpZezYf1f6l4uLIbrg0X6Kb9dBg/zmGp/+M833uBToj3tR?=
- =?us-ascii?Q?kdtFw+LqFQDfwrD3LMNBxtW7XsqjU6CN0BJe2WN7mkmYNOJWYGFTJbuvaAVn?=
- =?us-ascii?Q?zv7cDs2IggmeSH8sBEFKeNPbOU8/nZ3uC4m6S/Ir8LkMbrdGDI7WJynfAmhw?=
- =?us-ascii?Q?TTKvnysQOJ3w2eoSG7J91crW6+QVdXtwxjY7E4qov06Axu1IKkBB3DVcjv5W?=
- =?us-ascii?Q?nKCVufMcGE0KFE1n04HtCR/HNwyXAeh9iSNOqszGKpSRE9aRCG9odovcp+J+?=
- =?us-ascii?Q?6CM4Y4YSWvOu3gWT8pzB9+et8of/+SfJXI73XU907JpF7V1cRZEI5t3JGb+w?=
- =?us-ascii?Q?7Wbg0zWLQeAtlDdq7Scs9jVMNxeFNEnevVKuW4JMfvlvOm4SU0MBG/CMA0oo?=
- =?us-ascii?Q?ZsWEM7V6YcRsBQ1zRABVgbmqtgX6+lUaIifKQP61cJt85dVN1fx0/VqmbYhn?=
- =?us-ascii?Q?++J4pOtpWvMbmoxMkL2r6KOEuxIAVri0fHxjcRI1JMpxaOMOc3RoOmhvG50K?=
- =?us-ascii?Q?4GsP5A=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cebcf2f8-acfe-4b79-2a4f-08db5ab91ee0
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2023 11:38:53.9077 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NG+iAL61qcf3MrUlwfeHQzAk3riFhZD2GXbyjX6ov7whkOCFejN6romeE0YFKstOvip3g7yiptkcYMrdAtmr4Q9AWVe9QJnkRzOEwnZ81AM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR13MB4700
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,90 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
- justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com, florian.fainelli@broadcom.com,
- linux@armlinux.org.uk, bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org,
- pabeni@redhat.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- richardcochran@gmail.com, opendmb@gmail.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net, robh+dt@kernel.org,
- christian.koenig@amd.com, hkallweit1@gmail.com
+Cc: linux-fbdev@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Cyril Brulebois <cyril@debamax.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 19, 2023 at 02:19:41PM -0700, Justin Chen wrote:
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165. This controller features two distinct Ethernet
-> ports that can be independently operated.
+On Mon, Apr 24, 2023 at 11:07:45AM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> This patch supports:
+> Am 24.04.23 um 09:33 schrieb Geert Uytterhoeven:
+> > Hi Cyril,
+> > 
+> > CC DT
+> > 
+> > On Wed, Apr 12, 2023 at 12:05 PM Cyril Brulebois <cyril@debamax.com> wrote:
+> > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
+> > > as spotted by Frédéric Bonnard, the historical "of-display" device is
+> > > gone: the updated logic creates "of-display.0" instead, then as many
+> > > "of-display.N" as required.
+> > > 
+> > > This means that offb no longer finds the expected device, which prevents
+> > > the Debian Installer from setting up its interface, at least on ppc64el.
+> > > 
+> > > Given the code similarity it is likely to affect ofdrm in the same way.
+> > > 
+> > > It might be better to iterate on all possible nodes, but updating the
+> > > hardcoded device from "of-display" to "of-display.0" is likely to help
+> > > as a first step.
+> > > 
+> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=217328
+> > > Link: https://bugs.debian.org/1033058
+> > > Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
+> > > Cc: stable@vger.kernel.org # v6.2+
+> > > Signed-off-by: Cyril Brulebois <cyril@debamax.com>
+> > 
+> > Thanks for your patch, which is now commit 3a9d8ea2539ebebd
+> > ("drm/ofdrm: Update expected device name") in fbdev/for-next.
+> > 
+> > > --- a/drivers/gpu/drm/tiny/ofdrm.c
+> > > +++ b/drivers/gpu/drm/tiny/ofdrm.c
+> > > @@ -1390,7 +1390,7 @@ MODULE_DEVICE_TABLE(of, ofdrm_of_match_display);
+> > > 
+> > >   static struct platform_driver ofdrm_platform_driver = {
+> > >          .driver = {
+> > > -               .name = "of-display",
+> > > +               .name = "of-display.0",
+> > >                  .of_match_table = ofdrm_of_match_display,
+> > >          },
+> > >          .probe = ofdrm_probe,
+> > 
+> > Same comment as for "[PATCH 1/2] fbdev/offb: Update expected device
+> > name".
+> > 
+> > https://lore.kernel.org/r/CAMuHMdVGEeAsmb4tAuuqqGJ-4+BBETwEwYJA+M9NyJv0BJ_hNg@mail.gmail.com
 > 
-> - Wake-on-LAN using magic packets
-> - basic ethtool operations (link, counters, message level)
-> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
-> 
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+> Sorry that I missed this patch. I agree that it's probably not correct. At
+> least in ofdrm, we want to be able to use multiple framebuffers at the same
+> time; a feature that has been broken by this change.
 
-...
+How did it work before, though?
 
-> +static int bcmasp_netfilt_get_reg_offset(struct bcmasp_priv *priv,
-> +					 struct bcmasp_net_filter *nfilt,
-> +					 enum asp_netfilt_reg_type reg_type,
-> +					 u32 offset)
-> +{
-> +	u32 block_index, filter_sel;
-> +
-> +	if (offset < 32) {
-> +		block_index = ASP_RX_FILTER_NET_L2;
-> +		filter_sel = nfilt->hw_index;
-> +	} else if (offset < 64) {
-> +		block_index = ASP_RX_FILTER_NET_L2;
-> +		filter_sel = nfilt->hw_index + 1;
-> +	} else if (offset < 96) {
-> +		block_index = ASP_RX_FILTER_NET_L3_0;
-> +		filter_sel = nfilt->hw_index;
-> +	} else if (offset < 128) {
-> +		block_index = ASP_RX_FILTER_NET_L3_0;
-> +		filter_sel = nfilt->hw_index + 1;
-> +	} else if (offset < 160) {
-> +		block_index = ASP_RX_FILTER_NET_L3_1;
-> +		filter_sel = nfilt->hw_index;
-> +	} else if (offset < 192) {
-> +		block_index = ASP_RX_FILTER_NET_L3_1;
-> +		filter_sel = nfilt->hw_index + 1;
-> +	} else if (offset < 224) {
-> +		block_index = ASP_RX_FILTER_NET_L4;
-> +		filter_sel = nfilt->hw_index;
-> +	} else if (offset < 256) {
-> +		block_index = ASP_RX_FILTER_NET_L4;
-> +		filter_sel = nfilt->hw_index + 1;
-> +	}
+We did not have this device name clash, then we did, and it was solved
+by renaming the devices to numnered.
 
-Hi Justin,
+Now matching the first device should restore the previously available
+functionality, mathing any of the numbered devices would potentially
+allow to use multiple devices.
 
-Perhaps it is not possible.
-But it seems to me that it would be nice to have:
+Or am I missing something?
 
-	else {
-		return -EINVAL;
-	}
+Thanks
 
-Otherwise, if that case does occur, block_index and filter_sel
-will be used uninitialised.
-
-> +
-> +	switch (reg_type) {
-> +	case ASP_NETFILT_MATCH:
-> +		return ASP_RX_FILTER_NET_PAT(filter_sel, block_index,
-> +					     (offset % 32));
-> +	case ASP_NETFILT_MASK:
-> +		return ASP_RX_FILTER_NET_MASK(filter_sel, block_index,
-> +					      (offset % 32));
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
-...
-
+Michal
