@@ -2,72 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C970CAC1
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C42570CAFF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4955110E37C;
-	Mon, 22 May 2023 20:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F283A10E37D;
+	Mon, 22 May 2023 20:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 725BE10E37C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684786725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=O9q1qCwNu3Mrx87IGOjeTMvMrxO9D4Con5QINyscbnk=;
- b=Ijh/Cy8Yq2mEWhlx9zE2hmCg+7OgpOTV6bXt17cH9g+CCvGqk96hOuxmjY2b6tKk08ufXU
- YcsR/DrN+pi4b1KMG+nOKgZKm7ISlz+Jyhh+Fa0GhZTM4XJitLtBMf7HJZji/Vfb/BIy1i
- FsHThOBi1duPH5HO9PLMErFRqouGGys=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-74-T29V0OqmOY2tfxZAxvyRhA-1; Mon, 22 May 2023 16:18:44 -0400
-X-MC-Unique: T29V0OqmOY2tfxZAxvyRhA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-625891d5ad5so1590476d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:18:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684786723; x=1687378723;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O9q1qCwNu3Mrx87IGOjeTMvMrxO9D4Con5QINyscbnk=;
- b=l2k6Lrh5Thntswh1LGe6qeePMkU2RE6v81taGBVhL4IQ/FmiZnkvW6GNuGqbcx86kW
- T/hRd9StXlPvSbFkyOayC7eylxiUHHXaFH3XmtecqckzWsCweMT4gfBKkS1om5bTtNgV
- WuJNrLXFxnI6Q0ryf8s+v6n1YxnJIoNk3pOrPGjFI0KF5rCp/AwZRHnpBMKlQmuWN92S
- Fk35Bg7Z5K0v9Ts2GOuIqMdvzWKbVtimqeZbM28n2ngo5PCX7atqeQep+hVbRdjb1KHa
- 1//9mjpnR35K6p1EW1BrOunrobgO39Lednacr7MBx19uFXrtLuo+c36EmkspljPLdK1P
- C7lQ==
-X-Gm-Message-State: AC+VfDyBKO/Qb/019ufw3800gpju60T+fc5FIui+El8EdOJhU29lBplU
- e84sW9ySAr4uYC8F/kA9ol2+oEKC+DOvxwiPR9dk4iGFBndI3aKdTQ0PnDurs459ilX7zeNYZ0d
- ZyEoK+dZxKmKU0+nPKOEy/ft9666N
-X-Received: by 2002:a05:6214:400f:b0:625:86ed:8ab4 with SMTP id
- kd15-20020a056214400f00b0062586ed8ab4mr4376378qvb.3.1684786723528; 
- Mon, 22 May 2023 13:18:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7fUAFOMh8GoM7ZLqKEyQV3CmmIqRVsI4seXXB/Q3bmVY+dOhM/G3gUw77RysfQOiQm3Y6Waw==
-X-Received: by 2002:a05:6214:400f:b0:625:86ed:8ab4 with SMTP id
- kd15-20020a056214400f00b0062586ed8ab4mr4376368qvb.3.1684786723299; 
- Mon, 22 May 2023 13:18:43 -0700 (PDT)
-Received: from kherbst.pingu (ip1f1032e8.dynamic.kabel-deutschland.de.
- [31.16.50.232]) by smtp.gmail.com with ESMTPSA id
- i10-20020a0cfcca000000b006255bcfca88sm1688836qvq.7.2023.05.22.13.18.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 May 2023 13:18:42 -0700 (PDT)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/acr: Abort loading ACR if no firmware was found
-Date: Mon, 22 May 2023 22:18:38 +0200
-Message-Id: <20230522201838.1496622-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 724D210E28C;
+ Mon, 22 May 2023 20:30:42 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34MJq6h3008604; Mon, 22 May 2023 20:30:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=vLqKLO1BUpzQZwWunNwMNnH6hu7BMla/ZM9oufiLLSQ=;
+ b=DyidkjpsPoEsw5Sa+oWmszCWkwzKpkcFXxECxrIu2M74NyI2DjlBtzKbZRmPyMt7V87I
+ afGa2YXCCJPYn1YiRZJa8h14sxgf+2Hd9nPNiwqwbOyA8cGuS0pdHyl9h9kfxVNyJfWU
+ 7DxFdYSjzzwIgzJeubH7HFegEb4Bw+g51xxMsSqadViPiOB485NNFG5Vzgf7JvBQJsr9
+ UpL/YzJ88Bjkhu4vpKgf75EBeXeevQuqTNGwqoqv9Ni6Lus0Lu0WIXrGiqDX6jfrTJYn
+ egPIkBh5gLZbAEHqkEhDEJtWpB4kpgr0LMchs52S7QSHQ6fvArfu59UcLN4TuHku/Fta Vw== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qre8p03ye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 20:30:40 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MKUdKp032333
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 20:30:39 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Mon, 22 May 2023 13:30:38 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v4 0/5] Add DSC v1.2 Support for DSI
+Date: Mon, 22 May 2023 13:30:19 -0700
+Message-ID: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANvQa2QC/4WOOw7CMBBErxK5ZtHazgeouAei8GdDXMQJdhKBU
+ O6OnQ4hRDmzmvf2xSIFR5GdihcLtLjoBp9CuSuY6ZS/ETibMhMoJJZYgbIWbDQQ53EcwgQtcYl
+ alcdDyVlaaRUJdFDedHnXxx48PaZ8GgO17rHJLteUOxenITw398Jz+1uzcECotalblIoaWZ3vs
+ zPOm70ZepZpi/hDEInAsRGmQTo2h/qbIP8QZP6BuJWVElhr+UlY1/UNBqs8l08BAAA=
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.13-dev-bfdf5
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684787438; l=3535;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=e6Fl0fdsd/cKcvWsiYtQZ3LOz/0x54V8DgWbX2TkeYA=;
+ b=MFXYpjihrnAStLaSuYj96wxZPkzsRf4VWeHkM8KYlHyljroh5wPrmjTY4vGe56baUwKJj6Vn8
+ DaNirYWcDKWBPKiXYh8AP7MfhzNEc5af3kL9MbDbabRBzg9Jy5KkYJ5
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: EzLYt6cECu4ZwKwKzlk5J8NcTUtcX2qQ
+X-Proofpoint-GUID: EzLYt6cECu4ZwKwKzlk5J8NcTUtcX2qQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-22_14,2023-05-22_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305220173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +93,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes a NULL pointer access inside nvkm_acr_oneinit in case necessary
-firmware files couldn't be loaded.
+This is a series of changes for DSI to enable command mode support
+for DSC v1.2.
 
-Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/212
-Fixes: 4b569ded09fd ("drm/nouveau/acr/ga102: initial support")
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
+This includes:
+
+1) Rounding up `hdisplay / 3` in dsc_timing_setup()
+2) Adjusting pclk_rate to account for compression
+3) Fixing incorrect uses of slice_count in DSI DSC calculations
+4) Setting the DATA_COMPRESS bit when DSC is enabled
+
+With these changes (and the dependency below), DSC v1.2 should work over
+DSI in command mode.
+
+Note: Changes that add DSC v1.2 support for video mode will be posted
+with the DP support changes.
+
+Depends-on: "add DSC 1.2 dpu supports" [1] and "Introduce MSM-specific
+DSC helpers" [2]
+
+[1] https://patchwork.freedesktop.org/series/116789/
+[2] https://patchwork.freedesktop.org/series/115833/
+
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v4:
+- Clarified slice_per_pkt comment regarding pkt_per_line calculations
+- Reworded commit message for "drm/msm/dsi: Remove incorrect references
+  to slice_count"
+- Wrapped INTF_SC7280_MASK macro definition in parentheses
+- Fixed incorrect commit hash in "msm/drm/dsi: Round up DSC hdisplay
+  calculation"
+- Picked up Reviewed-by tag
+- Link to v3: https://lore.kernel.org/r/20230405-add-dsc-support-v3-0-6e1d35a206b3@quicinc.com
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
-index 795f3a649b12..6388234c352c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
-@@ -224,7 +224,7 @@ nvkm_acr_oneinit(struct nvkm_subdev *subdev)
- 	u64 falcons;
- 	int ret, i;
- 
--	if (list_empty(&acr->hsfw)) {
-+	if (list_empty(&acr->hsfw) || !acr->func->wpr_layout) {
- 		nvkm_debug(subdev, "No HSFW(s)\n");
- 		nvkm_acr_cleanup(acr);
- 		return 0;
+Changes in v3:
+- Added fix to round up hdisplay DSC adjustment
+- Fixed inconsistent whitespace in dpu_hw_intf_ops comment doc
+- Moved placement of dpu_hw_intf_enable_compression
+- Picked up "drm/msm/dsi: Fix calculation for pkt_per_line" patch and
+  squashed all slice_count fixes into a single patch
+- Use drm_mode_vrefresh() to calculate adjusted pclk rate
+- Moved compressed pclk adjustment to dsi_adjust_compressed_pclk() helper
+- Rebased changes on top of updated dependencies
+- Reworded commit message for "drm/msm/dpu: Set DATA_COMPRESS for
+  command mode" for clarity
+- Removed revision changelog in commit messages
+- Link to v2: https://lore.kernel.org/r/20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com
+
+Changes in v2:
+- Changed has_data_compress dpu_cap to a DATA_COMPRESS INTF feature flag
+- Changed pclk math to only divide hdisplay by compression ratio
+- Reworded word count TODO comment
+- Make DATA_COMPRESS an INTF flag
+- Read INTF_CONFIG2 before writing to DATA_COMPRESS bit
+- Fixed whitespace issue in macro definition
+- Removed `inline` from dpu_hw_intf_enable_compression declaration
+- Only set dpu_hw_intf_ops.data_compress if DATA_COMPRESS feature is set
+- Reworded commit messages and cover letter for clarity
+- Link to v1: https://lore.kernel.org/r/20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com
+
+---
+Jessica Zhang (5):
+      msm/drm/dsi: Round up DSC hdisplay calculation
+      drm/msm/dsi: Adjust pclk rate for compression
+      drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature flag
+      drm/msm/dpu: Set DATA_COMPRESS for command mode
+      drm/msm/dsi: Remove incorrect references to slice_count
+
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  3 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 13 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 | 51 +++++++++++++++-------
+ 6 files changed, 58 insertions(+), 16 deletions(-)
+---
+base-commit: 2f0218fa4805d7c7eed8dc072e1bdf9f100492c7
+change-id: 20230405-add-dsc-support-fe130ba49841
+
+Best regards,
 -- 
-2.40.1
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
