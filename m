@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6FC70C7BC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 21:32:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E92170C7BD
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 21:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C481510E376;
-	Mon, 22 May 2023 19:32:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3449E10E377;
+	Mon, 22 May 2023 19:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5A610E245;
- Mon, 22 May 2023 19:32:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5BDF10E245;
+ Mon, 22 May 2023 19:32:10 +0000 (UTC)
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34MJMa7i007800; Mon, 22 May 2023 19:32:06 GMT
+ 34MIj7Fo016627; Mon, 22 May 2023 19:32:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=7bPX8mhhu0axMy0E2jQEiF974e+2rE7nRve54WK3j1A=;
- b=XlpGzmgoGEqx1ayOHwCAFkVndl2lLUqgylbHs32XpirGQiDjC+WnYs/fKa8wnxJ2HzTJ
- k4xUN74fpO2Z4pqamX7I1txGW1wzkbekZjPymQOWNopo0ka/NtfDGlaiqW7xG9CvFSFH
- yj5tKRyr86xcFw3AbL+XSbm1NYVQxWyx/v7k8zfXpPE9ncvs70jR4wQSVGqW+9gN3ewm
- VfU4o1LgJOrBX5dTzidL/2XztF++fZKjeu0C8KM22IHneG93Hzy219Ut+wbQN6DOkRXj
- VJmyuESWyR/G1uxgcTSLu+xy8/T7gJnThhR7ZAGd2gxsT+2WKHbuzrZYvNG3iK8Y/FuT iA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=dMM8RhcSA7bAj6S9RTj1qOhq/qxdinAgrdKGGo3k4XM=;
+ b=K5PfeFfObZh7e7WalkSAyItvRatWcQwx/dH0dKz+py4ilCAc8CjODqdtDXC9KFonE+NW
+ yOgQ9hHRGQAGjyYTWY+89G+r3LDjByiQ7SscDsKNM+34JLkYs2y5qPTFiRkN46dArQyQ
+ 0ztlsRE1n4dzVvHTjw0OfAocGhwcKjr6UvrIZyFo5minS9UzHo/9Za9c0XSQmUtxmp4n
+ k1Xq8DCD995/uuyboemwFFpmm4Juxf1rzhnEC4hzM/SShcxX30WTydt6WCfIrpacJ0SU
+ 1qlb6olrQAO3dKYgSzX1R++uF3V/b2Am76GU97/lDEYIScfIxFH+Ns4rV1tcAgiBHaug BQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qppkdmkjg-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qppkdmkjj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 22 May 2023 19:32:06 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MJVcis012907
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MJVfZT004517
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 May 2023 19:31:38 GMT
+ Mon, 22 May 2023 19:31:41 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 22 May 2023 12:31:37 -0700
+ 15.2.986.42; Mon, 22 May 2023 12:31:40 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v12 00/10] add DSC 1.2 dpu supports
-Date: Mon, 22 May 2023 12:30:43 -0700
-Message-ID: <1684783853-22193-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v12 01/10] drm/msm/dpu: set DSC flush bit correctly at MDP CTL
+ flush register
+Date: Mon, 22 May 2023 12:30:44 -0700
+Message-ID: <1684783853-22193-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1684783853-22193-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1684783853-22193-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -56,14 +60,14 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: jIldwunPJ95Js2Xkb8QikVGAMSo1K9RE
-X-Proofpoint-GUID: jIldwunPJ95Js2Xkb8QikVGAMSo1K9RE
+X-Proofpoint-ORIG-GUID: Sl7iL1grRtdbUrnjq3UCb6Dm4yOivbUA
+X-Proofpoint-GUID: Sl7iL1grRtdbUrnjq3UCb6Dm4yOivbUA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-05-22_14,2023-05-22_03,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  lowpriorityscore=0
- spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=907 suspectscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
  adultscore=0 phishscore=0 mlxscore=0 impostorscore=0 priorityscore=1501
  clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305220165
@@ -86,51 +90,34 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds the DPU side changes to support DSC 1.2 encoder. This
-was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
-The DSI and DP parts will be pushed later on top of this change.
-This seriel is rebase on [1], [2] and catalog fixes from rev-4 of [3].
+DSC flush bit is the bit 22 of CTL flush register. BIT(22) is expected
+to be written to CTL flush register to indicates that DSC is ready for
+flush. However 0x22 (BIT(1) and BIT(5)) was written mistakenly at current
+implementation. Fix this problem by writing BIT(22) to CTL flush register
+for DSC to work properly.
 
-[1]: https://patchwork.freedesktop.org/series/116851/
-[2]: https://patchwork.freedesktop.org/series/116615/
-[3]: https://patchwork.freedesktop.org/series/112332/
+Changes in V12:
+-- split this patch out of "separate DSC flush update out of interface"
 
-Abhinav Kumar (2):
-  drm/msm/dpu: add dsc blocks to the catalog of MSM8998 and SC8180X
-  drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
+Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Kuogee Hsieh (8):
-  drm/msm/dpu: set DSC flush bit correctly at MDP CTL flush register
-  drm/msm/dpu: add DPU_PINGPONG_DSC feature bit for DPU < 7.0.0
-  drm/msm/dpu: Guard PINGPONG DSC ops behind DPU_PINGPONG_DSC bit
-  drm/msm/dpu: Introduce PINGPONG_NONE to disconnect DSC from PINGPONG
-  drm/msm/dpu: add support for DSC encoder v1.2 engine
-  drm/msm/dpu: always clear every individual pending flush mask
-  drm/msm/dpu: separate DSC flush update out of interface
-  drm/msm/dpu: tear down DSC data path when DSC disabled
-
- drivers/gpu/drm/msm/Makefile                       |   1 +
- .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |   7 +
- .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  11 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
- .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  51 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  24 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  35 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  34 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  11 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  15 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 387 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
- 19 files changed, 644 insertions(+), 30 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 4f7cfa9..69d0ea2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -525,7 +525,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+ 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+ 			      BIT(cfg->merge_3d - MERGE_3D_0));
+ 	if (cfg->dsc) {
+-		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
++		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, BIT(DSC_IDX));
+ 		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+ 	}
+ }
 -- 
 2.7.4
 
