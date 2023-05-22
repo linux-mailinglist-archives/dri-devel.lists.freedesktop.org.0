@@ -1,53 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718FA70CE4D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:48:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C986670CE5E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC3A410E2DA;
-	Mon, 22 May 2023 22:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B4810E2BD;
+	Mon, 22 May 2023 22:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AED10E2BD;
- Mon, 22 May 2023 22:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684795723; x=1716331723;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=SSf6czB7RFWymzZ8g6/n89HWSPQ/IV+AsfLozjESbMc=;
- b=Cpy1Tnjxvu4JSSHFA+TfOurakzcqXf4aSYHJFUZP2jOAwl8rhQBNL1hK
- ww/jFXq2H4PSo0W6717qUBthlGjUtDQjoeJNHRMGvNcJI7bkCRDD5UK8z
- EkzHK0PovnKCQaTwk0QKnS9ZQbfExJm0fnV3tfaOcgnX+GbNIr/NvI/RU
- uiP6doI6Ydl6RI6tUAfMKm77DqESRnZ56YJGeMyC70Y7b6hJeQY0n4miC
- I0XK0Zop0+CeeqE8/a6uqDkBcx/cepKw90Ch7WvVzg81hM8G3+yJBeMBJ
- KnlhuJ7rK61YrjdWWeJ6qNMJcZBu17a/w4U2hDHBhCF7ZfRvD4y1ytGkt Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="381305165"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="381305165"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 15:48:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="681132738"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="681132738"
-Received: from baumgarp-mobl3.ger.corp.intel.com (HELO intel.com)
- ([10.252.55.129])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 15:48:40 -0700
-Date: Tue, 23 May 2023 00:48:38 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915: Record default rps threshold
- values
-Message-ID: <ZGvxRmNN2bG3i9Qb@ashyti-mobl2.lan>
-References: <20230522115928.588793-1-tvrtko.ursulin@linux.intel.com>
- <20230522115928.588793-2-tvrtko.ursulin@linux.intel.com>
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9E1910E2BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 22:56:58 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-5617d793160so86501117b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 15:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684796218; x=1687388218;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XXcEEoSDUQBuJY5wjK6hHz3D+MpxCJ5uA+e68AM04Xg=;
+ b=LOtd/cObzugR2ZdYbrOqKHIvok79/3R00GwQL+I9VwslW8sCTCzrnPLnzCo6Y/1IE5
+ w8zIT5twQVE4ziaKPGghO45wQPe/Xgfd6fDg3joKBo4iAAsLF7QMBgScfE7rh1gfi1Ev
+ YHUC0JK04uOo7LVDc33zCR6hVSDYHL2L72BPCrbO3l1/oFJsMXbKDY1VWQVEtzYS8p4J
+ m4IJdTv3o+oYgOkjoK1dOV3PxWES70Rm9t8uXYz+S7b96B4Rz1OtBgJSi++BzGrp5CcC
+ H9qmRW70CWRzUlyy4ZXXrNfLXKbrrtpV5LrNiS6GJuBtwEGPBLaWaQ/3Ycaaf6+5W1Ax
+ Sapw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684796218; x=1687388218;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XXcEEoSDUQBuJY5wjK6hHz3D+MpxCJ5uA+e68AM04Xg=;
+ b=ZZJ3ABHalgvizPrqOxKd64KklAnHm8Mqmf3sDAdhSaCq4Sfct6MS/NCx94qp+z4ctk
+ asTK+MeNzBf8Y53GehwhBY518R9osOZrhgUIRJLJ+vWxTe6njsPrMWologidM/3S4Pnm
+ kQ1iqAMPvg1AFyaTkwmOEhOCNCufzpmWWJrjoJvCCXFtXc1ANcbMuJazP2PaDeytFw3o
+ xjPK3qHmT09kv0uK/8GNGGMRRX8xwncXgTNLAPTV2vm/mjJChw1ChzvU0TplfTsgPl54
+ VaD2HhUm1UUV7jkUTcrg8nPjuEXhUoOD2ACOPUCEcSVnstoPsr4THlsBIxIxsiQK0C54
+ y+RA==
+X-Gm-Message-State: AC+VfDxs++soKyPTetwj19qyODmA34SQeWaHxI5Maaj1yr6xeq/xKytU
+ BTLG2Uym3T5dFAIiVLXQLClJAGjjHz9TtupqYzJq6A==
+X-Google-Smtp-Source: ACHHUZ7Ub8qC7wd7Cma8FQgO7ATYAbenBB9G3QZ2NY5Z824hncIzM8SI+FEsMKLr6dilkm7r/I6tRIbSIRoMkvNE7c4=
+X-Received: by 2002:a81:5289:0:b0:55a:4840:68d with SMTP id
+ g131-20020a815289000000b0055a4840068dmr12541888ywb.20.1684796217847; Mon, 22
+ May 2023 15:56:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230522115928.588793-2-tvrtko.ursulin@linux.intel.com>
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-6-541c341d6bee@somainline.org>
+ <f34cd6a8-6d6d-9dcf-b681-56439416c4b4@linaro.org>
+ <gzhxxdh235nsbjbns37thi33rpk546ynkihihjiam46pkngkud@opwtr2swvdau>
+In-Reply-To: <gzhxxdh235nsbjbns37thi33rpk546ynkihihjiam46pkngkud@opwtr2swvdau>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 23 May 2023 01:56:46 +0300
+Message-ID: <CAA8EJppniEh3cFpi=AdK-i=KZcd=tzpPru0W4Vq9LJjJL8q=qQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 06/10] drm/panel/samsung-sofef01: Add panel driver for
+ Sony Xperia 5 / 10 II
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,21 +70,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Vivi <rodrigo.vivi@kernel.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On Tue, 23 May 2023 at 01:32, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> On 2023-05-22 04:19:45, Dmitry Baryshkov wrote:
+> > On 22/05/2023 00:23, Marijn Suijten wrote:
+> > > This SOFEF01-M Display-IC driver supports two modes with different
+> > > compatibles to differentiate between slightly different physical sizes
+> > > (panels) found on the Xperia 5 (6.1") and 10 II (6.0").
+> > >
+> > > It is currently also used to hardcode significantly higher fake porches
+> > > for the Xperia 5, which are unused in transfers due to this being a
+> > > command-mode panel but do have an effect on the clock rates set by
+> > > dsi_host.c.  Without higher clock rates this panel fails to achieve
+> > > 60fps and has significant tearing artifacts, while the same calculated
+> > > clock rate works perfectly fine on the Xperia 10 II.
+>
+> <snip>
+>
+> > > +/* Sony Xperia 5 (kumano bahamut) */
+> > > +static const struct drm_display_mode samsung_sofef01_m_bahamut_mode = {
+> > > +   /*
+> > > +    * WARNING: These massive porches are wrong/useless for CMDmode
+> > > +    * (and not defined in downstream DTS) but necessary to bump dsi
+> > > +    * clocks higher, so that we can achieve proper 60fps without tearing.
+> > > +    */
+> > > +   .clock = (1080 + 156 + 8 + 8) * (2520 + 2393 + 8 + 8) * 60 / 1000,
+> > > +   .hdisplay = 1080,
+> > > +   .hsync_start = 1080 + 156,
+> > > +   .hsync_end = 1080 + 156 + 8,
+> > > +   .htotal = 1080 + 156 + 8 + 8,
+> > > +   .vdisplay = 2520,
+> > > +   .vsync_start = 2520 + 2393,
+> > > +   .vsync_end = 2520 + 2393 + 8,
+> > > +   .vtotal = 2520 + 2393 + 8 + 8,
+> > > +   .width_mm = 61,
+> > > +   .height_mm = 142,
+> > > +};
+> > > +
+> > > +/* Sony Xperia 10 II (seine pdx201) */
+> > > +static const struct drm_display_mode samsung_sofef01_m_pdx201_mode = {
+> > > +   .clock = (1080 + 8 + 8 + 8) * (2520 + 8 + 8 + 8) * 60 / 1000,
+> > > +   .hdisplay = 1080,
+> > > +   .hsync_start = 1080 + 8,
+> > > +   .hsync_end = 1080 + 8 + 8,
+> > > +   .htotal = 1080 + 8 + 8 + 8,
+> > > +   .vdisplay = 2520,
+> > > +   .vsync_start = 2520 + 8,
+> > > +   .vsync_end = 2520 + 8 + 8,
+> > > +   .vtotal = 2520 + 8 + 8 + 8,
+> > > +   .width_mm = 60,
+> > > +   .height_mm = 139,
+> > > +};
+> > > +
+> > > +static const struct of_device_id samsung_sofef01_m_of_match[] = {
+> > > +   { .compatible = "samsung,sofef01-m-bahamut", .data = &samsung_sofef01_m_bahamut_mode },
+> > > +   { .compatible = "samsung,sofef01-m-pdx201", .data = &samsung_sofef01_m_pdx201_mode },
+> >
+> > Are there really two panels? Can we use one mode for both usecases?
+>
+> See the commit description where I explained exactly this: the panels
+> have different dimensions (6.1" vs 6.0", hence different DPI) and I also
+> abuse this to hack in higher clock rates via fake porches.
+>
+> I just ended up on a scary website that supposedly contains the panel
+> names:
+>
+> - Xperia 5 (bahamut, 6.1"): AMB609TC01
+> - Xperia 10 II (pdx201, 6.0"): AMS597UT01
 
-On Mon, May 22, 2023 at 12:59:26PM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Record the default values as preparation for exposing the sysfs controls.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@kernel.org>
+Great! From the patch description it was not obvious if those are two
+different panels or a single panel with slight difference in the glass
+cover. With these names in place (well, with two distinct names in
+place) it makes sense.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
-
-Andi
+-- 
+With best wishes
+Dmitry
