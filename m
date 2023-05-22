@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848CC70B955
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:49:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E630370B963
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C717510E29F;
-	Mon, 22 May 2023 09:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A3110E299;
+	Mon, 22 May 2023 09:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id F2A2510E29F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 09:49:52 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:34704.564609069
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id C1E0E100210;
- Mon, 22 May 2023 17:49:48 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-xwndj with ESMTP id
- 0f677f17687045fdbb6736c1fd24ac9b for kernel@xen0n.name; 
- Mon, 22 May 2023 17:49:50 CST
-X-Transaction-ID: 0f677f17687045fdbb6736c1fd24ac9b
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
-Date: Mon, 22 May 2023 17:49:47 +0800
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D1810E297;
+ Mon, 22 May 2023 09:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684749039; x=1716285039;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=a7xk5ynNhw9PP+8F9CGXCT3fyCZ0GROanTFF3ZgPtTc=;
+ b=Zb3N03rowjJ9UECKnato2nPM6xsAIQU7CC2p4/jUkwHaSTZsriL2pYkF
+ SsGeXesMJeMPEmze3B0/Iepj3LmqpOISTvrEENNFhT2rAB0NykRBrJKWG
+ EW6moX1cFYQRoIaVChoEf2QcOn4XR9WTtOfq2RD6L7faaCMG6OCrkOqWL
+ xMAFKQLUEDurscM3uIUeFsa3I+pUis6O7kZIVl9OJZ7FaLI6+f6ZqTwPn
+ fJw1TzK3cLgxzjlUIOtQCPBCZbpcyUe7mmqistUqRFl+Awuk3P/kIle7t
+ R6UeqXFxC8irCbqMKq/MJ1nm6iYZ3Bi9KQIq7PPn4tKaU0XfO3vP+SZ4A g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="381099947"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="381099947"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2023 02:50:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="768448559"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="768448559"
+Received: from amigon-mobl.ger.corp.intel.com (HELO [10.249.128.230])
+ ([10.249.128.230])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2023 02:50:36 -0700
+Message-ID: <b32e9dc2-c450-52aa-12fa-7bc8b207aba4@intel.com>
+Date: Mon, 22 May 2023 10:50:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To: WANG Xuerui <kernel@xen0n.name>, Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Li Yi <liyi@loongson.cn>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
-References: <20230520105718.325819-1-15330273260@189.cn>
- <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
- <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
- <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
+ Firefox/102.0 Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm: fix drmm_mutex_init()
+Content-Language: en-GB
+To: Thomas Zimmermann <tzimmermann@suse.de>, intel-xe@lists.freedesktop.org
+References: <20230519090733.489019-1-matthew.auld@intel.com>
+ <3a7ff212-eda8-1196-3009-0fce68dda7aa@suse.de>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <3a7ff212-eda8-1196-3009-0fce68dda7aa@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,61 +62,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
- linux-media@vger.kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/5/22 17:28, WANG Xuerui wrote:
-> On 2023/5/22 17:25, Sui Jingfeng wrote:
->> Hi,
+On 22/05/2023 10:43, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 19.05.23 um 11:07 schrieb Matthew Auld:
+>> In mutex_init() lockdep identifies a lock by defining a special static
+>> key for each lock class. However if we wrap the macro in a function,
+>> like in drmm_mutex_init(), we end up generating:
 >>
->> On 2023/5/21 20:21, WANG Xuerui wrote:
->>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with on-board 
->>>> video RAM
->>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
->>>> which share
->>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
->>>
->>> CPU models are not typically prefixed with "LS", so "Loongson 
->>> 3A4000/3A5000/3A6000".
->>>
->> Here is because when you do programming, variable name should prefix 
->> with letters.
->
-> Commit messages, comments, and log messages etc. are natural language, 
-> so it's better to treat them differently. No problem to keep code 
-> as-is IMO.
->
-Then you get two name for a single chip,  take  LS7A1000 as an example.
-
-You name it as Loongson 7A1000 in commit message,  and then you have to 
-define another name in the code,  say LS7A1000.
-
-"Loongson 7A1000" is too long,  not as compact as LS7A1000.
-
-This also avoid bind the company name to a specific product, because a 
-company can produce many product.
-
->>> Also the description about the Loongson 2K series is a bit 
->>> irrelevant (we're focusing on VRAM here) so you could simplify the 
->>> sentence a bit. 
+>> int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
+>> {
+>>        static struct lock_class_key __key;
 >>
->> We could reserve part of system RAM as VRAM for Loongson 2K series SoC.
+>>        __mutex_init((lock), "lock", &__key);
+>>        ....
+>> }
 >>
->> Either reserved with 'of reserve memory' or  reserved by the firmware.
+>> The static __key here is what lockdep uses to identify the lock class,
+>> however since this is just a normal function the key here will be
+>> created once, where all callers then use the same key. In effect the
+>> mutex->depmap.key will be the same pointer for different
+>> drmm_mutex_init() callers. This then results in impossible lockdep
+>> splats since lockdep thinks completely unrelated locks are the same lock
+>> class.
 >>
->
-> What's an "of reserve memory"? Is it "DeviceTree-reserved"?
->
->> The reserve ram will not accessible by kernel itself it this case, 
->> and can still be managed by ttm.
->
-> Of course. Feel free to tweak.
->
+>> To fix this turn drmm_mutex_init() into a macro such that it generates a
+>> different "static struct lock_class_key __key" for each invocation,
+>> which looks to be inline with what mutex_init() wants.
+>>
+>> v2:
+>>    - Revamp the commit message with clearer explanation of the issue.
+>>    - Rather export __drmm_mutex_release() than static inline.
+>>
+>> Reported-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Reported-by: Sarah Walker <sarah.walker@imgtec.com>
+>> Fixes: e13f13e039dc ("drm: Add DRM-managed mutex_init()")
+>> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Shall I add the patch to drm-misc-fixes?
+
+Yes, please do. Thanks.
+
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/drm_managed.c | 22 ++--------------------
+>>   include/drm/drm_managed.h     | 18 +++++++++++++++++-
+>>   2 files changed, 19 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_managed.c 
+>> b/drivers/gpu/drm/drm_managed.c
+>> index 4cf214de50c4..c21c3f623033 100644
+>> --- a/drivers/gpu/drm/drm_managed.c
+>> +++ b/drivers/gpu/drm/drm_managed.c
+>> @@ -264,28 +264,10 @@ void drmm_kfree(struct drm_device *dev, void *data)
+>>   }
+>>   EXPORT_SYMBOL(drmm_kfree);
+>> -static void drmm_mutex_release(struct drm_device *dev, void *res)
+>> +void __drmm_mutex_release(struct drm_device *dev, void *res)
+>>   {
+>>       struct mutex *lock = res;
+>>       mutex_destroy(lock);
+>>   }
+>> -
+>> -/**
+>> - * drmm_mutex_init - &drm_device-managed mutex_init()
+>> - * @dev: DRM device
+>> - * @lock: lock to be initialized
+>> - *
+>> - * Returns:
+>> - * 0 on success, or a negative errno code otherwise.
+>> - *
+>> - * This is a &drm_device-managed version of mutex_init(). The 
+>> initialized
+>> - * lock is automatically destroyed on the final drm_dev_put().
+>> - */
+>> -int drmm_mutex_init(struct drm_device *dev, struct mutex *lock)
+>> -{
+>> -    mutex_init(lock);
+>> -
+>> -    return drmm_add_action_or_reset(dev, drmm_mutex_release, lock);
+>> -}
+>> -EXPORT_SYMBOL(drmm_mutex_init);
+>> +EXPORT_SYMBOL(__drmm_mutex_release);
+>> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
+>> index 359883942612..ad08f834af40 100644
+>> --- a/include/drm/drm_managed.h
+>> +++ b/include/drm/drm_managed.h
+>> @@ -105,6 +105,22 @@ char *drmm_kstrdup(struct drm_device *dev, const 
+>> char *s, gfp_t gfp);
+>>   void drmm_kfree(struct drm_device *dev, void *data);
+>> -int drmm_mutex_init(struct drm_device *dev, struct mutex *lock);
+>> +void __drmm_mutex_release(struct drm_device *dev, void *res);
+>> +
+>> +/**
+>> + * drmm_mutex_init - &drm_device-managed mutex_init()
+>> + * @dev: DRM device
+>> + * @lock: lock to be initialized
+>> + *
+>> + * Returns:
+>> + * 0 on success, or a negative errno code otherwise.
+>> + *
+>> + * This is a &drm_device-managed version of mutex_init(). The 
+>> initialized
+>> + * lock is automatically destroyed on the final drm_dev_put().
+>> + */
+>> +#define drmm_mutex_init(dev, lock) ({                         \
+>> +    mutex_init(lock);                             \
+>> +    drmm_add_action_or_reset(dev, __drmm_mutex_release, lock);         \
+>> +})                                         \
+>>   #endif
+> 
