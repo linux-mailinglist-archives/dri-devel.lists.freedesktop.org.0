@@ -1,75 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5641C70CAB9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:18:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C970CAC1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A9610E37E;
-	Mon, 22 May 2023 20:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4955110E37C;
+	Mon, 22 May 2023 20:18:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAABF10E37E
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:18:05 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f3a166f8e9so5012395e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684786683; x=1687378683;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=37m5+D6QbSo7LpsLyUnajXaAQuo/moN3fPGc1pIbZaA=;
- b=jOt+EAODFpuxIJLWaKzdp+pMdUS4J2LONY/bPDZ1UV71sTDvUl1mAhEKKQmvxqDAxs
- ec9wpq9XKKsxfr6odEx5txda1qV8uzEJC26OH0lyIJ8eo4k5cJdxbA8IuKDfHtsESHvs
- giO+lt0n7/+N/qeIdl/rCoHKUfQLcMR6NqTJHa1V2uwMKwCGyZF2mYxGVZb8yskiWuKZ
- XjHJF9K4LpDXQ8r9fUXGW3QPN7PJW3f6ivBuXc8n71i95zzVzy13SdB6wHyxkGG1/kMJ
- NB0jDlVqefoBKhyzIj0EnVj+z4k/Foh0XF8FLKuxPAfNp0O5hFpo2uZsa/IpQRnyNloW
- +yig==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 725BE10E37C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684786725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=O9q1qCwNu3Mrx87IGOjeTMvMrxO9D4Con5QINyscbnk=;
+ b=Ijh/Cy8Yq2mEWhlx9zE2hmCg+7OgpOTV6bXt17cH9g+CCvGqk96hOuxmjY2b6tKk08ufXU
+ YcsR/DrN+pi4b1KMG+nOKgZKm7ISlz+Jyhh+Fa0GhZTM4XJitLtBMf7HJZji/Vfb/BIy1i
+ FsHThOBi1duPH5HO9PLMErFRqouGGys=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-74-T29V0OqmOY2tfxZAxvyRhA-1; Mon, 22 May 2023 16:18:44 -0400
+X-MC-Unique: T29V0OqmOY2tfxZAxvyRhA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-625891d5ad5so1590476d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:18:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684786683; x=1687378683;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=37m5+D6QbSo7LpsLyUnajXaAQuo/moN3fPGc1pIbZaA=;
- b=fp/+xdmL/C1UeySRl6hV1P3D/x2A8MYcleFx/lAzAq0SpM+yOGGF+wdnf65XrDZLVD
- AFvV0aF9ZdHQDv6lXOYAMJhITRmiyrwZL/vpObsVgIqFfb0Nuk51mBmr05vtFpPHaKir
- hEr6HnploMYZQ8YXKIYrAfnIlQZJuRTIJC5JRg58CkgrfrE90x0kI68scwSRhZZhYSN6
- hg5tWgKY7Zq6jbt/9/ofenu2Yl42nUcRlBfm95xfDJkkHc67e9luXWzyz/iEQUAF4INt
- u9GVU+1GKCBYdjABXISiOv0/hmK/AxiBVqHBfej3Avy56JoP9LMNq285srK1C7uk2WJ9
- 5N9Q==
-X-Gm-Message-State: AC+VfDz4UzteaHtZPc58UQZHuyyJYDWo+PXE2UfBXS5rCfoxooRXTOfY
- j7LLSciI81GafzsWy+ARuoBKhA==
-X-Google-Smtp-Source: ACHHUZ4Yh5ixyr5evffTASHfLrrR9A5Kjg+Xi2i0N+jguD6R64U7zzHl/6oiWqR/erTmCJzKuZ9/uw==
-X-Received: by 2002:a05:6512:6c4:b0:4f4:aeb8:aebe with SMTP id
- u4-20020a05651206c400b004f4aeb8aebemr1372588lff.25.1684786683546; 
- Mon, 22 May 2023 13:18:03 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- a5-20020ac25205000000b004f392625952sm1093573lfl.26.2023.05.22.13.18.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 May 2023 13:18:03 -0700 (PDT)
-Message-ID: <d5e232d6-b789-a8c3-4ec5-7af0b9d8b9ae@linaro.org>
-Date: Mon, 22 May 2023 23:18:02 +0300
+ d=1e100.net; s=20221208; t=1684786723; x=1687378723;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O9q1qCwNu3Mrx87IGOjeTMvMrxO9D4Con5QINyscbnk=;
+ b=l2k6Lrh5Thntswh1LGe6qeePMkU2RE6v81taGBVhL4IQ/FmiZnkvW6GNuGqbcx86kW
+ T/hRd9StXlPvSbFkyOayC7eylxiUHHXaFH3XmtecqckzWsCweMT4gfBKkS1om5bTtNgV
+ WuJNrLXFxnI6Q0ryf8s+v6n1YxnJIoNk3pOrPGjFI0KF5rCp/AwZRHnpBMKlQmuWN92S
+ Fk35Bg7Z5K0v9Ts2GOuIqMdvzWKbVtimqeZbM28n2ngo5PCX7atqeQep+hVbRdjb1KHa
+ 1//9mjpnR35K6p1EW1BrOunrobgO39Lednacr7MBx19uFXrtLuo+c36EmkspljPLdK1P
+ C7lQ==
+X-Gm-Message-State: AC+VfDyBKO/Qb/019ufw3800gpju60T+fc5FIui+El8EdOJhU29lBplU
+ e84sW9ySAr4uYC8F/kA9ol2+oEKC+DOvxwiPR9dk4iGFBndI3aKdTQ0PnDurs459ilX7zeNYZ0d
+ ZyEoK+dZxKmKU0+nPKOEy/ft9666N
+X-Received: by 2002:a05:6214:400f:b0:625:86ed:8ab4 with SMTP id
+ kd15-20020a056214400f00b0062586ed8ab4mr4376378qvb.3.1684786723528; 
+ Mon, 22 May 2023 13:18:43 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7fUAFOMh8GoM7ZLqKEyQV3CmmIqRVsI4seXXB/Q3bmVY+dOhM/G3gUw77RysfQOiQm3Y6Waw==
+X-Received: by 2002:a05:6214:400f:b0:625:86ed:8ab4 with SMTP id
+ kd15-20020a056214400f00b0062586ed8ab4mr4376368qvb.3.1684786723299; 
+ Mon, 22 May 2023 13:18:43 -0700 (PDT)
+Received: from kherbst.pingu (ip1f1032e8.dynamic.kabel-deutschland.de.
+ [31.16.50.232]) by smtp.gmail.com with ESMTPSA id
+ i10-20020a0cfcca000000b006255bcfca88sm1688836qvq.7.2023.05.22.13.18.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 May 2023 13:18:42 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau/acr: Abort loading ACR if no firmware was found
+Date: Mon, 22 May 2023 22:18:38 +0200
+Message-Id: <20230522201838.1496622-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v12 01/10] drm/msm/dpu: set DSC flush bit correctly at MDP
- CTL flush register
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1684783853-22193-1-git-send-email-quic_khsieh@quicinc.com>
- <1684783853-22193-2-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1684783853-22193-2-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +80,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Gourav Samaiya <gsamaiya@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/05/2023 22:30, Kuogee Hsieh wrote:
-> DSC flush bit is the bit 22 of CTL flush register. BIT(22) is expected
-> to be written to CTL flush register to indicates that DSC is ready for
-> flush. However 0x22 (BIT(1) and BIT(5)) was written mistakenly at current
+This fixes a NULL pointer access inside nvkm_acr_oneinit in case necessary
+firmware files couldn't be loaded.
 
-DSC_IDX is 22, not 0x22.
+Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/212
+Fixes: 4b569ded09fd ("drm/nouveau/acr/ga102: initial support")
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> implementation. Fix this problem by writing BIT(22) to CTL flush register
-> for DSC to work properly.
-> 
-> Changes in V12:
-> -- split this patch out of "separate DSC flush update out of interface"
-> 
-> Fixes: 77f6da90487c ("drm/msm/disp/dpu1: Add DSC support in hw_ctl")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index 4f7cfa9..69d0ea2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -525,7 +525,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
->   		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
->   			      BIT(cfg->merge_3d - MERGE_3D_0));
->   	if (cfg->dsc) {
-> -		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
-> +		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, BIT(DSC_IDX));
->   		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
->   	}
->   }
-
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
+index 795f3a649b12..6388234c352c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c
+@@ -224,7 +224,7 @@ nvkm_acr_oneinit(struct nvkm_subdev *subdev)
+ 	u64 falcons;
+ 	int ret, i;
+ 
+-	if (list_empty(&acr->hsfw)) {
++	if (list_empty(&acr->hsfw) || !acr->func->wpr_layout) {
+ 		nvkm_debug(subdev, "No HSFW(s)\n");
+ 		nvkm_acr_cleanup(acr);
+ 		return 0;
 -- 
-With best wishes
-Dmitry
+2.40.1
 
