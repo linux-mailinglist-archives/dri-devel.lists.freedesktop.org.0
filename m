@@ -1,67 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DF770B8B6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:21:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1A570B8D5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A1710E291;
-	Mon, 22 May 2023 09:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F54410E142;
+	Mon, 22 May 2023 09:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B7010E291
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 09:21:15 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f607dc98cdso1849675e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 02:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684747274; x=1687339274;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1VacdKeZCjPhD/SpW9R0zd/0SapShlT3F3TXr88hz5s=;
- b=I+Y1NWovJ0NVRaQo+mdhuzI0Bel68VjKxnDspYW/p+A4HoEFpUEfwtxPUwAOXbVxv3
- H0k1+JNyPnQ7sT6sx7i1fqc6UyuA+P9gyeezY9upA270OzcXOHzDNqBzjgJNOTYX06DL
- aA8C0Bp+1oEpF6DGBlOzcwlBXFBvWlwCZPfZ2B6lVgomr7xaegGo3zeFG7dYAYEGzAbN
- XjNrY2DF7AQSJvzBumCk2/Olr0v/TMqCKX/NvVrP4TG7lnP6U8cWcY0JDIwXRznCKZsy
- 94ATtcfv5G9fV9sXYxEyqaxgQxpKSZZ0ZCd3HGnbVnLSkHOn1Clg29VdHhqtKXwijDWC
- 55dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684747274; x=1687339274;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1VacdKeZCjPhD/SpW9R0zd/0SapShlT3F3TXr88hz5s=;
- b=C6sofjTh8CbpQJ/JvsGIC6FvMOGOwoIKsu2RJvrEm0Hon1lvyrw9eq6KFjrb9k+8fa
- 91uweW81ISJdaMPBBGDXdZyVIs4ZcKBegLvPFv0D3sriFO4Wgl3VLGVzqpMf+gtTmrXT
- nq2fQLQ2WMwnLCo2wkZdUJgiUcNGxjUX1IXfbEVbLwIVIlVMQwh3iAeQqncBLBqrVIJP
- r3+5zxPhpKmvdi/smInr4ODDUQewoU5vCZQWPifyZ9PaCskHyAtSgbZS6/ABO9190GtQ
- C8l9VeCccc3rULs1HF0nDFYlfSp1ysCsOEr4NSQuJw+M7P6SnURqZnngkddyvQUw6gWZ
- l5MQ==
-X-Gm-Message-State: AC+VfDzjL9sVr/+kUfOfPDo+8agTpkPozcf1dKkeajNMmIpKeqfIbzCe
- EmE9w7ZUEQ2jqTwkhJGa5InMIw==
-X-Google-Smtp-Source: ACHHUZ6xFwRV6290oiBu9zEMu/gtdsqpC8lxQZDtlQEeKNFmqY4beXf6hkZCcpWclRQaO8VLBAaeCA==
-X-Received: by 2002:a1c:7405:0:b0:3f4:2148:e8e5 with SMTP id
- p5-20020a1c7405000000b003f42148e8e5mr6974812wmc.1.1684747274139; 
- Mon, 22 May 2023 02:21:14 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- f10-20020a5d58ea000000b002fe96f0b3acsm7073614wrd.63.2023.05.22.02.21.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 May 2023 02:21:13 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: thierry.reding@gmail.com, Artur Weber <aweber.kernel@gmail.com>
-In-Reply-To: <20230519170354.29610-1-aweber.kernel@gmail.com>
-References: <20230519170354.29610-1-aweber.kernel@gmail.com>
-Subject: Re: [PATCH v5 0/3] Add Samsung S6D7AA0 panel controller driver
-Message-Id: <168474727309.3803091.17592530014097097014.b4-ty@linaro.org>
-Date: Mon, 22 May 2023 11:21:13 +0200
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2DEF810E11C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 09:25:31 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:54090.881126371
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id AE497100219;
+ Mon, 22 May 2023 17:25:25 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
+ 0e1dd0b287294d5aa57c52fa68135f30 for kernel@xen0n.name; 
+ Mon, 22 May 2023 17:25:27 CST
+X-Transaction-ID: 0e1dd0b287294d5aa57c52fa68135f30
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
+Date: Mon, 22 May 2023 17:25:21 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To: WANG Xuerui <kernel@xen0n.name>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +61,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Nikita Travkin <nikita@trvn.ru>
+Cc: loongson-kernel@lists.loongnix.cn,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 19 May 2023 19:03:51 +0200, Artur Weber wrote:
-> This patchset adds initial support for Samsung S6D7AA0-based panels.
-> Currently, the following panels are supported:
-> 
->  - S6D7AA0-LSL080AL02 (Samsung Galaxy Tab 3 8.0)
->  - S6D7AA0-LSL080AL03 (Samsung Galaxy Tab A 8.0 2015)
->  - S6D7AA0-LTL101AT01 (Samsung Galaxy Tab A 9.7 2015)
-> 
-> [...]
+On 2023/5/21 20:21, WANG Xuerui wrote:
+>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with on-board 
+>> video RAM
+>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
+>> which share
+>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
+>
+> CPU models are not typically prefixed with "LS", so "Loongson 
+> 3A4000/3A5000/3A6000".
+>
+Here is because when you do programming, variable name should prefix 
+with letters.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+> Also the description about the Loongson 2K series is a bit irrelevant 
+> (we're focusing on VRAM here) so you could simplify the sentence a bit. 
 
-[1/3] dt-bindings: display: panel: Add Samsung S6D7AA0 LCD panel controller
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=dda445651475b5a2a2941adcf1420fe3e9521bcd
-[2/3] drm/panel: Add Samsung S6D7AA0 panel controller driver
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6810bb390282bb75801832f31d088236503fee89
-[3/3] MAINTAINERS: Add entry for Samsung S6D7AA0 LCD panel controller driver
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0dd53308f74fcb16aa4e5cb90739b831c4a558de
+We could reserve part of system RAM as VRAM for Loongson 2K series SoC.
 
--- 
-Neil
+Either reserved with 'of reserve memory' or  reserved by the firmware.
+
+The reserve ram will not accessible by kernel itself it this case, and 
+can still be managed by ttm.
 
