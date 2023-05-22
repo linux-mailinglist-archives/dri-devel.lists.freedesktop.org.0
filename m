@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F86970BC1A
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FBC70BC42
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD7910E2DF;
-	Mon, 22 May 2023 11:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2368D10E2E0;
+	Mon, 22 May 2023 11:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACEF810E2DF
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:44:36 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 2645C1FE83;
- Mon, 22 May 2023 11:44:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684755872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RXgpxboI1bw9eXRQKxoN/Zr/TelBo2erFp+oCAN6jQ4=;
- b=xshnHi/ZPGtf5PnerhW07I/ZJ3gtuXaQXOMW1lqWJPHulL6JCwemBTdT6hrFHwIIHSed4v
- ea2F1eVZy8EXq+1FsNxVQTtwHaY1yz1Ptq/ScwtUkJim3RYiBlETvetX0UbmO4Ety9M0ni
- hwzOSYQrMj/LOTJYuPl9EjduENWCBiQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684755872;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RXgpxboI1bw9eXRQKxoN/Zr/TelBo2erFp+oCAN6jQ4=;
- b=VCaQEPWIJMQFKfvjU2QqgEyFocOltgb1T0Aku6lMo9jnDOFeFltWYrRg398m5sQNJb9NTE
- E4mo0IqKd9uklYBQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 242F210E2DC;
+ Mon, 22 May 2023 11:50:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id D0A092C141;
- Mon, 22 May 2023 11:44:31 +0000 (UTC)
-Date: Mon, 22 May 2023 13:44:30 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
-Message-ID: <20230522114430.GA15906@kitsune.suse.cz>
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-3-cyril@debamax.com>
- <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
- <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 776276216D;
+ Mon, 22 May 2023 11:50:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E43C433EF;
+ Mon, 22 May 2023 11:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684756254;
+ bh=QMY8AN4XNoiYR7KoNx0vHC4ZvMlbDMumIpM77gUBNA0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GK3XkFY9WK12/04J9x0b3YSrR6RHJ/L+5wg0ufR6DXuAdpqSWUuSQwjGUdFvumlqZ
+ wdBgJcTub7mtefoFo68N8eWvIsAXlc9AoKL+lJspLafBF39m/gtQ0tD7mTf7Nl9oL4
+ K0sTVgQiWpJ+yIJl1eZb8P910WSAASR0KCSHHfnUKE51h+LfMZVnJ5ZEeGCNciOBw3
+ yIpAIM5CxNENKxj48UNbhB0NZWyAthkw3TiqjeiD2VRDGwYJxO6gED+hPOhFZ0ySJL
+ hipm6EPcOyQErvWkGerPhdCt9nabCvWm+2PBg/T/tFxMuB5+/6B22qbtnIVZmTbIEA
+ y0DxIbKssYkNA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Evan Quan <evan.quan@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Asad kamal <asad.kamal@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>
+Subject: [PATCH 1/5] drm/amd/pm: mark irq functions as 'static'
+Date: Mon, 22 May 2023 13:50:28 +0200
+Message-Id: <20230522115047.1169839-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,78 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Cyril Brulebois <cyril@debamax.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, stable@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Yang Wang <KevinYang.Wang@amd.com>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, bobzhou <bob.zhou@amd.com>,
+ Le Ma <le.ma@amd.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 24, 2023 at 11:07:45AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 24.04.23 um 09:33 schrieb Geert Uytterhoeven:
-> > Hi Cyril,
-> > 
-> > CC DT
-> > 
-> > On Wed, Apr 12, 2023 at 12:05 PM Cyril Brulebois <cyril@debamax.com> wrote:
-> > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
-> > > as spotted by Frédéric Bonnard, the historical "of-display" device is
-> > > gone: the updated logic creates "of-display.0" instead, then as many
-> > > "of-display.N" as required.
-> > > 
-> > > This means that offb no longer finds the expected device, which prevents
-> > > the Debian Installer from setting up its interface, at least on ppc64el.
-> > > 
-> > > Given the code similarity it is likely to affect ofdrm in the same way.
-> > > 
-> > > It might be better to iterate on all possible nodes, but updating the
-> > > hardcoded device from "of-display" to "of-display.0" is likely to help
-> > > as a first step.
-> > > 
-> > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=217328
-> > > Link: https://bugs.debian.org/1033058
-> > > Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
-> > > Cc: stable@vger.kernel.org # v6.2+
-> > > Signed-off-by: Cyril Brulebois <cyril@debamax.com>
-> > 
-> > Thanks for your patch, which is now commit 3a9d8ea2539ebebd
-> > ("drm/ofdrm: Update expected device name") in fbdev/for-next.
-> > 
-> > > --- a/drivers/gpu/drm/tiny/ofdrm.c
-> > > +++ b/drivers/gpu/drm/tiny/ofdrm.c
-> > > @@ -1390,7 +1390,7 @@ MODULE_DEVICE_TABLE(of, ofdrm_of_match_display);
-> > > 
-> > >   static struct platform_driver ofdrm_platform_driver = {
-> > >          .driver = {
-> > > -               .name = "of-display",
-> > > +               .name = "of-display.0",
-> > >                  .of_match_table = ofdrm_of_match_display,
-> > >          },
-> > >          .probe = ofdrm_probe,
-> > 
-> > Same comment as for "[PATCH 1/2] fbdev/offb: Update expected device
-> > name".
-> > 
-> > https://lore.kernel.org/r/CAMuHMdVGEeAsmb4tAuuqqGJ-4+BBETwEwYJA+M9NyJv0BJ_hNg@mail.gmail.com
-> 
-> Sorry that I missed this patch. I agree that it's probably not correct. At
-> least in ofdrm, we want to be able to use multiple framebuffers at the same
-> time; a feature that has been broken by this change.
+From: Arnd Bergmann <arnd@arndb.de>
 
-How did it work before, though?
+Two newly added functions cause a warning because they lack a prototype:
 
-We did not have this device name clash, then we did, and it was solved
-by renaming the devices to numnered.
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:1328:5: error: no previous prototype for 'smu_v13_0_6_set_irq_state' [-Werror=missing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_6_ppt.c:1368:5: error: no previous prototype for 'smu_v13_0_6_register_irq_handler' [-Werror=missing-prototypes]
 
-Now matching the first device should restore the previously available
-functionality, mathing any of the numbered devices would potentially
-allow to use multiple devices.
+They are only used locally, so just mark them static.
 
-Or am I missing something?
+Fixes: 48b5659cf086 ("drm/amd/pm: Add ih for SMU v13.0.6 thermal throttling")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+index a712b2bf2d25..41b49cc827cd 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+@@ -1325,7 +1325,7 @@ static int smu_v13_0_6_irq_process(struct amdgpu_device *adev,
+ 	return 0;
+ }
+ 
+-int smu_v13_0_6_set_irq_state(struct amdgpu_device *adev,
++static int smu_v13_0_6_set_irq_state(struct amdgpu_device *adev,
+ 			      struct amdgpu_irq_src *source,
+ 			      unsigned tyep,
+ 			      enum amdgpu_interrupt_state state)
+@@ -1365,7 +1365,7 @@ static const struct amdgpu_irq_src_funcs smu_v13_0_6_irq_funcs =
+ 	.process = smu_v13_0_6_irq_process,
+ };
+ 
+-int smu_v13_0_6_register_irq_handler(struct smu_context *smu)
++static int smu_v13_0_6_register_irq_handler(struct smu_context *smu)
+ {
+ 	struct amdgpu_device *adev = smu->adev;
+ 	struct amdgpu_irq_src *irq_src = &smu->irq_source;
+-- 
+2.39.2
 
-Michal
