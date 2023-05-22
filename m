@@ -2,64 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885E770CBA6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE5370CBAF
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:55:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37A910E390;
-	Mon, 22 May 2023 20:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E8610E38F;
+	Mon, 22 May 2023 20:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C728210E38D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:54:51 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-2536b4b3398so4201354a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1684788891; x=1687380891;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZuElaN/qDTwisrD4X6pHQNWgjgAbUbIATBdO1zpDRq4=;
- b=MhuIchJoSP3VNW834mCsQH8QhVAtF7Te4uKXeNA+vCPR8uLVLXQlSOUUqmD3FnOyFq
- wSE2ePdtuZfdxWOxnqhyyk5C3i51P5jAWLvfCTqGtZm/Hv6oG/eG7QO1GYOPLQn9IsUF
- ukspP2HSGuGjgrmweUS3CD9/nlMyJ2RKTL4hg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684788891; x=1687380891;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZuElaN/qDTwisrD4X6pHQNWgjgAbUbIATBdO1zpDRq4=;
- b=RCibwC86V0shX6Uemr62V/uW3MocJzH4rgx38pUbp9BSjQXyLrMR2ZFkSKh9HfAbRy
- xUSufEGr51Xxh8dqqOnBSUsgKAfsl1/MCnLTKH3nqXXNrrqSFFnFOF52Kyfhs4oDx/r4
- K52ksvXgIgg+RLMg85Gx1HY1tD7fMXg3t8+Mz0Bs6IV7zn5qMGWkOZg1XYNg+EdOYe9u
- wBdGW7qzmQTC3O555kHrKauIdXcEfZc62rrGszFC5AaJ5AnCjc7Y9itpY4syktJXTL8+
- mOpadr4zrI5YTQGZdKPDNB0owNVkXzwadXzIKB0TWVlqRZ5vZICGLkxx5Gvrdpq4bZAQ
- aymg==
-X-Gm-Message-State: AC+VfDyontaiyeW8hQ3KtARuF0Cr84k3e2CofbUJSqhsIoR/8imSXa13
- N+yt+dLtEYsOk0Minv4hiOmhtw==
-X-Google-Smtp-Source: ACHHUZ5RojlqCQM3TmsJ+Nx4QRDer9RPXkiS+1C8Bn4fPCBBrUhOW1RX7WMCawCYR7+Mqz7BmU1sxQ==
-X-Received: by 2002:a17:90b:3555:b0:253:3b2b:2a3 with SMTP id
- lt21-20020a17090b355500b002533b2b02a3mr10962552pjb.43.1684788891123; 
- Mon, 22 May 2023 13:54:51 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- j3-20020a17090a31c300b0024de39e8746sm6807748pjf.11.2023.05.22.13.54.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 May 2023 13:54:50 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Xinhui.Pan@amd.com, azeemshaikh38@gmail.com, christian.koenig@amd.com,
- alexander.deucher@amd.com
-Subject: Re: [PATCH] drm/radeon: Replace all non-returning strlcpy with strscpy
-Date: Mon, 22 May 2023 13:54:49 -0700
-Message-Id: <168478888725.1444594.8281276970110924816.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230522155032.2336283-1-azeemshaikh38@gmail.com>
-References: <20230522155032.2336283-1-azeemshaikh38@gmail.com>
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C975A10E38F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:55:54 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 0ED253EED9;
+ Mon, 22 May 2023 22:55:53 +0200 (CEST)
+Date: Mon, 22 May 2023 22:55:51 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v4 1/5] msm/drm/dsi: Round up DSC hdisplay calculation
+Message-ID: <gdh5p33gkoqccyrp6ljpnfmzbartpzptins7vowe5bphpcac2y@4ngkfujtp3dy>
+References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
+ <20230405-add-dsc-support-v4-1-15daf84f8dcb@quicinc.com>
+ <eo7chb7m4cowvb53hnebi3bjtotm7x5ea5iv6ulmmfkr2hdt32@2nkoa5rco3qb>
+ <ecf22436-44f3-8809-1232-e9ae30f3864b@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ecf22436-44f3-8809-1232-e9ae30f3864b@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,28 +44,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 May 2023 15:50:32 +0000, Azeem Shaikh wrote:
-> strlcpy() reads the entire source buffer first.
-> This read may exceed the destination size limit.
-> This is both inefficient and can lead to linear read
-> overflows if a source string is not NUL-terminated [1].
-> In an effort to remove strlcpy() completely [2], replace
-> strlcpy() here with strscpy().
-> No return values were used, so direct replacement is safe.
+On 2023-05-22 22:52:40, Konrad Dybcio wrote:
 > 
-> [...]
+> 
+> On 22.05.2023 22:44, Marijn Suijten wrote:
+> > On 2023-05-22 13:30:20, Jessica Zhang wrote:
+> >> Currently, when compression is enabled, hdisplay is reduced via integer
+> >> division. This causes issues for modes where the original hdisplay is
+> >> not a multiple of 3.
+> >>
+> >> To fix this, use DIV_ROUND_UP to divide hdisplay.
+> >>
+> >> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >> Suggested-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > 
+> > Nit: probably these should go in the opposite order.  And if they're
+> > all supposed to be chronological, I think it is:
+> > 
+> >     Suggested-by:
+> >     Fixes:
+> >     Signed-off-by:
+> >     Reviewed-by:
+> > 
+> > But unsure if that's a hard requirement, or even correct at all.
+> > 
+> > - Marijn
+> Or you can rely on b4 to pick that up if it comes from others
 
-Applied to for-next/hardening, thanks!
+The problem is that somewhat stupidly, b4 (trailers -u) puts them in the
+wrong (not chronological) order, so it's pretty much useless for this.
 
-[1/1] drm/radeon: Replace all non-returning strlcpy with strscpy
-      https://git.kernel.org/kees/c/76ea3f6ef93f
+Unless there's a required ordering specified somewhere in the docs, that
+is *not* chronological, and that b4 is abiding by?  (that is my question
+above)
 
--- 
-Kees Cook
+- Marijn
 
+> 
+> Konrad
+<snip>
