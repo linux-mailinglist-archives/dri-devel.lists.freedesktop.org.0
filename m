@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E1370BB15
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2534370BB42
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 13:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF30B10E2C2;
-	Mon, 22 May 2023 11:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1A710E2C3;
+	Mon, 22 May 2023 11:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8316E10E2C2
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684753548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MX/s9CqqCW6cH2AMqyMMQv3ISbYNht7FksP6LmQ8hqw=;
- b=aUxgbkwRKcWnknD2Umr8UN8IvAicIl/CGTQcOcmUl31i0MlJ2T3bdTf8dTVHjkLKjOCZYT
- KKb60QfAClhGX6nu93cWya5bhxFNlmvOZqvr2CsXCokrd/sg0rbztX00l96VZUoJ5R0eRK
- 2arJCHdhFH0oQrIa6oxCA3Q3qDQg4sk=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-320-I4Ks0TnyMEiQ0ab8VtPbgg-1; Mon, 22 May 2023 07:05:39 -0400
-X-MC-Unique: I4Ks0TnyMEiQ0ab8VtPbgg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-4f37c278008so233587e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 04:05:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684753537; x=1687345537;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MX/s9CqqCW6cH2AMqyMMQv3ISbYNht7FksP6LmQ8hqw=;
- b=JAtrOMAqO0oi23plLyR6BanGSwa+QrTWP0n+Z/wTK9r8vIshEx8Qfy1jPwMMHhmOIl
- ELIZnhb2iZxFBNvbf9hi2qDDzvZy/mZZYPIrZF3UfQlXXnNXqZ+8cX3zkTNAqdjUo6io
- n4exIvI0MpiXmm4Sln4kmYumI+6jSA911HtkKCx1aNSywBd2qkPzGqF/o7hIFpQkwUlr
- OjlEl8xgbeOnZU5/DbCTlJnJNGbwNDfrmaoB1D39RHWhGJd4XMU/+voKvvMQ9SRdXfy+
- CRCRpAemoWm+nNxR9Ak5Od+WkcVS3lJ58UgB9WjBiqwEYOpLRbW2uJVQ7kDvjA8KtMJZ
- tR7A==
-X-Gm-Message-State: AC+VfDxxq5X5Ba8WLKjCyLPMju02o33071QBt6dVxABjhATDckSVTWTc
- O3QHIGLl23r82ORwHbTsaDEYeOpcFFoVbK+WIa9xexrVI371UfFZHst0npAtomRjjFq1B/0PTQ7
- dwD7M4qZ6f4+kI8yHmd8fqAADvu03jhkS4RDMVmmDbssB
-X-Received: by 2002:a2e:a4ba:0:b0:2af:237c:c335 with SMTP id
- g26-20020a2ea4ba000000b002af237cc335mr3549907ljm.3.1684753537760; 
- Mon, 22 May 2023 04:05:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6x3VG32WQUaO2EyREF1ehIOVQgkJqkNFu6Egwvvu/4sFAXjJoytU/NPjAcnvx2WnEdpXLHgR+ABojRY1WCGjE=
-X-Received: by 2002:a2e:a4ba:0:b0:2af:237c:c335 with SMTP id
- g26-20020a2ea4ba000000b002af237cc335mr3549902ljm.3.1684753537479; Mon, 22 May
- 2023 04:05:37 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1219310E2C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:11:54 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:43282.1768237263
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 19A0A100249;
+ Mon, 22 May 2023 19:11:49 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
+ 7e6dec763f794de7a956c82faf1763ee for kernel@xen0n.name; 
+ Mon, 22 May 2023 19:11:51 CST
+X-Transaction-ID: 7e6dec763f794de7a956c82faf1763ee
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <6ff9a210-9d31-d0b0-f282-7640e95aac5e@189.cn>
+Date: Mon, 22 May 2023 19:11:48 +0800
 MIME-Version: 1.0
-References: <20230417210329.2469722-1-arnd@kernel.org>
-In-Reply-To: <20230417210329.2469722-1-arnd@kernel.org>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 22 May 2023 13:05:26 +0200
-Message-ID: <CACO55tuL06jff8WnvU5e-rjwWx+smyYriET7DZDPgNM5e-0UFw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau: dispnv50: fix missing-prototypes warning
-To: Arnd Bergmann <arnd@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To: WANG Xuerui <kernel@xen0n.name>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+ <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
+ <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
+ <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
+ <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,64 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Jani Nikula <jani.nikula@intel.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>
+Cc: loongson-kernel@lists.loongnix.cn,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Hi,
 
-will merge soon
+On 2023/5/22 18:05, WANG Xuerui wrote:
+> On 2023/5/22 17:49, Sui Jingfeng wrote:
+>> Hi,
+>>
+>> On 2023/5/22 17:28, WANG Xuerui wrote:
+>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
+>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
+>>>>>> on-board video RAM
+>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
+>>>>>> which share
+>>>>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
+>>>>>
+>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
+>>>>> 3A4000/3A5000/3A6000".
+>>>>>
+>>>> Here is because when you do programming, variable name should 
+>>>> prefix with letters.
+>>>
+>>> Commit messages, comments, and log messages etc. are natural 
+>>> language, so it's better to treat them differently. No problem to 
+>>> keep code as-is IMO.
+>>>
+>> Then you get two name for a single chip,  take  LS7A1000 as an example.
+>>
+>> You name it as Loongson 7A1000 in commit message,  and then you have 
+>> to define another name in the code,  say LS7A1000.
+>>
+>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
+>>
+>> This also avoid bind the company name to a specific product, because 
+>> a company can produce many product.
+>
+> Nah, the existing convention is "LS7Xxxxx" for bridges
 
-On Mon, Apr 17, 2023 at 11:03=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
-ote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> nv50_display_create() is declared in another header, along with
-> a couple of declarations that are now outdated:
->
-> drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: error: no previous protot=
-ype for 'nv50_display_create'
->
-> Fixes: ba801ef068c1 ("drm/nouveau/kms: display destroy/init/fini hooks ca=
-n be static")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/nouveau/dispnv50/disp.c | 1 +
->  drivers/gpu/drm/nouveau/nv50_display.h  | 4 +---
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/no=
-uveau/dispnv50/disp.c
-> index 5bb777ff1313..9b6824f6b9e4 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -64,6 +64,7 @@
->  #include "nouveau_connector.h"
->  #include "nouveau_encoder.h"
->  #include "nouveau_fence.h"
-> +#include "nv50_display.h"
->
->  #include <subdev/bios/dp.h>
->
-> diff --git a/drivers/gpu/drm/nouveau/nv50_display.h b/drivers/gpu/drm/nou=
-veau/nv50_display.h
-> index fbd3b15583bc..60f77766766e 100644
-> --- a/drivers/gpu/drm/nouveau/nv50_display.h
-> +++ b/drivers/gpu/drm/nouveau/nv50_display.h
-> @@ -31,7 +31,5 @@
->  #include "nouveau_reg.h"
->
->  int  nv50_display_create(struct drm_device *);
-> -void nv50_display_destroy(struct drm_device *);
-> -int  nv50_display_init(struct drm_device *);
-> -void nv50_display_fini(struct drm_device *);
-> +
->  #endif /* __NV50_DISPLAY_H__ */
-> --
-> 2.39.2
->
+
+But I see there are document[1] which named LS7A1000 bridge chip as 
+Loongson 7A1000 Bridge,
+
+See [1] for reference, who is wrong in this case?
+
+
+[1] 
+https://loongson.github.io/LoongArch-Documentation/Loongson-7A1000-usermanual-EN
 
