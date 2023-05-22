@@ -1,78 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2181E70BEF6
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 15:01:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA7870BF07
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 15:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F15A10E14F;
-	Mon, 22 May 2023 13:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E35C510E310;
+	Mon, 22 May 2023 13:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE6310E14F
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684760463;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5GS5iE0UNqVQ8KlXVjYhcfn3nzlvTGZU1mxp4La9+mc=;
- b=M21I7rp5InP2WlTtikqk9ghByu5/sIftBvgJUc0rvxeZcIhDSxPhEKGZZlCiV82d/SiT/d
- K21Mi+wFC9kDL73ZKKbZyBeYbhNq0TwyU3BZlLG3zgPWrqoe9o3peJFuLs7iwkAz6d/jRF
- muhhwc+a9KV6wTFnZ9LbHtafmydZTjI=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-465-5WdMgF8DNC6ONpGBPCPAGw-1; Mon, 22 May 2023 09:01:02 -0400
-X-MC-Unique: 5WdMgF8DNC6ONpGBPCPAGw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-621257e86daso85309366d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 06:01:02 -0700 (PDT)
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB79E10E30F;
+ Mon, 22 May 2023 13:02:32 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-ba81031424dso9135298276.2; 
+ Mon, 22 May 2023 06:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684760551; x=1687352551;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Oz4bQfIt7cNLLI3/bZ4OW8kbHhUS+fQ0VE6AH/7bMg4=;
+ b=lYD92GRkYdjfbP3e8fwuaSxDduqy48npOK4Yg9ZaOEmHqS/JPtCrce+EnaTh9VmSna
+ RHT7GBkDPyiY/W1+jvLGjxkh51jn+zxmI9OqgHEoEtA6ZjAC30eCAWTw4zIpfk4rWBWy
+ A1qvHTQQwDt/NDBe21ApIde4nz/UtIN9QIixfms/Elp7oFDo+K/CLz+WFH9CtzPzcwlv
+ rzv+9GIwfuw+VDp4MMJbBA5/iN9yQMMF+KMxRFF3Ge3uNa1QastQ+/BM0jUqgxWGYyfz
+ cZTsz43RMk9g0VkTvoP1GJLBnZ9NmdVPAanL5bVUqBvc4fFhRPHb/wZFuV7qE7SuuDXI
+ bn1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684760461; x=1687352461;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1684760551; x=1687352551;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5GS5iE0UNqVQ8KlXVjYhcfn3nzlvTGZU1mxp4La9+mc=;
- b=AveqPctMwNbmmslDWzDZ7lGth3goBuPWJQu6q5OVrp1U0+NSzTNUk774Nz27Qr6Fod
- WbDs20jpjLFHl7k6eOFa9RQzKj0IlpX+dX32ue3OOx+MOxyzQZPVYvaE4NOPMNhp5JDD
- m/22dYt51whhpIRe8YIfwEByz5Tp7JfkIPjMEbd2kjroLG8O6r3E7UkoIhKYXYH3003M
- DWjMC5mkYszRYvHzr7jnL+B93pa5w6P1Wt2551ZW6GSDugjvsnqkkKaJoOMai85qJ11X
- Git++EHZEvt0kbUHKDeNZDckhHFQhv2aSxuSz17aFJw+I6QUpnNWMg+IoVDSA24A0R/i
- y0wg==
-X-Gm-Message-State: AC+VfDxDa8y+zJ80bi/Jz2pbzyTscgTYdZdsNZWIt6zUk14/CZkyvh7t
- eexMQXAoLlU91wHI5DqHXxyfQdbGT50K/XkkjyCCke6RThGTd5AW0b+xBO5mRyVyqqXyOHNInqt
- qeVp4mV7CgZLqb1ExnkNt4cjlVaZd
-X-Received: by 2002:a05:6214:d4b:b0:616:5c8b:582 with SMTP id
- 11-20020a0562140d4b00b006165c8b0582mr21098473qvr.37.1684760460916; 
- Mon, 22 May 2023 06:01:00 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ63Whwh0WVrdsRNMd+E6lr3sa4LBlkXrJV87h21RAe+9pE/lhzvsvDrelDpNH940vcQ+EvwJw==
-X-Received: by 2002:a05:6214:d4b:b0:616:5c8b:582 with SMTP id
- 11-20020a0562140d4b00b006165c8b0582mr21098447qvr.37.1684760460644; 
- Mon, 22 May 2023 06:01:00 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- u13-20020ae9c00d000000b0075783f6c2b4sm1678924qkk.128.2023.05.22.06.00.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 May 2023 06:01:00 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Hawking.Zhang@amd.com,
- tao.zhou1@amd.com, le.ma@amd.com, Felix.Kuehling@amd.com,
- lijo.lazar@amd.com, Amber.Lin@amd.com
-Subject: [PATCH] drm/amdgpu: remove unused variable
- mmhub_v1_8_mmea_cgtt_clk_cntl_reg
-Date: Mon, 22 May 2023 09:00:57 -0400
-Message-Id: <20230522130057.1066607-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ bh=Oz4bQfIt7cNLLI3/bZ4OW8kbHhUS+fQ0VE6AH/7bMg4=;
+ b=FtzCfe6g+2++bwRX7walXl8KQal522BhJBw765YEWPz9Zo4stP1rvG/t3cKn7LNQ1v
+ i8o1ZkrR6lgx2Urxvcc+GvJySFFANymwvhxj6c+x+c+R9LHmn25VOmh+wRDo+AVqON4w
+ 6P9ivh9QCJCuJY2fpjv1rFhrANq3G++Fz3K43H1lwkcnXw5QNG5u1/C5jhZPVU3JMu/W
+ c9KItLeQziENNmst2nXvtD9TXvvdvHHIuKFvDW3o3AJXsqLbCfLPEAIkw20TFlTOJEqr
+ QBIQl0FapJqY5kUd8eIfsApW8Nc7EBiozV974D3q0gWKDCmqqmU3OdZrsFKs0feWscv4
+ g2+A==
+X-Gm-Message-State: AC+VfDwTOrSDnN4SxM+zRXQHBV6r3ni2867Ry5APaE6DIeUsSUkwVXnI
+ dbi9hBpEUGtz1rJh5r9sAm0Y1vPBDu5HNz93B74=
+X-Google-Smtp-Source: ACHHUZ6H/V3aromhsm0WeKkw3qoE/viYGpCdWeB7qDuWQFt6qRv5I58EjllHW4obHGmBc+ZmdwVtPh7vvXJ6Cb4sGGM=
+X-Received: by 2002:a25:cdc5:0:b0:ba6:a445:3317 with SMTP id
+ d188-20020a25cdc5000000b00ba6a4453317mr9276789ybf.39.1684760551555; Mon, 22
+ May 2023 06:02:31 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230521205112.150206-1-dmitry.osipenko@collabora.com>
+ <20230521205112.150206-7-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230521205112.150206-7-dmitry.osipenko@collabora.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Mon, 22 May 2023 14:02:19 +0100
+Message-ID: <CACvgo52QvmZw5k_9dmBHPB25rTdLZJzVG_vNFr8or+3f5sVO=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] drm/shmem-helper: Switch to reservation lock
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,43 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ Tomasz Figa <tfiga@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gcc with W=1 reports
-drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c:760:23: error:
-  ‘mmhub_v1_8_mmea_cgtt_clk_cntl_reg’ defined but not used [-Werror=unused-const-variable=]
-  760 | static const uint32_t mmhub_v1_8_mmea_cgtt_clk_cntl_reg[] = {
-      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hi Dmitry,
 
-This variable is not used so remove it.
+Saw v3 fly by, so I had a quick look. Original RB still stands,
+although I noticed a couple of non-blocking nitpicks.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c | 8 --------
- 1 file changed, 8 deletions(-)
+On Sun, 21 May 2023 at 22:00, Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-index 3648994724c2..00e7e5db7c28 100644
---- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c
-@@ -757,14 +757,6 @@ static void mmhub_v1_8_query_ras_error_status(struct amdgpu_device *adev)
- 		mmhub_v1_8_inst_query_ras_err_status(adev, i);
- }
- 
--static const uint32_t mmhub_v1_8_mmea_cgtt_clk_cntl_reg[] = {
--	regMMEA0_CGTT_CLK_CTRL,
--	regMMEA1_CGTT_CLK_CTRL,
--	regMMEA2_CGTT_CLK_CTRL,
--	regMMEA3_CGTT_CLK_CTRL,
--	regMMEA4_CGTT_CLK_CTRL,
--};
--
- static void mmhub_v1_8_inst_reset_ras_err_status(struct amdgpu_device *adev,
- 						 uint32_t mmhub_inst)
- {
--- 
-2.27.0
+> -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  {
 
+Should this getter have a dma_resv_assert_held(shmem->base.resv); like
+it's put brethren?
+
+
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+> +{
+> +       int ret;
+> +
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       ret = drm_gem_shmem_get_pages(shmem);
+> +
+> +       return ret;
+
+With the assert_held in the getter, it would be less confusing to
+inline this and the unpin_locked functions.
+
+> +}
+> +
+> +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+> -       mutex_lock(&shmem->pages_lock);
+> -       drm_gem_shmem_put_pages_locked(shmem);
+> -       mutex_unlock(&shmem->pages_lock);
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       drm_gem_shmem_put_pages(shmem);
+
+Side note: the putter has an assert_held so the extra one here seems quite odd.
+
+As said at the top - with or w/o these nitpicks, the original RB still stands.
+
+HTH o/
+-Emil
