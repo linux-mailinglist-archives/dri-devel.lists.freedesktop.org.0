@@ -2,77 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA4C70CE12
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A8670CE15
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9186710E3AE;
-	Mon, 22 May 2023 22:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7B610E02C;
+	Mon, 22 May 2023 22:38:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749D210E2BF;
- Mon, 22 May 2023 22:38:10 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34MMNpj4031420; Mon, 22 May 2023 22:38:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=3EcUo0b4yk3M/kUwqGEUzpjmrbUKns+6xY17n/5HWDI=;
- b=AI0MrJo42O0gUErKGg8GaSRqXh2sN3Tuspbkc8LDoMiPNGnQXUj4cLHi1Q2C/hTh65iD
- TDjSzJXDbYciQHJfwfX06U8jp1uyIpwQ8p88DPLo4N81yjOHEAGO2f3srAXOjx6rh+mb
- 1UwyD5f5SXZSRobaJMGHPVoLSCfmfDYe0yHBoDPW9je5lLI7AO5E/+idXBKOxmlQHH9Y
- qFUQFXx9oFWtY6syRqCW2rn4MS6XG/abDcMKnu9VU+MjR3mKkzkxXsMOIUq8VDIfE2RB
- E3BMxsZPZgBIs6+03CWfsXEJke9uG984gdNBjMbB6lZcDjSPERgyLNJZmazOC1Q3dTvA pw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qpkwmw059-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 May 2023 22:38:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MMc3dg028447
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 May 2023 22:38:03 GMT
-Received: from [10.110.65.90] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 22 May
- 2023 15:38:03 -0700
-Message-ID: <c7c032b7-082a-cb38-3ba3-e5de0143ea38@quicinc.com>
-Date: Mon, 22 May 2023 15:38:02 -0700
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B10F10E02C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 22:38:52 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1EF773EB5B;
+ Tue, 23 May 2023 00:38:50 +0200 (CEST)
+Date: Tue, 23 May 2023 00:38:48 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH RFC 06/10] drm/panel/samsung-sofef01: Add panel driver
+ for Sony Xperia 5 / 10 II
+Message-ID: <6axjpyhseqhjrh7u6a6j2lhhefjqxuz5klvtqcyex6wgcinjpf@l73bzdydkv6s>
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-6-541c341d6bee@somainline.org>
+ <f34cd6a8-6d6d-9dcf-b681-56439416c4b4@linaro.org>
+ <bd0b0193-90f1-d3e7-32f0-ed400d575b5c@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 6/7] drm/msm/dpu: drop temp variable from
- dpu_encoder_phys_cmd_init()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230519023855.3840907-1-dmitry.baryshkov@linaro.org>
- <20230519023855.3840907-7-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230519023855.3840907-7-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: G98CEKnipftFpUBJJ4ds69LBF_qhhQeB
-X-Proofpoint-ORIG-GUID: G98CEKnipftFpUBJJ4ds69LBF_qhhQeB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-22_16,2023-05-22_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- spamscore=0 impostorscore=0 mlxscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=712 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305220191
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bd0b0193-90f1-d3e7-32f0-ed400d575b5c@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,19 +46,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-05-22 18:30:08, Konrad Dybcio wrote:
+> On 22.05.2023 03:19, Dmitry Baryshkov wrote:
+> > On 22/05/2023 00:23, Marijn Suijten wrote:
+> >> This SOFEF01-M Display-IC driver supports two modes with different
+> >> compatibles to differentiate between slightly different physical sizes
+> >> (panels) found on the Xperia 5 (6.1") and 10 II (6.0").
+> >>
+> >> It is currently also used to hardcode significantly higher fake porches
+> >> for the Xperia 5, which are unused in transfers due to this being a
+> >> command-mode panel but do have an effect on the clock rates set by
+> >> dsi_host.c.  Without higher clock rates this panel fails to achieve
+> >> 60fps and has significant tearing artifacts, while the same calculated
+> >> clock rate works perfectly fine on the Xperia 10 II.
 
+<snip>
 
-On 5/18/2023 7:38 PM, Dmitry Baryshkov wrote:
-> There is no need to assign a result to temp varable just to return it
-> two lines below. Drop the temporary variable.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> >> +/* Sony Xperia 5 (kumano bahamut) */
+> >> +static const struct drm_display_mode samsung_sofef01_m_bahamut_mode = {
+> >> +    /*
+> >> +     * WARNING: These massive porches are wrong/useless for CMDmode
+> >> +     * (and not defined in downstream DTS) but necessary to bump dsi
+> >> +     * clocks higher, so that we can achieve proper 60fps without tearing.
+> >> +     */
+> >> +    .clock = (1080 + 156 + 8 + 8) * (2520 + 2393 + 8 + 8) * 60 / 1000,
+> >> +    .hdisplay = 1080,
+> >> +    .hsync_start = 1080 + 156,
+> >> +    .hsync_end = 1080 + 156 + 8,
+> >> +    .htotal = 1080 + 156 + 8 + 8,
+> >> +    .vdisplay = 2520,
+> >> +    .vsync_start = 2520 + 2393,
+> >> +    .vsync_end = 2520 + 2393 + 8,
+> >> +    .vtotal = 2520 + 2393 + 8 + 8,
+> >> +    .width_mm = 61,
+> >> +    .height_mm = 142,
+> >> +};
+> >> +
+> >> +/* Sony Xperia 10 II (seine pdx201) */
+> >> +static const struct drm_display_mode samsung_sofef01_m_pdx201_mode = {
+> >> +    .clock = (1080 + 8 + 8 + 8) * (2520 + 8 + 8 + 8) * 60 / 1000,
+> >> +    .hdisplay = 1080,
+> >> +    .hsync_start = 1080 + 8,
+> >> +    .hsync_end = 1080 + 8 + 8,
+> >> +    .htotal = 1080 + 8 + 8 + 8,
+> >> +    .vdisplay = 2520,
+> >> +    .vsync_start = 2520 + 8,
+> >> +    .vsync_end = 2520 + 8 + 8,
+> >> +    .vtotal = 2520 + 8 + 8 + 8,
+> >> +    .width_mm = 60,
+> >> +    .height_mm = 139,
+> >> +};
+> >> +
+> >> +static const struct of_device_id samsung_sofef01_m_of_match[] = {
+> >> +    { .compatible = "samsung,sofef01-m-bahamut", .data = &samsung_sofef01_m_bahamut_mode },
+> >> +    { .compatible = "samsung,sofef01-m-pdx201", .data = &samsung_sofef01_m_pdx201_mode },
+> > 
+> > Are there really two panels? Can we use one mode for both usecases?
+> The porches differ by a significant margin but that may or may not
+> matter for cmd mode.. If we come to unify them, one can add width-mm
+> (or something like that) in the device tree if that turns out to be
+> the only difference.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+See patch description: they matter in that I can abuse them to force a
+higher pclk on the DSI, otherwise the Xperia 5 refuses to vsync at 60fps
+(and has artifacts) while the Xperia 10 II runs flawless (but I should
+check the clock tree to confirm that the value is the same).
+
+Downstream has:
+
+    qcom,mdss-dsi-panel-clockrate = <1132293600>;
+
+But that is for the bitclk, which should theoretically be multiplied by
+lanes=4 and divided by bpp=24 for the pclk, and divided by 8 for the
+byte clock (without being multiplied by lanes...?).
+
+I do think I have the panel names now, which we could use to
+differentiate these actually-different panels on the same Display-IC
+instead.
+
+- Marijn
