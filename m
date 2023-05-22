@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AB270D6EE
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C4670D6E5
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2332D10E3F1;
-	Tue, 23 May 2023 08:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD39310E3FF;
+	Tue, 23 May 2023 08:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F5E10E043
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 18:26:02 +0000 (UTC)
-Received: by mail-qv1-xf33.google.com with SMTP id
- 6a1803df08f44-623a6c15aacso27098766d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:26:02 -0700 (PDT)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AAEC10E228
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 18:48:20 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id
+ ca18e2360f4ac-773793070a4so76318139f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 11:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1684779960; x=1687371960;
- h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=H7iimasOJxeF+MfebujCkOsszqcVpK896pKnP05c6pA=;
- b=ATsErQ/KDWlNDrlFxuqogE9odd9KwHjCH4ha93nea/f3aJnevtFIaYz+3lejTGtzS6
- za7vZBhGUMasg4EArbmrJuUp6EZL2GxJXKeUvbk6pn8zLsbYT5zrnxUJlOys5q9Lk0YD
- lfkcKKIOinRv/bWzdsjPoYgbNoB05j/9Y+rmo=
+ d=broadcom.com; s=google; t=1684781300; x=1687373300;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Fds1Cng30+mjKQmgvo9yQzM73mfg393Nn6U4WHXCrGM=;
+ b=RBLjhzSLszYUJnPPXHsnXeEjlUWNVvOXWC0QIsPgSUcA22NIRfDt40IKYSofA18Wes
+ RDzBuO8DKrrPy30STc8erfIePI09tXnJUhudk4/p6YADFj3j5yipJdmrvF6I+e/lXfRw
+ XwRd5twbvoxaVa71Cx2Gtt6Jeb4jqzqhqP9ow=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684779960; x=1687371960;
- h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=H7iimasOJxeF+MfebujCkOsszqcVpK896pKnP05c6pA=;
- b=lBepeqABzNK/lVsYo+NupG3Hs9BtycUI2NPwtCORyJ+4p6skjUzZM9s5NskxofFle0
- 5PoYvBOuvM9vxKfRTLU8qVgWtFcPVhCSeWNnRTm7PEouLa9vxcqlMWV77mQOAufQlsb6
- yM8wqbJYoSHK33NNsbFA1ghcyHLiu2jjD0fzD2LjSjW1Ex4eXEZrFqifR+CtihxPV8lc
- nB7+4A5nb1HSyTlReiHXh3iYpYnT8GD4pzgxwujzrjqgru7PTEDI7pAJJ6V3N38TcMnQ
- mRA1GbCRgs+qWyM8ADRundAbjyUcEnm8BXIbSg3s6TumntWkGR0HIPf1l6iDn+bb1DVZ
- FEhg==
-X-Gm-Message-State: AC+VfDz0RTYnE5KH1ZBMlanh7kHGpJTLxE045h+HUqFwbg/5XzSMwziD
- rnEKlYz/AqJJCENhhBYuxeq05Q==
-X-Google-Smtp-Source: ACHHUZ6yYls06vF9b+F/0D0/Yrg1VCj5Kbfm9kzmnL27HinIoaTb3bzzfwo12ebmgc6Mabxb4F1LxA==
-X-Received: by 2002:a05:6214:1247:b0:621:68e8:99a4 with SMTP id
- r7-20020a056214124700b0062168e899a4mr21531347qvv.8.1684779960417; 
- Mon, 22 May 2023 11:26:00 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id
- mi4-20020a056214558400b006210c4ecbdbsm2003982qvb.22.2023.05.22.11.25.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 May 2023 11:25:59 -0700 (PDT)
-Message-ID: <ce4a0153-1a6b-92d5-b760-489b09bbec73@broadcom.com>
-Date: Mon, 22 May 2023 11:25:54 -0700
+ d=1e100.net; s=20221208; t=1684781300; x=1687373300;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Fds1Cng30+mjKQmgvo9yQzM73mfg393Nn6U4WHXCrGM=;
+ b=D2hgnRqMX/khmUm74TXMW0u2dIobGTX7s+QCMIOWCx5/6ZOV8OQFipo7SeOifc6G0p
+ 98xElXTv8O+ikSz8kdWUg9ou6SY+T26G8dFoey6H3kOibWVr9dZ1y1T0urIX03fVTAt+
+ +ROYbKhOSxS4HdXsWO+EU6kWDEU8QqTMK9TI3B91ArmwjSlpuA1+YBblgm/PJqFPW97+
+ fmDHQQTFF9xCPzSJljBNS9298EUr4YsnflMOFMp8rZtdj2MrdnDubLISRw6vri/12JlO
+ zO5jiHT7jkRfj95PRX4308afzmh/DntsqiPOleJMq1QGtK4ZaRwmKoNjToQsvwoQ4ghy
+ Imvg==
+X-Gm-Message-State: AC+VfDzH6Vu70WWhlTop7FkdlyXqQB8dsWtoAp/19iVxNKRf8hgB80pi
+ kv8Nf2dKuikMcxI8oT6W7C3pES2rm4eEpO2su64/gNIkrOYlvYF3
+X-Google-Smtp-Source: ACHHUZ5vHLY2Hi85sQaRp8S8sjfzRdNoFCMGRp3iFyQ4yXFmQ6fp0K6LNBuuBfFy0kfnjjfLRHr/QdaiDVcvc5KtJXc=
+X-Received: by 2002:a6b:db04:0:b0:76f:f462:34d2 with SMTP id
+ t4-20020a6bdb04000000b0076ff46234d2mr7467444ioc.14.1684781299839; Mon, 22 May
+ 2023 11:48:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH net-next v3 1/6] dt-bindings: net: brcm,unimac-mdio: Add
- asp-v2.0
-To: Conor Dooley <mail@conchuod.ie>, Justin Chen <justin.chen@broadcom.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com
 References: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
- <1684531184-14009-2-git-send-email-justin.chen@broadcom.com>
- <2be2af5e-d117-fa2c-f960-e7f0c3ca3d0b@conchuod.ie>
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-In-Reply-To: <2be2af5e-d117-fa2c-f960-e7f0c3ca3d0b@conchuod.ie>
+ <1684531184-14009-3-git-send-email-justin.chen@broadcom.com>
+ <d56f205c-dae8-a191-f2af-fed6bea060ad@conchuod.ie>
+In-Reply-To: <d56f205c-dae8-a191-f2af-fed6bea060ad@conchuod.ie>
+From: Justin Chen <justin.chen@broadcom.com>
+Date: Mon, 22 May 2023 11:48:08 -0700
+Message-ID: <CALSSxFaJm2jiqQe54dbPTOaJyTOOCbW-yuhddO9wq1r_EHJONw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
+ controller
+To: Conor Dooley <mail@conchuod.ie>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000001652a605fc4c6784"
+ micalg=sha-256; boundary="000000000000ec62b505fc4cb6f2"
 X-Mailman-Approved-At: Tue, 23 May 2023 08:13:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,79 +68,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, f.fainelli@gmail.com, opendmb@gmail.com,
- christian.koenig@amd.com, richardcochran@gmail.com, linux@armlinux.org.uk,
- sumit.semwal@linaro.org, edumazet@google.com, robh+dt@kernel.org,
- justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
- pabeni@redhat.com, davem@davemloft.net, hkallweit1@gmail.com
+Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ sumit.semwal@linaro.org, f.fainelli@gmail.com, florian.fainelli@broadcom.com,
+ linux@armlinux.org.uk, bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org,
+ pabeni@redhat.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ richardcochran@gmail.com, opendmb@gmail.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, davem@davemloft.net, robh+dt@kernel.org,
+ christian.koenig@amd.com, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000001652a605fc4c6784
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000ec62b505fc4cb6f2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/22/23 11:17, Conor Dooley wrote:
-> On Fri, May 19, 2023 at 02:19:39PM -0700, Justin Chen wrote:
->  > The ASP 2.0 Ethernet controller uses a brcm unimac.
+On Mon, May 22, 2023 at 11:27=E2=80=AFAM Conor Dooley <mail@conchuod.ie> wr=
+ote:
+>
+> On Fri, May 19, 2023 at 02:19:40PM -0700, Justin Chen wrote:
+>  > From: Florian Fainelli <florian.fainelli@broadcom.com>
+>  >
+>  > Add a binding document for the Broadcom ASP 2.0 Ethernet controller.
 >  >
 >  > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
 >  > Signed-off-by: Justin Chen <justin.chen@broadcom.com>
 >  > ---
->  >  Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 2 ++
->  >  1 file changed, 2 insertions(+)
+>
+> Same deal here, usual mailer is refusing to reply cos of:
+> Problem signature from:
+> 1.2.840.113549.1.9.1=3D#6A757374696E2E6368656E4062726F6164636F6D2E636F6D,=
+CN=3DJustin
+> Chen,O=3DBroadcom Inc.,L=3DBangalore,ST=3DKarnataka,C=3DIN
+>                     aka: <justin.chen@broadcom.com>
+>                 created: Fri 19 May 2023 10:19:57 PM IST
+>                 expires: Wed 10 Sep 2025 01:39:50 PM IST
+>
+>  > v3
+>  >         - Minor formatting issues
+>  >         - Change channel prop to brcm,channel for vendor specific form=
+at
+>  >         - Removed redundant v2.0 from compat string
+>  >         - Fix ranges field
 >  >
->  > diff --git 
-> a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml 
-> b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->  > index 0be426ee1e44..6684810fcbf0 100644
->  > --- a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->  > +++ b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
->  > @@ -22,6 +22,8 @@ properties:
->  >        - brcm,genet-mdio-v3
->  >        - brcm,genet-mdio-v4
->  >        - brcm,genet-mdio-v5
->  > +      - brcm,asp-v2.0-mdio
->  > +      - brcm,asp-v2.1-mdio
->  >        - brcm,unimac-mdio
-> 
-> 
->  From V(N-1), there was some discussion between Rob & Florian:
->  > > How many SoCs does each of these correspond to? SoC specific 
-> compatibles
->  > > are preferred to version numbers (because few vendors are disciplined
->  > > at versioning and also not changing versions with every Soc).
+>  > v2
+>  >         - Minor formatting issues
 >  >
->  > So far there is a 1:1 mapping between the number of versions and the
->  > number of SoCs, and the older SoC uses v2.0, while the newer one uses 
-> v2.1.
-> 
-> Rob's not around right now, but I don't really get why if there is a 1:1
-> mapping you don't just name these things after the SoCs?
+>  >  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 145
+> +++++++++++++++++++++
+>  >  1 file changed, 145 insertions(+)
+>  >  create mode 100644
+> Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+>  >
+>  > diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+>  > new file mode 100644
+>  > index 000000000000..a9fed957e1d6
+>  > --- /dev/null
+>  > +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+>  > @@ -0,0 +1,145 @@
+>  > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  > +%YAML 1.2
+>  > +---
+>  > +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
+>  > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  > +
+>  > +title: Broadcom ASP 2.0 Ethernet controller
+>  > +
+>  > +maintainers:
+>  > +  - Justin Chen <justin.chen@broadcom.com>
+>  > +  - Florian Fainelli <florian.fainelli@broadcom.com>
+>  > +
+>  > +description: Broadcom Ethernet controller first introduced with 72165
+>  > +
+>  > +properties:
+>  > +  '#address-cells':
+>  > +    const: 1
+>  > +  '#size-cells':
+>  > +    const: 1
+>  > +
+>  > +  compatible:
+>  > +    enum:
+>  > +      - brcm,asp-v2.0
+>  > +      - brcm,bcm72165-asp
+>  > +      - brcm,asp-v2.1
+>  > +      - brcm,bcm74165-asp
+>
+> One of Rob's questions on V(N-1) that seems to have been ignored/only
+> partly implemented:
+>  > You have 1 SoC per version, so what's the point of versions? If you ha=
+ve
+>  > more coming, then fine, but I'd expect it to be something like this:
+>  >
+>  > compatible =3D "brcm,bcm74165-asp-v2.1", "brcm,asp-v2.1";
+>
+> You did drop the -v2.1 that he requested from the SoC compatible, but I
+> amn't sure why the above was not implemented (at least there's no
+> explanation in the previous thread's version, nor in the changelog
+> here...)
 
-There is a 1:1 mapping now, but in the future there may be more SoCs 
-with a given implemented version. This is especially true for the MDIO 
-controller which has been largely unchanged since it was introduced.
+Will fix it. Didn't realize he was talking about the compat string in
+the example below.
 
-> 
-> Also, my mailer **refused** to let me reply to you because of something
-> to do with a garbage S/MIME signature? Dunno wtf is happening there.
+Thanks,
+Justin
 
-Our SMTP server is configured to automatically wrap the message in a 
-S/MIME envelope, nothing invalid though AFAICT. What's your email client?
--- 
-Florian
+>
+> Cheers,
+> Conor
 
-
---0000000000001652a605fc4c6784
+--000000000000ec62b505fc4cb6f2
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Description: S/MIME Cryptographic Signature
 
-MIIQeQYJKoZIhvcNAQcCoIIQajCCEGYCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg3QMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+MIIQagYJKoZIhvcNAQcCoIIQWzCCEFcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+gg3BMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
 VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
 AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
 AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
@@ -188,40 +222,39 @@ M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
 Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
 14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
 a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+XzCCBUkwggQxoAMCAQICDCPwEotc2kAt96Z1EDANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
 RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjM5NTBaFw0yNTA5MTAxMjM5NTBaMIGM
 MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEINrKJacEq5+f18py
-DrscKOya7X8XXK5SziUnojYKyoR9MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTIzMDUyMjE4MjYwMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQA42k3x1yfXhab0QtlEGdg3BZkcn2n9D3fb
-wHU5hapONzmvDdhNf2nusICTn1cBxnUmPwczIlmc8wCOtlvgwBNFPjp0QmOBSHPsjAwRlvvhO7zP
-wOs1x/VfHpYWRWtQdq1vCuRlqGeGKxWjDJa2zD47ysVBIQIWqS2CRRSjANYEywP2+7uVlCLoSwAF
-XJu8X3BMdiyxM5hqaKJ78i5czdVh/YYOxTB3Mc/L5Xl/sdmYdHex/839RBaApKHnUyE/3/fs/xss
-4g8TCdD99ERUM7joqKvbe6TXjCEeQDVZMknUsCtnCFsv//drF1JztF93P0eO/RtNwY5kTN2zcW5v
-3HyV
---0000000000001652a605fc4c6784--
+BgNVBAoTDUJyb2FkY29tIEluYy4xFDASBgNVBAMTC0p1c3RpbiBDaGVuMScwJQYJKoZIhvcNAQkB
+FhhqdXN0aW4uY2hlbkBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDKX7oyRqaeT81UCy+OTzAUHJeHABD6GDVZu7IJxt8GWSGx+ebFexFz/gnRO/sgwnPzzrC2DwM1
+kaDgYe+pI1lMzUZvAB5DfS1qXKNGoeeNv7FoNFlv3iD4bvOykX/K/voKtjS3QNs0EDnwkvETUWWu
+yiXtMiGENBBJcbGirKuFTT3U/2iPoSL5OeMSEqKLdkNTT9O79KN+Rf7Zi4Duz0LUqqpz9hZl4zGc
+NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
+4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
+DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
+dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
+xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
+sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
+VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEID2iwiHjXLaFfOiGCEZhY6UyGGc8LIg5WkTw
+T9oCstvVMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDUyMjE4
+NDgyMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQBszOHs+Q7oyvTL/a/YQi7CKCuYSQqjE4VdIos0qKN786xVt3ujJGrX
+1BbJdlOyxbHXOmJ7PQChce6M7uvYPyOuCKyBLZdgqdipvMYiAFFiXQ1JPKTcY7cBQKBiSp7L+fCz
+uXrV2PZWVe0hjoj524tXI6YMS+WXSSmLAWYPSSs2AxGSVlw1lbNUtsRk+ruCYfI7c54D0FjHnm1e
+TzoypSTLhxj6CG7s7osh/jyIUx7uD1m/SfPuU47aU6J3qz0l8Us6o2bStfsa32Jw1c5OjnhKWGf8
+jIBDSqt1B+jrQEYyjn7aUJTQaQ5xnD6gjprYBs90+cHNz9kD12R80U5VUn8c
+--000000000000ec62b505fc4cb6f2--
