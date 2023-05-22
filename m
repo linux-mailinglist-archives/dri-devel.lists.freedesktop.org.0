@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4CE70CBA0
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D7870CBA5
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6425310E2AA;
-	Mon, 22 May 2023 20:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7C010E38D;
+	Mon, 22 May 2023 20:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A67C10E2AA
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:54:09 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CC6773EED9;
- Mon, 22 May 2023 22:54:06 +0200 (CEST)
-Date: Mon, 22 May 2023 22:54:04 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v4 4/5] drm/msm/dpu: Set DATA_COMPRESS for command mode
-Message-ID: <6rip5brx7pu63f4b56zsa6xmilbhxswybxjuc2wrkukvvhlnjv@dxrhp6iywpoq>
-References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
- <20230405-add-dsc-support-v4-4-15daf84f8dcb@quicinc.com>
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2273510E38D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 20:54:52 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-64d2c865e4eso3255231b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 13:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1684788891; x=1687380891;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0NoMOPLv7no4oTfFk9NPdm7qdXLsHesaFY5RP9uixIY=;
+ b=YAbkAhamHMqgwB/fmb97d06Aas3nfKBdgo3MFaaijc8nFzNSIQN4hG+Q3a31wS63AP
+ K/0Q5fEOURfRDKRvNesUwiJ2FuPd/kvLXtteSJHVjZDEzM4ir/gWRYNlsj+jTs6J34x8
+ tM4UB+Q+LycG1DFt0P+cdepL/65Bzozly6vJI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684788891; x=1687380891;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0NoMOPLv7no4oTfFk9NPdm7qdXLsHesaFY5RP9uixIY=;
+ b=BrGgLTJmuSMdrPhruug02HyS9JdiMRC1s2rx1vFKrwmBnd1AXfM/V0Q28KXZVz793y
+ 1uZ5lgl+TIhjiomDYBiuWmSrxDxRAzT/eiFPfz0vGL5ehgZYuXaRZH7g3l0WSthocwFp
+ bZc/SevBja0gW3qtcJb5uh//79CtTeFSrQyS1af2bjYykjHKU1dcrAMF49Ex6I1THhcB
+ rwDSxGpl/Cj1llcgP8wJXCBQh1377EFdwVxkqARAaP2IjADi4vk4/e/GThFICuNpa8yn
+ QQ7b0lvZu9NPXBaBHlmKBZwbjAkcEvUBnJEXy1mYZruJFJLuXips5mlMx6fEmkrK0bTn
+ UCvw==
+X-Gm-Message-State: AC+VfDzuA7RgbHHXnFSbItG/V6rO7bCm5lwrw3qn4Ny5uVKuNgVZPlad
+ 3rCtURAsb9X97lrOZNR3GxFvLg==
+X-Google-Smtp-Source: ACHHUZ4WCaSPgXTc5XPwlg4IRq/kzCNCY0JzzAU84nb9QtSpKKa25DGdSRYQ9MlGMDG8WMvF0qdEIw==
+X-Received: by 2002:a17:902:c944:b0:1a6:46f2:4365 with SMTP id
+ i4-20020a170902c94400b001a646f24365mr14314154pla.30.1684788891502; 
+ Mon, 22 May 2023 13:54:51 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ q10-20020a170902bd8a00b001a1a82fc6d3sm5231582pls.268.2023.05.22.13.54.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 May 2023 13:54:50 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: azeemshaikh38@gmail.com,
+	evan.quan@amd.com
+Subject: Re: [PATCH] drm/amd/pm: Replace all non-returning strlcpy with strscpy
+Date: Mon, 22 May 2023 13:54:48 -0700
+Message-Id: <168478888725.1444594.3121115156306616962.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230522155245.2336818-1-azeemshaikh38@gmail.com>
+References: <20230522155245.2336818-1-azeemshaikh38@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405-add-dsc-support-v4-4-15daf84f8dcb@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,119 +72,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Kees Cook <keescook@chromium.org>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-How about: Enable INTF DATA_COMPRESS bit (on cmdmode) for DCE/DSC 1.2?
-
-Drop parenthesis at your convenience.
-
-On 2023-05-22 13:30:23, Jessica Zhang wrote:
-> Add a DPU INTF op to set DATA_COMPRESS register if the
-> DPU_INTF_DATA_COMPRESS feature is enabled. This bit needs to be set in
-> order for DSC v1.2 to work.
-
-"in order for .. to work" sounds like bugfixing... How about just:
-"set the DCE_DATA_COMPRESS bit to enable the DCE/DSC 1.2 datapath",
-which I think is what it is doing?  Everyone seems to favour the
-"datapath" word anyway :)
-
-> Note: For now, this op is called for command mode encoders only. Changes to
-> set DATA_COMPRESS for video mode encoders will be posted along with DSC
-> v1.2 support for DP.
+On Mon, 22 May 2023 15:52:45 +0000, Azeem Shaikh wrote:
+> strlcpy() reads the entire source buffer first.
+> This read may exceed the destination size limit.
+> This is both inefficient and can lead to linear read
+> overflows if a source string is not NUL-terminated [1].
+> In an effort to remove strlcpy() completely [2], replace
+> strlcpy() here with strscpy().
+> No return values were used, so direct replacement is safe.
 > 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  3 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 13 +++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          |  2 ++
->  3 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index d8ed85a238af..1a4c20f02312 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -68,6 +68,9 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->  				phys_enc->hw_intf,
->  				true,
->  				phys_enc->hw_pp->idx);
-> +
-> +	if (phys_enc->hw_intf->ops.enable_compression)
-> +		phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
->  }
->  
->  static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 6485500eedb8..a462c6780e6e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -91,6 +91,7 @@
->  
->  #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
->  #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
-> +#define INTF_CFG2_DCE_DATA_COMPRESS     BIT(12)
->  
->  static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->  		const struct intf_timing_params *p,
-> @@ -522,6 +523,15 @@ static void dpu_hw_intf_disable_autorefresh(struct dpu_hw_intf *intf,
->  
->  }
->  
-> +static void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
-> +{
-> +	u32 intf_cfg2 = DPU_REG_READ(&ctx->hw, INTF_CONFIG2);
-> +
-> +	intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
-> +
-> +	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
-> +}
-> +
->  static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
->  		unsigned long cap)
->  {
-> @@ -542,6 +552,9 @@ static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
->  		ops->vsync_sel = dpu_hw_intf_vsync_sel;
->  		ops->disable_autorefresh = dpu_hw_intf_disable_autorefresh;
->  	}
-> +
-> +	if (cap & BIT(DPU_INTF_DATA_COMPRESS))
-> +		ops->enable_compression = dpu_hw_intf_enable_compression;
->  }
->  
->  struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index 73b0885918f8..72fe907729f1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -70,6 +70,7 @@ struct intf_status {
->   * @get_autorefresh:            Retrieve autorefresh config from hardware
->   *                              Return: 0 on success, -ETIMEDOUT on timeout
->   * @vsync_sel:                  Select vsync signal for tear-effect configuration
-> + * @enable_compression:         Enable data compression
->   */
->  struct dpu_hw_intf_ops {
->  	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
-> @@ -107,6 +108,7 @@ struct dpu_hw_intf_ops {
->  	 * Disable autorefresh if enabled
->  	 */
->  	void (*disable_autorefresh)(struct dpu_hw_intf *intf, uint32_t encoder_id, u16 vdisplay);
+> [...]
 
-Newline here.
+Applied to for-next/hardening, thanks!
 
+[1/1] drm/amd/pm: Replace all non-returning strlcpy with strscpy
+      https://git.kernel.org/kees/c/0f53b61b1ca0
 
-For the contents of the patch though:
+-- 
+Kees Cook
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-
-> +	void (*enable_compression)(struct dpu_hw_intf *intf);
->  };
->  
->  struct dpu_hw_intf {
-> 
-> -- 
-> 2.40.1
-> 
