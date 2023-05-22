@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25F070BDB9
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C784170BDED
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 14:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9007B10E336;
-	Mon, 22 May 2023 12:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A282F10E2F6;
+	Mon, 22 May 2023 12:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA31610E307;
- Mon, 22 May 2023 12:21:47 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AD1DF21BEB;
- Mon, 22 May 2023 12:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684758106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x/ukCFzbN07fn8ALvdz1hMDvC2v9v6ch1Yiaceo0YOo=;
- b=O0bi2B48JwtW7Z3qtdiYRccvgoFNO/65jJO8hvQ44kfYiYmAIt50cf1Y45VlA/vuMCrW3W
- pq5KSVN90U1cX959b/MwD5Qe3rEL7ex8aYFY1I0OLrpJhXAI8vq+k50ondZJagLUS4Wkc9
- ikm8Z8hfd04dDrUdYOdpLnmtZz27JDk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684758106;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x/ukCFzbN07fn8ALvdz1hMDvC2v9v6ch1Yiaceo0YOo=;
- b=nuRGa7rRtuSngCOVEmYG/5b91UKJidluCL/B+Rwps2JV0rI5zdsJu3Crj6KIJ1rKZ6iLKa
- /UZAe0XD2x6yWZBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F79C13776;
- Mon, 22 May 2023 12:21:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uMbdEVpea2RYVAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 22 May 2023 12:21:46 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v3 12/12] drm/i915: Implement dedicated fbdev I/O helpers
-Date: Mon, 22 May 2023 14:21:40 +0200
-Message-Id: <20230522122140.30131-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230522122140.30131-1-tzimmermann@suse.de>
-References: <20230522122140.30131-1-tzimmermann@suse.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C44010E2F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 12:25:52 +0000 (UTC)
+Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown
+ [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D10826606E61;
+ Mon, 22 May 2023 13:25:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1684758348;
+ bh=eOVhcHEbGP5rclzgfYWP+S6Ejdrr+h19pmAg3f+xf+c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JKx/xVplO1ihYlBace0UmeZwdpBzN4J2si6SWj8BsqS5e6cAQrEhZDwltSBdG494Q
+ GKBmj7E2hcedCAM25rNaJ9YfXt2MnmJv1cuwAGzmyMP0ov9w5yfqOuQND9SmMIvey6
+ erIo3na6W8NOTb0IiAEdlzqPz56ZRuswPLBvGfJshp+LkpoA593IevE6W9akBGfGqK
+ LXgihdZp/4KzsVec/6LGZohcY5se9B5Fmg1NZ6bKjHnjYUGGjYIRHkK4mc6vfo0gnK
+ w+s/EiK0X1DZPnLUn4Y46U65HCppsX6J0P0AMF8PsEXfe71/rPW+w34MnWynMZIuAO
+ YM25Lb3/5O/Sw==
+Message-ID: <a28293b1-18d9-6a85-5325-3b7944d97a14@collabora.com>
+Date: Mon, 22 May 2023 14:25:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v4 05/11] drm/mediatek: gamma: Enable the Gamma LUT table
+ only after programming
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+References: <20230518104857.124265-1-angelogioacchino.delregno@collabora.com>
+ <20230518104857.124265-6-angelogioacchino.delregno@collabora.com>
+ <51a5fbd349cce69d372f4ccfff7010ea9e6e8f75.camel@mediatek.com>
+Content-Language: en-US
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <51a5fbd349cce69d372f4ccfff7010ea9e6e8f75.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,321 +59,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement dedicated fbdev helpers for framebuffer I/O instead
-of using DRM's helpers. i915 was the only caller of the DRM
-helpers, so remove them from the helper module.
+Il 22/05/23 12:00, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Thu, 2023-05-18 at 12:48 +0200, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Move the write to DISP_GAMMA_CFG to enable the Gamma LUT to after
+>> programming the actual table to avoid potential visual glitches
+>> during
+>> table modification.
+> 
+> I think user could update the lut table frequently, so when do you
+> disable the gamma function before next update? In addition, if we
+> really care the glitches, update the register in vblank period which
+> should use cmdq to update the register. But now, I think we do not care
+> the glitches. You may skip this patch, or fix the problem I mention.
+> 
 
-v2:
-	* use FB_IO_HELPERS options
+If you disable the GAMMA function (either set RELAY mode or disable the
+GAMMA_LUT_EN bit in GAMMA_CFG), there will be glitches during setting via
+the GNOME Night Mode color temperature slider.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/Kconfig                    |   3 -
- drivers/gpu/drm/drm_fb_helper.c            | 107 ---------------------
- drivers/gpu/drm/i915/Kconfig               |   1 +
- drivers/gpu/drm/i915/display/intel_fbdev.c |  51 ++++++++--
- include/drm/drm_fb_helper.h                |  39 --------
- 5 files changed, 46 insertions(+), 155 deletions(-)
+This commit prevents a glitch in the case in which the GAMMA LUT registers
+are not zeroed before setting the expected LUT, for which reason I disagree
+about skipping this patch.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 92a782827b7b..bb2e48cc6cd6 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -133,9 +133,6 @@ config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
- 	depends on DRM_KMS_HELPER
- 	depends on FB=y || FB=DRM_KMS_HELPER
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
- 	select FRAMEBUFFER_CONSOLE if !EXPERT
- 	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
- 	default y
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index ba0a808f14ee..5927896ad8f6 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -729,113 +729,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- }
- EXPORT_SYMBOL(drm_fb_helper_deferred_io);
- 
--/**
-- * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to read from framebuffer memory
-- * @count: number of bytes to read from framebuffer memory
-- * @ppos: read offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes read on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos)
--{
--	return fb_io_read(info, buf, count, ppos);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_read);
--
--/**
-- * drm_fb_helper_cfb_write - Implements struct &fb_ops.fb_write for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to write to framebuffer memory
-- * @count: number of bytes to write to framebuffer memory
-- * @ppos: write offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes written on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos)
--{
--	struct drm_fb_helper *helper = info->par;
--	loff_t pos = *ppos;
--	ssize_t ret;
--	struct drm_rect damage_area;
--
--	ret = fb_io_write(info, buf, count, ppos);
--	if (ret <= 0)
--		return ret;
--
--	if (helper->funcs->fb_dirty) {
--		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
--		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
--				     drm_rect_width(&damage_area),
--				     drm_rect_height(&damage_area));
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_write);
--
--/**
-- * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
-- * @info: fbdev registered by the helper
-- * @rect: info about rectangle to fill
-- *
-- * A wrapper around cfb_fillrect implemented by fbdev core
-- */
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_fillrect(info, rect);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
--
--/**
-- * drm_fb_helper_cfb_copyarea - wrapper around cfb_copyarea
-- * @info: fbdev registered by the helper
-- * @area: info about area to copy
-- *
-- * A wrapper around cfb_copyarea implemented by fbdev core
-- */
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_copyarea(info, area);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
--
--/**
-- * drm_fb_helper_cfb_imageblit - wrapper around cfb_imageblit
-- * @info: fbdev registered by the helper
-- * @image: info about image to blit
-- *
-- * A wrapper around cfb_imageblit implemented by fbdev core
-- */
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_imageblit(info, image);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
--
- /**
-  * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
-  * @fb_helper: driver-allocated fbdev helper, can be NULL
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index e4f4d2e3fdfe..01b5a8272a27 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -17,6 +17,7 @@ config DRM_I915
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
-+	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
- 	select RELAY
- 	select I2C
- 	select I2C_ALGOBIT
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index aab1ae74a8f7..64aeacef703d 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -28,6 +28,7 @@
- #include <linux/console.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-+#include <linux/fb.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-@@ -84,6 +85,20 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
- 	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
- }
- 
-+static ssize_t intel_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-+				    size_t count, loff_t *ppos)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+	loff_t pos = *ppos;
-+	ssize_t ret;
-+
-+	ret = fb_io_write(info, buf, count, ppos);
-+	if (ret > 0)
-+		drm_fb_helper_damage_range(helper, pos, ret);
-+
-+	return ret;
-+}
-+
- static int intel_fbdev_set_par(struct fb_info *info)
- {
- 	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
-@@ -121,6 +136,30 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
- 
-+static void intel_fbdev_fb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_fillrect(info, rect);
-+	drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
-+}
-+
-+static void intel_fbdev_fb_copyarea(struct fb_info *info, const struct fb_copyarea *area)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_copyarea(info, area);
-+	drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
-+}
-+
-+static void intel_fbdev_fb_imageblit(struct fb_info *info, const struct fb_image *image)
-+{
-+	struct drm_fb_helper *helper = info->par;
-+
-+	cfb_imageblit(info, image);
-+	drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
-+}
-+
- static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- {
- 	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-@@ -134,13 +173,13 @@ static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_set_par = intel_fbdev_set_par,
--	.fb_read = drm_fb_helper_cfb_read,
--	.fb_write = drm_fb_helper_cfb_write,
--	.fb_fillrect = drm_fb_helper_cfb_fillrect,
--	.fb_copyarea = drm_fb_helper_cfb_copyarea,
--	.fb_imageblit = drm_fb_helper_cfb_imageblit,
--	.fb_pan_display = intel_fbdev_pan_display,
-+	.fb_read = fb_io_read,
-+	.fb_write = intel_fbdev_fb_write,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_pan_display = intel_fbdev_pan_display,
-+	.fb_fillrect = intel_fbdev_fb_fillrect,
-+	.fb_copyarea = intel_fbdev_fb_copyarea,
-+	.fb_imageblit = intel_fbdev_fb_imageblit,
- 	.fb_mmap = intel_fbdev_mmap,
- };
- 
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index e3240d749a43..15f03d8fb5cd 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -259,18 +259,6 @@ void drm_fb_helper_damage_range(struct drm_fb_helper *helper, off_t off, size_t
- 
- void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
- 
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos);
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos);
--
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect);
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area);
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image);
--
- void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, bool suspend);
- void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
- 					bool suspend);
-@@ -386,33 +374,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
- 	return -ENODEV;
- }
- 
--static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--					     size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--					      size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--					      const struct fb_fillrect *rect)
--{
--}
--
--static inline void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--					      const struct fb_copyarea *area)
--{
--}
--
--static inline void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--					       const struct fb_image *image)
--{
--}
--
- static inline void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper,
- 					     bool suspend)
- {
--- 
-2.40.1
+Please note that, while I agree about updating the GAMMA LUT through CMDQ
+setting and between vblanks, this requires a lot more effort to implement
+and it's out of scope for this specific series; depending on my bandwidth,
+this may come later and it would in any case require this patch to move
+the LUT enablement to after LUT registers setting. Besides, I have already
+tried to enable this through CMDQ, but didn't work as expected and since I
+had no time to dig further, I deemed this to be essential for at least an
+initial functionality implementation for MT8195, and a cleanup of this
+driver.
+Obviously, the *only* way to fix *all* of the corner cases of the problem
+that you mentioned is to use CMDQ and trying to implement this purely with
+cpu writes will in any case be prone to at least some glitches.
+
+In any case, while your concern is valid, I'm sure that you agree with me
+on the fact that enabling the LUT before actually programming it is something
+that should not happen in principle. For this reason, and for the others that
+I've just mentioned, I think that this patch is totally valid.
+
+Regards,
+Angelo
+
+> Regards,
+> CK
+> 
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 13 ++++++++-----
+>>   1 file changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> index 60ccea8c1e1a..1592614b6de7 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> @@ -71,12 +71,12 @@ unsigned int mtk_gamma_get_lut_size(struct device
+>> *dev)
+>>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
+>> struct drm_crtc_state *state)
+>>   {
+>>          struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+>> -       unsigned int i, reg;
+>> +       unsigned int i;
+>>          struct drm_color_lut *lut;
+>>          void __iomem *lut_base;
+>>          bool lut_diff;
+>>          u16 lut_size;
+>> -       u32 word;
+>> +       u32 cfg_val, word;
+>>
+>>          /* If there's no gamma lut there's nothing to do here. */
+>>          if (!state->gamma_lut)
+>> @@ -90,9 +90,7 @@ void mtk_gamma_set_common(struct device *dev, void
+>> __iomem *regs, struct drm_crt
+>>                  lut_size = LUT_SIZE_DEFAULT;
+>>          }
+>>
+>> -       reg = readl(regs + DISP_GAMMA_CFG);
+>> -       reg = reg | GAMMA_LUT_EN;
+>> -       writel(reg, regs + DISP_GAMMA_CFG);
+>> +       cfg_val = readl(regs + DISP_GAMMA_CFG);
+>>          lut_base = regs + DISP_GAMMA_LUT;
+>>          lut = (struct drm_color_lut *)state->gamma_lut->data;
+>>          for (i = 0; i < lut_size; i++) {
+>> @@ -122,6 +120,11 @@ void mtk_gamma_set_common(struct device *dev,
+>> void __iomem *regs, struct drm_crt
+>>                  }
+>>                  writel(word, (lut_base + i * 4));
+>>          }
+>> +
+>> +       /* Enable the gamma table */
+>> +       cfg_val = cfg_val | GAMMA_LUT_EN;
+>> +
+>> +       writel(cfg_val, regs + DISP_GAMMA_CFG);
+>>   }
+>>
+>>   void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>> --
+>> 2.40.1
+>>
 
