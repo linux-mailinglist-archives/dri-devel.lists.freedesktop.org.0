@@ -2,39 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7524570B9D1
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 12:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0843E70BA5E
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 12:51:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9542110E089;
-	Mon, 22 May 2023 10:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A380810E2A2;
+	Mon, 22 May 2023 10:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1881510E089
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 10:19:07 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.00,184,1681138800"; d="scan'208";a="163778306"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 22 May 2023 19:19:05 +0900
-Received: from localhost.localdomain (unknown [10.226.93.9])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id B8D4D4000AAA;
- Mon, 22 May 2023 19:18:57 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Wolfram Sang <wsa@kernel.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Date: Mon, 22 May 2023 11:18:39 +0100
-Message-Id: <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4331B10E2A2;
+ Mon, 22 May 2023 10:51:12 +0000 (UTC)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34M9qg4P025283; Mon, 22 May 2023 10:51:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=9Kmlo6ZCBjkmXN6T3y03XJrR9HuwFE+uXebCLLUEKWc=;
+ b=jr47dkICdmjhhzDFIKsksvNwxunKZ4lkXK7WMfk+Kv2XJd52XXZQbJ7RWnjwM5WZbLOM
+ CGa/YQQpyXvd6q+pz1T/s7L2equMdbfXWERr9uydF60cR7K0JMROGK7KBzhmfOnvDB7A
+ HCpKIfu+4yfq8oiJoVfOFWWrJQIWR30wVHZwROGAxoJrpJOE4FKwUHIqsY8JM+3zWxl9
+ uXnXbfdxnJkZ+X6/q2hAZr3yT/A8yQxd8Ws/LKB6OTXqI1eCZVS/ANIf1yuqnu6aZ+FU
+ z8hODjAUZzJlgHHLU4IT8f9+jxi6LOltsQ06wOwVav/BQEIU7DbMqjkYwGpfQAe9rHKS 1Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqawenue2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 10:51:03 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34MAaIag031931;
+ Mon, 22 May 2023 10:51:02 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qqawenud2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 10:51:02 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34M6Md9P026246;
+ Mon, 22 May 2023 10:51:00 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qppe08rk1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 May 2023 10:51:00 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34MAovm211076336
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 May 2023 10:50:57 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A070920043;
+ Mon, 22 May 2023 10:50:57 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3649520040;
+ Mon, 22 May 2023 10:50:57 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 22 May 2023 10:50:57 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v5 09/44] drm: handle HAS_IOPORT dependencies
+Date: Mon, 22 May 2023 12:50:14 +0200
+Message-Id: <20230522105049.1467313-10-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230522105049.1467313-1-schnelle@linux.ibm.com>
+References: <20230522105049.1467313-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Yn1aYozOoQRQ35axx6-QJVU4LBPEu3YW
+X-Proofpoint-GUID: embi3Xmr-Ok9P1L4jvo5o27uBBDwkiPk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-22_06,2023-05-22_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ mlxlogscore=679 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305220089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,295 +96,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-renesas-soc@vger.kernel.org,
- Corey Minyard <cminyard@mvista.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Alan Stern <stern@rowland.harvard.edu>, spice-devel@lists.freedesktop.org,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org,
- linux-i2c@vger.kernel.org
+ Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-device and another for rtc device.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them. In the bochs driver there is optional MMIO
+support detected at runtime, warn if this isn't taken when
+HAS_IOPORT is not defined.
 
-Enhance i2c_new_ancillary_device() to instantiate a real device.
-(eg: Instantiate rtc device from PMIC driver)
+There is also a direct and hard coded use in cirrus.c which according to
+the comment is only necessary during resume.  Let's just skip this as
+for example s390 which doesn't have I/O port support also doesen't
+support suspend/resume.
 
-Added helper function __i2c_new_dummy_device to share the code
-between i2c_new_dummy_device and i2c_new_ancillary_device().
-
-Also added helper function __i2c_new_client_device() to pass parent dev
-parameter, so that the ancillary device can assign its parent during
-creation.
-
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
-v4->v5:
- * Replaced parameter dev->parent in __i2c_new_client_device() and
-   __i2c_new_dummy_device().
- * Improved error message in __i2c_new_dummy_device() by printing device name.
- * Updated comment for ancillary's device parent
- * Dropped aux_device_name check in i2c_new_ancillary_device().
-v3->v4:
- * Dropped Rb tag from Geert as there are new changes.
- * Introduced __i2c_new_dummy_device() to share the code between
-   i2c_new_dummy_device and i2c_new_ancillary_device().
- * Introduced __i2c_new_client_device() to pass parent dev
-   parameter, so that the ancillary device can assign its parent during
-   creation.
-v3:
- * New patch
+ drivers/gpu/drm/qxl/Kconfig   |  1 +
+ drivers/gpu/drm/tiny/bochs.c  | 17 +++++++++++++++++
+ drivers/gpu/drm/tiny/cirrus.c |  2 ++
+ 3 files changed, 20 insertions(+)
 
-Ref:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 +-
- drivers/i2c/i2c-core-base.c                  | 92 +++++++++++++-------
- drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
- drivers/media/i2c/adv7604.c                  |  3 +-
- include/linux/i2c.h                          |  3 +-
- 5 files changed, 69 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..86306b010a0a 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
- 	int ret;
+diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
+index ca3f51c2a8fe..d0e0d440c8d9 100644
+--- a/drivers/gpu/drm/qxl/Kconfig
++++ b/drivers/gpu/drm/qxl/Kconfig
+@@ -2,6 +2,7 @@
+ config DRM_QXL
+ 	tristate "QXL virtual GPU"
+ 	depends on DRM && PCI && MMU
++	depends on HAS_IOPORT
+ 	select DRM_KMS_HELPER
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index d254679a136e..3710339407cc 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -2,6 +2,7 @@
  
- 	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
--						ADV7511_CEC_I2C_ADDR_DEFAULT);
-+				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv->i2c_cec))
- 		return PTR_ERR(adv->i2c_cec);
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <asm/bug.h>
  
-@@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 	adv7511_packet_disable(adv7511, 0xffff);
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -105,7 +106,9 @@ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
  
- 	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
--					ADV7511_EDID_I2C_ADDR_DEFAULT);
-+					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_edid)) {
- 		ret = PTR_ERR(adv7511->i2c_edid);
- 		goto uninit_regulators;
-@@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 		     adv7511->i2c_edid->addr << 1);
- 
- 	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
--					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-+					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_packet)) {
- 		ret = PTR_ERR(adv7511->i2c_packet);
- 		goto err_i2c_unregister_edid;
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ae3af738b03f..3442aa80290f 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -893,24 +893,10 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
- 	return 0;
- }
- 
--/**
-- * i2c_new_client_device - instantiate an i2c device
-- * @adap: the adapter managing the device
-- * @info: describes one I2C device; bus_num is ignored
-- * Context: can sleep
-- *
-- * Create an i2c device. Binding is handled through driver model
-- * probe()/remove() methods.  A driver may be bound to this device when we
-- * return from this function, or any later moment (e.g. maybe hotplugging will
-- * load the driver module).  This call is not appropriate for use by mainboard
-- * initialization logic, which usually runs during an arch_initcall() long
-- * before any i2c_adapter could exist.
-- *
-- * This returns the new i2c client, which may be saved for later use with
-- * i2c_unregister_device(); or an ERR_PTR to describe the error.
-- */
--struct i2c_client *
--i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
-+static struct i2c_client *
-+__i2c_new_client_device(struct i2c_adapter *adap,
-+			struct i2c_board_info const *info,
-+			struct device *parent)
- {
- 	struct i2c_client	*client;
- 	int			status;
-@@ -944,7 +930,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 	if (status)
- 		goto out_err;
- 
--	client->dev.parent = &client->adapter->dev;
-+	client->dev.parent = parent ? parent : &client->adapter->dev;
- 	client->dev.bus = &i2c_bus_type;
- 	client->dev.type = &i2c_client_type;
- 	client->dev.of_node = of_node_get(info->of_node);
-@@ -984,6 +970,28 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 	kfree(client);
- 	return ERR_PTR(status);
- }
-+
-+/**
-+ * i2c_new_client_device - instantiate an i2c device
-+ * @adap: the adapter managing the device
-+ * @info: describes one I2C device; bus_num is ignored
-+ * Context: can sleep
-+ *
-+ * Create an i2c device. Binding is handled through driver model
-+ * probe()/remove() methods.  A driver may be bound to this device when we
-+ * return from this function, or any later moment (e.g. maybe hotplugging will
-+ * load the driver module).  This call is not appropriate for use by mainboard
-+ * initialization logic, which usually runs during an arch_initcall() long
-+ * before any i2c_adapter could exist.
-+ *
-+ * This returns the new i2c client, which may be saved for later use with
-+ * i2c_unregister_device(); or an ERR_PTR to describe the error.
-+ */
-+struct i2c_client *
-+i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
-+{
-+	return __i2c_new_client_device(adap, info, NULL);
-+}
- EXPORT_SYMBOL_GPL(i2c_new_client_device);
- 
- /**
-@@ -1054,6 +1062,26 @@ static struct i2c_driver dummy_driver = {
- 	.id_table	= dummy_id,
- };
- 
-+static struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter *adapter,
-+						 u16 address, const char *name,
-+						 struct device *parent)
-+{
-+	struct i2c_board_info info = {
-+		I2C_BOARD_INFO("dummy", address),
-+	};
-+
-+	if (name) {
-+		ssize_t ret = strscpy(info.type, name, sizeof(info.type));
-+
-+		if (ret < 0)
-+			return ERR_PTR(dev_err_probe(&adapter->dev, ret,
-+						     "Invalid device name: %s\n",
-+						     name));
-+	}
-+
-+	return __i2c_new_client_device(adapter, &info, parent);
-+}
-+
- /**
-  * i2c_new_dummy_device - return a new i2c device bound to a dummy driver
-  * @adapter: the adapter managing the device
-@@ -1074,11 +1102,7 @@ static struct i2c_driver dummy_driver = {
-  */
- struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address)
- {
--	struct i2c_board_info info = {
--		I2C_BOARD_INFO("dummy", address),
--	};
--
--	return i2c_new_client_device(adapter, &info);
-+	return __i2c_new_dummy_device(adapter, address, NULL, NULL);
- }
- EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
- 
-@@ -1122,15 +1146,19 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * @client: Handle to the primary client
-  * @name: Handle to specify which secondary address to get
-  * @default_addr: Used as a fallback if no secondary address was specified
-+ * @aux_device_name: Ancillary device name
-  * Context: can sleep
-  *
-  * I2C clients can be composed of multiple I2C slaves bound together in a single
-  * component. The I2C client driver then binds to the master I2C slave and needs
-- * to create I2C dummy clients to communicate with all the other slaves.
-+ * to create I2C ancillary clients to communicate with all the other slaves.
-  *
-- * This function creates and returns an I2C dummy client whose I2C address is
-- * retrieved from the platform firmware based on the given slave name. If no
-- * address is specified by the firmware default_addr is used.
-+ * This function creates and returns an I2C ancillary client whose I2C address
-+ * is retrieved from the platform firmware based on the given slave name. if
-+ * aux_device_name is specified by the firmware, the ancillary's device parent
-+ * will be set to the primary device. If no address is specified by the firmware
-+ * default_addr is used. If no aux_device_name is specified by the firmware, it
-+ * will create an I2C dummy client.
-  *
-  * On DT-based platforms the address is retrieved from the "reg" property entry
-  * cell whose "reg-names" value matches the slave name.
-@@ -1139,8 +1167,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * i2c_unregister_device(); or an ERR_PTR to describe the error.
-  */
- struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
--						const char *name,
--						u16 default_addr)
-+					    const char *name,
-+					    u16 default_addr,
-+					    const char *aux_device_name)
- {
- 	struct device_node *np = client->dev.of_node;
- 	u32 addr = default_addr;
-@@ -1153,7 +1182,8 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+ 		writeb(val, bochs->mmio + offset);
+ 	} else {
++#ifdef CONFIG_HAS_IOPORT
+ 		outb(val, ioport);
++#endif
  	}
- 
- 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
--	return i2c_new_dummy_device(client->adapter, addr);
-+	return __i2c_new_dummy_device(client->adapter, addr, aux_device_name,
-+				      &client->dev);
  }
- EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
  
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 4498d78a2357..5bdf7b0c6bf3 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
- 		state->i2c_clients[i] = i2c_new_ancillary_device(
- 				state->client,
- 				adv748x_default_addresses[i].name,
--				adv748x_default_addresses[i].default_addr);
-+				adv748x_default_addresses[i].default_addr, NULL);
+@@ -119,7 +122,11 @@ static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
  
- 		if (IS_ERR(state->i2c_clients[i])) {
- 			adv_err(state, "failed to create i2c client %u\n", i);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3d0898c4175e..63fa44c9d27c 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2935,7 +2935,8 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
- 	else
- 		new_client = i2c_new_ancillary_device(client,
- 				adv76xx_default_addresses[page].name,
--				adv76xx_default_addresses[page].default_addr);
-+				adv76xx_default_addresses[page].default_addr,
-+				NULL);
+ 		return readb(bochs->mmio + offset);
+ 	} else {
++#ifdef CONFIG_HAS_IOPORT
+ 		return inb(ioport);
++#else
++		return 0xff;
++#endif
+ 	}
+ }
  
- 	if (!IS_ERR(new_client))
- 		io_write(sd, io_reg, new_client->addr << 1);
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 13a1ce38cb0c..0ce344724209 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 addr
- struct i2c_client *
- i2c_new_ancillary_device(struct i2c_client *client,
- 			 const char *name,
--			 u16 default_addr);
-+			 u16 default_addr,
-+			 const char *aux_device_name);
+@@ -132,8 +139,12 @@ static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
  
- void i2c_unregister_device(struct i2c_client *client);
+ 		ret = readw(bochs->mmio + offset);
+ 	} else {
++#ifdef CONFIG_HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		ret = inw(VBE_DISPI_IOPORT_DATA);
++#else
++		ret = 0xffff;
++#endif
+ 	}
+ 	return ret;
+ }
+@@ -145,8 +156,10 @@ static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
  
+ 		writew(val, bochs->mmio + offset);
+ 	} else {
++#ifdef CONFIG_HAS_IOPORT
+ 		outw(reg, VBE_DISPI_IOPORT_INDEX);
+ 		outw(val, VBE_DISPI_IOPORT_DATA);
++#endif
+ 	}
+ }
+ 
+@@ -229,6 +242,10 @@ static int bochs_hw_init(struct drm_device *dev)
+ 			return -ENOMEM;
+ 		}
+ 	} else {
++		if (!IS_ENABLED(CONFIG_HAS_IOPORT)) {
++			DRM_ERROR("I/O ports are not supported\n");
++			return -EIO;
++		}
+ 		ioaddr = VBE_DISPI_IOPORT_INDEX;
+ 		iosize = 2;
+ 		if (!request_region(ioaddr, iosize, "bochs-drm")) {
+diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+index 594bc472862f..c65fea049bc7 100644
+--- a/drivers/gpu/drm/tiny/cirrus.c
++++ b/drivers/gpu/drm/tiny/cirrus.c
+@@ -508,8 +508,10 @@ static void cirrus_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 
+ 	cirrus_mode_set(cirrus, &crtc_state->mode);
+ 
++#ifdef CONFIG_HAS_IOPORT
+ 	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
+ 	outb(VGA_AR_ENABLE_DISPLAY, VGA_ATT_W);
++#endif
+ 
+ 	drm_dev_exit(idx);
+ }
 -- 
-2.25.1
+2.39.2
 
