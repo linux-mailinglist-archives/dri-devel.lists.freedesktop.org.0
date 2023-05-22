@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A4E70B294
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 02:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788C470B298
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 02:45:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49FD10E21E;
-	Mon, 22 May 2023 00:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E3710E221;
+	Mon, 22 May 2023 00:45:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9544210E224
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 00:42:34 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4f24cfb8539so6207399e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 21 May 2023 17:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684716153; x=1687308153;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WjsGNJla9G3GgMPdPXPf3/qz7vkeVO+bT5E570htg0A=;
- b=SEWQ8QskbdDRnJQM+gl/lmH4c8NclKjrBZf6ACm7SaVIj/+gG4FIqLWauPK+RRGCv0
- cn8In86m55DrvFRgEC7dnaruOlIfuO/2lGx5xxuD82spjMNrwgMS3J9dvgg0cWLjGQz7
- B4brWwyUFSvOrnCJ6Glr6Jqho4Xxk3rXsEFiX45Xc7inkPYVEZ5eiURIOi1Gbxt6DbNO
- L1K+NAJGDBbfiJgUVsu8gg9vLsKi50EqowiOg5qeklI1HPgDwIRsPoqcka+9lN3QRZv2
- wIUxzDVpxEeHc/R079JSayLdMs3PzZeQ0GvofnkY2vaae8pbeQFt/Mjq/iI6VeUWkqKI
- uPcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684716153; x=1687308153;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WjsGNJla9G3GgMPdPXPf3/qz7vkeVO+bT5E570htg0A=;
- b=kU4gtprgZBzxJJhYhQq+KakCQqpKE6EnJ8qQoH1QjFayu2WT4DqLKfQySNEPezfHWA
- ECff3xfvPiCf6+0apV8/9w6jLZ3Zl0i6Q8cDrROcG5FGEePFvzrqUl4zIAmvBhcOis7e
- DR2aauJglbfW8rdBb/ALe+qmrtjZ2euTLOaSEnoWrT+4d9v038H1H+iD8ys1xm9kTx2h
- ApL5Ebt0YqlEFrI0CG9mcpyFdspvb2qoTyzn5e1VxbVmhLebwA0pOPizaRUx7g4YchBA
- ntZEQD9HETmSU7MYGFGMDSDqAN0X6NocieclX9eL5Uo7LiNG+fSf7NkBVZdWCCzkn6xD
- vQvA==
-X-Gm-Message-State: AC+VfDzXHOs9hoEBe11RtwqoFShJgqBaaoDu/dWEn463uN/dDNY3dCjo
- 2oMVblU0+LJFo8l8NMOeE0uUTQ==
-X-Google-Smtp-Source: ACHHUZ7Uen60d+z6+INv8NS9OGVW905Zn0nvDk4z12pTw4XkY3mAOoKcfTJ/gu8o1DVQMCdpCWRrxw==
-X-Received: by 2002:ac2:43a2:0:b0:4f2:5393:b7c with SMTP id
- t2-20020ac243a2000000b004f253930b7cmr2440197lfl.67.1684716152907; 
- Sun, 21 May 2023 17:42:32 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- b15-20020ac25e8f000000b004f139712835sm768159lfq.293.2023.05.21.17.42.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 May 2023 17:42:32 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 6/6] drm/msm/dpu: drop compatibility INTR defines
-Date: Mon, 22 May 2023 03:42:27 +0300
-Message-Id: <20230522004227.134501-7-dmitry.baryshkov@linaro.org>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408FF10E221
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 00:45:29 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2105184658;
+ Mon, 22 May 2023 02:45:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1684716326;
+ bh=M6osm2r9KOnQhGuND4VAlRoKkJDyNDkqmaw9NQH4kHg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=dK3zdp1cetELcv/QB5Cb7DrFCDxYLK/sfRO5R2UI1AYt6gS5s2908Ygpq0cZ0mrNM
+ loQfvoJASzhaKNrgM+iuSJIZhPHkRvdarI6J128ScmT0GD4HTKFJO9PL4LJCRbWXgJ
+ KGp+ZTOtecGwyWOADMSgUqSlEjA+QQWLSqaDQhmT2YGZ0GglIwHad0C44H6MAaNOFZ
+ OalrHg2hT1K7xD/YUWkVvtUmS98a9pFJ5/mbsNLWy5TDUETwscLuHZT1W/mogpA0jP
+ Y3QRC4mC1oAt34I4WVq3+OMv0nXxKWxYIPWJMOrGTZpzkjqvUixAG8ghCO30DM9KRr
+ +MEdio30K9XTQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm] modetest: Try and open device using drmOpenDevice first
+Date: Mon, 22 May 2023 02:45:13 +0200
+Message-Id: <20230522004513.168431-1-marex@denx.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230522004227.134501-1-dmitry.baryshkov@linaro.org>
-References: <20230522004227.134501-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,136 +51,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Marek Vasut <marex@denx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While reworking interrupts masks, it was easier to keep old
-MDP_INTFn_7xxx_INTR and MDP_INTFn_7xxx_TEAR_INTR symbols. Now it is time
-to drop them and use unified symbol names.
+This way, it is possible to use modetest -D to specify a card in /dev/dri/cardN
+which is esp. useful on systems which have multiple cards, with identical modules
+and where it is otherwise impossible to discern the different cards via drmOpen().
+One such example is i.MX8M Plus, which has three such cards, one for DSI, one for
+LVDS, and one for HDMI.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h  |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  |  2 +-
- .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h    |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h  |  4 ++--
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h  |  4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h   | 13 -------------
- 6 files changed, 9 insertions(+), 22 deletions(-)
+ tests/util/kms.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index f9e5f252ae54..c64b6a7a30af 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -160,11 +160,11 @@ static const struct dpu_intf_cfg sm8350_intf[] = {
- 	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
--			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
- 	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x2c4, INTF_DSI, 1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
--			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
- 	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index dede8cb2d784..98623388badc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -106,7 +106,7 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
- 	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, 0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
--			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
- 	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23)),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index 79ab2d015a44..fde9204c2c8e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -150,11 +150,11 @@ static const struct dpu_intf_cfg sc8280xp_intf[] = {
- 	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
--			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
- 	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
--			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
- 	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index b0bc88136e86..3821cc465c47 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -168,11 +168,11 @@ static const struct dpu_intf_cfg sm8450_intf[] = {
- 	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
--			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
- 	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
--			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
- 	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index afed62e44f90..f35671d1f2b8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -172,11 +172,11 @@ static const struct dpu_intf_cfg sm8550_intf[] = {
- 	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, 0, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
--			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
- 	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, 1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
--			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
-+			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
- 	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-index f0b92c9e3b09..4a46c0900e04 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-@@ -39,19 +39,6 @@ enum dpu_hw_intr_reg {
- 				   intf == INTF_2 ? MDP_INTF2_TEAR_INTR : \
- 				   -1)
+diff --git a/tests/util/kms.c b/tests/util/kms.c
+index 34a84180..31087522 100644
+--- a/tests/util/kms.c
++++ b/tests/util/kms.c
+@@ -38,6 +38,7 @@
+  */
  
--/* compatibility */
--#define MDP_INTF0_7xxx_INTR MDP_INTF0_INTR
--#define MDP_INTF1_7xxx_INTR MDP_INTF1_INTR
--#define MDP_INTF2_7xxx_INTR MDP_INTF2_INTR
--#define MDP_INTF3_7xxx_INTR MDP_INTF3_INTR
--#define MDP_INTF4_7xxx_INTR MDP_INTF4_INTR
--#define MDP_INTF5_7xxx_INTR MDP_INTF5_INTR
--#define MDP_INTF6_7xxx_INTR MDP_INTF6_INTR
--#define MDP_INTF7_7xxx_INTR MDP_INTF7_INTR
--#define MDP_INTF8_7xxx_INTR MDP_INTF8_INTR
--#define MDP_INTF1_7xxx_TEAR_INTR MDP_INTF1_TEAR_INTR
--#define MDP_INTF2_7xxx_TEAR_INTR MDP_INTF2_TEAR_INTR
--
- #define DPU_IRQ_IDX(reg_idx, offset)	(reg_idx * 32 + offset)
+ #include <errno.h>
++#include <fcntl.h>
+ #include <stdint.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -142,6 +143,16 @@ int util_open(const char *device, const char *module)
+ 	} else {
+ 		unsigned int i;
  
- /**
++		printf("trying to open device '%s'...", device);
++
++		fd = open(device, O_RDWR | O_CLOEXEC);
++		if (fd < 0) {
++			printf("failed\n");
++		} else {
++			printf("done\n");
++			return fd;
++		}
++
+ 		for (i = 0; i < ARRAY_SIZE(modules); i++) {
+ 			printf("trying to open device '%s'...", modules[i]);
+ 
 -- 
 2.39.2
 
