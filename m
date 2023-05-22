@@ -2,61 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C42D70CD98
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC0F70CD9D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 00:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA5D10E39F;
-	Mon, 22 May 2023 22:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E142910E3A2;
+	Mon, 22 May 2023 22:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C1710E39D
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 22:14:52 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-565014fc2faso19479937b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 15:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684793691; x=1687385691;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wFwh5fQ3Hl7G9LU6n8ZD679YMX6rzEdWyx9gkPo21A8=;
- b=kl/vKyWgbKzWXW35R+A7TwDhC7FxqQmQUnagTxRogEQtmt8gu6Bz2jT4GRseatEI1I
- lWlztU+hiV78Hw379H2RHrJiuiexzvH+WJMfvNBUXDXrSOpmTuHW5mplvPySdQPt/NlK
- d64dEmbdBMYQtrfDhNu3yeK+zWHQ12lFFhNoVY/HxBA03vkhawl5nWV7HdzHcX99T9Fn
- d1Yh80ody3nbdbCf/DuZpSPDJWUdjGvQt/Gp6xiiei7OdluKyygKwzooDJZR5z8b5nm2
- WMYet4Mtmio7qFAHRlnMgCAhFL7wkDG5mrEoNWcInZhiK6d0ESBRWdKW4TQAdLsROlxa
- T4JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684793691; x=1687385691;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wFwh5fQ3Hl7G9LU6n8ZD679YMX6rzEdWyx9gkPo21A8=;
- b=HX3C44iDmjw069AiiB+j8wboVYdtTiUVYBbBH1/N0j7j3zsf6LyMNq7huFHMO0eU/E
- KfOnu07r2qDfqz0L0XtqXwnurvoiEkqpN++Jz4+IQnhdmJPhyPd0VoGDARNEx/MwwF+y
- HvdYnwaT9XMtlFj1Rj76XtgGxWnh2Ngt07uPjubdY9yU83EVBd48Eb2UZ/Wi+PotDY66
- DPBuqCcJi1+FlNMAawiVp2cv5Gj6LmfFNNaADB25Vu4TeQTDY3oN2TCD5iXjyW+TnFS4
- iHhnYhJnj7mDWgG+YGQJclU6/PzcdDNQwQlfyTGqTzvxF5+UuLB5tU/Qakmutmrh0hLx
- Kuxg==
-X-Gm-Message-State: AC+VfDw1dA3tjt9CxkKjx0pwRVySv06i3wH2Pko1fvH0u0TTHJAHDVyl
- 7bc/Q6FnX7CUkF4dTttxfeV0U1kuI/i75UZqB5+DlQ==
-X-Google-Smtp-Source: ACHHUZ5kWLaISLMMN8SNO0Uax4mvDI+Ifb9IzNEtBZKY0St5/K8lmsA2Sqyp6Ot9uWHAu1U7I2ZDXpl/fAZUpxMCF3E=
-X-Received: by 2002:a0d:df4c:0:b0:561:18c6:528c with SMTP id
- i73-20020a0ddf4c000000b0056118c6528cmr12914744ywe.30.1684793691620; Mon, 22
- May 2023 15:14:51 -0700 (PDT)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEB510E3A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 22:15:27 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8EB9F3F20F;
+ Tue, 23 May 2023 00:15:25 +0200 (CEST)
+Date: Tue, 23 May 2023 00:15:24 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 5/6] drm/msm/dpu: drop now-unused mdss_irqs field from
+ hw catalog
+Message-ID: <jvyy32g67ekqycdx4dpjkvucxe7trvu2aqjfkxui3ca7x72gux@q4wnhcjtbics>
+References: <20230522214527.190054-1-dmitry.baryshkov@linaro.org>
+ <20230522214527.190054-6-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
- <20230405-add-dsc-support-v4-1-15daf84f8dcb@quicinc.com>
- <eo7chb7m4cowvb53hnebi3bjtotm7x5ea5iv6ulmmfkr2hdt32@2nkoa5rco3qb>
- <a93c3c36-f262-b89d-8452-98120cffb491@quicinc.com>
-In-Reply-To: <a93c3c36-f262-b89d-8452-98120cffb491@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 23 May 2023 01:14:40 +0300
-Message-ID: <CAA8EJpqzj-_fVLXfCrLeTUcwPHE-fb-kNP=SgbVM7U5fQT8p-w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] msm/drm/dsi: Round up DSC hdisplay calculation
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230522214527.190054-6-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,101 +43,325 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: freedreno@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 May 2023 at 00:45, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->
->
->
-> On 5/22/2023 1:44 PM, Marijn Suijten wrote:
-> > On 2023-05-22 13:30:20, Jessica Zhang wrote:
-> >> Currently, when compression is enabled, hdisplay is reduced via integer
-> >> division. This causes issues for modes where the original hdisplay is
-> >> not a multiple of 3.
-> >>
-> >> To fix this, use DIV_ROUND_UP to divide hdisplay.
-> >>
-> >> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >> Suggested-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >
-> > Nit: probably these should go in the opposite order.  And if they're
-> > all supposed to be chronological, I think it is:
-> >
-> >      Suggested-by:
-> >      Fixes:
-> >      Signed-off-by:
-> >      Reviewed-by:
-> >
-> > But unsure if that's a hard requirement, or even correct at all.
->
-> Hi Marijn,
->
-> I don't see any explicit documentation on the order of R-b tags. FWIW, I
-> see in the git log that S-o-b always goes at the bottom of the commit
-> message.
->
-> I would prefer the S-o-b to always be at the bottom (as it helps me
-> avoid duplicate S-o-b's when doing `git commit -s`), though I can flip
-> the order of the R-b and suggested-by tags.
+On 2023-05-23 00:45:26, Dmitry Baryshkov wrote:
+> Now as the list of the interrupts is constructed from the catalog
+> data, drop the mdss_irqs field from catalog.
+> 
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  8 --------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  9 ---------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 11 -----------
+>  .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    | 13 -------------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 10 ----------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  6 ------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |  5 -----
+>  .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |  5 -----
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  9 ---------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  7 -------
+>  .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   | 14 --------------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  9 ---------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  9 ---------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  3 ---
+>  14 files changed, 118 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> index 3c732a0360c7..ff7c3d522046 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> @@ -204,14 +204,6 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+>  	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+>  	.vbif = msm8998_vbif,
+>  	.perf = &msm8998_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF2_INTR) | \
+> -		     BIT(MDP_INTF3_INTR) | \
+> -		     BIT(MDP_INTF4_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> index 36ea1af10894..c4ccd742690a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> @@ -202,15 +202,6 @@ const struct dpu_mdss_cfg dpu_sdm845_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sdm845_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF2_INTR) | \
+> -		     BIT(MDP_INTF3_INTR) | \
+> -		     BIT(MDP_AD4_0_INTR) | \
+> -		     BIT(MDP_AD4_1_INTR),
 
-I'd second Jessica here. Consider these tags as a history or a transcript:
+I don't think you're adding AD4 back anywhere?  Not that there is
+any code handling AD4 (e.g. registering those interrupts) anywhere, but
+that should be done and documented in a separate patch then.
 
-I would not vote on the particular order of the Suggested-by/Fixes
-tags, I don't think that is important. These come first. Then the
-patch goes through different cycles. of reviews, which gain
-Reviewed-by tags.
+After dropping that from this patch and describing it in a preliminary
+one:
 
-In the same way Link/Patchwork/whatever other tags are added in the
-historical order.
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-By having the submitter's S-o-b at the bottom, the submitter adds the
-final signature under everything else being stated/recorded.
-
-Of course, in a more complicated story, there might be other
-developers taking part (Co-Developed-By + Signed-off-by), etc.
-
-Note: all described is just my perception and might differ from the
-BCP regarding the tags.
-
->
-> Thanks,
->
-> Jessica Zhang
->
-> >
-> > - Marijn
-> >
-> >> Fixes: 08802f515c3cf ("drm/msm/dsi: Add support for DSC configuration")
-> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> index 9223d7ec5a73..18d38b90eb28 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> @@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>               * pulse width same
-> >>               */
-> >>              h_total -= hdisplay;
-> >> -            hdisplay = msm_dsc_get_bytes_per_line(msm_host->dsc) / 3;
-> >> +            hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
-> >>              h_total += hdisplay;
-> >>              ha_end = ha_start + hdisplay;
-> >>      }
-> >>
-> >> --
-> >> 2.40.1
-> >>
-
-
-
--- 
-With best wishes
-Dmitry
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> index b5f751354267..fb7069d470ff 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> @@ -231,17 +231,6 @@ const struct dpu_mdss_cfg dpu_sm8150_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm8150_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_INTR) | \
+> -		     BIT(MDP_INTF2_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_INTR) | \
+> -		     BIT(MDP_AD4_0_INTR) | \
+> -		     BIT(MDP_AD4_1_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> index 8ed2b263c5ea..bd7422e597aa 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> @@ -237,19 +237,6 @@ const struct dpu_mdss_cfg dpu_sc8180x_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sc8180x_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_INTR) | \
+> -		     BIT(MDP_INTF2_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_INTR) | \
+> -		     BIT(MDP_INTF4_INTR) | \
+> -		     BIT(MDP_INTF5_INTR) | \
+> -		     BIT(MDP_AD4_0_INTR) | \
+> -		     BIT(MDP_AD4_1_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> index daebd2170041..75a5c1b5a74a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> @@ -239,16 +239,6 @@ const struct dpu_mdss_cfg dpu_sm8250_cfg = {
+>  	.wb_count = ARRAY_SIZE(sm8250_wb),
+>  	.wb = sm8250_wb,
+>  	.perf = &sm8250_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_INTR) | \
+> -		     BIT(MDP_INTF2_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_INTR) | \
+> -		     BIT(MDP_INTF4_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> index 0b05da2592c0..84be02ce9c9c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> @@ -149,12 +149,6 @@ const struct dpu_mdss_cfg dpu_sc7180_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sc7180_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> index ba9de008519b..71d6e036a7a7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> @@ -122,11 +122,6 @@ const struct dpu_mdss_cfg dpu_sm6115_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm6115_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> index 92ac348eea6b..d80b383d874d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> @@ -112,11 +112,6 @@ const struct dpu_mdss_cfg dpu_qcm2290_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &qcm2290_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF1_INTR) | \
+> -		     BIT(MDP_INTF1_TEAR_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> index 320cfa4be633..649784aa6567 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> @@ -223,15 +223,6 @@ const struct dpu_mdss_cfg dpu_sm8350_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm8350_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_7xxx_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> index 9306c7a115e9..1e87c7f4775d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> @@ -163,13 +163,6 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sc7280_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF5_7xxx_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> index fc1e17c495f0..3082657f06f2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> @@ -225,20 +225,6 @@ const struct dpu_mdss_cfg dpu_sc8280xp_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sc8280xp_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_7xxx_INTR) | \
+> -		     BIT(MDP_INTF4_7xxx_INTR) | \
+> -		     BIT(MDP_INTF5_7xxx_INTR) | \
+> -		     BIT(MDP_INTF6_7xxx_INTR) | \
+> -		     BIT(MDP_INTF7_7xxx_INTR) | \
+> -		     BIT(MDP_INTF8_7xxx_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> index eb72411c16db..ca5b82bc8322 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> @@ -231,15 +231,6 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm8450_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_7xxx_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> index 8209ca317bdc..dd7c87f772ea 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> @@ -235,15 +235,6 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
+>  	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>  	.vbif = sdm845_vbif,
+>  	.perf = &sm8550_perf_data,
+> -	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+> -		     BIT(MDP_SSPP_TOP0_INTR2) | \
+> -		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> -		     BIT(MDP_INTF0_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_INTR) | \
+> -		     BIT(MDP_INTF1_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_INTR) | \
+> -		     BIT(MDP_INTF2_7xxx_TEAR_INTR) | \
+> -		     BIT(MDP_INTF3_7xxx_INTR),
+>  };
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 72530ebb0ae6..6d8c2fa8558a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -777,7 +777,6 @@ struct dpu_perf_cfg {
+>   * @dma_formats        Supported formats for dma pipe
+>   * @cursor_formats     Supported formats for cursor pipe
+>   * @vig_formats        Supported formats for vig pipe
+> - * @mdss_irqs:         Bitmap with the irqs supported by the target
+>   */
+>  struct dpu_mdss_cfg {
+>  	const struct dpu_caps *caps;
+> @@ -825,8 +824,6 @@ struct dpu_mdss_cfg {
+>  	const struct dpu_format_extended *dma_formats;
+>  	const struct dpu_format_extended *cursor_formats;
+>  	const struct dpu_format_extended *vig_formats;
+> -
+> -	unsigned long mdss_irqs;
+>  };
+>  
+>  extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
+> -- 
+> 2.39.2
+> 
