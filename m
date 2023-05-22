@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19E970CBDB
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 23:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75A770CBE1
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 23:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A71DB10E391;
-	Mon, 22 May 2023 21:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F0F10E38E;
+	Mon, 22 May 2023 21:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8408010E38E;
- Mon, 22 May 2023 21:01:51 +0000 (UTC)
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B46110E38E
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 21:02:31 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 98EC93EED4;
- Mon, 22 May 2023 23:01:48 +0200 (CEST)
-Date: Mon, 22 May 2023 23:01:46 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id BEFB93EED4;
+ Mon, 22 May 2023 23:02:29 +0200 (CEST)
+Date: Mon, 22 May 2023 23:02:27 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Subject: Re: [PATCH v4 5/5] drm/msm/dsi: Remove incorrect references to
  slice_count
-Message-ID: <r3xfucsag7odjsmpdys2aibairgvocqrgg6inpcdr2yoz2ktkd@c24h7frzzzkj>
+Message-ID: <c5ugoqlfd3vuiewpe6xomjbpljc6hgi7vqoymqasdqyjy7oqjs@diepvzu7mpnm>
 References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
  <20230405-add-dsc-support-v4-5-15daf84f8dcb@quicinc.com>
 MIME-Version: 1.0
@@ -51,92 +50,9 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-05-22 13:30:24, Jessica Zhang wrote:
-> Currently, slice_count is being used to calculate word count and
-> pkt_per_line. Instead, these values should be calculated using slice per
-> packet, which is not the same as slice_count.
-> 
-> Slice count represents the number of soft slices per interface, and its
-> value will not always match that of slice per packet. For example, it is
-> possible to have cases where there are multiple soft slices per interface
-> but the panel specifies only one slice per packet.
+One more suggestion: DSC slice_count*
 
-As discussed in many patches before, there is no definition of "soft
-slices" anyhwere.  Unless we can have that, and reference it, this
-should more clearly explain what it means or leave out the word "soft"
-altogether.
-
-> Thus, use the default value of one slice per packet and remove slice_count
-> from the aforementioned calculations.
-> 
-> Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-> Fixes: bc6b6ff8135c ("drm/msm/dsi: Use DSC slice(s) packet size to compute word count")
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 26 ++++++++++++++++----------
->  1 file changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index d04f8bbd707d..2eed99afdba9 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -866,18 +866,17 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
->  	 */
->  	slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
->  
-> -	/*
-> -	 * If slice_count is greater than slice_per_intf
-> -	 * then default to 1. This can happen during partial
-> -	 * update.
-> -	 */
-> -	if (dsc->slice_count > slice_per_intf)
-> -		dsc->slice_count = 1;
-> -
->  	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
->  
->  	eol_byte_num = total_bytes_per_intf % 3;
-> -	pkt_per_line = slice_per_intf / dsc->slice_count;
-> +
-> +	/*
-> +	 * Typically, pkt_per_line = slice_per_intf * slice_per_pkt.
-> +	 *
-> +	 * Since the current driver only supports slice_per_pkt = 1,
-> +	 * pkt_per_line will be equal to slice per intf for now.
-> +	 */
-> +	pkt_per_line = slice_per_intf;
->  
->  	if (is_cmd_mode) /* packet data type */
->  		reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
-> @@ -1001,7 +1000,14 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->  		if (!msm_host->dsc)
->  			wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
->  		else
-> -			wc = msm_host->dsc->slice_chunk_size * msm_host->dsc->slice_count + 1;
-> +			/*
-> +			 * When DSC is enabled, WC = slice_chunk_size * slice_per_packet + 1.
-> +			 * Currently, the driver only supports default value of slice_per_packet = 1
-> +			 *
-> +			 * TODO: Expand mipi_dsi_device struct to hold slice_per_packet info
-> +			 *       and adjust DSC math to account for slice_per_packet.
-> +			 */
-
-Either rename this all to slice_per_pkt, or rename the above comment to
-slice_per_packet.
-
-After improving on that:
-
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-
-We all learned the wrong thing initially, thanks for clearing up that
-slice_count != slice_per_pkt.
+On 2023-05-22 13:30:24, Jessica Zhan
+<Snip>
 
 - Marijn
-
-> +			wc = msm_host->dsc->slice_chunk_size + 1;
->  
->  		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
->  			DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
-> 
-> -- 
-> 2.40.1
-> 
