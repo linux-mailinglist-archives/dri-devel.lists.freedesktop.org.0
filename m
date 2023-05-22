@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5179770CCBF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 23:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D0070CCC2
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 23:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604C310E0C2;
-	Mon, 22 May 2023 21:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3C510E18D;
+	Mon, 22 May 2023 21:45:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2916010E0C2;
- Mon, 22 May 2023 21:45:06 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34MKiCfw000460; Mon, 22 May 2023 21:45:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=7zzV4se+9XO1mSACSy/SpYmNuDRpqT0xaYJqgBHjy58=;
- b=RCpbguHzxiGKUKkHbhkTtJBzLXbwbpk0hk/v2YsjUCoSYvBiZwqu0fqyAjSLKd+d/z/D
- uUkb99DOwRt5p8ZsYjqAIqRHM0GcdS1Wy/sI55lo8eiXna4syvHJPO4vCgaEu2PHwo70
- S6k72Nwt5hs3nUgLGAP6Wk4t7/YJKGzJnx8gKtrNdC18d3qj2XvrRI6GzZ+1b1x2vX0t
- MHJy/R24TnWHXM7SpYBZQ5uVjuJHgMi3G/2o3afGEPCVYxY8tQevUcNnf5WtlDjYf+5a
- pxDChn3/xiGP0UiCIJcCdg4k5VBjFSPpJkBOP0bvK+CoveH2Iy9GkPAHUdDUwzFxbLF+ Ig== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qppypcmg5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 May 2023 21:45:03 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MLj2CY020785
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 May 2023 21:45:02 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 22 May
- 2023 14:45:01 -0700
-Message-ID: <a93c3c36-f262-b89d-8452-98120cffb491@quicinc.com>
-Date: Mon, 22 May 2023 14:45:01 -0700
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A41C310E18D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 21:45:30 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f4b256a0c9so1519037e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 14:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684791928; x=1687383928;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k6gn7Y4qoY3ku7wbFuicMLgC2spCVikeHkn0CM0cq+U=;
+ b=TRrV+NSmwH0JScLFBWL1YvLsnvWyGmhV732WFztodQD6F/T+kOgYt3A3pZWyVNT9+i
+ 2YYeRZntBy0nhvzlYJB9YDLkaILZ3xKklZmBq+y/8MZZXjJS4kZ/dbn5atnD3fImLPwX
+ BQ8hDRY5/KEmVir/eab856pq0xPu94/SFsogYvsvTwFa/fWW3nEl7nnoGXssJKOOabLa
+ aKWLV9Q6m9a6vZaXkMhIvnKdMmj8IIHZr6AVgMKaSTKHykkjVCNWXrf0wQvc6hn5HtP/
+ fTjkdbK0sgnwHWeopBFrRXJuzy9eNj3kKrRQ5r8TRlHfza73io76uDdw1oBu+QEWltld
+ cVIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684791928; x=1687383928;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k6gn7Y4qoY3ku7wbFuicMLgC2spCVikeHkn0CM0cq+U=;
+ b=gcnDQ1RUhbgpu5laWhdHJcGp2IHTqq9IzupxjtXoeTRW2UBfWmbz6A7h9iuoGa0GrW
+ qQcERLOptgNYu9aUgP7rV2/3K1S+oHc/Gz1z3e0sib0JsdLy3YY4MaKyk6U/FWq3OvUG
+ xiZU9P6UAEeziwtblw9RvZcwFNiUS69ovcg/hBqQSvNDf3Tc5YxPoOfk68IBaYr7q7Ih
+ VI3WOLFpdKdp0p1BmTnMSPTTy1bQp5OVIpU6heAG+Y/xnQ3pXT88+Dkm1gWizmvETcAM
+ WnYyb8IfLuBzi8rbi1TBJMtEu3j1aGAm+EZj0nnuBcN/FPO+EAyUMjvsOitPx72JWsz0
+ PykA==
+X-Gm-Message-State: AC+VfDxuX4TgfJMHNHBJz+uJE0TD1zvwJh+d+xrdp82kaKAMX2f5DnCe
+ uznfDbiKJPOqRigbj1UMm0JpQA==
+X-Google-Smtp-Source: ACHHUZ6TaZjp2uCnvt0sLePWE7ya6+815pDv0RMQQ2jfUWQNEJpxo0lOlEKl3dQqPUVkcSLKV1a0jg==
+X-Received: by 2002:a05:6512:21c:b0:4f0:5b4:4863 with SMTP id
+ a28-20020a056512021c00b004f005b44863mr2944951lfo.0.1684791928542; 
+ Mon, 22 May 2023 14:45:28 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020ac25507000000b004f2543be9dbsm1106918lfk.5.2023.05.22.14.45.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 May 2023 14:45:28 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 0/6] drm/msm/dpu: rework interrupt handling
+Date: Tue, 23 May 2023 00:45:21 +0300
+Message-Id: <20230522214527.190054-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 1/5] msm/drm/dsi: Round up DSC hdisplay calculation
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
- <20230405-add-dsc-support-v4-1-15daf84f8dcb@quicinc.com>
- <eo7chb7m4cowvb53hnebi3bjtotm7x5ea5iv6ulmmfkr2hdt32@2nkoa5rco3qb>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <eo7chb7m4cowvb53hnebi3bjtotm7x5ea5iv6ulmmfkr2hdt32@2nkoa5rco3qb>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 3Sa6fvhNoISaab_aKiS4vw2UVTrYVWdE
-X-Proofpoint-GUID: 3Sa6fvhNoISaab_aKiS4vw2UVTrYVWdE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-22_16,2023-05-22_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- clxscore=1015 mlxlogscore=999 phishscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305220184
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,73 +71,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Declaring the mask of supported interrupts proved to be error-prone. It
+is very easy to add a bit with no corresponding backing block or to miss
+the INTF TE bit. Replace this static configuration with the irq mask
+calculated from the HW catalog data.
 
+Changes since v1:
+ - Enable dpu_caps::has_7xxx_intr for DPU >= 7.0 (Neil)
 
-On 5/22/2023 1:44 PM, Marijn Suijten wrote:
-> On 2023-05-22 13:30:20, Jessica Zhang wrote:
->> Currently, when compression is enabled, hdisplay is reduced via integer
->> division. This causes issues for modes where the original hdisplay is
->> not a multiple of 3.
->>
->> To fix this, use DIV_ROUND_UP to divide hdisplay.
->>
->> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->> Suggested-by: Marijn Suijten <marijn.suijten@somainline.org>
-> 
-> Nit: probably these should go in the opposite order.  And if they're
-> all supposed to be chronological, I think it is:
-> 
->      Suggested-by:
->      Fixes:
->      Signed-off-by:
->      Reviewed-by:
-> 
-> But unsure if that's a hard requirement, or even correct at all.
+Dmitry Baryshkov (6):
+  drm/msm/dpu: don't set DPU_INTF_TE globally
+  drm/msm/dpu: inline __intr_offset
+  drm/msm/dpu: split interrupt address arrays
+  drm/msm/dpu: autodetect supported interrupts
+  drm/msm/dpu: drop now-unused mdss_irqs field from hw catalog
+  drm/msm/dpu: drop compatibility INTR defines
 
-Hi Marijn,
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |   8 --
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |   9 --
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  11 --
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  13 ---
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  10 --
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   6 -
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   5 -
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   5 -
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  14 +--
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  10 +-
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  19 +--
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  14 +--
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  14 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   3 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 110 ++++++++++++------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  21 ++--
+ 17 files changed, 102 insertions(+), 175 deletions(-)
 
-I don't see any explicit documentation on the order of R-b tags. FWIW, I 
-see in the git log that S-o-b always goes at the bottom of the commit 
-message.
+-- 
+2.39.2
 
-I would prefer the S-o-b to always be at the bottom (as it helps me 
-avoid duplicate S-o-b's when doing `git commit -s`), though I can flip 
-the order of the R-b and suggested-by tags.
-
-Thanks,
-
-Jessica Zhang
-
-> 
-> - Marijn
-> 
->> Fixes: 08802f515c3cf ("drm/msm/dsi: Add support for DSC configuration")
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 9223d7ec5a73..18d38b90eb28 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->>   		 * pulse width same
->>   		 */
->>   		h_total -= hdisplay;
->> -		hdisplay = msm_dsc_get_bytes_per_line(msm_host->dsc) / 3;
->> +		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
->>   		h_total += hdisplay;
->>   		ha_end = ha_start + hdisplay;
->>   	}
->>
->> -- 
->> 2.40.1
->>
