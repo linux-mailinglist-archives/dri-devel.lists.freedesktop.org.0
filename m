@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C42570CAFF
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:30:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F23470CB01
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 22:30:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F283A10E37D;
-	Mon, 22 May 2023 20:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D41510E380;
+	Mon, 22 May 2023 20:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 724D210E28C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7930E10E37D;
  Mon, 22 May 2023 20:30:42 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34MJq6h3008604; Mon, 22 May 2023 20:30:40 GMT
+ 34MKBj9c028605; Mon, 22 May 2023 20:30:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : subject :
- date : message-id : mime-version : content-type :
- content-transfer-encoding : to : cc; s=qcppdkim1;
- bh=vLqKLO1BUpzQZwWunNwMNnH6hu7BMla/ZM9oufiLLSQ=;
- b=DyidkjpsPoEsw5Sa+oWmszCWkwzKpkcFXxECxrIu2M74NyI2DjlBtzKbZRmPyMt7V87I
- afGa2YXCCJPYn1YiRZJa8h14sxgf+2Hd9nPNiwqwbOyA8cGuS0pdHyl9h9kfxVNyJfWU
- 7DxFdYSjzzwIgzJeubH7HFegEb4Bw+g51xxMsSqadViPiOB485NNFG5Vzgf7JvBQJsr9
- UpL/YzJ88Bjkhu4vpKgf75EBeXeevQuqTNGwqoqv9Ni6Lus0Lu0WIXrGiqDX6jfrTJYn
- egPIkBh5gLZbAEHqkEhDEJtWpB4kpgr0LMchs52S7QSHQ6fvArfu59UcLN4TuHku/Fta Vw== 
+ h=from : date :
+ subject : mime-version : content-type : content-transfer-encoding :
+ message-id : references : in-reply-to : to : cc; s=qcppdkim1;
+ bh=20fUdjKb0L5Q6fUK1/+acIicb3euvbBfhny9y9fPK+I=;
+ b=CLIri8d5ELKwY8npXFtXnEbkGAXohxF5KrpSnVvweLSw+1h+ombPhLRmg87AprDZyekP
+ NBpaVgmkhYAuxjYZvQuAqsg6gRdNbC97hHqTTDpM5bQ6mRrzbqSFSv648GB3H0IHMqBC
+ hYYvsRDOg8w0uKVyD7vRqzz+lHJXLdAMJj4tzhY7gEprC1vCmdoomL74/UgEOaf5psWd
+ rZUrL+E32obr8tg5ykkQhpfvod9dUi2HHrRfo+1qcBPaZAatWJlzRzgpeGecNXMevuNv
+ nA4lMW+voO5kT/v8DMm7mLqQlJx/PtwrKL35SypqS2nyM+feBq1HaH01EILOMV5aLohu YA== 
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qre8p03ye-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qrf7780u8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 22 May 2023 20:30:40 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MKUdKp032333
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34MKUdKq032333
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 22 May 2023 20:30:39 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,27 +41,25 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.986.42; Mon, 22 May 2023 13:30:38 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: [PATCH v4 0/5] Add DSC v1.2 Support for DSI
-Date: Mon, 22 May 2023 13:30:19 -0700
-Message-ID: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
+Date: Mon, 22 May 2023 13:30:20 -0700
+Subject: [PATCH v4 1/5] msm/drm/dsi: Round up DSC hdisplay calculation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANvQa2QC/4WOOw7CMBBErxK5ZtHazgeouAei8GdDXMQJdhKBU
- O6OnQ4hRDmzmvf2xSIFR5GdihcLtLjoBp9CuSuY6ZS/ETibMhMoJJZYgbIWbDQQ53EcwgQtcYl
- alcdDyVlaaRUJdFDedHnXxx48PaZ8GgO17rHJLteUOxenITw398Jz+1uzcECotalblIoaWZ3vs
- zPOm70ZepZpi/hDEInAsRGmQTo2h/qbIP8QZP6BuJWVElhr+UlY1/UNBqs8l08BAAA=
+Message-ID: <20230405-add-dsc-support-v4-1-15daf84f8dcb@quicinc.com>
+References: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
+In-Reply-To: <20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Marijn Suijten <marijn.suijten@somainline.org>
 X-Mailer: b4 0.13-dev-bfdf5
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684787438; l=3535;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684787438; l=1159;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=e6Fl0fdsd/cKcvWsiYtQZ3LOz/0x54V8DgWbX2TkeYA=;
- b=MFXYpjihrnAStLaSuYj96wxZPkzsRf4VWeHkM8KYlHyljroh5wPrmjTY4vGe56baUwKJj6Vn8
- DaNirYWcDKWBPKiXYh8AP7MfhzNEc5af3kL9MbDbabRBzg9Jy5KkYJ5
+ bh=O4fwebqw0hZk0HtxPHrQdfcePbHGcCiry7MxFu+pVeQ=;
+ b=Y03jQ54j5G4jD5FzIJx2BSh5ipYUTVQlBmsaQjieawffFKtNBR1tw3SW1dFRNYlQpj3/dmDkK
+ 5Bg1S2f59o7C9vm+0aMskdUDgKNKX9Qlq9SKrXIHmz75VpMibXhspn7
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -70,16 +68,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: EzLYt6cECu4ZwKwKzlk5J8NcTUtcX2qQ
-X-Proofpoint-GUID: EzLYt6cECu4ZwKwKzlk5J8NcTUtcX2qQ
+X-Proofpoint-GUID: aT2v6_vs8CMrDNTlc8_R9Gr9zbja4ldo
+X-Proofpoint-ORIG-GUID: aT2v6_vs8CMrDNTlc8_R9Gr9zbja4ldo
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-05-22_14,2023-05-22_03,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 impostorscore=0
+ bulkscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305220173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,86 +97,34 @@ Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a series of changes for DSI to enable command mode support
-for DSC v1.2.
+Currently, when compression is enabled, hdisplay is reduced via integer
+division. This causes issues for modes where the original hdisplay is
+not a multiple of 3.
 
-This includes:
+To fix this, use DIV_ROUND_UP to divide hdisplay.
 
-1) Rounding up `hdisplay / 3` in dsc_timing_setup()
-2) Adjusting pclk_rate to account for compression
-3) Fixing incorrect uses of slice_count in DSI DSC calculations
-4) Setting the DATA_COMPRESS bit when DSC is enabled
-
-With these changes (and the dependency below), DSC v1.2 should work over
-DSI in command mode.
-
-Note: Changes that add DSC v1.2 support for video mode will be posted
-with the DP support changes.
-
-Depends-on: "add DSC 1.2 dpu supports" [1] and "Introduce MSM-specific
-DSC helpers" [2]
-
-[1] https://patchwork.freedesktop.org/series/116789/
-[2] https://patchwork.freedesktop.org/series/115833/
-
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Suggested-by: Marijn Suijten <marijn.suijten@somainline.org>
+Fixes: 08802f515c3cf ("drm/msm/dsi: Add support for DSC configuration")
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
-Changes in v4:
-- Clarified slice_per_pkt comment regarding pkt_per_line calculations
-- Reworded commit message for "drm/msm/dsi: Remove incorrect references
-  to slice_count"
-- Wrapped INTF_SC7280_MASK macro definition in parentheses
-- Fixed incorrect commit hash in "msm/drm/dsi: Round up DSC hdisplay
-  calculation"
-- Picked up Reviewed-by tag
-- Link to v3: https://lore.kernel.org/r/20230405-add-dsc-support-v3-0-6e1d35a206b3@quicinc.com
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v3:
-- Added fix to round up hdisplay DSC adjustment
-- Fixed inconsistent whitespace in dpu_hw_intf_ops comment doc
-- Moved placement of dpu_hw_intf_enable_compression
-- Picked up "drm/msm/dsi: Fix calculation for pkt_per_line" patch and
-  squashed all slice_count fixes into a single patch
-- Use drm_mode_vrefresh() to calculate adjusted pclk rate
-- Moved compressed pclk adjustment to dsi_adjust_compressed_pclk() helper
-- Rebased changes on top of updated dependencies
-- Reworded commit message for "drm/msm/dpu: Set DATA_COMPRESS for
-  command mode" for clarity
-- Removed revision changelog in commit messages
-- Link to v2: https://lore.kernel.org/r/20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 9223d7ec5a73..18d38b90eb28 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -952,7 +952,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+ 		 * pulse width same
+ 		 */
+ 		h_total -= hdisplay;
+-		hdisplay = msm_dsc_get_bytes_per_line(msm_host->dsc) / 3;
++		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
+ 		h_total += hdisplay;
+ 		ha_end = ha_start + hdisplay;
+ 	}
 
-Changes in v2:
-- Changed has_data_compress dpu_cap to a DATA_COMPRESS INTF feature flag
-- Changed pclk math to only divide hdisplay by compression ratio
-- Reworded word count TODO comment
-- Make DATA_COMPRESS an INTF flag
-- Read INTF_CONFIG2 before writing to DATA_COMPRESS bit
-- Fixed whitespace issue in macro definition
-- Removed `inline` from dpu_hw_intf_enable_compression declaration
-- Only set dpu_hw_intf_ops.data_compress if DATA_COMPRESS feature is set
-- Reworded commit messages and cover letter for clarity
-- Link to v1: https://lore.kernel.org/r/20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com
-
----
-Jessica Zhang (5):
-      msm/drm/dsi: Round up DSC hdisplay calculation
-      drm/msm/dsi: Adjust pclk rate for compression
-      drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature flag
-      drm/msm/dpu: Set DATA_COMPRESS for command mode
-      drm/msm/dsi: Remove incorrect references to slice_count
-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  3 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 13 ++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  2 +
- drivers/gpu/drm/msm/dsi/dsi_host.c                 | 51 +++++++++++++++-------
- 6 files changed, 58 insertions(+), 16 deletions(-)
----
-base-commit: 2f0218fa4805d7c7eed8dc072e1bdf9f100492c7
-change-id: 20230405-add-dsc-support-fe130ba49841
-
-Best regards,
 -- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
+2.40.1
 
