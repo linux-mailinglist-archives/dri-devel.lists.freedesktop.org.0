@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AE870D6EC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:14:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D36070D6E0
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6787E10E407;
-	Tue, 23 May 2023 08:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9419B10E3F5;
+	Tue, 23 May 2023 08:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0401B10E29B
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 10:05:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD75710E2B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 10:25:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1684749914; bh=gBu7lz+oDUt/IwzcEB7fcSzmars/b45xG6tE1x+VUus=;
+ t=1684751114; bh=ZpVp+PlYNh4Srka41PWFXoYRzevT6MmLkXNeP5O8BhE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=J751M/8BEdo78Vp98AmBWcf9NvHoQ/Btar2GkjquttGn/GmLdifpIoXyY6yjgIbYF
- 1Njz5d9nYQOaxOngFs+gwZ9l4V2OJPsYu1UzxJtXLpo4OvMX6R9Ig1ndYZayI4q8SR
- mPF2uqDhb+kOSgm2zX1/jhozqy2tJ2AIOr0u36E8=
+ b=xKPMORLB3jzNYi2hBErRSYw0qWDeVov+peIRV9VQPiZMJdHE3D+sz3nyHFRb0o+zI
+ 4Hshv/zA/iW5IhHbbizMfout+BQEVfO/iDxdi6SCnHYLt6h+055iWg8fFzR/hYD3z+
+ JoEKh3Fj3nVcGG9jhdED2/5QtSJNI7eoPsqAPrio=
 Received: from [100.100.57.122] (unknown [58.34.185.106])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 63F96600A6;
- Mon, 22 May 2023 18:05:13 +0800 (CST)
-Message-ID: <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
-Date: Mon, 22 May 2023 18:05:12 +0800
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id EAA84600A6;
+ Mon, 22 May 2023 18:25:12 +0800 (CST)
+Message-ID: <0e5e4a4b-1426-ffae-e958-cf8f9aece166@xen0n.name>
+Date: Mon, 22 May 2023 18:25:12 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.11.0
@@ -45,8 +45,10 @@ References: <20230520105718.325819-1-15330273260@189.cn>
  <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
  <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
  <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
+ <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+ <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
 From: WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
+In-Reply-To: <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 23 May 2023 08:13:57 +0000
@@ -71,45 +73,67 @@ Cc: loongson-kernel@lists.loongnix.cn,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/5/22 17:49, Sui Jingfeng wrote:
+On 2023/5/22 18:17, Sui Jingfeng wrote:
 > Hi,
 > 
-> On 2023/5/22 17:28, WANG Xuerui wrote:
->> On 2023/5/22 17:25, Sui Jingfeng wrote:
+> On 2023/5/22 18:05, WANG Xuerui wrote:
+>> On 2023/5/22 17:49, Sui Jingfeng wrote:
 >>> Hi,
 >>>
->>> On 2023/5/21 20:21, WANG Xuerui wrote:
->>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with on-board 
->>>>> video RAM
->>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
->>>>> which share
->>>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
+>>> On 2023/5/22 17:28, WANG Xuerui wrote:
+>>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
+>>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
+>>>>>>> on-board video RAM
+>>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
+>>>>>>> which share
+>>>>>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
+>>>>>>
+>>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
+>>>>>> 3A4000/3A5000/3A6000".
+>>>>>>
+>>>>> Here is because when you do programming, variable name should 
+>>>>> prefix with letters.
 >>>>
->>>> CPU models are not typically prefixed with "LS", so "Loongson 
->>>> 3A4000/3A5000/3A6000".
+>>>> Commit messages, comments, and log messages etc. are natural 
+>>>> language, so it's better to treat them differently. No problem to 
+>>>> keep code as-is IMO.
 >>>>
->>> Here is because when you do programming, variable name should prefix 
->>> with letters.
+>>> Then you get two name for a single chip,  take  LS7A1000 as an example.
+>>>
+>>> You name it as Loongson 7A1000 in commit message,  and then you have 
+>>> to define another name in the code,  say LS7A1000.
+>>>
+>>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
+>>>
+>>> This also avoid bind the company name to a specific product, because 
+>>> a company can produce many product.
 >>
->> Commit messages, comments, and log messages etc. are natural language, 
->> so it's better to treat them differently. No problem to keep code 
->> as-is IMO.
+>> Nah, the existing convention is "LS7Xxxxx" for bridges and "Loongson 
+>> 3Axxxx" for CPUs (SoCs like 2K fall under this category too). It's 
+>> better to stick with existing practice so it would be familiar to 
+>> long-time Loongson/LoongArch developers, but I personally don't think 
+>> it will hamper understanding if you feel like doing otherwise.
 >>
-> Then you get two name for a single chip,  take  LS7A1000 as an example.
+> Can you explain why it is better?
 > 
-> You name it as Loongson 7A1000 in commit message,  and then you have to 
-> define another name in the code,  say LS7A1000.
-> 
-> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
-> 
-> This also avoid bind the company name to a specific product, because a 
-> company can produce many product.
+> is it that the already existing is better ?
 
-Nah, the existing convention is "LS7Xxxxx" for bridges and "Loongson 
-3Axxxx" for CPUs (SoCs like 2K fall under this category too). It's 
-better to stick with existing practice so it would be familiar to 
-long-time Loongson/LoongArch developers, but I personally don't think it 
-will hamper understanding if you feel like doing otherwise.
+It's not about subjective perception of "better" or "worse", but about 
+tree-wide consistency, and about reducing any potential confusion from 
+newcomers. I remember Huacai once pointing out that outsiders usually 
+have a hard time remembering "1, 2, and 3 are CPUs, some 2 are SoCs, 7 
+are bridge chips", and consistently referring to the bridge chips 
+throughout the tree as "LS7A" helped.
+
+In any case, for the sake of consistency, you can definitely refer to 
+the CPU models in natural language like "LS3Axxxx"; just make sure to 
+refactor for example every occurrence in arch/loongarch and other parts 
+of drivers/. That's a lot of churn, though, so I don't expect such 
+changes to get accepted, and that's why the tree-wide consistency should 
+be favored over the local one.
 
 -- 
 WANG "xen0n" Xuerui
