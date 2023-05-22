@@ -1,53 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FF470B929
-	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:37:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 272D470B92A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 May 2023 11:37:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 704D910E298;
-	Mon, 22 May 2023 09:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19EA910E29A;
+	Mon, 22 May 2023 09:37:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD8F10E297;
- Mon, 22 May 2023 09:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684748253; x=1716284253;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=WFvO+9FcvlRH0vg9/maiDOK1v6r6UcosEKsoxcaaaxg=;
- b=AR+eR1Ul6Lb/ua2g1PDZbb9vgNVCE5iX5ck9Jd7e2Q6XCASGB0Al/kNi
- iXoYGqdB273Cdlz1OIngnBW20MWX7uRNRwc5sPgX0Na/60V/F5BRihdhx
- aIxgrWSBzhHLRIcpYRETQ+sllyV5gjg3J+9CkNAXCAAZ3Iq8PSEg1u8Ib
- It7h48s6Kq4ALxjJy6IKISMw/1APB29Tk7fZNotlRE+y1ZojdOh8g5aFX
- XOx0ZBCcZqnIOGK5Ik158k3aQl9Hul3e2Rg1+NWdhYaJ21c7UGl3OfZyK
- BpBGkxYkG1i3evCFElyNHmcOOdTzhO17l6dfcZx+KrH77Jmfeo0fyyOLt Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="416336686"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="416336686"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 02:37:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="847777256"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; d="scan'208";a="847777256"
-Received: from andreipo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.228])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 02:37:28 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v12 1/9] drm/display/dsc: Add flatness and initial scale
- value calculations
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v12-1-9cdb7401f614@quicinc.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230329-rfc-msm-dsc-helper-v12-0-9cdb7401f614@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v12-1-9cdb7401f614@quicinc.com>
-Date: Mon, 22 May 2023 12:37:26 +0300
-Message-ID: <875y8kogfd.fsf@intel.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3BBE10E299
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 09:37:35 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1q11yt-0007Y3-RF; Mon, 22 May 2023 11:37:31 +0200
+Message-ID: <d1aee7d3-05f6-0920-b8e1-4ed5cf3f9f70@leemhuis.info>
+Date: Mon, 22 May 2023 11:37:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] drm/ofdrm: Update expected device name
+Content-Language: en-US, de-DE
+To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Cyril Brulebois <cyril@debamax.com>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-3-cyril@debamax.com>
+ <CAMuHMdW4rZn4p=gQZRWQQSEbQPmzZUd5eN+kP_Yr7bLgTHyvig@mail.gmail.com>
+ <5694a9ab-d474-c101-9398-eea55aab29df@suse.de>
+ <10077a22-3055-75dd-2168-310468618f99@gmx.de>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <10077a22-3055-75dd-2168-310468618f99@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1684748255;
+ a0bec253; 
+X-HE-SMSGID: 1q11yt-0007Y3-RF
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,50 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: linux-fbdev@vger.kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michal Suchanek <msuchanek@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 May 2023, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> Add helpers to calculate det_thresh_flatness and initial_scale_value as
-> these calculations are defined within the DSC spec.
->
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  include/drm/display/drm_dsc_helper.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-> index fc2104415dcb..753b0034eda7 100644
-> --- a/include/drm/display/drm_dsc_helper.h
-> +++ b/include/drm/display/drm_dsc_helper.h
-> @@ -25,5 +25,15 @@ void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
->  int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_type type);
->  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
->  
-> +static inline u8 drm_dsc_initial_scale_value(const struct drm_dsc_config *dsc)
-> +{
-> +	return 8 * dsc->rc_model_size / (dsc->rc_model_size - dsc->initial_offset);
-> +}
-> +
-> +static inline u32 drm_dsc_flatness_det_thresh(const struct drm_dsc_config *dsc)
-> +{
-> +	return 2 << (dsc->bits_per_component - 8);
-> +}
+Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+for once, to make this easily accessible to everyone.
 
-kernel-doc? Maybe make them regular functions instead of static inline?
+Was a proper solution for the regression the initial mail in this thread
+is about ever found? Doesn't look like it for here, but maybe I'm
+missing something.
 
-BR,
-Jani.
+Reminder, the problem afaik is caused by 241d2fb56a ("of: Make OF
+framebuffer device names unique") [merged for v6.2-rc8, authored by
+Michal Suchanek; committed by Rob Herring].
 
-> +
->  #endif /* _DRM_DSC_HELPER_H_ */
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+#regzbot poke
+
+On 24.04.23 11:35, Helge Deller wrote:
+> On 4/24/23 11:07, Thomas Zimmermann wrote:
+>> Am 24.04.23 um 09:33 schrieb Geert Uytterhoeven:
+>>> On Wed, Apr 12, 2023 at 12:05 PM Cyril Brulebois <cyril@debamax.com>
+>>> wrote:
+>>>> Since commit 241d2fb56a18 ("of: Make OF framebuffer device names
+>>>> unique"),
+>>>> as spotted by Frédéric Bonnard, the historical "of-display" device is
+>>>> gone: the updated logic creates "of-display.0" instead, then as many
+>>>> "of-display.N" as required.
+>>>>
+>>>> This means that offb no longer finds the expected device, which
+>>>> prevents
+>>>> the Debian Installer from setting up its interface, at least on
+>>>> ppc64el.
+>>>>
+>>>> Given the code similarity it is likely to affect ofdrm in the same way.
+>>>>
+>>>> It might be better to iterate on all possible nodes, but updating the
+>>>> hardcoded device from "of-display" to "of-display.0" is likely to help
+>>>> as a first step.
+>>>>
+>>>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217328
+>>>> Link: https://bugs.debian.org/1033058
+>>>> Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
+>>>> Cc: stable@vger.kernel.org # v6.2+
+>>>> Signed-off-by: Cyril Brulebois <cyril@debamax.com>
+>>>
+>>> Thanks for your patch, which is now commit 3a9d8ea2539ebebd
+>>> ("drm/ofdrm: Update expected device name") in fbdev/for-next.
+>>>
+>>>> --- a/drivers/gpu/drm/tiny/ofdrm.c
+>>>> +++ b/drivers/gpu/drm/tiny/ofdrm.c
+>>>> @@ -1390,7 +1390,7 @@ MODULE_DEVICE_TABLE(of, ofdrm_of_match_display);
+>>>>
+>>>>   static struct platform_driver ofdrm_platform_driver = {
+>>>>          .driver = {
+>>>> -               .name = "of-display",
+>>>> +               .name = "of-display.0",
+>>>>                  .of_match_table = ofdrm_of_match_display,
+>>>>          },
+>>>>          .probe = ofdrm_probe,
+>>>
+>>> Same comment as for "[PATCH 1/2] fbdev/offb: Update expected device
+>>> name".
+>>>
+>>> https://lore.kernel.org/r/CAMuHMdVGEeAsmb4tAuuqqGJ-4+BBETwEwYJA+M9NyJv0BJ_hNg@mail.gmail.com
+>>
+>> Sorry that I missed this patch. I agree that it's probably not
+>> correct. At least in ofdrm, we want to be able to use multiple
+>> framebuffers at the same time; a feature that has been broken by this
+>> change.
+> 
+> Geert & Thomas, thanks for the review!
+> 
+> I've dropped both patches from fbdev tree for now.
+> Would be great to find another good solution though, as it breaks the
+> debian
+> installer.
+> 
+> Helge
