@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD0670DC2D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:15:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A20AB70DC32
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A5A10E447;
-	Tue, 23 May 2023 12:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C288510E44A;
+	Tue, 23 May 2023 12:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5076E10E436
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:15:09 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f3af4295ddso4865959e87.2
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1715110E440
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:15:10 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4f4ba3e0b98so1061614e87.2
  for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684844107; x=1687436107;
+ d=linaro.org; s=google; t=1684844108; x=1687436108;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kMftiAUxeR8BPoZkZvXeNvb1WLgqdhL6DsPjfLjpExg=;
- b=ETX+jpQh1MkS/oEmbkm1RFkjIuPTjVkoKZKMQyqb44Ujy6MPxqvuFFRR5Ozv1N0fPL
- IyRB8EvrCQUBDzkstsPROcFAYQ7O6UofNHKb4BgRFu8BpUTjlKD5eVx0dhx3mVAHQr+e
- ozCd+EVp6H33iBFNoDaAnD5i2WIfckcUzBL91i4FYMXFEn7vvogAnsjs9zn53E/hJkK3
- LElwG+XWm/cAFZrLhqcdOPkbMVV/f7Z65RHR/MDV4Mm2ULcy2ilkir4TjCbvjfiTc8iB
- BnpqO61RlUfjK6tn/iGB7tqivbti3PaXHqJ4yeetkBiZ9/Exc43+iHe9sV9rqRdhlFe8
- Px/A==
+ bh=enSUc5wVEHF7eZy9e0DAWbElAzfosEhYHkkqQR9evEU=;
+ b=cLSxKqmrFivha60kjqdkAq/2GXt9zXw+KGWMkRMtnGfSoqc+rEbGIY9SPFp3raR+tL
+ Fvve4+1DQYi2PZ2Uk+JYU1ZJHEpz7EtzCFXCqQ4nutMAoROslrRjO/0UMoGpS3F3PoLF
+ b66oDK+O3wB+Kad+4bZv7mmK5nHfbLakmzppjNLiji1FtxYNYvhmsFa41D5FrKjbmdOp
+ rGkgZ1zXw6baayCE5w1FciCQFkd3PAedqX2dE/XVUQBO6CdcCCjqBs+KpHQtjGAiY/44
+ fX8XjppzEo8N+XyYR0YxjjNW/xd/cvw3Ha1RuV9t1+FNXekSLqTGUystJEhzUatiIUt+
+ HICw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684844107; x=1687436107;
+ d=1e100.net; s=20221208; t=1684844108; x=1687436108;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kMftiAUxeR8BPoZkZvXeNvb1WLgqdhL6DsPjfLjpExg=;
- b=COoJywzw56GybO/I3TDLeA+VnpBiBPzQRscL+ir1hmM8Rtl/WtKcJxWt/7OPdAhPe2
- JFJO5vnWI5QYiQFW1HxO//+/B8TXdNvERVew/Q5mN2lptDb3beXgeXs/sgmdX/5LrUZt
- YMc5Owbl/OACUXyQ5jcL40Th8qxh6HlpD6y05vUTYxdjD4GHnuS6oPewyXlaGjHCeodh
- 4XJb9UJ5ENJD+pSNwpjLmU4M9KGYSNVXNf8KCrHfblT1J+vTvJWbWoeTb7u8QiI2bOdm
- VbA4m+wLQck1pwoZhL4AUjaqReTdElDgekTR1XFfsqyHYZy7qRWPH/oQKKiP1focCxCp
- eVkg==
-X-Gm-Message-State: AC+VfDzD2uaQEzpQFyeSxRlWoypuEhURWqihj0c/KbOMMUdUGTPg4urc
- nT9Ku6QgIbI8MNn+Vfm6skDbWw==
-X-Google-Smtp-Source: ACHHUZ43GR6mi7FCfEihpvwLYVmk40w1hC6t0c87laL1uoecXBbBd/pseUpVwOps9C9xtYnTi/b2Gw==
-X-Received: by 2002:ac2:5fae:0:b0:4ed:b4f9:28c7 with SMTP id
- s14-20020ac25fae000000b004edb4f928c7mr4155100lfe.6.1684844107381; 
- Tue, 23 May 2023 05:15:07 -0700 (PDT)
+ bh=enSUc5wVEHF7eZy9e0DAWbElAzfosEhYHkkqQR9evEU=;
+ b=hjRAOMeOCOPZ0AQBSbxe5saVEXuhPT7YsdEgozc8KEYCj7DzGJYiIrDsp8onhRqaef
+ tFzk0k6ORxhEPpPn2k9mGX6op3ZzWnxzkCxANZrFrEmuvCXwvnj68ArA8osrbpWb7FYf
+ KedzO5Qo7ktY89leWck5WRB1mvyZgma/tTOokxZwmvVm01tWl+cYz9T5fp3UCPz6rjh2
+ lzrh41UDQ2sLDc5OViMI5N0EmgNghuTdCtd93/gsHzVa4lVkOi2rOeUAA6MxJ50xprhR
+ +n1Jhfc5o4kJkwgaSulH3q520nKpmDxyZ3R1Znp6iezJOt0nxF9+LsIadDnQrocmHG6O
+ rJTw==
+X-Gm-Message-State: AC+VfDxlZhyYDflQDAYayTD91pI0+V2wszxB1UZgho8LU5MLZ9eSunII
+ CzX6gWp31bCtUnUxeFlu4WzOLQ==
+X-Google-Smtp-Source: ACHHUZ5WxYFiA0x3xgvZXvUWQdi/r/0i5DuVqgDFMuE7nU4AygQeYTf069U5/4/emwtjx39IRyOE/A==
+X-Received: by 2002:a19:7003:0:b0:4f3:a99f:1ea3 with SMTP id
+ h3-20020a197003000000b004f3a99f1ea3mr4008960lfc.32.1684844108297; 
+ Tue, 23 May 2023 05:15:08 -0700 (PDT)
 Received: from eriador.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- c26-20020ac2531a000000b004f160559d4asm1319616lfh.183.2023.05.23.05.15.06
+ c26-20020ac2531a000000b004f160559d4asm1319616lfh.183.2023.05.23.05.15.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 23 May 2023 05:15:07 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -55,9 +55,10 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
-Subject: [PATCH 12/15] drm/msm/hdmi: set infoframes on all pre_enable calls
-Date: Tue, 23 May 2023 15:14:51 +0300
-Message-Id: <20230523121454.3460634-13-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 13/15] drm/msm/hdmi: pair msm_hdmi_phy_powerup with
+ msm_hdmi_phy_powerdown
+Date: Tue, 23 May 2023 15:14:52 +0300
+Message-Id: <20230523121454.3460634-14-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230523121454.3460634-1-dmitry.baryshkov@linaro.org>
 References: <20230523121454.3460634-1-dmitry.baryshkov@linaro.org>
@@ -82,36 +83,53 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In consequent modeset calls, the atomic_pre_enable() will be called
-several times without calling atomic_post_disable() inbetween. Thus
-iframes will not be updated for the next mode. Fix this by setting the
-iframe outside of the !power_on check.
+In preparation to converting MSM HDMI driver to use PHY framework, which
+requires phy_power_on() calls to be paired with phy_power_off(), add a
+conditional call to msm_hdmi_phy_powerdown() before the call to
+msm_hdmi_phy_powerup().
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.h        | 1 +
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 5 +++++
+ 2 files changed, 6 insertions(+)
 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+index 2d405da63bd0..46ae7ef9bc98 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.h
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+@@ -42,6 +42,7 @@ struct hdmi {
+ 
+ 	/* video state: */
+ 	bool power_on;
++	bool phy_power_on;
+ 	unsigned long int pixclock;
+ 
+ 	void __iomem *mmio;
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index f9293f7d8f34..bb10b35194ff 100644
+index bb10b35194ff..1bbd76e595af 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -141,10 +141,11 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 		msm_hdmi_phy_resource_enable(phy);
- 		msm_hdmi_power_on(bridge);
- 		hdmi->power_on = true;
--		if (hdmi->hdmi_mode) {
--			msm_hdmi_config_avi_infoframe(hdmi);
--			msm_hdmi_audio_update(hdmi);
--		}
-+	}
-+
-+	if (hdmi->hdmi_mode) {
-+		msm_hdmi_config_avi_infoframe(hdmi);
-+		msm_hdmi_audio_update(hdmi);
+@@ -148,7 +148,11 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 		msm_hdmi_audio_update(hdmi);
  	}
  
++	if (hdmi->phy_power_on)
++		msm_hdmi_phy_powerdown(phy);
++
  	msm_hdmi_phy_powerup(phy, hdmi->pixclock);
++	hdmi->phy_power_on = true;
+ 
+ 	msm_hdmi_set_mode(hdmi, true);
+ 
+@@ -170,6 +174,7 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 	msm_hdmi_set_mode(hdmi, false);
+ 
+ 	msm_hdmi_phy_powerdown(phy);
++	hdmi->phy_power_on = false;
+ 
+ 	if (hdmi->power_on) {
+ 		power_off(bridge);
 -- 
 2.39.2
 
