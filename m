@@ -1,64 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EFD70E550
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:23:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F9A70E568
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF4710E012;
-	Tue, 23 May 2023 19:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4770610E4A8;
+	Tue, 23 May 2023 19:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD7B10E012
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:23:33 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-561b7729a12so75742607b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:23:33 -0700 (PDT)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44C1710E4A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:31:09 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id
+ d9443c01a7336-1ae763f9c0bso275215ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684869812; x=1687461812;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=73sPqfTcyZtojDKaauDzGux/K4lPFkochPRB3T3m4c4=;
- b=MXT5Wwc/r/cnG0/CzuMwe4xv9aci8F88e2rKxFLTGkYWKktW0bdDwChp7bUCzk++lP
- ggCeYEb32k4bsoEtzhINii8b8ZyhxpcqFEOi9G1NZzNXl2afTlZjqcIXOTcvc0GS3PLZ
- aPsa74up78M27jV/ousMs5AUlcKk1ERVaaimXsZCeydng9GYVnUskQ5yMbu+X5tMNfWk
- 2YK+L2uDOP9LEFgumXBIYI855r0xAb1PUwgnPKATRKZi2pH2zdrUsCdUg7zS1PJNwVxZ
- TshwsnQUpE/LTAR4LFYxBiexENHOntw5LKu7oZ4NaGNcY5tVmDjQL1bH5h+ChVJdtcl3
- 1Oew==
+ d=chromium.org; s=google; t=1684870268; x=1687462268;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=da7xHElmRhs7yLWfdeHx4hSBX9WK1oPzedpFeX43g5E=;
+ b=LzUeez59b5Pg0Ump+sB4OM8jCT2gUu+L3cHDGuYq6KxKNdbWzzUcYfIjiAl9CHb7/y
+ Zd/xCwCoNFjhdzyDFQL7kt91TMpOZffzujd6HC05iDlXlLzNfOfWBkCHqD6ablJniuG1
+ PQBLx18VMf6dlXe/RbYmWDRnV0qm5puEiOYyw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684869812; x=1687461812;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1684870268; x=1687462268;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=73sPqfTcyZtojDKaauDzGux/K4lPFkochPRB3T3m4c4=;
- b=aBFrAunDDEVsRfxThncKnBW5jGy1W4jIa8cA49CeHdY/EBqtgf2qpTxI+9MPBDBJhb
- 4mvfybLaOKoz6XmLoGJ4QHDzs74V43p1EQzP4KywSDD8sFRGtQkJPsu9IYI1iFOPCMRp
- fL5ixTFADAUGiECyTid4a0GxmwwZGabmB/2OBOsAcF1Q3WbQ9KoZIc37CSXcnxwNKnKv
- fCdJXzSOzZVtOExNSWYGt5E64gwVlMAdqs2htGngG4C7mAWAjqcKWd9sjwZzMuNyPWNI
- jTs7CHfr9YqzEUKbpaaGibflFKr4e61s35OEr/BVmPpjD4PyQG64em5iY1hIz9uP5xQy
- xqfQ==
-X-Gm-Message-State: AC+VfDxdlO6XaMH0KKFdtXsSaPvVyBF8H6B2cJery6SpfzVC5ZIlpADX
- iAxqUbwPkmZEYtPG1Td8qI0PEtCyHFn2WG2OGgmsoQ==
-X-Google-Smtp-Source: ACHHUZ53NFcpER0X5ytxRDrWS9Je0b0e9mlg/Nh8HnDOBA1RvHbCTT3Vsi7IL3Bnv05mGvV9/LP+l+vZ/ddFRnwdoQI=
-X-Received: by 2002:a81:48cc:0:b0:55a:416d:5202 with SMTP id
- v195-20020a8148cc000000b0055a416d5202mr15375329ywa.26.1684869812171; Tue, 23
- May 2023 12:23:32 -0700 (PDT)
+ bh=da7xHElmRhs7yLWfdeHx4hSBX9WK1oPzedpFeX43g5E=;
+ b=EDhSnXIagE+bXZztZS2BojHhqInYVY8C7yMdEspzoY8seN1TCNRyta7j9oI2o9XZHI
+ aec4hPL3zxSxe8nQOhiyLSrL1hDfqPIbqg13wUcBNvRJURAwGErvz42Yrlfdv8bKNFyv
+ 1hZM/F93cFWahcU8QCSI+I9uYlD38ZE9vUlDHj2BOAAqGLYgyKjaYU4/Y1bT79nZnnS0
+ ZD7ljtVxtmeeUvI4dkw8E2yczEpuQHySDxVioWPq6yJyMeTPuXPsCSSAkMgEWJ/q36jr
+ b+t+xg88VRqDTmyM+nI0/AcUNZrZbTLYgL42JEbMetZbJBwiMAcmiwb3mRoXzFIpWl+D
+ ezVw==
+X-Gm-Message-State: AC+VfDwLh7s2pyYvkYEiwB2qEYt3WFIpawF6k0ccXR2aBY8eRjFcSL6Q
+ YE4FHnZfdu+Iy9a6HOra14m1mA==
+X-Google-Smtp-Source: ACHHUZ4/GhcYkmDFF4G/tiyzD+WQyx75cWfu4Fa2ANvrz/NLC/goHxpAkTJKe2ReitBreL7vc+KZpA==
+X-Received: by 2002:a17:902:c151:b0:1aa:cf25:41d0 with SMTP id
+ 17-20020a170902c15100b001aacf2541d0mr14164593plj.33.1684870268211; 
+ Tue, 23 May 2023 12:31:08 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:9d:2:af98:af9d:ed15:f8b3])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a170902b49200b001aaef9d0102sm7109947plr.197.2023.05.23.12.31.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 May 2023 12:31:07 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/9] drm/panel and i2c-hid: Allow panels and touchscreens to
+ power sequence together
+Date: Tue, 23 May 2023 12:27:54 -0700
+Message-ID: <20230523193017.4109557-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
 MIME-Version: 1.0
-References: <20230519023855.3840907-1-dmitry.baryshkov@linaro.org>
- <557a8aee-37b9-5654-c82c-97206576ab44@quicinc.com>
- <CAA8EJpp+ODZZu13ehAN-9Ehz87HCdXsXvO3DQ-oxAhKcb2rqtA@mail.gmail.com>
- <af7ab667-1be4-7391-d0a9-6f9e7439eb6d@linaro.org>
- <b0be5965-0dc9-c33c-9cba-21bfa82c4faf@linaro.org>
- <249baf98-5264-b2cb-4213-5bcd00a670c9@quicinc.com>
-In-Reply-To: <249baf98-5264-b2cb-4213-5bcd00a670c9@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 23 May 2023 22:23:21 +0300
-Message-ID: <CAA8EJpp4m85ubkfs7erLVxydHi_S7Xp7neNjh22z=tMnvrWsQA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 0/7] drm/msm/dpu: simplify DPU encoder init
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,100 +78,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ linux-input@vger.kernel.org, hsinyi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 May 2023 at 22:14, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 5/23/2023 7:36 AM, Dmitry Baryshkov wrote:
-> > On 23/05/2023 10:31, Neil Armstrong wrote:
-> >> On 23/05/2023 09:20, Dmitry Baryshkov wrote:
-> >>> On Tue, 23 May 2023 at 04:58, Abhinav Kumar
-> >>> <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 5/18/2023 7:38 PM, Dmitry Baryshkov wrote:
-> >>>>> Rework dpu_encoder initialization code, simplifying calling sequences
-> >>>>> and separating common init parts.
-> >>>>>
-> >>>>> Changes since v1:
-> >>>>> - Withdrawn two pathes for a later consideration
-> >>>>> - Changed dpu_encoder_phys_init() to return void (Abhinav)
-> >>>>> - Added small simplifications of dpu_encoder_phys_cmd_init() and
-> >>>>>     dpu_encoder_phys_wb_init()
-> >>>>>
-> >>>>
-> >>>> I had previously given these comments on the cover letter of v1, so
-> >>>> giving it again.
-> >>>>
-> >>>> Please mention that your series was made on top of
-> >>>> https://patchwork.freedesktop.org/series/116530/.
-> >>>>
-> >>>> Figured it out when I tried to apply it to my branch to test.
-> >>>>
-> >>>> I had tested v1, and between v1 and v2 i only see very trivial change,
-> >>>> so i think its okay to retain:
-> >>>>
-> >>>> Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
-> >>>
-> >>> Unfortunately patchwork ignores tags sent in the cover letter thread.
-> >>
-> >> But b4 does with -t option to b4 shazam or b4 am
-> >
-> > Yes. But b4 doesn't append Patchwork headers.
-> >
->
-> If thats the case, either the author can add them to the patches
-> manually like we do sometimes for R-b tags OR I will go ahead and add it
-> one by one for every patch now.
 
-I'd prefer either to have a single T-B on the latest patch on the
-series, or a pile of replies with T-B tags. Thank you (for the testing
-and for providing the feedback).
-If we ever switch from git-pw to b4, this requirement will be lifted.
+The big motivation for this patch series is mostly described in the patch
+("drm/panel: Add a way for other devices to follow panel state"), but to
+quickly summarize here: for touchscreens that are connected to a panel we
+need the ability to power sequence the two device together. This is not a
+new need, but so far we've managed to get by through a combination of
+inefficiency, added costs, or perhaps just a little bit of brokenness.
+It's time to do better. This patch series allows us to do better.
 
->
-> Let me know what you prefer.
->
-> >>
-> >> Neil
-> >>
-> >>>
-> >>>>
-> >>>>> Dmitry Baryshkov (7):
-> >>>>>     drm/msm/dpu: merge dpu_encoder_init() and dpu_encoder_setup()
-> >>>>>     drm/msm/dpu: separate common function to init physical encoder
-> >>>>>     drm/msm/dpu: drop duplicated intf/wb indices from encoder structs
-> >>>>>     drm/msm/dpu: inline dpu_encoder_get_wb()
-> >>>>>     drm/msm/dpu: call dpu_rm_get_intf() from dpu_encoder_get_intf()
-> >>>>>     drm/msm/dpu: drop temp variable from dpu_encoder_phys_cmd_init()
-> >>>>>     drm/msm/dpu: simplify dpu_encoder_phys_wb_init()
-> >>>>>
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 178
-> >>>>> ++++++++----------
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  14 +-
-> >>>>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  15 +-
-> >>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  35 ++--
-> >>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  19 +-
-> >>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  35 +---
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  87 ++++-----
-> >>>>>    7 files changed, 140 insertions(+), 243 deletions(-)
-> >>>>>
-> >>>
-> >>>
-> >>>
-> >>
-> >
+Assuming that people think this patch series looks OK, we'll have to
+figure out the right way to land it. The panel patches and i2c-hid
+patches will go through very different trees and so either we'll need
+an Ack from one side or the other or someone to create a tag for the
+other tree to pull in. This will _probably_ require the true drm-misc
+maintainers to get involved, not a lowly committer. ;-)
 
 
+Douglas Anderson (9):
+  dt-bindings: HID: i2c-hid: Add "panel" property to i2c-hid backed
+    panels
+  drm/panel: Check for already prepared/enabled in drm_panel
+  drm/panel: Add a way for other devices to follow panel state
+  HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+  HID: i2c-hid: Rearrange probe() to power things up later
+  HID: i2c-hid: Make suspend and resume into helper functions
+  HID: i2c-hid: Support being a panel follower
+  HID: i2c-hid: Do panel follower work on the system_wq
+  arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
+
+ .../bindings/input/elan,ekth6915.yaml         |   6 +
+ .../bindings/input/goodix,gt7375p.yaml        |   6 +
+ .../bindings/input/hid-over-i2c.yaml          |   6 +
+ .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   1 +
+ .../dts/qcom/sc7180-trogdor-homestar.dtsi     |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   1 +
+ .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   1 +
+ .../qcom/sc7180-trogdor-quackingstick.dtsi    |   1 +
+ .../dts/qcom/sc7180-trogdor-wormdingler.dtsi  |   1 +
+ drivers/gpu/drm/drm_panel.c                   | 194 +++++++++-
+ drivers/hid/i2c-hid/i2c-hid-core.c            | 330 +++++++++++++-----
+ include/drm/drm_panel.h                       |  89 +++++
+ 12 files changed, 542 insertions(+), 95 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.40.1.698.g37aff9b760-goog
+
