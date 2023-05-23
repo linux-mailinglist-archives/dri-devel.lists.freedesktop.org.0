@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725FB70E8F7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:16:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F13AE70E8DA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E39B210E50F;
-	Tue, 23 May 2023 22:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFC310E51D;
+	Tue, 23 May 2023 22:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E76110E51A;
- Tue, 23 May 2023 22:15:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1EFC10E51B;
+ Tue, 23 May 2023 22:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=wVVCA15czvVkx5reO8SZXQtXiIa7amKsBMdm5Yn1wvk=; b=cWI1oGMjH7MOK3M3Jrp0K829UT
- P1lXtmtVXzVXyICjN0L3tOk3xqnIjM6uLqWDm0l19whW5zxyWMIhb0c9hh1JjTY9UXyIH4G5M+E4L
- S2bAxtQb/DdVlTvAKOKhzr4lNu3EuKfbITtngysjFqkgXvGaHt2RGzYHDeX0lG3uyXcDd8QE5Jg26
- azm7kdEB9+ZyISsyVrjXKHj/pCDD3hnQJnEjXVpWlZhh7aH4AKEFEiALrvGiiqrxUKXCQ1VEGRbRq
- BlQFwi3jDq6WognyZOTHMCfyt95I3a5SjABn7/ahf2ShmTykjxeNgVcSNRzDxBCer5UYjOUAz+drx
- E3K3P0Jg==;
+ bh=e+rWMT3cwEckRxaa1fRAT6sfqiG/XJriC6djQ+c3y7U=; b=kDOWVI/E1k6G7dHJuHW0lBgo75
+ Pid2CARB8LxnH7ugJ83r4eOj41lhy0y6AyFO4nGmlo7qJiGYRcE7lwXAYfKWLYEPg/lT28E0plRl9
+ 3f2ECTJrmMB+s7/R6xZJc9dG8+eqrDltCZNmpaowXdNAJsBnb/SonZujuchfgK97alhG5Gy5BFdm2
+ 0ai4qb9h47V7IRntj/jmGchflQQpkB9jDJ/q4sJ3L/xBrqD3FQ461mtSJFioH/zaknTkF/qr3RA73
+ xiO0FsGI85bkPTL7187zSQVlw93KR7UNFiE8RubK82UOIYbP2s6tCad6ssqgsdlW/HHdBZtd8KsVJ
+ TQEnkgbw==;
 Received: from [38.44.72.37] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1q1aIP-00HEOv-31; Wed, 24 May 2023 00:15:57 +0200
+ id 1q1aIQ-00HEOv-KO; Wed, 24 May 2023 00:15:58 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH 22/36] drm/amd/display: add CRTC shaper LUT support
-Date: Tue, 23 May 2023 21:15:06 -0100
-Message-Id: <20230523221520.3115570-23-mwen@igalia.com>
+Subject: [PATCH 23/36] drm/amd/display: add CRTC regamma TF support
+Date: Tue, 23 May 2023 21:15:07 -0100
+Message-Id: <20230523221520.3115570-24-mwen@igalia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230523221520.3115570-1-mwen@igalia.com>
 References: <20230523221520.3115570-1-mwen@igalia.com>
@@ -64,146 +64,152 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Map DC shaper LUT to DM CRTC color management. Shaper LUT can be used to
-delinearize and/or normalize the color space for computational
-efficiency and achiving specific visual styles. Blending usually occurs
-in linear space and if a CRTC degamma 1D LUT is set to linearize the
-color space, a custom shaper 1D LUT can be used just before applying 3D
-LUT.
+From: Joshua Ashton <joshua@froggi.es>
 
+Add predefined transfer function programming. There is no out gamma ROM,
+but we can use AMD color modules to program LUT parameters from a
+predefined TF and an empty regamma LUT (or bump up LUT parameters with
+predefined TF setup).
+
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  7 +++
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 54 ++++++++++++++-----
- 2 files changed, 47 insertions(+), 14 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 58 ++++++++++++++-----
+ 1 file changed, 42 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index eebe12c353ad..ea76c2957848 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -803,6 +803,13 @@ struct dm_crtc_state {
- 	 * has a larger set of post-blending color calibration. Here, DC MPC
- 	 * color caps are wired up to DM CRTC state:
- 	 */
-+	/**
-+	 * @shaper_lut:
-+	 *
-+	 * Post-blending 1D Lookup table used to de-linearize pixel data for 3D
-+	 * LUT. The blob (if not NULL) is an array of &struct drm_color_lut.
-+	 */
-+	struct drm_property_blob *shaper_lut;
- 	/**
- 	 * @lut3d:
- 	 *
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index cef8d0d7f37b..934636d7b8d3 100644
+index 934636d7b8d3..146363363ef0 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -443,15 +443,26 @@ static void amdgpu_dm_atomic_lut3d(const struct drm_color_lut *drm_lut,
+@@ -268,16 +268,18 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 	struct calculate_buffer cal_buffer = {0};
+ 	bool res;
+ 
+-	ASSERT(lut && lut_size == MAX_COLOR_LUT_ENTRIES);
+-
+ 	cal_buffer.buffer_index = -1;
+ 
+-	gamma = dc_create_gamma();
+-	if (!gamma)
+-		return -ENOMEM;
++	if (lut_size) {
++		ASSERT(lut && lut_size == MAX_COLOR_LUT_ENTRIES);
+ 
+-	gamma->num_entries = lut_size;
+-	__drm_lut_to_dc_gamma(lut, gamma, false);
++		gamma = dc_create_gamma();
++		if (!gamma)
++			return -ENOMEM;
++
++		gamma->num_entries = lut_size;
++		__drm_lut_to_dc_gamma(lut, gamma, false);
++	}
+ 
+ 	if (func->tf == TRANSFER_FUNCTION_LINEAR) {
+ 		/*
+@@ -285,32 +287,36 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 		 * on top of a linear input. But degamma params can be used
+ 		 * instead to simulate this.
+ 		 */
+-		gamma->type = GAMMA_CUSTOM;
++		if (gamma)
++			gamma->type = GAMMA_CUSTOM;
+ 		res = mod_color_calculate_degamma_params(NULL, func,
+-							gamma, true);
++							 gamma, gamma != NULL);
+ 	} else {
+ 		/*
+ 		 * Assume sRGB. The actual mapping will depend on whether the
+ 		 * input was legacy or not.
+ 		 */
+-		gamma->type = GAMMA_CS_TFM_1D;
+-		res = mod_color_calculate_regamma_params(func, gamma, false,
++		if (gamma)
++			gamma->type = GAMMA_CS_TFM_1D;
++		res = mod_color_calculate_regamma_params(func, gamma, gamma != NULL,
+ 							 has_rom, NULL, &cal_buffer);
  	}
+ 
+-	dc_gamma_release(&gamma);
++	if (gamma)
++		dc_gamma_release(&gamma);
+ 
+ 	return res ? 0 : -ENOMEM;
  }
  
--static int amdgpu_dm_atomic_shaper_lut(struct dc_transfer_func *func_shaper)
-+static int amdgpu_dm_atomic_shaper_lut(const struct drm_color_lut *shaper_lut,
-+				       uint32_t shaper_size,
-+				       struct dc_transfer_func *func_shaper)
+ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+ 					const struct drm_color_lut *regamma_lut,
+-					uint32_t regamma_size, bool has_rom)
++					uint32_t regamma_size, bool has_rom,
++					enum dc_transfer_func_predefined tf)
  {
--	/* We don't get DRM shaper LUT yet. We assume the input color space is already
--	 * delinearized, so we don't need a shaper LUT and we can just BYPASS
--	 */
--	func_shaper->type = TF_TYPE_BYPASS;
--	func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
-+	int ret = 0;
+ 	struct dc_transfer_func *out_tf = stream->out_transfer_func;
+ 	int ret = 0;
  
--	return 0;
-+	if (shaper_size) {
-+		/* If DRM shaper LUT is set, we assume a linear color space
-+		 * (linearized by DRM degamma 1D LUT or not)
-+		 */
-+		func_shaper->type = TF_TYPE_DISTRIBUTED_POINTS;
-+		func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
-+
-+		ret = __set_output_tf(func_shaper, shaper_lut, shaper_size, false);
-+	} else {
-+		func_shaper->type = TF_TYPE_BYPASS;
-+		func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
-+	}
-+
-+	return ret;
+-	if (regamma_size) {
++	if (regamma_size || tf != TRANSFER_FUNCTION_LINEAR) {
+ 		/* CRTC RGM goes into RGM LUT.
+ 		 *
+ 		 * Note: there is no implicit sRGB regamma here. We are using
+@@ -318,7 +324,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+ 		 * from a linear base.
+ 		 */
+ 		out_tf->type = TF_TYPE_DISTRIBUTED_POINTS;
+-		out_tf->tf = TRANSFER_FUNCTION_LINEAR;
++		out_tf->tf = tf;
+ 
+ 		ret = __set_output_tf(out_tf, regamma_lut, regamma_size, has_rom);
+ 	} else {
+@@ -364,6 +370,24 @@ static int __set_input_tf(struct dc_transfer_func *func,
+ 	return res ? 0 : -ENOMEM;
  }
  
- /* amdgpu_dm_atomic_shaper_lut3d - set DRM CRTC shaper LUT and 3D LUT to DC
-@@ -499,7 +510,8 @@ static int amdgpu_dm_atomic_shaper_lut3d(struct dc *dc,
- 
- 	amdgpu_dm_atomic_lut3d(drm_lut3d, drm_lut3d_size, lut3d_func);
- 
--	return amdgpu_dm_atomic_shaper_lut(func_shaper);
-+	return amdgpu_dm_atomic_shaper_lut(drm_shaper_lut,
-+					   drm_shaper_size, func_shaper);
- }
- 
- /**
-@@ -531,12 +543,22 @@ static uint32_t amdgpu_dm_get_lut3d_size(struct amdgpu_device *adev,
- int amdgpu_dm_verify_lut3d_size(struct amdgpu_device *adev,
- 				const struct drm_crtc_state *crtc_state)
- {
--	const struct drm_color_lut *lut3d = NULL;
- 	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(crtc_state);
-+	const struct drm_color_lut *shaper = NULL, *lut3d = NULL;
- 	uint32_t exp_size, size;
- 
--	exp_size = amdgpu_dm_get_lut3d_size(adev, MAX_COLOR_3DLUT_ENTRIES);
-+	/* shaper LUT is only available if 3D LUT color caps*/
-+	exp_size = amdgpu_dm_get_lut3d_size(adev, MAX_COLOR_LUT_ENTRIES);
-+	shaper = __extract_blob_lut(acrtc_state->shaper_lut, &size);
- 
-+	if (shaper && size != exp_size) {
-+		drm_dbg(&adev->ddev,
-+			"Invalid Shaper LUT size. Should be %u but got %u.\n",
-+			exp_size, size);
-+		return -EINVAL;
++static enum dc_transfer_func_predefined drm_tf_to_dc_tf(enum drm_transfer_function drm_tf)
++{
++	switch (drm_tf)
++	{
++	default:
++	case DRM_TRANSFER_FUNCTION_DEFAULT:	return TRANSFER_FUNCTION_LINEAR;
++	case DRM_TRANSFER_FUNCTION_SRGB:	return TRANSFER_FUNCTION_SRGB;
++	case DRM_TRANSFER_FUNCTION_BT709:	return TRANSFER_FUNCTION_BT709;
++	case DRM_TRANSFER_FUNCTION_PQ:		return TRANSFER_FUNCTION_PQ;
++	case DRM_TRANSFER_FUNCTION_LINEAR:	return TRANSFER_FUNCTION_LINEAR;
++	case DRM_TRANSFER_FUNCTION_UNITY:	return TRANSFER_FUNCTION_UNITY;
++	case DRM_TRANSFER_FUNCTION_HLG:		return TRANSFER_FUNCTION_HLG;
++	case DRM_TRANSFER_FUNCTION_GAMMA22:	return TRANSFER_FUNCTION_GAMMA22;
++	case DRM_TRANSFER_FUNCTION_GAMMA24:	return TRANSFER_FUNCTION_GAMMA24;
++	case DRM_TRANSFER_FUNCTION_GAMMA26:	return TRANSFER_FUNCTION_GAMMA26;
 +	}
++}
 +
-+	exp_size = amdgpu_dm_get_lut3d_size(adev, MAX_COLOR_3DLUT_ENTRIES);
- 	lut3d = __extract_blob_lut(acrtc_state->lut3d, &size);
- 
- 	if (lut3d && size != exp_size) {
-@@ -618,15 +640,16 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
+ static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+ 				const struct drm_color_lut lut,
+ 				int bit_precision)
+@@ -639,6 +663,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
+ 	const struct drm_color_lut *degamma_lut, *regamma_lut;
  	uint32_t degamma_size, regamma_size;
  	bool has_regamma, has_degamma;
++	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_LINEAR;
  	bool is_legacy;
-+	const struct drm_color_lut *shaper_lut, *lut3d;
-+	uint32_t shaper_size, lut3d_size;
- 	int r;
--	const struct drm_color_lut *lut3d;
--	uint32_t lut3d_size;
- 
- 	r =  amdgpu_dm_verify_lut3d_size(adev, &crtc->base);
- 	if (r)
- 		return r;
+ 	const struct drm_color_lut *shaper_lut, *lut3d;
+ 	uint32_t shaper_size, lut3d_size;
+@@ -650,6 +675,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
  
  	lut3d = __extract_blob_lut(crtc->lut3d, &lut3d_size);
-+	shaper_lut = __extract_blob_lut(crtc->shaper_lut, &shaper_size);
+ 	shaper_lut = __extract_blob_lut(crtc->shaper_lut, &shaper_size);
++	tf = drm_tf_to_dc_tf(crtc->regamma_tf);
  
  	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
  	if (r)
-@@ -680,11 +703,14 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
- 		 * there is no user-blob.
+@@ -718,7 +744,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
  		 */
- 		lut3d_size = lut3d != NULL ? lut3d_size : 0;
-+		shaper_size = shaper_lut != NULL ? shaper_size : 0;
- 		r = amdgpu_dm_atomic_shaper_lut3d(adev->dm.dc, ctx, stream,
--						  NULL, 0,
-+						  shaper_lut, shaper_size,
- 						  lut3d, lut3d_size);
--		if (r)
-+		if (r) {
-+			drm_dbg(&adev->ddev, "Failed on shaper/3D LUTs setup\n");
+ 		regamma_size = has_regamma ? regamma_size : 0;
+ 		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
+-						 regamma_size, has_rom);
++						 regamma_size, has_rom, tf);
+ 		if (r)
  			return r;
-+		}
- 
- 		/* Note: OGAM is disabled if 3D LUT is successfully programmed.
- 		 * See params and set_output_gamma in
+ 	}
 -- 
 2.39.2
 
