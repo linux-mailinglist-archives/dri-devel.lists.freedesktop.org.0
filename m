@@ -2,76 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA2D70E737
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E9F70E73F
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D0110E4E7;
-	Tue, 23 May 2023 21:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5BE510E4E2;
+	Tue, 23 May 2023 21:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B5B10E4E2;
- Tue, 23 May 2023 21:14:37 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34NKOQ0S014492; Tue, 23 May 2023 21:14:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Q0WFDeLy9CaQPGLDkV6wAF624X8koEHaM1rhdA9Julo=;
- b=K8CjS4ge7/mhqQzVneriGIW6KvJeSeZL1WCpsH9C9yChZJCypoTdAdN6B2tcSxcvXAsA
- 1kEkxa8cf/hla5FIFwpaJZpqLvCboWJ1UWHXogzqN/lFsY1bMwGp29n94QlsJpAWOhoo
- 5rAnQi9mFsIERv0NGr9wSIQoM//tjpU3ks1zvHwUCq2WgfFbMHNdZJ2qr25w73S90Z9e
- BZbEgBH25AK+99lekajxpGnQlq4RNWnMmgbloetWD5JdwD9CS28zubLcM1hvgapdCMRW
- Xcs6/vSQQUd2GSo3Ykf6irGK3EBBpUFwz7W9aK+roRJ0qpTwZM0/eHmePfIIV68CL2vR Cw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qs42ur4eh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 21:14:31 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34NLEU5r012629
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 21:14:30 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 23 May
- 2023 14:14:30 -0700
-Message-ID: <8267cc85-f35c-628b-8270-869cf64362d5@quicinc.com>
-Date: Tue, 23 May 2023 14:14:29 -0700
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED3C10E4EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:20:57 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-96aae59bbd6so13001266b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684876855; x=1687468855;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=77vshvp41bukXkaBQCstB9hsqVQeWFOjbLVsOOf4RiY=;
+ b=hFvGXinPKssThZK/pAXYPEm+Ow3eMYAZmIQER5Ts6cdvS9WIhb6MsfLRBAszf/WYFo
+ rO1/L4178BJcYM8ITpbhPf7xU+uHaEYYsc4apo1Du/d2diSsZX6CbxbWlb6x3uYGXsRo
+ sf2IsWiW/eUkB3rrMjNiEzMtUy0wUZ+r9za6w9Mez7NmN33RZvRQp4EPdqwjgWGOtB7g
+ w3T+RmdYvpKAJEk6XjB7+SC7aa3Ip6IFTu3ksQhWo+slA8Mg2F12O2TvPQrhxfr/ywWf
+ nla6JITgJOrIe/Ma+mlSsnLjgaWYdJWmHk3edjRWVqRWHBL7vfLEMi+VstrodS5zClzy
+ KuJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684876855; x=1687468855;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=77vshvp41bukXkaBQCstB9hsqVQeWFOjbLVsOOf4RiY=;
+ b=ZBHMZz7alHygPEMSAbjiNIdPXhxqogIRjw63DdX1m/9rrgieEXJoCWKfNn/D8mewcV
+ nrEhPEY44RAEhL9OyDAoE0SjlB6dGBuDoUszUIIJ2twCKBPGuN79qkdExYG0YnU9GofS
+ /6y0pDZouWg0NhtJ05+2SWsV0Zhs1O9qP0swy495d+nkEnmimnTl2QMjR0xbHSisIFjm
+ CbOwWEeXs4sCgC9hqhUsARkMIXahloIVnzM81G2FU2/tiOTxi5A4exL8jlB2oRAKElq0
+ C9/QgWBCJ/1fwO7MS1cPFWsHr97d+TeWSqJolm+N/AsAVrl+uOG9LGjFKdgug+j2kAmh
+ zZHA==
+X-Gm-Message-State: AC+VfDymhLzIJbUUiuI81YyvUf96ZmE5rliXenB5THbfUj+xBRCjH8Bb
+ Fac9LHdlFjhAYiKTChx0nMA=
+X-Google-Smtp-Source: ACHHUZ7w6Xn++2uHIoRKaXVLEbyMFKPna0sHTuomnld3Bm1/QCiT6F1yZT/MA3bMW2bH/J7nd+adpg==
+X-Received: by 2002:a17:907:26ca:b0:969:bac4:8e22 with SMTP id
+ bp10-20020a17090726ca00b00969bac48e22mr13848584ejc.26.1684876855458; 
+ Tue, 23 May 2023 14:20:55 -0700 (PDT)
+Received: from localhost.my.domain (83.11.222.198.ipv4.supernova.orange.pl.
+ [83.11.222.198]) by smtp.gmail.com with ESMTPSA id
+ kl3-20020a170907994300b00966392de4easm4856953ejc.14.2023.05.23.14.20.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 May 2023 14:20:55 -0700 (PDT)
+From: Artur Weber <aweber.kernel@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH] drm/panel: samsung-s6d7aa0: use pointer for drm_mode in panel
+ desc struct
+Date: Tue, 23 May 2023 23:20:50 +0200
+Message-Id: <20230523212050.9970-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v7] drm/msm: stop storing the array of CRTCs in struct
- msm_drm_private
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230519150734.3879916-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230519150734.3879916-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 9-1r9pIwEpRy8TC1Fh4N2hsd1QpWBlgH
-X-Proofpoint-GUID: 9-1r9pIwEpRy8TC1Fh4N2hsd1QpWBlgH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_14,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
- phishscore=0 suspectscore=0 malwarescore=0 mlxlogscore=625 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305230169
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,27 +72,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Artur Weber <aweber.kernel@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tom Rix <trix@redhat.com>, thierry.reding@gmail.com,
+ Nikita Travkin <nikita@trvn.ru>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fixes compilation errors on older GCC versions (before 8.x) and Clang
+after changes introduced in commit 6810bb390282 ("drm/panel: Add
+Samsung S6D7AA0 panel controller driver"). Tested with GCC 13.1.1,
+GCC 6.4.0 and Clang 16.0.3.
 
+Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+---
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-On 5/19/2023 8:07 AM, Dmitry Baryshkov wrote:
-> The array of CRTC in the struct msm_drm_private duplicates a list of
-> CRTCs in the drm_device. Drop it and use the existing list for CRTC
-> enumeration.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> This was a part of https://patchwork.freedesktop.org/series/105302/
-> 
-> Changes since v6:
-> - Dropped applied patches
-> - Dropped msm_drm_thread::crtc as suggested by Abhinav
-> 
-> ---
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+index f532aa018428..102e1fc7ee38 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+@@ -37,7 +37,7 @@ struct s6d7aa0_panel_desc {
+ 	unsigned int panel_type;
+ 	int (*init_func)(struct s6d7aa0 *ctx);
+ 	int (*off_func)(struct s6d7aa0 *ctx);
+-	const struct drm_display_mode drm_mode;
++	const struct drm_display_mode *drm_mode;
+ 	unsigned long mode_flags;
+ 	u32 bus_flags;
+ 	bool has_backlight;
+@@ -309,7 +309,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
+ 	.panel_type = S6D7AA0_PANEL_LSL080AL02,
+ 	.init_func = s6d7aa0_lsl080al02_init,
+ 	.off_func = s6d7aa0_lsl080al02_off,
+-	.drm_mode = s6d7aa0_lsl080al02_mode,
++	.drm_mode = &s6d7aa0_lsl080al02_mode,
+ 	.mode_flags = MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_NO_HFP,
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ 
+@@ -412,7 +412,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al03_desc = {
+ 	.panel_type = S6D7AA0_PANEL_LSL080AL03,
+ 	.init_func = s6d7aa0_lsl080al03_init,
+ 	.off_func = s6d7aa0_lsl080al03_off,
+-	.drm_mode = s6d7aa0_lsl080al03_mode,
++	.drm_mode = &s6d7aa0_lsl080al03_mode,
+ 	.mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET,
+ 	.bus_flags = 0,
+ 
+@@ -440,7 +440,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_ltl101at01_desc = {
+ 	.panel_type = S6D7AA0_PANEL_LTL101AT01,
+ 	.init_func = s6d7aa0_lsl080al03_init, /* Similar init to LSL080AL03 */
+ 	.off_func = s6d7aa0_lsl080al03_off,
+-	.drm_mode = s6d7aa0_ltl101at01_mode,
++	.drm_mode = &s6d7aa0_ltl101at01_mode,
+ 	.mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET,
+ 	.bus_flags = 0,
+ 
+@@ -458,7 +458,7 @@ static int s6d7aa0_get_modes(struct drm_panel *panel,
+ 	if (!ctx)
+ 		return -EINVAL;
+ 
+-	mode = drm_mode_duplicate(connector->dev, &ctx->desc->drm_mode);
++	mode = drm_mode_duplicate(connector->dev, ctx->desc->drm_mode);
+ 	if (!mode)
+ 		return -ENOMEM;
+ 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+base-commit: 37cee4876a45a5c3da79a83d34ed4f3c68548aef
+-- 
+2.40.1
+
