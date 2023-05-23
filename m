@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5668970E64A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 22:11:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 781E270E654
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 22:16:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2570510E4BF;
-	Tue, 23 May 2023 20:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8531910E4CA;
+	Tue, 23 May 2023 20:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.web.de (mout.web.de [212.227.15.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC47810E4C4
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 20:11:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 371B910E134
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 20:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1684872704; i=markus.elfring@web.de;
- bh=2UBgmsE0lRTC4ZZw+6pft99nQduDiYt00H6BWryB1fA=;
- h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
- b=KbwmiGqCtUYZn2aFTU1etm4r+bTxyrdpEPkct7b0gAsPUrAXG73nD+OBquqU3rttb
- H0BbHCDb5EdCy9ESKeH6wVimnkukBd2oCoHnPaz3bMWeKoeXMMpjLDy18kADCRgR/q
- lxkyvG3xyvlA2LiyxUdqCvSN8zlr7NZTJz8jtOVmuNkC4Xdz+CFD8j37vQkTg2dSMj
- UPs8atKCLpy9p8E7WA4s92otN7OvRIm5T9UtJmbjdhD5p0SJ30LrTsBmIlEwpfjqde
- QG7k46yBbo1082+8QUZgP6UdHs8T2eHbGPh7bv1CeL/PX8epouwGqcgU85yBURtNRo
- +wO7LDS1/AH+Q==
+ t=1684872952; i=markus.elfring@web.de;
+ bh=dP9NEE68fMXgefx6pKhxB5p1osjqrBzoDEtHTj9tjIM=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
+ b=vbPgmz1TSd9Ppy38ipV9/vV8ausVuRaFJZcWvu+HDrlXqSVwsoP9ZoVOAZ3PEtwJQ
+ /xTTE4L2jYzDIiLa28gtMpyPjU0jPMTrpkm4pDZqyqH9bqV/5mITT230JqQgsXJ4s8
+ ljTw3G32xl3zGt7pwSD1mVkmqcUcb705nvCBbOlTQHVgffC2DifICowlzGBUtUGA7o
+ wgMdnk60z04CeII2Wi/SSciRvBOvJ9yrtnHl1mwsbdZsyY8rDSnubsUrkRMQwcOqXr
+ nWqRd/yuFTA2+geJxw+0JqrQYw/TvvknWkPp3zZ6nC2ECjmuGGqp/vxCTHX7AtsUDV
+ G9RXFeiXUn8xA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.89.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MsrdM-1qH9Oy1d4y-00tFb5; Tue, 23
- May 2023 22:11:44 +0200
-Message-ID: <8f0bcb48-7677-340d-282e-27f6fe063c6b@web.de>
-Date: Tue, 23 May 2023 22:11:43 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M2gkl-1pyW192EzX-004AVb; Tue, 23
+ May 2023 22:15:52 +0200
+Message-ID: <341b4af7-5c6c-cbd2-6fe3-c0e4e58f3c7d@web.de>
+Date: Tue, 23 May 2023 22:15:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
+Subject: [PATCH 1/2] fbdev: Move two variable assignments in
+ fb_alloc_cmap_gfp()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
 To: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
  Helge Deller <deller@gmx.de>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH 0/2] fbdev: Adjustments for fb_alloc_cmap_gfp()
+References: <8f0bcb48-7677-340d-282e-27f6fe063c6b@web.de>
+In-Reply-To: <8f0bcb48-7677-340d-282e-27f6fe063c6b@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:13H8L4N2THdC6lDo4SsbF7dg+eEyup1yxyOJ/lNpE3HOJu35xcu
- G5YwtBEwwHOILFjqlqRUiNiSpgLWXA/9lfGvkyuddv8GEd1lOa3eBo+lTpsynRvPncFa0Da
- rCnaX9lNPpwZqWonDQBrte+lIs59xgokwAfpeSdGSeRhCh+M1VaC1s+BO7NI5GBTPG0djWm
- YgV+q3LOw5OT0hh/xr0cg==
+X-Provags-ID: V03:K1:N6s5Lw4mbVcOlOXvuMubk1Fi2yEuD367sj0sv7jeo2DHKQeiS6N
+ GwTP6/D4PSqEMuTa7Jp6IXSRDBe7BVYrPSjPjW5O800IFBshyaalrn278LxpHmIzh7EQsl7
+ U3nJDC8Es8uMlv+Nf6Y4gpzdKFRfryyHi/MGe5Rd2iQpkx+sdLAVb6SjV7ds+IvBKAJmNMx
+ VnRt8wG1Mvb7QX8GZRCUQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lStSMXX01mA=;iFegeRwYjnKoA43MAWuIE53moSB
- 13QR9/zkKdQW8nJEsXECaKa6Xqy1PVVPxrwmvAKa6jLlPWBqi+gQiOtTpFnhUx+1ckp+OlQ6K
- vWdAtmNuTTBiJ03loxBLJuWsW+Kg8do5A8tJoV+eTZzF6EMqki2yufpjUM4Bkk0FySG880ie2
- 6RvBx/Co68PHSe8kY/6Qkfb0N+hS+gdAe/evKFnb22WfVtIYPudjrz2kmEnbVSVIaVz2FpdQk
- SswTpUzKxXAdHX2EykKgR7ooIwF33GYc/VYm7Q8MsVhCAZ2DMco9Xtgq73CKnetBC7jJeekGb
- VEwOzG5XtmE+QMNXZQmEr44aX4gf45a/gkVymnW9VriNsAwnZlNe9dy3eahy2P8C9mPZpOdoO
- KB0R2MYOLmR0febDMLPdnAFn1M4Czl5x1o/SCJBYAv5N21/1yfWn0VSsjFB4PsP2NMyVB2dRX
- e8dyskr2V53eWusbnMKGPJv5ggSwboP/LC98BVOe71iSN//jvolrh79Sj6glmZ2lsRy4qHSso
- M/WRk1bc9tkoBcKU7DDVyl/LZ+Uf4RbdJxhDxNfZeo5Fs9/9hWChQbAg2HY0V0ueuRzTWpd+K
- mWtj7FQGRUiu+JMzUx9Abvzfv0/7iqti7+DMq3kz51SOXLO1ydO+u88PINuL7jiJcoJY6AfHC
- ZQCSk8dSR/l2+hWj9edhhEAfeeuLagVefSIJQ25K7/ot6ZgRzVkgNe7ESzJ0Ncgar/iIcdAS2
- sAozOct1u/BrSWfHIPlopljZb1pdS/NJ1tiZWpitXnhAXSNW4hyYhzNLOuaPmPyK7gNZMAt9C
- MWcxKXdqeE7LV9bDth5x0vNHQbtkWEWbx+56lMTSCF1/bm0fpmJ27WmqKQv6pQAlwZ6wrV3VF
- 3BVVpqhH//EzhXeWK1IWIXFEz6RZbakGx6thMr/ANaHzVF1YGctLUMQ2cmpYBU+EpYsjxi+Bj
- hzk52A==
+UI-OutboundReport: notjunk:1;M01:P0:DICDXp1wkjk=;D9PKtH4ZgPG5jBhG8KVdz7M4qDs
+ sD3I8DjPsh69bi198lXTMgdX6E9affEuhiN78qQm55sv6h6Ewh9J9xNPG97doY08obyUmCy6B
+ sY8KGvhQbbYiZPNBpbbCQcydtMpzuCG2DQyQMbldyb8QX8zaiFHwoAylJFmaFJf1TB0wqNxq8
+ ahSCBDxOIaBEWXcr4rI8qj9ZvdYAXs8CfKsIKBC/4C0D5SWgbkD74z9Bn5VNS+FawT7GgOcBR
+ Mp4vubS4OozoabRIi0jHLoXn63GujQdUL/R/SFlB5zJhdCuOwub76qJ40UnyfqbbxGICy6+oo
+ y0v3ILie8tUySBleBn7mC6ZNbXLyJfP6h3mYp3//LaUCwv+omKaxpzfXduzc9AYrU9EYDJVVX
+ /l2Jg1sD5uJFbPDBsi432O7B9a5Bqf2aR2UwmZT/JkXLt3ETraWnkEAYQ8z3KObjoBWA+J2RV
+ JsIwct3xSAa82R64WgK17RTuqtWz+ioKcNQcbydvkEX4gPrDA112tVFFIleCHbRcRcA1W7uPs
+ 64tY0MR4bRU7i6Sl7y2AScRe/7vBioQAaInX0fejGgnC+idPvGMTOhjvGPKTuNd4lSJdeA7KH
+ 38h7AgTSafNOVh4MmgAXbMoS2M5Mc+jji/CGOLUaKwlbKtGxQ0nCA8+SbubvTAAP40z3GD8Bm
+ owri5rkHuWHL7E1FzV0bweeAID+Cncmas2Zji9G1u4If3Kcezem4nmC66FxeSVkPjRokZctzZ
+ 5Hsol9qOcsyNcXDGmyn/ShYJPyAE8c2xqtOXXjmCBqnGoZr3ONkDLfkN+XRMrJXxPyJ6nb0cy
+ nOk+9eDcXcu0qgdMPBrIqvxP98fDE1ULll97CI4og1Fh5JpDi4eyej4OsjGRxL1sZ6RzHVLTU
+ S0rN2pEyToSoGxFrwN8il8vF7RTck6h+Q6kSgZKA0OWs+S42mEd1DX1PAhs/d68+nd7+SM4ej
+ J5akBA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,18 +79,44 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 23 May 2023 22:04:33 +0200
+Date: Tue, 23 May 2023 21:30:29 +0200
 
-A few update suggestions were taken into account
-from static source code analysis.
+Move the assignment for the local variables =E2=80=9Csize=E2=80=9D and =E2=
+=80=9Cflags=E2=80=9D
+because the computed values were only used in a single if branch.
 
-Markus Elfring (2):
-  Move two variable assignments
-  Convert a variable initialisation into a later assignment
+Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+=2D--
+ drivers/video/fbdev/core/fbcmap.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- drivers/video/fbdev/core/fbcmap.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/=
+fbcmap.c
+index ff09e57f3c38..5c1075ed28ab 100644
+=2D-- a/drivers/video/fbdev/core/fbcmap.c
++++ b/drivers/video/fbdev/core/fbcmap.c
+@@ -91,16 +91,17 @@ static const struct fb_cmap default_16_colors =3D {
 
+ int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t fl=
+ags)
+ {
+-	int size =3D len * sizeof(u16);
+ 	int ret =3D -ENOMEM;
+
+-	flags |=3D __GFP_NOWARN;
+-
+ 	if (cmap->len !=3D len) {
++		int size;
++
+ 		fb_dealloc_cmap(cmap);
+ 		if (!len)
+ 			return 0;
+
++		size =3D len * sizeof(u16);
++		flags |=3D __GFP_NOWARN;
+ 		cmap->red =3D kzalloc(size, flags);
+ 		if (!cmap->red)
+ 			goto fail;
 =2D-
 2.40.1
 
