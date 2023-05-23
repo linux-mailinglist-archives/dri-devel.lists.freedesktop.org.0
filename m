@@ -1,72 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DE870E751
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:26:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B1D70E75B
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D843810E0D9;
-	Tue, 23 May 2023 21:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1337710E4E4;
+	Tue, 23 May 2023 21:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B8410E0D9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:26:04 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-510d8d7f8eeso722648a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:26:04 -0700 (PDT)
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4887010E4E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:30:11 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id
+ 6a1803df08f44-62387baa403so25900816d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684877162; x=1687469162;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1PgxNHZj4UwDTS6F97+9NYcBDmjYn8Q7KCM1kPowz7w=;
- b=rdkjx024S826zFQkHayX4XQWkfaqCgEmXWLe2SH+kJRaGjunBCKBHxzmBUuOT4HqoA
- GhpyD5VgYelYdOaNGRjM3P4w8UyNnMGeNePUUNGw8lI4L59i+5eskWGOPrigjf21tqkz
- tGgr3RNsmuT5JK1woaEp46lIyPnyCGbi5HGZ52bnlwbofyF/X/doqeCA0wNfrEvxHAof
- JXJHwSRrvv3u4Uesne2HIYtSEOhQhRfigviWDRjbx1jntDN52TleN+32DKEK2EbEF4wz
- 9UxmR16hwxUgTK6tNQMddtXkLT9Gq2+qFEzmJGweaoBDneFHkPXRug44XTsWEtKg+eMU
- FyvQ==
+ d=google.com; s=20221208; t=1684877410; x=1687469410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=12a8TVZQvjkkyWtI7fz8x1oDJA/k8YRY6ApQKDzedDE=;
+ b=i5moAtbaux+oKTRJvt8kgT2kh9lY+QtUnf5dOM8p9NVz4BW7Jbvr/60GqaqzzqW91O
+ ciN7S77mH1rmkRF+C0oA2vYi02ye9vfNbVpAmFoKiPBeORYUuzHCIKrCwltxv5szNa+B
+ 2OQBuSzBN/s/EG4L6EegcVwP1XVnCnWc1EAQNkV5cI+Sz7UdfWpertNCSdk1DfxA02R4
+ Ky5c0TpQcbqG4a8Q1xOvmGokmJMDow7bLEH67Ow78PcsGt+TgIEK+/XGezREYGbPWYac
+ m1qKMHu+hz4+FsbCHOWFJiYEEn37+QHR3z+Uoi88pXSBgnIzSpenOztV60VvMWUjIBJY
+ j6xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684877162; x=1687469162;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1PgxNHZj4UwDTS6F97+9NYcBDmjYn8Q7KCM1kPowz7w=;
- b=HDRqz3szMChKz0cesAVpHG3fjhdZTNZgu3ybI3Z56KrnlW8U52sqztyccHdCLhST9x
- EmQn4OY9OHbhHryT/hddXL27z6IpOog6egtHsny0gwECMd62YnL/i+L847y32NbR4VVR
- llpUJLBCpJz+/0zoeN2LE1z6+RUOctvpxfLeh89e7boozofdOlQuY+iVP+y8uhy3myJ0
- 0I5sqq4NpMavwbuyNTsSkYbWP0zEiuubO6c50FIDtpopQJKNITbGaZtXIv+9Pf7YzZEP
- kmxdxcZtZCp2CMVcI3zUxkTT0OTJ3yaE4KMmJjzKHyMMYfitaDqhpM2AkZGng+UYxpB1
- ALsA==
-X-Gm-Message-State: AC+VfDyyi0mRiPyFWxMB1DKa0a1itAWePZ2a7N66KvJFGsFbGqiYKfDs
- 2S2LhaPFvI7SnLM6fOPPND4=
-X-Google-Smtp-Source: ACHHUZ65tHm0pxgScIUa0KaMsUX6v1DGtLyGO2CEmEvCmIHRx9ohEEp+ai4aBgw9Rti2j00nkuO3Zw==
-X-Received: by 2002:aa7:c614:0:b0:510:d889:88c8 with SMTP id
- h20-20020aa7c614000000b00510d88988c8mr255307edq.38.1684877161960; 
- Tue, 23 May 2023 14:26:01 -0700 (PDT)
-Received: from [192.168.50.244] (83.11.222.198.ipv4.supernova.orange.pl.
- [83.11.222.198]) by smtp.gmail.com with ESMTPSA id
- u17-20020aa7d891000000b0050bd19ec39bsm4364090edq.83.2023.05.23.14.26.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 May 2023 14:26:01 -0700 (PDT)
-Message-ID: <0c08fd7b-435c-67e9-f2a2-543a72cb3140@gmail.com>
-Date: Tue, 23 May 2023 23:26:00 +0200
+ d=1e100.net; s=20221208; t=1684877410; x=1687469410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=12a8TVZQvjkkyWtI7fz8x1oDJA/k8YRY6ApQKDzedDE=;
+ b=DiMtXWvPKHcqU9TnWiD411xB/W1gvh+ypUoKZMQmE/bZFSHxr9vbtfH877KwkGkCbq
+ 1brNHANXNEPcVlbBqJ96wMmjy1H/2SsPFrmni4YM7qE6kvbg5sHRBzcer9ZRVxVuJ+9H
+ IU+sF0bbJObPAzNaIDQUXVh5+J/OgCXwCsP+Ixe2kYEsSz6bD5b6y89sVM6FiQRpcPIR
+ DNRS2ebauiaxfGNqbQGWimd7ngIp2ACpqyEONsZostNHywVol3j87D2CRZqSgoBQYDIx
+ wKCccUBhbq/c57KLpoavvXA1yaLvyaQnXOIuPt4RkBPqy42LZiSZsg+dnWutqVc8cigF
+ UjYg==
+X-Gm-Message-State: AC+VfDwcqWRhuJsKHvTyXcIcyw0Q+McSxMaLwysh9mkLV6gmHNDjgCTQ
+ vjly/Mx12JanmJJPq1MuO9b9W8B8jBOVKdQGjp0+0w==
+X-Google-Smtp-Source: ACHHUZ4Wan+pBGA30UDc0Hp2h00PD3iAXL1/dmWzS2pNFookLK0VclHG8VPaSvULEt2cdpPwFDE0Oudo35XhtSYs7m4=
+X-Received: by 2002:a05:6214:20ef:b0:623:7108:362d with SMTP id
+ 15-20020a05621420ef00b006237108362dmr28098589qvk.9.1684877409885; Tue, 23 May
+ 2023 14:30:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v5 2/3] drm/panel: Add Samsung S6D7AA0 panel controller
- driver
-To: Nathan Chancellor <nathan@kernel.org>
-References: <20230519170354.29610-1-aweber.kernel@gmail.com>
- <20230519170354.29610-3-aweber.kernel@gmail.com>
- <20230523180212.GA1401867@dev-arch.thelio-3990X>
-Content-Language: en-US
-From: Artur Weber <aweber.kernel@gmail.com>
-In-Reply-To: <20230523180212.GA1401867@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230523212050.9970-1-aweber.kernel@gmail.com>
+In-Reply-To: <20230523212050.9970-1-aweber.kernel@gmail.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Tue, 23 May 2023 14:29:59 -0700
+Message-ID: <CAKwvOd=00s_MMQcnbyQkEsUE8HwhSCw+=KyzckKpdTrivQ3N-w@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: samsung-s6d7aa0: use pointer for drm_mode in
+ panel desc struct
+To: Artur Weber <aweber.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +69,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Nikita Travkin <nikita@trvn.ru>, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ llvm@lists.linux.dev, Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ thierry.reding@gmail.com, Nikita Travkin <nikita@trvn.ru>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, May 23, 2023 at 2:20=E2=80=AFPM Artur Weber <aweber.kernel@gmail.co=
+m> wrote:
+>
+> Fixes compilation errors on older GCC versions (before 8.x) and Clang
+> after changes introduced in commit 6810bb390282 ("drm/panel: Add
+> Samsung S6D7AA0 panel controller driver"). Tested with GCC 13.1.1,
+> GCC 6.4.0 and Clang 16.0.3.
 
-On 23/05/2023 20:02, Nathan Chancellor wrote:
-> Hi Artur,
-> 
-> On Fri, May 19, 2023 at 07:03:53PM +0200, Artur Weber wrote:
->> Initial driver for S6D7AA0-controlled panels. Currently, the following
->> panels are supported:
->>
->>  - S6D7AA0-LSL080AL02 (Samsung Galaxy Tab 3 8.0)
->>  - S6D7AA0-LSL080AL03 (Samsung Galaxy Tab A 8.0 2015)
->>  - S6D7AA0-LTL101AT01 (Samsung Galaxy Tab A 9.7 2015)
->>
->> It should be possible to extend this driver to work with other panels
->> using this IC.
->>
->> Tested-by: Nikita Travkin <nikita@trvn.ru> #ltl101at01
->> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-> 
-> <snip>
-> 
-> This change as commit 6810bb390282 ("drm/panel: Add Samsung S6D7AA0
-> panel controller driver") in -next causes the following build errors
-> with clang and GCC older than 8.x (the kernel supports back to GCC 5.1).
-> 
-> With clang:
-> 
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:312:14: error: initializer element is not a compile-time constant
->           .drm_mode = s6d7aa0_lsl080al02_mode,
->                       ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:415:14: error: initializer element is not a compile-time constant
->           .drm_mode = s6d7aa0_lsl080al03_mode,
->                       ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:443:14: error: initializer element is not a compile-time constant
->           .drm_mode = s6d7aa0_ltl101at01_mode,
->                       ^~~~~~~~~~~~~~~~~~~~~~~
->   3 errors generated.
-> 
-> With GCC:
-> 
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:312:14: error: initializer element is not constant
->     .drm_mode = s6d7aa0_lsl080al02_mode,
->                 ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:312:14: note: (near initialization for 's6d7aa0_lsl080al02_desc.drm_mode')
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:415:14: error: initializer element is not constant
->     .drm_mode = s6d7aa0_lsl080al03_mode,
->                 ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:415:14: note: (near initialization for 's6d7aa0_lsl080al03_desc.drm_mode')
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:443:14: error: initializer element is not constant
->     .drm_mode = s6d7aa0_ltl101at01_mode,
->                 ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:443:14: note: (near initialization for 's6d7aa0_ltl101at01_desc.drm_mode')
-> 
+Hi Artur,
+Thanks for the patch! Mind sending a v2 with the diagnostic added to
+the commit message? This gives reviewers much more context as to what
+issue you are fixing.
 
-I've submitted a patch, "drm/panel: samsung-s6d7aa0: use pointer for
-drm_mode in panel desc struct"[1], which should fix this. I tested it
-with GCC 13.1.1, GCC 6.4.0 and Clang 16.0.3, but I'd appreciate any
-further testing and feedback.
+>
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/=
+drm/panel/panel-samsung-s6d7aa0.c
+> index f532aa018428..102e1fc7ee38 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> @@ -37,7 +37,7 @@ struct s6d7aa0_panel_desc {
+>         unsigned int panel_type;
+>         int (*init_func)(struct s6d7aa0 *ctx);
+>         int (*off_func)(struct s6d7aa0 *ctx);
+> -       const struct drm_display_mode drm_mode;
+> +       const struct drm_display_mode *drm_mode;
+>         unsigned long mode_flags;
+>         u32 bus_flags;
+>         bool has_backlight;
+> @@ -309,7 +309,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080=
+al02_desc =3D {
+>         .panel_type =3D S6D7AA0_PANEL_LSL080AL02,
+>         .init_func =3D s6d7aa0_lsl080al02_init,
+>         .off_func =3D s6d7aa0_lsl080al02_off,
+> -       .drm_mode =3D s6d7aa0_lsl080al02_mode,
+> +       .drm_mode =3D &s6d7aa0_lsl080al02_mode,
+>         .mode_flags =3D MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_N=
+O_HFP,
+>         .bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
+>
+> @@ -412,7 +412,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080=
+al03_desc =3D {
+>         .panel_type =3D S6D7AA0_PANEL_LSL080AL03,
+>         .init_func =3D s6d7aa0_lsl080al03_init,
+>         .off_func =3D s6d7aa0_lsl080al03_off,
+> -       .drm_mode =3D s6d7aa0_lsl080al03_mode,
+> +       .drm_mode =3D &s6d7aa0_lsl080al03_mode,
+>         .mode_flags =3D MIPI_DSI_MODE_NO_EOT_PACKET,
+>         .bus_flags =3D 0,
+>
+> @@ -440,7 +440,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_ltl101=
+at01_desc =3D {
+>         .panel_type =3D S6D7AA0_PANEL_LTL101AT01,
+>         .init_func =3D s6d7aa0_lsl080al03_init, /* Similar init to LSL080=
+AL03 */
+>         .off_func =3D s6d7aa0_lsl080al03_off,
+> -       .drm_mode =3D s6d7aa0_ltl101at01_mode,
+> +       .drm_mode =3D &s6d7aa0_ltl101at01_mode,
+>         .mode_flags =3D MIPI_DSI_MODE_NO_EOT_PACKET,
+>         .bus_flags =3D 0,
+>
+> @@ -458,7 +458,7 @@ static int s6d7aa0_get_modes(struct drm_panel *panel,
+>         if (!ctx)
+>                 return -EINVAL;
+>
+> -       mode =3D drm_mode_duplicate(connector->dev, &ctx->desc->drm_mode)=
+;
+> +       mode =3D drm_mode_duplicate(connector->dev, ctx->desc->drm_mode);
+>         if (!mode)
+>                 return -ENOMEM;
+>
+>
+> base-commit: 37cee4876a45a5c3da79a83d34ed4f3c68548aef
+> --
+> 2.40.1
+>
 
-Apologies for the error.
 
-Best regards
-Artur
-
-[1] https://lore.kernel.org/all/20230523212050.9970-1-aweber.kernel@gmail.com/T/
+--=20
+Thanks,
+~Nick Desaulniers
