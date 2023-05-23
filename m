@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DBB70E2C2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF4670E2C7
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8FDC10E484;
-	Tue, 23 May 2023 17:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F262A10E485;
+	Tue, 23 May 2023 17:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C008410E485
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:30:57 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-56187339d6eso97748007b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:30:57 -0700 (PDT)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE88010E485
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:33:49 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-ba8afcc82c0so12133427276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684863056; x=1687455056;
+ d=linaro.org; s=google; t=1684863228; x=1687455228;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vCJa6a9Ra0P6pgbG0lhDXLRP41OI9WKqV43rqziMdQ8=;
- b=ve1uZ4uzbxpWqFdZAeBe4akBPIsstn7rc643BsI62tzmJXzN0UOAQSh5WDvBcvmdnr
- 4pV3C7ImiPfdiT5O8+w4pLLfV7EhcM4tQRCmcnsmHEDN9yPvXiH92r0sJS0HOtJORZDc
- kCN1qKjbRje3eM2FnszyLZoJjdx/8dXklM6BY9pO/hFXprIpQLpMayP7eE5dEd0p0xlq
- lLNWO/y+pbHTNIfNsUWJKOjQM0fcJafjd0pXCAio2y+poeMOyVoD7i+9POdcOKaH1bhK
- KsWqH76g8SZBwXRRDvw8Rt/ohdLjozmCKIJp5KKJAjXAHPN7ladD5eZs2KQqPCj8i8NJ
- Javg==
+ bh=lxJT2l9AQiSzolKv87z4T+nj/6Voqeaq5rKuGn4L58s=;
+ b=NszQYt8L7vYkm2To4A082HXzf99FoYGffUy1WJs0IxDiKVOBKNIZF4LS8bzJP4U9Xb
+ FsbiTsVNDdLLO9Of0VWtDdM9HjmJ8Fa0XOqMUAkOVIdCF9F9+SGWpxExplm0xqL+eVeR
+ n1QcsrICYT3cFla8/FwSnnDBvbshHMlOilkW8bkXqFbv2/EgaolJPeOD9816GfD7BerT
+ X+l2GmVnc+Rf/e8zNFVSRWCvASTB1ECiX5BE3ROF8deLdC5sOaLrZC6p4pSjtFYSYQxv
+ TJ8D9YPiDGYxcvy97IVEBRWhnZ+uI32T3E8TRAB96y0E3fA2QkewP+VJ0ckw2nIlRBeP
+ 2IEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684863056; x=1687455056;
+ d=1e100.net; s=20221208; t=1684863228; x=1687455228;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vCJa6a9Ra0P6pgbG0lhDXLRP41OI9WKqV43rqziMdQ8=;
- b=HTOiHe44uJRu69gAvbhL5sD7J0hnFWfIcaFfly+fX656SCnCS9TtNFNlW5KU/wMRiL
- 3PTJlI/ugaPZVJgHQ8QTRVHXGtpv5XirjDaoWl3K/hpuWScEWXGCSdWsQh5L8K+YqHf9
- ZPksDrGZyuXxsNk4wQeSSIO2mCfvnkTfteebEWM0vLzdG89sAUIWneK6vGFWvY1SzvTU
- AqEDEhOcLgF3ZrHF7pfEw85gRxApqhKDIe8aCxIoEmDcttwbh32mbBirqIPZ1RB7x+nK
- pQUia72ZUPdhtqeuIGPndxL02YK7Q45NfwvonAXx9Ve8ufl7k12lrOaxJUrSjp1oMCNT
- 5nBw==
-X-Gm-Message-State: AC+VfDwnBFZlkqpvl8xibKoWy4j7+HlrCmYMqCtaXO2StwFLtfNr2BGz
- 9/UCpdy5ir5ElwOuG1hvcig1DHjW9ENP/OUU8o7LSNyA3dk1Ij5XWuI=
-X-Google-Smtp-Source: ACHHUZ6IWi/mxhp9wdD5jINZn8HH6CcwIeGxgs86a21+3mAKzVveQ6aQ30xRzyYLqcPze9lXJiK6c1Rghx2XzcBAopw=
-X-Received: by 2002:a0d:eb0e:0:b0:55a:72f6:a451 with SMTP id
- u14-20020a0deb0e000000b0055a72f6a451mr12125650ywe.41.1684863056089; Tue, 23
- May 2023 10:30:56 -0700 (PDT)
+ bh=lxJT2l9AQiSzolKv87z4T+nj/6Voqeaq5rKuGn4L58s=;
+ b=dUP4l6sqnWP8FaxcY3gkxlZ2z/JFlheukvLxDoEsU0lvC0edWJVnm4r2hLfTVmazm/
+ cEgdvyi4+nfDrLQg/zN4nFRGQaGLMuWkd6imI8zDRa2PqkUysUoztlalg6Uzyg++xGcw
+ h4NqaboLiLDaCs9OG0huCl8BoY48DFavA58OO6iQMPwdwu6jDAeVy8CZmgS2diSxy45A
+ 1KYuUypQTn0GT3DZNsBQ2O5A3LnfA1ZrtaB4s3xLxIDEN9bmL4hHTvGcTZLBMF/MR3f1
+ 4h8t3MnwxEjdbXC5z6dtWW4WEniZ5zdyI7PazZA0V3gZ0F14vGTxD8SmiQL7wmPakjiE
+ TtrA==
+X-Gm-Message-State: AC+VfDwGQTEFcZf+pbD1qGYgnrlBMiRva9NWb4eU3g9vtxrDc2TsUyzb
+ AYVwAOth/Pby6gMWj9BvyWNpAHylTikSrj2AOEkuBg==
+X-Google-Smtp-Source: ACHHUZ7CvU4JrLWdiw8GNueFAwAmwyblmrdIcjrSDreVSwbYIvgWidxnuleSI1/e3yufGf6NDzI1RndQMl1F02Ag8X4=
+X-Received: by 2002:a25:541:0:b0:bab:534f:d8a4 with SMTP id
+ 62-20020a250541000000b00bab534fd8a4mr14934833ybf.55.1684863228586; Tue, 23
+ May 2023 10:33:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAO9szn03msW6pu37Zws5EaFGL10rjp9ugPdCuDvOPuQRU72gVQ@mail.gmail.com>
-In-Reply-To: <CAO9szn03msW6pu37Zws5EaFGL10rjp9ugPdCuDvOPuQRU72gVQ@mail.gmail.com>
+References: <20230519142456.2588145-1-pavacic.p@gmail.com>
+ <20230519142456.2588145-3-pavacic.p@gmail.com>
+In-Reply-To: <20230519142456.2588145-3-pavacic.p@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 23 May 2023 19:30:44 +0200
-Message-ID: <CACRpkdYwcFk0k18hxWPyPHukE87eiXSJm0_0+fjSJ=ktD_MEoA@mail.gmail.com>
-Subject: Re: drm/panel: Add panel-mipi-dsi-bringup
-To: =?UTF-8?B?UGF1bG8gUGF2YcSNacSH?= <pavacic.p@gmail.com>
+Date: Tue, 23 May 2023 19:33:37 +0200
+Message-ID: <CACRpkda8Q+zy-J9Hs28eJuioaE6eEzDmFE6ftEGgs9ot0t4Y6g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
+To: Paulo Pavacic <pavacic.p@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,60 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sam@ravnborg.org
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 16, 2023 at 9:52=E2=80=AFAM Paulo Pava=C4=8Di=C4=87 <pavacic.p@=
-gmail.com> wrote:
-
-> From 118419935002e076b44292c832e9b26106f93c89 Mon Sep 17 00:00:00 2001
-> From: =3D?UTF-8?q?Paulo=3D20Pava=3DC4=3D8Di=3DC4=3D87?=3D <pavacic.p@gmai=
-l.com>
-> Date: Fri, 12 May 2023 17:38:29 +0200
-> Subject: [PATCH] drm/panel: add panel-mipi-dsi-bringup driver
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=3DUTF-8
-> Content-Transfer-Encoding: 8bit
-
-This header is really mangled. I wonder what happened?
+On Fri, May 19, 2023 at 4:25=E2=80=AFPM Paulo Pavacic <pavacic.p@gmail.com>=
+ wrote:
 
 > +//macro for writing to DSI
-> +#define WRITE_DSI(dsi, seq...)
->            \
-> +    {                                                                   =
-     \
-> +        const u8 d[] =3D { seq };                                       =
-   \
-> +        int ret =3D mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));      =
-   \
-> +        if (ret < 0) {                                                  =
- \
-> +            dev_err(&dsi->dev,                                       \
-> +                "Error (%d) occurred while trying to"            \
-> +                " write MIPI DSI command: %s (decimal value)\n", \
-> +                ret, d);                                         \
-> +        }                                                               =
- \
-> +    }
+> +#define WRITE_DSI(dsi, seq...)                                          =
+         \
+> +       {                                                                =
+        \
+> +               const u8 d[] =3D { seq };                                =
+          \
+> +               int ret =3D mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d))=
+;         \
+> +               if (ret < 0) {                                           =
+        \
+> +                       dev_err(&dsi->dev,                               =
+        \
+> +                               "Error (%d) occurred while trying to"    =
+        \
+> +                               " write MIPI DSI command: %s (decimal val=
+ue)\n", \
+> +                               ret, d);                                 =
+        \
+> +               }                                                        =
+        \
+> +       }
 
-This is reinventing
-mipi_dsi_generic_write_seq() from <drm/drm_mipi_dsi.h>
+As said for the other patch, this reinvents mipi_dsi_dcs_write_seq()
 so use that instead.
 
-> +static void brup_panel_fannal_c3004_enable_function(struct
-> mipi_dsi_device *dsi)
-
-Doesn't look like a good name for a generic function?
-
-> +    WRITE_DSI(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x13);
-
-Use
-mipi_dsi_generic_write_seq()
-
-I suppose these review comments go fo rthe c3004 driver too.
+mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x13);
+etc.
 
 Yours,
 Linus Walleij
