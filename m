@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4938970E5CF
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:40:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1453F70E60A
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:53:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1892E10E4B9;
-	Tue, 23 May 2023 19:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1AD210E4C0;
+	Tue, 23 May 2023 19:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E7A10E4B7;
- Tue, 23 May 2023 19:39:51 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34NH7fn8031386; Tue, 23 May 2023 19:39:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=jIoS+eVNpc6yQjsmF5ImRZeXFYa+uGcXl9haXZCOKeU=;
- b=C/m8frDv+aWjcrzrCcE2b0B0LDsO9Bv6ZiVLAl8m6tBujXjG0VVEbq3SYYme3GXw4e+U
- 64inuKPMEsWc6NEOgXC70KDzhrfrcRmdAqWAyVWknbxFgKJSIQKJA3pgrygEZKsmvoQ8
- janvrA6SFthNY/R23Ydrymjrnc7KNkeKWnDShquE/N5tx7tqjXy6Ls0gCYPABoCZPI4X
- MIw6c5fBGDPHq/FWa0Ln8tCt+Z0PLHsRvj2rTgIwS/3mt8Ie1XTOfvih3CSth9tEnZQ0
- Gh3IEYKntLbJ8flPda6UQmwVexRU6czyHJWm3dxQlXz3LL4y0SScfEiWOb5Y7M0oBgER dA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qrpmm2acq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 19:39:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34NJdWje024959
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 19:39:32 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 23 May 2023 12:39:32 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v5 2/2] drm/msm/dp: enable HDP plugin/unplugged interrupts at
- hpd_enable/disable
-Date: Tue, 23 May 2023 12:39:14 -0700
-Message-ID: <1684870754-24906-3-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1684870754-24906-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1684870754-24906-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A22810E4BF;
+ Tue, 23 May 2023 19:53:01 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ 46e09a7af769-6af6db17a27so3112a34.2; 
+ Tue, 23 May 2023 12:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684871579; x=1687463579;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Qp+ShQdW7PB+8DG4rAciHgSrob5gFvAziJEY22PEZdo=;
+ b=H/qd4f3vNxm2DmFvUxFqVq8G30x7NRqd9AGckXg3qMNfAg9NSA6zVZ4hwOTjxj7Ex5
+ CIRdifTNTphlreVZXLYHYXsbjxiLUoXurl3OjJRj/1a74MMh6GTQNEOs7Q8G4NBBV+JA
+ DNaui/5hFWzVQhGHp5TguZXH9u0VzpqZAUHDwvRdciNuSQPyTdS8HxkUh1ZKHkPl1mlg
+ FvvTLO2ZzT2muayA8X0VffUp8E77Ibee1CKZ1ewcdwbeA6vrijZA1qI4bDD/yHo7kl53
+ 6U3TadjvS81Cq1TBUorY7ZrhbsNn7+LxJopMEalzvHsMOxyVCY+GeM/oUtjgpxjnef+4
+ ECgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684871579; x=1687463579;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Qp+ShQdW7PB+8DG4rAciHgSrob5gFvAziJEY22PEZdo=;
+ b=E0s8HRuEk24ZtJCkqdSHbqXOiUiIyhXQQuUu6Ma3fWLdYc1ZEst1RbzC9abEGlH8mU
+ Vx1HKIlf27MbnAY0XSXXjlbTUo1xByAaupb888oQLn0e5OXatqCQB3aiKnbShVGsqeSZ
+ fTFo/fuOLWbZddjZANCMRKtnDfxhQ9UheTlE3jmafresb1TwokXupQIg6dXy4F9WmYpA
+ YKRaqQ+kfUkjkqEpCjj5wbtvd2OJ9crjyFu8otEYuCu29BDOJyXuZ5X/2ZrioT6UBoD3
+ hskp6Cs3saNGngh0wmwR/NJUVaKJNfmBG0FJ7Eadc29+EfqKCcK57xdyimo9/KTAXXMj
+ mKcQ==
+X-Gm-Message-State: AC+VfDw6bQZrxhjQuAtUq+7OiMyLAXWlO/NW3OEpfviK/rzLQ6VtTXCl
+ NPiFeLXTuYcvORg7JsIsyPfbG+FE9CCNrEX7+Bo=
+X-Google-Smtp-Source: ACHHUZ6ULiPhWw1lgwrqdu23Hrw7vXt2YVDLQ/71nwCurMNdKV2WTpd4fsR5i54abHRQv2b7sT9H399LZQgRqLDxYKM=
+X-Received: by 2002:a9d:5617:0:b0:6aa:e821:88eb with SMTP id
+ e23-20020a9d5617000000b006aae82188ebmr7119572oti.4.1684871579561; Tue, 23 May
+ 2023 12:52:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 67oyJbD-DpY27FPix89T3QNkBHOfj1hP
-X-Proofpoint-GUID: 67oyJbD-DpY27FPix89T3QNkBHOfj1hP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_12,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305230159
+References: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
+ <053819bd-b3c4-a72c-9316-85d974082ad6@linaro.org>
+ <ZGzalLjTvUfzEADU@hovoldconsulting.com>
+ <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
+In-Reply-To: <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 23 May 2023 12:52:48 -0700
+Message-ID: <CAF6AEGuNO46Nz0sTD+yDPa_7PF2u7Phx+rGPFUSJBz7nwaya_A@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: add module parameter for PSR
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,232 +71,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, leonard@lausen.nl, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, dianders@chromium.org,
+ Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_jesszhan@quicinc.com,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The internal_hpd flag is set to true by dp_bridge_hpd_enable() and set to
-false by dp_bridge_hpd_disable() to handle GPIO pinmuxed into DP controller
-case. HDP related interrupts can not be enabled until internal_hpd is set
-to true. At current implementation dp_display_config_hpd() will initialize
-DP host controller first followed by enabling HDP related interrupts if
-internal_hpd was true at that time. Enable HDP related interrupts depends on
-internal_hpd status may leave system with DP driver host is in running state
-but without HDP related interrupts being enabled. This will prevent external
-display from being detected. Eliminated this dependency by moving HDP related
-interrupts enable/disable be done at dp_bridge_hpd_enable/disable() directly
-regardless of internal_hpd status.
+On Tue, May 23, 2023 at 12:23=E2=80=AFPM Abhinav Kumar
+<quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 5/23/2023 8:24 AM, Johan Hovold wrote:
+> > On Fri, May 12, 2023 at 09:13:04PM +0300, Dmitry Baryshkov wrote:
+> >> On 28/04/2023 02:28, Abhinav Kumar wrote:
+> >>> On sc7280 where eDP is the primary display, PSR is causing
+> >>> IGT breakage even for basic test cases like kms_atomic and
+> >>> kms_atomic_transition. Most often the issue starts with below
+> >>> stack so providing that as reference
+> >>>
+> >>> Call trace:
+> >>>    dpu_encoder_assign_crtc+0x64/0x6c
+> >>>    dpu_crtc_enable+0x188/0x204
+> >>>    drm_atomic_helper_commit_modeset_enables+0xc0/0x274
+> >>>    msm_atomic_commit_tail+0x1a8/0x68c
+> >>>    commit_tail+0xb0/0x160
+> >>>    drm_atomic_helper_commit+0x11c/0x124
+> >>>    drm_atomic_commit+0xb0/0xdc
+> >>>    drm_atomic_connector_commit_dpms+0xf4/0x110
+> >>>    drm_mode_obj_set_property_ioctl+0x16c/0x3b0
+> >>>    drm_connector_property_set_ioctl+0x4c/0x74
+> >>>    drm_ioctl_kernel+0xec/0x15c
+> >>>    drm_ioctl+0x264/0x408
+> >>>    __arm64_sys_ioctl+0x9c/0xd4
+> >>>    invoke_syscall+0x4c/0x110
+> >>>    el0_svc_common+0x94/0xfc
+> >>>    do_el0_svc+0x3c/0xb0
+> >>>    el0_svc+0x2c/0x7c
+> >>>    el0t_64_sync_handler+0x48/0x114
+> >>>    el0t_64_sync+0x190/0x194
+> >>> ---[ end trace 0000000000000000 ]---
+> >>> [drm-dp] dp_ctrl_push_idle: PUSH_IDLE pattern timedout
+> >>>
+> >>> Other basic use-cases still seem to work fine hence add a
+> >>> a module parameter to allow toggling psr enable/disable till
+> >>> PSR related issues are hashed out with IGT.
+> >>
+> >> For the reference: Bjorn reported that he has issues with VT on a
+> >> PSR-enabled laptops. This patch fixes the issue for him
+> >
+> > Module parameters are almost never warranted, and it is definitely not
+> > the right way to handle a broken implementation.
+> >
+> > I've just sent a revert that unconditionally disables PSR support until
+> > the implementation has been fixed:
+> >
+> >       https://lore.kernel.org/lkml/20230523151646.28366-1-johan+linaro@=
+kernel.org/
+> >
+> > Johan
+>
+> I dont completely agree with this. Even the virtual terminal case was
+> reported to be fixed by one user but not the other. So it was probably
+> something missed out either in validation or reproduction steps of the
+> user who reported it to be fixed OR the user who reported it not fixed.
+> That needs to be investigated now.
+>
+> We should have ideally gone with the modparam with the feature patches
+> itself knowing that it gets enabled for all sinks if PSR is supported.
+>
+> I had discussed with Rob that till we have some more confidence with the
+> reported issues we would go with the modparam so as to not do the full
+> revert.
+>
+> In this particular case, the one line revert is not really a deal
+> breaker. In some other implementations, it might not really be so
+> trivial to revert the feature with a one line change.
+>
+> So I would like to understand what is the concern with the mod param if
+> the maintainers are onboard with it.
 
-Changes in V3:
--- dp_catalog_ctrl_hpd_enable() and dp_catalog_ctrl_hpd_disable()
--- rewording ocmmit text
+Tbf, I'd go further in the modparam direction, ie. add a default
+disabled modparam, but then _also_ enable the modparam in CI and add
+the failing tests to xfails.  I'd rather have xfails in CI than skips.
 
-Changes in V4:
--- replace dp_display_config_hpd() with dp_display_host_start()
--- move enable_irq() at dp_display_host_start();
+Acked-by: Rob Clark <robdclark@gmail.com>
 
-Changes in V5:
--- replace dp_display_host_start() with dp_display_host_init()
-
-Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable callbacks")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-Tested-by: Bjorn Andersson <andersson@kernel.org>
----
- drivers/gpu/drm/msm/dp/dp_catalog.c | 15 ++++++++-
- drivers/gpu/drm/msm/dp/dp_catalog.h |  3 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 62 ++++++++++++-------------------------
- 3 files changed, 35 insertions(+), 45 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 7a8cf1c..5142aeb 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -620,7 +620,7 @@ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
- 				config & DP_DP_HPD_INT_MASK);
- }
- 
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
-+void dp_catalog_ctrl_hpd_enable(struct dp_catalog *dp_catalog)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
-@@ -635,6 +635,19 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
- 	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
- }
- 
-+void dp_catalog_ctrl_hpd_disable(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-+
-+	reftimer &= ~DP_DP_HPD_REFTIMER_ENABLE;
-+	dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-+
-+	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, 0);
-+}
-+
- static void dp_catalog_enable_sdp(struct dp_catalog_private *catalog)
- {
- 	/* trigger sdp */
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 82376a2..38786e8 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -104,7 +104,8 @@ bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
- 			u32 intr_mask, bool en);
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-+void dp_catalog_ctrl_hpd_enable(struct dp_catalog *dp_catalog);
-+void dp_catalog_ctrl_hpd_disable(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
- u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 1af49b6..cb805cf 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -615,12 +615,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 		dp->hpd_state = ST_MAINLINK_READY;
- 	}
- 
--	/* enable HDP irq_hpd/replug interrupt */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
--					   true);
--
- 	drm_dbg_dp(dp->drm_dev, "After, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 	mutex_unlock(&dp->event_mutex);
-@@ -658,12 +652,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 
--	/* disable irq_hpd/replug interrupts */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
--					   false);
--
- 	/* unplugged, no more irq_hpd handle */
- 	dp_del_event(dp, EV_IRQ_HPD_INT);
- 
-@@ -687,10 +675,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	/* disable HPD plug interrupts */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, false);
--
- 	/*
- 	 * We don't need separate work for disconnect as
- 	 * connect/attention interrupts are disabled
-@@ -706,10 +690,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	/* signal the disconnect event early to ensure proper teardown */
- 	dp_display_handle_plugged_change(&dp->dp_display, false);
- 
--	/* enable HDP plug interrupt to prepare for next plugin */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, true);
--
- 	drm_dbg_dp(dp->drm_dev, "After, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 
-@@ -1082,20 +1062,6 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
- 	mutex_unlock(&dp_display->event_mutex);
- }
- 
--static void dp_display_config_hpd(struct dp_display_private *dp)
--{
--
--	dp_display_host_init(dp);
--	dp_catalog_ctrl_hpd_config(dp->catalog);
--
--	/* Enable plug and unplug interrupts only if requested */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK,
--				true);
--}
--
- void dp_display_set_psr(struct msm_dp *dp_display, bool enter)
- {
- 	struct dp_display_private *dp;
-@@ -1170,7 +1136,7 @@ static int hpd_event_thread(void *data)
- 
- 		switch (todo->event_id) {
- 		case EV_HPD_INIT_SETUP:
--			dp_display_config_hpd(dp_priv);
-+			dp_display_host_init(dp_priv);
- 			break;
- 		case EV_HPD_PLUG_INT:
- 			dp_hpd_plug_handle(dp_priv, todo->data);
-@@ -1387,13 +1353,8 @@ static int dp_pm_resume(struct device *dev)
- 	/* turn on dp ctrl/phy */
- 	dp_display_host_init(dp);
- 
--	dp_catalog_ctrl_hpd_config(dp->catalog);
--
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK,
--				true);
-+	if (dp_display->is_edp)
-+		dp_catalog_ctrl_hpd_enable(dp->catalog);
- 
- 	if (dp_catalog_link_is_connected(dp->catalog)) {
- 		/*
-@@ -1561,7 +1522,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- 
- 	if (aux_bus && dp->is_edp) {
- 		dp_display_host_init(dp_priv);
--		dp_catalog_ctrl_hpd_config(dp_priv->catalog);
-+		dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
- 		dp_display_host_phy_init(dp_priv);
- 
- 		/*
-@@ -1792,16 +1753,31 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
- 	struct msm_dp *dp_display = dp_bridge->dp_display;
-+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	mutex_lock(&dp->event_mutex);
-+	dp_catalog_ctrl_hpd_enable(dp->catalog);
-+
-+	/* enable HDP interrupts */
-+	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, true);
- 
- 	dp_display->internal_hpd = true;
-+	mutex_unlock(&dp->event_mutex);
- }
- 
- void dp_bridge_hpd_disable(struct drm_bridge *bridge)
- {
- 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
- 	struct msm_dp *dp_display = dp_bridge->dp_display;
-+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	mutex_lock(&dp->event_mutex);
-+	/* disable HDP interrupts */
-+	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
-+	dp_catalog_ctrl_hpd_disable(dp->catalog);
- 
- 	dp_display->internal_hpd = false;
-+	mutex_unlock(&dp->event_mutex);
- }
- 
- void dp_bridge_hpd_notify(struct drm_bridge *bridge,
--- 
-2.7.4
-
+BR,
+-R
