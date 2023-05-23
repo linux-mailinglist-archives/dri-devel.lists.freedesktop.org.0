@@ -1,149 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8036970D421
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 08:40:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D1670D432
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 08:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8624A10E3FD;
-	Tue, 23 May 2023 06:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A43C610E3DB;
+	Tue, 23 May 2023 06:44:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6C5210E3EA;
- Tue, 23 May 2023 06:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684824050; x=1716360050;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=dBA2/s0ac4TQZWHoiOGMXXT78j8LeJJK4LOGH2851o0=;
- b=Kd/PlOjAQin+YhU8QjeocOcRRxPQzFoUY1OqO5cGLdOzRDAiEFtYaOpz
- bvlSdyYD+L2KciNArCMzwaljqcE9sCud4AJsEe33vyOETQBJhVjEvcoI0
- poLsMysOAktgiph6vujZsg66SRK4HQizuitQxBGT8mVQdl0txUBeBn1aT
- +F+TyQfkpWC3k4cfIIOWKCjF1AYYiful+coN3NrYVssOQhNSgnF4vPNg8
- /emucf7bgjlxYMGIqePgAoolH5E+g+1QGFhBfwO8gEJMp8A7nnEtMTFmZ
- XRx8+lb6h5Qv/kxss4GvVEc2UJEn4pHo7SNIov7ptKX4fNOXDKQl6Oo0M Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="351998612"
-X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="351998612"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2023 23:40:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="848142363"
-X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="848142363"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga001.fm.intel.com with ESMTP; 22 May 2023 23:40:50 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 22 May 2023 23:40:49 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 22 May 2023 23:40:48 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 22 May 2023 23:40:48 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 22 May 2023 23:40:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVrWLXwwi/gZg3eXLfhqKq/m8bVAMoclZ/i9L/fnWndwQ6du2MHL3luSFyqpltttxY9uCSK/kK/GBX5lwguHejiIiV1KYSLuEkD10ctFzIQNjhYUqMwGrpLexsx5hZKBnjH56tFrQouZ99FREujA0W+3DgmsrQolTUuzjAOnHW70I2fy83i6rSXzIIbfypRHKymLFS9l0togDa5K/1+F1li0cypQBl5gGRe66GJnkgz3mvGJ/0MX03MKdcS6Ytb2LOKaf2gDSSMJ+jYbRUooZnCAqwwJjQF9ec8u+DfAPUv1qUbrqWsporlRURPbC/v/ka6vsSe9G9ygHrIVihktGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MKuTqGlin8z4jetESFgSjNx0Fo0jWTQV9jHcrLPXDck=;
- b=bKbcXNAAC2HMg616WB+jMXS/uPTbK2OknLuwzIrECffrMegq1cXkUduR3sBIFziEuK6e+UocE3lEDm+KlNEuF9/J16R12hYUL3/PuutoOtJE8q+FZBXDZVEIf5000jzuqA5mPNi3ds4njVDF5EtRghfot02zMeL3QMv4SBdbgxEsd+X3T7+TVXaWezjPaYOJIRXdPufPMwm14Xx5MNd1G7GWphatm+LV2uTunl4nFyq8cV8q3f0LE000ZJvUoUQcuRxRan3SLy3daYuWrq18fCXOK5KbUXlAkKq+ANd/3jx8lPYasfw9eqCcUpIN+KYgm1neOARHrZYH0nu5aqawwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DM6PR11MB4721.namprd11.prod.outlook.com (2603:10b6:5:2a3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29; Tue, 23 May
- 2023 06:40:47 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6411.028; Tue, 23 May 2023
- 06:40:46 +0000
-Date: Mon, 22 May 2023 23:40:44 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-xe] [PATCH] drm/doc/rfc/xe: No STAGING in drm.
-Message-ID: <z4dxbo4axtxh3zdpgd5lsgxbvppr7m47klagzvzoa2i3crr6c2@2azkiysgfkbj>
-References: <20230522195712.2162736-1-rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230522195712.2162736-1-rodrigo.vivi@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0194.namprd05.prod.outlook.com
- (2603:10b6:a03:330::19) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0226810E3DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 06:44:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684824251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LxBwvzkEHqqOVroWlGAw/iNlssiibA+1amVBXCL+nsY=;
+ b=NETjl10fiaxkBCzrnKcU2L29HIXeKmgTIxbuLDU/ocmub2AQzNnG+4uK+bfroswc/jE9dl
+ xfZUkph/3YrntAbt99EmYL2JPNiqdE4bGdZAr556n6RSlyLe5HthmhmN+6vBMugQgGF6M/
+ fkJI1HwJW2bwh7i+BzlVlzttDbU+IZA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-551-s4SYkvKtM7iF4-6StjlddQ-1; Tue, 23 May 2023 02:44:09 -0400
+X-MC-Unique: s4SYkvKtM7iF4-6StjlddQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-30793c16c78so4456315f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 23:44:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684824248; x=1687416248;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LxBwvzkEHqqOVroWlGAw/iNlssiibA+1amVBXCL+nsY=;
+ b=B2zQwHVd32Z4pFptCEHW0OYyf736mabeg5HUJ6xm67tAdz0dVMbrt1EWLRPcwhr83E
+ tg8wJHJDLsPYdIobVnX3JOXiW9N9Cq8oRRVpSGusI51csUtFwNr4Nk8ZWDWfT7LYecGY
+ xwRHSEetPYD8Jqh/AG2mVFbgBx1taLE1Bz6PErXzsvqnC8wn8wS3vQZ+gRtCyAo92Rl4
+ 5WXuiRPoUpuX0c4Dc9qDUuzV5XvRI2pRGkq7V88Ca+q4HFSjOBu52NCP8zPJkBq/Rqdx
+ SVKy2N3dFd9PW4V+NtSyiMy5EJx+2J4/4s0Cvz30gWfTh/ER+Crx0PKfeiLRCncpGyZT
+ bOSQ==
+X-Gm-Message-State: AC+VfDyRcXygRlZykLNDwI5sFSWzYYXD+yM3T5F6sXi4qehafAxQ6rn9
+ ybWL9ko2F2hdjIDzEDVfDY81KgPsiwyWp8vAdbdIHithwJmHYNYubwVsbHyDEu1gRiHMub1fRbI
+ oLIiYIl5n24zVfQM20GieUtG6rkTf
+X-Received: by 2002:a5d:62c4:0:b0:306:4031:63c5 with SMTP id
+ o4-20020a5d62c4000000b00306403163c5mr9649845wrv.51.1684824248828; 
+ Mon, 22 May 2023 23:44:08 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ57Dh7X7JU5EbJCqCwb8NWSsLs6JgePUHyfAxzIV6/bdnDkvcpqSuUq00iz0pdWTp4TRsT6TQ==
+X-Received: by 2002:a5d:62c4:0:b0:306:4031:63c5 with SMTP id
+ o4-20020a5d62c4000000b00306403163c5mr9649838wrv.51.1684824248585; 
+ Mon, 22 May 2023 23:44:08 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ o3-20020a1c7503000000b003f09d7b6e20sm10650421wmc.2.2023.05.22.23.44.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 May 2023 23:44:08 -0700 (PDT)
+Message-ID: <6fbab263-1f49-126b-a108-6a94664334ee@redhat.com>
+Date: Tue, 23 May 2023 08:44:07 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM6PR11MB4721:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79320a12-e9ee-4339-33cd-08db5b58a38a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ct0PacNWLpE89OrF8G+4Gsp5RB+jY3EB6eFdpUpc8zHo3XUI6zskUr2EfQj9ts7ydVrprEFvIZcMqfNVQGt1QzP3sTFQ6gFm9HOKLJLFEDlsxUFVt81vudZRiJM0puPYjvarBK24gWZ/bdI+1MzLE2Fxb771GojKEjw+tPJzvZmyCImmCElwRsC1VuCwJ0OwwCedMGbAb96/KnJTShsCEKsKvYNo3QV312AIkMRXLc9UZZlQ/z+W6A+FeUjWCFHUCKzR42cSLB/kz/sX11IseKQ9LeA8QBEcHfhgWeLuuqFWVeaiP532ToACt+40QOrb3FgIM9ZdAHWsLLk4J6VQIOJRZVHfq3diVvWPCjRx/3nPElsc7qIi7D5BvYLa+JOZzdqqatVfiHqHIrJuQh+4YIIG3TjX0aD1kx1WqtI67KNxbQ31nbjH9rX2llLvkUMoMOfHIsHxuA4Amp6oo74fZyn9pIMTzJZHVBJpRidqdrODwZURUxUF4Rnt9e/mA0WRnGM0tFoeKTMzy0whzAVOlD93BYXVY1yFrPEsoDebisw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(7916004)(366004)(346002)(376002)(39860400002)(396003)(136003)(451199021)(26005)(9686003)(6512007)(6506007)(107886003)(83380400001)(186003)(2906002)(4326008)(6636002)(316002)(66476007)(66556008)(66946007)(38100700002)(41300700001)(6486002)(54906003)(478600001)(33716001)(86362001)(82960400001)(8936002)(8676002)(6862004)(5660300002)(966005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UEVTQkovRmtkbDdZVENYMEk1MzV1aU90VmpHS2FENG4wV25EUDNBOTJKQjVu?=
- =?utf-8?B?WnFMTmlOaDY0RlVETTJDemdwRmtnY3BQaFlyYXhVT3ptcFRVem9pbTRKcEcv?=
- =?utf-8?B?ZjBxeWFSbHB4M1pxaWhDYXM3ZXRmMWRpd0MzU0ZFZnpKWHBTZEswL2tTd3Jn?=
- =?utf-8?B?NEZkWERUeFViaGJ5enNZeWNFZWJMbitOaVAvcWNhdTlCMHljNWgwdnQ5cXRJ?=
- =?utf-8?B?ekgwNFYzSGt0OE42MC8welNrTWM3YUt1b2RGMkRnNVVSSE1KMm5yWTZlMm5T?=
- =?utf-8?B?OHNuUjczNUxJNEtoUGFsNGtmOFovOSszaFZGUUxqandnbWtuWTM3MzBHU2xR?=
- =?utf-8?B?SXg5OEhhQ1FWNFJEN1NxcThlUFFFcmdEcXVMSHg4TG8wUVVQTWtnTlJBLzRv?=
- =?utf-8?B?amwxWllMMG5OeDFHYVljVS96SW4ySHpGdC9yYUlGU0x3cUtJMEgwb3BFVllO?=
- =?utf-8?B?RUNWTTFXVEVseUNLdVBNNFh4cks4N3ZoZGVyK3U0RTU4eGN6OEMweCtVMEdi?=
- =?utf-8?B?VzJobk9hemNPb3BkWlI5OVVXWTQxczhORHhzV1JPTEpKVTNwMndXU3ZRdXps?=
- =?utf-8?B?M2hjdnoySWdMbjM1bmdQVXFMRDdBNm9qYklkR3dlcy9ndEVRRzN1NU5rUjZw?=
- =?utf-8?B?VVp2elJuVDdvK204RXY5dGFQQmZqaXJUSmR5eEN2YWtLMHF4dDN6YjNhUUoz?=
- =?utf-8?B?dEVIaEZKQUVUcVE4SEJYTU5DQUc2L1EzZ3BrMWxaa2JwdnUzMGd5R0pqN2tw?=
- =?utf-8?B?ZENxcHpVSnlWMk41alE5VFgrcjhWMFhOS3dvS09KTDcvRmlkZHhtVXNwc3d4?=
- =?utf-8?B?OUxYbjdkaGtlWGozaDUzTWhkdEJXN0VIYnROMyt5MTVzUnBHVHkrc0h4a1lt?=
- =?utf-8?B?UmNKY0Q1b1pPL2Q0VVhxUzVUQnF1ckR1bXZHY1B6ZFRNQWRTd1NZdmx2MG9z?=
- =?utf-8?B?eWZ2anI2eGpwcXptUWJ4RWxwRi90UTNuWms1VmFnRG5XTkRwNVp6c3FnckJt?=
- =?utf-8?B?TWJtRS8vUFVlQVdEb1I1K3JpZVc1NEpET3NlY29iU3VvbXdsVnpxd0RBZVVM?=
- =?utf-8?B?L3BLdWFSY3l5U3o0UWFTd014bFBvSUw5aldMVlllTHl5OFZMOEp5YTFzSjNy?=
- =?utf-8?B?R3d1a3Z3Vjh6NExOaVlDbkY3cTZaUlpKVDhJTGN1TXRQdnZ5cTBqK01tZDB6?=
- =?utf-8?B?R1c1VVJMam5oTjRUQkdhSnEyendUekMzS2gwLzh6ZGhZamFKeE4wS2phT0wv?=
- =?utf-8?B?bWVMdlUvNlZ4ZkJUVWVsZ3p3OWQrV2paaEhTUHlud2s5N2dTWWIxaFBMNlhN?=
- =?utf-8?B?dzIwSG84QldjckZpaXZqZW1JWVc5L3czNjZBdUdmblVtUUIvZG0rbUMrZDFX?=
- =?utf-8?B?VFgxUTNOeEhXMmZqTjhMMGFJcVVheTBKdXRMNWoxblkra01kdUdzSElkSkY3?=
- =?utf-8?B?eG5hRVdFcjBvOW02R1VlZzJwQ21Fa2pCVU1INEdSR3FCNGwyQTdkUW5mU2Fl?=
- =?utf-8?B?TkttU2Y1T1FpbmZqbTdKNXFMKzlKZWRTa3krMjJHVnlUY3VaMW03dGVqaTJV?=
- =?utf-8?B?ZSs0T2VMRjN1bFpNQ2lQSktSSCtIL04zUE5ZTGNRelFvMFpsK3N1LzM4Zkxk?=
- =?utf-8?B?SUp4MkVJaHpBUDd3OXZtMzkyQ09tcUJXZ3RDKzdTRmZHaWwzOCs5dHlZdlpF?=
- =?utf-8?B?c1cyTXFDWEEwZ0NHWEc0aEVzVTcyKytvaEQwdWtGZVdDNFBaRmIyTHVjTlhN?=
- =?utf-8?B?Q3pNVkE0WXlyMUF3RENRZG04MzBxQXhOWkhOWFRqRTBUK3dlaUJBazNSUllo?=
- =?utf-8?B?eW5Sb3NIdGpFUTY4dGFJUUF0RldkVVliNEQ0Q2R4akF1S2pPZUg1R0hYV09G?=
- =?utf-8?B?cGFLaFRnY0FsbW5ZK3dmUFVhb0FTSFkyZkFHMTA4WlUyek05MjlZYnEwMFc4?=
- =?utf-8?B?MlZMUFIxSU1tZ3JZZFh5RGxVSlpnMlJkckNRUGxCbnhaOE1WazYyblZmeWRl?=
- =?utf-8?B?ZFJBek1PYXFXMDZYRlFPNnlRWERZS0ljV01IQUdYUmdtWVBHcy8zZHZrdlRq?=
- =?utf-8?B?UzdoY2pRaHBjOXk1ZW1JcTQrdFJPeFROcURyNktKYnAwb05MVFJxMSsyWWcw?=
- =?utf-8?B?QWdkZVBnWldCVmR1S0tkQjBwbVJPQTliRjB0NStORFNpU3lBVFdhSmtDNlJJ?=
- =?utf-8?B?akE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79320a12-e9ee-4339-33cd-08db5b58a38a
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 06:40:46.4074 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4NSSf2u/rX72kjjx4oY8LIWAKaJjAhpfSGZFR+bpHlmTSL7bVsY5jExyDGYocFjka8Ma1187v0RmcjGvR8A9aAgISpbnnPTB1XdjyeDLNKw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4721
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH] drm/mgag200: set variable mgag200_modeset
+ storage-class-specifier to static
+To: Tom Rix <trix@redhat.com>, airlied@redhat.com, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <20230517134140.874179-1-trix@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20230517134140.874179-1-trix@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,65 +88,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Luis Strano <luis.strano@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 22, 2023 at 03:57:12PM -0400, Rodrigo Vivi wrote:
->We are not using the STAGING inside drm and the uAPI needs to be
->in the acceptable form before we get merged upstream.
+On 17/05/2023 15:41, Tom Rix wrote:
+> smatch reports
+> drivers/gpu/drm/mgag200/mgag200_drv.c:23:5: warning: symbol
+>    'mgag200_modeset' was not declared. Should it be static?
+> 
+> This variable is only used in its defining file, so it should be static
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 976f0ab2006b..abddf37f0ea1 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -20,7 +20,7 @@
+>   
+>   #include "mgag200_drv.h"
+>   
+> -int mgag200_modeset = -1;
+> +static int mgag200_modeset = -1;
+>   MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+>   module_param_named(modeset, mgag200_modeset, int, 0400);
+>   
 
-Is this a change from i915, where the force_probe protection 
-is sufficient?
+It looks good to me,
 
-The email exchange with Greg KH  highlighted that the use of STAGING
-outside of staging dir doesn't really produce the desired effect*.
-Would it be sufficient to taint the kernel with bit 10 or
-create a dedicated taint for this case?
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Lucas De Marchi
+-- 
 
-* The logic for adding the taint is in the module load code and is
-   triggered for modules with MODULE_INFO(staging), automatically
-   added by modpost for modules under drivers/staging
+Jocelyn
 
->
->Link: https://lore.kernel.org/all/2023051029-overspend-sherry-1b85@gregkh/
->Cc: Dave Airlie <airlied@redhat.com>
->Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->Cc: Oded Gabbay <ogabbay@kernel.org>
->Cc: Francois Dugast <francois.dugast@intel.com>
->Cc: Luis Strano <luis.strano@intel.com>
->Cc: Matthew Brost <matthew.brost@intel.com>
->Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->---
-> Documentation/gpu/rfc/xe.rst | 7 ++-----
-> 1 file changed, 2 insertions(+), 5 deletions(-)
->
->diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
->index 2516fe141db6..8524095a54bd 100644
->--- a/Documentation/gpu/rfc/xe.rst
->+++ b/Documentation/gpu/rfc/xe.rst
->@@ -67,11 +67,8 @@ platforms.
->
-> When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
->
->-Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
->-the uAPI are expected while the driver is behind these protections. STAGING will
->-be removed when the driver uAPI gets to a mature state where we can guarantee the
->-‘no regression’ rule. Then force_probe will be lifted only for future platforms
->-that will be productized with Xe driver, but not with i915.
->+Xe driver will be protected with force_probe, which will be lifted only for
->+future platforms that will be productized with Xe driver, but not with i915.
->
-> Xe – Pre-Merge Goals
-> ====================
->-- 
->2.39.2
->
