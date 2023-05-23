@@ -2,48 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD03A70D9A2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 11:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A5070DA65
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 12:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E81510E41C;
-	Tue, 23 May 2023 09:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5565310E421;
+	Tue, 23 May 2023 10:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id D5E6510E420
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 09:55:45 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:57524.1031125115
+ by gabe.freedesktop.org (Postfix) with ESMTP id 572CB10E421
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:23:34 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:47070.371094434
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 3F859100213;
- Tue, 23 May 2023 17:55:40 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 4E3BB1002CF;
+ Tue, 23 May 2023 18:23:31 +0800 (CST)
 Received: from  ([114.242.206.180])
  by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id
- 277733f944394f969e1abbb9ceeb69a8 for david.laight@aculab.com; 
- Tue, 23 May 2023 17:55:42 CST
-X-Transaction-ID: 277733f944394f969e1abbb9ceeb69a8
+ 90a78cba9ef54891855234465fb649e0 for mripard@kernel.org; 
+ Tue, 23 May 2023 18:23:32 CST
+X-Transaction-ID: 90a78cba9ef54891855234465fb649e0
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
-Message-ID: <ed008264-e72e-7548-d93e-f7f4130ef2c2@189.cn>
-Date: Tue, 23 May 2023 17:55:39 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/drm_vblank.c: avoid unsigned int to signed int cast
-Content-Language: en-US
-To: David Laight <David.Laight@ACULAB.COM>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi <liyi@loongson.cn>
-References: <20230516173026.2990705-1-15330273260@189.cn>
- <f6bd362145124f34a1af800dd330f8e9@AcuMS.aculab.com>
- <b23c41b1-e177-c81d-5327-fce5511cb97d@189.cn> <871qj8ob7z.fsf@intel.com>
- <4c9c0897-5e3a-1469-3d87-ff7723ac160c@189.cn>
- <e5effc4568034489acf2f4d4dad6eba9@AcuMS.aculab.com>
 From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <e5effc4568034489acf2f4d4dad6eba9@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Li Yi <liyi@loongson.cn>
+Subject: [PATCH] drm/drm_vblank.c: using u32 instead of the int to store frame
+ size
+Date: Tue, 23 May 2023 18:23:28 +0800
+Message-Id: <20230523102328.372204-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,46 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "loongson-kernel@lists.loongnix.cn" <loongson-kernel@lists.loongnix.cn>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-On 2023/5/23 16:50, David Laight wrote:
-> From: 15330273260@189.cn <15330273260@189.cn>
->> Sent: 23 May 2023 05:27
->>
->> On 2023/5/22 19:29, Jani Nikula wrote:
->>> In general, do not use unsigned types in arithmethic to avoid negative
->>> values, because most people will be tripped over by integer promotion
->>> rules, and you'll get negative values anyway.
->>
->> Here I'm not sure about this,
->>
->> but there are plenty unsigned types arithmetic in the kernel.
-> The real problem is (attempted) arithmetic on types smaller than int.
-> Regardless of whether they are signed or unsigned.
+Both mode->crtc_htotal and mode->crtc_vtotal are u16 type, using a u32 is
+to store the result instead of int.
 
-It is about sign extend.
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn
+---
+ drivers/gpu/drm/drm_vblank.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, you may be right. I might create a wrong patch.
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 877e2067534f..a8dfe5551b7c 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -622,7 +622,7 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+ 
+ 	/* Valid dotclock? */
+ 	if (dotclock > 0) {
+-		int frame_size = mode->crtc_htotal * mode->crtc_vtotal;
++		u32 frame_size = mode->crtc_htotal * mode->crtc_vtotal;
+ 
+ 		/*
+ 		 * Convert scanline length in pixels and video
+-- 
+2.25.1
 
-But this will not happen in practice, because in general case:
-
-mode->crtc_htotal < 0x8fff;
-
-mode->crtc_vtotal < 0x8fff;
-
-u16 gets promoted to 'signed int' not 'unsigned int'.
-
-Sorry  :/
-
-> 	David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
