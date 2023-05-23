@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545F870E8B5
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DC570E8BB
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F9D10E4F3;
-	Tue, 23 May 2023 22:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE4510E4FF;
+	Tue, 23 May 2023 22:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3CA10E128;
- Tue, 23 May 2023 22:15:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B8C10E4F4;
+ Tue, 23 May 2023 22:15:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=jwsC7ME5e4u3vSgy1VY6znaxPeVZ4fftUqzSRZpzVQk=; b=Bii2cCPJn6cbJP5vWDdYL4bj59
- ibd3lKCNyfIdUgP7ljVvIv5jbO2K3DkleaU9b6gRLayzsXylCok75uEDVArjM6Dw9sDvcv4OZAszC
- HbcgKEFFeIhBBRhdb+GgKD0BHkyMPDpDYT2sL/1GN7W9n2s/4NxE+0poRYP3/4A9S4cbeqR6rl8cJ
- lKJPdE/uY96UCJHhnBbM0J+4Hb8fVZRyiS7Wse4A51ASvVXSWxkS3Qu1bK4NGFV/3hxlQn/h+04pz
- YimgAk842Ef43fSflE6gbDys6m3rmi5QhKITiRzSvqeNYxb7tY/hVHP35h+ovBETkU8wCp6MXNYH2
- l7r89oyg==;
+ bh=9jt4zlHHZKChXZG7CZyMIWmJvYQTV5U7dlmOwh+02Bk=; b=ajooNA76gAVw/wKKnhKpm2wmlr
+ oPlkFpFu5qAbD4vF1v73l5Xkj3NDugnbSa1tS0yd0HLMKhIkpQFSZqCUWUCSQTATxfKoq42Dln7Me
+ o1dZQDkexzwk+hbLcT3jsU5Zfid1flf90+F0oc+hAxpKUFHGIBi1gPFOwNUr0KxIuvgRXfK14rz/I
+ qgrHNLJYdgQ24e9+Mnc6wtNq/6CBHh8UuLseuGQeM+8UJxzUif6RZp+MQEwHbaq4FBG/4pMinjVFE
+ 7q1vD4iGAfA1shGUF8azJTXrxqscVnNacgqLBoO2VNUCF2WN7BmUzApFXOQUBeXhS/0R6R+iPNPCE
+ tLjRMCJQ==;
 Received: from [38.44.72.37] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1q1aHv-00HEOv-JT; Wed, 24 May 2023 00:15:27 +0200
+ id 1q1aHx-00HEOv-57; Wed, 24 May 2023 00:15:29 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 03/36] drm/drm_plane: track color mgmt changes per plane
-Date: Tue, 23 May 2023 21:14:47 -0100
-Message-Id: <20230523221520.3115570-4-mwen@igalia.com>
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: [PATCH 04/36] drm/amd/display: fix segment distribution for linear
+ LUTs
+Date: Tue, 23 May 2023 21:14:48 -0100
+Message-Id: <20230523221520.3115570-5-mwen@igalia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230523221520.3115570-1-mwen@igalia.com>
 References: <20230523221520.3115570-1-mwen@igalia.com>
@@ -64,60 +65,142 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We will add color mgmt properties to DRM planes in the next patches and
-we want to track when one of this properties change to define atomic
-commit behaviors. Using a similar approach from CRTC color props, we set
-a color_mgmt_changed boolean whenever a plane color prop changes.
+From: Harry Wentland <harry.wentland@amd.com>
 
+The region and segment calculation was incapable of dealing
+with regions of more than 16 segments. We first fix this.
+
+Now that we can support regions up to 256 elements we can
+define a better segment distribution for near-linear LUTs
+for our maximum of 256 HW-supported points.
+
+With these changes an "identity" LUT looks visually
+indistinguishable from bypass and allows us to use
+our 3DLUT.
+
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/drm_atomic.c              | 1 +
- drivers/gpu/drm/drm_atomic_state_helper.c | 1 +
- include/drm/drm_plane.h                   | 7 +++++++
- 3 files changed, 9 insertions(+)
+ .../amd/display/dc/dcn10/dcn10_cm_common.c    | 93 +++++++++++++++----
+ 1 file changed, 75 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index c0dc5858a723..da2429470c4f 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -724,6 +724,7 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
- 		   drm_get_color_encoding_name(state->color_encoding));
- 	drm_printf(p, "\tcolor-range=%s\n",
- 		   drm_get_color_range_name(state->color_range));
-+	drm_printf(p, "\tcolor_mgmt_changed=%d\n", state->color_mgmt_changed);
- 
- 	if (plane->funcs->atomic_print_state)
- 		plane->funcs->atomic_print_state(p, state);
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index dfb57217253b..3df4c96a902e 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -338,6 +338,7 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
- 	state->fence = NULL;
- 	state->commit = NULL;
- 	state->fb_damage_clips = NULL;
-+	state->color_mgmt_changed = false;
- }
- EXPORT_SYMBOL(__drm_atomic_helper_plane_duplicate_state);
- 
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 447e664e49d5..6c97380b8c76 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -237,6 +237,13 @@ struct drm_plane_state {
- 
- 	/** @state: backpointer to global drm_atomic_state */
- 	struct drm_atomic_state *state;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+index 7a00fe525dfb..f27413e94280 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_cm_common.c
+@@ -346,20 +346,37 @@ bool cm_helper_translate_curve_to_hw_format(
+ 		 * segment is from 2^-10 to 2^1
+ 		 * There are less than 256 points, for optimization
+ 		 */
+-		seg_distr[0] = 3;
+-		seg_distr[1] = 4;
+-		seg_distr[2] = 4;
+-		seg_distr[3] = 4;
+-		seg_distr[4] = 4;
+-		seg_distr[5] = 4;
+-		seg_distr[6] = 4;
+-		seg_distr[7] = 4;
+-		seg_distr[8] = 4;
+-		seg_distr[9] = 4;
+-		seg_distr[10] = 1;
++		if (output_tf->tf == TRANSFER_FUNCTION_LINEAR) {
++			seg_distr[0] = 0; /* 2 */
++			seg_distr[1] = 1; /* 4 */
++			seg_distr[2] = 2; /* 4 */
++			seg_distr[3] = 3; /* 8 */
++			seg_distr[4] = 4; /* 16 */
++			seg_distr[5] = 5; /* 32 */
++			seg_distr[6] = 6; /* 64 */
++			seg_distr[7] = 7; /* 128 */
 +
-+	/**
-+	 * @color_mgmt_changed: Color management properties have changed. Used
-+	 * by the atomic helpers and drivers to steer the atomic commit control
-+	 * flow.
-+	 */
-+	bool color_mgmt_changed : 1;
- };
++			region_start = -8;
++			region_end = 1;
++		} else {
++			seg_distr[0] = 3; /* 8 */
++			seg_distr[1] = 4; /* 16 */
++			seg_distr[2] = 4;
++			seg_distr[3] = 4;
++			seg_distr[4] = 4;
++			seg_distr[5] = 4;
++			seg_distr[6] = 4;
++			seg_distr[7] = 4;
++			seg_distr[8] = 4;
++			seg_distr[9] = 4;
++			seg_distr[10] = 1; /* 2 */
++			/* total = 8*16 + 8 + 64 + 2 = */
++
++			region_start = -10;
++			region_end = 1;
++		}
++
  
- static inline struct drm_rect
+-		region_start = -10;
+-		region_end = 1;
+ 	}
+ 
+ 	for (i = region_end - region_start; i < MAX_REGIONS_NUMBER ; i++)
+@@ -372,16 +389,56 @@ bool cm_helper_translate_curve_to_hw_format(
+ 
+ 	j = 0;
+ 	for (k = 0; k < (region_end - region_start); k++) {
+-		increment = NUMBER_SW_SEGMENTS / (1 << seg_distr[k]);
++		/*
++		 * We're using an ugly-ish hack here. Our HW allows for
++		 * 256 segments per region but SW_SEGMENTS is 16.
++		 * SW_SEGMENTS has some undocumented relationship to
++		 * the number of points in the tf_pts struct, which
++		 * is 512, unlike what's suggested TRANSFER_FUNC_POINTS.
++		 *
++		 * In order to work past this dilemma we'll scale our
++		 * increment by (1 << 4) and then do the inverse (1 >> 4)
++		 * when accessing the elements in tf_pts.
++		 *
++		 * TODO: find a better way using SW_SEGMENTS and
++		 *       TRANSFER_FUNC_POINTS definitions
++		 */
++		increment = (NUMBER_SW_SEGMENTS << 4) / (1 << seg_distr[k]);
+ 		start_index = (region_start + k + MAX_LOW_POINT) *
+ 				NUMBER_SW_SEGMENTS;
+-		for (i = start_index; i < start_index + NUMBER_SW_SEGMENTS;
++		for (i = (start_index << 4); i < (start_index << 4) + (NUMBER_SW_SEGMENTS << 4);
+ 				i += increment) {
++			struct fixed31_32 in_plus_one, in;
++			struct fixed31_32 value, red_value, green_value, blue_value;
++			uint32_t t = i & 0xf;
++
+ 			if (j == hw_points - 1)
+ 				break;
+-			rgb_resulted[j].red = output_tf->tf_pts.red[i];
+-			rgb_resulted[j].green = output_tf->tf_pts.green[i];
+-			rgb_resulted[j].blue = output_tf->tf_pts.blue[i];
++
++			in_plus_one = output_tf->tf_pts.red[(i >> 4) + 1];
++			in = output_tf->tf_pts.red[i >> 4];
++			value = dc_fixpt_sub(in_plus_one, in);
++			value = dc_fixpt_shr(dc_fixpt_mul_int(value, t),  4);
++			value = dc_fixpt_add(in, value);
++			red_value = value;
++
++			in_plus_one = output_tf->tf_pts.green[(i >> 4) + 1];
++			in = output_tf->tf_pts.green[i >> 4];
++			value = dc_fixpt_sub(in_plus_one, in);
++			value = dc_fixpt_shr(dc_fixpt_mul_int(value, t),  4);
++			value = dc_fixpt_add(in, value);
++			green_value = value;
++
++			in_plus_one = output_tf->tf_pts.blue[(i >> 4) + 1];
++			in = output_tf->tf_pts.blue[i >> 4];
++			value = dc_fixpt_sub(in_plus_one, in);
++			value = dc_fixpt_shr(dc_fixpt_mul_int(value, t),  4);
++			value = dc_fixpt_add(in, value);
++			blue_value = value;
++
++			rgb_resulted[j].red = red_value;
++			rgb_resulted[j].green = green_value;
++			rgb_resulted[j].blue = blue_value;
+ 			j++;
+ 		}
+ 	}
 -- 
 2.39.2
 
