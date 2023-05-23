@@ -1,47 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B9A70E952
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:55:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B133170E96D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 01:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C2C10E550;
-	Tue, 23 May 2023 22:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC10710E553;
+	Tue, 23 May 2023 23:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6FDD10E550
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 22:55:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D28096111A;
- Tue, 23 May 2023 22:55:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A75C433D2;
- Tue, 23 May 2023 22:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684882504;
- bh=dS/YAPwYvnC+rAO3yycyAQlX67UojDPpvbvnHvURfM0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QhbaASO3SX6oEMdYloRMuQu+fO8z7EMT6Ht41KN3RvFMYNoPMsHWom9rwqMLPqYZ9
- //+ZB8v/Plyz8JALAqURXUge8kP3UmeQfQ6+S+LSpI4QQ1U4rXBt5vDQesaNq86tYv
- ZZRxtxg6MnPtnwE+3ANCP55NxE5DtcDRXShPtJYT+E8PBAv8g4w2WZZuPEHYQZFHs9
- 9h2YAnK9oSGUbGB4YM/eGiCEkbB6FK5wiBpyqkwUuZ/aKT4ZUEkfdV5Vn9nZNUahxx
- 5C1SU3M+wUNnpn1DpA/PiI0bgIde1/DZkqe9wNHBHhkwAzjWR3F0qxgmJKysAbmOby
- QPPia3CpkWBHQ==
-Date: Tue, 23 May 2023 23:54:57 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v4 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
- controller
-Message-ID: <20230523-unfailing-twisting-9cb092b14f6f@spud>
-References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
- <1684878827-40672-3-git-send-email-justin.chen@broadcom.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B499710E137;
+ Tue, 23 May 2023 23:19:47 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34NMwXNH027673; Tue, 23 May 2023 23:19:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=sCS7rFO2plsqRVCoDtwbhISd6gxfk4woL3wH1Hj9rVM=;
+ b=f+5SOHxyu13zT4XX5D4ucxxKQbwr9XMPOZJvBHs+LCi0vmekdK/jLWrQi13RTpMuxmgJ
+ tLAUTFbwGzEExBxQ3c8IRg2BAzEilqoVfqIXpT3VOA4ShJrkT49MR6Iz8rFllep/sQI4
+ b1HLw6eNK6Pm55J/gn411eIfZf1m0APl/T4lUAJSyvhlH6He8fhWOUqdBxvCC9/C0Hre
+ hlwP2ysRaV1VgHRep/IpeTyPFxmbylwPA6Ax2a6ZG7qndEoQi9yhtfcBpzYAmrQQoUF5
+ wwU7LyBdmINLil3uR0e0ooAjd0tGsWdWTZBfTijtLNCj59VzJ4eLhgr8Ghve1ceaaXqI Og== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qrpmm2p30-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 23:19:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34NNJf6T031752
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 23:19:41 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 23 May
+ 2023 16:19:40 -0700
+Message-ID: <8cef544f-5161-045e-f769-8eec4f64f222@quicinc.com>
+Date: Tue, 23 May 2023 16:19:40 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1684878827-40672-3-git-send-email-justin.chen@broadcom.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/3] drm/msm/dpu: drop
+ dpu_encoder_phys_ops::late_register()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230521192230.9747-1-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230521192230.9747-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 0cUHU90_2-ZrwEIyNLPQbh88TkJfw0kL
+X-Proofpoint-GUID: 0cUHU90_2-ZrwEIyNLPQbh88TkJfw0kL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-23_15,2023-05-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ mlxscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 mlxlogscore=622 spamscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305230188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,45 +84,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, simon.horman@corigine.com, dri-devel@lists.freedesktop.org,
- edumazet@google.com, justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com,
- Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
- bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
- devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, davem@davemloft.net,
- robh+dt@kernel.org, christian.koenig@amd.com, hkallweit1@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Justin,
 
-On Tue, May 23, 2023 at 02:53:43PM -0700, Justin Chen wrote:
 
-> +  compatible:
-> +    enum:
-> +      - brcm,asp-v2.0
-> +      - brcm,bcm72165-asp
-> +      - brcm,asp-v2.1
-> +      - brcm,bcm74165-asp
+On 5/21/2023 12:22 PM, Dmitry Baryshkov wrote:
+> This callback has been unused since the driver being added. Drop it now.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-> +        compatible = "brcm,bcm72165-asp", "brcm,asp-v2.0";
-
-You can't do this, as Rob's bot has pointed out. Please test the
-bindings :( You need one of these type of constructs:
-
-compatible:
-  oneOf:
-    - items:
-        - const: brcm,bcm72165-asp
-        - const: brcm,asp-v2.0
-    - items:
-        - const: brcm,bcm74165-asp
-        - const: brcm,asp-v2.1
-
-Although, given either you or Florian said there are likely to be
-multiple parts, going for an enum, rather than const for the brcm,bcm..
-entry will prevent some churn. Up to you.
-
-Cheers,
-Conor.
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
