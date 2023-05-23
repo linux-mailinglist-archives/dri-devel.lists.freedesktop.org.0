@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED25170DC82
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:24:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009D470DCA2
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E79110E429;
-	Tue, 23 May 2023 12:24:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12C9510E433;
+	Tue, 23 May 2023 12:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B197610E427;
- Tue, 23 May 2023 12:24:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5AEE661447;
- Tue, 23 May 2023 12:24:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF27FC433D2;
- Tue, 23 May 2023 12:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684844689;
- bh=gj5qIIuM/4Kg3jC5/WRQLFgOl7Twqxvxi08WIIuci8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KgWNdxltwGQqe77/yXQP1OUs5hUYMlAa7cWzRlcniVlKNMKSR2Fu4pf9sJ1z5+O9J
- JemQW2C7EWNrKRljOPe/LVd7yWtEzsnv1g+mPi2m3oM4LOfartq8L3cHNSGbMQTv5i
- YNoHXYpTrSPo9wOlwmkoaxfEkrBR8vjJ1SD2/BfjvaB2QixOWH3m0YNWVDmtzN+gl2
- 3y4GmJe0BBepLjBPw92WBqLDkfYLBz4locVt+GEP0QZXrtVhDR6U/Vg/l3dWTkehDw
- TtQlgcR+5lBvSHHq6APpu5allzmRN7iRgDWFtSoSQIqgXu7oPGv8Fi5Zwoy8NQKsXg
- kWIjjqfBrLKLA==
-Date: Tue, 23 May 2023 05:28:42 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sc8280xp: Enable GPU related
- nodes
-Message-ID: <20230523122842.cueyeovuzpx63def@ripper>
-References: <20230523011522.65351-1-quic_bjorande@quicinc.com>
- <20230523011522.65351-4-quic_bjorande@quicinc.com>
- <1669ecc5-1845-e671-83f4-19ee14d37ce5@linaro.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082B310E433
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=0pyKNcI2JmURCBC4BceiezKO9ZUNFiz+fksjZhBjD+Y=; b=VQM90HdXpT8x+OQkR8BMM+7Tdr
+ p1dsurdQjsR6Sxl9TZszUoDIdeNdM9jYYYU5plKcOEXs/Epopdr+3EfCLaMVnhH/2QrWDtvk8kZz2
+ ohq32OLssVr1wVHezCkPoHXS5wtqaVseCalWPjKKuXLCNjVABN4qyL9NEwY5EPIrJxmTjZ6bSP1wP
+ V3VINUB+YL/h29czAgiMjP7KOJvtHNweGZOQqx9OBWEChO5ULFM8mT1wDp4KL7BBr5wqmPQ2b1Xrc
+ Z4FtTgM+iEYhIkWFrEPERelBQOcZpZLJZ2ypAVW/pV1dPeqb62b5rMs60HEPHvApGtSEswo7HZzyK
+ 9FYwI54w==;
+Received: from gwsc.sc.usp.br ([143.107.225.16] helo=bowie.sc.usp.br)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1q1RBr-00GqzX-Mk; Tue, 23 May 2023 14:32:36 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Subject: [PATCH v2] drm/vkms: Fix race-condition between the hrtimer and the
+ atomic commit
+Date: Tue, 23 May 2023 09:32:08 -0300
+Message-Id: <20230523123207.173976-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1669ecc5-1845-e671-83f4-19ee14d37ce5@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,154 +54,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>,
- mani@kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, johan@kernel.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 23, 2023 at 10:04:40AM +0200, Konrad Dybcio wrote:
-> 
-> 
-> On 23.05.2023 03:15, Bjorn Andersson wrote:
-> > From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > 
-> > Add memory reservation for the zap-shader and enable the Adreno SMMU,
-> > GPU clock controller, GMU and the GPU nodes for the SC8280XP CRD and the
-> > Lenovo ThinkPad X13s.
-> > 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> > ---
-> > 
-> > Changes since v1:
-> > - None
-> > 
-> >  arch/arm64/boot/dts/qcom/sc8280xp-crd.dts     | 26 +++++++++++++++++++
-> >  .../qcom/sc8280xp-lenovo-thinkpad-x13s.dts    | 26 +++++++++++++++++++
-> >  2 files changed, 52 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-> > index 5b25d54b9591..547277924ea3 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
-> > @@ -210,6 +210,11 @@ vreg_wwan: regulator-wwan {
-> >  	};
-> >  
-> >  	reserved-memory {
-> > +		gpu_mem: gpu-mem@8bf00000 {
-> The ZAP region is very seldom moved around, and I wouldn't expect it
-> to be uncommon among the very usecase-specific 8280 machines.
-> 
-> > +			reg = <0 0x8bf00000 0 0x2000>;
-> > +			no-map;
-> > +		};
-> > +
-> >  		linux,cma {
-> >  			compatible = "shared-dma-pool";
-> >  			size = <0x0 0x8000000>;
-> > @@ -259,6 +264,10 @@ usb1_sbu_mux: endpoint {
-> >  	};
-> >  };
-> >  
-> > +&adreno_smmu {
-> > +	status = "okay";
-> > +};
-> Ugh. Should definitely be enabled by default.
-> 
-> > +
-> >  &apps_rsc {
-> >  	regulators-0 {
-> >  		compatible = "qcom,pm8350-rpmh-regulators";
-> > @@ -376,6 +385,23 @@ &dispcc0 {
-> >  	status = "okay";
-> >  };
-> >  
-> > +&gmu {
-> > +	status = "okay";
-> > +};
-> You can keep the GMU enabled by default as well, it won't "probe" on
-> its own (the GPU's hw_init calls its registration)
-> 
-> > +
-> > +&gpu {
-> > +	status = "okay";
-> > +
-> > +	zap-shader {
-> > +		memory-region = <&gpu_mem>;
-> > +		firmware-name = "qcom/sc8280xp/qcdxkmsuc8280.mbn";
-> > +	};
-> > +};
-> > +
-> > +&gpucc {
-> > +	status = "okay";
-> > +};
-> Clock controllers have no reason to be off by default.
-> 
+Currently, it is possible for the composer to be set as enabled and then
+as disabled without a proper call for the vkms_vblank_simulate(). This
+is problematic, because the driver would skip one CRC output, causing CRC
+tests to fail. Therefore, we need to make sure that, for each time the
+composer is set as enabled, a composer job is added to the queue.
 
-On sa8295p/sa8540p the GPU is powered differently, so if I leave it
-enabled by default I need to disable it (or configure it) for those, or
-they won't boot.
+In order to provide this guarantee, add a mutex that will lock before
+the composer is set as enabled and will unlock only after the composer
+job is added to the queue. This way, we can have a guarantee that the
+driver won't skip a CRC entry.
 
-Regards,
-Bjorn
+This race-condition is affecting the IGT test "writeback-check-output",
+making the test fail and also, leaking writeback framebuffers, as the
+writeback job is queued, but it is not signaled. This patch avoids both
+problems.
 
-> Konrad
-> > +
-> >  &mdss0 {
-> >  	status = "okay";
-> >  };
-> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > index bdcba719fc38..5ef3f4c07d75 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > @@ -264,6 +264,11 @@ vreg_wwan: regulator-wwan {
-> >  	};
-> >  
-> >  	reserved-memory {
-> > +		gpu_mem: gpu-mem@8bf00000 {
-> > +			reg = <0 0x8bf00000 0 0x2000>;
-> > +			no-map;
-> > +		};
-> > +
-> >  		linux,cma {
-> >  			compatible = "shared-dma-pool";
-> >  			size = <0x0 0x8000000>;
-> > @@ -359,6 +364,10 @@ usb1_sbu_mux: endpoint {
-> >  	};
-> >  };
-> >  
-> > +&adreno_smmu {
-> > +	status = "okay";
-> > +};
-> > +
-> >  &apps_rsc {
-> >  	regulators-0 {
-> >  		compatible = "qcom,pm8350-rpmh-regulators";
-> > @@ -518,6 +527,23 @@ &dispcc0 {
-> >  	status = "okay";
-> >  };
-> >  
-> > +&gmu {
-> > +	status = "okay";
-> > +};
-> > +
-> > +&gpu {
-> > +	status = "okay";
-> > +
-> > +	zap-shader {
-> > +		memory-region = <&gpu_mem>;
-> > +		firmware-name = "qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn";
-> > +	};
-> > +};
-> > +
-> > +&gpucc {
-> > +	status = "okay";
-> > +};
-> > +
-> >  &mdss0 {
-> >  	status = "okay";
-> >  };
+[v2]:
+    * Create a new mutex and keep the spinlock across the atomic commit in
+      order to avoid interrupts that could result in deadlocks.
+
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 9 +++++++--
+ drivers/gpu/drm/vkms/vkms_crtc.c     | 9 +++++----
+ drivers/gpu/drm/vkms/vkms_drv.h      | 4 +++-
+ 3 files changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 906d3df40cdb..b12188fd6b38 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -320,10 +320,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
+ 	if (enabled)
+ 		drm_crtc_vblank_get(&out->crtc);
+ 
+-	spin_lock_irq(&out->lock);
++	mutex_lock(&out->enabled_lock);
+ 	old_enabled = out->composer_enabled;
+ 	out->composer_enabled = enabled;
+-	spin_unlock_irq(&out->lock);
++
++	/* the composition wasn't enabled, so unlock the lock to make sure the lock
++	 * will be balanced even if we have a failed commit
++	 */
++	if (!out->composer_enabled)
++		mutex_unlock(&out->enabled_lock);
+ 
+ 	if (old_enabled)
+ 		drm_crtc_vblank_put(&out->crtc);
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 515f6772b866..3079013c8b32 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 	struct drm_crtc *crtc = &output->crtc;
+ 	struct vkms_crtc_state *state;
+ 	u64 ret_overrun;
+-	bool ret, fence_cookie;
++	bool ret, fence_cookie, composer_enabled;
+ 
+ 	fence_cookie = dma_fence_begin_signalling();
+ 
+@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 	if (ret_overrun != 1)
+ 		pr_warn("%s: vblank timer overrun\n", __func__);
+ 
+-	spin_lock(&output->lock);
+ 	ret = drm_crtc_handle_vblank(crtc);
+ 	if (!ret)
+ 		DRM_ERROR("vkms failure on handling vblank");
+ 
+ 	state = output->composer_state;
+-	spin_unlock(&output->lock);
++	composer_enabled = output->composer_enabled;
++	mutex_unlock(&output->enabled_lock);
+ 
+-	if (state && output->composer_enabled) {
++	if (state && composer_enabled) {
+ 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
+ 
+ 		/* update frame_start only if a queued vkms_composer_worker()
+@@ -292,6 +292,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 
+ 	spin_lock_init(&vkms_out->lock);
+ 	spin_lock_init(&vkms_out->composer_lock);
++	mutex_init(&vkms_out->enabled_lock);
+ 
+ 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
+ 	if (!vkms_out->composer_workq)
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5f1a0a44a78c..dcf4e302fb4d 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -100,8 +100,10 @@ struct vkms_output {
+ 	struct workqueue_struct *composer_workq;
+ 	/* protects concurrent access to composer */
+ 	spinlock_t lock;
++	/* guarantees that if the composer is enabled, a job will be queued */
++	struct mutex enabled_lock;
+ 
+-	/* protected by @lock */
++	/* protected by @enabled_lock */
+ 	bool composer_enabled;
+ 	struct vkms_crtc_state *composer_state;
+ 
+-- 
+2.40.1
+
