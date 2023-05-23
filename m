@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C1D70E033
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 17:17:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD68D70E055
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 17:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86D8710E452;
-	Tue, 23 May 2023 15:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8D0910E0D4;
+	Tue, 23 May 2023 15:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36CA10E452;
- Tue, 23 May 2023 15:17:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 06C85618E6;
- Tue, 23 May 2023 15:17:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6381BC433D2;
- Tue, 23 May 2023 15:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684855061;
- bh=D2TI28zRqMeP33qD4AGJWV2hUnE/pn90ek046LImn8g=;
- h=From:To:Cc:Subject:Date:From;
- b=aCoBt0h0f7NnX7GHkpKHx5gX/kOf9gAf60zsdhyzmiEFf+xCbWPbmRlqVY2L+G3uB
- qHsIFCdiq1Vo2YL79EGMRddXfA7JRKvA2aXHN0efIAUqdMgUpU70iS9t8yoNaPh4KZ
- DyrY+bUPUsYjBE6py0YTCxEurL/YMVOizJBEywAwYU5NHi4oUJaHRd+XeYfAgLuyZM
- 0z0XPl9Zw2kcaFZWuqLwG09mIZVspbZef7/Yz3A5M7mw6llm7VBYZ3skX6OCps4Jpx
- zj9Lh+ZaiZVKPIBANRvV69ER6euCgEo++kYy6qqBNCFycbhItcIyZKJY30Y9NKIhgv
- Dsmk9u8YB0CZw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan+linaro@kernel.org>)
- id 1q1Tlg-0007O5-3D; Tue, 23 May 2023 17:17:44 +0200
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH] Revert "drm/msm/dp: set self refresh aware based on PSR
- support"
-Date: Tue, 23 May 2023 17:16:46 +0200
-Message-Id: <20230523151646.28366-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.39.3
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A4810E453;
+ Tue, 23 May 2023 15:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684855389; x=1716391389;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=GoEJJvJ815DRywyGkQuqmiP8Ye/nAR4lU2Wro1UwMY0=;
+ b=HslhNdHDlWOt2x3xw/KQQZ/7y4V+lwCGihNOuEl+64wLHZU2tP5J2EFd
+ UJTLGa+4n61KLHoerQ4Qp3Mkv7zZR4P48Jm+QfmqqHCYk3U2JvLEF6yNT
+ SnZfn5kLq9u51+xw1gNyph+bdREsw/rX8TshVdZvDtZENCd1pe1sIoscU
+ jJAjZefx10TU+dN7XXzNPEm7PGDmpR6VeH9Am4fzDDBx0tzuaLKh55IEI
+ lgXyg3zRTmez7kdSEe1YN9RRMlozgb4UQuy9tHTiqaAjq/ey93QJ4O+ab
+ iJEMSaifvJLiymAya2em3gjNr6wnhTbK15JP/Fb+wstMB81/EGJbH5Vr0 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="332888182"
+X-IronPort-AV: E=Sophos;i="6.00,186,1681196400"; d="scan'208";a="332888182"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2023 08:19:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="878259413"
+X-IronPort-AV: E=Sophos;i="6.00,186,1681196400"; d="scan'208";a="878259413"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2023 08:19:21 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/i915/pmu: couple of cleanups
+Date: Tue, 23 May 2023 08:19:16 -0700
+Message-Id: <20230523151918.4170499-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,60 +55,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 1844e680d56bb0c4e0489138f2b7ba2dc1c988e3.
+Ashutosh Dixit (2):
+  drm/i915/pmu: Turn off the timer to sample frequencies when GT is
+    parked
+  drm/i915/pmu: Make PMU sample array two-dimensional
 
-PSR support clearly is not ready for mainline and specifically breaks
-virtual terminals which are no longer updated when PSR is enabled (e.g.
-no keyboard input is echoed, no cursor blink).
+ drivers/gpu/drm/i915/i915_pmu.c | 72 +++++++++++----------------------
+ drivers/gpu/drm/i915/i915_pmu.h |  2 +-
+ 2 files changed, 24 insertions(+), 50 deletions(-)
 
-Disable PSR support for now by reverting commit 1844e680d56b
-("drm/msm/dp: set self refresh aware based on PSR support").
-
-Cc: Vinod Polimera <quic_vpolimer@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
-
-Bjorn reported that PSR support broke virtual terminals two months ago, 
-but this is still broken in 6.4-rc3:
-
-	https://lore.kernel.org/lkml/20230326162723.3lo6pnsfdwzsvbhj@ripper/
-
-despite the following series that claimed to address this:
-
-	https://lore.kernel.org/lkml/1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com
-
-Let's revert until this has been fixed properly.
-
-Johan
-
-
- drivers/gpu/drm/msm/dp/dp_drm.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 785d76639497..029e08c5bb06 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -117,8 +117,6 @@ static int edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
- 	if (WARN_ON(!conn_state))
- 		return -ENODEV;
- 
--	conn_state->self_refresh_aware = dp->psr_supported;
--
- 	if (!conn_state->crtc || !crtc_state)
- 		return 0;
- 
 -- 
-2.39.3
+2.38.0
 
