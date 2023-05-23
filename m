@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC2770D7A8
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE0B70D7DA
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A213410E413;
-	Tue, 23 May 2023 08:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A154210E097;
+	Tue, 23 May 2023 08:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5509310E410;
- Tue, 23 May 2023 08:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684831056; x=1716367056;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GexNu8ul19rNykCayNqdGi/g9jcsfXGGg+/dYN9Ji4c=;
- b=E+N0eQa8pislWzQLsjTBy6aFc+a6v0+Zo95tm3Je2fvuPT7SL/4q51dA
- bBIaXStYfpDwfYZ5ilkH5IRdrGAaYOfaMantrocpKgXd/NchNWmE6mTWC
- /Wi9a4sqSHi8yO5dmnqeYfONdvWKoFlQ/KRPDsm7PgxxNfpx63+anZBz3
- pdlYNghRhezfoIXx+d2lne4lqhvzIpvP/2C3CM24jdch7W2wJMPQM3lTw
- rXMgck1gvMq4aG3DSxfMrmGHgfDZzVmTEpY2y6lwN1qNKEmBmJrWPBs7N
- SMGcLJSkFtHp28ZWUcE35i4L+QU7VADPSwcpzAOFXZJUA2NoKr4apZfYo Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="418884403"
-X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="418884403"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2023 01:37:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="706916200"
-X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="706916200"
-Received: from vkutovoi-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.54.197])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2023 01:37:25 -0700
-Date: Tue, 23 May 2023 10:37:22 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: fei.yang@intel.com
-Subject: Re: [Intel-gfx] [PATCH v10 0/2] drm/i915: Allow user to set cache at
- BO creation
-Message-ID: <ZGx7Quf+ArHnXOR0@ashyti-mobl2.lan>
-References: <20230519051103.3404990-1-fei.yang@intel.com>
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA8110E097
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 08:50:50 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-194-4-IWd40DMtWa4Ek3F1Cvjg-1; Tue, 23 May 2023 09:50:32 +0100
+X-MC-Unique: 4-IWd40DMtWa4Ek3F1Cvjg-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 23 May
+ 2023 09:50:30 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Tue, 23 May 2023 09:50:30 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'15330273260@189.cn'" <15330273260@189.cn>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Sui Jingfeng <suijingfeng@loongson.cn>, Li Yi
+ <liyi@loongson.cn>
+Subject: RE: [PATCH] drm/drm_vblank.c: avoid unsigned int to signed int cast
+Thread-Topic: [PATCH] drm/drm_vblank.c: avoid unsigned int to signed int cast
+Thread-Index: AQHZiBwkXHI4wBkIl0yfSK4Xtptrs69eSnTggAkC21SAAEjo0A==
+Date: Tue, 23 May 2023 08:50:30 +0000
+Message-ID: <e5effc4568034489acf2f4d4dad6eba9@AcuMS.aculab.com>
+References: <20230516173026.2990705-1-15330273260@189.cn>
+ <f6bd362145124f34a1af800dd330f8e9@AcuMS.aculab.com>
+ <b23c41b1-e177-c81d-5327-fce5511cb97d@189.cn> <871qj8ob7z.fsf@intel.com>
+ <4c9c0897-5e3a-1469-3d87-ff7723ac160c@189.cn>
+In-Reply-To: <4c9c0897-5e3a-1469-3d87-ff7723ac160c@189.cn>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230519051103.3404990-1-fei.yang@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,51 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: "loongson-kernel@lists.loongnix.cn" <loongson-kernel@lists.loongnix.cn>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fei,
+RnJvbTogMTUzMzAyNzMyNjBAMTg5LmNuIDwxNTMzMDI3MzI2MEAxODkuY24+DQo+IFNlbnQ6IDIz
+IE1heSAyMDIzIDA1OjI3DQo+IA0KPiBPbiAyMDIzLzUvMjIgMTk6MjksIEphbmkgTmlrdWxhIHdy
+b3RlOg0KPiA+IEluIGdlbmVyYWwsIGRvIG5vdCB1c2UgdW5zaWduZWQgdHlwZXMgaW4gYXJpdGht
+ZXRoaWMgdG8gYXZvaWQgbmVnYXRpdmUNCj4gPiB2YWx1ZXMsIGJlY2F1c2UgbW9zdCBwZW9wbGUg
+d2lsbCBiZSB0cmlwcGVkIG92ZXIgYnkgaW50ZWdlciBwcm9tb3Rpb24NCj4gPiBydWxlcywgYW5k
+IHlvdSdsbCBnZXQgbmVnYXRpdmUgdmFsdWVzIGFueXdheS4NCj4gDQo+IA0KPiBIZXJlIEknbSBz
+dXJlIGFib3V0IHRoaXMsDQo+IA0KPiBidXQgdGhlcmUgYXJlIHBsZW50eSB1bnNpZ25lZCB0eXBl
+cyBhcml0aG1ldGljIGluIHRoZSBrZXJuZWwuDQoNClRoZSByZWFsIHByb2JsZW0gaXMgKGF0dGVt
+cHRlZCkgYXJpdGhtZXRpYyBvbiB0eXBlcyBzbWFsbGVyIHRoYW4gaW50Lg0KUmVnYXJkbGVzcyBv
+ZiB3aGV0aGVyIHRoZXkgYXJlIHNpZ25lZCBvciB1bnNpZ25lZC4NCg0KCURhdmlkDQoNCi0NClJl
+Z2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0
+b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykN
+Cg==
 
-finally... pushed in drm-intel-gt-next! :)
-
-Andi
-
-On Thu, May 18, 2023 at 10:11:01PM -0700, fei.yang@intel.com wrote:
-> From: Fei Yang <fei.yang@intel.com>
-> 
-> This series introduce a new extension for GEM_CREATE,
-> 1. end support for set caching ioctl [PATCH 1/2]
-> 2. add set_pat extension for gem_create [PATCH 2/2]
-> 
-> v2: drop one patch that was merged separately
->     commit 341ad0e8e254 ("drm/i915/mtl: Add PTE encode function")
-> v3: rebased on https://patchwork.freedesktop.org/series/117082/
-> v4: fix missing unlock introduced in v3, and
->     solve a rebase conflict
-> v5: replace obj->cache_level with pat_set_by_user,
->     fix i915_cache_level_str() for legacy platforms.
-> v6: rebased on https://patchwork.freedesktop.org/series/117480/
-> v7: rebased on https://patchwork.freedesktop.org/series/117528/
-> v8: dropped the two dependent patches that has been merged
->     separately. Add IGT link and Tested-by (MESA).
-> v9: addressing comments (Andi)
-> v10: acked-by and tested-by MESA
-> 
-> Fei Yang (2):
->   drm/i915/mtl: end support for set caching ioctl
->   drm/i915: Allow user to set cache at BO creation
-> 
->  drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 +++++++++++++++++++
->  drivers/gpu/drm/i915/gem/i915_gem_domain.c |  3 ++
->  drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c  |  9 ++++-
->  include/uapi/drm/i915_drm.h                | 42 ++++++++++++++++++++++
->  tools/include/uapi/drm/i915_drm.h          | 42 ++++++++++++++++++++++
->  6 files changed, 137 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 2.25.1
