@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EDA70DC1D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B740670DC14
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9893C10E432;
-	Tue, 23 May 2023 12:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5B7E10E081;
+	Tue, 23 May 2023 12:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0BC10E429
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DEA10E42C
  for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:15:01 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f13d8f74abso8008701e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:15:00 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4f122ff663eso7898228e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:15:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684844096; x=1687436096;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pTCAzPM+XQkFg/kFCaBKSjHD1xHDAZL557+xzbBW8Pg=;
- b=O8aNdpq+aoUCR9LbZKAbhLlmkuzkiVY85MB2hAG8Scazsh0ub2rc7iFpIS4M6eiUXN
- g3jEZFhvA9ItaV3f2qU8Nr3Tmjbkej0i4P9JBguM8W5xUsZ5cFJoiRRipHZj/Y6Ss+p6
- aipwqZW8JRryms+XDdyHx+n7OyPqun8D0WmZ+T/1g4pQTcRoPvMEoBT1nTa5yXYR/64m
- V/ZCuIkWjF/p8q/A4WQ4xK9/FK21kcu0Rhf3NLzwm1AwR0ZqtwqYJhd8+ALqp8PY2vEU
- UClCH9e0m0xRZ8XTD9Z1ZsHGO2gu5apuZVMqtQSABO5JG3azZYxjZBe8aSka9U5CHFAE
- bJmA==
+ d=linaro.org; s=google; t=1684844097; x=1687436097;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=enXMayXRzHH3oByKOYNfSsDWlN3ph9R0cvur3PtJ7ms=;
+ b=GgOuR/mBHkSar7s0Nq/XxGnf14MrxbwcDNTCNamb0kCxl6mw7on0TwmCUUcd5yvDEZ
+ xkdovIonZ6mLa8iqAurAuOdW3v6I00EoT0PP0HuqTGCJ1oEMsEwzZxnhUv5gX0gsoZoq
+ nN5cUlV5NpjXrVg3HaTQthzV9XPF/h+gGjspwMbRcW03qPEajJg1BygcKK+Q9VdYVgPI
+ k7k4wRunYgMWFD+h0OjzE1pRerv3SSAGrHur2dbQzGlD2k5+MGI/RUuRDiEKse1YEn0g
+ pRoMum/gT2lrfjOuAs3i+ZRguXVD2TzbLbLv6bVvuKi/sOvsE3zqQI6xXGr5msLsuSbF
+ cXvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684844096; x=1687436096;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pTCAzPM+XQkFg/kFCaBKSjHD1xHDAZL557+xzbBW8Pg=;
- b=Ax7AcKOkkJPo1xs/Qip5x+lBzzdRgGAV4I3CzTKZzvA4uQLlJ6zaw5Rvx/wREGEoP/
- GfOEhztPTs40tw8Kl9U9fcpjrFc8ZRSpNRcdkpNHPr8oZPiOnYz4JnoqY4k0iaH1YB8Z
- U/LcR/HCCqGjwaFD3hUW5hbkX5So5LWkR3JjdfbEznaEb95muluH/gNqN2uglVgK/gI1
- +dDHq3bWEkhJJ6NNEZ0YIVGb6VN0wuCv+lnyRddaRAJR4qcUS+Vj9qDWq6MeF3r+Q4Pv
- Lfm5O4MapXart0RkAv+fNfgJisz1ahBO8rww3ckVWHW75PtgPoCWTrOr8sLH3YaPXYEx
- MgSg==
-X-Gm-Message-State: AC+VfDyygH610+d1GI5hZTw34uZD6Qdq0bsmxrm8+dRobmxupFBZ+H7j
- fGdZW9lzALwBGFlpHo4WNTBGPA==
-X-Google-Smtp-Source: ACHHUZ6wZYLIhMnucl76GusJYLoBy4vUy3JkQdEWTKTTJuSuVlVOIIMGz3REICRMgRokSSTOA4O5tg==
-X-Received: by 2002:ac2:46ef:0:b0:4f3:a556:61b6 with SMTP id
- q15-20020ac246ef000000b004f3a55661b6mr4318822lfo.3.1684844096123; 
- Tue, 23 May 2023 05:14:56 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684844097; x=1687436097;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=enXMayXRzHH3oByKOYNfSsDWlN3ph9R0cvur3PtJ7ms=;
+ b=Ptca9/1NcXVde8nKjmMExx9QpJzqA+3BwGvuF9Zmda5mvNoP+fdt50Q59OZAwvpgp3
+ IaVY03Pl91Fz/22VOv6qzK1hEyfn/id+QUcPMicYozHcRxhZr0lGh3oKJhRlmRcKWeLX
+ 2uWFpvG8ITfeT4/KqkW2z44h5oLQ223xY74D8Wn7gF+csPAqEhwLow6+1Y3QX7XSXBtN
+ +a2NhrgbZkuFr4iQdXw7FuxHo6V5hYfVywFlsdJX3sxzEJtKccgb0t+PE7/qE0pYkODM
+ R+S+GCr6rDJt2/QAhEh4InT6KrPv+AGOuuQGNUqJzMJpt5Ee6HDXmyE2hYd051Nn+AzD
+ rUyQ==
+X-Gm-Message-State: AC+VfDy9b9oU9hEax6C3dtL9lNyBvo7qkevnuVswXWws76VGfwff6NwM
+ dbtFic+RfJ42a6XqQe5ubksn5Q==
+X-Google-Smtp-Source: ACHHUZ4vMMeapHmDZhf0XR9q/6ZhAQ2GX3q8enToq80E9pn+2TNU+/BW9JtkjjWBEAiAkysxIU6lHQ==
+X-Received: by 2002:ac2:5925:0:b0:4f3:7a01:f0d6 with SMTP id
+ v5-20020ac25925000000b004f37a01f0d6mr3942481lfi.67.1684844097087; 
+ Tue, 23 May 2023 05:14:57 -0700 (PDT)
 Received: from eriador.lan ([192.130.178.91]) by smtp.gmail.com with ESMTPSA id
- c26-20020ac2531a000000b004f160559d4asm1319616lfh.183.2023.05.23.05.14.55
+ c26-20020ac2531a000000b004f160559d4asm1319616lfh.183.2023.05.23.05.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 05:14:55 -0700 (PDT)
+ Tue, 23 May 2023 05:14:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
-Subject: [PATCH 00/15] drm/msm/hdmi & phy: use generic PHY framework
-Date: Tue, 23 May 2023 15:14:39 +0300
-Message-Id: <20230523121454.3460634-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 01/15] phy: Add HDMI configuration options
+Date: Tue, 23 May 2023 15:14:40 +0300
+Message-Id: <20230523121454.3460634-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230523121454.3460634-1-dmitry.baryshkov@linaro.org>
+References: <20230523121454.3460634-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,82 +78,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
  Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-phy@lists.infradead.org
+ Sandor Yu <Sandor.yu@nxp.com>, linux-phy@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM HDMI PHYs have been using the ad-hoc approach / API instead of
-using the generic API framework. Move all the PHYs to
-drivers/phy/qualcomm and rework them to use generic PHY framework. This
-way all the QMP-related code is kept close. Also in future this will
-allow us to use a common set of functions to setup msm8974 HDMI PHY,
-28nm DSI PHY and apq8964 SATA PHY (which all use UNI PLL internally).
+From: Sandor Yu <Sandor.yu@nxp.com>
 
-This also causes some design changes. Currently on msm8996 the HDMI PLL
-implements clock's set_rate(), while other HDMI PHY drivers used the
-ad-hoc PHY API for setting the PLL rate (this includes in-tree msm8960
-driver and posted, but not merged, msm8974 driver). This might result in
-the PLL being set to one rate, while the rest of the PHY being tuned to
-work at another rate. Adopt the latter idea and always use
-phy_configure() to tune the PHY and set the PLL rate.
+Allow HDMI PHYs to be configured through the generic
+functions through a custom structure added to the generic union.
 
-Dmitry Baryshkov (14):
-  phy: qualcomm: add QMP HDMI PHY driver
-  phy: qualcomm: add MSM8960 HDMI PHY driver
-  phy: qualcomm: add MSM8x60 HDMI PHY driver
-  phy: qcom: apq8064-sata: extract UNI PLL register defines
-  phy: qcom-uniphy: add more registers from display PHYs
-  phy: qualcomm: add MSM8974 HDMI PHY driver
-  drm/msm/hdmi: move the alt_iface clock to the hpd list
-  drm/msm/hdmi: simplify extp clock handling
-  drm/msm/hdmi: correct indentation of HDMI bridge functions
-  drm/msm/hdmi: switch to atomic_pre_enable/post_disable
-  drm/msm/hdmi: set infoframes on all pre_enable calls
-  drm/msm/hdmi: pair msm_hdmi_phy_powerup with msm_hdmi_phy_powerdown
-  drm/msm/hdmi: switch to generic PHY subsystem
-  drm/msm/hdmi: drop old HDMI PHY code
+The parameters added here are based on HDMI PHY
+implementation practices.  The current set of parameters
+should cover the potential users.
 
-Sandor Yu (1):
-  phy: Add HDMI configuration options
-
- drivers/gpu/drm/msm/Makefile                  |   6 -
- drivers/gpu/drm/msm/hdmi/hdmi.c               |  86 +-
- drivers/gpu/drm/msm/hdmi/hdmi.h               |  79 +-
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        | 108 ++-
- drivers/gpu/drm/msm/hdmi/hdmi_phy.c           | 217 -----
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8960.c      |  51 --
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c      | 765 ------------------
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c      | 141 ----
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8x74.c      |  44 -
- drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c      | 458 -----------
- drivers/phy/qualcomm/Kconfig                  |  40 +
- drivers/phy/qualcomm/Makefile                 |   8 +
- drivers/phy/qualcomm/phy-qcom-apq8064-sata.c  |  23 +-
- drivers/phy/qualcomm/phy-qcom-hdmi-msm8960.c  | 744 +++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-hdmi-msm8974.c  | 531 ++++++++++++
- drivers/phy/qualcomm/phy-qcom-hdmi-msm8x60.c  | 353 ++++++++
- drivers/phy/qualcomm/phy-qcom-qmp-hdmi-base.c | 184 +++++
- .../phy/qualcomm/phy-qcom-qmp-hdmi-msm8996.c  | 441 ++++++++++
- drivers/phy/qualcomm/phy-qcom-qmp-hdmi.h      |  75 ++
- drivers/phy/qualcomm/phy-qcom-uniphy.h        |  65 ++
- include/linux/phy/phy-hdmi.h                  |  33 +
- include/linux/phy/phy.h                       |   7 +-
- 22 files changed, 2562 insertions(+), 1897 deletions(-)
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_phy.c
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_phy_8960.c
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_phy_8x74.c
- delete mode 100644 drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-hdmi-msm8960.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-hdmi-msm8974.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-hdmi-msm8x60.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-hdmi-base.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-hdmi-msm8996.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-hdmi.h
- create mode 100644 drivers/phy/qualcomm/phy-qcom-uniphy.h
+Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ include/linux/phy/phy-hdmi.h | 33 +++++++++++++++++++++++++++++++++
+ include/linux/phy/phy.h      |  7 ++++++-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
  create mode 100644 include/linux/phy/phy-hdmi.h
 
+diff --git a/include/linux/phy/phy-hdmi.h b/include/linux/phy/phy-hdmi.h
+new file mode 100644
+index 000000000000..73a32eb535b0
+--- /dev/null
++++ b/include/linux/phy/phy-hdmi.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright 2022 NXP
++ */
++
++#ifndef __PHY_HDMI_H_
++#define __PHY_HDMI_H_
++
++enum hdmi_phy_colorspace {
++	HDMI_PHY_COLORSPACE_RGB,
++	HDMI_PHY_COLORSPACE_YUV422,
++	HDMI_PHY_COLORSPACE_YUV444,
++	HDMI_PHY_COLORSPACE_YUV420,
++	HDMI_PHY_COLORSPACE_RESERVED4,
++	HDMI_PHY_COLORSPACE_RESERVED5,
++	HDMI_PHY_COLORSPACE_RESERVED6,
++};
++
++/**
++ * struct phy_configure_opts_hdmi - HDMI configuration set
++ * @pixel_clk_rate:	Pixel clock of video modes in KHz.
++ * @bpc: Maximum bits per color channel.
++ * @color_space: Colorspace in enum hdmi_phy_colorspace.
++ *
++ * This structure is used to represent the configuration state of a HDMI phy.
++ */
++struct phy_configure_opts_hdmi {
++	unsigned int pixel_clk_rate;
++	unsigned int bpc;
++	enum hdmi_phy_colorspace color_space;
++};
++
++#endif /* __PHY_HDMI_H_ */
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index 3a570bc59fc7..93d77d45b1d4 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -17,6 +17,7 @@
+ #include <linux/regulator/consumer.h>
+ 
+ #include <linux/phy/phy-dp.h>
++#include <linux/phy/phy-hdmi.h>
+ #include <linux/phy/phy-lvds.h>
+ #include <linux/phy/phy-mipi-dphy.h>
+ 
+@@ -42,7 +43,8 @@ enum phy_mode {
+ 	PHY_MODE_MIPI_DPHY,
+ 	PHY_MODE_SATA,
+ 	PHY_MODE_LVDS,
+-	PHY_MODE_DP
++	PHY_MODE_DP,
++	PHY_MODE_HDMI,
+ };
+ 
+ enum phy_media {
+@@ -60,11 +62,14 @@ enum phy_media {
+  *		the DisplayPort protocol.
+  * @lvds:	Configuration set applicable for phys supporting
+  *		the LVDS phy mode.
++ * @hdmi:	Configuration set applicable for phys supporting
++ *		the HDMI phy mode.
+  */
+ union phy_configure_opts {
+ 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
+ 	struct phy_configure_opts_dp		dp;
+ 	struct phy_configure_opts_lvds		lvds;
++	struct phy_configure_opts_hdmi		hdmi;
+ };
+ 
+ /**
 -- 
 2.39.2
 
