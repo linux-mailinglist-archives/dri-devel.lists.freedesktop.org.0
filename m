@@ -1,61 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5175870E138
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 17:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE7E70E184
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 18:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB2110E465;
-	Tue, 23 May 2023 15:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBA710E0F0;
+	Tue, 23 May 2023 16:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EECA710E465;
- Tue, 23 May 2023 15:58:05 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id
- 5614622812f47-39815ce6db2so1297674b6e.0; 
- Tue, 23 May 2023 08:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684857485; x=1687449485;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GFvK2YI/SbwYaKr7Laqhu7qjWnMsgbqf1UfbCGjE36A=;
- b=hA7H5Y4Uy0DlU+6tVXmlOjXIaAE+kzcbckW+uLeM5cTkq4lkSIyH5kSJwgnQ5VpErz
- /iouIKIQJEn4Kgcdn4V56BJbegiUFnlI3zE3XyzBZ7MpqX59ModviJ8I+pFxG89n8E9r
- aSZri1UHfi3gAUHoNpC3Ty2Ricv5rvtOrBNxipJf24Ycw+CGwHZDl2cPwvmxhAahjaNd
- pg0ptOe8RYOiBxUZiwxuCnlZccrNJ2oL80DR52X13d5Hlb1ym1kHr9BWNnIeXJ7VwCsF
- /rjXzj7IPSQtqx/feRTbUXy+wjl6mhFjKYmrX63IPqXngcATyLAvjX94UurAQnmcd56k
- 8V3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684857485; x=1687449485;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GFvK2YI/SbwYaKr7Laqhu7qjWnMsgbqf1UfbCGjE36A=;
- b=cFv94lEiTirPNIFVqnr/NJMKgWqk1hQHqc3TscgzyNq6m6i6dMP/hB/eqz4GBU6Wqp
- GEL9Q5Jyp3xgp6d62d5/0Q4xdlchDljnx1OvlpTWt1aYrn00/0SsfKPdrxEO4qadfEi7
- pVuGtvWDSdWCQP9fW7iTUhDQx6pUmIuW4DPKjnvl1ovY+Wnt9BRUtAy6OjN6TIGJqv13
- 078suj6YlLxQ6qCkfKgs0ds4aJz5mWuovbDR6q3kfTn4psLgiWgmTBsC22vyzmp9OZhi
- UggoxtFwpkCTMHpCLm/1Y6ES9PVirm1cxtSF/t032Qiq3zTfV8Oxdaigk0CnIjGG1/J1
- leFA==
-X-Gm-Message-State: AC+VfDzHKC5Hm4BVh1rcBjZnotMDHSY9zwXGPit9pHNqCwRpwwzSIdgI
- /lIzYtkL2UzVgqJa+KKgKu6WbtQvqgdrFBal8Yw=
-X-Google-Smtp-Source: ACHHUZ4AHxuecDwpGGY0Y5cC98Kt8hS8/f6vC/Te2pco6rpqdVK3DQDOmabHqkqRyIjIUm3H5nOyovYmTshHVUQjwpg=
-X-Received: by 2002:aca:3356:0:b0:395:e376:7ca1 with SMTP id
- z83-20020aca3356000000b00395e3767ca1mr8819792oiz.7.1684857484855; Tue, 23 May
- 2023 08:58:04 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0889710E0F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 16:14:41 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34NFTC8i026350; Tue, 23 May 2023 16:14:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=+MqE9jg1kkPeDLkdeiC8jYb1DZAitaxuFirEMUxt/Hg=;
+ b=W9IBCqA3mA8IrgpfOKXqS8lEuyn0AQLVn1w1RvVEiqRlgD9Mhvl+0EoVQBFACspT0wKq
+ CQHVHppOWRO+cNV/iKiMJpOk+oS3/Vd8/EX2X2oO3Oq+HJmzHm3+pWB+MkjcmRL5/cu0
+ Qix/rlnyA2XrK+XlfWYwUfxnkEbDU7Hgz/sPkY1FJ3gCB/zuH0C0CHrRH66+vyH3VxFe
+ 3vcx8JUsgtWA8EybuWRbSsSatLDnErJBz6axTHvcHWq9pyujl9hn7wvHks54CW6FQ/BF
+ k7jHOZDUtS/+cI4qzoFqJcnVJAtQMegRygFBJSeT2FFSDSu7kXcX1ICvBqhlL6HdDPJ+ eA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qs05s846f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 16:14:40 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34NGEdea010742
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 16:14:39 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 23 May 2023 09:14:39 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>
+Subject: [PATCH] MAINTAINERS: Add Carl/Pranjal as QAIC reviewers
+Date: Tue, 23 May 2023 10:14:21 -0600
+Message-ID: <20230523161421.11017-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230523033202.109828-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230523033202.109828-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 23 May 2023 11:57:53 -0400
-Message-ID: <CADnq5_Ojwdsy9k=R_o1bDsDt4LZyU0QJkW9qaky-3SKd0bXKvg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/vcn: Modify mismatched function name
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: J52b-2i0PPbEfeQGN4Fj7ZrOFciNPLII
+X-Proofpoint-ORIG-GUID: J52b-2i0PPbEfeQGN4Fj7ZrOFciNPLII
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-23_10,2023-05-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305230128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +78,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Carl and Pranjal have been reviewing the QAIC patches.  List them as
+reviewers so that they are copied on all developments which will make
+it easier for them to continue reviewing QAIC patches.
 
-Alex
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, May 22, 2023 at 11:32=E2=80=AFPM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> No functional modification involved.
->
-> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:374: warning: expecting prototype=
- for vcn_v4_0_mc_resume_dpg_mode(). Prototype was for vcn_v4_0_3_mc_resume_=
-dpg_mode() instead.
-> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:631: warning: expecting prototype=
- for vcn_v4_0_enable_clock_gating(). Prototype was for vcn_v4_0_3_enable_cl=
-ock_gating() instead.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D5284
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c b/drivers/gpu/drm/am=
-d/amdgpu/vcn_v4_0_3.c
-> index 339842382a1e..5d67b8b8a3d6 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
-> @@ -362,7 +362,7 @@ static void vcn_v4_0_3_mc_resume(struct amdgpu_device=
- *adev, int inst_idx)
->  }
->
->  /**
-> - * vcn_v4_0_mc_resume_dpg_mode - memory controller programming for dpg m=
-ode
-> + * vcn_v4_0_3_mc_resume_dpg_mode - memory controller programming for dpg=
- mode
->   *
->   * @adev: amdgpu_device pointer
->   * @inst_idx: instance number index
-> @@ -620,7 +620,7 @@ static void vcn_v4_0_3_disable_clock_gating_dpg_mode(=
-struct amdgpu_device *adev,
->  }
->
->  /**
-> - * vcn_v4_0_enable_clock_gating - enable VCN clock gating
-> + * vcn_v4_0_3_enable_clock_gating - enable VCN clock gating
->   *
->   * @adev: amdgpu_device pointer
->   * @inst_idx: instance number
-> --
-> 2.20.1.7.g153144c
->
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7e0b87d5aa2e..a0ec9ee090a4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17381,6 +17381,8 @@ F:	include/dt-bindings/clock/qcom,*
+ 
+ QUALCOMM CLOUD AI (QAIC) DRIVER
+ M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
++R:	Carl Vanderlip <quic_carlv@quicinc.com>
++R:	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+ L:	linux-arm-msm@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+-- 
+2.40.1
+
