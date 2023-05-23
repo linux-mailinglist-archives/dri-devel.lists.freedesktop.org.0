@@ -1,61 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF6670D1D7
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 04:56:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F8C70D246
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 05:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBBF10E3C6;
-	Tue, 23 May 2023 02:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F50710E3C2;
+	Tue, 23 May 2023 03:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65B8C10E3C6
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 02:56:31 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-510e419d701so645758a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 22 May 2023 19:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kali.org; s=google; t=1684810589; x=1687402589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F6o0pldmtPNZczHK6kfIrJdzD+PEWsvSqi4EjRqmT/Y=;
- b=e11dfn1JU9wXqIahkfF02Gf522PcNJQDKa2O7j7arpRNtAJ2Ix/FSqXIyTXApmyvpG
- xqvhZzMdbmyVbhaRlObPxzUge+C9oKx9Itqzwj4DNrXdFAv7kp+WvdGB3xE435lw7jFT
- lvi9pyaA8BQwwKnlMZbu2TcDjX1UkrFPiQO3C69lV78eRrsIeb7XactRS/+o2X6ds4Oq
- CifFeC8clqH8fHML5SIM/QY/85h3UAk2L1JwLDiHe79MTvP7VzfAmkruCWIZ+EVDvHan
- BQI2rTQ4F2c7bs5TAbu7rXfFX5jDWOEcGuxgoNYBfTHM+VE3nfXJKmrjVe9cyfPhhrBy
- /oaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684810589; x=1687402589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F6o0pldmtPNZczHK6kfIrJdzD+PEWsvSqi4EjRqmT/Y=;
- b=GxTPfummXcQHSxU936nqgPu+xEPOBr6E+9tnxnLMwWGbdWrSTOahr+Rho5n9Sl2Jnw
- 731NpGGvdvHmr2cb8FN2FVldIqBkfokh6ifHhV7072x9lqzzFaF2nL25vjEkyXNjnWna
- 1kBl9bbdoeAu6GjzPihjJZejwyXC0N0tVTmdast10rTbwFt+/gJ1nJrR3hAf7FC2a/uj
- CwLsh79ztVS420SdpGb/E2EoVtkhbcBpD+9x27jQu+uo8HLsj0V/Cz38IuuySsY/zOll
- +UPj6DodoC+8MFj8oUYraD5nu1uWse8XgOZ8uGoGBtbo08T4eFXajCqmI5/rZx0czDlt
- 9Jqg==
-X-Gm-Message-State: AC+VfDwJojeDCf8YK7tmWFI4BIcNJ7ez+ZNqBjccmROgkOHsr/ydeE0f
- FPpUCUCGGru0XS8SS3zoZ0ifZi66yNlZ7pbx6//9mg==
-X-Google-Smtp-Source: ACHHUZ4Zm9Cx7sVlYhjjvAXSE1TSetEayzYnn2DXi0k6UasemtiYelBRWj9ZoL5JMF+LnmHGv/vUswTO23KNbH0i4+A=
-X-Received: by 2002:a17:907:9716:b0:970:19a2:7303 with SMTP id
- jg22-20020a170907971600b0097019a27303mr2892607ejc.19.1684810589345; Mon, 22
- May 2023 19:56:29 -0700 (PDT)
+Received: from out30-97.freemail.mail.aliyun.com
+ (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6460610E3C2;
+ Tue, 23 May 2023 03:17:19 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=17; SR=0;
+ TI=SMTPD_---0VjIIOXp_1684811830; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VjIIOXp_1684811830) by smtp.aliyun-inc.com;
+ Tue, 23 May 2023 11:17:13 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amdgpu: Modify mismatched function name
+Date: Tue, 23 May 2023 11:17:09 +0800
+Message-Id: <20230523031709.19673-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-References: <20230523011522.65351-1-quic_bjorande@quicinc.com>
-In-Reply-To: <20230523011522.65351-1-quic_bjorande@quicinc.com>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Mon, 22 May 2023 21:56:18 -0500
-Message-ID: <CAKXuJqjgRdr-16h3G_7u1KDfKBnfu2cmB9FsNYdKOpzOKawU=g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/msm/adreno: GPU support on SC8280XP
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +40,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mani@kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, johan@kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: linaro-mm-sig@lists.linaro.org, llvm@lists.linux.dev,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, trix@redhat.com,
+ Xinhui.Pan@amd.com, ndesaulniers@google.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org, nathan@kernel.org,
+ Abaci Robot <abaci@linux.alibaba.com>, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 22, 2023 at 8:15=E2=80=AFPM Bjorn Andersson
-<quic_bjorande@quicinc.com> wrote:
->
-> This series introduces support for A690 in the DRM/MSM driver and
-> enables it for the two SC8280XP laptops.
->
-> Bjorn Andersson (3):
->   drm/msm/adreno: Add Adreno A690 support
->   arm64: dts: qcom: sc8280xp: Add GPU related nodes
->   arm64: dts: qcom: sc8280xp: Enable GPU related nodes
->
->  arch/arm64/boot/dts/qcom/sc8280xp-crd.dts     |  26 +++
->  .../qcom/sc8280xp-lenovo-thinkpad-x13s.dts    |  26 +++
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi        | 169 ++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         | 113 +++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.c         |  33 ++++
->  drivers/gpu/drm/msm/adreno/adreno_device.c    |  14 ++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h       |  11 +-
->  7 files changed, 387 insertions(+), 5 deletions(-)
->
-> --
-> 2.39.2
->
-Tested here on my X13s with GNOME 44.1 and using Wayland.
+No functional modification involved.
 
-Tested-by: Steev Klimaszewski <steev@kali.org>
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:426: warning: expecting prototype for sdma_v4_4_2_gfx_stop(). Prototype was for sdma_v4_4_2_inst_gfx_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:457: warning: expecting prototype for sdma_v4_4_2_rlc_stop(). Prototype was for sdma_v4_4_2_inst_rlc_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:470: warning: expecting prototype for sdma_v4_4_2_page_stop(). Prototype was for sdma_v4_4_2_inst_page_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:506: warning: expecting prototype for sdma_v4_4_2_ctx_switch_enable(). Prototype was for sdma_v4_4_2_inst_ctx_switch_enable() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:561: warning: expecting prototype for sdma_v4_4_2_enable(). Prototype was for sdma_v4_4_2_inst_enable() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:798: warning: expecting prototype for sdma_v4_4_2_rlc_resume(). Prototype was for sdma_v4_4_2_inst_rlc_resume() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:814: warning: expecting prototype for sdma_v4_4_2_load_microcode(). Prototype was for sdma_v4_4_2_inst_load_microcode() instead.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=5283
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+index bf47eb33c12e..590b08585901 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+@@ -415,7 +415,7 @@ static void sdma_v4_4_2_ring_emit_fence(struct amdgpu_ring *ring, u64 addr, u64
+ 
+ 
+ /**
+- * sdma_v4_4_2_gfx_stop - stop the gfx async dma engines
++ * sdma_v4_4_2_inst_gfx_stop - stop the gfx async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -446,7 +446,7 @@ static void sdma_v4_4_2_inst_gfx_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_rlc_stop - stop the compute async dma engines
++ * sdma_v4_4_2_inst_rlc_stop - stop the compute async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -459,7 +459,7 @@ static void sdma_v4_4_2_inst_rlc_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_page_stop - stop the page async dma engines
++ * sdma_v4_4_2_inst_page_stop - stop the page async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -494,7 +494,7 @@ static void sdma_v4_4_2_inst_page_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_ctx_switch_enable - stop the async dma engines context switch
++ * sdma_v4_4_2_inst_ctx_switch_enable - stop the async dma engines context switch
+  *
+  * @adev: amdgpu_device pointer
+  * @enable: enable/disable the DMA MEs context switch.
+@@ -548,7 +548,7 @@ static void sdma_v4_4_2_inst_ctx_switch_enable(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_enable - stop the async dma engines
++ * sdma_v4_4_2_inst_enable - stop the async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  * @enable: enable/disable the DMA MEs.
+@@ -786,7 +786,7 @@ static void sdma_v4_4_2_init_pg(struct amdgpu_device *adev)
+ }
+ 
+ /**
+- * sdma_v4_4_2_rlc_resume - setup and start the async dma engines
++ * sdma_v4_4_2_inst_rlc_resume - setup and start the async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -802,7 +802,7 @@ static int sdma_v4_4_2_inst_rlc_resume(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_load_microcode - load the sDMA ME ucode
++ * sdma_v4_4_2_inst_load_microcode - load the sDMA ME ucode
+  *
+  * @adev: amdgpu_device pointer
+  *
+-- 
+2.20.1.7.g153144c
+
