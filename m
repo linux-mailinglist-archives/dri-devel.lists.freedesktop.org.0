@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CA770E826
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBD370E8B6
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438FE10E4F0;
-	Tue, 23 May 2023 21:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD9210E4F5;
+	Tue, 23 May 2023 22:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB3C10E4EE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:54:09 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id
- 41be03b00d2f7-52c30fbccd4so140817a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1684878849; x=1687470849;
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jGLm3tAI1WBDfnFUMwT66B3LjzI+Cj5XaG2ph6kmQuY=;
- b=S/rWa1kSy64fAmfhXH/H2H4bZD2bUtvqy0y/hGLx8HUC1oWTWPmCpqusxLAFd85uOD
- JHV63B8zb++znb4JdNOsjtCfJicteH/Z8GGVN6UJ24ROXkjxjjc7o8jtY7nU5IMhk/Hw
- V3WCbrEvDT+JcuU2x8oSk++nOCPwVQaWETWHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684878849; x=1687470849;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jGLm3tAI1WBDfnFUMwT66B3LjzI+Cj5XaG2ph6kmQuY=;
- b=fb1LWtyjjk3KkUP+OFI6n8EzmaupHKD8FH2rG9vVnPjOrz6WOYVNY3AZApDblz/PNI
- YuohFSduELP2YugHoyfcz2yECk0o2Obmjbh2kEC4F3h+H4R+8irKh772FmNtWpgQ4LxL
- /ThSXDewZDxH8l2eQWNjUC4EeXuFHfY9s0xhDhV86xIizqvg49VfHFuqpkOy5vqo6h73
- f7gI3Haod1/2C09SP+Ftf7cou+cGGQQnQphz3CepETtd/oW/BGFk2Py3fwT0zDN37swo
- tkX/+b46eL4ca8uAKQuPIdgGI3pGE+MGIXJhFdSsUcQo8q+Mq7CQ8LmJ+jhbaQdBMBBg
- nBlQ==
-X-Gm-Message-State: AC+VfDwvcuCRHxgUD5ettdpU1lU/MfWOhv8gYnO6RcQYHgFrlDgJ+1dS
- AD8fWN/IDFujKKO7AUDZC9M9tg==
-X-Google-Smtp-Source: ACHHUZ4LwnKOEXbbLexkXlgsmBxIRToEzY9tbvRVTG9MXJu1BoRFEN4WYmFb7BO2bnjqo32Io9XxHg==
-X-Received: by 2002:a17:902:ced0:b0:1af:b47e:7892 with SMTP id
- d16-20020a170902ced000b001afb47e7892mr8537422plg.67.1684878849312; 
- Tue, 23 May 2023 14:54:09 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id
- e4-20020a170902744400b001ae62d7cb2bsm7189820plt.199.2023.05.23.14.54.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 May 2023 14:54:08 -0700 (PDT)
-From: Justin Chen <justin.chen@broadcom.com>
-To: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH net-next v4 6/6] MAINTAINERS: ASP 2.0 Ethernet driver
- maintainers
-Date: Tue, 23 May 2023 14:53:47 -0700
-Message-Id: <1684878827-40672-7-git-send-email-justin.chen@broadcom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
-References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000052600305fc636d94"
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D8810E136;
+ Tue, 23 May 2023 22:15:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=IIR+jE2XxI6RVO6j5cNTOytAj3YHvL4mnBn4IIcwdpE=; b=SCQuR7ABAdXp4wOblUyhXjUsSG
+ d+75OfnvkDylIHHe+IfLNTjJ4+LdI9QJSLi4KVPf0FAaXKr8r2Vofo8dndNno5pTPRy28twyDRZX9
+ gCr4CUHrhBywbIt05Mq8SfBxMfhcaak8/rXHNlqtcIZ/kJedFFD9j5f4OZZa80HTPQ21XQmevuFn6
+ xFqQ1WbycxrtJTAEArdnFkauBGrDLFWO/pG+1JfRO2gprrrUN/0tTduwikbJULbulCjNst7x+dTOm
+ +WMEbAtBR9BdAkKLog6IILKcM+9AdZBrn/knTInSx3n9aXZYbeI/S32eG0eYYfdJSoCe3eTZcemJ7
+ nXApQoGQ==;
+Received: from [38.44.72.37] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1q1aHq-00HEOv-KQ; Wed, 24 May 2023 00:15:22 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, brian.starkey@arm.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, Xinhui.Pan@amd.com
+Subject: [PATCH 00/36] drm/amd/display: add AMD driver-specific properties for
+ color mgmt
+Date: Tue, 23 May 2023 21:14:44 -0100
+Message-Id: <20230523221520.3115570-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,128 +55,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, f.fainelli@gmail.com,
- Florian Fainelli <florian.fainelli@broadcom.com>, opendmb@gmail.com,
- christian.koenig@amd.com, simon.horman@corigine.com, richardcochran@gmail.com,
- linux@armlinux.org.uk, conor@kernel.org, justin.chen@broadcom.com,
- edumazet@google.com, robh+dt@kernel.org, justinpopo6@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
- sumit.semwal@linaro.org, davem@davemloft.net, hkallweit1@gmail.com
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000052600305fc636d94
+This series is a refined version of our RFC [1] for AMD driver-specific
+color management properties. It is a collection of contributions from
+Joshua, Harry and I to enhance AMD KMS color pipeline for Steam
+Deck/SteamOS by exposing the large set of color caps available in AMD
+display HW.
 
-Add maintainers entry for ASP 2.0 Ethernet driver.
+Considering RFC feedback, this patchset differs from the previous one by
+removing the KConfig option and just guarding driver-specific properties
+with `AMD_PRIVATE_COLOR` - but we also removed the guards from internal
+elements and operations. We stopped to advertise CRTC shaper and 3D LUTs
+properties since they aren't in use in the Steam Deck color pipeline[2].
+On the other hand, we keep mapping CRTC shaper and 3D LUTs (DM) to DC
+MPC setup. We also improved curve calculations to take into account HW
+color caps.
 
-Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Signed-off-by: Justin Chen <justin.chen@broadcom.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+In short, for pre-blending, we added the following properties:
+- plane degamma LUT and predefined transfer function;
+- plane HDR multiplier
+- plane shaper LUT/transfer function;
+- plane 3D LUT; and finally,
+- plane blend LUT/transfer function, just before blending.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e2fd64c2ebdc..732a099f4a10 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4198,6 +4198,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justin.chen@broadcom.com>
-+M:	Florian Fainelli <florian.fainelli@broadcom.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
+After blending, we already have DRM CRTC degamma/gamma LUTs and CTM,
+therefore, we extend post-blending color pipeline with CRTC gamma
+transfer function.
+
+The first three patches are on DRM KMS side. We expose DRM property
+helper for blob lookup and replacement so that we can use it for
+managing driver-specific properties. We add a tracked for plane color
+mgmt changes and increase the maximum number of properties to
+accommodate this expansion.
+
+The userspace case here is Gamescope which is the compositor for
+SteamOS. It's already using all of this functionality to implement its
+color management pipeline right now [3].
+
+Current IGT tests kms_color and amdgpu/amd_color on DCN301 and DCN21 HW
+preserve the same results with and without the guard. 
+
+Finally, I may have missed something, please let me know if that's the
+case.
+
+Best Regards,
+
+Melissa Wen
+
+[1] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igalia.com
+[2] https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Steam%20Deck%20Display%20Pipeline.png
+[3] https://github.com/ValveSoftware/gamescope
+
+
+Harry Wentland (2):
+  drm/amd/display: fix segment distribution for linear LUTs
+  drm/amd/display: fix the delta clamping for shaper LUT
+
+Joshua Ashton (13):
+  drm/amd/display: add plane degamma TF driver-specific property
+  drm/amd/display: add plane HDR multiplier driver-specific property
+  drm/amd/display: add plane blend LUT and TF driver-specific properties
+  drm/amd/display: copy 3D LUT settings from crtc state to stream_update
+  drm/amd/display: dynamically acquire 3DLUT resources for color changes
+  drm/amd/display: add CRTC regamma TF support
+  drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
+  drm/amd/display: add support for plane degamma TF and LUT properties
+  drm/amd/display: add dc_fixpt_from_s3132 helper
+  drm/adm/display: add HDR multiplier support
+  drm/amd/display: handle empty LUTs in __set_input_tf
+  drm/amd/display: add DRM plane blend LUT and TF support
+  drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
+
+Melissa Wen (21):
+  drm/drm_mode_object: increase max objects to accommodate new color
+    props
+  drm/drm_property: make replace_property_blob_from_id a DRM helper
+  drm/drm_plane: track color mgmt changes per plane
+  drm/amd/display: add CRTC driver-specific property for gamma TF
+  drm/amd/display: add plane driver-specific properties for degamma LUT
+  drm/amd/display: add plane 3D LUT driver-specific properties
+  drm/amd/display: add plane shaper LUT driver-specific properties
+  drm/amd/display: add plane shaper TF driver-private property
+  drm/amd/display: add comments to describe DM crtc color mgmt behavior
+  drm/amd/display: encapsulate atomic regamma operation
+  drm/amd/display: update lut3d and shaper lut to stream
+  drm/amd/display: allow BYPASS 3D LUT but keep shaper LUT settings
+  drm/amd/display: handle MPC 3D LUT resources for a given context
+  drm/amd/display: add CRTC 3D LUT support
+  drm/amd/display: add CRTC shaper LUT support
+  drm/amd/display: add CRTC shaper TF support
+  drm/amd/display: mark plane as needing reset if plane color mgmt
+    changes
+  drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
+  drm/amd/display: reject atomic commit if setting both plane and CRTC
+    degamma
+  drm/amd/display: program DPP shaper and 3D LUT if updated
+  drm/amd/display: add plane shaper/3D LUT and shaper TF support
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 125 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  69 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  28 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 110 +++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 612 ++++++++++++++++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 213 +++++-
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |  49 +-
+ drivers/gpu/drm/amd/display/dc/dc.h           |   8 +
+ .../amd/display/dc/dcn10/dcn10_cm_common.c    | 107 ++-
+ .../drm/amd/display/dc/dcn20/dcn20_hwseq.c    |   5 +-
+ .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    |   9 +-
+ .../amd/display/dc/dcn301/dcn301_resource.c   |  26 +-
+ .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
+ drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
+ drivers/gpu/drm/drm_atomic.c                  |   1 +
+ drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
+ drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
+ drivers/gpu/drm/drm_property.c                |  49 ++
+ include/drm/drm_mode_object.h                 |   2 +-
+ include/drm/drm_plane.h                       |   7 +
+ include/drm/drm_property.h                    |   6 +
+ 22 files changed, 1416 insertions(+), 140 deletions(-)
+
 -- 
-2.7.4
+2.39.2
 
-
---00000000000052600305fc636d94
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIQagYJKoZIhvcNAQcCoIIQWzCCEFcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg3BMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
-MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
-rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
-aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
-e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
-cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
-MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
-KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
-/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
-TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
-YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
-CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
-BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
-jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
-9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
-/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
-jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
-AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
-dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
-MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
-IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
-XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
-J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
-nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBUkwggQxoAMCAQICDCPwEotc2kAt96Z1EDANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjM5NTBaFw0yNTA5MTAxMjM5NTBaMIGM
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xFDASBgNVBAMTC0p1c3RpbiBDaGVuMScwJQYJKoZIhvcNAQkB
-FhhqdXN0aW4uY2hlbkBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
-AQDKX7oyRqaeT81UCy+OTzAUHJeHABD6GDVZu7IJxt8GWSGx+ebFexFz/gnRO/sgwnPzzrC2DwM1
-kaDgYe+pI1lMzUZvAB5DfS1qXKNGoeeNv7FoNFlv3iD4bvOykX/K/voKtjS3QNs0EDnwkvETUWWu
-yiXtMiGENBBJcbGirKuFTT3U/2iPoSL5OeMSEqKLdkNTT9O79KN+Rf7Zi4Duz0LUqqpz9hZl4zGc
-NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
-4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
-DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
-dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
-xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
-sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
-VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGIxbn3fKlDxiJ8nfOTkVNNDRuQqQG0C6gDZ
-niVepttoMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDUyMzIx
-NTQwOVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQBUnbUrvqYP/iXfysEf+jbW+TZh+MYGXEmWLtKRGZR+moDbS7Xpk2Ic
-Ivs14hQIRjd1NEAQ04pcF4vAyd3ybmwNKPenlQI454xTEPD0FlqQUGccg/9VuG9BabDy5cmwIQ55
-O4Y+Kspf2Li06H7VocqmCGG4cCzc8RqK8+Ihw53Pz2LxDTsOQ3TgB1z1tAT/0b4m+ZM+l3WZIpGi
-NGz0fXf70AFrJcLHYJq1udTlgo8pWgwprHXrebzGIYXsPgz08BnLnab7T1GuMn004G04pm0uyd60
-L7R6RjPZi+8XNbfy4KfA6sfKY9LG4FQFwaC/mGguNZELsD8/IG0kZOdPlNy3
---00000000000052600305fc636d94--
