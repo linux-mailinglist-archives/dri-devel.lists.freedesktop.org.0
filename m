@@ -2,46 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009D470DCA2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E00870DCA9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C9510E433;
-	Tue, 23 May 2023 12:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5388110E434;
+	Tue, 23 May 2023 12:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082B310E433
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=0pyKNcI2JmURCBC4BceiezKO9ZUNFiz+fksjZhBjD+Y=; b=VQM90HdXpT8x+OQkR8BMM+7Tdr
- p1dsurdQjsR6Sxl9TZszUoDIdeNdM9jYYYU5plKcOEXs/Epopdr+3EfCLaMVnhH/2QrWDtvk8kZz2
- ohq32OLssVr1wVHezCkPoHXS5wtqaVseCalWPjKKuXLCNjVABN4qyL9NEwY5EPIrJxmTjZ6bSP1wP
- V3VINUB+YL/h29czAgiMjP7KOJvtHNweGZOQqx9OBWEChO5ULFM8mT1wDp4KL7BBr5wqmPQ2b1Xrc
- Z4FtTgM+iEYhIkWFrEPERelBQOcZpZLJZ2ypAVW/pV1dPeqb62b5rMs60HEPHvApGtSEswo7HZzyK
- 9FYwI54w==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=bowie.sc.usp.br)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1q1RBr-00GqzX-Mk; Tue, 23 May 2023 14:32:36 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
-Subject: [PATCH v2] drm/vkms: Fix race-condition between the hrtimer and the
- atomic commit
-Date: Tue, 23 May 2023 09:32:08 -0300
-Message-Id: <20230523123207.173976-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E15D510E434
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:34:16 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f3edc05aa5so3062477e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684845255; x=1687437255;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5VStAuEVhC2bCRmusIaySDz/SK/sdnCdNupplahYT9Q=;
+ b=ItC/HSLvWJai35Wq6AoHYCugrh1LBbE8UpOeF0LZVCgHMMuV5hMMYIbe1zYqapEzZJ
+ y9qiz4LK4kmoGWJlYxkUa0Bt3qeSeOjduzxYdl39PYg/ylqDgH5jlzcd7WxnO4VPT5N0
+ Z8qQqeEaK8cnIBjgmvP9V2x6KX2NW+Se1BArQFKRgVP3VjpxjzMBFLpoz/Gtqqv1yQTl
+ 7NiNVG/oCUfyV83xI602JFpSScw6flnFy1/MnxZOscieb2m4ZROMysYBStgB/NAsMR9w
+ GaAhdPaHN2y7KutWw6dLQfLLxSMco1Rm3sRDnifsOgwIlTNWluqVqLd0iA4C01+H+PSm
+ IXzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684845255; x=1687437255;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5VStAuEVhC2bCRmusIaySDz/SK/sdnCdNupplahYT9Q=;
+ b=YulX1YbRpB7iqu6h+FWywu0PeNmS0aua+Zd3JJCZJ3LCXaS+48ujh57hYZ52FY8j4p
+ w3Y2lsFVNACHjycN9iRypaYdswCxyiwHdp+dMTJJPXorF5FXni6O6tm5jQWgJuvF6twc
+ WfvOfjvIgHXlFRRLNxJ5C8abqxVBy+ApPaV1E866uuxyGzkYx1KzjqcBX+B8L092VVJ1
+ sZnYKxkmV/P1PhgYGvAn85SlNwdBHq0brmpKNp7xhQ/DHd0YhSIRyPXSpH/+5Mlej1gZ
+ qIpGoA0fmljeAPowjBv9nlQif4N7XyoJTociplDwx4QE3MJHwSkLdr1AfJ6+sDXhuFaM
+ tViQ==
+X-Gm-Message-State: AC+VfDz+e8uSVVKhTHHOmQtNsd2e0WSUECCxHBZeBnY7sbHIOYQYu4jg
+ Yy6ewdeyAnD18OpcjPjpzM3Z3g==
+X-Google-Smtp-Source: ACHHUZ6mRNSCPuwh1780ZJPAelP5liz4bXxJaS2j4Brr3xJN1o0gnDBB9N1MkO7iAWK5UecFSO/ybg==
+X-Received: by 2002:a19:f610:0:b0:4f4:b3e2:ff5a with SMTP id
+ x16-20020a19f610000000b004f4b3e2ff5amr1176411lfe.50.1684845254928; 
+ Tue, 23 May 2023 05:34:14 -0700 (PDT)
+Received: from [10.10.15.175] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ m11-20020a19520b000000b004f13f4ec267sm1312723lfb.186.2023.05.23.05.34.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 May 2023 05:34:14 -0700 (PDT)
+Message-ID: <16c5ddb7-f5a4-d70b-ce0c-32aa6674fc98@linaro.org>
+Date: Tue, 23 May 2023 15:34:13 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4] drm/msm/dp: enable HDP plugin/unplugged interrupts at
+ hpd_enable/disable
+Content-Language: en-GB
+To: Bjorn Andersson <andersson@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <1684796565-17138-1-git-send-email-quic_khsieh@quicinc.com>
+ <20230523123504.3xjssy6ktgrsdewi@ripper>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230523123504.3xjssy6ktgrsdewi@ripper>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,116 +79,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, quic_jesszhan@quicinc.com, marijn.suijten@somainline.org,
+ swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, it is possible for the composer to be set as enabled and then
-as disabled without a proper call for the vkms_vblank_simulate(). This
-is problematic, because the driver would skip one CRC output, causing CRC
-tests to fail. Therefore, we need to make sure that, for each time the
-composer is set as enabled, a composer job is added to the queue.
+On 23/05/2023 15:35, Bjorn Andersson wrote:
+> On Mon, May 22, 2023 at 04:02:45PM -0700, Kuogee Hsieh wrote:
+>> The internal_hpd flag is set to true by dp_bridge_hpd_enable() and set to
+>> false by dp_bridge_hpd_disable() to handle GPIO pinmuxed into DP controller
+>> case. HDP related interrupts can not be enabled until internal_hpd is set
+>> to true. At current implementation dp_display_config_hpd() will initialize
+>> DP host controller first followed by enabling HDP related interrupts if
+>> internal_hpd was true at that time. Enable HDP related interrupts depends on
+>> internal_hpd status may leave system with DP driver host is in running state
+>> but without HDP related interrupts being enabled. This will prevent external
+>> display from being detected. Eliminated this dependency by moving HDP related
+>> interrupts enable/disable be done at dp_bridge_hpd_enable/disable() directly
+>> regardless of internal_hpd status.
+>>
+>> Changes in V3:
+>> -- dp_catalog_ctrl_hpd_enable() and dp_catalog_ctrl_hpd_disable()
+>> -- rewording ocmmit text
+>>
+>> Changes in V4:
+>> -- replace dp_display_config_hpd() with dp_display_host_start()
+>> -- move enable_irq() at dp_display_host_start();
+> 
+> I think what Dmitry was asking for was that you remove the disable_irq()
+> from dp_display_request_irq(), but perhaps I missed some argumentation
+> for why that can't/shouldn't be done?
+> 
 
-In order to provide this guarantee, add a mutex that will lock before
-the composer is set as enabled and will unlock only after the composer
-job is added to the queue. This way, we can have a guarantee that the
-driver won't skip a CRC entry.
+Yes, I was asking to get it removed. Kuogee, is there any reason for 
+keeping the enable_irq() / disable_irq() calls?
 
-This race-condition is affecting the IGT test "writeback-check-output",
-making the test fail and also, leaking writeback framebuffers, as the
-writeback job is queued, but it is not signaled. This patch avoids both
-problems.
-
-[v2]:
-    * Create a new mutex and keep the spinlock across the atomic commit in
-      order to avoid interrupts that could result in deadlocks.
-
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 9 +++++++--
- drivers/gpu/drm/vkms/vkms_crtc.c     | 9 +++++----
- drivers/gpu/drm/vkms/vkms_drv.h      | 4 +++-
- 3 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdb..b12188fd6b38 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -320,10 +320,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
- 	if (enabled)
- 		drm_crtc_vblank_get(&out->crtc);
- 
--	spin_lock_irq(&out->lock);
-+	mutex_lock(&out->enabled_lock);
- 	old_enabled = out->composer_enabled;
- 	out->composer_enabled = enabled;
--	spin_unlock_irq(&out->lock);
-+
-+	/* the composition wasn't enabled, so unlock the lock to make sure the lock
-+	 * will be balanced even if we have a failed commit
-+	 */
-+	if (!out->composer_enabled)
-+		mutex_unlock(&out->enabled_lock);
- 
- 	if (old_enabled)
- 		drm_crtc_vblank_put(&out->crtc);
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..3079013c8b32 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	struct drm_crtc *crtc = &output->crtc;
- 	struct vkms_crtc_state *state;
- 	u64 ret_overrun;
--	bool ret, fence_cookie;
-+	bool ret, fence_cookie, composer_enabled;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
-@@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 	if (ret_overrun != 1)
- 		pr_warn("%s: vblank timer overrun\n", __func__);
- 
--	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
- 
- 	state = output->composer_state;
--	spin_unlock(&output->lock);
-+	composer_enabled = output->composer_enabled;
-+	mutex_unlock(&output->enabled_lock);
- 
--	if (state && output->composer_enabled) {
-+	if (state && composer_enabled) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		/* update frame_start only if a queued vkms_composer_worker()
-@@ -292,6 +292,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
-+	mutex_init(&vkms_out->enabled_lock);
- 
- 	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
- 	if (!vkms_out->composer_workq)
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..dcf4e302fb4d 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -100,8 +100,10 @@ struct vkms_output {
- 	struct workqueue_struct *composer_workq;
- 	/* protects concurrent access to composer */
- 	spinlock_t lock;
-+	/* guarantees that if the composer is enabled, a job will be queued */
-+	struct mutex enabled_lock;
- 
--	/* protected by @lock */
-+	/* protected by @enabled_lock */
- 	bool composer_enabled;
- 	struct vkms_crtc_state *composer_state;
- 
 -- 
-2.40.1
+With best wishes
+Dmitry
 
