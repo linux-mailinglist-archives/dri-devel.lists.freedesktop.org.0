@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766C070DA77
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 12:27:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1270DABF
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 12:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE84B10E07C;
-	Tue, 23 May 2023 10:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1B210E04E;
+	Tue, 23 May 2023 10:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA4A10E07C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:27:19 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1B6A6630FE
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:27:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E324DC433A0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684837638;
- bh=mph3L+prnAXXLyDnbLYaAuszfaK/auk3KZLPB23mRrA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NA41WAKJEo5HkefDNahZEV4tUphWJSOf4FJl+djsPL/w/2AcrItOGgu/alS7zUzgT
- GJ6XI18028hjm3MJ/u9KwkG55+qQVyCgh8AEDcFfDvQW5R5KIaTrXdZLSK1oZokCzB
- jpjKNcdFTJV1D7iIFTqUljiSbslMQbCvw2pU5BY9bow9Mo2YWJ+Lc83kvkZPgPsyTJ
- 0fUyKqlShSXQQYvjO7fTU+sIIvJ3VVWYxD9qU5y5TvSsAT7MiOWCG5HiiNK7GEFvC0
- qsYaA/FumTlXuLcI5wlWCVE/Cz5lQN5b0vt77mUoXrZfWqO5kZNsooDrWD8+7SkZjO
- 6PR1AVrP3R0ng==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D1B8BC43144; Tue, 23 May 2023 10:27:18 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Tue, 23 May 2023 10:27:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: smf-linux@virginmedia.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-201957-2300-e2pnfKXaCn@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCCE10E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:42:42 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown
+ [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 55C266606E75;
+ Tue, 23 May 2023 11:42:38 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1684838559;
+ bh=k5mp+NPuC3+C8fsMCLAcwWhJ5WFcu3o02Q0hZe0dwhM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kh9Nd6T/8k3VroYVDmlTaX9A4m+npPH+O9zAx3WHJpRFbk+pgK0L0UUpGM3/Fs4Kn
+ OTjzxp0TjpGa0DEVfUchWsh+VDDnBlpQoTHdufvsnfQLl8MaRs/cSywPTY067VrSwe
+ GeFKVBhciJSweTohL+O2FGr8iZYTziU0eqXZPZoPl0DqH2+vTTKEf9/EyTCbQ8SA1X
+ 6NPgp4cGiXEiivriAE7wy6TuQTLRzw1hFpf55St20SMQvlFwbfB6aR2BUu1bqEpMkp
+ /FNhW68+w8IHtHpiYTEI37DjUfqtpA8k4smcp820azJ9sKU/YSNIr52QYtwiTTBvE+
+ ZWpAw39yMbftQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET settings/handling
+Date: Tue, 23 May 2023 12:42:34 +0200
+Message-Id: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +49,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, shaoming.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
+renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
+both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
+later calculation for horizontal sync-active (HSA), back (HBP) and
+front (HFP) porches got incorrect due to the logic being inverted.
 
-Stuart Foster (smf-linux@virginmedia.com) changed:
+This means that a number of settings were wrong because....:
+ - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
+   set in order to disable the End of Transmission packet;
+ - Horizontal Sync and Back/Front porches: The delta used to
+   calculate all of HSA, HBP and HFP should account for the
+   additional EOT packet.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |smf-linux@virginmedia.com
+Before this change...
+ - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
+ - For HSA/HBP/HFP delta... all three were wrong, as words were
+   added when EOT disabled, instead of when EOT packet enabled!
 
---- Comment #86 from Stuart Foster (smf-linux@virginmedia.com) ---
-Created attachment 304307
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304307&action=3Dedit
-Started testing kernel 6.4-rc3 got the same problem
+Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
+MediaTek DSI driver to fix the aforementioned issues.
 
---=20
-You may reply to this email to add a comment.
+Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time caused by EOTp")
+Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and EOT packet control")
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 7d5250351193..b0ab38e59db9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+ 	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+ 		tmp_reg |= HSTX_CKLP_EN;
+ 
+-	if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
++	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+ 		tmp_reg |= DIS_EOT;
+ 
+ 	writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+@@ -484,7 +484,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+ 			  timing->da_hs_zero + timing->da_hs_exit + 3;
+ 
+ 	delta = dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ? 18 : 12;
+-	delta += dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 2 : 0;
++	delta += dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 0 : 2;
+ 
+ 	horizontal_frontporch_byte = vm->hfront_porch * dsi_tmp_buf_bpp;
+ 	horizontal_front_back_byte = horizontal_frontporch_byte + horizontal_backporch_byte;
+-- 
+2.40.1
+
