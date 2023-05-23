@@ -1,78 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1F270DD00
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:51:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0F070DD15
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 14:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFD210E427;
-	Tue, 23 May 2023 12:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD34C10E43E;
+	Tue, 23 May 2023 12:56:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCFD410E427
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684846284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bAprbvbicDzO/i64xE13RGPcGm8TJil9TJRhodKNwUQ=;
- b=gNgqf0l9H0IpZ/Jj/UeLN1Z8Cf7Q5t8l0MMIdzqEWApUL7kjxb4zqDc84a2aN+ucWndhNX
- RXnibfyM1djGR0qs8tQg/tZWs7bl62X3a6H7AdvFzDCs1OcD1IX28llUSdHQNGHJw3w18v
- KdTdkxkaSMFgdUqnu4lMnoruCBlJjvw=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-66-ETdTD5GANsO0lRwK-fEu7g-1; Tue, 23 May 2023 08:51:23 -0400
-X-MC-Unique: ETdTD5GANsO0lRwK-fEu7g-1
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-75b1ad467b7so152776885a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:51:23 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A89A10E43A
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:56:30 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2af29e51722so49195671fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684846588; x=1687438588;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YpPwKZ/pHSK5WOwFpXpf+dWli/bJbY6VBZD/E/hAP6M=;
+ b=b3DIamYxTi/v51EdZ7SDh+hBPqRnIDi2rx+vibVvM23RP7rzyneyxLRB/Axlc5MBzO
+ utZ0ym+QKi6LRKwRFLZYT8kMmOsYe7sNQSOdPupxujrdTkT5+ZtDJuXI0VxaI9ncg4/b
+ uwRF+nGfeB+kjW6kraUREcEDLqyR5WP476SDCyqVXEHpSUBmhotJySJ7QCSqJe35hCgh
+ urAll0vklxPAr1SBcoP9YhVG9VUv8SAFXYePLOpCKrIsG4r/+X/NYx13/EH668fJo+eo
+ NL1NZvXZJUO7+EssMt5Pi+VZfbFtHMgoTYSLvrTR71YMvYnH0srbD/ZyIzqWgZBaj6d8
+ 8O4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684846283; x=1687438283;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bAprbvbicDzO/i64xE13RGPcGm8TJil9TJRhodKNwUQ=;
- b=c5MdwL7AWgovKfeuC6IwLWOecKDm93GHCdOyfy5yOWMgguruq/Nd/pEtks9jc14RNe
- GaWOII2nxCBM93cm7rfsfiGbFKft0rv/kWeieEqCWgp0rUwGx8H3lOfjEqVp+wIMZFbs
- L1VEdu2kUKFKi+ofKYThDoMkGKG3b1z7TI8C+hsBByEib3Zb3OU39i/FHqjLGwSjz46D
- QXI8w2zXpmkhLSiEDwox0HE5uB2AwX0mN4IRiAwuQEOeIS9QkOhSxaGmi12A27TBnFSz
- KGLkrjqmWbaVvt8I1moDp4WuldXFKnZqndbSu93EYh6wJ+UIstBvrrCRBrMgeJMIqCB0
- Ml/w==
-X-Gm-Message-State: AC+VfDz36itGL7in4OyHy8zYOhgEY5S1n1jfcc8tNUFrxoDhQ/gAqHN9
- riCjm8QF/pRG1VyN3NHNjM8jY+JCzOzAipdHdx9zGP+lgm8IpsTopNgM8SgBqILFQB4VQAvQQY7
- 1qxf2SYD5tF8Ef2jjGUCiBEknRMTx
-X-Received: by 2002:a37:88f:0:b0:75b:23a0:e7ed with SMTP id
- 137-20020a37088f000000b0075b23a0e7edmr3850965qki.78.1684846282949; 
- Tue, 23 May 2023 05:51:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7GUZvQqUqL8jnjS5iId8YX67qOidNHrEO9Bxwn07WXAbE7b7d2NbJu1BrYJ46XQnyjQLxqgg==
-X-Received: by 2002:a37:88f:0:b0:75b:23a0:e7ed with SMTP id
- 137-20020a37088f000000b0075b23a0e7edmr3850948qki.78.1684846282675; 
- Tue, 23 May 2023 05:51:22 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ d=1e100.net; s=20221208; t=1684846588; x=1687438588;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YpPwKZ/pHSK5WOwFpXpf+dWli/bJbY6VBZD/E/hAP6M=;
+ b=MbeBpTC9/7qrnwcviA6xBax4qG1TPlUHS6oBLfX+8yMf0KpJ0rqOd4pQNmsnCKUC9y
+ JY15Ged3TexJbxgjAQTWQBd666/NuGTfiY1QOaajKM43M/5+eNHwkgdPineA4IiayozA
+ F7DN1I/b2sKitM8GbzV1E1yxwhiUDuIw0yB8OAZHVSDDIhDdIYC0U4jbLpd3csh/YBBT
+ RgO6aaALPHe0dnxXPQopX4AKkveXfB6pFX2kFHS/WCqmGqG9giRUO86x/p35tbWLB1Oi
+ lG0nFE9AK4xChcc+SZgrVlvIprqfTGAkmGyczzbtf/hX+XVyu1IE9sv5orHPtJlErW52
+ sneg==
+X-Gm-Message-State: AC+VfDwqQf5f8PwBkT6K8FrqRPmlbxavGiCGMcQV+tiRwRsY5wwABYqC
+ vFhse6vkeQawbSepVCbVeCQioA==
+X-Google-Smtp-Source: ACHHUZ6c/kauyo/sRXK7gC6gSHRvq37cCYQro1FP0DCL+bzRiQxIwgpFpYqew7cK1BFsw+yt12lPGQ==
+X-Received: by 2002:a2e:b1c4:0:b0:2af:22a0:81fd with SMTP id
+ e4-20020a2eb1c4000000b002af22a081fdmr4691128lja.11.1684846588241; 
+ Tue, 23 May 2023 05:56:28 -0700 (PDT)
+Received: from [192.168.1.101] (abyk138.neoplus.adsl.tpnet.pl. [83.9.30.138])
  by smtp.gmail.com with ESMTPSA id
- c3-20020ae9e203000000b0075b35e72a21sm7626qkc.86.2023.05.23.05.51.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 05:51:21 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
- ville.syrjala@linux.intel.com, imre.deak@intel.com,
- arun.r.murthy@intel.com, lucas.demarchi@intel.com
-Subject: [PATCH] drm/i915: simplify switch to if-elseif
-Date: Tue, 23 May 2023 08:51:16 -0400
-Message-Id: <20230523125116.1669057-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ a19-20020a2e9813000000b002a7746800d0sm1605159ljj.130.2023.05.23.05.56.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 May 2023 05:56:27 -0700 (PDT)
+Message-ID: <19f30d4c-d879-ce2f-1cd7-ebcb941bbcec@linaro.org>
+Date: Tue, 23 May 2023 14:56:25 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sc8280xp: Enable GPU related
+ nodes
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>
+References: <20230523011522.65351-1-quic_bjorande@quicinc.com>
+ <20230523011522.65351-4-quic_bjorande@quicinc.com>
+ <1669ecc5-1845-e671-83f4-19ee14d37ce5@linaro.org>
+ <20230523122842.cueyeovuzpx63def@ripper>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230523122842.cueyeovuzpx63def@ripper>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +80,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>,
+ mani@kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, johan@kernel.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang with W=1 reports
-drivers/gpu/drm/i915/display/intel_display.c:6012:3: error: unannotated
-  fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
-                case I915_FORMAT_MOD_X_TILED:
-                ^
 
-Only one case and the default does anything in this switch, so it should
-be changed to an if-elseif.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+On 23.05.2023 14:28, Bjorn Andersson wrote:
+> On Tue, May 23, 2023 at 10:04:40AM +0200, Konrad Dybcio wrote:
+>>
+>>
+>> On 23.05.2023 03:15, Bjorn Andersson wrote:
+>>> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>>
+>>> Add memory reservation for the zap-shader and enable the Adreno SMMU,
+>>> GPU clock controller, GMU and the GPU nodes for the SC8280XP CRD and the
+>>> Lenovo ThinkPad X13s.
+>>>
+>>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+>>> ---
+>>>
+>>> Changes since v1:
+>>> - None
+>>>
+>>>  arch/arm64/boot/dts/qcom/sc8280xp-crd.dts     | 26 +++++++++++++++++++
+>>>  .../qcom/sc8280xp-lenovo-thinkpad-x13s.dts    | 26 +++++++++++++++++++
+>>>  2 files changed, 52 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
+>>> index 5b25d54b9591..547277924ea3 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
+>>> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-crd.dts
+>>> @@ -210,6 +210,11 @@ vreg_wwan: regulator-wwan {
+>>>  	};
+>>>  
+>>>  	reserved-memory {
+>>> +		gpu_mem: gpu-mem@8bf00000 {
+>> The ZAP region is very seldom moved around, and I wouldn't expect it
+>> to be uncommon among the very usecase-specific 8280 machines.
+>>
+>>> +			reg = <0 0x8bf00000 0 0x2000>;
+>>> +			no-map;
+>>> +		};
+>>> +
+>>>  		linux,cma {
+>>>  			compatible = "shared-dma-pool";
+>>>  			size = <0x0 0x8000000>;
+>>> @@ -259,6 +264,10 @@ usb1_sbu_mux: endpoint {
+>>>  	};
+>>>  };
+>>>  
+>>> +&adreno_smmu {
+>>> +	status = "okay";
+>>> +};
+>> Ugh. Should definitely be enabled by default.
+>>
+>>> +
+>>>  &apps_rsc {
+>>>  	regulators-0 {
+>>>  		compatible = "qcom,pm8350-rpmh-regulators";
+>>> @@ -376,6 +385,23 @@ &dispcc0 {
+>>>  	status = "okay";
+>>>  };
+>>>  
+>>> +&gmu {
+>>> +	status = "okay";
+>>> +};
+>> You can keep the GMU enabled by default as well, it won't "probe" on
+>> its own (the GPU's hw_init calls its registration)
+>>
+>>> +
+>>> +&gpu {
+>>> +	status = "okay";
+>>> +
+>>> +	zap-shader {
+>>> +		memory-region = <&gpu_mem>;
+>>> +		firmware-name = "qcom/sc8280xp/qcdxkmsuc8280.mbn";
+>>> +	};
+>>> +};
+>>> +
+>>> +&gpucc {
+>>> +	status = "okay";
+>>> +};
+>> Clock controllers have no reason to be off by default.
+>>
+> 
+> On sa8295p/sa8540p the GPU is powered differently, so if I leave it
+> enabled by default I need to disable it (or configure it) for those, or
+> they won't boot.
+Another "messed up automotive forks" situation, eh..
+Would it take a lot of new code to configure these platforms correctly?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 0490c6412ab5..1f852e49fc20 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -5994,8 +5994,7 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 		 * Need to verify this for all gen9 platforms to enable
- 		 * this selectively if required.
- 		 */
--		switch (new_plane_state->hw.fb->modifier) {
--		case DRM_FORMAT_MOD_LINEAR:
-+		if (new_plane_state->hw.fb->modifier == DRM_FORMAT_MOD_LINEAR) {
- 			/*
- 			 * FIXME: Async on Linear buffer is supported on ICL as
- 			 * but with additional alignment and fbc restrictions
-@@ -6008,13 +6007,10 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 					    plane->base.base.id, plane->base.name);
- 				return -EINVAL;
- 			}
--
--		case I915_FORMAT_MOD_X_TILED:
--		case I915_FORMAT_MOD_Y_TILED:
--		case I915_FORMAT_MOD_Yf_TILED:
--		case I915_FORMAT_MOD_4_TILED:
--			break;
--		default:
-+		} else if (!(new_plane_state->hw.fb->modifier == I915_FORMAT_MOD_X_TILED ||
-+			     new_plane_state->hw.fb->modifier == I915_FORMAT_MOD_Y_TILED ||
-+			     new_plane_state->hw.fb->modifier == I915_FORMAT_MOD_Yf_TILED ||
-+			     new_plane_state->hw.fb->modifier == I915_FORMAT_MOD_4_TILED)) {
- 			drm_dbg_kms(&i915->drm,
- 				    "[PLANE:%d:%s] Modifier does not support async flips\n",
- 				    plane->base.base.id, plane->base.name);
--- 
-2.27.0
-
+Konrad
+> 
+> Regards,
+> Bjorn
+> 
+>> Konrad
+>>> +
+>>>  &mdss0 {
+>>>  	status = "okay";
+>>>  };
+>>> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+>>> index bdcba719fc38..5ef3f4c07d75 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+>>> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+>>> @@ -264,6 +264,11 @@ vreg_wwan: regulator-wwan {
+>>>  	};
+>>>  
+>>>  	reserved-memory {
+>>> +		gpu_mem: gpu-mem@8bf00000 {
+>>> +			reg = <0 0x8bf00000 0 0x2000>;
+>>> +			no-map;
+>>> +		};
+>>> +
+>>>  		linux,cma {
+>>>  			compatible = "shared-dma-pool";
+>>>  			size = <0x0 0x8000000>;
+>>> @@ -359,6 +364,10 @@ usb1_sbu_mux: endpoint {
+>>>  	};
+>>>  };
+>>>  
+>>> +&adreno_smmu {
+>>> +	status = "okay";
+>>> +};
+>>> +
+>>>  &apps_rsc {
+>>>  	regulators-0 {
+>>>  		compatible = "qcom,pm8350-rpmh-regulators";
+>>> @@ -518,6 +527,23 @@ &dispcc0 {
+>>>  	status = "okay";
+>>>  };
+>>>  
+>>> +&gmu {
+>>> +	status = "okay";
+>>> +};
+>>> +
+>>> +&gpu {
+>>> +	status = "okay";
+>>> +
+>>> +	zap-shader {
+>>> +		memory-region = <&gpu_mem>;
+>>> +		firmware-name = "qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn";
+>>> +	};
+>>> +};
+>>> +
+>>> +&gpucc {
+>>> +	status = "okay";
+>>> +};
+>>> +
+>>>  &mdss0 {
+>>>  	status = "okay";
+>>>  };
