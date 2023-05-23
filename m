@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5945570E70F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:02:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3913A70E719
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA95B10E4DB;
-	Tue, 23 May 2023 21:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF54610E4DC;
+	Tue, 23 May 2023 21:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3316310E4DB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:02:36 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-5621a279cbbso5291667b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:02:36 -0700 (PDT)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D670010E4DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:05:12 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id
+ e9e14a558f8ab-33828a86ee2so42045ab.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684875755; x=1687467755;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4gNfZIeekSHs7BohS2Orfq0Se0pBECTdaana4cYqBL4=;
- b=tOGPzOTXR3ZwhBy1Ic0ihRryuxQqnniw6YqV0SHZ2xEJbKbV79oNg8iSaUODmLcYpc
- OODVehM/ARBOOUXdzyj94ie3ObrYp2+yDybUY6odfIvlc3vWw4Uu42VIjwf40Qj8jnpv
- /u6BIYptfcGey8tl64SMGH2ekP+e49xLeKTW8DQrLw1PiekWMDf+SVtkboNYCRCGAok6
- r3NGmKXQI7IcDYSXwmcTXA1k8cCjELTw9o7nX5Wa7vfMZ2Cbd4X+B/kwzKnE15M8S45G
- buaYCqxYBK9bQTQOog//pv15RiylJCcZ2FOpBp2rmOQy5OInQOLIQu3TNA64CyDbqbSd
- lTWg==
+ d=google.com; s=20221208; t=1684875911; x=1687467911;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j2Nz3y3qoiTuBk9TgDabiliDyiqWiXu5FrWlJdz9mKE=;
+ b=ONgWeoapPdsXjtVlfZgOTY0YX7WN84kwZ+lxvIZ+Z4JgI0d0KEejBZHFG14bnlJ8Q+
+ LZeXd5pYKxQT6vTp4kKHY+jHAhAZi8/eoyCBQRuqWVxLQJoqe3fxhEpjMLOmJ0t4EV5O
+ C113c5SM7jQNkt7uGolh64LfDpkgaTWEJgX1opjbWVEySvF3wUojSBVnrGtP/tEFCq4p
+ m4LMDyEPLJwS7ZciKAWcb9dX5wnFmi6JjZfCCScrpUDy2m0JOawJU844QlTAVLEcMsck
+ FxZKf03dsMlrbic8t+xD8NpLBtvkNXlX85QjS/kETmPvBM88UyGkRopycXAYOQ0k4qtV
+ w6HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684875755; x=1687467755;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4gNfZIeekSHs7BohS2Orfq0Se0pBECTdaana4cYqBL4=;
- b=BikHnkbxm9CdzVkv74WpKkAlfGMdqTGMRlSTD1jg816UKmX1eZQhm33hr27AMWzDP1
- MQQ6neCl0ab6b1Y3dKzk5gMuWpwtLmLgeV1a6nd82iTKnW6I7HEca1QkTwVcCC0VZjfc
- 4NWARTg0tadKNYoSOxNlEi6iAPH/o97lwgGjdu1GheKycn7Iz9m0QRttoqsAC+Q78Kyb
- aV2w4qxKxaKlLXzwPIlVoLleW2g7s/lPDK6CjTvPslfi5827wyGuFtQYYE15NSOm+abI
- UKYxtQsJAvtd/Rt6c8mLkorl0u3VOnB+VhW+E+c3gW/1HUDavEaOMXV2OP+YkD/gDupt
- 1AMg==
-X-Gm-Message-State: AC+VfDyahvdw3PUFKeZylSC+QnO4QL3YSLJkbR4ehikRlG6j1i2F7YRB
- 4JaYS2MDnwVyWNFDuXjKTRyMXZwVHHR3oPmzBJ0YE32a+oLzsYiR
-X-Google-Smtp-Source: ACHHUZ7UXQzwb1RIpn2+dG8waBFp9bePM9jRJQJFoANyzIIkMfYS8DmloLszmqODJrAwBGg2Stn1tqrkrSUfUH7FmaQ=
-X-Received: by 2002:a81:1bc8:0:b0:55a:776e:95f3 with SMTP id
- b191-20020a811bc8000000b0055a776e95f3mr15671135ywb.25.1684875754960; Tue, 23
- May 2023 14:02:34 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684875911; x=1687467911;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j2Nz3y3qoiTuBk9TgDabiliDyiqWiXu5FrWlJdz9mKE=;
+ b=EIxomDPJZuJ3zgf/kJgr9T7QP29WkvtrCcHR7V31WaP1tPlGUzcaPahNSybMZsp1Dt
+ HgZO/w6mY2Ebd09gQcJ+5JgvPZhVLWRO1MWQhS6xhwLJLuuwa3CScVCDMPosyVC8ee4Z
+ xiNkE6XllAFqcZdLKlMAwRKdC+0ug5RqfhW41bSTD90kn6TZ/kKDTEiqjYTuDMYK928R
+ 4EwWhoukwephUcZt428Z61MklzpqGhQ3X1uaB3HbWAXYs/Dg6D1136FFICsEPN8oiTKV
+ yJTei+bo5E8xkMyDcLPOnw76HYkQuhkCbz9JEMDDwXkKDiBb9rG7QX7sAZYhyPHjY6qf
+ qKqw==
+X-Gm-Message-State: AC+VfDwaYjeKKdv5zl6iKFaWqw6xKmbJbx3kR96dzfXX4hk1By7URTti
+ YyN8OIYIDOnyEgJSTSCtyyQ1owE+o3l9oTNtbRUoKg==
+X-Google-Smtp-Source: ACHHUZ7Txm8nqQaZy6MgeGTbwmpy46SQwfW06R6g1Du+QW7rpPJydUuYPp9gS6UClgiky4qhjuFMErdp4zPAfwqP4vc=
+X-Received: by 2002:a92:cda9:0:b0:335:62cc:3972 with SMTP id
+ g9-20020a92cda9000000b0033562cc3972mr41564ild.19.1684875911458; Tue, 23 May
+ 2023 14:05:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <1684870754-24906-1-git-send-email-quic_khsieh@quicinc.com>
- <1684870754-24906-2-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1684870754-24906-2-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 24 May 2023 00:02:23 +0300
-Message-ID: <CAA8EJpq0Gh5Wu5S_9aMytghOer_zPKthCZq9-vf7+vHm+sYH5Q@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] drm/msm/dp: no need to disable irq after
- devm_request_irq()
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+References: <20230519032316.3464732-1-yangcong5@huaqin.corp-partner.google.com>
+ <20230519080136.4058243-1-yangcong5@huaqin.corp-partner.google.com>
+ <ed8fc8f2-e5d8-8e08-dc29-e1197c911571@linaro.org>
+ <CAHwB_NK8wKaXw6Gy9CFnsZB0XrqokiHGXoMNAzd0R+myYg4gxQ@mail.gmail.com>
+In-Reply-To: <CAHwB_NK8wKaXw6Gy9CFnsZB0XrqokiHGXoMNAzd0R+myYg4gxQ@mail.gmail.com>
+From: Doug Anderson <dianders@google.com>
+Date: Tue, 23 May 2023 14:04:56 -0700
+Message-ID: <CAD=FV=WRecTWsFM96k81YAx1=jJT0vpS4EPP0ZfWFUGHNFx9Tw@mail.gmail.com>
+Subject: Re: [v1 0/2] *** Support Starry-himax83102-j02 and Starry-ili9882t
+ TDDI MIPI-DSI panel ***
+To: cong yang <yangcong5@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,83 +72,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- leonard@lausen.nl, quic_abhinavk@quicinc.com, andersson@kernel.org,
+Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
- sean@poorly.run, linux-arm-msm@vger.kernel.org
+ hsinyi@google.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 23 May 2023 at 22:39, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> devm_request_irq() will allocate irq and return with irq enabled.
-> At current implementation irq are specified disabled after return from
-> devm_request_irq() and re enabled later. It is redundant.
+Hi,
 
-This is not correct. The disable_irq / enable_irq pair is not
-redundant. If I understand correctly, it was done so to prevent HPD
-IRQs from being delivered before HPD worker is initialized (which was
-probably correct at the time of the mentioned commit). So this patch
-either can come after the next patch (but then it should not have a
-Fixes tag and the commit message should be changed to mention why
-disable_irq() call is redundant) or it can be squashed together with
-the next patch.
+On Mon, May 22, 2023 at 1:01=E2=80=AFAM cong yang
+<yangcong5@huaqin.corp-partner.google.com> wrote:
+>
+> Hi,neil:
+>  Thank you for your reply, it's not that the polarity of reset is differe=
+nt. The state of this rst needs to be high during a certain period of time =
+(when hid touch communicate,). I have tried to set the default property to =
+high in DT, but from the log and waveform, the rseet single  is set to low =
+by boe_panel_add before hid touch communication.As shown in the picture, rs=
+t needs to be high before hid ready. Datasheet: https://github.com/HimaxSof=
+tware/Doc/tree/main/Himax_Chipset_Power_Sequence
 
->
-> Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 9 ---------
->  1 file changed, 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 3e13acdf..1af49b6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1094,12 +1094,6 @@ static void dp_display_config_hpd(struct dp_display_private *dp)
->                                 DP_DP_HPD_PLUG_INT_MASK |
->                                 DP_DP_HPD_UNPLUG_INT_MASK,
->                                 true);
-> -
-> -       /* Enable interrupt first time
-> -        * we are leaving dp clocks on during disconnect
-> -        * and never disable interrupt
-> -        */
-> -       enable_irq(dp->irq);
->  }
->
->  void dp_display_set_psr(struct msm_dp *dp_display, bool enter)
-> @@ -1282,7 +1276,6 @@ int dp_display_request_irq(struct msm_dp *dp_display)
->                                 dp->irq, rc);
->                 return rc;
->         }
-> -       disable_irq(dp->irq);
->
->         return 0;
->  }
-> @@ -1570,7 +1563,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
->                 dp_display_host_init(dp_priv);
->                 dp_catalog_ctrl_hpd_config(dp_priv->catalog);
->                 dp_display_host_phy_init(dp_priv);
-> -               enable_irq(dp_priv->irq);
->
->                 /*
->                  * The code below assumes that the panel will finish probing
-> @@ -1612,7 +1604,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
->
->  error:
->         if (dp->is_edp) {
-> -               disable_irq(dp_priv->irq);
->                 dp_display_host_phy_exit(dp_priv);
->                 dp_display_host_deinit(dp_priv);
->         }
-> --
-> 2.7.4
->
+To add some breadcrumbs, I think the issues is that panel/touchscreeen
+are intertwined and really need a solution like the one proposed in my
+series:
 
+https://lore.kernel.org/r/20230523193017.4109557-1-dianders@chromium.org
 
--- 
-With best wishes
-Dmitry
+Cong Yang tested an early version of my series and indicated that it
+helped solve his problem. Presumably if that series (or something like
+it) can land then we'll unblock the ability to support this hardware.
+
+-Doug
