@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8063E70E2D3
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:38:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0792670E2D6
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12FA10E48A;
-	Tue, 23 May 2023 17:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14DC710E106;
+	Tue, 23 May 2023 17:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6753D10E109
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:38:50 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3779710E106
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1684863524; i=markus.elfring@web.de;
- bh=vdGIrfGbI4fUpNb7F4YLU0TiyBkiH6frHykp16SFXvw=;
+ t=1684863617; i=markus.elfring@web.de;
+ bh=dZAZTWocFmwMeI41tgq/9qsNmxwFlyNoBkJGWPDlc2o=;
  h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=eEhcPfc/jeMIL38oZCfDZvOfw0CBo/QgRj1/IUtlmeFD78OA/p9fg/BD/aAgzSrJY
- CuMK8yQcCFK8YThsHf/K6ieaVpeJjfRmRFwVl9EEcu8KP/B0CgHkLXvIf3gWEN8aGT
- m0y6HfJwDRgJ2zCw3Sch/c8RIn1j+VliwpUdMMtT7Ls6KcvWK3AZzvkFtBC/IM8jEh
- y+Avs6f+vdQ0bK88h+9xog4/qJLstTAeE39NCYki//uxUgMWDms0CsjekiqzubhoPD
- Dyn1YCx3HVdcWqShdoYIKq2ischKaGn9qOzNI/tv+NfSue1NeTHM9N7hHnN7g1UgBH
- AmCE4jxWvThSA==
+ b=TKbqjsJmtPL45O1znHWMPToDR9bFUNTuQ1s2jsH61QLvye+vZgklvo5BvFp3pDddX
+ paugPZdaO0U1i6F8MHtlRyecNYCKHIYfktwHj5a6+yGnU1bQBKRSKxpdaJNTc2BCBN
+ yv6jz4WpqYakQJRm/VUIjH7Tfp16+/qNbcO1OtfV82jZZ08CXm5uPFYdinYIAzGegN
+ ipPGRUvxJuNnVQdV28rPRMLA+9BmYMR7xJCAQ26WyCoQfTBcw9vmuZhWptMroO/Wmo
+ pfw2Fye41Wp9nBCrRVAC6OAkeMgLtux28OobwOEywkdWJGLK80EwzfrIfnpNZJ0o1s
+ pwtsbGLti5TPA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.89.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1McZnl-1qXY0E3dT3-00cx6f; Tue, 23
- May 2023 19:38:43 +0200
-Message-ID: <c551c670-7458-ed50-eb2f-5a2b7ba421a8@web.de>
-Date: Tue, 23 May 2023 19:38:43 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M3m9H-1q2L4c0WV1-000rbV; Tue, 23
+ May 2023 19:40:17 +0200
+Message-ID: <e98a620b-7b3b-0d5c-3bc8-4cbbda1dd057@web.de>
+Date: Tue, 23 May 2023 19:40:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: [PATCH 1/4] fbdev: imsttfb: Fix error handling in init_imstt()
+Subject: [PATCH 2/4] fbdev: imsttfb: Fix exception handling in imsttfb_probe()
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
 To: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
@@ -44,26 +44,26 @@ References: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
 In-Reply-To: <97807a2d-ccf2-1fbf-06f7-085bb1bdf451@web.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:e+SVAKZDjUgV2jhbo4iX+NViHhtDIPBuRJ1Z8q1WnjWuYLIeQph
- hAtq3iVkBUzNapFSjzuBt2ttNKuE7ypwM3IFtjWILbQ9Y4gHuG8V4wqxslnCaY6OXXGBaUU
- hmr8paOJXIKrEjql4iSL32cVSHD5kf47zgv6HaGIU6OU0+U1WeXC+Y3VNqlKEXPw7R4yyIm
- 6qdxCmeeWlmapdFJs8/ZA==
+X-Provags-ID: V03:K1:QEbEaGKrHnj4+xdRAtEbFhnE4hMSAqjN7cMcZwRbJ8dJbVU/4d4
+ ByOLqxblchi7JQSn8cPTXzH1zV8mA1mHfFoABa2g4g0eLCs2CLSreMzfCw7vZkt6F5EFgnd
+ V+X0cTAjciIjUK47hK5j1bGelm2QKEWqdzdu7ORuj8D7WqFl1YnDpqkYwEAyy3e8m09hyse
+ qpU60cSjf3UyOFC/pZfCA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7Yzt70kqrtw=;iYfceZoq2vuPTPpC4WfnawjTkJX
- ZZEiHjk7/8OaoTvvlPSvY1zv5b3UAAmORwi80H0wdZMHWvHmxUhS4STK5VX1Er7i5sJjaE+xS
- XPIBpUAxsQ/RRC/QyNwaUMW7wYnkaVVcFKQv3+Z0m0wErGIYzXRoP7BMoE6cmAvC9vshMyVhs
- PehItICtU83OqFgEJ+rrdMUO+J8PZAZkG9n+g1i1HmyuBaGdcK69S8ZzahgdH7vxg0Q/oDGq8
- 685AwrecSrchksseVD73Zi9fCRpD3ziKdx1S8Ou3ACqhPTnTLViz4W0UbCjcJ569HNawZ7T8i
- wbQPQmy6J6/OKD1FJ51dGlzn3MO5qeeQYfjPcgc+aiWD+nyTiYoxo13/0t47eCptvHBfAer0s
- Tuy27+H3bUHedPVGh1t9pbxbxrf8vn90xxOtiKNVKMED4ZTfCpt0vBEs3hXO4nDkqoZqN699t
- 8vjrCMtS/jX1bJeTFTWSM7JVDBpkebTHpTeJOm517xnphpLk3nllNHi84QRYnCRu5vAZd7knU
- TomMDS9I3LJ7Xob4JRGZ4zdC3Q5JfB67yVg8vrGptJUO1hQbV580//DKkR6NijldCQ377UnDR
- V1N6vJ5Mj8BGG/dFwX5zZjBoaTT2+tJc2Mh1VavR1uzK5xI6NztelFTHmGd039amoi1ijkUHG
- 4wlHwdO8l7qLvfL9opwaMxhWIlHL3gL5x9QsPZt5YeQF5H50s7KfiwJe6nvTiYpTvnYLXKQRt
- bCjkCldbksfyM7M3fK8B7rK1jYYfwEp28cMPZ41689MNlWJeQp3RvV95wG2okw/sBmvRvmzH0
- +PuzZiJNeVXdb+kabVaMd7noVp2lI/2HeRmhTlR3jPTD6BXi8I5ASJU9hnF40PcOz0F/Ipgkq
- zgtGFKYiBP7FBdJAR6/FOsz6yPSm4KaDl1a2xWwReKDoJ4Krj57L1QjA1jRUYn6YUPIpRHsYK
- eNuTGQ==
+UI-OutboundReport: notjunk:1;M01:P0:ZNlXuM4RdCo=;W5fkWHl/pqYc20ijGSe8Hf1TdNL
+ tB9uZ85T5H28Hm/ceg0bsGRqO83ivcj4UULZUZxIN6X6VbiTLCnYrlNig0CqIRKFjqhAE6qo/
+ Wx7JUlGABKw0CWIfHKisjWwwaGO/bVBuuJWL/ojKnrHdTqTL3zeivSziYeJKs2YppjqdLSbT2
+ v1cGTSIBIO034RbsrQEzMu37d+Bh/BPpac+zRUdVH6uLNottNBvMLwBRBthpEVJGTlYbaTL4/
+ wCGbiSw+Jm//J3N+wSJD+crp9kmgzeF5EHZ548/woy7w3/uD+TsSGOd9m1OMt9wHaHW4BNClj
+ Z2vG5GM/trXPEOsiJmOY2bR9bVKCo0Vf5uzjaqE/BGnlyYBjb2tMa8ylcJG5mLfN4f7eX39t9
+ 5oqOcZTezhuNdaIMdwiMzRwqCbnw971PjDUMdyUTKSjKfj8bzBUUO02vmmWHEkcV05afvYfmh
+ hl7+YX8PSxD+oAqCyjDqpPUqFS9444/hpqANO+B/bAfFbDZeCQLxZXFJHhIifniHgKpC3aAWJ
+ 4MjLfQPdAY+xzwGhl0IYx+G8YkzEAYvSQBRd2ajBFT18a4jGjNvFgFGSlX/YBT8ssfPMvhk3g
+ ZtCUpVzQObmagl38+4dn664MGl8f2LUr7kS6k6u9bfYvvK1ad8n4it2d+D8tMJzSX2uTp50g8
+ v3s4b/wvNmK7KLXncufqAEc8Jh4HFAeZsrMOa5PfdklabzFEGNJS9aqokWQtHYUycHrzxyKZV
+ hasFFneuaGn+/h537NX2eZXOF6nUWrF/iIRup9GawY8zpDz7GTxOQbhEPPBQNoMO+Wn2F7DyC
+ RWx3VrBBLF9Qs7nvgOQFnWTePXvzMi9efKpdhW+cV7uf9NXbJmgr+h0VYZJoaSsMiywTy8mpu
+ WtqpT1gqtYkgCIgunVxzsuGmCRvmijPs5xT19AqWK7PVPtO3ycO2EaUXR4FgqAfoUFZuyT1GB
+ o1QPSw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,83 +82,103 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 23 May 2023 14:32:39 +0200
+Date: Tue, 23 May 2023 15:40:43 +0200
 
-The return value was overlooked from a call of
-the function =E2=80=9Cfb_alloc_cmap=E2=80=9D.
+The exception handling was incomplete.
 
-* Thus use a corresponding error check.
+The label =E2=80=9Cerror=E2=80=9D was used to jump to another pointer chec=
+k despite of
+the detail in the implementation of the function =E2=80=9Cimsttfb_probe=E2=
+=80=9D
+that it was determined already that the corresponding variable
+contained a null pointer.
 
-* Add two jump targets so that a bit of exception handling
-  can be better reused at the end of this function.
+* Thus use more appropriate labels instead.
+
+* Delete two redundant checks.
 
 
-Reported-by: Helge Deller <deller@gmx.de>
-Link: https://lore.kernel.org/dri-devel/069f2f78-01f3-9476-d860-2b695c1226=
-49@gmx.de/
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: "Michal Koutn=C3=BD" <mkoutny@suse.com>
+Link: https://lore.kernel.org/dri-devel/34gbv2k3lc5dl4nbivslizfuor6qc34j63=
+idiiuc35qkk3iohs@7bshmqu2ue7a/
 Fixes: c75f5a550610 ("fbdev: imsttfb: Fix use after free bug in imsttfb_pr=
 obe")
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/video/fbdev/imsttfb.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/imsttfb.c | 34 +++++++++++++++++++++-------------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/video/fbdev/imsttfb.c b/drivers/video/fbdev/imsttfb.c
-index 975dd682fae4..d3532def4707 100644
+index d3532def4707..6490f544f8eb 100644
 =2D-- a/drivers/video/fbdev/imsttfb.c
 +++ b/drivers/video/fbdev/imsttfb.c
-@@ -1351,6 +1351,7 @@ static int init_imstt(struct fb_info *info)
- {
- 	struct imstt_par *par =3D info->par;
- 	__u32 i, tmp, *ip, *end;
-+	int ret;
+@@ -1503,8 +1503,8 @@ static int imsttfb_probe(struct pci_dev *pdev, const=
+ struct pci_device_id *ent)
 
- 	tmp =3D read_reg_le32(par->dc_regs, PRC);
- 	if (par->ramdac =3D=3D IBM)
-@@ -1419,8 +1420,7 @@ static int init_imstt(struct fb_info *info)
- 	if ((info->var.xres * info->var.yres) * (info->var.bits_per_pixel >> 3) =
-> info->fix.smem_len
- 	    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres))) {
- 		printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->var.y=
-res, info->var.bits_per_pixel);
+ 	if (!request_mem_region(addr, size, "imsttfb")) {
+ 		printk(KERN_ERR "imsttfb: Can't reserve memory region\n");
 -		framebuffer_release(info);
 -		return -ENODEV;
-+		goto e_nodev;
- 	}
-
- 	sprintf(info->fix.id, "IMS TT (%s)", par->ramdac =3D=3D IBM ? "IBM" : "T=
-VP");
-@@ -1452,17 +1452,25 @@ static int init_imstt(struct fb_info *info)
- 	              FBINFO_HWACCEL_FILLRECT |
- 	              FBINFO_HWACCEL_YPAN;
-
--	fb_alloc_cmap(&info->cmap, 0, 0);
-+	ret =3D fb_alloc_cmap(&info->cmap, 0, 0);
-+	if (ret)
++		ret =3D -ENODEV;
 +		goto release_framebuffer;
-
- 	if (register_framebuffer(info) < 0) {
--		framebuffer_release(info);
--		return -ENODEV;
-+		fb_dealloc_cmap(&info->cmap);
-+		goto e_nodev;
  	}
 
- 	tmp =3D (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
- 	fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
- 		info->fix.id, info->fix.smem_len >> 20, tmp);
- 	return 0;
-+
-+e_nodev:
-+	ret =3D -ENODEV;
-+release_framebuffer:
-+	framebuffer_release(info);
-+	return ret;
- }
+ 	switch (pdev->device) {
+@@ -1521,34 +1521,42 @@ static int imsttfb_probe(struct pci_dev *pdev, con=
+st struct pci_device_id *ent)
+ 			printk(KERN_INFO "imsttfb: Device 0x%x unknown, "
+ 					 "contact maintainer.\n", pdev->device);
+ 			ret =3D -ENODEV;
+-			goto error;
++			goto release_region;
+ 	}
 
- static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id=
- *ent)
+ 	info->fix.smem_start =3D addr;
+ 	info->screen_base =3D (__u8 *)ioremap(addr, par->ramdac =3D=3D IBM ?
+ 					    0x400000 : 0x800000);
+ 	if (!info->screen_base)
+-		goto error;
++		goto release_region;
++
+ 	info->fix.mmio_start =3D addr + 0x800000;
+ 	par->dc_regs =3D ioremap(addr + 0x800000, 0x1000);
+ 	if (!par->dc_regs)
+-		goto error;
++		goto unmap_io_screen_base;
++
+ 	par->cmap_regs_phys =3D addr + 0x840000;
+ 	par->cmap_regs =3D (__u8 *)ioremap(addr + 0x840000, 0x1000);
+ 	if (!par->cmap_regs)
+-		goto error;
++		goto unmap_io_dc_regs;
++
+ 	info->pseudo_palette =3D par->palette;
+ 	ret =3D init_imstt(info);
+-	if (!ret)
+-		pci_set_drvdata(pdev, info);
++	if (ret)
++		goto unmap_io_cmap_regs;
++
++	pci_set_drvdata(pdev, info);
+ 	return ret;
+
+-error:
+-	if (par->dc_regs)
+-		iounmap(par->dc_regs);
+-	if (info->screen_base)
+-		iounmap(info->screen_base);
++unmap_io_cmap_regs:
++	iounmap(par->cmap_regs);
++unmap_io_dc_regs:
++	iounmap(par->dc_regs);
++unmap_io_screen_base:
++	iounmap(info->screen_base);
++release_region:
+ 	release_mem_region(addr, size);
++release_framebuffer:
+ 	framebuffer_release(info);
+ 	return ret;
+ }
 =2D-
 2.40.1
 
