@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A955670DAF4
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 12:54:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF02370DB76
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 13:29:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820B310E426;
-	Tue, 23 May 2023 10:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8019D10E051;
+	Tue, 23 May 2023 11:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9418410E426
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 10:54:51 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f42d937d2eso45692875e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 03:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684839289; x=1687431289;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/3WjXgsNuqa7/WDZdFims98+tDEhGOYyjkquS66fJPs=;
- b=GRPH6+30lAf//AJM9pWiPwjzF5resuZuGFlvxrJZigGSKauVKhCG67QuBSxJIpJm9U
- UqO8OPb6Abqjc4UsG8oYtlAIVKSqo2vxyuSfQyWCumvIMPaR4MwQJ7Z0Ju+VoZTxeBkO
- EVsOiQ08u3o1NpB8UMrRYa9vZDkXWkoowif5QStMG5MDDhTyatuwZIjDeaUeaXd+LFPl
- WGsxrky31gmDvppGRukw6KgXVPFf1ZjQBRuky5u4p7SmyiU17zYITeNa/9JloaRpIv9d
- v5SgyDMHDqwKmIQG8gD3aogHnsCvpF1NiJ+OODHOl7+VXJvQ8iCL3fFJ+AZeaMK0d+1H
- UrbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684839289; x=1687431289;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/3WjXgsNuqa7/WDZdFims98+tDEhGOYyjkquS66fJPs=;
- b=CD4+EJfgpaSwHuCFAbmKE/vPSWk9LY4iwFJQ9p6H2yG171a6qVhVuiGMw/uzKoRdqx
- gnfeTGwv/wQuaRVYkTUhGCt6LwSfQlW/TYmklDzOILhLWG3u3YzyPODEb7g8E1VjeCIR
- KY37qcwmTnSok4P1RaF5ouc7wnDEZCTnFk1zQdfh7yHeO0z8u9MQ82uF0+rcq+Jf+/WD
- VaNaiAbDz0/FdW1n89nUE/Di2OFZfIyYMwE66RiMjEX6foK4noTLuL7mXPf1M5GO2AjX
- Kd85m2GVbcUreA1qoHFnH9UVgnPuAN5HGOYaqm9YgC6Q60UDPHItr9T+EhTMT8srpwBN
- BOPQ==
-X-Gm-Message-State: AC+VfDyHBX3MZbpX2aSaZ7BLB4ULAfEEh3+b22vlZq4Dna4lERStO8UH
- kaK9TcUZ+fp7uDS5xszCcz7bXQ==
-X-Google-Smtp-Source: ACHHUZ6b5/OXboW+vGmX4shXePUEyDe7NDvlwNpoxezhMOSU58x9BGVbiVKV8bYmalzS4dohoNrkqQ==
-X-Received: by 2002:a05:600c:2152:b0:3f6:938:1001 with SMTP id
- v18-20020a05600c215200b003f609381001mr2059704wml.8.1684839289624; 
- Tue, 23 May 2023 03:54:49 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- n22-20020a1c7216000000b003f60482024fsm6072367wmc.30.2023.05.23.03.54.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 03:54:48 -0700 (PDT)
-Date: Tue, 23 May 2023 13:54:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH] drm/msm/dpu: signedness bug in
- dpu_encoder_phys_cmd_tearcheck_config()
-Message-ID: <4abf38cc-20ab-4606-bc39-85255b8bdee8@kili.mountain>
-References: <897779a0-1a1f-4193-9dd3-bc4f87e73e3c@kili.mountain>
- <wxfpgm77uxae5mhpht35m4kgrcx2givdp2duncxduz7hrlcofz@sp5wxfqx63fg>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F35410E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 11:29:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 701B921B09;
+ Tue, 23 May 2023 11:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684841349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mvqkqOMb3CMYPLp2cVxAIz7L8yoF9r2lyWg7G3UMvCM=;
+ b=n2cZzkZ2awo59klRexH1P+5Thd48Q9aEQNNXcQl3p0vr66fTHz8HEBqMTgJPZn6YX6cb+B
+ 91EAPPihH00cu1KP0nn0aKo42QYHYy6QNeTvT6ojWeloil3TpiN1CN4B7+vMMlDYJ82aUa
+ HAogYJzC69oYr+KVyTuBEKSwthvh+FU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684841349;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mvqkqOMb3CMYPLp2cVxAIz7L8yoF9r2lyWg7G3UMvCM=;
+ b=dp/RduJyu8HbzkCbFmDIODQ08jHj6j6ppnDrkEquRymnRWYZq8tUYakmBhA4KD/zoFx/pN
+ evm0sUGcgXsLEyAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 587C813A10;
+ Tue, 23 May 2023 11:29:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gZqoFIWjbGR0DgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 23 May 2023 11:29:09 +0000
+Message-ID: <7c0b5d62-36d5-edae-ba50-b171538a488a@suse.de>
+Date: Tue, 23 May 2023 13:29:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wxfpgm77uxae5mhpht35m4kgrcx2givdp2duncxduz7hrlcofz@sp5wxfqx63fg>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/gma500: Clear fbdev framebuffer with fb_memset_io()
+To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+References: <20230522190637.7039-1-tzimmermann@suse.de>
+ <2x56vhkpjegqgjydnjji4xmvp3w4js66myw5kwngjsdpax7uma@x3fzwdbmrrny>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <2x56vhkpjegqgjydnjji4xmvp3w4js66myw5kwngjsdpax7uma@x3fzwdbmrrny>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------C4kFB71C8YbGJASGUDr0H91U"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,35 +70,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Archit Taneja <architt@codeaurora.org>, Sean Paul <sean@poorly.run>,
- kernel-janitors@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 22, 2023 at 10:47:50AM +0200, Marijn Suijten wrote:
-> On 2023-05-22 10:48:01, Dan Carpenter wrote:
-> > The "vsync_hz" variable is used to store negative error codes so it
-> > needs to be signed for the error checking to work correctly.
-> 
-> Nicely spotted, but it it looks like we have more to fix then.  The type
-> returned by dpu_kms_get_clk_rate() is u64:
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------C4kFB71C8YbGJASGUDr0H91U
+Content-Type: multipart/mixed; boundary="------------QZXvGhEj3uNXALMPiTN1kqc8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Message-ID: <7c0b5d62-36d5-edae-ba50-b171538a488a@suse.de>
+Subject: Re: [PATCH] drm/gma500: Clear fbdev framebuffer with fb_memset_io()
+References: <20230522190637.7039-1-tzimmermann@suse.de>
+ <2x56vhkpjegqgjydnjji4xmvp3w4js66myw5kwngjsdpax7uma@x3fzwdbmrrny>
+In-Reply-To: <2x56vhkpjegqgjydnjji4xmvp3w4js66myw5kwngjsdpax7uma@x3fzwdbmrrny>
 
-That's a good point.  Although the type of clk_get_rate() is unsigned
-long so probably unsigned long is enough.
+--------------QZXvGhEj3uNXALMPiTN1kqc8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> - Perhaps the int used in this patch is too small (though 19.2MHz vsync
->   clock ought to fit);
-> - That function should also return a signed number as part of this
->   contract.
+SGkNCg0KQW0gMjMuMDUuMjMgdW0gMDk6MDAgc2NocmllYiBQYXRyaWsgSmFrb2Jzc29uOg0K
+PiBPbiBNb24sIE1heSAyMiwgMjAyMyBhdCAwOTowNjozN1BNICswMjAwLCBUaG9tYXMgWmlt
+bWVybWFubiB3cm90ZToNCj4+IFRoZSBmYmRldiBmcmFtZWJ1ZmZlciBpcyBJL08gbWVtb3J5
+LCBzbyBjbGVhciBpdCB3aXRoIGZiX21lbXNldF9pbygpLg0KPj4gRml4ZXMgdGhlIGZvbGxv
+d2luZyBzcGFyc2Ugd2FybmluZzoNCj4+DQo+PiAuLi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAw
+L2ZiZGV2LmM6MjM0OjIwOiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZSBpbiBhcmd1bWVudCAx
+IChkaWZmZXJlbnQgYWRkcmVzcyBzcGFjZXMpDQo+PiAuLi9kcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ZiZGV2LmM6MjM0OjIwOiAgICBleHBlY3RlZCB2b2lkICpzDQo+PiAuLi9kcml2ZXJz
+L2dwdS9kcm0vZ21hNTAwL2ZiZGV2LmM6MjM0OjIwOiAgICBnb3QgY2hhciBbbm9kZXJlZl0g
+X19pb21lbSAqc2NyZWVuX2Jhc2UNCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gDQo+IExvb2tzIGdvb2QgYnV0IEkg
+ZG9uJ3Qgc2VlIHRoZSBmYl9tZW0qKCkgaGVscGVyIGNoYW5nZSBiZWluZyBtZXJnZWQgeWV0
+Lg0KPiBPciBhbSBJIGxvb2tpbmcgaW4gdGhlIHdyb25nIHBsYWNlPw0KDQpJdCdzIGhlcmUs
+IGluIGRybS1taXNjLW5leHQ6DQoNCmh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJt
+L2RybS1taXNjL2NvbW1pdC8/aWQ9MjBkNTRlNDhkOWM3MDUwOTFhMDI1YWZmZjU4MzlkYTJl
+YTYwNmY2Yg0KDQpUaGUgcGF0Y2ggd291bGQgZ28gdGhlcmUgYXMgd2VsbC4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ZiZGV2LmMgfCAyICstDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+Z21hNTAwL2ZiZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2ZiZGV2LmMNCj4+IGlu
+ZGV4IDYyMjg3NDA3ZTcxNy4uNGYwMzA5NTQ4YjJiIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9mYmRldi5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ZiZGV2LmMNCj4+IEBAIC0yMzEsNyArMjMxLDcgQEAgc3RhdGljIGludCBwc2JfZmJk
+ZXZfZmJfcHJvYmUoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwNCj4+ICAgCWlu
+Zm8tPmZpeC5tbWlvX3N0YXJ0ID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOw0KPj4g
+ICAJaW5mby0+Zml4Lm1taW9fbGVuID0gcGNpX3Jlc291cmNlX2xlbihwZGV2LCAwKTsNCj4+
+ICAgDQo+PiAtCW1lbXNldChpbmZvLT5zY3JlZW5fYmFzZSwgMCwgaW5mby0+c2NyZWVuX3Np
+emUpOw0KPj4gKwlmYl9tZW1zZXRfaW8oaW5mby0+c2NyZWVuX2Jhc2UsIDAsIGluZm8tPnNj
+cmVlbl9zaXplKTsNCj4+ICAgDQo+PiAgIAkvKiBVc2UgZGVmYXVsdCBzY3JhdGNoIHBpeG1h
+cCAoaW5mby0+cGl4bWFwLmZsYWdzID0gRkJfUElYTUFQX1NZU1RFTSkgKi8NCj4+ICAgDQo+
+PiAtLSANCj4+IDIuNDAuMQ0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6
+IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9l
+cm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-What about if we just return 0 instead of -EINVAL?  That would match
-what clk_get_rate() does.  Also let me change the type to unsigned long.
+--------------QZXvGhEj3uNXALMPiTN1kqc8--
 
-regards,
-dan carpenter
+--------------C4kFB71C8YbGJASGUDr0H91U
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRso4QFAwAAAAAACgkQlh/E3EQov+CT
+5hAAgWn1qSckD4TbFosDmACnMo6UywmVFqQYaR6gCPMzklGNpvd1O6SsM9B0wowsZ8TM0sY9NaRx
+3cFA36VhpToLBXdzt5wofKkP/4VmB7zqIXf2WwMZfGh82IyC00yuf6oDNS1lNHQQx+R8UETeyv9H
+WQao7AeElR/Ec2tdmnEJCOlcdcP29YfvdPipDoSb+0/z0Ip6PEZVS4CQCpvkHO2zO/52KcOvYrS+
+MOaCB8/osCHlTynUf4Flu05BZ3/uvLwmLgQROq44yTDQtUL8kY0WMqNbWcfHbjvNt4af9xUo74JU
+OmYXexk4Vu4343ohJU5M+wxOljS7VbNbCAEhyLYq33agyiQ5EKWTfAtlHcZ8rJmPvnruaY2etvJ9
+oVD57q06GIcOE3bbkm0R7mCukyJCr/nbsu03neSKyU14H+Mwou4Gl0n6yz440TNl0RzOvH6um0Uy
+HUVVQyRcEqR4qAwS8rfQUb1nwMzxwYuMMhxAAM+twW/Ly07B1eUoeqhUdSUHoJMEI2XK/TXV3c3z
++9br9fm+yC+mhT8uDz0q4OsWN4QzdegTcJ4eDkSrRApxKYmoPCDXVdni1k896lWTVw8H8bBi0UDk
+J7FRmaGOe/ZqH6jicH4zd+MdN0SVFerSL+5k+XTXirw1UIVLbeSH9QnwjA8ZZt+bDCMBqaQbFwMB
+Fkc=
+=SLxW
+-----END PGP SIGNATURE-----
+
+--------------C4kFB71C8YbGJASGUDr0H91U--
