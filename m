@@ -1,73 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFFC70E80D
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:53:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AF970E812
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 23:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B90E10E4E6;
-	Tue, 23 May 2023 21:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77BE910E4E8;
+	Tue, 23 May 2023 21:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C185710E4E6;
- Tue, 23 May 2023 21:53:09 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34NLPAus004846; Tue, 23 May 2023 21:52:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=+1eypUtauim/8+VjJha2CN20HIfuhYZsXJ3QNR46ajI=;
- b=ndy6ixSGBXk8uUxwMte+zT3fHuebzK/DnUbo5Ws5o1dj8Rqc/nNiveIIrWdLTxXor7DT
- Qf6GiiYjaeODa22oF4dyvWZjhBAGinoVBp+a3qBtW8rubyPl5PlZfdKXsZR8fkAAYrB5
- vbPA8N0yfDFIkG/eQthY5JhEfc9kSah2u60eSC/XaS1SA+eDKuIl4QYgOLOrbZ6BqCBn
- TAeSkCDwd8uDkwecq7Ms2NxUmPd2lqzf1RNkHinHr4meOK7IN5eNx3t5tw092xE/02w8
- gz0Raf+qk9Ah7VLuYRCsj0IwIPi7AhJH1V/UPXtrdF9rgColkHe6Y+ucH/mixYAJjRnj cQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qrpmm2hkt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 21:52:49 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34NLqmLR004341
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 May 2023 21:52:48 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 23 May 2023 14:52:47 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v6] drm/msm/dp: enable HDP plugin/unplugged interrupts at
- hpd_enable/disable
-Date: Tue, 23 May 2023 14:52:36 -0700
-Message-ID: <1684878756-17830-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0ED510E4E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 21:53:55 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-53487355877so106642a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 14:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1684878835; x=1687470835;
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qIo67rNy3M6AcITrSzNuKt4/stsfWpBWpPOu7EKWytw=;
+ b=Y3FU2zxHqlNeOFaIQJ3AbrQMTa3yQaxVCY5Vgz+mJ7ornarDwVDQqMbfmA8xock80R
+ xzlHDHeJpU64VoIE9l2G6dwzHM1ARKaCSMaSD6rmaOiwzYYq0cOgVACef4j5r39J4ViP
+ 4yV31z6iXWQKlUkik2amaRSMj4wcTxLLY2JH8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684878835; x=1687470835;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qIo67rNy3M6AcITrSzNuKt4/stsfWpBWpPOu7EKWytw=;
+ b=OV7e604juXRAJfNJGd1WVj7wFgUZ32mEGtkREu+1nY+jhn7TN88ObEB3JG+hk2qGfN
+ KUyX2lTsJJjgxNCdXwXYNqUVEx8NgZTyG5Owkfnzbo6/spMsEcmz1YZmP6vOLqAWVgmk
+ dR/rYbRYUOUS8LdOEcKNV2i1Gqn3n7TDv4hHn0bz19e0n2Hxiwny3ztO8/juV1ZzfCjS
+ 6mNN1S/LHVLngnsd0PjaHJrLpC0UDgJdpX+MCrqkgNsxfJpeTL4+c569oVl0nTyq8Lar
+ uYFQhMhwSZ3e8ULdXVXtSVa+ngopPJL4RW6OP83sU7zGsxXiNJBybd58MsGB+2r8Ip9w
+ xWJg==
+X-Gm-Message-State: AC+VfDyJTujma5biPbh6A3NZRkihnh0MeHH2K2v1LFzpih67tsR2xcJN
+ Ze/vZ8RSwhFeXyidRsT1/dw23Q==
+X-Google-Smtp-Source: ACHHUZ42Wkb7sV+bguY1Xo090DTdbHI6p7/Omrv6xI+efSK5ORV8yUPh73qX2xrlph6y6k6/HVgVow==
+X-Received: by 2002:a17:902:db07:b0:1ac:8dae:d842 with SMTP id
+ m7-20020a170902db0700b001ac8daed842mr18135225plx.46.1684878834685; 
+ Tue, 23 May 2023 14:53:54 -0700 (PDT)
+Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id
+ e4-20020a170902744400b001ae62d7cb2bsm7189820plt.199.2023.05.23.14.53.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 23 May 2023 14:53:53 -0700 (PDT)
+From: Justin Chen <justin.chen@broadcom.com>
+To: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com
+Subject: [PATCH net-next v4 0/6] Brcm ASP 2.0 Ethernet Controller
+Date: Tue, 23 May 2023 14:53:41 -0700
+Message-Id: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: L3IutJO5WbcoClLHfv3ZMYKWOhOJDAaa
-X-Proofpoint-GUID: L3IutJO5WbcoClLHfv3ZMYKWOhOJDAaa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_14,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 bulkscore=0
- adultscore=0 mlxlogscore=992 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305230175
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="00000000000075da9e05fc636c15"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,257 +68,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, leonard@lausen.nl, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: andrew@lunn.ch, f.fainelli@gmail.com, opendmb@gmail.com,
+ christian.koenig@amd.com, simon.horman@corigine.com, richardcochran@gmail.com,
+ linux@armlinux.org.uk, conor@kernel.org, justin.chen@broadcom.com,
+ edumazet@google.com, robh+dt@kernel.org, justinpopo6@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
+ sumit.semwal@linaro.org, davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The internal_hpd flag is set to true by dp_bridge_hpd_enable() and set to
-false by dp_bridge_hpd_disable() to handle GPIO pinmuxed into DP controller
-case. HDP related interrupts can not be enabled until internal_hpd is set
-to true. At current implementation dp_display_config_hpd() will initialize
-DP host controller first followed by enabling HDP related interrupts if
-internal_hpd was true at that time. Enable HDP related interrupts depends on
-internal_hpd status may leave system with DP driver host is in running state
-but without HDP related interrupts being enabled. This will prevent external
-display from being detected. Eliminated this dependency by moving HDP related
-interrupts enable/disable be done at dp_bridge_hpd_enable/disable() directly
-regardless of internal_hpd status.
+--00000000000075da9e05fc636c15
 
-Changes in V3:
--- dp_catalog_ctrl_hpd_enable() and dp_catalog_ctrl_hpd_disable()
--- rewording ocmmit text
+Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+introduced with 72165.
 
-Changes in V4:
--- replace dp_display_config_hpd() with dp_display_host_start()
--- move enable_irq() at dp_display_host_start();
+Add support for 74165 10/100 integrated Ethernet PHY which also uses
+the ASP 2.0 Ethernet controller.
 
-Changes in V5:
--- replace dp_display_host_start() with dp_display_host_init()
+Florian Fainelli (2):
+  dt-bindings: net: Brcm ASP 2.0 Ethernet controller
+  net: phy: bcm7xxx: Add EPHY entry for 74165
 
-Changes in V6:
--- squash remove enable_irq() and disable_irq()
+Justin Chen (4):
+  dt-bindings: net: brcm,unimac-mdio: Add asp-v2.0
+  net: bcmasp: Add support for ASP2.0 Ethernet controller
+  net: phy: mdio-bcm-unimac: Add asp v2.0 support
+  MAINTAINERS: ASP 2.0 Ethernet driver maintainers
 
-Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable callbacks")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_catalog.c | 15 +++++++-
- drivers/gpu/drm/msm/dp/dp_catalog.h |  3 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 71 ++++++++++---------------------------
- 3 files changed, 35 insertions(+), 54 deletions(-)
+ .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  145 ++
+ .../devicetree/bindings/net/brcm,unimac-mdio.yaml  |    2 +
+ MAINTAINERS                                        |    9 +
+ drivers/net/ethernet/broadcom/Kconfig              |   11 +
+ drivers/net/ethernet/broadcom/Makefile             |    1 +
+ drivers/net/ethernet/broadcom/asp2/Makefile        |    2 +
+ drivers/net/ethernet/broadcom/asp2/bcmasp.c        | 1462 ++++++++++++++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp.h        |  637 +++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_ethtool.c    |  568 ++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c   | 1425 +++++++++++++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_intf_defs.h  |  238 ++++
+ drivers/net/mdio/mdio-bcm-unimac.c                 |    2 +
+ drivers/net/phy/bcm7xxx.c                          |    1 +
+ include/linux/brcmphy.h                            |    1 +
+ 14 files changed, 4504 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/Makefile
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.h
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_ethtool.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf_defs.h
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 7a8cf1c..5142aeb 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -620,7 +620,7 @@ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
- 				config & DP_DP_HPD_INT_MASK);
- }
- 
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
-+void dp_catalog_ctrl_hpd_enable(struct dp_catalog *dp_catalog)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
-@@ -635,6 +635,19 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
- 	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
- }
- 
-+void dp_catalog_ctrl_hpd_disable(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-+
-+	reftimer &= ~DP_DP_HPD_REFTIMER_ENABLE;
-+	dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-+
-+	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, 0);
-+}
-+
- static void dp_catalog_enable_sdp(struct dp_catalog_private *catalog)
- {
- 	/* trigger sdp */
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 82376a2..38786e8 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -104,7 +104,8 @@ bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
- 			u32 intr_mask, bool en);
--void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
-+void dp_catalog_ctrl_hpd_enable(struct dp_catalog *dp_catalog);
-+void dp_catalog_ctrl_hpd_disable(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_config_psr(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_set_psr(struct dp_catalog *dp_catalog, bool enter);
- u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 3e13acdf..cb805cf 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -615,12 +615,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 		dp->hpd_state = ST_MAINLINK_READY;
- 	}
- 
--	/* enable HDP irq_hpd/replug interrupt */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
--					   true);
--
- 	drm_dbg_dp(dp->drm_dev, "After, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 	mutex_unlock(&dp->event_mutex);
-@@ -658,12 +652,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 
--	/* disable irq_hpd/replug interrupts */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--					   DP_DP_IRQ_HPD_INT_MASK | DP_DP_HPD_REPLUG_INT_MASK,
--					   false);
--
- 	/* unplugged, no more irq_hpd handle */
- 	dp_del_event(dp, EV_IRQ_HPD_INT);
- 
-@@ -687,10 +675,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	/* disable HPD plug interrupts */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, false);
--
- 	/*
- 	 * We don't need separate work for disconnect as
- 	 * connect/attention interrupts are disabled
-@@ -706,10 +690,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	/* signal the disconnect event early to ensure proper teardown */
- 	dp_display_handle_plugged_change(&dp->dp_display, false);
- 
--	/* enable HDP plug interrupt to prepare for next plugin */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, true);
--
- 	drm_dbg_dp(dp->drm_dev, "After, type=%d hpd_state=%d\n",
- 			dp->dp_display.connector_type, state);
- 
-@@ -1082,26 +1062,6 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
- 	mutex_unlock(&dp_display->event_mutex);
- }
- 
--static void dp_display_config_hpd(struct dp_display_private *dp)
--{
--
--	dp_display_host_init(dp);
--	dp_catalog_ctrl_hpd_config(dp->catalog);
--
--	/* Enable plug and unplug interrupts only if requested */
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK,
--				true);
--
--	/* Enable interrupt first time
--	 * we are leaving dp clocks on during disconnect
--	 * and never disable interrupt
--	 */
--	enable_irq(dp->irq);
--}
--
- void dp_display_set_psr(struct msm_dp *dp_display, bool enter)
- {
- 	struct dp_display_private *dp;
-@@ -1176,7 +1136,7 @@ static int hpd_event_thread(void *data)
- 
- 		switch (todo->event_id) {
- 		case EV_HPD_INIT_SETUP:
--			dp_display_config_hpd(dp_priv);
-+			dp_display_host_init(dp_priv);
- 			break;
- 		case EV_HPD_PLUG_INT:
- 			dp_hpd_plug_handle(dp_priv, todo->data);
-@@ -1282,7 +1242,6 @@ int dp_display_request_irq(struct msm_dp *dp_display)
- 				dp->irq, rc);
- 		return rc;
- 	}
--	disable_irq(dp->irq);
- 
- 	return 0;
- }
-@@ -1394,13 +1353,8 @@ static int dp_pm_resume(struct device *dev)
- 	/* turn on dp ctrl/phy */
- 	dp_display_host_init(dp);
- 
--	dp_catalog_ctrl_hpd_config(dp->catalog);
--
--	if (dp->dp_display.internal_hpd)
--		dp_catalog_hpd_config_intr(dp->catalog,
--				DP_DP_HPD_PLUG_INT_MASK |
--				DP_DP_HPD_UNPLUG_INT_MASK,
--				true);
-+	if (dp_display->is_edp)
-+		dp_catalog_ctrl_hpd_enable(dp->catalog);
- 
- 	if (dp_catalog_link_is_connected(dp->catalog)) {
- 		/*
-@@ -1568,9 +1522,8 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- 
- 	if (aux_bus && dp->is_edp) {
- 		dp_display_host_init(dp_priv);
--		dp_catalog_ctrl_hpd_config(dp_priv->catalog);
-+		dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
- 		dp_display_host_phy_init(dp_priv);
--		enable_irq(dp_priv->irq);
- 
- 		/*
- 		 * The code below assumes that the panel will finish probing
-@@ -1612,7 +1565,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- 
- error:
- 	if (dp->is_edp) {
--		disable_irq(dp_priv->irq);
- 		dp_display_host_phy_exit(dp_priv);
- 		dp_display_host_deinit(dp_priv);
- 	}
-@@ -1801,16 +1753,31 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
- 	struct msm_dp *dp_display = dp_bridge->dp_display;
-+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	mutex_lock(&dp->event_mutex);
-+	dp_catalog_ctrl_hpd_enable(dp->catalog);
-+
-+	/* enable HDP interrupts */
-+	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, true);
- 
- 	dp_display->internal_hpd = true;
-+	mutex_unlock(&dp->event_mutex);
- }
- 
- void dp_bridge_hpd_disable(struct drm_bridge *bridge)
- {
- 	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
- 	struct msm_dp *dp_display = dp_bridge->dp_display;
-+	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-+
-+	mutex_lock(&dp->event_mutex);
-+	/* disable HDP interrupts */
-+	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
-+	dp_catalog_ctrl_hpd_disable(dp->catalog);
- 
- 	dp_display->internal_hpd = false;
-+	mutex_unlock(&dp->event_mutex);
- }
- 
- void dp_bridge_hpd_notify(struct drm_bridge *bridge,
 -- 
 2.7.4
 
+
+--00000000000075da9e05fc636c15
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
+4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
+DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
+dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
+xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
+sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
+VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEICKCvITRo6VMYxGq8bAFRF9mtCCW+T+n+HW9
+woaC7ZZ5MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDUyMzIx
+NTM1NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQB/k5fLUZGp8/fbzikg+KJsMmROXeI67gvMO7w8NaQ8suz7Blp1eTlx
+JF+5tpmzMROIDuCIV64E5kevPSDphovubihx2MYT9u07ROVI28FpYmGcL5IDI7DvniQFehCGnDOh
+QjANLXkr6Lt6QsF/pDIV/IAYECEjxl+IS1XZ/JQ+JxGB0gF4vQDOMbpyqySy6aTLAv4go0vcg9Wn
+TTGnNEJceoSNCPnw0/is5nrurD9FULAViU9gf7CB/ZbXxYBjejjXw4UkRssj/9xfGwnhXRm25SEl
+l+mqLWZ5let5MmSzBLsYoH+ktZCeqZdHm8wiG7yUpy9jqy8L0MS/9cJtLuLf
+--00000000000075da9e05fc636c15--
