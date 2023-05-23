@@ -2,68 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C2070D377
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 07:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8036970D421
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 08:40:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E53F10E0B5;
-	Tue, 23 May 2023 05:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8624A10E3FD;
+	Tue, 23 May 2023 06:40:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08B8910E0B5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 05:58:02 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 34N5vQws007257;
- Tue, 23 May 2023 00:57:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1684821446;
- bh=fLhXm7MAl34Q5I5NLYYhvJbO/6H/V++mvuilVVfegw0=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=pROeYgfcgxo3Bu9JRW2d6n+sF3OiEyAxL+5H4Qy8iilHxdcbnEx+d9hz8E8aOvcbc
- 5ewFdv5TRX1cc9bqt+BaBYuoL+kZ7+qu5YEgUhqjdfXBCI0B2/5QqaJmepUpCkOonf
- HL1eHqnEs2yb0Z0cu1SIx9+beBXb6vQM3tvJaPRQ=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 34N5vQOX027712
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 23 May 2023 00:57:26 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 23
- May 2023 00:57:26 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 23 May 2023 00:57:26 -0500
-Received: from [172.24.216.116] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 34N5vJpd018318;
- Tue, 23 May 2023 00:57:20 -0500
-Message-ID: <1eb4b838-4f9c-6e95-925a-69487060ec55@ti.com>
-Date: Tue, 23 May 2023 11:27:19 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v6 4/8] drm/bridge: mhdp8546: Set input_bus_flags from
- atomic_check
-To: <neil.armstrong@linaro.org>, Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha
- <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rahul T R <r-ravikumar@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Francesco Dolcini
- <francesco@dolcini.it>
-References: <20230509093036.3303-1-a-bhatia1@ti.com>
- <20230509093036.3303-5-a-bhatia1@ti.com>
- <b43f0808-8ac8-746f-6cbc-5396722261aa@linaro.org>
- <1b95b75d-1b81-806b-7b7f-34cd93c9d0ec@ti.com>
- <cc84cc53-53b6-1ab2-7053-36b3d3d3c423@linaro.org>
-Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <cc84cc53-53b6-1ab2-7053-36b3d3d3c423@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6C5210E3EA;
+ Tue, 23 May 2023 06:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684824050; x=1716360050;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=dBA2/s0ac4TQZWHoiOGMXXT78j8LeJJK4LOGH2851o0=;
+ b=Kd/PlOjAQin+YhU8QjeocOcRRxPQzFoUY1OqO5cGLdOzRDAiEFtYaOpz
+ bvlSdyYD+L2KciNArCMzwaljqcE9sCud4AJsEe33vyOETQBJhVjEvcoI0
+ poLsMysOAktgiph6vujZsg66SRK4HQizuitQxBGT8mVQdl0txUBeBn1aT
+ +F+TyQfkpWC3k4cfIIOWKCjF1AYYiful+coN3NrYVssOQhNSgnF4vPNg8
+ /emucf7bgjlxYMGIqePgAoolH5E+g+1QGFhBfwO8gEJMp8A7nnEtMTFmZ
+ XRx8+lb6h5Qv/kxss4GvVEc2UJEn4pHo7SNIov7ptKX4fNOXDKQl6Oo0M Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="351998612"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="351998612"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 May 2023 23:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="848142363"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="848142363"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga001.fm.intel.com with ESMTP; 22 May 2023 23:40:50 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 22 May 2023 23:40:49 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 22 May 2023 23:40:48 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 22 May 2023 23:40:48 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 22 May 2023 23:40:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EVrWLXwwi/gZg3eXLfhqKq/m8bVAMoclZ/i9L/fnWndwQ6du2MHL3luSFyqpltttxY9uCSK/kK/GBX5lwguHejiIiV1KYSLuEkD10ctFzIQNjhYUqMwGrpLexsx5hZKBnjH56tFrQouZ99FREujA0W+3DgmsrQolTUuzjAOnHW70I2fy83i6rSXzIIbfypRHKymLFS9l0togDa5K/1+F1li0cypQBl5gGRe66GJnkgz3mvGJ/0MX03MKdcS6Ytb2LOKaf2gDSSMJ+jYbRUooZnCAqwwJjQF9ec8u+DfAPUv1qUbrqWsporlRURPbC/v/ka6vsSe9G9ygHrIVihktGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MKuTqGlin8z4jetESFgSjNx0Fo0jWTQV9jHcrLPXDck=;
+ b=bKbcXNAAC2HMg616WB+jMXS/uPTbK2OknLuwzIrECffrMegq1cXkUduR3sBIFziEuK6e+UocE3lEDm+KlNEuF9/J16R12hYUL3/PuutoOtJE8q+FZBXDZVEIf5000jzuqA5mPNi3ds4njVDF5EtRghfot02zMeL3QMv4SBdbgxEsd+X3T7+TVXaWezjPaYOJIRXdPufPMwm14Xx5MNd1G7GWphatm+LV2uTunl4nFyq8cV8q3f0LE000ZJvUoUQcuRxRan3SLy3daYuWrq18fCXOK5KbUXlAkKq+ANd/3jx8lPYasfw9eqCcUpIN+KYgm1neOARHrZYH0nu5aqawwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DM6PR11MB4721.namprd11.prod.outlook.com (2603:10b6:5:2a3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29; Tue, 23 May
+ 2023 06:40:47 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%3]) with mapi id 15.20.6411.028; Tue, 23 May 2023
+ 06:40:46 +0000
+Date: Mon, 22 May 2023 23:40:44 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-xe] [PATCH] drm/doc/rfc/xe: No STAGING in drm.
+Message-ID: <z4dxbo4axtxh3zdpgd5lsgxbvppr7m47klagzvzoa2i3crr6c2@2azkiysgfkbj>
+References: <20230522195712.2162736-1-rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20230522195712.2162736-1-rodrigo.vivi@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0194.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::19) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM6PR11MB4721:EE_
+X-MS-Office365-Filtering-Correlation-Id: 79320a12-e9ee-4339-33cd-08db5b58a38a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ct0PacNWLpE89OrF8G+4Gsp5RB+jY3EB6eFdpUpc8zHo3XUI6zskUr2EfQj9ts7ydVrprEFvIZcMqfNVQGt1QzP3sTFQ6gFm9HOKLJLFEDlsxUFVt81vudZRiJM0puPYjvarBK24gWZ/bdI+1MzLE2Fxb771GojKEjw+tPJzvZmyCImmCElwRsC1VuCwJ0OwwCedMGbAb96/KnJTShsCEKsKvYNo3QV312AIkMRXLc9UZZlQ/z+W6A+FeUjWCFHUCKzR42cSLB/kz/sX11IseKQ9LeA8QBEcHfhgWeLuuqFWVeaiP532ToACt+40QOrb3FgIM9ZdAHWsLLk4J6VQIOJRZVHfq3diVvWPCjRx/3nPElsc7qIi7D5BvYLa+JOZzdqqatVfiHqHIrJuQh+4YIIG3TjX0aD1kx1WqtI67KNxbQ31nbjH9rX2llLvkUMoMOfHIsHxuA4Amp6oo74fZyn9pIMTzJZHVBJpRidqdrODwZURUxUF4Rnt9e/mA0WRnGM0tFoeKTMzy0whzAVOlD93BYXVY1yFrPEsoDebisw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(7916004)(366004)(346002)(376002)(39860400002)(396003)(136003)(451199021)(26005)(9686003)(6512007)(6506007)(107886003)(83380400001)(186003)(2906002)(4326008)(6636002)(316002)(66476007)(66556008)(66946007)(38100700002)(41300700001)(6486002)(54906003)(478600001)(33716001)(86362001)(82960400001)(8936002)(8676002)(6862004)(5660300002)(966005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UEVTQkovRmtkbDdZVENYMEk1MzV1aU90VmpHS2FENG4wV25EUDNBOTJKQjVu?=
+ =?utf-8?B?WnFMTmlOaDY0RlVETTJDemdwRmtnY3BQaFlyYXhVT3ptcFRVem9pbTRKcEcv?=
+ =?utf-8?B?ZjBxeWFSbHB4M1pxaWhDYXM3ZXRmMWRpd0MzU0ZFZnpKWHBTZEswL2tTd3Jn?=
+ =?utf-8?B?NEZkWERUeFViaGJ5enNZeWNFZWJMbitOaVAvcWNhdTlCMHljNWgwdnQ5cXRJ?=
+ =?utf-8?B?ekgwNFYzSGt0OE42MC8welNrTWM3YUt1b2RGMkRnNVVSSE1KMm5yWTZlMm5T?=
+ =?utf-8?B?OHNuUjczNUxJNEtoUGFsNGtmOFovOSszaFZGUUxqandnbWtuWTM3MzBHU2xR?=
+ =?utf-8?B?SXg5OEhhQ1FWNFJEN1NxcThlUFFFcmdEcXVMSHg4TG8wUVVQTWtnTlJBLzRv?=
+ =?utf-8?B?amwxWllMMG5OeDFHYVljVS96SW4ySHpGdC9yYUlGU0x3cUtJMEgwb3BFVllO?=
+ =?utf-8?B?RUNWTTFXVEVseUNLdVBNNFh4cks4N3ZoZGVyK3U0RTU4eGN6OEMweCtVMEdi?=
+ =?utf-8?B?VzJobk9hemNPb3BkWlI5OVVXWTQxczhORHhzV1JPTEpKVTNwMndXU3ZRdXps?=
+ =?utf-8?B?M2hjdnoySWdMbjM1bmdQVXFMRDdBNm9qYklkR3dlcy9ndEVRRzN1NU5rUjZw?=
+ =?utf-8?B?VVp2elJuVDdvK204RXY5dGFQQmZqaXJUSmR5eEN2YWtLMHF4dDN6YjNhUUoz?=
+ =?utf-8?B?dEVIaEZKQUVUcVE4SEJYTU5DQUc2L1EzZ3BrMWxaa2JwdnUzMGd5R0pqN2tw?=
+ =?utf-8?B?ZENxcHpVSnlWMk41alE5VFgrcjhWMFhOS3dvS09KTDcvRmlkZHhtVXNwc3d4?=
+ =?utf-8?B?OUxYbjdkaGtlWGozaDUzTWhkdEJXN0VIYnROMyt5MTVzUnBHVHkrc0h4a1lt?=
+ =?utf-8?B?UmNKY0Q1b1pPL2Q0VVhxUzVUQnF1ckR1bXZHY1B6ZFRNQWRTd1NZdmx2MG9z?=
+ =?utf-8?B?eWZ2anI2eGpwcXptUWJ4RWxwRi90UTNuWms1VmFnRG5XTkRwNVp6c3FnckJt?=
+ =?utf-8?B?TWJtRS8vUFVlQVdEb1I1K3JpZVc1NEpET3NlY29iU3VvbXdsVnpxd0RBZVVM?=
+ =?utf-8?B?L3BLdWFSY3l5U3o0UWFTd014bFBvSUw5aldMVlllTHl5OFZMOEp5YTFzSjNy?=
+ =?utf-8?B?R3d1a3Z3Vjh6NExOaVlDbkY3cTZaUlpKVDhJTGN1TXRQdnZ5cTBqK01tZDB6?=
+ =?utf-8?B?R1c1VVJMam5oTjRUQkdhSnEyendUekMzS2gwLzh6ZGhZamFKeE4wS2phT0wv?=
+ =?utf-8?B?bWVMdlUvNlZ4ZkJUVWVsZ3p3OWQrV2paaEhTUHlud2s5N2dTWWIxaFBMNlhN?=
+ =?utf-8?B?dzIwSG84QldjckZpaXZqZW1JWVc5L3czNjZBdUdmblVtUUIvZG0rbUMrZDFX?=
+ =?utf-8?B?VFgxUTNOeEhXMmZqTjhMMGFJcVVheTBKdXRMNWoxblkra01kdUdzSElkSkY3?=
+ =?utf-8?B?eG5hRVdFcjBvOW02R1VlZzJwQ21Fa2pCVU1INEdSR3FCNGwyQTdkUW5mU2Fl?=
+ =?utf-8?B?TkttU2Y1T1FpbmZqbTdKNXFMKzlKZWRTa3krMjJHVnlUY3VaMW03dGVqaTJV?=
+ =?utf-8?B?ZSs0T2VMRjN1bFpNQ2lQSktSSCtIL04zUE5ZTGNRelFvMFpsK3N1LzM4Zkxk?=
+ =?utf-8?B?SUp4MkVJaHpBUDd3OXZtMzkyQ09tcUJXZ3RDKzdTRmZHaWwzOCs5dHlZdlpF?=
+ =?utf-8?B?c1cyTXFDWEEwZ0NHWEc0aEVzVTcyKytvaEQwdWtGZVdDNFBaRmIyTHVjTlhN?=
+ =?utf-8?B?Q3pNVkE0WXlyMUF3RENRZG04MzBxQXhOWkhOWFRqRTBUK3dlaUJBazNSUllo?=
+ =?utf-8?B?eW5Sb3NIdGpFUTY4dGFJUUF0RldkVVliNEQ0Q2R4akF1S2pPZUg1R0hYV09G?=
+ =?utf-8?B?cGFLaFRnY0FsbW5ZK3dmUFVhb0FTSFkyZkFHMTA4WlUyek05MjlZYnEwMFc4?=
+ =?utf-8?B?MlZMUFIxSU1tZ3JZZFh5RGxVSlpnMlJkckNRUGxCbnhaOE1WazYyblZmeWRl?=
+ =?utf-8?B?ZFJBek1PYXFXMDZYRlFPNnlRWERZS0ljV01IQUdYUmdtWVBHcy8zZHZrdlRq?=
+ =?utf-8?B?UzdoY2pRaHBjOXk1ZW1JcTQrdFJPeFROcURyNktKYnAwb05MVFJxMSsyWWcw?=
+ =?utf-8?B?QWdkZVBnWldCVmR1S0tkQjBwbVJPQTliRjB0NStORFNpU3lBVFdhSmtDNlJJ?=
+ =?utf-8?B?akE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79320a12-e9ee-4339-33cd-08db5b58a38a
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2023 06:40:46.4074 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4NSSf2u/rX72kjjx4oY8LIWAKaJjAhpfSGZFR+bpHlmTSL7bVsY5jExyDGYocFjka8Ma1187v0RmcjGvR8A9aAgISpbnnPTB1XdjyeDLNKw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4721
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,163 +156,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Luis Strano <luis.strano@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On Mon, May 22, 2023 at 03:57:12PM -0400, Rodrigo Vivi wrote:
+>We are not using the STAGING inside drm and the uAPI needs to be
+>in the acceptable form before we get merged upstream.
 
-On 22-May-23 13:35, neil.armstrong@linaro.org wrote:
-> On 17/05/2023 07:48, Aradhya Bhatia wrote:
->> Hi Neil,
->>
->> On 16-May-23 12:54, Neil Armstrong wrote:
->>> On 09/05/2023 11:30, Aradhya Bhatia wrote:
->>>> From: Nikhil Devshatwar <nikhil.nd@ti.com>
->>>>
->>>> input_bus_flags are specified in drm_bridge_timings (legacy) as well
->>>> as drm_bridge_state->input_bus_cfg.flags
->>>>
->>>> The flags from the timings will be deprecated. Bridges are supposed
->>>> to validate and set the bridge state flags from atomic_check.
->>>>
->>>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
->>>> [a-bhatia1: replace timings in cdns_mhdp_platform_info by
->>>> input_bus_flags]
->>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>>> ---
->>>>
->>>> Notes:
->>>>
->>>>       changes from v5:
->>>>       * removed the wrongly addded return statement in tfp410 driver.
->>>>       * replaced the timings field in cdns_mhdp_platform_info by
->>>>         input_bus_flags field, in order to get rid of bridge->timings
->>>>         altogether.
->>>>
->>>>    drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c  | 11
->>>> ++++++++---
->>>>    drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h  |  2 +-
->>>>    drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c |  9 ++++-----
->>>>    drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h |  2 +-
->>>>    4 files changed, 14 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>>> index 623e4235c94f..a677b1267525 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>>> @@ -2189,6 +2189,13 @@ static int cdns_mhdp_atomic_check(struct
->>>> drm_bridge *bridge,
->>>>            return -EINVAL;
->>>>        }
->>>>    +    /*
->>>> +     * There might be flags negotiation supported in future.
->>>> +     * Set the bus flags in atomic_check statically for now.
->>>> +     */
->>>> +    if (mhdp->info)
->>>> +        bridge_state->input_bus_cfg.flags =
->>>> *mhdp->info->input_bus_flags;
->>>> +
->>>>        mutex_unlock(&mhdp->link_mutex);
->>>>        return 0;
->>>>    }
->>>> @@ -2554,8 +2561,6 @@ static int cdns_mhdp_probe(struct
->>>> platform_device *pdev)
->>>>        mhdp->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
->>>>                   DRM_BRIDGE_OP_HPD;
->>>>        mhdp->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
->>>> -    if (mhdp->info)
->>>> -        mhdp->bridge.timings = mhdp->info->timings;
->>>
->>> Won't this cause a breakage because at this point in time
->>> bridge.timings->input_bus_flags
->>> seems to be still used by tidss right ?
->>>
->>
->> tidss was using the bridge.timings->input_bus_flags before the 7th
->> patch[1] in this series.
->>
->> After the patch, it only relies on bridge_state and display_info for bus
->> flags and formats.
-> 
-> OK thanks, then:
-> 
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> if you resend a new version, please add this info in the commit message.
+Is this a change from i915, where the force_probe protection 
+is sufficient?
 
-Thank you! Will do so.
+The email exchange with Greg KH  highlighted that the use of STAGING
+outside of staging dir doesn't really produce the desired effect*.
+Would it be sufficient to taint the kernel with bit 10 or
+create a dedicated taint for this case?
 
-Regards
-Aradhya
+Lucas De Marchi
 
-> 
-> Neil
-> 
->>
->>
->> Regards
->> Aradhya
->>
->> [1]: https://lore.kernel.org/all/20230509093036.3303-8-a-bhatia1@ti.com/
->>
->>
->>>
->>>>          ret = phy_init(mhdp->phy);
->>>>        if (ret) {
->>>> @@ -2642,7 +2647,7 @@ static const struct of_device_id mhdp_ids[] = {
->>>>    #ifdef CONFIG_DRM_CDNS_MHDP8546_J721E
->>>>        { .compatible = "ti,j721e-mhdp8546",
->>>>          .data = &(const struct cdns_mhdp_platform_info) {
->>>> -          .timings = &mhdp_ti_j721e_bridge_timings,
->>>> +          .input_bus_flags = &mhdp_ti_j721e_bridge_input_bus_flags,
->>>>              .ops = &mhdp_ti_j721e_ops,
->>>>          },
->>>>        },
->>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
->>>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
->>>> index bedddd510d17..bad2fc0c7306 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
->>>> @@ -336,7 +336,7 @@ struct cdns_mhdp_bridge_state {
->>>>    };
->>>>      struct cdns_mhdp_platform_info {
->>>> -    const struct drm_bridge_timings *timings;
->>>> +    const u32 *input_bus_flags;
->>>>        const struct mhdp_platform_ops *ops;
->>>>    };
->>>>    diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
->>>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
->>>> index dfe1b59514f7..12d04be4e242 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.c
->>>> @@ -71,8 +71,7 @@ const struct mhdp_platform_ops mhdp_ti_j721e_ops = {
->>>>        .disable = cdns_mhdp_j721e_disable,
->>>>    };
->>>>    -const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings = {
->>>> -    .input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
->>>> -               DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
->>>> -               DRM_BUS_FLAG_DE_HIGH,
->>>> -};
->>>> +const u32
->>>> +mhdp_ti_j721e_bridge_input_bus_flags =
->>>> DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
->>>> +                       DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE |
->>>> +                       DRM_BUS_FLAG_DE_HIGH;
->>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
->>>> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
->>>> index 97d20d115a24..5ddca07a4255 100644
->>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
->>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-j721e.h
->>>> @@ -14,6 +14,6 @@
->>>>    struct mhdp_platform_ops;
->>>>      extern const struct mhdp_platform_ops mhdp_ti_j721e_ops;
->>>> -extern const struct drm_bridge_timings mhdp_ti_j721e_bridge_timings;
->>>> +extern const u32 mhdp_ti_j721e_bridge_input_bus_flags;
->>>>      #endif /* !CDNS_MHDP8546_J721E_H */
->>>
-> 
+* The logic for adding the taint is in the module load code and is
+   triggered for modules with MODULE_INFO(staging), automatically
+   added by modpost for modules under drivers/staging
+
+>
+>Link: https://lore.kernel.org/all/2023051029-overspend-sherry-1b85@gregkh/
+>Cc: Dave Airlie <airlied@redhat.com>
+>Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>Cc: Oded Gabbay <ogabbay@kernel.org>
+>Cc: Francois Dugast <francois.dugast@intel.com>
+>Cc: Luis Strano <luis.strano@intel.com>
+>Cc: Matthew Brost <matthew.brost@intel.com>
+>Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>---
+> Documentation/gpu/rfc/xe.rst | 7 ++-----
+> 1 file changed, 2 insertions(+), 5 deletions(-)
+>
+>diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+>index 2516fe141db6..8524095a54bd 100644
+>--- a/Documentation/gpu/rfc/xe.rst
+>+++ b/Documentation/gpu/rfc/xe.rst
+>@@ -67,11 +67,8 @@ platforms.
+>
+> When the time comes for Xe, the protection will be lifted on Xe and kept in i915.
+>
+>-Xe driver will be protected with both STAGING Kconfig and force_probe. Changes in
+>-the uAPI are expected while the driver is behind these protections. STAGING will
+>-be removed when the driver uAPI gets to a mature state where we can guarantee the
+>-‘no regression’ rule. Then force_probe will be lifted only for future platforms
+>-that will be productized with Xe driver, but not with i915.
+>+Xe driver will be protected with force_probe, which will be lifted only for
+>+future platforms that will be productized with Xe driver, but not with i915.
+>
+> Xe – Pre-Merge Goals
+> ====================
+>-- 
+>2.39.2
+>
