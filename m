@@ -1,69 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4940E70E2CA
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:35:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F209970E2CB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 19:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A8210E487;
-	Tue, 23 May 2023 17:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A3310E48D;
+	Tue, 23 May 2023 17:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CB810E491
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1684863289; i=markus.elfring@web.de;
- bh=wJpJJu08NC9W/k/YAUF8KLFobfpz5YG6WTqizHg1J5k=;
- h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
- b=otDHEHHapj7uwwJg+dVI6/hJz+BuuTPOmGd0qB0Un0FKVIQW39UmntkQ/bJuTytmn
- 4s8hPsF4iVDQYmr5n87IPbj5cCbamKs4FAB/pwsAx/ZozjU2kE0YTyRJwHNFXpdpRF
- srO1ktfJCcHEsUjOFmmwQ7Kzv4jIMNghof53PT37WJ7WAI1LiWKD1s6+38iOdgErPm
- 7uZTQsc3FCOQD6/vui9Rbj7bAZMYBJZCiucj/J+NoNCxiGJLVHgkjKP+w5hnMazt0C
- IF1+pXUvvKF1IoQOw/oS5rKedLAv0cmxWx80PzfUIRjSjOLUFVZP2mHLJcgjCJQJbi
- vS+ZijaSxZgxw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.83]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MS17v-1pZd7C0XzX-00TVIV; Tue, 23
- May 2023 19:34:49 +0200
-Message-ID: <97807a2d-ccf2-1fbf-06f7-085bb1bdf451@web.de>
-Date: Tue, 23 May 2023 19:34:32 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D14810E48D
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 17:35:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6EE0163548;
+ Tue, 23 May 2023 17:35:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9C8C433D2;
+ Tue, 23 May 2023 17:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684863349;
+ bh=V6La7xHuyVytMAyfQCoW1fs5fxMyIO2p76AI2SCUOEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GtPdzUJqCnuCdbrKHnn6ERa4f+5zTE+NOlHT2B2jd36yEoOXyZEbzZGuHV6/xr73A
+ FXH4S5r69z3TpvH5ecaYAKiR9+zuR4vRRQy2LmCkz/cGZt3LNgpnQ+VdFufEwgc+aZ
+ y+8dhTUguas7Ej+7mZ3fCjz+I4XOtDxm3kysvSLUl8bib7rwnOO961Gh14b5OslPA2
+ jnZQTEnr176dhlZWml11cjIcPJ0CDW6KM203OioUtuzMuv3HkJ6qmMRtFYvHZ3s6/c
+ CLRezJz/AoZ6jI9uEi9DTSItUODShygq9vv5BEwMW4JFGG+R9DEjOz79RWSUHSXO1i
+ 3Vn6LiKRGOa/A==
+Date: Tue, 23 May 2023 18:35:44 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: backlight: pwm: Make power-supply not
+ required
+Message-ID: <20230523-outlying-repulsive-efc0f9e1435e@spud>
+References: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-To: kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zheng Wang <zyytlz.wz@163.com>
-References: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
-Subject: [PATCH 0/4] fbdev: imsttfb: Adjustments for two function
- implementations
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Yfbik6BQpZ+MONAWALyDRbDEMSz810xElohRN9hj6/dJvWKt0ek
- myy0bwDc2Br9jy9e+jhvtZh+dCx8ZLtlWK+Po0sAZwqopg7oSXxjGG1ppRmSkfnae4MIRfq
- NX9VIwjZxuS02MPks3//BvrHIJ4veC8Hllm+gUmTozkI4ULYW9Pi5vzPDybfEjME6+4hp9U
- foFYhfPZCafuP1+JVxhUw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DBa4qva029E=;BWu4v7/2mzJkPrsye4yzrar5f2J
- b7ZVEd7+zBkliYkYQCCu7fyi6O8zlfkqP1Qpag3bJ9AhrwJIQoWuE1oxNDr/PmB0TYg3EYI0g
- xZJ3JJbpM8vorGqRehgARul4Nj0900oVc5VSUS+ZdIlPCf1RwBS7MeP9AjKNfTkaDwTLGZ/MG
- ybsLWVMZ6IiVagxnDk0yF/si+yXdXZQxyym7H1+AZzaV79NzXP+ArHsmTNbxI8xeFcjQYoKOa
- PlfeDq7yW0P8sxxU4CU7UNWKmXBfPRoZqRopfqWbcf3FvG7r3tU/KehGR2mqbDEVRXwQhoDJd
- Nq8wuDv7HWMvsd7Zzlttq1mW2QyV6PDqgNQdM+/2R+kmtCJ9Bcr/iIpT/h3qKpJl2R4W6ORo5
- 96bmcFeImWifdY3GKYdP9hLBAs0iJL84zg43pDjw74X3qEvRbjwL2l7+80YwqAZQuJXicIED4
- XoP4MQYX+uU7ogDIjKmN5DfdY2tv5SP1zGptXYTSofopqchH3YolhfQavoRKPBFQIhyeJLHHt
- /HktOx63U5RAho04kiOasHd7MGsPgFUc7LHc+anqTuhaYwSdYLCifWPMgKCoe8IWFM2udPOo7
- 3E0u0L/D9zEbHO+a34oABQfThL6CmZ5HHeQX+pr0GWiT7nQgqHjZGkOeSHbHlbkbUD2hEr3T6
- LITLOnIVvoW7faInlWMLu3QeNgD39IjJnKoRb1xLQ9f6ECeEpvpR0CsnI+C6JCnzwmWefzL56
- SBjwn0vdbn2XDsN4xATPZcK5koorfE7GsNkP1fre7F4lm2poSQUKJi8LtBYg0cu8aT6IOsJcH
- tmtVBlwTMns2fP6UouF+L2eX8uIZhw4FUfh+mqZ1BvPuxlUreYyQeY38YQ0JksJsEoyJrxA5u
- IVGE6yV/vYxY0u65GY4gorWUS9PSmiCeg86SABFiZUaCbelC9pdLWcH9cBJo2slDvHL8wv10t
- V3IzWg==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nG5CKQOdzr5W/qlH"
+Content-Disposition: inline
+In-Reply-To: <29943059c80c8db0db437f9548f084a67326647b.1684856131.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,26 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 1395428693sheep@gmail.com, hackerzheng666@gmail.com,
- LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr, alex000young@gmail.com
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Pavel Machek <pavel@ucw.cz>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 23 May 2023 19:07:19 +0200
 
-Some update suggestions were taken into account
-from static source code analysis.
+--nG5CKQOdzr5W/qlH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Markus Elfring (4):
-  Fix error handling in init_imstt()
-  Fix exception handling in imsttfb_probe()
-  Move a variable assignment for an error code in imsttfb_probe()
-  Improve a size determination in imsttfb_probe()
+On Tue, May 23, 2023 at 05:38:37PM +0200, Geert Uytterhoeven wrote:
+> make dtbs_check:
+>=20
+>     arch/arm/boot/dts/renesas/r8a7742-iwg21d-q7.dtb: backlight: 'power-su=
+pply' is a required property
+> 	    From schema: Documentation/devicetree/bindings/leds/backlight/pwm-ba=
+cklight.yaml
+>=20
+> As that backlight device node already has an "enable-gpios" property to
+> control the power supplied to the backlight, it sounds a bit silly to
+> have to add a "power-supply" property just to silence this warning.  In
+> addition, as of commit deaeeda2051fa280 ("backlight: pwm_bl: Don't rely
+> on a disabled PWM emiting inactive state"), the Linux driver considers
+> the power supply optional.
+>=20
+> Fix this by synchronizing the bindings with actual driver behavior by
+> making the "power-supply" optional.
 
- drivers/video/fbdev/imsttfb.c | 56 ++++++++++++++++++++++-------------
- 1 file changed, 36 insertions(+), 20 deletions(-)
+That seems to follow from reading the aforementioned commit.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-=2D-
-2.40.1
+Thanks,
+Conor.
 
+>=20
+> Fixes: deaeeda2051fa280 ("backlight: pwm_bl: Don't rely on a disabled PWM=
+ emiting inactive state")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> As commit deaeeda2051fa280 was only upstreamed in v6.3, I'm wondering if
+> the backlight on the iWave Systems RainboW-G20D/G21D Qseven and
+> RainboW-G22D-SODIMM boards worked before?  I don't have the hardware.
+>=20
+> Thanks!
+> ---
+>  .../devicetree/bindings/leds/backlight/pwm-backlight.yaml        | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlig=
+ht.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.ya=
+ml
+> index 5ec47a8c6568b60e..53569028899020d6 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+> @@ -68,7 +68,6 @@ dependencies:
+>  required:
+>    - compatible
+>    - pwms
+> -  - power-supply
+> =20
+>  additionalProperties: false
+> =20
+> --=20
+> 2.34.1
+>=20
+
+--nG5CKQOdzr5W/qlH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGz5cAAKCRB4tDGHoIJi
+0mDPAQDCdFT25r3FjLLlJyhgTRdLJpa3ifbcKQxOZ20+M4dpXQD/dsHStncq/F4X
+8OY2cqOzQwlc8EIm4K1E801mM1/RQwA=
+=HU1s
+-----END PGP SIGNATURE-----
+
+--nG5CKQOdzr5W/qlH--
