@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50F9C70D477
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 09:00:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B7270D4C9
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 09:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4795510E3DF;
-	Tue, 23 May 2023 07:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B65FB10E3D6;
+	Tue, 23 May 2023 07:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B56E10E3E0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 07:00:44 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f3a166f8e9so5537496e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 00:00:44 -0700 (PDT)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380CA10E3D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 07:20:13 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-55db055b412so65092497b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 00:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684825240; x=1687417240;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tiyNLo+d4YDYjgJA1qKT1sKUVcXrVEedkG2NvH0H6oU=;
- b=UNKL+vlYlsbAgzG3ryBvBItjt9KSbwrv3aQrxPMkVwilXT4N4xEdnyjOBSROkVE4/e
- Qf4MQUBUqLqZ9oaQMomd2gPQmv/QQJxeMovWSfXXjHNQKbMUENhKtptBPVZ/tzICaBSj
- VeF324dhOezxc2w800PxrbJXGWD/BNhUzJ3iMW9WDqo2wEWrFuHgvZiCR3lBt+d+bVrE
- MK99F9xuNrlyae4RSYvkAWwKEsJlGESOj72/6/tvXVbf4Q0mAB79VR0dDQ38L4kUtWmm
- EkbwUJUfPfv6SEyPdwDYxKvmV/HjaLWlOJsNkhNjMYXD6yaPVDBzrITr/bTpm1JjQUUP
- G8eQ==
+ d=linaro.org; s=google; t=1684826412; x=1687418412;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ms2Z+39mDMVo35dL1mx9T/boJmFobIlJgfkKwKncnys=;
+ b=DS1T6leVnIRLikXL4zCbd0GhmmcuSC4fDJJ0eZBApkEzBPC+fMOUS/WE5w9+UZj6JW
+ +qjbSE9CDqdfhUMwIBrvrwzEOUOkYYUrwJ+jyummdkBBiGuFUgNK7hDY/QXa9H+vTX79
+ XYxfHoC668JBQvb7RXu9kc342ihnygBj1bHI4CMGU2GgqoAd1sDTWZ+05aU/92mtMfpK
+ /AVpXziqW+bKvZ8dT0+ahO1uBdmadXYqSp0hrLemJJBnFuQ+B5XLWjZKVm11roeFeEjy
+ YiPGMulbh+pgsTaBuzJqBQ3a/r2X1yLqxJ84ENvk+xDntYbiJKEw6WZl/JoU3zBII5dQ
+ gZsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684825240; x=1687417240;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tiyNLo+d4YDYjgJA1qKT1sKUVcXrVEedkG2NvH0H6oU=;
- b=Y0WO4OURstYt19gL27lx3Mq2+zcxyL81tho5Z5fvwFBrOm6pFHA4YYHjCiXaBu13Il
- axULWEh5/FQGn+R0ddrQTKv/4DoptFZqb2wh/S03hDKCDNskLM2pEig5MVozbEnYTQvN
- QwJKNfhK3W36j+4WW8Mat2CZvrAVrDwl6LQtwLaekWtYUjITMlugUJZNTUunq19TqECA
- S2SrV59w9CtSekuMBOELmRcUgbSdBk4X3f01f4g8+P/faEBhEFm6do7loXclxRbgjeMa
- DT2Xhi0WO41/4Y5a1m66HrqyQ9xbDi65uRAHmsM0SAp9PUUppRPBU1qVuWR1UtKZhMkA
- Imgw==
-X-Gm-Message-State: AC+VfDy7mRvKVErfPnzTVDnoLg02H0OQowK0NPNu/BXyaG0JTlBKqmbW
- 7pdME677QmH1hX62G/qhlmA=
-X-Google-Smtp-Source: ACHHUZ60bBl3tj9MIcPwcYY7w3BHq55/2la2GKTYR+VI2PwlIe4rmV/o2Zu13PASfFNhIuF5s/d0eA==
-X-Received: by 2002:a05:6512:b84:b0:4f3:b736:720f with SMTP id
- b4-20020a0565120b8400b004f3b736720fmr2988526lfv.12.1684825239871; 
- Tue, 23 May 2023 00:00:39 -0700 (PDT)
-Received: from localhost (81-226-149-122-no518.tbcn.telia.com.
- [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- w26-20020ac254ba000000b004f3a1033078sm1248096lfk.52.2023.05.23.00.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 00:00:39 -0700 (PDT)
-Date: Tue, 23 May 2023 09:00:37 +0200
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/gma500: Clear fbdev framebuffer with fb_memset_io()
-Message-ID: <2x56vhkpjegqgjydnjji4xmvp3w4js66myw5kwngjsdpax7uma@x3fzwdbmrrny>
-Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>, 
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <20230522190637.7039-1-tzimmermann@suse.de>
+ d=1e100.net; s=20221208; t=1684826412; x=1687418412;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ms2Z+39mDMVo35dL1mx9T/boJmFobIlJgfkKwKncnys=;
+ b=Qs49/xK0SWHDyufVmFHPxAsYNktlv3ulq0BRsqvDHid5grQGEi2+5D6mCQcdBw9RYk
+ WWyFGCgHpU8A/oyMNSgHUwBN4XjRRZOkh6IpTZDdRVP1yX9y75SJB7hiwM0mbunHmSvA
+ p/FerT5HEE6CjokLDOJmm/Jeq7TS+M2FSDXGzZTIQBM1OKh0S1+79wVzpw+dChtGrZnk
+ 58vyvY1dxv7R7exd7VBoPrOzFMVbFfUvIjHNY+IQnQu17hLC0TtgUJ2Ujwwf6mG+E+Hk
+ fd4RnCXZQiocdhFx3SepYoAjckJCNynzTby/SivKRenmiwm/Pm816vRV+fIK56neMODO
+ QD8w==
+X-Gm-Message-State: AC+VfDwbXY4CV1dSrjoTbg9vy/XfM0bpr4PiANVuQ6wHQIID6VDvNomH
+ 3yT/QyS1AgL45cVvyWFHa3WM9dVU+kBgs6OWouviPA==
+X-Google-Smtp-Source: ACHHUZ4dVDuvZbgczwrU9xuM2MLuDG609rhoPRz3LEihgVs/v2KsXLh237BeTMSa0tknVxyLC8UQ4A0t8g58et1DB1U=
+X-Received: by 2002:a81:788f:0:b0:55d:9f32:f6c with SMTP id
+ t137-20020a81788f000000b0055d9f320f6cmr13731962ywc.15.1684826411847; Tue, 23
+ May 2023 00:20:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230522190637.7039-1-tzimmermann@suse.de>
+References: <20230519023855.3840907-1-dmitry.baryshkov@linaro.org>
+ <557a8aee-37b9-5654-c82c-97206576ab44@quicinc.com>
+In-Reply-To: <557a8aee-37b9-5654-c82c-97206576ab44@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 23 May 2023 10:20:00 +0300
+Message-ID: <CAA8EJpp+ODZZu13ehAN-9Ehz87HCdXsXvO3DQ-oxAhKcb2rqtA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 0/7] drm/msm/dpu: simplify DPU encoder init
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 22, 2023 at 09:06:37PM +0200, Thomas Zimmermann wrote:
-> The fbdev framebuffer is I/O memory, so clear it with fb_memset_io().
-> Fixes the following sparse warning:
-> 
-> ../drivers/gpu/drm/gma500/fbdev.c:234:20: warning: incorrect type in argument 1 (different address spaces)
-> ../drivers/gpu/drm/gma500/fbdev.c:234:20:    expected void *s
-> ../drivers/gpu/drm/gma500/fbdev.c:234:20:    got char [noderef] __iomem *screen_base
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Tue, 23 May 2023 at 04:58, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 5/18/2023 7:38 PM, Dmitry Baryshkov wrote:
+> > Rework dpu_encoder initialization code, simplifying calling sequences
+> > and separating common init parts.
+> >
+> > Changes since v1:
+> > - Withdrawn two pathes for a later consideration
+> > - Changed dpu_encoder_phys_init() to return void (Abhinav)
+> > - Added small simplifications of dpu_encoder_phys_cmd_init() and
+> >    dpu_encoder_phys_wb_init()
+> >
+>
+> I had previously given these comments on the cover letter of v1, so
+> giving it again.
+>
+> Please mention that your series was made on top of
+> https://patchwork.freedesktop.org/series/116530/.
+>
+> Figured it out when I tried to apply it to my branch to test.
+>
+> I had tested v1, and between v1 and v2 i only see very trivial change,
+> so i think its okay to retain:
+>
+> Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
 
-Looks good but I don't see the fb_mem*() helper change being merged yet.
-Or am I looking in the wrong place?
+Unfortunately patchwork ignores tags sent in the cover letter thread.
 
-> ---
->  drivers/gpu/drm/gma500/fbdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-> index 62287407e717..4f0309548b2b 100644
-> --- a/drivers/gpu/drm/gma500/fbdev.c
-> +++ b/drivers/gpu/drm/gma500/fbdev.c
-> @@ -231,7 +231,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
->  	info->fix.mmio_start = pci_resource_start(pdev, 0);
->  	info->fix.mmio_len = pci_resource_len(pdev, 0);
->  
-> -	memset(info->screen_base, 0, info->screen_size);
-> +	fb_memset_io(info->screen_base, 0, info->screen_size);
->  
->  	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
->  
-> -- 
-> 2.40.1
-> 
+>
+> > Dmitry Baryshkov (7):
+> >    drm/msm/dpu: merge dpu_encoder_init() and dpu_encoder_setup()
+> >    drm/msm/dpu: separate common function to init physical encoder
+> >    drm/msm/dpu: drop duplicated intf/wb indices from encoder structs
+> >    drm/msm/dpu: inline dpu_encoder_get_wb()
+> >    drm/msm/dpu: call dpu_rm_get_intf() from dpu_encoder_get_intf()
+> >    drm/msm/dpu: drop temp variable from dpu_encoder_phys_cmd_init()
+> >    drm/msm/dpu: simplify dpu_encoder_phys_wb_init()
+> >
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 178 ++++++++----------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  14 +-
+> >   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  15 +-
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  35 ++--
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |  19 +-
+> >   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  35 +---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  87 ++++-----
+> >   7 files changed, 140 insertions(+), 243 deletions(-)
+> >
+
+
+
+-- 
+With best wishes
+Dmitry
