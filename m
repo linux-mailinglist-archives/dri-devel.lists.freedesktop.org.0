@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573A570E56C
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C07070E56D
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC98610E4AB;
-	Tue, 23 May 2023 19:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7116A10E4AC;
+	Tue, 23 May 2023 19:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C096F10E4A9
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:31:13 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1a516fb6523so253875ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:31:13 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C80C10E4AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:31:15 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1ae52ce3205so207175ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:31:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1684870273; x=1687462273;
+ d=chromium.org; s=google; t=1684870275; x=1687462275;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AKRK4xfTer6o8sAg3PoM2xcqa0uawxE5nHuVWKhZwR0=;
- b=F+RFRAAVkb14F3v0JkgcAWWjh6tAt8ecJgxOH0c24t+NptgnNpm3yQZQ4chcrhs6tm
- PmNunCCzD43Hl4JOutjqj+OkMvfjL9s/Hy5YtWhcfZCwQP+UezJfVTMEClILyKcpUTXP
- hSME9ktlQEYrUZ+NXyBfWVdcr5AxjahHC70oc=
+ bh=hFceW/w2z029LhdzC0IYfafm6PGMlG52PS9xCNhNQ8M=;
+ b=NDPo3+H4Kv40YppQl/vuEC5v6GYuM9qXoPPfSrjCEimIbyLp0HBTPeE3cyp+Tyjnvg
+ WhO/Ue/WWj4EPfDSzMoQZGgMc66DIiFaDuSLs//4aWFPNqFTcJWaCOx4TRs52cqj14iM
+ V42sqffwzlYSngsrHKPtHHZdmg56zsGGj0i5o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684870273; x=1687462273;
+ d=1e100.net; s=20221208; t=1684870275; x=1687462275;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AKRK4xfTer6o8sAg3PoM2xcqa0uawxE5nHuVWKhZwR0=;
- b=ISz6Diza0/WM3waJEtzlxNdqu4h8p0/+13aGxchzanDUzgND+pJVN2gdtXj+hzzQRn
- bNJ9kiCd6CIIp06vA5fN6N1BTLpw4WeLsrEcEpn4GCTgzqXkT+aHoP4K5LQZuLjsll6J
- 5h5A3COtxIvtIAneHIlT7S2JKDIvSfC0X7AcTTrYn0Lj14H3mRYjT4ALaXh/rxyulc1x
- 02T2k4iiVLjGaM7Wz5puUls3usVLuFuRs7KO3dvPuGxuaBgj4tWxB+jVUV/InetBnbpk
- 2SDMNGsreTEXEFo5bG+WP3MnAOzXMITEgTwj14YKpcTZiOM7emfwxjY/okGeVGmJZ62i
- rK+A==
-X-Gm-Message-State: AC+VfDxMdjsB54cpOt+UXP6vY0scfP5Kfyz02L8M9AHmPIHJVMipsWVS
- zI5DJPdlL2uUXzOtpBmqBIFVbw==
-X-Google-Smtp-Source: ACHHUZ6+R5dtBFK1umveld97BEXM7URbVt+ovbFLPIhv1kkW0xyJu3i7kIBJg1vLIb01UTdBgQqzTg==
-X-Received: by 2002:a17:902:d2c2:b0:1ac:4412:bd9 with SMTP id
- n2-20020a170902d2c200b001ac44120bd9mr14843362plc.3.1684870272940; 
- Tue, 23 May 2023 12:31:12 -0700 (PDT)
+ bh=hFceW/w2z029LhdzC0IYfafm6PGMlG52PS9xCNhNQ8M=;
+ b=HT9IxQz0sBLlH/ChwhTW/zGgfgFZvYpNsKbbx/3+T+yUt5B23vwNngSOTTn1R/UdnG
+ gzvgbJfavImQB6WBSM/IZdlwid7SU17ZVSUyYUdAqppvNj6pltOom0IId1RBWaY55fmM
+ TSNg6YGXCDws2SZWoTKoSBbd9pqVWLkceN+VJ3wlYW1fRWRrdhHn8no2HZDTvM+oGi26
+ lEyZDaa5eXg1m3LaEtutIcJNS/GaGNZmnDYiU86fL23QQno2+k6SWcB3lZNhRmuzvdHT
+ kPDsmWu7PmvgjShHAp1cEzUuB/DKZz6IaG3KbJ7vVCbq8+/ZRaLZhsi2ArWN8WtvDcln
+ huuA==
+X-Gm-Message-State: AC+VfDzu7f5S4yInv2L3zh1d7maSiv7nD/DAC5Dnr1s7bzCLyarOwkbS
+ nNnrucCiJBRW/m5KqBM/fNr+EA==
+X-Google-Smtp-Source: ACHHUZ7cTIe5ogd2sdNMiYJo8AMlVzFIHTjP77FjtWqzv3s0mkRXvL+1OlLGdykr2Ng8RDE4zsS0nQ==
+X-Received: by 2002:a17:902:f549:b0:1aa:fbaa:ee01 with SMTP id
+ h9-20020a170902f54900b001aafbaaee01mr19140474plf.48.1684870275204; 
+ Tue, 23 May 2023 12:31:15 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:af98:af9d:ed15:f8b3])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a170902b49200b001aaef9d0102sm7109947plr.197.2023.05.23.12.31.11
+ y18-20020a170902b49200b001aaef9d0102sm7109947plr.197.2023.05.23.12.31.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 12:31:12 -0700 (PDT)
+ Tue, 23 May 2023 12:31:14 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -60,9 +60,10 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/9] drm/panel: Check for already prepared/enabled in drm_panel
-Date: Tue, 23 May 2023 12:27:56 -0700
-Message-ID: <20230523122802.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
+Subject: [PATCH 3/9] drm/panel: Add a way for other devices to follow panel
+ state
+Date: Tue, 23 May 2023 12:27:57 -0700
+Message-ID: <20230523122802.3.Icd5f96342d2242051c754364f4bee13ef2b986d4@changeid>
 X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
 In-Reply-To: <20230523193017.4109557-1-dianders@chromium.org>
 References: <20230523193017.4109557-1-dianders@chromium.org>
@@ -88,168 +89,400 @@ Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a whole pile of panel drivers, we have code to make the
-prepare/unprepare/enable/disable callbacks behave as no-ops if they've
-already been called. It's silly to have this code duplicated
-everywhere. Add it to the core instead so that we can eventually
-delete it from all the drivers. Note: to get some idea of the
-duplicated code, try:
-  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
-  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+These days, it's fairly common to see panels that have touchscreens
+attached to them. The panel and the touchscreen can somewhat be
+thought of as totally separate devices and, historically, this is how
+Linux has treated them. However, treating them as separate isn't
+necessarily the best way to model the two devices, it was just that
+there was no better way. Specifically, there is little practical
+reason to have the touchscreen powered on when the panel is turned
+off, but if we model the devices separately we have no way to keep the
+two devices' power states in sync with each other.
 
-NOTE: arguably, the right thing to do here is actually to skip this
-patch and simply remove all the extra checks from the individual
-drivers. Perhaps the checks were needed at some point in time in the
-past but maybe they no longer are? Certainly as we continue
-transitioning over to "panel_bridge" then we expect there to be much
-less variety in how these calls are made. When we're called as part of
-the bridge chain, things should be pretty simple. In fact, there was
-some discussion in the past about these checks [1], including a
-discussion about whether the checks were needed and whether the calls
-ought to be refcounted. At the time, I decided not to mess with it
-because it felt too risky.
+The issue described above makes it sound as if the problem here is
+just about efficiency. We're wasting power keeping the touchscreen
+powered up when the screen is off. While that's true, the problem can
+go deeper. Specifically, hardware designers see that there's no reason
+to have the touchscreen on while the screen is off and then build
+hardware assuming that software would never turn the touchscreen on
+while the screen is off.
 
-Looking closer at it now, I'm fairly certain that nothing in the
-existing codebase is expecting these calls to be refcounted. The only
-real question is whether someone is already doing something to ensure
-prepare()/unprepare() match and enabled()/disable() match. I would say
-that, even if there is something else ensuring that things match,
-there's enough complexity that adding an extra bool and an extra
-double-check here is a good idea. Let's add a drm_warn() to let people
-know that it's considered a minor error to take advantage of
-drm_panel's double-checking but we'll still make things work fine.
+In the very simplest case of hardware designs like this, the
+touchscreen and the panel share some power rails. In most cases, this
+turns out not to be terrible and is, again, just a little less
+efficient. Specifically if we tell Linux that the touchscreen and the
+panel are using the same rails then Linux will keep the rails on when
+_either_ device is turned on. That ends to work OK-ish, but now if you
+turn the panel off not only will the touchscreen remain powered, but
+the power rails for the panel itself won't be switched off, burning
+extra power.
 
-[1] https://lore.kernel.org/r/20210416153909.v4.27.I502f2a92ddd36c3d28d014dd75e170c2d405a0a5@changeid
+The above two inefficiencies are _extra_ minor when you consider the
+fact that laptops rarely spend much time with the screen off. The main
+use case would be when an external screen (and presumably a power
+supply) is attached.
+
+Unfortunately, it gets worse from here. On sc7180-trogdor-homestar,
+for instance, the display's TCON (timing controller) sometimes crashes
+if you didn't power cycle it whenever you stopp and restart the video
+stream (like during a modeset). The touchscreen keeping the power
+rails on caused real problems. One proposal in the homestar timeframe
+was to move the touchscreen to an always-on rail, dedicating the main
+power rail to the panel. That caused _different_ problems as talked
+about in commit 557e05fa9fdd ("HID: i2c-hid: goodix: Stop tying the
+reset line to the regulator"). The end result of all of this was to
+add an extra regulator to the board, increasing cost.
+
+Recently, Cong Yang posted a patch [1] where things are even worse.
+The panel and touch controller on that system seem even more
+intimately tied together and really can't be thought of separately.
+
+To address this issue, let's start allowing devices to register
+themselves as "panel followers". These devices will get called after a
+panel has been powered on and before a panel is powered off. This
+makes the panel the primary device in charge of the power state, which
+matches how userspace uses it.
+
+The panel follower API should be fairly straightforward to use. The
+current code assumes that panel followers are using device tree and
+have a "panel" property pointing to the panel to follow. More
+flexibility and non-DT implementations could be added as needed.
+
+Right now, panel followers can follow the prepare/unprepare functions.
+There could be arguments made that, instead, they should follow
+enable/disable. I've chosen prepare/unprepare for now since those
+functions are guaranteed to power up/power down the panel and it seems
+better to start the process earlier.
+
+[1] 20230519032316.3464732-1-yangcong5@huaqin.corp-partner.google.com
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/drm_panel.c | 49 ++++++++++++++++++++++++++++++++-----
- include/drm/drm_panel.h     | 14 +++++++++++
- 2 files changed, 57 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_panel.c | 149 +++++++++++++++++++++++++++++++++++-
+ include/drm/drm_panel.h     |  75 ++++++++++++++++++
+ 2 files changed, 220 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index f634371c717a..4e1c4e42575b 100644
+index 4e1c4e42575b..c4d9db435f15 100644
 --- a/drivers/gpu/drm/drm_panel.c
 +++ b/drivers/gpu/drm/drm_panel.c
-@@ -105,11 +105,22 @@ EXPORT_SYMBOL(drm_panel_remove);
+@@ -58,6 +58,8 @@ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs, int connector_type)
+ {
+ 	INIT_LIST_HEAD(&panel->list);
++	INIT_LIST_HEAD(&panel->followers);
++	mutex_init(&panel->follower_lock);
+ 	panel->dev = dev;
+ 	panel->funcs = funcs;
+ 	panel->connector_type = connector_type;
+@@ -105,6 +107,7 @@ EXPORT_SYMBOL(drm_panel_remove);
   */
  int drm_panel_prepare(struct drm_panel *panel)
  {
-+	int ret;
-+
++	struct drm_panel_follower *follower;
+ 	int ret;
+ 
  	if (!panel)
- 		return -EINVAL;
+@@ -115,14 +118,27 @@ int drm_panel_prepare(struct drm_panel *panel)
+ 		return 0;
+ 	}
  
--	if (panel->funcs && panel->funcs->prepare)
--		return panel->funcs->prepare(panel);
-+	if (panel->prepared) {
-+		dev_warn(panel->dev, "Skipping prepare of already prepared panel\n");
-+		return 0;
++	mutex_lock(&panel->follower_lock);
++
+ 	if (panel->funcs && panel->funcs->prepare) {
+ 		ret = panel->funcs->prepare(panel);
+ 		if (ret < 0)
+-			return ret;
++			goto exit;
+ 	}
+ 	panel->prepared = true;
+ 
+-	return 0;
++	list_for_each_entry(follower, &panel->followers, list) {
++		ret = follower->funcs->panel_prepared(follower);
++		if (ret < 0)
++			dev_info(panel->dev, "%ps failed: %d\n",
++				 follower->funcs->panel_prepared, ret);
 +	}
 +
-+	if (panel->funcs && panel->funcs->prepare) {
-+		ret = panel->funcs->prepare(panel);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	panel->prepared = true;
- 
- 	return 0;
++	ret = 0;
++exit:
++	mutex_unlock(&panel->follower_lock);
++
++	return ret;
  }
-@@ -128,11 +139,22 @@ EXPORT_SYMBOL(drm_panel_prepare);
+ EXPORT_SYMBOL(drm_panel_prepare);
+ 
+@@ -139,6 +155,7 @@ EXPORT_SYMBOL(drm_panel_prepare);
   */
  int drm_panel_unprepare(struct drm_panel *panel)
  {
++	struct drm_panel_follower *follower;
+ 	int ret;
+ 
+ 	if (!panel)
+@@ -149,14 +166,27 @@ int drm_panel_unprepare(struct drm_panel *panel)
+ 		return 0;
+ 	}
+ 
++	mutex_lock(&panel->follower_lock);
++
++	list_for_each_entry(follower, &panel->followers, list) {
++		ret = follower->funcs->panel_unpreparing(follower);
++		if (ret < 0)
++			dev_info(panel->dev, "%ps failed: %d\n",
++				 follower->funcs->panel_unpreparing, ret);
++	}
++
+ 	if (panel->funcs && panel->funcs->unprepare) {
+ 		ret = panel->funcs->unprepare(panel);
+ 		if (ret < 0)
+-			return ret;
++			goto exit;
+ 	}
+ 	panel->prepared = false;
+ 
+-	return 0;
++	ret = 0;
++exit:
++	mutex_unlock(&panel->follower_lock);
++
++	return ret;
+ }
+ EXPORT_SYMBOL(drm_panel_unprepare);
+ 
+@@ -342,6 +372,117 @@ int of_drm_get_panel_orientation(const struct device_node *np,
+ EXPORT_SYMBOL(of_drm_get_panel_orientation);
+ #endif
+ 
++/**
++ * drm_panel_add_follower() - Register something to follow panel enable state.
++ * @follower_dev: The 'struct device' for the follower.
++ * @follower:     The panel follower descriptor for the follower.
++ *
++ * A panel follower is called right after preparing the panel and right before
++ * unpreparing the panel. It's primary intention is to power on an associated
++ * touchscreen, though it could be used for any similar devices. Multiple
++ * devices are allowed the follow the same panel.
++ *
++ * If a follower is added to a panel that's already been turned on, the
++ * follower's prepare callback is called right away.
++ *
++ * At the moment panels can only be followed on device tree enabled systems.
++ * The "panel" property of the follower points to the panel to be followed.
++ *
++ * Return: 0 or an error code.
++ */
++int drm_panel_add_follower(struct device *follower_dev,
++			   struct drm_panel_follower *follower)
++{
++	struct device_node *panel_np;
++	struct drm_panel *panel;
 +	int ret;
 +
- 	if (!panel)
- 		return -EINVAL;
- 
--	if (panel->funcs && panel->funcs->unprepare)
--		return panel->funcs->unprepare(panel);
-+	if (!panel->prepared) {
-+		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
-+		return 0;
-+	}
++	panel_np = of_parse_phandle(follower_dev->of_node, "panel", 0);
++	if (!panel_np)
++		return -ENODEV;
 +
-+	if (panel->funcs && panel->funcs->unprepare) {
-+		ret = panel->funcs->unprepare(panel);
++	panel = of_drm_find_panel(panel_np);
++	of_node_put(panel_np);
++	if (IS_ERR(panel))
++		return PTR_ERR(panel);
++
++	get_device(panel->dev);
++	follower->panel = panel;
++
++	mutex_lock(&panel->follower_lock);
++
++	list_add_tail(&follower->list, &panel->followers);
++	if (panel->prepared) {
++		ret = follower->funcs->panel_prepared(follower);
 +		if (ret < 0)
-+			return ret;
-+	}
-+	panel->prepared = false;
- 
- 	return 0;
- }
-@@ -155,11 +177,17 @@ int drm_panel_enable(struct drm_panel *panel)
- 	if (!panel)
- 		return -EINVAL;
- 
-+	if (panel->enabled) {
-+		dev_warn(panel->dev, "Skipping enable of already enabled panel\n");
-+		return 0;
++			dev_info(panel->dev, "%ps failed: %d\n",
++				 follower->funcs->panel_prepared, ret);
 +	}
 +
- 	if (panel->funcs && panel->funcs->enable) {
- 		ret = panel->funcs->enable(panel);
- 		if (ret < 0)
- 			return ret;
- 	}
-+	panel->enabled = true;
- 
- 	ret = backlight_enable(panel->backlight);
- 	if (ret < 0)
-@@ -187,13 +215,22 @@ int drm_panel_disable(struct drm_panel *panel)
- 	if (!panel)
- 		return -EINVAL;
- 
-+	if (!panel->enabled) {
-+		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
-+		return 0;
-+	}
++	mutex_unlock(&panel->follower_lock);
 +
- 	ret = backlight_disable(panel->backlight);
- 	if (ret < 0)
- 		DRM_DEV_INFO(panel->dev, "failed to disable backlight: %d\n",
- 			     ret);
- 
--	if (panel->funcs && panel->funcs->disable)
--		return panel->funcs->disable(panel);
-+	if (panel->funcs && panel->funcs->disable) {
-+		ret = panel->funcs->disable(panel);
++	return 0;
++}
++EXPORT_SYMBOL(drm_panel_add_follower);
++
++/**
++ * drm_panel_remove_follower() - Reverse drm_panel_add_follower().
++ * @follower:     The panel follower descriptor for the follower.
++ *
++ * Undo drm_panel_add_follower(). This includes calling the follower's disable
++ * function if we're removed from a panel that's currently enabled.
++ *
++ * Return: 0 or an error code.
++ */
++void drm_panel_remove_follower(struct drm_panel_follower *follower)
++{
++	struct drm_panel *panel = follower->panel;
++	int ret;
++
++	mutex_lock(&panel->follower_lock);
++
++	if (panel->prepared) {
++		ret = follower->funcs->panel_unpreparing(follower);
 +		if (ret < 0)
-+			return ret;
++			dev_info(panel->dev, "%ps failed: %d\n",
++				 follower->funcs->panel_unpreparing, ret);
 +	}
-+	panel->enabled = false;
- 
- 	return 0;
- }
++	list_del_init(&follower->list);
++
++	mutex_unlock(&panel->follower_lock);
++
++	put_device(panel->dev);
++}
++EXPORT_SYMBOL(drm_panel_remove_follower);
++
++static void drm_panel_remove_follower_void(void *follower)
++{
++	drm_panel_remove_follower(follower);
++}
++
++/**
++ * devm_drm_panel_add_follower() - devm version of drm_panel_add_follower()
++ * @follower_dev: The 'struct device' for the follower.
++ * @follower:     The panel follower descriptor for the follower.
++ *
++ * Handles calling drm_panel_remove_follower() using devm on the follower_dev.
++ *
++ * Return: 0 or an error code.
++ */
++int devm_drm_panel_add_follower(struct device *follower_dev,
++				struct drm_panel_follower *follower)
++{
++	int ret;
++
++	ret = drm_panel_add_follower(follower_dev, follower);
++	if (ret)
++		return ret;
++
++	return devm_add_action_or_reset(follower_dev,
++					drm_panel_remove_follower_void, follower);
++}
++EXPORT_SYMBOL(devm_drm_panel_add_follower);
++
+ #if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
+ /**
+  * drm_panel_of_backlight - use backlight device node for backlight
 diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 432fab2347eb..c6cf75909389 100644
+index c6cf75909389..e0a4d2f6f7fb 100644
 --- a/include/drm/drm_panel.h
 +++ b/include/drm/drm_panel.h
-@@ -198,6 +198,20 @@ struct drm_panel {
- 	 * the panel is powered up.
- 	 */
- 	bool prepare_prev_first;
-+
-+	/**
-+	 * @prepared:
-+	 *
-+	 * If true then the panel has been prepared.
-+	 */
-+	bool prepared;
-+
-+	/**
-+	 * @enabled:
-+	 *
-+	 * If true then the panel has been enabled.
-+	 */
-+	bool enabled;
+@@ -27,12 +27,14 @@
+ #include <linux/err.h>
+ #include <linux/errno.h>
+ #include <linux/list.h>
++#include <linux/mutex.h>
+ 
+ struct backlight_device;
+ struct dentry;
+ struct device_node;
+ struct drm_connector;
+ struct drm_device;
++struct drm_panel_follower;
+ struct drm_panel;
+ struct display_timing;
+ 
+@@ -144,6 +146,45 @@ struct drm_panel_funcs {
+ 	void (*debugfs_init)(struct drm_panel *panel, struct dentry *root);
  };
  
- void drm_panel_init(struct drm_panel *panel, struct device *dev,
++struct drm_panel_follower_funcs {
++	/**
++	 * @panel_prepared:
++	 *
++	 * Called after the panel has been powered on.
++	 */
++	int (*panel_prepared)(struct drm_panel_follower *follower);
++
++	/**
++	 * @panel_unpreparing:
++	 *
++	 * Called before the panel is powered off.
++	 */
++	int (*panel_unpreparing)(struct drm_panel_follower *follower);
++};
++
++struct drm_panel_follower {
++	/**
++	 * @funcs:
++	 *
++	 * Dependent device callbacks; should be initted by the caller.
++	 */
++	const struct drm_panel_follower_funcs *funcs;
++
++	/**
++	 * @list
++	 *
++	 * Used for linking into panel's list; set by drm_panel_add_follower().
++	 */
++	struct list_head list;
++
++	/**
++	 * @panel
++	 *
++	 * The panel we're dependent on; set by drm_panel_add_follower().
++	 */
++	struct drm_panel *panel;
++};
++
+ /**
+  * struct drm_panel - DRM panel object
+  */
+@@ -189,6 +230,20 @@ struct drm_panel {
+ 	 */
+ 	struct list_head list;
+ 
++	/**
++	 * @followers:
++	 *
++	 * A list of struct drm_panel_follower dependent on this panel.
++	 */
++	struct list_head followers;
++
++	/**
++	 * @followers_lock:
++	 *
++	 * Lock for followers list.
++	 */
++	struct mutex follower_lock;
++
+ 	/**
+ 	 * @prepare_prev_first:
+ 	 *
+@@ -246,6 +301,26 @@ static inline int of_drm_get_panel_orientation(const struct device_node *np,
+ }
+ #endif
+ 
++#if defined(CONFIG_DRM_PANEL)
++int drm_panel_add_follower(struct device *follower_dev,
++			   struct drm_panel_follower *follower);
++void drm_panel_remove_follower(struct drm_panel_follower *follower);
++int devm_drm_panel_add_follower(struct device *follower_dev,
++				struct drm_panel_follower *follower);
++#else
++static inline int drm_panel_add_follower(struct device *follower_dev,
++					 struct drm_panel_follower *follower)
++{
++	return -ENODEV;
++}
++static inline void drm_panel_remove_follower(struct drm_panel_follower *follower) { }
++static inline int devm_drm_panel_add_follower(struct device *follower_dev,
++					      struct drm_panel_follower *follower)
++{
++	return -ENODEV;
++}
++#endif
++
+ #if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
+ 	(IS_MODULE(CONFIG_DRM) && IS_MODULE(CONFIG_BACKLIGHT_CLASS_DEVICE)))
+ int drm_panel_of_backlight(struct drm_panel *panel);
 -- 
 2.40.1.698.g37aff9b760-goog
 
