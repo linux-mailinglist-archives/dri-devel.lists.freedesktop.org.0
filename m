@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA68E70D78F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC2770D7A8
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 10:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438ED10E40F;
-	Tue, 23 May 2023 08:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A213410E413;
+	Tue, 23 May 2023 08:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC0810E40F;
- Tue, 23 May 2023 08:34:55 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-6af754a2f2cso1812833a34.1; 
- Tue, 23 May 2023 01:34:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684830895; x=1687422895;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Fbuuelze6oX5JYOQ10a+DjnQCHnZU9fuAvZCu9bIt5c=;
- b=U3rczKzudNmeJZRFf3xz4uzmdTGz31rVkurHbMGsTFRTmLmoeIob7gdJ3wQpp/fw/m
- BZ0gp8LhT92gwW/1VVwlvDQPlW2rbzVi0/E4x8nKi7q3jMm4biySVaYMOPf5n/bodLBc
- jwZiQ+dDsqgwZiIyPj/bic+MnTqGkGrafBb9wU97Bsm/UDj9Mx9CIfnXa5FG6RcthgTq
- rEXeL0NEx33vc/2E68ll5xzBoNvBVX5dzg9QNO1RJ1tD+79a3PEipYj7QpaKp+9Wqebu
- 5zKi6hd84HGxTdAFPk3Bfqa7oSAMD3v+SI3kXsZU3/ySfz3KSxNMkIV5TuC0hJkKxFcO
- caUw==
-X-Gm-Message-State: AC+VfDyqjzaDmH74GbpmYr+awKuEm3Qkgyor6Ks+G3EFWwF8xm0Yzk9C
- aWGhtDXEA8sfz/UfGJMO5Kh2NP5QWA==
-X-Google-Smtp-Source: ACHHUZ7/tT2ff11MVD89mp0Uq6HgcF9rMmy1Is5kbzuJKiVecR9PIqUjz5MCk5++W0yN001aVxjPUQ==
-X-Received: by 2002:a9d:6b11:0:b0:6af:85fd:ffff with SMTP id
- g17-20020a9d6b11000000b006af85fdffffmr2136294otp.25.1684830894792; 
- Tue, 23 May 2023 01:34:54 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- q25-20020a9d7c99000000b006aaf82bd5a2sm3258395otn.43.2023.05.23.01.34.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 01:34:54 -0700 (PDT)
-Received: (nullmailer pid 140433 invoked by uid 1000);
- Tue, 23 May 2023 08:34:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5509310E410;
+ Tue, 23 May 2023 08:37:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684831056; x=1716367056;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GexNu8ul19rNykCayNqdGi/g9jcsfXGGg+/dYN9Ji4c=;
+ b=E+N0eQa8pislWzQLsjTBy6aFc+a6v0+Zo95tm3Je2fvuPT7SL/4q51dA
+ bBIaXStYfpDwfYZ5ilkH5IRdrGAaYOfaMantrocpKgXd/NchNWmE6mTWC
+ /Wi9a4sqSHi8yO5dmnqeYfONdvWKoFlQ/KRPDsm7PgxxNfpx63+anZBz3
+ pdlYNghRhezfoIXx+d2lne4lqhvzIpvP/2C3CM24jdch7W2wJMPQM3lTw
+ rXMgck1gvMq4aG3DSxfMrmGHgfDZzVmTEpY2y6lwN1qNKEmBmJrWPBs7N
+ SMGcLJSkFtHp28ZWUcE35i4L+QU7VADPSwcpzAOFXZJUA2NoKr4apZfYo Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="418884403"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="418884403"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2023 01:37:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="706916200"
+X-IronPort-AV: E=Sophos;i="6.00,185,1681196400"; d="scan'208";a="706916200"
+Received: from vkutovoi-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.54.197])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2023 01:37:25 -0700
+Date: Tue, 23 May 2023 10:37:22 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: fei.yang@intel.com
+Subject: Re: [Intel-gfx] [PATCH v10 0/2] drm/i915: Allow user to set cache at
+ BO creation
+Message-ID: <ZGx7Quf+ArHnXOR0@ashyti-mobl2.lan>
+References: <20230519051103.3404990-1-fei.yang@intel.com>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230411-topic-straitlagoon_mdss-v5-4-998b4d2f7dd1@linaro.org>
-References: <20230411-topic-straitlagoon_mdss-v5-0-998b4d2f7dd1@linaro.org>
- <20230411-topic-straitlagoon_mdss-v5-4-998b4d2f7dd1@linaro.org>
-Message-Id: <168483089214.140382.17835176497108911988.robh@kernel.org>
-Subject: Re: [PATCH v5 04/12] dt-bindings: display/msm: Add SM6350 MDSS
-Date: Tue, 23 May 2023 03:34:52 -0500
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230519051103.3404990-1-fei.yang@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +59,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Will Deacon <will@kernel.org>,
- linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, iommu@lists.linux.dev,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Fei,
 
-On Tue, 23 May 2023 09:46:15 +0200, Konrad Dybcio wrote:
-> Document the SM6350 MDSS.
+finally... pushed in drm-intel-gt-next! :)
+
+Andi
+
+On Thu, May 18, 2023 at 10:11:01PM -0700, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  .../bindings/display/msm/qcom,sm6350-mdss.yaml     | 214 +++++++++++++++++++++
->  1 file changed, 214 insertions(+)
+> This series introduce a new extension for GEM_CREATE,
+> 1. end support for set caching ioctl [PATCH 1/2]
+> 2. add set_pat extension for gem_create [PATCH 2/2]
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: compatible: 'oneOf' conditional failed, one must be fixed:
-	['qcom,sm6350-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-	'qcom,sm6350-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl']
-	'qcom,sm6350-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: Unevaluated properties are not allowed ('compatible' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230411-topic-straitlagoon_mdss-v5-4-998b4d2f7dd1@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+> v2: drop one patch that was merged separately
+>     commit 341ad0e8e254 ("drm/i915/mtl: Add PTE encode function")
+> v3: rebased on https://patchwork.freedesktop.org/series/117082/
+> v4: fix missing unlock introduced in v3, and
+>     solve a rebase conflict
+> v5: replace obj->cache_level with pat_set_by_user,
+>     fix i915_cache_level_str() for legacy platforms.
+> v6: rebased on https://patchwork.freedesktop.org/series/117480/
+> v7: rebased on https://patchwork.freedesktop.org/series/117528/
+> v8: dropped the two dependent patches that has been merged
+>     separately. Add IGT link and Tested-by (MESA).
+> v9: addressing comments (Andi)
+> v10: acked-by and tested-by MESA
+> 
+> Fei Yang (2):
+>   drm/i915/mtl: end support for set caching ioctl
+>   drm/i915: Allow user to set cache at BO creation
+> 
+>  drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 +++++++++++++++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_domain.c |  3 ++
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
+>  drivers/gpu/drm/i915/gem/i915_gem_shmem.c  |  9 ++++-
+>  include/uapi/drm/i915_drm.h                | 42 ++++++++++++++++++++++
+>  tools/include/uapi/drm/i915_drm.h          | 42 ++++++++++++++++++++++
+>  6 files changed, 137 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.25.1
