@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94B470E57F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD30470E580
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 21:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C727310E4B0;
-	Tue, 23 May 2023 19:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC1E10E4B2;
+	Tue, 23 May 2023 19:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 119EF10E4AC
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:31:23 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- 98e67ed59e1d1-25566708233so92663a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:31:23 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60CDF10E4B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 19:31:26 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-2533b600d35so81837a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 12:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1684870283; x=1687462283;
+ d=chromium.org; s=google; t=1684870285; x=1687462285;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RElRUe6c5U22wJoZKUO9d5F+6/ihbFh+CEUviCApg18=;
- b=gPO35OoiNWoO7ZysbWi2OUQ4D7TrdGXtwOFaCF4z03gwyCAbErQuja6ebLBdrq5YMZ
- trWC4RgPiZvyLIRRIoI0qTdQ5sxoQbcnYIUX/gyyxML7n+kFRJ8AIUEJnJEhiIWIR3/K
- UAl8nRa9bQpsX3bu9TGjp+9r/U7mkUjnFOqFg=
+ bh=op3rjFIJK/G9SNN79lGhiUqi1w2mTlKVdZk1BckkQF0=;
+ b=iZIs4UHnjY3vorngte3ZhnAZ8Wacu4ZILkY03JYuq9YY0p1IKzrhkIN7lcochBBA/K
+ mzhnGtgfxNEFLTi5Io1SgJWb8B1k4S87J5t76ciW0EqGdX0A+ntuKA6l2vA0LOoIdFYI
+ vLGsrgX/SzpeveZsaAqsAUY983U8YLapwwfsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684870283; x=1687462283;
+ d=1e100.net; s=20221208; t=1684870285; x=1687462285;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RElRUe6c5U22wJoZKUO9d5F+6/ihbFh+CEUviCApg18=;
- b=ktheHcap0MGABFBtqFuhdLYafWLVhCAa9euvlrgjqYo0mDGxaqrOPncoN4L5AAd7pi
- vvce8Ol6S6pDPUPs2Hj7AjI79xbNZLL6v+Q6XZ2kbxfzSYjOfgGEuoQrtxejyHF8FebL
- kROJYQ+6e7q1ppC27C27TNQOItKyP40Y+86qz2kgvUZUmmCvg0QW+TYqPL+8LBFyj12y
- OM3fcvEUNc06dfEEuZkX50WjRIbYmzSJmhsfybwqZ+ewJp/88QnjvKZyvSdf17nGKbhO
- 5KJBL19XBNg+so3GBmA+5wllC481+STTN2IZLbMaF5ytksoX8wWzxS8up73mLniN/A8j
- dleA==
-X-Gm-Message-State: AC+VfDxa8WGRtHeGef1qS7vIOFTfZQ1K335jAc7h3ZZSRqcy+RNFfYFS
- oF4U+ibecKg9GsGJjXetsMHKkQ==
-X-Google-Smtp-Source: ACHHUZ6DprQ5f/5LNGKHojUT8L9gzkN6Sw082zI2G1Ld/p4fFXuiTtQtkCkJyR4W3CxrNr4idrf96Q==
-X-Received: by 2002:a17:90a:6ba1:b0:252:75ed:eff5 with SMTP id
- w30-20020a17090a6ba100b0025275edeff5mr13464518pjj.30.1684870283271; 
- Tue, 23 May 2023 12:31:23 -0700 (PDT)
+ bh=op3rjFIJK/G9SNN79lGhiUqi1w2mTlKVdZk1BckkQF0=;
+ b=eGW4Pow/EHVhozbAarpl8kDC3wDDdlCBuKIFy3egHwa88FgBT/AUZYSUNKP7OzmSQL
+ bBXMOvsn1oMJEWcD+2Wh+pX7YekJeRdFjmB6rHDoeLe14is7AhymSOT1tXynk/qHkbh7
+ f/FMgaxQEjSMnXagIGSjMqx4hCo0Jp+7nGu4qSSkmKpelM32iv0IBP/jB+2IHCJpR0+m
+ igaZu9Wesu3bacEEVJ0FyrYF/k41yjq3+IpzZbqLLDrKstSUZC47XXGqxOsT+VSNPgYl
+ M4k8n3SENEhJWT2zsd6JzBFYRGtAgBpv8RD++IYDldFLtzVYKMcBVS1k2kGels2qNXc9
+ at2w==
+X-Gm-Message-State: AC+VfDxI4EGnApdsZaipHCWibWwYp1mB6hsttbBHiSPyUTIRXRPRwghg
+ Y1wa6/wTDHcPuYEhtoq2uUfF7Q==
+X-Google-Smtp-Source: ACHHUZ59R/VZKaFBBuQCIrfYdSblmP+QUBFpk+quHC1m5oJIuUo32z8/y3nkQfaFsLE5wZiywnekqg==
+X-Received: by 2002:a17:90b:46d1:b0:247:529f:92d7 with SMTP id
+ jx17-20020a17090b46d100b00247529f92d7mr15761298pjb.8.1684870285561; 
+ Tue, 23 May 2023 12:31:25 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:af98:af9d:ed15:f8b3])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a170902b49200b001aaef9d0102sm7109947plr.197.2023.05.23.12.31.21
+ y18-20020a170902b49200b001aaef9d0102sm7109947plr.197.2023.05.23.12.31.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 May 2023 12:31:22 -0700 (PDT)
+ Tue, 23 May 2023 12:31:24 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -60,10 +60,9 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 6/9] HID: i2c-hid: Make suspend and resume into helper
- functions
-Date: Tue, 23 May 2023 12:28:00 -0700
-Message-ID: <20230523122802.6.I5c9894789b8b02f029bf266ae9b4f43c7907a173@changeid>
+Subject: [PATCH 7/9] HID: i2c-hid: Support being a panel follower
+Date: Tue, 23 May 2023 12:28:01 -0700
+Message-ID: <20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
 In-Reply-To: <20230523193017.4109557-1-dianders@chromium.org>
 References: <20230523193017.4109557-1-dianders@chromium.org>
@@ -89,148 +88,168 @@ Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch we'd like to be able to call the current i2c-hid
-suspend and resume functions from times other than system
-suspend. Move the functions higher up in the file and have them take a
-"struct i2c_hid" to make this simpler. We'll then add tiny wrappers of
-the functions for use with system suspend.
+As talked about in the patch ("drm/panel: Add a way for other devices
+to follow panel state"), we really want to keep the power states of a
+touchscreen and the panel it's attached to in sync with each other. In
+that spirit, add support to i2c-hid to be a panel follower. This will
+let the i2c-hid driver get informed when the panel is powered on and
+off. From there we can match the i2c-hid device's power state to that
+of the panel.
 
-This change is expected to have no functional effect.
+NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
+of / manage the power state of the i2c-hid device, even though my
+first instinct said that would be the way to go. Specific problems
+with using pm_runtime():
+* The initial power up couldn't happen in a runtime resume function
+  since it create sub-devices and, apparently, that's not good to do
+  in your resume function.
+* Managing our power state with pm_runtime meant fighting to make the
+  right thing happen at system suspend to prevent the system from
+  trying to resume us only to suspend us again. While this might be
+  able to be solved, it added complexity.
+Overall the code without pm_runtime() ended up being smaller and
+easier to understand.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/hid/i2c-hid/i2c-hid-core.c | 98 +++++++++++++++++-------------
- 1 file changed, 56 insertions(+), 42 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 82 +++++++++++++++++++++++++++++-
+ 1 file changed, 81 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index fb5ebf3ca739..34c0d98b4976 100644
+index 34c0d98b4976..f1bb89377e8d 100644
 --- a/drivers/hid/i2c-hid/i2c-hid-core.c
 +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -941,6 +941,57 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
- 	ihid->ops->shutdown_tail(ihid->ops);
- }
+@@ -38,6 +38,8 @@
+ #include <linux/mutex.h>
+ #include <asm/unaligned.h>
  
-+static int i2c_hid_core_suspend(struct i2c_hid *ihid)
-+{
-+	struct i2c_client *client = ihid->client;
-+	struct hid_device *hid = ihid->hid;
-+	int ret;
++#include <drm/drm_panel.h>
 +
-+	ret = hid_driver_suspend(hid, PMSG_SUSPEND);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Save some power */
-+	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
-+
-+	disable_irq(client->irq);
-+
-+	if (!device_may_wakeup(&client->dev))
-+		i2c_hid_core_power_down(ihid);
-+
-+	return 0;
-+}
-+
-+static int i2c_hid_core_resume(struct i2c_hid *ihid)
-+{
-+	struct i2c_client *client = ihid->client;
-+	struct hid_device *hid = ihid->hid;
-+	int ret;
-+
-+	if (!device_may_wakeup(&client->dev))
-+		i2c_hid_core_power_up(ihid);
-+
-+	enable_irq(client->irq);
-+
-+	/* Instead of resetting device, simply powers the device on. This
-+	 * solves "incomplete reports" on Raydium devices 2386:3118 and
-+	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
-+	 * data after a suspend/resume.
-+	 *
-+	 * However some ALPS touchpads generate IRQ storm without reset, so
-+	 * let's still reset them here.
-+	 */
-+	if (ihid->quirks & I2C_HID_QUIRK_RESET_ON_RESUME)
-+		ret = i2c_hid_hwreset(ihid);
-+	else
-+		ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
-+
-+	if (ret)
-+		return ret;
-+
-+	return hid_driver_reset_resume(hid);
-+}
-+
- /**
-  * i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
-  * @ihid: The ihid object created during probe.
-@@ -1115,61 +1166,24 @@ void i2c_hid_core_shutdown(struct i2c_client *client)
- }
- EXPORT_SYMBOL_GPL(i2c_hid_core_shutdown);
+ #include "../hid-ids.h"
+ #include "i2c-hid.h"
  
--static int i2c_hid_core_suspend(struct device *dev)
-+static int i2c_hid_core_pm_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
--	struct hid_device *hid = ihid->hid;
--	int ret;
--
--	ret = hid_driver_suspend(hid, PMSG_SUSPEND);
--	if (ret < 0)
--		return ret;
+@@ -107,6 +109,8 @@ struct i2c_hid {
+ 	struct mutex		reset_lock;
  
--	/* Save some power */
--	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
--
--	disable_irq(client->irq);
--
--	if (!device_may_wakeup(&client->dev))
--		i2c_hid_core_power_down(ihid);
--
--	return 0;
-+	return i2c_hid_core_suspend(ihid);
- }
- 
--static int i2c_hid_core_resume(struct device *dev)
-+static int i2c_hid_core_pm_resume(struct device *dev)
- {
--	int ret;
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
--	struct hid_device *hid = ihid->hid;
- 
--	if (!device_may_wakeup(&client->dev))
--		i2c_hid_core_power_up(ihid);
--
--	enable_irq(client->irq);
--
--	/* Instead of resetting device, simply powers the device on. This
--	 * solves "incomplete reports" on Raydium devices 2386:3118 and
--	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
--	 * data after a suspend/resume.
--	 *
--	 * However some ALPS touchpads generate IRQ storm without reset, so
--	 * let's still reset them here.
--	 */
--	if (ihid->quirks & I2C_HID_QUIRK_RESET_ON_RESUME)
--		ret = i2c_hid_hwreset(ihid);
--	else
--		ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
--
--	if (ret)
--		return ret;
--
--	return hid_driver_reset_resume(hid);
-+	return i2c_hid_core_resume(ihid);
- }
- 
- const struct dev_pm_ops i2c_hid_core_pm = {
--	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_suspend, i2c_hid_core_resume)
-+	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_pm_suspend, i2c_hid_core_pm_resume)
+ 	struct i2chid_ops	*ops;
++	struct drm_panel_follower panel_follower;
++	bool			is_panel_follower;
  };
- EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
+ 
+ static const struct i2c_hid_quirks {
+@@ -1058,6 +1062,34 @@ int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+ 	return ret;
+ }
+ 
++int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
++{
++	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
++	struct hid_device *hid = ihid->hid;
++
++	/*
++	 * hid->version is set on the first power up. If it's still zero then
++	 * this is the first power on so we should perform initial power up
++	 * steps.
++	 */
++	if (!hid->version)
++		return i2c_hid_core_initial_power_up(ihid);
++
++	return i2c_hid_core_resume(ihid);
++}
++
++int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
++{
++	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
++
++	return i2c_hid_core_suspend(ihid);
++}
++
++static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
++	.panel_prepared = i2c_hid_core_panel_prepared,
++	.panel_unpreparing = i2c_hid_core_panel_unpreparing,
++};
++
+ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 		       u16 hid_descriptor_address, u32 quirks)
+ {
+@@ -1119,6 +1151,41 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 	hid->bus = BUS_I2C;
+ 	hid->initial_quirks = quirks;
+ 
++	/*
++	 * See if we're following a panel. If drm_panel_add_follower()
++	 * returns no error then we are.
++	 */
++	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
++	ret = drm_panel_add_follower(&client->dev, &ihid->panel_follower);
++	if (!ret) {
++		/* We're a follower. That means we'll power things up later. */
++		ihid->is_panel_follower = true;
++
++		/*
++		 * If we're not in control of our own power up/power down then
++		 * we can't do the logic to manage wakeups. Give a warning if
++		 * a user thought that was possible then force the capability
++		 * off.
++		 */
++		if (device_can_wakeup(&client->dev)) {
++			dev_warn(&client->dev, "Can't wakeup if following panel\n");
++			device_set_wakeup_capable(&client->dev, false);
++		}
++
++		return 0;
++	}
++
++	/*
++	 * -ENODEV means that we're not following a panel, so any other error
++	 * is a real problem (like -EPROBE_DEFER, -ENOMEM, ...).
++	 */
++	if (ret != -ENODEV)
++		goto err_mem_free;
++
++	/*
++	 * We're not following a panel. That's fine and means that we
++	 * can power up right away.
++	 */
+ 	ret = i2c_hid_core_initial_power_up(ihid);
+ 	if (ret)
+ 		goto err_mem_free;
+@@ -1143,7 +1210,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 	struct hid_device *hid;
+ 
+-	i2c_hid_core_power_down(ihid);
++	/*
++	 * If we're a follower, the act of unfollowing will cause us to be
++	 * powered down. Otherwise we need to manually do it.
++	 */
++	if (ihid->is_panel_follower)
++		drm_panel_remove_follower(&ihid->panel_follower);
++	else
++		i2c_hid_core_power_down(ihid);
+ 
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
+@@ -1171,6 +1245,9 @@ static int i2c_hid_core_pm_suspend(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 
++	if (ihid->is_panel_follower)
++		return 0;
++
+ 	return i2c_hid_core_suspend(ihid);
+ }
+ 
+@@ -1179,6 +1256,9 @@ static int i2c_hid_core_pm_resume(struct device *dev)
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+ 
++	if (ihid->is_panel_follower)
++		return 0;
++
+ 	return i2c_hid_core_resume(ihid);
+ }
  
 -- 
 2.40.1.698.g37aff9b760-goog
