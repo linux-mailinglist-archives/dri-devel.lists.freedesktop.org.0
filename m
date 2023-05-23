@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C6170E8EA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:16:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2E770E8F4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 00:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5074110E531;
-	Tue, 23 May 2023 22:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A32B10E541;
+	Tue, 23 May 2023 22:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 084FB10E528;
- Tue, 23 May 2023 22:16:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC00910E52A;
+ Tue, 23 May 2023 22:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=wYSzsXEK1ZPWrfnOk5RytsEV67VgxKrfPIr5QR/Hjbw=; b=VJB+0qKR2itbzYKy1P8nrdwbbU
- cbAhkB410Hhd56TOPpYrsiqAeSDzrvFv6Q+jX1w66u2doHZpp/jYGTqhONA+bLtc7WAAJhZLdlYG4
- o1cTuLFl/cLBGHPbfdpKHGJ4LZOOMo1wSsNz0QsXvTrlrPIdm5GsKm3jD3zPMgHox6OxBuXs0q18k
- ZrDKF6vk5cK5+tWs1JxmsIOe3Qjk2NIeFE0jmi4AKg/Luhl0vVRx/D2MSULwTOYRZsmwggYlElrvD
- Oxta406vRL7zPWqpJ8VVJ1m5slmqKmDn8imIN64G/92nqmklC1x309ewtGcKZts9KaSKPQZMBbD9L
- oL+Q1G9w==;
+ bh=B1E7WcmsTR28d9LrVCwUVkvm2fwEMjmRp45UNVhkV6U=; b=XML4D2TZOvH/jmnoRDEf6mO838
+ pnvZRkxR7YpwbyhXyV52Vs08TMgi3SvDPb6B6y/Aw3DDVRiO+8hMqWQal663rQZHyX8QmMfBWOB8V
+ DnzKy4A48Ui9ooSwLalofnzAS5KX58oxbkJfs3BkP8SEPV/E+8GW/xZdjwsCJfUUA5WEvJFctmd4S
+ WS1kkw7Ps1QEVvFZvMBP8FDpk4QlpP2RLxHZBL6V0VZ6u2CU3b/lxDKqi55e3OL66a/ww2GkoV++/
+ jimS2Lr2TSeBfs1b2uiW6/YCwCxUJvqX+U1uKM6Jn2fpYMiiol1dFah1FIwi+INJv3a1JJJpScnYr
+ taah/3eQ==;
 Received: from [38.44.72.37] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1q1aId-00HEOv-0V; Wed, 24 May 2023 00:16:11 +0200
+ id 1q1aIe-00HEOv-I8; Wed, 24 May 2023 00:16:12 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH 31/36] drm/adm/display: add HDR multiplier support
-Date: Tue, 23 May 2023 21:15:15 -0100
-Message-Id: <20230523221520.3115570-32-mwen@igalia.com>
+Subject: [PATCH 32/36] drm/amd/display: program DPP shaper and 3D LUT if
+ updated
+Date: Tue, 23 May 2023 21:15:16 -0100
+Message-Id: <20230523221520.3115570-33-mwen@igalia.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230523221520.3115570-1-mwen@igalia.com>
 References: <20230523221520.3115570-1-mwen@igalia.com>
@@ -64,51 +65,31 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+If shaper and 3D LUT data updates, lut_3d bit in update_flag is updated
+and we need to call set_input_transfer_func to program DPP shaper and 3D
+LUTs. Small cleanup of code style in the related if-condition.
 
-With `dc_fixpt_from_s3132()` translation, we can just use it to set
-hdr_mult.
-
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c | 3 +++
- 2 files changed, 4 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 4f3597ea9873..11135c3db6cc 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8021,6 +8021,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 			bundle->surface_updates[planes_count].gamma = dc_plane->gamma_correction;
- 			bundle->surface_updates[planes_count].in_transfer_func = dc_plane->in_transfer_func;
- 			bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
-+			bundle->surface_updates[planes_count].hdr_mult = dc_plane->hdr_mult;
- 		}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index e74c3ce561ab..e347316d0a5e 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1764,8 +1764,9 @@ static void dcn20_program_pipe(
+ 		hws->funcs.set_hdr_multiplier(pipe_ctx);
  
- 		amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 629ba10fbee9..57d6aab76295 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -928,6 +928,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 				      struct drm_plane_state *plane_state,
- 				      struct dc_plane_state *dc_plane_state)
- {
-+	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
- 	bool has_crtc_cm_degamma;
- 	int ret;
+ 	if (pipe_ctx->update_flags.bits.enable ||
+-			pipe_ctx->plane_state->update_flags.bits.in_transfer_func_change ||
+-			pipe_ctx->plane_state->update_flags.bits.gamma_change)
++	    pipe_ctx->plane_state->update_flags.bits.in_transfer_func_change ||
++	    pipe_ctx->plane_state->update_flags.bits.gamma_change ||
++	    pipe_ctx->plane_state->update_flags.bits.lut_3d)
+ 		hws->funcs.set_input_transfer_func(dc, pipe_ctx, pipe_ctx->plane_state);
  
-@@ -938,6 +939,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 	/* After, we start to update values according to color props */
- 	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
- 
-+	dc_plane_state->hdr_mult = dc_fixpt_from_s3132(dm_plane_state->hdr_mult);
-+
- 	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
- 	if (ret == -ENOMEM)
- 		return ret;
+ 	/* dcn10_translate_regamma_to_hw_format takes 750us to finish
 -- 
 2.39.2
 
