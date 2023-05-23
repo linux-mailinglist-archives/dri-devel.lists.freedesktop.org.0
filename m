@@ -2,41 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8A270CFB2
-	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 02:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD64970D027
+	for <lists+dri-devel@lfdr.de>; Tue, 23 May 2023 03:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 221E110E08C;
-	Tue, 23 May 2023 00:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED5010E3C1;
+	Tue, 23 May 2023 01:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFDD610E08C
- for <dri-devel@lists.freedesktop.org>; Tue, 23 May 2023 00:43:42 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QQFt63zXKz4x48;
- Tue, 23 May 2023 10:43:26 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1684802607;
- bh=wR7JFpABtkHvbbbYe13yOqB8fGX0TUQ0Yg/dvCpATgQ=;
- h=Date:From:To:Cc:Subject:From;
- b=aiVkLfrqtzR/YRF1FRXNPa5R0Wo+GriJRGMXbmjmcDt4w8A8idVfKqd2K2hL4Ufn0
- GtazcmuCp0h5Kq12941imoEtNR2zvBO7VE0xuOxUfI+6KJhcJueSWCCcC/zMk4sd5V
- fcJy5xl/IIMLeEE1uKUxz5v7Sxnl0gpipGAIYznJsuvNaQfbsDX7HuUeNWJIIIkq0m
- ify3NYx7rOR1wzdIR7UeCoEbdj00ebmPaJsMWaR/yw6BogXIAOvVU7ZKJCRki7fakb
- w22uOVC8LM+Nm236sidFl7vfUCcNITaCvNaCAiYmQqnUFUhMKSWRLuHkq7exBHesF8
- Eo/f67ksSTPjA==
-Date: Tue, 23 May 2023 10:43:24 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20230523104324.602c426a@canb.auug.org.au>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC2F910E3B4;
+ Tue, 23 May 2023 01:09:30 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34MNup4G025586; Tue, 23 May 2023 01:09:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=MxvjYItcJGm5nOz9BoSRzj3NxTrNJnujlO2Y2wbJVJo=;
+ b=RgHjKgu9ElAacl/r+dh0Mn7MrOTbZw4WpGZ2FQ5cRRP+EMLunNHPnnHtqwsZ61xojBo7
+ 65pt+wMwcn163eoq5+oCnXmYvuiF8OPGf/Zt8QozW2X7H2S+bEq/eKb46HUUjVjxoj4q
+ 7JEc40ApRE7d6i/t7UK2qeJHV1PF1YOGTaqfG17wXhGPkpN+uU3PjtshKDtUuc6aV3C6
+ 6LNYMiBcWR5exe9lPX2Tg6m6KDUi3svAPAUMwPPQlXWD1lt64QApqGYqXIxfxVavadnE
+ A2JGJxBl8YZJ0siW+adQy1QOecdPR5ja3AsBpmZ+ATeTM881B+96G3Q3hlDj1rFhMA9K /A== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qr8qr9agv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 01:09:28 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34N195Oc011935
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 May 2023 01:09:05 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Mon, 22 May 2023 18:09:04 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v5 0/5] Add DSC v1.2 Support for DSI
+Date: Mon, 22 May 2023 18:08:54 -0700
+Message-ID: <20230405-add-dsc-support-v5-0-028c10850491@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VanIubOJiW/o7W59wYZSUZ=";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACYSbGQC/4XOu27DMAwF0F8JNJcF9bKdTv2PIoMeVK3Bsis5R
+ oLA/14pWxEUHi8JnssHK5QjFfZxerBMWyxxTjXotxNzo0nfBNHXzAQKiQo1GO/BFwfluixzXiE
+ Ql2iNOg+Ks3plTSGw2SQ3trupTJDotrbVkinE27Ps61LzGMs65/uze+Nt+n/NxgGhs64LKA31U
+ n/+XKOLyb27eWJN28SBIKrAsReuRzr3Q/cqyANBth+Ie6mNwM7KV0EdCKr9oL0JgwqDd/avsO/
+ 7L24JL+ORAQAA
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.13-dev-bfdf5
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684804144; l=4132;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=+QQVkWGSONQI1Ic2X7Qmlh7i6zMfrSsrN+1X/zX8Vl0=;
+ b=WoOtKGqjcQk3o281NuAyRaEP/Tq+Cm/uJPMhYq6lq/5vc++mUhn+tNrdYc+039ayEos5FrXMz
+ iGdZVcAztmxCGeBQtNRLr7HNwhnUE+Kvn2KsIkYWPkRJEG/hqkoOfWc
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: LOuZ9024xSjBSAhkAP0pTPRZgVK3jq9T
+X-Proofpoint-ORIG-GUID: LOuZ9024xSjBSAhkAP0pTPRZgVK3jq9T
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-22_18,2023-05-22_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 phishscore=0
+ adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305230007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,102 +94,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Artur Weber <aweber.kernel@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/VanIubOJiW/o7W59wYZSUZ=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This is a series of changes for DSI to enable command mode support
+for DSC v1.2.
 
-Hi all,
+This includes:
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+1) Rounding up `hdisplay / 3` in dsc_timing_setup()
+2) Adjusting pclk_rate to account for compression
+3) Fixing incorrect uses of slice_count in DSI DSC calculations
+4) Setting the DATA_COMPRESS bit when DSC is enabled
 
-  MAINTAINERS
+With these changes (and the dependency below), DSC v1.2 should work over
+DSI in command mode.
 
-between commit:
+Note: Changes that add DSC v1.2 support for video mode will be posted
+with the DP support changes.
 
-  80e62bc8487b ("MAINTAINERS: re-sort all entries and fields")
+Depends-on:
+ - "add DSC 1.2 dpu supports" [1]
+ - "Introduce MSM-specific DSC helpers" [2]
+ - "drm/msm/dsi: use mult_frac for pclk_bpp calculation" [3]
 
-from Linus' tree and commit:
+[1] https://patchwork.freedesktop.org/series/116789/
+[2] https://patchwork.freedesktop.org/series/115833/
+[3] https://patchwork.freedesktop.org/patch/538273/?series=118072&rev=1
 
-  0dd53308f74f ("MAINTAINERS: Add entry for Samsung S6D7AA0 LCD panel contr=
-oller driver")
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+Changes in v5:
+- Added newline before enable_compression() function pointer definition
+- Rebased on top of "drm/msm/dsi: use mult_frac for pclk_bpp calculation"
+- Reworded commit messages for clarity
+- Dropped mentions of "soft slice" in commit messages
+- "slice_per_packet" -> "slice_per_pkt"
+- Picked up reviewed-by tags
+- Link to v4: https://lore.kernel.org/r/20230405-add-dsc-support-v4-0-15daf84f8dcb@quicinc.com
 
-from the drm-misc tree.
+Changes in v4:
+- Clarified slice_per_pkt comment regarding pkt_per_line calculations
+- Reworded commit message for "drm/msm/dsi: Remove incorrect references
+  to slice_count"
+- Wrapped INTF_SC7280_MASK macro definition in parentheses
+- Fixed incorrect commit hash in "msm/drm/dsi: Round up DSC hdisplay
+  calculation"
+- Picked up Reviewed-by tag
+- Link to v3: https://lore.kernel.org/r/20230405-add-dsc-support-v3-0-6e1d35a206b3@quicinc.com
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+Changes in v3:
+- Added fix to round up hdisplay DSC adjustment
+- Fixed inconsistent whitespace in dpu_hw_intf_ops comment doc
+- Moved placement of dpu_hw_intf_enable_compression
+- Picked up "drm/msm/dsi: Fix calculation for pkt_per_line" patch and
+  squashed all slice_count fixes into a single patch
+- Use drm_mode_vrefresh() to calculate adjusted pclk rate
+- Moved compressed pclk adjustment to dsi_adjust_compressed_pclk() helper
+- Rebased changes on top of updated dependencies
+- Reworded commit message for "drm/msm/dpu: Set DATA_COMPRESS for
+  command mode" for clarity
+- Removed revision changelog in commit messages
+- Link to v2: https://lore.kernel.org/r/20230405-add-dsc-support-v2-0-1072c70e9786@quicinc.com
 
---=20
-Cheers,
-Stephen Rothwell
+Changes in v2:
+- Changed has_data_compress dpu_cap to a DATA_COMPRESS INTF feature flag
+- Changed pclk math to only divide hdisplay by compression ratio
+- Reworded word count TODO comment
+- Make DATA_COMPRESS an INTF flag
+- Read INTF_CONFIG2 before writing to DATA_COMPRESS bit
+- Fixed whitespace issue in macro definition
+- Removed `inline` from dpu_hw_intf_enable_compression declaration
+- Only set dpu_hw_intf_ops.data_compress if DATA_COMPRESS feature is set
+- Reworded commit messages and cover letter for clarity
+- Link to v1: https://lore.kernel.org/r/20230405-add-dsc-support-v1-0-6bc6f03ae735@quicinc.com
 
-diff --cc MAINTAINERS
-index 8e18bbafa740,7cc2bfa4af6f..000000000000
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@@ -6700,6 -6663,35 +6700,12 @@@ S:	Maintaine
-  F:	Documentation/devicetree/bindings/display/panel/samsung,s6d27a1.yaml
-  F:	drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
- =20
-+ DRM DRIVER FOR SAMSUNG S6D7AA0 PANELS
-+ M:	Artur Weber <aweber.kernel@gmail.com>
-+ S:	Maintained
-+ F:	Documentation/devicetree/bindings/display/panel/samsung,s6d7aa0.yaml
-+ F:	drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+=20
- -DRM DRIVER FOR SITRONIX ST7703 PANELS
- -M:	Guido G=C3=BCnther <agx@sigxcpu.org>
- -R:	Purism Kernel Team <kernel@puri.sm>
- -R:	Ondrej Jirman <megous@megous.com>
- -S:	Maintained
- -F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.y=
-aml
- -F:	drivers/gpu/drm/panel/panel-sitronix-st7703.c
- -
- -DRM DRIVER FOR FIRMWARE FRAMEBUFFERS
- -M:	Thomas Zimmermann <tzimmermann@suse.de>
- -M:	Javier Martinez Canillas <javierm@redhat.com>
- -L:	dri-devel@lists.freedesktop.org
- -S:	Maintained
- -T:	git git://anongit.freedesktop.org/drm/drm-misc
- -F:	drivers/gpu/drm/drm_aperture.c
- -F:	drivers/gpu/drm/tiny/ofdrm.c
- -F:	drivers/gpu/drm/tiny/simpledrm.c
- -F:	drivers/video/aperture.c
- -F:	drivers/video/nomodeset.c
- -F:	include/drm/drm_aperture.h
- -F:	include/linux/aperture.h
- -F:	include/video/nomodeset.h
- -
-  DRM DRIVER FOR SITRONIX ST7586 PANELS
-  M:	David Lechner <david@lechnology.com>
-  S:	Maintained
+---
+Jessica Zhang (5):
+      msm/drm/dsi: Round up DSC hdisplay calculation
+      drm/msm/dsi: Adjust pclk rate for compression
+      drm/msm/dpu: Add DPU_INTF_DATA_COMPRESS feature flag for DPU >= 7.0
+      drm/msm/dpu: Set DATA_COMPRESS on command mode for DCE/DSC 1.2
+      drm/msm/dsi: Remove incorrect references to slice_count
 
---Sig_/VanIubOJiW/o7W59wYZSUZ=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  3 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 13 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  3 ++
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 | 49 +++++++++++++++-------
+ 6 files changed, 58 insertions(+), 15 deletions(-)
+---
+base-commit: 12a0bf73039bd760c5e78d08109882aa628cce8c
+change-id: 20230405-add-dsc-support-fe130ba49841
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmRsDCwACgkQAVBC80lX
-0GxlHwgAoqNefHg17EErrEPKdWYkBzpCztwGe7VJBOBwNT43gcHifK71DiEv10dL
-E0xKvMv3324zlcv6kCaj4dDuPUoQ7KoPVdD7zNNfKepJuFyXNVh1JGbX6fJnkRza
-R32DacwEkHG+ol+yK/2hJA8JjtY/Yz6JghiZBkRiAFj9bOjomDLTUiSz1Kkk+yLG
-mGUvy7o2KFsMISj40q/y5hAW9cyAg2riv7bUvD+Kdk6+HCIm4n2C08Gad1GheEJ4
-MWYFs6P8frtxZpMfmVh7YtuH3ZjPcOU6H0vipIvZWfqVbQ5wJqAJOIwS+SwaVbzJ
-XIv2eodeuJoZgZ5TEz2IIFQS0mpC0Q==
-=HmDe
------END PGP SIGNATURE-----
-
---Sig_/VanIubOJiW/o7W59wYZSUZ=--
