@@ -2,68 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCB070F365
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D2F70F368
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BAB10E5E5;
-	Wed, 24 May 2023 09:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A39910E63E;
+	Wed, 24 May 2023 09:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1D810E5E5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:48:37 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f611ccd08cso6069245e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684921715; x=1687513715;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p8l4VvjVr94dZvrHGrr+e0WzgjbnJVVHX2dBYB3myQU=;
- b=TI3rCsYo2SNzhf5zQfmZSRtYeNc8hUycL+Z4AvQVV8sW/Al2OnQLdnPrx/QxQlRSyJ
- /cgF15H0vt2fqgiB0apLuzvj1YjFtbQhdaFJGfQzrKotWJ0G897+K0O8zvDhF/9PNw81
- 4+J1wgyQQJJL1A5hafGylJaGRkNjkxfEvUYC3uX+ixSPK4F6JGqZV/97nUd/v0lrn5m2
- 5FGBqOiEGLxvO8K2QWxixuSdsmjo8FAYS97QvHlEpuniHFjtYLeHg2EsXUB988zpfkZ8
- OjYtzDOu89NghcIDpRFFdM4qS+iZEmlowN7Ei8I4Bb8G5aUWWa/PjTcBoEnUMLw7Nk7m
- hzHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684921715; x=1687513715;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p8l4VvjVr94dZvrHGrr+e0WzgjbnJVVHX2dBYB3myQU=;
- b=dfuKPgGaomzHIs5XiZ2BVkF+4D80j9XEoz2bjhn5MvHCLrUyATskTykIDfuOZVUeIu
- dSxJ/fswP1EfHIS265p3rjggxRqs0CGjWZqlN5js7+HrdOwtEA2PppYTygmgVLmRu7yy
- 4Scgkbh6doSpn7Nf45vbfcalVzYXZhoCKr4uyyt4QRTrG45QfUqsbVywjJ8RlXHWXWbd
- W6kwvgbY7EKKX6BujqlQEeamMsXBSEpQCJ7tghn9Y8J9ChIhCwKPIkxA2o5sySlZUe2E
- 9gWFHoewefkZX0JBdaTT1O7CFHo/TdThO6TF/Ef7IHKurA07WcGJGUiJvLEduvuPuQbV
- 9Axg==
-X-Gm-Message-State: AC+VfDyd6U3quxYxs+/NEQwnhdOVbHvadccOstnxItgdA2Yam7ykCEYD
- EBKONRhvEMEQLvobE9UmjyeI5A==
-X-Google-Smtp-Source: ACHHUZ4XMDdStQgKrff85NZEZKRFlVA8V9QFMCe0slXyyQJwfdTbHSQ4YIcgmdFK84dT03iLAg2KDA==
-X-Received: by 2002:a05:600c:2942:b0:3f4:2158:28a0 with SMTP id
- n2-20020a05600c294200b003f4215828a0mr12600097wmd.12.1684921714948; 
- Wed, 24 May 2023 02:48:34 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a5d53c2000000b002ffbf2213d4sm14031808wrw.75.2023.05.24.02.48.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 May 2023 02:48:34 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Artur Weber <aweber.kernel@gmail.com>
-In-Reply-To: <20230524084324.11840-1-aweber.kernel@gmail.com>
-References: <20230524084324.11840-1-aweber.kernel@gmail.com>
-Subject: Re: [PATCH v2] drm/panel: samsung-s6d7aa0: use pointer for
- drm_mode in panel desc struct
-Message-Id: <168492171413.2467334.7480313657663164313.b4-ty@linaro.org>
-Date: Wed, 24 May 2023 11:48:34 +0200
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 142F010E673
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:48:44 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7EF1C3F321;
+ Wed, 24 May 2023 11:48:39 +0200 (CEST)
+Date: Wed, 24 May 2023 11:48:37 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: drop SSPP register dumpers
+Message-ID: <bvjtgmuyz4zdjvt4jyjyt5hasiwnnaz4lyse6mf6b7grtig23f@yuji3z2mxue2>
+References: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
+ <300fc53c-2a58-714c-855a-08a0dbef3ed9@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <300fc53c-2a58-714c-855a-08a0dbef3ed9@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,31 +43,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernelci . org bot" <bot@kernelci.org>, Sam Ravnborg <sam@ravnborg.org>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tom Rix <trix@redhat.com>, thierry.reding@gmail.com,
- Nikita Travkin <nikita@trvn.ru>
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, 24 May 2023 10:43:24 +0200, Artur Weber wrote:
-> Fixes compilation issues with older GCC versions and Clang after
-> changes introduced in commit 6810bb390282 ("drm/panel: Add Samsung
-> S6D7AA0 panel controller driver"). Tested with GCC 13.1.1, GCC 6.4.0
-> and Clang 16.0.3.
+On 2023-05-23 13:01:13, Abhinav Kumar wrote:
 > 
-> Fixes the following errors with Clang:
 > 
-> [...]
+> On 5/21/2023 10:21 AM, Dmitry Baryshkov wrote:
+> > Drop SSPP-specifig debugfs register dumps in favour of using
+> > debugfs/dri/0/kms or devcoredump.
+> > 
+> 
+> I did see another series which removes src_blk from the catalog (I am 
+> yet to review that one) . Lets assume that one is fine and this change 
+> will be going on top of that one right?
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+It replaces src_blk with directly accessing the blk (non-sub-block)
+directly, because they were overlapping anyway.
 
-[1/1] drm/panel: samsung-s6d7aa0: use pointer for drm_mode in panel desc struct
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6a038f0183dd5d3e289f6c1fe6962de9b31f8fd2
+> The concern I have with this change is that although I do agree that we 
+> should be in favor of using debugfs/dri/0/kms ( i have used it a few 
+> times and it works pretty well ), devcoredump does not have the support 
+> to dump sub-blocks . Something which we should add with priority because 
+> even with DSC blocks with the separation of enc/ctl blocks we need that 
+> like I wrote in one of the responses.
+> 
+> So the "len" of the blocks having sub-blocks will be ignored in favor of 
+> the len of the sub-blocks.
 
--- 
-Neil
+The sub-blocks are not always contiguous with their parent block, are
+they?  It's probably better to print the sub-blocks separately with
+clear headers anyway rather than dumping the range parent_blk_base to
+max(parent_blk_base+len, parent_blk_base+sblk_base+sblk_len...).
 
+- Marijn
+
+> If we remove this without adding that support first, its a loss of debug 
+> functionality.
+> 
+> Can we retain these blocks and remove dpu_debugfs_create_regset32 in a 
+> different way?
+
+<snip>
