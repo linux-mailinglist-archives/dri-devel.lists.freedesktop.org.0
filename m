@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C366470F46B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 12:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8812270F46C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 12:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56AE10E655;
-	Wed, 24 May 2023 10:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9AE910E64F;
+	Wed, 24 May 2023 10:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8439B10E655;
- Wed, 24 May 2023 10:41:04 +0000 (UTC)
-X-UUID: 319a4933efcb48debdac32218feb0ddf-20230524
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:2b106396-7ad2-4e47-b070-7eac482c0e0b, IP:15,
- URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-INFO: VERSION:1.1.22, REQID:2b106396-7ad2-4e47-b070-7eac482c0e0b, IP:15,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:0
-X-CID-META: VersionHash:120426c, CLOUDID:63ebe3c1-e32c-4c97-918d-fbb3fc224d4e,
- B
- ulkID:230524184057H6SO669B,BulkQuantity:0,Recheck:0,SF:17|19|44|24|102,TC:
- nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
- I:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 319a4933efcb48debdac32218feb0ddf-20230524
-X-User: pengfuyuan@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
- (envelope-from <pengfuyuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 763305722; Wed, 24 May 2023 18:40:54 +0800
-From: pengfuyuan <pengfuyuan@kylinos.cn>
-To: David Airlie <airlied@gmail.com>
-Subject: [PATCH] drm/i915/pxp:fix kernel-doc trivial warnings
-Date: Wed, 24 May 2023 18:40:52 +0800
-Message-Id: <20230524104052.1488836-1-pengfuyuan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 145B910E64F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:41:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E3CBC1F749;
+ Wed, 24 May 2023 10:41:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684924887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/xSQAT4QTiQs4PNuO6fpSc11L/Nm58fwM+vgXeONQLg=;
+ b=QPFIyFEeoOABub5S7Gs03xNJA9cBSzdIN1b8ZuJm5swtflWcz/Frfv1Opo54W53eqCJSGE
+ Y3R0F33HDQ3g9loLJ9kFQsWRi1Am2eXkqS18EcZGe5oIjTemvTp72jrogRMc5iOrBYq5DH
+ ctLQjv93o/EwKV05RyBhZUecEspG1lM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684924887;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/xSQAT4QTiQs4PNuO6fpSc11L/Nm58fwM+vgXeONQLg=;
+ b=3/BLZbSxz63RCYQJJFBFhaace/mH69EhkWabcB70O3CSUgO/bvG1RK5UG+4nsRzfkwnSef
+ 1QOc5VEpnWMkOdBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C62AE133E6;
+ Wed, 24 May 2023 10:41:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Mz9aL9fpbWRzKgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 10:41:27 +0000
+Message-ID: <ec2dd80d-26dc-a35d-df15-386d3e5daf70@suse.de>
+Date: Wed, 24 May 2023 12:41:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/ast: Fix long time waiting on s3/s4 resume
+Content-Language: en-US
+To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com
+References: <20230414074204.5787-1-jammy_huang@aspeedtech.com>
+ <9d98962c-a508-e6ff-00cf-7c1927cce1da@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <9d98962c-a508-e6ff-00cf-7c1927cce1da@aspeedtech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------lPcB0nxX7IrNiPBP0j0VTSRz"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,44 +70,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org,
- Alexander Usyskin <alexander.usyskin@intel.com>, linux-kernel@vger.kernel.org,
- pengfuyuan <pengfuyuan@kylinos.cn>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- k2ci <kernel-bot@kylinos.cn>, Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The test robot reports some make warnings.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------lPcB0nxX7IrNiPBP0j0VTSRz
+Content-Type: multipart/mixed; boundary="------------Lz0PHwaqSTTYHrnut0iymBOV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <ec2dd80d-26dc-a35d-df15-386d3e5daf70@suse.de>
+Subject: Re: [PATCH v2] drm/ast: Fix long time waiting on s3/s4 resume
+References: <20230414074204.5787-1-jammy_huang@aspeedtech.com>
+ <9d98962c-a508-e6ff-00cf-7c1927cce1da@aspeedtech.com>
+In-Reply-To: <9d98962c-a508-e6ff-00cf-7c1927cce1da@aspeedtech.com>
 
-Fix those warnings:
-    drivers/gpu/drm/i915/pxp/intel_pxp_types.h:96: warning: Function parameter or member 'dev_link' not described in 'intel_pxp'
+--------------Lz0PHwaqSTTYHrnut0iymBOV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reported-by: k2ci <kernel-bot@kylinos.cn>
-Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
----
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+SGksDQoNCnNvcnJ5IHRoYXQgdGhpcyB0b29rIHNvIGxvbmcuDQoNCkFtIDI0LjA1LjIzIHVt
+IDA0OjM0IHNjaHJpZWIgSmFtbXkgSHVhbmc6DQo+IEhpIFRob21hcywNCj4gDQo+IENvdWxk
+IHlvdSBoZWxwIHJldmlldyB0aGlzIHBhdGNoPw0KPiANCj4gVGhpcyBpcyBhbiBpc3N1ZSBs
+ZWFkaW5nIHRvIGtlcm5lbCBwYW5pYyBmb3VuZCBieSBJbnRlbC4gV2VuZHkgaGFzIA0KPiBj
+b25maXJtZWQgaXNzdWUgcmVzb2x2ZWQgYnkgdGhpcyBwYXRjaC4NCj4gDQo+IE9uIDIwMjMv
+NC8xNCDkuIvljYggMDM6NDIsIEphbW15IEh1YW5nIHdyb3RlOg0KPj4gSW4gcmVzdW1lLCBE
+UCdzIGxhdW5jaCBmdW5jdGlvbiwgYXN0X2RwX2xhdW5jaCwgY291bGQgd2FpdCBhdCBtb3N0
+IDMwDQo+PiBzZWNvbmRzIGJlZm9yZSB0aW1lb3V0IHRvIGNoZWNrIGlmIERQIGlzIGVuYWJs
+ZWQuDQo+Pg0KPj4gVG8gYXZvaWQgdGhpcyBwcm9ibGVtLCB3ZSBvbmx5IGNoZWNrIGlmIERQ
+IGVuYWJsZSBvciBub3QgYXQgZHJpdmVyIHByb2JlLg0KPj4NCg0KWW91IHNob3VsZCBzYXkg
+d2hhdCB0aGUgcHJvYmxlbSBpcy4gSGFzIHRoZSBEUCBhbHdheXMgYmVlbiBkaXNhYmxlZD8g
+SXMgDQp0aGUgRFAgb25seSBkaXNhYmxlZCBhZnRlciByZXN1bWU/IE9yIGlzIGl0IGEgZmly
+bXdhcmUgYnVnPw0KDQpJZiB5b3UgaGF2ZSB0aGUgbmFtZS9lbWFpbCBvZiAid2VuZHkud2Fu
+ZyIsIHlvdSBzaG91bGQgcHJvYmFibHkgbWVudGlvbiANCmhlciBpbiBhIFJlcG9ydGVkLWJ5
+IHRhZyBoZXJlLg0KDQo+PiBMaW5rOiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hv
+d19idWcuY2dpP2lkPTIxNzI3OA0KDQpUaGlzIHNob3VsZCBiZQ0KDQpDbG9zZXM6IGh0dHBz
+Oi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MjE3Mjc4DQoNCj4+IFNp
+Z25lZC1vZmYtYnk6IEphbW15IEh1YW5nIDxqYW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4N
+Cg0KV2l0aCB0aGVzZSBjaGFuZ2VzIGNvbnNpZGVyZWQsIGZlZWwgZnJlZSB0byBhZGQNCg0K
+QWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpC
+dXQgSSBjYW5ub3QgdGVzdCB0aGUgcGF0Y2ggb3IgZXZlbiB2ZXJpZnkgdGhlIGJ1Z2ZpeC4N
+Cg0KSSBkbyBoYXZlIGNvbW1lbnRzIGJlbG93IHRoYXQgeW91IG1pZ2h0IHdhbnQgdG8gY29u
+c2lkZXIgYXMgd2VsbC4NCg0KPj4gLS0tDQo+PiDCoCB2MiBjaGFuZ2VzOg0KPj4gwqDCoCAt
+IEZpeCBidWlsZCBlcnJvci4NCj4+IC0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfZHAuY8KgwqAgfCA1NSArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaMKgIHzCoCAyICstDQo+PiDCoCBk
+cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMgfCAxMSArKysrKy0tDQo+PiDCoCBkcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMgfMKgIDMgKy0NCj4+IMKgIDQgZmlsZXMgY2hh
+bmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgNDIgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+YXN0L2FzdF9kcC5jDQo+PiBpbmRleCA1NjQ4Mzg2MDMwNmIuLmVlZTJmMjY0Yzg4MCAxMDA2
+NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMNCj4+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMNCj4+IEBAIC0xMTksNTMgKzExOSwzMiBAQCBp
+bnQgYXN0X2FzdGRwX3JlYWRfZWRpZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCANCj4+IHU4
+ICplZGlkZGF0YSkNCj4+IMKgIC8qDQo+PiDCoMKgICogTGF1bmNoIEFzcGVlZCBEUA0KPj4g
+wqDCoCAqLw0KPj4gLXZvaWQgYXN0X2RwX2xhdW5jaChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LCB1OCBiUG93ZXIpDQo+PiArdm9pZCBhc3RfZHBfbGF1bmNoKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYpDQo+PiDCoCB7DQo+PiAtwqDCoMKgIHUzMiBpID0gMCwgaiA9IDAsIFdhaXRDb3Vu
+dCA9IDE7DQo+PiAtwqDCoMKgIHU4IGJEUFRYID0gMDsNCj4+ICvCoMKgwqAgdTMyIGkgPSAw
+Ow0KPj4gwqDCoMKgwqDCoCB1OCBiRFBFeGVjdXRlID0gMTsNCj4+IC0NCj4+IMKgwqDCoMKg
+wqAgc3RydWN0IGFzdF9wcml2YXRlICphc3QgPSB0b19hc3RfcHJpdmF0ZShkZXYpOw0KPj4g
+LcKgwqDCoCAvLyBTMyBjb21lIGJhY2ssIG5lZWQgbW9yZSB0aW1lIHRvIHdhaXQgQk1DIHJl
+YWR5Lg0KPj4gLcKgwqDCoCBpZiAoYlBvd2VyKQ0KPj4gLcKgwqDCoMKgwqDCoMKgIFdhaXRD
+b3VudCA9IDMwMDsNCj4+IC0NCj4+IC0NCj4+IC3CoMKgwqAgLy8gV2FpdCB0b3RhbCBjb3Vu
+dCBieSBkaWZmZXJlbnQgY29uZGl0aW9uLg0KPj4gLcKgwqDCoCBmb3IgKGogPSAwOyBqIDwg
+V2FpdENvdW50OyBqKyspIHsNCj4+IC3CoMKgwqDCoMKgwqDCoCBiRFBUWCA9IGFzdF9nZXRf
+aW5kZXhfcmVnX21hc2soYXN0LCBBU1RfSU9fQ1JUQ19QT1JULCAweEQxLCANCj4+IFRYX1RZ
+UEVfTUFTSyk7DQo+PiAtDQo+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKGJEUFRYKQ0KPj4gLcKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+PiArwqDCoMKgIC8vIFdhaXQgb25lIHNl
+Y29uZCB0aGVuIHRpbWVvdXQuDQo+PiArwqDCoMKgIHdoaWxlIChhc3RfZ2V0X2luZGV4X3Jl
+Z19tYXNrKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhEMSwgDQo+PiBDT1BST0NFU1NPUl9M
+QVVOQ0gpICE9DQo+PiArwqDCoMKgwqDCoMKgwqAgQ09QUk9DRVNTT1JfTEFVTkNIKSB7DQo+
+PiArwqDCoMKgwqDCoMKgwqAgaSsrOw0KPj4gK8KgwqDCoMKgwqDCoMKgIC8vIHdhaXQgMTAw
+IG1zDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgbXNsZWVwKDEwMCk7DQo+PiAtwqDCoMKgIH0N
+Cj4+IC3CoMKgwqAgLy8gMHhFIDogQVNURFAgd2l0aCBEUE1DVSBGVyBoYW5kbGluZw0KPj4g
+LcKgwqDCoCBpZiAoYkRQVFggPT0gQVNURFBfRFBNQ1VfVFgpIHsNCj4+IC3CoMKgwqDCoMKg
+wqDCoCAvLyBXYWl0IG9uZSBzZWNvbmQgdGhlbiB0aW1lb3V0Lg0KPj4gLcKgwqDCoMKgwqDC
+oMKgIGkgPSAwOw0KPj4gLQ0KPj4gLcKgwqDCoMKgwqDCoMKgIHdoaWxlIChhc3RfZ2V0X2lu
+ZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhEMSwgDQo+PiBDT1BST0NF
+U1NPUl9MQVVOQ0gpICE9DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBDT1BST0NFU1NP
+Ul9MQVVOQ0gpIHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGkrKzsNCj4+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIC8vIHdhaXQgMTAwIG1zDQo+PiAtwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBtc2xlZXAoMTAwKTsNCj4+IC0NCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGlmIChpID49IDEwKSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8v
+IERQIHdvdWxkIG5vdCBiZSByZWFkeS4NCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgYkRQRXhlY3V0ZSA9IDA7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGJyZWFrOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gK8KgwqDCoMKg
+wqDCoMKgIGlmIChpID49IDEwKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBE
+UCB3b3VsZCBub3QgYmUgcmVhZHkuDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiRFBF
+eGVjdXRlID0gMDsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOw0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIH0NCj4+ICvCoMKgwqAgfQ0KPj4gLcKgwqDCoMKgwqDCoMKgIGlm
+IChiRFBFeGVjdXRlKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN0LT50eF9jaGlw
+X3R5cGVzIHw9IEJJVChBU1RfVFhfQVNURFApOw0KPj4gK8KgwqDCoCBpZiAoIWJEUEV4ZWN1
+dGUpDQo+PiArwqDCoMKgwqDCoMKgwqAgZHJtX2VycihkZXYsICJXYWl0IERQTUNVIGV4ZWN1
+dGluZyB0aW1lb3V0XG4iKTsNCg0KSWYgd2FpdGluZyBmYWlscywgc2hvdWxkIHRoZSBmdW5j
+dGlvbiByZXR1cm4gYW4gZXJyb3I/IFRoZSBjYWxsZXIgY291bGQgDQp0aGVuIGRpc2FibGUg
+dGhlIERQIGZ1bmN0aW9uYWxpdHkuDQoNCj4+IC3CoMKgwqDCoMKgwqDCoCBhc3Rfc2V0X2lu
+ZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhFNSwNCj4+IC3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKHU4KSB+
+QVNURFBfSE9TVF9FRElEX1JFQURfRE9ORV9NQVNLLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBU1REUF9IT1NUX0VESURf
+UkVBRF9ET05FKTsNCj4+IC3CoMKgwqAgfQ0KPj4gK8KgwqDCoCBhc3Rfc2V0X2luZGV4X3Jl
+Z19tYXNrKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhFNSwNCj4+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKHU4KSB+QVNURFBfSE9TVF9FRElEX1JFQURfRE9O
+RV9NQVNLLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBU1RE
+UF9IT1NUX0VESURfUkVBRF9ET05FKTsNCj4+IMKgIH0NCj4+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfZHJ2LmgNCj4+IGluZGV4IGQ1MWI4MWZlYTljOC4uMTVlODYzOTRiZTRmIDEwMDY0NA0K
+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmgNCj4+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oDQo+PiBAQCAtNDk4LDcgKzQ5OCw3IEBAIHN0cnVj
+dCBhc3RfaTJjX2NoYW4gKmFzdF9pMmNfY3JlYXRlKHN0cnVjdCANCj4+IGRybV9kZXZpY2Ug
+KmRldik7DQo+PiDCoCAvKiBhc3BlZWQgRFAgKi8NCj4+IMKgIGludCBhc3RfYXN0ZHBfcmVh
+ZF9lZGlkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHU4ICplZGlkZGF0YSk7DQo+PiAtdm9p
+ZCBhc3RfZHBfbGF1bmNoKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHU4IGJQb3dlcik7DQo+
+PiArdm9pZCBhc3RfZHBfbGF1bmNoKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOw0KPj4gwqAg
+dm9pZCBhc3RfZHBfcG93ZXJfb25fb2ZmKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGJvb2wg
+bm8pOw0KPj4gwqAgdm9pZCBhc3RfZHBfc2V0X29uX29mZihzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCBib29sIG5vKTsNCj4+IMKgIHZvaWQgYXN0X2RwX3NldF9tb2RlKHN0cnVjdCBkcm1f
+Y3J0YyAqY3J0Yywgc3RydWN0IA0KPj4gYXN0X3ZiaW9zX21vZGVfaW5mbyAqdmJpb3NfbW9k
+ZSk7DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIA0K
+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMNCj4+IGluZGV4IGY4M2NlNzcx
+MjdjYi4uOGVjZGRmMjAxMTNmIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfbWFpbi5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMN
+Cj4+IEBAIC0yNTQsOCArMjU0LDEzIEBAIHN0YXRpYyBpbnQgYXN0X2RldGVjdF9jaGlwKHN0
+cnVjdCBkcm1fZGV2aWNlIA0KPj4gKmRldiwgYm9vbCAqbmVlZF9wb3N0KQ0KPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgIGNhc2UgMHgwYzoNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGFzdC0+dHhfY2hpcF90eXBlcyA9IEFTVF9UWF9EUDUwMV9CSVQ7DQo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqAgfQ0KPj4gLcKgwqDCoCB9IGVsc2UgaWYgKGFzdC0+Y2hpcCA9PSBBU1QyNjAw
+KQ0KPj4gLcKgwqDCoMKgwqDCoMKgIGFzdF9kcF9sYXVuY2goJmFzdC0+YmFzZSwgMCk7DQo+
+PiArwqDCoMKgIH0gZWxzZSBpZiAoYXN0LT5jaGlwID09IEFTVDI2MDApIHsNCj4+ICvCoMKg
+wqDCoMKgwqDCoCBpZiAoYXN0X2dldF9pbmRleF9yZWdfbWFzayhhc3QsIEFTVF9JT19DUlRD
+X1BPUlQsIDB4RDEsIA0KPj4gVFhfVFlQRV9NQVNLKSA9PQ0KPj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgQVNURFBfRFBNQ1VfVFgpIHsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGFzdC0+dHhfY2hpcF90eXBlcyA9IEFTVF9UWF9BU1REUF9CSVQ7DQo+PiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBhc3RfZHBfbGF1bmNoKCZhc3QtPmJhc2UpOw0KDQpIZXJlLCBpZiBh
+c3RfZHBfbGF1bmNoKCkgd291bGQgcmV0dXJuIGFuIGVycm9yLCB3ZSB3b3VsZCBub3Qgc2V0
+IHRoZSANCmNoaXAgdHlwZS4gVGhlIGRyaXZlciB3b3VsZCB0aGVuIGRpc2FibGUgZnVydGhl
+ciBzdXBwb3J0LiBUaGF0IGFwcGVhcnMgDQp0byBiZSBwcmVmZXJhYmxlIHRvIG1lLiAoPykN
+Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPj4gK8KgwqDCoMKgwqDCoMKgIH0NCj4+ICvC
+oMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCAvKiBQcmludCBzdHVmZiBmb3IgZGlhZ25vc3RpYyBw
+dXJwb3NlcyAqLw0KPj4gwqDCoMKgwqDCoCBpZiAoYXN0LT50eF9jaGlwX3R5cGVzICYgQVNU
+X1RYX05PTkVfQklUKQ0KPj4gQEAgLTI2NCw2ICsyNjksOCBAQCBzdGF0aWMgaW50IGFzdF9k
+ZXRlY3RfY2hpcChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCANCj4+IGJvb2wgKm5lZWRfcG9z
+dCkNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1faW5mbyhkZXYsICJVc2luZyBTaWwxNjQg
+VE1EUyB0cmFuc21pdHRlclxuIik7DQo+PiDCoMKgwqDCoMKgIGlmIChhc3QtPnR4X2NoaXBf
+dHlwZXMgJiBBU1RfVFhfRFA1MDFfQklUKQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9p
+bmZvKGRldiwgIlVzaW5nIERQNTAxIERpc3BsYXlQb3J0IHRyYW5zbWl0dGVyXG4iKTsNCj4+
+ICvCoMKgwqAgaWYgKGFzdC0+dHhfY2hpcF90eXBlcyAmIEFTVF9UWF9BU1REUF9CSVQpDQo+
+PiArwqDCoMKgwqDCoMKgwqAgZHJtX2luZm8oZGV2LCAiVXNpbmcgQVNQRUVEIERpc3BsYXlQ
+b3J0IHRyYW5zbWl0dGVyXG4iKTsNCj4+IMKgwqDCoMKgwqAgcmV0dXJuIDA7DQo+PiDCoCB9
+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcG9zdC5jIA0KPj4g
+Yi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMNCj4+IGluZGV4IDgyZmQzYzhhZGVl
+MS4uOTBlNDBmNTlhZmY3IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfcG9zdC5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMNCj4+
+IEBAIC0zODAsNyArMzgwLDggQEAgdm9pZCBhc3RfcG9zdF9ncHUoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldikNCj4+IMKgwqDCoMKgwqAgYXN0X3NldF9kZWZfZXh0X3JlZyhkZXYpOw0KPj4g
+wqDCoMKgwqDCoCBpZiAoYXN0LT5jaGlwID09IEFTVDI2MDApIHsNCj4+IC3CoMKgwqDCoMKg
+wqDCoCBhc3RfZHBfbGF1bmNoKGRldiwgMSk7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKGFz
+dC0+dHhfY2hpcF90eXBlcyAmIEFTVF9UWF9BU1REUF9CSVQpDQo+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBhc3RfZHBfbGF1bmNoKGRldik7DQo+PiDCoMKgwqDCoMKgIH0gZWxzZSBp
+ZiAoYXN0LT5jb25maWdfbW9kZSA9PSBhc3RfdXNlX3AyYSkgew0KPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgIGlmIChhc3QtPmNoaXAgPT0gQVNUMjUwMCkNCj4+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGFzdF9wb3N0X2NoaXBfMjUwMChkZXYpOw0KPj4NCj4+IGJhc2UtY29tbWl0
+OiBlNjIyNTJiYzU1YjZkNGVkZGM2YzJiZGJmOTVhNDQ4MTgwZDZhMDhkDQo+IA0KDQotLSAN
+ClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNv
+ZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0
+NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFu
+ZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVy
+ZykNCg==
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-index 007de49e1ea4..41994a3294a0 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-@@ -33,7 +33,7 @@ struct intel_pxp {
- 	 */
- 	struct i915_pxp_component *pxp_component;
- 
--	/* @dev_link: Enforce module relationship for power management ordering. */
-+	/** @dev_link: Enforce module relationship for power management ordering. */
- 	struct device_link *dev_link;
- 	/**
- 	 * @pxp_component_added: track if the pxp component has been added.
--- 
-2.25.1
+--------------Lz0PHwaqSTTYHrnut0iymBOV--
 
+--------------lPcB0nxX7IrNiPBP0j0VTSRz
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRt6dcFAwAAAAAACgkQlh/E3EQov+Br
+9BAAnYgItV6Xof8X67gBp9KVJotxOaXHhY3IZGU10xAoJdHTNXaKeEVzrY9x9Sim2j2D+cKZ3jPN
+TjhSe0BwaYUsa3mpUn+P15ggRWX4qASRWzIGt6c6g7Rx71nUIXdz0cY8S6WN3opsiTdBp/bFcyqu
+0JyjIyriy1SkEAPmYlLx7BrtU++/GsCstS+xD5hcx8uAX4Mm1EjPoUm0InT3TQ+3ldb5pIU6yWPO
+h0aXTdVMlsBEUzlrq7hDKshw7gGpOxKOg7i+ZNgFchANj8pSWYa9Bie3CHmWjJSjVAHB9aosDNE1
+dHJ/63sUK+pVWNUnJD2A0ks+ugnnakaqgPU57DAQmWP5LJm6STr4QhpFfgJ7B8I+CSsPbl8m8neM
+vmILi8xo9v5GsjD1lHzmwUiuU/Wf4ffhkmJtEK/9ZTRUvQ2O655NnlEx/vptwsMQuy0uyU6MVu5c
+lZMfyvOqNBTbRxmAlmr/iIMgw4sEgGna7o8b2bP2pVBpbn6Rcr/5iDJ0lVaySgOPogZ/k+xhGpNe
+FyoQ+708WMivKNNJe0qWdaDR7cTDgsDaih/ihR1tkgH6XrR5zKpk07Qnil9KLovCRVuGh3yLnJjY
+zfB+gIL7LpT2B494gr4CDpXRM1r7g2jO/n1r2jMKuDJNW39LAgCzPWwy2t8raK5UfiaJiCArmQ19
+1IU=
+=LloW
+-----END PGP SIGNATURE-----
+
+--------------lPcB0nxX7IrNiPBP0j0VTSRz--
