@@ -1,55 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CF670EFFD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:55:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A427170F025
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:06:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB88E10E588;
-	Wed, 24 May 2023 07:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2C0710E599;
+	Wed, 24 May 2023 08:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FDFF10E588
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:55:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C1A16639C8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:55:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E5CDC433D2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:55:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684914935;
- bh=Fmp4C46RnoFnzsysyTmcORroUtVwz2rT+uk98HiKthk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=WClREo/dBoEMcVFof87Xw2pKvmuvURkyexcrQ9p6Emn/4w9yK36KuI6kRQxQ11s7f
- EPoULckUNdMsQIOzo9gIPa0wVpToqlULFMafGiMFF1xvoUnmmBAU3Zicr+Nzr3Cmf4
- KReKJs3x+oo1v2laz4SBlPG1ZDEv/6ED30MW/0FyY/Exwi5mEISD2JwRA83zbqd8ii
- f55SZRNbqw5pfo8s7XvoEuOVE5bs5/QxaYifmvx3PU3jRQ+TBLzF9GYHYa8PfOi+n9
- M4AT8GFG5jIAWkBzhODSvunbLZJqV2XcBBchgRGDKZFvi98qb/RsM07fdbitcs/WKw
- s9NeIjaEjpvyg==
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-ba81f71dfefso1009579276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 00:55:35 -0700 (PDT)
-X-Gm-Message-State: AC+VfDwpF1NMwudKrrSeMFh6ahOGMyasH5ZdPUF8X8VUCJgw4NV4Z476
- IWcA2qP0URAN8JVgAlNP+H7+jteeFzmDTc4syfA=
-X-Google-Smtp-Source: ACHHUZ5Y/YCGnMhF1lseullBPZCkdu8TYqbyB3GII2bx5eiis46HFlv03jO/witTYORXqy2qvej8anVQD8HxMlPIfaI=
-X-Received: by 2002:a0d:d74a:0:b0:55a:14df:5c10 with SMTP id
- z71-20020a0dd74a000000b0055a14df5c10mr19987889ywd.18.1684914934228; Wed, 24
- May 2023 00:55:34 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9259810E58F
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:06:07 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-4f3ba703b67so524429e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 01:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684915565; x=1687507565;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2di5F/Fsbly9FAD3Arcq2hIOC6OgudTqnppopyN/4nE=;
+ b=RSELJiQWTCvR5j8lZExyFCzoraNky4ZAabOHgGlH7yl/0Quby/lt2SDe6fTx3XbWAj
+ 0XWa/vf1m8zEvRtZMM6rAZl2rRfVrXpvpynlU3epuM9Rs74RN5+L4X2pQT2jQD2CEo+G
+ 4HLLTRWH4qDXGZoB9uRcOt7OVaTpTG2ilLXAY7SoNpVdiK6ilWc0uPg0mrD+NXT9P66S
+ T9A6JhgwUdZRbQi/fz9keYqnWpHWf//oOKVSeeKc+wHMRjUnD8taHhKov93BzWxjiW02
+ jYS0rmR920K+h2BVdf0nrgoicMfE+eSbL5IQDE+9g/bCyJzrwH0e4p5eQpm5b1jRQw1w
+ cKTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684915565; x=1687507565;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2di5F/Fsbly9FAD3Arcq2hIOC6OgudTqnppopyN/4nE=;
+ b=EJg7zlcUKqJOI4szv2fC8fUBaE6JcKbagZDJdAcXGG5Zg/ZQsWw2N2AnJ1HMd9VY34
+ WRWryPRHojM5/5NHkF4uQXhVcYTXwobp+wyV5QfntyY1epGQQHY6Oo9wvci9Ywnp4F3i
+ NQPA7Do/QEBcrgl1tF4JSM6rZXFgPAE89qd2UOdeWdmQndpEtALKKkkobpuj17HzOk4z
+ CEDMUlpPxSlWUCxF8uMLpdxRPWE+kDZJTxVu3IMMaNSqqbggGFANlej6xKNi7ytvg82O
+ Jq6V02j7mGTu5mT+4QQCWdpXSfzBAy9FCTo+SsdyIPC9jc697q3F2TfJ7LUntu+nHSKf
+ +PQg==
+X-Gm-Message-State: AC+VfDxbVZtz6sYbq9pFC3PlSzQj5WjQBAWuG97bYEnTr7WZflYap49g
+ zCMVY0N/vFoEUGDD29n3yQDUSQ==
+X-Google-Smtp-Source: ACHHUZ6kVNyrtxkIjgkKymdHMZFb01K61ZNMGKdJOPA3oiVKK8AHjyd/9kt+dgwnEGIzjiA1+U7fLQ==
+X-Received: by 2002:ac2:4c9a:0:b0:4f1:4602:fb63 with SMTP id
+ d26-20020ac24c9a000000b004f14602fb63mr5205614lfl.41.1684915565311; 
+ Wed, 24 May 2023 01:06:05 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ 19-20020ac24853000000b004f3b4d17114sm1647259lfy.144.2023.05.24.01.06.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 May 2023 01:06:04 -0700 (PDT)
+Message-ID: <4f2556e2-52ab-eb1d-b388-52546044f460@linaro.org>
+Date: Wed, 24 May 2023 11:06:03 +0300
 MIME-Version: 1.0
-References: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
-In-Reply-To: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Wed, 24 May 2023 10:55:08 +0300
-X-Gmail-Original-Message-ID: <CAFCwf11x5xJmCsX_hXeHC3Vhjd2-JMRJJWNbdO4_p_3CsUbSmQ@mail.gmail.com>
-Message-ID: <CAFCwf11x5xJmCsX_hXeHC3Vhjd2-JMRJJWNbdO4_p_3CsUbSmQ@mail.gmail.com>
-Subject: Re: [PATCH 0/5] accel/ivpu: Add debugfs support
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/msm/dp: add module parameter for PSR
+Content-Language: en-GB
+To: Johan Hovold <johan@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Douglas Anderson <dianders@chromium.org>
+References: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
+ <053819bd-b3c4-a72c-9316-85d974082ad6@linaro.org>
+ <ZGzalLjTvUfzEADU@hovoldconsulting.com>
+ <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
+ <ZG216qoxK9hQ-kQs@hovoldconsulting.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <ZG216qoxK9hQ-kQs@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +82,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ linux-arm-msm@vger.kernel.org, quic_jesszhan@quicinc.com,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 24, 2023 at 10:49=E2=80=AFAM Stanislaw Gruszka
-<stanislaw.gruszka@linux.intel.com> wrote:
->
-> Add debugfs support for ivpu driver, most importantly firmware loging
-> and tracing.
-Hi,
-Without looking at the code I have 2 comments/questions:
+On 24/05/2023 09:59, Johan Hovold wrote:
+> On Tue, May 23, 2023 at 12:23:04PM -0700, Abhinav Kumar wrote:
+>> On 5/23/2023 8:24 AM, Johan Hovold wrote:
+>>> On Fri, May 12, 2023 at 09:13:04PM +0300, Dmitry Baryshkov wrote:
+>>>> On 28/04/2023 02:28, Abhinav Kumar wrote:
+>>>>> On sc7280 where eDP is the primary display, PSR is causing
+>>>>> IGT breakage even for basic test cases like kms_atomic and
+>>>>> kms_atomic_transition. Most often the issue starts with below
+>>>>> stack so providing that as reference
+>>>>>
+>>>>> Call trace:
+> 
+>>>>> ---[ end trace 0000000000000000 ]---
+>>>>> [drm-dp] dp_ctrl_push_idle: PUSH_IDLE pattern timedout
+>>>>>
+>>>>> Other basic use-cases still seem to work fine hence add a
+>>>>> a module parameter to allow toggling psr enable/disable till
+>>>>> PSR related issues are hashed out with IGT.
+>>>>
+>>>> For the reference: Bjorn reported that he has issues with VT on a
+>>>> PSR-enabled laptops. This patch fixes the issue for him
+>>>
+>>> Module parameters are almost never warranted, and it is definitely not
+>>> the right way to handle a broken implementation.
+>>>
+>>> I've just sent a revert that unconditionally disables PSR support until
+>>> the implementation has been fixed:
+>>>
+>>> 	https://lore.kernel.org/lkml/20230523151646.28366-1-johan+linaro@kernel.org/
+>>
+>> I dont completely agree with this. Even the virtual terminal case was
+>> reported to be fixed by one user but not the other. So it was probably
+>> something missed out either in validation or reproduction steps of the
+>> user who reported it to be fixed OR the user who reported it not fixed.
+>> That needs to be investigated now.
+> 
+> Yes, there may still be some time left to fix it, but it's pretty damn
+> annoying to find that an issue reported two months ago still is not
+> fixed at 6.4-rc3. (I even waited to make the switch to 6.4 so that I
+> would not have to spend time on this.)
+> 
+> I didn't see any mail from Bjorn saying that the series that claimed to
+> fix the VT issue actually did fix the VT issue. There's only the comment
+> above from Dmitry suggesting that disabling this feature is the only way
+> to get a working terminal back.
 
-1. Please add an ABI documentation in Documentation/ABI/testing/ or
-Documentation/ABI/stable (if you are feeling courageous). You can see
-for example habana's file at
-Documentation/ABI/testing/debugfs-driver-habanalabs
+Originally this issue was reported by Doug, and at [1] he reported that 
+an issue is fixed for him. So, for me it looks like we have hardware 
+where VT works and hardware where it doesn't.
 
-2. Is this synced with Christian's upcoming changes to the debugfs
-infra in drm ? If not, I might suggest to sync with that and wait
-until those patches are merged because they change the layout of
-debugfs nodes.
+Doug, can you please confirm whether you can reproduce the PSR+VT issue 
+on 6.4-rc (without extra patches) or if the issue is fixed for you?
 
-Oded
+[1] 
+https://lore.kernel.org/dri-devel/CAD=FV=VSHmQPtsQfWjviEZeErms-VEOTmfozejASUC9zsMjAbA@mail.gmail.com/
 
->
-> Andrzej Kacprowski (1):
->   accel/ivpu: Print firmware name and version
->
-> Krystian Pradzynski (1):
->   accel/ivpu: Add fw_name file to debugfs
->
-> Stanislaw Gruszka (3):
->   accel/ivpu: Initial debugfs support
->   accel/ivpu: Add firmware tracing support
->   accel/ivpu: Add debugfs files for testing device reset
->
->  drivers/accel/ivpu/Makefile       |   4 +-
->  drivers/accel/ivpu/ivpu_debugfs.c | 294 ++++++++++++++++++++++++++++++
->  drivers/accel/ivpu/ivpu_debugfs.h |  13 ++
->  drivers/accel/ivpu/ivpu_drv.c     |   5 +
->  drivers/accel/ivpu/ivpu_fw.c      |  68 ++++++-
->  drivers/accel/ivpu/ivpu_fw.h      |   4 +
->  drivers/accel/ivpu/ivpu_fw_log.c  | 142 +++++++++++++++
->  drivers/accel/ivpu/ivpu_fw_log.h  |  38 ++++
->  drivers/accel/ivpu/ivpu_pm.c      |   1 +
->  drivers/accel/ivpu/ivpu_pm.h      |   1 +
->  10 files changed, 563 insertions(+), 7 deletions(-)
->  create mode 100644 drivers/accel/ivpu/ivpu_debugfs.c
->  create mode 100644 drivers/accel/ivpu/ivpu_debugfs.h
->  create mode 100644 drivers/accel/ivpu/ivpu_fw_log.c
->  create mode 100644 drivers/accel/ivpu/ivpu_fw_log.h
->
-> --
-> 2.25.1
->
+> 
+> Regressions happen and sometimes there are corner cases that are harder
+> to find, but this is a breakage of a fundamental feature that was
+> reported before the code was even merged into mainline.
+> 
+>> We should have ideally gone with the modparam with the feature patches
+>> itself knowing that it gets enabled for all sinks if PSR is supported.
+> 
+> Modparams are things of the past should not be used to enable broken
+> features so that some vendor can tick of their internal lists of
+> features that have been "mainlined".
+
+We have had a history of using modparam with i915 and IIRC amdgpu / 
+radeon drivers to allow users to easily check whether new feature works 
+for their hardware. My current understanding is that PSR+VT works for on 
+some laptops and doesn't on some other laptops, which makes it a valid case.
+
+> 
+> You can carry that single patch out-of-tree to enable this if you need
+> it for some particular use case where you don't care about VTs.
+> 
+> But hopefully you can just get this sorted quickly. If not, the revert I
+> posted is the way to go rather than adding random module parameters.
+> 
+> Johan
+
+-- 
+With best wishes
+Dmitry
+
