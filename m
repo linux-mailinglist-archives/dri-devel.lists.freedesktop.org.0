@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A41170F41E
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 12:25:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AD770F426
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 12:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3104810E14E;
-	Wed, 24 May 2023 10:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA12810E34C;
+	Wed, 24 May 2023 10:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D828410E14E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:25:09 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id
- 3f1490d57ef6-ba829f93da3so1175650276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 03:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684923908; x=1687515908;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aD3IA34gk0OpiFHmxgq4cZFvvS4AtjdfxP/2AHXDei4=;
- b=v42rDL2b4iFPtfMW+oR7SNJkKip2850QFTsyU+q5ISKql7iMfcDOgzYLmSxd+gQ1JR
- CkdspAZLOO3Os6ylUoe4hFkaZkcJr6VQHUTeAmWwbZYUay70avJ9EeaqZcnPS0euhFZ0
- 5K28BrG+uDp81w0CUW5E34Ly434xVGcQ8rJz69KgWBLv6B5yaNal/bTWkSJJoUKboLzk
- pf0AWWHRqco76CED95f8NppvdSLVdCytawDMaHQk/9Zi/sWiqefnd+sDROR/QiFkjwII
- SMeNqPlAPDUBv6DVWPfWqYJk+03cbUtGBx1AaLrNZRrPzhsIhuPvaS+C+6G1cEex/40K
- MZsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684923908; x=1687515908;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aD3IA34gk0OpiFHmxgq4cZFvvS4AtjdfxP/2AHXDei4=;
- b=gkeg1jh0j5XYO9oY2iBxxzNJEieFDoY//RNTeKAbiG2fKesSgNi8CbuDHbNJKfB8J3
- HwiB33QM0yzyvRJEDtlllxYjDekXRV87m74dKP0jYuEUafuIO46IDN411dY6g3x20IPo
- II+yVG9ESsDpvc/t+r+SL14NLrJj2jBEqRp9GI9vlb1VzojwNuMiApXWfeKsru1D6pfG
- EfpjyCRNatA1yx4TYGiw8YYdlTULMnw+lCw5HEs/0lhaKvceuY6evpxH1nWSNBBR9xlY
- H626qK7m2GwSjy7rJlc0LqJAH9pOM+M8Hj0XQYp5XVsxnfm50ryV/A+8QFZ9nDChgane
- PkUQ==
-X-Gm-Message-State: AC+VfDxybadfXrf9wBv4J2bDcIyMpfBHCMtAMab38X4QnP33kMCgTj5U
- s9tYyzh9dZWlf6zn90AdItkip+HGitT/BjQt7P272Q==
-X-Google-Smtp-Source: ACHHUZ4xV9jRL3GEe5EA3g8bWvxcwLzA0YIwtlm12hu88MYwFnsVrU+nENvU+B1yodFngmQL9vL4RFxHDpW66Gpt3Is=
-X-Received: by 2002:a81:8351:0:b0:559:f029:992d with SMTP id
- t78-20020a818351000000b00559f029992dmr18079445ywf.24.1684923908465; Wed, 24
- May 2023 03:25:08 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C588810E34C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:27:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0457D632ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BBEBC4339E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684924048;
+ bh=Ru0fWfqqlX6KQv5nM4MMh2953U7nWaI2cFpOL79ZxOU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ou3dXMmmPknNr2EpgEOhpDzxeenu+FqECpv0vDlyeCIAqxkkvc8omfRowZI9qL48y
+ qNboz4BBDS0oAYCxUfsAjuUpmemUoTPXEe4GkBjgypmE3BTYcgI2CvjvOIpvX5PV+j
+ JcdFpPZhd58XXhMkyxR4poMWU0nEkvRzm7yrIZ3/2LAzZoOnGAB30mjep9cIH4lz0x
+ DwNb/vZTUGgA44zsH8NtXvrLWGDSeUyPbrb4CkFeUE9oKfS4yHu6pFV4i9nMHIf8Cs
+ uNTd7+kDg2Txb8WPRjbfDLH+dnxZBEu5pmUV3H7f9zDLUxWvV9S/dZih7PQoDz4PpF
+ gXGrI5yvj9X9g==
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-561d5a16be0so10462387b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 03:27:28 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxC3PSOwC+NbhdAOkWwuvo8XZQRs1i2C+8Y2NnA/hH82XO+PE2q
+ VHulu+mgu9Ws/Oa1GGUaE6KQAhfUGE8ZVJL7SgE=
+X-Google-Smtp-Source: ACHHUZ5blUe2/ANdrbIUSBlAoc9jfa/cZWRA1ZwikgWcjIP8zS77ACL+X48iAferYBWCpvxnTrwKVSnp1f7b/AK/qBY=
+X-Received: by 2002:a0d:fa82:0:b0:55a:18c0:daba with SMTP id
+ k124-20020a0dfa82000000b0055a18c0dabamr17616723ywf.50.1684924047318; Wed, 24
+ May 2023 03:27:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230521172147.4163085-1-dmitry.baryshkov@linaro.org>
- <300fc53c-2a58-714c-855a-08a0dbef3ed9@quicinc.com>
- <bvjtgmuyz4zdjvt4jyjyt5hasiwnnaz4lyse6mf6b7grtig23f@yuji3z2mxue2>
-In-Reply-To: <bvjtgmuyz4zdjvt4jyjyt5hasiwnnaz4lyse6mf6b7grtig23f@yuji3z2mxue2>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 24 May 2023 13:24:57 +0300
-Message-ID: <CAA8EJpoyZsEHJeh7wMrz3dYg3841AfR4LQEEhZff_zRpRQgAvw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: drop SSPP register dumpers
-To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <d0807fe4-dba2-8244-f655-d04e80973572@quicinc.com>
+ <7ha5xud3m7.fsf@baylibre.com>
+In-Reply-To: <7ha5xud3m7.fsf@baylibre.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Wed, 24 May 2023 13:27:00 +0300
+X-Gmail-Original-Message-ID: <CAFCwf10hNjGtEYDi24LREnMLRGT7mRECvqQMdZWv=-uA7YELYg@mail.gmail.com>
+Message-ID: <CAFCwf10hNjGtEYDi24LREnMLRGT7mRECvqQMdZWv=-uA7YELYg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Add a DRM driver to support AI Processing Unit (APU)
+To: Kevin Hilman <khilman@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +64,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Alexandre Bailon <abailon@baylibre.com>,
+ krzysztof.kozlowski+dt@linaro.org, sumit.semwal@linaro.org, bero@baylibre.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, conor+dt@kernel.org,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linaro-mm-sig@lists.linaro.org,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ jstephan@baylibre.com, nbelin@baylibre.com,
+ angelogioacchino.delregno@collabora.com, linux-kernel@vger.kernel.org,
+ tzimmermann@suse.de, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 24 May 2023 at 12:48, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
+On Wed, May 24, 2023 at 2:34=E2=80=AFAM Kevin Hilman <khilman@baylibre.com>=
+ wrote:
 >
-> On 2023-05-23 13:01:13, Abhinav Kumar wrote:
+> Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
+>
+> > On 5/17/2023 8:52 AM, Alexandre Bailon wrote:
+> >> This adds a DRM driver that implements communication between the CPU a=
+nd an
+> >> APU. The driver target embedded device that usually run inference usin=
+g some
+> >> prebuilt models. The goal is to provide common infrastructure that cou=
+ld be
+> >> re-used to support many accelerators. Both kernel, userspace and firmw=
+are tries
+> >> to use standard and existing to leverage the development and maintenan=
+ce effort.
+> >> The series implements two platform drivers, one for simulation and ano=
+ther one for
+> >> the mt8183 (compatible with mt8365).
 > >
+> > This looks like the 3 existing Accel drivers.  Why is this in DRM?
+>
+> Yes, this belongs in accel.  I think Alex had some issues around the
+> infra in accel with device nodes not appearing/opening properly, but
+> I'll let him comment there.  But either way, the right approach should
+> be to fix any issues in accel and move it there.
+>
+> [...]
+>
+> >>   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
+> >>   drivers/gpu/drm/Kconfig                       |   2 +
+> >>   drivers/gpu/drm/Makefile                      |   1 +
+> >>   drivers/gpu/drm/apu/Kconfig                   |  22 +
+> >>   drivers/gpu/drm/apu/Makefile                  |  10 +
+> >>   drivers/gpu/drm/apu/apu_drv.c                 | 282 +++++++++
+> >>   drivers/gpu/drm/apu/apu_gem.c                 | 230 +++++++
+> >>   drivers/gpu/drm/apu/apu_internal.h            | 205 ++++++
+> >>   drivers/gpu/drm/apu/apu_sched.c               | 592 ++++++++++++++++=
+++
+> >>   drivers/gpu/drm/apu/simu_apu.c                | 313 +++++++++
+> >>   include/uapi/drm/apu_drm.h                    |  81 +++
 > >
-> > On 5/21/2023 10:21 AM, Dmitry Baryshkov wrote:
-> > > Drop SSPP-specifig debugfs register dumps in favour of using
-> > > debugfs/dri/0/kms or devcoredump.
-> > >
-> >
-> > I did see another series which removes src_blk from the catalog (I am
-> > yet to review that one) . Lets assume that one is fine and this change
-> > will be going on top of that one right?
+> > "apu" seems too generic.  We already have 3 "AI processing units" over
+> > in drivers/accel already...
 >
-> It replaces src_blk with directly accessing the blk (non-sub-block)
-> directly, because they were overlapping anyway.
+> Indeed, it is generic, but that's kind of the point for this driver
+> since it's targetted at generalizing the interface with "AI processing
+> units" on a growing number of embedded SoCs (ARM, RISC-V, etc.)  In
+> addition, the generic naming is intentional because the goal is bigger
+> than the kernel and is working towards a generic, shared "libAPU"
+> userspace[1], but also common firmware for DSP-style inference engines
+> (e.g. analgous Sound Open Firmware for audio DSPs.)
 >
-> > The concern I have with this change is that although I do agree that we
-> > should be in favor of using debugfs/dri/0/kms ( i have used it a few
-> > times and it works pretty well ), devcoredump does not have the support
-> > to dump sub-blocks . Something which we should add with priority because
-> > even with DSC blocks with the separation of enc/ctl blocks we need that
-> > like I wrote in one of the responses.
-> >
-> > So the "len" of the blocks having sub-blocks will be ignored in favor of
-> > the len of the sub-blocks.
+> As usual, the various SoC vendors use different names (APU, NPU, NN
+> unit, etc.)  but we'd like a generic name for the class of devices
+> targetted by this driver.  And unfortunately, it looks like the equally
+> generic "Versatile processing unit" is already taken Intel's
+> drivers/accel/ivpu. :)
 >
-> The sub-blocks are not always contiguous with their parent block, are
-> they?  It's probably better to print the sub-blocks separately with
-> clear headers anyway
+> Maybe since this is more about generalizing the interface between the
+> CPU running linux and the APU, what about the name apu_if?  But I guess
+> that applies to the other 3 drivers in drivers/accell also.  Hmmm...
+>
+> Naming things is hard[2], so we're definitly open to other ideas.  Any
+> suggestions?
+Maybe model it according to the tiny driver in drm display ? You can
+then call it tiny_apu :-)
+Disclosure: It was Daniel's suggestion, he can chime in with more
+details on the tiny driver concept.
+Oded
 
-I hope this is what Abhinav meant.
-
-> rather than dumping the range parent_blk_base to
-> max(parent_blk_base+len, parent_blk_base+sblk_base+sblk_len...).
 >
-> - Marijn
+> Kevin
 >
-> > If we remove this without adding that support first, its a loss of debug
-> > functionality.
-> >
-> > Can we retain these blocks and remove dpu_debugfs_create_regset32 in a
-> > different way?
+> [1] https://gitlab.baylibre.com/baylibre/libapu/libapu
 >
-> <snip>
-
-
-
--- 
-With best wishes
-Dmitry
+> [2]
+> "There are 2 hard problems in computer science: cache invalidation,
+>  naming things and off-by-1 errors."
+>  -- https://twitter.com/secretGeek/status/7269997868
+>
