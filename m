@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C39070FFC8
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 23:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD1970FFCB
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 23:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81F8710E697;
-	Wed, 24 May 2023 21:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE4E10E698;
+	Wed, 24 May 2023 21:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3A610E697
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 21:13:12 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id
- e9e14a558f8ab-33164ec77ccso47235ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 14:13:12 -0700 (PDT)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3CFB10E698
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 21:13:18 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id
+ e9e14a558f8ab-33828a86ee2so50845ab.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 14:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1684962791; x=1687554791;
+ d=google.com; s=20221208; t=1684962798; x=1687554798;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JYUYf+N7n/RZ7xlXddX7wNd0LbOcdLHs3IxcHa82qlo=;
- b=4JAsb3Sq8eYnNptcyhuiR93ia3f1K0xKdNBjprpWrE5qliQAJXglHYyW3atv7s77B/
- DefLbBv5NMlKXTvmsIR4oi4kCZuuiCrKM/AfEbvJGi+DhN0XW+AWDnoL+A8KT/w5QmG0
- Dduyku8/9uL1vByLm1/VXsBz/2hfnH6kn4/kVi7f/0KPl0pU0ZECFIci2NvIZ3VWaC0j
- 7mui8/OJTkvY13CMIm3LSNImLAMXDNxwK3kM5aYk2dPRnu3sDw/x+wU2oPHKVM4EJBQm
- rqnjs2DgodJw4Et8WPvWkQeYTnJOX0/9Z8F48sa2SnTAZYjxDbBUGMSC/m9dDYZDUZFc
- U7ew==
+ bh=vEdYxdYetiOJG9KjcYwzVdHTHSNxCtOLYboFK2bcSHM=;
+ b=Izcguru0m0GonlPHAnQjcOLsaouOFxVJ6x4X6zQ8HIVwD3JLF/PPVL326mc5XVKFGz
+ rj7hJ1J7g6KF7qAUQd7wylY5D9Mcg5BS3kRVjXw5McMtv7bXbcqVnl3YPx1dxTpVWy4+
+ 9SbLTwWmMzz8b4vMy/+BrjOib8SOJbtkwKWEx5JFBll2qiD8K+sJzecLYB8A3zECZvU7
+ JxQlHLsXqxjhS6SJg2VAD6rGnT1nBb1Vw/JFsCZ139KJ4HQ1Fj7tX2XWaHV7oR3a076d
+ JsGEPun9WDcmlQaxZ8B1Ure0jcqF04bx04fwXCq4p4BRlHDz4azH31F3Q2BixEBCe1mb
+ vGUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684962791; x=1687554791;
+ d=1e100.net; s=20221208; t=1684962798; x=1687554798;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JYUYf+N7n/RZ7xlXddX7wNd0LbOcdLHs3IxcHa82qlo=;
- b=JLFmNjGkpWkOO0mf/JiqhuI9ZJfLPrlz1mfuSg4Ch0IoZeM0TbgrF0z1wDlkM3G8Yj
- E7EN4ZFvjmJKt1SUJf1lFnEVkT9vgNJ9xcH6+296PdeclaHhFvc53ZqADxHAyOhkZhkM
- MdtQB4vVTRkQicNn/9VBeUiUPoodNJm8bbKhlJKD0YWCxPQxLx2ogtr+WmvaCi/lMwIc
- Io81e/j1/DI3NsfP354Yp5ZXS08WTYZuEHDbof9xc/PxHdSw/iA2AYi7A8Q2vVsAa3OR
- uWjjEIWUrYUaHL84N1AWAZ/WzoK4llX5I5hYToHr9Xc1oangncS8CP4OEX4OijpfxTnw
- +RjQ==
-X-Gm-Message-State: AC+VfDxDyaT8Bnrc7UXGVDG54lOBGJ9+ewQpaH5OitffEoIKb5S1aDDQ
- GvFPy1y/Ps+rLR874nbHUSvrETuvdUGSLY7Vedph6Q==
-X-Google-Smtp-Source: ACHHUZ4rKi36fvG7ashFJnQT9G8kZS2ONK9sJ+HfcAMU13wMJoqPvrtULzbE6RXkxl+wNc2IhTHUmkoG9V47OwdbgBU=
-X-Received: by 2002:a05:6e02:1bc6:b0:337:c28c:3d0f with SMTP id
- x6-20020a056e021bc600b00337c28c3d0fmr60287ilv.6.1684962791070; Wed, 24 May
- 2023 14:13:11 -0700 (PDT)
+ bh=vEdYxdYetiOJG9KjcYwzVdHTHSNxCtOLYboFK2bcSHM=;
+ b=Lw9wmx1vopcXK9lt6HLAWznsRMZ/0yMnfgbgStSIK9eEqIIjVCvOlpzM3EuPiK99pC
+ EH0upMWhfWBSFbzJySud4WN4zRRbtCORwsbrtF7EyEcBNQCvweYtgwMc7j+7sko2O54H
+ UxLtBGEY1SmJFg0TMaBzki+tEOXYHUj1JoINN0xAm7J6gciwiHxw3iY0JRKygmTCc7pX
+ GxcxCOaQj6ldh+oqptaudztgWiqgHKtZsjTFt/Tw7aaKyUNSUfha6sHLg7lz026hHF5R
+ b8oWaoSx0pP5RWKjfGEKErAMqkt5Wax0EEUKxQr8kcA/whkxaxgap/xO4ve6Q2WXR6mG
+ igng==
+X-Gm-Message-State: AC+VfDxpNnpI0/y+FCIh6sTYNlOAM37uN8/h7Cr9yS2Uvbua/rfshNIG
+ ciQVj98Kr3e4AigGZ/90hIyz7gsXp7fCOj0O8ry/iw==
+X-Google-Smtp-Source: ACHHUZ6mbREIm4Ztc8moSsgKru2S/9jx12dtX3Dli6UKcvfjWKYl0QKXqxeWvi0k//DflwaHfMTWM5i2nMBZDc1nqUI=
+X-Received: by 2002:a05:6e02:1689:b0:329:333e:4e79 with SMTP id
+ f9-20020a056e02168900b00329333e4e79mr85770ila.1.1684962797671; Wed, 24 May
+ 2023 14:13:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAD=FV=WRecTWsFM96k81YAx1=jJT0vpS4EPP0ZfWFUGHNFx9Tw@mail.gmail.com>
  <20230524074455.1172064-1-yangcong5@huaqin.corp-partner.google.com>
- <20230524074455.1172064-2-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230524074455.1172064-2-yangcong5@huaqin.corp-partner.google.com>
+ <20230524074455.1172064-3-yangcong5@huaqin.corp-partner.google.com>
+In-Reply-To: <20230524074455.1172064-3-yangcong5@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@google.com>
-Date: Wed, 24 May 2023 14:12:59 -0700
-Message-ID: <CAD=FV=VmBAbZ9itTSugwsYownu09XPLiW75N68Vvu=cVq8bRxA@mail.gmail.com>
-Subject: Re: [v2 3/4] drm/panel: Support for Starry-ili9882t TDDI MIPI-DSI
- panel
+Date: Wed, 24 May 2023 14:13:05 -0700
+Message-ID: <CAD=FV=XUuzjjLq3YP3683jOd06odwk5Dox5MS8oY8goB-_8T5w@mail.gmail.com>
+Subject: Re: [v2 4/4] dt-bindings: display: panel: Add compatible for Starry
+ ili9882t
 To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -83,18 +83,18 @@ Hi,
 On Wed, May 24, 2023 at 12:45=E2=80=AFAM Cong Yang
 <yangcong5@huaqin.corp-partner.google.com> wrote:
 >
-> The Starry-ili9882 is a 10.51" WUXGA TFT panel. which fits in nicely with
-> the existing panel-boe-tv101wum-nl6 driver. From the datasheet,MIPI need
-> to keep the LP11 state before the lcm_reset pin is pulled high. So add
-> lp11_before_reset flag.
+> The STARRY ili9882t is a 10.51" WUXGA TFT LCD panel,
+> which fits in nicely with the existing panel-boe-tv101wum-nl6
+> driver. Hence, we add a new compatible with panel specific config.
 >
 > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
 > ---
->  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 371 ++++++++++++++++++
->  1 file changed, 371 insertions(+)
+>  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Assuming you order the table in the proper place like I requested for
-("drm/panel: Support for Starry-himax83102-j02 TDDI MIPI-DSI panel"),
-then:
+nit: bindings usually land first, so you should swap the order of
+patch #3 and patch #4 in your series.
+
+In any case:
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
