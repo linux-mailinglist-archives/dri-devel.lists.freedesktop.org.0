@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A5270F5E1
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 14:05:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9758E70F618
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 14:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E821F10E661;
-	Wed, 24 May 2023 12:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51B610E5D1;
+	Wed, 24 May 2023 12:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0584A10E661;
- Wed, 24 May 2023 12:05:41 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E1210E5D1;
+ Wed, 24 May 2023 12:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684929942; x=1716465942;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=HMoZlauzOELNTnKH5BYcY9y4Xzr7qtTJgQxN9y/fMJQ=;
- b=RwIU3QLmDBcNezdRF/HbFxWNDcTIVxli+DWbzXoG4M05tCZb1OrX+aHM
- H6fMvH49E889zZHKyl+fV1rKMl44XEFOejzo37Qv1kxMwgsesZqYT63lr
- DnA/ViVcitngigOhF0gqNSiaDneyd0bIQa25WN0nYpna0xm/OWYaU3nBR
- MKCnwn1P1w/LE2WQ5MHTvBWVEOwKqoHTS4vA7UWUl9IT9dceKQMzdglVT
- bcHqRF5RUMO+xmzVK83uLNDitRZOefAJgtFwXaGoztHe2KyHJooFfzWmA
- 7BbMZdhfuHmDPq36EOEedh1Il+aZFYEADSsOrV9TPdZbRqctvRgANpx8C Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="333165631"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="333165631"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 05:05:40 -0700
+ t=1684930808; x=1716466808;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=K4WbvBpxF1dymWUKhA0G+Wotyc45QtePSeDvMA8zTu8=;
+ b=Unx7JNYoWeNdIgdp4t+krh8uR9Nx24qTF9uRHfrIj1y9ZBovK50vVErw
+ pyqQ6RDCLLU9EtwaJmp0D1uB33LY0WJg1k20+3i14OliAUmF1evJg8BPw
+ 2HDSowmsysdMoWpbdg20uQQefFSQqTgJbakr1MmrftLmLTYcND4YntLfD
+ L1F6eH6KEKNCesUKIth/LyN+E5I2RrBu/780/jxDAFPQ01b7U9Zcc1mWp
+ 6I/KaFFCwwxqhJ6uMJ3EFUAHcljoS9oM/MSFekQU7YDEhAkP+ChvRs1UM
+ +n/36MXez55dNXVcCJ3wMwDDF2xjEch5Z2D+6A6yk8GTHKjwjfQJ1JnIc A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="417004619"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="417004619"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 05:19:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="774222507"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="774222507"
-Received: from bmhacket-mobl.ger.corp.intel.com (HELO [10.213.218.245])
- ([10.213.218.245])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 05:05:39 -0700
-Message-ID: <7159edd0-2c43-d41f-e067-0e220e1a395e@linux.intel.com>
-Date: Wed, 24 May 2023 13:05:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="794168070"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="794168070"
+Received: from dguzhaev-mobl2.ccr.corp.intel.com (HELO intel.com)
+ ([10.252.54.61])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 05:19:31 -0700
+Date: Wed, 24 May 2023 14:19:27 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Subject: Re: [Intel-gfx] [PATCH v10 0/2] drm/i915: Allow user to set cache at
  BO creation
-Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>, fei.yang@intel.com
+Message-ID: <ZG4Az4fWMsxL5j7w@ashyti-mobl2.lan>
 References: <20230519051103.3404990-1-fei.yang@intel.com>
  <ZGx7Quf+ArHnXOR0@ashyti-mobl2.lan>
  <37a0e8fc-efbc-973f-f163-235b9482f21c@linux.intel.com>
-Organization: Intel Corporation UK Plc
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <37a0e8fc-efbc-973f-f163-235b9482f21c@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: fei.yang@intel.com, Jordan Justen <jordan.l.justen@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tvrtko,
 
-On 24/05/2023 12:56, Tvrtko Ursulin wrote:
+> > finally... pushed in drm-intel-gt-next! :)
 > 
-> On 23/05/2023 09:37, Andi Shyti wrote:
->> Hi Fei,
->>
->> finally... pushed in drm-intel-gt-next! :)
-> 
-> I had to revert this (uapi commit only) by force pushing, luckily it was 
-> the top commit.
-> 
+> I had to revert this (uapi commit only) by force pushing, luckily it was the
+> top commit.
+
+OK, sorry!
+
 > 1)
 > IGT is not merged yet.
-> 
+
+if igt is merged without the kernel it would fail, though.
+
 > 2)
 > The tools/include/uapi/drm/i915_drm.h part of the patch was not removed.
-> 
-> Please fix both issues before re-sending and re-merging.
 
-3)
-Please remove the BSpec 45101 reference too and replace it with a link 
-to PRMs. I understand updated docs will land there soon which will 
-include the necessary info.
+Will follow up on these two points.
 
-Regards,
-
-Tvrtko
+Andi
