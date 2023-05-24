@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3516B70F5B2
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 13:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FC670F5B7
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 13:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF91A10E5F5;
-	Wed, 24 May 2023 11:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 581A510E663;
+	Wed, 24 May 2023 11:56:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273B810E5F5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 11:54:20 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-561e919d355so12117247b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 04:54:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684929258; x=1687521258;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mB+yJW9GxDPC7vWCyTgkNtqkSRQGKRDyuctXyoPIN+0=;
- b=EQZh+H37Hc/1uzb0YnWyXd8UwcWDp0wrIRwRXaFhxrXt7a6L9F0YSp3yXp3UyCdaU8
- k/wUCBjKRz1cDwNC1hDBV3wYQloDaVCNd2d6NLnYncpJVQ0vHkDzKU8ZwtV2S4pQmVLO
- H6/g2A0XaP6aHlbYJ03n/LzaqhseSe5l6d0R93x1y5J1553zyn1rQ0wgTHJsNv99piQg
- kWAIzwnG8fg5mjn1duDjzBSU1GfhG201sZKMuDcKDfs4YaLolZ++sBKmauGGl8PL4Hna
- XUpcR22Vy0iZ8/rjX63eVekNi08HAo6NtKtYyScRK+YbHQlqBExmWk1EVufwoO+appGD
- Z6jg==
-X-Gm-Message-State: AC+VfDxU/jArtN7NY/ks+TWXsJ7Ne7L9lsaJmWWGFT5su3/EeqMNMlYr
- Duq9MZg3FYaFKokZWgQqfZg+5ugNGIUuGQ==
-X-Google-Smtp-Source: ACHHUZ5vb6uwVFI/g/Rr0S3ikyG1iIuq3TNVYsqXh1tx04rtlbiqcM3Kqq4D89ZZsvPbjiSB4V4FTQ==
-X-Received: by 2002:a81:4946:0:b0:561:e7bb:1b27 with SMTP id
- w67-20020a814946000000b00561e7bb1b27mr18282438ywa.52.1684929258455; 
- Wed, 24 May 2023 04:54:18 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
- [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
- j68-20020a0dc747000000b0055ddea0db57sm3609224ywd.146.2023.05.24.04.54.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 May 2023 04:54:16 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-ba86ec8047bso1293553276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 04:54:15 -0700 (PDT)
-X-Received: by 2002:a25:342:0:b0:ba8:5009:db33 with SMTP id
- 63-20020a250342000000b00ba85009db33mr17581461ybd.59.1684929255682; Wed, 24
- May 2023 04:54:15 -0700 (PDT)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E5210E65A;
+ Wed, 24 May 2023 11:56:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684929394; x=1716465394;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2M75/3f2zuPoKT8zUlYJqnZto7dEX5INKB2TBMcY3XU=;
+ b=fxkK66hv6c2k8x8ZhEXh/w2F6gY7oVMpscR+oOAYK0geObd0MfqdJygR
+ uLEFg0lMia+UDsydlQ1SnuCHXm9HIM+GupUBQZnwe7HWqixK9Oc+plkrL
+ KkIhmzyp7U0LXN5xZ8RLYUuPYggp75SuJTgSDeDQ7ad6QO7zaeFThB3Qn
+ m+Idu8bucDDRJisVNq2CO87EpAKM3rPBWSjivnfDSd9zU9p8IhVzkSZij
+ nVtGfLCYyaS1sia1jtY6Y4NB1il7w36Y5m51kb1EC2d2lItqekyhf5TvZ
+ nMiBenAS0uwFYjq2JPGpjWE4xfaHSrRzhAlPICLnmjSXo7186rF8MSkxS Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="417000050"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="417000050"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 04:56:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="794163701"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="794163701"
+Received: from bmhacket-mobl.ger.corp.intel.com (HELO [10.213.218.245])
+ ([10.213.218.245])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 04:56:32 -0700
+Message-ID: <37a0e8fc-efbc-973f-f163-235b9482f21c@linux.intel.com>
+Date: Wed, 24 May 2023 12:56:29 +0100
 MIME-Version: 1.0
-References: <cover.1684854992.git.geert+renesas@glider.be>
- <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
-In-Reply-To: <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 May 2023 13:54:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Intel-gfx] [PATCH v10 0/2] drm/i915: Allow user to set cache at
+ BO creation
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, fei.yang@intel.com
+References: <20230519051103.3404990-1-fei.yang@intel.com>
+ <ZGx7Quf+ArHnXOR0@ashyti-mobl2.lan>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZGx7Quf+ArHnXOR0@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,60 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Wed, May 24, 2023 at 1:42=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 23.05.23 um 17:31 schrieb Geert Uytterhoeven:
-> > Currently, there are two drivers for the LCD controller on Renesas
-> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
-> >    1. sh_mobile_lcdcfb, using the fbdev framework,
-> >    2. shmob_drm, using the DRM framework.
-> > However, only the former driver can be used, as all platform support
-> > integrates the former.  None of these drivers support DT-based systems.
-> >
-> > This patch series is a first step to enable the SH-Mobile DRM driver fo=
-r
-> > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next steps planned =
-are
-> > to (1) add DT support (works, but needs a hack due to lack of (2)), and=
- (2)
-> > convert the driver to atomic modesetting.
-> >
-> > Changes compared to v2[1]:
-> >    - Add Reviewed-by.
-> >
-> > Changes compared to v1[2]:
-> >    - Add Reviewed-by,
-> >    - Drop dependency on ARM.
-> >
-> > This has been tested on the R-Mobile A1-based Atmark Techno
-> > Armadillo-800-EVA development board, using a temporary
-> > platform-enablement patch[3].
-> >
-> > Thanks for applying to drm-misc!
->
-> It's all been reviewed. Do you want me to merge the patchset?
+On 23/05/2023 09:37, Andi Shyti wrote:
+> Hi Fei,
+> 
+> finally... pushed in drm-intel-gt-next! :)
 
-That would be great! Thanks!
+I had to revert this (uapi commit only) by force pushing, luckily it was 
+the top commit.
 
-Gr{oetje,eeting}s,
+1)
+IGT is not merged yet.
 
-                        Geert
+2)
+The tools/include/uapi/drm/i915_drm.h part of the patch was not removed.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Please fix both issues before re-sending and re-merging.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Regards,
+
+Tvrtko
