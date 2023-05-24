@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F6970F58F
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 13:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3516B70F5B2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 13:54:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7BE10E5EF;
-	Wed, 24 May 2023 11:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF91A10E5F5;
+	Wed, 24 May 2023 11:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C58910E5EF
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 11:46:24 +0000 (UTC)
-Received: (qmail 19997 invoked by uid 990); 24 May 2023 11:46:21 -0000
-Authentication-Results: devico.uberspace.de;
-	auth=pass (plain)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273B810E5F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 11:54:20 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-561e919d355so12117247b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 04:54:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684929258; x=1687521258;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mB+yJW9GxDPC7vWCyTgkNtqkSRQGKRDyuctXyoPIN+0=;
+ b=EQZh+H37Hc/1uzb0YnWyXd8UwcWDp0wrIRwRXaFhxrXt7a6L9F0YSp3yXp3UyCdaU8
+ k/wUCBjKRz1cDwNC1hDBV3wYQloDaVCNd2d6NLnYncpJVQ0vHkDzKU8ZwtV2S4pQmVLO
+ H6/g2A0XaP6aHlbYJ03n/LzaqhseSe5l6d0R93x1y5J1553zyn1rQ0wgTHJsNv99piQg
+ kWAIzwnG8fg5mjn1duDjzBSU1GfhG201sZKMuDcKDfs4YaLolZ++sBKmauGGl8PL4Hna
+ XUpcR22Vy0iZ8/rjX63eVekNi08HAo6NtKtYyScRK+YbHQlqBExmWk1EVufwoO+appGD
+ Z6jg==
+X-Gm-Message-State: AC+VfDxU/jArtN7NY/ks+TWXsJ7Ne7L9lsaJmWWGFT5su3/EeqMNMlYr
+ Duq9MZg3FYaFKokZWgQqfZg+5ugNGIUuGQ==
+X-Google-Smtp-Source: ACHHUZ5vb6uwVFI/g/Rr0S3ikyG1iIuq3TNVYsqXh1tx04rtlbiqcM3Kqq4D89ZZsvPbjiSB4V4FTQ==
+X-Received: by 2002:a81:4946:0:b0:561:e7bb:1b27 with SMTP id
+ w67-20020a814946000000b00561e7bb1b27mr18282438ywa.52.1684929258455; 
+ Wed, 24 May 2023 04:54:18 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
+ [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
+ j68-20020a0dc747000000b0055ddea0db57sm3609224ywd.146.2023.05.24.04.54.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 May 2023 04:54:16 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-ba86ec8047bso1293553276.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 04:54:15 -0700 (PDT)
+X-Received: by 2002:a25:342:0:b0:ba8:5009:db33 with SMTP id
+ 63-20020a250342000000b00ba85009db33mr17581461ybd.59.1684929255682; Wed, 24
+ May 2023 04:54:15 -0700 (PDT)
 MIME-Version: 1.0
-Date: Wed, 24 May 2023 11:46:21 +0000
-Content-Type: text/plain; charset="utf-8"
+References: <cover.1684854992.git.geert+renesas@glider.be>
+ <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
+In-Reply-To: <d800a238-83e0-0ec2-cf3a-67d07d749b5b@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 May 2023 13:54:04 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+Message-ID: <CAMuHMdXPJ02UWuH1v_ZaoWmbHALu0Qe2K27nhuvwKBmjno+YMw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] drm: shmobile: Fixes and enhancements
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: "Leonard Lausen" <leonard@lausen.nl>
-Message-ID: <3a11741c9cc699e178f9b705a34342add03ea0df@lausen.nl>
-TLS-Required: No
-Subject: Re: [PATCH v6] drm/msm/dp: enable HDP plugin/unplugged interrupts at
- hpd_enable/disable
-To: "Kuogee Hsieh" <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org, 
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, dmitry.baryshkov@linaro.org, andersson@kernel.org,
- regressions@lists.linux.dev
-In-Reply-To: <1684878756-17830-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1684878756-17830-1-git-send-email-quic_khsieh@quicinc.com>
-X-Rspamd-Bar: /
-X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-1.80269) SUSPICIOUS_RECIPS(1.5)
-X-Rspamd-Score: -0.40269
-Received: from unknown (HELO unkown) (::1)
- by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
- Wed, 24 May 2023 13:46:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
- h=from; bh=yvML/N3WJWiB2LyumltXUYRXVUY6T1Z0/T8xB4Juop4=;
- b=BW79TuMU14I2zQ1/iZDlcMklY9d8hFqDFVqNll7kptlo750aTKf/9+xmPYQuVKOK8D1pPFwgoG
- CtO/GUTdpodwO1GVY1pDTvEzL8g4Lw0aoz4aNSjSaluTfpqig+jW1v6adCTpPzuI4dw/TJpOGTJe
- xfemmQFpSMpDe251TKcjHIxN4DJEDRaWfBzPmicXBrooUdIF/dIb2KZND/uh3stRVnqsqJ1nSZnK
- gMwoWQ8CGwjdBmC/exGcwRpsbUuezc7WRwa+cdR/wT7Qq6o9c9/bkqkHlrObjKYiXeNs+nUF+C4w
- RFZpIj6UxXScvs1Eg+LvT8VUNnApNhgr8riIg32AAE/67TgFGxMIFV8I9moIUPmwezY022c5adm9
- KDkx/fQi5VIp1aHEwuPVraOFI4apNz/gaBjt2Vb73DGaZfX6Hyf5a8L1kttx+r9dxOgy9pW2R7oz
- nqbGNGbBSD16wYwsJ6wPtp05fRBSswm9J8Yjs3dT49YGRJdlGPnWP/Og/UdB/u2jtU0dM4a9cU/Z
- Suut2A4cQqYzlbFv5oQ+Hl1OIETlT9E1GW5hXrl1m/s6qn1G3rI4p76ZPCKAFskxPRKgcYlQ4fyE
- eUXQdOGRBnvug3exP9XNUqiB9gQsmh4J6sRE5WCpwPZsy/MZfYsJy65wqW/1Xdz1Hg0uIuOLqztv
- w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +70,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kuogee Hsieh <quic_khsieh@quicinc.com> writes:
-> The internal_hpd flag is set to true by dp_bridge_hpd_enable() and set =
-to
-> false by dp_bridge_hpd_disable() to handle GPIO pinmuxed into DP contro=
-ller
-> case. HDP related interrupts can not be enabled until internal_hpd is s=
-et
-> to true. At current implementation dp_display_config_hpd() will initial=
-ize
-> DP host controller first followed by enabling HDP related interrupts if
-> internal_hpd was true at that time. Enable HDP related interrupts depen=
-ds on
-> internal_hpd status may leave system with DP driver host is in running =
-state
-> but without HDP related interrupts being enabled. This will prevent ext=
-ernal
-> display from being detected. Eliminated this dependency by moving HDP r=
-elated
-> interrupts enable/disable be done at dp_bridge_hpd_enable/disable() dir=
-ectly
-> regardless of internal_hpd status.
->
-> Changes in V3:
-> -- dp_catalog_ctrl_hpd_enable() and dp_catalog_ctrl_hpd_disable()
-> -- rewording ocmmit text
->
-> Changes in V4:
-> -- replace dp_display_config_hpd() with dp_display_host_start()
-> -- move enable_irq() at dp_display_host_start();
->
-> Changes in V5:
-> -- replace dp_display_host_start() with dp_display_host_init()
->
-> Changes in V6:
-> -- squash remove enable_irq() and disable_irq()
->
-> Fixes: cd198caddea7 ("drm/msm/dp: Rely on hpd_enable/disable callbacks"=
-)
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Hi Thomas,
 
-Cherry-picked on top of v6.3.3 and verified fixes the USB-C DP
-regression on sc7180 lazor. Thank you!
+On Wed, May 24, 2023 at 1:42=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+> Am 23.05.23 um 17:31 schrieb Geert Uytterhoeven:
+> > Currently, there are two drivers for the LCD controller on Renesas
+> > SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+> >    1. sh_mobile_lcdcfb, using the fbdev framework,
+> >    2. shmob_drm, using the DRM framework.
+> > However, only the former driver can be used, as all platform support
+> > integrates the former.  None of these drivers support DT-based systems.
+> >
+> > This patch series is a first step to enable the SH-Mobile DRM driver fo=
+r
+> > Renesas ARM-based SH-Mobile and R-Mobile SoCs.  The next steps planned =
+are
+> > to (1) add DT support (works, but needs a hack due to lack of (2)), and=
+ (2)
+> > convert the driver to atomic modesetting.
+> >
+> > Changes compared to v2[1]:
+> >    - Add Reviewed-by.
+> >
+> > Changes compared to v1[2]:
+> >    - Add Reviewed-by,
+> >    - Drop dependency on ARM.
+> >
+> > This has been tested on the R-Mobile A1-based Atmark Techno
+> > Armadillo-800-EVA development board, using a temporary
+> > platform-enablement patch[3].
+> >
+> > Thanks for applying to drm-misc!
+>
+> It's all been reviewed. Do you want me to merge the patchset?
 
-Tested-by: Leonard Lausen <leonard@lausen.nl> # on sc7180 lazor
+That would be great! Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
