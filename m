@@ -1,110 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3029870F201
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:19:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D122E70F257
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3F2310E5C1;
-	Wed, 24 May 2023 09:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756EB10E5F2;
+	Wed, 24 May 2023 09:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2115.outbound.protection.outlook.com [40.107.237.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27C610E5C1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:19:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VI+k664UPmFfIZapjp+PnZey4ZulwOAuXwcaicd4MnhrZkdRdX4V7Eg672pPWzZTdmHLs6m7XUFvEImdAAIDjky2yXqaCs6QIZRlQ0KlW54GlkehqiYam3QxPrA+fmnFm3oO8iFZ5N3LuRezi3+6caokPXo0pBYZ9MI5lgQhYWyyElbGU28JGJVACzs52EUsPXrMrbyQv2jrES5gixL90PjPiIp+RDU47K5Zo7zEMiYJtOtHxh0E/HJ2v5WhFvqzn4+SF5XLNKAiHQBER4OTN0mUztGemMagv5UkwZRzbwpG4M81Arptv+DdCmYcqffhe57CfnwElU27veCw8U0lNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EjysrcvpIysM4nTXMnOYFhEOXkbaTSCVxp780VDwaqo=;
- b=GLa3PF9kGJ4kzaKKYunFRXaQz2LEJMKzRBoXh32qLvOatDvI6aA6Cx5YqufmTRR+G/EsiEL6UJZKnsS9dAvLIDaBdPFJMeJuPae+BlbosXMJH6L+UqrqtiqS4Lh+BHfz66cbbSS4vqN0ZA1OQN4CRrDn59Xqil8yDFFCc8cKSaPZh0E8thveObPJEIwoh4xJWcvv7YGy+0hQvLqvAHtWw6YeG8jYoRUTsRGKfJr/R1+zzO8I1wxjcKx1YEvb0MhcssJ396WcjFy7vwtUZUFqTH7CEsoXpNoelylFwafOSLc4cg/tRg6JcbIteq2OJLgs9Oy3oJ50bExkoosnmh2c2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EjysrcvpIysM4nTXMnOYFhEOXkbaTSCVxp780VDwaqo=;
- b=QZMz7gXH/Y1CIW0Gsf9SH1tcomfJIKNBtJ/qO6vLRO8v+ZuBoe2YPQceTvqwsdDBVAFN6ihc3P9FzXSTAvrlcmtyS4UJs5XMCmyO4XZsuwQXuv0z3dKDz8KlWMuFETKqsovIhqLCMd5xosHc2jWKAzK7IQnSRHJTYCuX007MGoo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by DM6PR13MB3642.namprd13.prod.outlook.com (2603:10b6:5:24b::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Wed, 24 May
- 2023 09:19:44 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6411.029; Wed, 24 May 2023
- 09:19:44 +0000
-Date: Wed, 24 May 2023 11:19:35 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v4 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <ZG3Wp2HhwLrwpvHq@corigine.com>
-References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
- <1684878827-40672-4-git-send-email-justin.chen@broadcom.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1684878827-40672-4-git-send-email-justin.chen@broadcom.com>
-X-ClientProxiedBy: AS4P251CA0004.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d2::6) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C88D10E5C7;
+ Wed, 24 May 2023 09:21:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A0A1D22490;
+ Wed, 24 May 2023 09:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1684920113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kgjLMqrLBzhR2hNsQlia0YYpadV31biLJMb7B+8R+hM=;
+ b=lh+cG2oyDJgKUGRrfCbMMcYIllL37HTBGeZ8PbecQuT0gAF0K1SZt3WMKI3l6fwsllCIxg
+ h/Zue4dS8D8B1oSorFDEoQmpOm/5jAOxckulu52T9//fEelOFHDFwfOr3SbBGxvaNBrqx5
+ Yt41Sspnahc2x4ke8fRWr0ulP1wSirA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1684920113;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kgjLMqrLBzhR2hNsQlia0YYpadV31biLJMb7B+8R+hM=;
+ b=4q46w3w0JlfgjmM9ar69b00LchDBlqnbkZSCXY8+fKyKsBovCWKZ6KPO1Cb1UgIqgSMjqo
+ jhQDZNlNty/XynCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5E41913425;
+ Wed, 24 May 2023 09:21:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /gwvFjHXbWTHewAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:53 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
+Subject: [PATCH v4 00/13] drm/fbdev: Remove DRM's helpers for fbdev I/O
+Date: Wed, 24 May 2023 11:21:37 +0200
+Message-Id: <20230524092150.11776-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|DM6PR13MB3642:EE_
-X-MS-Office365-Filtering-Correlation-Id: a532a5fb-dbac-47c3-dd71-08db5c3802df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6/HDXRdXjeRT+BBZWHeNgMXJCPnRcox2BM9mOWKfPTC75+SplE/4QNvAGn7X04p4c6ebHitDZV+naqXcDlbmgQ3x2GoJawkZw+CCYpvwz7acTc4UmgWidJ8eZHqGbDc32S2aDoMPOLJ+aN2Oe3K8eYOBBhPbxw1pmrOZ71rjc4O8DcRFo3x8txKUXHMhKsANeTcnSvUWNr+u3msCTCy+KbqickewMjSPzoFDItHFIHCE56cjEqX1tqkqDJWJ69N4ZGxrp2/+7xMG++YR73OXyAZj1XodSbcuX5TTstUHrfbcK7GTzDLr6Emw2yAUujcv5hWfgNEnLyNyT4XnJshKSrOmjufLSm8M8ZnaYYMFIVK094kMwcPNi8Phj+miiEZq/qQ0fngGWsZuTBt1mMvGFLpsgGudhO/asuedk0k3J6xJLEy70WqVOZ8qCPQv2eAyozV76KJMaOYlT5ILsuCxGIVuQnhGVWJjPxuhmR6vs7AxT4GrSpMTpUE/cKoklKDZauNFIqpJZ8enxtaGF339x62v1fQJBeXLTPbgINFV1YNhFupkiah7MKXz/Ji1VEq630Fve/B297iFqgOGO7iGSxp4RbPHrjB2+cb8DsUQ574=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(366004)(376002)(346002)(136003)(39830400003)(451199021)(83380400001)(8676002)(8936002)(7416002)(44832011)(5660300002)(6506007)(6512007)(86362001)(186003)(2616005)(38100700002)(6916009)(478600001)(6486002)(66946007)(66556008)(6666004)(41300700001)(4326008)(316002)(36756003)(66476007)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ghITYONGQeCr9IMo/JR/w6i+oJ+spMJrn0Ha6W6Muo7JsrNl/7ih8gSIu1o5?=
- =?us-ascii?Q?uKu8MIexmnYD+6ZSMu8J6gqO4saX7+KgHY6nrMcHEReOHVotIvPgKQQQOpH6?=
- =?us-ascii?Q?LzBH1yx292ShVnd996UuZT7bBY0/J+z02keQl58jq3DXckFIOS5Gs3KJg899?=
- =?us-ascii?Q?VR5JMH65Bh6b+r4+H8TaCFBIEL474VglctFCYttgwpXy8hMT2taTVSq18FIR?=
- =?us-ascii?Q?QegWYYYut/G3nhH88MU96xL8kiHXnl/fUiOApu3bWTeZAdN+LGIQqU8ck/vD?=
- =?us-ascii?Q?Z9OWyTOAUvAA4J8JO//u3h676Unq0e16S0TwOF9DNevpnjcnisRHacD4eD7E?=
- =?us-ascii?Q?aE9KtzcTGamwxP1sbkIp8nLbpUGUYEPxTDEqxgWdEJSaAk7/G+4kyh9g21f5?=
- =?us-ascii?Q?nV4eDu5dvwJpfW5jUphBrxki6bt6whefVH85pVG3R8kgzyc1nuw3rC7DfR/X?=
- =?us-ascii?Q?b86P4eLEIwHj5s+RL5HXQfyPVYcawYn3GdNSqSORW8fN+0XJuiggQUYvL2Z8?=
- =?us-ascii?Q?5OLuA3wbjCD9dgFfbtrh9GumK2YU5gjgjlRaN4pNK+vGKRoJBnjgPtOigtng?=
- =?us-ascii?Q?erhkb591Gtn93tgvh2avXIORXjcZsmn3/jeU0CfjH7SWsq0CriLF+L8fTD8J?=
- =?us-ascii?Q?XrXpg9FqD8tNo1lkulaysrIc6BOnsa4QQBf2r5aAt4CiTIr1dcbJRNUmKLtS?=
- =?us-ascii?Q?OY25/8CSTYK08y0wKalEhsX+fbV1WOYpXMlv0eVEVaLdouqYpVzGApd6+V+3?=
- =?us-ascii?Q?0HGeJ++rwqosFbiH8ExwCfFFDAfqeHKMsMKGggL49bNppBGIhnN20JQs/DJW?=
- =?us-ascii?Q?ifrtszkmYSihBnzG6oOVOkWfszRqUzROsFzsixWlOdBSbWIQckwzxRtrwfoA?=
- =?us-ascii?Q?DqxmyOQ9Dx2E9I3WfCcpwe1/52VeNYS46xQao2WL5k/mE3ZtEKQrr7kMG14M?=
- =?us-ascii?Q?NSz27GBAP1xoQ5dMzOP271f83f8r2Un5l10wSyeEpjdsEBTLKen6HMG8yBp6?=
- =?us-ascii?Q?nLlO4DE6rnBvtNyNGzqBrUZZJzGcWpjoZwz2xkX5ekgON0ChOLGB+A9kPwqD?=
- =?us-ascii?Q?KmGyk4V2iVM2XvQeKRK6BrszXGkUEB1bvNqLWLhEFP17JJIHQyLWd/rE2fmq?=
- =?us-ascii?Q?Cc5/817vy3aIQwIe3R5EfBJ06uhP3cs1MPmp3eyR0yUEm2n79H35G1BcAzpx?=
- =?us-ascii?Q?uzaL/vFDnEPrOevvJGAr7srvO4Fb5dSRXabYcpJDUaImW6lCT2NYIAPwNjIi?=
- =?us-ascii?Q?vsE9DHZGkPmYqdQpx3U02gvZs2Hf5FWw1H6nWHqxwtFa0/g7hXVr1kgZFZuU?=
- =?us-ascii?Q?tj250NxKn6FkP5egKO8ILIo6KkkDbvzLxi0Qs0r4QVXAyVQVoZbLuEYG8nkh?=
- =?us-ascii?Q?bjs3gFKzCo6ADnqBA/zbqiwETToI4IWrMpyOY6kQdBw/ShpBTNsqS/4Ttau9?=
- =?us-ascii?Q?KYyRm6GqxBKn25Oj9ngjweTj12ISbEsBYAsBbzDhKkGXcUntvjkc/5VuPke3?=
- =?us-ascii?Q?5Fpi0wCNBXUqpoTKZlVHVwxMZWQfRpmMxlgDFjgeOJX9LWAEX7yinvdK+3rC?=
- =?us-ascii?Q?EajnnbIVy6loy4Qm4wgwD0K6mRMPMpMn9ISYqDMTLrO5+4caO9kd2vt289NZ?=
- =?us-ascii?Q?ow7j6D53F6U26pK3yygoiByQbGtVCJxSS+m4O7lZwav8sUuXuArMQvcWXTJN?=
- =?us-ascii?Q?lA8PQA=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a532a5fb-dbac-47c3-dd71-08db5c3802df
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:19:44.1080 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j+UKJ4CfP4AVH2osVxIu4zUsZcxVUyY3HDmnTWatGC5jT3E5IIPqN3Yu1Ztek6fBvMTzoMDDAdkHwC6JpGlCdG8gvMcKtAxJmt+EPoC/vz0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR13MB3642
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,121 +65,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
- justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com,
- Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
- bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
- devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
- davem@davemloft.net, robh+dt@kernel.org, christian.koenig@amd.com,
- hkallweit1@gmail.com
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 23, 2023 at 02:53:44PM -0700, Justin Chen wrote:
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165. This controller features two distinct Ethernet
-> ports that can be independently operated.
-> 
-> This patch supports:
-> 
-> - Wake-on-LAN using magic packets
-> - basic ethtool operations (link, counters, message level)
-> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
-> 
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+DRM provides a number of wrappers around fbdev cfb_() sys_(), fb_io_()
+and fb_sys_() helpers. The DRM functions don't provide any additional
+functionality for most DRM drivers. So remove them and call the fbdev
+I/O helpers directly.
 
-Hi Justin,
+The DRM fbdev I/O wrappers were originally added because <linux/fb.h>
+does not protect its content with CONFIG_FB. DRM fbdev emulation did
+not build if the config option had been disabled. This has been
+fixed. For fbdev-generic and i915, the wrappers added support for damage
+handling. But this is better handled within the two callers, as each
+is special in its damage handling.
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Patch 1 adds several internal Kconfig options that DRM drivers (and
+possibly other fbdev code) will use to select the correct set of I/O
+helpers. Patch 2 adds initializers for struct fb_ops and generator
+macros for the callback functions. These macros will simplify drivers.
+This patchset applies the new options and macros to DRM fbdev emulation,
+but regular fbdev drivers can use them as well.
 
-As I see there will be a v5 I have added a few nits from my side.
-Feel free to ignore them as you see fit.
+Patches 3 to 10 replace the DRM wrappers in a number of fbdev emulations.
+Patch 10 exports two helpers for damage handling. Patches 12 and 13
+update fbdev-generic and i915 with the help of the exported functions.
+The patches also remove DRM's fbdev I/O helpers, which are now unused.
 
-...
+DRM's fbdev helpers had to select fbdev I/O helpers for I/O and for
+system memory. Each fbdev emulation now selects the correct helpers
+for itself. Depending on the selected DRM drivers, kernel builds will
+now only contain the necessary fbdev I/O helpers and might be slightly
+smaller in size.
 
-> +int bcmasp_netfilt_check_dup(struct bcmasp_intf *intf,
-> +			     struct ethtool_rx_flow_spec *fs)
+v4:
+	* use initializer and generator macros for struct fb_ops
+	* partially support damage handling in msm (Dmitri)
+v3:
+	* fix Kconfig options (Jingfeng)
+	* minimize changes to exynos (Sam)
+v2:
+	* simplify Kconfig handling (Sam)
 
-nit: the return type of this function could be bool
+Thomas Zimmermann (13):
+  fbdev: Add Kconfig options to select different fb_ops helpers
+  fbdev: Add initializer macros for struct fb_ops
+  drm/armada: Use regular fbdev I/O helpers
+  drm/exynos: Use regular fbdev I/O helpers
+  drm/gma500: Use regular fbdev I/O helpers
+  drm/radeon: Use regular fbdev I/O helpers
+  drm/fbdev-dma: Use regular fbdev I/O helpers
+  drm/msm: Use regular fbdev I/O helpers
+  drm/omapdrm: Use regular fbdev I/O helpers
+  drm/tegra: Use regular fbdev I/O helpers
+  drm/fb-helper: Export helpers for marking damage areas
+  drm/fbdev-generic: Implement dedicated fbdev I/O helpers
+  drm/i915: Implement dedicated fbdev I/O helpers
 
-> +{
-> +	struct bcmasp_priv *priv = intf->parent;
-> +	struct ethtool_rx_flow_spec *cur;
-> +	size_t fs_size = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < NUM_NET_FILTERS; i++) {
-> +		if (!priv->net_filters[i].claimed ||
-> +		    priv->net_filters[i].port != intf->port)
-> +			continue;
-> +
-> +		cur = &priv->net_filters[i].fs;
-> +
-> +		if (cur->flow_type != fs->flow_type ||
-> +		    cur->ring_cookie != fs->ring_cookie)
-> +			continue;
-> +
-> +		switch (fs->flow_type & ~(FLOW_EXT | FLOW_MAC_EXT)) {
-> +		case ETHER_FLOW:
-> +			fs_size = sizeof(struct ethhdr);
-> +			break;
-> +		case IP_USER_FLOW:
-> +			fs_size = sizeof(struct ethtool_usrip4_spec);
-> +			break;
-> +		case TCP_V6_FLOW:
-> +		case UDP_V6_FLOW:
-> +			fs_size = sizeof(struct ethtool_tcpip6_spec);
-> +			break;
-> +		case TCP_V4_FLOW:
-> +		case UDP_V4_FLOW:
-> +			fs_size = sizeof(struct ethtool_tcpip4_spec);
-> +			break;
-> +		default:
-> +			continue;
-> +		}
-> +
-> +		if (memcmp(&cur->h_u, &fs->h_u, fs_size) ||
-> +		    memcmp(&cur->m_u, &fs->m_u, fs_size))
-> +			continue;
-> +
-> +		if (cur->flow_type & FLOW_EXT) {
-> +			if (cur->h_ext.vlan_etype != fs->h_ext.vlan_etype ||
-> +			    cur->m_ext.vlan_etype != fs->m_ext.vlan_etype ||
-> +			    cur->h_ext.vlan_tci != fs->h_ext.vlan_tci ||
-> +			    cur->m_ext.vlan_tci != fs->m_ext.vlan_tci ||
-> +			    cur->h_ext.data[0] != fs->h_ext.data[0])
-> +				continue;
-> +		}
-> +		if (cur->flow_type & FLOW_MAC_EXT) {
-> +			if (memcmp(&cur->h_ext.h_dest,
-> +				   &fs->h_ext.h_dest, ETH_ALEN) ||
-> +			    memcmp(&cur->m_ext.h_dest,
-> +				   &fs->m_ext.h_dest, ETH_ALEN))
-> +				continue;
-> +		}
-> +
-> +		return 1;
-> +	}
-> +
-> +	return 0;
-> +}
+ drivers/gpu/drm/Kconfig                    |  10 +-
+ drivers/gpu/drm/armada/Kconfig             |   1 +
+ drivers/gpu/drm/armada/armada_fbdev.c      |   7 +-
+ drivers/gpu/drm/drm_fb_helper.c            | 236 ++-------------------
+ drivers/gpu/drm/drm_fbdev_dma.c            |  11 +-
+ drivers/gpu/drm/drm_fbdev_generic.c        |  11 +-
+ drivers/gpu/drm/exynos/Kconfig             |   1 +
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |   9 +-
+ drivers/gpu/drm/gma500/Kconfig             |   1 +
+ drivers/gpu/drm/gma500/fbdev.c             |   8 +-
+ drivers/gpu/drm/i915/Kconfig               |   1 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  14 +-
+ drivers/gpu/drm/msm/Kconfig                |   1 +
+ drivers/gpu/drm/msm/msm_fbdev.c            |  17 +-
+ drivers/gpu/drm/omapdrm/Kconfig            |   1 +
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |  11 +-
+ drivers/gpu/drm/radeon/Kconfig             |   1 +
+ drivers/gpu/drm/radeon/radeon_fbdev.c      |   9 +-
+ drivers/gpu/drm/tegra/Kconfig              |   1 +
+ drivers/gpu/drm/tegra/fbdev.c              |   8 +-
+ drivers/video/fbdev/Kconfig                |  21 ++
+ include/drm/drm_fb_helper.h                |  83 +-------
+ include/linux/fb.h                         | 112 ++++++++++
+ 23 files changed, 212 insertions(+), 363 deletions(-)
 
-...
 
-> +static int bcmasp_is_port_valid(struct bcmasp_priv *priv, int port)
-> +{
-> +	/* Quick sanity check
-> +	 *   Ports 0/1 reserved for unimac
-> +	 *   Max supported ports is 2
-> +	 */
-> +	return (port == 0 || port == 1);
-
-nit: unnecessary parentheses
-
-> +}
-
-...
+base-commit: 216281f91018b24567e59ae46ce7e96fb92063cf
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 8bff2b12862e44027a25837ea7510f633d40839e
+prerequisite-patch-id: 97ac107455aff4e0ec039d166ecdd2430d20f22e
+-- 
+2.40.1
 
