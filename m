@@ -1,82 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07D970FCA6
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:29:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC8770FCD5
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D47B810E031;
-	Wed, 24 May 2023 17:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A83D10E545;
+	Wed, 24 May 2023 17:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66710E031
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 17:29:32 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id
- ca18e2360f4ac-7747df5b674so100675039f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1684949372; x=1687541372;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yq6BLiBB15ZpThHz2GQJH12upVOih5oQeiwfZRvJZIs=;
- b=bH+sXSbXZp8RHLYTq/K0OUSg075jA0Oq9cOOJggv39jUnsy54WOQT1vfeRh6HM829V
- ToWma5ngCXUBD5wGmC7RAev0GyONVyUjB+NcGWgL8mw0htimVwRSdzztZmW7M6eDgtgT
- 3eOgyE2ZUP+h+BDMqtLUfmji/WDlUUOzmtTf4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684949372; x=1687541372;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yq6BLiBB15ZpThHz2GQJH12upVOih5oQeiwfZRvJZIs=;
- b=F6/G2z9soUzXR/zmUk23fogP/b1oNQIiGgWYxWbjEPZI5wdNpH0L13C5f4+FdohkFn
- 8awcU1KmKoChb94aiFfKPfJVd9LB4kt0jIbhCvShD4StPLsJ3s2cKI4Y64Qvj2D/Kg0l
- G1qMHYZlvM//wmWYitjeCP2lBiGGRW8A9eyVOhW3ie7Lc6kEgUufiCUeUFEzqZt9cYOG
- aFK2XPfrkMKpDsYSlT+tgOGUdI0Iet0S/+OjpwePIKPzIp4+h+q0EitcrU6Pq5AA8jyx
- gnnj8U7U0YyvgmfSYU5etCGQ3V5+7fMzdBi7nwsRTPgiSW58cJq5Qvv1FGY/vbZCo94U
- 8LUw==
-X-Gm-Message-State: AC+VfDxxpA5zO5/uaSkmH3vmy1vdIMYP7Xh740M/LQfudYFSK17FfK9v
- d55KhkFZAPmpdXpWdXPHwV+3rjBlx5T/acfsn74=
-X-Google-Smtp-Source: ACHHUZ5ykqvYK8BkvZKtsxFJYDj/ZFYFubTc5chBTdunwSHWN518bjTdg8KmKOtvMDeCjiL9JMIoiQ==
-X-Received: by 2002:a5e:c107:0:b0:76c:8877:861c with SMTP id
- v7-20020a5ec107000000b0076c8877861cmr11593317iol.1.1684949371857; 
- Wed, 24 May 2023 10:29:31 -0700 (PDT)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com.
- [209.85.166.178]) by smtp.gmail.com with ESMTPSA id
- dl9-20020a056638278900b0040f91082a4fsm3110144jab.75.2023.05.24.10.29.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 May 2023 10:29:31 -0700 (PDT)
-Received: by mail-il1-f178.google.com with SMTP id
- e9e14a558f8ab-33164ec77ccso9645ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:29:31 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1b09:b0:335:a48:f668 with SMTP id
- i9-20020a056e021b0900b003350a48f668mr199716ilv.15.1684949370785; Wed, 24 May
- 2023 10:29:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230523193017.4109557-1-dianders@chromium.org>
- <20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
-In-Reply-To: <20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 24 May 2023 10:29:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Ucn7BeWWGOOEX0ho7yH31VF-w7U60KFB8qSn4L1xn3fw@mail.gmail.com>
-Message-ID: <CAD=FV=Ucn7BeWWGOOEX0ho7yH31VF-w7U60KFB8qSn4L1xn3fw@mail.gmail.com>
-Subject: Re: [PATCH 7/9] HID: i2c-hid: Support being a panel follower
-To: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C064210E591;
+ Wed, 24 May 2023 17:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684950032; x=1716486032;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=u+hnMevgHHQYBCEnex4Z2mVxHiJDxypIuzWe0lcSS9o=;
+ b=A1J1ZWwxGfVUigTStS8S3TOjTgLuYkEhbsVFqAnmHL4HDvUVvrfTi4hm
+ 85ZLerBQ3OwyPgRIFm+hog5aQZ4Aea691afDM8VKIbAGtbVXSYY+eu3mC
+ W1oF5ZJchF1zlxDuzVmvylEJCgiJ5EcfHEbJRciFRAhRovidmu9nkNSAY
+ jv8oa/S7LaXIVH0OFVF6vlotfq9sRt0ZR3saAKOwifruUbgriqFbuB8em
+ H14vxxWpOqJST5P4/agb5KrmV51v+5AJ66A7a7xX24j7o5Qt+iMvWl0k6
+ no3jnhcwY94+nzKWoKpydwnWbD6VQUrH5LDBsZWVYtUI9zgY6/JyXLMoN g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="417101389"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="417101389"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 10:40:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="1034619571"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="1034619571"
+Received: from bgill1-mobl-g6.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.252.140.189])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 10:40:30 -0700
+Date: Wed, 24 May 2023 10:38:04 -0700
+Message-ID: <87fs7lr5oj.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Make PMU sample array two-dimensional
+In-Reply-To: <beaf5d7d-a611-6c87-efa7-5b4c87e5ac7d@linux.intel.com>
+References: <20230523151918.4170499-1-ashutosh.dixit@intel.com>	<20230523151918.4170499-3-ashutosh.dixit@intel.com>	<beaf5d7d-a611-6c87-efa7-5b4c87e5ac7d@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,80 +60,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- hsinyi@google.com
+Cc: intel-gfx@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 24 May 2023 04:38:18 -0700, Tvrtko Ursulin wrote:
+>
 
-On Tue, May 23, 2023 at 12:31=E2=80=AFPM Douglas Anderson <dianders@chromiu=
-m.org> wrote:
->
-> As talked about in the patch ("drm/panel: Add a way for other devices
-> to follow panel state"), we really want to keep the power states of a
-> touchscreen and the panel it's attached to in sync with each other. In
-> that spirit, add support to i2c-hid to be a panel follower. This will
-> let the i2c-hid driver get informed when the panel is powered on and
-> off. From there we can match the i2c-hid device's power state to that
-> of the panel.
->
-> NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
-> of / manage the power state of the i2c-hid device, even though my
-> first instinct said that would be the way to go. Specific problems
-> with using pm_runtime():
-> * The initial power up couldn't happen in a runtime resume function
->   since it create sub-devices and, apparently, that's not good to do
->   in your resume function.
-> * Managing our power state with pm_runtime meant fighting to make the
->   right thing happen at system suspend to prevent the system from
->   trying to resume us only to suspend us again. While this might be
->   able to be solved, it added complexity.
-> Overall the code without pm_runtime() ended up being smaller and
-> easier to understand.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
->  drivers/hid/i2c-hid/i2c-hid-core.c | 82 +++++++++++++++++++++++++++++-
->  1 file changed, 81 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c=
--hid-core.c
-> index 34c0d98b4976..f1bb89377e8d 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -38,6 +38,8 @@
->  #include <linux/mutex.h>
->  #include <asm/unaligned.h>
->
-> +#include <drm/drm_panel.h>
-> +
->  #include "../hid-ids.h"
->  #include "i2c-hid.h"
->
-> @@ -107,6 +109,8 @@ struct i2c_hid {
->         struct mutex            reset_lock;
->
->         struct i2chid_ops       *ops;
-> +       struct drm_panel_follower panel_follower;
-> +       bool                    is_panel_follower;
->  };
->
->  static const struct i2c_hid_quirks {
-> @@ -1058,6 +1062,34 @@ int i2c_hid_core_initial_power_up(struct i2c_hid *=
-ihid)
->         return ret;
->  }
->
-> +int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
+Hi Tvrtko,
 
-As pointed out by the kernel test robot, I clearly missed making
-several functions "static" in this patch series. :( I'll fix that in
-v2, but for now I'll hold off sending v2 to wait for additional
-feedback.
+> On 23/05/2023 16:19, Ashutosh Dixit wrote:
+> > No functional changes but we can remove some unsightly index computation
+> > and read/write functions if we convert the PMU sample array from a
+> > one-dimensional to a two-dimensional array.
+> >
+> > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_pmu.c | 60 ++++++++++-----------------------
+> >   drivers/gpu/drm/i915/i915_pmu.h |  2 +-
+> >   2 files changed, 19 insertions(+), 43 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> > index b47d890d4ada1..137e0df9573ee 100644
+> > --- a/drivers/gpu/drm/i915/i915_pmu.c
+> > +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> > @@ -195,33 +195,6 @@ static inline s64 ktime_since_raw(const ktime_t kt)
+> >	return ktime_to_ns(ktime_sub(ktime_get_raw(), kt));
+> >   }
+> >   -static unsigned int
+> > -__sample_idx(struct i915_pmu *pmu, unsigned int gt_id, int sample)
+> > -{
+> > -	unsigned int idx = gt_id * __I915_NUM_PMU_SAMPLERS + sample;
+> > -
+> > -	GEM_BUG_ON(idx >= ARRAY_SIZE(pmu->sample));
+> > -
+> > -	return idx;
+> > -}
+> > -
+> > -static u64 read_sample(struct i915_pmu *pmu, unsigned int gt_id, int sample)
+> > -{
+> > -	return pmu->sample[__sample_idx(pmu, gt_id, sample)].cur;
+> > -}
+> > -
+> > -static void
+> > -store_sample(struct i915_pmu *pmu, unsigned int gt_id, int sample, u64 val)
+> > -{
+> > -	pmu->sample[__sample_idx(pmu, gt_id, sample)].cur = val;
+> > -}
+> > -
+> > -static void
+> > -add_sample_mult(struct i915_pmu *pmu, unsigned int gt_id, int sample, u32 val, u32 mul)
+> > -{
+> > -	pmu->sample[__sample_idx(pmu, gt_id, sample)].cur += mul_u32_u32(val, mul);
+> > -}
+>
+> IMO read and store helpers could have stayed and just changed the
+> implementation. Like add_sample_mult which you just moved. I would have
+> been a smaller patch. So dunno.. a bit of a reluctant r-b.
 
--Doug
+Are you referring just to add_sample_mult or to all the other functions
+too? add_sample_mult I moved it to where it was before bc4be0a38b63
+("drm/i915/pmu: Prepare for multi-tile non-engine counters"), could have
+left it here I guess.
+
+The other read and store helpers are not needed with the 2-d array at all
+since the compiler itself will do that, so I thought it was better to get
+rid of them completely.
+
+Let me know if you want any changes, otherwise I will leave as is.
+
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Thanks for the review. Thanks Andrzej too :)
+--
+Ashutosh
+
+> > -
+> >   static u64 get_rc6(struct intel_gt *gt)
+> >   {
+> >	struct drm_i915_private *i915 = gt->i915;
+> > @@ -240,7 +213,7 @@ static u64 get_rc6(struct intel_gt *gt)
+> >	spin_lock_irqsave(&pmu->lock, flags);
+> >		if (awake) {
+> > -		store_sample(pmu, gt_id, __I915_SAMPLE_RC6, val);
+> > +		pmu->sample[gt_id][__I915_SAMPLE_RC6].cur = val;
+> >	} else {
+> >		/*
+> >		 * We think we are runtime suspended.
+> > @@ -250,13 +223,13 @@ static u64 get_rc6(struct intel_gt *gt)
+> >		 * counter value.
+> >		 */
+> >		val = ktime_since_raw(pmu->sleep_last[gt_id]);
+> > -		val += read_sample(pmu, gt_id, __I915_SAMPLE_RC6);
+> > +		val += pmu->sample[gt_id][__I915_SAMPLE_RC6].cur;
+> >	}
+> >   -	if (val < read_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED))
+> > -		val = read_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED);
+> > +	if (val < pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur)
+> > +		val = pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur;
+> >	else
+> > -		store_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED, val);
+> > +		pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur = val;
+> >		spin_unlock_irqrestore(&pmu->lock, flags);
+> >   @@ -275,9 +248,8 @@ static void init_rc6(struct i915_pmu *pmu)
+> >		with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
+> >			u64 val = __get_rc6(gt);
+> >   -			store_sample(pmu, i, __I915_SAMPLE_RC6, val);
+> > -			store_sample(pmu, i, __I915_SAMPLE_RC6_LAST_REPORTED,
+> > -				     val);
+> > +			pmu->sample[i][__I915_SAMPLE_RC6].cur = val;
+> > +			pmu->sample[i][__I915_SAMPLE_RC6_LAST_REPORTED].cur = val;
+> >			pmu->sleep_last[i] = ktime_get_raw();
+> >		}
+> >	}
+> > @@ -287,7 +259,7 @@ static void park_rc6(struct intel_gt *gt)
+> >   {
+> >	struct i915_pmu *pmu = &gt->i915->pmu;
+> >   -	store_sample(pmu, gt->info.id, __I915_SAMPLE_RC6, __get_rc6(gt));
+> > +	pmu->sample[gt->info.id][__I915_SAMPLE_RC6].cur = __get_rc6(gt);
+> >	pmu->sleep_last[gt->info.id] = ktime_get_raw();
+> >   }
+> >   @@ -428,6 +400,12 @@ engines_sample(struct intel_gt *gt, unsigned int
+> > period_ns)
+> >	}
+> >   }
+> >   +static void
+> > +add_sample_mult(struct i915_pmu_sample *sample, u32 val, u32 mul)
+> > +{
+> > +	sample->cur += mul_u32_u32(val, mul);
+> > +}
+> > +
+> >   static bool
+> >   frequency_sampling_enabled(struct i915_pmu *pmu, unsigned int gt)
+> >   {
+> > @@ -467,12 +445,12 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+> >		if (!val)
+> >			val = intel_gpu_freq(rps, rps->cur_freq);
+> >   -		add_sample_mult(pmu, gt_id, __I915_SAMPLE_FREQ_ACT,
+> > +		add_sample_mult(&pmu->sample[gt_id][__I915_SAMPLE_FREQ_ACT],
+> >				val, period_ns / 1000);
+> >	}
+> >		if (pmu->enable &
+> > config_mask(__I915_PMU_REQUESTED_FREQUENCY(gt_id))) {
+> > -		add_sample_mult(pmu, gt_id, __I915_SAMPLE_FREQ_REQ,
+> > +		add_sample_mult(&pmu->sample[gt_id][__I915_SAMPLE_FREQ_REQ],
+> >				intel_rps_get_requested_frequency(rps),
+> >				period_ns / 1000);
+> >	}
+> > @@ -673,14 +651,12 @@ static u64 __i915_pmu_event_read(struct perf_event *event)
+> >		switch (config) {
+> >		case I915_PMU_ACTUAL_FREQUENCY:
+> >			val =
+> > -			   div_u64(read_sample(pmu, gt_id,
+> > -					       __I915_SAMPLE_FREQ_ACT),
+> > +			   div_u64(pmu->sample[gt_id][__I915_SAMPLE_FREQ_ACT].cur,
+> >				   USEC_PER_SEC /* to MHz */);
+> >			break;
+> >		case I915_PMU_REQUESTED_FREQUENCY:
+> >			val =
+> > -			   div_u64(read_sample(pmu, gt_id,
+> > -					       __I915_SAMPLE_FREQ_REQ),
+> > +			   div_u64(pmu->sample[gt_id][__I915_SAMPLE_FREQ_REQ].cur,
+> >				   USEC_PER_SEC /* to MHz */);
+> >			break;
+> >		case I915_PMU_INTERRUPTS:
+> > diff --git a/drivers/gpu/drm/i915/i915_pmu.h b/drivers/gpu/drm/i915/i915_pmu.h
+> > index 33d80fbaab8bc..d20592e7db999 100644
+> > --- a/drivers/gpu/drm/i915/i915_pmu.h
+> > +++ b/drivers/gpu/drm/i915/i915_pmu.h
+> > @@ -127,7 +127,7 @@ struct i915_pmu {
+> >	 * Only global counters are held here, while the per-engine ones are in
+> >	 * struct intel_engine_cs.
+> >	 */
+> > -	struct i915_pmu_sample sample[I915_PMU_MAX_GTS * __I915_NUM_PMU_SAMPLERS];
+> > +	struct i915_pmu_sample sample[I915_PMU_MAX_GTS][__I915_NUM_PMU_SAMPLERS];
+> >	/**
+> >	 * @sleep_last: Last time GT parked for RC6 estimation.
+> >	 */
