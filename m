@@ -2,68 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206A470EFC7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C334170EFD8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BB210E587;
-	Wed, 24 May 2023 07:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C051210E03A;
+	Wed, 24 May 2023 07:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C04810E587
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:45:25 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-64d44b198baso402164b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 00:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
- t=1684914324; x=1687506324; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ys/SLmJf9ZfMR5xC5B+aVb11E3cqyPInCe2lYcTys6w=;
- b=O9W4mEYJy3RzxDLdJdWLxzqiwP1Ylxa3TIWst/JvA9UPmhtF7kz4LB8Uj+MbWwkmae
- SXSaB7rj/iia708kLLPAIWPyhXKZYTeu+ETv86jb4viym/2+qNYdshXTG0Gl0DsRoneE
- 4tIJUo1N2TdRgU/v7KgGHcYjwHrM5/V0NICA0Ak8okFSV8kPffJKvEB41gK15Vtp1asv
- t4teYeNXNQDDYyME4svL88fw2rJ7i3TslXTFF40WKh4wuZ2B8DBcOOe/Jq4kBFZClvz/
- Vgw7k7G51sRrEeaeEglVfpe/5JFAxcWfgIxDiolV75BV1y0CmOrBXhpcalLmMxn5duub
- oG1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684914324; x=1687506324;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ys/SLmJf9ZfMR5xC5B+aVb11E3cqyPInCe2lYcTys6w=;
- b=b8917KuzSg9jslmOl7/rtlJU3r1vgx2oHXxMP1MufhC6d2SEofBx0o5tgwniM+GYSR
- +wE2NC4/WwHGJaIjRo1v0Hb69jy9VOlKy9q4tmPIRYjf6uMvInsDfLGBQlJ0tbv3RUQv
- lDMnLZ5Qn65l91jTHQMw3LrfhFphqYjvIdJ2+I6LupQVeEAaHMKLxGQ0BzFpjiFwv1a1
- mEIFv9aTcmowTgytilBrr0c0CJTGOeCT9rhTNRa4SAqZ+ie3JRheZJf/EzFHCxxfcimb
- Q6538/dyroDxpAVvla5m2al3F4VqT9Nv1SlJqBm8NSgLzmj+fhcLN7CDy/SgziVmnivy
- pNRA==
-X-Gm-Message-State: AC+VfDzV+QIHszciR9UfmDZpdCvur7QBLSaN+L5sOMzBhxelWsORR1V3
- i5hzy/Lm/a680LbL/+EjkMkDgw==
-X-Google-Smtp-Source: ACHHUZ772BXLvv9iSKgRv0OHi1NApJDkZ266P3N+Twh6YGcaDgZs91atcx6DS8NTIqtu4xWPgBZR/w==
-X-Received: by 2002:a05:6a00:4294:b0:64d:2a87:2596 with SMTP id
- bx20-20020a056a00429400b0064d2a872596mr1534767pfb.10.1684914324665; 
- Wed, 24 May 2023 00:45:24 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a62e906000000b0063d29df1589sm6801336pfh.136.2023.05.24.00.45.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 May 2023 00:45:24 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: dianders@google.com, daniel@ffwll.ch, neil.armstrong@linaro.org,
- sam@ravnborg.org, airlied@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, hsinyi@google.com, conor+dt@kernel.org
-Subject: [v2 4/4] dt-bindings: display: panel: Add compatible for Starry
- ili9882t
-Date: Wed, 24 May 2023 15:44:55 +0800
-Message-Id: <20230524074455.1172064-3-yangcong5@huaqin.corp-partner.google.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F62710E58B
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684914579; x=1716450579;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aje7vWJGzd8a6fVJQZ5k8JnKqFVavdoYIlwGfuVhlN0=;
+ b=mv1FJ2rG9XNqDWGlMk9xFJ40NaNd8YaERIa2HWZ+Wl2No5Al0GElZJ4G
+ +dxxCSfn7y6d5QLSG7cfxZDVkBfwMFzs94udHlhaXoWBJmRnR3tWF1Rkc
+ WlkOZ6VAEnDLVtON3s0XHO4DQm8l3U2EBls7I9iWSQxsTnfWfs6b4DE/A
+ Z4vnX7LuI86d5sYZTyJR/3OxJAZFa1vjB7HiVaC/fXDEtUwC/WKI+qlhB
+ k1mz7fF7tST3Q64cgtoeoov6nOJHsUR/ByPVUZMkCJ87FecbxGi2YHjBp
+ dBfF1XLidEUrFkuZ95fH7Dg6DEw5bl/EQfGts6otA/caho2vWRANXrXVE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="381732732"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="381732732"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 00:49:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="774157027"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="774157027"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 00:49:37 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/5] accel/ivpu: Add debugfs support
+Date: Wed, 24 May 2023 09:48:42 +0200
+Message-Id: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230524074455.1172064-1-yangcong5@huaqin.corp-partner.google.com>
-References: <CAD=FV=WRecTWsFM96k81YAx1=jJT0vpS4EPP0ZfWFUGHNFx9Tw@mail.gmail.com>
- <20230524074455.1172064-1-yangcong5@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,34 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The STARRY ili9882t is a 10.51" WUXGA TFT LCD panel,
-which fits in nicely with the existing panel-boe-tv101wum-nl6
-driver. Hence, we add a new compatible with panel specific config.
+Add debugfs support for ivpu driver, most importantly firmware loging
+and tracing.
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
- .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+Andrzej Kacprowski (1):
+  accel/ivpu: Print firmware name and version
 
-diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-index 28a7beeb8f92..906ef62709b8 100644
---- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-@@ -34,6 +34,8 @@ properties:
-       - starry,2081101qfh032011-53g
-         # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-       - starry,himax83102-j02
-+        # STARRY ili9882t 10.51" WUXGA TFT LCD panel
-+      - starry,ili9882t
- 
-   reg:
-     description: the virtual channel number of a DSI peripheral
+Krystian Pradzynski (1):
+  accel/ivpu: Add fw_name file to debugfs
+
+Stanislaw Gruszka (3):
+  accel/ivpu: Initial debugfs support
+  accel/ivpu: Add firmware tracing support
+  accel/ivpu: Add debugfs files for testing device reset
+
+ drivers/accel/ivpu/Makefile       |   4 +-
+ drivers/accel/ivpu/ivpu_debugfs.c | 294 ++++++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_debugfs.h |  13 ++
+ drivers/accel/ivpu/ivpu_drv.c     |   5 +
+ drivers/accel/ivpu/ivpu_fw.c      |  68 ++++++-
+ drivers/accel/ivpu/ivpu_fw.h      |   4 +
+ drivers/accel/ivpu/ivpu_fw_log.c  | 142 +++++++++++++++
+ drivers/accel/ivpu/ivpu_fw_log.h  |  38 ++++
+ drivers/accel/ivpu/ivpu_pm.c      |   1 +
+ drivers/accel/ivpu/ivpu_pm.h      |   1 +
+ 10 files changed, 563 insertions(+), 7 deletions(-)
+ create mode 100644 drivers/accel/ivpu/ivpu_debugfs.c
+ create mode 100644 drivers/accel/ivpu/ivpu_debugfs.h
+ create mode 100644 drivers/accel/ivpu/ivpu_fw_log.c
+ create mode 100644 drivers/accel/ivpu/ivpu_fw_log.h
+
 -- 
 2.25.1
 
