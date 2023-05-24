@@ -2,47 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C70B70FE75
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 21:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3590970FE7C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 21:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C1C410E5E4;
-	Wed, 24 May 2023 19:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8EB510E5F7;
+	Wed, 24 May 2023 19:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 012D910E5E4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 19:21:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 036A46404B;
- Wed, 24 May 2023 19:21:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FB2C4339B;
- Wed, 24 May 2023 19:21:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684956099;
- bh=Sd1Ura2M9buJQSOCvciUHD2sqlFtpG56/2/gPbm9J28=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qok6UoeSp3jwvMlC7HfMf2T3bU/c9zak6yUZL8CGMvuQ7/qSRGAgchHhGYUnyXlpp
- xTj3foph1OeS7CC+H+W6Bdu6AAE9adZArZ8y7q3KOD1hcbSdZFZP9xHG/IYrIBgbo7
- c/x7++wsglFYVGCF3wtUw8l/DjCmA6FAikwWnMe/pJhW5+7ayOnC5ImDJd88RE02R/
- 3TRQd9kdynkgbUq4KVSL+ruUKb6GajJX3WYzIdHcxTh8PCeTZgqw8uB9QBDY4CANX7
- M5gODvF+r9M8b9I9WHSRQf1lQMrin8Gh/IcbNhI2X3qVgDAZo/1+qMbdTLi9DPkibu
- ZaWIzBUmgq7QQ==
-Date: Wed, 24 May 2023 20:21:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel-simple: Add Ampire
- AM-800480L1TMQW-T00H
-Message-ID: <20230524-posing-pouncing-f197846768ac@spud>
-References: <cover.1684931026.git.geert+renesas@glider.be>
- <422adef8c4941fa56fdadacb3d362a9fb387455e.1684931026.git.geert+renesas@glider.be>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E52710E5ED;
+ Wed, 24 May 2023 19:22:33 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id
+ 5614622812f47-3980f932206so452412b6e.1; 
+ Wed, 24 May 2023 12:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684956152; x=1687548152;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S2MKQchWUI0FAkJHrQVirdj5xxCSU2CZ+/GrJRPq7B8=;
+ b=qmcA7bO+beP8btIoBYHwlyAwgiDEqzN6A1J0CvnsA911MD/8axY2IazqByJunWum8v
+ ff5MHC6Nv0BhDOZ1jh6ZzFKh7yXQ/dqPfbsqiixPqW+xDoLLuaMNN9wYgf5onfgt8ttO
+ R4TNEtErOuIX9D/cWyZYCGvo7kKNMjzRn+gP9RNwsKFQ5XdwAYd6WjNply4dSc35lILj
+ G3M6RM8aPa2h9mxWRDqFYuBD0bhw1oHO1PkYiGiCa1RlTISx711Yo/2sbeMtvgulKCXW
+ SVkdV4hyAKdNmFqy2mIKteOwn+vbM6hpPmlJDQctv/PJIAHwq3BjqL59lNeMcdsKLdFv
+ FXhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684956152; x=1687548152;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S2MKQchWUI0FAkJHrQVirdj5xxCSU2CZ+/GrJRPq7B8=;
+ b=DxTGtFMGlIYQvgyNvejU/wcbikBSEmoNxYOIqVbjqDZmimR5JMpyFvBtm35sn2mYJT
+ eTMfyyl22aOW+lbLSWuRhBudYqdpWlmKuFwWjmcFUpCvV+aGDQ5fN8IGhmrPriZlSJgg
+ YnhO42nHkXLShuSOMuWBiaSviQkzWaVLDQGCQfbmZz2eZt+R6E8gHfhMVbJGKZqXA6Iw
+ SIY78rSKcc3A4ZyMJprmLRFJKrHIS+QVqBDeSukqVKXYmZegQBJr9i2SuJM5DHUdzUcD
+ EyVmsiXEqNKEjwbtS92RXYKp1WU9m6t3pIy0FufqnTByCVm2xMlvpbsJdqDgMY7fixwf
+ HdLw==
+X-Gm-Message-State: AC+VfDx9AFPCqcI2eJWXFKTJHSZd+J+TM4xtRdkm/vubR6qKSXfjiqDi
+ rJ/DVYCt9amoEqpmxd5gHLo4mPrPeYZsfZ5agcg=
+X-Google-Smtp-Source: ACHHUZ6+o43wIGXEkDmzv0/0EngB13qldFCGeSitptxs3zpaCN7kPY6u37qi2JoztOJVQXZzTysmEZNfLSW0dIKL58U=
+X-Received: by 2002:a05:6808:3b4:b0:397:f715:5e6e with SMTP id
+ n20-20020a05680803b400b00397f7155e6emr6895688oie.56.1684956152482; Wed, 24
+ May 2023 12:22:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NKQCStFFZ1gwgZRL"
-Content-Disposition: inline
-In-Reply-To: <422adef8c4941fa56fdadacb3d362a9fb387455e.1684931026.git.geert+renesas@glider.be>
+References: <20230524191955.252212-1-hamza.mahfooz@amd.com>
+In-Reply-To: <20230524191955.252212-1-hamza.mahfooz@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 24 May 2023 15:22:21 -0400
+Message-ID: <CADnq5_Mz6aPFYGnr8J8C8UeTpbo7JDg+uvjqAxo7o4vmTGej2A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/display: enable more strict compile checks
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Leo Li <sunpeng.li@amd.com>, Kenny Ho <kenny.ho@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, May 24, 2023 at 3:20=E2=80=AFPM Hamza Mahfooz <hamza.mahfooz@amd.co=
+m> wrote:
+>
+> Currently, there are quite a number of issues that are quite easy for
+> the CI to catch, that slip through the cracks. Among them, there are
+> unused variable and indentation issues. Also, we should consider all
+> warnings to be compile errors, since the community will eventually end
+> up complaining about them. So, enable -Werror, -Wunused and
+> -Wmisleading-indentation for all kernel builds.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Kenny Ho <kenny.ho@amd.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> ---
+> v2: fix grammatical error
+> ---
+>  drivers/gpu/drm/amd/display/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/Makefile b/drivers/gpu/drm/amd/d=
+isplay/Makefile
+> index 0d610cb376bb..3c44162ebe21 100644
+> --- a/drivers/gpu/drm/amd/display/Makefile
+> +++ b/drivers/gpu/drm/amd/display/Makefile
+> @@ -26,6 +26,8 @@
+>
+>  AMDDALPATH =3D $(RELATIVE_AMD_DISPLAY_PATH)
+>
+> +subdir-ccflags-y +=3D -Werror -Wunused -Wmisleading-indentation
+> +
 
---NKQCStFFZ1gwgZRL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Care to enable this for the rest of amdgpu as well?  Or send out an
+additional patch to do that?  Either way:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-On Wed, May 24, 2023 at 02:32:10PM +0200, Geert Uytterhoeven wrote:
-> Document support for the Ampire AM-800480L1TMQW-T00H 5" WVGA TFT LCD
-> panel.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Alex
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
---NKQCStFFZ1gwgZRL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG5jvgAKCRB4tDGHoIJi
-0oO/AQDeTcFWWpQENvchjFkwbz1TuanTTaaJI3Nk9bUVe0a0HwD+O53CJKVeO+hr
-x/Cbf/39qxSEbaY36E6RZ371qVEk5wU=
-=6wyM
------END PGP SIGNATURE-----
-
---NKQCStFFZ1gwgZRL--
+>  subdir-ccflags-y +=3D -I$(FULL_AMD_DISPLAY_PATH)/dc/inc/
+>  subdir-ccflags-y +=3D -I$(FULL_AMD_DISPLAY_PATH)/dc/inc/hw
+>  subdir-ccflags-y +=3D -I$(FULL_AMD_DISPLAY_PATH)/dc/clk_mgr
+> --
+> 2.40.1
+>
