@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3594370FCFF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:46:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD0670FCF8
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:45:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2293110E5B4;
-	Wed, 24 May 2023 17:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 877B110E542;
+	Wed, 24 May 2023 17:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60A1710E5B4;
- Wed, 24 May 2023 17:45:50 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3875810E540;
+ Wed, 24 May 2023 17:45:41 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34OEoQFf018675; Wed, 24 May 2023 17:45:36 GMT
+ 34OEvxUo014271; Wed, 24 May 2023 17:45:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : date :
  subject : mime-version : content-type : content-transfer-encoding :
  message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=mv2mQWllp5NQ4buOp3bqzL0SgpjqvprgrReyVfTDpYA=;
- b=oyTRRP0QzXFu6Uj4Si8qTr2Ee1noC1iLSYLkc3O/y3LveWOMhSwxvTqDA4HtePdlxeix
- WJL1aObj7jr/lmi4tFOtEHE7FFMm9pTBO6kWTJZ0QZsPvmRODmLD44ulofQy/97KQqDZ
- TQso5W1dDtPWrIqpMDDzxq7nlQD40yuXBZZoYkGfdYQsBjRgPtUrv9YhNS8p/hfUSgs8
- Gxngwi7ICjUxpSQbynW51difbUkwa2Cv0INuJuy5pPs7bL43mBOY+7Szc/PJaL0uDMjq
- vG0/s37gXgcWutayK+MsVGE5iJCCWrUaAUsOqglT90Olx6u6rhpruiGI1R92Z37BxpE8 WA== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ bh=A1a6jDnGA7SNFxcrtMVPxRVI3BxjNApTWwZnU6MS68M=;
+ b=BFq3NabFM6dhnHXISIAmBj8oMnH894xyzSHVnR90e6x+V8MX1nD46/pXUQ3wFEDWthLw
+ plinFbLuMTEOAnJuhJdFKIb0FgIEUgdFowzEbRSIfWyPsF5nTQqkVaZ69Xf2AKfmAtwg
+ bqnyu2TrFD2LVl82p8+uP9ecDtWLvnSR2jYEXRcKbhgQYRm/iNx8CqWlWmfCQtfDx3F8
+ JEc2AH3moQ66Cr0YvPWaFLqWHEJF2DaLhtSEIfF3NoF6BoBEeIXV15K1rXy7dkSKFbDM
+ 1Y6w3igweYuYEP9Ih6/urZxoS9uNUPUHGECrt0Gb/u2c/lShEoWMiDf2bLL+wKSCSypO fg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qs4dfafnx-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qs9wesy94-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 24 May 2023 17:45:36 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34OHjZHp002641
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34OHjZIs001190
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 24 May 2023 17:45:35 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,22 +41,21 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.986.42; Wed, 24 May 2023 10:45:35 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Wed, 24 May 2023 10:45:15 -0700
-Subject: [PATCH v14 2/9] drm/display/dsc: add helper to set semi-const
- parameters
+Date: Wed, 24 May 2023 10:45:16 -0700
+Subject: [PATCH v14 3/9] drm/display/dsc: Add drm_dsc_get_bpp_int helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20230329-rfc-msm-dsc-helper-v14-2-bafc7be95691@quicinc.com>
+Message-ID: <20230329-rfc-msm-dsc-helper-v14-3-bafc7be95691@quicinc.com>
 References: <20230329-rfc-msm-dsc-helper-v14-0-bafc7be95691@quicinc.com>
 In-Reply-To: <20230329-rfc-msm-dsc-helper-v14-0-bafc7be95691@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 X-Mailer: b4 0.13-dev-bfdf5
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684950334; l=2677;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684950334; l=1973;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=y9t0/Te1h2kdKPbMJNHiTKgBOZYr5OnKmdhNXKvY78s=;
- b=+x4QEPsa+/PiGJNng9BoiItoBhoRotcKGk945Yr3PI4jYdjQ3SCOmeDwp/zvEQO+WiE3Lx00D
- yOrgz6x38oADDUYpHfpv4Jv0G1HoFQPcrvrB6XCwGaW1zJRs/fQHn5b
+ bh=eiZOej2w9zQ5b6opXu5NDtkGz6oteCbOWDYUqGrdp8M=;
+ b=WrsEnvBZNxdmmvPmObzqI/mk2tlL6vp2S5qXuasq7cm1o/pS5PP2T0YR88HGVAFsplYXyawj/
+ GPdZQbn04umCqq+vr1LMPfhgw26yg0tOZO6M9Ws09vlEmj5FKXm6b2U
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -65,16 +64,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: oXBuIRso_kHcHZ4EclkaCLkOjIiQQ8nf
-X-Proofpoint-ORIG-GUID: oXBuIRso_kHcHZ4EclkaCLkOjIiQQ8nf
+X-Proofpoint-ORIG-GUID: jYCjYxH5cYNSt92UsdSJNZ34YoF18Uk8
+X-Proofpoint-GUID: jYCjYxH5cYNSt92UsdSJNZ34YoF18Uk8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-05-24_11,2023-05-24_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- suspectscore=0 impostorscore=0 phishscore=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0
+ mlxlogscore=923 impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ spamscore=0 clxscore=1015 adultscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305240146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,65 +96,52 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Add helper to get the integer value of drm_dsc_config.bits_per_pixel
 
-Add a helper setting config values which are typically constant across
-operating modes (table E-4 of the standard) and mux_word_size (which is
-a const according to 3.5.2).
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- drivers/gpu/drm/display/drm_dsc_helper.c | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/display/drm_dsc_helper.c | 13 +++++++++++++
  include/drm/display/drm_dsc_helper.h     |  1 +
- 2 files changed, 23 insertions(+)
+ 2 files changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
-index 4efb6236d22c..b31fe9849784 100644
+index b31fe9849784..4424380c6cb6 100644
 --- a/drivers/gpu/drm/display/drm_dsc_helper.c
 +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
-@@ -270,6 +270,28 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
+@@ -1436,6 +1436,19 @@ int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg)
  }
- EXPORT_SYMBOL(drm_dsc_pps_payload_pack);
+ EXPORT_SYMBOL(drm_dsc_compute_rc_parameters);
  
 +/**
-+ * drm_dsc_set_const_params() - Set DSC parameters considered typically
-+ * constant across operation modes
++ * drm_dsc_get_bpp_int() - Get integer bits per pixel value for the given DRM DSC config
++ * @vdsc_cfg: Pointer to DRM DSC config struct
 + *
-+ * @vdsc_cfg:
-+ * DSC Configuration data partially filled by driver
++ * Return: Integer BPP value
 + */
-+void drm_dsc_set_const_params(struct drm_dsc_config *vdsc_cfg)
++u32 drm_dsc_get_bpp_int(const struct drm_dsc_config *vdsc_cfg)
 +{
-+	if (!vdsc_cfg->rc_model_size)
-+		vdsc_cfg->rc_model_size = DSC_RC_MODEL_SIZE_CONST;
-+	vdsc_cfg->rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST;
-+	vdsc_cfg->rc_tgt_offset_high = DSC_RC_TGT_OFFSET_HI_CONST;
-+	vdsc_cfg->rc_tgt_offset_low = DSC_RC_TGT_OFFSET_LO_CONST;
-+
-+	if (vdsc_cfg->bits_per_component <= 10)
-+		vdsc_cfg->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
-+	else
-+		vdsc_cfg->mux_word_size = DSC_MUX_WORD_SIZE_12_BPC;
++	WARN_ON_ONCE(vdsc_cfg->bits_per_pixel & 0xf);
++	return vdsc_cfg->bits_per_pixel >> 4;
 +}
-+EXPORT_SYMBOL(drm_dsc_set_const_params);
++EXPORT_SYMBOL(drm_dsc_get_bpp_int);
 +
- /* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
- static const u16 drm_dsc_rc_buf_thresh[] = {
- 	896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
+ /**
+  * drm_dsc_initial_scale_value() - Calculate the initial scale value for the given DSC config
+  * @dsc: Pointer to DRM DSC config struct
 diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-index 71789fb34e17..f4e18e5d077a 100644
+index f4e18e5d077a..913aa2071232 100644
 --- a/include/drm/display/drm_dsc_helper.h
 +++ b/include/drm/display/drm_dsc_helper.h
-@@ -21,6 +21,7 @@ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
- int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
- void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
- 			      const struct drm_dsc_config *dsc_cfg);
-+void drm_dsc_set_const_params(struct drm_dsc_config *vdsc_cfg);
- void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
- int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_type type);
+@@ -27,6 +27,7 @@ int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params
  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
+ u8 drm_dsc_initial_scale_value(const struct drm_dsc_config *dsc);
+ u32 drm_dsc_flatness_det_thresh(const struct drm_dsc_config *dsc);
++u32 drm_dsc_get_bpp_int(const struct drm_dsc_config *vdsc_cfg);
+ 
+ #endif /* _DRM_DSC_HELPER_H_ */
+ 
 
 -- 
 2.40.1
