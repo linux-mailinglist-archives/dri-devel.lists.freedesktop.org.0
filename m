@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E867370EB20
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 04:11:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D4A70EB55
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 04:30:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15D6110E02D;
-	Wed, 24 May 2023 02:11:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF1110E027;
+	Wed, 24 May 2023 02:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C684B10E027
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:11:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 13FFE637E9;
- Wed, 24 May 2023 02:11:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB104C4339B;
- Wed, 24 May 2023 02:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684894284;
- bh=kniNgZVPplXlMH2opmkUc/AvVlH7GGFlY5Hs9Bg07hA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iDdAUsc9NkNemL4s4tKZ5sJf84h5iEC1qpm7ZkLg+kuzpynj87mLY6juS0TFXB++F
- 6emUiHXYY0lIhYQYyHLwTjd/wfF/F/gK/d0PFTXIh9TVouCfhG5+IvpYGzVLRKmGcN
- mTPQjQOZT8Lqca+5axder6TV/Bggx7jOynp/mbb8Lhjpeuc0DDv8vcyliff3cc/aTV
- 68q/FZckV1KB39vwe7NsO+lfioR74pXfDYWcxv4Ux1JCbv8s7u9Y3uIqlCRvvum/ay
- l9uvhJ62GGxl5scGrE5qvizwTJwNqqqDLJwELRwqHVF4sS5j+1400LdY0MTFwe8d8v
- Vh/aHz1DFqoXw==
-Date: Wed, 24 May 2023 10:11:19 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Prevent endless probe loop
-Message-ID: <ZG1yR9CYXzEPg5TJ@google.com>
-References: <20230518193902.891121-1-nfraprado@collabora.com>
+Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8169910E027
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:30:01 +0000 (UTC)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 24 May
+ 2023 10:29:56 +0800
+Message-ID: <1e4ca9bc-0e39-2708-8da8-b402139fe7ff@aspeedtech.com>
+Date: Wed, 24 May 2023 10:29:57 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/ast: Fix modeset failed on DisplayPort
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@redhat.com>
+References: <20230425070330.8520-1-jammy_huang@aspeedtech.com>
+ <d43c0c09-ff6b-e2d1-01ae-68fe93188896@suse.de>
+ <d285566b-ed7c-8e2a-a078-7bdd5bac13e3@aspeedtech.com>
+Content-Language: en-US
+In-Reply-To: <d285566b-ed7c-8e2a-a078-7bdd5bac13e3@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230518193902.891121-1-nfraprado@collabora.com>
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,30 +45,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, tzungbi@kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Hsin-Yi Wang <hsinyi@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pin-yen Lin <treapking@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- kernel@collabora.com, owen <qwt9588@gmail.com>, Xin Ji <xji@analogixsemi.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 18, 2023 at 03:39:02PM -0400, N�colas F. R. A. Prado wrote:
-> Fixes: adca62ec370c ("drm/bridge: anx7625: Support reading edid through aux channel")
-> Fixes: 269332997a16 ("drm/bridge: anx7625: Return -EPROBE_DEFER if the dsi host was not found")
-> Reported-by: "kernelci.org bot" <bot@kernelci.org>
-> Signed-off-by: N�colas F. R. A. Prado <nfraprado@collabora.com>
+Hi Thomas,
 
-Tested-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Do you have other suggestion for this patch??
 
-The patch can fix the "login" test failures observed on
-mt8183-kukui-jacuzzi-juniper-sku16 and mt8192-asurada-spherion-r0 in
-kernelci[1].
+Please kindly advise.
 
-[1]: https://linux.kernelci.org/test/job/chrome-platform/branch/for-kernelci/kernel/v6.4-rc1-3-g4b9abbc132b86/plan/cros-ec/
+On 2023/4/25 下午 03:39, Jammy Huang wrote:
+> Hi Thomas,
+>
+> I think DP501 is OK. It doesn't use ioregs in ast_dp501_read_edid().
+>
+> On 2023/4/25 下午 03:27, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 25.04.23 um 09:03 schrieb Jammy Huang:
+>>> If we switch display and update cursor together, it could lead to
+>>> modeset failed because of concurrent access to IO registers.
+>>>
+>>> Add lock protection in DP's edid access to avoid this problem.
+>>
+>> Thanks for the patch. I thought I fixed this issue already, but that 
+>> apparently only happened for SIL164 and VGA.
+>>
+>> What about ast_dp501_connector_helper_get_modes()? Does it require 
+>> the locking as well?
+>>
+>>>
+>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_mode.c | 11 +++++++++++
+>>>   1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>> b/drivers/gpu/drm/ast/ast_mode.c
+>>> index 984ec590a7e7..fe5f1fd61361 100644
+>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>> @@ -1635,6 +1635,8 @@ static int ast_dp501_output_init(struct 
+>>> ast_private *ast)
+>>>   static int ast_astdp_connector_helper_get_modes(struct 
+>>> drm_connector *connector)
+>>>   {
+>>>       void *edid;
+>>> +    struct drm_device *dev = connector->dev;
+>>> +    struct ast_private *ast = to_ast_private(dev);
+>>
+>> We've meanwhile renamed ast_private to ast_device. Could you please 
+>> provide an updated patch for the drm-misc-next tree?
+>>
+>> Best regards
+>> Thomas
+>>
+>>>         int succ;
+>>>       int count;
+>>> @@ -1643,10 +1645,18 @@ static int 
+>>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+>>>       if (!edid)
+>>>           goto err_drm_connector_update_edid_property;
+>>>   +    /*
+>>> +     * Protect access to I/O registers from concurrent modesetting
+>>> +     * by acquiring the I/O-register lock.
+>>> +     */
+>>> +    mutex_lock(&ast->ioregs_lock);
+>>> +
+>>>       succ = ast_astdp_read_edid(connector->dev, edid);
+>>>       if (succ < 0)
+>>>           goto err_kfree;
+>>>   +    mutex_unlock(&ast->ioregs_lock);
+>>> +
+>>>       drm_connector_update_edid_property(connector, edid);
+>>>       count = drm_add_edid_modes(connector, edid);
+>>>       kfree(edid);
+>>> @@ -1654,6 +1664,7 @@ static int 
+>>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+>>>       return count;
+>>>     err_kfree:
+>>> +    mutex_unlock(&ast->ioregs_lock);
+>>>       kfree(edid);
+>>>   err_drm_connector_update_edid_property:
+>>>       drm_connector_update_edid_property(connector, NULL);
+>>>
+>>> base-commit: 61d325dcbc05d8fef88110d35ef7776f3ac3f68b
+>>
+-- 
+Best Regards
+Jammy
+
