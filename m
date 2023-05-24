@@ -1,64 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C9071014D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 01:02:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6406471016E
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 01:04:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E25E10E69C;
-	Wed, 24 May 2023 23:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0D210E6A6;
+	Wed, 24 May 2023 23:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C936710E69A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 23:02:15 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 98e67ed59e1d1-2535edae73cso750270a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 16:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1684969335; x=1687561335;
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=v5zZotljd3Hyc+Oy1Jg+1b4pVUo29QOyOY0P6Nrlmos=;
- b=bekyUfq8OJo10D4d/Bj+/rXTqsH2kRSLsPOkKvrsR7gK6ptb+NiOuOaVIzK4lAw/gK
- 2Qj5uTSK2j6KKK5NscSaegC6ShDKbm0QSmsZcJxqy/DFZDekZpRSHuji5HQwRBdglxVi
- OgyYLtI/yI5ir7/BPk+e3uhgQrskR/3CVQn3k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684969335; x=1687561335;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v5zZotljd3Hyc+Oy1Jg+1b4pVUo29QOyOY0P6Nrlmos=;
- b=Abz4K62chx02o/+9aEm83Q9ZvP0epWgVfAlNKzC13Aq6n9RBALGXBgNDYmqdwmhkUD
- gfdbO0PvuRkY83C+03xTV9UDN5+fmPJ8yKs5NxubX5IdGDV3JT/TTfiOm2cPdYoW0mWC
- jkUK5pz8OyNCCeHvzvFW+S4mEvtKrnLE9/exjNgBEZzA93AIVblkSWkmhS6Mfwi5rYLV
- iIJFZUi0/mAQMuSYRsIz653va8HC1aEdy4fPruRoRfLqFM9eUarfqR+vMk66iuDyW0jU
- WVZpnfHvVyLn3YlHF1YgqU5OYBQOvN8QW+DjUgRG8QDWE3A6dcimKMNRXihsbpUPsN3x
- haSg==
-X-Gm-Message-State: AC+VfDyoVxhcjSjQfhebIiuv5C0pUAMBuENeSQ4dBEZKiLSGe2Ur5lFu
- U2AkWMCRklwpWs9uLsEZ+vhWuNk9rZi8cbk8L5dDOA==
-X-Google-Smtp-Source: ACHHUZ7Mrh1LdWujbZgau2nF8GB6OjF3vIi6+fd+Dq+HrjO5/14H0Jtpv9HMgQGIDBbjvcXIQoJFAA==
-X-Received: by 2002:a17:90a:4a90:b0:253:30e1:7d68 with SMTP id
- f16-20020a17090a4a9000b0025330e17d68mr17633492pjh.0.1684969334986; 
- Wed, 24 May 2023 16:02:14 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id
- j10-20020a17090ae60a00b00246774a9addsm1789889pjy.48.2023.05.24.16.02.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 May 2023 16:02:14 -0700 (PDT)
-From: Justin Chen <justin.chen@broadcom.com>
-To: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH net-next v5 6/6] MAINTAINERS: ASP 2.0 Ethernet driver
- maintainers
-Date: Wed, 24 May 2023 16:01:53 -0700
-Message-Id: <1684969313-35503-7-git-send-email-justin.chen@broadcom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1684969313-35503-1-git-send-email-justin.chen@broadcom.com>
-References: <1684969313-35503-1-git-send-email-justin.chen@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000b06e5c05fc787ebe"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8FF10E6A0;
+ Wed, 24 May 2023 23:04:54 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34OMUCXv011897; Wed, 24 May 2023 23:04:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=QuHfUQynatqyifQ6CgogdzaTCv4reHdsHOKrAZ7Aczk=;
+ b=VJnnH/oVl9rC/ktkSuNWc6kL5ClP84T4GMGsoTTV2dwQ07maG1bBGBZPXllqxWrMcQka
+ XdlsK+FGE0Nj0IVI4PZbpZgjVvI4j8H6rBznx9Y/WSpkjJbpKztEvohb5tO3e1O52zQa
+ OtCV6aziA0MmXnanCd1XKOwkw5PpeV5XCJCKEow/fApCHxEMQ4sV2n6NgjCLY/ln24T9
+ LCPsseKjZbCoZ8kY1oBEAtUEZZD/Y0MF4rDYLYJH+PqolaJvBTG8RsPah+9VeltwjIvT
+ KfmR/mbhT8ENr2lE5GnOpZzHepeiW1hnfWQD1KJ3zZuD19moz9WCofSITznJEXuNWOU0 pw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qsdhh21ma-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 May 2023 23:04:43 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34ON4Z2v024854
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 May 2023 23:04:35 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 24 May
+ 2023 16:04:34 -0700
+Message-ID: <f010d346-fdbe-62b9-c403-4928b2e929fc@quicinc.com>
+Date: Wed, 24 May 2023 16:04:33 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [RFC PATCH v2 09/13] drm/msm/dpu: move pstate->pipe
+ initialization to dpu_plane_atomic_check
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-10-dmitry.baryshkov@linaro.org>
+ <4af411bf-290c-0818-bdf2-878b2da15146@quicinc.com>
+In-Reply-To: <4af411bf-290c-0818-bdf2-878b2da15146@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: V2jj2hqtr-knT8et5UWiQhqYvLMJURrh
+X-Proofpoint-ORIG-GUID: V2jj2hqtr-knT8et5UWiQhqYvLMJURrh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_15,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ mlxlogscore=875 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305240193
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,131 +86,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, conor+dt@kernel.org, opendmb@gmail.com,
- florian.fainelli@broadcom.com, christian.koenig@amd.com,
- simon.horman@corigine.com, richardcochran@gmail.com, linux@armlinux.org.uk,
- justin.chen@broadcom.com, edumazet@google.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, pabeni@redhat.com,
- sumit.semwal@linaro.org, davem@davemloft.net, hkallweit1@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000b06e5c05fc787ebe
-
-Add maintainers entry for ASP 2.0 Ethernet driver.
-
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Signed-off-by: Justin Chen <justin.chen@broadcom.com>
----
-v3
-	- Change from gmail to broadcom emails
-
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e2fd64c2ebdc..732a099f4a10 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4198,6 +4198,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justin.chen@broadcom.com>
-+M:	Florian Fainelli <florian.fainelli@broadcom.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
--- 
-2.7.4
 
 
---000000000000b06e5c05fc787ebe
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+On 5/24/2023 3:46 PM, Abhinav Kumar wrote:
+> 
+> 
+> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+>> In preparation to virtualized planes support, move pstate->pipe
+>> initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
+>> case of virtual planes the plane's pipe will not be known up to the
+>> point of atomic_check() callback.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+> 
+> Will legacy paths be broken with this? So lets say there is no 
+> atomic_check we will not have a valid sspp anymore.
 
-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
-NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
-4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
-DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
-dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
-xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
-sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
-VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIH5GjxcoIgwkIjvtV9TZw2AKCinzTn1QBnmK
-eUvtqpBEMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDUyNDIz
-MDIxNVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQBgC8Y6OLbFArCV1LjkNMwj8dmo1EKc9oJ/2dXZsb0hi8awDZFQFRcu
-A+Gvv7DB1YIhMRjUq0Kjd9oKyIoVVrxfxquyIhMlLLM3bQen4FH/9aGXbnYMH2hKzue1FxddG4jt
-kAlBqioyuoAOD0zHtKyj5f8iDTYPutxxTdGWDYbKtLMptC20UGhAZRl4tl14oS9Cib8T2oB/c/E7
-f41AkFvT39VlvUP875BnPYOUeLjXAZdP3UtHk03h/LgxulwttYYgHHpk4CWrh996HVwQVsddCKFw
-LsmnDMun9YHxELWPYt+TN/rbUwbyw2JCAz+OJWxfv4oRzNRJzrO2FNSxab1U
---000000000000b06e5c05fc787ebe--
+I think it should still work, even if goes through the modeset crtc, it 
+should still call drm_atomic_commit() internally which should have the 
+call to atomic_check, once you confirm this , i can ack this particular 
+change.
