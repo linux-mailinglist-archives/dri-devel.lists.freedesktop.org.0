@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC0A70EEE7
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F9A70EEC2
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 08:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF5410E046;
-	Wed, 24 May 2023 07:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 398EF10E57C;
+	Wed, 24 May 2023 06:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
- Wed, 24 May 2023 07:03:58 UTC
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9059610E046
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1684911839; x=1716447839;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+2R1S8BzLBMD1ztIM0yjR1EZHQXg518QCyvLKtAnHR4=;
- b=VDYufalYNL4QCJOWSDGNctKBi9va0iuxKH1xop5leiNwd9eKVLhzNMz5
- PBaDoebQjRsKIhteEd4RlNkJC8x2KsRKIeJ+yAh/Q+qnIUvAHciTBzXTF
- HoVSosQebW9fSm4AmmuSkNpE+b7uKFeg+OzM04B5qDY/i9lzxxRq0mcVU
- Xh7NpZjT59XcAYyDsMNc+aVBafRY2wnyEqxPEpvybkbk4d2gnwlnCPxJt
- Q8kxk1f4Q91URx34HBXchrjJwVE1bGPp1y0piDMMlDmEYo1WO7VICxNUH
- koenN1GKDGbSbXAG0LJnlaWvgVGADXML+yvr3t0urtfnJbu936aM+hQe1 g==;
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
- d="asc'?scan'208";a="226743876"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 23 May 2023 23:56:51 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 23 May 2023 23:56:50 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 23 May 2023 23:56:47 -0700
-Date: Wed, 24 May 2023 07:56:25 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v4 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
- controller
-Message-ID: <20230524-resample-dingbat-8a9f09ba76a5@wendy>
-References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
- <1684878827-40672-3-git-send-email-justin.chen@broadcom.com>
- <20230523-unfailing-twisting-9cb092b14f6f@spud>
- <CALSSxFYMm5NYw41ERr1Ah-bejDgf9EdJd1dGNL9_sKVVmrpg3g@mail.gmail.com>
- <20230524-scientist-enviable-7bfff99431cc@wendy>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C35410E046;
+ Wed, 24 May 2023 06:59:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 55C79626BE;
+ Wed, 24 May 2023 06:59:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A14C433EF;
+ Wed, 24 May 2023 06:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684911589;
+ bh=EGxKW0ENE1SqUGUsYp+MnGqiOllxXX1HxcX9JCZtn/w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pFFnpgTWz0mFlcM7EiCO4wqhXZSoxWvo5e6iAqou8ivxTUOcgv3tRwJhDekhFPmWL
+ O0tdDOMhV8UqOQvPqsRiBdPsaZpFEpva03kuZW/udlzFBVPDk9C+6wmhT+i3Km8yA4
+ h1tCHUMQpW1WDMjaNx45ejnB17QToaDeknC6B0Oww6UiSVYGKXHrS/JEmbZj6vGA9o
+ znEOfH9UGHM5jjj4sYzkusaFY45cw4ZONwjdicCO+qHGAYlJJ831mIfUX9Tmid3ydR
+ JSHRVsVE3Cg9kPOHZbZs+svQGuzOJbejGJ6Dk+94IW9wKNIMRi81ZIk3Qc0SIwFD6g
+ HioNUMDijK0nA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1q1iTS-0003FU-8Y; Wed, 24 May 2023 08:59:55 +0200
+Date: Wed, 24 May 2023 08:59:54 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dp: add module parameter for PSR
+Message-ID: <ZG216qoxK9hQ-kQs@hovoldconsulting.com>
+References: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
+ <053819bd-b3c4-a72c-9316-85d974082ad6@linaro.org>
+ <ZGzalLjTvUfzEADU@hovoldconsulting.com>
+ <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oixSSIk8//11vX0i"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230524-scientist-enviable-7bfff99431cc@wendy>
+In-Reply-To: <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +57,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, simon.horman@corigine.com, dri-devel@lists.freedesktop.org,
- edumazet@google.com, justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com,
- Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
- bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
- devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor@kernel.org>, davem@davemloft.net, robh+dt@kernel.org,
- christian.koenig@amd.com, hkallweit1@gmail.com
+Cc: freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ quic_jesszhan@quicinc.com, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---oixSSIk8//11vX0i
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 23, 2023 at 12:23:04PM -0700, Abhinav Kumar wrote:
+> On 5/23/2023 8:24 AM, Johan Hovold wrote:
+> > On Fri, May 12, 2023 at 09:13:04PM +0300, Dmitry Baryshkov wrote:
+> >> On 28/04/2023 02:28, Abhinav Kumar wrote:
+> >>> On sc7280 where eDP is the primary display, PSR is causing
+> >>> IGT breakage even for basic test cases like kms_atomic and
+> >>> kms_atomic_transition. Most often the issue starts with below
+> >>> stack so providing that as reference
+> >>>
+> >>> Call trace:
 
-On Wed, May 24, 2023 at 07:51:07AM +0100, Conor Dooley wrote:
-> Hey Justin,
-> On Tue, May 23, 2023 at 04:27:12PM -0700, Justin Chen wrote:
-> > On Tue, May 23, 2023 at 3:55=E2=80=AFPM Conor Dooley <conor@kernel.org>=
- wrote:
-> > > On Tue, May 23, 2023 at 02:53:43PM -0700, Justin Chen wrote:
-> > >
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - brcm,asp-v2.0
-> > > > +      - brcm,bcm72165-asp
-> > > > +      - brcm,asp-v2.1
-> > > > +      - brcm,bcm74165-asp
-> > >
-> > > > +        compatible =3D "brcm,bcm72165-asp", "brcm,asp-v2.0";
-> > >
-> > > You can't do this, as Rob's bot has pointed out. Please test the
-> > > bindings :( You need one of these type of constructs:
-> > >
-> > > compatible:
-> > >   oneOf:
-> > >     - items:
-> > >         - const: brcm,bcm72165-asp
-> > >         - const: brcm,asp-v2.0
-> > >     - items:
-> > >         - const: brcm,bcm74165-asp
-> > >         - const: brcm,asp-v2.1
-> > >
-> > > Although, given either you or Florian said there are likely to be
-> > > multiple parts, going for an enum, rather than const for the brcm,bcm=
-=2E.
-> > > entry will prevent some churn. Up to you.
-> > >
-> > Urg so close. Thought it was a trivial change, so didn't bother
-> > retesting the binding. I think I have it right now...
-> >=20
-> >   compatible:
-> >     oneOf:
-> >       - items:
-> >           - enum:
-> >               - brcm,bcm72165-asp
-> >               - brcm,bcm74165-asp
-> >           - enum:
-> >               - brcm,asp-v2.0
-> >               - brcm,asp-v2.1
-> >=20
-> > Something like this look good?
->=20
-> I am still caffeine-less, but this implies that both of
-> "brcm,bcm72165-asp", "brcm,asp-v2.0"
-> _and_
-> "brcm,bcm72165-asp", "brcm,asp-v2.1"
-> are. I suspect that that is not the case, unless "brcm,asp-v2.0" is a
+> >>> ---[ end trace 0000000000000000 ]---
+> >>> [drm-dp] dp_ctrl_push_idle: PUSH_IDLE pattern timedout
+> >>>
+> >>> Other basic use-cases still seem to work fine hence add a
+> >>> a module parameter to allow toggling psr enable/disable till
+> >>> PSR related issues are hashed out with IGT.
+> >>
+> >> For the reference: Bjorn reported that he has issues with VT on a
+> >> PSR-enabled laptops. This patch fixes the issue for him
+> > 
+> > Module parameters are almost never warranted, and it is definitely not
+> > the right way to handle a broken implementation.
+> > 
+> > I've just sent a revert that unconditionally disables PSR support until
+> > the implementation has been fixed:
+> > 
+> > 	https://lore.kernel.org/lkml/20230523151646.28366-1-johan+linaro@kernel.org/
+> 
+> I dont completely agree with this. Even the virtual terminal case was 
+> reported to be fixed by one user but not the other. So it was probably 
+> something missed out either in validation or reproduction steps of the 
+> user who reported it to be fixed OR the user who reported it not fixed. 
+> That needs to be investigated now.
 
-I a word. s/are/are valid/
+Yes, there may still be some time left to fix it, but it's pretty damn
+annoying to find that an issue reported two months ago still is not
+fixed at 6.4-rc3. (I even waited to make the switch to 6.4 so that I
+would not have to spend time on this.)
 
-> valid fallback for "brcm,asp-v2.1"?
-> The oneOf: also becomes redundant since you only have one items:.
->=20
-> > Will submit a v5 tomorrow.
->=20
-> BTW, when you do, could you use the address listed in MAINTAINERS rather
-> than the one you used for this version?
->=20
-> Cheers,
-> Conor.
+I didn't see any mail from Bjorn saying that the series that claimed to
+fix the VT issue actually did fix the VT issue. There's only the comment
+above from Dmitry suggesting that disabling this feature is the only way
+to get a working terminal back.
 
---oixSSIk8//11vX0i
-Content-Type: application/pgp-signature; name="signature.asc"
+Regressions happen and sometimes there are corner cases that are harder
+to find, but this is a breakage of a fundamental feature that was
+reported before the code was even merged into mainline.
 
------BEGIN PGP SIGNATURE-----
+> We should have ideally gone with the modparam with the feature patches 
+> itself knowing that it gets enabled for all sinks if PSR is supported.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG21GQAKCRB4tDGHoIJi
-0sO/AP9cRQ7+VO/SYpcRQ4CrYP3yQKQE6FbJdUJJekywN8ZxsQD/YqL7dDng/AoJ
-XO0iNPz9c8Ma+pbj6hsXOiqs/AvLHQI=
-=/k6/
------END PGP SIGNATURE-----
+Modparams are things of the past should not be used to enable broken
+features so that some vendor can tick of their internal lists of
+features that have been "mainlined".
 
---oixSSIk8//11vX0i--
+You can carry that single patch out-of-tree to enable this if you need
+it for some particular use case where you don't care about VTs.
+
+But hopefully you can just get this sorted quickly. If not, the revert I
+posted is the way to go rather than adding random module parameters.
+
+Johan
