@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A58470F704
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 14:58:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72ADA70F70B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 15:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA26A10E5FB;
-	Wed, 24 May 2023 12:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F2389125;
+	Wed, 24 May 2023 13:00:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from devico.uberspace.de (devico.uberspace.de [185.26.156.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 348B410E673
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 12:58:12 +0000 (UTC)
-Received: (qmail 355 invoked by uid 990); 24 May 2023 12:58:10 -0000
-Authentication-Results: devico.uberspace.de;
-	auth=pass (plain)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B69C089125;
+ Wed, 24 May 2023 12:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684933197; x=1716469197;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Eo4X8m8k0USPm8C9yv3ZXMC+tHWGCYF1tubnKihG1c0=;
+ b=f1HYYlJu5E6hLucdVyFL+UH2TIXYDtCNChCVJhz9kWxlDH6h3J8pNKxO
+ J7fsCwAiVXz9uqsOMFd+/vq6SFqYBFDinEPwUCzPP1lAPJntZ9NQNSYEn
+ dEheWt4xk3yIedwAOkssyu8eCHuUFFfJdPsIGNwj2wfIryj5qv8Lh2Bxp
+ nFHfkS03ZpMUfvjuXCDQxkp9DJadVKGg+7obyM9JmMh6dJjmqbH/79tmE
+ RNarZs8YneDNlBvOonbtzP3OmsDXfF10ABWCMKy2ocXszT1OwFTK9xtzI
+ oiabG1hmKpC8qp+C5kv7uV7X7yYe7XkoAqkq15F4UjyfdaMul3GPBs1GA g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="419268173"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="419268173"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 05:59:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="698536415"
+X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; d="scan'208";a="698536415"
+Received: from unknown (HELO intel.com) ([10.237.72.65])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 05:59:54 -0700
+Date: Wed, 24 May 2023 15:59:47 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 12/13] drm/i915/dp: Get optimal link config to have best
+ compressed bpp
+Message-ID: <ZG4KQxQIDJboU3YW@intel.com>
+References: <20230512062417.2584427-1-ankit.k.nautiyal@intel.com>
+ <20230512062417.2584427-13-ankit.k.nautiyal@intel.com>
+ <ZGNeYFSFzInncdQm@intel.com> <ZGNrq9lG85tkh2Ym@intel.com>
+ <ZGyA7sqHZP7XKw3G@intel.com> <ZG4FUsgK7Acv_p-a@intel.com>
 MIME-Version: 1.0
-Date: Wed, 24 May 2023 12:58:10 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Leonard Lausen" <leonard@lausen.nl>
-Message-ID: <b9c8243ed53c5c9d7c1b5711237f6130976ea99b@lausen.nl>
-TLS-Required: No
-Subject: Re: [Freedreno] [PATCH] Revert "drm/msm/dp: Remove INIT_SETUP delay"
-To: "Kuogee Hsieh" <quic_khsieh@quicinc.com>, "Abhinav Kumar"
- <quic_abhinavk@quicinc.com>, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, 
- "Bjorn  Andersson" <andersson@kernel.org>
-In-Reply-To: <e547edf4-1b48-5d12-1600-45f78e7cab49@quicinc.com>
-References: <e547edf4-1b48-5d12-1600-45f78e7cab49@quicinc.com>
- <1345a125-f745-4fe3-0f5e-bfe84225958d@quicinc.com>
- <b0cc40d5-6de1-91cc-e2cd-f47cc53551e4@quicinc.com>
- <ebbcd56ac883d3c3d3024d368fab63d26e02637a@lausen.nl>
- <20230508021536.txtamifw2vkfncnx@ripper>
- <3802269cd54ce105ef6dece03b1b9af575b4fa06@lausen.nl>
- <ad351c02-1c29-3601-53e8-f8cdeca2ac63@linaro.org>
- <49d175ec16e3f65a18265063e51092ee8d0d79c1@lausen.nl>
- <f2d1bb37-ea83-4d5d-6ef5-ae84c26d6ac1@quicinc.com>
-X-Rspamd-Bar: /
-X-Rspamd-Report: MIME_GOOD(-0.1) BAYES_HAM(-2.261991) SUSPICIOUS_RECIPS(1.5)
-X-Rspamd-Score: -0.861991
-Received: from unknown (HELO unkown) (::1)
- by devico.uberspace.de (Haraka/3.0.1) with ESMTPSA;
- Wed, 24 May 2023 14:58:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lausen.nl; s=uberspace;
- h=from; bh=0K2cVAiH3swWPanAhg2IlTJVOgHg2n2zSgYVoyJp/7U=;
- b=TJOCtOEpyTOW3b5jdDguZvXE5b+yKKv3JyPYZHjvcJFNIYGuSPaMqMvooZfnCKRoLTVGkmiX4w
- dJQUm4BqthzeyEUGcFTaMV/kqtbhToatNkHIHXvVr91+PhdzOzDSK7r2uq9Uz/0qkhfZCv2y3blq
- D6yd0Yh36vkKhVwR51eVCLd1Ta7xS7afH0scCP4JL4tQuvPAzFaCdzVWoSBzMhz58i4x+LJqeMUA
- wJqr+egnLAJqx5SrGcEn7dH58L+C1j1QTMFJOpnueIeGzUaedDKhSsP7XQsLfq3M/Tl7fwT9CTHr
- 6UICJ2vxxk7t3U0lcJvGWD/1ElpJg2C1YVe7Uvfo2G0a199uI9Z7kJAMwfB7woVJ2O8Q8zSLekOy
- 98/hrWGSICjtweMe0zMsaLWeQ/vKJzaF1Cl1wEzmj7OfPqw6REZIVNodrI1uFa64tn8Gz0KOEmBM
- PCHARP6sZCQm2nvHYY6rLbT2Vq3CVJWErm4AVIvNdPwKO/X/AVMJzwy4XdGG+uBM5NetI4FCqJAO
- WomqjWOdI7abcGR57R8EZAqjkg41D1HgBBKnwTf5skbkCvtoSkos+WQOYvQpVQ50xmG7D3ntkteU
- Jd8p0+/9WTjjrygUs7OMri0c+lqPvcWBp2K5V4AobQGPJY1pINOFVO/E06Q9oAgfh0ApKM7qxFkm
- Y=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZG4FUsgK7Acv_p-a@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,160 +62,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, regressions@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>, Nikita 
- Travkin <nikita@trvn.ru>, freedreno@lists.freedesktop.org,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>, anusha.srivatsa@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->>>>>> [=C2=A0 275.025497] [drm:dpu_encoder_phys_vid_wait_for_commit_done=
-:488]
->>>>>> [dpu error]vblank timeout
->>>>>> [=C2=A0 275.025514] [drm:dpu_kms_wait_for_commit_done:510] [dpu er=
-ror]wait
->>>>>> for commit done returned -110
->>>>>> [=C2=A0 275.064141] [drm:dpu_encoder_frame_done_timeout:2382] [dpu
->>>>>> error]enc33 frame done timeout
->>>>
->>>> This is a different crash but the root-cause of both the issues is t=
-he
->>>> bridge hpd_enable/disable series.
->>>>
->>>> https://patchwork.freedesktop.org/patch/514414/
->>
->> Yes, the new patch to fix this issue is here
->>
->> https://patchwork.freedesktop.org/patch/538601/?series=3D118148&rev=3D=
-3
->>
->> Apologies if you were not CCed on this, if a next version is CCed,=20
->>=20will ask kuogee to cc you.
->>
->> Meanwhile, will be great if you can verify if it works for you and=20
->>=20provide Tested-by tags.
->
-> Hi Leonard,
->
-> I had=C2=A0 cc you with v5 patches.
->
-> Would you please verify it.
+On Wed, May 24, 2023 at 03:38:42PM +0300, Ville Syrjälä wrote:
+> On Tue, May 23, 2023 at 12:01:34PM +0300, Lisovskiy, Stanislav wrote:
+> > On Tue, May 16, 2023 at 02:40:27PM +0300, Ville Syrjälä wrote:
+> > > On Tue, May 16, 2023 at 01:43:44PM +0300, Lisovskiy, Stanislav wrote:
+> > > > On Fri, May 12, 2023 at 11:54:16AM +0530, Ankit Nautiyal wrote:
+> > > > > Currently, we take the max lane, rate and pipe bpp, to get the maximum
+> > > > > compressed bpp possible. We then set the output bpp to this value.
+> > > > > This patch provides support to have max bpp, min rate and min lanes,
+> > > > > that can support the min compressed bpp.
+> > > > > 
+> > > > > v2:
+> > > > > -Avoid ending up with compressed bpp, same as pipe bpp. (Stan)
+> > > > > -Fix the checks for limits->max/min_bpp while iterating over list of
+> > > > >  valid DSC bpcs. (Stan)
+> > > > > 
+> > > > > v3:
+> > > > > -Refactor the code to have pipe bpp/compressed bpp computation and slice
+> > > > > count calculation separately for different cases.
+> > > > > 
+> > > > > v4:
+> > > > > -Separate the pipe_bpp calculation for eDP and DP.
+> > > > > 
+> > > > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/display/intel_dp.c | 305 +++++++++++++++++++-----
+> > > > >  1 file changed, 245 insertions(+), 60 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > > > index 39e2bf3d738d..578320220c9a 100644
+> > > > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > > > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > > > @@ -1642,6 +1642,209 @@ static bool intel_dp_dsc_supports_format(struct intel_dp *intel_dp,
+> > > > >  	return drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd, sink_dsc_format);
+> > > > >  }
+> > > > >  
+> > > > > +static bool is_dsc_bw_sufficient(int link_rate, int lane_count, int compressed_bpp,
+> > > > > +				 const struct drm_display_mode *adjusted_mode)
+> > > > > +{
+> > > > > +	int mode_rate = intel_dp_link_required(adjusted_mode->crtc_clock, compressed_bpp);
+> > > > > +	int link_avail = intel_dp_max_data_rate(link_rate, lane_count);
+> > > > > +
+> > > > > +	return mode_rate <= link_avail;
+> > > > > +}
+> > > > > +
+> > > > > +static int dsc_compute_link_config(struct intel_dp *intel_dp,
+> > > > > +				   struct intel_crtc_state *pipe_config,
+> > > > > +				   struct link_config_limits *limits,
+> > > > > +				   int pipe_bpp,
+> > > > > +				   u16 compressed_bpp,
+> > > > > +				   int timeslots)
+> > > > > +{
+> > > > > +	const struct drm_display_mode *adjusted_mode =
+> > > > > +		&pipe_config->hw.adjusted_mode;
+> > > > > +	int link_rate, lane_count;
+> > > > > +	int dsc_max_bpp;
+> > > > > +	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+> > > > > +	int i;
+> > > > > +
+> > > > > +	for (i = 0; i < intel_dp->num_common_rates; i++) {
+> > > > > +		link_rate = intel_dp_common_rate(intel_dp, i);
+> > > > > +		if (link_rate < limits->min_rate || link_rate > limits->max_rate)
+> > > > > +			continue;
+> > > > > +
+> > > > > +		for (lane_count = limits->min_lane_count;
+> > > > > +		     lane_count <= limits->max_lane_count;
+> > > > > +		     lane_count <<= 1) {
+> > > > > +			dsc_max_bpp = intel_dp_dsc_get_max_compressed_bpp(dev_priv,
+> > > > > +									  link_rate,
+> > > > > +									  lane_count,
+> > > > > +									  adjusted_mode->crtc_clock,
+> > > > > +									  adjusted_mode->crtc_hdisplay,
+> > > > > +									  pipe_config->bigjoiner_pipes,
+> > > > > +									  pipe_config->output_format,
+> > > > > +									  pipe_bpp, timeslots);
+> > > > > +			/*
+> > > > > +			 * According to DSC 1.2a Section 4.1.1 Table 4.1 the maximum
+> > > > > +			 * supported PPS value can be 63.9375 and with the further
+> > > > > +			 * mention that bpp should be programmed double the target bpp
+> > > > > +			 * restricting our target bpp to be 31.9375 at max
+> > > > > +			 */
+> > > > > +			if (pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
+> > > > > +				dsc_max_bpp = min_t(u16, dsc_max_bpp, 31);
+> > > > > +
+> > > > > +			if (compressed_bpp > dsc_max_bpp)
+> > > > > +				continue;
+> > > > > +
+> > > > > +			if (!is_dsc_bw_sufficient(link_rate, lane_count,
+> > > > > +						  compressed_bpp, adjusted_mode))
+> > > > > +				continue;
+> > > > > +
+> > > > > +			pipe_config->lane_count = lane_count;
+> > > > > +			pipe_config->port_clock = link_rate;
+> > > > > +
+> > > > > +			return 0;
+> > > > > +		}
+> > > > > +	}
+> > > > > +
+> > > > > +	return -EINVAL;
+> > > > > +}
+> > > > > +
+> > > > > +static
+> > > > > +u16 intel_dp_dsc_max_sink_compressed_bppx16(struct intel_dp *intel_dp,
+> > > > > +					    struct intel_crtc_state *pipe_config,
+> > > > > +					    int bpc)
+> > > > > +{
+> > > > > +	u16 max_bppx16 = drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd);
+> > > > > +
+> > > > > +	if (max_bppx16)
+> > > > > +		return max_bppx16;
+> > > > > +	/*
+> > > > > +	 * If support not given in DPCD 67h, 68h use the Maximum Allowed bit rate
+> > > > > +	 * values as given in spec Table 2-157 DP v2.0
+> > > > > +	 */
+> > > > > +	switch (pipe_config->output_format) {
+> > > > > +	case INTEL_OUTPUT_FORMAT_RGB:
+> > > > > +	case INTEL_OUTPUT_FORMAT_YCBCR444:
+> > > > > +		return (3 * bpc) << 4;
+> > > > > +	case INTEL_OUTPUT_FORMAT_YCBCR420:
+> > > > > +		return (3 * (bpc / 2)) << 4;
+> > > > > +	default:
+> > > > > +		MISSING_CASE(pipe_config->output_format);
+> > > > > +		break;
+> > > > > +	}
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static u16 intel_dp_dsc_min_compressed_bppx16(struct intel_crtc_state *pipe_config)
+> > > > > +{
+> > > > > +	switch (pipe_config->output_format) {
+> > > > > +	case INTEL_OUTPUT_FORMAT_RGB:
+> > > > > +	case INTEL_OUTPUT_FORMAT_YCBCR444:
+> > > > > +		return 8 << 4;
+> > > > > +	case INTEL_OUTPUT_FORMAT_YCBCR420:
+> > > > > +		return 6 << 4;
+> > > > > +	default:
+> > > > > +		MISSING_CASE(pipe_config->output_format);
+> > > > > +		break;
+> > > > > +	}
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static int dsc_compute_compressed_bpp(struct intel_dp *intel_dp,
+> > > > > +				      struct intel_crtc_state *pipe_config,
+> > > > > +				      struct link_config_limits *limits,
+> > > > > +				      int pipe_bpp,
+> > > > > +				      int timeslots)
+> > > > > +{
+> > > > > +	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+> > > > > +	u16 compressed_bpp;
+> > > > > +	int dsc_min_bpp, dsc_src_max_bpp, dsc_sink_max_bpp, dsc_max_bpp;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	dsc_min_bpp = max(intel_dp_dsc_min_compressed_bppx16(pipe_config) >> 4, 8);
+> > > > > +	if (DISPLAY_VER(dev_priv) <= 12)
+> > > > > +		dsc_src_max_bpp = 23;
+> > > > > +	else
+> > > > > +		dsc_src_max_bpp = 27;
+> > > > 
+> > > > I would may be added some comment about what are those "23/27" numbers or
+> > > > may be even created some self-explanatory #define constants for those.
+> > > 
+> > > I dislike defines like that. They are single use so don't actually
+> > > do anything in terms of avoiding typoes and other accidental
+> > > mismatches, and people always seem put them in some random place
+> > > (eg. top of file) so then it takes extra work to find them.
+> > 
+> > Ah come on, even my primitive mcedit with ctags plugin can track it :))
+> > However my point is that anything is better than just hard-coded magic
+> > numbers, which is proven antipattern.
+> 
+> It's still a magic number whether you hide it behind a define or not.
 
-Hi Kuogee,
+define will gixe a clue at least
 
-thank you. Verified the v6 patch fixes the regression when ported to
-6.3.3. One non-fatal issue remains: Suspending and resuming the system
-while USB-C DP monitor is connected triggers an error, though the system
-recovers within a second without the need to unplug the cable.
+> 
+> > Also you never know if it is a single or multiple use,
+> 
+> If you use it multiple times then you aren't using the function
+> correctly.
 
-[drm:drm_mode_config_helper_resume] *ERROR* Failed to resume (-107)
+hmm.. I didn't understand we are using defines in many places, like
+register names, things like PIPE_A(which is enum but still), it is just 
+more explanatory and elegant rather than use 0 instead of PIPE_A, right?
 
+> 
+> > I think it should be
+> > either defined as a constant or as a define, which is self explanatory.
+> 
+> No more self explanatory than a function. Once you have the
+> function the define is entirely redundant.
 
-dmesg snippet related to the suspend below
+The function explains what it does, but I'm afraid you can't put explanation
+for all the constants it used in a single function name..
 
-[  194.066321] PM: suspend entry (deep)
-[  194.178793] Filesystems sync: 0.108 seconds
-[  194.184142] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/qcom/sc7180-trogdor/modem-nolte/qdsp6sw.mbn" pid=3D3380 cmdline=3D""
-[  194.196934] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/qcom/sc7180-trogdor/modem-nolte/mba.mbn" pid=3D3387 cmdline=3D""
-[  194.197320] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/regulatory.db-debian" pid=3D3390 cmdline=3D""
-[  194.204128] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/qcom/venus-5.4/venus.mbn" pid=3D3380 cmdline=3D""
-[  194.204808] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/qca/crbtfw32.tlv" pid=3D3380 cmdline=3D""
-[  194.205058] LoadPin: firmware pinning-ignored obj=3D"/usr/lib/firmware=
-/qca/crnv32.bin" pid=3D3380 cmdline=3D""
-[  194.253591] Freezing user space processes
-[  194.263621] Freezing user space processes completed (elapsed 0.005 sec=
-onds)
-[  194.270816] OOM killer disabled.
-[  194.274165] Freezing remaining freezable tasks
-[  194.281253] Freezing remaining freezable tasks completed (elapsed 0.00=
-2 seconds)
-[  194.288866] printk: Suspending console(s) (use no_console_suspend to d=
-ebug)
-[  194.494479] Disabling non-boot CPUs ...
-[  194.497569] psci: CPU1 killed (polled 1 ms)
-[  194.501844] psci: CPU2 killed (polled 1 ms)
-[  194.506311] psci: CPU3 killed (polled 1 ms)
-[  194.510237] psci: CPU4 killed (polled 1 ms)
-[  194.512854] psci: CPU5 killed (polled 1 ms)
-[  194.516076] psci: CPU6 killed (polled 1 ms)
-[  194.518397] psci: CPU7 killed (polled 0 ms)
-[  194.520706] Enabling non-boot CPUs ...
-[  194.521595] Detected VIPT I-cache on CPU1
-[  194.521664] cacheinfo: Unable to detect cache hierarchy for CPU 1
-[  194.521678] GICv3: CPU1: found redistributor 100 region 0:0x0000000017=
-a80000
-[  194.521743] CPU1: Booted secondary processor 0x0000000100 [0x51df805e]
-[  194.522829] CPU1 is up
-[  194.523646] Detected VIPT I-cache on CPU2
-[  194.523701] cacheinfo: Unable to detect cache hierarchy for CPU 2
-[  194.523716] GICv3: CPU2: found redistributor 200 region 0:0x0000000017=
-aa0000
-[  194.523775] CPU2: Booted secondary processor 0x0000000200 [0x51df805e]
-[  194.524809] CPU2 is up
-[  194.525537] Detected VIPT I-cache on CPU3
-[  194.525592] cacheinfo: Unable to detect cache hierarchy for CPU 3
-[  194.525611] GICv3: CPU3: found redistributor 300 region 0:0x0000000017=
-ac0000
-[  194.525668] CPU3: Booted secondary processor 0x0000000300 [0x51df805e]
-[  194.526674] CPU3 is up
-[  194.527486] Detected VIPT I-cache on CPU4
-[  194.527535] cacheinfo: Unable to detect cache hierarchy for CPU 4
-[  194.527556] GICv3: CPU4: found redistributor 400 region 0:0x0000000017=
-ae0000
-[  194.527612] CPU4: Booted secondary processor 0x0000000400 [0x51df805e]
-[  194.528836] CPU4 is up
-[  194.529553] Detected VIPT I-cache on CPU5
-[  194.529601] cacheinfo: Unable to detect cache hierarchy for CPU 5
-[  194.529623] GICv3: CPU5: found redistributor 500 region 0:0x0000000017=
-b00000
-[  194.529675] CPU5: Booted secondary processor 0x0000000500 [0x51df805e]
-[  194.530986] CPU5 is up
-[  194.532280] Detected PIPT I-cache on CPU6
-[  194.532307] cacheinfo: Unable to detect cache hierarchy for CPU 6
-[  194.532322] GICv3: CPU6: found redistributor 600 region 0:0x0000000017=
-b20000
-[  194.532358] CPU6: Booted secondary processor 0x0000000600 [0x51ff804f]
-[  194.534434] CPU6 is up
-[  194.535408] Detected PIPT I-cache on CPU7
-[  194.535445] cacheinfo: Unable to detect cache hierarchy for CPU 7
-[  194.535463] GICv3: CPU7: found redistributor 700 region 0:0x0000000017=
-b40000
-[  194.535505] CPU7: Booted secondary processor 0x0000000700 [0x51ff804f]
-[  194.536281] CPU7 is up
-[  195.285023] onboard-usb-hub 1-1: reset high-speed USB device number 2 =
-using xhci-hcd
-[  195.541240] onboard-usb-hub 2-1: reset SuperSpeed USB device number 2 =
-using xhci-hcd
-[  195.796915] usb 1-1.4: reset high-speed USB device number 22 using xhc=
-i-hcd
-[  195.972952] usb 2-1.4: reset SuperSpeed USB device number 10 using xhc=
-i-hcd
-[  196.278492] usb 1-1.4.4: reset high-speed USB device number 24 using x=
-hci-hcd
-[  196.468996] usb 1-1.4.2: reset high-speed USB device number 26 using x=
-hci-hcd
-[  197.055717] usb 2-1.4.2: reset SuperSpeed USB device number 11 using x=
-hci-hcd
-[  197.845110] usb 2-1.4.4: reset SuperSpeed USB device number 12 using x=
-hci-hcd
-[  198.235191] [drm:drm_mode_config_helper_resume] *ERROR* Failed to resu=
-me (-107)
-[  198.528638] OOM killer enabled.
-[  198.531866] Restarting tasks ...=20
-[=20 198.531994] usb 1-1.4.4.1: USB disconnect, device number 27
-[  198.532223] usb 1-1.4.3: USB disconnect, device number 23
-[  198.532509] usb 1-1.4.2.1: USB disconnect, device number 29
-[  198.534805] r8152-cfgselector 2-1.4.4.2: USB disconnect, device number=
- 13
-[  198.535444] done.
-[  198.535536] usb 1-1.1: USB disconnect, device number 15
-[  198.567811] random: crng reseeded on system resumption
-[  198.583431] PM: suspend exit
+> 
+> > 
+> > > 
+> > > The best approach IMO is to just use functions with good names.
+> > > Eg. in this case we could just have a full set of clear functions:
+> > > dsc_{sink,source}_{min,max}_bpp() or something along those line.
+> > 
+> > ..which still doesn't explain, why it is 23 there, why it is 27, who sets those
+> > numbers, which spec and so on.
+> 
+> Neither does a define. All a define will do is say that for platform
+> X return define Y which is defined as Z. Returning Z directly is less
+> convoluted and just as helpful in figuring out where the numbers came
+> from. If it's hard to figure out where the number came from then you
+> can add a comment to indicate where it is specified.
+
+Well, I agree about the comment. Comment might do, but hardcoded numbers
+are wrong. With this logic we could also not use register names like PLANE_CTL
+but just write 0x40*** and then rely that function name will explain what happens
+here or use pipe numbers like 0,1,2, instead of PIPE_A/PIPE_B...
+Of course we could, but it doesn't look nice then, because numbers do not carry any 
+info..
+
+I mean, a concept that magic/hardcoded numbers are wrong isn't even my opinion, it is just 
+world-wide known antipattern.
+If you don't like defines there are constants also and whatever, my point is that just
+hardcoded numbers are almost always bad.
+
+Anyways I'm fine with a comment, as well, just because I think endless arguing is even worse than
+magic numbers..
+
+Stan
+
+> 
+> -- 
+> Ville Syrjälä
+> Intel
