@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBCA70F0B4
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:30:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FDF70F0BA
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:30:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03F9F10E59C;
-	Wed, 24 May 2023 08:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F00610E5B3;
+	Wed, 24 May 2023 08:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1FE210E59C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:30:46 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-3094910b150so475340f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 01:30:46 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5026E10E5A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:30:49 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-30644c18072so302087f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 01:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684917044; x=1687509044; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kffM2qOd8UySQXRHCzIS0BeFu6Pjgruc1iNUigvygb8=;
- b=TrQn2EijrNey35nJ4xgpghuPuNSrvgrfBZjIxo8csQh6I1eaXFFYJISM7dXKj1+92/
- bTgTyOVd0m+OAduhxhN/IHEjxY9KQrHQFx0b8TfDbO1amxKvnwAmY0wr06vA99olLews
- tbxmwz3MeJ+bpNt/W4UcTZbAaGVPov+9EjNBO2fdXCitmVSSsRSwYX70okXZWAqtDU58
- Pvlw6frc5B8bW8yah2SWWEfYRqzrvLh00WLLEeHhvDAH8CCfGwj3bSbuM8YaEf1KR4yp
- MDTRv+/fDWL15PFeMb0jw6CnsaB5HN6og5AMXKNxw9torqW5G3CWMgEMndLpudAz7kxc
- vU3g==
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684917047; x=1687509047; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GFkeXmTsUMY8GSw8DO1YxsHt1wzgz+ONEfDUI+8GUAE=;
+ b=Ky164TgIAjXoNCRewjAvpvhOJ4Fq2aqesYTLjaP4MsCdZWaK7nNI1q4ACUHyf0yARP
+ khE4z1B4Wq3htHoGGiNu+1mMFFRKUkdv/98piGwOHRcsYTzoseEHnt4dQ+gSAMSTXTSb
+ 1j75EhptJA+nEMLiybke6sENFCRCPbdkvcEZISCZtt8Ps/JPEsyGSZrxNu9oMC0r5Ecz
+ 9O72t84s/Ms51QhGIloJa0e3TS2IsckqzZwn1CpJz4yOfg0/yCZbJbjr8Q0u71l0fRdV
+ HudbAm0rHClx0bTFzAbc85WUmKaoTxiHzJUYrkQYS5aT4NIx1ofDL7RZIuX5kDA6y4nB
+ IbMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684917044; x=1687509044;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kffM2qOd8UySQXRHCzIS0BeFu6Pjgruc1iNUigvygb8=;
- b=eD/UHJRkQd8JuzMdDifBbASjjixO0jJnuz5Ep0GTG39+U57YeCko26nOOmK0DBg//x
- cu9xaFPXmyo9hg1rLNGHvQ+xWFv5RwzTGsmLxblkm651W/pDnkANVp9IVWXrZigrkgmF
- 9NE5CXXnfIWxcgz+YNceu20okaLGuD279rkETslj/bIvqkZSL5PIQ8FQkgSwI0jgZXMc
- UVBoAXK1o3bYyz3m1pPQPGz2oJ6uLGhC5WUhzOrnD7uMTBSZgDrSphD6sWj5LTn0x5Na
- 9HkDqMsjlaO0j6mqmzltQf3B2fmxfqNOvz+F+7jseneOEwx35xuyLTS7V1fGmwY4bwIl
- nLNg==
-X-Gm-Message-State: AC+VfDwPsJLxas5PeZqi73zvC1tCrHfQdoHW3RcWSPgCdbaTi1Us+YKd
- zMUUlCKbxzUEozD6Zs9DF1sLbw==
-X-Google-Smtp-Source: ACHHUZ6RKUgi2r3+ULkAZkHhThnj59JBpVMuBR0BTeba5BRaxoHn2ulZhXc1hJPCT/6mYxsCf65d+Q==
-X-Received: by 2002:adf:f103:0:b0:309:509f:a7ef with SMTP id
- r3-20020adff103000000b00309509fa7efmr12077478wro.67.1684917044126; 
- Wed, 24 May 2023 01:30:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684917047; x=1687509047;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GFkeXmTsUMY8GSw8DO1YxsHt1wzgz+ONEfDUI+8GUAE=;
+ b=PY5vhfKF3MKiyemFtNVb1re77F//4Q4VJfjLSL9xkUHlyU3wIC5dKdUzY2/hVpP/lp
+ M86y++x2nR9sXXyrad1VqBY4YVXQznm/OeoomvJqlWbB5Su4xnJFRBc1LrQcQqzkeAzz
+ c7X7SoCyvb7Eg+9b4ABgYFrzdbexGrt7Ye3IC38wR+pL1VL6fYnKouJ+E3lIrduE4xSq
+ zfAFZolMnS0EqPYsjq9P9jk8dvnvHgWGogxHl8K8gtaa/awNlZvKfIcFzl165VrHV1Sd
+ yz83CIjuMWU+HTU2MqIHcJg0LvrtldMGvhDOxMN9RKX5Y03+XaaDLAK5U5ZwnJZ59O2M
+ wjCA==
+X-Gm-Message-State: AC+VfDx2zs0GToxZ/RDKAk9HNNkKBhUYJVdcJOLupNpVWQ3ffObH8qGu
+ l6qz0hd8ECXhcN05KGuxAMMUEQ==
+X-Google-Smtp-Source: ACHHUZ6JqNOn6TctkUQ6E/Zh8dcU2trBSmopBqGdD7CTtYD4boZi1njHtt373XgOG0bq+Mr+DhVFKQ==
+X-Received: by 2002:adf:f80d:0:b0:306:4613:e0f0 with SMTP id
+ s13-20020adff80d000000b003064613e0f0mr11012487wrp.68.1684917047325; 
+ Wed, 24 May 2023 01:30:47 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
  by smtp.gmail.com with ESMTPSA id
- n11-20020a5d484b000000b00307c0afc030sm13871832wrs.4.2023.05.24.01.30.43
+ n11-20020a5d484b000000b00307c0afc030sm13871832wrs.4.2023.05.24.01.30.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 May 2023 01:30:43 -0700 (PDT)
+ Wed, 24 May 2023 01:30:46 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
 To: 
-Subject: [PATCH v3 0/3] phy: mtk-mipi-csi: add driver for CSI phy
-Date: Wed, 24 May 2023 10:30:29 +0200
-Message-Id: <20230524083033.486490-1-jstephan@baylibre.com>
+Subject: [PATCH v3 1/3] dt-bindings: phy: add PHY_TYPE_CDPHY definition
+Date: Wed, 24 May 2023 10:30:30 +0200
+Message-Id: <20230524083033.486490-2-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230524083033.486490-1-jstephan@baylibre.com>
+References: <20230524083033.486490-1-jstephan@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,87 +87,25 @@ Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding a new driver for the MIPI CSI CD-PHY module v 0.5 embedded in
-some Mediatek soc, such as the MT8365
+Add definition for CDPHY phy type that can be configured in either D-PHY
+mode or C-PHY mode
 
-This driver was adapted from https://patchwork.kernel.org/project/linux-mediatek/cover/20200708104023.3225-1-louis.kuo@mediatek.com/
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ include/dt-bindings/phy/phy.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-v1 can be found here: https://lore.kernel.org/all/20230403071929.360911-1-jstephan@baylibre.com/
-
-v2 can be found here: https://lore.kernel.org/all/20230515090551.1251389-1-jstephan@baylibre.com/
-
-Changelog
-Changes in v3:
-Binding file:
-	- rename compatible string
-	  mediatek,phy-mipi-csi-0-5 -> mediatek,mt8365-csi-rx
-	- rename binding file to be as compatible string
-	- change property mediatek,is_cdphy -> mediatek,phy-type using an
-	  enum value instead of boolean for scalability
-	- remove status property from example nodes
-	- rename example node name 'mipi_rx_csi0: mipi_rx_csi0@11c10000' ->
-	  'csi0_rx: phy@11c10000'
-	- put reg address in lower case
-
-include/dt-bindings/phy/phy.h:
-	- add PHY_TYPE_CDPHY definition
-
-Driver:
-	- rename compatible string
-	- rename property mediatek,is_cdphy -> mediatek,phy-type
-	- rename CSIx* macro to CSIX* (x -> X)
-	- fix style issue on the driver data structure
-	- update MODULE_DESCRIPTION as suggested by Angelo
-	  and update the kconfig module description to match it
-	- add dphy /cdphy eq tuning function to factor the code
-	  and increase readability
-	- fix typo __PHY_MTK__MIPI_CSI__C_0_5_RX_REG_H_ -->
-	  __PHY_MTK_MIPI_CSI_V_0_5_RX_REG_H_
-	- reword commit message to update my contributions
-	- added missing copyright
-	- added module name in Kconfig
-
-Changes in v2:
-	- fix all comments on bindings
-	- move the binding chunk from driver to binding commit
-	- fix dt_binding_check error (reported by DT_CHECKER_FLAGS)
-	- use a more generic compatible string
-	- add a new dt properties to simplify the driver
-	  "mediatek,is_cdphy"
-	- rename the driver and the corresponding file to include
-	  version
-	- drop of_match_ptr()
-	- use devm_platform_ioremap_resource
-	- use phy-mtk-io.h api instead of regmap
-	- rework the driver to use dt nodes to declare PHY instead of an
-	  array in the driver
-	- remove useless define for unused registers
-	- remove support for CSI0A/B because it cannot be tested, and it
-	  simplifies the driver for a first review
-	- edit commit message and bindings to be more descriptive about the
-	  hardware
-
-
-Florian Sylvestre (1):
-  dt-bindings: phy: add mediatek MIPI CD-PHY module v0.5
-
-Julien Stephan (1):
-  dt-bindings: phy: add PHY_TYPE_CDPHY definition
-
-Phi-bang Nguyen (1):
-  phy: mtk-mipi-csi: add driver for CSI phy
-
- .../bindings/phy/mediatek,mt8365-csi-rx.yaml  |  68 +++++
- MAINTAINERS                                   |   7 +
- drivers/phy/mediatek/Kconfig                  |   8 +
- drivers/phy/mediatek/Makefile                 |   2 +
- .../mediatek/phy-mtk-mipi-csi-0-5-rx-reg.h    |  58 ++++
- drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c   | 272 ++++++++++++++++++
- include/dt-bindings/phy/phy.h                 |   3 +-
- 7 files changed, 417 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
- create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-0-5-rx-reg.h
- create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c
-
---
+diff --git a/include/dt-bindings/phy/phy.h b/include/dt-bindings/phy/phy.h
+index 6b901b342348..a19d85dbbf16 100644
+--- a/include/dt-bindings/phy/phy.h
++++ b/include/dt-bindings/phy/phy.h
+@@ -23,5 +23,6 @@
+ #define PHY_TYPE_DPHY		10
+ #define PHY_TYPE_CPHY		11
+ #define PHY_TYPE_USXGMII	12
++#define PHY_TYPE_CDPHY		13
+ 
+ #endif /* _DT_BINDINGS_PHY */
+-- 
 2.40.1
+
