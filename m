@@ -2,110 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F7570F2AC
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94B870F2E0
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63EC210E5D9;
-	Wed, 24 May 2023 09:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B62010E5C8;
+	Wed, 24 May 2023 09:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2070f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5a::70f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6C610E5D9
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:25:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GleLqPFXe/6JIgWsGh7tVfL7D6pWPYf/YJPSAkZ6XSWeE607Y7Mnd0SXMlTwWAE8WtsFEzNzkTG8g17h7TXVK2iZ9QoUyGFXIn5FBXV8j5u9ukmjUFiHdKtheswHFzByIojXTcUKNYzvmqqjUXcvqnbHsflH9LgSj5Tj/5qMKvE3+o4CZ5Sm3HLAniAT39lX0+mxcN9CW5wOI1vV7YZ2X4oYZeajrArDik5dfZp0xMeHtpNX9U3teje74iqI6KVFdffnc1PSiglR3HURQUp50C5fvR8umi4hphnwG17ycF84dYDxAZDqvReKqC781ZcsC65LwgVpSiPXNBosXVv6xA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=35ZpsytaxATVUwaLtxrxjiyOAJm2LbPjWnummdyHkO4=;
- b=OdeWVSEM7NmI8g/J34GTRudiOkTd5I5McRvRkp8ttOP3YPfTTx2RQN6nLcwMMyk8S/fdudQ58b3PRShREWD3JgP9LXss30iUNELIqGt5vmitvD/q1s2Me+zXaeeZ7IHRL0eQ5eUVtPTMa1dZA7PeZc/MV9GjXMtNqvrm7s2rhLmUUXsMWwu62ftkS8v3nuJz2+8NtLdyCYwv9WQMO5i1XVXm0MY0Ac1++yl3xiT0H/yRPdzL80LT6qLBL0g+60DQfpoSlmy3gkFpwD/3+YOJPRx8qcn/DT6zX8goY6Jay5YbxCiCOvBNUhY0e4FhpSpLyl9d8zVyHpTyqKMwvLvAbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=35ZpsytaxATVUwaLtxrxjiyOAJm2LbPjWnummdyHkO4=;
- b=S8iCmygT2kSI5cLXr00Wlbk2H7uTzJnbBa8YX/0IHYngy6GWyWoqZ1GY8nJ6oVmOGt15l5UNurz98I197fRCJm+cBkQqrjsj48dmCMpY3+Y6T50K9HP932sK1hibGs4x1MGEA+7eiPgVc7hTC5DAidjnW3dTangJv6M8N+SAA9s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CH2PR13MB4425.namprd13.prod.outlook.com (2603:10b6:610:6c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Wed, 24 May
- 2023 09:24:59 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6411.029; Wed, 24 May 2023
- 09:24:58 +0000
-Date: Wed, 24 May 2023 11:24:50 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v4 5/6] net: phy: bcm7xxx: Add EPHY entry for
- 74165
-Message-ID: <ZG3X4oPxTrfv5o48@corigine.com>
-References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
- <1684878827-40672-6-git-send-email-justin.chen@broadcom.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1684878827-40672-6-git-send-email-justin.chen@broadcom.com>
-X-ClientProxiedBy: AS4P190CA0007.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5de::6) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 944E910E5C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:34:23 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown
+ [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 608966602B7B;
+ Wed, 24 May 2023 10:34:20 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1684920861;
+ bh=a0EL23vvvIql72p1r/4NKLcSB4WiPqmju45rIVviM68=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZP5a327h5yCff5ZXdwT2PhCRIiWKVrLGL6pB/6yDmbhFk9LVZjUpotpTzwphtKI8I
+ 4Zef0ZrvJR3ggmSITFsYBPYGwV7gVTQ+LsfeIMP77I9JFMAgphxxmYD+puW04GCRno
+ k3ybG/WKIdxUm8n/hG/xL1VoNw75mwN305REL6VLAKtiinVPe+KiUsFAJK1BumaMr/
+ yhNLv/M2Sde4LXH/NC1EU3xpr52o5D7BKD2Xj+8L5mw/Wva/cO+RVBKripiJNjkQl+
+ FPm7DoVy9yfrKSmoSeHqc99cuD4JJQ8n/wtaBPe5tRHgb3mkqv3GIF8RnE6hMMvWla
+ ZxQsCu7VSlHWw==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v1 0/4] MediaTek DRM - DSI driver cleanups
+Date: Wed, 24 May 2023 11:34:08 +0200
+Message-Id: <20230524093412.92211-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH2PR13MB4425:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3ed9105-3554-4e83-8f12-08db5c38be79
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4KnZ76QxIEdoIJebr6zLoSdsqxdNhmJzzvwzInMLs+0CBE7QvDu701Bg77cTyuTUR24O2WUS8P8P20uQf3fkoDRyOSPY7SxYBG5bSkPBBogDP//UYex0lDx3598FmpZPWJQnU6Vzu+zuO60ChP4NRbALPJMulyl6zcxvk2HgLNQE5EihOMq4D7HN73ixyrsiayjVhfa817ymhRSgCvXyl528Kicc1EFmz9Ir05Eg89TSf+RypHrnFMMoc2LvPR83/YPujVvvYNMlMzCei/WPQzXFu6xKbW15fJRsaVKOcavZ3whnMhNsRqAfPdSKqAwjC6TIdrRUPk5A3lHggQO9SoG6l/O8pJVb/vRRg6UBhlNq+FbBxe0LORcAaMNKwY9duLiRI9CZ83IInHr1EkSCLwcvmo8lbIKkuQGznMDn8dDc0wWpVg7dfWCttqcKgDIYeSjASRdJAnlfNMTwgmNIlVf3Y9leWFI2YFbpQdyBNTndHngXaG+/F3lJhnM2GXdhHCPAYWZHupV3HmJ68pVqQdP2rGZ0sToumOFhLGrva58CMWnQdhkrBDkvFTyZflS3Zs8+5xJIyp0Tc0usFANwEExOvme+xTDOss11kyqAs+g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(136003)(396003)(346002)(376002)(39840400004)(451199021)(86362001)(6486002)(41300700001)(478600001)(6916009)(4326008)(66556008)(6666004)(316002)(66946007)(66476007)(5660300002)(8676002)(8936002)(4744005)(38100700002)(44832011)(7416002)(6512007)(186003)(2906002)(6506007)(83380400001)(2616005)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uxZs46RCVV0lkpPx3Rni5FDbacfTKAxRjWcO0ZWIxtqVL/1E+Ez0vCJ69h1F?=
- =?us-ascii?Q?KlJgr6sY0jHrB1NsCj4Y1PCsxgl3Wdy/2rnvnhLtmzviOA1akO+QI0I7HV6z?=
- =?us-ascii?Q?KGQxi87v3p/JGSdHWWb0CwkAqyIyTYPcTQBSkiVTDIncE0UBF7CDpKN3YjL5?=
- =?us-ascii?Q?6eGIcY6AQj6UngSzhyQzR+2q9axx8gtNUmhBSW8A2E0bcnQ2wR25mi6+dSLj?=
- =?us-ascii?Q?t92h74j8RGAEGkKmVKNAD0MKXA1rPo3i5IBZNjLeAHLSvuh+ahwmnAotmUY7?=
- =?us-ascii?Q?cqVdfB29jA2YmtMU6ZsZXyquqbcwCYg4WuDmjbu3yn+W+Kw6HfXr1cEIGYh6?=
- =?us-ascii?Q?sXxvtfa4VRHaY6OabNWEJs281PpT11TFsXF+Z1bwVZ7bEGjvJmTQ7EZjF9XK?=
- =?us-ascii?Q?uRD5PdJeTllmk0SHAODBXECujb7iXweNyxEqxpOuA2N+laQmyc6SFU1UIan2?=
- =?us-ascii?Q?NhIPb6E9cH+p4sCKIsD+dsDqvR5Db96czHmEjp3lBORpHT8Q183aRnIrrZP2?=
- =?us-ascii?Q?6Uh3PqPH3wiDdkpUaWH72ca2vk/7+7lUzW6Qf8iO20VeqgLgpJrKMU39pCRX?=
- =?us-ascii?Q?nPcKoyyG5xz0cwYy/8zNy9shDDjmRDZbIobT7J0c4TlZahBwtBocqDWHquqS?=
- =?us-ascii?Q?IeY+6xLYRlzsWlkaRp4+/MPX1uQp64zJURPawxku5fJu7gn2oLGcJMLo3k0B?=
- =?us-ascii?Q?S+c0S4gJ/EY7tSm4T99tPdIIlii9sfsFbctmWpGDDx4NhBhzOWlDpY+577D8?=
- =?us-ascii?Q?WOLdvU58VQBUH0wZc/8hQKeyqYobbzf4IY2rDHNELdTubqEDCB4yWM3IEWcb?=
- =?us-ascii?Q?Cw/LlWdkb1KpN8VJnNQ4o/dhu/KwuEjUMMEYMwhSr6OK1LLFI17Fy5R+Qpip?=
- =?us-ascii?Q?2MF0PWynLRY5pfyl6+HmfOw1A6/X0vPi4Lp5yzPRhChRk0/2Rquawz+ofSPE?=
- =?us-ascii?Q?NIhbW3c4hwem6+Gxigsl5BCk/Z77XN5ba+Jh+Eq1VOAQ0FXkSYIdfsNJQp5z?=
- =?us-ascii?Q?swBkq5hVVn2mnmAsf3mVAJOrhxKgdNrxOTAxKm2btMPiwTtS73d1Zfiykd0h?=
- =?us-ascii?Q?pAeC+gezHQhpmwRnPBOidnpJNxmFo5mKPBk2eFlkJUUcQofz/8lwFCdZrkNm?=
- =?us-ascii?Q?K8u4d8BjqOrTceec64gFlzhSe1n6GDeUkwBJynF7BMmSYzYFZDvijOlcnHfP?=
- =?us-ascii?Q?HGF056dQTZOhXkFKi6ZCcL1ILmVUtBaMad0sEwUQep6nIGIzzo5393lTFmA3?=
- =?us-ascii?Q?nAztA//asU95nj9Zttgl708sY9jLXUQcxWlmAFvS3prF/4qnlX4B0nyc7tpR?=
- =?us-ascii?Q?kcDQ+h4AQtPFxkS0Mupx8GcC0V1bGFTAHRzRWJK9bikHTU/lugHKztZV5qEO?=
- =?us-ascii?Q?FLaZUyAeHAHvIjef6BWdC4vFJCiKrT2Ns9ISESmG9nxPLtbLIGr0T3ighsev?=
- =?us-ascii?Q?vBnIqA8S+Kqffmxq0wIsFyHKDqvm5Va5ufSQXarSJQ8qJ+r186wjtlDgXGiu?=
- =?us-ascii?Q?UFs7ofGu/szq4QLpzKLxWsZ8brPvIKLSGcMzjQMOKtjgbaIcQ+d9UVZBgFnU?=
- =?us-ascii?Q?mA+c+ovWSNFHQGYfI+OXTchhtG9pGg9WgZYjuZNAwv6/Qm0zwQtLVBslvvkt?=
- =?us-ascii?Q?qomo37ysD0G2u37pcG1B1Yd5txOlnmm/dBkzs4+4pWV++AwrI/UNG7HUgYCu?=
- =?us-ascii?Q?RsVVnA=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3ed9105-3554-4e83-8f12-08db5c38be79
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:24:58.8192 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: adv7XPyjGfpu4b4lVx23hiBELL49EXGxn/o3xolBOq2Jtl4JCL6BmYWUmkVFD2pbqAE+1qebx5Exx4ayKdiUMyaOy+GTd59+yOQt0l0h0z8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR13MB4425
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,28 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
- justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- sumit.semwal@linaro.org, f.fainelli@gmail.com,
- Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
- bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
- devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
- davem@davemloft.net, robh+dt@kernel.org, christian.koenig@amd.com,
- hkallweit1@gmail.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 23, 2023 at 02:53:46PM -0700, Justin Chen wrote:
-> From: Florian Fainelli <florian.fainelli@broadcom.com>
-> 
-> 74165 is a 16nm process SoC with a 10/100 integrated Ethernet PHY,
-> utilize the recently defined 16nm EPHY macro to configure that PHY.
-> 
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+This series performs some cleanups for mtk_dsi, enhancing human
+readability, using kernel provided macros where possible and
+also reducing code size.
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+Tested on MT8173 and MT8192 Chromebooks (using a DSI<->DP bridge)
+and on MT6795 Sony Xperia M5 (DSI video mode panel).
 
+Please note:
+This series depends and can be applied only on top of [1].
+
+[1]: https://lore.kernel.org/lkml/20230523104234.7849-1-angelogioacchino.delregno@collabora.com/
+
+AngeloGioacchino Del Regno (4):
+  drm/mediatek: dsi: Use GENMASK() for register mask definitions
+  drm/mediatek: dsi: Cleanup functions mtk_dsi_ps_control{_vact}()
+  drm/mediatek: dsi: Use bitfield macros where useful
+  drm/mediatek: dsi: Replace open-coded instance of HZ_PER_MHZ
+
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 198 +++++++++++++----------------
+ 1 file changed, 88 insertions(+), 110 deletions(-)
+
+-- 
+2.40.1
 
