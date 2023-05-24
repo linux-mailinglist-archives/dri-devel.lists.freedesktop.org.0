@@ -1,33 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D4A70EB55
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 04:30:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE9F70EB5C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 04:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF1110E027;
-	Wed, 24 May 2023 02:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2516E10E032;
+	Wed, 24 May 2023 02:34:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8169910E027
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:30:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC1210E032
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:34:10 +0000 (UTC)
 Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 24 May
- 2023 10:29:56 +0800
-Message-ID: <1e4ca9bc-0e39-2708-8da8-b402139fe7ff@aspeedtech.com>
-Date: Wed, 24 May 2023 10:29:57 +0800
+ 2023 10:34:10 +0800
+Message-ID: <9d98962c-a508-e6ff-00cf-7c1927cce1da@aspeedtech.com>
+Date: Wed, 24 May 2023 10:34:11 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/ast: Fix modeset failed on DisplayPort
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@redhat.com>
-References: <20230425070330.8520-1-jammy_huang@aspeedtech.com>
- <d43c0c09-ff6b-e2d1-01ae-68fe93188896@suse.de>
- <d285566b-ed7c-8e2a-a078-7bdd5bac13e3@aspeedtech.com>
+Subject: Re: [PATCH v2] drm/ast: Fix long time waiting on s3/s4 resume
 Content-Language: en-US
-In-Reply-To: <d285566b-ed7c-8e2a-a078-7bdd5bac13e3@aspeedtech.com>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <airlied@redhat.com>, <tzimmermann@suse.de>
+References: <20230414074204.5787-1-jammy_huang@aspeedtech.com>
+In-Reply-To: <20230414074204.5787-1-jammy_huang@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [192.168.2.115]
@@ -45,93 +43,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas,
 
-Do you have other suggestion for this patch??
+Could you help review this patch?
 
-Please kindly advise.
+This is an issue leading to kernel panic found by Intel. Wendy has 
+confirmed issue resolved by this patch.
 
-On 2023/4/25 下午 03:39, Jammy Huang wrote:
-> Hi Thomas,
+On 2023/4/14 下午 03:42, Jammy Huang wrote:
+> In resume, DP's launch function, ast_dp_launch, could wait at most 30
+> seconds before timeout to check if DP is enabled.
 >
-> I think DP501 is OK. It doesn't use ioregs in ast_dp501_read_edid().
+> To avoid this problem, we only check if DP enable or not at driver probe.
 >
-> On 2023/4/25 下午 03:27, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 25.04.23 um 09:03 schrieb Jammy Huang:
->>> If we switch display and update cursor together, it could lead to
->>> modeset failed because of concurrent access to IO registers.
->>>
->>> Add lock protection in DP's edid access to avoid this problem.
->>
->> Thanks for the patch. I thought I fixed this issue already, but that 
->> apparently only happened for SIL164 and VGA.
->>
->> What about ast_dp501_connector_helper_get_modes()? Does it require 
->> the locking as well?
->>
->>>
->>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>> ---
->>>   drivers/gpu/drm/ast/ast_mode.c | 11 +++++++++++
->>>   1 file changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->>> b/drivers/gpu/drm/ast/ast_mode.c
->>> index 984ec590a7e7..fe5f1fd61361 100644
->>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>> @@ -1635,6 +1635,8 @@ static int ast_dp501_output_init(struct 
->>> ast_private *ast)
->>>   static int ast_astdp_connector_helper_get_modes(struct 
->>> drm_connector *connector)
->>>   {
->>>       void *edid;
->>> +    struct drm_device *dev = connector->dev;
->>> +    struct ast_private *ast = to_ast_private(dev);
->>
->> We've meanwhile renamed ast_private to ast_device. Could you please 
->> provide an updated patch for the drm-misc-next tree?
->>
->> Best regards
->> Thomas
->>
->>>         int succ;
->>>       int count;
->>> @@ -1643,10 +1645,18 @@ static int 
->>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
->>>       if (!edid)
->>>           goto err_drm_connector_update_edid_property;
->>>   +    /*
->>> +     * Protect access to I/O registers from concurrent modesetting
->>> +     * by acquiring the I/O-register lock.
->>> +     */
->>> +    mutex_lock(&ast->ioregs_lock);
->>> +
->>>       succ = ast_astdp_read_edid(connector->dev, edid);
->>>       if (succ < 0)
->>>           goto err_kfree;
->>>   +    mutex_unlock(&ast->ioregs_lock);
->>> +
->>>       drm_connector_update_edid_property(connector, edid);
->>>       count = drm_add_edid_modes(connector, edid);
->>>       kfree(edid);
->>> @@ -1654,6 +1664,7 @@ static int 
->>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
->>>       return count;
->>>     err_kfree:
->>> +    mutex_unlock(&ast->ioregs_lock);
->>>       kfree(edid);
->>>   err_drm_connector_update_edid_property:
->>>       drm_connector_update_edid_property(connector, NULL);
->>>
->>> base-commit: 61d325dcbc05d8fef88110d35ef7776f3ac3f68b
->>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217278
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>   v2 changes:
+>    - Fix build error.
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c   | 55 +++++++++++-----------------------
+>   drivers/gpu/drm/ast/ast_drv.h  |  2 +-
+>   drivers/gpu/drm/ast/ast_main.c | 11 +++++--
+>   drivers/gpu/drm/ast/ast_post.c |  3 +-
+>   4 files changed, 29 insertions(+), 42 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 56483860306b..eee2f264c880 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -119,53 +119,32 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+>   /*
+>    * Launch Aspeed DP
+>    */
+> -void ast_dp_launch(struct drm_device *dev, u8 bPower)
+> +void ast_dp_launch(struct drm_device *dev)
+>   {
+> -	u32 i = 0, j = 0, WaitCount = 1;
+> -	u8 bDPTX = 0;
+> +	u32 i = 0;
+>   	u8 bDPExecute = 1;
+> -
+>   	struct ast_private *ast = to_ast_private(dev);
+> -	// S3 come back, need more time to wait BMC ready.
+> -	if (bPower)
+> -		WaitCount = 300;
+> -
+> -
+> -	// Wait total count by different condition.
+> -	for (j = 0; j < WaitCount; j++) {
+> -		bDPTX = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK);
+> -
+> -		if (bDPTX)
+> -			break;
+>   
+> +	// Wait one second then timeout.
+> +	while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
+> +		COPROCESSOR_LAUNCH) {
+> +		i++;
+> +		// wait 100 ms
+>   		msleep(100);
+> -	}
+>   
+> -	// 0xE : ASTDP with DPMCU FW handling
+> -	if (bDPTX == ASTDP_DPMCU_TX) {
+> -		// Wait one second then timeout.
+> -		i = 0;
+> -
+> -		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
+> -			COPROCESSOR_LAUNCH) {
+> -			i++;
+> -			// wait 100 ms
+> -			msleep(100);
+> -
+> -			if (i >= 10) {
+> -				// DP would not be ready.
+> -				bDPExecute = 0;
+> -				break;
+> -			}
+> +		if (i >= 10) {
+> +			// DP would not be ready.
+> +			bDPExecute = 0;
+> +			break;
+>   		}
+> +	}
+>   
+> -		if (bDPExecute)
+> -			ast->tx_chip_types |= BIT(AST_TX_ASTDP);
+> +	if (!bDPExecute)
+> +		drm_err(dev, "Wait DPMCU executing timeout\n");
+>   
+> -		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
+> -							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+> -							ASTDP_HOST_EDID_READ_DONE);
+> -	}
+> +	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
+> +			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+> +			       ASTDP_HOST_EDID_READ_DONE);
+>   }
+>   
+>   
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index d51b81fea9c8..15e86394be4f 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -498,7 +498,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
+>   
+>   /* aspeed DP */
+>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+> -void ast_dp_launch(struct drm_device *dev, u8 bPower);
+> +void ast_dp_launch(struct drm_device *dev);
+>   void ast_dp_power_on_off(struct drm_device *dev, bool no);
+>   void ast_dp_set_on_off(struct drm_device *dev, bool no);
+>   void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index f83ce77127cb..8ecddf20113f 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -254,8 +254,13 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+>   		case 0x0c:
+>   			ast->tx_chip_types = AST_TX_DP501_BIT;
+>   		}
+> -	} else if (ast->chip == AST2600)
+> -		ast_dp_launch(&ast->base, 0);
+> +	} else if (ast->chip == AST2600) {
+> +		if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK) ==
+> +		    ASTDP_DPMCU_TX) {
+> +			ast->tx_chip_types = AST_TX_ASTDP_BIT;
+> +			ast_dp_launch(&ast->base);
+> +		}
+> +	}
+>   
+>   	/* Print stuff for diagnostic purposes */
+>   	if (ast->tx_chip_types & AST_TX_NONE_BIT)
+> @@ -264,6 +269,8 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+>   		drm_info(dev, "Using Sil164 TMDS transmitter\n");
+>   	if (ast->tx_chip_types & AST_TX_DP501_BIT)
+>   		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
+> +	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
+> +		drm_info(dev, "Using ASPEED DisplayPort transmitter\n");
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+> index 82fd3c8adee1..90e40f59aff7 100644
+> --- a/drivers/gpu/drm/ast/ast_post.c
+> +++ b/drivers/gpu/drm/ast/ast_post.c
+> @@ -380,7 +380,8 @@ void ast_post_gpu(struct drm_device *dev)
+>   	ast_set_def_ext_reg(dev);
+>   
+>   	if (ast->chip == AST2600) {
+> -		ast_dp_launch(dev, 1);
+> +		if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
+> +			ast_dp_launch(dev);
+>   	} else if (ast->config_mode == ast_use_p2a) {
+>   		if (ast->chip == AST2500)
+>   			ast_post_chip_2500(dev);
+>
+> base-commit: e62252bc55b6d4eddc6c2bdbf95a448180d6a08d
+
 -- 
 Best Regards
 Jammy
