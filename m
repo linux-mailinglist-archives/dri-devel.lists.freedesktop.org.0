@@ -1,58 +1,110 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A80470F1F5
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:15:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3029870F201
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8803E10E06A;
-	Wed, 24 May 2023 09:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F2310E5C1;
+	Wed, 24 May 2023 09:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17E110E5C7;
- Wed, 24 May 2023 09:15:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684919719; x=1716455719;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8VwL6EAHUKow2/jzGvI331f0ZOTE4rdLdYHriRBgqSw=;
- b=ma+ShCPe/4VG+p4eBtVp4GNUVhruESx1EoB8FJ9dc8iFAkJGVw4rxHkL
- OrP5GPmSUk98pNb+5JUcd5SmsfheCpgEZJ1z6WdMmgL5yxv3S5rG/x13H
- iVMSLMj6ozCxAauyOgkmAZzOLEUfncbRrFE7+JFcw5b3CUkVwmkCwEwHa
- +ins+Bxjk5ahCtpalr+RkHbqRgG5hZTpzg8yQv2AIF3gG/o+qnSq1Nx7C
- 0+hoV3TYrpnjiQoTVUKejk9eE+jqwLsv53XZAoAxwpsgYqByNsR6yoXV4
- pHXl88b1G5jtYbSZ5ob+J2vPoiojHMxOvNBGJWSQqwzs2xQWLTFhc/77r g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="419220736"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="419220736"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 02:15:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="828494796"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="828494796"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.4.245])
- ([10.213.4.245])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 02:15:01 -0700
-Message-ID: <bb7df969-0991-e75b-4ee2-cf5bfd4ddc85@intel.com>
-Date: Wed, 24 May 2023 11:14:59 +0200
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2115.outbound.protection.outlook.com [40.107.237.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27C610E5C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:19:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VI+k664UPmFfIZapjp+PnZey4ZulwOAuXwcaicd4MnhrZkdRdX4V7Eg672pPWzZTdmHLs6m7XUFvEImdAAIDjky2yXqaCs6QIZRlQ0KlW54GlkehqiYam3QxPrA+fmnFm3oO8iFZ5N3LuRezi3+6caokPXo0pBYZ9MI5lgQhYWyyElbGU28JGJVACzs52EUsPXrMrbyQv2jrES5gixL90PjPiIp+RDU47K5Zo7zEMiYJtOtHxh0E/HJ2v5WhFvqzn4+SF5XLNKAiHQBER4OTN0mUztGemMagv5UkwZRzbwpG4M81Arptv+DdCmYcqffhe57CfnwElU27veCw8U0lNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EjysrcvpIysM4nTXMnOYFhEOXkbaTSCVxp780VDwaqo=;
+ b=GLa3PF9kGJ4kzaKKYunFRXaQz2LEJMKzRBoXh32qLvOatDvI6aA6Cx5YqufmTRR+G/EsiEL6UJZKnsS9dAvLIDaBdPFJMeJuPae+BlbosXMJH6L+UqrqtiqS4Lh+BHfz66cbbSS4vqN0ZA1OQN4CRrDn59Xqil8yDFFCc8cKSaPZh0E8thveObPJEIwoh4xJWcvv7YGy+0hQvLqvAHtWw6YeG8jYoRUTsRGKfJr/R1+zzO8I1wxjcKx1YEvb0MhcssJ396WcjFy7vwtUZUFqTH7CEsoXpNoelylFwafOSLc4cg/tRg6JcbIteq2OJLgs9Oy3oJ50bExkoosnmh2c2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EjysrcvpIysM4nTXMnOYFhEOXkbaTSCVxp780VDwaqo=;
+ b=QZMz7gXH/Y1CIW0Gsf9SH1tcomfJIKNBtJ/qO6vLRO8v+ZuBoe2YPQceTvqwsdDBVAFN6ihc3P9FzXSTAvrlcmtyS4UJs5XMCmyO4XZsuwQXuv0z3dKDz8KlWMuFETKqsovIhqLCMd5xosHc2jWKAzK7IQnSRHJTYCuX007MGoo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by DM6PR13MB3642.namprd13.prod.outlook.com (2603:10b6:5:24b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Wed, 24 May
+ 2023 09:19:44 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6411.029; Wed, 24 May 2023
+ 09:19:44 +0000
+Date: Wed, 24 May 2023 11:19:35 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Justin Chen <justin.chen@broadcom.com>
+Subject: Re: [PATCH net-next v4 3/6] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+Message-ID: <ZG3Wp2HhwLrwpvHq@corigine.com>
+References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
+ <1684878827-40672-4-git-send-email-justin.chen@broadcom.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1684878827-40672-4-git-send-email-justin.chen@broadcom.com>
+X-ClientProxiedBy: AS4P251CA0004.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d2::6) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/pmu: Make PMU sample array
- two-dimensional
-Content-Language: en-US
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230523151918.4170499-1-ashutosh.dixit@intel.com>
- <20230523151918.4170499-3-ashutosh.dixit@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230523151918.4170499-3-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|DM6PR13MB3642:EE_
+X-MS-Office365-Filtering-Correlation-Id: a532a5fb-dbac-47c3-dd71-08db5c3802df
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6/HDXRdXjeRT+BBZWHeNgMXJCPnRcox2BM9mOWKfPTC75+SplE/4QNvAGn7X04p4c6ebHitDZV+naqXcDlbmgQ3x2GoJawkZw+CCYpvwz7acTc4UmgWidJ8eZHqGbDc32S2aDoMPOLJ+aN2Oe3K8eYOBBhPbxw1pmrOZ71rjc4O8DcRFo3x8txKUXHMhKsANeTcnSvUWNr+u3msCTCy+KbqickewMjSPzoFDItHFIHCE56cjEqX1tqkqDJWJ69N4ZGxrp2/+7xMG++YR73OXyAZj1XodSbcuX5TTstUHrfbcK7GTzDLr6Emw2yAUujcv5hWfgNEnLyNyT4XnJshKSrOmjufLSm8M8ZnaYYMFIVK094kMwcPNi8Phj+miiEZq/qQ0fngGWsZuTBt1mMvGFLpsgGudhO/asuedk0k3J6xJLEy70WqVOZ8qCPQv2eAyozV76KJMaOYlT5ILsuCxGIVuQnhGVWJjPxuhmR6vs7AxT4GrSpMTpUE/cKoklKDZauNFIqpJZ8enxtaGF339x62v1fQJBeXLTPbgINFV1YNhFupkiah7MKXz/Ji1VEq630Fve/B297iFqgOGO7iGSxp4RbPHrjB2+cb8DsUQ574=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(366004)(376002)(346002)(136003)(39830400003)(451199021)(83380400001)(8676002)(8936002)(7416002)(44832011)(5660300002)(6506007)(6512007)(86362001)(186003)(2616005)(38100700002)(6916009)(478600001)(6486002)(66946007)(66556008)(6666004)(41300700001)(4326008)(316002)(36756003)(66476007)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ghITYONGQeCr9IMo/JR/w6i+oJ+spMJrn0Ha6W6Muo7JsrNl/7ih8gSIu1o5?=
+ =?us-ascii?Q?uKu8MIexmnYD+6ZSMu8J6gqO4saX7+KgHY6nrMcHEReOHVotIvPgKQQQOpH6?=
+ =?us-ascii?Q?LzBH1yx292ShVnd996UuZT7bBY0/J+z02keQl58jq3DXckFIOS5Gs3KJg899?=
+ =?us-ascii?Q?VR5JMH65Bh6b+r4+H8TaCFBIEL474VglctFCYttgwpXy8hMT2taTVSq18FIR?=
+ =?us-ascii?Q?QegWYYYut/G3nhH88MU96xL8kiHXnl/fUiOApu3bWTeZAdN+LGIQqU8ck/vD?=
+ =?us-ascii?Q?Z9OWyTOAUvAA4J8JO//u3h676Unq0e16S0TwOF9DNevpnjcnisRHacD4eD7E?=
+ =?us-ascii?Q?aE9KtzcTGamwxP1sbkIp8nLbpUGUYEPxTDEqxgWdEJSaAk7/G+4kyh9g21f5?=
+ =?us-ascii?Q?nV4eDu5dvwJpfW5jUphBrxki6bt6whefVH85pVG3R8kgzyc1nuw3rC7DfR/X?=
+ =?us-ascii?Q?b86P4eLEIwHj5s+RL5HXQfyPVYcawYn3GdNSqSORW8fN+0XJuiggQUYvL2Z8?=
+ =?us-ascii?Q?5OLuA3wbjCD9dgFfbtrh9GumK2YU5gjgjlRaN4pNK+vGKRoJBnjgPtOigtng?=
+ =?us-ascii?Q?erhkb591Gtn93tgvh2avXIORXjcZsmn3/jeU0CfjH7SWsq0CriLF+L8fTD8J?=
+ =?us-ascii?Q?XrXpg9FqD8tNo1lkulaysrIc6BOnsa4QQBf2r5aAt4CiTIr1dcbJRNUmKLtS?=
+ =?us-ascii?Q?OY25/8CSTYK08y0wKalEhsX+fbV1WOYpXMlv0eVEVaLdouqYpVzGApd6+V+3?=
+ =?us-ascii?Q?0HGeJ++rwqosFbiH8ExwCfFFDAfqeHKMsMKGggL49bNppBGIhnN20JQs/DJW?=
+ =?us-ascii?Q?ifrtszkmYSihBnzG6oOVOkWfszRqUzROsFzsixWlOdBSbWIQckwzxRtrwfoA?=
+ =?us-ascii?Q?DqxmyOQ9Dx2E9I3WfCcpwe1/52VeNYS46xQao2WL5k/mE3ZtEKQrr7kMG14M?=
+ =?us-ascii?Q?NSz27GBAP1xoQ5dMzOP271f83f8r2Un5l10wSyeEpjdsEBTLKen6HMG8yBp6?=
+ =?us-ascii?Q?nLlO4DE6rnBvtNyNGzqBrUZZJzGcWpjoZwz2xkX5ekgON0ChOLGB+A9kPwqD?=
+ =?us-ascii?Q?KmGyk4V2iVM2XvQeKRK6BrszXGkUEB1bvNqLWLhEFP17JJIHQyLWd/rE2fmq?=
+ =?us-ascii?Q?Cc5/817vy3aIQwIe3R5EfBJ06uhP3cs1MPmp3eyR0yUEm2n79H35G1BcAzpx?=
+ =?us-ascii?Q?uzaL/vFDnEPrOevvJGAr7srvO4Fb5dSRXabYcpJDUaImW6lCT2NYIAPwNjIi?=
+ =?us-ascii?Q?vsE9DHZGkPmYqdQpx3U02gvZs2Hf5FWw1H6nWHqxwtFa0/g7hXVr1kgZFZuU?=
+ =?us-ascii?Q?tj250NxKn6FkP5egKO8ILIo6KkkDbvzLxi0Qs0r4QVXAyVQVoZbLuEYG8nkh?=
+ =?us-ascii?Q?bjs3gFKzCo6ADnqBA/zbqiwETToI4IWrMpyOY6kQdBw/ShpBTNsqS/4Ttau9?=
+ =?us-ascii?Q?KYyRm6GqxBKn25Oj9ngjweTj12ISbEsBYAsBbzDhKkGXcUntvjkc/5VuPke3?=
+ =?us-ascii?Q?5Fpi0wCNBXUqpoTKZlVHVwxMZWQfRpmMxlgDFjgeOJX9LWAEX7yinvdK+3rC?=
+ =?us-ascii?Q?EajnnbIVy6loy4Qm4wgwD0K6mRMPMpMn9ISYqDMTLrO5+4caO9kd2vt289NZ?=
+ =?us-ascii?Q?ow7j6D53F6U26pK3yygoiByQbGtVCJxSS+m4O7lZwav8sUuXuArMQvcWXTJN?=
+ =?us-ascii?Q?lA8PQA=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a532a5fb-dbac-47c3-dd71-08db5c3802df
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:19:44.1080 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j+UKJ4CfP4AVH2osVxIu4zUsZcxVUyY3HDmnTWatGC5jT3E5IIPqN3Yu1Ztek6fBvMTzoMDDAdkHwC6JpGlCdG8gvMcKtAxJmt+EPoC/vz0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR13MB3642
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,170 +117,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ sumit.semwal@linaro.org, f.fainelli@gmail.com,
+ Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
+ bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
+ devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
+ davem@davemloft.net, robh+dt@kernel.org, christian.koenig@amd.com,
+ hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23.05.2023 17:19, Ashutosh Dixit wrote:
-> No functional changes but we can remove some unsightly index computation
-> and read/write functions if we convert the PMU sample array from a
-> one-dimensional to a two-dimensional array.
+On Tue, May 23, 2023 at 02:53:44PM -0700, Justin Chen wrote:
+> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+> introduced with 72165. This controller features two distinct Ethernet
+> ports that can be independently operated.
 > 
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
-> ---
->   drivers/gpu/drm/i915/i915_pmu.c | 60 ++++++++++-----------------------
->   drivers/gpu/drm/i915/i915_pmu.h |  2 +-
->   2 files changed, 19 insertions(+), 43 deletions(-)
+> This patch supports:
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-> index b47d890d4ada1..137e0df9573ee 100644
-> --- a/drivers/gpu/drm/i915/i915_pmu.c
-> +++ b/drivers/gpu/drm/i915/i915_pmu.c
-> @@ -195,33 +195,6 @@ static inline s64 ktime_since_raw(const ktime_t kt)
->   	return ktime_to_ns(ktime_sub(ktime_get_raw(), kt));
->   }
->   
-> -static unsigned int
-> -__sample_idx(struct i915_pmu *pmu, unsigned int gt_id, int sample)
-> -{
-> -	unsigned int idx = gt_id * __I915_NUM_PMU_SAMPLERS + sample;
-> -
-> -	GEM_BUG_ON(idx >= ARRAY_SIZE(pmu->sample));
-> -
-> -	return idx;
-> -}
-> -
-> -static u64 read_sample(struct i915_pmu *pmu, unsigned int gt_id, int sample)
-> -{
-> -	return pmu->sample[__sample_idx(pmu, gt_id, sample)].cur;
-> -}
-> -
-> -static void
-> -store_sample(struct i915_pmu *pmu, unsigned int gt_id, int sample, u64 val)
-> -{
-> -	pmu->sample[__sample_idx(pmu, gt_id, sample)].cur = val;
-> -}
-> -
-> -static void
-> -add_sample_mult(struct i915_pmu *pmu, unsigned int gt_id, int sample, u32 val, u32 mul)
-> -{
-> -	pmu->sample[__sample_idx(pmu, gt_id, sample)].cur += mul_u32_u32(val, mul);
-> -}
-> -
->   static u64 get_rc6(struct intel_gt *gt)
->   {
->   	struct drm_i915_private *i915 = gt->i915;
-> @@ -240,7 +213,7 @@ static u64 get_rc6(struct intel_gt *gt)
->   	spin_lock_irqsave(&pmu->lock, flags);
->   
->   	if (awake) {
-> -		store_sample(pmu, gt_id, __I915_SAMPLE_RC6, val);
-> +		pmu->sample[gt_id][__I915_SAMPLE_RC6].cur = val;
->   	} else {
->   		/*
->   		 * We think we are runtime suspended.
-> @@ -250,13 +223,13 @@ static u64 get_rc6(struct intel_gt *gt)
->   		 * counter value.
->   		 */
->   		val = ktime_since_raw(pmu->sleep_last[gt_id]);
-> -		val += read_sample(pmu, gt_id, __I915_SAMPLE_RC6);
-> +		val += pmu->sample[gt_id][__I915_SAMPLE_RC6].cur;
->   	}
->   
-> -	if (val < read_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED))
-> -		val = read_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED);
-> +	if (val < pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur)
-> +		val = pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur;
->   	else
-> -		store_sample(pmu, gt_id, __I915_SAMPLE_RC6_LAST_REPORTED, val);
-> +		pmu->sample[gt_id][__I915_SAMPLE_RC6_LAST_REPORTED].cur = val;
->   
->   	spin_unlock_irqrestore(&pmu->lock, flags);
->   
-> @@ -275,9 +248,8 @@ static void init_rc6(struct i915_pmu *pmu)
->   		with_intel_runtime_pm(gt->uncore->rpm, wakeref) {
->   			u64 val = __get_rc6(gt);
->   
-> -			store_sample(pmu, i, __I915_SAMPLE_RC6, val);
-> -			store_sample(pmu, i, __I915_SAMPLE_RC6_LAST_REPORTED,
-> -				     val);
-> +			pmu->sample[i][__I915_SAMPLE_RC6].cur = val;
-> +			pmu->sample[i][__I915_SAMPLE_RC6_LAST_REPORTED].cur = val;
->   			pmu->sleep_last[i] = ktime_get_raw();
->   		}
->   	}
-> @@ -287,7 +259,7 @@ static void park_rc6(struct intel_gt *gt)
->   {
->   	struct i915_pmu *pmu = &gt->i915->pmu;
->   
-> -	store_sample(pmu, gt->info.id, __I915_SAMPLE_RC6, __get_rc6(gt));
-> +	pmu->sample[gt->info.id][__I915_SAMPLE_RC6].cur = __get_rc6(gt);
->   	pmu->sleep_last[gt->info.id] = ktime_get_raw();
->   }
->   
-> @@ -428,6 +400,12 @@ engines_sample(struct intel_gt *gt, unsigned int period_ns)
->   	}
->   }
->   
-> +static void
-> +add_sample_mult(struct i915_pmu_sample *sample, u32 val, u32 mul)
+> - Wake-on-LAN using magic packets
+> - basic ethtool operations (link, counters, message level)
+> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
+> 
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+
+Hi Justin,
+
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
+
+As I see there will be a v5 I have added a few nits from my side.
+Feel free to ignore them as you see fit.
+
+...
+
+> +int bcmasp_netfilt_check_dup(struct bcmasp_intf *intf,
+> +			     struct ethtool_rx_flow_spec *fs)
+
+nit: the return type of this function could be bool
+
 > +{
-> +	sample->cur += mul_u32_u32(val, mul);
-> +}
+> +	struct bcmasp_priv *priv = intf->parent;
+> +	struct ethtool_rx_flow_spec *cur;
+> +	size_t fs_size = 0;
+> +	int i;
 > +
->   static bool
->   frequency_sampling_enabled(struct i915_pmu *pmu, unsigned int gt)
->   {
-> @@ -467,12 +445,12 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->   		if (!val)
->   			val = intel_gpu_freq(rps, rps->cur_freq);
->   
-> -		add_sample_mult(pmu, gt_id, __I915_SAMPLE_FREQ_ACT,
-> +		add_sample_mult(&pmu->sample[gt_id][__I915_SAMPLE_FREQ_ACT],
->   				val, period_ns / 1000);
->   	}
->   
->   	if (pmu->enable & config_mask(__I915_PMU_REQUESTED_FREQUENCY(gt_id))) {
-> -		add_sample_mult(pmu, gt_id, __I915_SAMPLE_FREQ_REQ,
-> +		add_sample_mult(&pmu->sample[gt_id][__I915_SAMPLE_FREQ_REQ],
->   				intel_rps_get_requested_frequency(rps),
->   				period_ns / 1000);
->   	}
-> @@ -673,14 +651,12 @@ static u64 __i915_pmu_event_read(struct perf_event *event)
->   		switch (config) {
->   		case I915_PMU_ACTUAL_FREQUENCY:
->   			val =
-> -			   div_u64(read_sample(pmu, gt_id,
-> -					       __I915_SAMPLE_FREQ_ACT),
-> +			   div_u64(pmu->sample[gt_id][__I915_SAMPLE_FREQ_ACT].cur,
->   				   USEC_PER_SEC /* to MHz */);
->   			break;
->   		case I915_PMU_REQUESTED_FREQUENCY:
->   			val =
-> -			   div_u64(read_sample(pmu, gt_id,
-> -					       __I915_SAMPLE_FREQ_REQ),
-> +			   div_u64(pmu->sample[gt_id][__I915_SAMPLE_FREQ_REQ].cur,
->   				   USEC_PER_SEC /* to MHz */);
->   			break;
->   		case I915_PMU_INTERRUPTS:
-> diff --git a/drivers/gpu/drm/i915/i915_pmu.h b/drivers/gpu/drm/i915/i915_pmu.h
-> index 33d80fbaab8bc..d20592e7db999 100644
-> --- a/drivers/gpu/drm/i915/i915_pmu.h
-> +++ b/drivers/gpu/drm/i915/i915_pmu.h
-> @@ -127,7 +127,7 @@ struct i915_pmu {
->   	 * Only global counters are held here, while the per-engine ones are in
->   	 * struct intel_engine_cs.
->   	 */
-> -	struct i915_pmu_sample sample[I915_PMU_MAX_GTS * __I915_NUM_PMU_SAMPLERS];
-> +	struct i915_pmu_sample sample[I915_PMU_MAX_GTS][__I915_NUM_PMU_SAMPLERS];
->   	/**
->   	 * @sleep_last: Last time GT parked for RC6 estimation.
->   	 */
+> +	for (i = 0; i < NUM_NET_FILTERS; i++) {
+> +		if (!priv->net_filters[i].claimed ||
+> +		    priv->net_filters[i].port != intf->port)
+> +			continue;
+> +
+> +		cur = &priv->net_filters[i].fs;
+> +
+> +		if (cur->flow_type != fs->flow_type ||
+> +		    cur->ring_cookie != fs->ring_cookie)
+> +			continue;
+> +
+> +		switch (fs->flow_type & ~(FLOW_EXT | FLOW_MAC_EXT)) {
+> +		case ETHER_FLOW:
+> +			fs_size = sizeof(struct ethhdr);
+> +			break;
+> +		case IP_USER_FLOW:
+> +			fs_size = sizeof(struct ethtool_usrip4_spec);
+> +			break;
+> +		case TCP_V6_FLOW:
+> +		case UDP_V6_FLOW:
+> +			fs_size = sizeof(struct ethtool_tcpip6_spec);
+> +			break;
+> +		case TCP_V4_FLOW:
+> +		case UDP_V4_FLOW:
+> +			fs_size = sizeof(struct ethtool_tcpip4_spec);
+> +			break;
+> +		default:
+> +			continue;
+> +		}
+> +
+> +		if (memcmp(&cur->h_u, &fs->h_u, fs_size) ||
+> +		    memcmp(&cur->m_u, &fs->m_u, fs_size))
+> +			continue;
+> +
+> +		if (cur->flow_type & FLOW_EXT) {
+> +			if (cur->h_ext.vlan_etype != fs->h_ext.vlan_etype ||
+> +			    cur->m_ext.vlan_etype != fs->m_ext.vlan_etype ||
+> +			    cur->h_ext.vlan_tci != fs->h_ext.vlan_tci ||
+> +			    cur->m_ext.vlan_tci != fs->m_ext.vlan_tci ||
+> +			    cur->h_ext.data[0] != fs->h_ext.data[0])
+> +				continue;
+> +		}
+> +		if (cur->flow_type & FLOW_MAC_EXT) {
+> +			if (memcmp(&cur->h_ext.h_dest,
+> +				   &fs->h_ext.h_dest, ETH_ALEN) ||
+> +			    memcmp(&cur->m_ext.h_dest,
+> +				   &fs->m_ext.h_dest, ETH_ALEN))
+> +				continue;
+> +		}
+> +
+> +		return 1;
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int bcmasp_is_port_valid(struct bcmasp_priv *priv, int port)
+> +{
+> +	/* Quick sanity check
+> +	 *   Ports 0/1 reserved for unimac
+> +	 *   Max supported ports is 2
+> +	 */
+> +	return (port == 0 || port == 1);
+
+nit: unnecessary parentheses
+
+> +}
+
+...
 
