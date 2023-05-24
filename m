@@ -2,61 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D43970F282
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCD470F28F
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9497610E64B;
-	Wed, 24 May 2023 09:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2902410E5C6;
+	Wed, 24 May 2023 09:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 387A910E5DA;
- Wed, 24 May 2023 09:21:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EC1031FE27;
- Wed, 24 May 2023 09:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684920117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tNm/VjzKJfYTTelMWAwWaGOR8nslqSNZSJW0IOCyjHU=;
- b=nXzQqku3whw80151lpW6EvXw1aCMuglbOLWh7yxjt165tl+cgc5XDSWv7cQrJMvzhyUsfq
- 253hJeB3Si/5q1SJSkG/iA0mTKkIPan4w/9jKx3hBVTvmJDYJwsjWEdiGJ3IhVPZPj0jHY
- 0CyLH1ZRVRNlr0BK6AWg6ilw0n1YwbA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684920117;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tNm/VjzKJfYTTelMWAwWaGOR8nslqSNZSJW0IOCyjHU=;
- b=UYtRX8Dwfbc6qDFhHIgkjxSZ20MW1+gmZTVzKERzDOP9iY+mRM7zyZq22EiEwKsFQfS6Xe
- VuT3ZAhytvhKhIDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91EE113A10;
- Wed, 24 May 2023 09:21:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eGLBIjXXbWTHewAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:57 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v4 13/13] drm/i915: Implement dedicated fbdev I/O helpers
-Date: Wed, 24 May 2023 11:21:50 +0200
-Message-Id: <20230524092150.11776-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230524092150.11776-1-tzimmermann@suse.de>
-References: <20230524092150.11776-1-tzimmermann@suse.de>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2128.outbound.protection.outlook.com [40.107.244.128])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232F510E5C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:22:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dwk/4YiZG75+siW5Qp4okVpXzSRBBSY44/PrS0It0MpOOg0Zjv0OmDxBk7NQ8kuvpOqlcFNLcFzVfTN9hdOrCSppp3CPNHa/Tn8EVYgorL+x/2MDrqqxtTNbLlUTj9mPC/VpJdwat6lM9HR/TVTK/DPE8YoYKK/wCdS27/ao8HXYZ+ICztvK8DWja197kpQXrqznCdzcUxWyZAKSB29AwQ8wLg6oUN0kKp9QYHvts/QPEhdj6j52y2Fo6GtmGxOPs0Ff/UJN5YplLQQF44ImPgwuZboo8gYkwz1XF0BG50UBK2c9oq9dwkul0Wiyz3+r/y1v84+AjYWmy1ZYPWn6Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DPuORpZ3IY8xr83rr3y0Tm223oRubv/qR+hsUD/I0II=;
+ b=DSBICX66mpkxccJS9zZTBYmLhRkt98hjjmsQiULwy1HWJwCSteiPy4bGrKYAnb9aIEyVl5MmmZet72I/ZAF3ZfYnel9lcbKsjiFOo1qWHl+E+xwUwsqcOu7vKp0ThIhLxRJmjpPHT8CB8S075Mb8oKV2CvnxCH4xoYRjLCSVmT18sP7mgmhHsczUvuSd6v2G2lHMMZWF1d1ds6fYLs6j6fEdGvqYArHi+xO5o8qBcPJ6xcZf11ruRJJE83CbCeowA0U70lHEUQZ62gXnKR8639H2eeVm1ru3aO1v6waFctULLxX4hGbU36U4JwH8xLv/jqzSdhNQI5Q1epaOXdK6jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DPuORpZ3IY8xr83rr3y0Tm223oRubv/qR+hsUD/I0II=;
+ b=NJtmOpDEknY/jDe82mO3KMDVT8Ux4RzUb7RrWBr27Y6E3UnCI9ThyigA9Ya4ZcQeAjA0JSo+jno9WnFiTQXCeYQnvGYBkynyNl6KoZASw+dQ7KpHPLyvIG2ZAfXEPs0sVzLaPqq1BK9RyJrZqLuB/MuWDZC4SaCbDCAEcEQgOEI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by CH2PR13MB4425.namprd13.prod.outlook.com (2603:10b6:610:6c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Wed, 24 May
+ 2023 09:22:30 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6411.029; Wed, 24 May 2023
+ 09:22:30 +0000
+Date: Wed, 24 May 2023 11:22:21 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Justin Chen <justin.chen@broadcom.com>
+Subject: Re: [PATCH net-next v4 6/6] MAINTAINERS: ASP 2.0 Ethernet driver
+ maintainers
+Message-ID: <ZG3XTeLb/Z5aoi/L@corigine.com>
+References: <1684878827-40672-1-git-send-email-justin.chen@broadcom.com>
+ <1684878827-40672-7-git-send-email-justin.chen@broadcom.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1684878827-40672-7-git-send-email-justin.chen@broadcom.com>
+X-ClientProxiedBy: AS4P251CA0027.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d3::13) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH2PR13MB4425:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92dc277c-adda-4503-69c3-08db5c3865cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tAGCLnogI57S0RsUMFdx1O5/vABHWUKYw7mxqVhu8kn4853UuFACU/R8TwSBF0mGeMcQkWFvurRzFgZ+OVd+Pf0+IBTidASe5FabWxu0QtUXxsQVW1aWVHD6/A0olJxIWewvsbrD4c4aebH6h9Ct1381+eWmJVHB4RY1V30F+sSqR3k2bNi/tXx7T+e0IwDKtCjdOi5SZTW3U+ngLyQQxhgQuaxGolE/OZKVI3ZKjkCaQpB6E83I4+ps076cOHYR33XTI5BLQwuqjTSYNHB8+ygCwYn0oRhugWI7rkxTHJPkJmNvJ44ZOenD2HZ++isFctu2zbpyV3h7NFo6z7HM1xDgpGGOUToYB5iZfAOaqMxiAzj9xCpLSI/35UzK79ZlQp4PXXI3FEHRivITXAD1wDDoY+u3WcNiOvZ1rU1/VJImn97t1IO93G+U17tDMunCAGk8MxsuvntKuLyVcIT9EeHJBB56sD9PmoqL0jAEU6Cw8ubLKl1uCtWTZ8OqyB4SNzN30y4kbBSNM1auMTHOAl80Ek80Ia4KAYW8EROurWpz5pCAb3webpH7z5hWFx6pWlMtBeNsmxNM67P4y7iQj3V/rNYwDP8wTrNi1mFY258=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39840400004)(376002)(346002)(396003)(136003)(366004)(451199021)(7416002)(186003)(6506007)(2906002)(6512007)(558084003)(38100700002)(44832011)(36756003)(2616005)(66556008)(6666004)(66946007)(66476007)(316002)(6916009)(4326008)(6486002)(41300700001)(86362001)(478600001)(8676002)(8936002)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fhu9h9gbtkHPs+cP5DBNgGiajDcmtFiIshfjO09d+kUHVhGfM9U1YcxmvjtM?=
+ =?us-ascii?Q?ynzKh5FbsdRQpKppA8FkABZhbiWY+4N/caaAJrIyvmFAO/0vXE/TKjAcJqYm?=
+ =?us-ascii?Q?jnZvgoluye8zuX/G26kORX7MrvTSgeq9ztrS4sNeFso3RhHoRiCZO0W3Xw2m?=
+ =?us-ascii?Q?UeGAuVjHECgrhRIZWAHEMxXpu8cHmymxDzFKmSkIzxNjkWRBlYjknZzBPWN7?=
+ =?us-ascii?Q?ng0LCQzFYVgEoTGbJyw1NZdoM1DCf7iER4vYIEUAxtNLwcgyLYI7zSqYbahS?=
+ =?us-ascii?Q?UiU998OkspKCTY5qZlX0nqaPwl6tIlRT6rV0gcYnoMPuhf9ac6YqEK9p0LXi?=
+ =?us-ascii?Q?+2wsHSkfjEWldR0nDQSIW5QRx4gNQADnLjd8v4baVFkBbxXSBx0Udo1w1S//?=
+ =?us-ascii?Q?UHLHkmS4VkapFSFzV3CPWcrA1FZPkewTCLFeUppbcR+/N/uBK6/8EwmtjNBJ?=
+ =?us-ascii?Q?JtIsBe4KHmongiiKSu5NxFqf5dVdrfXHnswbSGvtsHF8Z2FSqpFRAg8jsNfd?=
+ =?us-ascii?Q?/40MvmWYaSk0iMirD09hMdVxhV3Vg6I+yZGxVfEAhihzcgO76Gko7T2GJCUO?=
+ =?us-ascii?Q?cJpfoU9q/1L1bZT7MZOZwS61ooU7657lTkUD+kurhwSDrHb3VFC4j9nxrnFq?=
+ =?us-ascii?Q?Q+KL9jn8jsKnDDGFZeBZY0o7EY5xJND48bvZPW/o8uYUHnY1B+O4DzMQEB3V?=
+ =?us-ascii?Q?OraYcUpR3RZgo3l93yJCJOmBLApyAW3ElGifJyx5326SxYOWeVaIOnLsHjGM?=
+ =?us-ascii?Q?5flMNPm4ulK1RzOZ7/zcldAnH6BR+lDrcwgdsn6ff8cAYqrxnmbW2/xeBsYT?=
+ =?us-ascii?Q?fM4szTbsPIqXIMVy3JZMxaaSYbCK5D8mzS3kfbLCJthrAgFxk/c21Q0iEPQE?=
+ =?us-ascii?Q?b4oZHf+CZwbHuEI/S05708qiCBvPAPHL49ixLGH8W+hT8ciR+0xZhEJx9d/v?=
+ =?us-ascii?Q?/v3OYEkEHYxRu9U/7y8V4xWq1KwwjPiouutgO2yzANZxicpTlbKkyXE/gnui?=
+ =?us-ascii?Q?fj2Z8Ryuc0Qf8qyjm4xY9e24jn4TmF6KaQ2nSt/pzuga58k2IkFdU68V7hej?=
+ =?us-ascii?Q?imPDJYTEZRB6qWFjFdVtcsSgyi1mcFta/Bl/0hECTyyU+j4Ld7tH1wwdNz7Z?=
+ =?us-ascii?Q?g0BaSDaAEmzU+lBjyQWeiGIt9f1CfMf49jdumWgAE7OBjJgM9yiPC54nH3/w?=
+ =?us-ascii?Q?8SZx3fbRN7bGuNYBycvnlIrefUqa/kaAPsreqWMSCzYXc9N45XKIJzkbEaqo?=
+ =?us-ascii?Q?mM5uq5sAAh6dbpOrejkhrenzlj97WTbTNshyE7EqN6xyI0aKrNQn4nmkgFMO?=
+ =?us-ascii?Q?3f+LDb3ShX4Xz9djA6bAHiU7nRc9HMKu0+LsWTjOnAgk6sBYQkZZO79CCJ4u?=
+ =?us-ascii?Q?Vo3TE9J9DtHCgLT3qfmpli3XJZtiBxGZ8szo74MNkA8b5iqUFQPe6rkXiN32?=
+ =?us-ascii?Q?zdT7nps7BKvc8iYIoVY39XdKxl0j6y2e4OovHX6cR9xv+7tqSYiBo9q97LJ3?=
+ =?us-ascii?Q?Ika+cOR5yyyAoc5gjCuZVHtHTZkUPlMfo8x+e+zi2D2fjkD80XqGEEpGJ3Ul?=
+ =?us-ascii?Q?Uv1VSC4m89fp+LklUfOr9L2Afbn07oYAPqW+Gbssi80mEdbO63mPK6dN1arY?=
+ =?us-ascii?Q?f+0G4NQvIBWeN+cfTGlxzNzbc1OxpMLvzPwgKsjYiCYAIQtctl0GUcr3X2P3?=
+ =?us-ascii?Q?Z2qjhw=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92dc277c-adda-4503-69c3-08db5c3865cf
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:22:30.1346 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gyy7S/Pg6FiUXuQjVhn5g+5fFm0hFUqEXA/gQN+A5VSqdDcRlxyVDcRF4fguIfeltN9vfvE6lnUajyBoPrnOHjQqzJ+8y1pgZSAOSy17LJg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR13MB4425
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,286 +117,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: andrew@lunn.ch, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ justinpopo6@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ sumit.semwal@linaro.org, f.fainelli@gmail.com,
+ Florian Fainelli <florian.fainelli@broadcom.com>, linux@armlinux.org.uk,
+ bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
+ devicetree@vger.kernel.org, richardcochran@gmail.com, opendmb@gmail.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, conor@kernel.org,
+ davem@davemloft.net, robh+dt@kernel.org, christian.koenig@amd.com,
+ hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement dedicated fbdev helpers for framebuffer I/O instead
-of using DRM's helpers. Use an fbdev generator macro for
-deferred I/O to create the fbdev callbacks. i915 was the only
-caller of the DRM helpers, so remove them from the helper module.
+On Tue, May 23, 2023 at 02:53:47PM -0700, Justin Chen wrote:
+> Add maintainers entry for ASP 2.0 Ethernet driver.
+> 
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
 
-i915's fbdev emulation is still incomplete as it doesn't implement
-deferred I/O and damage handling for mmaped pages.
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 
-v4:
-	* generate deferred-I/O helpers
-	* use initializer macros for fb_ops
-v2:
-	* use FB_IO_HELPERS options
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/Kconfig                    |   3 -
- drivers/gpu/drm/drm_fb_helper.c            | 107 ---------------------
- drivers/gpu/drm/i915/Kconfig               |   1 +
- drivers/gpu/drm/i915/display/intel_fbdev.c |  14 +--
- include/drm/drm_fb_helper.h                |  39 --------
- 5 files changed, 9 insertions(+), 155 deletions(-)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 92a782827b7b..bb2e48cc6cd6 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -133,9 +133,6 @@ config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
- 	depends on DRM_KMS_HELPER
- 	depends on FB=y || FB=DRM_KMS_HELPER
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
- 	select FRAMEBUFFER_CONSOLE if !EXPERT
- 	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
- 	default y
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index bab6b252f02a..9978147bbc8a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -736,113 +736,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
- }
- EXPORT_SYMBOL(drm_fb_helper_deferred_io);
- 
--/**
-- * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to read from framebuffer memory
-- * @count: number of bytes to read from framebuffer memory
-- * @ppos: read offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes read on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos)
--{
--	return fb_io_read(info, buf, count, ppos);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_read);
--
--/**
-- * drm_fb_helper_cfb_write - Implements struct &fb_ops.fb_write for I/O memory
-- * @info: fb_info struct pointer
-- * @buf: userspace buffer to write to framebuffer memory
-- * @count: number of bytes to write to framebuffer memory
-- * @ppos: write offset within framebuffer memory
-- *
-- * Returns:
-- * The number of bytes written on success, or an error code otherwise.
-- */
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos)
--{
--	struct drm_fb_helper *helper = info->par;
--	loff_t pos = *ppos;
--	ssize_t ret;
--	struct drm_rect damage_area;
--
--	ret = fb_io_write(info, buf, count, ppos);
--	if (ret <= 0)
--		return ret;
--
--	if (helper->funcs->fb_dirty) {
--		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
--		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
--				     drm_rect_width(&damage_area),
--				     drm_rect_height(&damage_area));
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_write);
--
--/**
-- * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
-- * @info: fbdev registered by the helper
-- * @rect: info about rectangle to fill
-- *
-- * A wrapper around cfb_fillrect implemented by fbdev core
-- */
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_fillrect(info, rect);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
--
--/**
-- * drm_fb_helper_cfb_copyarea - wrapper around cfb_copyarea
-- * @info: fbdev registered by the helper
-- * @area: info about area to copy
-- *
-- * A wrapper around cfb_copyarea implemented by fbdev core
-- */
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_copyarea(info, area);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
--
--/**
-- * drm_fb_helper_cfb_imageblit - wrapper around cfb_imageblit
-- * @info: fbdev registered by the helper
-- * @image: info about image to blit
-- *
-- * A wrapper around cfb_imageblit implemented by fbdev core
-- */
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image)
--{
--	struct drm_fb_helper *helper = info->par;
--
--	cfb_imageblit(info, image);
--
--	if (helper->funcs->fb_dirty)
--		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
--}
--EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
--
- /**
-  * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
-  * @fb_helper: driver-allocated fbdev helper, can be NULL
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index e4f4d2e3fdfe..01b5a8272a27 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -17,6 +17,7 @@ config DRM_I915
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
-+	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
- 	select RELAY
- 	select I2C
- 	select I2C_ALGOBIT
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index aab1ae74a8f7..eccaceaf8b9d 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -28,6 +28,7 @@
- #include <linux/console.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-+#include <linux/fb.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-@@ -84,6 +85,10 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
- 	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
- }
- 
-+FB_GEN_DEFAULT_DEFERRED_IO_OPS(intel_fbdev,
-+			       drm_fb_helper_damage_range,
-+			       drm_fb_helper_damage_area)
-+
- static int intel_fbdev_set_par(struct fb_info *info)
- {
- 	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
-@@ -132,15 +137,12 @@ static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
-+	__FB_DEFAULT_DEFERRED_OPS_RDWR(intel_fbdev),
- 	DRM_FB_HELPER_DEFAULT_OPS,
- 	.fb_set_par = intel_fbdev_set_par,
--	.fb_read = drm_fb_helper_cfb_read,
--	.fb_write = drm_fb_helper_cfb_write,
--	.fb_fillrect = drm_fb_helper_cfb_fillrect,
--	.fb_copyarea = drm_fb_helper_cfb_copyarea,
--	.fb_imageblit = drm_fb_helper_cfb_imageblit,
--	.fb_pan_display = intel_fbdev_pan_display,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_pan_display = intel_fbdev_pan_display,
-+	__FB_DEFAULT_DEFERRED_OPS_DRAW(intel_fbdev),
- 	.fb_mmap = intel_fbdev_mmap,
- };
- 
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index b50fd0c0b713..4863b0f8299e 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -258,18 +258,6 @@ void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u3
- 
- void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
- 
--ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--			       size_t count, loff_t *ppos);
--ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--				size_t count, loff_t *ppos);
--
--void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--				const struct fb_fillrect *rect);
--void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--				const struct fb_copyarea *area);
--void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--				 const struct fb_image *image);
--
- void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, bool suspend);
- void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
- 					bool suspend);
-@@ -385,33 +373,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
- 	return -ENODEV;
- }
- 
--static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
--					     size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
--					      size_t count, loff_t *ppos)
--{
--	return -ENODEV;
--}
--
--static inline void drm_fb_helper_cfb_fillrect(struct fb_info *info,
--					      const struct fb_fillrect *rect)
--{
--}
--
--static inline void drm_fb_helper_cfb_copyarea(struct fb_info *info,
--					      const struct fb_copyarea *area)
--{
--}
--
--static inline void drm_fb_helper_cfb_imageblit(struct fb_info *info,
--					       const struct fb_image *image)
--{
--}
--
- static inline void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper,
- 					     bool suspend)
- {
--- 
-2.40.1
 
