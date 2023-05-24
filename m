@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A91970F249
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA4670F25C
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA1C10E5E9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8734310E62E;
 	Wed, 24 May 2023 09:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0598E10E5C6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19BFC10E5CF;
  Wed, 24 May 2023 09:21:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3E2B622491;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 863B222492;
  Wed, 24 May 2023 09:21:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1684920114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z5kiyGDwqDo020YahfyOJGt+MN/6MDzrJM3X/W/LovY=;
- b=fXG4GUZhwxsuvEqbkx3DZS+J4ncEUBp2txQVCbljxePbvhAC4apRt8SGAOp3EUxT5ey/gI
- T7NSbwlE/u8YirXPqubPFCgJ3igjcfP4Ka/I+km4Qlu3RYtrk+uR+1hUnNgdGeZq5K0rnr
- pry9Pbhulb14eJnbCCrofZ4aTkc04dI=
+ bh=iaa2BCN8wqrdpkojKCsEfBiZdfVeklhe99llBTsvCzw=;
+ b=v0uv3VqJlwTburMUUamAFEvDW9WQ1nHlYDTfxMPS1Nc5BwGyWnOvkAMmmqGWYhyNhroMiA
+ qjt6AIQo8nPR9MO2quS3UibBeMDuFoUucvkUwxmnwLahpsUD8Dc0C8xHGCBvdyaDVbJvoK
+ 7TGqbJq10UNjp4UAccGuKiNPVPcOx40=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1684920114;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z5kiyGDwqDo020YahfyOJGt+MN/6MDzrJM3X/W/LovY=;
- b=2zTnpsvogtWMyPnbBRdX42ml7s9oTA83atbV4Ew05N/+FyIM7ibgS4c/lbIH7ovjqbhqTn
- 6oBc5isscTW3DMDg==
+ bh=iaa2BCN8wqrdpkojKCsEfBiZdfVeklhe99llBTsvCzw=;
+ b=xnMhjeQDszmtvQ5B90JnQJBWAgyf3C1y/qUwPKJvab59KGEmC6JzJZXxpHqXeb1+/vDtXz
+ ZSuGAPFZBs47bsCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E9F1D13425;
- Wed, 24 May 2023 09:21:53 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F9EC13A10;
+ Wed, 24 May 2023 09:21:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0MRGODHXbWTHewAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:53 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id mOvHDjLXbWTHewAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v4 02/13] fbdev: Add initializer macros for struct fb_ops
-Date: Wed, 24 May 2023 11:21:39 +0200
-Message-Id: <20230524092150.11776-3-tzimmermann@suse.de>
+Subject: [PATCH v4 03/13] drm/armada: Use regular fbdev I/O helpers
+Date: Wed, 24 May 2023 11:21:40 +0200
+Message-Id: <20230524092150.11776-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230524092150.11776-1-tzimmermann@suse.de>
 References: <20230524092150.11776-1-tzimmermann@suse.de>
@@ -69,172 +69,70 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+ intel-gfx@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For framebuffers in I/O and system memory, add macros that set
-struct fb_ops to the respective callback functions.
+Use the regular fbdev helpers for framebuffer I/O instead of DRM's
+helpers. Armada does not use damage handling, so DRM's fbdev helpers
+are mere wrappers around the fbdev code.
 
-For deferred I/O, add macros that generate callback functions with
-damage handling. Add initializer macros that set struct fb_ops to
-the generated callbacks.
+By using fbdev helpers directly within each DRM fbdev emulation,
+we can eventually remove DRM's wrapper functions entirely.
 
-These macros can remove a lot boilerplate code from fbdev drivers.
-The drivers are supposed to use the macro that is required for its
-framebuffer. Each macro is split into smaller helpers, so that
-drivers with non-standard callbacks can pick and customize callbacks
-as needed. There are individual helper macros for read/write, mmap
-and drawing.
+v4:
+	* use initializer macros for struct fb_ops
+v2:
+	* use FB_IO_HELPERS option
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Russell King <linux@armlinux.org.uk>
 ---
- include/linux/fb.h | 112 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ drivers/gpu/drm/armada/Kconfig        | 1 +
+ drivers/gpu/drm/armada/armada_fbdev.c | 7 ++-----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 2cf8efcb9e32..731472a2bb62 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -538,9 +538,31 @@ extern ssize_t fb_io_read(struct fb_info *info, char __user *buf,
- extern ssize_t fb_io_write(struct fb_info *info, const char __user *buf,
- 			   size_t count, loff_t *ppos);
- 
-+/*
-+ * Initializes struct fb_ops for framebuffers in I/O memory.
-+ */
-+
-+#define __FB_DEFAULT_IO_OPS_RDWR \
-+	.fb_read	= fb_io_read, \
-+	.fb_write	= fb_io_write
-+
-+#define __FB_DEFAULT_IO_OPS_DRAW \
-+        .fb_fillrect	= cfb_fillrect, \
-+        .fb_copyarea	= cfb_copyarea, \
-+        .fb_imageblit	= cfb_imageblit
-+
-+#define __FB_DEFAULT_IO_OPS_MMAP \
-+	.fb_mmap	= NULL // default implementation
-+
-+#define FB_DEFAULT_IO_OPS \
-+	__FB_DEFAULT_IO_OPS_RDWR, \
-+	__FB_DEFAULT_IO_OPS_DRAW, \
-+	__FB_DEFAULT_IO_OPS_MMAP
-+
- /*
-  * Drawing operations where framebuffer is in system RAM
+diff --git a/drivers/gpu/drm/armada/Kconfig b/drivers/gpu/drm/armada/Kconfig
+index f5c66d89ba99..5afade25e217 100644
+--- a/drivers/gpu/drm/armada/Kconfig
++++ b/drivers/gpu/drm/armada/Kconfig
+@@ -3,6 +3,7 @@ config DRM_ARMADA
+ 	tristate "DRM support for Marvell Armada SoCs"
+ 	depends on DRM && HAVE_CLK && ARM && MMU
+ 	select DRM_KMS_HELPER
++	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
+ 	help
+ 	  Support the "LCD" controllers found on the Marvell Armada 510
+ 	  devices.  There are two controllers on the device, each controller
+diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
+index 0a5fd1aa86eb..3943e89cc06c 100644
+--- a/drivers/gpu/drm/armada/armada_fbdev.c
++++ b/drivers/gpu/drm/armada/armada_fbdev.c
+@@ -5,6 +5,7 @@
   */
-+
- extern void sys_fillrect(struct fb_info *info, const struct fb_fillrect *rect);
- extern void sys_copyarea(struct fb_info *info, const struct fb_copyarea *area);
- extern void sys_imageblit(struct fb_info *info, const struct fb_image *image);
-@@ -549,6 +571,27 @@ extern ssize_t fb_sys_read(struct fb_info *info, char __user *buf,
- extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
- 			    size_t count, loff_t *ppos);
  
-+/*
-+ * Initializes struct fb_ops for framebuffers in system memory.
-+ */
-+
-+#define __FB_DEFAULT_SYS_OPS_RDWR \
-+	.fb_read	= fb_sys_read, \
-+	.fb_write	= fb_sys_write
-+
-+#define __FB_DEFAULT_SYS_OPS_DRAW \
-+        .fb_fillrect	= sys_fillrect, \
-+        .fb_copyarea	= sys_copyarea, \
-+        .fb_imageblit	= sys_imageblit
-+
-+#define __FB_DEFAULT_SYS_OPS_MMAP \
-+	.fb_mmap	= NULL // default implementation
-+
-+#define FB_DEFAULT_SYS_OPS \
-+	__FB_DEFAULT_SYS_OPS_RDWR, \
-+	__FB_DEFAULT_SYS_OPS_DRAW, \
-+	__FB_DEFAULT_SYS_OPS_MMAP
-+
- /* drivers/video/fbmem.c */
- extern int register_framebuffer(struct fb_info *fb_info);
- extern void unregister_framebuffer(struct fb_info *fb_info);
-@@ -604,6 +647,75 @@ extern void fb_deferred_io_cleanup(struct fb_info *info);
- extern int fb_deferred_io_fsync(struct file *file, loff_t start,
- 				loff_t end, int datasync);
+ #include <linux/errno.h>
++#include <linux/fb.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
  
-+/*
-+ * Generate callbacks for deferred I/O
-+ */
-+
-+#define __FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, __mode) \
-+	static ssize_t __prefix ## _defio_read(struct fb_info *info, char __user *buf, \
-+					       size_t count, loff_t *ppos) \
-+	{ \
-+		return fb_ ## __mode ## _read(info, buf, count, ppos); \
-+	} \
-+	static ssize_t __prefix ## _defio_write(struct fb_info *info, const char __user *buf, \
-+						size_t count, loff_t *ppos) \
-+	{ \
-+		unsigned long offset = *ppos; \
-+		ssize_t ret = fb_ ## __mode ## _write(info, buf, count, ppos); \
-+		if (ret > 0) \
-+			__damage_range(info, offset, ret); \
-+		return ret; \
-+	}
-+
-+#define __FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, __mode) \
-+	static void __prefix ## _defio_fillrect(struct fb_info *info, \
-+						const struct fb_fillrect *rect) \
-+	{ \
-+		__mode ## _fillrect(info, rect); \
-+		__damage_area(info, rect->dx, rect->dy, rect->width, rect->height); \
-+	} \
-+	static void __prefix ## _defio_copyarea(struct fb_info *info, \
-+						const struct fb_copyarea *area) \
-+	{ \
-+		__mode ## _copyarea(info, area); \
-+		__damage_area(info, area->dx, area->dy, area->width, area->height); \
-+	} \
-+	static void __prefix ## _defio_imageblit(struct fb_info *info, \
-+						 const struct fb_image *image) \
-+	{ \
-+		__mode ## _imageblit(info, image); \
-+		__damage_area(info, image->dx, image->dy, image->width, image->height); \
-+	}
-+
-+#define FB_GEN_DEFAULT_DEFERRED_IO_OPS(__prefix, __damage_range, __damage_area) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, io) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, cfb)
-+
-+#define FB_GEN_DEFAULT_DEFERRED_SYS_OPS(__prefix, __damage_range, __damage_area) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
-+	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
-+
-+/*
-+ * Initializes struct fb_ops for deferred I/O.
-+ */
-+
-+#define __FB_DEFAULT_DEFERRED_OPS_RDWR(__prefix) \
-+	.fb_read	= __prefix ## _defio_read, \
-+	.fb_write	= __prefix ## _defio_write
-+
-+#define __FB_DEFAULT_DEFERRED_OPS_DRAW(__prefix) \
-+        .fb_fillrect	= __prefix ## _defio_fillrect, \
-+        .fb_copyarea	= __prefix ## _defio_copyarea, \
-+        .fb_imageblit	= __prefix ## _defio_imageblit
-+
-+#define __FB_DEFAULT_DEFERRED_OPS_MMAP(__prefix) \
-+	.fb_mmap	= fb_deferred_io_mmap
-+
-+#define FB_DEFAULT_DEFERRED_OPS(__prefix) \
-+	__FB_DEFAULT_DEFERRED_OPS_RDWR(__prefix), \
-+	__FB_DEFAULT_DEFERRED_OPS_DRAW(__prefix), \
-+	__FB_DEFAULT_DEFERRED_OPS_MMAP(__prefix)
-+
- static inline bool fb_be_math(struct fb_info *info)
- {
- #ifdef CONFIG_FB_FOREIGN_ENDIAN
+@@ -33,12 +34,8 @@ static void armada_fbdev_fb_destroy(struct fb_info *info)
+ 
+ static const struct fb_ops armada_fb_ops = {
+ 	.owner		= THIS_MODULE,
++	FB_DEFAULT_IO_OPS,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+-	.fb_read	= drm_fb_helper_cfb_read,
+-	.fb_write	= drm_fb_helper_cfb_write,
+-	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
+-	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
+-	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
+ 	.fb_destroy	= armada_fbdev_fb_destroy,
+ };
+ 
 -- 
 2.40.1
 
