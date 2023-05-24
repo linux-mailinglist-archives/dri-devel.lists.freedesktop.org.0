@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0229A70F674
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 14:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245B570F677
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 14:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0449410E5F6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26FFA10E667;
 	Wed, 24 May 2023 12:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A0610E66B
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAC210E5F6
  for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 12:32:21 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:59b9:3473:f0ae:e2b7])
- by xavier.telenet-ops.be with bizsmtp
- id 0cYD2A00R5NiV2701cYDMx; Wed, 24 May 2023 14:32:18 +0200
+ by laurent.telenet-ops.be with bizsmtp
+ id 0cYD2A00V5NiV2701cYDet; Wed, 24 May 2023 14:32:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1q1neo-002xwy-FN;
+ (envelope-from <geert@linux-m68k.org>) id 1q1neo-002xwx-FN;
  Wed, 24 May 2023 14:32:13 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1q1nf3-00DPL5-E7;
+ (envelope-from <geert@linux-m68k.org>) id 1q1nf3-00DPL8-FQ;
  Wed, 24 May 2023 14:32:13 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -32,11 +32,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH 0/2] drm/panel: simple: Add support for Ampire
+Subject: [PATCH 1/2] dt-bindings: display: panel-simple: Add Ampire
  AM-800480L1TMQW-T00H
-Date: Wed, 24 May 2023 14:32:09 +0200
-Message-Id: <cover.1684931026.git.geert+renesas@glider.be>
+Date: Wed, 24 May 2023 14:32:10 +0200
+Message-Id: <422adef8c4941fa56fdadacb3d362a9fb387455e.1684931026.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1684931026.git.geert+renesas@glider.be>
+References: <cover.1684931026.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,35 +58,27 @@ Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-	Hi all,
+Document support for the Ampire AM-800480L1TMQW-T00H 5" WVGA TFT LCD
+panel.
 
-This patch series adds support for the Ampire AM-800480L1TMQW-T00H 5"
-WVGA TFT LCD panel, which can be found on e.g. the Atmark Techno
-Armadillo-800-EVA development board.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It has been tested with a WIP DT-enhanced version of the shmob-drm
-driver.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (2):
-  dt-bindings: display: panel-simple: Add Ampire AM-800480L1TMQW-T00H
-  drm/panel: simple: Add Ampire AM-800480L1TMQW-T00H
-
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 33 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 733e47da36e80896..f7c45e38d4b75b2e 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -33,6 +33,8 @@ properties:
+       - ampire,am-1280800n3tzqw-t00h
+         # Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
+       - ampire,am-480272h3tmqw-t01h
++        # Ampire AM-800480L1TMQW-T00H 5" WVGA TFT LCD panel
++      - ampire,am-800480l1tmqw-t00h
+         # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
+       - ampire,am800480r3tmqwa1h
+         # Ampire AM-800600P5TMQW-TB8H 8.0" SVGA TFT LCD panel
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
