@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5F270F046
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:10:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AE770F043
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:10:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33FC10E59B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E5610E59A;
 	Wed, 24 May 2023 08:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC09D10E561
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 00:28:50 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B0710E00A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 01:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684888130; x=1716424130;
+ t=1684892212; x=1716428212;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=6yHyywBSFFoTS/PB/NSqJ5ReMqyeFADIFcrlcWXck6E=;
- b=Y4WZa++Q2vaTNKmyHvccEpYcUtm8sWzbUT1DIUazGz82VPFuRc1W9eOX
- OvmFQ1IlJnjFA2ZOSnttgo/WB+oHxbdn8sP/FAdrfc7M2W+e8YO4h2LL9
- Lw9UxJMcv8JXauerksBz/fyDAOIK5eNWJ18gC/Qd0qPo2J2xH3OGuhfgM
- uy4LYxx3oatUvyU9KAILXmTfKKCG0DvGZuBoR3PwDG4sgIR8wSzUqmqJ6
- QktPqSh1MInGaRfMvW1m4TByU9bSTgeR/cCBMp3klP6zNOo3gm6WOeNEx
- Uik+pmZYR4HsTtSgR2ZN6fYwLhgnAJAsIDTw+eH+XG0fNaivcXHz3ACP3 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="333025169"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; d="scan'208";a="333025169"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2023 17:28:45 -0700
+ bh=OlSwtOzF3rKbr9vOBm+1bglTdUeyGnIV45us/c2o3gg=;
+ b=OhEyfppodAv0AM7derXfXGCn9qTb9dzOJ3vL4e5U7ldcr/N4QsFXgS5o
+ Pw9RSEwicebzgJD9z8evNWF/m5c4x7qvgIwqJ+5m4gZgV5vlA7SENJrWD
+ FCl4IL5/0CF+hMOj8AGJ5dMi/O1jCRYBOfjE326TRs1sH9GGFoo4hiX+m
+ PjXQ7xEd10k/w9bvtkmXNypl37I8kjtGN72+T5L3+Xn+FFUXWgsW4QOmg
+ oHzzFPbkGrq0w9iamYN0JpJCThR6pGnnLJ9/b9Z274bOGfZ0L/EERk5VU
+ BXiT5qIm7+JvWBjbdmzFCIboVkB/d1iGtDbrBLrkPClmRjgb61m4LpaSV g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="416881072"
+X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; d="scan'208";a="416881072"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2023 18:36:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="950762448"
-X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; d="scan'208";a="950762448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="774053404"
+X-IronPort-AV: E=Sophos;i="6.00,187,1681196400"; d="scan'208";a="774053404"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 23 May 2023 17:28:38 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 23 May 2023 18:36:40 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q1cMn-000EDt-3D;
- Wed, 24 May 2023 00:28:38 +0000
-Date: Wed, 24 May 2023 08:28:35 +0800
+ (envelope-from <lkp@intel.com>) id 1q1dQd-000EGr-2M;
+ Wed, 24 May 2023 01:36:39 +0000
+Date: Wed, 24 May 2023 09:36:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Douglas Anderson <dianders@chromium.org>, Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -48,13 +48,13 @@ To: Douglas Anderson <dianders@chromium.org>, Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 7/9] HID: i2c-hid: Support being a panel follower
-Message-ID: <202305240845.bJhmT3Im-lkp@intel.com>
-References: <20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+Subject: Re: [PATCH 8/9] HID: i2c-hid: Do panel follower work on the system_wq
+Message-ID: <202305240926.8pjzTMVj-lkp@intel.com>
+References: <20230523122802.8.I962bb462ede779005341c49320740ed95810021d@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="BuzEXTqJc4GXMMYj"
+Content-Type: multipart/mixed; boundary="EVcpuCmE+2ngYqoH"
 Content-Disposition: inline
-In-Reply-To: <20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+In-Reply-To: <20230523122802.8.I962bb462ede779005341c49320740ed95810021d@changeid>
 X-Mailman-Approved-At: Wed, 24 May 2023 08:10:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +77,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---BuzEXTqJc4GXMMYj
+--EVcpuCmE+2ngYqoH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -93,17 +93,17 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-panels/20230524-034323
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230523122802.7.Ib1a98309c455cd7e26b931c69993d4fba33bbe15%40changeid
-patch subject: [PATCH 7/9] HID: i2c-hid: Support being a panel follower
+patch link:    https://lore.kernel.org/r/20230523122802.8.I962bb462ede779005341c49320740ed95810021d%40changeid
+patch subject: [PATCH 8/9] HID: i2c-hid: Do panel follower work on the system_wq
 config: m68k-allyesconfig
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/fff5c7d6358fe0a778218b49582351e53040595d
+        # https://github.com/intel-lab-lkp/linux/commit/97c5984c98b7721d6c5299d8542c612e5c3240d3
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-panels/20230524-034323
-        git checkout fff5c7d6358fe0a778218b49582351e53040595d
+        git checkout 97c5984c98b7721d6c5299d8542c612e5c3240d3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
@@ -111,53 +111,125 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305240845.bJhmT3Im-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305240926.8pjzTMVj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/hid/i2c-hid/i2c-hid-core.c:1011:5: warning: no previous prototype for 'i2c_hid_core_initial_power_up' [-Wmissing-prototypes]
-    1011 | int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+   drivers/hid/i2c-hid/i2c-hid-core.c:1013:5: warning: no previous prototype for 'i2c_hid_core_initial_power_up' [-Wmissing-prototypes]
+    1013 | int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/i2c-hid/i2c-hid-core.c:1065:5: warning: no previous prototype for 'i2c_hid_core_panel_prepared' [-Wmissing-prototypes]
-    1065 | int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
+>> drivers/hid/i2c-hid/i2c-hid-core.c:1067:6: warning: no previous prototype for 'ihid_core_panel_prepare_work' [-Wmissing-prototypes]
+    1067 | void ihid_core_panel_prepare_work(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/i2c-hid/i2c-hid-core.c:1093:5: warning: no previous prototype for 'i2c_hid_core_panel_prepared' [-Wmissing-prototypes]
+    1093 | int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/i2c-hid/i2c-hid-core.c:1081:5: warning: no previous prototype for 'i2c_hid_core_panel_unpreparing' [-Wmissing-prototypes]
-    1081 | int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
+   drivers/hid/i2c-hid/i2c-hid-core.c:1107:5: warning: no previous prototype for 'i2c_hid_core_panel_unpreparing' [-Wmissing-prototypes]
+    1107 | int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/i2c_hid_core_panel_prepared +1065 drivers/hid/i2c-hid/i2c-hid-core.c
+vim +/ihid_core_panel_prepare_work +1067 drivers/hid/i2c-hid/i2c-hid-core.c
 
-  1064	
-> 1065	int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
-  1066	{
-  1067		struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
-  1068		struct hid_device *hid = ihid->hid;
-  1069	
-  1070		/*
-  1071		 * hid->version is set on the first power up. If it's still zero then
-  1072		 * this is the first power on so we should perform initial power up
-  1073		 * steps.
-  1074		 */
-  1075		if (!hid->version)
-  1076			return i2c_hid_core_initial_power_up(ihid);
-  1077	
-  1078		return i2c_hid_core_resume(ihid);
-  1079	}
-  1080	
-> 1081	int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
-  1082	{
-  1083		struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
-  1084	
-  1085		return i2c_hid_core_suspend(ihid);
-  1086	}
-  1087	
+  1000	
+  1001	/**
+  1002	 * i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
+  1003	 * @ihid: The ihid object created during probe.
+  1004	 *
+  1005	 * This function is called at probe time.
+  1006	 *
+  1007	 * The initial power on is where we do some basic validation that the device
+  1008	 * exists, where we fetch the HID descriptor, and where we create the actual
+  1009	 * HID devices.
+  1010	 *
+  1011	 * Return: 0 or error code.
+  1012	 */
+> 1013	int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+  1014	{
+  1015		struct i2c_client *client = ihid->client;
+  1016		struct hid_device *hid = ihid->hid;
+  1017		int ret;
+  1018	
+  1019		ret = i2c_hid_core_power_up(ihid);
+  1020		if (ret)
+  1021			return ret;
+  1022	
+  1023		/* Make sure there is something at this address */
+  1024		ret = i2c_smbus_read_byte(client);
+  1025		if (ret < 0) {
+  1026			i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
+  1027			ret = -ENXIO;
+  1028			goto err;
+  1029		}
+  1030	
+  1031		ret = i2c_hid_fetch_hid_descriptor(ihid);
+  1032		if (ret < 0) {
+  1033			dev_err(&client->dev,
+  1034				"Failed to fetch the HID Descriptor\n");
+  1035			goto err;
+  1036		}
+  1037	
+  1038		enable_irq(client->irq);
+  1039	
+  1040		hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
+  1041		hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
+  1042		hid->product = le16_to_cpu(ihid->hdesc.wProductID);
+  1043	
+  1044		hid->initial_quirks |= i2c_hid_get_dmi_quirks(hid->vendor,
+  1045							      hid->product);
+  1046	
+  1047		snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
+  1048			 client->name, (u16)hid->vendor, (u16)hid->product);
+  1049		strscpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
+  1050	
+  1051		ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
+  1052	
+  1053		ret = hid_add_device(hid);
+  1054		if (ret) {
+  1055			if (ret != -ENODEV)
+  1056				hid_err(client, "can't add hid device: %d\n", ret);
+  1057			goto err;
+  1058		}
+  1059	
+  1060		return 0;
+  1061	
+  1062	err:
+  1063		i2c_hid_core_power_down(ihid);
+  1064		return ret;
+  1065	}
+  1066	
+> 1067	void ihid_core_panel_prepare_work(struct work_struct *work)
+  1068	{
+  1069		struct i2c_hid *ihid = container_of(work, struct i2c_hid,
+  1070						    panel_follower_prepare_work);
+  1071		struct hid_device *hid = ihid->hid;
+  1072		int ret;
+  1073	
+  1074		/*
+  1075		 * hid->version is set on the first power up. If it's still zero then
+  1076		 * this is the first power on so we should perform initial power up
+  1077		 * steps.
+  1078		 */
+  1079		if (!hid->version)
+  1080			ret = i2c_hid_core_initial_power_up(ihid);
+  1081		else
+  1082			ret = i2c_hid_core_resume(ihid);
+  1083	
+  1084		if (ret)
+  1085			dev_warn(&ihid->client->dev, "Power on failed: %d\n", ret);
+  1086		else
+  1087			WRITE_ONCE(ihid->prepare_work_finished, true);
+  1088	
+  1089		/* Match with i2c_hid_core_panel_unpreparing() */
+  1090		smp_wmb();
+  1091	}
+  1092	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---BuzEXTqJc4GXMMYj
+--EVcpuCmE+2ngYqoH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -12793,4 +12865,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Documentation
 
---BuzEXTqJc4GXMMYj--
+--EVcpuCmE+2ngYqoH--
