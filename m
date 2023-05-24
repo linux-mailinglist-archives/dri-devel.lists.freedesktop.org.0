@@ -2,47 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A340170F34B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCB070F365
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB7D10E5EC;
-	Wed, 24 May 2023 09:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63BAB10E5E5;
+	Wed, 24 May 2023 09:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D5010E5EC
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:45:38 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown
- [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C396C6602B7B;
- Wed, 24 May 2023 10:45:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1684921536;
- bh=NgFF9iqT6kPQvm3wY+PBo4aRBr+03YgdIiWeIRgjHvg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GSrile/9avxzPu7s2ZVGls7W4GSonWmKTja3br+cV7b+vsPa6KjfPvwMlUrbY61X9
- 2VPgBLMrffDz9sLs3qX+S9qBd2Aj9Y31n3pMWvFBYQjM6bwW13iVYdaOzOm84dAIAS
- E6OmyJ2NOF2RzWqddsyPxQR5NM8oKf4+55Q+zydG6P3XAnLwErSCBLr8Z1Xcv6lobg
- MU65apKhhv4hAkYYw5p+lvr0hdVmcc0SJLW8ykiu3EsT2Fu/MsQee0F2hpeEPMlKD1
- SYqOZSabLBN4LbX8BVZ7ps4V9XhmjAyKHRkIvd4VlxSLUK3OYx6OSWa4RFKLVZDMlc
- 5+ijNFud02dCA==
-Message-ID: <2b5e0d60-7084-2039-e6aa-747517eb1977@collabora.com>
-Date: Wed, 24 May 2023 11:45:33 +0200
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1D810E5E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 09:48:37 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f611ccd08cso6069245e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 02:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684921715; x=1687513715;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p8l4VvjVr94dZvrHGrr+e0WzgjbnJVVHX2dBYB3myQU=;
+ b=TI3rCsYo2SNzhf5zQfmZSRtYeNc8hUycL+Z4AvQVV8sW/Al2OnQLdnPrx/QxQlRSyJ
+ /cgF15H0vt2fqgiB0apLuzvj1YjFtbQhdaFJGfQzrKotWJ0G897+K0O8zvDhF/9PNw81
+ 4+J1wgyQQJJL1A5hafGylJaGRkNjkxfEvUYC3uX+ixSPK4F6JGqZV/97nUd/v0lrn5m2
+ 5FGBqOiEGLxvO8K2QWxixuSdsmjo8FAYS97QvHlEpuniHFjtYLeHg2EsXUB988zpfkZ8
+ OjYtzDOu89NghcIDpRFFdM4qS+iZEmlowN7Ei8I4Bb8G5aUWWa/PjTcBoEnUMLw7Nk7m
+ hzHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684921715; x=1687513715;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p8l4VvjVr94dZvrHGrr+e0WzgjbnJVVHX2dBYB3myQU=;
+ b=dfuKPgGaomzHIs5XiZ2BVkF+4D80j9XEoz2bjhn5MvHCLrUyATskTykIDfuOZVUeIu
+ dSxJ/fswP1EfHIS265p3rjggxRqs0CGjWZqlN5js7+HrdOwtEA2PppYTygmgVLmRu7yy
+ 4Scgkbh6doSpn7Nf45vbfcalVzYXZhoCKr4uyyt4QRTrG45QfUqsbVywjJ8RlXHWXWbd
+ W6kwvgbY7EKKX6BujqlQEeamMsXBSEpQCJ7tghn9Y8J9ChIhCwKPIkxA2o5sySlZUe2E
+ 9gWFHoewefkZX0JBdaTT1O7CFHo/TdThO6TF/Ef7IHKurA07WcGJGUiJvLEduvuPuQbV
+ 9Axg==
+X-Gm-Message-State: AC+VfDyd6U3quxYxs+/NEQwnhdOVbHvadccOstnxItgdA2Yam7ykCEYD
+ EBKONRhvEMEQLvobE9UmjyeI5A==
+X-Google-Smtp-Source: ACHHUZ4XMDdStQgKrff85NZEZKRFlVA8V9QFMCe0slXyyQJwfdTbHSQ4YIcgmdFK84dT03iLAg2KDA==
+X-Received: by 2002:a05:600c:2942:b0:3f4:2158:28a0 with SMTP id
+ n2-20020a05600c294200b003f4215828a0mr12600097wmd.12.1684921714948; 
+ Wed, 24 May 2023 02:48:34 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ a2-20020a5d53c2000000b002ffbf2213d4sm14031808wrw.75.2023.05.24.02.48.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 May 2023 02:48:34 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Artur Weber <aweber.kernel@gmail.com>
+In-Reply-To: <20230524084324.11840-1-aweber.kernel@gmail.com>
+References: <20230524084324.11840-1-aweber.kernel@gmail.com>
+Subject: Re: [PATCH v2] drm/panel: samsung-s6d7aa0: use pointer for
+ drm_mode in panel desc struct
+Message-Id: <168492171413.2467334.7480313657663164313.b4-ty@linaro.org>
+Date: Wed, 24 May 2023 11:48:34 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v3 1/3] dt-bindings: phy: add PHY_TYPE_CDPHY definition
-Content-Language: en-US
-To: Julien Stephan <jstephan@baylibre.com>
-References: <20230524083033.486490-1-jstephan@baylibre.com>
- <20230524083033.486490-2-jstephan@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230524083033.486490-2-jstephan@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,40 +76,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, khilman@baylibre.com, mkorpershoek@baylibre.com,
+Cc: "kernelci . org bot" <bot@kernelci.org>, Sam Ravnborg <sam@ravnborg.org>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Andy Hsieh <andy.hsieh@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>
+ Tom Rix <trix@redhat.com>, thierry.reding@gmail.com,
+ Nikita Travkin <nikita@trvn.ru>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 24/05/23 10:30, Julien Stephan ha scritto:
-> Add definition for CDPHY phy type that can be configured in either D-PHY
-> mode or C-PHY mode
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Hi,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> ---
->   include/dt-bindings/phy/phy.h | 1 +
->   1 file changed, 1 insertion(+)
+On Wed, 24 May 2023 10:43:24 +0200, Artur Weber wrote:
+> Fixes compilation issues with older GCC versions and Clang after
+> changes introduced in commit 6810bb390282 ("drm/panel: Add Samsung
+> S6D7AA0 panel controller driver"). Tested with GCC 13.1.1, GCC 6.4.0
+> and Clang 16.0.3.
 > 
-> diff --git a/include/dt-bindings/phy/phy.h b/include/dt-bindings/phy/phy.h
-> index 6b901b342348..a19d85dbbf16 100644
-> --- a/include/dt-bindings/phy/phy.h
-> +++ b/include/dt-bindings/phy/phy.h
-> @@ -23,5 +23,6 @@
->   #define PHY_TYPE_DPHY		10
->   #define PHY_TYPE_CPHY		11
->   #define PHY_TYPE_USXGMII	12
-> +#define PHY_TYPE_CDPHY		13
->   
->   #endif /* _DT_BINDINGS_PHY */
+> Fixes the following errors with Clang:
+> 
+> [...]
+
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/1] drm/panel: samsung-s6d7aa0: use pointer for drm_mode in panel desc struct
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6a038f0183dd5d3e289f6c1fe6962de9b31f8fd2
+
+-- 
+Neil
 
