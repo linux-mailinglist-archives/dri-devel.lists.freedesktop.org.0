@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5727570F263
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC1E70F240
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 11:22:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8AA10E63D;
-	Wed, 24 May 2023 09:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023D710E5E8;
+	Wed, 24 May 2023 09:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EC710E5CA;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014B510E5C4;
  Wed, 24 May 2023 09:21:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E05171FDCF;
- Wed, 24 May 2023 09:21:54 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3A5461FDD2;
+ Wed, 24 May 2023 09:21:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1684920114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1684920115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=On4dYWmqV9CcuAXI3JhgJEv5P00A/x80UqwPKjD1+Bs=;
- b=XsZFzVDA5KXfKX+UZw/Z0IX78COI4X7S2joL0T5sOMGas71CDduFlSWsspWVVqv7F1eHUs
- RQVM5bZF1Zx4BrWBGyQd60rBHUSNdMVrAfYmdwkFZ5vvOM+5REQJOdyN2yTNKZN9UuHTVS
- +a8pFh4fAhuNmUwzSRzHUeMuxYyW1Dk=
+ bh=oNmuhOhfnNt5tcu3ShyajBVqBG4niMj93uz0MtGqcdA=;
+ b=nfyGEcQKv29nq5yl8Kty+iBsTeW45ANwugrst/q1d9EXl0FT3EyjjrFtWihW3z30QPJXap
+ rzoVpYQKvESNnCZfnBTmEVldx/zbs2vpdTzgnO4IUJl0zlhgVCxsGqCAIdxX53nEGcjs+S
+ y8p2BSnHu2s2YVWcQpNUMm0h0UTUPBM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1684920114;
+ s=susede2_ed25519; t=1684920115;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=On4dYWmqV9CcuAXI3JhgJEv5P00A/x80UqwPKjD1+Bs=;
- b=MlYS+e4do6xppOGHvium6wLg1/NYemfXy0nRyhHo7B4fVdJU3noOWEFvneSV4/uPH2tuWp
- vPRyTDJlsjnTAFAw==
+ bh=oNmuhOhfnNt5tcu3ShyajBVqBG4niMj93uz0MtGqcdA=;
+ b=FPQTnwwCkS1U23TWMUfmHH8sLmhZHSBbJNzZ2dwUsY0teMQ2rM2Yp5bwIVbG1LBBArmp5h
+ Zd6xePF1ZIbBw9Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 89D0F13425;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E48EB13A10;
  Wed, 24 May 2023 09:21:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iPTQIDLXbWTHewAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id mHj5NjLXbWTHewAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 24 May 2023 09:21:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com, sam@ravnborg.org
-Subject: [PATCH v4 04/13] drm/exynos: Use regular fbdev I/O helpers
-Date: Wed, 24 May 2023 11:21:41 +0200
-Message-Id: <20230524092150.11776-5-tzimmermann@suse.de>
+Subject: [PATCH v4 05/13] drm/gma500: Use regular fbdev I/O helpers
+Date: Wed, 24 May 2023 11:21:42 +0200
+Message-Id: <20230524092150.11776-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230524092150.11776-1-tzimmermann@suse.de>
 References: <20230524092150.11776-1-tzimmermann@suse.de>
@@ -68,11 +68,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
@@ -80,7 +77,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the regular fbdev helpers for framebuffer I/O instead of DRM's
-helpers. Exynos does not use damage handling, so DRM's fbdev helpers
+helpers. Gma500 does not use damage handling, so DRM's fbdev helpers
 are mere wrappers around the fbdev code.
 
 By using fbdev helpers directly within each DRM fbdev emulation,
@@ -88,63 +85,56 @@ we can eventually remove DRM's wrapper functions entirely.
 
 v4:
 	* use initializer macros for struct fb_ops
-v3:
-	* don't reorder Makefile rules (Sam)
 v2:
 	* use FB_IO_HELPERS option
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/exynos/Kconfig            | 1 +
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 9 ++++-----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/gma500/Kconfig | 1 +
+ drivers/gpu/drm/gma500/fbdev.c | 8 +++-----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/Kconfig b/drivers/gpu/drm/exynos/Kconfig
-index 0cb92d651ff1..7ca7e1dab52c 100644
---- a/drivers/gpu/drm/exynos/Kconfig
-+++ b/drivers/gpu/drm/exynos/Kconfig
-@@ -7,6 +7,7 @@ config DRM_EXYNOS
- 	select DRM_DISPLAY_HELPER if DRM_EXYNOS_DP
+diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
+index 2efc0eb41c64..cd3d92725ed4 100644
+--- a/drivers/gpu/drm/gma500/Kconfig
++++ b/drivers/gpu/drm/gma500/Kconfig
+@@ -3,6 +3,7 @@ config DRM_GMA500
+ 	tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
+ 	depends on DRM && PCI && X86 && MMU
  	select DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
 +	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	help
- 	  Choose this option if you have a Samsung SoC Exynos chipset.
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index ea4b3d248aac..fdf65587f1fe 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -8,6 +8,8 @@
-  *	Seung-Woo Kim <sw0312.kim@samsung.com>
-  */
+ 	select I2C
+ 	select I2C_ALGOBIT
+ 	# GMA500 depends on ACPI_VIDEO when ACPI is enabled, just like i915
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 4f0309548b2b..955cbe9f05a7 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -5,6 +5,7 @@
+  *
+  **************************************************************************/
  
 +#include <linux/fb.h>
-+
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -47,13 +49,10 @@ static void exynos_drm_fb_destroy(struct fb_info *info)
+ #include <linux/pfn_t.h>
  
- static const struct fb_ops exynos_drm_fb_ops = {
- 	.owner		= THIS_MODULE,
+ #include <drm/drm_crtc_helper.h>
+@@ -134,13 +135,10 @@ static void psb_fbdev_fb_destroy(struct fb_info *info)
+ 
+ static const struct fb_ops psb_fbdev_fb_ops = {
+ 	.owner = THIS_MODULE,
 +	__FB_DEFAULT_IO_OPS_RDWR,
  	DRM_FB_HELPER_DEFAULT_OPS,
+ 	.fb_setcolreg = psb_fbdev_fb_setcolreg,
+-	.fb_read = drm_fb_helper_cfb_read,
+-	.fb_write = drm_fb_helper_cfb_write,
+-	.fb_fillrect = drm_fb_helper_cfb_fillrect,
+-	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+-	.fb_imageblit = drm_fb_helper_cfb_imageblit,
 +	__FB_DEFAULT_IO_OPS_DRAW,
- 	.fb_mmap        = exynos_drm_fb_mmap,
--	.fb_read	= drm_fb_helper_cfb_read,
--	.fb_write	= drm_fb_helper_cfb_write,
--	.fb_fillrect	= drm_fb_helper_cfb_fillrect,
--	.fb_copyarea	= drm_fb_helper_cfb_copyarea,
--	.fb_imageblit	= drm_fb_helper_cfb_imageblit,
- 	.fb_destroy	= exynos_drm_fb_destroy,
+ 	.fb_mmap = psb_fbdev_fb_mmap,
+ 	.fb_destroy = psb_fbdev_fb_destroy,
  };
- 
 -- 
 2.40.1
 
