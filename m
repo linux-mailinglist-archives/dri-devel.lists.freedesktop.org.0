@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8D070F88B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 16:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6CC70F916
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 16:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4147410E0C8;
-	Wed, 24 May 2023 14:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 603E610E102;
+	Wed, 24 May 2023 14:49:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5D310E02A;
- Wed, 24 May 2023 14:22:34 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5B6756173C;
- Wed, 24 May 2023 14:22:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE479C433D2;
- Wed, 24 May 2023 14:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684938153;
- bh=Ti7srOHrHydlQp6V2XYkCscD2SeIBeXLguWZIPuModw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FUdNlK6L8Loy0wWd0CgvfG/kzrVJSH6+DoP2oyLBHUy3mUEGYxjq1u5nRx7yhmf82
- sWXfBZPdyAqklc7UG80vYzr5gbepP3tjP7RphgyzSOd462PuNQb9v+9RxpAuoxHEKm
- rLXLdpzBi7pbDwlCuOvp/XzJZDWjwn99U1veGzW8lPyYK4R/nRxAgW55BiN+Xw2x9z
- tmCjcfQhYUvYbUOW/8JsW7w7SjasRGRAGZU6mRPiILVz+nvvM85qFZzUMST1WAH3tv
- qYHd5WjW9GjgI3LuxZ2LZsxUTgT2BTnil8gQqptQgkuNSAa384KQoCDaYYbbulmijF
- HBE6/zmMN/f0w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1q1pNv-0000eS-Pz; Wed, 24 May 2023 16:22:39 +0200
-Date: Wed, 24 May 2023 16:22:39 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dp: add module parameter for PSR
-Message-ID: <ZG4dry_GOJPSyrWC@hovoldconsulting.com>
-References: <20230427232848.5200-1-quic_abhinavk@quicinc.com>
- <053819bd-b3c4-a72c-9316-85d974082ad6@linaro.org>
- <ZGzalLjTvUfzEADU@hovoldconsulting.com>
- <f530691b-989d-b059-6b06-e66abb740bdb@quicinc.com>
- <ZG216qoxK9hQ-kQs@hovoldconsulting.com>
- <4f2556e2-52ab-eb1d-b388-52546044f460@linaro.org>
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F11410E102
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 14:49:44 +0000 (UTC)
+Date: Wed, 24 May 2023 14:49:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1684939780; x=1685198980;
+ bh=UMGKqW/LwbT3aOvig7BA7g7y0JawpMyWnU8/VkTGCYk=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=vGpxsSNLy3XCwfOZeeuNA9ng5xkEz2ezCBZzFF2nH5qQd9g0ieW88tXfhrS5a39VL
+ /v4iiEAPpoxLiAEcQPgX9pXHd0NNie7tqRdpAVtZFfakiRtaIeMAkQAddGZDAmHwp0
+ Cp596qEvZt8ZAlAvOzdT3h0EBV7aPDXIooTEAmv9pbVZJu4TNvo5Vvgwszwvr+d+JD
+ g1K5ZiJTwWiRl1xKorCRlYSSX2lCngqSsDvzCjHDdD9udPE+ScpjqZd9Mvob8BVpBv
+ f5agR+U80bRBQHtj8WYSQep9wzYcpOG93uLFYggfT4x9zzkxwCIC9cmj2JnhNcUBZS
+ 1dr45ln8xS2ug==
+To: Alan Liu <HaoPing.Liu@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 0/7] Secure display with new CRTC properties
+Message-ID: <sNSf9ou1krQ0UJcBpR8Lr5KKfdOBllnwV5x6jNoCT8h9T-zSA2x0ouGg_RMKDACyrgm_MXIvh-kgpCJ4taEa1V3OyfWYekbSDPMX3KswZGw=@emersion.fr>
+In-Reply-To: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
+References: <20230516053931.1700117-1-HaoPing.Liu@amd.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f2556e2-52ab-eb1d-b388-52546044f460@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,33 +47,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- linux-arm-msm@vger.kernel.org, quic_jesszhan@quicinc.com, swboyd@chromium.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: lili.gong@amd.com, dri-devel@lists.freedesktop.org, wayne.lin@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 24, 2023 at 11:06:03AM +0300, Dmitry Baryshkov wrote:
-> On 24/05/2023 09:59, Johan Hovold wrote:
+On Tuesday, May 16th, 2023 at 07:39, Alan Liu <HaoPing.Liu@amd.com> wrote:
 
-> > Regressions happen and sometimes there are corner cases that are harder
-> > to find, but this is a breakage of a fundamental feature that was
-> > reported before the code was even merged into mainline.
-> > 
-> >> We should have ideally gone with the modparam with the feature patches
-> >> itself knowing that it gets enabled for all sinks if PSR is supported.
-> > 
-> > Modparams are things of the past should not be used to enable broken
-> > features so that some vendor can tick of their internal lists of
-> > features that have been "mainlined".
-> 
-> We have had a history of using modparam with i915 and IIRC amdgpu / 
-> radeon drivers to allow users to easily check whether new feature works 
-> for their hardware. My current understanding is that PSR+VT works for on 
-> some laptops and doesn't on some other laptops, which makes it a valid case.
+> To address this problem, since modern display control hardware is able to
+> calculate the CRC checksum of the display content, we are thinking of a
+> feature to let userspace specify a region of interest (ROI) on display, a=
+nd
+> we can utilize the hardware to calculate the CRC checksum as frames scann=
+ed
+> out, and finally, provide the checksum for userspace for validation purpo=
+se.
+> In this case, since the icons themselves are often fixed over static
+> backgrounds, the CRC of the ROI pixels can be known in advance. So one of=
+ the
+> usage of ROI and corresponding CRC result is that as users know the CRC
+> checksum of the tell-tales in advance, at runtime they can retrieve the C=
+RC
+> value from kernel for validation as frames are scanned out.
+>=20
+> We implement this feature and call it secure display.
 
-But here it does not seem to be the hardware that's the issue, but
-rather that the implementation is incorrect or incomplete.
+I's strongly advise *not* using the word "secure" here. "Secure" is over-lo=
+aded
+with so many different meanings, as a result it's super-unclear what a KMS
+property name "SECURE_FOO" would do. As an example, some people use "secure=
+" to
+refer to Digital Restrictions Management. Something like "CHECKSUM_REGION"
+would much better describe the feature you want to implement IMHO.
 
-Johan
+Also, please note that IGT already extracts CRCs for testing purposes. Mayb=
+e
+there's an opportunity to use the same uAPI here.
