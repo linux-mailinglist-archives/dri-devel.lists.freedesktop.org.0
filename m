@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B0170EFDB
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317F670EFDD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 09:50:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9741910E5A9;
-	Wed, 24 May 2023 07:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0018010E58D;
+	Wed, 24 May 2023 07:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B14EE10E58C
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:49:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD5EA10E58D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 07:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1684914589; x=1716450589;
+ t=1684914610; x=1716450610;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SWba2PmSfk3d66H9+cwWgr8whBtffjrnF1Sz4N9Sts8=;
- b=UF9/5zdi+cWmzbf1q35pphbqA4HayLxsepuVRjgW0HiQJa+Qxkcqw9AL
- Fw/RuanJ8q/vmr3DduAGiIVatHIY1KjGEW4m7LXnVpQ56d4hWrsiMIOxd
- LylovDQz1DctPZBA6ZRQslpCMs4fCtWuGmnrC89R2A70ENu4HLJGToupb
- 1hhsgSKrLYTf835yG0n3y9OdIOBKtHAzOpIjq7GP/B7flLN78hqprVPh+
- LIAnanmyldxQT5HK/Za/96Wqlfpc7rWSUnSe2ID9N/WpmXdcMGMBYIvcr
- fSNH6um11XhNWKyamfT5tNOfuet3gySW0B8VbTWzrQk5N79XVM206aQ9J A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="419200815"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="419200815"
+ bh=yW8Akrmw1TNYES2KtbQyqRe7sSbu3h7wvXR8Qr6XB1I=;
+ b=ROo1OZiUHCLtLyfgjG4VyOIblc1OzESYEvxHgBDlpQzPv3nCsR3ER1ud
+ F3/ygOQoxJGdZm5UVYP+JsWaHq67RLG9eMnylns+aO7+McaMZEp6ncKOx
+ r+u3fjPBKG+W3uh6LdDXRdfCPC98DoRfumPT1xQZyV5rMV9MNW6CImhuZ
+ GLUFJ0ISMmem4BnWIoouOpEZiwl8Fw5aQYIY1gvrgOu/KaG5Kfj6KaRTl
+ bVUU4EY28/sRrpMU+9OK5knm5JCZrvG4K+irYtFToMgNU2UspiHBJ7DMK
+ CgNVYbG+52meO6sEB6Wa2i8vZMvCT9o3iImAGppSDp8gAxQgMakTDvEHk w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="419200839"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="419200839"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 00:49:49 -0700
+ 24 May 2023 00:49:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="681767753"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="681767753"
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="681767754"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; d="scan'208";a="681767754"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2023 00:49:48 -0700
+ 24 May 2023 00:49:51 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] accel/ivpu: Add debugfs files for testing device reset
-Date: Wed, 24 May 2023 09:48:45 +0200
-Message-Id: <20230524074847.866711-4-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 4/5] accel/ivpu: Print firmware name and version
+Date: Wed, 24 May 2023 09:48:46 +0200
+Message-Id: <20230524074847.866711-5-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
 References: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
@@ -57,116 +57,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new debugfs files to validate device recovery functionality.
+From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 
+Firmware file name and version are very important for debugging
+customer issues - print them as INFO level message instead
+of DEBUG message that is turned off by default.
+
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c | 41 +++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_pm.c      |  1 +
- drivers/accel/ivpu/ivpu_pm.h      |  1 +
- 3 files changed, 43 insertions(+)
+ drivers/accel/ivpu/ivpu_fw.c | 16 ++++++++++++----
+ drivers/accel/ivpu/ivpu_fw.h |  1 +
+ 2 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index a9180fae43b6..e2502d2b53c0 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -77,11 +77,31 @@ static int last_bootmode_show(struct seq_file *s, void *v)
- 	return 0;
- }
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 3599bb8706eb..317716482a15 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -52,13 +52,19 @@ static int ivpu_fw_request(struct ivpu_device *vdev)
+ 	int ret = -ENOENT;
+ 	int i;
  
-+static int reset_counter_show(struct seq_file *s, void *v)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)s->private;
-+	struct ivpu_device *vdev = to_ivpu_device(node->minor->dev);
-+
-+	seq_printf(s, "%d\n", atomic_read(&vdev->pm->reset_counter));
-+	return 0;
-+}
-+
-+static int reset_pending_show(struct seq_file *s, void *v)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)s->private;
-+	struct ivpu_device *vdev = to_ivpu_device(node->minor->dev);
-+
-+	seq_printf(s, "%d\n", atomic_read(&vdev->pm->in_reset));
-+	return 0;
-+}
-+
- static const struct drm_info_list vdev_debugfs_list[] = {
- 	{"bo_list", bo_list_show, 0},
- 	{"fw_trace_capability", fw_trace_capability_show, 0},
- 	{"fw_trace_config", fw_trace_config_show, 0},
- 	{"last_bootmode", last_bootmode_show, 0},
-+	{"reset_counter", reset_counter_show, 0},
-+	{"reset_pending", reset_pending_show, 0},
- };
+-	if (ivpu_firmware)
+-		return request_firmware(&vdev->fw->file, ivpu_firmware, vdev->drm.dev);
++	if (ivpu_firmware) {
++		ret = request_firmware(&vdev->fw->file, ivpu_firmware, vdev->drm.dev);
++		if (!ret)
++			vdev->fw->name = ivpu_firmware;
++		return ret;
++	}
  
- static int fw_log_show(struct seq_file *s, void *v)
-@@ -216,6 +236,24 @@ ivpu_reset_engine_fn(struct file *file, const char __user *user_buf, size_t size
- 	return size;
- }
+ 	for (i = 0; i < ARRAY_SIZE(fw_names); i++) {
+ 		ret = firmware_request_nowarn(&vdev->fw->file, fw_names[i], vdev->drm.dev);
+-		if (!ret)
++		if (!ret) {
++			vdev->fw->name = fw_names[i];
+ 			return 0;
++		}
+ 	}
  
-+static ssize_t
-+ivpu_force_recovery_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-+{
-+	struct ivpu_device *vdev = file->private_data;
+ 	ivpu_err(vdev, "Failed to request firmware: %d\n", ret);
+@@ -143,7 +149,9 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+ 	}
+ 	ivpu_dbg(vdev, FW_BOOT, "Header version: 0x%x, format 0x%x\n",
+ 		 fw_hdr->header_version, fw_hdr->image_format);
+-	ivpu_dbg(vdev, FW_BOOT, "FW version: %s\n", (char *)fw_hdr + VPU_FW_HEADER_SIZE);
 +
-+	if (!size)
-+		return -EINVAL;
-+
-+	ivpu_pm_schedule_recovery(vdev);
-+	return size;
-+}
-+
-+static const struct file_operations ivpu_force_recovery_fops = {
-+	.owner = THIS_MODULE,
-+	.open = simple_open,
-+	.write = ivpu_force_recovery_fn,
-+};
-+
- static const struct file_operations ivpu_reset_engine_fops = {
- 	.owner = THIS_MODULE,
- 	.open = simple_open,
-@@ -229,6 +267,9 @@ void ivpu_debugfs_init(struct drm_minor *minor)
- 	drm_debugfs_create_files(vdev_debugfs_list, ARRAY_SIZE(vdev_debugfs_list),
- 				 minor->debugfs_root, minor);
++	ivpu_info(vdev, "Firmware: %s, version: %s", fw->name,
++		  (const char *)fw_hdr + VPU_FW_HEADER_SIZE);
  
-+	debugfs_create_file("force_recovery", 0200, minor->debugfs_root, vdev,
-+			    &ivpu_force_recovery_fops);
-+
- 	debugfs_create_file("fw_log", 0644, minor->debugfs_root, vdev,
- 			    &fw_log_fops);
- 	debugfs_create_file("fw_trace_destination_mask", 0200, minor->debugfs_root, vdev,
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index aa4d56dc52b3..e6f27daf5560 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -259,6 +259,7 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
- 	pm_runtime_get_sync(vdev->drm.dev);
+ 	if (IVPU_FW_CHECK_API(vdev, fw_hdr, BOOT, 3))
+ 		return -EINVAL;
+diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+index 3cc3a1497a4a..8567fdf925fe 100644
+--- a/drivers/accel/ivpu/ivpu_fw.h
++++ b/drivers/accel/ivpu/ivpu_fw.h
+@@ -12,6 +12,7 @@ struct vpu_boot_params;
  
- 	ivpu_dbg(vdev, PM, "Pre-reset..\n");
-+	atomic_inc(&vdev->pm->reset_counter);
- 	atomic_set(&vdev->pm->in_reset, 1);
- 	ivpu_shutdown(vdev);
- 	ivpu_pm_prepare_cold_boot(vdev);
-diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-index baca98187255..fd4eada1290f 100644
---- a/drivers/accel/ivpu/ivpu_pm.h
-+++ b/drivers/accel/ivpu/ivpu_pm.h
-@@ -14,6 +14,7 @@ struct ivpu_pm_info {
- 	struct ivpu_device *vdev;
- 	struct work_struct recovery_work;
- 	atomic_t in_reset;
-+	atomic_t reset_counter;
- 	bool is_warmboot;
- 	u32 suspend_reschedule_counter;
- };
+ struct ivpu_fw_info {
+ 	const struct firmware *file;
++	const char *name;
+ 	struct ivpu_bo *mem;
+ 	struct ivpu_bo *mem_shave_nn;
+ 	struct ivpu_bo *mem_log_crit;
 -- 
 2.25.1
 
