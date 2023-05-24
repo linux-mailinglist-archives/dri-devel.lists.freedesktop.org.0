@@ -2,62 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8749670F189
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A5370F193
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 10:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB60710E5B6;
-	Wed, 24 May 2023 08:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E04E810E5A7;
+	Wed, 24 May 2023 08:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8080710E5B6
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:56:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E580463B2B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B3579C433A8
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 08:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684918560;
- bh=Dcgbq7ZbODlYh+UKaNgPsHY5iP0ouz9ayLiYT538oJ8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NB5GmR2b5CQJt5npmV+8G8E+9cPnrLUrdNnQlAYYIgdPqlmJR+YGQpWdQ8/CsE5mn
- mR5iSVpQ1eb1AIda5AmAmgpDbCY9lJz1hil5tC51TlPWxVU4mPd1G+3qCQEyLRf1QA
- viYOMrwuGy+G3T1Awtk/2LgoZzy2AA7VHRZ8amBuQPz8Qj4/T//1zbdUhvC9G+EtBP
- W+GTVS7b7Npn+MLDgznUG6C0QuZt9ED5becEX1ZTZpOplXvEw3TlXWHxvgvu4/hWvj
- pnt3NV4esUTRXriuzKIkdOKJXDgTbVBicAvbMBhZ8uNelabSt2KOjxQdPpYg5ppP0l
- JbN7g3TU8pwHA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id A6783C43144; Wed, 24 May 2023 08:56:00 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Wed, 24 May 2023 08:55:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: smf-linux@virginmedia.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-EI5VpAcdgO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from out30-124.freemail.mail.aliyun.com
+ (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D85010E5A7;
+ Wed, 24 May 2023 08:57:31 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VjNRfFf_1684918630; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VjNRfFf_1684918630) by smtp.aliyun-inc.com;
+ Wed, 24 May 2023 16:57:26 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH 1/2] drm/amd/display: clean up some inconsistent indenting
+Date: Wed, 24 May 2023 16:57:08 +0800
+Message-Id: <20230524085709.59128-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,20 +40,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+No functional modification involved.
 
---- Comment #87 from Stuart Foster (smf-linux@virginmedia.com) ---
-Is it worth the effort of bisecting this as it seems to be on a lot of kern=
-el
-versions ?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/dcn314_fpu.c:269 dcn314_update_bw_bounding_box_fpu() warn: inconsistent indenting.
 
-thanks
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5305
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
+index 318b9c2bc9be..c9afddd11589 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/dcn314_fpu.c
+@@ -265,8 +265,7 @@ void dcn314_update_bw_bounding_box_fpu(struct dc *dc, struct clk_bw_params *bw_p
+ 	}
+ 
+ 	dcn20_patch_bounding_box(dc, &dcn3_14_soc);
+-
+-		dml_init_instance(&dc->dml, &dcn3_14_soc, &dcn3_14_ip, DML_PROJECT_DCN314);
++	dml_init_instance(&dc->dml, &dcn3_14_soc, &dcn3_14_ip, DML_PROJECT_DCN314);
+ }
+ 
+ static bool is_dual_plane(enum surface_pixel_format format)
+-- 
+2.20.1.7.g153144c
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
