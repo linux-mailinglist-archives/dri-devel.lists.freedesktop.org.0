@@ -1,74 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C074C70FC23
-	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:03:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6639470FC1A
+	for <lists+dri-devel@lfdr.de>; Wed, 24 May 2023 19:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B408F10E4E3;
-	Wed, 24 May 2023 17:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9C0310E4E0;
+	Wed, 24 May 2023 17:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E07310E123
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 17:03:52 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1ae3a5dfa42so3840015ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1684947831; x=1687539831;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YTCMbQuOQ0Gv9EZ3XI5kQ6nF5j6GhuYAcPObTk6+dJ4=;
- b=EWrSTGmzLJM8fWQ8TGaRKKSSrx0EAIMg/WQZ1TPY/KTLOx+0kvrBRMtehmF56CqR/e
- nqiZwX70llkTxhEmNgHbu5h/Ot4txJXyJA1Ek1F18iAroHsnSOnlkpgVExpNWFo07xW0
- RvRKEV0EoCzmpHZGMC/JA4GPZhOmGwHtrV6Qc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684947831; x=1687539831;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YTCMbQuOQ0Gv9EZ3XI5kQ6nF5j6GhuYAcPObTk6+dJ4=;
- b=JbCRBig0vQMoMmE/Z2KQ5fCdBCZyAZkjDc6BC2blRVx0SflMK/XED8DAgbFwxjO5Ap
- Zsh/tlxtiaYnWs4V0SEb8smOVKiSLlp2nBeW7y6xiZJC/4WDQVGf8ayVYruOhsqmbnon
- sYpkQI8d+/n/pq8mQU6U6+M/kaqTQ1f6r2nymGciu6J+LoclT7yrHCYFesqlY952GUhz
- x6WgaBdwpzNwHa10T9VPUwiWlFCqzJJ7zqP16AAfInPGTH5SUr6x9+oTPKnQILlRZouQ
- x4Ik2AAXvlpG0mZmsralEq4DtWwxSRJEEc1agPs0yD/tGKmYBvD+MLb8lN/IYAT+Ll7C
- HHBw==
-X-Gm-Message-State: AC+VfDzLupJfBWCsFx/FHM8VCdcDyH5lzgkLYSLohIG5xYcpSbV7WRH9
- iyjAl2i7P/XLQdjqtgGq2sihR9S1EExxr3XsFGY=
-X-Google-Smtp-Source: ACHHUZ5yqAIxXgCCaG4XJRauwRizYoMAg3bpYgmpX5JqGyCt13sXsQMWrcYAp+ydbOJYf6EhlswrJA==
-X-Received: by 2002:a17:903:192:b0:1a5:a1b:bbd8 with SMTP id
- z18-20020a170903019200b001a50a1bbbd8mr21582238plg.45.1684947831253; 
- Wed, 24 May 2023 10:03:51 -0700 (PDT)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com.
- [209.85.214.176]) by smtp.gmail.com with ESMTPSA id
- e12-20020a170902b78c00b001993a1fce7bsm8931812pls.196.2023.05.24.10.03.50
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 May 2023 10:03:51 -0700 (PDT)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-1ae64580e9fso3435ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 10:03:50 -0700 (PDT)
-X-Received: by 2002:a05:6e02:12c2:b0:338:9f6a:d54a with SMTP id
- i2-20020a056e0212c200b003389f6ad54amr268468ilm.24.1684947464098; Wed, 24 May
- 2023 09:57:44 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A69B510E2BA;
+ Wed, 24 May 2023 17:00:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TRhGBsp+QQ6xS+YNf5xmWIYRccCger344DQKp5JizLd4w0LiJBY2RpWuhA4XEf9Pqk+9XUfxjSp+RfYq1QzTKnv9cB29c0Hods8Le7rgRQ4vIpnjHRIhkKo3qnCph4u1XIi43qXAHoPbNdWsTWNKIvuvojfXwUKIhnkHBaeEAfZghMo7buZ7UFKvuTA1d+ykyh842rFcj27YLGrxzz+JzFy/LmgK94jwrKW0HrQztSGc5/QEeq6v7R2tw4xnuRNECa5496xxq83GymD7JTjQZXCiZ4z92YL9eEd5CFJD4+cqkkg6pagmjnl4MQXYJy7I/t1TwoMyE+jKwzCjqSQM+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gc9fMlf7VXXmNERmQ5MYce8uem7L6kD+5Au1Wz/KWZ4=;
+ b=PFvVrc3pJvJ/4NKSvbDtL9j6vEDKHSzk5qukQGo8nGx5qa3WN9sx0Bdo+LCM//+FfkQXjclVDzwZwMUaZ7KuJRC+ZOBOZKWtfa9jihRBYynkPUv/aVW0yG/QhW//1nH8yMaydJqtwWQdkWK4aAHe+Rn2JgLk47HzsyrXC+uH2tbb6rPIfCZiUitl9ZqiYyc5CkgDMYv3Rrel9UfYHn7QNEPsPgdl/jclmTUlEmUsYtazc6KWZbA+9yjfCOwIf7Cn+8YUH7sGhDwbfhMCwlaFEyKvo1Zo+Q5dHnXo87/dk+rPFGCECBovMb6MzRpAjgVtoRAq++5CsY01VaudyaqDCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gc9fMlf7VXXmNERmQ5MYce8uem7L6kD+5Au1Wz/KWZ4=;
+ b=3LcycjTeJ3p0TzSKS3P5vzWEPDbJHSSePECfBIHGoIv4peTHDI252OJWEH8RIOsIhvp6DHrM8JVPOv66Fz/p9q5D3kRJK9zL/KG6Eh15TctcvxmNHeZvwbYMGSJlO5KZIAV++aT+vralN6P5oS2tpbqvMGCypm/ymTaf4dqGrqM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by MW4PR12MB5643.namprd12.prod.outlook.com (2603:10b6:303:188::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Wed, 24 May
+ 2023 17:00:37 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c%7]) with mapi id 15.20.6411.028; Wed, 24 May 2023
+ 17:00:37 +0000
+Message-ID: <0b6b2a36-3b9b-c33e-a1d3-fa50f9811b9f@amd.com>
+Date: Wed, 24 May 2023 13:00:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 02/17] drm/connector: Add enum documentation to
+ drm_colorspace
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-3-harry.wentland@amd.com>
+ <20230308105944.05fb9377@eldfell>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230308105944.05fb9377@eldfell>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0136.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:e::9) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20230523193017.4109557-1-dianders@chromium.org>
- <20230523122802.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
- <21041738-e23f-45bc-580b-4139c0cb87d9@linaro.org>
-In-Reply-To: <21041738-e23f-45bc-580b-4139c0cb87d9@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 24 May 2023 09:57:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WCQXzwojXbUruZ3Nm-dueX8B6c7MENX5EFpVU1qyqp6A@mail.gmail.com>
-Message-ID: <CAD=FV=WCQXzwojXbUruZ3Nm-dueX8B6c7MENX5EFpVU1qyqp6A@mail.gmail.com>
-Subject: Re: [PATCH 2/9] drm/panel: Check for already prepared/enabled in
- drm_panel
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|MW4PR12MB5643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e08fb14-8b56-4dcc-14e2-08db5c78656c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0RCMO4QNOkG+JBHYt770EawvFO8ykXja1VKa8zBcaBTfi/x5j83REkroChJ6ekyvDX+PakPps7fB1jhPRSNK7ZcTP5obAOPLdO01h5abp/KhsOi1UDM+M6JqnLsguaTfFj3m4oS4RKaqm0Mp37o1LdOUEr6spSBi7trpGcDCAtSqBL80keoqD1YWp0hbgOS14pSTNN5eq51YXiJYwEHl6HkbSBgx269s89tE3IoovYvRz+nBex3hbCTWG/Ia/h5x1T/mJe+ogEfSmiHvb6/4a2cUDSReV9SE/XJHCG3KmNI4//V7Ud6/CRqTlil1wtPRNVzPTYHkL16gUpZ6iTh/xWLz1rEBfXa9Yx2pbFSMXQzUQxtu4It7Img7J83wsDTOYOAK79ipVJg5do3aqG9s1JUkGsmAmDp2lzWj/5BkhZuEJdMj2nyqbkFs+F4aOSVJChvCfh7ojQCSPQmx5fM0GwUUXK6IWATxtOFvFS41//I/p/yCAblmF1exTpKBd6+unmF3GD7TbeeOa0Y+YuTyQnhFxdOmh9mdbYzERNrbdPsdqsYvOiRcvIyPwegrYf5zzi+0+0W+TQOPuQYlDg1R9eLZP/TkXiAHaVlm4xR+0oyV8YF2q++tEGzVSrVKD+Z0ufpheBMyORrA6ROvvcgJKA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(366004)(376002)(396003)(136003)(39860400002)(451199021)(5660300002)(8676002)(8936002)(186003)(53546011)(66574015)(86362001)(83380400001)(36756003)(2906002)(2616005)(31696002)(44832011)(38100700002)(6512007)(6506007)(26005)(316002)(66556008)(66476007)(66946007)(4326008)(6916009)(6666004)(31686004)(54906003)(478600001)(6486002)(66899021)(41300700001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2tXNFN5N2M4alRWWVZsZzZRT2g5UHpTMlMxQWNna1FPZ1hBSXc1b3Q1Wmlt?=
+ =?utf-8?B?dEVWdzZtckREWERHS0pjTVlLL1NIbmY4UnlPT0k5SExHekx5eTNBdWVRYjJ4?=
+ =?utf-8?B?N0w1b25xMlJVU1V2aDVtSUU0ckJLUVVkeG11SklVLzhSS2JjY2UyYk9Sc0l1?=
+ =?utf-8?B?aysvT0o5YnllVkVLWjY3YXNKZVNYS0F1T1NiSTU5cDRIcDR1QkVUdlFDTEx5?=
+ =?utf-8?B?Smp5alJzS3JDTkxLN2dKbXh6ZFJzRmhIS3UrTVRuc2ErL095TEhiNlJrbEFo?=
+ =?utf-8?B?K1VPL2M2SXBNWnVJV2RoQ1R2SURMSXlJWkdXL2lEWDN6cXhpb1pDYWkvZ2RG?=
+ =?utf-8?B?bnlHM3Bad3A2dHJRL2xRZHZqbmhhRXVlNGJWZlRoeFdYT2dmRStYRm9qUk4w?=
+ =?utf-8?B?TUZFcmJKMWNoVDg1WkkwbUhqdTl3TE9BbXJRSXF5Yyt3bHRaUm9GNHJEWGNq?=
+ =?utf-8?B?YlV6cFBhRzY0VTR2RTRZWHM2bUluVzAyWFB4em1ZelAvZEF5RTdpejJENlYv?=
+ =?utf-8?B?ZkNXVDNHYUtHWk9NbjhtUzFycE1pZysxVnFOUGZEaEE3TTM2MjZpRXRqUGxI?=
+ =?utf-8?B?aDN4Si9saStFbnQ2czVOcmRnMEh4aEJXYVB1MFNTL0F2VE1NQll1cXJjZDFV?=
+ =?utf-8?B?Z3AwSGcxRFBJaldmZlhYUXpGMVFNUXI1Uk1WelpGaTdmcHNhZmRuTEFud21p?=
+ =?utf-8?B?UkhHbVIycWZ4QlhZVWlOYzZOUlVsT1diWU42RFZ6Z2pnaGh5R1cwdDVjdzh5?=
+ =?utf-8?B?Um9DWm1WSGhuZVlzRXU4VzZ5R2pMVC80SDl5SXA2a3YzcDdvcEI0eVZKVnRO?=
+ =?utf-8?B?TnZjRjNwVWhEdUQwV0wvWFlVQjdiVTB5aGVFZmtnNDVlZFpVdHRlK3Izc1BZ?=
+ =?utf-8?B?Snp6b0crNk5mY0hnV2lOdWlQTlYxMFhYd0NoRzB2Sjh6b1RVYmRDc3J0eEpH?=
+ =?utf-8?B?OVhQU29Pa0xRR3NDVXVNZHkyMWtwVkdrMmtqckQ1SmptRTdidUV1Ti84Wkpm?=
+ =?utf-8?B?c2tMaTJLcHBEZ2xDN1VCbGY5SlU4b0dXR3dGcHlERFlPTE9qMkVwSkd5alZv?=
+ =?utf-8?B?OTd4RkllZDNnOXI2UUg3a3BHV1YvSlNJWXRGdGZ4WitwdDlJWXFxRlhwYy9y?=
+ =?utf-8?B?WlNJc00xaEhXMVBhYlI4TnRTTk9ubktPL0RXaW1PU1FubHN0c2pDbEwydFJw?=
+ =?utf-8?B?VGpjQkc0T3l3cGY3SGl1VWpQNitad1NYb1NoNmp0REpnaVFYZXZlSHV1Y1R3?=
+ =?utf-8?B?ekhDWWxQeDd0VVFhY0VHd3g4dEZ1OGdtcitmZ0VUSzZGRGxnMWwzbXRrenRF?=
+ =?utf-8?B?QVM0NFhjRGFLUFRNSkJsNm9zZzJTeHgvRC9uSkRxYlZzMkRkZ294ZWt4UFhK?=
+ =?utf-8?B?LzRUYlBzM0N2VG9DYmFrMDFUdGJ6VzI1dVROOTVDM2tldzNDbmY5N0k3L0JT?=
+ =?utf-8?B?M1M3NHZLZGIxZmVyeXZxNUpGb2ozMWJ6S0loMEs3NHUvN203b2ZSYllNN0JX?=
+ =?utf-8?B?VjhDUEt5dm1tWmtNem4yRmVsbE5ZRTNMUURqZkNHSm1mZklqekNRSHZ0SWxu?=
+ =?utf-8?B?b25PSGtVcGtvdkg4dkR0eHpVcG84K3FHc2p6VVlWQnZzalJ6eGY2TzQvWHFu?=
+ =?utf-8?B?R0lMYU1qc0dmbHk4YU0yeTdnRU5Pa2d6blZRZHc2eGdwOG5lMlNsMVV0SUpH?=
+ =?utf-8?B?K0toYWR6dUJQQ3lxazRnZCtWUmhnY1c3cGx6NnZ5L3BidXFYaVlRODJ2eDhz?=
+ =?utf-8?B?Y0V1ZW5LaHZGU0hPYndLZDNLQzRGdkJ6V1VhRzN5RFNLMlVKUHVVTVoyNzI3?=
+ =?utf-8?B?citWWUhoYTVvbG9mak52QUloSFV3RDc0enZCcU5vOXhjOGtwSzVUZVFyK3k2?=
+ =?utf-8?B?YmxlRjZldFIyTDR5TVBNQ2RXNHNHSWQyY3lVMkFBV0hYRnExRkt2STZKeS9l?=
+ =?utf-8?B?MWY0QVVKOElCUWRyclRTekFmSlJ1TngyU3ZqRVFwcnBSVm5Xck1MaHFoN0hS?=
+ =?utf-8?B?ZXN3cHl0OVdMbUU1ZFlXS2tZTThuamJzV2c3VUN6VFZ0bnVPdGlBQitiQWVP?=
+ =?utf-8?B?a3NnSmQ3WTlCUWJUbXcyYk1VTzdpWi9YbDlsV3IyemZMdmF4YkR1UWtPZHNr?=
+ =?utf-8?Q?R7Zkx/eR6+OnSeBQpVFQiIboV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e08fb14-8b56-4dcc-14e2-08db5c78656c
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 17:00:37.2017 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OW/mEzxW5wfdpHj3nUxCbI3fubjF44VsU8xCrD+E1EA6n8MjLLhri2HUvk8cmwUfG7WYBwCvFKmF1yrgGmWu4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5643
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,209 +127,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Jiri Kosina <jikos@kernel.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- cros-qcom-dts-watchers@chromium.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-input@vger.kernel.org, hsinyi@google.com,
- Sam Ravnborg <sam@ravnborg.org>, yangcong5@huaqin.corp-partner.google.com
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, May 24, 2023 at 2:52=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
+
+On 3/8/23 03:59, Pekka Paalanen wrote:
+> On Tue, 7 Mar 2023 10:10:52 -0500
+> Harry Wentland <harry.wentland@amd.com> wrote:
+> 
+>> From: Joshua Ashton <joshua@froggi.es>
+>>
+>> To match the other enums, and add more information about these values.
+>>
+>> v2:
+>>  - Specify where an enum entry comes from
+>>  - Clarify DEFAULT and NO_DATA behavior
+>>  - BT.2020 CYCC is "constant luminance"
+>>  - correct type for BT.601
+>>
+>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+>> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> 
 > Hi,
->
-> On 23/05/2023 21:27, Douglas Anderson wrote:
-> > In a whole pile of panel drivers, we have code to make the
-> > prepare/unprepare/enable/disable callbacks behave as no-ops if they've
-> > already been called. It's silly to have this code duplicated
-> > everywhere. Add it to the core instead so that we can eventually
-> > delete it from all the drivers. Note: to get some idea of the
-> > duplicated code, try:
-> >    git grep 'if.*>prepared' -- drivers/gpu/drm/panel
-> >    git grep 'if.*>enabled' -- drivers/gpu/drm/panel
-> >
-> > NOTE: arguably, the right thing to do here is actually to skip this
-> > patch and simply remove all the extra checks from the individual
-> > drivers. Perhaps the checks were needed at some point in time in the
-> > past but maybe they no longer are? Certainly as we continue
-> > transitioning over to "panel_bridge" then we expect there to be much
-> > less variety in how these calls are made. When we're called as part of
-> > the bridge chain, things should be pretty simple. In fact, there was
-> > some discussion in the past about these checks [1], including a
-> > discussion about whether the checks were needed and whether the calls
-> > ought to be refcounted. At the time, I decided not to mess with it
-> > because it felt too risky.
-> >
-> > Looking closer at it now, I'm fairly certain that nothing in the
-> > existing codebase is expecting these calls to be refcounted. The only
-> > real question is whether someone is already doing something to ensure
-> > prepare()/unprepare() match and enabled()/disable() match. I would say
-> > that, even if there is something else ensuring that things match,
-> > there's enough complexity that adding an extra bool and an extra
-> > double-check here is a good idea. Let's add a drm_warn() to let people
-> > know that it's considered a minor error to take advantage of
-> > drm_panel's double-checking but we'll still make things work fine.
-> >
-> > [1] https://lore.kernel.org/r/20210416153909.v4.27.I502f2a92ddd36c3d28d=
-014dd75e170c2d405a0a5@changeid
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> >   drivers/gpu/drm/drm_panel.c | 49 ++++++++++++++++++++++++++++++++----=
--
-> >   include/drm/drm_panel.h     | 14 +++++++++++
-> >   2 files changed, 57 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> > index f634371c717a..4e1c4e42575b 100644
-> > --- a/drivers/gpu/drm/drm_panel.c
-> > +++ b/drivers/gpu/drm/drm_panel.c
-> > @@ -105,11 +105,22 @@ EXPORT_SYMBOL(drm_panel_remove);
-> >    */
-> >   int drm_panel_prepare(struct drm_panel *panel)
-> >   {
-> > +     int ret;
-> > +
-> >       if (!panel)
-> >               return -EINVAL;
-> >
-> > -     if (panel->funcs && panel->funcs->prepare)
-> > -             return panel->funcs->prepare(panel);
-> > +     if (panel->prepared) {
-> > +             dev_warn(panel->dev, "Skipping prepare of already prepare=
-d panel\n");
-> > +             return 0;
-> > +     }
-> > +
-> > +     if (panel->funcs && panel->funcs->prepare) {
-> > +             ret =3D panel->funcs->prepare(panel);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> > +     panel->prepared =3D true;
-> >
-> >       return 0;
-> >   }
-> > @@ -128,11 +139,22 @@ EXPORT_SYMBOL(drm_panel_prepare);
-> >    */
-> >   int drm_panel_unprepare(struct drm_panel *panel)
-> >   {
-> > +     int ret;
-> > +
-> >       if (!panel)
-> >               return -EINVAL;
-> >
-> > -     if (panel->funcs && panel->funcs->unprepare)
-> > -             return panel->funcs->unprepare(panel);
-> > +     if (!panel->prepared) {
-> > +             dev_warn(panel->dev, "Skipping unprepare of already unpre=
-pared panel\n");
-> > +             return 0;
-> > +     }
-> > +
-> > +     if (panel->funcs && panel->funcs->unprepare) {
-> > +             ret =3D panel->funcs->unprepare(panel);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> > +     panel->prepared =3D false;
-> >
-> >       return 0;
-> >   }
-> > @@ -155,11 +177,17 @@ int drm_panel_enable(struct drm_panel *panel)
-> >       if (!panel)
-> >               return -EINVAL;
-> >
-> > +     if (panel->enabled) {
-> > +             dev_warn(panel->dev, "Skipping enable of already enabled =
-panel\n");
-> > +             return 0;
-> > +     }
-> > +
-> >       if (panel->funcs && panel->funcs->enable) {
-> >               ret =3D panel->funcs->enable(panel);
-> >               if (ret < 0)
-> >                       return ret;
-> >       }
-> > +     panel->enabled =3D true;
-> >
-> >       ret =3D backlight_enable(panel->backlight);
-> >       if (ret < 0)
-> > @@ -187,13 +215,22 @@ int drm_panel_disable(struct drm_panel *panel)
-> >       if (!panel)
-> >               return -EINVAL;
-> >
-> > +     if (!panel->enabled) {
-> > +             dev_warn(panel->dev, "Skipping disable of already disable=
-d panel\n");
-> > +             return 0;
-> > +     }
-> > +
-> >       ret =3D backlight_disable(panel->backlight);
-> >       if (ret < 0)
-> >               DRM_DEV_INFO(panel->dev, "failed to disable backlight: %d=
-\n",
-> >                            ret);
-> >
-> > -     if (panel->funcs && panel->funcs->disable)
-> > -             return panel->funcs->disable(panel);
-> > +     if (panel->funcs && panel->funcs->disable) {
-> > +             ret =3D panel->funcs->disable(panel);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> > +     panel->enabled =3D false;
-> >
-> >       return 0;
-> >   }
-> > diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> > index 432fab2347eb..c6cf75909389 100644
-> > --- a/include/drm/drm_panel.h
-> > +++ b/include/drm/drm_panel.h
-> > @@ -198,6 +198,20 @@ struct drm_panel {
-> >        * the panel is powered up.
-> >        */
-> >       bool prepare_prev_first;
-> > +
-> > +     /**
-> > +      * @prepared:
-> > +      *
-> > +      * If true then the panel has been prepared.
-> > +      */
-> > +     bool prepared;
-> > +
-> > +     /**
-> > +      * @enabled:
-> > +      *
-> > +      * If true then the panel has been enabled.
-> > +      */
-> > +     bool enabled;
-> >   };
-> >
-> >   void drm_panel_init(struct drm_panel *panel, struct device *dev,
->
-> LGTM and let's cleanup the panel drivers
->
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> 
+> this effort is really good, but of course I still find things to
+> nitpick about. If there is no answer to my questions, then I would
+> prefer the documentation to spell out the unknowns and ambiguities.
+> 
 
-Thanks! For now I'll hold off on landing to see where this series ends
-up. If the series ends up looking good we'll have to coordinate
-landing the various bits between the drm and the hid trees and the
-second drm patch in my series depends on this one>
+Finally finding time to look at this again and want to make sure I
+try to address your comments as best as I can. I'm terribly at tracking
+emails, so if anything was clarified already I apologize.
 
-If my series implodes I'll land this one on its own with your Ack. In
-any case, once this lands somewhere I'll take an AI to cleanup the
-panels.
+>> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+>> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+>> Cc: Vitaly.Prosyak@amd.com
+>> Cc: Uma Shankar <uma.shankar@intel.com>
+>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>> Cc: Joshua Ashton <joshua@froggi.es>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: amd-gfx@lists.freedesktop.org
+>> ---
+>>  include/drm/drm_connector.h | 67 +++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 65 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index 6d6a53a6b010..bb078666dc34 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -363,13 +363,76 @@ enum drm_privacy_screen_status {
+>>  	PRIVACY_SCREEN_ENABLED_LOCKED,
+>>  };
+>>  
+>> -/*
+>> - * This is a consolidated colorimetry list supported by HDMI and
+>> +/**
+>> + * enum drm_colorspace - color space
+>> + *
+>> + * This enum is a consolidated colorimetry list supported by HDMI and
+>>   * DP protocol standard. The respective connectors will register
+>>   * a property with the subset of this list (supported by that
+>>   * respective protocol). Userspace will set the colorspace through
+>>   * a colorspace property which will be created and exposed to
+>>   * userspace.
+>> + *
+>> + * DP definitions come from the DP v2.0 spec
+>> + * HDMI definitions come from the CTA-861-H spec
+>> + *
+>> + * @DRM_MODE_COLORIMETRY_DEFAULT:
+>> + *   Driver specific behavior.
+>> + *   For DP:
+>> + *   	RGB encoded: sRGB (IEC 61966-2-1)
+>> + *   	YCbCr encoded: ITU-R BT.601 colorimetry format
+> 
+> Does this mean that HDMI behavior is driver-specific while DP behavior
+> is as defined?
+> 
 
--Doug
+I should drop the bits that specify what this means for DP. I really
+just took the 0h value for the colorimetry of the VSC SDP packet
+(SDP = DP infoframe).
+
+> Is it intentional that YCbCr encoding also uses different RGB-primaries
+> than RGB-encoded signal? (BT.601 vs. BT.709/sRGB)
+> 
+> Or do you need to be more explicit on which parts of each spec apply
+> (ColourPrimaries vs. TransferCharacteristics vs. MatrixCoefficients in
+> CICP parlance)?
+> 
+> E.g. BT.709/sRGB ColourPrimaries with BT.601 MatrixCoefficients.
+> 
+>> + * @DRM_MODE_COLORIMETRY_NO_DATA:
+>> + *   Driver specific behavior.
+>> + *   For HDMI:
+>> + * 	Sets "No Data" in infoframe
+> 
+> Does DEFAULT mean that something else than "No Data" may be set in the
+> HDMI infoframe?
+> 
+> If so, since these two have the same value, where is the difference? Is
+> DEFAULT purely an UAPI token, and NO_DATA used internally? Or NO_DATA
+> used only when crafting actual infoframe packets?
+> 
+> Should NO_DATA be documented to be a strictly driver-internal value,
+> and not documented with UAPI?
+> 
+
+I don't think I have an answer for you. I will remove the "For HDMI"
+bit to avoid confusion.
+
+> I am unclear if userspace is using these enum values directly, or do
+> they use the string names only.
+> 
+
+Userspace is using these enum values directly.
+
+>> + * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
+>> + *   (HDMI)
+>> + *   SMPTE ST 170M colorimetry format
+> 
+> Does "colorimetry format" mean that the spec is used in full, for all
+> of ColourPrimaries, TransferCharacteristics and MatrixCoefficients?
+> 
+> If yes, good. If not, the wording misleads me.
+> 
+>> + * @DRM_MODE_COLORIMETRY_BT709_YCC:
+>> + *   (HDMI, DP)
+>> + *   ITU-R BT.709 colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_XVYCC_601:
+>> + *   (HDMI, DP)
+>> + *   xvYCC601 colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_XVYCC_709:
+>> + *   (HDMI, DP)
+>> + *   xvYCC709 colorimetry format
+> 
+> Btw. xvYCC are funny because they require limited quantization range
+> encoding, but use the foot- and headroom to encode out-of-nominal-range
+> values in order to expand the color gamut with negative and greater
+> than unity values.
+> 
+> Just for curiosity, is it in any way possible today to make use of that
+> extended color gamut through KMS? Has it ever been possible?
+> 
+> I mean, the KMS color pipeline assumes full-range RGB, so I don't see
+> any way to make use of xvYCC.
+> 
+
+I don't know it's possible. I wasn't the one to write the original
+API for this. I think this API defines things that have never been
+well understood. But since it's there I'll leave it as-is. The comments
+(as requested) are trying to clarify things a bit. I think there
+will be gaps if someone wants to actually implement it, even with
+drivers that currently advertise support for the whole set.
+
+>> + * @DRM_MODE_COLORIMETRY_SYCC_601:
+>> + *   (HDMI, DP)
+>> + *   sYCC601 colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_OPYCC_601:
+>> + *   (HDMI, DP)
+>> + *   opYCC601 colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_OPRGB:
+>> + *   (HDMI, DP)
+>> + *   opRGB colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
+>> + *   (HDMI, DP)
+>> + *   ITU-R BT.2020 Y'c C'bc C'rc (constant luminance) colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_BT2020_RGB:
+>> + *   (HDMI, DP)
+>> + *   ITU-R BT.2020 R' G' B' colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_BT2020_YCC:
+>> + *   (HDMI, DP)
+>> + *   ITU-R BT.2020 Y' C'b C'r colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+>> + *   (HDMI)
+>> + *   SMPTE ST 2113 P3D65 colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+>> + *   (HDMI)
+>> + *   SMPTE ST 2113 P3DCI colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
+>> + *   (DP)
+>> + *   RGB wide gamut fixed point colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
+>> + *   (DP)
+>> + *   RGB wide gamut floating point
+>> + *   (scRGB (IEC 61966-2-2)) colorimetry format
+> 
+> Again, there is no way to actually make use of WIDE since the KMS color
+> pipeline is limited to the unit range color values, right? Or is it
+> possible by setting all color pipeline KMS properties to pass-through
+> and using a floating-point FB?
+> 
+> I suppose the FIXED vs. FLOAT has the exact same problems as BT2020_YCC
+> vs. BT2020_RGB, but I would be surprised if anyone cared.
+> 
+
+Again, I think pulling the actual enum values from the HDMI infoframes and
+DP SDP packets into API was a mistake.
+
+Harry
+
+>> + * @DRM_MODE_COLORIMETRY_BT601_YCC:
+>> + *   (DP)
+>> + *   ITU-R BT.601 colorimetry format
+>> + *   The DP spec does not say whether this is the 525 or the 625
+>> + *   line version.
+> 
+> Good to note that ambiguity here. :-)
+> 
+> Or maybe the DP spec writer was thinking about BT.709 ColourPrimaries
+> and BT.601 MatrixCoefficients...
+> 
+>>   */
+>>  enum drm_colorspace {
+>>  	/* For Default case, driver will set the colorspace */
+> 
+> 
+> Thanks,
+> pq
+
