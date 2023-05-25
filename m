@@ -1,68 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC05710318
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 04:51:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6218D71033D
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 05:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5F010E62A;
-	Thu, 25 May 2023 02:51:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5067310E6B2;
+	Thu, 25 May 2023 03:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A18510E62A
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 02:51:05 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-253520adb30so703875a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 19:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
- t=1684983065; x=1687575065; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qHM+l0htD69ac0mPAbRuuj3Va/ygqtMKbdcFmiltfRw=;
- b=VpC0fIQ0eiAREE5F8s/eyu3eTC6lY1hhgQRZA9dHDJb5Jry5DXnoywSoq9OQZj52MU
- VkIxPzjrfPs/Dd2bmc68ooHZJlr1yg/yKXpiAZkUHDfo+HY7KkLd43s61eQhPdGCAD0y
- qaZ59JPqbmUUFj+s6i8Jiv02wuA/MeuLskwbvh1CyXiecbawMO4mpous7u7tiH9axCzi
- zWK1rK3WSo/OdJq3v8ALRdLbBulOGZXdNEm6p0HYeYQVhgGCxzfevAUxGs5Tw2HBYA7x
- UEZGZZ0IbzDn5k4r0M3f0KFGQDA3juAPeklvJgDoLSSm2D5sh3Ql0n3JprWv9uz9eurF
- eS+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684983065; x=1687575065;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qHM+l0htD69ac0mPAbRuuj3Va/ygqtMKbdcFmiltfRw=;
- b=frIl5Yg208AS5TubJXQhmA5VrHO/fIDXiBnFne7VpNmmYKKd25nJ5jXGsDCrT7Tthq
- YowOfwOOGWs+I1xnrHXFo6vnco+cekJuM6KCYAAj/DIAkX4dpWZSUF1BguWBdRjhRkF+
- Gj3p3o67RbLxQXa4V65SZEzmOokCGY+TEXGGCRrmvCeqp0keUt+0SkCD7lOih+dG4pFx
- K56if45UhY4XIB0F1YHpytnHRMTfATlqVeks4GvAPyivcxrycqF7C0ni6lvyl+a0KHaM
- HwOvPzNQn/rJ1Ybt8v1etp6s+81+iX5nxenl/U1IKk/6SIRRD7tnQkwWoIuuyYKxOzL+
- yEoA==
-X-Gm-Message-State: AC+VfDzLSfp/TPufQCu0ox4m2X5BLtHFX6VapHlETMR0Ko0U8xBpg9dS
- m8SWRP9fyskU1wOgaIdXoz+voA==
-X-Google-Smtp-Source: ACHHUZ5fuSPiB51Cq7kZ5u1LxZRgttivlOmsK5lvDP8n53d4ZN90PI8wPe/39455PLhnrWj9WpOBFQ==
-X-Received: by 2002:a17:90b:3145:b0:247:2152:6391 with SMTP id
- ip5-20020a17090b314500b0024721526391mr106754pjb.17.1684983065007; 
- Wed, 24 May 2023 19:51:05 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a17090a734600b00253239144c5sm171815pjs.42.2023.05.24.19.51.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 May 2023 19:51:04 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: dianders@chromium.org
-Subject: [v3 4/4] drm/panel: Support for Starry-ili9882t TDDI MIPI-DSI panel
-Date: Thu, 25 May 2023 10:50:00 +0800
-Message-Id: <20230525025000.3692510-5-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525025000.3692510-1-yangcong5@huaqin.corp-partner.google.com>
-References: <CAD=FV=XUuzjjLq3YP3683jOd06odwk5Dox5MS8oY8goB-_8T5w@mail.gmail.com>
- <20230525025000.3692510-1-yangcong5@huaqin.corp-partner.google.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C94AC10E6B3;
+ Thu, 25 May 2023 03:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1684984654; x=1716520654;
+ h=date:from:to:cc:subject:message-id;
+ bh=rGF7bJDuC9HkXMKz/2MVhGFmVqEFCFiZ72imjZjWERA=;
+ b=B/ZUqRjvlqB4xEwFHerUjBSE+B3BDtqcDjegZfaCfKtuPXR1iuLgqJos
+ iJmXZWBmxkUEFx7bMoa/rgztvUbKw84cQ5tK5xrBF7gdBjlmhtBnGub0j
+ eIvv8F+BxKpgU3Za9WCx9H/QnQwEuK8OtKmSFRkB0UbZ8Yyx0agYciI3C
+ dFPrveDNk/WbuI6QSTLEewDIdoDYBsZqbSyrDzEcgM6yWVJRi3RaRRecD
+ 9SecEwNUOX6+ADMoFOn4QKzaDOvyb23Md/TH9psfinI/qfYCg6Jeu4Qbu
+ Ee1XNCaW1g84SyBHnNlsJ3jZF/X66q+4r35A945t36vE8AAHbE1CrKR+3 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="343237191"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="343237191"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 May 2023 20:17:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="794463813"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="794463813"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 24 May 2023 20:17:31 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q21Tm-000FPR-2i;
+ Thu, 25 May 2023 03:17:30 +0000
+Date: Thu, 25 May 2023 11:16:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ cf09e328589a2ed7f6c8d90f2edb697fb4f8a96b
+Message-ID: <20230525031632.GDH30%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,423 +55,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, robh+dt@kernel.org,
- hsinyi@google.com
+Cc: linux-xfs@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ intel-gfx@lists.freedesktop.org, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Starry-ili9882 is a 10.51" WUXGA TFT panel. which fits in nicely with
-the existing panel-boe-tv101wum-nl6 driver. From the datasheet,MIPI need
-to keep the LP11 state before the lcm_reset pin is pulled high. So add
-lp11_before_reset flag.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: cf09e328589a2ed7f6c8d90f2edb697fb4f8a96b  Add linux-next specific files for 20230524
 
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 371 ++++++++++++++++++
- 1 file changed, 371 insertions(+)
+Error/Warning reports:
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 0772d96e446c..720b77964fcf 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1370,6 +1370,346 @@ static const struct panel_init_cmd starry_himax83102_j02_init_cmd[] = {
- 	{},
- };
- 
-+static const struct panel_init_cmd starry_ili9882t_init_cmd[] = {
-+	_INIT_DELAY_CMD(5),
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x01),
-+	_INIT_DCS_CMD(0x00, 0x42),
-+	_INIT_DCS_CMD(0x01, 0x11),
-+	_INIT_DCS_CMD(0x02, 0x00),
-+	_INIT_DCS_CMD(0x03, 0x00),
-+
-+	_INIT_DCS_CMD(0x04, 0x01),
-+	_INIT_DCS_CMD(0x05, 0x11),
-+	_INIT_DCS_CMD(0x06, 0x00),
-+	_INIT_DCS_CMD(0x07, 0x00),
-+
-+	_INIT_DCS_CMD(0x08, 0x80),
-+	_INIT_DCS_CMD(0x09, 0x81),
-+	_INIT_DCS_CMD(0x0A, 0x71),
-+	_INIT_DCS_CMD(0x0B, 0x00),
-+
-+	_INIT_DCS_CMD(0x0C, 0x00),
-+	_INIT_DCS_CMD(0x0E, 0x1A),
-+
-+	_INIT_DCS_CMD(0x24, 0x00),
-+	_INIT_DCS_CMD(0x25, 0x00),
-+	_INIT_DCS_CMD(0x26, 0x00),
-+	_INIT_DCS_CMD(0x27, 0x00),
-+
-+	_INIT_DCS_CMD(0x2C, 0xD4),
-+	_INIT_DCS_CMD(0xB9, 0x40),
-+
-+	_INIT_DCS_CMD(0xB0, 0x11),
-+
-+	_INIT_DCS_CMD(0xE6, 0x32),
-+	_INIT_DCS_CMD(0xD1, 0x30),
-+
-+	_INIT_DCS_CMD(0xD6, 0x55),
-+
-+	_INIT_DCS_CMD(0xD0, 0x01),
-+	_INIT_DCS_CMD(0xE3, 0x93),
-+	_INIT_DCS_CMD(0xE4, 0x00),
-+	_INIT_DCS_CMD(0xE5, 0x80),
-+
-+	_INIT_DCS_CMD(0x31, 0x07),
-+	_INIT_DCS_CMD(0x32, 0x07),
-+	_INIT_DCS_CMD(0x33, 0x07),
-+	_INIT_DCS_CMD(0x34, 0x07),
-+	_INIT_DCS_CMD(0x35, 0x07),
-+	_INIT_DCS_CMD(0x36, 0x01),
-+	_INIT_DCS_CMD(0x37, 0x00),
-+	_INIT_DCS_CMD(0x38, 0x28),
-+	_INIT_DCS_CMD(0x39, 0x29),
-+	_INIT_DCS_CMD(0x3A, 0x11),
-+	_INIT_DCS_CMD(0x3B, 0x13),
-+	_INIT_DCS_CMD(0x3C, 0x15),
-+	_INIT_DCS_CMD(0x3D, 0x17),
-+	_INIT_DCS_CMD(0x3E, 0x09),
-+	_INIT_DCS_CMD(0x3F, 0x0D),
-+	_INIT_DCS_CMD(0x40, 0x02),
-+	_INIT_DCS_CMD(0x41, 0x02),
-+	_INIT_DCS_CMD(0x42, 0x02),
-+	_INIT_DCS_CMD(0x43, 0x02),
-+	_INIT_DCS_CMD(0x44, 0x02),
-+	_INIT_DCS_CMD(0x45, 0x02),
-+	_INIT_DCS_CMD(0x46, 0x02),
-+
-+	_INIT_DCS_CMD(0x47, 0x07),
-+	_INIT_DCS_CMD(0x48, 0x07),
-+	_INIT_DCS_CMD(0x49, 0x07),
-+	_INIT_DCS_CMD(0x4A, 0x07),
-+	_INIT_DCS_CMD(0x4B, 0x07),
-+	_INIT_DCS_CMD(0x4C, 0x01),
-+	_INIT_DCS_CMD(0x4D, 0x00),
-+	_INIT_DCS_CMD(0x4E, 0x28),
-+	_INIT_DCS_CMD(0x4F, 0x29),
-+	_INIT_DCS_CMD(0x50, 0x10),
-+	_INIT_DCS_CMD(0x51, 0x12),
-+	_INIT_DCS_CMD(0x52, 0x14),
-+	_INIT_DCS_CMD(0x53, 0x16),
-+	_INIT_DCS_CMD(0x54, 0x08),
-+	_INIT_DCS_CMD(0x55, 0x0C),
-+	_INIT_DCS_CMD(0x56, 0x02),
-+	_INIT_DCS_CMD(0x57, 0x02),
-+	_INIT_DCS_CMD(0x58, 0x02),
-+	_INIT_DCS_CMD(0x59, 0x02),
-+	_INIT_DCS_CMD(0x5A, 0x02),
-+	_INIT_DCS_CMD(0x5B, 0x02),
-+	_INIT_DCS_CMD(0x5C, 0x02),
-+
-+	_INIT_DCS_CMD(0x61, 0x07),
-+	_INIT_DCS_CMD(0x62, 0x07),
-+	_INIT_DCS_CMD(0x63, 0x07),
-+	_INIT_DCS_CMD(0x64, 0x07),
-+	_INIT_DCS_CMD(0x65, 0x07),
-+	_INIT_DCS_CMD(0x66, 0x01),
-+	_INIT_DCS_CMD(0x67, 0x00),
-+	_INIT_DCS_CMD(0x68, 0x28),
-+	_INIT_DCS_CMD(0x69, 0x29),
-+	_INIT_DCS_CMD(0x6A, 0x16),
-+	_INIT_DCS_CMD(0x6B, 0x14),
-+	_INIT_DCS_CMD(0x6C, 0x12),
-+	_INIT_DCS_CMD(0x6D, 0x10),
-+	_INIT_DCS_CMD(0x6E, 0x0C),
-+	_INIT_DCS_CMD(0x6F, 0x08),
-+	_INIT_DCS_CMD(0x70, 0x02),
-+	_INIT_DCS_CMD(0x71, 0x02),
-+	_INIT_DCS_CMD(0x72, 0x02),
-+	_INIT_DCS_CMD(0x73, 0x02),
-+	_INIT_DCS_CMD(0x74, 0x02),
-+	_INIT_DCS_CMD(0x75, 0x02),
-+	_INIT_DCS_CMD(0x76, 0x02),
-+
-+	_INIT_DCS_CMD(0x77, 0x07),
-+	_INIT_DCS_CMD(0x78, 0x07),
-+	_INIT_DCS_CMD(0x79, 0x07),
-+	_INIT_DCS_CMD(0x7A, 0x07),
-+	_INIT_DCS_CMD(0x7B, 0x07),
-+	_INIT_DCS_CMD(0x7C, 0x01),
-+	_INIT_DCS_CMD(0x7D, 0x00),
-+	_INIT_DCS_CMD(0x7E, 0x28),
-+	_INIT_DCS_CMD(0x7F, 0x29),
-+	_INIT_DCS_CMD(0x80, 0x17),
-+	_INIT_DCS_CMD(0x81, 0x15),
-+	_INIT_DCS_CMD(0x82, 0x13),
-+	_INIT_DCS_CMD(0x83, 0x11),
-+	_INIT_DCS_CMD(0x84, 0x0D),
-+	_INIT_DCS_CMD(0x85, 0x09),
-+	_INIT_DCS_CMD(0x86, 0x02),
-+	_INIT_DCS_CMD(0x87, 0x07),
-+	_INIT_DCS_CMD(0x88, 0x07),
-+	_INIT_DCS_CMD(0x89, 0x07),
-+	_INIT_DCS_CMD(0x8A, 0x07),
-+	_INIT_DCS_CMD(0x8B, 0x07),
-+	_INIT_DCS_CMD(0x8C, 0x07),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x02),
-+	_INIT_DCS_CMD(0x29, 0x3A),
-+	_INIT_DCS_CMD(0x2A, 0x3B),
-+
-+	_INIT_DCS_CMD(0x06, 0x01),
-+	_INIT_DCS_CMD(0x07, 0x01),
-+	_INIT_DCS_CMD(0x08, 0x0C),
-+	_INIT_DCS_CMD(0x09, 0x44),
-+
-+	_INIT_DCS_CMD(0x3C, 0x0A),
-+	_INIT_DCS_CMD(0x39, 0x11),
-+	_INIT_DCS_CMD(0x3D, 0x00),
-+	_INIT_DCS_CMD(0x3A, 0x0C),
-+	_INIT_DCS_CMD(0x3B, 0x44),
-+
-+	_INIT_DCS_CMD(0x53, 0x1F),
-+	_INIT_DCS_CMD(0x5E, 0x40),
-+	_INIT_DCS_CMD(0x84, 0x00),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x03),
-+	_INIT_DCS_CMD(0x20, 0x01),
-+	_INIT_DCS_CMD(0x21, 0x3C),
-+	_INIT_DCS_CMD(0x22, 0xFA),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x0A),
-+	_INIT_DCS_CMD(0xE0, 0x01),
-+	_INIT_DCS_CMD(0xE2, 0x01),
-+	_INIT_DCS_CMD(0xE5, 0x91),
-+	_INIT_DCS_CMD(0xE6, 0x3C),
-+	_INIT_DCS_CMD(0xE7, 0x00),
-+	_INIT_DCS_CMD(0xE8, 0xFA),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x12),
-+	_INIT_DCS_CMD(0x87, 0x2C),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x05),
-+	_INIT_DCS_CMD(0x73, 0xE5),
-+	_INIT_DCS_CMD(0x7F, 0x6B),
-+	_INIT_DCS_CMD(0x6D, 0xA4),
-+	_INIT_DCS_CMD(0x79, 0x54),
-+	_INIT_DCS_CMD(0x69, 0x97),
-+	_INIT_DCS_CMD(0x6A, 0x97),
-+	_INIT_DCS_CMD(0xA5, 0x3F),
-+	_INIT_DCS_CMD(0x61, 0xDA),
-+	_INIT_DCS_CMD(0xA7, 0xF1),
-+	_INIT_DCS_CMD(0x5F, 0x01),
-+	_INIT_DCS_CMD(0x62, 0x3F),
-+	_INIT_DCS_CMD(0x1D, 0x90),
-+	_INIT_DCS_CMD(0x86, 0x87),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x06),
-+	_INIT_DCS_CMD(0xC0, 0x80),
-+	_INIT_DCS_CMD(0xC1, 0x07),
-+	_INIT_DCS_CMD(0xCA, 0x58),
-+	_INIT_DCS_CMD(0xCB, 0x02),
-+	_INIT_DCS_CMD(0xCE, 0x58),
-+	_INIT_DCS_CMD(0xCF, 0x02),
-+	_INIT_DCS_CMD(0x67, 0x60),
-+	_INIT_DCS_CMD(0x10, 0x00),
-+	_INIT_DCS_CMD(0x92, 0x22),
-+	_INIT_DCS_CMD(0xD3, 0x08),
-+	_INIT_DCS_CMD(0xD6, 0x55),
-+	_INIT_DCS_CMD(0xDC, 0x38),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x08),
-+	_INIT_DCS_CMD(0xE0, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0x56, 0x6A, 0x6E, 0x79, 0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, 0xBB, 0xCE, 0xC6, 0xBD, 0xD5, 0xE2, 0xE8),
-+	_INIT_DCS_CMD(0xE1, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0x56, 0x6A, 0x6E, 0x79, 0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, 0xBB, 0xCE, 0xC6, 0xBD, 0xD5, 0xE2, 0xE8),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x04),
-+	_INIT_DCS_CMD(0xBA, 0x81),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x0C),
-+	_INIT_DCS_CMD(0x00, 0x02),
-+	_INIT_DCS_CMD(0x01, 0x00),
-+	_INIT_DCS_CMD(0x02, 0x03),
-+	_INIT_DCS_CMD(0x03, 0x01),
-+	_INIT_DCS_CMD(0x04, 0x03),
-+	_INIT_DCS_CMD(0x05, 0x02),
-+	_INIT_DCS_CMD(0x06, 0x04),
-+	_INIT_DCS_CMD(0x07, 0x03),
-+	_INIT_DCS_CMD(0x08, 0x03),
-+	_INIT_DCS_CMD(0x09, 0x04),
-+	_INIT_DCS_CMD(0x0A, 0x04),
-+	_INIT_DCS_CMD(0x0B, 0x05),
-+	_INIT_DCS_CMD(0x0C, 0x04),
-+	_INIT_DCS_CMD(0x0D, 0x06),
-+	_INIT_DCS_CMD(0x0E, 0x05),
-+	_INIT_DCS_CMD(0x0F, 0x07),
-+	_INIT_DCS_CMD(0x10, 0x04),
-+	_INIT_DCS_CMD(0x11, 0x08),
-+	_INIT_DCS_CMD(0x12, 0x05),
-+	_INIT_DCS_CMD(0x13, 0x09),
-+	_INIT_DCS_CMD(0x14, 0x05),
-+	_INIT_DCS_CMD(0x15, 0x0A),
-+	_INIT_DCS_CMD(0x16, 0x06),
-+	_INIT_DCS_CMD(0x17, 0x0B),
-+	_INIT_DCS_CMD(0x18, 0x05),
-+	_INIT_DCS_CMD(0x19, 0x0C),
-+	_INIT_DCS_CMD(0x1A, 0x06),
-+	_INIT_DCS_CMD(0x1B, 0x0D),
-+	_INIT_DCS_CMD(0x1C, 0x06),
-+	_INIT_DCS_CMD(0x1D, 0x0E),
-+	_INIT_DCS_CMD(0x1E, 0x07),
-+	_INIT_DCS_CMD(0x1F, 0x0F),
-+	_INIT_DCS_CMD(0x20, 0x06),
-+	_INIT_DCS_CMD(0x21, 0x10),
-+	_INIT_DCS_CMD(0x22, 0x07),
-+	_INIT_DCS_CMD(0x23, 0x11),
-+	_INIT_DCS_CMD(0x24, 0x07),
-+	_INIT_DCS_CMD(0x25, 0x12),
-+	_INIT_DCS_CMD(0x26, 0x08),
-+	_INIT_DCS_CMD(0x27, 0x13),
-+	_INIT_DCS_CMD(0x28, 0x07),
-+	_INIT_DCS_CMD(0x29, 0x14),
-+	_INIT_DCS_CMD(0x2A, 0x08),
-+	_INIT_DCS_CMD(0x2B, 0x15),
-+	_INIT_DCS_CMD(0x2C, 0x08),
-+	_INIT_DCS_CMD(0x2D, 0x16),
-+	_INIT_DCS_CMD(0x2E, 0x09),
-+	_INIT_DCS_CMD(0x2F, 0x17),
-+	_INIT_DCS_CMD(0x30, 0x08),
-+	_INIT_DCS_CMD(0x31, 0x18),
-+	_INIT_DCS_CMD(0x32, 0x09),
-+	_INIT_DCS_CMD(0x33, 0x19),
-+	_INIT_DCS_CMD(0x34, 0x09),
-+	_INIT_DCS_CMD(0x35, 0x1A),
-+	_INIT_DCS_CMD(0x36, 0x0A),
-+	_INIT_DCS_CMD(0x37, 0x1B),
-+	_INIT_DCS_CMD(0x38, 0x0A),
-+	_INIT_DCS_CMD(0x39, 0x1C),
-+	_INIT_DCS_CMD(0x3A, 0x0A),
-+	_INIT_DCS_CMD(0x3B, 0x1D),
-+	_INIT_DCS_CMD(0x3C, 0x0A),
-+	_INIT_DCS_CMD(0x3D, 0x1E),
-+	_INIT_DCS_CMD(0x3E, 0x0A),
-+	_INIT_DCS_CMD(0x3F, 0x1F),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x04),
-+	_INIT_DCS_CMD(0xBA, 0x01),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x0E),
-+	_INIT_DCS_CMD(0x02, 0x0C),
-+	_INIT_DCS_CMD(0x20, 0x10),
-+	_INIT_DCS_CMD(0x25, 0x16),
-+	_INIT_DCS_CMD(0x26, 0xE0),
-+	_INIT_DCS_CMD(0x27, 0x00),
-+	_INIT_DCS_CMD(0x29, 0x71),
-+	_INIT_DCS_CMD(0x2A, 0x46),
-+	_INIT_DCS_CMD(0x2B, 0x1F),
-+	_INIT_DCS_CMD(0x2D, 0xC7),
-+	_INIT_DCS_CMD(0x31, 0x02),
-+	_INIT_DCS_CMD(0x32, 0xDF),
-+	_INIT_DCS_CMD(0x33, 0x5A),
-+	_INIT_DCS_CMD(0x34, 0xC0),
-+	_INIT_DCS_CMD(0x35, 0x5A),
-+	_INIT_DCS_CMD(0x36, 0xC0),
-+	_INIT_DCS_CMD(0x38, 0x65),
-+	_INIT_DCS_CMD(0x80, 0x3E),
-+	_INIT_DCS_CMD(0x81, 0xA0),
-+	_INIT_DCS_CMD(0xB0, 0x01),
-+	_INIT_DCS_CMD(0xB1, 0xCC),
-+	_INIT_DCS_CMD(0xC0, 0x12),
-+	_INIT_DCS_CMD(0xC2, 0xCC),
-+	_INIT_DCS_CMD(0xC3, 0xCC),
-+	_INIT_DCS_CMD(0xC4, 0xCC),
-+	_INIT_DCS_CMD(0xC5, 0xCC),
-+	_INIT_DCS_CMD(0xC6, 0xCC),
-+	_INIT_DCS_CMD(0xC7, 0xCC),
-+	_INIT_DCS_CMD(0xC8, 0xCC),
-+	_INIT_DCS_CMD(0xC9, 0xCC),
-+	_INIT_DCS_CMD(0x30, 0x00),
-+	_INIT_DCS_CMD(0x00, 0x81),
-+	_INIT_DCS_CMD(0x08, 0x02),
-+	_INIT_DCS_CMD(0x09, 0x00),
-+	_INIT_DCS_CMD(0x07, 0x21),
-+	_INIT_DCS_CMD(0x04, 0x10),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x1E),
-+	_INIT_DCS_CMD(0x60, 0x00),
-+	_INIT_DCS_CMD(0x64, 0x00),
-+	_INIT_DCS_CMD(0x6D, 0x00),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x0B),
-+	_INIT_DCS_CMD(0xA6, 0x44),
-+	_INIT_DCS_CMD(0xA7, 0xB6),
-+	_INIT_DCS_CMD(0xA8, 0x03),
-+	_INIT_DCS_CMD(0xA9, 0x03),
-+	_INIT_DCS_CMD(0xAA, 0x51),
-+	_INIT_DCS_CMD(0xAB, 0x51),
-+	_INIT_DCS_CMD(0xAC, 0x04),
-+	_INIT_DCS_CMD(0xBD, 0x92),
-+	_INIT_DCS_CMD(0xBE, 0xA1),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x05),
-+	_INIT_DCS_CMD(0x86, 0x87),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x06),
-+	_INIT_DCS_CMD(0x92, 0x22),
-+
-+	_INIT_DCS_CMD(0xFF, 0x98, 0x82, 0x00),
-+	_INIT_DCS_CMD(0x11),
-+	_INIT_DELAY_CMD(120),
-+	_INIT_DCS_CMD(0x29),
-+	_INIT_DELAY_CMD(20),
-+	{},
-+};
-+
- static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- {
- 	return container_of(panel, struct boe_panel, base);
-@@ -1795,6 +2135,34 @@ static const struct panel_desc starry_himax83102_j02_desc = {
- 	.lp11_before_reset = true,
- };
- 
-+static const struct drm_display_mode starry_ili9882t_default_mode = {
-+	.clock = 165280,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 32,
-+	.hsync_end = 1200 + 32 + 30,
-+	.htotal = 1200 + 32 + 30 + 32,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 68,
-+	.vsync_end = 1920 + 68 + 2,
-+	.vtotal = 1920 + 68 + 2 + 10,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct panel_desc starry_ili9882t_desc = {
-+	.modes = &starry_ili9882t_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 141,
-+		.height_mm = 226,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init_cmds = starry_ili9882t_init_cmd,
-+	.lp11_before_reset = true,
-+};
-+
- static int boe_panel_get_modes(struct drm_panel *panel,
- 			       struct drm_connector *connector)
- {
-@@ -1971,6 +2339,9 @@ static const struct of_device_id boe_of_match[] = {
- 	{ .compatible = "starry,himax83102-j02",
- 	  .data = &starry_himax83102_j02_desc
- 	},
-+	{ .compatible = "starry,ili9882t",
-+	  .data = &starry_ili9882t_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, boe_of_match);
+https://lore.kernel.org/oe-kbuild-all/202305240732.wUCsRNAj-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202305241902.UvHtMoxa-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202305250935.6XsyIBcZ-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+arch/parisc/kernel/traps.c:312:25: error: 'SPINLOCK_BREAK_INSN' undeclared (first use in this function)
+drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+drivers/gpu/drm/i915/display/intel_display.c:6012:3: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
+drivers/gpu/drm/i915/display/intel_display.c:6012:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:312:14: error: initializer element is not a compile-time constant
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
+kernel/watchdog.c:40:19: sparse: sparse: symbol 'watchdog_hardlockup_user_enabled' was not declared. Should it be static?
+kernel/watchdog.c:41:19: sparse: sparse: symbol 'watchdog_softlockup_user_enabled' was not declared. Should it be static?
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-randconfig-s053-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- arc-allyesconfig
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   `-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|-- csky-randconfig-s032-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- i386-randconfig-m021-20230524
+|   `-- fs-xfs-scrub-fscounters.c-xchk_fscounters()-warn:ignoring-unreachable-code.
+|-- i386-randconfig-s001-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- i386-randconfig-s002-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- i386-randconfig-s003-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- ia64-randconfig-s053-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- parisc-randconfig-r015-20230524
+|   `-- arch-parisc-kernel-traps.c:error:SPINLOCK_BREAK_INSN-undeclared-(first-use-in-this-function)
+|-- parisc-randconfig-s033-20230524
+|   `-- arch-parisc-kernel-traps.c:error:SPINLOCK_BREAK_INSN-undeclared-(first-use-in-this-function)
+|-- x86_64-randconfig-s021-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- x86_64-randconfig-s022-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- x86_64-randconfig-s023-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- x86_64-randconfig-s041-20230524
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+`-- x86_64-randconfig-s042-20230524
+    |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+    `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+clang_recent_errors
+|-- i386-randconfig-i011-20230524
+|   `-- drivers-gpu-drm-i915-display-intel_display.c:warning:unannotated-fall-through-between-switch-labels
+|-- i386-randconfig-i014-20230524
+|   `-- drivers-gpu-drm-i915-display-intel_display.c:warning:unannotated-fall-through-between-switch-labels
+|-- i386-randconfig-i015-20230524
+|   `-- drivers-gpu-drm-i915-display-intel_display.c:error:unannotated-fall-through-between-switch-labels-Werror-Wimplicit-fallthrough
+|-- riscv-buildonly-randconfig-r002-20230524
+|   `-- drivers-gpu-drm-panel-panel-samsung-s6d7aa0.c:error:initializer-element-is-not-a-compile-time-constant
+|-- x86_64-randconfig-r025-20230522
+|   `-- drivers-gpu-drm-i915-display-intel_display.c:warning:unannotated-fall-through-between-switch-labels
+|-- x86_64-randconfig-x091-20230524
+|   `-- drivers-gpu-drm-i915-display-intel_display.c:warning:unannotated-fall-through-between-switch-labels
+`-- x86_64-randconfig-x096-20230524
+    `-- drivers-gpu-drm-i915-display-intel_display.c:warning:unannotated-fall-through-between-switch-labels
+
+elapsed time: 1262m
+
+configs tested: 159
+configs skipped: 4
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r022-20230521   gcc  
+alpha                randconfig-r024-20230521   gcc  
+alpha                randconfig-r025-20230521   gcc  
+alpha                randconfig-r026-20230522   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r023-20230521   gcc  
+arc                  randconfig-r023-20230522   gcc  
+arc                  randconfig-r032-20230524   gcc  
+arc                  randconfig-r034-20230524   gcc  
+arc                  randconfig-r036-20230524   gcc  
+arc                  randconfig-r043-20230524   gcc  
+arm                              alldefconfig   clang
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         at91_dt_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r035-20230524   clang
+arm                  randconfig-r046-20230524   gcc  
+arm                         s5pv210_defconfig   clang
+arm                           stm32_defconfig   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230524   clang
+arm64                randconfig-r012-20230524   clang
+arm64                randconfig-r021-20230522   clang
+csky                             alldefconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r006-20230524   gcc  
+csky                 randconfig-r014-20230524   gcc  
+hexagon      buildonly-randconfig-r001-20230524   clang
+hexagon      buildonly-randconfig-r004-20230524   clang
+hexagon              randconfig-r024-20230522   clang
+hexagon              randconfig-r041-20230524   clang
+hexagon              randconfig-r045-20230524   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i011-20230524   clang
+i386                 randconfig-i012-20230524   clang
+i386                 randconfig-i013-20230524   clang
+i386                 randconfig-i014-20230524   clang
+i386                 randconfig-i015-20230524   clang
+i386                 randconfig-i016-20230524   clang
+i386                 randconfig-i056-20230524   gcc  
+i386                 randconfig-i061-20230524   gcc  
+i386                 randconfig-i062-20230524   gcc  
+i386                 randconfig-i063-20230524   gcc  
+i386                 randconfig-i064-20230524   gcc  
+i386                 randconfig-i065-20230524   gcc  
+i386                 randconfig-i066-20230524   gcc  
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r031-20230524   gcc  
+m68k                             allmodconfig   gcc  
+m68k         buildonly-randconfig-r003-20230524   gcc  
+m68k                                defconfig   gcc  
+microblaze   buildonly-randconfig-r006-20230524   gcc  
+microblaze           randconfig-r013-20230524   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ci20_defconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                         db1xxx_defconfig   gcc  
+mips                     loongson1c_defconfig   clang
+mips                        qi_lb60_defconfig   clang
+mips                          rb532_defconfig   gcc  
+mips                          rm200_defconfig   clang
+mips                         rt305x_defconfig   gcc  
+nios2        buildonly-randconfig-r005-20230524   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r033-20230524   gcc  
+openrisc             randconfig-r001-20230524   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r015-20230524   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                 mpc8315_rdb_defconfig   clang
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc              randconfig-r021-20230521   gcc  
+powerpc                     tqm8540_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r002-20230524   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r004-20230524   gcc  
+riscv                randconfig-r042-20230524   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r026-20230521   gcc  
+s390                 randconfig-r044-20230524   clang
+sh                               allmodconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                   randconfig-r002-20230524   gcc  
+sh                   randconfig-r016-20230524   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sh                  sh7785lcr_32bit_defconfig   gcc  
+sparc                               defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230524   gcc  
+x86_64               randconfig-a002-20230524   gcc  
+x86_64               randconfig-a003-20230524   gcc  
+x86_64               randconfig-a004-20230524   gcc  
+x86_64               randconfig-a005-20230524   gcc  
+x86_64               randconfig-a011-20230524   clang
+x86_64               randconfig-a012-20230524   clang
+x86_64               randconfig-a013-20230524   clang
+x86_64               randconfig-a014-20230524   clang
+x86_64               randconfig-a015-20230524   clang
+x86_64               randconfig-a016-20230524   clang
+x86_64               randconfig-r022-20230522   clang
+x86_64               randconfig-r025-20230522   clang
+x86_64               randconfig-x051-20230524   clang
+x86_64               randconfig-x052-20230524   clang
+x86_64               randconfig-x053-20230524   clang
+x86_64               randconfig-x054-20230524   clang
+x86_64               randconfig-x055-20230524   clang
+x86_64               randconfig-x056-20230524   clang
+x86_64               randconfig-x061-20230524   clang
+x86_64               randconfig-x062-20230524   clang
+x86_64               randconfig-x063-20230524   clang
+x86_64               randconfig-x064-20230524   clang
+x86_64               randconfig-x065-20230524   clang
+x86_64               randconfig-x066-20230524   clang
+x86_64               randconfig-x071-20230524   gcc  
+x86_64               randconfig-x072-20230524   gcc  
+x86_64               randconfig-x073-20230524   gcc  
+x86_64               randconfig-x074-20230524   gcc  
+x86_64               randconfig-x075-20230524   gcc  
+x86_64               randconfig-x076-20230524   gcc  
+x86_64               randconfig-x081-20230524   gcc  
+x86_64               randconfig-x082-20230524   gcc  
+x86_64               randconfig-x083-20230524   gcc  
+x86_64               randconfig-x084-20230524   gcc  
+x86_64               randconfig-x085-20230524   gcc  
+x86_64               randconfig-x086-20230524   gcc  
+x86_64               randconfig-x091-20230524   clang
+x86_64               randconfig-x092-20230524   clang
+x86_64               randconfig-x093-20230524   clang
+x86_64               randconfig-x094-20230524   clang
+x86_64               randconfig-x095-20230524   clang
+x86_64               randconfig-x096-20230524   clang
+x86_64                               rhel-8.3   gcc  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
