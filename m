@@ -2,74 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D203B711822
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 22:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF57A71182F
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 22:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A29F110E19D;
-	Thu, 25 May 2023 20:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C1A10E75E;
+	Thu, 25 May 2023 20:33:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8334C10E19D
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 20:30:02 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f6a6b9c079so276605e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 13:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tessares.net; s=google; t=1685046600; x=1687638600;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KpMGG8xImlDkqBATRluOoCQ+0G0nxNJZCtKY+pxwMpA=;
- b=NL0EX6/H88L3/duJLGNldX6FVc864XY+R00ohvr+ICNoEIX6CkE9Z12+2Pn21sYWz1
- fqEfxKmu8b17oJLFja8/HxbTX7/13X/d3jvliRnKcCL5o0gu7HMoz/3qHMtZEvPltVqA
- wkoRjWENQ7+GFman8KVYBQnz295yByLuabrGeRAy63hZWE4HQ/WXDjjWRUdF6cBHkEc1
- jri0vXDscHWWc86+fjc6eIDXXtCcJXgAryO/gMactDAeMMauaUQFqPU4wPykpxFyyIr6
- JYLh8Gj8skPhNs6zH1xj14mKcX0EEDCNldNz90BGNWDVXfC6rhSazgG/9N0vuzcxtFaQ
- nNgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685046600; x=1687638600;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KpMGG8xImlDkqBATRluOoCQ+0G0nxNJZCtKY+pxwMpA=;
- b=hXRQ8bzVoR0rCZwDF9CLphn6sQzRyTvrOS/qauWQHFuTEooaHd5fbi8We+RIt92TEb
- LsjgCoKqzwLoIbQRmDJPPZl4AHLncYnzDOMTXJTvo1IIDjSgebdHdekgV97JAPeo/2wB
- XbS1VT4FtfZX3nUk6sNdJ5eVMZ+1dktzBgGlZmzlRBbI5ctS4/ghePmLGa47qr8udF4g
- f4PYbEub61pkmfjeYsx/NoGFdi7BQkH8BL8GtRDLZxfwSk0nwUFFDwE5MNdPtR9R1JHK
- rfijPItnwxKNQg3Xokx2beYsFIwk+Mg47ITZsspTXNZRGB0HQnqeI+sZhuTUfNf/2RJs
- Ukjw==
-X-Gm-Message-State: AC+VfDwXxzOCO6KrzFMAG530kXe2k/Xs0UHujLipxQujv7ziklpPKv2U
- PH0K1Gzc+zZrjMdMnxmd5Z5Hmg==
-X-Google-Smtp-Source: ACHHUZ4PexvjlMAM/TtsIgybNpAfwmX0zkAmpQB0DP94UjoG/L9hVa0OrqzyLg4x+TSxOSgSUCOgYA==
-X-Received: by 2002:a05:600c:2111:b0:3f6:fb2:add4 with SMTP id
- u17-20020a05600c211100b003f60fb2add4mr3086171wml.33.1685046600132; 
- Thu, 25 May 2023 13:30:00 -0700 (PDT)
-Received: from ?IPV6:2a02:578:8593:1200:bb9d:a59a:c33b:e36?
- ([2a02:578:8593:1200:bb9d:a59a:c33b:e36])
- by smtp.gmail.com with ESMTPSA id
- y12-20020a1c4b0c000000b003f4290720d0sm6602440wma.47.2023.05.25.13.29.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 May 2023 13:29:59 -0700 (PDT)
-Message-ID: <39da7e41-dd07-b8bc-57b9-19b05fdfbeac@tessares.net>
-Date: Thu, 25 May 2023 22:29:58 +0200
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6367310E75E
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 20:33:44 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E0FFB3F73D;
+ Thu, 25 May 2023 22:33:40 +0200 (CEST)
+Date: Thu, 25 May 2023 22:33:39 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v14 1/9] drm/display/dsc: Add flatness and initial scale
+ value calculations
+Message-ID: <iemmv4nfpoxsrpcf7q6xc4bycnrl4ax4wknswfxx52dz7a5jyp@jis4mxee4flw>
+References: <20230329-rfc-msm-dsc-helper-v14-0-bafc7be95691@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v14-1-bafc7be95691@quicinc.com>
+ <7yzn3lyxpdl447c2ujq3yfh37pbnfvv2t2bvrtziie3j3lxt5n@a6znq7ahjr2a>
+ <814707a6-4193-4834-9715-ff132ce3146e@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/i915: Fix clang -Wimplicit-fallthrough in
- intel_async_flip_check_hw()
-Content-Language: en-GB
-To: Nick Desaulniers <ndesaulniers@google.com>,
- Nathan Chancellor <nathan@kernel.org>
-References: <20230524-intel_async_flip_check_hw-implicit-fallthrough-v1-1-83de89e376a1@kernel.org>
- <CAKwvOd=jZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1kXJg2ay2w@mail.gmail.com>
- <20230524184103.GA324296@dev-arch.thelio-3990X>
- <CAKwvOdm=Zk8YhrPptN3k7UQo+1n7Ws=Qox=BwTR9bbjPJJYz8A@mail.gmail.com>
-From: Matthieu Baerts <matthieu.baerts@tessares.net>
-In-Reply-To: <CAKwvOdm=Zk8YhrPptN3k7UQo+1n7Ws=Qox=BwTR9bbjPJJYz8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <814707a6-4193-4834-9715-ff132ce3146e@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,104 +45,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, llvm@lists.linux.dev,
- kernel test robot <lkp@intel.com>, trix@redhat.com,
- intel-gfx@lists.freedesktop.org, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- Joe Perches <joe@perches.com>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nick,
-
-On 24/05/2023 20:56, Nick Desaulniers wrote:
-> On Wed, May 24, 2023 at 11:41 AM Nathan Chancellor <nathan@kernel.org> wrote:
->>
->> On Wed, May 24, 2023 at 11:32:32AM -0700, Nick Desaulniers wrote:
->>> On Wed, May 24, 2023 at 8:38 AM Nathan Chancellor <nathan@kernel.org> wrote:
->>>>
->>>> Clang warns:
->>>>
->>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
->>>>                   case I915_FORMAT_MOD_X_TILED:
->>>>                   ^
->>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: note: insert 'break;' to avoid fall-through
->>>>                   case I915_FORMAT_MOD_X_TILED:
->>>>                   ^
->>>>                   break;
->>>>   1 error generated.
->>>>
->>>> Clang is a little more pedantic than GCC, which does not warn when
->>>> falling through to a case that is just break or return. Clang's version
->>>> is more in line with the kernel's own stance in deprecated.rst, which
->>>> states that all switch/case blocks must end in either break,
->>>> fallthrough, continue, goto, or return. Add the missing break to silence
->>>> the warning.
->>>>
->>>> Fixes: 937859485aef ("drm/i915: Support Async Flip on Linear buffers")
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Closes: https://lore.kernel.org/202305241902.UvHtMoxa-lkp@intel.com/
->>>> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
->>>> Closes: https://lore.kernel.org/CA+G9fYv68V3ewK0Qj-syQj7qX-hQr0H1MFL=QFNuDoE_J2Zu-g@mail.gmail.com/
->>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->>>
->>> Thanks for the patch! I've never seen the closes tag before, that's
->>> new to me. Can you tell me more about it?
->>
->> It is new to me (at least in the context of the kernel) as well. I only
->> used it over Link: because checkpatch.pl told me to:
->>
->> WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
->> #26:
->> Reported-by: kernel test robot <lkp@intel.com>
->> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
->>
->> WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
->> #27:
->> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
->> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->>
->> It was Link: for a bit but commit 44c31888098a ("checkpatch: allow
->> Closes tags with links") changed it to Closes:. Looks odd to me but
->> whatever the linter says I suppose.
->>
->> Thanks for the review!
->>
->> Cheers,
->> Nathan
->>
->>> A few more tags
->>>
->>> Reported-by: Tom Rix <trix@redhat.com>
->>> Link: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redhat.com/
->>> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+On 2023-05-24 18:05:51, Jessica Zhang wrote:
+<snip>
+> >> +/**
+> >> + * drm_dsc_initial_scale_value() - Calculate the initial scale value for the given DSC config
+> >> + * @dsc: Pointer to DRM DSC config struct
+> >> + *
+> >> + * Return: Calculated initial scale value
+> > 
+> > Perhaps just drop Calculated from Return:?
+> > 
+> >> + */
+> >> +u8 drm_dsc_initial_scale_value(const struct drm_dsc_config *dsc)
+> >> +{
+> >> +	return 8 * dsc->rc_model_size / (dsc->rc_model_size - dsc->initial_offset);
+> >> +}
+> >> +EXPORT_SYMBOL(drm_dsc_initial_scale_value);
+> >> +
+> >> +/**
+> >> + * drm_dsc_flatness_det_thresh() - Calculate the flatness_det_thresh for the given DSC config
+> > 
+> > You've written out the word ("flatness det thresh" and "initial scale
+> > value") entirely elsewhere, why the underscores in the doc comment here?
+> > 
+> > Instead we should have the full meaning here (and in the Return: below),
+> > please correct me if I'm wrong but in VESA DSC v1.2a spec 6.8.5.1
+> > Encoder Flatness Decision I think this variable means "flatness
+> > determination threshold"?  If so, use that in the doc comment :)
+> > 
+> > (and drop the leading "the", so just "Calculate flatness determination
+> > threshold for the given DSC config")
+> > 
+> >> + * @dsc: Pointer to DRM DSC config struct
+> >> + *
+> >> + * Return: Calculated flatness det thresh value
+> > 
+> > Nit: perhaps we can just drop "calculated" here?
 > 
-> Ah then I guess my link tag should have been
 > 
-> Closes: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redhat.com/
+> Hi Marijn,
 > 
-> I hope the author of
-> commit 44c31888098a ("checkpatch: allow Closes tags with links")
-> has coordinated with the maintainer of b4, so that b4 recognizes Closes tags.
-> b4 v0.12.2 does not pick up Closes tags.
+> Sure, I will make these changes if a v15 is necessary.
+> 
+> In the future, can we try to group comments on wording/grammar/patch 
+> formatting with comments on the code itself?
 
-I'm sorry for the troubles caused by this series, that was not the
-intension.
+Can you clarify what you mean?  v14 here is the first series including
+this doc comment so there was no way for me to have reviewed this
+earlier.  Code contents were already successfully reviewed many
+revisions ago.
 
-When looking at modifying b4 to support the Closes tag, I realised the
-Link tag from your previous message [1] was not taken as well. Was it
-just me?
+> I really appreciate your feedback and help in improving the 
+> documentation around this feature, however I don't find it very 
+> productive to have revisions where the only changes are on (in my 
+> opinion) small wording details.
 
-If no, I just sent patches for b4, see [2]. I hope it will help!
+It is also down to you to have some patience and collect more review
+from other maintainers and batch up changes, instead of spinning another
+revision quickly after a review comment.
 
-Cheers,
-Matt
+But this request can also be turned around: review and scan your own
+series for simple inconsistencies before sending it to the lists, that
+will surely make the time spent by reviewers much more "productive" as
+well.
+(Note that this goes hand in hand with the request to slow down
+ consecutive revisions!)
 
-[1]
-https://lore.kernel.org/all/CAKwvOd=jZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1kXJg2ay2w@mail.gmail.com/
-[2]
-https://lore.kernel.org/tools/20230525-closes-tags-v1-0-ed41b1773cb6@tessares.net/T/
--- 
-Tessares | Belgium | Hybrid Access Solutions
-www.tessares.net
+And finally, as already said before: you can always decide to ignore my
+review nits.  I am not a maintainer and don't have final say on whatever
+is blocking for a patch to get merged.
+But, when another revision is needed, the things I pointed out can at
+least be incorporated, which is why they were shared in the first place.
+
+Thanks for understanding.
+
+- Marijn
