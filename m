@@ -2,39 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F82710261
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 03:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E48671027C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 03:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9959710E6BA;
-	Thu, 25 May 2023 01:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B3110E113;
+	Thu, 25 May 2023 01:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC0310E6A9
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 01:30:18 +0000 (UTC)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 25 May
- 2023 09:30:16 +0800
-Message-ID: <fb6844e9-d045-5ea1-b24c-3509892d248b@aspeedtech.com>
-Date: Thu, 25 May 2023 09:30:18 +0800
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985F710E0F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 01:41:09 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-561b50c1856so388277b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 18:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684978868; x=1687570868;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XPb8KbqWHe/Wn3t/4V1Y6PByW6CmSIRbmZFJX0yAJoA=;
+ b=XEGn6iPd5vpeNYMvA41VmOkgGH9AgDadjqE1Oc6nwCKkxYGx0VVKIIah21F9ex3jaT
+ 1nHhokwPrEz1TFiVl1xbQOZE+GlgROeMww3shaz4TNmkPcszLZxuObGeGu7qamQrTWPX
+ ynIrtbnJ4b9huxnbybaPNJdv2AqOvDuH0MOkJjDkGx2ERX9KhfOixkRnWg/TJ4BIqOcQ
+ FUlbOGfNDdTyfq85LGQIrLI+HaUM5XVJy7gZ5Pxm+hgSlbywV0GRspY+T9Nf45p42EB0
+ 60u0JNP6aCh+Ci+jel+2+Pl3dkNGz/fp5FYhMJN0iq/ILafCteqzjcaf3c+JwVsgCkue
+ JJMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684978868; x=1687570868;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XPb8KbqWHe/Wn3t/4V1Y6PByW6CmSIRbmZFJX0yAJoA=;
+ b=dscrIUnBaYvVvUdSS3S8Dj5uesX+3AC4EGFMDQe5lrMO9TyQ4Y3SvkvFii4wxnzUmI
+ tFM7UgGeFr4SMHn4P7WZ+UvCLVq4r0wDIzQu2fmhPBCAShbgEet0FWKPcFzbig2MhwCe
+ jNM3b64wUoJzh4uSD3zgo3MuUSSmoUcSLKQsrFzAuv1awQu43h8hta1cqqoycPhEPRPV
+ CXF+m4JfCR77aszWmymgUXt7xHGGDyYHNZnSEpXXIDFU5C72bQD1IXcqMq3ILJSH8LdP
+ LhFiFGibgRKB5Yb2dd9xhV59YiQ/0/FfvuPht6giNwBMbij5zV7dDbKGvgPhzFEkzS1F
+ 9CSg==
+X-Gm-Message-State: AC+VfDwxPHcKAptW+ERZeYj5AX13k7kfBNCGgSjCsKh9DtYVZpzZDCdg
+ 0OKL2oBb/CTLaWviuJmLK6vCLI4s/sOXkPMJhXuduw==
+X-Google-Smtp-Source: ACHHUZ4G0fhwhIuSz7DkdGZEtTI+BlzFsHD2f9cKjkO/4yG98O1uck+F/1VwYfyRrvBXQKrB7yHxMzYPav9LLRuna40=
+X-Received: by 2002:a0d:df89:0:b0:54f:ba89:225d with SMTP id
+ i131-20020a0ddf89000000b0054fba89225dmr19776586ywe.19.1684978868444; Wed, 24
+ May 2023 18:41:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/ast: Fix modeset failed on DisplayPort
-To: Thomas Zimmermann <tzimmermann@suse.de>, <airlied@redhat.com>
-References: <20230425070330.8520-1-jammy_huang@aspeedtech.com>
- <d43c0c09-ff6b-e2d1-01ae-68fe93188896@suse.de>
- <d285566b-ed7c-8e2a-a078-7bdd5bac13e3@aspeedtech.com>
- <1e4ca9bc-0e39-2708-8da8-b402139fe7ff@aspeedtech.com>
- <2f516118-2183-400f-7efd-04c2766fa9d6@suse.de>
-Content-Language: en-US
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <2f516118-2183-400f-7efd-04c2766fa9d6@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-10-dmitry.baryshkov@linaro.org>
+ <4af411bf-290c-0818-bdf2-878b2da15146@quicinc.com>
+ <f010d346-fdbe-62b9-c403-4928b2e929fc@quicinc.com>
+In-Reply-To: <f010d346-fdbe-62b9-c403-4928b2e929fc@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 25 May 2023 04:40:57 +0300
+Message-ID: <CAA8EJprOQdotGKv914khFuhC1UGLLwLp0nngPBORYtbCXJ5Nfg@mail.gmail.com>
+Subject: Re: [Freedreno] [RFC PATCH v2 09/13] drm/msm/dpu: move pstate->pipe
+ initialization to dpu_plane_atomic_check
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,116 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Thu, 25 May 2023 at 02:04, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 5/24/2023 3:46 PM, Abhinav Kumar wrote:
+> >
+> >
+> > On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> >> In preparation to virtualized planes support, move pstate->pipe
+> >> initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
+> >> case of virtual planes the plane's pipe will not be known up to the
+> >> point of atomic_check() callback.
+> >>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> ---
+> >
+> > Will legacy paths be broken with this? So lets say there is no
+> > atomic_check we will not have a valid sspp anymore.
+>
+> I think it should still work, even if goes through the modeset crtc, it
+> should still call drm_atomic_commit() internally which should have the
+> call to atomic_check, once you confirm this , i can ack this particular
+> change.
 
-Thanks, I will modify the patch accordingly.
+Can you please describe the scenario you have in mind? If I got you
+correctly, you were asking about the non-commit IOCTLs. Because of the
+atomic helpers being used (e.g. drm_atomic_helper_set_config()), they
+will also result in a call to drm_atomic_commit(), which invokes
+drm_atomic_check_only().
 
-On 2023/5/24 下午 06:47, Thomas Zimmermann wrote:
-> Hi,
->
-> this patch also fell through the cracks. Apologies.
->
-> Am 24.05.23 um 04:29 schrieb Jammy Huang:
->> Hi Thomas,
->>
->> Do you have other suggestion for this patch??
->
-> The main issue was that struct ast_private is now called struct 
-> ast_device.  So the current patch cannot be applied.
->
->>
->> Please kindly advise.
->>
->> On 2023/4/25 下午 03:39, Jammy Huang wrote:
->>> Hi Thomas,
->>>
->>> I think DP501 is OK. It doesn't use ioregs in ast_dp501_read_edid().
->>>
->>> On 2023/4/25 下午 03:27, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 25.04.23 um 09:03 schrieb Jammy Huang:
->>>>> If we switch display and update cursor together, it could lead to
->>>>> modeset failed because of concurrent access to IO registers.
->>>>>
->>>>> Add lock protection in DP's edid access to avoid this problem.
->>>>
->>>> Thanks for the patch. I thought I fixed this issue already, but 
->>>> that apparently only happened for SIL164 and VGA.
->>>>
->>>> What about ast_dp501_connector_helper_get_modes()? Does it require 
->>>> the locking as well?
->>>>
->>>>>
->>>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>>>> ---
->>>>>   drivers/gpu/drm/ast/ast_mode.c | 11 +++++++++++
->>>>>   1 file changed, 11 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->>>>> b/drivers/gpu/drm/ast/ast_mode.c
->>>>> index 984ec590a7e7..fe5f1fd61361 100644
->>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>>>> @@ -1635,6 +1635,8 @@ static int ast_dp501_output_init(struct 
->>>>> ast_private *ast)
->>>>>   static int ast_astdp_connector_helper_get_modes(struct 
->>>>> drm_connector *connector)
->>>>>   {
->>>>>       void *edid;
->>>>> +    struct drm_device *dev = connector->dev;
->>>>> +    struct ast_private *ast = to_ast_private(dev);
->>>>
->>>> We've meanwhile renamed ast_private to ast_device. Could you please 
->>>> provide an updated patch for the drm-misc-next tree?
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>>         int succ;
->>>>>       int count;
->>>>> @@ -1643,10 +1645,18 @@ static int 
->>>>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
->>>>>       if (!edid)
->>>>>           goto err_drm_connector_update_edid_property;
->>>>>   +    /*
->>>>> +     * Protect access to I/O registers from concurrent modesetting
->>>>> +     * by acquiring the I/O-register lock.
->>>>> +     */
->>>>> +    mutex_lock(&ast->ioregs_lock);
->>>>> +
->>>>>       succ = ast_astdp_read_edid(connector->dev, edid);
->>>>>       if (succ < 0)
->>>>>           goto err_kfree;
->>>>>   +    mutex_unlock(&ast->ioregs_lock);
->>>>> +
->>>>>       drm_connector_update_edid_property(connector, edid);
->>>>>       count = drm_add_edid_modes(connector, edid);
->>>>>       kfree(edid);
->>>>> @@ -1654,6 +1664,7 @@ static int 
->>>>> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
->>>>>       return count;
->>>>>     err_kfree:
->
-> Here's a minor issue that the goto label should now be called 
-> err_mutex_unlock.
->
-> Best regards
-> Thomas
->
->>>>> + mutex_unlock(&ast->ioregs_lock);
->>>>>       kfree(edid);
->>>>>   err_drm_connector_update_edid_property:
->>>>>       drm_connector_update_edid_property(connector, NULL);
->>>>>
->>>>> base-commit: 61d325dcbc05d8fef88110d35ef7776f3ac3f68b
->>>>
->
 -- 
-Best Regards
-Jammy
-
+With best wishes
+Dmitry
