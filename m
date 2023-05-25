@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C757106F3
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 10:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05D67106F1
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 10:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7B4310E82D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E93C10E822;
 	Thu, 25 May 2023 08:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FF810E7EA;
- Thu, 25 May 2023 08:12:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2755010E7ED;
+ Thu, 25 May 2023 08:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685002323; x=1716538323;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=mBFsnyKTYjKNRfO0X+iHfyEbJwbBiwfJcq+c0JPjNwU=;
- b=VsF5+g6zCRBIcnmzoOpiEEaO/Oc6zWTFL9jLwAH7MzVPFBB6DETRfYM1
- ttOs+dKooxImedAALsRps5MgHEu1DYPsPgVIc11TbAHRalHEYBEPUlcP4
- TrwcIeUmCwxwrm6de3Md/uNu/zPuLjCzB+mzyQM8434VCjnuyV+38cSlu
- O9RssfNuEDaIo6xmMTIAuYRf9OieRBAtlpz6c0fYD2N7yoRi21CbiXXhg
- SwGntRoaBpPhLOEzSaqLkWBTDUDJ/oLbhkO5KwcAWiOHQx6Qvmq/qAgOt
- GWSfH6EEkyNNqV4uM1RjiSxU/0GO3Ip6rSfIY6Fw69/QdXn7a8egUibdL A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="417288482"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="417288482"
+ t=1685002324; x=1716538324;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=vDLE4BP8NG38071oub8jBXpRkuf5hDwFu5wqVx5fvXU=;
+ b=MjsTDz0dBlHTygcFOivTd92fmCibhe7aJbP4ej/pencVy97/vschzCDD
+ r/2NulnBHHlfDkgl6jdZpgf5f4p2bV+YFSHyau9A5FLJQU6ccSZqgBsqj
+ Ysm4CmkH7q0nRWqLw/0dyELyCMefoIH8/T8eSXWvrKdjXb5UlGGaPY+Sg
+ 4wHwt9WNP2IOVzcYrF0GzILvfGygx6ACG8JkhrCj0SHgmO6GADYZPbp+f
+ eNl6GBVpab653EvXNsqCEWsYZuyhfII50in2qo1zy4Nm4O8Pt7XJZWuOC
+ JhYEFdAiRgDkYybMeGgUUJ6UjozrqCd8pB7nhTc7QrK6GGyQaMecr++yC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="417288490"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="417288490"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 01:11:43 -0700
+ 25 May 2023 01:11:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="655122942"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="655122942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="655122955"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="655122955"
 Received: from moiraric-mobl.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.234.103])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 01:11:42 -0700
+ 25 May 2023 01:11:43 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/5] Expose RPS thresholds in sysfs
-Date: Thu, 25 May 2023 09:11:28 +0100
-Message-Id: <20230525081133.215292-1-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 1/5] drm/i915: Move setting of rps thresholds to init
+Date: Thu, 25 May 2023 09:11:29 +0100
+Message-Id: <20230525081133.215292-2-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230525081133.215292-1-tvrtko.ursulin@linux.intel.com>
+References: <20230525081133.215292-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,59 +59,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-From patch 4:
+Since 36d516be867c ("drm/i915/gt: Switch to manual evaluation of RPS")
+thresholds are invariant so lets move their setting to init time.
 
-    User feedback indicates significant performance gains are possible in
-    specific games with non default RPS up/down thresholds.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@kernel.org>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_rps.c | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-    Expose these tunables via sysfs which will allow users to achieve best
-    performance when running games and best power efficiency elsewhere.
-
-    Note this patch supports non GuC based platforms only.
-
-    References: https://gitlab.freedesktop.org/drm/intel/-/issues/8389
-
-Issue 8389 suggests 10-15% performance gains are possible with tweaked
-thresholds.
-
-One question is are we able to find a "one size fits all" values.
-
-However regardless of that, given we already expose frequency controls in sysfs
-with the same reasoning of allowing system owners explicit control if so wanted,
-I think exposing the thresholds can be equally justified.
-
-v2:
- * Hopefully fixed the debug build issue.
- * Re-program the hw registers on change too!
-
-v3:
- * Added a patch which captures the thresholds in error state, to account for
-   any potential instability which may be caused by moving away from defaults.
- * Fixed one checkpatch warning.
-
-Test-with: 20230523105139.626772-1-tvrtko.ursulin@linux.intel.com
-
-Tvrtko Ursulin (5):
-  drm/i915: Move setting of rps thresholds to init
-  drm/i915: Record default rps threshold values
-  drm/i915: Add helpers for managing rps thresholds
-  drm/i915: Expose RPS thresholds in sysfs
-  drm/i915: Include RPS threshold in error state
-
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c | 108 ++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_types.h    |   3 +
- drivers/gpu/drm/i915/gt/intel_rps.c         |  83 +++++++++++++--
- drivers/gpu/drm/i915/gt/intel_rps.h         |   4 +
- drivers/gpu/drm/i915/i915_gpu_error.c       |   5 +
- drivers/gpu/drm/i915/i915_gpu_error.h       |   5 +
- 6 files changed, 197 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index e68a99205599..791097eb9bfd 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -671,7 +671,6 @@ static void rps_set_power(struct intel_rps *rps, int new_power)
+ {
+ 	struct intel_gt *gt = rps_to_gt(rps);
+ 	struct intel_uncore *uncore = gt->uncore;
+-	u32 threshold_up = 0, threshold_down = 0; /* in % */
+ 	u32 ei_up = 0, ei_down = 0;
+ 
+ 	lockdep_assert_held(&rps->power.mutex);
+@@ -679,9 +678,6 @@ static void rps_set_power(struct intel_rps *rps, int new_power)
+ 	if (new_power == rps->power.mode)
+ 		return;
+ 
+-	threshold_up = 95;
+-	threshold_down = 85;
+-
+ 	/* Note the units here are not exactly 1us, but 1280ns. */
+ 	switch (new_power) {
+ 	case LOW_POWER:
+@@ -708,17 +704,22 @@ static void rps_set_power(struct intel_rps *rps, int new_power)
+ 
+ 	GT_TRACE(gt,
+ 		 "changing power mode [%d], up %d%% @ %dus, down %d%% @ %dus\n",
+-		 new_power, threshold_up, ei_up, threshold_down, ei_down);
++		 new_power,
++		 rps->power.up_threshold, ei_up,
++		 rps->power.down_threshold, ei_down);
+ 
+ 	set(uncore, GEN6_RP_UP_EI,
+ 	    intel_gt_ns_to_pm_interval(gt, ei_up * 1000));
+ 	set(uncore, GEN6_RP_UP_THRESHOLD,
+-	    intel_gt_ns_to_pm_interval(gt, ei_up * threshold_up * 10));
++	    intel_gt_ns_to_pm_interval(gt,
++				       ei_up * rps->power.up_threshold * 10));
+ 
+ 	set(uncore, GEN6_RP_DOWN_EI,
+ 	    intel_gt_ns_to_pm_interval(gt, ei_down * 1000));
+ 	set(uncore, GEN6_RP_DOWN_THRESHOLD,
+-	    intel_gt_ns_to_pm_interval(gt, ei_down * threshold_down * 10));
++	    intel_gt_ns_to_pm_interval(gt,
++				       ei_down *
++				       rps->power.down_threshold * 10));
+ 
+ 	set(uncore, GEN6_RP_CONTROL,
+ 	    (GRAPHICS_VER(gt->i915) > 9 ? 0 : GEN6_RP_MEDIA_TURBO) |
+@@ -730,8 +731,6 @@ static void rps_set_power(struct intel_rps *rps, int new_power)
+ 
+ skip_hw_write:
+ 	rps->power.mode = new_power;
+-	rps->power.up_threshold = threshold_up;
+-	rps->power.down_threshold = threshold_down;
+ }
+ 
+ static void gen6_rps_set_thresholds(struct intel_rps *rps, u8 val)
+@@ -1557,10 +1556,12 @@ void intel_rps_enable(struct intel_rps *rps)
+ 		return;
+ 
+ 	GT_TRACE(rps_to_gt(rps),
+-		 "min:%x, max:%x, freq:[%d, %d]\n",
++		 "min:%x, max:%x, freq:[%d, %d], thresholds:[%u, %u]\n",
+ 		 rps->min_freq, rps->max_freq,
+ 		 intel_gpu_freq(rps, rps->min_freq),
+-		 intel_gpu_freq(rps, rps->max_freq));
++		 intel_gpu_freq(rps, rps->max_freq),
++		 rps->power.up_threshold,
++		 rps->power.down_threshold);
+ 
+ 	GEM_BUG_ON(rps->max_freq < rps->min_freq);
+ 	GEM_BUG_ON(rps->idle_freq > rps->max_freq);
+@@ -2013,6 +2014,10 @@ void intel_rps_init(struct intel_rps *rps)
+ 		}
+ 	}
+ 
++	/* Set default thresholds in % */
++	rps->power.up_threshold = 95;
++	rps->power.down_threshold = 85;
++
+ 	/* Finally allow us to boost to max by default */
+ 	rps->boost_freq = rps->max_freq;
+ 	rps->idle_freq = rps->min_freq;
 -- 
 2.39.2
 
