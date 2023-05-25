@@ -1,80 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0566711A26
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 00:29:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDACE711A2E
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 00:30:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D9810E070;
-	Thu, 25 May 2023 22:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034D310E776;
+	Thu, 25 May 2023 22:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F5510E070
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 22:28:54 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34PMBRD1008118; Thu, 25 May 2023 22:28:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=T55xHer2V1gPTZVY0kGfyW8IZBUNGxw8atd6rU4rjME=;
- b=H9xk2lxCYr1Z/G3lu+hN5cfmw/aXlktXzFKSjJfPfYaYL7RQIceXvpi6MyXdqN6Fp8Tq
- /Xf1ihWpBuN5K/i2P4YjbnkNNJj7zCqMXhsBAJR0t9+M1pruuqGY6PE2AEl60JLE3Efk
- lrhen9GAcT0ILSAWNqx4WP67C8X1c2xajbZfY+38NHXQNrzU42BXH98fkTxGEjf+Kp1N
- tJ0wimyy5bI/H0IU6aRCUVV2jD7K3dU1Ad1CiwkfjgP/9frYq0LFOIbM1PS4qCQwl8l0
- S4yIQUqPhqP9ytQiLoaMZiRzaXoDAOY85/lKzelF9z2l1GODY7Ic4zBp2oPPWfFiWzTV BA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qt5ufsdqq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 May 2023 22:28:47 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34PMSkDE002316
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 May 2023 22:28:46 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 25 May
- 2023 15:28:46 -0700
-Message-ID: <9d50bc4e-e747-47fa-03cf-4dbd33f778dd@quicinc.com>
-Date: Thu, 25 May 2023 15:28:46 -0700
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2AC10E776
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 22:30:19 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-565a022ef06so3669477b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 15:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685053818; x=1687645818;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sPez2gIUuuU/Qqqi0Ox9W8KzurjzJuQkUaR9l7uZGoA=;
+ b=oTZwVQK3z5sm6xFTAqeXHjwMAvUqgYUvGcSpefOXE1v2a3hTEIFF4MnZdiwce2vtYQ
+ lmV6aULFwqong9Mnv5GRxV9U/sdGxM+8nu9+SSAodeQp0sEJurJztRGupNzqcpPZ6px/
+ RvmE6G1xpLeTwTo4qQt25J22hi8f0NASZQJf8OV5ilYco4lOjdbyiHkfTVZauGzWH/aF
+ mMAJSEqa3uSi/TNsus5/wKE06piWFTG8twVsECdJSm3G5htmN6wSR8qBD6YdhgvVpfg3
+ 1UnxKnIPiQVQDwdAvDUo88zU/+OL8XFe3AkGUc/Yjpmd7vwzGeHvSb7z4LDwPgaoMaqc
+ DSUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685053818; x=1687645818;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sPez2gIUuuU/Qqqi0Ox9W8KzurjzJuQkUaR9l7uZGoA=;
+ b=MkQlYDS2msknvi4aNq1r+mvUz+NJ+K6fZnr/tGI25Txj2DGWduaLIaX0EHsIQk7oq7
+ tBBIcKwuWCREbuj5xhD/ZqR8B9bfGIvVGTMxciq34qQEDxCW2bFuaHQQK2aGihMXkS5Y
+ oZBqNidxl6FhVny1pyOHKg/cZWo8VMPjPRONv50Q9PeWaxVltRqBsdxV/8zoKgr/7eNf
+ KO0MX1O6Sp5lZQc4GIso40OLDdYe6YYTxH0im/lfXL8WXH3aiLsBJD5ic9Fxc866aGuL
+ skEcQyaXpJGjhpz1iEWLLjtrXrs06N+f67pgh5G0EN+aHBMPdyCmBfbSUiR92t3VUHjr
+ TDzg==
+X-Gm-Message-State: AC+VfDxFJk2M8mDJej7f3MWAV8sch2BlhCN+kT/5MIGqkRf6K9/ZHtJe
+ EkrcaoTsIqvPyb8AXAHw44OTUeoU8CVRp74x6ahEwg==
+X-Google-Smtp-Source: ACHHUZ6fhNodReCpJ6enp9Y8zsGYU1cUMxoteXln60UInow5h/i04mjLRNM2UnL+5+nCfN2UA27vksr3oIx6X6kArFI=
+X-Received: by 2002:a0d:f6c3:0:b0:55d:c320:f5aa with SMTP id
+ g186-20020a0df6c3000000b0055dc320f5aamr1010348ywf.51.1685053818432; Thu, 25
+ May 2023 15:30:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/panel: Add driver for Visionox r66451 panel
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20230516-b4-r66451-panel-driver-v1-0-4210bcbb1649@quicinc.com>
- <20230516-b4-r66451-panel-driver-v1-2-4210bcbb1649@quicinc.com>
- <3cca2809-fa26-f0cf-2ccc-6737d150b43d@linaro.org>
- <kc65fjf5xibvszx4afomzbmfrlld4vcnwfxqxefrupkaxw74fa@j2op4bj2recm>
- <2d9d7454-0e7d-b6f2-93ff-9eca69380e47@quicinc.com>
-In-Reply-To: <2d9d7454-0e7d-b6f2-93ff-9eca69380e47@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: LgdKqhXyjX6yBn0Hb1l7Qn846YNxKYdU
-X-Proofpoint-GUID: LgdKqhXyjX6yBn0Hb1l7Qn846YNxKYdU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-25_12,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- adultscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0 bulkscore=0
- impostorscore=0 phishscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305250190
+References: <20230522214527.190054-1-dmitry.baryshkov@linaro.org>
+ <20230522214527.190054-4-dmitry.baryshkov@linaro.org>
+ <50c35efe-987b-5138-050e-181c0f6bf191@quicinc.com>
+In-Reply-To: <50c35efe-987b-5138-050e-181c0f6bf191@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 26 May 2023 01:30:07 +0300
+Message-ID: <CAA8EJpruiiY7KWvhfzh-OmDypWjv6T2+2r-F0Rwv-4dt4u277w@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 3/6] drm/msm/dpu: split interrupt address
+ arrays
+To: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,618 +69,391 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob
- Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 26 May 2023 at 00:40, Jeykumar Sankaran
+<quic_jeykumar@quicinc.com> wrote:
+>
+>
+>
+> On 5/22/2023 2:45 PM, Dmitry Baryshkov wrote:
+> > There is no point in having a single enum (and a single array) for both
+> > DPU < 7.0 and DPU >= 7.0 interrupt registers. Instead define a single
+> > enum and two IRQ address arrays.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  1 +
+> >   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  1 +
+> >   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  1 +
+> >   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  1 +
+> >   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  1 +
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 +
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 82 +++++++++++++------
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 28 ++++---
+> >   8 files changed, 79 insertions(+), 38 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> > index 3c1b2c13398d..320cfa4be633 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> > @@ -15,6 +15,7 @@ static const struct dpu_caps sm8350_dpu_caps = {
+> >       .has_dim_layer = true,
+> >       .has_idle_pc = true,
+> >       .has_3d_merge = true,
+> > +     .has_7xxx_intr = true,
+> >       .max_linewidth = 4096,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >   };
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > index 5d894cbb0a62..9306c7a115e9 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> > @@ -13,6 +13,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
+> >       .qseed_type = DPU_SSPP_SCALER_QSEED4,
+> >       .has_dim_layer = true,
+> >       .has_idle_pc = true,
+> > +     .has_7xxx_intr = true,
+> >       .max_linewidth = 2400,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >   };
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > index c3f1ae000a21..fc1e17c495f0 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+> > @@ -15,6 +15,7 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
+> >       .has_dim_layer = true,
+> >       .has_idle_pc = true,
+> >       .has_3d_merge = true,
+> > +     .has_7xxx_intr = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >   };
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> > index 86c2e68ebd2c..eb72411c16db 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> > @@ -14,6 +14,7 @@ static const struct dpu_caps sm8450_dpu_caps = {
+> >       .has_src_split = true,
+> >       .has_dim_layer = true,
+> >       .has_idle_pc = true,
+> > +     .has_7xxx_intr = true,
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> > index 85dc34458b88..8209ca317bdc 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> > @@ -15,6 +15,7 @@ static const struct dpu_caps sm8550_dpu_caps = {
+> >       .has_dim_layer = true,
+> >       .has_idle_pc = true,
+> >       .has_3d_merge = true,
+> > +     .has_7xxx_intr = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >   };
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > index 677048cc3b7d..72530ebb0ae6 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > @@ -351,6 +351,7 @@ struct dpu_rotation_cfg {
+> >    * @has_dim_layer      dim layer feature status
+> >    * @has_idle_pc        indicate if idle power collapse feature is supported
+> >    * @has_3d_merge       indicate if 3D merge is supported
+> > + * @has_7xxx_intr      indicate that INTF/IRQs use addressing for DPU 7.0 and greater
+>
+> I see the requirement to distinguish feature support based on the DPU
+> version in more than one series. Is it a good idea to bring in the DPU
+> version info in chipset catalog? This will relieve us from maintaining
+> such version flags for individual HW sub-blocks.
+
+This would not play well with the rest of the driver. The driver
+usually does not compute features by DPU revision. Instead it lists
+feature flags.
+
+>
+> Thanks and Regards,
+> Jeykumar S.
+>
+> >    * @max_linewidth      max linewidth for sspp
+> >    * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
+> >    * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
+> > @@ -364,6 +365,7 @@ struct dpu_caps {
+> >       bool has_dim_layer;
+> >       bool has_idle_pc;
+> >       bool has_3d_merge;
+> > +     bool has_7xxx_intr;
+> >       /* SSPP limits */
+> >       u32 max_linewidth;
+> >       u32 pixel_ram_size;
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > index 0776b0f6df4f..a03d826bb9ad 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> > @@ -51,11 +51,9 @@ struct dpu_intr_reg {
+> >   };
+> >
+> >   /*
+> > - * struct dpu_intr_reg -  List of DPU interrupt registers
+> > - *
+> > - * When making changes be sure to sync with dpu_hw_intr_reg
+> > + * dpu_intr_set_legacy -  List of DPU interrupt registers for DPU <= 6.x
+> >    */
+> > -static const struct dpu_intr_reg dpu_intr_set[] = {
+> > +static const struct dpu_intr_reg dpu_intr_set_legacy[] = {
+> >       [MDP_SSPP_TOP0_INTR] = {
+> >               INTR_CLEAR,
+> >               INTR_EN,
+> > @@ -121,57 +119,78 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
+> >               MDP_AD4_INTR_EN_OFF(1),
+> >               MDP_AD4_INTR_STATUS_OFF(1),
+> >       },
+> > -     [MDP_INTF0_7xxx_INTR] = {
+> > +};
+> > +
+> > +/*
+> > + * dpu_intr_set_7xxx -  List of DPU interrupt registers for DPU >= 7.0
+> > + */
+> > +static const struct dpu_intr_reg dpu_intr_set_7xxx[] = {
+> > +     [MDP_SSPP_TOP0_INTR] = {
+> > +             INTR_CLEAR,
+> > +             INTR_EN,
+> > +             INTR_STATUS
+> > +     },
+> > +     [MDP_SSPP_TOP0_INTR2] = {
+> > +             INTR2_CLEAR,
+> > +             INTR2_EN,
+> > +             INTR2_STATUS
+> > +     },
+> > +     [MDP_SSPP_TOP0_HIST_INTR] = {
+> > +             HIST_INTR_CLEAR,
+> > +             HIST_INTR_EN,
+> > +             HIST_INTR_STATUS
+> > +     },
+> > +     [MDP_INTF0_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(0),
+> >               MDP_INTF_REV_7xxx_INTR_EN(0),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(0)
+> >       },
+> > -     [MDP_INTF1_7xxx_INTR] = {
+> > +     [MDP_INTF1_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(1),
+> >               MDP_INTF_REV_7xxx_INTR_EN(1),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(1)
+> >       },
+> > -     [MDP_INTF1_7xxx_TEAR_INTR] = {
+> > +     [MDP_INTF1_TEAR_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_CLEAR(1),
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_EN(1),
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_STATUS(1)
+> >       },
+> > -     [MDP_INTF2_7xxx_INTR] = {
+> > +     [MDP_INTF2_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(2),
+> >               MDP_INTF_REV_7xxx_INTR_EN(2),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(2)
+> >       },
+> > -     [MDP_INTF2_7xxx_TEAR_INTR] = {
+> > +     [MDP_INTF2_TEAR_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_CLEAR(2),
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_EN(2),
+> >               MDP_INTF_REV_7xxx_INTR_TEAR_STATUS(2)
+> >       },
+> > -     [MDP_INTF3_7xxx_INTR] = {
+> > +     [MDP_INTF3_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(3),
+> >               MDP_INTF_REV_7xxx_INTR_EN(3),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(3)
+> >       },
+> > -     [MDP_INTF4_7xxx_INTR] = {
+> > +     [MDP_INTF4_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(4),
+> >               MDP_INTF_REV_7xxx_INTR_EN(4),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(4)
+> >       },
+> > -     [MDP_INTF5_7xxx_INTR] = {
+> > +     [MDP_INTF5_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(5),
+> >               MDP_INTF_REV_7xxx_INTR_EN(5),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(5)
+> >       },
+> > -     [MDP_INTF6_7xxx_INTR] = {
+> > +     [MDP_INTF6_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(6),
+> >               MDP_INTF_REV_7xxx_INTR_EN(6),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(6)
+> >       },
+> > -     [MDP_INTF7_7xxx_INTR] = {
+> > +     [MDP_INTF7_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(7),
+> >               MDP_INTF_REV_7xxx_INTR_EN(7),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(7)
+> >       },
+> > -     [MDP_INTF8_7xxx_INTR] = {
+> > +     [MDP_INTF8_INTR] = {
+> >               MDP_INTF_REV_7xxx_INTR_CLEAR(8),
+> >               MDP_INTF_REV_7xxx_INTR_EN(8),
+> >               MDP_INTF_REV_7xxx_INTR_STATUS(8)
+> > @@ -216,19 +235,19 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
+> >               return IRQ_NONE;
+> >
+> >       spin_lock_irqsave(&intr->irq_lock, irq_flags);
+> > -     for (reg_idx = 0; reg_idx < ARRAY_SIZE(dpu_intr_set); reg_idx++) {
+> > +     for (reg_idx = 0; reg_idx < MDP_INTR_MAX; reg_idx++) {
+> >               if (!test_bit(reg_idx, &intr->irq_mask))
+> >                       continue;
+> >
+> >               /* Read interrupt status */
+> > -             irq_status = DPU_REG_READ(&intr->hw, dpu_intr_set[reg_idx].status_off);
+> > +             irq_status = DPU_REG_READ(&intr->hw, intr->intr_set[reg_idx].status_off);
+> >
+> >               /* Read enable mask */
+> > -             enable_mask = DPU_REG_READ(&intr->hw, dpu_intr_set[reg_idx].en_off);
+> > +             enable_mask = DPU_REG_READ(&intr->hw, intr->intr_set[reg_idx].en_off);
+> >
+> >               /* and clear the interrupt */
+> >               if (irq_status)
+> > -                     DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
+> > +                     DPU_REG_WRITE(&intr->hw, intr->intr_set[reg_idx].clr_off,
+> >                                    irq_status);
+> >
+> >               /* Finally update IRQ status based on enable mask */
+> > @@ -285,7 +304,11 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
+> >       assert_spin_locked(&intr->irq_lock);
+> >
+> >       reg_idx = DPU_IRQ_REG(irq_idx);
+> > -     reg = &dpu_intr_set[reg_idx];
+> > +     reg = &intr->intr_set[reg_idx];
+> > +
+> > +     /* Is this interrupt register supported on the platform */
+> > +     if (WARN_ON(!reg->en_off))
+> > +             return -EINVAL;
+> >
+> >       cache_irq_mask = intr->cache_irq_mask[reg_idx];
+> >       if (cache_irq_mask & DPU_IRQ_MASK(irq_idx)) {
+> > @@ -334,7 +357,7 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
+> >       assert_spin_locked(&intr->irq_lock);
+> >
+> >       reg_idx = DPU_IRQ_REG(irq_idx);
+> > -     reg = &dpu_intr_set[reg_idx];
+> > +     reg = &intr->intr_set[reg_idx];
+> >
+> >       cache_irq_mask = intr->cache_irq_mask[reg_idx];
+> >       if ((cache_irq_mask & DPU_IRQ_MASK(irq_idx)) == 0) {
+> > @@ -368,10 +391,10 @@ static void dpu_clear_irqs(struct dpu_kms *dpu_kms)
+> >       if (!intr)
+> >               return;
+> >
+> > -     for (i = 0; i < ARRAY_SIZE(dpu_intr_set); i++) {
+> > +     for (i = 0; i < MDP_INTR_MAX; i++) {
+> >               if (test_bit(i, &intr->irq_mask))
+> >                       DPU_REG_WRITE(&intr->hw,
+> > -                                     dpu_intr_set[i].clr_off, 0xffffffff);
+> > +                                     intr->intr_set[i].clr_off, 0xffffffff);
+> >       }
+> >
+> >       /* ensure register writes go through */
+> > @@ -386,10 +409,10 @@ static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
+> >       if (!intr)
+> >               return;
+> >
+> > -     for (i = 0; i < ARRAY_SIZE(dpu_intr_set); i++) {
+> > +     for (i = 0; i < MDP_INTR_MAX; i++) {
+> >               if (test_bit(i, &intr->irq_mask))
+> >                       DPU_REG_WRITE(&intr->hw,
+> > -                                     dpu_intr_set[i].en_off, 0x00000000);
+> > +                                     intr->intr_set[i].en_off, 0x00000000);
+> >       }
+> >
+> >       /* ensure register writes go through */
+> > @@ -421,10 +444,10 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
+> >
+> >       reg_idx = DPU_IRQ_REG(irq_idx);
+> >       intr_status = DPU_REG_READ(&intr->hw,
+> > -                     dpu_intr_set[reg_idx].status_off) &
+> > +                     intr->intr_set[reg_idx].status_off) &
+> >               DPU_IRQ_MASK(irq_idx);
+> >       if (intr_status)
+> > -             DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
+> > +             DPU_REG_WRITE(&intr->hw, intr->intr_set[reg_idx].clr_off,
+> >                               intr_status);
+> >
+> >       /* ensure register writes go through */
+> > @@ -448,6 +471,11 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+> >       if (!intr)
+> >               return ERR_PTR(-ENOMEM);
+> >
+> > +     if (m->caps->has_7xxx_intr)
+> > +             intr->intr_set = dpu_intr_set_7xxx;
+> > +     else
+> > +             intr->intr_set = dpu_intr_set_legacy;
+> > +
+> >       intr->hw.blk_addr = addr + m->mdp[0].base;
+> >
+> >       intr->total_irqs = nirq;
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> > index 1f2dabc54c22..f329d6d7f646 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
+> > @@ -23,24 +23,29 @@ enum dpu_hw_intr_reg {
+> >       MDP_INTF3_INTR,
+> >       MDP_INTF4_INTR,
+> >       MDP_INTF5_INTR,
+> > +     MDP_INTF6_INTR,
+> > +     MDP_INTF7_INTR,
+> > +     MDP_INTF8_INTR,
+> >       MDP_INTF1_TEAR_INTR,
+> >       MDP_INTF2_TEAR_INTR,
+> >       MDP_AD4_0_INTR,
+> >       MDP_AD4_1_INTR,
+> > -     MDP_INTF0_7xxx_INTR,
+> > -     MDP_INTF1_7xxx_INTR,
+> > -     MDP_INTF1_7xxx_TEAR_INTR,
+> > -     MDP_INTF2_7xxx_INTR,
+> > -     MDP_INTF2_7xxx_TEAR_INTR,
+> > -     MDP_INTF3_7xxx_INTR,
+> > -     MDP_INTF4_7xxx_INTR,
+> > -     MDP_INTF5_7xxx_INTR,
+> > -     MDP_INTF6_7xxx_INTR,
+> > -     MDP_INTF7_7xxx_INTR,
+> > -     MDP_INTF8_7xxx_INTR,
+> >       MDP_INTR_MAX,
+> >   };
+> >
+> > +/* compatibility */
+> > +#define MDP_INTF0_7xxx_INTR MDP_INTF0_INTR
+> > +#define MDP_INTF1_7xxx_INTR MDP_INTF1_INTR
+> > +#define MDP_INTF2_7xxx_INTR MDP_INTF2_INTR
+> > +#define MDP_INTF3_7xxx_INTR MDP_INTF3_INTR
+> > +#define MDP_INTF4_7xxx_INTR MDP_INTF4_INTR
+> > +#define MDP_INTF5_7xxx_INTR MDP_INTF5_INTR
+> > +#define MDP_INTF6_7xxx_INTR MDP_INTF6_INTR
+> > +#define MDP_INTF7_7xxx_INTR MDP_INTF7_INTR
+> > +#define MDP_INTF8_7xxx_INTR MDP_INTF8_INTR
+> > +#define MDP_INTF1_7xxx_TEAR_INTR MDP_INTF1_TEAR_INTR
+> > +#define MDP_INTF2_7xxx_TEAR_INTR MDP_INTF2_TEAR_INTR
+> > +
+> >   #define DPU_IRQ_IDX(reg_idx, offset)        (reg_idx * 32 + offset)
+> >
+> >   /**
+> > @@ -60,6 +65,7 @@ struct dpu_hw_intr {
+> >       u32 total_irqs;
+> >       spinlock_t irq_lock;
+> >       unsigned long irq_mask;
+> > +     const struct dpu_intr_reg *intr_set;
+> >
+> >       struct {
+> >               void (*cb)(void *arg, int irq_idx);
 
 
-On 5/23/2023 1:33 PM, Jessica Zhang wrote:
-> 
-> 
-> On 5/21/2023 3:28 AM, Marijn Suijten wrote:
->> On 2023-05-18 03:19:49, Dmitry Baryshkov wrote:
->>> On 16/05/2023 23:20, Jessica Zhang wrote:
->>>> Add support for the 1080x2340 Visionox R66451 AMOLED DSI panel that
->>>> comes with the Qualcomm HDK8350 display expansion pack.
->>>>
->>>> The panel enables display compression (DSC v1.2) by default.
->>>>
->>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>> ---
->>>>    drivers/gpu/drm/panel/Kconfig                 |   8 +
->>>>    drivers/gpu/drm/panel/Makefile                |   1 +
->>>>    drivers/gpu/drm/panel/panel-visionox-r66451.c | 395 
->>>> ++++++++++++++++++++++++++
->>>>    3 files changed, 404 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/panel/Kconfig 
->>>> b/drivers/gpu/drm/panel/Kconfig
->>>> index 29cf5fa39ff2..9c2c36dbddf3 100644
->>>> --- a/drivers/gpu/drm/panel/Kconfig
->>>> +++ b/drivers/gpu/drm/panel/Kconfig
->>>> @@ -766,6 +766,14 @@ config DRM_PANEL_VISIONOX_VTDR6130
->>>>          Say Y here if you want to enable support for Visionox
->>>>          VTDR6130 1080x2400 AMOLED DSI panel.
->>>> +config DRM_PANEL_VISIONOX_R66451
->>>> +    tristate "Visionox R66451"
->>>> +    depends on OF
->>>> +    depends on DRM_MIPI_DSI
->>>> +    help
->>>> +      Say Y here if you want to enable support for Visionox
->>>> +      R66451 1080x2340 AMOLED DSI panel.
->>>> +
->>>>    config DRM_PANEL_WIDECHIPS_WS2401
->>>>        tristate "Widechips WS2401 DPI panel driver"
->>>>        depends on SPI && GPIOLIB
->>>> diff --git a/drivers/gpu/drm/panel/Makefile 
->>>> b/drivers/gpu/drm/panel/Makefile
->>>> index b3e8ba29edd3..e043a92ee676 100644
->>>> --- a/drivers/gpu/drm/panel/Makefile
->>>> +++ b/drivers/gpu/drm/panel/Makefile
->>>> @@ -78,5 +78,6 @@ obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += 
->>>> panel-tpo-tpg110.o
->>>>    obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
->>>>    obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
->>>>    obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += 
->>>> panel-visionox-vtdr6130.o
->>>> +obj-$(CONFIG_DRM_PANEL_VISIONOX_R66451) += panel-visionox-r66451.o
->>>>    obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
->>>>    obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += 
->>>> panel-xinpeng-xpp055c272.o
->>>> diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c 
->>>> b/drivers/gpu/drm/panel/panel-visionox-r66451.c
->>>> new file mode 100644
->>>> index 000000000000..e3648ead3e84
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
->>>> @@ -0,0 +1,395 @@
->>>> +//SPDX-License-Identifier: GPL-2.0-only
->>>> +//Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->>>> reserved.
->>>> +
->>>> +#include <linux/backlight.h>
->>>> +#include <linux/delay.h>
->>>> +#include <linux/gpio/consumer.h>
->>>> +#include <linux/module.h>
->>>> +#include <linux/of.h>
->>>> +#include <linux/regulator/consumer.h>
->>>> +
->>>> +#include <drm/drm_mipi_dsi.h>
->>>> +#include <drm/drm_modes.h>
->>>> +#include <drm/drm_panel.h>
->>>> +#include <drm/display/drm_dsc.h>
->>>> +#include <drm/display/drm_dsc_helper.h>
->>>> +
->>>> +#include <video/mipi_display.h>
->>>> +
->>>> +struct visionox_r66451 {
->>>> +    struct drm_panel panel;
->>>> +    struct mipi_dsi_device *dsi;
->>>> +    struct gpio_desc *reset_gpio;
->>>> +    struct regulator_bulk_data supplies[2];
->>>> +    bool prepared, enabled;
->>>> +};
->>>> +
->>>> +static inline struct visionox_r66451 *to_visionox_r66451(struct 
->>>> drm_panel *panel)
->>>> +{
->>>> +    return container_of(panel, struct visionox_r66451, panel);
->>>> +}
->>>> +
->>>> +static void visionox_r66451_reset(struct visionox_r66451 *ctx)
->>>> +{
->>>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
->>>> +    usleep_range(10000, 10100);
->>>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>>> +    usleep_range(10000, 10100);
->>>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
->>>> +    usleep_range(10000, 10100);
->>>> +}
->>>> +
->>>> +static int visionox_r66451_on(struct visionox_r66451 *ctx)
->>>> +{
->>>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>>> +    struct device *dev = &dsi->dev;
->>>> +    int ret;
->>>> +
->>>> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->>>> +
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xc2,
->>>> +                   0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x09, 0x3c);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
->>>> +                   0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 
->>>> 0x0a,
->>>> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x19,
->>>> +                   0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xde,
->>>> +                   0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 
->>>> 0x18,
->>>> +                   0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 
->>>> 0x00, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xc4,
->>>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xcf,
->>>> +                   0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x08,
->>>> +                   0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 
->>>> 0x01,
->>>> +                   0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xd3,
->>>> +                   0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 
->>>> 0x07,
->>>> +                   0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 
->>>> 0xa0,
->>>> +                   0x3c, 0x9c);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
->>>> +                   0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 
->>>> 0x0a,
->>>> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x19,
->>>> +                   0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xd8,
->>>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 
->>>> 0x3a,
->>>> +                   0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x0a,
->>>> +                   0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf,
->>>> +                   0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 
->>>> 0x00,
->>>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 
->>>> 0x39, 0x04, 0x09, 0x34);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
->>>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
->>>> +    mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->>>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_COLUMN_ADDRESS, 0x00, 
->>>> 0x00, 0x04, 0x37);
->>>
->>> Please use mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
->>>
->>>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PAGE_ADDRESS, 0x00, 
->>>> 0x00, 0x09, 0x23);
->>>
->>> mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
->>
->> Yes please, thanks for already pointing these two out.
->>
->>>
->>>> +
->>>> +    ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
->>>> +        return ret;
->>>> +    }
->>>> +    msleep(120);
->>>> +
->>>> +    ret = mipi_dsi_dcs_set_display_on(dsi);
->>>
->>> Should the mipi_dsi_dcs_set_display_on() (and maybe exit sleep mode) be
->>> a a part of _enable()? Correspondingly _off should IMO be a part of
->>> _disable callback().
->>>
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed on set display on: %d\n", ret);
->>>> +        return ret;
->>>> +    }
->>>> +    msleep(20);
->>>
->>>
->>> Do we need to add here the following line?
->>>
->>> dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->>>
->>>
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int visionox_r66451_off(struct visionox_r66451 *ctx)
->>>> +{
->>>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>>> +    struct device *dev = &dsi->dev;
->>>> +    int ret;
->>>> +
->>>> +    dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->>>> +
->>>> +    ret = mipi_dsi_dcs_set_display_off(dsi);
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed to set display off: %d\n", ret);
->>>> +        return ret;
->>>> +    }
->>>> +    msleep(20);
->>>> +
->>>> +    ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
->>>> +        return ret;
->>>> +    }
->>>> +    msleep(120);
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int visionox_r66451_prepare(struct drm_panel *panel)
->>>> +{
->>>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>>> +    struct device *dev = &ctx->dsi->dev;
->>>> +    int ret;
->>>> +
->>>> +    if (ctx->prepared)
->>>> +        return 0;
->>>> +
->>>> +    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
->>>> +                    ctx->supplies);
->>>> +    if (ret < 0)
->>>> +        return ret;
->>>> +
->>>> +    visionox_r66451_reset(ctx);
->>>> +
->>>> +    ret = visionox_r66451_on(ctx);
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed to initialize panel: %d\n", ret);
->>>> +        gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>>> +        regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), 
->>>> ctx->supplies);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    ctx->prepared = true;
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int visionox_r66451_unprepare(struct drm_panel *panel)
->>>> +{
->>>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>>> +    struct device *dev = &ctx->dsi->dev;
->>>> +    int ret;
->>>> +
->>>> +    if (!ctx->prepared)
->>>> +        return 0;
->>>> +
->>>> +    ret = visionox_r66451_off(ctx);
->>>> +    if (ret < 0)
->>>> +        dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
->>>> +
->>>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>>> +    regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->>>> +
->>>> +    ctx->prepared = false;
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static const struct drm_display_mode visionox_r66451_mode = {
->>>> +    .clock = (1080 + 95 + 1 + 40) * (2340 + 25 + 1 + 4) * 120 / 1000,
->>>> +    .hdisplay = 1080,
->>>> +    .hsync_start = 1080 + 95,
->>>> +    .hsync_end = 1080 + 95 + 1,
->>>> +    .htotal = 1080 + 95 + 1 + 40,
->>>> +    .vdisplay = 2340,
->>>> +    .vsync_start = 2340 + 25,
->>>> +    .vsync_end = 2340 + 25 + 1,
->>>> +    .vtotal = 2340 + 25 + 1 + 4,
->>>> +    .width_mm = 0,
->>>> +    .height_mm = 0,
->>>
->>> Please provide real values here.
->>>
->>>> +};
->>>> +
->>>> +static int visionox_r66451_enable(struct drm_panel *panel)
->>>> +{
->>>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>>> +    struct drm_dsc_picture_parameter_set pps;
->>>> +    int ret;
->>>> +
->>>> +    if (ctx->enabled)
->>>> +        return 0;
->>>> +
->>>> +    if (!dsi->dsc) {
->>>> +        dev_err(&dsi->dev, "DSC not attached to DSI\n");
->>>> +        return -ENODEV;
->>>> +    }
->>>> +
->>>> +    drm_dsc_pps_payload_pack(&pps, dsi->dsc);
->>>> +    ret = mipi_dsi_picture_parameter_set(dsi, &pps);
->>
->> This `ret` value is unused.
-> 
-> Hi Marijn,
-> 
-> Acked.
-> 
->>
->> Do we also need to call mipi_dsi_compression_mode() to enable
->> compression? 
-> 
->  From my understanding, DSC is enabled by default for this panel, so 
-> it's not necessary to explicitly set it.
-> 
->> This also selects PPS table 1 (which is supposedly the
->> default reset value, and the PPS that is uploaded by
->> mipi_dsi_picture_parameter_set()).  Note that it does set the algorithm
->> to "VESA DSC Standard 1.1" but i am unsure if it makes a difference
->> (docs for mipi_dsi_picture_parameter_set() say that it is "1.1" as well)
-> 
-> We noticed the same thing when trying to debug an unrelated panel issue. 
-> FWIW, the raw PPS values being sent to the panel are correct and it's 
-> not breaking DSC for us.
-> 
->>
->>>> +
->>>> +    ctx->enabled = true;
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int visionox_r66451_disable(struct drm_panel *panel)
->>>> +{
->>>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>>> +
->>>> +    ctx->enabled = false;
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int visionox_r66451_get_modes(struct drm_panel *panel,
->>>> +                    struct drm_connector *connector)
->>>> +{
->>>> +    struct drm_display_mode *mode;
->>>> +
->>>> +    mode = drm_mode_duplicate(connector->dev, &visionox_r66451_mode);
->>>> +    if (!mode)
->>>> +        return -ENOMEM;
->>>> +
->>>> +    drm_mode_set_name(mode);
->>>> +
->>>> +    mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->>>> +    connector->display_info.width_mm = mode->width_mm;
->>>> +    connector->display_info.height_mm = mode->height_mm;
->>>> +    drm_mode_probed_add(connector, mode);
->>>
->>> Can we use drm_connector_helper_get_modes_fixed() instead?
->>
->> This does not set DRM_MODE_TYPE_DRIVER though; is that preferred?
->>
->>>> +
->>>> +    return 1;
->>>> +}
->>>> +
->>>> +static const struct drm_panel_funcs visionox_r66451_funcs = {
->>>> +    .prepare = visionox_r66451_prepare,
->>>> +    .unprepare = visionox_r66451_unprepare,
->>>> +    .get_modes = visionox_r66451_get_modes,
->>>> +    .enable = visionox_r66451_enable,
->>>> +    .disable = visionox_r66451_disable,
->>>> +};
->>>> +
->>>> +static int visionox_r66451_bl_update_status(struct backlight_device 
->>>> *bl)
->>>> +{
->>>> +    struct mipi_dsi_device *dsi = bl_get_data(bl);
->>>> +    u16 brightness = backlight_get_brightness(bl);
->>>> +
->>>> +    return mipi_dsi_dcs_set_display_brightness(dsi, 
->>>> cpu_to_le16(brightness));
->>>
->>> mipi_dsi_dcs_set_display_brightness() already converts the brightness,
->>> so you don't need cpu_to_le16 here.
->>
->> Tread carefully here: we've had the same issue and conversation on our
->> Sony panels where this extra inversion is required.
->> set_display_brightness() sends the bytes as little-endian to the panel
->> (and it even assumes little-endian in get_display_brightness()) but the
->> spec for 16-bit brightness values states that they have to be sent in
->> big-endian.  This is why c9d27c6be518b ("drm/mipi-dsi: Fix byte order of
->> 16-bit DCS set/get brightness") added
->> mipi_dsi_dcs_set_display_brightness_large().
->>
->> Jessica, if you need to have the endian swap here (should be very easy
->> to test with a real panel, but it should be given the max_brightness
->> value being over 8 bits) please switch to the _large() variant.
-> 
-> Got it, thanks for the heads up!
 
-Hi Marijn,
-
-Just wanted to update this thread -- I've checked the backlight 
-brightness values in the sysfs and it matches the value being given in 
-the panel driver (255), so I think it should be fine to use 
-*_set_display_brightness() without the _large() variant.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->>
->>>> +}
->>>> +
->>>> +static const struct backlight_ops visionox_r66451_bl_ops = {
->>>> +    .update_status = visionox_r66451_bl_update_status,
->>
->> Should this implement get_brightness?
-> 
-> I don't believe so. As far as I know, get_brightness() is an optional op 
-> for if the panel has a special HW readback for getting the brightness 
-> value, and this panel doesn't have that. So the default behavior of 
-> getting the current brightness property value should be fine.
-> 
->>
->>>> +};
->>>> +
->>>> +static struct backlight_device *
->>>> +visionox_r66451_create_backlight(struct mipi_dsi_device *dsi)
->>>> +{
->>>> +    struct device *dev = &dsi->dev;
->>>> +    const struct backlight_properties props = {
->>>> +        .type = BACKLIGHT_RAW,
->>>> +        .brightness = 255,
->>>> +        .max_brightness = 4095,
->>>> +    };
->>>> +
->>>> +    return devm_backlight_device_register(dev, dev_name(dev), dev, 
->>>> dsi,
->>>> +                          &visionox_r66451_bl_ops, &props);
->>>> +}
->>>> +
->>>> +static int visionox_r66451_probe(struct mipi_dsi_device *dsi)
->>>> +{
->>>> +    struct device *dev = &dsi->dev;
->>>> +    struct visionox_r66451 *ctx;
->>>> +    struct drm_dsc_config *dsc;
->>>> +    int ret = 0;
->>>> +
->>>> +    ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->>>> +    if (!ctx)
->>>> +        return -ENOMEM;
->>>> +
->>>> +    dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
->>>> +    if (!dsc)
->>>> +        return -ENOMEM;
->>>> +
->>>> +    /* Set DSC params */
->>>> +    dsc->dsc_version_major = 0x1;
->>>> +    dsc->dsc_version_minor = 0x2;
->>>> +
->>>> +    dsc->slice_height = 20;
->>>> +    dsc->slice_width = 540;
->>>> +    dsc->slice_count = 2;
->>>> +    dsc->bits_per_component = 8;
->>>> +    dsc->bits_per_pixel = 0x8 << 4;
->>
->> What's the 0x for?  bpc is also just "8" and not 0x8.
-> 
-> Is there a functional difference between 0x8 vs 8? I can drop the "0x" 
-> if you prefer it as decimal instead of hex.
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
->>
->> - Marijn
->>
->>>> +    dsc->block_pred_enable = true;
->>>> +
->>>> +    dsi->dsc = dsc;
->>>> +
->>>> +    ctx->supplies[0].supply = "vddio";
->>>> +    ctx->supplies[1].supply = "vdd";
->>>> +
->>>> +    ret = devm_regulator_bulk_get(&dsi->dev, 
->>>> ARRAY_SIZE(ctx->supplies),
->>>> +            ctx->supplies);
->>>> +
->>>> +    if (ret < 0)
->>>> +        return ret;
->>>> +
->>>> +    ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->>>> +    if (IS_ERR(ctx->reset_gpio))
->>>> +        return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio), "Failed 
->>>> to get reset-gpios\n");
->>>> +
->>>> +    ctx->dsi = dsi;
->>>> +    mipi_dsi_set_drvdata(dsi, ctx);
->>>> +
->>>> +    dsi->lanes = 4;
->>>> +    dsi->format = MIPI_DSI_FMT_RGB888;
->>>> +    dsi->mode_flags = MIPI_DSI_MODE_LPM | 
->>>> MIPI_DSI_CLOCK_NON_CONTINUOUS;
->>>> +
->>>> +    drm_panel_init(&ctx->panel, dev, &visionox_r66451_funcs, 
->>>> DRM_MODE_CONNECTOR_DSI);
->>>> +    ctx->panel.backlight = visionox_r66451_create_backlight(dsi);
->>>> +    if (IS_ERR(ctx->panel.backlight))
->>>> +        return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
->>>> +                "Failed to create backlight\n");
->>>> +
->>>> +    drm_panel_add(&ctx->panel);
->>>> +
->>>> +    ret = mipi_dsi_attach(dsi);
->>>> +    if (ret < 0) {
->>>> +        dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
->>>> +        drm_panel_remove(&ctx->panel);
->>>> +    }
->>>> +
->>>> +    return ret;
->>>> +}
->>>> +
->>>> +static void visionox_r66451_remove(struct mipi_dsi_device *dsi)
->>>> +{
->>>> +    struct visionox_r66451 *ctx = mipi_dsi_get_drvdata(dsi);
->>>> +    int ret;
->>>> +
->>>> +    ret = mipi_dsi_detach(dsi);
->>>> +    if (ret < 0)
->>>> +        dev_err(&dsi->dev, "Failed to detach DSI host: %d\n", ret);
->>>> +
->>>> +    drm_panel_remove(&ctx->panel);
->>>> +}
->>>> +
->>>> +static const struct of_device_id visionox_r66451_of_match[] = {
->>>> +    {.compatible = "visionox,r66451"},
->>>> +    { /*sentinel*/ }
->>>> +};
->>>> +MODULE_DEVICE_TABLE(of, visionox_r66451_of_match);
->>>> +
->>>> +static struct mipi_dsi_driver visionox_r66451_driver = {
->>>> +    .probe = visionox_r66451_probe,
->>>> +    .remove = visionox_r66451_remove,
->>>> +    .driver = {
->>>> +        .name = "panel-visionox-r66451",
->>>> +        .of_match_table = visionox_r66451_of_match,
->>>> +    },
->>>> +};
->>>> +
->>>> +module_mipi_dsi_driver(visionox_r66451_driver);
->>>> +
->>>> +MODULE_AUTHOR("Jessica Zhang <quic_jesszhan@quicinc.com>");
->>>> +MODULE_DESCRIPTION("Panel driver for the Visionox R66451 AMOLED DSI 
->>>> panel");
->>>> +MODULE_LICENSE("GPL");
->>>>
->>>
->>> -- 
->>> With best wishes
->>> Dmitry
->>>
+-- 
+With best wishes
+Dmitry
