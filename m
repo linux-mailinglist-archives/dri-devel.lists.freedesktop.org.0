@@ -2,67 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8F1711027
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 17:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8E8711094
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 18:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4698510E6B8;
-	Thu, 25 May 2023 15:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78DF110E6B9;
+	Thu, 25 May 2023 16:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9770E10E6B8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 15:57:56 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-64d4e4598f0so2618893b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 08:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685030276; x=1687622276;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NRjbJCM4Bj74nexhlReHUV30/iPPE3wUZ1F4retby8I=;
- b=gA4nf4yE2oHcpLPG55DTtVk+Y/9CF0daz/KwHlax1WiOIRzWOkUfQe7Ma7FQsqQ7Iy
- vYsMo0UBYGTfuGq291YU/rgalQ7J8Mf2Ke45yLjRHiexvqzG5+3HoWJFAH7C0+0E8Cfl
- apoVH6RIsz2gT6XTIPaHv86tJlO62bkMIhzBI/XqK370wWDTpagGejMptXIBXv6jSuMR
- frs34sVL9FYOpfNVhomgOS05pAnmAUqyZp7bZUUQAsjCSePdw0Ur98DQJAvpTX9aZaT9
- s7lRCaYjbayOxWrgu4ULz6Ub3DFmHXmu9/BjBhwaB3Wd8NSuh4j5jnZg/KAXF3K1oPi1
- SiAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685030276; x=1687622276;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NRjbJCM4Bj74nexhlReHUV30/iPPE3wUZ1F4retby8I=;
- b=ht6rQzjywVNDePDJhRHpxMJS2lFMDA32/kcHkHriSYQjFbbqCKPyW0npRAaHjAZu0t
- ntwLATxQVlO9GFyDzgR3uo/zY0kaFD8JaVICzgBPN/dOaT4nPtCdLjATa+G01BdYKMv9
- TRvRfgjyBMgMePelI637Q/cOqAd4d2gtokJ6DlHBs5Upciy/McOjZd5Ng68iXTFlDk38
- ANFqFwwb0pZhcwRKfHTsErPwfvKZUep0d/vQmyjiOEuB4s0NKbFZDWhvJXU7CZyDIFgO
- spmD/SbP7qNkTaao66PuU3Eb0wsxXMQ13VX2qz/OKMP6jGDY9EcnTqM2DU8ZCkbspIYf
- +3AQ==
-X-Gm-Message-State: AC+VfDxVAMhpoBQlPnPTsL5Q1S3x4wVATG/eMA+jZD/yZH9fH9rLyMR+
- 5PkAToi3hwWpi98dgw0UXy6Uv0M25Y9BzM5Td0w=
-X-Google-Smtp-Source: ACHHUZ5w5Mg4M6wIDvC98hKt+3Drl/mfQnNGc32bmmOnnc9YXW/slwv2zt0FgYB659YyDJIKT4oy2vmbx6km3wv3Q5A=
-X-Received: by 2002:a05:6a20:4289:b0:10d:d0cd:c1c7 with SMTP id
- o9-20020a056a20428900b0010dd0cdc1c7mr6832286pzj.15.1685030275580; Thu, 25 May
- 2023 08:57:55 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE8F10E6B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 16:12:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 253DF64758;
+ Thu, 25 May 2023 16:12:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66545C433EF;
+ Thu, 25 May 2023 16:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685031123;
+ bh=eGwbDp7GXLadDVneGLrHlJAsKXAAFdJ2QiGxjfTabbE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IxidsszBRPguHI81Nrqgyg+PAPcJOt3TiumrloR5YDGscvCz+VunNxEx/Wv6qIgSp
+ rUDCv1bUuOyqUkrFJWBRdjWpSPDaKK0YuAfwFOqDXtspsCTRoznmTrNq2EoHFriG8T
+ TezQJsczQzq9lMXz7t5ulUCJWNCTgOSElTN2RAA4CBfgUuyZ+5KH/sFWMtH+ucPJBB
+ xZ616Zp/Wh0N7ggA0H3+h4fG9C8ZGOBZggavFJVEDVFbiwRWjiaM5fGM2Ge7JAFLr2
+ V9OQSP46Krk/xEqqnri/SCHRmjfJAem2SRcfgu4X5zw1MTGtkQWoBGRIwIHOjceFgs
+ B0//walKKKRiA==
+Date: Thu, 25 May 2023 17:11:56 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Justin Chen <justin.chen@broadcom.com>
+Subject: Re: [PATCH net-next v5 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
+ controller
+Message-ID: <20230525-extent-osmosis-8d99bf7a780b@spud>
+References: <1684969313-35503-1-git-send-email-justin.chen@broadcom.com>
+ <1684969313-35503-3-git-send-email-justin.chen@broadcom.com>
 MIME-Version: 1.0
-References: <20230518230626.404068-1-aford173@gmail.com>
- <CAOMZO5DBefFuLWi39txu2RiU5vdHVx-0T48Fua6M5Y6Fr9PGNg@mail.gmail.com>
- <CAHCN7xLqmMPtnHTVbApyYxY2tx97oRjsk_51abdDcZkOJmA=Tw@mail.gmail.com>
- <CAHCN7xJTWqf_qfaZge4GpKuuzPE_OC-Kx7hBd_hFLOchH=Ef0g@mail.gmail.com>
- <CAOMZO5Csjx17kfkxN1xMLuCg+-J0v6rjiuvaK-ZktXO50ZTuSw@mail.gmail.com>
- <CAHCN7xL2GWLTwMttCha=b9_W0nE5aimCQ08YJFrCF5vNZUOL7Q@mail.gmail.com>
- <8c65c5c3-0415-78c0-4585-df94a532a04e@linaro.org>
-In-Reply-To: <8c65c5c3-0415-78c0-4585-df94a532a04e@linaro.org>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 25 May 2023 10:57:44 -0500
-Message-ID: <CAHCN7xJBf+8KyXbqxVSUUXbKqomX+i-13Ed23QFeF0SM8nQpzw@mail.gmail.com>
-Subject: Re: [PATCH V7 0/6] drm: bridge: samsung-dsim: Support variable
- clocking
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gQWeSQ/Xh494+0MG"
+Content-Disposition: inline
+In-Reply-To: <1684969313-35503-3-git-send-email-justin.chen@broadcom.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,65 +54,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
+ florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
+ robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com, kuba@kernel.org,
+ christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
+ davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 25, 2023 at 10:39=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 24/05/2023 14:49, Adam Ford wrote:
-> > On Wed, May 24, 2023 at 7:45=E2=80=AFAM Fabio Estevam <festevam@gmail.c=
-om> wrote:
-> >>
-> >> Hi Adam,
-> >>
-> >> On Tue, May 23, 2023 at 8:49=E2=80=AFPM Adam Ford <aford173@gmail.com>=
- wrote:
-> >>
-> >>> Inki,
-> >>>
-> >>> I haven't heard back from you on whether or not you want the bindings
-> >>> patch to be included with me resending the series as V7 or if you're
-> >>> OK with a single, stand-alone patch.
-> >>> Will you let me know?  I have the patch standing by waiting for
-> >>> instructions.  If you're not the right person to ask, please let me
-> >>> know who the right person is.
-> >>
-> >> Neil has also been collecting samsung-dsim patches. Maybe he can clari=
-fy.
-> >
-> > If it matters, my preference all along was to do the bindings as a
-> > separate thing once the driver updates were merged into the tree.
-> > Since the bindings can be done in different ways, I was hoping to have
-> > a separate discussion on the right way to do the bindings. If they
-> > need to be part of the series, I can do that.
->
-> If you don't introduce compatibles, no need to send bindings, it can
-> be send separately.
 
-This series doesn't change any compatibility.
+--gQWeSQ/Xh494+0MG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> Can I apply this serie and 20230503163313.2640898-2-frieder@fris.de ? see=
-ms all has been reviewed.
+On Wed, May 24, 2023 at 04:01:49PM -0700, Justin Chen wrote:
+> From: Florian Fainelli <florian.fainelli@broadcom.com>
+>=20
+> Add a binding document for the Broadcom ASP 2.0 Ethernet
+> controller.
+>=20
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+> ---
+> v5
+> 	- Fix compatible string yaml format to properly capture what we want
+>=20
+> v4
+>         - Adjust compatible string example to reference SoC and HW ver
+>=20
+> v3
+>         - Minor formatting issues
+>         - Change channel prop to brcm,channel for vendor specific format
+>         - Removed redundant v2.0 from compat string
+>         - Fix ranges field
+>=20
+> v2
+>         - Minor formatting issues
+>=20
+>  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 149 +++++++++++++++=
+++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.y=
+aml
+>=20
+> diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b/D=
+ocumentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> new file mode 100644
+> index 000000000000..c4cd24492bfd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom ASP 2.0 Ethernet controller
+> +
+> +maintainers:
+> +  - Justin Chen <justin.chen@broadcom.com>
+> +  - Florian Fainelli <florian.fainelli@broadcom.com>
+> +
+> +description: Broadcom Ethernet controller first introduced with 72165
+> +
+> +properties:
+> +  '#address-cells':
+> +    const: 1
+> +  '#size-cells':
+> +    const: 1
+> +
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - brcm,bcm74165-asp
+> +          - const: brcm,asp-v2.1
+> +      - items:
+> +          - enum:
+> +              - brcm,bcm72165-asp
+> +          - const: brcm,asp-v2.0
 
-Looking at the driver, it looks like linux-next has some newer
-features added into the driver since I started, so this series might
-need a re-base.  If that's the case, let me know, and I'll do the
-re-base.
+Sorry if I did not notice this before, conventionally compatible goes
+first here. IFF there is another version, could you shuffle things
+around? Otherwise,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-adam
+Thanks,
+Conor.
 
->
-> Neil
->
-> >
-> > adam
->
+--gQWeSQ/Xh494+0MG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZG+IzAAKCRB4tDGHoIJi
+0t8LAP0XPuVe8Xv0rC6URYPWMiOetvVlRcErsx5TLDNGuD0U8AEA8RUP6BvGw9Pv
+QWlVEE3X8asJ36V2w/7bvKuygsBc2wQ=
+=IMJt
+-----END PGP SIGNATURE-----
+
+--gQWeSQ/Xh494+0MG--
