@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B856571127D
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:39:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90470711287
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B0B10E6FF;
-	Thu, 25 May 2023 17:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD1810E718;
+	Thu, 25 May 2023 17:41:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4596810E6FF
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 17:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1685036357; i=deller@gmx.de;
- bh=dGkmEijQeyVfl8qKQ3M1K+a+v3j8D4UMsrjdQ/Ss0sI=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=UUDeXFx3knYs5BBPJ7mK/9QTOWMigsc9rLrbXHiPKKK4lZjFJy92EccdvOlBmY+Wq
- /lslfThyMM1zDqzv1QKijxR3M1qe9rIHA8VeOsI5vEqkdAiQAZLwdw2ExG2BfSKJH7
- MhenVry1VBe3m221xFPq33sXarDMtYUk+7WiZZ522hDHtF2PDReJfSINvsizXEkQNS
- /h82rsQQfTMAobTUVIJoWfLocCOeueonp4njpvSHotrnxkXsrndvDKCp+mpKTbciK9
- pTNVFSr4d+mgYyAUuQSEFnXsbCXMDryJTWeLl8tJd9jhddTWDw9lnxzouA+0JiusfA
- ASiQse66rKqmw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.173]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MEFvj-1ps5vV3Y2v-00AGSS; Thu, 25
- May 2023 19:39:16 +0200
-Message-ID: <446a2a2a-155b-1fe3-44f3-89033b80ad34@gmx.de>
-Date: Thu, 25 May 2023 19:39:15 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCB610E718;
+ Thu, 25 May 2023 17:41:14 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34PFCJM5020541; Thu, 25 May 2023 17:41:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=PG5Ag7h7VCcaRLh2LfmjMf7MXYMgpeS4Kg4IZLMuQ6k=;
+ b=LjN9QLffyDBdLP7P+y62NawHGTHptw8WBKyvhgHIPoMspkdv0jb2zpTx5Aq+CJPcRcjv
+ p4qiFN1LDkHqNF7A12BclUzDHxlgSU0EK52JLJIJ1Swfy81QnsplQxQtW26492FBamZg
+ ajfA560T++XKYrYl5jjQn6b1WGkFNM6FEsDr8clM7Rfm/yWFN+2nnJoP1I9yWgBg9lY5
+ vCzVZByO8kfgbB/LgnLZqfSI9SGp3kRJtoP1V+wPHSTcwBMJzejK56IlPV5lB8pxcal5
+ wR2CngZRTvTTkde9g61NngC3b6GFoKnxzX6pI8vOKyK9SKIrgEiXKO69gmM4z1L/AdyC 8A== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qsqqjapfa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 May 2023 17:41:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34PHf7Vs022255
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 May 2023 17:41:07 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Thu, 25 May 2023 10:41:06 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+Subject: [PATCH v14 00/10] add DSC 1.2 dpu supports
+Date: Thu, 25 May 2023 10:40:48 -0700
+Message-ID: <1685036458-22683-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 1/4] fbdev: imsttfb: Fix error handling in init_imstt()
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zheng Wang <zyytlz.wz@163.com>
-References: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
- <97807a2d-ccf2-1fbf-06f7-085bb1bdf451@web.de>
- <c551c670-7458-ed50-eb2f-5a2b7ba421a8@web.de>
- <7e5643de-5d64-272e-cb36-bbe1e5c187ec@gmx.de>
- <1d7228fb-f1f8-364c-aa29-5719a9da1fc6@web.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <1d7228fb-f1f8-364c-aa29-5719a9da1fc6@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:TZV0p5eR83WJ51IM6S8Z0c5/DcY/szlYHtkBeYayMx+sEbjb6My
- DV/Q6f9kG5eqKkBd9sUxpzbN8Z806wMD/0i3mQRazFtVl67vWNEc6TCWQBG+n6F2R3jSNin
- stzbyz/uP15JcKuo6tAaXbEL6KAQ+vMGV54I6eRafI8+Tq+ozR0BX/Rn/aQfAMID6K/0UgK
- ROMzh1r+oUXPU/Sqi+qqA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nLsrtoL4Elw=;2eCOJwl1hLmLBmRzJDNX32Y+1pA
- nJumhqLPU7a5u3RK7xtr0K2hWRICnR8tP1oMYJj746mNJw6et4VQsWPLTLFUCZt3BRE8vP7c5
- +ESNogAvyRrZR15Y2BCoAlD6DTYzyCoyQSZ1bosqWJUcFNRYiK76XSWRaOt7vNwVHk3tr/IHb
- xED8Aw/zs7SCQmPJpLRlbYpwyUIIX7ENEySVci7bV+tUAwgPJLyuNTQM6iV5owc9xBFgVnXwX
- 2dpCQoI5WaFhS5fYeGW0FsyS3Qb/e2COrRcU8M0M/CguPH8+ZlQkrNBV+/10sItEXYItccRRR
- D4Cw1aVVBN5pIvdnNvRA2FP/7hwn9g4kcUTM37kkI+WoZ9mR8yE3KgBXBrtPvlYkL7xlVCu96
- RcWWn7FFxuiDeRnqBLvvIwINRhUcjdEcqr0roxg20v/oh22fvIQCnD4rWI5XcatE/RSdqagXW
- wdC7K0Xfueiypc1xNrotZjPHyUuSMChfaHfpy9Ze/8QZiiXsgaDXs8U7KJHDjxE8vOosOAGS+
- dXKPYbHbN1oRM77y0uy8LxJPsIMwmTmrSOxoschKt19IVg3N9HZsDNJKvJrFthv8TRZqzZ2Pr
- lpbwpiyhPbQATVWJQWZonCF06M3HYfG8l3SRaC8o+v4O7LvXmpVMHBPQzUO40qXciCysQuMde
- fluTUS3aEhQcSYT5lUVMmI9Ro9OJkPggEsdz6uaLZHgSKs4+5tLYeOxP7Q9U0zTK0RnxQxamz
- qBPYFtP7+Ji0Cd/M7LeMlLtRp8ZFTpaW7K1vMozvHiamtX8sAv9yzWqko6H1c2jIaKeSr9GwJ
- OsB8yP5+3hAQdG5bhUyuxEVG1r90TaudaHY07f0dNU9BMixje0JmgVXr9wu4KxefkN5y/CUgv
- eGgInMNBhkI25Gd2NdQYrtRB+k6PLM6K45NMIah2bMm3ZJ7GMcd/bjUljtpmTZ/gGnXYU6D7U
- EyL+tTRolD2Y/d++riwdRp3eS90=
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: BXZKcP67BeUJPN6SQbMinjTyCS9r4ap2
+X-Proofpoint-ORIG-GUID: BXZKcP67BeUJPN6SQbMinjTyCS9r4ap2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-25_10,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 spamscore=0 phishscore=0 mlxscore=0 malwarescore=0
+ mlxlogscore=850 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305250147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,58 +79,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 1395428693sheep@gmail.com, hackerzheng666@gmail.com,
- LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr, alex000young@gmail.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/25/23 07:33, Markus Elfring wrote:
->>> The return value was overlooked from a call of
->>> the function =E2=80=9Cfb_alloc_cmap=E2=80=9D.
->>>
->>> * Thus use a corresponding error check.
->>>
->>> * Add two jump targets so that a bit of exception handling
->>>  =C2=A0=C2=A0 can be better reused at the end of this function.
-> =E2=80=A6
->>> +++ b/drivers/video/fbdev/imsttfb.c
-> =E2=80=A6
->>> @@ -1452,17 +1452,25 @@ static int init_imstt(struct fb_info *info)
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FBINFO_HWACCEL_FILLRECT |
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FBINFO_HWACCEL_YPAN;
->>>
->>> -=C2=A0=C2=A0=C2=A0 fb_alloc_cmap(&info->cmap, 0, 0);
->>> +=C2=A0=C2=A0=C2=A0 ret =3D fb_alloc_cmap(&info->cmap, 0, 0);
->>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto release_framebuffer;
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (register_framebuffer(info) < 0) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 framebuffer_release(info);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb_dealloc_cmap(&info->cma=
-p);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto e_nodev;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp =3D (read_reg_le32(par->dc_regs, S=
-STATUS) & 0x0f00) >> 8;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb_info(info, "%s frame buffer; %uMB v=
-ram; chip version %u\n",
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info->fix.id, =
-info->fix.smem_len >> 20, tmp);
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> +
->>> +e_nodev:
->>> +=C2=A0=C2=A0=C2=A0 ret =3D -ENODEV;
->>
->> I think the return value isn't checked at all, so you could
->> simply return below "-ENODEV" for all cases (instead of "return ret").
->> Then you don't need the e_nodev label and can simplify the flow.
->
-> Can it be helpful to distinguish involved error codes better?
+This series adds the DPU side changes to support DSC 1.2 encoder. This
+was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
+The DSI and DP parts will be pushed later on top of this change.
+This seriel is rebase on [1], [2] and catalog fixes from rev-4 of [3].
 
-No.
+[1]: https://patchwork.freedesktop.org/series/116851/
+[2]: https://patchwork.freedesktop.org/series/116615/
+[3]: https://patchwork.freedesktop.org/series/112332/
 
-Helge
+Abhinav Kumar (2):
+  drm/msm/dpu: add DSC blocks to the catalog of MSM8998 and SC8180X
+  drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
+
+Kuogee Hsieh (8):
+  drm/msm/dpu: set DSC flush bit correctly at MDP CTL flush register
+  drm/msm/dpu: add DPU_PINGPONG_DSC feature bit for DPU < 7.0.0
+  drm/msm/dpu: Guard PINGPONG DSC ops behind DPU_PINGPONG_DSC bit
+  drm/msm/dpu: Introduce PINGPONG_NONE to disconnect DSC from PINGPONG
+  drm/msm/dpu: add support for DSC encoder v1.2 engine
+  drm/msm/dpu: always clear every individual pending flush mask
+  drm/msm/dpu: separate DSC flush update out of interface
+  drm/msm/dpu: Tear down DSC datapath on encoder cleanup
+
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |   7 +
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  11 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  14 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |   7 +
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  16 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  14 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  51 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  24 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  35 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  33 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  11 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 387 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   7 +-
+ 19 files changed, 644 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+
+-- 
+2.7.4
+
