@@ -1,63 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8244871127B
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:39:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B856571127D
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0D1410E6EB;
-	Thu, 25 May 2023 17:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6B0B10E6FF;
+	Thu, 25 May 2023 17:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E385410E6E0;
- Thu, 25 May 2023 17:39:12 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-5576c2791e6so341221eaf.1; 
- Thu, 25 May 2023 10:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685036351; x=1687628351;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q4D8c9QPyqmoOXQDae1retuejjcC/UV6PHLGp3fhhjw=;
- b=cWK/TeSz7AD4BvpRQaMJ2AbrRrrf6WKrpQ31ln3A9MDdvoh1Sg6u4XectXi9T9z/Tw
- AYcM/jmSiuWiW/Y7cSut9dkxmvSSnwynvrd/RkP+sd0XxRZnxS+m/nhwBpUj9pyCG75Q
- +/Fx/Dda9E8NlcWKvp5PBiYBt5GOwUYvJdn7h4zEzj4f6dKV0Ug8MSbiukNwXryGzGpE
- JjdQSNxOE4Ed6PLcSO6QunQ4XoQx8q+2pOwv8yPRAdNm8sBNmLYrcuRZ4IAkGRBgdh41
- aTGtHXos9bezeG3UDyLvDbzDWLyl0jfA4i5JLxhgz5/07y5O7XOsgLfctZEMvW8kbgfa
- JGtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685036351; x=1687628351;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q4D8c9QPyqmoOXQDae1retuejjcC/UV6PHLGp3fhhjw=;
- b=PZ62IJHr7IHqTIj1/SM0NTifHa9MGH192LilKw6qtRjenlG3MPbNLjQDLIF0OpzJfQ
- SYdkA/NuhdD4tLJ0FLxER1CqiUNIOhntajhXZYF0EzkPN7AJ66/VECK4yg05tk/dpK6c
- 9tXrKtgpnwce104VdbRoixiHzjOb6sGub+V27JcbB2VIPeyxg/yBKClkouiurze6+Xsc
- cW1E3sDYYPGGx0hBkIQXA9XTBkFUxsYtrwYPtNmvd2KeIxTO0qeyBnhBYmT/GxDhpuQb
- 6haWLchO7VK3QrfTlACmNQjjj25575A4+zQdnc4IQ6EPrhBJ8f0boiR98pzqkOQnjfdL
- ie1A==
-X-Gm-Message-State: AC+VfDx6wWqq7Enk0LmOWwf2g3iL0R7GsEz5CFILUS9rZ1/5+ZBfDOS3
- heF22VcjWjqIuZDHfS9UuUrPI6PBg0RiqmKaRlc=
-X-Google-Smtp-Source: ACHHUZ6vYd/72HrFnILIsPPxkV9WtXgdY0reZpTVE+28Qcv/gfC8YrS3WgW3xvAxoExi5idG0G+2nqlifIhKg3jLxd0=
-X-Received: by 2002:a4a:5782:0:b0:557:cd4e:c116 with SMTP id
- u124-20020a4a5782000000b00557cd4ec116mr65019ooa.1.1685036351462; Thu, 25 May
- 2023 10:39:11 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4596810E6FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 17:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1685036357; i=deller@gmx.de;
+ bh=dGkmEijQeyVfl8qKQ3M1K+a+v3j8D4UMsrjdQ/Ss0sI=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=UUDeXFx3knYs5BBPJ7mK/9QTOWMigsc9rLrbXHiPKKK4lZjFJy92EccdvOlBmY+Wq
+ /lslfThyMM1zDqzv1QKijxR3M1qe9rIHA8VeOsI5vEqkdAiQAZLwdw2ExG2BfSKJH7
+ MhenVry1VBe3m221xFPq33sXarDMtYUk+7WiZZ522hDHtF2PDReJfSINvsizXEkQNS
+ /h82rsQQfTMAobTUVIJoWfLocCOeueonp4njpvSHotrnxkXsrndvDKCp+mpKTbciK9
+ pTNVFSr4d+mgYyAUuQSEFnXsbCXMDryJTWeLl8tJd9jhddTWDw9lnxzouA+0JiusfA
+ ASiQse66rKqmw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.157.173]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MEFvj-1ps5vV3Y2v-00AGSS; Thu, 25
+ May 2023 19:39:16 +0200
+Message-ID: <446a2a2a-155b-1fe3-44f3-89033b80ad34@gmx.de>
+Date: Thu, 25 May 2023 19:39:15 +0200
 MIME-Version: 1.0
-References: <20230517-topic-a7xx_prep-v2-0-5b9daa2b2cf0@linaro.org>
- <20230517-topic-a7xx_prep-v2-2-5b9daa2b2cf0@linaro.org>
-In-Reply-To: <20230517-topic-a7xx_prep-v2-2-5b9daa2b2cf0@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 25 May 2023 10:38:59 -0700
-Message-ID: <CAF6AEGsm=o-KgOtm01FSvMOB_uj6VOaONNu5FUr4phUixYNG3g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] drm/msm/a6xx: Explain CP_PROTECT_CNTL writes in
- a6xx_set_cp_protect
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/4] fbdev: imsttfb: Fix error handling in init_imstt()
+Content-Language: en-US
+To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zheng Wang <zyytlz.wz@163.com>
+References: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
+ <97807a2d-ccf2-1fbf-06f7-085bb1bdf451@web.de>
+ <c551c670-7458-ed50-eb2f-5a2b7ba421a8@web.de>
+ <7e5643de-5d64-272e-cb36-bbe1e5c187ec@gmx.de>
+ <1d7228fb-f1f8-364c-aa29-5719a9da1fc6@web.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <1d7228fb-f1f8-364c-aa29-5719a9da1fc6@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TZV0p5eR83WJ51IM6S8Z0c5/DcY/szlYHtkBeYayMx+sEbjb6My
+ DV/Q6f9kG5eqKkBd9sUxpzbN8Z806wMD/0i3mQRazFtVl67vWNEc6TCWQBG+n6F2R3jSNin
+ stzbyz/uP15JcKuo6tAaXbEL6KAQ+vMGV54I6eRafI8+Tq+ozR0BX/Rn/aQfAMID6K/0UgK
+ ROMzh1r+oUXPU/Sqi+qqA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:nLsrtoL4Elw=;2eCOJwl1hLmLBmRzJDNX32Y+1pA
+ nJumhqLPU7a5u3RK7xtr0K2hWRICnR8tP1oMYJj746mNJw6et4VQsWPLTLFUCZt3BRE8vP7c5
+ +ESNogAvyRrZR15Y2BCoAlD6DTYzyCoyQSZ1bosqWJUcFNRYiK76XSWRaOt7vNwVHk3tr/IHb
+ xED8Aw/zs7SCQmPJpLRlbYpwyUIIX7ENEySVci7bV+tUAwgPJLyuNTQM6iV5owc9xBFgVnXwX
+ 2dpCQoI5WaFhS5fYeGW0FsyS3Qb/e2COrRcU8M0M/CguPH8+ZlQkrNBV+/10sItEXYItccRRR
+ D4Cw1aVVBN5pIvdnNvRA2FP/7hwn9g4kcUTM37kkI+WoZ9mR8yE3KgBXBrtPvlYkL7xlVCu96
+ RcWWn7FFxuiDeRnqBLvvIwINRhUcjdEcqr0roxg20v/oh22fvIQCnD4rWI5XcatE/RSdqagXW
+ wdC7K0Xfueiypc1xNrotZjPHyUuSMChfaHfpy9Ze/8QZiiXsgaDXs8U7KJHDjxE8vOosOAGS+
+ dXKPYbHbN1oRM77y0uy8LxJPsIMwmTmrSOxoschKt19IVg3N9HZsDNJKvJrFthv8TRZqzZ2Pr
+ lpbwpiyhPbQATVWJQWZonCF06M3HYfG8l3SRaC8o+v4O7LvXmpVMHBPQzUO40qXciCysQuMde
+ fluTUS3aEhQcSYT5lUVMmI9Ro9OJkPggEsdz6uaLZHgSKs4+5tLYeOxP7Q9U0zTK0RnxQxamz
+ qBPYFtP7+Ji0Cd/M7LeMlLtRp8ZFTpaW7K1vMozvHiamtX8sAv9yzWqko6H1c2jIaKeSr9GwJ
+ OsB8yP5+3hAQdG5bhUyuxEVG1r90TaudaHY07f0dNU9BMixje0JmgVXr9wu4KxefkN5y/CUgv
+ eGgInMNBhkI25Gd2NdQYrtRB+k6PLM6K45NMIah2bMm3ZJ7GMcd/bjUljtpmTZ/gGnXYU6D7U
+ EyL+tTRolD2Y/d++riwdRp3eS90=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +79,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: 1395428693sheep@gmail.com, hackerzheng666@gmail.com,
+ LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr, alex000young@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 19, 2023 at 6:29=E2=80=AFAM Konrad Dybcio <konrad.dybcio@linaro=
-.org> wrote:
+On 5/25/23 07:33, Markus Elfring wrote:
+>>> The return value was overlooked from a call of
+>>> the function =E2=80=9Cfb_alloc_cmap=E2=80=9D.
+>>>
+>>> * Thus use a corresponding error check.
+>>>
+>>> * Add two jump targets so that a bit of exception handling
+>>>  =C2=A0=C2=A0 can be better reused at the end of this function.
+> =E2=80=A6
+>>> +++ b/drivers/video/fbdev/imsttfb.c
+> =E2=80=A6
+>>> @@ -1452,17 +1452,25 @@ static int init_imstt(struct fb_info *info)
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FBINFO_HWACCEL_FILLRECT |
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FBINFO_HWACCEL_YPAN;
+>>>
+>>> -=C2=A0=C2=A0=C2=A0 fb_alloc_cmap(&info->cmap, 0, 0);
+>>> +=C2=A0=C2=A0=C2=A0 ret =3D fb_alloc_cmap(&info->cmap, 0, 0);
+>>> +=C2=A0=C2=A0=C2=A0 if (ret)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto release_framebuffer;
+>>>
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (register_framebuffer(info) < 0) {
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 framebuffer_release(info);
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb_dealloc_cmap(&info->cma=
+p);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto e_nodev;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tmp =3D (read_reg_le32(par->dc_regs, S=
+STATUS) & 0x0f00) >> 8;
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fb_info(info, "%s frame buffer; %uMB v=
+ram; chip version %u\n",
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info->fix.id, =
+info->fix.smem_len >> 20, tmp);
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> +
+>>> +e_nodev:
+>>> +=C2=A0=C2=A0=C2=A0 ret =3D -ENODEV;
+>>
+>> I think the return value isn't checked at all, so you could
+>> simply return below "-ENODEV" for all cases (instead of "return ret").
+>> Then you don't need the e_nodev label and can simplify the flow.
 >
-> We have the necessary information, so explain which bit does what.
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 9fb214f150dd..deed42675fe2 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -771,9 +771,10 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
->         }
->
->         /*
-> -        * Enable access protection to privileged registers, fault on an =
-access
-> -        * protect violation and select the last span to protect from the=
- start
-> -        * address all the way to the end of the register address space
-> +        * BIT(0) - Enable access protection to privileged registers
-> +        * BIT(1) - Enable fault on an access protect violation
-> +        * BIT(3) - Select the last span to protect from the start
-> +        *          address all the way to the end of the register addres=
-s space
+> Can it be helpful to distinguish involved error codes better?
 
-Even better would be to give these bitfields names in the xml, which
-also gets you more meaningful decoding.  We've been better about not
-open-coding a lot of stuff on the mesa side, but it is a bit easier
-with header generation integrated into the build..  but less
-open-coding on the kernel side is still a noble goal
+No.
 
-BR,
--R
-
->          */
->         gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, BIT(0) | BIT(1) | BIT(3)=
-);
->
->
-> --
-> 2.40.1
->
+Helge
