@@ -2,95 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D782711262
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8244871127B
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 19:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BE310E728;
-	Thu, 25 May 2023 17:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D1410E6EB;
+	Thu, 25 May 2023 17:39:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20607.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::607])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA7910E6E5;
- Thu, 25 May 2023 17:28:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eMEIDTwloEQZ+dCfRmnOUZJzLD/kjkNYJ7otTZ1Ytz4KTuSqz/5/QvvHZDVOarLPwP0NcEyU616Iaf83aH1EKNWqtskmEOAzzGm/HEK6YozUDVTFbJLsSQra/KPTRfvsqfoU4GosO73BlWlMX6ODeVaK9ksXUKhhiN6Vt+ON4HNe9xqTgWw0ZqPkzvEo0GdSsT1Kkl9jQdE2mNa7rTVmTSxbYGSgZlstQA7g50/6bHCkn192na5dnM3gcpTEnP0aWyUVjKypQecZVSc1RPOVUfy2fNe0wkU+Ntz+pp93di3yiEmXjzIhnTyqLsSOrTLzYd0fzy/Sg34px3g8Lut5KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VkYBfFgrZfJtoYKN77l3xQQMHilsRZC2Jn7eTYgVCwU=;
- b=FlTdTiv3/mrW280dUXolrQi3NI+cMFBW0S0xsjNQMvPa/f4cwcdvqlQc4HO5gw1HIEmPrmN2QHUkoXyA6ZjYmZw7awDfevt7nEyTrWNajHEH6cGnsOVJl5VHxNIcojo2+vEJn2kr8j8DOWZUzKfF9IQmJKHptXtwv98VTlzrP4CHIAqf4xFaBFCxnipYXFTEhsx8Vey5ZjAJ5NwmQMgMAScyBCXzTR1YliDN5qSAHhJ6TuvznRdJSuJsw2Ca2sqwpsL///qk+r8g04Ife3zDcy31+tlQMmFtsSygCVFwp/4V7ud3O8zCqb8XVJqpW4Ph7vvIvGwZfZoSjCYIidzDBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkYBfFgrZfJtoYKN77l3xQQMHilsRZC2Jn7eTYgVCwU=;
- b=liPvEqRh1Y+bJ4FxKO+NETjuwaG+1QW7A9CxM8yhTxbcYPCqaQZ6B4kTZSelltNmGMVdOnaFBt2SCU8ck/dV6He+jBT2Q8dFNBvD9Q4Oby/4T8sZE2iJYTyn6zvqT8rpLjqPdQPX3aKAEcJFhiLj9qg5GaOEdV1lLkh3TVx6obg=
-Received: from MW4PR04CA0219.namprd04.prod.outlook.com (2603:10b6:303:87::14)
- by PH7PR12MB6786.namprd12.prod.outlook.com (2603:10b6:510:1ac::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Thu, 25 May
- 2023 17:28:10 +0000
-Received: from CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:87:cafe::bc) by MW4PR04CA0219.outlook.office365.com
- (2603:10b6:303:87::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.17 via Frontend
- Transport; Thu, 25 May 2023 17:28:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT052.mail.protection.outlook.com (10.13.174.225) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6433.18 via Frontend Transport; Thu, 25 May 2023 17:28:09 +0000
-Received: from jonathan-KFD.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 25 May
- 2023 12:28:08 -0500
-From: Jonathan Kim <jonathan.kim@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <Felix.Kuehling@amd.com>
-Subject: [PATCH 33/33] drm/amdkfd: bump kfd ioctl minor version for debug api
- availability
-Date: Thu, 25 May 2023 13:27:45 -0400
-Message-ID: <20230525172745.702700-33-jonathan.kim@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525172745.702700-1-jonathan.kim@amd.com>
-References: <20230525172745.702700-1-jonathan.kim@amd.com>
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E385410E6E0;
+ Thu, 25 May 2023 17:39:12 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-5576c2791e6so341221eaf.1; 
+ Thu, 25 May 2023 10:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685036351; x=1687628351;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=q4D8c9QPyqmoOXQDae1retuejjcC/UV6PHLGp3fhhjw=;
+ b=cWK/TeSz7AD4BvpRQaMJ2AbrRrrf6WKrpQ31ln3A9MDdvoh1Sg6u4XectXi9T9z/Tw
+ AYcM/jmSiuWiW/Y7cSut9dkxmvSSnwynvrd/RkP+sd0XxRZnxS+m/nhwBpUj9pyCG75Q
+ +/Fx/Dda9E8NlcWKvp5PBiYBt5GOwUYvJdn7h4zEzj4f6dKV0Ug8MSbiukNwXryGzGpE
+ JjdQSNxOE4Ed6PLcSO6QunQ4XoQx8q+2pOwv8yPRAdNm8sBNmLYrcuRZ4IAkGRBgdh41
+ aTGtHXos9bezeG3UDyLvDbzDWLyl0jfA4i5JLxhgz5/07y5O7XOsgLfctZEMvW8kbgfa
+ JGtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685036351; x=1687628351;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=q4D8c9QPyqmoOXQDae1retuejjcC/UV6PHLGp3fhhjw=;
+ b=PZ62IJHr7IHqTIj1/SM0NTifHa9MGH192LilKw6qtRjenlG3MPbNLjQDLIF0OpzJfQ
+ SYdkA/NuhdD4tLJ0FLxER1CqiUNIOhntajhXZYF0EzkPN7AJ66/VECK4yg05tk/dpK6c
+ 9tXrKtgpnwce104VdbRoixiHzjOb6sGub+V27JcbB2VIPeyxg/yBKClkouiurze6+Xsc
+ cW1E3sDYYPGGx0hBkIQXA9XTBkFUxsYtrwYPtNmvd2KeIxTO0qeyBnhBYmT/GxDhpuQb
+ 6haWLchO7VK3QrfTlACmNQjjj25575A4+zQdnc4IQ6EPrhBJ8f0boiR98pzqkOQnjfdL
+ ie1A==
+X-Gm-Message-State: AC+VfDx6wWqq7Enk0LmOWwf2g3iL0R7GsEz5CFILUS9rZ1/5+ZBfDOS3
+ heF22VcjWjqIuZDHfS9UuUrPI6PBg0RiqmKaRlc=
+X-Google-Smtp-Source: ACHHUZ6vYd/72HrFnILIsPPxkV9WtXgdY0reZpTVE+28Qcv/gfC8YrS3WgW3xvAxoExi5idG0G+2nqlifIhKg3jLxd0=
+X-Received: by 2002:a4a:5782:0:b0:557:cd4e:c116 with SMTP id
+ u124-20020a4a5782000000b00557cd4ec116mr65019ooa.1.1685036351462; Thu, 25 May
+ 2023 10:39:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT052:EE_|PH7PR12MB6786:EE_
-X-MS-Office365-Filtering-Correlation-Id: eafa5ff2-c616-42f7-9a46-08db5d4568f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: psFriYXRkcS9hE91ZIRmSEWrGKeQ8bSgpGxVXpgVDzPC9ZTNfEa+sLhQPL6g8EWdN0M+f9Kz8mRTxwlXMTp7WeCFZXUOdLork/IvBXWLeAUYqarhJ/ebOei0WXw8nFi2pILzyvFtSr8YOPTCBO3ryxefQ5TDd3nhFkbaGYJJbC3Mk00pSPCtJgk19swec8fJ35lgwoiX4w3h65zmUeAOonO3nKEtInZFixGeKSMRhvdIOYzVsWVHKm7kfWxkMkNAAyTVTeUue2gGbWCXjUWbTCH3EoR2nJHOBN7xvBKdX5yXFbuyKJFibYtE37EbptZyrNwrNGEO0GrFJXSbZWVamc7ww60HnDLx1seI9rAFAC6Tw3sKU2A+uFQiAxtFWtH0XrKPMoJ4muO2z4UjDV5lPnSmXmzhGYatrXpynkRx7/WwucCCVlZzJXxj1S6vRUV9TlF7gV5Z27cTUMwA/h99bWWm5l+s//NGg4BbaEF67D2bVtnJje8VgYkZm19Oc5PcgMO/YlxRvY+24ZD2pjcO4VJFN5bmDcDXQC7kZKU5KPeetFulaGuYHuQ20pF2oiNkEo43PX5QHOvMmSUvAtw8QVy+CdQim6CCDFJLXdQbNKRm7cHj1hwtb84jLGe3846vKrfX6ENJD23KcVXcUN5n7wPPq7++J/iYJw8Qmei9szPxDeBcVEYvVoJmkUwxpphQJrnYaMOgJkzkBtJDVisjEi//aZpBSErxG++3NjrKTwLPBSov2zq+dDY98TqSxqoTzN9LK6myDAC04BABqFbkKQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(346002)(39860400002)(376002)(136003)(451199021)(40470700004)(36840700001)(46966006)(5660300002)(478600001)(110136005)(8936002)(41300700001)(7696005)(8676002)(44832011)(26005)(1076003)(450100002)(4326008)(6636002)(316002)(70586007)(70206006)(6666004)(2616005)(2906002)(16526019)(186003)(40460700003)(426003)(336012)(83380400001)(47076005)(36860700001)(356005)(82740400003)(81166007)(40480700001)(82310400005)(86362001)(36756003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2023 17:28:09.6572 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eafa5ff2-c616-42f7-9a46-08db5d4568f3
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT052.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6786
+References: <20230517-topic-a7xx_prep-v2-0-5b9daa2b2cf0@linaro.org>
+ <20230517-topic-a7xx_prep-v2-2-5b9daa2b2cf0@linaro.org>
+In-Reply-To: <20230517-topic-a7xx_prep-v2-2-5b9daa2b2cf0@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 25 May 2023 10:38:59 -0700
+Message-ID: <CAF6AEGsm=o-KgOtm01FSvMOB_uj6VOaONNu5FUr4phUixYNG3g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] drm/msm/a6xx: Explain CP_PROTECT_CNTL writes in
+ a6xx_set_cp_protect
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,48 +70,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jinhuieric.Huang@amd.com
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bump the minor version to declare debugging capability is now
-available.
+On Fri, May 19, 2023 at 6:29=E2=80=AFAM Konrad Dybcio <konrad.dybcio@linaro=
+.org> wrote:
+>
+> We have the necessary information, so explain which bit does what.
+>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_gpu.c
+> index 9fb214f150dd..deed42675fe2 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -771,9 +771,10 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+>         }
+>
+>         /*
+> -        * Enable access protection to privileged registers, fault on an =
+access
+> -        * protect violation and select the last span to protect from the=
+ start
+> -        * address all the way to the end of the register address space
+> +        * BIT(0) - Enable access protection to privileged registers
+> +        * BIT(1) - Enable fault on an access protect violation
+> +        * BIT(3) - Select the last span to protect from the start
+> +        *          address all the way to the end of the register addres=
+s space
 
-Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 1 -
- include/uapi/linux/kfd_ioctl.h           | 3 ++-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Even better would be to give these bitfields names in the xml, which
+also gets you more meaningful decoding.  We've been better about not
+open-coding a lot of stuff on the mesa side, but it is a bit easier
+with header generation integrated into the build..  but less
+open-coding on the kernel side is still a noble goal
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index f522325b409b..56f55da482e2 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -2984,7 +2984,6 @@ static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, v
- 		if (!r)
- 			target->exception_enable_mask = args->enable.exception_mask;
- 
--		pr_warn("Debug functions limited\n");
- 		break;
- 	case KFD_IOC_DBG_TRAP_DISABLE:
- 		r = kfd_dbg_trap_disable(target);
-diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-index dfe745ee427e..ea0d50955eac 100644
---- a/include/uapi/linux/kfd_ioctl.h
-+++ b/include/uapi/linux/kfd_ioctl.h
-@@ -38,9 +38,10 @@
-  * - 1.10 - Add SMI profiler event log
-  * - 1.11 - Add unified memory for ctx save/restore area
-  * - 1.12 - Add DMA buf export ioctl
-+ * - 1.13 - Add debugger API
-  */
- #define KFD_IOCTL_MAJOR_VERSION 1
--#define KFD_IOCTL_MINOR_VERSION 12
-+#define KFD_IOCTL_MINOR_VERSION 13
- 
- struct kfd_ioctl_get_version_args {
- 	__u32 major_version;	/* from KFD */
--- 
-2.25.1
+BR,
+-R
 
+>          */
+>         gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL, BIT(0) | BIT(1) | BIT(3)=
+);
+>
+>
+> --
+> 2.40.1
+>
