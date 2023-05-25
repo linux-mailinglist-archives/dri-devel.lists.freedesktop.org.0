@@ -1,72 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0F1710D53
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 15:37:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E7A710DBC
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 15:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AAC410E0B4;
-	Thu, 25 May 2023 13:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 513E810E166;
+	Thu, 25 May 2023 13:59:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49AEC10E0B4
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 13:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1685021838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fRqwtPfrYiaorS/XrNRhEIvrzW43ho6+lNQt/9/oc5k=;
- b=ZEoZ4+CB2RZ7Z7AaU2BYPvwWh1/4uIIujHgMh1CldacrXs0zmWAezveQs42r1yUkaa4dXy
- cvzFlaGUjUwKlrZ+KatlldulXnEUsiMfQ3hV8rMHoBAWyWBzDBT0hEcoHohzCdV3vs8+zG
- 8gSJQmB+5L0LVC6aLb6zQGQ7dvp/8I0=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-3pjDCFiqONOq_DklZkzgyQ-1; Thu, 25 May 2023 09:37:17 -0400
-X-MC-Unique: 3pjDCFiqONOq_DklZkzgyQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4f4d2efca9cso56398e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 06:37:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685021835; x=1687613835;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fRqwtPfrYiaorS/XrNRhEIvrzW43ho6+lNQt/9/oc5k=;
- b=MUz2dwLXw5IcosxgLshtYOy/tJbWAUkVQ9DP4qSVfQ+5sKztqN4D38rRbA0/TF/Ftm
- NfWO3eYj0KtCqS2H5L1DDxkz9QoT0tJwVf5kMWZlFYd5ecXNm0EnlzVej2Qgzqpxi8Mh
- 5QnW/FVAPyVzwGgVUzOcNAsNTvVAYoSltdMOLq3n2Z56DAq86hLt0JocTmJQqvTsctaB
- Iia0upCt68JIhbhulmM/oKUqxlv+J/NvF9cEU3r3bIM8Ns+cGQukWhwnUk/8PC/idFK1
- IjtJYkb1eNZ4cWsfj1u3nLzaqlOs6P/FTcGXQBPrXfH1/GZz+Y0VzqKwtOQa6POwBizZ
- TDIQ==
-X-Gm-Message-State: AC+VfDynqQ3HZZZMqg4+7bSX2PC2hzHDi9LTMgljj++1Mx1J99AEXzmY
- qhkH91xWbmDz826ewfTdHvoggNn8St8PC9qTSf7+13OynjSqgxa9LczXqDkt1bt377Rc0GT7d4n
- ABlyj7EmMEsTvubnxGkzaRqyDy6UUEJ2dC4YrnEMyCqak
-X-Received: by 2002:a2e:b62c:0:b0:2af:1ce9:41ac with SMTP id
- s12-20020a2eb62c000000b002af1ce941acmr7719932ljn.4.1685021835686; 
- Thu, 25 May 2023 06:37:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7dIPRGKlFZKGKsRGv4KkwfLcWRlZfcyZ49rIkMaOSqhsx98fsATCLwgvUr7nUMnVPV4asAYQkIYTjFLQqBeYU=
-X-Received: by 2002:a2e:b62c:0:b0:2af:1ce9:41ac with SMTP id
- s12-20020a2eb62c000000b002af1ce941acmr7719913ljn.4.1685021835395; Thu, 25 May
- 2023 06:37:15 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2072.outbound.protection.outlook.com [40.107.220.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9607210E163;
+ Thu, 25 May 2023 13:59:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fbgt+MnmGjeO18JF5ch7sEbBgvx5ZLkR0AA+u+EZbOI/eKxCESAoStRCa+MBvAr1NeNIM0XpA067Ao9kdW5MV2gocGljqzDhgyHQA8SFDM9mVz7Zw4pCu4rkoGOLI0BpOs9r23NTxsfSIitp8cj16zx9wDOGfd1HDG5eLDaceQhobs0HOWB8vLj7tfK5iq0E+O1dpO/a4SpY2DSTIxIz7ePStg91odsrwxrv5eaP8h3KBI7VHX5Bv8rWzEJy5WgEQPPxjEPONyWafiSXSODJp4xTGAJKeuwl+MM/kHpeDEdfl6WfmBQ+H0LoX4+uIVNgTR9px/n2ZEFLoBum40lewA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ty1Ye3UbO7rqfkWwwdbTy37yaN2YOGk6ot4/vJmN2BM=;
+ b=DHhp2WlBBwRVmwlVZD1nziNaRZeSC9rm8RBlrYJj+Ott3t1nKd8PCTHDkQfbHK88klAoh+/LQAPvC0YhzauZKZleV2RlTPAxqEmR45eooIyClgQvXZilfQvoAUNCxN9fTekPw8vPGDwzVFqlu/Dq8//MjXZ1YUTlEWMwBBvc5j41MOTp0xGUcZwi7Vab5lvg5Jt/dbJDfn+F4/+e5Xxay1QyOzg7Wsu/ss0wc7TzTGrFo255gl28rgdeToer9qJmgRpfUlTO0lPuqxTvH/UqfRFsDjr9ObagvGuLwmfJ4iVuYlQmu2+X5C87mD13KYWklLTNCv0vwrfhSWhE6eh9qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ty1Ye3UbO7rqfkWwwdbTy37yaN2YOGk6ot4/vJmN2BM=;
+ b=N69Qw6TZB53xOzIfVIq7KzGEEFLnLi+5EsSDFBZCAPPu3YWZHIIM+OhpfDlNhBj8pJ9f5DQkru5bc3hfArxSilqvCIvMYf+uiVMeOcN5myOI17pY2poM95HDGzAhh4sQlDgSyyOzLkEcIx9LraIwc7EeUjPUElmLMzHaZKSskgY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB7187.namprd12.prod.outlook.com (2603:10b6:510:203::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Thu, 25 May
+ 2023 13:59:45 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e566:9ca5:28e0:a42b]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e566:9ca5:28e0:a42b%4]) with mapi id 15.20.6411.028; Thu, 25 May 2023
+ 13:59:45 +0000
+Message-ID: <f7db4c6c-24df-b723-7710-490355082c24@amd.com>
+Date: Thu, 25 May 2023 15:59:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH] drm/ttm: Allow the driver to resolve a WW transaction
+ rollback
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230505141719.332109-1-thomas.hellstrom@linux.intel.com>
+ <f5ac5b8ceacda35f435e7e6945429c2168314aae.camel@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <f5ac5b8ceacda35f435e7e6945429c2168314aae.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0098.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9c::6) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <e8f93560-a2f6-8e9f-031a-88d333482a31@gmail.com>
- <585f36f8-431a-e929-0a04-ffb65f02e9df@gmail.com>
- <b34c7037-7f4b-e4bb-dac8-48bbbade327c@gmail.com>
-In-Reply-To: <b34c7037-7f4b-e4bb-dac8-48bbbade327c@gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 25 May 2023 15:37:03 +0200
-Message-ID: <CACO55tvXVD8ByKeg5iNP9rQy7Xcz5b3cfYHwy09f=OKtJ3_Byg@mail.gmail.com>
-Subject: Re: Fwd: absent both plymouth, and video= on linu lines, vtty[1-6]
- framebuffers produce vast raster right and bottom borders on the larger
- resolution of two displays
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000f0168405fc84b769"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB7187:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5582ff4-8d55-42ea-712f-08db5d284b7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2mxtYa1gMUV/ABUbfGGkqenxYANbQ5AnACmPEa9Nv39BgqBogrO5or98XHRXaYyUVXLL0IqwItFaJW63HTgVB1VXzrWfeHiPmtxr7RXpPzBCF0UwRGiqshpEOMkaX1eqk1gJlF+A6lr3P+GqtCw88c71jVi6taYuMk1przk1jgoOEZkbMt34RSim/TGbWSqNDveyqyvIf6iMr4pezcpDI+j9tYPjidejJS3kzw5464b0WFmul12Id8lJdTAlk6XhPJGSGREmdZKaE38NmB2GGbwgJTUZl5uf+hecfVGcg/9yXgWgNLK9scl0Cj0JkdwJlWJhnLNRKdi+L0fOJszkQ574gLmocc9q17IFArXLK0xMRzb6Eu/js8+abiVK6KGzXVcQQ1HwUig7ZuCsY92lcR04bjtgl0/qrDSi8KC5H3UEDXv0cN4CqMZ8XXGODIUEvnarGc6tVVnwgLLLNrGoZaZ/MilGmGEB0TYdHEB8oFb/guQrJYm/ir0ZvM32dLR71C1cDUTQ0A4NGKAoOF3kZvAAsPWiw1dRi8m4r52s3Vz44oknhV1lNuCugyNzU6EE48Nb9g3ikGurvAjZOr/mUVxVdKrFWJ2sozRzbYy3IuLsMm0QsUqaCEVJyTrcU6+jU6VZDuFNeap8j1IQk/unVg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(346002)(396003)(39860400002)(376002)(136003)(451199021)(2616005)(4326008)(5660300002)(31696002)(8936002)(8676002)(86362001)(38100700002)(2906002)(83380400001)(66574015)(316002)(41300700001)(36756003)(6666004)(478600001)(31686004)(6486002)(186003)(66556008)(66946007)(66476007)(6512007)(6506007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RytpT2pvTlRoaEZlc3cvU2lpZGRCSElDZUNMSGtTdDVIc0lYakdUV1I5SmEr?=
+ =?utf-8?B?SmRVeWJhUHh4SktSbmVxZEpMVDFtY0pSeE1EaUx1eTh2VE5oUXQvY1lPeVp6?=
+ =?utf-8?B?NlpOdHcyb1VuZG4yUE9rVXJWNnV6aC9iOWxMYWJvK1IrSjhlWHdrQWVlUCtO?=
+ =?utf-8?B?dlpjL0ZGeTRVNDZnMDFkQVQvekFTWXNUSldFdk5wL1ZTTlpORVZsdW9KNnJD?=
+ =?utf-8?B?MDZ6bEhMRGYrSnBlN3QrS1dLU3Bib0dCb29ZMU95djE4cktBOUhXT3laYnVk?=
+ =?utf-8?B?OXIwUnVNVFlTYURUeTIrbEpJUVBOZlV2dDZ4UldGT1NpK1FrcGd3QTY1cEdt?=
+ =?utf-8?B?RVlZeVpHc2RSaWczVmxQeFM5RFNUUTRaVG9CU0FMZy9Bam4zQXJzeHh4RlV1?=
+ =?utf-8?B?ZlRaMzRDOU1xVGx4SUgvbVJ5OFBLdG9YWlJiU0RLeFkxOVN6U2pLTmFYMWll?=
+ =?utf-8?B?b2dpUUpQQlY3MWNVRmRjVUFNL3k1UHdQc0hXdkdlOUlCVGQ1T0hYNmgvb1BH?=
+ =?utf-8?B?M0REb2tITm5ORnRLRllCa3VxNUUzYmRINVN6WGF2WmdLekNGZFpOVTV6V01n?=
+ =?utf-8?B?VEhYcVJJejlaSWhIWm9wSEo2K0lVNXNkUVB4U0t0NUNjelhtUXovOFJDOGln?=
+ =?utf-8?B?WkxUeURkT1JDN1pZSERuQlEvVktsMVVUZDZ1UXJGQnFBQzBGT3VNbWZRaURQ?=
+ =?utf-8?B?VTZOd3lSNzZqK0QxdklUcmJ6cUp2VVc2RG5FYVFVYm5XSlFkaVVsMlpWM3JW?=
+ =?utf-8?B?elp1RnpxYkpnbUlmcTFydXp4RGFhRDZSMFdhQnBUaHZEdFNKQXRmUmxpN2Vu?=
+ =?utf-8?B?d3RCMUZDaTNHT0tzM2NNRHNaS0ZNR2xWY0YwbWF1SUVVL2dFd0lXUXJtMTRm?=
+ =?utf-8?B?N2RqdlBxSzYvNUJYYnBMWTFLaW5mQlRGWG56RTFiZkFPcGs2Yjh2NXc4Q2ZF?=
+ =?utf-8?B?VHNSUi9CVGt5d1g2RVJ1SGlUcmhhNHk3dzFwSDBNNGVldnFFb013Y3o2Nnpn?=
+ =?utf-8?B?Yk9XZ2hRaW5xVUZKMlhOb0ZRcFZBNGVTKzQ3TzlUU2VVbnhjZEs0VmNFQU9j?=
+ =?utf-8?B?cklMeUhLZ1AzVi93SGluM0x1NElpekp1OXBEbWlEQnRpVFM4U0FaR1ZPSXda?=
+ =?utf-8?B?VzUxZ1NEVUw4eGdYbjNNdFdLcSt1enFxZ1BGcmp5ZU1DMFhOSlUvU0NTbE5s?=
+ =?utf-8?B?cFREVGw4Zk9oMUV1UGJ4T1VoaTRSN0JMOXM4a2JLMlJjTFluc3Nid085QVlW?=
+ =?utf-8?B?Q0NOMTJYeHdBUkh1aDB6aWlQeFEyZHp1ek1nRnMzNWJkWlZ1VzFjYVA5cy9H?=
+ =?utf-8?B?VTV2L3ZsQ0w2SlZMUkNhUVlMMlg0d3g4ejB0cXcxa0dvSmJ3WllRR1NxQ3lE?=
+ =?utf-8?B?MTFoS1I2SHlHMmVGVGdRNDBSMHYyZFJlUTYwSk5ZemxOcTJFdFZqb3VPdnlF?=
+ =?utf-8?B?RzhYeitrcDkvQVhra0MrMThEenMrQ0szWWhwMkdTR09lREpHTWVWUnU3aEZ0?=
+ =?utf-8?B?bG9tU2ptcEhYOE9qZ1J1ekFlOUVPakpQWTYwWHhBNmtWUmRRMDhjT3pQZHhm?=
+ =?utf-8?B?MEVXT0RwSmVRbERiRFJXVUw5L1ZMUmFIdGkrU2h2SjR2OUhFay8vZi9PQUcz?=
+ =?utf-8?B?TjVmejl6ckNuanl3TG9RZWJ4RWF0VHBvNWFKOGRiRnBqTGg0VTlReTZIMGhZ?=
+ =?utf-8?B?SzE2WUlsamV4WDZkNWU2b05tb2R3Qjk1N2dLeEtOWklWdXVtVjc4N2puRVdz?=
+ =?utf-8?B?YTFjVktqbGlhTjcySVZDaER4bFlYeEY3MnJMVXY5M2VLRlNoOUxvYUhTTkc5?=
+ =?utf-8?B?cXpkajBmL0ZtTUxaMTlGTkJiMVRwZ1o3dXp5ZC9VeWRlWUtKUDRuazhxWEcr?=
+ =?utf-8?B?SEZMNmVjNFgySmU2d1Yvck0yNUhaekdWdUQ4cXFVY1J2WGFwKy9Edmo1UGVw?=
+ =?utf-8?B?OUpyUm9ZN2pyTXVwT0xJb3R1NWpORmxWQjNFZmwrRzZDVkthYmRkYXV3aG1G?=
+ =?utf-8?B?UEh0STE5NlZSbTk1bTVBeXpTUFVyM0xIZXJ4VmYyK3hQUzNFT01XNldwdVQ0?=
+ =?utf-8?B?SFU4Z2tvVUsrLzJYakhrdjNHcmhMNTJ5RjdIZElGeDYvTHdjcEJlL25NdGEr?=
+ =?utf-8?B?K3RwVkIrMkVwMDJGOGgrZFI2djBaS0R1K2FWaVVZU01UNERiRE5HS1VsS1dQ?=
+ =?utf-8?Q?WAJ4pPFV4TJS3R9A0SMyuX5J13y5EnMQV0vJFKRxeRKv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5582ff4-8d55-42ea-712f-08db5d284b7a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2023 13:59:45.1723 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NqVt1UJy68Y0Z3tuZJLpDmf9IG2pDsFL5bjnmuVWC+kxB6o6Ob+02rn+1YpuhENF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7187
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,232 +128,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Framebuffer <linux-fbdev@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>,
- Antonino Daplas <adaplas@gmail.com>,
- Linux Nouveau/NVIDIA <nouveau@lists.freedesktop.org>,
- Helge Deller <deller@gmx.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Stable <stable@vger.kernel.org>, Felix Miata <mrmazda@earthlink.net>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000f0168405fc84b769
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Am 25.05.23 um 14:59 schrieb Thomas Hellström:
+> On Fri, 2023-05-05 at 16:17 +0200, Thomas Hellström wrote:
+>> Allow drivers to resolve a WW transaction rollback. This allows for
+>> 1) Putting a lower-priority transaction to sleep allowing another to
+>> succeed instead both fighting using trylocks.
+>> 2) Letting the driver know whether a received -ENOMEM is the result
+>> of
+>> competition with another WW transaction, which can be resolved using
+>> rollback and retry or a real -ENOMEM which should be propagated back
+>> to user-space as a failure.
+>>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Christian, Any objections?
 
-I wouldn't be surprised if 4a16dd9d18a0 is the culprit and that it was
-always broken like this with drm fbdev. Anyway, the logs don't indicate we
-are actually doing anything wrong, It's just that the tty handling is a
-little bonkers as always.
+General idea sounds like what I had in mind as well, but I've moved both 
+my office and household in the last two weeks and are now digging 
+through >800 unread mails/patches.
 
-On Thu, May 25, 2023 at 1:37=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
+Give me some days to catch up and I can take a detailed look.
 
-> On 5/25/23 17:55, Bagas Sanjaya wrote:
-> > On 5/25/23 17:52, Bagas Sanjaya wrote:
-> >> Hi,
-> >>
-> >> I notice a regression report on Bugzilla [1]. Quoting from it:
-> >>
-> >>> Original Summary:
-> >>> absent both plymouth, and video=3D on linu lines, vtty[1-6] framebuff=
-ers
-> produce vast raster right and bottom borders on the larger resolution of
-> two displays
-> >>>
-> >>> To reproduce:
-> >>> 1-connect two unequal native resolution displays to a Tesla or Firmi
-> GPU
-> >>> 2-don't have plymouth in use (I don't ever have it installed, so don'=
-t
-> know whether it impacts)
-> >>> 3-don't include e.g. video=3D1440x900@60 directive on Grub's linu lin=
-es
-> >>> 4-boot Tumbleweed or Fedora 38
-> >>> 5-switch to a vtty, e.g. Ctrl-Alt-F3
-> >>>
-> >>> Actual behavior:
-> >>> 1-Both displays utilize the resolution (same pixel grid) of the lower
-> resolution display
-> >>> 2-Lower resolution display behaves as expected (light text on black
-> background)
-> >>> 3-Higher resolution display uses same pixels as lower resolution
-> display, with light text on black background, leaving right side and bott=
-om
-> raster instead of black
-> >>>
-> >>> Expected behavior:
-> >>> 1-Both displays utilize the resolution (same pixel grid) of the lower
-> resolution display
-> >>> 2-Lower resolution display behaves as expected
-> >>> 3-Entire higher resolution display's background is black instead of
-> portions in raster
-> >>>
-> >>> Workaround: add e.g. video=3D1440x900@60 to Grub's linu lines, which
-> causes both displays to use the same nominal mode on the full display spa=
-ce.
-> >>>
-> >>> Typical other linu line options:
-> >>> noresume consoleblank=3D0 net.ifnames=3D0 ipv6.disable=3D1 preempt=3D=
-full
-> mitigations=3Dnone
-> >>>
-> >>> My Tesla has HDMI and DVI outputs, tested with 1920x1200 and 1680x105=
-0
-> displays.
-> >>> My Fermi has dual DisplayPort, tested with 2560x1440 and 1680x1050
-> displays.
-> >>> Occurs Tumbleweed with 6.3.2 and 6.2.12 kernel-default, and with
-> 6.2.15 on Fedora 38, and (partially with Tesla, right side only) with
-> 6.2.12 and 6.3.3 on Mageia 9.
-> >>> Does not occur with 6.1.12 kernel-default on NVidia, or with AMD
-> Caicos (Terascale2) GPU, or with Intel Eaglelake GPU.
-> >>> Tested only on legacy booting (no UEFI support).
-> >>> Others might describe what I call "raster" as multicolored snow.
-> >>
-> >> See bugzilla for the full thread and attached dmesg.
-> >>
-> >> Anyway, I'm adding it to regzbot:
-> >>
-> >> #regzbot introduced: v6.1.12..v6.2.12
-> >> #regzbot title: vast raster right and bottom borders on larger display
-> (two displays with inequal resolution) unless forcing resolution with
-> video=3D parameter
-> >>
-> >
-> > Oops, I forget to add bugzilla link:
-> >
-> > #regzbot introduced: v6.1.12..v6.2.12
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D217479
-> > #regzbot from: Felix Miata <mrmazda@earthlink.net>
-> >
->
-> Oops, again, I messed up the regzbot entry (reporter field still assigned
-> to me). Inconclusiving...
->
-> #regzbot inconclusive: Wrong reporter assigned (from: doesn't take effect=
-)
->
-> Please ignore this thread as I will send a new one with proper regzbot
-> commands.
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
->
+Christian.
 
---000000000000f0168405fc84b769
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:arial,sans-serif">I wouldn&#39;t be surprised if=C2=A04a16dd9d18a0=
- is the culprit and that it was always broken like this with drm fbdev. Any=
-way, the logs don&#39;t indicate we are actually doing anything wrong, It&#=
-39;s just that the tty handling is a little bonkers as always.</div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
- May 25, 2023 at 1:37=E2=80=AFPM Bagas Sanjaya &lt;<a href=3D"mailto:bagasd=
-otme@gmail.com">bagasdotme@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On 5/25/23 17:55, Bagas Sanjaya wrote:<=
-br>
-&gt; On 5/25/23 17:52, Bagas Sanjaya wrote:<br>
-&gt;&gt; Hi,<br>
-&gt;&gt;<br>
-&gt;&gt; I notice a regression report on Bugzilla [1]. Quoting from it:<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; Original Summary:<br>
-&gt;&gt;&gt; absent both plymouth, and video=3D on linu lines, vtty[1-6] fr=
-amebuffers produce vast raster right and bottom borders on the larger resol=
-ution of two displays<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; To reproduce:<br>
-&gt;&gt;&gt; 1-connect two unequal native resolution displays to a Tesla or=
- Firmi GPU<br>
-&gt;&gt;&gt; 2-don&#39;t have plymouth in use (I don&#39;t ever have it ins=
-talled, so don&#39;t know whether it impacts)<br>
-&gt;&gt;&gt; 3-don&#39;t include e.g. video=3D1440x900@60 directive on Grub=
-&#39;s linu lines<br>
-&gt;&gt;&gt; 4-boot Tumbleweed or Fedora 38<br>
-&gt;&gt;&gt; 5-switch to a vtty, e.g. Ctrl-Alt-F3<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Actual behavior:<br>
-&gt;&gt;&gt; 1-Both displays utilize the resolution (same pixel grid) of th=
-e lower resolution display<br>
-&gt;&gt;&gt; 2-Lower resolution display behaves as expected (light text on =
-black background)<br>
-&gt;&gt;&gt; 3-Higher resolution display uses same pixels as lower resoluti=
-on display, with light text on black background, leaving right side and bot=
-tom raster instead of black<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Expected behavior:<br>
-&gt;&gt;&gt; 1-Both displays utilize the resolution (same pixel grid) of th=
-e lower resolution display<br>
-&gt;&gt;&gt; 2-Lower resolution display behaves as expected<br>
-&gt;&gt;&gt; 3-Entire higher resolution display&#39;s background is black i=
-nstead of portions in raster<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Workaround: add e.g. video=3D1440x900@60 to Grub&#39;s linu li=
-nes, which causes both displays to use the same nominal mode on the full di=
-splay space.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Typical other linu line options:<br>
-&gt;&gt;&gt; noresume consoleblank=3D0 net.ifnames=3D0 ipv6.disable=3D1 pre=
-empt=3Dfull mitigations=3Dnone<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; My Tesla has HDMI and DVI outputs, tested with 1920x1200 and 1=
-680x1050 displays.<br>
-&gt;&gt;&gt; My Fermi has dual DisplayPort, tested with 2560x1440 and 1680x=
-1050 displays.<br>
-&gt;&gt;&gt; Occurs Tumbleweed with 6.3.2 and 6.2.12 kernel-default, and wi=
-th 6.2.15 on Fedora 38, and (partially with Tesla, right side only) with 6.=
-2.12 and 6.3.3 on Mageia 9.<br>
-&gt;&gt;&gt; Does not occur with 6.1.12 kernel-default on NVidia, or with A=
-MD Caicos (Terascale2) GPU, or with Intel Eaglelake GPU.<br>
-&gt;&gt;&gt; Tested only on legacy booting (no UEFI support).<br>
-&gt;&gt;&gt; Others might describe what I call &quot;raster&quot; as multic=
-olored snow.<br>
-&gt;&gt;<br>
-&gt;&gt; See bugzilla for the full thread and attached dmesg.<br>
-&gt;&gt;<br>
-&gt;&gt; Anyway, I&#39;m adding it to regzbot:<br>
-&gt;&gt;<br>
-&gt;&gt; #regzbot introduced: v6.1.12..v6.2.12<br>
-&gt;&gt; #regzbot title: vast raster right and bottom borders on larger dis=
-play (two displays with inequal resolution) unless forcing resolution with =
-video=3D parameter<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; Oops, I forget to add bugzilla link:<br>
-&gt; <br>
-&gt; #regzbot introduced: v6.1.12..v6.2.12 <a href=3D"https://bugzilla.kern=
-el.org/show_bug.cgi?id=3D217479" rel=3D"noreferrer" target=3D"_blank">https=
-://bugzilla.kernel.org/show_bug.cgi?id=3D217479</a><br>
-&gt; #regzbot from: Felix Miata &lt;<a href=3D"mailto:mrmazda@earthlink.net=
-" target=3D"_blank">mrmazda@earthlink.net</a>&gt;<br>
-&gt; <br>
-<br>
-Oops, again, I messed up the regzbot entry (reporter field still assigned<b=
-r>
-to me). Inconclusiving...<br>
-<br>
-#regzbot inconclusive: Wrong reporter assigned (from: doesn&#39;t take effe=
-ct)<br>
-<br>
-Please ignore this thread as I will send a new one with proper regzbot<br>
-commands.<br>
-<br>
-Thanks.<br>
-<br>
--- <br>
-An old man doll... just what I always wanted! - Clara<br>
-<br>
-</blockquote></div></div>
-
---000000000000f0168405fc84b769--
+>
+> /Thomas
+>
+>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo.c | 17 +++++++++++++++--
+>>   include/drm/ttm/ttm_bo.h     |  2 ++
+>>   2 files changed, 17 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+>> b/drivers/gpu/drm/ttm/ttm_bo.c
+>> index bd5dae4d1624..c3ccbea2be3e 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>> @@ -561,6 +561,10 @@ static int ttm_mem_evict_wait_busy(struct
+>> ttm_buffer_object *busy_bo,
+>>          if (!busy_bo || !ticket)
+>>                  return -EBUSY;
+>>   
+>> +       /* We want to resolve contention before trying to lock again.
+>> */
+>> +       if (ctx->propagate_edeadlk && ctx->contended_bo)
+>> +               return  -EDEADLK;
+>> +
+>>          if (ctx->interruptible)
+>>                  r = dma_resv_lock_interruptible(busy_bo->base.resv,
+>>                                                            ticket);
+>> @@ -575,7 +579,15 @@ static int ttm_mem_evict_wait_busy(struct
+>> ttm_buffer_object *busy_bo,
+>>          if (!r)
+>>                  dma_resv_unlock(busy_bo->base.resv);
+>>   
+>> -       return r == -EDEADLK ? -EBUSY : r;
+>> +       if (r == -EDEADLK) {
+>> +               if (ctx->propagate_edeadlk) {
+>> +                       ttm_bo_get(busy_bo);
+>> +                       ctx->contended_bo = busy_bo;
+>> +               }
+>> +               r = -EBUSY;
+>> +       }
+>> +
+>> +       return r;
+>>   }
+>>   
+>>   int ttm_mem_evict_first(struct ttm_device *bdev,
+>> @@ -816,7 +828,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object
+>> *bo,
+>>                          goto error;
+>>          }
+>>   
+>> -       ret = -ENOMEM;
+>> +       ret = (ctx->propagate_edeadlk && ctx->contended_bo) ? -
+>> EDEADLK : -ENOMEM;
+>>          if (!type_found) {
+>>                  pr_err(TTM_PFX "No compatible memory type found\n");
+>>                  ret = -EINVAL;
+>> @@ -913,6 +925,7 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+>>                  if (ret)
+>>                          return ret;
+>>          }
+>> +
+>>          return 0;
+>>   }
+>>   EXPORT_SYMBOL(ttm_bo_validate);
+>> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+>> index 8b113c384236..d8e35a794ce5 100644
+>> --- a/include/drm/ttm/ttm_bo.h
+>> +++ b/include/drm/ttm/ttm_bo.h
+>> @@ -181,8 +181,10 @@ struct ttm_operation_ctx {
+>>          bool gfp_retry_mayfail;
+>>          bool allow_res_evict;
+>>          bool force_alloc;
+>> +       bool propagate_edeadlk;
+>>          struct dma_resv *resv;
+>>          uint64_t bytes_moved;
+>> +       struct ttm_buffer_object *contended_bo;
+>>   };
+>>   
+>>   /**
 
