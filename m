@@ -2,97 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E31171172F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 21:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7107D711757
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 21:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35FE010E743;
-	Thu, 25 May 2023 19:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B20D510E044;
+	Thu, 25 May 2023 19:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2360010E19A;
- Thu, 25 May 2023 19:18:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F9sE/nPAZLcaqSmKLiHUB1lBMTzKIw+/2vufHJxGUZ/69Tiilw2LoyajURrzIWspby3gGE0XpuZu7p4+/Z3m5yMaq0Ob7IH5qiCUGhPh1Fy7tTB9W/1k3xoLN96e/dm8aBi1tkdlo7YOcCKauV8lyH1kwitX3hDTQZN/Y3nVi23YtO+357XoqC5xa/JOORnMw3PZs+auajMJlX+abtjQWGz6dOYGenlr/9ERsgXWvPeSHJErcSHaKCxP7tcGzLe/bbwpy6MZibhr//xTLREvwZXqy9bINRu4OYG9LwU8cFR4nR7mNAnPEMeaUz1NNdJWBtKE4cmx7QurzGFbK+OgGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A3IFFyKLIqVskxFTKGcJsEhFMdN0DeWDJvmyy/K5RKI=;
- b=Xiy+8UCmfqaUKKQSbqlgEDG7BO5LuHmaoetjzuj/PlzdbcSqaGRpRqxQdXgoHh9NOoFmDKAQHRyGTmWZ8HBsNPlDdkFChNMVIzGOJFvoErxCcWA1QlysfTDYNhefVM2EDYU5HpniFTZwe/ofe/PzS3ZXWjv/x4zc8lGvKfKyJ5moFCX3hBwumV7xBS+vzrFu7m9IVp8lPHanw78C/FXoPG0Fe/8erlJTSU3B6cqdPg9rTtlOWaHz17uzCEe3aMwD+0op7WC58veCYiY/PmINK7Bt8pPn7GpfMDeoQh3C4kRNE+nNIkQ10ZL0d93QdPJoVnT67/hEBxo9zxE2iqoMmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A3IFFyKLIqVskxFTKGcJsEhFMdN0DeWDJvmyy/K5RKI=;
- b=s4v+GEMBS44o4jzhMDMuNe02ybF6AQBgZ5yTJ98hVafjF8u/YErnf9tBovdPGUoXmoTgd8yoVWhSKOc8Hd1LSq0Q5v2EIrfP7TJ9Cdstvy5womwWDVW/OxjXnzns/MSlXdL4LtxKoFwaGPc2MA5dH+1A+tIUVq+i27PWkv9Dnek=
-Received: from BYAPR05CA0088.namprd05.prod.outlook.com (2603:10b6:a03:e0::29)
- by DM4PR12MB6661.namprd12.prod.outlook.com (2603:10b6:8:bb::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.16; Thu, 25 May
- 2023 19:18:49 +0000
-Received: from DM6NAM11FT092.eop-nam11.prod.protection.outlook.com
- (2603:10b6:a03:e0:cafe::e4) by BYAPR05CA0088.outlook.office365.com
- (2603:10b6:a03:e0::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15 via Frontend
- Transport; Thu, 25 May 2023 19:18:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT092.mail.protection.outlook.com (10.13.173.44) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6433.17 via Frontend Transport; Thu, 25 May 2023 19:18:48 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 25 May
- 2023 14:18:48 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 25 May
- 2023 12:18:47 -0700
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Thu, 25 May 2023 14:18:46 -0500
-From: Harry Wentland <harry.wentland@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v4 13/13] drm/amd/display: Refactor avi_info_frame colorimetry
- determination
-Date: Thu, 25 May 2023 15:18:09 -0400
-Message-ID: <20230525191809.3524-14-harry.wentland@amd.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230525191809.3524-1-harry.wentland@amd.com>
-References: <20230525191809.3524-1-harry.wentland@amd.com>
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F02CE10E044
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 19:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1685042644; i=markus.elfring@web.de;
+ bh=Sn9i0CKzMIwK5omSWmKW1nZGsT/UCNPDDqeDEaPN9eo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=G8O91UGoVsytO45XYiWggJ6kYz08HAB0oErKvEajW8ac1EwA8FxsH2YOchV1KAxFy
+ jvi0/llhIQYKOsfIEXvaQ+3hEskK1L9CEoqOXsXMHnJh975UbJjx351NSQL1HZIJIz
+ l8iGMY6+YXKQXhoJGHugVqxo0yYdPYZ8YqhkiiEqNnNM8v4Q2WxdSYxJz5PEcDwt+x
+ NFwxVUB9i5G0sLfvNsIGLJN0ZWX5zg7QkFY2orGxhJ80FYQpw+HO9+cKMZz89KZNNC
+ j/y7vrv1SxIWY0qDZa2j5sppDkkpGqAFthMHVywTvM5z5I/HF8dKZz+v4oVgEJDrPh
+ k6Xd9TnRgxGJA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.83]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MD5jv-1pt9lN0Hir-0096dF; Thu, 25
+ May 2023 21:24:04 +0200
+Message-ID: <d0f5e617-4319-37e9-9289-9f486d1061e0@web.de>
+Date: Thu, 25 May 2023 21:23:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT092:EE_|DM4PR12MB6661:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd7e6c08-fc2a-4f39-099a-08db5d54ddef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fu23e92ERSgXTkVXUK6NgsguUsE7+BHBaw7yYqQAwCpJHjCcAwqRgB19sHWzpeDO+XvktQx1hHpHQ0ZF3ighKQy5bn5o2rajFx3sM+0swMYFknKJ4ArIjFw7xW4j4OyMiws5G03Tqh8ijNSvtBmZ8PK2X5PMgGGxYO32DJRAjL7sDPoXTtBnPTV9MbNnU0pxPUt6EsYIXzEAa8el51FA1yNitRoIaigI2BKU6BfqToPw4hTaPx83pBwtCHZPAo6uBU1SpAdz/gFeAfIDRebbd/X4rZpHKWgWUYXLYdxGXCacQwfpl3X36xYI0Vl06LrpqhXQIMmvcmDwDcfsLcPNJrexNN4SGm4HF9/vJgE95ujYo9Kk/legJGzFXW2peBOxtXT/dAz8wlcIhf3F7rTKNZM/1gYZqrnjcMbPEjSYZsxOqcnGO4XxlN4jLXIJntM1uX6PXlEmtmjBVTYUo0wexEO86N3T75LAMpbnYqTjHvhaMLPUAPGf13X0IUxujSfqMdsld5gWkPa13d9u/kKzmoP5h0yXFF10BXQ2WT45omuRmSAJbmgSTdVsTY8TYBlMYGnoODPjjw/UNXqlFWPRaUCJKA04s7soWsQdNtlSPXmBDHXAUFbeb8dvuYFixlTX1MLFEEX4bOpWUeOwzsDOKqmm3N5KQpkew/0PDsfdCW+nlYVPYdec6Jh+MK8eAzHThbLIIMNTiY3Y/QtePR3zcvUXYxA43lIObcBacvwA9TFDkVCSbY3a0ZGFcymP3xTkuMm62jxGDrSPoamJBGr+rg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(39860400002)(396003)(136003)(376002)(451199021)(40470700004)(46966006)(36840700001)(36756003)(86362001)(54906003)(316002)(110136005)(4326008)(70586007)(70206006)(478600001)(6666004)(5660300002)(40480700001)(82310400005)(8936002)(8676002)(41300700001)(2906002)(44832011)(81166007)(82740400003)(356005)(2616005)(336012)(426003)(26005)(1076003)(186003)(36860700001)(47076005)(83380400001)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2023 19:18:48.4342 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd7e6c08-fc2a-4f39-099a-08db5d54ddef
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT092.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6661
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [1/4] fbdev: imsttfb: Fix error handling in init_imstt()
+To: Helge Deller <deller@gmx.de>, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zheng Wang <zyytlz.wz@163.com>
+References: <069f2f78-01f3-9476-d860-2b695c122649@gmx.de>
+ <97807a2d-ccf2-1fbf-06f7-085bb1bdf451@web.de>
+ <c551c670-7458-ed50-eb2f-5a2b7ba421a8@web.de>
+ <7e5643de-5d64-272e-cb36-bbe1e5c187ec@gmx.de>
+ <1d7228fb-f1f8-364c-aa29-5719a9da1fc6@web.de>
+ <446a2a2a-155b-1fe3-44f3-89033b80ad34@gmx.de>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <446a2a2a-155b-1fe3-44f3-89033b80ad34@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fH0wWYnhiEpH+9EtpG5472RkEcj8eQzAMlS7hzgXGfpOR57L+91
+ Xtv5UitowKkbFuFBdi62VwfC7FrvmuDUF5rQZ9VNu1DCEYW1LZlHY6g4tcNWz6b3rxGKM5V
+ ZBZhH2ukzaRCEmFAd0qRW5TZfK73HfrPdlUkKqc9bITfOqQe9hadTYT1A18M68XV/AZa37n
+ WfYdIDVgdpVlOzKVGORtA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Q0UyGoA0bns=;ZHnkJSjR88eCL+tadRmu/H6emKG
+ NQYPpsj5v4PCj42w9BCRrgL/XVHx6paT1fsUxhLJ84+JJ4g0OBhrVLguCS2sirzJvHZklZtTz
+ WUa7qCj4xCoWLMrfxNZOHmoS2O/k5LkZxeVNaHzeq8EBDwtzlzScZgDT7ZIzpJHkFm/nt7NxL
+ ubNivBY83sSEp/57YsnBFW2zCc+fMKf+7HrS9SFPysQGcn49mMHn75i0ZOiI5tcVlJ6nkcP0I
+ 0+tuse2C/3n+pu930efKu6d89MLrxnZh6UzFrdJ26W4Rk46awXaNxqEUgKOHVKCtmRzEoMaJv
+ H7ThBsjr2Fc2lkBJLE/Ktk6evsF8AQOWEn4y7V48j0CjWcD2D4ujHKzVlj+i0JvpiLjJY7XnF
+ D8DMJKU7ERin6OuQGS8Av/9sHBRKKYEh/kMEP7jvdMLIAQNSmSejFM1qbnbwGPNQLGbocJ0Gc
+ HKULwcf00VG8SzXS04zmKGRSHRWQqVht6h41t/sogKgpsoR2ZzRt3zSrX9JUbs82wIVeeE6wV
+ 9Xx8KVWYI3SiLkGjT876q6WWme0akng5camWR16XmC5YobAzVsvNKsh58ESuUyy5swO3sAs82
+ N+3oYr/agt/574dQDxQ0FvQYyCY0Dqc/mqfayFrbAIpsRtRZYz7M143XivvBU++1y/gZ/rvZ+
+ MlRya0MzulvuvHEzFIulhZ3TmBaEYRpR4EX5qqYngv5mPfT1Z/2Wovp7ArpekUt+zWLy7Bup9
+ FyWz2Gb3dcgK5MX19dXbXZnt5Nq7wCD3IuGsyBRug81ZnS7oyy9Wnt1kDEP1veT/ARyw53N+O
+ rdmyqd+9HUymtaiGgnYqj/wt3u5/kTHWfv8aYjYcdGbadnlTLlY0j7I9HH+enEPy2l42nF2I+
+ RDhqHUzFZPNhjEIQQsdJvaTTno0KgRDD1Ua7cCWow/vobEKYHiNLn8Mkgu+jEJZypJRXat9kQ
+ Sa5t5g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,77 +80,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, Melissa Wen <mwen@igalia.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, Vitaly.Prosyak@amd.com,
- Joshua Ashton <joshua@froggi.es>
+Cc: 1395428693sheep@gmail.com, hackerzheng666@gmail.com,
+ LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr, alex000young@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
+>> Can it be helpful to distinguish involved error codes better?
+>
+> No.
 
-Replace the messy two if-else chains here that were
-on the same value with a switch on the enum.
+I find such a feedback surprising.
 
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Vitaly.Prosyak@amd.com
-Cc: Joshua Ashton <joshua@froggi.es>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
----
- .../gpu/drm/amd/display/dc/core/dc_resource.c | 28 +++++++++++--------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+May the error code be preserved from a failed call of the function =E2=80=
+=9Cfb_alloc_cmap=E2=80=9D?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 7e1e5532f88f..ac3062abec51 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -3015,23 +3015,29 @@ static void set_avi_info_frame(
- 	hdmi_info.bits.S0_S1 = scan_type;
- 
- 	/* C0, C1 : Colorimetry */
--	if (color_space == COLOR_SPACE_YCBCR709 ||
--			color_space == COLOR_SPACE_YCBCR709_LIMITED)
-+	switch (color_space) {
-+	case COLOR_SPACE_YCBCR709:
-+	case COLOR_SPACE_YCBCR709_LIMITED:
- 		hdmi_info.bits.C0_C1 = COLORIMETRY_ITU709;
--	else if (color_space == COLOR_SPACE_YCBCR601 ||
--			color_space == COLOR_SPACE_YCBCR601_LIMITED)
-+		break;
-+	case COLOR_SPACE_YCBCR601:
-+	case COLOR_SPACE_YCBCR601_LIMITED:
- 		hdmi_info.bits.C0_C1 = COLORIMETRY_ITU601;
--	else {
--		hdmi_info.bits.C0_C1 = COLORIMETRY_NO_DATA;
--	}
--	if (color_space == COLOR_SPACE_2020_RGB_FULLRANGE ||
--			color_space == COLOR_SPACE_2020_RGB_LIMITEDRANGE ||
--			color_space == COLOR_SPACE_2020_YCBCR) {
-+		break;
-+	case COLOR_SPACE_2020_RGB_FULLRANGE:
-+	case COLOR_SPACE_2020_RGB_LIMITEDRANGE:
-+	case COLOR_SPACE_2020_YCBCR:
- 		hdmi_info.bits.EC0_EC2 = COLORIMETRYEX_BT2020RGBYCBCR;
- 		hdmi_info.bits.C0_C1   = COLORIMETRY_EXTENDED;
--	} else if (color_space == COLOR_SPACE_ADOBERGB) {
-+		break;
-+	case COLOR_SPACE_ADOBERGB:
- 		hdmi_info.bits.EC0_EC2 = COLORIMETRYEX_ADOBERGB;
- 		hdmi_info.bits.C0_C1   = COLORIMETRY_EXTENDED;
-+		break;
-+	case COLOR_SPACE_SRGB:
-+	default:
-+		hdmi_info.bits.C0_C1 = COLORIMETRY_NO_DATA;
-+		break;
- 	}
- 
- 	if (pixel_encoding && color_space == COLOR_SPACE_2020_YCBCR &&
--- 
-2.40.1
-
+Regards,
+Markus
