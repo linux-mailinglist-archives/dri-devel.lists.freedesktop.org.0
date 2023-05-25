@@ -1,53 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB4E71043F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 06:51:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3B6710521
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 07:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5801A10E08E;
-	Thu, 25 May 2023 04:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B641A10E945;
+	Thu, 25 May 2023 05:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A36410E08E;
- Thu, 25 May 2023 04:51:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7CBAA60E95;
- Thu, 25 May 2023 04:51:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3087C433A0;
- Thu, 25 May 2023 04:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1684990266;
- bh=NC5k/dortCaTYYIlrCvaSs13p3N1PuUUuNBljB2ZWuU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s3jr1i2YaPyOPc2Qk20qUMPVA9udUiXDduKblAQYXeFn+eRNVqM5fy7apWUpUYMZW
- UpKSghHkTVFt65vudox8c7fj3KYsecDYpSqkOni5JK6ifYIWH3GkS9XTu8iicdy3Dj
- c1GKr+Ee3XyiXja146geg34iDl4eVsyvTt2wWs+koIu77qWxnxlm0XJ6XTBQc0OtcK
- bSfLbLbwMa+s8xLuhVlGEeu5A+MCil2GnZ9N0BdmaeksnB0G2FNaO7UJesf4OHV7++
- ZMlU7tEP0KY/II650aWrAMRXQkBij5jpjY4Adl6LzYXWWIoSzjc3STXdclGNfCyRMK
- 3/swa8B26rAvw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
- Rob Clark <robdclark@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH] arm64: dts: qcom: enable dual ("bonded") DSI mode for
- DB845c
-Date: Wed, 24 May 2023 21:53:46 -0700
-Message-Id: <168499048179.3998961.8259109964158005747.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230504160430.4014206-1-dmitry.baryshkov@linaro.org>
-References: <20230504160430.4014206-1-dmitry.baryshkov@linaro.org>
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4334210E945
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 05:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1684990983; x=1685595783; i=markus.elfring@web.de;
+ bh=44jzQKbb7MjR3uCsx2BXVqGpBTh6Yhma67xUVGqxG2c=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=q5Y9zulOj7dtV3EZ+zF/41XY/Gnk7cg2CVVYNVRMqCLf4+r/H7wWDmBIwFLfjJbBoMnp7rY
+ oKcD1IIegJkxjo8kOQRJPubpap5F7KR8vrPqZxuaEVWaaGpmTFw8K7xb8EVrLdAYwuxxhXzBi
+ XmJ8p6nemc6hQP9XLcL6Romq87xFBucpjdb57TC99KEZdvC0AbN73/gQLXZSLF0uMggwJoUXL
+ D56AoUo3qSOFg92ggBCIM3HiWrLwxaIfry9QqSTjIpDX7bGhcY8AfdAzdY+RUR/WmQ3X6iWAA
+ rojNFJE09O9g/wTjzNa0Fx61/uE7m1FS7w7zaDEuA+5Mj5Y2Rp5g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.83]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MQxs3-1pnQI43NXL-00O1P4; Thu, 25
+ May 2023 07:03:03 +0200
+Message-ID: <be1a89af-1aea-ca3c-6101-a0f61f4dc245@web.de>
+Date: Thu, 25 May 2023 07:02:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/2] fbdev: Move two variable assignments in
+ fb_alloc_cmap_gfp()
+To: Helge Deller <deller@gmx.de>, kernel-janitors@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <8f0bcb48-7677-340d-282e-27f6fe063c6b@web.de>
+ <341b4af7-5c6c-cbd2-6fe3-c0e4e58f3c7d@web.de>
+ <35bb7db7-bf14-20ba-3bff-80d05c42e28b@gmx.de>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <35bb7db7-bf14-20ba-3bff-80d05c42e28b@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:iHotWRiwCKBzkAh507XuLUh2eyxN0hk8k+e73gOLfODGFt1C9h2
+ vre4kFb/CS7BHA7MPJnEcq5nNwRQ3lImOgVF/nrmwEr1/DEY+DqZyZykcoYlai7K2b4+XO5
+ tJdyNMNIXkgJkOgafecqVLy9O6t1JMd3ZN1hqwwvoTzMKeaL+6FN+H6kYbVxQbCvmwyDWii
+ sOTZkUJ46HbYdyxco0WnQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xH9KWPuDi0E=;pIYqpnRj2kFfLz61TRFfuSY0Jx+
+ s8ismkxD9WSU5ZJaR+uU+rZ5EQn5dukr/AKtrd5fPxv/BxuqfcnepGU979Hd/PSTAhOXbIoo1
+ Ujh88b8VbnGHkDyOZgFXxn2+OMv1P7aHkPtITR102W0iuZjnRt1NayIbKNTeMVbWWmtFjcdFx
+ q7xlrz6WewkuXV2ciS7W3XcRzxMXNei99Q+TnxfM5GzWQI9z79x89YWF3FpFKcsL3VOXeLCgd
+ 2wzaLNPneBWfttI8ghmEAsKJjFLbkgxdB0rTs9zSKQyQMjs+EUUYrR/7v5puZoSp8LJayEPr8
+ ZEyp+Sl6YOlOubNiLtUg5dA+NtrD/qbq6RCIgC8HsYRNwr/c5u24WoxOPO+Iphy3yBpZSXyfk
+ NQMlnw/gWD1T8LPLY0ItUUh2fcIOqK7DTYrjmbP9VPnBMrMWmB2CrLu261xMHCBkpvg24pMAO
+ ZdRyk8kstrbPAO3Fi69Ljr/4zs7s7qYPzoo9Dmuqki+NikfntdZXCIcCMBJR/YuUv3KK2see4
+ PE1XnhxzIXfvhF9OkLwwSf5+Hol85yAU7IJRMCmqMCBNb0cREk7SRT1q2q6ac/Mn48ceKrfza
+ 0h2V5yELnbLS+W3ycb+rLmptkjsog44HKDnBkIye09cdcaRCrvnJDZJvOn2D1KM2emzcWXFwU
+ OYYyYggS2mxnPS6HKCZ2DuREO3wLxg6WUvZzzaFk7ReKbem26HgbnaWCu1FVLtorr9a167Uki
+ rBQnBXf8s2At1F1iUfACLCbofhUElllqP0AfzJhru4+UfxCNlX6/NODObGBAwEp3+WuXUrSJ1
+ NSbyCk5WnBEyyYiSnvue7YeEFeuzmKhGUGw2m0UO6aa/1BcYiyMNgrjt3PDZGLc1Ay7+vZoPm
+ ctZ46vzyUavU6EjizUtF169DykbmHMfoe4dNgx8Up++nZk2m8WRvnYZp17anjgzz4TvCpHKyR
+ ed/YQQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +75,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 May 2023 19:04:30 +0300, Dmitry Baryshkov wrote:
-> Now as both lt9611 and drm/msm drivers were updated to handle the 4k
-> modes over DSI, enable "bonded" DSI mode on DB845c. This way the board
-> utilizes both DSI links and thus can support 4k on the HDMI output.
-> 
-> 
+>> Move the assignment for the local variables =E2=80=9Csize=E2=80=9D and =
+=E2=80=9Cflags=E2=80=9D
+>> because the computed values were only used in a single if branch.
+>
+> Please do not move such variables without real need.
 
-Applied, thanks!
+Is there a need to explain desirable effects better?
 
-[1/1] arm64: dts: qcom: enable dual ("bonded") DSI mode for DB845c
-      commit: 8721e18ca6960f3c5a6a7f58245d9ab084ad09dd
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+> It makes backporting (of this and maybe follow-up patches) much more com=
+plicated
+
+I suggest to reconsider such development concerns a bit more.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/dri=
+vers/video/fbdev/core/fbcmap.c?h=3Dv6.4-rc3
+
+
+> and the compiler will optimize it anyway.
+
+How much do expectations fit to supported and documented software optimisa=
+tions?
+
+Regards,
+Markus
