@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BAC771141F
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 20:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3FA71146C
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 20:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF62810E73A;
-	Thu, 25 May 2023 18:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDE110E0CC;
+	Thu, 25 May 2023 18:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B1710E73A;
- Thu, 25 May 2023 18:36:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BC910E0CC;
+ Thu, 25 May 2023 18:38:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B65C8648F1;
- Thu, 25 May 2023 18:36:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB37C433EF;
- Thu, 25 May 2023 18:35:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B027D64948;
+ Thu, 25 May 2023 18:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB45C4339B;
+ Thu, 25 May 2023 18:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685039760;
- bh=/ZQtRsJbOg2XX00OHxi8ngZFPwAIM6l/UIvEwv3Ew/A=;
+ s=k20201202; t=1685039917;
+ bh=M4V4JYAJb7JCpNDh95af6IswKlTV3u8pE33X7dJJco0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RYKDbsjeUFV7/9LOXK9hpinlaaRDci/eAerox5LY7RKy1tiYKDQa5V3XtLD/6t197
- 6y9TqCLlTix/vbW2UaqQqBHH0Lq5TXG6lGSgAE+cMKp82lR0ZNZX4ctwOHDeZqKidq
- 3w2HR7/XrpKxw5fL4+DcWCHmlMghr1Tdr0uzvdwYz/yDOcVzyNJUgziEy0Xm5Ih8OD
- 5VNCg3lphIy2t//fvN8xI0HHVaBZxKqWrlT55aOBOvY4tJv9x2e9TpPqqZ5tCpx8D0
- TIBuYJg+aFuMWRWFimd09CRouMmVlZNiYae02Skgdsee/nXksIx7HMSG2nEVbZeA30
- SkvKeV9CmwbnQ==
+ b=k2scfiwjPki2/GJ+OJdW23fjhKzpVNyNomysqMFNRgXfDQSRo/RcQvkv7i3e/RPFw
+ 94FQdy6RqfCABJe16vTPJwV59b/CM3QMFIOfXNUkzu/R1Jl49JZ2qUynIJlbo2CONm
+ Z/DNiCsMCAwmGcraB2WEIOIdWWnv+fB5cmbZnwEcJphEGvq8h5pTbmR240zvibSoVL
+ gvCWuNbbY4Zgpw2nc5cPYebU8STGCFIkMm+wZqvQPB2vgKIhdA3Q0GhKnV+dEkap6S
+ LCcJVo0DOXHKs1oDgRhENFx25SIkrWRgRJ8hDjKxlkfHTT4skflpzX0oJWX6EXEw5v
+ 2QtH6W1hxj+Zw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 64/67] drm/amdgpu: skip disabling fence driver
- src_irqs when device is unplugged
-Date: Thu, 25 May 2023 14:31:41 -0400
-Message-Id: <20230525183144.1717540-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 50/57] drm/msm: Be more shouty if per-process
+ pgtables aren't working
+Date: Thu, 25 May 2023 14:36:00 -0400
+Message-Id: <20230525183607.1793983-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230525183144.1717540-1-sashal@kernel.org>
-References: <20230525183144.1717540-1-sashal@kernel.org>
+In-Reply-To: <20230525183607.1793983-1-sashal@kernel.org>
+References: <20230525183607.1793983-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,58 +55,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, andrey.grodzovsky@amd.com,
- Guchun Chen <guchun.chen@amd.com>, Xinhui.Pan@amd.com, YuBiao.Wang@amd.com,
- amd-gfx@lists.freedesktop.org, slark_xiao@163.com, gpiccoli@igalia.com,
- luben.tuikov@amd.com, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com,
- Jiadong.Zhu@amd.com, christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit c1a322a7a4a96cd0a3dde32ce37af437a78bf8cd ]
+[ Upstream commit 5c054db54c43a5fcb5cc81012361f5e3fac37637 ]
 
-When performing device unbind or halt, we have disabled all irqs at the
-very begining like amdgpu_pci_remove or amdgpu_device_halt. So
-amdgpu_irq_put for irqs stored in fence driver should not be called
-any more, otherwise, below calltrace will arrive.
+Otherwise it is not always obvious if a dt or iommu change is causing us
+to fall back to global pgtable.
 
-[  139.114088] WARNING: CPU: 2 PID: 1550 at drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:616 amdgpu_irq_put+0xf6/0x110 [amdgpu]
-[  139.114655] Call Trace:
-[  139.114655]  <TASK>
-[  139.114657]  amdgpu_fence_driver_hw_fini+0x93/0x130 [amdgpu]
-[  139.114836]  amdgpu_device_fini_hw+0xb6/0x350 [amdgpu]
-[  139.114955]  amdgpu_driver_unload_kms+0x51/0x70 [amdgpu]
-[  139.115075]  amdgpu_pci_remove+0x63/0x160 [amdgpu]
-[  139.115193]  ? __pm_runtime_resume+0x64/0x90
-[  139.115195]  pci_device_remove+0x3a/0xb0
-[  139.115197]  device_remove+0x43/0x70
-[  139.115198]  device_release_driver_internal+0xbd/0x140
-
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/537359/
+Link: https://lore.kernel.org/r/20230516222039.907690-2-robdclark@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_iommu.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index f52d0ba91a770..a7d250809da99 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -582,7 +582,8 @@ void amdgpu_fence_driver_hw_fini(struct amdgpu_device *adev)
- 		if (r)
- 			amdgpu_fence_driver_force_completion(ring);
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index 5577cea7c0092..d12ba47b37c4f 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -227,7 +227,12 @@ struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
+ 	/* Get the pagetable configuration from the domain */
+ 	if (adreno_smmu->cookie)
+ 		ttbr1_cfg = adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
+-	if (!ttbr1_cfg)
++
++	/*
++	 * If you hit this WARN_ONCE() you are probably missing an entry in
++	 * qcom_smmu_impl_of_match[] in arm-smmu-qcom.c
++	 */
++	if (WARN_ONCE(!ttbr1_cfg, "No per-process page tables"))
+ 		return ERR_PTR(-ENODEV);
  
--		if (ring->fence_drv.irq_src)
-+		if (!drm_dev_is_unplugged(adev_to_drm(adev)) &&
-+		    ring->fence_drv.irq_src)
- 			amdgpu_irq_put(adev, ring->fence_drv.irq_src,
- 				       ring->fence_drv.irq_type);
- 
+ 	/*
 -- 
 2.39.2
 
