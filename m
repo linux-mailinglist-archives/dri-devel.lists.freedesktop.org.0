@@ -2,81 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE296711854
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 22:42:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028D8711888
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 22:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E69210E77A;
-	Thu, 25 May 2023 20:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B0010E763;
+	Thu, 25 May 2023 20:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F212B10E76C
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 20:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1685047372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lKnySVr8aIVQb3GoF4gIU7WWaBts15q8qX2ZfFVHVK4=;
- b=JkPjQvsTBGLQGrQ64r4V4q9D53C4lOxePTKtjzZy/fIXE3D2EOgtKBTCQZcjdVWh+faauK
- 5RMvTaIAW7n6XC3XGGMF1QpHFEJQwDaM+AmQxCX8U+G05IcBoqAoVMsYBXbJxxNMl3DIAh
- lUmSiegCsWNa0+CzS41Rzc/YCL3uYYU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-553-y6gVINf0PAKwfvgluhKBEA-1; Thu, 25 May 2023 16:42:51 -0400
-X-MC-Unique: y6gVINf0PAKwfvgluhKBEA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-96f6e83685eso126080366b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 13:42:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685047370; x=1687639370;
- h=content-transfer-encoding:in-reply-to:organization:from:cc
- :references:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lKnySVr8aIVQb3GoF4gIU7WWaBts15q8qX2ZfFVHVK4=;
- b=Q1FWUwBX7UQZ+E7JZyOA0xeIXLULGb9yjTatiffVyWHZhaLvT8RVDkAd9A8WG1yhfD
- lMUkA1cllXtxxXfcNj3lyW+3/P43Dj7d/S+6/Fx3IGghLsNXG5IT0PPP3EJglR5HwYW+
- IM9/pNmsGOdT1Uv0/FonOddlKmaRr1dpZdg1BrK1FkwKOfF+5FquDvEhW5HOZhu+ICbV
- AXf+DQqO64IAAqJyxU7nZo6wU6OdCDtK/39fuJIkWYnjs6qVresROoMJk4f48yBZbTmA
- 1+oNTvoVxqqSoAHSjT7Fcd67S69pOIwxx8kMVyU6Nt9zjlH16fzpbQXVQdwpTZhYXkNs
- zg5A==
-X-Gm-Message-State: AC+VfDzKcqKaXR/Zp3MMFi7opqlLVbu5fEmoNSDLOQ+sMGRA66PZ8JLg
- PdcF4kn2l+bHrFpWss//loF7D/uP67mFjeyrYcdVg2Mf48e/fTQN3LYMGmxbDRRc9ePulSeNxjy
- rUHlO2Y5B2huARJdG2pVG7iplhpMN
-X-Received: by 2002:a17:907:9708:b0:970:925:6563 with SMTP id
- jg8-20020a170907970800b0097009256563mr32370ejc.8.1685047370286; 
- Thu, 25 May 2023 13:42:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ78jL+t3EjZJmdqucdcGV1R34Xs21DNojYEowP0jSdeEQbQR11pkvGERklqX3R/2BwhtljIHw==
-X-Received: by 2002:a17:907:9708:b0:970:925:6563 with SMTP id
- jg8-20020a170907970800b0097009256563mr32344ejc.8.1685047369893; 
- Thu, 25 May 2023 13:42:49 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- u13-20020a170906408d00b009659fa6eeddsm1262497ejj.196.2023.05.25.13.42.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 May 2023 13:42:49 -0700 (PDT)
-Message-ID: <65e8bab0-8aaf-408d-2309-a3bc8fe3b57e@redhat.com>
-Date: Thu, 25 May 2023 22:42:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 01/13] drm: execution context for GEM buffers v4
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-2-christian.koenig@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230504115159.2245-2-christian.koenig@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79F710E762;
+ Thu, 25 May 2023 20:55:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685048112; x=1716584112;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Xna7eIckhTO0Cyw3MWjX2foa+S/jI9kV6oiurSGEUKQ=;
+ b=NxGsSWKaCSi3RIRiqyzkMSSUQ91H/M87DikWtLZfOUhxajzm7APHVF9K
+ y8TgyEwY2550IybEFvV7mUUcV6rX9v9DoBmEBSHULrGhDPG1hfUggeIJh
+ AdOTHa0kpSwj/b48bD2jgL0uMhto/Vw26zvPz4AJhi6N02DB057yk2slU
+ F+tGGVAYECiJVtFMjqSiWG46aZQMBfXx4pbW12VS/kGSwR8z3cPlRi6LK
+ rg1YVr8fcw8/tgO3XnUCkevdiRRkzzRd9ODzEgM+tMY/VMfqbbO1E82tr
+ fe58f/56T2qLeaXa9akp2dnfRFT/8plt2YEFudWt3oXyKwlbrkb5ZREBE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="334368515"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; d="scan'208";a="334368515"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2023 13:55:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="774817443"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; d="scan'208";a="774817443"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 25 May 2023 13:55:11 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 25 May 2023 13:55:11 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 25 May 2023 13:55:10 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 25 May 2023 13:55:10 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 25 May 2023 13:55:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eezxy9ZmLnQWNW0E+Ab35D+E1YB10We2+8XMlLWrPu1ri3N/I3FT6OdQGUhMW3YxI8Jq3OGL5Z4EfIfaRmZXhuNa+oNylSme4z/qVjC0kphyL/p5tboAcNNxlvJ/u9pHLx7wZpvzTYx1yBXjdLtaO20x9sxMaiM3s1zregWyX8jfbVrd+sMoEmHE0g2Jr8wCx4Iu4OoArszvcFO5M1jAm8rM+VYDzc0E7fkLmYC2meEUFlpZjPoCnFnu2dCe0bCJmsjHq1Nk7eMFY2mkgWKKW4yHOqbign+SZAGzty5264eQ9pozdPcte4cSXEhgblC2SPBeBVA5MDhC8ODSAZB07g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xna7eIckhTO0Cyw3MWjX2foa+S/jI9kV6oiurSGEUKQ=;
+ b=DIGJyuJw8WpZ9/XOaB4shKsWlz2mzFIgcBD7mU2wVEPkOsrf6ubqu1cro23BxqjCpUsZEjJulX2UVCtOuKAqDI70X73w7cahj0MABIbg4AdCblhRyHix4MlSUSNfxpikntXQOh8QaQp7Xx9349bci4glk4/OjlwPo8yGuL7FLwX+DShAby5n2BMLUg59LxCKdNSiLqADXkigyHkh+PvBANC31xjFBSMG8PdQW3wvOvDnycHeiPb4fF6Ty6QIiCfpsDwwvUoIYtj6uqsIGJgW3ODbRssVdEdlxd82mm+GUg/teQIyFdnaA/uGbMjabBfNKR1LoswHY+QVzirHappAYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
+ IA1PR11MB6465.namprd11.prod.outlook.com (2603:10b6:208:3a7::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6411.28; Thu, 25 May 2023 20:55:08 +0000
+Received: from DM4PR11MB6360.namprd11.prod.outlook.com
+ ([fe80::5671:364e:5c39:3284]) by DM4PR11MB6360.namprd11.prod.outlook.com
+ ([fe80::5671:364e:5c39:3284%5]) with mapi id 15.20.6411.028; Thu, 25 May 2023
+ 20:55:08 +0000
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v2 3/7] drm/i915: Fix CHV CGM CSC coefficient sign handling
+Thread-Topic: [PATCH v2 3/7] drm/i915: Fix CHV CGM CSC coefficient sign
+ handling
+Thread-Index: AQHZbigA/XBPFxmulEafTrD8A9+bvq9ruOnQ
+Date: Thu, 25 May 2023 20:55:08 +0000
+Message-ID: <DM4PR11MB636031F61EE8864E316FB1C3F4469@DM4PR11MB6360.namprd11.prod.outlook.com>
+References: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
+ <20230413164916.4221-4-ville.syrjala@linux.intel.com>
+In-Reply-To: <20230413164916.4221-4-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|IA1PR11MB6465:EE_
+x-ms-office365-filtering-correlation-id: 57bd7314-21bd-409d-bd02-08db5d6252ed
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9H2xIidEn1GaqVc9tj5PTeMdPyj6IhpHI+aJGXxZewX4hYdXJDytWmIM7gOOK566LTCA2sFEg9GlDR4rmP7+THiJ/5RDr9cmDmTTvUe1r4PjDkOb7irEa116qB/+9nwALdLKJ68uZ53LYRRDgvqL3/7WAR+nC10lGGEBbniGi6hsas7KvJFlYlAWLBfcq3TYs8iWvE8T+F8/p92snAXOs3uHJ3txUXnhZUnb5vrWZwegeII8eVMetPwSciaWT8SrCp5JnBApAp0D2MITwnqEEsJI7tAdI02/RcnO84zKlHCoaBRd/gvWB72Lz8IYP7dnYAyeUCRYJkI9lf0IkAwwbT41Kdgwk/od0xBK1O/JokEKkkOKZF5mlizy+B8BfW26Quhb2dwiEFvOI+Awt2rkubNa/K4YLgjx5hQqe/UQFemnwoXrX5cEgiTQWarw0rOq0Mgt1II2Oki/7KypCTWJR61M1iYlWCSG3Hm2WJFsj3Rr2qBOxOc6GP/SZzdHg2ZbylfKtYVSPlK5HsVKb5hs4IzcQrMP/4GExNtSsqk1dqVpfBjhb0oHWNkMF9BM0QPmxWIapsirLBrCOYnux54ZoT0I8K8ghYHiyk07NBG5G6v7JjH3WPHQvTtwp5wMu6l4
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(366004)(376002)(136003)(39860400002)(396003)(84040400005)(451199021)(110136005)(82960400001)(478600001)(66446008)(86362001)(66946007)(38070700005)(66476007)(66556008)(122000001)(83380400001)(38100700002)(2906002)(66574015)(7696005)(76116006)(64756008)(316002)(4326008)(8676002)(8936002)(71200400001)(53546011)(33656002)(26005)(52536014)(186003)(5660300002)(9686003)(55016003)(6506007)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MzVCbE1nNWhQTm5WR0p0NE9XSFM3cTVLOEtVNWtlVzRnYzBlb2dFdlF2aWxZ?=
+ =?utf-8?B?L3Z5MVl0eWNPQS85Z3pHK25La1BTNEFwUm5DbEpBdHdxWGprdlR2OWRxMmF6?=
+ =?utf-8?B?akp0bVpmUTRRcjRYdFM4bXBaNjhnMkVUK1BYYStYTjBoOVd0bVdmV3ROUEhG?=
+ =?utf-8?B?eFFQVVV0K0thc0VVOVFlbE1HVEJiaG1RcFlITkFJR2lBd1h2N1BkVFZxSlZ5?=
+ =?utf-8?B?V3FYNHBtSDhNTDlkYUFQaVY2SnhRZTF0NjVzSDlPQlp1dk43WGNDZlVkN2Y1?=
+ =?utf-8?B?TGRNZXBiUmQ5YUlCdDdFc1BISDdCYlZRdG1adFIzakwzS3F4ellza3NYRXp3?=
+ =?utf-8?B?eVpaMmI3NTFlR2lOVXBuWFcrOGp3YmF0VkdBai9zV0t1NTZ3cGh4VDNpaWIr?=
+ =?utf-8?B?cEowTkZSVlRQYmloWDNWZVhBSC9wUlNpV3hiazQ3d3FVaWdybDkxeWI4OTBx?=
+ =?utf-8?B?MmcwazkzOXJadXZ5U2hsQUJhNEV2SW9IVDJpMDhhNU5kMWhNQzIwTERKOGZU?=
+ =?utf-8?B?bTNiSVk4QVllekt6eWFXRGVkTjZMaWRkSWkyMTJ3MThaM2NrOGVHdkJoMFhP?=
+ =?utf-8?B?ZCtqKy9BTElhRUcyU05VcjEvTU5ITWJnZVhVUWh5T21Fd0NkV2lqV3JuUEhY?=
+ =?utf-8?B?R01kRDFSbWpRM0EyWHlEeksrcU9XNjZVV3JCbzB1TW0vYUthTmE4N0VwZTFV?=
+ =?utf-8?B?N1hzR3I5Y29ReE14R1pnSW9RNi9oVnlRMExKMzlSRE01eTFvZ1kwOVRTQzBW?=
+ =?utf-8?B?SnloREhmeGFTOThFZGt3QnRTU21JVDVQbjgyeENwSTVkQi9uVU5yTGZOVDU2?=
+ =?utf-8?B?ZGNkREIvVWJPUXhrdm5KRlY0d3VQTzZMS3M0R2JmYjBlekVNWDhQdE4xQXZu?=
+ =?utf-8?B?SVU1VDZMcjNGOU9HY3lvelR2TUtOZkcwczRZek5hZzk0SlIwQVpBRlRid2FD?=
+ =?utf-8?B?QU8rWG1kaFJGN1l1eWRhYnV3K3BwbUpZM3FtNmZkYVMwT0haenZOdlEzRVpy?=
+ =?utf-8?B?d0hxNFA5bEVCMTFQS0RncDl0Ykw1QUZoamtua2Z4MVJCU21UQ1JxQVBBemtk?=
+ =?utf-8?B?UVg1QW5nRW9DN2FOek80MmJHSEFDSWNybysyOEJ2OTJtN3VZbTg5bHVPSExX?=
+ =?utf-8?B?ZkVscnRhLzJlS1dnR3ROd3B4WVRlSU1kUXJSYTZJMVZTNUxLMlh2VmpVOEw4?=
+ =?utf-8?B?U3BqdUZlTGZ1ZkZxMFRmL1JGQXF3SDdQZXE4dDZLTlAyYVNuRnQrUXFZUjl2?=
+ =?utf-8?B?ay9WSlhLSXh6VU1xOFd4NFBhM1VKZUJDYmlob0poYXlKN2V6bDloK08rYWFR?=
+ =?utf-8?B?L0UyK1ZKL3k1REpuWmxiaDBPOW1SdDEzbDBTVmVFR2hjTXpHSnVDMm5rM1hX?=
+ =?utf-8?B?R3pHTElZb3VhaG0vYzVCNVRBSm4vV0VzTGYzOEozZTJVYzYxZFVUVDN4enF0?=
+ =?utf-8?B?Z2hIY05NQURnSkVXUXJKd214Snc3YmFWZXNyMGZaTFhDR3BNeFFFdU9lWWpF?=
+ =?utf-8?B?WnpveDZKQk1MK0dvUmhsV3FZeWkwMW5iN2h0eXBBMS9yR2VvRnBvQTdWYnc5?=
+ =?utf-8?B?Ly9rRDVLcGVYM3ZvODMwaWV5clJsZlNVK2pucjcwYXFNVTVuWGFUTnVQQmxC?=
+ =?utf-8?B?YjJKNXQzQ3VDVWdvLzBqZE81M3ZjSUY3Z0dKV0Z3QVNBemN2SjQyWTBoaE03?=
+ =?utf-8?B?ZHZpM00xNit6Y0NVcTVlYnRYa3phM25iY0lLbjVYOFlvRW85OU5MRGlBSzRx?=
+ =?utf-8?B?MXFtL21Kb3RWSmRlMUt1aXkzcEhzaXB5azVWSHMzZ0RpV1JGYlFDUnlDUDc0?=
+ =?utf-8?B?dWJOM1k4L3dLWXd0YWM5SzNFTjNOK3FkcmdBRnpxNjkxOW1weVhLTDlLdFNN?=
+ =?utf-8?B?T0FXUlordU1WRGpVdmw1Y0VLN291WlB2dEp2WFVCWHh3NjdmMks2OVFDUlRX?=
+ =?utf-8?B?d3ZCUFZzbDR6L2luSlh6OWJKU3VUdGJEclFBTGszU3cwSFJnMWVUaTV6QTVx?=
+ =?utf-8?B?cEJNYXc3M0c4eGJwSi9tMnJWbXJCQ2lBVGlnM0hwVENLRzdGWHlSZUlXWFpD?=
+ =?utf-8?B?aFZQWWhpWk5zVXJYTUdXN2l3aGJwY29lUjRIRktwSkVxQ1I1eDdJSXN6b25Q?=
+ =?utf-8?Q?oOkJ/BK+HDQos/AibgqF1XThQ?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57bd7314-21bd-409d-bd02-08db5d6252ed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2023 20:55:08.2342 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qurSlXPNDqYFz5M/d2KWHIwBxflyhjMtETxfcWtReF9KTKBY6U3IS9iIEOZhZuZ8Ms8Jr+HBCwk7WXrpQ3Q9bw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6465
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,500 +160,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arunpravin.paneerselvam@amd.com, felix.kuehling@amd.com,
- francois.dugast@intel.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- dri-devel@lists.freedesktop.org, thomas_os@shipmail.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/4/23 13:51, Christian König wrote:
-> This adds the infrastructure for an execution context for GEM buffers
-> which is similar to the existing TTMs execbuf util and intended to replace
-> it in the long term.
-> 
-> The basic functionality is that we abstracts the necessary loop to lock
-> many different GEM buffers with automated deadlock and duplicate handling.
-> 
-> v2: drop xarray and use dynamic resized array instead, the locking
->      overhead is unecessary and measurable.
-> v3: drop duplicate tracking, radeon is really the only one needing that.
-> v4: fixes issues pointed out by Danilo, some typos in comments and a
->      helper for lock arrays of GEM objects.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-
-Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-
-> ---
->   Documentation/gpu/drm-mm.rst |  12 ++
->   drivers/gpu/drm/Kconfig      |   6 +
->   drivers/gpu/drm/Makefile     |   2 +
->   drivers/gpu/drm/drm_exec.c   | 278 +++++++++++++++++++++++++++++++++++
->   include/drm/drm_exec.h       | 119 +++++++++++++++
->   5 files changed, 417 insertions(+)
->   create mode 100644 drivers/gpu/drm/drm_exec.c
->   create mode 100644 include/drm/drm_exec.h
-> 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index a79fd3549ff8..a52e6f4117d6 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -493,6 +493,18 @@ DRM Sync Objects
->   .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
->      :export:
->   
-> +DRM Execution context
-> +=====================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :doc: Overview
-> +
-> +.. kernel-doc:: include/drm/drm_exec.h
-> +   :internal:
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :export:
-> +
->   GPU Scheduler
->   =============
->   
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index ba3fb04bb691..2dc81eb062eb 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -201,6 +201,12 @@ config DRM_TTM
->   	  GPU memory types. Will be enabled automatically if a device driver
->   	  uses it.
->   
-> +config DRM_EXEC
-> +	tristate
-> +	depends on DRM
-> +	help
-> +	  Execution context for command submissions
-> +
->   config DRM_BUDDY
->   	tristate
->   	depends on DRM
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index a33257d2bc7f..9c6446eb3c83 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -78,6 +78,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
->   #
->   # Memory-management helpers
->   #
-> +#
-> +obj-$(CONFIG_DRM_EXEC) += drm_exec.o
->   
->   obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
->   
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> new file mode 100644
-> index 000000000000..18071bff20f4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -0,0 +1,278 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_gem.h>
-> +#include <linux/dma-resv.h>
-> +
-> +/**
-> + * DOC: Overview
-> + *
-> + * This component mainly abstracts the retry loop necessary for locking
-> + * multiple GEM objects while preparing hardware operations (e.g. command
-> + * submissions, page table updates etc..).
-> + *
-> + * If a contention is detected while locking a GEM object the cleanup procedure
-> + * unlocks all previously locked GEM objects and locks the contended one first
-> + * before locking any further objects.
-> + *
-> + * After an object is locked fences slots can optionally be reserved on the
-> + * dma_resv object inside the GEM object.
-> + *
-> + * A typical usage pattern should look like this::
-> + *
-> + *	struct drm_gem_object *obj;
-> + *	struct drm_exec exec;
-> + *	unsigned long index;
-> + *	int ret;
-> + *
-> + *	drm_exec_init(&exec, true);
-> + *	drm_exec_while_not_all_locked(&exec) {
-> + *		ret = drm_exec_prepare_obj(&exec, boA, 1);
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *
-> + *		ret = drm_exec_prepare_obj(&exec, boB, 1);
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *	}
-> + *
-> + *	drm_exec_for_each_locked_object(&exec, index, obj) {
-> + *		dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
-> + *		...
-> + *	}
-> + *	drm_exec_fini(&exec);
-> + *
-> + * See struct dma_exec for more details.
-> + */
-> +
-> +/* Dummy value used to initially enter the retry loop */
-> +#define DRM_EXEC_DUMMY (void*)~0
-> +
-> +/* Unlock all objects and drop references */
-> +static void drm_exec_unlock_all(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj;
-> +	unsigned long index;
-> +
-> +	drm_exec_for_each_locked_object(exec, index, obj) {
-> +		dma_resv_unlock(obj->resv);
-> +		drm_gem_object_put(obj);
-> +	}
-> +
-> +	drm_gem_object_put(exec->prelocked);
-> +	exec->prelocked = NULL;
-> +}
-> +
-> +/**
-> + * drm_exec_init - initialize a drm_exec object
-> + * @exec: the drm_exec object to initialize
-> + * @interruptible: if locks should be acquired interruptible
-> + *
-> + * Initialize the object and make sure that we can track locked objects.
-> + */
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible)
-> +{
-> +	exec->interruptible = interruptible;
-> +	exec->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
-> +
-> +	/* If allocation here fails, just delay that till the first use */
-> +	exec->max_objects = exec->objects ? PAGE_SIZE / sizeof(void *) : 0;
-> +	exec->num_objects = 0;
-> +	exec->contended = DRM_EXEC_DUMMY;
-> +	exec->prelocked = NULL;
-> +}
-> +EXPORT_SYMBOL(drm_exec_init);
-> +
-> +/**
-> + * drm_exec_fini - finalize a drm_exec object
-> + * @exec: the drm_exec object to finalize
-> + *
-> + * Unlock all locked objects, drop the references to objects and free all memory
-> + * used for tracking the state.
-> + */
-> +void drm_exec_fini(struct drm_exec *exec)
-> +{
-> +	drm_exec_unlock_all(exec);
-> +	kvfree(exec->objects);
-> +	if (exec->contended != DRM_EXEC_DUMMY) {
-> +		drm_gem_object_put(exec->contended);
-> +		ww_acquire_fini(&exec->ticket);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_exec_fini);
-> +
-> +/**
-> + * drm_exec_cleanup - cleanup when contention is detected
-> + * @exec: the drm_exec object to cleanup
-> + *
-> + * Cleanup the current state and return true if we should stay inside the retry
-> + * loop, false if there wasn't any contention detected and we can keep the
-> + * objects locked.
-> + */
-> +bool drm_exec_cleanup(struct drm_exec *exec)
-> +{
-> +	if (likely(!exec->contended)) {
-> +		ww_acquire_done(&exec->ticket);
-> +		return false;
-> +	}
-> +
-> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
-> +		exec->contended = NULL;
-> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-> +		return true;
-> +	}
-> +
-> +	drm_exec_unlock_all(exec);
-> +	exec->num_objects = 0;
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(drm_exec_cleanup);
-> +
-> +/* Track the locked object in the array */
-> +static int drm_exec_obj_locked(struct drm_exec *exec,
-> +			       struct drm_gem_object *obj)
-> +{
-> +	if (unlikely(exec->num_objects == exec->max_objects)) {
-> +		size_t size = exec->max_objects * sizeof(void *);
-> +		void *tmp;
-> +
-> +		tmp = kvrealloc(exec->objects, size, size + PAGE_SIZE,
-> +				GFP_KERNEL);
-> +		if (!tmp)
-> +			return -ENOMEM;
-> +
-> +		exec->objects = tmp;
-> +		exec->max_objects += PAGE_SIZE / sizeof(void *);
-> +	}
-> +	drm_gem_object_get(obj);
-> +	exec->objects[exec->num_objects++] = obj;
-> +
-> +	return 0;
-> +}
-> +
-> +/* Make sure the contended object is locked first */
-> +static int drm_exec_lock_contended(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj = exec->contended;
-> +	int ret;
-> +
-> +	if (likely(!obj))
-> +		return 0;
-> +
-> +	if (exec->interruptible) {
-> +		ret = dma_resv_lock_slow_interruptible(obj->resv,
-> +						       &exec->ticket);
-> +		if (unlikely(ret))
-> +			goto error_dropref;
-> +	} else {
-> +		dma_resv_lock_slow(obj->resv, &exec->ticket);
-> +	}
-> +
-> +	ret = drm_exec_obj_locked(exec, obj);
-> +	if (unlikely(ret)) {
-> +		dma_resv_unlock(obj->resv);
-> +		goto error_dropref;
-> +	}
-> +
-> +	swap(exec->prelocked, obj);
-> +
-> +error_dropref:
-> +	/* Always cleanup the contention so that error handling can kick in */
-> +	drm_gem_object_put(obj);
-> +	exec->contended = NULL;
-> +	return ret;
-> +}
-> +
-> +/**
-> + * drm_exec_prepare_obj - prepare a GEM object for use
-> + * @exec: the drm_exec object with the state
-> + * @obj: the GEM object to prepare
-> + * @num_fences: how many fences to reserve
-> + *
-> + * Prepare a GEM object for use by locking it and reserving fence slots. All
-> + * successfully locked objects are put into the locked container.
-> + *
-> + * Returns: -EDEADLK if a contention is detected, -EALREADY when object is
-> + * already locked, -ENOMEM when memory allocation failed and zero for success.
-> + */
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_exec_lock_contended(exec);
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	if (exec->prelocked == obj) {
-> +		drm_gem_object_put(exec->prelocked);
-> +		exec->prelocked = NULL;
-> +
-> +		return dma_resv_reserve_fences(obj->resv, num_fences);
-> +	}
-> +
-> +	if (exec->interruptible)
-> +		ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
-> +	else
-> +		ret = dma_resv_lock(obj->resv, &exec->ticket);
-> +
-> +	if (unlikely(ret == -EDEADLK)) {
-> +		drm_gem_object_get(obj);
-> +		exec->contended = obj;
-> +		return -EDEADLK;
-> +	}
-> +
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	ret = drm_exec_obj_locked(exec, obj);
-> +	if (ret)
-> +		goto error_unlock;
-> +
-> +	/* Keep locked when reserving fences fails */
-> +	return dma_resv_reserve_fences(obj->resv, num_fences);
-> +
-> +error_unlock:
-> +	dma_resv_unlock(obj->resv);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_exec_prepare_obj);
-> +
-> +/**
-> + * drm_exec_prepare_array - helper to prepare an array of objects
-> + * @exec: the drm_exec object with the state
-> + * @objects: array of GEM object to prepare
-> + * @num_objects: number of GEM objects in the array
-> + * @num_fences: number of fences to reserve on each GEM object
-> + *
-> + * Prepares all GEM objects in an array, handles contention but aports on first
-> + * error otherwise. Reserves @num_fences on each GEM object after locking it.
-> + *
-> + * Returns: -EALREADY when object is already locked, -ENOMEM when memory
-> + * allocation failed and zero for success.
-> + */
-> +int drm_exec_prepare_array(struct drm_exec *exec,
-> +			   struct drm_gem_object **objects,
-> +			   unsigned int num_objects,
-> +			   unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	drm_exec_while_not_all_locked(exec) {
-> +		for (unsigned int i = 0; i < num_objects; ++i) {
-> +			ret = drm_exec_prepare_obj(exec, objects[i],
-> +						   num_fences);
-> +			drm_exec_break_on_contention(exec);
-> +			if (unlikely(ret))
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_exec_prepare_array);
-> +
-> +MODULE_DESCRIPTION("DRM execution context");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> new file mode 100644
-> index 000000000000..7c7481ed088a
-> --- /dev/null
-> +++ b/include/drm/drm_exec.h
-> @@ -0,0 +1,119 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#ifndef __DRM_EXEC_H__
-> +#define __DRM_EXEC_H__
-> +
-> +#include <linux/ww_mutex.h>
-> +
-> +struct drm_gem_object;
-> +
-> +/**
-> + * struct drm_exec - Execution context
-> + */
-> +struct drm_exec {
-> +	/**
-> +	 * @interruptible: If locks should be taken interruptible
-> +	 */
-> +	bool			interruptible;
-> +
-> +	/**
-> +	 * @ticket: WW ticket used for acquiring locks
-> +	 */
-> +	struct ww_acquire_ctx	ticket;
-> +
-> +	/**
-> +	 * @num_objects: number of objects locked
-> +	 */
-> +	unsigned int		num_objects;
-> +
-> +	/**
-> +	 * @max_objects: maximum objects in array
-> +	 */
-> +	unsigned int		max_objects;
-> +
-> +	/**
-> +	 * @objects: array of the locked objects
-> +	 */
-> +	struct drm_gem_object	**objects;
-> +
-> +	/**
-> +	 * @contended: contended GEM object we backed off for
-> +	 */
-> +	struct drm_gem_object	*contended;
-> +
-> +	/**
-> +	 * @prelocked: already locked GEM object due to contention
-> +	 */
-> +	struct drm_gem_object *prelocked;
-> +};
-> +
-> +/**
-> + * drm_exec_for_each_locked_object - iterate over all the locked objects
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object.
-> + */
-> +#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> +	for (index = 0, obj = (exec)->objects[0];		\
-> +	     index < (exec)->num_objects;			\
-> +	     ++index, obj = (exec)->objects[index])
-> +
-> +/**
-> + * drm_exec_while_not_all_locked - loop until all GEM objects are prepared
-> + * @exec: drm_exec object
-> + *
-> + * Core functionality of the drm_exec object. Loops until all GEM objects are
-> + * prepared and no more contention exists.
-> + *
-> + * At the beginning of the loop it is guaranteed that no GEM object is locked.
-> + */
-> +#define drm_exec_while_not_all_locked(exec)	\
-> +	while (drm_exec_cleanup(exec))
-> +
-> +/**
-> + * drm_exec_continue_on_contention - continue the loop when we need to cleanup
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to continue when a contention was detected and we need to
-> + * clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_continue_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		continue
-> +
-> +/**
-> + * drm_exec_break_on_contention - break a subordinal loop on contention
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to break a subordinal loop when a contention was detected
-> + * and we need to clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_break_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		break
-> +
-> +/**
-> + * drm_exec_is_contended - check for contention
-> + * @exec: drm_exec object
-> + *
-> + * Returns true if the drm_exec object has run into some contention while
-> + * locking a GEM object and needs to clean up.
-> + */
-> +static inline bool drm_exec_is_contended(struct drm_exec *exec)
-> +{
-> +	return !!exec->contended;
-> +}
-> +
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
-> +void drm_exec_fini(struct drm_exec *exec);
-> +bool drm_exec_cleanup(struct drm_exec *exec);
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences);
-> +int drm_exec_prepare_array(struct drm_exec *exec,
-> +			   struct drm_gem_object **objects,
-> +			   unsigned int num_objects,
-> +			   unsigned int num_fences);
-> +
-> +#endif
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJpLWRldmVsIDxkcmkt
+ZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBWaWxsZSBT
+eXJqYWxhDQo+IFNlbnQ6IFRodXJzZGF5LCBBcHJpbCAxMywgMjAyMyAxMDoxOSBQTQ0KPiBUbzog
+aW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZw0KPiBTdWJqZWN0OiBbUEFUQ0ggdjIgMy83XSBkcm0vaTkxNTogRml4IENI
+ViBDR00gQ1NDIGNvZWZmaWNpZW50IHNpZ24gaGFuZGxpbmcNCj4gDQo+IEZyb206IFZpbGxlIFN5
+cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+DQo+IA0KPiBUaGUgQ0hWIENH
+TSBDU0MgY29lZmZpY2llbnRzIGFyZSBpbiBzNC4xMiB0d28ncyBjb21wbGVtZW50IGZvcm1hdC4g
+Rml4IHRoZSBDVE0tDQo+ID5DR00gY29udmVyc2lvbiB0byBoYW5kbGUgdGhhdCBjb3JyZWN0bHkg
+aW5zdGVhZCBvZiBwcmV0ZW5kaW5nIHRoYXQgdGhlIGh3DQo+IGNvZWZmaWNpZW50cyBhcmUgYWxz
+byBpbiBzb21lIHNpZ24tbWFnbml0dWRlIGZvcm1hdC4NCg0KU3BlYyBpcyBzbGlnaHRseSBjb25m
+dXNpbmcgd2hlbiBpdCBzYXlzOg0KIkNHTSBDU0MgOiAgSW5wdXQgcGl4ZWxzIHRvIHRoZSBDR00g
+Q1NDIGFyZSAxNCBiaXRzLiAodS4xNCBmb3JtYXQpLiBDb2VmZmljaWVudHMgYXJlIDE2IGJpdHMg
+KHMzLjEyKS4iDQpBbHNvIGhlcmU6DQoiUHJvZ3JhbW1hYmxlIHBhcmFtZXRlcnMgOiANCmMwWzE1
+IDowXSwgYzFbMTUgOjBdLCBjMlsxNSA6MF0sIGMzWzE1IDowXSwgYzRbMTUgOjBdLCBjNVsxNSA6
+MF0sIGM2WzE1IDowXSwgYzdbMTUgOjBdLCBjOFsxNSA6MF0gOyAvLyBzaWduZWQgbWF0cml4IGNv
+ZWZmaWNpZW50cyAgKHMzLjEyKSINCg0KQnV0IHRoZSBjb2VmZmljaWVudHMgYXJlIDE2Yml0cywg
+Y2FuIHlvdSBoZWxwIHVuZGVyc3RhbmQgaG93IHdlcmUgeW91IGFibGUgdG8gY3JhY2sgdGhpcyDw
+n5iKDQoNCj4gU2lnbmVkLW9mZi1ieTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxp
+bnV4LmludGVsLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2NvbG9yLmMgfCA0NiArKysrKysrKysrKysrKy0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMjkgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jDQo+IGIvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9jb2xvci5jDQo+IGluZGV4IDRmYzE2Y2FjMDUyZC4u
+NjMxNDFmNGVkMzcyIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
+L2ludGVsX2NvbG9yLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
+bF9jb2xvci5jDQo+IEBAIC01NjgsMjkgKzU2OCw0MSBAQCBzdGF0aWMgdm9pZCBpY2xfbG9hZF9j
+c2NfbWF0cml4KGNvbnN0IHN0cnVjdA0KPiBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlKQ0K
+PiAgCQlpY2xfdXBkYXRlX291dHB1dF9jc2MoY3J0YywgJmNydGNfc3RhdGUtPm91dHB1dF9jc2Mp
+OyAgfQ0KPiANCj4gK3N0YXRpYyB1MTYgY3RtX3RvX3R3b3NfY29tcGxlbWVudCh1NjQgY29lZmYs
+IGludCBpbnRfYml0cywgaW50DQo+ICtmcmFjX2JpdHMpIHsNCj4gKwlzNjQgYyA9IENUTV9DT0VG
+Rl9BQlMoY29lZmYpOw0KPiArDQo+ICsJLyogbGVhdmUgYW4gZXh0cmEgYml0IGZvciByb3VuZGlu
+ZyAqLw0KPiArCWMgPj49IDMyIC0gZnJhY19iaXRzIC0gMTsNCj4gKw0KPiArCS8qIHJvdW5kIGFu
+ZCBkcm9wIHRoZSBleHRyYSBiaXQgKi8NCj4gKwljID0gKGMgKyAxKSA+PiAxOw0KPiArDQo+ICsJ
+aWYgKENUTV9DT0VGRl9ORUdBVElWRShjb2VmZikpDQo+ICsJCWMgPSAtYzsNCj4gKw0KPiArCWMg
+PSBjbGFtcChjLCAtKHM2NClCSVQoaW50X2JpdHMgKyBmcmFjX2JpdHMgLSAxKSwNCj4gKwkJICAo
+czY0KShCSVQoaW50X2JpdHMgKyBmcmFjX2JpdHMgLSAxKSAtIDEpKTsNCj4gKw0KPiArCXJldHVy
+biBjICYgKEJJVChpbnRfYml0cyArIGZyYWNfYml0cykgLSAxKTsgfQ0KPiArDQo+ICsvKg0KPiAr
+ICogQ0hWIENvbG9yIEdhbXV0IE1hcHBpbmcgKENHTSkgQ1NDDQo+ICsgKiB8cnwgICB8IGMwIGMx
+IGMyIHwgICB8cnwNCj4gKyAqIHxnfCA9IHwgYzMgYzQgYzUgfCB4IHxnfA0KPiArICogfGJ8ICAg
+fCBjNiBjNyBjOCB8ICAgfGJ8DQo+ICsgKg0KPiArICogQ29lZmZpY2llbnRzIGFyZSB0d28ncyBj
+b21wbGVtZW50IHM0LjEyLg0KPiArICovDQo+ICBzdGF0aWMgdm9pZCBjaHZfY2dtX2NzY19jb252
+ZXJ0X2N0bShjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwNCj4gIAkJ
+CQkgICAgc3RydWN0IGludGVsX2NzY19tYXRyaXggKmNzYykNCj4gIHsNCj4gIAljb25zdCBzdHJ1
+Y3QgZHJtX2NvbG9yX2N0bSAqY3RtID0gY3J0Y19zdGF0ZS0+aHcuY3RtLT5kYXRhOw0KPiAgCWlu
+dCBpOw0KPiANCj4gLQlmb3IgKGkgPSAwOyBpIDwgOTsgaSsrKSB7DQo+IC0JCXU2NCBhYnNfY29l
+ZmYgPSAoKDFVTEwgPDwgNjMpIC0gMSkgJiBjdG0tPm1hdHJpeFtpXTsNCj4gLQ0KPiAtCQkvKiBS
+b3VuZCBjb2VmZmljaWVudC4gKi8NCj4gLQkJYWJzX2NvZWZmICs9IDEgPDwgKDMyIC0gMTMpOw0K
+PiAtCQkvKiBDbGFtcCB0byBoYXJkd2FyZSBsaW1pdHMuICovDQo+IC0JCWFic19jb2VmZiA9IGNs
+YW1wX3ZhbChhYnNfY29lZmYsIDAsIENUTV9DT0VGRl84XzAgLSAxKTsNCj4gLQ0KPiAtCQljc2Mt
+PmNvZWZmW2ldID0gMDsNCj4gLQ0KPiAtCQkvKiBXcml0ZSBjb2VmZmljaWVudHMgaW4gUzMuMTIg
+Zm9ybWF0LiAqLw0KPiAtCQlpZiAoY3RtLT5tYXRyaXhbaV0gJiAoMVVMTCA8PCA2MykpDQo+IC0J
+CQljc2MtPmNvZWZmW2ldIHw9IDEgPDwgMTU7DQo+IC0NCj4gLQkJY3NjLT5jb2VmZltpXSB8PSAo
+KGFic19jb2VmZiA+PiAzMikgJiA3KSA8PCAxMjsNCj4gLQkJY3NjLT5jb2VmZltpXSB8PSAoYWJz
+X2NvZWZmID4+IDIwKSAmIDB4ZmZmOw0KPiAtCX0NCj4gKwlmb3IgKGkgPSAwOyBpIDwgOTsgaSsr
+KQ0KPiArCQljc2MtPmNvZWZmW2ldID0gY3RtX3RvX3R3b3NfY29tcGxlbWVudChjdG0tPm1hdHJp
+eFtpXSwgNCwgMTIpOw0KPiAgfQ0KPiANCj4gIHN0YXRpYyB2b2lkIGNodl9sb2FkX2NnbV9jc2Mo
+c3RydWN0IGludGVsX2NydGMgKmNydGMsDQo+IC0tDQo+IDIuMzkuMg0KDQo=
