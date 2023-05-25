@@ -1,60 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B187106D2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 10:00:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D2071075A
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 10:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D6710E794;
-	Thu, 25 May 2023 08:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E6B10E7ED;
+	Thu, 25 May 2023 08:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566D510E7E1;
- Thu, 25 May 2023 08:00:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685001633; x=1716537633;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=c/06LK4FK2pK4T9xbdwQSvVt/jx+MVhVzxwW8eu02Z0=;
- b=PvVrtqnJ9A6Sjdsu+3xmDxRs/wn4n8HxeEj0xsudDRGPHn5ojBguH8B0
- KdM1QrIBjS8YNraza8xQ2SgqipiG8Wb55I0TePHgbXCJVMstNxdo10dXi
- GeQuHo7+djYU6Manhmvl6nJyYWFX+1IyLeWwR1NeKYYqlR4WdtW/ewvoc
- CDzIfiad6QkNDIG3PDTh1WbcjViL9trCYA3/BgPi6xa7kII0uHVAWohTZ
- kGN0Rd6QtkOIGDRGizIR77lV9hnZIZLl8qqZHxx4bFOpxVwr5qFX1Fv29
- cWtQqlW1QQ73655t/MQjlyaazhcospoJ9rihbb5TcgzTQyD4MZvtqCTzZ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="440178003"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="440178003"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 01:00:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="849096231"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="849096231"
-Received: from moiraric-mobl.ger.corp.intel.com (HELO [10.213.234.103])
- ([10.213.234.103])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 01:00:31 -0700
-Message-ID: <88d4aac7-52da-a969-8358-3ddd2f241b91@linux.intel.com>
-Date: Thu, 25 May 2023 09:00:29 +0100
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F0710E7ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 08:31:59 +0000 (UTC)
+Received: from 91-155-254-196.elisa-laajakaista.fi ([91.155.254.196]
+ helo=[192.168.100.137])
+ by farmhouse.coelho.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <luca@coelho.fi>) id 1q25th-008cGu-T9;
+ Thu, 25 May 2023 11:00:35 +0300
+Message-ID: <932e123be78bfe5b656c46d779c8dd92dea1078c.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org
+Date: Thu, 25 May 2023 11:00:33 +0300
+In-Reply-To: <20230502143906.2401-5-ville.syrjala@linux.intel.com>
+References: <20230502143906.2401-1-ville.syrjala@linux.intel.com>
+ <20230502143906.2401-5-ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/pmu: Turn off the timer to
- sample frequencies when GT is parked
-Content-Language: en-US
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-References: <20230523151918.4170499-1-ashutosh.dixit@intel.com>
- <20230523151918.4170499-2-ashutosh.dixit@intel.com>
- <86c706cc-9d98-3b28-d713-853938cabf74@intel.com>
- <87zg5tmmhv.wl-ashutosh.dixit@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87zg5tmmhv.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on farmhouse.coelho.fi
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ TVD_RCVD_IP autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [Intel-gfx] [PATCH 04/11] drm/i915: Fix FEC pipe A vs. DDI A mixup
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,61 +47,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2023-05-02 at 17:38 +0300, Ville Syrjala wrote:
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>=20
+> On pre-TGL FEC is a port level feature, not a transcoder
+> level features, and it's DDI A which doesn't have it, not
+> trancodere A.
 
-On 24/05/2023 22:46, Dixit, Ashutosh wrote:
-> On Wed, 24 May 2023 02:12:31 -0700, Andrzej Hajda wrote:
->>
-> 
-> Hi Andrzej,
-> 
->> On 23.05.2023 17:19, Ashutosh Dixit wrote:
->>> pmu_needs_timer() keeps the timer running even when GT is parked,
->>> ostensibly to sample requested/actual frequencies. However
->>> frequency_sample() has the following:
->>>
->>> 	/* Report 0/0 (actual/requested) frequency while parked. */
->>> 	if (!intel_gt_pm_get_if_awake(gt))
->>> 		return;
->>>
->>> The above code prevents frequencies to be sampled while the GT is
->>> parked. So we might as well turn off the sampling timer itself in this
->>> case and save CPU cycles/power.
->>>
->>> v2: Instead of turning freq bits off, return false, since no counters will
->>>       run after this change when GT is parked (Tvrtko)
->>>
->>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/i915_pmu.c | 12 +++++-------
->>>    1 file changed, 5 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
->>> index a814583e19fd7..b47d890d4ada1 100644
->>> --- a/drivers/gpu/drm/i915/i915_pmu.c
->>> +++ b/drivers/gpu/drm/i915/i915_pmu.c
->>> @@ -144,6 +144,10 @@ static bool pmu_needs_timer(struct i915_pmu *pmu, bool gpu_active)
->>> 	struct drm_i915_private *i915 = container_of(pmu, typeof(*i915), pmu);
->>> 	u32 enable;
->>>    +	/* When GPU is idle, at present no counters need to run */
->>> +	if (!gpu_active)
->>> +		return false;
->>> +
->>
->> What is then purpose of calling pmu_needs_timer with 2nd arg false?
->> Why not just replace all occurrences of pmu_needs_timer(.., false) with
->> false? And remove the 2nd argument.
-> 
-> OK, this didn't seem unreasonable so I went ahead and made this change in
-> Patch v3. Copying Tvrtko too in case he prefers v2 for any reason. Please
-> review.
+A couple of typos: "level feature" and "transcoder A".
 
-It is all fine by me (the latest version and all)!
 
-Regards,
+>  Check for the correct thing when determining
+> whether FEC is supported or not.
+>=20
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 4361c1ac65c3..b27b4fb71ed7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -1212,13 +1212,13 @@ void intel_dp_compute_rate(struct intel_dp *intel=
+_dp, int port_clock,
+>  static bool intel_dp_source_supports_fec(struct intel_dp *intel_dp,
+>  					 const struct intel_crtc_state *pipe_config)
+>  {
+> +	struct intel_encoder *encoder =3D &dp_to_dig_port(intel_dp)->base;
+>  	struct drm_i915_private *dev_priv =3D dp_to_i915(intel_dp);
+> =20
+> -	/* On TGL, FEC is supported on all Pipes */
+>  	if (DISPLAY_VER(dev_priv) >=3D 12)
+>  		return true;
+> =20
+> -	if (DISPLAY_VER(dev_priv) =3D=3D 11 && pipe_config->cpu_transcoder !=3D=
+ TRANSCODER_A)
+> +	if (DISPLAY_VER(dev_priv) =3D=3D 11 && encoder->port !=3D PORT_A)
+>  		return true;
+> =20
+>  	return false;
 
-Tvrtko
+Other than that, looks good:
+
+Reviewed-by: Luca Coelho <luciano.coelho@intel.com>
+
+--
+Cheers,
+Luca.
