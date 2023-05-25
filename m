@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638BA710AD2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 13:24:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D453710AE4
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 13:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42FCF10E009;
-	Thu, 25 May 2023 11:24:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1BE310E059;
+	Thu, 25 May 2023 11:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6E9110E009
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 11:24:46 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1q295H-0007uO-Dj; Thu, 25 May 2023 13:24:43 +0200
-Message-ID: <d4879ff1-b9ac-0373-ceb2-beaa645fba23@leemhuis.info>
-Date: Thu, 25 May 2023 13:24:42 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F0110E059
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 11:28:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1DEAA6394F;
+ Thu, 25 May 2023 11:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A968C433D2;
+ Thu, 25 May 2023 11:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685014108;
+ bh=80WjExu69YZ2z4Yx+TkUK0wPnz4HeaoTG1bwDpjeRRA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JlD8ees5bAkKLqFjBq3iW6EmUYXa30dyvHZGzMelEuKFDt3HVxCS7ZhSpNAjfsNrO
+ vvnfts2gv5AnkHr+gMbXj2yNp1brxD+qLu3jcIq5xt3Og8KApYozFl8UWN1oDLWi2+
+ D4R1yvBvWN+4Yb4KMgJ6hxDiJqv+cY0fht6hV62oPJaCxHNP+uIqwah6ySmb0MeN+Z
+ xQxtzcCzQHOSBXrNDTbgViXxAUWA7DWQQKkPiAO/CIIDq9KoBaHuKX0FKRdlOVaX+r
+ mllGzWqvSch7UE14Rt/J0r9+XZ+bvQO1gOfOEbgnaTVfmFud2OYhWOmOajqwwdsCRs
+ xTXPRsLXo0Zjw==
+Date: Thu, 25 May 2023 12:28:23 +0100
+From: Lee Jones <lee@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] backlight: pwm_bl: Remove unneeded checks for valid GPIOs
+Message-ID: <20230525112823.GB423913@google.com>
+References: <00be8237e0e2bc9b179177b5490f175d657261a2.1684856337.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [Nouveau] Fwd: absent both plymouth, and video= on linu lines,
- vtty[1-6] framebuffers produce vast raster right and bottom borders on the
- larger resolution of two displays
-Content-Language: en-US, de-DE
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>,
- Linux Framebuffer <linux-fbdev@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Nouveau/NVIDIA <nouveau@lists.freedesktop.org>,
- Linux Stable <stable@vger.kernel.org>
-References: <e8f93560-a2f6-8e9f-031a-88d333482a31@gmail.com>
- <585f36f8-431a-e929-0a04-ffb65f02e9df@gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <585f36f8-431a-e929-0a04-ffb65f02e9df@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1685013886;
- 17d9fab6; 
-X-HE-SMSGID: 1q295H-0007uO-Dj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <00be8237e0e2bc9b179177b5490f175d657261a2.1684856337.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +52,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Felix Miata <mrmazda@earthlink.net>,
- Ben Skeggs <bskeggs@redhat.com>, Antonino Daplas <adaplas@gmail.com>
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.05.23 12:55, Bagas Sanjaya wrote:
-> On 5/25/23 17:52, Bagas Sanjaya wrote:
->>
->> I notice a regression report on Bugzilla [1]. Quoting from it:
->> [...]
->> Anyway, I'm adding it to regzbot:
->>
->> #regzbot introduced: v6.1.12..v6.2.12
->> #regzbot title: vast raster right and bottom borders on larger display (two displays with inequal resolution) unless forcing resolution with video= parameter
+On Tue, 23 May 2023, Geert Uytterhoeven wrote:
 
-Bagas, thx again for your efforts, much appreciated. But I guess for drm
-drivers that have a line like
-
-B: https://gitlab.freedesktop.org/drm/[...]
-
-in MAINTAINERS (which includes all the popular drm drivers) this just
-creates a lot of confusion for everyone, as one issue will likely end up
-being discussed in two or three places in parallel (bugzilla,
-freedesktop, email). Better tell reporters to move their issue to the
-freedesktop drm tracker and close the ticket in bugzilla. And don't get
-regzbot involved, as it for now it sadly is unable to monitor the
-freedesktop drm tracker (sooner or later I'll fix that, but for now it's
-a blind spot :-/).
-
-Pretty sure none of the DRM developers will disagree, but if I'm wrong,
-please holler.
-
-> Oops, I forget to add bugzilla link:
+> All of gpiod_set_value_cansleep() and gpiod_direction_output() handle
+> NULL GPIO pointers just fine, so there is no need to check for that in
+> the caller.
 > 
-> #regzbot introduced: v6.1.12..v6.2.12 https://bugzilla.kernel.org/show_bug.cgi?id=217479
-> #regzbot from: Felix Miata <mrmazda@earthlink.net>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/video/backlight/pwm_bl.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 
-Side note: that currently does not work with regzbot. :-/ Whatever, I'll
-remove it from the tracking due to above reasons:
+Applied, thanks
 
-#regzbot inconclusive: sadly not tracked for now
-
-Ciao, Thorsten
+-- 
+Lee Jones [李琼斯]
