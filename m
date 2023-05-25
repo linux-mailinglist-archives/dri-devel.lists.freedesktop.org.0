@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023ED710284
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 03:45:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CCB710286
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 03:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B7D810E0F8;
-	Thu, 25 May 2023 01:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9AF910E629;
+	Thu, 25 May 2023 01:47:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D4410E0F8
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 01:45:50 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1ae5dc9eac4so6773135ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 18:45:50 -0700 (PDT)
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8BA10E629
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 01:47:17 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-561c1ae21e7so353247b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 May 2023 18:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684979150; x=1687571150;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XmRyEnm3o0xt10apdc5Jzi2N4nwke7v1h2bvJhvh2Sc=;
- b=Y3VYsLdjT+hFAlWXNNJMthzUBHpsDCRFb820qXsc/dYqkVtHF46gI3sr9FoFAWpmPK
- 1hlm+mf5z3p6ji9v+ZKTzT9Ud/5rOifiPxtctTEXhN/mYcTdQDJly13O6L6po9HumSPt
- THtVdpIFaAlFFnWJP/r+vRUM6dx7pcP0G5kqLTY7VncJnXGG/IlTurL00mcU0BLpVez4
- 1FPwZH9pfW3M5K0pTI8n8cv+3DPKkIVse8MWf5a9U1riTKyYlrT7RS+lxNyIaWodR6cA
- vjNT7BIHOh03PBjTMTHZB+XLZwnCixe75ykabWmwnB1jykyjo1V9XHYq98mHN9qcn0tc
- BfFA==
+ d=linaro.org; s=google; t=1684979236; x=1687571236;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=r8VpoiLaABoRr3DfUUpSxQ09LrREhjFlKA7hPKp9D+w=;
+ b=QvsJFTOa3byEZ/LgvmgK1eoDcS8C4xhJWtLq4dC8FyTe7bvRVH1GH+P3YSIw80W6Rl
+ JewslfJj2BtX6IdEF5+iOWnD0ZcdOfFkttU+keIDaa8x6LFD6101JeF/S5FMLzwnvIIn
+ BEWtQ0Yr8LbK40jX+uA7r2rOjlMw8ZcrSirc/s/6Xg8tIWwZgH7KVVyGNdioZ5kPMFO5
+ W4sxEIj3c41F+mY6o5Po6aFvox4kJzfI8gax6YfHNeX9a2SlHmmK1ynzFIS23tp3Vbqg
+ x77TZazw0SJyoVqQCkmC4+lbVCOLCc4wQfxX8aVwdFQACh+yTbZfm2fojtOuX8KFxsQE
+ avvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684979150; x=1687571150;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XmRyEnm3o0xt10apdc5Jzi2N4nwke7v1h2bvJhvh2Sc=;
- b=OssgZSOdMMWqnL8p6P1SCybfAsQXRwsapsN1hIB9PLxr1UvVsRarnR32bVg5kPljAB
- OPqUCRFDXcdE4xQG/ewBwSGpeiVOKlASClYWeP+ngIKJXZ+SCYWRrfJeFt03I9piEhGz
- 2tQIr+iKPDCK4VeqDXZ4b7uPxYVUVfPYjo3uRDYwHaYdS2S7ASC6gvt7R9pF6CcPdAaQ
- Nj2Tgz4ukOTiHqrCuW+LSE92ZLn9POFfLVsnQJbi4wE/pOqOqdSm6xlgz3gUWcTezo2x
- /Y8QWpbgXWpHmjewCHBwS0rDLK/O+TXnym3nHAsvo7oeSrZY3ZubaYa82qk5CV2uXTmH
- ineg==
-X-Gm-Message-State: AC+VfDw9DRPYGbRWlcI/uY9ujjkwjJXtXC0iETGjPSkoHv/rVWZUReWz
- kaOZnrGduRZB5bAlU/g0CYPzeO/ccwL73B1Ju53nDB7+LWXqkg==
-X-Google-Smtp-Source: ACHHUZ78QaeXfyuMyHbp1vFmQ3jeRKwF3Gmim01XYIEsSc0edamhG/qunwujuPjAZzNnq5Sg+oLZgjp0A8WtgT9nkf4=
-X-Received: by 2002:a17:902:e848:b0:1a8:ce:afd1 with SMTP id
- t8-20020a170902e84800b001a800ceafd1mr23489423plg.20.1684979149595; Wed, 24
- May 2023 18:45:49 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684979236; x=1687571236;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=r8VpoiLaABoRr3DfUUpSxQ09LrREhjFlKA7hPKp9D+w=;
+ b=UNyREnhoWZ8onG7/7fsqZ92e4rpDhLBk1Txl8v9WbRns7YWmTfjsYTABwWMVL40O8U
+ pNFicwM5DKyZ9bgQujbHrkgkAOtBxdRjE0BckrT3uv4VjmQnh3d8eBPVc2J42/oaYQeO
+ tIT63AktcQbwuVs2ZTPrwx/zCYVy8+RmEBdtlMnj/LxNfCwmQsdfgLOi8XMLujA2Jm9M
+ d8CuzHckTHKb/e+RhozXjrPqmZ/GlA0HNSlUb0bED1YESXj7UufYwvb6ejrICWB1z+Fv
+ Urs//EDcjkafRikAxbT+jQry7gdb51kfmMjoWSElp+qvE0XVtzHImUV4sCQkcIsSguKO
+ Y+fA==
+X-Gm-Message-State: AC+VfDxraLjfIAg3ydwGZkrDcWDo4N5tgz34uO+WMkG743ZmkHYD17w9
+ YYZ4JJ6jZYdpLK1VlAyWwWOead8SbGme7y0iLR/pmw==
+X-Google-Smtp-Source: ACHHUZ5ncOet5YIO017hkBCc2H1+AfEbb6/TRQZsvGP7n3raORQds9Z32SZHKz08abkZ8BU3TvOZRKzumb+sPEhZ1gE=
+X-Received: by 2002:a0d:d9d3:0:b0:55a:98ff:f07e with SMTP id
+ b202-20020a0dd9d3000000b0055a98fff07emr21332624ywe.16.1684979236457; Wed, 24
+ May 2023 18:47:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230510092450.4024730-1-victor.liu@nxp.com>
- <20230510092450.4024730-6-victor.liu@nxp.com>
- <b3b77a65-5109-0e29-99c5-6cefaba0492c@denx.de>
-In-Reply-To: <b3b77a65-5109-0e29-99c5-6cefaba0492c@denx.de>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Thu, 25 May 2023 09:45:38 +0800
-Message-ID: <CAOcKUNXTFr-uyEeKkos1m0VwoB76SMdkrAuT4zHC9c8D03Apcw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] drm: lcdif: Add multiple encoders and first
- bridges support
-To: Marek Vasut <marex@denx.de>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-11-dmitry.baryshkov@linaro.org>
+ <2a003674-29ef-f6c6-9a23-3eb93d2e479f@quicinc.com>
+In-Reply-To: <2a003674-29ef-f6c6-9a23-3eb93d2e479f@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 25 May 2023 04:47:05 +0300
+Message-ID: <CAA8EJpr0DcVfG86SYKRb-4Ph82dfXafed9CFgY1qFSECFbAcTw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 10/13] drm/msm/dpu: add list of supported formats
+ to the DPU caps
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +69,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, kernel@pengutronix.de,
- Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- alexander.stein@ew.tq-group.com, krzysztof.kozlowski@linaro.org,
- robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
- shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org,
- LW@karo-electronics.de
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-On Thu, May 11, 2023 at 12:24=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
-> On 5/10/23 11:24, Liu Ying wrote:
-> > The single LCDIF embedded in i.MX93 SoC may drive multiple displays
-> > simultaneously.  Look at LCDIF output port's remote port parents to
-> > find all enabled first bridges.  Add an encoder for each found bridge
-> > and attach the bridge to the encoder.  This is a preparation for
-> > adding i.MX93 LCDIF support.
+On Thu, 25 May 2023 at 02:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> > As we are going to add virtual planes, add the list of supported formats
+> > to the hw catalog entry. It will be used to setup universal planes, with
+> > later selecting a pipe depending on whether the YUV format is used for
+> > the framebuffer.
 > >
-> > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>
+> If your usage of format_list is going to be internal to dpu_plane.c, I
+> can think of another idea for this change.
+>
+> This essentially translates to if (num_vig >= 1)
+>
+> If we can just have a small helper to detect that from the catalog can
+> we use that instead of adding formats to the dpu caps?
+
+I'd prefer to be explicit here. The list of supported formats might
+vary between generations, might it not? Also we don't have a case of
+the devices not having VIG planes. Even the qcm2290 (which doesn't
+have CSC) lists YUV as supported.
+
+Note: I think at some point we should have a closer look at the list
+of supported formats and crosscheck that we do not have either
+unsupported formats being listed, or missing formats which are not
+listed as supported.
+
+>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> > v5->v6:
-> > * Drop MAX_DISPLAYS macro. (Marek)
-> > * Drop the encoder member in struct lcdif_drm_private.
-> > * Drop endpoint id check.
->
-> It might be nice to check (based on driver data for each IP variant) the
-> encoder count, but that can be a separate patch.
->
-> Reviewed-by: Marek Vasut <marex@denx.de>
->
-> Thanks !
->
-> btw if this doesn't get picked by someone in like a week or two, let me
-> know and I'll apply this via drm-misc .
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 26 +++++++++++++++++++
+> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  4 +++
+> >   2 files changed, 30 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > index 212d546b6c5d..2d6944a9679a 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > @@ -315,6 +315,8 @@ static const struct dpu_caps msm8998_dpu_caps = {
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >       .max_hdeci_exp = MAX_HORZ_DECIMATION,
+> >       .max_vdeci_exp = MAX_VERT_DECIMATION,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps qcm2290_dpu_caps = {
+> > @@ -324,6 +326,8 @@ static const struct dpu_caps qcm2290_dpu_caps = {
+> >       .has_idle_pc = true,
+> >       .max_linewidth = 2160,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sdm845_dpu_caps = {
+> > @@ -339,6 +343,8 @@ static const struct dpu_caps sdm845_dpu_caps = {
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >       .max_hdeci_exp = MAX_HORZ_DECIMATION,
+> >       .max_vdeci_exp = MAX_VERT_DECIMATION,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sc7180_dpu_caps = {
+> > @@ -350,6 +356,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
+> >       .has_idle_pc = true,
+> >       .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm6115_dpu_caps = {
+> > @@ -361,6 +369,8 @@ static const struct dpu_caps sm6115_dpu_caps = {
+> >       .has_idle_pc = true,
+> >       .max_linewidth = 2160,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm8150_dpu_caps = {
+> > @@ -376,6 +386,8 @@ static const struct dpu_caps sm8150_dpu_caps = {
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >       .max_hdeci_exp = MAX_HORZ_DECIMATION,
+> >       .max_vdeci_exp = MAX_VERT_DECIMATION,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sc8180x_dpu_caps = {
+> > @@ -391,6 +403,8 @@ static const struct dpu_caps sc8180x_dpu_caps = {
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >       .max_hdeci_exp = MAX_HORZ_DECIMATION,
+> >       .max_vdeci_exp = MAX_VERT_DECIMATION,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sc8280xp_dpu_caps = {
+> > @@ -404,6 +418,8 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm8250_dpu_caps = {
+> > @@ -417,6 +433,8 @@ static const struct dpu_caps sm8250_dpu_caps = {
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 900,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm8350_dpu_caps = {
+> > @@ -430,6 +448,8 @@ static const struct dpu_caps sm8350_dpu_caps = {
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 4096,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm8450_dpu_caps = {
+> > @@ -443,6 +463,8 @@ static const struct dpu_caps sm8450_dpu_caps = {
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sm8550_dpu_caps = {
+> > @@ -456,6 +478,8 @@ static const struct dpu_caps sm8550_dpu_caps = {
+> >       .has_3d_merge = true,
+> >       .max_linewidth = 5120,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_caps sc7280_dpu_caps = {
+> > @@ -467,6 +491,8 @@ static const struct dpu_caps sc7280_dpu_caps = {
+> >       .has_idle_pc = true,
+> >       .max_linewidth = 2400,
+> >       .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> > +     .format_list = plane_formats_yuv,
+> > +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+> >   };
+> >
+> >   static const struct dpu_mdp_cfg msm8998_mdp[] = {
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > index 89b372cdca92..4847aae78db2 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > @@ -404,6 +404,8 @@ struct dpu_rotation_cfg {
+> >    * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
+> >    * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
+> >    * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
+> > + * @format_list: Pointer to list of supported formats
+> > + * @num_formats: Number of supported formats
+> >    */
+> >   struct dpu_caps {
+> >       u32 max_mixer_width;
+> > @@ -419,6 +421,8 @@ struct dpu_caps {
+> >       u32 pixel_ram_size;
+> >       u32 max_hdeci_exp;
+> >       u32 max_vdeci_exp;
+> > +     const u32 *format_list;
+> > +     u32 num_formats;
+> >   };
+> >
+> >   /**
 
-Thanks for your review.  I don't see any more comments in two weeks.
-Can you please go ahead to apply this series?
 
-Regards,
-Liu Ying
+
+-- 
+With best wishes
+Dmitry
