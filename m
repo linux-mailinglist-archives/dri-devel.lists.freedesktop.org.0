@@ -1,56 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D6D7108C2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 11:23:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAAC47108EA
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 11:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F350910E855;
-	Thu, 25 May 2023 09:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E1D510E868;
+	Thu, 25 May 2023 09:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6EC10E133;
- Thu, 25 May 2023 09:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685006584; x=1716542584;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=/GppYPfESLOi0JHBQPIuFHQkEMrivIc3fjf4d77i7TU=;
- b=d8PPVLK0gWSwCcZqMG2myJPRVoEELbhOgM+xVcsAbMDyTdJ2b75zp2d/
- phteOy2H/jT1f6M+7qrZibLjAQ3DbX3VrWO6loXFcOrEXbUdD6VP1ilfJ
- +sPYVYiUqW0HUCKJC6B1L4991SoTA8sUBiuIpHwIBf9XGdliOGzMTz9l6
- Vk2DxeSnLfl+J02JDOOHGsO6e1Ll5aLrbv6NmnO1QZU9+2rFQA8SaU6e1
- oWqwVnT0AtHiboJAod+geZS315nFjv/0hKthzdRCHC7bXcRMaq2SjMQxj
- bOfysUmjQwgrqfC0GmGL6dIh7Lt9HbSZgjSmSqsFYtrI3dPs0+b1RDJGq w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="338412463"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="338412463"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 02:23:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="951383409"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; d="scan'208";a="951383409"
-Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.42.201])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2023 02:22:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] drm/i915: constify pointers to hwmon_channel_info
-In-Reply-To: <20230511175446.282041-1-krzysztof.kozlowski@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230511175446.282041-1-krzysztof.kozlowski@linaro.org>
-Date: Thu, 25 May 2023 12:22:57 +0300
-Message-ID: <87a5xskbny.fsf@intel.com>
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B82D310E868
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 09:32:07 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id
+ d9443c01a7336-1afeec98a00so8328095ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 02:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
+ t=1685007127; x=1687599127; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pI/JSFAyYGipbA4uL3stbZaz5dYY5JtH3gdway4WSgc=;
+ b=boYi4NLXerPw97PswPhsYDxCqgI3jujXAEbpHtDkemVKS062IlrXyMZhbtOF9TaRoo
+ +OzXk1JU0LSMpCbkRh+BZ/uDUJvB2a7ztAgzldZetfGDqCnkz+pGZMeBexDuysX9hZIu
+ kxRcTZDTIZM4P6pS6txQn9r0Kh/TzgNw4vAuQ9JTdvD+sOsiL+X9pz55tgLfGs66x1wF
+ eLc29YlpeDTWc2OBGjesOdLGkLPpkXN2Yds1JXO0bKKcHu/ob3hxp/zv7E620ZYBIfKd
+ Q4A036oUJoe0N92ikeeKm4WlmbKHOvcI9FgxHcDRYv3PbODFzFy5JFKi6O/+pDDMftSF
+ x7uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685007127; x=1687599127;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pI/JSFAyYGipbA4uL3stbZaz5dYY5JtH3gdway4WSgc=;
+ b=garl0heTkmkw1yNZ35MOuO9GuKGH/TiKFSzEIiHyLYAgDZvjb6vFmA0Fx2pOrxO8Xw
+ c+fVkUoPdnzR+ZEUspkz+pxYjvRUvhlmGxmehPmh1jHVqNVp/pmZWFUfpzZ8xXb5C42D
+ DVtqJjtuXjHuB/L6NvicTa3yx3Jw4ZngcuQQMHlSs1WPsbDJziREEEmz2GC5FPV8avAA
+ Yrl2liwxWb0srmYHtqZKY0xGcX9h/BB8idfxPQwCAC8qLzs9evzOYT2i3ETOppwEi7v7
+ lVNkzpVmOlGBWEn0AlpfAZBYZV9YCOTKo4SGOAQTiJC0tUDHg2AlafyNee9wblsIhQrS
+ RO5w==
+X-Gm-Message-State: AC+VfDxHXVUrknme8KjfCWEWJCGt5v35zRYwJ15k85pKGiLkK5yD23Fu
+ cGcibUpoANqOxt0Kzl+yZX46ULLzedszg9JdW+U=
+X-Google-Smtp-Source: ACHHUZ6Gpg14W4sxMXQqBgOORHLA/TU8V3NBkldPWO4L0bafwxjOTd6MsgABzWE6mFVD+PVFtrvdkA==
+X-Received: by 2002:a17:903:124b:b0:1ae:a44:841c with SMTP id
+ u11-20020a170903124b00b001ae0a44841cmr1157895plh.42.1685007126912; 
+ Thu, 25 May 2023 02:32:06 -0700 (PDT)
+Received: from yc.huaqin.com ([101.78.151.214])
+ by smtp.gmail.com with ESMTPSA id
+ n6-20020a170902e54600b001afa7040a70sm951039plf.276.2023.05.25.02.32.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 May 2023 02:32:06 -0700 (PDT)
+From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: dianders@google.com, daniel@ffwll.ch, neil.armstrong@linaro.org,
+ sam@ravnborg.org, airlied@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, hsinyi@google.com, conor+dt@kernel.org
+Subject: [v4 0/4] Support Starry-himax83102-j02 and Starry-ili9882t TDDI
+ MIPI-DSI panel
+Date: Thu, 25 May 2023 17:31:47 +0800
+Message-Id: <20230525093151.2338370-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <1adda828-cf35-fb2c-6db5-f9ca91b5b62a@linaro.org>
+References: <1adda828-cf35-fb2c-6db5-f9ca91b5b62a@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +77,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: devicetree@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 May 2023, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> Statically allocated array of pointers to hwmon_channel_info can be made
-> const for safety.
+Copare V3:Resend without Conor's acks on patches 2 and 4.
 
-Btw if you want to further make things const, the compound literals
-defined by HWMON_CHANNEL_INFO() still end up mutable, even if they're
-only referenced inline using a const pointer. If possible, would be nice
-to add const there too.
+Cong Yang (4):
+  dt-bindings: display: panel: Add compatible for Starry himax83102-j02
+  drm/panel: Support for Starry-himax83102-j02 TDDI MIPI-DSI panel
+  dt-bindings: display: panel: Add compatible for Starry ili9882t
+  drm/panel: Support for Starry-ili9882t TDDI MIPI-DSI panel
 
-BR,
-Jani.
-
->
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/gpu/drm/i915/i915_hwmon.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> index 8e7dccc8d3a0..e99e8c97ef01 100644
-> --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> @@ -267,7 +267,7 @@ static const struct attribute_group *hwm_groups[] = {
->  	NULL
->  };
->  
-> -static const struct hwmon_channel_info *hwm_info[] = {
-> +static const struct hwmon_channel_info * const hwm_info[] = {
->  	HWMON_CHANNEL_INFO(in, HWMON_I_INPUT),
->  	HWMON_CHANNEL_INFO(power, HWMON_P_MAX | HWMON_P_RATED_MAX | HWMON_P_CRIT),
->  	HWMON_CHANNEL_INFO(energy, HWMON_E_INPUT),
-> @@ -275,7 +275,7 @@ static const struct hwmon_channel_info *hwm_info[] = {
->  	NULL
->  };
->  
-> -static const struct hwmon_channel_info *hwm_gt_info[] = {
-> +static const struct hwmon_channel_info * const hwm_gt_info[] = {
->  	HWMON_CHANNEL_INFO(energy, HWMON_E_INPUT),
->  	NULL
->  };
+ .../display/panel/boe,tv101wum-nl6.yaml       |   4 +
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 471 ++++++++++++++++++
+ 2 files changed, 475 insertions(+)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
