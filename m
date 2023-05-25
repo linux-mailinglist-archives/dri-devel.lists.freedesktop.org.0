@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB617110C4
-	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 18:19:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2157110C5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 May 2023 18:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5CD10E6BD;
-	Thu, 25 May 2023 16:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 063A910E6C1;
+	Thu, 25 May 2023 16:19:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E67EF10E6BD
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 16:19:34 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f6e68cc738so2220805e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 09:19:34 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 099A310E6BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 16:19:35 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-309d3e8777cso930258f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 09:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685031573; x=1687623573;
+ d=linaro.org; s=google; t=1685031574; x=1687623574;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Oo9T7GK+jbRQ9eOS44On2zC9exINDDuwo1UWaQaAt78=;
- b=gMHY+8NdSrO5i4LyeBGwX3eZgd9bQRZnIwSprRznTz8Oen5wN/0a1Xr559oJ56z9JC
- fBwt0VK/RT2SVUjE/sju7D2xe98B4t3W+j1+bo9wqGd7OltURuwblH/LlpcqAsYOEibs
- bPXSqNj3wFvJujEsBEmugC8hQxIJiE64apYbm6WqZhXE/x5hQrIqT6uSMmXGvLkFtlRA
- 9Q1jTNg392nqz+FnTA/vmbrq8VqapSgmd5UxyFwkvSqSoKz1xlZLJrqvK3Io6sfEGtFJ
- EGvF1ZWyhAJ67XvTdjU2AX0oACpQf7CwoQvOD4brzBKsgKiW4ivrAl2ejKcs20Y51rBY
- VQuA==
+ bh=J792pmgwZYjCthCbVbD0XbMQjnsrFglVru1pdmfLzCs=;
+ b=zJAsS/yh7QWEW5Nc0yeCDj0yjn88zziqdrmms8/5ht+HLhZCa3LXSoJh+HetSO87wk
+ wjOgV1oiSKCn2rHkKMca8x94TRZNtnnJGdd1ZoSfKgSAYZqCLsBo0UjW13yB0QiSjRuZ
+ Q4Si9CsLTDWaXAXG8I+7HKCHzyV/TVRnKcVXTN1f5Mj5sa5MP4CwzZe63mN3Daw21W4s
+ nfslYByXyhkI1aISyl/Pvb8OohDYQWga6urfL9PN1uXWW6acHH8CSo9V1wI31nFoKP0I
+ UWoHeTx4KM9zwen7bk0UubUE6FQZlSaZiKemJQpZL5LUCVdHBn0AT11vAFLA4a3ZOS2j
+ nPbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685031573; x=1687623573;
+ d=1e100.net; s=20221208; t=1685031574; x=1687623574;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Oo9T7GK+jbRQ9eOS44On2zC9exINDDuwo1UWaQaAt78=;
- b=Fw4/9m5TizzrFgeJvbCtOQzRgkz+sLb4r/kyHZ2ShuGpGQpbt8TQo9610No3vcEfrx
- QrWuW/UDkFWP9ItvLFR2UmslW2qLi36pazhp1n0S9MJ9rRgF4A7tz285n6UlC6aG4yUh
- 910PhxIwRYqJbGMcxTMWzrIltwTQGII1ZzWHuHss8d0Ag2R/YMJLYMAbdCDCc/5Lao5/
- hRcwgLV5WKGsC3op0QzWBUgYJk1JYRklcEpqCHT6rek/SSF0FVIE1xfBLDC83NvRXmjV
- lV0bkjsqojTb8fX9o+cjg1XMeTXCNGZ2wtalNHpdUAO5OBfnCjiCOWXd6bUfSHWR0xGC
- EIRQ==
-X-Gm-Message-State: AC+VfDy/G1h4roMnBUE4Zld6lXJIHJa7T/RsHikukBHpjlIIn+du1ysF
- TeNpOc9M6w/J/dtErYOz4nOK4Q==
-X-Google-Smtp-Source: ACHHUZ4DmL510dvOwiMbbDJ3r61jwvMEn4idjQJT0Vc/XDMbtesNIzQhRgVBeUKQJBad73ZX/RhuNw==
-X-Received: by 2002:a5d:500d:0:b0:306:37a2:6e56 with SMTP id
- e13-20020a5d500d000000b0030637a26e56mr3123738wrt.5.1685031572900; 
- Thu, 25 May 2023 09:19:32 -0700 (PDT)
+ bh=J792pmgwZYjCthCbVbD0XbMQjnsrFglVru1pdmfLzCs=;
+ b=ZUiLEypWBQyuaxH6XAI6xfPHsetDdjULPspNKLK2VGJqYpI3EgwahRQrCFZdm/f/dS
+ X7iAP5itbozF4lRNv8u3Tu5HdSPCb9HOh12bzAtdXbNlEHGbxYl4HJybni9OZh7jQtT8
+ sGDHu1MDsuJWr7+qO8oTE1N0AoBzFC4dUd0bD56+zb//pMh9hD/7r17grwlCw/zxhAxA
+ jyGYe+nOrQOpvW8NH9YovXr9pp9UM0Ai6BTTo7uAEmO8bpFfOtmPFHUd8ASWilPViptT
+ uJyOeYil9XGLZjhfjaRYnpjnPJbvG/7MfRTz3u0iUGOQpUjYds/pijBAF+fYwdt07ntp
+ IfJA==
+X-Gm-Message-State: AC+VfDyBsKR7/CwohsJl3PC9/Hf7QXXwVXLQBBw2F1siAwKZGOC5iWnf
+ vSfb3zk/27e8d05NdmdThQzfee6rYBd/2vjOCcu2qg==
+X-Google-Smtp-Source: ACHHUZ6FgPqiKtydERzxbHFcz2iQJVXJ4vGXA/l6lHkTNlloCfY1UYgInQomL7PkcTwGpfIwykQFyw==
+X-Received: by 2002:adf:fb09:0:b0:30a:c681:fd2e with SMTP id
+ c9-20020adffb09000000b0030ac681fd2emr1256379wrr.22.1685031574023; 
+ Thu, 25 May 2023 09:19:34 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a056000194700b00307bc4e39e5sm2240017wry.117.2023.05.25.09.19.32
+ e7-20020a056000194700b00307bc4e39e5sm2240017wry.117.2023.05.25.09.19.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 May 2023 09:19:32 -0700 (PDT)
+ Thu, 25 May 2023 09:19:33 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-In-Reply-To: <20230516071949.375264-1-alexander.stein@ew.tq-group.com>
-References: <20230516071949.375264-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] drm/bridge: tc358767: explicitly set readable
- registers
-Message-Id: <168503157203.1160623.3275920622627092687.b4-ty@linaro.org>
-Date: Thu, 25 May 2023 18:19:32 +0200
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, linux-kernel@vger.kernel.org, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Robert Foss <rfoss@kernel.org>, 
+ Frieder Schrempf <frieder@fris.de>
+In-Reply-To: <20230503163313.2640898-1-frieder@fris.de>
+References: <20230503163313.2640898-1-frieder@fris.de>
+Subject: Re: [PATCH v2 0/2] Init flow fixes for Samsung DSIM and TI SN65DSI84
+Message-Id: <168503157303.1160623.697502626208861584.b4-ty@linaro.org>
+Date: Thu, 25 May 2023 18:19:33 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -79,22 +79,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, 16 May 2023 09:19:49 +0200, Alexander Stein wrote:
-> This map was created from register map from datasheet (section 5.1.2).
-> Unused registers are stated by address, so they show up in debugfs as well.
+On Wed, 03 May 2023 18:33:05 +0200, Frieder Schrempf wrote:
+> From: Frieder Schrempf <frieder.schrempf@kontron.de>
 > 
+> This patchset contains a proposal to fix the initialization flow for
+> the display pipeline used on our i.MX8MM Kontron boards:
 > 
+>   i.MX8MM LCDIF -> i.MX8MM DSIM -> TI SN65DSI84 -> 7" LVDS Panel
+> 
+> [...]
 
 Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-[1/1] drm/bridge: tc358767: explicitly set readable registers
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=abd686b8c38a094631884aa7b8cb04cc32b6608a
+[1/2] drm: bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0c14d3130654fe459fca3067d2d4317fc607bc71
+[2/2] drm/bridge: ti-sn65dsi83: Fix enable/disable flow to meet spec
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=dd9e329af7236e34c566d3705ea32a63069b9b13
 
 -- 
 Neil
