@@ -2,79 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077C07121C4
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 10:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DC27119F2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 00:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F1F10E7C5;
-	Fri, 26 May 2023 08:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D292D10E781;
+	Thu, 25 May 2023 22:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D3310E777;
- Thu, 25 May 2023 21:40:58 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34PLL6Bu003162; Thu, 25 May 2023 21:40:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=KDZo71gRcDFSFrx7PRrhULd2+WSgVFYIUueCbZ2Jmu0=;
- b=G/X65j7HCXQN1XAH10dMsryO1ceXDOJPns25BMUNOZsCcwM9c4Mv1XT2q5iyVuESXZnq
- G60WcMXqq6JAAYfnEzQPmompsY05vUnKAwYJIl5E+6SSK2+TDs65f6CHxirkTFsGnIMZ
- aOy9mnhotUrnhkr8LsW3jzYok/BKP70d2YZ8pid9Lhb1XJD8J61b30m62jm/fbxVyJ0A
- UfHlbtDNxuuagGVcto15Olmi6kx3Qj9s307HjFPf6uUrMYmRo0ZebhrUF1CxkD8ur+BK
- OXvN38z6M4YgQvG/4eVWzxUrN/kq6ReeMWTqbmRQw0qAEVypLAS2LcklrdxCg3fZrxql oA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qt47eshnw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 May 2023 21:40:52 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34PLepT1006234
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 May 2023 21:40:51 GMT
-Received: from [10.110.33.8] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 25 May
- 2023 14:40:50 -0700
-Message-ID: <50c35efe-987b-5138-050e-181c0f6bf191@quicinc.com>
-Date: Thu, 25 May 2023 14:40:50 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [PATCH v2 3/6] drm/msm/dpu: split interrupt address
- arrays
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06CCA10E781;
+ Thu, 25 May 2023 22:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685052236; x=1716588236;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=lcKzA3KZ5ZH8AW9idZc8o4rzSwBXSBU2ZoS32aOEiRs=;
+ b=RtrGlwb+VAteR7wfrrV0Xu3xO8Poz4j+0yiYp88hdrFswLBmMB9IGRtU
+ pt5qTxoahFhaWyRcZbkMIuCxqbyV/j2i32nLDvgxbc9pxxBPV/jmPU8i/
+ Uc94Y88axLOEnNkhcn8kcf97cZjqG0amqEJrVX9H43fglBhsCp3lCNpJm
+ Jzr0iThxi/bu8xy7JyWe04/s965/GaxHNusjnuB4Lki3L0cOP04HmQDNg
+ 9SF2L2Ry9LDPbEYgNo/WpM84CjM7yJQqrKrv9tE5DbJqc9El8s1TAQMtX
+ fZFQOegTzfV7Ad905C3721r4iwY681W6Rlc0ChQWuQdhODazWLBJJR6re A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="417522652"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; d="scan'208";a="417522652"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2023 15:03:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="735746070"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; d="scan'208";a="735746070"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 25 May 2023 15:03:54 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 25 May 2023 15:03:53 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 25 May 2023 15:03:53 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 25 May 2023 15:03:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AIf1M/5lUSQe0d7wjfd5aG4h2Y2s6rS6rEcVjbdXpLqTtXyvwE5LvoU9CypjfQ4yvMxu/K+R4MxsElNLwwtR8HTiffkEU7b71X+7UYq71T0rI5r4u2A89nCV7VJV5yB8tCCfWXL+kh1NWVsSKAc4ewRORWA6YfGDgfIwxQGQiaW5UaADxZhEGbydDqIY9nQSgeS+vR83f2eNMWAbNlCtWvHAw6r5AML4ligngbzREj7B6p4arvL7svr/zS6xYI0ZmBxnM8dCD0523yUjYps1SuToOqiXorssOvDR7+RUJTKeNihk2j2PKs2hmNYbpZosiF/E/xnWzsL0E1uec1/u0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lcKzA3KZ5ZH8AW9idZc8o4rzSwBXSBU2ZoS32aOEiRs=;
+ b=CHJc+6J1i4PIMeTs7TvFzrMeOQHC2Q/Rb+c2bStBeqyvyEpdE1enj2x6qsAudkrH6fJlQ4/Cf1Ud/UoD7G42WumGzPCWc5rzEViTDyv7siprQEFM64zqn1DKVebt5Nta4HhGIuLOvE+lNdH7++9vaprPL+D9qt2DBm/v/fs6tW9Rsvod6LSkkh9yCeL401tWvisG4UjNMyFM9MX4VngD7MsMEDCG2JaBYli+1A8UT2/jRM3WeqfTd5vyalb3dRVIzfvODb0owlUPabFxq/xBiCZgd2IpLRpzpYKyNsfLOcKkeYYUOma/NCIVzZXGAVBqUMnCEL0bP4RvucDZEhYSrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ PH8PR11MB8105.namprd11.prod.outlook.com (2603:10b6:510:254::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.17; Thu, 25 May
+ 2023 22:03:49 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::34a1:94e9:ec9b:dfe3]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::34a1:94e9:ec9b:dfe3%7]) with mapi id 15.20.6411.028; Thu, 25 May 2023
+ 22:03:49 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH 3/6] drm/i915/uc/gsc: extract release and security
+ versions from the gsc binary
+Thread-Topic: [PATCH 3/6] drm/i915/uc/gsc: extract release and security
+ versions from the gsc binary
+Thread-Index: AQHZf2tRh28FsVjDD0GOD8EX4/J13q9qkJ4AgADEMwCAAFXmAA==
+Date: Thu, 25 May 2023 22:03:48 +0000
+Message-ID: <69dff59d8fd61aaa6989d2645dd53a9c9a590b29.camel@intel.com>
+References: <20230505160415.889525-1-daniele.ceraolospurio@intel.com>
+ <20230505160415.889525-4-daniele.ceraolospurio@intel.com>
+ <674e85c47cd29b39ad902e5445234b93b2f99883.camel@intel.com>
+ <5b16ee44-3645-88e1-4c03-b46eb57ca1f4@intel.com>
+In-Reply-To: <5b16ee44-3645-88e1-4c03-b46eb57ca1f4@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>
-References: <20230522214527.190054-1-dmitry.baryshkov@linaro.org>
- <20230522214527.190054-4-dmitry.baryshkov@linaro.org>
-From: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
-In-Reply-To: <20230522214527.190054-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ZwQ8SIK4Se8Umc-w3dhMmN42ZxMqDnfE
-X-Proofpoint-ORIG-GUID: ZwQ8SIK4Se8Umc-w3dhMmN42ZxMqDnfE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-25_12,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305250184
-X-Mailman-Approved-At: Fri, 26 May 2023 08:02:45 +0000
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|PH8PR11MB8105:EE_
+x-ms-office365-filtering-correlation-id: 026a5c27-0ad4-4c45-9c76-08db5d6beb06
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9E9nNMHGvIrL+RU/QvEcRR4eHb+KK10uWUjkK6jnzsvOMoFROXoO+4+1bokvBUVKUKSBcZGBGYlstNstJl+sYDN5t9ZHICE72h8Wa8jBzCSzcPs1KIrmJ5OvfVpoD/ra3ibj+MXk3LJr/wo/NX+6wvgYbi+jXH9aTKuyRaqE0epmfnDfZYtPOiA4RDk5P106MSWeHk8M8Vm96JLk30KmBuVPtxMIO3XRI0PioZnv3ufk68PNdOflJc9ZWR9iTEF07tygEM4a3fxtBpPXSQfPxmW1SWQrTy+wV8sF/QDdHdJ37VqxpnmQWHY5mlNhw87iSgV2GtrZvT7iYcCYbVMcK0fjUL+pPoUny1MndTpMaekF5V7YDb6KuvEKrx7Chp+oq3w3iMx9oIqp+rZ4Jb0MkFc/Pa3QtImEja9DqZuravGJG4w7Z/JlK5Zd8923Q7zaWlSQ9MDk+Y0q+qFgXE1fhxa0H4xrt2UpRlqv0nfg+9wB1qInnd6PTSWb63LlQRwC264lZ23wYlgwK0+WG88eAQUKY8WBQmFep0UnviVrl2OlDsVvXCX3hBhheDvMHBd6g+J2odEbsHCt7CWjg8OxuHNnSBY0Sg5lTmQo8a4kohAWDILmgVKBZKO/ujFa5YHs
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(346002)(396003)(39860400002)(136003)(366004)(451199021)(478600001)(82960400001)(38100700002)(122000001)(8676002)(8936002)(5660300002)(6512007)(53546011)(91956017)(6506007)(450100002)(2616005)(26005)(64756008)(66946007)(66446008)(66556008)(76116006)(66476007)(38070700005)(36756003)(83380400001)(316002)(71200400001)(186003)(2906002)(41300700001)(86362001)(6486002)(4326008)(15650500001)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cXhDOXY3TXJqcXpDaHZqSFV4VnVkWTNVUngxSWFUL05xWURmNXl6eWR5RXZl?=
+ =?utf-8?B?NXFGSHZ4WnBOQldaYk1YOXk0YmhvYTlYTkhUVm8ySWFPdlo5dWlBN3hIdElj?=
+ =?utf-8?B?RGY5aDV4QStyS0ZJZFRlSmlRbVI3VXY4S2x6MTZQeEZuMG5WKzJETDgvUHV1?=
+ =?utf-8?B?UStuYkY1RTRZSFlaV2haKzlaQ3NiUjJqNXhpYXpud1dZSFRjTVpLbCtyODZ6?=
+ =?utf-8?B?U1VnWmFmZnVYd3EwSnZEM3ZJSGFMbWFmanVKRnVQcHVsVlVFdnhjKzlHN0RN?=
+ =?utf-8?B?ZTBKOVkvQXdOREZWY1BzbVBjRUR5MHBzZ2diL2svcDRxZGVGcng0b2xiTjdK?=
+ =?utf-8?B?NTVrRDgzWEZnMkhraEppNUtiSmN0aEtES2NwYzMrcjdraFdmZTcwZmdlczV4?=
+ =?utf-8?B?ejljY1RFSFNRNElLRkZtQ0NqMlhoakIwcTEvQ2VxcU02a1AveXBPcExqMEZp?=
+ =?utf-8?B?MUJxbXJSOUI4TGE2RDRucVR3WUxFM29sTmhTTEhvZExpbHdoY25kYnlhU1Fi?=
+ =?utf-8?B?dkdISWh6SFY0cWpEWVdreTUzQkRHUUNlQWxyVVlVZEdEK1BHVVg3NjVtRk9v?=
+ =?utf-8?B?bkd1U3VNWmptVkdmWXR2WXdJNHN0ZFF6eVVKajFqNFpqbklSaythdGw3ZWov?=
+ =?utf-8?B?YVlLNVVFQTNsTHMyTER5OE9PSUhUaFpYMzJrUVo3UllwMXBLUlloSmcrOVRa?=
+ =?utf-8?B?dDN2OHU3U0pVZFM2Q3JtZHVKditlMktlM2RXZFgydWJJWU54TFNnL2tySENE?=
+ =?utf-8?B?Z3pBU0JHWFcvay9aa3gwNnVaRWN6b1pReVpTNmRQWExENzlYYmFiRng3SHNF?=
+ =?utf-8?B?T202cHh0V3RGNkxXUHE2aVpOWTBRZjBuUlgrNVR3TGM1VDJ5ZG4rRWlUWVg1?=
+ =?utf-8?B?UDlBMmJscC9XbFM0VjlXQTZoR2dJaDNOSk4yQkdnbFRmNTV3aWtQUGR2NHZQ?=
+ =?utf-8?B?ZGUxTjhwZVJuQnRFSXdxdU9EVmh4RHZ0Y0hWTnBSdjhvdDdHUXV0L29xYXVa?=
+ =?utf-8?B?Qmp2Uk03MHBzNUNINy91c0xML3h2Y3U2bDBjc29FS3FnbWVUWTcvRjJMTzE2?=
+ =?utf-8?B?ZkJTYzY4UjZBb1dzaDB2ZDhkeGx0WURJY1gwVTNFd29tVDltbmpLL0F6MDUy?=
+ =?utf-8?B?dU15ajdETHQybGlMVi9VNkZoUDZQOU5HS0Y2bHFpeUF5c2RsU29sSUtMZGxR?=
+ =?utf-8?B?MlQ5RitBR0c2KzhDb1pSU0Z5U3FtZGU0NDlEU2hBVDhtc2xlNjA4cndXVzNm?=
+ =?utf-8?B?VThWUjVYVVBiTnYrSHRRYTZZbjY4RmFyWHI3V2k4WTh0M1MxOSt0eTRXUXpN?=
+ =?utf-8?B?Ylg5czJqYS9hSW1KNmRmbjhUWjJwOWExNFhnOVhRS1NlS0NHTk1ubEY1L0pZ?=
+ =?utf-8?B?MGxFZ1ZvdEIvbWttY2F5WmNqWm1ST1YyMEpXYUJIVGtZcGhZRlRPYmgrUlph?=
+ =?utf-8?B?TGlzUFQxY0NRZkNQcDcwait6bUdxMzZMblgwaDRERzVlQzVjMENhVTVuNHg2?=
+ =?utf-8?B?OU1Wd01aNGtjemJRTDA2eThmSTFmVXU0em40RzdFVmdkSldmUkFDOFZITU16?=
+ =?utf-8?B?R3JscVpic1FpNjFYeWFEKzcxc0QwTlk4OVQ0MWRUVG0wRlhsNlc1clpRUnNO?=
+ =?utf-8?B?TmlkbllOSUtLaU84VWlkdU5PRDMycVJ2dTNQMjBKOS9BMGZKNWpXaHhDdFJC?=
+ =?utf-8?B?R1JBeTJLeW9YT2pmR1p2YU0wbGNqT1lrT25CbnhsMlEzK0VySFlML1BjWG1t?=
+ =?utf-8?B?WU5tNWhUR1JFYk9OSTVxOXVWWlNLMVlsQXVVTVRqbFYxOTA4YXBRWTBUR0Ny?=
+ =?utf-8?B?Z1Z0T080cUMwU2l2OUwzRlM0cEdqWG5TZVh5MGx4eVFCM2NwTm1yRlJpL2Yv?=
+ =?utf-8?B?ekNwcmlEeEdiSlZMNkFCUnk2VmJsZ1J3WlFNZ0w0S2M5eEx5dmtWcVdKMUZW?=
+ =?utf-8?B?N3JDM3B4TnV1UWF3MGVjYUdKS21FbytvM0VORFNWWnB5MzIxT0RyRDlNelJQ?=
+ =?utf-8?B?NkhXdmRVOGVXN3pGLzhyK0FLZkNNTlg5VklSbWtRU2NCMGY1ODZtL2EyemVL?=
+ =?utf-8?B?WUpCNTNSQnE0RVVRU3dFMko2UlBXMzBVSkpWTm5Fdm1sR2lkNHZoajViN3Iv?=
+ =?utf-8?B?OG5lTjJvZlNmOWRZTmxoYWlxM2pQL3RML2YxV0FlVkJTN2JDZXdtbGJGa0Vl?=
+ =?utf-8?Q?uIpVl55+Gb/LK5ohdur+R2I=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F313ED5A3243FC4CA3FF0B54C55519A3@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 026a5c27-0ad4-4c45-9c76-08db5d6beb06
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 May 2023 22:03:48.8511 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GRq5cTM00/lxhZHInnI7Ho3b1EpjbKUaHLRYfItKdJHrBCiiXbLz3an+KSxmqPnFFmx3B9dZDUsV5dSCgIbdLPRgx5qhyrqDDCmOrVhoKYEX3kPKXU9r74sY40zS0sAr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8105
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,377 +162,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn
- Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/22/2023 2:45 PM, Dmitry Baryshkov wrote:
-> There is no point in having a single enum (and a single array) for both
-> DPU < 7.0 and DPU >= 7.0 interrupt registers. Instead define a single
-> enum and two IRQ address arrays.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  1 +
->   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  1 +
->   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  1 +
->   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  1 +
->   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  1 +
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 +
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 82 +++++++++++++------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 28 ++++---
->   8 files changed, 79 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index 3c1b2c13398d..320cfa4be633 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sm8350_dpu_caps = {
->   	.has_dim_layer = true,
->   	.has_idle_pc = true,
->   	.has_3d_merge = true,
-> +	.has_7xxx_intr = true,
->   	.max_linewidth = 4096,
->   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 5d894cbb0a62..9306c7a115e9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -13,6 +13,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
->   	.qseed_type = DPU_SSPP_SCALER_QSEED4,
->   	.has_dim_layer = true,
->   	.has_idle_pc = true,
-> +	.has_7xxx_intr = true,
->   	.max_linewidth = 2400,
->   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index c3f1ae000a21..fc1e17c495f0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
->   	.has_dim_layer = true,
->   	.has_idle_pc = true,
->   	.has_3d_merge = true,
-> +	.has_7xxx_intr = true,
->   	.max_linewidth = 5120,
->   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 86c2e68ebd2c..eb72411c16db 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -14,6 +14,7 @@ static const struct dpu_caps sm8450_dpu_caps = {
->   	.has_src_split = true,
->   	.has_dim_layer = true,
->   	.has_idle_pc = true,
-> +	.has_7xxx_intr = true,
->   	.has_3d_merge = true,
->   	.max_linewidth = 5120,
->   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index 85dc34458b88..8209ca317bdc 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -15,6 +15,7 @@ static const struct dpu_caps sm8550_dpu_caps = {
->   	.has_dim_layer = true,
->   	.has_idle_pc = true,
->   	.has_3d_merge = true,
-> +	.has_7xxx_intr = true,
->   	.max_linewidth = 5120,
->   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index 677048cc3b7d..72530ebb0ae6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -351,6 +351,7 @@ struct dpu_rotation_cfg {
->    * @has_dim_layer      dim layer feature status
->    * @has_idle_pc        indicate if idle power collapse feature is supported
->    * @has_3d_merge       indicate if 3D merge is supported
-> + * @has_7xxx_intr      indicate that INTF/IRQs use addressing for DPU 7.0 and greater
-
-I see the requirement to distinguish feature support based on the DPU 
-version in more than one series. Is it a good idea to bring in the DPU 
-version info in chipset catalog? This will relieve us from maintaining 
-such version flags for individual HW sub-blocks.
-
-Thanks and Regards,
-Jeykumar S.
-
->    * @max_linewidth      max linewidth for sspp
->    * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
->    * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
-> @@ -364,6 +365,7 @@ struct dpu_caps {
->   	bool has_dim_layer;
->   	bool has_idle_pc;
->   	bool has_3d_merge;
-> +	bool has_7xxx_intr;
->   	/* SSPP limits */
->   	u32 max_linewidth;
->   	u32 pixel_ram_size;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index 0776b0f6df4f..a03d826bb9ad 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -51,11 +51,9 @@ struct dpu_intr_reg {
->   };
->   
->   /*
-> - * struct dpu_intr_reg -  List of DPU interrupt registers
-> - *
-> - * When making changes be sure to sync with dpu_hw_intr_reg
-> + * dpu_intr_set_legacy -  List of DPU interrupt registers for DPU <= 6.x
->    */
-> -static const struct dpu_intr_reg dpu_intr_set[] = {
-> +static const struct dpu_intr_reg dpu_intr_set_legacy[] = {
->   	[MDP_SSPP_TOP0_INTR] = {
->   		INTR_CLEAR,
->   		INTR_EN,
-> @@ -121,57 +119,78 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
->   		MDP_AD4_INTR_EN_OFF(1),
->   		MDP_AD4_INTR_STATUS_OFF(1),
->   	},
-> -	[MDP_INTF0_7xxx_INTR] = {
-> +};
-> +
-> +/*
-> + * dpu_intr_set_7xxx -  List of DPU interrupt registers for DPU >= 7.0
-> + */
-> +static const struct dpu_intr_reg dpu_intr_set_7xxx[] = {
-> +	[MDP_SSPP_TOP0_INTR] = {
-> +		INTR_CLEAR,
-> +		INTR_EN,
-> +		INTR_STATUS
-> +	},
-> +	[MDP_SSPP_TOP0_INTR2] = {
-> +		INTR2_CLEAR,
-> +		INTR2_EN,
-> +		INTR2_STATUS
-> +	},
-> +	[MDP_SSPP_TOP0_HIST_INTR] = {
-> +		HIST_INTR_CLEAR,
-> +		HIST_INTR_EN,
-> +		HIST_INTR_STATUS
-> +	},
-> +	[MDP_INTF0_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(0),
->   		MDP_INTF_REV_7xxx_INTR_EN(0),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(0)
->   	},
-> -	[MDP_INTF1_7xxx_INTR] = {
-> +	[MDP_INTF1_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(1),
->   		MDP_INTF_REV_7xxx_INTR_EN(1),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(1)
->   	},
-> -	[MDP_INTF1_7xxx_TEAR_INTR] = {
-> +	[MDP_INTF1_TEAR_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_TEAR_CLEAR(1),
->   		MDP_INTF_REV_7xxx_INTR_TEAR_EN(1),
->   		MDP_INTF_REV_7xxx_INTR_TEAR_STATUS(1)
->   	},
-> -	[MDP_INTF2_7xxx_INTR] = {
-> +	[MDP_INTF2_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(2),
->   		MDP_INTF_REV_7xxx_INTR_EN(2),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(2)
->   	},
-> -	[MDP_INTF2_7xxx_TEAR_INTR] = {
-> +	[MDP_INTF2_TEAR_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_TEAR_CLEAR(2),
->   		MDP_INTF_REV_7xxx_INTR_TEAR_EN(2),
->   		MDP_INTF_REV_7xxx_INTR_TEAR_STATUS(2)
->   	},
-> -	[MDP_INTF3_7xxx_INTR] = {
-> +	[MDP_INTF3_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(3),
->   		MDP_INTF_REV_7xxx_INTR_EN(3),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(3)
->   	},
-> -	[MDP_INTF4_7xxx_INTR] = {
-> +	[MDP_INTF4_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(4),
->   		MDP_INTF_REV_7xxx_INTR_EN(4),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(4)
->   	},
-> -	[MDP_INTF5_7xxx_INTR] = {
-> +	[MDP_INTF5_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(5),
->   		MDP_INTF_REV_7xxx_INTR_EN(5),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(5)
->   	},
-> -	[MDP_INTF6_7xxx_INTR] = {
-> +	[MDP_INTF6_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(6),
->   		MDP_INTF_REV_7xxx_INTR_EN(6),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(6)
->   	},
-> -	[MDP_INTF7_7xxx_INTR] = {
-> +	[MDP_INTF7_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(7),
->   		MDP_INTF_REV_7xxx_INTR_EN(7),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(7)
->   	},
-> -	[MDP_INTF8_7xxx_INTR] = {
-> +	[MDP_INTF8_INTR] = {
->   		MDP_INTF_REV_7xxx_INTR_CLEAR(8),
->   		MDP_INTF_REV_7xxx_INTR_EN(8),
->   		MDP_INTF_REV_7xxx_INTR_STATUS(8)
-> @@ -216,19 +235,19 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
->   		return IRQ_NONE;
->   
->   	spin_lock_irqsave(&intr->irq_lock, irq_flags);
-> -	for (reg_idx = 0; reg_idx < ARRAY_SIZE(dpu_intr_set); reg_idx++) {
-> +	for (reg_idx = 0; reg_idx < MDP_INTR_MAX; reg_idx++) {
->   		if (!test_bit(reg_idx, &intr->irq_mask))
->   			continue;
->   
->   		/* Read interrupt status */
-> -		irq_status = DPU_REG_READ(&intr->hw, dpu_intr_set[reg_idx].status_off);
-> +		irq_status = DPU_REG_READ(&intr->hw, intr->intr_set[reg_idx].status_off);
->   
->   		/* Read enable mask */
-> -		enable_mask = DPU_REG_READ(&intr->hw, dpu_intr_set[reg_idx].en_off);
-> +		enable_mask = DPU_REG_READ(&intr->hw, intr->intr_set[reg_idx].en_off);
->   
->   		/* and clear the interrupt */
->   		if (irq_status)
-> -			DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
-> +			DPU_REG_WRITE(&intr->hw, intr->intr_set[reg_idx].clr_off,
->   				     irq_status);
->   
->   		/* Finally update IRQ status based on enable mask */
-> @@ -285,7 +304,11 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
->   	assert_spin_locked(&intr->irq_lock);
->   
->   	reg_idx = DPU_IRQ_REG(irq_idx);
-> -	reg = &dpu_intr_set[reg_idx];
-> +	reg = &intr->intr_set[reg_idx];
-> +
-> +	/* Is this interrupt register supported on the platform */
-> +	if (WARN_ON(!reg->en_off))
-> +		return -EINVAL;
->   
->   	cache_irq_mask = intr->cache_irq_mask[reg_idx];
->   	if (cache_irq_mask & DPU_IRQ_MASK(irq_idx)) {
-> @@ -334,7 +357,7 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
->   	assert_spin_locked(&intr->irq_lock);
->   
->   	reg_idx = DPU_IRQ_REG(irq_idx);
-> -	reg = &dpu_intr_set[reg_idx];
-> +	reg = &intr->intr_set[reg_idx];
->   
->   	cache_irq_mask = intr->cache_irq_mask[reg_idx];
->   	if ((cache_irq_mask & DPU_IRQ_MASK(irq_idx)) == 0) {
-> @@ -368,10 +391,10 @@ static void dpu_clear_irqs(struct dpu_kms *dpu_kms)
->   	if (!intr)
->   		return;
->   
-> -	for (i = 0; i < ARRAY_SIZE(dpu_intr_set); i++) {
-> +	for (i = 0; i < MDP_INTR_MAX; i++) {
->   		if (test_bit(i, &intr->irq_mask))
->   			DPU_REG_WRITE(&intr->hw,
-> -					dpu_intr_set[i].clr_off, 0xffffffff);
-> +					intr->intr_set[i].clr_off, 0xffffffff);
->   	}
->   
->   	/* ensure register writes go through */
-> @@ -386,10 +409,10 @@ static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
->   	if (!intr)
->   		return;
->   
-> -	for (i = 0; i < ARRAY_SIZE(dpu_intr_set); i++) {
-> +	for (i = 0; i < MDP_INTR_MAX; i++) {
->   		if (test_bit(i, &intr->irq_mask))
->   			DPU_REG_WRITE(&intr->hw,
-> -					dpu_intr_set[i].en_off, 0x00000000);
-> +					intr->intr_set[i].en_off, 0x00000000);
->   	}
->   
->   	/* ensure register writes go through */
-> @@ -421,10 +444,10 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
->   
->   	reg_idx = DPU_IRQ_REG(irq_idx);
->   	intr_status = DPU_REG_READ(&intr->hw,
-> -			dpu_intr_set[reg_idx].status_off) &
-> +			intr->intr_set[reg_idx].status_off) &
->   		DPU_IRQ_MASK(irq_idx);
->   	if (intr_status)
-> -		DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
-> +		DPU_REG_WRITE(&intr->hw, intr->intr_set[reg_idx].clr_off,
->   				intr_status);
->   
->   	/* ensure register writes go through */
-> @@ -448,6 +471,11 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
->   	if (!intr)
->   		return ERR_PTR(-ENOMEM);
->   
-> +	if (m->caps->has_7xxx_intr)
-> +		intr->intr_set = dpu_intr_set_7xxx;
-> +	else
-> +		intr->intr_set = dpu_intr_set_legacy;
-> +
->   	intr->hw.blk_addr = addr + m->mdp[0].base;
->   
->   	intr->total_irqs = nirq;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> index 1f2dabc54c22..f329d6d7f646 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> @@ -23,24 +23,29 @@ enum dpu_hw_intr_reg {
->   	MDP_INTF3_INTR,
->   	MDP_INTF4_INTR,
->   	MDP_INTF5_INTR,
-> +	MDP_INTF6_INTR,
-> +	MDP_INTF7_INTR,
-> +	MDP_INTF8_INTR,
->   	MDP_INTF1_TEAR_INTR,
->   	MDP_INTF2_TEAR_INTR,
->   	MDP_AD4_0_INTR,
->   	MDP_AD4_1_INTR,
-> -	MDP_INTF0_7xxx_INTR,
-> -	MDP_INTF1_7xxx_INTR,
-> -	MDP_INTF1_7xxx_TEAR_INTR,
-> -	MDP_INTF2_7xxx_INTR,
-> -	MDP_INTF2_7xxx_TEAR_INTR,
-> -	MDP_INTF3_7xxx_INTR,
-> -	MDP_INTF4_7xxx_INTR,
-> -	MDP_INTF5_7xxx_INTR,
-> -	MDP_INTF6_7xxx_INTR,
-> -	MDP_INTF7_7xxx_INTR,
-> -	MDP_INTF8_7xxx_INTR,
->   	MDP_INTR_MAX,
->   };
->   
-> +/* compatibility */
-> +#define MDP_INTF0_7xxx_INTR MDP_INTF0_INTR
-> +#define MDP_INTF1_7xxx_INTR MDP_INTF1_INTR
-> +#define MDP_INTF2_7xxx_INTR MDP_INTF2_INTR
-> +#define MDP_INTF3_7xxx_INTR MDP_INTF3_INTR
-> +#define MDP_INTF4_7xxx_INTR MDP_INTF4_INTR
-> +#define MDP_INTF5_7xxx_INTR MDP_INTF5_INTR
-> +#define MDP_INTF6_7xxx_INTR MDP_INTF6_INTR
-> +#define MDP_INTF7_7xxx_INTR MDP_INTF7_INTR
-> +#define MDP_INTF8_7xxx_INTR MDP_INTF8_INTR
-> +#define MDP_INTF1_7xxx_TEAR_INTR MDP_INTF1_TEAR_INTR
-> +#define MDP_INTF2_7xxx_TEAR_INTR MDP_INTF2_TEAR_INTR
-> +
->   #define DPU_IRQ_IDX(reg_idx, offset)	(reg_idx * 32 + offset)
->   
->   /**
-> @@ -60,6 +65,7 @@ struct dpu_hw_intr {
->   	u32 total_irqs;
->   	spinlock_t irq_lock;
->   	unsigned long irq_mask;
-> +	const struct dpu_intr_reg *intr_set;
->   
->   	struct {
->   		void (*cb)(void *arg, int irq_idx);
+T24gVGh1LCAyMDIzLTA1LTI1IGF0IDA5OjU2IC0wNzAwLCBDZXJhb2xvIFNwdXJpbywgRGFuaWVs
+ZSB3cm90ZToNCj4gT24gNS8yNC8yMDIzIDEwOjE0IFBNLCBUZXJlcyBBbGV4aXMsIEFsYW4gUHJl
+dmluIHdyb3RlOg0KPiA+IE9uIEZyaSwgMjAyMy0wNS0wNSBhdCAwOTowNCAtMDcwMCwgQ2VyYW9s
+byBTcHVyaW8sIERhbmllbGUgd3JvdGU6DQphbGFuOnNuaXANCj4gPiA+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2d0L3VjL2ludGVsX2dzY191Yy5oDQo+ID4gPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9ndC91Yy9pbnRlbF9nc2NfdWMuaA0KPiA+ID4gQEAgLTE3LDYgKzE3LDkgQEAg
+c3RydWN0IGludGVsX2dzY191YyB7DQo+ID4gPiAgIAlzdHJ1Y3QgaW50ZWxfdWNfZncgZnc7DQo+
+ID4gPiANCj4gPiA+ICAgCS8qIEdTQy1zcGVjaWZpYyBhZGRpdGlvbnMgKi8NCj4gPiA+ICsJc3Ry
+dWN0IGludGVsX3VjX2Z3X3ZlciByZWxlYXNlOw0KPiA+ID4gKwl1MzIgc2VjdXJpdHlfdmVyc2lv
+bjsNCj4gPiBhbGFuOiBmb3IgY29uc2lzdGVuY3kgYW5kIGxlc3MgcmVkdW5kYW5jeSwgY2FuJ3Qg
+d2UgYWRkICJzZWN1cml0eV92ZXJzaW9uIg0KPiA+IGludG8gJ3N0cnVjdCBpbnRlbF91Y19md192
+ZXInICh3aGljaCBpcyB6ZXJvIGZvciBmaXJtd2FyZSB0aGF0IGRvZXNuJ3QNCj4gPiBoYXZlIGl0
+KS4gVGhhdCB3YXksIGludGVsX2dzY191YyBjYW4gcmUtdXNlIGludGVsX3VjX2Z3LmZpbGVfc2Vs
+ZWN0ZWQNCj4gPiBqdXN0IGxpa2UgaHVjPw0KPiANCj4gSSdtIG5vdCBzdXJlIHdoYXQgeW91IG1l
+YW4gYnkgcmUtdXNpbmcgaW50ZWxfdWNfZncuZmlsZV9zZWxlY3RlZC4gSXMgDQo+IHRoYXQgZm9y
+IHRoZSBjYWxsIGZyb20gaW50ZWxfdWNfZndfdmVyc2lvbl9mcm9tX21ldV9tYW5pZmVzdD8gSSdt
+IA0KPiBwdXJwb3NlbHkgbm90IGRvaW5nIHRoYXQuIE5vdGUgdGhhdCB0aGUgR1NDIGhhcyAzIHZl
+cnNpb25zOg0KPiANCj4gUmVsZWFzZSB2ZXJzaW9uIChpbmNyZW1lbnRlZCB3aXRoIGVhY2ggYnVp
+bGQgYW5kIGVuY29kZWQgaW4gdGhlIGhlYWRlcikNCj4gU2VjdXJpdHkgdmVyc2lvbiAoYWxzbyBl
+bmNvZGVkIGluIHRoZSBoZWFkZXIpDQo+IENvbXBhdGliaWxpdHkgdmVyc2lvbiAocXVlcmllZCB2
+aWEgbWVzc2FnZSB0byB0aGUgR1NDKQ0KPiANCj4gVGhlIG9uZSB3ZSBjYXJlIGFib3V0IGZvciBj
+b21tdW5pY2F0aW5nIHdpdGggdGhlIEdTQyBpcyB0aGUgbGFzdCBvbmUsIHNvIA0KPiB0aGF0J3Mg
+dGhlIG9uZSBJIHN0b3JlZCBpbiBpbnRlbF91Y19mdy5maWxlX3NlbGVjdGVkIChpbiB0aGUgbmV4
+dCANCj4gcGF0Y2gpLiBUaGUgb3RoZXIgMsKgIHZlcnNpb25zIGFyZSBub3Qgc3RyaWN0bHkgcmVx
+dWlyZWQgdG8gdXNlIHRoZSBHU0MgDQo+IGFuZCB3ZSBvbmx5IGZldGNoIHRoZW0gZm9yIGRlYnVn
+IHB1cnBvc2VzLCBzbyBpZiBzb21ldGhpbmcgZ29lcyB3cm9uZyB3ZSANCj4ga25vdyBleGFjdGx5
+IHdoYXQgd2UndmUgbG9hZGVkLg0KPiANCj4gRGFuaWVsZQ0KYWxhbjogb2theSB0aGFua3MgLSBz
+ZWVpbmcgdGhhdCBub3cgaW4gdGhlIG5leHQgcGF0Y2guLi4gKGFuZCBpIGFsc28gZm9yZ290IHRo
+YXQNCnRoZSBHU0MgcmVsZWFzZSB2ZXJzaW9uIGRvZXNudCByZWZsZWN0IGludGVyZmFjZSB2ZXJz
+aW9uaW5nIGluIGFueXdheSBsaWtlIEd1QyBkb2VzKS4NCkluIHRoYXQgY2FzZSwgYWJvdmUgYWRk
+aXRpb25hbCB2ZXJzaW9ucyBhcmUgZmluZS4gV291bGQgZGVmaW5pdGVseSBsb3ZlIHRvIHNlZQ0K
+YWRkaXRpb25hbCBjb21tZW50cyB1bmRlciAiR1NDLXNwZWNpZmljLWFkZGl0aW9ucyIgdGhhdCBl
+eHBsYWluIHRob3NlIDMgdmVyc2lvbmluZw0KaXRlbXMgYW5kIHdoYXQgd2UgY2FyZSBhYm91dCBh
+cyBob3cgeW91IGhhdmUgZXhwbGFpbmVkIGhlcmUuDQo=
