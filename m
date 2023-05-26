@@ -1,65 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BA0712312
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 11:09:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79CA71231C
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 11:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF05310E7D3;
-	Fri, 26 May 2023 09:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 393AD10E7D6;
+	Fri, 26 May 2023 09:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE4CD10E7D3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:09:48 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2af2db78b38so5130691fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 02:09:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685092186; x=1687684186;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Lfip9WRM9noL0Gy0TC2bjz3Y0WgSk0gvAx7c/r1Jxko=;
- b=tC3msow/rYHS8fmhMtLDMTusljx5I9UlxeUipOQ+QzT+ZBCWBVBdTgzOsw8apyiVWn
- LfCicP6fAGq1Dsz6bYsGWGZOsUwQAYDHwCyiaGqge3f4jwJfgPQMU5LW4b+V33DxRNiJ
- cbC0WbRvoheZa8bc6Cto4grBIB0Un2a6u38AoLLBi7sPSf3ZQwZZjkhzSx9Kl4oPH1Yv
- kuHebrCdxIoXaG6W9nAUVjLLI8s2ukwNPTiXgI+6KBU+F5wMamkAoGcJWOdi20cnWL+c
- AVQrN7tHZ0SSQkL8NL2t9k/vP+BXrIArUjBYvXiFyc92kLBcjnzwFAF32UfAVIszKAKF
- zOkg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0BB810E7D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1685092256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pfhQPnMMVxGy9HVpRogR5S0+kfWfaO5hPxVfZgqeerw=;
+ b=OdOF6tqTy92ytR38lag6JyzSpzKfLb40bZEXsA1MclD3M6wVY1CzpdDuVb1j/Me9g6EK+a
+ +wrblKsqi7Jk+yzrm2Od0R+h8xa5Youmtjdg9pO3/beS+6fHID6nlV8IJq1GPIY8x95pYL
+ ACDJRWorItin8WQAd/gTpADGnYyg1Sc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-601-ujLSRSbtMjC6S_hZUxKHNQ-1; Fri, 26 May 2023 05:10:55 -0400
+X-MC-Unique: ujLSRSbtMjC6S_hZUxKHNQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f08900caadso1018875e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 02:10:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685092186; x=1687684186;
+ d=1e100.net; s=20221208; t=1685092254; x=1687684254;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Lfip9WRM9noL0Gy0TC2bjz3Y0WgSk0gvAx7c/r1Jxko=;
- b=lvS9ZHoe430/4V8y3hoUMNOszT17HIeHPkvQpJPblUcJDXr9JuW0eMbdYdsQO9MdKT
- ONJfG5X96bO++LYRk10NUkX/FQf7jC5qH3E+WzZRTSDJJzkr0gImifRIHuciNzxALYEi
- 5IP/r8SsluoDopD9NevSmF1uZcHKpAy7DsCl105qr8C1Vnhsmb/BTIbV0QaEk67zy8bU
- /agh/nPNsFC7fiprPCIXLZNIohsSYGz1/iub94vjqyfHwO+/jVlFwzZ4OECXDxwPpsJE
- wJKnyps6ZOiEEIzDPR6pfCOF8qM5P4xQjzBs9cObCjOAzbyAcVWisqE4E8aL7i+uLM8J
- VHKQ==
-X-Gm-Message-State: AC+VfDyu5/ZygMCnYCXamiSF/Js0mp25djG9ebQjRfrzqKiOvWzN8EZV
- 4uROmIhlIWjHS2Ast/+Uo0kWTQ==
-X-Google-Smtp-Source: ACHHUZ7nSrpogwjiwCp+uhudeJqoYumglTZ0HcqOUiICGf86YSnpKgCMPXXDYHYk5q9AWFYo7TD8Kg==
-X-Received: by 2002:ac2:4855:0:b0:4f3:b6b8:dabb with SMTP id
- 21-20020ac24855000000b004f3b6b8dabbmr395149lfy.13.1685092186562; 
- Fri, 26 May 2023 02:09:46 -0700 (PDT)
-Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- v24-20020ac25618000000b004cb43eb09dfsm538992lfd.123.2023.05.26.02.09.45
+ bh=pfhQPnMMVxGy9HVpRogR5S0+kfWfaO5hPxVfZgqeerw=;
+ b=XbpeD/LoUEoSpRhZXWhP/YNkf9gOS9s5tZphtOqqqdVkaOVvXLQoumy6kLhC4c+oqV
+ OOhnyXnn40FD3IDncTtrq9N5icq4b3wDaer1IAMYm2B9GPUo6Ci5Ab27WuJFO8Bq5Y6s
+ HuXjqXnYy1f8Cq93YahI5YUvkOOKW8Brr0IyKYlQxfs3UXpVFoXeqisaxT0TVTMWj3by
+ 0VIQNh7i84mJBey8QkEoLlG+OLuG10TDp1udcVJqXERD/N7xYRtEaZR/Rw5f5wFjDWod
+ r3H51ZTicijKmbKs2XrYbkEW99tz8ToQTc1Aqmb0xb7KvEhLax08h4uYvoECwa8z/3cD
+ nCqw==
+X-Gm-Message-State: AC+VfDyCO9y/jT9w67cmmTgl4Ab7GXZqIEKrVflq67Qh0zkZH4nwotzC
+ rc8AC+N+64G2EjxpAwoLKsbq5hEkAX7DCiuVgldk28X7w6ovFigPBjxraKPkC+5WnNG/bgenHiD
+ k/roX+rB+lWXENxhH/gss3fy2aj98
+X-Received: by 2002:a5d:4089:0:b0:305:ed26:856e with SMTP id
+ o9-20020a5d4089000000b00305ed26856emr726548wrp.4.1685092254080; 
+ Fri, 26 May 2023 02:10:54 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7saa/44Q0pwfx5BthoXdKEazE+VPecBiWDTDxgSxJeja34PRg2BVqeRTUB/dal6RLuLcQ8aA==
+X-Received: by 2002:a5d:4089:0:b0:305:ed26:856e with SMTP id
+ o9-20020a5d4089000000b00305ed26856emr726532wrp.4.1685092253802; 
+ Fri, 26 May 2023 02:10:53 -0700 (PDT)
+Received: from kherbst.pingu (ip1f1032e8.dynamic.kabel-deutschland.de.
+ [31.16.50.232]) by smtp.gmail.com with ESMTPSA id
+ z16-20020adfe550000000b003063a92bbf5sm4474553wrm.70.2023.05.26.02.10.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 May 2023 02:09:46 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH] drm/msm/dpu: use PINGPONG_NONE to unbind INTF from PP
-Date: Fri, 26 May 2023 12:09:45 +0300
-Message-Id: <20230526090945.439639-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ Fri, 26 May 2023 02:10:53 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/nouveau: bring back blit subchannel for pre nv50 GPUs
+Date: Fri, 26 May 2023 11:10:52 +0200
+Message-Id: <20230526091052.2169044-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,108 +80,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: nouveau@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the driver passes the PINGPONG index to
-dpu_hw_intf_ops::bind_pingpong_blk() callback and uses separate boolean
-flag to tell whether INTF should be bound or unbound. Simplify this by
-passing PINGPONG_NONE in case of unbinding and drop the flag completely.
+1ba6113a90a0 removed a lot of the kernel GPU channel, but method 0x128
+was important as otherwise the GPU spams us with `CACHE_ERROR` messages.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+We use the blit subchannel inside our vblank handling, so we should keep
+at least this part.
+
+v2: Only do it for NV11+ GPUs
+
+Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/201
+Fixes: 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 1 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 3 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 1 -
- 5 files changed, 4 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_chan.c |  1 +
+ drivers/gpu/drm/nouveau/nouveau_chan.h |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c  | 20 +++++++++++++++++---
+ 3 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index ebe34eda6e50..7fd3a13ac226 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2102,8 +2102,8 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
- 		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
- 			if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
- 				phys_enc->hw_intf->ops.bind_pingpong_blk(
--						dpu_enc->phys_encs[i]->hw_intf, false,
--						dpu_enc->phys_encs[i]->hw_pp->idx);
-+						dpu_enc->phys_encs[i]->hw_intf,
-+						PINGPONG_NONE);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
+index e648ecd0c1a0..3dfbc374478e 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.c
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
+@@ -90,6 +90,7 @@ nouveau_channel_del(struct nouveau_channel **pchan)
+ 		if (cli)
+ 			nouveau_svmm_part(chan->vmm->svmm, chan->inst);
  
- 			/* mark INTF flush as pending */
- 			if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 1a4c20f02312..3130c86a32cc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -66,7 +66,6 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
- 	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
- 		phys_enc->hw_intf->ops.bind_pingpong_blk(
- 				phys_enc->hw_intf,
--				true,
- 				phys_enc->hw_pp->idx);
++		nvif_object_dtor(&chan->blit);
+ 		nvif_object_dtor(&chan->nvsw);
+ 		nvif_object_dtor(&chan->gart);
+ 		nvif_object_dtor(&chan->vram);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
+index e06a8ffed31a..bad7466bd0d5 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_chan.h
++++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
+@@ -53,6 +53,7 @@ struct nouveau_channel {
+ 	u32 user_put;
  
- 	if (phys_enc->hw_intf->ops.enable_compression)
-@@ -556,8 +555,7 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
- 	if (phys_enc->hw_intf->ops.bind_pingpong_blk) {
- 		phys_enc->hw_intf->ops.bind_pingpong_blk(
- 				phys_enc->hw_intf,
--				false,
--				phys_enc->hw_pp->idx);
-+				PINGPONG_NONE);
+ 	struct nvif_object user;
++	struct nvif_object blit;
  
- 		ctl = phys_enc->hw_ctl;
- 		ctl->ops.update_pending_flush_intf(ctl, phys_enc->intf_idx);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 3a374292f311..220020273304 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -287,7 +287,6 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
- 	if (phys_enc->hw_intf->ops.bind_pingpong_blk)
- 		phys_enc->hw_intf->ops.bind_pingpong_blk(
- 				phys_enc->hw_intf,
--				true,
- 				phys_enc->hw_pp->idx);
+ 	struct nvif_event kill;
+ 	atomic_t killed;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index cc7c5b4a05fd..9512f1c2f871 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -369,15 +369,29 @@ nouveau_accel_gr_init(struct nouveau_drm *drm)
+ 		ret = nvif_object_ctor(&drm->channel->user, "drmNvsw",
+ 				       NVDRM_NVSW, nouveau_abi16_swclass(drm),
+ 				       NULL, 0, &drm->channel->nvsw);
++
++		if (ret == 0 && device->info.chipset >= 0x11) {
++			ret = nvif_object_ctor(&drm->channel->user, "drmBlit",
++					       0x005f, 0x009f,
++					       NULL, 0, &drm->channel->blit);
++		}
++
+ 		if (ret == 0) {
+ 			struct nvif_push *push = drm->channel->chan.push;
+-			ret = PUSH_WAIT(push, 2);
+-			if (ret == 0)
++			ret = PUSH_WAIT(push, 8);
++			if (ret == 0) {
++				if (device->info.chipset >= 0x11) {
++					PUSH_NVSQ(push, NV05F, 0x0000, drm->channel->blit.handle);
++					PUSH_NVSQ(push, NV09F, 0x0120, 0,
++							       0x0124, 1,
++							       0x0128, 2);
++				}
+ 				PUSH_NVSQ(push, NV_SW, 0x0000, drm->channel->nvsw.handle);
++			}
+ 		}
  
- 	if (phys_enc->hw_pp->merge_3d)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-index a2486f99d3c2..918d154848b9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-@@ -268,7 +268,6 @@ static void dpu_hw_intf_setup_prg_fetch(
- 
- static void dpu_hw_intf_bind_pingpong_blk(
- 		struct dpu_hw_intf *intf,
--		bool enable,
- 		const enum dpu_pingpong pp)
- {
- 	struct dpu_hw_blk_reg_map *c = &intf->hw;
-@@ -277,7 +276,7 @@ static void dpu_hw_intf_bind_pingpong_blk(
- 	mux_cfg = DPU_REG_READ(c, INTF_MUX);
- 	mux_cfg &= ~0xf;
- 
--	if (enable)
-+	if (pp != PINGPONG_NONE)
- 		mux_cfg |= (pp - PINGPONG_0) & 0x7;
- 	else
- 		mux_cfg |= 0xf;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-index 72fe907729f1..e2d15e89880d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-@@ -89,7 +89,6 @@ struct dpu_hw_intf_ops {
- 	u32 (*get_line_count)(struct dpu_hw_intf *intf);
- 
- 	void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
--			bool enable,
- 			const enum dpu_pingpong pp);
- 	void (*setup_misr)(struct dpu_hw_intf *intf, bool enable, u32 frame_count);
- 	int (*collect_misr)(struct dpu_hw_intf *intf, u32 *misr_value);
+ 		if (ret) {
+-			NV_ERROR(drm, "failed to allocate sw class, %d\n", ret);
++			NV_ERROR(drm, "failed to allocate sw or blit class, %d\n", ret);
+ 			nouveau_accel_gr_fini(drm);
+ 			return;
+ 		}
 -- 
-2.39.2
+2.40.1
 
