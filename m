@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32B6712B13
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 18:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D01712B19
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 18:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6347E10E81E;
-	Fri, 26 May 2023 16:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BFE10E824;
+	Fri, 26 May 2023 16:54:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF0610E1D5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 16:51:38 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id
- 6a1803df08f44-6238b15d298so9965336d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1685119897; x=1687711897;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B0EcAbr12Tz3JaIJZGOfuX6nKlF7eHCwWePp0l1EnR0=;
- b=ZQAf4LUZzgLtNI1iuErVfrDk5RtwHd5YprqowAtUBbv7Kz6xOQfmdZi/1o5/n30lQE
- /tpfYmZDRVi4NoxJIuNvdO9aqoj4c9kwfIW1rEqzNszwi76gHAD+BGX2cV/Zd3s+NTMZ
- E4LKP1wu9x8pSzqzw57xxLCOhqzW+XL9oX/UQsKnneky5T2OfUWG5XoKACPfuYsoe8Uz
- OLVd8dGzB0x+YRg7KmLHG59ArbV8g7o7IlHkeiBGwa9sKUG7yGRVlrMm1uYGu+qlM1LL
- RGjTDUiCcBQEZsGuPruFUneQF+eACEbsKJDXp5xVByVgYkV3VN6qQGHsL9fuVdYTAyeH
- GMNw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6D6110E824
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 16:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1685120082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6BnPJ7eiUTPN3sJ4BxFB6a3n9CvSr2rgwmobQyXF5is=;
+ b=XS30o8cjmJPs0ZHCeYthp0eTpn/7H0TeGsbsJBWlTIMI42bxz2X5Skq6kwUQNIIC4L+ikH
+ 6gS6pAhdRWc88wOliQoaSgLgMxybK2SaTgiCKj1hrKwW9u3DEdEdzPH5oJDNVRNaTttmWe
+ 9Tnlr2ta7nvqBzyWDnxYF5Txrw3ZPzE=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-1ZtePw0TNjuqvNkHLPhNkw-1; Fri, 26 May 2023 12:54:41 -0400
+X-MC-Unique: 1ZtePw0TNjuqvNkHLPhNkw-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2af28aae675so4172051fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:54:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685119897; x=1687711897;
+ d=1e100.net; s=20221208; t=1685120080; x=1687712080;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B0EcAbr12Tz3JaIJZGOfuX6nKlF7eHCwWePp0l1EnR0=;
- b=V7a8Y/HzfamB+LpU11/8FtSlCBAaU05SbQbPiXx9X/eE67CxfbVAnUa3HSl45KHHBH
- uJXawIgHpb9Llk0t5fm0oL9PzXaXcRyfj+VmHgfF8ZDGqAtXQUg8V9BXg9HIrtsYXr9D
- 1XgHYKbEyIRIWeuKyYAucWrNUqlKjRUzrGw3lqYQJP99gyuLzINCq+b84H1OBcCGPNiU
- dR+EMybYC4ZYEgieIn/62jcFmj3uLZkyD5HJ8AmmKJpAYbWTQWjyXYZw3bxP7R/C1gO0
- zkTPF3jd25NuozoAXk+Am2S4/V+uh0eHmFO+NYiPGvTtTDiWoCkmlNF1aalNItXcJ7+l
- FJfA==
-X-Gm-Message-State: AC+VfDyheeIMhV7nBfuDLIdQRDjleasGJV4YTzWd8OGiyKICPuyAjuPq
- 32RBgl6j3xYRbGSdoUQzqEd+1eeCd+2M5lfj948eYA==
-X-Google-Smtp-Source: ACHHUZ7zNVT9E5+KkqBP+ZTyfqvDGI2d6bY2hRADL+qOK3dL+ftIEtrLh4N7cS11/o6IrVHRuLLfI56tUId+yu2rsJQ=
-X-Received: by 2002:ad4:5ce6:0:b0:625:e039:5b03 with SMTP id
- iv6-20020ad45ce6000000b00625e0395b03mr3237442qvb.54.1685119897248; Fri, 26
- May 2023 09:51:37 -0700 (PDT)
+ bh=6BnPJ7eiUTPN3sJ4BxFB6a3n9CvSr2rgwmobQyXF5is=;
+ b=PL0A+ZUxNZEEaCoGBQUbFNM2zoDX36VTku3SthKbsG4vYs5oYRlJyYs7VICkGR25VH
+ BT3JH1K1midhF46aUuYlYmUaDXJ/mP1JK4woyqnMAO0ULaF6Oj8L1ZyfRz7Hhitx3SfO
+ e9HqTgzdsIaEbtBOHyfVlhirL6oXd/YU4SuAldyYxIFENrveVm2x5my5QzsP92aBRVOQ
+ IkjmbzJ1lvVraYtS29vCEQj7lfYDWlbdjivEdWO4WkG8TkSeFcujiosrz+flJ4RNsigQ
+ IDZIfOojR4jymcI5QppyxlrMWSw6+zjHMb1U1CVXYSzeUc4GV+I67hbdJFTCDyZEeNAV
+ NGSw==
+X-Gm-Message-State: AC+VfDxet5muOYQbhDpi+d9MBdobfTGL14xgsPu9H1RH0VGmpI6iRapp
+ qY9YdeUNvPDwQX4cOa0x996t8GnHUYPhMv1Faim7WUYvne7zmHqp3jf3hJS/eIpXG+M9+PxGh6x
+ xUZu4S/Q4oTxumvyL6lbzWVy/wirnVu8VzZkcggGO9eNu
+X-Received: by 2002:a2e:9904:0:b0:2a8:d1cd:a04 with SMTP id
+ v4-20020a2e9904000000b002a8d1cd0a04mr782083lji.48.1685120080143; 
+ Fri, 26 May 2023 09:54:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4BGiYAK7lIcMVhAUA7FNfDEUrXSDsiYXqzvvb3fFtfgAHYFndU4Q/kZzacZ6FuTS48BB/bI0pBNG9rp3mpB8w=
+X-Received: by 2002:a2e:9904:0:b0:2a8:d1cd:a04 with SMTP id
+ v4-20020a2e9904000000b002a8d1cd0a04mr782075lji.48.1685120079821; Fri, 26 May
+ 2023 09:54:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230524-intel_async_flip_check_hw-implicit-fallthrough-v1-1-83de89e376a1@kernel.org>
- <CAKwvOd=jZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1kXJg2ay2w@mail.gmail.com>
- <20230524184103.GA324296@dev-arch.thelio-3990X>
- <CAKwvOdm=Zk8YhrPptN3k7UQo+1n7Ws=Qox=BwTR9bbjPJJYz8A@mail.gmail.com>
- <39da7e41-dd07-b8bc-57b9-19b05fdfbeac@tessares.net>
-In-Reply-To: <39da7e41-dd07-b8bc-57b9-19b05fdfbeac@tessares.net>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 26 May 2023 09:51:26 -0700
-Message-ID: <CAKwvOdkFxUU4AM9WbcRK9FYHq0cK2H-x4i5_x7oYiE7=DjghhQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Fix clang -Wimplicit-fallthrough in
- intel_async_flip_check_hw()
-To: Matthieu Baerts <matthieu.baerts@tessares.net>
+References: <20230525191809.3524-1-harry.wentland@amd.com>
+ <20230526161648.5865ce1a@eldfell>
+ <CA+hFU4wv+4Qkyj-2ajv3o=2OX6N1+Pz=PVq0Z6YPnZaMJFPx7A@mail.gmail.com>
+In-Reply-To: <CA+hFU4wv+4Qkyj-2ajv3o=2OX6N1+Pz=PVq0Z6YPnZaMJFPx7A@mail.gmail.com>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Fri, 26 May 2023 18:54:28 +0200
+Message-ID: <CA+hFU4yW6FU0R5FRKTNRvoswztYHxoQUWaZSD+QT6to6DVqg8A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/13] Enable Colorspace connector property in amdgpu
+To: Pekka Paalanen <ppaalanen@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,137 +79,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, llvm@lists.linux.dev,
- kernel test robot <lkp@intel.com>, trix@redhat.com,
- intel-gfx@lists.freedesktop.org, patches@lists.linux.dev,
- Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com, Joe Perches <joe@perches.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 25, 2023 at 1:30=E2=80=AFPM Matthieu Baerts
-<matthieu.baerts@tessares.net> wrote:
+With the documentation about RGB and YCC variants added the drm core patche=
+s are
+
+Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+
+
+On Fri, May 26, 2023 at 6:24=E2=80=AFPM Sebastian Wick
+<sebastian.wick@redhat.com> wrote:
 >
-> Hi Nick,
->
-> On 24/05/2023 20:56, Nick Desaulniers wrote:
-> > On Wed, May 24, 2023 at 11:41=E2=80=AFAM Nathan Chancellor <nathan@kern=
-el.org> wrote:
-> >>
-> >> On Wed, May 24, 2023 at 11:32:32AM -0700, Nick Desaulniers wrote:
-> >>> On Wed, May 24, 2023 at 8:38=E2=80=AFAM Nathan Chancellor <nathan@ker=
-nel.org> wrote:
-> >>>>
-> >>>> Clang warns:
-> >>>>
-> >>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: error: unanno=
-tated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
-> >>>>                   case I915_FORMAT_MOD_X_TILED:
-> >>>>                   ^
-> >>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: note: insert =
-'break;' to avoid fall-through
-> >>>>                   case I915_FORMAT_MOD_X_TILED:
-> >>>>                   ^
-> >>>>                   break;
-> >>>>   1 error generated.
-> >>>>
-> >>>> Clang is a little more pedantic than GCC, which does not warn when
-> >>>> falling through to a case that is just break or return. Clang's vers=
-ion
-> >>>> is more in line with the kernel's own stance in deprecated.rst, whic=
-h
-> >>>> states that all switch/case blocks must end in either break,
-> >>>> fallthrough, continue, goto, or return. Add the missing break to sil=
-ence
-> >>>> the warning.
-> >>>>
-> >>>> Fixes: 937859485aef ("drm/i915: Support Async Flip on Linear buffers=
-")
-> >>>> Reported-by: kernel test robot <lkp@intel.com>
-> >>>> Closes: https://lore.kernel.org/202305241902.UvHtMoxa-lkp@intel.com/
-> >>>> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> >>>> Closes: https://lore.kernel.org/CA+G9fYv68V3ewK0Qj-syQj7qX-hQr0H1MFL=
-=3DQFNuDoE_J2Zu-g@mail.gmail.com/
-> >>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> >>>
-> >>> Thanks for the patch! I've never seen the closes tag before, that's
-> >>> new to me. Can you tell me more about it?
-> >>
-> >> It is new to me (at least in the context of the kernel) as well. I onl=
-y
-> >> used it over Link: because checkpatch.pl told me to:
-> >>
-> >> WARNING: Reported-by: should be immediately followed by Closes: with a=
- URL to the report
-> >> #26:
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> >>
-> >> WARNING: Reported-by: should be immediately followed by Closes: with a=
- URL to the report
-> >> #27:
-> >> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> >> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> >>
-> >> It was Link: for a bit but commit 44c31888098a ("checkpatch: allow
-> >> Closes tags with links") changed it to Closes:. Looks odd to me but
-> >> whatever the linter says I suppose.
-> >>
-> >> Thanks for the review!
-> >>
-> >> Cheers,
-> >> Nathan
-> >>
-> >>> A few more tags
-> >>>
-> >>> Reported-by: Tom Rix <trix@redhat.com>
-> >>> Link: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redha=
-t.com/
-> >>> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> On Fri, May 26, 2023 at 3:16=E2=80=AFPM Pekka Paalanen <ppaalanen@gmail.c=
+om> wrote:
 > >
-> > Ah then I guess my link tag should have been
+> > On Thu, 25 May 2023 15:17:56 -0400
+> > Harry Wentland <harry.wentland@amd.com> wrote:
 > >
-> > Closes: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redha=
-t.com/
+> > > This patchset is based on Joshua's previous patchset [1], as well
+> > > as my previous patchset [2].
+> > >
+> > > It is
+> > > - enabling support for the colorspace property in amdgpu, as well as
+> > > - allowing drivers to specify the supported set of colorspaces, and
+> > >
+> > > Colorspace, Infoframes, and YCbCr matrix
+> > > ---------------------------------------
+> > >
+> > > Even though the initial intent of the colorspace property was to set =
+the
+> > > colorspace field in the respective HDMI AVI and DP SDP infoframes tha=
+t
+> > > is not sufficient in all scenarios. For DP the colorspace information
+> > > also affects the MSA (main stream attribute) packet. For YUV output t=
+he
+> > > colorspace affects the RGB-to-YCbCr conversion matrix. The colorspace
+> > > field of the infopackets also depends on the encoding used, which is
+> > > something that is decided by the driver and not known to userspace.
 > >
-> > I hope the author of
-> > commit 44c31888098a ("checkpatch: allow Closes tags with links")
-> > has coordinated with the maintainer of b4, so that b4 recognizes Closes=
- tags.
-> > b4 v0.12.2 does not pick up Closes tags.
+> > Hi Harry,
+> >
+> > the "deprecation" of BT2020 RGB vs. YCC is now dropped completely.
+> > Should there still be a patch that adds some UAPI documentation only,
+> > saying that drivers are free to swap e.g. between BT2020 RGB and YCC
+> > based which encoding they actually chose?
 >
-> I'm sorry for the troubles caused by this series, that was not the
-> intension.
+> Yes please!
 >
-> When looking at modifying b4 to support the Closes tag, I realised the
-> Link tag from your previous message [1] was not taken as well. Was it
-> just me?
+> > Even if just BT2020 variant specifically.
+> >
+> > I have nothing against with this series now.
+> >
+> >
+> > Thanks,
+> > pq
+> >
+> > >
+> > > For these reasons a driver will need to be able to select the support=
+ed
+> > > colorspaces at property creation.
+> > >
+> > > Note: There seems to be an understanding that the colorspace property
+> > > should ONLY modify the infoframe. While this is current behavior and
+> > > sufficient in some cases it is nowhere specified that this should be =
+the
+> > > only use of this property. As outlined above this limitation is not
+> > > going to work in all cases.
+> > >
+> > > This patchset does not affect current behavior for the drivers that
+> > > implement this property: i915 and vc4.
+> > >
+> > > In the future we might want to give userspace control over the encodi=
+ng
+> > > format on the wire, in particular to avoid use of YUV420 when image
+> > > fidelity is important. This work would likely go hand in hand with a
+> > > min_bpc property and wouldn't conflict with the work done in this
+> > > patchset. I would expect this future work to tag along with a drm_crt=
+c
+> > > or drm_connector's Color Pipeline, similar to the one propsed for
+> > > drm_plane [3].
+> > >
+> > > Colorspace on crtc or connector?
+> > > --------------------------------
+> > >
+> > > There have been suggestions of programming 'colorspace' on the drm_cr=
+tc
+> > > but I don't think the crtc is the right place for this property. The
+> > > drm_plane and drm_crtc will be used to offload color processing that
+> > > would normally be done via the GFX or other pipelines. The drm_connec=
+tor
+> > > controls the signalling with the display and ensures the wire format =
+is
+> > > appropriate for the encoding by programming the RGB-to-YCbCr matrix.
+> > >
+> > > [1] https://patchwork.freedesktop.org/series/113632/
+> > > [2] https://patchwork.freedesktop.org/series/111865/
+> > > [3] https://lists.freedesktop.org/archives/dri-devel/2023-May/403173.=
+html
 
-oh? good find!
-
->
-> If no, I just sent patches for b4, see [2]. I hope it will help!
-
-appreciated! Thank you.
-
->
-> Cheers,
-> Matt
->
-> [1]
-> https://lore.kernel.org/all/CAKwvOd=3DjZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1k=
-XJg2ay2w@mail.gmail.com/
-> [2]
-> https://lore.kernel.org/tools/20230525-closes-tags-v1-0-ed41b1773cb6@tess=
-ares.net/T/
-> --
-> Tessares | Belgium | Hybrid Access Solutions
-> www.tessares.net
-
-
-
---=20
-Thanks,
-~Nick Desaulniers
