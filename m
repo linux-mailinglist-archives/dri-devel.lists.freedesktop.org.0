@@ -1,64 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBBD712230
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 10:28:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C32E71225B
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 10:37:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FA810E1C0;
-	Fri, 26 May 2023 08:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E83110E1C3;
+	Fri, 26 May 2023 08:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C55E510E1C0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:28:50 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 806DD615F8
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:28:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BBD6FC433EF
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:28:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685089728;
- bh=hA+ipB5FjA3VZhlqVrZZUhPr/epEx5eGOp3sFwI1VJM=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Z+QbnQKvm+6giDU+o/bqBUdtrI6Kgrdalcj2fISWQ31Ytrr8T6ZBPGcd6EMlF5M+q
- o/zPDiQwnwYjUaQig02o6WMF4SdpLZloZnJ7AaQQFcVIll6Q5Y/CvGUNqLWwwFIoVa
- coA7AnctCyNf6Uoi8Lq1BAu0/tBSTb/ImTz7t+dlZ1Vhgt59YOavzmkEBjhf4lprUq
- RrmUXtw8hknN/vOIrsJeuUz+BCuCWV8L2xlRQUUYzDd0XlSHsgIMzQlE4nsXgpaDqx
- VK3gEmulru/gDI/xeApK+AujfxKwqg3ihWExFsUEJVzj75tYuEIgA0dnWjgMmj3IJD
- ZwooGpJ5GU9wg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9BB81C43142; Fri, 26 May 2023 08:28:48 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Fri, 26 May 2023 08:28:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: PATCH_ALREADY_AVAILABLE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-qnwUaEXoOJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6FAC10E1C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:36:56 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f6da07feb2so5578815e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 01:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685090215; x=1687682215;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wh7efR5v8e0vkSD7MWnUSokvejiF72nQWy6QT+M4OEk=;
+ b=q6/joui9LGDiR+/gTQhuf4Wv4GUwBNdNe5SV8a9OxQaMFBNrECsD+/xfgc3n+tuA0X
+ bJ3TC+gQoiK0e9lqfAlIiCVXocq7DF9xg6/AKzCBkpAhJ3KBjXgyT4VeBEt2j+sN3urw
+ imVBx+66mwbmOM5enOj43i+K/8FPYaUK88WUtsr8ABViExtIgmBL61CSdLcWRXPSs0NE
+ agkDMcvSFoGMfd9HVKlxR/TEpAY7OvWTdRNskfJS38/sj0bQg5NSybtwowZjYwY6m6Jr
+ QNRhYXXqSI6Zo66zjwT+pzQP0Vs0NU0mHc0R0xucNnCsJTYgQC71WHwNRyWOdsPc+Paz
+ ehfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685090215; x=1687682215;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wh7efR5v8e0vkSD7MWnUSokvejiF72nQWy6QT+M4OEk=;
+ b=gIstQKYT5cAGU9JrTb2ODSFQGxGZ67TUfFkK4HqFbTMVx3NCXyX1lCVpxznnKVrSp7
+ Gu3nkQBkB5K5gu/aERucXIvLiZvxUA0z+Tjnx7DHUcYq1sO0N+IbFLhYKRm8TQVxP4UN
+ Gh+lLbV5/2JfGpffxef6KXaKgOvsy8+A/z8lzFHbzLrwSpV0D1q/eVJsgTtuc79X1IxN
+ 8bfLGh3TXjnds1QOM3m2oE1v5du2YYTFCyh70cnSrV18NesIjYUMDpUCMh4hch35lmmL
+ jWLW1ZrKMV8wmPdSTRLfdMnBZmvW3ntA0J5CPl2O0K+ctrCfB8Tuxck8WYFJaNOFiT8R
+ wDIA==
+X-Gm-Message-State: AC+VfDygmbqDo+ZOl+GIYS+haD+qGTqges+jrywNXAZXqKMg+JqZuPoz
+ n68ogjvNbn480PZTGLiuNTcc5Q==
+X-Google-Smtp-Source: ACHHUZ7DYQBiHBk+ExfjvmQiPj/1QqxrrFxOJu0T+gIHhioXAxvPRHTfhknpnn6dS5cYrmO4riAOHw==
+X-Received: by 2002:a1c:ed0b:0:b0:3f0:9564:f4f6 with SMTP id
+ l11-20020a1ced0b000000b003f09564f4f6mr821681wmh.1.1685090214836; 
+ Fri, 26 May 2023 01:36:54 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020a5d45c5000000b002fda1b12a0bsm4379284wrs.2.2023.05.26.01.36.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 May 2023 01:36:54 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20230526-revert-bad-binding-v1-1-67329ad1bd80@linaro.org>
+References: <20230526-revert-bad-binding-v1-1-67329ad1bd80@linaro.org>
+Subject: Re: [PATCH] Revert "dt-bindings: bridge: samsung-dsim: Make some
+ flags optional"
+Message-Id: <168509021387.1545019.9918047087016823576.b4-ty@linaro.org>
+Date: Fri, 26 May 2023 10:36:53 +0200
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +84,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+Hi,
 
---- Comment #55 from Harald Judt (h.judt@gmx.at) ---
-Unfortunately with the patch applied to 6.3.4 it causes the old problem. The
-screen stays dark, USB keyboard offline when trying to resume. So special
-treatment is still required it seems.
+On Fri, 26 May 2023 09:27:16 +0200, Neil Armstrong wrote:
+> This reverts commit cfaf76d349837f695c8aa6d7077847fec4231fe5 which was applied
+> without review due to a bad tool manipulation.
+> 
+> 
 
---=20
-You may reply to this email to add a comment.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+[1/1] Revert "dt-bindings: bridge: samsung-dsim: Make some flags optional"
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=35070674f488eefaeb753a13df11199d10328ff8
+
+-- 
+Neil
+
