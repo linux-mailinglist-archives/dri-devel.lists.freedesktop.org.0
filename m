@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A8A7127BF
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 15:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E87B7127C1
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 15:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD6710E1CC;
-	Fri, 26 May 2023 13:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D14F10E067;
+	Fri, 26 May 2023 13:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5346F10E1CC
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 13:47:23 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-64d18d772bdso1153912b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 06:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685108842; x=1687700842;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9TW6tTngWb25r/POiswswB/QyhpYIVptjKJqMAEVpQI=;
- b=piyIs9X8Ll5ISV/iWmt8KPgg0B7Tqe8eQT1TjmOyW1U1spGfaEnx6RVNxr8WFlmvzY
- iwfhG4jTstzaotQklI39xA3D8/fduc9M1sNCOuHpjeTayB1hoHDg038i4bKmc+w3QFTt
- 0gQNSXptjrhT13Ya9vBaOpOYvudq89gi3n1vM4Dk0/VHwri3sYCD/ebivD1mSnA2jLga
- BlLh/iKtdJHCNtp3bRfyvJRhgGXmgu1GXBqdhOwcxqsPa05UUWtnoTuLp7n/EA395Kk7
- oqwqMtBB0IGl7ZrPUOx8ImIimXddQEYZ9giEYlRpuF3kpu9GhoQa+RwMTubagLy4GMi8
- 6ADA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685108842; x=1687700842;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9TW6tTngWb25r/POiswswB/QyhpYIVptjKJqMAEVpQI=;
- b=Nr4xbtJ+ZlyKOx1b8vOEAph+gzM2EU9CrofEt0wsIat21F4gPKp90zlzYanLhCa2UH
- xsRNnJLX0f8d5fXpAFgieXcmqRBf0Ay5uCW0Iz369DThK3gx67iy4rxzhLE2CDNWQNLQ
- Ot7cuQ0pza2DBh4hlltC6kuWIJPDLTwNrnYhsDKPy3oAqwTUpXr9bEihyRSm4EH2/RNe
- 3S02/6A/LLNyTc3hQGuIVgdhdrPXYM3SCrsqrMlRHjAd+FO2o5+3DUdYf7NnDGqGZCq+
- tFWzcyvamjhnKl0blZVypqdNaOhtV0hxztlNQhoUT5LVdtGYNCi7AuPj7DsRR1dzI6DN
- W1TA==
-X-Gm-Message-State: AC+VfDzjY3qzzxcffn3KtVEOxqMUPt/qizB460lGXgxa67J26ZCopTGF
- uvblU9dlDGl56bnc7R1TGCQ=
-X-Google-Smtp-Source: ACHHUZ4K0GD+iAjkaF75NrVdiUroHsbTjcoay2+CJ/EytE3C7jNawfKrN4fA5I5u3rphgfmJhBAOLA==
-X-Received: by 2002:a05:6a00:b93:b0:64b:205:dbf3 with SMTP id
- g19-20020a056a000b9300b0064b0205dbf3mr3785656pfj.34.1685108842119; 
- Fri, 26 May 2023 06:47:22 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-61.three.co.id.
- [116.206.28.61]) by smtp.gmail.com with ESMTPSA id
- j1-20020aa78001000000b006437c0edf9csm2881304pfi.16.2023.05.26.06.47.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 May 2023 06:47:21 -0700 (PDT)
-Message-ID: <288db372-9797-540f-e8bd-794a23648573@gmail.com>
-Date: Fri, 26 May 2023 20:46:32 +0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8962510E067;
+ Fri, 26 May 2023 13:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685108899; x=1716644899;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=GBm6+tMkoV4ye+KNqbPRb5VbhDAqmgkIkFHZ7JqVmmI=;
+ b=n+GmfoHx1C2aU4BpXs3gnCROu4hW5DVV9TeLkOWsSLAhcrpWBBZEwnkK
+ lRNUAeUSTQi43L9MXiEohTAg00TraDatvGSwi2LNobttBaXOhXjGuX2pv
+ r2sj9vqP64JUjfBAJor+BWX+VQHNcPqX2yKkXiW6uk5gElM/CsbIT2G2Y
+ 9urcl++UXjpOsza5vFva6BmaQqwQEA+TRNz+bgpLBp1Y498iGgupKjqsd
+ +GZ3t88CPSD1PcGyZWnNAwPMRPOGw4OCH/uPcGv4qMrr1XmvxR6rjFO9d
+ N22SfOsZ/0fQMNprKw6qwZFjG57zsiGSPGJDohN7pRg9uPk5la32LRd2F A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440556620"
+X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; d="scan'208";a="440556620"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2023 06:48:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="795098724"
+X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; d="scan'208";a="795098724"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by FMSMGA003.fm.intel.com with SMTP; 26 May 2023 06:48:16 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 26 May 2023 16:48:15 +0300
+Date: Fri, 26 May 2023 16:48:15 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Shankar, Uma" <uma.shankar@intel.com>
+Subject: Re: [PATCH v2 3/7] drm/i915: Fix CHV CGM CSC coefficient sign handling
+Message-ID: <ZHC4nyUkQpCxTxHj@intel.com>
+References: <20230413164916.4221-1-ville.syrjala@linux.intel.com>
+ <20230413164916.4221-4-ville.syrjala@linux.intel.com>
+ <DM4PR11MB636031F61EE8864E316FB1C3F4469@DM4PR11MB6360.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Samsung SoC Support <linux-samsung-soc@vger.kernel.org>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: Does not work backlight on Chromebook XE303C12 with Kernel
- version 6.3.4
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM4PR11MB636031F61EE8864E316FB1C3F4469@DM4PR11MB6360.namprd11.prod.outlook.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +62,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andrew <quark@disroot.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, May 25, 2023 at 08:55:08PM +0000, Shankar, Uma wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Ville Syrjala
+> > Sent: Thursday, April 13, 2023 10:19 PM
+> > To: intel-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Subject: [PATCH v2 3/7] drm/i915: Fix CHV CGM CSC coefficient sign handling
+> > 
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > The CHV CGM CSC coefficients are in s4.12 two's complement format. Fix the CTM-
+> > >CGM conversion to handle that correctly instead of pretending that the hw
+> > coefficients are also in some sign-magnitude format.
+> 
+> Spec is slightly confusing when it says:
+> "CGM CSC :  Input pixels to the CGM CSC are 14 bits. (u.14 format). Coefficients are 16 bits (s3.12)."
+> Also here:
+> "Programmable parameters : 
+> c0[15 :0], c1[15 :0], c2[15 :0], c3[15 :0], c4[15 :0], c5[15 :0], c6[15 :0], c7[15 :0], c8[15 :0] ; // signed matrix coefficients  (s3.12)"
 
-I notice a regression report on Bugzilla [1]. Quoting from it:
+Yeah, the spec just uses a weird notation where it doesn't count the msb
+in the bits.
 
-> I did check it by flashlight. Even with all available backlights drivers compiled as modules it does not work. With Kernel version 5.15.106 backlight works fine.
-> Kernels for Chomebook uses dtb files that have some backlight config set (used gpio), like exynos5250-snow-common.dtsi and dmesg of 6.3.4 gives some gpio warnings. Maybe cause in it.
+> 
+> But the coefficients are 16bits, can you help understand how were you able to crack this 😊
 
-See bugzilla for the full thread and attached dmesg & kernel config.
+The 16bit coefficient already made me suspect they screwed up
+the notation. Testing specific values on real hardware
+confirmed that.
 
-Anyway, I'm adding it to regzbot:
-
-#regzbot introduced: v5.15..v6.3 https://bugzilla.kernel.org/show_bug.cgi?id=217489
-#regzbot title: Chromebook XE303C12 backlight stopped working with gpio warnings
-
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217489
+> 
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_color.c | 46 ++++++++++++++--------
+> >  1 file changed, 29 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_color.c
+> > b/drivers/gpu/drm/i915/display/intel_color.c
+> > index 4fc16cac052d..63141f4ed372 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_color.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> > @@ -568,29 +568,41 @@ static void icl_load_csc_matrix(const struct
+> > intel_crtc_state *crtc_state)
+> >  		icl_update_output_csc(crtc, &crtc_state->output_csc);  }
+> > 
+> > +static u16 ctm_to_twos_complement(u64 coeff, int int_bits, int
+> > +frac_bits) {
+> > +	s64 c = CTM_COEFF_ABS(coeff);
+> > +
+> > +	/* leave an extra bit for rounding */
+> > +	c >>= 32 - frac_bits - 1;
+> > +
+> > +	/* round and drop the extra bit */
+> > +	c = (c + 1) >> 1;
+> > +
+> > +	if (CTM_COEFF_NEGATIVE(coeff))
+> > +		c = -c;
+> > +
+> > +	c = clamp(c, -(s64)BIT(int_bits + frac_bits - 1),
+> > +		  (s64)(BIT(int_bits + frac_bits - 1) - 1));
+> > +
+> > +	return c & (BIT(int_bits + frac_bits) - 1); }
+> > +
+> > +/*
+> > + * CHV Color Gamut Mapping (CGM) CSC
+> > + * |r|   | c0 c1 c2 |   |r|
+> > + * |g| = | c3 c4 c5 | x |g|
+> > + * |b|   | c6 c7 c8 |   |b|
+> > + *
+> > + * Coefficients are two's complement s4.12.
+> > + */
+> >  static void chv_cgm_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
+> >  				    struct intel_csc_matrix *csc)
+> >  {
+> >  	const struct drm_color_ctm *ctm = crtc_state->hw.ctm->data;
+> >  	int i;
+> > 
+> > -	for (i = 0; i < 9; i++) {
+> > -		u64 abs_coeff = ((1ULL << 63) - 1) & ctm->matrix[i];
+> > -
+> > -		/* Round coefficient. */
+> > -		abs_coeff += 1 << (32 - 13);
+> > -		/* Clamp to hardware limits. */
+> > -		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_8_0 - 1);
+> > -
+> > -		csc->coeff[i] = 0;
+> > -
+> > -		/* Write coefficients in S3.12 format. */
+> > -		if (ctm->matrix[i] & (1ULL << 63))
+> > -			csc->coeff[i] |= 1 << 15;
+> > -
+> > -		csc->coeff[i] |= ((abs_coeff >> 32) & 7) << 12;
+> > -		csc->coeff[i] |= (abs_coeff >> 20) & 0xfff;
+> > -	}
+> > +	for (i = 0; i < 9; i++)
+> > +		csc->coeff[i] = ctm_to_twos_complement(ctm->matrix[i], 4, 12);
+> >  }
+> > 
+> >  static void chv_load_cgm_csc(struct intel_crtc *crtc,
+> > --
+> > 2.39.2
+> 
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Ville Syrjälä
+Intel
