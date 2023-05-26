@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B53D712B11
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 18:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32B6712B13
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 18:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C920310E81A;
-	Fri, 26 May 2023 16:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6347E10E81E;
+	Fri, 26 May 2023 16:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA9010E818
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 16:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1685119887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2VFnVsNyMBiLJW3sl37cQkzARH8Hl1Ri81egbddkwco=;
- b=ZEz/+ZM8VDcX+uoDE0JKmyo+N5BMNXXTk0x8bjriiLqZfB5dk4qNk6BbazjU9W9OBjuDKg
- 1lrSstrIHQr0ssv+BXpyf4kiCIEUqQskEAe9TjsSETlJYHxGzzJ+LaxQr4lMalDK2nNnM5
- GwEKCCVWGOK1iOZkKH1gDbx/hDXyvvw=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-s1DezMj5OTC2549QVT8Cpw-1; Fri, 26 May 2023 12:51:26 -0400
-X-MC-Unique: s1DezMj5OTC2549QVT8Cpw-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2b02539087aso4494591fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:51:26 -0700 (PDT)
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
+ [IPv6:2607:f8b0:4864:20::f36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF0610E1D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 16:51:38 +0000 (UTC)
+Received: by mail-qv1-xf36.google.com with SMTP id
+ 6a1803df08f44-6238b15d298so9965336d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 09:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1685119897; x=1687711897;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B0EcAbr12Tz3JaIJZGOfuX6nKlF7eHCwWePp0l1EnR0=;
+ b=ZQAf4LUZzgLtNI1iuErVfrDk5RtwHd5YprqowAtUBbv7Kz6xOQfmdZi/1o5/n30lQE
+ /tpfYmZDRVi4NoxJIuNvdO9aqoj4c9kwfIW1rEqzNszwi76gHAD+BGX2cV/Zd3s+NTMZ
+ E4LKP1wu9x8pSzqzw57xxLCOhqzW+XL9oX/UQsKnneky5T2OfUWG5XoKACPfuYsoe8Uz
+ OLVd8dGzB0x+YRg7KmLHG59ArbV8g7o7IlHkeiBGwa9sKUG7yGRVlrMm1uYGu+qlM1LL
+ RGjTDUiCcBQEZsGuPruFUneQF+eACEbsKJDXp5xVByVgYkV3VN6qQGHsL9fuVdYTAyeH
+ GMNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685119884; x=1687711884;
+ d=1e100.net; s=20221208; t=1685119897; x=1687711897;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2VFnVsNyMBiLJW3sl37cQkzARH8Hl1Ri81egbddkwco=;
- b=Kx7I8QtfkunLwoOgsN0emynJdXaJgxthpxcjqdRz+3mnVLne2tQ2xpage5S1Am0tsn
- tWmVtfZEm7lDnAWHMHXtmHrCjEQP4vai9PsFfdpL98Kvtm6tisXOQ9kcxkCa0O7PgYJX
- TcCXRhz61DHCsyRs9g4NCguACn+BzAxNGVVunYGXanQGr6evTMYps3abFtJB14wkMxSO
- DWa57qJq/1FwfFdoD+fL8XSrc2tzGYSqkCX9HgX6hSePE5jNrQXC7Olic4Wqlxoqy+Be
- zvs3T1JokqlbAgD/Sv8TJfp63QAvE+XKAqTaN0+VNJ4pMreFdGxpHhHEkajcCUVIgWJH
- +b/Q==
-X-Gm-Message-State: AC+VfDyFRvamMMQ0mR1M+KG9qfBPI131208chZnXNhcLPkp0EbjCdgG0
- mtFQb/3rVfPfgWog5VCl3nFTFG4RRs9hyg673W3/tdY559Axhj5ou31AjGsn2jQqJXIH+CscUBf
- 4j9bBMWi51GcN2/6L4iwwWjLjsfB9K//eFd01cjq7gWoG
-X-Received: by 2002:a2e:8854:0:b0:2ad:81ca:a52f with SMTP id
- z20-20020a2e8854000000b002ad81caa52fmr763460ljj.47.1685119884818; 
- Fri, 26 May 2023 09:51:24 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6ZUJMoHaFSDdaVF/+xNH5IxF0WTKfLu7LPNiAfpaWdPUmoFLTIiIL4SovvzIkRV+BVCbVgSlO4YBgWLfITnQY=
-X-Received: by 2002:a2e:8854:0:b0:2ad:81ca:a52f with SMTP id
- z20-20020a2e8854000000b002ad81caa52fmr763446ljj.47.1685119884481; Fri, 26 May
- 2023 09:51:24 -0700 (PDT)
+ bh=B0EcAbr12Tz3JaIJZGOfuX6nKlF7eHCwWePp0l1EnR0=;
+ b=V7a8Y/HzfamB+LpU11/8FtSlCBAaU05SbQbPiXx9X/eE67CxfbVAnUa3HSl45KHHBH
+ uJXawIgHpb9Llk0t5fm0oL9PzXaXcRyfj+VmHgfF8ZDGqAtXQUg8V9BXg9HIrtsYXr9D
+ 1XgHYKbEyIRIWeuKyYAucWrNUqlKjRUzrGw3lqYQJP99gyuLzINCq+b84H1OBcCGPNiU
+ dR+EMybYC4ZYEgieIn/62jcFmj3uLZkyD5HJ8AmmKJpAYbWTQWjyXYZw3bxP7R/C1gO0
+ zkTPF3jd25NuozoAXk+Am2S4/V+uh0eHmFO+NYiPGvTtTDiWoCkmlNF1aalNItXcJ7+l
+ FJfA==
+X-Gm-Message-State: AC+VfDyheeIMhV7nBfuDLIdQRDjleasGJV4YTzWd8OGiyKICPuyAjuPq
+ 32RBgl6j3xYRbGSdoUQzqEd+1eeCd+2M5lfj948eYA==
+X-Google-Smtp-Source: ACHHUZ7zNVT9E5+KkqBP+ZTyfqvDGI2d6bY2hRADL+qOK3dL+ftIEtrLh4N7cS11/o6IrVHRuLLfI56tUId+yu2rsJQ=
+X-Received: by 2002:ad4:5ce6:0:b0:625:e039:5b03 with SMTP id
+ iv6-20020ad45ce6000000b00625e0395b03mr3237442qvb.54.1685119897248; Fri, 26
+ May 2023 09:51:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230525191809.3524-1-harry.wentland@amd.com>
- <20230525191809.3524-3-harry.wentland@amd.com>
- <CA+hFU4xpYguvZi7n48xB3BS-dONShUvDOwBqpM2aZXRAH_DGwQ@mail.gmail.com>
- <oQIftfWjxOOg5ef6hQXufI_hfSvyxhX_Q54ZZSFfzxQKdXKZIwxzPLup5zcTFWzdlQ_bwIrZ5Z2WAy3VYCiI_qoPkvdP0pNUkZCT48NXCbk=@emersion.fr>
-In-Reply-To: <oQIftfWjxOOg5ef6hQXufI_hfSvyxhX_Q54ZZSFfzxQKdXKZIwxzPLup5zcTFWzdlQ_bwIrZ5Z2WAy3VYCiI_qoPkvdP0pNUkZCT48NXCbk=@emersion.fr>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Fri, 26 May 2023 18:51:13 +0200
-Message-ID: <CA+hFU4yzMo8J7nC7D7HkoZjRzOcdQ_XmxiM4s5sBVUB-TwDr3A@mail.gmail.com>
-Subject: Re: [PATCH v4 02/13] drm/connector: Add enum documentation to
- drm_colorspace
-To: Simon Ser <contact@emersion.fr>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230524-intel_async_flip_check_hw-implicit-fallthrough-v1-1-83de89e376a1@kernel.org>
+ <CAKwvOd=jZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1kXJg2ay2w@mail.gmail.com>
+ <20230524184103.GA324296@dev-arch.thelio-3990X>
+ <CAKwvOdm=Zk8YhrPptN3k7UQo+1n7Ws=Qox=BwTR9bbjPJJYz8A@mail.gmail.com>
+ <39da7e41-dd07-b8bc-57b9-19b05fdfbeac@tessares.net>
+In-Reply-To: <39da7e41-dd07-b8bc-57b9-19b05fdfbeac@tessares.net>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 26 May 2023 09:51:26 -0700
+Message-ID: <CAKwvOdkFxUU4AM9WbcRK9FYHq0cK2H-x4i5_x7oYiE7=DjghhQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Fix clang -Wimplicit-fallthrough in
+ intel_async_flip_check_hw()
+To: Matthieu Baerts <matthieu.baerts@tessares.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,31 +73,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: tvrtko.ursulin@linux.intel.com, llvm@lists.linux.dev,
+ kernel test robot <lkp@intel.com>, trix@redhat.com,
+ intel-gfx@lists.freedesktop.org, patches@lists.linux.dev,
+ Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com, Joe Perches <joe@perches.com>,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 26, 2023 at 6:37=E2=80=AFPM Simon Ser <contact@emersion.fr> wro=
-te:
+On Thu, May 25, 2023 at 1:30=E2=80=AFPM Matthieu Baerts
+<matthieu.baerts@tessares.net> wrote:
 >
-> On Friday, May 26th, 2023 at 18:27, Sebastian Wick <sebastian.wick@redhat=
-.com> wrote:
+> Hi Nick,
 >
-> > > + * @DRM_MODE_COLORIMETRY_DEFAULT:
-> > > + * Driver specific behavior.
-> > > + * @DRM_MODE_COLORIMETRY_NO_DATA:
-> > > + * Driver specific behavior.
+> On 24/05/2023 20:56, Nick Desaulniers wrote:
+> > On Wed, May 24, 2023 at 11:41=E2=80=AFAM Nathan Chancellor <nathan@kern=
+el.org> wrote:
+> >>
+> >> On Wed, May 24, 2023 at 11:32:32AM -0700, Nick Desaulniers wrote:
+> >>> On Wed, May 24, 2023 at 8:38=E2=80=AFAM Nathan Chancellor <nathan@ker=
+nel.org> wrote:
+> >>>>
+> >>>> Clang warns:
+> >>>>
+> >>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: error: unanno=
+tated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
+> >>>>                   case I915_FORMAT_MOD_X_TILED:
+> >>>>                   ^
+> >>>>   drivers/gpu/drm/i915/display/intel_display.c:6012:3: note: insert =
+'break;' to avoid fall-through
+> >>>>                   case I915_FORMAT_MOD_X_TILED:
+> >>>>                   ^
+> >>>>                   break;
+> >>>>   1 error generated.
+> >>>>
+> >>>> Clang is a little more pedantic than GCC, which does not warn when
+> >>>> falling through to a case that is just break or return. Clang's vers=
+ion
+> >>>> is more in line with the kernel's own stance in deprecated.rst, whic=
+h
+> >>>> states that all switch/case blocks must end in either break,
+> >>>> fallthrough, continue, goto, or return. Add the missing break to sil=
+ence
+> >>>> the warning.
+> >>>>
+> >>>> Fixes: 937859485aef ("drm/i915: Support Async Flip on Linear buffers=
+")
+> >>>> Reported-by: kernel test robot <lkp@intel.com>
+> >>>> Closes: https://lore.kernel.org/202305241902.UvHtMoxa-lkp@intel.com/
+> >>>> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> >>>> Closes: https://lore.kernel.org/CA+G9fYv68V3ewK0Qj-syQj7qX-hQr0H1MFL=
+=3DQFNuDoE_J2Zu-g@mail.gmail.com/
+> >>>> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> >>>
+> >>> Thanks for the patch! I've never seen the closes tag before, that's
+> >>> new to me. Can you tell me more about it?
+> >>
+> >> It is new to me (at least in the context of the kernel) as well. I onl=
+y
+> >> used it over Link: because checkpatch.pl told me to:
+> >>
+> >> WARNING: Reported-by: should be immediately followed by Closes: with a=
+ URL to the report
+> >> #26:
+> >> Reported-by: kernel test robot <lkp@intel.com>
+> >> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> >>
+> >> WARNING: Reported-by: should be immediately followed by Closes: with a=
+ URL to the report
+> >> #27:
+> >> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> >> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> >>
+> >> It was Link: for a bit but commit 44c31888098a ("checkpatch: allow
+> >> Closes tags with links") changed it to Closes:. Looks odd to me but
+> >> whatever the linter says I suppose.
+> >>
+> >> Thanks for the review!
+> >>
+> >> Cheers,
+> >> Nathan
+> >>
+> >>> A few more tags
+> >>>
+> >>> Reported-by: Tom Rix <trix@redhat.com>
+> >>> Link: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redha=
+t.com/
+> >>> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 > >
-> > TBH this is still confusing me. Is DEFAULT really just driver specific
-> > behavior? What's the difference to NO_DATA? Is NO_DATA actually not
-> > driver-specific but display-specific? I.e. the default colorimetry of
-> > the display?
+> > Ah then I guess my link tag should have been
+> >
+> > Closes: https://lore.kernel.org/all/20230523125116.1669057-1-trix@redha=
+t.com/
+> >
+> > I hope the author of
+> > commit 44c31888098a ("checkpatch: allow Closes tags with links")
+> > has coordinated with the maintainer of b4, so that b4 recognizes Closes=
+ tags.
+> > b4 v0.12.2 does not pick up Closes tags.
 >
-> DEFAULT =3D=3D NO_DATA =3D=3D 0
+> I'm sorry for the troubles caused by this series, that was not the
+> intension.
 >
+> When looking at modifying b4 to support the Closes tag, I realised the
+> Link tag from your previous message [1] was not taken as well. Was it
+> just me?
 
-*sight* and backwards compat... Alright, not much we can do then.
+oh? good find!
 
+>
+> If no, I just sent patches for b4, see [2]. I hope it will help!
+
+appreciated! Thank you.
+
+>
+> Cheers,
+> Matt
+>
+> [1]
+> https://lore.kernel.org/all/CAKwvOd=3DjZJouuNMd3Rvc--goA0EXPHcf6cHXUA6W1k=
+XJg2ay2w@mail.gmail.com/
+> [2]
+> https://lore.kernel.org/tools/20230525-closes-tags-v1-0-ed41b1773cb6@tess=
+ares.net/T/
+> --
+> Tessares | Belgium | Hybrid Access Solutions
+> www.tessares.net
+
+
+
+--=20
+Thanks,
+~Nick Desaulniers
