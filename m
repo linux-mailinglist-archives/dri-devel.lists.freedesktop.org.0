@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C413E712431
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 12:06:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 576DA713A41
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1310E7D5;
-	Fri, 26 May 2023 10:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A8210E0C0;
+	Sun, 28 May 2023 14:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A4310E7D5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 10:06:36 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34Q8jPxs009638; Fri, 26 May 2023 12:06:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=BgUqqRbOorlcfxtp7NVxsl7m4DQQsP57P2IYkQ1uqM4=;
- b=NI4SkOm6uDzIM8QJ+EHmyX0Lc2Wt8FsFanyhQSHdrpdbMhl8kLdgl5Ng9NXJIF5UH67z
- 1XNTl4SOlATmAj61eAiNoIcTmhwjqyAwgcjV/UNZWrTjknkGIkGyMZ+fohB2cmKAzw35
- BF3xoywqhDcwN6LRZPq4d7vRuzjqPtZyaNEICw8SipLhdAJIEGk8KJ8QipiigyQfXtIV
- B2NnLlEbMdUCvtJKUbKmB+8Ctro7fXlftAoRvlSfCWUu/eXmqseXMl6N8ALOc8GZtY7q
- Pb4Z6xrD0czXDScCccd7MMH571NZpBkNkN+Hx+eBy4WL3ynpnPef1ITZZaDOBEb7gHOB pg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qru86wcv7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 26 May 2023 12:06:33 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0677C10002A;
- Fri, 26 May 2023 12:06:31 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EC3A5222C88;
- Fri, 26 May 2023 12:06:31 +0200 (CEST)
-Received: from [10.48.0.148] (10.48.0.148) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 26 May
- 2023 12:06:31 +0200
-Message-ID: <1ca05e11-3db1-193a-eaba-bb92b40e7179@foss.st.com>
-Date: Fri, 26 May 2023 12:06:30 +0200
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Fri, 26 May 2023 10:14:51 UTC
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69DD10E7D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 10:14:51 +0000 (UTC)
+Delivered-To: uwu@icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1685095692; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=n9HFZ29iB0D4ZHN7ZdUVSCswnEcN/UNexS3aoI1Yz2+1cHwPKZiHQROMYP1q64ti1nrAYFL4FtWF9RJ0z0vd3CbrE5EgmsBaz8INGnuV6SjUn2Sz9k1aqq7+i/7iF/lWk5e3wC60Mt1T0MUTsvS0xnpLLzOogj1prOgpylNACas=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1685095692;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=/36U8f2hjbE2m0TYdKuQASmkYLFLFD+eCwO3lexS9zY=; 
+ b=RPXX4Yg2itYXA6bLdwJl9tRcJtGYTkTd0UYmHmycMYJ/Kz5vFxKOwGcqQq/GvMzC7iA6glX8LDWtPUM5EmoGUn65Jt6IenV1Ksiu1M6MJDE/tUEMjYBUOL2CnkVRaNH04sq3iKTsIoOj1SI3OpLfanQERKkl01L1pxN+HII/bNg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1685095692; 
+ s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+ bh=/36U8f2hjbE2m0TYdKuQASmkYLFLFD+eCwO3lexS9zY=;
+ b=BwM+5zUvstNWV/orBTuDw3hsvQtHGsh7+SViYivwuEx8j+JHLknxVHiEBSjz4QpJ
+ rDKYfcRb9jipvQQHQBLvtwLvwu0pJDde9swvzN6YIOHqbARApUafOVuwOdga5jg0/6g
+ 6oMDtzIq/jkzUFCogHHhBAUR630ATbETKfk7w9KA=
+Received: from edelgard.fodlan.icenowy.me (120.85.97.71 [120.85.97.71]) by
+ mx.zohomail.com with SMTPS id 1685095691240276.4832447024337;
+ Fri, 26 May 2023 03:08:11 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH] arm64: dts: mediatek: mt8173-elm: remove panel model number
+ in DT
+Date: Fri, 26 May 2023 18:08:01 +0800
+Message-Id: <20230526100801.16310-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/stm: Fix resolution bitmasks
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, Yannick FERTRE <yannick.fertre@foss.st.com>, 
- <dri-devel@lists.freedesktop.org>
-References: <20221011231048.505967-1-marex@denx.de>
- <93a77911-e9b2-d2e1-4fff-41f63c87376b@foss.st.com>
- <3ce425c7-978f-64e7-0630-b9aa5d1af55c@foss.st.com>
- <e7593ac2-fa0a-18ff-d286-2f4080bd5b86@denx.de>
- <58147ea7-d0dc-439d-5610-b293513b0e75@denx.de>
- <8c3ab04c-7fa8-63a3-a4b2-1a76fc7d6c54@foss.st.com>
- <de7cad77-1735-32a6-034e-8df24cda44c3@denx.de>
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-In-Reply-To: <de7cad77-1735-32a6-034e-8df24cda44c3@denx.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.0.148]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Mailman-Approved-At: Sun, 28 May 2023 14:59:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,74 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently a specific panel number is used in the Elm DTSI, which is
+corresponded to a 12" panel. However, according to the official Chrome
+OS devices document, Elm refers to Acer Chromebook R13, which, as the
+name specifies, uses a 13.3" panel, which comes with EDID information.
 
+As the kernel currently prioritizes the hardcoded timing parameters
+matched with the panel number compatible, a wrong timing will be applied
+to the 13.3" panel on Acer Chromebook R13, which leads to blank display.
 
-On 5/26/23 11:05, Marek Vasut wrote:
-> On 5/15/23 18:02, Philippe CORNU wrote:
-> 
-> Hi,
-> 
->>>>> The genmask of regsiter SSCR, BPCR & others were setted accordly to 
->>>>> the chipset stm32f4.
->>>>
->>>> So that means:
->>>> F4 -> 2048x2048 framebuffer
->>>> H7/MP1 -> 4096x4096 framebuffer
->>>> ?
->>>
->>> Worse
->>>
->>> F4 is 2048x2048
->>> F7 is 4096x2048
->>> MP1 is 4096x4096
->>>
->>> and there is no IDR register on F4/F7 like on MP1, or is there ?
->>>
->>> How else can we tell those LTDC versions apart ?
->>>
->>>
->>
->> Dear Marek,
->> Many thanks for your patch (and sorry for this late reply).
->> Your patch is good and fixes this ltdc driver source code vs. the 
->> related reference manual.
->> imho, it will not be an issue for F4 & F7 series if these bit-fields 
->> are "bigger" as I am pretty sure stm32 MCUs are not really using such 
->> high resolutions.
->> Yannick already replied with his reviewed-by. I add my
->>
->> Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
->>
->> If you agree, I will merge your patch really soon.
-> 
-> I would say there is no rush, so let's get this done right .
-> 
->> Dear Yannick,
->> You may add to your todo list to double check if there is a need to 
->> detect stm32 MCUs vs. these bit-field sizes...
-> 
-> Can we use a compatible string , or I think there is some ID register ?
-> 
-> [...]
-> 
-> btw I only received this email now, odd, I wonder whether it was stuck 
-> in some SMTP server. Sorry for the delayed reply, it was out of my control.
+Because the Elm DTSI is shared with Hana board, and Hana corresponds to
+multiple devices from 11" to 14", a certain panel model number shouldn't
+be present, and driving the panel according to its EDID information is
+necessary.
 
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Marek,
-Thank you for your feedback, I agree it is better to fix this properly.
-Note: After a quick check, I'm 99% sure that the smtp problem was on my 
-end (although I don't understand why I know we've had some issues with 
-the mailing lists over the past few weeks), so all my apologies for that :-)
-
-Hi Yannick,
-May I ask you please to prepare this clean up (taking into account all 
-ltdc versions).
-
-Many thanks
-Philippe :-)
-
+diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
+index d452cab28c67..737737528eed 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
+@@ -285,7 +285,7 @@ ps8640_out: endpoint {
+ 
+ 		aux-bus {
+ 			panel: panel {
+-				compatible = "lg,lp120up1";
++				compatible = "edp-panel";
+ 				power-supply = <&panel_fixed_3v3>;
+ 				backlight = <&backlight>;
+ 
+-- 
+2.39.1
 
