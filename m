@@ -2,57 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F413713A3F
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D15F7129E0
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 17:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF0C10E0BF;
-	Sun, 28 May 2023 14:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6002310E803;
+	Fri, 26 May 2023 15:45:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
- [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653A310E1D1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 15:33:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1685115169; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GBZZbiF7ruXKJwRU/UKRSvUduto2+nmr4tXorwsczmiQgYX5e6umskk2/+tQhriO9AZJe+ftvfTVGPPJgN/YK7iutS10S2cp/wr/Og4mmoDK2oENdQeFS9o1jv42hN/xJCiZpSZ9qBZ687gwRW465DRV7vz9XlH2dte/6iTb1/o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1685115169;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=u7/zPgaI11esUwuCZ9ANb4+ClUiUCXAYGeOO9rKo5Z4=; 
- b=ZM6/lRZvtjrUDMmygJ2k0TEchfTsmI4414dS4hXzJM786P3m0vmHy1WAjo8ekPvy1ii8GlwE82D7ve1P7Stv7Y3xUEeB8WRGed0ieug1FztMp3FTPk+SFlyQk1t7PcHDegAqDhcP6shJhwZizRkFkiA0B9MC2zSpJrr/3Fl5v40=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1685115169; 
- s=zmail; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Date:Date:Message-Id:Reply-To;
- bh=u7/zPgaI11esUwuCZ9ANb4+ClUiUCXAYGeOO9rKo5Z4=;
- b=XirbvXIgZTqaZCkasaoHW07kTVH/k1kyf9zy1EJryUVey0lrjOlEwmiJ5HfGPpFc
- RKi2On/gJAM8lRIJjgE9+0SEB0YgSc0QM03OCevQH/UopUICPeo+dLOAFio8xlt393w
- Yrw9GdiGGzDaqTPbj+F4UVZfTA2FMvynOpXMgG0E=
-Received: from edelgard.fodlan.icenowy.me (120.85.97.71 [120.85.97.71]) by
- mx.zohomail.com with SMTPS id 1685115168167230.90243257128157;
- Fri, 26 May 2023 08:32:48 -0700 (PDT)
-Message-ID: <0803e9037a8a2ce96fdad6ec209991dcda2a30ca.camel@icenowy.me>
-Subject: Re: [PATCH] arm64: dts: mediatek: mt8173-elm: remove panel model
- number in DT
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Doug Anderson <dianders@chromium.org>, Pin-yen Lin
- <treapking@chromium.org>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAD=FV=UxrFVZXn+dtgamttTVopWMSVbxYsHCGG_tS+3OTXbHiw@mail.gmail.com>
-References: <20230526100801.16310-1-uwu@icenowy.me>
- <CAD=FV=UxrFVZXn+dtgamttTVopWMSVbxYsHCGG_tS+3OTXbHiw@mail.gmail.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF1310E803
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 15:45:52 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id
+ ffacd0b85a97d-30a8dc89c33so577749f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 08:45:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685115949; x=1687707949; 
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OX879Xbtaq85/UPwb2f8tq7maPJyO+QLeOiqV5vIfjA=;
+ b=wcwdcdzgtFryBiRdWxpCymHOki7j+wUintN3/adfIJ575HFiGwWvvLiGL3NjuxwRQ3
+ gnUjpSgJCSKNn+8anAU5m8DeoSjJYKZLGPLMI87dIP859SN/KobgtxhHNXERf3MpE9K5
+ wJZUC7GW/spdUYxb446kFGqU4Uox1guSsugZJ1mL4Sxg+LrCdgMTx4Y4akJ/Mt/7RFwi
+ B5nFj66Up8V+9vb6gRJa0CQVT00R3zPujsuOvvvrh439gLa0zVGQpFB4Xigr6dOrgHbQ
+ bI0KYS1ghZCHj0a5KknxdXkNKb6dYjp57m9fazVfgxJPBaDmVRu6NgMEzB6jnFMUzpvT
+ dqXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685115949; x=1687707949;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OX879Xbtaq85/UPwb2f8tq7maPJyO+QLeOiqV5vIfjA=;
+ b=PdyrUNiU2IjP3wI50OR1wAvoxBi+gwBNPe7X8laiyl72VphVD2y0TcTSPq/6i9r0Rn
+ azqoOJk7PRD2eIZTmBIk/B3ANMfMAmmJL9qNo+l1oviz0FOECR0fZmuV2vXI2Mgi9ZUK
+ Ax0gpmpHKT12PRXEis07VD9KGtb72cvGUZsdEGYdUtmrJaEUYYpZWVvPzxUNwzmBKEk6
+ a7SyYpRjjUC665er3iWYFmQRNeblsx/9ScyOgaMqea23nbzbY/Sn7Bo2IrPWKPXvU+qS
+ DrWtBChkH7EdBLUVRacHMdJbjPlPisFP0sLWahsslP39+K49jqSWXxWUeoaC0gYypmtz
+ chLw==
+X-Gm-Message-State: AC+VfDyPrbPbSl3VdK/qUfUkRWGtHZiNWrwEvQa0hAQHJExUQHEyChnQ
+ FmYPZYOahxGgylfn5zAwwU+SJQ==
+X-Google-Smtp-Source: ACHHUZ5UA+yXPBx7fP3hSIrT+zIrLky1zEBpDc0IHgjMDGgcI9UwC6u1LCxdVBVyifx+CDLiyp1GIA==
+X-Received: by 2002:a5d:6ac4:0:b0:309:e24:57b0 with SMTP id
+ u4-20020a5d6ac4000000b003090e2457b0mr2066240wrw.30.1685115949116; 
+ Fri, 26 May 2023 08:45:49 -0700 (PDT)
+Received: from [10.1.4.6] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31]) by smtp.gmail.com with ESMTPSA id
+ c11-20020adfe74b000000b0030630120e56sm2580734wrn.57.2023.05.26.08.45.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 May 2023 08:45:48 -0700 (PDT)
+Message-ID: <01591ec1-7c87-514c-047b-bec1c45ddfa5@baylibre.com>
+Date: Fri, 26 May 2023 17:45:47 +0200
 MIME-Version: 1.0
-Date: Fri, 26 May 2023 23:29:11 +0800
-User-Agent: Evolution 3.44.4 
-X-ZohoMailClient: External
-X-Mailman-Approved-At: Sun, 28 May 2023 14:59:32 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 0/7] Add a DRM driver to support AI Processing Unit (APU)
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, airlied@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
+ jstephan@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <d0807fe4-dba2-8244-f655-d04e80973572@quicinc.com>
+ <7ha5xud3m7.fsf@baylibre.com>
+ <CAFCwf10hNjGtEYDi24LREnMLRGT7mRECvqQMdZWv=-uA7YELYg@mail.gmail.com>
+ <ZG3pmSnUSc9oCtev@phenom.ffwll.local>
+From: Alexandre Bailon <abailon@baylibre.com>
+In-Reply-To: <ZG3pmSnUSc9oCtev@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,99 +90,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2023-05-26=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 07:24 -0700=EF=BC=
-=8CDoug Anderson=E5=86=99=E9=81=93=EF=BC=9A
-> Hi,
->=20
-> On Fri, May 26, 2023 at 3:09=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me> wr=
-ote:
-> >=20
-> > Currently a specific panel number is used in the Elm DTSI, which is
-> > corresponded to a 12" panel. However, according to the official
-> > Chrome
-> > OS devices document, Elm refers to Acer Chromebook R13, which, as
-> > the
-> > name specifies, uses a 13.3" panel, which comes with EDID
-> > information.
-> >=20
-> > As the kernel currently prioritizes the hardcoded timing parameters
-> > matched with the panel number compatible, a wrong timing will be
-> > applied
-> > to the 13.3" panel on Acer Chromebook R13, which leads to blank
-> > display.
-> >=20
-> > Because the Elm DTSI is shared with Hana board, and Hana
-> > corresponds to
-> > multiple devices from 11" to 14", a certain panel model number
-> > shouldn't
-> > be present, and driving the panel according to its EDID information
-> > is
-> > necessary.
-> >=20
-> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > ---
-> > =C2=A0arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> We went through a bunch of back-and-forth here but in the end in the
-> ChromeOS tree we have "edp-panel" as the "compatible" here in the
-> ChromeOS 5.15 tree and this makes sense.
-
-I only have Elm, so I am curious that do all Hana's only rely on panel
-EDID to use different displays?
-
-BTW The Chrome OS document say that Elm and Hana are both board based
-on Oak baseboard, should the DTSI be renamed mt8173-oak.dtsi, and still
-let mt8173-elm.dts include it and then set model information?
-
->=20
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->=20
-> ...in theory one would wish for a "Fixes" tag, but I think in
-> previous
-> discussions it was decided that it was too complicated. Hardcoding
-> the
-> other compatible string has always been technically wrong, but I
-> guess
-> it worked at some point in time. The more correct way (as you're
-> doing
-> here) needs the DP AUX bus support and the generic eDP panels, both
-> of
-> which are significantly newer than the elm dts. So I guess leaving no
-> "Fixes" tag is OK, or perhaps you could do the somewhat weak:
-
-Well I remembered when I was developing the support for Pine64
-Pinebook, which is also an ARM64 laptop with an eDP panel (via a DPI-
-eDP bridge, ANX6345). At first I didn't use any panel node in the DT,
-and the kernel maintainers argued to the bridge that seems to be
-connected to nothing (because DP is a discoverable port), and
-fortunately 2 Pinebook SKUs (11.6" and 14") is finally reduced to one,
-and it's then possible to hardcode a panel model in the Pinebook DT.
-According to my memory, the need to specify the panel is to properly
-handle eDP panel power up timing, because it's not a very standard
-thing. (Well, in my memory, when I was testing that code, on a
-(engineering sample) 14" Pinebook, the EDID timing overrided the
-hardcoded 11.6" timing and it properly works, the 14" panel is 1366x768
-but the 11.6" panel is 1920x1080.)
-
-(BTW when I checked the DT of Olimex TERES-I, which uses the same DPI-
-eDP bridge, it is still in the status of a dangling bridge, and of
-course it works ;-) )
-
->=20
-> Fixes: c2d94f72140a ("arm64: dts: mediatek: mt8173-elm: Move display
-> to ps8640 auxiliary bus")
-
-Well this sound quite reasonable, as the kernel should have proper AUX
-support at this commit.
 
 
+On 5/24/23 12:40, Daniel Vetter wrote:
+> On Wed, May 24, 2023 at 01:27:00PM +0300, Oded Gabbay wrote:
+>> On Wed, May 24, 2023 at 2:34 AM Kevin Hilman <khilman@baylibre.com> wrote:
+>>>
+>>> Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
+>>>
+>>>> On 5/17/2023 8:52 AM, Alexandre Bailon wrote:
+>>>>> This adds a DRM driver that implements communication between the CPU and an
+>>>>> APU. The driver target embedded device that usually run inference using some
+>>>>> prebuilt models. The goal is to provide common infrastructure that could be
+>>>>> re-used to support many accelerators. Both kernel, userspace and firmware tries
+>>>>> to use standard and existing to leverage the development and maintenance effort.
+>>>>> The series implements two platform drivers, one for simulation and another one for
+>>>>> the mt8183 (compatible with mt8365).
+>>>>
+>>>> This looks like the 3 existing Accel drivers.  Why is this in DRM?
+>>>
+>>> Yes, this belongs in accel.  I think Alex had some issues around the
+>>> infra in accel with device nodes not appearing/opening properly, but
+>>> I'll let him comment there.  But either way, the right approach should
+>>> be to fix any issues in accel and move it there.
+>>>
+>>> [...]
+>>>
+>>>>>    .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
+>>>>>    drivers/gpu/drm/Kconfig                       |   2 +
+>>>>>    drivers/gpu/drm/Makefile                      |   1 +
+>>>>>    drivers/gpu/drm/apu/Kconfig                   |  22 +
+>>>>>    drivers/gpu/drm/apu/Makefile                  |  10 +
+>>>>>    drivers/gpu/drm/apu/apu_drv.c                 | 282 +++++++++
+>>>>>    drivers/gpu/drm/apu/apu_gem.c                 | 230 +++++++
+>>>>>    drivers/gpu/drm/apu/apu_internal.h            | 205 ++++++
+>>>>>    drivers/gpu/drm/apu/apu_sched.c               | 592 ++++++++++++++++++
+>>>>>    drivers/gpu/drm/apu/simu_apu.c                | 313 +++++++++
+>>>>>    include/uapi/drm/apu_drm.h                    |  81 +++
+>>>>
+>>>> "apu" seems too generic.  We already have 3 "AI processing units" over
+>>>> in drivers/accel already...
+>>>
+>>> Indeed, it is generic, but that's kind of the point for this driver
+>>> since it's targetted at generalizing the interface with "AI processing
+>>> units" on a growing number of embedded SoCs (ARM, RISC-V, etc.)  In
+>>> addition, the generic naming is intentional because the goal is bigger
+>>> than the kernel and is working towards a generic, shared "libAPU"
+>>> userspace[1], but also common firmware for DSP-style inference engines
+>>> (e.g. analgous Sound Open Firmware for audio DSPs.)
+>>>
+>>> As usual, the various SoC vendors use different names (APU, NPU, NN
+>>> unit, etc.)  but we'd like a generic name for the class of devices
+>>> targetted by this driver.  And unfortunately, it looks like the equally
+>>> generic "Versatile processing unit" is already taken Intel's
+>>> drivers/accel/ivpu. :)
+>>>
+>>> Maybe since this is more about generalizing the interface between the
+>>> CPU running linux and the APU, what about the name apu_if?  But I guess
+>>> that applies to the other 3 drivers in drivers/accell also.  Hmmm...
+>>>
+>>> Naming things is hard[2], so we're definitly open to other ideas.  Any
+>>> suggestions?
+>> Maybe model it according to the tiny driver in drm display ? You can
+>> then call it tiny_apu :-)
+>> Disclosure: It was Daniel's suggestion, he can chime in with more
+>> details on the tiny driver concept.
+> 
+> Yeah so maybe a bit more detail on my thoughts:
+> 
+> First this smells like a need bypass of the entire "we want open userspace
+> for accel drivers" rule. The rule isn't quite a strict as for drm gpu
+> drivers (not sure we ended up documenting exactly what, but iirc the
+> consensus was that for build-time only dependencies we're ok with
+> downstream compilers), but it's still there.
+What is letting you think that we want to bypass open source requirements ?
+Although the neural network firmware and userspace application are not yet
+opensource, our intention is to develop a full open source stack.
+Currently, we only support Mediatek APU (an Xtensa VP6) and we have to 
+use closed source sotfware to execute inferences on the accelerator.
+As far I know, there software stack similar to mesa where we could add
+support of a new accelerator (this is also true for firmware).
+That is actually what we would like to do. But this will take a lot of 
+time and we consider this driver as a first (small) step.
+> 
+> And at least from a quick look apu.ko and libapu just look like a generic
+> accel interface, and that's not enough.
+> 
+> For the big training engines it's more or less "enough to run pytorch, but
+> it can be really slow", not sure what the right standard for these
+> inference-only drivers should be.
+To be honest, I don't know what would be required for training engines.
+We only target accelerators for embedded device that usually only run 
+inferences. In my opinion, this is 2 different use cases and I don't 
+think we could address them in the same way.
+> 
+> So that's the first reason why I don't like this.
+> 
+> The other is that I think if we do end up with a pile of tiny accel
+> drivers, we should probably look into something like simmpledrm for the
+> tiny display drivers. Probably still IP specific ioctls (at least most) so
+> that IP specific job knows and all that are easy, but then just pass to a
+> framework that simplifies a drm gem driver to "write ptes" and "run job"
+> callback, maybe with an optional "create/destroy vm/ctx" for hw which can
+> do that.
+> 
+> So maybe we end up with a drivers/accel/tiny and a bunch more helpers
+> around the existing gem ones. The rule we have for drm/tiny is "1 file,
+> less than 1kloc", and there's a bunch of them. I do think we can achieve
+> the same for tiny accel inference engines (but it's still a bit a road).
+> Maybe tiny accel is more like "less than 5kloc" since you need a bit more
+> glue for the driver specific ioctl stuff - maybe that's only needed for
+> the submit ioctl, maybe also for buffer map/unmap and creation.
+This makes sense to me.
+> 
+> Also note that there's an entire pile of in-flight work for adding new
+> helpers to the gem world to make this all easier. Once we have gpuva and
+> exec helpers there not much glue left to tie it all together with the
+> scheduler.
+I wrote this series a long time ago and just rebased it recently.
+I will take some time to see the in-flight work and see if that 
+something I could start using.
+> 
+> But the real crux is that an accel inference driver really needs to have
+> enough userspace to do an actual inference job with some
+> android/cros/whatever framework for inference (there's just too many).
+We are currently stuck with closed source fimrware, userspace 
+applications and toolchains (works with android and linux).
+We are looking for a solution but implementing something will take some 
+time.
+
+Alexandre
+> -Daniel
+> 
+>> Oded
+>>
+>>>
+>>> Kevin
+>>>
+>>> [1] https://gitlab.baylibre.com/baylibre/libapu/libapu
+>>>
+>>> [2]
+>>> "There are 2 hard problems in computer science: cache invalidation,
+>>>   naming things and off-by-1 errors."
+>>>   -- https://twitter.com/secretGeek/status/7269997868
+>>>
+> 
