@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7BA7124CA
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 12:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070567124DD
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 12:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F52B10E1BE;
-	Fri, 26 May 2023 10:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D198110E7DD;
+	Fri, 26 May 2023 10:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3490210E1BE
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 10:35:32 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-30addbb1b14so14002f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 03:35:32 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB0CA10E7DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 10:38:32 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f6d7abe934so4051215e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 03:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685097330; x=1687689330;
+ d=linaro.org; s=google; t=1685097511; x=1687689511;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=nBqku5q9vZ6Xc8ZaZQnGRftVBfKjrmfStPvoq/Z7tIE=;
- b=smTVu85CUKKohcCM2dZok368NM60if6zrxbJOJps1F1bJe9WsF6ZMP9AKyWLYKyR2c
- FvFdAH4nZbStiwbdSje5qJ62m1Kg2b5XtOu7XtCd5NmXXcQabQPO+bBUlJbDAK1z7uSi
- c353VExyqov5R5cn6Sj2mpS45ggaPoATZkdeeTuekTZgBC/BjYWo9DHcZ+4HVSbDqiXX
- 8BU/BFg5PGdzFXmH1XmGKjC/gnKbdfO123jEYaGG1cVca4F7DZ0Fq2Wb0Lh3CM4IxQw/
- 1NA5mnOjuuElJAuKP2duGE/NLnQUAi0z10IuuipjreNrATHcpQzAKrdG8p1P5UqgYqHg
- W4JA==
+ bh=gqVVAm/y1HoALh+s361erx7bMZgCxQRFgtpi/v1PaKo=;
+ b=HJ7fBVJqCsT5R4//AmW9AScNLLApXJA8d/6S7+0FY9YgxHH74VnQpWwCehPoOdr0wq
+ SQ2JuvmK7sm2lA+i+BrspdAKh4JaEWD2AzLV6FIjF2d7I7ARoWcP75ZGPe3VoV3TouUX
+ IFsE/VaWeFtVv+mcA4umKZORliI1NLDFlPa8O/NLaC9owMTeCLNhJrzWzxkHyPF91Phg
+ Yw13DjWeDFiBMeKO94urScZMETTyzG7JWyUSgr0OIbueJhL17ZDbdm8bGjcQLXcB5Ps/
+ RB2Ey9BZUFnKYilXj0DM97vYkgULbKziaGJx4rJaRpxlyrTiwKssm4TGN1ASwks8GDMS
+ VZfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685097330; x=1687689330;
+ d=1e100.net; s=20221208; t=1685097511; x=1687689511;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nBqku5q9vZ6Xc8ZaZQnGRftVBfKjrmfStPvoq/Z7tIE=;
- b=AnCVj56BoEQe8y8urLrPdOITnxAYJO4QC6uAVls/jwE9RM/EwV36cNaJyi+F3Tcx3E
- IG7ZcuqfOjjmtAndm9Tn9fo5Zm0MP6oah8l8jWXR0IRmwERBzIdn7qcHIat3fgjxwWOp
- YyuSs1HK+QbSqnSAdkL7bL3o8D1tDrHVN8v0JQNSbSlwpwW5LGuOkqsLgEQVszkebvpv
- 2KCH38kPTRvl4NlNtmWgvoOvXwWLQTk/ahLSqre7IYaZmhjfl3YLYUOzij/1L90A/nGJ
- 5L5Y2jfGgaUk8MiURdEVBBwCPERFVbS0mbrSetLltXENRJ/jso2grma9URPpx0F5lPrW
- sBFg==
-X-Gm-Message-State: AC+VfDxZNFbcPxu9ei3H/cvDF3R5rdn2g8M0JqvO15HIRW2VA2W3H65o
- gXNVJl60O9ecex/sccfNo9Ldhw==
-X-Google-Smtp-Source: ACHHUZ6AYKcJLt+byatanAoL/NXFYaied7fayFtzagQ+4cmKoccBEbRSJIIocsCnjrEb67L30dbJDA==
-X-Received: by 2002:a5d:6aca:0:b0:30a:dcb9:a0b9 with SMTP id
- u10-20020a5d6aca000000b0030adcb9a0b9mr429105wrw.46.1685097330287; 
- Fri, 26 May 2023 03:35:30 -0700 (PDT)
+ bh=gqVVAm/y1HoALh+s361erx7bMZgCxQRFgtpi/v1PaKo=;
+ b=Zqa7saZqgpbzXQfAcsdzGtnawwCeDM2Vn8rB8lAy0fsTgwYjIGpgnZ75pbTasQ7Nzi
+ 44XPdE1U+Pcyc6ulbIeqfcYzCYP/QaJJlSYotYbb43DE5hViAtgzvXobzVMWo66rSBnJ
+ DD/BD0eZhw9vBKkM1LHwQuAyFvJduJg1v8JnXgJ4pwQ9dsBb77cvxGQQRKn5pyjsx0Eh
+ KLSy0hei+SLTLkQyZCG4Xg2vDxUrqjQ7qcJbZ79/YHHS+tUVdmEQpOE4zweBQfUwc81j
+ vmwf5RxFeuWB0XY2vyQKYW05uyJ965VjBP5HXpydc4EvH0tYYaPhPHdfD2LkDbK28tvq
+ QF9A==
+X-Gm-Message-State: AC+VfDzUTUrVVCz9bxMUpVNGznJUUrC8XIZjNTk9vmRYVXkHr8ly0WoI
+ 1PoZ752TwS2URkJmGrUv6c1acg==
+X-Google-Smtp-Source: ACHHUZ656Zt2yUkAzWvrDGzkUWXOvr37WPMqjvtf1rRfMMcu9S7heLTHhVOVYRLwpW1FUroNPr92DQ==
+X-Received: by 2002:a1c:f40a:0:b0:3f4:e853:6a1 with SMTP id
+ z10-20020a1cf40a000000b003f4e85306a1mr1350782wma.38.1685097510904; 
+ Fri, 26 May 2023 03:38:30 -0700 (PDT)
 Received: from aspen.lan
  (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- b14-20020adff90e000000b00307972e46fasm4520818wrr.107.2023.05.26.03.35.29
+ x4-20020a05600c21c400b003f0aefcc457sm8460239wmj.45.2023.05.26.03.38.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 May 2023 03:35:29 -0700 (PDT)
-Date: Fri, 26 May 2023 11:35:27 +0100
+ Fri, 26 May 2023 03:38:30 -0700 (PDT)
+Date: Fri, 26 May 2023 11:38:28 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Artur Weber <aweber.kernel@gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: backlight: lp855x: convert to YAML
- and modernize
-Message-ID: <20230526103527.GD626291@aspen.lan>
+Subject: Re: [PATCH v2 2/4] video: backlight: lp855x: get PWM for PWM mode
+ during probe
+Message-ID: <20230526103828.GE626291@aspen.lan>
 References: <20230519180728.2281-1-aweber.kernel@gmail.com>
- <20230519180728.2281-2-aweber.kernel@gmail.com>
+ <20230519180728.2281-3-aweber.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230519180728.2281-2-aweber.kernel@gmail.com>
+In-Reply-To: <20230519180728.2281-3-aweber.kernel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,16 +91,10 @@ Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 19, 2023 at 08:07:25PM +0200, Artur Weber wrote:
-> Notable changes:
-> - ROM child nodes use dashes instead of underscores; the driver
->   reads all child nodes regardless of their names, so this doesn't
->   break ABI.
-> - pwm-period argument is deprecated, as it effectively duplicates
->   the period value provided in pwms. The driver continues to accept
->   the property, so this should not break ABI.
+On Fri, May 19, 2023 at 08:07:26PM +0200, Artur Weber wrote:
+> Also deprecate the pwm-period DT property, as it is now redundant
+> (pwms property already contains period value).
 >
 > Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
