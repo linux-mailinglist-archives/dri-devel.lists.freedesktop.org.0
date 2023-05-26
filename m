@@ -2,49 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6FC71213A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 09:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECFE712152
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 09:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3188410E7B1;
-	Fri, 26 May 2023 07:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2860910E7B4;
+	Fri, 26 May 2023 07:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E61A810E7B1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 07:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685086619; x=1716622619;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xi7TBBQPejEGgobEw64w8lH8esKp08fZJkFWOZYLoxk=;
- b=XPWYuZdDKG0WJ8bfBUYmzK0CqYzC2mMFLwHc4ZPvy2A/++3WI/58H0Zr
- Syiue6tQpSwYt/u4/IsBN3bV8zzDV/clkHENb9aeul+9t806Rh7/eknOa
- pDwzLcctnoattKGGabKybxQg6eCZrJSFcGZF9loYAZzXIUEiCJZLZgqFY
- wEk1kTadVH1zVR3Dspsi0zI0CsMFbDGNtwc9596d5knF/Kka6QSD9nYNa
- OJrDCRzxO+wligxQ02VRgo8ejSBCihviFJ4sdwKXezLOMh7Ovrt1h6RKq
- GQU4wnwBBxidz9rSRnerCd664xfbQdr7rMlgIUgJDLYlgzEIa/fdxMG/v A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="352984367"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; d="scan'208";a="352984367"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2023 00:36:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="682641409"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; d="scan'208";a="682641409"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2023 00:36:55 -0700
-Date: Fri, 26 May 2023 09:36:53 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] accel/ivpu: ivpu_ipc needs GENERIC_ALLOCATOR
-Message-ID: <20230526073653.GA903183@linux.intel.com>
-References: <20230526044519.13441-1-rdunlap@infradead.org>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C66510E7B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 07:42:39 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f60804faf4so2712285e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 00:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685086957; x=1687678957;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=NkTkGDMVJA48vFPtaSjIeYrGpqqTSqfQ3e0MrBnwrbs=;
+ b=xz3haS1KXQLY2AyRechw8Fk0OwpajCfzX8pzwP7F7lcIurYVEfVUSTIJ/6dMylYFSp
+ CF17Dhd+xW3AREahs3Gy7lsQEL/b6/XDEO4WZq+AFKAGxzrChCSf3bKWND9ZWwwVuVUr
+ MQrH7gWys3cygr092RBrAl7lGEFXv8ElesV248sw6PjhUqk0uge2kO+B0inreW6vdWmW
+ zqKNz3Vjm7ZkvcpUne4eZ9EMUANjjiKdQIE5jARMRa3G6Ot/Co51BhtRzrQ6KnNCQiae
+ FmjBGKDkJX1VwObvtvOW9Z/Xfz92iIxw/hdQMVczkgU0rUegLwDyVP8COWgqqVx1y9E4
+ 442Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685086957; x=1687678957;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NkTkGDMVJA48vFPtaSjIeYrGpqqTSqfQ3e0MrBnwrbs=;
+ b=aGSzNzKlt29iNhxG329cPdC2ooBjrdM2MEN1KHIhWDazJtWrtqoX3vsVL7yoxZpP6X
+ v4scor3JzkP4JtKPem9tId1VM2Z+zAjd7BucAiYfX7EwcFyBfMjhE27iteqN3q0t65Bl
+ DmkXPx0SH1x4FHnJxGHeOZJVxVSb5OqbQanqkTuF64oGASlV3D4t9qfRwfXN3cmGeuFF
+ xMtaIOhfz9rfcJQgB3XmDJQ0CAgbP2H+QoWZTiPT2Ih0zzZe+5psiM+U/rClX9zouBVL
+ YZq922L6RbTYXKFxKnEyWWFicK67886/m/npAEntpxJw6THd0z5zT+0/qGJkWxbuD7h5
+ WyeA==
+X-Gm-Message-State: AC+VfDxmXV4gNh/ALDjeB+m03iwBVwCNXxJRs0xqLu2O/dxQCQpcTQ+m
+ pP//sbieC1CTYCmHubboIPCjhw==
+X-Google-Smtp-Source: ACHHUZ78glX9owiGGfj2LcnoXd+JjAb5MfcnsGRZKu/lCr6am4/SgX/kuL7OXyh5yod59igD+QEHkA==
+X-Received: by 2002:a1c:7c19:0:b0:3f4:f4d1:5c28 with SMTP id
+ x25-20020a1c7c19000000b003f4f4d15c28mr620538wmc.24.1685086957200; 
+ Fri, 26 May 2023 00:42:37 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:15d9:4dfb:95d6:f5a0?
+ ([2a01:e0a:982:cbb0:15d9:4dfb:95d6:f5a0])
+ by smtp.gmail.com with ESMTPSA id
+ p19-20020a1c7413000000b003f60e143d38sm4305405wmc.11.2023.05.26.00.42.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 May 2023 00:42:34 -0700 (PDT)
+Message-ID: <1c5dd13f-8221-09e6-5b7d-a06135ce97f7@linaro.org>
+Date: Fri, 26 May 2023 09:42:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230526044519.13441-1-rdunlap@infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Visionox R66451
+ AMOLED DSI panel bindings
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230516-b4-r66451-panel-driver-v1-0-4210bcbb1649@quicinc.com>
+ <20230516-b4-r66451-panel-driver-v1-1-4210bcbb1649@quicinc.com>
+ <dzekdzubv6y5evn4j62hnntjdexcdi5ar2wj6hcm3dffx5jei4@h32wgmfalzvl>
+ <0d436948-b0b7-0727-0852-51f64aefa43f@linaro.org>
+ <sf4fsrvuvgn42ucrwgqlrgprlr3sofq4wqeeuxryzeubxqs4kz@r4dmwzproti4>
+Organization: Linaro Developer Services
+In-Reply-To: <sf4fsrvuvgn42ucrwgqlrgprlr3sofq4wqeeuxryzeubxqs4kz@r4dmwzproti4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,56 +84,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, kernel test robot <lkp@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 25, 2023 at 09:45:19PM -0700, Randy Dunlap wrote:
-> Drivers that use the gen_pool*() family of functions should
-> select GENERIC_ALLOCATOR to prevent build errors like these:
+On 22/05/2023 16:51, Marijn Suijten wrote:
+> On 2023-05-22 11:05:38, Neil Armstrong wrote:
+>> On 21/05/2023 12:30, Marijn Suijten wrote:
+>>> On 2023-05-16 13:20:30, Jessica Zhang wrote:
+>>>> Document the 1080x2340 Visionox R66451 AMOLED DSI panel bindings
+>>>>
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>    .../bindings/display/panel/visionox,r66451.yaml    | 59 ++++++++++++++++++++++
+>>>>    1 file changed, 59 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml b/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..6ba323683921
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/display/panel/visionox,r66451.yaml
+>>>> @@ -0,0 +1,59 @@
+>>>> +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/display/panel/visionox,r66451.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Visionox R66451 AMOLED DSI Panel
+>>>> +
+>>>> +maintainers:
+>>>> +  - Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> +
+>>>> +allOf:
+>>>> +  - $ref: panel-common.yaml#
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: visionox,r66451
+>>>> +
+>>>> +  reg:
+>>>> +    maxItems: 1
+>>>> +    description: DSI virtual channel
+>>>> +
+>>>> +  vddio-supply: true
+>>>> +  vdd-supply: true
+>>>> +  port: true
+>>>> +  reset-gpios: true
+>>>
+>>> Normally for cmd-mode panels there is also a `disp-te` pin which is
+>>> optionally registered in dsi_host.c as GPIOD_IN, but on **ALL** my Sony
+>>> phones this breaks vsync (as in: mdp5 stops receiving the interrupt, but
+>>> we can see disp-te in /proc/interrupts then).
+>>
+>> Describing it as a gpio is wrong, it should be described as a pinctrl state instead.
 > 
-> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_free':
-> include/linux/genalloc.h:172: undefined reference to `gen_pool_free_owner'
-> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_alloc_algo':
-> include/linux/genalloc.h:138: undefined reference to `gen_pool_alloc_algo_owner'
-> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_free':
-> include/linux/genalloc.h:172: undefined reference to `gen_pool_free_owner'
-> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `ivpu_ipc_init':
-> drivers/accel/ivpu/ivpu_ipc.c:441: undefined reference to `devm_gen_pool_create'
-> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_add_virt':
-> include/linux/genalloc.h:104: undefined reference to `gen_pool_add_owner'
-> 
-> Fixes: 5d7422cfb498 ("accel/ivpu: Add IPC driver and JSM messages")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/all/202305221206.1TaugDKP-lkp@intel.com/
-> Cc: Oded Gabbay <ogabbay@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-> Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Acked-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> We defined both in our DTS, what weirdness does it cause when then
+> requested using GPIOD_IN?  It'd still be beneficial to see the vsync
+> interrupt raise in /proc/interrupts (but it's just a waste of CPU cycles
+> OTOH, this is all handled in the MDP hardware after all, so it's not
+> something I'd like to enable by default).
 
-> ---
->  drivers/accel/ivpu/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
+Sure, but it's a sw hack, the pin has a TE function which directly goes to
+the DSI logic, claiming it as a GPIO will set it as GPIO function.
+
+On some platforms, PINMUX is only on output and input is always directed
+to all HW blocks, seems it's not the case here !
+
 > 
-> diff -- a/drivers/accel/ivpu/Kconfig b/drivers/accel/ivpu/Kconfig
-> --- a/drivers/accel/ivpu/Kconfig
-> +++ b/drivers/accel/ivpu/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_ACCEL_IVPU
->  	depends on PCI && PCI_MSI
->  	select FW_LOADER
->  	select SHMEM
-> +	select GENERIC_ALLOCATOR
->  	help
->  	  Choose this option if you have a system that has an 14th generation Intel CPU
->  	  or newer. VPU stands for Versatile Processing Unit and it's a CPU-integrated
+> Anyway, this is what we ended up doing to "fix" the bug (only bias the
+> pin via pinctrl, omit the disp-te DTS property).  Thanks for confirming!
+> 
+> - Marijn
+> 
+>>
+>> Neil
+> 
+> <snip>
+
