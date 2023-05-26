@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FD4712D50
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 21:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A410712D79
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 21:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE1FE10E023;
-	Fri, 26 May 2023 19:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A93710E033;
+	Fri, 26 May 2023 19:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A16310E023
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 19:24:34 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1b01d912924so5455545ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 12:24:34 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 466D910E033
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 19:29:49 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2af29e51722so11727591fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 12:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685129074; x=1687721074;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8F+V6OXXzxlqAeAQ2S6nVyckBmSNTRDJrN1SofTqjrw=;
- b=l0fvbyeOvzjhchm1f7BpPbYg1pvfRRBID8i4AaBQVgNK/2dgA3qoG7g5mCHUhLU8+v
- Naau0mLrjmenMYJxaZXr9pxWiulhsH0h/63lg+sJHR9cVIQ793td2LmKq5Y9GxWyEUkb
- LipYNGnex7vUfFUlCG9h9zXip6tqGL8zUof1xss0MPjoWgdEd656+rI+60EOrC93/LBm
- odro18Sd0VWRrX/F2R7sfy4eaeJytZX8W1viq7FYKsATiKrMT7sHi7R222JYVsuTy6oV
- 7aV2Q4WMxUTa1mHVof2Z5f7YF9slphVcUIEtTn/FUKXJz7xhu4YxHErPPvxpwj5DQvwH
- 3Dyw==
+ d=linaro.org; s=google; t=1685129387; x=1687721387;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0ynDYbGdsZF04vCXi/fdD62cVu/XTnLlDnsDcsQE+gU=;
+ b=tDYpQbK97CNlp93ZtO102/5etvWLI+iwenW470Z0lkqaexV58qGOY4pSVIglOWqyTB
+ 8TyAzZMNP+h4ImdIg2nqsAaUCgEVihijTgZv0yMBb7qBO2/yG6MKKcdA1zgWzvaF1yAe
+ 6IE5ViHJkjV9sbrEmwYMF2aiwc/8rYpbyC260bHb9ezMHRxrF2IzyuvLf89PArkNh6K0
+ OP938Mv/CoAX3H3HoE76DG01Z0DhbPmpmtsZmXn/SNLXbvoBRPILmq+jWAhNM5skk0uA
+ PeYTM4idJcy/BaMqsx5GzewZK/SxbC3z8aSDltvjU0W3O/yeywDX3PsHnqWjBNIT/QSW
+ 40jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685129074; x=1687721074;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8F+V6OXXzxlqAeAQ2S6nVyckBmSNTRDJrN1SofTqjrw=;
- b=KGFn2vYQAvlyEgMjB4o6lo/aOUm6YyPYTuK3ut8OjJBtPq4Xo/CTIdZhh8XMkJ8P12
- 1AEoxZNvZ/HHSTVbL+z86i7GnC1w0G6yQcWXHUAW2YlQKLBVccnJ2YTVdHZR8xLI3uWu
- i+MKk9n7L5B45sxWgyL+bdRXh4w29BTXzeeJ1vUptUaBptLeoIUGyyxobKGF92yilDE8
- yFO0vIXzqlSgK1V1fARx77Bm2aZodV7BVoJ1g48VLGn95q4i8lufTSQ2FcC0cJ2k7sHK
- zvDYSyUft2Z2mHTZZoMK7rVy6YA5bMLdBa8ceZcnQrrmsC22aXo4YLt189O8KgDRYNMJ
- yWCA==
-X-Gm-Message-State: AC+VfDztYwGaN/HjY7dST68MU/LOQapncg25BJwASWiV72IDwvXf9jvu
- NjUEd8ADdrEIZGHkwA8lFzScdv+NhUjx9wduS9E=
-X-Google-Smtp-Source: ACHHUZ5Aq9OT6SrKipriSxgDG/MKDVlnUMLqDL/khDIN89awyhwqpZYdgZodTSy7yiHuDKfAL/ibrOQy5o71MeAlngM=
-X-Received: by 2002:a17:902:f550:b0:1ac:4a41:d38d with SMTP id
- h16-20020a170902f55000b001ac4a41d38dmr3398196plf.51.1685129073567; Fri, 26
- May 2023 12:24:33 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685129387; x=1687721387;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0ynDYbGdsZF04vCXi/fdD62cVu/XTnLlDnsDcsQE+gU=;
+ b=RrVd2/2UMIOrk4faQYjLRXIzugYfkV7xg+wE3PQ8MEXla6ScFFT6b6XnFcxdLKJhwq
+ ru3SCCGKYx6mnf24gqUrqDpbRz9G9sqxLQJKPJUFHGaA3o05s95FKfx8lpnXnrFBmUjB
+ MsluXb3YQuqlzIvPpDXLUHjmFmUbddskqDGMiFPH/eG/zRPoL46cmEgjRb+0mGfABG/P
+ o1CaLK2DxF6uSOhZ17x30dG8nWvvg9w0HGpJJUsadYEeziFI5JUeTSgfQd0McYqvRbNu
+ /g8LDqFdraSu3YtZQP4WXIJqlIvBNXtL/8BmpnlwNx+VzFo1ei6Nm3bPjU6wh4LS8b/e
+ QU4Q==
+X-Gm-Message-State: AC+VfDz9CDFqPWZTgT67IOOlT1U4zYKhgVjWrpPGAwgS2RfOdFec5dlI
+ Rz6gMZGO0upoq75h254ng83vqQ==
+X-Google-Smtp-Source: ACHHUZ5oiBIQA7Cc8vvOrtzZxw/Y5yQgzUfNrym68GiY4GckllJgnoA3zmZ8t8cNnVOcuy+UbltYaw==
+X-Received: by 2002:a2e:884a:0:b0:2ad:d9bd:1d2 with SMTP id
+ z10-20020a2e884a000000b002add9bd01d2mr1012719ljj.16.1685129386991; 
+ Fri, 26 May 2023 12:29:46 -0700 (PDT)
+Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
+ by smtp.gmail.com with ESMTPSA id
+ u4-20020a2ea164000000b002a929484fa0sm862756ljl.68.2023.05.26.12.29.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 May 2023 12:29:46 -0700 (PDT)
+Message-ID: <0837856f-bdd5-e8b7-3a08-01244843dbd8@linaro.org>
+Date: Fri, 26 May 2023 21:29:44 +0200
 MIME-Version: 1.0
-References: <20230526030559.326566-1-aford173@gmail.com>
- <20230526030559.326566-8-aford173@gmail.com>
- <20230526-cabana-humble-81e44944e378@spud>
-In-Reply-To: <20230526-cabana-humble-81e44944e378@spud>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 26 May 2023 14:24:21 -0500
-Message-ID: <CAHCN7xJdfO4+q071sur7wpVg+gU_Fzw9zfXvM9NDBFCN=Axiog@mail.gmail.com>
-Subject: Re: [PATCH V8 7/7] dt-bindings: bridge: samsung-dsim: Make some flags
- optional
-To: Conor Dooley <conor@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 0/9] drm/panel and i2c-hid: Allow panels and touchscreens
+ to power sequence together
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230523193017.4109557-1-dianders@chromium.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230523193017.4109557-1-dianders@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,124 +84,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ hsinyi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 26, 2023 at 1:19=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> Adam, Neil,
->
-> I meant to get to this earlier today, but broken CI got in the way...
->
-> On Thu, May 25, 2023 at 10:05:59PM -0500, Adam Ford wrote:
-> > In the event a device is connected to the samsung-dsim
-> > controller that doesn't support the burst-clock, the
-> > driver is able to get the requested pixel clock from the
-> > attached device or bridge.  In these instances, the
-> > samsung,burst-clock-frequency isn't needed, so remove
-> > it from the required list.
-> >
-> > The pll-clock frequency can be set by the device tree entry
-> > for samsung,pll-clock-frequency, but in some cases, the
-> > pll-clock may have the same clock rate as sclk_mipi clock.
-> > If they are equal, this flag is not needed since the driver
-> > will use the sclk_mipi rate as a fallback.
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > ---
-> >  .../bindings/display/bridge/samsung,mipi-dsim.yaml       | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,m=
-ipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mi=
-pi-dsim.yaml
-> > index 9f61ebdfefa8..360fea81f4b6 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
-m.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
-m.yaml
-> > @@ -70,7 +70,9 @@ properties:
-> >    samsung,burst-clock-frequency:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >      description:
-> > -      DSIM high speed burst mode frequency.
-> > +      DSIM high speed burst mode frequency when connected to devices
-> > +      that support burst mode. If absent, the driver will use the pixe=
-l
-> > +      clock from the attached device or bridge.
->
-> I'd rather this description did not say anything about drivers.
-> How about:
->         If absent, the pixel clock from the attached device or bridge
->         will be used instead.
 
-That makes sense.  I can do that.
 
-"DSIM high speed burst mode frequency (optional). If absent, the pixel
-clock from the attached device or bridge will be used instead."
+On 23.05.2023 21:27, Douglas Anderson wrote:
+> 
+> The big motivation for this patch series is mostly described in the patch
+> ("drm/panel: Add a way for other devices to follow panel state"), but to
+> quickly summarize here: for touchscreens that are connected to a panel we
+> need the ability to power sequence the two device together. This is not a
+> new need, but so far we've managed to get by through a combination of
+> inefficiency, added costs, or perhaps just a little bit of brokenness.
+> It's time to do better. This patch series allows us to do better.
+Panels with integrated touchscreens have been shipping in mainstream devices
+since at least 2016. Thanks a lot for looking into this!
 
-> Or perhaps "must be used"? Ditto below.
-
-"Must be" implies to me that the user needs to set something.  Are you
-ok with the proposed suggestion above?
->
-> Description aside, the removal seems to be backwards compatible - but
-> can every device that this binding supports work using an "attached
-> device or bridge", or are these properties going to be required for
-> certain compatibles?
-
-From what I can tell, the assumption is that the DSIM driver was
-expecting it to attach to panels in the past.  With the additional
-patch series, the DSIM can attach to bridge parts without a hard-coded
-set of clocks.  I don't expect the existing Exynos devices to change,
-but I also don't know what would preclude those SoC's from attaching
-to a bridge should someone want to design a new product around them.
-
-I'll wait a couple days for more feedback and send patch V2 with just
-this patch since the rest of the series has been applied to the drm
-branch.
-
-adam
-
->
-> Thanks,
-> Conor.
->
-> >
-> >    samsung,esc-clock-frequency:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> > @@ -80,7 +82,8 @@ properties:
-> >    samsung,pll-clock-frequency:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >      description:
-> > -      DSIM oscillator clock frequency.
-> > +      DSIM oscillator clock frequency. If absent, the driver will
-> > +      use the clock frequency of sclk_mipi.
-> >
-> >    phys:
-> >      maxItems: 1
-> > @@ -134,9 +137,7 @@ required:
-> >    - compatible
-> >    - interrupts
-> >    - reg
-> > -  - samsung,burst-clock-frequency
-> >    - samsung,esc-clock-frequency
-> > -  - samsung,pll-clock-frequency
-> >
-> >  allOf:
-> >    - $ref: ../dsi-controller.yaml#
-> > --
-> > 2.39.2
-> >
+Konrad
+> 
+> Assuming that people think this patch series looks OK, we'll have to
+> figure out the right way to land it. The panel patches and i2c-hid
+> patches will go through very different trees and so either we'll need
+> an Ack from one side or the other or someone to create a tag for the
+> other tree to pull in. This will _probably_ require the true drm-misc
+> maintainers to get involved, not a lowly committer. ;-)
+> 
+> 
+> Douglas Anderson (9):
+>   dt-bindings: HID: i2c-hid: Add "panel" property to i2c-hid backed
+>     panels
+>   drm/panel: Check for already prepared/enabled in drm_panel
+>   drm/panel: Add a way for other devices to follow panel state
+>   HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+>   HID: i2c-hid: Rearrange probe() to power things up later
+>   HID: i2c-hid: Make suspend and resume into helper functions
+>   HID: i2c-hid: Support being a panel follower
+>   HID: i2c-hid: Do panel follower work on the system_wq
+>   arm64: dts: qcom: sc7180: Link trogdor touchscreens to the panels
+> 
+>  .../bindings/input/elan,ekth6915.yaml         |   6 +
+>  .../bindings/input/goodix,gt7375p.yaml        |   6 +
+>  .../bindings/input/hid-over-i2c.yaml          |   6 +
+>  .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   1 +
+>  .../dts/qcom/sc7180-trogdor-homestar.dtsi     |   1 +
+>  .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   1 +
+>  .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   1 +
+>  .../qcom/sc7180-trogdor-quackingstick.dtsi    |   1 +
+>  .../dts/qcom/sc7180-trogdor-wormdingler.dtsi  |   1 +
+>  drivers/gpu/drm/drm_panel.c                   | 194 +++++++++-
+>  drivers/hid/i2c-hid/i2c-hid-core.c            | 330 +++++++++++++-----
+>  include/drm/drm_panel.h                       |  89 +++++
+>  12 files changed, 542 insertions(+), 95 deletions(-)
+> 
