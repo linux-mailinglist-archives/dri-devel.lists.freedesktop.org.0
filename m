@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A35711F97
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 08:04:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B01F7120C2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 09:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8956710E1B4;
-	Fri, 26 May 2023 06:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC9B210E0EF;
+	Fri, 26 May 2023 07:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF3810E1B4
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 06:04:18 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-970056276acso47628166b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 23:04:18 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9091710E7A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 07:18:00 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f6d3f83d0cso4511815e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 00:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685081055; x=1687673055;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=N+HEdzAqwWTEmlWoHrAywQzTrGYpO1deX73+YZ0gZnw=;
- b=YlDyzmUFqhw+j2KaJct52quH7e38m5Nu8smfQw8ffIQrQ1YSaAdQwfG9b8oWdpOuM0
- CT7SV6++lTlaA4rW6+8a50PXkQ9p+4MNmEoZZ9WRbla1Rn+7x0FyE7XBdvx0XOLNOoqI
- EDavz+Lrl8HuzluPqkHe+GffuX9VONFIyeBLMH9skVcWDXr2vjog4L3bMHdvqIvbEtlh
- PtudQC04Wsv3PlB6PUXwcT02c062R1uKUAM1L2vdYMA4DleKvvOIncvxuTxFy2TboecO
- YBCaYOuRlTPGjb3f0jKMKXdREoMIkLMPPUHFR2uFFhYA+DtIWPI0Ty0inuo6IsZYJT25
- uNPw==
+ d=linaro.org; s=google; t=1685085477; x=1687677477;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=ccYNkSB9yXNFc0pNcevL4BywfT3cjPwDcQMS5hYjY5A=;
+ b=upk6XEp7pKdAdaE6HpwR/flUdXcgSnj7QESN26X5BQS21Ly7Tn2Kg6FF1+xUSO0DIg
+ rnR6531U8ajhEcFTYhM5f3+bMqEj1vnygeCGpwJ++u8Zc1PBnixfyCACy2bSGhKQfuKX
+ hv+7nhfex5xD9fOYnlV1YnyxizfBhcVaLB7/xtuNWR7+8baORFbvCZGenLg2+LzDRsm+
+ zgXNe4qhCOpXSjmvvceSp2wsv6vdBEdCojgDcTkAAYSiE/iDaHbRVNJN2BaoSRxfW1TT
+ ipP8Z+7wOKRzxYdwhUgkmuE8WsXZUe8MX3SvCnFQo143yaB7hGIOmJbDvNrtu1v27s6I
+ Os+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685081055; x=1687673055;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N+HEdzAqwWTEmlWoHrAywQzTrGYpO1deX73+YZ0gZnw=;
- b=BhMW267pzoDR0/xKCddJz7NzNqGjl8NJMzYhWhRPNKjCpUVSNrql+tiol8hhglcnLi
- pwXa4sQ4xFVWQNJwq/pT0JjlRDL5O+HFW5sd4AtD7esbvtdf/J49g4JU8ankZQrQoX8F
- /9EGa53EyRutCwRxVOZ0HZhR6d51GMgFn72YZLzKFqI6Ku8cnXB4K+25nyCxoL81yV8a
- KlCZyHSCLGYJEYW710Km4euFN7tbkas35jUhkz+G4m2wwMb4Rbbe+TGQby+5C5bsgrXJ
- q36u6NF6XpM/xTquBz4BUMkqhnbdEa/ZCCWJHBTwvZaxyr+j0ViraDTQuZZn/IDZ2CHh
- suEQ==
-X-Gm-Message-State: AC+VfDx4kM9oUsyjEqp1uCGdgzC0y2QMoEY0kZMM1xHV9EZUeVoEBq23
- 58L/y8CoHnohJBN71/0qFfg3q/xsC99rtilNmko=
-X-Google-Smtp-Source: ACHHUZ5l2yHNm4ofzw63KMfOw/dozdrD2Bd32y/dq/wclQ5Qv9u40SuJAZXBkKtG/DFRPtVGYrVqYwpSg4cSTiNSRYI=
-X-Received: by 2002:a17:907:9813:b0:94f:956:b3f7 with SMTP id
- ji19-20020a170907981300b0094f0956b3f7mr981841ejc.2.1685081054899; Thu, 25 May
- 2023 23:04:14 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685085477; x=1687677477;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ccYNkSB9yXNFc0pNcevL4BywfT3cjPwDcQMS5hYjY5A=;
+ b=HabVwbDcW4sOTjOcb0wtT7/jb8mxpOKqSS7xJIK6C0Luv7kz4uxKMYKNi7c3IXK8zF
+ vFh9ybBqJ82COcDDuoCH6hHaxYpUxSNqKK/usL5kLMiedgsv9kUvCKETmCUSMJx/njrs
+ zWoWPAnGQ2MplOw826D2MpEsplfb03C5B0/onEUs9r1LrcUYPtZfehKcbDVOdE59eOz1
+ Gpr96QXooK3WDvTfIzFCkg9PIRRgDxuNPThBHIIM18BhhTI+3fOU9sDKKmc2u0H+WBoy
+ ZIeJqkOb4Q4vUhnPCX5cdVLTVPcbOG1qdx+IBE1f0gKe+qvpXSKDqLMp1BVuVFPf8SIw
+ d3Jg==
+X-Gm-Message-State: AC+VfDxrZLe1FA/8fA72lHALd6dnZ01idyLoygxa39HbLAeNndafbjwc
+ OMaWy/cP0poK2K8zWZGUfEW+5w==
+X-Google-Smtp-Source: ACHHUZ7pZtbrAhMxd6iWleR200RM6mvanIpgkNTpR5s75pyuJh/4bcbqfdyd+rbo3dVfFEZazKD4jA==
+X-Received: by 2002:a05:600c:2310:b0:3f6:a92:57e with SMTP id
+ 16-20020a05600c231000b003f60a92057emr821751wmo.20.1685085476727; 
+ Fri, 26 May 2023 00:17:56 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:15d9:4dfb:95d6:f5a0?
+ ([2a01:e0a:982:cbb0:15d9:4dfb:95d6:f5a0])
+ by smtp.gmail.com with ESMTPSA id
+ s26-20020a7bc39a000000b003f42328b5d9sm4239806wmj.39.2023.05.26.00.17.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 May 2023 00:17:56 -0700 (PDT)
+Message-ID: <a24cecc0-ade2-b438-f2bb-0b1ab830be01@linaro.org>
+Date: Fri, 26 May 2023 09:17:55 +0200
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 26 May 2023 16:04:02 +1000
-Message-ID: <CAPM=9twM2=jSRCZgoJDEcWypfGFuniRMEOa=S9pJvsWQR9dASQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.4-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] drm/amdgpu: Remove duplicate fdinfo fields
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230525155227.560094-1-robdclark@gmail.com>
+ <20230525155227.560094-2-robdclark@gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230525155227.560094-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,198 +80,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Reply-To: neil.armstrong@linaro.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Rob,
 
-This week's collection is pretty spread out, accel/qaic has a bunch of
-fixes, amdgpu, then lots of single fixes across a bunch of places.
+On 25/05/2023 17:52, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Some of the fields that are handled by drm_show_fdinfo() crept back in
+> when rebasing the patch.  Remove them again.
+> 
+> Fixes: 376c25f8ca47 ("drm/amdgpu: Switch to fdinfo helper")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c | 3 ---
+>   1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> index 13d7413d4ca3..a93e5627901a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
+> @@ -80,23 +80,20 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>   
+>   	amdgpu_ctx_mgr_usage(&fpriv->ctx_mgr, usage);
+>   
+>   	/*
+>   	 * ******************************************************************
+>   	 * For text output format description please see drm-usage-stats.rst!
+>   	 * ******************************************************************
+>   	 */
+>   
+>   	drm_printf(p, "pasid:\t%u\n", fpriv->vm.pasid);
+> -	drm_printf(p, "drm-driver:\t%s\n", file->minor->dev->driver->name);
+> -	drm_printf(p, "drm-pdev:\t%04x:%02x:%02x.%d\n", domain, bus, dev, fn);
+> -	drm_printf(p, "drm-client-id:\t%Lu\n", vm->immediate.fence_context);
+>   	drm_printf(p, "drm-memory-vram:\t%llu KiB\n", stats.vram/1024UL);
+>   	drm_printf(p, "drm-memory-gtt: \t%llu KiB\n", stats.gtt/1024UL);
+>   	drm_printf(p, "drm-memory-cpu: \t%llu KiB\n", stats.cpu/1024UL);
+>   	drm_printf(p, "amd-memory-visible-vram:\t%llu KiB\n",
+>   		   stats.visible_vram/1024UL);
+>   	drm_printf(p, "amd-evicted-vram:\t%llu KiB\n",
+>   		   stats.evicted_vram/1024UL);
+>   	drm_printf(p, "amd-evicted-visible-vram:\t%llu KiB\n",
+>   		   stats.evicted_visible_vram/1024UL);
+>   	drm_printf(p, "amd-requested-vram:\t%llu KiB\n",
 
-Dave.
+I got:
+drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c: In function ‘amdgpu_show_fdinfo’:
+drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c:64:32: error: variable ‘domain’ set but not used [-Werror=unused-but-set-variable]
+    64 |         uint32_t bus, dev, fn, domain;
+       |                                ^~~~~~
+drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c:64:28: error: variable ‘fn’ set but not used [-Werror=unused-but-set-variable]
+    64 |         uint32_t bus, dev, fn, domain;
+       |                            ^~
+drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c:64:23: error: variable ‘dev’ set but not used [-Werror=unused-but-set-variable]
+    64 |         uint32_t bus, dev, fn, domain;
+       |                       ^~~
+drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c:64:18: error: variable ‘bus’ set but not used [-Werror=unused-but-set-variable]
+    64 |         uint32_t bus, dev, fn, domain;
 
-drm-fixes-2023-05-26:
-drm fixes for 6.4-rc4
+after applying patch 2, can you fix it ? Seems you can keep the drm-pdev print line
 
-core:
-- fix drmm_mutex_init lock class
+I applied patch 1
 
-mgag200:
-- fix gamma lut initialisation
-
-pl111:
-- fix FB depth on IMPD-1 framebuffer
-
-amdgpu:
-- Fix missing BO unlocking in KIQ error path
-- Avoid spurious secure display error messages
-- SMU13 fix
-- Fix an OD regression
-- GPU reset display IRQ warning fix
-- MST fix
-
-radeon:
-- Fix a DP regression
-
-i915:
-- PIPEDMC disabling fix for bigjoiner config
-
-panel:
-- fix aya neo air plus quirk
-
-sched:
-- remove redundant NULL check
-
-qaic:
-- fix NNC message corruption
-- Grab ch_lock during QAIC_ATTACH_SLICE_BO
-- Flush the transfer list again
-- Validate if BO is sliced before slicing
-- Validate user data before grabbing any lock
-- initialize ret variable to 0
-- silence some uninitialized variable warnings
-The following changes since commit 44c026a73be8038f03dbdeef028b642880cf1511:
-
-  Linux 6.4-rc3 (2023-05-21 14:05:48 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-05-26
-
-for you to fetch changes up to 5502d1fab09df791a8b1208dea9defc418b9bbf7:
-
-  Merge tag 'drm-misc-fixes-2023-05-24' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-05-26
-15:38:31 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.4-rc4
-
-core:
-- fix drmm_mutex_init lock class
-
-mgag200:
-- fix gamma lut initialisation
-
-pl111:
-- fix FB depth on IMPD-1 framebuffer
-
-amdgpu:
-- Fix missing BO unlocking in KIQ error path
-- Avoid spurious secure display error messages
-- SMU13 fix
-- Fix an OD regression
-- GPU reset display IRQ warning fix
-- MST fix
-
-radeon:
-- Fix a DP regression
-
-i915:
-- PIPEDMC disabling fix for bigjoiner config
-
-panel:
-- fix aya neo air plus quirk
-
-sched:
-- remove redundant NULL check
-
-qaic:
-- fix NNC message corruption
-- Grab ch_lock during QAIC_ATTACH_SLICE_BO
-- Flush the transfer list again
-- Validate if BO is sliced before slicing
-- Validate user data before grabbing any lock
-- initialize ret variable to 0
-- silence some uninitialized variable warnings
-
-----------------------------------------------------------------
-Alan Liu (1):
-      drm/amd/display: Fix warning in disabling vblank irq
-
-Alex Deucher (1):
-      drm/radeon: reintroduce radeon_dp_work_func content
-
-Dan Carpenter (1):
-      accel/qaic: silence some uninitialized variable warnings
-
-Dave Airlie (3):
-      Merge tag 'drm-intel-fixes-2023-05-25' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.4-2023-05-24' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2023-05-24' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Evan Quan (1):
-      drm/amd/pm: add missing NotifyPowerSource message mapping for SMU13.0.7
-
-Fangzhi Zuo (1):
-      drm/amd/display: Have Payload Properly Created After Resume
-
-Imre Deak (1):
-      drm/i915: Fix PIPEDMC disabling for a bigjoiner configuration
-
-Jeffrey Hugo (1):
-      accel/qaic: Fix NNC message corruption
-
-Jesse Zhang (1):
-      drm/amdgpu: don't enable secure display on incompatible platforms
-
-Jocelyn Falempe (1):
-      drm/mgag200: Fix gamma lut not initialized.
-
-Jonatas Esteves (1):
-      drm/amd/pm: Fix output of pp_od_clk_voltage
-
-Linus Walleij (1):
-      drm/pl111: Fix FB depth on IMPD-1 framebuffer
-
-Matthew Auld (1):
-      drm: fix drmm_mutex_init()
-
-Maxime Ripard (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Maya Matuszczyk (1):
-      drm: panel-orientation-quirks: Change Air's quirk to support Air Plus
-
-Pranjal Ramajor Asha Kanojiya (4):
-      accel/qaic: Validate user data before grabbing any lock
-      accel/qaic: Validate if BO is sliced before slicing
-      accel/qaic: Flush the transfer list again
-      accel/qaic: Grab ch_lock during QAIC_ATTACH_SLICE_BO
-
-Sukrut Bellary (1):
-      drm:amd:amdgpu: Fix missing buffer object unlock in failure path
-
-Tom Rix (1):
-      accel/qaic: initialize ret variable to 0
-
-Vladislav Efanov (1):
-      drm/sched: Remove redundant check
-
- drivers/accel/qaic/qaic_control.c                  | 41 ++++++----
- drivers/accel/qaic/qaic_data.c                     | 93 +++++++++++-----------
- drivers/accel/qaic/qaic_drv.c                      |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  4 +-
- drivers/gpu/drm/amd/amdgpu/psp_v10_0.c             |  8 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 25 +++---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 16 +---
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 | 12 ++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  1 +
- drivers/gpu/drm/drm_managed.c                      | 22 +----
- drivers/gpu/drm/drm_panel_orientation_quirks.c     |  2 +-
- drivers/gpu/drm/i915/display/intel_display.c       | 12 ++-
- drivers/gpu/drm/mgag200/mgag200_mode.c             |  5 ++
- drivers/gpu/drm/pl111/pl111_display.c              |  2 +-
- drivers/gpu/drm/pl111/pl111_drm.h                  |  4 +-
- drivers/gpu/drm/pl111/pl111_drv.c                  |  8 +-
- drivers/gpu/drm/pl111/pl111_versatile.c            | 10 +--
- drivers/gpu/drm/radeon/radeon_irq_kms.c            | 10 +++
- drivers/gpu/drm/scheduler/sched_main.c             |  3 -
- include/drm/drm_managed.h                          | 18 ++++-
- 21 files changed, 166 insertions(+), 136 deletions(-)
+Thanks,
+Neil
