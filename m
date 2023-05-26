@@ -1,71 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E84D711E52
-	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 05:10:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6587121BF
+	for <lists+dri-devel@lfdr.de>; Fri, 26 May 2023 10:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7171610E79A;
-	Fri, 26 May 2023 03:09:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4FCF10E7B9;
+	Fri, 26 May 2023 08:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5926610E79A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 May 2023 03:09:54 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-64a9335a8e7so1256431b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 25 May 2023 20:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685070593; x=1687662593;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8+WI7Z+fFUvAEo5FkMRnZUO/pj1xsf6MM2SkfBdHuzY=;
- b=YQdlarf9r1DRtZZVDCUrH7oadI+z+IR3NfI8l2Hd5qSK8BvL4RWUTOklOKDoG5yuPv
- 9sw46fzNFZpjgqOZWmiM9zntaenoGIhj7whgVfMS0ucSkOh9GtGFkjaScGK3hrpEKWl9
- sjItsbeFX3l2gVMjTkiR2p6pFIYJs/oHf7qmMQGwkZ0Kn2cUFFJDhzTG4ZAOW0X1NqF+
- Fl2QHNBRJAUK865k0c7wmpsU4FA9DF7srC+nXVwXIp/7cMsuFzvcVeTEl4Svxh+eTKlt
- CCn4/3g2ixlgl1Ylb+g9vBp1KFRSmDWKECS7/2JEWn0o+ywdhI8UeMu798GgmlUwCl+M
- 52/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685070593; x=1687662593;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8+WI7Z+fFUvAEo5FkMRnZUO/pj1xsf6MM2SkfBdHuzY=;
- b=OpHLFc5oKQiV4WnSmh5SX6ivQgV+fyrQSbDrPixiibyeA/yoPHovRHrXSEyHL0qM49
- CqWfGrzCgEELpZc3ftKiml2cdRZZKrfqkiqEstHPzRQXRC4PK2BO9Bza4Wx0hXmkcKKX
- nrz5JqiBSgRUoaos4alCp+PCKYv71GBHFVvChkvyMPotDyMQmjkDKkBDd1ZFA+rAZild
- d0WqzDfAxIwsdoPVd81/19DL5FEz6N/dDxPdz9Om/06rzQ/Tkra3rqqp4zCiU/jgKjzA
- +0igM6NfWi3x4qSDDiIOtXx4QgqnN0aqW76sTfIF6vAeEpxHijdwQZ9UJ1q6uV25e8mr
- YEdw==
-X-Gm-Message-State: AC+VfDwEzR53jzJhG83e3vDTcg+DpDyAbQPGKxJ6k920DB8CORaI0nIy
- YOQI7aBt94FMOUFzNwphli3w+O4Jo+omWEa8zE6HxKSv
-X-Google-Smtp-Source: ACHHUZ4RH3fco+TNyTCnAnqPBsNEzHPi9vD/mqMDrzVwAxoIi3azNCxh0oQRlYGIbWnZr2qVAQnSKuBVjSZDfjg+KOU=
-X-Received: by 2002:a17:903:2445:b0:1ae:ce9:f391 with SMTP id
- l5-20020a170903244500b001ae0ce9f391mr4739089pls.4.1685070593342; Thu, 25 May
- 2023 20:09:53 -0700 (PDT)
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+ by gabe.freedesktop.org (Postfix) with SMTP id 085F210E79F;
+ Fri, 26 May 2023 03:33:22 +0000 (UTC)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+ by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id B711818010A35A; 
+ Fri, 26 May 2023 11:32:27 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, evan.quan@amd.com,
+ l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, tomba@kernel.org, emma@anholt.net, airlied@redhat.com,
+ kraxel@redhat.com, abrodkin@synopsys.com, ray.huang@amd.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com, zackr@vmware.com,
+ linux-graphics-maintainer@vmware.com, sumit.semwal@linaro.org
+Subject: [PATCH] drm: Remove unnecessary (void*) conversions
+Date: Fri, 26 May 2023 11:32:25 +0800
+Message-Id: <20230526033225.1310824-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230518230626.404068-1-aford173@gmail.com>
- <CAOMZO5DBefFuLWi39txu2RiU5vdHVx-0T48Fua6M5Y6Fr9PGNg@mail.gmail.com>
- <CAHCN7xLqmMPtnHTVbApyYxY2tx97oRjsk_51abdDcZkOJmA=Tw@mail.gmail.com>
- <CAHCN7xJTWqf_qfaZge4GpKuuzPE_OC-Kx7hBd_hFLOchH=Ef0g@mail.gmail.com>
- <CAOMZO5Csjx17kfkxN1xMLuCg+-J0v6rjiuvaK-ZktXO50ZTuSw@mail.gmail.com>
- <CAHCN7xL2GWLTwMttCha=b9_W0nE5aimCQ08YJFrCF5vNZUOL7Q@mail.gmail.com>
- <8c65c5c3-0415-78c0-4585-df94a532a04e@linaro.org>
- <CAHCN7xJBf+8KyXbqxVSUUXbKqomX+i-13Ed23QFeF0SM8nQpzw@mail.gmail.com>
- <8f50dc2c-4d74-6c0f-87bc-b96bbf1373a9@linaro.org>
- <bef20993-b831-b692-237e-b1e89ac4f34b@linaro.org>
-In-Reply-To: <bef20993-b831-b692-237e-b1e89ac4f34b@linaro.org>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 25 May 2023 22:09:40 -0500
-Message-ID: <CAHCN7xLizrHuc-Lc=gP=2RpHtV6SwA+5YxeZG4nL6sWa+rywCA@mail.gmail.com>
-Subject: Re: [PATCH V7 0/6] drm: bridge: samsung-dsim: Support variable
- clocking
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 26 May 2023 08:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,99 +47,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Su Hui <suhui@nfschina.com>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 25, 2023 at 11:19=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 25/05/2023 18:15, neil.armstrong@linaro.org wrote:
-> > On 25/05/2023 17:57, Adam Ford wrote:
-> >> On Thu, May 25, 2023 at 10:39=E2=80=AFAM Neil Armstrong
-> >> <neil.armstrong@linaro.org> wrote:
-> >>>
-> >>> On 24/05/2023 14:49, Adam Ford wrote:
-> >>>> On Wed, May 24, 2023 at 7:45=E2=80=AFAM Fabio Estevam <festevam@gmai=
-l.com> wrote:
-> >>>>>
-> >>>>> Hi Adam,
-> >>>>>
-> >>>>> On Tue, May 23, 2023 at 8:49=E2=80=AFPM Adam Ford <aford173@gmail.c=
-om> wrote:
-> >>>>>
-> >>>>>> Inki,
-> >>>>>>
-> >>>>>> I haven't heard back from you on whether or not you want the bindi=
-ngs
-> >>>>>> patch to be included with me resending the series as V7 or if you'=
-re
-> >>>>>> OK with a single, stand-alone patch.
-> >>>>>> Will you let me know?  I have the patch standing by waiting for
-> >>>>>> instructions.  If you're not the right person to ask, please let m=
-e
-> >>>>>> know who the right person is.
-> >>>>>
-> >>>>> Neil has also been collecting samsung-dsim patches. Maybe he can cl=
-arify.
-> >>>>
-> >>>> If it matters, my preference all along was to do the bindings as a
-> >>>> separate thing once the driver updates were merged into the tree.
-> >>>> Since the bindings can be done in different ways, I was hoping to ha=
-ve
-> >>>> a separate discussion on the right way to do the bindings. If they
-> >>>> need to be part of the series, I can do that.
-> >>>
-> >>> If you don't introduce compatibles, no need to send bindings, it can
-> >>> be send separately.
-> >>
-> >> This series doesn't change any compatibility.
-> >>
-> >>>
-> >>> Can I apply this serie and 20230503163313.2640898-2-frieder@fris.de ?=
- seems all has been reviewed.
-> >>
-> >> Looking at the driver, it looks like linux-next has some newer
-> >> features added into the driver since I started, so this series might
-> >> need a re-base.  If that's the case, let me know, and I'll do the
-> >> re-base.
-> >
-> > Ok I'll pull the other bits and let you know if this one needs a rebase=
-.
->
-> Indeed, starting at patch 3 it fails to apply, a rebase on drm-misc-next =
-is welcome!
+Pointer variables of (void*) type do not require type cast.
 
-Neil,
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                        | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c                     | 4 ++--
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c                 | 2 +-
+ drivers/gpu/drm/omapdrm/omap_debugfs.c                    | 6 +++---
+ drivers/gpu/drm/pl111/pl111_debugfs.c                     | 2 +-
+ drivers/gpu/drm/qxl/qxl_debugfs.c                         | 4 ++--
+ drivers/gpu/drm/tiny/arcpgu.c                             | 2 +-
+ drivers/gpu/drm/ttm/ttm_resource.c                        | 3 +--
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c                  | 6 +++---
+ drivers/gpu/drm/vmwgfx/ttm_object.c                       | 5 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                       | 2 +-
+ 12 files changed, 19 insertions(+), 21 deletions(-)
 
-I rebased and I added the dt-bindings as an additional patch to the
-series.  If people are unhappy with the bindings, I am hoping you can
-apply the first 6 since they don't seem to break any backwards
-compatibility, and we can discuss the bindings separately if
-necessary.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 827fcb4fb3b3..8a2c39927167 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -3312,7 +3312,7 @@ static ssize_t dtn_log_write(
+ 
+ static int mst_topo_show(struct seq_file *m, void *unused)
+ {
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
++	struct amdgpu_device *adev = m->private;
+ 	struct drm_device *dev = adev_to_drm(adev);
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 58c2246918fd..e6c870bd307b 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -3671,7 +3671,7 @@ static void amdgpu_parse_cg_state(struct seq_file *m, u64 flags)
+ 
+ static int amdgpu_debugfs_pm_info_show(struct seq_file *m, void *unused)
+ {
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
++	struct amdgpu_device *adev = m->private;
+ 	struct drm_device *dev = adev_to_drm(adev);
+ 	u64 flags = 0;
+ 	int r;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 31a7f59ccb49..dd57f7164e9a 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -198,7 +198,7 @@ static int etnaviv_ring_show(struct etnaviv_gpu *gpu, struct seq_file *m)
+ 
+ static int show_unlocked(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	int (*show)(struct drm_device *dev, struct seq_file *m) =
+ 			node->info_ent->data;
+@@ -208,7 +208,7 @@ static int show_unlocked(struct seq_file *m, void *arg)
+ 
+ static int show_each_gpu(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct etnaviv_drm_private *priv = dev->dev_private;
+ 	struct etnaviv_gpu *gpu;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+index 2a36d1ca8fda..96b59d5d68ed 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
++++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+@@ -37,7 +37,7 @@
+ static int
+ nouveau_debugfs_vbios_image(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
+ 	int i;
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_debugfs.c b/drivers/gpu/drm/omapdrm/omap_debugfs.c
+index a3d470468e5b..a94ce502e152 100644
+--- a/drivers/gpu/drm/omapdrm/omap_debugfs.c
++++ b/drivers/gpu/drm/omapdrm/omap_debugfs.c
+@@ -19,7 +19,7 @@
+ 
+ static int gem_show(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 
+@@ -33,7 +33,7 @@ static int gem_show(struct seq_file *m, void *arg)
+ 
+ static int mm_show(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct drm_printer p = drm_seq_file_printer(m);
+ 
+@@ -45,7 +45,7 @@ static int mm_show(struct seq_file *m, void *arg)
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
+ static int fb_show(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct drm_fb_helper *helper = dev->fb_helper;
+ 	struct drm_framebuffer *fb;
+diff --git a/drivers/gpu/drm/pl111/pl111_debugfs.c b/drivers/gpu/drm/pl111/pl111_debugfs.c
+index 6744fa16f464..4df03ec5d368 100644
+--- a/drivers/gpu/drm/pl111/pl111_debugfs.c
++++ b/drivers/gpu/drm/pl111/pl111_debugfs.c
+@@ -32,7 +32,7 @@ static const struct {
+ 
+ static int pl111_debugfs_regs(struct seq_file *m, void *unused)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *dev = node->minor->dev;
+ 	struct pl111_drm_dev_private *priv = dev->dev_private;
+ 	int i;
+diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c b/drivers/gpu/drm/qxl/qxl_debugfs.c
+index 2d9ed3b94574..5b4fe3049529 100644
+--- a/drivers/gpu/drm/qxl/qxl_debugfs.c
++++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
+@@ -38,7 +38,7 @@
+ static int
+ qxl_debugfs_irq_received(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct qxl_device *qdev = to_qxl(node->minor->dev);
+ 
+ 	seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
+@@ -52,7 +52,7 @@ qxl_debugfs_irq_received(struct seq_file *m, void *data)
+ static int
+ qxl_debugfs_buffers_info(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct qxl_device *qdev = to_qxl(node->minor->dev);
+ 	struct qxl_bo *bo;
+ 
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index e5b10e41554a..09f728355aba 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -338,7 +338,7 @@ static int arcpgu_unload(struct drm_device *drm)
+ #ifdef CONFIG_DEBUG_FS
+ static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_info_node *node = m->private;
+ 	struct drm_device *drm = node->minor->dev;
+ 	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
+ 	unsigned long clkrate = clk_get_rate(arcpgu->clk);
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 7333f7a87a2f..540faabcf8a4 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -727,9 +727,8 @@ ttm_kmap_iter_linear_io_fini(struct ttm_kmap_iter_linear_io *iter_io,
+ 
+ static int ttm_resource_manager_show(struct seq_file *m, void *unused)
+ {
+-	struct ttm_resource_manager *man =
+-		(struct ttm_resource_manager *)m->private;
+ 	struct drm_printer p = drm_seq_file_printer(m);
++	struct ttm_resource_manager *man = m->private;
+ 	ttm_resource_manager_debug(man, &p);
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+index 853dd9aa397e..577691af9707 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
++++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+@@ -43,7 +43,7 @@ static void virtio_gpu_add_int(struct seq_file *m, const char *name, int value)
+ 
+ static int virtio_gpu_features(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_info_node *node = m->private;
+ 	struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
+ 
+ 	virtio_gpu_add_bool(m, "virgl", vgdev->has_virgl_3d);
+@@ -68,7 +68,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
+ static int
+ virtio_gpu_debugfs_irq_info(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
++	struct drm_info_node *node = m->private;
+ 	struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
+ 
+ 	seq_printf(m, "fence %llu %lld\n",
+@@ -80,7 +80,7 @@ virtio_gpu_debugfs_irq_info(struct seq_file *m, void *data)
+ static int
+ virtio_gpu_debugfs_host_visible_mm(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_info_node *node = m->private;
+ 	struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
+ 	struct drm_printer p;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+index ddf8373c1d77..e9e3cc8f5b49 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+@@ -513,8 +513,7 @@ static void ttm_prime_refcount_release(struct ttm_base_object **p_base)
+  */
+ static void ttm_prime_dmabuf_release(struct dma_buf *dma_buf)
+ {
+-	struct ttm_prime_object *prime =
+-		(struct ttm_prime_object *) dma_buf->priv;
++	struct ttm_prime_object *prime = dma_buf->priv;
+ 	struct ttm_base_object *base = &prime->base;
+ 	struct ttm_object_device *tdev = base->tfile->tdev;
+ 
+@@ -554,7 +553,7 @@ int ttm_prime_fd_to_handle(struct ttm_object_file *tfile,
+ 	if (dma_buf->ops != &tdev->ops)
+ 		return -ENOSYS;
+ 
+-	prime = (struct ttm_prime_object *) dma_buf->priv;
++	prime = dma_buf->priv;
+ 	base = &prime->base;
+ 	*handle = base->handle;
+ 	ret = ttm_ref_object_add(tfile, base, NULL, false);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index c0da89e16e6f..3267a4e61382 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -220,7 +220,7 @@ static void vmw_bo_print_info(int id, struct vmw_bo *bo, struct seq_file *m)
+ 
+ static int vmw_debugfs_gem_info_show(struct seq_file *m, void *unused)
+ {
+-	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct vmw_private *vdev = m->private;
+ 	struct drm_device *dev = &vdev->drm;
+ 	struct drm_file *file;
+ 	int r;
+-- 
+2.30.2
 
-adam
-
->
-> Neil
->
-> >
-> > Neil
-> >
-> >>
-> >> adam
-> >>
-> >>>
-> >>> Neil
-> >>>
-> >>>>
-> >>>> adam
-> >>>
-> >
->
