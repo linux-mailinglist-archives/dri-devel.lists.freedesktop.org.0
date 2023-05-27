@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4313E7130FF
-	for <lists+dri-devel@lfdr.de>; Sat, 27 May 2023 02:53:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3729B7130FC
+	for <lists+dri-devel@lfdr.de>; Sat, 27 May 2023 02:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F247510E212;
-	Sat, 27 May 2023 00:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B4E10E20E;
+	Sat, 27 May 2023 00:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5402410E205;
- Sat, 27 May 2023 00:53:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43BBD10E20A;
+ Sat, 27 May 2023 00:53:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685148781; x=1716684781;
+ t=1685148782; x=1716684782;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o3gJaCqqbbc17rcGY4b+Tnp8dfjB3rXBVS6j++69PnM=;
- b=dcF91MLm8UuRBTJPpmRzUAtLYQjLGX+3F9dod76qP1weES6B+VjhxwTT
- NEdUoxrmvCdAJxcv+sF+HlSChqVwTk7IAVfySDa0OUItW0ciuJYXp06BE
- Xie/x58Ovhj+jOAGTaZ0Ls5lAOmUgJmXIw/HlHd1PXQ/YrHI/6Bn5tGVj
- aUjbZsVLLifpmtVr9wyv/2o6zHW1bpCG0Rpd3DR6TCejw1g3P0x/VDijC
- 6lxvDolPvb9nju8rlQUcPnPlxy+VfDWS5UaUsJfn+BNSG0pd9vr4E0IYq
- gUczP7ZThEhw7xNZhJ9GU9pSa5Q89cmoO6Edhm/MQxnn9+9zkbAimTgx0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440698945"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; d="scan'208";a="440698945"
+ bh=4GjqmW+otGEZ5v7mmx2sU1JYy/Uum015RXQdkp7Z4yE=;
+ b=e7MCgbxaDNlSG+KB+Jr/eorJiEaSDpuATJY+m1OpZWJ6nLGwc5a2C82i
+ oTWPxv5fXfR7y1i2XyT6495BFJQbQuRU5FgOCferSzJIMJ4NbAT14XzXU
+ I39j5mNGCTDZAm9vDxt+diNlgZ6bf4dC5Kdp8xFRRf8mJwWycyBhDJR5x
+ wb4TaYGegzoWl/octmIALrHTiRMcXWmbQK9BrjN4IdAmd6fshMA6RxESv
+ RHNOaY4BLn+5FWYywASM2DTz0D46kPG1FzHjzXN8uu9UgUrjo0KFP2Ydm
+ KcZEX9gLjp9qHaUyreb/I2S0dYPxRND8TBdiEQ7mGu8NaQaJmSFE5joAc g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440698951"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; d="scan'208";a="440698951"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2023 17:53:00 -0700
+ 26 May 2023 17:53:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="736191849"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; d="scan'208";a="736191849"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="736191858"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; d="scan'208";a="736191858"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2023 17:53:00 -0700
+ 26 May 2023 17:53:01 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 4/7] drm/i915/huc: differentiate the 2 steps of the MTL HuC
- auth flow
-Date: Fri, 26 May 2023 17:52:39 -0700
-Message-Id: <20230527005242.1346093-5-daniele.ceraolospurio@intel.com>
+Subject: [PATCH v3 5/7] drm/i915/mtl/huc: auth HuC via GSC
+Date: Fri, 26 May 2023 17:52:40 -0700
+Message-Id: <20230527005242.1346093-6-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230527005242.1346093-1-daniele.ceraolospurio@intel.com>
 References: <20230527005242.1346093-1-daniele.ceraolospurio@intel.com>
@@ -58,366 +57,421 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Alan Previn <alan.previn.teres.alexis@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before we add the second step of the MTL HuC auth (via GSC), we need to
-have the ability to differentiate between them. To do so, the huc
-authentication check is duplicated for GuC and GSC auth, with meu
-binaries being considered fully authenticated only after the GSC auth
-step.
+The full authentication via the GSC requires an heci packet submission
+to the GSC FW via the GSC CS. The GSC has new PXP command for this
+(literally called NEW_HUC_AUTH).
+The intel_huc_auth fuction is also updated to handle both authentication
+types.
 
-To report the difference between the 2 auth steps, a new case is added
-to the HuC getparam. This way, the clear media driver can start
-submitting before full auth, as partial auth is enough for those
-workloads.
-
-v2: fix authentication status check for DG2
-
-v3: add a better comment at the top of the HuC file to explain the
-    different approaches to load and auth (John)
+v2: check that the GuC auth for clear media has completed before
+    proceding with the full auth
 
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com> #v2
 ---
- drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 111 ++++++++++++++++------
- drivers/gpu/drm/i915/gt/uc/intel_huc.h    |  16 +++-
- drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c |   4 +-
- drivers/gpu/drm/i915/i915_reg.h           |   3 +
- include/uapi/drm/i915_drm.h               |   3 +-
- 5 files changed, 103 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     | 27 +++++-
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        | 50 +++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h        |  6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c     | 94 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h     |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+ .../drm/i915/pxp/intel_pxp_cmd_interface_43.h | 14 ++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c      |  2 +-
+ 9 files changed, 176 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+index b26f493f86fa..c659cc01f32f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+@@ -29,13 +29,32 @@ static void gsc_work(struct work_struct *work)
+ 
+ 	if (actions & GSC_ACTION_FW_LOAD) {
+ 		ret = intel_gsc_uc_fw_upload(gsc);
+-		if (ret == -EEXIST) /* skip proxy if not a new load */
+-			actions &= ~GSC_ACTION_FW_LOAD;
+-		else if (ret)
++		if (!ret)
++			/* setup proxy on a new load */
++			actions |= GSC_ACTION_SW_PROXY;
++		else if (ret != -EEXIST)
+ 			goto out_put;
++
++		/*
++		 * The HuC auth can be done both before or after the proxy init;
++		 * if done after, a proxy request will be issued and must be
++		 * serviced before the authentication can complete.
++		 * Since this worker also handles proxy requests, we can't
++		 * perform an action that requires the proxy from within it and
++		 * then stall waiting for it, because we'd be blocking the
++		 * service path. Therefore, it is easier for us to load HuC
++		 * first and do proxy later. The GSC will ack the HuC auth and
++		 * then send the HuC proxy request as part of the proxy init
++		 * flow.
++		 * Note that we can only do the GSC auth if the GuC auth was
++		 * successful.
++		 */
++		if (intel_uc_uses_huc(&gt->uc) &&
++		    intel_huc_is_authenticated(&gt->uc.huc, INTEL_HUC_AUTH_BY_GUC))
++			intel_huc_auth(&gt->uc.huc, INTEL_HUC_AUTH_BY_GSC);
+ 	}
+ 
+-	if (actions & (GSC_ACTION_FW_LOAD | GSC_ACTION_SW_PROXY)) {
++	if (actions & GSC_ACTION_SW_PROXY) {
+ 		if (!intel_gsc_uc_fw_init_done(gsc)) {
+ 			gt_err(gt, "Proxy request received with GSC not loaded!\n");
+ 			goto out_put;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+index 579c0f5a1438..0ad090304ca0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+@@ -99,7 +99,7 @@ void intel_gsc_uc_heci_cmd_emit_mtl_header(struct intel_gsc_mtl_header *header,
+ 					   u64 host_session_id)
+ {
+ 	host_session_id &= ~HOST_SESSION_MASK;
+-	if (heci_client_id == HECI_MEADDRESS_PXP)
++	if (host_session_id && heci_client_id == HECI_MEADDRESS_PXP)
+ 		host_session_id |= HOST_SESSION_PXP_SINGLE;
+ 
+ 	header->validity_marker = GSC_HECI_VALIDITY_MARKER;
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 37c6a8ca5c71..ab5246ae3979 100644
+index ab5246ae3979..5a4058d39550 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -10,6 +10,7 @@
- #include "intel_huc.h"
- #include "intel_huc_print.h"
- #include "i915_drv.h"
-+#include "i915_reg.h"
+@@ -355,20 +355,34 @@ static int check_huc_loading_mode(struct intel_huc *huc)
  
- #include <linux/device/bus.h>
- #include <linux/mei_aux.h>
-@@ -22,15 +23,23 @@
-  * capabilities by adding HuC specific commands to batch buffers.
-  *
-  * The kernel driver is only responsible for loading the HuC firmware and
-- * triggering its security authentication, which is performed by the GuC on
-- * older platforms and by the GSC on newer ones. For the GuC to correctly
-- * perform the authentication, the HuC binary must be loaded before the GuC one.
-+ * triggering its security authentication. This is done differently depending
-+ * on the platform:
-+ * - older platforms (from Gen9 to most Gen12s): the load is performed via DMA
-+ *   and the authentication via GuC
-+ * - DG2: load and authentication are both performed via GSC.
-+ * - MTL and newer platforms: the load is performed via DMA (same as with
-+ *   not-DG2 older platforms), while the authentication is done in 2-steps,
-+ *   a first auth for clear-media workloads via GuC and a second one for all
-+ *   workloads via GSC.
-+ * On platforms where the GuC does the authentication, to correctly do so the
-+ * HuC binary must be loaded before the GuC one.
-  * Loading the HuC is optional; however, not using the HuC might negatively
-  * impact power usage and/or performance of media workloads, depending on the
-  * use-cases.
-  * HuC must be reloaded on events that cause the WOPCM to lose its contents
-- * (S3/S4, FLR); GuC-authenticated HuC must also be reloaded on GuC/GT reset,
-- * while GSC-managed HuC will survive that.
-+ * (S3/S4, FLR); on older platforms the HuC must also be reloaded on GuC/GT
-+ * reset, while on newer ones it will survive that.
-  *
-  * See https://github.com/intel/media-driver for the latest details on HuC
-  * functionality.
-@@ -106,7 +115,7 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+ int intel_huc_init(struct intel_huc *huc)
  {
- 	struct intel_huc *huc = container_of(hrtimer, struct intel_huc, delayed_load.timer);
++	struct intel_gt *gt = huc_to_gt(huc);
+ 	int err;
  
--	if (!intel_huc_is_authenticated(huc)) {
-+	if (!intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC)) {
- 		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
- 			huc_notice(huc, "timed out waiting for MEI GSC\n");
- 		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
-@@ -124,7 +133,7 @@ static void huc_delayed_load_start(struct intel_huc *huc)
- {
- 	ktime_t delay;
+ 	err = check_huc_loading_mode(huc);
+ 	if (err)
+ 		goto out;
  
--	GEM_BUG_ON(intel_huc_is_authenticated(huc));
-+	GEM_BUG_ON(intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC));
- 
- 	/*
- 	 * On resume we don't have to wait for MEI-GSC to be re-probed, but we
-@@ -284,13 +293,23 @@ void intel_huc_init_early(struct intel_huc *huc)
- 	}
- 
- 	if (GRAPHICS_VER(i915) >= 11) {
--		huc->status.reg = GEN11_HUC_KERNEL_LOAD_INFO;
--		huc->status.mask = HUC_LOAD_SUCCESSFUL;
--		huc->status.value = HUC_LOAD_SUCCESSFUL;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].reg = GEN11_HUC_KERNEL_LOAD_INFO;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].mask = HUC_LOAD_SUCCESSFUL;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].value = HUC_LOAD_SUCCESSFUL;
- 	} else {
--		huc->status.reg = HUC_STATUS2;
--		huc->status.mask = HUC_FW_VERIFIED;
--		huc->status.value = HUC_FW_VERIFIED;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].reg = HUC_STATUS2;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].mask = HUC_FW_VERIFIED;
-+		huc->status[INTEL_HUC_AUTH_BY_GUC].value = HUC_FW_VERIFIED;
++	if (HAS_ENGINE(gt, GSC0)) {
++		struct i915_vma *vma = intel_guc_allocate_vma(&gt->uc.guc, SZ_8K);
++		if (IS_ERR(vma)) {
++			huc_info(huc, "Failed to allocate heci pkt\n");
++			goto out;
++		}
++
++		huc->heci_pkt = vma;
 +	}
 +
-+	if (IS_DG2(i915)) {
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].reg = GEN11_HUC_KERNEL_LOAD_INFO;
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HUC_LOAD_SUCCESSFUL;
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].value = HUC_LOAD_SUCCESSFUL;
-+	} else {
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].reg = HECI_FWSTS5(MTL_GSC_HECI1_BASE);
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HECI_FWSTS5_HUC_AUTH_DONE;
-+		huc->status[INTEL_HUC_AUTH_BY_GSC].value = HECI_FWSTS5_HUC_AUTH_DONE;
- 	}
- }
+ 	err = intel_uc_fw_init(&huc->fw);
+ 	if (err)
+-		goto out;
++		goto out_pkt;
  
-@@ -381,28 +400,38 @@ void intel_huc_suspend(struct intel_huc *huc)
- 	delayed_huc_load_complete(huc);
- }
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOADABLE);
  
--int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
-+static const char *auth_mode_string(struct intel_huc *huc,
-+				    enum intel_huc_authentication_type type)
-+{
-+	bool partial = huc->fw.has_gsc_headers && type == INTEL_HUC_AUTH_BY_GUC;
+ 	return 0;
+ 
++out_pkt:
++	if (huc->heci_pkt)
++		i915_vma_unpin_and_release(&huc->heci_pkt, 0);
+ out:
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+ 	huc_info(huc, "initialization failed %pe\n", ERR_PTR(err));
+@@ -383,6 +397,9 @@ void intel_huc_fini(struct intel_huc *huc)
+ 	 */
+ 	delayed_huc_load_fini(huc);
+ 
++	if (huc->heci_pkt)
++		i915_vma_unpin_and_release(&huc->heci_pkt, 0);
 +
-+	return partial ? "clear media" : "all workloads";
-+}
-+
-+int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
-+				     enum intel_huc_authentication_type type)
+ 	if (intel_uc_fw_is_loadable(&huc->fw))
+ 		intel_uc_fw_fini(&huc->fw);
+ }
+@@ -438,6 +455,7 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+ /**
+  * intel_huc_auth() - Authenticate HuC uCode
+  * @huc: intel_huc structure
++ * @type: authentication type (via GuC or via GSC)
+  *
+  * Called after HuC and GuC firmware loading during intel_uc_init_hw().
+  *
+@@ -445,7 +463,7 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+  * passing the offset of the RSA signature to intel_guc_auth_huc(). It then
+  * waits for up to 50ms for firmware verification ACK.
+  */
+-int intel_huc_auth(struct intel_huc *huc)
++int intel_huc_auth(struct intel_huc *huc, enum intel_huc_authentication_type type)
  {
  	struct intel_gt *gt = huc_to_gt(huc);
- 	int ret;
+ 	struct intel_guc *guc = &gt->uc.guc;
+@@ -454,31 +472,41 @@ int intel_huc_auth(struct intel_huc *huc)
+ 	if (!intel_uc_fw_is_loaded(&huc->fw))
+ 		return -ENOEXEC;
  
- 	ret = __intel_wait_for_register(gt->uncore,
--					huc->status.reg,
--					huc->status.mask,
--					huc->status.value,
-+					huc->status[type].reg,
-+					huc->status[type].mask,
-+					huc->status[type].value,
- 					2, 50, NULL);
+-	/* GSC will do the auth */
++	/* GSC will do the auth with the load */
+ 	if (intel_huc_is_loaded_by_gsc(huc))
+ 		return -ENODEV;
  
- 	/* mark the load process as complete even if the wait failed */
- 	delayed_huc_load_complete(huc);
- 
- 	if (ret) {
--		huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
-+		huc_err(huc, "firmware not verified for %s: %pe\n",
-+			auth_mode_string(huc, type), ERR_PTR(ret));
- 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
- 		return ret;
- 	}
- 
- 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
--	huc_info(huc, "authenticated!\n");
-+	huc_info(huc, "authenticated for %s!\n", auth_mode_string(huc, type));
- 	return 0;
- }
- 
-@@ -442,7 +471,7 @@ int intel_huc_auth(struct intel_huc *huc)
- 	}
- 
- 	/* Check authentication status, it should be done by now */
--	ret = intel_huc_wait_for_auth_complete(huc);
-+	ret = intel_huc_wait_for_auth_complete(huc, INTEL_HUC_AUTH_BY_GUC);
++	if (intel_huc_is_authenticated(huc, type))
++		return -EEXIST;
++
+ 	ret = i915_inject_probe_error(gt->i915, -ENXIO);
  	if (ret)
  		goto fail;
  
-@@ -453,16 +482,29 @@ int intel_huc_auth(struct intel_huc *huc)
+-	GEM_BUG_ON(intel_uc_fw_is_running(&huc->fw));
+-
+-	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
+-	if (ret) {
+-		huc_err(huc, "authentication by GuC failed %pe\n", ERR_PTR(ret));
+-		goto fail;
++	switch(type) {
++	case INTEL_HUC_AUTH_BY_GUC:
++		ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
++		break;
++	case INTEL_HUC_AUTH_BY_GSC:
++		ret = intel_huc_fw_auth_via_gsccs(huc);
++		break;
++	default:
++		MISSING_CASE(type);
++		ret = -EINVAL;
+ 	}
++	if (ret)
++		goto fail;
+ 
+ 	/* Check authentication status, it should be done by now */
+-	ret = intel_huc_wait_for_auth_complete(huc, INTEL_HUC_AUTH_BY_GUC);
++	ret = intel_huc_wait_for_auth_complete(huc, type);
+ 	if (ret)
+ 		goto fail;
+ 
+ 	return 0;
+ 
+ fail:
+-	huc_probe_error(huc, "authentication failed %pe\n", ERR_PTR(ret));
++	huc_probe_error(huc, "%s authentication failed %pe\n",
++			auth_mode_string(huc, type), ERR_PTR(ret));
  	return ret;
  }
  
--bool intel_huc_is_authenticated(struct intel_huc *huc)
-+bool intel_huc_is_authenticated(struct intel_huc *huc,
-+				enum intel_huc_authentication_type type)
- {
- 	struct intel_gt *gt = huc_to_gt(huc);
- 	intel_wakeref_t wakeref;
- 	u32 status = 0;
- 
- 	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
--		status = intel_uncore_read(gt->uncore, huc->status.reg);
-+		status = intel_uncore_read(gt->uncore, huc->status[type].reg);
- 
--	return (status & huc->status.mask) == huc->status.value;
-+	return (status & huc->status[type].mask) == huc->status[type].value;
-+}
-+
-+static bool huc_is_fully_authenticated(struct intel_huc *huc)
-+{
-+	struct intel_uc_fw *huc_fw = &huc->fw;
-+
-+	if (!huc_fw->has_gsc_headers)
-+		return intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GUC);
-+	else if (intel_huc_is_loaded_by_gsc(huc) || HAS_ENGINE(huc_to_gt(huc), GSC0))
-+		return intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC);
-+	else
-+		return false;
- }
- 
- /**
-@@ -477,7 +519,9 @@ bool intel_huc_is_authenticated(struct intel_huc *huc)
-  */
- int intel_huc_check_status(struct intel_huc *huc)
- {
--	switch (__intel_uc_fw_status(&huc->fw)) {
-+	struct intel_uc_fw *huc_fw = &huc->fw;
-+
-+	switch (__intel_uc_fw_status(huc_fw)) {
- 	case INTEL_UC_FIRMWARE_NOT_SUPPORTED:
- 		return -ENODEV;
- 	case INTEL_UC_FIRMWARE_DISABLED:
-@@ -494,7 +538,17 @@ int intel_huc_check_status(struct intel_huc *huc)
- 		break;
- 	}
- 
--	return intel_huc_is_authenticated(huc);
-+	/*
-+	 * meu binaries loaded by GuC are first partially authenticated by GuC
-+	 * and then fully authenticated by GSC
-+	 */
-+	if (huc_is_fully_authenticated(huc))
-+		return 1; /* full auth */
-+	else if (huc_fw->has_gsc_headers && !intel_huc_is_loaded_by_gsc(huc) &&
-+		 intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GUC))
-+		return 2; /* clear media only */
-+	else
-+		return 0;
- }
- 
- static bool huc_has_delayed_load(struct intel_huc *huc)
-@@ -508,7 +562,10 @@ void intel_huc_update_auth_status(struct intel_huc *huc)
- 	if (!intel_uc_fw_is_loadable(&huc->fw))
- 		return;
- 
--	if (intel_huc_is_authenticated(huc))
-+	if (!huc->fw.has_gsc_headers)
-+		return;
-+
-+	if (huc_is_fully_authenticated(huc))
- 		intel_uc_fw_change_status(&huc->fw,
- 					  INTEL_UC_FIRMWARE_RUNNING);
- 	else if (huc_has_delayed_load(huc))
-@@ -541,5 +598,5 @@ void intel_huc_load_status(struct intel_huc *huc, struct drm_printer *p)
- 
- 	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
- 		drm_printf(p, "HuC status: 0x%08x\n",
--			   intel_uncore_read(gt->uncore, huc->status.reg));
-+			   intel_uncore_read(gt->uncore, huc->status[INTEL_HUC_AUTH_BY_GUC].reg));
- }
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-index 112f0dce4702..3f6aa7c37abc 100644
+index 3f6aa7c37abc..ba5cb08e9e7b 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-@@ -22,6 +22,12 @@ enum intel_huc_delayed_load_status {
- 	INTEL_HUC_DELAYED_LOAD_ERROR,
+@@ -15,6 +15,7 @@
+ #include <linux/hrtimer.h>
+ 
+ struct bus_type;
++struct i915_vma;
+ 
+ enum intel_huc_delayed_load_status {
+ 	INTEL_HUC_WAITING_ON_GSC = 0,
+@@ -46,6 +47,9 @@ struct intel_huc {
+ 		enum intel_huc_delayed_load_status status;
+ 	} delayed_load;
+ 
++	/* for load via GSCCS */
++	struct i915_vma *heci_pkt;
++
+ 	bool loaded_via_gsc;
  };
  
-+enum intel_huc_authentication_type {
-+	INTEL_HUC_AUTH_BY_GUC = 0,
-+	INTEL_HUC_AUTH_BY_GSC,
-+	INTEL_HUC_AUTH_MAX_MODES
-+};
-+
- struct intel_huc {
- 	/* Generic uC firmware management */
- 	struct intel_uc_fw fw;
-@@ -31,7 +37,7 @@ struct intel_huc {
- 		i915_reg_t reg;
- 		u32 mask;
- 		u32 value;
--	} status;
-+	} status[INTEL_HUC_AUTH_MAX_MODES];
- 
- 	struct {
- 		struct i915_sw_fence fence;
-@@ -49,10 +55,12 @@ int intel_huc_init(struct intel_huc *huc);
+@@ -54,7 +58,7 @@ void intel_huc_init_early(struct intel_huc *huc);
+ int intel_huc_init(struct intel_huc *huc);
  void intel_huc_fini(struct intel_huc *huc);
  void intel_huc_suspend(struct intel_huc *huc);
- int intel_huc_auth(struct intel_huc *huc);
--int intel_huc_wait_for_auth_complete(struct intel_huc *huc);
-+int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
-+				     enum intel_huc_authentication_type type);
-+bool intel_huc_is_authenticated(struct intel_huc *huc,
-+				enum intel_huc_authentication_type type);
- int intel_huc_check_status(struct intel_huc *huc);
- void intel_huc_update_auth_status(struct intel_huc *huc);
--bool intel_huc_is_authenticated(struct intel_huc *huc);
- 
- void intel_huc_register_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus);
- void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus);
-@@ -81,7 +89,7 @@ static inline bool intel_huc_is_loaded_by_gsc(const struct intel_huc *huc)
- static inline bool intel_huc_wait_required(struct intel_huc *huc)
- {
- 	return intel_huc_is_used(huc) && intel_huc_is_loaded_by_gsc(huc) &&
--	       !intel_huc_is_authenticated(huc);
-+	       !intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC);
- }
- 
- void intel_huc_load_status(struct intel_huc *huc, struct drm_printer *p);
+-int intel_huc_auth(struct intel_huc *huc);
++int intel_huc_auth(struct intel_huc *huc, enum intel_huc_authentication_type type);
+ int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+ 				     enum intel_huc_authentication_type type);
+ bool intel_huc_is_authenticated(struct intel_huc *huc,
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-index 3355dc1e2bc6..d2b4176c81d6 100644
+index d2b4176c81d6..8e538d639b05 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-@@ -160,7 +160,7 @@ int intel_huc_fw_load_and_auth_via_gsc(struct intel_huc *huc)
- 	 * component gets re-bound and this function called again. If so, just
- 	 * mark the HuC as loaded.
- 	 */
--	if (intel_huc_is_authenticated(huc)) {
-+	if (intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC)) {
- 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
- 		return 0;
- 	}
-@@ -173,7 +173,7 @@ int intel_huc_fw_load_and_auth_via_gsc(struct intel_huc *huc)
- 
- 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_TRANSFERRED);
- 
--	return intel_huc_wait_for_auth_complete(huc);
-+	return intel_huc_wait_for_auth_complete(huc, INTEL_HUC_AUTH_BY_GSC);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 0523418129c5..c14433795c91 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -941,6 +941,9 @@
- #define HECI_H_GS1(base)	_MMIO((base) + 0xc4c)
- #define   HECI_H_GS1_ER_PREP	REG_BIT(0)
- 
-+#define HECI_FWSTS5(base)		_MMIO(base + 0xc68)
-+#define   HECI_FWSTS5_HUC_AUTH_DONE	(1 << 19)
+@@ -6,11 +6,105 @@
+ #include "gt/intel_gsc.h"
+ #include "gt/intel_gt.h"
+ #include "intel_gsc_binary_headers.h"
++#include "intel_gsc_uc_heci_cmd_submit.h"
+ #include "intel_huc.h"
+ #include "intel_huc_fw.h"
+ #include "intel_huc_print.h"
+ #include "i915_drv.h"
+ #include "pxp/intel_pxp_huc.h"
++#include "pxp/intel_pxp_cmd_interface_43.h"
 +
- #define HSW_GTT_CACHE_EN	_MMIO(0x4024)
- #define   GTT_CACHE_EN_ALL	0xF0007FFF
- #define GEN7_WR_WATERMARK	_MMIO(0x4028)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index f31dfacde601..a1848e806059 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -674,7 +674,8 @@ typedef struct drm_i915_irq_wait {
-  * If the IOCTL is successful, the returned parameter will be set to one of the
-  * following values:
-  *  * 0 if HuC firmware load is not complete,
-- *  * 1 if HuC firmware is authenticated and running.
-+ *  * 1 if HuC firmware is loaded and fully authenticated,
-+ *  * 2 if HuC firmware is loaded and authenticated for clear media only
-  */
- #define I915_PARAM_HUC_STATUS		 42
++struct mtl_huc_auth_msg_in {
++	struct intel_gsc_mtl_header header;
++	struct pxp43_new_huc_auth_in huc_in;
++} __packed;
++
++struct mtl_huc_auth_msg_out {
++	struct intel_gsc_mtl_header header;
++	struct pxp43_huc_auth_out huc_out;
++} __packed;
++
++int intel_huc_fw_auth_via_gsccs(struct intel_huc *huc)
++{
++	struct intel_gt *gt = huc_to_gt(huc);
++	struct drm_i915_private *i915 = gt->i915;
++	struct drm_i915_gem_object *obj;
++	struct mtl_huc_auth_msg_in *msg_in;
++	struct mtl_huc_auth_msg_out *msg_out;
++	void *pkt_vaddr;
++	u64 pkt_offset;
++	int retry = 5;
++	int err = 0;
++
++	if (!huc->heci_pkt)
++		return -ENODEV;
++
++	obj = huc->heci_pkt->obj;
++	pkt_offset = i915_ggtt_offset(huc->heci_pkt);
++
++	pkt_vaddr = i915_gem_object_pin_map_unlocked(obj,
++						     i915_coherent_map_type(i915, obj, true));
++	if (IS_ERR(pkt_vaddr))
++		return PTR_ERR(pkt_vaddr);
++
++	msg_in = pkt_vaddr;
++	msg_out = pkt_vaddr + SZ_4K;
++
++	intel_gsc_uc_heci_cmd_emit_mtl_header(&msg_in->header,
++					      HECI_MEADDRESS_PXP,
++					      sizeof(*msg_in), 0);
++
++	msg_in->huc_in.header.api_version = PXP_APIVER(4, 3);
++	msg_in->huc_in.header.command_id = PXP43_CMDID_NEW_HUC_AUTH;
++	msg_in->huc_in.header.status = 0;
++	msg_in->huc_in.header.buffer_len = sizeof(msg_in->huc_in) -
++					   sizeof(msg_in->huc_in.header);
++	msg_in->huc_in.huc_base_address = huc->fw.vma_res.start;
++	msg_in->huc_in.huc_size = huc->fw.obj->base.size;
++
++	do {
++		err = intel_gsc_uc_heci_cmd_submit_packet(&gt->uc.gsc,
++							  pkt_offset, sizeof(*msg_in),
++							  pkt_offset + SZ_4K, SZ_4K);
++		if (err) {
++			huc_err(huc, "failed to submit GSC request to auth: %d\n", err);
++			goto out_unpin;
++		}
++
++		if (msg_out->header.flags & GSC_OUTFLAG_MSG_PENDING) {
++			msg_in->header.gsc_message_handle = msg_out->header.gsc_message_handle;
++			err = -EBUSY;
++			msleep(50);
++		}
++	} while (--retry && err == -EBUSY);
++
++	if (err)
++		goto out_unpin;
++
++	if (msg_out->header.message_size != sizeof(*msg_out)) {
++		huc_err(huc, "invalid GSC reply length %u [expected %zu]\n",
++			msg_out->header.message_size, sizeof(*msg_out));
++		err = -EPROTO;
++		goto out_unpin;
++	}
++
++	/*
++	 * The GSC will return PXP_STATUS_OP_NOT_PERMITTED if the HuC is already
++	 * loaded. If the same error is ever returned with HuC not loaded we'll
++	 * still catch it when we check the authentication bit later.
++	 */
++	if (msg_out->huc_out.header.status != PXP_STATUS_SUCCESS &&
++	    msg_out->huc_out.header.status != PXP_STATUS_OP_NOT_PERMITTED) {
++		huc_err(huc, "auth failed with GSC error = 0x%x\n",
++			msg_out->huc_out.header.status);
++		err = -EIO;
++		goto out_unpin;
++	}
++
++out_unpin:
++	i915_gem_object_unpin_map(obj);
++	return err;
++}
  
+ static void get_version_from_gsc_manifest(struct intel_uc_fw_ver *ver, const void *data)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h
+index 0999ffe6f962..307ab45e6b09 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h
+@@ -12,6 +12,7 @@ struct intel_uc_fw;
+ #include <linux/types.h>
+ 
+ int intel_huc_fw_load_and_auth_via_gsc(struct intel_huc *huc);
++int intel_huc_fw_auth_via_gsccs(struct intel_huc *huc);
+ int intel_huc_fw_upload(struct intel_huc *huc);
+ int intel_huc_fw_get_binary_info(struct intel_uc_fw *huc_fw, const void *data, size_t size);
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+index 1e7f5cc9d550..18250fb64bd8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+@@ -538,7 +538,7 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 	if (intel_huc_is_loaded_by_gsc(huc))
+ 		intel_huc_update_auth_status(huc);
+ 	else
+-		intel_huc_auth(huc);
++		intel_huc_auth(huc, INTEL_HUC_AUTH_BY_GUC);
+ 
+ 	if (intel_uc_uses_guc_submission(uc)) {
+ 		ret = intel_guc_submission_enable(guc);
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
+index 09777719cd84..c49829caa73f 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
+@@ -11,19 +11,27 @@
+ 
+ /* PXP-Cmd-Op definitions */
+ #define PXP43_CMDID_START_HUC_AUTH 0x0000003A
++#define PXP43_CMDID_NEW_HUC_AUTH 0x0000003F /* MTL+ */
+ #define PXP43_CMDID_INIT_SESSION 0x00000036
+ 
+ /* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
+ #define PXP43_MAX_HECI_INOUT_SIZE (SZ_32K)
+ 
+-/* PXP-Input-Packet: HUC-Authentication */
++/* PXP-Input-Packet: HUC Load and Authentication */
+ struct pxp43_start_huc_auth_in {
+ 	struct pxp_cmd_header header;
+ 	__le64 huc_base_address;
+ } __packed;
+ 
+-/* PXP-Output-Packet: HUC-Authentication */
+-struct pxp43_start_huc_auth_out {
++/* PXP-Input-Packet: HUC Auth-only */
++struct pxp43_new_huc_auth_in {
++	struct pxp_cmd_header header;
++	u64 huc_base_address;
++	u32 huc_size;
++} __packed;
++
++/* PXP-Output-Packet: HUC Load and Authentication or Auth-only */
++struct pxp43_huc_auth_out {
+ 	struct pxp_cmd_header header;
+ } __packed;
+ 
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_huc.c b/drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
+index 23431c36b60b..5eedce916942 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_huc.c
+@@ -19,7 +19,7 @@ int intel_pxp_huc_load_and_auth(struct intel_pxp *pxp)
+ 	struct intel_gt *gt;
+ 	struct intel_huc *huc;
+ 	struct pxp43_start_huc_auth_in huc_in = {0};
+-	struct pxp43_start_huc_auth_out huc_out = {0};
++	struct pxp43_huc_auth_out huc_out = {0};
+ 	dma_addr_t huc_phys_addr;
+ 	u8 client_id = 0;
+ 	u8 fence_id = 0;
 -- 
 2.40.0
 
