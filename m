@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A917139CF
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048497139CE
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE7B310E174;
-	Sun, 28 May 2023 14:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA99A10E16B;
+	Sun, 28 May 2023 14:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F34410E0CB
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:00:11 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D041A10E0A7
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:00:12 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a02:8010:65b5:0:1ac0:4dff:feee:236a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9D44966031F4;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CB0DE6605703;
  Sun, 28 May 2023 15:00:09 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1685282409;
- bh=AsSXYHUkFyBX1xgopDi8EBlEKBrTYKvlfNS5sqv9JVE=;
+ bh=WAUfQLx2Jieo3ZVT9QyOs1XdimqsQfzrhTGzzHuNnqE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kAhAaQYozMNIKdNTBTlcc6WGY8wUBBc4pzekU+PtDLhwE4CI9IsCDKkG/nfcTxIZW
- GfkjgIovEGLmpMTH8aEDspjs3aqOXDSyi30INr0hz6z10f8klkk2GS4mgL0Qhed9bD
- tggd6+JQyD6xUekLw/1xXD2OWgSCYtLi1JePs1+XM1ws4+jdcU747kvjy/RQl3aRR5
- z2pkiM9FtmmpqhYm5Nz8e8MSFva+8N0WZWVEGcvriNjr+ffsxL5DUoFv58N3K90mgx
- Y0OmCDT3AD2dPQBMxkkGstsv5MBLvl8pfSH+R+34wb0QEuGce00yXqBkvNkatFGT5i
- YkCMK0mt7NThw==
+ b=UsaflhS5AUD3IUDGG6mJOWvSWM0RdyCm9XK+eqwZkw9l/nH4lpxycPGbEg9/MeXXG
+ ZhGm1aTOxrXsJmtyOqzR8ryyu9rm7Ffyg2ojaXsWTmW3S7+GIQhZd5aLZhhrYeSyup
+ QbrL9PRvSt9mTXrPanRbAoMa/5mEpFqdZA7Rcz+iCu1RYZpMc4nkb4ye9olrJO9HQI
+ TOWDh7RVXQCzrGf6+wGRfc2CNJQ69oSjCh4NLhTnHOocDLc1Wrtcd6Xn94AI4WZuQt
+ vNdeTydpq+nBvYtasHTIYBf11AxAFFh3D9g2OMPjhTShg570rvsAKLDBsOvBPh+isy
+ MiQWbMOR/KVow==
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: narmstrong@baylibre.com, khilman@baylibre.com,
  linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
  rfoss@kernel.org, andrzej.hajda@intel.com
-Subject: [PATCH 2/3] dw-hdmi: truly enforce 420-only formats when drm mode
- demands it
-Date: Sun, 28 May 2023 15:00:00 +0100
-Message-Id: <20230528140001.1057084-3-adrian.larumbe@collabora.com>
+Subject: [PATCH 3/3] dw-hdmi: remove dead code and fix indentation
+Date: Sun, 28 May 2023 15:00:01 +0100
+Message-Id: <20230528140001.1057084-4-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
 References: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
@@ -59,33 +59,51 @@ Cc: adrian.larumbe@collabora.com, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current output bus format selection logic is enforcing YUV420 even
-when the drm mode allows for other bus formats as well.
-Fix it by adding check for 420-only drm modes.
-
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index d59a547f9cb2..1afb8f2603a0 100644
+index 1afb8f2603a0..0accfb51509c 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2710,9 +2710,10 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 		/* Default 8bit fallback */
- 		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+@@ -49,20 +49,6 @@
  
--		*num_output_fmts = i;
+ #define HDMI14_MAX_TMDSCLK	340000000
+ 
+-enum hdmi_datamap {
+-	RGB444_8B = 0x01,
+-	RGB444_10B = 0x03,
+-	RGB444_12B = 0x05,
+-	RGB444_16B = 0x07,
+-	YCbCr444_8B = 0x09,
+-	YCbCr444_10B = 0x0B,
+-	YCbCr444_12B = 0x0D,
+-	YCbCr444_16B = 0x0F,
+-	YCbCr422_8B = 0x16,
+-	YCbCr422_10B = 0x14,
+-	YCbCr422_12B = 0x12,
+-};
 -
--		return output_fmts;
-+		if (drm_mode_is_420_only(info, mode)) {
-+			*num_output_fmts = i;
-+			return output_fmts;
-+		}
- 	}
+ static const u16 csc_coeff_default[3][4] = {
+ 	{ 0x2000, 0x0000, 0x0000, 0x0000 },
+ 	{ 0x0000, 0x2000, 0x0000, 0x0000 },
+@@ -856,10 +842,10 @@ static void dw_hdmi_gp_audio_enable(struct dw_hdmi *hdmi)
  
- 	/*
+ 	if (pdata->enable_audio)
+ 		pdata->enable_audio(hdmi,
+-					    hdmi->channels,
+-					    hdmi->sample_width,
+-					    hdmi->sample_rate,
+-					    hdmi->sample_non_pcm);
++				    hdmi->channels,
++				    hdmi->sample_width,
++				    hdmi->sample_rate,
++				    hdmi->sample_non_pcm);
+ }
+ 
+ static void dw_hdmi_gp_audio_disable(struct dw_hdmi *hdmi)
 -- 
 2.40.0
 
