@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0EF713A24
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:37:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6441C713A25
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 16:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7174410E0A1;
-	Sun, 28 May 2023 14:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC4488A27;
+	Sun, 28 May 2023 14:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A6410E0A1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:37:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A28210E18D
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:38:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7C7D160B73
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:37:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E3777C4339C
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:37:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 671AF60A49
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:38:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4CEAC4339B
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 14:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685284652;
- bh=SK4QcZF+lq1J0sAUui4iK/UePUG7My5JPmgWLUNj38g=;
+ s=k20201202; t=1685284702;
+ bh=nASGHhkySNjM8r3vnfG6AxhXdSmCKJkczmLLkZqsIcs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=AWoIsUnDncSp5q+FiXFQKYMghNcbfZae8kizZvQvkDeENZgqH9L0AwU9ECt+IDYUJ
- dyN+4xMIkIHZ1gEXEVfBRzUO8iVg9W7qjRacG78JWCW9w/PXGue3JOmuLum8C0dIQe
- EPFngfFeZEy6YYE2ngO7Co31B1g8SVQ7NTXdKraadRCUK+1a1UyMAR86o2bKvikS6A
- 2/ki58hPQwd9B/G0+IFBUXZw5C/kfeNWTk9ROapnTPtWPLZ2kru82Z5ld6pNRsyA+I
- aIYNJCfLuwzMTucLoi0FHOKsaC+Shpw7BYRcueCVo0wxTj5anoG3FEE3YtEfT3J0mJ
- mCHw3NDkst1sQ==
+ b=B3ONpbqlOXGUw/9vw6LxpQB6BMJ/WqFFlnmb0S+HeCjIUVw+ZaZjC/TRlZblrzF5M
+ /fE0EjiwoBlfBQe+p5uSgE6PC4NQ7zLBxZOJICfmBRsLpUBfp/mxIeqXDjIey49nzQ
+ q2dBnQDZb7s2Sjovzcg/d1E/5utkuFpvbKLOK0vhpk3QZxqkL3gxibPN8r2EifioiN
+ LBRafWD6Sovr2NqBOGaXpQdV3i3OudfA/a6BzyUbjyLkLZnmg04qEW8rzkUiLzb2rz
+ qkygi5M5x7KLyVpQhZP4xyPULoH0GG+vrsBX9YO+DTzasxVPOHIoPUkE8uB3darwMc
+ rB/iZGJzHSdBg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D37CAC43143; Sun, 28 May 2023 14:37:32 +0000 (UTC)
+ from userid 48) id B693AC43143; Sun, 28 May 2023 14:38:22 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217499] NVIDIA drivers fail to install on 6.4.0-rc3-1-mainline
  kernel
-Date: Sun, 28 May 2023 14:37:32 +0000
+Date: Sun, 28 May 2023 14:38:22 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-217499-2300-gV2GGVX5JA@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-217499-2300-mSd9g6bQfj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217499-2300@https.bugzilla.kernel.org/>
 References: <bug-217499-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -80,10 +80,7 @@ Wessel (wessel.working+kernel@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                URL|                            |https://forum.garudalinux.o
-                   |                            |rg/t/nvidia-drivers-fail-to
-                   |                            |-install-on-6-4-0-rc3-1-mai
-                   |                            |nline-kernel/28769
+     Kernel Version|                            |6.4.0-rc3-1-mainline
 
 --=20
 You may reply to this email to add a comment.
