@@ -1,48 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484C713B00
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 19:07:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774E5713B80
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 20:14:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12F210E0E0;
-	Sun, 28 May 2023 17:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6ED10E0E1;
+	Sun, 28 May 2023 18:14:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6D110E0D4;
- Sun, 28 May 2023 17:07:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ADF8360DF3;
- Sun, 28 May 2023 17:07:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBF9C433D2;
- Sun, 28 May 2023 17:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685293647;
- bh=02eNU83y4XHlZerLmzEgp+h+i4TD1tIjvR6/Yoqa/uY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pcU9oJJkdv9FRz++NJPe3GIytmTzHHWNBBCudgvNpUV0ljHUN5ZZqP97v4zhagyp+
- 1ZnegWDzt3n4jb05SVL3p/B2BDh/GixgIQztzkxRQHxViHVMJF+1X64kHxcqJPlPh6
- tysbMtxqs8c8mM7pMPFWSnUE2aKXm8dQiyKwZuyLY+hwcT9+UTIrsj+UWkDn1yhY3M
- W10DlO57sH6XYe0yd7+vz/G4DhxcyzBg+y8K0tnsjNen2VyShgkpp+EgGzI9Na0xCg
- cPRQ9WAhQBwljc6k6Ue4fc0HLQOTLbyjwL/+54n/z5XGuqtvaHwMz/tOfvBBMwRRBo
- t+zZ2Y0eAtlVQ==
-Date: Sun, 28 May 2023 22:37:17 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc8280xp: Add GPU related nodes
-Message-ID: <20230528170717.GG2814@thinkpad>
-References: <20230523011522.65351-1-quic_bjorande@quicinc.com>
- <20230523011522.65351-3-quic_bjorande@quicinc.com>
- <097944b0-fa7a-ad4d-1c3d-e74ab2b977de@linaro.org>
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116DF10E0E1
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 18:14:22 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ 98e67ed59e1d1-256712e2be3so467982a91.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 11:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685297662; x=1687889662;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KylLFO78aG85tFCA5dfgDJk9LDpZhsbsPaumEd9VTYQ=;
+ b=dljeEtgXM7OWMKJz5q2ffWr4AzsROAeTGEpXJFO5tmLPoipmiKFrsu52RpFHS17llJ
+ trraqNJOi0jewEQMzjIKlOS4ZMhc3DHUk2LaWMAEE605RJu0vamfp+OX6UwGYZerHQRH
+ SSbadMRH5N5GOVwgUCeUYBiU0a+VMcoA3JmTYQcdg/UPsbVS8R8+qRjk7jf+Xxrihn/a
+ 6pKEb4cAlxKCKIlPUp3M1pyLSTeo5F+8DVu9N/uFHHoAu8Bx+GlNZ7LoAhq1XaMxvq1d
+ AJJjmpg/m7eRUgr67TYmKGbBDG7BgxT8EXyOPltqTeEd24rwitHW6dAPIOX9aggZhsTf
+ 0l/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685297662; x=1687889662;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KylLFO78aG85tFCA5dfgDJk9LDpZhsbsPaumEd9VTYQ=;
+ b=ffIoY9ebefGC0v4MbmmFWX1Hb6CEf+1i89OAPX/g9aHip3fHJOD1uXQUwELBq58cl7
+ 1TwGYtS7msAURDozGb4ljXxhch/xGv45BepfGiA5f7uzGOFeZp7DBkAnjoB60Dcg2gqh
+ o4NdjrCP9yHGXajDRzsStxmUr1/zjT/FLx+SprcU6xHV86HDV9iMYcVLAwoIHF7MU4Ao
+ dhzOZq8+QuvpyF4bx+PqzkwDOvCH2mn73qljlyjwvnCXsX19AFsJvSc8Xn06NopvmNgL
+ qZ20hhRGmyi8gJBN9aWt6HblmUfwP948A+zGuuwjjP4fhpgYsidYeYxmQJIEbf6XD2m7
+ jaDA==
+X-Gm-Message-State: AC+VfDyGD4djxQHv4h0aZX6QO+nPJqly0CDfQM8N+uc4DopN6ub7lvW3
+ T+lfcQeXtLrKGfAwNn4Cyhqix71UuqafiMVa5gk=
+X-Google-Smtp-Source: ACHHUZ5rZHZVsQ7sM0uVNgsj9/lGptUCRRcH11dVAV7DRFVkW0y7/XGyIu5h1rC5D3P0L69OKDYf7jIgLbHzPjDpTqI=
+X-Received: by 2002:a17:902:9b84:b0:1ae:5914:cbec with SMTP id
+ y4-20020a1709029b8400b001ae5914cbecmr9237690plp.10.1685297661614; Sun, 28 May
+ 2023 11:14:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <097944b0-fa7a-ad4d-1c3d-e74ab2b977de@linaro.org>
+References: <20230528132727.3933-1-aford173@gmail.com>
+ <CAMty3ZB=XfMr7k31yHzZ+YHFxT0ifCbmR4+s5yw+YgTSJE0Jxg@mail.gmail.com>
+In-Reply-To: <CAMty3ZB=XfMr7k31yHzZ+YHFxT0ifCbmR4+s5yw+YgTSJE0Jxg@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 28 May 2023 13:14:10 -0500
+Message-ID: <CAHCN7xLUEYY0ZWVCO8SZSkPj8um7hj3uOtyyt+iWGLkc_XXdxw@mail.gmail.com>
+Subject: Re: [PATCH V2] dt-bindings: bridge: samsung-dsim: Make some flags
+ optional
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,245 +70,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <quic_bjorande@quicinc.com>,
- mani@kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- johan@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 23, 2023 at 09:59:53AM +0200, Konrad Dybcio wrote:
-> 
-> 
-> On 23.05.2023 03:15, Bjorn Andersson wrote:
-> > From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > 
-> > Add Adreno SMMU, GPU clock controller, GMU and GPU nodes for the
-> > SC8280XP.
-> > 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+On Sun, May 28, 2023 at 8:34=E2=80=AFAM Jagan Teki <jagan@amarulasolutions.=
+com> wrote:
+>
+> On Sun, May 28, 2023 at 6:57=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
+ote:
+> >
+> > In the event a device is connected to the samsung-dsim
+> > controller that doesn't support the burst-clock, the
+> > driver is able to get the requested pixel clock from the
+> > attached device or bridge.  In these instances, the
+> > samsung,burst-clock-frequency isn't needed, so remove
+> > it from the required list.
+> >
+> > The pll-clock frequency can be set by the device tree entry
+> > for samsung,pll-clock-frequency, but in some cases, the
+> > pll-clock may have the same clock rate as sclk_mipi clock.
+> > If they are equal, this flag is not needed since the driver
+> > will use the sclk_mipi rate as a fallback.
+> >
+> > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > > ---
-> It does not look like you tested the DTS against bindings. Please run
-> `make dtbs_check` (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
-> 
-> > 
-> > Changes since v1:
-> > - Dropped gmu_pdc_seq region from &gmu, as it shouldn't have been used.
-> > - Added missing compatible to &adreno_smmu.
-> > - Dropped aoss_qmp clock in &gmu and &adreno_smmu.
-> >  
-> >  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 169 +++++++++++++++++++++++++
-> >  1 file changed, 169 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> > index d2a2224d138a..329ec2119ecf 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> > @@ -6,6 +6,7 @@
-> >  
-> >  #include <dt-bindings/clock/qcom,dispcc-sc8280xp.h>
-> >  #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
-> > +#include <dt-bindings/clock/qcom,gpucc-sc8280xp.h>
-> >  #include <dt-bindings/clock/qcom,rpmh.h>
-> >  #include <dt-bindings/interconnect/qcom,osm-l3.h>
-> >  #include <dt-bindings/interconnect/qcom,sc8280xp.h>
-> > @@ -2331,6 +2332,174 @@ tcsr: syscon@1fc0000 {
-> >  			reg = <0x0 0x01fc0000 0x0 0x30000>;
-> >  		};
-> >  
-> > +		gpu: gpu@3d00000 {
-> > +			compatible = "qcom,adreno-690.0", "qcom,adreno";
-> > +
-> > +			reg = <0 0x03d00000 0 0x40000>,
-> > +			      <0 0x03d9e000 0 0x1000>,
-> > +			      <0 0x03d61000 0 0x800>;
-> > +			reg-names = "kgsl_3d0_reg_memory",
-> > +				    "cx_mem",
-> > +				    "cx_dbgc";
-> > +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> > +			iommus = <&adreno_smmu 0 0xc00>, <&adreno_smmu 1 0xc00>;
-> > +			operating-points-v2 = <&gpu_opp_table>;
-> > +
-> > +			qcom,gmu = <&gmu>;
-> > +			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-> > +			interconnect-names = "gfx-mem";
-> > +			#cooling-cells = <2>;
-> > +
-> > +			status = "disabled";
-> > +
-> > +			gpu_opp_table: opp-table {
-> > +				compatible = "operating-points-v2";
-> > +
-> > +				opp-270000000 {
-> > +					opp-hz = /bits/ 64 <270000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-> > +					opp-peak-kBps = <451000>;
-> > +				};
-> > +
-> > +				opp-410000000 {
-> > +					opp-hz = /bits/ 64 <410000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-> > +					opp-peak-kBps = <1555000>;
-> > +				};
-> > +
-> > +				opp-500000000 {
-> > +					opp-hz = /bits/ 64 <500000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> > +					opp-peak-kBps = <1555000>;
-> > +				};
-> > +
-> > +				opp-547000000 {
-> > +					opp-hz = /bits/ 64 <547000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-> > +					opp-peak-kBps = <1555000>;
-> > +				};
-> > +
-> > +				opp-606000000 {
-> > +					opp-hz = /bits/ 64 <606000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> > +					opp-peak-kBps = <2736000>;
-> > +				};
-> > +
-> > +				opp-640000000 {
-> > +					opp-hz = /bits/ 64 <640000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> > +					opp-peak-kBps = <2736000>;
-> > +				};
-> > +
-> > +				opp-690000000 {
-> > +					opp-hz = /bits/ 64 <690000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> > +					opp-peak-kBps = <2736000>;
-> > +				};
-> > +			};
-> > +		};
-> > +
-> > +		gmu: gmu@3d6a000 {
-> > +			compatible = "qcom,adreno-gmu-690.0", "qcom,adreno-gmu";
-> > +			reg = <0 0x03d6a000 0 0x34000>,
-> > +			      <0 0x03de0000 0 0x10000>,
-> > +			      <0 0x0b290000 0 0x10000>;
-> > +			reg-names = "gmu", "rscc", "gmu_pdc";
-> > +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> > +			interrupt-names = "hfi", "gmu";
-> > +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> > +				 <&gpucc GPU_CC_CXO_CLK>,
-> > +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> > +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> > +				 <&gpucc GPU_CC_AHB_CLK>,
-> > +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> > +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-> > +			clock-names = "gmu",
-> > +				      "cxo",
-> > +				      "axi",
-> > +				      "memnoc",
-> > +				      "ahb",
-> > +				      "hub",
-> > +				      "smmu_vote";
-> > +			power-domains = <&gpucc GPU_CC_CX_GDSC>,
-> > +					<&gpucc GPU_CC_GX_GDSC>;
-> > +			power-domain-names = "cx",
-> > +					     "gx";
-> > +			iommus = <&adreno_smmu 5 0xc00>;
-> > +			operating-points-v2 = <&gmu_opp_table>;
-> > +
-> > +			status = "disabled";
-> I've recently discovered that - and I am not 100% sure - all GMUs are
-> cache-coherent. Could you please ask somebody at qc about this?
-> 
+> > V2:  Split from driver series.  Re-word updates for burst
+> > and pll-clock frequency.
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,m=
+ipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mi=
+pi-dsim.yaml
+> > index 9f61ebdfefa8..06b6c44d4641 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.yaml
+> > @@ -70,7 +70,9 @@ properties:
+> >    samsung,burst-clock-frequency:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> >      description:
+> > -      DSIM high speed burst mode frequency.
+> > +      DSIM high speed burst mode frequency.  If absent,
+> > +      the pixel clock from the attached device or bridge
+> > +      will be used instead.
+> >
+> >    samsung,esc-clock-frequency:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> > @@ -80,7 +82,8 @@ properties:
+> >    samsung,pll-clock-frequency:
+> >      $ref: /schemas/types.yaml#/definitions/uint32
+> >      description:
+> > -      DSIM oscillator clock frequency.
+> > +      DSIM oscillator clock frequency. If absent, the clock frequency
+> > +      of sclk_mipi will be used instead.
+>
+> Maybe this explicit comment won't require as it is not listed in "require=
+d"
 
-AFAIU, GMU's job is controlling the voltage and clock to the GPU. It doesn't do
-any data transactions on its own. So cache-coherent doesn't make sense to me.
-
-- Mani
-
-> > +
-> > +			gmu_opp_table: opp-table {
-> > +				compatible = "operating-points-v2";
-> > +
-> > +				opp-200000000 {
-> > +					opp-hz = /bits/ 64 <200000000>;
-> > +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> > +				};
-> Missing 500MHz + RPMH_REGULATOR_LEVEL_SVS
-> 
-> (that may be used in the future for hw scheduling)
-> > +			};
-> > +		};
-> > +
-> > +		gpucc: clock-controller@3d90000 {
-> > +			compatible = "qcom,sc8280xp-gpucc";
-> > +			reg = <0 0x03d90000 0 0x9000>;
-> > +			clocks = <&rpmhcc RPMH_CXO_CLK>,
-> > +				 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
-> > +				 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
-> > +			clock-names = "bi_tcxo",
-> > +				      "gcc_gpu_gpll0_clk_src",
-> > +				      "gcc_gpu_gpll0_div_clk_src";
-> FWIW the driver doesn't use clock-names, but the binding defines it,
-> so I suppose it's fine
-> 
-> > +
-> > +			power-domains = <&rpmhpd SC8280XP_GFX>;
-> > +			#clock-cells = <1>;
-> > +			#reset-cells = <1>;
-> > +			#power-domain-cells = <1>;
-> > +
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		adreno_smmu: iommu@3da0000 {
-> > +			compatible = "qcom,sc8280xp-smmu-500", "qcom,adreno-smmu",
-> > +				     "qcom,smmu-500", "arm,mmu-500";
-> > +			reg = <0 0x03da0000 0 0x20000>;
-> > +			#iommu-cells = <2>;
-> > +			#global-interrupts = <2>;
-> > +			interrupts = <GIC_SPI 672 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 688 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 689 IRQ_TYPE_LEVEL_HIGH>;
-> > +
-> > +			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> > +				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-> > +				 <&gpucc GPU_CC_AHB_CLK>,
-> > +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-> > +				 <&gpucc GPU_CC_CX_GMU_CLK>,
-> > +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> > +				 <&gpucc GPU_CC_HUB_AON_CLK>;
-> > +			clock-names = "gcc_gpu_memnoc_gfx_clk",
-> > +				      "gcc_gpu_snoc_dvm_gfx_clk",
-> > +				      "gpu_cc_ahb_clk",
-> > +				      "gpu_cc_hlos1_vote_gpu_smmu_clk",
-> > +				      "gpu_cc_cx_gmu_clk",
-> > +				      "gpu_cc_hub_cx_int_clk",
-> > +				      "gpu_cc_hub_aon_clk";
-> > +
-> > +			power-domains = <&gpucc GPU_CC_CX_GDSC>;
-> > +
-> > +			status = "disabled";
-> This one should be dma-coherent (per downstream, plus 8350's mmu is for sure)
-> 
-> Konrad
-> > +		};
-> > +
-> >  		usb_0_hsphy: phy@88e5000 {
-> >  			compatible = "qcom,sc8280xp-usb-hs-phy",
-> >  				     "qcom,usb-snps-hs-5nm-phy";
-
--- 
-மணிவண்ணன் சதாசிவம்
+I mostly listed it here to explain why it's being removed from the
+required list and what happens if it's missing.
+>
+> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
