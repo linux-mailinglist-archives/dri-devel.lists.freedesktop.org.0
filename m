@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3102713E27
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 21:32:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014D0713E8F
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 21:36:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D53210E106;
-	Sun, 28 May 2023 19:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2651E10E114;
+	Sun, 28 May 2023 19:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C945E10E106
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 19:32:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0EB10E10D
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 19:36:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3E09A61DAF;
- Sun, 28 May 2023 19:32:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 369BDC433EF;
- Sun, 28 May 2023 19:32:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AC4FA61E2F;
+ Sun, 28 May 2023 19:36:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E7AC4339B;
+ Sun, 28 May 2023 19:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1685302340;
+ s=korg; t=1685302592;
  bh=QQnnE4i3eL6R307oEqra6ayyV8n51uDN9f9ilv2MX+g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LWcyoIh6ACNOmy9GAr0sTP0PxeOgG+lob4kPRPbaYvM/VopfhLpAP0RFnO2cpbROx
- d+yQq/DDJZZ5PA0jWQIG6NhtZs2NLpmaZfcDiofpCLuQnNar1Xrvlu7FRnDU2lc7L7
- aY+PC98WeZyqjIwVMSZba6DwR1jhV6lhJN2jOy/8=
+ b=ik4lZE/es+uunosYTtui/ci1PrM3O3+vbrUZ3KCYKbP9OeVxGn0G8nhw1tQupKl8K
+ BQPfYZj5QbM5XIDOntu+HIjp4MwEgV5BzcRedMt2nVsAqv15KzS9Gk3bIeKO+dsbQm
+ ruBIu0UiKvDntrUiAiAsLKWWArrO9HFF2wfYFp9s=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.3 069/127] drm: fix drmm_mutex_init()
-Date: Sun, 28 May 2023 20:10:45 +0100
-Message-Id: <20230528190838.638080983@linuxfoundation.org>
+Subject: [PATCH 6.1 065/119] drm: fix drmm_mutex_init()
+Date: Sun, 28 May 2023 20:11:05 +0100
+Message-Id: <20230528190837.647782960@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230528190836.161231414@linuxfoundation.org>
-References: <20230528190836.161231414@linuxfoundation.org>
+In-Reply-To: <20230528190835.386670951@linuxfoundation.org>
+References: <20230528190835.386670951@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
