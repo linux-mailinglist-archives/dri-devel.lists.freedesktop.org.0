@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED267138D2
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 11:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A717138D3
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 11:04:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBEA10E03E;
-	Sun, 28 May 2023 09:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B6210E03F;
+	Sun, 28 May 2023 09:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 877B110E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 09:04:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033D610E03C
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 09:04:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EDAB160C8F;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6A19260AB8;
+ Sun, 28 May 2023 09:04:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB34DC433EF;
  Sun, 28 May 2023 09:04:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C99C4339B;
- Sun, 28 May 2023 09:04:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685264675;
- bh=NouFgewvZ/WLd2d0vp0qGKDd9bzE6ZxNbhLBh6hMzJw=;
+ s=k20201202; t=1685264676;
+ bh=ow9rTnfxqKKN87DuICZJGCBzHN35cgoPUyCDHIQk3j8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EoDLS1INkVQjrCmiowGyD3mTK2pxOSwWDDiyPuzMSAT0zEyCTUUz/i3RVKIYIuEPd
- 1tR5aGFSeuaYPe8o2z8UpFH5+dB0PyXkdic8M7BlrAkIm0+sDFtswU+CyOX6qytUxH
- G3vucySX/6ttUZ16CTnTG20ikknBWQo0lsjf2HwGGqc2hqHZG9JW0WA/y5NTZohFNg
- Ua3OqDV9gbVv0YwPVK9ShUpNL0U2WQ8i0y3DbtLbtFUzKQqsrDezxFE7XuLC1xadhO
- uSdFvWDvvem8tt81v35jcyWmYrARsX62lASiOzyRigcXQi0UXmwIpy5yq+o5UrAt1F
- UnQMwPPKQSLGg==
+ b=uTa4peFhA9UpcqjFJb1d1vrLPkNwqebCj/MD1ysVb+6Cwk9JJpp8BX0Z8gfE3eE6A
+ YkExmqURBGyN2LMD2Tr0yXBEuGP1pF5kXIT8t6BfhjpMqGzRU9+vVNtE+pDwQL9N0X
+ inlEJE6BEZedID6aH1y/LXpSDpvKgcQQIkWlQHDC0iwnS4xvy3G9NxyW0/cQ6EiWgo
+ eJM/nVEx6R03nvNYfz0KIOo8q2tTyYhqycCChAa/F+7CgHHGCMn8Q8wG1ke3nK4iBQ
+ zfgtF1+PLSw8QLbj19bliCemVOqU5nT1U06sV+sjQxEfzXtQ909H6vTCdY8lyHqm0o
+ qT5akcymB0Blg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] accel/habanalabs: add event queue extra validation
-Date: Sun, 28 May 2023 12:04:27 +0300
-Message-Id: <20230528090428.1948778-2-ogabbay@kernel.org>
+Subject: [PATCH 3/3] accel/habanalabs: refactor error info reset
+Date: Sun, 28 May 2023 12:04:28 +0300
+Message-Id: <20230528090428.1948778-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230528090428.1948778-1-ogabbay@kernel.org>
 References: <20230528090428.1948778-1-ogabbay@kernel.org>
@@ -51,55 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: Dani Liberman <dliberman@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+From: Dani Liberman <dliberman@habana.ai>
 
-In order to increase reliability of the event queue interface,
-we apply to Gaudi2 the same mechanism we have in Gaudi1.
-The extra validation is basically checking that the received
-event index matches the expected index.
+Moved error info reset code to single function for future use from
+other places in the driver.
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Signed-off-by: Dani Liberman <dliberman@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/irq.c    | 2 +-
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/accel/habanalabs/common/device.c         | 8 ++++++++
+ drivers/accel/habanalabs/common/habanalabs.h     | 1 +
+ drivers/accel/habanalabs/common/habanalabs_drv.c | 5 +----
+ 3 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
-index c67895b1cdeb..b1010d206c2e 100644
---- a/drivers/accel/habanalabs/common/irq.c
-+++ b/drivers/accel/habanalabs/common/irq.c
-@@ -430,7 +430,7 @@ irqreturn_t hl_irq_handler_eq(int irq, void *arg)
- 		cur_eqe_index = FIELD_GET(EQ_CTL_INDEX_MASK, cur_eqe);
- 		if ((hdev->event_queue.check_eqe_index) &&
- 				(((eq->prev_eqe_index + 1) & EQ_CTL_INDEX_MASK) != cur_eqe_index)) {
--			dev_dbg(hdev->dev,
-+			dev_err(hdev->dev,
- 				"EQE %#x in queue is ready but index does not match %d!=%d",
- 				cur_eqe,
- 				((eq->prev_eqe_index + 1) & EQ_CTL_INDEX_MASK),
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 0d41adf4792c..20c4583f12b0 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -3619,6 +3619,12 @@ static int gaudi2_sw_init(struct hl_device *hdev)
- 
- 	prop->supports_compute_reset = true;
- 
-+	/* Event queue sanity check added in FW version 1.11 */
-+	if (hl_is_fw_sw_ver_below(hdev, 1, 11))
-+		hdev->event_queue.check_eqe_index = false;
-+	else
-+		hdev->event_queue.check_eqe_index = true;
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index ea02f2cfdf81..b97339d1f7c6 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2689,3 +2689,11 @@ void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info)
+ 	if (info->event_mask)
+ 		*info->event_mask |= HL_NOTIFIER_EVENT_CRITICL_FW_ERR;
+ }
 +
- 	hdev->asic_funcs->set_pci_memory_regions(hdev);
++void hl_enable_err_info_capture(struct hl_error_info *captured_err_info)
++{
++	vfree(captured_err_info->page_fault_info.user_mappings);
++	memset(captured_err_info, 0, sizeof(struct hl_error_info));
++	atomic_set(&captured_err_info->cs_timeout.write_enable, 1);
++	captured_err_info->undef_opcode.write_enable = true;
++}
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index c5aa33eaa826..d92ba2e30e31 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -3944,6 +3944,7 @@ void hl_handle_page_fault(struct hl_device *hdev, u64 addr, u16 eng_id, bool is_
+ 				u64 *event_mask);
+ void hl_handle_critical_hw_err(struct hl_device *hdev, u16 event_id, u64 *event_mask);
+ void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info);
++void hl_enable_err_info_capture(struct hl_error_info *captured_err_info);
  
- 	rc = gaudi2_special_blocks_iterator_config(hdev);
+ #ifdef CONFIG_DEBUG_FS
+ 
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 446f444a1c7e..7263e84c1a4d 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -219,10 +219,7 @@ int hl_device_open(struct inode *inode, struct file *filp)
+ 
+ 	hl_debugfs_add_file(hpriv);
+ 
+-	vfree(hdev->captured_err_info.page_fault_info.user_mappings);
+-	memset(&hdev->captured_err_info, 0, sizeof(hdev->captured_err_info));
+-	atomic_set(&hdev->captured_err_info.cs_timeout.write_enable, 1);
+-	hdev->captured_err_info.undef_opcode.write_enable = true;
++	hl_enable_err_info_capture(&hdev->captured_err_info);
+ 
+ 	hdev->open_counter++;
+ 	hdev->last_successful_open_jif = jiffies;
 -- 
 2.40.1
 
