@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED2C713AA9
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 18:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACA1713AB1
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 18:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDEAE10E064;
-	Sun, 28 May 2023 16:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA42710E0C4;
+	Sun, 28 May 2023 16:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC2310E064
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 16:48:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF32110E0C4
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 16:49:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 70C1860F79;
- Sun, 28 May 2023 16:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC15C433D2;
- Sun, 28 May 2023 16:48:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 578AF60F79;
+ Sun, 28 May 2023 16:49:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 761E8C433D2;
+ Sun, 28 May 2023 16:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1685292498;
- bh=/sFzPU/U9QZOxv7z54J5eZZcYgJsYHo7oitCi2HB76M=;
+ s=korg; t=1685292573;
+ bh=rJ+VP4Xj5X1vNb5IyPl0iIpAasjUwYV4g7nNh2j1VzQ=;
  h=Subject:To:Cc:From:Date:From;
- b=mzOWwEHfGoZxkGpurJgVicDWjkHDrmFbG2CWjxEIcBFU0sVu3Z4/vsDezSM1Bz5Nr
- D+vxbGho1hC3ankbXdp8uAaBf+kqSJVZomlatLagJrzXg96trEMOr66TctoNd30DaP
- BZ6iFa6L99mCmK9v2XJBvcfHnswGms5QJn8tnS4Y=
-Subject: Patch "drm: fix drmm_mutex_init()" has been added to the 6.1-stable
+ b=Z+aWXR0XeplvalSEgR7JkbcJI+ejBGDdByJZoOSh2h2E0Wb9lftmDWENYdzaJ3GPx
+ dF88LyHHCFae5BCamFjVDZ9Id6KlW8RqORh3/DuN49cOI2X6TZWmDS/tc2qF0MbbcO
+ BSQZA4UlY01DtR69r5Xa7T4uwroS3k4sIFKiFDNk=
+Subject: Patch "drm: fix drmm_mutex_init()" has been added to the 6.3-stable
  tree
 To: boris.brezillon@collabora.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
@@ -34,8 +34,8 @@ To: boris.brezillon@collabora.com, daniel.vetter@ffwll.ch,
  sarah.walker@imgtec.com, stanislaw.gruszka@linux.intel.com,
  thomas.hellstrom@linux.intel.com, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Sun, 28 May 2023 17:46:16 +0100
-Message-ID: <2023052816-resonate-cake-2de5@gregkh>
+Date: Sun, 28 May 2023 17:46:29 +0100
+Message-ID: <2023052829-ecologist-opposite-7a17@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm: fix drmm_mutex_init()
 
-to the 6.1-stable tree which can be found at:
+to the 6.3-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-fix-drmm_mutex_init.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.3 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -198,4 +198,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from matthew.auld@intel.com are
 
-queue-6.1/drm-fix-drmm_mutex_init.patch
+queue-6.3/drm-fix-drmm_mutex_init.patch
