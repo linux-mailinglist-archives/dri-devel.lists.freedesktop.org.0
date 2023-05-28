@@ -1,42 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A717138D3
-	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 11:04:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A247139A4
+	for <lists+dri-devel@lfdr.de>; Sun, 28 May 2023 15:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B6210E03F;
-	Sun, 28 May 2023 09:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCFE10E1FF;
+	Sun, 28 May 2023 13:27:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033D610E03C
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 09:04:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6A19260AB8;
- Sun, 28 May 2023 09:04:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB34DC433EF;
- Sun, 28 May 2023 09:04:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685264676;
- bh=ow9rTnfxqKKN87DuICZJGCBzHN35cgoPUyCDHIQk3j8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uTa4peFhA9UpcqjFJb1d1vrLPkNwqebCj/MD1ysVb+6Cwk9JJpp8BX0Z8gfE3eE6A
- YkExmqURBGyN2LMD2Tr0yXBEuGP1pF5kXIT8t6BfhjpMqGzRU9+vVNtE+pDwQL9N0X
- inlEJE6BEZedID6aH1y/LXpSDpvKgcQQIkWlQHDC0iwnS4xvy3G9NxyW0/cQ6EiWgo
- eJM/nVEx6R03nvNYfz0KIOo8q2tTyYhqycCChAa/F+7CgHHGCMn8Q8wG1ke3nK4iBQ
- zfgtF1+PLSw8QLbj19bliCemVOqU5nT1U06sV+sjQxEfzXtQ909H6vTCdY8lyHqm0o
- qT5akcymB0Blg==
-From: Oded Gabbay <ogabbay@kernel.org>
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364D810E0CE
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 13:27:36 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id
+ ca18e2360f4ac-7749357e71cso70938839f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 06:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685280454; x=1687872454;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gEM2GqZ8OMei7ENhUmT/X40pgKCW19D6Zd4VJ4P8qcU=;
+ b=R8luGRAIhXl4kxrGq9klpfmLL7HVLRAa/SX6uXo7qUjSDp7ljH+HmXvDrigp26fNNM
+ Y1aTHI+PZx2p2Y6myKaWvQRpZcrF2mGS4i4/bb4OmmnpOnSY3Rftf+wSgzXYhru/szBg
+ WvZzyyrNjl3vPc0MtvSM5T4SFZP1r/c5DmrXaf8TdKbEbVZViNXrhHovdRLvewa8UJru
+ LbnHdaF1hxw9yFfg8R/uvFGhiSJD12OEvb3TRpjCO870OWsEA8TuSmZU2yOjd9OVKvjc
+ hl68D8s0r5CMmMqZt2m+xUJbwMuhiq05UkyozbAaTmCldXLdExAGThSaDnRRSAcRnfny
+ HLUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685280454; x=1687872454;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gEM2GqZ8OMei7ENhUmT/X40pgKCW19D6Zd4VJ4P8qcU=;
+ b=V7vLDYRXau+qEAPvSYYMfI6rk1hu6neVws74znYXxmgAg0FyJpHXBszIiO9ESe7ADo
+ bZHCxRRGTajOMV9ScARUR1a2igdy5ISylbr6DAVs8czWUxSQ1ZFim5FabhUWdEkE/KoP
+ vFBTPo/KnXTh9Bz9RRNB6qXAhYkOMM2ZVNtwjf1uhxm3Nnnf5XWOhqOPqBZQzGuGyqE3
+ J1G9jzVOYaOkereVnrYS5zD+36IwU1XzTEzUlAm34IIkHo8ltc1uXncOnG9aCqFlZ8PY
+ 1/bAsqCDH1HPWUdXsC+c1g1FYwM32DCrWqnaOp+lLUlpeViOuapzFczWi7+EaSphM3IC
+ PkfQ==
+X-Gm-Message-State: AC+VfDzXE68t7xZSEfAWjfeK/5LqMxrG8DGGh6whCWL29TOUUUYiADB9
+ zFp9iefwbq4zMytTpioVmhlH7YQj174Jag==
+X-Google-Smtp-Source: ACHHUZ6GtMr4xqSpqmFvjtAU90VfNw84Yg1PZzFC6bTY+R7QA/BmfifhSOuJ0y13BfpDPWumnufYdQ==
+X-Received: by 2002:a6b:dd02:0:b0:76c:4ca6:34d7 with SMTP id
+ f2-20020a6bdd02000000b0076c4ca634d7mr5679747ioc.19.1685280454476; 
+ Sun, 28 May 2023 06:27:34 -0700 (PDT)
+Received: from aford-B741.lan ([2601:447:d001:897f:afd6:bf52:6c04:831a])
+ by smtp.gmail.com with ESMTPSA id
+ p11-20020a02290b000000b004161fafff97sm2276330jap.136.2023.05.28.06.27.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 May 2023 06:27:34 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] accel/habanalabs: refactor error info reset
-Date: Sun, 28 May 2023 12:04:28 +0300
-Message-Id: <20230528090428.1948778-3-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230528090428.1948778-1-ogabbay@kernel.org>
-References: <20230528090428.1948778-1-ogabbay@kernel.org>
+Subject: [PATCH V2] dt-bindings: bridge: samsung-dsim: Make some flags optional
+Date: Sun, 28 May 2023 08:27:27 -0500
+Message-Id: <20230528132727.3933-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,68 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dani Liberman <dliberman@habana.ai>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ devicetree@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dani Liberman <dliberman@habana.ai>
+In the event a device is connected to the samsung-dsim
+controller that doesn't support the burst-clock, the
+driver is able to get the requested pixel clock from the
+attached device or bridge.  In these instances, the
+samsung,burst-clock-frequency isn't needed, so remove
+it from the required list.
 
-Moved error info reset code to single function for future use from
-other places in the driver.
+The pll-clock frequency can be set by the device tree entry
+for samsung,pll-clock-frequency, but in some cases, the
+pll-clock may have the same clock rate as sclk_mipi clock.
+If they are equal, this flag is not needed since the driver
+will use the sclk_mipi rate as a fallback.
 
-Signed-off-by: Dani Liberman <dliberman@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Adam Ford <aford173@gmail.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- drivers/accel/habanalabs/common/device.c         | 8 ++++++++
- drivers/accel/habanalabs/common/habanalabs.h     | 1 +
- drivers/accel/habanalabs/common/habanalabs_drv.c | 5 +----
- 3 files changed, 10 insertions(+), 4 deletions(-)
+V2:  Split from driver series.  Re-word updates for burst
+and pll-clock frequency.
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index ea02f2cfdf81..b97339d1f7c6 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -2689,3 +2689,11 @@ void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info)
- 	if (info->event_mask)
- 		*info->event_mask |= HL_NOTIFIER_EVENT_CRITICL_FW_ERR;
- }
-+
-+void hl_enable_err_info_capture(struct hl_error_info *captured_err_info)
-+{
-+	vfree(captured_err_info->page_fault_info.user_mappings);
-+	memset(captured_err_info, 0, sizeof(struct hl_error_info));
-+	atomic_set(&captured_err_info->cs_timeout.write_enable, 1);
-+	captured_err_info->undef_opcode.write_enable = true;
-+}
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index c5aa33eaa826..d92ba2e30e31 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3944,6 +3944,7 @@ void hl_handle_page_fault(struct hl_device *hdev, u64 addr, u16 eng_id, bool is_
- 				u64 *event_mask);
- void hl_handle_critical_hw_err(struct hl_device *hdev, u16 event_id, u64 *event_mask);
- void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info);
-+void hl_enable_err_info_capture(struct hl_error_info *captured_err_info);
+diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index 9f61ebdfefa8..06b6c44d4641 100644
+--- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -70,7 +70,9 @@ properties:
+   samsung,burst-clock-frequency:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+-      DSIM high speed burst mode frequency.
++      DSIM high speed burst mode frequency.  If absent,
++      the pixel clock from the attached device or bridge
++      will be used instead.
  
- #ifdef CONFIG_DEBUG_FS
+   samsung,esc-clock-frequency:
+     $ref: /schemas/types.yaml#/definitions/uint32
+@@ -80,7 +82,8 @@ properties:
+   samsung,pll-clock-frequency:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+-      DSIM oscillator clock frequency.
++      DSIM oscillator clock frequency. If absent, the clock frequency
++      of sclk_mipi will be used instead.
  
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 446f444a1c7e..7263e84c1a4d 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -219,10 +219,7 @@ int hl_device_open(struct inode *inode, struct file *filp)
+   phys:
+     maxItems: 1
+@@ -134,9 +137,7 @@ required:
+   - compatible
+   - interrupts
+   - reg
+-  - samsung,burst-clock-frequency
+   - samsung,esc-clock-frequency
+-  - samsung,pll-clock-frequency
  
- 	hl_debugfs_add_file(hpriv);
- 
--	vfree(hdev->captured_err_info.page_fault_info.user_mappings);
--	memset(&hdev->captured_err_info, 0, sizeof(hdev->captured_err_info));
--	atomic_set(&hdev->captured_err_info.cs_timeout.write_enable, 1);
--	hdev->captured_err_info.undef_opcode.write_enable = true;
-+	hl_enable_err_info_capture(&hdev->captured_err_info);
- 
- 	hdev->open_counter++;
- 	hdev->last_successful_open_jif = jiffies;
+ allOf:
+   - $ref: ../dsi-controller.yaml#
 -- 
-2.40.1
+2.39.2
 
