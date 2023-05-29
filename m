@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692DF714FDD
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 21:40:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBA4714FE0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 21:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D67810E2DE;
-	Mon, 29 May 2023 19:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1140910E292;
+	Mon, 29 May 2023 19:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
  (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E8F10E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 19:39:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5175710E292
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 19:42:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=gtrZWjlEnUbwphBApryiUmXqhGWom1LpsMN4AJyY7T8=;
- b=QdHWZsq+QRe0afeIenYwD9ZweuhKNCyhuBcxnD5VgsOAEXYiFFaKzdJtsV+Wmb7Ametfr+i2KAcDb
- XsztSN2WQclopuHsTfWL636yiGBXR8zfhpgPFHsNeZmjajF9615hCJ3urRDLl34d4Pk0E9dgikl0ye
- hT+0DgNNEHuMEEpCJZViPDeOnKf8yAyTF27wkhvs3fsvLHedYZiZREQDKYVmiwlVq7P3uheEoCiHfh
- 4cXg5oG1KOrY4voEBP4djTwK9hiRjuIxDB89SbEPBbS3KoW49cGFY1JXUrhViFIpKYM8Wk3YhaF532
- voFk66N6eqkuo13V3ZpoCiVzo6KGlRQ==
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=wUfXvnVscNDHokiq7vn1jObWtrFuRJJpIbqINcxXDJE=;
+ b=knGLUans50LTZIo5f1iVlVgufTKBN3qIzs+NSf9br/jM5jHjHmYBi5g2/FBkei1b0wJjoFKhxSShV
+ QSoZGiUz86hzh4UgxBsuS6euL3xR/ZonuALCFFhA8XiecTqW5AIGdTQoHEMPsH9rkMV1dpB468TCAG
+ JoeCW69AvlKmWm0o9tIxIDbln+tJ5/ckfNmXDeJWMVVpyyxlihT0HnD0BJeIZX1SnasSm/RgHLuTIk
+ F2e3h8bQ7f830k9spRcCLPbS4DJ9UgZqRFFqnLuzg2A9XlMmULp7Xdre3rmfleaPQthSb5WgHOa1Fe
+ EvHZd+/jsf5bfp2smSgvH5E4TzLlwCg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=gtrZWjlEnUbwphBApryiUmXqhGWom1LpsMN4AJyY7T8=;
- b=NKB18EqU1dC6iCGyDUHyOQCd0uJT8SzZDwRAU1fqhATuDkpLg3uIay+ABzd0nSF7pnKjhkDq46Z3Z
- LNDXeRJBA==
-X-HalOne-ID: 7027db7f-fe58-11ed-8a79-592bb1efe9dc
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=wUfXvnVscNDHokiq7vn1jObWtrFuRJJpIbqINcxXDJE=;
+ b=SPkPhAKKpLhNfEwhgL3ZL2sVscqxwpfUw6ze1N9enTq8D4Ch51D8bRwX0xHhLkO4hgMRMxnb09WWw
+ 5HU9e0GDA==
+X-HalOne-ID: c141e50e-fe58-11ed-8a8a-592bb1efe9dc
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay4 (Halon) with ESMTPSA
- id 7027db7f-fe58-11ed-8a79-592bb1efe9dc;
- Mon, 29 May 2023 19:38:53 +0000 (UTC)
-Date: Mon, 29 May 2023 21:38:51 +0200
+ id c141e50e-fe58-11ed-8a8a-592bb1efe9dc;
+ Mon, 29 May 2023 19:41:08 +0000 (UTC)
+Date: Mon, 29 May 2023 21:41:07 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 11/13] drm/fb-helper: Export helpers for marking
- damage areas
-Message-ID: <20230529193851.GF1370714@ravnborg.org>
+Subject: Re: [PATCH v4 13/13] drm/i915: Implement dedicated fbdev I/O helpers
+Message-ID: <20230529194107.GG1370714@ravnborg.org>
 References: <20230524092150.11776-1-tzimmermann@suse.de>
- <20230524092150.11776-12-tzimmermann@suse.de>
+ <20230524092150.11776-14-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230524092150.11776-12-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230524092150.11776-14-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +59,45 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 24, 2023 at 11:21:48AM +0200, Thomas Zimmermann wrote:
-> Export drm_fb_helper_damage() and drm_fb_helper_damage_range(), which
-> handle damage areas for fbdev emulation. This is a temporary export
-> that allows to move the DRM I/O helpers for fbdev into drivers. Only
-> fbdev-generic and i915 need them. Both will be updated to implement
-> damage handling by themselves and the exported functions will be removed.
+Hi Thomas,
+
+On Wed, May 24, 2023 at 11:21:50AM +0200, Thomas Zimmermann wrote:
+> Implement dedicated fbdev helpers for framebuffer I/O instead
+> of using DRM's helpers. Use an fbdev generator macro for
+> deferred I/O to create the fbdev callbacks. i915 was the only
+> caller of the DRM helpers, so remove them from the helper module.
+> 
+> i915's fbdev emulation is still incomplete as it doesn't implement
+> deferred I/O and damage handling for mmaped pages.
 > 
 > v4:
-> 	* update interfaces
+> 	* generate deferred-I/O helpers
+> 	* use initializer macros for fb_ops
+> v2:
+> 	* use FB_IO_HELPERS options
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Assuming there is a good answer why there is no dirty check:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
 > ---
->  drivers/gpu/drm/drm_fb_helper.c | 22 ++++++++++++++++++++++
->  include/drm/drm_fb_helper.h     |  3 +++
->  2 files changed, 25 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index f0e9549b6bd7..cb03099fd2e3 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -670,6 +670,28 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
->  	drm_rect_init(clip, x1, y1, x2 - x1, y2 - y1);
->  }
->  
-> +/* Don't use in new code. */
-> +void drm_fb_helper_damage_range(struct fb_info *info, off_t off, size_t len)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_rect damage_area;
-> +
-> +	drm_fb_helper_memory_range_to_clip(info, off, len, &damage_area);
-> +	drm_fb_helper_damage(fb_helper, damage_area.x1, damage_area.y1,
-> +			     drm_rect_width(&damage_area),
-> +			     drm_rect_height(&damage_area));
-> +}
-> +EXPORT_SYMBOL(drm_fb_helper_damage_range);
-> +
-> +/* Don't use in new code. */
-> +void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +
-> +	drm_fb_helper_damage(fb_helper, x, y, width, height);
-> +}
-> +EXPORT_SYMBOL(drm_fb_helper_damage_area);
-> +
->  /**
->   * drm_fb_helper_deferred_io() - fbdev deferred_io callback function
->   * @info: fb_info struct pointer
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 72032c354a30..7d5804882be7 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -253,6 +253,9 @@ void drm_fb_helper_fill_info(struct fb_info *info,
->  			     struct drm_fb_helper *fb_helper,
->  			     struct drm_fb_helper_surface_size *sizes);
->  
-> +void drm_fb_helper_damage_range(struct fb_info *info, off_t off, size_t len);
-> +void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height);
-> +
->  void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
->  
->  ssize_t drm_fb_helper_sys_read(struct fb_info *info, char __user *buf,
-> -- 
-> 2.40.1
+>  drivers/gpu/drm/Kconfig                    |   3 -
+>  drivers/gpu/drm/drm_fb_helper.c            | 107 ---------------------
+>  drivers/gpu/drm/i915/Kconfig               |   1 +
+>  drivers/gpu/drm/i915/display/intel_fbdev.c |  14 +--
+>  include/drm/drm_fb_helper.h                |  39 --------
+>  5 files changed, 9 insertions(+), 155 deletions(-)
+
+Nice diffstat!
+Assuming there is a good explanation on the dirty check:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
