@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D599714B80
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 16:05:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D04714B8E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 16:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87ED110E2A4;
-	Mon, 29 May 2023 14:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C4C10E2B7;
+	Mon, 29 May 2023 14:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4498710E2A4
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 14:05:24 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-30ae7cc0e86so1334161f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:05:24 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D90310E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 14:07:23 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f6d3f83d0cso34882205e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685369122; x=1687961122;
+ d=gmail.com; s=20221208; t=1685369241; x=1687961241;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3IXsQpfygJCaGC5q2YIhqiT7SfrT6glvTqsb9kR3+tg=;
- b=sdpUq6wtbzHzS8CgQpQdkR+hrukqOa0ISmZZ3Wa4z52ZeXjPlFEu2+gBtYJyxRIfXk
- iF+hwNmP4E2q798O+VJ+qnu5RdUL3Usuqf+25mgaOmFQUjw+NrPMwOhbuzTce9yOFYmk
- 5oVOjVhSdqxaUI+utRJ1ZBEkYiy4BGUvd7qqfx3be/IBhbeVTynXCun1S40CDXLHBFH2
- e6izo/1qqqx5+qMie+iSMm0zCCCqtww1FXoT76hSDofbssPi0x4a65NBF9S4iUO7kVu1
- ERVfgkpK9LeNqI4EHA0XoK2MwnVEjFUubhoUMSp4p8Zvo83+1NxGu8oAW3nTAdt3+AzQ
- EYRw==
+ bh=LuPny2OtXAzM2wWK6VJ+p5t+ABcpKnPrmiRDWrl/TM4=;
+ b=S2L7ubx5W2cOkZ8pVxf0WL9LIoKztesZZ7B2oDF4cIv688EwisgTFdGiM051ckbdog
+ IXapWwJUh2Sh6C7luDJmahU3Z1RFiNnb2Xcc5ff1MQi/cBNguGxh3qq9r2Bl7TGwBbE1
+ bSK0Ywk6NRfXydQ4E8JfKxCbrJbbQTkPJbgXxCEC6adjw90zodzr7FC+1MguNY0Y2fQ+
+ zR31DzhDv+0TkE1tTVvgqkRujPKG05bWuEgyAx+upRvmciOpX7BQvMA1kJnAfcSwE2q/
+ 7Bnlpgt016RARi6s5pTc1VXtFlvPg1WJ1f3QbiwkXDjMkEARdqGYdrv5Dqbly81nqaFT
+ oyLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685369122; x=1687961122;
+ d=1e100.net; s=20221208; t=1685369241; x=1687961241;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3IXsQpfygJCaGC5q2YIhqiT7SfrT6glvTqsb9kR3+tg=;
- b=E7Q6++ue4aKKxc/7EOF9X0aH0UgO8/BcaZGXsN8PlFZfJeH8Y1Alhff/fx0wTh3sAu
- 8nmQJzXTx8HhVm6S6Au0tPJXkhlWkuF32VUZpCa1ar1p100pXMePxxU4qdM4F8Ymk+iv
- L24L+Skdkt93zDxrTkEQGk2qc1h+lotjRjyPMScU92wAjQz2ZQ89erk43QG3thdHgi8i
- JqXV81XzxmIrk2CkuyOdLdCkyq8VucR6jzaR8+YGBDlWwyKs55dfHkBRwSitaecGtL8P
- bS8TKNCId2N1nmA2NbjMVX4KaSXrFnOTRAtPWG7vZ9FXSU9/qjkkLjO854Cp0usyTMjy
- mufw==
-X-Gm-Message-State: AC+VfDyvmLqM4zPn69IRARO/QAJjyAkOTGyY9jYOdBrrmZhxu9v6YXka
- n6jakt1wyzkTHnvr551+Hyg=
-X-Google-Smtp-Source: ACHHUZ7g9aINh4JUEKppDSWEt//njGKAVDLn3XhohW2qMJr2ADrXZo3WfUHZJbjvujUEDC7TDLkhcw==
-X-Received: by 2002:a5d:42c8:0:b0:309:4e37:51ed with SMTP id
- t8-20020a5d42c8000000b003094e3751edmr10601139wrr.27.1685369122506; 
- Mon, 29 May 2023 07:05:22 -0700 (PDT)
+ bh=LuPny2OtXAzM2wWK6VJ+p5t+ABcpKnPrmiRDWrl/TM4=;
+ b=DmnwnLVzgHrIlxqI/So6Hl8Zt4inx0IG2A4NLyS0vckAsBYV4z/zZVPMtVIzc9i1We
+ qpyWbd3nt5zYNqH5VyBoOFZJybc2tJufIues/qyv/3njdnMb/ZTF8SI8j1TOpiOY8Eyz
+ 4VmOFp0Kfe40cXfG+KGVNAIg7ipKsqSwOLSKRtguAkUXK1RQNTbgjHjJHZ+T3BViSUjF
+ vR0tIcwrkRhiESws4mxwuGPlQX1JuFdgxLd0IxDBhZ6sian3L2pTer9iwkavin8MIhmv
+ wteGIrLG0D3fP7J8ApfyzHlyUOVy7pp6nwNDOn9SQyyLrz47Qug/9Lg3fFxTA5tAJwt8
+ CluA==
+X-Gm-Message-State: AC+VfDzS/Gr5BZm4+bOkt0A0KfsAU/1X7O2W35gQ5DuKbrPFbxoxL7ML
+ hVI/EusW+pfPnfFlmk4QjhI=
+X-Google-Smtp-Source: ACHHUZ6zxu2kt7VKYzBTez/NpRcKvfFT/05iC4XI/22RhPD4iBaJlYpy/McywyI+4iaDMmBq5kffpQ==
+X-Received: by 2002:a7b:cb9a:0:b0:3f1:72e2:5d13 with SMTP id
+ m26-20020a7bcb9a000000b003f172e25d13mr9545158wmi.16.1685369241290; 
+ Mon, 29 May 2023 07:07:21 -0700 (PDT)
 Received: from [192.168.2.177] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- h9-20020a5d5489000000b0030ae6f2e696sm22893wrv.115.2023.05.29.07.05.19
+ z17-20020a1c4c11000000b003f4ecf1fcbcsm18247034wmf.22.2023.05.29.07.07.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 May 2023 07:05:20 -0700 (PDT)
-Message-ID: <201842f6-c209-201e-35d7-e9af3ff31080@gmail.com>
-Date: Mon, 29 May 2023 16:05:18 +0200
+ Mon, 29 May 2023 07:07:20 -0700 (PDT)
+Message-ID: <02a588ca-680f-ab45-1005-768d5b5db252@gmail.com>
+Date: Mon, 29 May 2023 16:07:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 02/27] dt-bindings: phy: mediatek, dsi-phy: Add compatible
- for MT6795 Helio X10
+Subject: Re: [PATCH 03/27] dt-bindings: display: mediatek: dpi: Add compatible
+ for MediaTek MT6795
 Content-Language: en-US, ca-ES, es-ES
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
 References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-3-angelogioacchino.delregno@collabora.com>
- <223fcf60-25aa-e45d-159e-6290eeeb6a55@linaro.org>
+ <20230412112739.160376-4-angelogioacchino.delregno@collabora.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <223fcf60-25aa-e45d-159e-6290eeeb6a55@linaro.org>
+In-Reply-To: <20230412112739.160376-4-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,22 +92,53 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Chun-Kuang Hu,
 
+Can you help to merge the missing DT-binding patches in this series?
 
-On 14/04/2023 10:22, Krzysztof Kozlowski wrote:
-> On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
->> Add a compatible string for MediaTek Helio X10 MT6795: this SoC uses
->> the same DSI PHY as MT8173.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml | 4 ++++
->>   1 file changed, 4 insertions(+)
-> 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Best regards,
-> Krzysztof
-> 
+Thanks a lot,
+Matthias
 
-Applied, thanks!
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> Add a compatible string for the MediaTek Helio X10 MT6795 SoC, using
+> the same parameters as MT8183.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>   .../display/mediatek/mediatek,dpi.yaml        | 23 +++++++++++--------
+>   1 file changed, 14 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> index d976380801e3..803c00f26206 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -17,15 +17,20 @@ description: |
+>   
+>   properties:
+>     compatible:
+> -    enum:
+> -      - mediatek,mt2701-dpi
+> -      - mediatek,mt7623-dpi
+> -      - mediatek,mt8173-dpi
+> -      - mediatek,mt8183-dpi
+> -      - mediatek,mt8186-dpi
+> -      - mediatek,mt8188-dp-intf
+> -      - mediatek,mt8192-dpi
+> -      - mediatek,mt8195-dp-intf
+> +    oneOf:
+> +      - enum:
+> +          - mediatek,mt2701-dpi
+> +          - mediatek,mt7623-dpi
+> +          - mediatek,mt8173-dpi
+> +          - mediatek,mt8183-dpi
+> +          - mediatek,mt8186-dpi
+> +          - mediatek,mt8188-dp-intf
+> +          - mediatek,mt8192-dpi
+> +          - mediatek,mt8195-dp-intf
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt6795-dpi
+> +          - const: mediatek,mt8183-dpi
+>   
+>     reg:
+>       maxItems: 1
