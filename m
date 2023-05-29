@@ -1,42 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC13714AAC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 15:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FB1714AB5
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 15:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779C610E075;
-	Mon, 29 May 2023 13:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C885710E28C;
+	Mon, 29 May 2023 13:51:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEAE810E075
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 13:50:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126255106133.24.openmobile.ne.jp
- [126.255.106.133])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 614A0836;
- Mon, 29 May 2023 15:49:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1685368191;
- bh=Z5YaI4FQ4nsu1kJlSC+REgzPugOlcWreD0VGwhXFugU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DfUOhJEn3jJ8hZGyuHKR6cZM1Pk9DNtw6KtaAouAzEjQpD9TFVN0U31Dr9+zXGG2S
- 2ppxSsf70NTxWVukFTs0J/EEN1hME65gkv0tSZx+pO8qTT9BSrz3guMMWhhNBjGh6x
- 0ZMQsLmYUdWs0rBrw5sOuYx0+QuLJhVCoCDyewfk=
-Date: Mon, 29 May 2023 16:49:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v9 RESEND 2/5] dt-bindings: display: Document Renesas
- RZ/G2L DU bindings
-Message-ID: <20230529134959.GA27467@pendragon.ideasonboard.com>
-References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
- <20230502100912.143114-3-biju.das.jz@bp.renesas.com>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B23810E291
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 13:51:31 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-30789a4c537so1934292f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 06:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685368287; x=1687960287;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=78pcypVpN3CxF4Efbw66eNAU7KdZVo7I7D8DwmPSSNY=;
+ b=RGnHahrqAMOmuuk/E4fXSa9iPqk72Omn6f6aqeKHPz/0xSpC4bL3nJsEoyKF8COt0x
+ cQ3xzsVZvg9pOC5MXDFpHrCyv6GxVACQvk54AJZMptR3Blktf7ReftSc5WdHGJEjLO46
+ R+TdZ9Ttjs20yAV4AzMzN0eq/7XY5ypMuZDM/7zu2vM3vJNwoPRVRq6JnLU7iaIF7Nxm
+ 0gq5+8qUOXOJacb+phUkDb3i1PJCpVDKzhF9i0WfvWX35z9I6g4SNDNRR86GnloatUmQ
+ 0uFZsI4mjH74yYXx0rbsxNM5VN2lATjny7VRQnXjFX9KACBz7zzQR8Wj0NcO6PaYBtHd
+ J2VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685368287; x=1687960287;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=78pcypVpN3CxF4Efbw66eNAU7KdZVo7I7D8DwmPSSNY=;
+ b=OpfBLsIllNe4Pk+e5jXyddzf6lH9WTPkJwId1o3W4FBz/iSgZD8QWdpRlTjxYTz0fg
+ G5BsAHJ3lalcbB5eoWHOGzGi3qVHFIjLC2yKut2L5v1jmBkXQYiCzW5brYZuKviSzYZB
+ VyrhqXmBR0IAywE1QgGt/rqKoVuiiOpg9YgPa3M5rJZnRHxUXhaWiVWSLag1snbUHYHn
+ o7bOGjJY9r8tBnx7ZzME+A9diEVQB1ki9yKUopxwPhyRI9ZfExr7ClZUlMrBZF2os/vA
+ RAUFulcCif7/Kgak4vzHVpdX0QffcIeXamOKjlt5e98Nibazx/mo9J9mQqHlVQTGYFta
+ ABMg==
+X-Gm-Message-State: AC+VfDzSoMlewWclSx6WafZOtyROtEimVFmKZFWBJlFVuLCtX34BRiJr
+ 9vv+EyJzkIxNAqoT3VBMkvHquoNI6gVtOw==
+X-Google-Smtp-Source: ACHHUZ7XNS0Ka4Zavjp9uZSaETZlKXum4Ox8t6LlTxg+Hui9Jl0m6ncdtdAfQq6dIti7SzAdeGbFiQ==
+X-Received: by 2002:adf:e345:0:b0:309:4f23:e52e with SMTP id
+ n5-20020adfe345000000b003094f23e52emr8944522wrj.15.1685368287334; 
+ Mon, 29 May 2023 06:51:27 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ u3-20020a5d6ac3000000b003062ad45243sm53692wrw.14.2023.05.29.06.51.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 May 2023 06:51:26 -0700 (PDT)
+Message-ID: <7b39f7ba-7e29-bf4c-e165-130cd3539d45@gmail.com>
+Date: Mon, 29 May 2023 15:51:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230502100912.143114-3-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 01/27] dt-bindings: pwm: Add compatible for MediaTek MT6795
+Content-Language: en-US, ca-ES, es-ES
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230412112739.160376-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,203 +77,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
 
-Thank you for the patch.
 
-On Tue, May 02, 2023 at 11:09:09AM +0100, Biju Das wrote:
-> The RZ/G2L LCD controller is composed of Frame Compression Processor
-> (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> Add a compatible string for MediaTek Helio X10 MT6795's display PWM
+> block: this is the same as MT8173.
 > 
-> The DU module supports the following hardware features
-> − Display Parallel Interface (DPI) and MIPI LINK Video Interface
-> − Display timing master
-> − Generates video timings
-> − Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
-> − Supports Progressive
-> − Input data format (from VSPD): RGB888, RGB666
-> − Output data format: same as Input data format
-> − Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
-> − Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
-> 
-> This patch document DU module found on RZ/G2L LCDC.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-s/document/documents the/
+Applied, thanks!
 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
-> v8->v9:
->  * No change
-> v7->v8:
->  * No change
-> v6->v7:
->  * No change
-> v5->v6:
->  * No change.
-> v4->v5:
->  * Added Rb tag from Rob.
-> v3->v4:
->  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
->  * started using same compatible for RZ/G2{L,LC}
-> v3: New patch
-> ---
->  .../bindings/display/renesas,rzg2l-du.yaml    | 124 ++++++++++++++++++
->  1 file changed, 124 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+>   Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> new file mode 100644
-> index 000000000000..ab99e7d57a7d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/renesas,rzg2l-du.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L Display Unit (DU)
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> +
-> +description: |
-> +  These DT bindings describe the Display Unit embedded in the Renesas RZ/G2L
-> +  and RZ/V2L SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r9a07g044-du # RZ/G2{L,LC}
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Main clock
-> +      - description: Register access clock
-> +      - description: Video clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: pclk
-> +      - const: vclk
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    description: |
-> +      The connections to the DU output video ports are modeled using the OF
-> +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-
-The file has moved to graph.yaml in the dt-schema repo. I'll drop the
-last part of the sentence, starting with "specified by".
-
-> +      The number of ports and their assignment are model-dependent. Each port
-> +      shall have a single endpoint.
-> +
-> +    patternProperties:
-> +      "^port@[0-1]$":
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@0
-> +
-> +    unevaluatedProperties: false
-> +
-> +  renesas,vsps:
-> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> +    items:
-> +      items:
-> +        - description: phandle to VSP instance that serves the DU channel
-> +        - description: Channel index identifying the LIF instance in that VSP
-> +    description:
-> +      A list of phandle and channel index tuples to the VSPs that handle the
-> +      memory interfaces for the DU channels.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - power-domains
-> +  - ports
-> +  - renesas,vsps
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # RZ/G2L DU
-> +  - |
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    display@10890000 {
-> +        compatible = "renesas,r9a07g044-du";
-> +        reg = <0x10890000 0x10000>;
-> +        interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-> +                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-> +                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
-> +        clock-names = "aclk", "pclk", "vclk";
-> +        resets = <&cpg R9A07G044_LCDC_RESET_N>;
-> +        power-domains = <&cpg>;
-> +
-> +        renesas,vsps = <&vspd0 0>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                endpoint {
-> +                    remote-endpoint = <&dsi0_in>;
-> +                };
-> +            };
-> +            port@1 {
-> +                reg = <1>;
-> +                endpoint {
-> +                };
-
-Endpoints shouldn't be empty, you can just drop the endpoint here.
-
-I'll fix all this locally.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
+> diff --git a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> index 0088bc8e7c54..153e146df7d4 100644
+> --- a/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/mediatek,pwm-disp.yaml
+> @@ -22,7 +22,9 @@ properties:
+>             - mediatek,mt8173-disp-pwm
+>             - mediatek,mt8183-disp-pwm
+>         - items:
+> -          - const: mediatek,mt8167-disp-pwm
+> +          - enum:
+> +              - mediatek,mt6795-disp-pwm
+> +              - mediatek,mt8167-disp-pwm
+>             - const: mediatek,mt8173-disp-pwm
+>         - items:
+>             - enum:
