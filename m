@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F394B7145B1
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 09:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2027145C4
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 09:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3B3010E06C;
-	Mon, 29 May 2023 07:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D22310E046;
+	Mon, 29 May 2023 07:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C0410E046
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:42:50 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2af316b4515so29517631fa.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 00:42:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685346168; x=1687938168;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QDMhUPXhYCylyY6xJMm9yCulz+xNDYcz18nWz3lpr+Q=;
- b=shBzne0T2fRTAdOs6SctvRbYARi3RSwjNSSVQQRQ1RkSXJ3nbAqkJNsrJfhFqkavgz
- 9WJFRSTMWd4QgfijhfGlKl0L6b0lBvySnoGYp3UIhCTn9NdBUY7xpgkIKykkYmA9BUdO
- /QRIE87ys6CftMVaIkpfB8IuJUY3oSiZ3z01/29hTo2nBYBuhHEUHwDv9GSBBFq+t4ts
- 1ivADZ3fVFazVlXyx+G6zsckb/EMqscSa8nMdeuIT/Ivj0YfOIu2l8q7CTH4ao8symrb
- g5rW2cFMC6lfEzFZlJAmV4iNkDcRdnncmadPAQgSU2GFPzCGDqO1vLtAXD+aC5h9aoGE
- 6Lhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685346168; x=1687938168;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QDMhUPXhYCylyY6xJMm9yCulz+xNDYcz18nWz3lpr+Q=;
- b=S08okR3LjiV8FHtdZcctYPp8JwH2wjkLr3c0N/y+uT1BilrVddWPkWDUjisRAFqh30
- COWdabjZcelW69eWLrtef1s7qX6uh+Z9QXQFB9RG2GAy8SE2+XvxZdQnJ/msdfJqGXjE
- o+96XEM3t3XmM8ZKFhZtfJYvPKQ+irR+mj3+3PtKhX2Mx28EAExfLK/GgF1m3La1V4il
- TM3fz6WNeqjCaVfdP/SDAbmDZ6QI441IS0klG33yY3xUKpxsnJ4lPsDh9SaXweJwG5Nm
- dqC6AIrgFkb1TwYxZ+zAi2MgnGxEQAcAyCjsYhNzAIWcbYhTS2iowyWo7FHjlv7y+U1E
- orOQ==
-X-Gm-Message-State: AC+VfDwAvR8HwjSbtrFZOJiv6Y7EGCbs5IVtBkHg/pxJ0oypq/Jp62Ga
- iAihnZEAskVYn1wd3eayfsBkxg==
-X-Google-Smtp-Source: ACHHUZ5P7HjDdkJcWMpclQCMEGd7rt8hr2ymy6fbYhZQYqN/ZhjoDTx+fGlZIXhUCITG1kF+f3wh/Q==
-X-Received: by 2002:a2e:a317:0:b0:2ad:dd7e:6651 with SMTP id
- l23-20020a2ea317000000b002addd7e6651mr4240593lje.43.1685346168627; 
- Mon, 29 May 2023 00:42:48 -0700 (PDT)
-Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
- by smtp.gmail.com with ESMTPSA id
- e20-20020a2e8ed4000000b002a9ee18e9c7sm2230101ljl.69.2023.05.29.00.42.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 May 2023 00:42:48 -0700 (PDT)
-Message-ID: <74a817ff-5850-330d-8cac-f551be6fa35c@linaro.org>
-Date: Mon, 29 May 2023 09:42:46 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3508110E046;
+ Mon, 29 May 2023 07:54:20 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxqPH4WHRkgSkCAA--.5242S3;
+ Mon, 29 May 2023 15:49:12 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxX+T4WHRkM5l+AA--.10477S2; 
+ Mon, 29 May 2023 15:49:12 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/i915_drm.h: fix a typo
+Date: Mon, 29 May 2023 15:49:12 +0800
+Message-Id: <20230529074912.2070902-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 0/5] MDSS reg bus interconnect
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
- <CAA8EJpo8X7KrrXoButyW0d1Lz=a5Stw2inFGt2R7KJ+2NTX6wA@mail.gmail.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CAA8EJpo8X7KrrXoButyW0d1Lz=a5Stw2inFGt2R7KJ+2NTX6wA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxX+T4WHRkM5l+AA--.10477S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZw1Utw1DCrWfJw4UJrWfuFg_yoW3ArXEya
+ 4xArWru348CrZ29r43A3Z8GFWfKa4rtw4xCFn3J3ZrWFy2yrn0kws5WrWaqFy3Crs3AFsx
+ X3ZagFs8JanxKjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ j7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I2
+ 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
+ CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvj
+ eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2IqxV
+ CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+ 6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+ WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+ 6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_Gr
+ UvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,65 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+ 'rbiter' -> 'arbite'
 
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ include/drm/i915_drm.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 29.05.2023 04:42, Dmitry Baryshkov wrote:
-> On Mon, 17 Apr 2023 at 18:30, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
->> another path that needs to be handled to ensure MDSS functions properly,
->> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
->>
->> Gating that path may have a variety of effects.. from none to otherwise
->> inexplicable DSI timeouts..
->>
->> This series tries to address the lack of that.
->>
->> Example path:
->>
->> interconnects = <&bimc MASTER_AMPSS_M0 0 &config_noc SLAVE_DISPLAY_CFG 0>;
-> 
-> If we are going to touch the MDSS interconnects, could you please also
-> add the rotator interconnect to the bindings?
-> We do not need to touch it at this time, but let's not have to change
-> bindings later again.
-> 
-Ack
+diff --git a/include/drm/i915_drm.h b/include/drm/i915_drm.h
+index 7adce327c1c2..3dcb1db519ae 100644
+--- a/include/drm/i915_drm.h
++++ b/include/drm/i915_drm.h
+@@ -42,7 +42,7 @@ extern struct resource intel_graphics_stolen_res;
+  * The Bridge device's PCI config space has information about the
+  * fb aperture size and the amount of pre-reserved memory.
+  * This is all handled in the intel-gtt.ko module. i915.ko only
+- * cares about the vga bit for the vga rbiter.
++ * cares about the vga bit for the vga arbite.
+  */
+ #define INTEL_GMCH_CTRL		0x52
+ #define INTEL_GMCH_VGA_DISABLE  (1 << 1)
+-- 
+2.25.1
 
-Konrad
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->> Konrad Dybcio (5):
->>       dt-bindings: display/msm: Add reg bus interconnect
->>       drm/msm/dpu1: Rename path references to mdp_path
->>       drm/msm/mdss: Rename path references to mdp_path
->>       drm/msm/mdss: Handle the reg bus ICC path
->>       drm/msm/dpu1: Handle the reg bus ICC path
->>
->>  .../bindings/display/msm/mdss-common.yaml          |  1 +
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c      | 10 +++----
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 34 ++++++++++++++++-----
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  5 ++--
->>  drivers/gpu/drm/msm/msm_mdss.c                     | 35 ++++++++++++++--------
->>  5 files changed, 57 insertions(+), 28 deletions(-)
->> ---
->> base-commit: d3f2cd24819158bb70701c3549e586f9df9cee67
->> change-id: 20230417-topic-dpu_regbus-abc94a770952
->>
->> Best regards,
->> --
->> Konrad Dybcio <konrad.dybcio@linaro.org>
->>
-> 
-> 
