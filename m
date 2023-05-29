@@ -1,72 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D04714B8E
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 16:07:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8E9714BD4
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 16:13:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C4C10E2B7;
-	Mon, 29 May 2023 14:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453D910E021;
+	Mon, 29 May 2023 14:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D90310E2B6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 14:07:23 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f6d3f83d0cso34882205e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685369241; x=1687961241;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LuPny2OtXAzM2wWK6VJ+p5t+ABcpKnPrmiRDWrl/TM4=;
- b=S2L7ubx5W2cOkZ8pVxf0WL9LIoKztesZZ7B2oDF4cIv688EwisgTFdGiM051ckbdog
- IXapWwJUh2Sh6C7luDJmahU3Z1RFiNnb2Xcc5ff1MQi/cBNguGxh3qq9r2Bl7TGwBbE1
- bSK0Ywk6NRfXydQ4E8JfKxCbrJbbQTkPJbgXxCEC6adjw90zodzr7FC+1MguNY0Y2fQ+
- zR31DzhDv+0TkE1tTVvgqkRujPKG05bWuEgyAx+upRvmciOpX7BQvMA1kJnAfcSwE2q/
- 7Bnlpgt016RARi6s5pTc1VXtFlvPg1WJ1f3QbiwkXDjMkEARdqGYdrv5Dqbly81nqaFT
- oyLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685369241; x=1687961241;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LuPny2OtXAzM2wWK6VJ+p5t+ABcpKnPrmiRDWrl/TM4=;
- b=DmnwnLVzgHrIlxqI/So6Hl8Zt4inx0IG2A4NLyS0vckAsBYV4z/zZVPMtVIzc9i1We
- qpyWbd3nt5zYNqH5VyBoOFZJybc2tJufIues/qyv/3njdnMb/ZTF8SI8j1TOpiOY8Eyz
- 4VmOFp0Kfe40cXfG+KGVNAIg7ipKsqSwOLSKRtguAkUXK1RQNTbgjHjJHZ+T3BViSUjF
- vR0tIcwrkRhiESws4mxwuGPlQX1JuFdgxLd0IxDBhZ6sian3L2pTer9iwkavin8MIhmv
- wteGIrLG0D3fP7J8ApfyzHlyUOVy7pp6nwNDOn9SQyyLrz47Qug/9Lg3fFxTA5tAJwt8
- CluA==
-X-Gm-Message-State: AC+VfDzS/Gr5BZm4+bOkt0A0KfsAU/1X7O2W35gQ5DuKbrPFbxoxL7ML
- hVI/EusW+pfPnfFlmk4QjhI=
-X-Google-Smtp-Source: ACHHUZ6zxu2kt7VKYzBTez/NpRcKvfFT/05iC4XI/22RhPD4iBaJlYpy/McywyI+4iaDMmBq5kffpQ==
-X-Received: by 2002:a7b:cb9a:0:b0:3f1:72e2:5d13 with SMTP id
- m26-20020a7bcb9a000000b003f172e25d13mr9545158wmi.16.1685369241290; 
- Mon, 29 May 2023 07:07:21 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a1c4c11000000b003f4ecf1fcbcsm18247034wmf.22.2023.05.29.07.07.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 May 2023 07:07:20 -0700 (PDT)
-Message-ID: <02a588ca-680f-ab45-1005-768d5b5db252@gmail.com>
-Date: Mon, 29 May 2023 16:07:16 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0C810E2BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 14:13:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (om126255106133.24.openmobile.ne.jp
+ [126.255.106.133])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04A2F6D5;
+ Mon, 29 May 2023 16:13:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1685369608;
+ bh=zXfs8YkEtntyJBR2dCCV0XpPLwi19vk8XDhT1SVCdzM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=d0E5RX8rZXo5MOid0k2Wf5EMcovygGgFiewEzAYTU+1PxtLEpaFKksQ4vgQyn9Zsg
+ X25tqyD+5MgLQ6bXCaS4C2MSLet2mUuRxKV9pLmDM3n0r0jn+b2FuKcoAPN2NUQg04
+ vzi+rDzG4T4qcO0VIjS5pJbaO5e371x9zabT16j8=
+Date: Mon, 29 May 2023 17:13:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
+ support
+Message-ID: <20230529141349.GA15264@pendragon.ideasonboard.com>
+References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB59220E8306506F3E0B17968A86789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922CC640A93CF85033FB47086469@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 03/27] dt-bindings: display: mediatek: dpi: Add compatible
- for MediaTek MT6795
-Content-Language: en-US, ca-ES, es-ES
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
- <20230412112739.160376-4-angelogioacchino.delregno@collabora.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230412112739.160376-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922CC640A93CF85033FB47086469@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,66 +49,288 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
- kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
- linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
- chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- vkoul@kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chun-Kuang Hu,
+Hi Biju,
 
-Can you help to merge the missing DT-binding patches in this series?
-
-Thanks a lot,
-Matthias
-
-On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
-> Add a compatible string for the MediaTek Helio X10 MT6795 SoC, using
-> the same parameters as MT8183.
+On Thu, May 25, 2023 at 02:30:10PM +0000, Biju Das wrote:
+> Hi DRM maintainers,
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->   .../display/mediatek/mediatek,dpi.yaml        | 23 +++++++++++--------
->   1 file changed, 14 insertions(+), 9 deletions(-)
+> Gentle ping.
+
+Sorry, I was on holidays the last two weeks.
+
+> Are we happy with moving all Renesas drm drivers to Renesas specific
+> directory or preference is for separate one??
+
+This works for me.
+
+> If it is later, I can send RZ/G2L drm driver separate.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> index d976380801e3..803c00f26206 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> @@ -17,15 +17,20 @@ description: |
->   
->   properties:
->     compatible:
-> -    enum:
-> -      - mediatek,mt2701-dpi
-> -      - mediatek,mt7623-dpi
-> -      - mediatek,mt8173-dpi
-> -      - mediatek,mt8183-dpi
-> -      - mediatek,mt8186-dpi
-> -      - mediatek,mt8188-dp-intf
-> -      - mediatek,mt8192-dpi
-> -      - mediatek,mt8195-dp-intf
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt2701-dpi
-> +          - mediatek,mt7623-dpi
-> +          - mediatek,mt8173-dpi
-> +          - mediatek,mt8183-dpi
-> +          - mediatek,mt8186-dpi
-> +          - mediatek,mt8188-dp-intf
-> +          - mediatek,mt8192-dpi
-> +          - mediatek,mt8195-dp-intf
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt6795-dpi
-> +          - const: mediatek,mt8183-dpi
->   
->     reg:
->       maxItems: 1
+> Otherwise, I need to rebase and resend.
+
+Your series applies cleanly on top of the latest drm-next branch. Is
+there a specific need to rebase and resend ?
+
+I haven't had time to review patch 4/5 (the driver) yet. All the rest
+looks good to me. Should I already include 1/5 in my next pull request ?
+
+> Please let me know your preference.
+> 
+> Cheers,
+> Biju
+> 
+> 
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: Monday, May 15, 2023 8:58 AM
+> > To: David Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>;
+> > Philipp Zabel <p.zabel@pengutronix.de>; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com>; Kieran Bingham
+> > <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: dri-devel@lists.freedesktop.org; linux-renesas-soc@vger.kernel.org;
+> > Fabrizio Castro <fabrizio.castro.jz@renesas.com>; Prabhakar Mahadev Lad
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: RE: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display
+> > Unit support
+> > 
+> > Hi All,
+> > 
+> > Gentle ping. Are we happy with this patch series?
+> > 
+> > Cheers,
+> > Biju
+> > 
+> > > Subject: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display
+> > > Unit support
+> > >
+> > > RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> > > Video signal processor (VSPD) and Display unit(DU). The output of LCDC
+> > > is connected to Display parallel interface and MIPI link video
+> > > interface.
+> > >
+> > > The output from DSI is connected to ADV7535.
+> > >
+> > > Created a vendor specific directory renesas and moved all renesas drm
+> > > drivers to it (rcar-du and shmobile). Then added support for RZ/G2L DU
+> > > DRM driver by creating rz_du directory.
+> > >
+> > > Ref:
+> > >
+> > >
+> > > v8->v9:
+> > >  * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+> > >  * Added Rb tag from Laurent and Geert for patch#3.
+> > >  * Dropped reset_control_assert() from error patch for
+> > > rzg2l_du_crtc_get() as
+> > >    suggested by Philipp Zabel.
+> > >  * Added Rb tag from Laurent oatch#5.
+> > >  * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+> > > v7->v8:
+> > >  * Moved rcar-du and shmobile DRM drivers to renesas specific vendor
+> > > directory.
+> > >  * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+> > >  * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+> > >  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating
+> > > rz_du folder.
+> > >  * Updated MAINTAINERS entries.
+> > > v6->v7:
+> > >  * Split DU lib and  RZ/G2L du driver as separate patch series as
+> > >    DU support added to more platforms based on RZ/G2L alike SoCs.
+> > >  * Rebased to latest drm-tip.
+> > >  * Added patch #2 for binding support for RZ/V2L DU
+> > >  * Added patch #4 for driver support for RZ/V2L DU
+> > >  * Added patch #5 for SoC DTSI support for RZ/G2L DU
+> > >  * Added patch #6 for SoC DTSI support for RZ/V2L DU
+> > >  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L}
+> > > SoCs.
+> > >  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+> > > v5->v6:
+> > >  * Merged DU lib and RZ/G2L du driver in same patch series
+> > >  * Rebased to latest drm-misc.
+> > >  * Merged patch#1 to RZ/G2L Driver patch.
+> > >  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+> > >  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+> > >
+> > > v4->v5:
+> > >  * Added Rb tag from Rob for binding patch.
+> > >  * Started using RCar DU libs(kms, vsp and encoder)
+> > >  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+> > >    rcar_du_format_info and rcar_du_encoder.
+> > > v3->v4:
+> > >  * Changed compatible name from
+> > > renesas,du-r9a07g044->renesas,r9a07g044-
+> > > du
+> > >  * started using same compatible for RZ/G2{L,LC}
+> > >  * Removed rzg2l_du_group.h and struct rzg2l_du_group
+> > >  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+> > >  * Removed rzg2l_du_group_restart
+> > >  * Updated rzg2l_du_crtc_set_display_timing
+> > >  * Removed mode_valid callback.
+> > >  * Updated rzg2l_du_crtc_create() parameters
+> > >  * Updated compatible
+> > >  * Removed RZG2L_DU_MAX_GROUPS
+> > > V2->v3:
+> > >  * Added new bindings for RZ/G2L DU
+> > >  * Removed indirection and created new DRM driver based on R-Car DU
+> > > v1->v2:
+> > >  * Based on [1], all references to 'rzg2l_lcdc' replaced with
+> > 'rzg2l_du'
+> > >  * Updated commit description for bindings
+> > >  * Removed LCDC references from bindings
+> > >  * Changed clock name from du.0->aclk from bindings
+> > >  * Changed reset name from du.0->du from bindings
+> > >  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+> > >  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+> > >  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+> > >  * Added forward declaration for struct reset_control
+> > >
+> > > [1]
+> > >
+> > > Biju Das (5):
+> > >   drm: Place Renesas drivers in a separate dir
+> > >   dt-bindings: display: Document Renesas RZ/G2L DU bindings
+> > >   dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+> > >   drm: Add RZ/G2L DU Support
+> > >   MAINTAINERS: Add maintainer for RZ DU drivers
+> > >
+> > >  .../bindings/display/renesas,rzg2l-du.yaml    | 129 +++
+> > >  MAINTAINERS                                   |  16 +-
+> > >  drivers/gpu/drm/Kconfig                       |   4 +-
+> > >  drivers/gpu/drm/Makefile                      |   3 +-
+> > >  drivers/gpu/drm/renesas/Kconfig               |   5 +
+> > >  drivers/gpu/drm/renesas/Makefile              |   5 +
+> > >  drivers/gpu/drm/{ => renesas}/rcar-du/Kconfig |   0
+> > >  .../gpu/drm/{ => renesas}/rcar-du/Makefile    |   0
+> > >  .../gpu/drm/{ => renesas}/rcar-du/rcar_cmm.c  |   0
+> > >  .../gpu/drm/{ => renesas}/rcar-du/rcar_cmm.h  |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_crtc.c  |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_crtc.h  |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_drv.c   |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_drv.h   |   0
+> > >  .../{ => renesas}/rcar-du/rcar_du_encoder.c   |   0
+> > >  .../{ => renesas}/rcar-du/rcar_du_encoder.h   |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_group.c |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_group.h |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_kms.c   |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_kms.h   |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_plane.c |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_plane.h |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_regs.h  |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_vsp.c   |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_du_vsp.h   |   0
+> > >  .../{ => renesas}/rcar-du/rcar_du_writeback.c |   0
+> > >  .../{ => renesas}/rcar-du/rcar_du_writeback.h |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_dw_hdmi.c  |   0
+> > >  .../gpu/drm/{ => renesas}/rcar-du/rcar_lvds.c |   0
+> > >  .../gpu/drm/{ => renesas}/rcar-du/rcar_lvds.h |   0
+> > >  .../{ => renesas}/rcar-du/rcar_lvds_regs.h    |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_mipi_dsi.c |   0
+> > >  .../drm/{ => renesas}/rcar-du/rcar_mipi_dsi.h |   0
+> > >  .../rcar-du/rcar_mipi_dsi_regs.h              |   0
+> > >  .../{ => renesas}/rcar-du/rzg2l_mipi_dsi.c    |   0
+> > >  .../rcar-du/rzg2l_mipi_dsi_regs.h             |   0
+> > >  drivers/gpu/drm/renesas/rz-du/Kconfig         |  20 +
+> > >  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+> > >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 714 ++++++++++++++++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  99 +++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 188 +++++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  89 ++
+> > > .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 112 +++
+> > > .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  28 +
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 770 ++++++++++++++++++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 430 ++++++++++
+> > > drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  94 +++
+> > >  .../gpu/drm/{ => renesas}/shmobile/Kconfig    |   0
+> > >  .../gpu/drm/{ => renesas}/shmobile/Makefile   |   0
+> > >  .../shmobile/shmob_drm_backlight.c            |   0
+> > >  .../shmobile/shmob_drm_backlight.h            |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_crtc.c   |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_crtc.h   |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_drv.c    |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_drv.h    |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_kms.c    |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_kms.h    |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_plane.c  |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_plane.h  |   0
+> > >  .../{ => renesas}/shmobile/shmob_drm_regs.h   |   0
+> > >  62 files changed, 2816 insertions(+), 8 deletions(-)  create mode
+> > > 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> > >  create mode 100644 drivers/gpu/drm/renesas/Kconfig  create mode
+> > > 100644 drivers/gpu/drm/renesas/Makefile  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/Kconfig (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/Makefile (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_cmm.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_cmm.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_crtc.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_crtc.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_drv.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_drv.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_encoder.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_encoder.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_group.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_group.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_kms.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_kms.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_plane.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_plane.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_regs.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_vsp.c (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_vsp.h (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/rcar-du/rcar_du_writeback.c (100%)  rename drivers/gpu/drm/{
+> > > => renesas}/rcar-du/rcar_du_writeback.h (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_dw_hdmi.c (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.c (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds.h (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_lvds_regs.h (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.c (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi.h (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/rcar-du/rcar_mipi_dsi_regs.h (100%)
+> > > rename drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi.c (100%)
+> > > rename drivers/gpu/drm/{ => renesas}/rcar-du/rzg2l_mipi_dsi_regs.h
+> > > (100%)  create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+> > >  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+> > >  rename drivers/gpu/drm/{ => renesas}/shmobile/Kconfig (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/shmobile/Makefile (100%)  rename
+> > > drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.c (100%)
+> > > rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_backlight.h
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.c
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_crtc.h
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.c
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_drv.h
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.c
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_kms.h
+> > > (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/shmobile/shmob_drm_plane.c
+> > > (100%)  rename drivers/gpu/drm/{ =>
+> > > renesas}/shmobile/shmob_drm_plane.h
+> > > (100%)  rename drivers/gpu/drm/{ => renesas}/shmobile/shmob_drm_regs.h
+> > > (100%)
+> > >
+
+-- 
+Regards,
+
+Laurent Pinchart
