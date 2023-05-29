@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6950E714220
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 04:43:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C8714287
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 06:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF8A10E13E;
-	Mon, 29 May 2023 02:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E83610E1FD;
+	Mon, 29 May 2023 04:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D17610E13E
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 02:43:08 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-bad010e1e50so4373415276.1
- for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 19:43:08 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9ED210E1FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 04:19:57 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-19f2e691858so706886fac.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 May 2023 21:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685328187; x=1687920187;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IEJy3ZwHzEy4yCdUkI2WmoNuXKG8YRae4C35/I9rrQI=;
- b=pca0tv3H16nEDflyHqTLct4q2s14vmeOwMRRAIuPZlGGf8r/09QyYaKd5+smAXfi91
- +ObXTXFYeHA9EUL7qRxyl84sYdTjazxwuHuUp0NvyQtQrqueIA5/frwVrNvOUBD/IURk
- zK0y+TJf8Ww1BtCSttM9A7dJ5jN6zBPgrKQ6c8DrJf1z243qY8+k29PIo1zpkdZRRqi3
- Bh74HCgKKz8RjzlOOjPG3mtHsfp5dcCMlu2ZjsPoO7c1l8sDEDO0YQl/tpNgkXnu8okX
- GLAgVfdYWeuqxiTVaPvLwci1XlJpo+Uc90hESJUs8EALEC5LJS5sanx/tw267tM3BpLI
- jLvA==
+ d=chromium.org; s=google; t=1685333996; x=1687925996;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j5EruGneydWrebItl4MLqWHex5pJ5cJmkComuzWUkfk=;
+ b=mMszb3MlFKUFM3qvQnr0h3j1Lk0OqdLggIRYGJoLXUB2YjcZGuVde7evV6kvVI4KG3
+ AGkMx+HJptcKovROxvCC+Rkh6Wl+aLuIliXb3stWWbwR8jJT/PoLLbj6mX7N5ct4gXMV
+ iH2MkgvxOlwZnZnqlSxQHK2w8o8ONphywonkY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685328187; x=1687920187;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IEJy3ZwHzEy4yCdUkI2WmoNuXKG8YRae4C35/I9rrQI=;
- b=dVratVQu97W3CHb1UP3a9pGVuBqVI0eWRMpFVKX81ipcGXWo7XPOargV1pvBqCJ/JX
- YnwJSxLGLcZblme7hS6ARBQuLo4SkG+zDyMTr8q/jY8eMHQKAv+0QtVmMcAO0KiGIIVg
- FAU69SJAHPG16i2TJk7e4KIVnYry8dW6ar2gozAyKN/l6UNwiPIPTAsDhCXO55Jx0zBz
- d4NvJCxGZE8X4OBaiyAGr1WVGTCdGJ5ptQF5SAjH22GTgNuZKZMffBUHNi25v94VG2Ya
- 4rxxgo4o7nqn2x2aQhEh3VRv8kw+Ay8EWfgRp0ZeUO1MusW6tlHukrGuVkaVaDmRfM40
- 4diQ==
-X-Gm-Message-State: AC+VfDwYKznDVupxA8Tg2CV8MJJ3kOrfmOmwF7qMBioulpAMoKdUlx2B
- IC6CVfC+YITuhn5RmhY2W5lrKr2mV1ahkeGS+9VvHw==
-X-Google-Smtp-Source: ACHHUZ5XV/gF2y/I0UIU3VnTl0YmVllZOQBSSNK7fEM/ZUZqxnFUeDIcm7rVQlBnxW/2PI1fPmCsA3C5q16msloHh3Y=
-X-Received: by 2002:a81:4982:0:b0:565:ef60:3f2f with SMTP id
- w124-20020a814982000000b00565ef603f2fmr3962824ywa.44.1685328186991; Sun, 28
- May 2023 19:43:06 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685333996; x=1687925996;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j5EruGneydWrebItl4MLqWHex5pJ5cJmkComuzWUkfk=;
+ b=ZvFNz7WP3VdxoRoED6oyGxPb9A9t1BPFKn7D5t1lwLrONaIIsbN9A5nL+Z4dyQqZK7
+ pKPofV886t6z6r3ZhphrgR+fMO0bvJM3XGQ003Eq5m4Dw1KwXsgRJBOz65MWzW6LwwYI
+ vZQPiShR/zTXSTvvpp4ay1ZyohYCEE2KlOtKGxA1Hd9S5Z+sgm9v496nrKpV3hP/euJC
+ 9iAm5POPeknttXNnbHP3884Klr5pATcIXWsbrdvLMOQILwAgTXitauxetipebPyD0YKZ
+ ifyyesgHnyYsyqqLKVoRlJ31TROnWrwh16co2k9kWWGnGb8cJfUC44SsNnazBzQskRwv
+ d+Rg==
+X-Gm-Message-State: AC+VfDy/BGxp7Bf7nSXz0GM28drnvqxmA4NJmb82MSxE/aN2r5uKuEqz
+ aeZee3OieSeqMiC58SHFplxQAkKdLwVPAbU8TKKz1A==
+X-Google-Smtp-Source: ACHHUZ7ShijQbDXG5LNkOewm1aTPMRKRtRGdrly+ELkwdr+vwO4+T7tCAPpPdOqloRkeGytOrvqv8JCRVQBRNjVnHe4=
+X-Received: by 2002:a05:6871:4c5:b0:199:cae3:f9d6 with SMTP id
+ n5-20020a05687104c500b00199cae3f9d6mr4345361oai.56.1685333996420; Sun, 28 May
+ 2023 21:19:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
-In-Reply-To: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 29 May 2023 05:42:56 +0300
-Message-ID: <CAA8EJpo8X7KrrXoButyW0d1Lz=a5Stw2inFGt2R7KJ+2NTX6wA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] MDSS reg bus interconnect
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230526100801.16310-1-uwu@icenowy.me>
+ <CAD=FV=UxrFVZXn+dtgamttTVopWMSVbxYsHCGG_tS+3OTXbHiw@mail.gmail.com>
+ <0803e9037a8a2ce96fdad6ec209991dcda2a30ca.camel@icenowy.me>
+In-Reply-To: <0803e9037a8a2ce96fdad6ec209991dcda2a30ca.camel@icenowy.me>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Mon, 29 May 2023 12:19:30 +0800
+Message-ID: <CAJMQK-gOtqE=TzmQB+VM1KjScUQjLaKv6c8msv4-EKekritWYg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: mediatek: mt8173-elm: remove panel model
+ number in DT
+To: Icenowy Zheng <uwu@icenowy.me>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,62 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Apr 2023 at 18:30, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+On Mon, May 29, 2023 at 12:14=E2=80=AFPM Icenowy Zheng <uwu@icenowy.me> wro=
+te:
 >
-> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
-> another path that needs to be handled to ensure MDSS functions properly,
-> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
+> =E5=9C=A8 2023-05-26=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 07:24 -0700=EF=
+=BC=8CDoug Anderson=E5=86=99=E9=81=93=EF=BC=9A
+> > Hi,
+> >
+> > On Fri, May 26, 2023 at 3:09=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me> =
+wrote:
+> > >
+> > > Currently a specific panel number is used in the Elm DTSI, which is
+> > > corresponded to a 12" panel. However, according to the official
+> > > Chrome
+> > > OS devices document, Elm refers to Acer Chromebook R13, which, as
+> > > the
+> > > name specifies, uses a 13.3" panel, which comes with EDID
+> > > information.
+> > >
+> > > As the kernel currently prioritizes the hardcoded timing parameters
+> > > matched with the panel number compatible, a wrong timing will be
+> > > applied
+> > > to the 13.3" panel on Acer Chromebook R13, which leads to blank
+> > > display.
+> > >
+> > > Because the Elm DTSI is shared with Hana board, and Hana
+> > > corresponds to
+> > > multiple devices from 11" to 14", a certain panel model number
+> > > shouldn't
+> > > be present, and driving the panel according to its EDID information
+> > > is
+> > > necessary.
+> > >
+> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > ---
+> > >  arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > We went through a bunch of back-and-forth here but in the end in the
+> > ChromeOS tree we have "edp-panel" as the "compatible" here in the
+> > ChromeOS 5.15 tree and this makes sense.
 >
-> Gating that path may have a variety of effects.. from none to otherwise
-> inexplicable DSI timeouts..
+> I only have Elm, so I am curious that do all Hana's only rely on panel
+> EDID to use different displays?
 >
-> This series tries to address the lack of that.
+> BTW The Chrome OS document say that Elm and Hana are both board based
+> on Oak baseboard, should the DTSI be renamed mt8173-oak.dtsi, and still
+> let mt8173-elm.dts include it and then set model information?
 >
-> Example path:
->
-> interconnects = <&bimc MASTER_AMPSS_M0 0 &config_noc SLAVE_DISPLAY_CFG 0>;
+Oak is a reference design board which is not in the public. Since only
+elm and hana board are in the public and the difference between elm
+and hana are not much, instead of creating oak.dtsi, elm.dtsi (inherit
+from oak.dtsi), hana.dtsi (inherit from oak.dtsi), we decided to make
+elm.dtsi as the main dtsi and let hana inherit it and make its own
+changes.
 
-If we are going to touch the MDSS interconnects, could you please also
-add the rotator interconnect to the bindings?
-We do not need to touch it at this time, but let's not have to change
-bindings later again.
-
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > ...in theory one would wish for a "Fixes" tag, but I think in
+> > previous
+> > discussions it was decided that it was too complicated. Hardcoding
+> > the
+> > other compatible string has always been technically wrong, but I
+> > guess
+> > it worked at some point in time. The more correct way (as you're
+> > doing
+> > here) needs the DP AUX bus support and the generic eDP panels, both
+> > of
+> > which are significantly newer than the elm dts. So I guess leaving no
+> > "Fixes" tag is OK, or perhaps you could do the somewhat weak:
 >
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-> Konrad Dybcio (5):
->       dt-bindings: display/msm: Add reg bus interconnect
->       drm/msm/dpu1: Rename path references to mdp_path
->       drm/msm/mdss: Rename path references to mdp_path
->       drm/msm/mdss: Handle the reg bus ICC path
->       drm/msm/dpu1: Handle the reg bus ICC path
+> Well I remembered when I was developing the support for Pine64
+> Pinebook, which is also an ARM64 laptop with an eDP panel (via a DPI-
+> eDP bridge, ANX6345). At first I didn't use any panel node in the DT,
+> and the kernel maintainers argued to the bridge that seems to be
+> connected to nothing (because DP is a discoverable port), and
+> fortunately 2 Pinebook SKUs (11.6" and 14") is finally reduced to one,
+> and it's then possible to hardcode a panel model in the Pinebook DT.
+> According to my memory, the need to specify the panel is to properly
+> handle eDP panel power up timing, because it's not a very standard
+> thing. (Well, in my memory, when I was testing that code, on a
+> (engineering sample) 14" Pinebook, the EDID timing overrided the
+> hardcoded 11.6" timing and it properly works, the 14" panel is 1366x768
+> but the 11.6" panel is 1920x1080.)
 >
->  .../bindings/display/msm/mdss-common.yaml          |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c      | 10 +++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 34 ++++++++++++++++-----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  5 ++--
->  drivers/gpu/drm/msm/msm_mdss.c                     | 35 ++++++++++++++--------
->  5 files changed, 57 insertions(+), 28 deletions(-)
-> ---
-> base-commit: d3f2cd24819158bb70701c3549e586f9df9cee67
-> change-id: 20230417-topic-dpu_regbus-abc94a770952
+> (BTW when I checked the DT of Olimex TERES-I, which uses the same DPI-
+> eDP bridge, it is still in the status of a dangling bridge, and of
+> course it works ;-) )
 >
-> Best regards,
-> --
-> Konrad Dybcio <konrad.dybcio@linaro.org>
+> >
+> > Fixes: c2d94f72140a ("arm64: dts: mediatek: mt8173-elm: Move display
+> > to ps8640 auxiliary bus")
 >
-
-
--- 
-With best wishes
-Dmitry
+> Well this sound quite reasonable, as the kernel should have proper AUX
+> support at this commit.
+>
+>
