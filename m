@@ -2,74 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D341714E49
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 18:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6C8714ED9
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 19:14:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B3810E2B8;
-	Mon, 29 May 2023 16:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 605FD10E068;
+	Mon, 29 May 2023 17:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CD210E2B8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 16:28:27 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f6e13940daso36521155e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 09:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685377704; x=1687969704;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2iKyeVxpYOPIGYe/Lxm4HI6qu/yiKmBXO8zVnrWLpCU=;
- b=EpgmH9C6n5uyhLbAytYKg1lA2SVWmxLhgqXm1xmhHfyRF0cp7zejDIcXKiCOd/EkHc
- lJIpPh7f+lCohgmAvAACNj6NtHaPhXMHKg9a/1/VIYzTiRhn6x2LWHZJi68XifC3mRJI
- M3Z4b4rjMXd+jU9mNWH6+Q9me/xHAkVmLSql84N+hYQDlhrXNMp5t/3z6xDJly6Vv+Xb
- +VVlAxN3nrAj3MkDBuSILGgXIKAVFZ5TnPECDlY3JGBc/ph6RWAStiyGZMvTDLIgVWBO
- nbOejSBvsD/+OMxkRwRl19Bgf7Rsp3Y7zuinC3hX3Q9e+cVV9V0Np7Q/ycx4MsnnzGgA
- +Mug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685377704; x=1687969704;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2iKyeVxpYOPIGYe/Lxm4HI6qu/yiKmBXO8zVnrWLpCU=;
- b=B9b21c52NrDgWAOa68tCoDAKDugZWEWIh8EGNcJLrIq59o/ivGVKCd4Ji/LtJQwqjF
- m1+JaDrehDKTFfdU7kHQf+Exr9BVAm/JCHNDItKVW6PIV1u0QeAdVpt5dog9EvzC75Et
- 20fam/mgEuAE3LFR81BBR6xeBWrz2+cRlP1hevWlNQ0FVnF48/ha7uE8E7hsu2JiA5KP
- aK39NPQSj0Z882OnE3euooKTgH6wtLnXmRQZjT3gFEMKqiKuPwGl2V+A97C76vZjXBim
- tAeOsp/AYXSNRxdQQYs6y6DeiRUt5GKRjInzHvfWyIXso04oNAOVmfXtBb//D2OvXKjs
- Sfxg==
-X-Gm-Message-State: AC+VfDyQv93hOcEv2v0iUkTSg3LPWqFveuUI6NbE8Eb46bcrr9QDlCbK
- 8JWb5ou4xXoQDAX5kFmWzvk=
-X-Google-Smtp-Source: ACHHUZ4nt4/ZUaLSDt/sbuRs0jUlCrpJSZ4JbtG0UP+yrn/Tqv+Tk0qeFK4rvij2BzsefX+Pdi2pHg==
-X-Received: by 2002:a1c:4c04:0:b0:3f6:962d:405c with SMTP id
- z4-20020a1c4c04000000b003f6962d405cmr8550475wmf.41.1685377703937; 
- Mon, 29 May 2023 09:28:23 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- k5-20020a7bc405000000b003f31cb7a203sm14715125wmi.14.2023.05.29.09.28.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 May 2023 09:28:22 -0700 (PDT)
-Message-ID: <3069dcf7-28e0-e7f6-11d5-9bc286d7d6e3@gmail.com>
-Date: Mon, 29 May 2023 18:28:21 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C768710E2CA;
+ Mon, 29 May 2023 17:14:19 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxBvFp3XRkiUkCAA--.5385S3;
+ Tue, 30 May 2023 01:14:18 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxD79p3XRkLUJ_AA--.10654S2; 
+ Tue, 30 May 2023 01:14:17 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v4 0/6] drm/etnaviv: add pci device driver support
+Date: Tue, 30 May 2023 01:14:11 +0800
+Message-Id: <20230529171417.2146323-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] arm64: dts: mediatek: mt8173-elm: remove panel model
- number in DT
-Content-Language: en-US, ca-ES, es-ES
-To: Icenowy Zheng <uwu@icenowy.me>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Doug Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>
-References: <20230526100801.16310-1-uwu@icenowy.me>
- <CAD=FV=UxrFVZXn+dtgamttTVopWMSVbxYsHCGG_tS+3OTXbHiw@mail.gmail.com>
- <f4a9e090-3712-200e-bd09-70090c9cccbc@collabora.com>
- <6996788b112f4795d2930a6664b3152cd9a380a8.camel@icenowy.me>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <6996788b112f4795d2930a6664b3152cd9a380a8.camel@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxD79p3XRkLUJ_AA--.10654S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uFy8XF4UZFyDXr1rGF1Dtrb_yoW8GF1rpF
+ 47JFyYyry0vrW2k343AFn8XFy3C3WxWF9Yk3srt3sI9w4rAr1jvryDKa15Jr9xJr1fJr42
+ qrnIkry3WF17ArJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS
+ 14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2
+ AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_
+ Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+ CTnIWIevJa73UjIFyTuYvjxUsoUDDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,101 +62,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: loongson-kernel@lists.loongnix.cn, Li Yi <liyi@loongson.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+PCI device, and it has 2D and 3D cores in the same device. Thus, this
+series is trying to add PCI device driver support to etnaviv.
 
+Sui Jingfeng (6):
+  drm/etnaviv: add a dedicated function to register an irq handler
+  drm/etnaviv: add a dedicated function to get various clocks
+  drm/etnaviv: add dedicated functions to create and destroy platform
+    devices
+  drm/etnaviv: add helpers for private data construction and destruction
+  drm/etnaviv: expand driver support for the PCI devices
+  drm/etnaviv: allow usperspace create cached coherent bo
 
-On 29/05/2023 10:45, Icenowy Zheng wrote:
-> 在 2023-05-29星期一的 10:02 +0200，AngeloGioacchino Del Regno写道：
->> Il 26/05/23 16:24, Doug Anderson ha scritto:
->>> Hi,
->>>
->>> On Fri, May 26, 2023 at 3:09 AM Icenowy Zheng <uwu@icenowy.me>
->>> wrote:
->>>>
->>>> Currently a specific panel number is used in the Elm DTSI, which
->>>> is
->>>> corresponded to a 12" panel. However, according to the official
->>>> Chrome
->>>> OS devices document, Elm refers to Acer Chromebook R13, which, as
->>>> the
->>>> name specifies, uses a 13.3" panel, which comes with EDID
->>>> information.
->>>>
->>>> As the kernel currently prioritizes the hardcoded timing
->>>> parameters
->>>> matched with the panel number compatible, a wrong timing will be
->>>> applied
->>>> to the 13.3" panel on Acer Chromebook R13, which leads to blank
->>>> display.
->>>>
->>>> Because the Elm DTSI is shared with Hana board, and Hana
->>>> corresponds to
->>>> multiple devices from 11" to 14", a certain panel model number
->>>> shouldn't
->>>> be present, and driving the panel according to its EDID
->>>> information is
->>>> necessary.
->>>>
->>>> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
->>>> ---
->>>>    arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> We went through a bunch of back-and-forth here but in the end in
->>> the
->>> ChromeOS tree we have "edp-panel" as the "compatible" here in the
->>> ChromeOS 5.15 tree and this makes sense.
->>>
->>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->>>
->>> ...in theory one would wish for a "Fixes" tag, but I think in
->>> previous
->>> discussions it was decided that it was too complicated. Hardcoding
->>> the
->>> other compatible string has always been technically wrong, but I
->>> guess
->>> it worked at some point in time. The more correct way (as you're
->>> doing
->>> here) needs the DP AUX bus support and the generic eDP panels, both
->>> of
->>> which are significantly newer than the elm dts. So I guess leaving
->>> no
->>> "Fixes" tag is OK, or perhaps you could do the somewhat weak:
->>>
->>> Fixes: c2d94f72140a ("arm64: dts: mediatek: mt8173-elm: Move
->>> display
->>> to ps8640 auxiliary bus")
->>
->> I remember I didn't change the compatible to panel-edp because it
->> didn't
->> work at that time, but it does now... I'm not sure what actually
->> fixed that
->> and if the commit(s) was/were backported to that suggested point, so
->> I
->> would leave the Fixes tag out, as that may break older kernel.
-> 
-> Well at least I developed this patch on v6.3.
-> 
-> (In fact the same kernel config do not boot to system at all on
-> v6.0/v6.1 when I do make olddefconfig then build)
-> 
+ drivers/gpu/drm/etnaviv/Makefile            |   1 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 183 +++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   7 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 ++-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   9 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 185 ++++++++++++++------
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |  13 ++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  88 ++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |  10 ++
+ include/uapi/drm/etnaviv_drm.h              |  11 +-
+ 10 files changed, 415 insertions(+), 114 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
 
-I applied the patch without the fixes tag. Lets stay on the secure side to not 
-break older kernels.
+-- 
+2.25.1
 
-Regards,
-Matthias
-
->>
->> Anyway, for this commit:
->>
->> Reviewed-by: AngeloGioacchino Del Regno
->> <angelogioacchino.delregno@collabora.com>
-> 
