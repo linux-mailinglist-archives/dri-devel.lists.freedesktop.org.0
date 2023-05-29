@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA07E7146D7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 11:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6968A7146E7
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 11:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BE010E258;
-	Mon, 29 May 2023 09:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE02510E256;
+	Mon, 29 May 2023 09:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0DA10E256
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 09:08:50 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4f3edc05aa5so3270201e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 02:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685351328; x=1687943328;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tSa8aYLGe0eh6zJBgEC1ehDOBlDuDqV/nsz+yCLZGS8=;
- b=JoqnkqFFs6uFRbpaAbkym4gYnhJQCsnnGsqSwDYL/jL5nlLBM1xz+gJ5X0dxp1zrXI
- O/tJTtctTjTyqNVgs5ydIokhsCUjUZ6MLaZnabW5HL89gZDo+3NBUFwCT8kUFd3H6zWl
- kPOun5HSiSYWhM/m/AlGwBhXK7FNMMcr+F0J8kQidRUP9Bh4lLQ07imKQsvlBPcgBpgO
- NEUKGi5kqZ73V91LHAr4ihEjWO79uT96tJRe9v+PuXqYbTCt1PDg+AcQbyVXRTTFVC8J
- FfU5KFOmNBObhRkJldNnsxwrZTdw/T3goyEYKuDbs3lrMOdHwfHGvFO9ulU3uj9g9o3K
- jiLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685351328; x=1687943328;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tSa8aYLGe0eh6zJBgEC1ehDOBlDuDqV/nsz+yCLZGS8=;
- b=gDm5iMn1KPKWLNmR5+/EDwQGsX/Btv8lwgNHvJBpEiar8xL9mUQb9T9Wpm/PF3t7pC
- rR9WTxUhhYhxtce7461QUD58cFk7aFv1HPSi6oBT+iRuJaNIfeoM+en9cYMKqXeYLe4i
- HTzjwIJ/q+lHNN9RljpKOYIPgxXXJdGNF65MsjSW5iPCzc2KbHvLevfRd3CljynJHF80
- 2Svut/NMxKMTBKOBpqeMYlfALpUj2osZk9/MID9UM36xRwWE/Z7CC2JL/lbysQFjQMZl
- BAYtDPQQpTXBIDxTV8N9hPiD5vLSsbJVPOWkH5ig1rXPuj8YIfDSg87m9C9GCwed1sbI
- mTcw==
-X-Gm-Message-State: AC+VfDw/YRC0/5Blxn7AS/PbtNdQ05iMc42WVewtW4HtfeqM+m18uHcz
- jAbmj6cGRtTviMlPjwhoOm1P+w==
-X-Google-Smtp-Source: ACHHUZ5qiEyUTO6pdyeSWqWw0+WfQT0iGbQqMBiKvhlXlAcXdRgSEX7FCWEmso42ecsPEc8eSvdmTw==
-X-Received: by 2002:ac2:59cf:0:b0:4ed:d2cf:857b with SMTP id
- x15-20020ac259cf000000b004edd2cf857bmr3019232lfn.5.1685351328124; 
- Mon, 29 May 2023 02:08:48 -0700 (PDT)
-Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
- by smtp.gmail.com with ESMTPSA id
- d11-20020ac2544b000000b004f4e637db2fsm1484450lfn.167.2023.05.29.02.08.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 May 2023 02:08:47 -0700 (PDT)
-Message-ID: <e99a9fe9-21e4-fc56-d400-4f6e9df2eaed@linaro.org>
-Date: Mon, 29 May 2023 11:08:46 +0200
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F123910E256
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 09:14:36 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34T4mf2b004930; Mon, 29 May 2023 11:14:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=VrFZVCEDe9kzBNyM+wW4oLOU7514r/06HmxWm1qNLno=;
+ b=IxRSGNu7fQECKblmjOTi6yGXsdhkuRymvcgTL8hvcCEgwsXwDRKFiY3sUdyIBSYnI4mQ
+ hrcch9Fqi3mO66yfyiemHOUQKzyDbJeRaWYTKTsmESkGS8qlewyVPF3yNvLNGVtlLNsJ
+ /gUb5FXbMsFReqZnGK/4UFvq5gvATElZZPzvT9Ap+Fu7w+rGR48/tnqYeIEuStcTO6vF
+ lHreJUTHvF2sWQdgbqQ+cGN4iVRd/zunjumwWpqWwAVczn9z1+rV0B7sa9ugXl/KLR9Z
+ ix2MwjY7q/SthYCRzZWZIkWC6C6qTeYksGv+jf6qs6XAF+k7Zdso5th+HAac1PNSw8+j 7w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3quakp8rjj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 May 2023 11:14:20 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D801E10002A;
+ Mon, 29 May 2023 11:14:19 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CB440217B8F;
+ Mon, 29 May 2023 11:14:19 +0200 (CEST)
+Received: from localhost (10.252.18.236) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 29 May
+ 2023 11:14:19 +0200
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Marek Vasut <marex@denx.de>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: [PATCH v4 0/4] STM32 warning cleanup
+Date: Mon, 29 May 2023 11:13:55 +0200
+Message-ID: <20230529091359.71987-1-raphael.gallais-pou@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 0/5] MDSS reg bus interconnect
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230417-topic-dpu_regbus-v1-0-06fbdc1643c0@linaro.org>
- <CAA8EJpo8X7KrrXoButyW0d1Lz=a5Stw2inFGt2R7KJ+2NTX6wA@mail.gmail.com>
- <74a817ff-5850-330d-8cac-f551be6fa35c@linaro.org>
- <254cd131-4ad1-44c9-2653-862580503c15@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <254cd131-4ad1-44c9-2653-862580503c15@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.252.18.236]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-29_06,2023-05-25_03,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,58 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: devicetree@vger.kernel.org,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@dh-electronics.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This serie aims to reduce the number of device-tree warnings of
+following boards :
 
+  - STM32F469-DISCO
+  - STM32MP15*
 
-On 29.05.2023 10:47, Dmitry Baryshkov wrote:
-> On 29/05/2023 10:42, Konrad Dybcio wrote:
->>
->>
->> On 29.05.2023 04:42, Dmitry Baryshkov wrote:
->>> On Mon, 17 Apr 2023 at 18:30, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>>>
->>>> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
->>>> another path that needs to be handled to ensure MDSS functions properly,
->>>> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
->>>>
->>>> Gating that path may have a variety of effects.. from none to otherwise
->>>> inexplicable DSI timeouts..
->>>>
->>>> This series tries to address the lack of that.
->>>>
->>>> Example path:
->>>>
->>>> interconnects = <&bimc MASTER_AMPSS_M0 0 &config_noc SLAVE_DISPLAY_CFG 0>;
->>>
->>> If we are going to touch the MDSS interconnects, could you please also
->>> add the rotator interconnect to the bindings?
->>> We do not need to touch it at this time, but let's not have to change
->>> bindings later again.
->>>
->> Ack
-> 
-> Also, several points noted from the mdss fbdev driver:
-> 
-> - All possible clents vote for the low bw setting. This includes DSI, HDMI, MDSS itself and INTF
-As in, "you need NUM_CLIENTS * MIN_VOTE" or as in "any client necessitates
-a vote"?
+Those warnings were appearing either during build or when checking
+dt-bindings and concern mostly LTDC and DSI IPs. They were due to the
+following cases:
 
-> - SMMU also casts such vote, which I do not think should be necessary, unless there is a separate MDSS SMMU?
-There's one on 8996, pre-845 SoCs often have a MMSS MMU, 845 and
-later have a MMSS-specific TBU which (theoretically) requires a
-vote for access to 0x400-0x7ff SIDs
+  - 'panel-dsi@0' instead of 'panel@0' according to the YAML
+  - unnecessary #address-cells and #size-cells properties
+  - residual 'reg' field on single endpoints
 
-> - PINGPONG cacsts high bw setting for the sake of speeding up the LUT tables if required.
-Hm, I think is would be a separate topic.
+First patch fixes stm32f469-disco device-tree.
+Second patch fixes st,stm32-dsi.yaml dt-bindings.
+Third patch fixes DSI warnings on stm32mp15* device-trees.
+Last patch fixes LTDC warnings on stm32mp15* device-trees.
 
-Konrad
-> 
+Changes since v3:
+	* Added Conor's acked-by
+	* Added Marek's reviewed-by
+	* Split last patch into two separate for clearer review
+
+Changes since v2:
+	* Added changelog
+	* Enhanced commit descriptions
+
+Changes since v1:
+	* Added DSI subnode name change
+	* Included stm32f469-disco DT in the cleanup
+	* Included YAML fix to prevent regression
+
+Raphael Gallais-Pou (4):
+  ARM: dts: stm32: fix warnings on stm32f469-disco board
+  dt-bindings: display: st,stm32-dsi: Remove unnecessary fields
+  ARM: dts: stm32: fix dsi warnings on stm32mp15 boards
+  ARM: dts: stm32: fix ltdc warnings in stm32mp15 boards
+
+ .../bindings/display/st,stm32-dsi.yaml        |  2 --
+ arch/arm/boot/dts/stm32f469-disco.dts         |  4 ++--
+ arch/arm/boot/dts/stm32mp151.dtsi             |  5 -----
+ arch/arm/boot/dts/stm32mp157.dtsi             |  7 -------
+ arch/arm/boot/dts/stm32mp157a-dk1.dts         | 20 +++++++++++++++++++
+ ...tm32mp157a-icore-stm32mp1-ctouch2-of10.dts |  6 ++++--
+ .../stm32mp157a-icore-stm32mp1-edimm2.2.dts   |  6 ++++--
+ ...157a-microgea-stm32mp1-microdev2.0-of7.dts |  3 +--
+ arch/arm/boot/dts/stm32mp157c-dk2.dts         |  8 ++++++++
+ arch/arm/boot/dts/stm32mp157c-ev1.dts         | 10 +++++++---
+ arch/arm/boot/dts/stm32mp157c-lxa-mc1.dts     |  3 +--
+ .../boot/dts/stm32mp15xx-dhcor-avenger96.dtsi |  6 +-----
+ arch/arm/boot/dts/stm32mp15xx-dkx.dtsi        | 18 +----------------
+ 13 files changed, 49 insertions(+), 49 deletions(-)
+
+-- 
+2.25.1
+
