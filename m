@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A572A714BBA
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 16:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A234F71454F
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 09:19:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F97310E2C1;
-	Mon, 29 May 2023 14:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E8010E214;
+	Mon, 29 May 2023 07:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDA610E22E
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:03:40 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f4b2bc1565so3137918e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 00:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1685343818; x=1687935818; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ktk43I3ESCcl+4luTfcpacoXkK0rOIgacSkU1dOgQfA=;
- b=EzVaURV3PRKZ1IXRJ20SKWyI2R3+cbBKjkEDiWxGuhXDEs4tYnYXxcmcG5TWdUw+q1
- JlEeNlM+mHBU7+DOoZqm+tBjhkOifHP1AsCo1tDsqPHHr/XlHBr9QoOqORH4P+lZw+5O
- dmHKET4mthkLuOTwi0yJJ+Mcz4uyXC4TIvQaAlE7AD0k5LaBcXXifSf8/pbPE7aUh26Z
- ZA3c8gDgyVhDf24nQQyh8Bf99q1L0NtrjfeBqJT+FQHgJO6VGJrqIFrJMCMnnVBA1KjI
- 1HfSoT34FV/E0bjV7QblXJA1taCMNKAHRREduGMGSHwxb7KqkhCubTTC6w6jYdNcnJxf
- Erzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685343818; x=1687935818;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ktk43I3ESCcl+4luTfcpacoXkK0rOIgacSkU1dOgQfA=;
- b=PsECq0b8wOc+Ah/szeiostBF5/rOqpQbTCWK6TYQLFvQ20zmCcZ7aAIjLANm0MCkDM
- NjqourGjFpa1pwM1Qx4sRd8w8GxYxb7FkjBTM+IbLOD9c9mPVBNQITKJL7OCHYEwz8Vz
- uChVuS8LAyN7eHAa1Jd6pVorVnTescU+cZEyF3kVrMGjQdQ9CbiP65mme5giQQZ0dJd7
- rglaRKeMZpoK/V/4HX1OJP+DWvPgBjH3nFbpYWwQTvTEDX7Dj7FFqAwr5vLqt3BY4/zf
- 74aNPyg7ZyTWVrb+lPF0JwZEZdX3Mq0lMTRkcNElNg78jCEzmF7SacZOBimNyBKBGyTY
- TBsQ==
-X-Gm-Message-State: AC+VfDwEu11kEGzMh9UFiP3HIMQLtMcgk2mQ6wJwlEXG4O+0rnxWYtuC
- iORynSglh4iXgKikyhUSqofJMwOrr9yPkyrxqWijLQ==
-X-Google-Smtp-Source: ACHHUZ4VkOxh0fNxPG1zh86fdppD/WvIcYVQsx7Tso8mCQBz019IqnPTS//0K6ZRb1vNKJxSPmxN81F9XNk7zNJRGYk=
-X-Received: by 2002:ac2:46d2:0:b0:4f1:3d7d:409e with SMTP id
- p18-20020ac246d2000000b004f13d7d409emr3772539lfo.0.1685343818417; Mon, 29 May
- 2023 00:03:38 -0700 (PDT)
+Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr
+ [80.12.242.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4017410E214
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 07:19:03 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id 3X9eqYgEzMDzt3X9eq4QMn; Mon, 29 May 2023 09:19:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1685344740;
+ bh=ToQuNxvWCS00We22b4WvFzbjWsFm90sAaGVlSiXzZ6A=;
+ h=From:To:Cc:Subject:Date;
+ b=N0OGot8XgN/sgaRBBPtv8sAmxBbjCRQT9O8f739VgP6/PefDcz4qn4+sQQ4buhqA8
+ fAc/X2jePdXNNBWmTWvgbUp9Ryp8kHWEDgJmdzV8ZHE8c1YY413djR6ZWGI8tjM7GY
+ fQLYY7JVDeWvBPzsWhh3RHmI0aLvzF0lmu23syr3EuHsiPzq+pwh17fxnJCmfsb7/j
+ iuwSEeqSG/cl3+zCv29bZ+NSC0beKhU3a8viZBb92BUsu6ZKRr/ioSKfkXVgzCf4ft
+ vipwGXayXPCFv1AUaJfDRHr8JmJ2AbFb3IS6GFQko1QKSbRwVykQrP2aT2+cJnfe+V
+ vbfQ3xCVLrLbQ==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 29 May 2023 09:19:00 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/3] drm/amd/display: Fix an erroneous sanity check in
+ get_dmif_switch_time_us()
+Date: Mon, 29 May 2023 09:18:54 +0200
+Message-Id: <e0a2240f863279b65a1fdc7f8c27ede9f8e37893.1685342739.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230519200520.10657-1-alex@shruggie.ro>
- <20230519200520.10657-2-alex@shruggie.ro>
- <9faab8c9-a38b-3f06-c2fb-6c7803b22eb1@foss.st.com>
-In-Reply-To: <9faab8c9-a38b-3f06-c2fb-6c7803b22eb1@foss.st.com>
-From: Alexandru Ardelean <alex@shruggie.ro>
-Date: Mon, 29 May 2023 10:03:27 +0300
-Message-ID: <CAH3L5Qpo6j9XdpfY5dPbYM3prLRPbrFPODPubnaNqu_4pQeaow@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: backlight: document new property
- default-brightness-level
-To: Philippe CORNU <philippe.cornu@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 29 May 2023 14:08:20 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,73 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, pavel@ucw.cz, daniel.thompson@linaro.org,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-leds@vger.kernel.org
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 26, 2023 at 3:05=E2=80=AFPM Philippe CORNU
-<philippe.cornu@foss.st.com> wrote:
->
->
->
-> On 5/19/23 22:05, Alexandru Ardelean wrote:
-> > From: Yannick Fertre <yannick.fertre@foss.st.com>
-> >
-> > Add documentation for new default-brightness-level property.
-> >
-> > Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>
->
-> Hi Alexandru,
-> same comments as for the 1/2 patch.
+It is likely that there is a typo in the sanity check for 'v_total'.
 
-Ack
+If it is 0, then 'pixels_per_frame' will also be 0, and in this case,
+we also return 'single_frame_time_multiplier * min_single_frame_time_us'.
 
-Will do
-Thanks
-Alexandru
+So test for !v_total which looks much more logical.
 
-> Many thanks
-> Philippe :-)
->
-> > Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
-> > ---
-> >
-> > Link to original patch:
-> >    https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa1=
-4ffd49892c4ce663cdafe98
-> >
-> >   .../bindings/leds/backlight/gpio-backlight.yaml          | 9 ++++++++=
-+
-> >   1 file changed, 9 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-back=
-light.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backligh=
-t.yaml
-> > index 584030b6b0b9..b96c08cff0f0 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.y=
-aml
-> > @@ -23,6 +23,15 @@ properties:
-> >       description: enable the backlight at boot.
-> >       type: boolean
-> >
-> > +  default-brightness-level:
-> > +    description:
-> > +      The default brightness level (index into the array defined by th=
-e
-> > +      "brightness-levels" property).
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +
-> > +dependencies:
-> > +  default-brightness-level: [ "brightness-levels" ]
-> > +
-> >   required:
-> >     - compatible
-> >     - gpios
+Fixes: 4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
+index 4cdd4dacb761..091f0d68a045 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_mem_input.c
+@@ -683,7 +683,7 @@ static uint32_t get_dmif_switch_time_us(
+ 	/*return double of frame time*/
+ 	const uint32_t single_frame_time_multiplier = 2;
+ 
+-	if (!h_total || v_total || !pix_clk_khz)
++	if (!h_total || !v_total || !pix_clk_khz)
+ 		return single_frame_time_multiplier * min_single_frame_time_us;
+ 
+ 	/*TODO: should we use pixel format normalized pixel clock here?*/
+-- 
+2.34.1
+
