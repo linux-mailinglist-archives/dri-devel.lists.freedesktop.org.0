@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF6B714665
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 10:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F054714673
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 10:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85ADD10E03A;
-	Mon, 29 May 2023 08:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA0C10E05D;
+	Mon, 29 May 2023 08:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76B8210E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 08:40:24 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown
- [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 73B8A6605961;
- Mon, 29 May 2023 09:40:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1685349623;
- bh=9ApkdS7663n45aSbnjR212X9+KL8lAWgYFe+AiYnwmY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=i2E0/49G7/6Z8J9cECpKX/kE53gqrMX51hEzU+35JtS8sXijVIO3VU3mkqmw4upcZ
- 2lJDMfoKcFP+uS4RD9xUMqt+yO3aYMetPnPjfWUtF0d9pjq8W5ZN+zaRX+fn8IyTM7
- lK0ndchByNQvdBc+iGFNm/edUR03ovZC/fvdzkT7bARlhrb7rZeqbHVj9XSCQBWdnO
- HfC4ZhiS/PXkfRp4T61gFC3+644IxXSELc8GCr5sSlFp6ZCZdaNwYuZzUrheyfLSeM
- eOp6deD3lXrpEylyEvuxHyyn16u5ewYgnrwLZLJiUSUZ9hJzn1EKvXK5ORb9yglKmj
- Z+vh4RAEbbl+Q==
-Message-ID: <66d2943f-a9a7-274b-eb00-24e8de63eb00@collabora.com>
-Date: Mon, 29 May 2023 10:40:19 +0200
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256DC10E05D
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 08:46:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1685349926; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UWDchVkEZiy1zgz7GOmGojV4k3GBe6B0J98/o/8VuWZImfM7kKhp+evlWTG/+wbLdsJ48ehE9ywSCra0uNGxZbhwSl3fLDHhXabD1T+CchT4/ig6hwhab1nphrL3/I0E12AZ2RpofM1EBRjZ32Q9nwPOuEvqeMp8sKfs81zSCMI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1685349926;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=rN6UaHs4ggHcS2A5CJI/CPXVvIQe2q2wnZMpU72p46E=; 
+ b=U04yBJ6K+7f3xyXrBevDloZNd20L0TVYYzAqNYVrSiz8sVrOFzu3DZjl2EEZiWPS2lVH4b3ZGnChjhL01ZEiQQCcyAkFDh9Ryo0Rdax72hKpjRcDHPGP+vbTPke5Jv6nVSskWfo2pFFWE7v4uTPIPvchEk0fN831fpgDl5dUdNQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1685349926; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=rN6UaHs4ggHcS2A5CJI/CPXVvIQe2q2wnZMpU72p46E=;
+ b=nvT+YTQtDXzEyPmjNP5ayAWvRISvccnkg/aNGQk5OBtQBsDatWrwkwNIH8NFyyYe
+ CDhzWq1bPZCMZaIOaHP8fdoHlYicWGzCQxWWX2WGSHrS8q8zn0wYWQJD/AdSSwEZMcI
+ eZzcFClARRmsJ8lxp/drRGTeX1hYnaKjzEZ23cCEqJIHx0Kp/poS1sRQMGm+Qsl9yNA
+ D4bvTBgIyB4jyxuDObQs0jbB52KfE7lYdTRRfS5Og/u33ie3XdY1GxnVHz7vP1rQz6K
+ /nGacoEHLUEQr2uviIIn8ALAL50ucCBD8iPWtPazpAfij2ZYeKmLDXA6U8KXpe0DPwy
+ 2QvW3gZizw==
+Received: from edelgard.fodlan.icenowy.me (120.85.97.71 [120.85.97.71]) by
+ mx.zohomail.com with SMTPS id 1685349925541243.71967151550905;
+ Mon, 29 May 2023 01:45:25 -0700 (PDT)
+Message-ID: <6996788b112f4795d2930a6664b3152cd9a380a8.camel@icenowy.me>
+Subject: Re: [PATCH] arm64: dts: mediatek: mt8173-elm: remove panel model
+ number in DT
+From: Icenowy Zheng <uwu@icenowy.me>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Doug Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>
+Date: Mon, 29 May 2023 16:45:20 +0800
+In-Reply-To: <f4a9e090-3712-200e-bd09-70090c9cccbc@collabora.com>
+References: <20230526100801.16310-1-uwu@icenowy.me>
+ <CAD=FV=UxrFVZXn+dtgamttTVopWMSVbxYsHCGG_tS+3OTXbHiw@mail.gmail.com>
+ <f4a9e090-3712-200e-bd09-70090c9cccbc@collabora.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 3/3] dw-hdmi: remove dead code and fix indentation
-Content-Language: en-US
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- narmstrong@baylibre.com, khilman@baylibre.com,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- rfoss@kernel.org, andrzej.hajda@intel.com
-References: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
- <20230528140001.1057084-4-adrian.larumbe@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230528140001.1057084-4-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +67,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 28/05/23 16:00, Adrián Larumbe ha scritto:
+=E5=9C=A8 2023-05-29=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 10:02 +0200=EF=BC=
+=8CAngeloGioacchino Del Regno=E5=86=99=E9=81=93=EF=BC=9A
+> Il 26/05/23 16:24, Doug Anderson ha scritto:
+> > Hi,
+> >=20
+> > On Fri, May 26, 2023 at 3:09=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me>
+> > wrote:
+> > >=20
+> > > Currently a specific panel number is used in the Elm DTSI, which
+> > > is
+> > > corresponded to a 12" panel. However, according to the official
+> > > Chrome
+> > > OS devices document, Elm refers to Acer Chromebook R13, which, as
+> > > the
+> > > name specifies, uses a 13.3" panel, which comes with EDID
+> > > information.
+> > >=20
+> > > As the kernel currently prioritizes the hardcoded timing
+> > > parameters
+> > > matched with the panel number compatible, a wrong timing will be
+> > > applied
+> > > to the 13.3" panel on Acer Chromebook R13, which leads to blank
+> > > display.
+> > >=20
+> > > Because the Elm DTSI is shared with Hana board, and Hana
+> > > corresponds to
+> > > multiple devices from 11" to 14", a certain panel model number
+> > > shouldn't
+> > > be present, and driving the panel according to its EDID
+> > > information is
+> > > necessary.
+> > >=20
+> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > ---
+> > > =C2=A0 arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 2 +-
+> > > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > We went through a bunch of back-and-forth here but in the end in
+> > the
+> > ChromeOS tree we have "edp-panel" as the "compatible" here in the
+> > ChromeOS 5.15 tree and this makes sense.
+> >=20
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> >=20
+> > ...in theory one would wish for a "Fixes" tag, but I think in
+> > previous
+> > discussions it was decided that it was too complicated. Hardcoding
+> > the
+> > other compatible string has always been technically wrong, but I
+> > guess
+> > it worked at some point in time. The more correct way (as you're
+> > doing
+> > here) needs the DP AUX bus support and the generic eDP panels, both
+> > of
+> > which are significantly newer than the elm dts. So I guess leaving
+> > no
+> > "Fixes" tag is OK, or perhaps you could do the somewhat weak:
+> >=20
+> > Fixes: c2d94f72140a ("arm64: dts: mediatek: mt8173-elm: Move
+> > display
+> > to ps8640 auxiliary bus")
+>=20
+> I remember I didn't change the compatible to panel-edp because it
+> didn't
+> work at that time, but it does now... I'm not sure what actually
+> fixed that
+> and if the commit(s) was/were backported to that suggested point, so
+> I
+> would leave the Fixes tag out, as that may break older kernel.
 
-I agree that the title almost says it all, but please add a commit description.
+Well at least I developed this patch on v6.3.
 
-Regards,
-Angelo
+(In fact the same kernel config do not boot to system at all on
+v6.0/v6.1 when I do make olddefconfig then build)
 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 22 ++++------------------
->   1 file changed, 4 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 1afb8f2603a0..0accfb51509c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -49,20 +49,6 @@
->   
->   #define HDMI14_MAX_TMDSCLK	340000000
->   
-> -enum hdmi_datamap {
-> -	RGB444_8B = 0x01,
-> -	RGB444_10B = 0x03,
-> -	RGB444_12B = 0x05,
-> -	RGB444_16B = 0x07,
-> -	YCbCr444_8B = 0x09,
-> -	YCbCr444_10B = 0x0B,
-> -	YCbCr444_12B = 0x0D,
-> -	YCbCr444_16B = 0x0F,
-> -	YCbCr422_8B = 0x16,
-> -	YCbCr422_10B = 0x14,
-> -	YCbCr422_12B = 0x12,
-> -};
-> -
->   static const u16 csc_coeff_default[3][4] = {
->   	{ 0x2000, 0x0000, 0x0000, 0x0000 },
->   	{ 0x0000, 0x2000, 0x0000, 0x0000 },
-> @@ -856,10 +842,10 @@ static void dw_hdmi_gp_audio_enable(struct dw_hdmi *hdmi)
->   
->   	if (pdata->enable_audio)
->   		pdata->enable_audio(hdmi,
-> -					    hdmi->channels,
-> -					    hdmi->sample_width,
-> -					    hdmi->sample_rate,
-> -					    hdmi->sample_non_pcm);
-> +				    hdmi->channels,
-> +				    hdmi->sample_width,
-> +				    hdmi->sample_rate,
-> +				    hdmi->sample_non_pcm);
->   }
->   
->   static void dw_hdmi_gp_audio_disable(struct dw_hdmi *hdmi)
+>=20
+> Anyway, for this commit:
+>=20
+> Reviewed-by: AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com>
 
