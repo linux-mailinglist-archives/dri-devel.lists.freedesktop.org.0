@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F139714752
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 11:45:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAA771473F
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 11:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAE7810E270;
-	Mon, 29 May 2023 09:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D512810E265;
+	Mon, 29 May 2023 09:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5298A10E26D;
- Mon, 29 May 2023 09:45:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0511E10E264;
+ Mon, 29 May 2023 09:45:02 +0000 (UTC)
 Received: from [192.168.122.1] (217-149-172-244.nat.highway.telekom.at
  [217.149.172.244])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id 36AE0CFC26;
- Mon, 29 May 2023 09:44:59 +0000 (UTC)
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id 0A12FCFC27;
+ Mon, 29 May 2023 09:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
- t=1685353499; bh=WzMfGipgNDWNsOYbbUolxDAl9asoBs643I4DWeuO5wg=;
+ t=1685353500; bh=8sIn/Qz0l9jKCvWDS6LR4GIaadAQo/SQgllobL2+TqU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=xsCTIVZ2XydPj4aTPBhFmEov3jF00sHQPwOFpcUWAa5xQWH6V7MK6Cmlz98kWAGzT
- BR/acMHLVbBqf6dKPAv+E8BJh7+Gb9F1kBxNoWZ+mHhJT45Wqp+mZQH+WY0y1CIv+6
- MQdEbSoiwk6Vr70nPzTOxQUxsB5YVDEGWXE207hc=
+ b=gLvd+//fU8fm71mZT5VbhoBp3gOGZMq8gCEHZPqSbkZyTQ+xtFH29AR8vbs0rMxHr
+ rQ9A8SM6a//+jRMIuyQBIlBABLEW5nvI90d8PCp7ioySfAvyvlxzXurLAtljYvJGRo
+ dm99TjAQcRQEBpcZvsQcLMVcuNuaXj2kJCoFNjyo=
 From: Luca Weiss <luca@z3ntu.xyz>
-Date: Mon, 29 May 2023 11:43:59 +0200
-Subject: [PATCH 2/7] dt-bindings: display/msm: dsi-controller-main: Add
- msm8226 compatible
+Date: Mon, 29 May 2023 11:44:00 +0200
+Subject: [PATCH 3/7] dt-bindings: display/msm: qcom,mdp5: Add msm8226
+ compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230308-msm8226-mdp-v1-2-679f335d3d5b@z3ntu.xyz>
+Message-Id: <20230308-msm8226-mdp-v1-3-679f335d3d5b@z3ntu.xyz>
 References: <20230308-msm8226-mdp-v1-0-679f335d3d5b@z3ntu.xyz>
 In-Reply-To: <20230308-msm8226-mdp-v1-0-679f335d3d5b@z3ntu.xyz>
 To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
@@ -43,20 +43,20 @@ To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konrad.dybcio@linaro.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1059; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=WzMfGipgNDWNsOYbbUolxDAl9asoBs643I4DWeuO5wg=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkdHQUzO1mR9BwKnPmS8ocLKymVBUj1cJ4J6vHR
- 9Fmkuw+9CqJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZHR0FAAKCRBy2EO4nU3X
- VrvmEACG9nQBxjvX7hJykfZ4TC2iWDL/e/P3QD0g54i/5noyQc+SwwPSH2XedmFuQ0Iu9iCebPM
- VBp9IE0U+oNbZSx1A1dhVNm56mAmVEJizEfs5fhtBfnXC92oUYZbN4lM3P7PIb+boRm1qCcuHAz
- /errQCUMKcOytKA16SBFJHXJZCVPNUgVcr/0C29dMEa7AKB6GMk1AOzjBTnIYL3r+MH9bQ22VWS
- IJVSKrpPKoEysaLUMiO9MFSm7PizXMZeEBQHCOaAfKFRGhPqMIubSFcmPVsEc7Qr+u0EjhZITeq
- XTyC7JJvtqNHz/Bd77Lly8a13zg/yCsE1opWxT0dBHHfoCAC5moRElTimNXnpZX5vas9eU2TRD2
- aDW/j8h1AqxuHtWQGV+F4eDpth1t/CtHqy9d+aR4gctlsxP/KYcMYvs4lJxt75GcuEIliAe2MgQ
- I3LZ73lAWVYeRx+8D5hdyixsk96X8OyKAsonK2izV3qCzWVHhoQ3kkRLKFLHduOnE5pUMqyvDWh
- 10dBmKSKel2dW8ZcQ10uJsHGXGPACOPriiScJ9AMkahPuIzqcFTa1ACPAkXIqjpU1yGhWQVq+pz
- /4IyBlF1e3pFD6A6o77XNY1uV91E0iRbhADdiAJTzSZA5foJoJlL7h7iLkN7HavLd/psanLxZA2
- qwXHLt+GKHLj82g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=784; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=8sIn/Qz0l9jKCvWDS6LR4GIaadAQo/SQgllobL2+TqU=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkdHQVmzfdSUiOjj0rA8qZ4KUbvyyfYVN2HPCxI
+ 1qYANeRNJ+JAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZHR0FQAKCRBy2EO4nU3X
+ VqhmD/9SaQzg08+ttAZ4k0pCFP0Jq/ngScWc1jWT1NLy6R3BuZB59NpszqGWm1dUssVUYgq1Jev
+ RHjBxmrc6X6I4jFGZb9i3XyQw8I5SKyD4XhDrhukDf5mBfKa0Dsfn7Kmx8z7ElyDAmvdZXi77te
+ iTdwBq/Gyf5LGPGgWW8PdBmFW3ROwkZ8MyEMS39Plvjuy5KLI2frOMsfC763SIrAsmmyNXSvTXH
+ bZpXZp+86mxERPf9BI/9c6g8EVF+ecY1UX3BPfeBqOafi+cSy7YXw3GsCG/Ck5kob6fhD2DH+/b
+ qJ8IGe0D5L/He1wTF0TDJgk7xazyprwr2aRUFn7n+yP0wpvZN8lxZAvN8R/G1JdohexGeM6xz9m
+ lvyiL473bvXUKqXlGfa9CiZ6GtUTcoR1LisW+UBQHCYh+gV0HMvp1aVHNUShXCkIDX689owKqsD
+ tXLKnwhhMqsV1TimiYjrFt3xf4pjeREez+RQgzXBCVU8n//J29LPK8088CRRFf2NM8x0s5VgAZp
+ bBZgOJdWKPqhvLjeCPNtS1mIE9gX/ePb/HB8krNqRjH4QnoBhYn3+H09B+0SPI2IDTtex9df9WL
+ w6/T05Lp0Whk0XozrKyqqz9IpiTIjIoe1T3PWVcGXPi052Sq6NK78INkGLh3kzo5SjrQNwf4gcS
+ 5OlagslCJ67p+Yg==
 X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
  fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,33 +77,25 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the compatible for the DSI found on MSM8226.
+Add the compatible for the MDP5 found on MSM8226.
 
 Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
- Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 130e16d025bc..660e0f496826 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -15,6 +15,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+index a763cf8da122..2fe032d0e8f8 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+@@ -22,6 +22,7 @@ properties:
        - items:
            - enum:
-               - qcom,apq8064-dsi-ctrl
-+              - qcom,msm8226-dsi-ctrl
-               - qcom,msm8916-dsi-ctrl
-               - qcom,msm8953-dsi-ctrl
-               - qcom,msm8974-dsi-ctrl
-@@ -256,6 +257,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,msm8226-dsi-ctrl
-               - qcom,msm8974-dsi-ctrl
-     then:
-       properties:
+               - qcom,apq8084-mdp5
++              - qcom,msm8226-mdp5
+               - qcom,msm8916-mdp5
+               - qcom,msm8917-mdp5
+               - qcom,msm8953-mdp5
 
 -- 
 2.40.1
