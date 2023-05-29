@@ -2,81 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0000E714AF2
-	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 15:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65938714B26
+	for <lists+dri-devel@lfdr.de>; Mon, 29 May 2023 15:55:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7609010E2BC;
-	Mon, 29 May 2023 13:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF8910E0BB;
+	Mon, 29 May 2023 13:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD7C10E2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 13:52:53 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4f3a873476bso3528770e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 06:52:53 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB29410E0BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 13:55:01 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-30959c0dfd6so3240233f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 May 2023 06:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685368371; x=1687960371;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=p58CUVqLSR0Tnh+edVFp6/c85yeAdv4ChlUd6Ivl4lE=;
- b=a1UO99vkagOh/S32zwT51/eizQof70iXiTgLznMSd9CsXwBvvLDZB/WA+Zjzs2yZud
- d0SYoJ1slw62ov5Xq/oh78Is5q/UPPENMXFIg5jr1lXVQ5NjoB67WwFF/N1fevNMiw0I
- qqkJaOxV/EVstxkTAK3dr5Uzgr80sycyPWtrMwP2lPn8n1LzDfWD7hhPkeWxE0VOyobI
- HSZmq1v9vwFoNpbJozETEAFSi9fk7FziFIPaTLE6tnvRB1HLVz4o8hUHo3QqbtCyTooL
- GS/Gga6SI7S3Y3ZHBGMucZ2dtJhkObBcLi5S93dgl/mzvRScLgjc5UrA83nuNBXiq66P
- ZHgg==
+ d=gmail.com; s=20221208; t=1685368499; x=1687960499;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UxF01hOJFWwqeJ5mF+InyarZkjvnXX1icR3jLwM6pIw=;
+ b=Bt0Aszg9Rqb5zOu1MN8HeJXrz6mEjVF+eCPfGBuXKTcwLER/vanVda1+RWQ03bASjl
+ x07VUdprCygZ0Y0p38AO4EYof/LD/2Joa5jTCigjXwMxxh+tOZoZnUu9zhcdEE3G2/sO
+ fas84MgaOBG+QFPwRz3QV/4hAgjXh6Vk9p2K9FSOZw4yRaT8ROD1tKp9kk+XndaYV0xS
+ j8ipOOESrDlLQsFFQYt7NrkW7dlByEZKuhIQ/TjsstzmRV/KZQSDKQV5YEXpIxJbObVE
+ +7hndZ6H1iTJY9CtuKRgoO4AaHp/nTkKvoehx0s54IiNZN8HtctFeCz5v8cx/xx6tAOJ
+ fTnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685368371; x=1687960371;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p58CUVqLSR0Tnh+edVFp6/c85yeAdv4ChlUd6Ivl4lE=;
- b=gSBwSJkByioxySQ0BCSYKw4kUUL3oplzLXzAwCsxuwQt8DavuxOJoLIhZuC8vs9tVA
- jAOthK0xX+fI06qTyKJBYkqbuwXbHxo4E5/QaUnH1N3nQjsBZbJC/RfvHwXkySiz8EWG
- NO63J05MBptGsceL4O1pnnPAwBPYCJ0kzV4nxQ6kv+59032ElLYtZwmurTSwiCCDFHDE
- 56+JrA8WHUp6olgowvURbwN2evRqDeVxsP8ARq7xItDtVYkwg8elDVZskzcO5E9FaRv1
- INSxftZ+1+rdLhNIno6pX4biwN28KOJEqyp/SQsAMr09IMtn5JNgqnv499W7t228wGk8
- j/rw==
-X-Gm-Message-State: AC+VfDxt52RX4XVv5Mwtru7qWb3IrYBdZivKjwVYOlHnC2w0Eg8gLT7F
- LchBlJn7uIzRG6VSls7trQHEOQ==
-X-Google-Smtp-Source: ACHHUZ63Z3eJuDnAvuUI83xqUyXnOhx0Q6NIV16cLmP/m8VuJGE0yGBfdp7h6Ltsv0vqYIBRm2YgEw==
-X-Received: by 2002:ac2:5212:0:b0:4f3:aae3:aedc with SMTP id
- a18-20020ac25212000000b004f3aae3aedcmr3287507lfl.9.1685368371519; 
- Mon, 29 May 2023 06:52:51 -0700 (PDT)
-Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
+ d=1e100.net; s=20221208; t=1685368499; x=1687960499;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UxF01hOJFWwqeJ5mF+InyarZkjvnXX1icR3jLwM6pIw=;
+ b=K48rw2+z01PnrbkW9kfAFQFvgLBG3WNwqg7jQhUZK62Kbk0GIVkFgtPDtBxYTRFh+6
+ eRslWillJsz8crMEV99Yius8vIiJDiYJ1oUvo4XmT0MlQJj0M23VQgBSjsJJ4wrBXBmf
+ hPk/MdS7wJ0JkEUxpsc+Fdc/K6ohlDgCQ4n5FJXQQpOQ/XbATPCw/jHSQ8ans/jLW4x/
+ qs5cto+kU0nvqyY+q7rrIEPzQoW1HQpcBXQKyrTzTaFl2wryMPr6rUQtm9HkAgVKP2Eq
+ EK5NtlN86CtgzukJWY0WwO1HBdLPZkFRVZfBFC7YqJtdWxQfcNIFj87RLuk0Ua1pW0Kv
+ kolg==
+X-Gm-Message-State: AC+VfDx/6Fo+h+maCqt5c7bo6m/VnL4YfowHOm2XTGLxSsxsxFyt9xAp
+ 5ublEm43OXsc5d6nf2U5WgE=
+X-Google-Smtp-Source: ACHHUZ7m92JhOoSuT58IidM7J4/3EF7ZTdc7SnG4vzmODXGWQHCnYiTNtNtfeLeAW4fOuzUIVItl2g==
+X-Received: by 2002:adf:d086:0:b0:30a:e7b6:52d6 with SMTP id
+ y6-20020adfd086000000b0030ae7b652d6mr4346165wrh.52.1685368499381; 
+ Mon, 29 May 2023 06:54:59 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- c16-20020ac25310000000b004f2532cfbc1sm4700lfh.81.2023.05.29.06.52.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 May 2023 06:52:51 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 29 May 2023 15:52:37 +0200
-Subject: [PATCH v8 18/18] drm/msm/a6xx: Add A610 speedbin support
+ x2-20020adff0c2000000b0030af20aaa3fsm26184wro.71.2023.05.29.06.54.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 May 2023 06:54:58 -0700 (PDT)
+Message-ID: <bdbc4e15-3cd9-ae93-fff7-6e323035c1d2@gmail.com>
+Date: Mon, 29 May 2023 15:54:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 16/27] arm64: dts: mediatek: mt6795: Add support for the
+ CMDQ/GCE mailbox
+Content-Language: en-US, ca-ES, es-ES
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230412112739.160376-1-angelogioacchino.delregno@collabora.com>
+ <20230412112739.160376-17-angelogioacchino.delregno@collabora.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230412112739.160376-17-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-gmuwrapper-v8-18-69c68206609e@linaro.org>
-References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
-In-Reply-To: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>, 
- Conor Dooley <conor+dt@kernel.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1685368343; l=1852;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=XyERlWDTsfWZFtKFZysYLOHv2ihqt9U+AK25cPIEZ8I=;
- b=2n8OuzD0JlvWdAYJLyaK9eKey1cglmNCSfu2QjRZowbgEZbyhz4HvTwrDp0kby9LRkmISLbjr
- Kcr2krpAbHsBJvpoNGqk/mYX4QT+h2FMVRaFTxDXcCH1aHeS+I5R/H0
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,72 +78,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, kernel@collabora.com, xinlei.lee@mediatek.com,
+ kishon@kernel.org, phone-devel@vger.kernel.org, jassisinghbrar@gmail.com,
+ linux-pwm@vger.kernel.org, u.kleine-koenig@pengutronix.de,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, houlong.wei@mediatek.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A610 is implemented on at least three SoCs: SM6115 (bengal), SM6125
-(trinket) and SM6225 (khaje). Trinket does not support speed binning
-(only a single SKU exists) and we don't yet support khaje upstream.
-Hence, add a fuse mapping table for bengal to allow for per-chip
-frequency limiting.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index d046af5f6de2..c304fa118cff 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2098,6 +2098,30 @@ static bool a6xx_progress(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	return progress;
- }
- 
-+static u32 a610_get_speed_bin(u32 fuse)
-+{
-+	/*
-+	 * There are (at least) three SoCs implementing A610: SM6125 (trinket),
-+	 * SM6115 (bengal) and SM6225 (khaje). Trinket does not have speedbinning,
-+	 * as only a single SKU exists and we don't support khaje upstream yet.
-+	 * Hence, this matching table is only valid for bengal and can be easily
-+	 * expanded if need be.
-+	 */
-+
-+	if (fuse == 0)
-+		return 0;
-+	else if (fuse == 206)
-+		return 1;
-+	else if (fuse == 200)
-+		return 2;
-+	else if (fuse == 157)
-+		return 3;
-+	else if (fuse == 127)
-+		return 4;
-+
-+	return UINT_MAX;
-+}
-+
- static u32 a618_get_speed_bin(u32 fuse)
- {
- 	if (fuse == 0)
-@@ -2195,6 +2219,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_gpu *adreno_gpu, u3
- {
- 	u32 val = UINT_MAX;
- 
-+	if (adreno_is_a610(adreno_gpu))
-+		val = a610_get_speed_bin(fuse);
-+
- 	if (adreno_is_a618(adreno_gpu))
- 		val = a618_get_speed_bin(fuse);
- 
+On 12/04/2023 13:27, AngeloGioacchino Del Regno wrote:
+> In preparation for adding multimedia blocks, add the CMDQ/GCE mailbox.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
--- 
-2.40.1
+Applied, thanks
 
+> ---
+>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> index 090400d7fd61..99cc4918e6ba 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> @@ -7,6 +7,7 @@
+>   #include <dt-bindings/interrupt-controller/irq.h>
+>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+>   #include <dt-bindings/clock/mediatek,mt6795-clk.h>
+> +#include <dt-bindings/gce/mediatek,mt6795-gce.h>
+>   #include <dt-bindings/pinctrl/mt6795-pinfunc.h>
+>   #include <dt-bindings/power/mt6795-power.h>
+>   #include <dt-bindings/reset/mediatek,mt6795-resets.h>
+> @@ -401,6 +402,15 @@ fhctl: clock-controller@10209f00 {
+>   			status = "disabled";
+>   		};
+>   
+> +		gce: mailbox@10212000 {
+> +			compatible = "mediatek,mt6795-gce", "mediatek,mt8173-gce";
+> +			reg = <0 0x10212000 0 0x1000>;
+> +			interrupts = <GIC_SPI 143 IRQ_TYPE_LEVEL_LOW>;
+> +			clocks = <&infracfg CLK_INFRA_GCE>;
+> +			clock-names = "gce";
+> +			#mbox-cells = <2>;
+> +		};
+> +
+>   		gic: interrupt-controller@10221000 {
+>   			compatible = "arm,gic-400";
+>   			#interrupt-cells = <3>;
