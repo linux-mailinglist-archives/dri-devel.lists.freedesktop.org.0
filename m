@@ -1,58 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F33F71573F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:42:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE14715783
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:46:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D81C10E35C;
-	Tue, 30 May 2023 07:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4240910E369;
+	Tue, 30 May 2023 07:46:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3F910E35C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:42:25 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1q3tzp-0001zQ-CU; Tue, 30 May 2023 09:42:21 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1q3tzo-003owx-41; Tue, 30 May 2023 09:42:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1q3tzm-009Oeg-Tw; Tue, 30 May 2023 09:42:18 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH] drm/panel-edp: Convert to platform remove callback returning
- void
-Date: Tue, 30 May 2023 09:42:16 +0200
-Message-Id: <20230530074216.2195962-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA98410E369
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:46:48 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-30abe551605so2935192f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685432807; x=1688024807;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=D3tv9LafCdtcG4LKNUeAhIv8DN2WExEc7/tKO97gh8E=;
+ b=NGEDm2FkkVXGf36QtMqg5AiGLMPxoAQKsI7EHmjNDxNe92uyB26hXYuUSVOQspX67a
+ xnaVOQogjhuG+TU4xBP1737ipNJtebFL2HAS6paCH4of5ZwazcqFpgTEuQlnXuFAUSd6
+ CrnZ+3QWAPCc6c6msbo7d8IkEYsCzgm33eoHlGfItg9ztqiaWzxiOq+emId5Md1KsGbI
+ a7rTX4ZxqyCCCt5mvB6mkFtNwahibDA0nXr28T6UrSevKiyWmpgoxLfbZHWEwKvd7z/Z
+ +F0lbOvo+GILXJUyEkW8kszp0K3+di4oZ4R07VHZrdBgFAzzxbZC2o0EjMFwOgoqoyf/
+ Dt/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685432807; x=1688024807;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D3tv9LafCdtcG4LKNUeAhIv8DN2WExEc7/tKO97gh8E=;
+ b=DWkXq5OpHDpOH7jjuqx62RfwTfKn6TvhiBOuKMD2kDC0FMoevUrRX+mO7kaUEZIT0H
+ T2mbO2RpIo+Gl3Z7BYBJhpMyj0rP/QbumfwsmgKeuN08MpUpOSTAi0CHZztf2femv5Fx
+ nBCWXEmzusS52/wceRcKWWMQg9pWLu5hG6XiRPWhtuWSZK8UCbiQ5cZwx1gIeFBOsin+
+ HvQtRrbzz8QH9WkOmUqnv261wo8XfxRnm/ruQhHAUsQ5d45SOUAkEmeB8vl24axSAYWR
+ 5kAFxyGdwofI7w0rjHV28nEfMw7sCRwrYs4U0/yiBErxOAQae/s9Ukz07ntvdK8xi+CM
+ 8IJA==
+X-Gm-Message-State: AC+VfDzncsNIFsMRks9P1Pk9WALhQLJ8a9FVQH9O4fCZDsdkmkBKNN7U
+ 6eApr7aJR/8bn8NRvJbn5B6NLw==
+X-Google-Smtp-Source: ACHHUZ7TRqIEMVi19gXmcraFyCBW8SVvygvbDrk2U1oFebLnxtB2fJ2rx4iL8yuCfwzX2KV+ryOZbg==
+X-Received: by 2002:adf:de81:0:b0:30a:d944:b765 with SMTP id
+ w1-20020adfde81000000b0030ad944b765mr1261118wrl.15.1685432807252; 
+ Tue, 30 May 2023 00:46:47 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87?
+ ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
+ by smtp.gmail.com with ESMTPSA id
+ v12-20020a5d4a4c000000b003077a19cf75sm2319371wrs.60.2023.05.30.00.46.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 May 2023 00:46:46 -0700 (PDT)
+Message-ID: <e6b6ffea-8706-3305-5267-9cbf3672f65f@linaro.org>
+Date: Tue, 30 May 2023 09:46:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2271;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=PxDcFGefuzaVLF+4lAcecsU9qknMtXPqyr2LFQex+gI=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkdajXg0tb8DxqMZxkmCY7kmih2Vtet+t0vzmtQ
- AVGXtax2/KJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZHWo1wAKCRCPgPtYfRL+
- Tm3tB/9na0m5I3nT9H5VlCR3PalMwmAKWdMQhp/h/cKsWxFeR+feOoDq3kYtH4/JdP/TvxrswUV
- qtatmAcxjyzKmr2S5NRUgncXiciWHFjXR/NJu1+t+yhZmSniyfx4POmenYjbQN9cmBrbaAGWKuQ
- B3y3cvSqQ+ps6vf+EVz+Cecnk20prqNGD59mKjvFJUaWXfGtPRF/AILY3OaDPktt+yGf7HjvANj
- Pp7DDIEnYjIqSzt9co1suq5pxyKYu+a5wrtOu3u3VN1C57NBzoF5miAOIqQpcNne1up/trumrxR
- 7Gy0JsQoZOPFUw5N96MX4CQXvVz0RQnwWldfq4tTZt1LIzlk
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 2/3] dw-hdmi: truly enforce 420-only formats when drm mode
+ demands it
+Content-Language: en-US
+To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ narmstrong@baylibre.com, khilman@baylibre.com,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ rfoss@kernel.org, andrzej.hajda@intel.com
+References: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
+ <20230528140001.1057084-3-adrian.larumbe@collabora.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230528140001.1057084-3-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,73 +84,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code.  However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On 28/05/2023 16:00, Adrián Larumbe wrote:
+> The current output bus format selection logic is enforcing YUV420 even
+> when the drm mode allows for other bus formats as well.
+> Fix it by adding check for 420-only drm modes.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index d59a547f9cb2..1afb8f2603a0 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2710,9 +2710,10 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>   		/* Default 8bit fallback */
+>   		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+>   
+> -		*num_output_fmts = i;
+> -
+> -		return output_fmts;
+> +		if (drm_mode_is_420_only(info, mode)) {
+> +			*num_output_fmts = i;
+> +			return output_fmts;
+> +		}
+>   	}
+>   
+>   	/*
 
-panel_edp_remove() always returned zero, so convert it to return void
-without any loss and then just drop the return from
-panel_edp_platform_remove().
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/panel/panel-edp.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index e23ddab2126e..fbd114b4f0be 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -903,7 +903,7 @@ static int panel_edp_probe(struct device *dev, const struct panel_desc *desc,
- 	return err;
- }
- 
--static int panel_edp_remove(struct device *dev)
-+static void panel_edp_remove(struct device *dev)
- {
- 	struct panel_edp *panel = dev_get_drvdata(dev);
- 
-@@ -918,8 +918,6 @@ static int panel_edp_remove(struct device *dev)
- 
- 	kfree(panel->edid);
- 	panel->edid = NULL;
--
--	return 0;
- }
- 
- static void panel_edp_shutdown(struct device *dev)
-@@ -1934,9 +1932,9 @@ static int panel_edp_platform_probe(struct platform_device *pdev)
- 	return panel_edp_probe(&pdev->dev, id->data, NULL);
- }
- 
--static int panel_edp_platform_remove(struct platform_device *pdev)
-+static void panel_edp_platform_remove(struct platform_device *pdev)
- {
--	return panel_edp_remove(&pdev->dev);
-+	panel_edp_remove(&pdev->dev);
- }
- 
- static void panel_edp_platform_shutdown(struct platform_device *pdev)
-@@ -1957,7 +1955,7 @@ static struct platform_driver panel_edp_platform_driver = {
- 		.pm = &panel_edp_pm_ops,
- 	},
- 	.probe = panel_edp_platform_probe,
--	.remove = panel_edp_platform_remove,
-+	.remove_new = panel_edp_platform_remove,
- 	.shutdown = panel_edp_platform_shutdown,
- };
- 
-
-base-commit: ac9a78681b921877518763ba0e89202254349d1b
--- 
-2.39.2
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
