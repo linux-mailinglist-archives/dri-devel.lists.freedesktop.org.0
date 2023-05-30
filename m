@@ -2,48 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D6C7160CB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 14:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7B17161E4
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 15:31:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53D610E0A3;
-	Tue, 30 May 2023 12:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4135A10E07D;
+	Tue, 30 May 2023 13:30:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3431910E13B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 12:58:14 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:36042.1831460184
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id EB33C100198;
- Tue, 30 May 2023 20:58:09 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
- 74c4c7cd99da4575ac5fd10594e22a3e for lkp@intel.com; 
- Tue, 30 May 2023 20:58:10 CST
-X-Transaction-ID: 74c4c7cd99da4575ac5fd10594e22a3e
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <c3d67084-df46-6ea4-2f37-43cc03147ef9@189.cn>
-Date: Tue, 30 May 2023 20:58:08 +0800
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AEC010E07D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 13:30:56 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34U9eANS001363; Tue, 30 May 2023 15:30:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=lELW+s5lmZKWjeMpQ3kERNUcACwyTcZXXJ9J7hPodYM=;
+ b=AnIbH62mrtryj5eucMpAcmm7vu6e90DGIOEeyBwBr5os1VZfXnk2dYbcmF+9upVowr4O
+ bh6bv5dXqEZ1kAJcx5gfVc1pLJ3MCU3HP587Muttw03ezl9K+u/lXF5mfcOg1T7V1RvB
+ NK39tpP5rzsHHWi/PbKg0ZdnqCGaOayumWft5aS4urv3qth8XeWsYs8uxm4/o3ckOeFJ
+ Y3ovWkyXksPu1vb49NM7ssyKlx+XRSQqRW4Kv874oJ/1nK2/YENoMnpFQxDKEth6Jt5y
+ p4+rD8WgoWU5mSHEI1lk3vvCo35XQBIUwk9AqPrskaxdtzkqwx8YUM6suUS2x+XxyCZS 2w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qweqe1db0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 30 May 2023 15:30:36 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0451A10002A;
+ Tue, 30 May 2023 15:30:34 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EAC1B228A29;
+ Tue, 30 May 2023 15:30:34 +0200 (CEST)
+Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 30 May
+ 2023 15:30:33 +0200
+Message-ID: <92d5a699-9f5d-2e40-ca73-4604f3e5a657@foss.st.com>
+Date: Tue, 30 May 2023 15:30:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI
- devices
-To: kernel test robot <lkp@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230529172452.2148819-6-suijingfeng@loongson.cn>
- <202305301659.4guSLavL-lkp@intel.com>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 2/4] dt-bindings: display: st,stm32-dsi: Remove
+ unnecessary fields
 Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <202305301659.4guSLavL-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>
+References: <20230529091359.71987-1-raphael.gallais-pou@foss.st.com>
+ <20230529091359.71987-3-raphael.gallais-pou@foss.st.com>
+ <20230530122736.tflfu5cugbd7ooup@krzk-bin>
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20230530122736.tflfu5cugbd7ooup@krzk-bin>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.21.93]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-30_10,2023-05-30_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,93 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor.dooley@microchip.com>, kernel@dh-electronics.com,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 5/30/23 14:27, Krzysztof Kozlowski wrote:
+> On Mon, 29 May 2023 11:13:57 +0200, Raphael Gallais-Pou wrote:
+>> "#address-cells" and "#size-cells" are two properties that are not
+>> mandatory. For instance, the DSI could refer to a bridge outside the scope
+>> of the node rather than include a 'panel@0' subnode. By doing so, address
+>> and size fields become then unnecessary, creating a warning at build time.
+>>
+>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>> Reviewed-by: Marek Vasut <marex@denx.de>
+>> ---
+>>   Documentation/devicetree/bindings/display/st,stm32-dsi.yaml | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+> 
+> Running 'make dtbs_check' with the schema in this patch gives the
+> following warnings. Consider if they are expected or the schema is
+> incorrect. These may not be new warnings
+I checked it before merging the series on stm32-next tree. I didn't get 
+this error. I didn't check commit per commit.
+
+Do you get this error after merging the whole series ?
 
 
-Previously, I don't realize some arch doesn't enable CONFIG_PCI by default.
+> 
+> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> This will change in the future.
+> 
+> Full log is available here: https://patchwork.ozlabs.org/patch/1787034
+> 
+> 
+> dsi@40016c00: Unevaluated properties are not allowed ('panel-dsi@0' was unexpected)
+> 	arch/arm/boot/dts/stm32f469-disco.dtb
+> 
+> dsi@5a000000: Unevaluated properties are not allowed ('panel-dsi@0' was unexpected)
+> 	arch/arm/boot/dts/stm32mp157c-ev1.dtb
+> 	arch/arm/boot/dts/stm32mp157c-ev1-scmi.dtb
 
-This problem only happens on the arch which CONFIG_PCI isn't being enabled.
-
-This problem also caused by the fact that pci_clear_master don't have a 
-dummy implement.
-
-I have create a patch to fix that, see [1].
-
-
-This problem is easy to fix,  with some #ifdef and #endif definition guard,
-
-make the PCI driver support don't get compiled on the architecture which 
-don't have  CONFIG_PCI enable. Originally, I want it always built-in.
-
-
-Should I fix this problem at driver side and respin this patch?
-
-
-[1] 
-https://patchwork.kernel.org/project/linux-pci/patch/20230530101655.2275731-1-suijingfeng@loongson.cn/
-
-
-On 2023/5/30 17:00, kernel test robot wrote:
-> Hi Sui,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc4 next-20230530]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20230529172452.2148819-6-suijingfeng%40loongson.cn
-> patch subject: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI devices
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305301659.4guSLavL-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 12.3.0
-> reproduce (this is a W=1 build):
->          mkdir -p ~/bin
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/1d05a5fa048dd4b2a934ffbb07c330ddd9279287
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
->          git checkout 1d05a5fa048dd4b2a934ffbb07c330ddd9279287
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/etnaviv/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305301659.4guSLavL-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
->>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
->        32 |         pci_clear_master(pdev);
->           |         ^~~~~~~~~~~~~~~~
->           |         pci_set_master
->     cc1: some warnings being treated as errors
->
->
-> vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
->
->      27	
->      28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
->      29	{
->      30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
->      31	
->    > 32		pci_clear_master(pdev);
->      33	
->      34		dev_dbg(gpu->dev, "component is %s\n",
->      35			component ? "enabled" : "disabled");
->      36	}
->      37	
->
