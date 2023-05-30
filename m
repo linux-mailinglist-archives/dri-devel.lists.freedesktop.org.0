@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAD4715353
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 03:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FE2715357
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 03:59:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4596010E31D;
-	Tue, 30 May 2023 01:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E22110E113;
+	Tue, 30 May 2023 01:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E8110E31D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 01:58:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE1CB10E113
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 01:59:23 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QVbBp3YVbz4x2c;
- Tue, 30 May 2023 11:57:54 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4QVbDR63vwz4x3g;
+ Tue, 30 May 2023 11:59:19 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1685411875;
- bh=F4lGD1/qKcCBYCrQ7p5cZ8cJZ8QFNHvhrDk22QJDn7c=;
+ s=201702; t=1685411960;
+ bh=ZRNRNDCKoqP4EaUu6722Asf28ywaHAK6fod38WQkMa8=;
  h=Date:From:To:Cc:Subject:From;
- b=soa0HbXzRLHOCK7pYNUw3wzZ77a4t4M4+0TVLqLFRreQa2DW2sx2U+tAPLdCbgGjj
- wKpAZfNVY2f0vqHBzdfWhAm+azgXqW9gBOY2DhLdjdL/ARoHx0C/Nz+DMTt/1GJ0Lh
- XMvf7EAvLVy2Je57xaOTu4gdA3XkfZ44UNmXikWhMCdXIso7Hqy4n4VjgGXjhpwM7i
- FboT0C7M2aUsQbRsyciOquUCM3PGG6b5GAGAosmA2xRfS5XLTOmh6B4IbpiWw/FM31
- u42BndVNbLsKNz7Miv4tV8kZRtd9UZTHGH2PiiQGkxpWPrP6PSTZCdxrDcQSkXtI7k
- ZEhnarHD5FCRw==
-Date: Tue, 30 May 2023 11:57:52 +1000
+ b=KfZ5SPXnqLZECGo7TOzigpIlRkvZ9I4GYDuzC/OoF8dC0lAzfpbIUo9ucq6pKvmvv
+ BBdFlA9oxc0C349zdC4CoykmCxUoiUTKHjKr0/wHk2NNrTDIFsOzKZugJhZ5RVtH/f
+ FrFrWdLh32lgf6Ztgp46o1w3mjZTQ3qXOwiFhvOVoQ6ZKlvIQn0BU9y89P6eo4WsnS
+ huegsR9H5MfXgUpEAKHbBtZbKFyhK9StE7yl9qB0r80+KiHiVQPEiFlDrwGeOvWrra
+ ED6k/xriABjSTrVyrX+DZaXUFCxNcfPbn9sPg9SXM/gOA5q1xfda4AnlaC74t/yGvy
+ 2oPr3SiPF5OAg==
+Date: Tue, 30 May 2023 11:59:19 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
  <jani.nikula@linux.intel.com>, Joonas Lahtinen
  <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Dave Airlie <airlied@redhat.com>
 Subject: linux-next: manual merge of the drm-intel tree with the drm tree
-Message-ID: <20230530115752.14f0f1b5@canb.auug.org.au>
+Message-ID: <20230530115919.2b8bcf29@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/80HTALxCF.GMDcmyyet5Nn4";
+Content-Type: multipart/signed; boundary="Sig_/WmUIG7ZkJaOjI7dhiK6.lTn";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,16 +51,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  DRI <dri-devel@lists.freedesktop.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Fei Yang <fei.yang@intel.com>, Matt Roper <matthew.d.roper@intel.com>
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/80HTALxCF.GMDcmyyet5Nn4
+--Sig_/WmUIG7ZkJaOjI7dhiK6.lTn
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -68,459 +68,319 @@ Hi all,
 
 Today's linux-next merge of the drm-intel tree got a conflict in:
 
-  drivers/gpu/drm/i915/i915_pci.c
+  drivers/gpu/drm/i915/i915_drv.h
 
 between commit:
 
-  5e352e32aec2 ("drm/i915: preparation for using PAT index")
+  66ca1d8f222b ("drm/i915/i915_drv: Use i915 instead of dev_priv insied the=
+ file_priv structure")
 
 from the drm tree and commits:
 
   5af5169d7582 ("drm/i915: Convert INTEL_INFO()->display to a pointer")
   18e0deeed8c8 ("drm/i915/display: Move display runtime info to display str=
 ucture")
+  95c08508e237 ("drm/i915/display: Move feature test macros to intel_displa=
+y_device.h")
 
 from the drm-intel tree.
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+I fixed it up (see below) and can carry the fix as necessary. This is
+now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your
+tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/i915/i915_pci.c
-index 75cbccd1a441,34bc732a6375..000000000000
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@@ -27,9 -27,9 +27,10 @@@
-  #include <drm/i915_pciids.h>
+diff --cc drivers/gpu/drm/i915/i915_drv.h
+index f23b030aaf09,e9c403def9c9..000000000000
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@@ -407,11 -408,13 +408,13 @@@ static inline struct intel_gt *to_gt(st
+  	     (engine__) && (engine__)->uabi_class =3D=3D (class__); \
+  	     (engine__) =3D rb_to_uabi_engine(rb_next(&(engine__)->uabi_node)))
  =20
-  #include "display/intel_display.h"
-+ #include "display/intel_display_driver.h"
-  #include "gt/intel_gt_regs.h"
-  #include "gt/intel_sa_media.h"
- +#include "gem/i915_gem_object_types.h"
+ -#define INTEL_INFO(dev_priv)	(&(dev_priv)->__info)
+ +#define INTEL_INFO(i915)	(&(i915)->__info)
++ #define DISPLAY_INFO(i915)	(INTEL_INFO(i915)->display)
+ -#define RUNTIME_INFO(dev_priv)	(&(dev_priv)->__runtime)
+ +#define RUNTIME_INFO(i915)	(&(i915)->__runtime)
++ #define DISPLAY_RUNTIME_INFO(i915)	(&(i915)->__display_runtime)
+ -#define DRIVER_CAPS(dev_priv)	(&(dev_priv)->caps)
+ +#define DRIVER_CAPS(i915)	(&(i915)->caps)
  =20
-  #include "i915_driver.h"
-  #include "i915_drv.h"
-@@@ -40,162 -40,8 +41,40 @@@
-  #define PLATFORM(x) .platform =3D (x)
-  #define GEN(x) \
-  	.__runtime.graphics.ip.ver =3D (x), \
-- 	.__runtime.media.ip.ver =3D (x), \
-- 	.__runtime.display.ip.ver =3D (x)
+ -#define INTEL_DEVID(dev_priv)	(RUNTIME_INFO(dev_priv)->device_id)
+ +#define INTEL_DEVID(i915)	(RUNTIME_INFO(i915)->device_id)
+ =20
+  #define IP_VER(ver, rel)		((ver) << 8 | (rel))
+ =20
+@@@ -753,125 -756,82 +756,82 @@@ IS_SUBPLATFORM(const struct drm_i915_pr
+   * The Gen7 cmdparser copies the scanned buffer to the ggtt for execution
+   * All later gens can run the final buffer from the ppgtt
+   */
+ -#define CMDPARSER_USES_GGTT(dev_priv) (GRAPHICS_VER(dev_priv) =3D=3D 7)
+ +#define CMDPARSER_USES_GGTT(i915) (GRAPHICS_VER(i915) =3D=3D 7)
+ =20
+ -#define HAS_LLC(dev_priv)	(INTEL_INFO(dev_priv)->has_llc)
+ -#define HAS_4TILE(dev_priv)	(INTEL_INFO(dev_priv)->has_4tile)
+ -#define HAS_SNOOP(dev_priv)	(INTEL_INFO(dev_priv)->has_snoop)
+ -#define HAS_EDRAM(dev_priv)	((dev_priv)->edram_size_mb)
+ -#define HAS_SECURE_BATCHES(dev_priv) (GRAPHICS_VER(dev_priv) < 6)
+ -#define HAS_WT(dev_priv)	HAS_EDRAM(dev_priv)
+ +#define HAS_LLC(i915)	(INTEL_INFO(i915)->has_llc)
+ +#define HAS_4TILE(i915)	(INTEL_INFO(i915)->has_4tile)
+ +#define HAS_SNOOP(i915)	(INTEL_INFO(i915)->has_snoop)
+ +#define HAS_EDRAM(i915)	((i915)->edram_size_mb)
+ +#define HAS_SECURE_BATCHES(i915) (GRAPHICS_VER(i915) < 6)
+ +#define HAS_WT(i915)	HAS_EDRAM(i915)
+ =20
+ -#define HWS_NEEDS_PHYSICAL(dev_priv)	(INTEL_INFO(dev_priv)->hws_needs_phy=
+sical)
+ +#define HWS_NEEDS_PHYSICAL(i915)	(INTEL_INFO(i915)->hws_needs_physical)
+ =20
+ -#define HAS_LOGICAL_RING_CONTEXTS(dev_priv) \
+ -		(INTEL_INFO(dev_priv)->has_logical_ring_contexts)
+ -#define HAS_LOGICAL_RING_ELSQ(dev_priv) \
+ -		(INTEL_INFO(dev_priv)->has_logical_ring_elsq)
+ +#define HAS_LOGICAL_RING_CONTEXTS(i915) \
+ +		(INTEL_INFO(i915)->has_logical_ring_contexts)
+ +#define HAS_LOGICAL_RING_ELSQ(i915) \
+ +		(INTEL_INFO(i915)->has_logical_ring_elsq)
+ =20
+ -#define HAS_EXECLISTS(dev_priv) HAS_LOGICAL_RING_CONTEXTS(dev_priv)
+ +#define HAS_EXECLISTS(i915) HAS_LOGICAL_RING_CONTEXTS(i915)
+ =20
+ -#define INTEL_PPGTT(dev_priv) (RUNTIME_INFO(dev_priv)->ppgtt_type)
+ -#define HAS_PPGTT(dev_priv) \
+ -	(INTEL_PPGTT(dev_priv) !=3D INTEL_PPGTT_NONE)
+ -#define HAS_FULL_PPGTT(dev_priv) \
+ -	(INTEL_PPGTT(dev_priv) >=3D INTEL_PPGTT_FULL)
+ +#define INTEL_PPGTT(i915) (RUNTIME_INFO(i915)->ppgtt_type)
+ +#define HAS_PPGTT(i915) \
+ +	(INTEL_PPGTT(i915) !=3D INTEL_PPGTT_NONE)
+ +#define HAS_FULL_PPGTT(i915) \
+ +	(INTEL_PPGTT(i915) >=3D INTEL_PPGTT_FULL)
+ =20
+ -#define HAS_PAGE_SIZES(dev_priv, sizes) ({ \
+ +#define HAS_PAGE_SIZES(i915, sizes) ({ \
+  	GEM_BUG_ON((sizes) =3D=3D 0); \
+ -	((sizes) & ~RUNTIME_INFO(dev_priv)->page_sizes) =3D=3D 0; \
+ +	((sizes) & ~RUNTIME_INFO(i915)->page_sizes) =3D=3D 0; \
+  })
+ =20
+- #define HAS_OVERLAY(i915)		 (INTEL_INFO(i915)->display.has_overlay)
+- #define OVERLAY_NEEDS_PHYSICAL(i915) \
+- 		(INTEL_INFO(i915)->display.overlay_needs_physical)
 -=20
-- #define NO_DISPLAY .__runtime.pipe_mask =3D 0
+  /* Early gen2 have a totally busted CS tlb and require pinned batches. */
+ -#define HAS_BROKEN_CS_TLB(dev_priv)	(IS_I830(dev_priv) || IS_I845G(dev_pr=
+iv))
+ +#define HAS_BROKEN_CS_TLB(i915)	(IS_I830(i915) || IS_I845G(i915))
+ =20
+ -#define NEEDS_RC6_CTX_CORRUPTION_WA(dev_priv)	\
+ -	(IS_BROADWELL(dev_priv) || GRAPHICS_VER(dev_priv) =3D=3D 9)
+ +#define NEEDS_RC6_CTX_CORRUPTION_WA(i915)	\
+ +	(IS_BROADWELL(i915) || GRAPHICS_VER(i915) =3D=3D 9)
+ =20
+  /* WaRsDisableCoarsePowerGating:skl,cnl */
+ -#define NEEDS_WaRsDisableCoarsePowerGating(dev_priv)			\
+ -	(IS_SKL_GT3(dev_priv) || IS_SKL_GT4(dev_priv))
+ +#define NEEDS_WaRsDisableCoarsePowerGating(i915)			\
+ +	(IS_SKL_GT3(i915) || IS_SKL_GT4(i915))
+ =20
+- #define HAS_GMBUS_IRQ(i915) (DISPLAY_VER(i915) >=3D 4)
+- #define HAS_GMBUS_BURST_READ(i915) (DISPLAY_VER(i915) >=3D 11 || \
+- 					IS_GEMINILAKE(i915) || \
+- 					IS_KABYLAKE(i915))
 -=20
-- #define I845_PIPE_OFFSETS \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET,	\
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 	}
+  /* With the 945 and later, Y tiling got adjusted so that it was 32 128-by=
+te
+   * rows, which changed the alignment requirements and fence programming.
+   */
+ -#define HAS_128_BYTE_Y_TILING(dev_priv) (GRAPHICS_VER(dev_priv) !=3D 2 &&=
+ \
+ -					 !(IS_I915G(dev_priv) || IS_I915GM(dev_priv)))
+ +#define HAS_128_BYTE_Y_TILING(i915) (GRAPHICS_VER(i915) !=3D 2 && \
+ +					 !(IS_I915G(i915) || IS_I915GM(i915)))
+- #define SUPPORTS_TV(i915)		(INTEL_INFO(i915)->display.supports_tv)
+- #define I915_HAS_HOTPLUG(i915)	(INTEL_INFO(i915)->display.has_hotplug)
+ =20
+- #define HAS_FW_BLC(i915)	(DISPLAY_VER(i915) > 2)
+- #define HAS_FBC(i915)	(RUNTIME_INFO(i915)->fbc_mask !=3D 0)
+- #define HAS_CUR_FBC(i915)	(!HAS_GMCH(i915) && DISPLAY_VER(i915) >=3D 7)
 -=20
-- #define I9XX_PIPE_OFFSETS \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET,	\
-- 		[TRANSCODER_B] =3D PIPE_B_OFFSET, \
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 		[TRANSCODER_B] =3D TRANSCODER_B_OFFSET, \
-- 	}
+- #define HAS_DPT(i915)	(DISPLAY_VER(i915) >=3D 13)
 -=20
-- #define IVB_PIPE_OFFSETS \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET,	\
-- 		[TRANSCODER_B] =3D PIPE_B_OFFSET, \
-- 		[TRANSCODER_C] =3D PIPE_C_OFFSET, \
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 		[TRANSCODER_B] =3D TRANSCODER_B_OFFSET, \
-- 		[TRANSCODER_C] =3D TRANSCODER_C_OFFSET, \
-- 	}
+- #define HAS_IPS(i915)	(IS_HSW_ULT(i915) || IS_BROADWELL(i915))
 -=20
-- #define HSW_PIPE_OFFSETS \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET,	\
-- 		[TRANSCODER_B] =3D PIPE_B_OFFSET, \
-- 		[TRANSCODER_C] =3D PIPE_C_OFFSET, \
-- 		[TRANSCODER_EDP] =3D PIPE_EDP_OFFSET, \
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 		[TRANSCODER_B] =3D TRANSCODER_B_OFFSET, \
-- 		[TRANSCODER_C] =3D TRANSCODER_C_OFFSET, \
-- 		[TRANSCODER_EDP] =3D TRANSCODER_EDP_OFFSET, \
-- 	}
+- #define HAS_DP_MST(i915)	(INTEL_INFO(i915)->display.has_dp_mst)
+- #define HAS_DP20(i915)	(IS_DG2(i915) || DISPLAY_VER(i915) >=3D 14)
 -=20
-- #define CHV_PIPE_OFFSETS \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET, \
-- 		[TRANSCODER_B] =3D PIPE_B_OFFSET, \
-- 		[TRANSCODER_C] =3D CHV_PIPE_C_OFFSET, \
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 		[TRANSCODER_B] =3D TRANSCODER_B_OFFSET, \
-- 		[TRANSCODER_C] =3D CHV_TRANSCODER_C_OFFSET, \
-- 	}
+- #define HAS_DOUBLE_BUFFERED_M_N(i915)	(DISPLAY_VER(i915) >=3D 9 || IS_BRO=
+ADWELL(i915))
 -=20
-- #define I845_CURSOR_OFFSETS \
-- 	.display.cursor_offsets =3D { \
-- 		[PIPE_A] =3D CURSOR_A_OFFSET, \
-- 	}
+- #define HAS_CDCLK_CRAWL(i915)	 (INTEL_INFO(i915)->display.has_cdclk_crawl)
+- #define HAS_CDCLK_SQUASH(i915)	 (INTEL_INFO(i915)->display.has_cdclk_squa=
+sh)
+- #define HAS_DDI(i915)		 (INTEL_INFO(i915)->display.has_ddi)
+- #define HAS_FPGA_DBG_UNCLAIMED(i915) (INTEL_INFO(i915)->display.has_fpga_=
+dbg)
+- #define HAS_PSR(i915)		 (INTEL_INFO(i915)->display.has_psr)
+- #define HAS_PSR_HW_TRACKING(i915) \
+- 	(INTEL_INFO(i915)->display.has_psr_hw_tracking)
+- #define HAS_PSR2_SEL_FETCH(i915)	 (DISPLAY_VER(i915) >=3D 12)
+- #define HAS_TRANSCODER(i915, trans)	 ((RUNTIME_INFO(i915)->cpu_transcoder=
+_mask & BIT(trans)) !=3D 0)
+ =20
+ -#define HAS_RC6(dev_priv)		 (INTEL_INFO(dev_priv)->has_rc6)
+ -#define HAS_RC6p(dev_priv)		 (INTEL_INFO(dev_priv)->has_rc6p)
+ -#define HAS_RC6pp(dev_priv)		 (false) /* HW was never validated */
+ +#define HAS_RC6(i915)		 (INTEL_INFO(i915)->has_rc6)
+ +#define HAS_RC6p(i915)		 (INTEL_INFO(i915)->has_rc6p)
+ +#define HAS_RC6pp(i915)		 (false) /* HW was never validated */
+ =20
+ -#define HAS_RPS(dev_priv)	(INTEL_INFO(dev_priv)->has_rps)
+ +#define HAS_RPS(i915)	(INTEL_INFO(i915)->has_rps)
+ =20
+- #define HAS_DMC(i915)	(RUNTIME_INFO(i915)->has_dmc)
+- #define HAS_DSB(i915)	(INTEL_INFO(i915)->display.has_dsb)
+- #define HAS_DSC(__i915)		(RUNTIME_INFO(__i915)->has_dsc)
+- #define HAS_HW_SAGV_WM(i915) (DISPLAY_VER(i915) >=3D 13 && !IS_DGFX(i915))
 -=20
-- #define I9XX_CURSOR_OFFSETS \
-- 	.display.cursor_offsets =3D { \
-- 		[PIPE_A] =3D CURSOR_A_OFFSET, \
-- 		[PIPE_B] =3D CURSOR_B_OFFSET, \
-- 	}
+ -#define HAS_HECI_PXP(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_heci_pxp)
+ +#define HAS_HECI_PXP(i915) \
+ +	(INTEL_INFO(i915)->has_heci_pxp)
+ =20
+ -#define HAS_HECI_GSCFI(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_heci_gscfi)
+ +#define HAS_HECI_GSCFI(i915) \
+ +	(INTEL_INFO(i915)->has_heci_gscfi)
+ =20
+ -#define HAS_HECI_GSC(dev_priv) (HAS_HECI_PXP(dev_priv) || HAS_HECI_GSCFI(=
+dev_priv))
+ +#define HAS_HECI_GSC(i915) (HAS_HECI_PXP(i915) || HAS_HECI_GSCFI(i915))
+ =20
+- #define HAS_MSO(i915)		(DISPLAY_VER(i915) >=3D 12)
 -=20
-- #define CHV_CURSOR_OFFSETS \
-- 	.display.cursor_offsets =3D { \
-- 		[PIPE_A] =3D CURSOR_A_OFFSET, \
-- 		[PIPE_B] =3D CURSOR_B_OFFSET, \
-- 		[PIPE_C] =3D CHV_CURSOR_C_OFFSET, \
-- 	}
+ -#define HAS_RUNTIME_PM(dev_priv) (INTEL_INFO(dev_priv)->has_runtime_pm)
+ -#define HAS_64BIT_RELOC(dev_priv) (INTEL_INFO(dev_priv)->has_64bit_reloc)
+ +#define HAS_RUNTIME_PM(i915) (INTEL_INFO(i915)->has_runtime_pm)
+ +#define HAS_64BIT_RELOC(i915) (INTEL_INFO(i915)->has_64bit_reloc)
+ =20
+ -#define HAS_OA_BPC_REPORTING(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_oa_bpc_reporting)
+ -#define HAS_OA_SLICE_CONTRIB_LIMITS(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_oa_slice_contrib_limits)
+ -#define HAS_OAM(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_oam)
+ +#define HAS_OA_BPC_REPORTING(i915) \
+ +	(INTEL_INFO(i915)->has_oa_bpc_reporting)
+ +#define HAS_OA_SLICE_CONTRIB_LIMITS(i915) \
+ +	(INTEL_INFO(i915)->has_oa_slice_contrib_limits)
+ +#define HAS_OAM(i915) \
+ +	(INTEL_INFO(i915)->has_oam)
+ =20
+  /*
+   * Set this flag, when platform requires 64K GTT page sizes or larger for
+   * device local memory access.
+   */
+ -#define HAS_64K_PAGES(dev_priv) (INTEL_INFO(dev_priv)->has_64k_pages)
+ +#define HAS_64K_PAGES(i915) (INTEL_INFO(i915)->has_64k_pages)
+ =20
+- #define HAS_IPC(i915)		(INTEL_INFO(i915)->display.has_ipc)
+- #define HAS_SAGV(i915)		(DISPLAY_VER(i915) >=3D 9 && !IS_LP(i915))
 -=20
-- #define IVB_CURSOR_OFFSETS \
-- 	.display.cursor_offsets =3D { \
-- 		[PIPE_A] =3D CURSOR_A_OFFSET, \
-- 		[PIPE_B] =3D IVB_CURSOR_B_OFFSET, \
-- 		[PIPE_C] =3D IVB_CURSOR_C_OFFSET, \
-- 	}
+  #define HAS_REGION(i915, i) (RUNTIME_INFO(i915)->memory_regions & (i))
+  #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
+ =20
+@@@ -881,49 -841,32 +841,32 @@@
+   * Platform has the dedicated compression control state for each lmem sur=
+faces
+   * stored in lmem to support the 3D and media compression formats.
+   */
+ -#define HAS_FLAT_CCS(dev_priv)   (INTEL_INFO(dev_priv)->has_flat_ccs)
+ +#define HAS_FLAT_CCS(i915)   (INTEL_INFO(i915)->has_flat_ccs)
+ =20
+ -#define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
+ +#define HAS_GT_UC(i915)	(INTEL_INFO(i915)->has_gt_uc)
+ =20
+ -#define HAS_POOLED_EU(dev_priv)	(RUNTIME_INFO(dev_priv)->has_pooled_eu)
+ +#define HAS_POOLED_EU(i915)	(RUNTIME_INFO(i915)->has_pooled_eu)
+ =20
+ -#define HAS_GLOBAL_MOCS_REGISTERS(dev_priv)	(INTEL_INFO(dev_priv)->has_gl=
+obal_mocs)
+ +#define HAS_GLOBAL_MOCS_REGISTERS(i915)	(INTEL_INFO(i915)->has_global_moc=
+s)
+ =20
+- #define HAS_GMCH(i915) (INTEL_INFO(i915)->display.has_gmch)
 -=20
-- #define TGL_CURSOR_OFFSETS \
-- 	.display.cursor_offsets =3D { \
-- 		[PIPE_A] =3D CURSOR_A_OFFSET, \
-- 		[PIPE_B] =3D IVB_CURSOR_B_OFFSET, \
-- 		[PIPE_C] =3D IVB_CURSOR_C_OFFSET, \
-- 		[PIPE_D] =3D TGL_CURSOR_D_OFFSET, \
-- 	}
+  #define HAS_GMD_ID(i915)	(INTEL_INFO(i915)->has_gmd_id)
+ =20
+- #define HAS_LSPCON(i915) (IS_DISPLAY_VER(i915, 9, 10))
 -=20
-- #define I845_COLORS \
-- 	.display.color =3D { .gamma_lut_size =3D 256 }
-- #define I9XX_COLORS \
-- 	.display.color =3D { .gamma_lut_size =3D 129, \
-- 		   .gamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING, \
-- 	}
-- #define ILK_COLORS \
-- 	.display.color =3D { .gamma_lut_size =3D 1024 }
-- #define IVB_COLORS \
-- 	.display.color =3D { .degamma_lut_size =3D 1024, .gamma_lut_size =3D 102=
-4 }
-- #define CHV_COLORS \
-- 	.display.color =3D { \
-- 		.degamma_lut_size =3D 65, .gamma_lut_size =3D 257, \
-- 		.degamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING, \
-- 		.gamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING, \
-- 	}
-- #define GLK_COLORS \
-- 	.display.color =3D { \
-- 		.degamma_lut_size =3D 33, .gamma_lut_size =3D 1024, \
-- 		.degamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING | \
-- 				     DRM_COLOR_LUT_EQUAL_CHANNELS, \
-- 	}
-- #define ICL_COLORS \
-- 	.display.color =3D { \
-- 		.degamma_lut_size =3D 33, .gamma_lut_size =3D 262145, \
-- 		.degamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING | \
-- 				     DRM_COLOR_LUT_EQUAL_CHANNELS, \
-- 		.gamma_lut_tests =3D DRM_COLOR_LUT_NON_DECREASING, \
-- 	}
-+ 	.__runtime.media.ip.ver =3D (x)
+  #define HAS_L3_CCS_READ(i915) (INTEL_INFO(i915)->has_l3_ccs_read)
  =20
- +#define LEGACY_CACHELEVEL \
- +	.cachelevel_to_pat =3D { \
- +		[I915_CACHE_NONE]   =3D 0, \
- +		[I915_CACHE_LLC]    =3D 1, \
- +		[I915_CACHE_L3_LLC] =3D 2, \
- +		[I915_CACHE_WT]     =3D 3, \
- +	}
- +
- +#define TGL_CACHELEVEL \
- +	.cachelevel_to_pat =3D { \
- +		[I915_CACHE_NONE]   =3D 3, \
- +		[I915_CACHE_LLC]    =3D 0, \
- +		[I915_CACHE_L3_LLC] =3D 0, \
- +		[I915_CACHE_WT]     =3D 2, \
- +	}
- +
- +#define PVC_CACHELEVEL \
- +	.cachelevel_to_pat =3D { \
- +		[I915_CACHE_NONE]   =3D 0, \
- +		[I915_CACHE_LLC]    =3D 3, \
- +		[I915_CACHE_L3_LLC] =3D 3, \
- +		[I915_CACHE_WT]     =3D 2, \
- +	}
- +
- +#define MTL_CACHELEVEL \
- +	.cachelevel_to_pat =3D { \
- +		[I915_CACHE_NONE]   =3D 2, \
- +		[I915_CACHE_LLC]    =3D 3, \
- +		[I915_CACHE_L3_LLC] =3D 3, \
- +		[I915_CACHE_WT]     =3D 1, \
- +	}
- +
-  /* Keep in gen based order, and chronological order within a gen */
+  /* DPF =3D=3D dynamic parity feature */
+ -#define HAS_L3_DPF(dev_priv) (INTEL_INFO(dev_priv)->has_l3_dpf)
+ -#define NUM_L3_SLICES(dev_priv) (IS_HSW_GT3(dev_priv) ? \
+ -				 2 : HAS_L3_DPF(dev_priv))
+ +#define HAS_L3_DPF(i915) (INTEL_INFO(i915)->has_l3_dpf)
+ +#define NUM_L3_SLICES(i915) (IS_HSW_GT3(i915) ? \
+ +				 2 : HAS_L3_DPF(i915))
  =20
-  #define GEN_DEFAULT_PAGE_SIZES \
-@@@ -221,13 -61,8 +94,10 @@@
-  	.has_snoop =3D true, \
-  	.has_coherent_ggtt =3D false, \
-  	.dma_mask_size =3D 32, \
- +	.max_pat_index =3D 3, \
-- 	I9XX_PIPE_OFFSETS, \
-- 	I9XX_CURSOR_OFFSETS, \
-- 	I9XX_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  #define I845_FEATURES \
-  	GEN(2), \
-@@@ -244,13 -74,8 +109,10 @@@
-  	.has_snoop =3D true, \
-  	.has_coherent_ggtt =3D false, \
-  	.dma_mask_size =3D 32, \
- +	.max_pat_index =3D 3, \
-- 	I845_PIPE_OFFSETS, \
-- 	I845_CURSOR_OFFSETS, \
-- 	I845_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  static const struct intel_device_info i830_info =3D {
-  	I830_FEATURES,
-@@@ -285,13 -105,8 +142,10 @@@ static const struct intel_device_info i
-  	.has_snoop =3D true, \
-  	.has_coherent_ggtt =3D true, \
-  	.dma_mask_size =3D 32, \
- +	.max_pat_index =3D 3, \
-- 	I9XX_PIPE_OFFSETS, \
-- 	I9XX_CURSOR_OFFSETS, \
-- 	I9XX_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  static const struct intel_device_info i915g_info =3D {
-  	GEN3_FEATURES,
-@@@ -379,13 -166,8 +205,10 @@@ static const struct intel_device_info p
-  	.has_snoop =3D true, \
-  	.has_coherent_ggtt =3D true, \
-  	.dma_mask_size =3D 36, \
- +	.max_pat_index =3D 3, \
-- 	I9XX_PIPE_OFFSETS, \
-- 	I9XX_CURSOR_OFFSETS, \
-- 	I9XX_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  static const struct intel_device_info i965g_info =3D {
-  	GEN4_FEATURES,
-@@@ -435,13 -208,8 +249,10 @@@ static const struct intel_device_info g
-  	/* ilk does support rc6, but we do not implement [power] contexts */ \
-  	.has_rc6 =3D 0, \
-  	.dma_mask_size =3D 36, \
- +	.max_pat_index =3D 3, \
-- 	I9XX_PIPE_OFFSETS, \
-- 	I9XX_CURSOR_OFFSETS, \
-- 	ILK_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  static const struct intel_device_info ilk_d_info =3D {
-  	GEN5_FEATURES,
-@@@ -471,15 -234,10 +277,12 @@@ static const struct intel_device_info i
-  	.has_rc6p =3D 0, \
-  	.has_rps =3D true, \
-  	.dma_mask_size =3D 40, \
- +	.max_pat_index =3D 3, \
-  	.__runtime.ppgtt_type =3D INTEL_PPGTT_ALIASING, \
-  	.__runtime.ppgtt_size =3D 31, \
-- 	I9XX_PIPE_OFFSETS, \
-- 	I9XX_CURSOR_OFFSETS, \
-- 	ILK_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  #define SNB_D_PLATFORM \
-  	GEN6_FEATURES, \
-@@@ -526,15 -280,10 +325,12 @@@ static const struct intel_device_info s
-  	.has_reset_engine =3D true, \
-  	.has_rps =3D true, \
-  	.dma_mask_size =3D 40, \
- +	.max_pat_index =3D 3, \
-  	.__runtime.ppgtt_type =3D INTEL_PPGTT_ALIASING, \
-  	.__runtime.ppgtt_size =3D 31, \
-- 	IVB_PIPE_OFFSETS, \
-- 	IVB_CURSOR_OFFSETS, \
-- 	IVB_COLORS, \
-  	GEN_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  #define IVB_D_PLATFORM \
-  	GEN7_FEATURES, \
-@@@ -585,22 -331,14 +378,16 @@@ static const struct intel_device_info v
-  	.has_rc6 =3D 1,
-  	.has_reset_engine =3D true,
-  	.has_rps =3D true,
-- 	.display.has_gmch =3D 1,
-- 	.display.has_hotplug =3D 1,
-  	.dma_mask_size =3D 40,
- +	.max_pat_index =3D 3,
-  	.__runtime.ppgtt_type =3D INTEL_PPGTT_ALIASING,
-  	.__runtime.ppgtt_size =3D 31,
-  	.has_snoop =3D true,
-  	.has_coherent_ggtt =3D false,
-  	.__runtime.platform_engine_mask =3D BIT(RCS0) | BIT(VCS0) | BIT(BCS0),
-- 	.display.mmio_offset =3D VLV_DISPLAY_BASE,
-- 	I9XX_PIPE_OFFSETS,
-- 	I9XX_CURSOR_OFFSETS,
-- 	I9XX_COLORS,
-  	GEN_DEFAULT_PAGE_SIZES,
-  	GEN_DEFAULT_REGIONS,
- +	LEGACY_CACHELEVEL,
-  };
- =20
-  #define G75_FEATURES  \
-@@@ -686,21 -415,14 +464,16 @@@ static const struct intel_device_info c
-  	.has_rc6 =3D 1,
-  	.has_rps =3D true,
-  	.has_logical_ring_contexts =3D 1,
-- 	.display.has_gmch =3D 1,
-  	.dma_mask_size =3D 39,
- +	.max_pat_index =3D 3,
-  	.__runtime.ppgtt_type =3D INTEL_PPGTT_FULL,
-  	.__runtime.ppgtt_size =3D 32,
-  	.has_reset_engine =3D 1,
-  	.has_snoop =3D true,
-  	.has_coherent_ggtt =3D false,
-- 	.display.mmio_offset =3D VLV_DISPLAY_BASE,
-- 	CHV_PIPE_OFFSETS,
-- 	CHV_CURSOR_OFFSETS,
-- 	CHV_COLORS,
-  	GEN_DEFAULT_PAGE_SIZES,
-  	GEN_DEFAULT_REGIONS,
- +	LEGACY_CACHELEVEL,
-  };
- =20
-  #define GEN9_DEFAULT_PAGE_SIZES \
-@@@ -781,14 -482,8 +533,10 @@@ static const struct intel_device_info s
-  	.has_reset_engine =3D 1, \
-  	.has_snoop =3D true, \
-  	.has_coherent_ggtt =3D false, \
-- 	.display.has_ipc =3D 1, \
- +	.max_pat_index =3D 3, \
-- 	HSW_PIPE_OFFSETS, \
-- 	IVB_CURSOR_OFFSETS, \
-- 	IVB_COLORS, \
-  	GEN9_DEFAULT_PAGE_SIZES, \
- -	GEN_DEFAULT_REGIONS
- +	GEN_DEFAULT_REGIONS, \
- +	LEGACY_CACHELEVEL
- =20
-  static const struct intel_device_info bxt_info =3D {
-  	GEN9_LP_FEATURES,
-@@@ -920,33 -587,8 +640,9 @@@ static const struct intel_device_info j
-  #define GEN12_FEATURES \
-  	GEN11_FEATURES, \
-  	GEN(12), \
-- 	.display.abox_mask =3D GENMASK(2, 1), \
-- 	.__runtime.pipe_mask =3D BIT(PIPE_A) | BIT(PIPE_B) | BIT(PIPE_C) | BIT(P=
-IPE_D), \
-- 	.__runtime.cpu_transcoder_mask =3D BIT(TRANSCODER_A) | BIT(TRANSCODER_B)=
- | \
-- 		BIT(TRANSCODER_C) | BIT(TRANSCODER_D) | \
-- 		BIT(TRANSCODER_DSI_0) | BIT(TRANSCODER_DSI_1), \
-- 	.display.pipe_offsets =3D { \
-- 		[TRANSCODER_A] =3D PIPE_A_OFFSET, \
-- 		[TRANSCODER_B] =3D PIPE_B_OFFSET, \
-- 		[TRANSCODER_C] =3D PIPE_C_OFFSET, \
-- 		[TRANSCODER_D] =3D PIPE_D_OFFSET, \
-- 		[TRANSCODER_DSI_0] =3D PIPE_DSI0_OFFSET, \
-- 		[TRANSCODER_DSI_1] =3D PIPE_DSI1_OFFSET, \
-- 	}, \
-- 	.display.trans_offsets =3D { \
-- 		[TRANSCODER_A] =3D TRANSCODER_A_OFFSET, \
-- 		[TRANSCODER_B] =3D TRANSCODER_B_OFFSET, \
-- 		[TRANSCODER_C] =3D TRANSCODER_C_OFFSET, \
-- 		[TRANSCODER_D] =3D TRANSCODER_D_OFFSET, \
-- 		[TRANSCODER_DSI_0] =3D TRANSCODER_DSI0_OFFSET, \
-- 		[TRANSCODER_DSI_1] =3D TRANSCODER_DSI1_OFFSET, \
-- 	}, \
-- 	TGL_CURSOR_OFFSETS, \
-- 	TGL_CACHELEVEL, \
-++	.max_pat_index =3D 3 \
-  	.has_global_mocs =3D 1, \
-- 	.has_pxp =3D 1, \
-- 	.display.has_dsb =3D 1, \
-- 	.max_pat_index =3D 3
-+ 	.has_pxp =3D 1
- =20
-  static const struct intel_device_info tgl_info =3D {
-  	GEN12_FEATURES,
-@@@ -1162,24 -739,14 +795,16 @@@ static const struct intel_device_info p
-  	.__runtime.graphics.ip.rel =3D 60,
-  	.__runtime.media.ip.rel =3D 60,
-  	PLATFORM(INTEL_PONTEVECCHIO),
-- 	NO_DISPLAY,
-  	.has_flat_ccs =3D 0,
- +	.max_pat_index =3D 7,
-  	.__runtime.platform_engine_mask =3D
-  		BIT(BCS0) |
-  		BIT(VCS0) |
-  		BIT(CCS0) | BIT(CCS1) | BIT(CCS2) | BIT(CCS3),
-  	.require_force_probe =3D 1,
- +	PVC_CACHELEVEL,
-  };
- =20
-- #define XE_LPDP_FEATURES	\
-- 	XE_LPD_FEATURES,	\
-- 	.__runtime.display.ip.ver =3D 14,	\
-- 	.display.has_cdclk_crawl =3D 1, \
-- 	.display.has_cdclk_squash =3D 1, \
-- 	.__runtime.fbc_mask =3D BIT(INTEL_FBC_A) | BIT(INTEL_FBC_B)
+- #define INTEL_NUM_PIPES(i915) (hweight8(RUNTIME_INFO(i915)->pipe_mask))
 -=20
-  static const struct intel_gt_definition xelpmp_extra_gt[] =3D {
-  	{
-  		.type =3D GT_MEDIA,
+- #define HAS_DISPLAY(i915) (RUNTIME_INFO(i915)->pipe_mask !=3D 0)
+-=20
+- #define HAS_VRR(i915)	(DISPLAY_VER(i915) >=3D 11)
+-=20
+- #define HAS_ASYNC_FLIPS(i915)		(DISPLAY_VER(i915) >=3D 5)
+-=20
+  /* Only valid when HAS_DISPLAY() is true */
+ -#define INTEL_DISPLAY_ENABLED(dev_priv) \
+ -	(drm_WARN_ON(&(dev_priv)->drm, !HAS_DISPLAY(dev_priv)),		\
+ -	 !(dev_priv)->params.disable_display &&				\
+ -	 !intel_opregion_headless_sku(dev_priv))
+ +#define INTEL_DISPLAY_ENABLED(i915) \
+ +	(drm_WARN_ON(&(i915)->drm, !HAS_DISPLAY(i915)),		\
+ +	 !(i915)->params.disable_display &&				\
+ +	 !intel_opregion_headless_sku(i915))
+ =20
+ -#define HAS_GUC_DEPRIVILEGE(dev_priv) \
+ -	(INTEL_INFO(dev_priv)->has_guc_deprivilege)
+ +#define HAS_GUC_DEPRIVILEGE(i915) \
+ +	(INTEL_INFO(i915)->has_guc_deprivilege)
+ =20
+- #define HAS_D12_PLANE_MINIMIZATION(i915) (IS_ROCKETLAKE(i915) || \
+- 					      IS_ALDERLAKE_S(i915))
+-=20
+- #define HAS_MBUS_JOINING(i915) (IS_ALDERLAKE_P(i915) || DISPLAY_VER(i915)=
+ >=3D 14)
+-=20
+  #define HAS_3D_PIPELINE(i915)	(INTEL_INFO(i915)->has_3d_pipeline)
+ =20
+  #define HAS_ONE_EU_PER_FUSE_BIT(i915)	(INTEL_INFO(i915)->has_one_eu_per_f=
+use_bit)
 
---Sig_/80HTALxCF.GMDcmyyet5Nn4
+--Sig_/WmUIG7ZkJaOjI7dhiK6.lTn
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmR1WCAACgkQAVBC80lX
-0GwDCQgAkCIOWxrmIQ+J0WNx8ZK+Uqt9GT8oUhlI7TPuB0Fhq190TvFJfP6XaVM8
-KFJPy1HHhB0NJP6+V9Tp+azF0IzTYsTSUFBgz0chjEAFFkxtQkT8SEKXdYLv635w
-L5+TxTYOa0mn93Yhsj0NVxh1MPUfWcK4YiTMbbyJSXKIXJnv2R8r1Hm0/qgwH+ao
-nnGj+CRQiDuct55d78virIXbK9VjQX6uSUy+q3rrnDWLm3MqhaauFfuu0BRrpzFJ
-WzZQTOWpyRTqUgRhfoZ+O3WDx4NqqG6MTYmcWjiIRQlfdjn4B7CktvG+jrmVYroL
-ZDBM0Jw1jWC2hzbcr/Sow4Z1LM1D7g==
-=HB54
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmR1WHcACgkQAVBC80lX
+0GzUzQf/fq3l/LrzSrwRxGVX5EQgNulOCyDn+FGGThvhgPK+b2zH3u0Z0BeRn4vF
+zCIVXWB0umYL+0BzpP09IvnjkeiY+wF4/96QVo6LZw/80TKmoYi9YgCte8zH1w2F
+RwpCxnYBUvAZtls740/bQDCYpfGh/bUxwzUuP2S/JSGOXjSBpW2zDXd5ak20HSOQ
+gP6mzrSIPSy6RsscN4p7sLJhXcyBKL8aVE6T2Re84X9/Yw146V/9FCzsKW4BkegC
+cFJ2dlvYMJ0T/vevPC1d2QRBL0BOrJ8hCLHgdeaxAwgY5YqOXiJH9dtJS1ANvQcY
+9/AskX4trPytID1rYu3M3lA/bOtmFg==
+=n+j/
 -----END PGP SIGNATURE-----
 
---Sig_/80HTALxCF.GMDcmyyet5Nn4--
+--Sig_/WmUIG7ZkJaOjI7dhiK6.lTn--
