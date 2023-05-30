@@ -2,75 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3ADD7157D2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 10:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A647157FD
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 10:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C015310E36E;
-	Tue, 30 May 2023 08:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557B810E373;
+	Tue, 30 May 2023 08:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C07210E36E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:01:51 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f6094cb2d2so42995265e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 01:01:51 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4CB10E373
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:07:53 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-30aef0b8837so1006658f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 01:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685433710; x=1688025710;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=j1K+SN90yu6GVNFzY/ynyoEBrXtMpQCEy39+3j7Gsoo=;
- b=j6dw88xQf9k7F1V+LU60cf/re3KpD6D+fW+DuVMLwRgTmhtgvGBkxbQlIeTmZKtmmr
- zCM3GqaerO/6z26xHJaQYLx+BGboERMLqQD6jCUU/eCovKr0uMeaComrQU5hNjbXthEg
- ZmN+iasm1ETNVdligfCV3KxuBLgHxcv/DfDaSD0Iy2SCptARZQGpZGo3myQ8ifjWCREO
- U5CrEpbdpYipdluUtg/bLcVvJy7CLTIwnt7KGo6u8uju/z/WM5lUfbRLeE7M0ryQPM5N
- +LsYGB8b/r2Grt/yuYFDDvwqXLH0CadCh5FxvSm5GqDLKJQ+oiYzzMO1x0VzuhiM8417
- VpCA==
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685434072; x=1688026072; 
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+ bh=7n8N6QNiTQMJPyVtwSxAx8mmzrd7/rI2HSTVudMzAVs=;
+ b=fi5gqWIUfInaquUT/xDkcznLV+4/PY3SXP2W8rdQkTvvGGtPBH9A3YN11agDLi3fuY
+ a7O17jFyRjhoeSTmmFHiLt0obXDlbgGaDE4qpav93lpyvAWCw7VoTVC36Sc0JPXWuFDd
+ gYUw7KRn7cm6vPAuP4Zy36y8AcSEzsDdvfPiHjnDTwLufiaJyFy23LGlQPA5tgEsZHGn
+ wK+Yugb1SLokn65hoSEl1U3WV439e2uolYCx29ccQOx9KievdUH2hSrCkzJK6zaHwc27
+ diKWNkH9HL9+C8OVLIpS6TRZ9ot70lFcJK3T6Y0lzSKpYJZSMeYMsllU1sWW0d67fROe
+ mqKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685433710; x=1688025710;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=j1K+SN90yu6GVNFzY/ynyoEBrXtMpQCEy39+3j7Gsoo=;
- b=HD/Z4WnW7wkzmi5ex61Yv4ge3dQHBHayaUbN3+w+IdoNLfj3tCQfCcjLETGXOcgMPX
- KZUQd6Uhc5BfECb7nd1NHDsBCKGJJQFUX7ZasHK4CKN/k/ONAn6GyairLXofncmKlya7
- TluitLZAylQFsrSST2KBF4F90Vw/ZyUnZij/6Zt08wdbvCa2cOsV4pLrnrCrqZAPNnEs
- nHxgQS9pinZLIF2G0oLDA8HFn1MVzgG7hlEcq5B5bDM9ytLyrqqIJQFNMuEtN6Zhea41
- ohXLt4PgN/0Ka4oGm2jSBXk5dXlWZr4aO9gUfTZxDuWvX4GXvzndfnx2v2hu0H6yd68e
- mKxA==
-X-Gm-Message-State: AC+VfDykTYdfKqCdInr/62pNcau3Kq/uZDOKmA9hjRFegZXy6/PhqIMM
- 2k3LajQVtZ2JhLQRUR32kfPM7Q==
-X-Google-Smtp-Source: ACHHUZ5M8En45/6tBUvjo3i971gc63XBq54RnLe8ykSVS26PwEsEHPaJ1bHuRb+HD8LOEkdWqYHFFg==
-X-Received: by 2002:a7b:cbc8:0:b0:3f6:1a9:b9db with SMTP id
- n8-20020a7bcbc8000000b003f601a9b9dbmr820957wmi.21.1685433709934; 
- Tue, 30 May 2023 01:01:49 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87?
- ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
- by smtp.gmail.com with ESMTPSA id
- p23-20020a05600c205700b003f42314832fsm16526895wmg.18.2023.05.30.01.01.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 May 2023 01:01:49 -0700 (PDT)
-Message-ID: <ba2c5887-a046-c5c6-4bc0-98549003c244@linaro.org>
-Date: Tue, 30 May 2023 10:01:48 +0200
+ d=1e100.net; s=20221208; t=1685434072; x=1688026072;
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7n8N6QNiTQMJPyVtwSxAx8mmzrd7/rI2HSTVudMzAVs=;
+ b=Suqax44G6COnwqQyK6h7eKs+LhFteNjMQGAywwKz9SF8TWWYajgX14OZyeYBYyEDBu
+ xiAmT0DX/q5oIjaW+ukJ0EmbIAat53dhrgqiYJD+BsUn8ngf64SayiKEpySiwfyRV9/X
+ vRnx1fL6Jsg+37ZGlog74jLd00lZjBnd4sFp+EXwh68zrqDynRnryaYXl+KJQqU4lyYF
+ rUqrOehC7iKl+Kbcnm5Jjd/sFG74OAhxgkUngf3rU01aXPVVx3lDgM/4Yty6v0IzJcKJ
+ HxfprSnHyaEkq9ILgqHEKmJQpO5b7KO80t+TlmfPkklaLMD7klw3rnjcDcRfN3dIND4u
+ wifg==
+X-Gm-Message-State: AC+VfDwHVOiOvDS2fVojLGvlyZRYNDOsHnBgZcdIIjnZsWsE+DtLR0qb
+ eDlm9RR/LnfMmFcIqbh6P9IXrA==
+X-Google-Smtp-Source: ACHHUZ7QwCpJcGXyXy3ikiWMlyuNkz5JS54y0WLuFaWgUV84kbbYoN/r8K1PFoC2133vUyrQFchJ7A==
+X-Received: by 2002:a5d:51d1:0:b0:30a:e66d:25b7 with SMTP id
+ n17-20020a5d51d1000000b0030ae66d25b7mr912985wrv.13.1685434071999; 
+ Tue, 30 May 2023 01:07:51 -0700 (PDT)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31]) by smtp.gmail.com with ESMTPSA id
+ f4-20020adff984000000b0030ae849c70csm2387441wrr.37.2023.05.30.01.07.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 May 2023 01:07:51 -0700 (PDT)
+References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-0-2592c29ea263@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v4-1-2592c29ea263@linaro.org>
+ <5cb38be4-a27f-dc1a-cbb9-c195505a9e7c@linaro.org>
+ <9fa0662e-8854-05f9-da7f-ec8e08d2badf@linaro.org>
+ <d5c030f9-2f4d-25cc-b922-d00f5033ac37@linaro.org>
+ <6228670c-3e06-3061-f304-a2c641962ffa@linaro.org>
+ <9cba6384-123b-1cd1-ed02-08365a0ed529@linaro.org>
+ <2fabe721-7434-43e7-bae5-088a42ba128d@app.fastmail.com>
+ <aa22c05d-9db7-eff1-d203-cb795359252b@linaro.org>
+User-agent: mu4e 1.8.13; emacs 28.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, Kishon
+ Vijay Abraham I <kishon@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v4 01/13] dt-bindings: clk: g12a-clkc: export VCLK2_SEL
+ and add CTS_ENCL clock ids
+Date: Tue, 30 May 2023 10:06:01 +0200
+In-reply-to: <aa22c05d-9db7-eff1-d203-cb795359252b@linaro.org>
+Message-ID: <1j7csq5jjd.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH V8 0/7] drm: bridge: samsung-dsim: Support variable
- clocking
-Content-Language: en-US
-To: Adam Ford <aford173@gmail.com>
-References: <20230526030559.326566-1-aford173@gmail.com>
- <168508573345.1449766.11809947722851001124.b4-ty@linaro.org>
- <cd3c7cca-9edd-ca16-8376-e3ba924eaa30@linaro.org>
- <CAHCN7xK8R72eTTenp4UeuOKT7NojKDC9_ReWa0HLexzqo9E6UQ@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAHCN7xK8R72eTTenp4UeuOKT7NojKDC9_ReWa0HLexzqo9E6UQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,69 +90,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/05/2023 16:04, Adam Ford wrote:
-> On Fri, May 26, 2023 at 2:24 AM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
->>
->> On 26/05/2023 09:22, Neil Armstrong wrote:
->>> Hi,
->>>
->>> On Thu, 25 May 2023 22:05:52 -0500, Adam Ford wrote:
->>>> This series fixes the blanking pack size and the PMS calculation.  It then
->>>> adds support to allows the DSIM to dynamically DPHY clocks, and support
->>>> non-burst mode while allowing the removal of the hard-coded clock values
->>>> for the PLL for imx8m mini/nano/plus, and it allows the removal of the
->>>> burst-clock device tree entry when burst-mode isn't supported by connected
->>>> devices like an HDMI brige.  In that event, the HS clock is set to the
->>>> value requested by the bridge chip.
+
+On Tue 16 May 2023 at 11:00, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+
+> On 16/05/2023 10:44, Arnd Bergmann wrote:
+>> On Mon, May 15, 2023, at 18:22, neil.armstrong@linaro.org wrote:
+>>> On 15/05/2023 18:15, Krzysztof Kozlowski wrote:
+>>>> On 15/05/2023 18:13, Krzysztof Kozlowski wrote:
 >>>>
->>>> [...]
+>>>> Also one more argument maybe not relevant here but for other cases -
+>>>> this makes literally impossible to include the clock ID in DTS in the
+>>>> same kernel revision, because you must not merge driver branch to DTS
+>>>> branch. SoC folks were complaining about this many times.
 >>>
->>> Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
->>>
->>> [1/7] drm: bridge: samsung-dsim: fix blanking packet size calculation
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=a617b33f7e513f25becf843bc97f8f1658c16337
->>> [2/7] drm: bridge: samsung-dsim: Fix PMS Calculator on imx8m[mnp]
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=54f1a83c72250b182fa7722b0c5f6eb5e769598d
->>> [3/7] drm: bridge: samsung-dsim: Fetch pll-clock-frequency automatically
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=33d8d14c83bf67aa0d262961a6fda9c40f3c1052
->>> [4/7] drm: bridge: samsung-dsim: Select GENERIC_PHY_MIPI_DPHY
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=171b3b1e0f8b8c894f2388e1cf765a56f831ee5e
->>> [5/7] drm: bridge: samsung-dsim: Dynamically configure DPHY timing
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=89691775f5735fca9dc40e119edcbb52a25b9612
->>> [6/7] drm: bridge: samsung-dsim: Support non-burst mode
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=bb0e13b9e223b218c9f242f8d340a332b4381042
->>> [7/7] dt-bindings: bridge: samsung-dsim: Make some flags optional
->>>         https://cgit.freedesktop.org/drm/drm-misc/commit/?id=cfaf76d349837f695c8aa6d7077847fec4231fe5
->>>
->>
->> OK I made a bad manipulation, I applied patch 7 without review... I'll send a revert patch.
-> 
-> Sorry, I didn't mean to complicate things by adding the binding patch.
-> I added a note in the cover letter to indicate it, but I also
-> recognize that it contradicted my earlier email.
+>>> Actually we handle this very simply by having such patches merged in a immutable
+>>> branch merged in the clock and DT pull-requests, it worked perfectly so far
+>>> and neither Stephen or Arnd complained about that.
+>> It's usually benign if you just add a new clk at the end of the binding
+>> header, as that doesn't touch the internal header file in the same
+>> commit. I'm certainly happier about drivers that just use numbers from
+>> a datasheet instead of having to come up with numbers to stick in a binding
+>> because the hardware is entirely irregular, but there is usually no point
+>> trying to complain about bad hardware to the driver authors -- I unsterstand
+>> you are just trying to make things work.
+>> I agree with Krzysztof that using the same identifiers in the local
+>> header and in the binding is just making your life harder for no
+>> reason, and if you are the only ones doing it this way, it would
+>> help to change it. Maybe just add a namespace prefix to all the internal
+>> macros so the next time you move one into the documented bindings you
+>> can do it with the same immutable branch hack but not include the
+>> driver changes in the dt branch.
+>
+> Ack, I'll try to find a simple intermediate solution to avoid this situation.
 
-No problem :-)
+I'd in favor of keeping things simple and just put all the IDs in the
+bindings. We have been doodling with the idea for while, I think now is
+the time
 
-Neil
-
-> 
-> adam
->>
->> Neil
+>
+> Thanks,
+> Neil
+>
+>>      Arnd
 
