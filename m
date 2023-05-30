@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D14715EB8
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 14:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AED4715F37
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 14:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0257710E149;
-	Tue, 30 May 2023 12:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36D3F10E14A;
+	Tue, 30 May 2023 12:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBDD10E037;
- Tue, 30 May 2023 12:15:28 +0000 (UTC)
-Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown
- [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AA6186606E94;
- Tue, 30 May 2023 13:15:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1685448925;
- bh=4wNEnxY6LQ6QUhnOBO99wgPeevp5yEWOIVnYVgFq2ok=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K9Xc5p9TKYcf8khiFK1yY4EMlDkotGT1R4P4TK35EuA84Fs9v/gwwCy3V9jQpBwUb
- tazT0TXpsYhyI+TofjuTvsn7XaigKSBo3YYNoBoeBuGDn/zWOhY+wV9CCFuYchm8DW
- M5tWdBaEnadB6CXH8kqUxo4PmbdNFtvGTtiMFy1MpZ5yU1pkgD3ak0SN8RV0AGx5qE
- De742jKhCiI+Hf4+nj1TNNkSM2bjp6JEzA1maq2nP4wJi0H5TRXkcy3kR6wQr8dSmD
- eaZsGJGQwG78nf5hxCnXw3fUbpekqi8mh++i44zXGbtJhYMphjUNtRpqXSrmF8r4jq
- o3wF1rqlcjfGA==
-Message-ID: <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
-Date: Tue, 30 May 2023 14:15:21 +0200
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7578D10E059
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 12:26:58 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-510d6b939bfso7971059a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 05:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685449616; x=1688041616;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=stytcPLfmtfo2fgiuSzdRWfNyIk7zVG1HeYjVvCDz9w=;
+ b=gfCtr7jZXqESNbxzXiO43l3qqczxibfd/8w9kd1Ym8YdWhXyG+fyLdmQMpEwRJKnLX
+ 9CDjSBYhIeVFltkeDw6O7TZhpN4ll73Ic+iWAWQazQlPM/ceWi/cDavmggYTsBKvUASV
+ M6XloXq9jSWBv2+6ermKsbpEfF9PDrvNQ5TfLnbNOBsaXF4WOoln+deS7pYJ+eRfKA2W
+ FsjnppkAX32eN6OEzpNHzIxIwiHZBKMlK7lyRfmgHUD5DcyxstEfzXndYdKrIJNjIKsA
+ Ll+gsI3BBLsHgdonbzLUfx83IhNiMrctNLGvHNsMHAicOLaLYPIyyfHbosoQGidJXN57
+ hMnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685449616; x=1688041616;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=stytcPLfmtfo2fgiuSzdRWfNyIk7zVG1HeYjVvCDz9w=;
+ b=Fbm9Y2D5H0yF0Tw7kpjNFLdstM9EsSCsBwe1qCfhss2fUpAlsT2WPo5dsScDV+TbA8
+ Gmt+fE7UDT3NUi9IqR/VJk0P+K3T1uQIr993TsKsFB/Ik597IS1rXSuy6dY9Tfqvjzwe
+ dbraGpIoTl6hxuJqqK0bh7/M1I3ONFkmuo7pw75+Ilh/IlAX+FxXdSapVXZBkL2cJhAF
+ MBBdEeoR03N+T5DU1BPZyRdFcsEsPNBE/CDBX8T2t8IA408ap6xCzBkYlQF0CFw3mY2h
+ y8oQoPYOjVtKw0swXcLo5/IJoFNCSWtYOqZ88cMkI0cAzhmY3nyGrGh5dd4ZMytRY4R4
+ xOLQ==
+X-Gm-Message-State: AC+VfDwXhdrtO4A9ix0PYGdaL40HRTF6L1pw58Ix64UulVQ+EFOFZroM
+ SNfY/O0BHKiwBNxlGx53+g4vwg==
+X-Google-Smtp-Source: ACHHUZ66izEDUSaQQp76hTrSWMdC6fb+uAdYBYs6F5ndxLqGKRKd2/soK1F7uCXH6BQ11yXPM73REg==
+X-Received: by 2002:a05:6402:693:b0:506:83fc:2dab with SMTP id
+ f19-20020a056402069300b0050683fc2dabmr1537814edy.22.1685449616416; 
+ Tue, 30 May 2023 05:26:56 -0700 (PDT)
+Received: from krzk-bin ([178.197.199.204]) by smtp.gmail.com with ESMTPSA id
+ z4-20020aa7d404000000b0050bc9ffed66sm4302283edq.53.2023.05.30.05.26.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 May 2023 05:26:55 -0700 (PDT)
+Date: Tue, 30 May 2023 14:26:52 +0200
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v8 01/18] dt-bindings: display/msm: gpu: Document GMU
+ wrapper-equipped A6xx
+Message-ID: <20230530122652.lct6tk6zseny6gxl@krzk-bin>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-1-69c68206609e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel: Add
- LGD panel driver for Sony Xperia XZ3)
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
- <20230521-drm-panels-sony-v1-3-541c341d6bee@somainline.org>
- <ccc97880-8e74-b85b-9679-9c12c44c4b99@linaro.org>
- <brmrqeajbq3oyp3jjwmc6tuhiftz764u6az444xw6g7pwf5fr3@5tlp375qwhed>
- <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
- <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230223-topic-gmuwrapper-v8-1-69c68206609e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,131 +73,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Jami Kettunen <jami.kettunen@somainline.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
  Bjorn Andersson <andersson@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 30/05/23 13:44, Dmitry Baryshkov ha scritto:
-> On Tue, 30 May 2023 at 10:24, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->>
->> Hi Marijn, Dmitry, Caleb, Jessica,
->>
->> On 29/05/2023 23:11, Marijn Suijten wrote:
->>> On 2023-05-22 04:16:20, Dmitry Baryshkov wrote:
->>> <snip>
->>>>> +   if (ctx->dsi->dsc) {
->>>>
->>>> dsi->dsc is always set, thus this condition can be dropped.
->>>
->>> I want to leave room for possibly running the panel without DSC (at a
->>> lower resolution/refresh rate, or at higher power consumption if there
->>> is enough BW) by not assigning the pointer, if we get access to panel
->>> documentation: probably one of the magic commands sent in this driver
->>> controls it but we don't know which.
->>
->> I'd like to investigate if DSC should perhaps only be enabled if we
->> run non certain platforms/socs ?
->>
->> I mean, we don't know if the controller supports DSC and those particular
->> DSC parameters so we should probably start adding something like :
->>
->> static drm_dsc_config dsc_params_qcom = {}
->>
->> static const struct of_device_id panel_of_dsc_params[] = {
->>          { .compatible = "qcom,sm8150", , .data = &dsc_params_qcom },
->>          { .compatible = "qcom,sm8250", , .data = &dsc_params_qcom },
->>          { .compatible = "qcom,sm8350", , .data = &dsc_params_qcom },
->>          { .compatible = "qcom,sm8450", , .data = &dsc_params_qcom },
->> };
+On Mon, 29 May 2023 15:52:20 +0200, Konrad Dybcio wrote:
+> The "GMU Wrapper" is Qualcomm's name for "let's treat the GPU blocks
+> we'd normally assign to the GMU as if they were a part of the GMU, even
+> though they are not". It's a (good) software representation of the GMU_CX
+> and GMU_GX register spaces within the GPUSS that helps us programatically
+> treat these de-facto GMU-less parts in a way that's very similar to their
+> GMU-equipped cousins, massively saving up on code duplication.
 > 
-> I think this would damage the reusability of the drivers. The panel
-> driver does not actually care if the SoC is SM8350, sunxi-something or
-> RCar.
-> Instead it cares about host capabilities.
+> The "wrapper" register space was specifically designed to mimic the layout
+> of a real GMU, though it rather obviously does not have the M3 core et al.
 > 
-> I think instead we should extend mipi_dsi_host:
+> GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
+> specified under the GPU node, just like their older cousins. Account
+> for that.
 > 
-> #define MIPI_DSI_HOST_MODE_VIDEO BIT(0)
-> #define MIPI_DSI_HOST_MODE_CMD  BIT(1)
-> #define MIPI_DSI_HOST_VIDEO_SUPPORTS_COMMANDS BIT(2)
-> // FIXME: do we need to provide additional caps here ?
-> 
-> #define MIPI_DSI_DSC_1_1 BIT(0)
-> #define MIPI_DSI_DSC_1_2 BIT(1)
-> #define MIPI_DSI_DSC_NATIVE_422 BIT(2)
-> #define MIPI_DSI_DSC_NATIVE_420 BIT(3)
-> #define MIPI_DSI_DSC_FRAC_BPP BIT(4)
-> // etc.
-> 
-> struct mipi_dsi_host {
->   // new fields only
->    unsigned long mode_flags;
->    unsigned long dsc_flags;
-> };
-> 
-> Then the panel driver can adapt itself to the host capabilities and
-> (possibly) select one of the internally supported DSC profiles.
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/gpu.yaml       | 61 ++++++++++++++++++----
+>  1 file changed, 52 insertions(+), 9 deletions(-)
 > 
 
-I completely agree about extending mipi_dsi_host, other SoCs could reuse that and
-support for DSC panels would become a lot cleaner.
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-For example, on MediaTek DRM there's some support for DSC, more or less the same
-for SPRD DRM and some DSI bridge drivers... having a clean infrastructure would
-definitely help.
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-I'm sad I cannot offer testing in that case because despite being sure that there
-are MTK smartphones around with DSI panels using DSC, I have none... and all of the
-Chromebooks are not using DSC anyway (but using DisplayPort compression, which is
-obviously an entirely different beast).
+Full log is available here: https://patchwork.ozlabs.org/patch/1787121
 
->>
->> ...
->> static int sony_akatsuki_lgd_probe(struct mipi_dsi_device *dsi)
->> ...
->>          const struct of_device_id *match;
->>
->> ...
->>          match = of_match_node(panel_of_dsc_params, of_root);
->>          if (match && match->data) {
->>                  dsi->dsc = devm_kzalloc(&dsi->dev, sizeof(*dsc), GFP_KERNEL);
->>                  memcpy(dsi->dsc, match->data, sizeof(*dsc));
->>          } else {
->>                  dev_warn(&dsi->dev, "DSI controller is not marked as supporting DSC\n");
->>          }
->> ...
->> }
->>
->> and probably bail out if it's a DSC only panel.
->>
 
-Usually DDICs support both DSC and non-DSC modes, depending on the initial
-programming (read: init commands)... but the usual issue is that many DDICs
-are not publicly documented for reasons, so yes, bailing out if DSC is not
-supported would be the only option, and would be fine at this point.
-
-Cheers,
-Angelo
-
->> We could alternatively match on the DSI controller's dsi->host->dev instead of the SoC root compatible.
->>
->> Neil
-> 
-
+gpu@2c00000: compatible: 'oneOf' conditional failed, one must be fixed:
+	arch/arm64/boot/dts/qcom/sm8150-hdk.dtb
+	arch/arm64/boot/dts/qcom/sm8150-mtp.dtb
