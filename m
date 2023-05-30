@@ -1,75 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE14715783
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:46:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D7C71578D
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4240910E369;
-	Tue, 30 May 2023 07:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3226310E36A;
+	Tue, 30 May 2023 07:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA98410E369
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:46:48 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-30abe551605so2935192f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:46:48 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6320610E36A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:48:49 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-30aef0499b6so971580f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685432807; x=1688024807;
+ d=linaro.org; s=google; t=1685432928; x=1688024928;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:reply-to:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=D3tv9LafCdtcG4LKNUeAhIv8DN2WExEc7/tKO97gh8E=;
- b=NGEDm2FkkVXGf36QtMqg5AiGLMPxoAQKsI7EHmjNDxNe92uyB26hXYuUSVOQspX67a
- xnaVOQogjhuG+TU4xBP1737ipNJtebFL2HAS6paCH4of5ZwazcqFpgTEuQlnXuFAUSd6
- CrnZ+3QWAPCc6c6msbo7d8IkEYsCzgm33eoHlGfItg9ztqiaWzxiOq+emId5Md1KsGbI
- a7rTX4ZxqyCCCt5mvB6mkFtNwahibDA0nXr28T6UrSevKiyWmpgoxLfbZHWEwKvd7z/Z
- +F0lbOvo+GILXJUyEkW8kszp0K3+di4oZ4R07VHZrdBgFAzzxbZC2o0EjMFwOgoqoyf/
- Dt/w==
+ bh=1BKRl0rG6ZKz6K12wAN8zcM1jC2/NzJydK0LKcMFsXg=;
+ b=ErL5SY4PpgXcTaAtTXQYwFzQpjnkQ8YOj++Y09s4FWKdnGJauP41PqYhA5ok5ep490
+ 0NfLswvVeBA6dVwSQdIohA2a72WltxpYoN190+7uTMXKvn9wcg25KJVXNP89/dtPa2zJ
+ +VewsJVJsjzcKsjUy/308gki/aVOjhV6YdTcsdI81vAWe5nCrgQhKBtREXE/aquOX0gZ
+ mXqpJz2PuNwdy5r36Y9IFrmQSTbRgfc49IxTtogNXh3GRxQ6gWuYhFnonXfgQSUXJGwC
+ TDIzoaEWp6XpgPXB3ejMnx3sk3oEW2ZvX4ECPevPHlYVPI5ONqT5qdKq7ve3z8jTPwaL
+ UNlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685432807; x=1688024807;
+ d=1e100.net; s=20221208; t=1685432928; x=1688024928;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:reply-to:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=D3tv9LafCdtcG4LKNUeAhIv8DN2WExEc7/tKO97gh8E=;
- b=DWkXq5OpHDpOH7jjuqx62RfwTfKn6TvhiBOuKMD2kDC0FMoevUrRX+mO7kaUEZIT0H
- T2mbO2RpIo+Gl3Z7BYBJhpMyj0rP/QbumfwsmgKeuN08MpUpOSTAi0CHZztf2femv5Fx
- nBCWXEmzusS52/wceRcKWWMQg9pWLu5hG6XiRPWhtuWSZK8UCbiQ5cZwx1gIeFBOsin+
- HvQtRrbzz8QH9WkOmUqnv261wo8XfxRnm/ruQhHAUsQ5d45SOUAkEmeB8vl24axSAYWR
- 5kAFxyGdwofI7w0rjHV28nEfMw7sCRwrYs4U0/yiBErxOAQae/s9Ukz07ntvdK8xi+CM
- 8IJA==
-X-Gm-Message-State: AC+VfDzncsNIFsMRks9P1Pk9WALhQLJ8a9FVQH9O4fCZDsdkmkBKNN7U
- 6eApr7aJR/8bn8NRvJbn5B6NLw==
-X-Google-Smtp-Source: ACHHUZ7TRqIEMVi19gXmcraFyCBW8SVvygvbDrk2U1oFebLnxtB2fJ2rx4iL8yuCfwzX2KV+ryOZbg==
-X-Received: by 2002:adf:de81:0:b0:30a:d944:b765 with SMTP id
- w1-20020adfde81000000b0030ad944b765mr1261118wrl.15.1685432807252; 
- Tue, 30 May 2023 00:46:47 -0700 (PDT)
+ bh=1BKRl0rG6ZKz6K12wAN8zcM1jC2/NzJydK0LKcMFsXg=;
+ b=evvXEHTQtnput+TLD02m8M4IM5VOXSvxwUB7tVtnpTp8RVDcdgUd03y4gg1vrn23Hk
+ mYG3+Qn8OZ3qyp8KMSTXlJbR/XDL6tOOp3j0KvX9BIteIoQSH0M+98j4HBln6e8GDRyX
+ oiUtHqaKLJnvDLjPp4HHgPErYAoRE7LbvaOgXHApbcS9EI1c8QrGiVl4LuMfBLFsMpEh
+ sRUwQ2ylLFCBVIOyKdp30IYU021sIW23M3BXV5WhikBwJsQejGyP42fd3dUo39tdM0Dv
+ 60LZORa2C8+FY21VEKgG8gzG90x/Ed5ipcECNn0xU1Gyb8T4hW0TEqMJGUGpSEuBDvH7
+ mTlQ==
+X-Gm-Message-State: AC+VfDxzN/HAHdwmw7CGNaAaq/PuKhZ1m2rDRrTJkIsxb0Bpg3ovo1JH
+ tmEp1DA9cRimiknCJiS3LSWL3AKCaOANvi9UOFlLCA==
+X-Google-Smtp-Source: ACHHUZ5xuANmN4u9XoKI/GIYFwuX2Epf77N8uGbHdxQPS4+AmfAXqxxohIGalR0xb5sLOXfKgyUVGg==
+X-Received: by 2002:adf:f351:0:b0:309:4ee8:35ce with SMTP id
+ e17-20020adff351000000b003094ee835cemr918764wrp.21.1685432927727; 
+ Tue, 30 May 2023 00:48:47 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87?
  ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
  by smtp.gmail.com with ESMTPSA id
- v12-20020a5d4a4c000000b003077a19cf75sm2319371wrs.60.2023.05.30.00.46.46
+ t16-20020a5d6910000000b00307a86a4bcesm2320607wru.35.2023.05.30.00.48.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 May 2023 00:46:46 -0700 (PDT)
-Message-ID: <e6b6ffea-8706-3305-5267-9cbf3672f65f@linaro.org>
-Date: Tue, 30 May 2023 09:46:46 +0200
+ Tue, 30 May 2023 00:48:47 -0700 (PDT)
+Message-ID: <b632ba5b-bbd6-aead-058f-f7466499239a@linaro.org>
+Date: Tue, 30 May 2023 09:48:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
-Subject: Re: [PATCH 2/3] dw-hdmi: truly enforce 420-only formats when drm mode
- demands it
+Subject: Re: [PATCH 1/3] drm/meson: dw-hdmi: change YUV420 selection logic at
+ clock setup
 Content-Language: en-US
 To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
  narmstrong@baylibre.com, khilman@baylibre.com,
  linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
  rfoss@kernel.org, andrzej.hajda@intel.com
 References: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
- <20230528140001.1057084-3-adrian.larumbe@collabora.com>
+ <20230528140001.1057084-2-adrian.larumbe@collabora.com>
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230528140001.1057084-3-adrian.larumbe@collabora.com>
+In-Reply-To: <20230528140001.1057084-2-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,33 +89,68 @@ Cc: kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/05/2023 16:00, Adrián Larumbe wrote:
-> The current output bus format selection logic is enforcing YUV420 even
-> when the drm mode allows for other bus formats as well.
-> Fix it by adding check for 420-only drm modes.
+On 28/05/2023 15:59, Adrián Larumbe wrote:
+> Right now clocking value selection code is prioritising RGB, YUV444 modes
+> over YUV420 for HDMI2 sinks. However, because of the bus format selection
+> procedure in dw-hdmi, for HDMI2 sinks YUV420 is the format that will always
+> be picked during the drm bridge chain check stage.
+> 
+> Later on dw_hdmi_setup will configure a colour space based on the bus
+> format that doesn't match the pixel value we had calculated as described
+> above.
+> 
+> Fix it by bringing back dw-hdmi bus format check when picking the right
+> pixel clock.
 > 
 > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c     | 4 ++--
+>   include/drm/bridge/dw_hdmi.h              | 2 ++
+>   3 files changed, 10 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index d59a547f9cb2..1afb8f2603a0 100644
+> index 603bb3c51027..d59a547f9cb2 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2710,9 +2710,10 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
->   		/* Default 8bit fallback */
->   		output_fmts[i++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+> @@ -3346,6 +3346,12 @@ static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
+>   	return 0;
+>   }
 >   
-> -		*num_output_fmts = i;
-> -
-> -		return output_fmts;
-> +		if (drm_mode_is_420_only(info, mode)) {
-> +			*num_output_fmts = i;
-> +			return output_fmts;
-> +		}
->   	}
+> +bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi)
+> +{
+> +	return hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format);
+> +}
+> +EXPORT_SYMBOL_GPL(dw_hdmi_bus_fmt_is_420);
+> +
+>   struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>   			      const struct dw_hdmi_plat_data *plat_data)
+>   {
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 3d046878ce6c..b49bb0d86efe 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -379,8 +379,8 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
+>   			 mode->clock > 340000 ? 40 : 10);
 >   
->   	/*
+>   	if (drm_mode_is_420_only(display, mode) ||
+> -	    (!is_hdmi2_sink &&
+> -	     drm_mode_is_420_also(display, mode)))
+> +	    (!is_hdmi2_sink && drm_mode_is_420_also(display, mode)) ||
+> +	    dw_hdmi_bus_fmt_is_420(hdmi))
+>   		mode_is_420 = true;
+>   
+>   	/* Enable clocks */
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index f668e75fbabe..6a46baa0737c 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -206,4 +206,6 @@ void dw_hdmi_phy_update_hpd(struct dw_hdmi *hdmi, void *data,
+>   			    bool force, bool disabled, bool rxsense);
+>   void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data);
+>   
+> +bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi);
+> +
+>   #endif /* __IMX_HDMI_H__ */
 
 Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
