@@ -1,82 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811DF716E61
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 22:10:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C17716E67
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 22:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 426EA10E11B;
-	Tue, 30 May 2023 20:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFFB110E195;
+	Tue, 30 May 2023 20:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7058010E11B
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 20:10:03 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34UJcaaA028042; Tue, 30 May 2023 20:09:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DspGUgwT1jG0ajy7gW27kw6dbURMrFI7moQ5vgpDCYo=;
- b=RmO47VeTsf9yFf91RjiqfOng4E2s+EixDmrpMkCwJO7AlZ9tVx7RiMLAlFUGuHxoWjCU
- Sii5MyVn1mg7PcaIGFWaatybI85SmA73V57LgRfDCjnj3N5jUsNm280wp8NJ8jzodWct
- Zvnj7eJO3X+7N5Ji6iS47P86m9uWp7FJzJV0DgS0CcIc0GNDUGPlDhY808xcIJ4UV/5E
- MbYgU2mudQnafTBu1fQKMrvwzS5haQsbdiLIa3z57OQ7ef8Krou6YvKREkTiTGZfnV87
- SDojU23cxIXNIU925gCRoH2dAdFYOWeUCrRT1j2PtN+YIV+EdEZckRIOnI2/Jv37T0Fj vQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qwava9u5r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 20:09:53 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34UK9qd9018053
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 20:09:52 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 30 May
- 2023 13:09:51 -0700
-Message-ID: <196a43da-1f59-6213-7c4f-2cfcb8d39b32@quicinc.com>
-Date: Tue, 30 May 2023 13:09:51 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2089.outbound.protection.outlook.com [40.107.101.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B786210E195;
+ Tue, 30 May 2023 20:11:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LjiaS5jRQMuMDblCbLtzrvWky5jTCd64Wyjhn2/u8ApCMqlAbufX1oBkMXM3asnJ/jaeMqaCg+Aye4SJmmEjFsBDR1IgQMr+Lt796TBdIIFJeR1grUdYCh8iTN5DkoGi86VaeGpailfvrLmxVzEw4rgsZBzjIp1p8fHFRHKs04nXTVwAaAiAQuGVviM2w2g13EvZS3+CmYqZG3IyPEps41HHrmP2whlxAjzh9XlzMuTsHhhIQeIGBzhIjxyeViLRpRnXAvEExWOf6qtHFfUhgxJvEPnxbcxY18wc4goAF79TzBuGH0eqgA5IXMVRbS/ZWWWwpROE1fj8XmDzo+zzOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ENW2u0UNzcn/wlE1UrSEtFLcYSrFz3t8tivBTCy4Mxk=;
+ b=nju67mLPIpjsCuaO5QsK7ylujAsW015udL9unJtTfjUJ6ZXCjoAfHHtkEn7X503PMJXC8O1dWT23v26+A1lgV4Yx0AJhJ0r97CWkgxYZIEFzBUKV+UA9gJv1VafLgkuJzy+89CjMIhFyNMzcvfFEsoHv2dEFBClhVN41UiYKAEfulOXs5b6INLTxFybbp6mHExuP+IyM5/qCpUAvSTepU9urGUTodarHeQNsD9RaV24Bus6thDlQKABCTFx5ZHtvktz/S1IjchSv2Q5XZ6O3zNlJZOxcvyqYpDtC97bmsbRGfFYEjZKK8ibRjYQnLokLhMs6EqHAEQDLA3z8VZ4Bqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ENW2u0UNzcn/wlE1UrSEtFLcYSrFz3t8tivBTCy4Mxk=;
+ b=MHMABcvxsIQEpslOF1cG7MRFeJKxR+vnQsB8Az5FplrgMoUfWZ778HvurZj/E5uNfQhD4OmEQDG6VMvLWzTkYD+qeFedLO8oDQmZvT9IVqLVEqhrW7txUhH9Rxj7Cuk/PAhACQJSFieTnX56+tbmfrC8U/Davd8/ELdyvYGlI+E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by IA0PR12MB8375.namprd12.prod.outlook.com (2603:10b6:208:3dd::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Tue, 30 May
+ 2023 20:11:23 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::943e:32fb:5204:a343]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::943e:32fb:5204:a343%3]) with mapi id 15.20.6433.022; Tue, 30 May 2023
+ 20:11:23 +0000
+Message-ID: <bcbccf51-b43b-b9e7-0119-1fc5fcc18e83@amd.com>
+Date: Tue, 30 May 2023 16:11:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/panel: Add driver for Visionox r66451 panel
+Subject: Re: [PATCH 20/33] drm/amdkfd: add runtime enable operation
 Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230516-b4-r66451-panel-driver-v1-0-4210bcbb1649@quicinc.com>
- <20230516-b4-r66451-panel-driver-v1-2-4210bcbb1649@quicinc.com>
- <3cca2809-fa26-f0cf-2ccc-6737d150b43d@linaro.org>
- <aeef04c4-7952-2b7c-d673-5c75dda19154@quicinc.com>
-In-Reply-To: <aeef04c4-7952-2b7c-d673-5c75dda19154@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: zZURWzNyCv6IO9Pz4Sp9AWnwbu2l-KdF
-X-Proofpoint-ORIG-GUID: zZURWzNyCv6IO9Pz4Sp9AWnwbu2l-KdF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_14,2023-05-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 phishscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- mlxlogscore=999 impostorscore=0 suspectscore=0 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305300163
+To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230525172745.702700-1-jonathan.kim@amd.com>
+ <20230525172745.702700-20-jonathan.kim@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20230525172745.702700-20-jonathan.kim@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0196.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ad::26) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA0PR12MB8375:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad97575d-2966-48b1-f776-08db614a0a2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7PadDToLIwnKmkmjpB8MKBU82+nYrYWQS4eQRYov/vv+g9rC6OSc3ZV1GBRL59YVQykkcB6ExOgubp2p2Q1e3t24iNvIqPBcaphNxRS+RTRNQfAL1kzCtullEcPJpxG44EX/2S56tyfl1qaVdk/F28IqVmUeD5I7bhFg0dZ+0Bw22bUo4xY7cCHVwHi3ROgSXU1C4nc0iBzdGpCezOCRrdv/mk2F7r7zE+Mk/JmiehOWBMnm5OhmkfdKRO9x/gx+QnU2eGFXrI6JVkVtJKJUmhrrbQ5K6iMg8Nm6nnQ8iEgk5X9fvuzZ2o3dUsx9DzMM4qbsNgGUyrIb5Sa/IcSXfziOpubj2QOFFipWAhabrF/Abu/gLtx5D/5Gt4dmHuOdVYLhPQpSlp1TXYmbK3GHlgkmqPxperQ7aRM0by4HTuX9uXqEwgkMs0UnLlSdUIMaaI2zHZSTaLzMCjNJwfy2zV1TgwB+h7KM975HJ5gZanIWxwogm7P/gRygzXwB4h1BtytSvM59cfRtTKfegJBZN+15uO5gUfBTmxkfCeyNeUkfeinj+eSujjXlufIaDzi6O/3aK8pqGitVduGlhmJ0LvBDJ0r28r6e9gy5H4DTz7+RRbQKQYGpTOJXPkbyE5j1rjwjfp1qTDiErIY107EUO/v5r0hsojaM+ruUzMBBa+jF40PiDSmLbLMwOZVxepB0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199021)(41300700001)(6486002)(5660300002)(186003)(8936002)(8676002)(36756003)(38100700002)(6506007)(6512007)(26005)(4326008)(66556008)(66476007)(31686004)(44832011)(316002)(66946007)(2906002)(30864003)(83380400001)(478600001)(2616005)(450100002)(31696002)(86362001)(43740500002)(45980500001)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1NGelZXZWF0UGU4aVM5ZDBqRktzbGJRbDYxRFVqMWNzYVF2djR5RW9WWnlR?=
+ =?utf-8?B?SVhreEhTVWMyRkNxUDFBRTREMGtZWm9wOElqa0h2R3NZUGpSeGJtTE1LaU5w?=
+ =?utf-8?B?SEFkd2FHV0NSeHBnQ0VNZ25IQUpaVWFDNy9wMStTYUFpb1lsYVozczJRdjZL?=
+ =?utf-8?B?aWlSdFRoSllDRExuRmladk1pWkRzcGtnZXE4WEhBKzZidkpQaUVaNFkrZjFo?=
+ =?utf-8?B?MmJWdEo0SmpxNE5YNkt5dnJ3azBsTW9JTHI3ZXhUZjc4dkYzOTdZenkxUGZJ?=
+ =?utf-8?B?bHVzdXFBS1ZoS2ZQUHpMYWpHQURLVXplSi9XNFlzUHJmaU11Wm12bTdwVDVk?=
+ =?utf-8?B?N2s2Yis0b0J1TUdVY2daWjFtemU5ano1L2NVai83SkdzNXBLWGluR284K25l?=
+ =?utf-8?B?RDlQSTJmM1JEWTNJTUZTL25kcnY5QldTejNoekw4RG10bjN5dHFUTk40bWRp?=
+ =?utf-8?B?clJLOHN1TXR4NFYva1B6TlB1SVdHTXN3N0UxQ3p2ZHNSSjNjWlhFY2c4eGVo?=
+ =?utf-8?B?RWUxcXhkZndBdGdnN2htcEpDOUFqMlZxVUFMMmZMa3owbVJrQ0xoWVIzVk1F?=
+ =?utf-8?B?SmEraE03dDVCWUNTTy9zeUV1bXlBYVA5eU8zTWkvcVlhS1c3b2NrTkxaMFFl?=
+ =?utf-8?B?NlBZN0IwVG9rKzZEOXdqWVJDOWNWNFg5L1oyL2hha1JhSlFTdTFkNTVYZFNH?=
+ =?utf-8?B?ek1IN2Zhd3JOcGlLWFhjNFBubUtqTk42TkdLSUdPRVVmUkVHV2ZQbzdteElX?=
+ =?utf-8?B?SmNRWkprT1dnTGNPbGswVktjWTJJMkVQUWJrMEpQS3R1cTFTK3lRZWIySlNk?=
+ =?utf-8?B?STR0T3ZaRGYydWlUR0M4a2FMYmU2djB3TUFYcC9Mc2x2Zmk3VHUxU2ZocC9J?=
+ =?utf-8?B?MlROTFlTVlpkQldoUy9Da1VPa2w0UkI1QXpHNU0zTTNKTU1mbFZCNThwUTNV?=
+ =?utf-8?B?bFhTTE01NFh5a1gvSnk2TTdFWmVoa0JkY3ZVZjFzb3ZlakVnODEvWC8wbnNV?=
+ =?utf-8?B?S1VvRkhUMEFEei9IZ2oxb3JPUS95elg2Vlpyd1JPR3d4aWhuVFpRbEpYZDVP?=
+ =?utf-8?B?aGQ5T2d3OWxkbHVEc0N3aC9ZdVdEMlJJeThjUHlqdyszbnlqcXdSdS9XZGcv?=
+ =?utf-8?B?WEhQQS84aGFmYjVPWW9OVVVrM2Q2MjlBTnVqS2xlRmd0T1FiRm1FYTRYWk11?=
+ =?utf-8?B?d0N4SlBNSFJzQVZ0TTBFQnFsRkdoeWd4b3FFd2VITnl1R2ZRemlKdUdMcFBV?=
+ =?utf-8?B?MDh6dUl6ME1QYk5SRElVMmg2VU9zdTk3bHFCTDVMckJkaDBHaVdERXFiUzR6?=
+ =?utf-8?B?Rll2NkxKcXppUHVmWVBrSTBaUHM0Qk54OXpaYWFySHV1Y2FpakNiTlQvaHlq?=
+ =?utf-8?B?VWRJVHdYQnlsQUVXaERNMFlHOWxhall0eGVrZnhuMTk5VU9KamtkMUhQRWEy?=
+ =?utf-8?B?L1dCY282MWgxSTRZQnhIQ2hHeURFV013Q0xQRVlzWnZBVUE3aWpaUVNxVzJi?=
+ =?utf-8?B?UXF6TzhNY0pwSlEycndubUpDV1ZjaUVHaXdmWXpDVytzU21Oa0FRMVBjbElJ?=
+ =?utf-8?B?RlJEeFk3YW5QenNCWHRMbFR6dmhJaHRzU3E1RFlOaWV3R2JDekRLTFNGRDJR?=
+ =?utf-8?B?aUMxUllXempSd256cG5JS2huaDFwZm5DWkhCd21hdVFSZnlLNDltdW4vQmtk?=
+ =?utf-8?B?bFdLT0tBb3NyM05JWVUyS0NDVHFIQjd2akpBaHh5MUZvWGM5TGttUDVYNjJ3?=
+ =?utf-8?B?MEkrNFUwRjFGQ2E3ZHdKRHJuV0NaSWxPYWZSNHhlVkZacDAvUDRHcDM4Rlo1?=
+ =?utf-8?B?R252Rnh2TVpqSTV1dXRxK1k2UDZIUGdDMmZRZjNWMmh0cG9hVktzdlhscjYx?=
+ =?utf-8?B?RTFBSjJxK21wU1pSY0U3TnJZeWlIMk9ON01wOHFhNURWVml0U3hrdG5hdkhr?=
+ =?utf-8?B?amwwV0E4bUNIWkZCaSsxN2JaSlJQMHc5T2xWdGxGZHJ1Q1NkR3duUWRZdlR3?=
+ =?utf-8?B?OGc0SnFhTGVKUUdTMzZxdW5HV3o2Mk43b0RoNEVCQ2xVWFlWcnROUGJYdGU3?=
+ =?utf-8?B?QUVRV09JYi91Y05FMEs2ckZQRTVyd0JqeG8rQWNuZldQc01aQU8wc0x1RVFD?=
+ =?utf-8?Q?ZftdW3qoqR1is+Qldlv5RETNo?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad97575d-2966-48b1-f776-08db614a0a2e
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 20:11:23.1076 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h7uDELlk6qXxtUP3bgEUa7fxFHIX+VVYXRrsIUt1xg3TWnqQEsg9Gc+pzdO1IEg0TScoDciyWJtbeswhqW4T0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8375
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,582 +126,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jinhuieric.Huang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 2023-05-25 um 13:27 schrieb Jonathan Kim:
+> The debugger can attach to a process prior to HSA enablement (i.e.
+> inferior is spawned by the debugger and attached to immediately before
+> target process has been enabled for HSA dispatches) or it
+> can attach to a running target that is already HSA enabled.  Either
+> way, the debugger needs to know the enablement status to know when
+> it can inspect queues.
+>
+> For the scenario where the debugger spawns the target process,
+> it will have to wait for ROCr's runtime enable request from the target.
+> The runtime enable request will be able to see that its process has been
+> debug attached.  ROCr raises an EC_PROCESS_RUNTIME signal to the
+> debugger then blocks the target process while waiting the debugger's
+> response. Once the debugger has received the runtime signal, it will
+> unblock the target process.
+>
+> For the scenario where the debugger attaches to a running target
+> process, ROCr will set the target process' runtime status as enabled so
+> that on an attach request, the debugger will be able to see this
+> status and will continue with debug enablement as normal.
+>
+> A secondary requirement is to conditionally enable the trap tempories only
+> if the user requests it (env var HSA_ENABLE_DEBUG=1) or if the debugger
+> attaches with HSA runtime enabled.  This is because setting up the trap
+> temporaries incurs a performance overhead that is unacceptable for
+> microbench performance in normal mode for certain customers.
+>
+> In the scenario where the debugger spawns the target process, when ROCr
+> detects that the debugger has attached during the runtime enable
+> request, it will enable the trap temporaries before it blocks the target
+> process while waiting for the debugger to respond.
+>
+> In the scenario where the debugger attaches to a running target process,
+> it will enable to trap temporaries itself.
+>
+> Finally, there is an additional restriction that is required to be
+> enforced with runtime enable and HW debug mode setting. The debugger must
+> first ensure that HW debug mode has been enabled before permitting HW debug
+> mode operations.
+>
+> With single process debug devices, allowing the debugger to set debug
+> HW modes prior to trap activation means that debug HW mode setting can
+> occur before the KFD has reserved the debug VMID (0xf) from the hardware
+> scheduler's VMID allocation resource pool.  This can result in the
+> hardware scheduler assigning VMID 0xf to a non-debugged process and
+> having that process inherit debug HW mode settings intended for the
+> debugged target process instead, which is both incorrect and potentially
+> fatal for normal mode operation.
+>
+> With multi process debug devices, allowing the debugger to set debug
+> HW modes prior to trap activation means that non-debugged processes
+> migrating to a new VMID could inherit unintended debug settings.
+>
+> All debug operations that touch HW settings must require trap activation
+> where trap activation is triggered by both debug attach and runtime
+> enablement (target has KFD opened and is ready to dispatch work).
+>
+> v2: fixup with new kfd_node struct reference
+>
+> Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
+
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
 
-On 5/18/2023 3:17 PM, Jessica Zhang wrote:
-> 
-> 
-> On 5/17/2023 5:19 PM, Dmitry Baryshkov wrote:
->> On 16/05/2023 23:20, Jessica Zhang wrote:
->>> Add support for the 1080x2340 Visionox R66451 AMOLED DSI panel that
->>> comes with the Qualcomm HDK8350 display expansion pack.
->>>
->>> The panel enables display compression (DSC v1.2) by default.
->>>
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/panel/Kconfig                 |   8 +
->>>   drivers/gpu/drm/panel/Makefile                |   1 +
->>>   drivers/gpu/drm/panel/panel-visionox-r66451.c | 395 
->>> ++++++++++++++++++++++++++
->>>   3 files changed, 404 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/panel/Kconfig 
->>> b/drivers/gpu/drm/panel/Kconfig
->>> index 29cf5fa39ff2..9c2c36dbddf3 100644
->>> --- a/drivers/gpu/drm/panel/Kconfig
->>> +++ b/drivers/gpu/drm/panel/Kconfig
->>> @@ -766,6 +766,14 @@ config DRM_PANEL_VISIONOX_VTDR6130
->>>         Say Y here if you want to enable support for Visionox
->>>         VTDR6130 1080x2400 AMOLED DSI panel.
->>> +config DRM_PANEL_VISIONOX_R66451
->>> +    tristate "Visionox R66451"
->>> +    depends on OF
->>> +    depends on DRM_MIPI_DSI
->>> +    help
->>> +      Say Y here if you want to enable support for Visionox
->>> +      R66451 1080x2340 AMOLED DSI panel.
->>> +
->>>   config DRM_PANEL_WIDECHIPS_WS2401
->>>       tristate "Widechips WS2401 DPI panel driver"
->>>       depends on SPI && GPIOLIB
->>> diff --git a/drivers/gpu/drm/panel/Makefile 
->>> b/drivers/gpu/drm/panel/Makefile
->>> index b3e8ba29edd3..e043a92ee676 100644
->>> --- a/drivers/gpu/drm/panel/Makefile
->>> +++ b/drivers/gpu/drm/panel/Makefile
->>> @@ -78,5 +78,6 @@ obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += 
->>> panel-tpo-tpg110.o
->>>   obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
->>>   obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
->>>   obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
->>> +obj-$(CONFIG_DRM_PANEL_VISIONOX_R66451) += panel-visionox-r66451.o
->>>   obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
->>>   obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += 
->>> panel-xinpeng-xpp055c272.o
->>> diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c 
->>> b/drivers/gpu/drm/panel/panel-visionox-r66451.c
->>> new file mode 100644
->>> index 000000000000..e3648ead3e84
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
->>> @@ -0,0 +1,395 @@
->>> +//SPDX-License-Identifier: GPL-2.0-only
->>> +//Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
->>> reserved.
->>> +
->>> +#include <linux/backlight.h>
->>> +#include <linux/delay.h>
->>> +#include <linux/gpio/consumer.h>
->>> +#include <linux/module.h>
->>> +#include <linux/of.h>
->>> +#include <linux/regulator/consumer.h>
->>> +
->>> +#include <drm/drm_mipi_dsi.h>
->>> +#include <drm/drm_modes.h>
->>> +#include <drm/drm_panel.h>
->>> +#include <drm/display/drm_dsc.h>
->>> +#include <drm/display/drm_dsc_helper.h>
->>> +
->>> +#include <video/mipi_display.h>
->>> +
->>> +struct visionox_r66451 {
->>> +    struct drm_panel panel;
->>> +    struct mipi_dsi_device *dsi;
->>> +    struct gpio_desc *reset_gpio;
->>> +    struct regulator_bulk_data supplies[2];
->>> +    bool prepared, enabled;
->>> +};
->>> +
->>> +static inline struct visionox_r66451 *to_visionox_r66451(struct 
->>> drm_panel *panel)
->>> +{
->>> +    return container_of(panel, struct visionox_r66451, panel);
->>> +}
->>> +
->>> +static void visionox_r66451_reset(struct visionox_r66451 *ctx)
->>> +{
->>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
->>> +    usleep_range(10000, 10100);
->>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>> +    usleep_range(10000, 10100);
->>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 0);
->>> +    usleep_range(10000, 10100);
->>> +}
->>> +
->>> +static int visionox_r66451_on(struct visionox_r66451 *ctx)
->>> +{
->>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>> +    struct device *dev = &dsi->dev;
->>> +    int ret;
->>> +
->>> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->>> +
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xc2,
->>> +                   0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x09, 0x3c);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
->>> +                   0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 
->>> 0x0a,
->>> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x19,
->>> +                   0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xde,
->>> +                   0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 
->>> 0x18,
->>> +                   0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 
->>> 0x00, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xc4,
->>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xcf,
->>> +                   0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x08,
->>> +                   0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 
->>> 0x01,
->>> +                   0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xd3,
->>> +                   0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 
->>> 0x07,
->>> +                   0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 
->>> 0xa0,
->>> +                   0x3c, 0x9c);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xd7,
->>> +                   0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 
->>> 0x0a,
->>> +                   0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x19,
->>> +                   0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xd8,
->>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 
->>> 0x3a,
->>> +                   0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x0a,
->>> +                   0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf,
->>> +                   0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 
->>> 0x00,
->>> +                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 
->>> 0x39, 0x04, 0x09, 0x34);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
->>> +    mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
->>> +    mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_COLUMN_ADDRESS, 0x00, 
->>> 0x00, 0x04, 0x37);
->>
->> Please use mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
-> 
-> Hi Dmitry,
-> 
-> Acked.
-> 
->>
->>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PAGE_ADDRESS, 0x00, 
->>> 0x00, 0x09, 0x23);
->>
->> mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
-> 
-> Acked.
-> 
->>
->>> +
->>> +    ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
->>> +        return ret;
->>> +    }
->>> +    msleep(120);
->>> +
->>> +    ret = mipi_dsi_dcs_set_display_on(dsi);
->>
->> Should the mipi_dsi_dcs_set_display_on() (and maybe exit sleep mode) 
->> be a a part of _enable()? Correspondingly _off should IMO be a part of 
->> _disable callback().
-> 
-> Acked. Looking at the downstream code, it seems that all the dcs on 
-> commands can be sent within _enable() (and similarly for the off 
-> commands with _disable()).
-> 
->>
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed on set display on: %d\n", ret);
->>> +        return ret;
->>> +    }
->>> +    msleep(20);
->>
->>
->> Do we need to add here the following line?
->>
->> dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> 
-> Do you mean within the return on error block?
-> 
->  From my understanding, we should be setting the MIPI_DSI_MODE_LPM for 
-> panel_on() then unsetting MODE_LPM in panel_off().
-> 
->>
->>
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int visionox_r66451_off(struct visionox_r66451 *ctx)
->>> +{
->>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>> +    struct device *dev = &dsi->dev;
->>> +    int ret;
->>> +
->>> +    dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->>> +
->>> +    ret = mipi_dsi_dcs_set_display_off(dsi);
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed to set display off: %d\n", ret);
->>> +        return ret;
->>> +    }
->>> +    msleep(20);
->>> +
->>> +    ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
->>> +        return ret;
->>> +    }
->>> +    msleep(120);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int visionox_r66451_prepare(struct drm_panel *panel)
->>> +{
->>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>> +    struct device *dev = &ctx->dsi->dev;
->>> +    int ret;
->>> +
->>> +    if (ctx->prepared)
->>> +        return 0;
->>> +
->>> +    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
->>> +                    ctx->supplies);
->>> +    if (ret < 0)
->>> +        return ret;
->>> +
->>> +    visionox_r66451_reset(ctx);
->>> +
->>> +    ret = visionox_r66451_on(ctx);
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed to initialize panel: %d\n", ret);
->>> +        gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>> +        regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), 
->>> ctx->supplies);
->>> +        return ret;
->>> +    }
->>> +
->>> +    ctx->prepared = true;
->>> +    return 0;
->>> +}
->>> +
->>> +static int visionox_r66451_unprepare(struct drm_panel *panel)
->>> +{
->>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>> +    struct device *dev = &ctx->dsi->dev;
->>> +    int ret;
->>> +
->>> +    if (!ctx->prepared)
->>> +        return 0;
->>> +
->>> +    ret = visionox_r66451_off(ctx);
->>> +    if (ret < 0)
->>> +        dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
->>> +
->>> +    gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->>> +    regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->>> +
->>> +    ctx->prepared = false;
->>> +    return 0;
->>> +}
->>> +
->>> +static const struct drm_display_mode visionox_r66451_mode = {
->>> +    .clock = (1080 + 95 + 1 + 40) * (2340 + 25 + 1 + 4) * 120 / 1000,
->>> +    .hdisplay = 1080,
->>> +    .hsync_start = 1080 + 95,
->>> +    .hsync_end = 1080 + 95 + 1,
->>> +    .htotal = 1080 + 95 + 1 + 40,
->>> +    .vdisplay = 2340,
->>> +    .vsync_start = 2340 + 25,
->>> +    .vsync_end = 2340 + 25 + 1,
->>> +    .vtotal = 2340 + 25 + 1 + 4,
->>> +    .width_mm = 0,
->>> +    .height_mm = 0,
->>
->> Please provide real values here.
-> 
-> Acked.
-> 
->>
->>> +};
->>> +
->>> +static int visionox_r66451_enable(struct drm_panel *panel)
->>> +{
->>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>> +    struct drm_dsc_picture_parameter_set pps;
->>> +    int ret;
->>> +
->>> +    if (ctx->enabled)
->>> +        return 0;
->>> +
->>> +    if (!dsi->dsc) {
->>> +        dev_err(&dsi->dev, "DSC not attached to DSI\n");
->>> +        return -ENODEV;
->>> +    }
->>> +
->>> +    drm_dsc_pps_payload_pack(&pps, dsi->dsc);
->>> +    ret = mipi_dsi_picture_parameter_set(dsi, &pps);
->>> +
->>> +    ctx->enabled = true;
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int visionox_r66451_disable(struct drm_panel *panel)
->>> +{
->>> +    struct visionox_r66451 *ctx = to_visionox_r66451(panel);
->>> +
->>> +    ctx->enabled = false;
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int visionox_r66451_get_modes(struct drm_panel *panel,
->>> +                    struct drm_connector *connector)
->>> +{
->>> +    struct drm_display_mode *mode;
->>> +
->>> +    mode = drm_mode_duplicate(connector->dev, &visionox_r66451_mode);
->>> +    if (!mode)
->>> +        return -ENOMEM;
->>> +
->>> +    drm_mode_set_name(mode);
->>> +
->>> +    mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->>> +    connector->display_info.width_mm = mode->width_mm;
->>> +    connector->display_info.height_mm = mode->height_mm;
->>> +    drm_mode_probed_add(connector, mode);
->>
->> Can we use drm_connector_helper_get_modes_fixed() instead?
-> 
-> Acked.
-
-Hi Dmitry,
-
-Just wanted to follow up on this -- As Marijn mentioned in a separated 
-thread, DRM_MODE_TYPE_DRIVER is not set within 
-drm_connector_helper_get_modes_fixed(), and looking at the kernel docs, 
-that's a required flag for this mode.
-
-Since I'm not able to set the *_TYPE_DRIVER flag before 
-*_get_modes_fixed() is called, I'll stick to using the previous method 
-of calling drm_mode_probed_add() directly in 
-visionox_r66451_get_modes(). (FWIW, other drivers such as 
-panel-visionox-vtdr6130, panel-truly-nt35597, and panel-visionox-rm69299 
-also don't use *_get_modes_fixed() and call drm_mode_probed_add() 
-directly in their get_mode() implementations.)
-
-Thanks,
-
-Jessica Zhang
-
-> 
->>
->>> +
->>> +    return 1;
->>> +}
->>> +
->>> +static const struct drm_panel_funcs visionox_r66451_funcs = {
->>> +    .prepare = visionox_r66451_prepare,
->>> +    .unprepare = visionox_r66451_unprepare,
->>> +    .get_modes = visionox_r66451_get_modes,
->>> +    .enable = visionox_r66451_enable,
->>> +    .disable = visionox_r66451_disable,
->>> +};
->>> +
->>> +static int visionox_r66451_bl_update_status(struct backlight_device 
->>> *bl)
->>> +{
->>> +    struct mipi_dsi_device *dsi = bl_get_data(bl);
->>> +    u16 brightness = backlight_get_brightness(bl);
->>> +
->>> +    return mipi_dsi_dcs_set_display_brightness(dsi, 
->>> cpu_to_le16(brightness));
->>
->> mipi_dsi_dcs_set_display_brightness() already converts the brightness, 
->> so you don't need cpu_to_le16 here.
-> 
-> Acked.
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
->>
->>> +}
->>> +
->>> +static const struct backlight_ops visionox_r66451_bl_ops = {
->>> +    .update_status = visionox_r66451_bl_update_status,
->>> +};
->>> +
->>> +static struct backlight_device *
->>> +visionox_r66451_create_backlight(struct mipi_dsi_device *dsi)
->>> +{
->>> +    struct device *dev = &dsi->dev;
->>> +    const struct backlight_properties props = {
->>> +        .type = BACKLIGHT_RAW,
->>> +        .brightness = 255,
->>> +        .max_brightness = 4095,
->>> +    };
->>> +
->>> +    return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
->>> +                          &visionox_r66451_bl_ops, &props);
->>> +}
->>> +
->>> +static int visionox_r66451_probe(struct mipi_dsi_device *dsi)
->>> +{
->>> +    struct device *dev = &dsi->dev;
->>> +    struct visionox_r66451 *ctx;
->>> +    struct drm_dsc_config *dsc;
->>> +    int ret = 0;
->>> +
->>> +    ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->>> +    if (!ctx)
->>> +        return -ENOMEM;
->>> +
->>> +    dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
->>> +    if (!dsc)
->>> +        return -ENOMEM;
->>> +
->>> +    /* Set DSC params */
->>> +    dsc->dsc_version_major = 0x1;
->>> +    dsc->dsc_version_minor = 0x2;
->>> +
->>> +    dsc->slice_height = 20;
->>> +    dsc->slice_width = 540;
->>> +    dsc->slice_count = 2;
->>> +    dsc->bits_per_component = 8;
->>> +    dsc->bits_per_pixel = 0x8 << 4;
->>> +    dsc->block_pred_enable = true;
->>> +
->>> +    dsi->dsc = dsc;
->>> +
->>> +    ctx->supplies[0].supply = "vddio";
->>> +    ctx->supplies[1].supply = "vdd";
->>> +
->>> +    ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
->>> +            ctx->supplies);
->>> +
->>> +    if (ret < 0)
->>> +        return ret;
->>> +
->>> +    ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->>> +    if (IS_ERR(ctx->reset_gpio))
->>> +        return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio), "Failed 
->>> to get reset-gpios\n");
->>> +
->>> +    ctx->dsi = dsi;
->>> +    mipi_dsi_set_drvdata(dsi, ctx);
->>> +
->>> +    dsi->lanes = 4;
->>> +    dsi->format = MIPI_DSI_FMT_RGB888;
->>> +    dsi->mode_flags = MIPI_DSI_MODE_LPM | 
->>> MIPI_DSI_CLOCK_NON_CONTINUOUS;
->>> +
->>> +    drm_panel_init(&ctx->panel, dev, &visionox_r66451_funcs, 
->>> DRM_MODE_CONNECTOR_DSI);
->>> +    ctx->panel.backlight = visionox_r66451_create_backlight(dsi);
->>> +    if (IS_ERR(ctx->panel.backlight))
->>> +        return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
->>> +                "Failed to create backlight\n");
->>> +
->>> +    drm_panel_add(&ctx->panel);
->>> +
->>> +    ret = mipi_dsi_attach(dsi);
->>> +    if (ret < 0) {
->>> +        dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
->>> +        drm_panel_remove(&ctx->panel);
->>> +    }
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static void visionox_r66451_remove(struct mipi_dsi_device *dsi)
->>> +{
->>> +    struct visionox_r66451 *ctx = mipi_dsi_get_drvdata(dsi);
->>> +    int ret;
->>> +
->>> +    ret = mipi_dsi_detach(dsi);
->>> +    if (ret < 0)
->>> +        dev_err(&dsi->dev, "Failed to detach DSI host: %d\n", ret);
->>> +
->>> +    drm_panel_remove(&ctx->panel);
->>> +}
->>> +
->>> +static const struct of_device_id visionox_r66451_of_match[] = {
->>> +    {.compatible = "visionox,r66451"},
->>> +    { /*sentinel*/ }
->>> +};
->>> +MODULE_DEVICE_TABLE(of, visionox_r66451_of_match);
->>> +
->>> +static struct mipi_dsi_driver visionox_r66451_driver = {
->>> +    .probe = visionox_r66451_probe,
->>> +    .remove = visionox_r66451_remove,
->>> +    .driver = {
->>> +        .name = "panel-visionox-r66451",
->>> +        .of_match_table = visionox_r66451_of_match,
->>> +    },
->>> +};
->>> +
->>> +module_mipi_dsi_driver(visionox_r66451_driver);
->>> +
->>> +MODULE_AUTHOR("Jessica Zhang <quic_jesszhan@quicinc.com>");
->>> +MODULE_DESCRIPTION("Panel driver for the Visionox R66451 AMOLED DSI 
->>> panel");
->>> +MODULE_LICENSE("GPL");
->>>
->>
->> -- 
->> With best wishes
->> Dmitry
->>
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 143 ++++++++++++++++++++++-
+>   drivers/gpu/drm/amd/amdkfd/kfd_debug.c   |   6 +-
+>   drivers/gpu/drm/amd/amdkfd/kfd_debug.h   |   4 +
+>   drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |   1 +
+>   4 files changed, 150 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> index ec5a85454192..73cb5abce431 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -2738,11 +2738,140 @@ static int kfd_ioctl_criu(struct file *filep, struct kfd_process *p, void *data)
+>   	return ret;
+>   }
+>   
+> -static int kfd_ioctl_runtime_enable(struct file *filep, struct kfd_process *p, void *data)
+> +static int runtime_enable(struct kfd_process *p, uint64_t r_debug,
+> +			bool enable_ttmp_setup)
+> +{
+> +	int i = 0, ret = 0;
+> +
+> +	if (p->is_runtime_retry)
+> +		goto retry;
+> +
+> +	if (p->runtime_info.runtime_state != DEBUG_RUNTIME_STATE_DISABLED)
+> +		return -EBUSY;
+> +
+> +	for (i = 0; i < p->n_pdds; i++) {
+> +		struct kfd_process_device *pdd = p->pdds[i];
+> +
+> +		if (pdd->qpd.queue_count)
+> +			return -EEXIST;
+> +	}
+> +
+> +	p->runtime_info.runtime_state = DEBUG_RUNTIME_STATE_ENABLED;
+> +	p->runtime_info.r_debug = r_debug;
+> +	p->runtime_info.ttmp_setup = enable_ttmp_setup;
+> +
+> +	if (p->runtime_info.ttmp_setup) {
+> +		for (i = 0; i < p->n_pdds; i++) {
+> +			struct kfd_process_device *pdd = p->pdds[i];
+> +
+> +			if (!kfd_dbg_is_rlc_restore_supported(pdd->dev)) {
+> +				amdgpu_gfx_off_ctrl(pdd->dev->adev, false);
+> +				pdd->dev->kfd2kgd->enable_debug_trap(
+> +						pdd->dev->adev,
+> +						true,
+> +						pdd->dev->vm_info.last_vmid_kfd);
+> +			} else if (kfd_dbg_is_per_vmid_supported(pdd->dev)) {
+> +				pdd->spi_dbg_override = pdd->dev->kfd2kgd->enable_debug_trap(
+> +						pdd->dev->adev,
+> +						false,
+> +						0);
+> +			}
+> +		}
+> +	}
+> +
+> +retry:
+> +	if (p->debug_trap_enabled) {
+> +		if (!p->is_runtime_retry) {
+> +			kfd_dbg_trap_activate(p);
+> +			kfd_dbg_ev_raise(KFD_EC_MASK(EC_PROCESS_RUNTIME),
+> +					p, NULL, 0, false, NULL, 0);
+> +		}
+> +
+> +		mutex_unlock(&p->mutex);
+> +		ret = down_interruptible(&p->runtime_enable_sema);
+> +		mutex_lock(&p->mutex);
+> +
+> +		p->is_runtime_retry = !!ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int runtime_disable(struct kfd_process *p)
+>   {
+> +	int i = 0, ret;
+> +	bool was_enabled = p->runtime_info.runtime_state == DEBUG_RUNTIME_STATE_ENABLED;
+> +
+> +	p->runtime_info.runtime_state = DEBUG_RUNTIME_STATE_DISABLED;
+> +	p->runtime_info.r_debug = 0;
+> +
+> +	if (p->debug_trap_enabled) {
+> +		if (was_enabled)
+> +			kfd_dbg_trap_deactivate(p, false, 0);
+> +
+> +		if (!p->is_runtime_retry)
+> +			kfd_dbg_ev_raise(KFD_EC_MASK(EC_PROCESS_RUNTIME),
+> +					p, NULL, 0, false, NULL, 0);
+> +
+> +		mutex_unlock(&p->mutex);
+> +		ret = down_interruptible(&p->runtime_enable_sema);
+> +		mutex_lock(&p->mutex);
+> +
+> +		p->is_runtime_retry = !!ret;
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (was_enabled && p->runtime_info.ttmp_setup) {
+> +		for (i = 0; i < p->n_pdds; i++) {
+> +			struct kfd_process_device *pdd = p->pdds[i];
+> +
+> +			if (!kfd_dbg_is_rlc_restore_supported(pdd->dev))
+> +				amdgpu_gfx_off_ctrl(pdd->dev->adev, true);
+> +		}
+> +	}
+> +
+> +	p->runtime_info.ttmp_setup = false;
+> +
+> +	/* disable ttmp setup */
+> +	for (i = 0; i < p->n_pdds; i++) {
+> +		struct kfd_process_device *pdd = p->pdds[i];
+> +
+> +		if (kfd_dbg_is_per_vmid_supported(pdd->dev)) {
+> +			pdd->spi_dbg_override =
+> +					pdd->dev->kfd2kgd->disable_debug_trap(
+> +					pdd->dev->adev,
+> +					false,
+> +					pdd->dev->vm_info.last_vmid_kfd);
+> +
+> +			if (!pdd->dev->kfd->shared_resources.enable_mes)
+> +				debug_refresh_runlist(pdd->dev->dqm);
+> +			else
+> +				kfd_dbg_set_mes_debug_mode(pdd);
+> +		}
+> +	}
+> +
+>   	return 0;
+>   }
+>   
+> +static int kfd_ioctl_runtime_enable(struct file *filep, struct kfd_process *p, void *data)
+> +{
+> +	struct kfd_ioctl_runtime_enable_args *args = data;
+> +	int r;
+> +
+> +	mutex_lock(&p->mutex);
+> +
+> +	if (args->mode_mask & KFD_RUNTIME_ENABLE_MODE_ENABLE_MASK)
+> +		r = runtime_enable(p, args->r_debug,
+> +				!!(args->mode_mask & KFD_RUNTIME_ENABLE_MODE_TTMP_SAVE_MASK));
+> +	else
+> +		r = runtime_disable(p);
+> +
+> +	mutex_unlock(&p->mutex);
+> +
+> +	return r;
+> +}
+> +
+>   static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, void *data)
+>   {
+>   	struct kfd_ioctl_dbg_trap_args *args = data;
+> @@ -2815,6 +2944,18 @@ static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, v
+>   		goto unlock_out;
+>   	}
+>   
+> +	if (target->runtime_info.runtime_state != DEBUG_RUNTIME_STATE_ENABLED &&
+> +			(args->op == KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_OVERRIDE ||
+> +			 args->op == KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_MODE ||
+> +			 args->op == KFD_IOC_DBG_TRAP_SUSPEND_QUEUES ||
+> +			 args->op == KFD_IOC_DBG_TRAP_RESUME_QUEUES ||
+> +			 args->op == KFD_IOC_DBG_TRAP_SET_NODE_ADDRESS_WATCH ||
+> +			 args->op == KFD_IOC_DBG_TRAP_CLEAR_NODE_ADDRESS_WATCH ||
+> +			 args->op == KFD_IOC_DBG_TRAP_SET_FLAGS)) {
+> +		r = -EPERM;
+> +		goto unlock_out;
+> +	}
+> +
+>   	switch (args->op) {
+>   	case KFD_IOC_DBG_TRAP_ENABLE:
+>   		if (target != p)
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
+> index 61098975bb0e..a19c21d04438 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
+> @@ -219,7 +219,7 @@ static int kfd_dbg_set_workaround(struct kfd_process *target, bool enable)
+>   	return r;
+>   }
+>   
+> -static int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd)
+> +int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd)
+>   {
+>   	uint32_t spi_dbg_cntl = pdd->spi_dbg_override | pdd->spi_dbg_launch_mode;
+>   	uint32_t flags = pdd->process->dbg_flags;
+> @@ -239,7 +239,7 @@ static int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd)
+>    *				to unwind
+>    *		else: ignored
+>    */
+> -static void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int unwind_count)
+> +void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int unwind_count)
+>   {
+>   	int i;
+>   
+> @@ -307,7 +307,7 @@ int kfd_dbg_trap_disable(struct kfd_process *target)
+>   	return 0;
+>   }
+>   
+> -static int kfd_dbg_trap_activate(struct kfd_process *target)
+> +int kfd_dbg_trap_activate(struct kfd_process *target)
+>   {
+>   	int i, r = 0;
+>   
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> index 2c6866bb8850..fca928564948 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> @@ -25,6 +25,8 @@
+>   
+>   #include "kfd_priv.h"
+>   
+> +void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int unwind_count);
+> +int kfd_dbg_trap_activate(struct kfd_process *target);
+>   bool kfd_dbg_ev_raise(uint64_t event_mask,
+>   			struct kfd_process *process, struct kfd_node *dev,
+>   			unsigned int source_id, bool use_worker,
+> @@ -77,4 +79,6 @@ static inline bool kfd_dbg_has_gws_support(struct kfd_node *dev)
+>   	/* Assume debugging and cooperative launch supported otherwise. */
+>   	return true;
+>   }
+> +
+> +int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd);
+>   #endif
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> index 58b82fa59584..4b80f74b9de0 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> @@ -980,6 +980,7 @@ struct kfd_process {
+>   
+>   	/* Tracks runtime enable status */
+>   	struct semaphore runtime_enable_sema;
+> +	bool is_runtime_retry;
+>   	struct kfd_runtime_info runtime_info;
+>   
+>   };
