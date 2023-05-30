@@ -1,74 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C222716A54
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:00:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A06716A56
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06DE010E250;
-	Tue, 30 May 2023 17:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3721A10E230;
+	Tue, 30 May 2023 17:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0585810E250
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 17:00:12 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id
- ca18e2360f4ac-77483f80522so333370339f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 10:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1685466011; x=1688058011;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
- b=jRXauzNHnPa9RUyLTlRsAIVWueXptvjw/3xeiajL0rSmjqOHbAx8emWXTdxJrvBQcH
- AMTrwGIYIQkpJW8dQ4j0iyOpAMqptil/q8BqgideigYpO5DXocbiaaXIqi73F80qlhq5
- EAVNxUlt3wJyFGu0od4f/IQK2R4WS0uSoOj78=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685466011; x=1688058011;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
- b=jt2BvDERiBcPhTJPeWoAmjkbWJJmT7Tj5qHqGh/9Z/y++BR5YH4xnZaI5U3DPZ+CvY
- 1W/pYm8KNP9ysE9B8/Jj8fOLF8NtAlqqXf/XvsRQZjveTCNKz3zY5Kcz3OFlAEfMDYDR
- MxBILP+rNjIf78UcJb8uZTOPdVKlqFfshz6AivqRdOkcB+veH9OVML0F/hEcEytLS1Yj
- aMVczupPbcdTxLUXq7pK25EPvP9SLsuZ7bL3uT1faFkKfGPJw1RM/CyF9aNR1RsrMT4j
- 16qLIdm8uoKc80QuTIoIbHrS7Lf8SRcLKfgdM3RT2Bl7YwJzAMn6yYJXLnypJA28KFeq
- 45IQ==
-X-Gm-Message-State: AC+VfDw+9Kyff4FixwoFjaX0lhqJWD4DIp4zYIz9X9CCebbye1qgvcJP
- Lsf9DwYEE1UpPWjG1YTFnpiRc5xBXL4/c66UeUc=
-X-Google-Smtp-Source: ACHHUZ6nTwuG3YXzCN6akWdbaQwA2jMjwvbh0rQhs/m4l0EfCBenfBFnWm+FuObhrdOBGlW3ZwhJrQ==
-X-Received: by 2002:a05:6602:4243:b0:76c:826f:2188 with SMTP id
- cc3-20020a056602424300b0076c826f2188mr2147954iob.6.1685466011379; 
- Tue, 30 May 2023 10:00:11 -0700 (PDT)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com.
- [209.85.166.174]) by smtp.gmail.com with ESMTPSA id
- f42-20020a05663832aa00b0041cea93e589sm805561jav.152.2023.05.30.10.00.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 May 2023 10:00:11 -0700 (PDT)
-Received: by mail-il1-f174.google.com with SMTP id
- e9e14a558f8ab-33baee0235cso3905ab.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 10:00:11 -0700 (PDT)
-X-Received: by 2002:a92:c24e:0:b0:338:3b6a:4719 with SMTP id
- k14-20020a92c24e000000b003383b6a4719mr165620ilo.17.1685465557498; Tue, 30 May
- 2023 09:52:37 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E8310E230;
+ Tue, 30 May 2023 17:01:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685466066; x=1717002066;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pIpLnI9VbPSNOfatE8Itf/eiQi3DfssCFMCPwBQsPrU=;
+ b=npkjURUacFAhTpOwpzg0q12sV8XnjddXrdOAmh9MJzdn68LnhFbf2BkE
+ D1su+n4KlS7+dmPN14dLBAKz6vI/y70y7FQqTt0JSaqMA8qIP57/jNvnO
+ HyXvZ/bUogClTpKtxviG+3TQj+SuBjKlItXfHuqIONMOap6JwWzW5PaQv
+ QmgC149AY4lBxrnzZd8i18/4wQ0mlAVvNgixkkhK7zRn3VBBwgNwHiyua
+ 5MXDhg5TlBf70fhNtZsOk9MK7D4ucee+/F0Soq3Xzh4wylheDCujLma6t
+ EdxGKnldYdLFWzbFbkN0BhSZvdRXwIrNWJ1rsuzCrqUdE540OLcYwm/TM g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="420749334"
+X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; d="scan'208";a="420749334"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2023 10:01:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="818893540"
+X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; d="scan'208";a="818893540"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga002.fm.intel.com with ESMTP; 30 May 2023 10:01:04 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/selftest/gsc: Ensure GSC Proxy init completes
+ before selftests
+Date: Tue, 30 May 2023 10:01:04 -0700
+Message-Id: <20230530170104.2192126-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230523193017.4109557-1-dianders@chromium.org>
- <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
- <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
-In-Reply-To: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 30 May 2023 09:52:25 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
- i2c-hid backed panels
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,72 +55,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-input@vger.kernel.org,
- hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On MTL, if the GSC Proxy init flows haven't completed, submissions to the
+GSC engine will fail. Those init flows are dependent on the mei's
+gsc_proxy component that is loaded in parallel with i915 and a
+worker that could potentially start after i915 driver init is done.
 
-On Tue, May 30, 2023 at 8:34=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 23/05/2023 21:27, Douglas Anderson wrote:
-> > As talked about in the patch ("drm/panel: Add a way for other devices
-> > to follow panel state"), touchscreens that are connected to panels are
-> > generally expected to be power sequenced together with the panel
-> > they're attached to. Today, nothing provides information allowing you
-> > to find out that a touchscreen is connected to a panel. Let's add a
-> > phandle for this.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> >  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
-> >  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
-> >  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
-> >  3 files changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
- b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > index 05e6f2df604c..d55b03bd3ec4 100644
-> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-> > @@ -24,6 +24,12 @@ properties:
-> >    interrupts:
-> >      maxItems: 1
-> >
-> > +  panel:
-> > +    description: If this is a touchscreen, the panel it's connected to=
-. This
->
-> Hm, can there be different setup? Touchscreen without panel? What would
-> it be then?
+That said, all subsytems that access the GSC engine today does check
+for such init flow completion before using the GSC engine. However,
+selftests currently don't wait on anything before starting.
 
-For a touchscreen that's a discrete device (not sharing logic / power
-rails with the panel) you'd just leave off the panel node like we've
-always done. Assuming folks like this series in general, I'll try to
-improve the wording for v2.
+To fix this, add a waiter function at the start of __run_selftests
+that waits for gsc-proxy init flows to complete. While implementing this,
+use an table of function pointers so its scalable to add additional
+waiter functions for future such "wait on dependency" cases that.
 
+Difference from prior versions:
+   v1: Based on internal testing, increase the timeout for gsc-proxy
+       specific case to 8 seconds.
 
-> Why only these touchscreens? This looks generic, so maybe in
-> touchscreen.yaml?
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+---
+ .../gpu/drm/i915/selftests/i915_selftest.c    | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
-Ah, that makes sense. I guess we need to add an include of that file
-from the elan and goodix bindings. The hid-over-i2c.yaml already has
-it, though. I'm not 100% sure the existing "hid-over-i2c" driver in
-Linux actually calls the function to parse all those properties, but I
-guess that's a Linux problem and not a DT bindings problem. ;-)
+diff --git a/drivers/gpu/drm/i915/selftests/i915_selftest.c b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+index 39da0fb0d6d2..77168a7a7e3f 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_selftest.c
++++ b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+@@ -24,6 +24,8 @@
+ #include <linux/random.h>
+ 
+ #include "gt/intel_gt_pm.h"
++#include "gt/uc/intel_gsc_fw.h"
++
+ #include "i915_driver.h"
+ #include "i915_drv.h"
+ #include "i915_selftest.h"
+@@ -127,6 +129,63 @@ static void set_default_test_all(struct selftest *st, unsigned int count)
+ 		st[i].enabled = true;
+ }
+ 
++static int
++__wait_gsc_proxy_completed(struct drm_i915_private *i915,
++			   unsigned long timeout_ms)
++{
++	bool need_to_wait = (IS_ENABLED(CONFIG_INTEL_MEI_GSC_PROXY) &&
++			     i915->media_gt &&
++			     HAS_ENGINE(i915->media_gt, GSC0) &&
++			     intel_uc_fw_is_loadable(&i915->media_gt->uc.gsc.fw));
++
++	/*
++	 * For gsc proxy component loading + init, we need a much longer timeout
++	 * than what CI selftest infrastrucutre currently uses. This longer wait
++	 * period depends on the kernel config and component driver load ordering
++	 */
++	if (timeout_ms < 8000)
++		timeout_ms = 8000;
++
++	if (need_to_wait &&
++	    (wait_for(intel_gsc_uc_fw_proxy_init_done(&i915->media_gt->uc.gsc),
++	    timeout_ms)))
++		return -ETIME;
++
++	return 0;
++}
++
++struct __startup_waiter {
++	const char *name;
++	int (*wait_to_completed)(struct drm_i915_private *i915, unsigned long timeout_ms);
++};
++
++static struct __startup_waiter all_startup_waiters[] = { \
++	{"gsc_proxy", __wait_gsc_proxy_completed} \
++	};
++
++static int __wait_on_all_system_dependencies(struct drm_i915_private *i915)
++{
++	struct __startup_waiter *waiter = all_startup_waiters;
++	int count = ARRAY_SIZE(all_startup_waiters);
++	int ret;
++
++	if (!waiter || !count || !i915)
++		return 0;
++
++	for (; count--; waiter++) {
++		if (!waiter->wait_to_completed)
++			continue;
++		ret = waiter->wait_to_completed(i915, i915_selftest.timeout_ms);
++		if (ret) {
++			pr_info(DRIVER_NAME ": Pre-selftest waiter %s failed with %d\n",
++				waiter->name, ret);
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
+ static int __run_selftests(const char *name,
+ 			   struct selftest *st,
+ 			   unsigned int count,
+@@ -134,6 +193,8 @@ static int __run_selftests(const char *name,
+ {
+ 	int err = 0;
+ 
++	__wait_on_all_system_dependencies(data);
++
+ 	while (!i915_selftest.random_seed)
+ 		i915_selftest.random_seed = get_random_u32();
+ 
 
--Doug
+base-commit: 0ae4ee2c735979030a0219218081eee661606921
+-- 
+2.39.0
+
