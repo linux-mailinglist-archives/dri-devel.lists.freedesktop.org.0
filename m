@@ -2,71 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2437158FD
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 10:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BFF71592F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 10:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A210210E12A;
-	Tue, 30 May 2023 08:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C08F810E3B6;
+	Tue, 30 May 2023 08:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4842110E157
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:48:49 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-51458187be1so7411346a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 01:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1685436527; x=1688028527; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MHqfhex4k1JTsYeEXGwpls18ioPjTIAYp2acOWIwgpo=;
- b=jWN+niVahYUW4XDuO6u4d+X15sRRNP6SJBklfervz8Tj+qXTI+jXKJ+uQM7EcZQvDB
- 7aYOkUoJhTiiHkrPR1+Tjnk3vmJiiV7J29hC56MkxepJPprIzQk53KUerZwrzBPAY6PK
- z8fbMj5psQ7L1lzIGy5m5ybnAGq9V0H9019phHEnsMkU0JizrpZaGwvwRYU8+G8v8TLH
- dh0VfcpmKDFtAHx3rviOnbpKTRY9W9UTXOMN6bfOarCqXKlRQmb2lCcJkyhicXovGBlq
- u3JqSL16vqcDRk/x11BExLTf4Amho7k2reV2m1V9o+P6Lblw0KZ1GSxyBac8zlfSYz3c
- rdoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685436527; x=1688028527;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MHqfhex4k1JTsYeEXGwpls18ioPjTIAYp2acOWIwgpo=;
- b=ObySfsr2X7eArmQR6rObrDZc6EHtlTM2Cj5tCUsAbTEXJn5E4VQOy/MBXgQc4mBXBa
- MVZjGWqnxSh3n1hkOjqHNDKZ0PVar0uUsZR1gWtFUtOfa2YLI3Gfb08RCT1OMckxGvRi
- gXpgKgecakzkfrflVwXdH0y9GGBn0VDvYH9L4HGa2phqPfl7Ui8Ci1roFnnBhm+j/uer
- OKggSGdVSC0ZyqOdQV3WI1JEeG9ZFBjcTFIKl0MYfVfZiPrUg9UQTIdDXChYaOZZMMNS
- SNiSmStloN66eJX4iGFk3oIe0JAOSw5bYWPlF4fAJSZEgCjfK2LvlyKgz6ejZL5VwlMp
- BDPw==
-X-Gm-Message-State: AC+VfDxOUeodae0fV4mYcmE/tW/OoWB7Km6tEIVjokP4tOUOB5axjkTl
- WEZ8SZLYxowSl2MGb092wGNaIi61FeLq6o6iC8E=
-X-Google-Smtp-Source: ACHHUZ6TKXLrgG6JwuYw1Kzs78NP4b4Q0MqE5vN2rgVaizDAED6lGqcpPitCI+esTvabbTHyjvPpow==
-X-Received: by 2002:a17:907:961e:b0:971:fa86:27e with SMTP id
- gb30-20020a170907961e00b00971fa86027emr1524138ejc.16.1685436527350; 
- Tue, 30 May 2023 01:48:47 -0700 (PDT)
-Received: from [127.0.0.1] (abordeaux-655-1-129-86.w90-5.abo.wanadoo.fr.
- [90.5.10.86]) by smtp.gmail.com with ESMTPSA id
- k7-20020a170906054700b0096f675ce45csm6959686eja.182.2023.05.30.01.48.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 May 2023 01:48:46 -0700 (PDT)
-From: Guillaume Ranquet <granquet@baylibre.com>
-Date: Tue, 30 May 2023 10:43:07 +0200
-Subject: [PATCH] phy: mediatek: hdmi: mt8195: fix prediv bad upper limit test
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A760610E330
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:57:04 +0000 (UTC)
+Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl
+ [82.72.63.87])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id AE829203BD;
+ Tue, 30 May 2023 10:57:01 +0200 (CEST)
+Date: Tue, 30 May 2023 10:57:00 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/msm/dpu: use PINGPONG_NONE to unbind INTF from PP
+Message-ID: <hgfttvf6wz33yuntks6qjy3wd7dccoep42a6awid7kaufswfjz@rxp23xsbq3wa>
+References: <20230526090945.439639-1-dmitry.baryshkov@linaro.org>
+ <h33hhvvlwq67uooelhm5wot7hx5utzegxtq3wu25rfrcrjx45n@dznkc26cxz23>
+ <CAA8EJpq6cse-cxDSv+a1A0Pn4p0o-a1NO9+3vCDROnkc6gJT2A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230529-hdmi_phy_fix-v1-1-bf65f53af533@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIABq3dWQC/zWNQQqDMBBFryKzNqipWuxVpISMGc0smkoCYgnev
- aPg8n3e42dIFJkSvIoMkTZO/A0CTVnA5G1YSLETBl3rR93pQXn3YbP6n5l5V4Oz2BO2muYnSII
- 2kcJow+TPCNtKLHMnp7FGkuk6HN/H8QdvJZG6gAAAAA==
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-X-Mailer: b4 0.13-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpq6cse-cxDSv+a1A0Pn4p0o-a1NO9+3vCDROnkc6gJT2A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,42 +44,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pll prediv calculus searchs for the smallest prediv that gets
-the ns_hdmipll_ck in the range of 5 GHz to 12 GHz.
+On 2023-05-30 01:13:12, Dmitry Baryshkov wrote:
+> On Tue, 30 May 2023 at 00:46, Marijn Suijten
+> <marijn.suijten@somainline.org> wrote:
+> >
+> > On 2023-05-26 12:09:45, Dmitry Baryshkov wrote:
+> > > Currently the driver passes the PINGPONG index to
+> > > dpu_hw_intf_ops::bind_pingpong_blk() callback and uses separate boolean
+> > > flag to tell whether INTF should be bound or unbound. Simplify this by
+> > > passing PINGPONG_NONE in case of unbinding and drop the flag completely.
+> >
+> > Perhaps worth mentioning that this flag was only recently introduced
+> > (and link to it as a dependency under the cut),
+> 
+> The patch is already a part of linux-next. This is the usual boundary
+> of skipping the dependencies.
 
-A typo in the upper bound test was testing for 5Ghz to 1Ghz
+Excuse me, I forgot about the confusion even after reviewing your patch
+[1] which introduces PINGPONG_NONE, while DSC v14 (sent 3 days after
+your patch was applied) also still introduces the same [2].  This patch
+should likely be rebased and retitled.
 
-Fixes: 45810d486bb44 ("phy: mediatek: add support for phy-mtk-hdmi-mt8195")
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
----
- drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1]: https://lore.kernel.org/dri-devel/20230519234025.2864377-4-dmitry.baryshkov@linaro.org/
+[2]: https://lore.kernel.org/linux-arm-msm/1685036458-22683-6-git-send-email-quic_khsieh@quicinc.com/
 
-diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-index 8aa7251de4a9..bbfe11d6a69d 100644
---- a/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-+++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt8195.c
-@@ -253,7 +253,7 @@ static int mtk_hdmi_pll_calc(struct mtk_hdmi_phy *hdmi_phy, struct clk_hw *hw,
- 	for (i = 0; i < ARRAY_SIZE(txpredivs); i++) {
- 		ns_hdmipll_ck = 5 * tmds_clk * txposdiv * txpredivs[i];
- 		if (ns_hdmipll_ck >= 5 * GIGA &&
--		    ns_hdmipll_ck <= 1 * GIGA)
-+		    ns_hdmipll_ck <= 12 * GIGA)
- 			break;
- 	}
- 	if (i == (ARRAY_SIZE(txpredivs) - 1) &&
+> >  as well as explain that
+> > the passed `enum dpu_pingpong` value is bogus when enable=false because
+> > it is not part of the value written to the register for the
+> > "unbind/disable" case?
+> 
+> Good suggestion.
+> 
+> >  See for example the wording I suggested on the
+> > patch that introduces and uses PINGPONG_NONE.
+> >
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 4 ++--
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 +---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 1 -
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 3 +--
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 1 -
+> >
+> > How about appending/sending another patch that drops this from
+> > dpu_hw_wb.c as well?
+> 
+> Ack, nice catch.
+> 
+> >
+> > >  5 files changed, 4 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > index ebe34eda6e50..7fd3a13ac226 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > @@ -2102,8 +2102,8 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+> > >               for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> > >                       if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
+> > >                               phys_enc->hw_intf->ops.bind_pingpong_blk(
+> > > -                                             dpu_enc->phys_encs[i]->hw_intf, false,
+> > > -                                             dpu_enc->phys_encs[i]->hw_pp->idx);
+> > > +                                             dpu_enc->phys_encs[i]->hw_intf,
+> > > +                                             PINGPONG_NONE);
+> > >
+> > >                       /* mark INTF flush as pending */
+> > >                       if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > index 1a4c20f02312..3130c86a32cc 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > > @@ -66,7 +66,6 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+> > >       if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
+> > >               phys_enc->hw_intf->ops.bind_pingpong_blk(
+> > >                               phys_enc->hw_intf,
+> > > -                             true,
+> > >                               phys_enc->hw_pp->idx);
+> > >
+> > >       if (phys_enc->hw_intf->ops.enable_compression)
+> > > @@ -556,8 +555,7 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
+> > >       if (phys_enc->hw_intf->ops.bind_pingpong_blk) {
+> > >               phys_enc->hw_intf->ops.bind_pingpong_blk(
+> > >                               phys_enc->hw_intf,
+> > > -                             false,
+> > > -                             phys_enc->hw_pp->idx);
+> > > +                             PINGPONG_NONE);
+> >
+> > Is there also a cleanup state where hw_pp is assigned back to NULL?
+> 
+> No. None of the encoder resources are reassigned to NULL. I will tend
+> this topic during vN of resource allocation rework.
+> 
+> >
+> > >               ctl = phys_enc->hw_ctl;
+> > >               ctl->ops.update_pending_flush_intf(ctl, phys_enc->intf_idx);
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > > index 3a374292f311..220020273304 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > > @@ -287,7 +287,6 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+> > >       if (phys_enc->hw_intf->ops.bind_pingpong_blk)
+> > >               phys_enc->hw_intf->ops.bind_pingpong_blk(
+> > >                               phys_enc->hw_intf,
+> > > -                             true,
+> > >                               phys_enc->hw_pp->idx);
+> > >
+> > >       if (phys_enc->hw_pp->merge_3d)
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> > > index a2486f99d3c2..918d154848b9 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> > > @@ -268,7 +268,6 @@ static void dpu_hw_intf_setup_prg_fetch(
+> > >
+> > >  static void dpu_hw_intf_bind_pingpong_blk(
+> > >               struct dpu_hw_intf *intf,
+> > > -             bool enable,
+> > >               const enum dpu_pingpong pp)
+> > >  {
+> > >       struct dpu_hw_blk_reg_map *c = &intf->hw;
+> > > @@ -277,7 +276,7 @@ static void dpu_hw_intf_bind_pingpong_blk(
+> > >       mux_cfg = DPU_REG_READ(c, INTF_MUX);
+> > >       mux_cfg &= ~0xf;
+> > >
+> > > -     if (enable)
+> > > +     if (pp != PINGPONG_NONE)
+> >
+> > Kuogee just used `if (pp)`, I think we should stay consistent.
+> 
+> Sure. The rest of the driver usually compares to foo_NONE.
 
----
-base-commit: 9f925874281f7e8855855d6210d6e29d844e4307
-change-id: 20230529-hdmi_phy_fix-9dab6eb42ef7
+If that is the common way to do it, that DSC patch [2] should also use a
+an explicit comparison instead of assuming PINGPONG_NONE = 0?
 
-Best regards,
--- 
-Guillaume Ranquet <granquet@baylibre.com>
-
+- Marijn
