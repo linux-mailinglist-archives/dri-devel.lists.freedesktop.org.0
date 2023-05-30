@@ -1,118 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B9D716836
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 17:57:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239BB71683A
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 17:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91DE10E187;
-	Tue, 30 May 2023 15:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A7910E17A;
+	Tue, 30 May 2023 15:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2087.outbound.protection.outlook.com [40.107.101.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1E910E180;
- Tue, 30 May 2023 15:57:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gcvxT8HHQMLF34DQHOk7Y2FAVaDSR+a+yirF9AhrihBg6iIsQOOJdypqJXLrLwbBI7Cm6exlpfZVTdmP4YyhUWhYDVhIYdQ5kKxUPsEqQDhv4eESXD1Xv7LUnL7yzLMnTehnawzGX38FXHnv7dIe+21bUfB20O1KMZQxzJwgObEjY1iLJiBjL4Cv6bnnnp2lbGByStjFilxq+5K6a2lz3FwvPX/62fsz8v5PlDDElMahcQAftO8x6Hxp2/JnR/bfijGBTM7wKXXQOkQ7iyxrnSh8yZe1vG0Kqq60R7bQd3pkq5012+luORLOWT+YUEcFGPgljKloUyNi/PStqwMrUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EJs4xqLmktERUPH1fU/1HFgWJxjZPs7AGwjEoRQGjgo=;
- b=oYK8DZAZsvVo1PQZzvg2krlR9z8OrxHva1fUTqgn3coztBfSKDBNZvEZ3q7fb6AX+gWyFo6PjP/8bTmhfuV8eN2U4AnvJcIHevRwbgwb53PhZn18ASKVKfhWc1sPJ3rzC+ZKNRvfNCq/nFBpKKCtAllXU3kHOq5q7ng2O6CgNscjcXoxjVNB5Rk41LehGid0zS0gWHWZ0NqMILCd1SAt+uX/XoeEKz2BRUfZ0B9lPSAzj4ohSvnb5uLfqovUCAYygHfBmQ87qM9woEV4Y5Gt9fs1VpRg3x9BK8dD9vWl2NoKCsLN7qGfUKgRuv+3UmIvkenjzmBX3xbVLawLRxupoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EJs4xqLmktERUPH1fU/1HFgWJxjZPs7AGwjEoRQGjgo=;
- b=WTacPKXP1RKS/IdQenGEok1jFe7nzKg5HTyobgwy7sM0UjGPQUEwH8BFKL32ldHwxHK9tpmLFgdkpU8g9NeTTXNsTJS0frheqbCZa3G/jMXegKjg9L9+n6viQa85mk552NlywPZlYZ2RMabptHmFEyOYk5OLM7CAQ7WUMxjd5M0=
-Received: from DM6PR12MB3996.namprd12.prod.outlook.com (2603:10b6:5:1c1::31)
- by MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
- 2023 15:57:18 +0000
-Received: from DM6PR12MB3996.namprd12.prod.outlook.com
- ([fe80::e436:6d53:7445:88b8]) by DM6PR12MB3996.namprd12.prod.outlook.com
- ([fe80::e436:6d53:7445:88b8%7]) with mapi id 15.20.6433.022; Tue, 30 May 2023
- 15:57:18 +0000
-From: "Ho, Kenny" <Kenny.Ho@amd.com>
-To: "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR
-Thread-Topic: [PATCH] drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR
-Thread-Index: AQHZjyd9xmQrPkt7AE6NNnI82OsITa9y93aAgAAGaViAAAIWgIAAADUt
-Date: Tue, 30 May 2023 15:57:18 +0000
-Message-ID: <DM6PR12MB39962E6A0AE57849D37AEA6E834B9@DM6PR12MB3996.namprd12.prod.outlook.com>
-References: <20230525163827.548058-1-hamza.mahfooz@amd.com>
- <85f47623-5ef1-b817-195b-c4ae39564247@amd.com>
- <DM6PR12MB3996064F09E1C2FD782CC944834B9@DM6PR12MB3996.namprd12.prod.outlook.com>
- <0f2021ba-fab9-3438-950d-7b60882ae77a@amd.com>
-In-Reply-To: <0f2021ba-fab9-3438-950d-7b60882ae77a@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=True;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-05-30T15:57:17.865Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB3996:EE_|MW4PR12MB5666:EE_
-x-ms-office365-filtering-correlation-id: 7fa578f2-2603-42ad-9825-08db61268bb9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6xYRI6DRd2yvsts0zrFjU/UcySKy9HO7COQte8gVKFhqsKR9o8moyYbS0Af3kV4pKd0jTrZCc7HxnAaaOX7PJ/xRUPEj9s49f7bjr0RFE8KcxRyW5DU/7RUneoxPSYdOydi/J9IDFoOkVviAuRxqCdplt0FSS7CX2eKMb+ZLlqH7CaPdsa+HbB2qgCuFJWCWbZ2P2PAO61Bl/KtEWU0UvYn4rmzs5ZFFyVD8NqJfUm/69KkObfRKEmEos6732t54T6hcSeT4emodg97ChuOK1VC243y9F1M34/AGD6pAqFuYGj2G9RuvWgS05cdxiQgStThwF/X6pkJFTdhDpMrdXZVJ2A8UB8ePJ8gNivLa+IXM3tC1fqzSrvYbR/aMQqCKTLiw5H091LplV78j+VO+Td3S3obGO87CoPgsHV5VfvAlDwJ7QakI5oKYF00fxLkglRxYppmBMCyf+TuEkpgMUgmVCO+1E7m6fXPax/7rcLKegEeD8lJhV2VNvSnsTR8Iabpz5/x6+NJX7I8zAZMjpWoHrwKRhiejoliKMNAD59uUKrTCw1a3B3CWU6tWVF6GLWyBcEQNXNtDUFJZHTXRe8ON91Yw4k+W6DvlafJOPDa+zysHjUXxmo5+sf2pMmmU
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3996.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199021)(54906003)(71200400001)(478600001)(110136005)(8676002)(8936002)(5660300002)(52536014)(38070700005)(2906002)(86362001)(33656002)(558084003)(66476007)(66946007)(64756008)(122000001)(76116006)(4326008)(66446008)(66556008)(91956017)(316002)(55016003)(38100700002)(41300700001)(186003)(9686003)(26005)(6506007)(7696005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QCnzB/3gp/gbc1AEDhK6Nmms5iE6idLs/B/2iRK5SKS9sJvUNb56RIrY1p?=
- =?iso-8859-1?Q?erWZQtW3lsZB8W1OMGyv0UZrFlyKdNLJI+z3Wl6UN9tHTnRFHzpwNuiAVp?=
- =?iso-8859-1?Q?JtqP91Bg1i7RnNEcwWp2/HlP7Uct35fjfvmPRsAoLzZI5hO9PaFhhwgkC7?=
- =?iso-8859-1?Q?de4jrbTwh0dkxc23H4wFAYWCdeUqgP2052Xv1Rrvv1fc6v6TqKiWXxXev5?=
- =?iso-8859-1?Q?Z8PUT6+GrfpZJ1n+hEFQOxHoaVDa8BC70YQAaTPgrisGHNIVh1lK2Ph0pQ?=
- =?iso-8859-1?Q?6ZsvE4YKug8P0xvSk99spIkpmS5o/nbbcRHEz9J2pNWkIgFdWh1NdqTgpH?=
- =?iso-8859-1?Q?BTpzidsfOwAYDNHSrni5HcthD1VdhyWztOARS0Sp/FSdKksZyRdeU8gxgt?=
- =?iso-8859-1?Q?J2Y2x5mVL5U+aT88rI74bqllJ0H/JQEMfV/Ge6Qc1H2QvViKY/anRvz/UP?=
- =?iso-8859-1?Q?pBovZo0cGdVJk94/wSulI5TMpgFlbv81P61qo/0HLnL1o17/H7co4zIrCg?=
- =?iso-8859-1?Q?WnK3Ien8SabuqEt1lK8K+Y3ws+hStPfO7HNDo8WnKPcr8RtwtoqSSAbOqE?=
- =?iso-8859-1?Q?xaCFogmlEwDta+tvejA2kmeHGWUVkiCdHQllImtyY1ChjZeKT6gKfqP7wf?=
- =?iso-8859-1?Q?rLz8s2O/pxuHekVFYSFfF+Zj4+2Kvy8HvnL38/YUQ57oyS6YFMFAtbdJsR?=
- =?iso-8859-1?Q?UEyRuuldcLO4qO6QfepoX/wrqzkcZcB0XFZuozFjJMzJoNQOdcb/quORAm?=
- =?iso-8859-1?Q?tj6rOiFP7raqlQM+rsx8AVzOLWt6dHrQsEouepn59NAYQ+pLFwp2PrSXyO?=
- =?iso-8859-1?Q?SfJ9vodLuOEIWVuYTX8hfLsqUtGFsbEEqR+cCaJr/gTFdadHocxcbpXoa9?=
- =?iso-8859-1?Q?LVrkroKwoxeVJwrUC+RQVPFqJOwBOeuQJrPGmzfubauh0fyPWyKcOH3NYF?=
- =?iso-8859-1?Q?o+l93D/p27mHZ80idoLkWN0cFrbu6+uJaTpKl8kiXPAPoLQcPv4L70fUi8?=
- =?iso-8859-1?Q?WgsBd9BvMK5p70TgTZ1bG02m5288pIx2gM50g17XDDZpiexxlQvoxDFD47?=
- =?iso-8859-1?Q?n+6y1yGkIIR1+6UeD9dVm27CtKacjQRKilWTHM98hncZ32diZqY+g0Vs3D?=
- =?iso-8859-1?Q?1vNFKpHtbKwDgj2GpNQ/RVEkm2BlaZOqaxyVPlzw+VnPQUeEbU+OUy3mJh?=
- =?iso-8859-1?Q?kwFDwV69+roY8E9mturzT29xzVqXVQqjRDubt0f/tkD1dAmuqrTq183tsz?=
- =?iso-8859-1?Q?qWdrCsW9vK/qz6vIu1ZRCo5HGMpEsO8ENc+Nvbg2CPgtYW+I9VqmFBi01a?=
- =?iso-8859-1?Q?WIQ1lZnFzZS9rjCilRKCu88011aCAyYCb0lAjRnHmAKN2ohAC2x1xr2lC6?=
- =?iso-8859-1?Q?OUOegn0sz83a6tOX4ow/H/r/4BQBLrao9lk5puJJTZ8jaVwAfgwiokYmP7?=
- =?iso-8859-1?Q?EhTMQ3s0CK/gr6nh+aBjY5IpV2qhDTnPIhrUhwvp1E8qvB9uzXkzNWNnRB?=
- =?iso-8859-1?Q?QZP5OC7NeLji10CM4GwOKFmmhdS6IjoM699FVw1UFhD/HFQJAbTxEoN4T2?=
- =?iso-8859-1?Q?203g6+mJwNwvvYKMXKvWSNlpjR+FamRjW0FpM4RFrD31lU0DUA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1535710E17A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 15:57:57 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f6042d610fso47773675e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685462276; x=1688054276;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=soD7KF236fVdv2fwYKiHqpw4d6B1nafnm4/p2DE5I88=;
+ b=MTcBKUpy4tR6lLTlD+Y89QSKhzPlk7dnG3Vy8L6fXEAoz64IMHhHdz6VGzsefppXhu
+ wmHmT7TJhOpKppFgf6kIyFlJjytexBGylAuRTWDVY8daJwftQYPNs3XkrDkQfNxlC/+u
+ Y6p6euSYceST9/gTaWJBg016jaCsSAdDxUeTrfzJHZNROYE1eL+IsMAaFJUQj/lxd15J
+ 8DLEOuU729hex6HElXm4WGnYk8v93LI8BZNrERU3/aVgBfpIZ5EHntv1rymP3xRQMEi7
+ qco5f+9qOToPFLKQA0unDJbYcE/Cbm9iafuRjnXD+wBIpsJiVlJ6JyfHyhidjL9ruWmW
+ fLAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685462276; x=1688054276;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=soD7KF236fVdv2fwYKiHqpw4d6B1nafnm4/p2DE5I88=;
+ b=F+WF0NOtS7SHvEI5L9tkLh9zHIWHZsQf4cDqyLUOpwQVTaytPFt4S/YktSE/IbfCgH
+ diidZmoE7lust68LRmNARWqv8eyqU4DR2vdv+p6g7KIpiSMwSDamdYpe2B74zE5WGBwU
+ /+4IpglMQKvppAxc4Z3bEoyECJKg8YqLWSsYExascwpzPH4ZG31yKXwOaiWblRcAYpSz
+ fPgiTn3Bw5V/E4EiARsUc1aTH7DuDMo+wQ2YkkgSBKeGBQm3EAfl0ZBQD14oLBnwCU8b
+ 7iorPHcKt+fz7Cz2t90al8/JziRCzvvQwvv64qSGjGjA3/j3xWCmlVzIyzblKc/DM5ze
+ RHcg==
+X-Gm-Message-State: AC+VfDzDSiS06itflrys4Q1wyUn16qotXlBzdm+7u3b2oJxDRAEbkurb
+ ByVOlA6PfjahnYo7iA0OZzODfw==
+X-Google-Smtp-Source: ACHHUZ4PI3+RU/VHtMz95ap8CicMr/pqwOn3JEnKSr6jW7kKz7iW5Xn12uDh1TwBu1EIbWNrHGU/Nw==
+X-Received: by 2002:a1c:7708:0:b0:3f6:1377:8b15 with SMTP id
+ t8-20020a1c7708000000b003f613778b15mr1856995wmi.21.1685462275850; 
+ Tue, 30 May 2023 08:57:55 -0700 (PDT)
+Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
+ by smtp.gmail.com with ESMTPSA id
+ k5-20020a7bc405000000b003f31cb7a203sm17789085wmi.14.2023.05.30.08.57.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 May 2023 08:57:55 -0700 (PDT)
+Message-ID: <c24502f9-f717-6ff9-211c-1d129ef02f24@linaro.org>
+Date: Tue, 30 May 2023 17:57:51 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3996.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa578f2-2603-42ad-9825-08db61268bb9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2023 15:57:18.3875 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lx7zuMQsUmi+xyjuNGtUcWYFRS7Eal7/6lZg/iADX/Ae7C14w0Hb8Hg+9Yv+Lj+e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v5 05/17] clk: meson: g12a: make VCLK2 and ENCL clock path
+ configurable by CCF
+Content-Language: en-US
+To: Jerome Brunet <jbrunet@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-0-56eb7a4d5b8e@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-5-56eb7a4d5b8e@linaro.org>
+ <1jv8ga445j.fsf@starbuckisacylon.baylibre.com>
+Organization: Linaro Developer Services
+In-Reply-To: <1jv8ga445j.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,21 +89,363 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zhou1, Tao" <Tao.Zhou1@amd.com>,
- =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>, "Wang,
- Yang\(Kevin\)" <KevinYang.Wang@amd.com>, Peter Foley <pefoley2@pefoley.com>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Andrew Davis <afd@ti.com>, "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Ma,
- Le" <Le.Ma@amd.com>, "Chai, Thomas" <YiPeng.Chai@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Li,
- Candice" <Candice.Li@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Zhu, James" <James.Zhu@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhang,
- Hawking" <Hawking.Zhang@amd.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ "Lukas F. Hartmann" <lukas@mntre.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+On 30/05/2023 10:14, Jerome Brunet wrote:
+> 
+> On Tue 30 May 2023 at 09:38, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> 
+>> In order to setup the DSI clock, let's make the unused VCLK2 clock path
+>> configuration via CCF.
+>>
+>> The nocache option is removed from following clocks:
+>> - vclk2_sel
+>> - vclk2_input
+>> - vclk2_div
+>> - vclk2
+>> - vclk_div1
+>> - vclk2_div2_en
+>> - vclk2_div4_en
+>> - vclk2_div6_en
+>> - vclk2_div12_en
+>> - vclk2_div2
+>> - vclk2_div4
+>> - vclk2_div6
+>> - vclk2_div12
+>> - cts_encl_sel
+>>
+>> The missing vclk2 reset sequence is handled via new clkc notifiers
+>> in order to reset the vclk2 after each rate change as done by Amlogic
+>> in the vendor implementation.
+>>
+>> In order to set a rate on cts_encl via the vclk2 clock path,
+>> the NO_REPARENT flag is set on cts_encl_sel & vclk2_sel in order
+>> to keep CCF from selection a parent.
+>> The parents of cts_encl_sel & vclk2_sel are expected to be defined
+>> in DT.
+>>
+>> The following clock scheme is to be used for DSI:
+>>
+>> xtal
+>> \_ gp0_pll_dco
+>>     \_ gp0_pll
+>>        |- vclk2_sel
+>>        |  \_ vclk2_input
+>>        |     \_ vclk2_div
+>>        |        \_ vclk2
+>>        |           \_ vclk2_div1
+>>        |              \_ cts_encl_sel
+>>        |                 \_ cts_encl	-> to VPU LCD Encoder
+>>        |- mipi_dsi_pxclk_sel
+>>        \_ mipi_dsi_pxclk_div
+>>           \_ mipi_dsi_pxclk		-> to DSI controller
+>>
+>> The mipi_dsi_pxclk_div is set as RO in order to use the same GP0
+>> for mipi_dsi_pxclk and vclk2_input.
+> 
+> I don't think notifiers is the appropriate approach here.
+> Whenever there is clock change the motifiers would trigger an off/on of
+> the clock, regardless of the clock usage or state.
+> If you have several consummers on this vclk2, this would
+> cause glitches and maybe this is not desirable.
+> 
+> I think it would be better to handle the enable and reset with a
+> specific gate driver, in prepare() or enable(), and the give the clock
+> CLK_SET_RATE_GATE flag.
+> 
+> This would require the clock to be properly turn off before changing the
+> rate.
 
-Reviewed-by: Kenny Ho <Kenny.Ho@amd.com>
+Sure, will see how to switch to that, seem Martin did than on Meson8.
+
+Neil
+
+> 
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/clk/meson/g12a.c | 131 +++++++++++++++++++++++++++++++++++++++++++----
+>>   1 file changed, 120 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/clk/meson/g12a.c b/drivers/clk/meson/g12a.c
+>> index 461ebd79497c..e4053f4957d5 100644
+>> --- a/drivers/clk/meson/g12a.c
+>> +++ b/drivers/clk/meson/g12a.c
+>> @@ -3163,7 +3163,7 @@ static struct clk_regmap g12a_vclk2_sel = {
+>>   		.ops = &clk_regmap_mux_ops,
+>>   		.parent_hws = g12a_vclk_parent_hws,
+>>   		.num_parents = ARRAY_SIZE(g12a_vclk_parent_hws),
+>> -		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
+>> +		.flags = CLK_SET_RATE_NO_REPARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3191,7 +3191,6 @@ static struct clk_regmap g12a_vclk2_input = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_sel.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>>   	},
+>>   };
+>>   
+>> @@ -3212,6 +3211,40 @@ static struct clk_regmap g12a_vclk_div = {
+>>   	},
+>>   };
+>>   
+>> +struct g12a_vclk_div_notifier {
+>> +	struct clk_regmap *clk;
+>> +	unsigned int offset;
+>> +	u8 en_bit_idx;
+>> +	u8 reset_bit_idx;
+>> +	struct notifier_block nb;
+>> +};
+>> +
+>> +static int g12a_vclk_div_notifier_cb(struct notifier_block *nb,
+>> +				  unsigned long event, void *data)
+>> +{
+>> +	struct g12a_vclk_div_notifier *nb_data =
+>> +		container_of(nb, struct g12a_vclk_div_notifier, nb);
+>> +
+>> +	switch (event) {
+>> +	case PRE_RATE_CHANGE:
+>> +		/* disable and reset vclk2 divider */
+>> +		regmap_update_bits(nb_data->clk->map, nb_data->offset,
+>> +				   BIT(nb_data->en_bit_idx) |
+>> +				   BIT(nb_data->reset_bit_idx),
+>> +				   BIT(nb_data->reset_bit_idx));
+>> +		return NOTIFY_OK;
+>> +	case POST_RATE_CHANGE:
+>> +		/* enabled and release reset */
+>> +		regmap_update_bits(nb_data->clk->map, nb_data->offset,
+>> +				   BIT(nb_data->en_bit_idx) |
+>> +				   BIT(nb_data->reset_bit_idx),
+>> +				   BIT(nb_data->en_bit_idx));
+>> +		return NOTIFY_OK;
+>> +	default:
+>> +		return NOTIFY_DONE;
+>> +	};
+>> +};
+>> +
+>>   static struct clk_regmap g12a_vclk2_div = {
+>>   	.data = &(struct clk_regmap_div_data){
+>>   		.offset = HHI_VIID_CLK_DIV,
+>> @@ -3225,10 +3258,18 @@ static struct clk_regmap g12a_vclk2_div = {
+>>   			&g12a_vclk2_input.hw
+>>   		},
+>>   		.num_parents = 1,
+>> -		.flags = CLK_GET_RATE_NOCACHE,
+>> +		.flags = CLK_DIVIDER_ROUND_CLOSEST,
+>>   	},
+>>   };
+>>   
+>> +static struct g12a_vclk_div_notifier g12a_vclk2_div_data = {
+>> +	.clk = &g12a_vclk2_div,
+>> +	.offset = HHI_VIID_CLK_DIV,
+>> +	.en_bit_idx = 16,
+>> +	.reset_bit_idx = 17,
+>> +	.nb.notifier_call = g12a_vclk_div_notifier_cb,
+>> +};
+>> +
+>>   static struct clk_regmap g12a_vclk = {
+>>   	.data = &(struct clk_regmap_gate_data){
+>>   		.offset = HHI_VID_CLK_CNTL,
+>> @@ -3243,6 +3284,33 @@ static struct clk_regmap g12a_vclk = {
+>>   	},
+>>   };
+>>   
+>> +struct g12a_vclk_reset_notifier {
+>> +	struct clk_regmap *clk;
+>> +	unsigned int offset;
+>> +	u8 bit_idx;
+>> +	struct notifier_block nb;
+>> +};
+>> +
+>> +static int g12a_vclk_notifier_cb(struct notifier_block *nb,
+>> +				  unsigned long event, void *data)
+>> +{
+>> +	struct g12a_vclk_reset_notifier *nb_data =
+>> +		container_of(nb, struct g12a_vclk_reset_notifier, nb);
+>> +
+>> +	switch (event) {
+>> +	case POST_RATE_CHANGE:
+>> +		/* reset vclk2 */
+>> +		regmap_update_bits(nb_data->clk->map, nb_data->offset,
+>> +				   BIT(nb_data->bit_idx), BIT(nb_data->bit_idx));
+>> +		regmap_update_bits(nb_data->clk->map, nb_data->offset,
+>> +				   BIT(nb_data->bit_idx), 0);
+>> +
+>> +		return NOTIFY_OK;
+>> +	default:
+>> +		return NOTIFY_DONE;
+>> +	};
+>> +}
+>> +
+>>   static struct clk_regmap g12a_vclk2 = {
+>>   	.data = &(struct clk_regmap_gate_data){
+>>   		.offset = HHI_VIID_CLK_CNTL,
+>> @@ -3253,10 +3321,17 @@ static struct clk_regmap g12a_vclk2 = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_div.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> +static struct g12a_vclk_reset_notifier g12a_vclk2_data = {
+>> +	.clk = &g12a_vclk2,
+>> +	.offset = HHI_VIID_CLK_CNTL,
+>> +	.bit_idx = 15,
+>> +	.nb.notifier_call = g12a_vclk_notifier_cb,
+>> +};
+>> +
+>>   static struct clk_regmap g12a_vclk_div1 = {
+>>   	.data = &(struct clk_regmap_gate_data){
+>>   		.offset = HHI_VID_CLK_CNTL,
+>> @@ -3337,7 +3412,7 @@ static struct clk_regmap g12a_vclk2_div1 = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3351,7 +3426,7 @@ static struct clk_regmap g12a_vclk2_div2_en = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3365,7 +3440,7 @@ static struct clk_regmap g12a_vclk2_div4_en = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3379,7 +3454,7 @@ static struct clk_regmap g12a_vclk2_div6_en = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3393,7 +3468,7 @@ static struct clk_regmap g12a_vclk2_div12_en = {
+>>   		.ops = &clk_regmap_gate_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+>>   		.num_parents = 1,
+>> -		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3459,6 +3534,7 @@ static struct clk_fixed_factor g12a_vclk2_div2 = {
+>>   			&g12a_vclk2_div2_en.hw
+>>   		},
+>>   		.num_parents = 1,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3472,6 +3548,7 @@ static struct clk_fixed_factor g12a_vclk2_div4 = {
+>>   			&g12a_vclk2_div4_en.hw
+>>   		},
+>>   		.num_parents = 1,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3485,6 +3562,7 @@ static struct clk_fixed_factor g12a_vclk2_div6 = {
+>>   			&g12a_vclk2_div6_en.hw
+>>   		},
+>>   		.num_parents = 1,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3498,6 +3576,7 @@ static struct clk_fixed_factor g12a_vclk2_div12 = {
+>>   			&g12a_vclk2_div12_en.hw
+>>   		},
+>>   		.num_parents = 1,
+>> +		.flags = CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3559,7 +3638,7 @@ static struct clk_regmap g12a_cts_encl_sel = {
+>>   		.ops = &clk_regmap_mux_ops,
+>>   		.parent_hws = g12a_cts_parent_hws,
+>>   		.num_parents = ARRAY_SIZE(g12a_cts_parent_hws),
+>> -		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
+>> +		.flags = CLK_SET_RATE_NO_REPARENT | CLK_SET_RATE_PARENT,
+>>   	},
+>>   };
+>>   
+>> @@ -3727,7 +3806,7 @@ static struct clk_regmap g12a_mipi_dsi_pxclk_div = {
+>>   	},
+>>   	.hw.init = &(struct clk_init_data){
+>>   		.name = "mipi_dsi_pxclk_div",
+>> -		.ops = &clk_regmap_divider_ops,
+>> +		.ops = &clk_regmap_divider_ro_ops,
+>>   		.parent_hws = (const struct clk_hw *[]) {
+>>   			&g12a_mipi_dsi_pxclk_sel.hw
+>>   		},
+>> @@ -5421,6 +5500,32 @@ static int meson_g12a_dvfs_setup(struct platform_device *pdev)
+>>   	return 0;
+>>   }
+>>   
+>> +static int meson_g12a_vclk_setup(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct clk *notifier_clk;
+>> +	int ret;
+>> +
+>> +	/* Setup clock notifier for vclk2 */
+>> +	notifier_clk = devm_clk_hw_get_clk(dev, &g12a_vclk2.hw, DVFS_CON_ID);
+>> +	ret = devm_clk_notifier_register(dev, notifier_clk, &g12a_vclk2_data.nb);
+>> +	if (ret) {
+>> +		dev_err(dev, "failed to register the vlkc2 notifier\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	/* Setup clock notifier for vclk2_div */
+>> +	notifier_clk = devm_clk_hw_get_clk(dev, &g12a_vclk2_div.hw, DVFS_CON_ID);
+>> +	ret = devm_clk_notifier_register(dev, notifier_clk,
+>> +					 &g12a_vclk2_div_data.nb);
+>> +	if (ret) {
+>> +		dev_err(dev, "failed to register the vclk2_div notifier\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   struct meson_g12a_data {
+>>   	const struct meson_eeclkc_data eeclkc_data;
+>>   	int (*dvfs_setup)(struct platform_device *pdev);
+>> @@ -5443,6 +5548,10 @@ static int meson_g12a_probe(struct platform_device *pdev)
+>>   	g12a_data = container_of(eeclkc_data, struct meson_g12a_data,
+>>   				 eeclkc_data);
+>>   
+>> +	ret = meson_g12a_vclk_setup(pdev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>   	if (g12a_data->dvfs_setup)
+>>   		return g12a_data->dvfs_setup(pdev);
+> 
+
