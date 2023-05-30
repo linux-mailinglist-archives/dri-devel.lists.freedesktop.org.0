@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A491716D92
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 21:32:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6CB716D93
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 21:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ADA10E40F;
-	Tue, 30 May 2023 19:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE5D10E419;
+	Tue, 30 May 2023 19:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911AC10E40F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 19:31:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12FE510E419
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 19:33:41 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DE7E362F8F;
- Tue, 30 May 2023 19:31:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D6BBC433D2;
- Tue, 30 May 2023 19:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685475114;
- bh=mHUFFikMTlQApOGC7YvxjGTCLYZ1HBj5dMAI/IPTcc4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n+DXjQcOsxFh3DQnqdIhpFMgPeGM07VRRtCWqyX3kl2StQG/lLgtBE4LLbC+M9cwA
- 2NZZ60NB8tW7fnJwrVjD8vEjSmrMyISxL9+U6bB0yQBanW1JGE1nqrrcmSVYG71RSE
- AMLTFEBD//L7z0qaWE/oW2sMNOWjq9x8VJ95O37DmHWUmLJQXCQYNyK0WSemGQVCeD
- wdpE3rLQ1M9FnE96azrCkx2yF+Tt4e5ikBUux6x+0IbhdqTAS+t+deAgkZvYSG2ay6
- RM6+s5kKkHkIni3UhhVW1YgrV0giNKh3cQtfhIYGdyYjm3bldN/H2QfKIEKamZlMKR
- om19Wth0jkrfQ==
-Date: Tue, 30 May 2023 20:31:49 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: tc358762: Document
- reset-gpios
-Message-ID: <20230530-discount-stumbling-6b39fb74dc4f@spud>
-References: <20230530192805.648646-1-marex@denx.de>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7ADB1847C0;
+ Tue, 30 May 2023 21:33:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1685475219;
+ bh=ELgNuljcJ5vjsEuIuG/eTRGtxGXlcKyvsMtI/VuuJhM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ULfmCKR73OrmYI81jN1FpKqWdIPkFFmcaeBbL59Rup9p2uCGLfK/GbI4BUaKp9uSc
+ 5QqOhmHGB+Zx3XuroV6tOexbR84ND89O+656bDlV6VvYwZijEpa1XCsGacJ5ugXJgp
+ nG860yuIgCwdI8wptIgwqnQMSMDKCB7OY7WTMb9cGPSBLn4aCnQ8JqkhkvQS7uxraY
+ brHj8AgkSqAlnO3Azy4OyqSNgfgp0hrXjSH9DldmwwZ6syQPepyGIS0hveDH01pQrR
+ j78gb7yrWLJLagX37qGjC2DfOMdZ35AxXVIbdPQ+Ty6VS5rbES4xL5T9I7mGuYOznE
+ BjBAmK/PoFJ0A==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: simple: Fix Powertip PH800480T013 bpc specifier
+Date: Tue, 30 May 2023 21:33:29 +0200
+Message-Id: <20230530193329.653526-1-marex@denx.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bdHpewQhhYkNCz+S"
-Content-Disposition: inline
-In-Reply-To: <20230530192805.648646-1-marex@denx.de>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This panel is 8 bits per channel DPI panel, add the missing .bpc
+specifier otherwise the kernel is complaining about it as follows:
+"
+panel-simple panel: Expected bpc in {6,8} but got: 0
+"
 
---bdHpewQhhYkNCz+S
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: d69de69f2be1 ("drm/panel: simple: Add Powertip PH800480T013 panel")
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Tue, May 30, 2023 at 09:28:04PM +0200, Marek Vasut wrote:
-> This chip has one reset GPIO input, document it. The reset GPIO
-> is optional as it is sometimes not connected on some hardware.
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 108ebe95590bc..02e3ddf58af07 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3327,6 +3327,7 @@ static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
+ static const struct panel_desc powertip_ph800480t013_idf02  = {
+ 	.modes = &powertip_ph800480t013_idf02_mode,
+ 	.num_modes = 1,
++	.bpc = 8,
+ 	.size = {
+ 		.width = 152,
+ 		.height = 91,
+-- 
+2.39.2
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
---bdHpewQhhYkNCz+S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHZPJQAKCRB4tDGHoIJi
-0vATAQDZW1g5AruaXlxG+i29siOdMLsQ8yfT0a/mw1sxTKOMagEAoXW5fBK1qfkV
-VRDOWd37w/lS12vilf1zVydExj9o0wc=
-=twAQ
------END PGP SIGNATURE-----
-
---bdHpewQhhYkNCz+S--
