@@ -1,46 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843EF71545F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 06:02:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9612971546B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 06:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E76710E336;
-	Tue, 30 May 2023 04:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C41610E32A;
+	Tue, 30 May 2023 04:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3021110E32A;
- Tue, 30 May 2023 04:02:11 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:35688.709279162
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 9E7651002F1;
- Tue, 30 May 2023 12:02:02 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-xwndj with ESMTP id
- a8c92154d25549479df24175237368df for sam@ravnborg.org; 
- Tue, 30 May 2023 12:02:07 CST
-X-Transaction-ID: a8c92154d25549479df24175237368df
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <f2390274-8c51-f7f9-98b3-8ad3c3f7c2bc@189.cn>
-Date: Tue, 30 May 2023 12:02:01 +0800
+Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9BE10E32A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 04:12:44 +0000 (UTC)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 30 May 2023 12:12:42 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <tzimmermann@suse.de>, <airlied@redhat.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>
+Subject: [PATCH v3] drm/ast: Fix long time waiting on s3/s4 resume
+Date: Tue, 30 May 2023 12:12:40 +0800
+Message-ID: <20230530041240.13427-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 13/13] drm/i915: Implement dedicated fbdev I/O helpers
-To: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20230524092150.11776-1-tzimmermann@suse.de>
- <20230524092150.11776-14-tzimmermann@suse.de>
- <20230529193621.GD1370714@ravnborg.org>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230529193621.GD1370714@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,351 +40,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: wendy.wang@intel.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In resume, DP's launch function, ast_dp_launch, could wait at most 30
+seconds before timeout to check if DP is enabled. It could lead to 'DPM
+device timeout' and trigger unrecoverable kernel panic.
 
-On 2023/5/30 03:36, Sam Ravnborg wrote:
-> Hi Thomas,
->
-> On Wed, May 24, 2023 at 11:21:50AM +0200, Thomas Zimmermann wrote:
->> Implement dedicated fbdev helpers for framebuffer I/O instead
->> of using DRM's helpers. Use an fbdev generator macro for
->> deferred I/O to create the fbdev callbacks. i915 was the only
->> caller of the DRM helpers, so remove them from the helper module.
->>
->> i915's fbdev emulation is still incomplete as it doesn't implement
->> deferred I/O and damage handling for mmaped pages.
->>
->> v4:
->> 	* generate deferred-I/O helpers
->> 	* use initializer macros for fb_ops
->> v2:
->> 	* use FB_IO_HELPERS options
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
->> ---
->>   drivers/gpu/drm/Kconfig                    |   3 -
->>   drivers/gpu/drm/drm_fb_helper.c            | 107 ---------------------
->>   drivers/gpu/drm/i915/Kconfig               |   1 +
->>   drivers/gpu/drm/i915/display/intel_fbdev.c |  14 +--
->>   include/drm/drm_fb_helper.h                |  39 --------
->>   5 files changed, 9 insertions(+), 155 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 92a782827b7b..bb2e48cc6cd6 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -133,9 +133,6 @@ config DRM_FBDEV_EMULATION
->>   	bool "Enable legacy fbdev support for your modesetting driver"
->>   	depends on DRM_KMS_HELPER
->>   	depends on FB=y || FB=DRM_KMS_HELPER
->> -	select FB_CFB_FILLRECT
->> -	select FB_CFB_COPYAREA
->> -	select FB_CFB_IMAGEBLIT
->>   	select FRAMEBUFFER_CONSOLE if !EXPERT
->>   	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
->>   	default y
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
->> index bab6b252f02a..9978147bbc8a 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -736,113 +736,6 @@ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagerefli
->>   }
->>   EXPORT_SYMBOL(drm_fb_helper_deferred_io);
->>   
->> -/**
->> - * drm_fb_helper_cfb_read - Implements struct &fb_ops.fb_read for I/O memory
->> - * @info: fb_info struct pointer
->> - * @buf: userspace buffer to read from framebuffer memory
->> - * @count: number of bytes to read from framebuffer memory
->> - * @ppos: read offset within framebuffer memory
->> - *
->> - * Returns:
->> - * The number of bytes read on success, or an error code otherwise.
->> - */
->> -ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
->> -			       size_t count, loff_t *ppos)
->> -{
->> -	return fb_io_read(info, buf, count, ppos);
->> -}
->> -EXPORT_SYMBOL(drm_fb_helper_cfb_read);
->> -
->> -/**
->> - * drm_fb_helper_cfb_write - Implements struct &fb_ops.fb_write for I/O memory
->> - * @info: fb_info struct pointer
->> - * @buf: userspace buffer to write to framebuffer memory
->> - * @count: number of bytes to write to framebuffer memory
->> - * @ppos: write offset within framebuffer memory
->> - *
->> - * Returns:
->> - * The number of bytes written on success, or an error code otherwise.
->> - */
->> -ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
->> -				size_t count, loff_t *ppos)
->> -{
->> -	struct drm_fb_helper *helper = info->par;
->> -	loff_t pos = *ppos;
->> -	ssize_t ret;
->> -	struct drm_rect damage_area;
->> -
->> -	ret = fb_io_write(info, buf, count, ppos);
->> -	if (ret <= 0)
->> -		return ret;
->> -
->> -	if (helper->funcs->fb_dirty) {
->> -		drm_fb_helper_memory_range_to_clip(info, pos, ret, &damage_area);
->> -		drm_fb_helper_damage(helper, damage_area.x1, damage_area.y1,
->> -				     drm_rect_width(&damage_area),
->> -				     drm_rect_height(&damage_area));
->> -	}
-> The generated helpers do not have the if (helper->funcs->fb_dirty)
-> check.
+To avoid this problem, we check if DP enable or not at driver probe only.
 
-Nice catch!
+Reported-and-tested-by: Wendy Wang <wendy.wang@intel.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=217278
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+ v3 changes:
+  - Update comments
+ v2 changes:
+  - Fix build error.
+---
+ drivers/gpu/drm/ast/ast_dp.c   | 55 +++++++++++-----------------------
+ drivers/gpu/drm/ast/ast_drv.h  |  5 +---
+ drivers/gpu/drm/ast/ast_main.c | 11 +++++--
+ drivers/gpu/drm/ast/ast_post.c |  3 +-
+ 4 files changed, 29 insertions(+), 45 deletions(-)
 
-If I understand this correctly, fb_io_write() will write directly to the 
-ultimate
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index fbb070f63e36..6dc1a09504e1 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -119,53 +119,32 @@ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+ /*
+  * Launch Aspeed DP
+  */
+-void ast_dp_launch(struct drm_device *dev, u8 bPower)
++void ast_dp_launch(struct drm_device *dev)
+ {
+-	u32 i = 0, j = 0, WaitCount = 1;
+-	u8 bDPTX = 0;
++	u32 i = 0;
+ 	u8 bDPExecute = 1;
+-
+ 	struct ast_device *ast = to_ast_device(dev);
+-	// S3 come back, need more time to wait BMC ready.
+-	if (bPower)
+-		WaitCount = 300;
+-
+-
+-	// Wait total count by different condition.
+-	for (j = 0; j < WaitCount; j++) {
+-		bDPTX = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK);
+-
+-		if (bDPTX)
+-			break;
+ 
++	// Wait one second then timeout.
++	while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) !=
++		ASTDP_MCU_FW_EXECUTING) {
++		i++;
++		// wait 100 ms
+ 		msleep(100);
+-	}
+ 
+-	// 0xE : ASTDP with DPMCU FW handling
+-	if (bDPTX == ASTDP_DPMCU_TX) {
+-		// Wait one second then timeout.
+-		i = 0;
+-
+-		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
+-			COPROCESSOR_LAUNCH) {
+-			i++;
+-			// wait 100 ms
+-			msleep(100);
+-
+-			if (i >= 10) {
+-				// DP would not be ready.
+-				bDPExecute = 0;
+-				break;
+-			}
++		if (i >= 10) {
++			// DP would not be ready.
++			bDPExecute = 0;
++			break;
+ 		}
++	}
+ 
+-		if (bDPExecute)
+-			ast->tx_chip_types |= BIT(AST_TX_ASTDP);
++	if (!bDPExecute)
++		drm_err(dev, "Wait DPMCU executing timeout\n");
+ 
+-		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
+-							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
+-							ASTDP_HOST_EDID_READ_DONE);
+-	}
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++			       (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++			       ASTDP_HOST_EDID_READ_DONE);
+ }
+ 
+ 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index a501169cddad..5498a6676f2e 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -350,9 +350,6 @@ int ast_mode_config_init(struct ast_device *ast);
+ #define AST_DP501_LINKRATE	0xf014
+ #define AST_DP501_EDID_DATA	0xf020
+ 
+-/* Define for Soc scratched reg */
+-#define COPROCESSOR_LAUNCH			BIT(5)
+-
+ /*
+  * Display Transmitter Type:
+  */
+@@ -480,7 +477,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
+ 
+ /* aspeed DP */
+ int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
+-void ast_dp_launch(struct drm_device *dev, u8 bPower);
++void ast_dp_launch(struct drm_device *dev);
+ void ast_dp_power_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_on_off(struct drm_device *dev, bool no);
+ void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index f32ce29edba7..1f35438f614a 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -254,8 +254,13 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+ 		case 0x0c:
+ 			ast->tx_chip_types = AST_TX_DP501_BIT;
+ 		}
+-	} else if (ast->chip == AST2600)
+-		ast_dp_launch(&ast->base, 0);
++	} else if (ast->chip == AST2600) {
++		if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK) ==
++		    ASTDP_DPMCU_TX) {
++			ast->tx_chip_types = AST_TX_ASTDP_BIT;
++			ast_dp_launch(&ast->base);
++		}
++	}
+ 
+ 	/* Print stuff for diagnostic purposes */
+ 	if (ast->tx_chip_types & AST_TX_NONE_BIT)
+@@ -264,6 +269,8 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+ 		drm_info(dev, "Using Sil164 TMDS transmitter\n");
+ 	if (ast->tx_chip_types & AST_TX_DP501_BIT)
+ 		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
++	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
++		drm_info(dev, "Using ASPEED DisplayPort transmitter\n");
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 71bb36b865fd..a005aec18a02 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -380,7 +380,8 @@ void ast_post_gpu(struct drm_device *dev)
+ 	ast_set_def_ext_reg(dev);
+ 
+ 	if (ast->chip == AST2600) {
+-		ast_dp_launch(dev, 1);
++		if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
++			ast_dp_launch(dev);
+ 	} else if (ast->config_mode == ast_use_p2a) {
+ 		if (ast->chip == AST2500)
+ 			ast_post_chip_2500(dev);
 
-destination. There no need to check if (helper->funcs->fb_dirty) anymore.
+base-commit: 933174ae28ba72ab8de5b35cb7c98fc211235096
+-- 
+2.25.1
 
-code inside the curly brace of  `if (helper->funcs->fb_dirty) { }`  can 
-be delete safely .
-
-
-This could turn out to be an optimization. This is a benefit of 
-untangled implement.
-
-previously this is a generic (tangled) implement, which intended to be 
-used by both
-
-the UMA device driver and non-UMA device(with dedicate VRAM) driver.
-
-
-drm_fbdev_generic always has a shadow screen buffer allocated in system RAM,
-
-  it always has the fb_dirty hooked, so this could be an optimization 
-for fbdev_generic
-
-by eliminate if (helper->funcs->fb_dirty) check.
-
-
-while dma helper based driver could switch to drm_fbdev_dma, they writing
-
-to gem buffer directly, no shadow buffer is needed.
-
-
-With those patch, device driver with dedicated video memory can also 
-choose FB_CFB_*
-
-to update (iomem)framebuffer directly, despite slower.
-
-
-> Is this implemented somewhere else that I missed?
->
-> 	Sam
->
-drm_fb_helper_fb_dirty() function has a check:
-
-```
-
-     if (drm_WARN_ON_ONCE(dev, !helper->funcs->fb_dirty))
-         return;
-```
-
-Not sure if this is a little bit too late......
-
->> -
->> -	return ret;
->> -}
->> -EXPORT_SYMBOL(drm_fb_helper_cfb_write);
->> -
->> -/**
->> - * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
->> - * @info: fbdev registered by the helper
->> - * @rect: info about rectangle to fill
->> - *
->> - * A wrapper around cfb_fillrect implemented by fbdev core
->> - */
->> -void drm_fb_helper_cfb_fillrect(struct fb_info *info,
->> -				const struct fb_fillrect *rect)
->> -{
->> -	struct drm_fb_helper *helper = info->par;
->> -
->> -	cfb_fillrect(info, rect);
->> -
->> -	if (helper->funcs->fb_dirty)
->> -		drm_fb_helper_damage(helper, rect->dx, rect->dy, rect->width, rect->height);
->> -}
->> -EXPORT_SYMBOL(drm_fb_helper_cfb_fillrect);
->> -
->> -/**
->> - * drm_fb_helper_cfb_copyarea - wrapper around cfb_copyarea
->> - * @info: fbdev registered by the helper
->> - * @area: info about area to copy
->> - *
->> - * A wrapper around cfb_copyarea implemented by fbdev core
->> - */
->> -void drm_fb_helper_cfb_copyarea(struct fb_info *info,
->> -				const struct fb_copyarea *area)
->> -{
->> -	struct drm_fb_helper *helper = info->par;
->> -
->> -	cfb_copyarea(info, area);
->> -
->> -	if (helper->funcs->fb_dirty)
->> -		drm_fb_helper_damage(helper, area->dx, area->dy, area->width, area->height);
->> -}
->> -EXPORT_SYMBOL(drm_fb_helper_cfb_copyarea);
->> -
->> -/**
->> - * drm_fb_helper_cfb_imageblit - wrapper around cfb_imageblit
->> - * @info: fbdev registered by the helper
->> - * @image: info about image to blit
->> - *
->> - * A wrapper around cfb_imageblit implemented by fbdev core
->> - */
->> -void drm_fb_helper_cfb_imageblit(struct fb_info *info,
->> -				 const struct fb_image *image)
->> -{
->> -	struct drm_fb_helper *helper = info->par;
->> -
->> -	cfb_imageblit(info, image);
->> -
->> -	if (helper->funcs->fb_dirty)
->> -		drm_fb_helper_damage(helper, image->dx, image->dy, image->width, image->height);
->> -}
->> -EXPORT_SYMBOL(drm_fb_helper_cfb_imageblit);
->> -
->>   /**
->>    * drm_fb_helper_set_suspend - wrapper around fb_set_suspend
->>    * @fb_helper: driver-allocated fbdev helper, can be NULL
->> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
->> index e4f4d2e3fdfe..01b5a8272a27 100644
->> --- a/drivers/gpu/drm/i915/Kconfig
->> +++ b/drivers/gpu/drm/i915/Kconfig
->> @@ -17,6 +17,7 @@ config DRM_I915
->>   	select DRM_KMS_HELPER
->>   	select DRM_PANEL
->>   	select DRM_MIPI_DSI
->> +	select FB_IO_HELPERS if DRM_FBDEV_EMULATION
->>   	select RELAY
->>   	select I2C
->>   	select I2C_ALGOBIT
->> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> index aab1ae74a8f7..eccaceaf8b9d 100644
->> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
->> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> @@ -28,6 +28,7 @@
->>   #include <linux/console.h>
->>   #include <linux/delay.h>
->>   #include <linux/errno.h>
->> +#include <linux/fb.h>
->>   #include <linux/init.h>
->>   #include <linux/kernel.h>
->>   #include <linux/mm.h>
->> @@ -84,6 +85,10 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
->>   	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
->>   }
->>   
->> +FB_GEN_DEFAULT_DEFERRED_IO_OPS(intel_fbdev,
->> +			       drm_fb_helper_damage_range,
->> +			       drm_fb_helper_damage_area)
->> +
->>   static int intel_fbdev_set_par(struct fb_info *info)
->>   {
->>   	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
->> @@ -132,15 +137,12 @@ static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
->>   
->>   static const struct fb_ops intelfb_ops = {
->>   	.owner = THIS_MODULE,
->> +	__FB_DEFAULT_DEFERRED_OPS_RDWR(intel_fbdev),
->>   	DRM_FB_HELPER_DEFAULT_OPS,
->>   	.fb_set_par = intel_fbdev_set_par,
->> -	.fb_read = drm_fb_helper_cfb_read,
->> -	.fb_write = drm_fb_helper_cfb_write,
->> -	.fb_fillrect = drm_fb_helper_cfb_fillrect,
->> -	.fb_copyarea = drm_fb_helper_cfb_copyarea,
->> -	.fb_imageblit = drm_fb_helper_cfb_imageblit,
->> -	.fb_pan_display = intel_fbdev_pan_display,
->>   	.fb_blank = intel_fbdev_blank,
->> +	.fb_pan_display = intel_fbdev_pan_display,
->> +	__FB_DEFAULT_DEFERRED_OPS_DRAW(intel_fbdev),
->>   	.fb_mmap = intel_fbdev_mmap,
->>   };
->>   
->> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
->> index b50fd0c0b713..4863b0f8299e 100644
->> --- a/include/drm/drm_fb_helper.h
->> +++ b/include/drm/drm_fb_helper.h
->> @@ -258,18 +258,6 @@ void drm_fb_helper_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u3
->>   
->>   void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist);
->>   
->> -ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
->> -			       size_t count, loff_t *ppos);
->> -ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
->> -				size_t count, loff_t *ppos);
->> -
->> -void drm_fb_helper_cfb_fillrect(struct fb_info *info,
->> -				const struct fb_fillrect *rect);
->> -void drm_fb_helper_cfb_copyarea(struct fb_info *info,
->> -				const struct fb_copyarea *area);
->> -void drm_fb_helper_cfb_imageblit(struct fb_info *info,
->> -				 const struct fb_image *image);
->> -
->>   void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, bool suspend);
->>   void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
->>   					bool suspend);
->> @@ -385,33 +373,6 @@ static inline int drm_fb_helper_defio_init(struct drm_fb_helper *fb_helper)
->>   	return -ENODEV;
->>   }
->>   
->> -static inline ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
->> -					     size_t count, loff_t *ppos)
->> -{
->> -	return -ENODEV;
->> -}
->> -
->> -static inline ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
->> -					      size_t count, loff_t *ppos)
->> -{
->> -	return -ENODEV;
->> -}
->> -
->> -static inline void drm_fb_helper_cfb_fillrect(struct fb_info *info,
->> -					      const struct fb_fillrect *rect)
->> -{
->> -}
->> -
->> -static inline void drm_fb_helper_cfb_copyarea(struct fb_info *info,
->> -					      const struct fb_copyarea *area)
->> -{
->> -}
->> -
->> -static inline void drm_fb_helper_cfb_imageblit(struct fb_info *info,
->> -					       const struct fb_image *image)
->> -{
->> -}
->> -
->>   static inline void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper,
->>   					     bool suspend)
->>   {
->> -- 
->> 2.40.1
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
