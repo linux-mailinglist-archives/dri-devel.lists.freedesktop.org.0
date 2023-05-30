@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E395E71597E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7EC71597F
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A656810E383;
-	Tue, 30 May 2023 09:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED0C10E376;
+	Tue, 30 May 2023 09:09:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E01E10E387;
- Tue, 30 May 2023 09:09:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29D3A10E386;
+ Tue, 30 May 2023 09:09:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685437749; x=1716973749;
+ t=1685437753; x=1716973753;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CKyq19lgSdYcg10Xu69zwqdxvM34onNeUCk8m8bwVSo=;
- b=AZ6v1QvezWswY+cYpM4IpUwuSjKXd27bwAe8ci01C6aRqK22lHp1GB5l
- zfqkdvzJdoTj/pmy7zc3J+R2DaI5s8aJfscdVK4L6BOqVDRVIS5EQEbgQ
- k8S3Z81zaDHPLGud2be/SaxPt2jjNJ/e5FDMxNPVmbMD0/2HHC0TFOJJg
- atht9CzT1cB1eoieIFaIvhF3fFqF2dlAaPo7liLQjh1C6/cKD5ei3rBdt
- EVV+i2SBwiZYGesY68l6ml1+H/wvDmzQXTQ3c8AGEQbFXKWyKOdeBYLcK
- 4ljrVWkpQ1gMO69wtM206xuSiMzvwozHDHNAJ4h6BTaYJATfUVTocM+2h w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="354872570"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="354872570"
+ bh=G40JUlWrd6QdGQ7Y8fZ1hiUD3Qu6LHnQA99GFGpTX/Y=;
+ b=QlX+XXRETX+wDBAkvf7mCccHOkFzWGCaT70v9WEZEGbz1H4M09R332TI
+ SlYqrfelBKe6DshB8tBubaQmJfEaCNxIxes9nIQjZ3KpSEat4PwVSE9hL
+ u7AY6JgDHrgtWuYzl/yz8TG3BRzrsBunxWQUJjHRzHS/UZriC6CJHSEt7
+ 7Or1CpYdXk+yFBUgSQuaqCl15RclTvtKoVeQJJzU9hV3WGB+KlEJ/+3HG
+ Hxkc3mmidscQpLSBnf8Xz1k7miqbphJhmibHd21ZuxykteqoDcJH3y1nt
+ dS1ES7vgH2TptLNwMOtGDgOTzCKxIv0DxKXdCkNhO3XnD/B7g7t8VPtY8 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="354872585"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="354872585"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 02:09:07 -0700
+ 30 May 2023 02:09:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683875041"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="683875041"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683875087"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="683875087"
 Received: from kleve-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.47.8])
  by orsmga006-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:09:05 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:09:10 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 07/13] drm/i915/sdvo: stop caching has_hdmi_monitor in
- struct intel_sdvo
-Date: Tue, 30 May 2023 12:08:19 +0300
-Message-Id: <3e9e1dcd554d470bdf474891a431b15e1880f9a0.1685437500.git.jani.nikula@intel.com>
+Subject: [PATCH v2 08/13] drm/i915/sdvo: stop caching has_hdmi_audio in struct
+ intel_sdvo
+Date: Tue, 30 May 2023 12:08:20 +0300
+Message-Id: <1e02f2f7381dfcee6e4160a5fc17aea6ff04baf9.1685437500.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1685437500.git.jani.nikula@intel.com>
 References: <cover.1685437500.git.jani.nikula@intel.com>
@@ -69,71 +69,76 @@ Use the information stored in display info.
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_sdvo.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_sdvo.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 34ee9dd82a78..5ce1fed84016 100644
+index 5ce1fed84016..2d1b19f73883 100644
 --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
 +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -117,7 +117,6 @@ struct intel_sdvo {
+@@ -117,8 +117,6 @@ struct intel_sdvo {
  
  	enum port port;
  
--	bool has_hdmi_monitor;
- 	bool has_hdmi_audio;
- 
+-	bool has_hdmi_audio;
+-
  	/* DDC bus used by this SDVO encoder */
-@@ -1303,10 +1302,13 @@ static void i9xx_adjust_sdvo_tv_clock(struct intel_crtc_state *pipe_config)
- 	pipe_config->clock_set = true;
- }
+ 	u8 ddc_bus;
  
--static bool intel_has_hdmi_sink(struct intel_sdvo *sdvo,
-+static bool intel_has_hdmi_sink(struct intel_sdvo_connector *intel_sdvo_connector,
- 				const struct drm_connector_state *conn_state)
+@@ -1328,7 +1326,9 @@ static bool intel_sdvo_has_audio(struct intel_encoder *encoder,
+ 				 const struct intel_crtc_state *crtc_state,
+ 				 const struct drm_connector_state *conn_state)
  {
--	return sdvo->has_hdmi_monitor &&
+-	struct intel_sdvo *intel_sdvo = to_sdvo(encoder);
 +	struct drm_connector *connector = conn_state->connector;
-+
-+	return intel_sdvo_connector->is_hdmi &&
-+		connector->display_info.is_hdmi &&
- 		READ_ONCE(to_intel_digital_connector_state(conn_state)->force_audio) != HDMI_AUDIO_OFF_DVI;
++	struct intel_sdvo_connector *intel_sdvo_connector =
++		to_intel_sdvo_connector(connector);
+ 	const struct intel_digital_connector_state *intel_conn_state =
+ 		to_intel_digital_connector_state(conn_state);
+ 
+@@ -1336,7 +1336,8 @@ static bool intel_sdvo_has_audio(struct intel_encoder *encoder,
+ 		return false;
+ 
+ 	if (intel_conn_state->force_audio == HDMI_AUDIO_AUTO)
+-		return intel_sdvo->has_hdmi_audio;
++		return intel_sdvo_connector->is_hdmi &&
++			connector->display_info.has_audio;
+ 	else
+ 		return intel_conn_state->force_audio == HDMI_AUDIO_ON;
  }
+@@ -2057,8 +2058,6 @@ static enum drm_connector_status
+ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
+ {
+ 	struct intel_sdvo *intel_sdvo = intel_attached_sdvo(to_intel_connector(connector));
+-	struct intel_sdvo_connector *intel_sdvo_connector =
+-		to_intel_sdvo_connector(connector);
+ 	enum drm_connector_status status;
+ 	struct edid *edid;
  
-@@ -1401,7 +1403,7 @@ static int intel_sdvo_compute_config(struct intel_encoder *encoder,
- 	pipe_config->pixel_multiplier =
- 		intel_sdvo_get_pixel_multiplier(adjusted_mode);
- 
--	pipe_config->has_hdmi_sink = intel_has_hdmi_sink(intel_sdvo, conn_state);
-+	pipe_config->has_hdmi_sink = intel_has_hdmi_sink(intel_sdvo_connector, conn_state);
- 
- 	pipe_config->has_audio =
- 		intel_sdvo_has_audio(encoder, pipe_config, conn_state) &&
-@@ -1907,7 +1909,7 @@ intel_sdvo_mode_valid(struct drm_connector *connector,
- 	struct intel_sdvo_connector *intel_sdvo_connector =
- 		to_intel_sdvo_connector(connector);
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
--	bool has_hdmi_sink = intel_has_hdmi_sink(intel_sdvo, connector->state);
-+	bool has_hdmi_sink = intel_has_hdmi_sink(intel_sdvo_connector, connector->state);
- 	int clock = mode->clock;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
-@@ -2096,7 +2098,6 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
- 		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+@@ -2095,12 +2094,9 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
+ 	status = connector_status_unknown;
+ 	if (edid != NULL) {
+ 		/* DDC bus is shared, match EDID to connector type */
+-		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
++		if (edid->input & DRM_EDID_INPUT_DIGITAL)
  			status = connector_status_connected;
- 			if (intel_sdvo_connector->is_hdmi) {
--				intel_sdvo->has_hdmi_monitor = drm_detect_hdmi_monitor(edid);
- 				intel_sdvo->has_hdmi_audio = drm_detect_monitor_audio(edid);
- 			}
- 		} else
-@@ -2148,7 +2149,6 @@ intel_sdvo_detect(struct drm_connector *connector, bool force)
+-			if (intel_sdvo_connector->is_hdmi) {
+-				intel_sdvo->has_hdmi_audio = drm_detect_monitor_audio(edid);
+-			}
+-		} else
++		else
+ 			status = connector_status_disconnected;
+ 		kfree(edid);
+ 	}
+@@ -2149,8 +2145,6 @@ intel_sdvo_detect(struct drm_connector *connector, bool force)
  
  	intel_sdvo->attached_output = response;
  
--	intel_sdvo->has_hdmi_monitor = false;
- 	intel_sdvo->has_hdmi_audio = false;
- 
+-	intel_sdvo->has_hdmi_audio = false;
+-
  	if ((intel_sdvo_connector->output_flag & response) == 0)
+ 		ret = connector_status_disconnected;
+ 	else if (IS_TMDS(intel_sdvo_connector))
 -- 
 2.39.2
 
