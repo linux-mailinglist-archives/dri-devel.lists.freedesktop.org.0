@@ -2,65 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA967715697
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9A27156A1
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D811F10E351;
-	Tue, 30 May 2023 07:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8625610E352;
+	Tue, 30 May 2023 07:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED4C810E351;
- Tue, 30 May 2023 07:22:45 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2af2c35fb85so41813921fa.3; 
- Tue, 30 May 2023 00:22:45 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 731D910E352
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:24:28 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f6cbdf16d2so26607255e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685431363; x=1688023363;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=godemfyF69UVDL/szblPSm2+LaDgq+lIR0e2xtsOrIs=;
- b=SQi5aCvogeT6vaJmjexm9h18SAt4DQCs/UkF87t7OjppfF8w1MKXG+x4l42l4qzZeP
- hHZrqdxdIUgExiX02AH65PyVmLq+LmYwBtVYbm5TIDGAO+gAgw2AQqX4w5Fm8I7741l+
- NoOFxoqlA2ijnSkdnThM99E2V2s30PylA4rU+gLzrrHKiUsCWsc7GAeTfJgXUDznbX33
- IcyicGb13xKf72BVT6KnrdOOTRye47VeX805+Lkrr6AYmDrOCpWyqYokTER2K5FR7aGT
- e0ZJbQKNB5nngrmPessNPVkwzPfzyy8T+bWOHb4Q33NGVU42v8WjWkglRIJ2LX08FUjZ
- Eobg==
+ d=linaro.org; s=google; t=1685431466; x=1688023466;
+ h=content-transfer-encoding:in-reply-to:subject:organization
+ :references:cc:to:content-language:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=3I07vAEecFzrsjsVE9f8408EJbUoemH3VbQP/pvyq0o=;
+ b=Z4iMUc8I4mYDKowOA3j9094HmVweQiDz9dbUui86MbD/5GfslWwlTRQxJxTRu2j4bb
+ s5DAGSzIai/XfJrBrEJfFWBXKtHt/MQu3yJPGOFDWesqc8/opbVwMqlVcNfsTsGfHvOd
+ 7nwJpNR3YqsF7eRcLBt5F7cJlA/pvhNfBdtoULbxV+oMRm2D3kHO5Z587Afxx4nP7Hku
+ gaJDTUKrYCpCDcsjvhWLqP4qQsND+t/4ljUREljBMvKnrPdv/RSpfTce1WvgfXMzip6b
+ NHsXkR5YtCA5bZ6Ph2PoBFjG+m0j4WzyNTvDa4V4iC80158/KFksx53cMa4086asAhuG
+ vdbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685431363; x=1688023363;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=godemfyF69UVDL/szblPSm2+LaDgq+lIR0e2xtsOrIs=;
- b=G41OIRFH1CztX+levzAIfuzkaFHR6lIQvfRNF/3keSjQmwxjJQVN0nJc4WV48wRBxj
- gpqOkCy+Qp6yQ7hYTNWJWZDsQqjSeg4vtmQ51gU9+vcfZquReY1OVgw/ShP73nCsu18v
- haosIKf5zSudbIoqW7PRsPwt2EBth2zG1HUYN6PqKg9uX+ODDKIe0nI7sgxfN9TKdIAg
- FAaDivJAIUdI0sSA5697hGenW5MuKiZERmB633PJjWcJB21/laPJ8KM+30pQz2FikZmr
- dsa1aRAO4zMEoKxVfvS69t2LW9Xiz4n2MvMkfQl2FW+70GmOhVOFcN9xA0H7O508KDf9
- 369g==
-X-Gm-Message-State: AC+VfDx18JbSL4eQb42EY0N/zokF8zpo7oG9932neVN/qwf3VP299SM2
- CTt43WcGEfjDWXl3MnClrFc=
-X-Google-Smtp-Source: ACHHUZ6KZJwt9+UF3AtZIrxg/KE2wbAmeAvu5tY+YlByAAzs9l45B72fjZJlY7P+A/UozbXrv7cIeg==
-X-Received: by 2002:a2e:9d43:0:b0:2af:187b:3c88 with SMTP id
- y3-20020a2e9d43000000b002af187b3c88mr355818ljj.43.1685431362600; 
- Tue, 30 May 2023 00:22:42 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- t16-20020a2e9d10000000b002adbf24212esm2727569lji.49.2023.05.30.00.22.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 May 2023 00:22:42 -0700 (PDT)
-Date: Tue, 30 May 2023 10:22:32 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 00/36] drm/amd/display: add AMD driver-specific
- properties for color mgmt
-Message-ID: <20230530102232.63bf7259@eldfell>
-In-Reply-To: <7e385b28-f418-52b2-71ea-52347ec6a819@linaro.org>
-References: <20230523221520.3115570-1-mwen@igalia.com>
- <7e385b28-f418-52b2-71ea-52347ec6a819@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20221208; t=1685431466; x=1688023466;
+ h=content-transfer-encoding:in-reply-to:subject:organization
+ :references:cc:to:content-language:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=3I07vAEecFzrsjsVE9f8408EJbUoemH3VbQP/pvyq0o=;
+ b=BNdYDcHK8DqSvqEBf7p9TqbxqvsbV1bBKNOjJ8AUf8sXJ/Kb5FGZS1sdpYgfn5aqnZ
+ rkqO8L2vZDR2vSsKiMY4UZQUGyg6iPmy7ko0+bKNxR/+FDMFJa9rlOHV/1obebFXsfrV
+ TLyqUXsIcaeggbWSfh63iWJlGxBLGzmZJns10/rvQiC56JIXsjUg+63A9+P60BIUDZ7H
+ 6og3XshbtEEoLgfLXkRPvDbLRZe+osdVgWP4w3xiY+nLZvQMwxcGF6ckh1cbYYqTVpvG
+ /1N9d3KspbtXNuL7sCf8/S+M1RSuyUDAoQkgfcC3ZZcn8qCrZeGwboctn21+8sbuBtO0
+ iEpw==
+X-Gm-Message-State: AC+VfDxv4fF8H3ku+CQWefIyDz1X/hxLY5uJUCX1yPBigJhjzc/waC2I
+ P2dpUwEgI25K8vBvJxkxEykN9Q==
+X-Google-Smtp-Source: ACHHUZ58qsQBRk2dHD/eWA5ULkS1FSwEEPsv+OGKs4QRSpWa05Iabdz4F0KQemDxDPmDQI1jbpsLlQ==
+X-Received: by 2002:a05:6000:371:b0:307:9d2a:fd35 with SMTP id
+ f17-20020a056000037100b003079d2afd35mr823799wrf.53.1685431466027; 
+ Tue, 30 May 2023 00:24:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87?
+ ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4103000000b003047d5b8817sm2219893wrp.80.2023.05.30.00.24.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 May 2023 00:24:25 -0700 (PDT)
+Message-ID: <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
+Date: Tue, 30 May 2023 09:24:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/iP+02GjmHzqt2bdxK_W_Dpr";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Caleb Connolly <caleb@connolly.tech>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-3-541c341d6bee@somainline.org>
+ <ccc97880-8e74-b85b-9679-9c12c44c4b99@linaro.org>
+ <brmrqeajbq3oyp3jjwmc6tuhiftz764u6az444xw6g7pwf5fr3@5tlp375qwhed>
+Organization: Linaro Developer Services
+Subject: Re: [PATCH RFC 03/10] drm/panel: Add LGD panel driver for Sony Xperia
+ XZ3
+In-Reply-To: <brmrqeajbq3oyp3jjwmc6tuhiftz764u6az444xw6g7pwf5fr3@5tlp375qwhed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,198 +86,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Hung <alex.hung@amd.com>, tzimmermann@suse.de, sunpeng.li@amd.com,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Melissa Wen <mwen@igalia.com>,
- sungjoon.kim@amd.com, Xinhui.Pan@amd.com, Xaver Hugl <xaver.hugl@gmail.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, kernel-dev@igalia.com,
- Alex Deucher <alexander.deucher@amd.com>,
- freedreno <freedreno@lists.freedesktop.org>, christian.koenig@amd.com,
- Joshua Ashton <joshua@froggi.es>
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/iP+02GjmHzqt2bdxK_W_Dpr
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Marijn, Dmitry, Caleb, Jessica,
 
-On Tue, 30 May 2023 01:55:21 +0300
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+On 29/05/2023 23:11, Marijn Suijten wrote:
+> On 2023-05-22 04:16:20, Dmitry Baryshkov wrote:
+> <snip>
+>>> +	if (ctx->dsi->dsc) {
+>>
+>> dsi->dsc is always set, thus this condition can be dropped.
+> 
+> I want to leave room for possibly running the panel without DSC (at a
+> lower resolution/refresh rate, or at higher power consumption if there
+> is enough BW) by not assigning the pointer, if we get access to panel
+> documentation: probably one of the magic commands sent in this driver
+> controls it but we don't know which.
 
-> On 24/05/2023 01:14, Melissa Wen wrote:
-> > This series is a refined version of our RFC [1] for AMD driver-specific
-> > color management properties. It is a collection of contributions from
-> > Joshua, Harry and I to enhance AMD KMS color pipeline for Steam
-> > Deck/SteamOS by exposing the large set of color caps available in AMD
-> > display HW.
-> >=20
-> > Considering RFC feedback, this patchset differs from the previous one by
-> > removing the KConfig option and just guarding driver-specific properties
-> > with `AMD_PRIVATE_COLOR` - but we also removed the guards from internal
-> > elements and operations. We stopped to advertise CRTC shaper and 3D LUTs
-> > properties since they aren't in use in the Steam Deck color pipeline[2].
-> > On the other hand, we keep mapping CRTC shaper and 3D LUTs (DM) to DC
-> > MPC setup. We also improved curve calculations to take into account HW
-> > color caps.
-> >=20
-> > In short, for pre-blending, we added the following properties:
-> > - plane degamma LUT and predefined transfer function;
-> > - plane HDR multiplier
-> > - plane shaper LUT/transfer function;
-> > - plane 3D LUT; and finally,
-> > - plane blend LUT/transfer function, just before blending. =20
->=20
-> This set of properties sounds interesting and not fully AMD-specific.=20
-> Could you please consider moving them to the more generic location?
+I'd like to investigate if DSC should perhaps only be enabled if we
+run non certain platforms/socs ?
 
-No, please see the following thread for plans for more generic UAPI:
+I mean, we don't know if the controller supports DSC and those particular
+DSC parameters so we should probably start adding something like :
 
-https://lists.freedesktop.org/archives/dri-devel/2023-May/403173.html
+static drm_dsc_config dsc_params_qcom = {}
 
-AMD just needs something right now, so they try their own stuff first
-without exposing it to userspace.
+static const struct of_device_id panel_of_dsc_params[] = {
+	{ .compatible = "qcom,sm8150", , .data = &dsc_params_qcom },
+	{ .compatible = "qcom,sm8250", , .data = &dsc_params_qcom },
+	{ .compatible = "qcom,sm8350", , .data = &dsc_params_qcom },
+	{ .compatible = "qcom,sm8450", , .data = &dsc_params_qcom },
+};
 
+...
+static int sony_akatsuki_lgd_probe(struct mipi_dsi_device *dsi)
+...
+	const struct of_device_id *match;
 
-Thanks,
-pq
+...
+	match = of_match_node(panel_of_dsc_params, of_root);
+	if (match && match->data) {
+		dsi->dsc = devm_kzalloc(&dsi->dev, sizeof(*dsc), GFP_KERNEL);
+		memcpy(dsi->dsc, match->data, sizeof(*dsc));
+	} else {
+		dev_warn(&dsi->dev, "DSI controller is not marked as supporting DSC\n");
+	}
+...
+}
 
-> For the reference, MSM (Qualcomm) display hardware supports=20
-> degamma/gamma LUTs for planes too. One of the suggested usecases for=20
-> these degamma/gamma units is to support colorspace transfer functions.
->=20
-> Thus, at least some of these properties can be implemented in drm/msm=20
-> driver too.
->=20
-> > After blending, we already have DRM CRTC degamma/gamma LUTs and CTM,
-> > therefore, we extend post-blending color pipeline with CRTC gamma
-> > transfer function.
-> >=20
-> > The first three patches are on DRM KMS side. We expose DRM property
-> > helper for blob lookup and replacement so that we can use it for
-> > managing driver-specific properties. We add a tracked for plane color
-> > mgmt changes and increase the maximum number of properties to
-> > accommodate this expansion.
-> >=20
-> > The userspace case here is Gamescope which is the compositor for
-> > SteamOS. It's already using all of this functionality to implement its
-> > color management pipeline right now [3].
-> >=20
-> > Current IGT tests kms_color and amdgpu/amd_color on DCN301 and DCN21 HW
-> > preserve the same results with and without the guard.
-> >=20
-> > Finally, I may have missed something, please let me know if that's the
-> > case.
-> >=20
-> > Best Regards,
-> >=20
-> > Melissa Wen
-> >=20
-> > [1] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igal=
-ia.com
-> > [2] https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Ste=
-am%20Deck%20Display%20Pipeline.png
-> > [3] https://github.com/ValveSoftware/gamescope
-> >=20
-> >=20
-> > Harry Wentland (2):
-> >    drm/amd/display: fix segment distribution for linear LUTs
-> >    drm/amd/display: fix the delta clamping for shaper LUT
-> >=20
-> > Joshua Ashton (13):
-> >    drm/amd/display: add plane degamma TF driver-specific property
-> >    drm/amd/display: add plane HDR multiplier driver-specific property
-> >    drm/amd/display: add plane blend LUT and TF driver-specific properti=
-es
-> >    drm/amd/display: copy 3D LUT settings from crtc state to stream_upda=
-te
-> >    drm/amd/display: dynamically acquire 3DLUT resources for color chang=
-es
-> >    drm/amd/display: add CRTC regamma TF support
-> >    drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
-> >    drm/amd/display: add support for plane degamma TF and LUT properties
-> >    drm/amd/display: add dc_fixpt_from_s3132 helper
-> >    drm/adm/display: add HDR multiplier support
-> >    drm/amd/display: handle empty LUTs in __set_input_tf
-> >    drm/amd/display: add DRM plane blend LUT and TF support
-> >    drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/H=
-LG
-> >=20
-> > Melissa Wen (21):
-> >    drm/drm_mode_object: increase max objects to accommodate new color
-> >      props
-> >    drm/drm_property: make replace_property_blob_from_id a DRM helper
-> >    drm/drm_plane: track color mgmt changes per plane
-> >    drm/amd/display: add CRTC driver-specific property for gamma TF
-> >    drm/amd/display: add plane driver-specific properties for degamma LUT
-> >    drm/amd/display: add plane 3D LUT driver-specific properties
-> >    drm/amd/display: add plane shaper LUT driver-specific properties
-> >    drm/amd/display: add plane shaper TF driver-private property
-> >    drm/amd/display: add comments to describe DM crtc color mgmt behavior
-> >    drm/amd/display: encapsulate atomic regamma operation
-> >    drm/amd/display: update lut3d and shaper lut to stream
-> >    drm/amd/display: allow BYPASS 3D LUT but keep shaper LUT settings
-> >    drm/amd/display: handle MPC 3D LUT resources for a given context
-> >    drm/amd/display: add CRTC 3D LUT support
-> >    drm/amd/display: add CRTC shaper LUT support
-> >    drm/amd/display: add CRTC shaper TF support
-> >    drm/amd/display: mark plane as needing reset if plane color mgmt
-> >      changes
-> >    drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
-> >    drm/amd/display: reject atomic commit if setting both plane and CRTC
-> >      degamma
-> >    drm/amd/display: program DPP shaper and 3D LUT if updated
-> >    drm/amd/display: add plane shaper/3D LUT and shaper TF support
-> >=20
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 125 ++++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  69 ++
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  28 +-
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 110 +++-
-> >   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 612 ++++++++++++++++--
-> >   .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++-
-> >   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 213 +++++-
-> >   drivers/gpu/drm/amd/display/dc/core/dc.c      |  49 +-
-> >   drivers/gpu/drm/amd/display/dc/dc.h           |   8 +
-> >   .../amd/display/dc/dcn10/dcn10_cm_common.c    | 107 ++-
-> >   .../drm/amd/display/dc/dcn20/dcn20_hwseq.c    |   5 +-
-> >   .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    |   9 +-
-> >   .../amd/display/dc/dcn301/dcn301_resource.c   |  26 +-
-> >   .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
-> >   drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
-> >   drivers/gpu/drm/drm_atomic.c                  |   1 +
-> >   drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
-> >   drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
-> >   drivers/gpu/drm/drm_property.c                |  49 ++
-> >   include/drm/drm_mode_object.h                 |   2 +-
-> >   include/drm/drm_plane.h                       |   7 +
-> >   include/drm/drm_property.h                    |   6 +
-> >   22 files changed, 1416 insertions(+), 140 deletions(-)
-> >  =20
->=20
+and probably bail out if it's a DSC only panel.
 
+We could alternatively match on the DSI controller's dsi->host->dev instead of the SoC root compatible.
 
---Sig_/iP+02GjmHzqt2bdxK_W_Dpr
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Neil
 
------BEGIN PGP SIGNATURE-----
+> 
+>>> +		drm_dsc_pps_payload_pack(&pps, ctx->dsi->dsc);
+>>> +
+>>> +		ret = mipi_dsi_picture_parameter_set(ctx->dsi, &pps);
+>>> +		if (ret < 0) {
+>>> +			dev_err(panel->dev, "failed to transmit PPS: %d\n", ret);
+>>> +			goto fail;
+>>> +		}
+>>> +		ret = mipi_dsi_compression_mode(ctx->dsi, true);
+>>> +		if (ret < 0) {
+>>> +			dev_err(dev, "failed to enable compression mode: %d\n", ret);
+>>> +			goto fail;
+>>> +		}
+>>> +
+>>> +		msleep(28);
+>>> +	}
+>>> +
+>>> +	ctx->prepared = true;
+>>> +	return 0;
+>>> +
+>>> +fail:
+>>> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+>>> +	regulator_disable(ctx->vddio);
+>>> +	return ret;
+>>> +}
+> <snip>
+>>> +	/* This panel only supports DSC; unconditionally enable it */
+> 
+> On that note I should perhaps reword this.
+> 
+>>> +	dsi->dsc = dsc = devm_kzalloc(&dsi->dev, sizeof(*dsc), GFP_KERNEL);
+>>
+>> I think double assignments are frowned upon.
+> 
+> Ack.
+> 
+>>
+>>> +	if (!dsc)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	dsc->dsc_version_major = 1;
+>>> +	dsc->dsc_version_minor = 1;
+>>> +
+>>> +	dsc->slice_height = 32;
+>>> +	dsc->slice_count = 2;
+>>> +	// TODO: Get hdisplay from the mode
+>>
+>> Would you like to fix the TODO?
+> 
+> I can't unless either migrating to drm_bridge (is that doable?) or
+> expand drm_panel.  That's a larger task, but I don't think this driver
+> is the right place to track that desire.  Should I drop the comment
+> entirely or reword it?
+> 
+>>> +	WARN_ON(1440 % dsc->slice_count);
+>>> +	dsc->slice_width = 1440 / dsc->slice_count;
+> 
+> <snip>
+> 
+> - Marijn
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmR1pDgACgkQI1/ltBGq
-qqffVBAAnWFd7q3um8t/G7QIO9cCSWXsHUTuWTJET7tZEgJY69xWP8rI2x1Jhjbx
-OwdEhiBqKc8CVhAHz3/FG/1k2ffaQaiGmNIfxRc0ZYTb2PJRc62hN95ocCEvqK0L
-WZrmWhMMEeD9jcliWb0h43zA7Pf92wWU1gjhcyjUSmyPoUt+dqkjF1hSGLvea+2C
-49uXQqO5TNmyEOE5ByBYuWBgIxQY5qITMwV2D+R4wVZ6wUkICNrjl+M7AvKXe/rU
-rnVE/Lx5HJEj0jde+WpRF0xdyrqZcC636MVOkT/nK5lNaQNr0tm2tGWfar6pjkM2
-07Sxw5iKYVFyOXC9Hn77ZbPOrw6W4RS4OnvnVD6yfm2bBrY/nPkt8LWQqs8T6PVA
-6YPzMKelRnxOyFa3Fy2mGLWXNJUd76YnUpePY6nCCnfin7UcdFYvR2EITPcIyqAQ
-j1gZb5dr4s4KOB03RYzzzFNjx/VjVc6Ni6Kdziiuf+SrEygbGPQxunLEkk1Z/MNh
-qfHllQtfFIZXghS2dA8JuLbDKpMrPri4dK1psNmulAj7dAWBc0GA818M6anQ5ZPa
-qg7rREoOe6L2qCnJuQIlduy0CKntw6OBZhXAHzecOAbs9BfEUAFlzv6EO5IhfTU6
-L41Qnz0WDq+TPDOW4A5wSp5TG0i9bN26M0zWkCZGnDoQxXz4MTc=
-=ViTp
------END PGP SIGNATURE-----
-
---Sig_/iP+02GjmHzqt2bdxK_W_Dpr--
