@@ -2,68 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DB07169C3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 18:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C222716A54
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FCD10E18A;
-	Tue, 30 May 2023 16:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DE010E250;
+	Tue, 30 May 2023 17:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA35C10E18A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 16:36:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1685464486; i=deller@gmx.de;
- bh=pOnsu0UXhUHtGMUl6LOAOO/2VX+PoRE/+1EqzwG2Cg4=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=B7fIKKrQB9UvoHgfyoiG1mlA8TRJsMMbvbIivpHjuhxZh2cGge7JwgxftMMNqDLWx
- jrDZPN8j85Lu/sheR3KNEHOC7EtpZ9+Qvh6rE6kQLAZwEmkjnq/XTWBMA1AALngeE8
- +z76w1ohrptQaoVMio+qIsBNJSJYEVycWkO8TOlMGvvn72x/HrMxrG21wxp2833+j6
- vZCk8Ei0v5Es/JRWWuXpStNfFw/HWInM7fuDYW1XFx6vuASvTzqGb9cPv814chcYJq
- xez0llu4RZA00pY55s8sQ4UFfuLp9bSMSEUgI6BZhtsewKH1+dwX3o68GNzISqI50n
- yoFE3NfsALPIQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.145.122]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MA7Ka-1pwrZ13OSQ-00BeAa; Tue, 30
- May 2023 18:34:46 +0200
-Message-ID: <7eed2e10-05af-1ebc-1285-eb17b3113183@gmx.de>
-Date: Tue, 30 May 2023 18:34:40 +0200
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0585810E250
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 17:00:12 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id
+ ca18e2360f4ac-77483f80522so333370339f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 10:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1685466011; x=1688058011;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
+ b=jRXauzNHnPa9RUyLTlRsAIVWueXptvjw/3xeiajL0rSmjqOHbAx8emWXTdxJrvBQcH
+ AMTrwGIYIQkpJW8dQ4j0iyOpAMqptil/q8BqgideigYpO5DXocbiaaXIqi73F80qlhq5
+ EAVNxUlt3wJyFGu0od4f/IQK2R4WS0uSoOj78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685466011; x=1688058011;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jfTlpnHMOZxiUbtco4W6+o8TVl366P2iW1YkCqnywqM=;
+ b=jt2BvDERiBcPhTJPeWoAmjkbWJJmT7Tj5qHqGh/9Z/y++BR5YH4xnZaI5U3DPZ+CvY
+ 1W/pYm8KNP9ysE9B8/Jj8fOLF8NtAlqqXf/XvsRQZjveTCNKz3zY5Kcz3OFlAEfMDYDR
+ MxBILP+rNjIf78UcJb8uZTOPdVKlqFfshz6AivqRdOkcB+veH9OVML0F/hEcEytLS1Yj
+ aMVczupPbcdTxLUXq7pK25EPvP9SLsuZ7bL3uT1faFkKfGPJw1RM/CyF9aNR1RsrMT4j
+ 16qLIdm8uoKc80QuTIoIbHrS7Lf8SRcLKfgdM3RT2Bl7YwJzAMn6yYJXLnypJA28KFeq
+ 45IQ==
+X-Gm-Message-State: AC+VfDw+9Kyff4FixwoFjaX0lhqJWD4DIp4zYIz9X9CCebbye1qgvcJP
+ Lsf9DwYEE1UpPWjG1YTFnpiRc5xBXL4/c66UeUc=
+X-Google-Smtp-Source: ACHHUZ6nTwuG3YXzCN6akWdbaQwA2jMjwvbh0rQhs/m4l0EfCBenfBFnWm+FuObhrdOBGlW3ZwhJrQ==
+X-Received: by 2002:a05:6602:4243:b0:76c:826f:2188 with SMTP id
+ cc3-20020a056602424300b0076c826f2188mr2147954iob.6.1685466011379; 
+ Tue, 30 May 2023 10:00:11 -0700 (PDT)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com.
+ [209.85.166.174]) by smtp.gmail.com with ESMTPSA id
+ f42-20020a05663832aa00b0041cea93e589sm805561jav.152.2023.05.30.10.00.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 May 2023 10:00:11 -0700 (PDT)
+Received: by mail-il1-f174.google.com with SMTP id
+ e9e14a558f8ab-33baee0235cso3905ab.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 10:00:11 -0700 (PDT)
+X-Received: by 2002:a92:c24e:0:b0:338:3b6a:4719 with SMTP id
+ k14-20020a92c24e000000b003383b6a4719mr165620ilo.17.1685465557498; Tue, 30 May
+ 2023 09:52:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 00/51] video: fbdev: Convert to platform remove callback
- returning void
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
- <ff758418-f1da-e297-1829-251b8a5b1ec3@gmx.de>
- <20230530140239.qevvxcuaqufv6hwj@pengutronix.de>
- <3010bce3-cc66-4ad6-50b1-7bc66bd532d4@gmx.de>
- <20230530162728.sexlrqhkoflvuu7m@pengutronix.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230530162728.sexlrqhkoflvuu7m@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20230523193017.4109557-1-dianders@chromium.org>
+ <20230523122802.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
+ <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+In-Reply-To: <10457cab-f9b0-c38b-9f11-36853b71c7e8@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 30 May 2023 09:52:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
+Message-ID: <CAD=FV=XJhVaFNcLZ_wA=vnYCVVxjq1NFxdV794C0mmxpqvPL6g@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: HID: i2c-hid: Add "panel" property to
+ i2c-hid backed panels
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:E++EmP+ym2sEOCl+bnTWXEklw76bBN9S6rNejjTq73I4UK8y854
- Hc2XhIoXumxSTayvEn1bBCEKO2+p0L9Ol4z+GmyiVAIGiLPb0HPcXFigbWHv6+SrHvaNmBG
- UVjlaTve4Psci2F+HjfMDs1M70QYgUjPsi7w2Pjaatl1uJvkvXRSQmNyhhM3pRh/gWVVTS1
- KCEdyXPe213BtsJf6ujfw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:CwI8Wmu5Jnc=;MyaDuNCNBCBC+oQPgzvrelDRKne
- YjWKextfx8T29KC+o2bk1QsCs83qmg/B/6ZbDgJUGkzM04fTFdddPxCXitvZiA1ycrX0rbcdJ
- h+xkcKqLqg+nOHxZQyUud8xXdtzYnDws294Lwm+/ZrrZIKhgcNJjm7WrPIWYSDxS4++AAUzHn
- DDT7Eixqzi8I+rdGeDidw38jU/6Ua/a5g8Kh1Or5VpwMe/fKggMfnRJDsGqFeTFnjE6RQ9beE
- bPgtuT2Tsct4RdCCmulIxH+ZFoXWURzSU08SvfnklfensZoCGfe9p4Y1Oa32o6BnAnie9QFja
- HRQayGKMf3mi0zNSayDJYX7YnW0Z+2tqj6tQ7gY7462MPKLi+T6YweLFfUGQJNTF0wyKu8XuE
- Xl4A6E4kMgKaoJR40xvZfZiruX41xZwYJylqVub9MVyX0vn5AuXu2fVT8f5L7Zlu0bgDwhhWj
- KRRXYeY1eaNIkgdSub94z3lc8zQuF+WVPkkgpxitzVhIBcUCon1bQJJmuWTpU5riHi6ZFmWL1
- J+JDXKp/26Cfn7MmrtATuw9bJOYnIDHPFIHu1dinKsF9dWQGjPgU5xgamYh5AJi8dhJsKzH/P
- b5WXezheLM95KesLT2hqwmLT4MVkaE6aA/3jZO0gWhkiON4I8HdMOtohEjhuXFFd/FJ2D1+KH
- q8SppRt/+MsRRnruYORQl/fkSRwLWcTKR0pGhX/7SHsqT+qFZpE4S3xC62sybQnWcSqM1DL6f
- VcvPGvLCud59BDZrB1NMyY9Bb06C48kMLbTgKVMbejkBkAH+hefKlpLLXfT6gb9AwS2Kn4Spj
- Kia0fSrp5uM88/LLzpXY6FhvCtHsNJB74bKD1nDHiWUUfTl7iosxczDOWfFFEsZTqOaUdHTdm
- deVuyEEy88YN9KxWOjiCu3k/gugAcOOM6umlCIvdriQeC3TqS1tpKgilFCnA0zLjm5euEYVbz
- DBsze8AZDXwAeojJ7w92yanCCpI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,65 +81,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Stephen Kitt <steve@sk2.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Wang Qing <wangqing@vivo.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Peter Jones <pjones@redhat.com>, Xuezhi Zhang <zhangxuezhi1@coolpad.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Gaosheng Cui <cuigaosheng1@huawei.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Alexander Shiyan <shc_work@mail.ru>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Xu Panda <xu.panda@zte.com.cn>, Michal Simek <michal.simek@xilinx.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Dongliang Mu <dzm91@hust.edu.cn>, NXP Linux Team <linux-imx@nxp.com>,
- Yang Yingliang <yangyingliang@huawei.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Yu Zhe <yuzhe@nfschina.com>,
- ye xingchen <ye.xingchen@zte.com.cn>, Sascha Hauer <s.hauer@pengutronix.de>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, Zeng Heng <zengheng4@huawei.com>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Hyunwoo Kim <imv4bel@gmail.com>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Yihao Han <hanyihao@vivo.com>,
- Timur Tabi <timur@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Zhang Qilong <zhangqilong3@huawei.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>, kernel@pengutronix.de,
- Shawn Guo <shawnguo@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-input@vger.kernel.org,
+ hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/30/23 18:27, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Helge,
->
-> On Tue, May 30, 2023 at 06:12:09PM +0200, Helge Deller wrote:
->> Btw... I cleaned up some minor whitespace issues in patch 3 (au1100fb).
->
-> We both did some different cleanup, on top of your
-> 87be5a5d9a5c5b00505181eedbee62134f07d11d we could further cleanup doing
->
-> diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100=
-fb.c
-> index fb38557a9b63..648d6cac86e8 100644
-> --- a/drivers/video/fbdev/au1100fb.c
-> +++ b/drivers/video/fbdev/au1100fb.c
-> @@ -590,7 +590,7 @@ static struct platform_driver au1100fb_driver =3D {
->   	.probe		=3D au1100fb_drv_probe,
->   	.remove_new	=3D au1100fb_drv_remove,
->   	.suspend	=3D au1100fb_drv_suspend,
-> -        .resume		=3D au1100fb_drv_resume,
-> +	.resume		=3D au1100fb_drv_resume,
->   };
->   module_platform_driver(au1100fb_driver);
->
-> Feel free to squash this into 87be5a5d9a5c5b00505181eedbee62134f07d11d.
-> If you want to apply it separately, either tell me to post a proper
-> patch, or apply it under your name with my Suggested-by -- whatever
-> suits you best.
+Hi,
 
-I've squashed it into your patch.
+On Tue, May 30, 2023 at 8:34=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 23/05/2023 21:27, Douglas Anderson wrote:
+> > As talked about in the patch ("drm/panel: Add a way for other devices
+> > to follow panel state"), touchscreens that are connected to panels are
+> > generally expected to be power sequenced together with the panel
+> > they're attached to. Today, nothing provides information allowing you
+> > to find out that a touchscreen is connected to a panel. Let's add a
+> > phandle for this.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> >
+> >  Documentation/devicetree/bindings/input/elan,ekth6915.yaml  | 6 ++++++
+> >  Documentation/devicetree/bindings/input/goodix,gt7375p.yaml | 6 ++++++
+> >  Documentation/devicetree/bindings/input/hid-over-i2c.yaml   | 6 ++++++
+> >  3 files changed, 18 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml=
+ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > index 05e6f2df604c..d55b03bd3ec4 100644
+> > --- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > +++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
+> > @@ -24,6 +24,12 @@ properties:
+> >    interrupts:
+> >      maxItems: 1
+> >
+> > +  panel:
+> > +    description: If this is a touchscreen, the panel it's connected to=
+. This
+>
+> Hm, can there be different setup? Touchscreen without panel? What would
+> it be then?
 
-Thanks!
-Helge
+For a touchscreen that's a discrete device (not sharing logic / power
+rails with the panel) you'd just leave off the panel node like we've
+always done. Assuming folks like this series in general, I'll try to
+improve the wording for v2.
 
+
+> Why only these touchscreens? This looks generic, so maybe in
+> touchscreen.yaml?
+
+Ah, that makes sense. I guess we need to add an include of that file
+from the elan and goodix bindings. The hid-over-i2c.yaml already has
+it, though. I'm not 100% sure the existing "hid-over-i2c" driver in
+Linux actually calls the function to parse all those properties, but I
+guess that's a Linux problem and not a DT bindings problem. ;-)
+
+-Doug
