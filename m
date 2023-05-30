@@ -1,75 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AAE716996
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 18:32:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DB07169C3
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 18:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7178B10E3F9;
-	Tue, 30 May 2023 16:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FCD10E18A;
+	Tue, 30 May 2023 16:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8112E10E3EA;
- Tue, 30 May 2023 16:32:22 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34UFUjqk014323; Tue, 30 May 2023 16:32:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=sWvRueavxJ7CFVwUEv7MzgXSaCW+bmJGEmngToVWg4s=;
- b=mL3cJLCYZogiqDjtum5rydBcPAmWez3+Wr40bWFIxMqunU6GOfxwoVoudqb6WUaLRQzu
- 39cGKKSJg3ei5sYEY4AS7sa9RtFgzDyGA1JaFX+GGm9bUOWZVoQnjbzn7UnVgG8RJnAH
- hkj+qB1czPi96TCDeVI7JRa0POTR2R4Jd4Qc/Vnb0A/D1dzyzC9qW5lkriLbwymURP+5
- rKBImNz1glimrwRA2MxF/GGXH6sBouMB/btol5MHyq40alBa4TRok3VEoOGjJIewke1w
- 58c5R/s76JHfy1GgqbGTcBZ9CdawcW+B19+QjLZJjXYOkWz/jxNE5i1NF1f8wkTjXbSH QQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qvv7nttqa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 16:32:16 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34UGWG8S023282
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 16:32:16 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 30 May 2023 09:32:15 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v1 3/3] drm/msm/dpu: remove msm_dsi_get_dsc_config()
-Date: Tue, 30 May 2023 09:31:58 -0700
-Message-ID: <1685464318-25031-4-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA35C10E18A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 16:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1685464486; i=deller@gmx.de;
+ bh=pOnsu0UXhUHtGMUl6LOAOO/2VX+PoRE/+1EqzwG2Cg4=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=B7fIKKrQB9UvoHgfyoiG1mlA8TRJsMMbvbIivpHjuhxZh2cGge7JwgxftMMNqDLWx
+ jrDZPN8j85Lu/sheR3KNEHOC7EtpZ9+Qvh6rE6kQLAZwEmkjnq/XTWBMA1AALngeE8
+ +z76w1ohrptQaoVMio+qIsBNJSJYEVycWkO8TOlMGvvn72x/HrMxrG21wxp2833+j6
+ vZCk8Ei0v5Es/JRWWuXpStNfFw/HWInM7fuDYW1XFx6vuASvTzqGb9cPv814chcYJq
+ xez0llu4RZA00pY55s8sQ4UFfuLp9bSMSEUgI6BZhtsewKH1+dwX3o68GNzISqI50n
+ yoFE3NfsALPIQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.145.122]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MA7Ka-1pwrZ13OSQ-00BeAa; Tue, 30
+ May 2023 18:34:46 +0200
+Message-ID: <7eed2e10-05af-1ebc-1285-eb17b3113183@gmx.de>
+Date: Tue, 30 May 2023 18:34:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: dyZeYl_Mtzd325OXZsUsCgU9PRF_cC1S
-X-Proofpoint-GUID: dyZeYl_Mtzd325OXZsUsCgU9PRF_cC1S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_12,2023-05-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305300131
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 00/51] video: fbdev: Convert to platform remove callback
+ returning void
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
+ <ff758418-f1da-e297-1829-251b8a5b1ec3@gmx.de>
+ <20230530140239.qevvxcuaqufv6hwj@pengutronix.de>
+ <3010bce3-cc66-4ad6-50b1-7bc66bd532d4@gmx.de>
+ <20230530162728.sexlrqhkoflvuu7m@pengutronix.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230530162728.sexlrqhkoflvuu7m@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:E++EmP+ym2sEOCl+bnTWXEklw76bBN9S6rNejjTq73I4UK8y854
+ Hc2XhIoXumxSTayvEn1bBCEKO2+p0L9Ol4z+GmyiVAIGiLPb0HPcXFigbWHv6+SrHvaNmBG
+ UVjlaTve4Psci2F+HjfMDs1M70QYgUjPsi7w2Pjaatl1uJvkvXRSQmNyhhM3pRh/gWVVTS1
+ KCEdyXPe213BtsJf6ujfw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CwI8Wmu5Jnc=;MyaDuNCNBCBC+oQPgzvrelDRKne
+ YjWKextfx8T29KC+o2bk1QsCs83qmg/B/6ZbDgJUGkzM04fTFdddPxCXitvZiA1ycrX0rbcdJ
+ h+xkcKqLqg+nOHxZQyUud8xXdtzYnDws294Lwm+/ZrrZIKhgcNJjm7WrPIWYSDxS4++AAUzHn
+ DDT7Eixqzi8I+rdGeDidw38jU/6Ua/a5g8Kh1Or5VpwMe/fKggMfnRJDsGqFeTFnjE6RQ9beE
+ bPgtuT2Tsct4RdCCmulIxH+ZFoXWURzSU08SvfnklfensZoCGfe9p4Y1Oa32o6BnAnie9QFja
+ HRQayGKMf3mi0zNSayDJYX7YnW0Z+2tqj6tQ7gY7462MPKLi+T6YweLFfUGQJNTF0wyKu8XuE
+ Xl4A6E4kMgKaoJR40xvZfZiruX41xZwYJylqVub9MVyX0vn5AuXu2fVT8f5L7Zlu0bgDwhhWj
+ KRRXYeY1eaNIkgdSub94z3lc8zQuF+WVPkkgpxitzVhIBcUCon1bQJJmuWTpU5riHi6ZFmWL1
+ J+JDXKp/26Cfn7MmrtATuw9bJOYnIDHPFIHu1dinKsF9dWQGjPgU5xgamYh5AJi8dhJsKzH/P
+ b5WXezheLM95KesLT2hqwmLT4MVkaE6aA/3jZO0gWhkiON4I8HdMOtohEjhuXFFd/FJ2D1+KH
+ q8SppRt/+MsRRnruYORQl/fkSRwLWcTKR0pGhX/7SHsqT+qFZpE4S3xC62sybQnWcSqM1DL6f
+ VcvPGvLCud59BDZrB1NMyY9Bb06C48kMLbTgKVMbejkBkAH+hefKlpLLXfT6gb9AwS2Kn4Spj
+ Kia0fSrp5uM88/LLzpXY6FhvCtHsNJB74bKD1nDHiWUUfTl7iosxczDOWfFFEsZTqOaUdHTdm
+ deVuyEEy88YN9KxWOjiCu3k/gugAcOOM6umlCIvdriQeC3TqS1tpKgilFCnA0zLjm5euEYVbz
+ DBsze8AZDXwAeojJ7w92yanCCpI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,112 +76,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Stephen Kitt <steve@sk2.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Wang Qing <wangqing@vivo.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Jones <pjones@redhat.com>, Xuezhi Zhang <zhangxuezhi1@coolpad.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Gaosheng Cui <cuigaosheng1@huawei.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Alexander Shiyan <shc_work@mail.ru>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Xu Panda <xu.panda@zte.com.cn>, Michal Simek <michal.simek@xilinx.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Dongliang Mu <dzm91@hust.edu.cn>, NXP Linux Team <linux-imx@nxp.com>,
+ Yang Yingliang <yangyingliang@huawei.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Yu Zhe <yuzhe@nfschina.com>,
+ ye xingchen <ye.xingchen@zte.com.cn>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>, Zeng Heng <zengheng4@huawei.com>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Hyunwoo Kim <imv4bel@gmail.com>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Yihao Han <hanyihao@vivo.com>,
+ Timur Tabi <timur@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Zhang Qilong <zhangqilong3@huawei.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>, kernel@pengutronix.de,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since msm_dsi_bridge_get_dsc_config() was added to retrieve DSI DSC
-info through DRM bridge, msm_dsi_get_dsc_config() become redundant
-and should be removed.
+On 5/30/23 18:27, Uwe Kleine-K=C3=B6nig wrote:
+> Hello Helge,
+>
+> On Tue, May 30, 2023 at 06:12:09PM +0200, Helge Deller wrote:
+>> Btw... I cleaned up some minor whitespace issues in patch 3 (au1100fb).
+>
+> We both did some different cleanup, on top of your
+> 87be5a5d9a5c5b00505181eedbee62134f07d11d we could further cleanup doing
+>
+> diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100=
+fb.c
+> index fb38557a9b63..648d6cac86e8 100644
+> --- a/drivers/video/fbdev/au1100fb.c
+> +++ b/drivers/video/fbdev/au1100fb.c
+> @@ -590,7 +590,7 @@ static struct platform_driver au1100fb_driver =3D {
+>   	.probe		=3D au1100fb_drv_probe,
+>   	.remove_new	=3D au1100fb_drv_remove,
+>   	.suspend	=3D au1100fb_drv_suspend,
+> -        .resume		=3D au1100fb_drv_resume,
+> +	.resume		=3D au1100fb_drv_resume,
+>   };
+>   module_platform_driver(au1100fb_driver);
+>
+> Feel free to squash this into 87be5a5d9a5c5b00505181eedbee62134f07d11d.
+> If you want to apply it separately, either tell me to post a proper
+> patch, or apply it under your name with my Suggested-by -- whatever
+> suits you best.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 2 --
- drivers/gpu/drm/msm/dsi/dsi.c               | 5 -----
- drivers/gpu/drm/msm/msm_drv.h               | 6 ------
- 5 files changed, 17 deletions(-)
+I've squashed it into your patch.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 2927d20..1974d61 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2335,8 +2335,6 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 		dpu_enc->idle_pc_supported =
- 				dpu_kms->catalog->caps->has_idle_pc;
- 
--	dpu_enc->dsc = disp_info->dsc;
--
- 	mutex_lock(&dpu_enc->enc_lock);
- 	for (i = 0; i < disp_info->num_of_h_tiles && !ret; i++) {
- 		/*
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 2c9ef8d..03a9ca0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -28,7 +28,6 @@
-  * @is_cmd_mode		Boolean to indicate if the CMD mode is requested
-  * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-  *				 used instead of panel TE in cmd mode panels
-- * @dsc:		DSC configuration data for DSC-enabled displays
-  */
- struct msm_display_info {
- 	int intf_type;
-@@ -36,7 +35,6 @@ struct msm_display_info {
- 	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
- 	bool is_cmd_mode;
- 	bool is_te_using_watchdog_timer;
--	struct drm_dsc_config *dsc;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index c24f487..2390e5c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -554,8 +554,6 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
- 		info.h_tile_instance[info.num_of_h_tiles++] = i;
- 		info.is_cmd_mode = msm_dsi_is_cmd_mode(priv->dsi[i]);
- 
--		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
--
- 		if (msm_dsi_is_bonded_dsi(priv->dsi[i]) && priv->dsi[other]) {
- 			rc = msm_dsi_modeset_init(priv->dsi[other], dev, encoder);
- 			if (rc) {
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index fa7fcb5..154f19e 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -12,11 +12,6 @@ bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
- 	return !(host_flags & MIPI_DSI_MODE_VIDEO);
- }
- 
--struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
--{
--	return msm_dsi_host_get_dsc_config(msm_dsi->host);
--}
--
- struct drm_dsc_config *msm_dsi_bridge_get_dsc_config(struct drm_bridge *bridge)
- {
-         int id = dsi_mgr_bridge_get_id(bridge);
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 5a7c1f4..8792e98 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -340,7 +340,6 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
- bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
- bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
- bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
--struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
- struct drm_dsc_config *msm_dsi_bridge_get_dsc_config(struct drm_bridge *bridge);
- #else
- static inline void __init msm_dsi_register(void)
-@@ -371,11 +370,6 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
- 	return false;
- }
- 
--static inline struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
--{
--	return NULL;
--}
--
- struct drm_dsc_config *msm_dsi_bridge_get_dsc_config(struct drm_bridge *bridge)
- {
- 	return NULL;
--- 
-2.7.4
+Thanks!
+Helge
 
