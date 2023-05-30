@@ -1,76 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D7C71578D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:48:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA72771578E
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 09:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3226310E36A;
-	Tue, 30 May 2023 07:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 534D510E36F;
+	Tue, 30 May 2023 07:48:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6320610E36A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:48:49 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-30aef0499b6so971580f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:48:49 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C69C510E36D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 07:48:53 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-5149aafef44so3232527a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 00:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685432928; x=1688024928;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=1BKRl0rG6ZKz6K12wAN8zcM1jC2/NzJydK0LKcMFsXg=;
- b=ErL5SY4PpgXcTaAtTXQYwFzQpjnkQ8YOj++Y09s4FWKdnGJauP41PqYhA5ok5ep490
- 0NfLswvVeBA6dVwSQdIohA2a72WltxpYoN190+7uTMXKvn9wcg25KJVXNP89/dtPa2zJ
- +VewsJVJsjzcKsjUy/308gki/aVOjhV6YdTcsdI81vAWe5nCrgQhKBtREXE/aquOX0gZ
- mXqpJz2PuNwdy5r36Y9IFrmQSTbRgfc49IxTtogNXh3GRxQ6gWuYhFnonXfgQSUXJGwC
- TDIzoaEWp6XpgPXB3ejMnx3sk3oEW2ZvX4ECPevPHlYVPI5ONqT5qdKq7ve3z8jTPwaL
- UNlg==
+ d=linaro.org; s=google; t=1685432932; x=1688024932;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hD/u8KvctJNZ9Q6wgoPTwjsd10fbyNIfr6gIoMYFm8k=;
+ b=KhbpEb5ujpWhqfksp2CBPV4rcQPsr903YtN0YRWnnc84rzCpIYhZ6kiUX9Z/TLGX9T
+ n9a2MekI+c3SzHD+uecC6SayG9whs9240GFuBGLJoiHeFbWv9bFiEFpHH1qLDAWUh+yb
+ d2hhA2jMCCtaniqG0l3hPWT7BkBe5k/uMpjeW+TxqkVG2VEW82C+8EGi3aBxtiG78LeR
+ 58oZ9P1Zl9MJuBTeiy9c4Cijnx1NZSlNTcBksMtgcw9fbtdxfBSjuj2KfhjSvTGpDtls
+ hKHAILnXNnl8V758NVRDNSTNWq4v/9GgJ0r6y8RErN8gcK+p1l38VffH2FT9m/NHp+Z9
+ 23gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685432928; x=1688024928;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1BKRl0rG6ZKz6K12wAN8zcM1jC2/NzJydK0LKcMFsXg=;
- b=evvXEHTQtnput+TLD02m8M4IM5VOXSvxwUB7tVtnpTp8RVDcdgUd03y4gg1vrn23Hk
- mYG3+Qn8OZ3qyp8KMSTXlJbR/XDL6tOOp3j0KvX9BIteIoQSH0M+98j4HBln6e8GDRyX
- oiUtHqaKLJnvDLjPp4HHgPErYAoRE7LbvaOgXHApbcS9EI1c8QrGiVl4LuMfBLFsMpEh
- sRUwQ2ylLFCBVIOyKdp30IYU021sIW23M3BXV5WhikBwJsQejGyP42fd3dUo39tdM0Dv
- 60LZORa2C8+FY21VEKgG8gzG90x/Ed5ipcECNn0xU1Gyb8T4hW0TEqMJGUGpSEuBDvH7
- mTlQ==
-X-Gm-Message-State: AC+VfDxzN/HAHdwmw7CGNaAaq/PuKhZ1m2rDRrTJkIsxb0Bpg3ovo1JH
- tmEp1DA9cRimiknCJiS3LSWL3AKCaOANvi9UOFlLCA==
-X-Google-Smtp-Source: ACHHUZ5xuANmN4u9XoKI/GIYFwuX2Epf77N8uGbHdxQPS4+AmfAXqxxohIGalR0xb5sLOXfKgyUVGg==
-X-Received: by 2002:adf:f351:0:b0:309:4ee8:35ce with SMTP id
- e17-20020adff351000000b003094ee835cemr918764wrp.21.1685432927727; 
- Tue, 30 May 2023 00:48:47 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87?
- ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
+ d=1e100.net; s=20221208; t=1685432932; x=1688024932;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hD/u8KvctJNZ9Q6wgoPTwjsd10fbyNIfr6gIoMYFm8k=;
+ b=fh5HruXDabs4FFLRCg9MCAtNOQ7HdvtIJ6VCOnUnRcMm1Ivf64OyTwkIEcQvYQxg3R
+ CljGZCzpf5cBE0JP4Iz6WMtT8TbA9dy0lwjEOFYI+tSw4NgBWWtyGXUEhkEPbY0QsKm+
+ AGSR67UCxvveAqnh93QHI//ynyWg4z+VAlqCAwzhOMudekKUNC/ymcXLu22tOuQaDgdl
+ zw9Y7PF1X6j3TZiYN/Xur+gZ/k8uB12MG8ADWJgKpe80TISZi472+c1xDHZOeDcCDdQk
+ 9iL7Oid1WVW/qZI9uRW5cMeTfEWHWUBEHOYG7b6tBWlKIrxPY4xIQczM6NNGQFGOZePV
+ xwjw==
+X-Gm-Message-State: AC+VfDyx/sl/gkXBvfDaVYqXpLH41Onj31JXSNc15Y4jd418ML/yZKnB
+ PcBoS4bole3DopsfzmwAPPj1wQ==
+X-Google-Smtp-Source: ACHHUZ7O8LfbLyaKQcZlRXwpwrnwZEfFVKCOKwVDTDCFB+1bWeIDzE8NQ0wsIzHShQIqw8DR35SAIQ==
+X-Received: by 2002:aa7:ce04:0:b0:514:75ff:6a86 with SMTP id
+ d4-20020aa7ce04000000b0051475ff6a86mr955152edv.29.1685432931881; 
+ Tue, 30 May 2023 00:48:51 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.199.204])
  by smtp.gmail.com with ESMTPSA id
- t16-20020a5d6910000000b00307a86a4bcesm2320607wru.35.2023.05.30.00.48.47
+ c5-20020aa7d605000000b005149cb5ee2dsm2373329edr.82.2023.05.30.00.48.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 May 2023 00:48:47 -0700 (PDT)
-Message-ID: <b632ba5b-bbd6-aead-058f-f7466499239a@linaro.org>
-Date: Tue, 30 May 2023 09:48:46 +0200
+ Tue, 30 May 2023 00:48:51 -0700 (PDT)
+Message-ID: <8c28ea3a-68f5-1233-9e79-bd9e09d4f485@linaro.org>
+Date: Tue, 30 May 2023 09:48:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 1/3] drm/meson: dw-hdmi: change YUV420 selection logic at
- clock setup
+ Thunderbird/102.11.0
+Subject: Re: [PATCH V8 7/7] dt-bindings: bridge: samsung-dsim: Make some flags
+ optional
+To: Conor Dooley <conor@kernel.org>, Adam Ford <aford173@gmail.com>
+References: <20230526030559.326566-1-aford173@gmail.com>
+ <20230526030559.326566-8-aford173@gmail.com>
+ <20230526-cabana-humble-81e44944e378@spud>
+ <CAHCN7xJdfO4+q071sur7wpVg+gU_Fzw9zfXvM9NDBFCN=Axiog@mail.gmail.com>
+ <20230526-lily-underwent-1dc0be746be0@spud>
 Content-Language: en-US
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- narmstrong@baylibre.com, khilman@baylibre.com,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- rfoss@kernel.org, andrzej.hajda@intel.com
-References: <20230528140001.1057084-1-adrian.larumbe@collabora.com>
- <20230528140001.1057084-2-adrian.larumbe@collabora.com>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230528140001.1057084-2-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230526-lily-underwent-1dc0be746be0@spud>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,73 +81,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: kernel@collabora.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/05/2023 15:59, Adrián Larumbe wrote:
-> Right now clocking value selection code is prioritising RGB, YUV444 modes
-> over YUV420 for HDMI2 sinks. However, because of the bus format selection
-> procedure in dw-hdmi, for HDMI2 sinks YUV420 is the format that will always
-> be picked during the drm bridge chain check stage.
+On 26/05/2023 21:30, Conor Dooley wrote:
+> On Fri, May 26, 2023 at 02:24:21PM -0500, Adam Ford wrote:
+>> On Fri, May 26, 2023 at 1:19 PM Conor Dooley <conor@kernel.org> wrote:
+>>> On Thu, May 25, 2023 at 10:05:59PM -0500, Adam Ford wrote:
 > 
-> Later on dw_hdmi_setup will configure a colour space based on the bus
-> format that doesn't match the pixel value we had calculated as described
-> above.
+>>>>      description:
+>>>> -      DSIM high speed burst mode frequency.
+>>>> +      DSIM high speed burst mode frequency when connected to devices
+>>>> +      that support burst mode. If absent, the driver will use the pixel
+>>>> +      clock from the attached device or bridge.
+>>>
+>>> I'd rather this description did not say anything about drivers.
+>>> How about:
+>>>         If absent, the pixel clock from the attached device or bridge
+>>>         will be used instead.
+>>
+>> That makes sense.  I can do that.
+>>
+>> "DSIM high speed burst mode frequency (optional). If absent, the pixel
+>> clock from the attached device or bridge will be used instead."
+>>
+>>> Or perhaps "must be used"? Ditto below.
+>>
+>> "Must be" implies to me that the user needs to set something.  Are you
+>> ok with the proposed suggestion above?
+>>>
+>>> Description aside, the removal seems to be backwards compatible - but
+>>> can every device that this binding supports work using an "attached
+>>> device or bridge", or are these properties going to be required for
+>>> certain compatibles?
+>>
+>> From what I can tell, the assumption is that the DSIM driver was
+>> expecting it to attach to panels in the past.  With the additional
+>> patch series, the DSIM can attach to bridge parts without a hard-coded
+>> set of clocks.  I don't expect the existing Exynos devices to change,
+>> but I also don't know what would preclude those SoC's from attaching
+>> to a bridge should someone want to design a new product around them.
 > 
-> Fix it by bringing back dw-hdmi bus format check when picking the right
-> pixel clock.
+> Okay, that seems fair. With your revised wording,
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
->   drivers/gpu/drm/meson/meson_dw_hdmi.c     | 4 ++--
->   include/drm/bridge/dw_hdmi.h              | 2 ++
->   3 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> I'll wait a couple days for more feedback and send patch V2 with just
+>> this patch since the rest of the series has been applied to the drm
+>> branch.
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 603bb3c51027..d59a547f9cb2 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3346,6 +3346,12 @@ static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
->   	return 0;
->   }
->   
-> +bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi)
-> +{
-> +	return hdmi_bus_fmt_is_yuv420(hdmi->hdmi_data.enc_out_bus_format);
-> +}
-> +EXPORT_SYMBOL_GPL(dw_hdmi_bus_fmt_is_420);
-> +
->   struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->   			      const struct dw_hdmi_plat_data *plat_data)
->   {
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 3d046878ce6c..b49bb0d86efe 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -379,8 +379,8 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
->   			 mode->clock > 340000 ? 40 : 10);
->   
->   	if (drm_mode_is_420_only(display, mode) ||
-> -	    (!is_hdmi2_sink &&
-> -	     drm_mode_is_420_also(display, mode)))
-> +	    (!is_hdmi2_sink && drm_mode_is_420_also(display, mode)) ||
-> +	    dw_hdmi_bus_fmt_is_420(hdmi))
->   		mode_is_420 = true;
->   
->   	/* Enable clocks */
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index f668e75fbabe..6a46baa0737c 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -206,4 +206,6 @@ void dw_hdmi_phy_update_hpd(struct dw_hdmi *hdmi, void *data,
->   			    bool force, bool disabled, bool rxsense);
->   void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, void *data);
->   
-> +bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi);
-> +
->   #endif /* __IMX_HDMI_H__ */
+> Sounds good. Krzysztof will hopefully be able to take a look then too to
+> make sure I am not making a hames of things.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+We should avoid references to driver, because bindings are used also in
+other projects where driver can behave differently. Also "driver" is
+then ambiguous - which driver do you mean? Please re-phrase.
+
+Best regards,
+Krzysztof
+
