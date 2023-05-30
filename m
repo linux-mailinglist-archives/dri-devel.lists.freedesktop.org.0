@@ -1,69 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7176B71623B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 15:39:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E14717784
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 09:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51EAC10E15D;
-	Tue, 30 May 2023 13:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB88510E488;
+	Wed, 31 May 2023 07:06:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7642F10E15D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 13:38:57 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34UC3ghA017399; Tue, 30 May 2023 15:38:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=h3UJJ7gv6LbZY+kgVidEBO7tNCMRdOY5R4jWJYzfASU=;
- b=E/qCAVSEb2LZOD/LX+28gscOj8xRXRisI6JDDFiZPNH6eX0D/+LpjJ/WP4Mswln/FreS
- od+vhg9iV6OFDPjq7DhMg+t5Ze/UkWiLkmhpi0pwdmkpVR1cKKRUuDJF/RXlynaxcxEM
- 94m4aZn61Z+mvlY88Yq1jfdnpNsxHoklL96St0WZrsXV8u4XfGim5YS8Fc3BVzdWnQ8I
- CmINMCJf5YXkRf9kn64CnmqhrcQ6OFfhCo9e73NX+f583dwbKL9fWCb++ib1Kav6+TVZ
- 989jjzhE4rG2+fTH5mHqO+u854vXF8lfQdF4cQ4pMo46jIdsSLWWphltmuPPNXlUn81f cA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3quahy8aue-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 15:38:38 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1AF5910002A;
- Tue, 30 May 2023 15:38:38 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 11B16228A35;
- Tue, 30 May 2023 15:38:38 +0200 (CEST)
-Received: from [10.129.178.187] (10.129.178.187) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 30 May
- 2023 15:38:37 +0200
-Message-ID: <af31ae21-2711-2fac-e885-b3bbbcb12be8@foss.st.com>
-Date: Tue, 30 May 2023 15:38:37 +0200
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C813310E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 13:49:16 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-256a41d3e81so1243781a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 06:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=heitbaum.com; s=google; t=1685454555; x=1688046555;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7p73ODufu1/P74FptI7FRwaCItiP1sKbYRvV3n+M0V0=;
+ b=PzarIwSIhRYrd8a9D1iPGmwviHC2XZt4+tfx7iv3dKbXBCvqRWGx9WoPv5WraiCSjm
+ zgD8EF2ExxnBmzqJqpZ2xnxBOoQJjgm+v6OMnfUESSyJmbUZtTzVruClSMIw+5cXpChR
+ k23PLH32rOaJYk7OJBiywbIPGc16TrY6HegpM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685454555; x=1688046555;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7p73ODufu1/P74FptI7FRwaCItiP1sKbYRvV3n+M0V0=;
+ b=RQHZK4J9KuX36bxVwJKx3CgmRnxJ+CqbiWVAcWDYggGGWDpgGU67L4xSTkqz4E6Ryp
+ em7fTJ8OCVhpHdm1Ek4mSdB31jO8lczIvWexsHJvqbXLxAPw0LBKNEdiKFdXSVoQ4zVU
+ OdZa8/5HzxK13iaAMYzNc2ifhB7pjWcp7cQpilk1MGP7I4lo9Q0AnF4Qf1WQi0VqcVYq
+ n5/BQgHAlKsTTFR7BaV76yClanETeu0rn/B6z09fMvG0IWCy576L2r3ttBVzJJCzofYA
+ +3hQ0Am4m3EBZ2gzZgHy/1b3NyDPqTAjP3P/TBMqp0aAXz5UWgxH2l9fuAfShZJT1zHJ
+ lq6w==
+X-Gm-Message-State: AC+VfDyAF63K1YLboRlhc6QOM8Q9H+tsy9is5kt+l6rsTMHyj04CP9nh
+ /P3FHOPlWlB9povQm7Fd969vTw==
+X-Google-Smtp-Source: ACHHUZ4XSEbkBWzXynP47Hjpm8/ECtPpTXOj/WE0fHRVvYpYN5zxii/+M2F6b3VEOWryyJa4ue4xRw==
+X-Received: by 2002:a17:90a:fe13:b0:255:a8fb:a72a with SMTP id
+ ck19-20020a17090afe1300b00255a8fba72amr2573662pjb.32.1685454555527; 
+ Tue, 30 May 2023 06:49:15 -0700 (PDT)
+Received: from 5e905162a5a7 ([122.199.31.3]) by smtp.gmail.com with ESMTPSA id
+ nn6-20020a17090b38c600b002508f0ac3edsm4246116pjb.53.2023.05.30.06.49.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 May 2023 06:49:14 -0700 (PDT)
+Date: Tue, 30 May 2023 13:49:07 +0000
+From: Rudi Heitbaum <rudi@heitbaum.com>
+To: Imre Deak <imre.deak@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Dave Airlie <airlied@gmail.com>
+Subject: Re: [v4,01/14] drm/i915: Fix PIPEDMC disabling for a bigjoiner
+ configuration
+Message-ID: <20230530134907.GA8@5e905162a5a7>
+References: <20230510103131.1618266-2-imre.deak@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 2/4] dt-bindings: display: st,stm32-dsi: Remove
- unnecessary fields
-Content-Language: en-US
-To: Alexandre TORGUE <alexandre.torgue@foss.st.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-References: <20230529091359.71987-1-raphael.gallais-pou@foss.st.com>
- <20230529091359.71987-3-raphael.gallais-pou@foss.st.com>
- <20230530122736.tflfu5cugbd7ooup@krzk-bin>
- <92d5a699-9f5d-2e40-ca73-4604f3e5a657@foss.st.com>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <92d5a699-9f5d-2e40-ca73-4604f3e5a657@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.129.178.187]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_10,2023-05-30_01,2023-05-22_02
+In-Reply-To: <20230510103131.1618266-2-imre.deak@intel.com>
+X-Mailman-Approved-At: Wed, 31 May 2023 07:06:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,64 +73,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>, kernel@dh-electronics.com,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Imre/Dave,
 
-On 5/30/23 15:30, Alexandre TORGUE wrote:
-> On 5/30/23 14:27, Krzysztof Kozlowski wrote:
->> On Mon, 29 May 2023 11:13:57 +0200, Raphael Gallais-Pou wrote:
->>> "#address-cells" and "#size-cells" are two properties that are not
->>> mandatory. For instance, the DSI could refer to a bridge outside the scope
->>> of the node rather than include a 'panel@0' subnode. By doing so, address
->>> and size fields become then unnecessary, creating a warning at build time.
->>>
->>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->>> Reviewed-by: Marek Vasut <marex@denx.de>
->>> ---
->>>   Documentation/devicetree/bindings/display/st,stm32-dsi.yaml | 2 --
->>>   1 file changed, 2 deletions(-)
->>>
->>
->> Running 'make dtbs_check' with the schema in this patch gives the
->> following warnings. Consider if they are expected or the schema is
->> incorrect. These may not be new warnings
-> I checked it before merging the series on stm32-next tree. I didn't get this
-> error. I didn't check commit per commit.
->
-> Do you get this error after merging the whole series ?
+Ref: [v4,01/14] drm/i915: Fix PIPEDMC disabling for a bigjoiner configuration
+     [git pull] drm fixes for 6.4-rc4
+     drm-fixes-2023-05-26:
+     drm fixes for 6.4-rc4
 
+This patch has caused a regression between 6.4-rc3 and 6.4-rc4. Other
+tested kernels include 6.3.4 work fine. Dropping the patch allows the decode
+playback of media via Kodi. Without dropping the patch - the media
+starts and stutters then ceases to play.
 
-I think this is because of the order of the patches within the serie. The patch
-correcting the yaml is before those modifying the device-trees. This could
-explain warnings rise up when checking patch per patch. However I did not get
-any errors on top of  the whole serie.
+There is an additional issue that 6.4-rc4 audio playback is also failing
+(where 6.4-rc3 was fine), I have not yet tracked this down.
 
->
->
->>
->> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
->> This will change in the future.
->>
->> Full log is available here: https://patchwork.ozlabs.org/patch/1787034
->>
->>
->> dsi@40016c00: Unevaluated properties are not allowed ('panel-dsi@0' was
->> unexpected)
->>     arch/arm/boot/dts/stm32f469-disco.dtb
->>
->> dsi@5a000000: Unevaluated properties are not allowed ('panel-dsi@0' was
->> unexpected)
->>     arch/arm/boot/dts/stm32mp157c-ev1.dtb
->>     arch/arm/boot/dts/stm32mp157c-ev1-scmi.dtb
->
+This is all on:
+DMI: Intel(R) Client Systems NUC12WSKi7/NUC12WSBi7, BIOS WSADL357.0087.2023.0306.1931 03/06/2023
+12th Gen Intel(R) Core(TM) i7-1260P (family: 0x6, model: 0x9a, stepping: 0x3)
+microcode: updated early: 0x429 -> 0x42a, date = 2023-02-14
+
+Regards
+
+Rudi
+
+On Wed, May 10, 2023 at 01:31:18PM +0300, Imre Deak wrote:
+> For a bigjoiner configuration display->crtc_disable() will be called
+> first for the slave CRTCs and then for the master CRTC. However slave
+> CRTCs will be actually disabled only after the master CRTC is disabled
+> (from the encoder disable hooks called with the master CRTC state).
+> Hence the slave PIPEDMCs can be disabled only after the master CRTC is
+> disabled, make this so.
+> 
+> intel_encoders_post_pll_disable() must be called only for the master
+> CRTC, as for the other two encoder disable hooks. While at it fix this
+> up as well. This didn't cause a problem, since
+> intel_encoders_post_pll_disable() will call the corresponding hook only
+> for an encoder/connector connected to the given CRTC, however slave
+> CRTCs will have no associated encoder/connector.
+> 
+> Fixes: 3af2ff0840be ("drm/i915: Enable a PIPEDMC whenever its corresponding pipe is enabled")
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> Reviewed-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 1d5d42a408035..116fa52290b84 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -1702,9 +1702,17 @@ static void hsw_crtc_disable(struct intel_atomic_state *state,
+>  
+>  	intel_disable_shared_dpll(old_crtc_state);
+>  
+> -	intel_encoders_post_pll_disable(state, crtc);
+> +	if (!intel_crtc_is_bigjoiner_slave(old_crtc_state)) {
+> +		struct intel_crtc *slave_crtc;
+> +
+> +		intel_encoders_post_pll_disable(state, crtc);
+>  
+> -	intel_dmc_disable_pipe(i915, crtc->pipe);
+> +		intel_dmc_disable_pipe(i915, crtc->pipe);
+> +
+> +		for_each_intel_crtc_in_pipe_mask(&i915->drm, slave_crtc,
+> +						 intel_crtc_bigjoiner_slave_pipes(old_crtc_state))
+> +			intel_dmc_disable_pipe(i915, slave_crtc->pipe);
+> +	}
+>  }
+>  
+>  static void i9xx_pfit_enable(const struct intel_crtc_state *crtc_state)
