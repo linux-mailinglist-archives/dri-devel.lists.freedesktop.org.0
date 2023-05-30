@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6B171598F
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BB971598C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D231410E391;
-	Tue, 30 May 2023 09:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5538510E38D;
+	Tue, 30 May 2023 09:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83BE810E38F;
- Tue, 30 May 2023 09:09:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233F210E38F;
+ Tue, 30 May 2023 09:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685437772; x=1716973772;
+ t=1685437777; x=1716973777;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=R7K+WwXA2rTEHfMTnC4KoOSgQcKsGAZb1Yq7iU4LnDs=;
- b=NnxiqVyfWZIRFKDlJoZVEpjE+Q4VWvf48ERy9t+pV44/6roQEUq88ioM
- RSKc/yAT+GDWKfx16Tz1OGxSCm5v4vM3/QAn8Kkazrs0NU+sVzaqt4wA9
- zB/I/Aw8vAg+lUprChkF4VQQhc5TbI/tTR9khdTHGG4WzCl/hcKf6wh3Y
- Q5EMsgjCtXPY6TgotagCaqzYeWcfMbEYovuYJmLxa+d/2S17KOmm4YNo9
- m+6G/Qwa9EZnzTedA4cTdbe6MiDTpqbxD68DjyET0D6a6ToZQN6LeQZw7
- 5QDeg+yF3lwKIornA2jikO1OxAF7pzq6+ZVibUMdgPlMLpP5CHFQxd0YL w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="354872657"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="354872657"
+ bh=ALcUDc1+qEHPaEazuxsnMWj8zVE3pWn3aJ1UytWK/qo=;
+ b=i8Ad53axI5+v5wIUvQqypy6mJ2mUAV2M1aCjR5COTS/otu+a2TYV5F99
+ kH7HJvgptp4mvrDSBwYv4ihUdId9knD8iekcguruuRW15xxADqc63efKt
+ DW6lVoY/B66UtOz2i/5jLZMMRk8/gStYZ2K3OdXkOfqjDP49dM1msM5aS
+ nDBW0dQ01p8M6IOE+OcR9rKbQ68Un6XFQ5QYMfPezoOC1g8Jm0t0m3q19
+ I2Aa/jq6Am6WtWGx09PFLajFgr0Zmhy/7I+MTAY/wn3QHxR9zEPlWA5C/
+ wW5d4WAa365oso6m5eKfSukqFinVzC3xcy/P8JCuIwq7ZidHoK0R6/4YJ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="354872671"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="354872671"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 02:09:32 -0700
+ 30 May 2023 02:09:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683875278"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="683875278"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683875307"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="683875307"
 Received: from kleve-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.47.8])
  by orsmga006-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:09:30 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:09:34 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 12/13] drm/display/dp_mst: convert to struct drm_edid
-Date: Tue, 30 May 2023 12:08:24 +0300
-Message-Id: <9c32e5c241934093fc4144eed4c01155e1f03af1.1685437501.git.jani.nikula@intel.com>
+Subject: [PATCH v2 13/13] drm/i915/display: switch the rest of the connectors
+ to struct drm_edid
+Date: Tue, 30 May 2023 12:08:25 +0300
+Message-Id: <b1b53bb9004adaa402e061f7df2caf0eb4723a43.1685437501.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1685437500.git.jani.nikula@intel.com>
 References: <cover.1685437500.git.jani.nikula@intel.com>
@@ -63,151 +64,373 @@ Cc: jani.nikula@intel.com, Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the topology manager to use struct drm_edid, add
-drm_dp_mst_edid_read() that returns drm_edid, and rewrite the old
-drm_dp_mst_get_edid() to use it.
-
-Note that the old drm_get_edid() ended up calling
-drm_connector_update_edid_property(). This responsibility is now
-deferred to drivers, which all do it anyway after calling
-drm_dp_mst_edid_read() or drm_dp_mst_get_edid().
+Convert the remaining uses of struct edid based drm_get_edid(),
+drm_connector_update_edid_property() and drm_add_edid_modes() calls to
+the struct drm_edid based drm_edid_read_ddc(),
+drm_edid_connector_update() and drm_edid_connector_add_modes().
 
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 53 +++++++++++++++----
- include/drm/display/drm_dp_mst_helper.h       |  9 +++-
- 2 files changed, 49 insertions(+), 13 deletions(-)
+ .../gpu/drm/i915/display/intel_connector.c    | 18 ++---
+ .../gpu/drm/i915/display/intel_connector.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_crt.c      | 34 +++++----
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 10 ++-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     | 73 ++++++++++---------
+ 5 files changed, 74 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index a2b8732db0c8..be71be95b706 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -1823,7 +1823,7 @@ static void drm_dp_destroy_port(struct kref *kref)
- 		return;
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
+index 257afac34839..00ea71b03ec7 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.c
++++ b/drivers/gpu/drm/i915/display/intel_connector.c
+@@ -176,15 +176,15 @@ enum pipe intel_connector_get_pipe(struct intel_connector *connector)
+ /**
+  * intel_connector_update_modes - update connector from edid
+  * @connector: DRM connector device to use
+- * @edid: previously read EDID information
++ * @drm_edid: previously read EDID information
+  */
+ int intel_connector_update_modes(struct drm_connector *connector,
+-				struct edid *edid)
++				 const struct drm_edid *drm_edid)
+ {
+ 	int ret;
+ 
+-	drm_connector_update_edid_property(connector, edid);
+-	ret = drm_add_edid_modes(connector, edid);
++	drm_edid_connector_update(connector, drm_edid);
++	ret = drm_edid_connector_add_modes(connector);
+ 
+ 	return ret;
+ }
+@@ -199,15 +199,15 @@ int intel_connector_update_modes(struct drm_connector *connector,
+ int intel_ddc_get_modes(struct drm_connector *connector,
+ 			struct i2c_adapter *adapter)
+ {
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int ret;
+ 
+-	edid = drm_get_edid(connector, adapter);
+-	if (!edid)
++	drm_edid = drm_edid_read_ddc(connector, adapter);
++	if (!drm_edid)
+ 		return 0;
+ 
+-	ret = intel_connector_update_modes(connector, edid);
+-	kfree(edid);
++	ret = intel_connector_update_modes(connector, drm_edid);
++	drm_edid_free(drm_edid);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.h b/drivers/gpu/drm/i915/display/intel_connector.h
+index 9d2bc261b204..aaf7281462dc 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.h
++++ b/drivers/gpu/drm/i915/display/intel_connector.h
+@@ -9,7 +9,7 @@
+ #include <linux/types.h>
+ 
+ struct drm_connector;
+-struct edid;
++struct drm_edid;
+ struct i2c_adapter;
+ struct intel_connector;
+ struct intel_encoder;
+@@ -25,7 +25,7 @@ void intel_connector_attach_encoder(struct intel_connector *connector,
+ bool intel_connector_get_hw_state(struct intel_connector *connector);
+ enum pipe intel_connector_get_pipe(struct intel_connector *connector);
+ int intel_connector_update_modes(struct drm_connector *connector,
+-				 struct edid *edid);
++				 const struct drm_edid *drm_edid);
+ int intel_ddc_get_modes(struct drm_connector *c, struct i2c_adapter *adapter);
+ void intel_attach_force_audio_property(struct drm_connector *connector);
+ void intel_attach_broadcast_rgb_property(struct drm_connector *connector);
+diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
+index 673c03646696..ab7cd5e60a0a 100644
+--- a/drivers/gpu/drm/i915/display/intel_crt.c
++++ b/drivers/gpu/drm/i915/display/intel_crt.c
+@@ -609,37 +609,38 @@ static bool intel_crt_detect_hotplug(struct drm_connector *connector)
+ 	return ret;
+ }
+ 
+-static struct edid *intel_crt_get_edid(struct drm_connector *connector,
+-				struct i2c_adapter *i2c)
++static const struct drm_edid *intel_crt_get_edid(struct drm_connector *connector,
++						 struct i2c_adapter *i2c)
+ {
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
+-	edid = drm_get_edid(connector, i2c);
++	drm_edid = drm_edid_read_ddc(connector, i2c);
+ 
+-	if (!edid && !intel_gmbus_is_forced_bit(i2c)) {
++	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
+ 		drm_dbg_kms(connector->dev,
+ 			    "CRT GMBUS EDID read failed, retry using GPIO bit-banging\n");
+ 		intel_gmbus_force_bit(i2c, true);
+-		edid = drm_get_edid(connector, i2c);
++		drm_edid = drm_edid_read_ddc(connector, i2c);
+ 		intel_gmbus_force_bit(i2c, false);
  	}
  
--	kfree(port->cached_edid);
-+	drm_edid_free(port->cached_edid);
- 
- 	/*
- 	 * we can't destroy the connector here, as we might be holding the
-@@ -2272,8 +2272,8 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
- 	if (port->pdt != DP_PEER_DEVICE_NONE &&
- 	    drm_dp_mst_is_end_device(port->pdt, port->mcs) &&
- 	    port->port_num >= DP_MST_LOGICAL_PORT_0)
--		port->cached_edid = drm_get_edid(port->connector,
--						 &port->aux.ddc);
-+		port->cached_edid = drm_edid_read_ddc(port->connector,
-+						      &port->aux.ddc);
- 
- 	drm_connector_register(port->connector);
- 	return;
-@@ -4133,7 +4133,7 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
- 		ret = connector_status_connected;
- 		/* for logical ports - cache the EDID */
- 		if (port->port_num >= DP_MST_LOGICAL_PORT_0 && !port->cached_edid)
--			port->cached_edid = drm_get_edid(connector, &port->aux.ddc);
-+			port->cached_edid = drm_edid_read_ddc(connector, &port->aux.ddc);
- 		break;
- 	case DP_PEER_DEVICE_DP_LEGACY_CONV:
- 		if (port->ldps)
-@@ -4147,7 +4147,7 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
- EXPORT_SYMBOL(drm_dp_mst_detect_port);
- 
- /**
-- * drm_dp_mst_get_edid() - get EDID for an MST port
-+ * drm_dp_mst_edid_read() - get EDID for an MST port
-  * @connector: toplevel connector to get EDID for
-  * @mgr: manager for this port
-  * @port: unverified pointer to a port.
-@@ -4156,9 +4156,11 @@ EXPORT_SYMBOL(drm_dp_mst_detect_port);
-  * It validates the pointer still exists so the caller doesn't require a
-  * reference.
-  */
--struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port)
-+const struct drm_edid *drm_dp_mst_edid_read(struct drm_connector *connector,
-+					    struct drm_dp_mst_topology_mgr *mgr,
-+					    struct drm_dp_mst_port *port)
- {
--	struct edid *edid = NULL;
-+	const struct drm_edid *drm_edid;
- 
- 	/* we need to search for the port in the mgr in case it's gone */
- 	port = drm_dp_mst_topology_get_port_validated(mgr, port);
-@@ -4166,12 +4168,41 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_
- 		return NULL;
- 
- 	if (port->cached_edid)
--		edid = drm_edid_duplicate(port->cached_edid);
--	else {
--		edid = drm_get_edid(connector, &port->aux.ddc);
--	}
-+		drm_edid = drm_edid_dup(port->cached_edid);
-+	else
-+		drm_edid = drm_edid_read_ddc(connector, &port->aux.ddc);
- 
- 	drm_dp_mst_topology_put_port(port);
-+
+-	return edid;
 +	return drm_edid;
-+}
-+EXPORT_SYMBOL(drm_dp_mst_edid_read);
-+
-+/**
-+ * drm_dp_mst_get_edid() - get EDID for an MST port
-+ * @connector: toplevel connector to get EDID for
-+ * @mgr: manager for this port
-+ * @port: unverified pointer to a port.
-+ *
-+ * This function is deprecated; please use drm_dp_mst_edid_read() instead.
-+ *
-+ * This returns an EDID for the port connected to a connector,
-+ * It validates the pointer still exists so the caller doesn't require a
-+ * reference.
-+ */
-+struct edid *drm_dp_mst_get_edid(struct drm_connector *connector,
-+				 struct drm_dp_mst_topology_mgr *mgr,
-+				 struct drm_dp_mst_port *port)
-+{
+ }
+ 
+ /* local version of intel_ddc_get_modes() to use intel_crt_get_edid() */
+ static int intel_crt_ddc_get_modes(struct drm_connector *connector,
+ 				struct i2c_adapter *adapter)
+ {
+-	struct edid *edid;
 +	const struct drm_edid *drm_edid;
-+	struct edid *edid;
-+
-+	drm_edid = drm_dp_mst_edid_read(connector, mgr, port);
-+
-+	edid = drm_edid_duplicate(drm_edid_raw(drm_edid));
+ 	int ret;
+ 
+-	edid = intel_crt_get_edid(connector, adapter);
+-	if (!edid)
++	drm_edid = intel_crt_get_edid(connector, adapter);
++	if (!drm_edid)
+ 		return 0;
+ 
+-	ret = intel_connector_update_modes(connector, edid);
+-	kfree(edid);
++	ret = intel_connector_update_modes(connector, drm_edid);
 +
 +	drm_edid_free(drm_edid);
-+
- 	return edid;
+ 
+ 	return ret;
  }
- EXPORT_SYMBOL(drm_dp_mst_get_edid);
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 5be96a158ab2..f962e97880b4 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -138,7 +138,7 @@ struct drm_dp_mst_port {
- 	 * @cached_edid: for DP logical ports - make tiling work by ensuring
- 	 * that the EDID for all connectors is read immediately.
+@@ -648,14 +649,15 @@ static bool intel_crt_detect_ddc(struct drm_connector *connector)
+ {
+ 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
+ 	struct drm_i915_private *dev_priv = to_i915(crt->base.base.dev);
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	struct i2c_adapter *i2c;
+ 	bool ret = false;
+ 
+ 	i2c = intel_gmbus_get_adapter(dev_priv, dev_priv->display.vbt.crt_ddc_pin);
+-	edid = intel_crt_get_edid(connector, i2c);
++	drm_edid = intel_crt_get_edid(connector, i2c);
+ 
+-	if (edid) {
++	if (drm_edid) {
++		const struct edid *edid = drm_edid_raw(drm_edid);
+ 		bool is_digital = edid->input & DRM_EDID_INPUT_DIGITAL;
+ 
+ 		/*
+@@ -676,7 +678,7 @@ static bool intel_crt_detect_ddc(struct drm_connector *connector)
+ 			    "CRT not detected via DDC:0x50 [no valid EDID found]\n");
+ 	}
+ 
+-	kfree(edid);
++	drm_edid_free(drm_edid);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 1d483a83d59c..e3f176a093d2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -836,15 +836,17 @@ static int intel_dp_mst_get_ddc_modes(struct drm_connector *connector)
+ {
+ 	struct intel_connector *intel_connector = to_intel_connector(connector);
+ 	struct intel_dp *intel_dp = intel_connector->mst_port;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 	int ret;
+ 
+ 	if (drm_connector_is_unregistered(connector))
+ 		return intel_connector_update_modes(connector, NULL);
+ 
+-	edid = drm_dp_mst_get_edid(connector, &intel_dp->mst_mgr, intel_connector->port);
+-	ret = intel_connector_update_modes(connector, edid);
+-	kfree(edid);
++	drm_edid = drm_dp_mst_edid_read(connector, &intel_dp->mst_mgr, intel_connector->port);
++
++	ret = intel_connector_update_modes(connector, drm_edid);
++
++	drm_edid_free(drm_edid);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index 2d1b19f73883..21f92123c844 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -2036,22 +2036,23 @@ intel_sdvo_multifunc_encoder(struct intel_sdvo *intel_sdvo)
+ 	return hweight16(intel_sdvo->caps.output_flags) > 1;
+ }
+ 
+-static struct edid *
++static const struct drm_edid *
+ intel_sdvo_get_edid(struct drm_connector *connector)
+ {
+ 	struct intel_sdvo *sdvo = intel_attached_sdvo(to_intel_connector(connector));
+-	return drm_get_edid(connector, &sdvo->ddc);
++	return drm_edid_read_ddc(connector, &sdvo->ddc);
+ }
+ 
+ /* Mac mini hack -- use the same DDC as the analog connector */
+-static struct edid *
++static const struct drm_edid *
+ intel_sdvo_get_analog_edid(struct drm_connector *connector)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(connector->dev);
++	struct drm_i915_private *i915 = to_i915(connector->dev);
++	struct i2c_adapter *i2c;
+ 
+-	return drm_get_edid(connector,
+-			    intel_gmbus_get_adapter(dev_priv,
+-						    dev_priv->display.vbt.crt_ddc_pin));
++	i2c = intel_gmbus_get_adapter(i915, i915->display.vbt.crt_ddc_pin);
++
++	return drm_edid_read_ddc(connector, i2c);
+ }
+ 
+ static enum drm_connector_status
+@@ -2059,11 +2060,11 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
+ {
+ 	struct intel_sdvo *intel_sdvo = intel_attached_sdvo(to_intel_connector(connector));
+ 	enum drm_connector_status status;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
+-	edid = intel_sdvo_get_edid(connector);
++	drm_edid = intel_sdvo_get_edid(connector);
+ 
+-	if (edid == NULL && intel_sdvo_multifunc_encoder(intel_sdvo)) {
++	if (!drm_edid && intel_sdvo_multifunc_encoder(intel_sdvo)) {
+ 		u8 ddc, saved_ddc = intel_sdvo->ddc_bus;
+ 
+ 		/*
+@@ -2072,15 +2073,15 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
+ 		 */
+ 		for (ddc = intel_sdvo->ddc_bus >> 1; ddc > 1; ddc >>= 1) {
+ 			intel_sdvo->ddc_bus = ddc;
+-			edid = intel_sdvo_get_edid(connector);
+-			if (edid)
++			drm_edid = intel_sdvo_get_edid(connector);
++			if (drm_edid)
+ 				break;
+ 		}
+ 		/*
+ 		 * If we found the EDID on the other bus,
+ 		 * assume that is the correct DDC bus.
+ 		 */
+-		if (edid == NULL)
++		if (!drm_edid)
+ 			intel_sdvo->ddc_bus = saved_ddc;
+ 	}
+ 
+@@ -2088,17 +2089,19 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
+ 	 * When there is no edid and no monitor is connected with VGA
+ 	 * port, try to use the CRT ddc to read the EDID for DVI-connector.
  	 */
--	struct edid *cached_edid;
-+	const struct drm_edid *cached_edid;
+-	if (edid == NULL)
+-		edid = intel_sdvo_get_analog_edid(connector);
++	if (!drm_edid)
++		drm_edid = intel_sdvo_get_analog_edid(connector);
  
- 	/**
- 	 * @fec_capable: bool indicating if FEC can be supported up to that
-@@ -819,7 +819,12 @@ drm_dp_mst_detect_port(struct drm_connector *connector,
- 		       struct drm_dp_mst_topology_mgr *mgr,
- 		       struct drm_dp_mst_port *port);
+ 	status = connector_status_unknown;
+-	if (edid != NULL) {
++	if (drm_edid) {
++		const struct edid *edid = drm_edid_raw(drm_edid);
++
+ 		/* DDC bus is shared, match EDID to connector type */
+ 		if (edid->input & DRM_EDID_INPUT_DIGITAL)
+ 			status = connector_status_connected;
+ 		else
+ 			status = connector_status_disconnected;
+-		kfree(edid);
++		drm_edid_free(drm_edid);
+ 	}
  
--struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
-+const struct drm_edid *drm_dp_mst_edid_read(struct drm_connector *connector,
-+					    struct drm_dp_mst_topology_mgr *mgr,
-+					    struct drm_dp_mst_port *port);
-+struct edid *drm_dp_mst_get_edid(struct drm_connector *connector,
-+				 struct drm_dp_mst_topology_mgr *mgr,
-+				 struct drm_dp_mst_port *port);
+ 	return status;
+@@ -2106,8 +2109,9 @@ intel_sdvo_tmds_sink_detect(struct drm_connector *connector)
  
- int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
- 			     int link_rate, int link_lane_count);
+ static bool
+ intel_sdvo_connector_matches_edid(struct intel_sdvo_connector *sdvo,
+-				  struct edid *edid)
++				  const struct drm_edid *drm_edid)
+ {
++	const struct edid *edid = drm_edid_raw(drm_edid);
+ 	bool monitor_is_digital = !!(edid->input & DRM_EDID_INPUT_DIGITAL);
+ 	bool connector_is_digital = !!IS_DIGITAL(sdvo);
+ 
+@@ -2150,22 +2154,23 @@ intel_sdvo_detect(struct drm_connector *connector, bool force)
+ 	else if (IS_TMDS(intel_sdvo_connector))
+ 		ret = intel_sdvo_tmds_sink_detect(connector);
+ 	else {
+-		struct edid *edid;
++		const struct drm_edid *drm_edid;
+ 
+ 		/* if we have an edid check it matches the connection */
+-		edid = intel_sdvo_get_edid(connector);
+-		if (edid == NULL)
+-			edid = intel_sdvo_get_analog_edid(connector);
+-		if (edid != NULL) {
++		drm_edid = intel_sdvo_get_edid(connector);
++		if (!drm_edid)
++			drm_edid = intel_sdvo_get_analog_edid(connector);
++		if (drm_edid) {
+ 			if (intel_sdvo_connector_matches_edid(intel_sdvo_connector,
+-							      edid))
++							      drm_edid))
+ 				ret = connector_status_connected;
+ 			else
+ 				ret = connector_status_disconnected;
+ 
+-			kfree(edid);
+-		} else
++			drm_edid_free(drm_edid);
++		} else {
+ 			ret = connector_status_connected;
++		}
+ 	}
+ 
+ 	return ret;
+@@ -2174,13 +2179,13 @@ intel_sdvo_detect(struct drm_connector *connector, bool force)
+ static int intel_sdvo_get_ddc_modes(struct drm_connector *connector)
+ {
+ 	int num_modes = 0;
+-	struct edid *edid;
++	const struct drm_edid *drm_edid;
+ 
+ 	DRM_DEBUG_KMS("[CONNECTOR:%d:%s]\n",
+ 		      connector->base.id, connector->name);
+ 
+ 	/* set the bus switch and get the modes */
+-	edid = intel_sdvo_get_edid(connector);
++	drm_edid = intel_sdvo_get_edid(connector);
+ 
+ 	/*
+ 	 * Mac mini hack.  On this device, the DVI-I connector shares one DDC
+@@ -2188,17 +2193,17 @@ static int intel_sdvo_get_ddc_modes(struct drm_connector *connector)
+ 	 * DDC fails, check to see if the analog output is disconnected, in
+ 	 * which case we'll look there for the digital DDC data.
+ 	 */
+-	if (!edid)
+-		edid = intel_sdvo_get_analog_edid(connector);
++	if (!drm_edid)
++		drm_edid = intel_sdvo_get_analog_edid(connector);
+ 
+-	if (!edid)
++	if (!drm_edid)
+ 		return 0;
+ 
+ 	if (intel_sdvo_connector_matches_edid(to_intel_sdvo_connector(connector),
+-					      edid))
+-		num_modes += intel_connector_update_modes(connector, edid);
++					      drm_edid))
++		num_modes += intel_connector_update_modes(connector, drm_edid);
+ 
+-	kfree(edid);
++	drm_edid_free(drm_edid);
+ 
+ 	return num_modes;
+ }
 -- 
 2.39.2
 
