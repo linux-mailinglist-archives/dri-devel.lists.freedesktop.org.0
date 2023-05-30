@@ -2,81 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C672716830
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 17:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B9D716836
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 17:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5837610E183;
-	Tue, 30 May 2023 15:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A91DE10E187;
+	Tue, 30 May 2023 15:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6E510E180
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 15:56:48 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-30af20f5f67so1500545f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 08:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685462207; x=1688054207;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=gvER3RE6QsDnp9jIH4cksMRk/aGAiKJRvIzCgHXhJ8k=;
- b=F7w26GmsVNnP5zHFgmJIC5Ms6zwIdUIArobUglmfLg0+sQul2EiUhSli7uzTyWIyNM
- Rmv9cgh1V41xzZH7Rt0trm2gjdUJ7rvL2CncMswgiwbl7wR+Nt4YiDmulk3LwX09s0ue
- tVQH9HnuiRwzRhq5+mz5isx7xdJhfhIeOCLHaskC+Ku9sCpJRrrxmH+qWPDog59nrioo
- wxDO/SDxxhm+6nSXnwhFaV3z4V9LYP4TttDIckc9gXI8cYWNFPU/ZGko5X5xjPhDk0hB
- iydm6ecSyTzs+TuRhYUKPYTKt8s/PQvTidNsUAo13l7Mn15Uk6nVE766h/1P1rkvglMF
- TcWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685462207; x=1688054207;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gvER3RE6QsDnp9jIH4cksMRk/aGAiKJRvIzCgHXhJ8k=;
- b=OfK6Rs+V4KV+99S9f36faY3isNjqIMru9FYM2N7nnnMuCZzHCVxz5ASVVmeDkoNT4m
- x7M4Yh8lMuLGvweP2m0iTetE5iWK7G0FhhyjE7Z7aYl1h+K2lh+l6eunVnGxAqn7wN7t
- ayCALrws4WVaQnxD90S4KWQKrCeD0ZA4ZmeOsJ1EtTQUdR9g6n5w8ASEAteQmaxZN704
- RHAmbCMgF+Ln5w8gXj2YsH7BYSL/lO9IECcIznjln61JFSqbBURDisbRx59aOiJH0Alx
- haNwqFPQFqwEwln1fWvxIASwCiUcpGmiOfZcx68TDs8swbNLjCmWICZFFKPRsR68IcXo
- WwCQ==
-X-Gm-Message-State: AC+VfDzFYpBWyct8i9DdildxgPOsqWLSM4jKEBAWAjmm9QzGVjiLC1GA
- xVYgAKj7025eYb6ShVlEWkEUaA==
-X-Google-Smtp-Source: ACHHUZ7IiF/4SJux9W8hYZoYu+mPprYPj4hmFlusB/aTcUKe1PBgwdtDAJ4uRunTc7XXk9cHMXu6kw==
-X-Received: by 2002:a5d:6289:0:b0:30a:e332:a3ba with SMTP id
- k9-20020a5d6289000000b0030ae332a3bamr1966939wru.27.1685462206810; 
- Tue, 30 May 2023 08:56:46 -0700 (PDT)
-Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
- by smtp.gmail.com with ESMTPSA id
- n2-20020a5d6602000000b0030903d44dbcsm3654060wru.33.2023.05.30.08.56.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 May 2023 08:56:46 -0700 (PDT)
-Message-ID: <4f8ec61d-f501-7739-51bf-3b8bde920c2d@linaro.org>
-Date: Tue, 30 May 2023 17:56:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 01/17] clk: meson: g12a: prefix private CLK IDs defines
- with PRIV
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2087.outbound.protection.outlook.com [40.107.101.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1E910E180;
+ Tue, 30 May 2023 15:57:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gcvxT8HHQMLF34DQHOk7Y2FAVaDSR+a+yirF9AhrihBg6iIsQOOJdypqJXLrLwbBI7Cm6exlpfZVTdmP4YyhUWhYDVhIYdQ5kKxUPsEqQDhv4eESXD1Xv7LUnL7yzLMnTehnawzGX38FXHnv7dIe+21bUfB20O1KMZQxzJwgObEjY1iLJiBjL4Cv6bnnnp2lbGByStjFilxq+5K6a2lz3FwvPX/62fsz8v5PlDDElMahcQAftO8x6Hxp2/JnR/bfijGBTM7wKXXQOkQ7iyxrnSh8yZe1vG0Kqq60R7bQd3pkq5012+luORLOWT+YUEcFGPgljKloUyNi/PStqwMrUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EJs4xqLmktERUPH1fU/1HFgWJxjZPs7AGwjEoRQGjgo=;
+ b=oYK8DZAZsvVo1PQZzvg2krlR9z8OrxHva1fUTqgn3coztBfSKDBNZvEZ3q7fb6AX+gWyFo6PjP/8bTmhfuV8eN2U4AnvJcIHevRwbgwb53PhZn18ASKVKfhWc1sPJ3rzC+ZKNRvfNCq/nFBpKKCtAllXU3kHOq5q7ng2O6CgNscjcXoxjVNB5Rk41LehGid0zS0gWHWZ0NqMILCd1SAt+uX/XoeEKz2BRUfZ0B9lPSAzj4ohSvnb5uLfqovUCAYygHfBmQ87qM9woEV4Y5Gt9fs1VpRg3x9BK8dD9vWl2NoKCsLN7qGfUKgRuv+3UmIvkenjzmBX3xbVLawLRxupoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EJs4xqLmktERUPH1fU/1HFgWJxjZPs7AGwjEoRQGjgo=;
+ b=WTacPKXP1RKS/IdQenGEok1jFe7nzKg5HTyobgwy7sM0UjGPQUEwH8BFKL32ldHwxHK9tpmLFgdkpU8g9NeTTXNsTJS0frheqbCZa3G/jMXegKjg9L9+n6viQa85mk552NlywPZlYZ2RMabptHmFEyOYk5OLM7CAQ7WUMxjd5M0=
+Received: from DM6PR12MB3996.namprd12.prod.outlook.com (2603:10b6:5:1c1::31)
+ by MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
+ 2023 15:57:18 +0000
+Received: from DM6PR12MB3996.namprd12.prod.outlook.com
+ ([fe80::e436:6d53:7445:88b8]) by DM6PR12MB3996.namprd12.prod.outlook.com
+ ([fe80::e436:6d53:7445:88b8%7]) with mapi id 15.20.6433.022; Tue, 30 May 2023
+ 15:57:18 +0000
+From: "Ho, Kenny" <Kenny.Ho@amd.com>
+To: "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR
+Thread-Topic: [PATCH] drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR
+Thread-Index: AQHZjyd9xmQrPkt7AE6NNnI82OsITa9y93aAgAAGaViAAAIWgIAAADUt
+Date: Tue, 30 May 2023 15:57:18 +0000
+Message-ID: <DM6PR12MB39962E6A0AE57849D37AEA6E834B9@DM6PR12MB3996.namprd12.prod.outlook.com>
+References: <20230525163827.548058-1-hamza.mahfooz@amd.com>
+ <85f47623-5ef1-b817-195b-c4ae39564247@amd.com>
+ <DM6PR12MB3996064F09E1C2FD782CC944834B9@DM6PR12MB3996.namprd12.prod.outlook.com>
+ <0f2021ba-fab9-3438-950d-7b60882ae77a@amd.com>
+In-Reply-To: <0f2021ba-fab9-3438-950d-7b60882ae77a@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-0-56eb7a4d5b8e@linaro.org>
- <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-1-56eb7a4d5b8e@linaro.org>
- <1j353e5j8m.fsf@starbuckisacylon.baylibre.com>
-Organization: Linaro Developer Services
-In-Reply-To: <1j353e5j8m.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=True;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-05-30T15:57:17.865Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR12MB3996:EE_|MW4PR12MB5666:EE_
+x-ms-office365-filtering-correlation-id: 7fa578f2-2603-42ad-9825-08db61268bb9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6xYRI6DRd2yvsts0zrFjU/UcySKy9HO7COQte8gVKFhqsKR9o8moyYbS0Af3kV4pKd0jTrZCc7HxnAaaOX7PJ/xRUPEj9s49f7bjr0RFE8KcxRyW5DU/7RUneoxPSYdOydi/J9IDFoOkVviAuRxqCdplt0FSS7CX2eKMb+ZLlqH7CaPdsa+HbB2qgCuFJWCWbZ2P2PAO61Bl/KtEWU0UvYn4rmzs5ZFFyVD8NqJfUm/69KkObfRKEmEos6732t54T6hcSeT4emodg97ChuOK1VC243y9F1M34/AGD6pAqFuYGj2G9RuvWgS05cdxiQgStThwF/X6pkJFTdhDpMrdXZVJ2A8UB8ePJ8gNivLa+IXM3tC1fqzSrvYbR/aMQqCKTLiw5H091LplV78j+VO+Td3S3obGO87CoPgsHV5VfvAlDwJ7QakI5oKYF00fxLkglRxYppmBMCyf+TuEkpgMUgmVCO+1E7m6fXPax/7rcLKegEeD8lJhV2VNvSnsTR8Iabpz5/x6+NJX7I8zAZMjpWoHrwKRhiejoliKMNAD59uUKrTCw1a3B3CWU6tWVF6GLWyBcEQNXNtDUFJZHTXRe8ON91Yw4k+W6DvlafJOPDa+zysHjUXxmo5+sf2pMmmU
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3996.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199021)(54906003)(71200400001)(478600001)(110136005)(8676002)(8936002)(5660300002)(52536014)(38070700005)(2906002)(86362001)(33656002)(558084003)(66476007)(66946007)(64756008)(122000001)(76116006)(4326008)(66446008)(66556008)(91956017)(316002)(55016003)(38100700002)(41300700001)(186003)(9686003)(26005)(6506007)(7696005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QCnzB/3gp/gbc1AEDhK6Nmms5iE6idLs/B/2iRK5SKS9sJvUNb56RIrY1p?=
+ =?iso-8859-1?Q?erWZQtW3lsZB8W1OMGyv0UZrFlyKdNLJI+z3Wl6UN9tHTnRFHzpwNuiAVp?=
+ =?iso-8859-1?Q?JtqP91Bg1i7RnNEcwWp2/HlP7Uct35fjfvmPRsAoLzZI5hO9PaFhhwgkC7?=
+ =?iso-8859-1?Q?de4jrbTwh0dkxc23H4wFAYWCdeUqgP2052Xv1Rrvv1fc6v6TqKiWXxXev5?=
+ =?iso-8859-1?Q?Z8PUT6+GrfpZJ1n+hEFQOxHoaVDa8BC70YQAaTPgrisGHNIVh1lK2Ph0pQ?=
+ =?iso-8859-1?Q?6ZsvE4YKug8P0xvSk99spIkpmS5o/nbbcRHEz9J2pNWkIgFdWh1NdqTgpH?=
+ =?iso-8859-1?Q?BTpzidsfOwAYDNHSrni5HcthD1VdhyWztOARS0Sp/FSdKksZyRdeU8gxgt?=
+ =?iso-8859-1?Q?J2Y2x5mVL5U+aT88rI74bqllJ0H/JQEMfV/Ge6Qc1H2QvViKY/anRvz/UP?=
+ =?iso-8859-1?Q?pBovZo0cGdVJk94/wSulI5TMpgFlbv81P61qo/0HLnL1o17/H7co4zIrCg?=
+ =?iso-8859-1?Q?WnK3Ien8SabuqEt1lK8K+Y3ws+hStPfO7HNDo8WnKPcr8RtwtoqSSAbOqE?=
+ =?iso-8859-1?Q?xaCFogmlEwDta+tvejA2kmeHGWUVkiCdHQllImtyY1ChjZeKT6gKfqP7wf?=
+ =?iso-8859-1?Q?rLz8s2O/pxuHekVFYSFfF+Zj4+2Kvy8HvnL38/YUQ57oyS6YFMFAtbdJsR?=
+ =?iso-8859-1?Q?UEyRuuldcLO4qO6QfepoX/wrqzkcZcB0XFZuozFjJMzJoNQOdcb/quORAm?=
+ =?iso-8859-1?Q?tj6rOiFP7raqlQM+rsx8AVzOLWt6dHrQsEouepn59NAYQ+pLFwp2PrSXyO?=
+ =?iso-8859-1?Q?SfJ9vodLuOEIWVuYTX8hfLsqUtGFsbEEqR+cCaJr/gTFdadHocxcbpXoa9?=
+ =?iso-8859-1?Q?LVrkroKwoxeVJwrUC+RQVPFqJOwBOeuQJrPGmzfubauh0fyPWyKcOH3NYF?=
+ =?iso-8859-1?Q?o+l93D/p27mHZ80idoLkWN0cFrbu6+uJaTpKl8kiXPAPoLQcPv4L70fUi8?=
+ =?iso-8859-1?Q?WgsBd9BvMK5p70TgTZ1bG02m5288pIx2gM50g17XDDZpiexxlQvoxDFD47?=
+ =?iso-8859-1?Q?n+6y1yGkIIR1+6UeD9dVm27CtKacjQRKilWTHM98hncZ32diZqY+g0Vs3D?=
+ =?iso-8859-1?Q?1vNFKpHtbKwDgj2GpNQ/RVEkm2BlaZOqaxyVPlzw+VnPQUeEbU+OUy3mJh?=
+ =?iso-8859-1?Q?kwFDwV69+roY8E9mturzT29xzVqXVQqjRDubt0f/tkD1dAmuqrTq183tsz?=
+ =?iso-8859-1?Q?qWdrCsW9vK/qz6vIu1ZRCo5HGMpEsO8ENc+Nvbg2CPgtYW+I9VqmFBi01a?=
+ =?iso-8859-1?Q?WIQ1lZnFzZS9rjCilRKCu88011aCAyYCb0lAjRnHmAKN2ohAC2x1xr2lC6?=
+ =?iso-8859-1?Q?OUOegn0sz83a6tOX4ow/H/r/4BQBLrao9lk5puJJTZ8jaVwAfgwiokYmP7?=
+ =?iso-8859-1?Q?EhTMQ3s0CK/gr6nh+aBjY5IpV2qhDTnPIhrUhwvp1E8qvB9uzXkzNWNnRB?=
+ =?iso-8859-1?Q?QZP5OC7NeLji10CM4GwOKFmmhdS6IjoM699FVw1UFhD/HFQJAbTxEoN4T2?=
+ =?iso-8859-1?Q?203g6+mJwNwvvYKMXKvWSNlpjR+FamRjW0FpM4RFrD31lU0DUA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3996.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa578f2-2603-42ad-9825-08db61268bb9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2023 15:57:18.3875 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lx7zuMQsUmi+xyjuNGtUcWYFRS7Eal7/6lZg/iADX/Ae7C14w0Hb8Hg+9Yv+Lj+e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,1194 +125,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nicolas Belin <nbelin@baylibre.com>,
- linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
- "Lukas F. Hartmann" <lukas@mntre.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "Zhou1, Tao" <Tao.Zhou1@amd.com>,
+ =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>, "Wang,
+ Yang\(Kevin\)" <KevinYang.Wang@amd.com>, Peter Foley <pefoley2@pefoley.com>,
+ "Kuehling, Felix" <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Andrew Davis <afd@ti.com>, "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Ma,
+ Le" <Le.Ma@amd.com>, "Chai, Thomas" <YiPeng.Chai@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Li,
+ Candice" <Candice.Li@amd.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Zhu, James" <James.Zhu@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhang,
+ Hawking" <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/05/2023 10:08, Jerome Brunet wrote:
-> 
-> On Tue 30 May 2023 at 09:38, Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> 
->> Exposing should not be done in a single commit anymore due to
->> dt-bindings enforced rules.
->>
->> Prepend PRIV to the private CLK IDs so we can add new clock to
->> the bindings header and in a separate commit remove such private
->> define and switch to the public CLK IDs identifier.
->>
->> This refers to a discussion at [1] with Arnd and Krzysztof.
->>
->> [1] https://lore.kernel.org/all/2fabe721-7434-43e7-bae5-088a42ba128d@app.fastmail.com/
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> I understand the discussion reported but I don't really like this CLKID_PRIV_
-> It adds another layer of IDs.
-> 
-> I'd much prefer if we just expose all the IDs. That would comply with DT
-> new policy and be much simpler in the long run.
+[Public]
 
-While it would solve everything at long term, we'll still need to do the move
-in 3 steps (add PRIV, add to bindings, remove PRIV defined), and we should still
-decide how to handle NR_CLKS.
-
-Neil
-
-> 
->> ---
->>   drivers/clk/meson/g12a.c | 628 +++++++++++++++++++++++------------------------
->>   drivers/clk/meson/g12a.h | 260 ++++++++++----------
->>   2 files changed, 444 insertions(+), 444 deletions(-)
->>
->> diff --git a/drivers/clk/meson/g12a.c b/drivers/clk/meson/g12a.c
->> index 310accf94830..d2e481ae2429 100644
->> --- a/drivers/clk/meson/g12a.c
->> +++ b/drivers/clk/meson/g12a.c
->> @@ -4255,8 +4255,8 @@ static struct clk_hw_onecell_data g12a_hw_onecell_data = {
->>   		[CLKID_FCLK_DIV7]		= &g12a_fclk_div7.hw,
->>   		[CLKID_FCLK_DIV2P5]		= &g12a_fclk_div2p5.hw,
->>   		[CLKID_GP0_PLL]			= &g12a_gp0_pll.hw,
->> -		[CLKID_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> -		[CLKID_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->> +		[CLKID_PRIV_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> +		[CLKID_PRIV_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->>   		[CLKID_CLK81]			= &g12a_clk81.hw,
->>   		[CLKID_MPLL0]			= &g12a_mpll0.hw,
->>   		[CLKID_MPLL1]			= &g12a_mpll1.hw,
->> @@ -4307,25 +4307,25 @@ static struct clk_hw_onecell_data g12a_hw_onecell_data = {
->>   		[CLKID_UART2]			= &g12a_uart2.hw,
->>   		[CLKID_VPU_INTR]		= &g12a_vpu_intr.hw,
->>   		[CLKID_GIC]			= &g12a_gic.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->>   		[CLKID_SD_EMMC_A_CLK0]		= &g12a_sd_emmc_a_clk0.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->>   		[CLKID_SD_EMMC_B_CLK0]		= &g12a_sd_emmc_b_clk0.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->>   		[CLKID_SD_EMMC_C_CLK0]		= &g12a_sd_emmc_c_clk0.hw,
->> -		[CLKID_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> -		[CLKID_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> -		[CLKID_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> -		[CLKID_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> -		[CLKID_FCLK_DIV2_DIV]		= &g12a_fclk_div2_div.hw,
->> -		[CLKID_FCLK_DIV3_DIV]		= &g12a_fclk_div3_div.hw,
->> -		[CLKID_FCLK_DIV4_DIV]		= &g12a_fclk_div4_div.hw,
->> -		[CLKID_FCLK_DIV5_DIV]		= &g12a_fclk_div5_div.hw,
->> -		[CLKID_FCLK_DIV7_DIV]		= &g12a_fclk_div7_div.hw,
->> -		[CLKID_FCLK_DIV2P5_DIV]		= &g12a_fclk_div2p5_div.hw,
->> +		[CLKID_PRIV_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> +		[CLKID_PRIV_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> +		[CLKID_PRIV_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> +		[CLKID_PRIV_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2_DIV]	= &g12a_fclk_div2_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV3_DIV]	= &g12a_fclk_div3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV4_DIV]	= &g12a_fclk_div4_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV5_DIV]	= &g12a_fclk_div5_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV7_DIV]	= &g12a_fclk_div7_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2P5_DIV]	= &g12a_fclk_div2p5_div.hw,
->>   		[CLKID_HIFI_PLL]		= &g12a_hifi_pll.hw,
->>   		[CLKID_VCLK2_VENCI0]		= &g12a_vclk2_venci0.hw,
->>   		[CLKID_VCLK2_VENCI1]		= &g12a_vclk2_venci1.hw,
->> @@ -4346,56 +4346,56 @@ static struct clk_hw_onecell_data g12a_hw_onecell_data = {
->>   		[CLKID_VCLK2_VENCLMMC]		= &g12a_vclk2_venclmmc.hw,
->>   		[CLKID_VCLK2_VENCL]		= &g12a_vclk2_vencl.hw,
->>   		[CLKID_VCLK2_OTHER1]		= &g12a_vclk2_other1.hw,
->> -		[CLKID_FIXED_PLL_DCO]		= &g12a_fixed_pll_dco.hw,
->> -		[CLKID_SYS_PLL_DCO]		= &g12a_sys_pll_dco.hw,
->> -		[CLKID_GP0_PLL_DCO]		= &g12a_gp0_pll_dco.hw,
->> -		[CLKID_HIFI_PLL_DCO]		= &g12a_hifi_pll_dco.hw,
->> +		[CLKID_PRIV_FIXED_PLL_DCO]	= &g12a_fixed_pll_dco.hw,
->> +		[CLKID_PRIV_SYS_PLL_DCO]	= &g12a_sys_pll_dco.hw,
->> +		[CLKID_PRIV_GP0_PLL_DCO]	= &g12a_gp0_pll_dco.hw,
->> +		[CLKID_PRIV_HIFI_PLL_DCO]	= &g12a_hifi_pll_dco.hw,
->>   		[CLKID_DMA]			= &g12a_dma.hw,
->>   		[CLKID_EFUSE]			= &g12a_efuse.hw,
->>   		[CLKID_ROM_BOOT]		= &g12a_rom_boot.hw,
->>   		[CLKID_RESET_SEC]		= &g12a_reset_sec.hw,
->>   		[CLKID_SEC_AHB_APB3]		= &g12a_sec_ahb_apb3.hw,
->> -		[CLKID_MPLL_PREDIV]		= &g12a_mpll_prediv.hw,
->> +		[CLKID_PRIV_MPLL_PREDIV]	= &g12a_mpll_prediv.hw,
->>   		[CLKID_VPU_0_SEL]		= &g12a_vpu_0_sel.hw,
->> -		[CLKID_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->> +		[CLKID_PRIV_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->>   		[CLKID_VPU_0]			= &g12a_vpu_0.hw,
->>   		[CLKID_VPU_1_SEL]		= &g12a_vpu_1_sel.hw,
->> -		[CLKID_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->> +		[CLKID_PRIV_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->>   		[CLKID_VPU_1]			= &g12a_vpu_1.hw,
->>   		[CLKID_VPU]			= &g12a_vpu.hw,
->>   		[CLKID_VAPB_0_SEL]		= &g12a_vapb_0_sel.hw,
->> -		[CLKID_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->> +		[CLKID_PRIV_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->>   		[CLKID_VAPB_0]			= &g12a_vapb_0.hw,
->>   		[CLKID_VAPB_1_SEL]		= &g12a_vapb_1_sel.hw,
->> -		[CLKID_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->> +		[CLKID_PRIV_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->>   		[CLKID_VAPB_1]			= &g12a_vapb_1.hw,
->>   		[CLKID_VAPB_SEL]		= &g12a_vapb_sel.hw,
->>   		[CLKID_VAPB]			= &g12a_vapb.hw,
->> -		[CLKID_HDMI_PLL_DCO]		= &g12a_hdmi_pll_dco.hw,
->> -		[CLKID_HDMI_PLL_OD]		= &g12a_hdmi_pll_od.hw,
->> -		[CLKID_HDMI_PLL_OD2]		= &g12a_hdmi_pll_od2.hw,
->> +		[CLKID_PRIV_HDMI_PLL_DCO]	= &g12a_hdmi_pll_dco.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD]	= &g12a_hdmi_pll_od.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD2]	= &g12a_hdmi_pll_od2.hw,
->>   		[CLKID_HDMI_PLL]		= &g12a_hdmi_pll.hw,
->>   		[CLKID_VID_PLL]			= &g12a_vid_pll_div.hw,
->> -		[CLKID_VID_PLL_SEL]		= &g12a_vid_pll_sel.hw,
->> -		[CLKID_VID_PLL_DIV]		= &g12a_vid_pll.hw,
->> -		[CLKID_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> -		[CLKID_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> -		[CLKID_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> -		[CLKID_VCLK2_INPUT]		= &g12a_vclk2_input.hw,
->> -		[CLKID_VCLK_DIV]		= &g12a_vclk_div.hw,
->> -		[CLKID_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->> +		[CLKID_PRIV_VID_PLL_SEL]	= &g12a_vid_pll_sel.hw,
->> +		[CLKID_PRIV_VID_PLL_DIV]	= &g12a_vid_pll.hw,
->> +		[CLKID_PRIV_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> +		[CLKID_PRIV_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> +		[CLKID_PRIV_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> +		[CLKID_PRIV_VCLK2_INPUT]	= &g12a_vclk2_input.hw,
->> +		[CLKID_PRIV_VCLK_DIV]		= &g12a_vclk_div.hw,
->> +		[CLKID_PRIV_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->>   		[CLKID_VCLK]			= &g12a_vclk.hw,
->>   		[CLKID_VCLK2]			= &g12a_vclk2.hw,
->>   		[CLKID_VCLK_DIV1]		= &g12a_vclk_div1.hw,
->> -		[CLKID_VCLK_DIV2_EN]		= &g12a_vclk_div2_en.hw,
->> -		[CLKID_VCLK_DIV4_EN]		= &g12a_vclk_div4_en.hw,
->> -		[CLKID_VCLK_DIV6_EN]		= &g12a_vclk_div6_en.hw,
->> -		[CLKID_VCLK_DIV12_EN]		= &g12a_vclk_div12_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV2_EN]	= &g12a_vclk_div2_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV4_EN]	= &g12a_vclk_div4_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV6_EN]	= &g12a_vclk_div6_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV12_EN]	= &g12a_vclk_div12_en.hw,
->>   		[CLKID_VCLK2_DIV1]		= &g12a_vclk2_div1.hw,
->> -		[CLKID_VCLK2_DIV2_EN]		= &g12a_vclk2_div2_en.hw,
->> -		[CLKID_VCLK2_DIV4_EN]		= &g12a_vclk2_div4_en.hw,
->> -		[CLKID_VCLK2_DIV6_EN]		= &g12a_vclk2_div6_en.hw,
->> -		[CLKID_VCLK2_DIV12_EN]		= &g12a_vclk2_div12_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV2_EN]	= &g12a_vclk2_div2_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV4_EN]	= &g12a_vclk2_div4_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV6_EN]	= &g12a_vclk2_div6_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV12_EN]	= &g12a_vclk2_div12_en.hw,
->>   		[CLKID_VCLK_DIV2]		= &g12a_vclk_div2.hw,
->>   		[CLKID_VCLK_DIV4]		= &g12a_vclk_div4.hw,
->>   		[CLKID_VCLK_DIV6]		= &g12a_vclk_div6.hw,
->> @@ -4404,69 +4404,69 @@ static struct clk_hw_onecell_data g12a_hw_onecell_data = {
->>   		[CLKID_VCLK2_DIV4]		= &g12a_vclk2_div4.hw,
->>   		[CLKID_VCLK2_DIV6]		= &g12a_vclk2_div6.hw,
->>   		[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
->> -		[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
->> -		[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
->> -		[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
->> -		[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCI_SEL]	= &g12a_cts_enci_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCP_SEL]	= &g12a_cts_encp_sel.hw,
->> +		[CLKID_PRIV_CTS_VDAC_SEL]	= &g12a_cts_vdac_sel.hw,
->> +		[CLKID_PRIV_HDMI_TX_SEL]	= &g12a_hdmi_tx_sel.hw,
->>   		[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
->>   		[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
->>   		[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
->>   		[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
->> -		[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> -		[CLKID_HDMI_DIV]		= &g12a_hdmi_div.hw,
->> +		[CLKID_PRIV_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> +		[CLKID_PRIV_HDMI_DIV]		= &g12a_hdmi_div.hw,
->>   		[CLKID_HDMI]			= &g12a_hdmi.hw,
->>   		[CLKID_MALI_0_SEL]		= &g12a_mali_0_sel.hw,
->> -		[CLKID_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->> +		[CLKID_PRIV_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->>   		[CLKID_MALI_0]			= &g12a_mali_0.hw,
->>   		[CLKID_MALI_1_SEL]		= &g12a_mali_1_sel.hw,
->> -		[CLKID_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->> +		[CLKID_PRIV_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->>   		[CLKID_MALI_1]			= &g12a_mali_1.hw,
->>   		[CLKID_MALI]			= &g12a_mali.hw,
->> -		[CLKID_MPLL_50M_DIV]		= &g12a_mpll_50m_div.hw,
->> +		[CLKID_PRIV_MPLL_50M_DIV]	= &g12a_mpll_50m_div.hw,
->>   		[CLKID_MPLL_50M]		= &g12a_mpll_50m.hw,
->> -		[CLKID_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> -		[CLKID_SYS_PLL_DIV16]		= &g12a_sys_pll_div16.hw,
->> -		[CLKID_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> -		[CLKID_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> -		[CLKID_CPU_CLK_DYN0]		= &g12a_cpu_clk_postmux0.hw,
->> -		[CLKID_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> -		[CLKID_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> -		[CLKID_CPU_CLK_DYN1]		= &g12a_cpu_clk_postmux1.hw,
->> -		[CLKID_CPU_CLK_DYN]		= &g12a_cpu_clk_dyn.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16]	= &g12a_sys_pll_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0]	= &g12a_cpu_clk_postmux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1]	= &g12a_cpu_clk_postmux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN]	= &g12a_cpu_clk_dyn.hw,
->>   		[CLKID_CPU_CLK]			= &g12a_cpu_clk.hw,
->> -		[CLKID_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> -		[CLKID_CPU_CLK_DIV16]		= &g12a_cpu_clk_div16.hw,
->> -		[CLKID_CPU_CLK_APB_DIV]		= &g12a_cpu_clk_apb_div.hw,
->> -		[CLKID_CPU_CLK_APB]		= &g12a_cpu_clk_apb.hw,
->> -		[CLKID_CPU_CLK_ATB_DIV]		= &g12a_cpu_clk_atb_div.hw,
->> -		[CLKID_CPU_CLK_ATB]		= &g12a_cpu_clk_atb.hw,
->> -		[CLKID_CPU_CLK_AXI_DIV]		= &g12a_cpu_clk_axi_div.hw,
->> -		[CLKID_CPU_CLK_AXI]		= &g12a_cpu_clk_axi.hw,
->> -		[CLKID_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> -		[CLKID_CPU_CLK_TRACE]		= &g12a_cpu_clk_trace.hw,
->> -		[CLKID_PCIE_PLL_DCO]		= &g12a_pcie_pll_dco.hw,
->> -		[CLKID_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> -		[CLKID_PCIE_PLL_OD]		= &g12a_pcie_pll_od.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16]	= &g12a_cpu_clk_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB_DIV]	= &g12a_cpu_clk_apb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB]	= &g12a_cpu_clk_apb.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB_DIV]	= &g12a_cpu_clk_atb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB]	= &g12a_cpu_clk_atb.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI_DIV]	= &g12a_cpu_clk_axi_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI]	= &g12a_cpu_clk_axi.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE]	= &g12a_cpu_clk_trace.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO]	= &g12a_pcie_pll_dco.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> +		[CLKID_PRIV_PCIE_PLL_OD]	= &g12a_pcie_pll_od.hw,
->>   		[CLKID_PCIE_PLL]		= &g12a_pcie_pll.hw,
->> -		[CLKID_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> -		[CLKID_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->> +		[CLKID_PRIV_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> +		[CLKID_PRIV_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->>   		[CLKID_VDEC_1]			= &g12a_vdec_1.hw,
->> -		[CLKID_VDEC_HEVC_SEL]		= &g12a_vdec_hevc_sel.hw,
->> -		[CLKID_VDEC_HEVC_DIV]		= &g12a_vdec_hevc_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_SEL]	= &g12a_vdec_hevc_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_DIV]	= &g12a_vdec_hevc_div.hw,
->>   		[CLKID_VDEC_HEVC]		= &g12a_vdec_hevc.hw,
->> -		[CLKID_VDEC_HEVCF_SEL]		= &g12a_vdec_hevcf_sel.hw,
->> -		[CLKID_VDEC_HEVCF_DIV]		= &g12a_vdec_hevcf_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_SEL]	= &g12a_vdec_hevcf_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_DIV]	= &g12a_vdec_hevcf_div.hw,
->>   		[CLKID_VDEC_HEVCF]		= &g12a_vdec_hevcf.hw,
->> -		[CLKID_TS_DIV]			= &g12a_ts_div.hw,
->> +		[CLKID_PRIV_TS_DIV]		= &g12a_ts_div.hw,
->>   		[CLKID_TS]			= &g12a_ts.hw,
->> -		[CLKID_SPICC0_SCLK_SEL]		= &g12a_spicc0_sclk_sel.hw,
->> -		[CLKID_SPICC0_SCLK_DIV]		= &g12a_spicc0_sclk_div.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_SEL]	= &g12a_spicc0_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_DIV]	= &g12a_spicc0_sclk_div.hw,
->>   		[CLKID_SPICC0_SCLK]		= &g12a_spicc0_sclk.hw,
->> -		[CLKID_SPICC1_SCLK_SEL]		= &g12a_spicc1_sclk_sel.hw,
->> -		[CLKID_SPICC1_SCLK_DIV]		= &g12a_spicc1_sclk_div.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_SEL]	= &g12a_spicc1_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_DIV]	= &g12a_spicc1_sclk_div.hw,
->>   		[CLKID_SPICC1_SCLK]		= &g12a_spicc1_sclk.hw,
->>   		[CLKID_MIPI_DSI_PXCLK_SEL]	= &g12a_mipi_dsi_pxclk_sel.hw,
->> -		[CLKID_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->> +		[CLKID_PRIV_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->>   		[CLKID_MIPI_DSI_PXCLK]		= &g12a_mipi_dsi_pxclk.hw,
->>   		[NR_CLKS]			= NULL,
->>   	},
->> @@ -4484,8 +4484,8 @@ static struct clk_hw_onecell_data g12b_hw_onecell_data = {
->>   		[CLKID_FCLK_DIV7]		= &g12a_fclk_div7.hw,
->>   		[CLKID_FCLK_DIV2P5]		= &g12a_fclk_div2p5.hw,
->>   		[CLKID_GP0_PLL]			= &g12a_gp0_pll.hw,
->> -		[CLKID_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> -		[CLKID_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->> +		[CLKID_PRIV_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> +		[CLKID_PRIV_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->>   		[CLKID_CLK81]			= &g12a_clk81.hw,
->>   		[CLKID_MPLL0]			= &g12a_mpll0.hw,
->>   		[CLKID_MPLL1]			= &g12a_mpll1.hw,
->> @@ -4536,25 +4536,25 @@ static struct clk_hw_onecell_data g12b_hw_onecell_data = {
->>   		[CLKID_UART2]			= &g12a_uart2.hw,
->>   		[CLKID_VPU_INTR]		= &g12a_vpu_intr.hw,
->>   		[CLKID_GIC]			= &g12a_gic.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->>   		[CLKID_SD_EMMC_A_CLK0]		= &g12a_sd_emmc_a_clk0.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->>   		[CLKID_SD_EMMC_B_CLK0]		= &g12a_sd_emmc_b_clk0.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->>   		[CLKID_SD_EMMC_C_CLK0]		= &g12a_sd_emmc_c_clk0.hw,
->> -		[CLKID_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> -		[CLKID_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> -		[CLKID_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> -		[CLKID_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> -		[CLKID_FCLK_DIV2_DIV]		= &g12a_fclk_div2_div.hw,
->> -		[CLKID_FCLK_DIV3_DIV]		= &g12a_fclk_div3_div.hw,
->> -		[CLKID_FCLK_DIV4_DIV]		= &g12a_fclk_div4_div.hw,
->> -		[CLKID_FCLK_DIV5_DIV]		= &g12a_fclk_div5_div.hw,
->> -		[CLKID_FCLK_DIV7_DIV]		= &g12a_fclk_div7_div.hw,
->> -		[CLKID_FCLK_DIV2P5_DIV]		= &g12a_fclk_div2p5_div.hw,
->> +		[CLKID_PRIV_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> +		[CLKID_PRIV_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> +		[CLKID_PRIV_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> +		[CLKID_PRIV_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2_DIV]	= &g12a_fclk_div2_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV3_DIV]	= &g12a_fclk_div3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV4_DIV]	= &g12a_fclk_div4_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV5_DIV]	= &g12a_fclk_div5_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV7_DIV]	= &g12a_fclk_div7_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2P5_DIV]	= &g12a_fclk_div2p5_div.hw,
->>   		[CLKID_HIFI_PLL]		= &g12a_hifi_pll.hw,
->>   		[CLKID_VCLK2_VENCI0]		= &g12a_vclk2_venci0.hw,
->>   		[CLKID_VCLK2_VENCI1]		= &g12a_vclk2_venci1.hw,
->> @@ -4575,56 +4575,56 @@ static struct clk_hw_onecell_data g12b_hw_onecell_data = {
->>   		[CLKID_VCLK2_VENCLMMC]		= &g12a_vclk2_venclmmc.hw,
->>   		[CLKID_VCLK2_VENCL]		= &g12a_vclk2_vencl.hw,
->>   		[CLKID_VCLK2_OTHER1]		= &g12a_vclk2_other1.hw,
->> -		[CLKID_FIXED_PLL_DCO]		= &g12a_fixed_pll_dco.hw,
->> -		[CLKID_SYS_PLL_DCO]		= &g12a_sys_pll_dco.hw,
->> -		[CLKID_GP0_PLL_DCO]		= &g12a_gp0_pll_dco.hw,
->> -		[CLKID_HIFI_PLL_DCO]		= &g12a_hifi_pll_dco.hw,
->> +		[CLKID_PRIV_FIXED_PLL_DCO]	= &g12a_fixed_pll_dco.hw,
->> +		[CLKID_PRIV_SYS_PLL_DCO]	= &g12a_sys_pll_dco.hw,
->> +		[CLKID_PRIV_GP0_PLL_DCO]	= &g12a_gp0_pll_dco.hw,
->> +		[CLKID_PRIV_HIFI_PLL_DCO]	= &g12a_hifi_pll_dco.hw,
->>   		[CLKID_DMA]			= &g12a_dma.hw,
->>   		[CLKID_EFUSE]			= &g12a_efuse.hw,
->>   		[CLKID_ROM_BOOT]		= &g12a_rom_boot.hw,
->>   		[CLKID_RESET_SEC]		= &g12a_reset_sec.hw,
->>   		[CLKID_SEC_AHB_APB3]		= &g12a_sec_ahb_apb3.hw,
->> -		[CLKID_MPLL_PREDIV]		= &g12a_mpll_prediv.hw,
->> +		[CLKID_PRIV_MPLL_PREDIV]	= &g12a_mpll_prediv.hw,
->>   		[CLKID_VPU_0_SEL]		= &g12a_vpu_0_sel.hw,
->> -		[CLKID_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->> +		[CLKID_PRIV_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->>   		[CLKID_VPU_0]			= &g12a_vpu_0.hw,
->>   		[CLKID_VPU_1_SEL]		= &g12a_vpu_1_sel.hw,
->> -		[CLKID_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->> +		[CLKID_PRIV_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->>   		[CLKID_VPU_1]			= &g12a_vpu_1.hw,
->>   		[CLKID_VPU]			= &g12a_vpu.hw,
->>   		[CLKID_VAPB_0_SEL]		= &g12a_vapb_0_sel.hw,
->> -		[CLKID_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->> +		[CLKID_PRIV_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->>   		[CLKID_VAPB_0]			= &g12a_vapb_0.hw,
->>   		[CLKID_VAPB_1_SEL]		= &g12a_vapb_1_sel.hw,
->> -		[CLKID_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->> +		[CLKID_PRIV_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->>   		[CLKID_VAPB_1]			= &g12a_vapb_1.hw,
->>   		[CLKID_VAPB_SEL]		= &g12a_vapb_sel.hw,
->>   		[CLKID_VAPB]			= &g12a_vapb.hw,
->> -		[CLKID_HDMI_PLL_DCO]		= &g12a_hdmi_pll_dco.hw,
->> -		[CLKID_HDMI_PLL_OD]		= &g12a_hdmi_pll_od.hw,
->> -		[CLKID_HDMI_PLL_OD2]		= &g12a_hdmi_pll_od2.hw,
->> +		[CLKID_PRIV_HDMI_PLL_DCO]	= &g12a_hdmi_pll_dco.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD]	= &g12a_hdmi_pll_od.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD2]	= &g12a_hdmi_pll_od2.hw,
->>   		[CLKID_HDMI_PLL]		= &g12a_hdmi_pll.hw,
->>   		[CLKID_VID_PLL]			= &g12a_vid_pll_div.hw,
->> -		[CLKID_VID_PLL_SEL]		= &g12a_vid_pll_sel.hw,
->> -		[CLKID_VID_PLL_DIV]		= &g12a_vid_pll.hw,
->> -		[CLKID_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> -		[CLKID_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> -		[CLKID_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> -		[CLKID_VCLK2_INPUT]		= &g12a_vclk2_input.hw,
->> -		[CLKID_VCLK_DIV]		= &g12a_vclk_div.hw,
->> -		[CLKID_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->> +		[CLKID_PRIV_VID_PLL_SEL]	= &g12a_vid_pll_sel.hw,
->> +		[CLKID_PRIV_VID_PLL_DIV]	= &g12a_vid_pll.hw,
->> +		[CLKID_PRIV_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> +		[CLKID_PRIV_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> +		[CLKID_PRIV_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> +		[CLKID_PRIV_VCLK2_INPUT]	= &g12a_vclk2_input.hw,
->> +		[CLKID_PRIV_VCLK_DIV]		= &g12a_vclk_div.hw,
->> +		[CLKID_PRIV_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->>   		[CLKID_VCLK]			= &g12a_vclk.hw,
->>   		[CLKID_VCLK2]			= &g12a_vclk2.hw,
->>   		[CLKID_VCLK_DIV1]		= &g12a_vclk_div1.hw,
->> -		[CLKID_VCLK_DIV2_EN]		= &g12a_vclk_div2_en.hw,
->> -		[CLKID_VCLK_DIV4_EN]		= &g12a_vclk_div4_en.hw,
->> -		[CLKID_VCLK_DIV6_EN]		= &g12a_vclk_div6_en.hw,
->> -		[CLKID_VCLK_DIV12_EN]		= &g12a_vclk_div12_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV2_EN]	= &g12a_vclk_div2_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV4_EN]	= &g12a_vclk_div4_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV6_EN]	= &g12a_vclk_div6_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV12_EN]	= &g12a_vclk_div12_en.hw,
->>   		[CLKID_VCLK2_DIV1]		= &g12a_vclk2_div1.hw,
->> -		[CLKID_VCLK2_DIV2_EN]		= &g12a_vclk2_div2_en.hw,
->> -		[CLKID_VCLK2_DIV4_EN]		= &g12a_vclk2_div4_en.hw,
->> -		[CLKID_VCLK2_DIV6_EN]		= &g12a_vclk2_div6_en.hw,
->> -		[CLKID_VCLK2_DIV12_EN]		= &g12a_vclk2_div12_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV2_EN]	= &g12a_vclk2_div2_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV4_EN]	= &g12a_vclk2_div4_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV6_EN]	= &g12a_vclk2_div6_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV12_EN]	= &g12a_vclk2_div12_en.hw,
->>   		[CLKID_VCLK_DIV2]		= &g12a_vclk_div2.hw,
->>   		[CLKID_VCLK_DIV4]		= &g12a_vclk_div4.hw,
->>   		[CLKID_VCLK_DIV6]		= &g12a_vclk_div6.hw,
->> @@ -4633,104 +4633,104 @@ static struct clk_hw_onecell_data g12b_hw_onecell_data = {
->>   		[CLKID_VCLK2_DIV4]		= &g12a_vclk2_div4.hw,
->>   		[CLKID_VCLK2_DIV6]		= &g12a_vclk2_div6.hw,
->>   		[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
->> -		[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
->> -		[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
->> -		[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
->> -		[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCI_SEL]	= &g12a_cts_enci_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCP_SEL]	= &g12a_cts_encp_sel.hw,
->> +		[CLKID_PRIV_CTS_VDAC_SEL]	= &g12a_cts_vdac_sel.hw,
->> +		[CLKID_PRIV_HDMI_TX_SEL]	= &g12a_hdmi_tx_sel.hw,
->>   		[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
->>   		[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
->>   		[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
->>   		[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
->> -		[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> -		[CLKID_HDMI_DIV]		= &g12a_hdmi_div.hw,
->> +		[CLKID_PRIV_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> +		[CLKID_PRIV_HDMI_DIV]		= &g12a_hdmi_div.hw,
->>   		[CLKID_HDMI]			= &g12a_hdmi.hw,
->>   		[CLKID_MALI_0_SEL]		= &g12a_mali_0_sel.hw,
->> -		[CLKID_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->> +		[CLKID_PRIV_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->>   		[CLKID_MALI_0]			= &g12a_mali_0.hw,
->>   		[CLKID_MALI_1_SEL]		= &g12a_mali_1_sel.hw,
->> -		[CLKID_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->> +		[CLKID_PRIV_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->>   		[CLKID_MALI_1]			= &g12a_mali_1.hw,
->>   		[CLKID_MALI]			= &g12a_mali.hw,
->> -		[CLKID_MPLL_50M_DIV]		= &g12a_mpll_50m_div.hw,
->> +		[CLKID_PRIV_MPLL_50M_DIV]	= &g12a_mpll_50m_div.hw,
->>   		[CLKID_MPLL_50M]		= &g12a_mpll_50m.hw,
->> -		[CLKID_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> -		[CLKID_SYS_PLL_DIV16]		= &g12a_sys_pll_div16.hw,
->> -		[CLKID_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> -		[CLKID_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> -		[CLKID_CPU_CLK_DYN0]		= &g12a_cpu_clk_postmux0.hw,
->> -		[CLKID_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> -		[CLKID_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> -		[CLKID_CPU_CLK_DYN1]		= &g12a_cpu_clk_postmux1.hw,
->> -		[CLKID_CPU_CLK_DYN]		= &g12a_cpu_clk_dyn.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16]	= &g12a_sys_pll_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0]	= &g12a_cpu_clk_postmux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1]	= &g12a_cpu_clk_postmux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN]	= &g12a_cpu_clk_dyn.hw,
->>   		[CLKID_CPU_CLK]			= &g12b_cpu_clk.hw,
->> -		[CLKID_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> -		[CLKID_CPU_CLK_DIV16]		= &g12a_cpu_clk_div16.hw,
->> -		[CLKID_CPU_CLK_APB_DIV]		= &g12a_cpu_clk_apb_div.hw,
->> -		[CLKID_CPU_CLK_APB]		= &g12a_cpu_clk_apb.hw,
->> -		[CLKID_CPU_CLK_ATB_DIV]		= &g12a_cpu_clk_atb_div.hw,
->> -		[CLKID_CPU_CLK_ATB]		= &g12a_cpu_clk_atb.hw,
->> -		[CLKID_CPU_CLK_AXI_DIV]		= &g12a_cpu_clk_axi_div.hw,
->> -		[CLKID_CPU_CLK_AXI]		= &g12a_cpu_clk_axi.hw,
->> -		[CLKID_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> -		[CLKID_CPU_CLK_TRACE]		= &g12a_cpu_clk_trace.hw,
->> -		[CLKID_PCIE_PLL_DCO]		= &g12a_pcie_pll_dco.hw,
->> -		[CLKID_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> -		[CLKID_PCIE_PLL_OD]		= &g12a_pcie_pll_od.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16]	= &g12a_cpu_clk_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB_DIV]	= &g12a_cpu_clk_apb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB]	= &g12a_cpu_clk_apb.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB_DIV]	= &g12a_cpu_clk_atb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB]	= &g12a_cpu_clk_atb.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI_DIV]	= &g12a_cpu_clk_axi_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI]	= &g12a_cpu_clk_axi.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE]	= &g12a_cpu_clk_trace.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO]	= &g12a_pcie_pll_dco.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> +		[CLKID_PRIV_PCIE_PLL_OD]	= &g12a_pcie_pll_od.hw,
->>   		[CLKID_PCIE_PLL]		= &g12a_pcie_pll.hw,
->> -		[CLKID_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> -		[CLKID_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->> +		[CLKID_PRIV_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> +		[CLKID_PRIV_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->>   		[CLKID_VDEC_1]			= &g12a_vdec_1.hw,
->> -		[CLKID_VDEC_HEVC_SEL]		= &g12a_vdec_hevc_sel.hw,
->> -		[CLKID_VDEC_HEVC_DIV]		= &g12a_vdec_hevc_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_SEL]	= &g12a_vdec_hevc_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_DIV]	= &g12a_vdec_hevc_div.hw,
->>   		[CLKID_VDEC_HEVC]		= &g12a_vdec_hevc.hw,
->> -		[CLKID_VDEC_HEVCF_SEL]		= &g12a_vdec_hevcf_sel.hw,
->> -		[CLKID_VDEC_HEVCF_DIV]		= &g12a_vdec_hevcf_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_SEL]	= &g12a_vdec_hevcf_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_DIV]	= &g12a_vdec_hevcf_div.hw,
->>   		[CLKID_VDEC_HEVCF]		= &g12a_vdec_hevcf.hw,
->> -		[CLKID_TS_DIV]			= &g12a_ts_div.hw,
->> +		[CLKID_PRIV_TS_DIV]		= &g12a_ts_div.hw,
->>   		[CLKID_TS]			= &g12a_ts.hw,
->> -		[CLKID_SYS1_PLL_DCO]		= &g12b_sys1_pll_dco.hw,
->> -		[CLKID_SYS1_PLL]		= &g12b_sys1_pll.hw,
->> -		[CLKID_SYS1_PLL_DIV16_EN]	= &g12b_sys1_pll_div16_en.hw,
->> -		[CLKID_SYS1_PLL_DIV16]		= &g12b_sys1_pll_div16.hw,
->> -		[CLKID_CPUB_CLK_DYN0_SEL]	= &g12b_cpub_clk_premux0.hw,
->> -		[CLKID_CPUB_CLK_DYN0_DIV]	= &g12b_cpub_clk_mux0_div.hw,
->> -		[CLKID_CPUB_CLK_DYN0]		= &g12b_cpub_clk_postmux0.hw,
->> -		[CLKID_CPUB_CLK_DYN1_SEL]	= &g12b_cpub_clk_premux1.hw,
->> -		[CLKID_CPUB_CLK_DYN1_DIV]	= &g12b_cpub_clk_mux1_div.hw,
->> -		[CLKID_CPUB_CLK_DYN1]		= &g12b_cpub_clk_postmux1.hw,
->> -		[CLKID_CPUB_CLK_DYN]		= &g12b_cpub_clk_dyn.hw,
->> +		[CLKID_PRIV_SYS1_PLL_DCO]	= &g12b_sys1_pll_dco.hw,
->> +		[CLKID_PRIV_SYS1_PLL]		= &g12b_sys1_pll.hw,
->> +		[CLKID_PRIV_SYS1_PLL_DIV16_EN]	= &g12b_sys1_pll_div16_en.hw,
->> +		[CLKID_PRIV_SYS1_PLL_DIV16]	= &g12b_sys1_pll_div16.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN0_SEL]	= &g12b_cpub_clk_premux0.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN0_DIV]	= &g12b_cpub_clk_mux0_div.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN0]	= &g12b_cpub_clk_postmux0.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN1_SEL]	= &g12b_cpub_clk_premux1.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN1_DIV]	= &g12b_cpub_clk_mux1_div.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN1]	= &g12b_cpub_clk_postmux1.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DYN]	= &g12b_cpub_clk_dyn.hw,
->>   		[CLKID_CPUB_CLK]		= &g12b_cpub_clk.hw,
->> -		[CLKID_CPUB_CLK_DIV16_EN]	= &g12b_cpub_clk_div16_en.hw,
->> -		[CLKID_CPUB_CLK_DIV16]		= &g12b_cpub_clk_div16.hw,
->> -		[CLKID_CPUB_CLK_DIV2]		= &g12b_cpub_clk_div2.hw,
->> -		[CLKID_CPUB_CLK_DIV3]		= &g12b_cpub_clk_div3.hw,
->> -		[CLKID_CPUB_CLK_DIV4]		= &g12b_cpub_clk_div4.hw,
->> -		[CLKID_CPUB_CLK_DIV5]		= &g12b_cpub_clk_div5.hw,
->> -		[CLKID_CPUB_CLK_DIV6]		= &g12b_cpub_clk_div6.hw,
->> -		[CLKID_CPUB_CLK_DIV7]		= &g12b_cpub_clk_div7.hw,
->> -		[CLKID_CPUB_CLK_DIV8]		= &g12b_cpub_clk_div8.hw,
->> -		[CLKID_CPUB_CLK_APB_SEL]	= &g12b_cpub_clk_apb_sel.hw,
->> -		[CLKID_CPUB_CLK_APB]		= &g12b_cpub_clk_apb.hw,
->> -		[CLKID_CPUB_CLK_ATB_SEL]	= &g12b_cpub_clk_atb_sel.hw,
->> -		[CLKID_CPUB_CLK_ATB]		= &g12b_cpub_clk_atb.hw,
->> -		[CLKID_CPUB_CLK_AXI_SEL]	= &g12b_cpub_clk_axi_sel.hw,
->> -		[CLKID_CPUB_CLK_AXI]		= &g12b_cpub_clk_axi.hw,
->> -		[CLKID_CPUB_CLK_TRACE_SEL]	= &g12b_cpub_clk_trace_sel.hw,
->> -		[CLKID_CPUB_CLK_TRACE]		= &g12b_cpub_clk_trace.hw,
->> -		[CLKID_SPICC0_SCLK_SEL]		= &g12a_spicc0_sclk_sel.hw,
->> -		[CLKID_SPICC0_SCLK_DIV]		= &g12a_spicc0_sclk_div.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV16_EN]	= &g12b_cpub_clk_div16_en.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV16]	= &g12b_cpub_clk_div16.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV2]	= &g12b_cpub_clk_div2.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV3]	= &g12b_cpub_clk_div3.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV4]	= &g12b_cpub_clk_div4.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV5]	= &g12b_cpub_clk_div5.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV6]	= &g12b_cpub_clk_div6.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV7]	= &g12b_cpub_clk_div7.hw,
->> +		[CLKID_PRIV_CPUB_CLK_DIV8]	= &g12b_cpub_clk_div8.hw,
->> +		[CLKID_PRIV_CPUB_CLK_APB_SEL]	= &g12b_cpub_clk_apb_sel.hw,
->> +		[CLKID_PRIV_CPUB_CLK_APB]	= &g12b_cpub_clk_apb.hw,
->> +		[CLKID_PRIV_CPUB_CLK_ATB_SEL]	= &g12b_cpub_clk_atb_sel.hw,
->> +		[CLKID_PRIV_CPUB_CLK_ATB]	= &g12b_cpub_clk_atb.hw,
->> +		[CLKID_PRIV_CPUB_CLK_AXI_SEL]	= &g12b_cpub_clk_axi_sel.hw,
->> +		[CLKID_PRIV_CPUB_CLK_AXI]	= &g12b_cpub_clk_axi.hw,
->> +		[CLKID_PRIV_CPUB_CLK_TRACE_SEL]	= &g12b_cpub_clk_trace_sel.hw,
->> +		[CLKID_PRIV_CPUB_CLK_TRACE]	= &g12b_cpub_clk_trace.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_SEL]	= &g12a_spicc0_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_DIV]	= &g12a_spicc0_sclk_div.hw,
->>   		[CLKID_SPICC0_SCLK]		= &g12a_spicc0_sclk.hw,
->> -		[CLKID_SPICC1_SCLK_SEL]		= &g12a_spicc1_sclk_sel.hw,
->> -		[CLKID_SPICC1_SCLK_DIV]		= &g12a_spicc1_sclk_div.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_SEL]	= &g12a_spicc1_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_DIV]	= &g12a_spicc1_sclk_div.hw,
->>   		[CLKID_SPICC1_SCLK]		= &g12a_spicc1_sclk.hw,
->> -		[CLKID_NNA_AXI_CLK_SEL]		= &sm1_nna_axi_clk_sel.hw,
->> -		[CLKID_NNA_AXI_CLK_DIV]		= &sm1_nna_axi_clk_div.hw,
->> +		[CLKID_PRIV_NNA_AXI_CLK_SEL]	= &sm1_nna_axi_clk_sel.hw,
->> +		[CLKID_PRIV_NNA_AXI_CLK_DIV]	= &sm1_nna_axi_clk_div.hw,
->>   		[CLKID_NNA_AXI_CLK]		= &sm1_nna_axi_clk.hw,
->> -		[CLKID_NNA_CORE_CLK_SEL]	= &sm1_nna_core_clk_sel.hw,
->> -		[CLKID_NNA_CORE_CLK_DIV]	= &sm1_nna_core_clk_div.hw,
->> +		[CLKID_PRIV_NNA_CORE_CLK_SEL]	= &sm1_nna_core_clk_sel.hw,
->> +		[CLKID_PRIV_NNA_CORE_CLK_DIV]	= &sm1_nna_core_clk_div.hw,
->>   		[CLKID_NNA_CORE_CLK]		= &sm1_nna_core_clk.hw,
->>   		[CLKID_MIPI_DSI_PXCLK_SEL]	= &g12a_mipi_dsi_pxclk_sel.hw,
->> -		[CLKID_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->> +		[CLKID_PRIV_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->>   		[CLKID_MIPI_DSI_PXCLK]		= &g12a_mipi_dsi_pxclk.hw,
->>   		[NR_CLKS]			= NULL,
->>   	},
->> @@ -4748,8 +4748,8 @@ static struct clk_hw_onecell_data sm1_hw_onecell_data = {
->>   		[CLKID_FCLK_DIV7]		= &g12a_fclk_div7.hw,
->>   		[CLKID_FCLK_DIV2P5]		= &g12a_fclk_div2p5.hw,
->>   		[CLKID_GP0_PLL]			= &g12a_gp0_pll.hw,
->> -		[CLKID_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> -		[CLKID_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->> +		[CLKID_PRIV_MPEG_SEL]		= &g12a_mpeg_clk_sel.hw,
->> +		[CLKID_PRIV_MPEG_DIV]		= &g12a_mpeg_clk_div.hw,
->>   		[CLKID_CLK81]			= &g12a_clk81.hw,
->>   		[CLKID_MPLL0]			= &g12a_mpll0.hw,
->>   		[CLKID_MPLL1]			= &g12a_mpll1.hw,
->> @@ -4800,25 +4800,25 @@ static struct clk_hw_onecell_data sm1_hw_onecell_data = {
->>   		[CLKID_UART2]			= &g12a_uart2.hw,
->>   		[CLKID_VPU_INTR]		= &g12a_vpu_intr.hw,
->>   		[CLKID_GIC]			= &g12a_gic.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_SEL]	= &g12a_sd_emmc_a_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_A_CLK0_DIV]	= &g12a_sd_emmc_a_clk0_div.hw,
->>   		[CLKID_SD_EMMC_A_CLK0]		= &g12a_sd_emmc_a_clk0.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_SEL]	= &g12a_sd_emmc_b_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_B_CLK0_DIV]	= &g12a_sd_emmc_b_clk0_div.hw,
->>   		[CLKID_SD_EMMC_B_CLK0]		= &g12a_sd_emmc_b_clk0.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> -		[CLKID_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_SEL]	= &g12a_sd_emmc_c_clk0_sel.hw,
->> +		[CLKID_PRIV_SD_EMMC_C_CLK0_DIV]	= &g12a_sd_emmc_c_clk0_div.hw,
->>   		[CLKID_SD_EMMC_C_CLK0]		= &g12a_sd_emmc_c_clk0.hw,
->> -		[CLKID_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> -		[CLKID_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> -		[CLKID_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> -		[CLKID_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> -		[CLKID_FCLK_DIV2_DIV]		= &g12a_fclk_div2_div.hw,
->> -		[CLKID_FCLK_DIV3_DIV]		= &g12a_fclk_div3_div.hw,
->> -		[CLKID_FCLK_DIV4_DIV]		= &g12a_fclk_div4_div.hw,
->> -		[CLKID_FCLK_DIV5_DIV]		= &g12a_fclk_div5_div.hw,
->> -		[CLKID_FCLK_DIV7_DIV]		= &g12a_fclk_div7_div.hw,
->> -		[CLKID_FCLK_DIV2P5_DIV]		= &g12a_fclk_div2p5_div.hw,
->> +		[CLKID_PRIV_MPLL0_DIV]		= &g12a_mpll0_div.hw,
->> +		[CLKID_PRIV_MPLL1_DIV]		= &g12a_mpll1_div.hw,
->> +		[CLKID_PRIV_MPLL2_DIV]		= &g12a_mpll2_div.hw,
->> +		[CLKID_PRIV_MPLL3_DIV]		= &g12a_mpll3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2_DIV]	= &g12a_fclk_div2_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV3_DIV]	= &g12a_fclk_div3_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV4_DIV]	= &g12a_fclk_div4_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV5_DIV]	= &g12a_fclk_div5_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV7_DIV]	= &g12a_fclk_div7_div.hw,
->> +		[CLKID_PRIV_FCLK_DIV2P5_DIV]	= &g12a_fclk_div2p5_div.hw,
->>   		[CLKID_HIFI_PLL]		= &g12a_hifi_pll.hw,
->>   		[CLKID_VCLK2_VENCI0]		= &g12a_vclk2_venci0.hw,
->>   		[CLKID_VCLK2_VENCI1]		= &g12a_vclk2_venci1.hw,
->> @@ -4839,56 +4839,56 @@ static struct clk_hw_onecell_data sm1_hw_onecell_data = {
->>   		[CLKID_VCLK2_VENCLMMC]		= &g12a_vclk2_venclmmc.hw,
->>   		[CLKID_VCLK2_VENCL]		= &g12a_vclk2_vencl.hw,
->>   		[CLKID_VCLK2_OTHER1]		= &g12a_vclk2_other1.hw,
->> -		[CLKID_FIXED_PLL_DCO]		= &g12a_fixed_pll_dco.hw,
->> -		[CLKID_SYS_PLL_DCO]		= &g12a_sys_pll_dco.hw,
->> -		[CLKID_GP0_PLL_DCO]		= &g12a_gp0_pll_dco.hw,
->> -		[CLKID_HIFI_PLL_DCO]		= &g12a_hifi_pll_dco.hw,
->> +		[CLKID_PRIV_FIXED_PLL_DCO]	= &g12a_fixed_pll_dco.hw,
->> +		[CLKID_PRIV_SYS_PLL_DCO]	= &g12a_sys_pll_dco.hw,
->> +		[CLKID_PRIV_GP0_PLL_DCO]	= &g12a_gp0_pll_dco.hw,
->> +		[CLKID_PRIV_HIFI_PLL_DCO]	= &g12a_hifi_pll_dco.hw,
->>   		[CLKID_DMA]			= &g12a_dma.hw,
->>   		[CLKID_EFUSE]			= &g12a_efuse.hw,
->>   		[CLKID_ROM_BOOT]		= &g12a_rom_boot.hw,
->>   		[CLKID_RESET_SEC]		= &g12a_reset_sec.hw,
->>   		[CLKID_SEC_AHB_APB3]		= &g12a_sec_ahb_apb3.hw,
->> -		[CLKID_MPLL_PREDIV]		= &g12a_mpll_prediv.hw,
->> +		[CLKID_PRIV_MPLL_PREDIV]	= &g12a_mpll_prediv.hw,
->>   		[CLKID_VPU_0_SEL]		= &g12a_vpu_0_sel.hw,
->> -		[CLKID_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->> +		[CLKID_PRIV_VPU_0_DIV]		= &g12a_vpu_0_div.hw,
->>   		[CLKID_VPU_0]			= &g12a_vpu_0.hw,
->>   		[CLKID_VPU_1_SEL]		= &g12a_vpu_1_sel.hw,
->> -		[CLKID_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->> +		[CLKID_PRIV_VPU_1_DIV]		= &g12a_vpu_1_div.hw,
->>   		[CLKID_VPU_1]			= &g12a_vpu_1.hw,
->>   		[CLKID_VPU]			= &g12a_vpu.hw,
->>   		[CLKID_VAPB_0_SEL]		= &g12a_vapb_0_sel.hw,
->> -		[CLKID_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->> +		[CLKID_PRIV_VAPB_0_DIV]		= &g12a_vapb_0_div.hw,
->>   		[CLKID_VAPB_0]			= &g12a_vapb_0.hw,
->>   		[CLKID_VAPB_1_SEL]		= &g12a_vapb_1_sel.hw,
->> -		[CLKID_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->> +		[CLKID_PRIV_VAPB_1_DIV]		= &g12a_vapb_1_div.hw,
->>   		[CLKID_VAPB_1]			= &g12a_vapb_1.hw,
->>   		[CLKID_VAPB_SEL]		= &g12a_vapb_sel.hw,
->>   		[CLKID_VAPB]			= &g12a_vapb.hw,
->> -		[CLKID_HDMI_PLL_DCO]		= &g12a_hdmi_pll_dco.hw,
->> -		[CLKID_HDMI_PLL_OD]		= &g12a_hdmi_pll_od.hw,
->> -		[CLKID_HDMI_PLL_OD2]		= &g12a_hdmi_pll_od2.hw,
->> +		[CLKID_PRIV_HDMI_PLL_DCO]	= &g12a_hdmi_pll_dco.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD]	= &g12a_hdmi_pll_od.hw,
->> +		[CLKID_PRIV_HDMI_PLL_OD2]	= &g12a_hdmi_pll_od2.hw,
->>   		[CLKID_HDMI_PLL]		= &g12a_hdmi_pll.hw,
->>   		[CLKID_VID_PLL]			= &g12a_vid_pll_div.hw,
->> -		[CLKID_VID_PLL_SEL]		= &g12a_vid_pll_sel.hw,
->> -		[CLKID_VID_PLL_DIV]		= &g12a_vid_pll.hw,
->> -		[CLKID_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> -		[CLKID_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> -		[CLKID_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> -		[CLKID_VCLK2_INPUT]		= &g12a_vclk2_input.hw,
->> -		[CLKID_VCLK_DIV]		= &g12a_vclk_div.hw,
->> -		[CLKID_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->> +		[CLKID_PRIV_VID_PLL_SEL]	= &g12a_vid_pll_sel.hw,
->> +		[CLKID_PRIV_VID_PLL_DIV]	= &g12a_vid_pll.hw,
->> +		[CLKID_PRIV_VCLK_SEL]		= &g12a_vclk_sel.hw,
->> +		[CLKID_PRIV_VCLK2_SEL]		= &g12a_vclk2_sel.hw,
->> +		[CLKID_PRIV_VCLK_INPUT]		= &g12a_vclk_input.hw,
->> +		[CLKID_PRIV_VCLK2_INPUT]	= &g12a_vclk2_input.hw,
->> +		[CLKID_PRIV_VCLK_DIV]		= &g12a_vclk_div.hw,
->> +		[CLKID_PRIV_VCLK2_DIV]		= &g12a_vclk2_div.hw,
->>   		[CLKID_VCLK]			= &g12a_vclk.hw,
->>   		[CLKID_VCLK2]			= &g12a_vclk2.hw,
->>   		[CLKID_VCLK_DIV1]		= &g12a_vclk_div1.hw,
->> -		[CLKID_VCLK_DIV2_EN]		= &g12a_vclk_div2_en.hw,
->> -		[CLKID_VCLK_DIV4_EN]		= &g12a_vclk_div4_en.hw,
->> -		[CLKID_VCLK_DIV6_EN]		= &g12a_vclk_div6_en.hw,
->> -		[CLKID_VCLK_DIV12_EN]		= &g12a_vclk_div12_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV2_EN]	= &g12a_vclk_div2_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV4_EN]	= &g12a_vclk_div4_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV6_EN]	= &g12a_vclk_div6_en.hw,
->> +		[CLKID_PRIV_VCLK_DIV12_EN]	= &g12a_vclk_div12_en.hw,
->>   		[CLKID_VCLK2_DIV1]		= &g12a_vclk2_div1.hw,
->> -		[CLKID_VCLK2_DIV2_EN]		= &g12a_vclk2_div2_en.hw,
->> -		[CLKID_VCLK2_DIV4_EN]		= &g12a_vclk2_div4_en.hw,
->> -		[CLKID_VCLK2_DIV6_EN]		= &g12a_vclk2_div6_en.hw,
->> -		[CLKID_VCLK2_DIV12_EN]		= &g12a_vclk2_div12_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV2_EN]	= &g12a_vclk2_div2_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV4_EN]	= &g12a_vclk2_div4_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV6_EN]	= &g12a_vclk2_div6_en.hw,
->> +		[CLKID_PRIV_VCLK2_DIV12_EN]	= &g12a_vclk2_div12_en.hw,
->>   		[CLKID_VCLK_DIV2]		= &g12a_vclk_div2.hw,
->>   		[CLKID_VCLK_DIV4]		= &g12a_vclk_div4.hw,
->>   		[CLKID_VCLK_DIV6]		= &g12a_vclk_div6.hw,
->> @@ -4897,89 +4897,89 @@ static struct clk_hw_onecell_data sm1_hw_onecell_data = {
->>   		[CLKID_VCLK2_DIV4]		= &g12a_vclk2_div4.hw,
->>   		[CLKID_VCLK2_DIV6]		= &g12a_vclk2_div6.hw,
->>   		[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
->> -		[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
->> -		[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
->> -		[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
->> -		[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCI_SEL]	= &g12a_cts_enci_sel.hw,
->> +		[CLKID_PRIV_CTS_ENCP_SEL]	= &g12a_cts_encp_sel.hw,
->> +		[CLKID_PRIV_CTS_VDAC_SEL]	= &g12a_cts_vdac_sel.hw,
->> +		[CLKID_PRIV_HDMI_TX_SEL]	= &g12a_hdmi_tx_sel.hw,
->>   		[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
->>   		[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
->>   		[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
->>   		[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
->> -		[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> -		[CLKID_HDMI_DIV]		= &g12a_hdmi_div.hw,
->> +		[CLKID_PRIV_HDMI_SEL]		= &g12a_hdmi_sel.hw,
->> +		[CLKID_PRIV_HDMI_DIV]		= &g12a_hdmi_div.hw,
->>   		[CLKID_HDMI]			= &g12a_hdmi.hw,
->>   		[CLKID_MALI_0_SEL]		= &g12a_mali_0_sel.hw,
->> -		[CLKID_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->> +		[CLKID_PRIV_MALI_0_DIV]		= &g12a_mali_0_div.hw,
->>   		[CLKID_MALI_0]			= &g12a_mali_0.hw,
->>   		[CLKID_MALI_1_SEL]		= &g12a_mali_1_sel.hw,
->> -		[CLKID_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->> +		[CLKID_PRIV_MALI_1_DIV]		= &g12a_mali_1_div.hw,
->>   		[CLKID_MALI_1]			= &g12a_mali_1.hw,
->>   		[CLKID_MALI]			= &g12a_mali.hw,
->> -		[CLKID_MPLL_50M_DIV]		= &g12a_mpll_50m_div.hw,
->> +		[CLKID_PRIV_MPLL_50M_DIV]	= &g12a_mpll_50m_div.hw,
->>   		[CLKID_MPLL_50M]		= &g12a_mpll_50m.hw,
->> -		[CLKID_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> -		[CLKID_SYS_PLL_DIV16]		= &g12a_sys_pll_div16.hw,
->> -		[CLKID_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> -		[CLKID_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> -		[CLKID_CPU_CLK_DYN0]		= &g12a_cpu_clk_postmux0.hw,
->> -		[CLKID_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> -		[CLKID_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> -		[CLKID_CPU_CLK_DYN1]		= &g12a_cpu_clk_postmux1.hw,
->> -		[CLKID_CPU_CLK_DYN]		= &g12a_cpu_clk_dyn.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16_EN]	= &g12a_sys_pll_div16_en.hw,
->> +		[CLKID_PRIV_SYS_PLL_DIV16]	= &g12a_sys_pll_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_SEL]	= &g12a_cpu_clk_premux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0_DIV]	= &g12a_cpu_clk_mux0_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN0]	= &g12a_cpu_clk_postmux0.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_SEL]	= &g12a_cpu_clk_premux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1_DIV]	= &g12a_cpu_clk_mux1_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN1]	= &g12a_cpu_clk_postmux1.hw,
->> +		[CLKID_PRIV_CPU_CLK_DYN]	= &g12a_cpu_clk_dyn.hw,
->>   		[CLKID_CPU_CLK]			= &g12a_cpu_clk.hw,
->> -		[CLKID_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> -		[CLKID_CPU_CLK_DIV16]		= &g12a_cpu_clk_div16.hw,
->> -		[CLKID_CPU_CLK_APB_DIV]		= &g12a_cpu_clk_apb_div.hw,
->> -		[CLKID_CPU_CLK_APB]		= &g12a_cpu_clk_apb.hw,
->> -		[CLKID_CPU_CLK_ATB_DIV]		= &g12a_cpu_clk_atb_div.hw,
->> -		[CLKID_CPU_CLK_ATB]		= &g12a_cpu_clk_atb.hw,
->> -		[CLKID_CPU_CLK_AXI_DIV]		= &g12a_cpu_clk_axi_div.hw,
->> -		[CLKID_CPU_CLK_AXI]		= &g12a_cpu_clk_axi.hw,
->> -		[CLKID_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> -		[CLKID_CPU_CLK_TRACE]		= &g12a_cpu_clk_trace.hw,
->> -		[CLKID_PCIE_PLL_DCO]		= &g12a_pcie_pll_dco.hw,
->> -		[CLKID_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> -		[CLKID_PCIE_PLL_OD]		= &g12a_pcie_pll_od.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16_EN]	= &g12a_cpu_clk_div16_en.hw,
->> +		[CLKID_PRIV_CPU_CLK_DIV16]	= &g12a_cpu_clk_div16.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB_DIV]	= &g12a_cpu_clk_apb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_APB]	= &g12a_cpu_clk_apb.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB_DIV]	= &g12a_cpu_clk_atb_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_ATB]	= &g12a_cpu_clk_atb.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI_DIV]	= &g12a_cpu_clk_axi_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_AXI]	= &g12a_cpu_clk_axi.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE_DIV]	= &g12a_cpu_clk_trace_div.hw,
->> +		[CLKID_PRIV_CPU_CLK_TRACE]	= &g12a_cpu_clk_trace.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO]	= &g12a_pcie_pll_dco.hw,
->> +		[CLKID_PRIV_PCIE_PLL_DCO_DIV2]	= &g12a_pcie_pll_dco_div2.hw,
->> +		[CLKID_PRIV_PCIE_PLL_OD]	= &g12a_pcie_pll_od.hw,
->>   		[CLKID_PCIE_PLL]		= &g12a_pcie_pll.hw,
->> -		[CLKID_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> -		[CLKID_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->> +		[CLKID_PRIV_VDEC_1_SEL]		= &g12a_vdec_1_sel.hw,
->> +		[CLKID_PRIV_VDEC_1_DIV]		= &g12a_vdec_1_div.hw,
->>   		[CLKID_VDEC_1]			= &g12a_vdec_1.hw,
->> -		[CLKID_VDEC_HEVC_SEL]		= &g12a_vdec_hevc_sel.hw,
->> -		[CLKID_VDEC_HEVC_DIV]		= &g12a_vdec_hevc_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_SEL]	= &g12a_vdec_hevc_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVC_DIV]	= &g12a_vdec_hevc_div.hw,
->>   		[CLKID_VDEC_HEVC]		= &g12a_vdec_hevc.hw,
->> -		[CLKID_VDEC_HEVCF_SEL]		= &g12a_vdec_hevcf_sel.hw,
->> -		[CLKID_VDEC_HEVCF_DIV]		= &g12a_vdec_hevcf_div.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_SEL]	= &g12a_vdec_hevcf_sel.hw,
->> +		[CLKID_PRIV_VDEC_HEVCF_DIV]	= &g12a_vdec_hevcf_div.hw,
->>   		[CLKID_VDEC_HEVCF]		= &g12a_vdec_hevcf.hw,
->> -		[CLKID_TS_DIV]			= &g12a_ts_div.hw,
->> +		[CLKID_PRIV_TS_DIV]		= &g12a_ts_div.hw,
->>   		[CLKID_TS]			= &g12a_ts.hw,
->> -		[CLKID_GP1_PLL_DCO]		= &sm1_gp1_pll_dco.hw,
->> +		[CLKID_PRIV_GP1_PLL_DCO]	= &sm1_gp1_pll_dco.hw,
->>   		[CLKID_GP1_PLL]			= &sm1_gp1_pll.hw,
->> -		[CLKID_DSU_CLK_DYN0_SEL]	= &sm1_dsu_clk_premux0.hw,
->> -		[CLKID_DSU_CLK_DYN0_DIV]	= &sm1_dsu_clk_premux1.hw,
->> -		[CLKID_DSU_CLK_DYN0]		= &sm1_dsu_clk_mux0_div.hw,
->> -		[CLKID_DSU_CLK_DYN1_SEL]	= &sm1_dsu_clk_postmux0.hw,
->> -		[CLKID_DSU_CLK_DYN1_DIV]	= &sm1_dsu_clk_mux1_div.hw,
->> -		[CLKID_DSU_CLK_DYN1]		= &sm1_dsu_clk_postmux1.hw,
->> -		[CLKID_DSU_CLK_DYN]		= &sm1_dsu_clk_dyn.hw,
->> -		[CLKID_DSU_CLK_FINAL]		= &sm1_dsu_final_clk.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN0_SEL]	= &sm1_dsu_clk_premux0.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN0_DIV]	= &sm1_dsu_clk_premux1.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN0]	= &sm1_dsu_clk_mux0_div.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN1_SEL]	= &sm1_dsu_clk_postmux0.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN1_DIV]	= &sm1_dsu_clk_mux1_div.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN1]	= &sm1_dsu_clk_postmux1.hw,
->> +		[CLKID_PRIV_DSU_CLK_DYN]	= &sm1_dsu_clk_dyn.hw,
->> +		[CLKID_PRIV_DSU_CLK_FINAL]	= &sm1_dsu_final_clk.hw,
->>   		[CLKID_DSU_CLK]			= &sm1_dsu_clk.hw,
->>   		[CLKID_CPU1_CLK]		= &sm1_cpu1_clk.hw,
->>   		[CLKID_CPU2_CLK]		= &sm1_cpu2_clk.hw,
->>   		[CLKID_CPU3_CLK]		= &sm1_cpu3_clk.hw,
->> -		[CLKID_SPICC0_SCLK_SEL]		= &g12a_spicc0_sclk_sel.hw,
->> -		[CLKID_SPICC0_SCLK_DIV]		= &g12a_spicc0_sclk_div.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_SEL]	= &g12a_spicc0_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC0_SCLK_DIV]	= &g12a_spicc0_sclk_div.hw,
->>   		[CLKID_SPICC0_SCLK]		= &g12a_spicc0_sclk.hw,
->> -		[CLKID_SPICC1_SCLK_SEL]		= &g12a_spicc1_sclk_sel.hw,
->> -		[CLKID_SPICC1_SCLK_DIV]		= &g12a_spicc1_sclk_div.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_SEL]	= &g12a_spicc1_sclk_sel.hw,
->> +		[CLKID_PRIV_SPICC1_SCLK_DIV]	= &g12a_spicc1_sclk_div.hw,
->>   		[CLKID_SPICC1_SCLK]		= &g12a_spicc1_sclk.hw,
->> -		[CLKID_NNA_AXI_CLK_SEL]		= &sm1_nna_axi_clk_sel.hw,
->> -		[CLKID_NNA_AXI_CLK_DIV]		= &sm1_nna_axi_clk_div.hw,
->> +		[CLKID_PRIV_NNA_AXI_CLK_SEL]	= &sm1_nna_axi_clk_sel.hw,
->> +		[CLKID_PRIV_NNA_AXI_CLK_DIV]	= &sm1_nna_axi_clk_div.hw,
->>   		[CLKID_NNA_AXI_CLK]		= &sm1_nna_axi_clk.hw,
->> -		[CLKID_NNA_CORE_CLK_SEL]	= &sm1_nna_core_clk_sel.hw,
->> -		[CLKID_NNA_CORE_CLK_DIV]	= &sm1_nna_core_clk_div.hw,
->> +		[CLKID_PRIV_NNA_CORE_CLK_SEL]	= &sm1_nna_core_clk_sel.hw,
->> +		[CLKID_PRIV_NNA_CORE_CLK_DIV]	= &sm1_nna_core_clk_div.hw,
->>   		[CLKID_NNA_CORE_CLK]		= &sm1_nna_core_clk.hw,
->>   		[CLKID_MIPI_DSI_PXCLK_SEL]	= &g12a_mipi_dsi_pxclk_sel.hw,
->> -		[CLKID_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->> +		[CLKID_PRIV_MIPI_DSI_PXCLK_DIV]	= &g12a_mipi_dsi_pxclk_div.hw,
->>   		[CLKID_MIPI_DSI_PXCLK]		= &g12a_mipi_dsi_pxclk.hw,
->>   		[NR_CLKS]			= NULL,
->>   	},
->> @@ -5246,7 +5246,7 @@ static int meson_g12a_dvfs_setup_common(struct device *dev,
->>   	struct clk_hw *xtal;
->>   	int ret;
->>   
->> -	xtal = clk_hw_get_parent_by_index(hws[CLKID_CPU_CLK_DYN1_SEL], 0);
->> +	xtal = clk_hw_get_parent_by_index(hws[CLKID_PRIV_CPU_CLK_DYN1_SEL], 0);
->>   
->>   	/* Setup clock notifier for cpu_clk_postmux0 */
->>   	g12a_cpu_clk_postmux0_nb_data.xtal = xtal;
->> @@ -5284,7 +5284,7 @@ static int meson_g12b_dvfs_setup(struct platform_device *pdev)
->>   	if (ret)
->>   		return ret;
->>   
->> -	xtal = clk_hw_get_parent_by_index(hws[CLKID_CPU_CLK_DYN1_SEL], 0);
->> +	xtal = clk_hw_get_parent_by_index(hws[CLKID_PRIV_CPU_CLK_DYN1_SEL], 0);
->>   
->>   	/* Setup clock notifier for cpu_clk mux */
->>   	notifier_clk = devm_clk_hw_get_clk(dev, &g12b_cpu_clk.hw,
->> diff --git a/drivers/clk/meson/g12a.h b/drivers/clk/meson/g12a.h
->> index a97613df38b3..a57f4a9717db 100644
->> --- a/drivers/clk/meson/g12a.h
->> +++ b/drivers/clk/meson/g12a.h
->> @@ -135,136 +135,136 @@
->>    * to expose, such as the internal muxes and dividers of composite clocks,
->>    * will remain defined here.
->>    */
->> -#define CLKID_MPEG_SEL				8
->> -#define CLKID_MPEG_DIV				9
->> -#define CLKID_SD_EMMC_A_CLK0_SEL		63
->> -#define CLKID_SD_EMMC_A_CLK0_DIV		64
->> -#define CLKID_SD_EMMC_B_CLK0_SEL		65
->> -#define CLKID_SD_EMMC_B_CLK0_DIV		66
->> -#define CLKID_SD_EMMC_C_CLK0_SEL		67
->> -#define CLKID_SD_EMMC_C_CLK0_DIV		68
->> -#define CLKID_MPLL0_DIV				69
->> -#define CLKID_MPLL1_DIV				70
->> -#define CLKID_MPLL2_DIV				71
->> -#define CLKID_MPLL3_DIV				72
->> -#define CLKID_MPLL_PREDIV			73
->> -#define CLKID_FCLK_DIV2_DIV			75
->> -#define CLKID_FCLK_DIV3_DIV			76
->> -#define CLKID_FCLK_DIV4_DIV			77
->> -#define CLKID_FCLK_DIV5_DIV			78
->> -#define CLKID_FCLK_DIV7_DIV			79
->> -#define CLKID_FCLK_DIV2P5_DIV			100
->> -#define CLKID_FIXED_PLL_DCO			101
->> -#define CLKID_SYS_PLL_DCO			102
->> -#define CLKID_GP0_PLL_DCO			103
->> -#define CLKID_HIFI_PLL_DCO			104
->> -#define CLKID_VPU_0_DIV				111
->> -#define CLKID_VPU_1_DIV				114
->> -#define CLKID_VAPB_0_DIV			118
->> -#define CLKID_VAPB_1_DIV			121
->> -#define CLKID_HDMI_PLL_DCO			125
->> -#define CLKID_HDMI_PLL_OD			126
->> -#define CLKID_HDMI_PLL_OD2			127
->> -#define CLKID_VID_PLL_SEL			130
->> -#define CLKID_VID_PLL_DIV			131
->> -#define CLKID_VCLK_SEL				132
->> -#define CLKID_VCLK2_SEL				133
->> -#define CLKID_VCLK_INPUT			134
->> -#define CLKID_VCLK2_INPUT			135
->> -#define CLKID_VCLK_DIV				136
->> -#define CLKID_VCLK2_DIV				137
->> -#define CLKID_VCLK_DIV2_EN			140
->> -#define CLKID_VCLK_DIV4_EN			141
->> -#define CLKID_VCLK_DIV6_EN			142
->> -#define CLKID_VCLK_DIV12_EN			143
->> -#define CLKID_VCLK2_DIV2_EN			144
->> -#define CLKID_VCLK2_DIV4_EN			145
->> -#define CLKID_VCLK2_DIV6_EN			146
->> -#define CLKID_VCLK2_DIV12_EN			147
->> -#define CLKID_CTS_ENCI_SEL			158
->> -#define CLKID_CTS_ENCP_SEL			159
->> -#define CLKID_CTS_VDAC_SEL			160
->> -#define CLKID_HDMI_TX_SEL			161
->> -#define CLKID_HDMI_SEL				166
->> -#define CLKID_HDMI_DIV				167
->> -#define CLKID_MALI_0_DIV			170
->> -#define CLKID_MALI_1_DIV			173
->> -#define CLKID_MPLL_50M_DIV			176
->> -#define CLKID_SYS_PLL_DIV16_EN			178
->> -#define CLKID_SYS_PLL_DIV16			179
->> -#define CLKID_CPU_CLK_DYN0_SEL			180
->> -#define CLKID_CPU_CLK_DYN0_DIV			181
->> -#define CLKID_CPU_CLK_DYN0			182
->> -#define CLKID_CPU_CLK_DYN1_SEL			183
->> -#define CLKID_CPU_CLK_DYN1_DIV			184
->> -#define CLKID_CPU_CLK_DYN1			185
->> -#define CLKID_CPU_CLK_DYN			186
->> -#define CLKID_CPU_CLK_DIV16_EN			188
->> -#define CLKID_CPU_CLK_DIV16			189
->> -#define CLKID_CPU_CLK_APB_DIV			190
->> -#define CLKID_CPU_CLK_APB			191
->> -#define CLKID_CPU_CLK_ATB_DIV			192
->> -#define CLKID_CPU_CLK_ATB			193
->> -#define CLKID_CPU_CLK_AXI_DIV			194
->> -#define CLKID_CPU_CLK_AXI			195
->> -#define CLKID_CPU_CLK_TRACE_DIV			196
->> -#define CLKID_CPU_CLK_TRACE			197
->> -#define CLKID_PCIE_PLL_DCO			198
->> -#define CLKID_PCIE_PLL_DCO_DIV2			199
->> -#define CLKID_PCIE_PLL_OD			200
->> -#define CLKID_VDEC_1_SEL			202
->> -#define CLKID_VDEC_1_DIV			203
->> -#define CLKID_VDEC_HEVC_SEL			205
->> -#define CLKID_VDEC_HEVC_DIV			206
->> -#define CLKID_VDEC_HEVCF_SEL			208
->> -#define CLKID_VDEC_HEVCF_DIV			209
->> -#define CLKID_TS_DIV				211
->> -#define CLKID_SYS1_PLL_DCO			213
->> -#define CLKID_SYS1_PLL				214
->> -#define CLKID_SYS1_PLL_DIV16_EN			215
->> -#define CLKID_SYS1_PLL_DIV16			216
->> -#define CLKID_CPUB_CLK_DYN0_SEL			217
->> -#define CLKID_CPUB_CLK_DYN0_DIV			218
->> -#define CLKID_CPUB_CLK_DYN0			219
->> -#define CLKID_CPUB_CLK_DYN1_SEL			220
->> -#define CLKID_CPUB_CLK_DYN1_DIV			221
->> -#define CLKID_CPUB_CLK_DYN1			222
->> -#define CLKID_CPUB_CLK_DYN			223
->> -#define CLKID_CPUB_CLK_DIV16_EN			225
->> -#define CLKID_CPUB_CLK_DIV16			226
->> -#define CLKID_CPUB_CLK_DIV2			227
->> -#define CLKID_CPUB_CLK_DIV3			228
->> -#define CLKID_CPUB_CLK_DIV4			229
->> -#define CLKID_CPUB_CLK_DIV5			230
->> -#define CLKID_CPUB_CLK_DIV6			231
->> -#define CLKID_CPUB_CLK_DIV7			232
->> -#define CLKID_CPUB_CLK_DIV8			233
->> -#define CLKID_CPUB_CLK_APB_SEL			234
->> -#define CLKID_CPUB_CLK_APB			235
->> -#define CLKID_CPUB_CLK_ATB_SEL			236
->> -#define CLKID_CPUB_CLK_ATB			237
->> -#define CLKID_CPUB_CLK_AXI_SEL			238
->> -#define CLKID_CPUB_CLK_AXI			239
->> -#define CLKID_CPUB_CLK_TRACE_SEL		240
->> -#define CLKID_CPUB_CLK_TRACE			241
->> -#define CLKID_GP1_PLL_DCO			242
->> -#define CLKID_DSU_CLK_DYN0_SEL			244
->> -#define CLKID_DSU_CLK_DYN0_DIV			245
->> -#define CLKID_DSU_CLK_DYN0			246
->> -#define CLKID_DSU_CLK_DYN1_SEL			247
->> -#define CLKID_DSU_CLK_DYN1_DIV			248
->> -#define CLKID_DSU_CLK_DYN1			249
->> -#define CLKID_DSU_CLK_DYN			250
->> -#define CLKID_DSU_CLK_FINAL			251
->> -#define CLKID_SPICC0_SCLK_SEL			256
->> -#define CLKID_SPICC0_SCLK_DIV			257
->> -#define CLKID_SPICC1_SCLK_SEL			259
->> -#define CLKID_SPICC1_SCLK_DIV			260
->> -#define CLKID_NNA_AXI_CLK_SEL			262
->> -#define CLKID_NNA_AXI_CLK_DIV			263
->> -#define CLKID_NNA_CORE_CLK_SEL			265
->> -#define CLKID_NNA_CORE_CLK_DIV			266
->> -#define CLKID_MIPI_DSI_PXCLK_DIV		268
->> +#define CLKID_PRIV_MPEG_SEL			8
->> +#define CLKID_PRIV_MPEG_DIV			9
->> +#define CLKID_PRIV_SD_EMMC_A_CLK0_SEL		63
->> +#define CLKID_PRIV_SD_EMMC_A_CLK0_DIV		64
->> +#define CLKID_PRIV_SD_EMMC_B_CLK0_SEL		65
->> +#define CLKID_PRIV_SD_EMMC_B_CLK0_DIV		66
->> +#define CLKID_PRIV_SD_EMMC_C_CLK0_SEL		67
->> +#define CLKID_PRIV_SD_EMMC_C_CLK0_DIV		68
->> +#define CLKID_PRIV_MPLL0_DIV			69
->> +#define CLKID_PRIV_MPLL1_DIV			70
->> +#define CLKID_PRIV_MPLL2_DIV			71
->> +#define CLKID_PRIV_MPLL3_DIV			72
->> +#define CLKID_PRIV_MPLL_PREDIV			73
->> +#define CLKID_PRIV_FCLK_DIV2_DIV		75
->> +#define CLKID_PRIV_FCLK_DIV3_DIV		76
->> +#define CLKID_PRIV_FCLK_DIV4_DIV		77
->> +#define CLKID_PRIV_FCLK_DIV5_DIV		78
->> +#define CLKID_PRIV_FCLK_DIV7_DIV		79
->> +#define CLKID_PRIV_FCLK_DIV2P5_DIV		100
->> +#define CLKID_PRIV_FIXED_PLL_DCO		101
->> +#define CLKID_PRIV_SYS_PLL_DCO			102
->> +#define CLKID_PRIV_GP0_PLL_DCO			103
->> +#define CLKID_PRIV_HIFI_PLL_DCO			104
->> +#define CLKID_PRIV_VPU_0_DIV			111
->> +#define CLKID_PRIV_VPU_1_DIV			114
->> +#define CLKID_PRIV_VAPB_0_DIV			118
->> +#define CLKID_PRIV_VAPB_1_DIV			121
->> +#define CLKID_PRIV_HDMI_PLL_DCO			125
->> +#define CLKID_PRIV_HDMI_PLL_OD			126
->> +#define CLKID_PRIV_HDMI_PLL_OD2			127
->> +#define CLKID_PRIV_VID_PLL_SEL			130
->> +#define CLKID_PRIV_VID_PLL_DIV			131
->> +#define CLKID_PRIV_VCLK_SEL			132
->> +#define CLKID_PRIV_VCLK2_SEL			133
->> +#define CLKID_PRIV_VCLK_INPUT			134
->> +#define CLKID_PRIV_VCLK2_INPUT			135
->> +#define CLKID_PRIV_VCLK_DIV			136
->> +#define CLKID_PRIV_VCLK2_DIV			137
->> +#define CLKID_PRIV_VCLK_DIV2_EN			140
->> +#define CLKID_PRIV_VCLK_DIV4_EN			141
->> +#define CLKID_PRIV_VCLK_DIV6_EN			142
->> +#define CLKID_PRIV_VCLK_DIV12_EN		143
->> +#define CLKID_PRIV_VCLK2_DIV2_EN		144
->> +#define CLKID_PRIV_VCLK2_DIV4_EN		145
->> +#define CLKID_PRIV_VCLK2_DIV6_EN		146
->> +#define CLKID_PRIV_VCLK2_DIV12_EN		147
->> +#define CLKID_PRIV_CTS_ENCI_SEL			158
->> +#define CLKID_PRIV_CTS_ENCP_SEL			159
->> +#define CLKID_PRIV_CTS_VDAC_SEL			160
->> +#define CLKID_PRIV_HDMI_TX_SEL			161
->> +#define CLKID_PRIV_HDMI_SEL			166
->> +#define CLKID_PRIV_HDMI_DIV			167
->> +#define CLKID_PRIV_MALI_0_DIV			170
->> +#define CLKID_PRIV_MALI_1_DIV			173
->> +#define CLKID_PRIV_MPLL_50M_DIV			176
->> +#define CLKID_PRIV_SYS_PLL_DIV16_EN		178
->> +#define CLKID_PRIV_SYS_PLL_DIV16		179
->> +#define CLKID_PRIV_CPU_CLK_DYN0_SEL		180
->> +#define CLKID_PRIV_CPU_CLK_DYN0_DIV		181
->> +#define CLKID_PRIV_CPU_CLK_DYN0			182
->> +#define CLKID_PRIV_CPU_CLK_DYN1_SEL		183
->> +#define CLKID_PRIV_CPU_CLK_DYN1_DIV		184
->> +#define CLKID_PRIV_CPU_CLK_DYN1			185
->> +#define CLKID_PRIV_CPU_CLK_DYN			186
->> +#define CLKID_PRIV_CPU_CLK_DIV16_EN		188
->> +#define CLKID_PRIV_CPU_CLK_DIV16		189
->> +#define CLKID_PRIV_CPU_CLK_APB_DIV		190
->> +#define CLKID_PRIV_CPU_CLK_APB			191
->> +#define CLKID_PRIV_CPU_CLK_ATB_DIV		192
->> +#define CLKID_PRIV_CPU_CLK_ATB			193
->> +#define CLKID_PRIV_CPU_CLK_AXI_DIV		194
->> +#define CLKID_PRIV_CPU_CLK_AXI			195
->> +#define CLKID_PRIV_CPU_CLK_TRACE_DIV		196
->> +#define CLKID_PRIV_CPU_CLK_TRACE		197
->> +#define CLKID_PRIV_PCIE_PLL_DCO			198
->> +#define CLKID_PRIV_PCIE_PLL_DCO_DIV2		199
->> +#define CLKID_PRIV_PCIE_PLL_OD			200
->> +#define CLKID_PRIV_VDEC_1_SEL			202
->> +#define CLKID_PRIV_VDEC_1_DIV			203
->> +#define CLKID_PRIV_VDEC_HEVC_SEL		205
->> +#define CLKID_PRIV_VDEC_HEVC_DIV		206
->> +#define CLKID_PRIV_VDEC_HEVCF_SEL		208
->> +#define CLKID_PRIV_VDEC_HEVCF_DIV		209
->> +#define CLKID_PRIV_TS_DIV			211
->> +#define CLKID_PRIV_SYS1_PLL_DCO			213
->> +#define CLKID_PRIV_SYS1_PLL			214
->> +#define CLKID_PRIV_SYS1_PLL_DIV16_EN		215
->> +#define CLKID_PRIV_SYS1_PLL_DIV16		216
->> +#define CLKID_PRIV_CPUB_CLK_DYN0_SEL		217
->> +#define CLKID_PRIV_CPUB_CLK_DYN0_DIV		218
->> +#define CLKID_PRIV_CPUB_CLK_DYN0		219
->> +#define CLKID_PRIV_CPUB_CLK_DYN1_SEL		220
->> +#define CLKID_PRIV_CPUB_CLK_DYN1_DIV		221
->> +#define CLKID_PRIV_CPUB_CLK_DYN1		222
->> +#define CLKID_PRIV_CPUB_CLK_DYN			223
->> +#define CLKID_PRIV_CPUB_CLK_DIV16_EN		225
->> +#define CLKID_PRIV_CPUB_CLK_DIV16		226
->> +#define CLKID_PRIV_CPUB_CLK_DIV2		227
->> +#define CLKID_PRIV_CPUB_CLK_DIV3		228
->> +#define CLKID_PRIV_CPUB_CLK_DIV4		229
->> +#define CLKID_PRIV_CPUB_CLK_DIV5		230
->> +#define CLKID_PRIV_CPUB_CLK_DIV6		231
->> +#define CLKID_PRIV_CPUB_CLK_DIV7		232
->> +#define CLKID_PRIV_CPUB_CLK_DIV8		233
->> +#define CLKID_PRIV_CPUB_CLK_APB_SEL		234
->> +#define CLKID_PRIV_CPUB_CLK_APB			235
->> +#define CLKID_PRIV_CPUB_CLK_ATB_SEL		236
->> +#define CLKID_PRIV_CPUB_CLK_ATB			237
->> +#define CLKID_PRIV_CPUB_CLK_AXI_SEL		238
->> +#define CLKID_PRIV_CPUB_CLK_AXI			239
->> +#define CLKID_PRIV_CPUB_CLK_TRACE_SEL		240
->> +#define CLKID_PRIV_CPUB_CLK_TRACE		241
->> +#define CLKID_PRIV_GP1_PLL_DCO			242
->> +#define CLKID_PRIV_DSU_CLK_DYN0_SEL		244
->> +#define CLKID_PRIV_DSU_CLK_DYN0_DIV		245
->> +#define CLKID_PRIV_DSU_CLK_DYN0			246
->> +#define CLKID_PRIV_DSU_CLK_DYN1_SEL		247
->> +#define CLKID_PRIV_DSU_CLK_DYN1_DIV		248
->> +#define CLKID_PRIV_DSU_CLK_DYN1			249
->> +#define CLKID_PRIV_DSU_CLK_DYN			250
->> +#define CLKID_PRIV_DSU_CLK_FINAL		251
->> +#define CLKID_PRIV_SPICC0_SCLK_SEL		256
->> +#define CLKID_PRIV_SPICC0_SCLK_DIV		257
->> +#define CLKID_PRIV_SPICC1_SCLK_SEL		259
->> +#define CLKID_PRIV_SPICC1_SCLK_DIV		260
->> +#define CLKID_PRIV_NNA_AXI_CLK_SEL		262
->> +#define CLKID_PRIV_NNA_AXI_CLK_DIV		263
->> +#define CLKID_PRIV_NNA_CORE_CLK_SEL		265
->> +#define CLKID_PRIV_NNA_CORE_CLK_DIV		266
->> +#define CLKID_PRIV_MIPI_DSI_PXCLK_DIV		268
->>   
->>   #define NR_CLKS					271
-> 
-
+Reviewed-by: Kenny Ho <Kenny.Ho@amd.com>
