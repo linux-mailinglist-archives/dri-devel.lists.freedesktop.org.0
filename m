@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C46716ACC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:23:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CB8716AD6
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:25:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 710B810E00A;
-	Tue, 30 May 2023 17:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0AF10E092;
+	Tue, 30 May 2023 17:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984D110E00A
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 17:23:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F9110E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 17:25:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9047863114;
- Tue, 30 May 2023 17:23:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6A21C433D2;
- Tue, 30 May 2023 17:23:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CBFDB63121;
+ Tue, 30 May 2023 17:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C9DC4339B;
+ Tue, 30 May 2023 17:25:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685467431;
- bh=UzR1fj++02HkyWwFEbtMSGXQjQFGcPmg+nk6CBoorTQ=;
+ s=k20201202; t=1685467540;
+ bh=NOcoyxFR4vwKOMvoF94j9sG6honGQkXkQuK+B+qcPfE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XRVqqSg7l3gtvrJQiZxWUs3sW3dpPsMZeLs0xK9uSL6mJjYdIfftdEHjGyAasA93F
- vp0gLpUnS8qcpk9a3/voHcP+fe0HcgZAQiKxsgSvam2RRuNhrt3VDiHL2skxmXmfz0
- UHgEUyQ6JGLAJM989kYc/NlVsmrAxHCIIr/mJrjU+z/jyfCIDmpYobEEaG7Jdff0aL
- ptUgFtjkatqQWlWJzTIrFj/ck17aguEcEqHWg/QiVbq37aW3cLY4mOtG4O/KNC2yLK
- zZBBLpYcKu8Wous2xnJ4zlBIq3hDm3aDhdBZB4h0Yjhi4MLkcdhGk2cSj+YnhXzP9N
- A6/p2tUZSaTqw==
-Date: Tue, 30 May 2023 18:23:44 +0100
+ b=rOeYJe09x1NUFUNb0syYwOgfFjHqms1EHdwUGKwXhgEMIgQ65PiaXSLyM39oZe6DZ
+ BplgA+P2uPCx1OtoKe00+Q63mpTRpgWotn85LoI1b7668B4N2jP28NEMC5sMHSrlXX
+ zsc9fF/MUyao/1pIU3vZ2PjeYpw8eviYt0sRtTTYpE19jIKzuSWCTCdG9J2yImV6nk
+ ZFBwkQdKCQJaP7pjbQ3NhZsnkukMp+MgMeeya8jCWkNv1LaEQ5MpXr9id6Agg8K4FU
+ 9bCj2vkkiuW+Yt9WndLt56kz3UDB4Dtq1Jspchf9uISY+RyGU8s7pB+/0S+IaVWHaK
+ T9AAofnPcSI8g==
+Date: Tue, 30 May 2023 18:25:33 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 16/17] dt-bindings: arm: amlogic: Document the MNT
- Reform 2 CM4 adapter with a BPI-CM4 Module
-Message-ID: <20230530-switch-riverbank-8a2ae8e5ea4a@spud>
+Subject: Re: [PATCH v5 03/17] dt-bindings: clk: g12a-clkc: add VCLK2_SEL and
+ CTS_ENCL clock ids
+Message-ID: <20230530-outfit-stifling-f5ba6dfbc47b@spud>
 References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-0-56eb7a4d5b8e@linaro.org>
- <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-16-56eb7a4d5b8e@linaro.org>
+ <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-3-56eb7a4d5b8e@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U7YSC210J2lnKh/+"
+ protocol="application/pgp-signature"; boundary="fpY+fROroRfh6jEX"
 Content-Disposition: inline
-In-Reply-To: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-16-56eb7a4d5b8e@linaro.org>
+In-Reply-To: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v5-3-56eb7a4d5b8e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,14 +71,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---U7YSC210J2lnKh/+
+--fpY+fROroRfh6jEX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 30, 2023 at 09:38:17AM +0200, Neil Armstrong wrote:
-> The MNT Reform 2 CM4 adapter can be populated with any Raspberry Pi CM4
-> compatible module such as a BPI-CM4 Module, document that.
+On Tue, May 30, 2023 at 09:38:04AM +0200, Neil Armstrong wrote:
+> Add new CLK ids for the VCLK2_SEL, CTS_ENCL and CTS_ENCL_SEL clocks
+> on G12A compatible SoCs.
 >=20
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
@@ -87,15 +87,15 @@ Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Thanks,
 Conor.
 
---U7YSC210J2lnKh/+
+--fpY+fROroRfh6jEX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHYxIAAKCRB4tDGHoIJi
-0jYwAQCUXtrTR7MIODftWUrB77h5/mo+g9I8GUIGCkjmSOVnAwD/fepTgXRQjx2p
-dKfe5rmv2Fw9D0GFz7KPFbFjaNP3Wgc=
-=vEeV
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHYxjQAKCRB4tDGHoIJi
+0mb1AP4yTzCwn7nVWyhFGK+s0DVp1sxicllf/G5S0d1/5MB4kAEA6Il4QAMrzg7h
+VyBrvc9UPsHwiJaLjqMpz4nthWyUNQQ=
+=veg3
 -----END PGP SIGNATURE-----
 
---U7YSC210J2lnKh/+--
+--fpY+fROroRfh6jEX--
