@@ -1,83 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51206716BA2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:55:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2D3716BBB
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 19:58:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037B210E0BD;
-	Tue, 30 May 2023 17:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08DC10E1A9;
+	Tue, 30 May 2023 17:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE9910E0BD
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 17:55:03 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34UHsPtj030299; Tue, 30 May 2023 17:54:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=8Y/2JgpkJ6x4T6pUMTX9PFkSR0ZlrMtocgjiRNfUQ+I=;
- b=XsvwH6GXw8vUlJtikDzHYzpkw8vnRqYw4tEtmEcUpnAD3sejvU4L46rBMwNvyudntsDD
- U+IPn3ogc7KYqKtrDxfpfB04VhuXrH2qjytDQ0+Nt8M273+YDdMQkfpBlxGxUSkugubB
- INXd/sT0s4OJcP//wJCtAeubDOof5V+BPepLcKixHsT7h2jKFeotFczZknzGiMGsvECs
- XUr6Hqz2/8qGOK2b3gXaYFys5uxhluH6DD0STWr36pL+KlXbgCNPv4g7zPzJN7ceneVj
- v2wDIw0mwUsT0Wojmr8SftHT1b0GOtS+TCJ+ZH5MTtjM0wA45kGMH98XwcH84Qr/kMYE 7A== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qvv7nu0v6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 17:54:53 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34UHsqU3020458
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 May 2023 17:54:52 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 30 May
- 2023 10:54:17 -0700
-Message-ID: <00d30c09-d622-11c1-2e07-44a798659982@quicinc.com>
-Date: Tue, 30 May 2023 10:54:17 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E321710E0C5;
+ Tue, 30 May 2023 17:58:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lg0NBF9k/4j+QW07cK/0+tZ6hrwoVbqTfANzoHKQZAolAJChau28wP8e1dI6LXItCBuzNWw9mYwCBzrblGWRvlnl7xr4HOBW4Ny1Iey8kjagM5HR0eXU1uVmRkJxzxp6XO6g5CGsI1gHubGKEcmEzQ8WLLTWm5cn4hFcPojRuAfEaqo9yceYwJMzmYz9bYZvGWqTCrR1X7Xoqj5J8GXtgMVyroWAVon5io2ZyHt4KnJrd9SAFFTJJpSSrtmSESFZo1OjtBenn9nTsgQeOGK9GFvyM7508/q1XDxYSdAZ4ZMu337liS16mLDgKJvBwrTnmRmnwPGNus5dJn58YU+Tlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EJPPqb/FpwB87psi7guXkkw/uzgYwrPq3QqcWSj4wS8=;
+ b=NUuAAqyWCNXm2eOJcf3IxI5oThsjI7EzeBsB7j+yWkQJI4wIX2uBiO2U1h2qU/3YbhD6SybKWkjmHM4OLQq9pJTfItI8WjdiWY6TmxQFddkSFVISuhmeXbmG27YCl6azrPkrP/fwR0dJqxhX5E1pKnXfauUdhNYZFxrP2vNJ/y0PLAwpgBenwqHTEawk2N6seYTAphzLrvtcE5GdR86AeoEIqmxM9KPTg+vnBprok8NlrhQDdyyus6pO9wsQyWwy77MmmU/ZvWfu9BtZ48cVUv8GSRZ+O+ym8RPJV/ywOxHxpA1R9JM1BlZbj/RXGdcl6e9qlhls/vqupFk3A6NoQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EJPPqb/FpwB87psi7guXkkw/uzgYwrPq3QqcWSj4wS8=;
+ b=NwT4sN2DkWT35FewzHbYwBi9gyWe6jjT2kVxqAoFApodpZOP6dTxF8OLo76Ca7zguNZo0oMVLCPqAe+R+UboA8QTJi6clNtRooxeSR/pmyQM7rYrxs1Ii3bPv2vFPQ9do1TBdi6GGm0V43ykfraXCLTfoF4Tn0FmC16jvLD3JcI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS0PR12MB8788.namprd12.prod.outlook.com (2603:10b6:8:14f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
+ 2023 17:58:47 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e566:9ca5:28e0:a42b]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e566:9ca5:28e0:a42b%4]) with mapi id 15.20.6433.022; Tue, 30 May 2023
+ 17:58:47 +0000
+Message-ID: <eeddfcd6-c331-de38-8862-d6be997974c5@amd.com>
+Date: Tue, 30 May 2023 19:58:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH RFC 03/10] drm/panel: Add LGD panel driver for Sony Xperia
- XZ3
+Subject: Re: [PATCH 2/2] drm/scheduler: avoid infinite loop if entity's
+ dependency is a scheduled error fence
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
- <20230521-drm-panels-sony-v1-3-541c341d6bee@somainline.org>
- <ccc97880-8e74-b85b-9679-9c12c44c4b99@linaro.org>
- <71675a02-0801-62dc-2673-4a0907636b21@linaro.org>
- <CAA8EJpq=HZqiBZ6bpUNH47VmASuH+Mi5OD5BHmg0TPwtsKHf8w@mail.gmail.com>
- <oxgtbj7qmsdvz5gl4bud64jedmhdmvphjfge7uy6uwulefqfsa@pleslv2zgwbp>
- <ebc3ff33-6e4f-b107-33c6-f35b03307058@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <ebc3ff33-6e4f-b107-33c6-f35b03307058@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Alex Deucher <alexdeucher@gmail.com>, ZhenGuo Yin <zhenguo.yin@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+References: <20230509102239.2935744-1-zhenguo.yin@amd.com>
+ <20230509102239.2935744-2-zhenguo.yin@amd.com>
+ <CADnq5_NbpWOhUWcKB8_4xdzs5gjMONQMYyuX7sfwvXjb=5TRyg@mail.gmail.com>
+ <CADnq5_Nxqki-mCwp8SCuZmUDDFT-4YX_fsVSw1J=w0t=bKbjmQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CADnq5_Nxqki-mCwp8SCuZmUDDFT-4YX_fsVSw1J=w0t=bKbjmQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: MZW0XBke_CM3cyveuuOoLMbT1dgCVJho
-X-Proofpoint-GUID: MZW0XBke_CM3cyveuuOoLMbT1dgCVJho
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_13,2023-05-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011
- priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305300143
+X-ClientProxiedBy: FR2P281CA0171.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::16) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB8788:EE_
+X-MS-Office365-Filtering-Correlation-Id: d232ea03-9ba3-44db-0f2a-08db613783eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /xwJZguK6eicmzGO2x7SGMvl1hEjz03S+uHD7Sgj1Q7muD1XEttWCCBLBotuml1cTbHLylEaYpgyUQtitVdNzGBk4ENPg2hzyLhTzAGkKX0/lY9+Ux+aYBX4XQN8n+X3G2Cfm0xgiiZqVdsHXyPb5glC9RUz0QbxAwA+RA01hP0aKCAuAx8CU6ZbtLH5RrrqwWg4xb1UqdlRwL/hrKLmeCLb7BLlSA20wSDiQyQM74iGKoxmv3Ketpns0pqrs7aLIdeMx4rON/xhikaTiLe5Go7UoDqaP4Pu5/BOCU07SlkU81z0rCgAT6F1ttrau2Svfif+hUdm4YUur2FdoUJ8DLwUNbvB0gkZrr6B3/O1XNE973CkVFJf7kN+FQ8XNh1n55VA1cnGpnp68orUWG1jA+/k0WjYXfdhWPg8RKTBF23B5rLdIopAIUMHAIvREvfl55tTutzVlcV0yvXJG3pYw3j9FU4jXY7m2X/U7c2q0r+/bsoOOG/n6o3J3Ud1cZDyWr8AuWafqrQO9mi/Xz50lUZFndnuhXK+3DSYWVer7nduYSprVUhy3wvXXwsBLnKqAwHYEeMUrt0obEv7jW/0j6tQQHsicgne+A0o3bA3mJK65wPGQ1yrI+37wjGDzuRW03WDtA/IzeSUDVAyz95Z2g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(346002)(396003)(366004)(376002)(39860400002)(451199021)(478600001)(83380400001)(66574015)(5660300002)(186003)(4326008)(86362001)(6486002)(8936002)(2906002)(8676002)(316002)(31686004)(38100700002)(41300700001)(31696002)(6512007)(6666004)(6506007)(66946007)(110136005)(2616005)(66556008)(66476007)(53546011)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1FuZXU2Y2dra2NVUDVHemRqMGt0TE1sNmZBeVZRNlV1SFp1TzZvZElpWUgz?=
+ =?utf-8?B?a0tFVzd6RlFMU1d6NjhDZDZZZExQa0VxUi93MWhLRnZwMXh1QkVqL2NNcC9p?=
+ =?utf-8?B?VlRrbTFNbVd4NHBrWjRlN245dEJHdjhaK3RxSUs0VXZzeTVrY3N5UUc3bzhH?=
+ =?utf-8?B?Y0dLN08yVDU3bGNsWFRSQWx4UXRDSmpMSXNkKzBVdnRWbml2dHZoUDBSNlI4?=
+ =?utf-8?B?TjdiUHNUdHJ6c3UvWWxHUzRJbDNlWmowTzlLRmJ4WFY5ZWpBRGROM3dpZjlu?=
+ =?utf-8?B?ZmNIMC9uNGFoU05QNGdxNkdhZi9zaUpNa1lmcmN6OFhiT0VRWlRyZTQwUnYy?=
+ =?utf-8?B?OVA4eWJPNWVDdG1uZjF3OVpNeTVCUkJzdnNNUDNEaXJ2dXh1T3lBQzIrbXU0?=
+ =?utf-8?B?MmRVM1JxcUU3S1lWTzdQWk9ObjBRcHZ4VWxOUEczY0h3WkhzMEowMUZNOFJu?=
+ =?utf-8?B?bXEvWUNib25Jam84SnRTVE5GMWQ0d01NMlYyUEZ1ZDBPVVFFSERocW0xbVF5?=
+ =?utf-8?B?dytuM0JwM3ZISmdNbTVxT1J5c29XZDhTbTRQeHVpQnVZYmtRbllBbU93TjNS?=
+ =?utf-8?B?UDBTeVFNelgzMmhCMDlJa1ZnMktaYlcveGptT09VUWU4OUN5QWJaT0dtV2t3?=
+ =?utf-8?B?MEw5WFYvNkVSTlRyQlZObnJEdURubFdhRXVnT3lhK1FNd0orVHlrZDA4OTll?=
+ =?utf-8?B?SjNkaGQ4MHQ4RE00Q0wrYmY2SjNRQzBIVWlUQ1ZCdVBUWjBYaTlPekJoa2tv?=
+ =?utf-8?B?RHdQaS8yYXFYOEZRTXNxUVhrbGZHMjRyQjJhMVFDY0w5ZGNNaVZCUmoxdmc5?=
+ =?utf-8?B?cEdhc0tLSjljQlcxMW1NTzY1SmpCb2Q3MkZhM3krR3hEUFlBdFBvSE1BU1pJ?=
+ =?utf-8?B?UitIenhuaFgzRVVucFdtTU5ORllmUGJ4Vnh4OWFCTnJjUGQ1YWZld2xudTZI?=
+ =?utf-8?B?bTZYdVlzaG1HdDlKblF1clhsa0JkNWFZTEJZeTBITThES3lWcDBwdXFWYU5i?=
+ =?utf-8?B?bjduNGh3QzRZR05mbFJrUmdIT0QyNVFTK0cxSkNudUJyaWlzeXdMUkI5MW5M?=
+ =?utf-8?B?U0JjanFKamdFeWtpL1M1NVRWSlh4WU1wbWVmdVNvWTcwb0VtVkF3aHVVQlV1?=
+ =?utf-8?B?VmRqNWRubXoxMVI5S1FNVGcxQ3IzaHVGdEtqSmtQT1J0L2xlQTlDOS9SMGZi?=
+ =?utf-8?B?RFdORmlWQ1NQakFPOTVnVmZ5OGtXUkFvWjdZVk9RcW9iRGxpYXZlaXMybito?=
+ =?utf-8?B?dXUyZE1lak04MlZLSjgrdFpuV1A5dXZjR1BuOGdJOVNpRlBTYVRaSFZvTDZT?=
+ =?utf-8?B?V21PVDRYNU1qNkJwaHZ5UHpaSGhYUDhFR3NQTzRxbGlXTXp4bERsVzVMclZr?=
+ =?utf-8?B?UWJ1dHBmWk9MRzFKdStWblh5YWIzUS82MFpPV3F3cmQxRDllK2JhbzBwQ1V6?=
+ =?utf-8?B?SEFkdk9IZEtHcmc3Zys0TVp4WFNqQy9VQkVyc0x2S3dUMCt3V3RNdFZCb1RV?=
+ =?utf-8?B?UVJtaFkrdUdRY09WaW5xdEZtdWp3cVN2K3dVNWpDb0xjV1RZUWl1WlJkU2o0?=
+ =?utf-8?B?WkFxUVM2S2I3b3BDS0tBNDJ4NVcyY3J4TjlHSzN1L0ZSV3F1MTF6MzNVZ3Qx?=
+ =?utf-8?B?cU9NSU1lNFY0RHZUck1UazZiK3dmSU9KckdQUG5XTWluL1NrZjR0THR2V1dY?=
+ =?utf-8?B?OGJVOHg0ZE5ML1JvaWpUVXk1QTI0KzhQejJyUG00UVJPTmlRUjVnQmEyZStD?=
+ =?utf-8?B?UCsxcjJzSThYeHFnN01oU2ZWQTVNRnpMbjRobzEzN054dVZLU0MwRnUyZ09x?=
+ =?utf-8?B?RDZmNGRURFJrRGxVM21QSFFUWUduUStZekZ5dG9ISHpRS1RTeHlZK093d1dw?=
+ =?utf-8?B?ODFNeUZ0SkVLNWVhRUFoQ0pXbkExL3FaTm9kaDlWSFlsOFRhOExQZG1hT0x4?=
+ =?utf-8?B?Q0tMNVF4NzdIWWlmeEZHRUY0L3B1bU1sUTlneW5zN3AvL24wYWdmQ09sSlVB?=
+ =?utf-8?B?WmxpdmFkNUNQKzhtVXdOZzljNS91WGxqL3R5TjdwY1I3K1UyQjJRbEV6VDUw?=
+ =?utf-8?B?dkdIWWVJTGhzaHhtdHhxWGpGQ29NVmRHZldLRFltSFRTVmpoS1dXeUpqYzQx?=
+ =?utf-8?B?ajFScE1pK212NmZHMzVEY1h3T21ybnphMzVMTVoxVXNPWXJZdXBUY2ZXaDZJ?=
+ =?utf-8?Q?7G9epmPxTb3f9eJRAhVAPy+zKX3G1yIbDHk/zo3oNgRh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d232ea03-9ba3-44db-0f2a-08db613783eb
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 17:58:47.0308 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nhPmngUuCpF7gTEbUiOQJlEmvtrJ9izDL5wn0PB3AvdJrOF8BkQUta9iWB/SpqV5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8788
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,238 +130,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Jami
- Kettunen <jami.kettunen@somainline.org>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Caleb Connolly <caleb@connolly.tech>,
- Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org
+Cc: monk.liu@amd.com, jingwen.chen@amd.com, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/29/2023 3:18 PM, Dmitry Baryshkov wrote:
-> On 30/05/2023 00:07, Marijn Suijten wrote:
->> On 2023-05-22 15:58:56, Dmitry Baryshkov wrote:
->>> On Mon, 22 May 2023 at 12:04, Neil Armstrong 
->>> <neil.armstrong@linaro.org> wrote:
->>>>
->>>> On 22/05/2023 03:16, Dmitry Baryshkov wrote:
->>>>> On 22/05/2023 00:23, Marijn Suijten wrote:
->>>>>> Sony provides an unlabeled LGD + Atmel maXTouch assembly in its 
->>>>>> Xperia
->>>>>> XZ3 (tama akatsuki) phone, with custom DCS commands to match.
->>>>>>
->>>>>> This panel features Display Stream Compression 1.1.
->>>>>>
->>>>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>>>> ---
->>>>>>    drivers/gpu/drm/panel/Kconfig                   |  11 +
->>>>>>    drivers/gpu/drm/panel/Makefile                  |   1 +
->>>>>>    drivers/gpu/drm/panel/panel-sony-akatsuki-lgd.c | 362 
->>>>>> ++++++++++++++++++++++++
->>>>>>    3 files changed, 374 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/panel/Kconfig 
->>>>>> b/drivers/gpu/drm/panel/Kconfig
->>>>>> index 67ef898d133f2..18bd116e78a71 100644
->>>>>> --- a/drivers/gpu/drm/panel/Kconfig
->>>>>> +++ b/drivers/gpu/drm/panel/Kconfig
->>>>>> @@ -706,6 +706,17 @@ config DRM_PANEL_SONY_ACX565AKM
->>>>>>          Say Y here if you want to enable support for the Sony 
->>>>>> ACX565AKM
->>>>>>          800x600 3.5" panel (found on the Nokia N900).
->>>>>> +config DRM_PANEL_SONY_AKATSUKI_LGD
->>>>>> +    tristate "Sony Xperia XZ3 LGD panel"
->>>>>> +    depends on GPIOLIB && OF
->>>>>> +    depends on DRM_MIPI_DSI
->>>>>> +    depends on BACKLIGHT_CLASS_DEVICE
->>>>>> +    help
->>>>>> +      Say Y here if you want to enable support for the Sony 
->>>>>> Xperia XZ3
->>>>>> +      1440x2880@60 6.0" OLED DSI cmd mode panel produced by LG 
->>>>>> Display.
->>>>>> +
->>>>>> +      This panel uses Display Stream Compression 1.1.
->>>>>> +
->>>>>>    config DRM_PANEL_SONY_TD4353_JDI
->>>>>>        tristate "Sony TD4353 JDI panel"
->>>>>>        depends on GPIOLIB && OF
->>>>>> diff --git a/drivers/gpu/drm/panel/Makefile 
->>>>>> b/drivers/gpu/drm/panel/Makefile
->>>>>> index ff169781e82d7..85133f73558f3 100644
->>>>>> --- a/drivers/gpu/drm/panel/Makefile
->>>>>> +++ b/drivers/gpu/drm/panel/Makefile
->>>>>> @@ -71,6 +71,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += 
->>>>>> panel-sitronix-st7701.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += 
->>>>>> panel-sitronix-st7789v.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
->>>>>> +obj-$(CONFIG_DRM_PANEL_SONY_AKATSUKI_LGD) += 
->>>>>> panel-sony-akatsuki-lgd.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += 
->>>>>> panel-sony-tulip-truly-nt35521.o
->>>>>>    obj-$(CONFIG_DRM_PANEL_TDO_TL070WSH30) += panel-tdo-tl070wsh30.o
->>>>>> diff --git a/drivers/gpu/drm/panel/panel-sony-akatsuki-lgd.c 
->>>>>> b/drivers/gpu/drm/panel/panel-sony-akatsuki-lgd.c
->>>>>> new file mode 100644
->>>>>> index 0000000000000..f55788f963dab
->>>>>> --- /dev/null
->>>>>> +++ b/drivers/gpu/drm/panel/panel-sony-akatsuki-lgd.c
->>>>>> @@ -0,0 +1,362 @@
->>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>> +/*
->>>>>> + * Copyright (c) 2023 Marijn Suijten <marijn.suijten@somainline.org>
->>>>>> + *
->>>>>> + * Based on Sony Downstream's "Atmel LGD ID5" Akatsuki panel dtsi.
->>>>>> + */
->>>>>> +
->>>>>> +#include <linux/backlight.h>
->>>>>> +#include <linux/delay.h>
->>>>>> +#include <linux/gpio/consumer.h>
->>>>>> +#include <linux/module.h>
->>>>>> +#include <linux/of.h>
->>>>>> +#include <linux/of_device.h>
->>>>>> +#include <linux/regulator/consumer.h>
->>>>>> +
->>>>>> +#include <video/mipi_display.h>
->>>>>> +
->>>>>> +#include <drm/drm_mipi_dsi.h>
->>>>>> +#include <drm/drm_modes.h>
->>>>>> +#include <drm/drm_panel.h>
->>>>>> +#include <drm/drm_probe_helper.h>
->>>>>> +#include <drm/display/drm_dsc.h>
->>>>>> +#include <drm/display/drm_dsc_helper.h>
->>>>>> +
->>>>>> +struct sony_akatsuki_lgd {
->>>>>> +    struct drm_panel panel;
->>>>>> +    struct mipi_dsi_device *dsi;
->>>>>> +    struct regulator *vddio;
->>>>>> +    struct gpio_desc *reset_gpio;
->>>>>> +    bool prepared;
->>>>>> +};
->>>>>> +
->>>>>> +static inline struct sony_akatsuki_lgd 
->>>>>> *to_sony_akatsuki_lgd(struct drm_panel *panel)
->>>>>> +{
->>>>>> +    return container_of(panel, struct sony_akatsuki_lgd, panel);
->>>>>> +}
->>>>>> +
->>>>>> +static int sony_akatsuki_lgd_on(struct sony_akatsuki_lgd *ctx)
->>>>>> +{
->>>>>> +    struct mipi_dsi_device *dsi = ctx->dsi;
->>>>>> +    struct device *dev = &dsi->dev;
->>>>>> +    int ret;
->>>>>> +
->>>>>> +    dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->>>>>> +
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0x7f, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf1, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0x02, 0x01);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0x59, 0x01);
->>>>>> +    /* Enable backlight control */
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 
->>>>>> BIT(5));
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0x57, 0x20, 0x80, 0xde, 0x60, 0x00);
->>>>>> +
->>>>>> +    ret = mipi_dsi_dcs_set_column_address(dsi, 0, 1440 - 1);
->>>>>> +    if (ret < 0) {
->>>>>> +        dev_err(dev, "Failed to set column address: %d\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +
->>>>>> +    ret = mipi_dsi_dcs_set_page_address(dsi, 0, 2880 - 1);
->>>>>> +    if (ret < 0) {
->>>>>> +        dev_err(dev, "Failed to set page address: %d\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
->>>>>> +
->>>>>> +    ret = mipi_dsi_dcs_set_tear_on(dsi, 
->>>>>> MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->>>>>> +    if (ret < 0) {
->>>>>> +        dev_err(dev, "Failed to set tear on: %d\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0x7f, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf1, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x5a, 0x5a);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x03);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf6, 0x04);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x05);
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xf6, 0x01, 0x7f, 0x00);
->>>>>> +
->>>>>> +    ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->>>>>> +    if (ret < 0) {
->>>>>> +        dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>> +    msleep(120);
->>>>>> +
->>>>>> +    mipi_dsi_dcs_write_seq(dsi, 0xe3, 0xac, 0x19, 0x34, 0x14, 0x7d);
->>>>>> +
->>>>>> +    ret = mipi_dsi_dcs_set_display_on(dsi);
->>>>>> +    if (ret < 0) {
->>>>>> +        dev_err(dev, "Failed to turn display on: %d\n", ret);
->>>>>> +        return ret;
->>>>>> +    }
->>>>>
->>>>> My usual question: should the mipi_dsi_dcs_exit_sleep_mode() / 
->>>>> mipi_dsi_dcs_set_display_on() be moved from prepare() to enable() 
->>>>> part?
->>>>
->>>>
->>>> No, prepare is called before the video stream is started and when 
->>>> display is still in LPM mode and the mode hasn't been set.
->>>>
+Am 17.05.23 um 23:01 schrieb Alex Deucher:
+> On Wed, May 17, 2023 at 11:02 AM Alex Deucher <alexdeucher@gmail.com> wrote:
+>> + dri-devel for scheduler
+>>
+>> On Tue, May 9, 2023 at 6:23 AM ZhenGuo Yin <zhenguo.yin@amd.com> wrote:
+>>> [Why]
+>>> drm_sched_entity_add_dependency_cb ignores the scheduled fence and return false.
+>>> If entity's dependency is a schedulerd error fence and drm_sched_stop is called
+> typo: schedulerd -> scheduler
+>
+>>> due to TDR, drm_sched_entity_pop_job will wait for the dependency infinitely.
 >>>
->>> Yes, that's my point. Shouldn't we enable the panel _after_ starting 
->>> the stream?
->>
->> I have never investigated what it takes to split these functions, but
->> some of these panels do show some corruption at startup which may be
->> circumvented by powering the panel on after starting the video stream?
->>
->> I'm just not sure where to make the split: downstream does describe a
->> qcom,mdss-dsi-on-command and qcom,mdss-dsi-post-panel-on-command, where
->> the latter only contains set_display_on() (not exit_sleep_mode()).
->> It is documented like:
->>
->>      same as "qcom,mdss-dsi-on-command" except commands are sent after
->>      displaying an image."
->>
->> So this seems like the right way to split them up, I'll test this out on
->> all submitted panel drivers.
-> 
-> Interesting enough, Neil suggested that sending all the commands during 
-> pre_enable() is the correct sequence (especially for VIDEO mode panels), 
-> since not all DSI hosts can send commands after switching to the VIDEO 
-> mode.
-> 
+>>> [How]
+>>> Do not wait or ignore the scheduled error fence, add drm_sched_entity_wakeup
+>>> callback for the dependency with scheduled error fence.
+>>>
+>>> Signed-off-by: ZhenGuo Yin <zhenguo.yin@amd.com>
+> The series looks good to me, but it would be good to have Christian
+> take a look as well.  Series is:
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-I agree with Neil here.
+With Alex comments fixes Reviewed-by: Christian König 
+<christian.koenig@amd.com>.
 
-Yes, it does seem natural to think that sending the video stream before 
-sending the on commands would avoid any potential corruption / garbage 
-screen issues.
+But Luben should probably push the patches upstream through drm-misc-next.
 
-But even from panel side should allow that. I have seen panel ON 
-sequences where some explicitly ask for ON commands before the video stream.
+Christian.
 
-So, we cannot really generalize it and needs to be treated on a 
-host-to-host and panel-to-panel basis.
+>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_entity.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index d3f4ada6a68e..96e173b0a6c6 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -384,7 +384,7 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>>          }
+>>>
+>>>          s_fence = to_drm_sched_fence(fence);
+>>> -       if (s_fence && s_fence->sched == sched &&
+>>> +       if (!fence->error && s_fence && s_fence->sched == sched &&
+>>>              !test_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &fence->flags)) {
+>>>
+>>>                  /*
+>>> --
+>>> 2.35.1
+>>>
 
