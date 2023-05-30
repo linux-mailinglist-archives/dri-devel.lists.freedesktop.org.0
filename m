@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE1B71596E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:08:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5B1715974
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 11:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7331810E30F;
-	Tue, 30 May 2023 09:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C83010E33F;
+	Tue, 30 May 2023 09:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A33410E30F;
- Tue, 30 May 2023 09:08:37 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0361C10E330;
+ Tue, 30 May 2023 09:08:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685437717; x=1716973717;
+ t=1685437739; x=1716973739;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cuhS04zF2ukyVE1jEsJShUL5OMXe2hKkH9nqpjh2DiQ=;
- b=RQBijGhNOBG9h9qyuMZ7gNEhp1uEFjRv4/yYhcLSMLeOJu5+INnhKY7N
- GwCTv8HVexISWFzSj+IVbu88g4v05Zx4kFaz0d7Upp7hND7086uukSXrk
- XbZ/5+ZCQ0maxvPHeVbEyiHL87L0V3V5U7Qa0qXewkM8fAd1spA6mi8zm
- lmk0HZnRXdopjJ+PwDGDa3RYSJtoNcbqiF6Ud74WMO019ytJt5On3qPSe
- S9kaZt93yYLa+pMFerI7A3FRo9UKPsD4vYaPLdMsB/ZyfJrIAgOebsFc9
- mONaGryBRj0DUv/qCf38vDEA0jFsCSjbj/KExIZxbJG9thOW2SLFyT5Fb w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="441218549"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="441218549"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 02:08:36 -0700
+ bh=pvax2fnE7DaVJww4gkiUGJInGESffJTX4RxAlmJZMzk=;
+ b=emsEem6Sdv/BKQgvABQ07yvu33dxiTCOhEwFK3JJ7xLsMb94ltkJl9jf
+ qHq4dB5q6RR+KcwPFieRlJKUFQj5i0uRY5/+rBbMqZFTK3nw1DNGFr9Vf
+ 54BxITDsnnPOj8J8pFpn42k9Z0/aFISHzDMmjVaErfKM8vNi9YePDyJuw
+ RtlCi7nm240IrDLx0xxqcZaKeCvG52uMe7TFR2h1z3fd3CL56mPCT2mG2
+ 3i8OWKSbscgIsV8QSjmh+SPkirtKVouEeHz5MthGv+g2Cp0LqNEIAd3A6
+ BejfFlbEhNwtVYA7C6HfnOFcKeJhYRWZ9ae2jsh4HxePjHSQ6rDGcOy8P Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335208765"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="335208765"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2023 02:08:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="1036516293"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="1036516293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="850684472"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; d="scan'208";a="850684472"
 Received: from kleve-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.47.8])
- by fmsmga005-auth.fm.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:08:34 -0700
+ by fmsmga001-auth.fm.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:08:40 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 01/13] drm/edid: parse display info has_audio similar to
- is_hdmi
-Date: Tue, 30 May 2023 12:08:13 +0300
-Message-Id: <391a93b25c6bcbb39854aaa2813570cfb1580ed9.1685437500.git.jani.nikula@intel.com>
+Subject: [PATCH v2 02/13] drm/display/dp_mst: drop has_audio from struct
+ drm_dp_mst_port
+Date: Tue, 30 May 2023 12:08:14 +0300
+Message-Id: <7d9eefdf150870479c5797f027d4c2b0a19ff583.1685437500.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1685437500.git.jani.nikula@intel.com>
 References: <cover.1685437500.git.jani.nikula@intel.com>
@@ -64,67 +64,77 @@ Cc: jani.nikula@intel.com, Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since we already iterate everything that's needed for determining audio,
-reduce the need to call drm_detect_monitor_audio() by storing has_audio
-to connector info.
+Caching the has_audio in struct drm_dp_mst_port seems odd, and oddly
+placed. Defer audio handling to drivers, and use the info from the
+connector display info. i915 was the only one using it anyway.
 
 Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c  | 6 ++++++
- include/drm/drm_connector.h | 8 ++++++++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c        | 2 +-
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c | 4 ++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c          | 2 +-
+ include/drm/display/drm_dp_mst_helper.h              | 5 -----
+ 4 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 0454da505687..813ce00a106a 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -6243,6 +6243,9 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			info->color_formats |= DRM_COLOR_FORMAT_YCBCR444;
- 		if (edid_ext[3] & EDID_CEA_YCRCB422)
- 			info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
-+		if (edid_ext[3] & EDID_BASIC_AUDIO)
-+			info->has_audio = true;
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 38dab76ae69e..a2b8732db0c8 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -4170,7 +4170,7 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector, struct drm_dp_
+ 	else {
+ 		edid = drm_get_edid(connector, &port->aux.ddc);
+ 	}
+-	port->has_audio = drm_detect_monitor_audio(edid);
 +
- 	}
- 	drm_edid_iter_end(&edid_iter);
+ 	drm_dp_mst_topology_put_port(port);
+ 	return edid;
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+index e72288662f02..77caed2552d0 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
++++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+@@ -244,9 +244,9 @@ static void intel_dp_info(struct seq_file *m,
+ }
  
-@@ -6268,6 +6271,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			drm_parse_hdr_metadata_block(connector, data);
- 		else if (cea_db_tag(db) == CTA_DB_VIDEO)
- 			parse_cta_vdb(connector, db);
-+		else if (cea_db_tag(db) == CTA_DB_AUDIO)
-+			info->has_audio = true;
- 	}
- 	cea_db_iter_end(&iter);
+ static void intel_dp_mst_info(struct seq_file *m,
+-			      struct intel_connector *intel_connector)
++			      struct intel_connector *connector)
+ {
+-	bool has_audio = intel_connector->port->has_audio;
++	bool has_audio = connector->base.display_info.has_audio;
  
-@@ -6424,6 +6429,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
- 	info->max_tmds_clock = 0;
- 	info->dvi_dual = false;
- 	info->is_hdmi = false;
-+	info->has_audio = false;
- 	info->has_hdmi_infoframe = false;
- 	info->rgb_quant_range_selectable = false;
- 	memset(&info->hdmi, 0, sizeof(info->hdmi));
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index e6478fafa6b0..e143fef07de9 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -658,6 +658,14 @@ struct drm_display_info {
+ 	seq_printf(m, "\taudio support: %s\n", str_yes_no(has_audio));
+ }
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 6df8519b3347..1d483a83d59c 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -298,7 +298,7 @@ static bool intel_dp_mst_has_audio(const struct drm_connector_state *conn_state)
+ 		to_intel_connector(conn_state->connector);
+ 
+ 	if (intel_conn_state->force_audio == HDMI_AUDIO_AUTO)
+-		return connector->port->has_audio;
++		return connector->base.display_info.has_audio;
+ 	else
+ 		return intel_conn_state->force_audio == HDMI_AUDIO_ON;
+ }
+diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+index 32c764fb9cb5..5be96a158ab2 100644
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -139,11 +139,6 @@ struct drm_dp_mst_port {
+ 	 * that the EDID for all connectors is read immediately.
  	 */
- 	bool is_hdmi;
+ 	struct edid *cached_edid;
+-	/**
+-	 * @has_audio: Tracks whether the sink connector to this port is
+-	 * audio-capable.
+-	 */
+-	bool has_audio;
  
-+	/**
-+	 * @has_audio: True if the sink supports audio.
-+	 *
-+	 * This field shall be used instead of calling
-+	 * drm_detect_monitor_audio() when possible.
-+	 */
-+	bool has_audio;
-+
  	/**
- 	 * @has_hdmi_infoframe: Does the sink support the HDMI infoframe?
- 	 */
+ 	 * @fec_capable: bool indicating if FEC can be supported up to that
 -- 
 2.39.2
 
