@@ -2,47 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4660716C27
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 20:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669EC716C38
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 20:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE1910E39E;
-	Tue, 30 May 2023 18:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32FB510E3EA;
+	Tue, 30 May 2023 18:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF0610E39E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 May 2023 18:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685470916; x=1717006916;
- h=date:from:to:cc:subject:message-id;
- bh=cxvJZD0mWTbcPlz8XjjrAt5OXYm/YdsfjEZbFbCffNI=;
- b=hNNHy8vCMm0qFxiZopKFRQeZrNGTvpvMYhX+0GPmeGFGK64L3x8qGesP
- q9lc6WEZ3k3Y7efTZqVssArtQ0jLTkGKAAyw7LpiGC/dCPAB9TvIICn9S
- NyC1Q1xEQj611drFwxXZZLA+NoWPXX1tm/e9r/yVE/LPDdlZ4O849yfRL
- 3xI/OZIBd6hhO+nTGK7bfKRXPyrPMwngT/jxksYrsVh7xtsbehJEInUHW
- pGNM0D8+XWNZuVc54itkIRpgRnxo7oTVOTdEkLw+MR9Jg7cbKkacEe5kN
- v26DKmSJgGAiEsjdmYkNTDG+QIs6IktfH2PjanekClZWcwYW8nbiHPat6 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="383267126"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="383267126"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 11:21:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="709727323"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="709727323"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 30 May 2023 11:21:35 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q43yR-0000jV-12;
- Tue, 30 May 2023 18:21:35 +0000
-Date: Wed, 31 May 2023 02:21:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 8c33787278ca8db73ad7d23f932c8c39b9f6e543
-Message-ID: <20230530182123.UilBt%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4C110E3E4;
+ Tue, 30 May 2023 18:24:28 +0000 (UTC)
+Received: from [192.168.122.1] (84-115-214-73.cable.dynamic.surfer.at
+ [84.115.214.73])
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id 986E0CC497;
+ Tue, 30 May 2023 18:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1685471065; bh=wH9D4QPu75zLcE21916ThcXWPvIYfoofjYZww0iPay0=;
+ h=From:Subject:Date:To:Cc;
+ b=UfhTFpGGrFz0rDkLgLfhBRwN9BTbJ195AZL/rh+sFEYwC9Gmd8TRsbMrGBmvClNBj
+ ySCdArhD2GfpCfubgnMsP1Phs6QK6Mj3L+j81sDQXj/oAF4cOuww2QccUE/bWAxTZi
+ GPsfbVjPUpqrRQleRyWlRrI2wdS9Wgw6+iUAxyPE=
+From: Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH v2 0/7] Display support for MSM8226
+Date: Tue, 30 May 2023 20:24:10 +0200
+Message-Id: <20230308-msm8226-mdp-v2-0-e005b769ee28@z3ntu.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEo/dmQC/22OOw6DMBBEr4K2ziKzDoakyj0iCoNNcGFDbIL4i
+ LvHUKRK+UbzNLNB0N7oAPdkA68nE0zvItAlgaaT7qXRqMhAjDjjrEQbbEkk0KoBxZVnulSiIMk
+ gGrUMGmsvXdMdzrvp7a8vUkqXozR43Zr5nHxWkTsTxt4v54MpO9L/Y1OGDEVxaznPFVd5/Vi5G
+ z/pvKxQ7fv+BVxoBrzLAAAA
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1957; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=wH9D4QPu75zLcE21916ThcXWPvIYfoofjYZww0iPay0=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkdj9RSo2hMiSUGEnXG8SKEOHwLGh7+gRawCWDe
+ WUsIQ5MblyJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZHY/UQAKCRBy2EO4nU3X
+ VkpoEACK9lwWOEnEdpUTdtUi4EIpjnarDW1DYk8eHzNNUG6sNR9Bb1YXUO+RXD/NGLw1nm3rzjA
+ whoMeTD3RyFqciJZF1MEId568OW6NyP2DBXqnBcP4pww39V2zLPql8e9egiNrx6hcjTeuzD2oTj
+ 3Zv6JuhkBftaE4d2lBrEPebm0W/DI3FGo0KGhpXVnYth+/TCEv/ws4Ni7v61VJPS1cMnUc8/YLZ
+ Xwsteogk8ZfKFtOcw2uvodiEWQYRwGOmjP+8lAEFzyyt8cDwT/YLM81jL/LMLUVQAsM4q0qu/j/
+ IRRkevY2JWc/19YJsjcPYdFkMBxXuek5lSTAo1a0m2YNvvFCVwGwLUBtkxkrSH34Xs5MEdEB0DV
+ t49bPQBqucuXiIHFcUTX547C8wW2VOTKJ6jBbxDoApa/wGDAtpK/5Wfo+0ZNk+0kaYgzBYgsfil
+ 7y6+wEU7eqPYLcVViG909t2aG8ddLZslJlsiiuAjYSqSPBqBA05uZy9IWD29+FoQobunldUgSiI
+ Q4cM4SkUEecwkp3Lco8aM2Lxu2DHwI+z7X7McECdHiCqnssIX6hegPRzX5uAvFXqJvjVxvOHWK8
+ DZTIgjh66dT2Gj8dou9ljft2J3NGsGrHz2Z4OYDfQNjz6k0mQxoxJAYRCa0lWBMFzPJc3C7aSXp
+ bKOnbhxEDGQIizA==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,249 +72,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, kvmarm@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Conor Dooley <conor.dooley@microchip.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 8c33787278ca8db73ad7d23f932c8c39b9f6e543  Add linux-next specific files for 20230530
+This series adds the required configs for MDP5 and DSI blocks that are
+needed for MDSS on MSM8226. Finally we can add the new nodes into the
+dts.
 
-Error/Warning reports:
+Tested on apq8026-lg-lenok and msm8926-htc-memul.
 
-https://lore.kernel.org/oe-kbuild-all/202305070840.X0G3ofjl-lkp@intel.com
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+Changes in v2:
+- In dsi-phy-28nm.yaml fix the order of the compatibles 1/7 (Conor)
+- Remove leftover debugging comments from 6/7 (Konrad)
+- Rewrap some clock-names lines and move status property last in 7/7
+  (Konrad)
+- Pick up tags
+- Link to v1: https://lore.kernel.org/r/20230308-msm8226-mdp-v1-0-679f335d3d5b@z3ntu.xyz
 
-Error/Warning: (recently discovered and may have been fixed)
+---
+Luca Weiss (7):
+      dt-bindings: msm: dsi-phy-28nm: Document msm8226 compatible
+      dt-bindings: display/msm: dsi-controller-main: Add msm8226 compatible
+      dt-bindings: display/msm: qcom,mdp5: Add msm8226 compatible
+      drm/msm/mdp5: Add MDP5 configuration for MSM8226
+      drm/msm/dsi: Add configuration for MSM8226
+      drm/msm/dsi: Add phy configuration for MSM8226
+      ARM: dts: qcom: msm8226: Add mdss nodes
 
-include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+ .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
+ .../bindings/display/msm/dsi-phy-28nm.yaml         |   3 +-
+ .../devicetree/bindings/display/msm/qcom,mdp5.yaml |   1 +
+ .../devicetree/bindings/display/msm/qcom,mdss.yaml |   1 +
+ arch/arm/boot/dts/qcom-msm8226.dtsi                | 127 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |  82 +++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   3 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c         |  97 ++++++++++++++++
+ 11 files changed, 319 insertions(+), 2 deletions(-)
+---
+base-commit: e5c87df1b3ab5220362ec48f907cc62ba8928b01
+change-id: 20230308-msm8226-mdp-6431e8d672a0
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-arch/arm64/kvm/mmu.c:147:3-9: preceding lock on line 140
-fs/smb/client/cifsfs.c:982 cifs_smb3_do_mount() warn: possible memory leak of 'cifs_sb'
-fs/smb/client/cifssmb.c:4089 CIFSFindFirst() warn: missing error code? 'rc'
-fs/smb/client/cifssmb.c:4216 CIFSFindNext() warn: missing error code? 'rc'
-fs/smb/client/connect.c:2725 cifs_match_super() error: 'tlink' dereferencing possible ERR_PTR()
-fs/smb/client/connect.c:2924 generic_ip_connect() error: we previously assumed 'socket' could be null (see line 2912)
-fs/smb/server/oplock.c:1013 find_same_lease_key() warn: missing error code 'err'
-fs/smb/server/smb2pdu.c:529 smb2_allocate_rsp_buf() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/smb2pdu.c:6070 smb2_read_pipe() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/smb2pdu.c:6222 smb2_read() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/smb2pdu.c:6371 smb2_write_rdma_channel() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/smb_common.c:350 smb1_allocate_rsp_buf() warn: Please consider using kzalloc instead of kmalloc
-fs/smb/server/transport_ipc.c:232 ipc_msg_alloc() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/transport_ipc.c:271 handle_response() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/vfs.c:431 ksmbd_vfs_stream_write() warn: Please consider using kvzalloc instead of kvmalloc
-fs/smb/server/vfs.c:833 ksmbd_vfs_listxattr() warn: Please consider using kvzalloc instead of kvmalloc
-kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
-m68k-linux-ld: section .rodata VMA [00001000,001556af] overlaps section .text VMA [00000400,006ed04f]
-mm/mempolicy.c:1222 new_folio() error: uninitialized symbol 'address'.
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm64-randconfig-c031-20230530
-|   `-- arch-arm64-kvm-mmu.c:preceding-lock-on-line
-|-- i386-allyesconfig
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-m021-20230530
-|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-|   `-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-|-- m68k-randconfig-m031-20230530
-|   `-- m68k-linux-ld:section-.rodata-VMA-00001556af-overlaps-section-.text-VMA-00000ed04f
-|-- s390-randconfig-s031-20230530
-|   `-- mm-filemap.c:sparse:sparse:Using-plain-integer-as-NULL-pointer
-`-- x86_64-randconfig-m001-20230530
-    |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-    |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-    |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-    |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-    |-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-    |-- fs-smb-server-oplock.c-find_same_lease_key()-warn:missing-error-code-err
-    |-- fs-smb-server-smb2pdu.c-smb2_allocate_rsp_buf()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-smb2pdu.c-smb2_read()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-smb2pdu.c-smb2_read_pipe()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-smb2pdu.c-smb2_write_rdma_channel()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-smb_common.c-smb1_allocate_rsp_buf()-warn:Please-consider-using-kzalloc-instead-of-kmalloc
-    |-- fs-smb-server-transport_ipc.c-handle_response()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-transport_ipc.c-ipc_msg_alloc()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-vfs.c-ksmbd_vfs_listxattr()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- fs-smb-server-vfs.c-ksmbd_vfs_stream_write()-warn:Please-consider-using-kvzalloc-instead-of-kvmalloc
-    |-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
-    `-- mm-mempolicy.c-new_folio()-error:uninitialized-symbol-address-.
-
-elapsed time: 721m
-
-configs tested: 159
-configs skipped: 6
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                            hsdk_defconfig   gcc  
-arc                  randconfig-r004-20230530   gcc  
-arc                  randconfig-r043-20230530   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r046-20230530   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r034-20230530   clang
-csky                                defconfig   gcc  
-hexagon      buildonly-randconfig-r006-20230530   clang
-hexagon              randconfig-r041-20230530   clang
-hexagon              randconfig-r045-20230530   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230530   clang
-i386                 randconfig-i002-20230530   clang
-i386                 randconfig-i003-20230530   clang
-i386                 randconfig-i004-20230530   clang
-i386                 randconfig-i005-20230530   clang
-i386                 randconfig-i006-20230530   clang
-i386                 randconfig-i011-20230530   gcc  
-i386                 randconfig-i012-20230530   gcc  
-i386                 randconfig-i013-20230530   gcc  
-i386                 randconfig-i014-20230530   gcc  
-i386                 randconfig-i015-20230530   gcc  
-i386                 randconfig-i016-20230530   gcc  
-i386                 randconfig-i051-20230530   clang
-i386                 randconfig-i052-20230530   clang
-i386                 randconfig-i053-20230530   clang
-i386                 randconfig-i054-20230530   clang
-i386                 randconfig-i055-20230530   clang
-i386                 randconfig-i056-20230530   clang
-i386                 randconfig-i061-20230530   clang
-i386                 randconfig-i062-20230530   clang
-i386                 randconfig-i063-20230530   clang
-i386                 randconfig-i064-20230530   clang
-i386                 randconfig-i065-20230530   clang
-i386                 randconfig-i066-20230530   clang
-i386                 randconfig-i071-20230530   gcc  
-i386                 randconfig-i072-20230530   gcc  
-i386                 randconfig-i073-20230530   gcc  
-i386                 randconfig-i074-20230530   gcc  
-i386                 randconfig-i075-20230530   gcc  
-i386                 randconfig-i076-20230530   gcc  
-i386                 randconfig-i081-20230530   gcc  
-i386                 randconfig-i082-20230530   gcc  
-i386                 randconfig-i083-20230530   gcc  
-i386                 randconfig-i084-20230530   gcc  
-i386                 randconfig-i085-20230530   gcc  
-i386                 randconfig-i086-20230530   gcc  
-i386                 randconfig-i091-20230530   clang
-i386                 randconfig-i092-20230530   clang
-i386                 randconfig-i093-20230530   clang
-i386                 randconfig-i094-20230530   clang
-i386                 randconfig-i095-20230530   clang
-i386                 randconfig-i096-20230530   clang
-i386                 randconfig-r016-20230530   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r025-20230530   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r015-20230530   gcc  
-microblaze   buildonly-randconfig-r004-20230530   gcc  
-microblaze   buildonly-randconfig-r005-20230530   gcc  
-microblaze           randconfig-r022-20230530   gcc  
-microblaze           randconfig-r033-20230530   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                 randconfig-r013-20230530   clang
-mips                           xway_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r011-20230530   gcc  
-openrisc     buildonly-randconfig-r003-20230530   gcc  
-openrisc             randconfig-r005-20230530   gcc  
-openrisc             randconfig-r012-20230530   gcc  
-openrisc             randconfig-r036-20230530   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r021-20230530   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r002-20230530   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230530   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230530   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r006-20230530   gcc  
-sh                   randconfig-r035-20230530   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r023-20230530   gcc  
-sparc64              randconfig-r032-20230530   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230530   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230530   clang
-x86_64               randconfig-a002-20230530   clang
-x86_64               randconfig-a003-20230530   clang
-x86_64               randconfig-a004-20230530   clang
-x86_64               randconfig-a005-20230530   clang
-x86_64               randconfig-a006-20230530   clang
-x86_64               randconfig-a011-20230530   gcc  
-x86_64               randconfig-a012-20230530   gcc  
-x86_64               randconfig-a013-20230530   gcc  
-x86_64               randconfig-a014-20230530   gcc  
-x86_64               randconfig-a015-20230530   gcc  
-x86_64               randconfig-a016-20230530   gcc  
-x86_64               randconfig-r031-20230530   clang
-x86_64               randconfig-x051-20230530   gcc  
-x86_64               randconfig-x052-20230530   gcc  
-x86_64               randconfig-x053-20230530   gcc  
-x86_64               randconfig-x054-20230530   gcc  
-x86_64               randconfig-x055-20230530   gcc  
-x86_64               randconfig-x056-20230530   gcc  
-x86_64               randconfig-x061-20230530   gcc  
-x86_64               randconfig-x062-20230530   gcc  
-x86_64               randconfig-x063-20230530   gcc  
-x86_64               randconfig-x064-20230530   gcc  
-x86_64               randconfig-x065-20230530   gcc  
-x86_64               randconfig-x066-20230530   gcc  
-x86_64               randconfig-x071-20230530   clang
-x86_64               randconfig-x072-20230530   clang
-x86_64               randconfig-x073-20230530   clang
-x86_64               randconfig-x074-20230530   clang
-x86_64               randconfig-x075-20230530   clang
-x86_64               randconfig-x076-20230530   clang
-x86_64               randconfig-x081-20230530   clang
-x86_64               randconfig-x082-20230530   clang
-x86_64               randconfig-x083-20230530   clang
-x86_64               randconfig-x084-20230530   clang
-x86_64               randconfig-x085-20230530   clang
-x86_64               randconfig-x086-20230530   clang
-x86_64               randconfig-x091-20230530   gcc  
-x86_64               randconfig-x092-20230530   gcc  
-x86_64               randconfig-x093-20230530   gcc  
-x86_64               randconfig-x094-20230530   gcc  
-x86_64               randconfig-x095-20230530   gcc  
-x86_64               randconfig-x096-20230530   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r003-20230530   gcc  
-xtensa               randconfig-r024-20230530   gcc  
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Luca Weiss <luca@z3ntu.xyz>
+
