@@ -2,119 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E9A716E4E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 22:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE1C716E58
+	for <lists+dri-devel@lfdr.de>; Tue, 30 May 2023 22:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A8E10E034;
-	Tue, 30 May 2023 20:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE2B210E198;
+	Tue, 30 May 2023 20:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 892EF10E034;
- Tue, 30 May 2023 20:05:02 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E82E210E195;
+ Tue, 30 May 2023 20:07:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PCSwopnOwtPkd0j2ZR6+R0iUJdSijlvD9+vS4nWmTnsoy8HtplJrbVa743br7XdprQO+dkligWxQ84shGSI1oXZbgXxDD5GAO4CAOkkbFba9Rfr37cDIUf5Ahn1sY/TOHSXIBw3UfJoORlLN4sL0lITpltTLoDLi/aJ/o8F1KRPPiZoEp7Uix8sUAO8mBwPc5e6QUfyvGB2z3dkfkLucrjI+KYid3pUJoKcDyNBSR16Jahb2spzgX7x8ztWyKYMq0s5O5JRpfwYGBmHzfSbYgJ2koVv0m523veDKLdGhhJfUdpQG31gc7rE9OoJ5iEd1XLItNcAPsGIJZ/9wtMV41A==
+ b=VZuzSdD7SDp2nCYHi3luwuGSf3sSZ8HD+fM7tp2jsF9MVQHZLRBU1o8hPQBUETmP0hV260BxreHdSzymk/TIlHUecOQuTyJQisqH7XWiwp4QI3zXWsxQkbj+b6dMvGjzRFfp6iyplj+qtOoQ/6xvSyePpzi0Zwia7pqnKCuu3BQd6oi80wFhy28DGHOreVqi5q9lfTbLZr4n8xMRXeqUJbjmqw654LNbchvj+0g5n/iQHrLYdz1MK+HoApdTEfC1e/x5W2MWwiqVyYQbcrRSTkl3DURSZ9sGXvDqcxE+aJB4MklSabKQvejEEZ7z8vEMAGOdTIro6kRK0J8e3BAK+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NXkPbebBdgiowFa6IazFpZ+XEDlvf/267fyjrRC49ck=;
- b=arhefNypc7CShM+niCjeuEytchrxxRq47F6YA5vpFCC5j5w5o8pOhodMhSNoP6S2Z23DlOpXh8x9qiiHoF1l7q+QB6xGdLeC6ey1JwPO6ub0GsP8FQyCXcSGES3b2aK4RLT629ieTtX478pHLwMsFM0S8xdrBIBsf5YR9kMSVX+W6xIpFLkVNLiPlMy+8SPneNAoTRJwskTlJ3bQG4IsFipliGFxDjgohwefrmoPnVywC5zL6CDcXPf8TtIwqVQ118baJSnxDwTn/gQ3EJK8Aj1CaLX6wiAthXMhFEk/AMaTN6GcdFfSTSfbXD8sG/WIvu5yguD46KxbWbCKBaVHqw==
+ bh=hq+aKQ/NCPV1Lws028w3mLm+1wYyjpEU8+rfCinEeeo=;
+ b=ENbl1Ixgb9YeZ8176SO+9vBDGuoxOqml+meRMl4DKBviwcKwxjJsMMjs3Ln1+5EPrna+EapcbvKRBjadYzFRLEq+Ng/kHLMs5Pj5AHi+DoLUR8O4ypMpnwY3XMdCjZf99jYzke5tvnI8cteyb3qOFKHBq6FKjFFYx86PcQuzsxeJaqaNdwwqAsLHpjHXNBoBOJMts9odjvhxOn/MahloiKsEAZt7bUlcTFR43Hd4AeVy7VMT2yYARJ7Neor6iRQu9t/mxJM5o2iHVfXxaeHRfs/xYwDE+bhivyYnE3P35UywiN1aHHkdQnQWyhWQ2hoCxLP/C6KkQNfah+YJEFyaiw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NXkPbebBdgiowFa6IazFpZ+XEDlvf/267fyjrRC49ck=;
- b=xxlGZ67FgT1sEldCIIiMaaxzpnK5oMnC/sWYpBF96SBALXLz99YZjxs4/aeT9pgiMu9/SoP+TYO2+fcehUaxdBmMFeg7itWSJF6ml6THwDHGnPsDJa3erZmQINB2LNGUOohas3cX4QSbv34XgXc2GO1ee9knddD1LGumWxZNlQs=
+ bh=hq+aKQ/NCPV1Lws028w3mLm+1wYyjpEU8+rfCinEeeo=;
+ b=3fTPKfmw3GYRzV4Q1FJQhCrpUYeBFfcUBLULoQj3Ft/ReXARHXWX4LoShVRugs4V69Lg2eF2jcTFIk+p4fAt5p+N84+vzzQkHoMuMHWWd2rZtg8k8VszTzXpEBA0v60yXMnVLtfbBbrSD4bF27+dAft1Lz3eVoYqOjHohsNXOcU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by MW4PR12MB6952.namprd12.prod.outlook.com (2603:10b6:303:207::13)
- with Microsoft SMTP Server (version=TLS1_2,
+ by DM8PR12MB5464.namprd12.prod.outlook.com (2603:10b6:8:3d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Tue, 30 May
- 2023 20:04:59 +0000
+ 2023 20:07:18 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::943e:32fb:5204:a343]) by BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::943e:32fb:5204:a343%3]) with mapi id 15.20.6433.022; Tue, 30 May 2023
- 20:04:59 +0000
-Message-ID: <502355b2-0132-a20a-13a3-3a4d3addaade@amd.com>
-Date: Tue, 30 May 2023 16:04:56 -0400
+ 20:07:18 +0000
+Message-ID: <d9c2ada6-6c1f-2f13-d15c-20f72ffd34c7@amd.com>
+Date: Tue, 30 May 2023 16:07:16 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 16/33] drm/amdkfd: add per process hw trap enable and
- disable functions
+Subject: Re: [PATCH 18/33] drm/amdkfd: add raise exception event function
 Content-Language: en-US
 To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20230525172745.702700-1-jonathan.kim@amd.com>
- <20230525172745.702700-16-jonathan.kim@amd.com>
+ <20230525172745.702700-18-jonathan.kim@amd.com>
 From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20230525172745.702700-16-jonathan.kim@amd.com>
+In-Reply-To: <20230525172745.702700-18-jonathan.kim@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YTBP288CA0033.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::46) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT4PR01CA0392.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:108::8) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|MW4PR12MB6952:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ed1e43f-1d6c-471a-6d69-08db61492566
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DM8PR12MB5464:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4601393-947a-4148-d8cf-08db6149786b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c29VeCrluvPUjHnmPiUWZbCPrJxBVgZX90FUFb0jWqbZ4ayQKE0wjyWYVl1Trh1NAsz2O1aZesN1J/bEPs4y5bB2czgVqhkD4qVxqUOj3vz3FSqjWT/EenMZgQcdP9ir2mQCIza9VOn02D9yeXawt8+9tsIPgMCZMfbjETL9Ff13rjsanZ+/DFUkdOIi9x6Zr5cUzn8OS4wW5kG1BRiyUyhZkkruoMJtqQt9dBQPDPVytNQ91rJZZqNV4YmbapdvgEDPQjEr8VSn2UMzSRoMtH8Q0WAq5GpkaknEuH9ks5VmNWRbN+jQYrK5mYSLQuqBGxqhmbyobdaFD/mn6HWicEUFy2VhJoQD1gN3iCv53gQDzjEADM3jFwxFyiYHnFUOUyeDFtFi0qgbSKhWrS3JU2n/NUd9G2/8YgUeB/y3t+C1gtSmL02k+ASfuSlyxhzBZb/pnDN5HjBBuOQYyubD2eTgsw/mwEGNknVnXXHWiGAyPdCdUGOr6mFNbiyNegYh+oe9cH2pwLgkptVr6exZ6ZmvS7j5he07npJVJWlBDJ5dxpkskIO2B+gQHu8Y9mBbyrUaGGC/KZ6w3sbX+NAIEJBsaQE8MMDJxQGQjT8LmiVqDKpbHbSFovwropO/5ewQkmpczWE5IzrdzClqrvX+Rw==
+X-Microsoft-Antispam-Message-Info: XfA66emjNpkBwbCxSf2Y0CIYCV0b1cOr+lfpa7D5iNNqU0LClCpzBdFeZHKQ9UoIVSWtXm9VZCeM3eblwgF7FowMMpXKCQmj6bGdJ/nmjsfNRBNl4DABydHqkGJtqPdzOMcKSOJimkDhOgfw7K60mSfMZba3cUFFJrOC2ipz8edFzlpZOjlEDiSVY3/W+gxMujjO7AlGPnAQekL4a/NNM3QfeMyxjXN2wT17AuqxN9CN0hlkDzQViF+hWmdZnG6i/mJ7a+eTn4Rj4YYVtUxzhdHBF1C4O7YySMujsoKzWhVghdsHlPT5a+XIhETIjXhLQAYK1D04SMc4g/XYsPZl1ZlpISxkZUntPCZ++xB88WON7bH7nhQD6YNNGS7HU/p5wC3ILjjetd42Hy1AU1NLzi09hUg/Qv1diLO/2xfxswdHBY2bCPDCWUnWPpbfo78MF3bt3p70g+5Pp0fj/6QMD+yvgu12uoNF6Ss8YCZ5yNOjguqHDLvMUMjZrzrDduujLK1hBIBkZaiVH8xqEY2sZ4+r3hhDOmJJD9GqCpDFoTbVR1xqtiEDsRqYbB6gcbKoH+bTMhN2R1LxXXfhO+XTdoWjfWlhpvZt8cE6Nam5tG0yjx7pqycG2tBHECli023Xm3NH7hWRoKNDpKzxNZevNQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(39860400002)(396003)(376002)(366004)(451199021)(478600001)(83380400001)(5660300002)(186003)(4326008)(30864003)(6486002)(86362001)(8936002)(8676002)(2906002)(41300700001)(31686004)(38100700002)(31696002)(6512007)(316002)(6666004)(6506007)(44832011)(26005)(66946007)(2616005)(450100002)(36756003)(66476007)(66556008)(43740500002)(45980500001);
+ SFS:(13230028)(4636009)(366004)(376002)(136003)(346002)(396003)(39860400002)(451199021)(186003)(26005)(6486002)(6506007)(6512007)(316002)(2906002)(5660300002)(41300700001)(36756003)(44832011)(8936002)(8676002)(478600001)(38100700002)(31686004)(4326008)(31696002)(86362001)(450100002)(66946007)(66476007)(2616005)(83380400001)(66556008)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmJodFlSRi9YY1JzUHZhMjVPZkNodjZrS1BVdVJ6QTZOUFM1UkVGLzl0dldj?=
- =?utf-8?B?K1NjMy9lZGMwL2tkaERuNEl6UG81eE9PTnFZRllYWmNocEVFOFNoRmV6KzF0?=
- =?utf-8?B?WXlBcmFVSStpSDZBYW5UOTVSREN3UXVhT1dpTU5Yd2hZMkxsZ2hOL2ZKcEEr?=
- =?utf-8?B?N0tmV2ZHRGtabjQ3K0h2WGgrWEtrWnhzZWJCS1RQSFd6NWZLTzNkTmphNFdN?=
- =?utf-8?B?cnJrTjlnT2p3RWtCRmxFMlJGVGwxVkZYV1JvaGY4dm5yQTlURzlHYXQzTk0y?=
- =?utf-8?B?alU5R0dVS2N0bjB6OXNzb01tYjFwYlA3NUlGdXQzWjN3TmZzaE5JQklrTkFI?=
- =?utf-8?B?WElSQUlDaVgxU0UwRU84eExjZ08zZWMvUWdzdjdSbUM1SklHbmh2QUdoUlY1?=
- =?utf-8?B?Z05yTHdIakxMeDhscXNhQjB1cDdsd1NYaklTNVg1Zjl0S1pmNlFmWVVDREZq?=
- =?utf-8?B?VURSR1NTRTZGdnkwSFk2ajJrQlBZNWUyK0RnWU5mM1JRR1ZXcE1qakozakx3?=
- =?utf-8?B?VDcya1Yrd01CTzd6NjAwektrMVdSSkxrNVFRbVFuL2NhZEVaamRvemF4QnVW?=
- =?utf-8?B?OFdqRzg3VGF4d01UdXBwbDFUeEZsaDFDZnRYU0FmSk5yQnIwSlFrUVhDRWZw?=
- =?utf-8?B?UmRWQk5kaXo4b2pvWjBnWlBVcVZVSitoM3R3YnFSQkVJdW5LWHZpcUJZMjRF?=
- =?utf-8?B?OFlQbitHY3owK1lEUnJjVnJJbGFweUNrVlB5djZ5MHhhak1HY3lPZ1dRTUlT?=
- =?utf-8?B?SkFtSlNMY05GTnNHZW4rUUZMTHJZVTVLc3NwRGxMZUhncGg1cXFrSGQyTytu?=
- =?utf-8?B?R3VVVVRGMUJ2UVBIK0FYVmt5bC95WmRBMGRtVHRhZVZhZ1ZIUWQ5VFArdDNY?=
- =?utf-8?B?VkwyUkIvZWZYcXRKbFI5QlJMcElhdUVQS1BGNWpQRmJzWmc2UzNCamZsNGVT?=
- =?utf-8?B?RGFQdFhhYmN1QmsxbmxOZ1FXUnNKazNDbzdiUUg2Ymc2N3VqaHNaUWw0T3FZ?=
- =?utf-8?B?WkNIUkJldi9QaHZqWjNpYjJRTFJ3NTVvdUFlNmsyMndUN3JOSjRqcEJNZENx?=
- =?utf-8?B?L21nQjd4YndTWjdBMUdVOERBTEpuV2gwRGtIZGl0U3NCd2hZMWp1YTQrQ3lj?=
- =?utf-8?B?Y1pYSHQyMnE5b1phaXpGTGNJT29rc0hZemJJai9ZWEVvSWlzMjFYaStaQXlT?=
- =?utf-8?B?M3YyLzlDUzBrZXNiMDdzUkQrMEVxcGVySWZIell5STY4QlRDdG5jc3hqYVFR?=
- =?utf-8?B?bkwrZ2YvR3VxSExnWHIwU3FVMnllWlFWaURzMkUzemlyUGltcjd5Q0EwM1p2?=
- =?utf-8?B?eFZRb3g0VkphaGZDUURQL0dGQ2kvODNMT2VpT3p6cVQ2YlFZOG16OU5PcnAw?=
- =?utf-8?B?ZER1OVQzWEpOck9jbjIwNWhKcTlJNG44djhPb1ExcVpnNjJnemFmVWo0cGxT?=
- =?utf-8?B?R0VUaDhvTktXMlFYODZNRUpGZzZ4TkM4RnEzNjNsNFQ5RzMrMnlvV2N2b0ZR?=
- =?utf-8?B?Z1d5Ti9YQ01ieXJ4WndpRnk1VmJXVThjbDhpVklNZU9CSHB5ZTI0V3d0NWN2?=
- =?utf-8?B?REMwV0duQ09HZmYvVFFqRXFVWDg3ZGQyM2RTY2JsbGlJQXNlUmJubDFNSTNH?=
- =?utf-8?B?bzhrQ0hrMTZ4TkdpTU1FNXlLYksrdVBLUUJCSkpyWXl4czEzZldkanhvYzhu?=
- =?utf-8?B?eDIzbCt5SjRUTm95Vm92czJOakh4MlREKzkvR0dKRG9xY1M0dE1VU0RXeWpi?=
- =?utf-8?B?UldzTXRVdnFuOHVpcmhxZDNZVVNTVW9Idkc2SkN2UlhTOTF1MTBzdnVKakpM?=
- =?utf-8?B?S3Bkbm5WM3M0RnMzK0VDRUk1V0VKcUtiT1ovRDVNVkY3YzEvaDc3ME1ITWRm?=
- =?utf-8?B?Y0F4dThVTUxPODVDNkVGNm9mcktBb1BoWk5kK1JiT2F6UXFUQ1VMRzM3RUpE?=
- =?utf-8?B?ZDZHSmpoVldwRVZ3S2hNWm5lYXRLUUduRUZtQi84b1JBVTllMUg0UEJSM0pk?=
- =?utf-8?B?cmRiai9LaEQvc3NiNFBVaU5vZkJPYlpFMUErcmtsRG1LbmZCSkQyajZyYWRG?=
- =?utf-8?B?aGxJNkpwOHFHenRyM2E2SlVnR2psckFyOTB3Zzk4aVZpUlFkU3R6VnIvc1ZD?=
- =?utf-8?Q?LOzBCyArr7J8kuYH6vce5SYq7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2FLZk84OXBLaklnVzVwM25YcGFIYzhnaWhLbWtDd2IwY0tCTmVmb2JraDJS?=
+ =?utf-8?B?TGxEckJGTlRrVEpVd3EwK0oyR2l0TWtYYTFMclZMa1l5OHM2QmZ4RGNUOU5T?=
+ =?utf-8?B?bU9YTWFFcVd2T05lSlkyME83TitBcUlTeStDYU9pdllmNDRyTXhPTDVoR0U1?=
+ =?utf-8?B?QndKM0xVTldVZ3VDM2cvTHVlck1OL3RRbHRGSEp6SnpnQWtvbmhmZmtzWGJF?=
+ =?utf-8?B?V1l4NDRYeFNzQU1ReVNpYVNIeExFTkJPRVBWcHlTbkhVc09HWFU0UGVUdUNt?=
+ =?utf-8?B?QzBDbEhDM3RuQXU2T1dKS2gzaWNVd05qZUdUbXhMcXU4eWR6MDF3SlpybSti?=
+ =?utf-8?B?SWlPLzFpdGxRVzlLUjJJTDRMNWI1SVBpV0k3K2FUUTg4RFZKbEVPN3NEb0VL?=
+ =?utf-8?B?QnVRMmFxdi9semRGdWhra0k0YTNlZzlVa2d2N3hydi81OFZUMENscWhHY0Nj?=
+ =?utf-8?B?VElrY0pQY2RVWlA0Z0swdWZiaUVZZFU4STBuejR2ZE9tSG5oR1pQOGFwYkVH?=
+ =?utf-8?B?UGxLcnRzTCs1OEZjbmRKMXpWcDRpbi8xL29Hc0N4VmlzanlKdnVIQ05PNFJz?=
+ =?utf-8?B?bUQ5Zi82NHNWd2FCb0tKd3dZdmYrUmNFTkhibjRTeHhuMERLbDFmUEFrQkM3?=
+ =?utf-8?B?SHVwbWRRbGtjQVQ4cFJXMWxCUGVVd2kvY0Npa3ZoT0daa0x0RFVpbUNtWm1M?=
+ =?utf-8?B?eG1nWHR0R29Kays5WTMrVC9nSk5uU1pNY01CSjlLaWhNMi9Xc3VpTW5ZWk14?=
+ =?utf-8?B?RjJQVHQ3ZCtPT3BMUENSdXlQTEpMcXJEVmsweVhObnRxRWhIalpGU040N0hk?=
+ =?utf-8?B?TGtNWjBJRyswM2RNYmdXazFzYVJ0WW1pWG83ZFZ6VG1GMzVZc2FQYUhyTXcx?=
+ =?utf-8?B?VUdwQ1NZRVMzdjh0YXhLZVRabDNrcUhncENKUkR5ZTBUcG9TTVM5NWk4NXJW?=
+ =?utf-8?B?eXBVMGZ4QXJBUlQwRXlCdHo3TnN6emcxNTltQXVnOEhhWGlvMVByTko0dzBQ?=
+ =?utf-8?B?U2ZEUWtDdXBoeEx2ZGlpb2VSRXFPM2lxSkRCU3EvRGViT3loYkprMDFnUHRq?=
+ =?utf-8?B?MlR4T1YxRnhmNUhQWDdIV09ucVVyUFV2ZGVTZVRWSEdtRnRKNDBvV1R1dlhX?=
+ =?utf-8?B?andxUW02dTRvS1kyME1nM2IyUzFCNCtBVHZHRFY5a2R2bmM0Uk9VNS9oeXdX?=
+ =?utf-8?B?amx5L0lLRWVDQUw1WEJHdm9vVzQ2WHdpU3NrMlpUMGJWeHRUbmwwaU1aWmZF?=
+ =?utf-8?B?YjBIYkFLWXd6ZnNNUHV5TWxYeG1ZYVdlT1R5M3pvbXF4L20rb3F5Y0dqQis1?=
+ =?utf-8?B?MWx5dEg5bTQxcmJGbklwcllsd0NWZDd0TjdhM0QvTDN3M092SVMvWFJtWEJu?=
+ =?utf-8?B?NnU2SCtPS2ZLR1o1MXRtajJUM2pFMXhXMkRQRlVNK0o5RzZpcnk1TWxtdWsv?=
+ =?utf-8?B?VW15NFlTOUNxczI5YmlKZDhxVkpIT3FmdkRHdWgzNm9BazVrNEJqVlhCRHRU?=
+ =?utf-8?B?Qm1LRXBqMkxKNzBjekNZRVRDT1JVbjhKYlBHOEhIZ1hENzZLemd1RW00RVRJ?=
+ =?utf-8?B?NzVwRUZEemRxUnlSRFBkVEZLREZQZ1d3ZGlHNGI4TVVYeUhOSjRrZ1NhNmN6?=
+ =?utf-8?B?UjlndnV0Rlg4aEZhNzhneHBwRFR4c0c5ZWh4anNsSlJtMnY4MzJBYlc4V1FG?=
+ =?utf-8?B?YWRFUm5ObytTT2VSWm1HTnVTQkNyQWFqYm5iRUJRUlJTdFd4RUNHeDNweHIy?=
+ =?utf-8?B?akpUekFlbU50dk1MM05qbWU0TlJxbVcrLy84d0ZiWEhXVzFCMEdRS0EzMWwy?=
+ =?utf-8?B?N0NQanRqL1I2aG9Pa0s2R3U2R3hickREc1Bvd2VianVDcWYvbEdiOUI4Nmx0?=
+ =?utf-8?B?OVJVWFBmYTNISE9OSE1Kak5XaDVIL2FpaTVRQ0N6NnUwSnpGRWJ3SHJhNWlL?=
+ =?utf-8?B?clJqZkg1dEZiU1V1TDdnU3JSSUk2NnJKK0lka1NCQVpiZ1FrZERWb0p0S1hT?=
+ =?utf-8?B?cFlvZ2VBOE9KUFlYem1GV3Z3cTJKeWhqMU9JTVZKbEVlVG1leTFwSzhWaSsv?=
+ =?utf-8?B?cm5GbUo4THlHL2ZhdzBYemYyZjM3R1hWbHErMGpES3lZRTJpZHNWcWNycTh5?=
+ =?utf-8?Q?66nFLSuCXoohXeSlaAVYxHsrs?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ed1e43f-1d6c-471a-6d69-08db61492566
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4601393-947a-4148-d8cf-08db6149786b
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 20:04:59.2352 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 20:07:18.5921 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FEXcLEsFzZMuKZB0Io3c424MEnIkVSbfLC8vxYAXU0+M398BenF9TEj3/k9Av/5Yprt11ftwad6u7waBVA5gUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6952
+X-MS-Exchange-CrossTenant-UserPrincipalName: j4OTT3g+g8qy1ldmAI6dZiCQT0n2X6J0D3qmw9sT+qN9O7LWvbEEK1//dTf/aNUZJz7fCZk4C29sr79+49D6nA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5464
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,28 +130,21 @@ Cc: Jinhuieric.Huang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
 Am 2023-05-25 um 13:27 schrieb Jonathan Kim:
-> To enable HW debug mode per process, all devices must be debug enabled
-> successfully.  If a failure occures, rewind the enablement of debug mode
-> on the enabled devices.
+> Exception events can be generated from interrupts or queue activitity.
 >
-> A power management scenario that needs to be considered is HW
-> debug mode setting during GFXOFF.  During GFXOFF, these registers
-> will be unreachable so we have to transiently disable GFXOFF when
-> setting.  Also, some devices don't support the RLC save restore
-> function for these debug registers so we have to disable GFXOFF
-> completely during a debug session.
+> The raise event function will save exception status of a queue, device
+> or process then notify the debugger of the status change by writing to
+> a debugger polled file descriptor that the debugger provides during
+> debug attach.
 >
-> Cooperative launch also has debugging restriction based on HW/FW bugs.
-> If such bugs exists, the debugger cannot attach to a process that uses GWS
-> resources nor can GWS resources be requested if a process is being
-> debugged.
+> For memory violation exceptions, extra exception data will be saved.
 >
-> Multi-process debug devices can only enable trap temporaries based
-> on certain runtime scenerios, which will be explained when the
-> runtime enable functions are implemented in a follow up patch.
+> The debugger will be able to query the saved exception states by query
+> operation that will be provided by follow up patches.
 >
-> v2: spot fix with new kfd_node references
+> v2: use new kfd_node struct in prototype.
 >
 > Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
 
@@ -160,284 +152,210 @@ Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
 
 > ---
->   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |   5 +
->   drivers/gpu/drm/amd/amdkfd/kfd_debug.c   | 148 ++++++++++++++++++++++-
->   drivers/gpu/drm/amd/amdkfd/kfd_debug.h   |  29 +++++
->   drivers/gpu/drm/amd/amdkfd/kfd_process.c |  10 ++
->   4 files changed, 190 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/amd/amdkfd/kfd_debug.c   | 104 +++++++++++++++++++++++
+>   drivers/gpu/drm/amd/amdkfd/kfd_debug.h   |   7 ++
+>   drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  10 +++
+>   drivers/gpu/drm/amd/amdkfd/kfd_process.c |   2 +
+>   4 files changed, 123 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> index 7082d5d0f0e9..9d0c247f80fe 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -1488,6 +1488,11 @@ static int kfd_ioctl_alloc_queue_gws(struct file *filep,
->   		goto out_unlock;
->   	}
->   
-> +	if (!kfd_dbg_has_gws_support(dev) && p->debug_trap_enabled) {
-> +		retval = -EBUSY;
-> +		goto out_unlock;
-> +	}
-> +
->   	retval = pqm_set_gws(&p->pqm, args->queue_id, args->num_gws ? dev->gws : NULL);
->   	mutex_unlock(&p->mutex);
->   
 > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-> index 898cc1fe3d13..73b07b5f17f1 100644
+> index 5e2ee2d1acc4..dccb27fc764b 100644
 > --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
 > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-> @@ -21,13 +21,78 @@
->    */
->   
->   #include "kfd_debug.h"
-> +#include "kfd_device_queue_manager.h"
+> @@ -24,6 +24,107 @@
+>   #include "kfd_device_queue_manager.h"
 >   #include <linux/file.h>
 >   
-> +static int kfd_dbg_set_mes_debug_mode(struct kfd_process_device *pdd)
+> +void debug_event_write_work_handler(struct work_struct *work)
 > +{
-> +	uint32_t spi_dbg_cntl = pdd->spi_dbg_override | pdd->spi_dbg_launch_mode;
-> +	uint32_t flags = pdd->process->dbg_flags;
+> +	struct kfd_process *process;
 > +
-> +	if (!kfd_dbg_is_per_vmid_supported(pdd->dev))
-> +		return 0;
+> +	static const char write_data = '.';
+> +	loff_t pos = 0;
 > +
-> +	return amdgpu_mes_set_shader_debugger(pdd->dev->adev, pdd->proc_ctx_gpu_addr, spi_dbg_cntl,
-> +						pdd->watch_points, flags);
+> +	process = container_of(work,
+> +			struct kfd_process,
+> +			debug_event_workarea);
+> +
+> +	kernel_write(process->dbg_ev_file, &write_data, 1, &pos);
 > +}
 > +
-> +/* kfd_dbg_trap_deactivate:
-> + *	target: target process
-> + *	unwind: If this is unwinding a failed kfd_dbg_trap_enable()
-> + *	unwind_count:
-> + *		If unwind == true, how far down the pdd list we need
-> + *				to unwind
-> + *		else: ignored
+> +/* update process/device/queue exception status, write to descriptor
+> + * only if exception_status is enabled.
 > + */
-> +static void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int unwind_count)
+> +bool kfd_dbg_ev_raise(uint64_t event_mask,
+> +			struct kfd_process *process, struct kfd_node *dev,
+> +			unsigned int source_id, bool use_worker,
+> +			void *exception_data, size_t exception_data_size)
 > +{
+> +	struct process_queue_manager *pqm;
+> +	struct process_queue_node *pqn;
 > +	int i;
+> +	static const char write_data = '.';
+> +	loff_t pos = 0;
+> +	bool is_subscribed = true;
 > +
-> +	for (i = 0; i < target->n_pdds; i++) {
-> +		struct kfd_process_device *pdd = target->pdds[i];
-> +
-> +		/* If this is an unwind, and we have unwound the required
-> +		 * enable calls on the pdd list, we need to stop now
-> +		 * otherwise we may mess up another debugger session.
-> +		 */
-> +		if (unwind && i == unwind_count)
-> +			break;
-> +
-> +		/* GFX off is already disabled by debug activate if not RLC restore supported. */
-> +		if (kfd_dbg_is_rlc_restore_supported(pdd->dev))
-> +			amdgpu_gfx_off_ctrl(pdd->dev->adev, false);
-> +		pdd->spi_dbg_override =
-> +				pdd->dev->kfd2kgd->disable_debug_trap(
-> +				pdd->dev->adev,
-> +				target->runtime_info.ttmp_setup,
-> +				pdd->dev->vm_info.last_vmid_kfd);
-> +		amdgpu_gfx_off_ctrl(pdd->dev->adev, true);
-> +
-> +		if (!kfd_dbg_is_per_vmid_supported(pdd->dev) &&
-> +				release_debug_trap_vmid(pdd->dev->dqm, &pdd->qpd))
-> +			pr_err("Failed to release debug vmid on [%i]\n", pdd->dev->id);
-> +
-> +		if (!pdd->dev->kfd->shared_resources.enable_mes)
-> +			debug_refresh_runlist(pdd->dev->dqm);
-> +		else
-> +			kfd_dbg_set_mes_debug_mode(pdd);
-> +	}
-> +}
-> +
->   int kfd_dbg_trap_disable(struct kfd_process *target)
->   {
->   	if (!target->debug_trap_enabled)
->   		return 0;
->   
-> +	/*
-> +	 * Defer deactivation to runtime if runtime not enabled otherwise reset
-> +	 * attached running target runtime state to enable for re-attach.
-> +	 */
-> +	if (target->runtime_info.runtime_state == DEBUG_RUNTIME_STATE_ENABLED)
-> +		kfd_dbg_trap_deactivate(target, false, 0);
-> +	else if (target->runtime_info.runtime_state != DEBUG_RUNTIME_STATE_DISABLED)
-> +		target->runtime_info.runtime_state = DEBUG_RUNTIME_STATE_ENABLED;
-> +
->   	fput(target->dbg_ev_file);
->   	target->dbg_ev_file = NULL;
->   
-> @@ -42,16 +107,89 @@ int kfd_dbg_trap_disable(struct kfd_process *target)
->   	return 0;
->   }
->   
-> +static int kfd_dbg_trap_activate(struct kfd_process *target)
-> +{
-> +	int i, r = 0;
-> +
-> +	for (i = 0; i < target->n_pdds; i++) {
-> +		struct kfd_process_device *pdd = target->pdds[i];
-> +
-> +		if (!kfd_dbg_is_per_vmid_supported(pdd->dev)) {
-> +			r = reserve_debug_trap_vmid(pdd->dev->dqm, &pdd->qpd);
-> +
-> +			if (r) {
-> +				target->runtime_info.runtime_state = (r == -EBUSY) ?
-> +							DEBUG_RUNTIME_STATE_ENABLED_BUSY :
-> +							DEBUG_RUNTIME_STATE_ENABLED_ERROR;
-> +
-> +				goto unwind_err;
-> +			}
-> +		}
-> +
-> +		/* Disable GFX OFF to prevent garbage read/writes to debug registers.
-> +		 * If RLC restore of debug registers is not supported and runtime enable
-> +		 * hasn't done so already on ttmp setup request, restore the trap config registers.
-> +		 *
-> +		 * If RLC restore of debug registers is not supported, keep gfx off disabled for
-> +		 * the debug session.
-> +		 */
-> +		amdgpu_gfx_off_ctrl(pdd->dev->adev, false);
-> +		if (!(kfd_dbg_is_rlc_restore_supported(pdd->dev) ||
-> +						target->runtime_info.ttmp_setup))
-> +			pdd->dev->kfd2kgd->enable_debug_trap(pdd->dev->adev, true,
-> +								pdd->dev->vm_info.last_vmid_kfd);
-> +
-> +		pdd->spi_dbg_override = pdd->dev->kfd2kgd->enable_debug_trap(
-> +					pdd->dev->adev,
-> +					false,
-> +					pdd->dev->vm_info.last_vmid_kfd);
-> +
-> +		if (kfd_dbg_is_rlc_restore_supported(pdd->dev))
-> +			amdgpu_gfx_off_ctrl(pdd->dev->adev, true);
-> +
-> +		if (!pdd->dev->kfd->shared_resources.enable_mes)
-> +			r = debug_refresh_runlist(pdd->dev->dqm);
-> +		else
-> +			r = kfd_dbg_set_mes_debug_mode(pdd);
-> +
-> +		if (r) {
-> +			target->runtime_info.runtime_state =
-> +					DEBUG_RUNTIME_STATE_ENABLED_ERROR;
-> +			goto unwind_err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +unwind_err:
-> +	/* Enabling debug failed, we need to disable on
-> +	 * all GPUs so the enable is all or nothing.
-> +	 */
-> +	kfd_dbg_trap_deactivate(target, true, i);
-> +	return r;
-> +}
-> +
->   int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
->   			void __user *runtime_info, uint32_t *runtime_size)
->   {
->   	struct file *f;
->   	uint32_t copy_size;
-> -	int r = 0;
-> +	int i, r = 0;
->   
->   	if (target->debug_trap_enabled)
->   		return -EALREADY;
->   
-> +	/* Enable pre-checks */
-> +	for (i = 0; i < target->n_pdds; i++) {
-> +		struct kfd_process_device *pdd = target->pdds[i];
-> +
-> +		if (!KFD_IS_SOC15(pdd->dev))
-> +			return -ENODEV;
-> +
-> +		if (!kfd_dbg_has_gws_support(pdd->dev) && pdd->qpd.num_gws)
-> +			return -EBUSY;
-> +	}
-> +
->   	copy_size = min((size_t)(*runtime_size), sizeof(target->runtime_info));
->   
->   	f = fget(fd);
-> @@ -62,6 +200,10 @@ int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
->   
->   	target->dbg_ev_file = f;
->   
-> +	/* defer activation to runtime if not runtime enabled */
-> +	if (target->runtime_info.runtime_state == DEBUG_RUNTIME_STATE_ENABLED)
-> +		kfd_dbg_trap_activate(target);
-> +
->   	/* We already hold the process reference but hold another one for the
->   	 * debug session.
->   	 */
-> @@ -71,8 +213,10 @@ int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
->   	if (target->debugger_process)
->   		atomic_inc(&target->debugger_process->debugged_process_count);
->   
-> -	if (copy_to_user(runtime_info, (void *)&target->runtime_info, copy_size))
-> +	if (copy_to_user(runtime_info, (void *)&target->runtime_info, copy_size)) {
-> +		kfd_dbg_trap_deactivate(target, false, 0);
->   		r = -EFAULT;
-> +	}
->   
->   	*runtime_size = sizeof(target->runtime_info);
->   
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> index db6d72e7930f..17481f824647 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> @@ -34,4 +34,33 @@ static inline bool kfd_dbg_is_per_vmid_supported(struct kfd_node *dev)
->   	return KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 2);
->   }
->   
-> +/*
-> + * If GFX off is enabled, chips that do not support RLC restore for the debug
-> + * registers will disable GFX off temporarily for the entire debug session.
-> + * See disable_on_trap_action_entry and enable_on_trap_action_exit for details.
-> + */
-> +static inline bool kfd_dbg_is_rlc_restore_supported(struct kfd_node *dev)
-> +{
-> +	return !(KFD_GC_VERSION(dev) == IP_VERSION(10, 1, 10) ||
-> +		 KFD_GC_VERSION(dev) == IP_VERSION(10, 1, 1));
-> +}
-> +
-> +static inline bool kfd_dbg_has_gws_support(struct kfd_node *dev)
-> +{
-> +	if ((KFD_GC_VERSION(dev) == IP_VERSION(9, 0, 1)
-> +			&& dev->kfd->mec2_fw_version < 0x81b6) ||
-> +		(KFD_GC_VERSION(dev) >= IP_VERSION(9, 1, 0)
-> +			&& KFD_GC_VERSION(dev) <= IP_VERSION(9, 2, 2)
-> +			&& dev->kfd->mec2_fw_version < 0x1b6) ||
-> +		(KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 0)
-> +			&& dev->kfd->mec2_fw_version < 0x1b6) ||
-> +		(KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 1)
-> +			&& dev->kfd->mec2_fw_version < 0x30) ||
-> +		(KFD_GC_VERSION(dev) >= IP_VERSION(11, 0, 0) &&
-> +			KFD_GC_VERSION(dev) < IP_VERSION(12, 0, 0)))
+> +	if (!(process && process->debug_trap_enabled))
 > +		return false;
 > +
-> +	/* Assume debugging and cooperative launch supported otherwise. */
-> +	return true;
-> +}
->   #endif
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index 0281f79fcd7d..a3846bb87510 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -1165,9 +1165,19 @@ static void kfd_process_free_notifier(struct mmu_notifier *mn)
->   
->   static void kfd_process_notifier_release_internal(struct kfd_process *p)
->   {
-> +	int i;
+> +	mutex_lock(&process->event_mutex);
 > +
->   	cancel_delayed_work_sync(&p->eviction_work);
->   	cancel_delayed_work_sync(&p->restore_work);
->   
-> +	for (i = 0; i < p->n_pdds; i++) {
-> +		struct kfd_process_device *pdd = p->pdds[i];
+> +	if (event_mask & KFD_EC_MASK_DEVICE) {
+> +		for (i = 0; i < process->n_pdds; i++) {
+> +			struct kfd_process_device *pdd = process->pdds[i];
 > +
-> +		/* re-enable GFX OFF since runtime enable with ttmp setup disabled it. */
-> +		if (!kfd_dbg_is_rlc_restore_supported(pdd->dev) && p->runtime_info.ttmp_setup)
-> +			amdgpu_gfx_off_ctrl(pdd->dev->adev, true);
+> +			if (pdd->dev != dev)
+> +				continue;
+> +
+> +			pdd->exception_status |= event_mask & KFD_EC_MASK_DEVICE;
+> +
+> +			if (event_mask & KFD_EC_MASK(EC_DEVICE_MEMORY_VIOLATION)) {
+> +				if (!pdd->vm_fault_exc_data) {
+> +					pdd->vm_fault_exc_data = kmemdup(
+> +							exception_data,
+> +							exception_data_size,
+> +							GFP_KERNEL);
+> +					if (!pdd->vm_fault_exc_data)
+> +						pr_debug("Failed to allocate exception data memory");
+> +				} else {
+> +					pr_debug("Debugger exception data not saved\n");
+> +					print_hex_dump_bytes("exception data: ",
+> +							DUMP_PREFIX_OFFSET,
+> +							exception_data,
+> +							exception_data_size);
+> +				}
+> +			}
+> +			break;
+> +		}
+> +	} else if (event_mask & KFD_EC_MASK_PROCESS) {
+> +		process->exception_status |= event_mask & KFD_EC_MASK_PROCESS;
+> +	} else {
+> +		pqm = &process->pqm;
+> +		list_for_each_entry(pqn, &pqm->queues,
+> +				process_queue_list) {
+> +			int target_id;
+> +
+> +			if (!pqn->q)
+> +				continue;
+> +
+> +			target_id = event_mask & KFD_EC_MASK(EC_QUEUE_NEW) ?
+> +					pqn->q->properties.queue_id :
+> +							pqn->q->doorbell_id;
+> +
+> +			if (pqn->q->device != dev || target_id != source_id)
+> +				continue;
+> +
+> +			pqn->q->properties.exception_status |= event_mask;
+> +			break;
+> +		}
 > +	}
 > +
->   	/* Indicate to other users that MM is no longer valid */
->   	p->mm = NULL;
->   	kfd_dbg_trap_disable(p);
+> +	if (process->exception_enable_mask & event_mask) {
+> +		if (use_worker)
+> +			schedule_work(&process->debug_event_workarea);
+> +		else
+> +			kernel_write(process->dbg_ev_file,
+> +					&write_data,
+> +					1,
+> +					&pos);
+> +	} else {
+> +		is_subscribed = false;
+> +	}
+> +
+> +	mutex_unlock(&process->event_mutex);
+> +
+> +	return is_subscribed;
+> +}
+> +
+>   static int kfd_dbg_set_queue_workaround(struct queue *q, bool enable)
+>   {
+>   	struct mqd_update_info minfo = {0};
+> @@ -99,6 +200,9 @@ static void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int
+>   {
+>   	int i;
+>   
+> +	if (!unwind)
+> +		cancel_work_sync(&target->debug_event_workarea);
+> +
+>   	for (i = 0; i < target->n_pdds; i++) {
+>   		struct kfd_process_device *pdd = target->pdds[i];
+>   
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> index 3e56225f6ef6..66ee7b95d08a 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
+> @@ -25,6 +25,11 @@
+>   
+>   #include "kfd_priv.h"
+>   
+> +bool kfd_dbg_ev_raise(uint64_t event_mask,
+> +			struct kfd_process *process, struct kfd_node *dev,
+> +			unsigned int source_id, bool use_worker,
+> +			void *exception_data,
+> +			size_t exception_data_size);
+>   int kfd_dbg_trap_disable(struct kfd_process *target);
+>   int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
+>   			void __user *runtime_info,
+> @@ -35,6 +40,8 @@ static inline bool kfd_dbg_is_per_vmid_supported(struct kfd_node *dev)
+>   	       KFD_GC_VERSION(dev) >= IP_VERSION(11, 0, 0);
+>   }
+>   
+> +void debug_event_write_work_handler(struct work_struct *work);
+> +
+>   /*
+>    * If GFX off is enabled, chips that do not support RLC restore for the debug
+>    * registers will disable GFX off temporarily for the entire debug session.
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> index f0a45d184c8f..b18cd4bf76bf 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> @@ -529,6 +529,7 @@ struct queue_properties {
+>   	uint32_t ctl_stack_size;
+>   	uint64_t tba_addr;
+>   	uint64_t tma_addr;
+> +	uint64_t exception_status;
+>   };
+>   
+>   #define QUEUE_IS_ACTIVE(q) ((q).queue_size > 0 &&	\
+> @@ -820,6 +821,11 @@ struct kfd_process_device {
+>   	uint64_t page_in;
+>   	uint64_t page_out;
+>   
+> +	/* Exception code status*/
+> +	uint64_t exception_status;
+> +	void *vm_fault_exc_data;
+> +	size_t vm_fault_exc_data_size;
+> +
+>   	/* Tracks debug per-vmid request settings */
+>   	uint32_t spi_dbg_override;
+>   	uint32_t spi_dbg_launch_mode;
+> @@ -955,12 +961,16 @@ struct kfd_process {
+>   
+>   	/* Exception code enable mask and status */
+>   	uint64_t exception_enable_mask;
+> +	uint64_t exception_status;
+>   
+>   	/* shared virtual memory registered by this process */
+>   	struct svm_range_list svms;
+>   
+>   	bool xnack_enabled;
+>   
+> +	/* Work area for debugger event writer worker. */
+> +	struct work_struct debug_event_workarea;
+> +
+>   	/* Tracks debug per-vmid request for debug flags */
+>   	bool dbg_flags;
+>   
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> index a3846bb87510..fa19c1218748 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> @@ -1509,6 +1509,8 @@ static struct kfd_process *create_process(const struct task_struct *thread)
+>   	kfd_unref_process(process);
+>   	get_task_struct(process->lead_thread);
+>   
+> +	INIT_WORK(&process->debug_event_workarea, debug_event_write_work_handler);
+> +
+>   	return process;
+>   
+>   err_register_notifier:
