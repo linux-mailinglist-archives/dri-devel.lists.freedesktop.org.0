@@ -1,155 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF5471725B
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 02:20:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FA571725F
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 02:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD4D10E457;
-	Wed, 31 May 2023 00:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4FD10E454;
+	Wed, 31 May 2023 00:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C011210E454;
- Wed, 31 May 2023 00:20:13 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05FC10E454;
+ Wed, 31 May 2023 00:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685492413; x=1717028413;
+ t=1685492654; x=1717028654;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=PN7UQK92PomJN4nv2TW/OABgCpccB2I+qngaNXXGrUE=;
- b=WjiGkvkSFhGlB8jh9dkY7ynNfpL2vrt19oaKAbw2hY6+XcBE21IZ8POO
- JU6Lq9XdkwTHBkOfUf7+L2z72R2QANA9E8iSXTBcxkgGz0X2BX5lvENT4
- czkgqo3u+A+bMYwSR6HfegqRBmc6qgGOKo5V6wefLfHhbCBUyhhQxUICm
- GwOUkW1J61CLCUPWywXhcGbI0RN5dO4K0w1HWeUKFrkgCjzidYs2xmI/M
- kb8SXKeKwRt3+Z+VfW0njABPcMVaGRrXum2mTiLMgLeTrTQ4gsHuGnsLi
- 0h3HvP+Q8Dc/2cLT5781GdRTMaNlasIUQkPI0fr+qQZVyongYrcZY1/Dx A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="353930736"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="353930736"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 May 2023 17:20:12 -0700
+ bh=KNRU8CSpuN5Ue18gtcC5mMzGrKGHiUceHdS9r0ACazw=;
+ b=VTStzw4Y08WkkZjqJBj57q2Ow5IP304f3hjoJHr+Y02RLYFVHNKTc3Aj
+ kW+yYV5LIrH+cim3umxNoKhSl26I94/BHbKmaSpFi5yW+GalklmJgnUbZ
+ XGhMTPQ8FsJWFTcJEni/vkrhpp4qnyeCDGWE+LvgxpHaNDXCUqxpYKx9Y
+ tDbFFSCE1Cn/OiwUVJhbctVdGH6ACMb5Lt2J79uqB66N/oImtgF0Zo2Dy
+ BqM73KB41YFSPF84zUJQ5kcpZfcOe0FdPwKKgnpXb6kGz0L3QBzMhs6r/
+ xTuO7Hql0cXDFybV2EwiczD0k51y4YOKT7vxaY1EZhLOLKWLIk2Nc2/j0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344590445"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="344590445"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 May 2023 17:24:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="657074372"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="657074372"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga003.jf.intel.com with ESMTP; 30 May 2023 17:20:12 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="796468627"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="796468627"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by FMSMGA003.fm.intel.com with ESMTP; 30 May 2023 17:24:13 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 30 May 2023 17:20:11 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.1.2507.23; Tue, 30 May 2023 17:24:13 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 30 May 2023 17:20:10 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Tue, 30 May 2023 17:20:10 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Tue, 30 May 2023 17:24:13 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 30 May 2023 17:20:09 -0700
+ 15.1.2507.23; Tue, 30 May 2023 17:24:12 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fILmbBeZ9Q0e4gF0EbyDee6zN1miM41zxDRnBPtpoxMtEkommeKWVCHPY7/m3DTBpLwcteWpVwarjqZKxIYaTzpOIhHIKo07r+pUoh4KqguTPf8B5/TBPfQCUPx0RXpYXt/pa3/N7Cut2BIYBHSUyeqDcv5BjDp98/Y+nVa7kE25+UWA/QcPBkv5LkPMv0bGirUQl5Ij6U7ge7DnJOSC9Jm8p0fF3snJcYndzl6RtVgOm10N6APgN5Pnq3eoBM7WckoJj+Tvav3yTJ7WVxuVO1MJclw1e+3WVBJf8FzT0YVGBZ7l9f5E92yZOPjiNqivsomhMI4bqibN2jMs29DLEA==
+ b=dVaVmYA9LnnLc6QqRetfElwXeHgwqZbmU+Lfj5kY6/BVZkuQGvyQSE3fjxI/ssdANzfUiLrXnneJFUUTIQuN4MEB0sK6F69FbNU5Znc2PHqNy8AJmN8APG322opjCkdyzX5SBMNcVHjhsXuhtSzmFDUdZXCVjz3Nd1F8IZZ1xOSOJppGr6WK7SZjNq6w0QpwycgZEroPEbVeqfmftCkAP1slnyRAX2hMMLkcCHl8QSv1ndNLOCo1diIN79QEEnLmiFS5/fkCEjkM9f/n9QFlEboh6AI0b/A5eDPWUsWYMsTNXWcZmzPsj+wiF1tBFDd+G31JLlz8dGWlXNmsNwdzhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZEuYjUc42xvMx1lAYcEBPxGE6+4UM2688EuUudughLw=;
- b=GXFxCk8+bNbnH5fphES3rT/vywcht/I22wZNErKOceKr3rrW8wBgGOqDZO7388ivmDTLz+QZuyjJsGRdSywS50ejz6553f6PorzMsey6FkYv4SUDC742bym1IxoffgqWBKrJlMdgtgdWnRbKM8Vy6oE/bRzJbGG6stE+RHFkSYjUYQUoez+Z5VvJLgPxneG+X/qaerNh6M5j3PhY4Vco/VsvVybBbzOrfOAYDarSfkJbT6AcYDxpKjE313cs9lEWM4q6EdumlZ9TEdVdU14gmeKTbc6KsdWYYoEZo53NGmtEUGuFVL1xdh3dBndXMqMnPEIYIFnrCGqNyEj4vkqYCg==
+ bh=Zopoc/lA1GYfTu/rCrXkJX4pLVMGX69/FrAK7m5Q8tE=;
+ b=IDbzwEWDxF9qldldhcXAlZCL4QxU+/B45HVbLOSJjMjZVDT40sonnBBpP0Fij763GaRoSuDQJ0Ka2armF4TUSmogLZUFuuakFGFx+8juMK1BGXkpMxpwA7g83KzM/Qx/TRZKSTUrvhD5KrWnPr+3rnziNB0tfuBmf/8l3Jr6aJOUBgPxddVxH/F3T3aAVe+tQgK5rqoZYdR4xMU23AG0UFxDR75LzX9JiDFFbpk1L1Aj06BN5m+z580T8fvvfmioLMTmuBP8fD/Ozs2nTjg45xvzvOq7HIETfEM45YAQNaEesRiZ/DPtvhCv5dgB9GGV2nnkESBE3Y+Jh1dA0k+y9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by PH8PR11MB6802.namprd11.prod.outlook.com (2603:10b6:510:1ca::19)
+ by CO1PR11MB4770.namprd11.prod.outlook.com (2603:10b6:303:94::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Wed, 31 May
- 2023 00:20:07 +0000
+ 2023 00:24:10 +0000
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::871d:4695:ebdf:9df1]) by BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::871d:4695:ebdf:9df1%4]) with mapi id 15.20.6433.022; Wed, 31 May 2023
- 00:20:07 +0000
-Message-ID: <25098541-912d-a699-5c73-b3c9bb621214@intel.com>
-Date: Tue, 30 May 2023 17:20:04 -0700
+ 00:24:10 +0000
+Message-ID: <2839f185-c643-c8e9-0518-10c5df030982@intel.com>
+Date: Tue, 30 May 2023 17:24:07 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.11.2
-Subject: Re: [PATCH v3 3/7] drm/i915/huc: Load GSC-enabled HuC via DMA xfer if
- the fuse says so
+Subject: Re: [PATCH v4] drm/i915/huc: differentiate the 2 steps of the MTL HuC
+ auth flow
 Content-Language: en-GB
 To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
  <intel-gfx@lists.freedesktop.org>
-References: <20230527005242.1346093-1-daniele.ceraolospurio@intel.com>
- <20230527005242.1346093-4-daniele.ceraolospurio@intel.com>
- <2dffc6ef-5981-8b6d-c580-44671d396c98@intel.com>
- <37ba47dc-b796-5ae0-b098-43b30ed5e4dd@intel.com>
+References: <20230527005242.1346093-5-daniele.ceraolospurio@intel.com>
+ <20230530152958.1384061-1-daniele.ceraolospurio@intel.com>
+ <7e6f34eb-cb4a-6de0-3e8f-83172b4a035c@intel.com>
+ <83ba1ff3-604f-00cb-d8f3-9e544d58fdde@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <37ba47dc-b796-5ae0-b098-43b30ed5e4dd@intel.com>
+In-Reply-To: <83ba1ff3-604f-00cb-d8f3-9e544d58fdde@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR03CA0033.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::46) To BY5PR11MB3911.namprd11.prod.outlook.com
+X-ClientProxiedBy: BYAPR01CA0059.prod.exchangelabs.com (2603:10b6:a03:94::36)
+ To BY5PR11MB3911.namprd11.prod.outlook.com
  (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|PH8PR11MB6802:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d55c9d5-c370-497e-3efa-08db616cc980
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|CO1PR11MB4770:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2278a447-899a-41fa-f49a-08db616d5a6c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uaD8uTSLZdRttpWZfSB1S8Vi4czfeF0tnZ1DSJGFKEEXvqBivghLdwC04K7BhnzMnEmvK8EwEGotKh2TKZ8mZ3joSkPQdUXcDCcJdaoNwGHsMewjPRzDzAup/bAfgZ/vf02oFwsueJ2+F4iPh6FxVA2rjx2G803sKBak3D6NIf93w7lMrV0xHWs+PxD7BFcso59AbGSzd+TGmVrkGUjg97yjXM6YZNBkB8g+8asZXjYoSMxnqKCbEqwy9vtmh4FsjMAV5/8v9d6RV5lqgoCXSZQrQ7BtNTAdaw+pVPhwxczJpjuPopQ16hVN6zzdX+uS4mWxVtZFGAzpgHc5esXRPhRuxnhCbomA+cBdfk9NMm/WO82tewIPPhlOfKuQvuEMf/CJ5WNFUyjZuxG2RxyofG1uFM5mK8G0bx4Fv8sWdAOdSs5TSINFWMX6Vbau0Cr9tZhP4hpxle56oOQesmJQbX9udquW3cFuo0XPLRgHv//ywHviMFVGZYGiUSNykEpAy7eQO35GGhyEQb4LaHuNZsSE4sohXJa7a0DHKcTgACZRb9DxKldkG599WkUTUGTJ41JmZDfvhNi1ERfC/IbUxXoblWNFRfOUc1Cpo0l1EBzUp0RcxqO15erk6lK/ERDotiVWvTotYwLaUnTN3+BNRQ==
+X-Microsoft-Antispam-Message-Info: Fb2XRxkSTLM45LBAPeTFCqcBWt0bGFhZujubz/5eqnWkHoON+HuvA+39b4jZRLugjcGyE/pmFPHS9SXkpEq7It2W/mM3T8g4Iyl0EU0LvzOpH8ZCRJe3ryTXNGuE58CcibCaiZTmJVJ36ZASMbqHVGepGZlTJRYZa/THmQm92BXBI2g9nOqjunyG1mBIpAUXvRFaKOHsGkrgHYt13pesARFwGxhQLK1GBf1sJQANzPdfBtlyvrb7iOXRXxI/+gxQppfwrstjl76z6VgLuJE2MfAvcadhCdqNH7A3DfgPButxH0Swcxy8tO1zfHyrpR0z5rAHvpwRn+NVb3wXutZu1BytwFerzewfYFm4EuYCemSsLmXQpQaYB4DyC9KF/YWKsjJU8pxuFJwQtjq5Xik6D0z0YWBEJuAo93wPOqbgNWnETCc2p3GlHJAjQE6PlpXTb+s3p5oMrkPnoKBV1ubVK1E7wSNiqeab61Fa/TrLkFQcQfDeox2vP/QdSsROy1ozger6KET9MREX0KQlVoG6qwgD7k6RzEgnaP2ut1urpVoX5JvfPFzuO4D4bsu6OfD5I2byk9NbL/wMua8uCuPf7ADjgoxmNCs2QB8i1HWdGGSBZJAjgu67IZxDAf2haGoYE4nvJCvII7kGFGDW0LaLgQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(39860400002)(346002)(396003)(376002)(366004)(451199021)(31696002)(6486002)(86362001)(41300700001)(4326008)(6666004)(316002)(450100002)(66476007)(66556008)(36756003)(66946007)(2616005)(5660300002)(186003)(2906002)(31686004)(53546011)(6506007)(6512007)(26005)(83380400001)(38100700002)(107886003)(8936002)(478600001)(8676002)(82960400001)(45980500001)(43740500002);
+ SFS:(13230028)(376002)(396003)(366004)(346002)(136003)(39860400002)(451199021)(82960400001)(31686004)(38100700002)(478600001)(86362001)(66946007)(66556008)(83380400001)(2616005)(66476007)(450100002)(4326008)(31696002)(30864003)(2906002)(6666004)(53546011)(6486002)(186003)(26005)(316002)(6506007)(6512007)(41300700001)(36756003)(107886003)(5660300002)(8676002)(966005)(8936002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blF3b2IwYmpGM2x6cFZBd0d5dmdqUlFTSWp1VXkvNWFnbVhBOVd0NGlRM1Vw?=
- =?utf-8?B?NDk1bmk4ZTU0WW9yWVY0RDdVVkl0Z09wV2JZbWFIelZwTUVEOHhSb1dwNjQy?=
- =?utf-8?B?SFlmUWpBVnloNGZtWGxTTGpMRndiS3Vyd1U4VVU3NWx3V25IL3h3a05BUExq?=
- =?utf-8?B?SStqNHJZK3BJaUdJbmxja0xwVXF2VWEwbHIrOWoxZUdWU1B3QzNEbjBBNm8v?=
- =?utf-8?B?a2FZdGsvdVQ4Zlk5WlovVFZNaXVTZ1FnelU0dGpUV1VVbGtZandiZDhFSFQ2?=
- =?utf-8?B?Z1JGWFFPZmJ5TEhHNXhPZG9CWHQwcS95WjNtc05QT3FxQVVXOXhFbEdyVEFu?=
- =?utf-8?B?a0loaUpCRm9FR0oxM2pUQkZKNWJSdUM5T2V1ZFhWelZib21YTWJmTUxFbHIx?=
- =?utf-8?B?SzdLUzJwTThqMHU0cjdpbWpFc3M0NjFSUGNJYzd1VXczZko1aCtsdHV3bVJh?=
- =?utf-8?B?elY3dFl3aGNwQUUrbzh5eVI4b3VWaEcwYi9hQTdUeXlDRDNNRHlkYTA0OURn?=
- =?utf-8?B?SnJaWTRvUnhEWVRvMi9Dc1VpT3hBY1N1K3laWHo4TXlXRUxQWGVLaGt4Nm1t?=
- =?utf-8?B?cjFHVTFHUVZhTENsRWM4TlZaSzU3d3ZCdWNTRzVmaXJhYjFkWUhHYTlXQ1hh?=
- =?utf-8?B?K0tVd2V2ZU9vTnRvTythWXFFNmw4bmdYMDdFZnJZQUlVWXdVclR3aFNvQjBH?=
- =?utf-8?B?TU9mRTR6TzR4TjBBTVlGVlFBc3NENnViUUIxK21BR3FvaURDd2RFWGxqU2JI?=
- =?utf-8?B?TzZqL0pDMmxnbkxwNjA3YnhyRzV0enFBM2N4bHRwbWQrZlJQK0FBVERxQ2p4?=
- =?utf-8?B?dXlGSHVyTGxiK0t3dUUwODdzYzZmdVRpc01XTnFuUGtkdzFDeWw2NGJNenpC?=
- =?utf-8?B?alhEU0w2Y3NtS2lqSngycDNQeTk3U1RyQld5SXJsTW05L0taTTVRV014eDdN?=
- =?utf-8?B?OWZlazZmenBwMUtva0FsbFAwNWZUZmxRVTQwZ3luNFNEWFp2cVRqY3NITHBh?=
- =?utf-8?B?STl6dDcwOThoUTF1Q2xzVmRQM1BOWUR4YjBTU3dPUGRSbzYrMEQ2WU1sdWlL?=
- =?utf-8?B?SktqK2ltY2Ywb0xDZnBzU0N3QlhBaEo0Nkg5Q1Z4aU5pNnNqYnkzekVnYytO?=
- =?utf-8?B?d3R1TThMaFZMS3p3ODZTMDRhck9HUEtLeVFYQkFSQk9DSmhUeDErRHVoRWU1?=
- =?utf-8?B?dURtYUc2OVppcVJCNUtyNnB4SVNVQ2hZaVJuR3E0cytka3E4N0Rmb1grR29X?=
- =?utf-8?B?ZWQzUUZRalNndU4xczFaNkFJcGVIRTliUGN3TW5OeHNTQUNIWWtLekxDRWNv?=
- =?utf-8?B?ZWVORUk4bDdjdkpVdGRkRHpEOG9wczI1dGh2dkJyOGZsRVhaNHpDRlQyMmpW?=
- =?utf-8?B?QnFNaGowRFdVOHlLaDZYZjNlazVuWll3ZWN6N2hzeGxkS25zRng2aU5iM0JR?=
- =?utf-8?B?QXAwb0djdVdKbEdSd3JzYWJhcy9SY3UvYjlwZnIwdUJkMVo1SFhYZFAvcEhw?=
- =?utf-8?B?d2ZnTVlmRVRETkNMdmNMT3lPTDB3akkrWjNheXQxNUhLSnRnd0l6bTRHbjdN?=
- =?utf-8?B?TndlK21GMndwVk15SThJamJESG54bGNJc2oyMkRXZmxNRkFmeVE4eHpCbTdP?=
- =?utf-8?B?bEFmclFPT3k4SmdzaitTQ1VoejVCaWg5TTJTU204eVh6TFJTcXh4K0ZtYjRD?=
- =?utf-8?B?UGhpQ1FHM1lIcE1IUXJYTENleVhNN2NXeE11WnFPSUFSNFJyeGtERmFaVHJW?=
- =?utf-8?B?Mzg3UmVKQ1JBb1orNTZralltVjMzR3Fkem9ubjVvUjJZNEFMN1BUTGpuVEdF?=
- =?utf-8?B?amxLWVRob1AyaEtlMEsreXlGN3c2T3p5TTNHRDNMeEJFQUxzUmJWbytIMCsw?=
- =?utf-8?B?RG1DRTlYR25waHZ4QTdwdXdLMTQ0cHo1VStzTXFYSXl3TTZZMFQ5bWtxSEhT?=
- =?utf-8?B?THVHYnIyK01jeEVHL3FIMnk2eVZhS29kRHZYNTlyVFNXa1lORUpQeUg2Y2tZ?=
- =?utf-8?B?TVpRcmZkRDN0ckN3WVdpWVFMcW96bjFBdWl5VndYQUdYZitQaDNyeE8wc1o1?=
- =?utf-8?B?QmJFMzR1M3BnbnRvUGxGbnpnaTdTZTZ6dEZNS0IzTC9XWkpUMU5IMVBHL0E3?=
- =?utf-8?B?NEI3OHNCU05QZmVwY0o4Wi92RHpSSDVMNDg0NzhDQXBKdHZWY29YTnpnci9n?=
- =?utf-8?B?VHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d55c9d5-c370-497e-3efa-08db616cc980
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3U4UTV4cHpQZEJTdEJqMHVBd1MvUXN5K0dHRVAvenBVeXVpeHZQNER6WWtK?=
+ =?utf-8?B?N0tjc3NSOWVkSXVsRWRiVzNZS2JScEhMTElNeVNCZ3hmQXROZmdBMUF2aU9G?=
+ =?utf-8?B?V2l5L2dkY0FhelF6ZGpkS2hQVTFMUHhzQzhnWGlaZVVNaWhaN0lzR2w2ZzRo?=
+ =?utf-8?B?L2U1cXNBT3ZFWDAyWi9TZ0JwVUtOTjlJTjJyTlFsbDR5YjRiNTYzaG10d0h0?=
+ =?utf-8?B?d1l4dmpMeGdzbkhhVmE0Q1ZzVGdsUVJVUmY1azd0aHFjUlZIdktRVU5GVGh2?=
+ =?utf-8?B?TGFFV2N4UjlRTVJxQUZwNEtpVXVCR1JtRFdrdzJLR0VKNGg5aTlHczBmMEJT?=
+ =?utf-8?B?NmlxeXBjaFI3Rm15Q3FuT3R4SFpKbzY2KzV5R09EbGJnWTFXUGpJR0R6ODhT?=
+ =?utf-8?B?Qkt6ZGkzdEkrWUJoWVN6VkNUMHBHSG5Ic0FRSjA3akdkMlM1R3lkZlhmS1Fz?=
+ =?utf-8?B?QUxKR0JrNDJuMUlRb3c0ZkxGbk5GMWlHTzhFMWpMbjNDMERLUGFGQnptSzZk?=
+ =?utf-8?B?RStjWTZ4Wmw2OHowVzZDNjMyamFGMFRrNnF4UHRoV3JIYklJb2VSbVJ6VXFU?=
+ =?utf-8?B?QTczSlMrcmpENmZ0OFY5OWZlalpHS3R2M2RtSlJGNTh6VUVoZSs5cWRJK25D?=
+ =?utf-8?B?MlpYUWZyRUxyN3Q0YjdJYnZ1d2tJK0t5d2VKVnVUNmxUOWg3RG40N0xqRndY?=
+ =?utf-8?B?MWhaZzlHeVR6MEVEdGpNUmszN1A0TFZ0QzJ5bWxBN1VhMEs4NHZlSnVBNHBC?=
+ =?utf-8?B?QjBvSzVtVXJRaEZseDhCUG1QOEFpc21BUkJtVWpzS0VEK0Z0SFhLcVNKVXlW?=
+ =?utf-8?B?T1Z2OEFFSUliLzMrQVpnYnJrRnFoU1hIYlZKUE9RYkVSdTZvQnFSM0JWM1gv?=
+ =?utf-8?B?TSthSmZVRnhGcmxLTzJLMUszL2pjNzZyUzJHcmp1Mk9vM1BHU2RyUW83b3Fj?=
+ =?utf-8?B?ZEtud21tRkRZb204VWMvNDVtZHB3eG9QUzJqRUFiZnJydm05Rkkxa0Q1R3Va?=
+ =?utf-8?B?RlpVYlJLdE9BSFMvazZyZjBsMGNaQVgzdjczNUtrYlhWaEcvK3pWN1l5S0lp?=
+ =?utf-8?B?d1FFWEVGeThwdnB1NWtBMk5QU1FrbGc2d2dsV0RULzFQZnQ5YkFOOHJsN2Q0?=
+ =?utf-8?B?TFBKT1ZUUUcxVVJvc0FLWXhmVTVieWJvR3UzVmpMZUZYVHM1NjgxUWZOUEp4?=
+ =?utf-8?B?UFZyS2NWRHVTY0R1NWliSE5penNkR2VSZkR0cUVLdVlXRnVFSXhsNldMT2l3?=
+ =?utf-8?B?VzlYejdFR1RsanR6K09UUXJOejlxbGZEeGZmalZLeVhsVzlZNUcrOUI3R1k4?=
+ =?utf-8?B?ZHJjM2E4SDE3cHZLVDdxQmJ0QnVrR3hGaVdRdXZiSFkwMGhBcmM4Mmh0ZTVP?=
+ =?utf-8?B?QTY5aGRRZkJvZlIxL1BWRURPSnZHQjVVeU9GY1NCMTd6TWswUTBxZG1tSUpn?=
+ =?utf-8?B?a3BHdENudzNwMXA5MXNJaUlkdVNIVnU5cVdTZ1JKd00vRXpGQnAyNTIwUU9S?=
+ =?utf-8?B?cVF6S1JsTlRnbEkrSXIzbjNQeWY2VVJVQm4wbzU1Vzd5Tko3ZEdqU3NqOGQ2?=
+ =?utf-8?B?RDB6OGNrYUtNckRWY1VqYlR1V1JETWU2OE9PTzZPb3VYcmd6VDcyNW92bnlW?=
+ =?utf-8?B?NzZISDdSbEI3N2VxSjhyemNzTllwRGJRNFluNVlUSm9URmpLZVM0a1lsUnhl?=
+ =?utf-8?B?RzZjS2JxbllrVDA5L2VpdXZWMDRhMTFCQk16L29hQVhtWkNFemc4K1Q3c1ZV?=
+ =?utf-8?B?S0dHTkswSml5aGoxRi83Q3JYZklXR2JzUkU1Slp6ZHg5dG9OeEs4TDFCWmM1?=
+ =?utf-8?B?MjBmNDkvaGJJR205VUhzRTlXeEg3Q2daOTRIZ0tUNkxIYXBqU2IxUHozZ25w?=
+ =?utf-8?B?aC9DSEY0VG1yckJ5eEczcmY5TVhtY3R6ZkZQUlFMb3h5cmJ4NFJKa0hVYjBh?=
+ =?utf-8?B?aGFDdlpwRUNRWkhHN0dkaHhHOGtldjU4Y2JhdUpUbUp1eWtabWM3eEF6MjlX?=
+ =?utf-8?B?cmR2cGdVbUY0bkR5OWc4S0dMUW1lMXpTVmFoSXkzT2R4dVNzaDZxUWE1blU1?=
+ =?utf-8?B?dzRsQ0hvMUUwdm5BQm5NQzluVUhDVjdTc05jMXdSSlU2SGlQZXNndmxPZkRt?=
+ =?utf-8?B?dEV5OVF2eEdoNWFQZTdkYkRIWEs0bEQvYlpEU0dDRVdZcFBxZGl5OXdMcmlF?=
+ =?utf-8?B?a1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2278a447-899a-41fa-f49a-08db616d5a6c
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 00:20:06.9686 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 00:24:10.1451 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eiSM1Zrnsnwzm4UKClIWDMhDcIio9/iJEV/zO8EcLVoaidLcvIrBJG2yhzvgpJMdHyU6B5W/xN1GW29xs2IDo5G46bkZPX5LuahTCpEZ04Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6802
+X-MS-Exchange-CrossTenant-UserPrincipalName: b7Ygl/eIjYKOS4GO6f0naf9N2ZRnyKiVK11QdkgfTAW0oiXBYH62/9/DwIrosNby9wLOrvoJC1iji5oMJdU8BndmN5JDdzPd5ITWemo7W6g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4770
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -168,246 +164,441 @@ Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/30/2023 17:11, Ceraolo Spurio, Daniele wrote:
-> On 5/30/2023 4:51 PM, John Harrison wrote:
->> On 5/26/2023 17:52, Daniele Ceraolo Spurio wrote:
->>> In the previous patch we extracted the offset of the legacy-style HuC
->>> binary located within the GSC-enabled blob, so now we can use that to
->>> load the HuC via DMA if the fuse is set that way.
->>> Note that we now need to differentiate between "GSC-enabled binary" and
->>> "loaded by GSC", so the former case has been renamed to "has GSC 
->>> headers"
->>> for clarity, while the latter is now based on the fuse instead of the
->>> binary format. This way, all the legacy load paths are automatically
->>> taken (including the auth by GuC) without having to implement further
->>> code changes.
+On 5/30/2023 17:14, Ceraolo Spurio, Daniele wrote:
+> On 5/30/2023 5:01 PM, John Harrison wrote:
+>> On 5/30/2023 08:29, Daniele Ceraolo Spurio wrote:
+>>> Before we add the second step of the MTL HuC auth (via GSC), we need to
+>>> have the ability to differentiate between them. To do so, the huc
+>>> authentication check is duplicated for GuC and GSC auth, with meu
+>> meu?
+>
+> leftover from the meu drop. Will reword.
+>
+>>
+>>> binaries being considered fully authenticated only after the GSC auth
+>>> step.
 >>>
->>> v2: s/is_meu_binary/has_gsc_headers/, clearer logs (John)
+>>> To report the difference between the 2 auth steps, a new case is added
+>>> to the HuC getparam. This way, the clear media driver can start
+>>> submitting before full auth, as partial auth is enough for those
+>>> workloads.
+>>>
+>>> v2: fix authentication status check for DG2
+>>>
+>>> v3: add a better comment at the top of the HuC file to explain the
+>>>      different approaches to load and auth (John)
+>>>
+>>> v4: update call to intel_huc_is_authenticated in the pxp code to check
+>>> for GSC authentication
 >>>
 >>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 >>> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
 >>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>> Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com> #v2
 >>> ---
->>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 29 
->>> ++++++++++++++---------
->>>   drivers/gpu/drm/i915/gt/uc/intel_huc.h    |  4 +++-
->>>   drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c |  2 +-
->>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c  | 12 +++++-----
->>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h  |  2 +-
->>>   5 files changed, 29 insertions(+), 20 deletions(-)
+>>>   drivers/gpu/drm/i915/gt/uc/intel_huc.c     | 111 
+>>> ++++++++++++++++-----
+>>>   drivers/gpu/drm/i915/gt/uc/intel_huc.h     |  16 ++-
+>>>   drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c  |   4 +-
+>>>   drivers/gpu/drm/i915/i915_reg.h            |   3 +
+>>>   drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c |   2 +-
+>>>   include/uapi/drm/i915_drm.h                |   3 +-
+>>>   6 files changed, 104 insertions(+), 35 deletions(-)
 >>>
 >>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c 
 >>> b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->>> index 6d795438b3e4..37c6a8ca5c71 100644
+>>> index 37c6a8ca5c71..ab5246ae3979 100644
 >>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
 >>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
->>> @@ -298,31 +298,38 @@ void intel_huc_init_early(struct intel_huc *huc)
->>>   static int check_huc_loading_mode(struct intel_huc *huc)
+>>> @@ -10,6 +10,7 @@
+>>>   #include "intel_huc.h"
+>>>   #include "intel_huc_print.h"
+>>>   #include "i915_drv.h"
+>>> +#include "i915_reg.h"
+>>>     #include <linux/device/bus.h>
+>>>   #include <linux/mei_aux.h>
+>>> @@ -22,15 +23,23 @@
+>>>    * capabilities by adding HuC specific commands to batch buffers.
+>>>    *
+>>>    * The kernel driver is only responsible for loading the HuC 
+>>> firmware and
+>>> - * triggering its security authentication, which is performed by 
+>>> the GuC on
+>>> - * older platforms and by the GSC on newer ones. For the GuC to 
+>>> correctly
+>>> - * perform the authentication, the HuC binary must be loaded before 
+>>> the GuC one.
+>>> + * triggering its security authentication. This is done differently 
+>>> depending
+>>> + * on the platform:
+>>> + * - older platforms (from Gen9 to most Gen12s): the load is 
+>>> performed via DMA
+>>> + *   and the authentication via GuC
+>>> + * - DG2: load and authentication are both performed via GSC.
+>>> + * - MTL and newer platforms: the load is performed via DMA (same 
+>>> as with
+>>> + *   not-DG2 older platforms), while the authentication is done in 
+>>> 2-steps,
+>>> + *   a first auth for clear-media workloads via GuC and a second 
+>>> one for all
+>>> + *   workloads via GSC.
+>>> + * On platforms where the GuC does the authentication, to correctly 
+>>> do so the
+>>> + * HuC binary must be loaded before the GuC one.
+>>>    * Loading the HuC is optional; however, not using the HuC might 
+>>> negatively
+>>>    * impact power usage and/or performance of media workloads, 
+>>> depending on the
+>>>    * use-cases.
+>>>    * HuC must be reloaded on events that cause the WOPCM to lose its 
+>>> contents
+>>> - * (S3/S4, FLR); GuC-authenticated HuC must also be reloaded on 
+>>> GuC/GT reset,
+>>> - * while GSC-managed HuC will survive that.
+>>> + * (S3/S4, FLR); on older platforms the HuC must also be reloaded 
+>>> on GuC/GT
+>>> + * reset, while on newer ones it will survive that.
+>>>    *
+>>>    * See https://github.com/intel/media-driver for the latest 
+>>> details on HuC
+>>>    * functionality.
+>>> @@ -106,7 +115,7 @@ static enum hrtimer_restart 
+>>> huc_delayed_load_timer_callback(struct hrtimer *hrti
+>>>   {
+>>>       struct intel_huc *huc = container_of(hrtimer, struct 
+>>> intel_huc, delayed_load.timer);
+>>>   -    if (!intel_huc_is_authenticated(huc)) {
+>>> +    if (!intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC)) {
+>>>           if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
+>>>               huc_notice(huc, "timed out waiting for MEI GSC\n");
+>>>           else if (huc->delayed_load.status == 
+>>> INTEL_HUC_WAITING_ON_PXP)
+>>> @@ -124,7 +133,7 @@ static void huc_delayed_load_start(struct 
+>>> intel_huc *huc)
+>>>   {
+>>>       ktime_t delay;
+>>>   -    GEM_BUG_ON(intel_huc_is_authenticated(huc));
+>>> +    GEM_BUG_ON(intel_huc_is_authenticated(huc, 
+>>> INTEL_HUC_AUTH_BY_GSC));
+>>>         /*
+>>>        * On resume we don't have to wait for MEI-GSC to be 
+>>> re-probed, but we
+>>> @@ -284,13 +293,23 @@ void intel_huc_init_early(struct intel_huc *huc)
+>>>       }
+>>>         if (GRAPHICS_VER(i915) >= 11) {
+>>> -        huc->status.reg = GEN11_HUC_KERNEL_LOAD_INFO;
+>>> -        huc->status.mask = HUC_LOAD_SUCCESSFUL;
+>>> -        huc->status.value = HUC_LOAD_SUCCESSFUL;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].reg = 
+>>> GEN11_HUC_KERNEL_LOAD_INFO;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].mask = HUC_LOAD_SUCCESSFUL;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].value = 
+>>> HUC_LOAD_SUCCESSFUL;
+>>>       } else {
+>>> -        huc->status.reg = HUC_STATUS2;
+>>> -        huc->status.mask = HUC_FW_VERIFIED;
+>>> -        huc->status.value = HUC_FW_VERIFIED;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].reg = HUC_STATUS2;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].mask = HUC_FW_VERIFIED;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GUC].value = HUC_FW_VERIFIED;
+>>> +    }
+>>> +
+>>> +    if (IS_DG2(i915)) {
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].reg = 
+>>> GEN11_HUC_KERNEL_LOAD_INFO;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HUC_LOAD_SUCCESSFUL;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].value = 
+>>> HUC_LOAD_SUCCESSFUL;
+>>> +    } else {
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].reg = 
+>>> HECI_FWSTS5(MTL_GSC_HECI1_BASE);
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].mask = 
+>>> HECI_FWSTS5_HUC_AUTH_DONE;
+>>> +        huc->status[INTEL_HUC_AUTH_BY_GSC].value = 
+>>> HECI_FWSTS5_HUC_AUTH_DONE;
+>>>       }
+>>>   }
+>>>   @@ -381,28 +400,38 @@ void intel_huc_suspend(struct intel_huc *huc)
+>>>       delayed_huc_load_complete(huc);
+>>>   }
+>>>   -int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
+>>> +static const char *auth_mode_string(struct intel_huc *huc,
+>>> +                    enum intel_huc_authentication_type type)
+>>> +{
+>>> +    bool partial = huc->fw.has_gsc_headers && type == 
+>>> INTEL_HUC_AUTH_BY_GUC;
+>>> +
+>>> +    return partial ? "clear media" : "all workloads";
+>>> +}
+>>> +
+>>> +int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+>>> +                     enum intel_huc_authentication_type type)
 >>>   {
 >>>       struct intel_gt *gt = huc_to_gt(huc);
->>> -    bool fw_needs_gsc = intel_huc_is_loaded_by_gsc(huc);
->>> -    bool hw_uses_gsc = false;
->>> +    bool gsc_enabled = huc->fw.has_gsc_headers;
->>>         /*
->>>        * The fuse for HuC load via GSC is only valid on platforms 
->>> that have
->>>        * GuC deprivilege.
->>>        */
->>>       if (HAS_GUC_DEPRIVILEGE(gt->i915))
->>> -        hw_uses_gsc = intel_uncore_read(gt->uncore, 
->>> GUC_SHIM_CONTROL2) &
->>> -                  GSC_LOADS_HUC;
->>> +        huc->loaded_via_gsc = intel_uncore_read(gt->uncore, 
->>> GUC_SHIM_CONTROL2) &
->>> +                      GSC_LOADS_HUC;
->>>   -    if (fw_needs_gsc != hw_uses_gsc) {
->>> -        huc_err(huc, "mismatch between FW (%s) and HW (%s) load 
->>> modes\n",
->>> -            HUC_LOAD_MODE_STRING(fw_needs_gsc), 
->>> HUC_LOAD_MODE_STRING(hw_uses_gsc));
->>> +    if (huc->loaded_via_gsc && !gsc_enabled) {
->>> +        huc_err(huc, "HW requires a GSC-enabled blob, but we found 
->>> a legacy one\n");
->>>           return -ENOEXEC;
+>>>       int ret;
+>>>         ret = __intel_wait_for_register(gt->uncore,
+>>> -                    huc->status.reg,
+>>> -                    huc->status.mask,
+>>> -                    huc->status.value,
+>>> +                    huc->status[type].reg,
+>>> +                    huc->status[type].mask,
+>>> +                    huc->status[type].value,
+>>>                       2, 50, NULL);
+>>>         /* mark the load process as complete even if the wait failed */
+>>>       delayed_huc_load_complete(huc);
+>>>         if (ret) {
+>>> -        huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
+>>> +        huc_err(huc, "firmware not verified for %s: %pe\n",
+>>> +            auth_mode_string(huc, type), ERR_PTR(ret));
+>>>           intel_uc_fw_change_status(&huc->fw, 
+>>> INTEL_UC_FIRMWARE_LOAD_FAIL);
+>>>           return ret;
 >>>       }
->>>   -    /* make sure we can access the GSC via the mei driver if we 
->>> need it */
->>> +    /*
->>> +     * Newer GSC_enabled blobs contain the old FW structure inside. 
->>> If we
->>> +     * found that, we can use it to load the legacy way.
->>> +     */
->>> +    if (!huc->loaded_via_gsc && gsc_enabled && 
->>> !huc->fw.dma_start_offset) {
->>> +        huc_err(huc,"HW in DMA mode, but we have an incompatible 
->>> GSC-enabled blob\n");
->>> +        return -ENOEXEC;
->>> +    }
->> The comment above doesn't seem to match the check. The comment says 
->> 'we can load the old way if possible' whereas the check is more 'can 
->> we load the old way if we need to'.
+>>>         intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
+>>> -    huc_info(huc, "authenticated!\n");
+>>> +    huc_info(huc, "authenticated for %s!\n", auth_mode_string(huc, 
+>>> type));
+>> Not a blocker but should this have an exclamation? It sort of implies 
+>> the authentication is unexpected.
 >
-> I'll reword it.
->
->>
->>> +
->>> +    /* make sure we can access the GSC if we need it */
->>>       if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && 
->>> IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
->>> -        fw_needs_gsc) {
->>> -        huc_info(huc, "can't load due to missing MEI modules\n");
->>> +        !HAS_ENGINE(gt, GSC0) && huc->loaded_via_gsc) {
->> This test still looks wrong when you read it. I think it needs a more 
->> detailed comment. Some kind of explanation that the modules only 
->> apply to one platform and the engine to a different platform. Or even 
->> breaking into two separate tests with an 'if(DG2)' between them? It 
->> certainly confuses me every time I look at it.
->
-> Is it clearer if I split it like this?
->
-> /*
->  * if the FW is loaded via GSC and we're not on a platform that
->  * has the GSC CS, we need the mei modules to access the GSC.
->  */
-> if (huc->loaded_via_gsc && !HAS_ENGINE(gt, GSC0)) {
->         if (!IS_ENABLED(MEI_PXP) || !IS_ENABLED(MEI_GSC)
->                 // error
-> }
->
-It is guaranteed that if the GSC engine is present then no modules are 
-required? And that if the GSC engine is not present, then the modules 
-are all that is required?
+> I can drop it. I just left it because it was already there.
+Indeed. I'm just wondering if you know if there was a good reason for it 
+being added in the original message?
 
-What happens if the GSC engine has been fused off? Or disabled by some 
-future module override, workaround, etc.?
-
-I thinking it would be both clearer and safer to say 'if (DG2) {check 
-DG2 specific stuff} else {check other stuff}'.
+Hmm, it looks like Michal added it as part of the drm_info -> huc_info 
+update. Maybe check with him? But to me an exclamation implies an error 
+or other exceptional circumstance. So I would drop it myself.
 
 John.
 
 
-> Daniele
 >
 >>
+>>>       return 0;
+>>>   }
+>>>   @@ -442,7 +471,7 @@ int intel_huc_auth(struct intel_huc *huc)
+>>>       }
+>>>         /* Check authentication status, it should be done by now */
+>>> -    ret = intel_huc_wait_for_auth_complete(huc);
+>>> +    ret = intel_huc_wait_for_auth_complete(huc, 
+>>> INTEL_HUC_AUTH_BY_GUC);
+>>>       if (ret)
+>>>           goto fail;
+>>>   @@ -453,16 +482,29 @@ int intel_huc_auth(struct intel_huc *huc)
+>>>       return ret;
+>>>   }
+>>>   -bool intel_huc_is_authenticated(struct intel_huc *huc)
+>>> +bool intel_huc_is_authenticated(struct intel_huc *huc,
+>>> +                enum intel_huc_authentication_type type)
+>>>   {
+>>>       struct intel_gt *gt = huc_to_gt(huc);
+>>>       intel_wakeref_t wakeref;
+>>>       u32 status = 0;
+>>>         with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+>>> -        status = intel_uncore_read(gt->uncore, huc->status.reg);
+>>> +        status = intel_uncore_read(gt->uncore, huc->status[type].reg);
+>>>   -    return (status & huc->status.mask) == huc->status.value;
+>>> +    return (status & huc->status[type].mask) == 
+>>> huc->status[type].value;
+>>> +}
+>>> +
+>>> +static bool huc_is_fully_authenticated(struct intel_huc *huc)
+>>> +{
+>>> +    struct intel_uc_fw *huc_fw = &huc->fw;
+>>> +
+>>> +    if (!huc_fw->has_gsc_headers)
+>>> +        return intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GUC);
+>>> +    else if (intel_huc_is_loaded_by_gsc(huc) || 
+>>> HAS_ENGINE(huc_to_gt(huc), GSC0))
+>>> +        return intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC);
+>>> +    else
+>>> +        return false;
+>>>   }
+>>>     /**
+>>> @@ -477,7 +519,9 @@ bool intel_huc_is_authenticated(struct intel_huc 
+>>> *huc)
+>>>    */
+>>>   int intel_huc_check_status(struct intel_huc *huc)
+>>>   {
+>>> -    switch (__intel_uc_fw_status(&huc->fw)) {
+>>> +    struct intel_uc_fw *huc_fw = &huc->fw;
+>>> +
+>>> +    switch (__intel_uc_fw_status(huc_fw)) {
+>>>       case INTEL_UC_FIRMWARE_NOT_SUPPORTED:
+>>>           return -ENODEV;
+>>>       case INTEL_UC_FIRMWARE_DISABLED:
+>>> @@ -494,7 +538,17 @@ int intel_huc_check_status(struct intel_huc *huc)
+>>>           break;
+>>>       }
+>>>   -    return intel_huc_is_authenticated(huc);
+>>> +    /*
+>>> +     * meu binaries loaded by GuC are first partially authenticated 
+>>> by GuC
+>> meu?
+>>
+>
+> Same as the other one, will fix.
+>
+> Daniele
+>
 >> John.
 >>
->>> +        huc_info(huc, "can't load due to missing mei modules or 
->>> GSCCS\n");
->>>           return -EIO;
->>>       }
->>>   -    huc_dbg(huc, "loaded by GSC = %s\n", str_yes_no(fw_needs_gsc));
->>> +    huc_dbg(huc, "loaded by GSC = %s\n", 
->>> str_yes_no(huc->loaded_via_gsc));
->>>         return 0;
+>>
+>>> +     * and then fully authenticated by GSC
+>>> +     */
+>>> +    if (huc_is_fully_authenticated(huc))
+>>> +        return 1; /* full auth */
+>>> +    else if (huc_fw->has_gsc_headers && 
+>>> !intel_huc_is_loaded_by_gsc(huc) &&
+>>> +         intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GUC))
+>>> +        return 2; /* clear media only */
+>>> +    else
+>>> +        return 0;
+>>>   }
+>>>     static bool huc_has_delayed_load(struct intel_huc *huc)
+>>> @@ -508,7 +562,10 @@ void intel_huc_update_auth_status(struct 
+>>> intel_huc *huc)
+>>>       if (!intel_uc_fw_is_loadable(&huc->fw))
+>>>           return;
+>>>   -    if (intel_huc_is_authenticated(huc))
+>>> +    if (!huc->fw.has_gsc_headers)
+>>> +        return;
+>>> +
+>>> +    if (huc_is_fully_authenticated(huc))
+>>>           intel_uc_fw_change_status(&huc->fw,
+>>>                         INTEL_UC_FIRMWARE_RUNNING);
+>>>       else if (huc_has_delayed_load(huc))
+>>> @@ -541,5 +598,5 @@ void intel_huc_load_status(struct intel_huc 
+>>> *huc, struct drm_printer *p)
+>>>         with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+>>>           drm_printf(p, "HuC status: 0x%08x\n",
+>>> -               intel_uncore_read(gt->uncore, huc->status.reg));
+>>> +               intel_uncore_read(gt->uncore, 
+>>> huc->status[INTEL_HUC_AUTH_BY_GUC].reg));
 >>>   }
 >>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h 
 >>> b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
->>> index 0789184d81a2..112f0dce4702 100644
+>>> index 112f0dce4702..3f6aa7c37abc 100644
 >>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
 >>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
->>> @@ -39,6 +39,8 @@ struct intel_huc {
->>>           struct notifier_block nb;
->>>           enum intel_huc_delayed_load_status status;
->>>       } delayed_load;
->>> +
->>> +    bool loaded_via_gsc;
+>>> @@ -22,6 +22,12 @@ enum intel_huc_delayed_load_status {
+>>>       INTEL_HUC_DELAYED_LOAD_ERROR,
 >>>   };
->>>     int intel_huc_sanitize(struct intel_huc *huc);
->>> @@ -73,7 +75,7 @@ static inline bool intel_huc_is_used(struct 
->>> intel_huc *huc)
->>>     static inline bool intel_huc_is_loaded_by_gsc(const struct 
->>> intel_huc *huc)
+>>>   +enum intel_huc_authentication_type {
+>>> +    INTEL_HUC_AUTH_BY_GUC = 0,
+>>> +    INTEL_HUC_AUTH_BY_GSC,
+>>> +    INTEL_HUC_AUTH_MAX_MODES
+>>> +};
+>>> +
+>>>   struct intel_huc {
+>>>       /* Generic uC firmware management */
+>>>       struct intel_uc_fw fw;
+>>> @@ -31,7 +37,7 @@ struct intel_huc {
+>>>           i915_reg_t reg;
+>>>           u32 mask;
+>>>           u32 value;
+>>> -    } status;
+>>> +    } status[INTEL_HUC_AUTH_MAX_MODES];
+>>>         struct {
+>>>           struct i915_sw_fence fence;
+>>> @@ -49,10 +55,12 @@ int intel_huc_init(struct intel_huc *huc);
+>>>   void intel_huc_fini(struct intel_huc *huc);
+>>>   void intel_huc_suspend(struct intel_huc *huc);
+>>>   int intel_huc_auth(struct intel_huc *huc);
+>>> -int intel_huc_wait_for_auth_complete(struct intel_huc *huc);
+>>> +int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+>>> +                     enum intel_huc_authentication_type type);
+>>> +bool intel_huc_is_authenticated(struct intel_huc *huc,
+>>> +                enum intel_huc_authentication_type type);
+>>>   int intel_huc_check_status(struct intel_huc *huc);
+>>>   void intel_huc_update_auth_status(struct intel_huc *huc);
+>>> -bool intel_huc_is_authenticated(struct intel_huc *huc);
+>>>     void intel_huc_register_gsc_notifier(struct intel_huc *huc, 
+>>> const struct bus_type *bus);
+>>>   void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, 
+>>> const struct bus_type *bus);
+>>> @@ -81,7 +89,7 @@ static inline bool 
+>>> intel_huc_is_loaded_by_gsc(const struct intel_huc *huc)
+>>>   static inline bool intel_huc_wait_required(struct intel_huc *huc)
 >>>   {
->>> -    return huc->fw.loaded_via_gsc;
->>> +    return huc->loaded_via_gsc;
+>>>       return intel_huc_is_used(huc) && 
+>>> intel_huc_is_loaded_by_gsc(huc) &&
+>>> -           !intel_huc_is_authenticated(huc);
+>>> +           !intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC);
 >>>   }
->>>     static inline bool intel_huc_wait_required(struct intel_huc *huc)
+>>>     void intel_huc_load_status(struct intel_huc *huc, struct 
+>>> drm_printer *p);
 >>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c 
 >>> b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
->>> index 037d2ad4879d..3355dc1e2bc6 100644
+>>> index 3355dc1e2bc6..d2b4176c81d6 100644
 >>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
 >>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
->>> @@ -50,7 +50,7 @@ int intel_huc_fw_get_binary_info(struct 
->>> intel_uc_fw *huc_fw, const void *data, s
->>>       size_t min_size = sizeof(*header);
->>>       int i;
->>>   -    if (!huc_fw->loaded_via_gsc) {
->>> +    if (!huc_fw->has_gsc_headers) {
->>>           huc_err(huc, "Invalid FW type GSC header parsing!\n");
->>>           return -EINVAL;
->>>       }
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>> index 9ced8dbf1253..b752a7f1ed99 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
->>> @@ -186,7 +186,7 @@ struct __packed uc_fw_blob {
->>>       u8 major;
->>>       u8 minor;
->>>       u8 patch;
->>> -    bool loaded_via_gsc;
->>> +    bool has_gsc_headers;
->>>   };
->>>     #define UC_FW_BLOB_BASE(major_, minor_, patch_, path_) \
->>> @@ -197,7 +197,7 @@ struct __packed uc_fw_blob {
->>>     #define UC_FW_BLOB_NEW(major_, minor_, patch_, gsc_, path_) \
->>>       { UC_FW_BLOB_BASE(major_, minor_, patch_, path_) \
->>> -      .legacy = false, .loaded_via_gsc = gsc_ }
->>> +      .legacy = false, .has_gsc_headers = gsc_ }
->>>     #define UC_FW_BLOB_OLD(major_, minor_, patch_, path_) \
->>>       { UC_FW_BLOB_BASE(major_, minor_, patch_, path_) \
->>> @@ -310,7 +310,7 @@ __uc_fw_auto_select(struct drm_i915_private 
->>> *i915, struct intel_uc_fw *uc_fw)
->>>           uc_fw->file_wanted.ver.major = blob->major;
->>>           uc_fw->file_wanted.ver.minor = blob->minor;
->>>           uc_fw->file_wanted.ver.patch = blob->patch;
->>> -        uc_fw->loaded_via_gsc = blob->loaded_via_gsc;
->>> +        uc_fw->has_gsc_headers = blob->has_gsc_headers;
->>>           found = true;
->>>           break;
->>>       }
->>> @@ -736,7 +736,7 @@ static int check_fw_header(struct intel_gt *gt,
->>>       if (uc_fw->type == INTEL_UC_FW_TYPE_GSC)
+>>> @@ -160,7 +160,7 @@ int intel_huc_fw_load_and_auth_via_gsc(struct 
+>>> intel_huc *huc)
+>>>        * component gets re-bound and this function called again. If 
+>>> so, just
+>>>        * mark the HuC as loaded.
+>>>        */
+>>> -    if (intel_huc_is_authenticated(huc)) {
+>>> +    if (intel_huc_is_authenticated(huc, INTEL_HUC_AUTH_BY_GSC)) {
+>>>           intel_uc_fw_change_status(&huc->fw, 
+>>> INTEL_UC_FIRMWARE_RUNNING);
 >>>           return 0;
->>>   -    if (uc_fw->loaded_via_gsc)
->>> +    if (uc_fw->has_gsc_headers)
->>>           err = check_gsc_manifest(gt, fw, uc_fw);
->>>       else
->>>           err = check_ccs_header(gt, fw, uc_fw);
->>> @@ -998,7 +998,7 @@ static int uc_fw_xfer(struct intel_uc_fw *uc_fw, 
->>> u32 dst_offset, u32 dma_flags)
->>>       intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
->>>         /* Set the source address for the uCode */
->>> -    offset = uc_fw->vma_res.start;
->>> +    offset = uc_fw->vma_res.start + uc_fw->dma_start_offset;
->>>       GEM_BUG_ON(upper_32_bits(offset) & 0xFFFF0000);
->>>       intel_uncore_write_fw(uncore, DMA_ADDR_0_LOW, 
->>> lower_32_bits(offset));
->>>       intel_uncore_write_fw(uncore, DMA_ADDR_0_HIGH, 
->>> upper_32_bits(offset));
->>> @@ -1237,7 +1237,7 @@ size_t intel_uc_fw_copy_rsa(struct intel_uc_fw 
->>> *uc_fw, void *dst, u32 max_len)
->>>   {
->>>       struct intel_memory_region *mr = uc_fw->obj->mm.region;
->>>       u32 size = min_t(u32, uc_fw->rsa_size, max_len);
->>> -    u32 offset = sizeof(struct uc_css_header) + uc_fw->ucode_size;
->>> +    u32 offset = uc_fw->dma_start_offset + sizeof(struct 
->>> uc_css_header) + uc_fw->ucode_size;
->>>       struct sgt_iter iter;
->>>       size_t count = 0;
->>>       int idx;
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->>> index b3daba9526eb..054f02811971 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
->>> @@ -120,7 +120,7 @@ struct intel_uc_fw {
->>>         u32 dma_start_offset;
->>>   -    bool loaded_via_gsc;
->>> +    bool has_gsc_headers;
->>>   };
->>>     /*
+>>>       }
+>>> @@ -173,7 +173,7 @@ int intel_huc_fw_load_and_auth_via_gsc(struct 
+>>> intel_huc *huc)
+>>>         intel_uc_fw_change_status(&huc->fw, 
+>>> INTEL_UC_FIRMWARE_TRANSFERRED);
+>>>   -    return intel_huc_wait_for_auth_complete(huc);
+>>> +    return intel_huc_wait_for_auth_complete(huc, 
+>>> INTEL_HUC_AUTH_BY_GSC);
+>>>   }
+>>>     /**
+>>> diff --git a/drivers/gpu/drm/i915/i915_reg.h 
+>>> b/drivers/gpu/drm/i915/i915_reg.h
+>>> index 0523418129c5..c14433795c91 100644
+>>> --- a/drivers/gpu/drm/i915/i915_reg.h
+>>> +++ b/drivers/gpu/drm/i915/i915_reg.h
+>>> @@ -941,6 +941,9 @@
+>>>   #define HECI_H_GS1(base)    _MMIO((base) + 0xc4c)
+>>>   #define   HECI_H_GS1_ER_PREP    REG_BIT(0)
+>>>   +#define HECI_FWSTS5(base)        _MMIO(base + 0xc68)
+>>> +#define   HECI_FWSTS5_HUC_AUTH_DONE    (1 << 19)
+>>> +
+>>>   #define HSW_GTT_CACHE_EN    _MMIO(0x4024)
+>>>   #define   GTT_CACHE_EN_ALL    0xF0007FFF
+>>>   #define GEN7_WR_WATERMARK    _MMIO(0x4028)
+>>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c 
+>>> b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+>>> index 8dc41de3f6f7..016bd8fad89d 100644
+>>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+>>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+>>> @@ -196,7 +196,7 @@ bool 
+>>> intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
+>>>        * gsc-proxy init flow (the last set of dependencies that
+>>>        * are out of order) will suffice.
+>>>        */
+>>> -    if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc) &&
+>>> +    if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc, 
+>>> INTEL_HUC_AUTH_BY_GSC) &&
+>>> intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc))
+>>>           return true;
+>>>   diff --git a/include/uapi/drm/i915_drm.h 
+>>> b/include/uapi/drm/i915_drm.h
+>>> index f31dfacde601..a1848e806059 100644
+>>> --- a/include/uapi/drm/i915_drm.h
+>>> +++ b/include/uapi/drm/i915_drm.h
+>>> @@ -674,7 +674,8 @@ typedef struct drm_i915_irq_wait {
+>>>    * If the IOCTL is successful, the returned parameter will be set 
+>>> to one of the
+>>>    * following values:
+>>>    *  * 0 if HuC firmware load is not complete,
+>>> - *  * 1 if HuC firmware is authenticated and running.
+>>> + *  * 1 if HuC firmware is loaded and fully authenticated,
+>>> + *  * 2 if HuC firmware is loaded and authenticated for clear media 
+>>> only
+>>>    */
+>>>   #define I915_PARAM_HUC_STATUS         42
 >>
 >
 
