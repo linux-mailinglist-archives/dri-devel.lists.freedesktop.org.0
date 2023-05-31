@@ -1,73 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F2F718B32
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 22:30:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCCE718C83
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 23:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3B8110E34A;
-	Wed, 31 May 2023 20:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7F7B10E069;
+	Wed, 31 May 2023 21:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB95D10E069
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 20:30:14 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f4bd608cf4so7433086e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 13:30:14 -0700 (PDT)
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03BD210E069
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 21:33:17 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id
+ af79cd13be357-75b132ad421so732162785a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 14:33:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685565012; x=1688157012;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wQgUcowRTpgM21EsPox6YeLFNMwnI6ZyngiZGliqXT8=;
- b=Kj8jEKibX5Z/6EA3vEu2XTtwzpSJ8zwWFOoQkcg4qlMNuilugqWbgkXaBFF2VPJXnk
- CbMP/hYNsfDqOBLkbVpZXHYgfxmID5Ang1P4uu2LXXyTbd6wtho+qlUki8L/lkR0F4FX
- Z0Bk1MqVVHUJ96of+zVvOJMQxG+AGfyKFUcpXn1oOyiNMJUAq6z3JBFCmLxlQYBtcNgd
- DWTVujtAEmdfytPOEi+tLEzEccnCzwOieCQDt6JQrB1aDjkphF2CRlbVReiFnyinBfiS
- +M1duTu8wuznzD59qBaTtaLJdeD2uEoTr8dkFsOiouB1fCpcrmYn/iWWm8ouRqbJMLHs
- hkEw==
+ d=broadcom.com; s=google; t=1685568796; x=1688160796;
+ h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=3P/v3TlZ4JDaPbl6IG4sN2YgpJsVIHK9WZZfKVV9RPA=;
+ b=bzh2FxWKyBoBot5F33zPh/qcH6V1t3oowv6+oM1J8XtCdRPylI1TgEk2YqMlSDQtQc
+ J+EP9ujoqnONgD3rTia+weh7TzdLkyOsEiAwcvWMkTcR2UkMIoVx6iqoOZ2HEVW4OzPw
+ VKAlXmC+hage6lORIzT1QwjdO4udAV6X7js4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685565012; x=1688157012;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wQgUcowRTpgM21EsPox6YeLFNMwnI6ZyngiZGliqXT8=;
- b=iPzi44EV+XwrMGxYFTmh69r+Ez3SewkFLW+1TheN922dY72kQoMR9EwtWDds/P6pR0
- tFTs2cBPAVMkk3G2Uik6ryzteimFS++yVBdzcmlJzwQ2xV8EqHrgMg3ZLC676up4m43/
- xw9wsfIBJi54XSqLgVbfuux6iR/s8OTqH1XHbW8pUqpoemB7j3m3kGoOfL+gMzJ7+2ud
- iIvW5gTPj5VuzjIzADy6Y5fGcp07m58n6+RSH897Pfx9PSELfkFHiW30jeT1hdVcCapR
- ENGjY4+ZWAu13TbTRDvjKHe4S2ZCvbcyl4On3j2WEmRY5xhwsZ4RW1/6ndJ7rzCMxTSN
- ZRcA==
-X-Gm-Message-State: AC+VfDygr/kvyp7FVRs/CoU2uA+gCYcBS1vybhnCIO63tT2DznufkRWH
- 0nCsNpaoBnqTmTo0a3l2lpGqUw==
-X-Google-Smtp-Source: ACHHUZ4Q5v3xgwvV8resVsZl4z1giMzO+8GCrXfRosgXBlBGukhaQdcxLC8DRiLNi7PhO3R+kVl0rA==
-X-Received: by 2002:ac2:411a:0:b0:4f4:2b7d:592a with SMTP id
- b26-20020ac2411a000000b004f42b7d592amr68565lfi.38.1685565012564; 
- Wed, 31 May 2023 13:30:12 -0700 (PDT)
-Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
+ d=1e100.net; s=20221208; t=1685568796; x=1688160796;
+ h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3P/v3TlZ4JDaPbl6IG4sN2YgpJsVIHK9WZZfKVV9RPA=;
+ b=kCTV1R+ahl24bDG42VYrp44yXbiCGSeuT313XJwvWHjG42BFyNu3Sg19HEFfLNDxtb
+ h7TUpvKC2Lw2DDOfh5+DWJWx5TaU8zN5VUNATzYPpSz7/DuDRsgYl84Wg+Ijin6/P7U+
+ SOQgp084hOXcXl0H6RlAKt/8CxIveXLmA7kcGlo/yzpVmUGog72xi/F1Cix/CfRaOTg3
+ P1DdvsATY0nTccsy77dPwbB2kM4GPqcLoVb83uZThxslyT64CuQpWamzbfPP85Ns5ZNY
+ bsMkHCdX3cY+D5NQq+QofqoGtwGJBeLAJTDke16rhcEYLMuQjltzgT8ibAzSN1+ouKkw
+ BtDA==
+X-Gm-Message-State: AC+VfDwA7zkjFAZFeZmhXkdggsuUvRhVbmkV3GB8Gky4eanWeGlJEq3v
+ Cd016TNz77uZr8Ynj9ZHltPvMw==
+X-Google-Smtp-Source: ACHHUZ4uCsCNZRq7Bfiyn13N9fL+vSf8vBau9KzZ3tE7dR4G5Lo/ni7F+hCGjis2OzZNFWDVeeDkfQ==
+X-Received: by 2002:a05:620a:4496:b0:75b:3a5d:5b3a with SMTP id
+ x22-20020a05620a449600b0075b3a5d5b3amr8715192qkp.62.1685568796374; 
+ Wed, 31 May 2023 14:33:16 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- q6-20020ac25146000000b004eff6dd9072sm840680lfd.111.2023.05.31.13.30.10
+ j27-20020a05620a001b00b0074d3233487dsm5703855qki.114.2023.05.31.14.33.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 May 2023 13:30:11 -0700 (PDT)
-Message-ID: <57ffc7d9-c767-df36-d91f-8949993b1cdf@linaro.org>
-Date: Wed, 31 May 2023 22:30:09 +0200
+ Wed, 31 May 2023 14:33:15 -0700 (PDT)
+Message-ID: <bda74174-6623-e657-eb7a-bda278882fff@broadcom.com>
+Date: Wed, 31 May 2023 14:32:59 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230531030945.4109453-1-quic_bjorande@quicinc.com>
- <20230531030945.4109453-2-quic_bjorande@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v3 1/3] drm/msm/adreno: Add Adreno A690 support
-In-Reply-To: <20230531030945.4109453-2-quic_bjorande@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thunderbird/102.11.0
+Subject: Re: [PATCH net-next v5 3/6] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+To: Justin Chen <justin.chen@broadcom.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com
+References: <1684969313-35503-1-git-send-email-justin.chen@broadcom.com>
+ <1684969313-35503-4-git-send-email-justin.chen@broadcom.com>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+In-Reply-To: <1684969313-35503-4-git-send-email-justin.chen@broadcom.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="0000000000005f643c05fd04112a"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,134 +75,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mani@kernel.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, johan@kernel.org,
- Steev Klimaszewski <steev@kali.org>, freedreno@lists.freedesktop.org
+Cc: andrew@lunn.ch, conor+dt@kernel.org, opendmb@gmail.com,
+ christian.koenig@amd.com, simon.horman@corigine.com, richardcochran@gmail.com,
+ linux@armlinux.org.uk, sumit.semwal@linaro.org, edumazet@google.com,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+ pabeni@redhat.com, davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000005f643c05fd04112a
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-On 31.05.2023 05:09, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+On 5/24/23 16:01, Justin Chen wrote:
+> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+> introduced with 72165. This controller features two distinct Ethernet
+> ports that can be independently operated.
 > 
-> Introduce support for the Adreno A690, found in Qualcomm SC8280XP.
+> This patch supports:
 > 
-> Tested-by: Steev Klimaszewski <steev@kali.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> - Wake-on-LAN using magic packets
+> - basic ethtool operations (link, counters, message level)
+> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
+> 
+> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
 > ---
-Couple of additional nits that you may or may not incorporate:
 
-[...]
+[snip]
 
-> +	{REG_A6XX_RBBM_CLOCK_HYST_SP0, 0x0000F3CF},
-It would be cool if we could stop adding uppercase hex outside preprocessor
-defines..
+> +static const struct net_device_ops bcmasp_netdev_ops = {
+> +	.ndo_open		= bcmasp_open,
+> +	.ndo_stop		= bcmasp_stop,
+> +	.ndo_start_xmit		= bcmasp_xmit,
+> +	.ndo_tx_timeout		= bcmasp_tx_timeout,
+> +	.ndo_set_rx_mode	= bcmasp_set_rx_mode,
+> +	.ndo_get_phys_port_name	= bcmasp_get_phys_port_name,
+> +	.ndo_get_stats		= bcmasp_get_stats,
+> +	.ndo_do_ioctl		= bcmasp_ioctl,
+
+This needs to be:
+
+@@ -1207,7 +1196,7 @@ static const struct net_device_ops 
+bcmasp_netdev_ops = {
+         .ndo_set_rx_mode        = bcmasp_set_rx_mode,
+         .ndo_get_phys_port_name = bcmasp_get_phys_port_name,
+         .ndo_get_stats          = bcmasp_get_stats,
+-       .ndo_do_ioctl           = bcmasp_ioctl,
++       .ndo_eth_ioctl          = phy_do_ioctl_running,
+         .ndo_set_mac_address    = bcmasp_set_mac_address,
+  };
+
+such that MII ioctls work properly.
+-- 
+Florian
 
 
-[...]
-> +	A6XX_PROTECT_RDONLY(0x0fc00, 0x01fff),
-> +	A6XX_PROTECT_NORDWR(0x11c00, 0x00000), /*note: infiite range */
-typo
+--0000000000005f643c05fd04112a
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-
-
--- Questions to Rob that don't really concern this patch --
-
-> +static void a690_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-Rob, I'll be looking into reworking these into dynamic tables.. would you
-be okay with two more additions (A730, A740) on top of this before I do that?
-The number of these funcs has risen quite a bit and we're abusing the fact
-that so far there's a 1-1 mapping of SoC-Adreno (at the current state of
-mainline, not in general)..
-
-> +{
-> +	/*
-> +	 * Send a single "off" entry just to get things running
-> +	 * TODO: bus scaling
-> +	 */
-Also something I'll be looking into in the near future..
-
-> @@ -531,6 +562,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
->  		adreno_7c3_build_bw_table(&msg);
->  	else if (adreno_is_a660(adreno_gpu))
->  		a660_build_bw_table(&msg);
-> +	else if (adreno_is_a690(adreno_gpu))
-> +		a690_build_bw_table(&msg);
->  	else
->  		a6xx_build_bw_table(&msg);
-I think changing the is_adreno_... to switch statements with a gpu_model
-var would make it easier to read.. Should I also rework that?
-
-Konrad
-
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 8cff86e9d35c..e5a865024e94 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -355,6 +355,20 @@ static const struct adreno_info gpulist[] = {
->  		.init = a6xx_gpu_init,
->  		.zapfw = "a640_zap.mdt",
->  		.hwcg = a640_hwcg,
-> +	}, {
-> +		.rev = ADRENO_REV(6, 9, 0, ANY_ID),
-> +		.revn = 690,
-> +		.name = "A690",
-> +		.fw = {
-> +			[ADRENO_FW_SQE] = "a660_sqe.fw",
-> +			[ADRENO_FW_GMU] = "a690_gmu.bin",
-> +		},
-> +		.gmem = SZ_4M,
-> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> +		.init = a6xx_gpu_init,
-> +		.zapfw = "a690_zap.mdt",
-> +		.hwcg = a690_hwcg,
-> +		.address_space_size = SZ_16G,
->  	},
->  };
->  
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index f62612a5c70f..ac9c429ca07b 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -55,7 +55,7 @@ struct adreno_reglist {
->  	u32 value;
->  };
->  
-> -extern const struct adreno_reglist a615_hwcg[], a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[];
-> +extern const struct adreno_reglist a615_hwcg[], a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[], a690_hwcg[];
->  
->  struct adreno_info {
->  	struct adreno_rev rev;
-> @@ -272,6 +272,11 @@ static inline int adreno_is_a660(struct adreno_gpu *gpu)
->  	return gpu->revn == 660;
->  }
->  
-> +static inline int adreno_is_a690(struct adreno_gpu *gpu)
-> +{
-> +	return gpu->revn == 690;
-> +};
-> +
->  /* check for a615, a616, a618, a619 or any derivatives */
->  static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
->  {
-> @@ -280,13 +285,13 @@ static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
->  
->  static inline int adreno_is_a660_family(struct adreno_gpu *gpu)
->  {
-> -	return adreno_is_a660(gpu) || adreno_is_7c3(gpu);
-> +	return adreno_is_a660(gpu) || adreno_is_a690(gpu) || adreno_is_7c3(gpu);
->  }
->  
->  /* check for a650, a660, or any derivatives */
->  static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
->  {
-> -	return gpu->revn == 650 || gpu->revn == 620 || adreno_is_a660_family(gpu);
-> +	return gpu->revn == 650 || gpu->revn == 620  || adreno_is_a660_family(gpu);
->  }
->  
->  u64 adreno_private_address_space_size(struct msm_gpu *gpu);
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
+9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
+UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
+KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
+nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
+Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
+VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
+ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
+CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
+MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
+d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
+hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
+bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
+BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
+KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
+kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
+2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
+3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
+NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
+AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
+LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGItqRIU15xv8mQT
+5wIKXFSrTd3E8n/IqhZkGODeWalhMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTIzMDUzMTIxMzMxNlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCbQTMinf6ONcNqYkTiqN8CGhT5P250sMmM
+5C32DeBKqmP1atQN6UVlgP9Q4JqClV0FZd34Ms2iWYxEqX826Qf7bY6vhO1xFhOUY7+QUjrcQ7nE
+q4TTMu5QrRd+bnolW2NdM8oh2AqccecleojnqriX0IrIkKiV2o2WuETSRsqKbtCGfaNgPWhgnkIu
+qtfW0rYpWvruzDHfcJ38RbLPsjsxp5wKH8MQVbL3xl1rT9eKlZ5px2j05T7jt0XlR/7NpmmZPNF4
+1eX8gTBoeiuN2Us6wWr/SUoeXV73+0TeFISaQ6HqhmXKkO6njJkd0tNxzuEj+qyDQEPQ14Q1ZStS
+K4c1
+--0000000000005f643c05fd04112a--
