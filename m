@@ -1,60 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EE171787B
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 09:43:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D3771788A
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 09:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777F610E498;
-	Wed, 31 May 2023 07:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88A0010E48F;
+	Wed, 31 May 2023 07:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3618D89233
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 07:43:26 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id
- 6a1803df08f44-625a9e2bf6bso28830736d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 00:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1685519003; x=1688111003;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2hCCJrsaz/NjGrHJ94qpM3huv+xsF2o6fZiZu7/z8AY=;
- b=VgW5pvZ3wqpWZIFiq2dd7Bfobqfflrkuq1mJb47cnl5/aQQxXhGgkRBV+EjtQexHxd
- lJZWjBXAxCLvKTbwl27X2FfjdySA+Jwm64MC+9lvyp1mBq4kYsmUet2vBoCNCscQBHV0
- XZoYE0Gq4tiQumSoLTu79fhV4aTBeW4GO+O1E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685519003; x=1688111003;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2hCCJrsaz/NjGrHJ94qpM3huv+xsF2o6fZiZu7/z8AY=;
- b=dCPnYZOcB2BYNuD2yKfWTrY9Xe/TiIlgVjl5iswGno4EjRj16XiJgJa/p4nHo04dHt
- w8Ia1qPYdXDzMnVNNAZxGMTjBqn5NW9Y99BYL/NP370WTRabMTWeGl9ClUiq3fZS02dL
- z6e1sfBST3jKG3iLyBUpow/Xq01fR7q9O1hlU6Fo+JUUWi2e6p6WPr5mw3/4DX87afTW
- HleqcB2fjN7MYVSWgEDUPOJ+tJ9mfyWnpGkPo765K4TSTveliRfygDyukuopeZW8dX20
- x2kDVovbWtC7q4kNf2Zz1j0sWccCmCDd7AvGKrmBuYKek3NkZ4uTDhRaDECZfAfokuFQ
- OJvQ==
-X-Gm-Message-State: AC+VfDylcD+sa6Q3KSrWhVF09qNI6VseKah3XDneGwbmqn0STn93hnGW
- vP3T3NAHSmH0akgFit7mB7lC+P60S+60D7N1SF3urA==
-X-Google-Smtp-Source: ACHHUZ55CaO/7pKYADZLoW2cfgMbio+kJB5f8rUaty9cLHbxEhYWcWalPWE0GNlEOIgz74JZcSTB8c25FAlzJvkwUKw=
-X-Received: by 2002:a05:6214:528d:b0:625:7802:f36d with SMTP id
- kj13-20020a056214528d00b006257802f36dmr4655699qvb.24.1685519003409; Wed, 31
- May 2023 00:43:23 -0700 (PDT)
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91AC510E48F
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 07:45:25 +0000 (UTC)
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20230531074522epoutp02ee845bbb2bf1035a7893473ff10877ca~kKrYi5bR12517025170epoutp02X
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 07:45:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20230531074522epoutp02ee845bbb2bf1035a7893473ff10877ca~kKrYi5bR12517025170epoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1685519122;
+ bh=H6wakReZj3X6TMsaGJiAoGxjSAD48emzppa7JMd+Quw=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=JEfd3688uI7Eh4XJGTl1ykENCdoEguvQJ0C65REFJ+tYp+0P+sp+PhvtI0MpgkU2f
+ Cuc+1mt0Zj+0LKt0z/0TUoO6BbbxydyRsq3Ne6bhkFyrY6EhecAMxqox+Jcz8/fAKy
+ 1rVe0ZYAtNLplueDEYobigpI9Ah+eGyKeQCTcHgA=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230531074521epcas1p16f21c73bc229931a2313695ec2f5d344~kKrYHMYBm3064830648epcas1p1z;
+ Wed, 31 May 2023 07:45:21 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.36.136]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4QWLsF27BDz4x9Pw; Wed, 31 May
+ 2023 07:45:21 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+ epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 19.F7.48553.11BF6746; Wed, 31 May 2023 16:45:21 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20230531074520epcas1p1c0d3f71f7baf85caccca82316a7b80fb~kKrXO4i7U3069230692epcas1p1u;
+ Wed, 31 May 2023 07:45:20 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20230531074520epsmtrp2862b808b9ec38ed7a764524fd94e254a~kKrXJiIy31510215102epsmtrp2Q;
+ Wed, 31 May 2023 07:45:20 +0000 (GMT)
+X-AuditID: b6c32a39-509937000001bda9-b4-6476fb11202a
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 73.86.27706.01BF6746; Wed, 31 May 2023 16:45:20 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20230531074520epsmtip205e0a19fdc3e2293041f027e4c134aaf~kKrW7MAMc2089220892epsmtip2H;
+ Wed, 31 May 2023 07:45:20 +0000 (GMT)
+From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
+ <inki.dae@samsung.com>
+To: "'Min Li'" <lm0963hack@gmail.com>
+In-Reply-To: <20230526130131.16521-1-lm0963hack@gmail.com>
+Subject: RE: [PATCH] drm/exynos: fix race condition UAF in
+ exynos_g2d_exec_ioctl
+Date: Wed, 31 May 2023 16:45:20 +0900
+Message-ID: <13cd01d99393$d9b7b070$8d271150$@samsung.com>
 MIME-Version: 1.0
-References: <20230306080659.15261-1-jason-jh.lin@mediatek.com>
- <20230306080659.15261-3-jason-jh.lin@mediatek.com>
-In-Reply-To: <20230306080659.15261-3-jason-jh.lin@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 31 May 2023 15:43:12 +0800
-Message-ID: <CAGXv+5EPktjMABhtWf9dL-25dAe=Mf4=BSMmE+=4m2WisDXXFQ@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] soc: mediatek: remove DDP_DOMPONENT_DITHER from
- enum
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: ko
+Thread-Index: AQHl90PUgZVgoIOsoCnWfp0gsuCaowGTj1Ryr06bZVA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGJsWRmVeSWpSXmKPExsWy7bCmvq7g77IUgwuHeC1OXF/EZPFg3jY2
+ i//bJjJbXPn6ns1i7+ut7BZnm96wW2x6fI3V4vKuOWwWM87vY7I4Pr2ByWLG5JdsDtwee78t
+ YPHYOesuu8eda3vYPO53H2fy2Lyk3qNvyypGj8+b5ALYo7JtMlITU1KLFFLzkvNTMvPSbZW8
+ g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4BuVFIoS8wpBQoFJBYXK+nb2RTll5akKmTk
+ F5fYKqUWpOQUmBboFSfmFpfmpevlpZZYGRoYGJkCFSZkZ/zacZex4AZPxfHTM1gaGG9zdTFy
+ ckgImEh0zp7P1sXIxSEksINRYtWjCVDOJ0aJUw96GSGcb4wS9+f+Ye5i5ABr6d0WBBHfyyix
+ eNZjVpBRQgIvGSXWLioCsdkEMiTuti9mBakXEVCVmHAxAKSeWWAbk8S5gyDrODk4Bawknlzv
+ YwSpERYIkuj84AgSZgEqP7TkLFgJr4ClxJG2+YwQtqDEyZlPWEBsZgEjiSWr5zNB2PIS29/O
+ YYb4RkHi59NlrBBxEYnZnW1gcRGgVfeubWIHuUFC4AiHRPvz9awQDS4S2z+chmoWlnh1fAs7
+ hC0l8fndXjaIhsmMEneur2CBcGYwShz+eZ0RospYYv/SyUwQtqLEzt9zGSFW80m8+9rDCgkt
+ XomONiGIEiWJYxdvQLVKSFxYMpFtAqPSLCTPzULy3Cwkz81C8tACRpZVjGKpBcW56anFhgWm
+ 8OhOzs/dxAhOwFqWOxinv/2gd4iRiYPxEKMEB7OSCK9tYnGKEG9KYmVValF+fFFpTmrxIUZT
+ YHhPZJYSTc4H5oC8knhDE0sDEzMjYxMLQzNDJXHeL0+1U4QE0hNLUrNTUwtSi2D6mDg4pRqY
+ mL2bju+8a+DC7d0t/Lfoc/7VRxKzXm6U0bqWrvxw/S6Turu7be2Tk3QbonZ67rKKsj7zye6Q
+ 9E1FlsJg7rcnTRqUq0S8LjukNrM+/33JJ2fjsSgpw2SzwK03p9mklAvOfh49W/Sc0sz1tjOY
+ vD9csHW/van+6j7GSq4DbF6vzxu8KohhOR6pKac6bakXa9aVzXHWpde2WT3ws9EO5QiWKT1h
+ oHewr/PvtzXT1H6cmrhAwCprScbOyro3v2/cbPwkvolD6W77lqUrWbkTEmdmeoT7bmE5ucpS
+ agGba+LKcJYJLEs8Ly+r2RQ1x/zrwmdesWts3Vjkt15/ve/xDu2uSGmpkDsTlr92czHqW5yk
+ xFKckWioxVxUnAgA9BM2mkkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHIsWRmVeSWpSXmKPExsWy7bCSvK7A77IUg4+/tC1OXF/EZPFg3jY2
+ i//bJjJbXPn6ns1i7+ut7BZnm96wW2x6fI3V4vKuOWwWM87vY7I4Pr2ByWLG5JdsDtwee78t
+ YPHYOesuu8eda3vYPO53H2fy2Lyk3qNvyypGj8+b5ALYo7hsUlJzMstSi/TtErgyfu24y1hw
+ g6fi+OkZLA2Mt7m6GDk4JARMJHq3BXUxcnEICexmlJjWuZgJIi4hsWUrB4QpLHH4cDFEyXNG
+ iZ6vt1i6GDk52ATSJCbN3c8KUiMioCox4WIASA2zwAEmievr17JBNHQzSlx5eIcJpIFTwEri
+ yfU+RhBbWCBA4uqtx2wgNgtQ86ElZ8FsXgFLiSNt8xkhbEGJkzOfgC1jBrqz8XA3lC0vsf3t
+ HGYQW0JAQeLn02WsEHERidmdbWBxEaBd965tYp/AKDwLyahZSEbNQjJqFpL2BYwsqxglUwuK
+ c9Nziw0LDPNSy/WKE3OLS/PS9ZLzczcxgqNQS3MH4/ZVH/QOMTJxMB5ilOBgVhLhtU0sThHi
+ TUmsrEotyo8vKs1JLT7EKM3BoiTOe6HrZLyQQHpiSWp2ampBahFMlomDU6qBaf1sZsOsQwpz
+ djp8eHNEbvnahJuraz7stE452mKb2Fq8Rkve4m5a94n6q/4LtjMv/PVorvvpjgv5XC46rwv+
+ /bq09P10xmaxl3V3/1YzzDAxqYl4r5Nbu3bWI5aIab5db052eVRP7Z1etr/h+AyDMpGw4886
+ Z7Lx8NiftpptMsd6Foeia3Z6gNFT7tWaX8Sz1PPCf1xdPWHR5b5Nl+eutMlwWba1RLmTSY3x
+ uuY7j+Pza26X//feVPdttdIR5XXHHrbf3ZLhJNF2il3e5Ny3Wf/6VjFYpdmud9N7WpwQcJS1
+ ML0kflLu7qPq4j1BHFteLft1Ovo0w7mVLIXTlRSent/29+RLycWZf6I9Gv9eYFNiKc5INNRi
+ LipOBAC51w5YMQMAAA==
+X-CMS-MailID: 20230531074520epcas1p1c0d3f71f7baf85caccca82316a7b80fb
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230527081826epcas1p15ec3fca591d914aff2019ddf7fd1d59c
+References: <CGME20230527081826epcas1p15ec3fca591d914aff2019ddf7fd1d59c@epcas1p1.samsung.com>
+ <20230526130131.16521-1-lm0963hack@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +120,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-samsung-soc@vger.kernel.org, sw0312.kim@samsung.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kyungmin.park@samsung.com,
+ alim.akhtar@samsung.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
-
-On Mon, Mar 6, 2023 at 4:07=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@mediatek.=
-com> wrote:
->
-> After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-> mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
->
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-CK didn't pick up this patch. Since the other patch already got picked up
-in v6.4-rc1, could you merge this for v6.5?
+Hi,
 
 
-Thanks
-ChenYu
+> -----Original Message-----
+> From: Min Li <lm0963hack@gmail.com>
+> Sent: Friday, May 26, 2023 10:02 PM
+> To: inki.dae@samsung.com
+> Cc: sw0312.kim@samsung.com; kyungmin.park@samsung.com; airlied@gmail.com;
+> daniel@ffwll.ch; krzysztof.kozlowski@linaro.org; alim.akhtar@samsung.com;
+> dri-devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
+> linux-samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: [PATCH] drm/exynos: fix race condition UAF in
+> exynos_g2d_exec_ioctl
+> 
+> If it is async, runqueue_node is freed in g2d_runqueue_worker on another
+> worker thread. So in extreme cases, if g2d_runqueue_worker runs first, and
+> then executes the following if statement, there will be use-after-free.
+> 
 
+I received a report about the related issue from a white hacker before.
+Thanks for contribution. :)
 
+> Signed-off-by: Min Li <lm0963hack@gmail.com>
 > ---
->  include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/m=
-ediatek/mtk-mmsys.h
-> index dc2963a0a0f7..8eb5846985b4 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -27,8 +27,7 @@ enum mtk_ddp_comp_id {
->         DDP_COMPONENT_CCORR,
->         DDP_COMPONENT_COLOR0,
->         DDP_COMPONENT_COLOR1,
-> -       DDP_COMPONENT_DITHER,
-> -       DDP_COMPONENT_DITHER0 =3D DDP_COMPONENT_DITHER,
-> +       DDP_COMPONENT_DITHER0,
->         DDP_COMPONENT_DITHER1,
->         DDP_COMPONENT_DP_INTF0,
->         DDP_COMPONENT_DP_INTF1,
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> index ec784e58da5c..414e585ec7dd 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> @@ -1335,7 +1335,7 @@ int exynos_g2d_exec_ioctl(struct drm_device
+*drm_dev,
+> void *data,
+>  	/* Let the runqueue know that there is work to do. */
+>  	queue_work(g2d->g2d_workq, &g2d->runqueue_work);
+> 
+> -	if (runqueue_node->async)
+> +	if (req->async)
+>  		goto out;
+> 
+>  	wait_for_completion(&runqueue_node->complete);
 > --
-> 2.18.0
->
+> 2.34.1
+
+
