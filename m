@@ -2,79 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C986771887F
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 19:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA7F7188AA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 19:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFF410E509;
-	Wed, 31 May 2023 17:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F7610E086;
+	Wed, 31 May 2023 17:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3B010E500;
- Wed, 31 May 2023 17:29:34 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34VHNxNT012000; Wed, 31 May 2023 17:29:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=lfvBv3wC++XoBknk5+vIpz7EOIutZoIqAL7pPkjlFWo=;
- b=dtWqYBgQsN2zpjqP9ofahfU8jQrOKN8egidoUZhs7sbYAh5lXHeKasJBAe9Wy1Qg+MKJ
- o4nlw3EmO3gyRJp5GVjlYrcJJAfzM7GH/w9Dzq2l0PGA/BmAq01YiMmHV1iGKK9PBm6A
- TyaG51oBYVgG6YkWPR+FypEM4uJ81krgIb51o8x2s/AAnlEBjl0H9MFlxG9gCNh2qgQb
- 9XRUe0+iKFNNZIjdt/ztye2PEDBW8eLrjTWrXaZz5lmBgt/CAStIUxqMPZ/pImSS4FMd
- hQQRyIv6OO+9sH19C3rWITBLx9loJyo3o9WavIMVKUjnA1okclTgFxchys5lFdc1fQXi 9Q== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qx81x8fhd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 17:29:24 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VHTNis001025
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 17:29:23 GMT
-Received: from [10.71.110.189] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 31 May
- 2023 10:29:22 -0700
-Message-ID: <e69f02b7-eba9-5f33-5ca1-eb0638928414@quicinc.com>
-Date: Wed, 31 May 2023 10:29:22 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v1 2/3] drm/msm/dpu: retrieve DSI DSC struct at
- atomic_check()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
- <1685464318-25031-3-git-send-email-quic_khsieh@quicinc.com>
- <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
- <157e8219-7af2-c7ed-6d99-3caa6fbc11ba@quicinc.com>
- <CAA8EJponkEne2vVsNP=2Fxmv=Uc6i_LzAGBSEz9hPPotCEpGzg@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJponkEne2vVsNP=2Fxmv=Uc6i_LzAGBSEz9hPPotCEpGzg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: L2NpBAR6-SXcCQwoJVAzmgNq9y_Lstt9
-X-Proofpoint-ORIG-GUID: L2NpBAR6-SXcCQwoJVAzmgNq9y_Lstt9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_12,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- adultscore=0 bulkscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305310147
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CE610E086
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 17:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685554958; x=1717090958;
+ h=date:from:to:cc:subject:message-id;
+ bh=oTfqfZVaDQgnFSgZ7B9wjkTceD2NP2Aw+G7Tg0WjGqE=;
+ b=B/sgDlGHD/iQY45QS6Nree2OfRM3AHWa9wPbRn4p5C1A1P0N8Czbgo0G
+ JFjqtg8Wkw/s71hE3WRce9BTMKCTl4/ud7xxCh5Hqqoy7VBaY9V5S51xu
+ Z0yWrbOvhSqyc4CFYl2EyPu8BvF13VvVlz88ZVEIdfx6xl1YvaWY43/pb
+ zv3kf/2iO3cF4k01MmbvuifVtIjj0hI792y9CxWMXjwwW1gA46JtWzabg
+ f1SqXAhxeCAz/8hi8ZduaHVyaxIMn2Exy9dLqKvCmEtNq8ZGwdBrFsExE
+ 6dH0P1UyB9smOl/Gf+euqZuJFTAw5Nc28YhMkkQODMXJ02Zxo97VVZalE Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="358579346"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="358579346"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 10:42:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="740057588"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="740057588"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 31 May 2023 10:42:35 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q4PqE-0001WZ-1n;
+ Wed, 31 May 2023 17:42:34 +0000
+Date: Thu, 01 Jun 2023 01:41:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ d4cee89031c80066ec461bb77b5e13a4f37d5fd2
+Message-ID: <20230531174141.u9Px1%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,69 +55,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: d4cee89031c80066ec461bb77b5e13a4f37d5fd2  Add linux-next specific files for 20230531
 
-On 5/31/2023 10:12 AM, Dmitry Baryshkov wrote:
-> On Wed, 31 May 2023 at 18:41, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->>
->>
->>>>    +    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
->>> INTF_DSI
->>>
->>>> +        struct drm_bridge *bridge;
->>>> +
->>>> +        if (!dpu_enc->dsc) {
->>> This condition is not correct. We should be updating the DSC even if
->>> there is one.
->>>
->>>> +            bridge = drm_bridge_chain_get_first_bridge(drm_enc);
->>>> +            dpu_enc->dsc = msm_dsi_bridge_get_dsc_config(bridge);
->>> This approach will not work for the hot-pluggable outputs. The dpu_enc
->>> is not a part of the state. It should not be touched before
->>> atomic_commit actually commits changes.
->> where can drm_dsc_config be stored?
-> I'd say, get it during atomic_check (and don't store it anywhere).
-> Then get it during atomic_enable (and save in dpu_enc).
-got it.
->
->>> Also, I don't think I like the API. It makes it impossible for the
->>> driver to check that the bridge is the actually our DSI bridge or not.
->>> Once you add DP here, the code will explode.
->>>
->>> I think instead we should extend the drm_bridge API to be able to get
->>> the DSC configuration from it directly. Additional care should be put
->>> to design an assymetrical API. Theoretically a drm_bridge can be both
->>> DSC source and DSC sink. Imagine a DSI-to-DP or DSI-to-HDMI bridge,
->>> supporting DSC on the DSI side too.
->> Form my understanding, a bridge contains two interfaces.
->>
->> Therefore I would think only one bridge for dsi-to-dp bridge? and this
->> bridge should represent the bridge chip?
->>
->> I am thinking adding an ops function, get_bridge_dsc() to struct
->> drm_bridge_funcs to retrieve drm_dsc_config.
-> So, for this DSI-to-DP bridge will get_bridge_dsc() return DSC
-> configuration for  the DSI or for the DP side of the bridge?
+Error/Warning reports:
 
-I would think should be DP side. there is no reason to enable dsc on 
-both DSI and DP fro a bridge chip.
+https://lore.kernel.org/oe-kbuild-all/202305311652.OP9x8xkW-lkp@intel.com
 
-drm_bridge_chain_get_first_bridge(drm_enc) should return the bridge of 
-the controller.
+Error/Warning: (recently discovered and may have been fixed)
 
-In DSI-to-DP bridge chip case, this controller will be the bridge chip 
-who configured to perform protocol conversion between DSI and DP.
+include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+include/linux/usb/typec_mux.h:77:1: error: expected identifier or '(' before '{' token
 
-If DSC enabled should be at DP size which connect to panel.
+Error/Warning ids grouped by kconfigs:
 
->
->> Do you have other suggestion?
-> Let me think about it for a few days.
->
+gcc_recent_errors
+|-- i386-allyesconfig
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+`-- parisc-randconfig-r025-20230531
+    `-- include-linux-usb-typec_mux.h:error:expected-identifier-or-(-before-token
+
+elapsed time: 724m
+
+configs tested: 149
+configs skipped: 5
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r006-20230531   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r001-20230531   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r011-20230531   gcc  
+arc                  randconfig-r043-20230531   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                           h3600_defconfig   gcc  
+arm                  randconfig-r004-20230531   clang
+arm                  randconfig-r013-20230531   gcc  
+arm                  randconfig-r046-20230531   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r012-20230531   clang
+arm64                randconfig-r034-20230531   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r033-20230531   gcc  
+hexagon              randconfig-r002-20230531   clang
+hexagon              randconfig-r041-20230531   clang
+hexagon              randconfig-r045-20230531   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230531   gcc  
+i386                 randconfig-i002-20230531   gcc  
+i386                 randconfig-i003-20230531   gcc  
+i386                 randconfig-i004-20230531   gcc  
+i386                 randconfig-i005-20230531   gcc  
+i386                 randconfig-i006-20230531   gcc  
+i386                 randconfig-i011-20230531   clang
+i386                 randconfig-i012-20230531   clang
+i386                 randconfig-i013-20230531   clang
+i386                 randconfig-i014-20230531   clang
+i386                 randconfig-i015-20230531   clang
+i386                 randconfig-i016-20230531   clang
+i386                 randconfig-i051-20230531   gcc  
+i386                 randconfig-i052-20230531   gcc  
+i386                 randconfig-i053-20230531   gcc  
+i386                 randconfig-i054-20230531   gcc  
+i386                 randconfig-i055-20230531   gcc  
+i386                 randconfig-i056-20230531   gcc  
+i386                 randconfig-i061-20230531   gcc  
+i386                 randconfig-i062-20230531   gcc  
+i386                 randconfig-i063-20230531   gcc  
+i386                 randconfig-i064-20230531   gcc  
+i386                 randconfig-i065-20230531   gcc  
+i386                 randconfig-i066-20230531   gcc  
+i386                 randconfig-i071-20230531   clang
+i386                 randconfig-i072-20230531   clang
+i386                 randconfig-i073-20230531   clang
+i386                 randconfig-i074-20230531   clang
+i386                 randconfig-i075-20230531   clang
+i386                 randconfig-i076-20230531   clang
+i386                 randconfig-i081-20230531   clang
+i386                 randconfig-i082-20230531   clang
+i386                 randconfig-i083-20230531   clang
+i386                 randconfig-i084-20230531   clang
+i386                 randconfig-i085-20230531   clang
+i386                 randconfig-i086-20230531   clang
+i386                 randconfig-i091-20230531   gcc  
+i386                 randconfig-i092-20230531   gcc  
+i386                 randconfig-i093-20230531   gcc  
+i386                 randconfig-i094-20230531   gcc  
+i386                 randconfig-i095-20230531   gcc  
+i386                 randconfig-i096-20230531   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        mvme147_defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     decstation_defconfig   gcc  
+nios2                               defconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r016-20230531   gcc  
+parisc               randconfig-r025-20230531   gcc  
+parisc               randconfig-r026-20230531   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r015-20230531   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r031-20230531   gcc  
+riscv                randconfig-r042-20230531   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r003-20230531   gcc  
+s390                 randconfig-r044-20230531   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r022-20230531   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r006-20230531   gcc  
+sparc64      buildonly-randconfig-r004-20230531   gcc  
+sparc64      buildonly-randconfig-r005-20230531   gcc  
+sparc64              randconfig-r032-20230531   gcc  
+sparc64              randconfig-r035-20230531   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230531   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230531   gcc  
+x86_64               randconfig-a002-20230531   gcc  
+x86_64               randconfig-a003-20230531   gcc  
+x86_64               randconfig-a004-20230531   gcc  
+x86_64               randconfig-a005-20230531   gcc  
+x86_64               randconfig-a006-20230531   gcc  
+x86_64               randconfig-a011-20230531   clang
+x86_64               randconfig-a012-20230531   clang
+x86_64               randconfig-a013-20230531   clang
+x86_64               randconfig-a014-20230531   clang
+x86_64               randconfig-k001-20230531   clang
+x86_64               randconfig-r021-20230531   clang
+x86_64               randconfig-r036-20230531   gcc  
+x86_64               randconfig-x056-20230531   clang
+x86_64               randconfig-x061-20230531   clang
+x86_64               randconfig-x062-20230531   clang
+x86_64               randconfig-x063-20230531   clang
+x86_64               randconfig-x064-20230531   clang
+x86_64               randconfig-x065-20230531   clang
+x86_64               randconfig-x066-20230531   clang
+x86_64               randconfig-x081-20230531   gcc  
+x86_64               randconfig-x082-20230531   gcc  
+x86_64               randconfig-x083-20230531   gcc  
+x86_64               randconfig-x084-20230531   gcc  
+x86_64               randconfig-x085-20230531   gcc  
+x86_64               randconfig-x086-20230531   gcc  
+x86_64               randconfig-x091-20230531   clang
+x86_64               randconfig-x092-20230531   clang
+x86_64               randconfig-x093-20230531   clang
+x86_64               randconfig-x094-20230531   clang
+x86_64               randconfig-x095-20230531   clang
+x86_64               randconfig-x096-20230531   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r003-20230531   gcc  
+xtensa               randconfig-r005-20230531   gcc  
+xtensa               randconfig-r024-20230531   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
