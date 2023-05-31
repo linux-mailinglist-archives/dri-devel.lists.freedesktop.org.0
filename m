@@ -2,72 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4AB71882C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 19:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C022718834
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 19:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BD610E1D4;
-	Wed, 31 May 2023 17:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8401C10E37C;
+	Wed, 31 May 2023 17:12:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D148910E1D4;
- Wed, 31 May 2023 17:11:37 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34VETEqH032254; Wed, 31 May 2023 17:11:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=/Kj6AS/TnqEEItEU3nofU6kwgoDlOE903p9vfMYKykI=;
- b=ZWD3sSt7BgcyzgAFK8JZnIylD2R+K78r4EMNlQ9BCQvMSXC1PPLjvCpgw35d/fWgoJxf
- eKdRZSb6clwfO8Zv/YPKXppu0GB0KIFVoHO3aptjQ5So8TlEUjljf61iD7/2Tzk3NHLI
- IMP9G5h9GUCvg1c0irgUNRTpE40RFiBaSvTeOg4fBz2b/81J/Um7YV/yOz0gbPWPggiJ
- G3GvLKv0xPs9Rqq8V3k1Ba4TbBInNlFN8bIftHa33XfzmtxdY16G2PUwECZ9PNdIgX4d
- Dvk4G7zC3iRB4bNvbI4Nuqknsahk9lyrn4vW3WJT13Em28Hh4oRDirS7e/R/PNO/Xops Kg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qx81x8ehk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 17:11:31 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VHBUnr001235
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 17:11:30 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 31 May 2023 10:11:30 -0700
-Date: Wed, 31 May 2023 10:11:29 -0700
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v3 2/3] arm64: dts: qcom: sc8280xp: Add GPU related nodes
-Message-ID: <20230531171129.GA112802@hu-bjorande-lv.qualcomm.com>
-References: <20230531030945.4109453-1-quic_bjorande@quicinc.com>
- <20230531030945.4109453-3-quic_bjorande@quicinc.com>
- <ZHb3I6NUcjHZ64wD@hovoldconsulting.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F03C810E37C;
+ Wed, 31 May 2023 17:12:10 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxmPHpf3dkdgYDAA--.6716S3;
+ Thu, 01 Jun 2023 01:12:09 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx08Tpf3dk+a+CAA--.16069S3; 
+ Thu, 01 Jun 2023 01:12:09 +0800 (CST)
+Message-ID: <8b74e484-ed41-7f14-f46b-3951e645dd6b@loongson.cn>
+Date: Thu, 1 Jun 2023 01:12:09 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZHb3I6NUcjHZ64wD@hovoldconsulting.com>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ziteT-qECaU_xNzTvlVnNvSsdwLrK-P3
-X-Proofpoint-ORIG-GUID: ziteT-qECaU_xNzTvlVnNvSsdwLrK-P3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_12,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 phishscore=0 spamscore=0 mlxlogscore=720 malwarescore=0
- adultscore=0 bulkscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305310145
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v6 5/6] drm/etnaviv: add driver support for the PCI devices
+To: Lucas Stach <l.stach@pengutronix.de>, Bjorn Helgaas <helgaas@kernel.org>
+References: <ZHZIXZPuCkFSMF4H@bhelgaas>
+ <950fdaaa-b62c-7f36-a499-9eca71c8bc47@loongson.cn>
+ <5e0b34054ca6fa540e481d93f3c1d9fbdd2defcd.camel@pengutronix.de>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <5e0b34054ca6fa540e481d93f3c1d9fbdd2defcd.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx08Tpf3dk+a+CAA--.16069S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxJFyxtw13WF4DGr1UJFy5urg_yoW5Gw18pF
+ WYka1SyFWvgr1rtwn7tw45XF1ay3yftFy5Arn5JF1kCr90vry3Gr1rtr4Y9F9xur1xWa12
+ va1jkrW7uFn8CaDanT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bDAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS
+ 14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE
+ 7xkEbVWUJVW8JwCFI7km07C267AKxVW8ZVWrXwC20s026c02F40E14v26r1j6r18MI8I3I
+ 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAI
+ cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcV
+ CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIE
+ c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jIq2NUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,56 +66,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mani@kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Steev Klimaszewski <steev@kali.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 31, 2023 at 09:28:35AM +0200, Johan Hovold wrote:
-> On Tue, May 30, 2023 at 08:09:44PM -0700, Bjorn Andersson wrote:
-> > From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > 
-> > Add Adreno SMMU, GPU clock controller, GMU and GPU nodes for the
-> > SC8280XP.
-> > 
-> > Tested-by: Steev Klimaszewski <steev@kali.org>
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> > ---
-> > 
-> > Changes since v2:
-> > - Added missing opp level (both gpu and gmu)
-> > - Corrected opp-level for highest gpu opp
-> > - Added dma-coherent to gpu smmu
-> > 
-> > Note that in order for the GPU driver to probe, the last change
-> > requires:
-> > https://lore.kernel.org/linux-arm-msm/20230410185226.3240336-1-dmitry.baryshkov@linaro.org/
-> 
-> That's a pretty well-hidden notice about a critical dependency. I just
-> spent the morning debugging why this series broke the probe of the GPU
-> and only saw this when I was going to report my findings.
-> 
-> Please consider putting information like this in the cover letter in the
-> future.
-> 
-> > Changes since v1:
-> > - Dropped gmu_pdc_seq region from &gmu, as it shouldn't have been used.
-> > - Added missing compatible to &adreno_smmu.
-> > - Dropped aoss_qmp clock in &gmu and &adreno_smmu.
-> 
-> Changelogs are also preferably placed in the cover letter so that you
-> don't have to read through N patches to determine what changed from one
-> revision of a series to the next.
-> 
+Hi,
 
-I've always put the changelog in the patches. But I can see the value of
-using the cover-letter for that purpose. I will consider doing so...
+On 2023/6/1 00:23, Lucas Stach wrote:
+> Hi Sui Jingfeng,
+>
+> Am Donnerstag, dem 01.06.2023 um 00:08 +0800 schrieb Sui Jingfeng:
+>> Hi,
+>>
+>> On 2023/5/31 03:02, Bjorn Helgaas wrote:
+>>> On Wed, May 31, 2023 at 12:06:42AM +0800, Sui Jingfeng wrote:
+>>>> This patch adds PCI driver support on top of what already have. Take the
+>>>> GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device driver.
+>>>> There is only one GPU core for the GC1000 in the LS7A1000 and LS2K1000.
+>>>> Therefore, component frameworks can be avoided. Because we want to bind the
+>>>> DRM driver service to the PCI driver manually.
+>>>> +	 * Loongson Mips and LoongArch CPU(ls3a5000, ls3a4000, ls2k1000la)
+>>>> +	 * maintain cache coherency by hardware
+>>>> +	 */
+>>>> +	if (IS_ENABLED(CONFIG_CPU_LOONGSON64) || IS_ENABLED(CONFIG_LOONGARCH))
+>>>> +		priv->has_cached_coherent = true;
+>>> This looks like something that should be a runtime check, not a
+>>> compile-time check.
+>>>
+>>> If it's possible to build a single kernel image that runs on Loongson
+>>> MIPS or LoongArch CPU and, in addition, runs on other platforms, you
+>>> cannot assume that all the others maintain this cache coherency.
+>> Nice catch! I don't even realize this!
+>>
+>>
+>> LS3A4000 is mips64r2 with MSA SIMD, while LS3A5000 is LoongArch,
+>>
+>> instruction set, compiler, and binary interface are totally changed.
+>>
+>> Therefore, it's impossible to build a single kernel image that runs on
+>> all Loongson CPUs.
+>>
+>> Currently, I can guarantee that this works on the Loongson platform.
+>>
+>> My initial intent here is to let priv->has_cached_coherent be *true* on
+>> the Loongson platform (both mips and loongarch).
+>>
+>> I do know there are some other vendors who bought GPU IP from Vivante.
+>>
+>> say GC7000, and integrate it into their discrete GPU product.
+>>
+>> But it is also a PCI device, but this is another story; it deserves
+>> another patch.
+>>
+>> I don't know if Etnaviv folk find some similar hardware on Arm Arch,
+>>
+>> Some Arm CPUs do not maintain cached coherency on hardware.
+>>
+>> The has_cached_coherent member can be set to false on such hardware.
+>>
+>> For us, it seems that there is no need to do runtime checking,
+>>
+>> because they are all cached coherent by default.
+>>
+>>
+>> Can I improve this in the future, currently I don't have a good idea.
+> I think I mentioned before that this needs to be a runtime check. What
+> does dev_is_dma_coherent() return for the Vivante GPU device on your
+> platform?
 
-Regards,
-Bjorn
+I have tested, it return *true*.
+
+Yeah, out hardware is dma coherent.
+
+Then,  we switching  to  dev_is_dma_coherent(dev) ?
+
+> Regards,
+> Lucas
+
+-- 
+Jingfeng
+
