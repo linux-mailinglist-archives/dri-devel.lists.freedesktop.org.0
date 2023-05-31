@@ -2,69 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65C3717B81
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 11:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5D1717B86
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 11:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218A310E496;
-	Wed, 31 May 2023 09:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE7F10E49A;
+	Wed, 31 May 2023 09:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA8C10E496
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 09:14:15 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-30b023b0068so586544f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 02:14:15 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF1AC10E49A
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 09:15:32 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f623adec61so57718515e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 02:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685524453; x=1688116453;
+ d=linaro.org; s=google; t=1685524531; x=1688116531;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=NLJSQ1/RFfk2nA5Qp2YpG566YurcnN/3c3qP6vvBRbo=;
- b=nbs+05d1hVTI8lHzc2RwAM60JSwphW6BEfKO6cbVbKjbsZ/mdzHnIaI7FcUChNWiB9
- VttTUJ83EnFkQ15yA9tLp2Db7br4vR+wDCY/nxVzVuILJgNfiA1KVS6ndNzPWrxU13Mi
- 09Nja0bA/XgC55g8QjkbeWkHOIzeqMLT/kREO0D8Kt60IjMaxDvwyqb9PW/TXpPkzH5b
- FeKZDbGfQ3UhzR1Kt74mKaxrsCRYzEjZkQzZWaRaYEKk8Vqx7HPrWUnvz13J06wFKNqB
- BXREDV1N0ZZoH7VBSg3upVNGr67j2ICp73lZHoN4SlKVpycOjo5nSKpuYEuR1XctFZfh
- mzAg==
+ bh=ZhUEIe/6jVYKIhcwPw65eyzwSFNkodI6e5UfoL8epWs=;
+ b=jhV57lScxsr9IeKjBixIWVvCjBf+0owXdN0K/fqaH0X1HEd4WO2RnICxwAEgxpVMwP
+ uEieZr5gSeH18agiJ50So9Wjy5NJeUCLaQypfjjJMvgpaHAp4lOpIS5b5y7SmyMZfdac
+ 64IoQLDP4HS70afhLp+IZL//JXl0OZf/A8aJKRziw04AaY70HvVmyul267OrhHEE57Kj
+ Gchi1UK4Q60CH6FgtMm1VGAqYhqojjTXyycbuDZv8TVaLAbl9xbcbPu2MqUSBBsERfTS
+ WozLmmTyPrPWx0RPZcLGhIKGrhvqREP1EgCru2vSeOu8M5+VLV0yR5HBmYH7nW/r9EjB
+ UqoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685524453; x=1688116453;
+ d=1e100.net; s=20221208; t=1685524531; x=1688116531;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NLJSQ1/RFfk2nA5Qp2YpG566YurcnN/3c3qP6vvBRbo=;
- b=Mog9GhYpd/iJcBmiAGSDtaEMf0DqkmoJ+rjgF3EtiE5IYNIo4O4E3oB7BZLlwHqvTa
- gBMVNyKSdht1CRpc7n9JbwCJm6ijmiFh2FBo6lGWqbn5Farp+kAOTZe1YuGEHO6vm7RQ
- HQYZtRrarOqqBsFrvK6kGYLJS5R1fq9OTb9R2Zfvv7q1m5EutLm39ykxmToWtAEQOiOd
- A1xyzQ01smGD5CiutOXTZQRH6sShkcEWU3ckR6IidOO8F9cFHya+bGYQWUVFgLWhADXx
- 8hNkUOebMT9p9wQ0/m5U1moN7mfffEklthEdCdjhgtpi+WfmPylefOaKdO5u+j4c1+4p
- jFvg==
-X-Gm-Message-State: AC+VfDzPfHxxsfSBaLB3PTjqytSTTLJCC/yF0sk6HhZX9hxIAGYsAkr0
- Z5uQWIDN8W+uZbFP/SedUhSQWRLaltKhRlKY/A+A5A==
-X-Google-Smtp-Source: ACHHUZ6zPhMWYhZW9vMNwJvq0a0md/sHRA9vm6/KYNrhMbzq5CaMWtG3r3unaEyxdUxxhRQzC4wybg==
-X-Received: by 2002:a05:6000:901:b0:306:2713:f7f with SMTP id
- cw1-20020a056000090100b0030627130f7fmr11884797wrb.11.1685524453269; 
- Wed, 31 May 2023 02:14:13 -0700 (PDT)
+ bh=ZhUEIe/6jVYKIhcwPw65eyzwSFNkodI6e5UfoL8epWs=;
+ b=bFJ7YYG4zKHfY4zf7INxyX5oWU/ngO0dLD4TL6UV6tcb3Aa6LSgKLckZTlbdjnjMax
+ Wx99g6mpzNuHQWPtmTyLpLP/oPisVQ1a3M2/yd4y2BjE0CVCBpLCU0LcUP5hUXsr1ZSc
+ MnqzlMIM1tC9/ZEn6dcSMRNhWgyooVUHeSU/0S3nhRgZZ2EdEpb/yPxo3ZiRy0mm8aT1
+ fikmvesYwbxxuxOqloJ8h8EVpYtGec6p/XryvqFkQPuPD880B3w5Ol7pjqnre+ZDyq4J
+ ifojYnkM4pYTRO53bWEILFL3RGwmZSjPSiPrSaoiZLwmr1i/5YRY012iUlysAOptOLP9
+ 6Yig==
+X-Gm-Message-State: AC+VfDz38oBlzhwrPbnZsHHRsEQKLB4EcrkuLCwweiGpF1JKSby6xNwf
+ n5OBmdtC9JC8RoXS53znri6vboYHihAN6Jt8+C8Dfg==
+X-Google-Smtp-Source: ACHHUZ7+HdgzP4NlSBpNC603KAdhtElqbx4tgguvZ8r0eKVgpGDmzybK5nMtKWtN3fjuqJ8po2beIg==
+X-Received: by 2002:a7b:cb91:0:b0:3f6:476:915 with SMTP id
+ m17-20020a7bcb91000000b003f604760915mr3141483wmi.6.1685524530762; 
+ Wed, 31 May 2023 02:15:30 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:5c28:3ad5:fcda:7779?
  ([2a01:e0a:982:cbb0:5c28:3ad5:fcda:7779])
  by smtp.gmail.com with ESMTPSA id
- p17-20020a056000019100b00306415ac69asm5971008wrx.15.2023.05.31.02.14.12
+ w8-20020a1cf608000000b003f18b942338sm20163471wmc.3.2023.05.31.02.15.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 May 2023 02:14:12 -0700 (PDT)
-Message-ID: <81d448cf-c896-61d6-f984-e6347bbc3d9f@linaro.org>
-Date: Wed, 31 May 2023 11:14:12 +0200
+ Wed, 31 May 2023 02:15:30 -0700 (PDT)
+Message-ID: <2c6b5c55-92dc-4f7d-758b-5b4f69f28482@linaro.org>
+Date: Wed, 31 May 2023 11:15:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: simple: Fix Powertip PH800480T013 bpc specifier
+Subject: Re: [PATCH] gpu: drm/panel: Change the return value of s6d7aa0_lock
+ to void
 Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-References: <20230530193329.653526-1-marex@denx.de>
+To: Lu Hongfei <luhongfei@vivo.com>, Artur Weber <aweber.kernel@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20230531073751.48451-1-luhongfei@vivo.com>
 Organization: Linaro Developer Services
-In-Reply-To: <20230530193329.653526-1-marex@denx.de>
+In-Reply-To: <20230531073751.48451-1-luhongfei@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,40 +85,103 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: opensource.kernel@vivo.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/05/2023 21:33, Marek Vasut wrote:
-> This panel is 8 bits per channel DPI panel, add the missing .bpc
-> specifier otherwise the kernel is complaining about it as follows:
-> "
-> panel-simple panel: Expected bpc in {6,8} but got: 0
-> "
-> 
-> Fixes: d69de69f2be1 ("drm/panel: simple: Add Powertip PH800480T013 panel")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 108ebe95590bc..02e3ddf58af07 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3327,6 +3327,7 @@ static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
->   static const struct panel_desc powertip_ph800480t013_idf02  = {
->   	.modes = &powertip_ph800480t013_idf02_mode,
->   	.num_modes = 1,
-> +	.bpc = 8,
->   	.size = {
->   		.width = 152,
->   		.height = 91,
+On 31/05/2023 09:37, Lu Hongfei wrote:
+> The return value of s6d7aa0_lock is meaningless,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+It is not, mipi_dsi_dcs_write_seq() can return an error value:
+
+https://github.com/torvalds/linux/blob/master/include/drm/drm_mipi_dsi.h#L320
+
+Neil
+
+> it is better to modify it to void.
+> This patch fixes this issue and modifies the place
+> where s6d7aa0_lock is called.
+> 
+> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
+> ---
+>   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 29 ++++---------------
+>   1 file changed, 5 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> index 102e1fc7ee38..c5924e7b9e36
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> @@ -63,10 +63,9 @@ static void s6d7aa0_reset(struct s6d7aa0 *ctx)
+>   	msleep(50);
+>   }
+>   
+> -static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+> +static void s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+>   {
+>   	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	int ret = 0;
+>   
+>   	if (lock) {
+>   		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
+> @@ -79,8 +78,6 @@ static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+>   		if (ctx->desc->use_passwd3)
+>   			mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
+>   	}
+> -
+> -	return ret;
+>   }
+>   
+>   static int s6d7aa0_on(struct s6d7aa0 *ctx)
+> @@ -238,11 +235,7 @@ static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
+>   
+>   	usleep_range(20000, 25000);
+>   
+> -	ret = s6d7aa0_lock(ctx, false);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to unlock registers: %d\n", ret);
+> -		return ret;
+> -	}
+> +	s6d7aa0_lock(ctx, false);
+>   
+>   	mipi_dsi_dcs_write_seq(dsi, MCS_OTP_RELOAD, 0x00, 0x10);
+>   	usleep_range(1000, 1500);
+> @@ -266,11 +259,7 @@ static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
+>   	msleep(120);
+>   	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+>   
+> -	ret = s6d7aa0_lock(ctx, true);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to lock registers: %d\n", ret);
+> -		return ret;
+> -	}
+> +	s6d7aa0_lock(ctx, true);
+>   
+>   	ret = mipi_dsi_dcs_set_display_on(dsi);
+>   	if (ret < 0) {
+> @@ -327,11 +316,7 @@ static int s6d7aa0_lsl080al03_init(struct s6d7aa0 *ctx)
+>   
+>   	usleep_range(20000, 25000);
+>   
+> -	ret = s6d7aa0_lock(ctx, false);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to unlock registers: %d\n", ret);
+> -		return ret;
+> -	}
+> +	s6d7aa0_lock(ctx, false);
+>   
+>   	if (ctx->desc->panel_type == S6D7AA0_PANEL_LSL080AL03) {
+>   		mipi_dsi_dcs_write_seq(dsi, MCS_BL_CTL, 0xc7, 0x00, 0x29);
+> @@ -370,11 +355,7 @@ static int s6d7aa0_lsl080al03_init(struct s6d7aa0 *ctx)
+>   		return ret;
+>   	}
+>   
+> -	ret = s6d7aa0_lock(ctx, true);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to lock registers: %d\n", ret);
+> -		return ret;
+> -	}
+> +	s6d7aa0_lock(ctx, true);
+>   
+>   	ret = mipi_dsi_dcs_set_display_on(dsi);
+>   	if (ret < 0) {
+
