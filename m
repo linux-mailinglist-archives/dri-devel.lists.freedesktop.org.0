@@ -2,52 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7E771866C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 17:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB9171868E
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 17:41:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A7410E0F4;
-	Wed, 31 May 2023 15:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A2310E0CF;
+	Wed, 31 May 2023 15:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2AE10E0F4;
- Wed, 31 May 2023 15:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685547154; x=1717083154;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=BYPMrPYIIbcl1XzJ9RKq09gP2kje2GE3CG61hxMkSeA=;
- b=ZhbsT57a/jJvpYdInwqK301PDFiXaUHJ35qq8x4lMO/HRVootGSyQYVs
- czgjOAgji5FcvA7E63I2hDRRXWuUeLHJOKPpFsDBdzkonQgEC6WfpGFiR
- T3+bxMDr1wUbKav+jZ4Fd9o0SAwdlWtqw84uHpLMQJNPjjCX9RsSMYvYu
- bPaFPwURaNTXLH7bOOFtkt0JMdiX3kWJ5bfs9pDHQDsfA6/2ye2RzZojs
- oaseat2hN+e4SJQl2DRf6cujtquIJwhi85+jO+TYAwsKZT2fgozV2d+yN
- nnHp4gHX22yYIi1WAE6jbEirQYxtvetVqtQ1WLlfWQvrV2QzZ48YNjSRO A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354116863"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="354116863"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2023 08:32:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="701140924"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="701140924"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 31 May 2023 08:32:29 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q4NoL-0001Ql-0O;
- Wed, 31 May 2023 15:32:29 +0000
-Date: Wed, 31 May 2023 23:32:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
-Subject: Re: [PATCH -next] drm/i915: remove unreachable code
-Message-ID: <202305312340.S0eChDKB-lkp@intel.com>
-References: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D211010E50C;
+ Wed, 31 May 2023 15:41:08 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34VEn1Si009755; Wed, 31 May 2023 15:40:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=MhTlLlPXPB2hun/YA2U92J0IiaRh377ghLpoTRHa6uo=;
+ b=k71HKymloQg/rg8FCKf6Hs92iY1db06zAKgJrb9NkcHoluAKlf1u2SHimCCiDPjkvNt3
+ cxt/sNn+f4GHn7jCXXWzVr3nlOKeEOjYkHVCxqBcOAdW5wsag2ZZY0Ykj30mX+Njdns5
+ W2pBCrH2uhPlp7jpoChnbo8MKdlAo86gXJ3Vl4XDyuAUiQIeDK3naijngiOapGDbZPCx
+ v+daS3Jgh5OMWdOqkQV3TcRjYgbESFd/ZLZhGzwJvcUuzyCj1UrhP61NRHR4FVyKhS9W
+ E1mZRDCALmZfqv2vI+MTyLbYFJPksxnUTzxi2LcCqUYsY0TRf0+1Nf31IYXGROz45pPA hQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qx39d0xrs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 May 2023 15:40:37 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VFea2M020193
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 May 2023 15:40:36 GMT
+Received: from [10.71.110.189] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 31 May
+ 2023 08:40:35 -0700
+Message-ID: <157e8219-7af2-c7ed-6d99-3caa6fbc11ba@quicinc.com>
+Date: Wed, 31 May 2023 08:40:26 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v1 2/3] drm/msm/dpu: retrieve DSI DSC struct at
+ atomic_check()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <andersson@kernel.org>
+References: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
+ <1685464318-25031-3-git-send-email-quic_khsieh@quicinc.com>
+ <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: _UgxJ8hFXO64gsDUKEHxREvw_6jO6D_D
+X-Proofpoint-ORIG-GUID: _UgxJ8hFXO64gsDUKEHxREvw_6jO6D_D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-31_10,2023-05-31_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305310134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,60 +88,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- rodrigo.vivi@intel.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yang Li <yang.lee@linux.alibaba.com>, oe-kbuild-all@lists.linux.dev
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230530]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-base:   next-20230530
-patch link:    https://lore.kernel.org/r/20230531021714.125078-1-yang.lee%40linux.alibaba.com
-patch subject: [PATCH -next] drm/i915: remove unreachable code
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230531/202305312340.S0eChDKB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/58232a66b9d21d80bc6b478e2a8fb1443da3adfc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-        git checkout 58232a66b9d21d80bc6b478e2a8fb1443da3adfc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305312340.S0eChDKB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'intel_color_prepare_commit':
->> drivers/gpu/drm/i915/display/intel_color.c:1803:28: error: unused variable 'crtc' [-Werror=unused-variable]
-    1803 |         struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-         |                            ^~~~
-   cc1: all warnings being treated as errors
 
 
-vim +/crtc +1803 drivers/gpu/drm/i915/display/intel_color.c
+>>   +    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+>
+> INTF_DSI
+>
+>> +        struct drm_bridge *bridge;
+>> +
+>> +        if (!dpu_enc->dsc) {
+>
+> This condition is not correct. We should be updating the DSC even if 
+> there is one.
+>
+>> +            bridge = drm_bridge_chain_get_first_bridge(drm_enc);
+>> +            dpu_enc->dsc = msm_dsi_bridge_get_dsc_config(bridge);
+>
+> This approach will not work for the hot-pluggable outputs. The dpu_enc 
+> is not a part of the state. It should not be touched before 
+> atomic_commit actually commits changes.
+where can drm_dsc_config be stored?
+>
+> Also, I don't think I like the API. It makes it impossible for the 
+> driver to check that the bridge is the actually our DSI bridge or not.
+> Once you add DP here, the code will explode.
+>
+> I think instead we should extend the drm_bridge API to be able to get 
+> the DSC configuration from it directly. Additional care should be put 
+> to design an assymetrical API. Theoretically a drm_bridge can be both 
+> DSC source and DSC sink. Imagine a DSI-to-DP or DSI-to-HDMI bridge, 
+> supporting DSC on the DSI side too.
 
-3962ca4e080a52 Ville Syrj�l� 2023-03-20  1800  
-efb2b57edf20c3 Ville Syrj�l� 2022-11-23  1801  void intel_color_prepare_commit(struct intel_crtc_state *crtc_state)
-efb2b57edf20c3 Ville Syrj�l� 2022-11-23  1802  {
-b358c3b98813b1 Ville Syrj�l� 2022-11-23 @1803  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-b358c3b98813b1 Ville Syrj�l� 2022-11-23  1804  
-2487ae0bcb53a7 Ville Syrj�l� 2022-11-23  1805  	/* FIXME DSB has issues loading LUTs, disable it for now */
-2487ae0bcb53a7 Ville Syrj�l� 2022-11-23  1806  	return;
-efb2b57edf20c3 Ville Syrj�l� 2022-11-23  1807  }
-efb2b57edf20c3 Ville Syrj�l� 2022-11-23  1808  
+Form my understanding, a bridge contains two interfaces.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Therefore I would think only one bridge for dsi-to-dp bridge? and this 
+bridge should represent the bridge chip?
+
+I am thinking adding an ops function, get_bridge_dsc() to struct 
+drm_bridge_funcs to retrieve drm_dsc_config.
+
+Do you have other suggestion?
+
+>
