@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7C3718236
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 15:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0D6718245
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 15:41:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D219610E1DC;
-	Wed, 31 May 2023 13:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD71D10E4C9;
+	Wed, 31 May 2023 13:41:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC6A10E1DC
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 13:40:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA6F10E4C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 13:41:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 980B963B1B;
- Wed, 31 May 2023 13:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF2DC4339C;
- Wed, 31 May 2023 13:40:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CE09A63B08;
+ Wed, 31 May 2023 13:41:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D08C4339C;
+ Wed, 31 May 2023 13:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685540446;
- bh=UL1wfdsUQBKlzGq2PJgrxBOWBUnxUBn/pysu3p7J4s0=;
+ s=k20201202; t=1685540482;
+ bh=awNbbUrZKfXcgaKH6JhIK8hfjJtLZGaowOiSziy/Zt0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JkLd76iuCpwFLlyERXVfJ4B/1CveFSTYyubA7XcRz6wa8vZDvH00tRuEyuCRameje
- Hbqq/yBsUy1rJS9FIwx2DYY0hm1eW8I+Fm52Q2uZyvTRne1ce7k47TaJNwL7a5sAsG
- 08RQgxXfUns1m3VOlzpdhTgoLmQBKlMawUB0s14ea4IMTN9baOZfF3aJ6EJqeHbSo/
- W+qPeOxXRr/lKNJH0S/2lBJj/Bmp7BtmNBuWFINzXiQzd2Rn6yaP+e5ieKA79+/szz
- tZHu8NJCvt2quTt02wjTzxyouEjrFonciY+JzfIeGhhjgrvUf7q5xvJhK81SdycmSG
- ymY12kv7DhLAQ==
+ b=nwsBc2qTniZnVYmks18ef8j5xlNdAjWSkV9G9oUQVokly55zyIMx2JRWV3PpWI7cy
+ pgxljIbkmfm1mlXxoxfH2FnybRB1N1NxbagcVpE/vgNOXXu2FbzjCPfcYw/gK9PY1V
+ DjxAkIdBxGPWwV6jQ2atp1qgR2IkFR0f05J2bBdpQSeE3eWfVPszY7AaO6/pbrt2Uc
+ B5qa6VUrEIJpUEF5RTjfMwWQnzmFt6NYnXdqaw3Q9xlI2ThoTze4aGN/ivrJGcgluN
+ JJ8b4J+OBJ1jByUNzvG5xuPVecRBAcOGImXNixntciR7xurXxYjklNBi2mjuKM4cye
+ 9Fk10SRZ3fMUg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 16/37] drm: panel-orientation-quirks: Change Air's
- quirk to support Air Plus
-Date: Wed, 31 May 2023 09:39:58 -0400
-Message-Id: <20230531134020.3383253-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 26/37] parisc: Flush gatt writes and adjust gatt
+ mask in parisc_agp_mask_memory()
+Date: Wed, 31 May 2023 09:40:08 -0400
+Message-Id: <20230531134020.3383253-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230531134020.3383253-1-sashal@kernel.org>
 References: <20230531134020.3383253-1-sashal@kernel.org>
@@ -55,45 +55,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-parisc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ James.Bottomley@HansenPartnership.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
+From: Helge Deller <deller@gmx.de>
 
-[ Upstream commit 1aa7f416175619e0286fddc5fc44e968b06bf2aa ]
+[ Upstream commit d703797380c540bbeac03f104ebcfc364eaf47cc ]
 
-It turned out that Aya Neo Air Plus had a different board name than
-expected.
-This patch changes Aya Neo Air's quirk to account for that, as both
-devices share "Air" in DMI product name.
+Flush caches after changing gatt entries and calculate entry according
+to SBA requirements.
 
-Tested on Air claiming to be an Air Pro, and on Air Plus.
-
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230515184843.1552612-1-maccraft123mc@gmail.com
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/char/agp/parisc-agp.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index b1a38e6ce2f8f..0cb646cb04ee1 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -179,7 +179,7 @@ static const struct dmi_system_id orientation_data[] = {
- 	}, {	/* AYA NEO AIR */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
--		  DMI_MATCH(DMI_BOARD_NAME, "AIR"),
-+		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
- 		},
- 		.driver_data = (void *)&lcd1080x1920_leftside_up,
- 	}, {	/* AYA NEO NEXT */
+diff --git a/drivers/char/agp/parisc-agp.c b/drivers/char/agp/parisc-agp.c
+index d68d05d5d3838..514f9f287a781 100644
+--- a/drivers/char/agp/parisc-agp.c
++++ b/drivers/char/agp/parisc-agp.c
+@@ -90,6 +90,9 @@ parisc_agp_tlbflush(struct agp_memory *mem)
+ {
+ 	struct _parisc_agp_info *info = &parisc_agp_info;
+ 
++	/* force fdc ops to be visible to IOMMU */
++	asm_io_sync();
++
+ 	writeq(info->gart_base | ilog2(info->gart_size), info->ioc_regs+IOC_PCOM);
+ 	readq(info->ioc_regs+IOC_PCOM);	/* flush */
+ }
+@@ -158,6 +161,7 @@ parisc_agp_insert_memory(struct agp_memory *mem, off_t pg_start, int type)
+ 			info->gatt[j] =
+ 				parisc_agp_mask_memory(agp_bridge,
+ 					paddr, type);
++			asm_io_fdc(&info->gatt[j]);
+ 		}
+ 	}
+ 
+@@ -191,7 +195,16 @@ static unsigned long
+ parisc_agp_mask_memory(struct agp_bridge_data *bridge, dma_addr_t addr,
+ 		       int type)
+ {
+-	return SBA_PDIR_VALID_BIT | addr;
++	unsigned ci;			/* coherent index */
++	dma_addr_t pa;
++
++	pa = addr & IOVP_MASK;
++	asm("lci 0(%1), %0" : "=r" (ci) : "r" (phys_to_virt(pa)));
++
++	pa |= (ci >> PAGE_SHIFT) & 0xff;/* move CI (8 bits) into lowest byte */
++	pa |= SBA_PDIR_VALID_BIT;	/* set "valid" bit */
++
++	return cpu_to_le64(pa);
+ }
+ 
+ static void
 -- 
 2.39.2
 
