@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816CF718777
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B211571877B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B9210E2C9;
-	Wed, 31 May 2023 16:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D8A10E4F6;
+	Wed, 31 May 2023 16:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 593BE10E263
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:34:36 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1q4Oll-0007Z0-9S; Wed, 31 May 2023 18:33:53 +0200
-Message-ID: <35c15c0912b4a9372b9c2194a46b518ce515ce3d.camel@pengutronix.de>
-Subject: Re: [PATCH v6 6/6] drm/etnaviv: allow usperspace create cached
- coherent bo
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Wed, 31 May 2023 18:33:50 +0200
-In-Reply-To: <20230530160643.2344551-7-suijingfeng@loongson.cn>
-References: <20230530160643.2344551-1-suijingfeng@loongson.cn>
- <20230530160643.2344551-7-suijingfeng@loongson.cn>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8B210E263
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:35:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B176D62FDF
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:35:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 20F98C433EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:35:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685550926;
+ bh=GGACWPzoSkwrgfdt5jG3WC7d6LJzGxGJJjWuZ0RQtKg=;
+ h=From:To:Subject:Date:From;
+ b=g9upo7C8RlL3V1g6fhFDXvGBbNk3zRb3rC3jjSfwPoxZKaYYIYGKEATJRfS6ipP/H
+ awsqIBicIaS6BCWS6UNSGwi6QmBBR8qMroUl2WTOy+s9jH4ewfs54IusX4ZYVIzuxi
+ 3cDxUajDSJ6fGlYJRzruSnUcp9wkWpga6Sy4rhdhugvYtTh+JlUkanU/DW6iaPOiAK
+ 6BOpCQNisah58cesCUMMuPIEsIHj1YNmEfXbhXAXzEgffNhe2K+viC3Oe46X+i3GP0
+ VDOQ9EnBK6uoNjrRdx0Y8WX8Ubz9SX0r/cV1xkhK+dlU3SQ5mTROLxw01xdnyJ0iQs
+ LIMkPX40NC3LQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 10D5DC43143; Wed, 31 May 2023 16:35:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217514] New: [amdgpu] system doesn't boot after linux-firmware
+ 2023-05-23 ffe1a41e
+Date: Wed, 31 May 2023 16:35:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rly@hotmail.hu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-217514-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,169 +72,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui Jingfeng,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217514
 
-Am Mittwoch, dem 31.05.2023 um 00:06 +0800 schrieb Sui Jingfeng:
-> cached system RAM is coherent on loongson CPUs, and the GPU and DC allway=
-s
-> snoop the CPU's cache. write-combine caching property is not suitiable fo=
-r
-> us.
->=20
-As previously mentioned in the Mesa MR, I don't think this is the right
-approach.
+            Bug ID: 217514
+           Summary: [amdgpu] system doesn't boot after linux-firmware
+                    2023-05-23 ffe1a41e
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: rly@hotmail.hu
+        Regression: No
 
-ETNA_BO_CACHED already looks coherent to userspace, as all accesses are
-bracketed via the ETNAVIV_GEM_CPU_PREP and ETNAVIV_GEM_CPU_FINI ioctls,
-which will do the necessary cache maintenance on platforms where device
-coherence isn't enforced by the hardware, so there is no need for a
-separate ETNA_BO_CACHED_COHERENT.
+Created attachment 304361
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304361&action=3Dedit
+softlockup
 
-Instead we just need a new ETNAVIV_PARAM to inform userspace about
-hardware cache coherence being available for a specific GPU core, in
-which case the userspace driver should switch to preferring
-ETNA_BO_CACHED over ETNA_BO_WC.
+Updating linux-firmware to the latest git version causes my pc to lock up
+during boot. I have a 3900x paired with a 7900xtx running arch linux with 6=
+.3.4
+xanmod kernel (but this happens with kernel from the core repo as well) and
+mesa 23.1.1 if that matters.
+During boot time I see the following error printed and the system is comple=
+tely
+locked up, only hard reset helps:
+`May 31 07:20:40 valhalla kernel: watchdog: BUG: soft lockup - CPU#5 stuck =
+for
+26s! [swapper/5:0]`
 
-Regards,
-Lucas
+accompanied with a lots of amdgpu errors in the journal (followed by stack
+trace after both):
+```
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: [gfxhub] page
+fault (src_id:0 ring:24 vmid:9 pasid:32768, for process  pid 0 thread  pid =
+0)
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:   in page
+starting at address 0x0000ffff0021a000 from client 10
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:
+GCVM_L2_PROTECTION_FAULT_STATUS:0x00900831
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:          Faul=
+ty
+UTCL2 client ID: CPF (0x4)
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:=20=20=20=20=
+=20=20=20=20=20
+MORE_FAULTS: 0x1
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:=20=20=20=20=
+=20=20=20=20=20
+WALKER_ERROR: 0x0
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:=20=20=20=20=
+=20=20=20=20=20
+PERMISSION_FAULTS: 0x3
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:=20=20=20=20=
+=20=20=20=20=20
+MAPPING_ERROR: 0x0
+May 31 07:20:44 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:          RW: =
+0x0
 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c       |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 +++++++++++++++++++--
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  9 ++++++++-
->  include/uapi/drm/etnaviv_drm.h              | 11 ++++++-----
->  4 files changed, 35 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index 052f745cecc0..2816c654c023 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -274,7 +274,7 @@ static int etnaviv_ioctl_gem_new(struct drm_device *d=
-ev, void *data,
->  	struct drm_etnaviv_gem_new *args =3D data;
-> =20
->  	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
-> -			    ETNA_BO_FORCE_MMU))
-> +			    ETNA_BO_CACHED_COHERENT | ETNA_BO_FORCE_MMU))
->  		return -EINVAL;
-> =20
->  	return etnaviv_gem_new_handle(dev, file, args->size,
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gem.c
-> index b5f73502e3dd..d8b559bd33d3 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
->  static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
->  {
->  	struct page **pages;
-> +	pgprot_t prot;
-> =20
->  	lockdep_assert_held(&obj->lock);
-> =20
-> @@ -350,8 +351,20 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_ge=
-m_object *obj)
->  	if (IS_ERR(pages))
->  		return NULL;
-> =20
-> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
-> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
-> +	switch (obj->flags) {
-> +	case ETNA_BO_CACHED_COHERENT:
-> +	case ETNA_BO_CACHED:
-> +		prot =3D PAGE_KERNEL;
-> +		break;
-> +	case ETNA_BO_UNCACHED:
-> +		prot =3D pgprot_noncached(PAGE_KERNEL);
-> +		break;
-> +	case ETNA_BO_WC:
-> +	default:
-> +		prot =3D pgprot_writecombine(PAGE_KERNEL);
-> +	}
-> +
-> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
->  }
-> =20
->  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
-> @@ -545,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
-object_funcs =3D {
->  static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 fl=
-ags,
->  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
->  {
-> +	struct etnaviv_drm_private *priv =3D dev->dev_private;
->  	struct etnaviv_gem_object *etnaviv_obj;
->  	unsigned sz =3D sizeof(*etnaviv_obj);
->  	bool valid =3D true;
-> @@ -555,6 +569,10 @@ static int etnaviv_gem_new_impl(struct drm_device *d=
-ev, u32 size, u32 flags,
->  	case ETNA_BO_CACHED:
->  	case ETNA_BO_WC:
->  		break;
-> +	case ETNA_BO_CACHED_COHERENT:
-> +		if (priv->has_cached_coherent)
-> +			break;
-> +		fallthrough;
->  	default:
->  		valid =3D false;
->  	}
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/dr=
-m/etnaviv/etnaviv_gem_prime.c
-> index 3524b5811682..671d91d8f1c6 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> @@ -112,11 +112,18 @@ static const struct etnaviv_gem_ops etnaviv_gem_pri=
-me_ops =3D {
->  struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_devi=
-ce *dev,
->  	struct dma_buf_attachment *attach, struct sg_table *sgt)
->  {
-> +	struct etnaviv_drm_private *priv =3D dev->dev_private;
->  	struct etnaviv_gem_object *etnaviv_obj;
->  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
-> +	u32 cache_flags;
->  	int ret, npages;
-> =20
-> -	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
-> +	if (priv->has_cached_coherent)
-> +		cache_flags =3D ETNA_BO_CACHED_COHERENT;
-> +	else
-> +		cache_flags =3D ETNA_BO_WC;
-> +
-> +	ret =3D etnaviv_gem_new_private(dev, size, cache_flags,
->  				      &etnaviv_gem_prime_ops, &etnaviv_obj);
->  	if (ret < 0)
->  		return ERR_PTR(ret);
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
-m.h
-> index af024d90453d..474b0db286de 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -90,13 +90,14 @@ struct drm_etnaviv_param {
->   * GEM buffers:
->   */
-> =20
-> -#define ETNA_BO_CACHE_MASK   0x000f0000
-> +#define ETNA_BO_CACHE_MASK              0x000f0000
->  /* cache modes */
-> -#define ETNA_BO_CACHED       0x00010000
-> -#define ETNA_BO_WC           0x00020000
-> -#define ETNA_BO_UNCACHED     0x00040000
-> +#define ETNA_BO_CACHED                  0x00010000
-> +#define ETNA_BO_WC                      0x00020000
-> +#define ETNA_BO_UNCACHED                0x00040000
-> +#define ETNA_BO_CACHED_COHERENT         0x00080000
->  /* map flags */
-> -#define ETNA_BO_FORCE_MMU    0x00100000
-> +#define ETNA_BO_FORCE_MMU               0x00100000
-> =20
->  struct drm_etnaviv_gem_new {
->  	__u64 size;           /* in */
+```
 
+full journal log in "softlockup".
+
+The issues start to happen after [this commit,
+ffe1a41e](https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-fi=
+rmware.git/commit/?id=3Dffe1a41e2ddbc39109b12d95dcac282d90eba8fc)
+
+but not the above mentioned soft lock, instead after initramfs loads I get =
+the
+bios splash screen back and it's stuck there.
+There are different amdgpu errors(followed by stack trace) during this:
+```
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: SMU: I'm not =
+done
+with your previous command: SMN_C2PMSG_66:0x00000006 SMN_C2PMSG_82:0x000000=
+00
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: Failed to ena=
+ble
+requested dpm features!
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: Failed to set=
+up
+smc hw!
+May 31 09:18:37 valhalla kernel: [drm:amdgpu_device_init [amdgpu]] *ERROR*
+hw_init of IP block <smu> failed -62
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu:
+amdgpu_device_ip_init failed
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: Fatal error
+during GPU init
+May 31 09:18:37 valhalla kernel: amdgpu 0000:0c:00.0: amdgpu: amdgpu: finis=
+hing
+device.
+```
+Logs during this in "amdgpu_error"
+
+Note that at the end it seems like the system is running but as I only saw =
+the
+bios splash screen rebooted via sysrq/reisub.
+
+The commit after ffe1a41
+([56832557](https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-=
+firmware.git/commit/?id=3D568325574a3b6148f3296984aa24fcd1fb4b912c)
+or might be the one after that
+[39dafcc](https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-fi=
+rmware.git/commit/?id=3D39d6fcc73100ae4aeeec0194bbf102c672673edd),
+not sure at the moment) gets past the splash screen but that's where the so=
+ft
+lockup starts to happen.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
