@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869ED7182C7
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 15:45:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A297182DF
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 15:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 926F910E4D7;
-	Wed, 31 May 2023 13:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F232A10E4DA;
+	Wed, 31 May 2023 13:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA4B10E4D7
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 13:45:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEC610E4D8;
+ Wed, 31 May 2023 13:45:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0B5B963B9B;
- Wed, 31 May 2023 13:45:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9408EC4339E;
- Wed, 31 May 2023 13:45:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0A9FE63B92;
+ Wed, 31 May 2023 13:45:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 547B9C4339B;
+ Wed, 31 May 2023 13:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685540721;
- bh=awNbbUrZKfXcgaKH6JhIK8hfjJtLZGaowOiSziy/Zt0=;
+ s=k20201202; t=1685540740;
+ bh=m06ceMhyO4JVZ0PtHa9pKKlIIQ9blBSeo6TuX2MCOKY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LZscV3U2QhtfqRJBlmrvZ/NFo7ZEfs7B1K+JTSU9gVAsfJCm0QK7LoWYL+nJjHtew
- SzzhUmCnEdDCkruQxxW8STXjquaVe3GacCGVdmGHS98RS1zapzhWMXpWg6AmDWJkeB
- Co5u0+wYr7hRqlJ0utb4L8cGDgwUDeQfXGGwuhbdz/xQUZFLFJx7H/U9LqLr54Z2N5
- KLqnMogUzTW6nF0zdfAEsis1OZXNMTKRzUmW3g/sbXWpWZnna+lWWMgPkC3jBhMdv1
- OliAG8DWO7pUOnqvQwBHn1SXsC5P5n+tCOgbja6bVv49D0+0gzSqM/lSWSEDYLdR/D
- cCD3HdRHd8NUQ==
+ b=anxG4KpBmfpSHZlkC0chAWTXF8/25kfEuwADEGmaWCuk9Q0/qvTWA+D1FB3T0+IS4
+ 4gE9XQ6LAa5R0aPzKVx/HcT+xlkAavbL9ON1c7QD57WchHnG8JdN9au51WAzg+T8Do
+ 13QotMQcZaCcCySWd1xNeItkunXY6vUgzXCeX/0iyFvcPGM7g9t0fmFux+3IpOO3eA
+ PIKYY1q08Za7oyCzxpNcJlq1/KvgzzqtUFQ6g/7xZxCxY1KZDx7KXkwoTZCg99ObYV
+ xL7lPh1hsleGxKO0xocGEvTu2CxOZp7tZ1UipS7aVEXuaUUe5aFtbNuvXLLvHZr/xG
+ QBa0P/8ROoceg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 12/17] parisc: Flush gatt writes and adjust gatt
- mask in parisc_agp_mask_memory()
-Date: Wed, 31 May 2023 09:44:56 -0400
-Message-Id: <20230531134502.3384828-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 17/17] drm:amd:amdgpu: Fix missing buffer object
+ unlock in failure path
+Date: Wed, 31 May 2023 09:45:01 -0400
+Message-Id: <20230531134502.3384828-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230531134502.3384828-1-sashal@kernel.org>
 References: <20230531134502.3384828-1-sashal@kernel.org>
@@ -56,65 +55,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-parisc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- James.Bottomley@HansenPartnership.com, airlied@redhat.com
+Cc: Sasha Levin <sashal@kernel.org>, zhenguo.yin@amd.com, Victor.Zhao@amd.com,
+ Jack.Gui@amd.com, dri-devel@lists.freedesktop.org,
+ Arunpravin.PaneerSelvam@amd.com, jesse.zhang@amd.com, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, le.ma@amd.com, YiPeng.Chai@amd.com,
+ mario.limonciello@amd.com, candice.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com,
+ Jiadong.Zhu@amd.com, christian.koenig@amd.com,
+ Sukrut Bellary <sukrut.bellary@linux.com>, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Helge Deller <deller@gmx.de>
+From: Sukrut Bellary <sukrut.bellary@linux.com>
 
-[ Upstream commit d703797380c540bbeac03f104ebcfc364eaf47cc ]
+[ Upstream commit 60ecaaf54886b0642d5c4744f7fbf1ff0d6b3e42 ]
 
-Flush caches after changing gatt entries and calculate entry according
-to SBA requirements.
+smatch warning -
+1) drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:3615 gfx_v9_0_kiq_resume()
+warn: inconsistent returns 'ring->mqd_obj->tbo.base.resv'.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+2) drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:6901 gfx_v10_0_kiq_resume()
+warn: inconsistent returns 'ring->mqd_obj->tbo.base.resv'.
+
+Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/char/agp/parisc-agp.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 4 +++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c  | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/char/agp/parisc-agp.c b/drivers/char/agp/parisc-agp.c
-index d68d05d5d3838..514f9f287a781 100644
---- a/drivers/char/agp/parisc-agp.c
-+++ b/drivers/char/agp/parisc-agp.c
-@@ -90,6 +90,9 @@ parisc_agp_tlbflush(struct agp_memory *mem)
- {
- 	struct _parisc_agp_info *info = &parisc_agp_info;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index 1d8739a4fbcad..a84deb3c79a30 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -3527,8 +3527,10 @@ static int gfx_v10_0_kiq_resume(struct amdgpu_device *adev)
+ 		return r;
  
-+	/* force fdc ops to be visible to IOMMU */
-+	asm_io_sync();
-+
- 	writeq(info->gart_base | ilog2(info->gart_size), info->ioc_regs+IOC_PCOM);
- 	readq(info->ioc_regs+IOC_PCOM);	/* flush */
- }
-@@ -158,6 +161,7 @@ parisc_agp_insert_memory(struct agp_memory *mem, off_t pg_start, int type)
- 			info->gatt[j] =
- 				parisc_agp_mask_memory(agp_bridge,
- 					paddr, type);
-+			asm_io_fdc(&info->gatt[j]);
- 		}
- 	}
+ 	r = amdgpu_bo_kmap(ring->mqd_obj, (void **)&ring->mqd_ptr);
+-	if (unlikely(r != 0))
++	if (unlikely(r != 0)) {
++		amdgpu_bo_unreserve(ring->mqd_obj);
+ 		return r;
++	}
  
-@@ -191,7 +195,16 @@ static unsigned long
- parisc_agp_mask_memory(struct agp_bridge_data *bridge, dma_addr_t addr,
- 		       int type)
- {
--	return SBA_PDIR_VALID_BIT | addr;
-+	unsigned ci;			/* coherent index */
-+	dma_addr_t pa;
-+
-+	pa = addr & IOVP_MASK;
-+	asm("lci 0(%1), %0" : "=r" (ci) : "r" (phys_to_virt(pa)));
-+
-+	pa |= (ci >> PAGE_SHIFT) & 0xff;/* move CI (8 bits) into lowest byte */
-+	pa |= SBA_PDIR_VALID_BIT;	/* set "valid" bit */
-+
-+	return cpu_to_le64(pa);
- }
+ 	gfx_v10_0_kiq_init_queue(ring);
+ 	amdgpu_bo_kunmap(ring->mqd_obj);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 762a407a4997a..4eba6b2d9cdec 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -3748,8 +3748,10 @@ static int gfx_v9_0_kiq_resume(struct amdgpu_device *adev)
+ 		return r;
  
- static void
+ 	r = amdgpu_bo_kmap(ring->mqd_obj, (void **)&ring->mqd_ptr);
+-	if (unlikely(r != 0))
++	if (unlikely(r != 0)) {
++		amdgpu_bo_unreserve(ring->mqd_obj);
+ 		return r;
++	}
+ 
+ 	gfx_v9_0_kiq_init_queue(ring);
+ 	amdgpu_bo_kunmap(ring->mqd_obj);
 -- 
 2.39.2
 
