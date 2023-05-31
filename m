@@ -2,43 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC053718908
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4F2718922
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:13:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D1410E506;
-	Wed, 31 May 2023 18:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86FB110E065;
+	Wed, 31 May 2023 18:13:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76FAC10E1DD
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 18:07:53 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1q4QEc-0002pT-KH; Wed, 31 May 2023 20:07:46 +0200
-Message-ID: <85565974d45b5553035aeabe8a98a667718482d5.camel@pengutronix.de>
-Subject: Re: [PATCH v6 2/6] drm/etnaviv: add a dedicated function to get
- various clocks
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Wed, 31 May 2023 20:07:43 +0200
-In-Reply-To: <20230530160643.2344551-3-suijingfeng@loongson.cn>
-References: <20230530160643.2344551-1-suijingfeng@loongson.cn>
- <20230530160643.2344551-3-suijingfeng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D913289233;
+ Wed, 31 May 2023 18:13:43 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34V8H132017586; Wed, 31 May 2023 18:13:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=jnC3UWZnuMssmGRIBn9FSVa8jE7AqeAfSgZoP5/O3N0=;
+ b=D0nisQ/26DSNKKyF35ki3qG9qNt2DjpqAsKYI/e3wepbdvzl2IOJN4x1MUgCT3r6l6RN
+ 5F9ezzTrtv8EXxtU0qqtv00jwPrIbIPIb2V9hr5414uV1x4fEPiAnCOogXaquEyfYKpW
+ nglfxm8hiwaBIE5UaBsk/rbspNosEynBt7ZA0jENVd2RZbUXkA2EoUoMFWCbpy6ut+8r
+ KWJc0X6ZTStwdHhx5/OJd+pOdu0Xdz8eauwMTf6eyrzv7W+Z3xdKnowOV+Vy96CIcl05
+ D/VHqMrLjrIx+kFTJrPOzoV+rvZPHkOXbwKVdtmW49w28UL2ybW/oOB63zefnlsKYoex SA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qwwbtj24a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 May 2023 18:13:23 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VID2OU003020
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 31 May 2023 18:13:02 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 31 May 2023 11:13:02 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH v2 0/2] Add support for Visionox R66451 AMOLED DSI panel
+Date: Wed, 31 May 2023 11:12:31 -0700
+Message-ID: <20230516-b4-r66451-panel-driver-v2-0-9c8d5eeef579@quicinc.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA+Od2QC/4WOQQ6CMBBFr0K6dkxbComuXHsEDYtOGWASKNgCw
+ RDuLnABl+/nv/y/ikiBKYp7sopAM0fu/Q76kgjXWF8TcLmz0FKnMlM5oIGQ5yZTMFhPLZSBZwq
+ AlTSYVZiWmRa7jDYSYLDeNYf+fEEXO/C0jNBOna2PzhCo4uUcfxc7NxzHPnzPL7M60r+zswIJR
+ iuJDlHl5vb4TOzYu6vrO1Fs2/YDjmxi8eIAAAA=
+To: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>
+X-Mailer: b4 0.13-dev-02a79
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1685556782; l=1788;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=B/0asQMdL/LaMmqd6zsaL7/B67ZX+CdyB2w5irB73ZM=;
+ b=rmN+Kn7iTcoh9RA9AcHB6gM4BSHF0ITtk9n0jy/bl0XRVSbg+hepYYe8i7cFWhqVnY6yzy1FC
+ /fJOBnlo96yAs2RmG5f6KCcaJcHvlSaE+dPXGuZI4GEjdauMwhw5dXU
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: zZgrGm3JFetZolnrrAtLk7x9Ba-dU8eK
+X-Proofpoint-ORIG-GUID: zZgrGm3JFetZolnrrAtLk7x9Ba-dU8eK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-31_12,2023-05-31_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 mlxlogscore=719 adultscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305310154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,147 +92,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 31.05.2023 um 00:06 +0800 schrieb Sui Jingfeng:
-> Because it is also platform-dependent, there are environments where don't
-> have CLK subsystem support, for example, discreted PCI gpu. So don't rage
-> quit if there is no CLK subsystem.
->=20
-> For the GPU in LS7a1000 and LS2k2000, the working frequency of the GPU is
-> tuned by configuring the PLL register directly.
->=20
-Is this PLL under control of system firmware and invisible to Linux?
+Add support for the 1080x2340 Visionox R66451 AMOLED DSI panel that
+comes with the Qualcomm HDK8350 display expansion pack.
 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 62 ++++++++++++++++++---------
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  1 +
->  2 files changed, 42 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.c
-> index 636d3f39ddcb..4937580551a5 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1565,10 +1565,45 @@ static irqreturn_t irq_handler(int irq, void *dat=
-a)
->  	return ret;
->  }
-> =20
-> +static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
-> +{
-> +	struct device *dev =3D gpu->dev;
-> +
-> +	if (gpu->no_clk)
-> +		return 0;
-> +
-> +	gpu->clk_reg =3D devm_clk_get_optional(dev, "reg");
-> +	DBG("clk_reg: %p", gpu->clk_reg);
-> +	if (IS_ERR(gpu->clk_reg))
-> +		return PTR_ERR(gpu->clk_reg);
-> +
-> +	gpu->clk_bus =3D devm_clk_get_optional(dev, "bus");
-> +	DBG("clk_bus: %p", gpu->clk_bus);
-> +	if (IS_ERR(gpu->clk_bus))
-> +		return PTR_ERR(gpu->clk_bus);
-> +
-> +	gpu->clk_core =3D devm_clk_get(dev, "core");
-> +	DBG("clk_core: %p", gpu->clk_core);
-> +	if (IS_ERR(gpu->clk_core))
-> +		return PTR_ERR(gpu->clk_core);
-> +	gpu->base_rate_core =3D clk_get_rate(gpu->clk_core);
-> +
-> +	gpu->clk_shader =3D devm_clk_get_optional(dev, "shader");
-> +	DBG("clk_shader: %p", gpu->clk_shader);
-> +	if (IS_ERR(gpu->clk_shader))
-> +		return PTR_ERR(gpu->clk_shader);
-> +	gpu->base_rate_shader =3D clk_get_rate(gpu->clk_shader);
-> +
-> +	return 0;
-> +}
-> +
->  static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
->  {
->  	int ret;
-> =20
-> +	if (gpu->no_clk)
-> +		return 0;
-> +
-I don't see why this would be needed? If your platform doesn't provide
-CONFIG_HAVE_CLK all those functions should be successful no-ops, so
-there is no need to special case this in the driver.
+The driver will come with display compression (DSC v1.2) enabled by
+default.
 
-Or does your platform in fact provide a clk subsystem, just the GPU
-clocks are managed by it?
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+Changes in v2:
+- Reworded panel bindings commit message for brevity (Krzysztof)
+- Used corresponding *_set_column_address() and *_set_page_address() DCS
+  helper methods (Dmitry)
+- Moved *_set_display_[on|off]() and *_[exit|enter]_sleep_mode() calls
+  into _enable() and _disable(), respectively (Dmitry)
+- Dropped cpu_to_le16() conversion for
+  mipi_dsi_dcs_set_display_brightness() (Dmitry)
+- Unset LPM flag after DCS commands are sent in _on() (Dmitry)
+- Used real numbers for mode values (Dmitry)
+- Used drm_connector_helper_get_modes_fixed() in get_modes() (Dmitry)
+- Added BACKLIGHT_CLASS_DEVICE as a Kconfig dependency (Neil)
+- Added error handling for mipi_dsi_picture_parameter_set() (Marijn)
+- Dropped "0x" for dcs->bits_per_pixel value (Marijn)
+- Link to v1: https://lore.kernel.org/r/20230516-b4-r66451-panel-driver-v1-0-4210bcbb1649@quicinc.com
 
-Also all those functions are fine with being called on a NULL clk, so
-shouldn't it be enough to simply avoid calling etnaviv_gpu_clk_get() in
-the PCI device case?
+---
+Jessica Zhang (2):
+      dt-bindings: display: panel: Add Visionox R66451 AMOLED DSI panel
+      drm/panel: Add driver for Visionox r66451 panel
 
-Regards,
-Lucas
+ .../bindings/display/panel/visionox,r66451.yaml    |  59 ++++
+ drivers/gpu/drm/panel/Kconfig                      |   9 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-visionox-r66451.c      | 390 +++++++++++++++++++++
+ 4 files changed, 459 insertions(+)
+---
+base-commit: a5abc0900af0cfb1b8093200a265d2791864f26b
+change-id: 20230516-b4-r66451-panel-driver-bf04b5fb3d52
 
->  	ret =3D clk_prepare_enable(gpu->clk_reg);
->  	if (ret)
->  		return ret;
-> @@ -1599,6 +1634,9 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gp=
-u *gpu)
-> =20
->  static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
->  {
-> +	if (gpu->no_clk)
-> +		return 0;
-> +
->  	clk_disable_unprepare(gpu->clk_shader);
->  	clk_disable_unprepare(gpu->clk_core);
->  	clk_disable_unprepare(gpu->clk_bus);
-> @@ -1865,27 +1903,9 @@ static int etnaviv_gpu_platform_probe(struct platf=
-orm_device *pdev)
->  		return err;
-> =20
->  	/* Get Clocks: */
-> -	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
-> -	DBG("clk_reg: %p", gpu->clk_reg);
-> -	if (IS_ERR(gpu->clk_reg))
-> -		return PTR_ERR(gpu->clk_reg);
-> -
-> -	gpu->clk_bus =3D devm_clk_get_optional(&pdev->dev, "bus");
-> -	DBG("clk_bus: %p", gpu->clk_bus);
-> -	if (IS_ERR(gpu->clk_bus))
-> -		return PTR_ERR(gpu->clk_bus);
-> -
-> -	gpu->clk_core =3D devm_clk_get(&pdev->dev, "core");
-> -	DBG("clk_core: %p", gpu->clk_core);
-> -	if (IS_ERR(gpu->clk_core))
-> -		return PTR_ERR(gpu->clk_core);
-> -	gpu->base_rate_core =3D clk_get_rate(gpu->clk_core);
-> -
-> -	gpu->clk_shader =3D devm_clk_get_optional(&pdev->dev, "shader");
-> -	DBG("clk_shader: %p", gpu->clk_shader);
-> -	if (IS_ERR(gpu->clk_shader))
-> -		return PTR_ERR(gpu->clk_shader);
-> -	gpu->base_rate_shader =3D clk_get_rate(gpu->clk_shader);
-> +	err =3D etnaviv_gpu_clk_get(gpu);
-> +	if (err)
-> +		return err;
-> =20
->  	/* TODO: figure out max mapped size */
->  	dev_set_drvdata(dev, gpu);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etna=
-viv/etnaviv_gpu.h
-> index 98c6f9c320fc..6da5209a7d64 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -148,6 +148,7 @@ struct etnaviv_gpu {
->  	struct clk *clk_reg;
->  	struct clk *clk_core;
->  	struct clk *clk_shader;
-> +	bool no_clk;
-> =20
->  	unsigned int freq_scale;
->  	unsigned long base_rate_core;
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
