@@ -2,82 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A4471891F
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09FF271891B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1ED10E1DE;
-	Wed, 31 May 2023 18:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A2310E4FF;
+	Wed, 31 May 2023 18:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC6689131;
- Wed, 31 May 2023 18:13:31 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34VDdB8Q023894; Wed, 31 May 2023 18:13:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=3P0G16a9VG1Cz6x9YGlHH0O4jkuu8Ye9Q1SHEnTmmXQ=;
- b=Ievc7ju5qiRN1gZG6O/PXDLjtM6ZzqOVkqRJaG3UjIUvnJY+gBw1yBo2JUyt7Quf4DLS
- U7SF0dKs1qbaPh9gVyKsn2W+m1a54kSQOk30y9ZRHj1SsptnIHfhc0EtdYje9CD5x89b
- voVM6cOnDlZVOa93Sr6OM/he39qU7GcZ1XATrPaPwnWpgZxBweehILqxOHusn6Xt30y8
- 654WtMYcuG6OoHs4HO6nyitITdWSZFTdsHtTQEZ883LcV0LEQEpdYqp0lekXpOnbWS1z
- wBBNVRD8+ZT8Xbxi2mXEHUbsIrZUv9kOmwCKvJoULrvCyQ1Fb5MXe1QIiGjTrju9RtvA rA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qx0sbsmcj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 18:13:04 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VID3tj003030
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 18:13:03 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8441A10E1E1;
+ Wed, 31 May 2023 18:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685556790; x=1717092790;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=etPeP/vvJohdGTwasWvE6TrHX1tv3ZWbtHfRwo+znXs=;
+ b=HCtNE/t48f0uGkccA6enz3ug4XIndaDk4ZOACI5RMru8EfRviInUSuB3
+ xMa00Is9kmqXBDQu4bKsk5CpKJptveqByJYINV3ZwmBllhvPW/0cfkq+m
+ itMlkR8g5o2DLxLo6UjE96dVgdxfsMKhxJ2NpyGBe2gfvZ7+f6mk07pz8
+ EranTyQraRjYCrsJHMg+E/BnbuUAVDJKguvpxKslyBAewAOHemjEuLA1b
+ vV+A+3It8Mqr8r+t1l1te44YYrAAprmDbRMcYM3q2KjUMwNDonzjp39u5
+ Y/jCcc74xEXpFRbMUvsmELKFT0qoGICD0KL7UTbJVbcz6OhCq/BjX51Lz g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="334942487"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="334942487"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 11:13:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="736754147"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="736754147"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga008.jf.intel.com with ESMTP; 31 May 2023 11:13:07 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 31 May 2023 11:13:07 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 31 May 2023 11:13:06 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Wed, 31 May 2023 11:13:06 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 31 May 2023 11:13:02 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Wed, 31 May 2023 11:12:33 -0700
-Subject: [PATCH v2 2/2] drm/panel: Add driver for Visionox r66451 panel
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ 15.1.2507.23; Wed, 31 May 2023 11:13:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KlJnPEZXO2ccSBrPw0lhh4pAOLL+S05nD6iHOoIcfugjjJckzBYJlc2aA5d4rmilJubRSI6Dpu9JInPDZHQkMOsvofwyKNuFzCsngoosJ3Kbie70yAsjRnJQvUB7nNTylDXlESaZo39sJkXIvgwKhOYff8xbckk97gzbOdiW13lKoYLU1fc05BTVbfrRg+OYH2O7TOywEzUMIs18eBFQLHbAzCTYJgrxY93LO48P4//XioPhxO1/Y2Ju1L/Qx+tZzINPWd+PAhWh+hgwYG42FdMDNlupSaWMv8ypAxNtcrBht80c3ecPK9pzT1XIOrYYBODZiq/3WGSsJMjBWUlctQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iOG8iyfEFfqJ783v2gs5v7ZgJ1tuC5TxsRs/lxYx5KQ=;
+ b=CLM00l4p0Te6VqANgVNx3a1Lca9nGFQXu98JsXDsjwYqmdkIhh05D265hy2fz/2xFISBdH3VLAgy3GbLLvgP6lMSKdD85xPZlQcIVTdcAWUdPxVwDGKWFHSbV3efGxO61W8EfFJm2xJIwF6Ym4WTWa+IoCeq47857ZpCM+p5gfoAzls8JtBcRXdef41xC07ym8PgxwuqivFfs/tL/zK91xJ4zD1iqfKezMhOs71/GvITGFckb0eyi5dZXoCr9JT0qxMpfzbE6h5TATFvfma2B7YAhUjVKMYSfTN/IjOCggNOzEV3pHiL4G+3EzTFJIwYOlJNCy9ryvAWChE3pgn6Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ PH8PR11MB7093.namprd11.prod.outlook.com (2603:10b6:510:217::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.18; Wed, 31 May
+ 2023 18:13:04 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::8e92:306d:7cc4:2953]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::8e92:306d:7cc4:2953%4]) with mapi id 15.20.6433.022; Wed, 31 May 2023
+ 18:13:04 +0000
+Message-ID: <019a9eee-c706-04df-e0ea-baa6820b49b5@intel.com>
+Date: Wed, 31 May 2023 11:13:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 5/7] drm/i915/mtl/huc: auth HuC via GSC
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20230527005242.1346093-1-daniele.ceraolospurio@intel.com>
+ <20230527005242.1346093-6-daniele.ceraolospurio@intel.com>
+ <22ff64c588c62d2161b4bb794364e1e8e207d2a7.camel@intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <22ff64c588c62d2161b4bb794364e1e8e207d2a7.camel@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20230516-b4-r66451-panel-driver-v2-2-9c8d5eeef579@quicinc.com>
-References: <20230516-b4-r66451-panel-driver-v2-0-9c8d5eeef579@quicinc.com>
-In-Reply-To: <20230516-b4-r66451-panel-driver-v2-0-9c8d5eeef579@quicinc.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg
- <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>
-X-Mailer: b4 0.13-dev-02a79
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1685556782; l=13992;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=HZsEYyU7nd/qUNry7HQm9XJOjGKZRfalyrWvFOMLkQ0=;
- b=370BJUDO3e6pbj3KRsHa93XCGxtLDbEN6slSpKzzgZ3spIPSw1esto/A8sO3Bfhs9W6CFotzj
- 4dnjEDZxMlsCiuKSWIP2sIDbR8SBck824/BNzB5Vu7sykC/e6wNrT20
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: x1SHZaX13SzFfXVVdwUa2dAyr9b9OdLh
-X-Proofpoint-ORIG-GUID: x1SHZaX13SzFfXVVdwUa2dAyr9b9OdLh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_12,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305310154
+X-ClientProxiedBy: BY3PR03CA0024.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::29) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|PH8PR11MB7093:EE_
+X-MS-Office365-Filtering-Correlation-Id: 868f838d-68c5-4e7f-bf28-08db6202ad50
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hw6bD09nUK4fzSyIaNSA8g7VSULKGpHx9gm0m+J7FVNNcwImC/3zczFf5Ew2auGTBInKb7JUUMcyzuyKNBtFOsrcCMW//wsTVb7pipu81+n6eCtEfh+9fnDBgN26ntZ00jHAR94SHE8SvWM42Eh0pai06w+/EaadfakHttaTwaAz5i6RxGQeV0UuVaB/xU/MmYkseaE4FFNSjriuJavRpgM9NT7rXrd+vcYqYQp/7nsm97baNlreYqygbAaW7srom9FjJSEGsmTO7tVwON2XH03OvI74eQPBvzT0eCWXR9VwsgU/CiIMMjCv210VGzcOgY4w1sAgcbRONz1COOPYj2kPaIHrXJs+CkrDcPj+NpsYYSKX6wMJz1aJ55rdLIauMNfrqXZYa10OZwt8+ZasdjhDFGOYLq1PiWnOtjhiTYgTxEly6Ml1fPMTtjcn5H3Kk8iNpMT/xu6cP3MK0yP0BMjn5YxdIPLmYqH1/qHhyC34a3Ss/tQ9fHfMwQObIXrdCmv87MouV6qcHB4yW7LX4T8Y2V2FL7G94aEShw3GA0F9CvpZESwH4OQPYuWNQ4TTO7jt4Ea/qgG2GKanbxj0VkWSeFOdp+7WNZGt89Sc0uJvvUBxecLNYZLvwOgAD2zNO/+eUQzPBWUhjh/WJnZXGA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(136003)(39860400002)(376002)(346002)(366004)(451199021)(66476007)(4326008)(66556008)(66946007)(31686004)(110136005)(450100002)(82960400001)(478600001)(6666004)(6486002)(41300700001)(316002)(186003)(86362001)(6506007)(6512007)(8676002)(26005)(2906002)(5660300002)(31696002)(2616005)(38100700002)(83380400001)(53546011)(8936002)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVJremdBS0pqbUNMenVuNHRPRThybnluUkdES1VlcnZFb2xGaTA1d3J3REp1?=
+ =?utf-8?B?UXYxaksrd0pSU2daTnRiN255Ym5mNlVEZVVpMzVvbmJpNXdhVnh5SUlXYWNx?=
+ =?utf-8?B?ZDA4MmxCdjNFbWYxMXVzbEpDTXFMUjdZN3R6MkZiYTNuME1wQWdEdFBEbjlQ?=
+ =?utf-8?B?S2doM0xsWEdxaHowdU9SOHZyWXVkZG5zQ2tDbEQrR2tYb1ZXNWZJZDZCQzVT?=
+ =?utf-8?B?MzByZUhTODBtVHY3Q1VVWDhhMVA0Z3haeHdMMUt0c1NOSVNpeDBJWkJSZnhr?=
+ =?utf-8?B?RzlRNVgvTmRGTzVCdkpFSWZDNk4xVWpCMmJpbGpxT2tTbXR0bGFWdlR4bTNV?=
+ =?utf-8?B?SGZCajNJMUpGWGRSUjBGUEFTL0RPUDIzV2ZERDZyZnVFNXJpTXczR2R6UWVC?=
+ =?utf-8?B?UXlKVHJmVGxMYWxseFB1VzZZdldGTjlQaWEyb3RlSlNiNERSMFFJVFhEYnlt?=
+ =?utf-8?B?dlhNVjJmMHh1YjFhbGx3cFhKS3F0VDhWNmR1SmF3WkF1VmcvblZZbmJJdVZV?=
+ =?utf-8?B?K2pxckZLR0dqa0pJUWFGUWU5RVVuQS9GUGwxcUxWR3hlUG5yY3FlSEM4dlpN?=
+ =?utf-8?B?VzFzUkdNMEwzbDZrWThrZ2xvRmJncE9PMWs4ZVA2dmpmT0R6VFMrdU9HS3gr?=
+ =?utf-8?B?R3pGMCtEQml2RUpCY3prL1Z6U3FPSThSc2FPOWtpV0NraWZGR2tXaXBPMkVD?=
+ =?utf-8?B?b2hISjFQUlFmZm8zMHZtQS91NC8ybjVHcFdDWjEzSURrcndkV1FPdmdrempW?=
+ =?utf-8?B?OWc5OEgrN2xob1J4LzZDbkVYRHVqTUR6Q0xFc2FDbk1zNDI0ZFM2RzlaUDJi?=
+ =?utf-8?B?MnhNdE1mQ3ZZYXVoVDBud0g1aWlrZ1RIZlpyc0pJd1dZbEhTOWdzMGdudWJl?=
+ =?utf-8?B?NUlSdWtaTERFWnhWVUEySlI4Um9NenU0QU1HQzliMkNhWGRxbjdGajZKYmFW?=
+ =?utf-8?B?L09peUhaM2t2VlJ5SkZuZWZNWjRBbWVqRGExV3JUbkExOWg0TFV2dXZyWTdU?=
+ =?utf-8?B?ajVlakMyTFVId0d5YkpHMEVYbzdCTWZaYjNneS83aDZ5VnQxN3NCOGxRYnlC?=
+ =?utf-8?B?b2NKR0JmYW4zM2l0cXpwYVRrNmphTzlncHkwYjlaNjdDNWZ5Wk9ZZHRHbWgr?=
+ =?utf-8?B?TFArbjJ3ZElZSFl4THFlWjQvN3g3eFYyY0RyZVRsVDFNbHR2K2pkbWdCM2Zh?=
+ =?utf-8?B?YkUvOHV2bU1JRGNRYmF1SkNMbnk2d2JOZldDdUI2RzY3TlI4b3ZlcTdYTC9s?=
+ =?utf-8?B?TDc5MnFsN25QME13MjVZRm1pWGdXVzhzNjBKbHFSSzBkdzdQVzRFU1Ficjgr?=
+ =?utf-8?B?cHk3K29mSERkczVWVkNHRGZ0ei91MUdveUNpbzgyV2FHcUYvMDhmWnBNd3Qz?=
+ =?utf-8?B?eXJQZVJPN05kTjh3ajVNa0xNZXZsd2pnQnBRcmVMak9YYll1Vk0xemY0MkRC?=
+ =?utf-8?B?Y2Jmbm5nVFF6ZnZBZ2F3N0d6TVBGRDQ2WXJHTE9LN20wdjVhUnN4azhRU1I2?=
+ =?utf-8?B?bFRLVEt1WTJXdU9KRmF4dFAwbWdhbXovZXhPN0R2cXZ6a25TUmNKcVdFazh2?=
+ =?utf-8?B?TUZic0RUbWtQRnAxWXUwcWFJZ0tzWFJoSVQyZXNPRCtCK2ZVdkovOWtkUVBj?=
+ =?utf-8?B?c1BwbVlrUDFZTXYrRkIvRDRQYU8yaGQxdDVTRHA2OVo5QXA1WmI5WWhWWDVx?=
+ =?utf-8?B?NFdOajRwc2cwcnhNL3d5bUs2MnlOSm9rVEpNckZnYUpSM0llZkhTTHl4UUQ0?=
+ =?utf-8?B?dllxMjNzU0pRYmxDZ2NyaVo5bnFNdUdLMXM4TEVVS0w5SC8ySklCdTgrNmFy?=
+ =?utf-8?B?cEJ1Y2lodXdkM1M4Tjl0NTM0M3RYYzk4ZXdEQkM5R2xLbnlFM3JvV21xVUgx?=
+ =?utf-8?B?Q2JpQ2tGa21JQzJXVENkZWdQQnhJc0tad0ZyZTBoN29mQnUwREJwMHZtT1Nn?=
+ =?utf-8?B?UTh6UHNwdE5HbldMTG54d09oSytEM3NwVmNSOUNMdkNkZFlKd2F6TTlJMkVU?=
+ =?utf-8?B?akFzemp6TWpXdHRmWXdROU5GWjNRTVNOVEl6ckdpOEtNRm1nQkVJNVJHYlZF?=
+ =?utf-8?B?N2hCbmVwTHFERmlVSGZ2cFd2S0RkSVlQUHpSNVA0akEwVU1iNHRUS2xSdm90?=
+ =?utf-8?B?WFFrMEF1WnRTdGhqa0JGQUVjRStScVhpWjEwWndHYVAyWjVLRGRWVHliRFAw?=
+ =?utf-8?B?RXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 868f838d-68c5-4e7f-bf28-08db6202ad50
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 18:13:04.2559 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wiUmZKlIF4oRLc8Ra1jDZurjWjjgM4dDpIZ4Dw/67Jo8Ae8EnlYAezA2fF8lMr4OP4OH6W9LHYJ6y4DAo3tY+zIqJX+vWw6LA/ZcQlhiPio=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7093
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,454 +161,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the 1080x2340 Visionox R66451 AMOLED DSI panel that
-comes with the Qualcomm HDK8350 display expansion pack.
 
-The panel enables display compression (DSC v1.2) by default.
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-visionox-r66451.c | 390 ++++++++++++++++++++++++++
- 3 files changed, 400 insertions(+)
+On 5/30/2023 5:33 PM, Teres Alexis, Alan Previn wrote:
+> On Fri, 2023-05-26 at 17:52 -0700, Ceraolo Spurio, Daniele wrote:
+>> The full authentication via the GSC requires an heci packet submission
+>> to the GSC FW via the GSC CS. The GSC has new PXP command for this
+>> (literally called NEW_HUC_AUTH).
+>> The intel_huc_auth fuction is also updated to handle both authentication
+>> types.
+>>
+>
+> alan:snip
+>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+>> index b26f493f86fa..c659cc01f32f 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+>> @@ -29,13 +29,32 @@ static void gsc_work(struct work_struct *work)
+>>   
+>>   	if (actions & GSC_ACTION_FW_LOAD) {
+>>   		ret = intel_gsc_uc_fw_upload(gsc);
+>> -		if (ret == -EEXIST) /* skip proxy if not a new load */
+>> -			actions &= ~GSC_ACTION_FW_LOAD;
+>> -		else if (ret)
+>> +		if (!ret)
+>> +			/* setup proxy on a new load */
+>> +			actions |= GSC_ACTION_SW_PROXY;
+>> +		else if (ret != -EEXIST)
+>>   			goto out_put;
+> alan: I realize that this worker doesnt print error values that
+> come back from intel_gsc_uc_fw_upload - wonder if we should print
+> it before goto out_put.
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 29cf5fa39ff2..1f9d57854ea8 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -766,6 +766,15 @@ config DRM_PANEL_VISIONOX_VTDR6130
- 	  Say Y here if you want to enable support for Visionox
- 	  VTDR6130 1080x2400 AMOLED DSI panel.
- 
-+config DRM_PANEL_VISIONOX_R66451
-+	tristate "Visionox R66451"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for Visionox
-+	  R66451 1080x2340 AMOLED DSI panel.
-+
- config DRM_PANEL_WIDECHIPS_WS2401
- 	tristate "Widechips WS2401 DPI panel driver"
- 	depends on SPI && GPIOLIB
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index b3e8ba29edd3..e043a92ee676 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -78,5 +78,6 @@ obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
- obj-$(CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA) += panel-truly-nt35597.o
- obj-$(CONFIG_DRM_PANEL_VISIONOX_RM69299) += panel-visionox-rm69299.o
- obj-$(CONFIG_DRM_PANEL_VISIONOX_VTDR6130) += panel-visionox-vtdr6130.o
-+obj-$(CONFIG_DRM_PANEL_VISIONOX_R66451) += panel-visionox-r66451.o
- obj-$(CONFIG_DRM_PANEL_WIDECHIPS_WS2401) += panel-widechips-ws2401.o
- obj-$(CONFIG_DRM_PANEL_XINPENG_XPP055C272) += panel-xinpeng-xpp055c272.o
-diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-new file mode 100644
-index 000000000000..00fc28ad3d07
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-@@ -0,0 +1,390 @@
-+//SPDX-License-Identifier: GPL-2.0-only
-+//Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+
-+#include <linux/backlight.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/display/drm_dsc.h>
-+#include <drm/display/drm_dsc_helper.h>
-+
-+#include <video/mipi_display.h>
-+
-+struct visionox_r66451 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[2];
-+	bool prepared, enabled;
-+};
-+
-+static inline struct visionox_r66451 *to_visionox_r66451(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct visionox_r66451, panel);
-+}
-+
-+static void visionox_r66451_reset(struct visionox_r66451 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 10100);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(10000, 10100);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 10100);
-+}
-+
-+static int visionox_r66451_on(struct visionox_r66451 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc2,
-+			       0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
-+			       0x09, 0x3c);
-+	mipi_dsi_dcs_write_seq(dsi, 0xd7,
-+			       0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
-+			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
-+			       0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
-+	mipi_dsi_dcs_write_seq(dsi, 0xde,
-+			       0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
-+			       0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
-+	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xc4,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
-+	mipi_dsi_dcs_write_seq(dsi, 0xcf,
-+			       0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
-+			       0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			       0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
-+	mipi_dsi_dcs_write_seq(dsi, 0xd3,
-+			       0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
-+			       0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
-+			       0x3c, 0x9c);
-+	mipi_dsi_dcs_write_seq(dsi, 0xd7,
-+			       0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
-+			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
-+			       0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
-+	mipi_dsi_dcs_write_seq(dsi, 0xd8,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
-+			       0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
-+			       0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
-+	mipi_dsi_dcs_write_seq(dsi, 0xdf,
-+			       0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			       0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
-+			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
-+	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 0x39, 0x04, 0x09, 0x34);
-+	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
-+	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
-+	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
-+	mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
-+	mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	return 0;
-+}
-+
-+static int visionox_r66451_off(struct visionox_r66451 *ctx)
-+{
-+	ctx->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+	return 0;
-+}
-+
-+static int visionox_r66451_prepare(struct drm_panel *panel)
-+{
-+	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
-+				    ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	visionox_r66451_reset(ctx);
-+
-+	ret = visionox_r66451_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+		return ret;
-+	}
-+
-+	mipi_dsi_compression_mode(ctx->dsi, true);
-+
-+	ctx->prepared = true;
-+	return 0;
-+}
-+
-+static int visionox_r66451_unprepare(struct drm_panel *panel)
-+{
-+	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = visionox_r66451_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+
-+	ctx->prepared = false;
-+	return 0;
-+}
-+
-+static const struct drm_display_mode visionox_r66451_mode = {
-+	.clock = 345830,
-+	.hdisplay = 1080,
-+	.hsync_start = 1175,
-+	.hsync_end = 1176,
-+	.htotal = 1216,
-+	.vdisplay = 2340,
-+	.vsync_start = 2365,
-+	.vsync_end = 2366,
-+	.vtotal = 2370,
-+	.width_mm = 0,
-+	.height_mm = 0,
-+	.type = DRM_MODE_TYPE_DRIVER,
-+};
-+
-+static int visionox_r66451_enable(struct drm_panel *panel)
-+{
-+	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct drm_dsc_picture_parameter_set pps;
-+	int ret;
-+
-+	if (ctx->enabled)
-+		return 0;
-+
-+	if (!dsi->dsc) {
-+		dev_err(&dsi->dev, "DSC not attached to DSI\n");
-+		return -ENODEV;
-+	}
-+
-+	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
-+	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
-+	if (ret) {
-+		dev_err(&dsi->dev, "Failed to set PPS\n");
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(&dsi->dev, "Failed on set display on: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	ctx->enabled = true;
-+
-+	return 0;
-+}
-+
-+static int visionox_r66451_disable(struct drm_panel *panel)
-+{
-+	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	ctx->enabled = false;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(120);
-+
-+	return 0;
-+}
-+
-+static int visionox_r66451_get_modes(struct drm_panel *panel,
-+				    struct drm_connector *connector)
-+{
-+	drm_connector_helper_get_modes_fixed(connector, &visionox_r66451_mode);
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs visionox_r66451_funcs = {
-+	.prepare = visionox_r66451_prepare,
-+	.unprepare = visionox_r66451_unprepare,
-+	.get_modes = visionox_r66451_get_modes,
-+	.enable = visionox_r66451_enable,
-+	.disable = visionox_r66451_disable,
-+};
-+
-+static int visionox_r66451_bl_update_status(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness = backlight_get_brightness(bl);
-+
-+	return mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-+}
-+
-+static const struct backlight_ops visionox_r66451_bl_ops = {
-+	.update_status = visionox_r66451_bl_update_status,
-+};
-+
-+static struct backlight_device *
-+visionox_r66451_create_backlight(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = 255,
-+		.max_brightness = 4095,
-+	};
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-+					      &visionox_r66451_bl_ops, &props);
-+}
-+
-+static int visionox_r66451_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct visionox_r66451 *ctx;
-+	struct drm_dsc_config *dsc;
-+	int ret = 0;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
-+	if (!dsc)
-+		return -ENOMEM;
-+
-+	/* Set DSC params */
-+	dsc->dsc_version_major = 0x1;
-+	dsc->dsc_version_minor = 0x2;
-+
-+	dsc->slice_height = 20;
-+	dsc->slice_width = 540;
-+	dsc->slice_count = 2;
-+	dsc->bits_per_component = 8;
-+	dsc->bits_per_pixel = 8 << 4;
-+	dsc->block_pred_enable = true;
-+
-+	dsi->dsc = dsc;
-+
-+	ctx->supplies[0].supply = "vddio";
-+	ctx->supplies[1].supply = "vdd";
-+
-+	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
-+			ctx->supplies);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio), "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+	drm_panel_init(&ctx->panel, dev, &visionox_r66451_funcs, DRM_MODE_CONNECTOR_DSI);
-+	ctx->panel.backlight = visionox_r66451_create_backlight(dsi);
-+	if (IS_ERR(ctx->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-+				"Failed to create backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+	}
-+
-+	return ret;
-+}
-+
-+static void visionox_r66451_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct visionox_r66451 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct of_device_id visionox_r66451_of_match[] = {
-+	{.compatible = "visionox,r66451"},
-+	{ /*sentinel*/ }
-+};
-+MODULE_DEVICE_TABLE(of, visionox_r66451_of_match);
-+
-+static struct mipi_dsi_driver visionox_r66451_driver = {
-+	.probe = visionox_r66451_probe,
-+	.remove = visionox_r66451_remove,
-+	.driver = {
-+		.name = "panel-visionox-r66451",
-+		.of_match_table = visionox_r66451_of_match,
-+	},
-+};
-+
-+module_mipi_dsi_driver(visionox_r66451_driver);
-+
-+MODULE_AUTHOR("Jessica Zhang <quic_jesszhan@quicinc.com>");
-+MODULE_DESCRIPTION("Panel driver for the Visionox R66451 AMOLED DSI panel");
-+MODULE_LICENSE("GPL");
+intel_gsc_uc_fw_upload prints the error, so no need to double it up.
 
--- 
-2.40.1
+>
+>> +
+>> +		/*
+>> +		 * The HuC auth can be done both before or after the proxy init;
+>> +		 * if done after, a proxy request will be issued and must be
+>> +		 * serviced before the authentication can complete.
+>> +		 * Since this worker also handles proxy requests, we can't
+>> +		 * perform an action that requires the proxy from within it and
+>> +		 * then stall waiting for it, because we'd be blocking the
+>> +		 * service path. Therefore, it is easier for us to load HuC
+>> +		 * first and do proxy later. The GSC will ack the HuC auth and
+>> +		 * then send the HuC proxy request as part of the proxy init
+>> +		 * flow.
+>> +		 * Note that we can only do the GSC auth if the GuC auth was
+>> +		 * successful.
+>> +		 */
+>> +		if (intel_uc_uses_huc(&gt->uc) &&
+>> +		    intel_huc_is_authenticated(&gt->uc.huc, INTEL_HUC_AUTH_BY_GUC))
+>> +			intel_huc_auth(&gt->uc.huc, INTEL_HUC_AUTH_BY_GSC);
+>>   	}
+>>   
+>> -	if (actions & (GSC_ACTION_FW_LOAD | GSC_ACTION_SW_PROXY)) {
+>> +	if (actions & GSC_ACTION_SW_PROXY) {
+>>   		if (!intel_gsc_uc_fw_init_done(gsc)) {
+>>   			gt_err(gt, "Proxy request received with GSC not loaded!\n");
+>>   			goto out_put;
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+>> index 579c0f5a1438..0ad090304ca0 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+>>
+> alan:snip
+>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> index ab5246ae3979..5a4058d39550 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+>>
+> alan:snip
+>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
+>> index d2b4176c81d6..8e538d639b05 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
+>>
+> alan:snip
+>
+>
+>> +int intel_huc_fw_auth_via_gsccs(struct intel_huc *huc)
+>> +{
+>> +	struct drm_i915_gem_object *obj;
+>> +	void *pkt_vaddr;
+>> +	u64 pkt_offset;
+>> +	int retry = 5;
+>> +	int err = 0;
+>> +
+>> +	if (!huc->heci_pkt)
+>> +		return -ENODEV;
+>> +
+>> +	obj = huc->heci_pkt->obj;
+>> +	pkt_offset = i915_ggtt_offset(huc->heci_pkt);
+>> +
+>> +	pkt_vaddr = i915_gem_object_pin_map_unlocked(obj,
+>> +						     i915_coherent_map_type(i915, obj, true));
+>> +	if (IS_ERR(pkt_vaddr))
+>> +		return PTR_ERR(pkt_vaddr);
+>> +
+>> +	msg_in = pkt_vaddr;
+>> +	msg_out = pkt_vaddr + SZ_4K;
+> this 4K*2 (4k for input and 4K for output) seems to be hardcoded in two different locations.
+> One is here in intel_huc_fw_auth_via_gsccs and the other location in intel_huc_init which was
+> even in a different file. Perhaps its better to use a #define after to the definition of
+> PXP43_CMDID_NEW_HUC_AUTH... maybe something like a "#define PXP43_NEW_HUC_AUTH_INOUT_PKT_SIZE (SZ_4K)"
+
+I can add it in.
+
+>> +
+>> +	intel_gsc_uc_heci_cmd_emit_mtl_header(&msg_in->header,
+>> +					      HECI_MEADDRESS_PXP,
+>> +					      sizeof(*msg_in), 0);
+>> +
+>> +	msg_in->huc_in.header.api_version = PXP_APIVER(4, 3);
+>> +	msg_in->huc_in.header.command_id = PXP43_CMDID_NEW_HUC_AUTH;
+>> +	msg_in->huc_in.header.status = 0;
+>> +	msg_in->huc_in.header.buffer_len = sizeof(msg_in->huc_in) -
+>> +					   sizeof(msg_in->huc_in.header);
+>> +	msg_in->huc_in.huc_base_address = huc->fw.vma_res.start;
+>> +	msg_in->huc_in.huc_size = huc->fw.obj->base.size;
+> alan: is this right?: fw.obj.base.size is the rounded up firmware size that was
+> allocated from intel_uc_fw_fetch when it calls i915_gem_object_create_shmem_from_data
+> That latter funcation populates obj with the "rounded up to 4K" size.
+> So is it okay use the 4k rounded up number for the size of the firmware microcode that needs to be authenticated?
+> (or, since this is a GSC FW command, does GSC FW parse the mei headers and extract the exact size to authenticate?)
+
+Yes, the GSC parses the headers. The size is only so they know how much 
+memory they can crawl while parsing to avoid going over. It is possible 
+to just pass the size of the headers, but there is no benefit to doing 
+so, given that the header size is variable and would need to be extracted.
+
+Daniele
+
+>
+>
+> alan:snip
+>
+>> +
+>> +out_unpin:
+>> +	i915_gem_object_unpin_map(obj);
+>> +	return err;
+>> +}
+>>   
+> alan:snip
 
