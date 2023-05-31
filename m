@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAD4717A92
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 10:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5CB717AE8
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 10:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356DF10E1B8;
-	Wed, 31 May 2023 08:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC9C10E1C3;
+	Wed, 31 May 2023 08:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA9210E1B8;
- Wed, 31 May 2023 08:47:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685522866; x=1717058866;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=/t/IRQycrRsaywMENmlH357EbeiJB8Tfnj+9vXHLpmg=;
- b=XAp+vbAqmXRJaiaY+BEuWtzTi6YawDWdBTgrl8zEy7lNAjXGxj838jlV
- jf9xNnZ73ZUgEBQKB9zUGFVS/Vsa7+hQpwmYsSWCwbNisvSNOnkse+1kx
- AHI5U4hBLTbLuf6A8kEnK0AlSCoT3S50UO0VYtk/vX4ndzQvrZpj5PCDV
- AmloI5X10QNf47FsyYKqSkoo2XK0kLRh6/yg+dqh5BWLQiI1VOT5Ae9jP
- iZyeyUytDuWGTDc0JGd+RHC9Qy+hVHEny1m0T1t8b0/VWgmElz8TuokZV
- u30Jl6Q2Q+Yk97CuHZ863yc60ScqDGdo0ueS603hlfh8T3lTT8nriN7eK w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="354023357"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="354023357"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2023 01:47:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="701025604"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; d="scan'208";a="701025604"
-Received: from unknown (HELO ideak-desk) ([10.237.72.78])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2023 01:47:41 -0700
-Date: Wed, 31 May 2023 11:47:40 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Rudi Heitbaum <rudi@heitbaum.com>
-Subject: Re: [v4,01/14] drm/i915: Fix PIPEDMC disabling for a bigjoiner
- configuration
-Message-ID: <ZHcJhs4ySOGojBvZ@ideak-desk>
-References: <20230510103131.1618266-2-imre.deak@intel.com>
- <20230530134907.GA8@5e905162a5a7>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E79C610E1C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 08:59:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp
+ [126.205.251.136])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C9127FC;
+ Wed, 31 May 2023 10:59:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1685523562;
+ bh=xZ6k3aIn2asxiNWMpdKml8un7Vsqb0yQ+oU5w96eDrg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u7dLxQ5OoYuWOyxz6XRiaogwkKO5oZa1YND2rrfPRFdJR5zV90asEVwyrrU1+8YNt
+ 8CqdzAb4KxR/88IymW0ljkdyjL6Hfy89u1WIpjq9hrU4Gwstowenvr9bxAuR5uyWgV
+ +VlvNh14zoS5DHlm76uyWORJgF4Yt89JSc6v7fDs=
+Date: Wed, 31 May 2023 11:59:41 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Message-ID: <20230531085941.GA27043@pendragon.ideasonboard.com>
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+ <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
+ <20230529080552.GJ25984@pendragon.ideasonboard.com>
+ <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230530134907.GA8@5e905162a5a7>
+In-Reply-To: <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,96 +49,375 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 30, 2023 at 01:49:07PM +0000, Rudi Heitbaum wrote:
-Hi Rudi,
+Hi Biju,
 
-Could you open a ticket at
-https://gitlab.freedesktop.org/drm/intel/-/issues/new
-
-attaching a dmesg log after booting with drm.debug=0xe, with the
-messages from boot-up until the issue happens?
-
-Thanks,
-Imre
-
-> Hi Imre/Dave,
-> 
-> Ref: [v4,01/14] drm/i915: Fix PIPEDMC disabling for a bigjoiner configuration
->      [git pull] drm fixes for 6.4-rc4
->      drm-fixes-2023-05-26:
->      drm fixes for 6.4-rc4
-> 
-> This patch has caused a regression between 6.4-rc3 and 6.4-rc4. Other
-> tested kernels include 6.3.4 work fine. Dropping the patch allows the decode
-> playback of media via Kodi. Without dropping the patch - the media
-> starts and stutters then ceases to play.
-> 
-> There is an additional issue that 6.4-rc4 audio playback is also failing
-> (where 6.4-rc3 was fine), I have not yet tracked this down.
-> 
-> This is all on:
-> DMI: Intel(R) Client Systems NUC12WSKi7/NUC12WSBi7, BIOS WSADL357.0087.2023.0306.1931 03/06/2023
-> 12th Gen Intel(R) Core(TM) i7-1260P (family: 0x6, model: 0x9a, stepping: 0x3)
-> microcode: updated early: 0x429 -> 0x42a, date = 2023-02-14
-> 
-> Regards
-> 
-> Rudi
-> 
-> On Wed, May 10, 2023 at 01:31:18PM +0300, Imre Deak wrote:
-> > For a bigjoiner configuration display->crtc_disable() will be called
-> > first for the slave CRTCs and then for the master CRTC. However slave
-> > CRTCs will be actually disabled only after the master CRTC is disabled
-> > (from the encoder disable hooks called with the master CRTC state).
-> > Hence the slave PIPEDMCs can be disabled only after the master CRTC is
-> > disabled, make this so.
+On Mon, May 29, 2023 at 09:00:43AM +0000, Biju Das wrote:
+> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > On Mon, May 22, 2023 at 11:18:39AM +0100, Biju Das wrote:
+> > > Renesas PMIC RAA215300 exposes two separate i2c devices, one for the
+> > > main device and another for rtc device.
+> > >
+> > > Enhance i2c_new_ancillary_device() to instantiate a real device.
 > > 
-> > intel_encoders_post_pll_disable() must be called only for the master
-> > CRTC, as for the other two encoder disable hooks. While at it fix this
-> > up as well. This didn't cause a problem, since
-> > intel_encoders_post_pll_disable() will call the corresponding hook only
-> > for an encoder/connector connected to the given CRTC, however slave
-> > CRTCs will have no associated encoder/connector.
+> > Doesn't it already instantiate a real device ?
+> 
+> No, as per the code it instantiates dummy device[1]
+> [1] https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-base.c#L1156
+
+And that function calls i2c_new_client_device(), which allocates a
+struct i2c_client that embeds a struct device, and registers that device
+with the kernel device core. How is that different, in terms of
+instantiating a "real device", from what this patch does ?
+
+> > > (eg: Instantiate rtc device from PMIC driver)
+> > >
+> > > Added helper function __i2c_new_dummy_device to share the code between
+> > > i2c_new_dummy_device and i2c_new_ancillary_device().
+> > >
+> > > Also added helper function __i2c_new_client_device() to pass parent
+> > > dev parameter, so that the ancillary device can assign its parent
+> > > during creation.
+> > >
+> > > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > v4->v5:
+> > >  * Replaced parameter dev->parent in __i2c_new_client_device() and
+> > >    __i2c_new_dummy_device().
+> > >  * Improved error message in __i2c_new_dummy_device() by printing device name.
+> > >  * Updated comment for ancillary's device parent
+> > >  * Dropped aux_device_name check in i2c_new_ancillary_device().
+> > > v3->v4:
+> > >  * Dropped Rb tag from Geert as there are new changes.
+> > >  * Introduced __i2c_new_dummy_device() to share the code between
+> > >    i2c_new_dummy_device and i2c_new_ancillary_device().
+> > >  * Introduced __i2c_new_client_device() to pass parent dev
+> > >    parameter, so that the ancillary device can assign its parent during
+> > >    creation.
+> > > v3:
+> > >  * New patch
+> > >
+> > > Ref:
+> > >
+> > > ---
+> > >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 +-
+> > >  drivers/i2c/i2c-core-base.c                  | 92 +++++++++++++------
+> > -
+> > >  drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
+> > >  drivers/media/i2c/adv7604.c                  |  3 +-
+> > >  include/linux/i2c.h                          |  3 +-
+> > >  5 files changed, 69 insertions(+), 37 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > index ddceafa7b637..86306b010a0a 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > @@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+> > >  	int ret;
+> > >
+> > >  	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
+> > > -						ADV7511_CEC_I2C_ADDR_DEFAULT);
+> > > +				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
+> > >  	if (IS_ERR(adv->i2c_cec))
+> > >  		return PTR_ERR(adv->i2c_cec);
+> > >
+> > > @@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+> > >  	adv7511_packet_disable(adv7511, 0xffff);
+> > >
+> > >  	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
+> > > -					ADV7511_EDID_I2C_ADDR_DEFAULT);
+> > > +					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
+> > >  	if (IS_ERR(adv7511->i2c_edid)) {
+> > >  		ret = PTR_ERR(adv7511->i2c_edid);
+> > >  		goto uninit_regulators;
+> > > @@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+> > >  		     adv7511->i2c_edid->addr << 1);
+> > >
+> > >  	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
+> > > -					ADV7511_PACKET_I2C_ADDR_DEFAULT);
+> > > +					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
+> > >  	if (IS_ERR(adv7511->i2c_packet)) {
+> > >  		ret = PTR_ERR(adv7511->i2c_packet);
+> > >  		goto err_i2c_unregister_edid;
+> > > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> > > index ae3af738b03f..3442aa80290f 100644
+> > > --- a/drivers/i2c/i2c-core-base.cvvccc
+> > > +++ b/drivers/i2c/i2c-core-base.cckvlrgnulkj
+> > > @@ -893,24 +893,10 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
+> > >  	return 0;
+> > >  }
+> > >
+> > > -/**
+> > > - * i2c_new_client_device - instantiate an i2c device
+> > > - * @adap: the adapter managing the device
+> > > - * @info: describes one I2C device; bus_num is ignored
+> > > - * Context: can sleep
+> > > - *
+> > > - * Create an i2c device. Binding is handled through driver model
+> > > - * probe()/remove() methods.  A driver may be bound to this device when we
+> > > - * return from this function, or any later moment (e.g. maybe hotplugging will
+> > > - * load the driver module).  This call is not appropriate for use by mainboard
+> > > - * initialization logic, which usually runs during an arch_initcall() long
+> > > - * before any i2c_adapter could exist.
+> > > - *
+> > > - * This returns the new i2c client, which may be saved for later use with
+> > > - * i2c_unregister_device(); or an ERR_PTR to describe the error.
+> > > - */
+> > > -struct i2c_client *
+> > > -i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
+> > > +static struct i2c_client *
+> > > +__i2c_new_client_device(struct i2c_adapter *adap,
+> > > +			struct i2c_board_info const *info,
+> > > +			struct device *parent)
+> > >  {
+> > >  	struct i2c_client	*client;
+> > >  	int			status;
+> > > @@ -944,7 +930,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+> > >  	if (status)
+> > >  		goto out_err;
+> > >
+> > > -	client->dev.parent = &client->adapter->dev;
+> > > +	client->dev.parent = parent ? parent : &client->adapter->dev;
+> > >  	client->dev.bus = &i2c_bus_type;
+> > >  	client->dev.type = &i2c_client_type;
+> > >  	client->dev.of_node = of_node_get(info->of_node);
+> > > @@ -984,6 +970,28 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+> > >  	kfree(client);
+> > >  	return ERR_PTR(status);
+> > >  }
+> > > +
+> > > +/**
+> > > + * i2c_new_client_device - instantiate an i2c device
+> > > + * @adap: the adapter managing the device
+> > > + * @info: describes one I2C device; bus_num is ignored
+> > > + * Context: can sleep
+> > > + *
+> > > + * Create an i2c device. Binding is handled through driver model
+> > > + * probe()/remove() methods.  A driver may be bound to this device when we
+> > > + * return from this function, or any later moment (e.g. maybe hotplugging will
+> > > + * load the driver module).  This call is not appropriate for use by mainboard
+> > > + * initialization logic, which usually runs during an arch_initcall() long
+> > > + * before any i2c_adapter could exist.
+> > > + *
+> > > + * This returns the new i2c client, which may be saved for later use with
+> > > + * i2c_unregister_device(); or an ERR_PTR to describe the error.
+> > > + */
+> > > +struct i2c_client *
+> > > +i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info
+> > > +const *info) {
+> > > +	return __i2c_new_client_device(adap, info, NULL); }
+> > >  EXPORT_SYMBOL_GPL(i2c_new_client_device);
+> > >
+> > >  /**
+> > > @@ -1054,6 +1062,26 @@ static struct i2c_driver dummy_driver = {
+> > >  	.id_table	= dummy_id,
+> > >  };
+> > >
+> > > +static struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter *adapter,
+> > > +						 u16 address, const char *name,
+> > > +						 struct device *parent)
+> > > +{
+> > > +	struct i2c_board_info info = {
+> > > +		I2C_BOARD_INFO("dummy", address),
+> > > +	};
+> > > +
+> > > +	if (name) {
+> > > +		ssize_t ret = strscpy(info.type, name, sizeof(info.type));
+> > > +
+> > > +		if (ret < 0)
+> > > +			return ERR_PTR(dev_err_probe(&adapter->dev, ret,
+> > > +						     "Invalid device name: %s\n",
+> > > +						     name));
+> > > +	}
+> > > +
+> > > +	return __i2c_new_client_device(adapter, &info, parent); }
+> > > +
+> > >  /**
+> > >   * i2c_new_dummy_device - return a new i2c device bound to a dummy driver
+> > >   * @adapter: the adapter managing the device
+> > > @@ -1074,11 +1102,7 @@ static struct i2c_driver dummy_driver = {
+> > >   */
+> > >  struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter,
+> > > u16 address)  {
+> > > -	struct i2c_board_info info = {
+> > > -		I2C_BOARD_INFO("dummy", address),
+> > > -	};
+> > > -
+> > > -	return i2c_new_client_device(adapter, &info);
+> > > +	return __i2c_new_dummy_device(adapter, address, NULL, NULL);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
+> > >
+> > > @@ -1122,15 +1146,19 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+> > >   * @client: Handle to the primary client
+> > >   * @name: Handle to specify which secondary address to get
+> > >   * @default_addr: Used as a fallback if no secondary address was specified
+> > > + * @aux_device_name: Ancillary device name
+> > >   * Context: can sleep
+> > >   *
+> > >   * I2C clients can be composed of multiple I2C slaves bound together in a single
+> > >   * component. The I2C client driver then binds to the master I2C slave and needs
+> > > - * to create I2C dummy clients to communicate with all the other slaves.
+> > > + * to create I2C ancillary clients to communicate with all the other slaves.
+> > >   *
+> > > - * This function creates and returns an I2C dummy client whose I2C address is
+> > > - * retrieved from the platform firmware based on the given slave name. If no
+> > > - * address is specified by the firmware default_addr is used.
+> > > + * This function creates and returns an I2C ancillary client whose I2C address
+> > > + * is retrieved from the platform firmware based on the given slave name. if
+> > > + * aux_device_name is specified by the firmware,
 > > 
-> > Fixes: 3af2ff0840be ("drm/i915: Enable a PIPEDMC whenever its corresponding pipe is enabled")
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_display.c | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
+> > Unless I'm missing something, aux_device_name isn't specified by the
+> > firmware, it's a function parameter.
+> 
+> It is specified in the platform firmware(device tree firmware).
+
+What I meant, in the context of the documentation here, is that the
+address is retrieved from the platform firmware by the
+i2c_new_ancillary_device() function, not passed as a parameter, while
+the name is passed as a parameter. It's not relevant, for the
+documentation of this function, where the caller gets the name from.
+
+> > > the ancillary's device parent
+> > > + * will be set to the primary device.
 > > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> > index 1d5d42a408035..116fa52290b84 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > @@ -1702,9 +1702,17 @@ static void hsw_crtc_disable(struct intel_atomic_state *state,
-> >  
-> >  	intel_disable_shared_dpll(old_crtc_state);
-> >  
-> > -	intel_encoders_post_pll_disable(state, crtc);
-> > +	if (!intel_crtc_is_bigjoiner_slave(old_crtc_state)) {
-> > +		struct intel_crtc *slave_crtc;
-> > +
-> > +		intel_encoders_post_pll_disable(state, crtc);
-> >  
-> > -	intel_dmc_disable_pipe(i915, crtc->pipe);
-> > +		intel_dmc_disable_pipe(i915, crtc->pipe);
-> > +
-> > +		for_each_intel_crtc_in_pipe_mask(&i915->drm, slave_crtc,
-> > +						 intel_crtc_bigjoiner_slave_pipes(old_crtc_state))
-> > +			intel_dmc_disable_pipe(i915, slave_crtc->pipe);
-> > +	}
-> >  }
-> >  
-> >  static void i9xx_pfit_enable(const struct intel_crtc_state *crtc_state)
+> > This doesn't seem to match the implementation. With this patch the
+> > ancillary device's parent is always the primary device. Are you sure
+> > this won't cause any regression ? 
+> 
+> There is no regression as existing users only instantiate dummy device.
+
+Sorry, I don't follow you here. Existing callers of
+i2c_new_ancillary_device() today get an i2c_client device whose parent
+is the I2C adapter. With this patch they will get an i2c_client device
+whose parent is the main i2c_client. That's a change in behaviour, which
+could cause all sorts of issues.
+
+> > And why do you need this ?
+> 
+> As per Krzysztof [2],
+> 
+> The DT schema allows multiple addresses for children. But we lack
+> implementation of parent child relationship, As parent owns the resources.
+> Child device needs to parse parent node to get some resource
+> like clocks.
+> 
+> [2] https://lore.kernel.org/linux-renesas-soc/TYCPR01MB5933BFFD4EB556F5FB4EA82186729@TYCPR01MB5933.jpnprd01.prod.outlook.com/
+
+The I2C ancillary clients are not meant to be handled by separate
+drivers. You're supposed to have one device node in DT, which causes the
+I2C core to instantiate a main i2c_client, and bind it to one driver.
+That driver then uses i2c_new_ancillary_device() to create other
+i2c_client instances for the secondary I2C addresses. Those i2c_client
+instances are not bound to a separate driver, so there should be no code
+that needs to look at the parent for resources.
+
+> > > If no address is specified by the firmware
+> > > + * default_addr is used. If no aux_device_name is specified by the
+> > > + firmware, it
+> > 
+> > Same here regarding firmware.
+> > 
+> > > + * will create an I2C dummy client.
+> > >   *
+> > >   * On DT-based platforms the address is retrieved from the "reg" property entry
+> > >   * cell whose "reg-names" value matches the slave name.
+> > > @@ -1139,8 +1167,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+> > >   * i2c_unregister_device(); or an ERR_PTR to describe the error.
+> > >   */
+> > >  struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+> > > -						const char *name,
+> > > -						u16 default_addr)
+> > > +					    const char *name,
+> > > +					    u16 default_addr,
+> > > +					    const char *aux_device_name)
+> > >  {
+> > >  	struct device_node *np = client->dev.of_node;
+> > >  	u32 addr = default_addr;
+> > > @@ -1153,7 +1182,8 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+> > >  	}
+> > >
+> > >  	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+> > > -	return i2c_new_dummy_device(client->adapter, addr);
+> > > +	return __i2c_new_dummy_device(client->adapter, addr, aux_device_name,
+> > > +				      &client->dev);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+> > >
+> > > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c
+> > > b/drivers/media/i2c/adv748x/adv748x-core.c
+> > > index 4498d78a2357..5bdf7b0c6bf3 100644
+> > > --- a/drivers/media/i2c/adv748x/adv748x-core.c
+> > > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
+> > > @@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct
+> > adv748x_state *state)
+> > >  		state->i2c_clients[i] = i2c_new_ancillary_device(
+> > >  				state->client,
+> > >  				adv748x_default_addresses[i].name,
+> > > -				adv748x_default_addresses[i].default_addr);
+> > > +				adv748x_default_addresses[i].default_addr,
+> > NULL);
+> > >
+> > >  		if (IS_ERR(state->i2c_clients[i])) {
+> > >  			adv_err(state, "failed to create i2c client %u\n", i);
+> > diff --git
+> > > a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c index
+> > > 3d0898c4175e..63fa44c9d27c 100644
+> > > --- a/drivers/media/i2c/adv7604.c
+> > > +++ b/drivers/media/i2c/adv7604.c
+> > > @@ -2935,7 +2935,8 @@ static struct i2c_client
+> > *adv76xx_dummy_client(struct v4l2_subdev *sd,
+> > >  	else
+> > >  		new_client = i2c_new_ancillary_device(client,
+> > >  				adv76xx_default_addresses[page].name,
+> > > -				adv76xx_default_addresses[page].default_addr);
+> > > +				adv76xx_default_addresses[page].default_addr,
+> > > +				NULL);
+> > >
+> > >  	if (!IS_ERR(new_client))
+> > >  		io_write(sd, io_reg, new_client->addr << 1); diff --git
+> > > a/include/linux/i2c.h b/include/linux/i2c.h index
+> > > 13a1ce38cb0c..0ce344724209 100644
+> > > --- a/include/linux/i2c.h
+> > > +++ b/include/linux/i2c.h
+> > > @@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev,
+> > > struct i2c_adapter *adap, u16 addr  struct i2c_client *
+> > > i2c_new_ancillary_device(struct i2c_client *client,
+> > >  			 const char *name,
+> > > -			 u16 default_addr);
+> > > +			 u16 default_addr,
+> > > +			 const char *aux_device_name);
+> > >
+> > >  void i2c_unregister_device(struct i2c_client *client);
+> > >
+
+-- 
+Regards,
+
+Laurent Pinchart
