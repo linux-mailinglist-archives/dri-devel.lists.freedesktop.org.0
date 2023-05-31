@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FFF717D69
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 12:51:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B025B717D6F
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 12:54:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A25A510E1BF;
-	Wed, 31 May 2023 10:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E6010E1BE;
+	Wed, 31 May 2023 10:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C9410E1BF
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 10:51:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C130B218E0;
- Wed, 31 May 2023 10:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1685530307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uGlrXdScy+uQ/dFYb1kgYb+EfH5nNgJO7w5uHyZerhE=;
- b=YzHkaBjGoO/rgvm7EzcjG2lw97hJgSM6S51v5Mp8H+MjgGRcWnOd7w94tNCuRFsAT2m9tk
- 0zL+tsWdMfQ9q0bQjz5Po+vSCFQcrpDEM7MxOlJ8uazYANLN+zCQsIGZlwRKsfcEyT3fWT
- 8GwUDEVLKC6fhlUIoXvQbKVA5LtbQWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1685530307;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uGlrXdScy+uQ/dFYb1kgYb+EfH5nNgJO7w5uHyZerhE=;
- b=Ob2hTF7PIFB0LQ3Kw5JOwggaMKS4A5h/JjZWqF73aPF5mzsZNKxI24/YVLCUr8BUBwHaAe
- rZJQ8puebMTQK2DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8BF6D13488;
- Wed, 31 May 2023 10:51:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id k+KvH8Mmd2SQLgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 31 May 2023 10:51:47 +0000
-Message-ID: <01973671-55e0-d701-ca38-a583d441a4fc@suse.de>
-Date: Wed, 31 May 2023 12:51:45 +0200
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F380310E1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 10:54:47 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1b02e0ec7d5so4509465ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 03:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685530487; x=1688122487;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aW1b1ccAWN4g+utpYsd/EKLY8pCRgvbm0rstGDwBDSU=;
+ b=EKcuDnKmwPD117tH/GwwZWVjGgwRlWmNDDSwzZCPJHnmMbbDbi88XW7atFxnH+K5k2
+ zc9VDCeYx5zo0zp1XbC9WmmcFzlucpPHOpc/9MAWBNFvIaHH4mFKDp2thmrcAHxoSp3C
+ GfRhl2uH0J7Vl6OJFM24WgsV1osBETWIb3srvZ/LGDEiNs9+PZtIyk2sgDO+5MH1fhf+
+ Cj81WiOizy3KS+SygfcL5IhTMCWHonqJmQ6FSmEODyRVis4NRXZr6+rCzYw4nNErvCGv
+ gvVsy2+DGnILZALoejASkTaBUwcSl9nNHAYZjDTTX110ewqrb3JXNAh4W5ewOqn6DZuP
+ mvFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685530487; x=1688122487;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aW1b1ccAWN4g+utpYsd/EKLY8pCRgvbm0rstGDwBDSU=;
+ b=gN2V089P2t/DEABqLUwyx++a0somfRpAnNFYVzvo5EUy8/maZUbDR2HHY+fFG95cft
+ lEnmJ9Ny0jbzJMPvw3xeRHGewGx4m6WdIKNdb1Q+9S87Kil3h1VqHNOMvS+tmpQNVgbK
+ iKCfIpX6Vo74XLwbM5tCI+7rGaeOdkwxwyGgMqjaFNJj3LLQ6mvA0kNgVl4K/1ejO2C2
+ K33viL+9rcprbONjlAn+N/PI+CkhroH3N2FRWf17cI3BYdwcKyktehALbiTDcWm6PPPR
+ dVbeXRT9uafiX2cYVfhR7FTyl+asH1KrwJBbLLlaYbOndbg6uDNHinGQlPg+9dv3JM0+
+ 94qQ==
+X-Gm-Message-State: AC+VfDwi6eNwLmlUvzf4IN/UNcsG653/SN7wkxaD+OvPOPSJbA9e1sbj
+ x3gQmyXjbc4PyASTy8wlVnYh3NiQrn4WpDo1elg=
+X-Google-Smtp-Source: ACHHUZ6Pk/b50QlriP6fmYh21EsZlRkoEXx2f4SkiI3WgSLoGLCoajx5TP+OOXzXRcAbrFO52OXXYS5rFksm4EKd1fQ=
+X-Received: by 2002:a17:902:e852:b0:1b0:3cda:6351 with SMTP id
+ t18-20020a170902e85200b001b03cda6351mr5360668plg.0.1685530487124; Wed, 31 May
+ 2023 03:54:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2] drm/ast: Fix modeset failed on DisplayPort
-Content-Language: en-US
-To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch
-References: <20230525012918.11918-1-jammy_huang@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230525012918.11918-1-jammy_huang@aspeedtech.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------bWGn0bHpltOcnfUMiQYxRtWn"
+References: <20230526130131.16521-1-lm0963hack@gmail.com>
+ <20230530222150.24oogloda6wtvpvm@intel.intel>
+ <CAAgLYK7FNrAYFRp7C3LDtqevFENQLw8YYAFR2Pk9wdfQ5RKVeg@mail.gmail.com>
+ <20230531081917.grx3qqqm7usaqoa5@intel.intel>
+In-Reply-To: <20230531081917.grx3qqqm7usaqoa5@intel.intel>
+From: lm0963 <lm0963hack@gmail.com>
+Date: Wed, 31 May 2023 18:54:34 +0800
+Message-ID: <CAAgLYK4KzuKMTkBwzCJj4wa+W+=9fR+A1J=XR-n1E-W7EjexuA@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: fix race condition UAF in
+ exynos_g2d_exec_ioctl
+To: Andi Shyti <andi.shyti@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,95 +72,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, alim.akhtar@samsung.com,
+ sw0312.kim@samsung.com, krzysztof.kozlowski@linaro.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------bWGn0bHpltOcnfUMiQYxRtWn
-Content-Type: multipart/mixed; boundary="------------g9zM0e2qrVQ4lm8aYK00AO00";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <01973671-55e0-d701-ca38-a583d441a4fc@suse.de>
-Subject: Re: [PATCH v2] drm/ast: Fix modeset failed on DisplayPort
-References: <20230525012918.11918-1-jammy_huang@aspeedtech.com>
-In-Reply-To: <20230525012918.11918-1-jammy_huang@aspeedtech.com>
+Hi Andi,
 
---------------g9zM0e2qrVQ4lm8aYK00AO00
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Wed, May 31, 2023 at 4:19=E2=80=AFPM Andi Shyti <andi.shyti@kernel.org> =
+wrote:
+>
+> Hi Min,
+>
+> > > > If it is async, runqueue_node is freed in g2d_runqueue_worker on an=
+other
+> > > > worker thread. So in extreme cases, if g2d_runqueue_worker runs fir=
+st, and
+> > > > then executes the following if statement, there will be use-after-f=
+ree.
+> > > >
+> > > > Signed-off-by: Min Li <lm0963hack@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/=
+drm/exynos/exynos_drm_g2d.c
+> > > > index ec784e58da5c..414e585ec7dd 100644
+> > > > --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> > > > +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> > > > @@ -1335,7 +1335,7 @@ int exynos_g2d_exec_ioctl(struct drm_device *=
+drm_dev, void *data,
+> > > >       /* Let the runqueue know that there is work to do. */
+> > > >       queue_work(g2d->g2d_workq, &g2d->runqueue_work);
+> > > >
+> > > > -     if (runqueue_node->async)
+> > > > +     if (req->async)
+> > >
+> > > did you actually hit this? If you did, then the fix is not OK.
+> >
+> > No, I didn't actually hit this. I found it through code review. This
+> > is only a theoretical issue that can only be triggered in extreme
+> > cases.
+>
+> first of all runqueue is used again two lines below this, which
+> means that if you don't hit the uaf here you will hit it
+> immediately after.
 
-SGkgSmFtbXkNCg0KQW0gMjUuMDUuMjMgdW0gMDM6Mjkgc2NocmllYiBKYW1teSBIdWFuZzoN
-Cj4gSWYgd2Ugc3dpdGNoIGRpc3BsYXkgYW5kIHVwZGF0ZSBjdXJzb3IgdG9nZXRoZXIsIGl0
-IGNvdWxkIGxlYWQgdG8NCj4gbW9kZXNldCBmYWlsZWQgYmVjYXVzZSBvZiBjb25jdXJyZW50
-IGFjY2VzcyB0byBJTyByZWdpc3RlcnMuDQo+IA0KPiBBZGQgbG9jayBwcm90ZWN0aW9uIGlu
-IERQJ3MgZWRpZCBhY2Nlc3MgdG8gYXZvaWQgdGhpcyBwcm9ibGVtLg0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogSmFtbXkgSHVhbmcgPGphbW15X2h1YW5nQGFzcGVlZHRlY2guY29tPg0KPiAt
-LS0NCj4gICB2MiBjaGFuZ2VzOg0KPiAgICAtIEZpeCBidWlsZCBlcnJvciBzaW5jZSBuZXcg
-c3RydWN0IGFzdF9kZXZpY2UgaXMgdXNlZC4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L2FzdC9hc3RfbW9kZS5jIHwgMTEgKysrKysrKysrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwg
-MTEgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
-c3QvYXN0X21vZGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBpbmRl
-eCAzNjM3NDgyOGY2YzguLjlmY2JmNTQwZDZmYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
-X21vZGUuYw0KPiBAQCAtMTY0Nyw2ICsxNjQ3LDggQEAgc3RhdGljIGludCBhc3RfZHA1MDFf
-b3V0cHV0X2luaXQoc3RydWN0IGFzdF9kZXZpY2UgKmFzdCkNCj4gICBzdGF0aWMgaW50IGFz
-dF9hc3RkcF9jb25uZWN0b3JfaGVscGVyX2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
-ciAqY29ubmVjdG9yKQ0KPiAgIHsNCj4gICAJdm9pZCAqZWRpZDsNCj4gKwlzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2ID0gY29ubmVjdG9yLT5kZXY7DQo+ICsJc3RydWN0IGFzdF9kZXZpY2Ug
-KmFzdCA9IHRvX2FzdF9kZXZpY2UoZGV2KTsNCj4gICANCj4gICAJaW50IHN1Y2M7DQo+ICAg
-CWludCBjb3VudDsNCj4gQEAgLTE2NTUsMTAgKzE2NTcsMTggQEAgc3RhdGljIGludCBhc3Rf
-YXN0ZHBfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvcikNCj4gICAJaWYgKCFlZGlkKQ0KPiAgIAkJZ290byBlcnJfZHJtX2Nvbm5l
-Y3Rvcl91cGRhdGVfZWRpZF9wcm9wZXJ0eTsNCj4gICANCj4gKwkvKg0KPiArCSAqIFByb3Rl
-Y3QgYWNjZXNzIHRvIEkvTyByZWdpc3RlcnMgZnJvbSBjb25jdXJyZW50IG1vZGVzZXR0aW5n
-DQo+ICsJICogYnkgYWNxdWlyaW5nIHRoZSBJL08tcmVnaXN0ZXIgbG9jay4NCj4gKwkgKi8N
-Cj4gKwltdXRleF9sb2NrKCZhc3QtPmlvcmVnc19sb2NrKTsNCj4gKw0KPiAgIAlzdWNjID0g
-YXN0X2FzdGRwX3JlYWRfZWRpZChjb25uZWN0b3ItPmRldiwgZWRpZCk7DQo+ICAgCWlmIChz
-dWNjIDwgMCkNCj4gICAJCWdvdG8gZXJyX2tmcmVlOw0KPiAgIA0KPiArCW11dGV4X3VubG9j
-aygmYXN0LT5pb3JlZ3NfbG9jayk7DQo+ICsNCj4gICAJZHJtX2Nvbm5lY3Rvcl91cGRhdGVf
-ZWRpZF9wcm9wZXJ0eShjb25uZWN0b3IsIGVkaWQpOw0KPiAgIAljb3VudCA9IGRybV9hZGRf
-ZWRpZF9tb2Rlcyhjb25uZWN0b3IsIGVkaWQpOw0KPiAgIAlrZnJlZShlZGlkKTsNCj4gQEAg
-LTE2NjYsNiArMTY3Niw3IEBAIHN0YXRpYyBpbnQgYXN0X2FzdGRwX2Nvbm5lY3Rvcl9oZWxw
-ZXJfZ2V0X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+ICAgCXJl
-dHVybiBjb3VudDsNCj4gICANCj4gICBlcnJfa2ZyZWU6DQoNClRoaXMgbGFiZWwgbmVlZHMg
-dG8gYmUgbmFtZWQgJ2Vycl9tdXRleF91bmxvY2snIHBsZWFzZS4gV2l0aCB0aGF0IGZpeGVk
-LCANCnlvdSBjYW4gYWRkDQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArCW11dGV4
-X3VubG9jaygmYXN0LT5pb3JlZ3NfbG9jayk7DQo+ICAgCWtmcmVlKGVkaWQpOw0KPiAgIGVy
-cl9kcm1fY29ubmVjdG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5Og0KPiAgIAlkcm1fY29ubmVj
-dG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5KGNvbm5lY3RvciwgTlVMTCk7DQo+IA0KPiBiYXNl
-LWNvbW1pdDogOTMzMTc0YWUyOGJhNzJhYjhkZTViMzVjYjdjOThmYzIxMTIzNTA5Ng0KDQot
-LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
-IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0Niwg
-OTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMs
-IEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJu
-YmVyZykNCg==
+No, if async is true, then it will goto out, which will directly return.
 
---------------g9zM0e2qrVQ4lm8aYK00AO00--
+if (runqueue_node->async)
+    goto out;   // here, go to out, will directly return
 
---------------bWGn0bHpltOcnfUMiQYxRtWn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+wait_for_completion(&runqueue_node->complete);      // not hit
+g2d_free_runqueue_node(g2d, runqueue_node);
 
------BEGIN PGP SIGNATURE-----
+out:
+return 0;
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmR3JsEFAwAAAAAACgkQlh/E3EQov+Az
-kw/+MD9iFo6IaQbmiQraMWv4C8bb0Ku2tpruYx9AiaFS4AM/UIw1G45JiApJoZsRp3K9itbyDrra
-VmYigZ/Znt2c/svJk2eUeeMz3PCM1ypWTHov7MVvN6Hs6nMOIrjDHHf9Y9klzY/1jvV90nsvTCu3
-6vcsU4BQDVArgmknwvEyw4pz8wiv9Drdll+zQIWCeUmYBVeaLma+GsXL0yRIPYbMOjVihNRqr0wr
-RCNuMVtGCk0GgZ3LjtxKZm7rwo5V82OOU13DufmIDxZqF6BOMMcSzph75RyEzu4Ko2XkTpnH3Poh
-koQKMn60ko0eU+27rlo6HcMjljkYbz3KMEfI4f3CcjDDCSGFVpCR00WPekwTUoyPAluMO7JwX7UD
-+qUhNS6xlmOm42DTeDUHAe+h22TUBZVkkyFyYWbbsUaolQn12AHkC7tkfxlYWY9nQVZsZv2BUkcu
-MmEGBT13clckqlsTFgTMkavv9Iu73bIlM6Tl1a2JX6x/zwNt3n2MPa9JtzB4jBLqFsTIoZuNrkPJ
-Otd34WnapE76yo4LO7hsM0F0ku9JJgf2+qfQqPW2AIuqmOCm+I24oyQ8TuFs2wScVWK7MNxLtA/u
-oe+1Ofb0Ijka/PL+zut1hb8yVF2cf21xOq+JeNC3q5pYRGMtVinm5fB/FR50uLyhdR6vHzydc1OV
-2+4=
-=PHol
------END PGP SIGNATURE-----
+>
+> Second, if runqueue is freed, than we need to remove the part
+> where it's freed because it doesn't make sense to free runqueue
+> at this stage.
 
---------------bWGn0bHpltOcnfUMiQYxRtWn--
+It is freed by g2d_free_runqueue_node in g2d_runqueue_worker
+
+static void g2d_runqueue_worker(struct work_struct *work)
+{
+    ......
+    if (runqueue_node) {
+        pm_runtime_mark_last_busy(g2d->dev);
+        pm_runtime_put_autosuspend(g2d->dev);
+
+        complete(&runqueue_node->complete);
+        if (runqueue_node->async)
+            g2d_free_runqueue_node(g2d, runqueue_node);        // freed her=
+e
+    }
+
+>
+> Finally, can you elaborate on the code review that you did so
+> that we all understand it?
+
+queue_work(g2d->g2d_workq, &g2d->runqueue_work);
+msleep(100);        // add sleep here to let g2d_runqueue_worker run first
+if (runqueue_node->async)
+    goto out;
+
+
+>
+> Andi
+
+
+
+--
+Min Li
