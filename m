@@ -1,81 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB9171868E
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 17:41:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3677186EA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:00:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A2310E0CF;
-	Wed, 31 May 2023 15:41:10 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D211010E50C;
- Wed, 31 May 2023 15:41:08 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34VEn1Si009755; Wed, 31 May 2023 15:40:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=MhTlLlPXPB2hun/YA2U92J0IiaRh377ghLpoTRHa6uo=;
- b=k71HKymloQg/rg8FCKf6Hs92iY1db06zAKgJrb9NkcHoluAKlf1u2SHimCCiDPjkvNt3
- cxt/sNn+f4GHn7jCXXWzVr3nlOKeEOjYkHVCxqBcOAdW5wsag2ZZY0Ykj30mX+Njdns5
- W2pBCrH2uhPlp7jpoChnbo8MKdlAo86gXJ3Vl4XDyuAUiQIeDK3naijngiOapGDbZPCx
- v+daS3Jgh5OMWdOqkQV3TcRjYgbESFd/ZLZhGzwJvcUuzyCj1UrhP61NRHR4FVyKhS9W
- E1mZRDCALmZfqv2vI+MTyLbYFJPksxnUTzxi2LcCqUYsY0TRf0+1Nf31IYXGROz45pPA hQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qx39d0xrs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 15:40:37 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34VFea2M020193
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 15:40:36 GMT
-Received: from [10.71.110.189] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 31 May
- 2023 08:40:35 -0700
-Message-ID: <157e8219-7af2-c7ed-6d99-3caa6fbc11ba@quicinc.com>
-Date: Wed, 31 May 2023 08:40:26 -0700
+	by gabe.freedesktop.org (Postfix) with ESMTP id B87C810E1CB;
+	Wed, 31 May 2023 16:00:24 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF4C10E1CB;
+ Wed, 31 May 2023 16:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685548823; x=1717084823;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9VCiQaigMGXKNyziAsRtTdCC8bH1CTMeHx7t9epsfnE=;
+ b=Lv1yWjdvh0ux5CvU7QPOFut+7JvAMm9KcEbMUSaWPME2Mwin6HhR1Ikg
+ 7zRhJ8xucPHy0nAzmUR9bGjqNe7BRG34DLHrVcv/YPa/mvjlvW4xSj6yP
+ xwDO8PPJBgpMGQjaw5q/MZi9bFRe+ynBbygFPuYyCT3rAd7NsI7QOc85p
+ +PxyZfGqXjkPWMRYQYg4BJ1knPRzq2sdHlmZvOfR5xlNzB5vwC2rq5Hgj
+ lnO4g6Or4aWbXVVZGBrYK1Oc69BIwYKHUP5pv3apsHseXV9Biotoi4Ljt
+ zdecmfTvWZvf01s9EXgQFcE4j43+DDOEY5V2epEhWc5yVzbYmdLuBPlKQ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="344797678"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="344797678"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 08:58:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710129975"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="710129975"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmsmga007.fm.intel.com with ESMTP; 31 May 2023 08:58:52 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Remove some obsolete definitions
+Date: Wed, 31 May 2023 08:59:42 -0700
+Message-Id: <20230531155942.441862-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v1 2/3] drm/msm/dpu: retrieve DSI DSC struct at
- atomic_check()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
- <1685464318-25031-3-git-send-email-quic_khsieh@quicinc.com>
- <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
-Content-Language: en-US
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: _UgxJ8hFXO64gsDUKEHxREvw_6jO6D_D
-X-Proofpoint-ORIG-GUID: _UgxJ8hFXO64gsDUKEHxREvw_6jO6D_D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_10,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305310134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,52 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: John Harrison <John.C.Harrison@Intel.com>
 
+There were a bunch of defines and structures left over from an API
+update a very long time ago. Remove them.
 
->>   +    if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
->
-> INTF_DSI
->
->> +        struct drm_bridge *bridge;
->> +
->> +        if (!dpu_enc->dsc) {
->
-> This condition is not correct. We should be updating the DSC even if 
-> there is one.
->
->> +            bridge = drm_bridge_chain_get_first_bridge(drm_enc);
->> +            dpu_enc->dsc = msm_dsi_bridge_get_dsc_config(bridge);
->
-> This approach will not work for the hot-pluggable outputs. The dpu_enc 
-> is not a part of the state. It should not be touched before 
-> atomic_commit actually commits changes.
-where can drm_dsc_config be stored?
->
-> Also, I don't think I like the API. It makes it impossible for the 
-> driver to check that the bridge is the actually our DSI bridge or not.
-> Once you add DP here, the code will explode.
->
-> I think instead we should extend the drm_bridge API to be able to get 
-> the DSC configuration from it directly. Additional care should be put 
-> to design an assymetrical API. Theoretically a drm_bridge can be both 
-> DSC source and DSC sink. Imagine a DSI-to-DP or DSI-to-HDMI bridge, 
-> supporting DSC on the DSI side too.
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 33 ---------------------
+ 1 file changed, 33 deletions(-)
 
-Form my understanding, a bridge contains two interfaces.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 4e57bd09d50d9..b4d56eccfb1f0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -35,13 +35,6 @@
+ #define GUC_MAX_CONTEXT_ID		65535
+ #define	GUC_INVALID_CONTEXT_ID		GUC_MAX_CONTEXT_ID
+ 
+-#define GUC_RENDER_ENGINE		0
+-#define GUC_VIDEO_ENGINE		1
+-#define GUC_BLITTER_ENGINE		2
+-#define GUC_VIDEOENHANCE_ENGINE		3
+-#define GUC_VIDEO_ENGINE2		4
+-#define GUC_MAX_ENGINES_NUM		(GUC_VIDEO_ENGINE2 + 1)
+-
+ #define GUC_RENDER_CLASS		0
+ #define GUC_VIDEO_CLASS			1
+ #define GUC_VIDEOENHANCE_CLASS		2
+@@ -499,32 +492,6 @@ struct guc_log_buffer_state {
+ 	u32 version;
+ } __packed;
+ 
+-struct guc_ctx_report {
+-	u32 report_return_status;
+-	u32 reserved1[64];
+-	u32 affected_count;
+-	u32 reserved2[2];
+-} __packed;
+-
+-/* GuC Shared Context Data Struct */
+-struct guc_shared_ctx_data {
+-	u32 addr_of_last_preempted_data_low;
+-	u32 addr_of_last_preempted_data_high;
+-	u32 addr_of_last_preempted_data_high_tmp;
+-	u32 padding;
+-	u32 is_mapped_to_proxy;
+-	u32 proxy_ctx_id;
+-	u32 engine_reset_ctx_id;
+-	u32 media_reset_count;
+-	u32 reserved1[8];
+-	u32 uk_last_ctx_switch_reason;
+-	u32 was_reset;
+-	u32 lrca_gpu_addr;
+-	u64 execlist_ctx;
+-	u32 reserved2[66];
+-	struct guc_ctx_report preempt_ctx_report[GUC_MAX_ENGINES_NUM];
+-} __packed;
+-
+ /* This action will be programmed in C1BC - SOFT_SCRATCH_15_REG */
+ enum intel_guc_recv_message {
+ 	INTEL_GUC_RECV_MSG_CRASH_DUMP_POSTED = BIT(1),
+-- 
+2.39.1
 
-Therefore I would think only one bridge for dsi-to-dp bridge? and this 
-bridge should represent the bridge chip?
-
-I am thinking adding an ops function, get_bridge_dsc() to struct 
-drm_bridge_funcs to retrieve drm_dsc_config.
-
-Do you have other suggestion?
-
->
