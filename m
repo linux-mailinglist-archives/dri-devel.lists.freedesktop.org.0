@@ -2,52 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD07571872C
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F7A718745
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AE210E4F3;
-	Wed, 31 May 2023 16:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5983310E1D2;
+	Wed, 31 May 2023 16:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C092210E4F2;
- Wed, 31 May 2023 16:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685549843; x=1717085843;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NP8J/yvcR/yss1+daiu7aMG7qEaHT3dVfT6aXQ7JXm8=;
- b=eeoJyLcXvVhjwvoK5fNVynjwQa+1vy3E2khe1bJ9391wWz7qFWaxJn9+
- 8VflVa5XiVtoVoW/0PNyyrR9SpRXQ3Z2p0b+T9ZUi17t3Pnnh6jUCh7lP
- +Egiq9DVfIQdmLQ4IpbU+yHMxWpQLhtUsoGhXbexgoS3x6MCB89fVlq1X
- kJIhWaSU/YOqGvGfBO7arQf2bgxseWTRFvNnMMl3U3+2bb7gR1mteQmqy
- bVWWjWEo/EtpiA2+5hQmDa2TjlZzJJdooXHtOkopSylA1EM9KgzRl9UrO
- flAtge3aIW5m/clNEuwsymBfC3mDl0yjO7y99sXLUJKFs95MPOe7ILxCk g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="383550892"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="383550892"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2023 09:14:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="1037117690"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="1037117690"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 31 May 2023 09:14:31 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q4OT0-0001Tr-3A;
- Wed, 31 May 2023 16:14:30 +0000
-Date: Thu, 1 Jun 2023 00:13:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
-Subject: Re: [PATCH -next] drm/i915: remove unreachable code
-Message-ID: <202306010001.gUxZYcyb-lkp@intel.com>
-References: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 545A910E1D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:23:34 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q4ObW-0006OY-35; Wed, 31 May 2023 18:23:18 +0200
+Message-ID: <5e0b34054ca6fa540e481d93f3c1d9fbdd2defcd.camel@pengutronix.de>
+Subject: Re: [PATCH v6 5/6] drm/etnaviv: add driver support for the PCI devices
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Bjorn Helgaas <helgaas@kernel.org>
+Date: Wed, 31 May 2023 18:23:12 +0200
+In-Reply-To: <950fdaaa-b62c-7f36-a499-9eca71c8bc47@loongson.cn>
+References: <ZHZIXZPuCkFSMF4H@bhelgaas>
+ <950fdaaa-b62c-7f36-a499-9eca71c8bc47@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +47,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- rodrigo.vivi@intel.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yang Li <yang.lee@linux.alibaba.com>, oe-kbuild-all@lists.linux.dev
+Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ loongson-kernel@lists.loongnix.cn,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yang,
+Hi Sui Jingfeng,
 
-kernel test robot noticed the following build warnings:
+Am Donnerstag, dem 01.06.2023 um 00:08 +0800 schrieb Sui Jingfeng:
+> Hi,
+>=20
+> On 2023/5/31 03:02, Bjorn Helgaas wrote:
+> > On Wed, May 31, 2023 at 12:06:42AM +0800, Sui Jingfeng wrote:
+> > > This patch adds PCI driver support on top of what already have. Take =
+the
+> > > GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device d=
+river.
+> > > There is only one GPU core for the GC1000 in the LS7A1000 and LS2K100=
+0.
+> > > Therefore, component frameworks can be avoided. Because we want to bi=
+nd the
+> > > DRM driver service to the PCI driver manually.
+> > > +	 * Loongson Mips and LoongArch CPU(ls3a5000, ls3a4000, ls2k1000la)
+> > > +	 * maintain cache coherency by hardware
+> > > +	 */
+> > > +	if (IS_ENABLED(CONFIG_CPU_LOONGSON64) || IS_ENABLED(CONFIG_LOONGARC=
+H))
+> > > +		priv->has_cached_coherent =3D true;
+> > This looks like something that should be a runtime check, not a
+> > compile-time check.
+> >=20
+> > If it's possible to build a single kernel image that runs on Loongson
+> > MIPS or LoongArch CPU and, in addition, runs on other platforms, you
+> > cannot assume that all the others maintain this cache coherency.
+>=20
+> Nice catch! I don't even realize this!
+>=20
+>=20
+> LS3A4000 is mips64r2 with MSA SIMD, while LS3A5000 is LoongArch,
+>=20
+> instruction set, compiler, and binary interface are totally changed.
+>=20
+> Therefore, it's impossible to build a single kernel image that runs on=
+=20
+> all Loongson CPUs.
+>=20
+> Currently, I can guarantee that this works on the Loongson platform.
+>=20
+> My initial intent here is to let priv->has_cached_coherent be *true* on=
+=20
+> the Loongson platform (both mips and loongarch).
+>=20
+> I do know there are some other vendors who bought GPU IP from Vivante.
+>=20
+> say GC7000, and integrate it into their discrete GPU product.
+>=20
+> But it is also a PCI device, but this is another story; it deserves=20
+> another patch.
+>=20
+> I don't know if Etnaviv folk find some similar hardware on Arm Arch,
+>=20
+> Some Arm CPUs do not maintain cached coherency on hardware.
+>=20
+> The has_cached_coherent member can be set to false on such hardware.
+>=20
+> For us, it seems that there is no need to do runtime checking,
+>=20
+> because they are all cached coherent by default.
+>=20
+>=20
+> Can I improve this in the future, currently I don't have a good idea.
 
-[auto build test WARNING on next-20230530]
+I think I mentioned before that this needs to be a runtime check. What
+does dev_is_dma_coherent() return for the Vivante GPU device on your
+platform?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-base:   next-20230530
-patch link:    https://lore.kernel.org/r/20230531021714.125078-1-yang.lee%40linux.alibaba.com
-patch subject: [PATCH -next] drm/i915: remove unreachable code
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230601/202306010001.gUxZYcyb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/58232a66b9d21d80bc6b478e2a8fb1443da3adfc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-        git checkout 58232a66b9d21d80bc6b478e2a8fb1443da3adfc
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306010001.gUxZYcyb-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'intel_color_prepare_commit':
->> drivers/gpu/drm/i915/display/intel_color.c:1803:28: warning: unused variable 'crtc' [-Wunused-variable]
-    1803 |         struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-         |                            ^~~~
-
-
-vim +/crtc +1803 drivers/gpu/drm/i915/display/intel_color.c
-
-3962ca4e080a52 Ville Syrjälä 2023-03-20  1800  
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1801  void intel_color_prepare_commit(struct intel_crtc_state *crtc_state)
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1802  {
-b358c3b98813b1 Ville Syrjälä 2022-11-23 @1803  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-b358c3b98813b1 Ville Syrjälä 2022-11-23  1804  
-2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1805  	/* FIXME DSB has issues loading LUTs, disable it for now */
-2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1806  	return;
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1807  }
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1808  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Lucas
