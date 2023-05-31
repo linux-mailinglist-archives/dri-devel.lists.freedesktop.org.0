@@ -1,75 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B055F7172BE
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 02:54:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F69E717309
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 03:17:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FD610E44F;
-	Wed, 31 May 2023 00:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E1910E459;
+	Wed, 31 May 2023 01:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F9D10E444;
- Wed, 31 May 2023 00:54:26 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34UNjPps028314; Wed, 31 May 2023 00:54:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=9893apps37Gc6TMLj9rCtbaVwTm0lOios8Idx+Pdc7k=;
- b=Pk5CJ3thlJXIrF7MjKBQQHPnU+FUvSLng57SeuloCGNqvHew3zbEBL3eO/IU4vJolI5x
- 8wyAXcnnfkAhcuQ5aUqgvma6ClDCf8Pha6e5phSV9u2o7Kr4jJt+4DE8YgxH7zUd5qQg
- +XgPHj4i+Nt27oODXTEzRQqDEljwiP+WrASUEOCXOTfHVKkUWBNXeK6xbwlDQK3PxVSZ
- E/Jsm/AiUYUqPLprRFpRjbkNW9DONYktNshEjYzOMz03ECtk2pl5UeQRO9LjBP+1jOX/
- AyUlE3ymub3B7x793XAPJyjDIrr9pnCM5R3FbXqZVWoDbOGHVJhNgIYf20mIvNMnzLAV fg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qw8v4terk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 00:54:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34V0sH6W018899
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 31 May 2023 00:54:17 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 30 May 2023 17:54:16 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-Subject: [PATCH] drm/msm/dpu: re-introduce dpu core revision to the catalog
-Date: Tue, 30 May 2023 17:53:55 -0700
-Message-ID: <20230531005358.18090-1-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77A310E459;
+ Wed, 31 May 2023 01:17:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e36TgvXA2rrMzMmBFVpGsuCFQ7e+S1BIdGg9FWcLw+LmRo2j0Zx7LmyJPLgUcqBlHu3LfHil00TmTu9j9rYWcMqZgfay4J52kpA/XtnD/CSsoMB6gVUdd+jK+Wf3A8dW/8bvBjSR3oqbHKxZJwIyo6Way6IgYX9CDiTbXcOjRvjeUWiI0txze5gAhpfDnE5i0W+o5n5DqjPFYPTrJMuvoiK43cm/yNQOlCT9PFXexOvwxs6hjzjKRgy2Wuy4aBaHUKuAJnY4Wvj9haak3FZVwb/OlYt9krEDS5HxNH8J8J/ZsBttKWIeMSO+1Gqf0oKzuf/C8kNSk30rZ2MdvY2GAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5aPks0j4i9RoFhibssKStz8SDX6FTu4Tc15P2SQLdwA=;
+ b=PD8gw1JvIZ7lolD7ahZuGLCQsDDPkhPY0yKzrA+Hxt3kCtUb7MLtsVOb1A92F9HFz3DrJrSFRdJOUjiuebHMQ8HCMrWESvN7yNkmTjCziQbOcuNBWJgXGAcjVYK4UiPGd0CBKAUDclUOv/JV9iTJ8Z2c3GSO0FhtkR9Zg7Zov8iozVvmtHNhUpaWbDrt4/GVwf47YW6U/qjKiQIBgSBbiB1FYHLEI8gNwqN3/xbDdpv7m8tUGTEk+zDK01dntktwcAjQyOeaOc42E53WKPkL1FVG7AFnxJfBiJoMlR9c5+OMdZbXMP0NmBpXKi9qcnDevSzmj/wZ0yq3YXKunD8HWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5aPks0j4i9RoFhibssKStz8SDX6FTu4Tc15P2SQLdwA=;
+ b=Yf8PoHsJ1sRYMi0kBgr1JEuuffYRRVFD3wmD8DU9i60x0ctZOWwBAmVk121tCqcm/xFjmYE8GOUXVvyzTWwjyTXlD6i2BeV4Vws65hDTIKRvJ/7LxNAF5lZKdwtwOXdaHHztOApww4wDwnLI/kcVMXXF+on+p6Z1jKAT5oCDSCo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6351.namprd12.prod.outlook.com (2603:10b6:8:a2::6) by
+ MW4PR12MB6729.namprd12.prod.outlook.com (2603:10b6:303:1ed::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Wed, 31 May
+ 2023 01:17:41 +0000
+Received: from DM4PR12MB6351.namprd12.prod.outlook.com
+ ([fe80::cdf:2ed1:1f52:9f65]) by DM4PR12MB6351.namprd12.prod.outlook.com
+ ([fe80::cdf:2ed1:1f52:9f65%4]) with mapi id 15.20.6433.022; Wed, 31 May 2023
+ 01:17:41 +0000
+Message-ID: <69d33272-6b2a-6a89-da5c-dd49d17b798b@amd.com>
+Date: Wed, 31 May 2023 09:17:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] drm/ttm: Remove redundant code in ttm_tt_init_fields
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230529092853.3430546-1-Jun.Ma2@amd.com>
+ <420e2658-37e8-3f1c-84a5-ca24e9d104ff@amd.com>
+Content-Language: en-US
+From: "Ma, Jun" <majun@amd.com>
+In-Reply-To: <420e2658-37e8-3f1c-84a5-ca24e9d104ff@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ri8uiuUxcT3sxGIWj8fGWulFGqNefuoK
-X-Proofpoint-GUID: ri8uiuUxcT3sxGIWj8fGWulFGqNefuoK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-30_18,2023-05-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 bulkscore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305310004
+X-ClientProxiedBy: TYCP286CA0099.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b4::17) To DM4PR12MB6351.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6351:EE_|MW4PR12MB6729:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11a625c3-de76-4815-17ac-08db6174d495
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7ucojn77lXmeGNYAIINa/+YGZxGtT5kc8K2wASaKtip7XknBHh+8BWSFAFTJzvHBteW7/3wZ0G0OwvT+sak4GHit6KTwpfwqnKDvIlREM0JAIkgZHOfp8f8AgDd0XH7pjgWnIMZ+ea224xxqdST2j26hMG4PUVQtlEbMyrJK2Zi2Yk8tby0FIuIbkYMGkjYRM+ocTuvpywywSuJswgiqnXRhwTTpe4457MgKl3cAA+PbXNVR9UhXHy7HHmgzD817XwSK8YP64FKR7BkEj7Sqm2AQsjWJ6jkIkzL6cNrWJqK00W9ywWj6otq0EWY+XC9AAvrQ7yBl7uz2rjvD1ayNtHrCn/cZPzyrkvwWJL9bIICH7GAc3z0HriodFNEZu3es0qAv3yOAx7roDlTgKV81dEkd0Kuk1jUH/JkUatgrShzjYTZyqvGdd8Uk/JS41JIkyVB9iz9iOuDm7KWPYYr35kzTHeuJBWYz76yD2ObhayC+iI9QJK6Z9C6jz0aG4MJZbfdFp/qWBxT6jyNXlgK9IbU+o73wNqdQNmsdp4Mwy6rOoiWqP5mvKYOzgu9jHxvvj+gegO17MNwRf7H24YE8FLRs/MqsiythOlcX8vthkVrkB8VcqdUVENUTE4sFyM0zg/8wmUV0ud0+VWsMbcU+Wg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6351.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(451199021)(31686004)(38100700002)(316002)(41300700001)(6512007)(6666004)(31696002)(4326008)(2906002)(8936002)(6486002)(8676002)(2616005)(450100002)(66946007)(66476007)(36756003)(66556008)(53546011)(110136005)(6506007)(26005)(83380400001)(478600001)(5660300002)(66574015)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cFRnM2JxOVhaYnVFelMzcWZCR2pTZ1M5a1JXTGFpcnlyVVoyeEVVZ3hTRi9l?=
+ =?utf-8?B?MWRmWGdKNnJoS3J4UlFDNzkzMFhVNFJWK1FqNUFkRG5DRUNNVFNrQVIvN0hU?=
+ =?utf-8?B?WW9KN29Wd29qN3FsTTJCNU1pNnVPNzZOM1ZqQkRKZUt1WG5xd0laM2NaZXhY?=
+ =?utf-8?B?bFpQRjhqYmhQM1Vxb0JlNG5zakJFQ0NCdFFkMzkzWC9PVVk2NEdGQ3NBVFkr?=
+ =?utf-8?B?a1lsT2oyRjdycUhyUDNlN292K3diT2V4LzQ0V3dkMm5waGdjeWVoeGVJU2R2?=
+ =?utf-8?B?bjVnSDlUdlRheTM4YUpYSjYvcnBaeUtOWjNjVmlDeVJ5ajVaRkV4Y29EU0Uz?=
+ =?utf-8?B?a1JSNzJ1OHdwbUdabUcrK05PZExBZnUvWm1hSDJVVEpWd3dDRTdYRHZiMGZY?=
+ =?utf-8?B?bTJQRWowQ1kvMzEybTlLNzgzVUJIVU5jWFAyUzhidnU4RkxOTkNqVWhiZkRJ?=
+ =?utf-8?B?Qk8rNjFoWmFrUk5LaGlwUWpuSHlFTFZRTjZ2ZjBHK1dFeGY3czh1eDBhYmxq?=
+ =?utf-8?B?Vk1BcEFIN012SE95TzkzQ09paGxseUxWWmZHbVBhYjV6c2xXUFlXV0lZNFZC?=
+ =?utf-8?B?MUpmelFUQVVnSUVDcmZIWlAxdys3MDRxVzdJRk9CZUJ4UU9XL0FzOG4xdzJK?=
+ =?utf-8?B?dUZ1QnJhOVFZTXBIZmI2bUtndHBhZTA2Y1hZdGZMVW1oaWNiN2NjbUpCc0c1?=
+ =?utf-8?B?YS81cjlYMW02KzQraFNienpXTWNFUG1EQ3FPNFp3M0RSMnpLazJ3QW9vRUJI?=
+ =?utf-8?B?TXQrRE9UNlJDZzNEQXJmNWYvMDAxdWNNTjREMGZ0bkNBSDV5Y1o1ZVR4aEJ0?=
+ =?utf-8?B?TUZzcXhoQ280b3RUVHIwa012RTE2TDNiZ01kMEMxcUQwSExwZ1IyZGFxalhJ?=
+ =?utf-8?B?aU4zQmRLZk9wQ05SVWwxRmZQL05wNlhXMXkvZExveXNjeFNBNkt6Zm1zVWpn?=
+ =?utf-8?B?V3ljcEJxUjRLT3dlR0dKVWY2dTlocFdXdHB0S08zRFdkRXVJcG45cnpzM1Rw?=
+ =?utf-8?B?U2ZzY1NkMUsySXE1VXU4cndvUWFST09HNG5nVFdibURnMVNJbnFrTS96UGI0?=
+ =?utf-8?B?cWUyQ2QxWE5wb0d6TDUxdzFCVGxqU0dGT0hhVDNJWDBNWDN0elRQYzNTa1ox?=
+ =?utf-8?B?QkM1MStsSUhLWWJXTzNScWh3ZDYvMVJmcy9MSGVCakFrc1IrcDhOT0VueFdX?=
+ =?utf-8?B?Q3VDckN0Rkk5empSOXJTanNiRGpIMmJzZmQweTBPM0Q2K0lFOEpiM1F4UC9u?=
+ =?utf-8?B?MVM5bXppR3JrM041dkpIaExuY09jb0JsWGlVZnp3c0h4QUNBVXFSQTJmY0sx?=
+ =?utf-8?B?eW1VbEwvc0VicDNYQi8vTW4vaFJQRyszd2NHZHgzTGpxZUU5YnpmM1k0NFZU?=
+ =?utf-8?B?bHZmV0Q5eXV2SHUyNWE5Si9BbEhwZWtFZ3dxdkdrd0ZnR3duTmJQdGtpR0I4?=
+ =?utf-8?B?UEs1cG1YMWVFSFBuNGJLblFwWUxwSVROU1hGMnJUR2ZYU1c3amN5QU5KYjJM?=
+ =?utf-8?B?Rk9oN0hCbDM0Nnd6Q1ZZSGo3dmtMUFFOSHhDS1lGKzc1SGNBMkxDRENRbTFw?=
+ =?utf-8?B?TmtFeU13TjlRZ3JJT3hqVDlYb1p4MzFkdXozM1UzbXo4aCsrYVQ2andrV095?=
+ =?utf-8?B?cUgwSkVqUEhIc1pSNU5SWUVrMXp4UkpBcTVPVFhiVzVsK3dSRGo4Y0ZETFNV?=
+ =?utf-8?B?Y0Y4ZlBRdlFrM2dxbXIwUWoybjJHcU1XNWV6L2M0dnBIRWNSYTJmemFZSFBN?=
+ =?utf-8?B?RytseEVBM01taHcydHY2UnJBc08xR0d4d0hqRjhKeEs5WE02d1RSdXk0Q3hl?=
+ =?utf-8?B?Q2RaZ1lWYlFiNTJndm90WWMwNzVoMWtkK1R0SnNGaU9wWTN1aWRlNFV5Qy9I?=
+ =?utf-8?B?NFJ1SDR5TzhNeTM0OTZrTGJwVzFGZDk5OHB6L1lmRnNyMkNCTnNDaVdNRE1x?=
+ =?utf-8?B?RmhwWXd2K3BXM1ZUUkNUWG5VSlJjdWRxY052aENNZlNQRDVtN2J4V2VNcHYr?=
+ =?utf-8?B?TGRhcUxaSXkxNGpBTDBGNHo3cUNwUE5BZEh0SzcrZlVIVHllTXN4WFJ1K0Jy?=
+ =?utf-8?B?TlR4L3pXWCsxcVJ0c2J3VnFEQjg3eGR1cGNZVHUza1NvN293ZGY1cXBwWWM4?=
+ =?utf-8?Q?CKjA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11a625c3-de76-4815-17ac-08db6174d495
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6351.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 01:17:41.5976 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jTMVlkdV7NSAaoFGVtDuhsxLlzcce7WtOLvdYGGkyQFy9DHO96qJziFpGbd+RTS1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6729
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,264 +127,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com
+Cc: majun@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With [1] dpu core revision was dropped in favor of using the
-compatible string from the device tree to select the dpu catalog
-being used in the device.
 
-This approach works well however also necessitates adding catalog
-entries for small register level details as dpu capabilities and/or
-features bloating the catalog unnecessarily. Examples include but
-are not limited to data_compress, interrupt register set, widebus etc.
 
-Introduce the dpu core revision back as an entry to the catalog so that
-we can just use dpu revision checks and enable those bits which
-should be enabled unconditionally and not controlled by a catalog
-and also simplify the changes to do something like:
+On 5/30/2023 4:59 PM, Christian König wrote:
+> Am 29.05.23 um 11:28 schrieb Ma Jun:
+>> Remove redundant assignment code for ttm->caching
+> 
+> The explanation is missing why this is redundant, e.g. something like 
+> "this is overwritten just a few lines later"..
+> 
 
-if (dpu_core_revision > xxxxx && dpu_core_revision < xxxxx)
-	enable the bit;
+Thanks for review. Will update the commit message in v2
 
-Also, add some of the useful macros back to be able to use dpu core
-revision effectively.
+Regards,
+Ma Jun
 
-[1]: https://patchwork.freedesktop.org/patch/530891/?series=113910&rev=4
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  1 +
- .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  1 +
- .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  1 +
- .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  1 +
- .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  1 +
- .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  1 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 31 ++++++++++++++++++-
- 14 files changed, 43 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-index 3c732a0360c7..16c2861e0359 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-@@ -185,6 +185,7 @@ static const struct dpu_perf_cfg msm8998_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_msm8998_cfg = {
-+	.core_rev = DPU_HW_VER_300,
- 	.caps = &msm8998_dpu_caps,
- 	.ubwc = &msm8998_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(msm8998_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-index 36ea1af10894..1c003935c948 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-@@ -183,6 +183,7 @@ static const struct dpu_perf_cfg sdm845_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sdm845_cfg = {
-+	.core_rev = DPU_HW_VER_400,
- 	.caps = &sdm845_dpu_caps,
- 	.ubwc = &sdm845_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sdm845_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-index b5f751354267..8c914be62a88 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-@@ -208,6 +208,7 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm8150_cfg = {
-+	.core_rev = DPU_HW_VER_500,
- 	.caps = &sm8150_dpu_caps,
- 	.ubwc = &sm8150_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm8150_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-index 8ed2b263c5ea..9465bde128eb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-@@ -214,6 +214,7 @@ static const struct dpu_perf_cfg sc8180x_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sc8180x_cfg = {
-+	.core_rev = DPU_HW_VER_510,
- 	.caps = &sc8180x_dpu_caps,
- 	.ubwc = &sc8180x_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sc8180x_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-index daebd2170041..1b04ecfb7cde 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-@@ -214,6 +214,7 @@ static const struct dpu_perf_cfg sm8250_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm8250_cfg = {
-+	.core_rev = DPU_HW_VER_600,
- 	.caps = &sm8250_dpu_caps,
- 	.ubwc = &sm8250_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm8250_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-index 0b05da2592c0..16e905e35025 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-@@ -128,6 +128,7 @@ static const struct dpu_perf_cfg sc7180_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sc7180_cfg = {
-+	.core_rev = DPU_HW_VER_620,
- 	.caps = &sc7180_dpu_caps,
- 	.ubwc = &sc7180_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sc7180_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-index ba9de008519b..87ad7a765e4c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-@@ -103,6 +103,7 @@ static const struct dpu_perf_cfg sm6115_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm6115_cfg = {
-+	.core_rev = DPU_HW_VER_630,
- 	.caps = &sm6115_dpu_caps,
- 	.ubwc = &sm6115_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm6115_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-index 92ac348eea6b..a61140ab96ed 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-@@ -93,6 +93,7 @@ static const struct dpu_perf_cfg qcm2290_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_qcm2290_cfg = {
-+	.core_rev = DPU_HW_VER_650,
- 	.caps = &qcm2290_dpu_caps,
- 	.ubwc = &qcm2290_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(qcm2290_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index 3c1b2c13398d..01abce7a311c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -201,6 +201,7 @@ static const struct dpu_perf_cfg sm8350_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm8350_cfg = {
-+	.core_rev = DPU_HW_VER_700,
- 	.caps = &sm8350_dpu_caps,
- 	.ubwc = &sm8350_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm8350_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index 5d894cbb0a62..4294f1d35d25 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -141,6 +141,7 @@ static const struct dpu_perf_cfg sc7280_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sc7280_cfg = {
-+	.core_rev = DPU_HW_VER_720,
- 	.caps = &sc7280_dpu_caps,
- 	.ubwc = &sc7280_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sc7280_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index c3f1ae000a21..2108e531f13b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -203,6 +203,7 @@ static const struct dpu_perf_cfg sc8280xp_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sc8280xp_cfg = {
-+	.core_rev = DPU_HW_VER_800,
- 	.caps = &sc8280xp_dpu_caps,
- 	.ubwc = &sc8280xp_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sc8280xp_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index 86c2e68ebd2c..b8d5d0ee8c82 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -209,6 +209,7 @@ static const struct dpu_perf_cfg sm8450_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm8450_cfg = {
-+	.core_rev = DPU_HW_VER_810,
- 	.caps = &sm8450_dpu_caps,
- 	.ubwc = &sm8450_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm8450_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index 85dc34458b88..87a7c06e3024 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -213,6 +213,7 @@ static const struct dpu_perf_cfg sm8550_perf_data = {
- };
- 
- const struct dpu_mdss_cfg dpu_sm8550_cfg = {
-+	.core_rev = DPU_HW_VER_900,
- 	.caps = &sm8550_dpu_caps,
- 	.ubwc = &sm8550_ubwc_cfg,
- 	.mdp_count = ARRAY_SIZE(sm8550_mdp),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 677048cc3b7d..cc4aa75a1219 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -19,6 +19,33 @@
-  */
- #define MAX_BLOCKS    12
- 
-+#define DPU_HW_VER(MAJOR, MINOR, STEP)\
-+		  ((((unsigned int)MAJOR & 0xF) << 28) |\
-+		  ((MINOR & 0xFFF) << 16) |\
-+		  (STEP & 0xFFFF))
-+
-+#define DPU_HW_MAJOR(rev)((rev) >> 28)
-+#define DPU_HW_MINOR(rev)(((rev) >> 16) & 0xFFF)
-+#define DPU_HW_STEP(rev)((rev) & 0xFFFF)
-+#define DPU_HW_MAJOR_MINOR(rev)((rev) >> 16)
-+
-+#define IS_DPU_MAJOR_MINOR_SAME(rev1, rev2)   \
-+(DPU_HW_MAJOR_MINOR((rev1)) == DPU_HW_MAJOR_MINOR((rev2)))
-+
-+#define DPU_HW_VER_300 DPU_HW_VER(3, 0, 0) /* 8998 v1.0 */
-+#define DPU_HW_VER_400 DPU_HW_VER(4, 0, 0) /* sdm845 v1.0 */
-+#define DPU_HW_VER_500 DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
-+#define DPU_HW_VER_510 DPU_HW_VER(5, 1, 1) /* sc8180 */
-+#define DPU_HW_VER_600 DPU_HW_VER(6, 0, 0) /* sm8250 */
-+#define DPU_HW_VER_620 DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
-+#define DPU_HW_VER_630 DPU_HW_VER(6, 3, 0) /* sm6115|sm4250 */
-+#define DPU_HW_VER_650 DPU_HW_VER(6, 5, 0) /* qcm2290|sm4125 */
-+#define DPU_HW_VER_700 DPU_HW_VER(7, 0, 0) /* sm8350 */
-+#define DPU_HW_VER_720 DPU_HW_VER(7, 2, 0) /* sc7280 */
-+#define DPU_HW_VER_800 DPU_HW_VER(8, 0, 0) /* sc8280xp */
-+#define DPU_HW_VER_810 DPU_HW_VER(8, 1, 0) /* sm8450 */
-+#define DPU_HW_VER_900 DPU_HW_VER(9, 0, 0) /* sm8550 */
-+
- #define DPU_HW_BLK_NAME_LEN	16
- 
- #define MAX_IMG_WIDTH 0x3fff
-@@ -769,7 +796,7 @@ struct dpu_perf_cfg {
- /**
-  * struct dpu_mdss_cfg - information of MDSS HW
-  * This is the main catalog data structure representing
-- * this HW version. Contains number of instances,
-+ * this HW version. Contains dpu core revision, number of instances,
-  * register offsets, capabilities of the all MDSS HW sub-blocks.
-  *
-  * @dma_formats        Supported formats for dma pipe
-@@ -778,6 +805,8 @@ struct dpu_perf_cfg {
-  * @mdss_irqs:         Bitmap with the irqs supported by the target
-  */
- struct dpu_mdss_cfg {
-+	u32 core_rev;
-+
- 	const struct dpu_caps *caps;
- 
- 	const struct dpu_ubwc_cfg *ubwc;
--- 
-2.40.1
-
+> Apart from that looks good to me,
+> Christian.,
+> 
+>>
+>> Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_tt.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+>> index 02b812dacc5d..45a44544b656 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+>> @@ -143,7 +143,6 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>>   			       unsigned long extra_pages)
+>>   {
+>>   	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
+>> -	ttm->caching = ttm_cached;
+>>   	ttm->page_flags = page_flags;
+>>   	ttm->dma_address = NULL;
+>>   	ttm->swap_storage = NULL;
+> 
