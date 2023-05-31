@@ -1,59 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D81718768
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:33:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816CF718777
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 744A710E151;
-	Wed, 31 May 2023 16:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B9210E2C9;
+	Wed, 31 May 2023 16:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3FA0910E151;
- Wed, 31 May 2023 16:32:56 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxGvK4dndkcAQDAA--.6694S3;
- Thu, 01 Jun 2023 00:32:56 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxddG3dndkiaOCAA--.14887S3; 
- Thu, 01 Jun 2023 00:32:55 +0800 (CST)
-Message-ID: <6668b162-5de1-8b2e-06d3-577f098e6ed4@loongson.cn>
-Date: Thu, 1 Jun 2023 00:32:55 +0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 593BE10E263
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:34:36 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q4Oll-0007Z0-9S; Wed, 31 May 2023 18:33:53 +0200
+Message-ID: <35c15c0912b4a9372b9c2194a46b518ce515ce3d.camel@pengutronix.de>
+Subject: Re: [PATCH v6 6/6] drm/etnaviv: allow usperspace create cached
+ coherent bo
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Wed, 31 May 2023 18:33:50 +0200
+In-Reply-To: <20230530160643.2344551-7-suijingfeng@loongson.cn>
+References: <20230530160643.2344551-1-suijingfeng@loongson.cn>
+ <20230530160643.2344551-7-suijingfeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v6 5/6] drm/etnaviv: add driver support for the PCI devices
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Bjorn Helgaas <helgaas@kernel.org>
-References: <ZHZIXZPuCkFSMF4H@bhelgaas>
- <950fdaaa-b62c-7f36-a499-9eca71c8bc47@loongson.cn>
- <5e0b34054ca6fa540e481d93f3c1d9fbdd2defcd.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <5e0b34054ca6fa540e481d93f3c1d9fbdd2defcd.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxddG3dndkiaOCAA--.14887S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxJFyxtw13WF4DGr1UJFy5urg_yoW5GF18pF
- Wa9a1SyF4vgr1Fyw17tw45XF1ay3yftFy5Jrn8tF1kCr90v343Gr1rtr4Y9F9xur1xGa12
- vay2kFW29Fn8CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- ba8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I
- 3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
- WUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
- cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
- AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
- Xa7IU8I38UUUUUU==
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +51,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- loongson-kernel@lists.loongnix.cn,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Sui Jingfeng,
 
-On 2023/6/1 00:23, Lucas Stach wrote:
-> Hi Sui Jingfeng,
->
-> Am Donnerstag, dem 01.06.2023 um 00:08 +0800 schrieb Sui Jingfeng:
->> Hi,
->>
->> On 2023/5/31 03:02, Bjorn Helgaas wrote:
->>> On Wed, May 31, 2023 at 12:06:42AM +0800, Sui Jingfeng wrote:
->>>> This patch adds PCI driver support on top of what already have. Take the
->>>> GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device driver.
->>>> There is only one GPU core for the GC1000 in the LS7A1000 and LS2K1000.
->>>> Therefore, component frameworks can be avoided. Because we want to bind the
->>>> DRM driver service to the PCI driver manually.
->>>> +	 * Loongson Mips and LoongArch CPU(ls3a5000, ls3a4000, ls2k1000la)
->>>> +	 * maintain cache coherency by hardware
->>>> +	 */
->>>> +	if (IS_ENABLED(CONFIG_CPU_LOONGSON64) || IS_ENABLED(CONFIG_LOONGARCH))
->>>> +		priv->has_cached_coherent = true;
->>> This looks like something that should be a runtime check, not a
->>> compile-time check.
->>>
->>> If it's possible to build a single kernel image that runs on Loongson
->>> MIPS or LoongArch CPU and, in addition, runs on other platforms, you
->>> cannot assume that all the others maintain this cache coherency.
->> Nice catch! I don't even realize this!
->>
->>
->> LS3A4000 is mips64r2 with MSA SIMD, while LS3A5000 is LoongArch,
->>
->> instruction set, compiler, and binary interface are totally changed.
->>
->> Therefore, it's impossible to build a single kernel image that runs on
->> all Loongson CPUs.
->>
->> Currently, I can guarantee that this works on the Loongson platform.
->>
->> My initial intent here is to let priv->has_cached_coherent be *true* on
->> the Loongson platform (both mips and loongarch).
->>
->> I do know there are some other vendors who bought GPU IP from Vivante.
->>
->> say GC7000, and integrate it into their discrete GPU product.
->>
->> But it is also a PCI device, but this is another story; it deserves
->> another patch.
->>
->> I don't know if Etnaviv folk find some similar hardware on Arm Arch,
->>
->> Some Arm CPUs do not maintain cached coherency on hardware.
->>
->> The has_cached_coherent member can be set to false on such hardware.
->>
->> For us, it seems that there is no need to do runtime checking,
->>
->> because they are all cached coherent by default.
->>
->>
->> Can I improve this in the future, currently I don't have a good idea.
-> I think I mentioned before that this needs to be a runtime check. What
-> does dev_is_dma_coherent() return for the Vivante GPU device on your
-> platform?
+Am Mittwoch, dem 31.05.2023 um 00:06 +0800 schrieb Sui Jingfeng:
+> cached system RAM is coherent on loongson CPUs, and the GPU and DC allway=
+s
+> snoop the CPU's cache. write-combine caching property is not suitiable fo=
+r
+> us.
+>=20
+As previously mentioned in the Mesa MR, I don't think this is the right
+approach.
 
-Yes, you have told me so.
+ETNA_BO_CACHED already looks coherent to userspace, as all accesses are
+bracketed via the ETNAVIV_GEM_CPU_PREP and ETNAVIV_GEM_CPU_FINI ioctls,
+which will do the necessary cache maintenance on platforms where device
+coherence isn't enforced by the hardware, so there is no need for a
+separate ETNA_BO_CACHED_COHERENT.
 
-I will try it, and I will answer your question tomorrow.
+Instead we just need a new ETNAVIV_PARAM to inform userspace about
+hardware cache coherence being available for a specific GPU core, in
+which case the userspace driver should switch to preferring
+ETNA_BO_CACHED over ETNA_BO_WC.
 
-> Regards,
-> Lucas
+Regards,
+Lucas
 
--- 
-Jingfeng
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c       |  2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 +++++++++++++++++++--
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  9 ++++++++-
+>  include/uapi/drm/etnaviv_drm.h              | 11 ++++++-----
+>  4 files changed, 35 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 052f745cecc0..2816c654c023 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -274,7 +274,7 @@ static int etnaviv_ioctl_gem_new(struct drm_device *d=
+ev, void *data,
+>  	struct drm_etnaviv_gem_new *args =3D data;
+> =20
+>  	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
+> -			    ETNA_BO_FORCE_MMU))
+> +			    ETNA_BO_CACHED_COHERENT | ETNA_BO_FORCE_MMU))
+>  		return -EINVAL;
+> =20
+>  	return etnaviv_gem_new_handle(dev, file, args->size,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etna=
+viv/etnaviv_gem.c
+> index b5f73502e3dd..d8b559bd33d3 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
+>  static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>  {
+>  	struct page **pages;
+> +	pgprot_t prot;
+> =20
+>  	lockdep_assert_held(&obj->lock);
+> =20
+> @@ -350,8 +351,20 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_ge=
+m_object *obj)
+>  	if (IS_ERR(pages))
+>  		return NULL;
+> =20
+> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
+> +	switch (obj->flags) {
+> +	case ETNA_BO_CACHED_COHERENT:
+> +	case ETNA_BO_CACHED:
+> +		prot =3D PAGE_KERNEL;
+> +		break;
+> +	case ETNA_BO_UNCACHED:
+> +		prot =3D pgprot_noncached(PAGE_KERNEL);
+> +		break;
+> +	case ETNA_BO_WC:
+> +	default:
+> +		prot =3D pgprot_writecombine(PAGE_KERNEL);
+> +	}
+> +
+> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+>  }
+> =20
+>  static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+> @@ -545,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_=
+object_funcs =3D {
+>  static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 fl=
+ags,
+>  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>  {
+> +	struct etnaviv_drm_private *priv =3D dev->dev_private;
+>  	struct etnaviv_gem_object *etnaviv_obj;
+>  	unsigned sz =3D sizeof(*etnaviv_obj);
+>  	bool valid =3D true;
+> @@ -555,6 +569,10 @@ static int etnaviv_gem_new_impl(struct drm_device *d=
+ev, u32 size, u32 flags,
+>  	case ETNA_BO_CACHED:
+>  	case ETNA_BO_WC:
+>  		break;
+> +	case ETNA_BO_CACHED_COHERENT:
+> +		if (priv->has_cached_coherent)
+> +			break;
+> +		fallthrough;
+>  	default:
+>  		valid =3D false;
+>  	}
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/dr=
+m/etnaviv/etnaviv_gem_prime.c
+> index 3524b5811682..671d91d8f1c6 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -112,11 +112,18 @@ static const struct etnaviv_gem_ops etnaviv_gem_pri=
+me_ops =3D {
+>  struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_devi=
+ce *dev,
+>  	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>  {
+> +	struct etnaviv_drm_private *priv =3D dev->dev_private;
+>  	struct etnaviv_gem_object *etnaviv_obj;
+>  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+> +	u32 cache_flags;
+>  	int ret, npages;
+> =20
+> -	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+> +	if (priv->has_cached_coherent)
+> +		cache_flags =3D ETNA_BO_CACHED_COHERENT;
+> +	else
+> +		cache_flags =3D ETNA_BO_WC;
+> +
+> +	ret =3D etnaviv_gem_new_private(dev, size, cache_flags,
+>  				      &etnaviv_gem_prime_ops, &etnaviv_obj);
+>  	if (ret < 0)
+>  		return ERR_PTR(ret);
+> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_dr=
+m.h
+> index af024d90453d..474b0db286de 100644
+> --- a/include/uapi/drm/etnaviv_drm.h
+> +++ b/include/uapi/drm/etnaviv_drm.h
+> @@ -90,13 +90,14 @@ struct drm_etnaviv_param {
+>   * GEM buffers:
+>   */
+> =20
+> -#define ETNA_BO_CACHE_MASK   0x000f0000
+> +#define ETNA_BO_CACHE_MASK              0x000f0000
+>  /* cache modes */
+> -#define ETNA_BO_CACHED       0x00010000
+> -#define ETNA_BO_WC           0x00020000
+> -#define ETNA_BO_UNCACHED     0x00040000
+> +#define ETNA_BO_CACHED                  0x00010000
+> +#define ETNA_BO_WC                      0x00020000
+> +#define ETNA_BO_UNCACHED                0x00040000
+> +#define ETNA_BO_CACHED_COHERENT         0x00080000
+>  /* map flags */
+> -#define ETNA_BO_FORCE_MMU    0x00100000
+> +#define ETNA_BO_FORCE_MMU               0x00100000
+> =20
+>  struct drm_etnaviv_gem_new {
+>  	__u64 size;           /* in */
 
