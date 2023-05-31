@@ -1,75 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F17717B7D
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 11:13:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D65C3717B81
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 11:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B40F10E1CA;
-	Wed, 31 May 2023 09:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218A310E496;
+	Wed, 31 May 2023 09:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E16110E496
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 09:12:57 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-30af86a966eso1224791f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 02:12:56 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA8C10E496
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 09:14:15 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-30b023b0068so586544f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 02:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685524375; x=1688116375;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b+YQlgx1VFjGNM9jR4+GNT4YtqTgZVS0cajTtQFZxPY=;
- b=TxgwASoWbYILqZMx1W+qJLLjUFcaq8VRufal5QmKv95NcDXZwa2NneqoeYjhsD96/0
- wfqjbVUm2NUBapNFOcmvDvKAIhr6DzfTL3C7JBNsury9sdT8Ujc4dQpyMOzSIyrElG/D
- MJ5JrgN92GvFuSM8u+O+P72L9t81wLayJDnPoe5M0IejPqt8abZAeBYRGt3sJCPPmX9k
- llGPNvd7wKwPetElGvsC5pbltpMWAQ6GIWef6E2fV83EdFR3yjyF37SMHYO28qItls3k
- prYaYkggSzcB67YRUUSkdSFT2WLspoPtqDHCq1+M8E4aJwC8Dj7u/HSwRbR833CoGbAx
- kGgA==
+ d=linaro.org; s=google; t=1685524453; x=1688116453;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=NLJSQ1/RFfk2nA5Qp2YpG566YurcnN/3c3qP6vvBRbo=;
+ b=nbs+05d1hVTI8lHzc2RwAM60JSwphW6BEfKO6cbVbKjbsZ/mdzHnIaI7FcUChNWiB9
+ VttTUJ83EnFkQ15yA9tLp2Db7br4vR+wDCY/nxVzVuILJgNfiA1KVS6ndNzPWrxU13Mi
+ 09Nja0bA/XgC55g8QjkbeWkHOIzeqMLT/kREO0D8Kt60IjMaxDvwyqb9PW/TXpPkzH5b
+ FeKZDbGfQ3UhzR1Kt74mKaxrsCRYzEjZkQzZWaRaYEKk8Vqx7HPrWUnvz13J06wFKNqB
+ BXREDV1N0ZZoH7VBSg3upVNGr67j2ICp73lZHoN4SlKVpycOjo5nSKpuYEuR1XctFZfh
+ mzAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685524375; x=1688116375;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b+YQlgx1VFjGNM9jR4+GNT4YtqTgZVS0cajTtQFZxPY=;
- b=BmkGTxwD52zTP/Fslr7ziVJf4W2ZSaj3Zuy/s0y/oJgNyHS4iMK1nrbYOb8kLSqexM
- 1jpTwCkrYOUi3ZHdAWZaPsp55laxHi1zENJqkQNmbH+2cZCiiO+TrXOq6AXFIwKeM8Ua
- UCzITIdqkgMy+9KeP1/7jWIYLefMpuSJq4a06w1+UPQR1DkKzj3+rEiCVsw02P1uRKap
- 5FEraCTPkBgZpHe8czCWnOedB5RZi6UW+K6H7386jZmMItbrYrBx5H2NJ2WLpOH03Sy0
- S0/3YhCtJIszTsmknDXQNnkMLf9yzak+qf0YbLV8AQaYWoNGJHpknMLiN1lmBdIiBGis
- g59Q==
-X-Gm-Message-State: AC+VfDxL3uqNoYqY257a1NyF/xI0vSFeuRnnKBAVP84slSgnT7wn4ZRk
- xZOGQn1fX+09CSFEfOx9lWNwKw==
-X-Google-Smtp-Source: ACHHUZ63Rq1SiIBEGY8gi25g6h2KtY943yA6ZZTaGh4uMaC/0fDaORIAd9BOP/nEMenZLdqK/Nut7w==
-X-Received: by 2002:a5d:5150:0:b0:30a:e973:b182 with SMTP id
- u16-20020a5d5150000000b0030ae973b182mr3192370wrt.1.1685524374979; 
- Wed, 31 May 2023 02:12:54 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ d=1e100.net; s=20221208; t=1685524453; x=1688116453;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NLJSQ1/RFfk2nA5Qp2YpG566YurcnN/3c3qP6vvBRbo=;
+ b=Mog9GhYpd/iJcBmiAGSDtaEMf0DqkmoJ+rjgF3EtiE5IYNIo4O4E3oB7BZLlwHqvTa
+ gBMVNyKSdht1CRpc7n9JbwCJm6ijmiFh2FBo6lGWqbn5Farp+kAOTZe1YuGEHO6vm7RQ
+ HQYZtRrarOqqBsFrvK6kGYLJS5R1fq9OTb9R2Zfvv7q1m5EutLm39ykxmToWtAEQOiOd
+ A1xyzQ01smGD5CiutOXTZQRH6sShkcEWU3ckR6IidOO8F9cFHya+bGYQWUVFgLWhADXx
+ 8hNkUOebMT9p9wQ0/m5U1moN7mfffEklthEdCdjhgtpi+WfmPylefOaKdO5u+j4c1+4p
+ jFvg==
+X-Gm-Message-State: AC+VfDzPfHxxsfSBaLB3PTjqytSTTLJCC/yF0sk6HhZX9hxIAGYsAkr0
+ Z5uQWIDN8W+uZbFP/SedUhSQWRLaltKhRlKY/A+A5A==
+X-Google-Smtp-Source: ACHHUZ6zPhMWYhZW9vMNwJvq0a0md/sHRA9vm6/KYNrhMbzq5CaMWtG3r3unaEyxdUxxhRQzC4wybg==
+X-Received: by 2002:a05:6000:901:b0:306:2713:f7f with SMTP id
+ cw1-20020a056000090100b0030627130f7fmr11884797wrb.11.1685524453269; 
+ Wed, 31 May 2023 02:14:13 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:5c28:3ad5:fcda:7779?
+ ([2a01:e0a:982:cbb0:5c28:3ad5:fcda:7779])
  by smtp.gmail.com with ESMTPSA id
- cs1-20020a056000088100b002e5f6f8fc4fsm6117294wrb.100.2023.05.31.02.12.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 May 2023 02:12:54 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230531000259.3758235-1-dmitry.baryshkov@linaro.org>
-References: <20230531000259.3758235-1-dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 0/3] drm/bridge: display-connector: add external
- supply support
-Message-Id: <168552437407.2007178.8614236021819101690.b4-ty@linaro.org>
-Date: Wed, 31 May 2023 11:12:54 +0200
+ p17-20020a056000019100b00306415ac69asm5971008wrx.15.2023.05.31.02.14.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 May 2023 02:14:12 -0700 (PDT)
+Message-ID: <81d448cf-c896-61d6-f984-e6347bbc3d9f@linaro.org>
+Date: Wed, 31 May 2023 11:14:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: simple: Fix Powertip PH800480T013 bpc specifier
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+References: <20230530193329.653526-1-marex@denx.de>
+Organization: Linaro Developer Services
+In-Reply-To: <20230530193329.653526-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,33 +79,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, 31 May 2023 03:02:56 +0300, Dmitry Baryshkov wrote:
-> On some devices the 5V pin of the HDMI connector and/or the ESD
-> protection logic is powered on by a separate regulator. The dp-connector
-> for such usecases provides dp-pwr supply support. Follow this example
-> and make hdmi-connector support the hdmi-pwr supply.
+On 30/05/2023 21:33, Marek Vasut wrote:
+> This panel is 8 bits per channel DPI panel, add the missing .bpc
+> specifier otherwise the kernel is complaining about it as follows:
+> "
+> panel-simple panel: Expected bpc in {6,8} but got: 0
+> "
 > 
-> Changes since v2:
-> - Changed to use proper supply name instead of hardcoded "dp-pwr" (Neil)
+> Fixes: d69de69f2be1 ("drm/panel: simple: Add Powertip PH800480T013 panel")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 108ebe95590bc..02e3ddf58af07 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3327,6 +3327,7 @@ static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
+>   static const struct panel_desc powertip_ph800480t013_idf02  = {
+>   	.modes = &powertip_ph800480t013_idf02_mode,
+>   	.num_modes = 1,
+> +	.bpc = 8,
+>   	.size = {
+>   		.width = 152,
+>   		.height = 91,
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-
-[1/3] dt-bindings: display: hdmi-connector: add hdmi-pwr supply
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=41b74821751466457dc8b87606ac4d71ec568d4e
-[2/3] drm/bridge: display-connector: rename dp_pwr to connector_pwr
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=99304fd0050314a0c998c28300393ec574998db9
-[3/3] drm/bridge: display-connector: handle hdmi-pwr supply
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6eb6b6f0a012993070b26dacb5ea1ff5fc233c18
-
--- 
-Neil
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
