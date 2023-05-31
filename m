@@ -1,28 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B5C718986
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:45:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E187718987
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 20:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC2B10E073;
-	Wed, 31 May 2023 18:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34F7310E1E7;
+	Wed, 31 May 2023 18:45:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E8210E1E7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C29610E073
  for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 18:45:32 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q4Qp7-0006ld-Or; Wed, 31 May 2023 20:45:29 +0200
+ id 1q4Qp8-0006ld-4S; Wed, 31 May 2023 20:45:30 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>
-Subject: [PATCH 1/2] drm: lcdif: move pitch setup to plane atomic update
-Date: Wed, 31 May 2023 20:45:26 +0200
-Message-Id: <20230531184527.1220305-1-l.stach@pengutronix.de>
+Subject: [PATCH 2/2] drm: lcdif: force modeset when FB format changes
+Date: Wed, 31 May 2023 20:45:27 +0200
+Message-Id: <20230531184527.1220305-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230531184527.1220305-1-l.stach@pengutronix.de>
+References: <20230531184527.1220305-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -48,70 +50,63 @@ Cc: dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The buffer pitch may change when switching the buffer on a
-atomic update. As the register is double buffered it can be
-safely changed while the display is active.
+Force a modeset if the new FB has a different format than the
+currently active one. While it might be possible to change between
+compatible formats without a full modeset as the format control is
+also supposed to be double buffered, the colorspace conversion is
+not, so when the CSC changes we need a modeset.
+
+For now just always force a modeset when the FB format changes to
+properly reconfigure all parts of the device for the new format.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index 262bc43b1079..bbea44ee7a66 100644
+index bbea44ee7a66..aa2eecdecb28 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -314,19 +314,6 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
- 	writel(CTRLDESCL0_1_HEIGHT(m->vdisplay) |
- 	       CTRLDESCL0_1_WIDTH(m->hdisplay),
- 	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
--
--	/*
--	 * Undocumented P_SIZE and T_SIZE register but those written in the
--	 * downstream kernel those registers control the AXI burst size. As of
--	 * now there are two known values:
--	 *  1 - 128Byte
--	 *  2 - 256Byte
--	 * Downstream set it to 256B burst size to improve the memory
--	 * efficiency so set it here too.
--	 */
--	ctrl = CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
--	       CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb->pitches[0]);
--	writel(ctrl, lcdif->base + LCDC_V8_CTRLDESCL0_3);
+@@ -573,18 +573,32 @@ static const struct drm_encoder_funcs lcdif_encoder_funcs = {
+ static int lcdif_plane_atomic_check(struct drm_plane *plane,
+ 				    struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
+-									     plane);
++	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
++									   plane);
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
++									   plane);
+ 	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
+ 	struct drm_crtc_state *crtc_state;
++	int ret;
++
++	/* always okay to disable the plane */
++	if (!new_state->fb)
++		return 0;
+ 
+ 	crtc_state = drm_atomic_get_new_crtc_state(state,
+ 						   &lcdif->crtc);
+ 
+-	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+-						   DRM_PLANE_NO_SCALING,
+-						   DRM_PLANE_NO_SCALING,
+-						   false, true);
++	ret = drm_atomic_helper_check_plane_state(new_state, crtc_state,
++						  DRM_PLANE_NO_SCALING,
++						  DRM_PLANE_NO_SCALING,
++						  false, true);
++	if (ret)
++		return ret;
++
++	if (old_state->fb && new_state->fb->format != old_state->fb->format)
++		crtc_state->mode_changed = true;
++
++	return 0;
  }
  
- static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
-@@ -502,6 +489,10 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
- 		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
- 		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
- 	}
-+	writel(CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
-+	       CTRLDESCL0_3_PITCH(new_pstate->fb->pitches[0]),
-+	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
-+
- 	lcdif_enable_controller(lcdif);
- 
- 	drm_crtc_vblank_on(crtc);
-@@ -611,6 +602,19 @@ static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
- 		writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
- 		       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
- 	}
-+
-+	/*
-+	 * Undocumented P_SIZE and T_SIZE bitfields written in the downstream
-+	 * driver. Those bitfields control the AXI burst size. As of now there
-+	 * are two known values:
-+	 *  1 - 128Byte
-+	 *  2 - 256Byte
-+	 * Downstream set it to 256B burst size to improve the memory
-+	 * efficiency so set it here too.
-+	 */
-+	writel(CTRLDESCL0_3_P_SIZE(2) | CTRLDESCL0_3_T_SIZE(2) |
-+	       CTRLDESCL0_3_PITCH(new_pstate->fb->pitches[0]),
-+	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
- }
- 
- static bool lcdif_format_mod_supported(struct drm_plane *plane,
+ static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
 -- 
 2.39.2
 
