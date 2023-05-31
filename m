@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE34718715
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:12:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD07571872C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A7C10E503;
-	Wed, 31 May 2023 16:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24AE210E4F3;
+	Wed, 31 May 2023 16:17:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65A1A10E4FD
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:12:01 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxxfDQcXdk2AIDAA--.2305S3;
- Thu, 01 Jun 2023 00:12:00 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxqrbPcXdkN5yCAA--.16349S3; 
- Thu, 01 Jun 2023 00:11:59 +0800 (CST)
-Message-ID: <2641c5ba-37b4-daf8-bba8-1577e112c411@loongson.cn>
-Date: Thu, 1 Jun 2023 00:11:59 +0800
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C092210E4F2;
+ Wed, 31 May 2023 16:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685549843; x=1717085843;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=NP8J/yvcR/yss1+daiu7aMG7qEaHT3dVfT6aXQ7JXm8=;
+ b=eeoJyLcXvVhjwvoK5fNVynjwQa+1vy3E2khe1bJ9391wWz7qFWaxJn9+
+ 8VflVa5XiVtoVoW/0PNyyrR9SpRXQ3Z2p0b+T9ZUi17t3Pnnh6jUCh7lP
+ +Egiq9DVfIQdmLQ4IpbU+yHMxWpQLhtUsoGhXbexgoS3x6MCB89fVlq1X
+ kJIhWaSU/YOqGvGfBO7arQf2bgxseWTRFvNnMMl3U3+2bb7gR1mteQmqy
+ bVWWjWEo/EtpiA2+5hQmDa2TjlZzJJdooXHtOkopSylA1EM9KgzRl9UrO
+ flAtge3aIW5m/clNEuwsymBfC3mDl0yjO7y99sXLUJKFs95MPOe7ILxCk g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="383550892"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="383550892"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 09:14:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="1037117690"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="1037117690"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 31 May 2023 09:14:31 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q4OT0-0001Tr-3A;
+ Wed, 31 May 2023 16:14:30 +0000
+Date: Thu, 1 Jun 2023 00:13:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
+Subject: Re: [PATCH -next] drm/i915: remove unreachable code
+Message-ID: <202306010001.gUxZYcyb-lkp@intel.com>
+References: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: mailmap: Add missing email address
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20230531133724.133872-1-maxime@cerno.tech>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230531133724.133872-1-maxime@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxqrbPcXdkN5yCAA--.16349S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUBSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv
- 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCF54CYxVAaw2AFwI0_Jrv_JF1l4I8I3I0E4IkC
- 6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
- 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF
- 0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv
- 6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcCD7UUUUU
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,17 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ rodrigo.vivi@intel.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yang Li <yang.lee@linux.alibaba.com>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Okey, that sound fine.
+Hi Yang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20230530]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
+base:   next-20230530
+patch link:    https://lore.kernel.org/r/20230531021714.125078-1-yang.lee%40linux.alibaba.com
+patch subject: [PATCH -next] drm/i915: remove unreachable code
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230601/202306010001.gUxZYcyb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/58232a66b9d21d80bc6b478e2a8fb1443da3adfc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
+        git checkout 58232a66b9d21d80bc6b478e2a8fb1443da3adfc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306010001.gUxZYcyb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/display/intel_color.c: In function 'intel_color_prepare_commit':
+>> drivers/gpu/drm/i915/display/intel_color.c:1803:28: warning: unused variable 'crtc' [-Wunused-variable]
+    1803 |         struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+         |                            ^~~~
 
 
-On 2023/5/31 21:37, Maxime Ripard wrote:
-> +Maxime Ripard<mripard@kernel.org>  <maxime@cerno.tech>
->   Maxime Ripard<mripard@kernel.org>  <maxime.ripard@bootlin.com>
+vim +/crtc +1803 drivers/gpu/drm/i915/display/intel_color.c
+
+3962ca4e080a52 Ville Syrjälä 2023-03-20  1800  
+efb2b57edf20c3 Ville Syrjälä 2022-11-23  1801  void intel_color_prepare_commit(struct intel_crtc_state *crtc_state)
+efb2b57edf20c3 Ville Syrjälä 2022-11-23  1802  {
+b358c3b98813b1 Ville Syrjälä 2022-11-23 @1803  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+b358c3b98813b1 Ville Syrjälä 2022-11-23  1804  
+2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1805  	/* FIXME DSB has issues loading LUTs, disable it for now */
+2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1806  	return;
+efb2b57edf20c3 Ville Syrjälä 2022-11-23  1807  }
+efb2b57edf20c3 Ville Syrjälä 2022-11-23  1808  
 
 -- 
-Jingfeng
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
