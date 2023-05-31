@@ -1,71 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A3F7184CA
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 16:23:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 716EF7185D4
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 17:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22C2810E4E9;
-	Wed, 31 May 2023 14:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4B010E0A0;
+	Wed, 31 May 2023 15:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEEF10E4E9
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 14:23:04 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id
- e9e14a558f8ab-33b3674acdeso2741525ab.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 07:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1685542982; x=1688134982;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BEeMcGwsmQcWXT4vssRRefgYUtAVUNcH/IZjc9KyPZo=;
- b=nl6ZncCyLlb0//swZpa/cW1OOoof1YurlLrT0As3THnOC5paCGiiezrAe6ZP3mFMyL
- lfeBOvC/VUPhAOWMUQv7M1tmzulReiXgR0kmhKXkRmc8r6Nh8x3t9H6V1okoxEoO1vyX
- hci3H0ASHYLYkRFxcFeaPkTkVVan8Zfp4oNCY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685542982; x=1688134982;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BEeMcGwsmQcWXT4vssRRefgYUtAVUNcH/IZjc9KyPZo=;
- b=jSOF/7LquhTeIS6LIMtFPo6Lvfs7gEe/tBXNRWEOi71OpBFQco8Tmu4O/AMOZtfEhF
- aXR3bEPLspDWWhovG5TlpHDm02IFenJ7FStUnHjEQVaEBCDw4Ofk5u8UfDbz28qo3vrz
- HJa0lCjP6L3kItySHydkkhGgOuwVP65sF/J1+WaYJc/Tq2zO1CPMOQ+EhZbrEGNmT0Yw
- 8ZdS13HTaC+j5DoeFzi4PtXUN52IpqLLAnIvP6z5NmayA59gTtnN0Kfw/jQXsnOW3Hyy
- YNcfG4ORvg86+PHkpx3/q13CphBdYphs4ZG+LIBU9GTrf6KxTnvGltz7SmvDbsswuVQ9
- 6FzQ==
-X-Gm-Message-State: AC+VfDy0b5KK+EuswnykEjZYTCJHM56dgHm78HloAdEh2t7yTh00Wvnr
- YrGvn4LQMkUd4uAf2vJJDulu7WVDGOKtsQIJ9nw=
-X-Google-Smtp-Source: ACHHUZ7fm2htfsakPT0P57gV1I4d72M4J3yeGfXA/aauSi9XzvEXm1q9s8CwX8xnPUqz+xiMjUMeMQ==
-X-Received: by 2002:a92:4b08:0:b0:335:8542:440c with SMTP id
- m8-20020a924b08000000b003358542440cmr2046869ilg.12.1685542982171; 
- Wed, 31 May 2023 07:23:02 -0700 (PDT)
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com.
- [209.85.166.176]) by smtp.gmail.com with ESMTPSA id
- k15-20020a92c9cf000000b0033ce0ef231bsm20081ilq.23.2023.05.31.07.23.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 May 2023 07:23:01 -0700 (PDT)
-Received: by mail-il1-f176.google.com with SMTP id
- e9e14a558f8ab-33baee0235cso141815ab.1
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 07:23:00 -0700 (PDT)
-X-Received: by 2002:a05:6e02:2196:b0:331:4d3c:db55 with SMTP id
- j22-20020a056e02219600b003314d3cdb55mr209123ila.4.1685542980288; Wed, 31 May
- 2023 07:23:00 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF7010E0A0;
+ Wed, 31 May 2023 15:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685545995; x=1717081995;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=pkvIS56LJlTWTGyi2HnGWszdEfL1rhbN+Tmd0Oo4Aro=;
+ b=bH9wsaX+u1liGUknPk6gnpF36qSEImrYnsIQAZ6otFAvqQ+GsumNo+AL
+ 1m4k6ovDBZ0ZSkNwq0/RZy5lcqrvRGOGGJmwKZHQ358flWIR69X4mMBx2
+ e8oU3iN0uggcaqTyw5pTe45iquHWDaNN7B764qsnZo8YyUebYx5Ytbsi+
+ RbyMRFBt9TkJwCZjegdUR8JWLBspdFQVL/wpxIZOcMSOrYSMRDbHhhK87
+ fsv4mgeVTyuYvii+X06QpVnWH72LZpFXD6zC27vUqOg81Qjpjh9V72PQs
+ LyQivcrMBmnf8eqRrRCC3VLfAUEQFwxr3DZbKOMfKG3xAARG30eq2UYOZ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="421037581"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="421037581"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 08:12:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="684417433"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="684417433"
+Received: from eladcoh1-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.46.230])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 08:12:43 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 00/13] drm/display & drm/i915: more struct drm_edid
+ conversions
+In-Reply-To: <cover.1685437500.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1685437500.git.jani.nikula@intel.com>
+Date: Wed, 31 May 2023 18:12:41 +0300
+Message-ID: <87wn0ofsba.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230531075854.703-1-johan+linaro@kernel.org>
-In-Reply-To: <20230531075854.703-1-johan+linaro@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 31 May 2023 07:22:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UtyMSekPYfamMkswC=mSRnBpQUygMxZ+Wgf6Y2dB2Qhw@mail.gmail.com>
-Message-ID: <CAD=FV=UtyMSekPYfamMkswC=mSRnBpQUygMxZ+Wgf6Y2dB2Qhw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: fix uninitialised lock in init error path
-To: Johan Hovold <johan+linaro@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,40 +61,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, May 31, 2023 at 1:00=E2=80=AFAM Johan Hovold <johan+linaro@kernel.o=
-rg> wrote:
+On Tue, 30 May 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> Rebase of https://patchwork.freedesktop.org/series/116813/
 >
-> A recent commit started taking the GMU lock in the GPU destroy path,
-> which on GPU initialisation failure is called before the GMU and its
-> lock have been initialised.
+> Move struct drm_edid conversions forward.
 >
-> Make sure that the GMU has been initialised before taking the lock in
-> a6xx_destroy() and drop the now redundant check from a6xx_gmu_remove().
+> There are still some drm_edid_raw() stragglers, but this nudges things
+> forward nicely.
 >
-> Fixes: 4cd15a3e8b36 ("drm/msm/a6xx: Make GPU destroy a bit safer")
-> Cc: stable@vger.kernel.org      # 6.3
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 3 ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 ++++++---
->  2 files changed, 6 insertions(+), 6 deletions(-)
+> Jani Nikula (13):
+>   drm/edid: parse display info has_audio similar to is_hdmi
+>   drm/display/dp_mst: drop has_audio from struct drm_dp_mst_port
+>   drm/edid: add drm_edid_read_switcheroo()
+>   drm/edid: make drm_edid_duplicate() safe to call with NULL parameter
+>   drm/display/dp_mst: convert to struct drm_edid
 
-I think Dmitry already posted a patch 1.5 months ago to fix this.
+Maarten, Maxime, Thomas, can I get an ack for merging the above commits
+via drm-intel, please?
 
-https://lore.kernel.org/r/20230410165908.3094626-1-dmitry.baryshkov@linaro.=
-org
+BR,
+Jani.
 
-Can you confirm that works for you?
 
--Doug
+-- 
+Jani Nikula, Intel Open Source Graphics Center
