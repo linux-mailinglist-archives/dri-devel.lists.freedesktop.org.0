@@ -1,42 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5CB717AE8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 10:59:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AF9717B73
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 11:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC9C10E1C3;
-	Wed, 31 May 2023 08:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F70D10E1BC;
+	Wed, 31 May 2023 09:12:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79C610E1C3
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 08:59:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp
- [126.205.251.136])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C9127FC;
- Wed, 31 May 2023 10:59:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1685523562;
- bh=xZ6k3aIn2asxiNWMpdKml8un7Vsqb0yQ+oU5w96eDrg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=u7dLxQ5OoYuWOyxz6XRiaogwkKO5oZa1YND2rrfPRFdJR5zV90asEVwyrrU1+8YNt
- 8CqdzAb4KxR/88IymW0ljkdyjL6Hfy89u1WIpjq9hrU4Gwstowenvr9bxAuR5uyWgV
- +VlvNh14zoS5DHlm76uyWORJgF4Yt89JSc6v7fDs=
-Date: Wed, 31 May 2023 11:59:41 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230531085941.GA27043@pendragon.ideasonboard.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2089.outbound.protection.outlook.com [40.107.92.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC5110E1BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 09:11:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WshKUeGImAaGFBFfiyTHqv35F0RqD9+7NQMff+NT2FWYhIFAoaxt0Ita42IZ7C2Q3QwrbZF2xDobWyNMkSpx1MFQVcfltQOesvZZKDJkFUPT2LbN9svukU43fVbqfR+GWZwBa/00YOpRphYq03ee496MIj+iMiH6jM2XgeuhRpaA5N5IznEHbS6HJgIaXSBg6wXoY1z2cVXlEQZ/vzwBv4qEdl0boHImYpDQBTHIydaL+if6J2wvqdp7xus45J+LndBgHYEqG9JR4V28s12LK3Rsr6g6O8miuYMXfNy2pb8BrKO06NmIhfTvTKmwNoaQqkHNrO5sLXF8RSUS3Gpyhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XhdXai1jo8TZjsppjujCwLpmJRnP018oYNAydIQfiVo=;
+ b=JUUACxiTRO/7S7bHKbYSBy8Z2v8ndI6WTIVn3E71DXhWIlSs885XKbOGLZO6t0MBTx1ZoEXY/+5fR6LR8TwoBm470A6fwc1rSTla02YPuh1yQSBdhXFMme0NgIwggRvDgowSfb/cLsjU7V84PCtrsYd9cO4Z3Ak4Sp3D84caP5sBXRVTQi2wTiwhfhJ/4xboQ19cugWAkR68v2C4T7B9TtvOhkhDUrn9CMA4nTbX8cLvpwjft3/Gp22Rd769md0TgnVHqZPLnz+YunqO02TCbJpUx8Es8+45ByZYRR7/0iqcPlDNeG226WzGIEYRh7Kzzn/D3QXM5NJPpAl23JwI7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XhdXai1jo8TZjsppjujCwLpmJRnP018oYNAydIQfiVo=;
+ b=0tIkE9BGY+K8975K0e05vpRJ+G3saD8BNfA2MUNnBjxxXlrGT9zXhb5UwNffMYd7xYRiJDqZl6bXEo166tdqpNBjaJY40nQx3rezrw39N2Ai7MTllWo6aar/gIFZFxsggKCZpCKSUnCo3Cq0V6RB9XW2/Sp1JtOgbT7W9yJAM7M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH3PR12MB8355.namprd12.prod.outlook.com (2603:10b6:610:131::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Wed, 31 May
+ 2023 09:11:55 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::907f:26e2:673a:2ad2]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::907f:26e2:673a:2ad2%6]) with mapi id 15.20.6455.020; Wed, 31 May 2023
+ 09:11:55 +0000
+Message-ID: <8a83394b-87a0-7fbf-7280-fd3af78ea1f8@amd.com>
+Date: Wed, 31 May 2023 11:11:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/sched: Rename to drm_sched_wakeup_if_can_queue()
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>
+References: <20230517233550.377847-1-luben.tuikov@amd.com>
+ <20230517233550.377847-2-luben.tuikov@amd.com>
+ <34ee5d50-d8ac-0ce3-cf60-418ca6888294@amd.com>
+ <CADnq5_NM1J7ZTF3ab6f9dzXygjBMiQvG4jPJgPcAdSmOseq7rg@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CADnq5_NM1J7ZTF3ab6f9dzXygjBMiQvG4jPJgPcAdSmOseq7rg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0049.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::9) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB8355:EE_
+X-MS-Office365-Filtering-Correlation-Id: 709a52b8-01ab-4663-db45-08db61b7141c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fFS8MalvBYuJJ/Gf2v8K9NXAhdyqzJuawPSp/KqDbOYnoL1uIBtqkOfvXYXHmnooGeltiYez/O+69/6HsjZwNBEktwcRnRfFY4UNrQAUS2T6X24/MRIMZ5w6o+SziQ/+ESGmS6XPNLYCvLXXgz7ZCJD+9c/Nq4mTcr+tk+fsQs0yr3B1gQZcE497Khl76K2k9VHIzDer8q2maJr5lFmJXO+hFINLMvcuaiyC+tpuhVe/BikS0M3J0UcrRBN3idaIvBQk8Rfo7Qwl/dYVcnqHNChra8mn+ck5mz2cKE1NvQ9RwAn9JYkR16VnLRarwWDO6UBbZSm9FADlnPi2FXBWG3sGI1gOhiTvCh4vIzgZofc8/c8zSVzuxuiu82ImYGUQdtfUf/FqQVUyjJ4NOB6sTgK0IBI4wdi856D2splMcQpAmMrditjXwkFylWQACgTJv7boQ62qAE32aWxckoQqBsQSag3f2gWj7rxFH5Rn4Ope3JQOr6mh/m2JpiraN4MAzrgPTXdTkv5M/vKke6u3h+01tjdOWdVGyzdeQBYCO0BPa/KVCQGzGaH6CtsGCGyt6RfXhYQ8lD2Qt/pGR6iXnblvWOMr6Dgpbai5tRg+d620sOEE0SqEubQ39aNlNxw2yIIb9q1lDVlHyo0NhySQ9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(451199021)(2906002)(6486002)(31686004)(41300700001)(186003)(31696002)(86362001)(38100700002)(8936002)(8676002)(2616005)(478600001)(53546011)(110136005)(54906003)(6512007)(6666004)(316002)(6506007)(83380400001)(66574015)(66946007)(4326008)(36756003)(66556008)(66476007)(6636002)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFJ5aXNFaXZudDIvWUErT2c4V3lSYmlHVnRGUFlHZG9zNm1xQUNGS0ZpTE9X?=
+ =?utf-8?B?dlM1Wk95R0hNcitRZ1ROc0RWcDE5SlRQSmw1bzRhM2hhZVl4ZmhUcE1SRWwz?=
+ =?utf-8?B?K2JITktVRXhhU1pCYWxnSXE5RjQ2Sk1DQ3l2S1VFMjBlelBTLzg4V3ZtaHpB?=
+ =?utf-8?B?a2pzYkFLTzNCYStHb09GbDJoQjIrcExGdUZMMDBtbjAxbHB0UXBPRDVXZEJN?=
+ =?utf-8?B?TEo3UEFYZTVtS1B3T2t3Y3ZVSHFKUnBWN3ZLOEgyQU13d1EyNml0VEJhY0c2?=
+ =?utf-8?B?SlRVTEJrMTJOWmg1ZE9ybEFDQ0FQaVRLS2V4T0o5U0pzeGhxSUEyanRKOGRL?=
+ =?utf-8?B?TUxuemhlOWZ6cU8yZDBxWWQrSzBkYktLMVIyT3E5VzMrWkJkaGE0d2ZjNGg5?=
+ =?utf-8?B?SFYyRVM5NTFnWjhlemhBcVI2cElvK1QzM1V6dkpVMGtSMTByaW5yK0NqU2tH?=
+ =?utf-8?B?djViR09KZGZzZTlabThNdU1JMFF3WmkwbmN2ZnBRbEZzdUJnVDdCL202blMz?=
+ =?utf-8?B?Qndpa0NLN1kwSFQwMGRLdXpkbnE5bE9xLzFoZHdiT1BrQXZxNVpZQ1RvdG9F?=
+ =?utf-8?B?WFJlbEJaNWh6QnFyeXlFUUNoWktRbFJpemFia20vamJsSXg2Vk5OQVNEMFhq?=
+ =?utf-8?B?dnNOazdKQXhiYjhPaTJWcDFKM3dJVGtPdlpBVzVJMnFxTzlMeU9uYXhRb2dv?=
+ =?utf-8?B?N0hINlJoSFk2NU5sWEFrRUlnYkU5dTFzSnVpTWZWaG5oNzlFc1QrbkhHbHpI?=
+ =?utf-8?B?a3k2cmg5eG4ybGZvUXlPaXBRQnI1dHZRY0xqQzdISWNOS0YxZURUWWwwM3cr?=
+ =?utf-8?B?WEhBbmsvd2w1bWpHZm02Z2FPSWF6azBlNThhMXcrTjlUSDh5amlSME5OekM0?=
+ =?utf-8?B?MDZhZWVOdFUwVTNkNS9mY1B2dkFuUkFtbVIzNjVwTy9Bd21Zb3hjSCtuditU?=
+ =?utf-8?B?blgyT1E4RWZuc3ZmTGF0dkw3T3BEM2l5UFR4TnFuRWpaTzR6bWgwN2dYTk9a?=
+ =?utf-8?B?Mjh3RHk2UE9icVNzczJlUXlWMUJZalhURmVubTBsMWVReHJGL2UycEp3Z1Ax?=
+ =?utf-8?B?RU9OQjRtYUU1VnZzdXFVS1JIRVpwZlY4eDlQVWFKbUorK2ZGckxoZkIrY2hV?=
+ =?utf-8?B?TmdrSVBNZE42ZjBHamhycFlOUis5Tk9GOWVBNDc2N0NUQkx2RDRzdGZEc1dK?=
+ =?utf-8?B?V3BDWGU2SUl3VmtuWE0vNFNvSldMQUYwYTBvRk53amdQM2lnNmg0MFBqU3A5?=
+ =?utf-8?B?ZXZIMmxJaWU1WmtOTm9FeUdHUmdKOTdnNDNrN2FMSjlsUE9KQ0FKclBsVUJ5?=
+ =?utf-8?B?T0hUWHlUS3BtYTdkMGtjVHptNkthTXIxaXg2RGt6WVdER1dwL2VDWDF6M29M?=
+ =?utf-8?B?ampKTUNUamZaRjJ3TjZ6YjVpZnpVR0I4bW1CaUM5UkpyM3FHbmQzdGhsU2VU?=
+ =?utf-8?B?VW05ZndyR1g3NUNzWW10MnlLU2gxdWJKWFd6MndteXBKcEJyMXE5WDlDOEJC?=
+ =?utf-8?B?bGxYbmVYNC96SVltSGVpd0VUU2dVL21pN2I5OTVRVFlZVGQ3SGFjbFYzTVpn?=
+ =?utf-8?B?eGJjajFKTUJrUDIzdUdhZmY5aE15OFk5RjMyclRMcUxjMVp3NXFsN1ZGTmh2?=
+ =?utf-8?B?QUYvQVZBZTF2aDBSOXRjT3NyKzJpSm9TM3Noa1hiaU96WGhxak42QVFKSUFJ?=
+ =?utf-8?B?VlRPcWx1WDlnWGZWQ21NUVhaamVORkhMWjM0YU1UUkJDRGMybElUOGlQOHpP?=
+ =?utf-8?B?USt4WEZJSWZxSkpBNUFqRy9NZnNZYnJ5WTI0dUg0QzFEaVVYVElqLzhRaTdy?=
+ =?utf-8?B?YkYwcE0vb3ZLSDh2ZnpDNnl1d0NwaUd1N0xqUVhVcUo0djZkRG5LTjBya2dH?=
+ =?utf-8?B?M1JNb1lEc0dnazZhRVdCckdVRnBsWVFVcEhqNTF3cjZEQzNrT1pWVVRKM2k5?=
+ =?utf-8?B?SjVkMmZEN2hXR2FFWmNHRlh1T2RVTWROdlRkS0NxcmVFbVI3MjdRaVdIRE95?=
+ =?utf-8?B?cDVNeUFxdWdxM1JjYXVLdUJKcUZDTVhMMTdEQjhVUFpCdGlxeUxDdlhpS2Mx?=
+ =?utf-8?B?REMxcnZCWC9jSXhhQzNHbWo5MURVQ29xVGpkeDRCMnJKcGIzOXZ6WG1PUjNx?=
+ =?utf-8?B?RXI0dU9SdnRGSGVOakkzanFXdi8ySTNIdUEzUGFaRUIxMkxVb0Vuc0xmd3VZ?=
+ =?utf-8?Q?9la2kYAX1T4M1D0caLL0Vo2wV5u41q8o8HZ7/imSZua+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 709a52b8-01ab-4663-db45-08db61b7141c
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 09:11:54.9922 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b5syKGF9hKYRXNoId+hKtaorQORSq7amyig4SWORe6tQT6GysNfmiSKkWzEQFfXf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8355
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,375 +128,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Looks good to me as well, but I'm wondering if we shouldn't just always 
+wake the scheduler up here.
 
-On Mon, May 29, 2023 at 09:00:43AM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Mon, May 22, 2023 at 11:18:39AM +0100, Biju Das wrote:
-> > > Renesas PMIC RAA215300 exposes two separate i2c devices, one for the
-> > > main device and another for rtc device.
-> > >
-> > > Enhance i2c_new_ancillary_device() to instantiate a real device.
-> > 
-> > Doesn't it already instantiate a real device ?
-> 
-> No, as per the code it instantiates dummy device[1]
-> [1] https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-base.c#L1156
+Christian.
 
-And that function calls i2c_new_client_device(), which allocates a
-struct i2c_client that embeds a struct device, and registers that device
-with the kernel device core. How is that different, in terms of
-instantiating a "real device", from what this patch does ?
+Am 19.05.23 um 15:41 schrieb Alex Deucher:
+> Series is:
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>
+> On Thu, May 18, 2023 at 9:03 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>> On 2023-05-17 19:35, Luben Tuikov wrote:
+>>> Rename drm_sched_wakeup() to drm_sched_wakeup_if_canqueue() since the former
+>>> is misleading, as it wakes up the GPU scheduler _only if_ more jobs can be
+>>> queued to the underlying hardware.
+>>>
+>>> This distinction is important to make, since the wake conditional in the GPU
+>>> scheduler thread wakes up when other conditions are also true, e.g. when there
+>>> are jobs to be cleaned. For instance, a user might want to wake up the
+>>> scheduler only because there are more jobs to clean, but whether we can queue
+>>> more jobs is irrelevant.
+>>>
+>>> v2: Separate "canqueue" to "can_queue". (Alex D.)
+>>>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Alex Deucher <Alexander.Deucher@amd.com>
+>>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+>> ^ ping!
+>>
+>> Regards,
+>> Luben
+>>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_entity.c | 4 ++--
+>>>   drivers/gpu/drm/scheduler/sched_main.c   | 6 +++---
+>>>   include/drm/gpu_scheduler.h              | 2 +-
+>>>   3 files changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index cfb433e9200586..68e807ae136ad8 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -342,7 +342,7 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+>>>                container_of(cb, struct drm_sched_entity, cb);
+>>>
+>>>        drm_sched_entity_clear_dep(f, cb);
+>>> -     drm_sched_wakeup(entity->rq->sched);
+>>> +     drm_sched_wakeup_if_can_queue(entity->rq->sched);
+>>>   }
+>>>
+>>>   /**
+>>> @@ -565,7 +565,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>>>                if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>>                        drm_sched_rq_update_fifo(entity, submit_ts);
+>>>
+>>> -             drm_sched_wakeup(entity->rq->sched);
+>>> +             drm_sched_wakeup_if_can_queue(entity->rq->sched);
+>>>        }
+>>>   }
+>>>   EXPORT_SYMBOL(drm_sched_entity_push_job);
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 8739322c30321b..b352227a605538 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -860,12 +860,12 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+>>>   }
+>>>
+>>>   /**
+>>> - * drm_sched_wakeup - Wake up the scheduler when it is ready
+>>> - *
+>>> + * drm_sched_wakeup_if_can_queue - Wake up the scheduler
+>>>    * @sched: scheduler instance
+>>>    *
+>>> + * Wake up the scheduler if we can queue jobs.
+>>>    */
+>>> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
+>>> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
+>>>   {
+>>>        if (drm_sched_can_queue(sched))
+>>>                wake_up_interruptible(&sched->wake_up_worker);
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index 31d1f5166c79fe..e95b4837e5a373 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -549,7 +549,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>>                                      unsigned int num_sched_list);
+>>>
+>>>   void drm_sched_job_cleanup(struct drm_sched_job *job);
+>>> -void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+>>> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
+>>>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+>>>   void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery);
+>>>   void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
 
-> > > (eg: Instantiate rtc device from PMIC driver)
-> > >
-> > > Added helper function __i2c_new_dummy_device to share the code between
-> > > i2c_new_dummy_device and i2c_new_ancillary_device().
-> > >
-> > > Also added helper function __i2c_new_client_device() to pass parent
-> > > dev parameter, so that the ancillary device can assign its parent
-> > > during creation.
-> > >
-> > > Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > v4->v5:
-> > >  * Replaced parameter dev->parent in __i2c_new_client_device() and
-> > >    __i2c_new_dummy_device().
-> > >  * Improved error message in __i2c_new_dummy_device() by printing device name.
-> > >  * Updated comment for ancillary's device parent
-> > >  * Dropped aux_device_name check in i2c_new_ancillary_device().
-> > > v3->v4:
-> > >  * Dropped Rb tag from Geert as there are new changes.
-> > >  * Introduced __i2c_new_dummy_device() to share the code between
-> > >    i2c_new_dummy_device and i2c_new_ancillary_device().
-> > >  * Introduced __i2c_new_client_device() to pass parent dev
-> > >    parameter, so that the ancillary device can assign its parent during
-> > >    creation.
-> > > v3:
-> > >  * New patch
-> > >
-> > > Ref:
-> > >
-> > > ---
-> > >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 +-
-> > >  drivers/i2c/i2c-core-base.c                  | 92 +++++++++++++------
-> > -
-> > >  drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
-> > >  drivers/media/i2c/adv7604.c                  |  3 +-
-> > >  include/linux/i2c.h                          |  3 +-
-> > >  5 files changed, 69 insertions(+), 37 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > index ddceafa7b637..86306b010a0a 100644
-> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > > @@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
-> > >  	int ret;
-> > >
-> > >  	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
-> > > -						ADV7511_CEC_I2C_ADDR_DEFAULT);
-> > > +				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
-> > >  	if (IS_ERR(adv->i2c_cec))
-> > >  		return PTR_ERR(adv->i2c_cec);
-> > >
-> > > @@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
-> > >  	adv7511_packet_disable(adv7511, 0xffff);
-> > >
-> > >  	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
-> > > -					ADV7511_EDID_I2C_ADDR_DEFAULT);
-> > > +					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
-> > >  	if (IS_ERR(adv7511->i2c_edid)) {
-> > >  		ret = PTR_ERR(adv7511->i2c_edid);
-> > >  		goto uninit_regulators;
-> > > @@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
-> > >  		     adv7511->i2c_edid->addr << 1);
-> > >
-> > >  	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
-> > > -					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-> > > +					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
-> > >  	if (IS_ERR(adv7511->i2c_packet)) {
-> > >  		ret = PTR_ERR(adv7511->i2c_packet);
-> > >  		goto err_i2c_unregister_edid;
-> > > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> > > index ae3af738b03f..3442aa80290f 100644
-> > > --- a/drivers/i2c/i2c-core-base.cvvccc
-> > > +++ b/drivers/i2c/i2c-core-base.cckvlrgnulkj
-> > > @@ -893,24 +893,10 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
-> > >  	return 0;
-> > >  }
-> > >
-> > > -/**
-> > > - * i2c_new_client_device - instantiate an i2c device
-> > > - * @adap: the adapter managing the device
-> > > - * @info: describes one I2C device; bus_num is ignored
-> > > - * Context: can sleep
-> > > - *
-> > > - * Create an i2c device. Binding is handled through driver model
-> > > - * probe()/remove() methods.  A driver may be bound to this device when we
-> > > - * return from this function, or any later moment (e.g. maybe hotplugging will
-> > > - * load the driver module).  This call is not appropriate for use by mainboard
-> > > - * initialization logic, which usually runs during an arch_initcall() long
-> > > - * before any i2c_adapter could exist.
-> > > - *
-> > > - * This returns the new i2c client, which may be saved for later use with
-> > > - * i2c_unregister_device(); or an ERR_PTR to describe the error.
-> > > - */
-> > > -struct i2c_client *
-> > > -i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
-> > > +static struct i2c_client *
-> > > +__i2c_new_client_device(struct i2c_adapter *adap,
-> > > +			struct i2c_board_info const *info,
-> > > +			struct device *parent)
-> > >  {
-> > >  	struct i2c_client	*client;
-> > >  	int			status;
-> > > @@ -944,7 +930,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
-> > >  	if (status)
-> > >  		goto out_err;
-> > >
-> > > -	client->dev.parent = &client->adapter->dev;
-> > > +	client->dev.parent = parent ? parent : &client->adapter->dev;
-> > >  	client->dev.bus = &i2c_bus_type;
-> > >  	client->dev.type = &i2c_client_type;
-> > >  	client->dev.of_node = of_node_get(info->of_node);
-> > > @@ -984,6 +970,28 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
-> > >  	kfree(client);
-> > >  	return ERR_PTR(status);
-> > >  }
-> > > +
-> > > +/**
-> > > + * i2c_new_client_device - instantiate an i2c device
-> > > + * @adap: the adapter managing the device
-> > > + * @info: describes one I2C device; bus_num is ignored
-> > > + * Context: can sleep
-> > > + *
-> > > + * Create an i2c device. Binding is handled through driver model
-> > > + * probe()/remove() methods.  A driver may be bound to this device when we
-> > > + * return from this function, or any later moment (e.g. maybe hotplugging will
-> > > + * load the driver module).  This call is not appropriate for use by mainboard
-> > > + * initialization logic, which usually runs during an arch_initcall() long
-> > > + * before any i2c_adapter could exist.
-> > > + *
-> > > + * This returns the new i2c client, which may be saved for later use with
-> > > + * i2c_unregister_device(); or an ERR_PTR to describe the error.
-> > > + */
-> > > +struct i2c_client *
-> > > +i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info
-> > > +const *info) {
-> > > +	return __i2c_new_client_device(adap, info, NULL); }
-> > >  EXPORT_SYMBOL_GPL(i2c_new_client_device);
-> > >
-> > >  /**
-> > > @@ -1054,6 +1062,26 @@ static struct i2c_driver dummy_driver = {
-> > >  	.id_table	= dummy_id,
-> > >  };
-> > >
-> > > +static struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter *adapter,
-> > > +						 u16 address, const char *name,
-> > > +						 struct device *parent)
-> > > +{
-> > > +	struct i2c_board_info info = {
-> > > +		I2C_BOARD_INFO("dummy", address),
-> > > +	};
-> > > +
-> > > +	if (name) {
-> > > +		ssize_t ret = strscpy(info.type, name, sizeof(info.type));
-> > > +
-> > > +		if (ret < 0)
-> > > +			return ERR_PTR(dev_err_probe(&adapter->dev, ret,
-> > > +						     "Invalid device name: %s\n",
-> > > +						     name));
-> > > +	}
-> > > +
-> > > +	return __i2c_new_client_device(adapter, &info, parent); }
-> > > +
-> > >  /**
-> > >   * i2c_new_dummy_device - return a new i2c device bound to a dummy driver
-> > >   * @adapter: the adapter managing the device
-> > > @@ -1074,11 +1102,7 @@ static struct i2c_driver dummy_driver = {
-> > >   */
-> > >  struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter,
-> > > u16 address)  {
-> > > -	struct i2c_board_info info = {
-> > > -		I2C_BOARD_INFO("dummy", address),
-> > > -	};
-> > > -
-> > > -	return i2c_new_client_device(adapter, &info);
-> > > +	return __i2c_new_dummy_device(adapter, address, NULL, NULL);
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
-> > >
-> > > @@ -1122,15 +1146,19 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-> > >   * @client: Handle to the primary client
-> > >   * @name: Handle to specify which secondary address to get
-> > >   * @default_addr: Used as a fallback if no secondary address was specified
-> > > + * @aux_device_name: Ancillary device name
-> > >   * Context: can sleep
-> > >   *
-> > >   * I2C clients can be composed of multiple I2C slaves bound together in a single
-> > >   * component. The I2C client driver then binds to the master I2C slave and needs
-> > > - * to create I2C dummy clients to communicate with all the other slaves.
-> > > + * to create I2C ancillary clients to communicate with all the other slaves.
-> > >   *
-> > > - * This function creates and returns an I2C dummy client whose I2C address is
-> > > - * retrieved from the platform firmware based on the given slave name. If no
-> > > - * address is specified by the firmware default_addr is used.
-> > > + * This function creates and returns an I2C ancillary client whose I2C address
-> > > + * is retrieved from the platform firmware based on the given slave name. if
-> > > + * aux_device_name is specified by the firmware,
-> > 
-> > Unless I'm missing something, aux_device_name isn't specified by the
-> > firmware, it's a function parameter.
-> 
-> It is specified in the platform firmware(device tree firmware).
-
-What I meant, in the context of the documentation here, is that the
-address is retrieved from the platform firmware by the
-i2c_new_ancillary_device() function, not passed as a parameter, while
-the name is passed as a parameter. It's not relevant, for the
-documentation of this function, where the caller gets the name from.
-
-> > > the ancillary's device parent
-> > > + * will be set to the primary device.
-> > 
-> > This doesn't seem to match the implementation. With this patch the
-> > ancillary device's parent is always the primary device. Are you sure
-> > this won't cause any regression ? 
-> 
-> There is no regression as existing users only instantiate dummy device.
-
-Sorry, I don't follow you here. Existing callers of
-i2c_new_ancillary_device() today get an i2c_client device whose parent
-is the I2C adapter. With this patch they will get an i2c_client device
-whose parent is the main i2c_client. That's a change in behaviour, which
-could cause all sorts of issues.
-
-> > And why do you need this ?
-> 
-> As per Krzysztof [2],
-> 
-> The DT schema allows multiple addresses for children. But we lack
-> implementation of parent child relationship, As parent owns the resources.
-> Child device needs to parse parent node to get some resource
-> like clocks.
-> 
-> [2] https://lore.kernel.org/linux-renesas-soc/TYCPR01MB5933BFFD4EB556F5FB4EA82186729@TYCPR01MB5933.jpnprd01.prod.outlook.com/
-
-The I2C ancillary clients are not meant to be handled by separate
-drivers. You're supposed to have one device node in DT, which causes the
-I2C core to instantiate a main i2c_client, and bind it to one driver.
-That driver then uses i2c_new_ancillary_device() to create other
-i2c_client instances for the secondary I2C addresses. Those i2c_client
-instances are not bound to a separate driver, so there should be no code
-that needs to look at the parent for resources.
-
-> > > If no address is specified by the firmware
-> > > + * default_addr is used. If no aux_device_name is specified by the
-> > > + firmware, it
-> > 
-> > Same here regarding firmware.
-> > 
-> > > + * will create an I2C dummy client.
-> > >   *
-> > >   * On DT-based platforms the address is retrieved from the "reg" property entry
-> > >   * cell whose "reg-names" value matches the slave name.
-> > > @@ -1139,8 +1167,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-> > >   * i2c_unregister_device(); or an ERR_PTR to describe the error.
-> > >   */
-> > >  struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
-> > > -						const char *name,
-> > > -						u16 default_addr)
-> > > +					    const char *name,
-> > > +					    u16 default_addr,
-> > > +					    const char *aux_device_name)
-> > >  {
-> > >  	struct device_node *np = client->dev.of_node;
-> > >  	u32 addr = default_addr;
-> > > @@ -1153,7 +1182,8 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
-> > >  	}
-> > >
-> > >  	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-> > > -	return i2c_new_dummy_device(client->adapter, addr);
-> > > +	return __i2c_new_dummy_device(client->adapter, addr, aux_device_name,
-> > > +				      &client->dev);
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
-> > >
-> > > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c
-> > > b/drivers/media/i2c/adv748x/adv748x-core.c
-> > > index 4498d78a2357..5bdf7b0c6bf3 100644
-> > > --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> > > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> > > @@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct
-> > adv748x_state *state)
-> > >  		state->i2c_clients[i] = i2c_new_ancillary_device(
-> > >  				state->client,
-> > >  				adv748x_default_addresses[i].name,
-> > > -				adv748x_default_addresses[i].default_addr);
-> > > +				adv748x_default_addresses[i].default_addr,
-> > NULL);
-> > >
-> > >  		if (IS_ERR(state->i2c_clients[i])) {
-> > >  			adv_err(state, "failed to create i2c client %u\n", i);
-> > diff --git
-> > > a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c index
-> > > 3d0898c4175e..63fa44c9d27c 100644
-> > > --- a/drivers/media/i2c/adv7604.c
-> > > +++ b/drivers/media/i2c/adv7604.c
-> > > @@ -2935,7 +2935,8 @@ static struct i2c_client
-> > *adv76xx_dummy_client(struct v4l2_subdev *sd,
-> > >  	else
-> > >  		new_client = i2c_new_ancillary_device(client,
-> > >  				adv76xx_default_addresses[page].name,
-> > > -				adv76xx_default_addresses[page].default_addr);
-> > > +				adv76xx_default_addresses[page].default_addr,
-> > > +				NULL);
-> > >
-> > >  	if (!IS_ERR(new_client))
-> > >  		io_write(sd, io_reg, new_client->addr << 1); diff --git
-> > > a/include/linux/i2c.h b/include/linux/i2c.h index
-> > > 13a1ce38cb0c..0ce344724209 100644
-> > > --- a/include/linux/i2c.h
-> > > +++ b/include/linux/i2c.h
-> > > @@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev,
-> > > struct i2c_adapter *adap, u16 addr  struct i2c_client *
-> > > i2c_new_ancillary_device(struct i2c_client *client,
-> > >  			 const char *name,
-> > > -			 u16 default_addr);
-> > > +			 u16 default_addr,
-> > > +			 const char *aux_device_name);
-> > >
-> > >  void i2c_unregister_device(struct i2c_client *client);
-> > >
-
--- 
-Regards,
-
-Laurent Pinchart
