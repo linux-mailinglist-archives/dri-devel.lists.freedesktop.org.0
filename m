@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5235A718787
-	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 18:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 119997187FA
+	for <lists+dri-devel@lfdr.de>; Wed, 31 May 2023 19:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F2F10E4FA;
-	Wed, 31 May 2023 16:36:09 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2FC10E4FB
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:36:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7E87E632C8
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:36:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E1FC7C433D2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 16:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685550966;
- bh=dkWvQr4f0wSFQuQ5DPVbYASQLEWPazEOTEK9Am4mjZk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=oa+ZUurmgIr+FD/bFN2OSRBo0xJKY8pYAW+6+SRL6gzV4mjREAQpXjrzeu0XBtrbk
- cufuIAeCmFM4HM48/s7dbAm5dcR264SJA6gdHvlgz1ssTSRQDJ1SCD3yul0iVoyvAU
- YPPXLqlrG8eAt51JGGwS5FEEnkKS5SwlyGxQtam79Kh8TWRcvGFyYs/UBHoO7N99lQ
- WTFfg4x28kZ+IeaAdxGJcXvDQpuza7jAjoj70qWGoGgdKuXjOxi5o35pZf/FEAv17H
- ggjbwSgtbdcFdPthIxuc8VZpXiR5dFylWmXQ7kfrOZ+UpzL4I6ACs5ZaQ7Q63GZg6H
- 11K7QWRVKyqiw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CD660C43143; Wed, 31 May 2023 16:36:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217514] [amdgpu] system doesn't boot after linux-firmware
- 2023-05-23 ffe1a41e
-Date: Wed, 31 May 2023 16:36:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rly@hotmail.hu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217514-2300-nIvs1kGhNT@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217514-2300@https.bugzilla.kernel.org/>
-References: <bug-217514-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by gabe.freedesktop.org (Postfix) with ESMTP id B007D10E1D8;
+	Wed, 31 May 2023 17:03:39 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 604A510E1D7;
+ Wed, 31 May 2023 17:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685552617; x=1717088617;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Kw75a4tnMO6moGL0Mcj9cZmWvUFea18mh3qLG3UPRZs=;
+ b=dsb8WvnhNnyxc3BJtdkQe4RWN5mXt4qp6Lnx2W7trDWuLUaDiqZtB7Nv
+ gg+LTVpn+7jpYptqMSokE03xJyzzyG9qgfDXG9MAeaPL3RYkunDPtYW+E
+ TAyQTAEK0R3mJBaWq5Du5WEQHnnolUoxyUQTvD5GqCE8zfl4fT8SHydPo
+ gd+Da1nr/6nTgR1n9u09uq2NGWO50d7EGQuqsBSIRERJh0+BbwEpnPg//
+ UKuKdkkkA8e4aOIriM8jlaFgDTTUuxcgKsuxpztF44EaqwgqmDT6lSYrG
+ nyFHnlebGOorPA6a/R6cf4T30fuvLAXEXLaoYQ+fICt+c8SDzvNqR0v3K w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="334923705"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="334923705"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 09:59:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="684453507"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; d="scan'208";a="684453507"
+Received: from itaraban-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.47.19])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2023 09:59:43 -0700
+Date: Wed, 31 May 2023 18:59:40 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Remove some obsolete definitions
+Message-ID: <ZHd8/KtuvoWJwvfv@ashyti-mobl2.lan>
+References: <20230531155942.441862-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230531155942.441862-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,18 +58,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217514
+Hi John,
 
---- Comment #1 from rLy (rly@hotmail.hu) ---
-Created attachment 304362
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304362&action=3Dedit
-amdgpu_error
+On Wed, May 31, 2023 at 08:59:42AM -0700, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> There were a bunch of defines and structures left over from an API
+> update a very long time ago. Remove them.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h | 33 ---------------------
+>  1 file changed, 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index 4e57bd09d50d9..b4d56eccfb1f0 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -35,13 +35,6 @@
+>  #define GUC_MAX_CONTEXT_ID		65535
+>  #define	GUC_INVALID_CONTEXT_ID		GUC_MAX_CONTEXT_ID
+>  
+> -#define GUC_RENDER_ENGINE		0
+> -#define GUC_VIDEO_ENGINE		1
+> -#define GUC_BLITTER_ENGINE		2
+> -#define GUC_VIDEOENHANCE_ENGINE		3
+> -#define GUC_VIDEO_ENGINE2		4
+> -#define GUC_MAX_ENGINES_NUM		(GUC_VIDEO_ENGINE2 + 1)
+> -
+>  #define GUC_RENDER_CLASS		0
+>  #define GUC_VIDEO_CLASS			1
+>  #define GUC_VIDEOENHANCE_CLASS		2
+> @@ -499,32 +492,6 @@ struct guc_log_buffer_state {
+>  	u32 version;
+>  } __packed;
+>  
+> -struct guc_ctx_report {
+> -	u32 report_return_status;
+> -	u32 reserved1[64];
+> -	u32 affected_count;
+> -	u32 reserved2[2];
+> -} __packed;
+> -
+> -/* GuC Shared Context Data Struct */
+> -struct guc_shared_ctx_data {
+> -	u32 addr_of_last_preempted_data_low;
+> -	u32 addr_of_last_preempted_data_high;
+> -	u32 addr_of_last_preempted_data_high_tmp;
+> -	u32 padding;
+> -	u32 is_mapped_to_proxy;
+> -	u32 proxy_ctx_id;
+> -	u32 engine_reset_ctx_id;
+> -	u32 media_reset_count;
+> -	u32 reserved1[8];
+> -	u32 uk_last_ctx_switch_reason;
+> -	u32 was_reset;
+> -	u32 lrca_gpu_addr;
+> -	u64 execlist_ctx;
+> -	u32 reserved2[66];
+> -	struct guc_ctx_report preempt_ctx_report[GUC_MAX_ENGINES_NUM];
+> -} __packed;
 
---=20
-You may reply to this email to add a comment.
+yeah... they're not used anywhere...
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Thanks,
+Andi
