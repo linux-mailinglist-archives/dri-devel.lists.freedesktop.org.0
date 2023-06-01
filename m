@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD40D719D4E
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 15:21:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FF5719F37
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 16:09:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4579110E24B;
-	Thu,  1 Jun 2023 13:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022A610E131;
+	Thu,  1 Jun 2023 14:09:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 45A5410E24B;
- Thu,  1 Jun 2023 13:21:40 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxhPBim3hkpE8DAA--.7193S3;
- Thu, 01 Jun 2023 21:21:38 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx87Bhm3hkq02EAA--.18683S3; 
- Thu, 01 Jun 2023 21:21:38 +0800 (CST)
-Message-ID: <81276850-d371-e61d-e13d-3a90aa950981@loongson.cn>
-Date: Thu, 1 Jun 2023 21:21:37 +0800
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8036610E131;
+ Thu,  1 Jun 2023 14:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685628553; x=1717164553;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=mil7lhAZxpLhYqIms/MfsdGRrP6/pDWG4A0XpIhr0LU=;
+ b=ZoMfqB+HbBOZZ3ZGbw1y/hBlrh1fRxMzeoPCeaPQrmTqsnZVJKapeY2w
+ UK3tG7o2iEBmzKvMi0DiRwPFY6GTFi9SB4PuRrNkrPylacaQt4VBt9Cdx
+ nLLjrK3Mce9EJEG1uFxOGI/DKNSD7Uy0Bri+tQMVfzrkHWDZDPYc1v5Bo
+ TrBWMf1PNXkWGA9KuVL5dWRSCm0o09QWqhmS+/cYbS5unG5JzNDcKm8fv
+ 5roo0zbCVe0Zkm8jr49MmApeslBWGIZfexlxs1vIMy5xKT8pXTLBexDJ4
+ QvC/w5HV57joEBGX8gkb1IwPFFHV+5C2K4MACrv/ehoS+7gxUSUH3dkKc Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353063861"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="353063861"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2023 07:09:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="831593851"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="831593851"
+Received: from amnerie-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.2.192])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2023 07:09:07 -0700
+Date: Thu, 1 Jun 2023 17:09:03 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <ZHimf55x/DyXYar1@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v6 2/6] drm/etnaviv: add a dedicated function to get
- various clocks
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230530160643.2344551-1-suijingfeng@loongson.cn>
- <20230530160643.2344551-3-suijingfeng@loongson.cn>
- <85565974d45b5553035aeabe8a98a667718482d5.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <85565974d45b5553035aeabe8a98a667718482d5.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Dx87Bhm3hkq02EAA--.18683S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw1rtF15ZF48uF1fGFW8tFb_yoW8tw4UpF
- s7J3W5GrWUury0k347Xr1DGrsakr1Iy3W2k3ZYvF92vrn8uF1kKw4YkrWYg3Wrur10qFWF
- kw4UGr4qka4F9FDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bIkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Cr0_Gr1U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07URE_tUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,91 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave & Daniel,
 
-On 2023/6/1 02:07, Lucas Stach wrote:
->> +static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
->> +{
->> +	struct device *dev = gpu->dev;
->> +
->> +	if (gpu->no_clk)
->> +		return 0;
->> +
->> +	gpu->clk_reg = devm_clk_get_optional(dev, "reg");
->> +	DBG("clk_reg: %p", gpu->clk_reg);
->> +	if (IS_ERR(gpu->clk_reg))
->> +		return PTR_ERR(gpu->clk_reg);
->> +
->> +	gpu->clk_bus = devm_clk_get_optional(dev, "bus");
->> +	DBG("clk_bus: %p", gpu->clk_bus);
->> +	if (IS_ERR(gpu->clk_bus))
->> +		return PTR_ERR(gpu->clk_bus);
->> +
->> +	gpu->clk_core = devm_clk_get(dev, "core");
->> +	DBG("clk_core: %p", gpu->clk_core);
->> +	if (IS_ERR(gpu->clk_core))
->> +		return PTR_ERR(gpu->clk_core);
->> +	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
->> +
->> +	gpu->clk_shader = devm_clk_get_optional(dev, "shader");
->> +	DBG("clk_shader: %p", gpu->clk_shader);
->> +	if (IS_ERR(gpu->clk_shader))
->> +		return PTR_ERR(gpu->clk_shader);
->> +	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
->> +
->> +	return 0;
->> +}
->> +
->>   static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
->>   {
->>   	int ret;
->>   
->> +	if (gpu->no_clk)
->> +		return 0;
->> +
-> I don't see why this would be needed?
-I have just tested, this do not needed.
-> If your platform doesn't provide
-> CONFIG_HAVE_CLK all those functions should be successful no-ops, so
-> there is no need to special case this in the driver.
+One fix appeared this morning, related to OA API for
+non-power-of-two reports.
 
-My platform do enable CONFIG_HAVE_CLK,
+Full CI results not in yet, BAT is looking good so please check
+before pulling the trigger.
 
-for ls3a5000 + ls7a1000, my system do not provide device tree support,
+Regards, Joonas
 
-that's is to say, there is no DT support.
+***
 
+drm-intel-fixes-2023-06-01:
 
-For ls3a4000 + ls7a1000 platform, the system has DT support, but don't 
-has CLK drivers implement toward the clock tree.
+- Fix for OA reporting to allow detecting non-power-of-two reports
 
-typically, our platform's firmware will do such thing(setting a default 
-working frequency).
+The following changes since commit 7877cb91f1081754a1487c144d85dc0d2e2e7fc4:
 
+  Linux 6.4-rc4 (2023-05-28 07:49:00 -0400)
 
-When I first saw etnaviv, I'm also astonishing.
+are available in the Git repository at:
 
-I don't know why there so much clock controllable.
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-06-01
 
-As far as I can understand, my system/hardware have only one clock,
+for you to fetch changes up to 62fe398761cd06a428e6f367aba84732a2f1c268:
 
-It shall corresponding to the core clk.
+  drm/i915/perf: Clear out entire reports after reading if not power of 2 size (2023-06-01 09:41:58 +0300)
 
-> Or does your platform in fact provide a clk subsystem, just the GPU
-> clocks are managed by it?
->
-> Also all those functions are fine with being called on a NULL clk, so
-> shouldn't it be enough to simply avoid calling etnaviv_gpu_clk_get() in
-> the PCI device case?
->
-> Regards,
-> Lucas
->
--- 
-Jingfeng
+----------------------------------------------------------------
+- Fix for OA reporting to allow detecting non-power-of-two reports
 
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+      drm/i915/perf: Clear out entire reports after reading if not power of 2 size
+
+ drivers/gpu/drm/i915/i915_perf.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
