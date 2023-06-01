@@ -1,79 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBCD71F2F7
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 21:32:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E6971F2FC
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 21:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECD010E5AF;
-	Thu,  1 Jun 2023 19:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12D6A10E5B2;
+	Thu,  1 Jun 2023 19:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E6810E5AF;
- Thu,  1 Jun 2023 19:32:26 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 351GdjEM022384; Thu, 1 Jun 2023 19:32:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DAodssjVjmqW04R0ywj8sR+ufD0UxIvdb67y4kMohZo=;
- b=a3vMzhWrNC+mIh8YxEG/pnuc34K8NC465seVGiOl9RtdhyVdpUnGPuyDpqGPQ27E9w2A
- 8Af1K9lscSvReWr6mo0ZXB5iYIanwsYk6EhaJYzsFTwxhKWdhF2HzMGvXZV0Kzx3fI+Y
- aOWw9V/5sFxCSKd4PxOZCmfNLVkJlgm+9FSSr851OJuem5BCZF7RLOjalwQJjbSsQs9Y
- W5zoF0/KP5bQr5fM6v9hKmMcyaWcLbL7hKluAGQVaHPoSHMqTLLJiTRs0glseJaOwWQp
- C/xxyexz92Zyw78vvdc0zYXaU+UwSg53oUOM9VEWbIKJJRIMHrtVSaIW0ZW2lvyjBB2g Pg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qxpt71tmk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Jun 2023 19:32:17 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 351JWGVx031968
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Jun 2023 19:32:16 GMT
-Received: from [10.110.26.45] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 1 Jun 2023
- 12:32:14 -0700
-Message-ID: <702c4fb2-6342-5285-a032-fe3051ea4163@quicinc.com>
-Date: Thu, 1 Jun 2023 12:32:12 -0700
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C25910E5B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jun 2023 19:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685648023; x=1717184023;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kcZJ3+qNx8leUOO/Kenv3qu0LykWwuGfFkR6Pl0R91o=;
+ b=dNAPRB3FHeU0XqOEd02yiJAcnbfIEUSBkqF+U25/PaHYi/ZIpiwrbzWu
+ IygaM0GJSCTq/LCis5dVl8NtCTqzwwGZzSx05C79UhDnq1sAKKsx45xqo
+ dT7fpv83RqbroRg99iVIj9AJ3QnaBdHyAgeFnP8KYJVKeFeh3my9STW6W
+ Oodn+O8WZI8SnRekCy3171iwjMfTc2/FjEVDeiA5bBNBg76jTyhnnVGa0
+ T2Zx+wGpHfnIlAVRU7KQUO3UcfMaXj0l4n4537Jfq8BZqC15k4cbthQiZ
+ OkExUXo/aysf78CG8WxSaz5t23As6OjjdDAMA9YfnHR60u04yyoWQ0cDV Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353158106"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="353158106"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2023 12:33:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819954904"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="819954904"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 12:33:39 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q4o3H-0002do-0N;
+ Thu, 01 Jun 2023 19:33:39 +0000
+Date: Fri, 2 Jun 2023 03:32:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] drm/panel: simple: add support for Rocktech
+ RK043FN48H panel
+Message-ID: <202306020343.jNTWeM0P-lkp@intel.com>
+References: <20230601170320.2845218-6-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 1/7] drm/msm/dpu: merge dpu_encoder_init() and
- dpu_encoder_setup()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230601172236.564445-1-dmitry.baryshkov@linaro.org>
- <20230601172236.564445-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230601172236.564445-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 4JPFL_7okesvCDRkoyBp5eo7NypwZp1a
-X-Proofpoint-GUID: 4JPFL_7okesvCDRkoyBp5eo7NypwZp1a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-01_08,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 malwarescore=0
- mlxlogscore=700 priorityscore=1501 phishscore=0 mlxscore=0 clxscore=1015
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306010169
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601170320.2845218-6-dario.binacchi@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,21 +61,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ michael@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next-fixes]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.4-rc4 next-20230601]
+[cannot apply to atorgue-stm32/stm32-next drm-misc/drm-misc-next drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/ARM-dts-stm32-add-ltdc-support-on-stm32f746-MCU/20230602-010536
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20230601170320.2845218-6-dario.binacchi%40amarulasolutions.com
+patch subject: [PATCH 5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306020343.jNTWeM0P-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5a692e898df9428078855c58f8e945def084613b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dario-Binacchi/ARM-dts-stm32-add-ltdc-support-on-stm32f746-MCU/20230602-010536
+        git checkout 5a692e898df9428078855c58f8e945def084613b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306020343.jNTWeM0P-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/panel/panel-simple.c:3201:68: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+    3201 |         .flags = DISPLAY_FLAGS_VSYNC_LOW + DISPLAY_FLAGS_HSYNC_LOW |
+         |                                                                    ^
 
 
-On 6/1/2023 10:22 AM, Dmitry Baryshkov wrote:
-> There is no reason to split the dpu_encoder interface into separate
-> _init() and _setup() phases. Merge them into a single function.
-> 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+vim +3201 drivers/gpu/drm/panel/panel-simple.c
 
+  3190	
+  3191	static const struct display_timing rocktech_rk043fn48h_timing = {
+  3192		.pixelclock = { 6000000, 9000000, 12000000 },
+  3193		.hactive = { 480, 480, 480 },
+  3194		.hback_porch = { 8, 43, 43 },
+  3195		.hfront_porch = { 2, 8, 8 },
+  3196		.hsync_len = { 1, 1, 1 },
+  3197		.vactive = { 272, 272, 272 },
+  3198		.vback_porch = { 2, 12, 12 },
+  3199		.vfront_porch = { 1, 4, 4 },
+  3200		.vsync_len = { 1, 10, 10 },
+> 3201		.flags = DISPLAY_FLAGS_VSYNC_LOW + DISPLAY_FLAGS_HSYNC_LOW |
+  3202			 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
+  3203	};
+  3204	
 
-Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
