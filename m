@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6E671F5C3
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 00:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0E071F5E1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 00:19:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2E310E5F3;
-	Thu,  1 Jun 2023 22:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9289A10E5F1;
+	Thu,  1 Jun 2023 22:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 602B410E5F3
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jun 2023 22:13:00 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id
- af79cd13be357-75b17b80834so144648885a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jun 2023 15:13:00 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6149910E5F1
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jun 2023 22:19:05 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4f60a27c4a2so1429637e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jun 2023 15:19:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1685657580; x=1688249580;
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=AlZi4KmiBrPVFJNo4izQQCe2u5mrPKGwlakyYQTgqFo=;
- b=W8AFnqInuzu18ie8h0MDE/cqzcS7KpRoC5ImLu8bpR1J2MqxL5uZw5Ipm7UDTHki70
- kU9Nk+TfR05da4Md875A5rW+rUm1YfkqvxHKCV5pNsrMHqPbNZ/viTuetexPwOQV0ncM
- 2BoSRSyzxDi16tncUyRv+GdAbGxHQxollS+I0=
+ d=linaro.org; s=google; t=1685657943; x=1688249943;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tzXpUnDvZMIGNay0Hjx0EQuMfpTuFoMlesIC5F6AUvE=;
+ b=kkhGZhP5XYy2HzmNIbLeUTEFhbvL2oQoZdvdAI05ZtUBwV3q5x/VU0GV1R3T9qZODl
+ Dm+cctRk1I2y2IwihBvGoQDFXqC2kMkKIPU2uxpiZ4KBHZaXech2/+rpMV8wCwfo/8kU
+ mhbWvU54ao/wpEDJoIztIre3a2004KfIjMYKCWyDxXzOhSV7mfvmGDu7D1/V2kBiNAwq
+ yuK+R850oz/AG2rENm8K36Wg2Oozrly5S+LqBCwTzdLVmr20hEdqF3qyrDSGLfie8Y0A
+ jYem+IJBXXhiaucCcB6zFtJvmYfv303ldkko5SgNfy96NbcGNvgAVaL7/D3E75w88cZe
+ 3A/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685657580; x=1688249580;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
+ d=1e100.net; s=20221208; t=1685657943; x=1688249943;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AlZi4KmiBrPVFJNo4izQQCe2u5mrPKGwlakyYQTgqFo=;
- b=dcZKI6xHUUPL6NYDspnToMCUJdl9cXExSDA/MRKQTG+Yu8Bq6UEZnKcyIdfj3Q9FOt
- cEVv5AKGBDVvn2sCAUClxqDLpGfO44Hqw9TvEhLzL2vvpsqkehnYZQ9u+oW8imgbdgCQ
- EkXJQEOQcGxHdOuYmEw3WB5v19uvKXJeEYuaPHVUGVw2WgCKgU2bQQkkxc13Ag/l7yfh
- RdzdO0SFiZt4tpCtquB+AePoDAiJG1wGF3f4ithRBATA5lpIoUx+XEL8OL+Pv2lHBmgZ
- A47FvVYgvY8odj74x/h3OBgCnqQnMTMq+go72GYbXCHHT5W8QqB84B0WWBDI4UVjSVK8
- sxOg==
-X-Gm-Message-State: AC+VfDwBhZXnVr3GLGn+1e0bW17GoVg+qf7BGTA3gIyZQu8clO2zSqTI
- aQAtcWZ0SALLTFkTOA1PNSHcsA==
-X-Google-Smtp-Source: ACHHUZ5niOrYzCIDjF4lF2lg8/PzpPcRVLKnQabV6DmZV/cYAh4x1/K/Kv43MYGGuGTZqsBqE4FAZA==
-X-Received: by 2002:a05:620a:cc3:b0:75b:23a1:442 with SMTP id
- b3-20020a05620a0cc300b0075b23a10442mr9307655qkj.8.1685657579902; 
- Thu, 01 Jun 2023 15:12:59 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
+ bh=tzXpUnDvZMIGNay0Hjx0EQuMfpTuFoMlesIC5F6AUvE=;
+ b=im896OBi0QSSgQVaW+0Ekk51Z0dClIu0TtGx0IetyhQsWmjg5m4uJm2WsT6qElszye
+ M14BnzrXXlrQXmlCVr+nJ1V9lNABYYkXjXIH/B6dISI2KL8PpH+xS7BAU4yxW2I/Nqwc
+ ss6IF2gAA+96OfM/X1wsTjRs/r5TTngGF0VYvjPvAQgxjFy0EmkHW5SMYUkI4ZC70j9d
+ 8/AIL6aqTwuyLpjQkVuzV5l5eQCsy6NS48Xl8Qktf5jISr1K7k/bapUs+dS3jfcm5RhS
+ YvoIOBvpj9pAlugkLS3XwnP3aT6INu8xU9+5Z73lu2lrOgabE035yrqC3bn9BiW26o08
+ yZoQ==
+X-Gm-Message-State: AC+VfDy3tJx+bq+yYxUY3txZugIg9gEi0zMAX6z6ctGl0bFmqf8zWzht
+ i26SEWooYkzIvQIgkUlDctxNIA==
+X-Google-Smtp-Source: ACHHUZ4bdEmvTLb553Q5+iyY77wpuuXKmGQSlgIhZOEtsTYnzLDj9i2MCBGiPRL4H9ECBwrf05q6wA==
+X-Received: by 2002:ac2:5a06:0:b0:4f4:b28f:6b9c with SMTP id
+ q6-20020ac25a06000000b004f4b28f6b9cmr783852lfn.29.1685657943086; 
+ Thu, 01 Jun 2023 15:19:03 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a05620a068500b00759554bbe48sm7180430qkh.4.2023.06.01.15.12.57
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Jun 2023 15:12:59 -0700 (PDT)
-From: Justin Chen <justin.chen@broadcom.com>
-To: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH net-next v6 6/6] MAINTAINERS: ASP 2.0 Ethernet driver
- maintainers
-Date: Thu,  1 Jun 2023 15:12:31 -0700
-Message-Id: <1685657551-38291-7-git-send-email-justin.chen@broadcom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
-References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000048e99f05fd18bdfa"
+ r2-20020a056512102200b004f25c1e2cf5sm1210004lfr.173.2023.06.01.15.19.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Jun 2023 15:19:02 -0700 (PDT)
+Message-ID: <4011108d-1c1a-c648-244f-5414e9465d80@linaro.org>
+Date: Fri, 2 Jun 2023 01:19:01 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/2] drm/msm/dpu: retrieve DSI DSC struct at
+ atomic_check()
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
+ agross@kernel.org, andersson@kernel.org
+References: <1685657331-23280-1-git-send-email-quic_khsieh@quicinc.com>
+ <1685657331-23280-2-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1685657331-23280-2-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,131 +82,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, conor+dt@kernel.org, opendmb@gmail.com,
- Justin Chen <justin.chen@broadcom.com>, florian.fainelli@broadcom.com,
- christian.koenig@amd.com, simon.horman@corigine.com, richardcochran@gmail.com,
- linux@armlinux.org.uk, sumit.semwal@linaro.org, edumazet@google.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
- pabeni@redhat.com, davem@davemloft.net, hkallweit1@gmail.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000048e99f05fd18bdfa
+On 02/06/2023 01:08, Kuogee Hsieh wrote:
+> At current implementation, DSI DSC struct is populated at display setup
+> during system bootup. This mechanism works fine with embedded display.
+> But will run into problem with plugin/unplug oriented external display,
+> such as DP, due to DSC struct will become stale once external display
+> unplugged. New DSC struct has to be re populated to reflect newer external
+> display which just plugged in. Move retrieving of DSI DSC struct to
+> atomic_check() so that same mechanism will work for both embedded display
+> and external plugin/unplug oriented display.
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 16 +++++++++++++---
+>   1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 3b416e1..5c440a0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -604,7 +604,7 @@ static int dpu_encoder_virt_atomic_check(
+>   	struct drm_display_mode *adj_mode;
+>   	struct msm_display_topology topology;
+>   	struct dpu_global_state *global_state;
+> -	int i = 0;
+> +	int index, i = 0;
+>   	int ret = 0;
+>   
+>   	if (!drm_enc || !crtc_state || !conn_state) {
+> @@ -639,6 +639,10 @@ static int dpu_encoder_virt_atomic_check(
+>   		}
+>   	}
+>   
+> +	index = dpu_enc->disp_info.h_tile_instance[0];
+> +        if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI)
+> +		dpu_enc->dsc = msm_dsi_get_dsc_config(priv->dsi[index]);
 
-Add maintainers entry for ASP 2.0 Ethernet driver.
+As discussed previously, one should not write to non-state objects from 
+atomic_check. This chunk does.
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Signed-off-by: Justin Chen <justin.chen@broadcom.com>
----
-v3
-	- Change from gmail to broadcom emails
+Not to mention that this will start exploding once you try adding DP 
+next to it.
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Please abstain from posting next revisions until the discussions on the 
+previous one are more or less finished. For now this is NAK.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c25172d6471a..986b975b1d67 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4198,6 +4198,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justin.chen@broadcom.com>
-+M:	Florian Fainelli <florian.fainelli@broadcom.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
+Not to mention that this patch doesn't pass checkpatch.pl.
+
+> +
+>   	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
+>   
+>   	/*
+> @@ -1034,7 +1038,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+>   	int num_lm, num_ctl, num_pp, num_dsc;
+>   	unsigned int dsc_mask = 0;
+> -	int i;
+> +	int index, i;
+>   
+>   	if (!drm_enc) {
+>   		DPU_ERROR("invalid encoder\n");
+> @@ -1055,6 +1059,10 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   
+>   	trace_dpu_enc_mode_set(DRMID(drm_enc));
+>   
+> +	index = dpu_enc->disp_info.h_tile_instance[0];
+> +        if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI)
+> +		dpu_enc->dsc = msm_dsi_get_dsc_config(priv->dsi[index]);
+
+Doesn't this seem 100% same as the previous chunk? Doesn't it plead to 
+be extracted to a helper function?
+
+> +
+>   	/* Query resource that have been reserved in atomic check step. */
+>   	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
+>   		drm_enc->base.id, DPU_HW_BLK_PINGPONG, hw_pp,
+> @@ -2121,8 +2129,10 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
+>   					phys_enc->hw_pp->merge_3d->idx);
+>   	}
+>   
+> -	if (dpu_enc->dsc)
+> +	if (dpu_enc->dsc) {
+>   		dpu_encoder_unprep_dsc(dpu_enc);
+> +		dpu_enc->dsc = NULL;
+> +	}
+>   
+>   	intf_cfg.stream_sel = 0; /* Don't care value for video mode */
+>   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+
 -- 
-2.7.4
+With best wishes
+Dmitry
 
-
---00000000000048e99f05fd18bdfa
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
-4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
-DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
-dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
-xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
-sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
-VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIDVcNbjChrfS4tNhAIJjvSew5OOi0N6m56uM
-yBx5M51OMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDYwMTIy
-MTMwMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQAF1BQ02lH0rYRXpKGNtKbz2LaqA/e81Wn3veY/jaVf+fXN9d2kT/Ad
-Scg8kCN047EU51+4oQyUQwrlqsmws0RoKyVKZ6axRFs2QNgmRQKeH43yBhuwAbJza147T386v754
-/rANpfeKTiYyxzPM45lFN3zRr0K/Vih78Yv74QpNW/SIZ008cFAZX6mISqq01Z32n1x1oarGG6/Q
-BI3Lksmb7Y0sISjuEWZcq0BeUglSh1P26ikL3PYT8gwzoaGWv64+ji+/KvpeVR3aLR8sZkjRZ6bR
-HHW0E633MllJVJMsjtvGVoyh6QYhDkb29DMVcoI5mD8aPKnVb4bcgQvkARpa
---00000000000048e99f05fd18bdfa--
