@@ -1,75 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05FE71EF85
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 18:49:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 193F571F00B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 19:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A437B10E580;
-	Thu,  1 Jun 2023 16:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE0110E594;
+	Thu,  1 Jun 2023 17:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADBDC10E57A;
- Thu,  1 Jun 2023 16:49:43 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 351CepqF019920; Thu, 1 Jun 2023 16:49:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=F3P7CnWt3JspS21qsK55wiKbb/5tikkox3+0vGUuWco=;
- b=VWd8mrvBDt61NJ8zmbZu5/gazoGrRUoY9y12I6pGfpPkpofQXsqfIPS7PllnQSBneC/Z
- NEjmRbKeIuR0YG7Mtw0uP47u9z8z92aG1caoDYrNpQ25npFUSlTVpPzKiOtp7rSfc+Ju
- vdUgKiXkcQzxjj/pd6Eh98pBgbDgFNDHaOUYPF0Re6nm1VmslroZmt6VCd2dEgAfraDj
- 7IEM2q4jseAhbGHBqADe7xJQrg/sTN/pt77FZ6Gi1QakQkYcWIovxBH7+LEYNx7rXbV3
- DKO+tnLB17l5SBu5wESw55yoL92mwqI+Nt2ieKkqUj6KMxw0WuXXZ1bpQ8et0I9UvDhH HQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qxugr8pv5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Jun 2023 16:49:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 351GnWt9010176
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Jun 2023 16:49:32 GMT
-Received: from [10.110.26.45] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 1 Jun 2023
- 09:49:26 -0700
-Message-ID: <1e145484-2fe1-d5c6-6eb2-6be0b0fee27e@quicinc.com>
-Date: Thu, 1 Jun 2023 09:49:22 -0700
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B4310E589;
+ Thu,  1 Jun 2023 17:00:51 +0000 (UTC)
+Received: from [192.168.122.1] (84-115-214-73.cable.dynamic.surfer.at
+ [84.115.214.73])
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id AB9D7CFC14;
+ Thu,  1 Jun 2023 17:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1685638819; bh=E9mUjQDo8UyBbkmWjAQSJdUKojwYy/hcV0Ek0774vo8=;
+ h=From:Subject:Date:To:Cc;
+ b=js7W3ejGpmo/uNG1c+7ZzZVZbgWdWL4uFUp9SOFdlinQDZ8UrSa7sxJGkAUS94th2
+ vu82c2MspfTUymLeFadExvzSkH4CQ6ZKvh6kLdVZTMJLVbZF3ucNrkWE6m5ypmtkVT
+ U5VjiOymzPzgSMUQrHSQzW1uTZ6ri9iYo6y3TU40=
+From: Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH v3 0/7] Display support for MSM8226
+Date: Thu, 01 Jun 2023 19:00:07 +0200
+Message-Id: <20230308-msm8226-mdp-v3-0-b6284145d67a@z3ntu.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/msm/dpu: clean up dpu_kms_get_clk_rate() returns
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Rob Clark <robdclark@gmail.com>
-References: <28644c5e-950e-41cd-8389-67f37b067bdc@kili.mountain>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <28644c5e-950e-41cd-8389-67f37b067bdc@kili.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: g7kCdrVEBawogiPFf_5jC5lnfht0fYEV
-X-Proofpoint-ORIG-GUID: g7kCdrVEBawogiPFf_5jC5lnfht0fYEV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-01_08,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 mlxscore=0 clxscore=1011 impostorscore=0 adultscore=0
- malwarescore=0 phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306010146
+X-B4-Tracking: v=1; b=H4sIAJfOeGQC/32Oyw6CMBBFf4V0bUmZSimu/A/jgtJBuihgiw2P8
+ O8WFsaFcXkm99w7K/HoDHpySVbiMBhv+i4CPyWkbqvugdToyAQYcMaZpNZbCSCo1QMVZ56h1KK
+ AipFoqMojVa7q6nZ3nnVvP3mRQjrvocFhY6Zj8naP3Bo/9m4+PgjZfv09FjLKqCjKhvNcc52r6
+ 8K78ZVO80L2ngB/XIguMparQpSIIL/dbdveivtSuwcBAAA=
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2110; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=E9mUjQDo8UyBbkmWjAQSJdUKojwYy/hcV0Ek0774vo8=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBkeM6Zxutcw3C8PPM2W0MlOxwMLfEqVfzbxhHqm
+ W7xap/SoRiJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZHjOmQAKCRBy2EO4nU3X
+ VthWEACX3g9quntLQ1EbVMqXp5IC9GIbgA27GePnz645CnqflV4RI9q1nJjWUecniJAOBjM5MAM
+ xaM5ZBI0G9tqAoepgqPtiinLcBZBLpv0kdhOGlUmabgc9mhAVIPeoggNz/6KYqlZmjYNxN9OXgm
+ zhxgXFAOL8z0P8B9nkk+WTvbmxY6oHfLW5R1RNSqoVJ1Pn4WRcrfgih11e929+MdburA1WzRO6N
+ 2czha8byQiO0dCB/AFEk6UXHr0TkJczNCeuzLqLLSKolgqpVELASn70X5/9OFTFwuk4zVQ/oInd
+ Uuu/VNs3jkA58XBw/rEZqPc15w7rCzkOKfc26mFMil24agAQOKAV6AH/6sSwCeaec5kptUyYbv/
+ kZH48cl3Msl3mnYIVnqjK8w3Wl18LwLN4pPCUZh5oQxWcnZIF9wNWNOuQQuH53m5RM3VBA6Ubho
+ XAkr7ZZHhnwyT3Y3rs4OKgOqFXP5C7e6m0OwRiVka7hzYxjblCdHTgIsLNKIlec4o0s9Jq7IHKh
+ 8O0TfadwYSTtUzErlcOk8F49wuDFn9u1Pb+BmAy9ZShiyQ9mI3ZQqgm6JVZMo+cJ0XBbsWThmNV
+ 7RZxR/BRrtsFp2soLuSSou/Mb0X3uaXB7/hkmeGnhW9TgtD4wt2AEEARYKABLA+cE4jxTMXQwxm
+ y1pu1GSScDwgbOw==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,57 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Shixin <liushixin2@huawei.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Konrad
- Dybcio <konrad.dybcio@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Conor Dooley <conor.dooley@microchip.com>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds the required configs for MDP5 and DSI blocks that are
+needed for MDSS on MSM8226. Finally we can add the new nodes into the
+dts.
 
+Tested on apq8026-lg-lenok and msm8926-htc-memul.
 
-On 5/26/2023 4:51 AM, Dan Carpenter wrote:
-> Static analysis tools complain about the -EINVAL error code being
-> stored in an unsigned variable.  Let's change this to match
-> the clk_get_rate() function which is type unsigned long and returns
-> zero on error.
-> 
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> v2: In v1 I change the type to int which was wrong.  This is a different
->      approach.  CC the freedreno list this time too.
-> 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 ++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 0e7a68714e9e..25e6a15eaf9f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -979,13 +979,13 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
->   	return 0;
->   }
->   
-> -u64 dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name)
-> +unsigned long dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name)
->   {
->   	struct clk *clk;
->   
->   	clk = msm_clk_bulk_get_clock(dpu_kms->clocks, dpu_kms->num_clocks, clock_name);
->   	if (!clk)
-> -		return -EINVAL;
-> +		return 0;
->   
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+Changes in v3:
+- Adjust mdss labels to new style (Stephan)
+- Link to v2: https://lore.kernel.org/r/20230308-msm8226-mdp-v2-0-e005b769ee28@z3ntu.xyz
 
-Currently, the only caller of this API is 
-dpu_encoder_phys_cmd_tearcheck_config which seems to handle <=0 so this 
-change should be fine. Hence
+Changes in v2:
+- In dsi-phy-28nm.yaml fix the order of the compatibles 1/7 (Conor)
+- Remove leftover debugging comments from 6/7 (Konrad)
+- Rewrap some clock-names lines and move status property last in 7/7
+  (Konrad)
+- Pick up tags
+- Link to v1: https://lore.kernel.org/r/20230308-msm8226-mdp-v1-0-679f335d3d5b@z3ntu.xyz
 
+---
+Luca Weiss (7):
+      dt-bindings: msm: dsi-phy-28nm: Document msm8226 compatible
+      dt-bindings: display/msm: dsi-controller-main: Add msm8226 compatible
+      dt-bindings: display/msm: qcom,mdp5: Add msm8226 compatible
+      drm/msm/mdp5: Add MDP5 configuration for MSM8226
+      drm/msm/dsi: Add configuration for MSM8226
+      drm/msm/dsi: Add phy configuration for MSM8226
+      ARM: dts: qcom: msm8226: Add mdss nodes
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+ .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
+ .../bindings/display/msm/dsi-phy-28nm.yaml         |   3 +-
+ .../devicetree/bindings/display/msm/qcom,mdp5.yaml |   1 +
+ .../devicetree/bindings/display/msm/qcom,mdss.yaml |   1 +
+ arch/arm/boot/dts/qcom-msm8226.dtsi                | 127 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |  82 +++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   3 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c         |  97 ++++++++++++++++
+ 11 files changed, 319 insertions(+), 2 deletions(-)
+---
+base-commit: 1b3183710d69a48baf728cc1bee9f1fb3cfeb507
+change-id: 20230308-msm8226-mdp-6431e8d672a0
+
+Best regards,
+-- 
+Luca Weiss <luca@z3ntu.xyz>
+
