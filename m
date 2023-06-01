@@ -1,120 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD5271A021
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 16:34:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3216C71A0D5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 16:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C5C10E551;
-	Thu,  1 Jun 2023 14:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C06A410E56C;
+	Thu,  1 Jun 2023 14:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2060d.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eab::60d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF9E410E15B;
- Thu,  1 Jun 2023 14:34:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gczYBgu6/WI9dnxLQZ3HGl8HWFuWzctqTpiwPDHFf1bNdh9xVwIqfd72TP342FAULiExpAKysfojBiBW+jjBwscgm4a4PIWka5LjF1mCLGSFPbRTvGLn4Z1ao+1CRJPIHv7cZPx6uTad3Qe6SYNKLU3KvtbPUfSprWOjwRWBtg5zbXMIw9MtaIjMCwMnVmhbNmIJ27m5XrpYHwpzE5rzHzTTmjay2jXCeQm6ZnG+EzbZC1BEtJfRrFW8CnLMBHOQkSNQ84ugzHuupgegCBwzvcPndDBBryQnnmtL0p518lJWkLDRF4CzbP+kaOrwAOxhQW7I8lPAxrAcQAxyS/iajw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4byVYc3piYLFHOMuNXRNYjzoaRWwqK9pc5O9hghsaL4=;
- b=YmSGivTu4EpnKvOLurGNCoYV1fOEtzUfpAqcI2PSXQDHIXaULYTGg1+7TgBzQAwTZVxX3kBl0HDMFsdcUn3IT+GjLIVKDDhmYzWzkcF4e950l+FY/V9N2AYy+o68n/NBBJGDv6oH37JmkcBclQsCQLoR8ZSiPWND8VBMQvZ6fQcQ7+uQt5gZQhOyD7zLd2MR8CBq5TuSduybRuCaZ/MWCevWsgTBIWe6Mg0qR/SYvGfkUC41srdAqnT5CPQnfxHWeMxNJaPAfvcOiWxZy5v7dBXfjHn0LWfCcrh7Z9ImhLbYZffgyJcq++tWKuZHPNFlBah1vSNfNJR3UnpudvghEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4byVYc3piYLFHOMuNXRNYjzoaRWwqK9pc5O9hghsaL4=;
- b=lb280PJHdhJHrn8lTQXk7sMLilNdJG8NetzeBx+mlyDF+1lGndlgV0VMEVQ4QMVQgqi+MoRFFyzS583YL+cDDUXhu275/MGqb1wRh8un8up91nEeMwb6IR02aDUlVIunT8EWAJo9DFowkk4VxGg+ZNpdYMjtZIctF2Wizr+Ahbk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH7PR12MB6636.namprd12.prod.outlook.com (2603:10b6:510:212::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Thu, 1 Jun
- 2023 14:34:05 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::907f:26e2:673a:2ad2]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::907f:26e2:673a:2ad2%6]) with mapi id 15.20.6455.020; Thu, 1 Jun 2023
- 14:34:05 +0000
-Message-ID: <81371d0d-5093-5aa8-f757-2f11f24366eb@amd.com>
-Date: Thu, 1 Jun 2023 16:34:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/radeon: fix race condition UAF in
- radeon_gem_set_domain_ioctl
-Content-Language: en-US
-To: Min Li <lm0963hack@gmail.com>, alexander.deucher@amd.com
-References: <20230526123753.16160-1-lm0963hack@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230526123753.16160-1-lm0963hack@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0085.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1f::22) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ECD210E56C
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jun 2023 14:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685630931; x=1717166931;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2FTXpZZUjF4O+XNBC7fuiImWeTKkrfWGkyKkf1TaJnM=;
+ b=L/X5WJRmLFxkwCkMkXsDJy/3Ve7ZvRs6RJV8KrWquAAT6AC8UYrsLNJg
+ wM8C/vDQI/mq4NPAuD267ld8LpFigy7wzwo/ygao7k2YBfyyB3UhC4HjQ
+ xnGQ/92E5G9m91AWW7DVte9ud+xNvfbUjwxtWcT/ddrYnlOlhEJCMmp/m
+ 7txaUJjPQ4qjPPimTMsUhcmWZENgd8CMGnte3ZhLazTz2Xu5Wdo5cTnL0
+ 6N9M6wG/8tBPRNkBZwxtvfaa3Y02uGEecQ5Pmmthn4e9aEfPcXXH45XCJ
+ qIibl6qs6OZiJYgVhNG4wVU47OmD2ydfzaABV2nbuSZjp/X+xGv7Do7SJ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421382763"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="421382763"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jun 2023 07:38:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819828394"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; d="scan'208";a="819828394"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 07:38:23 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q4jRW-0002NW-14;
+ Thu, 01 Jun 2023 14:38:22 +0000
+Date: Thu, 1 Jun 2023 22:37:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lu Hongfei <luhongfei@vivo.com>, Artur Weber <aweber.kernel@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
+Message-ID: <202306012249.Sm2dlQLk-lkp@intel.com>
+References: <20230531110717.36896-1-luhongfei@vivo.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6636:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c832bb5-0494-4052-4d62-08db62ad406f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EalTvypGyVlpEctFuv7RZ7Ttfoj8GaUbLeF0QF45NX60DtoPQ8A0dqUmkQGlzp5QE6FF/BJYMqF9gZ2rAwJzICbBIuQEk2nfNASHpNPKesbseN8MTzZjOvHd6RC+c/RNUnZHvu3MzjlnVtX68wJ+JezbZeEQhkMWojJlnMrdUYGeykZK2CfLGaVUhpUMRAquHKl90dZ8inpWcnNxHtklaYKtOdwgX+5dfrr2aWBgHbD5UauPl23PWF8xYjVaPne+oSLZkXUi9NnIuKDCkwKBRfp7uomQu/Fi9ITvnTgN9Bc8zQrc9KyM4looNLjuphirrv2jHChp/RI6968PhZ4rJmLa9ga/q/kg0g5S8PHZIUYyJvYCY/0g6C0wR6eppm7OGuq1+27iy+nXW+VuYtkLcnGr9LwXonTQ7w+ylozXagJEPpXgIfUIp9v9N0AppZiNSzzjo7ITlADmP6hy0u+mcd3IhAQSFO3JJcKTP3eWjZ+vGL4RQesMnd0wUeEdMKNyWbivDbXFkATZcsgUAAgRS4tA9Wimhlz6Blu0D3QxLV86/l6GIwoIbbSbvPZqRtPUDJpRST0SOcL16HaeTtDe6/WJLGPqBU5mSw8DUsIwSy2AyiKM/zX+71yutsXWWjLR/Q2wm6suxwsps7pnHrT+Ag==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(39860400002)(396003)(376002)(346002)(136003)(451199021)(6666004)(86362001)(2616005)(316002)(2906002)(6486002)(36756003)(5660300002)(186003)(31696002)(41300700001)(83380400001)(8936002)(8676002)(38100700002)(478600001)(31686004)(6506007)(6512007)(4326008)(6636002)(66476007)(66946007)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTdCdjkrTXhxMHh2bVU2NFFwZlREYU9wdFlJYklJbTZ0TEZxb29LUFVwajBD?=
- =?utf-8?B?REZBZmxWWDRETzBNOCtEVWUrVnZBVTBzWTV4Sm0yaTdZN2F6ZFVUNEU2T3Nr?=
- =?utf-8?B?N3R3Y0I3OHRHZWQrcmpFbmZMSjUwcmtJU0Z1bS9tbjg2eGJoaXM5MmRpZ2lw?=
- =?utf-8?B?UVRXb3JyU2ZMS2xsZFpMWmdDNWRmMUZzRzdpUlRoeFhIcGx3dmR6WWFIaG9Q?=
- =?utf-8?B?NlJnYllOVEZlTHhDWGdJQmVIYk9UNHZKMTR3T0FZMVYrcklNcXorS0RQam1t?=
- =?utf-8?B?dHk5SDdaWWRyY0FTZjUrNm1lQVpLUGtSeGVGMEx0UjRvbGVQV284ZGJIeS9j?=
- =?utf-8?B?dmNlRytzbEVpOHVmVVhrMEJ1d3NlTjMxYnIzSk51R1M5WjBqT3UzWHVJMkUx?=
- =?utf-8?B?MUdabnM5eFFsZ1daZ3JrUHNnRFRBRm9aUXB4cG9DRzY3dG03eExYV0VOTFRq?=
- =?utf-8?B?VUNXV292Y25JS1R3c0tBc09VZ2Z4VWJTUzUwZ0tpZ1JpRjVZeFBDeDBwTXRy?=
- =?utf-8?B?Y0liV1ZnOVZzWDBVcVNyQnlKeEZEZ2RzV2VZTWc1K0I1ampSa3ZXNVZZMEhp?=
- =?utf-8?B?N1gxbFZTZWM1cWxkVDJkYlJ1MkU4UXVKNTJYVHNndWtFeStrM2ZHOFFERy9G?=
- =?utf-8?B?UVVnRi9vRm1GVlpiNEhnOUpybGRYYWZPMnR6TFY3RXAveGg4Nm1wWmo1TzZE?=
- =?utf-8?B?NFNjdW4vMisyS2ppQlVHRlBSRzFEdG1GZ0lxME53MU4zMWphNU9sVHJXbjhD?=
- =?utf-8?B?MS9SNlY1YmRQM2hSVnExQnNBMHNRc2NRdDF2c21NeldiRDk2TURUZk1UamdX?=
- =?utf-8?B?N3Byb0lTT0V4WFBtaTcwS3lYaUZmaEFLem84NlAvbUdNQ1VJdlROaUtuOXoy?=
- =?utf-8?B?d2I0WG1iWmlKWENJeWloK2ZZcnhDUXpzeTJycGd5SGFGeWNlMVhqYUJqa0Iw?=
- =?utf-8?B?Q3VtZXpIaW9aSmZEdi93N3lQYXpWODFidmZ6VkdCRlhyVHNDZStiYk1ZWHA2?=
- =?utf-8?B?d2F0akZFRjJCS3FNS05QSWN5NG15M3l4cFRXOVlCUUVXWnRmajlDa3BMZGVh?=
- =?utf-8?B?R2s4ek1ZczM2U1Vsa21UczEwM1NJcTlnVmNlYzdCVnB3VG0zeXZrNTRsTGt2?=
- =?utf-8?B?eWxVNUhUaFBHdlZpb1MxdEl4dGxSWjZOejlIZFA4eDJ3UUROOEVhU05JSHUy?=
- =?utf-8?B?SURYSGEyWEFMOW1HYnBxSTFWS3ZHL05hVnREcjRyL1N0ai9oSEQ2M0lLOGJj?=
- =?utf-8?B?d0h4ZzMvQ3Y2SGVyY0NaeUdaTHJCNjBOaHMrTlAzSi9jK2NuS3lIditmeWpq?=
- =?utf-8?B?VGpNT01naHc3dFJPOVE4a1c4Mk5hTlptV2J6VVlYZnVTektna1Yva3BKYmtH?=
- =?utf-8?B?WU1QUnU0VWhaT0FyU2F1RjJucWs1amNiQ256eFJpRzFwLzF1dktKaEczdmhG?=
- =?utf-8?B?WDFFS29DV005SWs3dDYzWnE3b3BmeERqejl5UktjR0d5SGxVY25FYzN2UlVC?=
- =?utf-8?B?azQzeDRNVDhqMjFiKzRRa1hKMDJxZWxIOVB3VWZrb0dhQlNFdkhVd1dmbDZK?=
- =?utf-8?B?VStKTDd5SEc4cWEvdGg5bURSVHpCa0N2bmlFZHBMbDNSN05OUCtNMFU4cVBP?=
- =?utf-8?B?cG9CcDJ0dmR3Zk9DeDB6ZE5qUTlKTWh3Nm83cFExV3NDRUsvanl2R2hYSHcz?=
- =?utf-8?B?cjI2RE4wWi9xWXNIaGxORCt0bVdPckJ2VmZYVHh1YWR2Y3YyWDB3NzQrcjEy?=
- =?utf-8?B?TE1QcWZTc2ZMM3BWT2JUbi9nR0J5T1ZxeDFWdUF2NmtyeTkyQTNFQWVlUkMx?=
- =?utf-8?B?MEI1NHdSZ2Fuc0V6elhOdm9BSXNCMVM1dkFqd0M5ZjN6T09QOUtPaFNObllM?=
- =?utf-8?B?RXJPY1l0NDh4ODhvcnlCSm9sSitUb3lEb2dlN3hFYndhVUlONzZna1NuTHNj?=
- =?utf-8?B?U3FzNlVUclhXRXdzc1pMeTlMWExtM0ZackRad2NkUGp2Mm9ROTNSalROeVk0?=
- =?utf-8?B?S0FiZHZ5cnZscnlROTVFWVgrUWN6dUVFbVpiSUFwZFVwN1NqT1ZhMGdxUzhJ?=
- =?utf-8?B?Mld6ZjQybUJuWlRQOHVOSkVZdEU4Y0hCeDI3NnVpV1JFODZMNUZIdHFrMW5B?=
- =?utf-8?B?YUpPZkJLZ2puQVRDa3lrU1U4SDBra2tnMk1Zdi9DTUhWenpFRE9lSDJEY2I4?=
- =?utf-8?Q?AEzFvh6dTpSz0zAJPJ6QiDk8aBB5vgSXU04GTkDJKVAV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c832bb5-0494-4052-4d62-08db62ad406f
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 14:34:05.5681 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Cb2IuamGLVNljb7NxHuy4GKGZicOhjrZMNtbMXmBxAvpf0sIBaTtTKhN+J8XXS+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6636
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230531110717.36896-1-luhongfei@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,43 +64,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: opensource.kernel@vivo.com, luhongfei@vivo.com,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.05.23 um 14:37 schrieb Min Li:
-> Userspace can race to free the gobj(robj converted from), robj should not
-> be accessed again after drm_gem_object_put, otherwith it will result in
-> use-after-free.
->
-> Signed-off-by: Min Li <lm0963hack@gmail.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> index bdc5af23f005..450c7cbdd28a 100644
-> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> @@ -478,7 +478,7 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
->   
->   	drm_gem_object_put(gobj);
->   	up_read(&rdev->exclusive_lock);
-> -	r = radeon_gem_handle_lockup(robj->rdev, r);
-> +	r = radeon_gem_handle_lockup(rdev, r);
+Hi Lu,
 
-This also makes the robj unused which the kernel test robot also 
-complained about.
+kernel test robot noticed the following build errors:
 
-Please remove that local variable and re-submit.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20230601]
+[cannot apply to linus/master v6.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Apart from that the patch looks good to me,
-Christian.
+url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230531110717.36896-1-luhongfei%40vivo.com
+patch subject: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306012249.Sm2dlQLk-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
+        git checkout e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/drm/panel/
 
->   	return r;
->   }
->   
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012249.Sm2dlQLk-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:17:
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c: In function 's6d7aa0_lock':
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:72:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      72 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:75:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      75 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:79:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      79 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:84:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      84 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:87:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      87 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:91:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      91 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:68:33: warning: unused variable 'dsi' [-Wunused-variable]
+      68 |         struct mipi_dsi_device *dsi = ctx->dsi;
+         |                                 ^~~
+
+
+vim +/do +326 include/drm/drm_mipi_dsi.h
+
+3d9a8fcf1c6a90 Thierry Reding           2014-08-05  268  
+960dd616f61c84 Thierry Reding           2014-07-21  269  ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+960dd616f61c84 Thierry Reding           2014-07-21  270  				  const void *data, size_t len);
+960dd616f61c84 Thierry Reding           2014-07-21  271  ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+960dd616f61c84 Thierry Reding           2014-07-21  272  			   const void *data, size_t len);
+3c523d7d38a17b Thierry Reding           2014-07-21  273  ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
+3c523d7d38a17b Thierry Reding           2014-07-21  274  			  size_t len);
+083d573fd013c9 Thierry Reding           2014-08-05  275  int mipi_dsi_dcs_nop(struct mipi_dsi_device *dsi);
+2f16b89737e24b Thierry Reding           2014-08-05  276  int mipi_dsi_dcs_soft_reset(struct mipi_dsi_device *dsi);
+3d9a8fcf1c6a90 Thierry Reding           2014-08-05  277  int mipi_dsi_dcs_get_power_mode(struct mipi_dsi_device *dsi, u8 *mode);
+5cc0af16fc08cf Thierry Reding           2014-08-05  278  int mipi_dsi_dcs_get_pixel_format(struct mipi_dsi_device *dsi, u8 *format);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  279  int mipi_dsi_dcs_enter_sleep_mode(struct mipi_dsi_device *dsi);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  280  int mipi_dsi_dcs_exit_sleep_mode(struct mipi_dsi_device *dsi);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  281  int mipi_dsi_dcs_set_display_off(struct mipi_dsi_device *dsi);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  282  int mipi_dsi_dcs_set_display_on(struct mipi_dsi_device *dsi);
+3b46d4a0def157 Thierry Reding           2014-08-05  283  int mipi_dsi_dcs_set_column_address(struct mipi_dsi_device *dsi, u16 start,
+3b46d4a0def157 Thierry Reding           2014-08-05  284  				    u16 end);
+3b46d4a0def157 Thierry Reding           2014-08-05  285  int mipi_dsi_dcs_set_page_address(struct mipi_dsi_device *dsi, u16 start,
+3b46d4a0def157 Thierry Reding           2014-08-05  286  				  u16 end);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  287  int mipi_dsi_dcs_set_tear_off(struct mipi_dsi_device *dsi);
+42fe1e755d08b8 YoungJun Cho             2014-08-05  288  int mipi_dsi_dcs_set_tear_on(struct mipi_dsi_device *dsi,
+42fe1e755d08b8 YoungJun Cho             2014-08-05  289  			     enum mipi_dsi_dcs_tear_mode mode);
+5cc0af16fc08cf Thierry Reding           2014-08-05  290  int mipi_dsi_dcs_set_pixel_format(struct mipi_dsi_device *dsi, u8 format);
+bbdcf516a6187d Thierry Reding           2016-08-24  291  int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline);
+1a9d759331b832 Vinay Simha BN           2016-07-31  292  int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
+1a9d759331b832 Vinay Simha BN           2016-07-31  293  					u16 brightness);
+1a9d759331b832 Vinay Simha BN           2016-07-31  294  int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
+1a9d759331b832 Vinay Simha BN           2016-07-31  295  					u16 *brightness);
+c9d27c6be518b4 Daniel Mentz             2023-01-16  296  int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
+c9d27c6be518b4 Daniel Mentz             2023-01-16  297  					     u16 brightness);
+c9d27c6be518b4 Daniel Mentz             2023-01-16  298  int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+c9d27c6be518b4 Daniel Mentz             2023-01-16  299  					     u16 *brightness);
+068a0023396983 Andrzej Hajda            2013-12-04  300  
+a9015ce593204f Javier Martinez Canillas 2023-01-02  301  /**
+a9015ce593204f Javier Martinez Canillas 2023-01-02  302   * mipi_dsi_generic_write_seq - transmit data using a generic write packet
+a9015ce593204f Javier Martinez Canillas 2023-01-02  303   * @dsi: DSI peripheral device
+a9015ce593204f Javier Martinez Canillas 2023-01-02  304   * @seq: buffer containing the payload
+a9015ce593204f Javier Martinez Canillas 2023-01-02  305   */
+a9015ce593204f Javier Martinez Canillas 2023-01-02  306  #define mipi_dsi_generic_write_seq(dsi, seq...)                                \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  307  	do {                                                                   \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  308  		static const u8 d[] = { seq };                                 \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  309  		struct device *dev = &dsi->dev;                                \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  310  		int ret;                                                       \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  311  		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));           \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  312  		if (ret < 0) {                                                 \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  313  			dev_err_ratelimited(dev, "transmit data failed: %d\n", \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  314  					    ret);                              \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  315  			return ret;                                            \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  316  		}                                                              \
+a9015ce593204f Javier Martinez Canillas 2023-01-02  317  	} while (0)
+a9015ce593204f Javier Martinez Canillas 2023-01-02  318  
+2a9e9daf75231c Joel Selvaraj            2022-06-01  319  /**
+2a9e9daf75231c Joel Selvaraj            2022-06-01  320   * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
+2a9e9daf75231c Joel Selvaraj            2022-06-01  321   * @dsi: DSI peripheral device
+2a9e9daf75231c Joel Selvaraj            2022-06-01  322   * @cmd: Command
+2a9e9daf75231c Joel Selvaraj            2022-06-01  323   * @seq: buffer containing data to be transmitted
+2a9e9daf75231c Joel Selvaraj            2022-06-01  324   */
+51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  325  #define mipi_dsi_dcs_write_seq(dsi, cmd, seq...)                           \
+51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02 @326  	do {                                                               \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  327  		static const u8 d[] = { cmd, seq };                        \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  328  		struct device *dev = &dsi->dev;                            \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  329  		int ret;                                                   \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  330  		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));    \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  331  		if (ret < 0) {                                             \
+51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  332  			dev_err_ratelimited(                               \
+51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  333  				dev, "sending command %#02x failed: %d\n", \
+51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  334  				cmd, ret);                                 \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  335  			return ret;                                        \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  336  		}                                                          \
+2a9e9daf75231c Joel Selvaraj            2022-06-01  337  	} while (0)
+2a9e9daf75231c Joel Selvaraj            2022-06-01  338  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
