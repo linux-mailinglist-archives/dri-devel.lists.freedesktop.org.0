@@ -1,43 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B44271F4D3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 23:36:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFC171F503
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 23:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D104C10E5D7;
-	Thu,  1 Jun 2023 21:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AD910E5DA;
+	Thu,  1 Jun 2023 21:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1511710E5D6;
- Thu,  1 Jun 2023 21:36:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D8CA564983;
- Thu,  1 Jun 2023 21:36:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DE6C433EF;
- Thu,  1 Jun 2023 21:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685655391;
- bh=yOSVSaBHwx99uPQB7KLl4DIUi1SqOYChg3IttbqyV3s=;
- h=From:To:Cc:Subject:Date:From;
- b=Sljypvo10RdZDzMPSueWmMp22OytLYWcXo1+/y3i1x/uVunStdLlpLopvGA7c069d
- Fmf7lV8XkrHq9uO+wrtziKrSGRV+zmTmecN6elCyO1Li4eFR/mZj3Z1G7+nPBefPKT
- ZX1rd5xEYM0HffHF3CZiepUxJcV815NfhdF27u6VFZNEoF29vc2+vg4dssw+BjEcc5
- NiAV4B7ebvhRN3DtoXx8zd0fSVdUf0PlAx7aSm1SL2FMtETCBBMe9PdqYSy/2Tt+H3
- rDBZft6N4Z8a1w3LeOMTRofsdAJyKzmsPFeroG7mj6RNBENHvRXIAGhEXYOk9Camak
- 9ydAGaZ2jSZtg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH] drm/i915/pxp: use correct format string for size_t
-Date: Thu,  1 Jun 2023 23:36:10 +0200
-Message-Id: <20230601213624.3510244-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE8189FA7;
+ Thu,  1 Jun 2023 21:48:27 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id
+ d2e1a72fcca58-64f48625615so61747b3a.0; 
+ Thu, 01 Jun 2023 14:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685656106; x=1688248106;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EE0EfDU+u9u4+ui1uHS92kS3GcLRsqU5zsR2pwsCo3A=;
+ b=WEaxs8UwIO7EwC/BTfzutEb2uSeNq0jr0HNk4pRSoK779Y/EvUB2N3h6JqWrrbfcR4
+ J9VdrgcVD9S0BAnpqkqVUthUpOsBQkjSfFfs1+pn6R4EMC2cUkE72AmC/O+uWoJedjv+
+ ZAg3guMXwcyzco3vBuVFty98F/aL2Nmhf0yS5VIVgKC/YDhiKBP3MtfUsMTpbVo0jMok
+ D3mX56z2yK3YXOfzY/aw7E1wHDD7y7fsQbhqDyqu4RfupdIf9ewV6trSc0rbUxT4FAod
+ bpCxu4BQzGSsDpWpkpRsinnx6JJOcZvftKEJei1re13T0/yDNIO/w1zknCFST0JTCkLk
+ PJNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685656106; x=1688248106;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EE0EfDU+u9u4+ui1uHS92kS3GcLRsqU5zsR2pwsCo3A=;
+ b=fNNVa4QO4OZjoy08Ctq4WPCK4FJ+gzDcsUkIedED/JEXjSOAsqn33aSJ95luFmImav
+ 9raOXcAkIwWn2GSl85YNT0Nl6Z2yU08LDaoqbqb0d+9mOpIcb6lh8iiO2S3kjOIRmVF3
+ S/ozlL/cmBhWnp4A9JP4WaokdK//249ks6jW5z5aYWLSpX7lhmzTDig+sZzj8U6OypYc
+ k56BQPDCdfnbG/yko+C7n5zk5pBIWG3QBzqq++ZLKAnvCbZUbhKgT9BdbkNfMOlOwRfX
+ kzV+TdidgJoKqZjzUQRtpBSrfNDclsHRqFUqeIWhMDMHlWhzjJxr2FrgM+JQKdMJIZ6S
+ mbyQ==
+X-Gm-Message-State: AC+VfDwc2mJzUwj90jXsr5HSrKlS9SZyDdnIv3r1UGFQRs31u5dpwXSR
+ /ci7zGZANI4YuUFJ8kAC3/iP1kY8a0zsNQ==
+X-Google-Smtp-Source: ACHHUZ5xoaMF2HMTwWkn/jqMaSKTXJVeou8EUHzdO27JS9u25qqVrUjzfjUHLz1MWt6p/Gvfs7pCQw==
+X-Received: by 2002:a05:6a00:99d:b0:652:a91c:558e with SMTP id
+ u29-20020a056a00099d00b00652a91c558emr783245pfg.1.1685656105839; 
+ Thu, 01 Jun 2023 14:48:25 -0700 (PDT)
+Received: from olv-ct-22.c.googlers.com.com
+ (217.108.125.34.bc.googleusercontent.com. [34.125.108.217])
+ by smtp.gmail.com with ESMTPSA id
+ j15-20020aa783cf000000b0064d2ad04cccsm5614994pfn.175.2023.06.01.14.48.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Jun 2023 14:48:25 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: fix xclk freq on CHIP_STONEY
+Date: Thu,  1 Jun 2023 14:48:08 -0700
+Message-ID: <20230601214814.2329224-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,43 +71,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-While 'unsigned long' needs the %ld format string, size_t needs the %z
-modifier:
-
-drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c: In function 'gsccs_send_message':
-include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-  456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-
-Fixes: dc9ac125d81fa ("drm/i915/pxp: Add GSC-CS backend to send GSC fw messages")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+According to Alex, most APUs from that time seem to have the same issue
+(vbios says 48Mhz, actual is 100Mhz).  I only have a CHIP_STONEY so I
+limit the fixup to CHIP_STONEY
 ---
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/vi.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-index 8dc41de3f6f74..290ed5ac487de 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-@@ -143,7 +143,7 @@ gsccs_send_message(struct intel_pxp *pxp,
+diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu/vi.c
+index 770f2d7a371fc..6a8494f98d3ef 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vi.c
++++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+@@ -542,8 +542,15 @@ static u32 vi_get_xclk(struct amdgpu_device *adev)
+ 	u32 reference_clock = adev->clock.spll.reference_freq;
+ 	u32 tmp;
  
- 	reply_size = header->message_size - sizeof(*header);
- 	if (reply_size > msg_out_size_max) {
--		drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%ld)\n",
-+		drm_warn(&i915->drm, "caller with insufficient PXP reply size %u (%zd)\n",
- 			 reply_size, msg_out_size_max);
- 		reply_size = msg_out_size_max;
- 	}
+-	if (adev->flags & AMD_IS_APU)
+-		return reference_clock;
++	if (adev->flags & AMD_IS_APU) {
++		switch (adev->asic_type) {
++		case CHIP_STONEY:
++			/* vbios says 48Mhz, but the actual freq is 100Mhz */
++			return 10000;
++		default:
++			return reference_clock;
++		}
++	}
+ 
+ 	tmp = RREG32_SMC(ixCG_CLKPIN_CNTL_2);
+ 	if (REG_GET_FIELD(tmp, CG_CLKPIN_CNTL_2, MUX_TCLK_TO_XCLK))
 -- 
-2.39.2
+2.41.0.rc0.172.g3f132b7071-goog
 
