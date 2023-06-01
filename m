@@ -1,64 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A581719165
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 05:36:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C681E71916A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jun 2023 05:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0580E10E206;
-	Thu,  1 Jun 2023 03:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B791310E20E;
+	Thu,  1 Jun 2023 03:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDD7F10E206
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jun 2023 03:35:53 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id
- d75a77b69052e-3f8177f9a7bso2555221cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 31 May 2023 20:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1685590552; x=1688182552;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DN6ry/gK3iJ7PWJWFzkXSYSFH546XSZSeAmA0LgbWHM=;
- b=y9fYjChhBLUijbEcblNc8OVgWMTijYp6GRIVOGLwwPXF1XGBlS84CdyL4uj2/KQSom
- YgNiTpGzt1HJ/T7VTIruS+XVaL7u9AJh1X2N3mq17Q9gALpIN2SPmUJAVLRXy14Gn40x
- BQUlYSDF09cBb5jKH5G/Ylt09L3Uq5PCP7aApCPwFvo14B2gRQOgJLQLTPUj/MSutokR
- Y7x2NZznSw4eBrXRTHOoTeum/H75PLbkmA1etsDe64fY1BWNEhctq3AM/kqryUmHNZaC
- iZWwH/klirgOQrnbj81l/ANyMUyAZDpBS6XllBZWLikcqVhvC5foYk6pn+H+SqJXMo0r
- 8Fxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685590552; x=1688182552;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DN6ry/gK3iJ7PWJWFzkXSYSFH546XSZSeAmA0LgbWHM=;
- b=iS7Gu21JVl0AyxmO4+DkBe1fZq3NL0vPytny3sbkqQcQBucdAqWi7/H251F89rgE3P
- txBm6rllT43vrNtL+LuLf7JpsK+okH5kGrxMbdqcF1WUs+zAA1W0UDZ8zURPURgGcRSH
- xyAeh/H2LWdfpLOPUytcXhj2r7FjBoFVst68K8e1LTCggqU9jDJV1Kqqki9aP8x2UkVR
- 2j57z04BskbttN7f6wIkwVOUAExS3t+JorwE6Y+h5X6XJc5mgu5dw7vZdmjbJ9kaQTFR
- MYWyK7t3BWPRaB+oF5qREUdA9EcJIFvR8APXFQB38vYrD9H+tG7triMVpkuzWmTqyQ3y
- QgtA==
-X-Gm-Message-State: AC+VfDy11HT1SeyPhrdUsbF/3HJFEIrvqwje3IzpaHpIwzsd4WvKlTPd
- 3Z4VGyNHWmeLBkMtFCI2+9uHE2e6vX6dsg0Q3M/nYw==
-X-Google-Smtp-Source: ACHHUZ5aXf59VtQZGxwWjxlhWSpGvaBgFkSeMQuGNzzyU6fzPZOyWE+Wwjr5fyakfdsYasnbqL0+ym8Y0e+OBZjjr1o=
-X-Received: by 2002:ac8:5fc5:0:b0:3e4:d1c0:36a9 with SMTP id
- k5-20020ac85fc5000000b003e4d1c036a9mr9772628qta.48.1685590552621; Wed, 31 May
- 2023 20:35:52 -0700 (PDT)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D146510E20D;
+ Thu,  1 Jun 2023 03:39:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q+Ari1q/iQIJVNmOFG7oFv1oOt3+DEh/W+3+CkYI5a+ikN8cOn+PNQeb3WEGkkihfy4+Ofy3YxMReTHD4r7T+zCnWbNLFcod3s1lx1POyFkWxciun+TANSPvi0iBAOn+mea9Ct92DICmvSZEmRiMM/gA9JG2Z+Y7afZtSBZzuhIPOvhxHpdBGUUgu1TtSt3kNLifofDqbKIv9PzB4szhVRC4gRS4rI2w8yh3kR7i9/rqGxrTSVQlwj4BPDqQEEki30OJ9UIiO8XuGmLm4+E9Ck6ITeJp6PoWoJ4h8X6avIrjDzQVGEQze1dsbJuf6siO454F08ss1qa/bLWYc8EYJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+mMzHr5hzAS3OU9lwYvsa+LNI7kMtcTre3uUaCzpnS4=;
+ b=K0xxW5y/ioFdTd1qdJ1++45Gy24IrUu4nuDtRpcYWGopZg8jpUGn4t+dtBDWUd1ioI+B6S+NqR9N2NgLUKzDnfUyQH0QpebpTtutRoKs0Jgg/WuTQJb8ZIalTVufn0Hi7CNXXiW22mWVgI/LwiEoCCadQ20yaEBOmzk2RZ761P/qV7/jBVirw8YhcSpQSjP0NdU+L0NSd1IEPvatrHzIK53B+BvVoSNnInfM07j5QpcNh6dKUw8Qnu0rdupabVE7HDzXzRwD6eJBGY1jZSR6WMql6QS1d8oOHBoBESvGXVPTC7GCPnXToJ7UMbarTN0N2FXoaehfNl4nqOOsen9Xeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+mMzHr5hzAS3OU9lwYvsa+LNI7kMtcTre3uUaCzpnS4=;
+ b=VjYj4gEosM34FaAMXIP5HyXaXMGBcDx7FRaSQpMv6ZSG6QJBtKxdBT7esoMEkUzZ5jkgVNKkAuG0tap4gi0RmqdxCH2awe60ZzplyY9Mh1JWDyp1M4AeV2dyyUseI/yTQm0NM3jd6UEUs24iBE2KTtfRlYKV7acGeQgQfrZyJ9o=
+Received: from MW4PR03CA0111.namprd03.prod.outlook.com (2603:10b6:303:b7::26)
+ by BL1PR12MB5732.namprd12.prod.outlook.com (2603:10b6:208:387::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Thu, 1 Jun
+ 2023 03:39:05 +0000
+Received: from CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b7:cafe::28) by MW4PR03CA0111.outlook.office365.com
+ (2603:10b6:303:b7::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23 via Frontend
+ Transport; Thu, 1 Jun 2023 03:39:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT055.mail.protection.outlook.com (10.13.175.129) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6455.23 via Frontend Transport; Thu, 1 Jun 2023 03:39:04 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 31 May
+ 2023 22:39:02 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.4
+Date: Wed, 31 May 2023 23:38:46 -0400
+Message-ID: <20230601033846.7628-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <1adda828-cf35-fb2c-6db5-f9ca91b5b62a@linaro.org>
- <20230525093151.2338370-1-yangcong5@huaqin.corp-partner.google.com>
- <20230525093151.2338370-2-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230525093151.2338370-2-yangcong5@huaqin.corp-partner.google.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Thu, 1 Jun 2023 11:35:41 +0800
-Message-ID: <CAHwB_N+zh0HBt+2ejs8DSiXf_FSjZS_bLsJoxZ61QZeSr3e6SA@mail.gmail.com>
-Subject: Re: [v4 1/4] dt-bindings: display: panel: Add compatible for Starry
- himax83102-j02
-To: dianders@google.com, daniel@ffwll.ch, neil.armstrong@linaro.org, 
- sam@ravnborg.org, airlied@gmail.com, robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, hsinyi@google.com, conor+dt@kernel.org
-Content-Type: multipart/alternative; boundary="000000000000204b8205fd09221b"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT055:EE_|BL1PR12MB5732:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc27f848-475b-457b-6b11-08db6251bf92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ibIEZPcH6jmFFd248eLJLdQ802PxDyIu+KeDFRM5uj24XBUT+zuWBVvAI6M8OZ+4+6j34W13sqH9gb+VFf1tBy3OwY0szAHEEdz8X61kq9gQYJOTx4rvVm0X87hoj9u4NRbUrDBCtY2xTNhPeExqBJ7VmI0KkgkRy6sx7kgYqJZkkfuJp229ZreweOgXIIfSBif5cY0SzxBs17NeJppoVCk3CqwBHYXSeQYxIfHdjFK161kg4/cxxq8ymmlopbQf3wn2SqqtghxqRWJmsZUVVak4f9zwwHcr4iIbR7qr7UpL6ccPYP063bMIpxjL1OwhRa1ookID0KyzA+MGwsPybCAEdqdoPoXl5xH3//eM3u2hN/xVAdAU+56QjTkiMuZnScr1o2GqRhIlLb0bK/PCSn4ueueqLZaAZs+Ru48hXP0ziO4LzP9Lxx1Qr/5c7JsHRugucuBSdQJTFB5IXRKIsoaoQT2TiQXtQTkweffBmJNA3L0tVuZV0Es2wfdpB9a53OpAKRA2pO/JcfLHgpvNq0OKmSdZixpZMSUs1+e/baU+JEqcIBQeRvuobVDw7Y1uA+PIanXLMfQEX7EZ801HCG84c9QFP/zEI5haPtN2FVVt8A8kNS/ARZgl6m3xaM00cqk77XI4Rub87ga6KzwExHPWHI9BJHk5mdTj1cdagNTagylBNFLGZcC1lytaqy1XLeYBYmHyeNl7/AvYdru8AVxrHyix1O8gb7rzO8lxhk0=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(376002)(396003)(39860400002)(136003)(451199021)(36840700001)(46966006)(40470700004)(26005)(1076003)(110136005)(478600001)(81166007)(356005)(8676002)(8936002)(82740400003)(70206006)(70586007)(4326008)(86362001)(2616005)(6666004)(40480700001)(316002)(36860700001)(5660300002)(82310400005)(186003)(66574015)(47076005)(7696005)(36756003)(41300700001)(16526019)(336012)(83380400001)(40460700003)(966005)(426003)(2906002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 03:39:04.7568 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc27f848-475b-457b-6b11-08db6251bf92
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT055.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5732
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +99,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000204b8205fd09221b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Dave, Daniel,
 
-Hi,Doug:
-  Can you help me merge the V4 seria patch.thanks.
+Fixes for 6.4.
 
-On Thu, May 25, 2023 at 5:32=E2=80=AFPM Cong Yang <
-yangcong5@huaqin.corp-partner.google.com> wrote:
+The following changes since commit 7877cb91f1081754a1487c144d85dc0d2e2e7fc4:
 
-> The STARRY himax83102-j02 is a 10.51" WUXGA TFT LCD panel,
-> which fits in nicely with the existing panel-boe-tv101wum-nl6
-> driver. Hence, we add a new compatible with panel specific config.
->
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git
-> a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> index aed55608ebf6..28a7beeb8f92 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.ya=
-ml
-> @@ -32,6 +32,8 @@ properties:
->        - innolux,hj110iz-01a
->          # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
->        - starry,2081101qfh032011-53g
-> +        # STARRY himax83102-j02 10.51" WUXGA TFT LCD panel
-> +      - starry,himax83102-j02
->
->    reg:
->      description: the virtual channel number of a DSI peripheral
-> --
-> 2.25.1
->
->
+  Linux 6.4-rc4 (2023-05-28 07:49:00 -0400)
 
---000000000000204b8205fd09221b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the Git repository at:
 
-<div dir=3D"ltr">Hi,Doug:=C2=A0<div>=C2=A0=C2=A0Can you help me merge the V=
-4 seria patch.thanks.</div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Thu, May 25, 2023 at 5:32=E2=80=AFPM Cong Yan=
-g &lt;<a href=3D"mailto:yangcong5@huaqin.corp-partner.google.com">yangcong5=
-@huaqin.corp-partner.google.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">The STARRY himax83102-j02 is a 10.51&quot;=
- WUXGA TFT LCD panel,<br>
-which fits in nicely with the existing panel-boe-tv101wum-nl6<br>
-driver. Hence, we add a new compatible with panel specific config.<br>
-<br>
-Signed-off-by: Cong Yang &lt;<a href=3D"mailto:yangcong5@huaqin.corp-partne=
-r.google.com" target=3D"_blank">yangcong5@huaqin.corp-partner.google.com</a=
->&gt;<br>
-Reviewed-by: Douglas Anderson &lt;<a href=3D"mailto:dianders@chromium.org" =
-target=3D"_blank">dianders@chromium.org</a>&gt;<br>
-Acked-by: Conor Dooley &lt;<a href=3D"mailto:conor.dooley@microchip.com" ta=
-rget=3D"_blank">conor.dooley@microchip.com</a>&gt;<br>
----<br>
-=C2=A0.../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml=C2=A0 =C2=
-=A0 =C2=A0| 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-n=
-l6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.=
-yaml<br>
-index aed55608ebf6..28a7beeb8f92 100644<br>
---- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml=
-<br>
-+++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml=
-<br>
-@@ -32,6 +32,8 @@ properties:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0- innolux,hj110iz-01a<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# STARRY 2081101QFH032011-53G 10.1&quot; =
-WUXGA TFT LCD panel<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0- starry,2081101qfh032011-53g<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # STARRY himax83102-j02 10.51&quot; WUXGA TFT =
-LCD panel<br>
-+=C2=A0 =C2=A0 =C2=A0 - starry,himax83102-j02<br>
-<br>
-=C2=A0 =C2=A0reg:<br>
-=C2=A0 =C2=A0 =C2=A0description: the virtual channel number of a DSI periph=
-eral<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div>
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2023-05-31
 
---000000000000204b8205fd09221b--
+for you to fetch changes up to 663b930e24842f3d3bb79418bb5cd8d01b40c559:
+
+  drm/amdgpu: enable tmz by default for GC 11.0.1 (2023-05-31 22:28:43 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.4-2023-05-31:
+
+amdgpu:
+- Fix mclk and fclk output ordering on some APUs
+- Fix display regression with 5K VRR
+- VCN, JPEG spurious interrupt warning fixes
+- Fix SI DPM on some ARM64 platforms
+- Fix missing TMZ enablement on GC 11.0.1
+
+----------------------------------------------------------------
+Guchun Chen (1):
+      drm/amd/pm: resolve reboot exception for si oland
+
+Horatio Zhang (6):
+      drm/amdgpu: separate ras irq from vcn instance irq for UVD_POISON
+      drm/amdgpu: add RAS POISON interrupt funcs for vcn_v2_6
+      drm/amdgpu: add RAS POISON interrupt funcs for vcn_v4_0
+      drm/amdgpu: separate ras irq from jpeg instance irq for UVD_POISON
+      drm/amdgpu: add RAS POISON interrupt funcs for jpeg_v2_6
+      drm/amdgpu: add RAS POISON interrupt funcs for jpeg_v4_0
+
+Ikshwaku Chauhan (1):
+      drm/amdgpu: enable tmz by default for GC 11.0.1
+
+Michel Dänzer (2):
+      Revert "drm/amd/display: Block optimize on consecutive FAMS enables"
+      Revert "drm/amd/display: Do not set drr on pipe commit"
+
+Tim Huang (5):
+      drm/amd/pm: reverse mclk and fclk clocks levels for SMU v13.0.4
+      drm/amd/pm: reverse mclk clocks levels for SMU v13.0.5
+      drm/amd/pm: reverse mclk and fclk clocks levels for yellow carp
+      drm/amd/pm: reverse mclk and fclk clocks levels for vangogh
+      drm/amd/pm: reverse mclk and fclk clocks levels for renoir
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           | 27 +++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.h           |  3 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            | 27 +++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |  3 ++
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c             | 28 +++++++++++++----
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             | 28 ++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              | 25 ++++++++++++---
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              | 36 ++++++++++++++++++----
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  9 ------
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 25 +--------------
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         | 29 -----------------
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   | 10 +++---
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |  5 +--
+ 17 files changed, 173 insertions(+), 100 deletions(-)
