@@ -2,40 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C161720800
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 18:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2573372084C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 19:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5712410E5CA;
-	Fri,  2 Jun 2023 16:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1507D10E209;
+	Fri,  2 Jun 2023 17:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D2D510E05B
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 16:57:35 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4QXq1V1ClHz9swf;
- Fri,  2 Jun 2023 16:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1685725054; bh=17f4rfetdYA04j6O3bcOCA0mE2+4bXoZwOGv+V7Uft8=;
- h=From:To:Cc:Subject:Date:From;
- b=TreDHPm77ncQya+iiM/iPa1fisZ8GmbbJL9xms/NfKTZ9A87pf35vZ+DeoQ/LgNHl
- KsvikSVwLxdHvUiH789Z3B5dn6oAzP1BuAc94YVfcC1BVhGmbE4hfoYwd8zx5hOlWY
- EANOVyCPbiCtGnELiXwoYr9qPj/f5Bk4X0cPNUTk=
-X-Riseup-User-ID: D126634DE546929216215C86575F5F5DA77990E76AC39A3AF7113F8042D72D42
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4QXq1N46RfzFpbL;
- Fri,  2 Jun 2023 16:57:28 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vkms: Add support to 1D gamma LUT
-Date: Fri,  2 Jun 2023 13:57:15 -0300
-Message-Id: <20230602165715.292382-1-arthurgrillo@riseup.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 220A010E209
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 17:22:06 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 352Fjp6X020574; Fri, 2 Jun 2023 17:21:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=CV/zv2rEx6HI1bxvAwZy7pg+66Syy5hdPrY4LUHd8WY=;
+ b=LoKJ0jB8rEZZywhEr9O+n/hjBsinX6Z3vr8N/tkk6AXYqZS/xKFlTvj9JntjUSMYROo6
+ 7m4Xrr/SHZrUnnSTfppwESX/+wu/QcXTktuzIrQyfMKuAM4YYlA1vQIQHeO1etRLJtCj
+ SKUBqgOBZ0YCPhcAx0oKf/Jkz6lgGKMJm1l/xbIKxOV+QmdKED9hmy3kRTPI97Usel9R
+ S4WuZBkg62KQz7BS6Nss7AxnH/zrcXQbgLNUgH2WuZArygO2SY4kYAe5SbFW0LUmtMjE
+ sUscWNLSXyGr08a1lc/Yj/XaLOJpMNIrQlz0cM5cg5z2BuDpsZCWXU3z386Mk+Yb63+u fA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qycwe95rm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Jun 2023 17:21:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 352HLsEF001287
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 2 Jun 2023 17:21:54 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 2 Jun 2023
+ 10:21:53 -0700
+Message-ID: <bbf3e219-eae4-0b50-d552-23b60d83d3f0@quicinc.com>
+Date: Fri, 2 Jun 2023 11:21:53 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/ivpu: ivpu_ipc needs GENERIC_ALLOCATOR
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20230526044519.13441-1-rdunlap@infradead.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230526044519.13441-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: gkOGvE_uJrjby2pbGcuIuov8leJcUUYg
+X-Proofpoint-GUID: gkOGvE_uJrjby2pbGcuIuov8leJcUUYg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-02_13,2023-06-02_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=857
+ lowpriorityscore=0 malwarescore=0 adultscore=0 mlxscore=0 bulkscore=0
+ clxscore=1011 spamscore=0 suspectscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2306020132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,136 +82,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, pekka.paalanen@collabora.com,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- victoria@system76.com, mwen@igalia.com, mairacanal@riseup.net,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ kernel test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support a 1D gamma LUT for each color channel on the VKMS driver. Add a
-check for the LUT length by creating vkms_atomic_check().
+On 5/25/2023 10:45 PM, Randy Dunlap wrote:
+> Drivers that use the gen_pool*() family of functions should
+> select GENERIC_ALLOCATOR to prevent build errors like these:
+> 
+> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_free':
+> include/linux/genalloc.h:172: undefined reference to `gen_pool_free_owner'
+> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_alloc_algo':
+> include/linux/genalloc.h:138: undefined reference to `gen_pool_alloc_algo_owner'
+> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_free':
+> include/linux/genalloc.h:172: undefined reference to `gen_pool_free_owner'
+> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `ivpu_ipc_init':
+> drivers/accel/ivpu/ivpu_ipc.c:441: undefined reference to `devm_gen_pool_create'
+> ld: drivers/accel/ivpu/ivpu_ipc.o: in function `gen_pool_add_virt':
+> include/linux/genalloc.h:104: undefined reference to `gen_pool_add_owner'
+> 
+> Fixes: 5d7422cfb498 ("accel/ivpu: Add IPC driver and JSM messages")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/all/202305221206.1TaugDKP-lkp@intel.com/
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+> Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Tested with:
-igt@kms_color@gamma
-igt@kms_color@legacy-gamma
-igt@kms_color@invalid-gamma-lut-sizes
-
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 28 ++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +++
- drivers/gpu/drm/vkms/vkms_drv.c      | 20 +++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 ++
- 4 files changed, 52 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdb..7ec9ebe28d5a 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -89,6 +89,32 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
- 		output_buffer->pixels[i] = *background_color;
- }
- 
-+static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
-+{
-+	struct drm_color_lut *lut;
-+	size_t lut_length;
-+
-+	if (!crtc_state->base.gamma_lut)
-+		return;
-+
-+	lut = (struct drm_color_lut *)crtc_state->base.gamma_lut->data;
-+
-+	lut_length = crtc_state->base.gamma_lut->length / sizeof(*lut);
-+
-+	if (!lut_length)
-+		return;
-+
-+	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
-+		size_t lut_r_index = output_buffer->pixels[x].r * (lut_length - 1) / 0xffff;
-+		size_t lut_g_index = output_buffer->pixels[x].g * (lut_length - 1) / 0xffff;
-+		size_t lut_b_index = output_buffer->pixels[x].b * (lut_length - 1) / 0xffff;
-+
-+		output_buffer->pixels[x].r = lut[lut_r_index].red;
-+		output_buffer->pixels[x].g = lut[lut_g_index].green;
-+		output_buffer->pixels[x].b = lut[lut_b_index].blue;
-+	}
-+}
-+
- /**
-  * @wb_frame_info: The writeback frame buffer metadata
-  * @crtc_state: The crtc state
-@@ -128,6 +154,8 @@ static void blend(struct vkms_writeback_job *wb,
- 					    output_buffer);
- 		}
- 
-+		apply_lut(crtc_state, output_buffer);
-+
- 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
- 
- 		if (wb)
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..61e500b8c9da 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
-+	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-+
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..dd0af086e7fa 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver = {
- 	.minor			= DRIVER_MINOR,
- };
- 
-+static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
-+			continue;
-+
-+		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
-+		    > VKMS_LUT_SIZE)
-+			return -EINVAL;
-+	}
-+
-+	return drm_atomic_helper_check(dev, state);
-+}
-+
- static const struct drm_mode_config_funcs vkms_mode_funcs = {
- 	.fb_create = drm_gem_fb_create,
--	.atomic_check = drm_atomic_helper_check,
-+	.atomic_check = vkms_atomic_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..a3b7025c1b9a 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -23,6 +23,8 @@
- 
- #define NUM_OVERLAY_PLANES 8
- 
-+#define VKMS_LUT_SIZE 256
-+
- struct vkms_frame_info {
- 	struct drm_framebuffer *fb;
- 	struct drm_rect src, dst;
--- 
-2.40.1
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
