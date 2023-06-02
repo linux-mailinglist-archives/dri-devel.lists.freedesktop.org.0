@@ -1,74 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C250E720ACA
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:05:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6939E720ACD
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A3A10E118;
-	Fri,  2 Jun 2023 21:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D0B10E12E;
+	Fri,  2 Jun 2023 21:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 985D110E646
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 21:05:03 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 352KXb37024509; Fri, 2 Jun 2023 21:05:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=rudHhuOEFo80iwVEJ5/Pzd3vaSKEsnfQGFbEXor5irM=;
- b=lT5Jvb1dPzua3uCa/gwU8QVQGzXidJ8KmYCMnMuuyeyViz+f+ZoFLTsy9Ett87R9OGsA
- /BesMPhfKv0+iqmiipcN313Uyc9oYU+3xQ030+UCRwvQqp53yB/d7k4OKZ823R/uB/pj
- Zy5x+68GO6gGHjjdye1L+4kTeb8GjVCFmCiODjM9rU8qrxsCD3EexhTXYuEqAhdtzMEM
- rFh7VJb/8dm+Hj/490zwLGOW+sb+XICGsU9gDRvz/QY5B8U0CfNzppGtC5DtEVpfbt99
- XOyxxYAe6a1iPFQnmrBpnLiTnmO5YWhyskoCTMSk3NIsN1IayvP4rfk+7RFgIO2N9iCV Sw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qy1bcjsn8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jun 2023 21:05:01 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 352L50he005299
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 2 Jun 2023 21:05:00 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 2 Jun 2023 14:04:59 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] accel/qaic: Fix NULL pointer deref in
- qaic_destroy_drm_device()
-Date: Fri, 2 Jun 2023 15:04:40 -0600
-Message-ID: <20230602210440.8411-3-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230602210440.8411-1-quic_jhugo@quicinc.com>
-References: <20230602210440.8411-1-quic_jhugo@quicinc.com>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 444C610E12E
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 21:05:41 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-ba8afcc82c0so2712205276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 14:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685739939; x=1688331939;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bGtOFR2mphGb3w/SKqqatTcmK2Pjhu9d+mT6IMF2bsA=;
+ b=O8cWtf9dK3IVBtCzRm56Bvob5Vhhmtc5jm/bwtrzzNg5NFGeACg0/roonLuhnaKj9w
+ l9zK+/K1wWpvLNvKbUMpYKoE5GSPi2MzMfZLq2V8rYqnQdDI79ckTFzhENhOotuajVBx
+ rZLnuOHFhJdTfuviF+xyrGeIZowEG6c591jS++W2CWKFRNVKmG8W4l6ucVyIz0hqICLn
+ 1SJduWUuUDVhlUWYgc8KpFRBJyi/pdoJtLxorMHFCbmjaHgvsxBC8jZMAsTfAOIcK9Ta
+ rxXWbKQojO6qVCNjmvwICCaFkBklLVyIxuyXU1of/N+71b5mF2YPzLb5Uln13dIpUknZ
+ feUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685739939; x=1688331939;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bGtOFR2mphGb3w/SKqqatTcmK2Pjhu9d+mT6IMF2bsA=;
+ b=XROMV+XjqOt2NNlKFSyY+8Yyds7TULKO1GtH0LLNeVVST0CUdECdSRxwGCFh3APy5k
+ T65UiR1UqTTsoB0UkLvJhE/ZvUq1opOO8Qu/T0EiPbrWnTScdBAds7sYMtANHEQUlPB2
+ UoaSygb/7vRLH60J2jdKzgy9y/9yauA4jma+9Qj2Jxrox/u1oTWj/FEviX9l08IwaDns
+ cidAsil5/S9Hd46gBiq0x2gFa+ELAsw0BZwDTCYbbvv7rHYw6EXrNzCqHOsgg8ZWUB+u
+ dMPoVV2I5lnpyu77PO2cYgQIzG6MgVSU6Nd2MgRGQ6qnY2VYz6fR3O4HjFmX0GWBRNUc
+ F0Mw==
+X-Gm-Message-State: AC+VfDzQwS43THwAFd9wCANZD159yCn+eoX0xm8+1xlyWgJ1jnkuhkr5
+ VqWX3D6pL4IlJZY6iS0tKhQEN3AZU8T0eQ2DQmVnEA==
+X-Google-Smtp-Source: ACHHUZ7Gn7c4DGB7V9sdrivTf8wBNtf7tCUcHwzPgc4kwSOC01IapgteGYaVZI1W8k3JxzfxAXKuXpFOGHc0YMbxFh8=
+X-Received: by 2002:a25:768a:0:b0:ba9:6b90:e551 with SMTP id
+ r132-20020a25768a000000b00ba96b90e551mr4566101ybc.50.1685739938909; Fri, 02
+ Jun 2023 14:05:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jO6v4cEQTPOyKJf9k_z6fjSnn-4RCVxz
-X-Proofpoint-GUID: jO6v4cEQTPOyKJf9k_z6fjSnn-4RCVxz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-02_16,2023-06-02_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2306020163
+References: <1685464318-25031-1-git-send-email-quic_khsieh@quicinc.com>
+ <1685464318-25031-3-git-send-email-quic_khsieh@quicinc.com>
+ <dfa12c8b-ccec-261c-9c83-54536e17c02d@linaro.org>
+ <157e8219-7af2-c7ed-6d99-3caa6fbc11ba@quicinc.com>
+ <CAA8EJponkEne2vVsNP=2Fxmv=Uc6i_LzAGBSEz9hPPotCEpGzg@mail.gmail.com>
+ <e69f02b7-eba9-5f33-5ca1-eb0638928414@quicinc.com>
+ <CAA8EJpr9dfrrEsFf8heOvG3BWRTVCY-q1QYNH_3OBeMAWEwotA@mail.gmail.com>
+ <d1a320c4-d851-ba75-ef7b-80dc369d1cfd@quicinc.com>
+ <CAA8EJpqzyYQAg+VXLzttan7zGWv4w+k6kgS2SbRo26hFZ_9Efg@mail.gmail.com>
+ <32aa41ee-4ab0-0915-a77f-5b0d6874b3e1@quicinc.com>
+In-Reply-To: <32aa41ee-4ab0-0915-a77f-5b0d6874b3e1@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 3 Jun 2023 00:05:27 +0300
+Message-ID: <CAA8EJpp0aWd2i4vkbURgDx+s99KNZYeEkd9RK0+fP+QfzDgZKg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v1 2/3] drm/msm/dpu: retrieve DSI DSC struct
+ at atomic_check()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,40 +76,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- ogabbay@kernel.org, linux-kernel@vger.kernel.org, quic_ajitpals@quicinc.com,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
- jacek.lawrynowicz@linux.intel.com
+Cc: Vinod Koul <vkoul@kernel.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If qaic_destroy_drm_device() is called before the device has fully
-initialized it will cause a NULL pointer dereference as the drm device
-has not yet been created. Fix this with a NULL check.
+Generic note: please use reply-to-all instead of any other options to
+answer the email. You have dropped all recipients (except the
+freedreno@) in the message
+<d1a320c4-d851-ba75-ef7b-80dc369d1cfd@quicinc.com> (and it was left
+unnoticed).
 
-Fixes: c501ca23a6a3 ("accel/qaic: Add uapi and core driver file")
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
----
- drivers/accel/qaic/qaic_drv.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 961cd341b414..b5ba550a0c04 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -225,6 +225,9 @@ static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
- 	struct qaic_user *usr;
- 
- 	qddev = qdev->qddev;
-+	qdev->qddev = NULL;
-+	if (!qddev)
-+		return;
- 
- 	/*
- 	 * Existing users get unresolvable errors till they close FDs.
+On Fri, 2 Jun 2023 at 20:00, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+> >> There is one option which is keep current
+> >>
+> >> 1) keep struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi
+> >> *msm_dsi) at dsi.c
+> >>
+> >> 2) use  struct msm_display_info *disp_info saved at dpu_enc to locate
+> >> struct msm_dsi from priv->dsi[] list (see item #3)
+> >>
+> >> 3)  info.dsc = msm_dsi_get_dsc_config(priv->dsi[info.h_tile_instance[0]]);
+> >>
+> >> 4) ballistically, keep original code but move  info.dsc =
+> >> msm_dsi_get_dsc_config(priv->dsi[i]); to other place sush as
+> >> atomic_check() and atomic_enable().
+> >>
+> > 5) leave drm_dsc_config handling as is, update the dsc config from the
+> > DP driver as suitable. If DSC is not supported, set
+> > dsc->dsc_version_major = 0 and dsc->dsc_version_minor = 0 on the DP
+> > side. In DPU driver verify that dsc->dsc_version_major/_minor != 0.
+>
+> I am confusing with item 5)
+>
+> Currently, msm_dsi_get_dsc_config() of dsi side return dsc pointer if
+> dsc enabled and NULL if dsc not enabled.
+>
+> Should checking dsc == NULL is good enough to differentiate between dsc
+> is supported and not supported?
+
+This is called a "shared memory area". Instead of either providing a
+dynamic data pointer, one can provide a pointer to the static area
+which is filled by DP or DSI. If there is no DSC available, one flags
+'data not valid' by setting major,minor to 0.
+
+>
+> Why need to set both dsc->dsc_version_major = 0 and
+> dsc->dsc_version_minor = 0 for dsc is not supported?
+
+6) Another option (which is more in style of what is done in the
+vendor kernel, if I'm not mistaken):
+
+Enhance struct drm_display_mode to contain a pointer to the DSC
+config. Use this pointer to check whether DSC should be enabled for
+the particular mode or not. The panels with the static DSC
+configuration can use a static data pointer.
+
+
 -- 
-2.40.1
-
+With best wishes
+Dmitry
