@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207E472003A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 13:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC42572004D
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 13:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA9010E661;
-	Fri,  2 Jun 2023 11:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7444210E663;
+	Fri,  2 Jun 2023 11:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BCE710E661
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 11:18:16 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-569386b7861so20513747b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 04:18:16 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEE810E663
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 11:23:41 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-568ba7abc11so20041817b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 04:23:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685704695; x=1688296695;
+ d=1e100.net; s=20221208; t=1685705020; x=1688297020;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=55TCnNM7kMHRew3G4Jl4TYRy0f4Haiew0/tikDTeZNg=;
- b=VcbvzyKxdYAbrmjnzdbuTpwfCqpfrF2vo824zm5A0zTQnqVotDaPYDuKh7UnyDJ7QV
- IMTwJBFgmqUPfj7EMzzA2vmsG3Qu18FfxEVvTlMdhFB0VJ43/pMv6I7NaSPNH6sjM7l6
- thouMxiHzdVskMjFUJerwg7JfwOny9iAD9i7NVZQCxbuDJIkg3gyhvRBwt0pdtU2XXou
- gnP9LU3dli/hN48xai6kRtPc9wRs9prr2qW7x1Ghfzxwo+OdTbrqOqZVcpzWhzBcM+SB
- PP7AV6iwZki2xXJWaCjhT9qNzlEqFKc1D+cDEgLlYrTMotgosLSI/DgdYean5RwnXEKV
- /P/w==
-X-Gm-Message-State: AC+VfDza2vl6phmntELWeu1OR7izB0ANQajT3OeelUgaNycGPDFpw/kb
- Sz/vcXnBsQNGc33PC5h+RkeA9InzoraVMSuW
-X-Google-Smtp-Source: ACHHUZ759qR9HT6miy9QA1MNtFK8UUyB/kU9niPQyrpVkTRTK3rLloZ/I72pWCtkWLl82V4vjKDLNg==
-X-Received: by 2002:a0d:cbc3:0:b0:565:232a:36a3 with SMTP id
- n186-20020a0dcbc3000000b00565232a36a3mr5905698ywd.17.1685704695235; 
- Fri, 02 Jun 2023 04:18:15 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
- [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
- s11-20020a81bf4b000000b00555df877a4csm352290ywk.102.2023.06.02.04.18.12
+ bh=xQJ/6UDujFLjt/u17sCfKwDJo4mclYFIu5oHUs16qZw=;
+ b=ju6K2e3gY8k4vL2DyO6q6NztkqQ8+IoMdGmEP+sFYb3N6Vz1xDVthtIiUq90PlrfGK
+ 3fB0FDS7KzO0jrt56qrro9Ojbng6XtxBXcfqMPzbLSyUwYiZJlStzLGFF+rqUeh4zBlA
+ gBKUb1nCYPRDxCjOtMdNEvdKos5zoaeKM4Ok6NJfhwlpWGgaFpSI19AYReZv/vmxwlZa
+ Yonr8pqGUjjunWdaTdWfXOEdTOfEWIuKqer7oYFFVUnYczXMgEN0Yq7gnojEgfI6KaXQ
+ 2na7VX4pI2M/sbvAOtOuWvRNOabMNQZ2EcxPmnsHYmajrMLAvr6OtOvnJmIt4qQgVulr
+ mqaw==
+X-Gm-Message-State: AC+VfDzofzgckSS83avd/t0A2mhPoK1BLo4r9RaxYvqgbnXXiEVX01CA
+ nbRKbxGwmNMyOtW2LeEU803/b/MPTJM5NJKx
+X-Google-Smtp-Source: ACHHUZ6t2/npiNsMdZxjMiSz9PyJfoyB9ZlaB66KWtWnPE+Zuwz2yRNyffTzqxxmoesaJXXbGTzGjQ==
+X-Received: by 2002:a0d:d594:0:b0:561:e321:c893 with SMTP id
+ x142-20020a0dd594000000b00561e321c893mr12575869ywd.24.1685705019703; 
+ Fri, 02 Jun 2023 04:23:39 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ y141-20020a0dd693000000b00562b8c7edf0sm380830ywd.51.2023.06.02.04.23.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jun 2023 04:18:13 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-561b7729a12so48671467b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 04:18:12 -0700 (PDT)
-X-Received: by 2002:a81:4f15:0:b0:561:94a9:f9f7 with SMTP id
- d21-20020a814f15000000b0056194a9f9f7mr5542636ywb.20.1685704692143; Fri, 02
- Jun 2023 04:18:12 -0700 (PDT)
+ Fri, 02 Jun 2023 04:23:39 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-bacf685150cso2106610276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 04:23:38 -0700 (PDT)
+X-Received: by 2002:a81:d250:0:b0:565:bf0d:e27a with SMTP id
+ m16-20020a81d250000000b00565bf0de27amr14382323ywl.15.1685705018386; Fri, 02
+ Jun 2023 04:23:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1685696114.git.geert+renesas@glider.be>
- <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
- <20230602110459.GC26944@pendragon.ideasonboard.com>
-In-Reply-To: <20230602110459.GC26944@pendragon.ideasonboard.com>
+ <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
+ <878rd2cfme.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <878rd2cfme.fsf@minerva.mail-host-address-is-not-set>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 2 Jun 2023 13:17:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
-Message-ID: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional helpers
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Fri, 2 Jun 2023 13:23:25 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUDUT6GbLvsrZjkZj+LKPD=-yYY2vnbP-K+i+yMAeHy7w@mail.gmail.com>
+Message-ID: <CAMuHMdUDUT6GbLvsrZjkZj+LKPD=-yYY2vnbP-K+i+yMAeHy7w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/todo: Add atomic modesetting references
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,7 +71,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, Jyri Sarha <jyri.sarha@iki.fi>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, linux-renesas-soc@vger.kernel.org,
@@ -79,51 +80,42 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Hi Javier,
 
-On Fri, Jun 2, 2023 at 1:05=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
-> > The transitional helpers were removed a long time ago, but some
-> > references stuck.  Remove them.
+On Fri, Jun 2, 2023 at 12:39=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Geert Uytterhoeven <geert+renesas@glider.be> writes:
+> > The section about converting existing KMS drivers to atomic modesetting
+> > mentions the existence of a conversion guide, but does not reference it=
+.
+> > While the guide is old and rusty, it still contains useful information,
+> > so add a link to it.  Also link to the LWN.net articles that give an
+> > overview about the atomic mode setting design.
+
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -49,14 +49,19 @@ converted over. Modern compositors like Wayland or =
+Surfaceflinger on Android
+> >  really want an atomic modeset interface, so this is all about the brig=
+ht
+> >  future.
 > >
-> > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/gpu/drm/drm_plane_helper.c
-> > +++ b/drivers/gpu/drm/drm_plane_helper.c
-> > @@ -51,14 +51,6 @@
-> >   * planes, and newly merged drivers must not rely upon these transitio=
-nal
-> >   * helpers.
-> >   *
+> > -There is a conversion guide for atomic and all you need is a GPU for a
+> > +There is a conversion guide for atomic[1] and all you need is a GPU fo=
+r a
+> >  non-converted driver (again virtual HW drivers for KVM are still all
+> > -suitable).
 >
-> The first paragraph starts with "This helper library has two parts.". As
-> you're dropping the mention of the second part, I think you should
-> rework the first paragraph too.
+> Are any of the virtual drivers not yet ported to atomic? This sentence
+> seems to be outdated and maybe you could remove it on a following patch?
 
-That was my initial thought, too.
-However, the code still has a second part, not related to the topic of
-the first part (primary plane support).
+Good question.  I'm not sure which driver(s) this refers to.
+drivers/gpu/drm/vkms/ was introduced much later, and always had
+DRIVER_ATOMIC. Perhaps just the boochs driver, which was converted?
 
->
-> > - * The second part also implements transitional helpers which allow dr=
-ivers to
-> > - * gradually switch to the atomic helper infrastructure for plane upda=
-tes. Once
-> > - * that switch is complete drivers shouldn't use these any longer, ins=
-tead using
-> > - * the proper legacy implementations for update and disable plane hook=
-s provided
-> > - * by the atomic helpers.
-> > - *
-> > - * Again drivers are strongly urged to switch to the new interfaces.
-> > - *
-> >   * The plane helpers share the function table structures with other he=
-lpers,
-> >   * specifically also the atomic helpers. See &struct drm_plane_helper_=
-funcs for
-> >   * the details.
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
