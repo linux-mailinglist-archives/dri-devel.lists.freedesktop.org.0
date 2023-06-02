@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6330A72090A
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 20:22:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8956B72090F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 20:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7723710E0ED;
-	Fri,  2 Jun 2023 18:21:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E3C10E5F7;
+	Fri,  2 Jun 2023 18:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984A210E0ED
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 18:21:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BE71564FE2;
- Fri,  2 Jun 2023 18:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A609C433D2;
- Fri,  2 Jun 2023 18:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685730115;
- bh=wZmST5GqZfwNaXvG5ams1yOqiopsMBnwXrGfs0DzrKk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HxHBZ0/iZ+gWdLqiKl6YbDXzHpA124IhNDjyA68Fln6QGStTGDWjKUkHIrFN9xTU7
- 95B8CQ+aTdp9EW0NAufAfu/J99ZNMwPbFr0ROwPlNVB7+jpFxMx4LoXtuy9pAQyjKp
- 8sFG56C83swAIV2LURY2SsrrpVNha0ZqJsDjMfybtxHfV32X2XqmjFOSjFBudnww0z
- AJ29/B2AeOuC4120GlF7y0cLJjI57ri2lUvIUm+mGMJOCxPSJ3vb+PEriH+04FpxU4
- sMVMnuhAk1pTDZNQ5psWuVJ1IGHN46Bcy7i+HMOhMbxJbBNqzcuqQWNs71k5HLKuqk
- ENBfjRGZl6hew==
-Date: Fri, 2 Jun 2023 19:21:47 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
- subsystem
-Message-ID: <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-2-keith.zhao@starfivetech.com>
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F4810E5F0;
+ Fri,  2 Jun 2023 18:23:12 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ 006d021491bc7-557f3159a34so1058341eaf.2; 
+ Fri, 02 Jun 2023 11:23:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685730190; x=1688322190;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wPPbGQG2A4DDUN/YGohD/TGb1d9QQtBg0RaPc36PrpY=;
+ b=AunarUqlKHvr+qASkx7HSnX5+ALP5AnzOCGrhpN5es4q/5pZ/tlGc1ZrAAHeQzU8+s
+ +iXgmXC2VcRkjLjiRCIRPPgTU073LvEu3vC2X/Dlrc09bzkOA5aWaBWURbERw8c4N67Q
+ v0eEg2f2ISKwtfwrG3emylwy1i+Bf7sClBCumE1rPKhWlKhxTUvDWXpobioBMn/uwcop
+ 4WIrcbA8kVCZ1Qz0Vmax+GvABOP/Au9xydNS9cYmCgUg4H3EPvPQ2+Ngx3/tWapGZWZq
+ 5yFOfr2pBik8CtRqq21aVtn3yW5JBcVcqTb4+MWbxu4YsCWvgDnueCIE3hKr+FievzvL
+ ZtRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685730190; x=1688322190;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wPPbGQG2A4DDUN/YGohD/TGb1d9QQtBg0RaPc36PrpY=;
+ b=YQqMYRMTVyc5XXXWyBhoeXaoO4bA306up8Ya7w0ADmUoyopZhE0zBsN+lYRHl/0YT2
+ 8/qlr/7IqAIGlx2RRDCsBuo/wg4lejR4ryiyEEPLrgH1s339XH/Roo0fJR4UlBCt5Lol
+ LSBWZKHX3B82/xLZb3LmVrvbHObBqqvGJ6bQ3o+shkbg8ihCYl9jQh6vW9Vf447xLaq4
+ yy0v1Qrnq3JDyLPjT4dr+kDYAapoymWMibmjIV0u3Spzzx+I6ndlvu1/QEHNgpFYLXJQ
+ E0o+gzDbk4OCL/P/UPH+/sjBQijhtgM8sVlZR75JTaf+QLj6QFl28lidJ3uObYW319Ye
+ Xqcw==
+X-Gm-Message-State: AC+VfDy0IDvMpE/ssKSryw1ou5pVDZUowJHjNP01oLIqp9E8xjMunwGe
+ Z1cCJo4gyYk5fpxeoqXm/ylboPJIF/Kdp2/IN+I=
+X-Google-Smtp-Source: ACHHUZ61GfoJyGVd2+JIiM4DBsjSxXhMgTpekrg/Fdyp9NPDJGlMxEPGKsqQRVnqsaPc5Tz6IfL7/5sXfJTo8OwU9Ak=
+X-Received: by 2002:a4a:2cc2:0:b0:555:48c0:cc63 with SMTP id
+ o185-20020a4a2cc2000000b0055548c0cc63mr5624308ooo.2.1685730190624; Fri, 02
+ Jun 2023 11:23:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MvIfnYU0aT/WgDUu"
-Content-Disposition: inline
-In-Reply-To: <20230602074043.33872-2-keith.zhao@starfivetech.com>
+References: <20230601224419.2392422-1-olvaffe@gmail.com>
+ <0e55585d-d6d7-b9ac-aed5-8df56895e209@amd.com>
+In-Reply-To: <0e55585d-d6d7-b9ac-aed5-8df56895e209@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 2 Jun 2023 14:22:59 -0400
+Message-ID: <CADnq5_MEZU=wD+wXdt+x0_LJS6y=PqkMLw7qD7yFk8ObR0k0-Q@mail.gmail.com>
+Subject: Re: [PATCH v3] amdgpu: validate offset_in_bo of drm_amdgpu_gem_va
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,249 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
- Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- christian.koenig@amd.com
+Cc: Philip Yang <Philip.Yang@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Mukul Joshi <mukul.joshi@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Jammy Zhou <Jammy.Zhou@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Danijel Slivka <danijel.slivka@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Lang Yu <Lang.Yu@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---MvIfnYU0aT/WgDUu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hey Keith,
-
-On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
-> Add bindings for JH7110 display subsystem which
-> has a display controller verisilicon dc8200
-> and an HDMI interface.
->=20
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> ---
->  .../display/verisilicon/starfive-hdmi.yaml    |  93 +++++++++++++++
->  .../display/verisilicon/verisilicon-dc.yaml   | 110 ++++++++++++++++++
->  .../display/verisilicon/verisilicon-drm.yaml  |  42 +++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  MAINTAINERS                                   |   7 ++
->  5 files changed, 254 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/starfive-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/verisilicon-dc.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/verisilicon-drm.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/starfi=
-ve-hdmi.yaml b/Documentation/devicetree/bindings/display/verisilicon/starfi=
-ve-hdmi.yaml
-> new file mode 100644
-> index 000000000000..c30b7954a355
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi=
-=2Eyaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/starfive-hdmi.yam=
-l#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive HDMI transmiter
-> +
-> +description:
-> +  The StarFive SoC uses the HDMI signal transmiter based on innosilicon =
-IP
-
-Is innosilicon the same thing as verisilicon? Also
-s/transmiter/transmitter/, both here and in the title.
+Applied.  Thanks!
 
 
-> +  to generate HDMI signal from its input and transmit the signal to the =
-screen.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,hdmi
+Alex
 
-Is this going to work on every SoC that StarFive has ever & will ever
-make? Please use soc-based compatibles ;)
-
-> +
-> +  reg:
-> +    minItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The HDMI hot plug detection interrupt.
-> +
-> +  clocks:
-> +    items:
-> +      - description: System clock of HDMI module.
-> +      - description: Mclk clock of HDMI audio.
-> +      - description: Bclk clock of HDMI audio.
-> +      - description: Pixel clock generated by HDMI module.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: mclk
-> +      - const: bclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for HDMI module.
-> +
-> +  reset-names:
-> +    items:
-> +      - const: hdmi_tx
-
-You only have one item here, you don't need the "items: - const:",
-"const:" alone will do.
-
-
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
-licon-dc.yaml b/Documentation/devicetree/bindings/display/verisilicon/veris=
-ilicon-dc.yaml
-> new file mode 100644
-> index 000000000000..1322502c4cde
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
-c.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-dc.ya=
-ml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive display controller
-> +
-> +description:
-> +  The StarFive SoC uses the display controller based on Verisilicon IP
-> +  to transfer the image data from a video memory
-> +  buffer to an external LCD interface.
-
-Is it based on Verisilicon IP, or is it exactly that verisilicon IP? I
-ask because...
-
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: verisilicon,dc8200
-
-=2E..the compatible is the verisilicon IP. I would be a lot happier if
-the compatibles were set yp for something like:
-"starfive,jh7110-foo", "verisilicon,dc8200"
-
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
-licon-drm.yaml b/Documentation/devicetree/bindings/display/verisilicon/veri=
-silicon-drm.yaml
-> new file mode 100644
-> index 000000000000..aed8d4af2c55
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
-rm.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-drm.y=
-aml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Verisilicon DRM master device
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +description: |
-> +  The Verisilicon DRM master device is a virtual device needed to list a=
-ll
-> +  display controller or other display interface nodes that comprise the
-> +  graphics subsystem.
-> +
-> +properties:
-> +  compatible:
-> +    const: verisilicon,display-subsystem
-
-Same here.
-
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
-umentation/devicetree/bindings/vendor-prefixes.yaml
-> index 82d39ab0231b..52c04fd098be 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1436,6 +1436,8 @@ patternProperties:
->      description: Variscite Ltd.
->    "^vdl,.*":
->      description: Van der Laan b.v.
-> +  "^verisilicon,.*":
-> +    description: Verisilicon Technologies, Inc.
-
-This should be in it's own patch.
-
-Cheers,
-Conor.
-
->    "^vertexcom,.*":
->      description: Vertexcom Technologies, Inc.
->    "^via,.*":
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2a0496448b7f..293aa13d484c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7049,6 +7049,13 @@ F:	Documentation/devicetree/bindings/display/brcm,=
-bcm2835-*.yaml
->  F:	drivers/gpu/drm/vc4/
->  F:	include/uapi/drm/vc4_drm.h
-> =20
-> +DRM DRIVERS FOR VERISILICON
-> +M:	Keith Zhao <keith.zhao@starfivetech.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	Documentation/devicetree/bindings/display/verisilicon/
-> +
->  DRM DRIVERS FOR VIVANTE GPU IP
->  M:	Lucas Stach <l.stach@pengutronix.de>
->  R:	Russell King <linux+etnaviv@armlinux.org.uk>
-> --=20
-> 2.34.1
->=20
-
---MvIfnYU0aT/WgDUu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHozOwAKCRB4tDGHoIJi
-0qGfAQCOw/FcLRxZ76ev3AIGXrIb1ZeNQe+VXPB56KKXU2pSxwEArYO0igKszta9
-cCp+5+8uMIkgXInjUhRVx70UBTTb9gs=
-=sbrO
------END PGP SIGNATURE-----
-
---MvIfnYU0aT/WgDUu--
+On Fri, Jun 2, 2023 at 7:43=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Am 02.06.23 um 00:44 schrieb Chia-I Wu:
+> > This is motivated by OOB access in amdgpu_vm_update_range when
+> > offset_in_bo+map_size overflows.
+> >
+> > v2: keep the validations in amdgpu_vm_bo_map
+> > v3: add the validations to amdgpu_vm_bo_map/amdgpu_vm_bo_replace_map
+> >      rather than to amdgpu_gem_va_ioctl
+> >
+> > Fixes: 9f7eb5367d00 ("drm/amdgpu: actually use the VM map parameters")
+> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 16 ++++++++--------
+> >   1 file changed, 8 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_vm.c
+> > index 22f9a65ca0fc7..76d57bc7ac620 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > @@ -1434,14 +1434,14 @@ int amdgpu_vm_bo_map(struct amdgpu_device *adev=
+,
+> >       uint64_t eaddr;
+> >
+> >       /* validate the parameters */
+> > -     if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK ||
+> > -         size =3D=3D 0 || size & ~PAGE_MASK)
+> > +     if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK || size & ~PAGE_MAS=
+K)
+> > +             return -EINVAL;
+> > +     if (saddr + size <=3D saddr || offset + size <=3D offset)
+> >               return -EINVAL;
+> >
+> >       /* make sure object fit at this offset */
+> >       eaddr =3D saddr + size - 1;
+> > -     if (saddr >=3D eaddr ||
+> > -         (bo && offset + size > amdgpu_bo_size(bo)) ||
+> > +     if ((bo && offset + size > amdgpu_bo_size(bo)) ||
+> >           (eaddr >=3D adev->vm_manager.max_pfn << AMDGPU_GPU_PAGE_SHIFT=
+))
+> >               return -EINVAL;
+> >
+> > @@ -1500,14 +1500,14 @@ int amdgpu_vm_bo_replace_map(struct amdgpu_devi=
+ce *adev,
+> >       int r;
+> >
+> >       /* validate the parameters */
+> > -     if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK ||
+> > -         size =3D=3D 0 || size & ~PAGE_MASK)
+> > +     if (saddr & ~PAGE_MASK || offset & ~PAGE_MASK || size & ~PAGE_MAS=
+K)
+> > +             return -EINVAL;
+> > +     if (saddr + size <=3D saddr || offset + size <=3D offset)
+> >               return -EINVAL;
+> >
+> >       /* make sure object fit at this offset */
+> >       eaddr =3D saddr + size - 1;
+> > -     if (saddr >=3D eaddr ||
+> > -         (bo && offset + size > amdgpu_bo_size(bo)) ||
+> > +     if ((bo && offset + size > amdgpu_bo_size(bo)) ||
+> >           (eaddr >=3D adev->vm_manager.max_pfn << AMDGPU_GPU_PAGE_SHIFT=
+))
+> >               return -EINVAL;
+> >
+>
