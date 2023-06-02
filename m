@@ -2,28 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B0472099D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 21:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BD772099F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 21:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DB610E0F3;
-	Fri,  2 Jun 2023 19:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4B810E618;
+	Fri,  2 Jun 2023 19:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E900110E0F3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC55110E618
  for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 19:15:14 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q5AEq-0001Z5-GV; Fri, 02 Jun 2023 21:15:04 +0200
+ id 1q5AEq-0001Z5-Vo; Fri, 02 Jun 2023 21:15:05 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Subject: [PATCH 1/2] drm: bridge: tc358767: increase PLL lock time delay
-Date: Fri,  2 Jun 2023 21:15:00 +0200
-Message-Id: <20230602191501.4138433-1-l.stach@pengutronix.de>
+Subject: [PATCH 2/2] drm: bridge: tc358767: give VSDELAY some positive value
+Date: Fri,  2 Jun 2023 21:15:01 +0200
+Message-Id: <20230602191501.4138433-2-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230602191501.4138433-1-l.stach@pengutronix.de>
+References: <20230602191501.4138433-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
@@ -52,10 +54,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Jander <david@protonic.nl>
 
-The PLL often fails to lock with this delay. The new value was
-determined by trial and error increasing the delay bit by bit
-until the error did not occurr anymore even after several tries.
-Then double that value was taken as the minimum delay to be safe.
+The documentation is not clear about how this delay works.
+Empirical tests have shown that with a VSDELAY of 0, the first
+scanline is not properly formatted in the output stream when
+DSI->DP mode is used. The calculation spreadsheets from Toshiba
+seem to always make this value equal to the HFP + 10 for DSI->DP
+use-case. For DSI->DPI this value should be > 2 and for DPI->DP
+it seems to always be 0x64.
 
 Signed-off-by: David Jander <david@protonic.nl>
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
@@ -64,18 +69,18 @@ Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 91f7cb56a654..46916ae30f8f 100644
+index 46916ae30f8f..9f2c67b4a488 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -501,7 +501,7 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+@@ -817,7 +817,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+ 	 * sync signals
+ 	 */
+ 	ret = regmap_write(tc->regmap, VPCTRL0,
+-			   FIELD_PREP(VSDELAY, 0) |
++			   FIELD_PREP(VSDELAY, right_margin + 10) |
+ 			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
+ 	if (ret)
  		return ret;
- 
- 	/* Wait for PLL to lock: up to 2.09 ms, depending on refclk */
--	usleep_range(3000, 6000);
-+	usleep_range(15000, 20000);
- 
- 	return 0;
- }
 -- 
 2.39.2
 
