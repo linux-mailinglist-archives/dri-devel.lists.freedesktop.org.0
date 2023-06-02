@@ -2,52 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBEFF71FEFB
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 12:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C00971FF79
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 12:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2C110E650;
-	Fri,  2 Jun 2023 10:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4760310E653;
+	Fri,  2 Jun 2023 10:36:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67BE310E650;
- Fri,  2 Jun 2023 10:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685701329; x=1717237329;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=aF+00fMmCxB5g2z9dZZXQyc7aZrPeManS84M0BOgQmc=;
- b=Ji+g8NPtFP5ReehOvBW/GcMc04TY4r2x3deAIMvzv4ckGHuvGHcLx45T
- hasD/slbVCPzClzwi9u6Es8Kk1aXdp3fNrbFWjmrWWWVqRCkYbXwhlJjp
- ZJwrkkYtOXLptgp7bMN/5WAs3T41h0Re+Z/XXpO3o7p0+YaqicBEdn51F
- nfWtUn8DBVBZF+U8JFSrmFfiRKhGRIAE4StFeYJpwA3TdJWj4AP5CzGdj
- h5rqsfHCemFxWNF7BkFcBVP6IETQQ5GgiizjFedeTxRynGqpJ29kI5I0x
- K6lvN62Df4w4PELQfEAmyqRy9AONUTme3P0BotjucPbnpxy7Hhc2bEsIs A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="358267643"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; d="scan'208";a="358267643"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2023 03:22:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="707805001"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; d="scan'208";a="707805001"
-Received: from lab-ah.igk.intel.com ([10.102.138.202])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2023 03:22:05 -0700
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Date: Fri, 02 Jun 2023 12:21:36 +0200
-Subject: [PATCH v9 4/4] lib/ref_tracker: remove warnings in case of
- allocation failure
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Jun 2023 10:36:51 UTC
+Received: from ms7.webland.ch (ms7.webland.ch [92.43.217.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE6210E644;
+ Fri,  2 Jun 2023 10:36:51 +0000 (UTC)
+Received: from [192.168.1.137] ([213.144.156.170])
+ by ms7.webland.ch (12.3.0 build 2 x64) with ASMTP (SSL) id
+ 01202306021230180079; Fri, 02 Jun 2023 12:30:18 +0200
+Message-ID: <47893a27-27bc-2cfc-7ff1-9049248811f1@daenzer.net>
+Date: Fri, 2 Jun 2023 12:29:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-track_gt-v9-4-5b47a33f55d1@intel.com>
-References: <20230224-track_gt-v9-0-5b47a33f55d1@intel.com>
-In-Reply-To: <20230224-track_gt-v9-0-5b47a33f55d1@intel.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>
-X-Mailer: b4 0.12.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-CA
+To: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
+References: <SN6PR04MB5184576F8660D04D62AEE5C8EC49A@SN6PR04MB5184.namprd04.prod.outlook.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: How to fetch the implicit sync fence for a GPU buffer?
+In-Reply-To: <SN6PR04MB5184576F8660D04D62AEE5C8EC49A@SN6PR04MB5184.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CTCH: RefID="str=0001.0A782F1B.6479C4BE.0044,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0";
+ Spam="Unknown"; VOD="Unknown"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +44,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dmitry Vyukov <dvyukov@google.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "'wayland-devel@lists.freedesktop.org'"
+ <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Library can handle allocation failures. To avoid allocation warnings
-__GFP_NOWARN has been added everywhere. Moreover GFP_ATOMIC has been
-replaced with GFP_NOWAIT in case of stack allocation on tracker free
-call.
+On 6/1/23 23:15, Hoosier, Matt wrote:
+> Hi,
+> 
+>  
+> 
+> In the past there has been writing about Wayland’s model using implicit synchronization of GPU renderbuffers and KMS commits [1] [2].
+> 
+>  
+> 
+> It would sometimes be nice to do that waiting explicitly in a compositor before enqueueing a KMS pageflip that references a buffer who may go on rendering for some time still. This stalls the pipeline.
+> 
+>  
+> 
+> I’m wondering whether there’s an API -- maybe something analogous to drmPrimeHandleToFD() – that allows userspace to fetch a waitable fence fd for a dmabuf?
 
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Eric Dumazet <edumazet@google.com>
----
- lib/ref_tracker.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+A dma-buf fd itself can serve this purpose; it polls as readable when the GPU has finished drawing to the buffer.
 
-diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index cce4614b07940f..cf5609b1ca7936 100644
---- a/lib/ref_tracker.c
-+++ b/lib/ref_tracker.c
-@@ -189,7 +189,7 @@ int ref_tracker_alloc(struct ref_tracker_dir *dir,
- 	unsigned long entries[REF_TRACKER_STACK_ENTRIES];
- 	struct ref_tracker *tracker;
- 	unsigned int nr_entries;
--	gfp_t gfp_mask = gfp;
-+	gfp_t gfp_mask = gfp | __GFP_NOWARN;
- 	unsigned long flags;
- 
- 	WARN_ON_ONCE(dir->dead);
-@@ -237,7 +237,8 @@ int ref_tracker_free(struct ref_tracker_dir *dir,
- 		return -EEXIST;
- 	}
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
--	stack_handle = stack_depot_save(entries, nr_entries, GFP_ATOMIC);
-+	stack_handle = stack_depot_save(entries, nr_entries,
-+					GFP_NOWAIT | __GFP_NOWARN);
- 
- 	spin_lock_irqsave(&dir->lock, flags);
- 	if (tracker->dead) {
+See https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 for how I used this to implement what you describe above in mutter. Note that this involves some Wayland state management challenges for correct operation in all cases though.
+
 
 -- 
-2.34.1
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
