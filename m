@@ -2,71 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17BE71FD6B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 11:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A28720E60
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 09:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8504710E643;
-	Fri,  2 Jun 2023 09:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4BB010E22C;
+	Sat,  3 Jun 2023 07:02:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7174B10E644
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 09:16:21 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f606912ebaso18569675e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 02:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685697379; x=1688289379;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=XCSBt06ODCOO6aeVJ2PlXGU7kys31a0U2ya2eb1ukWw=;
- b=Z+ctFkEefF0e4doqq0Ug4bfRYfV4IApiuCj62wHwH5KpnMjImkCKEMD6dqT7PNRqck
- 1KxgSYzQW+icJWnxf2IK5Zp6wkBYQ4bRr7wuvKK94lbSyRpz8wwAkskcQMj24qiM1v0M
- GAluuGomAl2RCXaT9ZNXSrDGVZapBa7+Jq9d18QJrscreKDrwX3flFnK43x57UYOsIv7
- zbcespmhVHncyojB36fAyNh5rqJJzl51FFFHTVKe35+DnbdMKCKo7o58rfG7d9pVH8OQ
- EDdUTisqSCde7B8cMJMJtg/sm2DSAVQCSVe5ZJZSZNK6PQkM3H4WEQBgjLvVos0fww56
- a6oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685697379; x=1688289379;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XCSBt06ODCOO6aeVJ2PlXGU7kys31a0U2ya2eb1ukWw=;
- b=kcasxemtLtJl7Tjl4RfRvvlp0+3jfOkqXfbg67jig+Ino42cpet+6HhUidVhWuz0KE
- 43/4GjSvUkgtmUKwFFsCiQfGghNDOOsE+0reO50+FNDJ6nINKS6JM3nSCWrBlv1U0PhV
- T7wHGItII6KijFCKa1/YNaNNNWHVy3hN0J3XwcV8J4jXFXRO2hGojxjA+POeVMkzoYNp
- ZR6Y0dMRPMXivAc0vAriyU2IkXBrmUrJm6tiXcUECi+ouVNhIrlz+j81uf/UR+zs9MMa
- WK/pQW2GoovfCLBp3yziEVtXpq0gNdtAJhyhN+gZSPP69jzUOufMsb1ff9dUkNKx6yZe
- 8NkQ==
-X-Gm-Message-State: AC+VfDwxdckOpSsWxLFUZCHPiWytsoXqBmC4rdE2F3YThoQhCKdkQlCl
- lQ0gg10i04iMsLtpVrRD6a1OCw==
-X-Google-Smtp-Source: ACHHUZ5kFDVkTijAYhopCOawiE08DDNzoy6papAmWv1662nnpG5t1S72iJGGObX98yTOLoivrgSqwg==
-X-Received: by 2002:a05:600c:3798:b0:3f6:244:55df with SMTP id
- o24-20020a05600c379800b003f6024455dfmr1508463wmr.29.1685697378846; 
- Fri, 02 Jun 2023 02:16:18 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:cabd:b6f:39ae:51a2?
- ([2a01:e0a:982:cbb0:cabd:b6f:39ae:51a2])
- by smtp.gmail.com with ESMTPSA id
- n16-20020a1c7210000000b003f60119ee08sm4895391wmc.43.2023.06.02.02.16.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jun 2023 02:16:18 -0700 (PDT)
-Message-ID: <1ed84d1f-d999-f0f2-bd84-d56f46efa384@linaro.org>
-Date: Fri, 2 Jun 2023 11:16:17 +0200
+X-Greylist: delayed 1195 seconds by postgrey-1.36 at gabe;
+ Fri, 02 Jun 2023 10:29:24 UTC
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8BD10E644;
+ Fri,  2 Jun 2023 10:29:24 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+ by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4QXdyV3qcDz4f3k5v;
+ Fri,  2 Jun 2023 18:09:22 +0800 (CST)
+Received: from ubuntu20.huawei.com (unknown [10.67.174.33])
+ by APP1 (Coremail) with SMTP id cCh0CgCH8iy2v3lkYWubKA--.54066S2;
+ Fri, 02 Jun 2023 18:09:23 +0800 (CST)
+From: "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: fix compilation error due to shifting
+ negative value
+Date: Fri,  2 Jun 2023 18:12:33 +0800
+Message-Id: <20230602101233.1255276-1-gongruiqi@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH -next] drm/meson: Remove unneeded semicolon
-Content-Language: en-US
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
-References: <20230602091416.107850-1-yang.lee@linux.alibaba.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230602091416.107850-1-yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: cCh0CgCH8iy2v3lkYWubKA--.54066S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15JF1fXFyxZw47ZrW5KFg_yoW8Gr1rpF
+ sxJry8WF1UuF4IyFyxCa9ru3W3Jas5XFWqyrZrW3sIk3W7tF15W39xKr1Dtryj9FWjywsx
+ tFZ2gr47JwnrAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+ 6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+ x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
+ c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
+X-CM-SenderInfo: pjrqw2pxltxq5kxd4v5lfo033gof0z/
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Sat, 03 Jun 2023 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: martin.blumenstingl@googlemail.com, khilman@baylibre.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
+Cc: Xiu Jianfeng <xiujianfeng@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Wang Weiyang <wangweiyang2@huawei.com>,
+ amd-gfx@lists.freedesktop.org, gongruiqi1@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/06/2023 11:14, Yang Li wrote:
-> ./drivers/gpu/drm/meson/meson_dw_mipi_dsi.c:117:2-3: Unneeded semicolon
-> ./drivers/gpu/drm/meson/meson_dw_mipi_dsi.c:231:2-3: Unneeded semicolon
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5392
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->   drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> index dd505ac37976..57447abf1a29 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-> @@ -114,7 +114,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
->   	case MIPI_DSI_FMT_RGB666_PACKED:
->   	case MIPI_DSI_FMT_RGB565:
->   		return -EINVAL;
-> -	};
-> +	}
->   
->   	/* Configure color format for DPI register */
->   	writel_relaxed(FIELD_PREP(MIPI_DSI_TOP_DPI_COLOR_MODE, dpi_data_format) |
-> @@ -228,7 +228,7 @@ static int meson_dw_mipi_dsi_host_attach(void *priv_data,
->   	case MIPI_DSI_FMT_RGB565:
->   		dev_err(mipi_dsi->dev, "invalid pixel format %d\n", device->format);
->   		return -EINVAL;
-> -	};
-> +	}
->   
->   	ret = phy_init(mipi_dsi->phy);
->   	if (ret)
+Currently compiling linux-next with allmodconfig triggers the following
+error:
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+./drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h: In function ‘dc_fixpt_truncate’:
+./drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:528:22: error: left shift of negative value [-Werror=shift-negative-value]
+  528 |  arg.value &= (~0LL) << (FIXED31_32_BITS_PER_FRACTIONAL_PART - frac_bits);
+      |                      ^~
+
+Use `unsigned long long` instead.
+
+Signed-off-by: GONG, Ruiqi <gongruiqi@huaweicloud.com>
+---
+ drivers/gpu/drm/amd/display/include/fixed31_32.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/include/fixed31_32.h b/drivers/gpu/drm/amd/display/include/fixed31_32.h
+index ece97ae0e826..d4cf7ead1d87 100644
+--- a/drivers/gpu/drm/amd/display/include/fixed31_32.h
++++ b/drivers/gpu/drm/amd/display/include/fixed31_32.h
+@@ -525,7 +525,7 @@ static inline struct fixed31_32 dc_fixpt_truncate(struct fixed31_32 arg, unsigne
+ 
+ 	if (negative)
+ 		arg.value = -arg.value;
+-	arg.value &= (~0LL) << (FIXED31_32_BITS_PER_FRACTIONAL_PART - frac_bits);
++	arg.value &= (~0ULL) << (FIXED31_32_BITS_PER_FRACTIONAL_PART - frac_bits);
+ 	if (negative)
+ 		arg.value = -arg.value;
+ 	return arg;
+-- 
+2.25.1
+
