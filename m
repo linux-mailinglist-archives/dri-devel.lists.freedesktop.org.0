@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F307204D1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 16:48:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B00A7204EA
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 16:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07EAE10E6AA;
-	Fri,  2 Jun 2023 14:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30DC010E01F;
+	Fri,  2 Jun 2023 14:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2673E10E6AA
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 14:48:15 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8D8810E01F
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 14:53:32 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E35A621A2C;
- Fri,  2 Jun 2023 14:48:12 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 25A1B1FDAF;
+ Fri,  2 Jun 2023 14:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1685717292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1685717611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qgCcBdiuMHEcUROu//ERii1RUEDyG9SRk3k8Wf+Yozc=;
- b=kHP2tR4LakBIm3RgvPtArMr3AOseyJZSk/TxM/oAaF8iDXEkF5f6imlfwJuR68jwwxeMJ0
- XgrmFeDP4dgsyoyuSrGccehwvZIyEWLc562GX3SL6+fs7qVgiIW5unDxk/Rjz1KegEmgxb
- sXQOKO2kDnWoISB0VfflqDn5EObX5wQ=
+ bh=tWaTh2H4pP6rcbLy7AaUAANU1Bq0aVWzKPokoGoPa9Y=;
+ b=BIhyn/STwSvEfzBV52mY3ZvLjHOCPn1yuoj0YnENldsO/6reTob9RyZ2IBoxMWspZ2ALUb
+ aW0GOhQI1kMq+klnaOV7eV1r8a8ODKpR3GPktqujkpTsb1/V++SDPS6mHjLVlNlM7V/wdo
+ krwwrpY3uMuYce/LV98ptBIPolkXsLg=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6DC5D13A2E;
- Fri,  2 Jun 2023 14:48:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC48D13A2E;
+ Fri,  2 Jun 2023 14:53:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YwrqGCwBemR6XQAAMHmgww
- (envelope-from <jgross@suse.com>); Fri, 02 Jun 2023 14:48:12 +0000
-Message-ID: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
-Date: Fri, 2 Jun 2023 16:48:11 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id EimDKGoCemTyXwAAMHmgww
+ (envelope-from <jgross@suse.com>); Fri, 02 Jun 2023 14:53:30 +0000
+Message-ID: <5083c051-dfcf-ae23-195f-4c92bb875009@suse.com>
+Date: Fri, 2 Jun 2023 16:53:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 Subject: Re: [RESUBMIT][PATCH] x86/mm: Fix PAT bit missing from page
  protection modify mask
 Content-Language: en-US
+From: Juergen Gross <jgross@suse.com>
 To: Borislav Petkov <bp@alien8.de>
 References: <20230519183634.190364-1-janusz.krzysztofik@linux.intel.com>
  <20230531181412.GFZHeOdMHIGOXB2hwL@fat_crate.local>
  <cfd19da7-4148-f277-0cf8-507b94d214a3@suse.com>
  <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
-From: Juergen Gross <jgross@suse.com>
-In-Reply-To: <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
+ <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
+In-Reply-To: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------xSod5AXDcN7eeAnElmpFWrrJ"
+ boundary="------------lhnldzDRTHsO7Jdr8OKhwULx"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,8 +80,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xSod5AXDcN7eeAnElmpFWrrJ
-Content-Type: multipart/mixed; boundary="------------pvIpQ559mjmcgHKBMLSOMf6K";
+--------------lhnldzDRTHsO7Jdr8OKhwULx
+Content-Type: multipart/mixed; boundary="------------fT044I1EYHXbcyFBdqakATdw";
  protected-headers="v1"
 From: Juergen Gross <jgross@suse.com>
 To: Borislav Petkov <bp@alien8.de>
@@ -93,36 +94,43 @@ Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
  =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
  <marmarek@invisiblethingslab.com>, Andi Shyti <andi.shyti@linux.intel.com>,
  drm-intel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
+Message-ID: <5083c051-dfcf-ae23-195f-4c92bb875009@suse.com>
 Subject: Re: [RESUBMIT][PATCH] x86/mm: Fix PAT bit missing from page
  protection modify mask
 References: <20230519183634.190364-1-janusz.krzysztofik@linux.intel.com>
  <20230531181412.GFZHeOdMHIGOXB2hwL@fat_crate.local>
  <cfd19da7-4148-f277-0cf8-507b94d214a3@suse.com>
  <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
-In-Reply-To: <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
+ <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
+In-Reply-To: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
 
---------------pvIpQ559mjmcgHKBMLSOMf6K
-Content-Type: multipart/mixed; boundary="------------Dk7NVigM3sGgJDBkoB6lZ7gd"
+--------------fT044I1EYHXbcyFBdqakATdw
+Content-Type: multipart/mixed; boundary="------------SWSMr8KW8i5BF6nddV0xXjMS"
 
---------------Dk7NVigM3sGgJDBkoB6lZ7gd
+--------------SWSMr8KW8i5BF6nddV0xXjMS
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-T24gMDIuMDYuMjMgMTY6NDMsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gVGh1LCBK
-dW4gMDEsIDIwMjMgYXQgMTA6NDc6MzlBTSArMDIwMCwgSnVlcmdlbiBHcm9zcyB3cm90ZToN
-Cj4+IEFzIGRlc2NyaWJlZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsIHRoaXMgb25seSB3b3Jr
-cyBvbiBiYXJlIG1ldGFsIGR1ZSB0byB0aGUNCj4+IFBBVCBiaXQgbm90IGJlaW5nIG5lZWRl
-ZCBmb3IgV0MgbWFwcGluZ3MuDQo+Pg0KPj4gTWFraW5nIHRoaXMgcGF0Y2ggWGVuIHNwZWNp
-ZmljIHdvdWxkIHRyeSB0byBjdXJlIHRoZSBzeW1wdG9tcyB3aXRob3V0IGZpeGluZw0KPj4g
-dGhlIHVuZGVybHlpbmcgcHJvYmxlbTogX1BBR0VfUEFUIHNob3VsZCBiZSByZWdhcmRlZCB0
-aGUgc2FtZSB3YXkgYXMgdGhlIGJpdHMNCj4+IGZvciBjYWNoaW5nIG1vZGUgKF9QQUdFX0NI
-R19NQVNLKS4NCj4gDQo+IFNvIHdoeSBpc24ndCBfUEFHRV9QQVQgcGFydCBvZiBfUEFHRV9D
-SEdfTUFTSz8NCg0KVGhpcyB3b3VsZCByZXN1bHQgaW4gcHJvYmxlbXMgZm9yIGxhcmdlIHBh
-Z2VzOiBfUEFHRV9QU0UgaXMgYXQgdGhlIHNhbWUNCnBvc2l0aW9uIGFzIF9QQUdFX1BBVCAo
-bGFyZ2UgcGFnZXMgYXJlIHVzaW5nIF9QQUdFX1BBVF9MQVJHRSBpbnN0ZWFkKS4NCg0KWWVz
-LCB4ODYgQUJJIGlzIGEgbWVzcy4NCg0KDQpKdWVyZ2VuDQoNCg==
---------------Dk7NVigM3sGgJDBkoB6lZ7gd
+T24gMDIuMDYuMjMgMTY6NDgsIEp1ZXJnZW4gR3Jvc3Mgd3JvdGU6DQo+IE9uIDAyLjA2LjIz
+IDE2OjQzLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6DQo+PiBPbiBUaHUsIEp1biAwMSwgMjAy
+MyBhdCAxMDo0NzozOUFNICswMjAwLCBKdWVyZ2VuIEdyb3NzIHdyb3RlOg0KPj4+IEFzIGRl
+c2NyaWJlZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsIHRoaXMgb25seSB3b3JrcyBvbiBiYXJl
+IG1ldGFsIGR1ZSB0byB0aGUNCj4+PiBQQVQgYml0IG5vdCBiZWluZyBuZWVkZWQgZm9yIFdD
+IG1hcHBpbmdzLg0KPj4+DQo+Pj4gTWFraW5nIHRoaXMgcGF0Y2ggWGVuIHNwZWNpZmljIHdv
+dWxkIHRyeSB0byBjdXJlIHRoZSBzeW1wdG9tcyB3aXRob3V0IGZpeGluZw0KPj4+IHRoZSB1
+bmRlcmx5aW5nIHByb2JsZW06IF9QQUdFX1BBVCBzaG91bGQgYmUgcmVnYXJkZWQgdGhlIHNh
+bWUgd2F5IGFzIHRoZSBiaXRzDQo+Pj4gZm9yIGNhY2hpbmcgbW9kZSAoX1BBR0VfQ0hHX01B
+U0spLg0KPj4NCj4+IFNvIHdoeSBpc24ndCBfUEFHRV9QQVQgcGFydCBvZiBfUEFHRV9DSEdf
+TUFTSz8NCj4gDQo+IFRoaXMgd291bGQgcmVzdWx0IGluIHByb2JsZW1zIGZvciBsYXJnZSBw
+YWdlczogX1BBR0VfUFNFIGlzIGF0IHRoZSBzYW1lDQo+IHBvc2l0aW9uIGFzIF9QQUdFX1BB
+VCAobGFyZ2UgcGFnZXMgYXJlIHVzaW5nIF9QQUdFX1BBVF9MQVJHRSBpbnN0ZWFkKS4NCj4g
+DQo+IFllcywgeDg2IEFCSSBpcyBhIG1lc3MuDQoNCk9oLCB3YWl0OiBJIG9yaWdpbmFsbHkg
+dGhvdWdodCBfUEFHRV9DSEdfTUFTSyB3b3VsZCBiZSB1c2VkIGZvciBsYXJnZSBwYWdlcywN
+CnRvby4gVGhlcmUgaXMgX0hQQUdFX0NIR19NQVNLIGZvciB0aGF0IHB1cnBvc2UuDQoNClNv
+IGFkZGluZyBfUEFHRV9QQVQgdG8gX1BBR0VfQ0hHX01BU0sgYW5kIF9QQUdFX1BBVF9MQVJH
+RSB0byBfSFBBR0VfQ0hHX01BU0sNCnNob3VsZCBkbyB0aGUgam9iLiBBdCBsZWFzdCBJIGhv
+cGUgc28uDQoNCg0KSnVlcmdlbg0K
+--------------SWSMr8KW8i5BF6nddV0xXjMS
 Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
 Content-Description: OpenPGP public key
@@ -180,24 +188,24 @@ jR/i1DG86lem3iBDXzXsZDn8R38=3D
 =3D2wuH
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------Dk7NVigM3sGgJDBkoB6lZ7gd--
+--------------SWSMr8KW8i5BF6nddV0xXjMS--
 
---------------pvIpQ559mjmcgHKBMLSOMf6K--
+--------------fT044I1EYHXbcyFBdqakATdw--
 
---------------xSod5AXDcN7eeAnElmpFWrrJ
+--------------lhnldzDRTHsO7Jdr8OKhwULx
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmR6ASwFAwAAAAAACgkQsN6d1ii/Ey+t
-Kwf+J581HB+9alPQG+Y6YV6SaYs+cqCaGLsEL/4a0Vem+j67nYpFFIgyv2tMhCgtJbnALHhJx0lZ
-NJM1XKZOJD0PW9s74DqmzYKkE0SfBppGsF9lobv0yod0kKku/tV6AOXRoKcd1tMCvOiVDREcpSF5
-Wh3NyX0iOTNHwNWH3hFJDzJ0dKIL9AtkG0R54eGaKXtcAtQEJ5r7Nhs4jK8maJHTKA4joZuWl6yh
-p3+huplv4ewT5TQvLSGSEMuZ28wr7FyN/Mj3wi4r3Qwtzn/jEayh3b72m5ajS3xg/TFx7hew2qeF
-//8fEk09ZDA9ebGJzJDSkm2VbVJ6ZzZzCEG8jQvvqw==
-=lbX1
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmR6AmoFAwAAAAAACgkQsN6d1ii/Ey++
+CQgAgxzclUeWbUr8eBq6IDi8l4FeaaQnJ4L9HKQkPkPiQtsKdyzBnU8jmtjeIfXGWsqC8/mehDSJ
+R9jmBgW2PO4DxX1IsLyn1DPVZrRq4x31i9IQlRFtOctPbrJWXhRW83jOnTrVgVPiOuNubN2wV1/K
+ulSzryff6GAPSL/YSG2UhOYh/WARgt6Ib8MBzO3kVhFPHLQrBoP4h+o0lhHx0wtnl2p2vLmnlYKm
+pa/m7PVUbqUxy8aPQ+ZWUumSFkZjefh11HC0W0AFfjeOupRx/JR/G4Vz+4XHMw9+Z5vqdaF9U1dm
+Y7F5IZgUwedGv+Zu3luhZHBOrHLAIvmqIr18W+SisQ==
+=MfTn
 -----END PGP SIGNATURE-----
 
---------------xSod5AXDcN7eeAnElmpFWrrJ--
+--------------lhnldzDRTHsO7Jdr8OKhwULx--
