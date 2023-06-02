@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433BB71FBA1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 10:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC5371FBA3
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 10:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 001D910E0B5;
-	Fri,  2 Jun 2023 08:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB2110E628;
+	Fri,  2 Jun 2023 08:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id A173610E628
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 07:46:05 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9371710E628
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 07:45:56 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
  (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 7D9A48116;
+ (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+ by ex01.ufhost.com (Postfix) with ESMTP id D47CF24E27E;
  Fri,  2 Jun 2023 15:40:49 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 2 Jun
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 2 Jun
  2023 15:40:49 +0800
 Received: from xiaofei.localdomain (180.164.60.184) by EXMBX061.cuchost.com
  (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 2 Jun
- 2023 15:40:48 +0800
+ 2023 15:40:49 +0800
 From: Keith Zhao <keith.zhao@starfivetech.com>
 To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
  <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH 6/9] drm/verisilicon: Add drm crtc funcs
-Date: Fri, 2 Jun 2023 15:40:40 +0800
-Message-ID: <20230602074043.33872-7-keith.zhao@starfivetech.com>
+Subject: [PATCH 7/9] drm/verisilicon: Add drm plane funcs
+Date: Fri, 2 Jun 2023 15:40:41 +0800
+Message-ID: <20230602074043.33872-8-keith.zhao@starfivetech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230602074043.33872-1-keith.zhao@starfivetech.com>
 References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
@@ -69,590 +68,573 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add crtc driver which implements crtc related operation functions.
+Implement plane functions for the DRM driver.
 
 Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 ---
- drivers/gpu/drm/verisilicon/Makefile  |   1 +
- drivers/gpu/drm/verisilicon/vs_crtc.c | 388 ++++++++++++++++++++++++++
- drivers/gpu/drm/verisilicon/vs_crtc.h |  74 +++++
- drivers/gpu/drm/verisilicon/vs_type.h |  72 +++++
- 4 files changed, 535 insertions(+)
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+ drivers/gpu/drm/verisilicon/Makefile   |   3 +-
+ drivers/gpu/drm/verisilicon/vs_plane.c | 440 +++++++++++++++++++++++++
+ drivers/gpu/drm/verisilicon/vs_plane.h |  74 +++++
+ 3 files changed, 516 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
 
 diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/veris=
 ilicon/Makefile
-index 38254dc5d98d..bae5fbab9bbb 100644
+index bae5fbab9bbb..d96ad9399fc7 100644
 --- a/drivers/gpu/drm/verisilicon/Makefile
 +++ b/drivers/gpu/drm/verisilicon/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
-=20
+@@ -3,7 +3,8 @@
  vs_drm-objs :=3D vs_drv.o \
-+		vs_crtc.o \
+ 		vs_crtc.o \
  		vs_fb.o \
- 		vs_gem.o
+-		vs_gem.o
++		vs_gem.o \
++		vs_plane.o
 =20
-diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c b/drivers/gpu/drm/veri=
-silicon/vs_crtc.c
+ obj-$(CONFIG_DRM_VERISILICON) +=3D vs_drm.o
+=20
+diff --git a/drivers/gpu/drm/verisilicon/vs_plane.c b/drivers/gpu/drm/ver=
+isilicon/vs_plane.c
 new file mode 100644
-index 000000000000..a9e742d7bd1a
+index 000000000000..7b0dcef232ae
 --- /dev/null
-+++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
-@@ -0,0 +1,388 @@
++++ b/drivers/gpu/drm/verisilicon/vs_plane.c
+@@ -0,0 +1,440 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-+ *
 + */
 +
-+#include <linux/clk.h>
-+#include <linux/debugfs.h>
-+#include <linux/media-bus-format.h>
-+
-+#include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_vblank.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_blend.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_fb_dma_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_plane_helper.h>
++
 +#include <drm/vs_drm.h>
 +
 +#include "vs_crtc.h"
++#include "vs_fb.h"
++#include "vs_gem.h"
++#include "vs_plane.h"
++#include "vs_type.h"
 +
-+void vs_crtc_destroy(struct drm_crtc *crtc)
++void vs_plane_destory(struct drm_plane *plane)
 +{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
 +
-+	drm_crtc_cleanup(crtc);
-+	kfree(vs_crtc);
++	drm_plane_cleanup(plane);
++	kfree(vs_plane);
 +}
 +
-+static void vs_crtc_reset(struct drm_crtc *crtc)
++static void vs_plane_reset(struct drm_plane *plane)
 +{
-+	struct vs_crtc_state *state;
++	struct vs_plane_state *state;
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
 +
-+	if (crtc->state) {
-+		__drm_atomic_helper_crtc_destroy_state(crtc->state);
++	if (plane->state) {
++		__drm_atomic_helper_plane_destroy_state(plane->state);
 +
-+		state =3D to_vs_crtc_state(crtc->state);
++		state =3D to_vs_plane_state(plane->state);
 +		kfree(state);
-+		crtc->state =3D NULL;
++		plane->state =3D NULL;
 +	}
 +
 +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
 +	if (!state)
 +		return;
 +
-+	__drm_atomic_helper_crtc_reset(crtc, &state->base);
++	__drm_atomic_helper_plane_reset(plane, &state->base);
 +
-+	state->sync_mode =3D VS_SINGLE_DC;
-+	state->output_fmt =3D MEDIA_BUS_FMT_RBG888_1X24;
-+	state->encoder_type =3D DRM_MODE_ENCODER_NONE;
++	state->degamma =3D VS_DEGAMMA_DISABLE;
++	state->degamma_changed =3D false;
++	state->base.zpos =3D vs_plane->id;
++
++	memset(&state->status, 0, sizeof(state->status));
 +}
 +
-+static struct drm_crtc_state *
-+vs_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
++static void _vs_plane_duplicate_blob(struct vs_plane_state *state,
++				     struct vs_plane_state *ori_state)
 +{
-+	struct vs_crtc_state *ori_state;
-+	struct vs_crtc_state *state;
++	state->watermark =3D ori_state->watermark;
++	state->color_mgmt =3D ori_state->color_mgmt;
++	state->roi =3D ori_state->roi;
 +
-+	if (WARN_ON(!crtc->state))
++	if (state->watermark)
++		drm_property_blob_get(state->watermark);
++	if (state->color_mgmt)
++		drm_property_blob_get(state->color_mgmt);
++	if (state->roi)
++		drm_property_blob_get(state->roi);
++}
++
++static int
++_vs_plane_set_property_blob_from_id(struct drm_device *dev,
++				    struct drm_property_blob **blob,
++				    u64 blob_id,
++				    size_t expected_size)
++{
++	struct drm_property_blob *new_blob =3D NULL;
++
++	if (blob_id) {
++		new_blob =3D drm_property_lookup_blob(dev, blob_id);
++		if (!new_blob)
++			return -EINVAL;
++
++		if (new_blob->length !=3D expected_size) {
++			drm_property_blob_put(new_blob);
++			return -EINVAL;
++		}
++	}
++
++	drm_property_replace_blob(blob, new_blob);
++	drm_property_blob_put(new_blob);
++
++	return 0;
++}
++
++static struct drm_plane_state *
++vs_plane_atomic_duplicate_state(struct drm_plane *plane)
++{
++	struct vs_plane_state *ori_state;
++	struct vs_plane_state *state;
++
++	if (WARN_ON(!plane->state))
 +		return NULL;
 +
-+	ori_state =3D to_vs_crtc_state(crtc->state);
++	ori_state =3D to_vs_plane_state(plane->state);
 +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
 +	if (!state)
 +		return NULL;
 +
-+	__drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
++	__drm_atomic_helper_plane_duplicate_state(plane, &state->base);
 +
-+	state->sync_mode =3D ori_state->sync_mode;
-+	state->output_fmt =3D ori_state->output_fmt;
-+	state->encoder_type =3D ori_state->encoder_type;
-+	state->bg_color =3D ori_state->bg_color;
-+	state->bpp =3D ori_state->bpp;
-+	state->sync_enable =3D ori_state->sync_enable;
-+	state->dither_enable =3D ori_state->dither_enable;
-+	state->underflow =3D ori_state->underflow;
++	state->degamma =3D ori_state->degamma;
++	state->degamma_changed =3D ori_state->degamma_changed;
++
++	_vs_plane_duplicate_blob(state, ori_state);
++	memcpy(&state->status, &ori_state->status, sizeof(ori_state->status));
 +
 +	return &state->base;
 +}
 +
-+static void vs_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-+					 struct drm_crtc_state *state)
++static void vs_plane_atomic_destroy_state(struct drm_plane *plane,
++					  struct drm_plane_state *state)
 +{
-+	__drm_atomic_helper_crtc_destroy_state(state);
-+	kfree(to_vs_crtc_state(state));
++	struct vs_plane_state *vs_plane_state =3D to_vs_plane_state(state);
++
++	__drm_atomic_helper_plane_destroy_state(state);
++
++	drm_property_blob_put(vs_plane_state->watermark);
++	drm_property_blob_put(vs_plane_state->color_mgmt);
++	drm_property_blob_put(vs_plane_state->roi);
++	kfree(vs_plane_state);
 +}
 +
-+static int vs_crtc_atomic_set_property(struct drm_crtc *crtc,
-+				       struct drm_crtc_state *state,
-+				       struct drm_property *property,
-+				       uint64_t val)
++static int vs_plane_atomic_set_property(struct drm_plane *plane,
++					struct drm_plane_state *state,
++					struct drm_property *property,
++					uint64_t val)
 +{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+	struct vs_crtc_state *vs_crtc_state =3D to_vs_crtc_state(state);
++	struct drm_device *dev =3D plane->dev;
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
++	struct vs_plane_state *vs_plane_state =3D to_vs_plane_state(state);
++	int ret =3D 0;
 +
-+	if (property =3D=3D vs_crtc->sync_mode)
-+		vs_crtc_state->sync_mode =3D val;
-+	else if (property =3D=3D vs_crtc->mmu_prefetch)
-+		vs_crtc_state->mmu_prefetch =3D val;
-+	else if (property =3D=3D vs_crtc->bg_color)
-+		vs_crtc_state->bg_color =3D val;
-+	else if (property =3D=3D vs_crtc->panel_sync)
-+		vs_crtc_state->sync_enable =3D val;
-+	else if (property =3D=3D vs_crtc->dither)
-+		vs_crtc_state->dither_enable =3D val;
-+	else
++	if (property =3D=3D vs_plane->degamma_mode) {
++		if (vs_plane_state->degamma !=3D val) {
++			vs_plane_state->degamma =3D val;
++			vs_plane_state->degamma_changed =3D true;
++		} else {
++			vs_plane_state->degamma_changed =3D false;
++		}
++	} else if (property =3D=3D vs_plane->watermark_prop) {
++		ret =3D _vs_plane_set_property_blob_from_id(dev,
++							  &vs_plane_state->watermark,
++							  val,
++							  sizeof(struct drm_vs_watermark));
++		return ret;
++	} else if (property =3D=3D vs_plane->color_mgmt_prop) {
++		ret =3D _vs_plane_set_property_blob_from_id(dev,
++							  &vs_plane_state->color_mgmt,
++							  val,
++							  sizeof(struct drm_vs_color_mgmt));
++		return ret;
++	} else if (property =3D=3D vs_plane->roi_prop) {
++		ret =3D _vs_plane_set_property_blob_from_id(dev,
++							  &vs_plane_state->roi,
++							  val,
++							  sizeof(struct drm_vs_roi));
++		return ret;
++	} else {
 +		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int vs_crtc_atomic_get_property(struct drm_crtc *crtc,
-+				       const struct drm_crtc_state *state,
-+				       struct drm_property *property,
-+				       uint64_t *val)
-+{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+	const struct vs_crtc_state *vs_crtc_state =3D
-+		container_of(state, const struct vs_crtc_state, base);
-+
-+	if (property =3D=3D vs_crtc->sync_mode)
-+		*val =3D vs_crtc_state->sync_mode;
-+	else if (property =3D=3D vs_crtc->mmu_prefetch)
-+		*val =3D vs_crtc_state->mmu_prefetch;
-+	else if (property =3D=3D vs_crtc->bg_color)
-+		*val =3D vs_crtc_state->bg_color;
-+	else if (property =3D=3D vs_crtc->panel_sync)
-+		*val =3D vs_crtc_state->sync_enable;
-+	else if (property =3D=3D vs_crtc->dither)
-+		*val =3D vs_crtc_state->dither_enable;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int vs_crtc_late_register(struct drm_crtc *crtc)
-+{
-+	return 0;
-+}
-+
-+static int vs_crtc_enable_vblank(struct drm_crtc *crtc)
-+{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+
-+	vs_crtc->funcs->enable_vblank(vs_crtc->dev, true);
-+
-+	return 0;
-+}
-+
-+static void vs_crtc_disable_vblank(struct drm_crtc *crtc)
-+{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+
-+	vs_crtc->funcs->enable_vblank(vs_crtc->dev, false);
-+}
-+
-+static const struct drm_crtc_funcs vs_crtc_funcs =3D {
-+	.set_config		=3D drm_atomic_helper_set_config,
-+	.destroy		=3D vs_crtc_destroy,
-+	.page_flip		=3D drm_atomic_helper_page_flip,
-+	.reset			=3D vs_crtc_reset,
-+	.atomic_duplicate_state =3D vs_crtc_atomic_duplicate_state,
-+	.atomic_destroy_state	=3D vs_crtc_atomic_destroy_state,
-+	.atomic_set_property	=3D vs_crtc_atomic_set_property,
-+	.atomic_get_property	=3D vs_crtc_atomic_get_property,
-+	.late_register		=3D vs_crtc_late_register,
-+	.enable_vblank		=3D vs_crtc_enable_vblank,
-+	.disable_vblank		=3D vs_crtc_disable_vblank,
-+};
-+
-+static u8 cal_pixel_bits(u32 bus_format)
-+{
-+	u8 bpp;
-+
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB565_1X16:
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		bpp =3D 16;
-+		break;
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+		bpp =3D 18;
-+		break;
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+		bpp =3D 20;
-+		break;
-+	case MEDIA_BUS_FMT_BGR888_1X24:
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+		bpp =3D 24;
-+		break;
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+		bpp =3D 30;
-+		break;
-+	default:
-+		bpp =3D 24;
-+		break;
 +	}
 +
-+	return bpp;
++	return 0;
 +}
 +
-+static bool vs_crtc_mode_fixup(struct drm_crtc *crtc,
-+			       const struct drm_display_mode *mode,
-+			       struct drm_display_mode *adjusted_mode)
++static int vs_plane_atomic_get_property(struct drm_plane *plane,
++					const struct drm_plane_state *state,
++					struct drm_property *property,
++					uint64_t *val)
 +{
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
++	const struct vs_plane_state *vs_plane_state =3D
++		container_of(state, const struct vs_plane_state, base);
++
++	if (property =3D=3D vs_plane->degamma_mode)
++		*val =3D vs_plane_state->degamma;
++	else if (property =3D=3D vs_plane->watermark_prop)
++		*val =3D (vs_plane_state->watermark) ?
++					vs_plane_state->watermark->base.id : 0;
++	else if (property =3D=3D vs_plane->color_mgmt_prop)
++		*val =3D (vs_plane_state->color_mgmt) ?
++					vs_plane_state->color_mgmt->base.id : 0;
++	else if (property =3D=3D vs_plane->roi_prop)
++		*val =3D (vs_plane_state->roi) ?
++					vs_plane_state->roi->base.id : 0;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static bool vs_format_mod_supported(struct drm_plane *plane,
++				    u32 format,
++				    u64 modifier)
++{
++	int i;
++
++       /* We always have to allow these modifiers:
++	* 1. Core DRM checks for LINEAR support if userspace does not provide m=
+odifiers.
++	* 2. Not passing any modifiers is the same as explicitly passing INVALI=
+D.
++	*/
++	if (modifier =3D=3D DRM_FORMAT_MOD_LINEAR)
++		return true;
++
++	/* Check that the modifier is on the list of the plane's supported modi=
+fiers. */
++	for (i =3D 0; i < plane->modifier_count; i++) {
++		if (modifier =3D=3D plane->modifiers[i])
++			break;
++	}
++
++	if (i =3D=3D plane->modifier_count)
++		return false;
++
++	return true;
++}
++
++const struct drm_plane_funcs vs_plane_funcs =3D {
++	.update_plane		=3D drm_atomic_helper_update_plane,
++	.disable_plane		=3D drm_atomic_helper_disable_plane,
++	.destroy		=3D vs_plane_destory,
++	.reset			=3D vs_plane_reset,
++	.atomic_duplicate_state =3D vs_plane_atomic_duplicate_state,
++	.atomic_destroy_state	=3D vs_plane_atomic_destroy_state,
++	.atomic_set_property	=3D vs_plane_atomic_set_property,
++	.atomic_get_property	=3D vs_plane_atomic_get_property,
++	.format_mod_supported	=3D vs_format_mod_supported,
++};
++
++static unsigned char vs_get_plane_number(struct drm_framebuffer *fb)
++{
++	const struct drm_format_info *info;
++
++	if (!fb)
++		return 0;
++
++	info =3D drm_format_info(fb->format->format);
++	if (!info || info->num_planes > MAX_NUM_PLANES)
++		return 0;
++
++	return info->num_planes;
++}
++
++static int vs_plane_atomic_check(struct drm_plane *plane,
++				 struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state =3D drm_atomic_get_new_plane_st=
+ate(state,
++										 plane);
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
++	struct drm_framebuffer *fb =3D new_plane_state->fb;
++	struct drm_crtc *crtc =3D new_plane_state->crtc;
 +	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
 +
-+	return vs_crtc->funcs->mode_fixup(vs_crtc->dev, mode, adjusted_mode);
++	if (!crtc || !fb)
++		return 0;
++
++	//return vs_plane->funcs->check(vs_crtc->dev, vs_plane, new_plane_state=
+);
++	return vs_plane->funcs->check(vs_crtc->dev, plane, state);
 +}
 +
-+static void vs_crtc_atomic_enable(struct drm_crtc *crtc,
-+				  struct drm_atomic_state *state)
-+{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+	struct vs_crtc_state *vs_crtc_state =3D to_vs_crtc_state(crtc->state);
-+
-+	vs_crtc_state->bpp =3D cal_pixel_bits(vs_crtc_state->output_fmt);
-+
-+	vs_crtc->funcs->enable(vs_crtc->dev, crtc);
-+	drm_crtc_vblank_on(crtc);
-+}
-+
-+static void vs_crtc_atomic_disable(struct drm_crtc *crtc,
++static void vs_plane_atomic_update(struct drm_plane *plane,
 +				   struct drm_atomic_state *state)
 +{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
++	struct drm_plane_state *new_state =3D drm_atomic_get_new_plane_state(st=
+ate,
++									   plane);
++	unsigned char i, num_planes;
++	struct drm_framebuffer *fb;
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
++	//struct drm_plane_state *state =3D plane->state;
++	struct vs_crtc *vs_crtc =3D to_vs_crtc(new_state->crtc);
++	struct vs_plane_state *plane_state =3D to_vs_plane_state(new_state);
++	//struct drm_format_name_buf *name =3D &plane_state->status.format_name=
+;
 +
-+	drm_crtc_vblank_off(crtc);
++	if (!new_state->fb || !new_state->crtc)
++		return;
 +
-+	vs_crtc->funcs->disable(vs_crtc->dev, crtc);
++	fb =3D new_state->fb;
 +
-+	if (crtc->state->event && !crtc->state->active) {
-+		spin_lock_irq(&crtc->dev->event_lock);
-+		drm_crtc_send_vblank_event(crtc, crtc->state->event);
-+		spin_unlock_irq(&crtc->dev->event_lock);
++	num_planes =3D vs_get_plane_number(fb);
 +
-+		crtc->state->event =3D NULL;
++	for (i =3D 0; i < num_planes; i++) {
++		struct vs_gem_object *vs_obj;
++
++		vs_obj =3D vs_fb_get_gem_obj(fb, i);
++		vs_plane->dma_addr[i] =3D vs_obj->iova + fb->offsets[i];
 +	}
++
++	plane_state->status.src =3D drm_plane_state_src(new_state);
++	plane_state->status.dest =3D drm_plane_state_dest(new_state);
++
++	vs_plane->funcs->update(vs_crtc->dev, vs_plane, plane, state);
 +}
 +
-+static void vs_crtc_atomic_begin(struct drm_crtc *crtc,
-+				 struct drm_atomic_state *state)
++static void vs_plane_atomic_disable(struct drm_plane *plane,
++				    struct drm_atomic_state *state)
 +{
-+	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(sta=
-te,
-+									  crtc);
++	struct drm_plane_state *old_state =3D drm_atomic_get_old_plane_state(st=
+ate,
++										   plane);
++	struct vs_plane *vs_plane =3D to_vs_plane(plane);
++	struct vs_crtc *vs_crtc =3D to_vs_crtc(old_state->crtc);
 +
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+	struct device *dev =3D vs_crtc->dev;
-+	struct drm_property_blob *blob =3D crtc->state->gamma_lut;
-+	struct drm_color_lut *lut;
-+
-+	if (crtc_state->color_mgmt_changed) {
-+		if (blob && blob->length) {
-+			lut =3D blob->data;
-+			vs_crtc->funcs->set_gamma(dev, crtc, lut,
-+						  blob->length / sizeof(*lut));
-+			vs_crtc->funcs->enable_gamma(dev, crtc, true);
-+		} else {
-+			vs_crtc->funcs->enable_gamma(dev, crtc, false);
-+		}
-+	}
++	vs_plane->funcs->disable(vs_crtc->dev, vs_plane, old_state);
 +}
 +
-+static void vs_crtc_atomic_flush(struct drm_crtc *crtc,
-+				 struct drm_atomic_state *state)
-+{
-+	struct vs_crtc *vs_crtc =3D to_vs_crtc(crtc);
-+	struct drm_pending_vblank_event *event =3D crtc->state->event;
-+
-+	vs_crtc->funcs->commit(vs_crtc->dev);
-+
-+	if (event) {
-+		WARN_ON(drm_crtc_vblank_get(crtc) !=3D 0);
-+
-+		spin_lock_irq(&crtc->dev->event_lock);
-+		drm_crtc_arm_vblank_event(crtc, event);
-+		spin_unlock_irq(&crtc->dev->event_lock);
-+		crtc->state->event =3D NULL;
-+	}
-+}
-+
-+static const struct drm_crtc_helper_funcs vs_crtc_helper_funcs =3D {
-+	.mode_fixup =3D vs_crtc_mode_fixup,
-+	.atomic_enable	=3D vs_crtc_atomic_enable,
-+	.atomic_disable =3D vs_crtc_atomic_disable,
-+	.atomic_begin	=3D vs_crtc_atomic_begin,
-+	.atomic_flush	=3D vs_crtc_atomic_flush,
++const struct drm_plane_helper_funcs vs_plane_helper_funcs =3D {
++	.atomic_check	=3D vs_plane_atomic_check,
++	.atomic_update	=3D vs_plane_atomic_update,
++	.atomic_disable =3D vs_plane_atomic_disable,
 +};
 +
-+static const struct drm_prop_enum_list vs_sync_mode_enum_list[] =3D {
-+	{ VS_SINGLE_DC,			"single dc mode" },
-+	{ VS_MULTI_DC_PRIMARY,		"primary dc for multi dc mode" },
-+	{ VS_MULTI_DC_SECONDARY,	"secondary dc for multi dc mode" },
++static const struct drm_prop_enum_list vs_degamma_mode_enum_list[] =3D {
++	{ VS_DEGAMMA_DISABLE,	"disabled" },
++	{ VS_DEGAMMA_BT709, "preset degamma for BT709" },
++	{ VS_DEGAMMA_BT2020,	"preset degamma for BT2020" },
 +};
 +
-+struct vs_crtc *vs_crtc_create(struct drm_device *drm_dev,
-+			       struct vs_dc_info *info)
++struct vs_plane *vs_plane_create(struct drm_device *drm_dev,
++				 struct vs_plane_info *info,
++				 unsigned int layer_num,
++				 unsigned int possible_crtcs)
 +{
-+	struct vs_crtc *crtc;
++	struct vs_plane *plane;
 +	int ret;
 +
 +	if (!info)
 +		return NULL;
 +
-+	crtc =3D kzalloc(sizeof(*crtc), GFP_KERNEL);
-+	if (!crtc)
++	plane =3D kzalloc(sizeof(*plane), GFP_KERNEL);
++	if (!plane)
 +		return NULL;
 +
-+	ret =3D drm_crtc_init_with_planes(drm_dev, &crtc->base,
-+					NULL, NULL, &vs_crtc_funcs,
-+					info->name ? info->name : NULL);
++	ret =3D drm_universal_plane_init(drm_dev, &plane->base, possible_crtcs,
++				       &vs_plane_funcs, info->formats,
++				       info->num_formats, info->modifiers, info->type,
++				       info->name ? info->name : NULL);
 +	if (ret)
-+		goto err_free_crtc;
++		goto err_free_plane;
 +
-+	drm_crtc_helper_add(&crtc->base, &vs_crtc_helper_funcs);
++	drm_plane_helper_add(&plane->base, &vs_plane_helper_funcs);
 +
-+	/* Set up the crtc properties */
-+	if (info->pipe_sync) {
-+		crtc->sync_mode =3D drm_property_create_enum(drm_dev, 0,
-+							   "SYNC_MODE",
-+							    vs_sync_mode_enum_list,
-+							    ARRAY_SIZE(vs_sync_mode_enum_list));
++	/* Set up the plane properties */
++	if (info->degamma_size) {
++		plane->degamma_mode =3D
++		drm_property_create_enum(drm_dev, 0,
++					 "DEGAMMA_MODE",
++					 vs_degamma_mode_enum_list,
++					 ARRAY_SIZE(vs_degamma_mode_enum_list));
 +
-+		if (!crtc->sync_mode)
-+			goto err_cleanup_crts;
++		if (!plane->degamma_mode)
++			goto error_cleanup_plane;
 +
-+		drm_object_attach_property(&crtc->base.base,
-+					   crtc->sync_mode,
-+					   VS_SINGLE_DC);
++		drm_object_attach_property(&plane->base.base,
++					   plane->degamma_mode,
++					   VS_DEGAMMA_DISABLE);
 +	}
 +
-+	if (info->gamma_size) {
-+		ret =3D drm_mode_crtc_set_gamma_size(&crtc->base,
-+						   info->gamma_size);
++	if (info->rotation) {
++		ret =3D drm_plane_create_rotation_property(&plane->base,
++							 DRM_MODE_ROTATE_0,
++							 info->rotation);
 +		if (ret)
-+			goto err_cleanup_crts;
-+
-+		drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
-+					   info->gamma_size);
++			goto error_cleanup_plane;
 +	}
 +
-+	if (info->background) {
-+		crtc->bg_color =3D drm_property_create_range(drm_dev, 0,
-+							   "BG_COLOR", 0, 0xffffffff);
-+
-+		if (!crtc->bg_color)
-+			goto err_cleanup_crts;
-+
-+		drm_object_attach_property(&crtc->base.base, crtc->bg_color, 0);
++	if (info->blend_mode) {
++		ret =3D drm_plane_create_blend_mode_property(&plane->base,
++							   info->blend_mode);
++		if (ret)
++			goto error_cleanup_plane;
++		ret =3D drm_plane_create_alpha_property(&plane->base);
++		if (ret)
++			goto error_cleanup_plane;
 +	}
 +
-+	if (info->panel_sync) {
-+		crtc->panel_sync =3D drm_property_create_bool(drm_dev, 0, "SYNC_ENABLE=
-D");
-+
-+		if (!crtc->panel_sync)
-+			goto err_cleanup_crts;
-+
-+		drm_object_attach_property(&crtc->base.base, crtc->panel_sync, 0);
++	if (info->color_encoding) {
++		ret =3D drm_plane_create_color_properties(&plane->base,
++							info->color_encoding,
++							BIT(DRM_COLOR_YCBCR_LIMITED_RANGE),
++							DRM_COLOR_YCBCR_BT709,
++							DRM_COLOR_YCBCR_LIMITED_RANGE);
++		if (ret)
++			goto error_cleanup_plane;
 +	}
 +
-+	crtc->dither =3D drm_property_create_bool(drm_dev, 0, "DITHER_ENABLED")=
-;
-+	if (!crtc->dither)
-+		goto err_cleanup_crts;
++	if (info->zpos !=3D 255) {
++		ret =3D drm_plane_create_zpos_property(&plane->base, info->zpos, 0,
++						     layer_num - 1);
++		if (ret)
++			goto error_cleanup_plane;
++	} else {
++		ret =3D drm_plane_create_zpos_immutable_property(&plane->base,
++							       info->zpos);
++		if (ret)
++			goto error_cleanup_plane;
++	}
 +
-+	drm_object_attach_property(&crtc->base.base, crtc->dither, 0);
++	if (info->watermark) {
++		plane->watermark_prop =3D drm_property_create(drm_dev, DRM_MODE_PROP_B=
+LOB,
++							    "WATERMARK", 0);
++		if (!plane->watermark_prop)
++			goto error_cleanup_plane;
 +
-+	crtc->max_bpc =3D info->max_bpc;
-+	crtc->color_formats =3D info->color_formats;
-+	return crtc;
++		drm_object_attach_property(&plane->base.base, plane->watermark_prop, 0=
+);
++	}
 +
-+err_cleanup_crts:
-+	drm_crtc_cleanup(&crtc->base);
++	if (info->color_mgmt) {
++		plane->color_mgmt_prop =3D drm_property_create(drm_dev, DRM_MODE_PROP_=
+BLOB,
++							     "COLOR_CONFIG", 0);
++		if (!plane->color_mgmt_prop)
++			goto error_cleanup_plane;
 +
-+err_free_crtc:
-+	kfree(crtc);
++		drm_object_attach_property(&plane->base.base, plane->color_mgmt_prop, =
+0);
++	}
++
++	if (info->roi) {
++		plane->roi_prop =3D drm_property_create(drm_dev, DRM_MODE_PROP_BLOB,
++						      "ROI", 0);
++		if (!plane->roi_prop)
++			goto error_cleanup_plane;
++
++		drm_object_attach_property(&plane->base.base, plane->roi_prop, 0);
++	}
++
++	return plane;
++
++error_cleanup_plane:
++	drm_plane_cleanup(&plane->base);
++err_free_plane:
++	kfree(plane);
 +	return NULL;
 +}
-+
-+void vs_crtc_handle_vblank(struct drm_crtc *crtc, bool underflow)
-+{
-+	struct vs_crtc_state *vs_crtc_state =3D to_vs_crtc_state(crtc->state);
-+
-+	drm_crtc_handle_vblank(crtc);
-+
-+	vs_crtc_state->underflow =3D underflow;
-+}
-diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.h b/drivers/gpu/drm/veri=
-silicon/vs_crtc.h
+diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h b/drivers/gpu/drm/ver=
+isilicon/vs_plane.h
 new file mode 100644
-index 000000000000..33b3b14249ce
+index 000000000000..76ef3c3de045
 --- /dev/null
-+++ b/drivers/gpu/drm/verisilicon/vs_crtc.h
++++ b/drivers/gpu/drm/verisilicon/vs_plane.h
 @@ -0,0 +1,74 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
 + */
 +
-+#ifndef __VS_CRTC_H__
-+#define __VS_CRTC_H__
++#ifndef __VS_PLANE_H__
++#define __VS_PLANE_H__
 +
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_crtc_helper.h>
-+
-+#include "vs_type.h"
-+
-+struct vs_crtc_funcs {
-+	void (*enable)(struct device *dev, struct drm_crtc *crtc);
-+	void (*disable)(struct device *dev, struct drm_crtc *crtc);
-+	bool (*mode_fixup)(struct device *dev,
-+			   const struct drm_display_mode *mode,
-+			   struct drm_display_mode *adjusted_mode);
-+	void (*set_gamma)(struct device *dev, struct drm_crtc *crtc,
-+			  struct drm_color_lut *lut, unsigned int size);
-+	void (*enable_gamma)(struct device *dev, struct drm_crtc *crtc,
-+			     bool enable);
-+	void (*enable_vblank)(struct device *dev, bool enable);
-+	void (*commit)(struct device *dev);
-+};
-+
-+struct vs_crtc_state {
-+	struct drm_crtc_state base;
-+
-+	u32 sync_mode;
-+	u32 output_fmt;
-+	u32 bg_color;
-+	u8 encoder_type;
-+	u8 mmu_prefetch;
-+	u8 bpp;
-+	bool sync_enable;
-+	bool dither_enable;
-+	bool underflow;
-+};
-+
-+struct vs_crtc {
-+	struct drm_crtc base;
-+	struct device *dev;
-+	struct drm_pending_vblank_event *event;
-+	unsigned int max_bpc;
-+	unsigned int color_formats; /* supported color format */
-+
-+	struct drm_property *sync_mode;
-+	struct drm_property *mmu_prefetch;
-+	struct drm_property *bg_color;
-+	struct drm_property *panel_sync;
-+	struct drm_property *dither;
-+
-+	const struct vs_crtc_funcs *funcs;
-+};
-+
-+void vs_crtc_destroy(struct drm_crtc *crtc);
-+
-+struct vs_crtc *vs_crtc_create(struct drm_device *drm_dev,
-+			       struct vs_dc_info *info);
-+void vs_crtc_handle_vblank(struct drm_crtc *crtc, bool underflow);
-+
-+static inline struct vs_crtc *to_vs_crtc(struct drm_crtc *crtc)
-+{
-+	return container_of(crtc, struct vs_crtc, base);
-+}
-+
-+static inline struct vs_crtc_state *
-+to_vs_crtc_state(struct drm_crtc_state *state)
-+{
-+	return container_of(state, struct vs_crtc_state, base);
-+}
-+#endif /* __VS_CRTC_H__ */
-diff --git a/drivers/gpu/drm/verisilicon/vs_type.h b/drivers/gpu/drm/veri=
-silicon/vs_type.h
-new file mode 100644
-index 000000000000..6f8db65a703d
---- /dev/null
-+++ b/drivers/gpu/drm/verisilicon/vs_type.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-+ */
-+
-+#ifndef __VS_TYPE_H__
-+#define __VS_TYPE_H__
-+
-+#include <linux/version.h>
-+
-+#include <drm/drm_plane.h>
++#include <drm/drm_fourcc.h>
 +#include <drm/drm_plane_helper.h>
 +
-+struct vs_plane_info {
-+	const char *name;
++#include "vs_fb.h"
++#include "vs_type.h"
++
++struct vs_plane;
++
++struct vs_plane_funcs {
++	void (*update)(struct device *dev, struct vs_plane *plane, struct drm_p=
+lane *drm_plane,
++		       struct drm_atomic_state *state);
++	void (*disable)(struct device *dev, struct vs_plane *plane,
++			struct drm_plane_state *old_state);
++	int (*check)(struct device *dev, struct drm_plane *plane,
++		     struct drm_atomic_state *state);
++};
++
++struct vs_plane_status {
++	u32 tile_mode;
++	struct drm_rect src;
++	struct drm_rect dest;
++};
++
++struct vs_plane_state {
++	struct drm_plane_state base;
++	struct vs_plane_status status; /* for debugfs */
++
++	struct drm_property_blob *watermark;
++	struct drm_property_blob *color_mgmt;
++	struct drm_property_blob *roi;
++
++	u32 degamma;
++	bool degamma_changed;
++};
++
++struct vs_plane {
++	struct drm_plane base;
 +	u8 id;
-+	enum drm_plane_type type;
-+	unsigned int num_formats;
-+	const u32 *formats;
-+	u8 num_modifiers;
-+	const u64 *modifiers;
-+	unsigned int min_width;
-+	unsigned int min_height;
-+	unsigned int max_width;
-+	unsigned int max_height;
-+	unsigned int rotation;
-+	unsigned int blend_mode;
-+	unsigned int color_encoding;
++	dma_addr_t dma_addr[MAX_NUM_PLANES];
 +
-+	/* 0 means no de-gamma LUT */
-+	unsigned int degamma_size;
++	struct drm_property *degamma_mode;
++	struct drm_property *watermark_prop;
++	struct drm_property *color_mgmt_prop;
++	struct drm_property *roi_prop;
 +
-+	int min_scale; /* 16.16 fixed point */
-+	int max_scale; /* 16.16 fixed point */
-+
-+	/* default zorder value,
-+	 * and 255 means unsupported zorder capability
-+	 */
-+	u8	 zpos;
-+
-+	bool watermark;
-+	bool color_mgmt;
-+	bool roi;
++	const struct vs_plane_funcs *funcs;
 +};
 +
-+struct vs_dc_info {
-+	const char *name;
++void vs_plane_destory(struct drm_plane *plane);
 +
-+	u8 panel_num;
++struct vs_plane *vs_plane_create(struct drm_device *drm_dev,
++				 struct vs_plane_info *info,
++				 unsigned int layer_num,
++				 unsigned int possible_crtcs);
 +
-+	/* planes */
-+	u8 plane_num;
-+	const struct vs_plane_info *planes;
++static inline struct vs_plane *to_vs_plane(struct drm_plane *plane)
++{
++	return container_of(plane, struct vs_plane, base);
++}
 +
-+	u8 layer_num;
-+	unsigned int max_bpc;
-+	unsigned int color_formats;
-+
-+	/* 0 means no gamma LUT */
-+	u16 gamma_size;
-+	u8 gamma_bits;
-+
-+	u16 pitch_alignment;
-+
-+	bool pipe_sync;
-+	bool mmu_prefetch;
-+	bool background;
-+	bool panel_sync;
-+	bool cap_dec;
-+};
-+
-+#endif /* __VS_TYPE_H__ */
++static inline struct vs_plane_state *
++to_vs_plane_state(struct drm_plane_state *state)
++{
++	return container_of(state, struct vs_plane_state, base);
++}
++#endif /* __VS_PLANE_H__ */
 --=20
 2.34.1
 
