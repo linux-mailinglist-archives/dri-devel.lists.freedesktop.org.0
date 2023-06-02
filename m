@@ -1,127 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E237720431
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 16:21:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F8172044B
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 16:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 582F410E0CB;
-	Fri,  2 Jun 2023 14:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6331210E16B;
+	Fri,  2 Jun 2023 14:24:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2126.outbound.protection.outlook.com [40.107.114.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A5F10E0CB
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 14:20:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DUL3sj6mAQNsS1UFt5I0Lb8ksK01hkOsUHY9Rl+3nlUeDE3b2yJ6zt03e3IPJG56y+dVPORY4POH7fJjb3f9fvkM4SO/+4OqyUnJ909zZPyJ6IYab9h1IgYXvz6VkMiBEyG6nrTgD+h+bgCmbBeaI24qklRy5N8OVz8npTy0jYeue7V+fTpCyUcLR7RGZr4I/wR5THXjt89v5NYaT4XBP3j1P8mmqFkml3+ZgbFSWCQCwNVWArWKtiIAUf/1HaXekuv39px+eUOo/LwAT9iQNLjQZeLmCbch5pVYEV1j9j/2wAG7PVtX4yNAuXqo9W18R6NsQkO9ZbRCy2gv7JowPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7v6huGb/pYD3lzqcjVnnDl9qjiWm9byj3UFc+emSc6Q=;
- b=elu7vcGCXmW62i5CUm36JKtg72X41hZz9Ed3WxVcYLRqlpCPSjNbaM53xxW1g1GwBrK7SIKKu2+MbecMHPx2skf7wmUvbF+7GMw1Cf3Q69Fd+IWiz7IRvPrEDk+7jJw1iyA978OvvvcYBqScg3RDKB9MfVbs50ISPd4FSdYL+iNdEm7BhmQQJXzckSK0CFtPPs3TsPhs6Pem0DQd936x97tLnJamS0Z+y4Dp5AG+Sk7YB9EKkfccsqGRl/bHPqnQIOh3S/Ui2n/Yl38X2i9bqUwkwhJ05w1gXG0Z8p0J9G/qGz9JF1wc1PqK0hk+noD/1yuSu6SfxCFU1QOXuoAveA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7v6huGb/pYD3lzqcjVnnDl9qjiWm9byj3UFc+emSc6Q=;
- b=rTZzmmAFy32t7VXyv4STFyCUpgVhzAeGLExFdGi37TrArIjduwrWITOYBqIZ0cRfPOjd1jMCpCghLaue+Xqtos2gnZclXBG/mus23U1eNFOpTMya/0NZ21XmWQQQKuycbT9kYGms3qMm/aED9nGmAPfYUvK9JB9nSpHfdR2Ebk8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB5757.jpnprd01.prod.outlook.com (2603:1096:400:46::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.24; Fri, 2 Jun
- 2023 14:20:52 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.020; Fri, 2 Jun 2023
- 14:20:52 +0000
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC4D710E16B
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 14:24:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.00,213,1681138800"; d="scan'208";a="165498975"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 02 Jun 2023 23:24:42 +0900
+Received: from localhost.localdomain (unknown [10.226.93.55])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6F2CC40065BD;
+ Fri,  2 Jun 2023 23:24:34 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v9 RESEND 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
- support
-Thread-Topic: [PATCH v9 RESEND 0/5] Add RZ/{G2L, G2LC} and RZ/V2L Display Unit
- support
-Thread-Index: AQHZfN4p/b5orSrwk0ai5QpLpQqzGK9bCteAgBAjuzCABkdFgIAAARaggAAYaACABHqVQIABg1YAgAAzrsA=
-Date: Fri, 2 Jun 2023 14:20:52 +0000
-Message-ID: <OS0PR01MB59228371ED494C3F2968E633864EA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230502100912.143114-1-biju.das.jz@bp.renesas.com>
- <OS0PR01MB59220E8306506F3E0B17968A86789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922CC640A93CF85033FB47086469@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230529141349.GA15264@pendragon.ideasonboard.com>
- <OS0PR01MB5922B66349F301074C51018F864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230529154504.GC15264@pendragon.ideasonboard.com>
- <OS0PR01MB59222EFBB7C6549620192AAF86499@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230602111510.GE26944@pendragon.ideasonboard.com>
-In-Reply-To: <20230602111510.GE26944@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYCPR01MB5757:EE_
-x-ms-office365-filtering-correlation-id: 949f2a64-187f-418c-4e5b-08db63749227
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /SEAFxsa7U6PPOY3fAMOrKVQmjvWRxTl2N3gnj/TfcBUorjhpJihxIAmWiBPHrjs1YukZsVG2KuYpeHh8lazvBiEspo6aolanOP7umh/qcfq3gG4SWap72nS+ucy+oWOVCoEv3NxBNJ6Fw1Usy9jn+4F96q60TJtkyiJnWrKz9jx3H8adzMamflX8+lvzqJLtNQ2H3pd4DbVJlMjGPtBdChxrwu98OpXxqbIFeCzZO+UtPFFgsxam+TMhdICMnqjp44imbAefrziCBlEboIroAu8d44mZnAPiPF2YZEaMkkh+xnDEfuOvfKmdDLWXOFKbXm3/UqrP34KS7hOtWJCc3miARojoEr1f11HE+1ivt6rKm7YGN+feXqdsYQECW740K3ZERyBiZYR7yL42XO6icYgmwglOdovByFL7shRVu5heRGk1ncbmMfTg2joB/VdGxluAnDUv5chAWTtbYZL02Qi/NFQySM8iHUpNGjIi+EhH37ZeYH3w7g4OTpyoLhMVA1M7Kbv2rg3hHqMZ/dVShSfvDPXICcZTLDsVT6my3bk0sy6OxMJuJ3kPgXjq7cltAIOys68Kcgz98JSqpnVFwi4JfTmi4EX9Xd7kT5TUEd0EK+gCZRQ5+yFvdt23E9p
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(451199021)(38100700002)(122000001)(7696005)(86362001)(478600001)(54906003)(66946007)(6916009)(66556008)(76116006)(66446008)(64756008)(66476007)(55016003)(38070700005)(33656002)(4326008)(71200400001)(9686003)(26005)(53546011)(186003)(6506007)(52536014)(316002)(8676002)(5660300002)(2906002)(8936002)(83380400001)(41300700001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NXJvSWkwU3hZUTNGdXhHNlFEUXB4U0xDa1NjMG84L1RuME5DcGhiUFRCZWtN?=
- =?utf-8?B?QTIxZXNjUk5MaWtWRnN1SVlGYWo5MGJBVCtyV1JYckZENCsyTWZzd2k0L08x?=
- =?utf-8?B?WjJHd1R5VVZna0tDYzZuS21NcFdKN3JCb1JlZ3IxY2g4bktmNkNVQ0pySTB0?=
- =?utf-8?B?bkloVnZ3c1haVjlIbGRZK0NtQkhQZmx5Y3JNcXE2bXZoNE0wNmV3bllrNS9L?=
- =?utf-8?B?ckFFSTc2RklNbjQ4d2czMzJKcVlBamtRL0IxcTJEYjFyMVJuNXl5QUNLelQx?=
- =?utf-8?B?TWQvamlLZGlYNzRrS3gzQUl2czlIMkhEa3Q2QTRiZC8yaFBxa3IwQ3Q2MTVV?=
- =?utf-8?B?Vm5tRVdmNGtaQXhlbjZxdG1uQ3pLWmNENnphOXQ3WEhjUW5FTnh6MHA3anQy?=
- =?utf-8?B?L1dZWklvNHo4THJOMS9NS0JEaVF6bjlKMGdMeHFIdkFRMHZGUDZRYVA1Ujla?=
- =?utf-8?B?cElyeW81VjFvNlFrdDVUNWlYSVR0dmE1emZOTHZSSXBMWW1lRDJxdXNvT1hI?=
- =?utf-8?B?QzZuT2k0L2sybEdQMy9ZaHdjK3hTZVJRb29tTVpWR1dJYkwrVVA3KzI0RnQz?=
- =?utf-8?B?MUl5QUZ1elZYQlZTZDlDeGlEYWh5ZEVGelkveHdieWI2MlpTcGtjUkpGcG9Z?=
- =?utf-8?B?eVZRSmgwcmhYUjN5WGF4d29YUE9XUHBMMEVQWmxKNXhldWhlNDJiR2Z4SFhk?=
- =?utf-8?B?b0pYUjFTZ2FmRmxsSk53ZzlWQ3RKVUN3T212dkhsVVFTcTJkcWhub1ZJNTIw?=
- =?utf-8?B?c01sWXQrQU5paEhocU1vU3hVOGYrZjNvM0FTS2E3cmxKY0ZkTXprenl2VEF6?=
- =?utf-8?B?ait6WU5SMHpTSHJ6M1dza2hRTUMwYU1pOThWSSt0R2dmemh3NFF6MkcxWWVR?=
- =?utf-8?B?ek9aMlJLSEg1Rk0wOUZlYW9YYWg0Ukgxaml3SzZ1Mm84ZXdtNUtSbEdHZDIz?=
- =?utf-8?B?VGZETmVUODFVaHh2NDFJUmpQald3bjV6WnlGM1ExMUplU3A3YmdNUGh2NHRm?=
- =?utf-8?B?T0Y5eWtqYkZVRkFGOC9JRkF6TFpJRXp5U0pvcEp5M05BSzRKUHV3ZWd5SEFX?=
- =?utf-8?B?aTdYRmNwTTJaL2VqYmdKTVR3RnFJMVZ1My82bFRmMHhDOGp3UXpmV2dtdHJs?=
- =?utf-8?B?TU1kcHJyT1dkQUE0aFNFZGFJREdEdEFMelg1TFJvYmhySERKTnV6NHV3ajcv?=
- =?utf-8?B?WlBrUDNUVUxWQnE1U3JkZE9rOVQzZ1ZFMzd1eWErUWhCYTdkOWRvRVZxTWtj?=
- =?utf-8?B?YzlpMGRGdWdoTi9qUTBUbFV6dE9pMXdzZTRMazBTZkxwQ1B5TUNYZ1BDUjEr?=
- =?utf-8?B?MDRCR3FDZkpUZ2RRQk81T2NYU2V6RWV4Y0pzMmgzL2RZNi82TFNKa2dUMWhD?=
- =?utf-8?B?NUlFb0JNd2tJbTFCMW5jcWxYd0J3VTZod0hVL2YzLzhqRXRvSzZBL0JmZGlv?=
- =?utf-8?B?Mi9UUy9NMjhtb05LQVliUlVOOEw5UzM5WDJyYWZMeFVBOHRLaGlrdHBwQlRa?=
- =?utf-8?B?THAvR1RtWEdxc3RvRkJHL3lFVGJmT3QrOFJqamwyTUtINjZYY09sQTljY1NP?=
- =?utf-8?B?NkJLSGs1NGx3cExMNmZTZ3l3NXZGckszWUU1ZU02THYxbDdaMHFUV2p6TmVi?=
- =?utf-8?B?TWhyWEljNFM0Qk9lWFpMeURwS3RvcVFzSVdZU080WUZkUVlFU1ZCcUs1S0VR?=
- =?utf-8?B?cjdWT2thUWZib3RyYzR4WW42azFtT0lkTGxLMEtVMzF1OWxXYUNEb2cvd1V0?=
- =?utf-8?B?ais2NUxjM00vUFgxZUI5am0zeG5PWWxaV0JIaWFVRG9lYzF3b0ZnNzJhQTNm?=
- =?utf-8?B?MjgvTmZBbGR6ZWc0VklpcDFhN3I3RWNJVkNucnVHTUtMRW9QbGlZT0dsQUFU?=
- =?utf-8?B?V2ZON0t6ajJLMm5yL1dFd0xVNW95SC9GNVkyODJMQVdNZlZkUkJ0Q05aZEhS?=
- =?utf-8?B?M2w3SVpSNHROdDRKcHp0YlJqNm9Hd0FuRmJ0V1pOc3BvdWh4VWFEcjk4NVFi?=
- =?utf-8?B?dFJBY0VJSkxrcEJFZndoSzc0Rm56OVI3NjlVRUIvUXlCeXB2dG1vNnhsWnBV?=
- =?utf-8?B?YzJhYWROc3hNQVJJUUp4K3Y5dGZFTlpqaTNjV2tacDRHY1BJTHV3L05OME5U?=
- =?utf-8?Q?h+DtixmeFevhx+7V6xfaU7tum?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Wolfram Sang <wsa@kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v6 01/11] i2c: Enhance i2c_new_ancillary_device API
+Date: Fri,  2 Jun 2023 15:24:16 +0100
+Message-Id: <20230602142426.438375-2-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230602142426.438375-1-biju.das.jz@bp.renesas.com>
+References: <20230602142426.438375-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 949f2a64-187f-418c-4e5b-08db63749227
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2023 14:20:52.1895 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c6vJfzDC/TaDANO9pwopBMZ6CFw5Glu73HnNgiFhaXOSrHgtSbzAu1ZGq33Ks3EruJdNgtixHdRMzu+YEf/a64+tVTQUgwwIircoOeL8nB8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5757
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,60 +47,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-renesas-soc@vger.kernel.org,
+ Corey Minyard <cminyard@mvista.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org,
+ linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVy
-ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
-IEZyaWRheSwgSnVuZSAyLCAyMDIzIDEyOjE1IFBNDQo+IFRvOiBCaWp1IERhcyA8YmlqdS5kYXMu
-anpAYnAucmVuZXNhcy5jb20+DQo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29t
-PjsgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPjsNCj4gUGhpbGlwcCBaYWJlbCA8cC56
-YWJlbEBwZW5ndXRyb25peC5kZT47IEdlZXJ0IFV5dHRlcmhvZXZlbg0KPiA8Z2VlcnQrcmVuZXNh
-c0BnbGlkZXIuYmU+OyBLaWVyYW4gQmluZ2hhbQ0KPiA8a2llcmFuLmJpbmdoYW0rcmVuZXNhc0Bp
-ZGVhc29uYm9hcmQuY29tPjsgZHJpLQ0KPiBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxp
-bnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZzsgRmFicml6aW8NCj4gQ2FzdHJvIDxmYWJy
-aXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+OyBQcmFiaGFrYXIgTWFoYWRldiBMYWQNCj4gPHBy
-YWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT47IGxpbnV4LWtlcm5lbEB2Z2Vy
-Lmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2OSBSRVNFTkQgMC81XSBBZGQgUlov
-e0cyTCxHMkxDfSBhbmQgUlovVjJMIERpc3BsYXkNCj4gVW5pdCBzdXBwb3J0DQo+IA0KPiBIaSBC
-aWp1LA0KPiANCj4gT24gVGh1LCBKdW4gMDEsIDIwMjMgYXQgMTI6MTI6NTlQTSArMDAwMCwgQmlq
-dSBEYXMgd3JvdGU6DQo+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIHY5IFJFU0VORCAwLzVdIEFk
-ZCBSWi97RzJMLEcyTEN9IGFuZCBSWi9WMkwNCj4gPiA+IERpc3BsYXkgVW5pdCBzdXBwb3J0DQo+
-ID4gPg0KPiA+ID4gT24gTW9uLCBNYXkgMjksIDIwMjMgYXQgMDI6MjI6MDZQTSArMDAwMCwgQmlq
-dSBEYXMgd3JvdGU6DQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2OSBSRVNFTkQgMC81
-XSBBZGQgUlove0cyTCxHMkxDfSBhbmQgUlovVjJMDQo+ID4gPiA+ID4gRGlzcGxheSBVbml0IHN1
-cHBvcnQgT24gVGh1LCBNYXkgMjUsIDIwMjMgYXQgMDI6MzA6MTBQTSArMDAwMCwNCj4gPiA+ID4g
-PiBCaWp1IERhcyB3cm90ZToNCj4gPiA+ID4gPiA+IEhpIERSTSBtYWludGFpbmVycywNCj4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiBHZW50bGUgcGluZy4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFNv
-cnJ5LCBJIHdhcyBvbiBob2xpZGF5cyB0aGUgbGFzdCB0d28gd2Vla3MuDQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+IEFyZSB3ZSBoYXBweSB3aXRoIG1vdmluZyBhbGwgUmVuZXNhcyBkcm0gZHJpdmVy
-cyB0byBSZW5lc2FzDQo+ID4gPiA+ID4gPiBzcGVjaWZpYyBkaXJlY3Rvcnkgb3IgcHJlZmVyZW5j
-ZSBpcyBmb3Igc2VwYXJhdGUgb25lPz8NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoaXMgd29ya3Mg
-Zm9yIG1lLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBJZiBpdCBpcyBsYXRlciwgSSBjYW4gc2Vu
-ZCBSWi9HMkwgZHJtIGRyaXZlciBzZXBhcmF0ZS4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBP
-dGhlcndpc2UsIEkgbmVlZCB0byByZWJhc2UgYW5kIHJlc2VuZC4NCj4gPiA+ID4gPg0KPiA+ID4g
-PiA+IFlvdXIgc2VyaWVzIGFwcGxpZXMgY2xlYW5seSBvbiB0b3Agb2YgdGhlIGxhdGVzdCBkcm0t
-bmV4dA0KPiA+ID4gPiA+IGJyYW5jaC4gSXMgdGhlcmUgYSBzcGVjaWZpYyBuZWVkIHRvIHJlYmFz
-ZSBhbmQgcmVzZW5kID8NCj4gPiA+ID4NCj4gPiA+ID4gTm9wZS4gQWZ0ZXIgbXkgcGF0Y2ggc2Vy
-aWVzIHRoZXJlIHdlcmUgc29tZSBwYXRjaGVzIGZyb20gR2VlcnQgZm9yDQo+ID4gPiA+IGRybS9z
-aG1vYmlsZSBtZXJnZWQgdG8gZHJtLW1pc2MtbmV4dCBieSBUaG9tYXMuDQo+ID4gPiA+DQo+ID4g
-PiA+IE1heWJlIGdpdCBtYW5hZ2VkIHRoaXMgYXV0b21hdGljYWxseT8/DQo+ID4gPg0KPiA+ID4g
-UHJvYmFibHksIGdpdCBpcyBuaWNlIDotKQ0KPiA+ID4NCj4gPiA+ID4gPiBJIGhhdmVuJ3QgaGFk
-IHRpbWUgdG8gcmV2aWV3IHBhdGNoIDQvNSAodGhlIGRyaXZlcikgeWV0LiBBbGwgdGhlDQo+ID4g
-PiA+ID4gcmVzdCBsb29rcyBnb29kIHRvIG1lLiBTaG91bGQgSSBhbHJlYWR5IGluY2x1ZGUgMS81
-IGluIG15IG5leHQNCj4gPiA+ID4gPiBwdWxsDQo+ID4gPiByZXF1ZXN0ID8NCj4gPiA+ID4NCj4g
-PiA+ID4gWWVzLCBwbGVhc2UuDQo+ID4gPg0KPiA+ID4gT0ssIEkgd2lsbCBkbyBzby4gSSd2ZSBy
-ZXZpZXdlZCA0LzUgaW4gdGhlIG1lYW50aW1lLCBidXQgY2hhbmdlcyBhcmUNCj4gPiA+IG5lZWRl
-ZCwgc28gSSB3b24ndCB3YWl0IGZvciB2MTAgYmVmb3JlIGFwcGx5aW5nIDEvNS4NCj4gPg0KPiA+
-IEkgaGF2ZSBpbmNvcnBvcmF0ZWQgcmV2aWV3IGNvbW1lbnRzIGZvciB2OS4gSSBuZWVkIHRvIHJl
-YmFzZSBteQ0KPiBjaGFuZ2VzLg0KPiA+DQo+ID4gSXMgdGhlIHB1bGwgcmVxdWVzdCBiZWluZyBk
-b25lIHRvIGRybS1taXNjLW5leHQ/DQo+IA0KPiBJJ3ZlIGp1c3Qgc2VudCB0aGUgcHVsbCByZXF1
-ZXN0IGZvciBkcm0tbmV4dCwgYW5kIGhhdmUgQ0MnZWQgeW91Lg0KDQpUaGFuayB5b3UuDQoNCkNo
-ZWVycywNCkJpanUNCg==
+Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+device and another for rtc device.
+
+Enhance i2c_new_ancillary_device() to instantiate an I2C client device
+apart from the already supported I2C dummy client device.
+
+Added helper function __i2c_new_dummy_device to share the code
+between i2c_new_dummy_device and i2c_new_ancillary_device().
+
+Also added helper function __i2c_new_client_device() to pass parent dev
+parameter, so that the ancillary device can assign its parent during
+creation.
+
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v5->v6:
+ * Added Rb tag from Hans Verkuil and Geert.
+ * Updated commit description and comment related to i2c_new_ancillary_device()
+ * Fixed the issue related to assigning wrong parent device by adding check
+   for aux_device_name.
+ * Retained Rb tags as changes are trivial.
+v4->v5:
+ * Replaced parameter dev->parent in __i2c_new_client_device() and
+   __i2c_new_dummy_device().
+ * Improved error message in __i2c_new_dummy_device() by printing device name.
+ * Updated comment for ancillary's device parent
+ * Dropped aux_device_name check in i2c_new_ancillary_device().
+v3->v4:
+ * Dropped Rb tag from Geert as there are new changes.
+ * Introduced __i2c_new_dummy_device() to share the code between
+   i2c_new_dummy_device and i2c_new_ancillary_device().
+ * Introduced __i2c_new_client_device() to pass parent dev
+   parameter, so that the ancillary device can assign its parent during
+   creation.
+v3:
+ * New patch
+
+Ref:
+ https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 +-
+ drivers/i2c/i2c-core-base.c                  | 91 +++++++++++++-------
+ drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
+ drivers/media/i2c/adv7604.c                  |  3 +-
+ include/linux/i2c.h                          |  3 +-
+ 5 files changed, 68 insertions(+), 37 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 2254457ab5d0..3f9164afb31f 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ 	int ret;
+ 
+ 	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
+-						ADV7511_CEC_I2C_ADDR_DEFAULT);
++				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv->i2c_cec))
+ 		return PTR_ERR(adv->i2c_cec);
+ 
+@@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 	adv7511_packet_disable(adv7511, 0xffff);
+ 
+ 	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
+-					ADV7511_EDID_I2C_ADDR_DEFAULT);
++					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv7511->i2c_edid)) {
+ 		ret = PTR_ERR(adv7511->i2c_edid);
+ 		goto uninit_regulators;
+@@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 		     adv7511->i2c_edid->addr << 1);
+ 
+ 	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
+-					ADV7511_PACKET_I2C_ADDR_DEFAULT);
++					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
+ 	if (IS_ERR(adv7511->i2c_packet)) {
+ 		ret = PTR_ERR(adv7511->i2c_packet);
+ 		goto err_i2c_unregister_edid;
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index ae3af738b03f..5d55e5f93275 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -893,24 +893,10 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
+ 	return 0;
+ }
+ 
+-/**
+- * i2c_new_client_device - instantiate an i2c device
+- * @adap: the adapter managing the device
+- * @info: describes one I2C device; bus_num is ignored
+- * Context: can sleep
+- *
+- * Create an i2c device. Binding is handled through driver model
+- * probe()/remove() methods.  A driver may be bound to this device when we
+- * return from this function, or any later moment (e.g. maybe hotplugging will
+- * load the driver module).  This call is not appropriate for use by mainboard
+- * initialization logic, which usually runs during an arch_initcall() long
+- * before any i2c_adapter could exist.
+- *
+- * This returns the new i2c client, which may be saved for later use with
+- * i2c_unregister_device(); or an ERR_PTR to describe the error.
+- */
+-struct i2c_client *
+-i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
++static struct i2c_client *
++__i2c_new_client_device(struct i2c_adapter *adap,
++			struct i2c_board_info const *info,
++			struct device *parent)
+ {
+ 	struct i2c_client	*client;
+ 	int			status;
+@@ -944,7 +930,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 	if (status)
+ 		goto out_err;
+ 
+-	client->dev.parent = &client->adapter->dev;
++	client->dev.parent = parent ? parent : &client->adapter->dev;
+ 	client->dev.bus = &i2c_bus_type;
+ 	client->dev.type = &i2c_client_type;
+ 	client->dev.of_node = of_node_get(info->of_node);
+@@ -984,6 +970,28 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
+ 	kfree(client);
+ 	return ERR_PTR(status);
+ }
++
++/**
++ * i2c_new_client_device - instantiate an i2c device
++ * @adap: the adapter managing the device
++ * @info: describes one I2C device; bus_num is ignored
++ * Context: can sleep
++ *
++ * Create an i2c device. Binding is handled through driver model
++ * probe()/remove() methods.  A driver may be bound to this device when we
++ * return from this function, or any later moment (e.g. maybe hotplugging will
++ * load the driver module).  This call is not appropriate for use by mainboard
++ * initialization logic, which usually runs during an arch_initcall() long
++ * before any i2c_adapter could exist.
++ *
++ * This returns the new i2c client, which may be saved for later use with
++ * i2c_unregister_device(); or an ERR_PTR to describe the error.
++ */
++struct i2c_client *
++i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
++{
++	return __i2c_new_client_device(adap, info, NULL);
++}
+ EXPORT_SYMBOL_GPL(i2c_new_client_device);
+ 
+ /**
+@@ -1054,6 +1062,26 @@ static struct i2c_driver dummy_driver = {
+ 	.id_table	= dummy_id,
+ };
+ 
++static struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter *adapter,
++						 u16 address, const char *name,
++						 struct device *parent)
++{
++	struct i2c_board_info info = {
++		I2C_BOARD_INFO("dummy", address),
++	};
++
++	if (name) {
++		ssize_t ret = strscpy(info.type, name, sizeof(info.type));
++
++		if (ret < 0)
++			return ERR_PTR(dev_err_probe(&adapter->dev, ret,
++						     "Invalid device name: %s\n",
++						     name));
++	}
++
++	return __i2c_new_client_device(adapter, &info, parent);
++}
++
+ /**
+  * i2c_new_dummy_device - return a new i2c device bound to a dummy driver
+  * @adapter: the adapter managing the device
+@@ -1074,11 +1102,7 @@ static struct i2c_driver dummy_driver = {
+  */
+ struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address)
+ {
+-	struct i2c_board_info info = {
+-		I2C_BOARD_INFO("dummy", address),
+-	};
+-
+-	return i2c_new_client_device(adapter, &info);
++	return __i2c_new_dummy_device(adapter, address, NULL, NULL);
+ }
+ EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
+ 
+@@ -1122,15 +1146,18 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * @client: Handle to the primary client
+  * @name: Handle to specify which secondary address to get
+  * @default_addr: Used as a fallback if no secondary address was specified
++ * @aux_device_name: Ancillary device name
+  * Context: can sleep
+  *
+  * I2C clients can be composed of multiple I2C slaves bound together in a single
+  * component. The I2C client driver then binds to the master I2C slave and needs
+- * to create I2C dummy clients to communicate with all the other slaves.
++ * to create I2C ancillary clients to communicate with all the other slaves.
+  *
+- * This function creates and returns an I2C dummy client whose I2C address is
+- * retrieved from the platform firmware based on the given slave name. If no
+- * address is specified by the firmware default_addr is used.
++ * This function creates and returns an I2C ancillary client whose I2C address
++ * is retrieved from the platform firmware based on the given slave name. If no
++ * address is specified by the firmware default_addr is used. If aux_device_name
++ * is not NULL, the ancillary's device parent will be set to the primary device
++ * otherwise it will be set to I2C adapter.
+  *
+  * On DT-based platforms the address is retrieved from the "reg" property entry
+  * cell whose "reg-names" value matches the slave name.
+@@ -1139,8 +1166,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
+  * i2c_unregister_device(); or an ERR_PTR to describe the error.
+  */
+ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+-						const char *name,
+-						u16 default_addr)
++					    const char *name,
++					    u16 default_addr,
++					    const char *aux_device_name)
+ {
+ 	struct device_node *np = client->dev.of_node;
+ 	u32 addr = default_addr;
+@@ -1153,7 +1181,8 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+ 	}
+ 
+ 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+-	return i2c_new_dummy_device(client->adapter, addr);
++	return __i2c_new_dummy_device(client->adapter, addr, aux_device_name,
++				      aux_device_name ? &client->dev : NULL);
+ }
+ EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
+ 
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 3eb6d5e8f082..3000c533a5ff 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
+ 		state->i2c_clients[i] = i2c_new_ancillary_device(
+ 				state->client,
+ 				adv748x_default_addresses[i].name,
+-				adv748x_default_addresses[i].default_addr);
++				adv748x_default_addresses[i].default_addr, NULL);
+ 
+ 		if (IS_ERR(state->i2c_clients[i])) {
+ 			adv_err(state, "failed to create i2c client %u\n", i);
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index b202a85fbeaa..a89e80006445 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -2935,7 +2935,8 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
+ 	else
+ 		new_client = i2c_new_ancillary_device(client,
+ 				adv76xx_default_addresses[page].name,
+-				adv76xx_default_addresses[page].default_addr);
++				adv76xx_default_addresses[page].default_addr,
++				NULL);
+ 
+ 	if (!IS_ERR(new_client))
+ 		io_write(sd, io_reg, new_client->addr << 1);
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index 13a1ce38cb0c..0ce344724209 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 addr
+ struct i2c_client *
+ i2c_new_ancillary_device(struct i2c_client *client,
+ 			 const char *name,
+-			 u16 default_addr);
++			 u16 default_addr,
++			 const char *aux_device_name);
+ 
+ void i2c_unregister_device(struct i2c_client *client);
+ 
+-- 
+2.25.1
+
