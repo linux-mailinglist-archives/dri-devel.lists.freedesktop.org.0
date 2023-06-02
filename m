@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6033A7203B6
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 15:49:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6CA7203CF
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 15:57:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7D410E1FF;
-	Fri,  2 Jun 2023 13:49:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7C210E030;
+	Fri,  2 Jun 2023 13:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4E010E156
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 13:49:20 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-30c4c1fd511so1372275f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 06:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685713759; x=1688305759;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8Pq/KH2F2S+w1oE3jYRiu2cFEHPIXuQlNq6CCdo5FOk=;
- b=kU6acM8X6Tz+kZf8Z5QBtw7Nd3ZJo2ToZk9x/PnhRsgMiQUMpiVNX2NHtG1Eb2zPm5
- dznqBfagyg34NArpNoM0cIp6xZwWNM9+SDCRozE4oPxjmIWIULzQJfN+uvE+0j9H3Oa5
- dAefSnUlQP/fCUF6/8V4tom9UqjxVNZ3OE1QWvlcJBuACl/acQ9NvTXocu198gyrGGOc
- /hL0Cy9zfxzv+iRMv5TR0qKk82JKxhXmxgM5KC/fpU6kN3+CKo8xKe5RsX3YVwjDbaJw
- 2MDbktIQLicvD44aWX2+42ssyP6RwGJfZrKaWL8ZwCJ0LoDFx9nG51dmkUEN8ELNDBYH
- HAOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685713759; x=1688305759;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8Pq/KH2F2S+w1oE3jYRiu2cFEHPIXuQlNq6CCdo5FOk=;
- b=Md+gshq87Gp+SFtLCahUV8k7DC9Of1sJCDN92jTQpKQsvtUW6mS8z1yKTIy+tiTqf2
- NwkggBNn/OUa8RV2ltld4hdEI0E8fTtHBHT9YS2tP5xdf2YyaaeDydp0hkEcQJmlR050
- LT7/EGWje1QkgIo342MwWAPU7Ct9nSihLHSUd7d6VgO1/7nQZTCG3Zd6jKNb6iaomnPu
- tONP68zjUOTKB4aSNYTnOVLZM5pOativsrp7kf/gINU59Ky1j00LMU2V7mdK49gZFQMk
- MKOPzrW86nAXiPFdYPLGkPxstoD55Gczux7JqzhIaUKhg0Ud1NwIgBmOxa5MVpojG7OU
- RPeQ==
-X-Gm-Message-State: AC+VfDwKYzR7Uzkc4eOaNDyC0QdaB9NjXcq3jR7vGTf3fnI6EQf05oRB
- Qb6BhaHLxnrhJnx57sb7QoCckw==
-X-Google-Smtp-Source: ACHHUZ6Zq2TOiy6uzLCbEig47MxxY+DF5YJCX+nMxWxA5e73/7Nav1yyhAsRqrimhfGNdxIeIBB1tA==
-X-Received: by 2002:adf:f14c:0:b0:30a:eee6:60a5 with SMTP id
- y12-20020adff14c000000b0030aeee660a5mr29306wro.43.1685713758781; 
- Fri, 02 Jun 2023 06:49:18 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- v6-20020a5d6786000000b003078cd719ffsm1752941wru.95.2023.06.02.06.49.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jun 2023 06:49:18 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Kevin Hilman <khilman@baylibre.com>, Nicolas Belin <nbelin@baylibre.com>, 
- Arnd Bergmann <arnd@kernel.org>
-In-Reply-To: <20230602124539.894888-1-arnd@kernel.org>
-References: <20230602124539.894888-1-arnd@kernel.org>
-Subject: Re: [PATCH] drm/meson: venc: include linux/bitfield.h
-Message-Id: <168571375798.833434.11400829507182378408.b4-ty@linaro.org>
-Date: Fri, 02 Jun 2023 15:49:17 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 49F7810E030
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 13:57:14 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxfOs49Xlk_6YDAA--.4771S3;
+ Fri, 02 Jun 2023 21:57:12 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axmr029XlkOQiGAA--.19389S3; 
+ Fri, 02 Jun 2023 21:57:10 +0800 (CST)
+Message-ID: <bec8b384-827e-d4c3-3f41-6dd9094b5cac@loongson.cn>
+Date: Fri, 2 Jun 2023 21:57:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: mailmap: Add missing email address
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20230531133724.133872-1-maxime@cerno.tech>
+ <2641c5ba-37b4-daf8-bba8-1577e112c411@loongson.cn>
+ <jegv63j4u36b377c7oz6w5eudahofxhg3kpvi2h7ehona3p3pb@j55ak3uot2ip>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <jegv63j4u36b377c7oz6w5eudahofxhg3kpvi2h7ehona3p3pb@j55ak3uot2ip>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+X-CM-TRANSID: AQAAf8Axmr029XlkOQiGAA--.19389S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E
+ 14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+ 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280
+ aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+ xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAq
+ x4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r
+ 1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+ WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UR
+ a0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,29 +64,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Carlo Caione <ccaione@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 02 Jun 2023 14:45:24 +0200, Arnd Bergmann wrote:
-> Without this header, the use of FIELD_PREP() can cause a build failure:
-> 
-> drivers/gpu/drm/meson/meson_venc.c: In function 'meson_encl_set_gamma_table':
-> drivers/gpu/drm/meson/meson_venc.c:1595:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-> 
-> 
+On 2023/6/2 19:54, Maxime Ripard wrote:
+> Hi,
+>
+> On Thu, Jun 01, 2023 at 12:11:59AM +0800, Sui Jingfeng wrote:
+>> Okey, that sound fine.
+> Is it a Reviewed-by?
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Yes, I can't see problems from this.
 
-[1/1] drm/meson: venc: include linux/bitfield.h
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=664dba662cb313da9cbb1c944c472638a65c552e
+
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+
+>
+> Maxime
 
 -- 
-Neil
+Jingfeng
 
