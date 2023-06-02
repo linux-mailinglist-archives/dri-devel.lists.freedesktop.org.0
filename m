@@ -2,74 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB97720A76
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 22:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3E3720AC0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314D710E0FB;
-	Fri,  2 Jun 2023 20:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C844810E106;
+	Fri,  2 Jun 2023 21:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB45310E0F0
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 20:40:37 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 352DuFJf005995; Fri, 2 Jun 2023 20:40:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=9+03auotNTz1TIZFlXasLKcdBNaehKED/ltJTzRkCCM=;
- b=ck4BSOKDv958p3nZdyRLrQd0zBhueNGhzVUGik6DM9u57cZ3dDYjLjyksWPJOue3epL0
- eXOvBYppxYTifduXuDmwcwGdf1LuxY/dW6DAGQLNRi2f+m339MIiaP5YoPK4vzX6lzGz
- Y/uzHr7SpUXx1xqQYuVhRKpL5mxbMzOJj1VXKg/gysE0BhFFfaX0t+DwrgXNi5CkRAAV
- 1GfVupqDWINzG6Zh5DPb1G2tYxiGFgdOQbaY3B2g2bBOZT7YuLtd0nMP6cEb4eNP4dXH
- uDBwB4ypiillYTIMzuQPCDkWWuuSPPaEkSkgqgKOA9/l7jj9h3/oqqGy0ZPwm/yCsceo RQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qydr5heyv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Jun 2023 20:40:37 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 352Keahr005559
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 2 Jun 2023 20:40:36 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 2 Jun 2023
- 13:40:35 -0700
-Message-ID: <e5044160-ebc8-b1e7-a944-33cd1b080eb3@quicinc.com>
-Date: Fri, 2 Jun 2023 14:40:35 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] MAINTAINERS: Add Carl/Pranjal as QAIC reviewers
-Content-Language: en-US
-To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>
-References: <20230523161421.11017-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230523161421.11017-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: NnAsRHPj8jLvNMlxwd8fmTl8hEIf8nKF
-X-Proofpoint-GUID: NnAsRHPj8jLvNMlxwd8fmTl8hEIf8nKF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-02_16,2023-06-02_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- clxscore=1015 mlxscore=0 spamscore=0 mlxlogscore=891 priorityscore=1501
- suspectscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306020160
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD1D10E066;
+ Fri,  2 Jun 2023 21:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685739779; x=1717275779;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=0U1ah8nSu1lBPePwPLyTAl4eLT52mJQyko6Uw982z8o=;
+ b=gFOBPQXGWmRc2xlwuVlLK89+dpJrI+UJKYXgykIKjnIxZH/Y3WqXTd10
+ EeFgVK/MeDT12teUugS1uuBreRwdF9U+GLXi2FaBwZn2JNfRRLuZZ/3dg
+ QGhFqfXKccXk7VDY1jjUZ+JO0fCzwyfkVyS637Le8V7tFaJThFbpQSrHZ
+ gPTb+saoMgIfaOlt2ir6prHK+9uoa1jqxpI+zatQXj24G5iu3Hal5vJct
+ Mq9IQLrtXMq3PPwB5CDFtH5fpDk2lkO0LrP8H6fxa8a4Pb4WPwB4z33AE
+ Mgi8zn3G9QUNYY3Kb5mmlgwMpGTtD+Jlkyi9J6W5Oz80u3HXFBVWO6bva g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="335584666"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; d="scan'208";a="335584666"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2023 14:02:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="820420014"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; d="scan'208";a="820420014"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.209.18.212])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2023 14:02:58 -0700
+Date: Fri, 02 Jun 2023 13:54:19 -0700
+Message-ID: <87o7lxlh50.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] dim: Disallow remote branch deletions with 'dim push'
+In-Reply-To: <878rd2f9u3.fsf@intel.com>
+References: <20230602035010.1517899-1-ashutosh.dixit@intel.com>
+ <878rd2f9u3.fsf@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,16 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/23/2023 10:14 AM, Jeffrey Hugo wrote:
-> Carl and Pranjal have been reviewing the QAIC patches.  List them as
-> reviewers so that they are copied on all developments which will make
-> it easier for them to continue reviewing QAIC patches.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+On Fri, 02 Jun 2023 03:16:20 -0700, Jani Nikula wrote:
+>
+> On Thu, 01 Jun 2023, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
+> > An inadvertent 'dim push -d' can delete remote branches. Disallow such
+> > remote branch deletions.
+>
+> Please see https://drm.pages.freedesktop.org/maintainer-tools/CONTRIBUTING.html
+>
+> >
+> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> > ---
+> >  dim | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/dim b/dim
+> > index 126568e..e5899e6 100755
+> > --- a/dim
+> > +++ b/dim
+> > @@ -1029,6 +1029,12 @@ function dim_push_branch
+> >		fi
+> >	fi
+> >
+> > +	# Disallow remote branch deletions, say with 'dim push -d'
+> > +	if [[ "$@" == *"-d"* ]]; then
+> > +		echoerr "Attempt to delete remote branch, aborting."
+> > +		return 1
+> > +	fi
+>
+> I'm working on adding a server side git pre-receive hook to tackle this
+> too, but I guess there's no harm in adding this. The choice of -d for
+> dry run was unfortunate, and this helps with the 'dim -d foo' vs 'dim
+> foo -d' mistake.
 
-Applied to drm-misc-next
+Yup, understood. I thought I'd just send out the patch anyway in case it
+was useful.
+
+I have created a merge request for the patch here:
+
+https://gitlab.freedesktop.org/drm/maintainer-tools/-/merge_requests/21
+
+Thanks.
+--
+Ashutosh
+
+> > +
+> >	git_push $remote $branch "$@"
+> >
+> >	update_linux_next $branch drm-intel-next drm-intel-next-fixes drm-intel-fixes
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
