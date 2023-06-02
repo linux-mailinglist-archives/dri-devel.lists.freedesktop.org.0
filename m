@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36E97208FD
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 20:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6330A72090A
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 20:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A682C10E0E9;
-	Fri,  2 Jun 2023 18:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7723710E0ED;
+	Fri,  2 Jun 2023 18:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC87C10E0C4;
- Fri,  2 Jun 2023 18:19:56 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- 006d021491bc7-5585f2f070bso1674322eaf.0; 
- Fri, 02 Jun 2023 11:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685729995; x=1688321995;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ruVVANUt1rkl2YltnY0VMnFPVn2MSLuHPa/KLfddOQI=;
- b=ng8Zqz9Z1hgelGexfypABP0OmFAOwn+FoLkBQJd5NubPZMrM6+uBJiBoyyxH4BOvos
- gXUAg+J0ixJRyACe9gc/XHgRTcbbWfpjreSweek+yLKHG82udvA4jS53ng3vPPCWF8cb
- 2OfIRljPQApekAOT8I34NH4XTqPFUd6e6E5T8xcPtWFzh7UVhD+xQOgjurqNeqon9rI2
- Iedhm67TNOQxmGvOkuZzEuB/uLn7dHAn61ZCELCGpyZ10nVhPtnrW2+jBYP1DvMJJ3tZ
- 0STizNX+zxJ6L/pz1Vuay0HpvBCbA30MautyELFz6Wuw8OcdP8fFvcobTW5fOrF1LB+O
- L1OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685729995; x=1688321995;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ruVVANUt1rkl2YltnY0VMnFPVn2MSLuHPa/KLfddOQI=;
- b=XXfaqZWf7EKW41RD63qX5uCg69Kxx1FoFQsUPwalGBJFOb3aQnpTg3nynjnC+Rm6r9
- FtDUgQXLXWeyYLxC1wmHJbyiS3PJReco8RVrnOrel7PNdm+jy5lYqr3lBqufd9Mswk8k
- oEMMwsMGsbSwh9cwPUW+tEAJH67fEd38nrtkB9YiJTZ6NBVzQvfpCbhyEdeQqHKCEf3G
- 72NKR9Vv66KZybFhewGE4mPo3OXMzkppPi8oe9vUib75vEbiLGyYkENcRdzK5na0Afmu
- S+qmLPJRqZk36pX35LoO+A0YinFXY9mavfZCXT9frOnVNlSw4sWQgOSGW5LGVIc+eN6W
- VEaA==
-X-Gm-Message-State: AC+VfDwmhw2dO9uFUGWrdH0TgcAqppxnMSVF5lMqenqkun5eJTfWYKrx
- uY3WKMkrXK4wjnVUD5LFJRF4wBCww+H0Zhz95vE4ae+C
-X-Google-Smtp-Source: ACHHUZ7udrYG+H6UGxo37tXKpSQPyugKYQKqTppilBeQayTPvyvZhtfN9IhTZ+FTexkc9dCzuPanBmgoQnRmCXMNvjM=
-X-Received: by 2002:a4a:45c7:0:b0:555:991b:b340 with SMTP id
- y190-20020a4a45c7000000b00555991bb340mr7608913ooa.6.1685729995619; Fri, 02
- Jun 2023 11:19:55 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 984A210E0ED
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 18:21:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BE71564FE2;
+ Fri,  2 Jun 2023 18:21:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A609C433D2;
+ Fri,  2 Jun 2023 18:21:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685730115;
+ bh=wZmST5GqZfwNaXvG5ams1yOqiopsMBnwXrGfs0DzrKk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HxHBZ0/iZ+gWdLqiKl6YbDXzHpA124IhNDjyA68Fln6QGStTGDWjKUkHIrFN9xTU7
+ 95B8CQ+aTdp9EW0NAufAfu/J99ZNMwPbFr0ROwPlNVB7+jpFxMx4LoXtuy9pAQyjKp
+ 8sFG56C83swAIV2LURY2SsrrpVNha0ZqJsDjMfybtxHfV32X2XqmjFOSjFBudnww0z
+ AJ29/B2AeOuC4120GlF7y0cLJjI57ri2lUvIUm+mGMJOCxPSJ3vb+PEriH+04FpxU4
+ sMVMnuhAk1pTDZNQ5psWuVJ1IGHN46Bcy7i+HMOhMbxJbBNqzcuqQWNs71k5HLKuqk
+ ENBfjRGZl6hew==
+Date: Fri, 2 Jun 2023 19:21:47 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
+ subsystem
+Message-ID: <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-2-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-References: <20230601214814.2329224-1-olvaffe@gmail.com>
-In-Reply-To: <20230601214814.2329224-1-olvaffe@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 2 Jun 2023 14:19:43 -0400
-Message-ID: <CADnq5_NQ2zgvRDZ8NWUsCm-8JO6PZSEmQ+WrbjYqjv3vTLfinw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix xclk freq on CHIP_STONEY
-To: Chia-I Wu <olvaffe@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MvIfnYU0aT/WgDUu"
+Content-Disposition: inline
+In-Reply-To: <20230602074043.33872-2-keith.zhao@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +54,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
+--MvIfnYU0aT/WgDUu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 1, 2023 at 5:48=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> wrote:
->
-> According to Alex, most APUs from that time seem to have the same issue
-> (vbios says 48Mhz, actual is 100Mhz).  I only have a CHIP_STONEY so I
-> limit the fixup to CHIP_STONEY
+Hey Keith,
+
+On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
+> Add bindings for JH7110 display subsystem which
+> has a display controller verisilicon dc8200
+> and an HDMI interface.
+>=20
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/vi.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu=
-/vi.c
-> index 770f2d7a371fc..6a8494f98d3ef 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
-> @@ -542,8 +542,15 @@ static u32 vi_get_xclk(struct amdgpu_device *adev)
->         u32 reference_clock =3D adev->clock.spll.reference_freq;
->         u32 tmp;
->
-> -       if (adev->flags & AMD_IS_APU)
-> -               return reference_clock;
-> +       if (adev->flags & AMD_IS_APU) {
-> +               switch (adev->asic_type) {
-> +               case CHIP_STONEY:
-> +                       /* vbios says 48Mhz, but the actual freq is 100Mh=
-z */
-> +                       return 10000;
-> +               default:
-> +                       return reference_clock;
-> +               }
-> +       }
->
->         tmp =3D RREG32_SMC(ixCG_CLKPIN_CNTL_2);
->         if (REG_GET_FIELD(tmp, CG_CLKPIN_CNTL_2, MUX_TCLK_TO_XCLK))
-> --
-> 2.41.0.rc0.172.g3f132b7071-goog
->
+>  .../display/verisilicon/starfive-hdmi.yaml    |  93 +++++++++++++++
+>  .../display/verisilicon/verisilicon-dc.yaml   | 110 ++++++++++++++++++
+>  .../display/verisilicon/verisilicon-drm.yaml  |  42 +++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  MAINTAINERS                                   |   7 ++
+>  5 files changed, 254 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
+/starfive-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
+/verisilicon-dc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
+/verisilicon-drm.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/verisilicon/starfi=
+ve-hdmi.yaml b/Documentation/devicetree/bindings/display/verisilicon/starfi=
+ve-hdmi.yaml
+> new file mode 100644
+> index 000000000000..c30b7954a355
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi=
+=2Eyaml
+> @@ -0,0 +1,93 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon/starfive-hdmi.yam=
+l#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: StarFive HDMI transmiter
+> +
+> +description:
+> +  The StarFive SoC uses the HDMI signal transmiter based on innosilicon =
+IP
+
+Is innosilicon the same thing as verisilicon? Also
+s/transmiter/transmitter/, both here and in the title.
+
+
+> +  to generate HDMI signal from its input and transmit the signal to the =
+screen.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,hdmi
+
+Is this going to work on every SoC that StarFive has ever & will ever
+make? Please use soc-based compatibles ;)
+
+> +
+> +  reg:
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The HDMI hot plug detection interrupt.
+> +
+> +  clocks:
+> +    items:
+> +      - description: System clock of HDMI module.
+> +      - description: Mclk clock of HDMI audio.
+> +      - description: Bclk clock of HDMI audio.
+> +      - description: Pixel clock generated by HDMI module.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: mclk
+> +      - const: bclk
+> +      - const: pclk
+> +
+> +  resets:
+> +    items:
+> +      - description: Reset for HDMI module.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: hdmi_tx
+
+You only have one item here, you don't need the "items: - const:",
+"const:" alone will do.
+
+
+> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
+licon-dc.yaml b/Documentation/devicetree/bindings/display/verisilicon/veris=
+ilicon-dc.yaml
+> new file mode 100644
+> index 000000000000..1322502c4cde
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
+c.yaml
+> @@ -0,0 +1,110 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-dc.ya=
+ml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: StarFive display controller
+> +
+> +description:
+> +  The StarFive SoC uses the display controller based on Verisilicon IP
+> +  to transfer the image data from a video memory
+> +  buffer to an external LCD interface.
+
+Is it based on Verisilicon IP, or is it exactly that verisilicon IP? I
+ask because...
+
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: verisilicon,dc8200
+
+=2E..the compatible is the verisilicon IP. I would be a lot happier if
+the compatibles were set yp for something like:
+"starfive,jh7110-foo", "verisilicon,dc8200"
+
+> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
+licon-drm.yaml b/Documentation/devicetree/bindings/display/verisilicon/veri=
+silicon-drm.yaml
+> new file mode 100644
+> index 000000000000..aed8d4af2c55
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
+rm.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-drm.y=
+aml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Verisilicon DRM master device
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> +
+> +description: |
+> +  The Verisilicon DRM master device is a virtual device needed to list a=
+ll
+> +  display controller or other display interface nodes that comprise the
+> +  graphics subsystem.
+> +
+> +properties:
+> +  compatible:
+> +    const: verisilicon,display-subsystem
+
+Same here.
+
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 82d39ab0231b..52c04fd098be 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1436,6 +1436,8 @@ patternProperties:
+>      description: Variscite Ltd.
+>    "^vdl,.*":
+>      description: Van der Laan b.v.
+> +  "^verisilicon,.*":
+> +    description: Verisilicon Technologies, Inc.
+
+This should be in it's own patch.
+
+Cheers,
+Conor.
+
+>    "^vertexcom,.*":
+>      description: Vertexcom Technologies, Inc.
+>    "^via,.*":
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2a0496448b7f..293aa13d484c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7049,6 +7049,13 @@ F:	Documentation/devicetree/bindings/display/brcm,=
+bcm2835-*.yaml
+>  F:	drivers/gpu/drm/vc4/
+>  F:	include/uapi/drm/vc4_drm.h
+> =20
+> +DRM DRIVERS FOR VERISILICON
+> +M:	Keith Zhao <keith.zhao@starfivetech.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	Documentation/devicetree/bindings/display/verisilicon/
+> +
+>  DRM DRIVERS FOR VIVANTE GPU IP
+>  M:	Lucas Stach <l.stach@pengutronix.de>
+>  R:	Russell King <linux+etnaviv@armlinux.org.uk>
+> --=20
+> 2.34.1
+>=20
+
+--MvIfnYU0aT/WgDUu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHozOwAKCRB4tDGHoIJi
+0qGfAQCOw/FcLRxZ76ev3AIGXrIb1ZeNQe+VXPB56KKXU2pSxwEArYO0igKszta9
+cCp+5+8uMIkgXInjUhRVx70UBTTb9gs=
+=sbrO
+-----END PGP SIGNATURE-----
+
+--MvIfnYU0aT/WgDUu--
