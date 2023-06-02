@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8602B720B4C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9103720B4E
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:59:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51D5710E646;
-	Fri,  2 Jun 2023 21:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F133910E656;
+	Fri,  2 Jun 2023 21:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4003310E646
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 21:58:59 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CADE810E64A
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 21:59:00 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BB7A685818;
- Fri,  2 Jun 2023 23:58:55 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0A4A686040;
+ Fri,  2 Jun 2023 23:58:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1685743136;
- bh=fvTQrZXixS0jEvU6mG1NZ89aYrCaMEvyL7CFaEKo/9c=;
+ s=phobos-20191101; t=1685743137;
+ bh=EaN85ZVsneH7dv49ug/uBRDwJKKpOobLyXOT6xTfdmI=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GXAkt5WAekQxMu00FPcikIxpyVuvTmUDdLKNiPfMo8yvBjG8T39UPUBje8w33KD+x
- jemepmOOftZs9AqAFWgfKmFn0H34U1ABhQsX17xs5tVB1uLCybtHVReDRqcMmqtyHT
- 8Ueq+LtUDVVNAh+lN3+Aj/Im0w0udr9hAgMBrLUpClzWSPWOfdYQJ7hYiwWdZmHmXP
- 4aJDztsQ/vIX4ps1Amg+HMALnsjX9oax1I6EfvnhCfbUHOU9cNB15PFTMYm5pw63B7
- mrx9kqIcSRiclepuUoWQt0M6DgFF/bDsU6n74r0rKX1T1oGzNeORpHpydoB2akZkGf
- Z5aWf3XEqAnhg==
-Message-ID: <4aa8b924-7e14-4647-ad8b-79a0b244257e@denx.de>
-Date: Fri, 2 Jun 2023 23:31:02 +0200
+ b=VNFW6S5WdcFvpOpK4p74KuBQm6UP6FIohKWNtp6gbd6WAo+aOTf07q/NSa5Rray8U
+ 0TlW0Nt/Qv04bNrK/k45Ap25epqROf9Qh4zGRiO8djXGQGubjnFPBJMgjrLmIkHI8x
+ Se6oPkc9BVtxx+8ilCH+Fik3w0d/v0K7LwiJZGG34I4YASX9l8AJZORTskLKFDm6py
+ JiRXjdwDO9rf/3e1Lu2E+1c0s/ksoGM3DzHhc5DELxBljVdR53y/zLdSHjMNervNsY
+ soZqITXhUkHY1KNdmYtF9O5WmSLSqxsAS21NAzF4AZ+INUZQ2Ap7/T7a8TXe5WFG0J
+ B0IftQwIxtnQw==
+Message-ID: <70962376-c7f1-1adc-37e4-55fa33055ae9@denx.de>
+Date: Fri, 2 Jun 2023 23:34:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] drm: bridge: tc358767: increase PLL lock time delay
+Subject: Re: [PATCH 2/2] drm: bridge: tc358767: give VSDELAY some positive
+ value
+Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
 References: <20230602191501.4138433-1-l.stach@pengutronix.de>
-Content-Language: en-US
+ <20230602191501.4138433-2-l.stach@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230602191501.4138433-1-l.stach@pengutronix.de>
+In-Reply-To: <20230602191501.4138433-2-l.stach@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -66,10 +69,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 6/2/23 21:15, Lucas Stach wrote:
 > From: David Jander <david@protonic.nl>
 > 
-> The PLL often fails to lock with this delay. The new value was
-> determined by trial and error increasing the delay bit by bit
-> until the error did not occurr anymore even after several tries.
-> Then double that value was taken as the minimum delay to be safe.
+> The documentation is not clear about how this delay works.
+> Empirical tests have shown that with a VSDELAY of 0, the first
+> scanline is not properly formatted in the output stream when
+> DSI->DP mode is used. The calculation spreadsheets from Toshiba
+> seem to always make this value equal to the HFP + 10 for DSI->DP
+> use-case. For DSI->DPI this value should be > 2 and for DPI->DP
+> it seems to always be 0x64.
 > 
 > Signed-off-by: David Jander <david@protonic.nl>
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
@@ -78,18 +84,20 @@ On 6/2/23 21:15, Lucas Stach wrote:
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index 91f7cb56a654..46916ae30f8f 100644
+> index 46916ae30f8f..9f2c67b4a488 100644
 > --- a/drivers/gpu/drm/bridge/tc358767.c
 > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -501,7 +501,7 @@ static int tc_pllupdate(struct tc_data *tc, unsigned int pllctrl)
+> @@ -817,7 +817,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+>   	 * sync signals
+>   	 */
+>   	ret = regmap_write(tc->regmap, VPCTRL0,
+> -			   FIELD_PREP(VSDELAY, 0) |
+> +			   FIELD_PREP(VSDELAY, right_margin + 10) |
+>   			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
+>   	if (ret)
 >   		return ret;
->   
->   	/* Wait for PLL to lock: up to 2.09 ms, depending on refclk */
-> -	usleep_range(3000, 6000);
-> +	usleep_range(15000, 20000);
 
-The comment above does not seem to match either value, please fix.
-
-With that fixed:
-
-Reviewed-by: Marek Vasut <marex@denx.de>
+Aren't you running into a problem due to VS timing misconfiguration on 
+the scanout engine or DSI serializer side ? The VSDELAY seems to 
+increase the length of VSYNC active . Which DSI bus mode do you use, 
+sync events/pulses/burst ?
