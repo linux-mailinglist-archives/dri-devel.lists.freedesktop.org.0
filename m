@@ -2,60 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C32D72039E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 15:42:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58CC720370
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 15:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D449E10E084;
-	Fri,  2 Jun 2023 13:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31E4C10E07C;
+	Fri,  2 Jun 2023 13:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEEDF10E081;
- Fri,  2 Jun 2023 13:42:25 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id
- 5614622812f47-392116ae103so1309883b6e.0; 
- Fri, 02 Jun 2023 06:42:25 -0700 (PDT)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A10710E07C
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 13:32:10 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1b00ffb4186so12249035ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jun 2023 06:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685713344; x=1688305344;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LYau0cpbmF2229LuNjRzjCtrizI+QeTZguYhYONJy44=;
- b=Q3KewNjK/7pLX444EB0kKH6U91G8KeWRicAYJ9sG+qg1EK9VZisOmZZ4xM8lyvndEW
- wht5pV3zDDJLXAOhM4xqKRQ1iCnRner83eae5AJ/bkWDga+l9p0G/mtSOnOOaxwWBVSo
- vTCX3Rd8svk/OGRh2z1Oo3oLHUq+HfcT9pZ2g6gnEsXftTeeLkWQN54JtVJzYPw7BK1g
- gIdMFSINk5CjJw2cDf8sb82kPAL/Xw5J0ifqFD644+aGHt1zw4LSnOvSSA/dU2gjRaDr
- tLauubkp9tx5gD69U22mx4hjvBoQgumRryCKVzzrw+QCJdzg3MpslEOD0rkbtrEfDksL
- 5rLQ==
+ d=gmail.com; s=20221208; t=1685712729; x=1688304729;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
+ b=MVb3eFphqnGFuZnrZa0fkJUiXKJj6PA6qXPXeVimS6DpQ4AxPt/zIIOaLriKK4YM0s
+ OD5TKvqpdHYN3x0/QPosAXtzCAYO/IE9X3t1Maw3pngCYU6/YtF43NYVhpaM5BqMhMv4
+ S2uj6aE89Q1SllxfQB6OIsUB7rgbHTxAD7lbwdu3ByjWg/6hlW7AvjFJcDKVIZLUfnPK
+ H/F9ARWZoV3GO5l9OEIH73Apr9UeXgkqMyy5TEzNJBMiJA23Lzp8RC2vsdStRVoyuQmt
+ VJ/ATsgU8O3UsjCjDRGBbbnEbgKDL1MHMaSDrkjAnbG5W7EMJQ2Id+enPSwzyi5jI7XV
+ m72g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685713344; x=1688305344;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LYau0cpbmF2229LuNjRzjCtrizI+QeTZguYhYONJy44=;
- b=HoiF2Z46m3/DXEz7sLKJ0rVGMqzGI+6W3qdbUvb/BEEF9mmUV9/0foQBpdWBHCRM3j
- DWh16orXuh+XDJqBzxJHhU7RVu2mTVMx2s/7TpQMO5qt0SnwZJIfXL7uYdoz2dDm8AR9
- eHeFKxBhI24qgbE8TXdgiUSgXrScKjeSAUK3VO9aC0exMtsiq8Uo+Dyd+6R4w+w22Fy3
- sqPkzqFgR/2PcDb0w82skCgYE5PuiPQdoi+CGSnmF8mDi0VQ/SIqlMaqNc6QH6Gqw5ly
- 2XQEXAcarIn3c4OiI4BMk9ijML8+wlCvNnvBlFHCAX9AtKou02tWKh2XMmI4FZCXEGlZ
- pxfg==
-X-Gm-Message-State: AC+VfDy1uSVe7J9GX/p63MtFtWZu+CZjxUoh9TNCcTeLWx0fxfWy4+vg
- 4Tw1VzL5UgZUjdREqZA/zhU0vlYlOibGuud3Pq/ved/gaE4=
-X-Google-Smtp-Source: ACHHUZ4d+mPkSE0hu7HbOz7ZkhsDyhfO7It5De8ZVs8k1eJrsdMkPa7OxS3RePrIKnDAMZGlNipapCXHq7t4gt5/JvM=
-X-Received: by 2002:a05:6870:709:b0:19f:ce38:f01 with SMTP id
- ea9-20020a056870070900b0019fce380f01mr1358399oab.30.1685711797050; Fri, 02
- Jun 2023 06:16:37 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685712729; x=1688304729;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
+ b=MI4blhm/jAeNORSFZMgWrw1Eg7hww2EJX4VItlO9CvEBgs5S1fongtWPQw5CI9GJNX
+ ij/U6U2Ny5vYnov8fDU7mhAwpW4GvTSQ8GHIuLR4A8Xv+jKPZaDyG6YD5WUzzqee0yCH
+ J97wrxs4hyyuyn8ZOntZ+lix/jBwwHwKQzsQXtAJK57/PzeQv6pQjq4yVC5aKccAi9jq
+ RbZl4CgOJpq5srK8TTFPdzOWK7dW4ntdJlR98CJzC4ahzYBsWwzo3RN7kQyo3xMeoP4L
+ BJo8oUtGIKkC6JxmpJ6Try0KMy/yO8gxLsikkvwxkCkLfhLbFRuRDdJ9KAeWSgskoHAh
+ 09kw==
+X-Gm-Message-State: AC+VfDyN+srcN7PboWJdjSKTOe1sKZk2kfx1fsniyuk+Cq3TAkAZK7b4
+ 1kDJpW0S1vXO3A6bl2PZaPU=
+X-Google-Smtp-Source: ACHHUZ5J63g6NUi0y4MlVavRTrgcGPUU1MafIBD3RB7CH7ggN40W6Ah2+s359IQfSJwPB+m8eYrFiw==
+X-Received: by 2002:a17:902:ec81:b0:1ae:4562:14f1 with SMTP id
+ x1-20020a170902ec8100b001ae456214f1mr18105plg.9.1685712729246; 
+ Fri, 02 Jun 2023 06:32:09 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-25.three.co.id. [180.214.232.25])
+ by smtp.gmail.com with ESMTPSA id
+ x16-20020a170902ec9000b001aaecc15d66sm1316041plg.289.2023.06.02.06.32.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jun 2023 06:32:08 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id AE936106A6F; Fri,  2 Jun 2023 20:32:05 +0700 (WIB)
+Date: Fri, 2 Jun 2023 20:32:05 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomba@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH 1/3] drm/todo: Add atomic modesetting references
+Message-ID: <ZHnvVYM7K4jvP8QK@debian.me>
+References: <cover.1685696114.git.geert+renesas@glider.be>
+ <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20230602061650.115385-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230602061650.115385-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 2 Jun 2023 09:16:26 -0400
-Message-ID: <CADnq5_NzXJezQNVSUY4D9cWg1TuBu3AS_HEmQFaoQHuczQeVbA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: clean up some inconsistent indenting
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="DPoP2WNc/X86Xlln"
+Content-Disposition: inline
+In-Reply-To: <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +84,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-On Fri, Jun 2, 2023 at 2:17=E2=80=AFAM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> No functional modification involved.
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:614 amdgpu_gfx_enable_kcq() warn:=
- inconsistent indenting.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D5377
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_gfx.c
-> index a33d4bc34cee..37a8f43cf281 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-> @@ -611,8 +611,7 @@ int amdgpu_gfx_enable_kcq(struct amdgpu_device *adev,=
- int xcc_id)
->         kiq->pmf->kiq_set_resources(kiq_ring, queue_mask);
->         for (i =3D 0; i < adev->gfx.num_compute_rings; i++) {
->                 j =3D i + xcc_id * adev->gfx.num_compute_rings;
-> -                       kiq->pmf->kiq_map_queues(kiq_ring,
-> -                                                &adev->gfx.compute_ring[=
-j]);
-> +               kiq->pmf->kiq_map_queues(kiq_ring, &adev->gfx.compute_rin=
-g[j]);
->         }
->
->         r =3D amdgpu_ring_test_helper(kiq_ring);
-> --
-> 2.20.1.7.g153144c
->
+--DPoP2WNc/X86Xlln
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jun 02, 2023 at 11:11:34AM +0200, Geert Uytterhoeven wrote:
+> -There is a conversion guide for atomic and all you need is a GPU for a
+> +There is a conversion guide for atomic[1] and all you need is a GPU for a
+>  non-converted driver (again virtual HW drivers for KVM are still all
+> -suitable).
+> +suitable).  The "Atomic mode setting design overview" series [2][3] at
+> +LWN.net can also be helpful.
+> =20
+>  As part of this drivers also need to convert to universal plane (which m=
+eans
+>  exposing primary & cursor as proper plane objects). But that's much easi=
+er to
+>  do by directly using the new atomic helper driver callbacks.
+> =20
+> +  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-dri=
+vers.html
+> +  - [2] https://lwn.net/Articles/653071/
+> +  - [3] https://lwn.net/Articles/653466/
+> +
+
+Looks like footnotes better serve these links above:
+
+---- >8 ----
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 51eb67f5268c5e..6ea92f48a2e21c 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -49,18 +49,18 @@ converted over. Modern compositors like Wayland or Surf=
+aceflinger on Android
+ really want an atomic modeset interface, so this is all about the bright
+ future.
+=20
+-There is a conversion guide for atomic[1] and all you need is a GPU for a
++There is a conversion guide for atomic [1]_ and all you need is a GPU for a
+ non-converted driver (again virtual HW drivers for KVM are still all
+-suitable).  The "Atomic mode setting design overview" series [2][3] at
++suitable).  The "Atomic mode setting design overview" series [2]_ [3]_ at
+ LWN.net can also be helpful.
+=20
+ As part of this drivers also need to convert to universal plane (which mea=
+ns
+ exposing primary & cursor as proper plane objects). But that's much easier=
+ to
+ do by directly using the new atomic helper driver callbacks.
+=20
+-  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-drive=
+rs.html
+-  - [2] https://lwn.net/Articles/653071/
+-  - [3] https://lwn.net/Articles/653466/
++  .. [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-driv=
+ers.html
++  .. [2] https://lwn.net/Articles/653071/
++  .. [3] https://lwn.net/Articles/653466/
+=20
+ Contact: Daniel Vetter, respective driver maintainers
+=20
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--DPoP2WNc/X86Xlln
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHnvUAAKCRD2uYlJVVFO
+o2R9AQDL0rXdsAZ2q75Un/nud8+9skYIJP+8pCerpXMSUJgTAwD1EbjcCcLx7iqs
+1xk3nWj97FZCR273c6lRVz3Cm5VIDg==
+=gt6j
+-----END PGP SIGNATURE-----
+
+--DPoP2WNc/X86Xlln--
