@@ -2,58 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B00A7204EA
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 16:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBC272058C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 17:10:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30DC010E01F;
-	Fri,  2 Jun 2023 14:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06E610E0A7;
+	Fri,  2 Jun 2023 15:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D8810E01F
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 14:53:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 25A1B1FDAF;
- Fri,  2 Jun 2023 14:53:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1685717611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tWaTh2H4pP6rcbLy7AaUAANU1Bq0aVWzKPokoGoPa9Y=;
- b=BIhyn/STwSvEfzBV52mY3ZvLjHOCPn1yuoj0YnENldsO/6reTob9RyZ2IBoxMWspZ2ALUb
- aW0GOhQI1kMq+klnaOV7eV1r8a8ODKpR3GPktqujkpTsb1/V++SDPS6mHjLVlNlM7V/wdo
- krwwrpY3uMuYce/LV98ptBIPolkXsLg=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC48D13A2E;
- Fri,  2 Jun 2023 14:53:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EimDKGoCemTyXwAAMHmgww
- (envelope-from <jgross@suse.com>); Fri, 02 Jun 2023 14:53:30 +0000
-Message-ID: <5083c051-dfcf-ae23-195f-4c92bb875009@suse.com>
-Date: Fri, 2 Jun 2023 16:53:30 +0200
-MIME-Version: 1.0
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2074.outbound.protection.outlook.com [40.107.101.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECD710E0A1;
+ Fri,  2 Jun 2023 15:10:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bzgMTcEsA7xIhNIzJPqyyehfHWqiQKmp/vNyfsMmNySFH9YrRvptrYsjX6iYJaAcuePnEWCGb5WZ4ooYdzPMz9QQzpGR7Xg3WypmC8pobQcdHpG89Acq2tJ19xKfQXyYnYdjq9YgVtlsuISMWNCNLV8cyhuiqVlV7HTvHywhXxlwWTDLzsiDiouQST6Ih3iMPUqAjbVbL1TCzLxmdgyDgVhDmhdUB1PUeyn0wKrR+XdhQfJTOGCWht8nKHI3RGXEsPUT7iKxBDKOO8xaggjdIQescgRAQ//OfCXp0WcYIVaDz9IdiESbTzipQZ2VXEZDjKRSOEyXnTmDjOLGjw1VJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=75vtvqDnUazxrR8SG2YuCh9L4KEm8HnfO56GrNDTw4M=;
+ b=Vzsjv6Ca7aXUj5KN9qbo8HhcHKw9PCmDK+XjGzFtDJOVDQEkef9OnToeQmWE848Y+9jK0LqqhHV8AE8q0OEBLDX6vzmnam2WWDHZAmxCHOr+D/CNzz+fD2X6b9YnajvswLcefZYftKBF6YGTiPB/VJLYsviQsL1QzZEdDbHhW3omYjL8R4H9d5PEQLkfJgwP2UcAQ7sa7tg72NNIvKydxczviKKTu5foNZYEgjli2TvNanbbykSiaojbUgBeg9OKVVvRPCLZVakrBuQiJlRmB7mHIcKTpwi2A4cBFPoE4Pigp3m+HkLjSXmUq1Joe0+MCOaHKwmBINrGtyrLi0My5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=75vtvqDnUazxrR8SG2YuCh9L4KEm8HnfO56GrNDTw4M=;
+ b=48NGs2IT23AA7o+gl+VTi3vkgm1b4/Tigj9k3O3fsZOe7Josw/O2bsQglE4SL8mA5N/C5niBnfm0TKs1KuLTNIStuRUWawBTzGhNPenT5eewIM4+VSkeX8uiQJD6MkAzCUdYUDLAH4b54oOMKqPeqOscDDSHZEdTWKbQnr/wpTY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by IA1PR12MB6627.namprd12.prod.outlook.com (2603:10b6:208:3a1::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Fri, 2 Jun
+ 2023 15:10:18 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::4666:2db3:db1e:810c%7]) with mapi id 15.20.6455.024; Fri, 2 Jun 2023
+ 15:10:18 +0000
+Message-ID: <f2ac71b5-9b2a-4318-1b3a-863285ae05fd@amd.com>
+Date: Fri, 2 Jun 2023 11:10:12 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RESUBMIT][PATCH] x86/mm: Fix PAT bit missing from page
- protection modify mask
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 36/36] drm/amd/display: allow newer DC hardware to use
+ degamma ROM for PQ/HLG
 Content-Language: en-US
-From: Juergen Gross <jgross@suse.com>
-To: Borislav Petkov <bp@alien8.de>
-References: <20230519183634.190364-1-janusz.krzysztofik@linux.intel.com>
- <20230531181412.GFZHeOdMHIGOXB2hwL@fat_crate.local>
- <cfd19da7-4148-f277-0cf8-507b94d214a3@suse.com>
- <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
- <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
-In-Reply-To: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------lhnldzDRTHsO7Jdr8OKhwULx"
+To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20230523221520.3115570-1-mwen@igalia.com>
+ <20230523221520.3115570-37-mwen@igalia.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230523221520.3115570-37-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0111.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:5::14) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|IA1PR12MB6627:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff3d78db-caa6-4aba-326c-08db637b79e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RULkl8CHIv7pF7wdLRH7AhJtaouHzJApHDFhzwPuwNwv/wzybxVk9UWMHN0NVC3ggB4TrqmD1tsGkMOydCZx56ksEefEqtdz8KURCSggDI56xqllzzXyV85cOjxYmFSHfZtBeTp3exUR4cKBQxHjTcJS7sPu4r2Jg1bd/a0goUP4BdTaixqSLN+IKpEUNEdGbIyMUPu3xXhF3kFKY3OabEg26E/2Y563mEpq2zQPSys0d0UvhByOfb9WsWcNVae9KbQ/wTtwMUSpLEF67uQgrpFt8zgW1IUE9f2K3KEPtrMeAnEWsoZXBbGaG9j0mUuFT5rowcmwTPjUYUZzzzyRjOLz9vVksPYZJ0MEA5RqZ1baWevhkdXuPim9aLQTINNwC+DeExAD5EGgcDRx2mEPRMyOf/AlYUELur2QQXsb2PV86RitwF3v9k0Og0pNYZUF5gDMCmfB0r053Q1RInNAzb6hCpwslmAF8CmhcPVBc6XCKLW1qiEpxL2aooJXDTSUl4b4wfG+t5OIwQzNog/+GS4HpAvS3P2mbS0R9FgNprFOWd/bewn7M1Ngzidn/w2sk8vLauSAgfwJw5/WLVD6CU2QUdEwRKFUtooPaJOcktJ2Suz2GZ/B+1ZEkxgzwyo5A/32qQir6f50vrDsIlTjACi2fIQWB36+V8FeGwwi4LQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(451199021)(41300700001)(6486002)(5660300002)(6666004)(186003)(8936002)(8676002)(53546011)(36756003)(26005)(38100700002)(6512007)(6506007)(4326008)(66476007)(66556008)(44832011)(110136005)(66946007)(316002)(2906002)(54906003)(83380400001)(921005)(31686004)(2616005)(478600001)(7416002)(31696002)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a09QSytNcWF5UUx6MHd0cDByTi9pT3R5RjlKNU5oSzRVOGo0cHU5NUpGbUZ4?=
+ =?utf-8?B?N3Y5N3ZKeWx1Vk40b3VmMXRZaWd4V2VBb3J1b1Z0OGdyL0ZOZHlpaUFrSGE3?=
+ =?utf-8?B?czE2V2ZyeTFVTElkbExGc2diUkFzTVRlM09Ga0ZaWDVBWGJRWUlxNDZDMlVS?=
+ =?utf-8?B?bWRweEViNDBZRHJ0cldRODZOZnIramM1Qm4xRWV2dEpCYi9OZUZpeEZhNzhO?=
+ =?utf-8?B?YnNlMy9ZUGNzRmowSkR3TE8rbzRNYTkyQ09DVm53bHdaTStXbWRJTG40NnhR?=
+ =?utf-8?B?R09FOVRxTlBZQm5zbVJLNHNMSkUxN1E4NmNteWxxb24wVEtEWDV5Y2hiaUo3?=
+ =?utf-8?B?ekp4dFdqYms0cHEwa1NuQnVmc29KR1E0YjNiNVVPREIxVFVRUkY5TFJVYVdk?=
+ =?utf-8?B?Q0lES2FsK1kvNXB0K0c4YkNGQUpyK1I1YUUvZkJvMjF6K0p2OUJnYlJmemp3?=
+ =?utf-8?B?ZXJ1TDdJcVlLNmpCOU1saFNOV3BCME5TVFB6NjZ3Wk5GTVJVcnpmYUFOOTVr?=
+ =?utf-8?B?MDZZelVUMkdkMnU5TVVZbW1pWUkvcjd2ODRPOXozemQxSzlXaWk0UDdoaU8r?=
+ =?utf-8?B?N2hlMnVkRDgrQmIyY2FzYTU3aG1MaU4ybEUvdjdsTGpXNHZHRlU2SDg2cndy?=
+ =?utf-8?B?QmFEdTRDUVJZeUp3bU9NYnYyYzZycXZEeC91Qjd5TTEvKzIrc3N6OHRhT0RE?=
+ =?utf-8?B?VlR3Mml0c2xRS0JjQTkvUDk3YkZxbzVLNkxpRXNzR2Y3VXBxU3JRUENkaUlX?=
+ =?utf-8?B?dmkvRzY3a05ZOWtkbW1PZFFDdXZlanozazhmN3N6M0RpbWJGT3pPZ3Bxbmtt?=
+ =?utf-8?B?OHc2Y0Y3eTB1Sm9vREF0WENHbTV0emRpU1QwZUk1ajRIN01HUHZNWTBmV1lC?=
+ =?utf-8?B?LzJERmRtTmcwZ1RtQlpWRjkvck9KVWZYVzk5T21jN1M3NXZJY2VhbFk0NjFn?=
+ =?utf-8?B?eThtTlRiMEVRa2kxZmFacXlRT0w1VjE0UU8ycEs1ZnBBNHVYbDZFemlEMmFk?=
+ =?utf-8?B?ak5GUVo3WnhROGNNbXF0RFBCNEpTMmh5azVncDZ4eWt4UEtPNDBySnhrRGFx?=
+ =?utf-8?B?UGI1SlBhWklhb3B2ekVhZ2NCaWpjRnlaUlBOaFlOYTZhcGtveTBFTUhnUkNs?=
+ =?utf-8?B?c0EvSm1WcXJhTjhoa0hIUHlKRk1ZcDdTM0l4c1ZkQ2g5UEY2UHhpMTNOM2pk?=
+ =?utf-8?B?ZVBMeW5XSnVZY0N2WU81YUxDUm45VXp6bThBZEcvUjRIS0J1VE5DaFE3cUJC?=
+ =?utf-8?B?ajBmVVEzcVZCbFo2aU9MTXQ3Z1dmYXB1R01NYmZPbGttNUdXSUU5cFA1emE2?=
+ =?utf-8?B?Ujd2eGR2NjFrOFlhaVNzb3BUSkdaYm1TOWZzTWtLZDI4SnE4MFpPZkdyQkZN?=
+ =?utf-8?B?TlJpSlVPcVZnQnJ5cXlGNWRKMTI5VjZuN3lLbFpOb2t4TUJIblVTVjlBckhS?=
+ =?utf-8?B?Snl2aGIwS09SMlVXdnlHdEE5ZnFBUDF1Q0Nscmpydlc2WHVaYXErQmFNbnVK?=
+ =?utf-8?B?NURuQVkwWEVDc2tRdmlxTjRidDBtVlMxUVR6TElsYnJ6aFovOTluaW41WENO?=
+ =?utf-8?B?YmIwNHFRa0tWeDhPRXFhc3pqc2JUWHhwSTVJdk9sMUpTYmxSRnBrSDVoUC8x?=
+ =?utf-8?B?WjFndHVIT1dKRWFXcEtoQktVSXEyR2hzdXU1bk1zZlU0bUxTcTk3dmdYL3JO?=
+ =?utf-8?B?dXI2c0xKTGJQLy9RZ0VMMldHOFhUSEg0U2k4Wnd6ajhtaldVaHliblVZSUd1?=
+ =?utf-8?B?Z3lqNVk2VU16a3QvV213S25TN044NEE1YlFUb3loakcrL1l6TXlxRGdpcC9l?=
+ =?utf-8?B?YUt4VFNReFFjTjFCU1dMOE1SS3kyTWFyOHZzcG9FZVY0bGlQK2M1czZxWXNR?=
+ =?utf-8?B?TzV5eHhSMUY0NzU2Q3JJTTR6UFQxeXA5RWpWZ2JaUEc2WXYvclJyRHN5eEhD?=
+ =?utf-8?B?NnowdUkvdUJ2d3FoYmx1Rys4ZDhNRWozblRteFdvclVKdXFZSGJoazZtU3Ez?=
+ =?utf-8?B?ZlYvSUk2aElua0JzbDlaZEdOVnRNcmRZYklXL0tDd1lYaXZYOWsrTmd4Yy8x?=
+ =?utf-8?B?SVVXeW01dVZXODhQVy9uOUR4NW9qQVJnTUtpTVkyb2RmR1BudVZaK0RhSDBi?=
+ =?utf-8?Q?SAuIN9hoFUot2vF48s9KbWXQy?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff3d78db-caa6-4aba-326c-08db637b79e7
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2023 15:10:18.2680 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UT60bvuVenATr+fYg911Uz8wCC4k2sXZ6UBFkxqCbGGjSLnwHwH8jl2ObusF4VrPnuWGsK87RYzrFjbsdUknCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6627
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,146 +130,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, Yu Zhao <yuzhao@google.com>,
- David Hildenbrand <david@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, drm-intel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= <marmarek@invisiblethingslab.com>,
- Ingo Molnar <mingo@redhat.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------lhnldzDRTHsO7Jdr8OKhwULx
-Content-Type: multipart/mixed; boundary="------------fT044I1EYHXbcyFBdqakATdw";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Yu Zhao <yuzhao@google.com>,
- linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
- <marmarek@invisiblethingslab.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- drm-intel@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <5083c051-dfcf-ae23-195f-4c92bb875009@suse.com>
-Subject: Re: [RESUBMIT][PATCH] x86/mm: Fix PAT bit missing from page
- protection modify mask
-References: <20230519183634.190364-1-janusz.krzysztofik@linux.intel.com>
- <20230531181412.GFZHeOdMHIGOXB2hwL@fat_crate.local>
- <cfd19da7-4148-f277-0cf8-507b94d214a3@suse.com>
- <20230602144357.GCZHoALQjO+xx3YxAz@fat_crate.local>
- <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
-In-Reply-To: <bd70e7b8-1971-6982-979a-ce1eb4c93465@suse.com>
 
---------------fT044I1EYHXbcyFBdqakATdw
-Content-Type: multipart/mixed; boundary="------------SWSMr8KW8i5BF6nddV0xXjMS"
 
---------------SWSMr8KW8i5BF6nddV0xXjMS
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 5/23/23 18:15, Melissa Wen wrote:
+> From: Joshua Ashton <joshua@froggi.es>
+> 
+> Need to funnel the color caps through to these functions so it can check
+> that the hardware is capable.
+> 
+> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 35 ++++++++++++-------
+>  1 file changed, 23 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index 4a2b66568451..714f07bb9c9c 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -338,6 +338,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+>  /**
+>   * __set_input_tf - calculates the input transfer function based on expected
+>   * input space.
+> + * @caps: dc color capabilities
+>   * @func: transfer function
+>   * @lut: lookup table that defines the color space
+>   * @lut_size: size of respective lut.
+> @@ -345,7 +346,7 @@ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+>   * Returns:
+>   * 0 in case of success. -ENOMEM if fails.
+>   */
+> -static int __set_input_tf(struct dc_transfer_func *func,
+> +static int __set_input_tf(struct dc_color_caps *caps, struct dc_transfer_func *func,
+>  			  const struct drm_color_lut *lut, uint32_t lut_size)
+>  {
+>  	struct dc_gamma *gamma = NULL;
+> @@ -362,7 +363,7 @@ static int __set_input_tf(struct dc_transfer_func *func,
+>  		__drm_lut_to_dc_gamma(lut, gamma, false);
+>  	}
+>  
+> -	res = mod_color_calculate_degamma_params(NULL, func, gamma, gamma != NULL);
+> +	res = mod_color_calculate_degamma_params(caps, func, gamma, gamma != NULL);
+>  
+>  	if (gamma)
+>  		dc_gamma_release(&gamma);
+> @@ -511,7 +512,7 @@ static int amdgpu_dm_atomic_blend_lut(const struct drm_color_lut *blend_lut,
+>  		func_blend->tf = tf;
+>  		func_blend->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
+>  
+> -		ret = __set_input_tf(func_blend, blend_lut, blend_size);
+> +		ret = __set_input_tf(NULL, func_blend, blend_lut, blend_size);
+>  	} else {
+>  		func_blend->type = TF_TYPE_BYPASS;
+>  		func_blend->tf = TRANSFER_FUNCTION_LINEAR;
+> @@ -818,7 +819,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc,
+>  
+>  static int
+>  map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+> -			     struct dc_plane_state *dc_plane_state)
+> +			     struct dc_plane_state *dc_plane_state,
+> +			     struct dc_color_caps *caps)
+>  {
+>  	const struct drm_color_lut *degamma_lut;
+>  	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
+> @@ -873,7 +875,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  			dc_plane_state->in_transfer_func->tf =
+>  				TRANSFER_FUNCTION_LINEAR;
+>  
+> -		r = __set_input_tf(dc_plane_state->in_transfer_func,
+> +		r = __set_input_tf(caps, dc_plane_state->in_transfer_func,
+>  				   degamma_lut, degamma_size);
+>  		if (r)
+>  			return r;
+> @@ -886,7 +888,7 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  		dc_plane_state->in_transfer_func->tf = tf;
+>  
+>  		if (tf != TRANSFER_FUNCTION_SRGB &&
+> -		    !mod_color_calculate_degamma_params(NULL,
+> +		    !mod_color_calculate_degamma_params(caps,
+>  							dc_plane_state->in_transfer_func,
+>  							NULL, false))
+>  			return -ENOMEM;
+> @@ -897,7 +899,8 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+>  
+>  static int
+>  __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+> -		       struct dc_plane_state *dc_plane_state)
+> +		       struct dc_plane_state *dc_plane_state,
+> +		       struct dc_color_caps *color_caps)
+>  {
+>  	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
+>  	const struct drm_color_lut *degamma_lut;
+> @@ -906,6 +909,9 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>  	bool has_degamma_lut;
+>  	int ret;
+>  
+> +	if (dc_plane_state->ctx && dc_plane_state->ctx->dc)
+> +		color_caps = &dc_plane_state->ctx->dc->caps.color;
+> +
 
-T24gMDIuMDYuMjMgMTY6NDgsIEp1ZXJnZW4gR3Jvc3Mgd3JvdGU6DQo+IE9uIDAyLjA2LjIz
-IDE2OjQzLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6DQo+PiBPbiBUaHUsIEp1biAwMSwgMjAy
-MyBhdCAxMDo0NzozOUFNICswMjAwLCBKdWVyZ2VuIEdyb3NzIHdyb3RlOg0KPj4+IEFzIGRl
-c2NyaWJlZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsIHRoaXMgb25seSB3b3JrcyBvbiBiYXJl
-IG1ldGFsIGR1ZSB0byB0aGUNCj4+PiBQQVQgYml0IG5vdCBiZWluZyBuZWVkZWQgZm9yIFdD
-IG1hcHBpbmdzLg0KPj4+DQo+Pj4gTWFraW5nIHRoaXMgcGF0Y2ggWGVuIHNwZWNpZmljIHdv
-dWxkIHRyeSB0byBjdXJlIHRoZSBzeW1wdG9tcyB3aXRob3V0IGZpeGluZw0KPj4+IHRoZSB1
-bmRlcmx5aW5nIHByb2JsZW06IF9QQUdFX1BBVCBzaG91bGQgYmUgcmVnYXJkZWQgdGhlIHNh
-bWUgd2F5IGFzIHRoZSBiaXRzDQo+Pj4gZm9yIGNhY2hpbmcgbW9kZSAoX1BBR0VfQ0hHX01B
-U0spLg0KPj4NCj4+IFNvIHdoeSBpc24ndCBfUEFHRV9QQVQgcGFydCBvZiBfUEFHRV9DSEdf
-TUFTSz8NCj4gDQo+IFRoaXMgd291bGQgcmVzdWx0IGluIHByb2JsZW1zIGZvciBsYXJnZSBw
-YWdlczogX1BBR0VfUFNFIGlzIGF0IHRoZSBzYW1lDQo+IHBvc2l0aW9uIGFzIF9QQUdFX1BB
-VCAobGFyZ2UgcGFnZXMgYXJlIHVzaW5nIF9QQUdFX1BBVF9MQVJHRSBpbnN0ZWFkKS4NCj4g
-DQo+IFllcywgeDg2IEFCSSBpcyBhIG1lc3MuDQoNCk9oLCB3YWl0OiBJIG9yaWdpbmFsbHkg
-dGhvdWdodCBfUEFHRV9DSEdfTUFTSyB3b3VsZCBiZSB1c2VkIGZvciBsYXJnZSBwYWdlcywN
-CnRvby4gVGhlcmUgaXMgX0hQQUdFX0NIR19NQVNLIGZvciB0aGF0IHB1cnBvc2UuDQoNClNv
-IGFkZGluZyBfUEFHRV9QQVQgdG8gX1BBR0VfQ0hHX01BU0sgYW5kIF9QQUdFX1BBVF9MQVJH
-RSB0byBfSFBBR0VfQ0hHX01BU0sNCnNob3VsZCBkbyB0aGUgam9iLiBBdCBsZWFzdCBJIGhv
-cGUgc28uDQoNCg0KSnVlcmdlbg0K
---------------SWSMr8KW8i5BF6nddV0xXjMS
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+We already do this in amdgpu_dm_update_plane_color_mgmt and pass color_caps
+into this function. We shouldn't need to do this here again.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Harry
 
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+>  	degamma_lut = __extract_blob_lut(dm_plane_state->degamma_lut,
+>  					 &degamma_size);
+>  
+> @@ -928,7 +934,7 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>  		dc_plane_state->in_transfer_func->type =
+>  			TF_TYPE_DISTRIBUTED_POINTS;
+>  
+> -		ret = __set_input_tf(dc_plane_state->in_transfer_func,
+> +		ret = __set_input_tf(color_caps, dc_plane_state->in_transfer_func,
+>  				     degamma_lut, degamma_size);
+>  		if (ret)
+>  			return ret;
+> @@ -945,7 +951,8 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>  
+>  static int
+>  amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+> -				     struct dc_plane_state *dc_plane_state)
+> +				     struct dc_plane_state *dc_plane_state,
+> +				     struct dc_color_caps *color_caps)
+>  {
+>  	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
+>  	enum drm_transfer_function shaper_tf = DRM_TRANSFER_FUNCTION_DEFAULT;
+> @@ -1013,9 +1020,13 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  				      struct drm_plane_state *plane_state,
+>  				      struct dc_plane_state *dc_plane_state)
+>  {
+> +	struct dc_color_caps *color_caps = NULL;
+>  	bool has_crtc_cm_degamma;
+>  	int ret;
+>  
+> +	if (dc_plane_state->ctx && dc_plane_state->ctx->dc)
+> +		color_caps = &dc_plane_state->ctx->dc->caps.color;
+> +
+>  	/* Initially, we can just bypass the DGM block. */
+>  	dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
+>  	dc_plane_state->in_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
+> @@ -1023,7 +1034,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  	/* After, we start to update values according to color props */
+>  	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
+>  
+> -	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
+> +	ret = __set_dm_plane_degamma(plane_state, dc_plane_state, color_caps);
+>  	if (ret == -ENOMEM)
+>  		return ret;
+>  
+> @@ -1049,11 +1060,11 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>  		 * linearize (implicit degamma) from sRGB/BT709 according to
+>  		 * the input space.
+>  		 */
+> -		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
+> +		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state, color_caps);
+>  		if (ret)
+>  			return ret;
+>  	}
+>  
+>  	return amdgpu_dm_plane_set_color_properties(plane_state,
+> -						    dc_plane_state);
+> +						    dc_plane_state, color_caps);
+>  }
 
---------------SWSMr8KW8i5BF6nddV0xXjMS--
-
---------------fT044I1EYHXbcyFBdqakATdw--
-
---------------lhnldzDRTHsO7Jdr8OKhwULx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmR6AmoFAwAAAAAACgkQsN6d1ii/Ey++
-CQgAgxzclUeWbUr8eBq6IDi8l4FeaaQnJ4L9HKQkPkPiQtsKdyzBnU8jmtjeIfXGWsqC8/mehDSJ
-R9jmBgW2PO4DxX1IsLyn1DPVZrRq4x31i9IQlRFtOctPbrJWXhRW83jOnTrVgVPiOuNubN2wV1/K
-ulSzryff6GAPSL/YSG2UhOYh/WARgt6Ib8MBzO3kVhFPHLQrBoP4h+o0lhHx0wtnl2p2vLmnlYKm
-pa/m7PVUbqUxy8aPQ+ZWUumSFkZjefh11HC0W0AFfjeOupRx/JR/G4Vz+4XHMw9+Z5vqdaF9U1dm
-Y7F5IZgUwedGv+Zu3luhZHBOrHLAIvmqIr18W+SisQ==
-=MfTn
------END PGP SIGNATURE-----
-
---------------lhnldzDRTHsO7Jdr8OKhwULx--
