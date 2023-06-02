@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB10C71F909
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 05:54:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC3571F929
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 06:13:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 534C210E02F;
-	Fri,  2 Jun 2023 03:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF2410E619;
+	Fri,  2 Jun 2023 04:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 896AD10E02F
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 03:54:46 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- 98e67ed59e1d1-256712e2be3so1337836a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jun 2023 20:54:46 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB5510E619
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 04:13:14 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-974265a1a40so620635066b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jun 2023 21:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685678085; x=1688270085;
+ d=gmail.com; s=20221208; t=1685679191; x=1688271191;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AFYRa2oit8Kb04mbuiimeCpNVm02GagiFFjOTHBNe/E=;
- b=DyjwxaLk7AueeisR6yISmADRKlAHBLdbHCQxJgnZxXyaRSC4Ln0ymZBuV5GNb8izsY
- BGgRFHURLha9A++oTaDl4vGKpLH3br3cColD7VPoRCL7FFmmQ9+thgITD2irfws1WyP7
- 8z7kq2jO+Q1lqfanDHsw8c6o38bMu2Gv7dWKuEnKtAWBAON6c0cqANMkIkWgoj/La9im
- AgPIII4nTTAZofuQU0B5FcNGpzOg9Q3BETfrB6RZNzGYBOS25Ae8JUsQNwp7oKsq6qqH
- JIp6LFPKgHvj8pR5T2aUYszEbnwhSQQgZ9lqiRwAZqD5xjPaXoxNmbB5bQ3tj+LtzNsN
- BxbA==
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VIR8w9cgDXzXi7+1iKlCaAfcvOlfkoacHFLlw4+WQ2A=;
+ b=LEHsExU4DVP+TUT5BXfeNgTtpxcaJOulSTjhhLWA8N3BT/YoGXKt86L7/Y+8jzGzkE
+ bht0W80Ci1f9uuPcd7UjPpy2D0kb2M5ccCT6JNAr+8oCusxgQXb/4y60NKkp37asEown
+ 78msb8alKOlX7uzUgxri7VILKrTMLJ3VgJTs3XcBnH4lrHy802UsqXIFWXRg/N2PQSCi
+ UG2zO7fd3Uh7GRxqqOUg5t8uUmXsGfXtw455gm9567fYiQNpoepuV8wDjif0wQOVnK8+
+ AAkwtN3UzDxkByCAY+cgOzQRNeEs7znMCqAK8xV7lvb9NifZ0YWXLDQrCMGiQnD4r7H5
+ 05lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685678085; x=1688270085;
+ d=1e100.net; s=20221208; t=1685679191; x=1688271191;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AFYRa2oit8Kb04mbuiimeCpNVm02GagiFFjOTHBNe/E=;
- b=RDxAFhLHNoiHuBgclRnD7bSiwPnaDXHJ/ZRFcfQ8v+LqsQf4ERkNldutAj9b5BRyu7
- rJgDntWb8zWshY9p6R5yB5QFcSygVj0ufuNAE1atfXo6uL78o0sHnyq5k7JZ/HhJIQQj
- V8YZLIXNC1qWidv9an3C+rgZZ3MkNQFdKRBKVv1f8Ebo0RWEHkeKvMMqej5L0SrbAPy6
- z5Iy2xCEvRKKBsB1ymq8eTkhVqLMO4HiSoT/MK6qqcE/9LmxtMHhmVph6x88qy5IP+eN
- dI3xb45zW28ZYGAZZdRx93CjhYXg6HUh+QyS31w4fD+HYQjPZnL3CZtjoATzRL422s5H
- 3utQ==
-X-Gm-Message-State: AC+VfDzxfTN/cIby4zz3KMff0qXoYfNfVTqee5/1u8j5RUtzKy52Pk3G
- wOMi19ZP1HtiBlW+mGDQlRDoixdQq4hW6aJ1gSA=
-X-Google-Smtp-Source: ACHHUZ7bFV1KjjBpBrQzVDLhlCusRk+BBNxv53GfvPOJzwSHNjAxytFtkFPQE+TCkYjIZVWXIk2piLSrw5WZpmltkF4=
-X-Received: by 2002:a17:90a:1d46:b0:256:bc96:45ad with SMTP id
- u6-20020a17090a1d4600b00256bc9645admr1073489pju.40.1685678085392; Thu, 01 Jun
- 2023 20:54:45 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VIR8w9cgDXzXi7+1iKlCaAfcvOlfkoacHFLlw4+WQ2A=;
+ b=YOoSU2SeU/+4vIveg795EIfftbt4FmfxAMA4Py6VDwvxVHP8Zcb7nSj/dmx1ipYGdp
+ UcvcGK7JYBok5u8fotxJG5NgMyRGCtD7jwV6FLr1jxU1cfRXJT8Cms1OW0yg2/AsFg9w
+ lxuE3V3AIh0/MCCJ+G10B2bKkhPyqeuXBLMYolSVFqJHP0bQPA3cKkyDb1xlQdI8/OJM
+ bnb9AQNtx612xrc87dNVKyebKBbzTo2eT+lXSBIpQuyt/HyvOrNtDegPJgdqQAPttcPZ
+ rifaSrnDZuaWD4H+q41oJpjY1m5JL2Y4pWhiz6CGn+KMgKzu79Ny5rflEReLImcNNCxK
+ R3fg==
+X-Gm-Message-State: AC+VfDyCIg62U89fekYPFZCuoU9ivUyPVbW/l0oxpQPOs7VxnueqT39Y
+ 7VaesobzENKYlHJI6Hc4VDG+JBK8NsM0SxUN0+U=
+X-Google-Smtp-Source: ACHHUZ4rbz+JEdNRv4AU0sSdE8gqFvZJ4o6EWuNPRzcMgNzr0FUIlsrkJgw32WWDPPsFL8l6CDbOh7NVAvDfdeGCypI=
+X-Received: by 2002:a17:907:6e8e:b0:96f:b40a:c85f with SMTP id
+ sh14-20020a1709076e8e00b0096fb40ac85fmr4132435ejc.23.1685679191267; Thu, 01
+ Jun 2023 21:13:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230531093206.3893469-1-victor.liu@nxp.com>
- <20230531093206.3893469-2-victor.liu@nxp.com>
- <bd257ed0-71a7-0504-0bfe-14775ac93571@linaro.org>
-In-Reply-To: <bd257ed0-71a7-0504-0bfe-14775ac93571@linaro.org>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Fri, 2 Jun 2023 11:54:33 +0800
-Message-ID: <CAOcKUNWkubMK1MJS73tpbm4bafQv2GAMuq_JOTFbvB9EVDRvxg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Add NXP i.MX93
- parallel display format configuration
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 2 Jun 2023 14:12:59 +1000
+Message-ID: <CAPM=9tyD7t3pBvY9PN5g8M3KN-y7i-cNHwtoR3x5-f=-U+fAEw@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.4-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,59 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, linux-imx@nxp.com, shawnguo@kernel.org,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- Laurent.pinchart@ideasonboard.com
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 2, 2023 at 1:45=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 31/05/2023 11:32, Liu Ying wrote:
-> > NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-> > configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> > field. Add device tree bindings for the display format configuration.
-> >
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v1->v2:
-> > * No change.
->
-> How did you implement Rob's comment?
+Hi Linus,
 
-Should have discussed more in v1 about Rob's comment, but
-let me explain why this dt-binding makes sense here:
+Quiet enough week, though the misc fixes tree didn't get to me when I
+was sending this, so maybe it'll be a bit bigger next week, just one
+i915 fix and some scattered amdgpu fixes.
 
-Both i.MX8mp SoC and i.MX93 SoC media block control devices
-contain a LVDS Display Bridge(LDB) child device. The i.MX93 block
-control device additionally contains this PDFC child device.
+Dave.
 
-LDB dt-binding [1] is written in a separate file and referenced in
-i.MX8mp block control dt-binding [2].  So, for the sake of consistency,
-it makes sense to keep this PDFC dt-binding and reference it
-together with the LDB one [1] in i.MX93 block control dt-binding [3]
-in future, doesn't it?
+drm-fixes-2023-06-02:
+drm fixes for v6.4-rc5
 
-It seems good to have a separate PDFC dt-binding in case it can/will
-be referenced by multiple parent device dt-bindings.
+amdgpu:
+- Fix mclk and fclk output ordering on some APUs
+- Fix display regression with 5K VRR
+- VCN, JPEG spurious interrupt warning fixes
+- Fix SI DPM on some ARM64 platforms
+- Fix missing TMZ enablement on GC 11.0.1
 
-[1] Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-[2] Documentation/devicetree/bindings/soc/imx/fsl,imx8mp-media-blk-ctrl.yam=
-l
-[3] Documentation/devicetree/bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml
+i915:
+- Fix for OA reporting to allow detecting non-power-of-two reports
+The following changes since commit 7877cb91f1081754a1487c144d85dc0d2e2e7fc4=
+:
 
-Regards,
-Liu Ying
+  Linux 6.4-rc4 (2023-05-28 07:49:00 -0400)
 
->
-> >
-> >  .../display/bridge/nxp,imx93-pdfc.yaml        | 78 +++++++++++++++++++
-> >  1 file changed, 78 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/nx=
-p,imx93-pdfc.yaml
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-06-02
+
+for you to fetch changes up to b6ccf213d95e9373ac1f7fbcb5de3b52eec0ddb3:
+
+  Merge tag 'drm-intel-fixes-2023-06-01' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-06-02
+10:33:29 +1000)
+
+----------------------------------------------------------------
+drm fixes for v6.4-rc5
+
+amdgpu:
+- Fix mclk and fclk output ordering on some APUs
+- Fix display regression with 5K VRR
+- VCN, JPEG spurious interrupt warning fixes
+- Fix SI DPM on some ARM64 platforms
+- Fix missing TMZ enablement on GC 11.0.1
+
+i915:
+- Fix for OA reporting to allow detecting non-power-of-two reports
+
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+      drm/i915/perf: Clear out entire reports after reading if not
+power of 2 size
+
+Dave Airlie (2):
+      Merge tag 'amd-drm-fixes-6.4-2023-05-31' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-06-01' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Guchun Chen (1):
+      drm/amd/pm: resolve reboot exception for si oland
+
+Horatio Zhang (6):
+      drm/amdgpu: separate ras irq from vcn instance irq for UVD_POISON
+      drm/amdgpu: add RAS POISON interrupt funcs for vcn_v2_6
+      drm/amdgpu: add RAS POISON interrupt funcs for vcn_v4_0
+      drm/amdgpu: separate ras irq from jpeg instance irq for UVD_POISON
+      drm/amdgpu: add RAS POISON interrupt funcs for jpeg_v2_6
+      drm/amdgpu: add RAS POISON interrupt funcs for jpeg_v4_0
+
+Ikshwaku Chauhan (1):
+      drm/amdgpu: enable tmz by default for GC 11.0.1
+
+Michel D=C3=A4nzer (2):
+      Revert "drm/amd/display: Block optimize on consecutive FAMS enables"
+      Revert "drm/amd/display: Do not set drr on pipe commit"
+
+Tim Huang (5):
+      drm/amd/pm: reverse mclk and fclk clocks levels for SMU v13.0.4
+      drm/amd/pm: reverse mclk clocks levels for SMU v13.0.5
+      drm/amd/pm: reverse mclk and fclk clocks levels for yellow carp
+      drm/amd/pm: reverse mclk and fclk clocks levels for vangogh
+      drm/amd/pm: reverse mclk and fclk clocks levels for renoir
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           | 27 +++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.h           |  3 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            | 27 +++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |  3 ++
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c             | 28 +++++++++++++----
+ drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c             | 28 ++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c              | 25 ++++++++++++---
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              | 36 ++++++++++++++++++=
+----
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |  9 ------
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 25 +--------------
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         | 29 -----------------
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   | 10 +++---
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_4_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c   |  5 +--
+ .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |  5 +--
+ drivers/gpu/drm/i915/i915_perf.c                   | 17 ++++++----
+ 18 files changed, 184 insertions(+), 106 deletions(-)
