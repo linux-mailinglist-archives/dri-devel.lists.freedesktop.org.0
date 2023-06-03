@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECF4720F51
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 12:38:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C60720F4F
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 12:38:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823CE10E245;
-	Sat,  3 Jun 2023 10:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006F310E238;
+	Sat,  3 Jun 2023 10:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A87C10E228;
+ by gabe.freedesktop.org (Postfix) with ESMTP id 409F610E222;
  Sat,  3 Jun 2023 10:37:44 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxFvH2F3tk9ukDAA--.8470S3;
+ by gateway (Coremail) with SMTP id _____8AxHev2F3tk_ekDAA--.4021S3;
  Sat, 03 Jun 2023 18:37:42 +0800 (CST)
 Received: from openarena.loongson.cn (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxJLH2F3tkkzCHAA--.22741S2; 
+ AQAAf8CxJLH2F3tkkzCHAA--.22741S3; 
  Sat, 03 Jun 2023 18:37:42 +0800 (CST)
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 To: Lucas Stach <l.stach@pengutronix.de>,
@@ -25,31 +25,34 @@ To: Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>, Li Yi <liyi@loongson.cn>
-Subject: [PATCH v7 0/7] drm/etnaviv: add pci device driver support
-Date: Sat,  3 Jun 2023 18:37:35 +0800
-Message-Id: <20230603103742.3041649-1-suijingfeng@loongson.cn>
+Subject: [PATCH v7 1/7] drm/etnaviv: add a dedicated function to register an
+ irq handler
+Date: Sat,  3 Jun 2023 18:37:36 +0800
+Message-Id: <20230603103742.3041649-2-suijingfeng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230603103742.3041649-1-suijingfeng@loongson.cn>
+References: <20230603103742.3041649-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxJLH2F3tkkzCHAA--.22741S2
+X-CM-TRANSID: AQAAf8CxJLH2F3tkkzCHAA--.22741S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7uFyUur4xWryxXrW7ZrW7XFb_yoW8Aw4kpF
- 47JFyYyry0vrW2kw17AFn5JFy3G3WxWF9Yk3srt3sI9w45AFyjvryDKa15Jr9xXr1fJr12
- qr1akry3WF1UArJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7AFWDWF4UGFykJr1DKF17ZFb_yoW8Zr48pF
+ 47Ja4Ykr18Ca42g34fZF98ZF1akw1IqayIkwnrt3sak398Jrs8JryFkF1UXa4fAryrGay3
+ tF1YgFWUuF45urJanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1l
- Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s
- 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
- JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
- v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
- j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
- W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
+ b3AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JF0_JFyl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+ 87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82
+ IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2Iq
+ xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
+ 1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY
+ 6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
+ AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuY
+ vjxU4OzVUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +70,68 @@ Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
-PCI device, and it has 2D and 3D cores in the same core. Thus, this patch
-set is trying to add PCI device driver support to etnaviv.
+Because getting IRQ from a device is platform-dependent, PCI devices have
+different methods for getting an IRQ. This patch is a preparation patch to
+extend the driver for the PCI device support.
 
-v6:
-	* Fix build issue on system without CONFIG_PCI enabled
-v7:
-	* Add a separate patch for the platform driver rearrangement (Bjorn)
-	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
-	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
-	* Remove etnaviv_gpu.no_clk member (Lucas)
-	* Various Typos and coding style fixed (Bjorn)
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 34 ++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
 
-Sui Jingfeng (7):
-  drm/etnaviv: add a dedicated function to register an irq handler
-  drm/etnaviv: add a dedicated function to get various clocks
-  drm/etnaviv: add dedicated functions to create and destroy platform
-    devices
-  drm/etnaviv: add helpers for private data construction and destruction
-  drm/etnaviv: allow bypass component framework
-  drm/etnaviv: add driver support for the PCI devices
-  drm/etnaviv: add support for the dma coherent device
-
- drivers/gpu/drm/etnaviv/Kconfig             |   9 +
- drivers/gpu/drm/etnaviv/Makefile            |   2 +
- drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 228 +++++++++++++++-----
- drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  10 +
- drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 170 ++++++++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |   9 +
- drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  75 +++++++
- drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |   9 +
- include/uapi/drm/etnaviv_drm.h              |   1 +
- 11 files changed, 422 insertions(+), 120 deletions(-)
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index de8c9894967c..636d3f39ddcb 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1817,6 +1817,29 @@ static const struct of_device_id etnaviv_gpu_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
+ 
++static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq)
++{
++	struct device *dev = gpu->dev;
++	int err;
++
++	if (irq < 0) {
++		dev_err(dev, "failed to get irq: %d\n", irq);
++		return irq;
++	}
++
++	err = devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev), gpu);
++	if (err) {
++		dev_err(dev, "failed to request IRQ %u: %d\n", irq, err);
++		return err;
++	}
++
++	gpu->irq = irq;
++
++	dev_info(dev, "IRQ handler registered, irq = %d\n", irq);
++
++	return 0;
++}
++
+ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1837,16 +1860,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 		return PTR_ERR(gpu->mmio);
+ 
+ 	/* Get Interrupt: */
+-	gpu->irq = platform_get_irq(pdev, 0);
+-	if (gpu->irq < 0)
+-		return gpu->irq;
+-
+-	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+-			       dev_name(gpu->dev), gpu);
+-	if (err) {
+-		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
++	err = etnaviv_gpu_register_irq(gpu,  platform_get_irq(pdev, 0));
++	if (err)
+ 		return err;
+-	}
+ 
+ 	/* Get Clocks: */
+ 	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
 -- 
 2.25.1
 
