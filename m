@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2D1720E8B
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 09:44:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EECF4720F51
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 12:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 576EE10E214;
-	Sat,  3 Jun 2023 07:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 823CE10E245;
+	Sat,  3 Jun 2023 10:37:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D436110E214;
- Sat,  3 Jun 2023 07:43:53 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id
- d2e1a72fcca58-64d3bc0dce9so354809b3a.0; 
- Sat, 03 Jun 2023 00:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685778233; x=1688370233;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
- b=HdR32jWEiMDgRFNHZ4AmO+HfNOYRhIeMt1Z5uNTHesSQqHDELs6TlofSvDyhAYT35y
- JtaJAitoMYef8byzb4Q/v3Q1X37KaWjsPrprQlD57U3+I6XKSx204zCQ1EOG7U21K4fq
- fXT6MUWv5fX/6d68aknWQA62HaAXaJ7DT2OMuNznhhusSLzEaG5OodKAGVCBaeTD9In5
- UhGE6Caok7XVhyUI2FU8bRU0U+QCu7mWwwuYcu4PH+H+U4yRVxt3yqk20JfkptJRMas7
- 0UZzD5imjL3NijdOtD+bWCh0OhMtk0o+uTjgUT+aeEfbUcXYkTQbxshWNa3CPUXt94Qk
- PETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685778233; x=1688370233;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
- b=LvHdLBSFZwVvIUDwLru0ajoyBxDcxbdED91iGcK4v97YBUZEPmAlbE8B1KyK/3l6g/
- tHUh3ggNWTGdOEgja4Mrra1r1jTAIjRm6mfhdbsIvQM/MJymD3m6w/3YrF8xEkwZsgCH
- /hf0leFOQOIM0fGrgU3/EykROLnNxG+8IAexKLjt9C5s0TR7gqipJAouYVyd6Al3OB4H
- B3zJifkT9Qqobiqfo4kpiICCpJjveTX/LJUE3+FNKynp6trveqeICPPdZacPtkBbYPxl
- hAUcokIfnk319CM8dc44+1R9nnDQgDmXtIqHINzf4hHPA8sHvqftEnvtTgFvlAAoegtg
- Ii5A==
-X-Gm-Message-State: AC+VfDywvTGSshEsOdVhIG28GNBi5n4f7i6rmccdysf4khOaxNfNoQ9W
- Lgjr6IDVgw6WqaioTBV+ZSg=
-X-Google-Smtp-Source: ACHHUZ7Sb3282pwyR3Z2zP7ICZ4Es7PNecGCmDTkrXI02OgZnCeM/hb458Wo12XIa+dX4RK3fGmPTQ==
-X-Received: by 2002:a17:902:ecc5:b0:1ae:1364:6086 with SMTP id
- a5-20020a170902ecc500b001ae13646086mr12068845plh.2.1685778232982; 
- Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
-Received: from ubuntu.localdomain ([183.208.21.185])
- by smtp.gmail.com with ESMTPSA id
- 12-20020a170902c10c00b001afd275e186sm2525846pli.286.2023.06.03.00.43.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
-From: Min Li <lm0963hack@gmail.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH v2] drm/radeon: fix race condition UAF in
- radeon_gem_set_domain_ioctl
-Date: Sat,  3 Jun 2023 15:43:45 +0800
-Message-Id: <20230603074345.17907-1-lm0963hack@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A87C10E228;
+ Sat,  3 Jun 2023 10:37:44 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxFvH2F3tk9ukDAA--.8470S3;
+ Sat, 03 Jun 2023 18:37:42 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxJLH2F3tkkzCHAA--.22741S2; 
+ Sat, 03 Jun 2023 18:37:42 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>, Li Yi <liyi@loongson.cn>
+Subject: [PATCH v7 0/7] drm/etnaviv: add pci device driver support
+Date: Sat,  3 Jun 2023 18:37:35 +0800
+Message-Id: <20230603103742.3041649-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxJLH2F3tkkzCHAA--.22741S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uFyUur4xWryxXrW7ZrW7XFb_yoW8Aw4kpF
+ 47JFyYyry0vrW2kw17AFn5JFy3G3WxWF9Yk3srt3sI9w45AFyjvryDKa15Jr9xXr1fJr12
+ qr1akry3WF1UArJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s
+ 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+ JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+ v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+ j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+ W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace can race to free the gobj(robj converted from), robj should not
-be accessed again after drm_gem_object_put, otherwith it will result in
-use-after-free.
+There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+PCI device, and it has 2D and 3D cores in the same core. Thus, this patch
+set is trying to add PCI device driver support to etnaviv.
 
-Signed-off-by: Min Li <lm0963hack@gmail.com>
----
-Changes in v2:
-- Remove unused robj, avoid compile complain
+v6:
+	* Fix build issue on system without CONFIG_PCI enabled
+v7:
+	* Add a separate patch for the platform driver rearrangement (Bjorn)
+	* Switch to runtime check if the GPU is dma coherent or not (Lucas)
+	* Add ETNAVIV_PARAM_GPU_COHERENT to allow userspace to query (Lucas)
+	* Remove etnaviv_gpu.no_clk member (Lucas)
+	* Various Typos and coding style fixed (Bjorn)
 
- drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Sui Jingfeng (7):
+  drm/etnaviv: add a dedicated function to register an irq handler
+  drm/etnaviv: add a dedicated function to get various clocks
+  drm/etnaviv: add dedicated functions to create and destroy platform
+    devices
+  drm/etnaviv: add helpers for private data construction and destruction
+  drm/etnaviv: allow bypass component framework
+  drm/etnaviv: add driver support for the PCI devices
+  drm/etnaviv: add support for the dma coherent device
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index bdc5af23f005..d3f5ddbc1704 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_radeon_gem_set_domain *args = data;
- 	struct drm_gem_object *gobj;
--	struct radeon_bo *robj;
- 	int r;
- 
- 	/* for now if someone requests domain CPU -
-@@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 		up_read(&rdev->exclusive_lock);
- 		return -ENOENT;
- 	}
--	robj = gem_to_radeon_bo(gobj);
- 
- 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
- 
- 	drm_gem_object_put(gobj);
- 	up_read(&rdev->exclusive_lock);
--	r = radeon_gem_handle_lockup(robj->rdev, r);
-+	r = radeon_gem_handle_lockup(rdev, r);
- 	return r;
- }
- 
+ drivers/gpu/drm/etnaviv/Kconfig             |   9 +
+ drivers/gpu/drm/etnaviv/Makefile            |   2 +
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 228 +++++++++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  10 +
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  22 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c       | 170 ++++++++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h       |   9 +
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c   |  75 +++++++
+ drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h   |   9 +
+ include/uapi/drm/etnaviv_drm.h              |   1 +
+ 11 files changed, 422 insertions(+), 120 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
+
 -- 
-2.34.1
+2.25.1
 
