@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A60720D8D
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 05:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1721720E36
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 08:53:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DBE10E02D;
-	Sat,  3 Jun 2023 03:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E09A510E060;
+	Sat,  3 Jun 2023 06:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27AAB10E02D;
- Sat,  3 Jun 2023 03:13:09 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-94ea38c90ccso39139866b.1; 
- Fri, 02 Jun 2023 20:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685761987; x=1688353987;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Usb7s3F8Xcfix1ovSHJbrYw1xUMhb/AXZoRNHGtQMu4=;
- b=bkpouXYiWv5DvZQEaOW/WHkl//foa4/btTP91qA+yLpwAEzE0YgM9ALdYSL572Bj++
- 4mRXbYEcl3wP/41wCyd6POXHidubgNxO3ooDCj8hWB1/3+JvJkTDSeSUlk6SPNo52QIU
- NNl9jhEYndnd482CwXO2Htea2SrGYJBZOQ6LQPlZ4Cnozk6NazfFHM4poPDDPCkINuv+
- /yenzoAfN3uO0JbcqZXHOkahVJPpXvAN4reSRUVNZxOAmjchuyDPcKaYfGlZzpTwu/Lq
- RFWTS/AQqjfYTr4kag5c2gCC5nSqaKG4iWyp3jI5NGZd1tR2atwzyUoBX3wBoMTyDJSA
- KgJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685761987; x=1688353987;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Usb7s3F8Xcfix1ovSHJbrYw1xUMhb/AXZoRNHGtQMu4=;
- b=W+uVBHA92X1snjWd6xgRzjPRKVFYTGUfNdFlE38OY19oLrVnj5VjJMfduYs3ovRZnL
- ruEMWxnDr3feqrxgIfqsjboo4sEoholG8Zu1jaxvUChO4cYkl5N7RwFgUf+BbXGOHiOC
- hbJXsgIbVXXS2s3qJB9nlvUa5QuMH6r5mOixnIVIuglPalEBasLCLhaqw5JKmjFsKWgf
- rtm+ZlvrSkzlR3gFpmDw71R4AYIiDMKBWf4rQii2bKLXnvdn2TlfhjiEZMVd9woH54++
- sncebGy5DEhhFJy+O6BfWF57XmotGzCIrAd8Vg1MHmtBDKRjwZWsUQDG1Co49toC2Mk1
- 8PNg==
-X-Gm-Message-State: AC+VfDzGYLCc24/R7nidRzHiGpESYmGBM9W5W9JQ0xqSbbhtbh6w2HJy
- DnptugEn6GqumFbmHU1NJW4JRebB5AoVyQS8SUo=
-X-Google-Smtp-Source: ACHHUZ5D07vBton5O5EJBgAy/2QO3MN1X4cvxATItcSokD+xAqlFk4XJXnM6Fy+xPS49b3Wp5e7yKzAAB17LJrSEx4I=
-X-Received: by 2002:a17:906:145:b0:94a:5f0d:d9d6 with SMTP id
- 5-20020a170906014500b0094a5f0dd9d6mr11500293ejh.4.1685761986837; Fri, 02 Jun
- 2023 20:13:06 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E1C10E060
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jun 2023 06:52:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 39F4961028;
+ Sat,  3 Jun 2023 06:52:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7248C433D2;
+ Sat,  3 Jun 2023 06:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685775176;
+ bh=Dtp7yfw3yIgpqLiDkFokEpEEdCuCwpELzyb1JLQqmrw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=TE06WsU3DCFbMrsqZlqF429AXurYRJfP/0Zv2ohSLs8375orVlB58ve3KTVMOKmbS
+ PiSGZynui9JnJg3B0/YZWpIZNRBhfGEOFp5rVJeK0fJRGDREg6nyecUN+4NutKmEQn
+ tWlwAcdAaynyHoVkcXLssxpGSI5ieYElOSfvkBonjBHaFxvZbisr8nwO2ZFMk+7oMs
+ IfxML+cV2NVqDTx8M9FPI+0b+YW1dc3EemFN7SKx7Npi+s7qViK6ohzl9PT3FJneS4
+ JB5fK5J42HHHgWuz4xmEC9Rh2kZXRiWuUndyPJqFmZ9i9kDnfl54QUS0S+KfKmOB+d
+ eVh/BEjikHwZA==
+Date: Fri, 2 Jun 2023 23:52:54 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Justin Chen <justin.chen@broadcom.com>
+Subject: Re: [PATCH net-next v6 3/6] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+Message-ID: <20230602235254.61798d80@kernel.org>
+In-Reply-To: <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
+References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
+ <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
 MIME-Version: 1.0
-References: <20230601214814.2329224-1-olvaffe@gmail.com>
- <CADnq5_NQ2zgvRDZ8NWUsCm-8JO6PZSEmQ+WrbjYqjv3vTLfinw@mail.gmail.com>
- <CADnq5_OmrnBhRbRZ_0thdKktNsSDG4w7dr8Vn_sbiNT2_t2UQA@mail.gmail.com>
-In-Reply-To: <CADnq5_OmrnBhRbRZ_0thdKktNsSDG4w7dr8Vn_sbiNT2_t2UQA@mail.gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 2 Jun 2023 20:12:55 -0700
-Message-ID: <CAPaKu7RuyPMBb2gAKCa_EhXyar8QpEEJ3zwRBP6dXdOc-VSasA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix xclk freq on CHIP_STONEY
-To: Alex Deucher <alexdeucher@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,25 +53,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
+ florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
+ robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com,
+ christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
+ davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 2, 2023 at 11:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.com=
-> wrote:
->
-> Nevermind, missing your Signed-off-by.  Please add and I'll apply.
-Sorry that I keep forgetting...  This patch is
+On Thu,  1 Jun 2023 15:12:28 -0700 Justin Chen wrote:
+> +	ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
+> +	if (!ports_node) {
+> +		dev_warn(dev, "No ports found\n");
+> +		return 0;
+> +	}
+> +
+> +	for_each_available_child_of_node(ports_node, intf_node) {
+> +		of_property_read_u32(intf_node, "reg", &port);
+> +		if (!bcmasp_is_port_valid(priv, port)) {
+> +			dev_warn(dev, "%pOF: %d is an invalid port\n",
+> +				 intf_node, port);
+> +			continue;
+> +		}
+> +
+> +		priv->intf_count++;
+> +	}
 
-  Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+I think that you're leaking ports_node,
 
-I can send v2 if necessary.
->
-> Alex
->
+/**
+ * of_find_node_by_name - Find a node by its "name" property
+ * @from:	The node to start searching from or NULL; the node
+ *		you pass will not be searched, only the next one
+ *		will. Typically, you pass what the previous call
+ *		returned. of_node_put() will be called on @from.
+ * @name:	The name string to match against
+ *
+ * Return: A node pointer with refcount incremented, use
+ * of_node_put() on it when done.
+ */
+
+-- 
+pw-bot: cr
