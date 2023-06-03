@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028F2720D28
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 04:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A60720D8D
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 05:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E95D610E136;
-	Sat,  3 Jun 2023 02:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41DBE10E02D;
+	Sat,  3 Jun 2023 03:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F5B10E004
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jun 2023 02:11:24 +0000 (UTC)
-Received: from [192.168.2.99] (109-252-150-34.dynamic.spd-mgts.ru
- [109.252.150.34])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E24B56600010;
- Sat,  3 Jun 2023 03:11:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1685758280;
- bh=AEiivb5STUIsnv46nBIbrOdDbVAIQqj2qIRUT1z+E1U=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=mFShlImOeL/NAWI56P4wzSdK529nNkSIwJYFpygQ9my2QPRTHaeKwKzSG+S6dhn+L
- Ah1oTEY6MofA6LWr0LuPm0DsmQMtXuq6zkE2zuqVfzwyRovmuusUECgYC6WB6SNkDn
- KOBbE+raamIdVg3QHJalIG7Dw6bokc07rH3eAmuU19hdpmA2v/s2CjK7u9K8kyWIPD
- 6VFDiUsWeHhN4eJqehfajX97dqldITPPKdW+Qk1qrfEJGJxq2WgFIFmIOio+nEw12E
- GiPX3ijhF7QUpFbYnA/WxFV9ZFbtyJ0QPJstpm0P8X4PBC5j9K3pLrRiWlAX+V8ekA
- k1+nLQAN+RIEw==
-Message-ID: <0a45ae24-61e2-f691-6f72-42257084919f@collabora.com>
-Date: Sat, 3 Jun 2023 05:11:17 +0300
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27AAB10E02D;
+ Sat,  3 Jun 2023 03:13:09 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-94ea38c90ccso39139866b.1; 
+ Fri, 02 Jun 2023 20:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685761987; x=1688353987;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Usb7s3F8Xcfix1ovSHJbrYw1xUMhb/AXZoRNHGtQMu4=;
+ b=bkpouXYiWv5DvZQEaOW/WHkl//foa4/btTP91qA+yLpwAEzE0YgM9ALdYSL572Bj++
+ 4mRXbYEcl3wP/41wCyd6POXHidubgNxO3ooDCj8hWB1/3+JvJkTDSeSUlk6SPNo52QIU
+ NNl9jhEYndnd482CwXO2Htea2SrGYJBZOQ6LQPlZ4Cnozk6NazfFHM4poPDDPCkINuv+
+ /yenzoAfN3uO0JbcqZXHOkahVJPpXvAN4reSRUVNZxOAmjchuyDPcKaYfGlZzpTwu/Lq
+ RFWTS/AQqjfYTr4kag5c2gCC5nSqaKG4iWyp3jI5NGZd1tR2atwzyUoBX3wBoMTyDJSA
+ KgJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685761987; x=1688353987;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Usb7s3F8Xcfix1ovSHJbrYw1xUMhb/AXZoRNHGtQMu4=;
+ b=W+uVBHA92X1snjWd6xgRzjPRKVFYTGUfNdFlE38OY19oLrVnj5VjJMfduYs3ovRZnL
+ ruEMWxnDr3feqrxgIfqsjboo4sEoholG8Zu1jaxvUChO4cYkl5N7RwFgUf+BbXGOHiOC
+ hbJXsgIbVXXS2s3qJB9nlvUa5QuMH6r5mOixnIVIuglPalEBasLCLhaqw5JKmjFsKWgf
+ rtm+ZlvrSkzlR3gFpmDw71R4AYIiDMKBWf4rQii2bKLXnvdn2TlfhjiEZMVd9woH54++
+ sncebGy5DEhhFJy+O6BfWF57XmotGzCIrAd8Vg1MHmtBDKRjwZWsUQDG1Co49toC2Mk1
+ 8PNg==
+X-Gm-Message-State: AC+VfDzGYLCc24/R7nidRzHiGpESYmGBM9W5W9JQ0xqSbbhtbh6w2HJy
+ DnptugEn6GqumFbmHU1NJW4JRebB5AoVyQS8SUo=
+X-Google-Smtp-Source: ACHHUZ5D07vBton5O5EJBgAy/2QO3MN1X4cvxATItcSokD+xAqlFk4XJXnM6Fy+xPS49b3Wp5e7yKzAAB17LJrSEx4I=
+X-Received: by 2002:a17:906:145:b0:94a:5f0d:d9d6 with SMTP id
+ 5-20020a170906014500b0094a5f0dd9d6mr11500293ejh.4.1685761986837; Fri, 02 Jun
+ 2023 20:13:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
- <maraeo@gmail.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230601214814.2329224-1-olvaffe@gmail.com>
+ <CADnq5_NQ2zgvRDZ8NWUsCm-8JO6PZSEmQ+WrbjYqjv3vTLfinw@mail.gmail.com>
+ <CADnq5_OmrnBhRbRZ_0thdKktNsSDG4w7dr8Vn_sbiNT2_t2UQA@mail.gmail.com>
+In-Reply-To: <CADnq5_OmrnBhRbRZ_0thdKktNsSDG4w7dr8Vn_sbiNT2_t2UQA@mail.gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 2 Jun 2023 20:12:55 -0700
+Message-ID: <CAPaKu7RuyPMBb2gAKCa_EhXyar8QpEEJ3zwRBP6dXdOc-VSasA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: fix xclk freq on CHIP_STONEY
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,19 +70,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Dmitry Osipenko (3):
->   drm/virtio: Refactor and optimize job submission code path
->   drm/virtio: Wait for each dma-fence of in-fence array individually
+On Fri, Jun 2, 2023 at 11:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> Nevermind, missing your Signed-off-by.  Please add and I'll apply.
+Sorry that I keep forgetting...  This patch is
 
-Applied these two patches to misc-next. The syncobj patch will wait for
-the turnip Mesa MR.
+  Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 
--- 
-Best regards,
-Dmitry
-
+I can send v2 if necessary.
+>
+> Alex
+>
