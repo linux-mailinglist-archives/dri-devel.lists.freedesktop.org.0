@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90BE720E39
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 08:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2D1720E8B
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 09:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F2410E1FD;
-	Sat,  3 Jun 2023 06:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576EE10E214;
+	Sat,  3 Jun 2023 07:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB90710E1FD
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Jun 2023 06:59:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 31D33611A5;
- Sat,  3 Jun 2023 06:59:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5AD9C433EF;
- Sat,  3 Jun 2023 06:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685775541;
- bh=IAGJxJ3JlAB/u0zA2ngAhx3AwvNiI19/nJzIKrbxIwU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JkAQLqD73oxh6KmB2BycBMWXatq8QfSoGA+xO6kS9quNZlFnkVAOTJf9cbEDla5K4
- c4DExDqam/dmkEipKm3LiZjFv4Y3YV/dx6Ps2fz5D7ecFIEq88Amk+i/sViPsJOXeN
- qdCyVnnDrjqUbhsZzyxDZWQ+yPeL6/9DkYTHhfqxPVIoCKYDdqQOQ1pxfW1Xp4UwdT
- Rk5jKYZPqmpyGUKLnliW9dRdpKUKpYVC4AGj2XjFgwls00FdFNAeixy3ZCfwVqxfEp
- k65VH0q2KQxCZXpdo4CpAUaXENMxXmRoUgxf21f3PS8toenNBUSIbKxc4dfPC3XE5P
- 0wiqX+mSjJ/Og==
-Date: Fri, 2 Jun 2023 23:58:59 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v6 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <20230602235859.79042ff0@kernel.org>
-In-Reply-To: <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
-References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
- <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D436110E214;
+ Sat,  3 Jun 2023 07:43:53 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-64d3bc0dce9so354809b3a.0; 
+ Sat, 03 Jun 2023 00:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685778233; x=1688370233;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
+ b=HdR32jWEiMDgRFNHZ4AmO+HfNOYRhIeMt1Z5uNTHesSQqHDELs6TlofSvDyhAYT35y
+ JtaJAitoMYef8byzb4Q/v3Q1X37KaWjsPrprQlD57U3+I6XKSx204zCQ1EOG7U21K4fq
+ fXT6MUWv5fX/6d68aknWQA62HaAXaJ7DT2OMuNznhhusSLzEaG5OodKAGVCBaeTD9In5
+ UhGE6Caok7XVhyUI2FU8bRU0U+QCu7mWwwuYcu4PH+H+U4yRVxt3yqk20JfkptJRMas7
+ 0UZzD5imjL3NijdOtD+bWCh0OhMtk0o+uTjgUT+aeEfbUcXYkTQbxshWNa3CPUXt94Qk
+ PETw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685778233; x=1688370233;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
+ b=LvHdLBSFZwVvIUDwLru0ajoyBxDcxbdED91iGcK4v97YBUZEPmAlbE8B1KyK/3l6g/
+ tHUh3ggNWTGdOEgja4Mrra1r1jTAIjRm6mfhdbsIvQM/MJymD3m6w/3YrF8xEkwZsgCH
+ /hf0leFOQOIM0fGrgU3/EykROLnNxG+8IAexKLjt9C5s0TR7gqipJAouYVyd6Al3OB4H
+ B3zJifkT9Qqobiqfo4kpiICCpJjveTX/LJUE3+FNKynp6trveqeICPPdZacPtkBbYPxl
+ hAUcokIfnk319CM8dc44+1R9nnDQgDmXtIqHINzf4hHPA8sHvqftEnvtTgFvlAAoegtg
+ Ii5A==
+X-Gm-Message-State: AC+VfDywvTGSshEsOdVhIG28GNBi5n4f7i6rmccdysf4khOaxNfNoQ9W
+ Lgjr6IDVgw6WqaioTBV+ZSg=
+X-Google-Smtp-Source: ACHHUZ7Sb3282pwyR3Z2zP7ICZ4Es7PNecGCmDTkrXI02OgZnCeM/hb458Wo12XIa+dX4RK3fGmPTQ==
+X-Received: by 2002:a17:902:ecc5:b0:1ae:1364:6086 with SMTP id
+ a5-20020a170902ecc500b001ae13646086mr12068845plh.2.1685778232982; 
+ Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
+Received: from ubuntu.localdomain ([183.208.21.185])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a170902c10c00b001afd275e186sm2525846pli.286.2023.06.03.00.43.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
+From: Min Li <lm0963hack@gmail.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH v2] drm/radeon: fix race condition UAF in
+ radeon_gem_set_domain_ioctl
+Date: Sat,  3 Jun 2023 15:43:45 +0800
+Message-Id: <20230603074345.17907-1-lm0963hack@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,76 +71,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
- florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
- robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
- krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com,
- christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
- davem@davemloft.net, hkallweit1@gmail.com
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu,  1 Jun 2023 15:12:28 -0700 Justin Chen wrote:
-> +	/* general stats */
-> +	STAT_NETDEV(rx_packets),
-> +	STAT_NETDEV(tx_packets),
-> +	STAT_NETDEV(rx_bytes),
-> +	STAT_NETDEV(tx_bytes),
-> +	STAT_NETDEV(rx_errors),
-> +	STAT_NETDEV(tx_errors),
-> +	STAT_NETDEV(rx_dropped),
-> +	STAT_NETDEV(tx_dropped),
-> +	STAT_NETDEV(multicast),
+Userspace can race to free the gobj(robj converted from), robj should not
+be accessed again after drm_gem_object_put, otherwith it will result in
+use-after-free.
 
-please don't report standard interface stats in ethtool -S
+Signed-off-by: Min Li <lm0963hack@gmail.com>
+---
+Changes in v2:
+- Remove unused robj, avoid compile complain
 
-> +	/* UniMAC RSV counters */
-> +	STAT_BCMASP_MIB_RX("rx_64_octets", mib.rx.pkt_cnt.cnt_64),
-> +	STAT_BCMASP_MIB_RX("rx_65_127_oct", mib.rx.pkt_cnt.cnt_127),
-> +	STAT_BCMASP_MIB_RX("rx_128_255_oct", mib.rx.pkt_cnt.cnt_255),
-> +	STAT_BCMASP_MIB_RX("rx_256_511_oct", mib.rx.pkt_cnt.cnt_511),
-> +	STAT_BCMASP_MIB_RX("rx_512_1023_oct", mib.rx.pkt_cnt.cnt_1023),
-> +	STAT_BCMASP_MIB_RX("rx_1024_1518_oct", mib.rx.pkt_cnt.cnt_1518),
-> +	STAT_BCMASP_MIB_RX("rx_vlan_1519_1522_oct", mib.rx.pkt_cnt.cnt_mgv),
-> +	STAT_BCMASP_MIB_RX("rx_1522_2047_oct", mib.rx.pkt_cnt.cnt_2047),
-> +	STAT_BCMASP_MIB_RX("rx_2048_4095_oct", mib.rx.pkt_cnt.cnt_4095),
-> +	STAT_BCMASP_MIB_RX("rx_4096_9216_oct", mib.rx.pkt_cnt.cnt_9216),
+ drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-these should also be removed, and you should implement @get_rmon_stats.
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index bdc5af23f005..d3f5ddbc1704 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_radeon_gem_set_domain *args = data;
+ 	struct drm_gem_object *gobj;
+-	struct radeon_bo *robj;
+ 	int r;
+ 
+ 	/* for now if someone requests domain CPU -
+@@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 		up_read(&rdev->exclusive_lock);
+ 		return -ENOENT;
+ 	}
+-	robj = gem_to_radeon_bo(gobj);
+ 
+ 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
+ 
+ 	drm_gem_object_put(gobj);
+ 	up_read(&rdev->exclusive_lock);
+-	r = radeon_gem_handle_lockup(robj->rdev, r);
++	r = radeon_gem_handle_lockup(rdev, r);
+ 	return r;
+ }
+ 
+-- 
+2.34.1
 
-> +	STAT_BCMASP_MIB_RX("rx_pkts", mib.rx.pkt),
-> +	STAT_BCMASP_MIB_RX("rx_bytes", mib.rx.bytes),
-> +	STAT_BCMASP_MIB_RX("rx_multicast", mib.rx.mca),
-> +	STAT_BCMASP_MIB_RX("rx_broadcast", mib.rx.bca),
-> +	STAT_BCMASP_MIB_RX("rx_fcs", mib.rx.fcs),
-
-there's a FCS error statistic in the standard stats, no need to
-duplicate
-
-> +	STAT_BCMASP_MIB_RX("rx_control", mib.rx.cf),
-> +	STAT_BCMASP_MIB_RX("rx_pause", mib.rx.pf),
-
-@get_pause_stats
-
-> +	STAT_BCMASP_MIB_RX("rx_unknown", mib.rx.uo),
-> +	STAT_BCMASP_MIB_RX("rx_align", mib.rx.aln),
-> +	STAT_BCMASP_MIB_RX("rx_outrange", mib.rx.flr),
-> +	STAT_BCMASP_MIB_RX("rx_code", mib.rx.cde),
-> +	STAT_BCMASP_MIB_RX("rx_carrier", mib.rx.fcr),
-> +	STAT_BCMASP_MIB_RX("rx_oversize", mib.rx.ovr),
-> +	STAT_BCMASP_MIB_RX("rx_jabber", mib.rx.jbr),
-
-these look like candidates from standard stats, too.
-Please read thru:
-
-https://docs.kernel.org/next/networking/statistics.html
-
-> +	STAT_BCMASP_MIB_RX("rx_mtu_err", mib.rx.mtue),
-> +	STAT_BCMASP_MIB_RX("rx_good_pkts", mib.rx.pok),
-> +	STAT_BCMASP_MIB_RX("rx_unicast", mib.rx.uc),
-> +	STAT_BCMASP_MIB_RX("rx_ppp", mib.rx.ppp),
-> +	STAT_BCMASP_MIB_RX("rx_crc", mib.rx.rcrc),
-
-hm, what's the difference between rx_crc and rx_fcs ?
