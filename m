@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F7C720FB3
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 12:57:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FE8720FAD
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 12:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B601F10E26C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036EB10E26A;
 	Sat,  3 Jun 2023 10:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 753AC10E268;
+ by gabe.freedesktop.org (Postfix) with ESMTP id 972FD10E26A;
  Sat,  3 Jun 2023 10:56:50 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Ax3OpxHHtkaesDAA--.3945S3;
+ by gateway (Coremail) with SMTP id _____8Cxu+pxHHtkb+sDAA--.3995S3;
  Sat, 03 Jun 2023 18:56:49 +0800 (CST)
 Received: from openarena.loongson.cn (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_7NwHHtkdTWHAA--.22115S4; 
- Sat, 03 Jun 2023 18:56:48 +0800 (CST)
+ AQAAf8Dx_7NwHHtkdTWHAA--.22115S5; 
+ Sat, 03 Jun 2023 18:56:49 +0800 (CST)
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v7 2/7] drm/etnaviv: add a dedicated function to get various
- clocks
-Date: Sat,  3 Jun 2023 18:56:43 +0800
-Message-Id: <20230603105648.3042645-3-suijingfeng@loongson.cn>
+Subject: [PATCH v7 3/7] drm/etnaviv: add dedicated functions to create and
+ destroy platform devices
+Date: Sat,  3 Jun 2023 18:56:44 +0800
+Message-Id: <20230603105648.3042645-4-suijingfeng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230603105648.3042645-1-suijingfeng@loongson.cn>
 References: <20230603105648.3042645-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_7NwHHtkdTWHAA--.22115S4
+X-CM-TRANSID: AQAAf8Dx_7NwHHtkdTWHAA--.22115S5
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWrWfZryxArW3GFyDtF4fZrb_yoW5Ar48pa
- 1fJ3W5Kr1UCry7K3yxAF15tr1akr1xAayxuwnYvrn3Zw45GF4Utw4YkryYqF45uryrXFWS
- kw15GF4UCFyF9rUanT9S1TB71UUUUn7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxAr4ftrWxCr4xuFWkKFyxAFb_yoW5Gw4DpF
+ 17GFWSyrW8uFW7Kw1xXwn8ZFW5C3WIg34F9rnFywnI9398Ar98XF95GFyUAFnxJrWrGa45
+ t39xtF48uF45ZrJanT9S1TB71UUUUnDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bkAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
  1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
@@ -69,89 +69,105 @@ Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because it is also platform-dependent, there are environments where don't
-have CLK subsystem support, for example, discreted PCI GPUs. So don't rage
-quit if there is no CLK subsystem.
+Also rename the virtual master platform device as etnaviv_platform_device,
+for better reflection that it is a platform device, not a DRM device.
 
-For the GPU in LS7A1000 and LS2K1000, the working frequency of the GPU is
-tuned by configuring the PLL register directly.
+Another benefit is that we no longer need to call of_node_put() for three
+different cases, Instead, we only need to call it once.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 56 +++++++++++++++++++--------
+ 1 file changed, 39 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 636d3f39ddcb..6c7aa9322468 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1565,6 +1565,35 @@ static irqreturn_t irq_handler(int irq, void *data)
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 31a7f59ccb49..cec005035d0e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -656,12 +656,44 @@ static struct platform_driver etnaviv_platform_driver = {
+ 	},
+ };
  
-+static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
-+{
-+	struct device *dev = gpu->dev;
+-static struct platform_device *etnaviv_drm;
++static struct platform_device *etnaviv_platform_device;
+ 
+-static int __init etnaviv_init(void)
++static int etnaviv_create_platform_device(const char *name,
++					  struct platform_device **ppdev)
+ {
+ 	struct platform_device *pdev;
+ 	int ret;
 +
-+	gpu->clk_reg = devm_clk_get_optional(dev, "reg");
-+	DBG("clk_reg: %p", gpu->clk_reg);
-+	if (IS_ERR(gpu->clk_reg))
-+		return PTR_ERR(gpu->clk_reg);
++	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
++	if (!pdev)
++		return -ENOMEM;
 +
-+	gpu->clk_bus = devm_clk_get_optional(dev, "bus");
-+	DBG("clk_bus: %p", gpu->clk_bus);
-+	if (IS_ERR(gpu->clk_bus))
-+		return PTR_ERR(gpu->clk_bus);
++	ret = platform_device_add(pdev);
++	if (ret) {
++		platform_device_put(pdev);
++		return ret;
++	}
 +
-+	gpu->clk_core = devm_clk_get(dev, "core");
-+	DBG("clk_core: %p", gpu->clk_core);
-+	if (IS_ERR(gpu->clk_core))
-+		return PTR_ERR(gpu->clk_core);
-+	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
-+
-+	gpu->clk_shader = devm_clk_get_optional(dev, "shader");
-+	DBG("clk_shader: %p", gpu->clk_shader);
-+	if (IS_ERR(gpu->clk_shader))
-+		return PTR_ERR(gpu->clk_shader);
-+	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
++	*ppdev = pdev;
 +
 +	return 0;
 +}
 +
- static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
++static void etnaviv_destroy_platform_device(struct platform_device **ppdev)
++{
++	struct platform_device *pdev = *ppdev;
++
++	if (!pdev)
++		return;
++
++	platform_device_unregister(pdev);
++
++	*ppdev = NULL;
++}
++
++static int __init etnaviv_init(void)
++{
++	int ret;
+ 	struct device_node *np;
+ 
+ 	etnaviv_validate_init();
+@@ -681,23 +713,13 @@ static int __init etnaviv_init(void)
+ 	for_each_compatible_node(np, NULL, "vivante,gc") {
+ 		if (!of_device_is_available(np))
+ 			continue;
++		of_node_put(np);
+ 
+-		pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
+-		if (!pdev) {
+-			ret = -ENOMEM;
+-			of_node_put(np);
+-			goto unregister_platform_driver;
+-		}
+-
+-		ret = platform_device_add(pdev);
+-		if (ret) {
+-			platform_device_put(pdev);
+-			of_node_put(np);
++		ret = etnaviv_create_platform_device("etnaviv",
++						     &etnaviv_platform_device);
++		if (ret)
+ 			goto unregister_platform_driver;
+-		}
+ 
+-		etnaviv_drm = pdev;
+-		of_node_put(np);
+ 		break;
+ 	}
+ 
+@@ -713,7 +735,7 @@ module_init(etnaviv_init);
+ 
+ static void __exit etnaviv_exit(void)
  {
- 	int ret;
-@@ -1865,27 +1894,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 		return err;
- 
- 	/* Get Clocks: */
--	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
--	DBG("clk_reg: %p", gpu->clk_reg);
--	if (IS_ERR(gpu->clk_reg))
--		return PTR_ERR(gpu->clk_reg);
--
--	gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
--	DBG("clk_bus: %p", gpu->clk_bus);
--	if (IS_ERR(gpu->clk_bus))
--		return PTR_ERR(gpu->clk_bus);
--
--	gpu->clk_core = devm_clk_get(&pdev->dev, "core");
--	DBG("clk_core: %p", gpu->clk_core);
--	if (IS_ERR(gpu->clk_core))
--		return PTR_ERR(gpu->clk_core);
--	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
--
--	gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
--	DBG("clk_shader: %p", gpu->clk_shader);
--	if (IS_ERR(gpu->clk_shader))
--		return PTR_ERR(gpu->clk_shader);
--	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
-+	err = etnaviv_gpu_clk_get(gpu);
-+	if (err)
-+		return err;
- 
- 	/* TODO: figure out max mapped size */
- 	dev_set_drvdata(dev, gpu);
+-	platform_device_unregister(etnaviv_drm);
++	etnaviv_destroy_platform_device(&etnaviv_platform_device);
+ 	platform_driver_unregister(&etnaviv_platform_driver);
+ 	platform_driver_unregister(&etnaviv_gpu_driver);
+ }
 -- 
 2.25.1
 
