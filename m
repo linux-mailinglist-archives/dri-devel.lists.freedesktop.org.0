@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE738720B1F
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jun 2023 23:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028F2720D28
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jun 2023 04:11:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E312C10E0F0;
-	Fri,  2 Jun 2023 21:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95D610E136;
+	Sat,  3 Jun 2023 02:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from shout01.mail.de (shout01.mail.de [IPv6:2001:868:100:600::216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B0910E0F0
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jun 2023 21:44:09 +0000 (UTC)
-Received: from postfix03.mail.de (postfix03.bt.mail.de [10.0.121.127])
- by shout01.mail.de (Postfix) with ESMTP id 604EEA04F6;
- Fri,  2 Jun 2023 23:44:06 +0200 (CEST)
-Received: from smtp04.mail.de (smtp04.bt.mail.de [10.0.121.214])
- by postfix03.mail.de (Postfix) with ESMTP id 3DE93801C7;
- Fri,  2 Jun 2023 23:44:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mail.de;
- s=mailde202009; t=1685742246;
- bh=qb136genN4uMK+cMlGTNXwp8CIpsaNX94p39yze7ehY=;
- h=Message-ID:Date:Subject:From:To:Cc:From:To:CC:Subject:Reply-To;
- b=pA6qa69KmOf1sEFksOXDYlk/WFskPoQWUOANBtfqc4aN6xyhhnwbO78QfBctYRV0F
- qWX/7HwVaFu6Kg4F1K7sKZW0/gS3H5CZtBG8A/+HfU+He57m5oTh8BnQAHE1Ty4t4+
- vhSb/oQhDDNwNQzoJdJ7Thr7HK+LpyzzL2T2NfhE4CHRO0chDiRd3sPCTTKawpkbRQ
- UB7oKdBNQrnJqRqqHuCuu7ydHgxUgf1LqWf6bbnluEMfqJX8m2dMhd085SM0VRDRoD
- mvI8DBp+4XsYwZWp8F14+EmoJbhqDAWCwtBs+C/V+xEd1ZumtHxTdSMYHWmMt5IqtT
- QVpYPwah0iroA==
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F5B10E004
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Jun 2023 02:11:24 +0000 (UTC)
+Received: from [192.168.2.99] (109-252-150-34.dynamic.spd-mgts.ru
+ [109.252.150.34])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp04.mail.de (Postfix) with ESMTPSA id 3BCC3C003E;
- Fri,  2 Jun 2023 23:44:05 +0200 (CEST)
-Message-ID: <23f365a8-e079-302f-ad83-de0f83a64051@my.mail.de>
-Date: Fri, 2 Jun 2023 23:44:04 +0200
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E24B56600010;
+ Sat,  3 Jun 2023 03:11:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1685758280;
+ bh=AEiivb5STUIsnv46nBIbrOdDbVAIQqj2qIRUT1z+E1U=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=mFShlImOeL/NAWI56P4wzSdK529nNkSIwJYFpygQ9my2QPRTHaeKwKzSG+S6dhn+L
+ Ah1oTEY6MofA6LWr0LuPm0DsmQMtXuq6zkE2zuqVfzwyRovmuusUECgYC6WB6SNkDn
+ KOBbE+raamIdVg3QHJalIG7Dw6bokc07rH3eAmuU19hdpmA2v/s2CjK7u9K8kyWIPD
+ 6VFDiUsWeHhN4eJqehfajX97dqldITPPKdW+Qk1qrfEJGJxq2WgFIFmIOio+nEw12E
+ GiPX3ijhF7QUpFbYnA/WxFV9ZFbtyJ0QPJstpm0P8X4PBC5j9K3pLrRiWlAX+V8ekA
+ k1+nLQAN+RIEw==
+Message-ID: <0a45ae24-61e2-f691-6f72-42257084919f@collabora.com>
+Date: Sat, 3 Jun 2023 05:11:17 +0300
 MIME-Version: 1.0
-Subject: Re: Kernel bug related to drivers/gpu/drm/ttm/ttm_bo.c
-From: Christopher Klooz <py0xc3@my.mail.de>
-To: christian.koenig@amd.com, ray.huang@amd.com
-References: <69d51cd5-732f-9dc5-4e12-d68990132c85@my.mail.de>
- <fa05fd05-adea-8652-31fd-b48cc90f84cb@my.mail.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
+ <maraeo@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
 Content-Language: en-US
-In-Reply-To: <fa05fd05-adea-8652-31fd-b48cc90f84cb@my.mail.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-purgate: clean
-X-purgate: This mail is considered clean (visit http://www.eleven.de for
- further information)
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for
- further information)
-X-purgate: clean
-X-purgate-size: 599
-X-purgate-ID: 154282::1685742246-1FFFBC09-FB4086B7/0/0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,19 +62,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Two further bug reports, which could be the same bug:
+> Dmitry Osipenko (3):
+>   drm/virtio: Refactor and optimize job submission code path
+>   drm/virtio: Wait for each dma-fence of in-fence array individually
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2012882 -> it was closed by 
-the reporter with the assumption that the issue disappeared on 6.0.5 
-because he had no longer occurrences. It also relates to 
-drivers/gpu/drm/ttm/ttm_bo.c and looks comparable to some of my earlier 
-logs.
+Applied these two patches to misc-next. The syncobj patch will wait for
+the turnip Mesa MR.
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1985880 -> closed due to the 
-end of the Fedora-34 release cycle. It is unknown if the reporter still 
-experiences the problem. Also relating to drivers/gpu/drm/ttm/ttm_bo.c 
-and looking comparable to mine.
+-- 
+Best regards,
+Dmitry
+
