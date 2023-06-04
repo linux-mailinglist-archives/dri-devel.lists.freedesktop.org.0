@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376CB721438
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 05:01:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48756721440
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 05:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76A5110E099;
-	Sun,  4 Jun 2023 03:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C569710E0E2;
+	Sun,  4 Jun 2023 03:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D72010E099
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949B110E099
  for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 03:01:42 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2b1bdfe51f8so8989981fa.0
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-4f5f728c4aaso3946393e87.0
  for <dri-devel@lists.freedesktop.org>; Sat, 03 Jun 2023 20:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685847700; x=1688439700;
+ d=linaro.org; s=google; t=1685847701; x=1688439701;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iW8Li2n0rZD7NzpAXirqLsFNZMxHZzT9M5Uh4WLCquk=;
- b=oUuTNwpXCVwN7isRcBeO4rW750QoBBz0forLMpsixuYaTStFVRpB3hTRNR2dpPG6/K
- 3jwkHqla4JIKwoS56k8vrxCd3aGjE4w6woxJ35bmU2V2kx6eLncAt/tLdooxUC5IJnMH
- GOx8loJ/JSsv/87umq1Rfm0Xtm+JiCCqZmhLMWvuUH4dDZH37jCzE4A6n90nqukZ8dca
- zzimW/4F7Hd0K2OlVBABitmLZ+FMXRHAEojG95alypaLThfwJfXgwqMFBTUT9Z0wb+Lw
- LZvs4gsd43NFawyP2UWgns+f1GRKRKyPxAfzpxb/K0NJlqBZjquRrbp1Zn4xlsImajF/
- k0XQ==
+ bh=SZsc3aGkFQ4mtkU8bHm6rosN4mKrVYoDnfgPOZGJhME=;
+ b=QCey47maO+t74HGIdbJrsjx7ZXdv+yxbH2TwtWnM/Qs9ITfhHQdwl4tAsT/MVb8TKv
+ X5uqXdC3HKnX4ErwLk93llLPkFfDZyk0l2s9lsVbXYDLUUJTcQ6FgkBWo2/gc2CG57v7
+ 5Gy9kmKv/NixurvbEg1kRxdTLQgdxlS1iCvhXgiJjJZQUdS/QnoQYcMaoZ1q6YCKv+4L
+ v9JvmiOTB1A4CkwfNoBcYNyereVfF3VREz6LJXASdiDPGfh2xSYuCk8GrQrVgizBEzJc
+ 1jwP9pLnn//9OAf0y3wgVQ343zqQydTdZgfPoE22oKv5ZdSDC6VkdStOk74TDKyFTVxO
+ REGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685847700; x=1688439700;
+ d=1e100.net; s=20221208; t=1685847701; x=1688439701;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iW8Li2n0rZD7NzpAXirqLsFNZMxHZzT9M5Uh4WLCquk=;
- b=I98a7pMhRX7W44xXTcsDLB3xC4G7ztoHq9CCGgGWtNv16/g3q+/baDypV9O81xgkW7
- 4j3sCRCWQ9oQcCkcdnn+Y6jCSC4AAT130asJg1uVq0ndBNVkjnEvL8KE5Jnf3Ebe1WsA
- eqAMyP9DN68WzROlnBCcM19NZ20h4hveNqCGNUzFnSK/KwkMdPusT1DWv3KY+0Dtd5F+
- JlJCqfCJfHdJcNeQaw8rECbcrIENDK/rjAAzDexSf8Tdc6meAe5Sc4cvsoXhKMygvm1V
- BJkAUU2c3Zdjh3I8na/MGg35fKhzhnutaYmLHzfFzX9+p4eIrVN6N67yrPWvWKxBjs4M
- hqMg==
-X-Gm-Message-State: AC+VfDzINwOswk5uo+utUaTZgd1bfkXU0Z+1RZcGx5DvE34lOI3xyN9Q
- 1Qbek9cSMUesGGIr1a/o0r/vKg==
-X-Google-Smtp-Source: ACHHUZ4gNdjSeZJPzmWovGSc/x4MjDwnYJBgKddZijOqQwsfXwnD9Ek1REVt6tKvEYHFV0jVQdtnow==
-X-Received: by 2002:ac2:4f8a:0:b0:4f6:ac9:2eba with SMTP id
- z10-20020ac24f8a000000b004f60ac92ebamr1771664lfs.11.1685847700079; 
+ bh=SZsc3aGkFQ4mtkU8bHm6rosN4mKrVYoDnfgPOZGJhME=;
+ b=cLPgCLkn9q0Pm+i71xQOKyL3eCLQE3tamPzVTkR8R1fSvo82sUXamadorb1VTzWNAO
+ eN2b3JYwwfu1vRS2VxBpzJ2Kmo8uEC/67lT8lXdmA5rF7YEdw3o6mWjhEEsbR737Wb2Y
+ 6V01TpErtYNGbcnK1TV26N/RQ3lZ7jgy0Ko020yL26pyavEsXYDdR9fvKKtXkCp4dF3C
+ mpbNAlL4JtCXeEFAF1bOyyfhXkvaAvVQ+2ohWwZsnve49mZi4FSUZKbCxCATIakZEttX
+ QeVgtkF5SlBtkd77S4hkoX+/WetU4/MgXT1rJtPwpgwhR/Otwn/12e+L8GT+a6D3tWjM
+ 0ZqA==
+X-Gm-Message-State: AC+VfDzickhktwyIhB6tHBcfT6vsBOcKrPNsVkwVbRfdNDD2ZdIusNmz
+ frQKrBE6IYrCO/k7JA9SZvPlkQ==
+X-Google-Smtp-Source: ACHHUZ5d0YQUCBNH0BnZQCDKBW0ZR+yGOC9h7dCtgJ9kkcgMZzJEi1nlx+baS2WEvceSbXjICdkBUw==
+X-Received: by 2002:a05:6512:118c:b0:4eb:412f:9e0e with SMTP id
+ g12-20020a056512118c00b004eb412f9e0emr2085756lfr.26.1685847700899; 
  Sat, 03 Jun 2023 20:01:40 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- d15-20020ac24c8f000000b004eb4357122bsm653181lfl.259.2023.06.03.20.01.39
+ d15-20020ac24c8f000000b004eb4357122bsm653181lfl.259.2023.06.03.20.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jun 2023 20:01:39 -0700 (PDT)
+ Sat, 03 Jun 2023 20:01:40 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH v2] drm/msm/dpu: clean up dpu_kms_get_clk_rate() returns
-Date: Sun,  4 Jun 2023 06:01:27 +0300
-Message-Id: <168584750429.890410.15848312463141330600.b4-ty@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/2] drm/msm/dsi: remove extra call to
+ dsi_get_pclk_rate()
+Date: Sun,  4 Jun 2023 06:01:28 +0300
+Message-Id: <168584750430.890410.10572067780292340630.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <28644c5e-950e-41cd-8389-67f37b067bdc@kili.mountain>
-References: <28644c5e-950e-41cd-8389-67f37b067bdc@kili.mountain>
+In-Reply-To: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
+References: <20230520200103.4019607-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -74,30 +77,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Shixin <liushixin2@huawei.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 26 May 2023 14:51:59 +0300, Dan Carpenter wrote:
-> Static analysis tools complain about the -EINVAL error code being
-> stored in an unsigned variable.  Let's change this to match
-> the clk_get_rate() function which is type unsigned long and returns
-> zero on error.
+On Sat, 20 May 2023 23:01:02 +0300, Dmitry Baryshkov wrote:
+> In dsi_calc_clk_rate_v2() there is no need to call dsi_get_pclk_rate().
+> This function has just been called (from dsi_calc_pclk()) and its
+> result is stored at msm_host->pixel_clk_rate. Use this variable
+> directly.
 > 
 > 
 
 Applied, thanks!
 
-[1/1] drm/msm/dpu: clean up dpu_kms_get_clk_rate() returns
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/025e3d97867c
+[1/2] drm/msm/dsi: remove extra call to dsi_get_pclk_rate()
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/6de6c28d97c0
+[2/2] drm/msm/dsi: use mult_frac for pclk_bpp calculation
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/374918d2c396
 
 Best regards,
 -- 
