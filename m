@@ -1,25 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0617C721A06
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 22:55:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026B3721A10
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 22:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C1710E041;
-	Sun,  4 Jun 2023 20:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5811810E044;
+	Sun,  4 Jun 2023 20:58:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id AA64F10E041;
- Sun,  4 Jun 2023 20:55:39 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxZ_FJ+nxkV2gEAA--.9186S3;
- Mon, 05 Jun 2023 04:55:37 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLL5I+nxkF7SJAA--.24647S2; 
- Mon, 05 Jun 2023 04:55:36 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3810610E044;
+ Sun,  4 Jun 2023 20:58:40 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:47878.118806016
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id A5DA710029A;
+ Mon,  5 Jun 2023 04:58:33 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
+ 7eb87e86c4c04d1db87dbc5c9319b4e0 for alexander.deucher@amd.com; 
+ Mon, 05 Jun 2023 04:58:36 CST
+X-Transaction-ID: 7eb87e86c4c04d1db87dbc5c9319b4e0
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian Konig <christian.koenig@amd.com>,
  Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
@@ -45,30 +52,11 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Yishai Hadas <yishaih@nvidia.com>, Abhishek Sahu <abhsahu@nvidia.com>,
  Yi Liu <yi.l.liu@intel.com>
 Subject: [PATCH v2 1/2] vgaarb: various coding style and comments fix
-Date: Mon,  5 Jun 2023 04:55:35 +0800
-Message-Id: <20230604205536.3357439-1-suijingfeng@loongson.cn>
+Date: Mon,  5 Jun 2023 04:58:30 +0800
+Message-Id: <20230604205831.3357596-1-15330273260@189.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxLL5I+nxkF7SJAA--.24647S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXw4kur1fXFWrtrW3ZrWDurg_yoWrKw1Upr
- Zakas8CrW8XFs7ZrsrXF4rGF1Y9393CFyfArWakwn3AF15JFn2qF9YyryYv3yfJ392kF4I
- qan8tF4UuF4UJFJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2kK
- e7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
- 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
- aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4
- kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
- 1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
- Wlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
- CVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
- 1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
- YxBIdaVFxhVjvjDU0xZFpf9x07j0mhrUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,6 +75,8 @@ Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
 To keep consistent with vga_iostate_to_str() function, the third argument
 of vga_str_to_iostate() function should be 'unsigned int *'.
