@@ -1,56 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41D77215A2
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 10:38:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 138DC7215F8
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 12:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D034110E24E;
-	Sun,  4 Jun 2023 08:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919FE10E126;
+	Sun,  4 Jun 2023 10:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC0E10E24E
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 08:38:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7EB6A60C11
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 08:38:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50E5C4339C
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 08:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685867901;
- bh=KnudFN4jNcEutuFxf6DNoM8rGgneiw4Lp3ZjTygxhr8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=cFYVDNG2xGkbYVl7PVA4cySBz5gNkoFIm95NJhOUs6WrwN4ag4xMzsMWYu24utJP2
- VUJnCrWSxsfXLDM9I2aYACuzbIvQL3e6fwQaARWIZnh1S6Y5artxM8Jr00gaNXP1VQ
- CUdcBSQEgSGrG5jFUoc1UWXdPkWJuODXwHbdOSIVKJgYM/ZUvQ75ar4DFfqZrJfI7s
- /iAyFB+JfDnZ25BS+5C4jVO6CeJuUHHMPiTZ+YnFaUvz3k02SwJlo2sEGxhaAjzn1N
- urU/F2HLAr5bq6MpXYx2wcYRGbFdS1gf798OJwNCgjcWf3w+2JhOi+4E+k3cnck10N
- HHHwhG0mhRC9g==
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-bb167972cffso4611693276.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jun 2023 01:38:21 -0700 (PDT)
-X-Gm-Message-State: AC+VfDw3TCcC9x+O+3Xpdwa5xu27OUmi4oEuFyDISS5i8OgwVeG41qyg
- CMK7Y8DyLRNWbKaKmu3DXuv7GrdB/XDq0sva8no=
-X-Google-Smtp-Source: ACHHUZ4JPFHwUpGaNVEQxuGlSXgjpG5Bx6zVuVp9ongH9xrFwkFWDOGNXQ+eva+U1KI6qIraorqXGvm/Bu5D7fIk6XM=
-X-Received: by 2002:a25:8108:0:b0:bac:26d2:53dd with SMTP id
- o8-20020a258108000000b00bac26d253ddmr8410051ybk.43.1685867901040; Sun, 04 Jun
- 2023 01:38:21 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6996F10E126
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 10:16:36 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-5149390b20aso5732187a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jun 2023 03:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685873794; x=1688465794;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZLg9QBJhk1oImNoGSDJiKswDbiKjTVpqU48w/ZpJGgc=;
+ b=L2QUXG/6NWS2T85/D3ATrgEr19pjlsgEtwm3WZDq6GTOStkw/tdCPQyod87YsTxlEj
+ ZIEUHw3xnxN6WaWwbPoSblcKwT4JJtJUAmse/8hWAeXq1/w1wXP+H/2KdWehcnbdjlXJ
+ 0udN2SNpie4vr/EW9zAjgrpqI9p39ejHx9sqcV25twz4AP4Qbef58xd0FIHgMqCQS6RU
+ lK6HPpB+ZHftNIoL1txD8wajsGuDW7ETUPYBoZyTZIe/G4AIOEUzQqCZd2r4Oztc56Et
+ A6j+gYZZVjyg1WeCmKPqYTy5izgNQ1kD3xvXnGm/mU4rcKhtW2O9nkHfYAufPt0YsIhW
+ 7D/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685873794; x=1688465794;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZLg9QBJhk1oImNoGSDJiKswDbiKjTVpqU48w/ZpJGgc=;
+ b=JT2BHgOXynRBb4bcWGP7dPUBRqC1HNfOs9eNRYH3EPs2bd+aV9DT991lbCx4i9EXGP
+ 5DVrQLXdf1ynyyF0fu3cWL4hfYDRJy2jhhE1MAQnmIWP8BlEJITWUNJYrszUKo27BOPq
+ mLr73C2S8OaKArqI+mf/e5wEM1/uKiF0D+AxXkstTczOXTxWI7Abaac7XQc87C5KsXjm
+ sKsgYbBBz5RXGIksHa5mGYrqYuHZsNKK0xcLBCjdCwx5AGYomt5de//IKSFBJVZABsc+
+ CwC1MSliPX4sGbo+Qu7ahascIIKB2UORmehOuJN9MYRQCWqZ3tOzZdulG3gONTCgMFqD
+ 14ww==
+X-Gm-Message-State: AC+VfDxt5LRvAHj+71qN92H48WXdJ4Ib9c9hFJVA7Y0hMMHHiqhYOQfv
+ EIpfP/Dnt0zTyXLxbYR/n8P1Tw==
+X-Google-Smtp-Source: ACHHUZ4YqYusxv/TXLHJE8KhbEgaiaOewFEXjb3jA7TtNsn/LlZwnZM1seDK3ppCp78H/qP/xit0KQ==
+X-Received: by 2002:aa7:c2d9:0:b0:514:af52:e492 with SMTP id
+ m25-20020aa7c2d9000000b00514af52e492mr5536683edp.33.1685873794033; 
+ Sun, 04 Jun 2023 03:16:34 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.199.204])
+ by smtp.gmail.com with ESMTPSA id
+ bc10-20020a056402204a00b00510de087302sm2626887edb.47.2023.06.04.03.16.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Jun 2023 03:16:33 -0700 (PDT)
+Message-ID: <8c0b1e70-382d-669c-c0ee-438fada6e78a@linaro.org>
+Date: Sun, 4 Jun 2023 12:16:31 +0200
 MIME-Version: 1.0
-References: <20230603170747.1753842-1-masahiroy@kernel.org>
- <20230604045202.GA29881@pendragon.ideasonboard.com>
-In-Reply-To: <20230604045202.GA29881@pendragon.ideasonboard.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 4 Jun 2023 17:37:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQFc_jEOTyKC429Ee5_F+QnhS88TYudebQ7LH82SbJ+Eg@mail.gmail.com>
-Message-ID: <CAK7LNAQFc_jEOTyKC429Ee5_F+QnhS88TYudebQ7LH82SbJ+Eg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: imx: fix mixed module-builtin object
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Add NXP i.MX93
+ parallel display format configuration
+Content-Language: en-US
+To: Ying Liu <gnuiyl@gmail.com>
+References: <20230531093206.3893469-1-victor.liu@nxp.com>
+ <20230531093206.3893469-2-victor.liu@nxp.com>
+ <bd257ed0-71a7-0504-0bfe-14775ac93571@linaro.org>
+ <CAOcKUNWkubMK1MJS73tpbm4bafQv2GAMuq_JOTFbvB9EVDRvxg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAOcKUNWkubMK1MJS73tpbm4bafQv2GAMuq_JOTFbvB9EVDRvxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +80,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Liu Ying <victor.liu@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Nick Terrell <terrelln@fb.com>, NXP Linux Team <linux-imx@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-imx@nxp.com, shawnguo@kernel.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 4, 2023 at 1:52=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Yamada-san,
->
-> Thank you for the patch.
->
-> On Sun, Jun 04, 2023 at 02:07:46AM +0900, Masahiro Yamada wrote:
-> > With CONFIG_DRM_IMX8QM_LDB=3Dm and CONFIG_DRM_IMX8QXP_LDB=3Dy (or vice
-> > versa), imx-ldb-helper.o is linked to a module and also to vmlinux
-> > even though the expected CFLAGS are different between builtins and
-> > modules.
-> >
-> > This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
-> > Fixing mixed module-builtin objects").
-> >
-> > Turn helpers in imx-ldb-helper.c into inline functions.
->
-> Wouldn't it be better to turn it into a module ? It could then be
-> built-in for the above configuration, are compiled as a module when all
-> its users are module as well.
+On 02/06/2023 05:54, Ying Liu wrote:
+> On Fri, Jun 2, 2023 at 1:45 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 31/05/2023 11:32, Liu Ying wrote:
+>>> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
+>>> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
+>>> field. Add device tree bindings for the display format configuration.
+>>>
+>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>>> ---
+>>> v1->v2:
+>>> * No change.
+>>
+>> How did you implement Rob's comment?
+> 
+> Should have discussed more in v1 about Rob's comment, but
+> let me explain why this dt-binding makes sense here:
 
+"It needs to be defined as part of the mediamix blkctrl
+schema though."
 
-Yes, two ways to fix it.
-inline line functions vs a separate module
-
-I do not have a strong opinion.
-
-
-I sent v2.
-https://lore.kernel.org/lkml/20230604075713.1027261-1-masahiroy@kernel.org/=
-T/#t
-
-Please pick a preferred one.
+Where is it defined in mediamix blkctrl?
 
 
 
+Best regards,
+Krzysztof
 
-
-
-
-
---
-Best Regards
-
-Masahiro Yamada
