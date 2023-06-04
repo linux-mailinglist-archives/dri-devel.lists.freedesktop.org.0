@@ -2,41 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7B97217A3
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 16:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B587217EA
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 16:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6451510E0B4;
-	Sun,  4 Jun 2023 14:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFF710E149;
+	Sun,  4 Jun 2023 14:45:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D477910E0B4
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 14:24:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126166129043.28.openmobile.ne.jp
- [126.166.129.43])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65C272B6;
- Sun,  4 Jun 2023 16:24:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1685888653;
- bh=n+Fq/GVdjovbc0B90ICxlqrFW3H2m2JgT1JFvlB0xzI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BTIR39CJ7ksEuyBDh3gH28Q+fr8Yq++i4GrHSBSZ1cT2HvRRe5zEgFgUSUdp1gLbo
- 4ZGkv8j1lUYypODO6c5KBbuHNRVoXVAn1GSX/4N9dBtZe7su5o5waB6JVdW/TNyPDh
- OPozY0D4G5xEilG+gCWjhyXy/7Kko4JJgO4JmZcE=
-Date: Sun, 4 Jun 2023 17:24:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v2 1/2] drm/bridge: imx: fix mixed module-builtin object
-Message-ID: <20230604142436.GE7754@pendragon.ideasonboard.com>
-References: <20230604075713.1027261-1-masahiroy@kernel.org>
- <20230604132602.GB7754@pendragon.ideasonboard.com>
- <CAK7LNATv_t+4pt6-RJxX3DyNgyXN=nEoVHQ8zMRtgrtB_4VJ5Q@mail.gmail.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D666D10E141
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 14:45:17 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f4b2bc1565so4827612e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jun 2023 07:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1685889915; x=1688481915;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oxZWGXFLzU5SjPv5ySU8WvbrkPwdtjbQ7fatHEgs/dk=;
+ b=miw8oSyMD6hAqoknkccaxzELs8RXrO+IjJlpakE8SFO/lGd1TlTqBMTdOuC4kOuMfa
+ CVMKCRZGtEjOC+BFuoc+cGBpIYmtLmOeIxOZ3df2MOv743FPnoXmos8mBG0z1rM80P8R
+ vV5Y60uwGfwaTyheP6hK5yMwRxy63PllqJ967lvL3GtN4aODqJMgGoUTxGooZgocrTTy
+ tKgJ1kJ0h2yReGPwBUCMOOGNwDG8LXKdBp0Ek7AE8UxwzKE0LuUvaWMm8xn1GAiy6HYk
+ UqQzH1delj3v+3DsVs765Cg4+h5MUwJEyInFYIBFvkDmdD37rveYJABwbmsf913t+1CV
+ hryw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685889915; x=1688481915;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oxZWGXFLzU5SjPv5ySU8WvbrkPwdtjbQ7fatHEgs/dk=;
+ b=ChfTw8qcK6sYTKizH8pGspZP/4Ev0qL9p7KdDbU1oMAH9QlkUJpwL1lU2Eh9bdY0Sj
+ U4y5Np5zh1zdcTUlmKU3PtCC6ZebTiJKq5WR+JqbIxJKFI0Szz2MIfGQZbmpkAyPG9U5
+ gF0upcoChqGIB3Dx3jyDwpojRmJJYKsr6hTxNgPixrdPN1pmvvQTe93MTcGRfCXKb32+
+ wQQVVNl7bMURtkGsLJ9xL3Q1LcThv4XJEHBXtEekIQj2U1oU+jo1SszWyZI9qElvtqcB
+ 7L4F8TW2TrWNYM89EXiRm8Vxm27GXuRAm1cgcS6KLOZa58nEu6pyVrsIwiGkRk4kYsqm
+ hRtg==
+X-Gm-Message-State: AC+VfDyAX3n3Mzfj2Brad8vSCHM2gdhFgoP1bTB/pz6d7bhEKIY35Zex
+ 8Rn9FqBxhO4Fo383dtu5AR+w1A==
+X-Google-Smtp-Source: ACHHUZ7yILlKBacoYg0phC6bYxRhDyQn5tt//vNZh6TPswnOOCFQJt647INfiAG+7lN5v/5QT5N85A==
+X-Received: by 2002:ac2:46e7:0:b0:4f1:3d7d:409e with SMTP id
+ q7-20020ac246e7000000b004f13d7d409emr4493775lfo.0.1685889915437; 
+ Sun, 04 Jun 2023 07:45:15 -0700 (PDT)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ a22-20020ac25216000000b004f42718cbb1sm788912lfl.292.2023.06.04.07.45.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Jun 2023 07:45:14 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH 0/3] drm/msm/dpu: remove dpu_encoder_phys_ops::atomic_mode_set
+ callback
+Date: Sun,  4 Jun 2023 17:45:11 +0300
+Message-Id: <20230604144514.949628-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATv_t+4pt6-RJxX3DyNgyXN=nEoVHQ8zMRtgrtB_4VJ5Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,207 +73,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nick Terrell <terrelln@fb.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 04, 2023 at 10:45:07PM +0900, Masahiro Yamada wrote:
-> On Sun, Jun 4, 2023 at 10:26 PM Laurent Pinchart wrote:
-> > On Sun, Jun 04, 2023 at 04:57:12PM +0900, Masahiro Yamada wrote:
-> > > With CONFIG_DRM_IMX8QM_LDB=m and CONFIG_DRM_IMX8QXP_LDB=y (or vice
-> > > versa), imx-ldb-helper.o is linked to a module and also to vmlinux
-> > > even though the expected CFLAGS are different between builtins and
-> > > modules.
-> > >
-> > > This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
-> > > Fixing mixed module-builtin objects").
-> > >
-> > > Split imx-ldb-helper.c into a separate module.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > > Changes in v2:
-> > >  - Add a separate module instead of making the functions static inline
-> > >
-> > >  drivers/gpu/drm/bridge/imx/Kconfig          |  5 +++++
-> > >  drivers/gpu/drm/bridge/imx/Makefile         |  5 +++--
-> > >  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 20 ++++++++++++++++++++
-> > >  3 files changed, 28 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > index 608f47f41bcd..9fae28db6aa7 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > @@ -1,9 +1,13 @@
-> > >  if ARCH_MXC || COMPILE_TEST
-> > >
-> > > +config DRM_IMX_LDB_HELPER
-> > > +     tristate
-> > > +
-> > >  config DRM_IMX8QM_LDB
-> > >       tristate "Freescale i.MX8QM LVDS display bridge"
-> > >       depends on OF
-> > >       depends on COMMON_CLK
-> > > +     select DRM_IMX_LDB_HELPER
-> > >       select DRM_KMS_HELPER
-> > >       help
-> > >         Choose this to enable the internal LVDS Display Bridge(LDB) found in
-> > > @@ -13,6 +17,7 @@ config DRM_IMX8QXP_LDB
-> > >       tristate "Freescale i.MX8QXP LVDS display bridge"
-> > >       depends on OF
-> > >       depends on COMMON_CLK
-> > > +     select DRM_IMX_LDB_HELPER
-> > >       select DRM_KMS_HELPER
-> > >       help
-> > >         Choose this to enable the internal LVDS Display Bridge(LDB) found in
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> > > index aa90ec8d5433..5fc821278693 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> > > @@ -1,7 +1,8 @@
-> > > -imx8qm-ldb-objs := imx-ldb-helper.o imx8qm-ldb-drv.o
-> > > +obj-$(CONFIG_DRM_IMX_LDB_HELPER) += imx-ldb-helper.o
-> > > +imx8qm-ldb-objs := imx8qm-ldb-drv.o
-> > >  obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
-> > >
-> > > -imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
-> > > +imx8qxp-ldb-objs := imx8qxp-ldb-drv.o
-> > >  obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
-> > >
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > index 7338b84bc83d..7382cb1fbfd7 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-> > > @@ -4,8 +4,10 @@
-> > >   * Copyright 2019,2020,2022 NXP
-> > >   */
-> > >
-> > > +#include <linux/export.h>
-> > >  #include <linux/media-bus-format.h>
-> > >  #include <linux/mfd/syscon.h>
-> > > +#include <linux/module.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/regmap.h>
-> > >
-> > > @@ -15,16 +17,20 @@
-> > >
-> > >  #include "imx-ldb-helper.h"
-> > >
-> > > +#define DRIVER_NAME          "imx-ldb-helper"
-> > > +
-> > >  bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
-> > >  {
-> > >       return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
-> > >
-> > >  bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
-> > >  {
-> > >       return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
-> > >              ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
-> > >
-> > >  int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > >                                  struct drm_bridge_state *bridge_state,
-> > > @@ -38,6 +44,7 @@ int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
-> > >
-> > >       return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
-> > >
-> > >  void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > >                               const struct drm_display_mode *mode,
-> > > @@ -69,6 +76,7 @@ void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
-> > >               break;
-> > >       }
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
-> > >
-> > >  void ldb_bridge_enable_helper(struct drm_bridge *bridge)
-> > >  {
-> > > @@ -81,6 +89,7 @@ void ldb_bridge_enable_helper(struct drm_bridge *bridge)
-> > >        */
-> > >       regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
-> > >
-> > >  void ldb_bridge_disable_helper(struct drm_bridge *bridge)
-> > >  {
-> > > @@ -95,6 +104,7 @@ void ldb_bridge_disable_helper(struct drm_bridge *bridge)
-> > >
-> > >       regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
-> > >
-> > >  int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > >                            enum drm_bridge_attach_flags flags)
-> > > @@ -117,6 +127,7 @@ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
-> > >                               ldb_ch->next_bridge, bridge,
-> > >                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
-> > >
-> > >  int ldb_init_helper(struct ldb *ldb)
-> > >  {
-> > > @@ -157,6 +168,7 @@ int ldb_init_helper(struct ldb *ldb)
-> > >
-> > >       return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_init_helper);
-> > >
-> > >  int ldb_find_next_bridge_helper(struct ldb *ldb)
-> > >  {
-> > > @@ -184,6 +196,7 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
-> > >
-> > >       return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
-> > >
-> > >  void ldb_add_bridge_helper(struct ldb *ldb,
-> > >                          const struct drm_bridge_funcs *bridge_funcs)
-> > > @@ -204,6 +217,7 @@ void ldb_add_bridge_helper(struct ldb *ldb,
-> > >               drm_bridge_add(&ldb_ch->bridge);
-> > >       }
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
-> > >
-> > >  void ldb_remove_bridge_helper(struct ldb *ldb)
-> > >  {
-> > > @@ -219,3 +233,9 @@ void ldb_remove_bridge_helper(struct ldb *ldb)
-> > >               drm_bridge_remove(&ldb_ch->bridge);
-> > >       }
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
-> > > +
-> > > +MODULE_DESCRIPTION("i.MX8 LVDS Display Bridge(LDB)/Pixel Mapper bridge helper");
-> > > +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> > > +MODULE_LICENSE("GPL");
-> > > +MODULE_ALIAS("platform:" DRIVER_NAME);
-> >
-> > Is the alias needed ? With that fixed (if needed),
-> 
-> I just tried to be consistent because all the modules
-> in drivers/gpu/drm/bridge/imx/ have this boilerplate.
-> 
-> I do not know why MODULE_ALIAS() is needed, though.
+The dpu_encoder_phys_ops::atomic_mode_set() callback is mostly
+redundant. Implementations only set the IRQ indices there. Move
+statically allocated IRQs to dpu_encoder_phys_*_init() and set
+dynamically allocated IRQs in the irq_enable() callback.
 
-Unless I'm mistaken, it's used in those drivers to help with
-module auto-loading (although I wonder if it's still needed for devices
-that have an I2C or DT ID table). I don't think you need it here.
+Dmitry Baryshkov (3):
+  drm/msm/dpu: split irq_control into irq_enable and _disable
+  drm/msm/dpu: split _dpu_encoder_resource_control_helper()
+  drm/msm/dpu: drop dpu_encoder_phys_ops.atomic_mode_set
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 79 +++++++++++-----
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 11 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 93 ++++++++++---------
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 61 ++++++------
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 34 +++----
+ 5 files changed, 152 insertions(+), 126 deletions(-)
 
 -- 
-Regards,
+2.39.2
 
-Laurent Pinchart
