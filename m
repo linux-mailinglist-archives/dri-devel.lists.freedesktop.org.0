@@ -1,40 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A727A72163E
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 12:57:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89487721648
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 13:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6147810E139;
-	Sun,  4 Jun 2023 10:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28ACD10E10E;
+	Sun,  4 Jun 2023 11:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D00D010E139
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 10:57:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126166129043.28.openmobile.ne.jp
- [126.166.129.43])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD6402B6;
- Sun,  4 Jun 2023 12:56:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1685876220;
- bh=WwVZnCR0eb6/3cTnWx9M1Vng1/WjZsWcG+uaiJuEb+0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eX6eZi3hrDbHYTaSoqPFdUc5731t2sbTm2554gJQRW8KbTvhpTf5gqZVus61SJnod
- ER4VIa8xwM2k8xyEfvkZWa5Mc58PZCf3kqjZa04mFGh9wTiJ2+l5pt8dyvNaKN0RTK
- GG2IEd+SA3R/R7A3rWDFEOI8hIYIWzmbL1WIY4Dg=
-Date: Sun, 4 Jun 2023 13:57:24 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8769010E10E
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 11:08:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0607460CF9
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 11:08:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 679CDC4339C
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 11:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685876921;
+ bh=E+Fom50w0WWCbYK33nnN+CvnpltG0QFRTaHwGVxHUUY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BT/9xlb+hmQodnpaWM68DXH5RPDoX/FP8mVzY5T2RYk+7ZMfO3mHa808heZJsCDxA
+ PVKbvYFuVrwGonVRHwUcqBbUsg5zm/xgpVlasGwsfC1qWTxx0bIg8din8ukutrZ3r0
+ kZWmqgHcfX+dpUUDM6xLrwQJV01OE0HB7UfmqUT9RrMmHsqjxCe/0QKxAztpZZ4tfN
+ c/2qEVK6Wm0TNpFgPy3ctJB0LTcJQp7C661HU9j/CvBC2YukVnKzHpOb1l1M7mAUSE
+ Y5NvX47+eq8Lr0tjppjqTu3siyZ7GKLAfBq88bbAh/uEIjalWjQJXhiYcvrudaMFf5
+ W8t5mdNV88A8Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4D127C43144; Sun,  4 Jun 2023 11:08:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of
- KMS init errors
-Message-ID: <20230604105724.GC2483@pendragon.ideasonboard.com>
-References: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [Bug 212655] AMDGPU crashes when resuming from suspend when
+ amd_iommu=on
+Date: Sun, 04 Jun 2023 11:08:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: jurik.phys@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-212655-2300-by3taMTH5O@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212655-2300@https.bugzilla.kernel.org/>
+References: <bug-212655-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,75 +72,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should have read v3.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212655
 
-On Sun, Jun 04, 2023 at 01:49:58PM +0300, Laurent Pinchart wrote:
-> The (large) rcar_du_modeset_init() function can fail for many reasons,
-> two of two involving probe deferral. Use dev_err_probe() in those code
-> paths to record the cause of the probe deferral, in order to help
-> debugging probe issues.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Change since v1:
-> 
-> - Fix compilation
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 ++++
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 8 ++++++--
->  2 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> index 12a8839fe3be..5b752adb1b02 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -701,6 +701,10 @@ static int rcar_du_probe(struct platform_device *pdev)
->  	/* DRM/KMS objects */
->  	ret = rcar_du_modeset_init(rcdu);
->  	if (ret < 0) {
-> +		/*
-> +		 * Don't use dev_err_probe(), as it would overwrite the probe
-> +		 * deferral reason recorded in rcar_du_modeset_init().
-> +		 */
->  		if (ret != -EPROBE_DEFER)
->  			dev_err(&pdev->dev,
->  				"failed to initialize DRM/KMS (%d)\n", ret);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> index adfb36b0e815..78b665984e35 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -932,8 +932,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  
->  	/* Initialize the Color Management Modules. */
->  	ret = rcar_du_cmm_init(rcdu);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n");
->  		return ret;
-> +	}
->  
->  	/* Create the CRTCs. */
->  	for (swindex = 0, hwindex = 0; swindex < rcdu->num_crtcs; ++hwindex) {
-> @@ -952,8 +954,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  
->  	/* Initialize the encoders. */
->  	ret = rcar_du_encoders_init(rcdu);
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		dev_err_probe(rcdu->dev, ret, "failed to initialize encoders\n");
->  		return ret;
-> +	}
->  
->  	if (ret == 0) {
->  		dev_err(rcdu->dev, "error: no encoder could be initialized\n");
+jurik.phys@gmail.com changed:
 
--- 
-Regards,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jurik.phys@gmail.com
 
-Laurent Pinchart
+--- Comment #2 from jurik.phys@gmail.com ---
+I have th=D0=B5 same problem but resume error occurs sometimes, not every t=
+ime.=20
+
+OS: Debian GNU/Linux 11 (bullseye)
+Kernel from backports (native kernel also have this problem):
+6.1.0-0.deb11.7-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.20-2~bpo11+1=20
+GPU: RX5500XT (MSI).
+
+I noticed that if the graphics card's RGB backlight went out when going to
+sleep, then resume from sleep state will succeed.=20
+
+But if the backlight remained active when going to sleep, then the resume w=
+ill
+fail. In this case in systemd journal I have next
+
+amdgpu 0000:03:00.0: amdgpu: SMU: I'm not done with your previous command:
+SMN_C2PMSG_66:0x0000003A SMN_C2PMSG_82:0x00000000
+amdgpu 0000:03:00.0: amdgpu: RunBtc failed!
+amdgpu 0000:03:00.0: amdgpu: Failed to setup smc hw!=20
+[drm:amdgpu_device_ip_resume_phase2 [amdgpu]] *ERROR* resume of IP block <s=
+mu>
+failed -62=20
+amdgpu 0000:03:00.0: amdgpu: amdgpu_device_ip_resume failed (-62).
+amdgpu 0000:03:00.0: PM: dpm_run_callback(): pci_pm_resume+0x0/0xe0 returns=
+ -62=20
+amdgpu 0000:03:00.0: PM: failed to resume async: error -62
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
