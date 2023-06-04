@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C157219C3
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 22:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9179C7219D1
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jun 2023 22:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3DC10E0CC;
-	Sun,  4 Jun 2023 20:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1AC810E117;
+	Sun,  4 Jun 2023 20:35:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
  [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462D710E0CD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E75510E0CC
  for <dri-devel@lists.freedesktop.org>; Sun,  4 Jun 2023 20:35:38 +0000 (UTC)
 Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f5021faa16so5075085e87.2
+ 2adb3069b0e04-4f6255ad8aeso702005e87.2
  for <dri-devel@lists.freedesktop.org>; Sun, 04 Jun 2023 13:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685910934; x=1688502934;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6ypl4i2KG/p31Wh9Yo8dE/0AhcoBByLO3ViH5R2zIzI=;
- b=Ic/W8zvMs9v9kCqyHDDrchWJKIh3KkAF/5BX4fLAO2BjRrZ1C9CxqkHja1Mh9EsZKB
- ClxFkJFYAyrifTpJg7UZ7XY+S7SEZpo0VlXEu4FvrZYOldh98iReEwg2UwB7xtRGl/5f
- 9iADtN5tPAu1vwvj1B5QzIdnnEYE662YKRR76iEh2bgMQTI1BD/AINoci59+zs31L+D3
- 5M/g6MYvBO2PZCxJTph3EV7sWrO+icu223DQBMOF2I39fJa6JzGpm9NppjPFU80EfnkE
- bdlP8/vdckN/dNSqx4DVt4aoLUIzBXoTsmlqbtOn6PlwDjT3r3IRhfmaIrV8kdfYgYkz
- 15Yg==
+ d=linaro.org; s=google; t=1685910935; x=1688502935;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ve6ZUdBLYuqTXgoIqe+BvDl7Md9/EbiIkAt3DnPQx0U=;
+ b=H2AkMOyl0n1iWZ+xbgI8wJGliZZTArYfHX2dWmDFK22NCcFhSqtZexoWjSPdSniouS
+ 3s2Y38hXZ212X16tE0GkWdfFMNjRhmbr84L0abttN7y3e4eBWXIL5baSQmcEwFABhnsI
+ H7HTEsQEjVYx2dILh6DBaTa0GZPRUhOqjNlDEvUtF3ONd5bxDDplbpbe0AnE0X5zpET2
+ 5jNg0LsGj2Xfb+RT6QivA24Q60AMPKpWUHm6BhdoGUVbYOVrBVbLcX7suubX/IiCfyP9
+ cxHpRb2QrzA4uFZWuw/seBr5Njc8++y0YTuIOinZoCk5koCqKnMf8r7lARYK0LoDWdG0
+ XuTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685910934; x=1688502934;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6ypl4i2KG/p31Wh9Yo8dE/0AhcoBByLO3ViH5R2zIzI=;
- b=W+G3h+0VU0IRh7GrC9PTHUpcWh1XkEjpf8ejnkgSwB+IbdfGuQ2hStUNeMWmqHfV7g
- fq3uvoMZSA0djHb4NoXcwHpR5ckW37wsWuYEi1re/q9AdKfbNEszds8dtb8TdK45i+s+
- NQCcIBewQTPrAkx4XLwPgc1afJKoqu5UlA8aFDZeCCq9LrPoK8G8rmcGKaNHNTeLtf0Y
- baanPkbujyUnk8F8gZQmZyhuwB2XtJY7bHRDOx8ZWvxS5AgZGOsA+ysnr1OD8mp16aFh
- pjVvGMNtevbs6dk8gAd8bit6ZDv90XwZAQBb9n1cN3h1Sc4x5rxOBXhCdOyFYLID+NX/
- PAvg==
-X-Gm-Message-State: AC+VfDyzb4xmIkA6pf8+IskqbzXNnRettk+gefLUeczhYDhresMyeKVK
- q0rzd8Qcdn8av0S6zvRUKzWWww==
-X-Google-Smtp-Source: ACHHUZ4rES9qkxHO0G/LplW9cAUf8KhUTYlN5iFkSWMA0tlMO4SMEmXFknvBcIJufCSDHKkjQbnL7Q==
-X-Received: by 2002:ac2:4d1b:0:b0:4f5:1ac9:ab1b with SMTP id
- r27-20020ac24d1b000000b004f51ac9ab1bmr3822484lfi.23.1685910934443; 
- Sun, 04 Jun 2023 13:35:34 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685910935; x=1688502935;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ve6ZUdBLYuqTXgoIqe+BvDl7Md9/EbiIkAt3DnPQx0U=;
+ b=AiUSc5FRIH44q8mhwfJ1hD77tPfps7PMqDaJA858y8TSv67UedVfS9eVCKfGNQJ4++
+ NJoS0pMJLWXNVGWg40KGGAUuKUD5NmvG7/EvWbeMuFtaNcupRv6mcOYCA5ENKIDA95qp
+ mKGzxkLI5pg2KRctmNivta5u/jYH30P4Zmuyhh6Dyuvr+7p4RZiQvF7lQAvU/EocxFYH
+ yb0zrIQ8T9XjTBPTp4k3E+5aRd8o8SiH1mkRzjvoPbusKPMLjvYGx8tALIhxsrbeWDMg
+ 766unuOzdYrF6omCmszpvsDXlHYECP2SxzZ/2Vnx+jESRgW0oal2J1HNPCjWbSpXwD7f
+ ZYaw==
+X-Gm-Message-State: AC+VfDyBkhcM5hiUhoNa3A0ILdCYiOhRXP+mk5LlTih33KbHlcwHTDRH
+ 1G0v/b5hHecIX9l/jTPeTXGh2A==
+X-Google-Smtp-Source: ACHHUZ4rArgOGQ1VPKWtYT+F9wL1zuPTdBRFHfi/N7TTiByefF9KAHsaMoSjlA+G4U9YWTQzilYzRA==
+X-Received: by 2002:ac2:5473:0:b0:4f6:1805:6096 with SMTP id
+ e19-20020ac25473000000b004f618056096mr1871175lfn.28.1685910935399; 
+ Sun, 04 Jun 2023 13:35:35 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- a19-20020a19f813000000b004f2794dcb4asm875822lff.255.2023.06.04.13.35.33
+ a19-20020a19f813000000b004f2794dcb4asm875822lff.255.2023.06.04.13.35.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jun 2023 13:35:33 -0700 (PDT)
+ Sun, 04 Jun 2023 13:35:34 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 00/22] drm/msm/dpu: another catalog rework
-Date: Sun,  4 Jun 2023 23:35:10 +0300
-Message-Id: <20230604203532.1094249-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 01/22] drm/msm/dpu: correct MERGE_3D length
+Date: Sun,  4 Jun 2023 23:35:11 +0300
+Message-Id: <20230604203532.1094249-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230604203532.1094249-1-dmitry.baryshkov@linaro.org>
+References: <20230604203532.1094249-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,69 +81,28 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having a macro with 10 arguments doesn't seem like a good idea. It makes
-it inherently harder to compare the actual structure values. Also this
-leads to adding macros covering varieties of the block.
+Each MERGE_3D block has just two registers. Correct the block length
+accordingly.
 
-As it was previously discussed, inline all foo_BLK macros in order to
-ease performing changes to the catalog data.
+Fixes: 4369c93cf36b ("drm/msm/dpu: initial support for merge3D hardware block")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Major part of the conversion was performed using vim script found at
-[1]. Then some manual cleanups were applied, like dropping fields set to
-0.
-
-Dependencies: [2].
-
-[1] https://pastebin.ubuntu.com/p/mQRhBRXTJs/
-[2] https://patchwork.freedesktop.org/series/118836/
-
-Dmitry Baryshkov (22):
-  drm/msm/dpu: correct MERGE_3D length
-  drm/msm/dpu: remove unused INTF_NONE interfaces
-  drm/msm: enumerate DSI interfaces
-  drm/msm/dpu: always use MSM_DP/DSI_CONTROLLER_n
-  drm/msm/dpu: simplify peer LM handling
-  drm/msm/dpu: drop dpu_mdss_cfg::mdp_count field
-  drm/msm/dpu: drop enum dpu_mdp and MDP_TOP value
-  drm/msm/dpu: expand .clk_ctrls definitions
-  drm/msm/dpu: drop zero features from dpu_ctl_cfg data
-  drm/msm/dpu: correct indentation for CTL definitions
-  drm/msm/dpu: drop zero features from dpu_mdp_cfg data
-  drm/msm/dpu: inline SSPP_BLK macros
-  drm/msm/dpu: inline DSPP_BLK macros
-  drm/msm/dpu: inline LM_BLK macros
-  drm/msm/dpu: inline DSC_BLK macros
-  drm/msm/dpu: inline MERGE_3D_BLK macros
-  drm/msm/dpu: inline various PP_BLK_* macros
-  drm/msm/dpu: inline WB_BLK macros
-  drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE macros
-  drm/msm/dpu: drop empty features mask MERGE_3D_SM8150_MASK
-  drm/msm/dpu: drop empty features mask INTF_SDM845_MASK
-  drm/msm/dpu: move DPU_PINGPONG_DSC to PINGPONG_SDM845_MASK
-
- .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 321 +++++++++----
- .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 320 +++++++++----
- .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 410 +++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 448 ++++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 429 ++++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    | 177 +++++--
- .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  87 ++--
- .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  87 ++--
- .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 389 +++++++++++----
- .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    | 224 ++++++---
- .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 449 +++++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 415 +++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 439 ++++++++++++-----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 134 +-----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   5 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  34 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  34 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   8 +-
- 21 files changed, 3109 insertions(+), 1315 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 356280aefa3b..fdc0d0c4ffd7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -516,7 +516,7 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+ #define MERGE_3D_BLK(_name, _id, _base) \
+ 	{\
+ 	.name = _name, .id = _id, \
+-	.base = _base, .len = 0x100, \
++	.base = _base, .len = 0x8, \
+ 	.features = MERGE_3D_SM8150_MASK, \
+ 	.sblk = NULL \
+ 	}
 -- 
 2.39.2
 
