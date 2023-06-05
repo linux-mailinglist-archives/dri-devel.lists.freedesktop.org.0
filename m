@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8762722C23
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 18:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB09722C32
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 18:08:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C5810E2ED;
-	Mon,  5 Jun 2023 16:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E3D10E2F4;
+	Mon,  5 Jun 2023 16:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 438E710E2ED;
- Mon,  5 Jun 2023 16:05:26 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- 006d021491bc7-5585f2f070bso3621162eaf.0; 
- Mon, 05 Jun 2023 09:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685981125; x=1688573125;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wmwIG2LQ/1DCImJZNs0vH8WQcLvxkVp94qeGmLp2Vvw=;
- b=k9LIBIMFTYow9c2RzFgtROLZbM8LAWprrue4ijMpkvTZO+m4Qww8P8WbJb2qgUKtKA
- iUYp4gf+nU9exVms7e8ytnM+TkbimHZMzKvbNUeC61DAP0SAhQoi0LdqNzaimwQsDKAd
- m2fMnbZgrPaD1Iegex2s93YMH7TVIfZYOsUFoS0LrHRq542H4zRzPT9OMeAGkdEm88Kq
- TzvtFwTH+GJBFwatiQuQOfqx5eT1oAT5EKRODwLRDFJvBBhOQNcXPFGnNANCr/4qLxoe
- a7Bty7xfmXgVdcJhE0ZkUW7Z3zExYw0amINQeUWs6maDGhAH3IgPvkGXUrxuulzjsH7m
- aEhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685981125; x=1688573125;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wmwIG2LQ/1DCImJZNs0vH8WQcLvxkVp94qeGmLp2Vvw=;
- b=ItUJsu786wouIMIvyZ3QJ3ClJLAV6FayUb9OpHgeuqwPRPulUYO2lp8CwR8/uIggcW
- fchvx90ipGFYdHgdLHWqiHmZ3XZXnoXUE5T83IxyVOsEUXmkP/U7yxnUkscYRaTwxSdg
- NJk1dUzJstqjQQnoM5XOZMtBhbvAPLAYNlijgRpv8OSkf8vMA2ZeqhQn8NKI1QeAowaS
- cojgBVBrXOpgMu1nklQv2tXBYx1vHsGX4cLeekfBwK4AygQknniywgau8UhlYhMc+/fQ
- 62/i73jUg9IAc4e5SQM7JCGtaaDMjTlyybvJsQnKxNYwITlxMcb7HyigOKaf0W6vhbRF
- I5TA==
-X-Gm-Message-State: AC+VfDyW8akialmwnwBuXst+N3T5pxWorzgW/fJdxTGgbiUguFi6h0j2
- UkS9Y9YpMOeInRu0R15zdUKn3Ed1tFc/WBjFf8A=
-X-Google-Smtp-Source: ACHHUZ4sg16nvaPi+jRtLM+NPeFlsdjQfLErXtZphYrUXuBh0uzRYbI3btowTEY5CeenMg9WCYmkNySM9iFSSCq8Ceg=
-X-Received: by 2002:a4a:a446:0:b0:558:a104:65fd with SMTP id
- w6-20020a4aa446000000b00558a10465fdmr289579ool.2.1685981125254; Mon, 05 Jun
- 2023 09:05:25 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE8210E2F4
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 16:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685981283; x=1717517283;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WsTl8q/03NmXvbUZeuZjP7EEn4sjQ1TeIpWAboty3qg=;
+ b=JkfGarj8L3HN/9CQak14EE/0Xfa2x9MdPDXmJnGnodPLqv+DvMeYQWUM
+ rNZ4iSq+UdlZ8Ugo8oJwhjsfCilVShQLmzvA6wPHuPzvaH2eQLvPglz9F
+ qtRJYWoq2/1ELV4kOOu5JogO6bLkjfkjKBFTkNe87cJH34SjT11NcrrvH
+ 7LxFIEC3Bi5aiUvOWYxGkui7BSS+lmvTzUGOm0UATXCy2G+wGEhw1bqMg
+ ZS5jjxxQdpQOyAaWfdeXaRHAUNJLbi6YEZDhiEr8JkwxDYnu6Kr0O0f2x
+ 1lEMx9xq2MRhSODxdzPQiqH9d/hHreMjG/ENE2uT8ZIiXEM6MeeZu3r6q Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="353898979"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="353898979"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 09:07:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="738411169"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="738411169"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga008.jf.intel.com with ESMTP; 05 Jun 2023 09:07:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1q6Cjs-001PpH-2k; Mon, 05 Jun 2023 19:07:24 +0300
+Date: Mon, 5 Jun 2023 19:07:24 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v1 1/1] backlight: hx8357: Convert to agnostic GPIO API
+Message-ID: <ZH4IPJuPoX3gi5Ga@smile.fi.intel.com>
+References: <20230317185230.46189-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkdYXTk2pzXEM9MTjt=oT-CbhENABSLeb9dN7ZvEy8oqiag@mail.gmail.com>
+ <ZBhJctqSkdtoUmBi@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20230601214814.2329224-1-olvaffe@gmail.com>
- <CADnq5_NQ2zgvRDZ8NWUsCm-8JO6PZSEmQ+WrbjYqjv3vTLfinw@mail.gmail.com>
- <CADnq5_OmrnBhRbRZ_0thdKktNsSDG4w7dr8Vn_sbiNT2_t2UQA@mail.gmail.com>
- <CAPaKu7RuyPMBb2gAKCa_EhXyar8QpEEJ3zwRBP6dXdOc-VSasA@mail.gmail.com>
-In-Reply-To: <CAPaKu7RuyPMBb2gAKCa_EhXyar8QpEEJ3zwRBP6dXdOc-VSasA@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 5 Jun 2023 12:05:13 -0400
-Message-ID: <CADnq5_O3iCiRVXv6ZpTa5-GP7noaaGSBG6gfaU_ABnyH=GY3qw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: fix xclk freq on CHIP_STONEY
-To: Chia-I Wu <olvaffe@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZBhJctqSkdtoUmBi@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Mar 20, 2023 at 01:54:26PM +0200, Andy Shevchenko wrote:
+> On Fri, Mar 17, 2023 at 09:53:40PM +0100, Linus Walleij wrote:
+> > On Fri, Mar 17, 2023 at 7:51 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > 
+> > > The of_gpio.h is going to be removed. In preparation of that convert
+> > > the driver to the agnostic API.
+> > >
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > 
+> > Thanks for fixing this Andy!
+> > 
+> > > -#if !IS_ENABLED(CONFIG_LCD_HX8357)
+> > > +#if IS_ENABLED(CONFIG_LCD_HX8357)
+> > >                 /*
+> > >                  * Himax LCD controllers used incorrectly named
+> > >                  * "gpios-reset" property and also specified wrong
+> > > @@ -452,7 +452,7 @@ static struct gpio_desc *of_find_gpio_rename(struct device_node *np,
+> > >                  */
+> > >                 const char *compatible;
+> > >         } gpios[] = {
+> > > -#if !IS_ENABLED(CONFIG_LCD_HX8357)
+> > > +#if IS_ENABLED(CONFIG_LCD_HX8357)
+> > >                 /* Himax LCD controllers used "gpios-reset" */
+> > >                 { "reset",      "gpios-reset",  "himax,hx8357" },
+> > >                 { "reset",      "gpios-reset",  "himax,hx8369" },
+> > 
+> > Eh what happened here .. it's even intuitively wrong.
+> 
+> I believe it had to be something  like
+> 
+> 	#if 0 && IS_ENABLED()
+> 
+> to show that this change is for the future.
+> Currently it does something unneeded for the kernels with that option off.
+> 
+> > I would add
+> > Fixes: fbbbcd177a27 ("gpiolib: of: add quirk for locating reset lines
+> > with legacy bindings")
+> 
+> I'm not sure. But it's fine, I can add it. Just want to double confirm
+> you really want this Fixes tag.
+> 
+> > It wasn't used until now it seems so not a regression and no
+> > need for a separate patch.
+> 
+> Exactly why I'm not sure about the tag :-)
+> 
+> > Other than that it looks correct.
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Thank you!
 
-On Fri, Jun 2, 2023 at 11:13=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> wrote=
-:
->
-> On Fri, Jun 2, 2023 at 11:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.c=
-om> wrote:
-> >
-> > Nevermind, missing your Signed-off-by.  Please add and I'll apply.
-> Sorry that I keep forgetting...  This patch is
->
->   Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
->
-> I can send v2 if necessary.
-> >
-> > Alex
-> >
+Lee, is anything I can do here to move this forward?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
