@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D56D7228F4
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:37:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A1D72290C
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9B410E2AF;
-	Mon,  5 Jun 2023 14:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF4110E08D;
+	Mon,  5 Jun 2023 14:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B541510E2AD;
- Mon,  5 Jun 2023 14:37:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685975860; x=1717511860;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QbsAIrV9jX/lP1THkGIi6qBZBg8CblTQDxVAQavB504=;
- b=gF2ccKHw3sz0DakrHF3n2ddfinkBCNqKxCrOjlftjoPvivAdNHwpslFS
- dRtPICeJs06myESr24aBJvgLUifdJPJUsQTjU0LXu7QOnulxGilG+54Ke
- n4h1FGVT8eY7y6WgmWDbpVkAsJRdhmOHkmULcB4P2NIvnkqlcdC2mIPCa
- bfpVEOcsJZ3Z+JMTq8HbdBPEURly3sIW+1d6Lw39A7lk973J2f5sVX4Gz
- CwtXeGZSHjP6Mr4TwusugRDV1TtDgdDxOAmDfLtMwl7WGRy4Yt1Agi7cq
- npA4GCF6/qb7uBNmLOkRZCuna5CAJ083mBAPDt/gpN0WaHJ8Lk0YdBHRu g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="356393345"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="356393345"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 07:37:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="738379841"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="738379841"
-Received: from mloughma-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.238.159])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 07:37:28 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Implement fdinfo memory stats printing
-Date: Mon,  5 Jun 2023 15:37:20 +0100
-Message-Id: <20230605143720.435046-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C88210E08D
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:43:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5FBF960C4D;
+ Mon,  5 Jun 2023 14:43:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8008FC433EF;
+ Mon,  5 Jun 2023 14:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685976219;
+ bh=HTJSadZWF7SLKiMGfv9EXQYASZ1ZrbukpqV/os4ftPc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LZZD4FB642a/zNeeKDGYJD0PxclIQ3zj7I4h9fg6dQj68H0ksOHMNcQq+EdSWevTt
+ NJgf31NwMBRrMRp5U7OYICKVMLgdE6jMn7zn1R+y7xtQJUw8L3fGFU92wvqJsiY/Ih
+ x7soiIi7cOKKJa3XGfRXjM/NHrZvJrQ6sv0gGo5Mvb9S4rOrCR8k+2BgrSea0BX+QU
+ vdVcmq3CfCnq0VaCl76i+UUTM+5EXDseao0DSrO/Y1Yr2DnV7JmqgD6mOXkb3zBmIG
+ 8nifdGmdoGFK0VDTOVz/lpJggz1SdMA6QSwUKwdWOrRth3hG3OGl5CYgAxtPGkiPPm
+ +CYO3S2r7X3xQ==
+Date: Mon, 5 Jun 2023 15:43:35 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Paulo Pavacic <pavacic.p@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: add fannal,c3004
+Message-ID: <20230605-handyman-rebound-0c10df9dfaf2@spud>
+References: <20230519142456.2588145-1-pavacic.p@gmail.com>
+ <20230519142456.2588145-2-pavacic.p@gmail.com>
+ <20230519-emerald-void-066fad80950a@spud>
+ <CAO9szn2sYRezCUQKFZ_qsVfne0gpWoirZoE-HpWTPS4G1U5fNQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nQ7uVUKzJWHOOXKP"
+Content-Disposition: inline
+In-Reply-To: <CAO9szn2sYRezCUQKFZ_qsVfne0gpWoirZoE-HpWTPS4G1U5fNQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,113 +56,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Use the newly added drm_print_memory_stats helper to show memory
-utilisation of our objects in drm/driver specific fdinfo output.
+--nQ7uVUKzJWHOOXKP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To collect the stats we walk the per memory regions object lists
-and accumulate object size into the respective drm_memory_stats
-categories.
+On Mon, Jun 05, 2023 at 04:33:15PM +0200, Paulo Pavacic wrote:
+> Hello Conor,
+>=20
+> pet, 19. svi 2023. u 18:41 Conor Dooley <conor@kernel.org> napisao je:
+> >
+> > Hey Paulo,
+> >
+> > On Fri, May 19, 2023 at 04:24:55PM +0200, Paulo Pavacic wrote:
+> > >
+> > > Added fannal to vendor-prefixes and dt bindings for Fannal C3004.
+> > > Fannal C3004 is a 480x800 MIPI DSI Panel which requires
+> > > DCS initialization sequences with certain delays between certain
+> > > commands.
+> > >
+> > > Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
+> > > ---
+> > > v3 changelog:
+> > >   - renamed yml file
+> > >   - refactored yml file to describe fannal,c3004
+> > >   - added matrix URI to MAINTAINERS
+> > > v2 changelog:
+> > >   - revised driver title, now describes purpose
+> > >   - revised description, now describes hw
+> > >   - revised maintainers, now has only 1 mail
+> > >   - removed diacritics from commit/commit author
+> > >   - properties/compatible is now enum
+> > >   - compatible using only lowercase
+> > >   - revised dts example
+> > >   - modified MAINTAINERS in this commit (instead of driver commit)
+> > >   - dt_bindings_check checked yml
+> > >   - checkpatch warning fixed
+> > > ---
+> > >  .../bindings/display/panel/fannal,c3004.yaml  | 75 +++++++++++++++++=
+++
+> > >  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+> > >  MAINTAINERS                                   |  6 ++
+> > >  3 files changed, 83 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/f=
+annal,c3004.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/fannal,c=
+3004.yaml b/Documentation/devicetree/bindings/display/panel/fannal,c3004.ya=
+ml
+> > > new file mode 100644
+> > > index 000000000000..a86b5ce02aa2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/panel/fannal,c3004.ya=
+ml
+> > > @@ -0,0 +1,75 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/fannal,c3004.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Fannal C3004 MIPI-DSI
+> > > +
+> > > +maintainers:
+> > > +  - Paulo Pavacic <pavacic.p@gmail.com>
+> > > +
+> > > +description: |
+> > > +  Fannal C3004 is a 480x800 panel which requires DSI DCS
+> > > +  initialization sequences.
+> > > +
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - const: fannal,c3004
+> > > +
+> > > +  reg: true
+> >
+> > Are there no restrictions on the number of reg entries?
+>=20
+> What do you mean by this? May I have some example if possible?
 
-Objects with multiple possible placements are reported in multiple
-regions for total and shared sizes, while other categories are
-counted only for the currently active region.
+I was commenting on the lack of minItems and/or maxItems.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Rob Clark <robdclark@gmail.com>
----
- drivers/gpu/drm/i915/i915_drm_client.c | 66 ++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+Cheers,
+Conor.
 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 2a44b3876cb5..2a40f763f8f6 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -41,6 +41,70 @@ void __i915_drm_client_free(struct kref *kref)
- }
- 
- #ifdef CONFIG_PROC_FS
-+static void
-+add_obj_meminfo(struct drm_i915_gem_object *obj,
-+		struct intel_memory_region *mr,
-+		struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
-+{
-+	u64 sz = obj->base.size;
-+	enum intel_region_id id;
-+	unsigned int i;
-+
-+	id = mr->id;
-+	if (obj->base.handle_count > 1)
-+		stats[id].shared += sz;
-+	else
-+		stats[id].private += sz;
-+
-+	if (i915_gem_object_has_pages(obj)) {
-+		stats[id].resident += sz;
-+
-+		if (!dma_resv_test_signaled(obj->base.resv,
-+					    dma_resv_usage_rw(true)))
-+			stats[id].active += sz;
-+		else if (i915_gem_object_is_shrinkable(obj) &&
-+			 obj->mm.madv == I915_MADV_DONTNEED)
-+			stats[id].purgeable += sz;
-+	}
-+
-+	/* Attribute size and shared to all possible object memory regions. */
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		if (obj->mm.placements[i] == mr)
-+			continue;
-+
-+		id = obj->mm.placements[i]->id;
-+		if (obj->base.handle_count > 1)
-+			stats[id].shared += sz;
-+		else
-+			stats[id].private += sz;
-+	}
-+}
-+
-+static void show_meminfo(struct drm_printer *p, struct drm_file *file)
-+{
-+	struct drm_i915_file_private *file_priv = file->driver_priv;
-+	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
-+	struct drm_i915_private *i915 = file_priv->i915;
-+	struct intel_memory_region *mr;
-+	unsigned int id;
-+
-+	for_each_memory_region(mr, i915, id) {
-+		struct drm_i915_gem_object *obj;
-+
-+		mutex_lock(&mr->objects.lock);
-+		list_for_each_entry(obj, &mr->objects.list, mm.region_link)
-+			add_obj_meminfo(obj, mr, stats);
-+		mutex_unlock(&mr->objects.lock);
-+	}
-+
-+	for_each_memory_region(mr, i915, id)
-+		drm_print_memory_stats(p,
-+				       &stats[id],
-+				       DRM_GEM_OBJECT_RESIDENT |
-+				       DRM_GEM_OBJECT_PURGEABLE,
-+				       mr->name);
-+}
-+
- static const char * const uabi_class_names[] = {
- 	[I915_ENGINE_CLASS_RENDER] = "render",
- 	[I915_ENGINE_CLASS_COPY] = "copy",
-@@ -102,6 +166,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	 * ******************************************************************
- 	 */
- 
-+	show_meminfo(p, file);
-+
- 	if (GRAPHICS_VER(i915) < 8)
- 		return;
- 
--- 
-2.39.2
+--nQ7uVUKzJWHOOXKP
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH30lgAKCRB4tDGHoIJi
+0lsLAP9+CTvXC/zgIcFgiFLJzGtxQzLLeTQaXoaW4152gfRbWAD/XNUI3DAx6XIn
+65u/o0sBnBl5RLLBxQIrAK9k2gdYugg=
+=PaM0
+-----END PGP SIGNATURE-----
+
+--nQ7uVUKzJWHOOXKP--
