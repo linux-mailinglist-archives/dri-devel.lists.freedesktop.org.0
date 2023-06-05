@@ -1,151 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60ED7722D77
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 19:18:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3345722D87
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 19:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F6B10E301;
-	Mon,  5 Jun 2023 17:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E33710E305;
+	Mon,  5 Jun 2023 17:22:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACDE810E300;
- Mon,  5 Jun 2023 17:18:34 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A0F10E308;
+ Mon,  5 Jun 2023 17:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685985514; x=1717521514;
+ t=1685985723; x=1717521723;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=L9xiuatM7bzO9hLF5xcLEO7/5MaJhJrcEixwYW9FWok=;
- b=MiUdLHrksInW/Pr+Z7sOjlK4aKO58/5mEOoCO0Tkgtn8koFUxHiO4k28
- pNrvj3GGm2CJY9PmiC7XB16EnmYqig0PRH7tFfL3E/dQf4SQI9moFGOvj
- KwzWm7Y9g0T5KeiXeviSmHeQg6TWWTGVZUZhBznirKCFYE2SahnM7b50l
- ujFFNc2WWtBUT7JNycEjV5ialLHiwVP6Wkf7aPD+3Ef7pd/goZ7DUhMnv
- 9bQfxdcv3vsAQgTVDwLYuyuaPeaaIBHew1nb04ZpkuR+teyLu/7qv9syD
- 3Ud3wM+/YP3gi6Rw1MJMkeNSfDkuwpgfPvWz08+1Tb11xkDGQKhOT+36j g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="356434296"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="356434296"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 10:18:33 -0700
+ bh=gchbJ2TWLvQ0m4ubZQtZ2C6C1oBYEFQfGpwkejfKFx4=;
+ b=bNdQMvhhMD2HjGbZezzBNeGMV7yuv7WVIGMexxgRNTe3qxoS/OVYOTic
+ IEAY0Fo8bIfSgBDQ2sz0yy1/hNyeb4x2pDjdDQBksmszYsiDLbJhwOFI0
+ GL1O6BWokSThpkSjYlYMvn1M4Ls3sPSCO129++B+m+qX0ZAVaXCfyMXeP
+ jPHuEL5babS0j2z1/ExoUjN5FY3hK+3Y7sM0vlOFe7dbt5Cw7GEwutJ26
+ 6kMKxwbCztSYzvmqtMtK4tocStdVm3SHTJyBtCdHokH2WDPAYhi4DJYkT
+ 5pvMVJgsdJUvSlndohcR16t5MnYEsIDr7P+U+sT11eh7NQi2fhmQ6kf3J A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336047298"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="336047298"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 10:22:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="773810969"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="773810969"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 05 Jun 2023 10:18:32 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="883001773"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="883001773"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga005.jf.intel.com with ESMTP; 05 Jun 2023 10:22:02 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 5 Jun 2023 10:18:31 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.23; Mon, 5 Jun 2023 10:22:01 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 5 Jun 2023 10:18:31 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Mon, 5 Jun 2023 10:22:01 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 5 Jun 2023 10:18:31 -0700
+ 15.1.2507.23; Mon, 5 Jun 2023 10:22:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZL26NxkzUCHwZOCECWE/OEuOAzCC1Ws/UXTOrovHTb4Z3UEiQTLLtKBKvN2Ke6eJGaGY6IyOvQCi66WIh2Do8po1tLpSf7yvhe9UDltXxy/evBWfXEFI98iLUoQzPqkoPTWt+QYKLiNFDRH7KPsg+9ex4Cc1lTpSAvxjRK0PVEdaCdlonSwoTzvrezwVHI4cTx1kvCWOcCJyOaWuhjXgN4NZibvDgFWMdPWs4w0xc9HX7rh6pu77Cp/aozsw8s/zTvCLcvqXcZTEfn1H+i35kpGoULzJP7Zu0Jk7STVNL+psqPZyUqRJX5ySUKoXY3J+w1044J09b+2OFNd675Svfg==
+ b=Vi2/fHaJqsqcalQVWAFMZuhq2hNQ6KeBXVZYejBb9MvlZJUiAkPah6USusisn/JojhlFtz5CDz8lpicmVaFnmbSiuQE/DM7U+PQeX+DkD4+YMpYXqAw/qdMkVUZFmdkPH7f7aTQNN8Apv4PBN9AklGlpRLSsszne2MI9OqAgLWWDt8Mp1EiHIVhcD1ea81+/pHNu/jWIHUpXFIBdetSuXH4TZHhP0GKZZ0T3YdCrbnOosgtcV/c2wja1qD/JzXS10yrIZM46sW1HLzQPPCjmhrym5TrrOhPXbKdXo7rPmeYdYQil2thWAViViBglfKuaEg4rV4UU4rLMQJQ5IVwT7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2KnrXfEOmDWn29+0+P7m+dECwa1n7FLVWMndASsz5XU=;
- b=QITHAEWejdbqO874Cfg/f6PWATJ6aTB16FaOY4zJjnYrK5p6epvUpvghYLpS9fvRPQPTVjOVGK31VDnDDLJuF9rCoqwdUAZwyEQOwVILLtg53xm6L3d/TaGDB8sgCGEblDx2eU3KbAdokQzsHqy84ajU9V9oAhqbSLNTNRetAWcKTvicFyb40wJzVbdf06LmbWvbuKahr8s+hvBzFcIbNTNx/96f0ttfTdaURqxyHRuuDJdP2WZ4uZDyMwo2VjuCnNWd/3kRb6ENlnM7sbLVtyjTQoP1tDSozcV3DdQiycYBxx+1Mm+w1ciNBblacKP11mvSnBQQ9NqwAGGqNUvmvA==
+ bh=mydSL08ALVaWW0vj5uNy3gULHsLn8HMGjfk02J+8hvY=;
+ b=XPsP62luPEDls9cBmToKVKMYoGIzq48grccfpbjkO7LcAN6P1J3gUbMUwJH4DkwdwRt4EiYaXA+7VGhSVmOa1HHZ/eCUlocAE58fKg3j+dukH3tffU6hAAe/upSVJqyvo+wVPXkVB1Tc5JS0A5nGHLOGLxw2QN+fj4B0D0rm6R+4uqyI29JsemMI4S06GDDuZX/3NRZRmaR4ek7mvIeUiWK1mRu/4ty7BSw6N08JjZxpRJDDxwcTE+HXPK1WqUKy2WAJrlOsY+O8xR1BoRwkB3VPk7YHvMyVgzNfeEkFQAd9wJL0hFfBNiGC0lLYO/Xi30r0W2sauWAxDLw+ftzbBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CH0PR11MB5474.namprd11.prod.outlook.com (2603:10b6:610:d5::8)
- by SA3PR11MB7464.namprd11.prod.outlook.com (2603:10b6:806:31b::15) with
+ by CY8PR11MB7780.namprd11.prod.outlook.com (2603:10b6:930:78::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Mon, 5 Jun
- 2023 17:18:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 5 Jun
+ 2023 17:21:59 +0000
 Received: from CH0PR11MB5474.namprd11.prod.outlook.com
  ([fe80::13aa:6fa9:70a7:4735]) by CH0PR11MB5474.namprd11.prod.outlook.com
  ([fe80::13aa:6fa9:70a7:4735%6]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
- 17:18:29 +0000
-Message-ID: <4418f353-18c6-b74d-dc19-f6edc624cd52@intel.com>
-Date: Mon, 5 Jun 2023 22:48:19 +0530
+ 17:21:59 +0000
+Message-ID: <cdfe8b1b-641b-029b-4dc5-170835cab011@intel.com>
+Date: Mon, 5 Jun 2023 22:51:51 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.11.2
-Subject: Re: [Intel-xe] [RFC 1/5] drm/netlink: Add netlink infrastructure
+Subject: Re: [Intel-xe] [RFC 2/5] drm/xe/RAS: Register a genl netlink family
 Content-Language: en-US
 To: Tomer Tayar <ttayar@habana.ai>, "intel-xe@lists.freedesktop.org"
  <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
 References: <20230526162016.428357-1-aravind.iddamsetty@intel.com>
- <20230526162016.428357-2-aravind.iddamsetty@intel.com>
- <98184112-ca7d-65c5-0b98-94abb418a2a5@habana.ai>
+ <20230526162016.428357-3-aravind.iddamsetty@intel.com>
+ <d22fbece-e6f3-cc6a-789b-bdbe99c70ced@habana.ai>
 From: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>
-In-Reply-To: <98184112-ca7d-65c5-0b98-94abb418a2a5@habana.ai>
+In-Reply-To: <d22fbece-e6f3-cc6a-789b-bdbe99c70ced@habana.ai>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN0PR01CA0052.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:49::21) To CH0PR11MB5474.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2PR01CA0224.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:ea::19) To CH0PR11MB5474.namprd11.prod.outlook.com
  (2603:10b6:610:d5::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5474:EE_|SA3PR11MB7464:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9ff0ce3-fae8-49aa-5d64-08db65e8e12a
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5474:EE_|CY8PR11MB7780:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29fc5fe5-8356-4f82-9a8c-08db65e95ebb
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9geQx/0H2UUROuQDUBUoctr4qauHUfNyYk/Xi8fenn3ZBVqJkoTmVF+k5PUKN42rkGA1HPpOWg1ChHPzjOY+fSWeECj93HpiPCHzYbz423IxVGUz/FshK4iCcad6i15+7rz+s+0jcYByPgjS11u8fg2CmMGJUeo0Ej8cU36PNs20WsYeE+NemUAEmYfk7jbv6ONpdSoGwZ+LXxpTOoI6d6fWsW0QFThShfuLq4LBu9KPbbISFpaIJtULPnruzhkO4B0eW5JSo5DI9X6MdpUHutdPL3L3/EEzCPEs9HHPANDjle/oNeHbIXp+1HU0f7IKY0t8cDO2goZxe4qDWmp4BVLW931orJC0+muxtdvg36F4SpvMcQ4LL2aq04m7LDyCfwlDRW8iy/5zma4n+8911+RPiqSnsG4jn72AuJ5j9V65PexDzbUdCOstIy7DCxGN/Z6SCaILJacjotzBh0BRa/lMN92QxY5eq9F1GQO9a3MDeh+E9JVKjqcGaZtGrjKHanNIzQhed3fxXifa72KzVVJxZ98/CLVweyFj9HwO6r9H0mpjsDPFJbkKbxibYh9Acb9yfEDvbXOCbNKq2xlooeZFKb+aJmDzz9ujJvVmDX73spIB/UT4uztpdbadVJQohOy3xL5HI2F6l+SgUTCODQ==
+X-Microsoft-Antispam-Message-Info: l5R5E/47OS1pc30ir8+9Ys2ywYSLYiu1iNDZp2jo1RshF2QPncHO5BzXYOFbZfMTgV/YRobGto5x3BqqVLcqKnNo0pSl1/p98arkcZqiKx9IjUIi2LXG7UxGKeL0q92vJVW2lMiv1JYWFPfnLXtE3YIaTihIl3l3/53yy0eMf2P8CoNyCRNYZBJT4d1SGqf7vk4nfZSeXLNIS32s2KvJA5UvKUiBnjTqvs0RKmWKlKsLXY31i8JYQrUi3K1AQ8EtIRcPMf9qWjWG3K6plM649s6Ld+0KTydSqE++QzG33d3cJXcn24KEjAgbWhqDEvY9kDQ/2dosO1yR8ta0aHxr8qrh+dElQ34NTj38ZYOo+tkWGdcJKJ6V2bmtfcoV/19OnGBkCgcwYoBtkz29kQ2f5XihguJSmm+Wpl5AUZoi82sbEu653o48gpFatPxIGabAk++tF0X23yO2q6lMoGlbgg2aYxB88a0S4YSs7ThC8EvteMvWmeWCgBTttn2Xuxwjrlj5KAuy7jZbY+QvZwjHx5bSMpRxCtdJdkrwZjESKpRd1OY/1cs2pXj3w7zJfGHv6esY2oGrXQNpMldiPJV5nUu2iZjD0OCEmpb9sIcU08HXr0P/qIFADl89PZyXk7ntO3L4E+lrRkbO0UF7zSQgFg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR11MB5474.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(346002)(39860400002)(366004)(376002)(396003)(451199021)(6506007)(186003)(26005)(6512007)(53546011)(2616005)(31686004)(66899021)(83380400001)(36756003)(6666004)(6486002)(2906002)(8676002)(8936002)(82960400001)(54906003)(110136005)(478600001)(38100700002)(5660300002)(31696002)(86362001)(4326008)(316002)(41300700001)(66556008)(66476007)(66946007)(45980500001)(43740500002);
+ SFS:(13230028)(136003)(39860400002)(346002)(396003)(366004)(376002)(451199021)(186003)(6506007)(26005)(6512007)(53546011)(2616005)(31686004)(83380400001)(36756003)(6666004)(6486002)(2906002)(8676002)(8936002)(82960400001)(110136005)(54906003)(478600001)(38100700002)(5660300002)(31696002)(4326008)(86362001)(316002)(41300700001)(66556008)(66476007)(66946007)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bFVLdkRTUDA2ZTViYWtMYldRV1FOMy8rdEdFYklQSGk4WmREaTJ6S3pUcVdB?=
- =?utf-8?B?T0NRclVVemxyUzhldGgyMnNFQTdtVkZ3ZUNTZnF5bDRnNi9VL3dScmVZMk5l?=
- =?utf-8?B?UGIvTGJqTk1pcFBMaTU1VnhhbWFXRGttSjhOa0pwZHIvS2lCZWVSU2RNZmZQ?=
- =?utf-8?B?WW9PZ0FraGJYeXVad1RjWjdpY0pHVmkySWxCajU4ZkUxWlJTdjE0Y3ROWERm?=
- =?utf-8?B?WXMxaVdYMm5sZTROVStzbTBFL2JVbGh5L09TSzlMWU9Uck1SQmJtVTlYcHN0?=
- =?utf-8?B?S1h0dW84QnNXc0xEb2tIT3o0NGQ3RFcvVFRpWDVkaStnekZLSzRLMmdrYWNs?=
- =?utf-8?B?amVYY2FlRnRnN3FWTFpEa0VvVENObE9rTVB6R05hTTZMdllmdGk1ZU02ZHU5?=
- =?utf-8?B?SU5rKzNsQlROZUgvYThUd2k3TUNyTllHeTJkWUhDS0FMUDFTLzhTdG83Uzhz?=
- =?utf-8?B?RmxqMHNSeG11cDRZQm04UEhBZVQyZG1TMTNJdGJIdXp4WWdId0d4a3YvUW9J?=
- =?utf-8?B?YUd3WDhFUVVEVUhtVTJpMmNsMnB1TkppTW5LQ21pVHNOSGVyckZTWHBFYmRz?=
- =?utf-8?B?dFBiTWRSVkdGU2sveTFNMmdic2JPRDc5dnZOQldFbkVZY2l1VmdBSkREbmE3?=
- =?utf-8?B?TUR1a05CSGpOSit2cG5VSHFxRTRMNXlwMDNydGNoY3l4YWNWREU5K3laVmE4?=
- =?utf-8?B?YWFVQUJDMnpERlp0YVd6ZUhVcmFQVXpKeXFuQXNxVkNwY2RLSGovalMyZE1V?=
- =?utf-8?B?WHJLMkl3eXBndUZzM0JvdjM3am8vTmVvcnhNT05QN0NuL0lWUnZJOG85cks0?=
- =?utf-8?B?dmZ5b1ZyMUU3UmNzUFlMRDdaYnNMcXREd0pINlVmeWx0cEdWdFJqM0VGb0NM?=
- =?utf-8?B?clVBNW1KK0tyS0d1LzBPOUJ1aTVJTUR5bTFQa0haSkNpNmI5Vmo0RmVsa2Zv?=
- =?utf-8?B?NzhmS1dJeG5IUjJnM0Vvc2FhVUt2VFZrSjBseDlldDBidjFlenA3SzlkV1Yv?=
- =?utf-8?B?TXdhcUR2Z2ZMc2ZPWEtmWDFxaEdveXcrMkRRamxTU01YdEpDdk80MU5SMXNl?=
- =?utf-8?B?d09oT1dlZHIrdVpGMytzMWdnUVhydkNoZ041SDZkMnZnUnFUOVZMdTVPRTJp?=
- =?utf-8?B?dEY3cTFzaW5ROEM1MHlYZFdqSGdwVjI2RWs1czhLaEJRRERQbWdndGZLOHY3?=
- =?utf-8?B?ZXRaMHpVcHB5R0RpVjk1OThvWHRicnN0NVRGczJnNWIwR1cxOEppV1BVdTdH?=
- =?utf-8?B?b0hMamxXM1ZtaVBVeDc0bExpN2F3WjBLQUd1Vm1JNzdrTDlVOWdnWStkZk9T?=
- =?utf-8?B?QmZxRS8zcjJGRytnQVRwa3EyckxlSHNhY1FwMUhjZ1FxbzBNeGx6U0NESWx2?=
- =?utf-8?B?b0lsWFlSLzhQSlk2RDQ2QjhSWHRMdnB3ZlZJa3ZpaFV2aXVoaHZHMzgwUzZm?=
- =?utf-8?B?RXI1V3UxelNMNWowTHBMU2kva01JcThmbkp0aTluT0lMekRzb3o3WFIxOFdP?=
- =?utf-8?B?dnRsOVE5b1F1MVNCK3g3S0o4KzM1citubG91VU1qNjlPdDJhQWxlSElxeWYw?=
- =?utf-8?B?azkzcitqNCtvc3R6UUlwWlpOR0Q0QjUwSVRLTytHWjJSUjBTYi9FRzhWRXJL?=
- =?utf-8?B?YnY1MkpKY09TZkdlOHBYMmlnWHRCUVFtRlorL3NwZ3ptZmdGdkdZd083Q0ZV?=
- =?utf-8?B?UFN2ZGNVVThvUFVWOUxqeEordGdWa2hCdWJmV2xzNFQxaTZpSS8wck5xSUpF?=
- =?utf-8?B?eFJHMXoyNkFuQlBaVkxDK0JNek1NYVRqdnVTdnhWWjJoTE5wYWRXanhlWlRw?=
- =?utf-8?B?UllzcVdrWFZjeHBiZXRmRjQzTkUzNTVBLzRBREFGTUViSDNKM1dyNnlOeXBs?=
- =?utf-8?B?b2lvYkhzc0U1OHAvT3N2YVBDbDY2SXJlRG9LdFFqRlJZMTc1RXhzdlNvak9H?=
- =?utf-8?B?b01pSktiQmlrV0prSm9hcGxFaytnalU4Q21ldWMwNDl0S3Y4UU9HVUdIcVk2?=
- =?utf-8?B?emprTUZqbERYNUJFU1dFUVhNOVhqNEhybjNVQTNzbmVjbVN4aGwyK1BwdzRk?=
- =?utf-8?B?b0h6bDZ0OTlUYVJqRkhZM1g2dEorQTdlajBobXoxRUcwcE44R1EzTi9UdERR?=
- =?utf-8?B?SEdXRitiWG9nTndLMVRrQzJhZXJsVTNTRUg3dnJHQjRNaUNPYU5SaTV2cWJa?=
- =?utf-8?B?dUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9ff0ce3-fae8-49aa-5d64-08db65e8e12a
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WS9iN0JKKzlwWGlOYmNSL2hYWXltMTU3MVNSUjNDR09lZVNHRnlHVGUwcExt?=
+ =?utf-8?B?ZGRaemVYaC90NmZ2UFE3enBVRlpqcHpNSUVhQmtiSVJ2Z2w1OW1kUHBiS3ZI?=
+ =?utf-8?B?TXRpMVptaVlFVW5hQk1CM08rL2ZHNWVsM3J1RnhqNCtkTHVSVWJEdG0rSG5B?=
+ =?utf-8?B?cUR2Zjk3bDN2L3lIbGVHT3JUaENvMmROL0UxNUQwM0JxYzRnei9aQlRIWkpl?=
+ =?utf-8?B?YllrdGdTNWNZMUs2ZTh4aDJPQ3I3aVc4emFORVVXRXJIaVNzMm5HK0pYcnVW?=
+ =?utf-8?B?YnZVTkZhUWFJQXZodHNEbGtxa3NKR0h6WTVDMTNKWlBxS1gxNVgzRmN3dG5k?=
+ =?utf-8?B?eGxoYXRrZDdkR1V6ZU02MTdOLzQ3dWYzTCtCK1hOMXB0TVN0Ykwwc095TE9j?=
+ =?utf-8?B?MVNYRWlKSXA2WUR2T1FjTURLQXRnNGhDV2toMEFHR0JtUFo4MVBiL0tBMENp?=
+ =?utf-8?B?Qkkzc1FmWVliRWs3SmJ5cjZOWlpHbmxKV3ZCS1JGaURNRmRlbHZPMGNGWGJo?=
+ =?utf-8?B?STd3UENNUS9nQmo2MVIxZ3BFZXM3ZXBVTENpOW1CYTVoRzJsRVF2ckdsZ2ZC?=
+ =?utf-8?B?SHRVdWo4YWVPY1dHcWgvR3NVZEEwdjVzOEdCbDc3OFR3VFM1eXdNM0o3eGZs?=
+ =?utf-8?B?YjZ5QmlyY3NQb1d6Ky9odGtjRWZEdzVtQ1pjWmdRejJ5QTk4YU4wekhpOWNy?=
+ =?utf-8?B?K0ljL3hCWDdIaUltbVhBSis5aVRhdW5Jd01zQi9QS2IvbG9kdGdweGlwUGZs?=
+ =?utf-8?B?UDQvOE1PMEo1YVdieXMvenEyYzl6L0o4NEhoZUhuSnQzVjFkbFh1RDZHVjYv?=
+ =?utf-8?B?cXJKOHZFYk5HdjlKc1JWQTBqc2FnczdPZWhkejBFa1ZiK3JyN1liclZoQ0I4?=
+ =?utf-8?B?bTd1Q0kyQzVoOHVhQTRxMVF2eldsMGVKc29BejJCOGxBSVJDbENMYnBIRE9v?=
+ =?utf-8?B?enRpbTQ4NXhDcFhuY3UzN0piSVpvTDhTRzJoOEhWWGE1Zzd4bUxVekVjVUtR?=
+ =?utf-8?B?TlRhdytyUmF3bStoa1dmbG5VaVdJclEzTjVyL0E0emRzRVB0enNSdVBYcnl2?=
+ =?utf-8?B?c0V6b3U1cEEwSnlnQThrd0gwYUw0R2JTcFFWY0R6Y0FuVkFlOTd2bTJ6eEdH?=
+ =?utf-8?B?Z1k1Tm90WTZocFFUbCs5OVZxdUJGUmVEUExsV09QZFRqbGxNZUZXT0x3TmlE?=
+ =?utf-8?B?T2FvRUk1ME5GK1ZZUm8vWWlaNmRWTHdhRHdTWlVlWmJuSmhiRUYvOGJiZW5q?=
+ =?utf-8?B?Vm92Z1ByUTRJL3E4Nk9sNjdxcENiVWlpVzVoQ05ETHRZL1BvL2x6dHdJNEZL?=
+ =?utf-8?B?QUVLZUpqNFpOWVFDbHhnRDBXS1JvNG8wVzlCaDlrVlQ0K2YwNEZrekFWUjE5?=
+ =?utf-8?B?cWx5UVNlKzJTUDFiRmpOM2NybTFjZmxYNmxzRVZLM1RBdlpSSmxrYVY0UXF1?=
+ =?utf-8?B?alN5UWJ2dXhnM2xFdHdBU3pjcGhiMjZQRzFKOUxFNEkzRmZPVDREMmRhakV6?=
+ =?utf-8?B?WXlrdzZRck44VGhwNmEzMGdJM0pMWkV5WmdSbXBwVTZWTXVYbHVoaC84alE5?=
+ =?utf-8?B?OHJ6MWs5VkNNUk15ZlVHR1Nrekx5WW5KR2JwcHhWeFQwVFMxc1VPcUhmWWFm?=
+ =?utf-8?B?c2Q4VzJ1dmVGb09xcTE1QmFMWExWczFNQlN4V2RCQitSUkJBR0NyMHEraXA3?=
+ =?utf-8?B?enphdkJNbUxBcWVyU3RXZU9hOHRyMG1IK2N1dlcvOVJzcnY1VFFyQ2ozVjd1?=
+ =?utf-8?B?K0k2c0tGQ2Y3ZU5uUXh6bUtXN01WMm5DMzVMdVM5ZCtiQUtRcUVGSjV3Z0kx?=
+ =?utf-8?B?OVRpQWJtK1hxSWxJNjdWRFp0cUl2dDNRQ0dMVmsrQ0trbEQxNXJleUtUSXZ2?=
+ =?utf-8?B?Q2o4b2ZJWG1LV2JLMmNOdnJ6UzQ2emc3bzZFd0I5d0l3MDV1OG1aVzVFbzdo?=
+ =?utf-8?B?ckhLZkt0Qkd5M0o0c3VTTVlrckwwaFZoTEFCYVBsV2dNNTdseTcxZVRlZDVS?=
+ =?utf-8?B?MVZVakVsd2wzMm9Oem85M1Foa2FHLzlySHZob25ZaW1iWjZqVEEza2V4ci9n?=
+ =?utf-8?B?aEErTklOR1ZVeUFWMFpCWHBhaVVFLzU4c2ZRc1VqTlkzUG5PK3R2TENualJS?=
+ =?utf-8?B?YkwvNUxwc0h3Y3hSN2FKamxHQVpTdXR2Ly80ZlNPMUZYcEdyNUNTMWlRRHlt?=
+ =?utf-8?B?eHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29fc5fe5-8356-4f82-9a8c-08db65e95ebb
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5474.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 17:18:29.6077 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 17:21:59.7447 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GH9rGo8IG0UAY+q6Qks0KSvPG5fHQhiC/HRL5BNDF0rOjXcf6cRI1dzJ156KrOGFhLYh6qneYrw5Uf+v9c93Q/XQUII1etC1o/LRCx18gro=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7464
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4+WpybTPkX4FgNPJHT86SId+2QSZ8ATSNrRremmU7gNhDm8+1+KTTxIHiCh91qjOl1254uxSifpxMVwiLlgKZV+jgEdZJBEkQp2Lt0o7x7M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7780
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -166,117 +166,135 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 04-06-2023 22:37, Tomer Tayar wrote:
+On 04-06-2023 22:39, Tomer Tayar wrote:
 > On 26/05/2023 19:20, Aravind Iddamsetty wrote:
->> Define the netlink commands and attributes that can be commonly used
->> across by drm drivers.
+>> Use the generic netlink(genl) subsystem to expose the RAS counters to
+>> userspace. We define a family structure and operations and register to
+>> genl subsystem and these callbacks will be invoked by genl subsystem when
+>> userspace sends a registered command with a family identifier to genl
+>> subsystem.
 >>
 >> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
 >> ---
->>   include/uapi/drm/drm_netlink.h | 68 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 68 insertions(+)
->>   create mode 100644 include/uapi/drm/drm_netlink.h
+>>   drivers/gpu/drm/xe/Makefile          |  1 +
+>>   drivers/gpu/drm/xe/xe_device.c       |  3 +
+>>   drivers/gpu/drm/xe/xe_device_types.h |  2 +
+>>   drivers/gpu/drm/xe/xe_module.c       |  2 +
+>>   drivers/gpu/drm/xe/xe_netlink.c      | 89 ++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/xe/xe_netlink.h      | 14 +++++
+>>   6 files changed, 111 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/xe/xe_netlink.c
+>>   create mode 100644 drivers/gpu/drm/xe/xe_netlink.h
 >>
->> diff --git a/include/uapi/drm/drm_netlink.h b/include/uapi/drm/drm_netlink.h
+>> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+>> index b84e191ba14f..2b42165bc824 100644
+>> --- a/drivers/gpu/drm/xe/Makefile
+>> +++ b/drivers/gpu/drm/xe/Makefile
+>> @@ -67,6 +67,7 @@ xe-y += xe_bb.o \
+>>   	xe_mmio.o \
+>>   	xe_mocs.o \
+>>   	xe_module.o \
+>> +	xe_netlink.o \
+>>   	xe_pat.o \
+>>   	xe_pci.o \
+>>   	xe_pcode.o \
+>> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+>> index 323356a44e7f..aa12ef12d9dc 100644
+>> --- a/drivers/gpu/drm/xe/xe_device.c
+>> +++ b/drivers/gpu/drm/xe/xe_device.c
+>> @@ -24,6 +24,7 @@
+>>   #include "xe_irq.h"
+>>   #include "xe_mmio.h"
+>>   #include "xe_module.h"
+>> +#include "xe_netlink.h"
+>>   #include "xe_pcode.h"
+>>   #include "xe_pm.h"
+>>   #include "xe_query.h"
+>> @@ -317,6 +318,8 @@ int xe_device_probe(struct xe_device *xe)
+>>   
+>>   	xe_display_register(xe);
+>>   
+>> +	xe_genl_register(xe);
+> 
+> xe_genl_register() can fail
+
+That is right but I didn't want to fail the driver load as it would not
+impact any device functionality but doesn't provide observability. hence
+a warning would be printed "xe genl family registration failed".
+> 
+>> +
+>>   	xe_debugfs_register(xe);
+>>   
+>>   	err = drmm_add_action_or_reset(&xe->drm, xe_device_sanitize, xe);
+>> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+>> index 682ebdd1c09e..c9612a54c48f 100644
+>> --- a/drivers/gpu/drm/xe/xe_device_types.h
+>> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+>> @@ -10,6 +10,7 @@
+>>   
+>>   #include <drm/drm_device.h>
+>>   #include <drm/drm_file.h>
+>> +#include <drm/drm_netlink.h>
+>>   #include <drm/ttm/ttm_device.h>
+>>   
+>>   #include "xe_gt_types.h"
+>> @@ -347,6 +348,7 @@ struct xe_device {
+>>   		u32 lvds_channel_mode;
+>>   	} params;
+>>   #endif
+>> +	struct genl_family xe_genl_family;
+> 
+> Should it be added above, before the "private" section?
+> Maybe add a kernel-doc comment for it?
+
+thanks for pointing out will move it there.
+
+> 
+>>   };
+>>   
+>>   /**
+>> diff --git a/drivers/gpu/drm/xe/xe_module.c b/drivers/gpu/drm/xe/xe_module.c
+>> index 6860586ce7f8..1eb73eb9a9a5 100644
+>> --- a/drivers/gpu/drm/xe/xe_module.c
+>> +++ b/drivers/gpu/drm/xe/xe_module.c
+>> @@ -11,6 +11,7 @@
+>>   #include "xe_drv.h"
+>>   #include "xe_hw_fence.h"
+>>   #include "xe_module.h"
+>> +#include "xe_netlink.h"
+>>   #include "xe_pci.h"
+>>   #include "xe_sched_job.h"
+>>   
+>> @@ -67,6 +68,7 @@ static void __exit xe_exit(void)
+>>   {
+>>   	int i;
+>>   
+>> +	xe_genl_cleanup();
+>>   	xe_unregister_pci_driver();
+>>   
+>>   	for (i = ARRAY_SIZE(init_funcs) - 1; i >= 0; i--)
+>> diff --git a/drivers/gpu/drm/xe/xe_netlink.c b/drivers/gpu/drm/xe/xe_netlink.c
 >> new file mode 100644
->> index 000000000000..28e7a334d0c7
+>> index 000000000000..63ef238ebc27
 >> --- /dev/null
->> +++ b/include/uapi/drm/drm_netlink.h
->> @@ -0,0 +1,68 @@
+>> +++ b/drivers/gpu/drm/xe/xe_netlink.c
+>> @@ -0,0 +1,89 @@
+>> +// SPDX-License-Identifier: MIT
 >> +/*
->> + * Copyright 2023 Intel Corporation
->> + *
->> + * Permission is hereby granted, free of charge, to any person obtaining a
->> + * copy of this software and associated documentation files (the "Software"),
->> + * to deal in the Software without restriction, including without limitation
->> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
->> + * and/or sell copies of the Software, and to permit persons to whom the
->> + * Software is furnished to do so, subject to the following conditions:
->> + *
->> + * The above copyright notice and this permission notice (including the next
->> + * paragraph) shall be included in all copies or substantial portions of the
->> + * Software.
->> + *
->> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
->> + * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
->> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
->> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
->> + * OTHER DEALINGS IN THE SOFTWARE.
+>> + * Copyright © 2023 Intel Corporation
 >> + */
 >> +
->> +#ifndef _DRM_NETLINK_H_
->> +#define _DRM_NETLINK_H_
+>> +#include <drm/drm_managed.h>
 >> +
->> +#include <linux/netdevice.h>
->> +#include <net/genetlink.h>
->> +#include <net/sock.h>
+>> +#include "xe_device.h"
+>> +
+>> +DEFINE_XARRAY(xe_xarray);
 > 
-> This is a uapi header.
-> Are all header files here available for user?
+> xe_array sounds too generic. Maybe it should be more specific like 
+> xe_genl_xarray?
+> In addition, it should be probably static.
 
-no they are not, I later came to know that we should not have any of
-that user can't use so will split the header into 2.
-> Also, should we add here "#if defined(__cplusplus) extern "C" { ..."?
-
-ya will add that
-> 
->> +
->> +#define DRM_GENL_VERSION 1
->> +
->> +enum error_cmds {
->> +	DRM_CMD_UNSPEC,
->> +	/* command to list all errors names with config-id */
->> +	DRM_CMD_QUERY,
->> +	/* command to get a counter for a specific error */
->> +	DRM_CMD_READ_ONE,
->> +	/* command to get counters of all errors */
->> +	DRM_CMD_READ_ALL,
->> +
->> +	__DRM_CMD_MAX,
->> +	DRM_CMD_MAX = __DRM_CMD_MAX - 1,
->> +};
->> +
->> +enum error_attr {
->> +	DRM_ATTR_UNSPEC,
->> +	DRM_ATTR_PAD = DRM_ATTR_UNSPEC,
->> +	DRM_ATTR_REQUEST, /* NLA_U8 */
->> +	DRM_ATTR_QUERY_REPLY, /*NLA_NESTED*/
-> 
-> Missing spaces in /*NLA_NESTED*/
-> 
->> +	DRM_ATTR_ERROR_NAME, /* NLA_NUL_STRING */
->> +	DRM_ATTR_ERROR_ID, /* NLA_U64 */
->> +	DRM_ATTR_ERROR_VALUE, /* NLA_U64 */
->> +
->> +	__DRM_ATTR_MAX,
->> +	DRM_ATTR_MAX = __DRM_ATTR_MAX - 1,
->> +};
->> +
->> +/* attribute policies */
->> +static const struct nla_policy drm_attr_policy_query[DRM_ATTR_MAX + 1] = {
->> +	[DRM_ATTR_REQUEST] = { .type = NLA_U8 },
->> +};
-> 
-> Should these policies structures be in uapi?
-
-so ya these will also likely move into a separate drm header as
-userspace would define there own policy.
-> 
->> +
->> +static const struct nla_policy drm_attr_policy_read_one[DRM_ATTR_MAX + 1] = {
->> +	[DRM_ATTR_ERROR_ID] = { .type = NLA_U64 },
->> +};
-> 
-> I might miss something here, but why it is not a single policy structure 
-> with entries for DRM_ATTR_REQUEST and DRM_ATTR_ERROR_ID?
-
-so each command can have it's own policy defined, i.e what attributes it
-expects we could define only those, that way we can have a check as
-well. So, in the present implementation DRM_CMD_QUERY and
-DRM_CMD_READ_ALL expect only DRM_ATTR_REQUEST and while DRM_CMD_READ_ONE
-expects only DRM_ATTR_ERROR_ID as part of the incoming message from user.
+Ok.
 
 Thanks,
 Aravind.
@@ -284,6 +302,103 @@ Aravind.
 > Thanks,
 > Tomer
 > 
+>> +
+>> +static int xe_genl_list_errors(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static int xe_genl_read_error(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +/* operations definition */
+>> +static const struct genl_ops xe_genl_ops[] = {
+>> +	{
+>> +		.cmd = DRM_CMD_QUERY,
+>> +		.doit = xe_genl_list_errors,
+>> +		.policy = drm_attr_policy_query,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_CMD_READ_ONE,
+>> +		.doit = xe_genl_read_error,
+>> +		.policy = drm_attr_policy_read_one,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_CMD_READ_ALL,
+>> +		.doit = xe_genl_list_errors,
+>> +		.policy = drm_attr_policy_query,
+>> +	},
+>> +};
+>> +
+>> +static void xe_genl_deregister(struct drm_device *dev,  void *arg)
+>> +{
+>> +	struct xe_device *xe = arg;
+>> +
+>> +	xa_erase(&xe_xarray, xe->xe_genl_family.id);
+>> +
+>> +	drm_dbg_driver(&xe->drm, "unregistering genl family %s\n", xe->xe_genl_family.name);
+>> +
+>> +	genl_unregister_family(&xe->xe_genl_family);
+>> +}
+>> +
+>> +static void xe_genl_family_init(struct xe_device *xe)
+>> +{
+>> +	/* Use drm primary node name eg: card0 to name the genl family */
+>> +	snprintf(xe->xe_genl_family.name, sizeof(xe->xe_genl_family.name), "%s", xe->drm.primary->kdev->kobj.name);
+>> +	xe->xe_genl_family.version = DRM_GENL_VERSION;
+>> +	xe->xe_genl_family.parallel_ops = true;
+>> +	xe->xe_genl_family.ops = xe_genl_ops;
+>> +	xe->xe_genl_family.n_ops = ARRAY_SIZE(xe_genl_ops);
+>> +	xe->xe_genl_family.maxattr = DRM_ATTR_MAX;
+>> +	xe->xe_genl_family.module = THIS_MODULE;
+>> +}
+>> +
+>> +int xe_genl_register(struct xe_device *xe)
+>> +{
+>> +	int ret;
+>> +
+>> +	xe_genl_family_init(xe);
+>> +
+>> +	ret = genl_register_family(&xe->xe_genl_family);
+>> +	if (ret < 0) {
+>> +		drm_warn(&xe->drm, "xe genl family registration failed\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	drm_dbg_driver(&xe->drm, "genl family id %d and name %s\n", xe->xe_genl_family.id, xe->xe_genl_family.name);
+>> +
+>> +	xa_store(&xe_xarray, xe->xe_genl_family.id, xe, GFP_KERNEL);
+>> +
+>> +	ret = drmm_add_action_or_reset(&xe->drm, xe_genl_deregister, xe);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +void xe_genl_cleanup(void)
+>> +{
+>> +	/* destroy xarray */
+>> +	xa_destroy(&xe_xarray);
+>> +}
+>> diff --git a/drivers/gpu/drm/xe/xe_netlink.h b/drivers/gpu/drm/xe/xe_netlink.h
+>> new file mode 100644
+>> index 000000000000..3bbddb620539
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/xe/xe_netlink.h
+>> @@ -0,0 +1,14 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2021 Intel Corporation
+>> + */
+>> +
+>> +#ifndef _XE_GENL_H_
+>> +#define _XE_GENL_H_
+>> +
+>> +#include "xe_device.h"
+>> +
+>> +int xe_genl_register(struct xe_device *xe);
+>> +void xe_genl_cleanup(void);
 >> +
 >> +#endif
 > 
