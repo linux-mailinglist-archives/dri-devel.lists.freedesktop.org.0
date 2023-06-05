@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E63723132
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 22:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44406723151
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 22:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2024910E07B;
-	Mon,  5 Jun 2023 20:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAC210E1DE;
+	Mon,  5 Jun 2023 20:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1111510E07B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 20:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=0rP9lW70v0x0iAyjZ8eGEFTz23i8tjg2WhkGDwg84CM=;
- b=pf6XrMwUsZvTHmwUtpACAPjSvDU9fxXr8pUaFTJyPWQke9OwaCVk8f4jKzLYOOTTM1UypKIMCY3ok
- CHtGVkJSBM255frbHSJlsA5Ym8YtL/nCH9lbqjEjwske0i0EvLOKjDXFKlCArYyt+yCgKSgTBH8A/w
- yuLYYeS5AFX0mywAA4px3xN8/0gW0gZaHtK36fcppyaWhqVb5WBapA8VdsO9yCXsMO9u6z5rDeSCb2
- dkLu8tK7I5+QRe3tBdb6EQ8yZEiW5vvnscAGSzNHlbMby6wY3QJdbYFcQynmFBMYrU78RS+UdJLtM2
- wPx3PglED4vx0iGHAgsazwlJdS66NGw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=0rP9lW70v0x0iAyjZ8eGEFTz23i8tjg2WhkGDwg84CM=;
- b=H6HLfhIx9eZVBqFxNaSEk4VDVgqlXBMz76k7JenCUo0lDDIvfrLUtnEGwuHgFwgtRSqfcRJKlzuoC
- 4cSK0E6BQ==
-X-HalOne-ID: c826bbbd-03de-11ee-a08d-99461c6a3fe8
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id c826bbbd-03de-11ee-a08d-99461c6a3fe8;
- Mon, 05 Jun 2023 20:23:08 +0000 (UTC)
-Date: Mon, 5 Jun 2023 22:23:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-Subject: Re: [PATCH 02/30] backlight/gpio_backlight: Compare against struct
- fb_info.device
-Message-ID: <20230605202307.GA452402@ravnborg.org>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-3-tzimmermann@suse.de>
- <IA1PR11MB641847841A33FE16F9B96BA7C14DA@IA1PR11MB6418.namprd11.prod.outlook.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B049210E033;
+ Mon,  5 Jun 2023 20:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685996844; x=1717532844;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=v6/gD3wPqPZqTdNTBUt1XC181r0nVOwiVrgdCqBtGJY=;
+ b=Xvd73TygVyFV5qEqf/wnuVuR9g8Niw0a92SwAgtP30NnJ5iLQeolaFeG
+ 8ODzG8YONGUPgKgsdK0pPklVj9DE1p2HwbHf73Jg583/78yeB9E9vnelk
+ XRXGaz1fg26xk9hvOeotCUbs/4A93kzo477XhurtELTSAXY3L4vkeT/QG
+ 733pGebZ4ZPgeI2dPr3CMXVvhdZilzDZsgUtpJVxLpCP+4ylX3WC5Xd4b
+ j9SJ+Yv2t8CEf8GhPbdc1lu90O/OkSEDZXD9aaHJ0PWj4cqGszKQrBVK7
+ /QU7s7wUu3uwQhgvXnz4GMAd2/OaHCIf5BKvFSMnJcdiGCGISyQ2LHQZF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="442851000"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="442851000"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 13:27:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="853111265"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="853111265"
+Received: from twgeistx-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.249.42.176])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 13:27:21 -0700
+Date: Mon, 5 Jun 2023 22:27:16 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH] drm/i915: Fix a VMA UAF for multi-gt platform
+Message-ID: <ZH5FJAkm98WSonA/@ashyti-mobl2.lan>
+References: <20230605201021.13928-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <IA1PR11MB641847841A33FE16F9B96BA7C14DA@IA1PR11MB6418.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230605201021.13928-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,44 +59,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
- Rich Felker <dalias@libc.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
- "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de" <deller@gmx.de>,
- "lee@kernel.org" <lee@kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael.
+Hi Nirmoy,
 
-> >
-> >Fixes a bug in the backlight driver and prepares fbdev for making
-> >struct fb_info.dev optional.
+On Mon, Jun 05, 2023 at 10:10:21PM +0200, Nirmoy Das wrote:
+> Ensure correct handling of closed VMAs on multi-gt platforms to prevent
+> Use-After-Free. Currently, when GT0 goes idle, closed VMAs that are
+> exclusively added to GT0's closed_vma link (gt->closed_vma) and
+> subsequently freed by i915_vma_parked(), which assumes the entire GPU is
+> idle. However, on platforms with multiple GTs, such as MTL, GT1 may
+> remain active while GT0 is idle. This causes GT0 to mistakenly consider
+> the closed VMAs in its closed_vma list as unnecessary, potentially
+> leading to Use-After-Free issues if a job for GT1 attempts to access a
+> freed VMA.
 > 
-> I only see a rename from fbdev  to dev...
-> 
-> Is there missing code?
-> 
-> Would  a fixes: be useful?
-> 
-> M
-> 
-> >@@ -35,7 +35,7 @@ static int gpio_backlight_check_fb(struct
-> >backlight_device *bl,
-> > {
-> > 	struct gpio_backlight *gbl = bl_get_data(bl);
-> >
-> >-	return gbl->fbdev == NULL || gbl->fbdev == info->dev;
-> >+	return !gbl->dev || gbl->dev == info->device;
-> > }
+> Although we do take a wakeref for GT0 but it happens later, after
+> evaluating VMAs. To mitigate this, it is necessary to hold a GT0 wakeref
+> early.
 
-The real change is here where info->dev is replaced by info->device.
+hooray! this is great, Nirmoy! I will give it a shot.
 
-	Sam
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 5fb459ea4294..adcf8837dfe6 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2692,6 +2692,7 @@ static int
+>  eb_select_engine(struct i915_execbuffer *eb)
+>  {
+>  	struct intel_context *ce, *child;
+> +	struct intel_gt *gt;
+>  	unsigned int idx;
+>  	int err;
+>  
+> @@ -2715,10 +2716,16 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  		}
+>  	}
+>  	eb->num_batches = ce->parallel.number_children + 1;
+> +	gt = ce->engine->gt;
+>  
+>  	for_each_child(ce, child)
+>  		intel_context_get(child);
+>  	intel_gt_pm_get(ce->engine->gt);
+> +	/* Keep GT0 active on MTL so that i915_vma_parked() doesn't
+> +	 * free VMAs while execbuf ioctl is validating VMAs.
+> +	 */
+> +	if (gt != to_gt(gt->i915))
+
+you can use gt->info.id
+
+> +		intel_gt_pm_get(to_gt(ce->engine->gt->i915));
+>  
+>  	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>  		err = intel_context_alloc_state(ce);
+> @@ -2757,6 +2764,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  	return err;
+>  
+>  err:
+> +	if (ce->engine->gt != to_gt(ce->engine->gt->i915))
+
+	if (gt->info.id)
+
+gt is already ce->engine->gt
+
+> +		intel_gt_pm_get(to_gt(ce->engine->gt->i915));
+> +
+>  	intel_gt_pm_put(ce->engine->gt);
+>  	for_each_child(ce, child)
+>  		intel_context_put(child);
+> @@ -2770,6 +2780,8 @@ eb_put_engine(struct i915_execbuffer *eb)
+>  	struct intel_context *child;
+>  
+>  	i915_vm_put(eb->context->vm);
+> +	if (eb->gt != to_gt(eb->gt->i915))
+> +		intel_gt_pm_put(to_gt(eb->gt->i915));
+
+this wakeref going up and down is a bit ugly... Perhaps we can
+add some flag about the GT type in the info structure. MTL is a
+weird multi-gt platform and, indeed, you can't shut down GT0
+without affecting GT1.
+
+For now it's OK, though, as to test it.
+
+Andi
+
+>  	intel_gt_pm_put(eb->gt);
+>  	for_each_child(eb->context, child)
+>  		intel_context_put(child);
+> -- 
+> 2.39.0
