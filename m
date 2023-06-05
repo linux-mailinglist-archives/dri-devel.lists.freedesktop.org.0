@@ -2,124 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D16722AFE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 17:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E46722B04
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 17:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 490AC10E2DF;
-	Mon,  5 Jun 2023 15:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC2610E2E0;
+	Mon,  5 Jun 2023 15:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA4910E2DF;
- Mon,  5 Jun 2023 15:27:56 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on20622.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::622])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5E0610E2DE;
+ Mon,  5 Jun 2023 15:29:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AI1tgvP/y/AXRDNU2oSUcghapj5jKNwcLzEqmOhevxP5i/PyYbLUjSWuVuSF7CJomtvrQoq9dkK879CWHvX5PzsFF9vsRidGHINbTlRCV4/8hPEcgSbTKKpbjKvDqpgVCnXugSmyxOf/ChWUOQq+X+gOr7T6JLcuGLd4TzhY0vdvdDd6CHc//7FJ3el9S6/0LbwJ7OiohK4F+Ss9egN5Sfk7+Zvhx2JPjTZaloCCsCIDcR3wgz1cn6jMcNj9pKNfzMKpwOsmdYtAfbe0pcgg3ASe3IuJTc4p7l34By2U613p2jtTw4519ThnQuRqhmz7N7uQ4W3wy+SZPZ+IA+UpVA==
+ b=EZRGk9bg8kkOl0ywdE+SPbldKLxhUiw5JXlTN04+H8iwiOcFKdyr4Kh5FrC70EkPlLvw2dHxWMbOBplf2YU5ZBRri19PcTE1/PN/A2fKs+kp2W71lK0KjZ+x5Qo42wSh0FckGZ8nIAPUhoIRmHFv53SKZE5xktAiPm7aBkQAYtihhP8e7FBGgkA1Lu+L/7xDscUfbr1++v0q1sw6kB/XcnnjXjzywB8GmpHQTK3gfjhbmMWcLosWpsRvTH4+3L+oIpPbgx6UDlB8jAH4M+JvfDx0oPU9HhwnGTfgtjVXzv5+82ICsJKlnE6K1bXrPClmC0FUbL+w+sypTj8BqOO9eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AtFdtSvljMD+AfdaCr4VleMMkIvGlKNN8+gNfeFatlE=;
- b=RCVNDtTpLWIpKOomaU/8MI1tvzMnly3cdxF6V1AVDuXZy8DHtSEsELcp55z615LqaaEsuvxrVCNv3UcBDayqGbKBRRhqaWIig3yR45fJWcZtlnddV0zanncNlmgWAk1jDfkQt1iitBCh/DW9+3lU+eRuADXfebmX3Q8mlNNM+EFUjh5I8U3fUnxIMKethl+sRVCNNFL7z722zNb8JrPR+UB2cdXCwwwz+GiaphhZs5F3on7zqLgnBYA/Wv0YL/u6oApJOCXG7lV8TtuJF8dhyV3fsYuhDR0v+NXV3eYtEM2+LiM8IUu2MSRcAuvNtoLxY0bUTDkhXhfYMzuA21Z0BA==
+ bh=ZsLhMZ2mjYQFLctcUqqGtwIYERc+AniRGirTI53J+h8=;
+ b=L5yww7TyAaJDENEUTHmJe8ZMYp6+TWv+mjqjr/kHqBegUnxkg8YJlzdvSxOUmBhgfPet9mVF2zGwFI/C/hMsEDP73VMgQbq62CssA2Kqv2RqmSYZey7ax1gZklssW2iAAbOviLXY2gC2HVQmPLMdq2od7MxvnIVCepOegiI1SVj33Tt41zGGnC8MZt0WTiLNm+8zs13gw+3IU/yJSxHU8w1Jgxq7qqBk+g85bf8gYnRlsQPYfTMXwb++m+ojGQIg9zd8j+DRIIOqeFYl4xFPvSoyyRGS0hu2wiUsMJEuudrv48d+E6XvZYIp5UXzdXMnd514T9Or6TObj60Rk3aMow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AtFdtSvljMD+AfdaCr4VleMMkIvGlKNN8+gNfeFatlE=;
- b=nF61GjJNco8uuirZ9JE50O+8FlNnMkQxVyZFXH4sEzJ3KBb2/2pgiIkla/FUOxG5OWvUUbGYTlS/qrFfFftwo9FSONTxyoCYFT+EmhES0QEbnrO1iDOw8H3SwjdrZtPMyOhAwTyUSLM83p2vi29BhHvt3sNc5iav6y6stEPOuXQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- DM6PR12MB4204.namprd12.prod.outlook.com (2603:10b6:5:212::23) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.32; Mon, 5 Jun 2023 15:27:54 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1%7]) with mapi id 15.20.6433.024; Mon, 5 Jun 2023
- 15:27:53 +0000
-Message-ID: <5a925a7f-d810-275b-c735-29872bf523a3@amd.com>
-Date: Mon, 5 Jun 2023 11:27:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
-To: Felix Richter <judge@felixrichter.tech>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Alex Deucher <alexdeucher@gmail.com>
-References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
- <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
- <CADnq5_M-5SD6HDRVtFHPNF3q9XKz75PECdUxR-OaVpPe2Zw=EQ@mail.gmail.com>
- <8d23a70e-b132-9b25-917a-1f45918533cc@leemhuis.info>
- <0cac032a-0f65-5134-cde5-f535fc58c5ab@felixrichter.tech>
- <e7eed5ce-e7a0-e03e-f8c7-3582d9771a33@leemhuis.info>
- <e24373f9-4405-d7f7-dd54-d0bde111242c@felixrichter.tech>
+ bh=ZsLhMZ2mjYQFLctcUqqGtwIYERc+AniRGirTI53J+h8=;
+ b=sHZGg75OeGYMMWUgqeywwoy3rXVaJek0vGRCIoIrhAD5DYrXdOveA0V2Ah+2xVuzakfgJeCciy3VggeztOMBMnj9oEAo1wv9aFU9fqLPkz64/mZ3Pfwjie8M91WGZuhO+z3bpFZ+XeqN1T/4HxGqBFJVDnkX6wtcbRxwWPhKpms=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by CH0PR12MB5138.namprd12.prod.outlook.com (2603:10b6:610:bd::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
+ 2023 15:28:57 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::c549:4aeb:a02f:56b2]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::c549:4aeb:a02f:56b2%4]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
+ 15:28:57 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH] drm/amdgpu: Log if device is unsupported
+Thread-Topic: [PATCH] drm/amdgpu: Log if device is unsupported
+Thread-Index: AQHZl8GmBf1fuDCUxkan6FATlzGhAa98VOew
+Date: Mon, 5 Jun 2023 15:28:57 +0000
+Message-ID: <BL1PR12MB51449DDCC16D5E3035B5571CF74DA@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20230605152300.171794-1-pmenzel@molgen.mpg.de>
+In-Reply-To: <20230605152300.171794-1-pmenzel@molgen.mpg.de>
+Accept-Language: en-US
 Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <e24373f9-4405-d7f7-dd54-d0bde111242c@felixrichter.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0124.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:87::14) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM6PR12MB4204:EE_
-X-MS-Office365-Filtering-Correlation-Id: faca4cd9-6e6b-4f2a-58b7-08db65d96e4d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GCWuvsxcjAcOg+T0EvJUYX4XUHLQ3lun9eNNCYsmPoGXXWanl3PjkA4cM0+7ci6kVgU87uMnbHv1LA4OSSXs3uffSgad9MTo0vZHsWQFslHObXJpvdwoVeIz+DPswrIqvzikhkDPJ37lU3TQTMohK5ePOVvAG5ogffg8UK5M8O+y/b6AVhcHhbno/eDTSMEmnCFZUTk7kb8C7Fn3Z53D6WRsFoF5/XYNmtveJJTF4OlEAsb68GcTQY2CU8xeyhyFGbNO+dpVCczbAqh14+ze0xHNlOGW4aKRrr6zBfj1B41H3YSDkA3b6wQxiyG+Vyneu5BemvQcL3RI1vyc9QnllZCIH2Gy4ycrUDKxxhz7h6MMWTyThNylKfw1D7bdje6sIoaGJ1xjLYn+dNOb2l0ix/zy6LgO5Vjhn4cTm62/K6L2P7dshkWRvd+IqNds1xDgMJGJM51HrGgfTeyRDR7MpJgks3IIjrChhstQJvgBQ15N6/1bgvYwzx96NDJ4CLHYsTxYiyagtHhUlMk5D2DBU22i01pDW8wtymhWUtDOu3/oMB9ITs+nbVMLF1mxTq9F50SBceGwQVi7HQnR6XFrQBHSc/5IbWbD/3rJErV17Elh7TuNccmqPt5hwqJWpt6f0qWaSLAh12GgsMmDG5CVjw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(346002)(366004)(396003)(376002)(39860400002)(451199021)(110136005)(66899021)(45080400002)(478600001)(8676002)(5660300002)(8936002)(44832011)(36756003)(2906002)(31696002)(86362001)(4326008)(66476007)(66556008)(316002)(66946007)(6506007)(38100700002)(41300700001)(2616005)(53546011)(6512007)(26005)(186003)(66574015)(966005)(83380400001)(6486002)(31686004)(45980500001)(43740500002);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=929ec35b-e2c4-4b6d-8fef-54cc674948f3;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-06-05T15:27:16Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|CH0PR12MB5138:EE_
+x-ms-office365-filtering-correlation-id: 178d5a55-8064-4a72-be3c-08db65d9941e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: J3wifOQ1vbZz7h3qBHz2cTEUUEZHVEsbvDv4xeymdsspKA262+rVcM2l/9hPhfjEL0kxZXBPRY7kwQEd9LSqBymhdVn6YlZSzEtFziYcaYeumNWQ+F3mpD++F5BPDQvU1SltPaRxfhQtgb84kLCKDvWCb6/xgh+Q47OKOIAv8/1KI81CqPaY3GD3K0VArK0+SoACIXOBzdmFb3lGNj1eZl1zWP8t9jR5CqmYFa2yy8+MsR2ayjtZKRDt8qnOlBbvtCGvLYS6UaBnMQD3TA42rQ0VHm4/xReLZtV2bThJKsbxiop8pdl+a+c9ayQR3cYqtoy8eN4+k1SOn58JIuJZxXgxjZaYCGfaaz30fTDTEevN2mooQs/r/aAQt7IWqAVXsb3PJLDIswpCI1xRoAS2rdtdIWya3Pr6gV8aTStLeCTrAO8NpxZl2prAHcinMrsc72XovJHGE3FsHAzVkIGIhLA16mPaD2fKNFyRvfV+oFsinkRkPaJMDdHO9G2PoK5zegtZRkG3Aadhe3oCRZSYvTutXRdBkQPCW4g7mN3xqBz9napIX+GjB8lTnrJNL9Pv
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(451199021)(110136005)(54906003)(2906002)(38070700005)(71200400001)(33656002)(478600001)(86362001)(52536014)(38100700002)(41300700001)(8936002)(8676002)(5660300002)(55016003)(316002)(4326008)(66556008)(76116006)(64756008)(66476007)(122000001)(83380400001)(66946007)(66446008)(6506007)(9686003)(53546011)(26005)(186003)(966005)(7696005);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHJaNjVYVmV0MW1kVjl0d0hlL212N3FqMlArL3N6QzJLWUJYMktvT0J5dlVH?=
- =?utf-8?B?OGhHZ1J3YTNDRlljMk1mcW1SVUVmZFdIZTM2NU01R3ZHR1NsZTlGTEN3cTRD?=
- =?utf-8?B?RSt3d055eXA1cy9ybzNHaEF0MzA0VHl2RmpXWnV2UVJ3ZTE5djkweDQ5cGRr?=
- =?utf-8?B?dXhBbmVWWHdvSVdKdm0zQzJNU1F3M2NNSzN2NU11UnROelVsb3hCbnN6NWtx?=
- =?utf-8?B?SURhY3MvVnNpZUZDT3gxQ0VqcVhheUVSQ1p3eGFxWGphdFZRSFY5WjlLOHJT?=
- =?utf-8?B?dGVXK0ZTaWRINVZ6T0xCMEpGY0lQNzdWdFN2UFlwc3F1TUZZcXRUQW9tZ0Jh?=
- =?utf-8?B?L25Odk05a05aa3dNQnNOWld5Q3ZxMm9GUEJqVGQvcnBmK3hPOEZKWTh5dVY1?=
- =?utf-8?B?QThhRUlmam5haWVwU292d1l4dzhjTzhwN3BraTA2UGN5b0dQbWx5cVJRTE5L?=
- =?utf-8?B?THJMN1VBdE05NUxHbEdKd2VZNTc5QzNycy9hcnhtNG1PL1ZpbWNzRExqUHpY?=
- =?utf-8?B?cnBudWJOeHVpMmxsMHQySHRteW96eFU0NjZYMTFKdVJ5TnJXa2FrOFZXVC9k?=
- =?utf-8?B?cWNvTlQvbHZDcmdVdlhSOWxaOHRicitNdU9vTElnL3p1MlZxdnVBbVBvSHFl?=
- =?utf-8?B?YWg4MlZjVnd5d0pRUkY3SUI1ditodFNkNmhSZDQwQVBweGF1L0RrS2NkOThh?=
- =?utf-8?B?UjE1Rm02SlZ1WnBYMXRxTmNsa3lmYlRxUWk1bWo2TGhLdytCS0tuUnFaMFpl?=
- =?utf-8?B?V0hDcHI1dmdrdnpyOVVObHc5OWEvTjErcGJXelc1NjEzbURYZDJCa01FTEhM?=
- =?utf-8?B?aUF3VUxXamQ3VG5iQTBMYklET0ZSN1JPK3ZOK1cwQm1HdytQczFxM0FBaWov?=
- =?utf-8?B?SXEreFBOQVFWZ1lqSFpVQW5OTXRRZTE0ek1COHVBRWNSdkJlbXJaZUkycG5O?=
- =?utf-8?B?UCtLUmt1SXZWTklGTjZCaW5wbXIzM1dJeGwxclRIQ1Jrc2JVdDdTWDZQSlZ4?=
- =?utf-8?B?OW5RMk9RYUp4cGhqaHFuR1pjT0NtVFFnVWhMMU4vWE41MVBkNUQxWlMwR3dR?=
- =?utf-8?B?MFd4T1UvQ2dwWHZYOXNwSHoveG9LcFdJNlNnZnhBUnU0cUFvVUc1MkZWSUJl?=
- =?utf-8?B?NHlMbTRlVEN0b2Vtd0MvQlJyUnFua0Jodm1BZjVXRVZGTXkySm1MRERnRFl1?=
- =?utf-8?B?ZzR6MmpkRldVN0VUblBrNkx5RTVaOWhmU05EeG5Jc2RjZ09PeUNmWVRiWTFs?=
- =?utf-8?B?K3dMVWtsVUZwMWo1dEdzWTNyQlRuNzBjdW1NUUl3NEtKQ09jZ0FYdWluZHZ1?=
- =?utf-8?B?RUJkUzNRSVhHdWwvMXpyNE5xUzVrbHZYZlB3NURQVHo4M0ZleWhiWWxCd2Rj?=
- =?utf-8?B?RDVRZGpuWmtiSkhZY05DbzY5ODBJVCtnSXdUaXJ5L2Y4cXdwWWN4eFNFRW9o?=
- =?utf-8?B?WnJveis4NGo0VTFXUXUrOXFpVDR4T1lqVkpIYTlaZjR2SnlUUkc3alZkalEr?=
- =?utf-8?B?M1RieU5BcEdTMmFXSTd2dnREVFcrZWptZXVpUjV5S3ZlSmhncUkwOU1LeHF4?=
- =?utf-8?B?VHFBSlhIcGVucm83RU1QbmNUTnhXTCsvamFaWlJEVldudUV0c3BlRnpLd1VG?=
- =?utf-8?B?OUtkVHFkaVhWcG9PYXZQSzBHY1AyWHVyUDlaRDNscUxGTzdzNktvRmk0NWxj?=
- =?utf-8?B?VU9RYzlCaDZXNDc5NGVxTnhSek1CL1ZRcDZLWWFJd3FlT0pjaUl2eFR2Q2J4?=
- =?utf-8?B?ZzRmM3Z6MnRjRC80OVpxZXo4SzZETjJVdTN5bWFydzBUT211RTZwMGUyNjF4?=
- =?utf-8?B?cE5pM00xNmxKc0hQU3RCMVJmaUFWN2E1ekl0eUUxek9kUW1TdWVUSm9LbGZE?=
- =?utf-8?B?NmY1RHRINkZ3N0xmSWdHM1M4bzVVUm41WUZybzZXRklNMGNmUVIva3BxS25G?=
- =?utf-8?B?SzFJSW96UEJmWUtiUENuWFE3OXRoZkpNR1FLeVc1cEpmd3hhamV2SlJlTjZS?=
- =?utf-8?B?WWhTVFFFaE8zUUtUNUlpTUxRT1ZhZTN5bk91Qmw4T3ArRkx1VDh5eVd1elgw?=
- =?utf-8?B?TUduNDhuQUs5N3dUZWcra0puMnVUektFR0xnTWo0bnhvRGZxMzBEcUJSMk90?=
- =?utf-8?Q?BpBSxnnc8EjP/414edH18YYvg?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zf1UspMa/L5fHrRQN/LQMG/SSCaI/W0D/9L8ZyMmMD/qSw0z8VD9G+9E23TM?=
+ =?us-ascii?Q?VWX1yaJQHa9uJD4NrSD7U38/dB0O3oqhu3d73Lb0/Z4qdXK7W8b/B+J+McP+?=
+ =?us-ascii?Q?u8daC5ryDS1ifvuD4X396G7cwfZR1N7sB7rYj+JOtBPDbUGuwUpzrVsxS2sw?=
+ =?us-ascii?Q?TZRibnctKof3UtMBPYkivncmcl3ozdVpzQROVyyp4OjNODepzFdQ6OvwYCrw?=
+ =?us-ascii?Q?zX0pcnqi9k7/6SZBz2FijPbVh9ZdHBPtUTR6TZ8E5uBeaPUqUKMOL+GwwFkv?=
+ =?us-ascii?Q?8vzjvLqjHXqIVBS5bjhoL4NMPBIINjPLzCWx4WHCYo3gl4ehEIsRis7CJTJn?=
+ =?us-ascii?Q?MyLlycFH8ciEUBCTgfGOD2ysd4juncF0R0TP3Mc6a1MPCELIh1ozT7k0b2oa?=
+ =?us-ascii?Q?rJVpYlUH1J3/B83Ph8zbqbAqQ3gl4CaUnGxIzEIjpl3M27mU07OA6l6YAmSW?=
+ =?us-ascii?Q?vUEytsP2JAvNucq3/3WRMBlbfyN6978wrECnPsyq3q9lkuZxTrnhJ0w6Lxh8?=
+ =?us-ascii?Q?rdiLGJj9voJme4oSiD0tJ8GNe1vzXU/O5AUDJpz86fGGMCek+h5A68G54GpT?=
+ =?us-ascii?Q?2l0bkrIV/W8+k/iPruML65KiZGkm/ObmqqYA/OwBP7qa020++ItJ3yAfF01w?=
+ =?us-ascii?Q?/cPZQy/XYOwxNUGA6Hm93lGf6arQ7oocVOKhE3OXGXAnAgoILITe913+vBw1?=
+ =?us-ascii?Q?z2w0w9Lt+Q+GxFsZZRjgVL+V2I1HX1ingGJeFBimSSyvEvyfuVdYbA14oR4B?=
+ =?us-ascii?Q?DXIHaM3/3Vrov91/k6+jCFuitm3YSA6/gg5+7dljGs2jvi+SJYVbDwSknzxt?=
+ =?us-ascii?Q?UngZ5t/2A+5dXppg9z+CRiZURmb065KNAf42Okw0v7qxbQtlPbSURpBSfGbC?=
+ =?us-ascii?Q?5WYnjvUtaABFs1Gonr2mu70xhfu7AzSFW+tX6QJTmWuqmkevuF9cn9UlqOPp?=
+ =?us-ascii?Q?O08jxSLr1fNdc1P+4giK/2vRQDY/MkjvnLhKlpebiUd22OceRgKx5DGt7OMR?=
+ =?us-ascii?Q?NVdUPlp1qUBwTixgERLr3TbkSgIsV9Zv3iLQR/Jt1knGRhBSvqNRSpAztqKT?=
+ =?us-ascii?Q?9rKfov2Ie43yX8qUVDhpVTW3UVTXoNSTyw3j34wOZErPK5EZEVWcji6t8JvH?=
+ =?us-ascii?Q?WXkfC8XJRlmTfVb+jpoywpO0vjnIit6tNznafI+sakM67VezeqfB1+/U8lSk?=
+ =?us-ascii?Q?4E0y90VIucRcQmnoCVaY3kVSXMmeSk9oLK6ykI5v+tprN+vBYFlUmFcbQBB4?=
+ =?us-ascii?Q?PcOwVMH1T/lfX9vv6Zl7xKpoYJeyb64Z/nr4z8RqLkyd8qQYy5Ce2yIqYmAb?=
+ =?us-ascii?Q?hMKEz/lPUCxo3q1yMc2MGcZUylrnQfNWmQcigaxabrqrO4OCyU1YtgL/PlGv?=
+ =?us-ascii?Q?6DrxSejKERuamZlnNpL+Jg16CpC8hSKH1Z4nP0JY+mHxWVjIr3OmOYO/NgR5?=
+ =?us-ascii?Q?o0omB5XTZc7Ds78qEEyCS9jkyE51OpzHrGKfzok19aMfOllh1S+i1RhhJWMR?=
+ =?us-ascii?Q?T2axzFaaMWKB8k511NdeNUpSw33X4XPB1O92IqrmL/9fe+y1zlBMKXktPk7b?=
+ =?us-ascii?Q?Z4VdSVfSg1lQGjXogaI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faca4cd9-6e6b-4f2a-58b7-08db65d96e4d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 15:27:53.7643 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hP1nvifsMsY+aZPQ54sp6YvtDrPhyQ+zSmxAwFivIuv6oVIpJNPMCB3io+G6T7iKojYXxlgJRfJ17auj+AbT4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4204
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 178d5a55-8064-4a72-be3c-08db65d9941e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2023 15:28:57.0342 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o2oB7g3kuHAvo0FPuOhjhE+NhzVJgJaemDJ2f3lBMlx86HozWzdMTWMzP48bys5Q5DXtUZt1O9OdYcMVy11SHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,151 +125,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[AMD Official Use Only - General]
 
-On 6/3/23 10:52, Felix Richter wrote:
-> Hi Guys,
-> 
-> sorry for the silence from my side. I had a lot of things to take care 
-> of after returning from vacation. Also I had to wait on the zfs modules 
-> to be updated to support kernel 6.3 for further testing.
-> 
-> The bad news is that I am still experiencing issues. I have been able to 
-> get a reproducible trigger for the buggy behavior. The moment I take a 
-> screenshot or any other program like `wdisplays` accesses the screen 
-> buffer the screen starts flickering. The only way to reset it is to 
-> reboot the machine or log out of the desktop.
-> 
-> With this I did a bisection to figure out which commit is responsible 
-> for this. I attached the logs to the mail. The short version is that I 
-> identified commit 81d0bcf9900932633d270d5bc4a54ff599c6ebdb as the 
-> culprit. Seems that there are side effects of having more flexible 
-> buffer placement for the case of the internal GPU. To verify that this 
-> actually is the cause of the issue I built the current archlinux kernel 
-> with an extra patch to revert the commit: 
-> https://github.com/ju6ge/linux/tree/v6.3.5-ju6ge. The result is that be 
-> bug is fixed!
-> 
-> Now if this is the desired long term fix I do not know …
+> -----Original Message-----
+> From: Paul Menzel <pmenzel@molgen.mpg.de>
+> Sent: Monday, June 5, 2023 11:23 AM
+> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David
+> Airlie <airlied@gmail.com>; Daniel Vetter <daniel@ffwll.ch>
+> Cc: Paul Menzel <pmenzel@molgen.mpg.de>; amd-gfx@lists.freedesktop.org;
+> dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
+> Subject: [PATCH] drm/amdgpu: Log if device is unsupported
+>
+> Since there is overlap in supported devices, both modules load, but only =
+one
+> will bind to a particular device depending on the model and user's
+> configuration.
+>
+> amdgpu binds to all display class devices with VID 0x1002 and then
+> determines whether or not to bind to a device based on whether the
+> individual device is supported by the driver or not. Log that case, so us=
+ers
+> looking at the logs know what is going on.
+>
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2608
+> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 86fbb4138285..410ff918c350 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -2062,8 +2062,10 @@ static int amdgpu_pci_probe(struct pci_dev
+> *pdev,
+>
+>       /* skip devices which are owned by radeon */
+>       for (i =3D 0; i < ARRAY_SIZE(amdgpu_unsupported_pciidlist); i++) {
+> -             if (amdgpu_unsupported_pciidlist[i] =3D=3D pdev->device)
+> +             if (amdgpu_unsupported_pciidlist[i] =3D=3D pdev->device) {
+> +                     DRM_INFO("This hardware is only supported by
+> radeon.");
+>                       return -ENODEV;
 
-Can you provide a dmidecode of your RAM (i.e. # dmidecode --type=memory)?
+I think this will confuse users even more.  As there will be a new "error" =
+message reported.  I'd suggest either dropping the message in init per my p=
+roposed patch or just leaving things as is.
 
-The current trend seems to suggest that if you have 64 or more gigs of
-RAM, you will probably still experience issues with S/G mode enabled
-even with my fix applied.
+Alex
 
-> 
-> Kind regards,
-> Felix Richter
-> 
-> On 02.05.23 16:12, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 02.05.23 15:48, Felix Richter wrote:
->>> On 5/2/23 15:34, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>> On 02.05.23 15:13, Alex Deucher wrote:
->>>>> On Tue, May 2, 2023 at 7:45 AM Linux regression tracking (Thorsten
->>>>> Leemhuis)<regressions@leemhuis.info>  wrote:
->>>>>
->>>>>> On 30.04.23 13:44, Felix Richter wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> I am running into an issue with the integrated GPU of the Ryzen 9
->>>>>>> 7950X. It seems to be a regression from kernel version 6.1 to 6.2.
->>>>>>> The bug materializes in from of my monitor blinking, meaning it
->>>>>>> turns full white shortly. This happens very often so that the
->>>>>>> system becomes unpleasant to use.
->>>>>>>
->>>>>>> I am running the Archlinux Kernel:
->>>>>>> The Issue happens on the bleeding edge kernel: 6.2.13
->>>>>>> Switching back to the LTS kernel resolves the issue: 6.1.26
->>>>>>>
->>>>>>> I have two monitors attached to the system. One 42 inch 4k Display
->>>>>>> and a 24 inch 1080p Display and am running sway as my desktop.
->>>>>>>
->>>>>>> Let me know if there is more information I could provide to help
->>>>>>> narrow down the issue.
->>>>>> Thanks for the report. To be sure the issue doesn't fall through the
->>>>>> cracks unnoticed, I'm adding it to regzbot, the Linux kernel 
->>>>>> regression
->>>>>> tracking bot:
->>>>>>
->>>>>> #regzbot ^introduced v6.1..v6.2
->>>>>> #regzbot title drm: amdgpu: system becomes unpleasant to use after
->>>>>> monitor starts blinking and turns full white
->>>>>> #regzbot ignore-activity
->>>>>>
->>>>>> This isn't a regression? This issue or a fix for it are already
->>>>>> discussed somewhere else? It was fixed already? You want to clarify
->>>>>> when
->>>>>> the regression started to happen? Or point out I got the title or
->>>>>> something else totally wrong? Then just reply and tell me -- ideally
->>>>>> while also telling regzbot about it, as explained by the page 
->>>>>> listed in
->>>>>> the footer of this mail.
->>>>>>
->>>>>> Developers: When fixing the issue, remember to add 'Link:' tags
->>>>>> pointing
->>>>>> to the report (the parent of this mail). See page linked in footer 
->>>>>> for
->>>>>> details.
->>>>> This sounds exactly like the issue that was fixed in this patch which
->>>>> is already on it's way to Linus:
->>>>> https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f80850354849d95f2670e8cd9
->>>> FWIW, you in the flood of emails likely missed that this is the same
->>>> thread where you yesterday replied "If the module parameter didn't help
->>>> then perhaps you are seeing some other issue.  Can you bisect?". That's
->>>> why I decided to add this to the tracking. Or am I missing something
->>>> obvious here?
->>>>
->>>> /me looks around again and can't see anything, but that doesn't have to
->>>> mean anything...
->>>>
->>>> Felix, btw, this guide might help you with the bisection, even if it's
->>>> just for kernel compilation:
->>>>
->>>> https://docs.kernel.org/next/admin-guide/quickly-build-trimmed-linux.html
->>>>
->>>> And to indirectly reply to your mail from yesterday[1]. You might want
->>>> to ignore the arch linux kernel git repo and just do a bisection 
->>>> between
->>>> 6.1 and the latest 6.2.y kernel using upstream repos; and if I were you
->>>> I'd also try 6.3 or even mainline before that, in case the issue was
->>>> fixed already.
->>>>
->>>> [1]
->>>> https://lore.kernel.org/all/04749ee4-0728-92fe-bcb0-a7320279eaac@felixrichter.tech/
->>>>
->>> Thanks for the pointers, I'll do a bisection on my desktop from 6.1 to
->>> the newest commit.
->> FWIW, I wonder what you actually mean with "newest commit" here: a
->> bisection between 6.1 and mainline HEAD might be a waste of time, *if*
->> this is something that only happens in 6.2.y (say due to a broken or
->> incomplete backport)
->>
->>> That was the part I was mostly unsure about … where
->>> to start from.
->>>
->>> I was planning to use PKGBUILD scripts from arch to achieve the same
->>> configuration as I would when installing
->>> the package and just rewrite the script to use a local copy of the
->>> source code instead of the repository.
->>> That way I can just use the bisect command, rebuild the package and test
->>> again.
->> In my experience trying to deal with Linux distro's package managers
->> creates more trouble than it's worth.
->>
->>> But I probably won't be able to finish it this week, since I am on
->>> vacation starting tomorrow and will not have access to the computer in
->>> question. I will be back next week, by that time the patch Alex is
->>> talking about might
->>> already be in mainline. So if that fixes it, I will notice and let you
->>> know. If not I will do the bisection to figure out what the actual issue
->>> is.
->> Enjoy your vacation!
->>
->> Ciao, Thorsten
--- 
-Hamza
+> +             }
+>       }
+>
+>       if (amdgpu_aspm =3D=3D -1 && !pcie_aspm_enabled(pdev))
+> --
+> 2.40.1
 
