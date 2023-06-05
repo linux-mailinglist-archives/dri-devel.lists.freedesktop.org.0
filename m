@@ -2,79 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAD5722233
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 11:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C44C72224F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 11:36:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 197AC10E1BC;
-	Mon,  5 Jun 2023 09:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C9610E1EA;
+	Mon,  5 Jun 2023 09:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF03810E1BC
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 09:30:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CFF00621BE;
- Mon,  5 Jun 2023 09:30:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1D5CC433EF;
- Mon,  5 Jun 2023 09:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1685957447;
- bh=GGlOcAGW9SPn7EFuuc+2lfe0AlLGsZAzDDEdxTJef1Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V6uOjxAi9MmOwLBwkTvJkBBvBCqMcaVaAJMzHP6bUiUvgkALI70C2AN4MdHOl9iyA
- sfpivVDM72hepyGW51mrIo8s6e7vvo9fE3LN6umUHO8ch7TS7KcJ4TZdtHREVnRuH7
- PJR319PiAXThyr48ZeOzh/6oqf4DyAJzJ4FE7Tln2x8aflIy7GEr2qBPiwvX0kEDB6
- 3LVeMSvqkuFMTyO5EJEqk4PlZZUOtmoT2ZeU8jyRHyqFqwrQDouDiTWWA1CGMayfKx
- lr2FOZ5uw/iFpDkapMt05pOgAHInRThFUSnq2eAASZ4XTdIlRi+uIfM1PppYtHtdbQ
- nzkaZ5rHQMLaQ==
-Date: Mon, 5 Jun 2023 11:30:44 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <ZH2rRAMe7+MATuao@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Corey Minyard <cminyard@mvista.com>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CE610E1EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 09:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1685957758; x=1686562558; i=deller@gmx.de;
+ bh=4aZGFNHaqYts9HJGEBYu/SzlFrcSqs2ONdbIPv8h5ts=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=r+z4B2tupxVHJ63m3lXNOwXDv699zPSioDJ/oxQ5xFu2aTUX5146vaOrLKh47Lp3+qGQUo9
+ OpOojKAaC8qwv2KkgOhLsrjAFQl/vLMeXes1RBy1F6zIujFqtvMLpQqSct/9PB9w8mWplGC8z
+ m9TAbFcgnV/WRBVm9LA/kRbO+Vv8dZAgMQnEuFWOL6kQDRnzmJBDI3TWeP0Wn0AzvNjSPVt6a
+ eN6PS0gxAUrpL3ASnlHToctdozh9CbA6k0+1QHiCc8VvC++HCTcWKcg97Aj1rwMH/8l/AZSXx
+ aeSUtl1GS5ALxFhCDmQSPGmC8/ofE6j0jaYb1zae1j/hKB6xq2Lw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.56.61] ([109.43.115.72]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MiacH-1qZxSj0dCJ-00flAb; Mon, 05
+ Jun 2023 11:35:58 +0200
+Message-ID: <848956d2-cf95-bd6a-1292-272438b0d860@gmx.de>
+Date: Mon, 5 Jun 2023 11:35:54 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nY4I2iNGV/UDZ0aJ"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] video: fbdev: omapfb: lcd_mipid: Fix an error handling
+ path in mipid_spi_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Imre Deak <imre.deak@nokia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Krzysztof Helt <krzysztof.h1@wp.pl>, Juha Yrjola <juha.yrjola@solidboot.com>
+References: <f17221571f619c0829db56354f2b74d22f6702a7.1685893329.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <f17221571f619c0829db56354f2b74d22f6702a7.1685893329.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:O8jINPdRRRhdW6K/VPuIluO4TUz2RA7GWy7BS61PiwwjuaBm3oe
+ xRlo+MX+oafQs54E/0uFtXBCfZw5grNtmkqDxHj6wY9m9btw8xD6T7Olg2so3cLBrN/Zo74
+ cCewQOuFiAiYVTs/LQHBGZLCdQtHbocA0NpihSdNtkGutMHBukCis8UDnmtGt9UOLFweO98
+ a0PowgyQXZCQkLEk0eJng==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:v7du267JY28=;ZwxfR0dFKojHp9ugRWseiTBAr+f
+ 23jU7ZfKH2FbkJvd9851IpoF7wmhSZj80LleRmWrnnMt4/7HyEz8L3a+y9CC4doJl9NGY0epA
+ BiOhlf94atBk8WYxMVeBVIijVG3DMRNzPQK0rBevUF5h+VYN/5yQnVAXm+ORvF2NmkKFPYA3Z
+ RsisHuM8OaM2mD+C+HD1UyAWdsWFYNyZtEZ6tuY0wNqiyNTBy3FGYuApK0HRM4l/Wlx4DY+/r
+ NHsd+z3DN9/oNIWNNF/8SdyaTQqUqNpFcbgs+zD+s6cXbYSaZLo/GMaWnvzQvtTNyMZgInDSr
+ 4YeeUIyx08aVcXmByeMsErm5Z5PAFw/ZC4/3o2qdAmNVqxRM74O677Vvspzhyg6i7BZ7px1os
+ /iGiaCsvKzVunj7ZQx1uMC5Fa1ZDZmSG2JKT0mi55fvEICsd20Ef1kiTtawoAjEz5vxKEQeK0
+ 76ql7QWVFZk1Fe2lsd7pym7UoE8e3liOFBK/ohkCnRJqdMbmi96Smj3qqkFlcuW/JFCG9qItI
+ ZO58VAnaUg0gwQIi9bRo1oV6O618aCdmkbtdGs0xASCK6HYNpq1qCrhxGZP0zxq3QNm1tBspa
+ MSDa3Ma6RazZqbSOE/nqKuMurQh75cX6KvRB5K32lpGER5YLkEzuXRh/c1Fdxa8yxLHWW6BjM
+ 7N2khHDlI5cNnW+6FP79RTBa9/QCPffMZ9SfMiYol0JedxLb/GsfXSfTc/k2daPXxsKqHllxR
+ F5blRYIkhnVqAVnQW6tRCqIE4UQbhsYM6MzpLs97eGwMs0J5rqqLpZD4V+Tb/ADTWmiab+rsH
+ O23y4a0T0T4kX8kfOOLwO25LTf9ZrogjxGGxXvGcJ4xvdLvrScEdMSYo7KtJdp+G66HP6AIF7
+ Pww05UlUo/yqMcikZKE9l/tJY+3daL5vncoQKyoZ44NFGrLL804cs/gwinhUyWfkqLAhitnKK
+ g9Tn3r41ZqctGPMTgzZGiZC1++Q=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,62 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/4/23 17:42, Christophe JAILLET wrote:
+> If 'mipid_detect()' fails, we must free 'md' to avoid a memory leak.
+>
+> Fixes: 66d2f99d0bb5 ("omapfb: add support for MIPI-DCS compatible LCDs")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
---nY4I2iNGV/UDZ0aJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+applied.
 
+Thanks!
+Helge
 
-> Wolfram: time to chime in ;-)
+> ---
+>   drivers/video/fbdev/omap/lcd_mipid.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/omap/lcd_mipid.c b/drivers/video/fbdev/=
+omap/lcd_mipid.c
+> index e4a7f0b824ff..a0fc4570403b 100644
+> --- a/drivers/video/fbdev/omap/lcd_mipid.c
+> +++ b/drivers/video/fbdev/omap/lcd_mipid.c
+> @@ -571,11 +571,15 @@ static int mipid_spi_probe(struct spi_device *spi)
+>
+>   	r =3D mipid_detect(md);
+>   	if (r < 0)
+> -		return r;
+> +		goto free_md;
+>
+>   	omapfb_register_panel(&md->panel);
+>
+>   	return 0;
+> +
+> +free_md:
+> +	kfree(md);
+> +	return r;
+>   }
+>
+>   static void mipid_spi_remove(struct spi_device *spi)
 
-I'll have a look this week.
-
-
---nY4I2iNGV/UDZ0aJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR9q0QACgkQFA3kzBSg
-KbZhhQ/+Iqw/3I/2FLvudgR69quUiOsVQrtXBrBAiLONcFRBzf0k0ko+dYhxxorr
-nxUcHocBSM8AxRIhv6nmaLxdQQTyU1MBHObbfX4zjmTgQFECbUWt4mVDTVJZOErZ
-F08SZ5KR1aqVWtDXFZuEjE8TXZBWttvjzAinW+uevqPw3wrH8SCSv9AW1h2V8IMr
-j8D4aFQVdylLvQelx38YqMQ+IhqMdtFZy4ojX5nbRDY6SaZMZQzG6qL2UWp9dVT5
-tJaDag3ca+XGan33m/3biglwZJMxpzVxDlGCNJKhbfTkk+Wyqn7ZLH8xaBkMNDJS
-RRSAPHL109hysXnc1sYFH3Rj5cPO2xluOHDKNFxkNx5mHzIBqzOx7NYJVElHKU6h
-U1dAual3MdcCx2F1zXxA6Cy7NwB/JM5dNaXGpXxlOt3ITY8G8U9TNNnn+pWEMEbc
-TOIcgVC0JOFX76cUclAwCxOPuPI2NYgeiSCw+A0gNbRxz3PMnJ65qyKtbAZp9r9m
-mkdRe/Bw0scaE4dGhvVP3CVjiNcJgtYY/DiDfuGmiiMx1JRLnOqFa2DkYib5GwM0
-KdSxRJTAfFF/RJchU9Br/xmo60frJnho0GIHWB6dNJuouw6022JBHpqZ3TLOfQ13
-HZoa6+zK3XItBJujN/LDXqSTYUwa3Nu/jNoAaFifv3AbkVU4g4M=
-=duGk
------END PGP SIGNATURE-----
-
---nY4I2iNGV/UDZ0aJ--
