@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E087222E6
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 12:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE75F72232D
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 12:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74BEE10E281;
-	Mon,  5 Jun 2023 10:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD4CA10E277;
+	Mon,  5 Jun 2023 10:15:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1F910E281
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 10:05:48 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-bb167972cffso5885245276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jun 2023 03:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1685959547; x=1688551547;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/FS41Ih+vUtWqsRP9xk/SSbQ/TsVgc3IcFrySxyXAOw=;
- b=XYdvYRCtVg88YsxqwOeTmZpVKBps/jJvevf/4HoPJA9d8x95OX/S5meaL79fdZ+lcf
- TYo9EiIJxuqP8I6qT3/hs4a+sekKaLD3qHISTEdhINV/jCa8UfLVBQTVAnCtBimV9HIV
- IsUz2k1t2TnpiUzXKWYKOHwU1KsgmdGBhGasng7QrDgprD5hdibslehcmb3AUAEFF/2U
- hqxRhA4nXn7swnfehttcvH80+nzB/igq5TC0Su5RC38Rpqp3M9iDIK+J7E5QgGsnR6MU
- d/l+lwzxIjkgtyTDbWPAk2rmmdCzaivtkfhcI9PBvyBhf1/WvOcHQZwgRrqJZkHFIMCV
- UiCA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E086610E277
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 10:15:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1685960136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=w//PXxvTZrP/Pd4OMnUnywaLbQPL0Fl6oKrPT/BNYWY=;
+ b=PTtp4cXnSFRJwog1CvSKqlGWiR4L3lyCkku6G8bo+p5SGFWA8F79jOXEIoDSHdLMwpvcKI
+ nXtKYQAnCNTBiO60hv4h7LuSQbUg6gWGSI37TIguqDJygZJ4gaCvC5abjwtnBt/AAGiZc2
+ Wmz+jfHkhU5tcZ/GWZaXBPxR7z1dve4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-610-7qB-thZ2P2OYfDCOTnniEg-1; Mon, 05 Jun 2023 06:15:35 -0400
+X-MC-Unique: 7qB-thZ2P2OYfDCOTnniEg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f60911a417so21930605e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jun 2023 03:15:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685959547; x=1688551547;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/FS41Ih+vUtWqsRP9xk/SSbQ/TsVgc3IcFrySxyXAOw=;
- b=JiHaBSEQcqRDRWZMw1vY3Q8B1g8obalKIJ+Ln6+u1+hWq7FoIzte8qHNLV1VLYpTzd
- qE1GvIVltDHdJA0KD0sSTuHAj6lDsQlf9+Ul1w7CXNSNNiKCeNjgg4RcMDCwhgbNrXQL
- YdgW71U+XaiirhjTSat58yqABAtnhy0Ny8eZWKwwSki643XGNuxJOaZBNGbymlN2mXEv
- kZo+8eo+H7jRd6+V0B1Km2K0WrOpLjEwK5t/SfkNVqwNwhcRIyAR5awv9emVmVZKrJOD
- B5iXiC4QiHgoc+nZmYQ/0JXrxTsUDsVg0J3bEbae3JrqK+8FNoCpmtViptuimns3kuqF
- MXkA==
-X-Gm-Message-State: AC+VfDyjVTo6zj5JVoEtDptWY5TGBYGS8OTIVuIAWvGMzetyMC9PdRAl
- YuD/wd2PMP0VRm5lgqlBkxOxS6OU8LL/TYJM0o+Rvg==
-X-Google-Smtp-Source: ACHHUZ7ZahqapikQv5X3CgkTgJs9qJu2UzKM4VpKBCDBA8zf8Pp37d7CHhoxAHvX6jPlV3ZKeHf2tzZIaPEO8cq6JLY=
-X-Received: by 2002:a0d:f447:0:b0:561:e561:9fd7 with SMTP id
- d68-20020a0df447000000b00561e5619fd7mr10796136ywf.39.1685959547562; Mon, 05
- Jun 2023 03:05:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1685960134; x=1688552134;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=w//PXxvTZrP/Pd4OMnUnywaLbQPL0Fl6oKrPT/BNYWY=;
+ b=XDvufGmKnVfixfgdohRjPcsu+M8/lQ+0m1fY2sqfdMH/GDUu2j02QG8jjqnjFO+MsK
+ EY0mRrZlHK7x1Gby0iZHW1C7e1eR5IlFphM2h8J8wXXHjnh7BoONUp6Nq/YOkEC0fVpR
+ SHfhqdxYlgKQSYEmGd2M4xb0GUhDjMZ2AbQ8F8Ak3e4nHPek02SRyML3XqNYPFOoOq0L
+ DIOTUATniibU16ALu8oB9Uv8Jvsvp7vLSmOw7S7zeXiw+mF/cgPPN+Qm9RpTJrvq64Fg
+ r7GCQ8gmUg36KVNY0l0/D+R6VmsvjVMTDDJOHtK3PVp5h+b+b4IUXHqGlM8t9mSqpojA
+ 1eCA==
+X-Gm-Message-State: AC+VfDwKCzoJHk5801M5OkanuD/K74opxW246nV/PeMcb0pJRtdXA/Jf
+ MUK42uCf3mxzmFM3H9YPqWLoZnfkaltTNLByfpr8zyUAwGOMrRQPpS3Z+Q75HWcCK1jt3WiFX25
+ Cb9a/P+xrpqSDVUj1cy/OvuOIdSVz
+X-Received: by 2002:a7b:ce0a:0:b0:3f4:fc5e:fbf2 with SMTP id
+ m10-20020a7bce0a000000b003f4fc5efbf2mr6422026wmc.8.1685960133991; 
+ Mon, 05 Jun 2023 03:15:33 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ774aF+F8xAb+CL5DwQDB+hwugLWEVdNbOkjDsp7YxMoQiVfuXw+ifNZEj/0nkXNmGxevlGLQ==
+X-Received: by 2002:a7b:ce0a:0:b0:3f4:fc5e:fbf2 with SMTP id
+ m10-20020a7bce0a000000b003f4fc5efbf2mr6422013wmc.8.1685960133687; 
+ Mon, 05 Jun 2023 03:15:33 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m25-20020a7bca59000000b003f7e62d38d4sm1353196wml.25.2023.06.05.03.15.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jun 2023 03:15:33 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 2/5] dt-bindings: display: ssd1307fb: Remove default
+ width and height values
+In-Reply-To: <3bluztz3pcyoyjk4ett673ksnvtkl4xrjqjt43mhmd76dugg7t@kkp7rkx3vjjs>
+References: <20230605074753.562332-1-javierm@redhat.com>
+ <20230605074753.562332-3-javierm@redhat.com>
+ <3bluztz3pcyoyjk4ett673ksnvtkl4xrjqjt43mhmd76dugg7t@kkp7rkx3vjjs>
+Date: Mon, 05 Jun 2023 12:15:32 +0200
+Message-ID: <87v8g2gqpn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230523151646.28366-1-johan+linaro@kernel.org>
- <ZH2ys6dVeL02JLCU@hovoldconsulting.com>
-In-Reply-To: <ZH2ys6dVeL02JLCU@hovoldconsulting.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 5 Jun 2023 13:05:36 +0300
-Message-ID: <CAA8EJprBNzw4o4m0sn2OoOqnwioQWNcTPcKoKGqxLWGc_8xjWA@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/msm/dp: set self refresh aware based on PSR
- support"
-To: Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +82,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, regressions@lists.linux.dev,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Vinod Polimera <quic_vpolimer@quicinc.com>,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 5 Jun 2023 at 13:02, Johan Hovold <johan@kernel.org> wrote:
->
-> [ +CC: Thorsten and regzbot so they can help with tracking this
-> regression ]
->
-> #regzbot introduced: v6.3..v6.4-rc1
->
-> On Tue, May 23, 2023 at 05:16:46PM +0200, Johan Hovold wrote:
-> > This reverts commit 1844e680d56bb0c4e0489138f2b7ba2dc1c988e3.
-> >
-> > PSR support clearly is not ready for mainline and specifically breaks
-> > virtual terminals which are no longer updated when PSR is enabled (e.g.
-> > no keyboard input is echoed, no cursor blink).
-> >
-> > Disable PSR support for now by reverting commit 1844e680d56b
-> > ("drm/msm/dp: set self refresh aware based on PSR support").
-> >
-> > Cc: Vinod Polimera <quic_vpolimer@quicinc.com>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> > ---
-> >
-> > Bjorn reported that PSR support broke virtual terminals two months ago,
-> > but this is still broken in 6.4-rc3:
-> >
-> >       https://lore.kernel.org/lkml/20230326162723.3lo6pnsfdwzsvbhj@ripper/
-> >
-> > despite the following series that claimed to address this:
-> >
-> >       https://lore.kernel.org/lkml/1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com
-> >
-> > Let's revert until this has been fixed properly.
->
-> Virtual terminals are still broken with 6.4-rc5 on the Lenovo ThinkPad
-> X13s two weeks after I reported this, and there has been no indication
-> of any progress in the other related thread:
->
->         https://lore.kernel.org/lkml/ZHYPHnWoDbXB-fqe@hovoldconsulting.com
->
-> Seems like it is time to merge this revert to get this sorted.
->
-> Rob, Abhinav, Dmitry, can either of you merge this one and get it into
-> 6.4-rc6?
+Maxime Ripard <mripard@kernel.org> writes:
 
-Rob sent the pull request few hours ago, see
-https://lore.kernel.org/dri-devel/CAF6AEGuHujkFjRa6ys36Uyh0KUr4Hd16u1EMqJo8tOZ3ifVubQ@mail.gmail.com/
+Hello Maxime,
+
+Thanks for your feedback.
+
+> Hi,
+>
+> On Mon, Jun 05, 2023 at 09:47:50AM +0200, Javier Martinez Canillas wrote:
+
+[...]
+
+>>    solomon,width:
+>>      $ref: /schemas/types.yaml#/definitions/uint32
+>> -    default: 96
+>>      description:
+>> -      Width in pixel of the screen driven by the controller
+>> +      Width in pixel of the screen driven by the controller.
+>> +      The default value is controller-dependent.
+>
+> I think we should document it still, either in the comment itself, or
+> through a conditional and different default values based on the
+> compatible.
+>
+
+Makes sense. I'll add that in v2.
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
