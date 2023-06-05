@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB2B7229E1
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:54:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D977C7229FB
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:56:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F3210E2D2;
-	Mon,  5 Jun 2023 14:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264F410E2C0;
+	Mon,  5 Jun 2023 14:56:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A9A10E2B0;
- Mon,  5 Jun 2023 14:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685976871; x=1717512871;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UYYHFeEVlWX986yoPTAijJL1NHZxed0Rg+GKJp87O18=;
- b=YWtrWukkm1GyIxvx7wnoq84PxUTPw9P1o5hGTAkRPhPft3gzJyZEscHh
- OAlhFjowQj9kbeuhosalHFseYtHAoverQjbVUQKRS09Z0ajq1T7I+Y7N4
- wrU34tZksuyvZ4UdOCgnFumRxl4ZxwoJ68XZdB05qMGQV4OXvSlrfdh0h
- 43yTKFXl5Hrwfq7Gs9jZ4RbVTb7FfjRavCTC+BTfh5wcBZMglKnraUl2D
- ZFwZg0zO2/mhxxX8sCOGBAwxS1JjamcevQiz919LKiMYPY52GKB+eMQRD
- J88f5Bjl2m5VawHBsejjLnOMu7RZeI5uiqGBiwpf6GYcYAvnPNiPQEU4e A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="384692017"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="384692017"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 07:54:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="708684015"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="708684015"
-Received: from mloughma-mobl1.ger.corp.intel.com (HELO [10.213.238.159])
- ([10.213.238.159])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 07:54:29 -0700
-Message-ID: <4bfc14c0-19f3-459c-f71c-1b6a92c46d69@linux.intel.com>
-Date: Mon, 5 Jun 2023 15:54:27 +0100
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C664F10E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:56:25 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id
+ d9443c01a7336-1b0236ee816so35450375ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jun 2023 07:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1685976985; x=1688568985;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=T6MJIwP6Qz41YN9JsUH44j/uT7BYaMY9w+C9sGj/uYc=;
+ b=n0R6S5Pz/FUIVP6ytcw6xK8yCjSt5iCNR2Hy+2f+yMaV/QywwTJ94CYe9YVXvashMS
+ Gurmudikv/rGA1FvM1U1yl6z4Y7GWJ+CCY2jUJ6Xt3oh1fu46XGh8gZgMNDV7U8ulA0v
+ q8nDnfnBWwqzCa6BEEvG07v9R8Pott2fFPvO6YYVZA0r/6Ob72ymvh0y9hBH4HN3FYns
+ AtPHWbIZr3QluXo274sl3KBvFjUb25OJQ2wkg7BXV31pN/wbiDVX+qIJDd192c2gAWxj
+ kG5aL2equYVmpaGk4/vy1+yk+0yaADn+LjnMqvrJ30NiAAL188rXvIa5kuFtF/bQ7RWT
+ n2JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1685976985; x=1688568985;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=T6MJIwP6Qz41YN9JsUH44j/uT7BYaMY9w+C9sGj/uYc=;
+ b=YI+N1RqvsssBZVVHPDoTxCc9xc/IzyhaXPTJsZqOHXrZkQufdUDG7E3br2J4d2K2Td
+ FxAe5eqmIv1p0U0VFJHAIEG3STLyiJpDCDHC8aNRffV5l9K75OFe7ayTJbtcBEYEof1Y
+ MDDUDjVpl2LLer8CKMOj03fh1OLzqsDjQv7Mnx3xxYhfJxGK7NhgMJwW6ealR/ndb0DQ
+ bgpx7hUhf4kIWJiEqL7xPqmld1cgYfSMvIHHT7rnq7CVtUXnHOgH8BezAfQti2+qYxTk
+ HBSExuGkbX1BdfZXctGQh5Go/iD58dyQKpqqghers4EES8zo8wwxNXAJALIYAI8/50cD
+ O0Nw==
+X-Gm-Message-State: AC+VfDxQ+jMeKc/W1lhUOSXQu2403Gf8RXHWc2Th91ZIndDVNBGHN+YX
+ B+H4T4x9QdO8zzGLjDg64AS1Apv2jOvmpyVfAAg=
+X-Google-Smtp-Source: ACHHUZ6ELOU/gnEBfytvNDunlQ/WFvt5DfZeMzBsW5V77h1qMFRnFTZVm+SvCKe9kvX5TcXwkThMMzJd9XOK5y64DfU=
+X-Received: by 2002:a17:902:da81:b0:1ae:35b8:d5ae with SMTP id
+ j1-20020a170902da8100b001ae35b8d5aemr9400904plx.19.1685976984850; Mon, 05 Jun
+ 2023 07:56:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/i915/selftests: Add some missing error propagation
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-References: <20230605131135.396854-1-tvrtko.ursulin@linux.intel.com>
- <b47de249-085d-482a-afb2-eee82a06aba8@kadam.mountain>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <b47de249-085d-482a-afb2-eee82a06aba8@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230519142456.2588145-1-pavacic.p@gmail.com>
+ <20230519142456.2588145-2-pavacic.p@gmail.com>
+ <20230519-emerald-void-066fad80950a@spud>
+ <CAO9szn2sYRezCUQKFZ_qsVfne0gpWoirZoE-HpWTPS4G1U5fNQ@mail.gmail.com>
+ <20230605-handyman-rebound-0c10df9dfaf2@spud>
+In-Reply-To: <20230605-handyman-rebound-0c10df9dfaf2@spud>
+From: Paulo Pavacic <pavacic.p@gmail.com>
+Date: Mon, 5 Jun 2023 16:56:13 +0200
+Message-ID: <CAO9szn0crQzy0L2Y-NZGKEVbpspxZMkO0oPpYr1WMS081ZxKRw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: add fannal,c3004
+To: Conor Dooley <conor@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,71 +70,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Conor,
 
-On 05/06/2023 14:43, Dan Carpenter wrote:
-> On Mon, Jun 05, 2023 at 02:11:35PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Add some missing error propagation in live_parallel_switch.
->>
->> To avoid needlessly burdening the various backport processes, note I am
->> not marking it as a fix against any patches and not copying stable since
->> it is debug/selftests only code.
->>
-> 
-> This patch is unlikely to make a difference in real life, but I don't
-> think avoiding Fixes tags and backports is the right thing.
-> 
-> I would add a Fixes tag and not add a stable tag.
-> 
-> The real burden with Fixes tags is if it breaks someone's system.  But
-> if it's breaking selftests then hopefully those are the people best
-> able to deal with it.
-> 
-> Fixes tags are different from stable tags.  If the code is very recent
-> then the fixes tag can automatically allow us to filter out that patch
-> from going back to stable.  So for new patches Fixes is the opposite of
-> CC'ing stable.
-> 
-> If the bug is old, then adding a Fixes tag does increase the chance of a
-> backport though, that's true.
-> 
-> My guess is that if the stable maintainers thought that selftests/ were
-> causing too much issue with backports they would add a grep line to
-> their scripts to solve that problem.  Instead we were having the
-> opposite discussion the other week where the bpf people didn't want to
-> backport selftest stuff and Greg wanted to.
+pon, 5. lip 2023. u 16:43 Conor Dooley <conor@kernel.org> napisao je:
+>
+> On Mon, Jun 05, 2023 at 04:33:15PM +0200, Paulo Pavacic wrote:
+> > Hello Conor,
+> >
+> > pet, 19. svi 2023. u 18:41 Conor Dooley <conor@kernel.org> napisao je:
+> > >
+> > > Hey Paulo,
+> > >
+> > > On Fri, May 19, 2023 at 04:24:55PM +0200, Paulo Pavacic wrote:
+> > > >
+> > > > Added fannal to vendor-prefixes and dt bindings for Fannal C3004.
+> > > > Fannal C3004 is a 480x800 MIPI DSI Panel which requires
+> > > > DCS initialization sequences with certain delays between certain
+> > > > commands.
+> > > >
+> > > > Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
+> > > > ---
+> > > > v3 changelog:
+> > > >   - renamed yml file
+> > > >   - refactored yml file to describe fannal,c3004
+> > > >   - added matrix URI to MAINTAINERS
+> > > > v2 changelog:
+> > > >   - revised driver title, now describes purpose
+> > > >   - revised description, now describes hw
+> > > >   - revised maintainers, now has only 1 mail
+> > > >   - removed diacritics from commit/commit author
+> > > >   - properties/compatible is now enum
+> > > >   - compatible using only lowercase
+> > > >   - revised dts example
+> > > >   - modified MAINTAINERS in this commit (instead of driver commit)
+> > > >   - dt_bindings_check checked yml
+> > > >   - checkpatch warning fixed
+> > > > ---
+> > > >  .../bindings/display/panel/fannal,c3004.yaml  | 75 +++++++++++++++++++
+> > > >  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+> > > >  MAINTAINERS                                   |  6 ++
+> > > >  3 files changed, 83 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml b/Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..a86b5ce02aa2
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
+> > > > @@ -0,0 +1,75 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/panel/fannal,c3004.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Fannal C3004 MIPI-DSI
+> > > > +
+> > > > +maintainers:
+> > > > +  - Paulo Pavacic <pavacic.p@gmail.com>
+> > > > +
+> > > > +description: |
+> > > > +  Fannal C3004 is a 480x800 panel which requires DSI DCS
+> > > > +  initialization sequences.
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: panel-common.yaml#
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    items:
+> > > > +      - const: fannal,c3004
+> > > > +
+> > > > +  reg: true
+> > >
+> > > Are there no restrictions on the number of reg entries?
+> >
+> > What do you mean by this? May I have some example if possible?
+>
+> I was commenting on the lack of minItems and/or maxItems.
 
-I just don't see the benefit since to my knowledge no one outside our CI systems runs selftests. And this implies mostly the current development kernel is tested. So backporting is irrelevant.
+Sorry this is my first patch, I still don't understand, why should I
+add `maxItems: 1` to the 'reg:' ?
+Isn't  part of the code:
+> required:
+>  - compatible
+>  - reg
+>  - reset-gpios
 
-Even with just the Fixes: tags the internal tooling will be picking the patches up during the -rc phase and even that can cause conflicts and some mental load to maintainers.
+making `minItems: 1` redundant for reg properties?
 
-Granted, *if* patch truly is a fix for a selftest failure which can actually happen then it is useful to pick it up for the -rc window. Although that feels extremely rare, otherwise it would have been spotted much before.
+>
+> Cheers,
+> Conor.
 
-In any case, I struggle to make myself interested into Fixes: tag for "impossible" selftests failures.
-
-But I can also put them in, 99% of time is not a big deal:
-
-Fixes: 50d16d44cce4 ("drm/i915/selftests: Exercise context switching in parallel")
-Fixes: 6407cf533217 ("drm/i915/selftests: Stop using kthread_stop()")
-
-Stable is even worse since to handle them the pointless workload is even bigger. But if stable wants everything sure, we can send everything. :)
-
-Cc: <stable@vger.kernel.org> # v5.5+
-
-As long as it is accepted that it is unlikely no one will bother to create conflict free backports for all kernels where those don't apply.
-
-Regards,
-
-Tvrtko
-
-> https://lore.kernel.org/all/2023052647-tacking-wince-85c5@gregkh/
-> 
-> regards,
-> dan carpenter
-> 
+Thanks,
+Paulo
