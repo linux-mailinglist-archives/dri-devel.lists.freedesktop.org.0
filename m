@@ -2,118 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E8A7220B4
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 10:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7F4722172
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 10:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6008F10E197;
-	Mon,  5 Jun 2023 08:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE6C10E1A3;
+	Mon,  5 Jun 2023 08:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2076.outbound.protection.outlook.com [40.107.243.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5449B10E197;
- Mon,  5 Jun 2023 08:13:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jLdPN8xgzeNezD5btOSKq9HAUV3Y1YrcYukeAnmBqH4yGRPV/hWGa7TWybJVRQgfV6PwqK7T7b1GJojpH/gLgpNaUpVce2tVsWKqHPiOylo+RVbO9NsACjYIaQTvvNjXXGj3WxpKZViAmSA3NQGnX59CjfyimeCevrddt8LJj9WK9HU+WJXesZOFNRr0qYtJIzf/0mJAbRwpsAFn/CK3DSyGJICSGW5MDu1bTW9sdAf0f2r5R+MDLTPgsI1ppLw8tcR0dRag9QHjE5EwkFY8tgCJ/7J36FCLxhHHNpZaB2EZMZPWa83s0FUFQ1A1TbZfubQMMMdS3QV/ZZQS91FSqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HskrjQTHtVsKOxc3AhKTql+Wr/0OAstnXmFMD6ONbRE=;
- b=aLLAhYeCadWsS9SkE/QU5yphLWnJashxjGqAcVGuwJg9+PsmNqHHpirVGzntkjtjB66GjYud9gYTx9wXM1LMs4eZddFPHyQybro6/ZzQ4qblWmiV1sALeZLLzbBEcTckX3AsbNvWvxgwmikhtzNxdug/lR0QT9hGpYlNyIfiFxvKz/lc6P3qo7JPab+asELmVL4Oeh1i3xGO6Z4IMNxTr75oh5HmDnRvZ0dv+zQgBSuuTf07oZVFAVo4+bj1UQLE/xlVhH+UtNZDlkSx/ZObgVlxgCJ3Sm7hoesaP/Pz7s+oR635Iu2nVF9HeU508eMt9rjEFRLDL3ixkAaitQ6CoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HskrjQTHtVsKOxc3AhKTql+Wr/0OAstnXmFMD6ONbRE=;
- b=JzPmBqLmCt0bq32eJaoh+9W/EYtx9M9GE8bmcjT0UhHTw73dtN5GzcK9hEGmnP+Pd8Aye8rHNDiXW/zDXVs7QrSEw/X4eukchP6DWp2tYeSg9DXpVhdsaAVQFwqldSpNw/IdJzVqxuP1Nq3YcMT79mm9kJjwOk97rp632sRdFnY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by MW3PR12MB4411.namprd12.prod.outlook.com (2603:10b6:303:5e::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
- 2023 08:13:00 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Mon, 5 Jun 2023
- 08:13:00 +0000
-Message-ID: <e337dec6-0b0e-7e53-e38d-ae1791b98418@amd.com>
-Date: Mon, 5 Jun 2023 10:12:52 +0200
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D57810E1A3;
+ Mon,  5 Jun 2023 08:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685955199; x=1717491199;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PJ4ErH8PxlMaCu9Ud28R4bgGYuccLpOJEA9x+7v/SZo=;
+ b=kFzOOleErGlR1n6jbzqw6fcEtcQwW2zGyhWP8stsIDwYspRK1nRpzq+V
+ bmxvj9ZgzMJ2g9H+QwJ3TVEPIc+TR+kdJ94qepxRQj4TpcJFSLpPcSLy9
+ aTzbfMiUuaGfeJN6xBuU6AHQn6dCh2qcJM50ObUEvh6pnmarHm+61ThXm
+ bEYvW+LJkU5Xa8PsKW1nAXPt/ZmBRK0RhhD+1p51td/aErtL9+XPmNQsu
+ vz8a5SDHhL4xFqf9GcoObE1JnxCq+Q4GgXOjq6lLNFvJ+Dw89+1OkTRpk
+ 1qaxszg4s0pfH+C0pxvE2Kxb496UTegcYzHw6ufhqqCTSRm96LAvNtNPh Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="422143292"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="422143292"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 01:53:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="711739157"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="711739157"
+Received: from mloughma-mobl1.ger.corp.intel.com (HELO [10.213.238.159])
+ ([10.213.238.159])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 01:53:17 -0700
+Message-ID: <f7000b2e-e809-3801-48ba-d2a242dcb124@linux.intel.com>
+Date: Mon, 5 Jun 2023 09:53:05 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/radeon: fix race condition UAF in
- radeon_gem_set_domain_ioctl
+Subject: Re: [Intel-gfx] [PATCH v15 0/1] drm/i915: Allow user to set cache at
+ BO creation
+To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
+References: <20230531171008.1738759-1-fei.yang@intel.com>
 Content-Language: en-US
-To: Min Li <lm0963hack@gmail.com>, alexander.deucher@amd.com
-References: <20230603074345.17907-1-lm0963hack@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230603074345.17907-1-lm0963hack@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230531171008.1738759-1-fei.yang@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0199.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::16) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|MW3PR12MB4411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07e04105-cc5b-4e5a-35c1-08db659cad3b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GPJLOMH1CmRGCAxkA6+swQI1cAYpQA024v7OEsCsC1L9e3UOen8MhSMJ1rUXaQpQXR7DYmjZVV9uskmToxk9+rguJs2GM1Zx91K0cnL0cBn5YeB+yU5hP03KNwjpr7o0+QNuyKHgIIOVUf8lET1KkCq9cMgrnQGr0r7GGnrFF4USfuYZLmb5cwfzsGGpVykL1haZnikBimpBneuB53H9Djz/09dBqAotAvnVDZGM36xMiQuMZcrz/Fu2/wn4f/vtuGL+9VvrtcXK6+qOz3QZ0Zv8pYQB3TI851A/wQNp2HtbXGJ5dKJBJpLbeJgF1gfs9zPHxE30l1VHMQZv0XibDKfZAgEnb8iJRD6coa3+Jv7g58mu19DWZZMPXX/Gx6C7djgJIN1dDiylFbCqdlIIIZ8Cmsh+xdDvQmSVh2LKFq+6nBcTuZjFkg/T1tsX+7ZGwmDWvxcAUsFFM/LuVQbNYz5u2qKhThEPabw+zc2qZYPdRmleJa056q8CaLxAZA5CpIQofCaM6VbMLVZcY/zyMih6rxLb8qB64X3adqr5lA/xttWMoWC7fX8PiWzMvBZiYMIV+OkhRmfeJN4IWhQYT1yd43xacWI9JnCiFJUi2d1oP6UTktDbNsuXIQWvXd6dL1XssT2zfA6LUUHblCiqHw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(376002)(366004)(346002)(136003)(396003)(451199021)(6506007)(6512007)(31686004)(83380400001)(186003)(2906002)(36756003)(316002)(5660300002)(31696002)(86362001)(41300700001)(8936002)(8676002)(2616005)(6666004)(38100700002)(66556008)(66946007)(66476007)(6636002)(4326008)(66574015)(6486002)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NEM3dWVnMHNPTTZwQUtwOVRManVnN1pablBBcXBNWE1uQ0VmOEdCOUM4S2xF?=
- =?utf-8?B?TUZlQVVTd2ZFNno2ZDJwQ0QzdFJvQmM0ZjAxcGRMTG1XRU95TjRBQnNmczZ5?=
- =?utf-8?B?MmdtczNIWWl5OVE0WDNmRXk4WkZEM3pXSkNBcDFmOFFya29zQXJLZ2tieWht?=
- =?utf-8?B?ZHNsWGlEUHp5VldubkJINEVIdFRQZlJTd0RCRXpWKzZLNHBhdkUwZTVWcUVB?=
- =?utf-8?B?UmNDS0xBTWpXTHNBazlqQSttZml4VVJqOEdMU3IzV2VsZGVEWjJjYVcwTUhV?=
- =?utf-8?B?Zm9MdjRnbXFHYXpmcCtTK250T0h1T09RQ3pUYituR3NGTVEyME9vdUFiTEJW?=
- =?utf-8?B?ZUkwbEJCTk9QTWNUL2JscmxjR0dTTjJ2MWh2UXZ2aW5RZFRmdFc5ZS9rcmFS?=
- =?utf-8?B?MmFLdVBDb2h5M2kzSzZBM0pJOTVYQXNQREZOdmF0cFgyRXljR0tiSE1RcWMz?=
- =?utf-8?B?M2VZaE5iZzJNSXZGSlEzajJzQ1NmclhVQnh0OUMvTVh1bEsyMkxybWNYNk9n?=
- =?utf-8?B?WTJRTEh5K1E0MG9jdk5iT3psSDhYdE9mNmlsMmF0VHdKbElJaU5BVG83VUF0?=
- =?utf-8?B?NTRDT1NnL1FCR2dySUNCUlZnTjAyN1NmWTRsc2IycHNrTUtSc21VMlZxaFNK?=
- =?utf-8?B?RmZ5RFlKWEh0S1lEdWIxMXFMZVI0S25Ec0J1MXBoSWRhQ2pPK1k5Q1dvQlVD?=
- =?utf-8?B?dC9XMU1Oa1p1RGdiVWxhaDRPTHNSUFloeTBlNW1GZnZ5eTNoVnRkZ1Jzc0V4?=
- =?utf-8?B?WUdRVjFWTTVjeVZqWk9NdmlLZEJxMmJTZ2NWVGhPVDJsaDBWQTRpcVc2azNC?=
- =?utf-8?B?TklQTGxPZU4vcG54Mnhrc25hYXpFNTU5NnlWc1ZPZ3JDb2d3QlJaNUN5cEtt?=
- =?utf-8?B?Vnh4K1Z5R3dnYjQ1UU40b3JLNzRxOThselB6Wkl2ZVdnWTNQak5WRytQZGs0?=
- =?utf-8?B?QytCZk1lVS9oQjNDWDBPeEZOU1BEVGpuNHJvTmhMbmJ1U2xlREdicWxxREtT?=
- =?utf-8?B?bTlqRDd0dzNoRFpUSk1lVXo5QmI4cW9XcHkrRTAxOENxb2Y3N2hRdW83WlFI?=
- =?utf-8?B?QkE0TTFmdjhFcUQ1QXVEekdQN0lnUzdGL3lweStrUHk5ODFqbHg5Mm5GYjlm?=
- =?utf-8?B?eGxuRSttZTFjTVA3OWFMdEVRMUNWWURmcG5PN2t4emtGU21iajhMcHEyUmJW?=
- =?utf-8?B?T0NzSzc4ck1WTDc1MWxaMW9ZU1NCNVdrUDY0VW51T1VyQnFvU0RYWGZZRzFC?=
- =?utf-8?B?S0tUZjF2WUVVWlN3QU9ZMkl3elgwNS85dDB0RGRPbnFOeHVwei9Pc2pUUCtj?=
- =?utf-8?B?WDhhRUNxREs5WFZRL2NMNlM1a0xrL05VSFJiV1JtVkhzRFlrNC9PN21FT29D?=
- =?utf-8?B?SVFTNjQzZTQzSlZPbWNWbERRaVhlVGY4RTJCYXlEVDFhOVNaSUR1U0hsR2xW?=
- =?utf-8?B?ZG94ODNSYUZxK0hvdEgyWTZxMDVldFVyOG41NjBtYkczZWp2MG4wY2pVZFNv?=
- =?utf-8?B?RTNadUgwNk11a0tCSXUxczU0Vk5uUExOdzN4TzFZdFdlTDlqWUtsQW9MNHE4?=
- =?utf-8?B?WmJ5d1l3Z0xGclJjZ3JqRG05U1YyR0xtQk9sOWJNaitzQ3RRWm9xZklWd1ZM?=
- =?utf-8?B?bG90S0RpUFVzNzRDZFJVMFZrKzRXUWdMZ1N0ejZYZGlFUmJPbDJzNENzQWRz?=
- =?utf-8?B?Y0d0eFk3c0wzVWpzRW9obS9xNE1CbkMzWm1JUlNmTEVmYU52cDFWWjczd2s1?=
- =?utf-8?B?ZWJ3emdUcHFHdFBEMlJ4QXp1TEVrV1JsSENJV2tUazhTVW90RjdNaUZQY2R6?=
- =?utf-8?B?S1ROcnY0OEhZcmxyQUxiK0xmc1RIbWx6OW5wTXRFU2F3WHh6Q2NhYjduUlFN?=
- =?utf-8?B?dU1ob2VSbTRxVEdGY2Y2SnZ4WFRjK2cyTHZ0VUdQZTFyM2xYN2pPWWF6Rllx?=
- =?utf-8?B?YXBPeXlzUXhyeDEweWxjV245QVVUL0tLY0VURWxKUk5GQUY3aExyV056WThT?=
- =?utf-8?B?THVGaCs5S1gzNkxoYWg2NjFMTE5zdE9RcmhhbjduNjhyU0xac3h0NkhRRFEw?=
- =?utf-8?B?dmVoMnJuWE5tZlV6em8zYitRNlR0ZkYwajlVNkhLQ0dyRE9RbjJyNHg3SXo5?=
- =?utf-8?B?a2s1bXNOc0RKMDhVZ0pNMWlLOUJXNzFyNXNGODBKeGkyQThpaGtscGF0NTA0?=
- =?utf-8?Q?0YWAKChRb6mvxZi+U8gh7pgXkN3P1OcSSMHJVPcON55e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07e04105-cc5b-4e5a-35c1-08db659cad3b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 08:13:00.2127 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ame2J5l14sSzO+urw3TissM/LGlgzlb71KTWjl07qOYfsTcf7SAyqNE8SF8Ns0KZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4411
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,54 +63,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.06.23 um 09:43 schrieb Min Li:
-> Userspace can race to free the gobj(robj converted from), robj should not
-> be accessed again after drm_gem_object_put, otherwith it will result in
-> use-after-free.
->
-> Signed-off-by: Min Li <lm0963hack@gmail.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+On 31/05/2023 18:10, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+> 
+> This series introduce a new extension for GEM_CREATE,
+> 1. end support for set caching ioctl [PATCH 1/2]
+> 2. add set_pat extension for gem_create [PATCH 2/2]
+> 
+> v2: drop one patch that was merged separately
+>      commit 341ad0e8e254 ("drm/i915/mtl: Add PTE encode function")
+> v3: rebased on https://patchwork.freedesktop.org/series/117082/
+> v4: fix missing unlock introduced in v3, and
+>      solve a rebase conflict
+> v5: replace obj->cache_level with pat_set_by_user,
+>      fix i915_cache_level_str() for legacy platforms.
+> v6: rebased on https://patchwork.freedesktop.org/series/117480/
+> v7: rebased on https://patchwork.freedesktop.org/series/117528/
+> v8: dropped the two dependent patches that has been merged
+>      separately. Add IGT link and Tested-by (MESA).
+> v9: addressing comments (Andi)
+> v10: acked-by and tested-by MESA
+> v11: drop "end support for set caching ioctl" (merged)
+>       remove tools/include/uapi/drm/i915_drm.h
+> v12: drop Bspec reference in comment. add to commit message instead
+> v13: sent to test with igt@gem_create@create-ext-set-pat
+> v14: sent to test with igt@gem_create@create-ext-set-pat
+> v15: update commit message with documentation note and t-b/a-b from
+>       Media driver folks.
+> 
+> Fei Yang (1):
+>    drm/i915: Allow user to set cache at BO creation
+> 
+>   drivers/gpu/drm/i915/gem/i915_gem_create.c | 36 +++++++++++++++++++
+>   drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
+>   include/uapi/drm/i915_drm.h                | 41 ++++++++++++++++++++++
+>   3 files changed, 83 insertions(+)
+> 
 
-> ---
-> Changes in v2:
-> - Remove unused robj, avoid compile complain
->
->   drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> index bdc5af23f005..d3f5ddbc1704 100644
-> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> @@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
->   	struct radeon_device *rdev = dev->dev_private;
->   	struct drm_radeon_gem_set_domain *args = data;
->   	struct drm_gem_object *gobj;
-> -	struct radeon_bo *robj;
->   	int r;
->   
->   	/* for now if someone requests domain CPU -
-> @@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
->   		up_read(&rdev->exclusive_lock);
->   		return -ENOENT;
->   	}
-> -	robj = gem_to_radeon_bo(gobj);
->   
->   	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
->   
->   	drm_gem_object_put(gobj);
->   	up_read(&rdev->exclusive_lock);
-> -	r = radeon_gem_handle_lockup(robj->rdev, r);
-> +	r = radeon_gem_handle_lockup(rdev, r);
->   	return r;
->   }
->   
+Try with:
 
+Test-with: 20230526172221.1438998-1-fei.yang@intel.com
+
+That is how it is supposed to be done, to do a CI run against a test 
+case not yet merged that is.
+
+Regards,
+
+Tvrtko
