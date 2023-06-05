@@ -1,63 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3E6722036
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 09:54:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B05722092
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 10:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D86AB10E193;
-	Mon,  5 Jun 2023 07:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F04410E195;
+	Mon,  5 Jun 2023 08:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC0810E193
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 07:54:52 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- 98e67ed59e1d1-256766a1c43so1679535a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jun 2023 00:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685951691; x=1688543691;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gctR4B/F366o79rRjaTlEjaSOwGINvdlm29r1EhTx8k=;
- b=IBl45+cFS9ZeEMlBdhrNyq0cLCZXUp9G+sX0aPY3DcZ/BVtbtXzhhMln/ahhy2ii4+
- +Im4NZNpTU4BVjeivBQmdyXeXmz1oSb2FbC01KI2VLeBwFTb6Cn6Ku3A2DRgYes0YMxe
- XlY9f6rsnvGeXdL/iTrTdrppudHw/QuzNE+v6n+xFkpNrBSKx6MMHOfudcjIDGYYm9U3
- UDwZo7f6TA6oNou5jTh0/aX9sVDy0cLfOVDLRlcPv0VegzWVUtgBmxz7db2FghSscCGH
- pY6uK8NqPINsManZWHcnUr0MuS9yIisigu8WLNE0Z9Ujr1/gjlfSKSgJqqq1BgLbidAy
- qeZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685951691; x=1688543691;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gctR4B/F366o79rRjaTlEjaSOwGINvdlm29r1EhTx8k=;
- b=DZG/sVr0c7pVA7s9Lf6YDbvQ57lSGyQQN0f5Vh6QtbNTaj5j6X1ItiPSFbV9wIpxbu
- 5cwK5KcDTiHs42qfuXrUKfP0/xKwnJ0SHxjm7g5dImsPLeoB+lUuo1opfjfS19Ey8tXX
- XJIIR5KuRtj5peZbxHi1t5CCPaYf9+6KWGh9QYfmKG5koWemDAhJmR2QNbDuFlTwsmda
- ZBiqtSjcdtG6xmIRixZ5jvTb/65q4adIAP6wo2nivuWghw2ApxoWqDk3DC/ERuargF7F
- OqP1ZZH4uyNPy9B7QG2LWUGApva5B6DKodGAKDbwvcoCoIuXZcFe0kc67R69YxfqecNK
- lliQ==
-X-Gm-Message-State: AC+VfDz986NOI9ZryRYcaD9oFQK+5+Q40F18kfriW7LVuqsiXaI0mTy/
- t/v2CsGy9pq1w3/EEVWwVwxglCWB46sTYS9rtfA=
-X-Google-Smtp-Source: ACHHUZ6eLBQnJQNw4F4yFQ8bwU7RsMY7hwIYuTv3LodX5gKrukGZKtV/mxNbtDuqrTDK18FqOuTB5jmqu8kShl7aS/U=
-X-Received: by 2002:a17:90b:309:b0:253:3f25:3d99 with SMTP id
- ay9-20020a17090b030900b002533f253d99mr2570319pjb.45.1685951691671; Mon, 05
- Jun 2023 00:54:51 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B32810E195
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 08:08:58 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1q65Gn-00021e-UX; Mon, 05 Jun 2023 10:08:53 +0200
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <pza@pengutronix.de>)
+ id 1q65Gi-0003OO-3S; Mon, 05 Jun 2023 10:08:48 +0200
+Date: Mon, 5 Jun 2023 10:08:48 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+Subject: Re: [PATCH 9/9] drm/verisilicon: Add starfive hdmi driver
+Message-ID: <20230605080848.GA4802@pengutronix.de>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-10-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
-References: <20230604075713.1027261-1-masahiroy@kernel.org>
- <20230604075713.1027261-2-masahiroy@kernel.org>
-In-Reply-To: <20230604075713.1027261-2-masahiroy@kernel.org>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Mon, 5 Jun 2023 15:54:40 +0800
-Message-ID: <CAOcKUNU_7eCdMvAvx8YyGUHVcz4vjvCHPQ6oo5K4cWQEL4+oig@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: imx: turn imx8{qm, qxp}-ldb into
- single-object modules
-To: Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230602074043.33872-10-keith.zhao@starfivetech.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +54,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 4, 2023 at 3:57=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
-> With the previous fix, these modules are built from a single C file.
->
-> Rename the source files so they match the module names.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hi Keith,
+
+On Fri, Jun 02, 2023 at 03:40:43PM +0800, Keith Zhao wrote:
+> Add HDMI dirver for StarFive SoC JH7110.
+> 
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 > ---
->
-> (no changes since v1)
->
->  drivers/gpu/drm/bridge/imx/Makefile                           | 4 ----
->  drivers/gpu/drm/bridge/imx/{imx8qm-ldb-drv.c =3D> imx8qm-ldb.c} | 0
->  .../gpu/drm/bridge/imx/{imx8qxp-ldb-drv.c =3D> imx8qxp-ldb.c}   | 0
->  3 files changed, 4 deletions(-)
->  rename drivers/gpu/drm/bridge/imx/{imx8qm-ldb-drv.c =3D> imx8qm-ldb.c} (=
-100%)
->  rename drivers/gpu/drm/bridge/imx/{imx8qxp-ldb-drv.c =3D> imx8qxp-ldb.c}=
- (100%)
-
+>  drivers/gpu/drm/verisilicon/Kconfig         |  11 +
+>  drivers/gpu/drm/verisilicon/Makefile        |   1 +
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.c | 928 ++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.h | 296 +++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c        |   6 +
+>  drivers/gpu/drm/verisilicon/vs_drv.h        |   4 +
+>  6 files changed, 1246 insertions(+)
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
+> 
 [...]
+> diff --git a/drivers/gpu/drm/verisilicon/starfive_hdmi.c b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
+> new file mode 100644
+> index 000000000000..128ecca03309
+> --- /dev/null
+> +++ b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
+> @@ -0,0 +1,928 @@
+[...]
+> +static int starfive_hdmi_enable_clk_deassert_rst(struct device *dev, struct starfive_hdmi *hdmi)
+> +{
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(hdmi->sys_clk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI sys clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(hdmi->mclk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI mclk clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret = clk_prepare_enable(hdmi->bclk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI bclk clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret = reset_control_deassert(hdmi->tx_rst);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to deassert tx_rst\n");
 
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
+The error paths should clk_disable_unprepare() enabled clocks.
+
+> +		return ret;
+> +	}
+> +	return 0;
+> +}
+> +
+[...]
+> +static int starfive_hdmi_get_clk_rst(struct device *dev, struct starfive_hdmi *hdmi)
+> +{
+> +	hdmi->sys_clk = devm_clk_get(dev, "sysclk");
+> +	if (IS_ERR(hdmi->sys_clk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI sysclk clk\n");
+> +		return PTR_ERR(hdmi->sys_clk);
+> +	}
+> +	hdmi->mclk = devm_clk_get(dev, "mclk");
+> +	if (IS_ERR(hdmi->mclk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI mclk clk\n");
+> +		return PTR_ERR(hdmi->mclk);
+> +	}
+> +	hdmi->bclk = devm_clk_get(dev, "bclk");
+> +	if (IS_ERR(hdmi->bclk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI bclk clk\n");
+> +		return PTR_ERR(hdmi->bclk);
+> +	}
+> +	hdmi->tx_rst = reset_control_get_shared(dev, "hdmi_tx");
+
+Use devm_reset_control_get_shared() for consistency, otherwise this is missing
+a reset_control_put() somewhere.
+
+regards
+Philipp
