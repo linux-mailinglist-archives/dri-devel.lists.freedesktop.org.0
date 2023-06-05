@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E59C7229AB
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB2B7229E1
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:54:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D92710E2B9;
-	Mon,  5 Jun 2023 14:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F3210E2D2;
+	Mon,  5 Jun 2023 14:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2269910E2C1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:48:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D7AB61FE6F;
- Mon,  5 Jun 2023 14:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1685976503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veqp7FLvBbFrOqaEY1a/KdKb6AXkthKRPL+ACV2NoEs=;
- b=CjR3rmc79oyO0Cix3KHdMGIswDXe2xLPTlspNm+1neAKxBKNJuw1FH+FIND5pRUVj9oBfj
- 0ysTZAWiXFkCl5lJaHhUgzFee6e0SdVJIQ+kHT0dTwqTqd7gSJUsSfahflCgkpHjO3k9iQ
- MPCuEXZSSTE2fu1F3dnq87G1F2zKKO8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1685976503;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veqp7FLvBbFrOqaEY1a/KdKb6AXkthKRPL+ACV2NoEs=;
- b=CrjTdmfqGq2EedC4GU9TdFocyW9PA+Uy2sZNi9SZLOXMz7fI8n4QFXCV4ioeRhhHSuq1Ag
- fCDISs6J4XAZx7CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9089D139C8;
- Mon,  5 Jun 2023 14:48:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uKlnIrf1fWQvXwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:23 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
- geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
- jingoohan1@gmail.com
-Subject: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-Date: Mon,  5 Jun 2023 16:48:12 +0200
-Message-Id: <20230605144812.15241-31-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A9A10E2B0;
+ Mon,  5 Jun 2023 14:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685976871; x=1717512871;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=UYYHFeEVlWX986yoPTAijJL1NHZxed0Rg+GKJp87O18=;
+ b=YWtrWukkm1GyIxvx7wnoq84PxUTPw9P1o5hGTAkRPhPft3gzJyZEscHh
+ OAlhFjowQj9kbeuhosalHFseYtHAoverQjbVUQKRS09Z0ajq1T7I+Y7N4
+ wrU34tZksuyvZ4UdOCgnFumRxl4ZxwoJ68XZdB05qMGQV4OXvSlrfdh0h
+ 43yTKFXl5Hrwfq7Gs9jZ4RbVTb7FfjRavCTC+BTfh5wcBZMglKnraUl2D
+ ZFwZg0zO2/mhxxX8sCOGBAwxS1JjamcevQiz919LKiMYPY52GKB+eMQRD
+ J88f5Bjl2m5VawHBsejjLnOMu7RZeI5uiqGBiwpf6GYcYAvnPNiPQEU4e A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="384692017"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="384692017"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 07:54:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="708684015"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="708684015"
+Received: from mloughma-mobl1.ger.corp.intel.com (HELO [10.213.238.159])
+ ([10.213.238.159])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 07:54:29 -0700
+Message-ID: <4bfc14c0-19f3-459c-f71c-1b6a92c46d69@linux.intel.com>
+Date: Mon, 5 Jun 2023 15:54:27 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/i915/selftests: Add some missing error propagation
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <20230605131135.396854-1-tvrtko.ursulin@linux.intel.com>
+ <b47de249-085d-482a-afb2-eee82a06aba8@kadam.mountain>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <b47de249-085d-482a-afb2-eee82a06aba8@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,208 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
+Cc: Intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Kconfig option CONFIG_FB_DEVICE and make the virtual fbdev
-device optional. If the new option has not been selected, fbdev
-does not create a files in devfs or sysfs.
 
-Most modern Linux systems run a DRM-based graphics stack that uses
-the kernel's framebuffer console, but has otherwise deprecated fbdev
-support. Yet fbdev userspace interfaces are still present.
+On 05/06/2023 14:43, Dan Carpenter wrote:
+> On Mon, Jun 05, 2023 at 02:11:35PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Add some missing error propagation in live_parallel_switch.
+>>
+>> To avoid needlessly burdening the various backport processes, note I am
+>> not marking it as a fix against any patches and not copying stable since
+>> it is debug/selftests only code.
+>>
+> 
+> This patch is unlikely to make a difference in real life, but I don't
+> think avoiding Fixes tags and backports is the right thing.
+> 
+> I would add a Fixes tag and not add a stable tag.
+> 
+> The real burden with Fixes tags is if it breaks someone's system.  But
+> if it's breaking selftests then hopefully those are the people best
+> able to deal with it.
+> 
+> Fixes tags are different from stable tags.  If the code is very recent
+> then the fixes tag can automatically allow us to filter out that patch
+> from going back to stable.  So for new patches Fixes is the opposite of
+> CC'ing stable.
+> 
+> If the bug is old, then adding a Fixes tag does increase the chance of a
+> backport though, that's true.
+> 
+> My guess is that if the stable maintainers thought that selftests/ were
+> causing too much issue with backports they would add a grep line to
+> their scripts to solve that problem.  Instead we were having the
+> opposite discussion the other week where the bpf people didn't want to
+> backport selftest stuff and Greg wanted to.
 
-The option makes it possible to use the fbdev subsystem as console
-implementation without support for userspace. This closes potential
-entry points to manipulate kernel or I/O memory via framebuffers. It
-also prevents the execution of driver code via ioctl or sysfs, both
-of which might allow malicious software to exploit bugs in the fbdev
-code.
+I just don't see the benefit since to my knowledge no one outside our CI systems runs selftests. And this implies mostly the current development kernel is tested. So backporting is irrelevant.
 
-A small number of fbdev drivers require struct fbinfo.dev to be
-initialized, usually for the support of sysfs interface. Make these
-drivers depend on FB_DEVICE. They can later be fixed if necessary.
+Even with just the Fixes: tags the internal tooling will be picking the patches up during the -rc phase and even that can cause conflicts and some mental load to maintainers.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/staging/fbtft/Kconfig            |  1 +
- drivers/video/fbdev/Kconfig              | 12 +++++++++
- drivers/video/fbdev/core/Makefile        |  7 +++---
- drivers/video/fbdev/core/fb_internal.h   | 32 ++++++++++++++++++++++++
- drivers/video/fbdev/omap2/omapfb/Kconfig |  2 +-
- include/linux/fb.h                       |  2 ++
- 6 files changed, 52 insertions(+), 4 deletions(-)
+Granted, *if* patch truly is a fix for a selftest failure which can actually happen then it is useful to pick it up for the -rc window. Although that feels extremely rare, otherwise it would have been spotted much before.
 
-diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfig
-index 4d29e8c1014e..5dda3c65a38e 100644
---- a/drivers/staging/fbtft/Kconfig
-+++ b/drivers/staging/fbtft/Kconfig
-@@ -2,6 +2,7 @@
- menuconfig FB_TFT
- 	tristate "Support for small TFT LCD display modules"
- 	depends on FB && SPI
-+	depends on FB_DEVICE
- 	depends on GPIOLIB || COMPILE_TEST
- 	select FB_SYS_FILLRECT
- 	select FB_SYS_COPYAREA
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 6df9bd09454a..48d9a14f889c 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -57,6 +57,15 @@ config FIRMWARE_EDID
- 	  combination with certain motherboards and monitors are known to
- 	  suffer from this problem.
- 
-+config FB_DEVICE
-+        bool "Provide legacy /dev/fb* device"
-+        depends on FB
-+        help
-+	  Say Y here if you want the legacy /dev/fb* device file. It's
-+	  only required if you have userspace programs that depend on
-+	  fbdev for graphics output. This does not effect the framebuffer
-+	  console.
-+
- config FB_DDC
- 	tristate
- 	depends on FB
-@@ -1545,6 +1554,7 @@ config FB_3DFX_I2C
- config FB_VOODOO1
- 	tristate "3Dfx Voodoo Graphics (sst1) support"
- 	depends on FB && PCI
-+	depends on FB_DEVICE
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-@@ -1862,6 +1872,7 @@ config FB_SH_MOBILE_LCDC
- 	tristate "SuperH Mobile LCDC framebuffer support"
- 	depends on FB && HAVE_CLK && HAS_IOMEM
- 	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
-+	depends on FB_DEVICE
- 	select FB_SYS_FILLRECT
- 	select FB_SYS_COPYAREA
- 	select FB_SYS_IMAGEBLIT
-@@ -1930,6 +1941,7 @@ config FB_SMSCUFX
- config FB_UDL
- 	tristate "Displaylink USB Framebuffer support"
- 	depends on FB && USB
-+	depends on FB_DEVICE
- 	select FB_MODE_HELPERS
- 	select FB_SYS_FILLRECT
- 	select FB_SYS_COPYAREA
-diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
-index 125d24f50c36..d5e8772620f8 100644
---- a/drivers/video/fbdev/core/Makefile
-+++ b/drivers/video/fbdev/core/Makefile
-@@ -2,12 +2,13 @@
- obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
- obj-$(CONFIG_FB)                  += fb.o
- fb-y                              := fb_backlight.o \
--                                     fb_devfs.o \
-                                      fb_info.o \
--                                     fb_procfs.o \
--                                     fbmem.o fbmon.o fbcmap.o fbsysfs.o \
-+                                     fbmem.o fbmon.o fbcmap.o \
-                                      modedb.o fbcvt.o fb_cmdline.o fb_io_fops.o
- fb-$(CONFIG_FB_DEFERRED_IO)       += fb_defio.o
-+fb-$(CONFIG_FB_DEVICE)            += fb_devfs.o \
-+                                     fb_procfs.o \
-+                                     fbsysfs.o
- 
- ifeq ($(CONFIG_FRAMEBUFFER_CONSOLE),y)
- fb-y				  += fbcon.o bitblit.o softcursor.o
-diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
-index 0b43c0cd5096..b8a28466db79 100644
---- a/drivers/video/fbdev/core/fb_internal.h
-+++ b/drivers/video/fbdev/core/fb_internal.h
-@@ -3,12 +3,22 @@
- #ifndef _FB_INTERNAL_H
- #define _FB_INTERNAL_H
- 
-+#include <linux/device.h>
- #include <linux/fb.h>
- #include <linux/mutex.h>
- 
- /* fb_devfs.c */
-+#if defined(CONFIG_FB_DEVICE)
- int fb_register_chrdev(void);
- void fb_unregister_chrdev(void);
-+#else
-+static inline int fb_register_chrdev(void)
-+{
-+	return 0;
-+}
-+static inline void fb_unregister_chrdev(void)
-+{ }
-+#endif
- 
- /* fbmem.c */
- extern struct class *fb_class;
-@@ -19,11 +29,33 @@ struct fb_info *get_fb_info(unsigned int idx);
- void put_fb_info(struct fb_info *fb_info);
- 
- /* fb_procfs.c */
-+#if defined(CONFIG_FB_DEVICE)
- int fb_init_procfs(void);
- void fb_cleanup_procfs(void);
-+#else
-+static inline int fb_init_procfs(void)
-+{
-+	return 0;
-+}
-+static inline void fb_cleanup_procfs(void)
-+{ }
-+#endif
- 
- /* fbsysfs.c */
-+#if defined(CONFIG_FB_DEVICE)
- int fb_device_create(struct fb_info *fb_info);
- void fb_device_destroy(struct fb_info *fb_info);
-+#else
-+static inline int fb_device_create(struct fb_info *fb_info)
-+{
-+	get_device(fb_info->device); // as in device_add()
-+
-+	return 0;
-+}
-+static inline void fb_device_destroy(struct fb_info *fb_info)
-+{
-+	put_device(fb_info->device); // as in device_del()
-+}
-+#endif
- 
- #endif
-diff --git a/drivers/video/fbdev/omap2/omapfb/Kconfig b/drivers/video/fbdev/omap2/omapfb/Kconfig
-index 69f9cb03507e..21069fdb7cc2 100644
---- a/drivers/video/fbdev/omap2/omapfb/Kconfig
-+++ b/drivers/video/fbdev/omap2/omapfb/Kconfig
-@@ -5,9 +5,9 @@ config OMAP2_VRFB
- menuconfig FB_OMAP2
- 	tristate "OMAP2+ frame buffer support"
- 	depends on FB
-+	depends on FB_DEVICE
- 	depends on DRM_OMAP = n
- 	depends on GPIOLIB
--
- 	select FB_OMAP2_DSS
- 	select OMAP2_VRFB if ARCH_OMAP2 || ARCH_OMAP3
- 	select FB_CFB_FILLRECT
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 541a0e3ce21f..40ed1028160c 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -481,7 +481,9 @@ struct fb_info {
- 
- 	const struct fb_ops *fbops;
- 	struct device *device;		/* This is the parent */
-+#if defined(CONFIG_FB_DEVICE)
- 	struct device *dev;		/* This is this fb device */
-+#endif
- 	int class_flag;                    /* private sysfs flags */
- #ifdef CONFIG_FB_TILEBLITTING
- 	struct fb_tile_ops *tileops;    /* Tile Blitting */
--- 
-2.40.1
+In any case, I struggle to make myself interested into Fixes: tag for "impossible" selftests failures.
 
+But I can also put them in, 99% of time is not a big deal:
+
+Fixes: 50d16d44cce4 ("drm/i915/selftests: Exercise context switching in parallel")
+Fixes: 6407cf533217 ("drm/i915/selftests: Stop using kthread_stop()")
+
+Stable is even worse since to handle them the pointless workload is even bigger. But if stable wants everything sure, we can send everything. :)
+
+Cc: <stable@vger.kernel.org> # v5.5+
+
+As long as it is accepted that it is unlikely no one will bother to create conflict free backports for all kernels where those don't apply.
+
+Regards,
+
+Tvrtko
+
+> https://lore.kernel.org/all/2023052647-tacking-wince-85c5@gregkh/
+> 
+> regards,
+> dan carpenter
+> 
