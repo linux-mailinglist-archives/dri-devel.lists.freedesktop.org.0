@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E87227D0
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 15:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD4872280E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 892A410E29F;
-	Mon,  5 Jun 2023 13:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC77710E2B4;
+	Mon,  5 Jun 2023 14:01:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0B510E29F;
- Mon,  5 Jun 2023 13:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1685972869; x=1717508869;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pc0PP/0VU8hPz88rgPCZHCe9veRH3TDuhBiQ70XwYp8=;
- b=YI/WWjULw54GZx8ThJJ3ACi9yVJZxF+gIPIBsU6isijr3WtGSOhzVrQy
- /MItIXA0CtT+QbqgzbzZMg6US5Gkr19OBvY4DIebs+yu1w8V+7Z/yPhTm
- pAy3DETdImFd3iZIxvZQMpfJUbdQpWckvDiSWdphLYNGP/mVB73VRRveD
- nccRXSU5nN0dVynp4/TN9K5fuaDKd1KaVZtxW6INnRKvpA6RlPhBdlgtq
- DoeiBIZ2w1HyayZhSqCtYvSBJ6ZLZhvAi4dKGjWy3Z+RjuKCsTvPUwEbP
- 368HDD48BkCIrRVWmvdHydv2mYWhWj6VsQw0CaEaKU+YL6HQtG7NoBHBU g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="355224252"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="355224252"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 06:47:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="702757821"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; d="scan'208";a="702757821"
-Received: from twgeistx-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.42.176])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 06:47:45 -0700
-Date: Mon, 5 Jun 2023 15:47:30 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/selftests: Add some missing error propagation
-Message-ID: <ZH3ncqduEdlMRh98@ashyti-mobl2.lan>
-References: <20230605131135.396854-1-tvrtko.ursulin@linux.intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB46310E06F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:01:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9BFD56148D;
+ Mon,  5 Jun 2023 14:01:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80E84C433D2;
+ Mon,  5 Jun 2023 14:01:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1685973716;
+ bh=fM/dkrSRD7/GVqUEkCT3DJ78pRRjkLSS3NGE52m4So0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=nLIT+NRa6oO4LUWduQsq29/1p9VLtdYIDFqvtwN7SouW50eNBIDCdXuJUOT77t+p9
+ XS8AQfLrTuQZNYRhoBd+Xzzdro9EDQCr663/bgyTunCpLO3pVdNS4nZmbW1GlN9b6B
+ cFrVTmh/SAGAX/iz37rYUrg5emNsot2xaA2A7Jfy16x4r8jLcM15sXRc3OonaR5/WQ
+ nRPRA+Q460+4tPz2k1Qkwq3CiPHS8kbT7GKAhG/3AlgmGc0wsvyuRrRWYoAoruFwz9
+ DekIDhQUmh8QW8+yM6RQ3+R8R6UmmWWZGz3dhh+uIj66CmPqFagGMNN+7yC0Ylx9LQ
+ I7xiqo+Rg5Chw==
+From: rfoss@kernel.org
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 1/2] drm/bridge: imx: fix mixed module-builtin object
+Date: Mon,  5 Jun 2023 16:01:46 +0200
+Message-Id: <168597369975.1230687.5029067502371454652.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230605120021.1774711-1-masahiroy@kernel.org>
+References: <20230605120021.1774711-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230605131135.396854-1-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,78 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, Intel-gfx@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@linaro.org>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Robert Foss <rfoss@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Liu Ying <victor.liu@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ Nick Terrell <terrelln@fb.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+From: Robert Foss <rfoss@kernel.org>
 
-> Add some missing error propagation in live_parallel_switch.
+On Mon, 5 Jun 2023 21:00:20 +0900, Masahiro Yamada wrote:
+> With CONFIG_DRM_IMX8QM_LDB=m and CONFIG_DRM_IMX8QXP_LDB=y (or vice
+> versa), imx-ldb-helper.o is linked to a module and also to vmlinux
+> even though the expected CFLAGS are different between builtins and
+> modules.
 > 
-> To avoid needlessly burdening the various backport processes, note I am
-> not marking it as a fix against any patches and not copying stable since
-> it is debug/selftests only code.
-
-which I did :/
-
-But I guess you are right and it's not necessary.
-
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  .../gpu/drm/i915/gem/selftests/i915_gem_context.c  | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+> This is the same situation as fixed by commit 637a642f5ca5 ("zstd:
+> Fixing mixed module-builtin objects").
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index ad6a3b2fb387..7021b6e9b219 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -348,8 +348,10 @@ static int live_parallel_switch(void *arg)
->  				continue;
->  
->  			ce = intel_context_create(data[m].ce[0]->engine);
-> -			if (IS_ERR(ce))
-> +			if (IS_ERR(ce)) {
-> +				err = PTR_ERR(ce);
->  				goto out;
-> +			}
->  
->  			err = intel_context_pin(ce);
->  			if (err) {
-> @@ -369,8 +371,10 @@ static int live_parallel_switch(void *arg)
->  
->  		worker = kthread_create_worker(0, "igt/parallel:%s",
->  					       data[n].ce[0]->engine->name);
-> -		if (IS_ERR(worker))
-> +		if (IS_ERR(worker)) {
-> +			err = PTR_ERR(worker);
->  			goto out;
-> +		}
->  
->  		data[n].worker = worker;
->  	}
-> @@ -399,8 +403,10 @@ static int live_parallel_switch(void *arg)
->  			}
->  		}
->  
-> -		if (igt_live_test_end(&t))
-> -			err = -EIO;
-> +		if (igt_live_test_end(&t)) {
-> +			err = err ?: -EIO;
+> [...]
 
-Nice catch!
+Applied, thanks!
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+[1/2] drm/bridge: imx: fix mixed module-builtin object
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=a272cadbd883
+[2/2] drm/bridge: imx: turn imx8{qm,qxp}-ldb into single-object modules
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=013413cdfeec
 
-Andi
 
-> +			break;
-> +		}
->  	}
->  
->  out:
-> -- 
-> 2.39.2
+
+Rob
+
