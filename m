@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219E0723015
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 21:47:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A347A7230BC
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 22:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4610E1E4;
-	Mon,  5 Jun 2023 19:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C50D310E023;
+	Mon,  5 Jun 2023 20:10:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B566910E1E4
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 19:47:42 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4AB0C2BC;
- Mon,  5 Jun 2023 21:47:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1685994435;
- bh=SagWXUKu17YEY12VTjvQyCfRd1/rjBTIgFk2N0IiizA=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=peMRB+vYmBIjh1IcqAkKYgS1WMluCuhv3Zgajrq4N5zsZ9I5yelmVo8gqJZnWWE2B
- A2uhGHmp9T5YbxltUZGVe+ervRGQl5PABExoEec5Zq83vjaEa+rTcv7QSqTc9M5khX
- wD4ze80PRWAkAVCiokdM9EQO7Dv2IaPajmlNvLe0=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A45510E023;
+ Mon,  5 Jun 2023 20:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1685995833; x=1717531833;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hLwisyULdhNBdeB6X2y5EN5644QKNMsAYwDgMiAFebA=;
+ b=EeGpCH3MvU/LkvRa451R4v0RzUZVGIatZkl8tu72lqm+mgivrGR0fF+5
+ hD8oCQ3zX6gn/iwbrgrwXHEDCKjcyWw6yya25gV55XiXnyhzCgoJnVLN0
+ SHV4InuP2CLY1KaRKWTs3UTbXTX7mNSzpiz05TrxiiQdnykDwUmi3F2vo
+ yeDUG8VdQfvaFDHLm2Juvi+Vg/KvQPfUsg79qQi1TLVUEOFYve5XuNN6j
+ bm+V6o5yTdN+82jkBegK1kiA493I46e4JOnTeisAdJl7U2M4ioH4OhkGj
+ KCFpjE/abi+8RkQH2vGMOf/FyZmi+F45Ow5eJPh/Nc1D4cOaFtHga9FiE w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="355324338"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="355324338"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 13:10:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="738472750"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; d="scan'208";a="738472750"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 13:10:29 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix a VMA UAF for multi-gt platform
+Date: Mon,  5 Jun 2023 22:10:21 +0200
+Message-Id: <20230605201021.13928-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230604104958.7034-1-laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2] drm: rcar-du: Use dev_err_probe() to record cause of
- KMS init errors
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Date: Mon, 05 Jun 2023 20:47:37 +0100
-Message-ID: <168599445763.3090799.10057103910320805653@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,104 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Laurent Pinchart (2023-06-04 11:49:58)
-> The (large) rcar_du_modeset_init() function can fail for many reasons,
-> two of two involving probe deferral. Use dev_err_probe() in those code
-> paths to record the cause of the probe deferral, in order to help
-> debugging probe issues.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
-> Change since v1:
->=20
-> - Fix compilation
+Ensure correct handling of closed VMAs on multi-gt platforms to prevent
+Use-After-Free. Currently, when GT0 goes idle, closed VMAs that are
+exclusively added to GT0's closed_vma link (gt->closed_vma) and
+subsequently freed by i915_vma_parked(), which assumes the entire GPU is
+idle. However, on platforms with multiple GTs, such as MTL, GT1 may
+remain active while GT0 is idle. This causes GT0 to mistakenly consider
+the closed VMAs in its closed_vma list as unnecessary, potentially
+leading to Use-After-Free issues if a job for GT1 attempts to access a
+freed VMA.
 
-Always helps ;-)
+Although we do take a wakeref for GT0 but it happens later, after
+evaluating VMAs. To mitigate this, it is necessary to hold a GT0 wakeref
+early.
 
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c | 4 ++++
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 8 ++++++--
->  2 files changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_drv.c
-> index 12a8839fe3be..5b752adb1b02 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -701,6 +701,10 @@ static int rcar_du_probe(struct platform_device *pde=
-v)
->         /* DRM/KMS objects */
->         ret =3D rcar_du_modeset_init(rcdu);
->         if (ret < 0) {
-> +               /*
-> +                * Don't use dev_err_probe(), as it would overwrite the p=
-robe
-> +                * deferral reason recorded in rcar_du_modeset_init().
-> +                */
->                 if (ret !=3D -EPROBE_DEFER)
->                         dev_err(&pdev->dev,
->                                 "failed to initialize DRM/KMS (%d)\n", re=
-t);
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
-drm/renesas/rcar-du/rcar_du_kms.c
-> index adfb36b0e815..78b665984e35 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -932,8 +932,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> =20
->         /* Initialize the Color Management Modules. */
->         ret =3D rcar_du_cmm_init(rcdu);
-> -       if (ret)
-> +       if (ret) {
-> +               dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n=
-");
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Chris Wilson <chris.p.wilson@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-This could remain a single line return statement with:
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 5fb459ea4294..adcf8837dfe6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -2692,6 +2692,7 @@ static int
+ eb_select_engine(struct i915_execbuffer *eb)
+ {
+ 	struct intel_context *ce, *child;
++	struct intel_gt *gt;
+ 	unsigned int idx;
+ 	int err;
+ 
+@@ -2715,10 +2716,16 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 		}
+ 	}
+ 	eb->num_batches = ce->parallel.number_children + 1;
++	gt = ce->engine->gt;
+ 
+ 	for_each_child(ce, child)
+ 		intel_context_get(child);
+ 	intel_gt_pm_get(ce->engine->gt);
++	/* Keep GT0 active on MTL so that i915_vma_parked() doesn't
++	 * free VMAs while execbuf ioctl is validating VMAs.
++	 */
++	if (gt != to_gt(gt->i915))
++		intel_gt_pm_get(to_gt(ce->engine->gt->i915));
+ 
+ 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+ 		err = intel_context_alloc_state(ce);
+@@ -2757,6 +2764,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 	return err;
+ 
+ err:
++	if (ce->engine->gt != to_gt(ce->engine->gt->i915))
++		intel_gt_pm_get(to_gt(ce->engine->gt->i915));
++
+ 	intel_gt_pm_put(ce->engine->gt);
+ 	for_each_child(ce, child)
+ 		intel_context_put(child);
+@@ -2770,6 +2780,8 @@ eb_put_engine(struct i915_execbuffer *eb)
+ 	struct intel_context *child;
+ 
+ 	i915_vm_put(eb->context->vm);
++	if (eb->gt != to_gt(eb->gt->i915))
++		intel_gt_pm_put(to_gt(eb->gt->i915));
+ 	intel_gt_pm_put(eb->gt);
+ 	for_each_child(eb->context, child)
+ 		intel_context_put(child);
+-- 
+2.39.0
 
-		return dev_err_probe(rcdu->dev, ret, "failed to initialize CMM\n");
-
-Or if you're really concerned about 80 chars:
-
-		return dev_err_probe(rcdu->dev, ret,
-				     "failed to initialize CMM\n");
-
-which is still one line cheaper than adding braces to the if statement!
-
-Anyway, either way is functional so:
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
->                 return ret;
-> +       }
-> =20
->         /* Create the CRTCs. */
->         for (swindex =3D 0, hwindex =3D 0; swindex < rcdu->num_crtcs; ++h=
-windex) {
-> @@ -952,8 +954,10 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
-> =20
->         /* Initialize the encoders. */
->         ret =3D rcar_du_encoders_init(rcdu);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               dev_err_probe(rcdu->dev, ret, "failed to initialize encod=
-ers\n");
-
-(same here of course)
-
->                 return ret;
-> +       }
-> =20
->         if (ret =3D=3D 0) {
->                 dev_err(rcdu->dev, "error: no encoder could be initialize=
-d\n");
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
