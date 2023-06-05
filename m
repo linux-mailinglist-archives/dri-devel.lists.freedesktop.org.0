@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B3972299B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:48:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40BD7229B5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 16:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102B388647;
-	Mon,  5 Jun 2023 14:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93ED710E2CF;
+	Mon,  5 Jun 2023 14:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFBA510E2B5
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:48:22 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5457E10E2BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 14:48:23 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9DB221FE67;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F1F4921B72;
  Mon,  5 Jun 2023 14:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1685976501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1685976502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rooyozc3rlPb79s02PNsXsYq23KYMMNHU3oE3QDqmfg=;
- b=h8sKh6syTV0qlp1UO0HImeSqExfoLBqEDgRrp3laLwbTUWWJZU1LjtE/s1MWIJEHSJC9mg
- JXqjz3zdMTC6ZYPg+gCKyDPBSzZSY1p+wcs+NRKQnZmedFxcJdzuBegbg/vvP8sjkjjdBW
- ENSG15WOzhALh+rWJtmh49rg+GpvWis=
+ bh=2IPv0LcB/KR9amQatic4dj9dYr0rrctL8g04cJxaOqA=;
+ b=PvQgnf7xF8mqDAh4wqFPqeNtV69voQ29WMSffauLX/ATIfkqYuXsGLpeRVhN9/70/4LqFs
+ 9wsRe8GWGCMJ1gEZWzm0SIHsTIEhhvEHX5s0LxClKRrtLsAygPSKNipDqqe9HJP6EDpW26
+ zLP10W93wAqIxBRj4f575jYOrRgP5p4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1685976501;
+ s=susede2_ed25519; t=1685976502;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rooyozc3rlPb79s02PNsXsYq23KYMMNHU3oE3QDqmfg=;
- b=rSvpl4n3MI3GWT2T/kmy9UcSmq5DH8kHmvagcxWaZC6zR0nKY+RiA1QtafefbG/4iNdbCG
- piINtxEJqySyecCA==
+ bh=2IPv0LcB/KR9amQatic4dj9dYr0rrctL8g04cJxaOqA=;
+ b=M0AQtyoigFAOVZpW5mUOi+uKFvZY/DVYx2m6NlM7nzi8drQ4/NKqKwxP1V4SNoCSlHt2tk
+ aSRW2d3BFh6yVIDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5E38513A3C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A36EF139C8;
  Mon,  5 Jun 2023 14:48:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sM8eFrX1fWQvXwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id MNUAJ7X1fWQvXwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 05 Jun 2023 14:48:21 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
  geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
  jingoohan1@gmail.com
-Subject: [PATCH 23/30] fbdev/tdfxfb: Set i2c adapter parent to hardware device
-Date: Mon,  5 Jun 2023 16:48:05 +0200
-Message-Id: <20230605144812.15241-24-tzimmermann@suse.de>
+Subject: [PATCH 24/30] fbdev/core: Pass Linux device to pm_vt_switch_*()
+ functions
+Date: Mon,  5 Jun 2023 16:48:06 +0200
+Message-Id: <20230605144812.15241-25-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
@@ -69,37 +70,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ linux-sh@vger.kernel.org, linux-pm@vger.kernel.org,
  linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the 3dfx hardware device from the Linux device hierarchy as
-parent device of the i2c adapter. Aligns the driver with the rest
-of the codebase and prepares fbdev for making struct fb_info.dev
-optional.
+Pass the Linux device to pm_vt_switch_*() instead of the virtual
+fbdev device. Prepares fbdev for making struct fb_info.dev optional.
+
+The type of device that is passed to the PM functions does not matter
+much. It is only a token within the internal list of known devices.
+The PM functions do not refer to any of the device's properties or its
+type.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: linux-pm@vger.kernel.org
 ---
- drivers/video/fbdev/tdfxfb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/core/fbmem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
-index cdf8e9fe9948..dd0fa42eceb9 100644
---- a/drivers/video/fbdev/tdfxfb.c
-+++ b/drivers/video/fbdev/tdfxfb.c
-@@ -1327,8 +1327,8 @@ static void tdfxfb_create_i2c_busses(struct fb_info *info)
- 	par->chan[0].par = par;
- 	par->chan[1].par = par;
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 329d16e49a90..f91ae7d4c94d 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1478,9 +1478,9 @@ static int do_register_framebuffer(struct fb_info *fb_info)
+ 		INIT_LIST_HEAD(&fb_info->modelist);
  
--	tdfxfb_setup_ddc_bus(&par->chan[0], "Voodoo3-DDC", info->dev);
--	tdfxfb_setup_i2c_bus(&par->chan[1], "Voodoo3-I2C", info->dev);
-+	tdfxfb_setup_ddc_bus(&par->chan[0], "Voodoo3-DDC", info->device);
-+	tdfxfb_setup_i2c_bus(&par->chan[1], "Voodoo3-I2C", info->device);
- }
+ 	if (fb_info->skip_vt_switch)
+-		pm_vt_switch_required(fb_info->dev, false);
++		pm_vt_switch_required(fb_info->device, false);
+ 	else
+-		pm_vt_switch_required(fb_info->dev, true);
++		pm_vt_switch_required(fb_info->device, true);
  
- static void tdfxfb_delete_i2c_busses(struct tdfx_par *par)
+ 	fb_var_to_videomode(&mode, &fb_info->var);
+ 	fb_add_videomode(&mode, &fb_info->modelist);
+@@ -1520,7 +1520,7 @@ static void unlink_framebuffer(struct fb_info *fb_info)
+ 
+ 	device_destroy(fb_class, MKDEV(FB_MAJOR, i));
+ 
+-	pm_vt_switch_unregister(fb_info->dev);
++	pm_vt_switch_unregister(fb_info->device);
+ 
+ 	unbind_console(fb_info);
+ 
 -- 
 2.40.1
 
