@@ -2,65 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7AA722ECA
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 20:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8845722EFD
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jun 2023 20:55:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D8010E1D5;
-	Mon,  5 Jun 2023 18:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B756410E1DA;
+	Mon,  5 Jun 2023 18:55:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD5310E065
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jun 2023 18:33:57 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-652dd220d67so4018850b3a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jun 2023 11:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1685990037; x=1688582037;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=rN7LudxPUYnjPAJQbN2izPayQt46XoBv5lVSyzqw2SQ=;
- b=WdsbLynlwHw3pOVU4zQ0dTnfW6lam1wS5bTT0HVgvH9qvEBl9iDWepON1G3yN90cAd
- CprRp+rIuyMjMDAtKZbT0A3Nl3sjV25NtAYM+qdCU6HGerMMgu3D6xPAqYxZITcSEaGX
- e3qaasRjcCnaq2W69k7p3l+14m1ZaS3VILElKqAIEnrRys/wrsanmymlA1jP6pbR8Jzr
- bcKFszaKdXo9KrfB0R3t3Td4sMEaWlU3JKIWXLHSIPKLuhPOmPfgMS1xUAo3JrDtLjFv
- UvspdiqPut7JpME7rv/ZY9Ok3EqFw5lIk6h1IRTVZFyDSLilEMwtHg9P/n8bHrNzv3kv
- qCTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1685990037; x=1688582037;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rN7LudxPUYnjPAJQbN2izPayQt46XoBv5lVSyzqw2SQ=;
- b=VrKO7IVP+0GClHUtLk8MJinpoim9AER7qRYz6GIbk3iM8cbbTiu2EYnIVqp1dLouEo
- qOpup73u1pCuQ7e6EEhLFqr4opHPyBBl2twTVOvm5JH8NXRTqiGXg+cyU/HEf3I2Vh8C
- d6kEp8rOOsuEiWQCoGBo6m4JH0TC1Uszfa1B4Stz3PEzLCYcKM2+UkTwIfB1gzALPM2g
- far8P7VjF+LHWx2qHw/JBfmZGKy0VltqlKtUf9DzICL8VnDg7gZudHLoE6genjFhvxOP
- KXXoZcILSWo1RtrcuTLWFe+2USpmLaYBsQH5QbYx5Je4UeQyRFP8SMeHFCfIhLDf/T+e
- pjUA==
-X-Gm-Message-State: AC+VfDyTDP7GQA0lshcFAKJsE/qWMH2dmmDvt2ykzy0d/z2PtdOWxLAy
- lpqXb8pT/4bJ+V9jI3V6eV8=
-X-Google-Smtp-Source: ACHHUZ4KfBuoXqSnsXxLcWgr9PWcEu4ZtFyLsJedr5ryhOayp5qnMB1o/n2RQYPQy4er/kO5Ran4GA==
-X-Received: by 2002:a05:6a00:148b:b0:643:8496:e41c with SMTP id
- v11-20020a056a00148b00b006438496e41cmr570422pfu.20.1685990036687; 
- Mon, 05 Jun 2023 11:33:56 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- e3-20020a62ee03000000b0065379c6d549sm5164981pfi.215.2023.06.05.11.33.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jun 2023 11:33:56 -0700 (PDT)
-Date: Mon, 5 Jun 2023 11:33:54 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v4 1/4] Input: ads7846 - Convert to use software nodes
-Message-ID: <3af67419-dbac-4103-bdac-15f1588cb3ed@roeck-us.net>
-References: <20230430-nokia770-regression-v4-0-9b6dc5536b17@linaro.org>
- <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org>
+Received: from dijkstra.felixrichter.tech (dijkstra.felixrichter.tech
+ [37.120.184.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C6A10E1DA;
+ Mon,  5 Jun 2023 18:55:46 +0000 (UTC)
+Received: from [10.130.10.1] (unknown [10.130.10.1])
+ by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id E74491A004E;
+ Mon,  5 Jun 2023 20:55:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
+ s=20210926; t=1685991353;
+ bh=GVgi8sZFmuN0INcZJQNP9lmRJbHS1ZWK2liVy87b7D4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=hi0pjGu2lnkhWY24X/0af+fdxRlvGyS7p8DnwD2eSgJoHBJGKuqNjpZQ5Qs58au/Z
+ gJkYTgou5jgyDgPi7MLGpBd8fbbqnXKHxNfoz0NSRwsznp+TsMb42aoZSF1ppbrG5F
+ NYNZ9exXYpV/5DaIb0kSJSdWxvoBfdCnW5xjwcdY=
+Content-Type: multipart/mixed; boundary="------------b5ljnWero7dzFtIjzAdwjDoF"
+Message-ID: <6404ace2-1d74-e287-ccb5-eaab2fe50473@felixrichter.tech>
+Date: Mon, 5 Jun 2023 20:55:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230430-nokia770-regression-v4-1-9b6dc5536b17@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Alex Deucher <alexdeucher@gmail.com>
+References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
+ <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
+ <CADnq5_M-5SD6HDRVtFHPNF3q9XKz75PECdUxR-OaVpPe2Zw=EQ@mail.gmail.com>
+ <8d23a70e-b132-9b25-917a-1f45918533cc@leemhuis.info>
+ <0cac032a-0f65-5134-cde5-f535fc58c5ab@felixrichter.tech>
+ <e7eed5ce-e7a0-e03e-f8c7-3582d9771a33@leemhuis.info>
+ <e24373f9-4405-d7f7-dd54-d0bde111242c@felixrichter.tech>
+ <5a925a7f-d810-275b-c735-29872bf523a3@amd.com>
+Content-Language: en-US
+From: Felix Richter <judge@felixrichter.tech>
+In-Reply-To: <5a925a7f-d810-275b-c735-29872bf523a3@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,187 +56,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tony Lindgren <tony@atomide.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Helge Deller <deller@gmx.de>,
- Janusz Krzysztofik <jmkrzyszt@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Andreas Kemnade <andreas@kemnade.info>, linux-input@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-spi@vger.kernel.org,
- Daniel Mack <daniel@zonque.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+--------------b5ljnWero7dzFtIjzAdwjDoF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
 Hi,
 
-On Mon, May 08, 2023 at 11:20:06PM +0200, Linus Walleij wrote:
-> The Nokia 770 is using GPIOs from the global numberspace on the
-> CBUS node to pass down to the LCD controller. This regresses when we
-> let the OMAP GPIO driver use dynamic GPIO base.
-> 
-...
-> 
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Fixes: 92bf78b33b0b ("gpio: omap: use dynamic allocation of base")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+I can confirm that setting amdgpu.sg_display=0 does not fix the issue 
+for me.
 
-This patch causes a crash with the mcimx7d-sabre qemu emulation.
-Backtrace and bisect results below.
+I have 64GB of Kinsten Memory running with XMP at 5200MHz. I attached 
+the result of `dmidecode --type=memory` to this email.
 
-Source:
+Kind regards
+Felix Richter
 
-        pdev_id = device_get_match_data(dev);
-        if (!pdev_id) {
-                dev_err(dev, "Unknown device model\n");
-                return ERR_PTR(-EINVAL);
-        }
+On 05.06.23 17:27, Hamza Mahfooz wrote:
+>
+> On 6/3/23 10:52, Felix Richter wrote:
+>> Hi Guys,
+>>
+>> sorry for the silence from my side. I had a lot of things to take 
+>> care of after returning from vacation. Also I had to wait on the zfs 
+>> modules to be updated to support kernel 6.3 for further testing.
+>>
+>> The bad news is that I am still experiencing issues. I have been able 
+>> to get a reproducible trigger for the buggy behavior. The moment I 
+>> take a screenshot or any other program like `wdisplays` accesses the 
+>> screen buffer the screen starts flickering. The only way to reset it 
+>> is to reboot the machine or log out of the desktop.
+>>
+>> With this I did a bisection to figure out which commit is responsible 
+>> for this. I attached the logs to the mail. The short version is that 
+>> I identified commit 81d0bcf9900932633d270d5bc4a54ff599c6ebdb as the 
+>> culprit. Seems that there are side effects of having more flexible 
+>> buffer placement for the case of the internal GPU. To verify that 
+>> this actually is the cause of the issue I built the current archlinux 
+>> kernel with an extra patch to revert the commit: 
+>> https://github.com/ju6ge/linux/tree/v6.3.5-ju6ge. The result is that 
+>> be bug is fixed!
+>>
+>> Now if this is the desired long term fix I do not know …
+>
+> Can you provide a dmidecode of your RAM (i.e. # dmidecode --type=memory)?
+>
+> The current trend seems to suggest that if you have 64 or more gigs of
+> RAM, you will probably still experience issues with S/G mode enabled
+> even with my fix applied.
+>
+>>
+>> Kind regards,
+>> Felix Richter
+>>
+>> On 02.05.23 16:12, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> On 02.05.23 15:48, Felix Richter wrote:
+>>>> On 5/2/23 15:34, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>>> On 02.05.23 15:13, Alex Deucher wrote:
+>>>>>> On Tue, May 2, 2023 at 7:45 AM Linux regression tracking (Thorsten
+>>>>>> Leemhuis)<regressions@leemhuis.info>  wrote:
+>>>>>>
+>>>>>>> On 30.04.23 13:44, Felix Richter wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> I am running into an issue with the integrated GPU of the Ryzen 9
+>>>>>>>> 7950X. It seems to be a regression from kernel version 6.1 to 6.2.
+>>>>>>>> The bug materializes in from of my monitor blinking, meaning it
+>>>>>>>> turns full white shortly. This happens very often so that the
+>>>>>>>> system becomes unpleasant to use.
+>>>>>>>>
+>>>>>>>> I am running the Archlinux Kernel:
+>>>>>>>> The Issue happens on the bleeding edge kernel: 6.2.13
+>>>>>>>> Switching back to the LTS kernel resolves the issue: 6.1.26
+>>>>>>>>
+>>>>>>>> I have two monitors attached to the system. One 42 inch 4k Display
+>>>>>>>> and a 24 inch 1080p Display and am running sway as my desktop.
+>>>>>>>>
+>>>>>>>> Let me know if there is more information I could provide to help
+>>>>>>>> narrow down the issue.
+>>>>>>> Thanks for the report. To be sure the issue doesn't fall through 
+>>>>>>> the
+>>>>>>> cracks unnoticed, I'm adding it to regzbot, the Linux kernel 
+>>>>>>> regression
+>>>>>>> tracking bot:
+>>>>>>>
+>>>>>>> #regzbot ^introduced v6.1..v6.2
+>>>>>>> #regzbot title drm: amdgpu: system becomes unpleasant to use after
+>>>>>>> monitor starts blinking and turns full white
+>>>>>>> #regzbot ignore-activity
+>>>>>>>
+>>>>>>> This isn't a regression? This issue or a fix for it are already
+>>>>>>> discussed somewhere else? It was fixed already? You want to clarify
+>>>>>>> when
+>>>>>>> the regression started to happen? Or point out I got the title or
+>>>>>>> something else totally wrong? Then just reply and tell me -- 
+>>>>>>> ideally
+>>>>>>> while also telling regzbot about it, as explained by the page 
+>>>>>>> listed in
+>>>>>>> the footer of this mail.
+>>>>>>>
+>>>>>>> Developers: When fixing the issue, remember to add 'Link:' tags
+>>>>>>> pointing
+>>>>>>> to the report (the parent of this mail). See page linked in 
+>>>>>>> footer for
+>>>>>>> details.
+>>>>>> This sounds exactly like the issue that was fixed in this patch 
+>>>>>> which
+>>>>>> is already on it's way to Linus:
+>>>>>> https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f80850354849d95f2670e8cd9 
+>>>>>>
+>>>>> FWIW, you in the flood of emails likely missed that this is the same
+>>>>> thread where you yesterday replied "If the module parameter didn't 
+>>>>> help
+>>>>> then perhaps you are seeing some other issue.  Can you bisect?". 
+>>>>> That's
+>>>>> why I decided to add this to the tracking. Or am I missing something
+>>>>> obvious here?
+>>>>>
+>>>>> /me looks around again and can't see anything, but that doesn't 
+>>>>> have to
+>>>>> mean anything...
+>>>>>
+>>>>> Felix, btw, this guide might help you with the bisection, even if 
+>>>>> it's
+>>>>> just for kernel compilation:
+>>>>>
+>>>>> https://docs.kernel.org/next/admin-guide/quickly-build-trimmed-linux.html 
+>>>>>
+>>>>>
+>>>>> And to indirectly reply to your mail from yesterday[1]. You might 
+>>>>> want
+>>>>> to ignore the arch linux kernel git repo and just do a bisection 
+>>>>> between
+>>>>> 6.1 and the latest 6.2.y kernel using upstream repos; and if I 
+>>>>> were you
+>>>>> I'd also try 6.3 or even mainline before that, in case the issue was
+>>>>> fixed already.
+>>>>>
+>>>>> [1]
+>>>>> https://lore.kernel.org/all/04749ee4-0728-92fe-bcb0-a7320279eaac@felixrichter.tech/ 
+>>>>>
+>>>>>
+>>>> Thanks for the pointers, I'll do a bisection on my desktop from 6.1 to
+>>>> the newest commit.
+>>> FWIW, I wonder what you actually mean with "newest commit" here: a
+>>> bisection between 6.1 and mainline HEAD might be a waste of time, *if*
+>>> this is something that only happens in 6.2.y (say due to a broken or
+>>> incomplete backport)
+>>>
+>>>> That was the part I was mostly unsure about … where
+>>>> to start from.
+>>>>
+>>>> I was planning to use PKGBUILD scripts from arch to achieve the same
+>>>> configuration as I would when installing
+>>>> the package and just rewrite the script to use a local copy of the
+>>>> source code instead of the repository.
+>>>> That way I can just use the bisect command, rebuild the package and 
+>>>> test
+>>>> again.
+>>> In my experience trying to deal with Linux distro's package managers
+>>> creates more trouble than it's worth.
+>>>
+>>>> But I probably won't be able to finish it this week, since I am on
+>>>> vacation starting tomorrow and will not have access to the computer in
+>>>> question. I will be back next week, by that time the patch Alex is
+>>>> talking about might
+>>>> already be in mainline. So if that fixes it, I will notice and let you
+>>>> know. If not I will do the bisection to figure out what the actual 
+>>>> issue
+>>>> is.
+>>> Enjoy your vacation!
+>>>
+>>> Ciao, Thorsten
 
-        pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-        if (!pdata)
-                return ERR_PTR(-ENOMEM);
+--------------b5ljnWero7dzFtIjzAdwjDoF
+Content-Type: text/plain; charset=UTF-8; name="dmidump.txt"
+Content-Disposition: attachment; filename="dmidump.txt"
+Content-Transfer-Encoding: base64
 
-        pdata->model = (unsigned long)pdev_id->driver_data;	<--- crash
+IyBkbWlkZWNvZGUgMy41CkdldHRpbmcgU01CSU9TIGRhdGEgZnJvbSBzeXNmcy4KU01CSU9T
+IDMuNS4wIHByZXNlbnQuCgpIYW5kbGUgMHgwMDBGLCBETUkgdHlwZSAxNiwgMjMgYnl0ZXMK
+UGh5c2ljYWwgTWVtb3J5IEFycmF5CglMb2NhdGlvbjogU3lzdGVtIEJvYXJkIE9yIE1vdGhl
+cmJvYXJkCglVc2U6IFN5c3RlbSBNZW1vcnkKCUVycm9yIENvcnJlY3Rpb24gVHlwZTogTm9u
+ZQoJTWF4aW11bSBDYXBhY2l0eTogMTI4IEdCCglFcnJvciBJbmZvcm1hdGlvbiBIYW5kbGU6
+IDB4MDAwRQoJTnVtYmVyIE9mIERldmljZXM6IDQKCkhhbmRsZSAweDAwMTIsIERNSSB0eXBl
+IDE3LCA5MiBieXRlcwpNZW1vcnkgRGV2aWNlCglBcnJheSBIYW5kbGU6IDB4MDAwRgoJRXJy
+b3IgSW5mb3JtYXRpb24gSGFuZGxlOiAweDAwMTEKCVRvdGFsIFdpZHRoOiBVbmtub3duCglE
+YXRhIFdpZHRoOiBVbmtub3duCglTaXplOiBObyBNb2R1bGUgSW5zdGFsbGVkCglGb3JtIEZh
+Y3RvcjogVW5rbm93bgoJU2V0OiBOb25lCglMb2NhdG9yOiBESU1NIDAKCUJhbmsgTG9jYXRv
+cjogUDAgQ0hBTk5FTCBBCglUeXBlOiBVbmtub3duCglUeXBlIERldGFpbDogVW5rbm93bgoK
+SGFuZGxlIDB4MDAxNCwgRE1JIHR5cGUgMTcsIDkyIGJ5dGVzCk1lbW9yeSBEZXZpY2UKCUFy
+cmF5IEhhbmRsZTogMHgwMDBGCglFcnJvciBJbmZvcm1hdGlvbiBIYW5kbGU6IDB4MDAxMwoJ
+VG90YWwgV2lkdGg6IDY0IGJpdHMKCURhdGEgV2lkdGg6IDY0IGJpdHMKCVNpemU6IDMyIEdC
+CglGb3JtIEZhY3RvcjogRElNTQoJU2V0OiBOb25lCglMb2NhdG9yOiBESU1NIDEKCUJhbmsg
+TG9jYXRvcjogUDAgQ0hBTk5FTCBBCglUeXBlOiBERFI1CglUeXBlIERldGFpbDogU3luY2hy
+b25vdXMgVW5idWZmZXJlZCAoVW5yZWdpc3RlcmVkKQoJU3BlZWQ6IDUyMDAgTVQvcwoJTWFu
+dWZhY3R1cmVyOiBLaW5nc3RvbgoJU2VyaWFsIE51bWJlcjogRDEwQzk3MEQKCUFzc2V0IFRh
+ZzogTm90IFNwZWNpZmllZAoJUGFydCBOdW1iZXI6IEtGNTUyQzQwLTMyICAgICAgICAgCglS
+YW5rOiAyCglDb25maWd1cmVkIE1lbW9yeSBTcGVlZDogNTIwMCBNVC9zCglNaW5pbXVtIFZv
+bHRhZ2U6IDEuMSBWCglNYXhpbXVtIFZvbHRhZ2U6IDEuMSBWCglDb25maWd1cmVkIFZvbHRh
+Z2U6IDEuMSBWCglNZW1vcnkgVGVjaG5vbG9neTogRFJBTQoJTWVtb3J5IE9wZXJhdGluZyBN
+b2RlIENhcGFiaWxpdHk6IFZvbGF0aWxlIG1lbW9yeQoJRmlybXdhcmUgVmVyc2lvbjogVW5r
+bm93bgoJTW9kdWxlIE1hbnVmYWN0dXJlciBJRDogQmFuayAyLCBIZXggMHg5OAoJTW9kdWxl
+IFByb2R1Y3QgSUQ6IFVua25vd24KCU1lbW9yeSBTdWJzeXN0ZW0gQ29udHJvbGxlciBNYW51
+ZmFjdHVyZXIgSUQ6IFVua25vd24KCU1lbW9yeSBTdWJzeXN0ZW0gQ29udHJvbGxlciBQcm9k
+dWN0IElEOiBVbmtub3duCglOb24tVm9sYXRpbGUgU2l6ZTogTm9uZQoJVm9sYXRpbGUgU2l6
+ZTogMzIgR0IKCUNhY2hlIFNpemU6IE5vbmUKCUxvZ2ljYWwgU2l6ZTogTm9uZQoKSGFuZGxl
+IDB4MDAxNywgRE1JIHR5cGUgMTcsIDkyIGJ5dGVzCk1lbW9yeSBEZXZpY2UKCUFycmF5IEhh
+bmRsZTogMHgwMDBGCglFcnJvciBJbmZvcm1hdGlvbiBIYW5kbGU6IDB4MDAxNgoJVG90YWwg
+V2lkdGg6IFVua25vd24KCURhdGEgV2lkdGg6IFVua25vd24KCVNpemU6IE5vIE1vZHVsZSBJ
+bnN0YWxsZWQKCUZvcm0gRmFjdG9yOiBVbmtub3duCglTZXQ6IE5vbmUKCUxvY2F0b3I6IERJ
+TU0gMAoJQmFuayBMb2NhdG9yOiBQMCBDSEFOTkVMIEIKCVR5cGU6IFVua25vd24KCVR5cGUg
+RGV0YWlsOiBVbmtub3duCgpIYW5kbGUgMHgwMDE5LCBETUkgdHlwZSAxNywgOTIgYnl0ZXMK
+TWVtb3J5IERldmljZQoJQXJyYXkgSGFuZGxlOiAweDAwMEYKCUVycm9yIEluZm9ybWF0aW9u
+IEhhbmRsZTogMHgwMDE4CglUb3RhbCBXaWR0aDogNjQgYml0cwoJRGF0YSBXaWR0aDogNjQg
+Yml0cwoJU2l6ZTogMzIgR0IKCUZvcm0gRmFjdG9yOiBESU1NCglTZXQ6IE5vbmUKCUxvY2F0
+b3I6IERJTU0gMQoJQmFuayBMb2NhdG9yOiBQMCBDSEFOTkVMIEIKCVR5cGU6IEREUjUKCVR5
+cGUgRGV0YWlsOiBTeW5jaHJvbm91cyBVbmJ1ZmZlcmVkIChVbnJlZ2lzdGVyZWQpCglTcGVl
+ZDogNTIwMCBNVC9zCglNYW51ZmFjdHVyZXI6IEtpbmdzdG9uCglTZXJpYWwgTnVtYmVyOiBE
+NTBDOTczMAoJQXNzZXQgVGFnOiBOb3QgU3BlY2lmaWVkCglQYXJ0IE51bWJlcjogS0Y1NTJD
+NDAtMzIgICAgICAgICAKCVJhbms6IDIKCUNvbmZpZ3VyZWQgTWVtb3J5IFNwZWVkOiA1MjAw
+IE1UL3MKCU1pbmltdW0gVm9sdGFnZTogMS4xIFYKCU1heGltdW0gVm9sdGFnZTogMS4xIFYK
+CUNvbmZpZ3VyZWQgVm9sdGFnZTogMS4xIFYKCU1lbW9yeSBUZWNobm9sb2d5OiBEUkFNCglN
+ZW1vcnkgT3BlcmF0aW5nIE1vZGUgQ2FwYWJpbGl0eTogVm9sYXRpbGUgbWVtb3J5CglGaXJt
+d2FyZSBWZXJzaW9uOiBVbmtub3duCglNb2R1bGUgTWFudWZhY3R1cmVyIElEOiBCYW5rIDIs
+IEhleCAweDk4CglNb2R1bGUgUHJvZHVjdCBJRDogVW5rbm93bgoJTWVtb3J5IFN1YnN5c3Rl
+bSBDb250cm9sbGVyIE1hbnVmYWN0dXJlciBJRDogVW5rbm93bgoJTWVtb3J5IFN1YnN5c3Rl
+bSBDb250cm9sbGVyIFByb2R1Y3QgSUQ6IFVua25vd24KCU5vbi1Wb2xhdGlsZSBTaXplOiBO
+b25lCglWb2xhdGlsZSBTaXplOiAzMiBHQgoJQ2FjaGUgU2l6ZTogTm9uZQoJTG9naWNhbCBT
+aXplOiBOb25lCgo=
 
-It appears that device_get_match_data() already returns driver_data.
-A little debugging shows that pdev_id is indeed 0x1EA6 or 7846.
-
-Guenter
-
----
-Stack backtrace:
-
-[    7.254561] wm8960 3-001a: Failed to issue reset
-[    7.257313] wm8960: probe of 3-001a failed with error -110
-[    7.258170] i2c i2c-3: IMX I2C adapter registered
-[    7.265584] hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
-[    7.280312] stmp_reset_block((ptrval)): module reset timeout
-[    7.280573] mxs-dma: probe of 33000000.dma-controller failed with error -110
-[    7.309572] 8<--- cut here ---
-[    7.309785] Unhandled fault: page domain fault (0x01b) at 0x00001eba
-[    7.309916] [00001eba] *pgd=00000000
-[    7.310327] Internal error: : 1b [#1] SMP ARM
-[    7.310504] Modules linked in:
-[    7.310701] CPU: 0 PID: 29 Comm: kworker/u4:2 Tainted: G                 N 6.4.0-rc5-next-20230605 #1
-[    7.310868] Hardware name: Freescale i.MX7 Dual (Device Tree)
-[    7.311058] Workqueue: events_unbound deferred_probe_work_func
-[    7.311482] PC is at ads7846_probe+0x9f0/0xfa0
-[    7.311576] LR is at _raw_spin_unlock_irqrestore+0x50/0x64
-[    7.311659] pc : [<c0cf2ab0>]    lr : [<c1128bf4>]    psr: a0000013
-[    7.311742] sp : d0949bf0  ip : 00000001  fp : 00000000
-[    7.311814] r10: c1b96954  r9 : cbdcd208  r8 : c499aec0
-[    7.311889] r7 : c4b64400  r6 : c4b4d040  r5 : c4b64400  r4 : 00001ea6
-[    7.311978] r3 : 00000000  r2 : c41dd000  r1 : 0a3d1000  r0 : c499aec0
-[    7.312102] Flags: NzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-[    7.312211] Control: 10c5387d  Table: 848c406a  DAC: 00000051
-[    7.312305] Register r0 information: slab kmalloc-128 start c499ae80 pointer offset 64 size 128
-[    7.312688] Register r1 information: non-paged memory
-[    7.312832] Register r2 information: slab kmalloc-4k start c41dd000 pointer offset 0 size 4096
-[    7.312973] Register r3 information: NULL pointer
-[    7.313045] Register r4 information: non-paged memory
-[    7.313116] Register r5 information: slab kmalloc-1k start c4b64400 pointer offset 0 size 1024
-[    7.313247] Register r6 information: slab kmalloc-4k start c4b4d000 pointer offset 64 size 4096
-[    7.313379] Register r7 information: slab kmalloc-1k start c4b64400 pointer offset 0 size 1024
-[    7.313509] Register r8 information: slab kmalloc-128 start c499ae80 pointer offset 64 size 128
-[    7.313640] Register r9 information: non-slab/vmalloc memory
-[    7.313751] Register r10 information: non-slab/vmalloc memory
-[    7.313836] Register r11 information: NULL pointer
-[    7.313908] Register r12 information: non-paged memory
-[    7.313992] Process kworker/u4:2 (pid: 29, stack limit = 0x(ptrval))
-[    7.314107] Stack: (0xd0949bf0 to 0xd094a000)
-[    7.314223] 9be0:                                     00000000 c4b64400 c4b64400 c1bc0a9c
-[    7.314337] 9c00: c4b69000 c234b3f4 cbdcd208 c0e01338 ffffffff 00000000 00000000 00000000
-[    7.314441] 9c20: 00000000 00000000 00000000 d0b2c62c 00000000 00000000 c4b64400 c1bc0a9c
-[    7.314543] 9c40: 00000000 c234b3f4 cbdcd208 c1b96954 00000000 c0b73a98 c4b64400 00000000
-[    7.314650] 9c60: c1bc0aac c0a4a434 c4b64400 c1bc0aac c4b64400 00000016 c234b3f4 c0a4a6d4
-[    7.314754] 9c80: c134db68 3fffffff c234b44c c1bc0aac c4b64400 00000016 c234b3f4 c0a4a81c
-[    7.314856] 9ca0: 00000001 c1bc0aac d0949cfc c4b64400 c234b3f4 c0a4a948 00000000 c41ea600
-[    7.314957] 9cc0: d0949cfc c0a4a8b4 c234b3f4 c0a4849c c4b688bc c41ea6e4 c461d3d8 d0b2c62c
-[    7.315059] 9ce0: c4b688bc c4b64400 00000001 c4b64444 c41ea600 c0a4aca8 c413ac88 c4b64400
-[    7.315161] 9d00: 00000001 d0b2c62c c4b64400 c4b64400 00000000 c0a49590 c4b64400 00000000
-[    7.315263] 9d20: 00000000 c4b68800 c234b3f4 c0a47164 c41dd000 c4b64400 00000000 c422f810
-[    7.315365] 9d40: c422f810 d0b2c62c 00000000 c4b64400 c4b68800 c422f810 cbdcd260 c170bd30
-[    7.315471] 9d60: c170bd24 c0b77d4c c4b68b1c c4b64400 c4b64400 00000000 cbdcd260 c0b77e34
-[    7.315574] 9d80: c4b68800 cbdcd1fc c4b64400 c0b786e4 00000000 c1b7dac4 c4020000 c422f810
-[    7.315675] 9da0: d0949d9c 000f4240 00000000 d0b2c62c 00000000 c4b68800 ffffffed c422f800
-[    7.315777] 9dc0: c422f810 c4b68d40 c4b68800 00000000 c4020000 c0b8102c 00000000 c423c080
-[    7.315878] 9de0: c4b68d40 00000000 c423c040 00000000 00000000 d0b2c62c 00000000 c422f810
-[    7.315980] 9e00: c1baff90 00000000 c1b96f6c 00000000 c1c20420 c0a4cd34 c422f810 00000000
-[    7.316080] 9e20: c1baff90 00000000 c1b96f6c c0a4a434 c422f810 c1baff90 c422f810 00000016
-[    7.316182] 9e40: c1b96f6c c0a4a6d4 c1330f38 3ffffffb c234b44c c1baff90 c422f810 00000016
-[    7.316283] 9e60: c1b96f6c c0a4a81c 00000001 c1baff90 d0949ec4 c422f810 c1b96f6c c0a4a948
-[    7.316384] 9e80: 00000000 c40dec00 d0949ec4 c0a4a8b4 c1b96f6c c0a4849c c422e0cc c40dece4
-[    7.316486] 9ea0: c4603a58 d0b2c62c c422e0cc c422f810 00000001 c422f854 c40dec00 c0a4aca8
-[    7.316587] 9ec0: c413ac88 c422f810 00000001 d0b2c62c c423a434 c422f810 c1b96e8c c0a49590
-[    7.316689] 9ee0: c423a434 c422f810 c1b96e8c c1b96e90 c1b96f6c c0a4a1d8 c1b96f00 c429f680
-[    7.316791] 9f00: c400ce00 c4020000 c1a093d4 c400ce15 c1c20420 c0149e40 00000001 00000000
-[    7.316893] 9f20: c0149d78 c4020000 c1b96f00 c209b3cc 00000000 c16e587c 00000000 d0b2c62c
-[    7.316996] 9f40: c4020000 c429f680 c4020000 c429f6ac c4020040 c1a05d40 00000088 c41dd000
-[    7.317099] 9f60: c4020000 c014a294 00000000 c429c780 c41dd000 c014a268 c429f680 c429f780
-[    7.317201] 9f80: d0889ec4 00000000 00000000 c0154358 c429c780 c015425c 00000000 00000000
-[    7.317303] 9fa0: 00000000 00000000 00000000 c010012c 00000000 00000000 00000000 00000000
-[    7.317404] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    7.317506] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-[    7.317682]  ads7846_probe from spi_probe+0x84/0xa8
-[    7.317785]  spi_probe from really_probe+0xc4/0x2e0
-[    7.317862]  really_probe from __driver_probe_device+0x84/0x1a0
-[    7.317948]  __driver_probe_device from driver_probe_device+0x2c/0xc4
-[    7.318037]  driver_probe_device from __device_attach_driver+0x94/0xc4
-[    7.318125]  __device_attach_driver from bus_for_each_drv+0x84/0xdc
-[    7.318214]  bus_for_each_drv from __device_attach+0xac/0x1d8
-[    7.318296]  __device_attach from bus_probe_device+0x8c/0x90
-[    7.318377]  bus_probe_device from device_add+0x560/0x774
-[    7.318455]  device_add from __spi_add_device+0x58/0xe8
-[    7.318533]  __spi_add_device from spi_add_device+0x58/0x8c
-[    7.318613]  spi_add_device from spi_register_controller+0x784/0xbfc
-[    7.318705]  spi_register_controller from spi_imx_probe+0x390/0x604
-[    7.318795]  spi_imx_probe from platform_probe+0x58/0xbc
-[    7.318872]  platform_probe from really_probe+0xc4/0x2e0
-[    7.318947]  really_probe from __driver_probe_device+0x84/0x1a0
-[    7.319029]  __driver_probe_device from driver_probe_device+0x2c/0xc4
-[    7.319116]  driver_probe_device from __device_attach_driver+0x94/0xc4
-[    7.319205]  __device_attach_driver from bus_for_each_drv+0x84/0xdc
-[    7.319291]  bus_for_each_drv from __device_attach+0xac/0x1d8
-[    7.319372]  __device_attach from bus_probe_device+0x8c/0x90
-[    7.319454]  bus_probe_device from deferred_probe_work_func+0x8c/0xc0
-[    7.319542]  deferred_probe_work_func from process_one_work+0x288/0x6b0
-[    7.319635]  process_one_work from worker_thread+0x2c/0x480
-[    7.319715]  worker_thread from kthread+0xfc/0x120
-[    7.319788]  kthread from ret_from_fork+0x14/0x28
-
-Bisect result:
-
-# bad: [9ca10bfb8aa8fbf19ee22e702c8cf9b66ea73a54] Add linux-next specific files for 20230605
-# good: [9561de3a55bed6bdd44a12820ba81ec416e705a7] Linux 6.4-rc5
-git bisect start 'HEAD' 'v6.4-rc5'
-# bad: [8e3a5ba24fdd336ddd8096257588f5ad5a934ffa] Merge branch 'drm-next' of git://git.freedesktop.org/git/drm/drm.git
-git bisect bad 8e3a5ba24fdd336ddd8096257588f5ad5a934ffa
-# bad: [376395b3a956c450a8f52a02acf0e9d7cbb77ac9] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git
-git bisect bad 376395b3a956c450a8f52a02acf0e9d7cbb77ac9
-# bad: [332f472c4163f902f588816c8b28a00a461ed325] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-git bisect bad 332f472c4163f902f588816c8b28a00a461ed325
-# good: [159f9e8420bb86f7b154acec72d93528a3f9b0f7] Merge branch 'mm-everything' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-git bisect good 159f9e8420bb86f7b154acec72d93528a3f9b0f7
-# good: [dc7fd8b3a8838ce715fed6c58a90187380084582] Merge branch 'for-next/core' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux
-git bisect good dc7fd8b3a8838ce715fed6c58a90187380084582
-# bad: [de6a558f810c3de395eaa58bce1063e24d8a78b8] Merge branch 'at91-next' of git://git.kernel.org/pub/scm/linux/kernel/git/at91/linux.git
-git bisect bad de6a558f810c3de395eaa58bce1063e24d8a78b8
-# good: [3ea093976845afd968dfc9cf36eb8d5ba63b7c0e] Merge branch 'soc/dt' into for-next
-git bisect good 3ea093976845afd968dfc9cf36eb8d5ba63b7c0e
-# bad: [b26078a2b9df1dfd725a0e171d2b0ad0259cfef1] Merge branch 'arm/fixes' into for-next
-git bisect bad b26078a2b9df1dfd725a0e171d2b0ad0259cfef1
-# bad: [8e0285ab95a9baf374f2c13eb152221c8ecb3f28] ARM/musb: omap2: Remove global GPIO numbers from TUSB6010
-git bisect bad 8e0285ab95a9baf374f2c13eb152221c8ecb3f28
-# bad: [e519f0bb64efc2c9c8b67bb2d114dda458bdc34d] ARM/mmc: Convert old mmci-omap to GPIO descriptors
-git bisect bad e519f0bb64efc2c9c8b67bb2d114dda458bdc34d
-# good: [4c40db6249ff1da335b276bdd6c3c3462efbc2ab] ARM: omap1: Remove reliance on GPIO numbers from PalmTE
-git bisect good 4c40db6249ff1da335b276bdd6c3c3462efbc2ab
-# bad: [767d83361aaa6a1ecb4d5b89eeb38a267239917a] Input: ads7846 - Convert to use software nodes
-git bisect bad 767d83361aaa6a1ecb4d5b89eeb38a267239917a
-# good: [480c82daa3e41873421dc2c9e2918ad7e21d7a0b] ARM: omap1: Remove reliance on GPIO numbers from SX1
-git bisect good 480c82daa3e41873421dc2c9e2918ad7e21d7a0b
-# first bad commit: [767d83361aaa6a1ecb4d5b89eeb38a267239917a] Input: ads7846 - Convert to use software nodes
+--------------b5ljnWero7dzFtIjzAdwjDoF--
