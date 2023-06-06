@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B99723E0E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:45:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEE2723E25
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FEE10E334;
-	Tue,  6 Jun 2023 09:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA61D10E324;
+	Tue,  6 Jun 2023 09:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE9F10E327;
- Tue,  6 Jun 2023 09:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686044724; x=1717580724;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=sUKN7tyxrJH3vsqeq3Bl+B1Au0rz1W/aaAamLU/PTe0=;
- b=bZxhUHP6YGrC6Id7TLHRWiGlY+1Woxmypw3TeZ8nbTVPCMDyHvYBkRPO
- WEwqU3BXNExtqTTFKBBHTK+8ympqvEpkOv6fFVicPzXXZamoacn0wQyr+
- fSwGV91WXfx656cGEeCtVdez281IWDyLD+hf5mglyt2xREsLwMx8klX/4
- vSfrI6smf28DhLVgRHBf2kh4f/lNct4YGLP4fe0APa7ug2OC9unnpJ9Vb
- exy3ZCClKrTLWRlV+CjKl58sgUJFhaGlH6BY9yp6CnQa9h3DGqGZeVQPi
- iYuGIw9NSDuqLOpBY5u+5vm0bv+5NZqvu3YwKkEF1YJI9yhJ462GoCUe9 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="355472317"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="355472317"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2023 02:44:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="742080595"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="742080595"
-Received: from wacarey-mobl1.ger.corp.intel.com (HELO [10.213.192.12])
- ([10.213.192.12])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2023 02:44:52 -0700
-Message-ID: <e2f3a990-0fb9-74a2-3b1c-7a30fefda84b@linux.intel.com>
-Date: Tue, 6 Jun 2023 10:44:50 +0100
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8719B10E333
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 09:47:32 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3569kvk3041536;
+ Tue, 6 Jun 2023 04:46:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1686044817;
+ bh=/CpVUW5KJqV8jUtMerYvOT4MMkJcqj7gtawJjpNIJBk=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=ivvb35jAW2dVixTnUeGGWBgwNAKYlhtFXguYCiZvJhdjUVlLsDihMrmHOjGpjW1wd
+ mTuLgLRJBTSm7onzz+B/K8dW8ZEUbB7t5reT9L0OUjvXYCbUecKwhmfaIPXv13FPD7
+ ZL21jMIoMA1+vYCAO+XGfsJ93QiRj22FNzfgo1sY=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3569kvZB018974
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 6 Jun 2023 04:46:57 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 6
+ Jun 2023 04:46:56 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 6 Jun 2023 04:46:56 -0500
+Received: from [172.24.218.160] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3569koec009877;
+ Tue, 6 Jun 2023 04:46:51 -0500
+Message-ID: <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
+Date: Tue, 6 Jun 2023 15:16:49 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/i915/selftests: Add some missing error propagation
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230605131135.396854-1-tvrtko.ursulin@linux.intel.com>
- <ZH3ncqduEdlMRh98@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZH3ncqduEdlMRh98@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: <neil.armstrong@linaro.org>, Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha
+ <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Swapnil Jakhade <sjakhade@cadence.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Francesco Dolcini <francesco@dolcini.it>
+References: <20230606082142.23760-1-a-bhatia1@ti.com>
+ <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,77 +71,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, Dan Carpenter <dan.carpenter@linaro.org>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Neil,
 
-On 05/06/2023 14:47, Andi Shyti wrote:
-> Hi Tvrtko,
+Thank you for reviewing the previous patches!
+
+On 06-Jun-23 14:37, Neil Armstrong wrote:
+> Hi,
 > 
->> Add some missing error propagation in live_parallel_switch.
+> On 06/06/2023 10:21, Aradhya Bhatia wrote:
+>> Hi all,
 >>
->> To avoid needlessly burdening the various backport processes, note I am
->> not marking it as a fix against any patches and not copying stable since
->> it is debug/selftests only code.
-> 
-> which I did :/
-> 
-> But I guess you are right and it's not necessary.
-> 
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> ---
->>   .../gpu/drm/i915/gem/selftests/i915_gem_context.c  | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
+>> I have picked up this long standing series from Nikhil Devshatwar[1].
 >>
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> index ad6a3b2fb387..7021b6e9b219 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
->> @@ -348,8 +348,10 @@ static int live_parallel_switch(void *arg)
->>   				continue;
->>   
->>   			ce = intel_context_create(data[m].ce[0]->engine);
->> -			if (IS_ERR(ce))
->> +			if (IS_ERR(ce)) {
->> +				err = PTR_ERR(ce);
->>   				goto out;
->> +			}
->>   
->>   			err = intel_context_pin(ce);
->>   			if (err) {
->> @@ -369,8 +371,10 @@ static int live_parallel_switch(void *arg)
->>   
->>   		worker = kthread_create_worker(0, "igt/parallel:%s",
->>   					       data[n].ce[0]->engine->name);
->> -		if (IS_ERR(worker))
->> +		if (IS_ERR(worker)) {
->> +			err = PTR_ERR(worker);
->>   			goto out;
->> +		}
->>   
->>   		data[n].worker = worker;
->>   	}
->> @@ -399,8 +403,10 @@ static int live_parallel_switch(void *arg)
->>   			}
->>   		}
->>   
->> -		if (igt_live_test_end(&t))
->> -			err = -EIO;
->> +		if (igt_live_test_end(&t)) {
->> +			err = err ?: -EIO;
+>> This series moves the tidss to using new connectoe model, where the SoC
+>> driver (tidss) creates the connector and all the bridges are attached
+>> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
+>> to support format negotiation and and 'simple' encoder to expose it to
+>> the userspace.
+>>
+>> Since the bridges do not create the connector, the bus_format and
+>> bus_flag is set via atomic hooks.
+>>
+>> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
+>> drivers as a first step before moving the connector model.
+>>
+>> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
+>> and J721E-SK. Display support for AM625 SoC has not been added upstream
+>> and is a WIP. To test this series on AM625 based platforms, basic
+>> display support patches, (for driver + devicetree), can be found in
+>> the "next_AttachNoConn-v2" branch on my github fork[2].
 > 
-> Nice catch!
+> I can apply all bridge patches right now so only the tidss change remain,
+> is that ok for you ?
 > 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+While the bridge patches and the tidss patch can be separately built
+without any issue, the tidss functionality will break if only the bridge
+patches get picked up, and not the tidss.
+
+Would it be possible for you to pick all the patches together once Tomi
+acks the tidss patch?
 
 
-Thanks, pushed! (with Fixes tags added)
+Regards
+Aradhya
 
-Regards,
-
-Tvrtko
-
+> 
+>>
+>> Thanks,
+>> Aradhya
+>>
+>> [1]: https://patchwork.freedesktop.org/series/82765/#rev5
+>> [2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn-v2
+>>
+>> Change Log:
+>> V6 -> V7
+>>    - Rebase and cosmetic changes.
+>>    - Drop the output format check condition for mhdp8546 and hence,
+>>      drop Tomi Valkeinen's R-b tag.
+>>    - Added tags wherever suggested.
+>>
+>> V5 -> V6
+>>    - Rebase and cosmetic changes
+>>    - Dropped the output format check condition for tfp410 and hence,
+>>      dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
+>>    - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
+>>      the series and instead created a single patch that,
+>>        1. Creates tidss bridge for format negotiation.
+>>        2. Creates 'simple' encoder for userspace exposure.
+>>        3. Creates a tidss connector.
+>>        4. Attaches the next-bridge to encoder with the
+>>           DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+>>    - Add format negotiation support for sii902x driver.
+>>
+>> Previous versions:
+>> V1 to V6: https://patchwork.freedesktop.org/series/82765/
+>>
+>> Aradhya Bhatia (3):
+>>    drm/bridge: sii902x: Support format negotiation hooks
+>>    drm/bridge: sii902x: Set input_bus_flags in atomic_check
+>>    drm/tidss: Update encoder/bridge chain connect model
+>>
+>> Nikhil Devshatwar (5):
+>>    drm/bridge: tfp410: Support format negotiation hooks
+>>    drm/bridge: tfp410: Set input_bus_flags in atomic_check
+>>    drm/bridge: mhdp8546: Add minimal format negotiation
+>>    drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
+>>    drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
+>>
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  77 ++++++----
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+>>   .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
+>>   .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
+>>   drivers/gpu/drm/bridge/sii902x.c              |  40 +++++
+>>   drivers/gpu/drm/bridge/ti-tfp410.c            |  43 ++++++
+>>   drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
+>>   drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
+>>   drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
+>>   9 files changed, 235 insertions(+), 95 deletions(-)
+>>
+> 
