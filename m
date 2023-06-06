@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0ADF7247BA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 17:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD547247BD
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 17:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACBC10E372;
-	Tue,  6 Jun 2023 15:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 927ED10E374;
+	Tue,  6 Jun 2023 15:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B0A10E373
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 15:29:12 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id
- ca18e2360f4ac-774867fd6f7so200824039f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 08:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686065351; x=1688657351;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FicGEFlUfAYOIaGezdZ6xTGOhAj3FNMamu1kcWTnkk0=;
- b=A7LgQ6PthT+SBbAIObzLUORX8Q5cq4LZxoNHVH/jcDuM718fCWYlzNIGiF1/YU3jW3
- sL44MJMVpWS8gf7HEImdGYIBEXLhrq+PCGB/jm3VP+3Qdtk7QQ527lYD5eMu2iQ0A18i
- 7VR2tVfpxnsXNUoIY/hYBlfOLfiz7kWV59j0w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686065351; x=1688657351;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FicGEFlUfAYOIaGezdZ6xTGOhAj3FNMamu1kcWTnkk0=;
- b=LuzT8Q7ChCOzWBKljSNbuKV1aCv0exuE4IxLpSwy/tXtqNpBPQXIjJtydaxQ7141Xs
- htIBmNh0m74MedzVPAHWM3YYpzxsWxe/9eVV89hc8agFxzGT/BQpe51+ULWuIgZB5QC0
- 0NGXJsdiYHK/slc6tidx4yXLQUBp+9FUeuT7M6M3ETWy6Ag/8Xu26UHH2kvmPLr8o9tm
- EyR1UsA1i600o+aHVjAr6VethSJYL21mTAgDLLUEFvtbMjZA1OvCRSgXV+3B7pZsV26Q
- wZJLdigRStdC3741sKHBuBGuSVazCfQBjVlTmY3Zg6H0YNmSLSJYkaRZ+AUyiigYQQTv
- USiA==
-X-Gm-Message-State: AC+VfDw0n+un0H/EmTCEho+OKoRd/nKei6h/aVBFZhNlDyfXcHLNvSKk
- NZ/eMDIJw7viMkMfooSAtChaLUNYuQDTFmMquXo=
-X-Google-Smtp-Source: ACHHUZ54fZ00TL1HpgfVViXOkBHORVFMEmrgcUvE7rFKEfXwU0nXCpNLoQCMSoAPkdlNthXxs3oKcA==
-X-Received: by 2002:a6b:7a0c:0:b0:776:f992:78cf with SMTP id
- h12-20020a6b7a0c000000b00776f99278cfmr3096895iom.12.1686065351300; 
- Tue, 06 Jun 2023 08:29:11 -0700 (PDT)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com.
- [209.85.166.169]) by smtp.gmail.com with ESMTPSA id
- r4-20020a5e9504000000b0076c70f8c4d1sm1339626ioj.45.2023.06.06.08.29.08
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 08:29:08 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id
- e9e14a558f8ab-33dea7d5424so148145ab.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 08:29:08 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1a02:b0:33d:67c9:a486 with SMTP id
- s2-20020a056e021a0200b0033d67c9a486mr229492ild.26.1686065347967; Tue, 06 Jun
- 2023 08:29:07 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 700C810E373;
+ Tue,  6 Jun 2023 15:30:29 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 356FMeV0016037; Tue, 6 Jun 2023 15:30:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=5rjeQ+adxEPAtRMVme/yLgNBpCtZv2fDyPstcl0ZWqI=;
+ b=gJisIJDkXCyRs/n48/uyAdwP60E2kH2F6N1J43wlrrT10s95z+QUfvaNcGMKDtmZH1Zq
+ /yG4gDVqpPWTPTCphrULT22L/DIrEZ2UAdmpcGxGJyo6PZ2t0Hsx+H4Nt4Mw/JVUqGwx
+ l0xaExo+/OElusF4X5pmTH/VVtY0Q9dD+3pN+co1y+DXuw0g2vwXLwp5vIhf42+2n7f5
+ gChOdSN5sVuminoTluvu3GvuxeWTEGeeSGgy3tyN1NjSbBlptGwZ2b++yNyuY8/qPTCk
+ 2DopesnkTDxUMB5eh1wXjjoDhHzM0UkSOdP1T/4ppU3o2kDguIi7ie8lp0+DzVARmP0e 6Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r1s4uhtyd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 15:30:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356FUMdb029459
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 15:30:22 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 6 Jun 2023 08:30:16 -0700
+Date: Tue, 6 Jun 2023 21:00:13 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v8 04/18] drm/msm/a6xx: Move force keepalive vote removal
+ to a6xx_gmu_force_off()
+Message-ID: <23c2tadnl5hyeyo2i4onxfgx76dfsc6zefasdhxcdzoebsn7rg@24noupcp5h2h>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-4-69c68206609e@linaro.org>
 MIME-Version: 1.0
-References: <20230606075527.155346-1-suhui@nfschina.com>
-In-Reply-To: <20230606075527.155346-1-suhui@nfschina.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 6 Jun 2023 08:28:56 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X_n4Si3k4iQ0yRJZRqX2DuhGF2pjPqEzbiKqBY3ZCNHg@mail.gmail.com>
-Message-ID: <CAD=FV=X_n4Si3k4iQ0yRJZRqX2DuhGF2pjPqEzbiKqBY3ZCNHg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Avoid possible buffer overflow
-To: Su Hui <suhui@nfschina.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230223-topic-gmuwrapper-v8-4-69c68206609e@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: PbliB0h2FTeeYlppe_S__3dezpyGlQH_
+X-Proofpoint-GUID: PbliB0h2FTeeYlppe_S__3dezpyGlQH_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_11,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 mlxlogscore=989 impostorscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 clxscore=1011 mlxscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2306060132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,57 +80,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- andersson@kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, u.kleine-koenig@pengutronix.de
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Jun 6, 2023 at 12:56=E2=80=AFAM Su Hui <suhui@nfschina.com> wrote:
->
-> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <=3D 5.
->
-> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
+On Mon, May 29, 2023 at 03:52:23PM +0200, Konrad Dybcio wrote:
+> 
+> As pointed out by Akhil during the review process of GMU wrapper
+> introduction [1], it makes sense to move this write into the function
+> that's responsible for forcibly shutting the GMU off.
+> 
+> It is also very convenient to move this to GMU-specific code, so that
+> it does not have to be guarded by an if-condition to avoid calling it
+> on GMU wrapper targets.
+> 
+> Move the write to the aforementioned a6xx_gmu_force_off() to achieve
+> that. No effective functional change.
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+-Akhil.
+> 
+> [1] https://lore.kernel.org/linux-arm-msm/20230501194022.GA18382@akhilpo-linux.qualcomm.com/
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index 7a748785c545..952aae4221e7 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -305,7 +305,8 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn=
-65dsi86 *pdata)
->          * The PWM refclk is based on the value written to SN_DPPLL_SRC_R=
-EG,
->          * regardless of its actual sourcing.
->          */
-> -       pdata->pwm_refclk_freq =3D ti_sn_bridge_refclk_lut[i];
-> +       if (i < refclk_lut_size)
-> +               pdata->pwm_refclk_freq =3D ti_sn_bridge_refclk_lut[i];
-
-I don't think this is quite the right fix. I don't think we can just
-skip assigning "pdata->pwm_refclk_freq". In general I think we're in
-pretty bad shape if we ever fail to match a refclk from the table and
-I'm not quite sure how the bridge chip could work at all in this case.
-Probably that at least deserves a warning message in the logs. There's
-no place to return an error though, so I guess the warning is the best
-we can do and then we can do our best to do something reasonable.
-
-In this case, I think "reasonable" might be that if the for loop exits
-and "i =3D=3D refclk_lut_size" that we should set "i" to 1. According to
-the datasheet [1] setting a value of 5 (which the existing code does)
-is the same as setting a value of 1 (the default) and if it's 1 then
-we'll be able to look this up in the table.
-
-
-[1] https://www.ti.com/lit/gpn/sn65dsi86
-
--Doug
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 ++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 ------
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 87babbb2a19f..9421716a2fe5 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -912,6 +912,12 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
+>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>  	struct msm_gpu *gpu = &adreno_gpu->base;
+>  
+> +	/*
+> +	 * Turn off keep alive that might have been enabled by the hang
+> +	 * interrupt
+> +	 */
+> +	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+> +
+>  	/* Flush all the queues */
+>  	a6xx_hfi_stop(gmu);
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 9fb214f150dd..e34aa15156a4 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1274,12 +1274,6 @@ static void a6xx_recover(struct msm_gpu *gpu)
+>  	/* Halt SQE first */
+>  	gpu_write(gpu, REG_A6XX_CP_SQE_CNTL, 3);
+>  
+> -	/*
+> -	 * Turn off keep alive that might have been enabled by the hang
+> -	 * interrupt
+> -	 */
+> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 0);
+> -
+>  	pm_runtime_dont_use_autosuspend(&gpu->pdev->dev);
+>  
+>  	/* active_submit won't change until we make a submission */
+> 
+> -- 
+> 2.40.1
+> 
