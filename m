@@ -1,43 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A277246B3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:47:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 690B87246BE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:48:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6603A10E364;
-	Tue,  6 Jun 2023 14:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADB4C10E143;
+	Tue,  6 Jun 2023 14:48:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D2D10E364
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:47:36 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126253223039.31.openmobile.ne.jp
- [126.253.223.39])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8606BAB;
- Tue,  6 Jun 2023 16:47:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686062830;
- bh=K2gaqtTkXezyTdLUzCJIlQtK/ygyOYqpgIB0q9PaxfU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vzOfTt1vxgtrmOZvXfsCF6chsV584A/W8ybzo3wzv/vxa3giRlx7M1ZhvfNUlMi3B
- MnDX8tDTEI+TCIn08KRw1m360AwRqBHS473hiUtqfMpDjvX6Kmnl/BRmjQuqgKaqkr
- FxuQ6fJwJ7O7Ms2Msi2ee1Eo76nZQKnW/eKWUbH0=
-Date: Tue, 6 Jun 2023 17:47:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Siddh Raman Pant <code@siddh.me>
-Subject: Re: [PATCH v9 2/8] drm/print: Fix and add support for NULL as first
- argument in drm_* macros
-Message-ID: <20230606144732.GG5197@pendragon.ideasonboard.com>
-References: <cover.1686047727.git.code@siddh.me>
- <ae42791195a788bb77b3f9c2b87bca5d4e78cf83.1686047727.git.code@siddh.me>
- <20230606140512.GA5197@pendragon.ideasonboard.com>
- <18891219d8e.6a7d8f15119986.32609419593331086@siddh.me>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 330AA10E143
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1686062917; x=1717598917;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=O5O88F8k9M+uTlDdyFYRya69vCehBmNpxhQSvU+qoxs=;
+ b=Kbzfg3UQdNZO7pB1fkLyCvX2P5zfArWmyrtwqHF4+4lq2DnFlvAY6uYq
+ cHNx3py5lCmgbU9TvNhHI4s9pxO4qxUQO7g9wuZqjzKThhaNfFLl47ZKK
+ wS8+WDvBeKiWv2fGp+muok97xzCfuJ7YrRG3n+aNGRPpj6BZccfXg8OhY
+ +NaXeIfwjPCd9vUtA1+MRz9A1ikhHshxP6EmMFA2+h6CxjXCTCPf763Kp
+ NOR6z0cRfDzfOU8L1lZNHJiejP4XkH9Msj3Ew8MH1+oVQXdG+Yakp3meW
+ 7B0Z/jbtQkUTlZW1l/ExxsmA/rD3ykrs/+7JV2lciZVzfA3QURlrfm9GP w==;
+X-IronPort-AV: E=Sophos;i="6.00,221,1681164000"; d="scan'208";a="31307809"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 06 Jun 2023 16:48:34 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 06 Jun 2023 16:48:34 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 06 Jun 2023 16:48:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1686062914; x=1717598914;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=O5O88F8k9M+uTlDdyFYRya69vCehBmNpxhQSvU+qoxs=;
+ b=f/P+P1D3MvMjQ6A/BwCBwfCtzs4JEQqHDFdxfQ7jiup96FAJSKdEHa1+
+ vAJNZSL8VuoCgKcYwaGnjNhhfCGX6y+wXT0BA4yUbA+9o5ynWq81wId6j
+ xSZqjxSEhWHKs82mQdvBqcjP/Nw8VlNAXKL++MaUAkn0uJRhOMVNHV4Fu
+ h+LyXjl+75+TeKqQRFP0zPBQMApSgOKYIvo2NtcPZF2y/QibNHy3gRrGn
+ MTsd9B9rSSXjed0sV175OZ97YioUM4Dd8fSyKv1iJzk2I+K6kGNWjPb2x
+ pdlHcdBaX0nsqQXq93wurbqO2JtT9ijjgefdJ4f7rN/cErJgNQw34w8sh A==;
+X-IronPort-AV: E=Sophos;i="6.00,221,1681164000"; d="scan'208";a="31307808"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 06 Jun 2023 16:48:34 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 46CB6280090;
+ Tue,  6 Jun 2023 16:48:34 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
+Date: Tue,  6 Jun 2023 16:48:33 +0200
+Message-Id: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <18891219d8e.6a7d8f15119986.32609419593331086@siddh.me>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,61 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Suraj Upadhyay <usuraj35@gmail.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 06, 2023 at 08:04:39PM +0530, Siddh Raman Pant wrote:
-> On Tue, 06 Jun 2023 19:35:12 +0530, Laurent Pinchart wrote:
-> > Hi Siddh,
-> > 
-> > Thank you for the patch.
-> 
-> Anytime :)
-> 
-> > On Tue, Jun 06, 2023 at 04:15:16PM +0530, Siddh Raman Pant wrote:
-> > > Comments say macros DRM_DEBUG_* are deprecated in favor of
-> > > drm_dbg_*(NULL, ...), but they have broken support for it,
-> > > as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
-> > 
-> > What's the problem there ?
-> 
-> (NULL)->dev is invalid C. It's a macro, so preprocessor substitutes
-> that text directly, there is no evaluation. GCC will throw an error
-> regarding dereferencing a void* pointer.
-> 
-> > >  /* Helper for struct drm_device based logging. */
-> > >  #define __drm_printk(drm, level, type, fmt, ...)                     \
-> > > -     dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-> > > +({                                                                   \
-> > > +     struct device *__dev_ = __drm_dev_ptr(drm);                     \
-> > > +     if (__dev_)                                                     \
-> > > +             dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__); \
-> > > +     else                                                            \
-> > > +             pr_##level##type("[drm] " fmt, ##__VA_ARGS__);          \
-> > 
-> > If I recall correctly, dev_*() handle a NULL dev pointer just fine. Do
-> > we need to manually fall back to pr_*() ?
-> 
-> I took drm_dev_printk (on line 261 of drm_print.c) as the reference,
-> wherein it uses a conditional for determining whether dev_printk or
-> printk should be called.
-> 
-> I suppose it is to avoid printing "(NULL device *)", which dev_printk
-> does if it gets a NULL device pointer (refer the definition on line
-> 4831 of drivers/base/core.c). Though if I'm wrong, kindly let me know.
+When -EPROBE_DEFER is returned do not raise an error, but silently return
+this error instead. Fixes error like this:
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
 
-You're right, it's probably best to avoid the "(NULL device *)".
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+dev_err_probe() would be the best, but I am not sure if this function is
+always used within a driver's probe() call.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+ drivers/gpu/drm/drm_bridge.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index c3d69af02e79d..07773d6441a1f 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	bridge->encoder = NULL;
+ 	list_del(&bridge->chain_node);
+ 
++	if (ret != -EPROBE_DEFER) {
+ #ifdef CONFIG_OF
+ 	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+ 		  bridge->of_node, encoder->name, ret);
+@@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
+ 		  encoder->name, ret);
+ #endif
++	}
+ 
+ 	return ret;
+ }
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
