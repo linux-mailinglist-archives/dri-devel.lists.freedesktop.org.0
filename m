@@ -2,56 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D772723E21
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52328723E2E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 938DC10E31D;
-	Tue,  6 Jun 2023 09:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28DEA10E242;
+	Tue,  6 Jun 2023 09:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C386210E242;
- Tue,  6 Jun 2023 09:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686044839; x=1717580839;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=BCjE8AtzZ1FYRpEfzNypsKXSAZs1GAtnDKARpjkWZ/k=;
- b=WoFgiIvwsvGdNAyc9Cf1FDxL+UtyrL4mEAFq1C6jqk15uQMTfWMxW/NO
- Ps9oi+j9BhBWttbf01onINrpV6spqDuEadbJ+Ur1MkROExr1nUHrilm9c
- LUlSgbc/uD+n3GkkgtSFnPH1kqfMFvb20uOrzkiGkwNNHlQdGwNWu5XuC
- Ctbq6neE31aF7s1DQOP1GpBHpSkN2/80oUTArq2OAoOJRdJixmD5Xd4gu
- tZFkgNDkdx3MCksV1kDhbtsJhcS32ONeKLxfgVZGiXVnI+/IA3s+YB0qX
- /GIKVd93daUCRtgrDvT4zHa6WhYo7DxmHBwO4xOQRhbse2Q/yr70F9/qj g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336976307"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="336976307"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2023 02:47:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="821565861"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="821565861"
-Received: from wacarey-mobl1.ger.corp.intel.com (HELO [10.213.192.12])
- ([10.213.192.12])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2023 02:47:18 -0700
-Message-ID: <ee3ee473-6800-d4b4-292c-135caa9571b3@linux.intel.com>
-Date: Tue, 6 Jun 2023 10:47:16 +0100
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 768FF10E21B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 09:48:32 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f736e0c9b1so27666695e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 02:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686044909; x=1688636909;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=nH9IXy+8mmr6fEKUjeAVrm6OrEN2ynlfCA5RHInWD/g=;
+ b=zTebeQ5VTcDvGTHY8x8b4YFkkkxmVmwYcyWt+L7EqJFGAHB/Aw1MfV7XdsSJl6g9ZS
+ QFf+cyBsG0jZnG1q00buj8TnKt9PPwmSiGAaRdGFuesUi9uJ/Y+aM2HUrXuUNIsTI3H5
+ jDDgU0U6C2pxVmhDBjeJWneb40ID2C93V/65PzPwfn2kB0zYEQKHlntsA/i2hDxGA1eT
+ dPNTIt61dgFsE0BY6JSQHu2gGkQaU2nwxThexB+KzF9hxx6h4o0skGMdD9NKSpOkD/83
+ FZ3ZUGG4kVAUkJBc6KeTnhzadR6SS3GVnBtqB+Jklyb7EXkx3xCFCB2Bp6fzZRAL1lF0
+ YfFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686044909; x=1688636909;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nH9IXy+8mmr6fEKUjeAVrm6OrEN2ynlfCA5RHInWD/g=;
+ b=EsUHAAMVq3kqHMkujJeNqGZRBCj0GzLivQsKYGpuJ3xwzSZyuJL0XD2jGV/DiT+c9p
+ nv6x3dii9pjmz5/43SJcYM/c/cKtfVSnK4Qfoqdb+mR+dGF01sTtrJYwmlGE7cOVOYhg
+ o9peqNwQ9kOrow2svbBo+SgmiPDtLBbaqKQIRuoKx1R57Dq3DbT0jZnLi756Px/ho3Gv
+ WU0XJ1Tbwx74IfUr8isFNNKL7ch6lWKSfdJAsPiqdHi7JK5L3Xlj1yyInWrqdKpX/9zX
+ mhw1Fw6pAtu3HrzayNw6uW/KFesybldvbGtiw7dCpCy3SBhCANi/GMzsY9n6njMBxjxL
+ 6ZXA==
+X-Gm-Message-State: AC+VfDx3sCzYRnUYB/gYq84zcGX7nPgK3gwsRijVF4EbsjU/49NrEQvY
+ F0oQfCXZ4/HPcweSeqopnio3CA==
+X-Google-Smtp-Source: ACHHUZ5DwtWDzMb4zpcw1FeB4iY7eNE3ZKctzKba19fFKs6cvdR5J0xK2HTz6GvoD4cnjwuXPljVOw==
+X-Received: by 2002:a7b:cb92:0:b0:3f7:29c4:8fbd with SMTP id
+ m18-20020a7bcb92000000b003f729c48fbdmr1620359wmi.27.1686044909090; 
+ Tue, 06 Jun 2023 02:48:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4973:1165:b171:fa69?
+ ([2a01:e0a:982:cbb0:4973:1165:b171:fa69])
+ by smtp.gmail.com with ESMTPSA id
+ y20-20020a05600c365400b003f60a446fe5sm13553200wmq.29.2023.06.06.02.48.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jun 2023 02:48:28 -0700 (PDT)
+Message-ID: <42151d11-12d9-c165-0d4b-a0af80b683c3@linaro.org>
+Date: Tue, 6 Jun 2023 11:48:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Implement fdinfo memory stats
- printing
+ Thunderbird/102.11.2
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230605143720.435046-1-tvrtko.ursulin@linux.intel.com>
- <ZH5gMSkMrUiXhuTL@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZH5gMSkMrUiXhuTL@ashyti-mobl2.lan>
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Swapnil Jakhade <sjakhade@cadence.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Francesco Dolcini <francesco@dolcini.it>
+References: <20230606082142.23760-1-a-bhatia1@ti.com>
+ <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
+ <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
+Organization: Linaro Developer Services
+In-Reply-To: <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,133 +89,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 05/06/2023 23:22, Andi Shyti wrote:
-> Hi Tvrtko,
+On 06/06/2023 11:46, Aradhya Bhatia wrote:
+> Hi Neil,
 > 
-> On Mon, Jun 05, 2023 at 03:37:20PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Use the newly added drm_print_memory_stats helper to show memory
->> utilisation of our objects in drm/driver specific fdinfo output.
->>
->> To collect the stats we walk the per memory regions object lists
->> and accumulate object size into the respective drm_memory_stats
->> categories.
->>
->> Objects with multiple possible placements are reported in multiple
->> regions for total and shared sizes, while other categories are
->> counted only for the currently active region.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: Rob Clark <robdclark@gmail.com>
->> ---
->>   drivers/gpu/drm/i915/i915_drm_client.c | 66 ++++++++++++++++++++++++++
->>   1 file changed, 66 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
->> index 2a44b3876cb5..2a40f763f8f6 100644
->> --- a/drivers/gpu/drm/i915/i915_drm_client.c
->> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
->> @@ -41,6 +41,70 @@ void __i915_drm_client_free(struct kref *kref)
->>   }
->>   
->>   #ifdef CONFIG_PROC_FS
->> +static void
->> +add_obj_meminfo(struct drm_i915_gem_object *obj,
->> +		struct intel_memory_region *mr,
->> +		struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
->> +{
->> +	u64 sz = obj->base.size;
->> +	enum intel_region_id id;
->> +	unsigned int i;
->> +
->> +	id = mr->id;
->> +	if (obj->base.handle_count > 1)
->> +		stats[id].shared += sz;
->> +	else
->> +		stats[id].private += sz;
->> +
->> +	if (i915_gem_object_has_pages(obj)) {
->> +		stats[id].resident += sz;
->> +
->> +		if (!dma_resv_test_signaled(obj->base.resv,
->> +					    dma_resv_usage_rw(true)))
->> +			stats[id].active += sz;
->> +		else if (i915_gem_object_is_shrinkable(obj) &&
->> +			 obj->mm.madv == I915_MADV_DONTNEED)
->> +			stats[id].purgeable += sz;
+> Thank you for reviewing the previous patches!
 > 
-> this is a bit off... otherwise:
+> On 06-Jun-23 14:37, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On 06/06/2023 10:21, Aradhya Bhatia wrote:
+>>> Hi all,
+>>>
+>>> I have picked up this long standing series from Nikhil Devshatwar[1].
+>>>
+>>> This series moves the tidss to using new connectoe model, where the SoC
+>>> driver (tidss) creates the connector and all the bridges are attached
+>>> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
+>>> to support format negotiation and and 'simple' encoder to expose it to
+>>> the userspace.
+>>>
+>>> Since the bridges do not create the connector, the bus_format and
+>>> bus_flag is set via atomic hooks.
+>>>
+>>> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
+>>> drivers as a first step before moving the connector model.
+>>>
+>>> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
+>>> and J721E-SK. Display support for AM625 SoC has not been added upstream
+>>> and is a WIP. To test this series on AM625 based platforms, basic
+>>> display support patches, (for driver + devicetree), can be found in
+>>> the "next_AttachNoConn-v2" branch on my github fork[2].
+>>
+>> I can apply all bridge patches right now so only the tidss change remain,
+>> is that ok for you ?
+>>
 > 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Thanks!
-
-I will sit on this until I can find time to add some tests to drm_fdinfo.c.
-
-Regards,
-
-Tvrtko
-
+> While the bridge patches and the tidss patch can be separately built
+> without any issue, the tidss functionality will break if only the bridge
+> patches get picked up, and not the tidss.
 > 
-> Andi
+> Would it be possible for you to pick all the patches together once Tomi
+> acks the tidss patch?
+
+Sure
+
+Neil
 > 
->> +	}
->> +
->> +	/* Attribute size and shared to all possible object memory regions. */
->> +	for (i = 0; i < obj->mm.n_placements; i++) {
->> +		if (obj->mm.placements[i] == mr)
->> +			continue;
->> +
->> +		id = obj->mm.placements[i]->id;
->> +		if (obj->base.handle_count > 1)
->> +			stats[id].shared += sz;
->> +		else
->> +			stats[id].private += sz;
->> +	}
->> +}
->> +
->> +static void show_meminfo(struct drm_printer *p, struct drm_file *file)
->> +{
->> +	struct drm_i915_file_private *file_priv = file->driver_priv;
->> +	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
->> +	struct drm_i915_private *i915 = file_priv->i915;
->> +	struct intel_memory_region *mr;
->> +	unsigned int id;
->> +
->> +	for_each_memory_region(mr, i915, id) {
->> +		struct drm_i915_gem_object *obj;
->> +
->> +		mutex_lock(&mr->objects.lock);
->> +		list_for_each_entry(obj, &mr->objects.list, mm.region_link)
->> +			add_obj_meminfo(obj, mr, stats);
->> +		mutex_unlock(&mr->objects.lock);
->> +	}
->> +
->> +	for_each_memory_region(mr, i915, id)
->> +		drm_print_memory_stats(p,
->> +				       &stats[id],
->> +				       DRM_GEM_OBJECT_RESIDENT |
->> +				       DRM_GEM_OBJECT_PURGEABLE,
->> +				       mr->name);
->> +}
->> +
->>   static const char * const uabi_class_names[] = {
->>   	[I915_ENGINE_CLASS_RENDER] = "render",
->>   	[I915_ENGINE_CLASS_COPY] = "copy",
->> @@ -102,6 +166,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
->>   	 * ******************************************************************
->>   	 */
->>   
->> +	show_meminfo(p, file);
->> +
->>   	if (GRAPHICS_VER(i915) < 8)
->>   		return;
->>   
->> -- 
->> 2.39.2
+> 
+> Regards
+> Aradhya
+> 
+>>
+>>>
+>>> Thanks,
+>>> Aradhya
+>>>
+>>> [1]: https://patchwork.freedesktop.org/series/82765/#rev5
+>>> [2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn-v2
+>>>
+>>> Change Log:
+>>> V6 -> V7
+>>>     - Rebase and cosmetic changes.
+>>>     - Drop the output format check condition for mhdp8546 and hence,
+>>>       drop Tomi Valkeinen's R-b tag.
+>>>     - Added tags wherever suggested.
+>>>
+>>> V5 -> V6
+>>>     - Rebase and cosmetic changes
+>>>     - Dropped the output format check condition for tfp410 and hence,
+>>>       dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
+>>>     - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
+>>>       the series and instead created a single patch that,
+>>>         1. Creates tidss bridge for format negotiation.
+>>>         2. Creates 'simple' encoder for userspace exposure.
+>>>         3. Creates a tidss connector.
+>>>         4. Attaches the next-bridge to encoder with the
+>>>            DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+>>>     - Add format negotiation support for sii902x driver.
+>>>
+>>> Previous versions:
+>>> V1 to V6: https://patchwork.freedesktop.org/series/82765/
+>>>
+>>> Aradhya Bhatia (3):
+>>>     drm/bridge: sii902x: Support format negotiation hooks
+>>>     drm/bridge: sii902x: Set input_bus_flags in atomic_check
+>>>     drm/tidss: Update encoder/bridge chain connect model
+>>>
+>>> Nikhil Devshatwar (5):
+>>>     drm/bridge: tfp410: Support format negotiation hooks
+>>>     drm/bridge: tfp410: Set input_bus_flags in atomic_check
+>>>     drm/bridge: mhdp8546: Add minimal format negotiation
+>>>     drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
+>>>     drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
+>>>
+>>>    .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  77 ++++++----
+>>>    .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+>>>    .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
+>>>    .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
+>>>    drivers/gpu/drm/bridge/sii902x.c              |  40 +++++
+>>>    drivers/gpu/drm/bridge/ti-tfp410.c            |  43 ++++++
+>>>    drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
+>>>    drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
+>>>    drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
+>>>    9 files changed, 235 insertions(+), 95 deletions(-)
+>>>
+>>
+
