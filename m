@@ -2,39 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B970724E57
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE16724E59
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:56:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE24610E043;
-	Tue,  6 Jun 2023 20:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B10310E3C6;
+	Tue,  6 Jun 2023 20:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B56510E043
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 20:54:27 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4QbN4y0345zDqFC;
- Tue,  6 Jun 2023 20:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1686084866; bh=nIixaJFd5nswqD6hlxITJyz18oJLt69u3PRsWlv+PwU=;
- h=From:To:Cc:Subject:Date:From;
- b=HKkJddIH+YWVD6AzBrg+I3Xm5Bttc6uoddM6iPj1TQhrQX7J4koHVySWfxotqSmaC
- u1CoNCJX703VA24+TbGU0g5NIti89snvUL1R4F6C0seOVIIjIs/N8vbB8CNTHQ/UJK
- tRCzgDMwJo0AtQ9K96/2cSLq9EY1/lWwJppPTjHw=
-X-Riseup-User-ID: 4982706462238FD7428A4749C6BDEC30E9583D18BCF06DD705A0C53109095425
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4QbN4p4TsLzFqgp;
- Tue,  6 Jun 2023 20:54:18 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/vkms: Add support to 1D gamma LUT
-Date: Tue,  6 Jun 2023 17:53:52 -0300
-Message-Id: <20230606205351.1288556-1-arthurgrillo@riseup.net>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 814D810E3C6;
+ Tue,  6 Jun 2023 20:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686084972; x=1717620972;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=KYUOnIJQnuEKIr0g00zoHbgpkceEv3o2sCZTrc1FSv4=;
+ b=CE6u3UzQnOa4xqs+1/4I3FZ8J8lKDdEx//KRp6NlRYEJ8vD70J3Yphsj
+ zoBHeo8WwiXA9RH6DmgwJwp5/F/8PL4sVsQtDjGPeAunwmkRYMmI6Vg45
+ 1mpFvwjN/kGIr6FhGyEAVRzDrMM0iGk+2PAOPBe6hqppWRk62Ul5mMm3f
+ gQJqWkH9p2eHpuqmOMU9tdzs5+dyyGbZtQY56X7h8YMOLIM7eTihZcRyq
+ Iu4DsrO7yHgRJxciRfqMm305N2zqDufZ4bUO9j8TX+OapMamVmY4/mdWA
+ c6XOOajaU999xdRKzGQ98wCDaDasEUT7ED5fPuWcikopT9KcGzfi28HL3 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="359261867"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; d="scan'208";a="359261867"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 13:56:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="712339641"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; d="scan'208";a="712339641"
+Received: from yuguen-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.68])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 13:56:08 -0700
+Date: Tue, 6 Jun 2023 22:56:02 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v2] drm/i915: Fix a VMA UAF for multi-gt platform
+Message-ID: <ZH+dYpOpl5/11Eg4@ashyti-mobl2.lan>
+References: <20230606202755.8719-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230606202755.8719-1-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,216 +59,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, pekka.paalanen@collabora.com,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- victoria@system76.com, mwen@igalia.com, mairacanal@riseup.net,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support a 1D gamma LUT with interpolation for each color channel on the
-VKMS driver. Add a check for the LUT length by creating
-vkms_atomic_check().
+Hi Nirmoy,
 
-Tested with:
-igt@kms_color@gamma
-igt@kms_color@legacy-gamma
-igt@kms_color@invalid-gamma-lut-sizes
+On Tue, Jun 06, 2023 at 10:27:55PM +0200, Nirmoy Das wrote:
+> Ensure correct handling of closed VMAs on multi-gt platforms to prevent
+> Use-After-Free. Currently, when GT0 goes idle, closed VMAs that are
+> exclusively added to GT0's closed_vma link (gt->closed_vma) and
+> subsequently freed by i915_vma_parked(), which assumes the entire GPU is
+> idle. However, on platforms with multiple GTs, such as MTL, GT1 may
+> remain active while GT0 is idle. This causes GT0 to mistakenly consider
+> the closed VMAs in its closed_vma list as unnecessary, potentially
+> leading to Use-After-Free issues if a job for GT1 attempts to access a
+> freed VMA.
+> 
+> Although we do take a wakeref for GT0 but it happens later, after
+> evaluating VMAs. To mitigate this, it is necessary to hold a GT0 wakeref
+> early.
+> 
+> v2: Use gt id to detect multi-tile(Andi)
+>     Fix the incorrect error path.
+> 
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+> Tested-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
-v2:
-    - Add interpolation between the values of the LUT (Simon Ser)
+I wonder if we need any Fixes tag here, maybe this:
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 97 ++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +
- drivers/gpu/drm/vkms/vkms_drv.c      | 20 +++++-
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 +
- 4 files changed, 121 insertions(+), 1 deletion(-)
+Fixes: d93939730347 ("drm/i915: Remove the vma refcount")
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdb..24bffd98ba49 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_fixed.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_vblank.h>
- #include <linux/minmax.h>
-@@ -89,6 +90,100 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
- 		output_buffer->pixels[i] = *background_color;
- }
- 
-+// lerp(a, b, t) = a + (b - a) * t
-+static u16 lerp_u16(u16 a, u16 b, s64 t)
-+{
-+	s64 a_fp = drm_int2fixp(a);
-+	s64 b_fp = drm_int2fixp(b);
-+
-+	s64 ratio = drm_fixp_mul(b_fp - a_fp,  t);
-+
-+	return drm_fixp2int(a_fp + ratio);
-+}
-+
-+static s64 get_lut_index(u16 color_channel, size_t lut_length)
-+{
-+	const s64 max_lut_index_fp = drm_int2fixp(lut_length  - 1);
-+	const s64 u16_max_fp = drm_int2fixp(0xffff);
-+
-+	s64 ratio = drm_fixp_div(max_lut_index_fp, u16_max_fp);
-+
-+	s64 color_channel_fp = drm_int2fixp(color_channel);
-+
-+	return drm_fixp_mul(color_channel_fp, ratio);
-+}
-+
-+enum lut_area {
-+	LUT_RED,
-+	LUT_GREEN,
-+	LUT_BLUE,
-+	LUT_RESERVED
-+};
-+
-+static void apply_lut_to_color_channel(u16 *color_channel, enum lut_area area,
-+				       struct drm_color_lut *lut, size_t lut_length)
-+{
-+	s64 ratio;
-+
-+	s64 lut_index = get_lut_index(*color_channel, lut_length);
-+
-+	size_t floor_index = drm_fixp2int(lut_index);
-+	size_t ceil_index = drm_fixp2int_ceil(lut_index);
-+
-+	struct drm_color_lut floor_lut_value = lut[floor_index];
-+	struct drm_color_lut ceil_lut_value = lut[ceil_index];
-+
-+	u16 floor_color_channel;
-+	u16 ceil_color_channel;
-+
-+	switch (area) {
-+	case LUT_RED:
-+		floor_color_channel = floor_lut_value.red;
-+		ceil_color_channel = ceil_lut_value.red;
-+		break;
-+	case LUT_GREEN:
-+		floor_color_channel = floor_lut_value.green;
-+		ceil_color_channel = ceil_lut_value.green;
-+		break;
-+	case LUT_BLUE:
-+		floor_color_channel = floor_lut_value.blue;
-+		ceil_color_channel = ceil_lut_value.blue;
-+		break;
-+	case LUT_RESERVED:
-+		floor_color_channel = floor_lut_value.reserved;
-+		ceil_color_channel = ceil_lut_value.reserved;
-+		break;
-+	}
-+
-+	ratio = lut_index - drm_int2fixp(floor_index);
-+
-+	*color_channel = lerp_u16(floor_color_channel, ceil_color_channel, ratio);
-+}
-+
-+static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
-+{
-+	struct drm_color_lut *lut;
-+	size_t lut_length;
-+
-+	if (!crtc_state->base.gamma_lut)
-+		return;
-+
-+	lut = (struct drm_color_lut *)crtc_state->base.gamma_lut->data;
-+
-+	lut_length = crtc_state->base.gamma_lut->length / sizeof(*lut);
-+
-+	if (!lut_length)
-+		return;
-+
-+	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
-+		struct pixel_argb_u16 *pixel = &output_buffer->pixels[x];
-+
-+		apply_lut_to_color_channel(&pixel->r, LUT_RED, lut, lut_length);
-+		apply_lut_to_color_channel(&pixel->g, LUT_GREEN, lut, lut_length);
-+		apply_lut_to_color_channel(&pixel->b, LUT_BLUE, lut, lut_length);
-+	}
-+}
-+
- /**
-  * @wb_frame_info: The writeback frame buffer metadata
-  * @crtc_state: The crtc state
-@@ -128,6 +223,8 @@ static void blend(struct vkms_writeback_job *wb,
- 					    output_buffer);
- 		}
- 
-+		apply_lut(crtc_state, output_buffer);
-+
- 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
- 
- 		if (wb)
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..61e500b8c9da 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
-+	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-+
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..dd0af086e7fa 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver = {
- 	.minor			= DRIVER_MINOR,
- };
- 
-+static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
-+			continue;
-+
-+		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
-+		    > VKMS_LUT_SIZE)
-+			return -EINVAL;
-+	}
-+
-+	return drm_atomic_helper_check(dev, state);
-+}
-+
- static const struct drm_mode_config_funcs vkms_mode_funcs = {
- 	.fb_create = drm_gem_fb_create,
--	.atomic_check = drm_atomic_helper_check,
-+	.atomic_check = vkms_atomic_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..a3b7025c1b9a 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -23,6 +23,8 @@
- 
- #define NUM_OVERLAY_PLANES 8
- 
-+#define VKMS_LUT_SIZE 256
-+
- struct vkms_frame_info {
- 	struct drm_framebuffer *fb;
- 	struct drm_rect src, dst;
--- 
-2.40.1
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 3aeede6aee4d..c2a67435acfa 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2683,6 +2683,7 @@ static int
+>  eb_select_engine(struct i915_execbuffer *eb)
+>  {
+>  	struct intel_context *ce, *child;
+> +	struct intel_gt *gt;
+>  	unsigned int idx;
+>  	int err;
+>  
+> @@ -2706,10 +2707,16 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  		}
+>  	}
+>  	eb->num_batches = ce->parallel.number_children + 1;
+> +	gt = ce->engine->gt;
+>  
+>  	for_each_child(ce, child)
+>  		intel_context_get(child);
+>  	intel_gt_pm_get(ce->engine->gt);
+> +	/* Keep GT0 active on MTL so that i915_vma_parked() doesn't
+> +	 * free VMAs while execbuf ioctl is validating VMAs.
+> +	 */
+> +	if (gt->info.id)
+> +		intel_gt_pm_get(to_gt(gt->i915));
+>  
+>  	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>  		err = intel_context_alloc_state(ce);
+> @@ -2748,6 +2755,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  	return err;
+>  
+>  err:
+> +	if (gt->info.id)
+> +		intel_gt_pm_put(to_gt(gt->i915));
+> +
+>  	intel_gt_pm_put(ce->engine->gt);
+>  	for_each_child(ce, child)
+>  		intel_context_put(child);
+> @@ -2761,6 +2771,8 @@ eb_put_engine(struct i915_execbuffer *eb)
+>  	struct intel_context *child;
+>  
+>  	i915_vm_put(eb->context->vm);
+> +	if (eb->gt->info.id)
+> +		intel_gt_pm_put(to_gt(eb->gt->i915));
+>  	intel_gt_pm_put(eb->gt);
 
+I would add a comment up here, just not to scare people when they
+see this.
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Andi
+
+>  	for_each_child(eb->context, child)
+>  		intel_context_put(child);
+> -- 
+> 2.39.0
