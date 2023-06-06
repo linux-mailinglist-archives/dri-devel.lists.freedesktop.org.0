@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF6672583C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACDB72585E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66F4F10E463;
-	Wed,  7 Jun 2023 08:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C54CA10E487;
+	Wed,  7 Jun 2023 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A4210E14B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:18:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686075501; cv=none; d=zohomail.in; s=zohoarc; 
- b=a3zzGU4AUePU6Z+r1xA8rSonmH/wrgblgWTY+4R3F2pKzSezF6+rtgXSB+97ziYeaBL1LRzzvKjjYzLDoLs7uBrkrzWn8CgYXUq4DYMyePqIBm3B1RBOYBMUd4aOW6nuA8BfYDcy1Fsp0AcuxKChDWKO2Ip7/Vbi81pvuDrw9hM=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16D9410E39B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:30:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1686076228; cv=none; d=zohomail.in; s=zohoarc; 
+ b=QbDXS+Hn8PjPmLs8GH9r+g2L3z1hgsIbLAGX+GpIxhcTopZT66O43VMHlgysmT8wyOO241rSeYPMY6HnM6M03qFYXJ7CsvkAnhhoL9wWRXfWTU3h99EpriRBXuxklF9Fc4Gw7mPwdz9LvpoPzVPWZGNwELSZs6dKmfw5IjPaeFs=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1686075501;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=RjUGwLLClgouRbL86uwY1TLqSDBa8rqBZ+WH4dlvYhI=; 
- b=O18pC2SS76gPzfdzk5MOkdq7pL6movvd/9UOtCearhQnLA2F3EkbJTt7PGeHmTrSOHJdFrxQBdQaqrO0nRCqFRX1mF4ytXAQqY99PoSVrrFVyi7JAeewkZIYsS12vHjRt+M0M7oF0tby/Jq2EZh+3t4TGYHWUVZ8jEi7y+qzl4U=
+ s=zohoarc; t=1686076228;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=iecOJJVbnSqaJIuifcjD6XHWZbhqAcbIw8n+LiJzsro=; 
+ b=OBfBUYdLF5xMZAB98Os9WDNQl6zs5NUcC6nszDcz2xHZgoC6wQa3OH6cQ0+WVLbEJkEKL+Vm2TcCrL//O69B6n4HrhJdnq/DL7s4aECpqcfa2Z4m6NVvEFQ9ldwQ1eZpCm/GiGtiPO0NHQLRjfSsbMTlJe3LU8NDyMfVIGVLx/4=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686075501; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076228; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=RjUGwLLClgouRbL86uwY1TLqSDBa8rqBZ+WH4dlvYhI=;
- b=Rcu1ZTigMmuf5GfDOlGQAr/bRxFM8fTZuM6SSpB73xPn9e4TtbaoyqflsRWKkjl0
- ImV5EHhV0CwBEAXKnSt+sOO15GP63f2/c/Uvu41lndQBDfYJ8Z4IXsqjyEWQEUU2y+I
- PzTFoD3j7bL6B1jC9KlOa8mioyFOqnts18BZFQzg=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1686075470109128.45647873619112;
- Tue, 6 Jun 2023 23:47:50 +0530 (IST)
-Date: Tue, 06 Jun 2023 23:47:50 +0530
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=iecOJJVbnSqaJIuifcjD6XHWZbhqAcbIw8n+LiJzsro=;
+ b=RrhmXNdm66cWwdR7NbcXAO7wuLqqW4OZ1DeCUnkKoDJxKVdK7mG88JoHeyT5GJ+G
+ 6/mutBmVtV4aFwvVj0oe3uSxWypLp+09z51o4FC0/+b3AP0hyKftCYs8i+KicIzExRu
+ H6AuV9oPk1TMYLvnqCMVP0t5wKcO64I0UKD1y2BY=
+Received: from kampyooter.. (122.176.141.156 [122.176.141.156]) by mx.zoho.in
+ with SMTPS id 1686076227095690.648328400536;
+ Wed, 7 Jun 2023 00:00:27 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-Message-ID: <18891edf10b.42f0ffa4128414.8582548531031990480@siddh.me>
-In-Reply-To: <20230606174928.GB14101@pendragon.ideasonboard.com>
-References: <cover.1686047727.git.code@siddh.me>
- <20230606150545.GJ5197@pendragon.ideasonboard.com>
- <18891c17458.393a54b1127185.1502341592143085000@siddh.me>
- <20230606174928.GB14101@pendragon.ideasonboard.com>
-Subject: Re: [PATCH v9 0/8] drm: Remove usage of deprecated DRM_* macros
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <cover.1686075579.git.code@siddh.me>
+Subject: [PATCH v10 0/9] drm: Remove usage of deprecated DRM_* macros in DRM
+ core
+Date: Wed,  7 Jun 2023 00:00:01 +0530
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:25 +0000
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf8
+X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +64,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Suraj Upadhyay <usuraj35@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Jun 2023 23:19:28 +0530, Laurent Pinchart wrote:
-> The idea would be to include the drm_print_deprecated.h header in
-> drivers that still use the deprecated macros.
+This patchset aims to remove usages of deprecated DRM_* macros from the
+DRM core (i.e. drivers/gpu/drm/*.c).
 
-Yeah, what I meant was in a "first pass" kind of sense.
+In process, I found out that NULL as first argument of drm_dbg_* wasn't
+working, but it was listed as the alternative in deprecation comment,
+so I fixed that before removing usages of DRM_DEBUG_* macros.
 
-> > Not every file can be seen at a case-by-case basis or by coccinelle
-> > as far as I understand its usage. Consider the following:
-> > 
-> > DRM_INFO is used on line 210 of amd/amdgpu/amdgpu_acpi.c, but the
-> > file does not even include drm_print.h directly. It includes the
-> > amdgpu.h header, which includes the amdgpu_ring.h header, which
-> > finally has the "#include " line.
-> > 
-> > If a simple find and replace has to be done, then that can be added
-> > at the end of the series.
-> 
-> Maybe a simple grep for the deprecated macros would be enough to
-> identify all the files that still use them ?
+Courtesy discussion on v1, I added support for NULL in drm_()* macros too.
 
-Hmm, so the drm_print_deprecated.h should be included individually on
-all the files, regardless of whether they include drm_print.h directly
-or not?
+Courtesy discussion on v7, I removed generic macro stuff meant to accomodat=
+e
+stuff like mipi_dsi_host in earlier versions of the patch series, and inste=
+ad
+reverted a commit which used the drm_err() macro incorrectly by passing
+mipi_dsi_host.
 
-Actually that makes sense, so further inclusion of top-level header
-would not automatically include the deprecated macros.
+Courtesy discussion on v9, a number of superfluous print statements across
+the drm core have also been removed, and the commit messages clarified.
 
-Since this needs some thought, I will be sending v10 without this.
-This change can be sent later separately, as it will anyways be a
-huge patch, and 10 is already a big enough revision number.
+This patchset should be applied in order as changes might be dependent.
 
-Thanks,
-Siddh
+Please review and let me know if any errors are there, and hopefully
+this gets accepted.
+
+---
+
+v9 -> v10 (today)
+- Clarified commit message to point out the changes are in DRM core.
+- Remove superfluous print messages after the changes.
+
+v8 -> v9 (today):
+- Rebased to drm-misc-next.
+
+v7 -> v8 (28 Feb 2023):
+- Reverted 1040e424353f ("drm: mipi-dsi: Convert logging to drm_* functions=
+.")
+  which used drm_err macro incorrectly by passing mipi_dsi_host.
+- Thus, removed _Generic and allow only drm_device.
+
+v6 -> v7 (26 Feb 2023):
+- Rebased to drm-misc-next, accounting for the merger of last 3 patches
+  in the previous series (4665280990fa, fc2602b553c8, 7bd224b6625a),
+  and 7428ff70a18 ("drm: initialize accel framework").
+
+v5 -> v6 (09 Jan 2023):
+- Move drm_device to default case in _Generic as it is the default behaviou=
+r.
+- Fix incorrect const drm_device handling in _Generic.
+- Minor positioning / comment changes.
+
+v4 -> v5 (07 Jan 2023):
+- Make separate function instead of using boolean in _Generic (sravn on IRC=
+).
+- Also, simplified the Generic macro, and renamed the function and macro.
+
+v3 -> v4 (05 Jan 2023):
+- Fix commit message for DRM_NOTE erroneously mentioning DRM_INFO.
+- Rebased to drm-misc-next, as 723dad977acd added drm_dbg_core() to some
+  files.
+- Move Generic out to a separate macro __drm_get_dev_ptr, so that interface
+  of drm_dbg_*() is also same as other drm_*() macros.
+- Fix comment in __drm_get_dev_ptr (now ___drm_get_dev_ptr) to use correct
+  name.
+
+v2 -> v3 (26 Dec 2022):
+- Added support for NULL in __drm_printk and thus by extension to drm_()*.
+- Thus, converted dropped pr_()* changes to drm_*(NULL, ...).
+- Rebased to drm-misc-next and resulting appropriate changes.
+
+v1 (20 Dec 2022) -> v2 (22 Dec 2022):
+- Removed conversions to pr_*() in DRM_INFO, DRM_NOTE, and DRM_ERROR change=
+s.
+- Due to above, DRM_NOTE usage cannot be removed and the patch is dropped.
+- DRY: NULL support is now achieved by way of a separate function.
+
+Siddh Raman Pant (9):
+  Revert "drm: mipi-dsi: Convert logging to drm_* functions."
+  drm/print: Fix and add support for NULL as first argument in drm_*
+    macros
+  drm: Remove usage of deprecated DRM_INFO in DRM core
+  drm: Remove usage of deprecated DRM_NOTE in DRM core
+  drm: Remove usage of deprecated DRM_ERROR in DRM core
+  drm: Remove usage of deprecated DRM_DEBUG in DRM core
+  drm: Remove usage of deprecated DRM_DEBUG_DRIVER in DRM core
+  drm: Remove usage of deprecated DRM_DEBUG_KMS in DRM core
+  drm: Remove superfluous print statements in DRM core
+
+ drivers/gpu/drm/drm_agpsupport.c        |   4 +-
+ drivers/gpu/drm/drm_bridge.c            |   8 +-
+ drivers/gpu/drm/drm_bufs.c              | 122 ++++++++++++------------
+ drivers/gpu/drm/drm_client_modeset.c    | 117 +++++++++++++----------
+ drivers/gpu/drm/drm_color_mgmt.c        |   4 +-
+ drivers/gpu/drm/drm_connector.c         |  28 +++---
+ drivers/gpu/drm/drm_context.c           |  17 ++--
+ drivers/gpu/drm/drm_crtc.c              |  36 ++++---
+ drivers/gpu/drm/drm_crtc_helper.c       |  62 ++++++------
+ drivers/gpu/drm/drm_debugfs_crc.c       |   8 +-
+ drivers/gpu/drm/drm_displayid.c         |   6 +-
+ drivers/gpu/drm/drm_dma.c               |  10 +-
+ drivers/gpu/drm/drm_drv.c               |  27 ++----
+ drivers/gpu/drm/drm_edid.c              |  17 ++--
+ drivers/gpu/drm/drm_file.c              |   2 -
+ drivers/gpu/drm/drm_flip_work.c         |   2 +-
+ drivers/gpu/drm/drm_framebuffer.c       |   3 +-
+ drivers/gpu/drm/drm_gem.c               |   6 +-
+ drivers/gpu/drm/drm_gem_dma_helper.c    |   2 +-
+ drivers/gpu/drm/drm_hashtab.c           |   9 +-
+ drivers/gpu/drm/drm_irq.c               |   4 +-
+ drivers/gpu/drm/drm_kms_helper_common.c |   2 +-
+ drivers/gpu/drm/drm_lease.c             |   4 +-
+ drivers/gpu/drm/drm_legacy_misc.c       |   3 +-
+ drivers/gpu/drm/drm_lock.c              |  36 +++----
+ drivers/gpu/drm/drm_mipi_dbi.c          |  19 ++--
+ drivers/gpu/drm/drm_mipi_dsi.c          |  15 +--
+ drivers/gpu/drm/drm_mm.c                |   8 +-
+ drivers/gpu/drm/drm_mode_config.c       |   2 +-
+ drivers/gpu/drm/drm_mode_object.c       |   6 +-
+ drivers/gpu/drm/drm_modes.c             |  36 +++----
+ drivers/gpu/drm/drm_modeset_helper.c    |   2 +-
+ drivers/gpu/drm/drm_pci.c               |  12 +--
+ drivers/gpu/drm/drm_plane.c             |  46 ++++-----
+ drivers/gpu/drm/drm_probe_helper.c      |  39 ++++----
+ drivers/gpu/drm/drm_rect.c              |   4 +-
+ drivers/gpu/drm/drm_scatter.c           |  19 ++--
+ drivers/gpu/drm/drm_syncobj.c           |   2 +-
+ drivers/gpu/drm/drm_sysfs.c             |  22 ++---
+ drivers/gpu/drm/drm_vm.c                |  45 +++++----
+ include/drm/drm_print.h                 |  81 ++++++++++------
+ 41 files changed, 463 insertions(+), 434 deletions(-)
+
+--=20
+2.39.2
+
+
