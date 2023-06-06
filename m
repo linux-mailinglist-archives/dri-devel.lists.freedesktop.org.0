@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2577242C4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 14:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430FA7242BA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 14:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CAE10E358;
-	Tue,  6 Jun 2023 12:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5AD810E351;
+	Tue,  6 Jun 2023 12:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E06F810E351
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 12:44:23 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2b1b06af50eso53938571fa.1
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1203F10E352
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 12:44:24 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f3b9755961so7587066e87.0
  for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 05:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686055462; x=1688647462;
+ d=linaro.org; s=google; t=1686055463; x=1688647463;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=uz91t5CPsz6QMWtRIYuzaeaGaQUSJIZo7OKNOwA96Nw=;
- b=xTXMPt5qjw5ckeNtSZRbmcSRWPRAvhSPcMgyF58k7vwq00/q2YHpIDU5Y585K9ufUA
- kofsA+W6MX8KmmOS9eAIjAtShpicrKI4zU/inx+Chc8QQ2sW1olrALALUzpWOQ/Fi0wQ
- O8rQF5F0A+jDNRyhpmyBGyGo0seGE7/GXW//Yk8Q5oA2tW/VuzvexQz97Yz35m/+yJFh
- jaHTWWX8QYJYZewDC2mCVy1GC7QSR9U3alvUql+u5jPk3BA8RZnT7P0QDYxw5Xgtw+1V
- Vj5II4bd1Ubjgj1SkipWP6MlatybLMO6ZHDU47bem4qgALW7rTGW6vTo0MLp247U2Lnj
- dhsA==
+ :reply-to; bh=Uw6zfBHO0opEqODFwIHcb35ENxPJxB7I1/UM0FjZOR4=;
+ b=XjD/DjeZ/zriufMZNJkno4oajcS2wFCxueANYtfQge+aQ4zJ6RTqg/5Dk9YqPm3dzC
+ yohb/+gOvxKAmFhwQbC12W1bhZzDndCnS9QrJqu025jgOBEbjf/4Y56yUaKtm8XBQ0vh
+ zsLazWcGSvFwzd5FE7/eCZh4LkiJku0pB7/HpJ9rWrccgiQ9XWBkG9HCLxoX3+GRN8jC
+ 46jGJ/s+yYObblgQUD5CadL8ubHP2aImZLNP2oUqHY87VHfB1tKX6lkBsB8wv4SAMABi
+ ew77HJsQx0Ak2TWgjl6sV8eK01tAqVXBdYT1b9qybp6HQyTtYCx60uKYLltSDOiZE3cU
+ Xj1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686055462; x=1688647462;
+ d=1e100.net; s=20221208; t=1686055463; x=1688647463;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uz91t5CPsz6QMWtRIYuzaeaGaQUSJIZo7OKNOwA96Nw=;
- b=hQ6G+zeFT6A+S+RI4jCISBpuFtnpDpsdtoEk489O7VanaxT1w+txyBqdaCNRE2s82f
- xr0MT/mRd2aXN+YLDWZUbsdRikU/IwIyImGuwJ9ircv5nup84SKozCB2PqSXpag5phoF
- A7n7ygUHz3FGSZweinIMXjXGJtjoJVeHfGnTubKrdJyVfIv72RX9YJCbJeJ4+ZVh9wur
- TiaHh2xKGPRlr5gbCgoKP/D5Hp3n76TVjecqbLUxBIvVv7lPBAhYK7h4mkZ2v5sgLNK/
- FvKpQhuKfSz5fpRdP4beqAhgFUzktLrc20R9FqiSHcnB98KD67QtgCnihYTM40gBHUkc
- p6Yg==
-X-Gm-Message-State: AC+VfDzCGz0XUxpNJCssIvZWRWU3rCRkeQRWvzgDajhe9cKLM9ZNqXkF
- E1xnjEmmkg/pnUG6pUEcXzb2RQ==
-X-Google-Smtp-Source: ACHHUZ7A3GQghxMA8gd7veJ/w95rzySJ/qmOxD+nL9U3cSecVLvIc/gZ2Kjtj0kgX9i88gP8VxDHVQ==
-X-Received: by 2002:a2e:8606:0:b0:2ac:75fa:495c with SMTP id
- a6-20020a2e8606000000b002ac75fa495cmr1093452lji.27.1686055462014; 
- Tue, 06 Jun 2023 05:44:22 -0700 (PDT)
+ bh=Uw6zfBHO0opEqODFwIHcb35ENxPJxB7I1/UM0FjZOR4=;
+ b=M4Ruk2Ueu4taw5OPjvYn8TzAEK4r7ekwxa8VMCDf6Bj6AttHn7kEGeIc8A+aMR1iT1
+ 4i/ZeudBPgiKI+sM3ja4o4LFaLxWY6M2AAbCUfFj+MvRMcVqjUNvVfphLXqVjm8R0J8W
+ 6doH0EEsuSSkB+BKr0TcBuQhDbfJ2Y2L29HVhebDZnfP/ZCiAMPJwRnVQ+3MY2KcNq3H
+ 5NPI5pCWj/0yyKWFhJnOK4bIkXp8qCnXMBYYp8JzSFvx6ldOcGfnf914pYBB3YXsVLk5
+ 4wf76B7oZUP3MAH9tJUZSlANa19GB68OrUxq6C7jt6jvz0ltoIdVksWDvSXwCVDtzTD1
+ RNrg==
+X-Gm-Message-State: AC+VfDwT/P6auOwQxPTXOsKGkzP7aiVM5ORbH575xdhwvGbjMf3DwxWO
+ Yh7bWhJeCp7r4pJjaUCZsW4Ngw==
+X-Google-Smtp-Source: ACHHUZ4JPdXVw4ik2GSg//oq+bn2TOmcvhfR+0lRQTmoDO7EADSvXTuoiqFFBHki+vQujl0wbMfFYw==
+X-Received: by 2002:ac2:5314:0:b0:4f6:278b:713e with SMTP id
+ c20-20020ac25314000000b004f6278b713emr793308lfh.42.1686055463610; 
+ Tue, 06 Jun 2023 05:44:23 -0700 (PDT)
 Received: from [192.168.1.101] (abyl150.neoplus.adsl.tpnet.pl. [83.9.31.150])
  by smtp.gmail.com with ESMTPSA id
- u23-20020a2e9f17000000b002a9ebff8431sm1830823ljk.94.2023.06.06.05.44.20
+ u23-20020a2e9f17000000b002a9ebff8431sm1830823ljk.94.2023.06.06.05.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 05:44:21 -0700 (PDT)
+ Tue, 06 Jun 2023 05:44:23 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Tue, 06 Jun 2023 14:44:00 +0200
-Subject: [PATCH v6 09/12] drm/msm: mdss: Add SM6375 support
+Date: Tue, 06 Jun 2023 14:44:01 +0200
+Subject: [PATCH v6 10/12] iommu/arm-smmu-qcom: Sort the compatible list
+ alphabetically
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230411-topic-straitlagoon_mdss-v6-9-dee6a882571b@linaro.org>
+Message-Id: <20230411-topic-straitlagoon_mdss-v6-10-dee6a882571b@linaro.org>
 References: <20230411-topic-straitlagoon_mdss-v6-0-dee6a882571b@linaro.org>
 In-Reply-To: <20230411-topic-straitlagoon_mdss-v6-0-dee6a882571b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -69,11 +70,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
  Joerg Roedel <joro@8bytes.org>, Conor Dooley <conor+dt@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1686055444; l=1022;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1686055444; l=1026;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=Nh6zuYJI8gb14gxje6MmS/hbQSaIA3Eeoi75EfztoC0=;
- b=OxWGteNTPcUfGPGr2JL2cA95wzVZAKIBzz7/e/VX6ySLc0zf6TYdbDyWq7IlwKcdnUOqH76uv
- 5RDrPgRuFIkBcbI8//m86Ae0h5O/Rd1iGp9/vcUd1WXHPFfFGFBgYFg
+ bh=Rc5Y2oI69X8xvGgWy74AqbUqZBcFJifSW/Zzw/OwQv0=;
+ b=hKN4Zx/iFcuu7jgYtNyXm0RjgfAMa4iciB6rumy4y0uHYWEzi1kXRnJRbmxp0K/sRyxp0Md5f
+ h/s1XX72W3ODTC4C3mimNm9lfOBhDT8PC2XGICQRnRP6A8xuQ1loAWs
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,27 +97,31 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for MDSS on SM6375.
+It got broken at some point, fix it up.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 4e3a5f0c303c..05648c910c68 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -580,6 +580,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
- 	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
- 	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
-+	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
- 	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
- 	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
- 	{ .compatible = "qcom,sm8350-mdss", .data = &sm8250_data },
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index c71afda79d64..3800ab478216 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -251,10 +251,10 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+ 	{ .compatible = "qcom,sc7280-mss-pil" },
+ 	{ .compatible = "qcom,sc8180x-mdss" },
+ 	{ .compatible = "qcom,sc8280xp-mdss" },
+-	{ .compatible = "qcom,sm8150-mdss" },
+-	{ .compatible = "qcom,sm8250-mdss" },
+ 	{ .compatible = "qcom,sdm845-mdss" },
+ 	{ .compatible = "qcom,sdm845-mss-pil" },
++	{ .compatible = "qcom,sm8150-mdss" },
++	{ .compatible = "qcom,sm8250-mdss" },
+ 	{ }
+ };
+ 
 
 -- 
 2.40.1
