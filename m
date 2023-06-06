@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1F9724E13
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:26:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B643724E18
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A26D10E3C8;
-	Tue,  6 Jun 2023 20:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDBA10E3CF;
+	Tue,  6 Jun 2023 20:26:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2A910E3BE;
- Tue,  6 Jun 2023 20:26:25 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBF9D10E3C3;
+ Tue,  6 Jun 2023 20:26:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jNvNDFyGlPpaRq+Why3wvuXF3CK2DgLN5hLi5l21+l3/5F++ZkO+RXFK33m91gWhaR4lVfkvqld25bM3HisJWdBBJPsb1KEsChGVZye12NKmtJ5taTPCN6rk2aTTA0JbxAtv6+ZAxZV0wU7uXsih32YzlBd06W+5sELfpqA7mn9GRLKzHjEH7UASFcmx+a5Blzlxsy5LKvIu4BcG73cGZir4GkR0AOWJm2QHlMAmeg3IH1C5hRx+HnVWhgYaKvA6Q6f5tmGGPLm8X5JVmsn+ql+pn91FkZKTfrRIJVYR9R/OkL0YQAZnR+GJaR4LFmucIrcgKBM9NVzrjEj1iFAQ/A==
+ b=j1XJc/mQ8D/t4iDKYzKS3OG7ZuJ4jv0HOSdbGJ36M6Qm+rwdWgewAttOH9gw0PE2EY2bwQHrjpe/lZisjmCgesprazqjz4533eQ/S4HzjeUQvBaNVXh+qX+C0GLkB/N6L78HR9Dop4CXuU/jCeh5I5c5UyKRj5iWlh7hNL7O2bXzhH9QAV6XMn8OLvtY6Jmtd+4leIFPpZyoQnrlaR1Vx997HbVQxMV3WnO8E4MwEgk9jH0QumQUw6Ls4XrW2713iq/zdLydzVF6Rfyj3iLsnmJQa/sDQhINJ0nisnCU99n7bD2KxG4BP3Tl0bZzR+qhxOlEEGHvIqjyVZ5rEalITw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jI0zVDnV6LWrwtWM5TNbeGDiBQucB8/oKUQoyawWXxI=;
- b=chJg+Z9uB7mWF3xcirfUTEJmdNqXVtMcrJWgwbtPFSYkRDAVzpRmQZjXSD5WvD/t3/9B7tpCHk7LH+h1F6P+vw4zgeBMMsDiZO5DaKBU06YONsWurnNWhse3nxP061FVUOtNTmNF9PraTXYDaqcpT1tTPxIbZpfvdNRzUlbh1nCKvazvxg78RsRkjg3gqSOszs/IZaEZi/Ew5ActD6Ejv3/lyb3BTsxNZps2prC88x1OIFasaQhVhEQf3+/HFDVSkNcdX6bZBvPNI2KDcBE1pouKygURixXgrssUxEaBVaag7Ppf9FpgucOwX4dq/iN/oNU9CnqiKlOwMZ9mBxe4yw==
+ bh=2+rPeG4zSesJMWVH+q+a4CTowd2JeHgre8BXEdcfuyU=;
+ b=PljBF+EnHQKiV85W8WvVbTkfcSs6DDQsgkdY9Pf8PmyzSzlbdmQQ9uH/QHGG6b7HutIsMpCnuo7jxPCdFztHXp34jsNpQOo/UgIMmgqLS76OTVF1JGeorQv0+Yh+YEl2HpiqtqT6Cd8l87UJSWTdQ78wF9cwxopxRW4d3WP0Mq2LoBF92AQ0FkjmfvmMHlBX1SNsqXAfWUfYce2cBpFyDC/5np6QMPFAfwGeJwtoliWElb1ADy9FSwlD6fcDfsefO188NFRBebrfz8DgaSU0PoykloDhXWR1QFYjOeQ352A0/UulsQoAUoCNLDS3V6BIvU2/lBbLO9t2rO3dbejWVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jI0zVDnV6LWrwtWM5TNbeGDiBQucB8/oKUQoyawWXxI=;
- b=5UBQykUiupj5AedlX04381fBiQwdNdAdB6SrpJAtfoTpYagqOslxIyOR42Rm4CtuUagoq37TG2asuWLRmm93JPK5QUvBavUdTw0bnqN+FCV5/ie1wOfTOd/SYPYJTmoCT5Zcbu7XWAAMNELtbMjlK3fmgDpqDFxFueRQhIsUI8I=
-Received: from BN0PR07CA0028.namprd07.prod.outlook.com (2603:10b6:408:141::27)
- by IA0PR12MB8254.namprd12.prod.outlook.com (2603:10b6:208:408::8)
+ bh=2+rPeG4zSesJMWVH+q+a4CTowd2JeHgre8BXEdcfuyU=;
+ b=zEX/n/Af7qTdjnkjK/LeL6TDTaoeibR3h9K7GELMvkzDfdgelERtMVeZ5pnX7t0NEe2kKBCUQUuQaMIZyIyplpIwmpRYOx11BYQwIRi+OiYRJugZ2HDL5nj5o3ghduGJdgHaSUd+nc2OtYJ6wvAlThFfPg+teD7/JPaeC8mPWoU=
+Received: from BN0PR04CA0101.namprd04.prod.outlook.com (2603:10b6:408:ec::16)
+ by BY5PR12MB4129.namprd12.prod.outlook.com (2603:10b6:a03:213::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Tue, 6 Jun
- 2023 20:26:23 +0000
-Received: from BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:141:cafe::70) by BN0PR07CA0028.outlook.office365.com
- (2603:10b6:408:141::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.34 via Frontend
- Transport; Tue, 6 Jun 2023 20:26:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Tue, 6 Jun
+ 2023 20:26:27 +0000
+Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ec:cafe::ac) by BN0PR04CA0101.outlook.office365.com
+ (2603:10b6:408:ec::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33 via Frontend
+ Transport; Tue, 6 Jun 2023 20:26:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,22 +45,26 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT064.mail.protection.outlook.com (10.13.176.160) with Microsoft SMTP
+ BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6455.36 via Frontend Transport; Tue, 6 Jun 2023 20:26:23 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ 15.20.6455.36 via Frontend Transport; Tue, 6 Jun 2023 20:26:26 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 6 Jun
- 2023 15:26:23 -0500
+ 2023 15:26:24 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 6 Jun
+ 2023 15:26:24 -0500
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 6 Jun 2023 15:26:22 -0500
+ Transport; Tue, 6 Jun 2023 15:26:23 -0500
 From: Harry Wentland <harry.wentland@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v5 10/13] drm/amd/display: Send correct DP colorspace
- infopacket
-Date: Tue, 6 Jun 2023 16:26:04 -0400
-Message-ID: <20230606202607.122914-11-harry.wentland@amd.com>
+Subject: [PATCH v5 11/13] drm/amd/display: Always set crtcinfo from
+ create_stream_for_sink
+Date: Tue, 6 Jun 2023 16:26:05 -0400
+Message-ID: <20230606202607.122914-12-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230606202607.122914-1-harry.wentland@amd.com>
 References: <20230606202607.122914-1-harry.wentland@amd.com>
@@ -69,26 +73,26 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT064:EE_|IA0PR12MB8254:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7f14711-8239-4ede-aaf8-08db66cc4c01
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT063:EE_|BY5PR12MB4129:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34ed2cba-7498-4b89-04d0-08db66cc4daa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LFmtfy2Eto6MMmWQxtWeIlmLThjF2/2rSS85pwTNQYEVdNehD4LOmrMNE22Lm/ksuEyrFu2fBv7tGuJF6sZtIQ1nQSlnnMYoAh+v55xBP3QiT7f5GVEHd2Xh3LmIOwDTL7UEAVRZBLP4iJOQXWIaLp58ABpprYM1BWjJ9cqHL6HwZ0mQACQxYMckk4exzC91xKW5lq65fJ7DB9vABgxEIghCeMB2JV29iUjEiYmkjH7kymv6mJIrKYX5BWQeRDAngxvkUOkWVBR2kxRkAbpq8khgqAv1aM25m3ooKKiMFUHaYYD0yPJeKMLuvUlWi3msfwaa5+KEMEvIHdHMpzwD6tzipT9tcA9B8hZnnEEjFgfbSXDqK+U/2hwrwQ++iaqenqlUCFiiw+LgO05lOwPjloXGWIZWi42uAJwML4qQ7nOZPhV4ZWsuBlfNo4JwEhm72B5Nl/t0KtHjmI1Qibs1WaJTuXrSw4Q9e6WZok6tPv3+QcPmdhbMtJYu7LmE9eJNopTYivSokCwEcx8AKQGFBZ9IMwGkYiYhjGoeQmm8NVqHFsbOyRWUpZdKSReNY/F8SDZSVZcI6YzaGKPY54qaews6uZnjqv/4EPdSGqwArNUOiZvC4nm+LtkcdgxCXDdheWItkcyBaS5aJULKzIMirZMyM14plWYZhtIBqsV+0kv/krMJQwflsolX9w8mCzdA99NT/2kjKIC/0YL3k76MDt5I48p+t9BYsFAFfd2J2WiuhSfTlTV0tvLoYE9F0u9f3uHLI0lONMFAlGd8r0Sobw==
+X-Microsoft-Antispam-Message-Info: FOa+BOJoWagj7z/3p8J4dtjnOyWG7BKBaxGSBWdGzCBXOmNSEkGipbdmc1Kny4CvF8UMjAM/7QEQjNBff+Iv1v3dnFktLqr8oYLkhbDD5OWqDeKtRA5NDkZON4CZJP0q7H79GIBc4+M2FtJSJs5AYolOdARgAowOW3pqOBnq9ZdsA5Jh2uqRXoTwdtWxxU9cQYEbYf2hnXteoyyCXGGfvOp0t0QSExA5QINfwb1qrUdEH0BxTMU0jFoxorBhmsIx7enSCbXMZx1Lk6oWQWjIlPXagfsgxCmtvnNUbxyVvTuhKFxaR8mCuLH75197T+INqQgKKZhW+79Qg1oMnRY6jy0B+CqWyMGKIkgqh9rhg7dUGsEsvyyDHjiKyZIO/knjU76Kwg51DNlrc3w1LfpJKUcSJuSJzLL6zYhVciZEWy3belFzLZF1CTw+dji+Gv7plzxWdeJzi7xsxEnCQlqZh6Gpj9cAJAgggdXnV8m0ATiynyHdZRsQaLIIOQq2cr/gBmdKIeYdnKGDh+oqG+uPHFSMJKgvSaqLqAKCunI3bslec5rwdwZWI0uCDVXsaAOSZHiT5KfCdJdCa7bQRkOzBFyYM5touaX5reV5A4Hrjm7KIzIfbO/z2Q0u4UDU8iWAVzKrP3lq7FlTOjFzgyXKq2Tm5wFqYqJ8XMhoTVLPuDvocSX0ovTMw73mP3r2UJJxrtdzgWCKA4cRowOBmxCJkfGc8+Evx+j8X/TdkrrpcQa1z8XKtXCI13bYQBRSr22+79C6iZy4URIArge7QFb26Q==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199021)(36840700001)(46966006)(40470700004)(70586007)(70206006)(2906002)(478600001)(316002)(8676002)(4326008)(41300700001)(8936002)(110136005)(54906003)(44832011)(6666004)(5660300002)(1076003)(40460700003)(26005)(40480700001)(82740400003)(186003)(356005)(81166007)(2616005)(47076005)(426003)(336012)(83380400001)(36860700001)(36756003)(86362001)(82310400005)(36900700001);
+ SFS:(13230028)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199021)(36840700001)(40470700004)(46966006)(86362001)(5660300002)(186003)(8936002)(110136005)(26005)(40460700003)(1076003)(36756003)(2906002)(54906003)(316002)(44832011)(8676002)(41300700001)(40480700001)(4326008)(356005)(82740400003)(70206006)(70586007)(478600001)(426003)(6666004)(2616005)(82310400005)(83380400001)(336012)(81166007)(36860700001)(47076005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 20:26:23.7127 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7f14711-8239-4ede-aaf8-08db66cc4c01
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 20:26:26.5094 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34ed2cba-7498-4b89-04d0-08db66cc4daa
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8254
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,18 +111,15 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>, Melissa Wen <mwen@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Look at connector->colorimetry to determine output colorspace.
+From: Joshua Ashton <joshua@froggi.es>
 
-We don't want to impact current SDR behavior, so
-DRM_MODE_COLORIMETRY_DEFAULT preserves current behavior.
+Given that we always pass dm_state into here now, this won't ever
+trigger anymore.
 
-Also add support to explicitly set BT601 and BT709.
+This is needed for we will always fail mode validation with invalid
+clocks or link bandwidth errors.
 
-v4:
-- Roll support for BT709 and BT601 into this patch
-- Add default case to avoid warnings for unhandled
-  enum values
-
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
 Cc: Sebastian Wick <sebastian.wick@redhat.com>
@@ -128,91 +129,24 @@ Cc: Simon Ser <contact@emersion.fr>
 Cc: Melissa Wen <mwen@igalia.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org
+Reviewed-By: Harry Wentland <harry.wentland@amd.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 48 ++++++++++++-------
- 1 file changed, 31 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 793ea29b4cfe..060a975f9885 100644
+index 060a975f9885..e17c8afce2f4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5338,21 +5338,44 @@ get_aspect_ratio(const struct drm_display_mode *mode_in)
- }
+@@ -6054,7 +6054,7 @@ create_stream_for_sink(struct amdgpu_dm_connector *aconnector,
  
- static enum dc_color_space
--get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
-+get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
-+		       const struct drm_connector_state *connector_state)
- {
- 	enum dc_color_space color_space = COLOR_SPACE_SRGB;
+ 	if (recalculate_timing)
+ 		drm_mode_set_crtcinfo(&saved_mode, 0);
+-	else if (!dm_state)
++	else
+ 		drm_mode_set_crtcinfo(&mode, 0);
  
--	switch (dc_crtc_timing->pixel_encoding)	{
--	case PIXEL_ENCODING_YCBCR422:
--	case PIXEL_ENCODING_YCBCR444:
--	case PIXEL_ENCODING_YCBCR420:
--	{
-+	switch (connector_state->colorspace) {
-+	case DRM_MODE_COLORIMETRY_BT601_YCC:
-+		if (dc_crtc_timing->flags.Y_ONLY)
-+			color_space = COLOR_SPACE_YCBCR601_LIMITED;
-+		else
-+			color_space = COLOR_SPACE_YCBCR601;
-+		break;
-+	case DRM_MODE_COLORIMETRY_BT709_YCC:
-+		if (dc_crtc_timing->flags.Y_ONLY)
-+			color_space = COLOR_SPACE_YCBCR709_LIMITED;
-+		else
-+			color_space = COLOR_SPACE_YCBCR709;
-+		break;
-+	case DRM_MODE_COLORIMETRY_OPRGB:
-+		color_space = COLOR_SPACE_ADOBERGB;
-+		break;
-+	case DRM_MODE_COLORIMETRY_BT2020_RGB:
-+	case DRM_MODE_COLORIMETRY_BT2020_YCC:
-+		if (dc_crtc_timing->pixel_encoding == PIXEL_ENCODING_RGB)
-+			color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
-+		else
-+			color_space = COLOR_SPACE_2020_YCBCR;
-+		break;
-+	case DRM_MODE_COLORIMETRY_DEFAULT: // ITU601
-+	default:
-+		if (dc_crtc_timing->pixel_encoding == PIXEL_ENCODING_RGB) {
-+			color_space = COLOR_SPACE_SRGB;
- 		/*
- 		 * 27030khz is the separation point between HDTV and SDTV
- 		 * according to HDMI spec, we use YCbCr709 and YCbCr601
- 		 * respectively
- 		 */
--		if (dc_crtc_timing->pix_clk_100hz > 270300) {
-+		} else if (dc_crtc_timing->pix_clk_100hz > 270300) {
- 			if (dc_crtc_timing->flags.Y_ONLY)
- 				color_space =
- 					COLOR_SPACE_YCBCR709_LIMITED;
-@@ -5365,15 +5388,6 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
- 			else
- 				color_space = COLOR_SPACE_YCBCR601;
- 		}
--
--	}
--	break;
--	case PIXEL_ENCODING_RGB:
--		color_space = COLOR_SPACE_SRGB;
--		break;
--
--	default:
--		WARN_ON(1);
- 		break;
- 	}
- 
-@@ -5512,7 +5526,7 @@ static void fill_stream_properties_from_drm_display_mode(
- 		}
- 	}
- 
--	stream->output_color_space = get_output_color_space(timing_out);
-+	stream->output_color_space = get_output_color_space(timing_out, connector_state);
- }
- 
- static void fill_audio_info(struct audio_info *audio_info,
+ 	/*
 -- 
 2.41.0
 
