@@ -1,73 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690B87246BE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:48:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C277246CB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB4C10E143;
-	Tue,  6 Jun 2023 14:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B304F10E367;
+	Tue,  6 Jun 2023 14:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 330AA10E143
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1686062917; x=1717598917;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=O5O88F8k9M+uTlDdyFYRya69vCehBmNpxhQSvU+qoxs=;
- b=Kbzfg3UQdNZO7pB1fkLyCvX2P5zfArWmyrtwqHF4+4lq2DnFlvAY6uYq
- cHNx3py5lCmgbU9TvNhHI4s9pxO4qxUQO7g9wuZqjzKThhaNfFLl47ZKK
- wS8+WDvBeKiWv2fGp+muok97xzCfuJ7YrRG3n+aNGRPpj6BZccfXg8OhY
- +NaXeIfwjPCd9vUtA1+MRz9A1ikhHshxP6EmMFA2+h6CxjXCTCPf763Kp
- NOR6z0cRfDzfOU8L1lZNHJiejP4XkH9Msj3Ew8MH1+oVQXdG+Yakp3meW
- 7B0Z/jbtQkUTlZW1l/ExxsmA/rD3ykrs/+7JV2lciZVzfA3QURlrfm9GP w==;
-X-IronPort-AV: E=Sophos;i="6.00,221,1681164000"; d="scan'208";a="31307809"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 06 Jun 2023 16:48:34 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 06 Jun 2023 16:48:34 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 06 Jun 2023 16:48:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1686062914; x=1717598914;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=O5O88F8k9M+uTlDdyFYRya69vCehBmNpxhQSvU+qoxs=;
- b=f/P+P1D3MvMjQ6A/BwCBwfCtzs4JEQqHDFdxfQ7jiup96FAJSKdEHa1+
- vAJNZSL8VuoCgKcYwaGnjNhhfCGX6y+wXT0BA4yUbA+9o5ynWq81wId6j
- xSZqjxSEhWHKs82mQdvBqcjP/Nw8VlNAXKL++MaUAkn0uJRhOMVNHV4Fu
- h+LyXjl+75+TeKqQRFP0zPBQMApSgOKYIvo2NtcPZF2y/QibNHy3gRrGn
- MTsd9B9rSSXjed0sV175OZ97YioUM4Dd8fSyKv1iJzk2I+K6kGNWjPb2x
- pdlHcdBaX0nsqQXq93wurbqO2JtT9ijjgefdJ4f7rN/cErJgNQw34w8sh A==;
-X-IronPort-AV: E=Sophos;i="6.00,221,1681164000"; d="scan'208";a="31307808"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 06 Jun 2023 16:48:34 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 46CB6280090;
- Tue,  6 Jun 2023 16:48:34 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
-Date: Tue,  6 Jun 2023 16:48:33 +0200
-Message-Id: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD1B10E367
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:51:14 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3569LAgM011231; Tue, 6 Jun 2023 14:51:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NOL0ZvJjybXkdYE4MXcupZ/G4hMz3/AGHkEgn1pPr4o=;
+ b=HwCw9X7Fff9HQs7h1Y19k6x3dLO4cHo3jOca8m12uGtuPG4NI6dWr8zbdqRlJug7ALUw
+ nethVzV0te3y1exN5geHDFN2t86Lhts/NePGCRclmpOT3pB/Bxi+vPK/CKKgjlgJwyke
+ CUsLjhhvhWUPjxfC/ajiBLgRY+w1E/ejTvsWf3UMr8kAIHJ+tKlVblGJ6EpUUAmXb9Yi
+ Yj5n47qSextnFz57myPOATKY9Fc/fUgpnTo4MnbXtmvmKjo8mQ8fi4egLyjioRA1afv7
+ 33kHeunWd+BlqEbt5TJqRqqYyKNspyOzQ+bcepfjSrFECT+vjSJKQgSZpqfYy0adHHGn GA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r1wgv1921-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 14:51:06 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356Eor8x022070
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 14:50:53 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 6 Jun 2023
+ 07:50:53 -0700
+Message-ID: <b8f3b911-a883-272c-b2ac-d57e10318f75@quicinc.com>
+Date: Tue, 6 Jun 2023 08:50:52 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/2] accel/ivpu: Do not use mutex_lock_interruptible
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230525103818.877590-1-stanislaw.gruszka@linux.intel.com>
+ <20230525103818.877590-2-stanislaw.gruszka@linux.intel.com>
+ <66ccf028-48df-0493-6510-19bd635210a5@quicinc.com>
+ <20230606134443.GC324119@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230606134443.GC324119@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: dW47uqI9iFO2Oz4iy5rlTtyhosrXNqXc
+X-Proofpoint-GUID: dW47uqI9iFO2Oz4iy5rlTtyhosrXNqXc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_10,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 phishscore=0 mlxscore=0 clxscore=1015
+ suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2306060126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +85,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When -EPROBE_DEFER is returned do not raise an error, but silently return
-this error instead. Fixes error like this:
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-[drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+On 6/6/2023 7:44 AM, Stanislaw Gruszka wrote:
+> Hi
+> 
+> On Fri, Jun 02, 2023 at 11:30:31AM -0600, Jeffrey Hugo wrote:
+>> On 5/25/2023 4:38 AM, Stanislaw Gruszka wrote:
+>>> If we get signal when waiting for the mmu->lock we do not invalidate
+>>> current MMU configuration what might result on undefined behavior.
+>>
+>> "that might result in"
+>>
+>>> Additionally there is little or no benefit on break waiting for
+>>> ipc->lock. In current code base, we keep this lock for short periods.
+>>
+>> What about error cases?  Nothing where say the hardware can be unresponsive
+>> and a process from userspace is blocked?  Without interruptible(), ctrl+c
+>> will have no effect.
+> 
+> I believe we do not have any infinite loops while holding the mutexe's,
+> all loops will end with timeout on unresponsive hardware and sooner or
+> later SIGINT will be delivered. This time can take quite long on simulated
+> environment, but in such case we can just break the simulation.
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-dev_err_probe() would be the best, but I am not sure if this function is
-always used within a driver's probe() call.
+Ok, then I'm not missing anything.  It does look like all the hardware 
+interactions have short timeouts.  Feels odd to me to avoid 
+interruptible() in user context, but I don't see anything that is wrong 
+based on the code today.
 
- drivers/gpu/drm/drm_bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index c3d69af02e79d..07773d6441a1f 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	bridge->encoder = NULL;
- 	list_del(&bridge->chain_node);
- 
-+	if (ret != -EPROBE_DEFER) {
- #ifdef CONFIG_OF
- 	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
- 		  bridge->of_node, encoder->name, ret);
-@@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
- 		  encoder->name, ret);
- #endif
-+	}
- 
- 	return ret;
- }
--- 
-2.34.1
-
+With the commit text spelling fixes,
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
