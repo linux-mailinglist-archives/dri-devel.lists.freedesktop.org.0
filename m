@@ -2,47 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF5E72358E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 05:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F8272364C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 06:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF07C10E175;
-	Tue,  6 Jun 2023 03:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1489410E206;
+	Tue,  6 Jun 2023 04:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D76910E175;
- Tue,  6 Jun 2023 03:00:42 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E50F10E1F3;
+ Tue,  6 Jun 2023 04:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686020442; x=1717556442;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=iZqaBanXhUULXeSqb5S/giRCGYjE7XmWOqBeZSIJCE4=;
- b=L9kpGVdNby6dZpgWsJwkHO+1nBY82Cz+K0ATSKXfnKdMjN5mTRMCQ0uu
- wlfZKj1lwiVHYXykK02U6DuRg9ON3AihtegBRTnC9j8jXP62+u+0nrf2X
- um530u+1jB4CeEEXMarHR6dEiSMr3Q4Wj4skTLFJ3s/f2FZmJM6UUOMIm
- OzMjtyNuUwUGxHfRvGYwNX4sDO3UjC/z8oeVarwobXvMyrwiYx4BgEykn
- HrqLdy0UO9CcRgdaErkIR2SX+WRcPRiEkaV8S313uRBg7iFHSfejDyPpt
- rNTafaQe/xw6H+v/Xa1Me4Sy+rKtEczy4pdsFVi489tZw9hIlFCX4m/va w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336904515"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="336904515"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2023 20:00:41 -0700
+ t=1686025942; x=1717561942;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=RBATxna7g8/0pVpEGG876TkYCciDzcJM0CSsWAyvptw=;
+ b=i3WV6JpdOV0Ei+KYOtVgWayQTAtlgnq42h/NZEHxpIa/7hH19CzR7RpJ
+ Evw701IWsmDSUD+qYnxDHk9Qm7h/dH75BXSxBxHCyEim//gdcBZAH1OmE
+ 8dBvxSxattvF8KmFlj5PRUP17dH5k62S62+5khncxEgNulEz6FYO/K/DC
+ /hn2qzgniipvoBXPni/f9+NXuTqTfLBETF17oVFfTTJD5K5Q71UP4hm7M
+ jlVH/6K+DrYeqfeYbS8uKyqQyhl68wcXBmULpQwUPcXaPcPg6q6Ws+b5S
+ qHd1Vt7qlTNUeuH3abDFVU/6okxYD2XHfaxxDP54Dbu+Abr1qfyngOzW0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420106682"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="420106682"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 21:32:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="708901567"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="708901567"
-Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.12])
- by orsmga002.jf.intel.com with ESMTP; 05 Jun 2023 20:00:40 -0700
-From: Zhanjun Dong <zhanjun.dong@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Avoid circular locking dependency when flush
- delayed work on gt reset
-Date: Mon,  5 Jun 2023 20:00:37 -0700
-Message-Id: <20230606030037.196558-1-zhanjun.dong@intel.com>
-X-Mailer: git-send-email 2.34.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="659363072"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="659363072"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2023 21:32:20 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915/mtl/gsc: Add a gsc_info debugfs
+Date: Mon,  5 Jun 2023 21:32:09 -0700
+Message-Id: <20230606043209.2056271-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
+References: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,129 +58,347 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This attemps to avoid circular locing dependency between flush delayed work and intel_gt_reset.
+Add a new debugfs to dump information about the GSC. This includes:
 
-WARNING: possible circular locking dependency detected
-6.4.0-rc1-drmtip_1340-g31e3463b0edb+ #1 Not tainted
-------------------------------------------------------
-kms_pipe_crc_ba/6415 is trying to acquire lock:
-ffff88813e6cc640 ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}, at: __flush_work+0x42/0x530
+- the FW path and SW tracking status;
+- the release, security and compatibility versions;
+- the HECI1 status registers.
 
-but task is already holding lock:
-ffff88813e6cce90 (&gt->reset.mutex){+.+.}-{3:3}, at: intel_gt_reset+0x19e/0x470 [i915]
+Note that those are the same registers that the mei driver dumps in
+their own status sysfs on DG2 (where mei owns the GSC).
 
-which lock already depends on the new lock.
+To make it simpler to loop through the status register, the code has
+been update to use a PICK macro and the existing code using the regs had
+been adapted to match.
 
-the existing dependency chain (in reverse order) is:
+v2: fix includes and copyright dates (Alan)
+v3: actually fix the includes
 
--> #3 (&gt->reset.mutex){+.+.}-{3:3}:
-        lock_acquire+0xd8/0x2d0
-        i915_gem_shrinker_taints_mutex+0x31/0x50 [i915]
-        intel_gt_init_reset+0x65/0x80 [i915]
-        intel_gt_common_init_early+0xe1/0x170 [i915]
-        intel_root_gt_init_early+0x48/0x60 [i915]
-        i915_driver_probe+0x671/0xcb0 [i915]
-        i915_pci_probe+0xdc/0x210 [i915]
-        pci_device_probe+0x95/0x120
-        really_probe+0x164/0x3c0
-        __driver_probe_device+0x73/0x160
-        driver_probe_device+0x19/0xa0
-        __driver_attach+0xb6/0x180
-        bus_for_each_dev+0x77/0xd0
-        bus_add_driver+0x114/0x210
-        driver_register+0x5b/0x110
-        __pfx_vgem_open+0x3/0x10 [vgem]
-        do_one_initcall+0x57/0x270
-        do_init_module+0x5f/0x220
-        load_module+0x1ca4/0x1f00
-        __do_sys_finit_module+0xb4/0x130
-        do_syscall_64+0x3c/0x90
-        entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
--> #2 (fs_reclaim){+.+.}-{0:0}:
-        lock_acquire+0xd8/0x2d0
-        fs_reclaim_acquire+0xac/0xe0
-        kmem_cache_alloc+0x32/0x260
-        i915_vma_instance+0xb2/0xc60 [i915]
-        i915_gem_object_ggtt_pin_ww+0x175/0x370 [i915]
-        vm_fault_gtt+0x22d/0xf60 [i915]
-        __do_fault+0x2f/0x1d0
-        do_pte_missing+0x4a/0xd20
-        __handle_mm_fault+0x5b0/0x790
-        handle_mm_fault+0xa2/0x230
-        do_user_addr_fault+0x3ea/0xa10
-        exc_page_fault+0x68/0x1a0
-        asm_exc_page_fault+0x26/0x30
-
--> #1 (&gt->reset.backoff_srcu){++++}-{0:0}:
-        lock_acquire+0xd8/0x2d0
-        _intel_gt_reset_lock+0x57/0x330 [i915]
-        guc_timestamp_ping+0x35/0x130 [i915]
-        process_one_work+0x250/0x510
-        worker_thread+0x4f/0x3a0
-        kthread+0xff/0x130
-        ret_from_fork+0x29/0x50
-
--> #0 ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}:
-        check_prev_add+0x90/0xc60
-        __lock_acquire+0x1998/0x2590
-        lock_acquire+0xd8/0x2d0
-        __flush_work+0x74/0x530
-        __cancel_work_timer+0x14f/0x1f0
-        intel_guc_submission_reset_prepare+0x81/0x4b0 [i915]
-        intel_uc_reset_prepare+0x9c/0x120 [i915]
-        reset_prepare+0x21/0x60 [i915]
-        intel_gt_reset+0x1dd/0x470 [i915]
-        intel_gt_reset_global+0xfb/0x170 [i915]
-        intel_gt_handle_error+0x368/0x420 [i915]
-        intel_gt_debugfs_reset_store+0x5c/0xc0 [i915]
-        i915_wedged_set+0x29/0x40 [i915]
-        simple_attr_write_xsigned.constprop.0+0xb4/0x110
-        full_proxy_write+0x52/0x80
-        vfs_write+0xc5/0x4f0
-        ksys_write+0x64/0xe0
-        do_syscall_64+0x3c/0x90
-        entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
-other info that might help us debug this:
- Chain exists of:
-  (work_completion)(&(&guc->timestamp.work)->work) --> fs_reclaim --> &gt->reset.mutex
-  Possible unsafe locking scenario:
-        CPU0                    CPU1
-        ----                    ----
-   lock(&gt->reset.mutex);
-                                lock(fs_reclaim);
-                                lock(&gt->reset.mutex);
-   lock((work_completion)(&(&guc->timestamp.work)->work));
-
- *** DEADLOCK ***
- 3 locks held by kms_pipe_crc_ba/6415:
-  #0: ffff888101541430 (sb_writers#15){.+.+}-{0:0}, at: ksys_write+0x64/0xe0
-  #1: ffff888136c7eab8 (&attr->mutex){+.+.}-{3:3}, at: simple_attr_write_xsigned.constprop.0+0x47/0x110
-  #2: ffff88813e6cce90 (&gt->reset.mutex){+.+.}-{3:3}, at: intel_gt_reset+0x19e/0x470 [i915]
-
-Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/Makefile                 |  3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     | 29 +++++------
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     | 48 ++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h     |  2 +
+ .../gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c | 39 +++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.h | 14 ++++++
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  6 +--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c |  2 +
+ drivers/gpu/drm/i915/i915_reg.h               | 26 +++++++++-
+ 9 files changed, 144 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.h
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index a0e3ef1c65d2..22390704542e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1359,7 +1359,7 @@ static void guc_enable_busyness_worker(struct intel_guc *guc)
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 1c9ed4c52760..b6c54fb0b4cc 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -192,7 +192,8 @@ i915-y += \
+ 	  gt/uc/intel_gsc_fw.o \
+ 	  gt/uc/intel_gsc_proxy.o \
+ 	  gt/uc/intel_gsc_uc.o \
+-	  gt/uc/intel_gsc_uc_heci_cmd_submit.o\
++	  gt/uc/intel_gsc_uc_debugfs.o \
++	  gt/uc/intel_gsc_uc_heci_cmd_submit.o \
+ 	  gt/uc/intel_guc.o \
+ 	  gt/uc/intel_guc_ads.o \
+ 	  gt/uc/intel_guc_capture.o \
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+index 7d48d59011c8..b069459e2596 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+@@ -12,36 +12,31 @@
+ #include "intel_gsc_binary_headers.h"
+ #include "intel_gsc_fw.h"
+ #include "intel_gsc_uc_heci_cmd_submit.h"
+-
+-#define GSC_FW_STATUS_REG			_MMIO(0x116C40)
+-#define GSC_FW_CURRENT_STATE			REG_GENMASK(3, 0)
+-#define   GSC_FW_CURRENT_STATE_RESET		0
+-#define   GSC_FW_PROXY_STATE_NORMAL		5
+-#define GSC_FW_INIT_COMPLETE_BIT		REG_BIT(9)
++#include "i915_reg.h"
  
- static void guc_cancel_busyness_worker(struct intel_guc *guc)
+ static bool gsc_is_in_reset(struct intel_uncore *uncore)
  {
--	cancel_delayed_work_sync(&guc->timestamp.work);
-+	cancel_delayed_work(&guc->timestamp.work);
+-	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
++	u32 fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
+ 
+-	return REG_FIELD_GET(GSC_FW_CURRENT_STATE, fw_status) ==
+-	       GSC_FW_CURRENT_STATE_RESET;
++	return REG_FIELD_GET(HECI1_FWSTS1_CURRENT_STATE, fw_status) ==
++			HECI1_FWSTS1_CURRENT_STATE_RESET;
  }
  
- static void __reset_guc_busyness_stats(struct intel_guc *guc)
+ bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
+ {
+ 	struct intel_uncore *uncore = gsc_uc_to_gt(gsc)->uncore;
+-	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
++	u32 fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
+ 
+-	return REG_FIELD_GET(GSC_FW_CURRENT_STATE, fw_status) ==
+-	       GSC_FW_PROXY_STATE_NORMAL;
++	return REG_FIELD_GET(HECI1_FWSTS1_CURRENT_STATE, fw_status) ==
++	       HECI1_FWSTS1_PROXY_STATE_NORMAL;
+ }
+ 
+ bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc)
+ {
+ 	struct intel_uncore *uncore = gsc_uc_to_gt(gsc)->uncore;
+-	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
++	u32 fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
+ 
+-	return fw_status & GSC_FW_INIT_COMPLETE_BIT;
++	return fw_status & HECI1_FWSTS1_INIT_COMPLETE;
+ }
+ 
+ static inline u32 cpd_entry_offset(const struct intel_gsc_cpd_entry *entry)
+@@ -293,9 +288,9 @@ static int gsc_fw_load_prepare(struct intel_gsc_uc *gsc)
+ static int gsc_fw_wait(struct intel_gt *gt)
+ {
+ 	return intel_wait_for_register(gt->uncore,
+-				       GSC_FW_STATUS_REG,
+-				       GSC_FW_INIT_COMPLETE_BIT,
+-				       GSC_FW_INIT_COMPLETE_BIT,
++				       HECI_FWSTS(MTL_GSC_HECI1_BASE, 1),
++				       HECI1_FWSTS1_INIT_COMPLETE,
++				       HECI1_FWSTS1_INIT_COMPLETE,
+ 				       500);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+index 4fe639a80564..6826aa5d6985 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+@@ -7,10 +7,11 @@
+ 
+ #include "gt/intel_gt.h"
+ #include "gt/intel_gt_print.h"
+-#include "intel_gsc_uc.h"
+ #include "intel_gsc_fw.h"
+-#include "i915_drv.h"
+ #include "intel_gsc_proxy.h"
++#include "intel_gsc_uc.h"
++#include "i915_drv.h"
++#include "i915_reg.h"
+ 
+ static void gsc_work(struct work_struct *work)
+ {
+@@ -304,3 +305,46 @@ void intel_gsc_uc_load_start(struct intel_gsc_uc *gsc)
+ 
+ 	queue_work(gsc->wq, &gsc->work);
+ }
++
++void intel_gsc_uc_load_status(struct intel_gsc_uc *gsc, struct drm_printer *p)
++{
++	struct intel_gt *gt = gsc_uc_to_gt(gsc);
++	struct intel_uncore *uncore = gt->uncore;
++	intel_wakeref_t wakeref;
++
++	if (!intel_gsc_uc_is_supported(gsc)) {
++		drm_printf(p, "GSC not supported\n");
++		return;
++	}
++
++	if (!intel_gsc_uc_is_wanted(gsc)) {
++		drm_printf(p, "GSC disabled\n");
++		return;
++	}
++
++	drm_printf(p, "GSC firmware: %s\n", gsc->fw.file_selected.path);
++	if (gsc->fw.file_selected.path != gsc->fw.file_wanted.path)
++		drm_printf(p, "GSC firmware wanted: %s\n", gsc->fw.file_wanted.path);
++	drm_printf(p, "\tstatus: %s\n", intel_uc_fw_status_repr(gsc->fw.status));
++
++
++	drm_printf(p, "Release: %u.%u.%u.%u\n",
++		   gsc->release.major, gsc->release.minor,
++		   gsc->release.patch, gsc->release.build);
++
++	drm_printf(p, "Compatibility Version: %u.%u [min expected %u.%u]\n",
++		   gsc->fw.file_selected.ver.major, gsc->fw.file_selected.ver.minor,
++		   gsc->fw.file_wanted.ver.major, gsc->fw.file_wanted.ver.minor);
++
++	drm_printf(p, "SVN: %u\n", gsc->security_version);
++
++	with_intel_runtime_pm(uncore->rpm, wakeref) {
++		u32 i;
++
++		for (i = 1; i <= 6; i++) {
++			u32 status = intel_uncore_read(uncore,
++						       HECI_FWSTS(MTL_GSC_HECI1_BASE, i));
++			drm_printf(p, "HECI1 FWSTST%u = 0x%08x\n", i, status);
++		}
++	}
++}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
+index 81df6c929d5f..c8082cf200fc 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
+@@ -8,6 +8,7 @@
+ 
+ #include "intel_uc_fw.h"
+ 
++struct drm_printer;
+ struct i915_vma;
+ struct intel_context;
+ struct i915_gsc_proxy_component;
+@@ -63,6 +64,7 @@ void intel_gsc_uc_suspend(struct intel_gsc_uc *gsc);
+ void intel_gsc_uc_resume(struct intel_gsc_uc *gsc);
+ void intel_gsc_uc_flush_work(struct intel_gsc_uc *gsc);
+ void intel_gsc_uc_load_start(struct intel_gsc_uc *gsc);
++void intel_gsc_uc_load_status(struct intel_gsc_uc *gsc, struct drm_printer *p);
+ 
+ static inline bool intel_gsc_uc_is_supported(struct intel_gsc_uc *gsc)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
+new file mode 100644
+index 000000000000..5baacd822a1c
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
+@@ -0,0 +1,39 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++
++#include <drm/drm_print.h>
++
++#include "gt/intel_gt.h"
++#include "gt/intel_gt_debugfs.h"
++#include "gt/intel_gt_print.h"
++#include "intel_gsc_uc.h"
++#include "intel_gsc_uc_debugfs.h"
++#include "i915_drv.h"
++
++static int gsc_info_show(struct seq_file *m, void *data)
++{
++	struct drm_printer p = drm_seq_file_printer(m);
++	struct intel_gsc_uc *gsc = m->private;
++
++	if (!intel_gsc_uc_is_supported(gsc))
++		return -ENODEV;
++
++	intel_gsc_uc_load_status(gsc, &p);
++
++	return 0;
++}
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(gsc_info);
++
++void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
++{
++	static const struct intel_gt_debugfs_file files[] = {
++		{ "gsc_info", &gsc_info_fops, NULL },
++	};
++
++	if (!intel_gsc_uc_is_supported(gsc_uc))
++		return;
++
++	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gsc_uc);
++}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.h
+new file mode 100644
+index 000000000000..3415ad39aabb
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++
++#ifndef DEBUGFS_GSC_UC_H
++#define DEBUGFS_GSC_UC_H
++
++struct intel_gsc_uc;
++struct dentry;
++
++void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc, struct dentry *root);
++
++#endif /* DEBUGFS_GSC_UC_H */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index e0afd8f89502..d3a7219e9ed1 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -308,9 +308,9 @@ void intel_huc_init_early(struct intel_huc *huc)
+ 		huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HUC_LOAD_SUCCESSFUL;
+ 		huc->status[INTEL_HUC_AUTH_BY_GSC].value = HUC_LOAD_SUCCESSFUL;
+ 	} else {
+-		huc->status[INTEL_HUC_AUTH_BY_GSC].reg = HECI_FWSTS5(MTL_GSC_HECI1_BASE);
+-		huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HECI_FWSTS5_HUC_AUTH_DONE;
+-		huc->status[INTEL_HUC_AUTH_BY_GSC].value = HECI_FWSTS5_HUC_AUTH_DONE;
++		huc->status[INTEL_HUC_AUTH_BY_GSC].reg = HECI_FWSTS(MTL_GSC_HECI1_BASE, 5);
++		huc->status[INTEL_HUC_AUTH_BY_GSC].mask = HECI1_FWSTS5_HUC_AUTH_DONE;
++		huc->status[INTEL_HUC_AUTH_BY_GSC].value = HECI1_FWSTS5_HUC_AUTH_DONE;
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+index 2f93cc4e408a..6d541c866edb 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+@@ -10,6 +10,7 @@
+ 
+ #include "gt/intel_gt_debugfs.h"
+ #include "intel_guc_debugfs.h"
++#include "intel_gsc_uc_debugfs.h"
+ #include "intel_huc_debugfs.h"
+ #include "intel_uc.h"
+ #include "intel_uc_debugfs.h"
+@@ -58,6 +59,7 @@ void intel_uc_debugfs_register(struct intel_uc *uc, struct dentry *gt_root)
+ 
+ 	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), uc);
+ 
++	intel_gsc_uc_debugfs_register(&uc->gsc, root);
+ 	intel_guc_debugfs_register(&uc->guc, root);
+ 	intel_huc_debugfs_register(&uc->huc, root);
+ }
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 8ed7c39c2b30..8b1989de5132 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -941,8 +941,30 @@
+ #define HECI_H_GS1(base)	_MMIO((base) + 0xc4c)
+ #define   HECI_H_GS1_ER_PREP	REG_BIT(0)
+ 
+-#define HECI_FWSTS5(base)		_MMIO((base) + 0xc68)
+-#define   HECI_FWSTS5_HUC_AUTH_DONE	(1 << 19)
++/*
++ * The FWSTS register values are FW defined and can be different between
++ * HECI1 and HECI2
++ */
++#define HECI_FWSTS1				0xc40
++#define   HECI1_FWSTS1_CURRENT_STATE			REG_GENMASK(3, 0)
++#define   HECI1_FWSTS1_CURRENT_STATE_RESET		0
++#define   HECI1_FWSTS1_PROXY_STATE_NORMAL		5
++#define   HECI1_FWSTS1_INIT_COMPLETE			REG_BIT(9)
++#define HECI_FWSTS2				0xc48
++#define HECI_FWSTS3				0xc60
++#define HECI_FWSTS4				0xc64
++#define HECI_FWSTS5				0xc68
++#define   HECI1_FWSTS5_HUC_AUTH_DONE	(1 << 19)
++#define HECI_FWSTS6				0xc6c
++
++/* the FWSTS regs are 1-based, so we use -base for index 0 to get an invalid reg */
++#define HECI_FWSTS(base, x) _MMIO((base) + _PICK(x, -(base), \
++						    HECI_FWSTS1, \
++						    HECI_FWSTS2, \
++						    HECI_FWSTS3, \
++						    HECI_FWSTS4, \
++						    HECI_FWSTS5, \
++						    HECI_FWSTS6))
+ 
+ #define HSW_GTT_CACHE_EN	_MMIO(0x4024)
+ #define   GTT_CACHE_EN_ALL	0xF0007FFF
 -- 
-2.34.1
+2.40.0
 
