@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE94723B9E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAB5723BDB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3573D10E2CE;
-	Tue,  6 Jun 2023 08:27:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 504A610E304;
+	Tue,  6 Jun 2023 08:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C99110E2CE;
- Tue,  6 Jun 2023 08:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686040031; x=1717576031;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GIsyVGPDgE8PKkZxjDGVz34LapzyMmYSOROpzep7GcI=;
- b=iKMIzD4wHDg54OmENG6ieHHobGcZSIiJ55PCc0u4DVbBJXJSL9bDMEyJ
- yneufqMaXEiX9FoVk0V3AajZt5fMdE6r1XlA6U9PN6cpgRwbtKUFe4QlO
- 9KWnZ1kmMObQo0zPu/htHJ6dz0w4MWU77DhNTySOM5+TFHBfikaCUghli
- PR2xbeTLCnG9QVb2QuWhSBAsc6/g2VQFhhdM5Bc2covceyuW6ZgVcYmc9
- /iEk+BMoiNOhZFrl+FhYhvib9nCY5GPA2gWOqExXVAAaCvy7f5xw3ny5i
- ftD3X5IasGiuWDow7sb/xkTwfIypAJyKk1dljy0+8yXMsVir3m13Hj/Al A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336960758"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="336960758"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2023 01:27:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="703073891"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="703073891"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 06 Jun 2023 01:27:09 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q6S20-00051r-1d;
- Tue, 06 Jun 2023 08:27:08 +0000
-Date: Tue, 6 Jun 2023 16:26:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info
- debugfs
-Message-ID: <202306061637.gecTQnQd-lkp@intel.com>
-References: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20CE310E2F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 08:33:10 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-30ae967ef74so4569554f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 01:33:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686040388; x=1688632388;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HGNvezJMXfjn7ToqqZuXUFZItGnK+ZI8rSYUZp66fL0=;
+ b=ebW+dZ4PFwVmuzs+A/1mErcEfwlk42eaHMnN0FTXdU4DToHNMqjg4hps7BaomOmmnG
+ ULeztuZ667nKmYkB8ryIIMId0Ya0i1cXnLd/2Jms6MjS7sKP1cyJAOU6jeF085HhLoTY
+ lRn40UYUUe074EBieFDm8LmII0z3VjGADQOBO416duu0D4HLC/dxSxgOShk3e9tnQu6G
+ z7cIOOTpWmTUCCKwHUfk/AY8KznVOufjFOyrDOcxDNKRzEAmuKQ+1SEEhsDwkOAvnlKK
+ SOeWPzLVkwYxz5X6SCq/3oB97ZfRVn3MS5PjBh6rNiLAom3mBQQdr8q4n7gRCRwvF5dc
+ wi9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686040388; x=1688632388;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HGNvezJMXfjn7ToqqZuXUFZItGnK+ZI8rSYUZp66fL0=;
+ b=CMRM1zmm5y9LN6+NCt6L3SVW0WfPPZhg3WWT3LHdRQ+M2v/pYT5XVcqEhqFio14eoR
+ SfsIguVPTGr1whEVPom8L9vOxIDZ1f1oOgSvRjcUL5jOMLVOnoRNDqHEmtXxd98tMrr8
+ OKVR8Ninvm3Okfrgd/HvKOGPRk2UuRy0U8p7Vs8WU2g07ZuhMZp3cH0U+RcLbT7Nw2LH
+ FlgkjFRitg1VGXgsKoC3FCiVqkQ5hgB0uO71EXHPgvg0YvJGNiL3ZNUMHzlLkV37Gg34
+ 4lp4ABmlgFSwIO0iqO78V2mBWrE924KD+ZvNFZcbw/5RqiBBZvix92qbnVFKxMawKNMR
+ UVdQ==
+X-Gm-Message-State: AC+VfDzk/lqdDUEyOtBAvXlAHR9bFIBoG2B3GDai0VxK4uyUIaJwI9v5
+ Mg+xx8O6dKjoNWm86Tn481kCmw==
+X-Google-Smtp-Source: ACHHUZ69J8r5vJcWEWXn2VmWqlCRB7PTWJZj88krqf7/cGT0YE5tj+fKqFHTvwx1gzn5SpOc8uSZ5g==
+X-Received: by 2002:adf:fccb:0:b0:30c:2bbf:bf75 with SMTP id
+ f11-20020adffccb000000b0030c2bbfbf75mr1071217wrs.26.1686040388227; 
+ Tue, 06 Jun 2023 01:33:08 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ l24-20020a1ced18000000b003f31cb7a203sm13443342wmh.14.2023.06.06.01.33.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jun 2023 01:33:07 -0700 (PDT)
+Date: Tue, 6 Jun 2023 11:33:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rob Clark <robdclark@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH] drm/msm/dpu: tidy up some error checking
+Message-ID: <ZH7vP2Swu8CYpgUL@moroto>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,51 +69,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ kernel-janitors@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniele,
+The "vsync_hz" variable is unsigned int so it can't be less
+than zero.  The dpu_kms_get_clk_rate() function used to return a u64
+but I previously changed it to return an unsigned long and zero on
+error so it matches clk_get_rate().
 
-kernel test robot noticed the following build errors:
+Change the "vsync_hz" type to unsigned long as well and change the
+error checking to check for zero instead of negatives.  This change
+does not affect runtime at all.  It's just a clean up.
 
-[auto build test ERROR on drm-tip/drm-tip]
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-gsc-fixes-and-updates-for-GSC-memory-allocation/20230606-102510
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio%40intel.com
-patch subject: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info debugfs
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230606/202306061637.gecTQnQd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
-        git fetch drm-tip drm-tip
-        git checkout drm-tip/drm-tip
-        b4 shazam https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio@intel.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061637.gecTQnQd-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c:28:6: error: no previous prototype for 'intel_gsc_uc_debugfs_register' [-Werror=missing-prototypes]
-      28 | void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/intel_gsc_uc_debugfs_register +28 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
-
-    27	
-  > 28	void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+index d8ed85a238af..6aecaba14e7e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+@@ -324,7 +324,7 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
+ 	struct dpu_hw_tear_check tc_cfg = { 0 };
+ 	struct drm_display_mode *mode;
+ 	bool tc_enable = true;
+-	u32 vsync_hz;
++	unsigned long vsync_hz;
+ 	struct dpu_kms *dpu_kms;
+ 
+ 	if (phys_enc->has_intf_te) {
+@@ -359,8 +359,8 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
+ 	 * frequency divided by the no. of rows (lines) in the LCDpanel.
+ 	 */
+ 	vsync_hz = dpu_kms_get_clk_rate(dpu_kms, "vsync");
+-	if (vsync_hz <= 0) {
+-		DPU_DEBUG_CMDENC(cmd_enc, "invalid - vsync_hz %u\n",
++	if (!vsync_hz) {
++		DPU_DEBUG_CMDENC(cmd_enc, "invalid - vsync_hz %lu\n",
+ 				 vsync_hz);
+ 		return;
+ 	}
+@@ -381,7 +381,7 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
+ 	tc_cfg.rd_ptr_irq = mode->vdisplay + 1;
+ 
+ 	DPU_DEBUG_CMDENC(cmd_enc,
+-		"tc vsync_clk_speed_hz %u vtotal %u vrefresh %u\n",
++		"tc vsync_clk_speed_hz %lu vtotal %u vrefresh %u\n",
+ 		vsync_hz, mode->vtotal, drm_mode_vrefresh(mode));
+ 	DPU_DEBUG_CMDENC(cmd_enc,
+ 		"tc enable %u start_pos %u rd_ptr_irq %u\n",
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
