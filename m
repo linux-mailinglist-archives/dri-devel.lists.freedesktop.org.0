@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3DB723B2A
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6C7723B53
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A56910E219;
-	Tue,  6 Jun 2023 08:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 323AE10E2D9;
+	Tue,  6 Jun 2023 08:22:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D97910E05A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 08:18:00 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-30aeee7c8a0so4151042f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 01:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686039477; x=1688631477;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cSpRJEPqPVqhoSAFcxKLrdKHmoUN6BNCQfphia1KCDc=;
- b=Mpc+MQI1MneytiHZlBGaFATUvZ2D7UN1Dd8CesjFWTyP49rsZyjD8jnaaR2NWOdDYa
- ipHtgV6xxEWHjDPiqr2vBbciA3+K0fJJ7K1xXjC7+LEEVocVIIUJi94ZOqHXXoTSgzrG
- mxeqOJel8vvWWKD6+i5csIDgelH/jVykDsjgcbudQFFfZ7CAf/f920BH4IoknBSQ53hq
- hYHtrf7a3GRFH2D0iZ/WCyHV6yJHs8gv/lj4ehZmceJwESSII8vcD1ixg8gZhNul0KKy
- 68n7AIGGrWW/DnIWzedWWopU6PP+9paqpLoKdw2Qdi7FG3cHOBeBfAZJZ1pCvU6/Hl6d
- tABg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686039477; x=1688631477;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cSpRJEPqPVqhoSAFcxKLrdKHmoUN6BNCQfphia1KCDc=;
- b=eMZ3lCro4otylDKd28D34iYQ5nAuu+gfCWn8d8FMYjixX9/ddFya3NIvRivSw4UeZy
- hxgAbCTJilK3D6a7RyKoP2scNKznwlp5tCC6qG65GN7Mevca5sgGe4GNiz7QQ1ySnrZB
- bCXdU+cp6+e/U0gVaIy1hukhNMGM18Czacti4kvBMcUMZIff9uNTsWFPNRiXnGHxq/1s
- eHxsUWTvTlxn+N2wfAr7wxvydsI/LsKySdZ9KPNb1pTIwWWzMQ3wyaF9Y9eH8UJMn1Os
- mH8oF+NsrHbngIZ9hFZDqgQ9quKAvl3k1Xe5/yc1avpOqxdaeVagw4cQy16LAcagwnEe
- geDw==
-X-Gm-Message-State: AC+VfDztyiQhoIv0072z33rlvnufNVBh2S7H22RziaEy6zgGapjzSq21
- 1qv2VOefq5r3ABtve2EUGxrmUg==
-X-Google-Smtp-Source: ACHHUZ7IXBOZigfcocE6Us3xOMsMk/mjRsDKCskt5eDsJGA9seSXJvit+vkIb+CpvRFtcFD997m2jg==
-X-Received: by 2002:adf:e446:0:b0:2fe:e455:666c with SMTP id
- t6-20020adfe446000000b002fee455666cmr8811328wrm.33.1686039476965; 
- Tue, 06 Jun 2023 01:17:56 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- c1-20020a5d4cc1000000b002fda1b12a0bsm11907760wrt.2.2023.06.06.01.17.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 01:17:56 -0700 (PDT)
-Date: Tue, 6 Jun 2023 09:17:54 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] backlight: hx8357: Convert to agnostic GPIO API
-Message-ID: <20230606081754.GA218497@aspen.lan>
-References: <20230317185230.46189-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdYXTk2pzXEM9MTjt=oT-CbhENABSLeb9dN7ZvEy8oqiag@mail.gmail.com>
- <ZBhJctqSkdtoUmBi@smile.fi.intel.com>
- <ZH4IPJuPoX3gi5Ga@smile.fi.intel.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849BF10E05A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 08:22:13 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3568Lhb5038618;
+ Tue, 6 Jun 2023 03:21:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1686039703;
+ bh=36NwgeETF+6wKwG4vZrXnjewoibnFd49vn/bQOk7I10=;
+ h=From:To:CC:Subject:Date;
+ b=eKb7Nij5m+KiINVRJXwiN63H00/eumZ4WoOyiYprHerpglBdX/8Vao4DrPg7vmcJo
+ 6ILf3n29d/QUO4MaJBRH1UZ2Fx2dSGVKqXVRiSu7I5QgPAaQ88SBmSbgK37h+/Jihz
+ o0jughnz7OXZP5vVm0Pmr84WdAahi1bKRf3Q6TYs=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3568LhFv012273
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 6 Jun 2023 03:21:43 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 6
+ Jun 2023 03:21:43 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 6 Jun 2023 03:21:43 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3568LgAH090120;
+ Tue, 6 Jun 2023 03:21:43 -0500
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Swapnil Jakhade <sjakhade@cadence.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Francesco Dolcini <francesco@dolcini.it>
+Subject: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
+Date: Tue, 6 Jun 2023 13:51:34 +0530
+Message-ID: <20230606082142.23760-1-a-bhatia1@ti.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZH4IPJuPoX3gi5Ga@smile.fi.intel.com>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,74 +67,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-gpio@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 05, 2023 at 07:07:24PM +0300, Andy Shevchenko wrote:
-> On Mon, Mar 20, 2023 at 01:54:26PM +0200, Andy Shevchenko wrote:
-> > On Fri, Mar 17, 2023 at 09:53:40PM +0100, Linus Walleij wrote:
-> > > On Fri, Mar 17, 2023 at 7:51 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > > The of_gpio.h is going to be removed. In preparation of that convert
-> > > > the driver to the agnostic API.
-> > > >
-> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > >
-> > > Thanks for fixing this Andy!
-> > >
-> > > > -#if !IS_ENABLED(CONFIG_LCD_HX8357)
-> > > > +#if IS_ENABLED(CONFIG_LCD_HX8357)
-> > > >                 /*
-> > > >                  * Himax LCD controllers used incorrectly named
-> > > >                  * "gpios-reset" property and also specified wrong
-> > > > @@ -452,7 +452,7 @@ static struct gpio_desc *of_find_gpio_rename(struct device_node *np,
-> > > >                  */
-> > > >                 const char *compatible;
-> > > >         } gpios[] = {
-> > > > -#if !IS_ENABLED(CONFIG_LCD_HX8357)
-> > > > +#if IS_ENABLED(CONFIG_LCD_HX8357)
-> > > >                 /* Himax LCD controllers used "gpios-reset" */
-> > > >                 { "reset",      "gpios-reset",  "himax,hx8357" },
-> > > >                 { "reset",      "gpios-reset",  "himax,hx8369" },
-> > >
-> > > Eh what happened here .. it's even intuitively wrong.
-> >
-> > I believe it had to be something  like
-> >
-> > 	#if 0 && IS_ENABLED()
-> >
-> > to show that this change is for the future.
-> > Currently it does something unneeded for the kernels with that option off.
-> >
-> > > I would add
-> > > Fixes: fbbbcd177a27 ("gpiolib: of: add quirk for locating reset lines
-> > > with legacy bindings")
-> >
-> > I'm not sure. But it's fine, I can add it. Just want to double confirm
-> > you really want this Fixes tag.
-> >
-> > > It wasn't used until now it seems so not a regression and no
-> > > need for a separate patch.
-> >
-> > Exactly why I'm not sure about the tag :-)
-> >
-> > > Other than that it looks correct.
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> >
-> > Thank you!
->
-> Lee, is anything I can do here to move this forward?
+Hi all,
 
-Backlight code looks OK to me (although I might regard the Fixes:
-discussion as unresolved)there is an unresolved):
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+I have picked up this long standing series from Nikhil Devshatwar[1].
 
+This series moves the tidss to using new connectoe model, where the SoC
+driver (tidss) creates the connector and all the bridges are attached
+with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
+to support format negotiation and and 'simple' encoder to expose it to
+the userspace.
 
-Daniel.
+Since the bridges do not create the connector, the bus_format and
+bus_flag is set via atomic hooks.
+
+Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
+drivers as a first step before moving the connector model.
+
+These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
+and J721E-SK. Display support for AM625 SoC has not been added upstream
+and is a WIP. To test this series on AM625 based platforms, basic
+display support patches, (for driver + devicetree), can be found in
+the "next_AttachNoConn-v2" branch on my github fork[2].
+
+Thanks,
+Aradhya
+
+[1]: https://patchwork.freedesktop.org/series/82765/#rev5
+[2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn-v2
+
+Change Log:
+V6 -> V7
+  - Rebase and cosmetic changes.
+  - Drop the output format check condition for mhdp8546 and hence,
+    drop Tomi Valkeinen's R-b tag.
+  - Added tags wherever suggested.
+
+V5 -> V6
+  - Rebase and cosmetic changes
+  - Dropped the output format check condition for tfp410 and hence,
+    dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
+  - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
+    the series and instead created a single patch that,
+      1. Creates tidss bridge for format negotiation.
+      2. Creates 'simple' encoder for userspace exposure.
+      3. Creates a tidss connector.
+      4. Attaches the next-bridge to encoder with the
+         DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+  - Add format negotiation support for sii902x driver.
+
+Previous versions:
+V1 to V6: https://patchwork.freedesktop.org/series/82765/
+
+Aradhya Bhatia (3):
+  drm/bridge: sii902x: Support format negotiation hooks
+  drm/bridge: sii902x: Set input_bus_flags in atomic_check
+  drm/tidss: Update encoder/bridge chain connect model
+
+Nikhil Devshatwar (5):
+  drm/bridge: tfp410: Support format negotiation hooks
+  drm/bridge: tfp410: Set input_bus_flags in atomic_check
+  drm/bridge: mhdp8546: Add minimal format negotiation
+  drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
+  drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
+
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  77 ++++++----
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
+ drivers/gpu/drm/bridge/sii902x.c              |  40 +++++
+ drivers/gpu/drm/bridge/ti-tfp410.c            |  43 ++++++
+ drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
+ drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
+ 9 files changed, 235 insertions(+), 95 deletions(-)
+
+-- 
+2.40.1
+
