@@ -2,72 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8BA724DB4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA04724DB8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8848810E3A2;
-	Tue,  6 Jun 2023 20:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A7B10E3A8;
+	Tue,  6 Jun 2023 20:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F8010E3A2;
- Tue,  6 Jun 2023 20:11:33 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 356JupBl025545; Tue, 6 Jun 2023 20:11:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=bvsZXgcD57GgTs7jfVBXkEq6F1r0JDOgf/+pss35C0c=;
- b=Ey8KeDZvHW1kUa0Cx+8Ijr3vK2KGTUidhDf9+tKhfCznQyU25qaX3B9t/oSTDn4qmqE+
- QfBezOOJqUTXGyz5ZLrSN7yGgOVBmfNs7clC0sY9mM+AFwlUHsZrlDLTXWu01lefPULR
- TPogu/XHCm7Wj4cbHTm8Uqsty3SOMoq9RUMTfNdWIukq9S3VcIA2Br+EfiUAXecH/8Ih
- tyhehmqj+7tOIaz/9Zd18XC4FkAEJ9LK84HnQP/CKqcpWwyIXGP0LT+EtUQSwDQ6TNx6
- iZQ/eZwQ3pe159JagT+4GxYF8RiAl+NbLHzxuG7exbsuRB/k2VktfjDF1mM3CAg4tAeQ Gg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a7685qt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jun 2023 20:11:28 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356KBRsZ006364
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 6 Jun 2023 20:11:27 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 6 Jun 2023 13:11:26 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@gmail.com>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
- <marijn.suijten@somainline.org>
-Subject: [PATCH v17] drm/msm/dpu: add DSC blocks to the catalog of MSM8998
-Date: Tue, 6 Jun 2023 13:11:12 -0700
-Message-ID: <1686082272-22191-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6B7910E3A8;
+ Tue,  6 Jun 2023 20:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686082296; x=1717618296;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iST53EeWESSyZs6/Yu9CUdgSpaOfr7pDrXOwm1E1krg=;
+ b=TBhzwv7L80CGIJ5FBbzqbKvFoRKWEIHT8WZiVwCciTq2jeY0/zrFbkMR
+ /fSyFZetJvpLDaQurlzy6VPJ2s/W5qoYDq76cam56sFCy9b3XrjaW5yh5
+ m61Sx0v0Smv3VsvNQyvXuA69vukq7O9d97kRB7MjZUGCuP+HCQTPuE2zk
+ 7iFpG4mxo192H0XnuXP6a0jSzesizKx+/1A5K6ubOBGMIiuPGpMQljU1J
+ Cfebm4R3mvo+p0zhcg1wlu/UMDRRmKWkVduoNNUnA/m5VkN0YW0LyJ1MH
+ jTbCV5SrMmhhfozzZJl3piqAX060GZ/V5Cq6wey9JT+cc3sKew+YwUen9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="354284082"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; d="scan'208";a="354284082"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 13:11:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="883485018"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; d="scan'208";a="883485018"
+Received: from yuguen-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.68])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 13:11:31 -0700
+Date: Tue, 6 Jun 2023 22:11:24 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH] drm/i915: Fix a VMA UAF for multi-gt platform
+Message-ID: <ZH+S7KLiQns+yH9d@ashyti-mobl2.lan>
+References: <20230605201021.13928-1-nirmoy.das@intel.com>
+ <ZH5FJAkm98WSonA/@ashyti-mobl2.lan>
+ <9095b403-5330-84ac-be97-75f0ae88bead@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: MY6gKuCYNm-VrZr3l5-OEb7AqbEj-epL
-X-Proofpoint-GUID: MY6gKuCYNm-VrZr3l5-OEb7AqbEj-epL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-06_15,2023-06-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 clxscore=1015
- mlxscore=0 bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999
- impostorscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306060171
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9095b403-5330-84ac-be97-75f0ae88bead@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,72 +60,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Hi Nirmoy,
 
-Some platforms have DSC blocks which have not been declared in the catalog.
-Complete DSC 1.1 support for all platforms by adding the missing blocks to
-MSM8998.
+> >   MTL is a
+> > weird multi-gt platform and, indeed, you can't shut down GT0
+> > without affecting GT1.
+> > 
+> > For now it's OK, though, as to test it.
+> 
+> Looking forward to that. I did test it extensively and ChromeOS team as
+> well.
 
-Changes in v9:
--- add MSM8998 and SC8180x to commit title
+great job, Nirmoy! I haven't been able to reproduce the issue.
+This is a great news!
 
-Changes in v10:
--- fix grammar at commit text
+Tested-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Changes in v12:
--- fix "titil" with "title" at changes in v9
-
-Changes in v14:
--- "dsc" tp "DSC" at commit title
-
-Changes in v15:
--- fix merge conflicts at dpu_5_1_sc8180x.h
-
-Changes in v16
--- fix cherry-pick error by deleting both redundant .dsc and .dsc_count
-   assignment from dpu_5_1_sc8180x.h
-
-Changes in v17
--- remove sc8180x from both commit title and text
--- remove Reviewed-by
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-index 3c732a0..7d0d0e7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-@@ -126,6 +126,11 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
- 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
- };
- 
-+static const struct dpu_dsc_cfg msm8998_dsc[] = {
-+	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-+	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-+};
-+
- static const struct dpu_dspp_cfg msm8998_dspp[] = {
- 	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
- 		 &msm8998_dspp_sblk),
-@@ -199,6 +204,8 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
- 	.dspp = msm8998_dspp,
- 	.pingpong_count = ARRAY_SIZE(msm8998_pp),
- 	.pingpong = msm8998_pp,
-+	.dsc_count = ARRAY_SIZE(msm8998_dsc),
-+	.dsc = msm8998_dsc,
- 	.intf_count = ARRAY_SIZE(msm8998_intf),
- 	.intf = msm8998_intf,
- 	.vbif_count = ARRAY_SIZE(msm8998_vbif),
--- 
-2.7.4
-
+Andi
