@@ -1,82 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52328723E2E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75BA723E69
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:53:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DEA10E242;
-	Tue,  6 Jun 2023 09:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0134C10E31A;
+	Tue,  6 Jun 2023 09:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 768FF10E21B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 09:48:32 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f736e0c9b1so27666695e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 02:48:32 -0700 (PDT)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F9810E31A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 09:53:32 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 46e09a7af769-6af81142b6dso5428702a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 02:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686044909; x=1688636909;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=nH9IXy+8mmr6fEKUjeAVrm6OrEN2ynlfCA5RHInWD/g=;
- b=zTebeQ5VTcDvGTHY8x8b4YFkkkxmVmwYcyWt+L7EqJFGAHB/Aw1MfV7XdsSJl6g9ZS
- QFf+cyBsG0jZnG1q00buj8TnKt9PPwmSiGAaRdGFuesUi9uJ/Y+aM2HUrXuUNIsTI3H5
- jDDgU0U6C2pxVmhDBjeJWneb40ID2C93V/65PzPwfn2kB0zYEQKHlntsA/i2hDxGA1eT
- dPNTIt61dgFsE0BY6JSQHu2gGkQaU2nwxThexB+KzF9hxx6h4o0skGMdD9NKSpOkD/83
- FZ3ZUGG4kVAUkJBc6KeTnhzadR6SS3GVnBtqB+Jklyb7EXkx3xCFCB2Bp6fzZRAL1lF0
- YfFQ==
+ d=gmail.com; s=20221208; t=1686045211; x=1688637211;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lOpu32PhwAH+y2CsyaGvCkA26cD8OM8Rml/LSqtjsoE=;
+ b=fP3Ilf16oLu5WijsBUtNq4TB3B9goiU87PJ+PeiN9EzUpEA30yMjEWtf4JF7RbtUhP
+ bz3769Jc7xiKO3Nu7COn48wLaoBCzZV9b1AeSDEsWM6JBdjfhVlRg0NAxVr+znHVLsOy
+ D1nyszBQg88zFIW/grMMkhzOuHs/1bkmxgOoZaYfWjj3E+aA1eKnp6FXADZge2jPbhXO
+ lfwpXQKuy9lahyUCDguHDjqnv4BzzwkzUgTUX7/M95Ojm/uFWhPGAv4cJvmIihUzVCVx
+ 4E52DrDa1+BeINt01k3wdl2F32J7iFOMcIi9dcYeXYCZuFnmW4UAD16v3RKBi8zCw2sz
+ C7Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686044909; x=1688636909;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1686045211; x=1688637211;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nH9IXy+8mmr6fEKUjeAVrm6OrEN2ynlfCA5RHInWD/g=;
- b=EsUHAAMVq3kqHMkujJeNqGZRBCj0GzLivQsKYGpuJ3xwzSZyuJL0XD2jGV/DiT+c9p
- nv6x3dii9pjmz5/43SJcYM/c/cKtfVSnK4Qfoqdb+mR+dGF01sTtrJYwmlGE7cOVOYhg
- o9peqNwQ9kOrow2svbBo+SgmiPDtLBbaqKQIRuoKx1R57Dq3DbT0jZnLi756Px/ho3Gv
- WU0XJ1Tbwx74IfUr8isFNNKL7ch6lWKSfdJAsPiqdHi7JK5L3Xlj1yyInWrqdKpX/9zX
- mhw1Fw6pAtu3HrzayNw6uW/KFesybldvbGtiw7dCpCy3SBhCANi/GMzsY9n6njMBxjxL
- 6ZXA==
-X-Gm-Message-State: AC+VfDx3sCzYRnUYB/gYq84zcGX7nPgK3gwsRijVF4EbsjU/49NrEQvY
- F0oQfCXZ4/HPcweSeqopnio3CA==
-X-Google-Smtp-Source: ACHHUZ5DwtWDzMb4zpcw1FeB4iY7eNE3ZKctzKba19fFKs6cvdR5J0xK2HTz6GvoD4cnjwuXPljVOw==
-X-Received: by 2002:a7b:cb92:0:b0:3f7:29c4:8fbd with SMTP id
- m18-20020a7bcb92000000b003f729c48fbdmr1620359wmi.27.1686044909090; 
- Tue, 06 Jun 2023 02:48:29 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4973:1165:b171:fa69?
- ([2a01:e0a:982:cbb0:4973:1165:b171:fa69])
- by smtp.gmail.com with ESMTPSA id
- y20-20020a05600c365400b003f60a446fe5sm13553200wmq.29.2023.06.06.02.48.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 02:48:28 -0700 (PDT)
-Message-ID: <42151d11-12d9-c165-0d4b-a0af80b683c3@linaro.org>
-Date: Tue, 6 Jun 2023 11:48:27 +0200
+ bh=lOpu32PhwAH+y2CsyaGvCkA26cD8OM8Rml/LSqtjsoE=;
+ b=Fhqb1+wrxo87rHklMAE3Csv0ZSyRmvRt+XOH0NuX3Gd+px4l8VysoeExovB4OS0e2o
+ FO61Btflj0IirrwxJaqSglbRCGOkaNSt0vmaB3Szar+OYSCv2E4H59Pytmq02wiixb+j
+ oGxJuMIeiamUPe12aGNJqZFpULvpCEGsTfsSIxWCbhS8X2PLGV8yW4kXucwBjVpebaTj
+ jfwMqBPwIK64VvNu/2oKZZZdYKuRPYpB28f05iRhi8WwIeUONPyLaYbJh8MBtLgVZyDm
+ lkT/hJDFgdaenvoer7BXid/LyZRdV7U/jcVOWiQsm4iS+fq4TNA9Ec69+LgpLUNW953U
+ egNw==
+X-Gm-Message-State: AC+VfDzMrGZeDA9XxQK2bsmQgyM6dCd+qRwfCrBMoH28xN3q4HpaOm6k
+ efddIuf8+XKQcPIsZGGg4/QTcp1UIr1LC/T5MOY=
+X-Google-Smtp-Source: ACHHUZ6fJ+lm5zUsJk5S2R0UpmRMZl7c/I44n44LLk5rtB9JXQgf91+EjrQY12voSkxdgWm9stQ4SMDSrEq6J6aCBto=
+X-Received: by 2002:a05:6358:bb8f:b0:129:8c5e:84c1 with SMTP id
+ df15-20020a056358bb8f00b001298c5e84c1mr2067090rwb.32.1686045211341; Tue, 06
+ Jun 2023 02:53:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Swapnil Jakhade <sjakhade@cadence.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
- <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
- <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
-Organization: Linaro Developer Services
-In-Reply-To: <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230605153539.497602-1-pavacic.p@gmail.com>
+ <20230605153539.497602-3-pavacic.p@gmail.com>
+ <7255ff65-9dac-3cce-fb74-09a8984775f2@linaro.org>
+In-Reply-To: <7255ff65-9dac-3cce-fb74-09a8984775f2@linaro.org>
+From: Paulo Pavacic <pavacic.p@gmail.com>
+Date: Tue, 6 Jun 2023 11:53:20 +0200
+Message-ID: <CAO9szn2WbTqCmj=eSZ_GzYP9anBoBkv7ESD_Jga-EBEqr1rxoA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: add fannal,c3004
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,118 +68,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/06/2023 11:46, Aradhya Bhatia wrote:
-> Hi Neil,
-> 
-> Thank you for reviewing the previous patches!
-> 
-> On 06-Jun-23 14:37, Neil Armstrong wrote:
->> Hi,
->>
->> On 06/06/2023 10:21, Aradhya Bhatia wrote:
->>> Hi all,
->>>
->>> I have picked up this long standing series from Nikhil Devshatwar[1].
->>>
->>> This series moves the tidss to using new connectoe model, where the SoC
->>> driver (tidss) creates the connector and all the bridges are attached
->>> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
->>> to support format negotiation and and 'simple' encoder to expose it to
->>> the userspace.
->>>
->>> Since the bridges do not create the connector, the bus_format and
->>> bus_flag is set via atomic hooks.
->>>
->>> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
->>> drivers as a first step before moving the connector model.
->>>
->>> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
->>> and J721E-SK. Display support for AM625 SoC has not been added upstream
->>> and is a WIP. To test this series on AM625 based platforms, basic
->>> display support patches, (for driver + devicetree), can be found in
->>> the "next_AttachNoConn-v2" branch on my github fork[2].
->>
->> I can apply all bridge patches right now so only the tidss change remain,
->> is that ok for you ?
->>
-> 
-> While the bridge patches and the tidss patch can be separately built
-> without any issue, the tidss functionality will break if only the bridge
-> patches get picked up, and not the tidss.
-> 
-> Would it be possible for you to pick all the patches together once Tomi
-> acks the tidss patch?
+Hello Krzysztof,
 
-Sure
+uto, 6. lip 2023. u 09:10 Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> napisao je:
+>
+> On 05/06/2023 17:35, Paulo Pavacic wrote:
+> > Added fannal to vendor-prefixes and dt bindings for Fannal C3004.
+> > Fannal C3004 is a 480x800 MIPI DSI Panel which requires
+> > DCS initialization sequences with certain delays between certain
+> > commands.
+>
+>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    dsi {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        panel@0 {
+> > +            compatible = "fannal,c3004";
+> > +            reg = <0>;
+> > +            pinctrl-0 = <&pinctrl_mipi_dsi_rst>;
+> > +            pinctrl-names = "default";
+> > +            reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+> > +            vdd-supply = <&reg1>;
+> > +            vddio-supply = <&reg2>;
+> > +            width-mm = <93>;
+> > +            height-mm = <56>;
+> > +            panel-timing {
+> > +                clock-frequency = <27000000>;
+> > +                hactive = <480>;
+> > +                vactive = <800>;
+> > +                hfront-porch = <30>;
+> > +                hback-porch = <30>;
+> > +                hsync-len = <8>;
+> > +                vback-porch = <30>;
+> > +                vfront-porch = <30>;
+> > +                vsync-len = <8>;
+> > +            };
+> > +        };
+> > +    };
+>
+>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 5c22c828ab46..62374c8424b9 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -6427,6 +6427,12 @@ T:     git git://anongit.freedesktop.org/drm/drm-misc
+> >  F:   Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
+> >  F:   drivers/gpu/drm/panel/panel-ebbg-ft8719.c
+> >
+> > +DRM DRIVER FOR FANNAL C3004373132019A
+> > +M:   Paulo Pavacic <pavacic.p@gmail.com>
+> > +S:   Maintained
+> > +C:   matrix:r/mipi-dsi-bringup:matrix.org
+>
+> I don't think we have chat channels for individual, small drivers. Add a
+> channel for entire subsystem.
+Okay I will add matrix:r/linux-drm:matrix.org
+>
+> Best regards,
+> Krzysztof
+>
 
-Neil
-> 
-> 
-> Regards
-> Aradhya
-> 
->>
->>>
->>> Thanks,
->>> Aradhya
->>>
->>> [1]: https://patchwork.freedesktop.org/series/82765/#rev5
->>> [2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn-v2
->>>
->>> Change Log:
->>> V6 -> V7
->>>     - Rebase and cosmetic changes.
->>>     - Drop the output format check condition for mhdp8546 and hence,
->>>       drop Tomi Valkeinen's R-b tag.
->>>     - Added tags wherever suggested.
->>>
->>> V5 -> V6
->>>     - Rebase and cosmetic changes
->>>     - Dropped the output format check condition for tfp410 and hence,
->>>       dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
->>>     - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
->>>       the series and instead created a single patch that,
->>>         1. Creates tidss bridge for format negotiation.
->>>         2. Creates 'simple' encoder for userspace exposure.
->>>         3. Creates a tidss connector.
->>>         4. Attaches the next-bridge to encoder with the
->>>            DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
->>>     - Add format negotiation support for sii902x driver.
->>>
->>> Previous versions:
->>> V1 to V6: https://patchwork.freedesktop.org/series/82765/
->>>
->>> Aradhya Bhatia (3):
->>>     drm/bridge: sii902x: Support format negotiation hooks
->>>     drm/bridge: sii902x: Set input_bus_flags in atomic_check
->>>     drm/tidss: Update encoder/bridge chain connect model
->>>
->>> Nikhil Devshatwar (5):
->>>     drm/bridge: tfp410: Support format negotiation hooks
->>>     drm/bridge: tfp410: Set input_bus_flags in atomic_check
->>>     drm/bridge: mhdp8546: Add minimal format negotiation
->>>     drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
->>>     drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
->>>
->>>    .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  77 ++++++----
->>>    .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
->>>    .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
->>>    .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
->>>    drivers/gpu/drm/bridge/sii902x.c              |  40 +++++
->>>    drivers/gpu/drm/bridge/ti-tfp410.c            |  43 ++++++
->>>    drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
->>>    drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
->>>    drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
->>>    9 files changed, 235 insertions(+), 95 deletions(-)
->>>
->>
-
+Best regards,
+Paulo
