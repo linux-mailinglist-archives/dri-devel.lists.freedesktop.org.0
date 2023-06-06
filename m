@@ -1,72 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625D472469B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:45:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA037246AB
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A080B10E131;
-	Tue,  6 Jun 2023 14:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1B310E366;
+	Tue,  6 Jun 2023 14:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED6110E131
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:45:53 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-973bf581759so991733866b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 07:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686062751; x=1688654751;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5FgbnJ1bsRAIXrOhPmDZJCKyCj6maHTABysFsvbytiA=;
- b=y5SEgGrEZ1EWMk6ghPUJcBoGitQg140Z/oPAVDHLRQVqV1KAWix9C6wh6mkelZhwio
- xx7XYztdidH6DG3+jmKpHUivQ5KbvCK7HW4DOiuDB0KlOS5L4bdDFThI8+65q6Meq1w7
- sHbSFQjvwkTRQGzkjIEfBCcj9K8G2C9rjO/9fnA3RZd2BgvSSx3myxb633Ir+BLnGyv5
- OcCViL9Nl78rWhhYu1sjCCYT+YsyTbTxbuI9zmxdJ6s713POvQHxw7LECypHRTEVQrok
- bSbNGoabg4EBXKovEUOxkEZK3oS+THMGLQh84chdVMtssXFvbiGrr94K6cbj2kpzu6J7
- EFyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686062751; x=1688654751;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5FgbnJ1bsRAIXrOhPmDZJCKyCj6maHTABysFsvbytiA=;
- b=UQIU4if82kDI1Rrkh4870drbqYrTbz9O/qtkeZyj8reiviRoVkq+QduNO39sg8Uwyp
- zIaC0R7qBa7nlpOWYRKqN6QQpQSXYctIy9APEffE3DUVFx0wqLYaJrd7gSQ6SVF9DdBt
- C6URix8EGhRA+Fr4wL9+VSqQr3QPFxyW/+78dld5mkvHsqKVAuRPQtLUOTOJgE59AuNv
- ilE+jhNJ0buIoO9N2C37FseGRkPAhFgbTSmOdJ/6l7vZgrCy8TeXnWZbtgKAMGNjMpqH
- HVsofVMmTh10KAVR4bchxOTQBn2LXe+JprHBO4ZIDxbB7rqJ2kvgOumAXrQXduxTHmIt
- 1AHg==
-X-Gm-Message-State: AC+VfDxLt85Bc4RIly7ZH3Cg7Xf6RSPbR1Df1plcv315dZhdBQNj2ZYD
- pBm+wWB5V1QnAoJwmsxnjcyTTw==
-X-Google-Smtp-Source: ACHHUZ7U1PHE+8ZZ1Zs/foB9JcDKRRh8swEoEqzslsBVlhlTq+oksNt09fcoF7V3Gc3jS0KgO8S4Lg==
-X-Received: by 2002:a17:907:6e09:b0:94f:29f0:edc0 with SMTP id
- sd9-20020a1709076e0900b0094f29f0edc0mr2992682ejc.44.1686062751527; 
- Tue, 06 Jun 2023 07:45:51 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- c26-20020aa7df1a000000b0051560edc8d4sm5118555edy.45.2023.06.06.07.45.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 07:45:51 -0700 (PDT)
-Message-ID: <dfe2c108-0268-c4d0-226e-b3d2bc8c3369@linaro.org>
-Date: Tue, 6 Jun 2023 16:45:47 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F10E10E366
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:46:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (om126253223039.31.openmobile.ne.jp
+ [126.253.223.39])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8340283;
+ Tue,  6 Jun 2023 16:46:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1686062763;
+ bh=pw45dOR/x1K4kscKK9p3R+j5WFm9Dixeih/5F+y5akk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TdSbk7awKDLtnNr/g4kU7IPzYXD9no+P/5N6x5tZ9gpNxQMR3H+7AZlOUvLuk0o/b
+ KBkMOjTXLca7j5q28EfL8UFiYgC4VntqgNOhm2OfVTJUuJYLMDY1ViqxFTofJ0kHJy
+ lm/0dee3uG0i4cddQi5qoKDjh8xw47owA/IhERfc=
+Date: Tue, 6 Jun 2023 17:46:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH v9 3/8] drm: Remove usage of deprecated DRM_INFO
+Message-ID: <20230606144625.GF5197@pendragon.ideasonboard.com>
+References: <cover.1686047727.git.code@siddh.me>
+ <52c8eb0f241a9d67ce5b7e6fc64dc397e735ccd8.1686047727.git.code@siddh.me>
+ <20230606142322.GB5197@pendragon.ideasonboard.com>
+ <1889125187d.5d36766d120183.6659725053490512400@siddh.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
-Content-Language: en-US
-To: Paulo Pavacic <pavacic.p@gmail.com>, neil.armstrong@linaro.org,
- sam@ravnborg.org, airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-References: <20230606140757.818705-1-pavacic.p@gmail.com>
- <20230606140757.818705-4-pavacic.p@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230606140757.818705-4-pavacic.p@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1889125187d.5d36766d120183.6659725053490512400@siddh.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,87 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Suraj Upadhyay <usuraj35@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/06/2023 16:07, Paulo Pavacic wrote:
-> Fannal C3004 is a 480x800 display made by fannal that requires
-> DCS initialization sequences.
+On Tue, Jun 06, 2023 at 08:08:27PM +0530, Siddh Raman Pant wrote:
+> On Tue, 06 Jun 2023 19:53:22 +0530, Laurent Pinchart wrote:
+> > Hi Siddh,
+> > 
+> > Thank you for the patch.
 > 
-> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
-> ---
-> v4 changelog:
->  - formatting and style changes
+> Anytime :)
+> 
+> > Any plan to remove it from drivers as well ? If not you should mention
+> > in the commit message (probably in the subject line itself) that you're
+> > only addressing the DRM core.
+> > 
+> > Same comment for further patches in this series.
+> 
+> Yeah, this patch set aims to replace just in drm core (as mentioned in
+> the cover).
+> 
+> I thought "drm" would suffice since I did not specify a specific driver
+> like i915. So the subject line should say "drm core: ..."?
 
-Are you sure? I see other changes - removal of some code, handling
-errors and GPIO.
+I would write
 
->  - change community room
+drm: Remove usage of deprecated DRM_INFO in DRM core
 
-What does it mean? Where is this change in this patch?
+The "drm: " prefix doesn't imply you're touching the core only, you
+could do a tree-wide change that also touches all drivers.
 
-...
+-- 
+Regards,
 
-> +
-> +static const struct drm_panel_funcs fannal_panel_funcs = {
-> +	.prepare = fannal_panel_prepare,
-> +	.unprepare = fannal_panel_unprepare,
-> +	.enable = fannal_panel_enable,
-> +	.disable = fannal_panel_disable,
-> +	.get_modes = fannal_panel_get_modes,
-> +};
-> +
-> +static int fannal_panel_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct fannal_panel_data *panel_data;
-> +	int ret;
-> +
-> +	panel_data = devm_kzalloc(&dsi->dev, sizeof(*panel_data), GFP_KERNEL);
-> +
-
-Drop blank line.
-
-> +	if (!panel_data)
-> +		return -ENOMEM;
-> +
-> +	panel_data->reset =
-
-You have wrong wrapping here. devm_gpiod_get_optional() goes after =.
-
-> +		devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-> +
-
-Drop blank line.
-
-> +	if (IS_ERR(panel_data->reset)) {
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(panel_data->reset),
-> +			"error: probe: get reset GPIO: (%d) Check the fdt\n",
-> +			ret);
-> +	}
-> +
-> +	mipi_dsi_set_drvdata(dsi, panel_data);
-> +
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> +			  MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_HSE |
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
-> +			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_VIDEO;
-> +	dsi->lanes = 2;
-> +
-> +	gpiod_set_value_cansleep(panel_data->reset, 1);
-> +
-> +	drm_panel_init(&panel_data->panel, dev, &fannal_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +	dev_set_drvdata(dev, panel_data);
-> +
-> +	drm_panel_add(&panel_data->panel);
-> +
-
-
-Best regards,
-Krzysztof
-
+Laurent Pinchart
