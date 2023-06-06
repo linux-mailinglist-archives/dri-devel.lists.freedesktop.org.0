@@ -2,39 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4FB7245BC
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B154724627
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4957F10E35D;
-	Tue,  6 Jun 2023 14:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8552210E360;
+	Tue,  6 Jun 2023 14:33:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5335D10E35D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:23:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126253223039.31.openmobile.ne.jp
- [126.253.223.39])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9D474AB;
- Tue,  6 Jun 2023 16:23:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686061381;
- bh=YbDeXSKvlYrPDuVjoEXfSOcgxqvkuTEKb+shnMCLRcQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LdzSXeOcf/AwXD3bdRm2zumc5KLQd9EWT0jRnwyCUy04sFkOi7izmLbgzZRwUt5gO
- SquS0ij0b03+U5J7Aa3fgSTzkx8oXd1sgW94d6QjhelnhOR1RyZ6NXHoLx7A1g1ppv
- IrvK0TGKCrl38eEzmpEZuZTddd47u4ZHOlVOPWog=
-Date: Tue, 6 Jun 2023 17:23:22 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Siddh Raman Pant <code@siddh.me>
-Subject: Re: [PATCH v9 3/8] drm: Remove usage of deprecated DRM_INFO
-Message-ID: <20230606142322.GB5197@pendragon.ideasonboard.com>
-References: <cover.1686047727.git.code@siddh.me>
- <52c8eb0f241a9d67ce5b7e6fc64dc397e735ccd8.1686047727.git.code@siddh.me>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E91F10E360;
+ Tue,  6 Jun 2023 14:33:20 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-3090d3e9c92so6174640f8f.2; 
+ Tue, 06 Jun 2023 07:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686061998; x=1688653998;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=etnk6Bmfi+NsN3fMwvpGFNhakv5CYAq3q2C18ogo/QU=;
+ b=r4mkCO7+F6PcaG6L5pBrXztZOCfvv1CoQeSFQeqwGopyq+CzI6qbgEWC9fduxPiiDh
+ XtDOudYSaQOmT9xXbvpe5i2hAmAHMQs4lRIgF7PUe4jBfFxNVi2pSpYkKlRGMC9rFSxJ
+ pJNj+4DrSg8ccP5n8R1teUhl3oAOJrlv/CWchMr3Ci7DzyCFvKTYsfp9/3dwz4mVfPXF
+ GjZGe9iXmZWDii8Hk7qOo0dE4uC3SdnUvdpmAXQuKmbavca6BPxcvyZMjhAdRqb+KDJf
+ lIQ3GWa+pfASHBYSLsxeZgq+e/FxNza4y3b088Upx0E/OnrlxgsJ8L0WlVovnl7HOVcs
+ nJPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686061998; x=1688653998;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=etnk6Bmfi+NsN3fMwvpGFNhakv5CYAq3q2C18ogo/QU=;
+ b=hXc1d/wvI9EK1m4PjPOXFiCT69cc5wn6ouQf/m3U/5e8lja/O7vkZ0mesRSSLOVe6+
+ m2UMkBkSXYrjBNSf1Z8IeyjNTE4uaQYcxSNibDtHhuyhxWqwwYED19fPJfy2vtxn3I79
+ dabhS9EMMhNE9Wi0DPKL9JfVjdGfhPO47+qemjkj2Akh7WpLgfGmu3cJoLsxhLajomRf
+ ZHRSMG7JzPtVAENQmvc8VrIhz0xbZwCS8B8r0WUMyXkqFvPjM2MaxZFv9auTzia/8cos
+ ubkpEQiayE+HU5kPv2RWc5TTNyxWbi+vxMb8+9fVv86Reo1wMO1Q5p4ckD7uEpbVThAq
+ ef/Q==
+X-Gm-Message-State: AC+VfDxt++d03Aj6D5ZO8uC+S0vxUSaOImqTkexOJ+y0cUcD7EOigiTw
+ 4V+OGBLFxd90kpJRoF+uU9A=
+X-Google-Smtp-Source: ACHHUZ5KiIY5KwxOSxBzH2UQUnhP4/a60rnf7iCrHG1wFajmhi2f/DobS0/OOkSxpTE7+N6FDx414A==
+X-Received: by 2002:a5d:4bd0:0:b0:306:3945:65e9 with SMTP id
+ l16-20020a5d4bd0000000b00306394565e9mr2211778wrt.3.1686061998296; 
+ Tue, 06 Jun 2023 07:33:18 -0700 (PDT)
+Received: from odroidc2.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
+ [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
+ n16-20020a1c7210000000b003f736e28cd6sm8902642wmc.4.2023.06.06.07.33.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jun 2023 07:33:17 -0700 (PDT)
+From: Erico Nunes <nunes.erico@gmail.com>
+To: yuq825@gmail.com, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org
+Subject: [PATCH] drm/lima: fix sched context destroy
+Date: Tue,  6 Jun 2023 16:32:47 +0200
+Message-Id: <20230606143247.433018-1-nunes.erico@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <52c8eb0f241a9d67ce5b7e6fc64dc397e735ccd8.1686047727.git.code@siddh.me>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,99 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Suraj Upadhyay <usuraj35@gmail.com>
+Cc: linux-kernel@vger.kernel.org, luben.tuikov@amd.com,
+ christian.koenig@amd.com, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Siddh,
+The drm sched entity must be flushed before finishing, to account for
+jobs potentially still in flight at that time.
+Lima did not do this flush until now, so switch the destroy call to the
+drm_sched_entity_destroy() wrapper which will take care of that.
 
-Thank you for the patch.
+This fixes a regression on lima which started since the rework in
+commit 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+where some specific types of applications may hang indefinitely.
 
-On Tue, Jun 06, 2023 at 04:15:17PM +0530, Siddh Raman Pant wrote:
-> drm_print.h says DRM_INFO is deprecated in favor of drm_info().
-> 
-> Signed-off-by: Siddh Raman Pant <code@siddh.me>
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 2 +-
->  drivers/gpu/drm/drm_connector.c      | 7 ++++---
->  drivers/gpu/drm/drm_drv.c            | 2 +-
->  drivers/gpu/drm/drm_pci.c            | 2 +-
+Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+---
+ drivers/gpu/drm/lima/lima_sched.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Any plan to remove it from drivers as well ? If not you should mention
-in the commit message (probably in the subject line itself) that you're
-only addressing the DRM core.
-
-Same comment for further patches in this series.
-
->  4 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index 1b12a3c201a3..ae19734974b5 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -331,7 +331,7 @@ static bool drm_client_target_cloned(struct drm_device *dev,
->  		DRM_DEBUG_KMS("can clone using 1024x768\n");
->  		return true;
->  	}
-> -	DRM_INFO("kms: can't enable cloning when we probably wanted to.\n");
-> +	drm_info(dev, "kms: can't enable cloning when we probably wanted to.\n");
->  	return false;
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 48df7a5ea503..dca8dd4ab93f 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -168,13 +168,14 @@ static void drm_connector_get_cmdline_mode(struct drm_connector *connector)
->  		return;
->  
->  	if (mode->force) {
-> -		DRM_INFO("forcing %s connector %s\n", connector->name,
-> -			 drm_get_connector_force_name(mode->force));
-> +		drm_info(connector->dev, "forcing %s connector %s\n",
-> +			 connector->name, drm_get_connector_force_name(mode->force));
->  		connector->force = mode->force;
->  	}
->  
->  	if (mode->panel_orientation != DRM_MODE_PANEL_ORIENTATION_UNKNOWN) {
-> -		DRM_INFO("cmdline forces connector %s panel_orientation to %d\n",
-> +		drm_info(connector->dev,
-> +			 "cmdline forces connector %s panel_orientation to %d\n",
->  			 connector->name, mode->panel_orientation);
->  		drm_connector_set_panel_orientation(connector,
->  						    mode->panel_orientation);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 12687dd9e1ac..02eaa4c9344d 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -943,7 +943,7 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
->  	if (drm_core_check_feature(dev, DRIVER_MODESET))
->  		drm_modeset_register_all(dev);
->  
-> -	DRM_INFO("Initialized %s %d.%d.%d %s for %s on minor %d\n",
-> +	drm_info(dev, "Initialized %s %d.%d.%d %s for %s on minor %d\n",
->  		 driver->name, driver->major, driver->minor,
->  		 driver->patchlevel, driver->date,
->  		 dev->dev ? dev_name(dev->dev) : "virtual device",
-> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-> index 39d35fc3a43b..7dfb837d1325 100644
-> --- a/drivers/gpu/drm/drm_pci.c
-> +++ b/drivers/gpu/drm/drm_pci.c
-> @@ -262,7 +262,7 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
->  		}
->  		mutex_unlock(&legacy_dev_list_lock);
->  	}
-> -	DRM_INFO("Module unloaded\n");
-> +	drm_info(NULL, "Module unloaded\n");
->  }
->  EXPORT_SYMBOL(drm_legacy_pci_exit);
->  
-
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index ff003403fbbc..ffd91a5ee299 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -165,7 +165,7 @@ int lima_sched_context_init(struct lima_sched_pipe *pipe,
+ void lima_sched_context_fini(struct lima_sched_pipe *pipe,
+ 			     struct lima_sched_context *context)
+ {
+-	drm_sched_entity_fini(&context->base);
++	drm_sched_entity_destroy(&context->base);
+ }
+ 
+ struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *task)
 -- 
-Regards,
+2.40.1
 
-Laurent Pinchart
