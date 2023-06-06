@@ -1,81 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC3724FBF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 00:32:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4E2725006
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 00:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C0F10E3F0;
-	Tue,  6 Jun 2023 22:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E5C10E3F5;
+	Tue,  6 Jun 2023 22:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4BF10E405
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 22:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686090761;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a7jCgjA/GeF+vfePBjhGpS1KJtr0QbtMbF11c3DSw0c=;
- b=fLjQviMhcntVIZ9jRPnUzhi3Rdr6zMfTlS+pD8oVCBckMEnKHMBhpVkDdL1b2rjxv+3FEe
- GKvuM3EhplfI6rEbKc4VBYX2f5iFinCStWHL0I1o//2lWoeTi0+KpcTvSToerwvJDsoHEz
- 1UwgsGNmZImyVUOvBVcf9fNQd7Nbaag=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-6_JAWKVUOxSirpC5dTkX6A-1; Tue, 06 Jun 2023 18:32:40 -0400
-X-MC-Unique: 6_JAWKVUOxSirpC5dTkX6A-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-97594143f1fso454760366b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 15:32:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686090759; x=1688682759;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a7jCgjA/GeF+vfePBjhGpS1KJtr0QbtMbF11c3DSw0c=;
- b=M4ohzsnBamHxt6PBKQpazOK8hU3qVNN2vEUnDitCKUGGFWAYH0nRRpyQBfqyOfWJ2F
- eBmk1YQwuZPchnIgT5aoCHXu9RopMdaIZeUEmsZ7+ZNWPhzdFVktghqfRt4KBgvPuteY
- 9FIlYcl2mItxeQtyHQLxd9IiDwGKrCSl/f74gxwqtlUz/5AXONqUFoB5x7mV4Bs21DMS
- Z7O+vDYBRFD6P5yvOBvsomeAPC6F1R63OFOuF78mJ+w+e8YSF+eH6jaEOFkMxA9ousVh
- 351IazsgDT7sgqUzYE7QP6HHv2IKs3OUq0Mr1csutO30QHLkfMpLGgUH3A6tqOjLAO2j
- aLZg==
-X-Gm-Message-State: AC+VfDwHHJT4r+o+jIwZclvv78rN2806JxJAXxXCwSuAAJGZN0tFZ8Ji
- 7m6HN2vLv2r3crN6b1nExh2YtV31l5nsBKBt6cS926sBJSNelFEbi4G8zeA+P2kw3NHsHwnFxH2
- 4+unQcH5ng9NRIh2ndQ/0wrSQ+MrB
-X-Received: by 2002:a17:907:961c:b0:96f:f046:9a92 with SMTP id
- gb28-20020a170907961c00b0096ff0469a92mr4529868ejc.37.1686090759334; 
- Tue, 06 Jun 2023 15:32:39 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6qGlpc03YEG/CcUcMQBwrK3ZBv0I8EcaoURRio7MIi2slO/uki0F3KmJyflgj5wBFLEUnEiA==
-X-Received: by 2002:a17:907:961c:b0:96f:f046:9a92 with SMTP id
- gb28-20020a170907961c00b0096ff0469a92mr4529834ejc.37.1686090759142; 
- Tue, 06 Jun 2023 15:32:39 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a1709063b0900b00969e9fef151sm6051554ejf.97.2023.06.06.15.32.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 15:32:38 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
- mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
- bskeggs@redhat.com, Liam.Howlett@oracle.com, matthew.brost@intel.com,
- boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
- bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net
-Subject: [PATCH drm-next v4 14/14] drm/nouveau: debugfs: implement DRM GPU VA
- debugfs
-Date: Wed,  7 Jun 2023 00:31:30 +0200
-Message-Id: <20230606223130.6132-15-dakr@redhat.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230606223130.6132-1-dakr@redhat.com>
-References: <20230606223130.6132-1-dakr@redhat.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3179F10E3F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 22:38:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 067C6638AE;
+ Tue,  6 Jun 2023 22:38:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AFA2C433EF;
+ Tue,  6 Jun 2023 22:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686091081;
+ bh=+d7JeMeUUdZO2aVYQ8oGUF7pb9l8qtsCjpkX1+tKZ0w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ah/xpfYXpLSl/KXOtkf2COQ1AifCQwoMbz5GdNd9ACRL9pAXI9y5pmZwAaJiuFZTy
+ onaUd+OM2JgRXTnepEsVZZZyWcLJkgZfFeKsIsfdH7ovQw9K9sgVTVYjMcqM7D6nA9
+ hp6MJNabTZ5pUEYGZD3ZDKgehKx1/cBeVeWGsAexmiW6Du23w+QR4x5A55TodM83oa
+ 91QKw/L/4nPKp2Cz68Z8OsFWACnxb0UsfN1nQG3MO4QLalWNIWmH7MH7HksH3/FyDv
+ mzpv63FSaBnTJ9AtPkRKj+sxtFNOsBR6Y5Sz/icdY9vgSCXdvfBFqUv4w9/M10dyUA
+ jCnwRE4nixJyA==
+Date: Tue, 6 Jun 2023 23:37:53 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
+ subsystem
+Message-ID: <20230606-geometry-blurb-1f0f07d4bf6a@spud>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
+ <TY3P286MB26116576E3E502CAE53834599852A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+ <1991848.PYKUYFuaPT@diego>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1lwN/EJcI4S+S54L"
+Content-Disposition: inline
+In-Reply-To: <1991848.PYKUYFuaPT@diego>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,77 +57,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Danilo Krummrich <dakr@redhat.com>
+Cc: Emil Renner Berthing <kernel@esmil.dk>, Shengyu Qu <wiagn233@outlook.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide the driver indirection iterating over all DRM GPU VA spaces to
-enable the common 'gpuvas' debugfs file for dumping DRM GPU VA spaces.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_debugfs.c | 39 +++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+--1lwN/EJcI4S+S54L
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-index 99d022a91afc..053f703f2f68 100644
---- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-@@ -203,6 +203,44 @@ nouveau_debugfs_pstate_open(struct inode *inode, struct file *file)
- 	return single_open(file, nouveau_debugfs_pstate_get, inode->i_private);
- }
- 
-+static void
-+nouveau_debugfs_gpuva_regions(struct seq_file *m, struct nouveau_uvmm *uvmm)
-+{
-+	MA_STATE(mas, &uvmm->region_mt, 0, 0);
-+	struct nouveau_uvma_region *reg;
-+
-+	seq_puts  (m, " VA regions  | start              | range              | end                \n");
-+	seq_puts  (m, "----------------------------------------------------------------------------\n");
-+	mas_for_each(&mas, reg, ULONG_MAX)
-+		seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx\n",
-+			   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
-+}
-+
-+static int
-+nouveau_debugfs_gpuva(struct seq_file *m, void *data)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *) m->private;
-+	struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
-+	struct nouveau_cli *cli;
-+
-+	mutex_lock(&drm->clients_lock);
-+	list_for_each_entry(cli, &drm->clients, head) {
-+		struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
-+
-+		if (!uvmm)
-+			continue;
-+
-+		nouveau_uvmm_lock(uvmm);
-+		drm_debugfs_gpuva_info(m, &uvmm->umgr);
-+		seq_puts(m, "\n");
-+		nouveau_debugfs_gpuva_regions(m, uvmm);
-+		nouveau_uvmm_unlock(uvmm);
-+	}
-+	mutex_unlock(&drm->clients_lock);
-+
-+	return 0;
-+}
-+
- static const struct file_operations nouveau_pstate_fops = {
- 	.owner = THIS_MODULE,
- 	.open = nouveau_debugfs_pstate_open,
-@@ -214,6 +252,7 @@ static const struct file_operations nouveau_pstate_fops = {
- static struct drm_info_list nouveau_debugfs_list[] = {
- 	{ "vbios.rom",  nouveau_debugfs_vbios_image, 0, NULL },
- 	{ "strap_peek", nouveau_debugfs_strap_peek, 0, NULL },
-+	DRM_DEBUGFS_GPUVA_INFO(nouveau_debugfs_gpuva, NULL),
- };
- #define NOUVEAU_DEBUGFS_ENTRIES ARRAY_SIZE(nouveau_debugfs_list)
- 
--- 
-2.40.1
+On Wed, Jun 07, 2023 at 12:22:33AM +0200, Heiko St=FCbner wrote:
+> Am Dienstag, 6. Juni 2023, 20:41:17 CEST schrieb Shengyu Qu:
+> > > On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
+> > >> Add bindings for JH7110 display subsystem which
+> > >> has a display controller verisilicon dc8200
+> > >> and an HDMI interface.
 
+> > >> +description:
+> > >> +  The StarFive SoC uses the HDMI signal transmiter based on innosil=
+icon IP
+> > > Is innosilicon the same thing as verisilicon? Also
+> > > s/transmiter/transmitter/, both here and in the title.
+> >=20
+> > I think that is not the same, I remember Rockchip has used a HDMI=20
+> > transmitter from
+> >=20
+> > Innosilicon, and there is a existing driver for that in mainline.
+>=20
+> Yep, I think Innosilicon is the company you turn to when you want to save
+> a bit of money ;-) . In the bigger SoCs Rockchip most of the time uses
+> Designware hdmi blocks and looking at the history only the rk3036 ever
+> used an Innosilicon block.
+>=20
+> Looking at the history, 2016 really was a long time ago :-D.
+>=20
+> > So Keith, if that's true, I think it is better to seperate the HDMI=20
+> > stuff and reuse existing driver.
+>=20
+> I'm not so sure about that - at least from a cursory glance :-) .
+>=20
+> The registers do look slightly different and I don't know how much
+> the IP changed between the rk3036-version and the jh7110 version.
+>=20
+> At the very least, I know my rk3036 board isn't booting right now, so
+> I can't really provide help for generalizing the rockchip-driver.
+>=20
+> At the very least both the binding and driver could drop the "starfive-hd=
+mi"
+> and actually use the Innosilicon in the naming somewhere, so that it's
+> clear for future developers :-)
+
+Seeing "based on" always makes me a little bit nervous to be honest when
+it comes to using a compatible from the IP. Is it the IP? What version
+is it? etc. Perhaps "starfive,jh7110-hdmi" & falling back to some sort
+of "innosilicon,hdmi" would be more future/IP-silliness proof.
+Driver can always be generic & bind against "innosilicon,hdmi" until
+that becomes impossible.
+
+Cheers,
+Conor.
+
+--1lwN/EJcI4S+S54L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH+1QQAKCRB4tDGHoIJi
+0ihwAQC+3gfFJAPFBOT76QYpqrSJuQHRjE1iNJt0+04zAqcRDgD+KopK8i99wbS9
+4s+s9CpPS+b/RBAa5Zq6Zq0Bynk3jgc=
+=XnKq
+-----END PGP SIGNATURE-----
+
+--1lwN/EJcI4S+S54L--
