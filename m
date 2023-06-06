@@ -1,73 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D0F7249FF
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 19:18:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0677E724A1F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 19:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B8910E247;
-	Tue,  6 Jun 2023 17:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BA110E38F;
+	Tue,  6 Jun 2023 17:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6CDB10E247;
- Tue,  6 Jun 2023 17:18:40 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 356GMikk010241; Tue, 6 Jun 2023 17:18:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=gnindeRLNZKTMXVxO0DpWemKDr0YT7u/bKnQKJpKVcM=;
- b=oxHGeB1yVlM9Hu4yADv2Z5weFiaIObwH2EsNZVDtpcrYwYK1LoJyy7PqRUjTQ3INfJZ0
- 3i3p1S14OB+fkNkCjU069KVUKFIR9WuqP1CCtwcwvdGq2uSWeaUVcph56TPYALKq3d6g
- ejw5SpdO74f3scc+/0fWQTQ3LVdE1kyM+YmyGIKv9Ez9Z/UuELMusBAgXlf4fgqdZLuw
- pyBJ1vkraQI51aozux/ZtVpJD44g2A8h8FPWR9EKZufLeckgkR3lg2ZRsNFb7tXJFNa3
- aRIZVAZy+gOy6hdpd8yVy13ysRY4WO5JqA91cw0dUCDL88hM/vqM5ERZGCcnxFVGAC7n gA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r249n0rkg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jun 2023 17:18:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356HIXGx009133
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 6 Jun 2023 17:18:33 GMT
-Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 6 Jun 2023 10:18:27 -0700
-Date: Tue, 6 Jun 2023 22:48:24 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v8 07/18] drm/msm/a6xx: Add a helper for
- software-resetting the GPU
-Message-ID: <jplt5g5xuphbnci73pdtaxd63fguxtgtp4c37kc7ehavzrjbau@kamshezxnvgy>
-References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
- <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DAC10E38E;
+ Tue,  6 Jun 2023 17:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=e/+SuwwiZAX18rVlS8W7bGVnj8MAwLoZHLwDEF7aQpQ=; b=KDITfJdq/2f51NHMf5Ypdq85Rd
+ q2wz8nZC48YcbidSiJ0yoC7UYJo296WECaEW0ZeSCD45wY+huGBuLD8RSKInMlv/Wz7tGxlHiZ29y
+ Fxh+JuyyqsN6IvLTxOIRwuSbHS0akqTb7z4b3utJN3Vq0Fi9dlt+Rje2dSh4aElG2kNjh7Bp80DlW
+ N113bE3vXzgAtHe6XCRvlo0uPJYvx47kLC0NRLPTd+sPGShATVbOJnMCKG9eJ43tVbk78iEpBReEM
+ tSzZGKltUTVBBGFEBF7hMwuzAUXfu99Vtgs6ictNOUcmQQikb99R9QkCgm7eiU19gnJcL3QX4T3i2
+ EEAPaNwA==;
+Received: from [38.44.68.151] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1q6aOf-009cSr-1N; Tue, 06 Jun 2023 19:23:05 +0200
+Date: Tue, 6 Jun 2023 16:22:58 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH 00/36] drm/amd/display: add AMD driver-specific
+ properties for color mgmt
+Message-ID: <20230606172258.zoss7pdkukssjw2n@mail.igalia.com>
+References: <20230523221520.3115570-1-mwen@igalia.com>
+ <17ff8d91-5f6f-816c-f5da-08b04155dce8@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dz4mj3xirt5ptsux"
 Content-Disposition: inline
-In-Reply-To: <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: vPruQmnWhNh65WTVEKYL6qztw-R3__Mw
-X-Proofpoint-GUID: vPruQmnWhNh65WTVEKYL6qztw-R3__Mw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-06_12,2023-06-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
- mlxscore=0 mlxlogscore=762 bulkscore=0 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2306060149
+In-Reply-To: <17ff8d91-5f6f-816c-f5da-08b04155dce8@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,90 +54,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, kernel-dev@igalia.com, sunpeng.li@amd.com,
+ mripard@kernel.org, sungjoon.kim@amd.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Xinhui.Pan@amd.com,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, tzimmermann@suse.de,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 29, 2023 at 03:52:26PM +0200, Konrad Dybcio wrote:
-> 
-> Introduce a6xx_gpu_sw_reset() in preparation for adding GMU wrapper
-> GPUs and reuse it in a6xx_gmu_force_off().
-> 
-> This helper, contrary to the original usage in GMU code paths, adds
-> a write memory barrier which together with the necessary delay should
-> ensure that the reset is never deasserted too quickly due to e.g. OoO
-> execution going crazy.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  3 +--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
->  3 files changed, 13 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index b86be123ecd0..5ba8cba69383 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -899,8 +899,7 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
->  	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
->  
->  	/* Reset GPU core blocks */
-> -	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, 1);
-> -	udelay(100);
-> +	a6xx_gpu_sw_reset(gpu, true);
->  }
->  
->  static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index e3ac3f045665..083ccb5bcb4e 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1634,6 +1634,17 @@ void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_
->  	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
->  }
->  
-> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert)
-> +{
-> +	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, assert);
-> +	/* Add a barrier to avoid bad surprises */
-Can you please make this comment a bit more clear? Highlight that we
-should ensure the register is posted at hw before polling.
 
-I think this barrier is required only during assert.
+--dz4mj3xirt5ptsux
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Akhil.
-> +	mb();
-> +
-> +	/* The reset line needs to be asserted for at least 100 us */
-> +	if (assert)
-> +		udelay(100);
-> +}
-> +
->  static int a6xx_pm_resume(struct msm_gpu *gpu)
->  {
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index 9580def06d45..aa70390ee1c6 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -89,5 +89,6 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu);
->  int a6xx_gpu_state_put(struct msm_gpu_state *state);
->  
->  void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_off);
-> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert);
->  
->  #endif /* __A6XX_GPU_H__ */
-> 
-> -- 
-> 2.40.1
-> 
+On 06/02, Harry Wentland wrote:
+>=20
+>=20
+> On 5/23/23 18:14, Melissa Wen wrote:
+> > This series is a refined version of our RFC [1] for AMD driver-specific
+> > color management properties. It is a collection of contributions from
+> > Joshua, Harry and I to enhance AMD KMS color pipeline for Steam
+> > Deck/SteamOS by exposing the large set of color caps available in AMD
+> > display HW.
+> >=20
+> > Considering RFC feedback, this patchset differs from the previous one by
+> > removing the KConfig option and just guarding driver-specific properties
+> > with `AMD_PRIVATE_COLOR` - but we also removed the guards from internal
+> > elements and operations. We stopped to advertise CRTC shaper and 3D LUTs
+> > properties since they aren't in use in the Steam Deck color pipeline[2].
+> > On the other hand, we keep mapping CRTC shaper and 3D LUTs (DM) to DC
+> > MPC setup. We also improved curve calculations to take into account HW
+> > color caps.
+> >=20
+> > In short, for pre-blending, we added the following properties:
+> > - plane degamma LUT and predefined transfer function;
+> > - plane HDR multiplier
+> > - plane shaper LUT/transfer function;
+> > - plane 3D LUT; and finally,
+> > - plane blend LUT/transfer function, just before blending.
+> >=20
+> > After blending, we already have DRM CRTC degamma/gamma LUTs and CTM,
+> > therefore, we extend post-blending color pipeline with CRTC gamma
+> > transfer function.
+> >=20
+> > The first three patches are on DRM KMS side. We expose DRM property
+> > helper for blob lookup and replacement so that we can use it for
+> > managing driver-specific properties. We add a tracked for plane color
+> > mgmt changes and increase the maximum number of properties to
+> > accommodate this expansion.
+> >=20
+> > The userspace case here is Gamescope which is the compositor for
+> > SteamOS. It's already using all of this functionality to implement its
+> > color management pipeline right now [3].
+> >=20
+> > Current IGT tests kms_color and amdgpu/amd_color on DCN301 and DCN21 HW
+> > preserve the same results with and without the guard.=20
+> >=20
+> > Finally, I may have missed something, please let me know if that's the
+> > case.
+> >=20
+>=20
+> Looks like we're on the right track with this.
+>=20
+> Patches 1-3, 15, 17, 24-31, 33-35 are
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+
+Thanks!
+
+>=20
+> I left comments on a bunch of the other patches. Let's replace drm_
+> prefices with amdgpu_ or amdgpu_dm and move the property registration/
+> definition from amdgpu_display.c to amdgpu_dm_color.c.
+
+Okay.
+
+>=20
+> I'll chase internal feedback for some of the DC patches. They look fine
+> to me but I don't want them to cause problems on other OSes. I might
+> pull them through our internal repo. Will update you on that.
+>=20
+> Patches 16-22 will be untested without properties to actually set them.
+> That makes me a bit uncomfortable but on the other hand they provide
+> functionality that we'll want eventually. Let me think about them a bit
+> more and also make sure the DC portions won't cause issues.
+
+Okay. I'll rework these patches to isolate them from the properties we
+are exposing. I can move it to the end of the patch or I can detach from
+this series and send them in a separate version. Probably the latter
+makes more sense.
+
+Thanks for reviewing this long series. I'll prepare a next version
+addressing all sugestions.
+
+Melissa
+
+>=20
+> Harry
+>=20
+> > Best Regards,
+> >=20
+> > Melissa Wen
+> >=20
+> > [1] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igal=
+ia.com
+> > [2] https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Ste=
+am%20Deck%20Display%20Pipeline.png
+> > [3] https://github.com/ValveSoftware/gamescope
+> >=20
+> >=20
+> > Harry Wentland (2):
+> >   drm/amd/display: fix segment distribution for linear LUTs
+> >   drm/amd/display: fix the delta clamping for shaper LUT
+> >=20
+> > Joshua Ashton (13):
+> >   drm/amd/display: add plane degamma TF driver-specific property
+> >   drm/amd/display: add plane HDR multiplier driver-specific property
+> >   drm/amd/display: add plane blend LUT and TF driver-specific properties
+> >   drm/amd/display: copy 3D LUT settings from crtc state to stream_update
+> >   drm/amd/display: dynamically acquire 3DLUT resources for color changes
+> >   drm/amd/display: add CRTC regamma TF support
+> >   drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
+> >   drm/amd/display: add support for plane degamma TF and LUT properties
+> >   drm/amd/display: add dc_fixpt_from_s3132 helper
+> >   drm/adm/display: add HDR multiplier support
+> >   drm/amd/display: handle empty LUTs in __set_input_tf
+> >   drm/amd/display: add DRM plane blend LUT and TF support
+> >   drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
+> >=20
+> > Melissa Wen (21):
+> >   drm/drm_mode_object: increase max objects to accommodate new color
+> >     props
+> >   drm/drm_property: make replace_property_blob_from_id a DRM helper
+> >   drm/drm_plane: track color mgmt changes per plane
+> >   drm/amd/display: add CRTC driver-specific property for gamma TF
+> >   drm/amd/display: add plane driver-specific properties for degamma LUT
+> >   drm/amd/display: add plane 3D LUT driver-specific properties
+> >   drm/amd/display: add plane shaper LUT driver-specific properties
+> >   drm/amd/display: add plane shaper TF driver-private property
+> >   drm/amd/display: add comments to describe DM crtc color mgmt behavior
+> >   drm/amd/display: encapsulate atomic regamma operation
+> >   drm/amd/display: update lut3d and shaper lut to stream
+> >   drm/amd/display: allow BYPASS 3D LUT but keep shaper LUT settings
+> >   drm/amd/display: handle MPC 3D LUT resources for a given context
+> >   drm/amd/display: add CRTC 3D LUT support
+> >   drm/amd/display: add CRTC shaper LUT support
+> >   drm/amd/display: add CRTC shaper TF support
+> >   drm/amd/display: mark plane as needing reset if plane color mgmt
+> >     changes
+> >   drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
+> >   drm/amd/display: reject atomic commit if setting both plane and CRTC
+> >     degamma
+> >   drm/amd/display: program DPP shaper and 3D LUT if updated
+> >   drm/amd/display: add plane shaper/3D LUT and shaper TF support
+> >=20
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 125 ++++
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  69 ++
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  28 +-
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 110 +++-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 612 ++++++++++++++++--
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 213 +++++-
+> >  drivers/gpu/drm/amd/display/dc/core/dc.c      |  49 +-
+> >  drivers/gpu/drm/amd/display/dc/dc.h           |   8 +
+> >  .../amd/display/dc/dcn10/dcn10_cm_common.c    | 107 ++-
+> >  .../drm/amd/display/dc/dcn20/dcn20_hwseq.c    |   5 +-
+> >  .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    |   9 +-
+> >  .../amd/display/dc/dcn301/dcn301_resource.c   |  26 +-
+> >  .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
+> >  drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
+> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
+> >  drivers/gpu/drm/drm_property.c                |  49 ++
+> >  include/drm/drm_mode_object.h                 |   2 +-
+> >  include/drm/drm_plane.h                       |   7 +
+> >  include/drm/drm_property.h                    |   6 +
+> >  22 files changed, 1416 insertions(+), 140 deletions(-)
+> >=20
+>=20
+
+--dz4mj3xirt5ptsux
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmR/a3IACgkQwqF3j0dL
+ehx+cRAAhDsk4yshkAeX6iFtfUziVBp9he59LKb3bwMn2kBqAkCiQKJXtL5zyAsv
+D52X7U378PHjlw828uGTH4+CJp7HV6PQgInvChR5goXHZCXZ6cyTxPMqz8UUfYXc
+CIYM2IzxcqOxfA7c5uYvXAzDHSP+S0rJjgqC27Pl/l++4hmX1xafqb6kR4Sbyw7y
+HyxojIvy/UlNmVGrUGM8xVYWw4r0fiov2F+fB7PjjozxrG2zd/WxFuZECYFJ3EkV
+1FUQs6KnHScD2NbJiFqP4MHAD2mt2rgiTl7vmGGJIhiM77Fz/HL07zziJuT3yeWG
+e4zWq7/++paxHOPJWLiOKhfShSrgevn6yGPrURMzIdzvf1qvZN3sd2sM6xL6HtFH
+UcQC31jjrkFpDAgFUN3L8/79kxI1hcRgxNcZP6fT28guSyIhlKBdke1TJlanVtPM
+1bX1kcGZl53yoXOh6al0Xj4aL0Xar11iWbI8zlLEbOYuef3POfYQblTYhxzOpr9L
+OdMTCSWHF1PCzvLJVOYhWTVyoXFnxIiea8pmDw1TSdriEFZdI6D/qtvxBkcH+Knh
+u+lMqANq0pK27EjRLlc0IXR6lE6wA08emlv0hbedn0EFbVJDQDa/i65LRBNFMBTU
+JZISwziUFYLdwiEthicwXdt7UNxJ/3HsSJ73Ob4alXmfRr8Rwd8=
+=gHpN
+-----END PGP SIGNATURE-----
+
+--dz4mj3xirt5ptsux--
