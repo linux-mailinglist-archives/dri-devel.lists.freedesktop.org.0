@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FAC723B5A
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE94723B9E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 10:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B3B10E2F5;
-	Tue,  6 Jun 2023 08:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3573D10E2CE;
+	Tue,  6 Jun 2023 08:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6094E10E307
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 08:22:17 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3568LtZR066276;
- Tue, 6 Jun 2023 03:21:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686039715;
- bh=P+Pz7QTxeDNcMEQ6FvThwTsTY3IJY+048fGtIqlAyL0=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=ZsV/i6DwmTLq+1vo24Pdi+doxkjSmMF/ilhw2np/Vu9nDSeawHI+zU5OvQaN7785N
- q9MNoLPlyQ0/3XCat/CKi60xpjE+SuDc8PY481xxw+CpnGoqdQ+t92Kat6gx++u1FE
- w1g4fSAY/swWNjDos+tEyuEo/roeR9ItN8URwstE=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3568Lt2e012409
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 6 Jun 2023 03:21:55 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 6
- Jun 2023 03:21:55 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 6 Jun 2023 03:21:55 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3568Lsb5019672;
- Tue, 6 Jun 2023 03:21:55 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Swapnil Jakhade <sjakhade@cadence.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Francesco Dolcini <francesco@dolcini.it>
-Subject: [PATCH v7 8/8] drm/bridge: cdns-mhdp8546: Fix the interrupt
- enable/disable
-Date: Tue, 6 Jun 2023 13:51:42 +0530
-Message-ID: <20230606082142.23760-9-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230606082142.23760-1-a-bhatia1@ti.com>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C99110E2CE;
+ Tue,  6 Jun 2023 08:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686040031; x=1717576031;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GIsyVGPDgE8PKkZxjDGVz34LapzyMmYSOROpzep7GcI=;
+ b=iKMIzD4wHDg54OmENG6ieHHobGcZSIiJ55PCc0u4DVbBJXJSL9bDMEyJ
+ yneufqMaXEiX9FoVk0V3AajZt5fMdE6r1XlA6U9PN6cpgRwbtKUFe4QlO
+ 9KWnZ1kmMObQo0zPu/htHJ6dz0w4MWU77DhNTySOM5+TFHBfikaCUghli
+ PR2xbeTLCnG9QVb2QuWhSBAsc6/g2VQFhhdM5Bc2covceyuW6ZgVcYmc9
+ /iEk+BMoiNOhZFrl+FhYhvib9nCY5GPA2gWOqExXVAAaCvy7f5xw3ny5i
+ ftD3X5IasGiuWDow7sb/xkTwfIypAJyKk1dljy0+8yXMsVir3m13Hj/Al A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336960758"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="336960758"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 01:27:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="703073891"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="703073891"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 06 Jun 2023 01:27:09 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q6S20-00051r-1d;
+ Tue, 06 Jun 2023 08:27:08 +0000
+Date: Tue, 6 Jun 2023 16:26:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info
+ debugfs
+Message-ID: <202306061637.gecTQnQd-lkp@intel.com>
+References: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nikhil Devshatwar <nikhil.nd@ti.com>
+Hi Daniele,
 
-When removing the tidss driver, there is a warning reported by
-kernel about an unhandled interrupt for mhdp driver.
+kernel test robot noticed the following build errors:
 
-[   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
-... [snipped backtrace]
-[   43.330735] handlers:
-[   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
-cdns_mhdp_irq_handler [cdns_mhdp8546]
-[   43.344607] Disabling IRQ #31
+[auto build test ERROR on drm-tip/drm-tip]
 
-This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
-to disable the interrupts. While disabling the SW_EVENT interrupts,
-it accidentally enables the MBOX interrupts, which are not handled by
-the driver.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-gsc-fixes-and-updates-for-GSC-memory-allocation/20230606-102510
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio%40intel.com
+patch subject: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info debugfs
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230606/202306061637.gecTQnQd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
+        git fetch drm-tip drm-tip
+        git checkout drm-tip/drm-tip
+        b4 shazam https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio@intel.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Fix this with a read-modify-write to update only required bits.
-Use the enable / disable function as required in other places.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061637.gecTQnQd-lkp@intel.com/
 
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-Reviewed-by: Swapnil Jakhade <sjakhade@cadence.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
----
+All errors (new ones prefixed by >>):
 
-Notes:
-    changes from v2:
-    * Fix the interrupt enable logic at other places in code
-    * Reorder functions so that they can be used earlier in the program
+>> drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c:28:6: error: no previous prototype for 'intel_gsc_uc_debugfs_register' [-Werror=missing-prototypes]
+      28 | void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-    changes from v5:
-    * Manual rebase to linux-next.
 
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 44 +++++++++----------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+vim +/intel_gsc_uc_debugfs_register +28 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index f12fb62821f7..ecb935e46b62 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -54,6 +54,26 @@
- #include "cdns-mhdp8546-hdcp.h"
- #include "cdns-mhdp8546-j721e.h"
- 
-+static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-+
-+	/* Enable SW event interrupts */
-+	if (mhdp->bridge_attached)
-+		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
-+		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		       mhdp->regs + CDNS_APB_INT_MASK);
-+}
-+
-+static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-+
-+	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
-+	       CDNS_APB_INT_MASK_SW_EVENT_INT,
-+	       mhdp->regs + CDNS_APB_INT_MASK);
-+}
-+
- static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
- {
- 	int ret, empty;
-@@ -749,9 +769,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
- 	 * MHDP_HW_STOPPED happens only due to driver removal when
- 	 * bridge should already be detached.
- 	 */
--	if (mhdp->bridge_attached)
--		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
--		       mhdp->regs + CDNS_APB_INT_MASK);
-+	cdns_mhdp_bridge_hpd_enable(&mhdp->bridge);
- 
- 	spin_unlock(&mhdp->start_lock);
- 
-@@ -1740,8 +1758,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 
- 	/* Enable SW event interrupts */
- 	if (hw_ready)
--		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
--		       mhdp->regs + CDNS_APB_INT_MASK);
-+		cdns_mhdp_bridge_hpd_enable(bridge);
- 
- 	return 0;
- aux_unregister:
-@@ -2212,23 +2229,6 @@ static struct edid *cdns_mhdp_bridge_get_edid(struct drm_bridge *bridge,
- 	return cdns_mhdp_get_edid(mhdp, connector);
- }
- 
--static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
--{
--	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
--
--	/* Enable SW event interrupts */
--	if (mhdp->bridge_attached)
--		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
--		       mhdp->regs + CDNS_APB_INT_MASK);
--}
--
--static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
--{
--	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
--
--	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
--}
--
- static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_enable = cdns_mhdp_atomic_enable,
- 	.atomic_disable = cdns_mhdp_atomic_disable,
+    27	
+  > 28	void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
