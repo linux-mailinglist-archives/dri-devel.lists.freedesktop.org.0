@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49AAA724547
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:08:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F4272455E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2282C10E352;
-	Tue,  6 Jun 2023 14:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CBC10E355;
+	Tue,  6 Jun 2023 14:12:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEC510E352
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:08:42 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-30e5289105cso367009f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 07:08:42 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1FB10E355
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:12:11 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-3094910b150so6294495f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 07:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686060521; x=1688652521;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nEguAEjaUZuH5f9mkKjoRfJYtn4sBJWyZOqN3ONfKgg=;
- b=npYbs7JmwiQxzf9JlCFyhzW3qC4071I8viVqb+RtLUeKPAtNxQJpqYmyaY1InCiqWl
- MWOLREhVsDEYz83h0p+CJOcso4Dez5Ozwh8tadFN9MVEaoMgzcu4JvOiQERV+jcXdBBM
- m5W1EufUJAqZrHdRFADnN8xcVW+3XDphd6f53xPN4oN0iBA3V706PF4sEqFNWVB2C/O1
- zlIWLNBYQlg0491dnHGA8HcEoWmAboZfcJyYn/5dep/5qbGtO3z1mjiUjPciFnoxCtw2
- iUO/EZDyKCCYiqnYQMAvIXDLQsA4hFMwl4IFyRN0y2hwXA4F1AG0iEfDrYiFmUouqpTA
- gkcA==
+ d=gmail.com; s=20221208; t=1686060730; x=1688652730;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d8VaZ858WGTztv9OyCXzp4p0rlgykAZTm6ZPkmQwQoQ=;
+ b=PJrWvg+7yLEkuxQcPa7D4RMCK89IfL/gJOfMvRycs4Qgky0SQXPslBXwTvjsPBZjnZ
+ OshfLDhQVzZAf0kKwXqlbn1pUminA8vv7Ih2l/0e8SLdlF7mOPfVbCc035BPY45V3MM2
+ oORGsM+1XSWgZL/amlp2huSS+tR052kG7gSXdqbxcbDrcejFdgtOMXlQECOH0B+0vumB
+ Sg8wqsI13m9aP0GxzXgsszWGhlyTLMDepYduYIYL2P906pS1I0YYNh3ebzNJoi1H/RfI
+ 5z1kCUc/VcapiVPMDMuJxpMJoOkK5duLjBEBM/Je7OBPAuf8SS4dDpJUobWTFcwRgXE+
+ OSbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686060521; x=1688652521;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nEguAEjaUZuH5f9mkKjoRfJYtn4sBJWyZOqN3ONfKgg=;
- b=mDOzdWxUFTgHMbrJgYca4c3Ww2m2lzNV40TRCC6/RPh8wZsYE/5rS3WkKrDc/Y4Lci
- dWweJEoMFq6NHEhjIPqDKuuaO700M//UOHusey2JsO5oxDP6SpK0277Q8r8TDkJu1L6P
- VPysGObeNnsv6dSI2cLms5BEEh6MF1jkwQIAQ0dXxmum1IexBrUPVAST6JSa3Kir823N
- qvEhYd74EaO+P0zEHwspOBRsXF5K99vNWakh1HUFl3nD1piwbZ3/EUj0o1bIk/ittaWi
- qX00n9rcoJtlN/xwdYdnTtQTxyWyGYTN7hTgGINOdbEIB9mNGxkjW56jOyXrQ4ZlZo+k
- kBng==
-X-Gm-Message-State: AC+VfDx87TDFzWNKcbb5Yrs/JwDb/c8P5dnFaClW+9G9UquTcnC9sRZ2
- RmDMgDZS3mH1hcvFC5XaYls=
-X-Google-Smtp-Source: ACHHUZ6ENEiuQm4TEr/naGDnZLYWe7o/zzetEiafiqwV4/DSy/+2om7JMLlc1VzI0GYenJlJ+fb6/A==
-X-Received: by 2002:adf:e752:0:b0:30e:5364:bf04 with SMTP id
- c18-20020adfe752000000b0030e5364bf04mr727730wrn.27.1686060520520; 
- Tue, 06 Jun 2023 07:08:40 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1686060730; x=1688652730;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d8VaZ858WGTztv9OyCXzp4p0rlgykAZTm6ZPkmQwQoQ=;
+ b=YLeiH+dl7nOGlXiiEJOa0S/MVnrM3AJKm9tgo9qXbpTzAqeHLLOvxMJ3HffLeL9Fo5
+ RZS4B1FivHPlofRbb+Ge+cVo6tl5ncAK7NSuMMbFrBd51FxppJwjfkUyQAbYLnIXUbbx
+ lJd1V9FyKSkTRWhjcVdfXjCWJDSsfI4tr1A3i3E/Y9sR/BONKfXlLpSJpf6QhOVk7PMf
+ 4RQWmMr5vnIrcByaoT7GJY3Uwkko3i5sR0sP+EG2E2DDjnijYe+TS3KQCyrAjUIYEj3h
+ 2aiMPhM4cJpGD70s1qkbHpUzqc957OjFQn7S0FfX/zHbLsFNTMeK2waS1H05zfR2wI+C
+ BYGg==
+X-Gm-Message-State: AC+VfDzgqi2ohPmpRCA1oTU1xFK8w+ThpQqGsFdvkowB7GzzZ9GzmWX3
+ vnSfUSq/NO/SyokDy8Hn7Fg=
+X-Google-Smtp-Source: ACHHUZ7kXhUfSKsOLk232B5A4piHFS4OhzgcPjlrkjl50WY8ohBAQ+PjbqGx4YX4kqE22/mxxJVfGA==
+X-Received: by 2002:a5d:4d45:0:b0:30a:e5ba:170d with SMTP id
+ a5-20020a5d4d45000000b0030ae5ba170dmr2082349wru.32.1686060729450; 
+ Tue, 06 Jun 2023 07:12:09 -0700 (PDT)
 Received: from fedora.. ([212.15.177.3]) by smtp.gmail.com with ESMTPSA id
- g7-20020a5d5407000000b0030903371ef9sm12694315wrv.22.2023.06.06.07.08.10
+ g7-20020a5d5407000000b0030903371ef9sm12694315wrv.22.2023.06.06.07.11.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 07:08:21 -0700 (PDT)
+ Tue, 06 Jun 2023 07:11:54 -0700 (PDT)
 From: Paulo Pavacic <pavacic.p@gmail.com>
 To: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com,
  daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
  conor+dt@kernel.org
-Subject: [PATCH v3 0/3] drm/panel: add fannal c3004 panel
-Date: Tue,  6 Jun 2023 16:07:54 +0200
-Message-Id: <20230606140757.818705-1-pavacic.p@gmail.com>
+Subject: [PATCH v3 1/3] dt-bindings: add fannal vendor prefix
+Date: Tue,  6 Jun 2023 16:07:55 +0200
+Message-Id: <20230606140757.818705-2-pavacic.p@gmail.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230606140757.818705-1-pavacic.p@gmail.com>
+References: <20230606140757.818705-1-pavacic.p@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,24 +79,30 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fannal C3004 is a 2 lane MIPI DSI 480x800 panel which requires initialization with DSI DCS
-commands. After few initialization commands delay is required.
+Fannal is a one-stop-solution provider for touch displays in industrial
+application, committed to delivering a variety of professional high-quality
+products and technical services globally.
 
-Paulo Pavacic (3):
-  dt-bindings: add fannal vendor prefix
-  dt-bindings: display: panel: add fannal,c3004
-  drm/panel-fannal-c3004: Add fannal c3004 DSI panel
+Website: www.fannal.com
 
- .../bindings/display/panel/fannal,c3004.yaml  |  78 +++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   7 +
- drivers/gpu/drm/panel/Kconfig                 |  11 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-fannal-c3004.c    | 318 ++++++++++++++++++
- 6 files changed, 417 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/fannal,c3004.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-fannal-c3004.c
+Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 82d39ab0231b..f962750f630a 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -462,6 +462,8 @@ patternProperties:
+     description: Facebook
+   "^fairphone,.*":
+     description: Fairphone B.V.
++  "^fannal,.*":
++    description: Fannal Electronics Co., Ltd
+   "^faraday,.*":
+     description: Faraday Technology Corporation
+   "^fastrax,.*":
 -- 
 2.40.1
 
