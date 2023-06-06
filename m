@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825D272386F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 09:10:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7A372389E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 09:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4758310E263;
-	Tue,  6 Jun 2023 07:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7739710E00C;
+	Tue,  6 Jun 2023 07:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D9210E263
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 07:10:12 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-514953b3aa6so7619622a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 00:10:12 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0004810E00C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 07:14:52 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-51492ae66a4so8019758a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 00:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686035410; x=1688627410;
+ d=linaro.org; s=google; t=1686035691; x=1688627691;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LisFXxO/Zq5NzPlsNvfDE27JudIL0xXgnokQiH5CFkg=;
- b=Tp7aA1tetcMXR3NmkTpppp8ctzFm310/IxY7dr4udMqjbhxvVsAVnjEjVDFjFHG5r0
- 26nfXTeCftd7ibz0Ger4E16G02bfbYH1RBuKs9GpRs3Irky9dRwd5P2LnXUQ18gfn13W
- 03jU2X9FzHbDEVVN087UEpnuvgxBv4/uVpb/djJrnMT/avsyawDuR4/cdzALcJm8M80b
- kJP+7fm1xXXUdInfE+tV/FKLrNYMAL6ncRxJfJGzY23CY9/KyFKjNM+TYVTlYWutG158
- 0SO1GarqMJLyIU7H+KS/a1xKxIM+kvCE1Chpjyz3ba9/TzIbylnGdwytm2cTfstevXw+
- 6N7w==
+ bh=XmRHIbHI19eoc97ppNeppF0Ezev+VmG8IR7wKOYBJyU=;
+ b=WH84TS7sVBpGROxnijNPIa5FE+w0fXrVQjj8SbiPkF+XGVJsxZIoagF5R+NHOkL92o
+ 8WbOSQ3ScOIIXG3aNUrAiBownXTNQ0FygSuL4xKGXx+zdSeGerhEwUxB+R/WISBgJPf7
+ NBj2D0jFiLq5VeViHNbSlLS+AH5HAUGvS278VpaVPMskr3oltn56aB3e16aYwnkvybVS
+ 5oiPsnMb37n4VbK9AE3hR5Yzfux0k4huOhPkLUE5LpaAVpTCaYCGiR3qmpcyXqGshxYy
+ ZJTZpkYsImHekEvIf7h4qdXQoMNha8fhitraXkeT1oBDmqAI8hDdKVCYbQWjAAR0v/8b
+ Rl/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686035410; x=1688627410;
+ d=1e100.net; s=20221208; t=1686035691; x=1688627691;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LisFXxO/Zq5NzPlsNvfDE27JudIL0xXgnokQiH5CFkg=;
- b=CqxOuil2uZPJ6hF+aHugajy87h8EGQQMpn8ZEpgnnSHNjCYwzIAs/L0Qg2xuNgJHmI
- ZoAzp8QA6PYl7BvmXFPV1xOiobkoruClyYVNNHAWxuczhlrO1xW9ko3fRDH5N0sDGVV4
- vZZZN5jZog5oo8ZgpVEtgg8vw2ZrgUUY1g9/pTYgiL1dYuqw1Lq5HQsOs5nQkFANY13q
- cWLmvpWCwQzWkeeAfkpGuViYiEa12VEoyX+1i6JzopwX+ywxh/OJuHLpTbhKLpcZmrYE
- V2v9zuiKWWHfnFI85xWTQXAiRixir834qtW4Rh0k0Bl8Xq1/xLkBeXNNgWWkVQPhJqoU
- dCCw==
-X-Gm-Message-State: AC+VfDxFj7G6GLO37/AVPXNfKuIJdNbTtgMte8AtAy/rUB9x8TpfuqkB
- 7DErlDIbTD6asbcNdTd5bJzTPg==
-X-Google-Smtp-Source: ACHHUZ6Bw2R/3N0tQrQg3MAgzfrTK7S3Fu0Ps1sWt88Aosi9bHUp048ui/ckWGF3EaIH8l2jRRM0Ig==
-X-Received: by 2002:aa7:d28c:0:b0:514:90de:423e with SMTP id
- w12-20020aa7d28c000000b0051490de423emr1159906edq.36.1686035410439; 
- Tue, 06 Jun 2023 00:10:10 -0700 (PDT)
+ bh=XmRHIbHI19eoc97ppNeppF0Ezev+VmG8IR7wKOYBJyU=;
+ b=NJSs2HE6NLaCZurnatUjk4YL6xEkxAz3fT/Jp1QKc6i8Nfg2F6+kDtfmkUNobjJW+7
+ GiCCjY7pZn7dL7tunu0FncNxlAFJWt1sB+KRO0AW80LfGIwqb8keeZ5Li+NvkIHdxbgo
+ U8rUuPaTaxtgPh6Yn4mtRlK8T0gpunut+xqqjK/fC2qwXvZAsC5ba8EV5c3KK7/OeC2O
+ Ln8uYgTB4bUTiRFhwBRra74oV99d3RYWRgRBircDYAKo6bGKp0TFa/TKI2wXmyZhDrJB
+ 2asQObdqy9n3DLZM3vNVDltuGf8pdTosGzGaru7RJHGyUgNlb794i++n5YYKrXUzmW4Z
+ O8uQ==
+X-Gm-Message-State: AC+VfDygxj0DlrY3OB6uWJUXSVLOe0is+euZP6tmfyLLFTw57tGZQame
+ vQqMbWn/7jXey4B1BVix1qmRBg==
+X-Google-Smtp-Source: ACHHUZ7PaX5m9mu4aBEn/ZGkNHDbeD9hs3mRnmZkxYtMpgdkF5W4cYVVc8LnNVzVgcV1RpWdsNAWQg==
+X-Received: by 2002:a17:907:d12:b0:973:940e:a018 with SMTP id
+ gn18-20020a1709070d1200b00973940ea018mr1290288ejc.34.1686035691061; 
+ Tue, 06 Jun 2023 00:14:51 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
  by smtp.gmail.com with ESMTPSA id
- u6-20020aa7d0c6000000b0050488d1d376sm4706904edo.0.2023.06.06.00.10.08
+ q22-20020aa7cc16000000b005153b12c9f7sm4856912edt.32.2023.06.06.00.14.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 00:10:10 -0700 (PDT)
-Message-ID: <7255ff65-9dac-3cce-fb74-09a8984775f2@linaro.org>
-Date: Tue, 6 Jun 2023 09:10:08 +0200
+ Tue, 06 Jun 2023 00:14:50 -0700 (PDT)
+Message-ID: <4bb22e77-b3f0-be07-5e8a-442c3aa3fd48@linaro.org>
+Date: Tue, 6 Jun 2023 09:14:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: add fannal,c3004
+Subject: Re: [PATCH v2 3/3] drm/panel-fannal-c3003: Add fannal c3004 DSI panel
 Content-Language: en-US
 To: Paulo Pavacic <pavacic.p@gmail.com>, neil.armstrong@linaro.org,
  sam@ravnborg.org, airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 References: <20230605153539.497602-1-pavacic.p@gmail.com>
- <20230605153539.497602-3-pavacic.p@gmail.com>
+ <20230605153539.497602-4-pavacic.p@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230605153539.497602-3-pavacic.p@gmail.com>
+In-Reply-To: <20230605153539.497602-4-pavacic.p@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,59 +85,85 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05/06/2023 17:35, Paulo Pavacic wrote:
-> Added fannal to vendor-prefixes and dt bindings for Fannal C3004.
-> Fannal C3004 is a 480x800 MIPI DSI Panel which requires
-> DCS initialization sequences with certain delays between certain
-> commands.
+> Fannal C3004 is a 480x800 display made by fannal that requires
+> DCS initialization sequences.
+> 
+> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
+> ---
+
+> v3 changelog:
+>  - using generic mipi_dsi_dcs_write_seq
+
+This is marked as v2?
+
+>  - removed success prints
+>  - removed some comments
+>  - simplified code/removed support for different panels
+>  - changed namespace from fann to fannal
+> v2 changelog:
+>  - renamed from panel-mipi-dsi-bringup
+>  - only one MAINTAINER e-mail
+> ---
+>  MAINTAINERS     
 
 
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        panel@0 {
-> +            compatible = "fannal,c3004";
-> +            reg = <0>;
-> +            pinctrl-0 = <&pinctrl_mipi_dsi_rst>;
-> +            pinctrl-names = "default";
-> +            reset-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
-> +            vdd-supply = <&reg1>;
-> +            vddio-supply = <&reg2>;
-> +            width-mm = <93>;
-> +            height-mm = <56>;
-> +            panel-timing {
-> +                clock-frequency = <27000000>;
-> +                hactive = <480>;
-> +                vactive = <800>;
-> +                hfront-porch = <30>;
-> +                hback-porch = <30>;
-> +                hsync-len = <8>;
-> +                vback-porch = <30>;
-> +                vfront-porch = <30>;
-> +                vsync-len = <8>;
-> +            };
-> +        };
-> +    };
+> +static int fannal_panel_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct device *dev = &dsi->dev;
+> +	struct fannal_panel_data *panel_data;
+> +	int ret;
+> +
+> +	panel_data = devm_kzalloc(&dsi->dev, sizeof(*panel_data), GFP_KERNEL);
+> +
+> +	if (!panel_data)
+> +		return -ENOMEM;
+> +
+> +	panel_data->reset = devm_gpiod_get_optional(
+> +		dev, "reset", GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
 
+dev should be in previous line
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Why this is nonexclusive? How many instances of same driver are
+expecting to get this on one system?
 
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5c22c828ab46..62374c8424b9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6427,6 +6427,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
->  F:	drivers/gpu/drm/panel/panel-ebbg-ft8719.c
->  
-> +DRM DRIVER FOR FANNAL C3004373132019A
-> +M:	Paulo Pavacic <pavacic.p@gmail.com>
-> +S:	Maintained
-> +C:	matrix:r/mipi-dsi-bringup:matrix.org
+> +
+> +	if (IS_ERR(panel_data->reset)) {
+> +		ret = PTR_ERR(panel_data->reset);
+> +		dev_err(dev,
+> +			"error: probe: get reset GPIO: (%d) Check the fdt\n",
+> +			ret);
 
-I don't think we have chat channels for individual, small drivers. Add a
-channel for entire subsystem.
+return dev_err_probe
+
+> +		return ret;
+> +	}
+> +
+> +	mipi_dsi_set_drvdata(dsi, panel_data);
+> +
+> +	dsi->format = MIPI_DSI_FMT_RGB888;
+> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+> +			  MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_HSE |
+> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
+> +			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_VIDEO;
+> +	dsi->lanes = 2;
+> +
+> +	gpiod_set_value_cansleep(panel_data->reset, 1);
+
+So you leave the panel in reset state?
+> +
+> +	drm_panel_init(&panel_data->panel, dev, &fannal_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	dev_set_drvdata(dev, panel_data);
+> +
+> +	drm_panel_add(&panel_data->panel);
+> +
+> +	ret = mipi_dsi_attach(dsi);
+> +	if (ret) {
+> +		drm_panel_remove(&panel_data->panel);
+> +		dev_err(dev, "error: probe fail: can't attach mipi_dsi!\n");
+
+No need to shout, skip exclamation mark.
+
 
 Best regards,
 Krzysztof
