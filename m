@@ -2,57 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E94725854
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31653724B7A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 20:32:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC8110E486;
-	Wed,  7 Jun 2023 08:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65F8710E179;
+	Tue,  6 Jun 2023 18:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E9F10E14B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:30:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686076233; cv=none; d=zohomail.in; s=zohoarc; 
- b=bZW3/WGCfuumu8W4M1K/uLEafX1IfLI/WEXH5AmQ46sAWtZy2Bys4tX8rHLaVpYv6a2drqEtIBQb4/1Qwv5ISXHZQMBsid4FUcyUOAMBzrnBZm2hMlPUCoKaql2EZ0tB993H5ixnph5nrmw7JXnmuYt1ViHQRWEG/spvLSvD718=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1686076233;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=xl4O/nBW/TeUPKSNvnMq+HaBVHdPkTU4hMluwC6pfD8=; 
- b=DkxeTXAYjM3ZdfiEv4lK2l/IIbmeZAyOPYFMaF7aHJDMXcZslN368+U1PYXPXA/GSm1QXRuOmIlqqybSmozzzPboHzuhASVOtmtP7leIvgEPNyPOYb2H7wRPw+9+XrSJrrmPg6ZEL+aPGrKG42GbZAS99pFdmFFkf/7Aj/rdtZI=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076233; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=xl4O/nBW/TeUPKSNvnMq+HaBVHdPkTU4hMluwC6pfD8=;
- b=vKf3UJeCqpdVH6CwRM1vhYLV2scUa7Rml7ARCfhc0OCKS9D+Qvvo6ULxy6oZRgtz
- 9hmxn5qtpbkpM2gmH2vN31pIUm/LFfRsvwu2ndrDlJBYuanFS4f7wqTmawNyEgDDMy5
- IdUo99UBt3IaGqeuBiJyU+kMrdyNttvuSP9pFJ1Q=
-Received: from kampyooter.. (122.176.141.156 [122.176.141.156]) by mx.zoho.in
- with SMTPS id 16860762309911009.4921086079817;
- Wed, 7 Jun 2023 00:00:30 +0530 (IST)
-From: Siddh Raman Pant <code@siddh.me>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <35def11d3722b361bc394c3d297adea922db5fd9.1686075579.git.code@siddh.me>
-Subject: [PATCH v10 9/9] drm: Remove superfluous print statements in DRM core
-Date: Wed,  7 Jun 2023 00:00:10 +0530
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1686075579.git.code@siddh.me>
-References: <cover.1686075579.git.code@siddh.me>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497E210E14B;
+ Tue,  6 Jun 2023 18:31:56 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 356HEiSq020961; Tue, 6 Jun 2023 18:31:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=EVpOMtnDxkMC/Q6UMboi070vRyOglO8DIqxRhchhYJg=;
+ b=Cvob9o7FvlZuMyufpEo2jGYkjxYrjpDIg/6b/6/wrsB5oopTWjEJtUjYH4oNNpe8ah6c
+ LmdaWEMc6HRKDUM4l+JvlO6fa63qTe3FNMtLjnECAB1xOI71oFSye2Rt3Db3MhzFIQsQ
+ u5lZYP9di1y2EJpXNKoLWNIYHvBjiGPSu4Rhjr5Vu0EaxfZqDpZhMeBHy3QAqywjiW8c
+ 15N6qle2bpreKDQ3xDuCcVciIy8aHiprkifPx8CSxAjgW8zTeXPxyHMRlIdpc0IPSuOk
+ nyIQ/A+SdVm9md1T1bGv+D4YUucHGaiMMFrWyLKCAGGBFC7o4w0Wwn1LoaaDEBNbtktH vw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r1db9bqa5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 18:31:49 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356IVnx5012073
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 18:31:49 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 6 Jun 2023 11:31:48 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>,
+ <marijn.suijten@somainline.org>
+Subject: [PATCH v16] drm/msm/dpu: add DSC blocks to the catalog of MSM8998 and
+ SC8180X
+Date: Tue, 6 Jun 2023 11:31:39 -0700
+Message-ID: <1686076299-11504-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
-Content-Type: text/plain; charset=utf8
-X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:26 +0000
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: ubZGXY_P9sj1VL9RffKLha2J3rJydHtI
+X-Proofpoint-GUID: ubZGXY_P9sj1VL9RffKLha2J3rJydHtI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_13,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2306060158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,241 +81,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Suraj Upadhyay <usuraj35@gmail.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a couple of superfluous print statements using the drm_*
-macros, which do stuff like printing newlines, print OOM messages
-(OOM while allocating memory is already supposed to be noisy), and
-printing strings like "Initialised" with no extra info whatsoever.
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Thus, remove a couple of these superfluous strings.
+Some platforms have DSC blocks which have not been declared in the catalog.
+Complete DSC 1.1 support for all platforms by adding the missing blocks to
+MSM8998 and SC8180X.
 
-Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Siddh Raman Pant <code@siddh.me>
+Changes in v9:
+-- add MSM8998 and SC8180x to commit title
+
+Changes in v10:
+-- fix grammar at commit text
+
+Changes in v12:
+-- fix "titil" with "title" at changes in v9
+
+Changes in v14:
+-- "dsc" tp "DSC" at commit title
+
+Changes in v15:
+-- fix merge conflicts at dpu_5_1_sc8180x.h
+
+Changes in v16
+-- fix cherry-pick error by deleting both redundant .dsc and .dsc_count
+   assignment from dpu_5_1_sc8180x.h
+
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/drm_client_modeset.c | 3 ---
- drivers/gpu/drm/drm_context.c        | 1 -
- drivers/gpu/drm/drm_crtc_helper.c    | 2 --
- drivers/gpu/drm/drm_drv.c            | 7 -------
- drivers/gpu/drm/drm_file.c           | 2 --
- drivers/gpu/drm/drm_gem.c            | 1 -
- drivers/gpu/drm/drm_hashtab.c        | 1 -
- drivers/gpu/drm/drm_legacy_misc.c    | 1 -
- drivers/gpu/drm/drm_mipi_dbi.c       | 2 --
- drivers/gpu/drm/drm_pci.c            | 6 ------
- drivers/gpu/drm/drm_scatter.c        | 2 --
- 11 files changed, 28 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_cli=
-ent_modeset.c
-index 4e08ae688b83..e241f9aa5a16 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -793,8 +793,6 @@ int drm_client_modeset_probe(struct drm_client_dev *cli=
-ent, unsigned int width,
- =09int i, ret =3D 0;
- =09bool *enabled;
-=20
--=09drm_dbg_kms(dev, "\n");
--
- =09if (!width)
- =09=09width =3D dev->mode_config.max_width;
- =09if (!height)
-@@ -824,7 +822,6 @@ int drm_client_modeset_probe(struct drm_client_dev *cli=
-ent, unsigned int width,
- =09offsets =3D kcalloc(connector_count, sizeof(*offsets), GFP_KERNEL);
- =09enabled =3D kcalloc(connector_count, sizeof(bool), GFP_KERNEL);
- =09if (!crtcs || !modes || !enabled || !offsets) {
--=09=09drm_err(client->dev, "Memory allocation failed\n");
- =09=09ret =3D -ENOMEM;
- =09=09goto out;
- =09}
-diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
-index 8b7b925aee97..c8373294cce0 100644
---- a/drivers/gpu/drm/drm_context.c
-+++ b/drivers/gpu/drm/drm_context.c
-@@ -382,7 +382,6 @@ int drm_legacy_addctx(struct drm_device *dev, void *dat=
-a,
-=20
- =09ctx_entry =3D kmalloc(sizeof(*ctx_entry), GFP_KERNEL);
- =09if (!ctx_entry) {
--=09=09drm_dbg_core(dev, "out of memory\n");
- =09=09return -ENOMEM;
- =09}
-=20
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_h=
-elper.c
-index 59e7b86eab93..fcf539439880 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -567,8 +567,6 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set=
-,
- =09int ret;
- =09int i;
-=20
--=09drm_dbg_kms(NULL, "\n");
--
- =09BUG_ON(!set);
- =09BUG_ON(!set->crtc);
- =09BUG_ON(!set->crtc->helper_private);
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 7adf10cc6e67..86b0df358184 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -166,8 +166,6 @@ static int drm_minor_register(struct drm_device *dev, u=
-nsigned int type)
- =09unsigned long flags;
- =09int ret;
-=20
--=09drm_dbg_core(dev, "\n");
--
- =09minor =3D *drm_minor_get_slot(dev, type);
- =09if (!minor)
- =09=09return 0;
-@@ -422,8 +420,6 @@ void drm_minor_release(struct drm_minor *minor)
-  */
- void drm_put_dev(struct drm_device *dev)
- {
--=09drm_dbg_core(NULL, "\n");
--
- =09if (!dev) {
- =09=09drm_err(NULL, "cleanup called no dev\n");
- =09=09return;
-@@ -1030,8 +1026,6 @@ static int drm_stub_open(struct inode *inode, struct =
-file *filp)
- =09struct drm_minor *minor;
- =09int err;
-=20
--=09drm_dbg_core(NULL, "\n");
--
- =09minor =3D drm_minor_acquire(iminor(inode));
- =09if (IS_ERR(minor))
- =09=09return PTR_ERR(minor);
-@@ -1099,7 +1093,6 @@ static int __init drm_core_init(void)
-=20
- =09drm_core_init_complete =3D true;
-=20
--=09drm_dbg_core(NULL, "Initialized\n");
- =09return 0;
-=20
- error:
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 883d83bc0e3d..24c78f7ec101 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -454,8 +454,6 @@ EXPORT_SYMBOL(drm_open);
-=20
- void drm_lastclose(struct drm_device * dev)
- {
--=09drm_dbg_core(dev, "\n");
--
- =09if (dev->driver->lastclose)
- =09=09dev->driver->lastclose(dev);
- =09drm_dbg_core(dev, "driver lastclose completed\n");
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 3d88f0483fdf..43326cb4b4f6 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -101,7 +101,6 @@ drm_gem_init(struct drm_device *dev)
- =09vma_offset_manager =3D drmm_kzalloc(dev, sizeof(*vma_offset_manager),
- =09=09=09=09=09  GFP_KERNEL);
- =09if (!vma_offset_manager) {
--=09=09drm_err(dev, "out of memory\n");
- =09=09return -ENOMEM;
- =09}
-=20
-diff --git a/drivers/gpu/drm/drm_hashtab.c b/drivers/gpu/drm/drm_hashtab.c
-index 357f20d73b43..acc40d3ebb2a 100644
---- a/drivers/gpu/drm/drm_hashtab.c
-+++ b/drivers/gpu/drm/drm_hashtab.c
-@@ -53,7 +53,6 @@ int drm_ht_create(struct drm_open_hash *ht, unsigned int =
-order)
- =09else
- =09=09ht->table =3D vzalloc(array_size(size, sizeof(*ht->table)));
- =09if (!ht->table) {
--=09=09drm_err(NULL, "Out of memory for hash table\n");
- =09=09return -ENOMEM;
- =09}
- =09return 0;
-diff --git a/drivers/gpu/drm/drm_legacy_misc.c b/drivers/gpu/drm/drm_legacy=
-_misc.c
-index ad0eef292cb0..69a51f5150e3 100644
---- a/drivers/gpu/drm/drm_legacy_misc.c
-+++ b/drivers/gpu/drm/drm_legacy_misc.c
-@@ -70,7 +70,6 @@ int drm_legacy_setup(struct drm_device * dev)
- =09=09return ret;
-=20
-=20
--=09drm_dbg_core(dev, "\n");
- =09return 0;
- }
-=20
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.=
-c
-index 793fdd7da1d0..286cfafd022e 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -409,8 +409,6 @@ void mipi_dbi_pipe_disable(struct drm_simple_display_pi=
-pe *pipe)
- {
- =09struct mipi_dbi_dev *dbidev =3D drm_to_mipi_dbi_dev(pipe->crtc.dev);
-=20
--=09drm_dbg_kms(&dbidev->drm, "\n");
--
- =09if (dbidev->backlight)
- =09=09backlight_disable(dbidev->backlight);
- =09else
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index 485ec407a115..5cdfcd38174e 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -155,8 +155,6 @@ static int drm_legacy_get_pci_dev(struct pci_dev *pdev,
- =09if (IS_ERR(dev))
- =09=09return PTR_ERR(dev);
-=20
--=09drm_dbg_core(dev, "\n");
--
- =09ret =3D pci_enable_device(pdev);
- =09if (ret)
- =09=09goto err_free;
-@@ -203,8 +201,6 @@ int drm_legacy_pci_init(const struct drm_driver *driver=
-,
- =09const struct pci_device_id *pid;
- =09int i;
-=20
--=09drm_dbg_core(NULL, "\n");
--
- =09if (WARN_ON(!(driver->driver_features & DRIVER_LEGACY)))
- =09=09return -EINVAL;
-=20
-@@ -247,8 +243,6 @@ void drm_legacy_pci_exit(const struct drm_driver *drive=
-r,
- {
- =09struct drm_device *dev, *tmp;
-=20
--=09drm_dbg_core(NULL, "\n");
--
- =09if (!(driver->driver_features & DRIVER_LEGACY)) {
- =09=09WARN_ON(1);
- =09} else {
-diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
-index 08b3eb586484..59f755bf6ce9 100644
---- a/drivers/gpu/drm/drm_scatter.c
-+++ b/drivers/gpu/drm/drm_scatter.c
-@@ -82,8 +82,6 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *dat=
-a,
- =09struct drm_sg_mem *entry;
- =09unsigned long pages, i, j;
-=20
--=09drm_dbg_core(dev, "\n");
--
- =09if (!drm_core_check_feature(dev, DRIVER_LEGACY))
- =09=09return -EOPNOTSUPP;
-=20
---=20
-2.39.2
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+index 3c732a0..7d0d0e7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+@@ -126,6 +126,11 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
+ 			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
+ };
+ 
++static const struct dpu_dsc_cfg msm8998_dsc[] = {
++	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
++	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
++};
++
+ static const struct dpu_dspp_cfg msm8998_dspp[] = {
+ 	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
+ 		 &msm8998_dspp_sblk),
+@@ -199,6 +204,8 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+ 	.dspp = msm8998_dspp,
+ 	.pingpong_count = ARRAY_SIZE(msm8998_pp),
+ 	.pingpong = msm8998_pp,
++	.dsc_count = ARRAY_SIZE(msm8998_dsc),
++	.dsc = msm8998_dsc,
+ 	.intf_count = ARRAY_SIZE(msm8998_intf),
+ 	.intf = msm8998_intf,
+ 	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+-- 
+2.7.4
 
