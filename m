@@ -1,53 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27DF72583A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:45:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D0F7249FF
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 19:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0D410E461;
-	Wed,  7 Jun 2023 08:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B8910E247;
+	Tue,  6 Jun 2023 17:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 910CA10E38D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 17:18:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686071885; cv=none; d=zohomail.in; s=zohoarc; 
- b=fat7aSr4hP7KZUIDjnmaT5q10X8sLQ87y3yxhCyaO4Cy1OjSCktPm4rH7BH6N89E+PHbIdEz5b6SAsDjdQ2jcjGtlvXjy3wt4Uj89Tf6WDXGUc0+kv89ZXFYBt3meCwvZLYogSdDZHW1JrJzgOjaE/3ncIhV4bRqquaTGpb/D84=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1686071885;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=VOaURRjH+j7FHRo0DEicjaVzmUpKTc9dyQo++kOw5nI=; 
- b=EI1AQzRPA1IysWg5SJklywj2qmICt/Hd+E22I51qVSrsZiPhToscXAAfg0d9Xj2qkRo/w5Zf3vSyLZPKG9vEXgZEVxO6MdbR5d6uv0fAb+NKA4cMeEh6P3unYDHZn7ysU46fUEvvbEsA152YHKFe3hzSBDdR14N3z0mQmKko3W4=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686071885; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=VOaURRjH+j7FHRo0DEicjaVzmUpKTc9dyQo++kOw5nI=;
- b=n6vmOER6lo3pzoJdfV8wVRZFtukttrChH9NKMaNShkLglV2crsPtDAXDGgCQdk/h
- 8XJ/zIB1ezfvfbpr3OBVpOjJiXpiBWUy0F9QIv+E7Xy/Zqk1v5AHIzk0EGsYluOVmNP
- xkwQWU1vbupb87A+RCjuegfc9MM3jZkyGEgzak7Y=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1686071852876938.8904790603814;
- Tue, 6 Jun 2023 22:47:32 +0530 (IST)
-Date: Tue, 06 Jun 2023 22:47:32 +0530
-From: Siddh Raman Pant <code@siddh.me>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-Message-ID: <18891b6bf3c.4ebd5fab126863.7291537060970485946@siddh.me>
-In-Reply-To: <20230606150419.GI5197@pendragon.ideasonboard.com>
-References: <cover.1686047727.git.code@siddh.me>
- <35bd95856a69f141640c27ea2b5e4073275032f7.1686047727.git.code@siddh.me>
- <20230606150419.GI5197@pendragon.ideasonboard.com>
-Subject: Re: [PATCH v9 8/8] drm: Remove usage of deprecated DRM_DEBUG_KMS
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6CDB10E247;
+ Tue,  6 Jun 2023 17:18:40 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 356GMikk010241; Tue, 6 Jun 2023 17:18:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=gnindeRLNZKTMXVxO0DpWemKDr0YT7u/bKnQKJpKVcM=;
+ b=oxHGeB1yVlM9Hu4yADv2Z5weFiaIObwH2EsNZVDtpcrYwYK1LoJyy7PqRUjTQ3INfJZ0
+ 3i3p1S14OB+fkNkCjU069KVUKFIR9WuqP1CCtwcwvdGq2uSWeaUVcph56TPYALKq3d6g
+ ejw5SpdO74f3scc+/0fWQTQ3LVdE1kyM+YmyGIKv9Ez9Z/UuELMusBAgXlf4fgqdZLuw
+ pyBJ1vkraQI51aozux/ZtVpJD44g2A8h8FPWR9EKZufLeckgkR3lg2ZRsNFb7tXJFNa3
+ aRIZVAZy+gOy6hdpd8yVy13ysRY4WO5JqA91cw0dUCDL88hM/vqM5ERZGCcnxFVGAC7n gA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r249n0rkg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 17:18:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356HIXGx009133
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 17:18:33 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 6 Jun 2023 10:18:27 -0700
+Date: Tue, 6 Jun 2023 22:48:24 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v8 07/18] drm/msm/a6xx: Add a helper for
+ software-resetting the GPU
+Message-ID: <jplt5g5xuphbnci73pdtaxd63fguxtgtp4c37kc7ehavzrjbau@kamshezxnvgy>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:25 +0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: vPruQmnWhNh65WTVEKYL6qztw-R3__Mw
+X-Proofpoint-GUID: vPruQmnWhNh65WTVEKYL6qztw-R3__Mw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_12,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=762 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2306060149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,48 +80,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Suraj Upadhyay <usuraj35@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 06 Jun 2023 20:34:19 +0530, Laurent Pinchart wrote:
-> Hi Siddh,
+On Mon, May 29, 2023 at 03:52:26PM +0200, Konrad Dybcio wrote:
 > 
-> Thank you for the patch.
-
-Anytime :)
-
-> > -   DRM_DEBUG_KMS("\n");
-> > +     drm_dbg_kms(dev, "\n");
+> Introduce a6xx_gpu_sw_reset() in preparation for adding GMU wrapper
+> GPUs and reuse it in a6xx_gmu_force_off().
 > 
-> This message is pretty useless, it could be dropped on top of this
-> series.
-
-Okay.
-
-> > -   DRM_DEBUG_KMS("\n");
-> > +     drm_dbg_kms(NULL, "\n");
+> This helper, contrary to the original usage in GMU code paths, adds
+> a write memory barrier which together with the necessary delay should
+> ensure that the reset is never deasserted too quickly due to e.g. OoO
+> execution going crazy.
 > 
-> Same.
-
-Okay.
-
-> > -   DRM_DEBUG_KMS("\n");
-> > +     drm_dbg_kms(&dbidev->drm, "\n");
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  3 +--
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
+>  3 files changed, 13 insertions(+), 2 deletions(-)
 > 
-> Same.
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index b86be123ecd0..5ba8cba69383 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -899,8 +899,7 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
+>  	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
+>  
+>  	/* Reset GPU core blocks */
+> -	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, 1);
+> -	udelay(100);
+> +	a6xx_gpu_sw_reset(gpu, true);
+>  }
+>  
+>  static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index e3ac3f045665..083ccb5bcb4e 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1634,6 +1634,17 @@ void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_
+>  	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
+>  }
+>  
+> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert)
+> +{
+> +	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, assert);
+> +	/* Add a barrier to avoid bad surprises */
+Can you please make this comment a bit more clear? Highlight that we
+should ensure the register is posted at hw before polling.
 
-Okay.
+I think this barrier is required only during assert.
 
-> With the commit subject fixed,
+-Akhil.
+> +	mb();
+> +
+> +	/* The reset line needs to be asserted for at least 100 us */
+> +	if (assert)
+> +		udelay(100);
+> +}
+> +
+>  static int a6xx_pm_resume(struct msm_gpu *gpu)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index 9580def06d45..aa70390ee1c6 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -89,5 +89,6 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu);
+>  int a6xx_gpu_state_put(struct msm_gpu_state *state);
+>  
+>  void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_off);
+> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert);
+>  
+>  #endif /* __A6XX_GPU_H__ */
 > 
-> Reviewed-by: Laurent Pinchart laurent.pinchart+renesas@ideasonboard.com>
-
-Thanks,
-Siddh
+> -- 
+> 2.40.1
+> 
