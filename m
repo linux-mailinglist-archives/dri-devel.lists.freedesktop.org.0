@@ -1,80 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20D1724E31
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:36:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB58724E54
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19AD110E3BD;
-	Tue,  6 Jun 2023 20:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA48A10E3C7;
+	Tue,  6 Jun 2023 20:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E5910E3C7;
- Tue,  6 Jun 2023 20:36:32 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 356JMYTI031608; Tue, 6 Jun 2023 20:36:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=nIXCfbY+N4bgA3JgPdpuMsnhcQ/xO+DVIepsN79Nd1g=;
- b=cWbEHA/ahrRitslRqOh9bzs5tTbOLeP6olErOKUKiuWik/yuIktMbLLzr2NNWMpkbWND
- kcI1H7BIBzMsb59kW1wWDoAi3ZpHlNFYoheuf9s8mrqD85Id5OF2omM0kJ7O5PU1OuZK
- zfBw26fdPWRuqXc9YKZchgsxUIb9Dwyp10FsNuvoFVY/uc4xoFuvLUG6B7ffn8Yp0EcR
- QzPbwf73LIIJxZd/o2IKh9w7fWpSOhVbp4DwYeKdrbmX6cLv1C9HvELZNox+cUTmt4ZH
- KM5Y9KSsrtlzoDvvkJaXSdxTkJq5w3hkg3hf/QP3OQURhofyxsH1twAyz0B0wJUuwcU1 sA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a72075x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jun 2023 20:36:27 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356KaQAg012661
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 6 Jun 2023 20:36:26 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 6 Jun 2023
- 13:36:25 -0700
-Message-ID: <34f18541-29d7-c3bd-2973-0deb1f6b0a2d@quicinc.com>
-Date: Tue, 6 Jun 2023 13:36:23 -0700
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678CB10E00D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 20:53:31 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f738f579ceso25857255e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 13:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=froggi.es; s=google; t=1686084809; x=1688676809;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0m+lF3oNRbibaULctRURBTLM7/OQCKTGA5USRR3mja0=;
+ b=B7HP7TOyKoW+Ir4YcAb+Yb/1Vu2sg2I3jOXLOISA0Ky9RYuvYSjig14i2bemDCMZlE
+ np2sXj/8itOTnRS9BAxpMe+AaEbUNmhE/HtYGLMOTEnZSWS8Fp5jrKU0hcVFvCB+jPie
+ BStMJFXHA5D9NLRnVNo9p5UXqdw5A7rrNmPjdDAnidFu6TMXd7r7PwrgOL84QbbcCa7a
+ MGNvD32L7zb3E9dfnDQgKs5SeqRmGK1Wd5hCNFJzgFOl2Q3YaPHxGMRv1oRp56U4b2zX
+ ssfpJzvnRhyvzvwaTyktjhZZM3Qz8PXwgsxoaS+yDNzLU5SBMWzSF5xrQ1ExUtr4H7e6
+ O4AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686084809; x=1688676809;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0m+lF3oNRbibaULctRURBTLM7/OQCKTGA5USRR3mja0=;
+ b=CuAAZ3DI9izwtYjJlziG63aGWPpli+oL6sQF48Kjme5+vLjnWd2vgoAg5JUuifBAxw
+ yKrqQAnbZxIMRH/vanWFM6bdvZDC4wJpRSN7RC6Sqj/gVUcavsAoX1RIX+y3h98AwkJE
+ WDa4On/+61ANdHprRq5AwLF9VJoph4maotKvm29QopxCGrQeYHIJwBf9KWxvr40EPJ2L
+ ZID4VTmrWbOpRGUcg/2IyQl6YghYBJxcyMu4yTeGGisHHddrjxClWylYhQFwgzDrDQzS
+ V8BiXU+2CFTMiobnVMfz5TcirkAhxuwfJKOhKkExyF2QJJTjVZkMnkBMz9ivtKXHybze
+ bnNA==
+X-Gm-Message-State: AC+VfDz3ryC5gVSMRFGjQqMLF1W+kWrIpf9F3jODDP2uGBj2EdyGFVai
+ UrYb8KPQPRxbR5wQj5Q4zYprsQ==
+X-Google-Smtp-Source: ACHHUZ61fijkk/eh3yFtKehYpBkjUy9TTqhHYRcB4bLUheB9jIGIRKTCYGAsldQK7SrlZMNe5G1mvw==
+X-Received: by 2002:a05:6000:11c7:b0:30a:ecf3:c9e9 with SMTP id
+ i7-20020a05600011c700b0030aecf3c9e9mr2755953wrx.5.1686084809276; 
+ Tue, 06 Jun 2023 13:53:29 -0700 (PDT)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
+ by smtp.gmail.com with ESMTPSA id
+ q7-20020adff787000000b0030af1d87342sm13651983wrp.6.2023.06.06.13.53.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jun 2023 13:53:28 -0700 (PDT)
+Message-ID: <ddce402f-5c7a-2837-fda1-4379816dee0f@froggi.es>
+Date: Tue, 6 Jun 2023 21:53:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [RFC PATCH v2 04/13] drm/msm/dpu: remove unused
- fields from dpu_encoder_virt
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v5 00/13] Enable Colorspace connector property in amdgpu
+To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+References: <20230606202607.122914-1-harry.wentland@amd.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
- <20230321011821.635977-5-dmitry.baryshkov@linaro.org>
- <94d7d0bf-ad61-628b-f10e-2d676ebe3838@quicinc.com>
- <5bcbee05-5468-d853-df48-82bf3ae448d8@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <5bcbee05-5468-d853-df48-82bf3ae448d8@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <20230606202607.122914-1-harry.wentland@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: mBKgGMujej0qNF5WGjTaPzhwI2XSvg9i
-X-Proofpoint-GUID: mBKgGMujej0qNF5WGjTaPzhwI2XSvg9i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-06_15,2023-06-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- bulkscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 suspectscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306060175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,99 +78,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ Melissa Wen <mwen@igalia.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Uma Shankar <uma.shankar@intel.com>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks Harry. Looks good.
 
+Reviewed-by: Joshua Ashton <joshua@froggi.es>
 
-On 6/6/2023 1:29 PM, Dmitry Baryshkov wrote:
-> On 06/06/2023 23:25, Abhinav Kumar wrote:
->>
->>
->> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
->>> Remove historical fields intfs_swapped and topology fields from struct
->>> dpu_encoder_virt and also remove even more historical docs.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 ----------
->>>   1 file changed, 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 28729c77364f..4ee708264f3b 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -130,18 +130,12 @@ enum dpu_enc_rc_states {
->>>    *            pingpong blocks can be different than num_phys_encs.
->>>    * @hw_dsc:        Handle to the DSC blocks used for the display.
->>>    * @dsc_mask:        Bitmask of used DSC blocks.
->>> - * @intfs_swapped:    Whether or not the phys_enc interfaces have 
->>> been swapped
->>> - *            for partial update right-only cases, such as pingpong
->>> - *            split where virtual pingpong does not generate IRQs
->>>    * @crtc:        Pointer to the currently assigned crtc. Normally you
->>>    *            would use crtc->state->encoder_mask to determine the
->>>    *            link between encoder/crtc. However in this case we need
->>>    *            to track crtc in the disable() hook which is called
->>>    *            _after_ encoder_mask is cleared.
->>>    * @connector:        If a mode is set, cached pointer to the 
->>> active connector
->>> - * @crtc_kickoff_cb:        Callback into CRTC that will flush & start
->>> - *                all CTL paths
->>> - * @crtc_kickoff_cb_data:    Opaque user data given to crtc_kickoff_cb
->>
->> no concerns with the above 3
->>
->>>    * @enc_lock:            Lock around physical encoder
->>>    *                create/destroy/enable/disable
->>>    * @frame_busy_mask:        Bitmask tracking which phys_enc we are 
->>> still
->>> @@ -160,7 +154,6 @@ enum dpu_enc_rc_states {
->>>    * @delayed_off_work:        delayed worker to schedule disabling of
->>>    *                clks and resources after IDLE_TIMEOUT time.
->>>    * @vsync_event_work:        worker to handle vsync event for 
->>> autorefresh
->>> - * @topology:                   topology of the display
->>
->> As we are still going to go ahead with encoder based allocation for 
->> now, we should keep this topology and start using it for DP DSC's 
->> 1:1:1 topology.
+- Joshie 🐸✨
+
+On 6/6/23 21:25, Harry Wentland wrote:
+> This patchset is based on Joshua's previous patchset [1], as well
+> as my previous patchset [2].
 > 
-> It is currently unused, so it can be dropped. Your patchset would have 
-> to reintroduce it.
+> It is
+> - enabling support for the colorspace property in amdgpu, as well as
+> - allowing drivers to specify the supported set of colorspaces, and
+> 
+> Colorspace, Infoframes, and YCbCr matrix
+> ---------------------------------------
+> 
+> Even though the initial intent of the colorspace property was to set the
+> colorspace field in the respective HDMI AVI and DP SDP infoframes that
+> is not sufficient in all scenarios. For DP the colorspace information
+> also affects the MSA (main stream attribute) packet. For YUV output the
+> colorspace affects the RGB-to-YCbCr conversion matrix. The colorspace
+> field of the infopackets also depends on the encoding used, which is
+> something that is decided by the driver and not known to userspace.
+> 
+> For these reasons a driver will need to be able to select the supported
+> colorspaces at property creation.
+> 
+> Note: There seems to be an understanding that the colorspace property
+> should ONLY modify the infoframe. While this is current behavior and
+> sufficient in some cases it is nowhere specified that this should be the
+> only use of this property. As outlined above this limitation is not
+> going to work in all cases.
+> 
+> This patchset does not affect current behavior for the drivers that
+> implement this property: i915 and vc4.
+> 
+> In the future we might want to give userspace control over the encoding
+> format on the wire, in particular to avoid use of YUV420 when image
+> fidelity is important. This work would likely go hand in hand with a
+> min_bpc property and wouldn't conflict with the work done in this
+> patchset. I would expect this future work to tag along with a drm_crtc
+> or drm_connector's Color Pipeline, similar to the one propsed for
+> drm_plane [3].
+> 
+> Colorspace on crtc or connector?
+> --------------------------------
+> 
+> There have been suggestions of programming 'colorspace' on the drm_crtc
+> but I don't think the crtc is the right place for this property. The
+> drm_plane and drm_crtc will be used to offload color processing that
+> would normally be done via the GFX or other pipelines. The drm_connector
+> controls the signalling with the display and ensures the wire format is
+> appropriate for the encoding by programming the RGB-to-YCbCr matrix.
+> 
+> [1] https://patchwork.freedesktop.org/series/113632/
+> [2] https://patchwork.freedesktop.org/series/111865/
+> [3] https://lists.freedesktop.org/archives/dri-devel/2023-May/403173.html
+> 
+> v2:
+> - Tested with DP and HDMI analyzers
+> - Confirmed driver will fallback to lower bpc when needed
+> - Dropped hunk to set HDMI AVI infoframe as it was a no-op
+> - Fixed BT.2020 YCbCr colorimetry (JoshuaAshton)
+> - Simplify initialization of supported colorspaces (Jani)
+> - Fix kerneldoc (kernel test robot)
+> 
+> v3:
+> - Added documentation for colorspaces (Pekka, Joshua)
+> - Split 'Allow drivers to pass list of supported colorspaces' patch
+>    to pull out code to create common colorspace array and keep it separate
+>    from change to create only supported colorspaces
+> 
+> v4:
+> - Don't "deprecate" existing enum values
+> - Fixes based on review comments throughout
+> - Dropped Josh's RBs
+> 
+> v5:
+> - Add documentation that drivers are free to pick appropriate
+>    RGB or YCC variant
+> 
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> 
+> Harry Wentland (10):
+>    drm/connector: Convert DRM_MODE_COLORIMETRY to enum
+>    drm/connector: Pull out common create_colorspace_property code
+>    drm/connector: Use common colorspace_names array
+>    drm/connector: Print connector colorspace in state debugfs
+>    drm/connector: Allow drivers to pass list of supported colorspaces
+>    drm/amd/display: Always pass connector_state to stream validation
+>    drm/amd/display: Register Colorspace property for DP and HDMI
+>    drm/amd/display: Signal mode_changed if colorspace changed
+>    drm/amd/display: Send correct DP colorspace infopacket
+>    drm/amd/display: Add debugfs for testing output colorspace
+> 
+> Joshua Ashton (3):
+>    drm/connector: Add enum documentation to drm_colorspace
+>    drm/amd/display: Always set crtcinfo from create_stream_for_sink
+>    drm/amd/display: Refactor avi_info_frame colorimetry determination
+> 
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  84 ++++++---
+>   .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  57 ++++++
+>   .../gpu/drm/amd/display/dc/core/dc_resource.c |  28 +--
+>   drivers/gpu/drm/drm_atomic.c                  |   1 +
+>   drivers/gpu/drm/drm_connector.c               | 176 +++++++++++-------
+>   .../gpu/drm/i915/display/intel_connector.c    |   4 +-
+>   drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
+>   include/drm/display/drm_dp.h                  |   2 +-
+>   include/drm/drm_connector.h                   | 129 ++++++++++---
+>   9 files changed, 349 insertions(+), 134 deletions(-)
+> 
+> --
+> 2.41.0
 > 
 
-Ok same old argument which I tend to always lose. We will add it back 
-with DP DSC.
-
-> And I'm still not happy about the encoder-based allocation. You 
-> persuaded me that it is irrelevant for the wide planes. So I'd split it 
-> and post the allocation patchset after the virtual-wide is fully 
-> reviewed (when would come that blissful moment, btw?).
-> 
-
-Post the allocation with a compelling feature for us to be convinced.
-
-The moment is happening as we speak :)
-
->>
->>>    * @idle_timeout:        idle timeout duration in milliseconds
->>>    * @wide_bus_en:        wide bus is enabled on this interface
->>>    * @dsc:            drm_dsc_config pointer, for DSC-enabled encoders
->>> @@ -180,8 +173,6 @@ struct dpu_encoder_virt {
->>>       unsigned int dsc_mask;
->>> -    bool intfs_swapped;
->>> -
->>>       struct drm_crtc *crtc;
->>>       struct drm_connector *connector;
->>> @@ -201,7 +192,6 @@ struct dpu_encoder_virt {
->>>       enum dpu_enc_rc_states rc_state;
->>>       struct delayed_work delayed_off_work;
->>>       struct kthread_work vsync_event_work;
->>> -    struct msm_display_topology topology;
->>>       u32 idle_timeout;
-> 
