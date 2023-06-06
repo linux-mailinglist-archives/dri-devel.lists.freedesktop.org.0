@@ -1,80 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1514723C8B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D374723CDD
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 11:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F8110E223;
-	Tue,  6 Jun 2023 09:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419A710E313;
+	Tue,  6 Jun 2023 09:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683A510E321
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 09:07:28 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-30ad8f33f1aso5149766f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 02:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686042446; x=1688634446;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=H7PV2fMN/fTvttTs59n+e74sqhlZtVJ8rgHwz2ZXCaA=;
- b=P9A0HFv67bS758BpN2s6TX8VNUdx6wqZc/0mTm/40VSiq5v1NQWYKhQZ4AHwMguj5r
- Oe6Cwayv3Vo+VZvLifB8yQsCCWOdTe3Q7znlWsHkUrOVSknhVr8qt7MV+dBI7KqCSC+q
- yWK7McIpvm8VQARio/ql1iLPVRYLVN1eDAHpv6Szu1G4jx3yG6Z4mDTFJnsX16TDxwKN
- qWwbZwx3o2Zu4ZRdQzwyfoHUY+OKBwbD4uj0YQUHkl1z6I3Pn3pcEoMBmxKzLKqCWZlq
- SVfGE2y1NeAGTUkYKTx13nmdPkrr0ENBmSpevQvwWezKgztxM1jYnn+ymHLW2eQyCnLx
- 01KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686042446; x=1688634446;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H7PV2fMN/fTvttTs59n+e74sqhlZtVJ8rgHwz2ZXCaA=;
- b=FLb3Rp2WPXSvmv9hR6PeTfaQAOkUHDRCzgKn8KiQKN34DXZJJFdRYg840rMggatQDu
- foOzhgOWcBMU78/XFrjSookVh9nqmM4VGP6u4i9mVWB47xR++SLco/WrsbyMLb0sbByf
- GGvobEF+t/D/RsD9pXEFGNwIqKGQHCbGwQnIHqv6jmLYD4IFCvia26ilE2+DH4dkmXcN
- +upl5+r7gECqtYCTdiaawbNFzBLnchxOdF0LTS3+VVbsy1+Z0oPQ6J9AgETUxLOc/oWJ
- o5kcM+ogAZtMbPlFAZDEsMSQrSqRn8sGCo2htMX2UooCO657wZbk0yNex+Ja/lONb88d
- 3/Jg==
-X-Gm-Message-State: AC+VfDwtY/NTPDz11YVrobzVlaBgQ/cAGECM0SoWqKgVBEEQL7s+AEEG
- AthVF/R8CQpdM+Q+R67voSD+Ow==
-X-Google-Smtp-Source: ACHHUZ6qNElORhBlV6A1b+J91L8ZdZTHYYENEcDfaw/boFMld0U+i/QwpfPKiUcbftXel1RuW35rqw==
-X-Received: by 2002:adf:e4c4:0:b0:30a:d8df:6800 with SMTP id
- v4-20020adfe4c4000000b0030ad8df6800mr1194608wrm.33.1686042446300; 
- Tue, 06 Jun 2023 02:07:26 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4973:1165:b171:fa69?
- ([2a01:e0a:982:cbb0:4973:1165:b171:fa69])
- by smtp.gmail.com with ESMTPSA id
- v10-20020a1cf70a000000b003f41bb52834sm16908761wmh.38.2023.06.06.02.07.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 02:07:25 -0700 (PDT)
-Message-ID: <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
-Date: Tue, 6 Jun 2023 11:07:24 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 094C510E2F0;
+ Tue,  6 Jun 2023 09:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686043030; x=1717579030;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=cNS8I7NHU4sX2LJ1AfhsrKwsoeI/9k6upAgnXhRdkZw=;
+ b=m8EvGchOg/2XQ6S/jhek0VdcwS5pNHiZis47Dzg2zF9oy0pG57buq6oM
+ opOsc5qezKcRMT5ZVYd9dERu6BB5UpnoN/JFxyR9iD3fQTKt80UkHmd+m
+ sfWH32rby9ynGd4k6BbIWtcPAI2M+iZpnMPF4gUa/DsPsYZ2ko9m5PEnc
+ ArGZm5zo28VMKIwd2/XWeSnqvGDk51CC+lRB/rhRsfP3SVpablMTqc21q
+ MnI3Dg9uiyag64NwD9BEeNmjukZzzNp3CMsFy444PMeVcPucCpibLEXbD
+ aem8zZOUWdnIN2hR/6DFNEflf4FtVOvogPAT7kS/25VcAaaSam6lfqltU Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="359929667"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="359929667"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 02:17:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="774044898"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="774044898"
+Received: from yuguen-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.68])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 02:17:01 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Fei Yang <fei.yang@intel.com>
+Subject: [PATCH v16 0/1] drm/i915: Allow user to set cache at BO creation
+Date: Tue,  6 Jun 2023 11:16:26 +0200
+Message-Id: <20230606091627.462293-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Swapnil Jakhade <sjakhade@cadence.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230606082142.23760-1-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,95 +57,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Lihao Gu <lihao.gu@intel.com>, Jordan Justen <jordan.l.justen@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>, Carl Zhang <carl.zhang@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Fei Yang <fei.yang@intel.com>
 
-On 06/06/2023 10:21, Aradhya Bhatia wrote:
-> Hi all,
-> 
-> I have picked up this long standing series from Nikhil Devshatwar[1].
-> 
-> This series moves the tidss to using new connectoe model, where the SoC
-> driver (tidss) creates the connector and all the bridges are attached
-> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates bridge
-> to support format negotiation and and 'simple' encoder to expose it to
-> the userspace.
-> 
-> Since the bridges do not create the connector, the bus_format and
-> bus_flag is set via atomic hooks.
-> 
-> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
-> drivers as a first step before moving the connector model.
-> 
-> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
-> and J721E-SK. Display support for AM625 SoC has not been added upstream
-> and is a WIP. To test this series on AM625 based platforms, basic
-> display support patches, (for driver + devicetree), can be found in
-> the "next_AttachNoConn-v2" branch on my github fork[2].
+This series introduce a new extension for GEM_CREATE,
+1. end support for set caching ioctl [PATCH 1/2]
+2. add set_pat extension for gem_create [PATCH 2/2]
 
-I can apply all bridge patches right now so only the tidss change remain,
-is that ok for you ?
+v2: drop one patch that was merged separately
+    commit 341ad0e8e254 ("drm/i915/mtl: Add PTE encode function")
+v3: rebased on https://patchwork.freedesktop.org/series/117082/
+v4: fix missing unlock introduced in v3, and
+    solve a rebase conflict
+v5: replace obj->cache_level with pat_set_by_user,
+    fix i915_cache_level_str() for legacy platforms.
+v6: rebased on https://patchwork.freedesktop.org/series/117480/
+v7: rebased on https://patchwork.freedesktop.org/series/117528/
+v8: dropped the two dependent patches that has been merged
+    separately. Add IGT link and Tested-by (MESA).
+v9: addressing comments (Andi)
+v10: acked-by and tested-by MESA
+v11: drop "end support for set caching ioctl" (merged)
+     remove tools/include/uapi/drm/i915_drm.h
+v12: drop Bspec reference in comment. add to commit message instead
+v13: sent to test with igt@gem_create@create-ext-set-pat
+v14: sent to test with igt@gem_create@create-ext-set-pat
+v15: update commit message with documentation note and t-b/a-b from
+     Media driver folks.
+v16: limiting the extension to GEN12+
 
+Test-with: 20230606090801.461782-2-andi.shyti@linux.intel.com
 
-> 
-> Thanks,
-> Aradhya
-> 
-> [1]: https://patchwork.freedesktop.org/series/82765/#rev5
-> [2]: https://github.com/aradhya07/linux-ab/tree/next_AttachNoConn-v2
-> 
-> Change Log:
-> V6 -> V7
->    - Rebase and cosmetic changes.
->    - Drop the output format check condition for mhdp8546 and hence,
->      drop Tomi Valkeinen's R-b tag.
->    - Added tags wherever suggested.
-> 
-> V5 -> V6
->    - Rebase and cosmetic changes
->    - Dropped the output format check condition for tfp410 and hence,
->      dropped Tomi Valkeinen's and Laurent Pinchart's R-b tags.
->    - Based on Boris Brezillon's comments: dropped patches 5 and 6 from
->      the series and instead created a single patch that,
->        1. Creates tidss bridge for format negotiation.
->        2. Creates 'simple' encoder for userspace exposure.
->        3. Creates a tidss connector.
->        4. Attaches the next-bridge to encoder with the
->           DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
->    - Add format negotiation support for sii902x driver.
-> 
-> Previous versions:
-> V1 to V6: https://patchwork.freedesktop.org/series/82765/
-> 
-> Aradhya Bhatia (3):
->    drm/bridge: sii902x: Support format negotiation hooks
->    drm/bridge: sii902x: Set input_bus_flags in atomic_check
->    drm/tidss: Update encoder/bridge chain connect model
-> 
-> Nikhil Devshatwar (5):
->    drm/bridge: tfp410: Support format negotiation hooks
->    drm/bridge: tfp410: Set input_bus_flags in atomic_check
->    drm/bridge: mhdp8546: Add minimal format negotiation
->    drm/bridge: mhdp8546: Set input_bus_flags from atomic_check
->    drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
-> 
->   .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  77 ++++++----
->   .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
->   .../drm/bridge/cadence/cdns-mhdp8546-j721e.c  |   9 +-
->   .../drm/bridge/cadence/cdns-mhdp8546-j721e.h  |   2 +-
->   drivers/gpu/drm/bridge/sii902x.c              |  40 +++++
->   drivers/gpu/drm/bridge/ti-tfp410.c            |  43 ++++++
->   drivers/gpu/drm/tidss/tidss_encoder.c         | 140 +++++++++++-------
->   drivers/gpu/drm/tidss/tidss_encoder.h         |   5 +-
->   drivers/gpu/drm/tidss/tidss_kms.c             |  12 +-
->   9 files changed, 235 insertions(+), 95 deletions(-)
-> 
+Fei Yang (1):
+  drm/i915: Allow user to set cache at BO creation
+
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 40 +++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c |  6 ++++
+ include/uapi/drm/i915_drm.h                | 41 ++++++++++++++++++++++
+ 3 files changed, 87 insertions(+)
+
+-- 
+2.25.1
 
