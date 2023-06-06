@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29157725860
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01062725850
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B2110E49A;
-	Wed,  7 Jun 2023 08:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D0E10E474;
+	Wed,  7 Jun 2023 08:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4B10E394
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC57310E257
  for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:30:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686076229; cv=none; d=zohomail.in; s=zohoarc; 
- b=MgNsFbZzOskMMK5VIP7VN+gPOwwesW2C4WHjqJUQrygPsPxOFS29CtI5T3H2d7qWLXxFadtNF+o0JQfhnEvIIEYHU2PoD4rfqhsonJCbleRZmiFzRzlb1P4Np9ipCOIvzZTSy70dCiopXsJivWDSX4ThfbcAMJFvhqhE7f4/kmI=
+ARC-Seal: i=1; a=rsa-sha256; t=1686076228; cv=none; d=zohomail.in; s=zohoarc; 
+ b=Tno1bljdkHcYVc6K+67s1v9F18IfA0aJ74noJFJd+XRISspolsMlQFQpC9FFFVPu65dnQntpkbQcO+ZjRnwFHJihuYaHDmuLsY9HngaThOL8EYJEr/x5M/U/optSWoe+9aEPN8t4j+eWWrYY+5ixx+Ozjr0FSbm9CAO7PsnKbO4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1686076229;
+ s=zohoarc; t=1686076228;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=Z4F+NW4IGAZnjxGFDORKlkq1J0/nfsPYi9BWdeS2BJc=; 
- b=DDjgXDO336kasyl2TPO2ZtgTaqaKcH1y8TqTYCIZhTlwzY4zTG/gyKkuDZYHlD9ZhCEk8498rkpULbXXPqujNsNON1BpyndhvxR+1ZAeLPEIB/EmXgKv6mixgdexCgsUjzSQYO4GToTwZoWHNjuphB9/xGKzsehPzrh+yTGJu4Y=
+ bh=E3wsEOm0W4tH0/8fNIF9dAj0SXCaI/2HSNkzbMWF33M=; 
+ b=AFPJ/xgKUgxslrmCA5n/qWdWfd5cP/C2yT9zngJW2yG2xVgqt/5xRL2mtxkQozWqKOxRaa6PfD/Llozh+h7i7GZd916WfFzzeWGCw9ihYU43kZTlVjNAC6gfIEBuDG7b3GbDEYGWz0dh32G/GjF+/ILVxih+BRy4BV3Oz2LsmKs=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076229; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076228; 
  s=zmail; d=siddh.me; i=code@siddh.me;
  h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=Z4F+NW4IGAZnjxGFDORKlkq1J0/nfsPYi9BWdeS2BJc=;
- b=SnrIuppuquGrBBiiwhk8V9Ng3hAE7qk3ESvgb0DkPVSuclIXVMq9W/OjlI9CGIdf
- cezMwWjKJq3xb4O2GuOQfTja3cn6+o1mdYaKjQQJtETo7WQEYe4yCfU/+RyCpEVsWa1
- ilELIZqRwDc34oBDhHlO+wSZchomHH0FQcGigtdg=
+ bh=E3wsEOm0W4tH0/8fNIF9dAj0SXCaI/2HSNkzbMWF33M=;
+ b=kT04OZUyINNnU2sA56CYvwdAwq4qGoQVx4d7KY0Hh14wASxUdaJtbYNy8M9KGHTU
+ bkqtwgHRDGjwpl+CpLnGJq4QQ3vRz14Njf4qA8OqmksgsXil+vbEJ/Debureek6ztYS
+ 2q9kjulAq6L8abdhSIR8ZRPTDhS1QXgw70veLnb8=
 Received: from kampyooter.. (122.176.141.156 [122.176.141.156]) by mx.zoho.in
- with SMTPS id 1686076227509675.3413066234001;
+ with SMTPS id 1686076227912514.4061259697124;
  Wed, 7 Jun 2023 00:00:27 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,10 +42,10 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <d62b7caf940345699a67cbb0e8e016e5af3de84a.1686075579.git.code@siddh.me>
-Subject: [PATCH v10 1/9] Revert "drm: mipi-dsi: Convert logging to drm_*
- functions."
-Date: Wed,  7 Jun 2023 00:00:02 +0530
+Message-ID: <ed11089aa37cb2de176003008cc46ffb74a595da.1686075579.git.code@siddh.me>
+Subject: [PATCH v10 2/9] drm/print: Fix and add support for NULL as first
+ argument in drm_* macros
+Date: Wed,  7 Jun 2023 00:00:03 +0530
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1686075579.git.code@siddh.me>
 References: <cover.1686075579.git.code@siddh.me>
@@ -71,94 +71,183 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 1040e424353f5f4d39f6f3aa8723eb3bd6ea6446.
+Comments say macros DRM_DEBUG_* are deprecated in favor of
+drm_dbg_*(NULL, ...), but they have broken support for it,
+as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
 
-It used an incorrect way to use drm_* functions. Only drm_device ptrs
-should be passed, but the mentioned commit passed mipi_dsi_host ptr.
-It worked by accident due to macro magic.
+Thus, fix them by separating logic to get dev ptr in a new
+function, which will return the dev ptr if arg is not NULL.
+Use it in drm_dbg_*, and also in __DRM_DEFINE_DBG_RATELIMITED,
+where a similar (but correct) NULL check was in place.
 
-Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Also, add support for NULL in __drm_printk, so that all the
+drm_* macros will hence support NULL as the first argument.
+This also means that deprecation comments mentioning pr_()*
+can now be changed to the drm equivalents.
+
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ include/drm/drm_print.h | 79 +++++++++++++++++++++++++++--------------
+ 1 file changed, 52 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.=
-c
-index 3fd6c733ff4e..a37af4edf394 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -33,7 +33,6 @@
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index a93a387f8a1a..4b8532cf2ae6 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -34,6 +34,7 @@
+ #include <linux/dynamic_debug.h>
 =20
- #include <drm/display/drm_dsc.h>
- #include <drm/drm_mipi_dsi.h>
--#include <drm/drm_print.h>
+ #include <drm/drm.h>
++#include <drm/drm_device.h>
 =20
- #include <video/mipi_display.h>
+ /* Do *not* use outside of drm_print.[ch]! */
+ extern unsigned long __drm_debug;
+@@ -451,9 +452,32 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct =
+device *dev,
+  * Prefer drm_device based logging over device or prink based logging.
+  */
 =20
-@@ -156,18 +155,19 @@ static int mipi_dsi_device_add(struct mipi_dsi_device=
- *dsi)
- static struct mipi_dsi_device *
- of_mipi_dsi_device_add(struct mipi_dsi_host *host, struct device_node *nod=
-e)
- {
-+=09struct device *dev =3D host->dev;
- =09struct mipi_dsi_device_info info =3D { };
- =09int ret;
- =09u32 reg;
++/* Helpers for struct drm_device based logging. */
++
++/**
++ * __drm_dev_ptr - Helper function to get drm->dev pointer.
++ * @drm: struct drm_device pointer.
++ *
++ * RETURNS:
++ * The struct device pointer (NULL if @drm is NULL).
++ */
++static inline struct device *__drm_dev_ptr(const struct drm_device *drm)
++{
++=09if (drm)
++=09=09return drm->dev;
++
++=09return NULL;
++}
++
+ /* Helper for struct drm_device based logging. */
+ #define __drm_printk(drm, level, type, fmt, ...)=09=09=09\
+-=09dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
++({=09=09=09=09=09=09=09=09=09\
++=09struct device *__dev_ =3D __drm_dev_ptr(drm);=09=09=09\
++=09if (__dev_)=09=09=09=09=09=09=09\
++=09=09dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__);=09\
++=09else=09=09=09=09=09=09=09=09\
++=09=09pr_##level##type("[drm] " fmt, ##__VA_ARGS__);=09=09\
++})
 =20
- =09if (of_alias_from_compatible(node, info.type, sizeof(info.type)) < 0) {
--=09=09drm_err(host, "modalias failure on %pOF\n", node);
-+=09=09dev_err(dev, "modalias failure on %pOF\n", node);
- =09=09return ERR_PTR(-EINVAL);
- =09}
 =20
- =09ret =3D of_property_read_u32(node, "reg", &reg);
- =09if (ret) {
--=09=09drm_err(host, "device node %pOF has no valid reg property: %d\n",
-+=09=09dev_err(dev, "device node %pOF has no valid reg property: %d\n",
- =09=09=09node, ret);
- =09=09return ERR_PTR(-EINVAL);
- =09}
-@@ -202,21 +202,22 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *h=
-ost,
- =09=09=09      const struct mipi_dsi_device_info *info)
- {
- =09struct mipi_dsi_device *dsi;
-+=09struct device *dev =3D host->dev;
- =09int ret;
+ #define drm_info(drm, fmt, ...)=09=09=09=09=09\
+@@ -487,25 +511,25 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct=
+ device *dev,
 =20
- =09if (!info) {
--=09=09drm_err(host, "invalid mipi_dsi_device_info pointer\n");
-+=09=09dev_err(dev, "invalid mipi_dsi_device_info pointer\n");
- =09=09return ERR_PTR(-EINVAL);
- =09}
 =20
- =09if (info->channel > 3) {
--=09=09drm_err(host, "invalid virtual channel: %u\n", info->channel);
-+=09=09dev_err(dev, "invalid virtual channel: %u\n", info->channel);
- =09=09return ERR_PTR(-EINVAL);
- =09}
+ #define drm_dbg_core(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+-#define drm_dbg_driver(drm, fmt, ...)=09=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS_=
+_)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
++#define drm_dbg_driver(drm, fmt, ...)=09=09=09=09=09\
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+ #define drm_dbg_kms(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
+ #define drm_dbg_prime(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__=
+)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+ #define drm_dbg_atomic(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS_=
+_)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+ #define drm_dbg_vbl(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
+ #define drm_dbg_state(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__=
+)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
+ #define drm_dbg_lease(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__=
+)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+ #define drm_dbg_dp(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
+ #define drm_dbg_drmres(drm, fmt, ...)=09=09=09=09=09\
+-=09drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS_=
+_)
++=09drm_dev_dbg(__drm_dev_ptr(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
 =20
- =09dsi =3D mipi_dsi_device_alloc(host);
- =09if (IS_ERR(dsi)) {
--=09=09drm_err(host, "failed to allocate DSI device %ld\n",
-+=09=09dev_err(dev, "failed to allocate DSI device %ld\n",
- =09=09=09PTR_ERR(dsi));
- =09=09return dsi;
- =09}
-@@ -227,7 +228,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *hos=
-t,
+ #define drm_dbg(drm, fmt, ...)=09drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
 =20
- =09ret =3D mipi_dsi_device_add(dsi);
- =09if (ret) {
--=09=09drm_err(host, "failed to add DSI device %d\n", ret);
-+=09=09dev_err(dev, "failed to add DSI device %d\n", ret);
- =09=09kfree(dsi);
- =09=09return ERR_PTR(ret);
- =09}
+@@ -533,31 +557,31 @@ void __drm_err(const char *format, ...);
+ #define _DRM_PRINTK(once, level, fmt, ...)=09=09=09=09\
+ =09printk##once(KERN_##level "[" DRM_NAME "] " fmt, ##__VA_ARGS__)
+=20
+-/* NOTE: this is deprecated in favor of pr_info(). */
++/* NOTE: this is deprecated in favor of drm_info(NULL, ...). */
+ #define DRM_INFO(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(, INFO, fmt, ##__VA_ARGS__)
+-/* NOTE: this is deprecated in favor of pr_notice(). */
++/* NOTE: this is deprecated in favor of drm_notice(NULL, ...). */
+ #define DRM_NOTE(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(, NOTICE, fmt, ##__VA_ARGS__)
+-/* NOTE: this is deprecated in favor of pr_warn(). */
++/* NOTE: this is deprecated in favor of drm_warn(NULL, ...). */
+ #define DRM_WARN(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(, WARNING, fmt, ##__VA_ARGS__)
+=20
+-/* NOTE: this is deprecated in favor of pr_info_once(). */
++/* NOTE: this is deprecated in favor of drm_info_once(NULL, ...). */
+ #define DRM_INFO_ONCE(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(_once, INFO, fmt, ##__VA_ARGS__)
+-/* NOTE: this is deprecated in favor of pr_notice_once(). */
++/* NOTE: this is deprecated in favor of drm_notice_once(NULL, ...). */
+ #define DRM_NOTE_ONCE(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(_once, NOTICE, fmt, ##__VA_ARGS__)
+-/* NOTE: this is deprecated in favor of pr_warn_once(). */
++/* NOTE: this is deprecated in favor of drm_warn_once(NULL, ...). */
+ #define DRM_WARN_ONCE(fmt, ...)=09=09=09=09=09=09\
+ =09_DRM_PRINTK(_once, WARNING, fmt, ##__VA_ARGS__)
+=20
+-/* NOTE: this is deprecated in favor of pr_err(). */
++/* NOTE: this is deprecated in favor of drm_err(NULL, ...). */
+ #define DRM_ERROR(fmt, ...)=09=09=09=09=09=09\
+ =09__drm_err(fmt, ##__VA_ARGS__)
+=20
+-/* NOTE: this is deprecated in favor of pr_err_ratelimited(). */
++/* NOTE: this is deprecated in favor of drm_err_ratelimited(NULL, ...). */
+ #define DRM_ERROR_RATELIMITED(fmt, ...)=09=09=09=09=09\
+ =09DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+=20
+@@ -593,13 +617,14 @@ void __drm_err(const char *format, ...);
+ #define DRM_DEBUG_DP(fmt, ...)=09=09=09=09=09=09\
+ =09__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+=20
+-#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)=09=09=09=09=
+=09\
+-({=09=09=09=09=09=09=09=09=09=09=09=09\
+-=09static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_=
+RATELIMIT_BURST);\
+-=09const struct drm_device *drm_ =3D (drm);=09=09=09=09=09=09=09\
+-=09=09=09=09=09=09=09=09=09=09=09=09\
+-=09if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))=09=09=
+=09\
+-=09=09drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARG=
+S__);=09\
++#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)=09=09\
++({=09=09=09=09=09=09=09=09=09\
++=09static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL,=09\
++=09=09=09=09      DEFAULT_RATELIMIT_BURST);=09=09\
++=09=09=09=09=09=09=09=09=09\
++=09if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))\
++=09=09drm_dev_printk(__drm_dev_ptr(drm), KERN_DEBUG,=09=09\
++=09=09=09       fmt, ## __VA_ARGS__);=09=09=09\
+ })
+=20
+ #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
 --=20
 2.39.2
 
