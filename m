@@ -2,84 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A98725055
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 00:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2A1725058
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 00:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22AF210E403;
-	Tue,  6 Jun 2023 22:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39AB10E402;
+	Tue,  6 Jun 2023 22:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB5A310E402;
- Tue,  6 Jun 2023 22:57:25 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 356MtBhq013523; Tue, 6 Jun 2023 22:57:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DtFR4UWcu3jE/MpopxTm0rceRVXtAT6CkZSIsOKkrR8=;
- b=JQf5KkA+Y0Pn5kRmJqf1yIkoIWLe7iSJB3m9y9ydSZxp7GqYWwSGtzPpfbbxajYPOcJQ
- bVEUSCVcHOabmeuIT8fVMtTGCaf8PuBzWAX5Z0dk3wzN8YacvQ7bPJt93OKTB2t5tRsd
- KZVHEkYymS0XlNjbK/vC9Z3aANZiESXQczIxmjTxn4wWoLAmJSDsxa6g67q7a2xx7zDS
- aBAz7mN28QXt1vtXkw/eq1H74hK4tNc5GCsNqHSQ3XlkingHa1fbiRpaw5MKP9jcf0Db
- wxN5WWxS3wfyqAT5zHgLvO0qQFKzxJVE83u8GeI9ULBjVrlu5w2PMdiTk7gQCzOuul6b yw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a718dvq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jun 2023 22:57:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356MvI9w026821
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 6 Jun 2023 22:57:18 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 6 Jun 2023
- 15:57:16 -0700
-Message-ID: <9addd6fc-460a-0bb6-d6d1-b2b51354c695@quicinc.com>
-Date: Tue, 6 Jun 2023 15:57:14 -0700
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEAD610E406
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 22:58:26 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ 006d021491bc7-558b04141e2so2382397eaf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 15:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1686092305; x=1688684305;
+ h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=QdL7xIRNH0xnXt+EBUF33bmoxl0vNLHq+gRszKZn9BE=;
+ b=BI89voulNn3dEKWm5Zkx7WYoMzg+tpEyqBB4mmK24jLRKczAkig9vh7xRYaXQq/B3j
+ H/IDkiNFUqNGRNWkihJlCZ/9QWHlGOJNxqaIuhHg1uLp/WgkvGZ+ORIbKoPrVhaqLgmV
+ Cqn7IdQLjN+P59psEOXXIZLxJttmK8mJfeGWc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686092305; x=1688684305;
+ h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QdL7xIRNH0xnXt+EBUF33bmoxl0vNLHq+gRszKZn9BE=;
+ b=OiQEhtFpbu0COXvb2oUaNbiFZNeKtCsUfuXDpCkRmJVOeCrts2Gzf3ly/tI5lwco6P
+ 6oK6BjX9QicAd3IZDIYysFdg1SPZyHsqznKzfFgcU71Qe6lhOTVaVGH1nJ5mXe1Igrvq
+ 2wMV/rWJFTGGT0GpjpRotHWKRQVYWVAVqLbDoE/EUMMozwF2mjRtnzAOZVjjOahdpDD+
+ p9e6vtbJ6XoChdfGwelGYcNLGH8E38Ne/u/t2693Msp21HH6eHDcX2+FuxP61c5IAJxs
+ whKnYJceN2KDUVNx1p0TvHaGfgJNtIB4C/yKdun0LtUal3Fl9kRO3YgKXULHI3Bl1tmo
+ O4/A==
+X-Gm-Message-State: AC+VfDyn/n0k/XfW88dxMUH9GiLI0aVCldoC06ewEVcq5j9VfEksY0yP
+ V1mp5Sw/rvD1DzkcYBv/JBXL3A==
+X-Google-Smtp-Source: ACHHUZ697HsQRJCyCMlLNIPxV2mlkOm/g4O0OEbsibU0NM/vg/UGiFsv0pj+f/FoSInChgJS+tXaEw==
+X-Received: by 2002:a05:6358:cb26:b0:129:c905:27ec with SMTP id
+ gr38-20020a056358cb2600b00129c90527ecmr1443883rwb.13.1686092305261; 
+ Tue, 06 Jun 2023 15:58:25 -0700 (PDT)
+Received: from [10.69.71.77] ([192.19.223.252])
+ by smtp.gmail.com with ESMTPSA id
+ gk21-20020a17090b119500b0025930e46596sm41825pjb.55.2023.06.06.15.58.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jun 2023 15:58:23 -0700 (PDT)
+Message-ID: <956dc20f-386c-f4fe-b827-1a749ee8af02@broadcom.com>
+Date: Tue, 6 Jun 2023 15:58:21 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [RFC PATCH v2 10/13] drm/msm/dpu: add list of
- supported formats to the DPU caps
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
- <20230321011821.635977-11-dmitry.baryshkov@linaro.org>
- <2a003674-29ef-f6c6-9a23-3eb93d2e479f@quicinc.com>
- <CAA8EJpr0DcVfG86SYKRb-4Ph82dfXafed9CFgY1qFSECFbAcTw@mail.gmail.com>
- <6c61a8f1-f77e-3a18-15f8-7c004a99f78d@quicinc.com>
- <cfad7817-2d7e-843d-033d-cf2f3aba440d@linaro.org>
- <868e69f5-0f47-18cf-0e1e-377c37376437@quicinc.com>
- <e258fce0-9044-399c-fcc9-634ea1d53f7a@linaro.org>
- <e43c9e17-1c0b-f3cd-036f-1a4968a0150d@quicinc.com>
- <12aacfc4-8ed5-1c85-8c1c-abd0aed7f8a9@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <12aacfc4-8ed5-1c85-8c1c-abd0aed7f8a9@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ab7KMWy5UbCbE5_3wc45nBHcC_TdwAVT
-X-Proofpoint-ORIG-GUID: ab7KMWy5UbCbE5_3wc45nBHcC_TdwAVT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-06_16,2023-06-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 suspectscore=0 malwarescore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306060191
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.1
+Subject: Re: [PATCH net-next v6 3/6] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+To: Jakub Kicinski <kuba@kernel.org>
+References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
+ <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
+ <20230602235859.79042ff0@kernel.org>
+From: Justin Chen <justin.chen@broadcom.com>
+In-Reply-To: <20230602235859.79042ff0@kernel.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="000000000000f2d7d705fd7df493"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,137 +74,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
+ florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
+ richardcochran@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
+ robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com,
+ christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
+ davem@davemloft.net, hkallweit1@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--000000000000f2d7d705fd7df493
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On 6/6/2023 3:50 PM, Dmitry Baryshkov wrote:
-> On 07/06/2023 01:47, Abhinav Kumar wrote:
->>
->>
->> On 6/6/2023 2:52 PM, Dmitry Baryshkov wrote:
->>> On 07/06/2023 00:47, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 6/6/2023 2:29 PM, Dmitry Baryshkov wrote:
->>>>> On 07/06/2023 00:14, Abhinav Kumar wrote:
->>>>>>
->>>>>>
->>>>>> On 5/24/2023 6:47 PM, Dmitry Baryshkov wrote:
->>>>>>> On Thu, 25 May 2023 at 02:16, Abhinav Kumar 
->>>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
->>>>>>>>> As we are going to add virtual planes, add the list of 
->>>>>>>>> supported formats
->>>>>>>>> to the hw catalog entry. It will be used to setup universal 
->>>>>>>>> planes, with
->>>>>>>>> later selecting a pipe depending on whether the YUV format is 
->>>>>>>>> used for
->>>>>>>>> the framebuffer.
->>>>>>>>>
->>>>>>>>
->>>>>>>> If your usage of format_list is going to be internal to 
->>>>>>>> dpu_plane.c, I
->>>>>>>> can think of another idea for this change.
->>>>>>>>
->>>>>>>> This essentially translates to if (num_vig >= 1)
->>>>>>>>
->>>>>>>> If we can just have a small helper to detect that from the 
->>>>>>>> catalog can
->>>>>>>> we use that instead of adding formats to the dpu caps?
->>>>>>>
->>>>>>> I'd prefer to be explicit here. The list of supported formats might
->>>>>>> vary between generations, might it not? Also we don't have a case of
->>>>>>> the devices not having VIG planes. Even the qcm2290 (which doesn't
->>>>>>> have CSC) lists YUV as supported.
->>>>>>>
->>>>>>
->>>>>> the list of formats is tied to the sspps the dpu generation has 
->>>>>> and the capabilities of those sspps.
->>>>>>
->>>>>> qcm2290 is really an interesting case. It has one vig sspp but no 
->>>>>> csc block for that vig sspp, hence it cannot support non-RGB formats.
->>>>>>
->>>>>> I have confirmed that downstream is incorrect to populate yuv 
->>>>>> formats for qcm2290.
->>>>>>
->>>>>> I still think that having atleast one vig sspp with csc sub-blk is 
->>>>>> the right condition to check if we want to decide if the dpu for 
->>>>>> that chipset supports yuv formats. Extra csc-blk check to handle 
->>>>>> qcm2290.
->>>>>>
->>>>>> Having a small helper in dpu_plane.c is good enough for that 
->>>>>> because with virtual planes, you only need to know "if such a 
->>>>>> plane exists and not which plane" and a full catalog change isnt 
->>>>>> needed IMO
->>>>>
->>>>> This goes down to the question: is the list of YUV and non-YUV 
->>>>> formats static or not? Do all DPU devices support the same set of 
->>>>> YUV and non-YUV formats? If it is static, we might as well drop 
->>>>> dpu_sspp_sub_blks::format_list.
->>>>>
->>>>
->>>> I would say yes based on the below reference:
->>>>
->>>> https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/clo/main/msm/sde/sde_hw_catalog.c#L3858
->>>>
->>>> We always add the same set of YUV formats for all Vig SSPPs 
->>>> irrespective of the chipsets.
->>>
->>> Well, as your example pointed out, few lines below it starts adding 
->>> formats to the list, so the format list is not static and depends on 
->>> the generation.
->>>
->>
->> No, the DPU revision checks are there to add P010 UBWC formats on top 
->> of the Vig formats.
->>
->> At the moment, the latest downstream code (code which is not on CLO 
->> hence I cannot share) has dropped all that and just checks if P010 
->> UBWC is supported for the Vig SSPP and adds all those.
->>
->> So its still tied to the feature bit whether P010 UBWC is supported in 
->> the Vig SSPP and not at the chipset level.
+
+On 6/2/23 11:58 PM, Jakub Kicinski wrote:
+> On Thu,  1 Jun 2023 15:12:28 -0700 Justin Chen wrote:
+>> +	/* general stats */
+>> +	STAT_NETDEV(rx_packets),
+>> +	STAT_NETDEV(tx_packets),
+>> +	STAT_NETDEV(rx_bytes),
+>> +	STAT_NETDEV(tx_bytes),
+>> +	STAT_NETDEV(rx_errors),
+>> +	STAT_NETDEV(tx_errors),
+>> +	STAT_NETDEV(rx_dropped),
+>> +	STAT_NETDEV(tx_dropped),
+>> +	STAT_NETDEV(multicast),
 > 
-> So, what is the difference? This means that depending on some conditions 
-> either we can support P010 UBWC or we can not. So the list of all 
-> suppored formats is not static.
+> please don't report standard interface stats in ethtool -S
 > 
 
-The difference is SSPP level vs chipset level. This patch was made with 
-chipset level in mind and had to expand the format list for each chipset.
+These are not netdev statistics but MAC block counters. Guess it is not 
+clear with the naming here, will fix this. We have a use case where the 
+MAC traffic may be redirected from the associated net dev, so the 
+counters may not be the same.
 
-What I am suggesting is its a SSPP level decision. Please note its not 
-just P010 UBWC but P010 UBWC FOR Vig SSPP.
-
-So expanding each chipset's format list is not needed when the decision 
-can be made just on the basis of the SSPP's feature flag OR the presence 
-of the csc blk.
-
->>
->>>>
->>>>> Note to myself: consider 
->>>>> dpu_mdss_cfg::{dma_formats,cursor_formats,vig_formats}. Either 
->>>>> migrate dpu_sspp_sub_blks::format_list users to these fields or 
->>>>> drop them.
->>>>>
->>>>
->>>> Yes, I agree. There is no need to have format list in the sub_blk as 
->>>> for one type of SSPP, it supports the same format across DPU 
->>>> generations.
->>>>
->>>>>>
->>>>>>
->>>>>>> Note: I think at some point we should have a closer look at the list
->>>>>>> of supported formats and crosscheck that we do not have either
->>>>>>> unsupported formats being listed, or missing formats which are not
->>>>>>> listed as supported.
->>>>>>>
+>> +	/* UniMAC RSV counters */
+>> +	STAT_BCMASP_MIB_RX("rx_64_octets", mib.rx.pkt_cnt.cnt_64),
+>> +	STAT_BCMASP_MIB_RX("rx_65_127_oct", mib.rx.pkt_cnt.cnt_127),
+>> +	STAT_BCMASP_MIB_RX("rx_128_255_oct", mib.rx.pkt_cnt.cnt_255),
+>> +	STAT_BCMASP_MIB_RX("rx_256_511_oct", mib.rx.pkt_cnt.cnt_511),
+>> +	STAT_BCMASP_MIB_RX("rx_512_1023_oct", mib.rx.pkt_cnt.cnt_1023),
+>> +	STAT_BCMASP_MIB_RX("rx_1024_1518_oct", mib.rx.pkt_cnt.cnt_1518),
+>> +	STAT_BCMASP_MIB_RX("rx_vlan_1519_1522_oct", mib.rx.pkt_cnt.cnt_mgv),
+>> +	STAT_BCMASP_MIB_RX("rx_1522_2047_oct", mib.rx.pkt_cnt.cnt_2047),
+>> +	STAT_BCMASP_MIB_RX("rx_2048_4095_oct", mib.rx.pkt_cnt.cnt_4095),
+>> +	STAT_BCMASP_MIB_RX("rx_4096_9216_oct", mib.rx.pkt_cnt.cnt_9216),
 > 
+> these should also be removed, and you should implement @get_rmon_stats.
+> 
+>> +	STAT_BCMASP_MIB_RX("rx_pkts", mib.rx.pkt),
+>> +	STAT_BCMASP_MIB_RX("rx_bytes", mib.rx.bytes),
+>> +	STAT_BCMASP_MIB_RX("rx_multicast", mib.rx.mca),
+>> +	STAT_BCMASP_MIB_RX("rx_broadcast", mib.rx.bca),
+>> +	STAT_BCMASP_MIB_RX("rx_fcs", mib.rx.fcs),
+> 
+> there's a FCS error statistic in the standard stats, no need to
+> duplicate
+> 
+
+Same comment as above
+
+>> +	STAT_BCMASP_MIB_RX("rx_control", mib.rx.cf),
+>> +	STAT_BCMASP_MIB_RX("rx_pause", mib.rx.pf),
+> 
+> @get_pause_stats
+> 
+>> +	STAT_BCMASP_MIB_RX("rx_unknown", mib.rx.uo),
+>> +	STAT_BCMASP_MIB_RX("rx_align", mib.rx.aln),
+>> +	STAT_BCMASP_MIB_RX("rx_outrange", mib.rx.flr),
+>> +	STAT_BCMASP_MIB_RX("rx_code", mib.rx.cde),
+>> +	STAT_BCMASP_MIB_RX("rx_carrier", mib.rx.fcr),
+>> +	STAT_BCMASP_MIB_RX("rx_oversize", mib.rx.ovr),
+>> +	STAT_BCMASP_MIB_RX("rx_jabber", mib.rx.jbr),
+> 
+> these look like candidates from standard stats, too.
+> Please read thru:
+> 
+> https://docs.kernel.org/next/networking/statistics.html
+> 
+
+Looks like the way we are doing stats are a bit outdated. Thanks for 
+pointing it out. I got a bit of refactoring to do.
+
+>> +	STAT_BCMASP_MIB_RX("rx_mtu_err", mib.rx.mtue),
+>> +	STAT_BCMASP_MIB_RX("rx_good_pkts", mib.rx.pok),
+>> +	STAT_BCMASP_MIB_RX("rx_unicast", mib.rx.uc),
+>> +	STAT_BCMASP_MIB_RX("rx_ppp", mib.rx.ppp),
+>> +	STAT_BCMASP_MIB_RX("rx_crc", mib.rx.rcrc),
+> 
+> hm, what's the difference between rx_crc and rx_fcs ?
+
+This looks like some debug feature that really has nothing to do with 
+verifying crcs. I will remove it.
+
+Apologies, probably should have done my due diligence with each stats 
+instead of blindly including everything.
+
+Thanks,
+Justin
+
+--000000000000f2d7d705fd7df493
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIQagYJKoZIhvcNAQcCoIIQWzCCEFcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+gg3BMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
+MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
+rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
+aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
+e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
+cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
+MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
+KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
+/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
+TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
+YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
+b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
+CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
+BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
+jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
+9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
+/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
+jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
+AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
+dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
+MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
+IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
+XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
+J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
+nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBUkwggQxoAMCAQICDCPwEotc2kAt96Z1EDANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjM5NTBaFw0yNTA5MTAxMjM5NTBaMIGM
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xFDASBgNVBAMTC0p1c3RpbiBDaGVuMScwJQYJKoZIhvcNAQkB
+FhhqdXN0aW4uY2hlbkBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQDKX7oyRqaeT81UCy+OTzAUHJeHABD6GDVZu7IJxt8GWSGx+ebFexFz/gnRO/sgwnPzzrC2DwM1
+kaDgYe+pI1lMzUZvAB5DfS1qXKNGoeeNv7FoNFlv3iD4bvOykX/K/voKtjS3QNs0EDnwkvETUWWu
+yiXtMiGENBBJcbGirKuFTT3U/2iPoSL5OeMSEqKLdkNTT9O79KN+Rf7Zi4Duz0LUqqpz9hZl4zGc
+NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
+4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
+DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
+dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
+xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
+sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
+VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFgLTkmgtO27eFP8Ei7ojHPElv1J8EXYAF5a
+a7w6pRo4MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDYwNjIy
+NTgyNVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQAGBXj/LL3yfEZgMarW/7O2dluO/5cS9Y+CnzCxLAvh39TR9TOUXvB5
+zuev8pQwHOTqb9lRfDs87R5mpkyG4AyOcKGUTdbFA1uvlzVwb9b1UPrE4HSmdbZ7Yb9MwyTIa8Z8
+6A9PYRF12+Y2kGN7B5qoNEmPe1Q4/fUlZjJ2lw8/w8oJ+ihcPUHC6JMyL+N9+aEIYTIj5uJMFRCa
+u3NsCHb0NYzuJohOoZ7qzLUgO6YvLp7APGMZ0JWvGojlvtu6KeEBIm+RIGMJtlOw1KRYaOluEakP
+skqa+qtDsybhC/ucXHdJ/PS1Lx5EX8C1AlHOnI/RtHaPOvXD28LzocXunf9z
+--000000000000f2d7d705fd7df493--
