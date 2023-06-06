@@ -1,94 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD63724E05
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:26:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99A3724DF6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 22:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262E110E3B8;
-	Tue,  6 Jun 2023 20:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA97388CFA;
+	Tue,  6 Jun 2023 20:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2073.outbound.protection.outlook.com [40.107.92.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A39AA10E3B0;
- Tue,  6 Jun 2023 20:26:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DdWJhIzxP+C0UKGY5RGXeyhd2okoVjrfHMm5BbABI6gyktJNR355xbl0dSsnIYWS75KbvSY2EaZnB2Aw6yRqF6V+ybG79ubYadyL+bOhRPJtqB0vkfbOMf/I9eFTId4rQLRG6TsZVrd0UB6yYxXLkLKEQUlpQmKmoy+2za8RHYDAxWe9ghmRFtqF9suofQP71AGO2V6hkafs7LjaUERmBwUVriS9OiThHh5g7NU99dQHCI5umTl72+Od8z/5CuEpHXSFFtyQpj5CEFqD/YJEkWZ6AT74AiXtBV+mwAwVy4SC2z3ffnKWDzb6WfJhYWU/nfyoFc6amoJHZ5w12aStJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dpoDThbFgL/dq0K1vV2TWgr2FFpAW2XvxwC50PIpZcE=;
- b=Z673JHFgj5G5RsEdGREc7UxSf8fognW4BeleaL7pnhsIQ6QO7EYP0Xf5zGPWmct86lZUXDGNP9z6lky8js6DzKEL2Nms69R56Yh0BHANWdPJ8htv6XuZ0rwOeAG4Zq/pkmTxAACis3Z0J7eiQucO2YJOrk/grIJp26Qx1sien9YpbLsAgFygfZMgjvBmhNj0HtTcQ7/XvocKGLVeFoMV+H+INqYJlGBxLXZN79N1PJkO0tWnZRdZTi2TpTKx5h0nhjQlqASj0ULArX0r/3H0/SywpPlVKAf7d/FvWwrmEC/OgI6LAeWL9z8ScMvAolV0HKIPrBgsQ3cC0/2pSfsHTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dpoDThbFgL/dq0K1vV2TWgr2FFpAW2XvxwC50PIpZcE=;
- b=fU4QQfd8m/tdNoIc9znkNxd36RoEBseLNolMxni5vPTA3N8+9876gkxtoeQwdGO8lS0Bbmf/JT7sz0CbEXl+gUWuIFcmF2F0v4yNRoZ7xywfdDal6ea2Im5bQjFEmAaEEN1LwRY6WQTGwm8xUKASsdSNjoQ2TmgA9RjGTkElPos=
-Received: from BN0PR08CA0019.namprd08.prod.outlook.com (2603:10b6:408:142::12)
- by PH7PR12MB8825.namprd12.prod.outlook.com (2603:10b6:510:26a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Tue, 6 Jun
- 2023 20:26:14 +0000
-Received: from BN8NAM11FT079.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:142:cafe::f) by BN0PR08CA0019.outlook.office365.com
- (2603:10b6:408:142::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.36 via Frontend
- Transport; Tue, 6 Jun 2023 20:26:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT079.mail.protection.outlook.com (10.13.177.61) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6455.36 via Frontend Transport; Tue, 6 Jun 2023 20:26:14 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 6 Jun
- 2023 15:26:13 -0500
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 6 Jun 2023 15:26:12 -0500
-From: Harry Wentland <harry.wentland@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH v5 02/13] drm/connector: Add enum documentation to
- drm_colorspace
-Date: Tue, 6 Jun 2023 16:25:56 -0400
-Message-ID: <20230606202607.122914-3-harry.wentland@amd.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230606202607.122914-1-harry.wentland@amd.com>
-References: <20230606202607.122914-1-harry.wentland@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94AF688CFA;
+ Tue,  6 Jun 2023 20:26:07 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 356JSORK007294; Tue, 6 Jun 2023 20:26:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=CegxSuHefz46CWRO8MRgykdBbSbVpU0IqieXNCZEbQI=;
+ b=p4qnybvdprfWJ3QUrtGs+JtxLsQiSw8YY5qfVc1UTcpm2I8PIl7ikheJZl66BqltbWNZ
+ ZjjrPt5OVMIDPtBjzk/pN/haS5yLcCJ3G32RBgw73LPKH/jTaBiHbqRQ7j8+fSXq2qVO
+ x8sNOdnfX/X0bITt93YLzR+0KDk0c54UA3NZbVihfK+HPRJZ6VNL2bxlebzNo9uX/YQZ
+ 7E2P5Hfhcv20eJESfHj2tNBmDeJcTnVSd1jGYEDRNfd6MKNT/bPKJ2Uxjhl1q55CPW+d
+ zzeJdQu92zJa50XJYpUvjFl9r4OCuO9FuPg1JSHmIZ9jybSNDo1UylMQ57nfrniBHaRO Og== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a7206m9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 20:26:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356KQ0QK031821
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 20:26:00 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 6 Jun 2023
+ 13:25:58 -0700
+Message-ID: <94d7d0bf-ad61-628b-f10e-2d676ebe3838@quicinc.com>
+Date: Tue, 6 Jun 2023 13:25:56 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT079:EE_|PH7PR12MB8825:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17e1b66b-3de4-49f3-c40e-08db66cc466f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1LEU1UGPAhOj+JXv9g+JuYhY44kVjlLTjNyY5Ip91bj8gLwe1bQ7vNygvBaTEJ8NSO0/TbUw3T7udn1w8LCgD1CRRYZUK8nqMKNL/Q4GUypTWn7ENq+Gu5Qe+OV2RpEG2kHml55bqAfaT8u7KP0r/q6xXHeCd0nVAVDEmOmtwdMMot1LZR2uV1A0iLGORnILiQQuSH+poV0BpJYOXX1WdmjKQyMghQmb9XwMnJ7Jin7y/P/8LDCAzf+QsLUKXH3Le+YyohJxZjhD/F+66WVLxoLZzDjGwhGiRq+bmcjT1EqaSw84lzdk5gIW55V40LISgIcfHHYCK5N1ZA+hs0JFPhMWMrXm03oD7JxepoH6nwVhIYk5l7nUcTV00lkGPHO6wdpJbd9u+Ysg3e9ZRbsBAztTDTEJ9i1lHOBeDABHVVo0idmgpFuMnKXMR18x/d1FplbwAQNUn9l3J+xmxgr6sWuzl/94twc0dnnO53ELwBayUQ3fbIWDW3b/ghNuo9PssKShUL+EQIwPIonsDanVdaNDNlmcoSQ9DwflHPRfuNjIHRLYWcAj8SgM35fKYxipNtucmzuUls0OfDvQUi95UAb5mTuoGrlWwonRem0jt1280e0epIMo39SoKCaBRgsr0G4e0pxkQ0OFUmbEAjz9JWfko3XXZXn7iRvtK+8onlfZVoOrfl80UJQQMz6Sa5QLw6zGU9UdiijsEC/9UNUZCmV2oAuxgjJLMu1OvTFDH21Fpw/qauE08zbCH49Z+IG7TfQfMrb6nm1QThmNNUx/1g==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199021)(40470700004)(46966006)(36840700001)(8676002)(8936002)(54906003)(478600001)(41300700001)(5660300002)(316002)(6666004)(1076003)(26005)(44832011)(7416002)(186003)(110136005)(70206006)(70586007)(4326008)(66899021)(336012)(83380400001)(2616005)(40460700003)(47076005)(2906002)(66574015)(426003)(81166007)(356005)(82740400003)(40480700001)(36860700001)(82310400005)(36756003)(86362001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 20:26:14.3367 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17e1b66b-3de4-49f3-c40e-08db66cc466f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT079.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8825
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [RFC PATCH v2 04/13] drm/msm/dpu: remove unused
+ fields from dpu_encoder_virt
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230321011821.635977-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: WwxZITezK2AlhvYiHINRJypf0SppZEw9
+X-Proofpoint-GUID: WwxZITezK2AlhvYiHINRJypf0SppZEw9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_15,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 mlxlogscore=999 impostorscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306060173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,137 +85,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, Melissa Wen <mwen@igalia.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- Vitaly.Prosyak@amd.com, Joshua Ashton <joshua@froggi.es>
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Joshua Ashton <joshua@froggi.es>
 
-To match the other enums, and add more information about these values.
 
-v2:
- - Specify where an enum entry comes from
- - Clarify DEFAULT and NO_DATA behavior
- - BT.2020 CYCC is "constant luminance"
- - correct type for BT.601
+On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+> Remove historical fields intfs_swapped and topology fields from struct
+> dpu_encoder_virt and also remove even more historical docs.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 ----------
+>   1 file changed, 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 28729c77364f..4ee708264f3b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -130,18 +130,12 @@ enum dpu_enc_rc_states {
+>    *			pingpong blocks can be different than num_phys_encs.
+>    * @hw_dsc:		Handle to the DSC blocks used for the display.
+>    * @dsc_mask:		Bitmask of used DSC blocks.
+> - * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
+> - *			for partial update right-only cases, such as pingpong
+> - *			split where virtual pingpong does not generate IRQs
+>    * @crtc:		Pointer to the currently assigned crtc. Normally you
+>    *			would use crtc->state->encoder_mask to determine the
+>    *			link between encoder/crtc. However in this case we need
+>    *			to track crtc in the disable() hook which is called
+>    *			_after_ encoder_mask is cleared.
+>    * @connector:		If a mode is set, cached pointer to the active connector
+> - * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
+> - *				all CTL paths
+> - * @crtc_kickoff_cb_data:	Opaque user data given to crtc_kickoff_cb
 
-v4:
-- drop DP/HDMI clarifications that might create
-  more questions than answers
+no concerns with the above 3
 
-v5:
-- Add note on YCC and RGB variants
+>    * @enc_lock:			Lock around physical encoder
+>    *				create/destroy/enable/disable
+>    * @frame_busy_mask:		Bitmask tracking which phys_enc we are still
+> @@ -160,7 +154,6 @@ enum dpu_enc_rc_states {
+>    * @delayed_off_work:		delayed worker to schedule disabling of
+>    *				clks and resources after IDLE_TIMEOUT time.
+>    * @vsync_event_work:		worker to handle vsync event for autorefresh
+> - * @topology:                   topology of the display
 
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+As we are still going to go ahead with encoder based allocation for now, 
+we should keep this topology and start using it for DP DSC's 1:1:1 topology.
 
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Vitaly.Prosyak@amd.com
-Cc: Uma Shankar <uma.shankar@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Joshua Ashton <joshua@froggi.es>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Melissa Wen <mwen@igalia.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org
----
- include/drm/drm_connector.h | 70 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 68 insertions(+), 2 deletions(-)
-
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 77401e425341..907f40851e80 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -363,13 +363,79 @@ enum drm_privacy_screen_status {
- 	PRIVACY_SCREEN_ENABLED_LOCKED,
- };
- 
--/*
-- * This is a consolidated colorimetry list supported by HDMI and
-+/**
-+ * enum drm_colorspace - color space
-+ *
-+ * This enum is a consolidated colorimetry list supported by HDMI and
-  * DP protocol standard. The respective connectors will register
-  * a property with the subset of this list (supported by that
-  * respective protocol). Userspace will set the colorspace through
-  * a colorspace property which will be created and exposed to
-  * userspace.
-+ *
-+ * DP definitions come from the DP v2.0 spec
-+ * HDMI definitions come from the CTA-861-H spec
-+ *
-+ * A note on YCC and RGB variants:
-+ *
-+ * Since userspace is not aware of the encoding on the wire
-+ * (RGB or YCbCr), drivers are free to pick the appropriate
-+ * variant, regardless of what userspace selects. E.g., if
-+ * BT2020_RGB is selected by userspace a driver will pick
-+ * BT2020_YCC if the encoding on the wire is YUV444 or YUV420.
-+  *
-+ * @DRM_MODE_COLORIMETRY_DEFAULT:
-+ *   Driver specific behavior.
-+ * @DRM_MODE_COLORIMETRY_NO_DATA:
-+ *   Driver specific behavior.
-+ * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
-+ *   (HDMI)
-+ *   SMPTE ST 170M colorimetry format
-+ * @DRM_MODE_COLORIMETRY_BT709_YCC:
-+ *   (HDMI, DP)
-+ *   ITU-R BT.709 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_XVYCC_601:
-+ *   (HDMI, DP)
-+ *   xvYCC601 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_XVYCC_709:
-+ *   (HDMI, DP)
-+ *   xvYCC709 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_SYCC_601:
-+ *   (HDMI, DP)
-+ *   sYCC601 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_OPYCC_601:
-+ *   (HDMI, DP)
-+ *   opYCC601 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_OPRGB:
-+ *   (HDMI, DP)
-+ *   opRGB colorimetry format
-+ * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
-+ *   (HDMI, DP)
-+ *   ITU-R BT.2020 Y'c C'bc C'rc (constant luminance) colorimetry format
-+ * @DRM_MODE_COLORIMETRY_BT2020_RGB:
-+ *   (HDMI, DP)
-+ *   ITU-R BT.2020 R' G' B' colorimetry format
-+ * @DRM_MODE_COLORIMETRY_BT2020_YCC:
-+ *   (HDMI, DP)
-+ *   ITU-R BT.2020 Y' C'b C'r colorimetry format
-+ * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-+ *   (HDMI)
-+ *   SMPTE ST 2113 P3D65 colorimetry format
-+ * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-+ *   (HDMI)
-+ *   SMPTE ST 2113 P3DCI colorimetry format
-+ * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
-+ *   (DP)
-+ *   RGB wide gamut fixed point colorimetry format
-+ * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
-+ *   (DP)
-+ *   RGB wide gamut floating point
-+ *   (scRGB (IEC 61966-2-2)) colorimetry format
-+ * @DRM_MODE_COLORIMETRY_BT601_YCC:
-+ *   (DP)
-+ *   ITU-R BT.601 colorimetry format
-+ *   The DP spec does not say whether this is the 525 or the 625
-+ *   line version.
-  */
- enum drm_colorspace {
- 	/* For Default case, driver will set the colorspace */
--- 
-2.41.0
-
+>    * @idle_timeout:		idle timeout duration in milliseconds
+>    * @wide_bus_en:		wide bus is enabled on this interface
+>    * @dsc:			drm_dsc_config pointer, for DSC-enabled encoders
+> @@ -180,8 +173,6 @@ struct dpu_encoder_virt {
+>   
+>   	unsigned int dsc_mask;
+>   
+> -	bool intfs_swapped;
+> -
+>   	struct drm_crtc *crtc;
+>   	struct drm_connector *connector;
+>   
+> @@ -201,7 +192,6 @@ struct dpu_encoder_virt {
+>   	enum dpu_enc_rc_states rc_state;
+>   	struct delayed_work delayed_off_work;
+>   	struct kthread_work vsync_event_work;
+> -	struct msm_display_topology topology;
+>   
+>   	u32 idle_timeout;
+>   
