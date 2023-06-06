@@ -1,45 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE95B724D81
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 21:49:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B8C724D86
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 21:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE6110E3A3;
-	Tue,  6 Jun 2023 19:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2BC10E3A4;
+	Tue,  6 Jun 2023 19:50:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1080D10E19E;
- Tue,  6 Jun 2023 19:49:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EBDBF63749;
- Tue,  6 Jun 2023 19:49:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22544C433D2;
- Tue,  6 Jun 2023 19:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686080963;
- bh=pbIbz4/tc0Rq6Sy3ly+bzAO4xmFxE3ciFF0GfdmXFBI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=E4U6lVYqlhekeW3u/0dM8shOTdRaShUhgAE4YQMPUQTzSh3LHrvZwaPYvl2dhjAET
- WPV8DqyvjoKuBIdDnyDIpmDQsniskymtjKrWlOkzg5qXGIAQmqLw7N4WEx5g65xC9V
- hClqEzeTSafaEiu2/E95qwmKUqSeLLQxydJmHgApphwCzWJnDfQ1TV7MnAvvUVlH4J
- sITvP9IMTddL1S/66qiiVLnOf58x4/Sta6Xf2qKsbjFW/LqQRqXqNeMI2yB83s/Ooj
- SYujT0vnhtU1m7idliZPEQQZqcLDK7iZ7OM7xoQoZW/TzUXEESrkF3jvvgyj0f1mlz
- 2J8SpOPxGoCyA==
-Date: Tue, 6 Jun 2023 14:49:21 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [Intel-gfx] [PATCH v2 1/2] vgaarb: various coding style and
- comments fix
-Message-ID: <20230606194921.GA1139774@bhelgaas>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 658C110E3A2;
+ Tue,  6 Jun 2023 19:49:59 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 356JfOC6026923; Tue, 6 Jun 2023 19:49:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=D4mgSVI7clYH9JahuYktChslczXFw/lgE+jBrcCNuPc=;
+ b=F6Pz9tbdhOv3YzugIu6FoPF5luGwU/hpOypFFNTJNBXQDdLq7sOV3bwHGLdN9ggm1DD6
+ OGrfEbs2J6hv55KYQcf4Q6oHEgYgETcXhDq9ntOMjSDvLLgjXw8L9xkTFvkIV3pNapgu
+ VNoLx4CNvN6j0/AK8LmM8Mh/pXP9975jG6B/0Bksegkc1ltyM0JTEvTUqrJ1OCaQUOBi
+ y/ykzQODgMX59AAxVgDf0x4gSJxZuSDHJBrnP15XUOGDAFCptxRyuWq0eRyT3hr0OLFJ
+ yh8rmmwxTJ11Zcv4e5yHLNsZyqigWwDWKNYavAvsh3yEt/y05BwMRlZnkBAnKrHEc8vs Sw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a7204c9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jun 2023 19:49:53 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 356JnrUq016738
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 6 Jun 2023 19:49:53 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 6 Jun 2023
+ 12:49:50 -0700
+Message-ID: <2f66d83c-7585-efb7-55a0-cbdfd325265f@quicinc.com>
+Date: Tue, 6 Jun 2023 12:49:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230604205831.3357596-1-15330273260@189.cn>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v16] drm/msm/dpu: add DSC blocks to the catalog of MSM8998
+ and SC8180X
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>
+References: <1686076299-11504-1-git-send-email-quic_khsieh@quicinc.com>
+ <xf7hp4ywo7cgdvsjhkmtghdmbzhmufyainrfnllelbxx7lz5g4@faamkbvjpjts>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <xf7hp4ywo7cgdvsjhkmtghdmbzhmufyainrfnllelbxx7lz5g4@faamkbvjpjts>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: hBDGBseBfEze9RyJQ__0g4nK8KOxej2e
+X-Proofpoint-GUID: hBDGBseBfEze9RyJQ__0g4nK8KOxej2e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-06_14,2023-06-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 mlxlogscore=999 impostorscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306060168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,89 +85,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Yi Liu <yi.l.liu@intel.com>,
- kvm@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- linux-pci@vger.kernel.org, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Kevin Tian <kevin.tian@intel.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Bokun Zhang <Bokun.Zhang@amd.com>, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, loongson-kernel@lists.loongnix.cn,
- Alex Williamson <alex.williamson@redhat.com>,
- Abhishek Sahu <abhsahu@nvidia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Li Yi <liyi@loongson.cn>,
- Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Cornelia Huck <cohuck@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: sean@poorly.run, quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Match the subject line style:
 
-  $ git log --oneline drivers/pci/vgaarb.c
-  f321c35feaee PCI/VGA: Replace full MIT license text with SPDX identifier
-  d5109fe4d1ec PCI/VGA: Use unsigned format string to print lock counts
-  4e6c91847a7f PCI/VGA: Log bridge control messages when adding devices
-  dc593fd48abb PCI/VGA: Remove empty vga_arb_device_card_gone()
-  ...
 
-Subject line should be a summary of the commit log, not just "various
-style fixes".  This one needs to say something about
-vga_str_to_iostate().
-
-On Mon, Jun 05, 2023 at 04:58:30AM +0800, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
+On 6/6/2023 11:57 AM, Marijn Suijten wrote:
+> On 2023-06-06 11:31:39, Kuogee Hsieh wrote:
+>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> Some platforms have DSC blocks which have not been declared in the catalog.
+>> Complete DSC 1.1 support for all platforms by adding the missing blocks to
+>> MSM8998 and SC8180X.
 > 
-> To keep consistent with vga_iostate_to_str() function, the third argument
-> of vga_str_to_iostate() function should be 'unsigned int *'.
+> Still a NACK, as pointed out in v15 both the title and this commit
+> description point to SC8180X but that catalog entry is not touched at
+> all anymore after rebasing on top of f5abecfe339e4 ("drm/msm/dpu: enable
+> DSPP and DSC on sc8180x").
 > 
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/pci/vgaarb.c   | 29 +++++++++++++++--------------
->  include/linux/vgaarb.h |  8 +++-----
->  2 files changed, 18 insertions(+), 19 deletions(-)
+> - Marijn
 > 
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 5a696078b382..e40e6e5e5f03 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -61,7 +61,6 @@ static bool vga_arbiter_used;
->  static DEFINE_SPINLOCK(vga_lock);
->  static DECLARE_WAIT_QUEUE_HEAD(vga_wait_queue);
->  
-> -
->  static const char *vga_iostate_to_str(unsigned int iostate)
->  {
->  	/* Ignore VGA_RSRC_IO and VGA_RSRC_MEM */
-> @@ -77,10 +76,12 @@ static const char *vga_iostate_to_str(unsigned int iostate)
->  	return "none";
->  }
->  
-> -static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
-> +static int vga_str_to_iostate(char *buf, int str_size, unsigned int *io_state)
->  {
-> -	/* we could in theory hand out locks on IO and mem
-> -	 * separately to userspace but it can cause deadlocks */
-> +	/*
-> +	 * we could in theory hand out locks on IO and mem
-> +	 * separately to userspace but it can cause deadlocks
-> +	 */
 
-Omit all the comment formatting changes.  They are distractions from the
-vga_str_to_iostate() parameter change.
+Yeah we should fix the commit text and the title. Apologies for that.
 
-I think this patch should be the single line change to the
-vga_str_to_iostate() prototype so it matches the callers.
-
-If you want to do the other comment formatting changes, they're fine,
-but they should be all together in a separate patch that clearly
-doesn't change the generated code.
-
-Bjorn
+>>
+>> Changes in v9:
+>> -- add MSM8998 and SC8180x to commit title
+>>
+>> Changes in v10:
+>> -- fix grammar at commit text
+>>
+>> Changes in v12:
+>> -- fix "titil" with "title" at changes in v9
+>>
+>> Changes in v14:
+>> -- "dsc" tp "DSC" at commit title
+>>
+>> Changes in v15:
+>> -- fix merge conflicts at dpu_5_1_sc8180x.h
+>>
+>> Changes in v16
+>> -- fix cherry-pick error by deleting both redundant .dsc and .dsc_count
+>>     assignment from dpu_5_1_sc8180x.h
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>> index 3c732a0..7d0d0e7 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+>> @@ -126,6 +126,11 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
+>>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 15)),
+>>   };
+>>   
+>> +static const struct dpu_dsc_cfg msm8998_dsc[] = {
+>> +	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
+>> +	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
+>> +};
+>> +
+>>   static const struct dpu_dspp_cfg msm8998_dspp[] = {
+>>   	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
+>>   		 &msm8998_dspp_sblk),
+>> @@ -199,6 +204,8 @@ const struct dpu_mdss_cfg dpu_msm8998_cfg = {
+>>   	.dspp = msm8998_dspp,
+>>   	.pingpong_count = ARRAY_SIZE(msm8998_pp),
+>>   	.pingpong = msm8998_pp,
+>> +	.dsc_count = ARRAY_SIZE(msm8998_dsc),
+>> +	.dsc = msm8998_dsc,
+>>   	.intf_count = ARRAY_SIZE(msm8998_intf),
+>>   	.intf = msm8998_intf,
+>>   	.vbif_count = ARRAY_SIZE(msm8998_vbif),
+>> -- 
+>> 2.7.4
+>>
