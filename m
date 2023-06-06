@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121C772583F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:45:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498B272584E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6811510E469;
-	Wed,  7 Jun 2023 08:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CF710E46E;
+	Wed,  7 Jun 2023 08:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0886C10E179
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:30:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686076231; cv=none; d=zohomail.in; s=zohoarc; 
- b=OTihjBSusDPDpuI+OKmi4XIncE2Rtqu63pxW6qxZpNNE8TPRgK0vOc65M2mRL6IcYSI9ok7hl75AFVvc0bXOuS74lIcSWiH+BGuqQTLewhX578bLlOW0WbpTumaABB8vMYcRR+ebygQXpyu+Xz99cR9ufkMUrIQT8bLjAJlXPtk=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8245110E244
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 18:30:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1686076230; cv=none; d=zohomail.in; s=zohoarc; 
+ b=HLJpNqtwHRj/Qv0UHF3+SSFQ/Xc/9KIqXrNbBD3DNXH/xmO8sEeRgLbfF6lWBPYvFcmsuuHPvMReqx7dOPOhDWbNTVdX6J21PXM+7lVUw0emkohLbBfEzL6f2KzBJyIG8vrDuGNQ0qP5g4ZwbupoxtEF68SQ7VjjPmArdpssI8I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1686076231;
+ s=zohoarc; t=1686076230;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=3u4ZOkNdksmvEhiV0deXzLzykygUHbeTldMT+c/DBh4=; 
- b=PYtpUIQwbhEQA9Giby3SnG34THaPZ1YI1lcEgT5SIxmUiujRS0VIQyp4aiUhLoH7nrn50QEMHZddIj+qURduSWoNa3YlaPLFkDXrjl6eOmGnFq7+s8AE1KVVGDuI6Ba3IGlmS8YidUZvR4O4tF8IkLy+2ZibMz26HNc6ftwPDXk=
+ bh=4iYl32vlmLy5rBhc8ATNXs3raOdeZ8sFi+wR427D/MI=; 
+ b=ENWWC89U4u0m5Xoj+4ANXUw+drIjOqusgvD9U6+yit/PkrUTQB3GdTjcWJaZTniRckJPnfAHHcfnN8nNUSNvkCTjbGIbS6XhZp0dGHrM3GX4hh/QePKdR3Yzq67nTO2BruG0k+jndMkibat/RpyKZJNJWkHsSz8pvQBx2ehw+TE=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076231; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686076230; 
  s=zmail; d=siddh.me; i=code@siddh.me;
  h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=3u4ZOkNdksmvEhiV0deXzLzykygUHbeTldMT+c/DBh4=;
- b=n5kHxD5XXnlUdOCP90iPnIshYjwA5+y0mSSLkG49S15qg7ncx48wNx7b4i+bhjcw
- rdMd5n6dt8hXy9iB2W83/5/2oDLMaX2F5djSkMu7hqWgrKigz22mugOhskprC9neBg+
- EZd9xbAS8bUJJ2jTF5k70KWGRsfDDt+DPpZGQ0mg=
+ bh=4iYl32vlmLy5rBhc8ATNXs3raOdeZ8sFi+wR427D/MI=;
+ b=WI/SuEV2qR8Qz/BNav2PwpiYzPVaEajH4GMT7UW3Z4+7m3meU4sdgxUwfwth7/5f
+ Dsg/hhcSfpjem3SUCTaFt1nZPvrpS9CJhjf5AGa8IkkSs/3HJ/5AV1F+Uk9BW1hh7Nl
+ ZjKR5TkxgoUaKhIYyEsAXtRQ/rdQHTSDh9i7kR5s=
 Received: from kampyooter.. (122.176.141.156 [122.176.141.156]) by mx.zoho.in
- with SMTPS id 1686076229206270.8925943882805;
+ with SMTPS id 1686076229635260.7656241115126;
  Wed, 7 Jun 2023 00:00:29 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,9 +42,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Message-ID: <94ac0d2d56966e906cdb5b1e6bdf2b05e18784f1.1686075579.git.code@siddh.me>
-Subject: [PATCH v10 5/9] drm: Remove usage of deprecated DRM_ERROR in DRM core
-Date: Wed,  7 Jun 2023 00:00:06 +0530
+Message-ID: <e110b9ba26c734155e75001c3564b1056b10a633.1686075579.git.code@siddh.me>
+Subject: [PATCH v10 6/9] drm: Remove usage of deprecated DRM_DEBUG in DRM core
+Date: Wed,  7 Jun 2023 00:00:07 +0530
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1686075579.git.code@siddh.me>
 References: <cover.1686075579.git.code@siddh.me>
@@ -52,7 +52,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-ZohoMailClient: External
 Content-Type: text/plain; charset=utf8
-X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:26 +0000
+X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,614 +70,988 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_print.h says DRM_ERROR is deprecated in favor of drm_err().
+drm_print.h says DRM_DEBUG is deprecated in favor of drm_dbg_core().
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
- drivers/gpu/drm/drm_bridge.c         |  8 ++++----
- drivers/gpu/drm/drm_bufs.c           |  8 ++++----
- drivers/gpu/drm/drm_client_modeset.c |  4 ++--
- drivers/gpu/drm/drm_context.c        |  4 ++--
- drivers/gpu/drm/drm_crtc_helper.c    |  8 ++++----
- drivers/gpu/drm/drm_debugfs_crc.c    |  3 ++-
- drivers/gpu/drm/drm_drv.c            | 16 ++++++++--------
- drivers/gpu/drm/drm_flip_work.c      |  2 +-
- drivers/gpu/drm/drm_framebuffer.c    |  3 ++-
- drivers/gpu/drm/drm_gem.c            |  2 +-
- drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
- drivers/gpu/drm/drm_hashtab.c        |  4 ++--
- drivers/gpu/drm/drm_lock.c           | 16 ++++++++--------
- drivers/gpu/drm/drm_mipi_dbi.c       |  2 +-
- drivers/gpu/drm/drm_mm.c             |  8 ++++----
- drivers/gpu/drm/drm_mode_config.c    |  2 +-
- drivers/gpu/drm/drm_modes.c          | 26 +++++++++++++-------------
- drivers/gpu/drm/drm_modeset_helper.c |  2 +-
- drivers/gpu/drm/drm_plane.c          |  2 +-
- drivers/gpu/drm/drm_scatter.c        |  9 +++++----
- drivers/gpu/drm/drm_vm.c             |  2 +-
- 21 files changed, 68 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/drm_agpsupport.c  |   4 +-
+ drivers/gpu/drm/drm_bufs.c        | 114 +++++++++++++++---------------
+ drivers/gpu/drm/drm_context.c     |  14 ++--
+ drivers/gpu/drm/drm_dma.c         |  10 +--
+ drivers/gpu/drm/drm_drv.c         |  10 +--
+ drivers/gpu/drm/drm_gem.c         |   5 +-
+ drivers/gpu/drm/drm_hashtab.c     |   6 +-
+ drivers/gpu/drm/drm_irq.c         |   4 +-
+ drivers/gpu/drm/drm_lease.c       |   2 +-
+ drivers/gpu/drm/drm_legacy_misc.c |   4 +-
+ drivers/gpu/drm/drm_lock.c        |  20 +++---
+ drivers/gpu/drm/drm_mode_object.c |   6 +-
+ drivers/gpu/drm/drm_pci.c         |  12 ++--
+ drivers/gpu/drm/drm_plane.c       |  12 ++--
+ drivers/gpu/drm/drm_scatter.c     |  10 +--
+ drivers/gpu/drm/drm_syncobj.c     |   2 +-
+ drivers/gpu/drm/drm_sysfs.c       |  14 ++--
+ drivers/gpu/drm/drm_vm.c          |  43 ++++++-----
+ 18 files changed, 150 insertions(+), 142 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index c3d69af02e79..3d27f08db74d 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -351,11 +351,11 @@ int drm_bridge_attach(struct drm_encoder *encoder, st=
-ruct drm_bridge *bridge,
- =09list_del(&bridge->chain_node);
-=20
- #ifdef CONFIG_OF
--=09DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
--=09=09  bridge->of_node, encoder->name, ret);
-+=09drm_err(encoder->dev, "failed to attach bridge %pOF to encoder %s: %d\n=
-",
-+=09=09bridge->of_node, encoder->name, ret);
- #else
--=09DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
--=09=09  encoder->name, ret);
-+=09drm_err(encoder->dev, "failed to attach bridge to encoder %s: %d\n",
-+=09=09encoder->name, ret);
- #endif
-=20
- =09return ret;
+diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupp=
+ort.c
+index a4ad6fd13abc..d27686d6e82d 100644
+--- a/drivers/gpu/drm/drm_agpsupport.c
++++ b/drivers/gpu/drm/drm_agpsupport.c
+@@ -315,8 +315,8 @@ int drm_legacy_agp_bind(struct drm_device *dev, struct =
+drm_agp_binding *request)
+ =09if (retcode)
+ =09=09return retcode;
+ =09entry->bound =3D dev->agp->base + (page << PAGE_SHIFT);
+-=09DRM_DEBUG("base =3D 0x%lx entry->bound =3D 0x%lx\n",
+-=09=09  dev->agp->base, entry->bound);
++=09drm_dbg_core(dev, "base =3D 0x%lx entry->bound =3D 0x%lx\n",
++=09=09     dev->agp->base, entry->bound);
+ =09return 0;
+ }
+ EXPORT_SYMBOL(drm_legacy_agp_bind);
 diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
-index 86700560fea2..aa66fe16ea6e 100644
+index aa66fe16ea6e..a767f51c5369 100644
 --- a/drivers/gpu/drm/drm_bufs.c
 +++ b/drivers/gpu/drm/drm_bufs.c
-@@ -1470,15 +1470,15 @@ int drm_legacy_freebufs(struct drm_device *dev, voi=
-d *data,
+@@ -171,8 +171,8 @@ static int drm_addmap_core(struct drm_device *dev, reso=
+urce_size_t offset,
+ =09=09kfree(map);
+ =09=09return -EINVAL;
+ =09}
+-=09DRM_DEBUG("offset =3D 0x%08llx, size =3D 0x%08lx, type =3D %d\n",
+-=09=09  (unsigned long long)map->offset, map->size, map->type);
++=09drm_dbg_core(dev, "offset =3D 0x%08llx, size =3D 0x%08lx, type =3D %d\n=
+",
++=09=09     (unsigned long long)map->offset, map->size, map->type);
+=20
+ =09/* page-align _DRM_SHM maps. They are allocated here so there is no sec=
+urity
+ =09 * hole created by that and it works around various broken drivers that=
+ use
+@@ -205,10 +205,10 @@ static int drm_addmap_core(struct drm_device *dev, re=
+source_size_t offset,
+ =09=09list =3D drm_find_matching_map(dev, map);
+ =09=09if (list !=3D NULL) {
+ =09=09=09if (list->map->size !=3D map->size) {
+-=09=09=09=09DRM_DEBUG("Matching maps of type %d with "
+-=09=09=09=09=09  "mismatched sizes, (%ld vs %ld)\n",
+-=09=09=09=09=09  map->type, map->size,
+-=09=09=09=09=09  list->map->size);
++=09=09=09=09drm_dbg_core(dev, "Matching maps of type %d with "
++=09=09=09=09=09     "mismatched sizes, (%ld vs %ld)\n",
++=09=09=09=09=09     map->type, map->size,
++=09=09=09=09=09     list->map->size);
+ =09=09=09=09list->map->size =3D map->size;
+ =09=09=09}
+=20
+@@ -239,9 +239,9 @@ static int drm_addmap_core(struct drm_device *dev, reso=
+urce_size_t offset,
+ =09=09list =3D drm_find_matching_map(dev, map);
+ =09=09if (list !=3D NULL) {
+ =09=09=09if (list->map->size !=3D map->size) {
+-=09=09=09=09DRM_DEBUG("Matching maps of type %d with "
+-=09=09=09=09=09  "mismatched sizes, (%ld vs %ld)\n",
+-=09=09=09=09=09  map->type, map->size, list->map->size);
++=09=09=09=09drm_dbg_core(dev, "Matching maps of type %d with "
++=09=09=09=09=09     "mismatched sizes, (%ld vs %ld)\n",
++=09=09=09=09=09     map->type, map->size, list->map->size);
+ =09=09=09=09list->map->size =3D map->size;
+ =09=09=09}
+=20
+@@ -250,8 +250,8 @@ static int drm_addmap_core(struct drm_device *dev, reso=
+urce_size_t offset,
+ =09=09=09return 0;
+ =09=09}
+ =09=09map->handle =3D vmalloc_user(map->size);
+-=09=09DRM_DEBUG("%lu %d %p\n",
+-=09=09=09  map->size, order_base_2(map->size), map->handle);
++=09=09drm_dbg_core(dev, "%lu %d %p\n",
++=09=09=09     map->size, order_base_2(map->size), map->handle);
+ =09=09if (!map->handle) {
+ =09=09=09kfree(map);
+ =09=09=09return -ENOMEM;
+@@ -308,8 +308,8 @@ static int drm_addmap_core(struct drm_device *dev, reso=
+urce_size_t offset,
+ =09=09=09kfree(map);
+ =09=09=09return -EPERM;
+ =09=09}
+-=09=09DRM_DEBUG("AGP offset =3D 0x%08llx, size =3D 0x%08lx\n",
+-=09=09=09  (unsigned long long)map->offset, map->size);
++=09=09drm_dbg_core(dev, "AGP offset =3D 0x%08llx, size =3D 0x%08lx\n",
++=09=09=09     (unsigned long long)map->offset, map->size);
+=20
+ =09=09break;
+ =09}
+@@ -745,13 +745,13 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
+ =09byte_count =3D 0;
+ =09agp_offset =3D dev->agp->base + request->agp_start;
+=20
+-=09DRM_DEBUG("count:      %d\n", count);
+-=09DRM_DEBUG("order:      %d\n", order);
+-=09DRM_DEBUG("size:       %d\n", size);
+-=09DRM_DEBUG("agp_offset: %lx\n", agp_offset);
+-=09DRM_DEBUG("alignment:  %d\n", alignment);
+-=09DRM_DEBUG("page_order: %d\n", page_order);
+-=09DRM_DEBUG("total:      %d\n", total);
++=09drm_dbg_core(dev, "count:      %d\n", count);
++=09drm_dbg_core(dev, "order:      %d\n", order);
++=09drm_dbg_core(dev, "size:       %d\n", size);
++=09drm_dbg_core(dev, "agp_offset: %lx\n", agp_offset);
++=09drm_dbg_core(dev, "alignment:  %d\n", alignment);
++=09drm_dbg_core(dev, "page_order: %d\n", page_order);
++=09drm_dbg_core(dev, "total:      %d\n", total);
+=20
+ =09if (order < DRM_MIN_ORDER || order > DRM_MAX_ORDER)
+ =09=09return -EINVAL;
+@@ -766,7 +766,7 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
+ =09=09}
+ =09}
+ =09if (!list_empty(&dev->agp->memory) && !valid) {
+-=09=09DRM_DEBUG("zone invalid\n");
++=09=09drm_dbg_core(dev, "zone invalid\n");
+ =09=09return -EINVAL;
+ =09}
+ =09spin_lock(&dev->buf_lock);
+@@ -829,14 +829,15 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
+ =09=09=09return -ENOMEM;
+ =09=09}
+=20
+-=09=09DRM_DEBUG("buffer %d @ %p\n", entry->buf_count, buf->address);
++=09=09drm_dbg_core(dev, "buffer %d @ %p\n", entry->buf_count,
++=09=09=09     buf->address);
+=20
+ =09=09offset +=3D alignment;
+ =09=09entry->buf_count++;
+ =09=09byte_count +=3D PAGE_SIZE << page_order;
+ =09}
+=20
+-=09DRM_DEBUG("byte_count: %d\n", byte_count);
++=09drm_dbg_core(dev, "byte_count: %d\n", byte_count);
+=20
+ =09temp_buflist =3D krealloc(dma->buflist,
+ =09=09=09=09(dma->buf_count + entry->buf_count) *
+@@ -859,8 +860,8 @@ int drm_legacy_addbufs_agp(struct drm_device *dev,
+ =09dma->page_count +=3D byte_count >> PAGE_SHIFT;
+ =09dma->byte_count +=3D byte_count;
+=20
+-=09DRM_DEBUG("dma->buf_count : %d\n", dma->buf_count);
+-=09DRM_DEBUG("entry->buf_count : %d\n", entry->buf_count);
++=09drm_dbg_core(dev, "dma->buf_count : %d\n", dma->buf_count);
++=09drm_dbg_core(dev, "entry->buf_count : %d\n", entry->buf_count);
+=20
+ =09mutex_unlock(&dev->struct_mutex);
+=20
+@@ -908,8 +909,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ =09order =3D order_base_2(request->size);
+ =09size =3D 1 << order;
+=20
+-=09DRM_DEBUG("count=3D%d, size=3D%d (%d), order=3D%d\n",
+-=09=09  request->count, request->size, size, order);
++=09drm_dbg_core(dev, "count=3D%d, size=3D%d (%d), order=3D%d\n",
++=09=09     request->count, request->size, size, order);
+=20
+ =09if (order < DRM_MIN_ORDER || order > DRM_MAX_ORDER)
+ =09=09return -EINVAL;
+@@ -971,8 +972,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ =09}
+ =09memcpy(temp_pagelist,
+ =09       dma->pagelist, dma->page_count * sizeof(*dma->pagelist));
+-=09DRM_DEBUG("pagelist: %d entries\n",
+-=09=09  dma->page_count + (count << page_order));
++=09drm_dbg_core(dev, "pagelist: %d entries\n",
++=09=09     dma->page_count + (count << page_order));
+=20
+ =09entry->buf_size =3D size;
+ =09entry->page_order =3D page_order;
+@@ -1011,9 +1012,9 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ =09=09}
+ =09=09entry->seglist[entry->seg_count++] =3D dmah;
+ =09=09for (i =3D 0; i < (1 << page_order); i++) {
+-=09=09=09DRM_DEBUG("page %d @ 0x%08lx\n",
+-=09=09=09=09  dma->page_count + page_count,
+-=09=09=09=09  (unsigned long)dmah->vaddr + PAGE_SIZE * i);
++=09=09=09drm_dbg_core(dev, "page %d @ 0x%08lx\n",
++=09=09=09=09     dma->page_count + page_count,
++=09=09=09=09     (unsigned long)dmah->vaddr + PAGE_SIZE * i);
+ =09=09=09temp_pagelist[dma->page_count + page_count++]
+ =09=09=09=09=3D (unsigned long)dmah->vaddr + PAGE_SIZE * i;
+ =09=09}
+@@ -1047,8 +1048,8 @@ int drm_legacy_addbufs_pci(struct drm_device *dev,
+ =09=09=09=09return -ENOMEM;
+ =09=09=09}
+=20
+-=09=09=09DRM_DEBUG("buffer %d @ %p\n",
+-=09=09=09=09  entry->buf_count, buf->address);
++=09=09=09drm_dbg_core(dev, "buffer %d @ %p\n",
++=09=09=09=09     entry->buf_count, buf->address);
+ =09=09}
+ =09=09byte_count +=3D PAGE_SIZE << page_order;
+ =09}
+@@ -1136,13 +1137,13 @@ static int drm_legacy_addbufs_sg(struct drm_device =
+*dev,
+ =09byte_count =3D 0;
+ =09agp_offset =3D request->agp_start;
+=20
+-=09DRM_DEBUG("count:      %d\n", count);
+-=09DRM_DEBUG("order:      %d\n", order);
+-=09DRM_DEBUG("size:       %d\n", size);
+-=09DRM_DEBUG("agp_offset: %lu\n", agp_offset);
+-=09DRM_DEBUG("alignment:  %d\n", alignment);
+-=09DRM_DEBUG("page_order: %d\n", page_order);
+-=09DRM_DEBUG("total:      %d\n", total);
++=09drm_dbg_core(dev, "count:      %d\n", count);
++=09drm_dbg_core(dev, "order:      %d\n", order);
++=09drm_dbg_core(dev, "size:       %d\n", size);
++=09drm_dbg_core(dev, "agp_offset: %lu\n", agp_offset);
++=09drm_dbg_core(dev, "alignment:  %d\n", alignment);
++=09drm_dbg_core(dev, "page_order: %d\n", page_order);
++=09drm_dbg_core(dev, "total:      %d\n", total);
+=20
+ =09if (order < DRM_MIN_ORDER || order > DRM_MAX_ORDER)
+ =09=09return -EINVAL;
+@@ -1208,14 +1209,15 @@ static int drm_legacy_addbufs_sg(struct drm_device =
+*dev,
+ =09=09=09return -ENOMEM;
+ =09=09}
+=20
+-=09=09DRM_DEBUG("buffer %d @ %p\n", entry->buf_count, buf->address);
++=09=09drm_dbg_core(dev, "buffer %d @ %p\n", entry->buf_count,
++=09=09=09     buf->address);
+=20
+ =09=09offset +=3D alignment;
+ =09=09entry->buf_count++;
+ =09=09byte_count +=3D PAGE_SIZE << page_order;
+ =09}
+=20
+-=09DRM_DEBUG("byte_count: %d\n", byte_count);
++=09drm_dbg_core(dev, "byte_count: %d\n", byte_count);
+=20
+ =09temp_buflist =3D krealloc(dma->buflist,
+ =09=09=09=09(dma->buf_count + entry->buf_count) *
+@@ -1238,8 +1240,8 @@ static int drm_legacy_addbufs_sg(struct drm_device *d=
+ev,
+ =09dma->page_count +=3D byte_count >> PAGE_SHIFT;
+ =09dma->byte_count +=3D byte_count;
+=20
+-=09DRM_DEBUG("dma->buf_count : %d\n", dma->buf_count);
+-=09DRM_DEBUG("entry->buf_count : %d\n", entry->buf_count);
++=09drm_dbg_core(dev, "dma->buf_count : %d\n", dma->buf_count);
++=09drm_dbg_core(dev, "entry->buf_count : %d\n", entry->buf_count);
+=20
+ =09mutex_unlock(&dev->struct_mutex);
+=20
+@@ -1340,7 +1342,7 @@ int __drm_legacy_infobufs(struct drm_device *dev,
+ =09=09=09++count;
+ =09}
+=20
+-=09DRM_DEBUG("count =3D %d\n", count);
++=09drm_dbg_core(dev, "count =3D %d\n", count);
+=20
+ =09if (*p >=3D count) {
+ =09=09for (i =3D 0, count =3D 0; i < DRM_MAX_ORDER + 1; i++) {
+@@ -1349,12 +1351,12 @@ int __drm_legacy_infobufs(struct drm_device *dev,
+ =09=09=09if (from->buf_count) {
+ =09=09=09=09if (f(data, count, from) < 0)
+ =09=09=09=09=09return -EFAULT;
+-=09=09=09=09DRM_DEBUG("%d %d %d %d %d\n",
+-=09=09=09=09=09  i,
+-=09=09=09=09=09  dma->bufs[i].buf_count,
+-=09=09=09=09=09  dma->bufs[i].buf_size,
+-=09=09=09=09=09  dma->bufs[i].low_mark,
+-=09=09=09=09=09  dma->bufs[i].high_mark);
++=09=09=09=09drm_dbg_core(dev, "%d %d %d %d %d\n",
++=09=09=09=09=09     i,
++=09=09=09=09=09     dma->bufs[i].buf_count,
++=09=09=09=09=09     dma->bufs[i].buf_size,
++=09=09=09=09=09     dma->bufs[i].low_mark,
++=09=09=09=09=09     dma->bufs[i].high_mark);
+ =09=09=09=09++count;
+ =09=09=09}
+ =09=09}
+@@ -1417,8 +1419,8 @@ int drm_legacy_markbufs(struct drm_device *dev, void =
+*data,
+ =09if (!dma)
+ =09=09return -EINVAL;
+=20
+-=09DRM_DEBUG("%d, %d, %d\n",
+-=09=09  request->size, request->low_mark, request->high_mark);
++=09drm_dbg_core(dev, "%d, %d, %d\n",
++=09=09     request->size, request->low_mark, request->high_mark);
+ =09order =3D order_base_2(request->size);
+ =09if (order < DRM_MIN_ORDER || order > DRM_MAX_ORDER)
+ =09=09return -EINVAL;
+@@ -1465,7 +1467,7 @@ int drm_legacy_freebufs(struct drm_device *dev, void =
+*data,
+ =09if (!dma)
+ =09=09return -EINVAL;
+=20
+-=09DRM_DEBUG("%d\n", request->count);
++=09drm_dbg_core(dev, "%d\n", request->count);
+ =09for (i =3D 0; i < request->count; i++) {
  =09=09if (copy_from_user(&idx, &request->list[i], sizeof(idx)))
  =09=09=09return -EFAULT;
- =09=09if (idx < 0 || idx >=3D dma->buf_count) {
--=09=09=09DRM_ERROR("Index %d (of %d max)\n",
--=09=09=09=09  idx, dma->buf_count - 1);
-+=09=09=09drm_err(dev, "Index %d (of %d max)\n",
-+=09=09=09=09idx, dma->buf_count - 1);
- =09=09=09return -EINVAL;
- =09=09}
- =09=09idx =3D array_index_nospec(idx, dma->buf_count);
- =09=09buf =3D dma->buflist[idx];
- =09=09if (buf->file_priv !=3D file_priv) {
--=09=09=09DRM_ERROR("Process %d freeing buffer not owned\n",
--=09=09=09=09  task_pid_nr(current));
-+=09=09=09drm_err(dev, "Process %d freeing buffer not owned\n",
-+=09=09=09=09task_pid_nr(current));
- =09=09=09return -EINVAL;
- =09=09}
- =09=09drm_legacy_free_buffer(dev, buf);
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_cli=
-ent_modeset.c
-index ae19734974b5..e2403b8c6347 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -808,7 +808,7 @@ int drm_client_modeset_probe(struct drm_client_dev *cli=
-ent, unsigned int width,
- =09offsets =3D kcalloc(connector_count, sizeof(*offsets), GFP_KERNEL);
- =09enabled =3D kcalloc(connector_count, sizeof(bool), GFP_KERNEL);
- =09if (!crtcs || !modes || !enabled || !offsets) {
--=09=09DRM_ERROR("Memory allocation failed\n");
-+=09=09drm_err(client->dev, "Memory allocation failed\n");
- =09=09ret =3D -ENOMEM;
- =09=09goto out;
+@@ -1565,7 +1567,7 @@ int __drm_legacy_mapbufs(struct drm_device *dev, void=
+ *data, int *p,
  =09}
-@@ -832,7 +832,7 @@ int drm_client_modeset_probe(struct drm_client_dev *cli=
-ent, unsigned int width,
- =09=09=09=09=09      offsets, enabled, width, height) &&
- =09=09    !drm_client_target_preferred(connectors, connector_count, modes,
- =09=09=09=09=09=09 offsets, enabled, width, height))
--=09=09=09DRM_ERROR("Unable to find initial modes\n");
-+=09=09=09drm_err(client->dev, "Unable to find initial modes\n");
+       done:
+ =09*p =3D dma->buf_count;
+-=09DRM_DEBUG("%d buffers, retcode =3D %d\n", *p, retcode);
++=09drm_dbg_core(dev, "%d buffers, retcode =3D %d\n", *p, retcode);
 =20
- =09=09DRM_DEBUG_KMS("picking CRTCs for %dx%d config\n",
- =09=09=09      width, height);
+ =09return retcode;
+ }
 diff --git a/drivers/gpu/drm/drm_context.c b/drivers/gpu/drm/drm_context.c
-index a0fc779e5e1e..bf1fc8bb97de 100644
+index bf1fc8bb97de..8b7b925aee97 100644
 --- a/drivers/gpu/drm/drm_context.c
 +++ b/drivers/gpu/drm/drm_context.c
-@@ -270,7 +270,7 @@ int drm_legacy_setsareactx(struct drm_device *dev, void=
- *data,
- static int drm_context_switch(struct drm_device * dev, int old, int new)
- {
- =09if (test_and_set_bit(0, &dev->context_flag)) {
--=09=09DRM_ERROR("Reentering -- FIXME\n");
-+=09=09drm_err(dev, "Reentering -- FIXME\n");
+@@ -274,7 +274,7 @@ static int drm_context_switch(struct drm_device * dev, =
+int old, int new)
  =09=09return -EBUSY;
  =09}
 =20
-@@ -301,7 +301,7 @@ static int drm_context_switch_complete(struct drm_devic=
-e *dev,
- =09dev->last_context =3D new;=09/* PRE/POST: This is the _only_ writer. */
+-=09DRM_DEBUG("Context switch from %d to %d\n", old, new);
++=09drm_dbg_core(dev, "Context switch from %d to %d\n", old, new);
 =20
- =09if (!_DRM_LOCK_IS_HELD(file_priv->master->lock.hw_lock->lock)) {
--=09=09DRM_ERROR("Lock isn't held after context switch\n");
-+=09=09drm_err(dev, "Lock isn't held after context switch\n");
+ =09if (new =3D=3D dev->last_context) {
+ =09=09clear_bit(0, &dev->context_flag);
+@@ -371,9 +371,9 @@ int drm_legacy_addctx(struct drm_device *dev, void *dat=
+a,
+ =09=09/* Skip kernel's context and get a new one. */
+ =09=09tmp_handle =3D drm_legacy_ctxbitmap_next(dev);
  =09}
-=20
- =09/* If a context switch is ever initiated
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_h=
-elper.c
-index a209659a996c..b74b4301a471 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -768,8 +768,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set=
-,
- =09=09=09if (!drm_crtc_helper_set_mode(set->crtc, set->mode,
- =09=09=09=09=09=09      set->x, set->y,
- =09=09=09=09=09=09      save_set.fb)) {
--=09=09=09=09DRM_ERROR("failed to set mode on [CRTC:%d:%s]\n",
--=09=09=09=09=09  set->crtc->base.id, set->crtc->name);
-+=09=09=09=09drm_err(dev, "failed to set mode on [CRTC:%d:%s]\n",
-+=09=09=09=09=09set->crtc->base.id, set->crtc->name);
- =09=09=09=09set->crtc->primary->fb =3D save_set.fb;
- =09=09=09=09ret =3D -EINVAL;
- =09=09=09=09goto fail;
-@@ -826,7 +826,7 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set=
-,
- =09if (mode_changed &&
- =09    !drm_crtc_helper_set_mode(save_set.crtc, save_set.mode, save_set.x,
- =09=09=09=09      save_set.y, save_set.fb))
--=09=09DRM_ERROR("failed to restore config after modeset failure\n");
-+=09=09drm_err(dev, "failed to restore config after modeset failure\n");
-=20
- =09kfree(save_connector_encoders);
- =09kfree(save_encoder_crtcs);
-@@ -996,7 +996,7 @@ void drm_helper_resume_force_mode(struct drm_device *de=
-v)
-=20
- =09=09/* Restoring the old config should never fail! */
- =09=09if (ret =3D=3D false)
--=09=09=09DRM_ERROR("failed to set mode on crtc %p\n", crtc);
-+=09=09=09drm_err(dev, "failed to set mode on crtc %p\n", crtc);
-=20
- =09=09/* Turn off outputs that were already powered off */
- =09=09if (drm_helper_choose_crtc_dpms(crtc)) {
-diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugf=
-s_crc.c
-index bbc3bc4ba844..a59ef3f0e4a1 100644
---- a/drivers/gpu/drm/drm_debugfs_crc.c
-+++ b/drivers/gpu/drm/drm_debugfs_crc.c
-@@ -416,7 +416,8 @@ int drm_crtc_add_crc_entry(struct drm_crtc *crtc, bool =
-has_frame,
- =09=09spin_unlock_irqrestore(&crc->lock, flags);
-=20
- =09=09if (!was_overflow)
--=09=09=09DRM_ERROR("Overflow of CRC buffer, userspace reads too slow.\n");
-+=09=09=09drm_err(crtc->dev,
-+=09=09=09=09"Overflow of CRC buffer, userspace reads too slow.\n");
-=20
- =09=09return -ENOBUFS;
+-=09DRM_DEBUG("%d\n", tmp_handle);
++=09drm_dbg_core(dev, "%d\n", tmp_handle);
+ =09if (tmp_handle < 0) {
+-=09=09DRM_DEBUG("Not enough free contexts.\n");
++=09=09drm_dbg_core(dev, "Not enough free contexts.\n");
+ =09=09/* Should this return -EBUSY instead? */
+ =09=09return tmp_handle;
  =09}
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 02eaa4c9344d..04246afc934f 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -177,7 +177,7 @@ static int drm_minor_register(struct drm_device *dev, u=
-nsigned int type)
- =09} else {
- =09=09ret =3D drm_debugfs_init(minor, minor->index, drm_debugfs_root);
- =09=09if (ret) {
--=09=09=09DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
-+=09=09=09drm_err(dev, "DRM: Failed to initialize /sys/kernel/debug/dri.\n"=
-);
- =09=09=09goto err_debugfs;
- =09=09}
- =09}
-@@ -425,7 +425,7 @@ void drm_put_dev(struct drm_device *dev)
- =09DRM_DEBUG("\n");
+@@ -382,7 +382,7 @@ int drm_legacy_addctx(struct drm_device *dev, void *dat=
+a,
 =20
- =09if (!dev) {
--=09=09DRM_ERROR("cleanup called no dev\n");
-+=09=09drm_err(NULL, "cleanup called no dev\n");
- =09=09return;
- =09}
-=20
-@@ -540,7 +540,7 @@ static struct inode *drm_fs_inode_new(void)
-=20
- =09r =3D simple_pin_fs(&drm_fs_type, &drm_fs_mnt, &drm_fs_cnt);
- =09if (r < 0) {
--=09=09DRM_ERROR("Cannot mount pseudo fs: %d\n", r);
-+=09=09drm_err(NULL, "Cannot mount pseudo fs: %d\n", r);
- =09=09return ERR_PTR(r);
- =09}
-=20
-@@ -610,7 +610,7 @@ static int drm_dev_init(struct drm_device *dev,
- =09int ret;
-=20
- =09if (!drm_core_init_complete) {
--=09=09DRM_ERROR("DRM core is not initialized\n");
-+=09=09drm_err(NULL, "DRM core is not initialized\n");
- =09=09return -ENODEV;
- =09}
-=20
-@@ -630,7 +630,7 @@ static int drm_dev_init(struct drm_device *dev,
- =09if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) &&
- =09=09=09=09(drm_core_check_feature(dev, DRIVER_RENDER) ||
- =09=09=09=09drm_core_check_feature(dev, DRIVER_MODESET))) {
--=09=09DRM_ERROR("DRM driver can't be both a compute acceleration and graph=
-ics driver\n");
-+=09=09drm_err(dev, "DRM driver can't be both a compute acceleration and gr=
-aphics driver\n");
- =09=09return -EINVAL;
- =09}
-=20
-@@ -655,7 +655,7 @@ static int drm_dev_init(struct drm_device *dev,
- =09inode =3D drm_fs_inode_new();
- =09if (IS_ERR(inode)) {
- =09=09ret =3D PTR_ERR(inode);
--=09=09DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
-+=09=09drm_err(dev, "Cannot allocate anonymous inode: %d\n", ret);
- =09=09goto err;
- =09}
-=20
-@@ -686,7 +686,7 @@ static int drm_dev_init(struct drm_device *dev,
- =09if (drm_core_check_feature(dev, DRIVER_GEM)) {
- =09=09ret =3D drm_gem_init(dev);
- =09=09if (ret) {
--=09=09=09DRM_ERROR("Cannot initialize graphics execution manager (GEM)\n")=
-;
-+=09=09=09drm_err(dev, "Cannot initialize graphics execution manager (GEM)\=
-n");
- =09=09=09goto err;
- =09=09}
- =09}
-@@ -1081,7 +1081,7 @@ static int __init drm_core_init(void)
-=20
- =09ret =3D drm_sysfs_init();
- =09if (ret < 0) {
--=09=09DRM_ERROR("Cannot create DRM class: %d\n", ret);
-+=09=09drm_err(NULL, "Cannot create DRM class: %d\n", ret);
- =09=09goto error;
- =09}
-=20
-diff --git a/drivers/gpu/drm/drm_flip_work.c b/drivers/gpu/drm/drm_flip_wor=
-k.c
-index 060b753881a2..8cbf325a0414 100644
---- a/drivers/gpu/drm/drm_flip_work.c
-+++ b/drivers/gpu/drm/drm_flip_work.c
-@@ -82,7 +82,7 @@ void drm_flip_work_queue(struct drm_flip_work *work, void=
- *val)
- =09if (task) {
- =09=09drm_flip_work_queue_task(work, task);
- =09} else {
--=09=09DRM_ERROR("%s could not allocate task!\n", work->name);
-+=09=09drm_err(NULL, "%s could not allocate task!\n", work->name);
- =09=09work->func(work, val);
- =09}
- }
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
-uffer.c
-index aff3746dedfb..b21071919644 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -1070,7 +1070,8 @@ static void legacy_remove_fb(struct drm_framebuffer *=
-fb)
-=20
- =09=09=09/* should turn off the crtc */
- =09=09=09if (drm_crtc_force_disable(crtc))
--=09=09=09=09DRM_ERROR("failed to reset crtc %p when fb was deleted\n", crt=
-c);
-+=09=09=09=09drm_err(dev, "failed to reset crtc %p when fb was deleted\n",
-+=09=09=09=09=09crtc);
- =09=09}
- =09}
-=20
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 1a5a2cd0d4ec..e0d52e69df15 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -101,7 +101,7 @@ drm_gem_init(struct drm_device *dev)
- =09vma_offset_manager =3D drmm_kzalloc(dev, sizeof(*vma_offset_manager),
- =09=09=09=09=09  GFP_KERNEL);
- =09if (!vma_offset_manager) {
--=09=09DRM_ERROR("out of memory\n");
-+=09=09drm_err(dev, "out of memory\n");
+ =09ctx_entry =3D kmalloc(sizeof(*ctx_entry), GFP_KERNEL);
+ =09if (!ctx_entry) {
+-=09=09DRM_DEBUG("out of memory\n");
++=09=09drm_dbg_core(dev, "out of memory\n");
  =09=09return -ENOMEM;
  =09}
 =20
-diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem=
-_dma_helper.c
-index 870b90b78bc4..b3a96fc7b36f 100644
---- a/drivers/gpu/drm/drm_gem_dma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-@@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_devic=
-e *dev,
+@@ -439,7 +439,7 @@ int drm_legacy_switchctx(struct drm_device *dev, void *=
+data,
+ =09if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+ =09=09return -EOPNOTSUPP;
 =20
- =09ret =3D dma_buf_vmap_unlocked(attach->dmabuf, &map);
- =09if (ret) {
--=09=09DRM_ERROR("Failed to vmap PRIME buffer\n");
-+=09=09drm_err(dev, "Failed to vmap PRIME buffer\n");
- =09=09return ERR_PTR(ret);
+-=09DRM_DEBUG("%d\n", ctx->handle);
++=09drm_dbg_core(dev, "%d\n", ctx->handle);
+ =09return drm_context_switch(dev, dev->last_context, ctx->handle);
+ }
+=20
+@@ -462,7 +462,7 @@ int drm_legacy_newctx(struct drm_device *dev, void *dat=
+a,
+ =09if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+ =09=09return -EOPNOTSUPP;
+=20
+-=09DRM_DEBUG("%d\n", ctx->handle);
++=09drm_dbg_core(dev, "%d\n", ctx->handle);
+ =09drm_context_switch_complete(dev, file_priv, ctx->handle);
+=20
+ =09return 0;
+@@ -487,7 +487,7 @@ int drm_legacy_rmctx(struct drm_device *dev, void *data=
+,
+ =09if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+ =09=09return -EOPNOTSUPP;
+=20
+-=09DRM_DEBUG("%d\n", ctx->handle);
++=09drm_dbg_core(dev, "%d\n", ctx->handle);
+ =09if (ctx->handle !=3D DRM_KERNEL_CONTEXT) {
+ =09=09if (dev->driver->context_dtor)
+ =09=09=09dev->driver->context_dtor(dev, ctx->handle);
+diff --git a/drivers/gpu/drm/drm_dma.c b/drivers/gpu/drm/drm_dma.c
+index eb6b741a6f99..dac137072c33 100644
+--- a/drivers/gpu/drm/drm_dma.c
++++ b/drivers/gpu/drm/drm_dma.c
+@@ -94,11 +94,11 @@ void drm_legacy_dma_takedown(struct drm_device *dev)
+ =09/* Clear dma buffers */
+ =09for (i =3D 0; i <=3D DRM_MAX_ORDER; i++) {
+ =09=09if (dma->bufs[i].seg_count) {
+-=09=09=09DRM_DEBUG("order %d: buf_count =3D %d,"
+-=09=09=09=09  " seg_count =3D %d\n",
+-=09=09=09=09  i,
+-=09=09=09=09  dma->bufs[i].buf_count,
+-=09=09=09=09  dma->bufs[i].seg_count);
++=09=09=09drm_dbg_core(dev, "order %d: buf_count =3D %d,"
++=09=09=09=09     " seg_count =3D %d\n",
++=09=09=09=09     i,
++=09=09=09=09     dma->bufs[i].buf_count,
++=09=09=09=09     dma->bufs[i].seg_count);
+ =09=09=09for (j =3D 0; j < dma->bufs[i].seg_count; j++) {
+ =09=09=09=09if (dma->bufs[i].seglist[j]) {
+ =09=09=09=09=09dmah =3D dma->bufs[i].seglist[j];
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 04246afc934f..7adf10cc6e67 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -166,7 +166,7 @@ static int drm_minor_register(struct drm_device *dev, u=
+nsigned int type)
+ =09unsigned long flags;
+ =09int ret;
+=20
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(dev, "\n");
+=20
+ =09minor =3D *drm_minor_get_slot(dev, type);
+ =09if (!minor)
+@@ -195,7 +195,7 @@ static int drm_minor_register(struct drm_device *dev, u=
+nsigned int type)
+ =09=09spin_unlock_irqrestore(&drm_minor_lock, flags);
+ =09}
+=20
+-=09DRM_DEBUG("new minor registered %d\n", minor->index);
++=09drm_dbg_core(dev, "new minor registered %d\n", minor->index);
+ =09return 0;
+=20
+ err_debugfs:
+@@ -422,7 +422,7 @@ void drm_minor_release(struct drm_minor *minor)
+  */
+ void drm_put_dev(struct drm_device *dev)
+ {
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(NULL, "\n");
+=20
+ =09if (!dev) {
+ =09=09drm_err(NULL, "cleanup called no dev\n");
+@@ -1030,7 +1030,7 @@ static int drm_stub_open(struct inode *inode, struct =
+file *filp)
+ =09struct drm_minor *minor;
+ =09int err;
+=20
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(NULL, "\n");
+=20
+ =09minor =3D drm_minor_acquire(iminor(inode));
+ =09if (IS_ERR(minor))
+@@ -1099,7 +1099,7 @@ static int __init drm_core_init(void)
+=20
+ =09drm_core_init_complete =3D true;
+=20
+-=09DRM_DEBUG("Initialized\n");
++=09drm_dbg_core(NULL, "Initialized\n");
+ =09return 0;
+=20
+ error:
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index e0d52e69df15..3d88f0483fdf 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -705,7 +705,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void =
+__user *bo_handles,
+=20
+ =09if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+ =09=09ret =3D -EFAULT;
+-=09=09DRM_DEBUG("Failed to copy in GEM handles\n");
++=09=09drm_dbg_core(filp->minor->dev, "Failed to copy in GEM handles\n");
+ =09=09goto out;
+ =09}
+=20
+@@ -760,7 +760,8 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 =
+handle,
+=20
+ =09obj =3D drm_gem_object_lookup(filep, handle);
+ =09if (!obj) {
+-=09=09DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
++=09=09drm_dbg_core(filep->minor->dev,
++=09=09=09     "Failed to look up GEM BO %d\n", handle);
+ =09=09return -EINVAL;
  =09}
 =20
 diff --git a/drivers/gpu/drm/drm_hashtab.c b/drivers/gpu/drm/drm_hashtab.c
-index 60afa1865559..a1ebf8e056c7 100644
+index a1ebf8e056c7..357f20d73b43 100644
 --- a/drivers/gpu/drm/drm_hashtab.c
 +++ b/drivers/gpu/drm/drm_hashtab.c
-@@ -53,7 +53,7 @@ int drm_ht_create(struct drm_open_hash *ht, unsigned int =
-order)
- =09else
- =09=09ht->table =3D vzalloc(array_size(size, sizeof(*ht->table)));
- =09if (!ht->table) {
--=09=09DRM_ERROR("Out of memory for hash table\n");
-+=09=09drm_err(NULL, "Out of memory for hash table\n");
- =09=09return -ENOMEM;
- =09}
- =09return 0;
-@@ -157,7 +157,7 @@ int drm_ht_just_insert_please(struct drm_open_hash *ht,=
- struct drm_hash_item *it
- =09} while(ret && (unshifted_key !=3D first));
+@@ -67,10 +67,12 @@ void drm_ht_verbose_list(struct drm_open_hash *ht, unsi=
+gned long key)
+ =09int count =3D 0;
 =20
- =09if (ret) {
--=09=09DRM_ERROR("Available key bit space exhausted\n");
-+=09=09drm_err(NULL, "Available key bit space exhausted\n");
+ =09hashed_key =3D hash_long(key, ht->order);
+-=09DRM_DEBUG("Key is 0x%08lx, Hashed key is 0x%08x\n", key, hashed_key);
++=09drm_dbg_core(NULL, "Key is 0x%08lx, Hashed key is 0x%08x\n",
++=09=09     key, hashed_key);
+ =09h_list =3D &ht->table[hashed_key];
+ =09hlist_for_each_entry(entry, h_list, head)
+-=09=09DRM_DEBUG("count %d, key: 0x%08lx\n", count++, entry->key);
++=09=09drm_dbg_core(NULL, "count %d, key: 0x%08lx\n",
++=09=09=09     count++, entry->key);
+ }
+=20
+ static struct hlist_node *drm_ht_find_key(struct drm_open_hash *ht,
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index d327638e15ee..e70d6975310c 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -78,7 +78,7 @@ static int drm_legacy_irq_install(struct drm_device *dev,=
+ int irq)
+ =09=09return -EBUSY;
+ =09dev->irq_enabled =3D true;
+=20
+-=09DRM_DEBUG("irq=3D%d\n", irq);
++=09drm_dbg_core(dev, "irq=3D%d\n", irq);
+=20
+ =09/* Before installing handler */
+ =09if (dev->driver->irq_preinstall)
+@@ -146,7 +146,7 @@ int drm_legacy_irq_uninstall(struct drm_device *dev)
+ =09if (!irq_enabled)
  =09=09return -EINVAL;
+=20
+-=09DRM_DEBUG("irq=3D%d\n", dev->irq);
++=09drm_dbg_core(dev, "irq=3D%d\n", dev->irq);
+=20
+ =09if (drm_core_check_feature(dev, DRIVER_LEGACY))
+ =09=09vga_client_unregister(to_pci_dev(dev->dev));
+diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+index 150fe1555068..af72fc38bb7c 100644
+--- a/drivers/gpu/drm/drm_lease.c
++++ b/drivers/gpu/drm/drm_lease.c
+@@ -677,7 +677,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+ =09=09count++;
  =09}
+=20
+-=09DRM_DEBUG("lease holds %d objects\n", count);
++=09drm_dbg_core(dev, "lease holds %d objects\n", count);
+ =09if (ret =3D=3D 0)
+ =09=09arg->count_objects =3D count;
+=20
+diff --git a/drivers/gpu/drm/drm_legacy_misc.c b/drivers/gpu/drm/drm_legacy=
+_misc.c
+index d4c5434062d7..ad0eef292cb0 100644
+--- a/drivers/gpu/drm/drm_legacy_misc.c
++++ b/drivers/gpu/drm/drm_legacy_misc.c
+@@ -70,7 +70,7 @@ int drm_legacy_setup(struct drm_device * dev)
+ =09=09return ret;
+=20
+=20
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(dev, "\n");
  =09return 0;
+ }
+=20
+@@ -95,7 +95,7 @@ void drm_legacy_dev_reinit(struct drm_device *dev)
+ =09dev->last_context =3D 0;
+ =09dev->if_version =3D 0;
+=20
+-=09DRM_DEBUG("lastclose completed\n");
++=09drm_dbg_core(dev, "lastclose completed\n");
+ }
+=20
+ void drm_master_legacy_init(struct drm_master *master)
 diff --git a/drivers/gpu/drm/drm_lock.c b/drivers/gpu/drm/drm_lock.c
-index 1efbd5389d89..411f75a1ee14 100644
+index 411f75a1ee14..fea573dcb016 100644
 --- a/drivers/gpu/drm/drm_lock.c
 +++ b/drivers/gpu/drm/drm_lock.c
-@@ -79,8 +79,8 @@ int drm_lock_take(struct drm_lock_data *lock_data,
- =09if (_DRM_LOCKING_CONTEXT(old) =3D=3D context) {
- =09=09if (old & _DRM_LOCK_HELD) {
- =09=09=09if (context !=3D DRM_KERNEL_CONTEXT) {
--=09=09=09=09DRM_ERROR("%d holds heavyweight lock\n",
--=09=09=09=09=09  context);
-+=09=09=09=09drm_err(NULL, "%d holds heavyweight lock\n",
-+=09=09=09=09=09context);
- =09=09=09}
- =09=09=09return 0;
+@@ -180,10 +180,10 @@ int drm_legacy_lock(struct drm_device *dev, void *dat=
+a,
+ =09=09return -EINVAL;
+ =09}
+=20
+-=09DRM_DEBUG("%d (pid %d) requests lock (0x%08x), flags =3D 0x%08x\n",
+-=09=09  lock->context, task_pid_nr(current),
+-=09=09  master->lock.hw_lock ? master->lock.hw_lock->lock : -1,
+-=09=09  lock->flags);
++=09drm_dbg_core(dev, "%d (pid %d) requests lock (0x%08x), flags =3D 0x%08x=
+\n",
++=09=09     lock->context, task_pid_nr(current),
++=09=09     master->lock.hw_lock ? master->lock.hw_lock->lock : -1,
++=09=09     lock->flags);
+=20
+ =09add_wait_queue(&master->lock.lock_queue, &entry);
+ =09spin_lock_bh(&master->lock.spinlock);
+@@ -219,8 +219,8 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
+ =09__set_current_state(TASK_RUNNING);
+ =09remove_wait_queue(&master->lock.lock_queue, &entry);
+=20
+-=09DRM_DEBUG("%d %s\n", lock->context,
+-=09=09  ret ? "interrupted" : "has lock");
++=09drm_dbg_core(dev, "%d %s\n", lock->context,
++=09=09     ret ? "interrupted" : "has lock");
+ =09if (ret) return ret;
+=20
+ =09/* don't set the block all signals on the master process for now=20
+@@ -234,8 +234,8 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
+ =09if (dev->driver->dma_quiescent && (lock->flags & _DRM_LOCK_QUIESCENT))
+ =09{
+ =09=09if (dev->driver->dma_quiescent(dev)) {
+-=09=09=09DRM_DEBUG("%d waiting for DMA quiescent\n",
+-=09=09=09=09  lock->context);
++=09=09=09drm_dbg_core(dev, "%d waiting for DMA quiescent\n",
++=09=09=09=09     lock->context);
+ =09=09=09return -EBUSY;
  =09=09}
-@@ -142,8 +142,8 @@ static int drm_legacy_lock_free(struct drm_lock_data *l=
-ock_data,
- =09} while (prev !=3D old);
-=20
- =09if (_DRM_LOCK_IS_HELD(old) && _DRM_LOCKING_CONTEXT(old) !=3D context) {
--=09=09DRM_ERROR("%d freed heavyweight lock held by %d\n",
--=09=09=09  context, _DRM_LOCKING_CONTEXT(old));
-+=09=09drm_err(NULL, "%d freed heavyweight lock held by %d\n",
-+=09=09=09context, _DRM_LOCKING_CONTEXT(old));
- =09=09return 1;
  =09}
- =09wake_up_interruptible(&lock_data->lock_queue);
-@@ -175,8 +175,8 @@ int drm_legacy_lock(struct drm_device *dev, void *data,
- =09++file_priv->lock_count;
+@@ -345,8 +345,8 @@ void drm_legacy_lock_release(struct drm_device *dev, st=
+ruct file *filp)
+ =09=09return;
 =20
- =09if (lock->context =3D=3D DRM_KERNEL_CONTEXT) {
--=09=09DRM_ERROR("Process %d using kernel context %d\n",
--=09=09=09  task_pid_nr(current), lock->context);
-+=09=09drm_err(dev, "Process %d using kernel context %d\n",
-+=09=09=09task_pid_nr(current), lock->context);
- =09=09return -EINVAL;
+ =09if (drm_legacy_i_have_hw_lock(dev, file_priv)) {
+-=09=09DRM_DEBUG("File %p released, freeing lock for context %d\n",
+-=09=09=09  filp, _DRM_LOCKING_CONTEXT(file_priv->master->lock.hw_lock->loc=
+k));
++=09=09drm_dbg_core(dev, "File %p released, freeing lock for context %d\n",
++=09=09=09     filp, _DRM_LOCKING_CONTEXT(file_priv->master->lock.hw_lock->=
+lock));
+ =09=09drm_legacy_lock_free(&file_priv->master->lock,
+ =09=09=09=09     _DRM_LOCKING_CONTEXT(file_priv->master->lock.hw_lock->loc=
+k));
  =09}
-=20
-@@ -263,8 +263,8 @@ int drm_legacy_unlock(struct drm_device *dev, void *dat=
-a, struct drm_file *file_
- =09=09return -EOPNOTSUPP;
-=20
- =09if (lock->context =3D=3D DRM_KERNEL_CONTEXT) {
--=09=09DRM_ERROR("Process %d using kernel context %d\n",
--=09=09=09  task_pid_nr(current), lock->context);
-+=09=09drm_err(dev, "Process %d using kernel context %d\n",
-+=09=09=09task_pid_nr(current), lock->context);
- =09=09return -EINVAL;
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_o=
+bject.c
+index ba1608effc0f..6e5a970043fc 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -192,7 +192,8 @@ EXPORT_SYMBOL(drm_mode_object_find);
+ void drm_mode_object_put(struct drm_mode_object *obj)
+ {
+ =09if (obj->free_cb) {
+-=09=09DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
++=09=09drm_dbg_core(NULL, "OBJ ID: %d (%d)\n", obj->id,
++=09=09=09     kref_read(&obj->refcount));
+ =09=09kref_put(&obj->refcount, obj->free_cb);
  =09}
-=20
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.=
-c
-index c871d9f096b8..58ff9503a403 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -603,7 +603,7 @@ int mipi_dbi_dev_init_with_formats(struct mipi_dbi_dev =
-*dbidev,
- =09drm_mode_copy(&dbidev->mode, mode);
- =09ret =3D mipi_dbi_rotate_mode(&dbidev->mode, rotation);
- =09if (ret) {
--=09=09DRM_ERROR("Illegal rotation value %u\n", rotation);
-+=09=09drm_err(drm, "Illegal rotation value %u\n", rotation);
- =09=09return -EINVAL;
+ }
+@@ -209,7 +210,8 @@ EXPORT_SYMBOL(drm_mode_object_put);
+ void drm_mode_object_get(struct drm_mode_object *obj)
+ {
+ =09if (obj->free_cb) {
+-=09=09DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
++=09=09drm_dbg_core(NULL, "OBJ ID: %d (%d)\n", obj->id,
++=09=09=09     kref_read(&obj->refcount));
+ =09=09kref_get(&obj->refcount);
  =09}
+ }
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index 7dfb837d1325..485ec407a115 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -85,8 +85,8 @@ static int drm_legacy_pci_irq_by_busid(struct drm_device =
+*dev, struct drm_irq_bu
 =20
-diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-index 8257f9d4f619..0a8d62c8f359 100644
---- a/drivers/gpu/drm/drm_mm.c
-+++ b/drivers/gpu/drm/drm_mm.c
-@@ -126,14 +126,14 @@ static void show_leaks(struct drm_mm *mm)
+ =09p->irq =3D pdev->irq;
 =20
- =09list_for_each_entry(node, drm_mm_nodes(mm), node_list) {
- =09=09if (!node->stack) {
--=09=09=09DRM_ERROR("node [%08llx + %08llx]: unknown owner\n",
--=09=09=09=09  node->start, node->size);
-+=09=09=09drm_err(NULL, "node [%08llx + %08llx]: unknown owner\n",
-+=09=09=09=09node->start, node->size);
- =09=09=09continue;
- =09=09}
+-=09DRM_DEBUG("%d:%d:%d =3D> IRQ %d\n", p->busnum, p->devnum, p->funcnum,
+-=09=09  p->irq);
++=09drm_dbg_core(dev, "%d:%d:%d =3D> IRQ %d\n",
++=09=09     p->busnum, p->devnum, p->funcnum, p->irq);
+ =09return 0;
+ }
 =20
- =09=09stack_depot_snprint(node->stack, buf, BUFSZ, 0);
--=09=09DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
--=09=09=09  node->start, node->size, buf);
-+=09=09drm_err(NULL, "node [%08llx + %08llx]: inserted at\n%s",
-+=09=09=09node->start, node->size, buf);
- =09}
+@@ -151,12 +151,12 @@ static int drm_legacy_get_pci_dev(struct pci_dev *pde=
+v,
+ =09struct drm_device *dev;
+ =09int ret;
 =20
- =09kfree(buf);
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_c=
-onfig.c
-index 87eb591fe9b5..b86473ab9ff7 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -513,7 +513,7 @@ void drm_mode_config_cleanup(struct drm_device *dev)
- =09if (WARN_ON(!list_empty(&dev->mode_config.connector_list))) {
- =09=09drm_connector_list_iter_begin(dev, &conn_iter);
- =09=09drm_for_each_connector_iter(connector, &conn_iter)
--=09=09=09DRM_ERROR("connector %s leaked!\n", connector->name);
-+=09=09=09drm_err(dev, "connector %s leaked!\n", connector->name);
- =09=09drm_connector_list_iter_end(&conn_iter);
- =09}
+-=09DRM_DEBUG("\n");
+-
+ =09dev =3D drm_dev_alloc(driver, &pdev->dev);
+ =09if (IS_ERR(dev))
+ =09=09return PTR_ERR(dev);
 =20
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..f5171bf91eae 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -373,8 +373,8 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (hact_duration_ns < params->hact_ns.min ||
- =09     hact_duration_ns > params->hact_ns.max)) {
--=09=09DRM_ERROR("Invalid horizontal active area duration: %uns (min: %u, m=
-ax %u)\n",
--=09=09=09  hact_duration_ns, params->hact_ns.min, params->hact_ns.max);
-+=09=09drm_err(dev, "Invalid horizontal active area duration: %uns (min: %u=
-, max %u)\n",
-+=09=09=09hact_duration_ns, params->hact_ns.min, params->hact_ns.max);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -385,8 +385,8 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (hblk_duration_ns < params->hblk_ns.min ||
- =09     hblk_duration_ns > params->hblk_ns.max)) {
--=09=09DRM_ERROR("Invalid horizontal blanking duration: %uns (min: %u, max =
-%u)\n",
--=09=09=09  hblk_duration_ns, params->hblk_ns.min, params->hblk_ns.max);
-+=09=09drm_err(dev, "Invalid horizontal blanking duration: %uns (min: %u, m=
-ax %u)\n",
-+=09=09=09hblk_duration_ns, params->hblk_ns.min, params->hblk_ns.max);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -397,8 +397,8 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (hslen_duration_ns < params->hslen_ns.min ||
- =09     hslen_duration_ns > params->hslen_ns.max)) {
--=09=09DRM_ERROR("Invalid horizontal sync duration: %uns (min: %u, max %u)\=
-n",
--=09=09=09  hslen_duration_ns, params->hslen_ns.min, params->hslen_ns.max);
-+=09=09drm_err(dev, "Invalid horizontal sync duration: %uns (min: %u, max %=
-u)\n",
-+=09=09=09hslen_duration_ns, params->hslen_ns.min, params->hslen_ns.max);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -409,7 +409,7 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (porches_duration_ns > (params->hfp_ns.max + params->hbp_ns.max) ||
- =09     porches_duration_ns < (params->hfp_ns.min + params->hbp_ns.min))) =
-{
--=09=09DRM_ERROR("Invalid horizontal porches duration: %uns\n", porches_dur=
-ation_ns);
-+=09=09drm_err(dev, "Invalid horizontal porches duration: %uns\n", porches_=
-duration_ns);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -431,8 +431,8 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (hfp_duration_ns < params->hfp_ns.min ||
- =09     hfp_duration_ns > params->hfp_ns.max)) {
--=09=09DRM_ERROR("Invalid horizontal front porch duration: %uns (min: %u, m=
-ax %u)\n",
--=09=09=09  hfp_duration_ns, params->hfp_ns.min, params->hfp_ns.max);
-+=09=09drm_err(dev, "Invalid horizontal front porch duration: %uns (min: %u=
-, max %u)\n",
-+=09=09=09hfp_duration_ns, params->hfp_ns.min, params->hfp_ns.max);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -443,8 +443,8 @@ static int fill_analog_mode(struct drm_device *dev,
- =09if (!bt601 &&
- =09    (hbp_duration_ns < params->hbp_ns.min ||
- =09     hbp_duration_ns > params->hbp_ns.max)) {
--=09=09DRM_ERROR("Invalid horizontal back porch duration: %uns (min: %u, ma=
-x %u)\n",
--=09=09=09  hbp_duration_ns, params->hbp_ns.min, params->hbp_ns.max);
-+=09=09drm_err(dev, "Invalid horizontal back porch duration: %uns (min: %u,=
- max %u)\n",
-+=09=09=09hbp_duration_ns, params->hbp_ns.min, params->hbp_ns.max);
- =09=09return -EINVAL;
- =09}
-=20
-@@ -495,8 +495,8 @@ static int fill_analog_mode(struct drm_device *dev,
-=20
- =09vtotal =3D vactive + vfp + vslen + vbp;
- =09if (params->num_lines !=3D vtotal) {
--=09=09DRM_ERROR("Invalid vertical total: %upx (expected %upx)\n",
--=09=09=09  vtotal, params->num_lines);
-+=09=09drm_err(dev, "Invalid vertical total: %upx (expected %upx)\n",
-+=09=09=09vtotal, params->num_lines);
- =09=09return -EINVAL;
- =09}
-=20
-diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_mod=
-eset_helper.c
-index f858dfedf2cf..e26b0285dde6 100644
---- a/drivers/gpu/drm/drm_modeset_helper.c
-+++ b/drivers/gpu/drm/drm_modeset_helper.c
-@@ -235,7 +235,7 @@ int drm_mode_config_helper_resume(struct drm_device *de=
-v)
-=20
- =09ret =3D drm_atomic_helper_resume(dev, dev->mode_config.suspend_state);
++=09drm_dbg_core(dev, "\n");
++
+ =09ret =3D pci_enable_device(pdev);
  =09if (ret)
--=09=09DRM_ERROR("Failed to resume (%d)\n", ret);
-+=09=09drm_err(dev, "Failed to resume (%d)\n", ret);
- =09dev->mode_config.suspend_state =3D NULL;
+ =09=09goto err_free;
+@@ -203,7 +203,7 @@ int drm_legacy_pci_init(const struct drm_driver *driver=
+,
+ =09const struct pci_device_id *pid;
+ =09int i;
 =20
- =09drm_fb_helper_set_suspend_unlocked(dev->fb_helper, 0);
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(NULL, "\n");
+=20
+ =09if (WARN_ON(!(driver->driver_features & DRIVER_LEGACY)))
+ =09=09return -EINVAL;
+@@ -247,7 +247,7 @@ void drm_legacy_pci_exit(const struct drm_driver *drive=
+r,
+ {
+ =09struct drm_device *dev, *tmp;
+=20
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(NULL, "\n");
+=20
+ =09if (!(driver->driver_features & DRIVER_LEGACY)) {
+ =09=09WARN_ON(1);
 diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 24e7998d1731..fc11efd5e560 100644
+index fc11efd5e560..1e8727b7bce9 100644
 --- a/drivers/gpu/drm/drm_plane.c
 +++ b/drivers/gpu/drm/drm_plane.c
-@@ -611,7 +611,7 @@ void drm_plane_force_disable(struct drm_plane *plane)
- =09plane->old_fb =3D plane->fb;
- =09ret =3D plane->funcs->disable_plane(plane, NULL);
- =09if (ret) {
--=09=09DRM_ERROR("failed to disable plane with busy fb\n");
-+=09=09drm_err(plane->dev, "failed to disable plane with busy fb\n");
- =09=09plane->old_fb =3D NULL;
- =09=09return;
- =09}
+@@ -1260,17 +1260,19 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev=
+,
+ =09=09switch (page_flip->flags & DRM_MODE_PAGE_FLIP_TARGET) {
+ =09=09case DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE:
+ =09=09=09if ((int)(target_vblank - current_vblank) > 1) {
+-=09=09=09=09DRM_DEBUG("Invalid absolute flip target %u, "
+-=09=09=09=09=09  "must be <=3D %u\n", target_vblank,
+-=09=09=09=09=09  current_vblank + 1);
++=09=09=09=09drm_dbg_core(dev,
++=09=09=09=09=09     "Invalid absolute flip target %u, "
++=09=09=09=09=09     "must be <=3D %u\n", target_vblank,
++=09=09=09=09=09     current_vblank + 1);
+ =09=09=09=09drm_crtc_vblank_put(crtc);
+ =09=09=09=09return -EINVAL;
+ =09=09=09}
+ =09=09=09break;
+ =09=09case DRM_MODE_PAGE_FLIP_TARGET_RELATIVE:
+ =09=09=09if (target_vblank !=3D 0 && target_vblank !=3D 1) {
+-=09=09=09=09DRM_DEBUG("Invalid relative flip target %u, "
+-=09=09=09=09=09  "must be 0 or 1\n", target_vblank);
++=09=09=09=09drm_dbg_core(dev,
++=09=09=09=09=09     "Invalid relative flip target %u, "
++=09=09=09=09=09     "must be 0 or 1\n", target_vblank);
+ =09=09=09=09drm_crtc_vblank_put(crtc);
+ =09=09=09=09return -EINVAL;
+ =09=09=09}
 diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
-index f4e6184d1877..5b0b2140d535 100644
+index 5b0b2140d535..08b3eb586484 100644
 --- a/drivers/gpu/drm/drm_scatter.c
 +++ b/drivers/gpu/drm/drm_scatter.c
-@@ -170,9 +170,10 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *=
-data,
- =09=09=09     j++, tmp++) {
- =09=09=09=09if (*tmp !=3D 0xcafebabe && error =3D=3D 0) {
- =09=09=09=09=09error =3D 1;
--=09=09=09=09=09DRM_ERROR("Scatter allocation error, "
--=09=09=09=09=09=09  "pagelist does not match "
--=09=09=09=09=09=09  "virtual mapping\n");
-+=09=09=09=09=09drm_err(dev,
-+=09=09=09=09=09=09"Scatter allocation error, "
-+=09=09=09=09=09=09"pagelist does not match "
-+=09=09=09=09=09=09"virtual mapping\n");
- =09=09=09=09}
- =09=09=09}
- =09=09=09tmp =3D page_address(entry->pagelist[i]);
-@@ -183,7 +184,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *d=
-ata,
- =09=09=09}
- =09=09}
- =09=09if (error =3D=3D 0)
--=09=09=09DRM_ERROR("Scatter allocation matches pagelist\n");
-+=09=09=09drm_err(dev, "Scatter allocation matches pagelist\n");
- =09}
- #endif
+@@ -82,7 +82,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *dat=
+a,
+ =09struct drm_sg_mem *entry;
+ =09unsigned long pages, i, j;
 =20
+-=09DRM_DEBUG("\n");
++=09drm_dbg_core(dev, "\n");
+=20
+ =09if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+ =09=09return -EOPNOTSUPP;
+@@ -101,7 +101,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *d=
+ata,
+ =09=09return -ENOMEM;
+=20
+ =09pages =3D (request->size + PAGE_SIZE - 1) / PAGE_SIZE;
+-=09DRM_DEBUG("size=3D%ld pages=3D%ld\n", request->size, pages);
++=09drm_dbg_core(dev, "size=3D%ld pages=3D%ld\n", request->size, pages);
+=20
+ =09entry->pages =3D pages;
+ =09entry->pagelist =3D kcalloc(pages, sizeof(*entry->pagelist), GFP_KERNEL=
+);
+@@ -132,8 +132,8 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *d=
+ata,
+=20
+ =09entry->handle =3D ScatterHandle((unsigned long)entry->virtual);
+=20
+-=09DRM_DEBUG("handle  =3D %08lx\n", entry->handle);
+-=09DRM_DEBUG("virtual =3D %p\n", entry->virtual);
++=09drm_dbg_core(dev, "handle  =3D %08lx\n", entry->handle);
++=09drm_dbg_core(dev, "virtual =3D %p\n", entry->virtual);
+=20
+ =09for (i =3D (unsigned long)entry->virtual, j =3D 0; j < pages;
+ =09     i +=3D PAGE_SIZE, j++) {
+@@ -213,7 +213,7 @@ int drm_legacy_sg_free(struct drm_device *dev, void *da=
+ta,
+ =09if (!entry || entry->handle !=3D request->handle)
+ =09=09return -EINVAL;
+=20
+-=09DRM_DEBUG("virtual  =3D %p\n", entry->virtual);
++=09drm_dbg_core(dev, "virtual  =3D %p\n", entry->virtual);
+=20
+ =09drm_sg_cleanup(entry);
+=20
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0c2be8360525..e84957a0f319 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -298,7 +298,7 @@ void drm_syncobj_add_point(struct drm_syncobj *syncobj,
+ =09prev =3D drm_syncobj_fence_get(syncobj);
+ =09/* You are adding an unorder point to timeline, which could cause paylo=
+ad returned from query_ioctl is 0! */
+ =09if (prev && prev->seqno >=3D point)
+-=09=09DRM_DEBUG("You are adding an unorder point to timeline!\n");
++=09=09drm_dbg_core(NULL, "You are adding an unorder point to timeline!\n")=
+;
+ =09dma_fence_chain_init(chain, prev, fence, point);
+ =09rcu_assign_pointer(syncobj->fence, &chain->base);
+=20
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index f62767ff34b2..b7c6754b4688 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -383,8 +383,8 @@ int drm_sysfs_connector_add(struct drm_connector *conne=
+ctor)
+ =09if (r)
+ =09=09goto err_free;
+=20
+-=09DRM_DEBUG("adding \"%s\" to sysfs\n",
+-=09=09  connector->name);
++=09drm_dbg_core(dev, "adding \"%s\" to sysfs\n",
++=09=09     connector->name);
+=20
+ =09r =3D device_add(kdev);
+ =09if (r) {
+@@ -422,8 +422,8 @@ void drm_sysfs_connector_remove(struct drm_connector *c=
+onnector)
+ =09if (dev_fwnode(connector->kdev))
+ =09=09component_del(connector->kdev, &typec_connector_ops);
+=20
+-=09DRM_DEBUG("removing \"%s\" from sysfs\n",
+-=09=09  connector->name);
++=09drm_dbg_core(connector->dev, "removing \"%s\" from sysfs\n",
++=09=09     connector->name);
+=20
+ =09device_unregister(connector->kdev);
+ =09connector->kdev =3D NULL;
+@@ -434,7 +434,7 @@ void drm_sysfs_lease_event(struct drm_device *dev)
+ =09char *event_string =3D "LEASE=3D1";
+ =09char *envp[] =3D { event_string, NULL };
+=20
+-=09DRM_DEBUG("generating lease event\n");
++=09drm_dbg_core(dev, "generating lease event\n");
+=20
+ =09kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+ }
+@@ -455,7 +455,7 @@ void drm_sysfs_hotplug_event(struct drm_device *dev)
+ =09char *event_string =3D "HOTPLUG=3D1";
+ =09char *envp[] =3D { event_string, NULL };
+=20
+-=09DRM_DEBUG("generating hotplug event\n");
++=09drm_dbg_core(dev, "generating hotplug event\n");
+=20
+ =09kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+ }
+@@ -511,7 +511,7 @@ void drm_sysfs_connector_status_event(struct drm_connec=
+tor *connector,
+ =09snprintf(prop_id, ARRAY_SIZE(prop_id),
+ =09=09 "PROPERTY=3D%u", property->base.id);
+=20
+-=09DRM_DEBUG("generating connector status event\n");
++=09drm_dbg_core(dev, "generating connector status event\n");
+=20
+ =09kobject_uevent_env(&dev->primary->kdev->kobj, KOBJ_CHANGE, envp);
+ }
 diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-index 87c9fe55dec7..03c0a4e6e77b 100644
+index 03c0a4e6e77b..966ba9e46034 100644
 --- a/drivers/gpu/drm/drm_vm.c
 +++ b/drivers/gpu/drm/drm_vm.c
-@@ -547,7 +547,7 @@ static int drm_mmap_locked(struct file *filp, struct vm=
-_area_struct *vma)
- =09=09return drm_mmap_dma(filp, vma);
+@@ -168,12 +168,11 @@ static vm_fault_t drm_vm_fault(struct vm_fault *vmf)
+ =09=09get_page(page);
+ =09=09vmf->page =3D page;
 =20
- =09if (drm_ht_find_item(&dev->map_hash, vma->vm_pgoff, &hash)) {
--=09=09DRM_ERROR("Could not find map\n");
-+=09=09drm_err(dev, "Could not find map\n");
- =09=09return -EINVAL;
+-=09=09DRM_DEBUG
+-=09=09    ("baddr =3D 0x%llx page =3D 0x%p, offset =3D 0x%llx, count=3D%d\=
+n",
+-=09=09     (unsigned long long)baddr,
+-=09=09     agpmem->memory->pages[offset],
+-=09=09     (unsigned long long)offset,
+-=09=09     page_count(page));
++=09=09drm_dbg_core(dev, "baddr =3D 0x%llx page =3D 0x%p, offset =3D 0x%llx=
+, count=3D%d\n",
++=09=09=09     (unsigned long long)baddr,
++=09=09=09     agpmem->memory->pages[offset],
++=09=09=09     (unsigned long long)offset,
++=09=09=09     page_count(page));
+ =09=09return 0;
  =09}
+ vm_fault_error:
+@@ -215,7 +214,7 @@ static vm_fault_t drm_vm_shm_fault(struct vm_fault *vmf=
+)
+ =09get_page(page);
+ =09vmf->page =3D page;
 =20
+-=09DRM_DEBUG("shm_fault 0x%lx\n", offset);
++=09drm_dbg_core(NULL, "shm_fault 0x%lx\n", offset);
+ =09return 0;
+ }
+=20
+@@ -236,8 +235,8 @@ static void drm_vm_shm_close(struct vm_area_struct *vma=
+)
+ =09struct drm_map_list *r_list;
+ =09int found_maps =3D 0;
+=20
+-=09DRM_DEBUG("0x%08lx,0x%08lx\n",
+-=09=09  vma->vm_start, vma->vm_end - vma->vm_start);
++=09drm_dbg_core(dev, "0x%08lx,0x%08lx\n",
++=09=09     vma->vm_start, vma->vm_end - vma->vm_start);
+=20
+ =09map =3D vma->vm_private_data;
+=20
+@@ -319,7 +318,7 @@ static vm_fault_t drm_vm_dma_fault(struct vm_fault *vmf=
+)
+ =09get_page(page);
+ =09vmf->page =3D page;
+=20
+-=09DRM_DEBUG("dma_fault 0x%lx (page %lu)\n", offset, page_nr);
++=09drm_dbg_core(dev, "dma_fault 0x%lx (page %lu)\n", offset, page_nr);
+ =09return 0;
+ }
+=20
+@@ -391,8 +390,8 @@ static void drm_vm_open_locked(struct drm_device *dev,
+ {
+ =09struct drm_vma_entry *vma_entry;
+=20
+-=09DRM_DEBUG("0x%08lx,0x%08lx\n",
+-=09=09  vma->vm_start, vma->vm_end - vma->vm_start);
++=09drm_dbg_core(dev, "0x%08lx,0x%08lx\n",
++=09=09     vma->vm_start, vma->vm_end - vma->vm_start);
+=20
+ =09vma_entry =3D kmalloc(sizeof(*vma_entry), GFP_KERNEL);
+ =09if (vma_entry) {
+@@ -417,8 +416,8 @@ static void drm_vm_close_locked(struct drm_device *dev,
+ {
+ =09struct drm_vma_entry *pt, *temp;
+=20
+-=09DRM_DEBUG("0x%08lx,0x%08lx\n",
+-=09=09  vma->vm_start, vma->vm_end - vma->vm_start);
++=09drm_dbg_core(dev, "0x%08lx,0x%08lx\n",
++=09=09     vma->vm_start, vma->vm_end - vma->vm_start);
+=20
+ =09list_for_each_entry_safe(pt, temp, &dev->vmalist, head) {
+ =09=09if (pt->vma =3D=3D vma) {
+@@ -466,8 +465,8 @@ static int drm_mmap_dma(struct file *filp, struct vm_ar=
+ea_struct *vma)
+=20
+ =09dev =3D priv->minor->dev;
+ =09dma =3D dev->dma;
+-=09DRM_DEBUG("start =3D 0x%lx, end =3D 0x%lx, page offset =3D 0x%lx\n",
+-=09=09  vma->vm_start, vma->vm_end, vma->vm_pgoff);
++=09drm_dbg_core(dev, "start =3D 0x%lx, end =3D 0x%lx, page offset =3D 0x%l=
+x\n",
++=09=09     vma->vm_start, vma->vm_end, vma->vm_pgoff);
+=20
+ =09/* Length must match exact page count */
+ =09if (!dma || (length >> PAGE_SHIFT) !=3D dma->page_count) {
+@@ -528,8 +527,8 @@ static int drm_mmap_locked(struct file *filp, struct vm=
+_area_struct *vma)
+ =09resource_size_t offset =3D 0;
+ =09struct drm_hash_item *hash;
+=20
+-=09DRM_DEBUG("start =3D 0x%lx, end =3D 0x%lx, page offset =3D 0x%lx\n",
+-=09=09  vma->vm_start, vma->vm_end, vma->vm_pgoff);
++=09drm_dbg_core(dev, "start =3D 0x%lx, end =3D 0x%lx, page offset =3D 0x%l=
+x\n",
++=09=09     vma->vm_start, vma->vm_end, vma->vm_pgoff);
+=20
+ =09if (!priv->authenticated)
+ =09=09return -EACCES;
+@@ -600,10 +599,10 @@ static int drm_mmap_locked(struct file *filp, struct =
+vm_area_struct *vma)
+ =09=09=09=09       vma->vm_end - vma->vm_start,
+ =09=09=09=09       vma->vm_page_prot))
+ =09=09=09return -EAGAIN;
+-=09=09DRM_DEBUG("   Type =3D %d; start =3D 0x%lx, end =3D 0x%lx,"
+-=09=09=09  " offset =3D 0x%llx\n",
+-=09=09=09  map->type,
+-=09=09=09  vma->vm_start, vma->vm_end, (unsigned long long)(map->offset + =
+offset));
++=09=09drm_dbg_core(dev,
++=09=09=09     "   Type =3D %d; start =3D 0x%lx, end =3D 0x%lx, offset =3D =
+0x%llx\n",
++=09=09=09     map->type, vma->vm_start, vma->vm_end,
++=09=09=09     (unsigned long long)(map->offset + offset));
+=20
+ =09=09vma->vm_ops =3D &drm_vm_ops;
+ =09=09break;
 --=20
 2.39.2
 
