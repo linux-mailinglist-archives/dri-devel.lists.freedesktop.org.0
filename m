@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B154724627
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 16:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1657972585F
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8552210E360;
-	Tue,  6 Jun 2023 14:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEB5810E49B;
+	Wed,  7 Jun 2023 08:45:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E91F10E360;
- Tue,  6 Jun 2023 14:33:20 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-3090d3e9c92so6174640f8f.2; 
- Tue, 06 Jun 2023 07:33:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686061998; x=1688653998;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=etnk6Bmfi+NsN3fMwvpGFNhakv5CYAq3q2C18ogo/QU=;
- b=r4mkCO7+F6PcaG6L5pBrXztZOCfvv1CoQeSFQeqwGopyq+CzI6qbgEWC9fduxPiiDh
- XtDOudYSaQOmT9xXbvpe5i2hAmAHMQs4lRIgF7PUe4jBfFxNVi2pSpYkKlRGMC9rFSxJ
- pJNj+4DrSg8ccP5n8R1teUhl3oAOJrlv/CWchMr3Ci7DzyCFvKTYsfp9/3dwz4mVfPXF
- GjZGe9iXmZWDii8Hk7qOo0dE4uC3SdnUvdpmAXQuKmbavca6BPxcvyZMjhAdRqb+KDJf
- lIQ3GWa+pfASHBYSLsxeZgq+e/FxNza4y3b088Upx0E/OnrlxgsJ8L0WlVovnl7HOVcs
- nJPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686061998; x=1688653998;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=etnk6Bmfi+NsN3fMwvpGFNhakv5CYAq3q2C18ogo/QU=;
- b=hXc1d/wvI9EK1m4PjPOXFiCT69cc5wn6ouQf/m3U/5e8lja/O7vkZ0mesRSSLOVe6+
- m2UMkBkSXYrjBNSf1Z8IeyjNTE4uaQYcxSNibDtHhuyhxWqwwYED19fPJfy2vtxn3I79
- dabhS9EMMhNE9Wi0DPKL9JfVjdGfhPO47+qemjkj2Akh7WpLgfGmu3cJoLsxhLajomRf
- ZHRSMG7JzPtVAENQmvc8VrIhz0xbZwCS8B8r0WUMyXkqFvPjM2MaxZFv9auTzia/8cos
- ubkpEQiayE+HU5kPv2RWc5TTNyxWbi+vxMb8+9fVv86Reo1wMO1Q5p4ckD7uEpbVThAq
- ef/Q==
-X-Gm-Message-State: AC+VfDxt++d03Aj6D5ZO8uC+S0vxUSaOImqTkexOJ+y0cUcD7EOigiTw
- 4V+OGBLFxd90kpJRoF+uU9A=
-X-Google-Smtp-Source: ACHHUZ5KiIY5KwxOSxBzH2UQUnhP4/a60rnf7iCrHG1wFajmhi2f/DobS0/OOkSxpTE7+N6FDx414A==
-X-Received: by 2002:a5d:4bd0:0:b0:306:3945:65e9 with SMTP id
- l16-20020a5d4bd0000000b00306394565e9mr2211778wrt.3.1686061998296; 
- Tue, 06 Jun 2023 07:33:18 -0700 (PDT)
-Received: from odroidc2.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
- [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- n16-20020a1c7210000000b003f736e28cd6sm8902642wmc.4.2023.06.06.07.33.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 07:33:17 -0700 (PDT)
-From: Erico Nunes <nunes.erico@gmail.com>
-To: yuq825@gmail.com, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org
-Subject: [PATCH] drm/lima: fix sched context destroy
-Date: Tue,  6 Jun 2023 16:32:47 +0200
-Message-Id: <20230606143247.433018-1-nunes.erico@gmail.com>
-X-Mailer: git-send-email 2.40.1
+Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83ECF10E36B
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 14:35:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1686062111; cv=none; d=zohomail.in; s=zohoarc; 
+ b=FoV90p8s7KGaX/AFXXGRhVbKUQdUKO2sbtjs5ppLjap3oUZw8CqU+N13Wg3aTYAqRPSZAi52hCdPoxdrkrOwiYQ5AzBPtnP7KBKbv8QXVhczksabmfWjJpcZdJ8NRP3SNi67eOCUejoRpbRx4e8Wxb/kgExij9EA8zBwObstuKM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1686062111;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=nhq6ObVRtO0F/91ipiCPjsG/qJ9zJ64B4gXqedyDihU=; 
+ b=PjoWZh7AMGFCsBVZgB5ttbmU3/UHrqT7dv0aiYmOX0OhmemYaEErbOG3EjlW8rgKrHDQ/7zW/LztC/9GbkVrbn6V3JbMaX2TiwYXAHUn7+68S8Su7m+ClVcaPRysuB8hRgrn1/BV39vdyNbfVRBuAJHoaziuXXAb3MrZoluFTSg=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686062111; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=nhq6ObVRtO0F/91ipiCPjsG/qJ9zJ64B4gXqedyDihU=;
+ b=ea4aSFICrqljBDAllkvvJUzxGaPmplAPZ2LzUC+BO7tT/ohYqTLT90xsiK+dbii2
+ G+X3unpnzvNEFHfaUCzqdTkb2dSbphflmz6Gdhhk12QxbnLMaT8QSH3X1Jw+yqwY3Nt
+ 45IOMsAysJn4VEi895FZ3m3qQ2P5s7v40DmzhDXU=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 168606207938986.73514266463042;
+ Tue, 6 Jun 2023 20:04:39 +0530 (IST)
+Date: Tue, 06 Jun 2023 20:04:39 +0530
+From: Siddh Raman Pant <code@siddh.me>
+To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
+Message-ID: <18891219d8e.6a7d8f15119986.32609419593331086@siddh.me>
+In-Reply-To: <20230606140512.GA5197@pendragon.ideasonboard.com>
+References: <cover.1686047727.git.code@siddh.me>
+ <ae42791195a788bb77b3f9c2b87bca5d4e78cf83.1686047727.git.code@siddh.me>
+ <20230606140512.GA5197@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v9 2/8] drm/print: Fix and add support for NULL as first
+ argument in drm_* macros
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, luben.tuikov@amd.com,
- christian.koenig@amd.com, Erico Nunes <nunes.erico@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Suraj Upadhyay <usuraj35@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm sched entity must be flushed before finishing, to account for
-jobs potentially still in flight at that time.
-Lima did not do this flush until now, so switch the destroy call to the
-drm_sched_entity_destroy() wrapper which will take care of that.
+On Tue, 06 Jun 2023 19:35:12 +0530, Laurent Pinchart wrote:
+> Hi Siddh,
+> 
+> Thank you for the patch.
 
-This fixes a regression on lima which started since the rework in
-commit 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
-where some specific types of applications may hang indefinitely.
+Anytime :)
 
-Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
-Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
----
- drivers/gpu/drm/lima/lima_sched.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Tue, Jun 06, 2023 at 04:15:16PM +0530, Siddh Raman Pant wrote:
+> > Comments say macros DRM_DEBUG_* are deprecated in favor of
+> > drm_dbg_*(NULL, ...), but they have broken support for it,
+> > as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
+> 
+> What's the problem there ?
 
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index ff003403fbbc..ffd91a5ee299 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -165,7 +165,7 @@ int lima_sched_context_init(struct lima_sched_pipe *pipe,
- void lima_sched_context_fini(struct lima_sched_pipe *pipe,
- 			     struct lima_sched_context *context)
- {
--	drm_sched_entity_fini(&context->base);
-+	drm_sched_entity_destroy(&context->base);
- }
- 
- struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *task)
--- 
-2.40.1
+(NULL)->dev is invalid C. It's a macro, so preprocessor substitutes
+that text directly, there is no evaluation. GCC will throw an error
+regarding dereferencing a void* pointer.
 
+> >  /* Helper for struct drm_device based logging. */
+> >  #define __drm_printk(drm, level, type, fmt, ...)                     \
+> > -     dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+> > +({                                                                   \
+> > +     struct device *__dev_ = __drm_dev_ptr(drm);                     \
+> > +     if (__dev_)                                                     \
+> > +             dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__); \
+> > +     else                                                            \
+> > +             pr_##level##type("[drm] " fmt, ##__VA_ARGS__);          \
+> 
+> If I recall correctly, dev_*() handle a NULL dev pointer just fine. Do
+> we need to manually fall back to pr_*() ?
+
+I took drm_dev_printk (on line 261 of drm_print.c) as the reference,
+wherein it uses a conditional for determining whether dev_printk or
+printk should be called.
+
+I suppose it is to avoid printing "(NULL device *)", which dev_printk
+does if it gets a NULL device pointer (refer the definition on line
+4831 of drivers/base/core.c). Though if I'm wrong, kindly let me know.
+
+Thanks,
+Siddh
