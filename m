@@ -1,72 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7A372389E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 09:14:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B44E77238D8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 09:22:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7739710E00C;
-	Tue,  6 Jun 2023 07:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB89610E218;
+	Tue,  6 Jun 2023 07:22:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0004810E00C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 07:14:52 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-51492ae66a4so8019758a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 00:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686035691; x=1688627691;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XmRHIbHI19eoc97ppNeppF0Ezev+VmG8IR7wKOYBJyU=;
- b=WH84TS7sVBpGROxnijNPIa5FE+w0fXrVQjj8SbiPkF+XGVJsxZIoagF5R+NHOkL92o
- 8WbOSQ3ScOIIXG3aNUrAiBownXTNQ0FygSuL4xKGXx+zdSeGerhEwUxB+R/WISBgJPf7
- NBj2D0jFiLq5VeViHNbSlLS+AH5HAUGvS278VpaVPMskr3oltn56aB3e16aYwnkvybVS
- 5oiPsnMb37n4VbK9AE3hR5Yzfux0k4huOhPkLUE5LpaAVpTCaYCGiR3qmpcyXqGshxYy
- ZJTZpkYsImHekEvIf7h4qdXQoMNha8fhitraXkeT1oBDmqAI8hDdKVCYbQWjAAR0v/8b
- Rl/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686035691; x=1688627691;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XmRHIbHI19eoc97ppNeppF0Ezev+VmG8IR7wKOYBJyU=;
- b=NJSs2HE6NLaCZurnatUjk4YL6xEkxAz3fT/Jp1QKc6i8Nfg2F6+kDtfmkUNobjJW+7
- GiCCjY7pZn7dL7tunu0FncNxlAFJWt1sB+KRO0AW80LfGIwqb8keeZ5Li+NvkIHdxbgo
- U8rUuPaTaxtgPh6Yn4mtRlK8T0gpunut+xqqjK/fC2qwXvZAsC5ba8EV5c3KK7/OeC2O
- Ln8uYgTB4bUTiRFhwBRra74oV99d3RYWRgRBircDYAKo6bGKp0TFa/TKI2wXmyZhDrJB
- 2asQObdqy9n3DLZM3vNVDltuGf8pdTosGzGaru7RJHGyUgNlb794i++n5YYKrXUzmW4Z
- O8uQ==
-X-Gm-Message-State: AC+VfDygxj0DlrY3OB6uWJUXSVLOe0is+euZP6tmfyLLFTw57tGZQame
- vQqMbWn/7jXey4B1BVix1qmRBg==
-X-Google-Smtp-Source: ACHHUZ7PaX5m9mu4aBEn/ZGkNHDbeD9hs3mRnmZkxYtMpgdkF5W4cYVVc8LnNVzVgcV1RpWdsNAWQg==
-X-Received: by 2002:a17:907:d12:b0:973:940e:a018 with SMTP id
- gn18-20020a1709070d1200b00973940ea018mr1290288ejc.34.1686035691061; 
- Tue, 06 Jun 2023 00:14:51 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- q22-20020aa7cc16000000b005153b12c9f7sm4856912edt.32.2023.06.06.00.14.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jun 2023 00:14:50 -0700 (PDT)
-Message-ID: <4bb22e77-b3f0-be07-5e8a-442c3aa3fd48@linaro.org>
-Date: Tue, 6 Jun 2023 09:14:48 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA2A10E12C;
+ Tue,  6 Jun 2023 07:22:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686036126; x=1717572126;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=CxbcWum0+83a9LbAqPEy91aVgexwF/uAMmOrNRh1chw=;
+ b=fxTzz+NvpHHMBMm3ZsbgBVAiFd5fy3pl29E7k5vubNhCvzoFY5Hje0ML
+ Kcbq/ntHospdhacdjZggl56/HGXLDq+vR3OchMpXywhiRSVYiI+Eh/Inx
+ AMxaHvdHCHoawDkMF1bRY6GXoh+RsFG4Z8rG4VzSg2IwJixnrhN6P7QjQ
+ h9inWqtFojeboiqZ8Lo0WfO18dIZrt0gN41yihQ8KsqzqCMRG2wYhdT+Z
+ PAy2g4naTA698cSWkM38Me4z+S/wqQb9NPoMK5hKrGeZh4pNxmsi2hAd+
+ LnKEyLy0P0i6YPQK8oeHX+qfX+B01l162UkLK7kzaKl3rlk1oJf4tvHTt A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336214488"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="336214488"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 00:22:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="821505100"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; d="scan'208";a="821505100"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2023 00:22:04 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q6R11-0004xv-0s;
+ Tue, 06 Jun 2023 07:22:03 +0000
+Date: Tue, 6 Jun 2023 15:21:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info
+ debugfs
+Message-ID: <202306061505.rzhdExYJ-lkp@intel.com>
+References: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 3/3] drm/panel-fannal-c3003: Add fannal c3004 DSI panel
-Content-Language: en-US
-To: Paulo Pavacic <pavacic.p@gmail.com>, neil.armstrong@linaro.org,
- sam@ravnborg.org, airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
-References: <20230605153539.497602-1-pavacic.p@gmail.com>
- <20230605153539.497602-4-pavacic.p@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230605153539.497602-4-pavacic.p@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,92 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/06/2023 17:35, Paulo Pavacic wrote:
-> Fannal C3004 is a 480x800 display made by fannal that requires
-> DCS initialization sequences.
-> 
-> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
-> ---
+Hi Daniele,
 
-> v3 changelog:
->  - using generic mipi_dsi_dcs_write_seq
+kernel test robot noticed the following build warnings:
 
-This is marked as v2?
+[auto build test WARNING on drm-tip/drm-tip]
 
->  - removed success prints
->  - removed some comments
->  - simplified code/removed support for different panels
->  - changed namespace from fann to fannal
-> v2 changelog:
->  - renamed from panel-mipi-dsi-bringup
->  - only one MAINTAINER e-mail
-> ---
->  MAINTAINERS     
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-gsc-fixes-and-updates-for-GSC-memory-allocation/20230606-102510
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio%40intel.com
+patch subject: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info debugfs
+config: i386-randconfig-i015-20230606 (https://download.01.org/0day-ci/archive/20230606/202306061505.rzhdExYJ-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
+        git fetch drm-tip drm-tip
+        git checkout drm-tip/drm-tip
+        b4 shazam https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio@intel.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061505.rzhdExYJ-lkp@intel.com/
 
-> +static int fannal_panel_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct fannal_panel_data *panel_data;
-> +	int ret;
-> +
-> +	panel_data = devm_kzalloc(&dsi->dev, sizeof(*panel_data), GFP_KERNEL);
-> +
-> +	if (!panel_data)
-> +		return -ENOMEM;
-> +
-> +	panel_data->reset = devm_gpiod_get_optional(
-> +		dev, "reset", GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
+All warnings (new ones prefixed by >>):
 
-dev should be in previous line
-
-Why this is nonexclusive? How many instances of same driver are
-expecting to get this on one system?
-
-> +
-> +	if (IS_ERR(panel_data->reset)) {
-> +		ret = PTR_ERR(panel_data->reset);
-> +		dev_err(dev,
-> +			"error: probe: get reset GPIO: (%d) Check the fdt\n",
-> +			ret);
-
-return dev_err_probe
-
-> +		return ret;
-> +	}
-> +
-> +	mipi_dsi_set_drvdata(dsi, panel_data);
-> +
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> +			  MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_HSE |
-> +			  MIPI_DSI_MODE_NO_EOT_PACKET |
-> +			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_VIDEO;
-> +	dsi->lanes = 2;
-> +
-> +	gpiod_set_value_cansleep(panel_data->reset, 1);
-
-So you leave the panel in reset state?
-> +
-> +	drm_panel_init(&panel_data->panel, dev, &fannal_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +	dev_set_drvdata(dev, panel_data);
-> +
-> +	drm_panel_add(&panel_data->panel);
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret) {
-> +		drm_panel_remove(&panel_data->panel);
-> +		dev_err(dev, "error: probe fail: can't attach mipi_dsi!\n");
-
-No need to shout, skip exclamation mark.
+>> drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c:28:6: warning: no previous prototype for function 'intel_gsc_uc_debugfs_register' [-Wmissing-prototypes]
+   void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
+        ^
+   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c:28:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
+   ^
+   static 
+   1 warning generated.
 
 
-Best regards,
-Krzysztof
+vim +/intel_gsc_uc_debugfs_register +28 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
 
+    27	
+  > 28	void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
