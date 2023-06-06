@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BFA724ECA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 23:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C844C724ECE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jun 2023 23:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B50310E3D5;
-	Tue,  6 Jun 2023 21:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E15AC10E3D6;
+	Tue,  6 Jun 2023 21:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E20B10E3D5
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 21:28:29 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-650c89c7e4fso6784167b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 14:28:29 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 454A910E3D6
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jun 2023 21:29:10 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f4bdcde899so8129917e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 14:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686086908; x=1688678908;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2sxRgoat8T+i5BlkEmmYkTauekQlW2JTibKZA6oBH7A=;
- b=KOlMnU2csedCuB+1N3G5sryayb2bGRmTmpeKSm7Db0/Yce0WZlnRrfipyKn3YaL9YB
- Gh9Mg52A/JXAKuTUNb0GJxYurFksnJ6ReX19vi5D1ZG1vz5L4RkBT9q4cU5a8eQVWG1w
- 4Ajg7TegZnd7DSSTzd8BjqIPevIDAyAmqOz5o=
+ d=linaro.org; s=google; t=1686086947; x=1688678947;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4HAYIAJQWxDQv1/68GE+vbWBISHl5bYTYt4+lfGwShI=;
+ b=rz7SPfj4/VXG4ApGm8ZgyY6Lun1+NsD+cnSzisd5Y7VzY3nL5GZZzL4P7cbLe5xlrw
+ y1YpPaI702uzGaixoa0SjZVh10FIH1NfGsf84WNSDVyngsfdMEp5kXP353AjcIZLWl9l
+ 9eVz7YYnAiGrB9+qOX1hjUtM17GPK94cJz/UrG5OA2rCrqWlvzPRBm5zuXsY0aFbv5s2
+ R2wxywMTWlg4lriSvvIZwqhJfxz5u1aviWZVnuHqcinkUSbdcY3Y6+6+ZpArQE1xygc3
+ khcsf62AwYCD2TIiO9pRnhJpmp5/Bqi6Y8g6hhL7jv5TwphpxQkK8GXBqNOPuL5pIPX8
+ aMcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686086908; x=1688678908;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2sxRgoat8T+i5BlkEmmYkTauekQlW2JTibKZA6oBH7A=;
- b=D7lUDcKpjNjgugArNHqfgX7tapu/LzWLXBNCgThbLGcIZFQG/L0nur/HJoF8kepFMq
- 6xrNsv5ln8I+8diTTAv1zIj+3KjyK8AIq2hRIwW06e8iijdkF+kdJRWCRwdFYPFSG0zd
- jUh/PDMwPSBbgZPJJsGVXR+EHy4t/QhIx3f/gk4oCyezPKBz9WYojcYJ3eWAt520XGVM
- zUHlyil+cCPreynFh/x44qatqVlsKNWs1HLQBCOOsaiHv25GxeOwVAQDd/7ZHbGDJEkw
- QGdf3CszPwe1lQM29ohRnJO6Pqs462sM1bbikwE/dFcOtOGZYdMhHbVsTx9MUaATa2yg
- 1NpA==
-X-Gm-Message-State: AC+VfDyc78FOxfeQ2Cle97tb8a1JnEiTohsrYzdSfP9XOixX8R6qeszw
- RTMKnjPScw+5ijrOZu7jdgIbsw==
-X-Google-Smtp-Source: ACHHUZ6eVUGZvSc9BvXgHjP7hdptxeL7cYFm1fPWsO5lOhIXnPYN0sjI0aNLWvnZWtY+hKL8M+USsg==
-X-Received: by 2002:a05:6a00:1585:b0:652:c336:e63e with SMTP id
- u5-20020a056a00158500b00652c336e63emr4458187pfk.31.1686086908535; 
- Tue, 06 Jun 2023 14:28:28 -0700 (PDT)
-Received: from ballway1.c.googlers.com.com
- (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
+ d=1e100.net; s=20221208; t=1686086947; x=1688678947;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4HAYIAJQWxDQv1/68GE+vbWBISHl5bYTYt4+lfGwShI=;
+ b=DfyhH5nxXgQG3d4L+MpY/mIVFYc3PA7H0oaR+8Kopj+pP3EyXh3GPqL18c5NffOjie
+ cV9gMgV9FbQ3Ps6ehagTiG92AkcuzeLq/G7sQ7f04xQdbtUeeRh83xn5QbLD15w1WmHY
+ Mpll4Ro/UKnEZa6mahU9YQLd9eTlBWzcZ9eQ78W6oCMOxIuE89Mi8OjBboy4UIZLMf0s
+ DiUj2JHutpzshqzpFtFLjknGJX/CJt77WsjHKUaf91LGqeQx9c5lVHZZH/Qy/DlqGdaH
+ YFR9EpLYv0x7jXsVhW6xQh9fypRt1glTKxiMRE0DwZMafYtxZE2YyRxCfwH1rW11VlQC
+ 2CKQ==
+X-Gm-Message-State: AC+VfDzQ5Kk6QMXNZA5AbwD/3f2/6IZmVNdz/y1ah8TRHpuBdzkDtVjN
+ 1RIe3YfvYYnrhxmu+ieRG5DeuA==
+X-Google-Smtp-Source: ACHHUZ6dd+WlOAscSRe7kXO5ATaQFFS2i+vAabPdXNEQ9lvRq2zGzk0CCiUP2AGi5aZ6lEf82sMvnQ==
+X-Received: by 2002:a19:c512:0:b0:4ec:9ef9:e3d with SMTP id
+ w18-20020a19c512000000b004ec9ef90e3dmr1313226lfe.26.1686086946618; 
+ Tue, 06 Jun 2023 14:29:06 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- m3-20020aa78a03000000b005a8173829d5sm7283325pfa.66.2023.06.06.14.28.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 14:28:28 -0700 (PDT)
-From: Allen Ballway <ballway@chromium.org>
-To: jani.nikula@linux.intel.com
-Subject: [PATCH] drm/i915/quirk: Add quirk for devices that cannot be dimmed
-Date: Tue,  6 Jun 2023 21:25:13 +0000
-Message-ID: <20230606211901.1.I06e778109090b5dc85c44da7b742d185aa6adb59@changeid>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+ u26-20020ac2519a000000b004f2391fe9a6sm1578549lfi.266.2023.06.06.14.29.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jun 2023 14:29:05 -0700 (PDT)
+Message-ID: <cfad7817-2d7e-843d-033d-cf2f3aba440d@linaro.org>
+Date: Wed, 7 Jun 2023 00:29:05 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH v2 10/13] drm/msm/dpu: add list of supported formats
+ to the DPU caps
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
+ <20230321011821.635977-11-dmitry.baryshkov@linaro.org>
+ <2a003674-29ef-f6c6-9a23-3eb93d2e479f@quicinc.com>
+ <CAA8EJpr0DcVfG86SYKRb-4Ph82dfXafed9CFgY1qFSECFbAcTw@mail.gmail.com>
+ <6c61a8f1-f77e-3a18-15f8-7c004a99f78d@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <6c61a8f1-f77e-3a18-15f8-7c004a99f78d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,120 +82,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Allen Ballway <ballway@chromium.org>,
- arun.r.murthy@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cybernet T10C cannot be dimmed without the backlight strobing. Create a
-new quirk to lock the minimum brightness to the highest supported value.
-This aligns the device with its behavior on Windows, which will not
-lower the brightness below maximum.
+On 07/06/2023 00:14, Abhinav Kumar wrote:
+> 
+> 
+> On 5/24/2023 6:47 PM, Dmitry Baryshkov wrote:
+>> On Thu, 25 May 2023 at 02:16, Abhinav Kumar 
+>> <quic_abhinavk@quicinc.com> wrote:
+>>>
+>>>
+>>>
+>>> On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
+>>>> As we are going to add virtual planes, add the list of supported 
+>>>> formats
+>>>> to the hw catalog entry. It will be used to setup universal planes, 
+>>>> with
+>>>> later selecting a pipe depending on whether the YUV format is used for
+>>>> the framebuffer.
+>>>>
+>>>
+>>> If your usage of format_list is going to be internal to dpu_plane.c, I
+>>> can think of another idea for this change.
+>>>
+>>> This essentially translates to if (num_vig >= 1)
+>>>
+>>> If we can just have a small helper to detect that from the catalog can
+>>> we use that instead of adding formats to the dpu caps?
+>>
+>> I'd prefer to be explicit here. The list of supported formats might
+>> vary between generations, might it not? Also we don't have a case of
+>> the devices not having VIG planes. Even the qcm2290 (which doesn't
+>> have CSC) lists YUV as supported.
+>>
+> 
+> the list of formats is tied to the sspps the dpu generation has and the 
+> capabilities of those sspps.
+> 
+> qcm2290 is really an interesting case. It has one vig sspp but no csc 
+> block for that vig sspp, hence it cannot support non-RGB formats.
+> 
+> I have confirmed that downstream is incorrect to populate yuv formats 
+> for qcm2290.
+> 
+> I still think that having atleast one vig sspp with csc sub-blk is the 
+> right condition to check if we want to decide if the dpu for that 
+> chipset supports yuv formats. Extra csc-blk check to handle qcm2290.
+> 
+> Having a small helper in dpu_plane.c is good enough for that because 
+> with virtual planes, you only need to know "if such a plane exists and 
+> not which plane" and a full catalog change isnt needed IMO
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
----
+This goes down to the question: is the list of YUV and non-YUV formats 
+static or not? Do all DPU devices support the same set of YUV and 
+non-YUV formats? If it is static, we might as well drop 
+dpu_sspp_sub_blks::format_list.
 
- .../gpu/drm/i915/display/intel_backlight.c    |  6 +++++
- drivers/gpu/drm/i915/display/intel_quirks.c   | 27 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
- 3 files changed, 34 insertions(+)
+Note to myself: consider 
+dpu_mdss_cfg::{dma_formats,cursor_formats,vig_formats}. Either migrate 
+dpu_sspp_sub_blks::format_list users to these fields or drop them.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 2e8f17c045222..863a33245a3d7 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -1192,6 +1192,11 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
+> 
+> 
+>> Note: I think at some point we should have a closer look at the list
+>> of supported formats and crosscheck that we do not have either
+>> unsupported formats being listed, or missing formats which are not
+>> listed as supported.
+>>
+>>>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>    .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 26 
+>>>> +++++++++++++++++++
+>>>>    .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  4 +++
+>>>>    2 files changed, 30 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> index 212d546b6c5d..2d6944a9679a 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> @@ -315,6 +315,8 @@ static const struct dpu_caps msm8998_dpu_caps = {
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>>        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>>>>        .max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps qcm2290_dpu_caps = {
+>>>> @@ -324,6 +326,8 @@ static const struct dpu_caps qcm2290_dpu_caps = {
+>>>>        .has_idle_pc = true,
+>>>>        .max_linewidth = 2160,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sdm845_dpu_caps = {
+>>>> @@ -339,6 +343,8 @@ static const struct dpu_caps sdm845_dpu_caps = {
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>>        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>>>>        .max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sc7180_dpu_caps = {
+>>>> @@ -350,6 +356,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
+>>>>        .has_idle_pc = true,
+>>>>        .max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm6115_dpu_caps = {
+>>>> @@ -361,6 +369,8 @@ static const struct dpu_caps sm6115_dpu_caps = {
+>>>>        .has_idle_pc = true,
+>>>>        .max_linewidth = 2160,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm8150_dpu_caps = {
+>>>> @@ -376,6 +386,8 @@ static const struct dpu_caps sm8150_dpu_caps = {
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>>        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>>>>        .max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sc8180x_dpu_caps = {
+>>>> @@ -391,6 +403,8 @@ static const struct dpu_caps sc8180x_dpu_caps = {
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>>        .max_hdeci_exp = MAX_HORZ_DECIMATION,
+>>>>        .max_vdeci_exp = MAX_VERT_DECIMATION,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sc8280xp_dpu_caps = {
+>>>> @@ -404,6 +418,8 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
+>>>>        .has_3d_merge = true,
+>>>>        .max_linewidth = 5120,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm8250_dpu_caps = {
+>>>> @@ -417,6 +433,8 @@ static const struct dpu_caps sm8250_dpu_caps = {
+>>>>        .has_3d_merge = true,
+>>>>        .max_linewidth = 900,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm8350_dpu_caps = {
+>>>> @@ -430,6 +448,8 @@ static const struct dpu_caps sm8350_dpu_caps = {
+>>>>        .has_3d_merge = true,
+>>>>        .max_linewidth = 4096,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm8450_dpu_caps = {
+>>>> @@ -443,6 +463,8 @@ static const struct dpu_caps sm8450_dpu_caps = {
+>>>>        .has_3d_merge = true,
+>>>>        .max_linewidth = 5120,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sm8550_dpu_caps = {
+>>>> @@ -456,6 +478,8 @@ static const struct dpu_caps sm8550_dpu_caps = {
+>>>>        .has_3d_merge = true,
+>>>>        .max_linewidth = 5120,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_caps sc7280_dpu_caps = {
+>>>> @@ -467,6 +491,8 @@ static const struct dpu_caps sc7280_dpu_caps = {
+>>>>        .has_idle_pc = true,
+>>>>        .max_linewidth = 2400,
+>>>>        .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+>>>> +     .format_list = plane_formats_yuv,
+>>>> +     .num_formats = ARRAY_SIZE(plane_formats_yuv),
+>>>>    };
+>>>>
+>>>>    static const struct dpu_mdp_cfg msm8998_mdp[] = {
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h 
+>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>>> index 89b372cdca92..4847aae78db2 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>>>> @@ -404,6 +404,8 @@ struct dpu_rotation_cfg {
+>>>>     * @pixel_ram_size     size of latency hiding and de-tiling 
+>>>> buffer in bytes
+>>>>     * @max_hdeci_exp      max horizontal decimation supported (max 
+>>>> is 2^value)
+>>>>     * @max_vdeci_exp      max vertical decimation supported (max is 
+>>>> 2^value)
+>>>> + * @format_list: Pointer to list of supported formats
+>>>> + * @num_formats: Number of supported formats
+>>>>     */
+>>>>    struct dpu_caps {
+>>>>        u32 max_mixer_width;
+>>>> @@ -419,6 +421,8 @@ struct dpu_caps {
+>>>>        u32 pixel_ram_size;
+>>>>        u32 max_hdeci_exp;
+>>>>        u32 max_vdeci_exp;
+>>>> +     const u32 *format_list;
+>>>> +     u32 num_formats;
+>>>>    };
+>>>>
+>>>>    /**
+>>
+>>
+>>
 
- 	drm_WARN_ON(&i915->drm, panel->backlight.pwm_level_max == 0);
-
-+	if (intel_has_quirk(i915, QUIRK_NO_DIM)) {
-+		/* Cannot dim backlight, set minimum to hightest value */
-+		return panel->backlight.pwm_level_max - 1;
-+	}
-+
- 	/*
- 	 * XXX: If the vbt value is 255, it makes min equal to max, which leads
- 	 * to problems. There are such machines out there. Either our
-@@ -1206,6 +1211,7 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
- 			    connector->panel.vbt.backlight.min_brightness, min);
- 	}
-
-+
- 	/* vbt value is a coefficient in range [0..255] */
- 	return scale(min, 0, 255, 0, panel->backlight.pwm_level_max);
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index a280448df771a..910c95840a539 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
- 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
- }
-
-+static void quirk_no_dim(struct drm_i915_private *i915)
-+{
-+	intel_set_quirk(i915, QUIRK_NO_DIM);
-+	drm_info(&i915->drm, "Applying no dim quirk\n");
-+}
-+
- struct intel_quirk {
- 	int device;
- 	int subsystem_vendor;
-@@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
- 	return 1;
- }
-
-+static int intel_dmi_no_dim(const struct dmi_system_id *id)
-+{
-+	DRM_INFO("No dimming allowed on %s\n", id->ident);
-+	return 1;
-+}
-+
- static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 	{
- 		.dmi_id_list = &(const struct dmi_system_id[]) {
-@@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 		},
- 		.hook = quirk_no_pps_backlight_power_hook,
- 	},
-+	{
-+		.dmi_id_list = &(const struct dmi_system_id[]) {
-+			{
-+				.callback = intel_dmi_no_dim,
-+				.ident = "Cybernet T10C Tablet",
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-+							    "Cybernet Manufacturing Inc."),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
-+				},
-+			},
-+			{ }
-+		},
-+		.hook = quirk_no_dim,
-+	},
- };
-
- static struct intel_quirk intel_quirks[] = {
-@@ -218,6 +244,7 @@ void intel_init_quirks(struct drm_i915_private *i915)
- 		     q->subsystem_device == PCI_ANY_ID))
- 			q->hook(i915);
- 	}
-+
- 	for (i = 0; i < ARRAY_SIZE(intel_dmi_quirks); i++) {
- 		if (dmi_check_system(*intel_dmi_quirks[i].dmi_id_list) != 0)
- 			intel_dmi_quirks[i].hook(i915);
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
-index 10a4d163149fd..b41c7bbf0a5e3 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.h
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.h
-@@ -17,6 +17,7 @@ enum intel_quirk_id {
- 	QUIRK_INVERT_BRIGHTNESS,
- 	QUIRK_LVDS_SSC_DISABLE,
- 	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
-+	QUIRK_NO_DIM,
- };
-
- void intel_init_quirks(struct drm_i915_private *i915);
---
-2.41.0.162.gfafddb0af9-goog
+-- 
+With best wishes
+Dmitry
 
