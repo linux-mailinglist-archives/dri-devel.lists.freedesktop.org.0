@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F590726284
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 16:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CCD7262B7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 16:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37BCB10E030;
-	Wed,  7 Jun 2023 14:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A6C10E1FF;
+	Wed,  7 Jun 2023 14:23:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
- Wed, 07 Jun 2023 14:15:49 UTC
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279EE10E030
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 14:15:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=s29768273; t=1686147332; x=1686752132; i=markus.elfring@web.de;
- bh=RQuo8dyog3mYW6in/LTmEgS3V88U2/IL0mn3Tu4TrUc=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=BnttttpueKgFrGICongOfAtCn8H2tHIKdk1vzZlfpWaq5WbpCeDkedBaCybL+JXGBxujga4
- r2sM27MWgkhoZVPWMq55riSmNk4AX8QUIsWH6+pWVK+/t1ekPrCgd1M5+g6zjHv5ueIw/vd7/
- hNokkN0zrZ35iafY3644B79vasxUWKi9C/1+PgevNJrrWZOgj4+kK3E4WDWR6BsYKIVRksVlr
- h6Es52hpOlj8IG/smNR3bpicD7LWo0MsDNolxV0kDziZmY4GLw5dKKNa+Uxnie9JRvqqay+BU
- JrRgy3k6t0PkgmsP9KaAcDquKnFmr7WZZSUFofvuGHzs5J/KBvPA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.83]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M3Ez1-1qASbT06rV-003Sx5; Wed, 07
- Jun 2023 16:08:30 +0200
-Message-ID: <64ec9964-c22c-f299-6d92-46050659be06@web.de>
-Date: Wed, 7 Jun 2023 16:08:22 +0200
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1EE10E057
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 14:23:35 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 98e67ed59e1d1-259b2afc6f1so568233a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 07:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686147814; x=1688739814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y+BeJtXlFkE5viMltERILFoZ9Megcec+/xxDBDj3GRM=;
+ b=W6z8pzg7LSGWEXwzWSqRpb4CxOsYMn4m8Q6Nqb8zdMLZF7NKrNulpOePLfiDN06e78
+ PEyXdfRzlGYSxqlnkCu3G5BY05NDwo6fPjMxRgCGzl+kEOG79oURFQ53OzH+qInRT83Q
+ X9o0sCJlXS/xeSZQgS7GQ99XfOmDuyudppnUQcERA8N12FR0IpTDpnrGfmxESeMDrqk/
+ DVH4ml7WcaHTCsho3qBaOlQkWdbtkkn39yPK0AjUVJs9yhNkXFhJii+JmsbBxx66A7aH
+ DulGUsJTO7203Q6z8VT/4QKQBZTPvZVy6oPijdUWdvaS4kgj1ivU7RbN/aCjDazVnkYT
+ LHtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686147814; x=1688739814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y+BeJtXlFkE5viMltERILFoZ9Megcec+/xxDBDj3GRM=;
+ b=H9pjS8xRTsfo6xZ121vOqI/8Vm/Obi1PgYQTOq86jJnKUeimQiFumAC0golw1zb3ir
+ SO1ceHLkr1i5z6vFF4DnJg9sQTe5jBmjscCPu7LqwfcKdLll/iH49haLNhRMhMCYU11W
+ YdtqQ6xFvgS0us4HyVsf5qLusr3dxqhqigIToK5fuF5bpScRc+92yWn+KuIiz2ZWm58s
+ c3qYYY1vnZmHpaYgaO8O37ri1jElL9nr7/2ayq2auUNeT0ftc+L5GU7wzNxfiwXtDXIz
+ lDtXSaT9L4nSje1kvyO/DV0R8CHATw2sEPknx0qLh9U+5w0uOBpU50nq4bz+j+ru2FxK
+ hZDg==
+X-Gm-Message-State: AC+VfDwqTTv7y3NkPF7LlQf8zDepAFpGczCyuANK61Y4M+8+FSafwdjo
+ AHnu8h1Bi0hP7ws/CpVtNTQy8KaSILtoLefGEz0=
+X-Google-Smtp-Source: ACHHUZ6+skY3wkNyiJ013XOEI50o3sMjpeIah6hLKtT6JZM3nsMfRM1HaOTj9dKeJGivUR68JYHuRgZ0dktuw9EcRfE=
+X-Received: by 2002:a17:90b:1d0e:b0:256:807e:6bd with SMTP id
+ on14-20020a17090b1d0e00b00256807e06bdmr2173657pjb.28.1686147814053; Wed, 07
+ Jun 2023 07:23:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
-To: Thomas Zimmermann <tzimmermann@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
- <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:fJm+G94cMiRl/h+VYW8PlU00Ki7hpzXkivVYmv8yENERx3uKp5K
- GaeSzOe8BlOFdIuvU3bSKI8NSbO7rv+gBdupT5CmsPPmxqjhinsZAeZZLDAoZehhoa8ensS
- QSDUJwMJpJAaJ3c5P8Z1FoE2wtvGjjJwoYoXkQPXmgMjiLm4eP6pJVgbCIc5EZmAWAMMkRn
- CQm/Ipz/C6erBejE4kJng==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aFA2o3+0FPw=;FpP0denXJFCkdr6X58ckT2ivVKe
- 5OWMrTNnFdyav4OC5/RWCh+/X6T5YBnNDtmc9uGYbGom9Lq0ehCHM5R52ewkegnuciu4yyCKc
- xnB/zI0FBKBnYZm+j5p3liiMnFj3HzBZwRlRMQ3qRz3GKXev/YsoacF1BnQShmWChl5BzSTAt
- pmPEKSBgoJMihRzRk5cyVFkN8j/Cvcp/WlZpaoRE+SbQvGY6tb2DguaB9Ed4dJOBaScrHC+8z
- oKotGKqs4oYejVaBYU4ITfnN4xgD704NSnlTH/7fv7iyY1m+O7sU/zd18NmIK9Uhtjgu3JQzb
- G6zK337DpJJJrpLI9pfvZY6QL3XhMZ3prr8Rg7TCVxqWAz9F6lnRtAIc3zpsXJinjdh4k0grw
- JgWC11RVeLMtTRsDFSOWIofPItp4z9obi5WAQn2tMu2nVyUJenhAZVNU+mYGagxU5lx5xYRff
- xwlFswzQRzdd7J/kZRDDmmIl8bbXm4/tPfQBh0dzD9CvrlMzRk6a8MSWFv0o6z2znW2j8wz3b
- nnwE3uw4WV+PGFvL3bh+/Nw6RiTCsONkqsjUhH1egHFL0sWmXPmCRK4pzV7qHbxp1dTx3PaXV
- dIAQSI+yiJM8lF99zxm079Zp5Ro8DY0+q0pOjFJ1pYSCoyQLmwao1ZD0rAUOFZAl+xy3YVy0V
- 1C37o/OdT/XM7fE5oiOQ/b7IK6hpDuehUuhMPylLfkXRyNUCD7d9edEvGrLrOZRHByzNHGqWw
- rBV0dB7w7eiV9OfhVXbDChX0aLqH6ugB9FVTM3S79ejkL+8YFJQn/+Kotn/l401aKiwe93w1x
- 54tbzgfMw9eEBQymWdZjNWLlJYFyEWwvRpvOtKHjBCxYGDNiBI2Yl/1G+KLZK1H0G+73OWOAa
- eni1nprlK7WkWe+EssGRLlktQNVkrv/HcO8tuDnhG52icOd79Pm4+YiZlGVAcZbKGwP5k8Ifa
- DOpkzA==
+References: <20230526030559.326566-1-aford173@gmail.com>
+ <e1379d94-66a5-8538-abdf-de7770befb7d@prevas.dk>
+ <CAHCN7xK9RaLRSK_jSbbuGBUf14-FOHsrawi2J8G29iHSOj2Nyw@mail.gmail.com>
+In-Reply-To: <CAHCN7xK9RaLRSK_jSbbuGBUf14-FOHsrawi2J8G29iHSOj2Nyw@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 7 Jun 2023 09:23:22 -0500
+Message-ID: <CAHCN7xJ65gv-n5VHYf3MeEBYDBHy07HMDL3LmYAwfYLPySrFnw@mail.gmail.com>
+Subject: Re: [PATCH V8 0/7] drm: bridge: samsung-dsim: Support variable
+ clocking
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +71,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, Daniel Thompson <daniel.thompson@linaro.org>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Ha! It says 'distrobutions'.
+On Wed, Jun 7, 2023 at 8:27=E2=80=AFAM Adam Ford <aford173@gmail.com> wrote=
+:
+>
+> On Wed, Jun 7, 2023 at 8:15=E2=80=AFAM Rasmus Villemoes
+> <rasmus.villemoes@prevas.dk> wrote:
+> >
+> > On 26/05/2023 05.05, Adam Ford wrote:
+> > > This series fixes the blanking pack size and the PMS calculation.  It=
+ then
+> > > adds support to allows the DSIM to dynamically DPHY clocks, and suppo=
+rt
+> > > non-burst mode while allowing the removal of the hard-coded clock val=
+ues
+> > > for the PLL for imx8m mini/nano/plus, and it allows the removal of th=
+e
+> > > burst-clock device tree entry when burst-mode isn't supported by conn=
+ected
+> > > devices like an HDMI brige.  In that event, the HS clock is set to th=
+e
+> > > value requested by the bridge chip.
+> > >
+> > > This has been tested on both an i.MX8M Nano and i.MX8M Plus, and shou=
+ld
+> > > work on i.MX8M Mini as well. Marek Szyprowski has tested it on variou=
+s
+> > > Exynos boards.
+> >
+> > Hi all
+> >
+> > We're testing this on top of v6.4-rc4 on our imx8mp board, which has a
+> > ti-sn65dsi86 DSI -> DisplayPort bridge. We do get an image at
+> > 1920x1200, but the monitor says it's only at 58Hz, and measuring on the
+> > DSI signals does seem to confirm that the update frequency is about 57.=
+7
+> > or 57.8Hz (it's pretty hard to get a good measurement). It looks like
+> > it's the lines that are too long, by a time that corresponds to about 8=
+0
+> > pixels. But all the frontporch/backporch/hsync values look sane and
+> > completely standard for that resolution.
+> >
+> > Setting samsung,burst-clock-frequency explicitly to something large
+> > enough or letting it be derived from the 154MHz pixel clock makes no
+> > difference.
+> >
+> > Any ideas?
+>
+> What refresh rate are you trying to achieve?  It seems like 57.7 or
+> 57.8 is really close to the 58 the Monitor states.  I would expect the
+> refresh to be driven by whatever the monitor states it can handle.
+>
+> Have you tried using modetest to see what refresh rates are available?
+>  When I was doing this driver work, I would use modetest to determine
+> the connector ID, then use modetest -s
+> <connector-id>:<resolution>-<refresh> to display various resolutions
+> and refresh rates.
+>
+> The 8MP shares the video-pll clock with both disp1 and disp2 clocks,
+> and the imx-lcdif driver, which sends the display signals to the DSI,
+> uses the disp clock, so the video-pll needs to be an exact multiple of
+> the pixel clock or the output won't sink.  Modetest should also show
+> you the desired pixel clock for a given resolution and refresh.
+> My displays didn't show 19200x1200 as an option, so I wasn't able to
+> test that configuration.
 
-Do you tend to prefer any distributions?
+Another thing you could try would be this rounding patch that I'm
+experimenting with [1].
 
-Regards,
-Markus
+From what I can see, some resolutions end up with math that end up
+rounding down, and this patch corrects the timings a bit to attempt to
+compensate.  I haven't tested this extensively yet, but you can try it
+to see if it helps.
+
+adam
+[1] - https://github.com/aford173/linux/commit/183cf6d154afeb9b0300500b09d7=
+b8ec53047a12
+
+
+>
+> adam
+> >
+> > Thanks,
+> > Rasmus
+> >
