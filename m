@@ -2,69 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9722725D07
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 13:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04751727907
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7445910E010;
-	Wed,  7 Jun 2023 11:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8530A10E596;
+	Thu,  8 Jun 2023 07:44:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1460310E010
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 11:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1686137167; x=1717673167;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=UJ0w8BpCjcEmC52cpko3XJO+ZUaO7AuGxzmBlky0Tpw=;
- b=i06toXLpS0Jk3Xw9nS+F5CbPHG5Up3brKcdsg4no/iIzVK6qh8I13YxN
- zJQXPFLpyZHKbaTNScR0BMsSquDRHn5vc7Wu3C+Bd95wf4i+2IVoQ5uVX
- DKnBZQVE8od6XVP92An7FisnkWyHDfZa0LoFglpqUG2eC5+VB0HtNQIih
- O40hCY/ZJxjM+uXk+Cu9QrEnbMf1bugTURkl5FRwEVH0cQ+sKViSONbpA
- C8jUHZ97+07zuhcE5a/GvtyK8zCcYoPaRlYws7HIYOlYafqgzHXnfBwks
- d/snRTdjrMl2Zyp5HOjNbEtz4/ZghR3qnM4/D9WzqOP8Z5WaWSl0ArsSo Q==;
-X-IronPort-AV: E=Sophos;i="6.00,223,1681164000"; d="scan'208";a="31328144"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 07 Jun 2023 13:26:04 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Wed, 07 Jun 2023 13:26:04 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Wed, 07 Jun 2023 13:26:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1686137164; x=1717673164;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=UJ0w8BpCjcEmC52cpko3XJO+ZUaO7AuGxzmBlky0Tpw=;
- b=CDVbpcpKY9vgTvbEQNWOmI9ItS1j134DEobaOoygqjqkt7h2NVoLl+a0
- EKZkCdgE+HZ4hB8qmnGysAtxBUNmytClP7LcIb8kp9pdt/a/76/WywWoc
- +8eOwS+VJq0H8GuZRf0j2uVOAgibHqbRjzBvgnOGk1Exfy1j1WJftXmfx
- Mxf6H2jfed1qNQacsqm4lQ0mUVIphA0/Hi07uWno1BHSkzdfRMZ4uvlBi
- Si4Ref+vDJEBCwWPloMlNRx61l51XxzOWL1YnunDhdE5sa6KH2jFTO42R
- fx5CCwtPFT5YSWZohOazRHnNUWQd71DgP/YezFsCGNFhGg1Yc8dplJUx5 A==;
-X-IronPort-AV: E=Sophos;i="6.00,223,1681164000"; d="scan'208";a="31328143"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 07 Jun 2023 13:26:04 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DA371280090;
- Wed,  7 Jun 2023 13:26:03 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
-Date: Wed, 07 Jun 2023 13:26:03 +0200
-Message-ID: <12222903.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230606151229.GF7234@pendragon.ideasonboard.com>
-References: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
- <20230606151229.GF7234@pendragon.ideasonboard.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA5C10E4B3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 11:56:48 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <lgo@pengutronix.de>)
+ id 1q6rm8-0008S2-31; Wed, 07 Jun 2023 13:56:28 +0200
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <lgo@pengutronix.de>)
+ id 1q6rm6-005jFb-JT; Wed, 07 Jun 2023 13:56:26 +0200
+Received: from lgo by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <lgo@pengutronix.de>)
+ id 1q6rm5-00CStO-ML; Wed, 07 Jun 2023 13:56:25 +0200
+From: =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>
+To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: [PATCH v1 1/8] dt-bindings: display: panel: mipi-dbi-spi: add
+ shineworld lh133k compatible
+Date: Wed,  7 Jun 2023 13:55:00 +0200
+Message-Id: <20230607115508.2964574-1-l.goehrs@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: lgo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Thu, 08 Jun 2023 07:44:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,95 +58,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: devicetree@vger.kernel.org,
+ =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+The Shineworld LH133K is a 1.3" 240x240px RGB LCD with a MIPI DBI
+compatible SPI interface.
+The initialization procedure is quite basic with the exception of
+requiring inverted colors.
+A basic mipi-dbi-cmd[1] script to get the display running thus looks
+like this:
 
-Am Dienstag, 6. Juni 2023, 17:12:29 CEST schrieb Laurent Pinchart:
-> Hi Alexander,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Jun 06, 2023 at 04:48:33PM +0200, Alexander Stein wrote:
-> > When -EPROBE_DEFER is returned do not raise an error, but silently retu=
-rn
-> > this error instead. Fixes error like this:
-> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-> >=20
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > dev_err_probe() would be the best, but I am not sure if this function is
-> > always used within a driver's probe() call.
-> >=20
-> >  drivers/gpu/drm/drm_bridge.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index c3d69af02e79d..07773d6441a1f 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
-> > struct drm_bridge *bridge,>=20
-> >  	bridge->encoder =3D NULL;
-> >  	list_del(&bridge->chain_node);
-> >=20
-> > +	if (ret !=3D -EPROBE_DEFER) {
-> >=20
-> >  #ifdef CONFIG_OF
-> > =20
-> >  	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-> >  =09
-> >  		  bridge->of_node, encoder->name, ret);
->=20
-> Wrong indentation.
+    $ cat shineworld,lh133k.txt
+    command 0x11 # exit sleep mode
+    delay 120
 
-Ah, right. Thanks for pointing out.
+    # The display seems to require display color inversion, so enable it.
+    command 0x21 # INVON
 
-> dev_err_probe() could be useful, but this function is likely not called
-> from probe paths only :-S
+    # Enable normal display mode (in contrast to partial display mode).
+    command 0x13 # NORON
+    command 0x29 # MIPI_DCS_SET_DISPLAY_ON
 
-I was afraid this might be the cause. But I'm wondering in which situation=
-=20
-this can be the case, hence -EPROBE_DEFER could be returned then.
+    $ mipi-dbi-cmd shineworld,lh133k.bin shineworld,lh133k.txt
 
-> When not called from a probe path, dropping the message will result in a
-> silent error, which would be hard to debug :-(
+[1]: https://github.com/notro/panel-mipi-dbi
 
-On the other hand -EPROBE_DEFER is invalid on non-probe path also.
-Assuming dev_err_probe is used here, an error will still be raised, -
-EPROBE_DEFER should not occur then.
+Signed-off-by: Leonard Göhrs <l.goehrs@pengutronix.de>
+---
+ .../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml   | 1 +
+ Documentation/devicetree/bindings/vendor-prefixes.yaml          | 2 ++
+ 2 files changed, 3 insertions(+)
 
-Best regards,
-Alexander
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+index 9b701df5e9d28..c07da1a9e6288 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+@@ -67,6 +67,7 @@ properties:
+     items:
+       - enum:
+           - sainsmart18
++          - shineworld,lh133k
+       - const: panel-mipi-dbi-spi
+ 
+   write-only:
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 82d39ab0231b0..b0afa421bc4a5 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1189,6 +1189,8 @@ patternProperties:
+     description: SHIFT GmbH
+   "^shimafuji,.*":
+     description: Shimafuji Electric, Inc.
++  "^shineworld,.*":
++    description: ShineWorld Innovations
+   "^shiratech,.*":
+     description: Shiratech Solutions
+   "^si-en,.*":
 
-> > @@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
-> > struct drm_bridge *bridge,>=20
-> >  	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-> >  =09
-> >  		  encoder->name, ret);
-> > =20
-> >  #endif
-> >=20
-> > +	}
-> >=20
-> >  	return ret;
-> > =20
-> >  }
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+base-commit: 9561de3a55bed6bdd44a12820ba81ec416e705a7
+-- 
+2.39.2
 
