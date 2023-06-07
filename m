@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C90C725AB6
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:37:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEACF725AB8
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70CA10E498;
-	Wed,  7 Jun 2023 09:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBB8610E49F;
+	Wed,  7 Jun 2023 09:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B13710E498
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:37:52 +0000 (UTC)
-Date: Wed, 07 Jun 2023 09:37:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1686130669; x=1686389869;
- bh=/37RiszT2hQkqefLXSWgn0PU/fXLOedYWzon5kBfTN4=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=GBWhjcPdoqCnveEEbJmt/yxGnkDBtWA1BUlvmhR8XKVJi5gj8vzLrvOV9zJkmtPxJ
- +dN/y3J8+ugQPuRlWcWsSUizo7P4rCv8eTdJ49MJLRIHf24GgIHgN0lKDLLhhwwL4p
- SwCJcLNH8Ru1A64ACawicz01uSLm9qValzkWawrzH5SJxPCdIORlpyHzqNkB/5HRlh
- EyYedqNG3qeWHAYIZSvV8H2n4Fxn2wN099l8kfbZeDaemnNVCylXs6G2cyKJwsdKsD
- LUcn+qSgdiYd0HfLuuNd2KJOSziphIBrbrv4SQlu2YtqObxEDVLnGrRAlOp2wUaNI5
- EvchU7xGQT4yQ==
-To: Harry Wentland <harry.wentland@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v5 04/13] drm/connector: Use common colorspace_names array
-Message-ID: <cmrrldxWMcHBZPTtrtNWKhTmgBqdJcEl1XAHvp_OS3RQMTjVk_wvYkwmDYJNKX4AWIVR_GkjJcackYtcKfhQHD1_LirFv2cl5hVn7q3vnC4=@emersion.fr>
-In-Reply-To: <20230606202607.122914-5-harry.wentland@amd.com>
-References: <20230606202607.122914-1-harry.wentland@amd.com>
- <20230606202607.122914-5-harry.wentland@amd.com>
-Feedback-ID: 1358184:user:proton
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0E6110E49F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:38:20 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25D1B2B6;
+ Wed,  7 Jun 2023 11:37:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1686130672;
+ bh=Tb+ysY4linkYaB45XMud7iGM44eizwZQ/ClNN38SdNQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AxARCMkCrorxgL1QOSjqBlpeMh0qnkevxUSwoTHNpas7vYFt1xd1eySO/fHrf8Pfn
+ ZTvQENB7mUn6f6eErfsKxP1aaxysNw4dSSzsESYioCF1ybAw8mhTuGysvZkbJVmNUl
+ TJdHc+7gcnXhziZQ0GeQ34IOaXEJGw1Ga60kJRNQ=
+Message-ID: <70a188a2-7d56-9798-ecc9-700c9e8fd57f@ideasonboard.com>
+Date: Wed, 7 Jun 2023 12:38:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: Add missing check for
+ dma_set_mask
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>
+References: <20230607020529.22934-1-jiasheng@iscas.ac.cn>
+ <20230607050705.GF14101@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230607050705.GF14101@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,17 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: hyun.kwon@xilinx.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, michal.simek@amd.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 07/06/2023 08:07, Laurent Pinchart wrote:
+> Hello Jiasheng,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Jun 07, 2023 at 10:05:29AM +0800, Jiasheng Jiang wrote:
+>> Add check for dma_set_mask() and return the error if it fails.
+>>
+>> Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
+>> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+>> ---
+>>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> index bab862484d42..068413be6527 100644
+>> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+>> @@ -227,7 +227,9 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>>   	dpsub->dev = &pdev->dev;
+>>   	platform_set_drvdata(pdev, dpsub);
+>>   
+>> -	dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
+>> +	ret = dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
+>> +	if (ret)
+>> +		return ret;
+> 
+> This seems reasonable.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Tomi, would you be able to quickly test this ?
 
-On Tuesday, June 6th, 2023 at 22:25, Harry Wentland <harry.wentland@amd.com=
-> wrote:
+Works for me.
 
-> We an use bitfields to track the support ones for HDMI
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Typo: "We can"
+  Tomi
+
