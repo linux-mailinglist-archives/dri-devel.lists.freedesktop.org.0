@@ -1,51 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7947A725CAA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 13:06:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9722725D07
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 13:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3A289CD3;
-	Wed,  7 Jun 2023 11:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7445910E010;
+	Wed,  7 Jun 2023 11:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id D7C7989CD3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 11:06:52 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxzOrLZIBkFx0AAA--.466S3;
- Wed, 07 Jun 2023 19:06:51 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxGOXKZIBkUW0EAA--.16030S2; 
- Wed, 07 Jun 2023 19:06:50 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
-Date: Wed,  7 Jun 2023 19:06:50 +0800
-Message-Id: <20230607110650.569522-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1460310E010
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 11:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1686137167; x=1717673167;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UJ0w8BpCjcEmC52cpko3XJO+ZUaO7AuGxzmBlky0Tpw=;
+ b=i06toXLpS0Jk3Xw9nS+F5CbPHG5Up3brKcdsg4no/iIzVK6qh8I13YxN
+ zJQXPFLpyZHKbaTNScR0BMsSquDRHn5vc7Wu3C+Bd95wf4i+2IVoQ5uVX
+ DKnBZQVE8od6XVP92An7FisnkWyHDfZa0LoFglpqUG2eC5+VB0HtNQIih
+ O40hCY/ZJxjM+uXk+Cu9QrEnbMf1bugTURkl5FRwEVH0cQ+sKViSONbpA
+ C8jUHZ97+07zuhcE5a/GvtyK8zCcYoPaRlYws7HIYOlYafqgzHXnfBwks
+ d/snRTdjrMl2Zyp5HOjNbEtz4/ZghR3qnM4/D9WzqOP8Z5WaWSl0ArsSo Q==;
+X-IronPort-AV: E=Sophos;i="6.00,223,1681164000"; d="scan'208";a="31328144"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 07 Jun 2023 13:26:04 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 07 Jun 2023 13:26:04 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 07 Jun 2023 13:26:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1686137164; x=1717673164;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UJ0w8BpCjcEmC52cpko3XJO+ZUaO7AuGxzmBlky0Tpw=;
+ b=CDVbpcpKY9vgTvbEQNWOmI9ItS1j134DEobaOoygqjqkt7h2NVoLl+a0
+ EKZkCdgE+HZ4hB8qmnGysAtxBUNmytClP7LcIb8kp9pdt/a/76/WywWoc
+ +8eOwS+VJq0H8GuZRf0j2uVOAgibHqbRjzBvgnOGk1Exfy1j1WJftXmfx
+ Mxf6H2jfed1qNQacsqm4lQ0mUVIphA0/Hi07uWno1BHSkzdfRMZ4uvlBi
+ Si4Ref+vDJEBCwWPloMlNRx61l51XxzOWL1YnunDhdE5sa6KH2jFTO42R
+ fx5CCwtPFT5YSWZohOazRHnNUWQd71DgP/YezFsCGNFhGg1Yc8dplJUx5 A==;
+X-IronPort-AV: E=Sophos;i="6.00,223,1681164000"; d="scan'208";a="31328143"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 07 Jun 2023 13:26:04 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DA371280090;
+ Wed,  7 Jun 2023 13:26:03 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
+Date: Wed, 07 Jun 2023 13:26:03 +0200
+Message-ID: <12222903.O9o76ZdvQC@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230606151229.GF7234@pendragon.ideasonboard.com>
+References: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
+ <20230606151229.GF7234@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxGOXKZIBkUW0EAA--.16030S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJr1UJr13Gw45JF1xWrWUKFX_yoW8Gr1Upr
- s8tw18uFZ7ZFW0kFW7AF1xWFy5X3WDXFWSkr93twn09rn8AFWjyr9IyFW5GFyUAry7WrWU
- Xas3KFy7JFy8A3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUkIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
- wI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
- 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6x
- kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1oGQDUUUUU==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,47 +77,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Otherwise its failed to pass basic compile test on platform without
-REGMAP_MMIO selected by defconfig
+Hi Laurent,
 
-make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
+Am Dienstag, 6. Juni 2023, 17:12:29 CEST schrieb Laurent Pinchart:
+> Hi Alexander,
+>=20
+> Thank you for the patch.
+>=20
+> On Tue, Jun 06, 2023 at 04:48:33PM +0200, Alexander Stein wrote:
+> > When -EPROBE_DEFER is returned do not raise an error, but silently retu=
+rn
+> > this error instead. Fixes error like this:
+> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> > dev_err_probe() would be the best, but I am not sure if this function is
+> > always used within a driver's probe() call.
+> >=20
+> >  drivers/gpu/drm/drm_bridge.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index c3d69af02e79d..07773d6441a1f 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
+> > struct drm_bridge *bridge,>=20
+> >  	bridge->encoder =3D NULL;
+> >  	list_del(&bridge->chain_node);
+> >=20
+> > +	if (ret !=3D -EPROBE_DEFER) {
+> >=20
+> >  #ifdef CONFIG_OF
+> > =20
+> >  	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+> >  =09
+> >  		  bridge->of_node, encoder->name, ret);
+>=20
+> Wrong indentation.
 
-  SYNC    include/config/auto.conf.cmd
-  Checking missing-syscalls for N32
-  CALL    scripts/checksyscalls.sh
-  Checking missing-syscalls for O32
-  CALL    scripts/checksyscalls.sh
-  CALL    scripts/checksyscalls.sh
-  MODPOST Module.symvers
-ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
-make: *** [Makefile:1978: modpost] Error 2
+Ah, right. Thanks for pointing out.
 
-V2: Order alphabetically
+> dev_err_probe() could be useful, but this function is likely not called
+> from probe paths only :-S
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/ingenic/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+I was afraid this might be the cause. But I'm wondering in which situation=
+=20
+this can be the case, hence -EPROBE_DEFER could be returned then.
 
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index a53f475d33df..b440e0cdc057 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -9,6 +9,8 @@ config DRM_INGENIC
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_DMA_HELPER
-+	select REGMAP
-+	select REGMAP_MMIO
- 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
- 	help
- 	  Choose this option for DRM support for the Ingenic SoCs.
--- 
-2.25.1
+> When not called from a probe path, dropping the message will result in a
+> silent error, which would be hard to debug :-(
+
+On the other hand -EPROBE_DEFER is invalid on non-probe path also.
+Assuming dev_err_probe is used here, an error will still be raised, -
+EPROBE_DEFER should not occur then.
+
+Best regards,
+Alexander
+
+> > @@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
+> > struct drm_bridge *bridge,>=20
+> >  	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
+> >  =09
+> >  		  encoder->name, ret);
+> > =20
+> >  #endif
+> >=20
+> > +	}
+> >=20
+> >  	return ret;
+> > =20
+> >  }
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
