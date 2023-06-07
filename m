@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E737270C7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 23:53:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFE37270C8
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 23:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9A410E54C;
-	Wed,  7 Jun 2023 21:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CABB310E54E;
+	Wed,  7 Jun 2023 21:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BC210E12E
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 21:53:09 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id
- d2e1a72fcca58-65292f79456so3704951b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 14:53:09 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF77310E54C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 21:53:11 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-6549df4321aso5413663b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 14:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686174789; x=1688766789;
+ d=chromium.org; s=google; t=1686174791; x=1688766791;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7J6bms7QMm9w3IzcQHeVQuT7VvkTcEsATD8y00OpeXw=;
- b=lNOTHZUjf8JdjTbU6E6X/mqcY+Zwnqg/qRWUnY9Mwi3PCLRhThFa5YBIH0SWb6uJ1+
- rFr2+HfY1hSDBAI2d85k+n6W6gF4wlv/tcnXPvydjr0FRk5O5EZevrutN13VURxdh3VR
- aQknU7zcndxDLitCgvK20aLmQb01W2KregYks=
+ bh=hfUG9c2qlt8kTNqx7t/idPYkBIfLX/cfnxD2deWf3W8=;
+ b=ayuR0NPMX0lCr649Ls3PcdaWJi3/pI5z6ekASxp9r2pXuUPRAKtIyY930QFx1kuFcE
+ nOzUI88ocCNkotOwnkN5ZtWTSMimth7YMeld2HFSmbDacRlogFUCdDed5mPLGt0c4lYC
+ KN5LqNcDew/hCZof0SBt6j5tLIkYGt873vkRE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686174789; x=1688766789;
+ d=1e100.net; s=20221208; t=1686174791; x=1688766791;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7J6bms7QMm9w3IzcQHeVQuT7VvkTcEsATD8y00OpeXw=;
- b=kwa3fys+ssHCNMBUQ/W+kFv/7OS4228Pp1olpNDMBABjh1x8RCYyexQTea/1EfC4LT
- Phy4ecatVYTeiFmn2kD9ngI7ho7BEVoKB1mDNtiXMOdWccw//cw66bKr9yOyF6iUvorD
- P8qgepuhonbYJjAY5ra23ALetJI52eeyn6vp0RVOdIBmhPWtgA5A2ek3My1SAD6XQKD3
- 0mTHNK8RJmpG1yL240KYXjKNQx0ghFIdAIoUhIKDdk/DCsSvsj0btNO+NBB5bRcYRAXQ
- Acp8l+hW3uJteS9jwswUlgiASKHAJkzjblZn5tRV6bDltY2Yu81AFt2ZZlRe2cb7qbpe
- vDfQ==
-X-Gm-Message-State: AC+VfDwpNOkiAnv8DNYDM++LmYZJada/wNc1Ne5bQV+w68mye5svTwA8
- SlnlBYWok4beMDJOLHVIkXjScm3WW01InnB6+Vw=
-X-Google-Smtp-Source: ACHHUZ6msq2zIZIoWR6/BNnd7gqzLUkkb+f55DYioqbBeFy7Kfz5MTf1YZEWIMbYfJuT7GP7UJVbsw==
-X-Received: by 2002:a05:6a21:328d:b0:10b:2214:7ab0 with SMTP id
- yt13-20020a056a21328d00b0010b22147ab0mr2370510pzb.21.1686174788778; 
- Wed, 07 Jun 2023 14:53:08 -0700 (PDT)
+ bh=hfUG9c2qlt8kTNqx7t/idPYkBIfLX/cfnxD2deWf3W8=;
+ b=GB9hz2gOHK2zkWL5VrajvwO+xjXv9orZv5WbbeSgluiEAhh1tengemHCBb2PbbKPV5
+ Y2jRNJk6LoQovQdhhIXhWPnAyQfdPcbRnoYTjDy1098zmqorXYJPS+zHxjxgx1pAD9YF
+ lO+ITxM/6u9Augz1GzArWmb0au59PQzXFJNdzc1IRh+p+YouB8EJVGlgWIoYcemHBSsU
+ SLsNMWmXzNzcQSMhR+a39M7lttOYhvJ6iGxdLopbZLkFLq0VOBOpt+IVf8CTL6T4LQi3
+ xIoGwBFYCNe2byYEqVhucbo4QCs42Iiug+qnXIeJa5QX2LoUlwIPhMJHpuAuDHRHn8ab
+ AjfA==
+X-Gm-Message-State: AC+VfDwAyTt+FBAQhmi1oynXVISYtNAdZFARcr2zFrnVjs7XcakKnok/
+ bfipIteVudds/APjgoo8/kB68A==
+X-Google-Smtp-Source: ACHHUZ5vfibDCVUWE3Kynbnpu3siXIIB9yWFZZP0NY7g1SfK3F8RBOhQnS7yJNMmZRj3836EH4K2tg==
+X-Received: by 2002:a05:6a20:8f17:b0:107:1805:feea with SMTP id
+ b23-20020a056a208f1700b001071805feeamr5073223pzk.37.1686174791064; 
+ Wed, 07 Jun 2023 14:53:11 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:34b2:b638:6b53:f6c2])
  by smtp.gmail.com with ESMTPSA id
- j25-20020aa78d19000000b0065dd1e7c2c1sm1376486pfe.63.2023.06.07.14.53.06
+ j25-20020aa78d19000000b0065dd1e7c2c1sm1376486pfe.63.2023.06.07.14.53.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 14:53:08 -0700 (PDT)
+ Wed, 07 Jun 2023 14:53:10 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -61,10 +61,10 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 01/10] dt-bindings: HID: i2c-hid: Add "panel" property to
- i2c-hid backed touchscreens
-Date: Wed,  7 Jun 2023 14:49:23 -0700
-Message-ID: <20230607144931.v2.1.Id68e30343bb1e11470582a9078b086176cfec46b@changeid>
+Subject: [PATCH v2 02/10] drm/panel: Check for already prepared/enabled in
+ drm_panel
+Date: Wed,  7 Jun 2023 14:49:24 -0700
+Message-ID: <20230607144931.v2.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
 X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
 In-Reply-To: <20230607215224.2067679-1-dianders@chromium.org>
 References: <20230607215224.2067679-1-dianders@chromium.org>
@@ -91,108 +91,179 @@ Cc: Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As talked about in the patch ("drm/panel: Add a way for other devices
-to follow panel state"), touchscreens that are connected to panels are
-generally expected to be power sequenced together with the panel
-they're attached to. Today, nothing provides information allowing you
-to find out that a touchscreen is connected to a panel. Let's add a
-phandle for this.
+In a whole pile of panel drivers, we have code to make the
+prepare/unprepare/enable/disable callbacks behave as no-ops if they've
+already been called. It's silly to have this code duplicated
+everywhere. Add it to the core instead so that we can eventually
+delete it from all the drivers. Note: to get some idea of the
+duplicated code, try:
+  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
 
-The proerty is added to the generic touchscreen bindings and then
-enabled in the bindings for the i2c-hid backed devices. This can and
-should be added for other touchscreens in the future, but for now
-let's start small.
+NOTE: arguably, the right thing to do here is actually to skip this
+patch and simply remove all the extra checks from the individual
+drivers. Perhaps the checks were needed at some point in time in the
+past but maybe they no longer are? Certainly as we continue
+transitioning over to "panel_bridge" then we expect there to be much
+less variety in how these calls are made. When we're called as part of
+the bridge chain, things should be pretty simple. In fact, there was
+some discussion in the past about these checks [1], including a
+discussion about whether the checks were needed and whether the calls
+ought to be refcounted. At the time, I decided not to mess with it
+because it felt too risky.
 
+Looking closer at it now, I'm fairly certain that nothing in the
+existing codebase is expecting these calls to be refcounted. The only
+real question is whether someone is already doing something to ensure
+prepare()/unprepare() match and enabled()/disable() match. I would say
+that, even if there is something else ensuring that things match,
+there's enough complexity that adding an extra bool and an extra
+double-check here is a good idea. Let's add a drm_warn() to let people
+know that it's considered a minor error to take advantage of
+drm_panel's double-checking but we'll still make things work fine.
+
+[1] https://lore.kernel.org/r/20210416153909.v4.27.I502f2a92ddd36c3d28d014dd75e170c2d405a0a5@changeid
+
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
+This has Neil's Ack and I could commit it to drm-misc-next, but for
+now I'm holding off to see where this series ends up. If the series
+ends up looking good we'll have to coordinate landing the various bits
+between the drm and the hid trees and the second drm patch in my
+series depends on this one.
 
-Changes in v2:
-- Move the description to the generic touchscreen.yaml.
-- Update the desc to make it clearer it's only for integrated devices.
+If my series implodes I'll land this one on its own. In any case, once
+this lands somewhere I'll take an AI to cleanup the panels.
 
- Documentation/devicetree/bindings/input/elan,ekth6915.yaml | 5 +++++
- .../devicetree/bindings/input/goodix,gt7375p.yaml          | 5 +++++
- Documentation/devicetree/bindings/input/hid-over-i2c.yaml  | 2 ++
- .../devicetree/bindings/input/touchscreen/touchscreen.yaml | 7 +++++++
- 4 files changed, 19 insertions(+)
+(no changes since v1)
 
-diff --git a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-index 05e6f2df604c..3e2d216c6432 100644
---- a/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-+++ b/Documentation/devicetree/bindings/input/elan,ekth6915.yaml
-@@ -13,6 +13,9 @@ description:
-   Supports the Elan eKTH6915 touchscreen controller.
-   This touchscreen controller uses the i2c-hid protocol with a reset GPIO.
- 
-+allOf:
-+  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+ drivers/gpu/drm/drm_panel.c | 49 ++++++++++++++++++++++++++++++++-----
+ include/drm/drm_panel.h     | 14 +++++++++++
+ 2 files changed, 57 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index f634371c717a..4e1c4e42575b 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -105,11 +105,22 @@ EXPORT_SYMBOL(drm_panel_remove);
+  */
+ int drm_panel_prepare(struct drm_panel *panel)
+ {
++	int ret;
 +
- properties:
-   compatible:
-     items:
-@@ -24,6 +27,8 @@ properties:
-   interrupts:
-     maxItems: 1
+ 	if (!panel)
+ 		return -EINVAL;
  
-+  panel: true
+-	if (panel->funcs && panel->funcs->prepare)
+-		return panel->funcs->prepare(panel);
++	if (panel->prepared) {
++		dev_warn(panel->dev, "Skipping prepare of already prepared panel\n");
++		return 0;
++	}
 +
-   reset-gpios:
-     description: Reset GPIO; not all touchscreens using eKTH6915 hook this up.
++	if (panel->funcs && panel->funcs->prepare) {
++		ret = panel->funcs->prepare(panel);
++		if (ret < 0)
++			return ret;
++	}
++	panel->prepared = true;
  
-diff --git a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-index ce18d7dadae2..72212382d702 100644
---- a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-+++ b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
-@@ -14,6 +14,9 @@ description:
-   This touchscreen uses the i2c-hid protocol but has some non-standard
-   power sequencing required.
- 
-+allOf:
-+  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+ 	return 0;
+ }
+@@ -128,11 +139,22 @@ EXPORT_SYMBOL(drm_panel_prepare);
+  */
+ int drm_panel_unprepare(struct drm_panel *panel)
+ {
++	int ret;
 +
- properties:
-   compatible:
-     oneOf:
-@@ -30,6 +33,8 @@ properties:
-   interrupts:
-     maxItems: 1
+ 	if (!panel)
+ 		return -EINVAL;
  
-+  panel: true
+-	if (panel->funcs && panel->funcs->unprepare)
+-		return panel->funcs->unprepare(panel);
++	if (!panel->prepared) {
++		dev_warn(panel->dev, "Skipping unprepare of already unprepared panel\n");
++		return 0;
++	}
 +
-   reset-gpios:
-     true
++	if (panel->funcs && panel->funcs->unprepare) {
++		ret = panel->funcs->unprepare(panel);
++		if (ret < 0)
++			return ret;
++	}
++	panel->prepared = false;
  
-diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.yaml b/Documentation/devicetree/bindings/input/hid-over-i2c.yaml
-index 7156b08f7645..138caad96a29 100644
---- a/Documentation/devicetree/bindings/input/hid-over-i2c.yaml
-+++ b/Documentation/devicetree/bindings/input/hid-over-i2c.yaml
-@@ -44,6 +44,8 @@ properties:
-     description: HID descriptor address
-     $ref: /schemas/types.yaml#/definitions/uint32
+ 	return 0;
+ }
+@@ -155,11 +177,17 @@ int drm_panel_enable(struct drm_panel *panel)
+ 	if (!panel)
+ 		return -EINVAL;
  
-+  panel: true
++	if (panel->enabled) {
++		dev_warn(panel->dev, "Skipping enable of already enabled panel\n");
++		return 0;
++	}
 +
-   post-power-on-delay-ms:
-     description: Time required by the device after enabling its regulators
-       or powering it on, before it is ready for communication.
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-index 895592da9626..431c13335c40 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-@@ -10,6 +10,13 @@ maintainers:
-   - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+ 	if (panel->funcs && panel->funcs->enable) {
+ 		ret = panel->funcs->enable(panel);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
++	panel->enabled = true;
  
- properties:
-+  panel:
-+    description: If this touchscreen is integrally connected to a panel, this
-+      is a reference to that panel. The presence of this reference indicates
-+      that the touchscreen should be power sequenced together with the panel
-+      and that they may share power and/or reset signals.
-+    $ref: /schemas/types.yaml#/definitions/phandle
+ 	ret = backlight_enable(panel->backlight);
+ 	if (ret < 0)
+@@ -187,13 +215,22 @@ int drm_panel_disable(struct drm_panel *panel)
+ 	if (!panel)
+ 		return -EINVAL;
+ 
++	if (!panel->enabled) {
++		dev_warn(panel->dev, "Skipping disable of already disabled panel\n");
++		return 0;
++	}
 +
-   touchscreen-min-x:
-     description: minimum x coordinate reported
-     $ref: /schemas/types.yaml#/definitions/uint32
+ 	ret = backlight_disable(panel->backlight);
+ 	if (ret < 0)
+ 		DRM_DEV_INFO(panel->dev, "failed to disable backlight: %d\n",
+ 			     ret);
+ 
+-	if (panel->funcs && panel->funcs->disable)
+-		return panel->funcs->disable(panel);
++	if (panel->funcs && panel->funcs->disable) {
++		ret = panel->funcs->disable(panel);
++		if (ret < 0)
++			return ret;
++	}
++	panel->enabled = false;
+ 
+ 	return 0;
+ }
+diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+index 432fab2347eb..c6cf75909389 100644
+--- a/include/drm/drm_panel.h
++++ b/include/drm/drm_panel.h
+@@ -198,6 +198,20 @@ struct drm_panel {
+ 	 * the panel is powered up.
+ 	 */
+ 	bool prepare_prev_first;
++
++	/**
++	 * @prepared:
++	 *
++	 * If true then the panel has been prepared.
++	 */
++	bool prepared;
++
++	/**
++	 * @enabled:
++	 *
++	 * If true then the panel has been enabled.
++	 */
++	bool enabled;
+ };
+ 
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
 -- 
 2.41.0.162.gfafddb0af9-goog
 
