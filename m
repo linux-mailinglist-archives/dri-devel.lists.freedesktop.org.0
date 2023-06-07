@@ -1,55 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBF8725708
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:12:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750E1725722
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:15:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C504D10E08C;
-	Wed,  7 Jun 2023 08:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADB4B10E459;
+	Wed,  7 Jun 2023 08:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9D310E08C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686125543; x=1717661543;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=MLXJN8f1wgeJvba3Z+b92UH3LzPWiFgfUtqTwlhYIpI=;
- b=A5Sce54dms6u952zU/uOLn0MhgEa7ZXL2gLJkMk5JrQrHmSY2z6PKS/9
- eNQzlcTclWhVmV2ELqR+xSfE2gQWYGZlo15Usy1PVx5n4gd5wDmmI+TAS
- S487CyURyzNqbjtHni//2a//ldqQ1VBaKc13sVluFMQESIiOivtuF1pV7
- ZdUG2dO+jTkbZczg+P2WOnxoToarmQNyCsymBhEGWfsUewDOnzFjjwB3p
- bvhZVW98R2hAQmFaQGBKXc/nMaKHcLCzcRDC6IPfDDjjZ28Q2UmYbDHE5
- M8FhvZcB3dhuVinUXzZ6nbojRweCnFQx1PwBQ1zQLuI2Fy3hxH44p0YM/ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="336544335"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="336544335"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 01:12:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="956122146"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="956122146"
-Received: from nnesher-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.57.222])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 01:12:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v9 8/8] drm: Remove usage of deprecated DRM_DEBUG_KMS
-In-Reply-To: <20230607035351.GD14101@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1686047727.git.code@siddh.me>
- <35bd95856a69f141640c27ea2b5e4073275032f7.1686047727.git.code@siddh.me>
- <20230606150419.GI5197@pendragon.ideasonboard.com>
- <87mt1ctgm7.fsf@intel.com>
- <20230607035351.GD14101@pendragon.ideasonboard.com>
-Date: Wed, 07 Jun 2023 11:12:16 +0300
-Message-ID: <87jzwfu1wf.fsf@intel.com>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63C2A10E459
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:15:20 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f732d37d7cso42337065e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686125718; x=1688717718;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qgIJSCejdHbYC6I5SehTRhoGCRpBeLeg1t9A/6zhpJo=;
+ b=CIa64ozSdrDVRVg1jUgCTAiz36xySfnySuAigODI+An3r6XQLwAc3N8g+VaXmEjiEg
+ He1RlJVQUxoLOzw6647ujk2cBWuG5dLxGbvmEZLSDY/gUh0iyjzUzrkaqmUzjpAHIVto
+ lNKKf85hRuxVY5yhehspifd10g2gJM3UEbPTZy8ervc6l0QMC7MVrs7qvS0wu/HlEg80
+ 1VnX3ZT8NUJESTVrBaVbM2EbqeHm1gyq8NkjCit3BV9MxDJJala3XneiAODy5RWorTMY
+ SR8xwkEIMgMIl5LO04gTuqe42G4s/GQE4SzegI6ubCioeBvlyAmb1IvNom+TsBe8gpYj
+ WQig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686125718; x=1688717718;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qgIJSCejdHbYC6I5SehTRhoGCRpBeLeg1t9A/6zhpJo=;
+ b=GzYJ4V32iCcCU9M0Q/ShpLXe0LP7vabyD0i3vUx6zq74A4tAJ52OfjP4M9NhC5J+pZ
+ duDHZ1kE+TyaHiXHrJGDhFnrL9wtXfaN+jv65cImYUrOWH6VCITvIy5iGcBlQnwGkQkW
+ lZQGtp7jUjexhizd1ZMQB2fpBMCLiERuJrN6Q83FHAJuDjL1pEBUpzCF6RJgZYylnDDu
+ ye8sFmCq7OtTOfDtCfiaHL2RuPgbilmD8dBxii+WD7KgwKqtwjcCaxezp1tvl+yZ6nMn
+ 4K53ttxbAJ9qF9lpk2LBGJQxCiUwpG7a1fUYnhI7V/6ew5g2O5cGjZ3yC+TEoGYSDgyp
+ cUow==
+X-Gm-Message-State: AC+VfDxMxKV0WCznSouZomtOxBUIPV5h//UH7UdIdNPeIMyk3BKEH1lw
+ bC1nCEg1M70yh9d6h7HzPyRDog==
+X-Google-Smtp-Source: ACHHUZ5tk6FymA5P3QCBia2YNIyTmWdjetu2eTi8qhNYTXKqJxyKEcwTWpSXM+EeMCN65Vy6Ap03GQ==
+X-Received: by 2002:a7b:c411:0:b0:3f7:3545:4630 with SMTP id
+ k17-20020a7bc411000000b003f735454630mr5745200wmi.20.1686125718557; 
+ Wed, 07 Jun 2023 01:15:18 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ f8-20020a1c6a08000000b003f72a7918e7sm1228212wmc.45.2023.06.07.01.15.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jun 2023 01:15:18 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: linux-kernel@vger.kernel.org, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
+References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
+Subject: Re: (subset) [RESEND PATCH v2 0/6] Add display support on the
+ stm32f746-disco board
+Message-Id: <168612571728.2521024.1084005865126960680.b4-ty@linaro.org>
+Date: Wed, 07 Jun 2023 10:15:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Siddh Raman Pant <code@siddh.me>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Suraj Upadhyay <usuraj35@gmail.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 07 Jun 2023, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> Hi Jani,
->
-> On Wed, Jun 07, 2023 at 12:39:44AM +0300, Jani Nikula wrote:
->> On Tue, 06 Jun 2023, Laurent Pinchart wrote:
->> > On Tue, Jun 06, 2023 at 04:15:22PM +0530, Siddh Raman Pant wrote:
->> >> @@ -777,7 +793,7 @@ int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width,
->> >>  	int i, ret = 0;
->> >>  	bool *enabled;
->> >>  
->> >> -	DRM_DEBUG_KMS("\n");
->> >> +	drm_dbg_kms(dev, "\n");
->> >
->> > This message is pretty useless, it could be dropped on top of this
->> > series.
->> 
->> They do debug log the function being called.
->
-> I overlooked the fact that ___drm_dbg() prints the caller's function
-> name using __builtin_return_address(). It thus has marginally more value
-> than I thought. Still, function tracing is best performed with ftrace().
+Hi,
 
-I'm not going to argue this one too much, but it can be quite a step
-getting a random bug reporter from providing dmesgs to running ftrace.
+On Wed, 07 Jun 2023 08:31:33 +0200, Dario Binacchi wrote:
+> The series adds support for the display on the stm32f746-disco board,
+> along with a generic patch that adds the "bpp" parameter to the stm-drm
+> module. The intention is to allow users to size, within certain limits,
+> the memory footprint required by the framebuffer.
+> 
+> Changes in v2:
+> - Add 'Acked-by' tag of Conor Dooley.
+> - Fix build warning reported by kernel test robot.
+> - Add 'Reported-by' tag of kernel test robot.
+> 
+> [...]
 
-BR,
-Jani.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
+[4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
+[5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Neil
+
