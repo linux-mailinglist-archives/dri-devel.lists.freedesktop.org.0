@@ -1,48 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8992E726625
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 18:40:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DAE726707
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 19:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B1D10E0C7;
-	Wed,  7 Jun 2023 16:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F04610E05B;
+	Wed,  7 Jun 2023 17:18:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2125F10E0C7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 16:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686156032; x=1717692032;
- h=date:from:to:cc:subject:message-id;
- bh=GqKYxnubSgI/pE7wcj7bL/DYozmNTzniYDllwQ8VGnI=;
- b=O1Xrk4ccpcxZIhKml0PrarSNANjrGftBK6yaIikLWIHG49qDPZ9pXMX3
- mHniww+3rYwwv/MrfxK6JbH28jrHHkm0O0g6NGenYMjB5XPsCsz3/8jWd
- 0Rao3KgXiPb8dJ9h2A3qZxh9SC0KYfMey1kzOJvXk8Yvuk9bQUQgs43ds
- 2BRxJUJbhwyqoknPDGlMNjdKvDF8TNJ5+nZOEKCECB2/8YU46AfR7mWNy
- X3AQ7hFla1DkuEUyoohhLfNgLXoZjllMvRUcootGxGEJLsai7gMcD+aBo
- ERU46s5vQmYQsdF9LNro9AtD6ZLHzeVT+rNqMJ80Z4QcqiHzoxUuHYYK6 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="341695972"
-X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="341695972"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 09:40:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="712726946"
-X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="712726946"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2023 09:40:24 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q6wCu-0006kl-0a;
- Wed, 07 Jun 2023 16:40:24 +0000
-Date: Thu, 08 Jun 2023 00:39:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad
-Message-ID: <20230607163937.ZTc-D%lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 628AD10E05B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 17:18:43 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxDevwu4BkODIAAA--.751S3;
+ Thu, 08 Jun 2023 01:18:40 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxduTvu4BkBEUFAA--.17764S3; 
+ Thu, 08 Jun 2023 01:18:39 +0800 (CST)
+Message-ID: <ae085320-c93c-5d96-58ef-c5ee8b58c306@loongson.cn>
+Date: Thu, 8 Jun 2023 01:18:38 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
+ hardware.
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20230607053053.345101-1-suijingfeng@loongson.cn>
+ <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
+ <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
+ <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
+ <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
+ <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxduTvu4BkBEUFAA--.17764S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9fXoWfXw4DKF4rAF4UuF4fAFW8uFX_yoW8KF4kZo
+ WUKr13Ja1rJr1UWr1UAw1UJry5Xw1DGrnrJryUJr13Ar40q3WUJ34UJryUJ3y7Jr18Gr47
+ GryUtF15ZFyUJF1rl-sFpf9Il3svdjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8wcxFpf
+ 9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+ UjIYCTnIWjp_UUUOj7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+ 8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+ Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+ kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+ twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+ k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+ 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,292 +75,655 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- linux-pci@vger.kernel.org, kvmarm@lists.linux.dev, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kunit-dev@googlegroups.com
+Cc: linux-renesas-soc@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad  Add linux-next specific files for 20230607
+Hi,
 
-Error/Warning reports:
+On 2023/6/8 00:12, Paul Cercueil wrote:
+> Hi Sui,
+>
+> Le mercredi 07 juin 2023 à 22:38 +0800, Sui Jingfeng a écrit :
+>> Hi,  welcome to discussion.
+>>
+>>
+>> I have limited skills in manipulating English.
+>>
+>> It may not express what I'm really means in the short time.
+>>
+>> Part of word in the sentence may not as accurate as your.
+>>
+>> Well, please don't misunderstand, I'm not doing the rude to you.
+> No problem.
+>
+>> I will explain it with more details.
+>>
+>> See below:
+>>
+>>
+>> On 2023/6/7 20:09, Paul Cercueil wrote:
+>>> Hi Sui,
+>>>
+>>> Le mercredi 07 juin 2023 à 18:30 +0800, Sui Jingfeng a écrit :
+>>>> Hi,
+>>>>
+>>>>
+>>>> On 2023/6/7 17:36, Paul Cercueil wrote:
+>>>>> Hi Sui,
+>>>>>
+>>>>> Le mercredi 07 juin 2023 à 13:30 +0800, Sui Jingfeng a écrit :
+>>>>>> The single map_noncoherent member of struct
+>>>>>> drm_gem_dma_object
+>>>>>> may
+>>>>>> not
+>>>>>> sufficient for describing the backing memory of the GEM
+>>>>>> buffer
+>>>>>> object.
+>>>>>>
+>>>>>> Especially on dma-coherent systems, the backing memory is
+>>>>>> both
+>>>>>> cached
+>>>>>> coherent for multi-core CPUs and dma-coherent for peripheral
+>>>>>> device.
+>>>>>> Say architectures like X86-64, LoongArch64, Loongson Mips64,
+>>>>>> etc.
+>>>>>>
+>>>>>> Whether a peripheral device is dma-coherent or not can be
+>>>>>> implementation-dependent. The single map_noncoherent option
+>>>>>> is
+>>>>>> not
+>>>>>> enough
+>>>>>> to reflect real hardware anymore. For example, the Loongson
+>>>>>> LS3A4000
+>>>>>> CPU
+>>>>>> and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
+>>>>>> platform
+>>>>>> allways snoop CPU's cache. Doing the allocation with
+>>>>>> dma_alloc_coherent
+>>>>>> function is preferred. The return buffer is cached, it should
+>>>>>> not
+>>>>>> using
+>>>>>> the default write-combine mapping. While with the current
+>>>>>> implement,
+>>>>>> there
+>>>>>> no way to tell the drm core to reflect this.
+>>>>>>
+>>>>>> This patch adds cached and coherent members to struct
+>>>>>> drm_gem_dma_object.
+>>>>>> which allow driver implements to inform the core. Introducing
+>>>>>> new
+>>>>>> mappings
+>>>>>> while keeping the original default behavior unchanged.
+>>>>> Did you try to simply set the "dma-coherent" property to the
+>>>>> device's
+>>>>> node?
+>>>> But this approach can only be applied for the device driver with
+>>>> DT
+>>>> support.
+>>>>
+>>>> X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically
+>>>> do
+>>>> not
+>>>> have DT support.
+>>>>
+>>>> They using ACPI to pass parameter from the firmware to Linux
+>>>> kernel.
+>>>>
+>>>> You approach will lost the effectiveness on such a case.
+>>> Well, I don't really know how ACPI handles it - but it should just
+>>> be a
+>>> matter of setting dev->dma_coherent. That's basically what the DT
+>>> code
+>>> does.
+>>>
+>>> Some MIPS boards set it in their setup code for instance.
+>>>
+>> This is a *strategy*, not a *mechanism*.
+>>
+>> In this case, DT is just used to describing the hardware.
+>>
+>> (It is actually a hardware feature describing language, the
+>> granularity
+>> is large)
+>>
+>> It does not changing the state of the hardware.
+>>
+>> It's your platform firmware or kernel setting up code who actually do
+>> such a things.
+>>
+>>
+>> It's just that it works on *one* platform, it does not guarantee it
+>> will
+>> works on others.
+> If you add the "dma-coherent" property in a device node in DT, you
+> effectively specify that the device is DMA-coherent; so you describe
+> the hardware, which is what DT is for, and you are not changing the
+> state of the hardware.
+>
+> Note that some MIPS platforms (arch/mips/alchemy/common/setup.c)
+> default to DMA-coherent mapping; I believe you could do something
+> similar with your Loongson LS3A4000 CPU and LS2K2000/LS2K1000 SoC.
+>
+The preblem is that device driver can have various demand.
 
-https://lore.kernel.org/oe-kbuild-all/202305132244.DwzBUcUd-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306021936.OktTcMAT-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306051812.1YdWyZca-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306071513.vCmugxAi-lkp@intel.com
+It probably want to create different kind of buffers for different thing 
+simultaneously.
 
-Error/Warning: (recently discovered and may have been fixed)
+Say, one allocated with dma_alloc_coherent for command buffer or dma 
+descriptor
 
-ERROR: modpost: "lynx_pcs_destroy" [drivers/net/ethernet/stmicro/stmmac/stmmac.ko] undefined!
-drivers/bus/fsl-mc/fsl-mc-allocator.c:108:12: warning: variable 'mc_bus_dev' is uninitialized when used here [-Wuninitialized]
-drivers/cpufreq/cpufreq-dt-platdev.c:105:34: warning: 'blocklist' defined but not used [-Wunused-const-variable=]
-drivers/cpufreq/cpufreq-dt-platdev.c:18:34: warning: 'allowlist' defined but not used [-Wunused-const-variable=]
-drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to `lynx_pcs_create_mdiodev'
-drivers/net/ethernet/altera/altera_tse_main.c:1473: undefined reference to `lynx_pcs_destroy'
-include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-lib/kunit/executor_test.c:138:4: error: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
-microblaze-linux-ld: (.text+0x14a4): undefined reference to `lynx_pcs_destroy'
-nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to `lynx_pcs_destroy'
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:330:18: warning: no previous prototype for 'bpf_kfunc_call_test_offset' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:336:1: warning: no previous prototype for 'bpf_kfunc_call_memb_acquire' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:342:18: warning: no previous prototype for 'bpf_kfunc_call_memb1_release' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:394:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail1' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:398:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail2' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:402:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail3' [-Wmissing-prototypes]
-tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:410:18: warning: no previous prototype for 'bpf_kfunc_call_test_mem_len_fail1' [-Wmissing-prototypes]
+another one allocated with  dma_alloc_wc for uploading shader etc.
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+also has the third one allocated with dma_alloc_noncoherent() for doing 
+some else.
 
-arch/arm64/kvm/mmu.c:147:3-9: preceding lock on line 140
-drivers/clk/qcom/gpucc-sm8550.c:37:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
-drivers/clk/qcom/videocc-sm8550.c:34:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
-drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
-drivers/pci/endpoint/functions/pci-epf-mhi.c:362:2-9: line 362 is redundant because platform_get_irq() already prints an error
-drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
-drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c:217:30: sparse: sparse: incorrect type in argument 1 (different base types)
-kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
-lib/kunit/test.c:336 __kunit_abort() warn: ignoring unreachable code.
 
-Error/Warning ids grouped by kconfigs:
+Simple setting by DT or firmware which override all allocation is not 
+what we want.
 
-gcc_recent_errors
-|-- arc-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- arm-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- arm-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- arm64-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- arm64-randconfig-c004-20230607
-|   `-- arch-arm64-kvm-mmu.c:preceding-lock-on-line
-|-- csky-randconfig-s053-20230607
-|   |-- drivers-clk-qcom-gpucc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-he
-|   `-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
-|-- i386-allyesconfig
-|   |-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-m021-20230607
-|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
-|-- m68k-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- microblaze-randconfig-c041-20230607
-|   `-- drivers-nvme-host-pr.c:ERROR:reference-preceded-by-free-on-line
-|-- microblaze-randconfig-c044-20230607
-|   `-- microblaze-linux-ld:(.text):undefined-reference-to-lynx_pcs_destroy
-|-- mips-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- nios2-defconfig
-|   |-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_create_mdiodev
-|   |-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
-|   `-- nios2-linux-ld:drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
-|-- openrisc-randconfig-s052-20230607
-|   |-- drivers-clk-qcom-gpucc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-he
-|   |-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
-|   |-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|   `-- drivers-usb-typec-tcpm-qcom-qcom_pmic_typec_pdphy.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-header-got-restricted-__le16-const-usertype-header
-|-- parisc-randconfig-s042-20230607
-|   |-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
-|   `-- mm-kfence-core.c:sparse:sparse:cast-to-restricted-__le64
-|-- powerpc-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- powerpc-randconfig-c031-20230607
-|   `-- drivers-pci-endpoint-functions-pci-epf-mhi.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
-|-- riscv-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- riscv-defconfig
-|   `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
-|-- riscv-rv32_defconfig
-|   `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
-|-- s390-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- s390-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- sh-randconfig-m041-20230607
-|   `-- lib-kunit-test.c-__kunit_abort()-warn:ignoring-unreachable-code.
-|-- x86_64-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- x86_64-randconfig-c044-20230607
-|   |-- drivers-cpufreq-cpufreq-dt-platdev.c:warning:allowlist-defined-but-not-used
-|   `-- drivers-cpufreq-cpufreq-dt-platdev.c:warning:blocklist-defined-but-not-used
-|-- x86_64-randconfig-k001-20230607
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_memb1_release
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_memb_acquire
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail1
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail2
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail3
-|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_mem_len_fail1
-|   `-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_offset
-|-- x86_64-randconfig-x062-20230607
-|   `-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
-`-- x86_64-randconfig-x066-20230607
-    `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
-clang_recent_errors
-|-- arm64-randconfig-r036-20230607
-|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
-|-- i386-randconfig-i002-20230607
-|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
-|-- i386-randconfig-i061-20230607
-|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
-`-- riscv-randconfig-r032-20230607
-    `-- lib-kunit-executor_test.c:error:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type-Werror-Wcast-function-type-strict
+  My patch is toward the drm core, leave the choice to the device drivers.
 
-elapsed time: 721m
 
-configs tested: 143
-configs skipped: 6
+How does the device driver fetch hardware descriptions is the device 
+driver's thing.
 
-tested configs:
-alpha                            alldefconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r002-20230607   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     haps_hs_smp_defconfig   gcc  
-arc                  randconfig-r002-20230607   gcc  
-arc                  randconfig-r016-20230607   gcc  
-arc                  randconfig-r033-20230607   gcc  
-arc                  randconfig-r043-20230607   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         assabet_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                           h3600_defconfig   gcc  
-arm                            hisi_defconfig   gcc  
-arm                           imxrt_defconfig   gcc  
-arm                  randconfig-r046-20230607   clang
-arm                          sp7021_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r003-20230607   clang
-arm64                randconfig-r036-20230607   clang
-csky         buildonly-randconfig-r003-20230607   gcc  
-csky                                defconfig   gcc  
-hexagon              randconfig-r014-20230607   clang
-hexagon              randconfig-r041-20230607   clang
-hexagon              randconfig-r045-20230607   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r005-20230607   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230607   clang
-i386                 randconfig-i002-20230607   clang
-i386                 randconfig-i003-20230607   clang
-i386                 randconfig-i004-20230607   clang
-i386                 randconfig-i005-20230607   clang
-i386                 randconfig-i006-20230607   clang
-i386                 randconfig-i011-20230607   gcc  
-i386                 randconfig-i012-20230607   gcc  
-i386                 randconfig-i051-20230607   clang
-i386                 randconfig-i052-20230607   clang
-i386                 randconfig-i053-20230607   clang
-i386                 randconfig-i054-20230607   clang
-i386                 randconfig-i055-20230607   clang
-i386                 randconfig-i056-20230607   clang
-i386                 randconfig-i061-20230607   clang
-i386                 randconfig-i062-20230607   clang
-i386                 randconfig-i063-20230607   clang
-i386                 randconfig-i064-20230607   clang
-i386                 randconfig-i065-20230607   clang
-i386                 randconfig-i066-20230607   clang
-i386                 randconfig-r022-20230607   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r004-20230607   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r021-20230607   gcc  
-loongarch            randconfig-r024-20230607   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                 randconfig-r004-20230607   gcc  
-mips                 randconfig-r031-20230607   gcc  
-mips                        vocore2_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r026-20230607   gcc  
-openrisc             randconfig-r023-20230607   gcc  
-openrisc             randconfig-r032-20230607   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                     ksi8560_defconfig   clang
-powerpc                      makalu_defconfig   gcc  
-powerpc                       maple_defconfig   gcc  
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc              randconfig-r005-20230607   clang
-powerpc              randconfig-r023-20230607   gcc  
-powerpc                 xes_mpc85xx_defconfig   clang
-riscv                            alldefconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r022-20230607   gcc  
-riscv                randconfig-r042-20230607   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r006-20230607   clang
-s390                 randconfig-r024-20230607   gcc  
-s390                 randconfig-r044-20230607   gcc  
-sh                               allmodconfig   gcc  
-sh                         ap325rxa_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sparc        buildonly-randconfig-r006-20230607   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r015-20230607   gcc  
-sparc                randconfig-r026-20230607   gcc  
-sparc                       sparc64_defconfig   gcc  
-sparc64              randconfig-r021-20230607   gcc  
-sparc64              randconfig-r034-20230607   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230607   clang
-x86_64               randconfig-a002-20230607   clang
-x86_64               randconfig-a003-20230607   clang
-x86_64               randconfig-a004-20230607   clang
-x86_64               randconfig-a005-20230607   clang
-x86_64               randconfig-a006-20230607   clang
-x86_64               randconfig-a011-20230607   gcc  
-x86_64               randconfig-a012-20230607   gcc  
-x86_64               randconfig-a013-20230607   gcc  
-x86_64               randconfig-a014-20230607   gcc  
-x86_64               randconfig-a015-20230607   gcc  
-x86_64               randconfig-a016-20230607   gcc  
-x86_64               randconfig-k001-20230607   gcc  
-x86_64               randconfig-x051-20230607   gcc  
-x86_64               randconfig-x052-20230607   gcc  
-x86_64               randconfig-x053-20230607   gcc  
-x86_64               randconfig-x054-20230607   gcc  
-x86_64               randconfig-x055-20230607   gcc  
-x86_64               randconfig-x056-20230607   gcc  
-x86_64               randconfig-x061-20230607   gcc  
-x86_64               randconfig-x062-20230607   gcc  
-x86_64               randconfig-x063-20230607   gcc  
-x86_64               randconfig-x064-20230607   gcc  
-x86_64               randconfig-x065-20230607   gcc  
-x86_64               randconfig-x066-20230607   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa                  nommu_kc705_defconfig   gcc  
-xtensa               randconfig-r011-20230607   gcc  
-xtensa               randconfig-r012-20230607   gcc  
-xtensa               randconfig-r035-20230607   gcc  
+either via DT, or ACPI, kernel cmd or hard-code.  Its device drivers policy.
+
+
+My patch do not require the platform make the decision for the device 
+driver.
+
+Nor does it depend on DT. Your approaches are neither sufficient nor 
+necessary.
+
+
+It gives the freedom to the the device driver.
+
+Device driver has full control over the buffer allocation.
+
+For our hardware, It don't use DT on some application scene.
+
+Out hardware is dma-coherent and cached coherent.
+
+We don't want a dma-coherent buffer attached with the name of 
+"map_noncoherent".
+
+
+>> While my patch is trying to create a *mechanism* which could probably
+>>
+>> works on all platform.
+>>
+>>
+>> It is based the patch you have already commuted.
+>>
+>> Thanks for your excellent contribution.
+>>
+>>
+>>>>>    From what I understand if you add that property then Linux
+>>>>> will
+>>>>> use DMA
+>>>>> coherent memory even though you use dma_alloc_noncoherent() and
+>>>>> the
+>>>>> sync_single_for_cpu() / sync_single_for_device() are then NOPs.
+>>>> Please do not mitigate the problems with confusing method.
+>>>>
+>>>>
+>>>> This approach not only tend to generate confusion but also
+>>>> implement-dependent
+>>>>
+>>>> and arch-dependent. It's definitely problematic.
+>>>>
+>>>>
+>>>> How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH
+>>>> specific
+>>>> thing.
+>>>>
+>>>> Dependent on how does the arch_dma_ops is implemented.
+>>>>
+>>>>
+>>>> The definition of the coherent on different ARCH has different
+>>>> meanings.
+>>>>
+>>>> The definition of the wirte-combine on different ARCH has
+>>>> different
+>>>> meanings.
+>>>>
+>>>>
+>>>> The wirte-combine(uncache acceleration) on mips is non dma-
+>>>> coherent.
+>>> It is dma-coherent on Ingenic SoCs.
+>>>
+>>>
+>> It is dma-coherent ? How does it achieve it?
+>>
+>>
+>> As far as I know,  there is a write buffer within the mips cpu.
+>>
+>> typically 64 byte,  but it is not cache. It will gather the CPU write
+>> access,
+>>
+>> When a peripheral device do the DMA, how does you platform guarantee
+>>
+>> the data in the CPU write buffer has been already arrived at (or
+>> flushed
+>> out to)
+>>
+>> the system RAM?
+>>
+>>
+>> Does the  peripheral device snoop the CPU's write buffer,
+>>
+>> or it need manually flush the write buffer with SYNC instruction?
+> I believe the DMA flushes the write buffer? I don't actually know the
+> details, it would be something to ask to Ingenic.
+>
+>>>> But on arm, It seem that wirte-combine is coherent. (guaranteed
+>>>> by
+>>>> arch
+>>>> implement).
+>>>>
+>>>>
+>>>> I also heard using dma_alloc_coherent  to allocation the buffer
+>>>> for
+>>>> the
+>>>> non-coherent doesn't hurt, but the reverse is not true.
+>>>>
+>>>>
+>>>> But please do not create confusion.
+>>>>
+>>>> software composite is faster because better cacheusing rate and
+>>>>
+>>>> cache is faster to read.
+>>>>
+>>>> It is faster because it is cached, not because it is non-
+>>>> coherent.
+>>>>
+>>>> non-coherent is arch thing and/or driver-side thing,
+>>>>
+>>>> it is a side effect of  using the cached mapping.
+>>> Yes, I know that.
+>>>
+>>>> It should left to driver to handle such a side effect. The device
+>>>> driver
+>>>>
+>>>> know their device, so its the device driver's responsibility to
+>>>> maintain
+>>>> the coherency.  On loongson platform, we don't need to call
+>>>> drm_fb_dma_sync_non_coherent() function, Its already guaranteed
+>>>> by
+>>>> hardware.
+>>> I understand. What I'm saying, is that you should be able to set
+>>> dma_obj->map_noncoherent (which would arguably be better named
+>>> "map_cached",
+>> My point is that the word *cached* reflect the nature,
+>>
+>> dma-coherent or dma-noncoherent is secondary.
+>>
+>> We are all on the way to pursue the performance.
+>>
+>> In the end, it is the cache give us the speed.
+>>
+>>
+>> Why not we credit the cache hardware inside of the CPU?
+> dma_alloc_noncoherent() gives you *cached* memory.
+>
+> Therefore, if you want *cached* memory, you should set
+> gem->map_noncoherent.
+>
+> I understand your confusion; it would be easier to understand if this
+> function was called dma_alloc_cached().
+>
+> Then, if the memory is actually DMA-coherent for the device (dev-
+>> dma_coherent == true), the drm_fb_dma_sync_non_coherent() function is
+> a no-op.
+>
+> But in both cases (DMA-coherent device, non DMA-coherent device), if
+> you want cached buffers, you should call dma_alloc_noncoherent().
+>
+>
+>>> but that's a different problem). Then the GEM code would
+>>> end up calling dma_alloc_noncoherent(), which will give you
+>>> *cached*
+>>> memory. Then as long as dev->dma_coherent = true,
+>>> drm_fb_dma_sync_non_coherent() should be a NOP - so you wouldn't
+>>> pointlessly sync/invalidate the caches.
+>>>
+>>> And I disagree with you, the driver shouldn't handle such things.
+>> You already handle the side effect of such things, See below:
+>>
+>>
+>> ```
+>>
+>>      if (ingenic_drm_map_noncoherent(ipu->master))
+>>           drm_fb_dma_sync_non_coherent(ipu->drm, oldstate, newstate);
+>>
+>> ```
+>>
+>> By the way,  Ingenic is the only driver in the drivers/gpu/drm/ that
+>> handle such things
+>>
+>> so far.
+> Yes; and now I think that this was a bad idea (for the reasons Maxime
+> listed in his email).
+>
+>>>    The
+>>> fact that it is better to use cached memory or uncached with write-
+>>> combine really is platform-specific and not something that the
+>>> driver
+>>> should be aware of.
+>> But the fact is that,  It is drm/ingenic tell the drm core,  some SoC
+>> is
+>> prefer cached,
+>>
+>> but unable to enforce the coherent. So that it need  flush the cache
+>> manually.
+>>
+>> What do you meant by saying that the driver should not be aware of ?
+> Ideally, the driver should just call a function "dma_alloc_buffer",
+> which would return cached memory when it makes sense, otherwise a
+> uncached buffer with the write-combine attribute.
+>
+> Then the arch code (or DT) can decide what's the best setting, and not
+> the driver.
+>
+> In the meantime, you should use gem->dma_noncoherent like the ingenic-
+> drm driver does - until somebody (probably me) refactor things.
+>
+> Cheers,
+> -Paul
+>
+>>> Cheers,
+>>> -Paul
+>>>
+>>>>> Cheers,
+>>>>> -Paul
+>>>>>
+>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/drm_fb_dma_helper.c       | 11 +++++------
+>>>>>>     drivers/gpu/drm/drm_fbdev_dma.c           |  2 +-
+>>>>>>     drivers/gpu/drm/drm_gem_dma_helper.c      | 20
+>>>>>> ++++++++++++++++----
+>>>>>>     drivers/gpu/drm/ingenic/ingenic-drm-drv.c |  5 ++++-
+>>>>>>     drivers/gpu/drm/rcar-du/Kconfig           |  2 --
+>>>>>>     drivers/gpu/drm/rcar-du/rcar_du_kms.c     |  4 +++-
+>>>>>>     include/drm/drm_gem_dma_helper.h          |  7 +++++--
+>>>>>>     7 files changed, 34 insertions(+), 17 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c
+>>>>>> b/drivers/gpu/drm/drm_fb_dma_helper.c
+>>>>>> index 3b535ad1b07c..93ff05041192 100644
+>>>>>> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
+>>>>>> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+>>>>>> @@ -106,16 +106,15 @@ dma_addr_t
+>>>>>> drm_fb_dma_get_gem_addr(struct
+>>>>>> drm_framebuffer *fb,
+>>>>>>     EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
+>>>>>>     
+>>>>>>     /**
+>>>>>> - * drm_fb_dma_sync_non_coherent - Sync GEM object to non-
+>>>>>> coherent
+>>>>>> backing
+>>>>>> - *     memory
+>>>>>> + * drm_fb_dma_sync_non_coherent - Sync GEM object to cached
+>>>>>> backing
+>>>>>> memory
+>>>>>>      * @drm: DRM device
+>>>>>>      * @old_state: Old plane state
+>>>>>>      * @state: New plane state
+>>>>>>      *
+>>>>>>      * This function can be used by drivers that use damage
+>>>>>> clips
+>>>>>> and
+>>>>>> have
+>>>>>> - * DMA GEM objects backed by non-coherent memory. Calling
+>>>>>> this
+>>>>>> function
+>>>>>> - * in a plane's .atomic_update ensures that all the data in
+>>>>>> the
+>>>>>> backing
+>>>>>> - * memory have been written to RAM.
+>>>>>> + * DMA GEM objects backed by cached memory. Calling this
+>>>>>> function in
+>>>>>> a
+>>>>>> + * plane's .atomic_update ensures that all the data in the
+>>>>>> backing
+>>>>>> memory
+>>>>>> + * have been written to RAM.
+>>>>>>      */
+>>>>>>     void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
+>>>>>>                                      struct drm_plane_state
+>>>>>> *old_state,
+>>>>>> @@ -131,7 +130,7 @@ void drm_fb_dma_sync_non_coherent(struct
+>>>>>> drm_device *drm,
+>>>>>>     
+>>>>>>            for (i = 0; i < finfo->num_planes; i++) {
+>>>>>>                    dma_obj = drm_fb_dma_get_gem_obj(state->fb,
+>>>>>> i);
+>>>>>> -               if (!dma_obj->map_noncoherent)
+>>>>>> +               if (dma_obj->cached && dma_obj->coherent)
+>>>>>>                            continue;
+>>>>>>     
+>>>>>>                    daddr = drm_fb_dma_get_gem_addr(state->fb,
+>>>>>> state, i);
+>>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c
+>>>>>> b/drivers/gpu/drm/drm_fbdev_dma.c
+>>>>>> index d86773fa8ab0..49fe9b284cc8 100644
+>>>>>> --- a/drivers/gpu/drm/drm_fbdev_dma.c
+>>>>>> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
+>>>>>> @@ -131,7 +131,7 @@ static int
+>>>>>> drm_fbdev_dma_helper_fb_probe(struct
+>>>>>> drm_fb_helper *fb_helper,
+>>>>>>     
+>>>>>>            /* screen */
+>>>>>>            info->flags |= FBINFO_VIRTFB; /* system memory */
+>>>>>> -       if (dma_obj->map_noncoherent)
+>>>>>> +       if (dma_obj->cached)
+>>>>>>                    info->flags |= FBINFO_READS_FAST; /* signal
+>>>>>> caching
+>>>>>> */
+>>>>>>            info->screen_size = sizes->surface_height * fb-
+>>>>>>> pitches[0];
+>>>>>>            info->screen_buffer = map.vaddr;
+>>>>>> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>>>> b/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>>>> index 870b90b78bc4..dec1d512bdf1 100644
+>>>>>> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>>>> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>>>> @@ -93,7 +93,11 @@ __drm_gem_dma_create(struct drm_device
+>>>>>> *drm,
+>>>>>> size_t size, bool private)
+>>>>>>                    drm_gem_private_object_init(drm, gem_obj,
+>>>>>> size);
+>>>>>>     
+>>>>>>                    /* Always use writecombine for dma-buf
+>>>>>> mappings
+>>>>>> */
+>>>>>> -               dma_obj->map_noncoherent = false;
+>>>>>> +               /* FIXME: This is not always true, on some
+>>>>>> dma
+>>>>>> coherent system,
+>>>>>> +                * cached mappings should be preferred over
+>>>>>> writecombine
+>>>>>> +                */
+>>>>>> +               dma_obj->cached = false;
+>>>>>> +               dma_obj->coherent = false;
+>>>>>>            } else {
+>>>>>>                    ret = drm_gem_object_init(drm, gem_obj,
+>>>>>> size);
+>>>>>>            }
+>>>>>> @@ -143,7 +147,11 @@ struct drm_gem_dma_object
+>>>>>> *drm_gem_dma_create(struct drm_device *drm,
+>>>>>>            if (IS_ERR(dma_obj))
+>>>>>>                    return dma_obj;
+>>>>>>     
+>>>>>> -       if (dma_obj->map_noncoherent) {
+>>>>>> +       if (dma_obj->cached && dma_obj->coherent) {
+>>>>>> +               dma_obj->vaddr = dma_alloc_coherent(drm->dev,
+>>>>>> size,
+>>>>>> +                                                   &dma_obj-
+>>>>>>> dma_addr,
+>>>>>> +
+>>>>>> GFP_KERNEL |
+>>>>>> __GFP_NOWARN);
+>>>>>> +       } else if (dma_obj->cached && !dma_obj->coherent) {
+>>>>>>                    dma_obj->vaddr = dma_alloc_noncoherent(drm-
+>>>>>>> dev,
+>>>>>> size,
+>>>>>>                                                          
+>>>>>> &dma_obj-
+>>>>>>> dma_addr,
+>>>>>>                                                          
+>>>>>> DMA_TO_DEVICE,
+>>>>>> @@ -153,6 +161,7 @@ struct drm_gem_dma_object
+>>>>>> *drm_gem_dma_create(struct drm_device *drm,
+>>>>>>                                                  &dma_obj-
+>>>>>>> dma_addr,
+>>>>>>                                                  GFP_KERNEL |
+>>>>>> __GFP_NOWARN);
+>>>>>>            }
+>>>>>> +
+>>>>>>            if (!dma_obj->vaddr) {
+>>>>>>                    drm_dbg(drm, "failed to allocate buffer
+>>>>>> with
+>>>>>> size
+>>>>>> %zu\n",
+>>>>>>                             size);
+>>>>>> @@ -233,7 +242,10 @@ void drm_gem_dma_free(struct
+>>>>>> drm_gem_dma_object
+>>>>>> *dma_obj)
+>>>>>>                            dma_buf_vunmap_unlocked(gem_obj-
+>>>>>>> import_attach->dmabuf, &map);
+>>>>>>                    drm_prime_gem_destroy(gem_obj, dma_obj-
+>>>>>>> sgt);
+>>>>>>            } else if (dma_obj->vaddr) {
+>>>>>> -               if (dma_obj->map_noncoherent)
+>>>>>> +               if (dma_obj->cached && dma_obj->coherent)
+>>>>>> +                       dma_free_coherent(gem_obj->dev->dev,
+>>>>>> dma_obj-
+>>>>>>> base.size,
+>>>>>> +                                         dma_obj->vaddr,
+>>>>>> dma_obj-
+>>>>>>> dma_addr);
+>>>>>> +               else if (dma_obj->cached && !dma_obj-
+>>>>>>> coherent)
+>>>>>>                            dma_free_noncoherent(gem_obj->dev-
+>>>>>>> dev,
+>>>>>> dma_obj->base.size,
+>>>>>>                                                 dma_obj-
+>>>>>>> vaddr,
+>>>>>> dma_obj-
+>>>>>>> dma_addr,
+>>>>>>                                                
+>>>>>> DMA_TO_DEVICE);
+>>>>>> @@ -532,7 +544,7 @@ int drm_gem_dma_mmap(struct
+>>>>>> drm_gem_dma_object
+>>>>>> *dma_obj, struct vm_area_struct *
+>>>>>>            vma->vm_pgoff -= drm_vma_node_start(&obj-
+>>>>>>> vma_node);
+>>>>>>            vm_flags_mod(vma, VM_DONTEXPAND, VM_PFNMAP);
+>>>>>>     
+>>>>>> -       if (dma_obj->map_noncoherent) {
+>>>>>> +       if (dma_obj->cached) {
+>>>>>>                    vma->vm_page_prot = vm_get_page_prot(vma-
+>>>>>>> vm_flags);
+>>>>>>     
+>>>>>>                    ret = dma_mmap_pages(dma_obj->base.dev-
+>>>>>>> dev,
+>>>>>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>> index 5ec75e9ba499..a3df2f99a757 100644
+>>>>>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>>>>> @@ -919,7 +919,10 @@ ingenic_drm_gem_create_object(struct
+>>>>>> drm_device
+>>>>>> *drm, size_t size)
+>>>>>>            if (!obj)
+>>>>>>                    return ERR_PTR(-ENOMEM);
+>>>>>>     
+>>>>>> -       obj->map_noncoherent = priv->soc_info-
+>>>>>>> map_noncoherent;
+>>>>>> +       if (priv->soc_info->map_noncoherent) {
+>>>>>> +               obj->cached = true;
+>>>>>> +               obj->coherent = false;
+>>>>>> +       }
+>>>>>>     
+>>>>>>            return &obj->base;
+>>>>>>     }
+>>>>>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
+>>>>>> b/drivers/gpu/drm/rcar-
+>>>>>> du/Kconfig
+>>>>>> index 53c356aed5d5..dddc70c08bdc 100644
+>>>>>> --- a/drivers/gpu/drm/rcar-du/Kconfig
+>>>>>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+>>>>>> @@ -2,8 +2,6 @@
+>>>>>>     config DRM_RCAR_DU
+>>>>>>            tristate "DRM Support for R-Car Display Unit"
+>>>>>>            depends on DRM && OF
+>>>>>> -       depends on ARM || ARM64
+>>>>>> -       depends on ARCH_RENESAS || COMPILE_TEST
+>>>>>>            select DRM_KMS_HELPER
+>>>>>>            select DRM_GEM_DMA_HELPER
+>>>>>>            select VIDEOMODE_HELPERS
+>>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>>>>>> index adfb36b0e815..1142d51473e6 100644
+>>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>>>>>> @@ -386,7 +386,9 @@ struct drm_gem_object
+>>>>>> *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
+>>>>>>            gem_obj->funcs = &rcar_du_gem_funcs;
+>>>>>>     
+>>>>>>            drm_gem_private_object_init(dev, gem_obj, attach-
+>>>>>>> dmabuf-
+>>>>>>> size);
+>>>>>> -       dma_obj->map_noncoherent = false;
+>>>>>> +
+>>>>>> +       dma_obj->cached = false;
+>>>>>> +       dma_obj->coherent = false;
+>>>>>>     
+>>>>>>            ret = drm_gem_create_mmap_offset(gem_obj);
+>>>>>>            if (ret) {
+>>>>>> diff --git a/include/drm/drm_gem_dma_helper.h
+>>>>>> b/include/drm/drm_gem_dma_helper.h
+>>>>>> index 8a043235dad8..585ce3d4d1eb 100644
+>>>>>> --- a/include/drm/drm_gem_dma_helper.h
+>>>>>> +++ b/include/drm/drm_gem_dma_helper.h
+>>>>>> @@ -16,7 +16,9 @@ struct drm_mode_create_dumb;
+>>>>>>      *       more than one entry but they are guaranteed to
+>>>>>> have
+>>>>>> contiguous
+>>>>>>      *       DMA addresses.
+>>>>>>      * @vaddr: kernel virtual address of the backing memory
+>>>>>> - * @map_noncoherent: if true, the GEM object is backed by
+>>>>>> non-
+>>>>>> coherent memory
+>>>>>> + * @cached: if true, the GEM object is backed by cached
+>>>>>> memory
+>>>>>> + * @coherent: This option only meaningful when a GEM object
+>>>>>> is
+>>>>>> cached.
+>>>>>> + *            If true, Sync the GEM object for DMA access is
+>>>>>> not
+>>>>>> required.
+>>>>>>      */
+>>>>>>     struct drm_gem_dma_object {
+>>>>>>            struct drm_gem_object base;
+>>>>>> @@ -26,7 +28,8 @@ struct drm_gem_dma_object {
+>>>>>>            /* For objects with DMA memory allocated by GEM DMA
+>>>>>> */
+>>>>>>            void *vaddr;
+>>>>>>     
+>>>>>> -       bool map_noncoherent;
+>>>>>> +       bool cached;
+>>>>>> +       bool coherent;
+>>>>>>     };
+>>>>>>     
+>>>>>>     #define to_drm_gem_dma_obj(gem_obj) \
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jingfeng
+
