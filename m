@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E36725EFF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 14:21:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F2D72600A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 14:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A72A110E4E2;
-	Wed,  7 Jun 2023 12:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F47910E0D8;
+	Wed,  7 Jun 2023 12:49:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B7C10E4E2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 12:21:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 67249218B8;
- Wed,  7 Jun 2023 12:21:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686140507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ta2FRAbQj0UwuOoAp0yjJ66hb4vAKW3txPGg2Eqa/ls=;
- b=J/il2DV+GzNOLLIrsNjkeK2yO6zhHV1LqiURxOr63dIyG/NiMamaLNk+kPxwOy5NgQRG8s
- yTwchZBE8UBHQtTgXr1/Q9y9PsoDYzzxivwcgAYmy1s/FuepZ1/McbnxAnpaRtG1I5JF5a
- 6OTPXe+jNemR936GMPghkUvQXP3ivvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686140507;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ta2FRAbQj0UwuOoAp0yjJ66hb4vAKW3txPGg2Eqa/ls=;
- b=qwEx/5STfYKT3dNkZTXOoEkepTtUZxat+Ty2hciE7ZXt4+PcgqCN6KYkP+4UPraz5myCHp
- bwaDYDlB9klcKwAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 27AAC13776;
- Wed,  7 Jun 2023 12:21:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bWDpCFt2gGQBQgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 07 Jun 2023 12:21:47 +0000
-Message-ID: <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
-Date: Wed, 7 Jun 2023 14:21:46 +0200
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF3C10E0D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 12:49:49 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-565cfe4ece7so82013447b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 05:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1686142188; x=1688734188;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8AxgroMuIH5NoBbtLc+ad3Qph59KMeN5Cm1Y0j7Ly7E=;
+ b=ZbKfKcjvgFXKqwj0h5Tewi1lK9Xd76DukZKwpNIXejMBEEIVgX1ml9V5uECiRVpV9C
+ qpIGXKmcNrTBr1q1m39Ibv5tpSIkf8YqnsD3sVX2jKG2S8whdARNgj06BRqknITaqsfU
+ xRKVeXzvJSMs4tI9tPs9ap5Lf66e2PkfUr6L8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686142188; x=1688734188;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8AxgroMuIH5NoBbtLc+ad3Qph59KMeN5Cm1Y0j7Ly7E=;
+ b=X/+4M0hQ8kqhpwbYfX8D9OV9y/Ujj4Lk6ZW4T6JP+nb1VftMR4Qnx7RwgSD/XISMDp
+ ChKFXBDJXiWaI1VIkeb0wyGuuodIqf9tnmgLbUPA4Zpr7p37gBtOe+PrO0jNOaI1W9f5
+ +EscYp2ReM9UB/CMtPS9RtsBRpcEHFTfJY7TlO4hhscC9Y+QEFRx5pgBjxknAJnJ+vHw
+ Kx+6AEzdiUBKCaku654qitysHix+zr7dG2Acq+ZRJp7Zo/4Sn8IjQhmdJToHdzaEvWZH
+ erwfwqwMiG1YyxsX5IJBggavEagQw1iI9wm/6mKQxIZQXpaqEEc/Fm8byt6LeZVAjS7L
+ rNTg==
+X-Gm-Message-State: AC+VfDyr5el/4bwKKz+i6vQpKosOmRYPC+4TqdKCOgxFV+ZtaGCbAjcB
+ XLEUcA81pBOlyYrOuseToQaDGAB1Xl9DFsRjrXdbUw==
+X-Google-Smtp-Source: ACHHUZ7hBI1yQy3hOqMs3IywMmiWVgkBaT4CmmHgTUdbu1gUndSUOaqBclPy1zulKt9pLMxC7qjpriQ1ztOABz2tp58=
+X-Received: by 2002:a81:834b:0:b0:568:b6a5:9100 with SMTP id
+ t72-20020a81834b000000b00568b6a59100mr6838026ywf.42.1686142188079; Wed, 07
+ Jun 2023 05:49:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
-Content-Language: en-US
-To: Markus Elfring <Markus.Elfring@web.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FW1FeVQdL1giSXp8BKAshSuA"
+References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
+ <20230607063139.621351-4-dario.binacchi@amarulasolutions.com>
+ <CAMty3ZDCkQ_T+j96iXtMAhkOLFBm=hZHk=sZzSGA=MOQQUOv7g@mail.gmail.com>
+In-Reply-To: <CAMty3ZDCkQ_T+j96iXtMAhkOLFBm=hZHk=sZzSGA=MOQQUOv7g@mail.gmail.com>
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Wed, 7 Jun 2023 14:49:36 +0200
+Message-ID: <CABGWkvq_DevgJeR+KfBy-4ME+u-iORW93BAT4FTMVRuG0KU1Zg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2 3/6] ARM: dts: stm32: support display on
+ stm32f746-disco board
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +68,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, Daniel Thompson <daniel.thompson@linaro.org>,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Rob Herring <robh+dt@kernel.org>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------FW1FeVQdL1giSXp8BKAshSuA
-Content-Type: multipart/mixed; boundary="------------7Epbi9PEVe6pPjkkKh0YiBGj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-staging@lists.linux.dev, Daniel Thompson <daniel.thompson@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <8c2db8a0-048c-af17-85f6-ac0946ce0f0f@suse.de>
-Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
-In-Reply-To: <16a8f34a-d4f9-2e1d-02cf-e4c53f89c006@web.de>
+Hi Jagan,
 
---------------7Epbi9PEVe6pPjkkKh0YiBGj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Wed, Jun 7, 2023 at 8:43=E2=80=AFAM Jagan Teki <jagan@amarulasolutions.c=
+om> wrote:
+>
+> On Wed, Jun 7, 2023 at 12:01=E2=80=AFPM Dario Binacchi
+> <dario.binacchi@amarulasolutions.com> wrote:
+> >
+> > Add support to Rocktech RK043FN48H display on stm32f746-disco board.
+> >
+> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  arch/arm/boot/dts/stm32f746-disco.dts | 51 +++++++++++++++++++++++++++
+> >  1 file changed, 51 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/stm32f746-disco.dts b/arch/arm/boot/dts/=
+stm32f746-disco.dts
+> > index c11616ed5fc6..cda423b6a874 100644
+> > --- a/arch/arm/boot/dts/stm32f746-disco.dts
+> > +++ b/arch/arm/boot/dts/stm32f746-disco.dts
+> > @@ -60,10 +60,41 @@ memory@c0000000 {
+> >                 reg =3D <0xC0000000 0x800000>;
+> >         };
+> >
+> > +       reserved-memory {
+> > +               #address-cells =3D <1>;
+> > +               #size-cells =3D <1>;
+> > +               ranges;
+> > +
+> > +               linux,cma {
+> > +                       compatible =3D "shared-dma-pool";
+> > +                       no-map;
+> > +                       size =3D <0x80000>;
+> > +                       linux,dma-default;
+> > +               };
+> > +       };
+>
+> This looks unrelated to display enablement, isn't it?
 
-DQoNCkFtIDA3LjA2LjIzIHVtIDE0OjA2IHNjaHJpZWIgTWFya3VzIEVsZnJpbmc6DQo+PiBN
-b2Rlcm4gTGludXggZGlzdHJvYnV0aW9ucyBoYXZlIGFkb3B0ZWQgRFJNIGRyaXZlcnMgZm9y
-IGdyYXBoaWNzDQo+PiBvdXRwdXQgYW5kIHVzZSBmYmRldiBvbmx5IGZvciB0aGUga2VybmVs
-J3MgZnJhbWVidWZmZXIgY29uc29sZS4NCj4gDQo+IFdvdWxkIHlvdSBsaWtlIHRvIGF2b2lk
-IGEgdHlwbyBpbiBzdWJzZXF1ZW50IGNvdmVyIGxldHRlcnM/DQoNCkhhISBJdCBzYXlzICdk
-aXN0cm9idXRpb25zJy4NCg0KPiANCj4gUmVnYXJkcywNCj4gTWFya3VzDQoNCi0tIA0KVGhv
-bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
-cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
-dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
-IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Without the "reserved-memory" node, it is not possible to allocate
+memory for the framebuffer.
+I got this error:
+stm32-display 40016800.display-controller: [drm] *ERROR* failed to
+allocate buffer with size 139264
+
+Thanks and regards,
+Dario
+
+>
+> Jagan.
 
 
---------------7Epbi9PEVe6pPjkkKh0YiBGj--
 
---------------FW1FeVQdL1giSXp8BKAshSuA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--
 
------BEGIN PGP SIGNATURE-----
+Dario Binacchi
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSAdloFAwAAAAAACgkQlh/E3EQov+CX
-jg/9FNBf8ZoZQO+eosw1vBEZ9nuaT0FLZyWHr9yNEU33bOLCa5mmAi3B1TRjYwdSk7shlRf73twX
-YRuSuMrW/2ODEiN2DVkaf8jSOCbZgZxcPHYZRJiHKThM7ApQxlRSZ+mjD3QPNpWwp8x0LumHcN+V
-dYjdR0/LZCp47I5sIsIr6BUP67GEqaBjy2UY1SKdAKIhlAlD4YJmPwrC/bJ+HZCBkDFuaimu4qAV
-YkKXc2qIXo7wLgFCKW10q/Jgk6Duph4BrHK/ypbZd/5Tgeb+NgV9gq6L9QQzOpIzKFO42zYoSWXl
-stDmdBcxM+cdcLW0b4b+veBIRI44YJUt/0vv//SliYQw8wGUHqDKM1zSckdqVYdL9MqZWXlBUIjH
-3yUrOmdyjhnoFdY+PjgqmP2mX8I/uYgQjPXWYDyhI8tWxMIgjyFZtlT2tGO6B0PktrBfLv/5lqTO
-qei+gMMJydV0ceV8M0usD1SVEdkFeR4/CtjHxotSfj670KWWRczIP78PxWoW/OWMWEatidEv14z2
-+czkANOTrdRickPxEjBxaPYTnZcZQE8yGsdW6ufhnsQdcT/Uv1LN55509+C2QMHVwDng70u60Gdx
-AYKRWTZKRXfvjHmOD3GmgT3M4ZMR9kg4LMdB79fPEa3jyq4o2Im13Jt5ylFPIz/NLf9qY366H6yp
-z9Y=
-=GLVN
------END PGP SIGNATURE-----
+Senior Embedded Linux Developer
 
---------------FW1FeVQdL1giSXp8BKAshSuA--
+dario.binacchi@amarulasolutions.com
+
+__________________________________
+
+
+Amarula Solutions SRL
+
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+
+T. +39 042 243 5310
+info@amarulasolutions.com
+
+www.amarulasolutions.com
