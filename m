@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6124725441
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389F0725450
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07D010E432;
-	Wed,  7 Jun 2023 06:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D476210E439;
+	Wed,  7 Jun 2023 06:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F3810E432
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:31:56 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-30ad99fa586so6798839f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1686119514; x=1688711514;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yAW+zzizoPdH0S/aO5WCXuWp95MvJ4568t/x7rERkZ8=;
- b=oij5WgWkvYYOUtEp7mGMYwADDCD01LfrAmCNgml9W85dFDuFYvvNhkENHGeXh9Cq9u
- 3pK6gWcbQ7t2LYbZXgI0BCw/6fRRB5PeqRjLTlBbp+ET9axLadAiZztH4few/0KIz34X
- QJqbD/+9emeAKB44hrtPdlFjhs5oBzK5xrdwM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686119514; x=1688711514;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yAW+zzizoPdH0S/aO5WCXuWp95MvJ4568t/x7rERkZ8=;
- b=cPdOf7fgLYZ/Lfah77ICEghe+nI70rCS1iZnQzBgCccZM178BxZuVz4rUQCqy7e91p
- rZ6pc6LEX+1XAolr3a6alPVj8hQRdMGg/0AwbjlnFIb5JUeC0GUk7ay0BI9LspJ0PcSB
- DEIuuvGge5cyLsCLda1XgAWKJLYeJc2D9JU5v8OHfsJW3h8HT6NKbNzKHCJmlP1/KNiz
- cFMNa6lxEV2/J2mKs9dNDTDFKRLyRCVAciTsJODdl9D8vu1kjXao3yDl/X7sGjj6SCYF
- ISWyNb7JQ0lPgtMaoeQgubMH52cHa2BusQGRYEQsoyMJoCROYxJALjHFAZtMOATNWQLA
- lphQ==
-X-Gm-Message-State: AC+VfDxKKiDMl40fMwdldjNFbA4LTOQRsLyii1Wdu5Vm/vcefbTUUfGg
- ornErWE+HRqTeXyqJ7ngqSkO7A==
-X-Google-Smtp-Source: ACHHUZ43EByLSLWH1Hp4CJmVlLkzIZdJ1bFJA5cBLjDViBWwpcPQQjpHCIvTkQJTIAxM2+k+COUtcA==
-X-Received: by 2002:a5d:420e:0:b0:306:3b78:fe33 with SMTP id
- n14-20020a5d420e000000b003063b78fe33mr3151485wrq.32.1686119514598; 
- Tue, 06 Jun 2023 23:31:54 -0700 (PDT)
-Received: from dario-ThinkPad-T14s-Gen-2i.. ([37.159.114.163])
- by smtp.gmail.com with ESMTPSA id
- m6-20020adff386000000b0030630120e56sm14385127wro.57.2023.06.06.23.31.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 23:31:54 -0700 (PDT)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH v2 6/6] drm/stm: add an option to change FB bpp
-Date: Wed,  7 Jun 2023 08:31:39 +0200
-Message-Id: <20230607063139.621351-7-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
-References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C17BA10E429;
+ Wed,  7 Jun 2023 06:33:40 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxPuvDJIBkCwwAAA--.198S3;
+ Wed, 07 Jun 2023 14:33:39 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Ax6OTBJIBkc_IDAA--.14543S3; 
+ Wed, 07 Jun 2023 14:33:37 +0800 (CST)
+Message-ID: <7db6a90f-1929-5e36-3f1d-c96acb5c70a1@loongson.cn>
+Date: Wed, 7 Jun 2023 14:33:37 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/amdgpu: display/Kconfig: replace leading spaces with
+ tab
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230606133328.148490-1-suijingfeng@loongson.cn>
+ <CADnq5_MdNSBJuNrJC2-fRByhEoUqEJmMGATT+OrFvjqA7k4F5Q@mail.gmail.com>
+ <85b7bf66-840b-c6de-a7e3-be1f49953464@loongson.cn>
+Organization: Loongson
+In-Reply-To: <85b7bf66-840b-c6de-a7e3-be1f49953464@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Ax6OTBJIBkc_IDAA--.14543S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxJrW3uFW3CFy3uF1UWF4DGFX_yoW8tr4Upw
+ 4kJFy5CrWUJF1rJr47J3WUXFy5Jw4fJa4UJryDX3WUZ34DAF1jgr4qgrn0grWUJFWxA3W8
+ JF1rWr47ZF1qyrbCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
+ 14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+ I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
+ jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+ 07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+ 1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+ CVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r
+ 1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4U
+ JbIYCTnIWIevJa73UjIFyTuYvjxUzku4UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,63 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Leo Li <sunpeng.li@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Boards that use the STM32F{4,7} series have limited amounts of RAM. The
-added parameter allows users to size, within certain limits, the memory
-footprint required by the framebuffer.
+https://cgit.freedesktop.org/amd/drm-amd/
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
----
+This one has a long time with no update.
 
-(no changes since v1)
 
- drivers/gpu/drm/stm/drv.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+On 2023/6/7 14:31, Sui Jingfeng wrote:
+> Hi,
+>
+> On 2023/6/7 03:15, Alex Deucher wrote:
+>> Applied.  Thanks!
+>
+> Where is the official branch of drm/amdgpu, I can't find it on the 
+> internet.
+>
+> Sorry for asking this silly question.
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 422220df7d8c..65be2b442a6a 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -30,6 +30,11 @@
- #define STM_MAX_FB_WIDTH	2048
- #define STM_MAX_FB_HEIGHT	2048 /* same as width to handle orientation */
- 
-+static uint stm_bpp = 16;
-+
-+MODULE_PARM_DESC(bpp, "bits-per-pixel (default: 16)");
-+module_param_named(bpp, stm_bpp, uint, 0644);
-+
- static const struct drm_mode_config_funcs drv_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create,
- 	.atomic_check = drm_atomic_helper_check,
-@@ -93,6 +98,7 @@ static int drv_load(struct drm_device *ddev)
- 	ddev->mode_config.min_height = 0;
- 	ddev->mode_config.max_width = STM_MAX_FB_WIDTH;
- 	ddev->mode_config.max_height = STM_MAX_FB_HEIGHT;
-+	ddev->mode_config.preferred_depth = stm_bpp;
- 	ddev->mode_config.funcs = &drv_mode_config_funcs;
- 	ddev->mode_config.normalize_zpos = true;
- 
-@@ -203,7 +209,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_put;
- 
--	drm_fbdev_dma_setup(ddev, 16);
-+	drm_fbdev_dma_setup(ddev, stm_bpp);
- 
- 	return 0;
- 
+>
+>> Alex
+>>
+>> On Tue, Jun 6, 2023 at 9:33 AM Sui Jingfeng <suijingfeng@loongson.cn> 
+>> wrote:
+>>> This patch replace the leading spaces with tab, make them keep 
+>>> aligned with
+>>> the rest of the config options. No functional change.
+>>>
+>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> ---
+>>>   drivers/gpu/drm/amd/display/Kconfig | 17 +++++++----------
+>>>   1 file changed, 7 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/display/Kconfig 
+>>> b/drivers/gpu/drm/amd/display/Kconfig
+>>> index 2d8e55e29637..04ccfc70d583 100644
+>>> --- a/drivers/gpu/drm/amd/display/Kconfig
+>>> +++ b/drivers/gpu/drm/amd/display/Kconfig
+>>> @@ -42,16 +42,13 @@ config DEBUG_KERNEL_DC
+>>>            Choose this option if you want to hit kdgb_break in assert.
+>>>
+>>>   config DRM_AMD_SECURE_DISPLAY
+>>> -        bool "Enable secure display support"
+>>> -        depends on DEBUG_FS
+>>> -        depends on DRM_AMD_DC_FP
+>>> -        help
+>>> -            Choose this option if you want to
+>>> -            support secure display
+>>> -
+>>> -            This option enables the calculation
+>>> -            of crc of specific region via debugfs.
+>>> -            Cooperate with specific DMCU FW.
+>>> +       bool "Enable secure display support"
+>>> +       depends on DEBUG_FS
+>>> +       depends on DRM_AMD_DC_FP
+>>> +       help
+>>> +         Choose this option if you want to support secure display
+>>>
+>>> +         This option enables the calculation of crc of specific 
+>>> region via
+>>> +         debugfs. Cooperate with specific DMCU FW.
+>>>
+>>>   endmenu
+>>> -- 
+>>> 2.25.1
+>>>
 -- 
-2.32.0
+Jingfeng
 
