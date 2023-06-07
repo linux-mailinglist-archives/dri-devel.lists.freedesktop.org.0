@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24C57255C3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D287255DB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B2D10E44D;
-	Wed,  7 Jun 2023 07:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9055810E44E;
+	Wed,  7 Jun 2023 07:36:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82A710E44D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:35:40 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791DD10E44E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686123339;
+ s=mimecast20190719; t=1686123401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rVXKtyFuQelZnCduaFGaTWYRY9d93/7uXkVVq77/kek=;
- b=CwuqI489c8L2M/pXFsPxJ8FXHy7FRAPQ+5n02PDCFmeiHqWFqFi2M8YzgbPSY4TyapaQj1
- 3PSa0wp1HVdsq3BoVKyhSOY3YbrEp1NCQnZb4tYX3IYR+Dq/ZTv4h0i0AT9NUtHWrnse77
- nGp7wWjNeuPoUoiUnSqCmWf2Q2WBagQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VCpM3n9uxiNBqWYphesbEdJfBdCBdNVjlNpr9KooViE=;
+ b=IXtZa3k9G+j2InWFcIipN6/AtSQoZyrLaSy9r0BLgAmFyrJ+HDripo8AV/zugNQ0+zoyGm
+ fgRT3oWOrLtNrt1rqHwbxn6TH1O9/8gm9zJC2sMiFCE25OM0Z6VX2zi+6iCbd69PBQpxzB
+ ctOc10/YsT5b72Gqbbq+SPsulkWtINc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-wuE_Q66ROeCkOEGOjCeDsg-1; Wed, 07 Jun 2023 03:35:38 -0400
-X-MC-Unique: wuE_Q66ROeCkOEGOjCeDsg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30ae4ed92eeso3064364f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:35:38 -0700 (PDT)
+ us-mta-654-Oe6jFz0PMJil0sNcSNmnHw-1; Wed, 07 Jun 2023 03:36:40 -0400
+X-MC-Unique: Oe6jFz0PMJil0sNcSNmnHw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f70f9995aeso33800465e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:36:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686123337; x=1688715337;
+ d=1e100.net; s=20221208; t=1686123399; x=1688715399;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rVXKtyFuQelZnCduaFGaTWYRY9d93/7uXkVVq77/kek=;
- b=CH6VqhXEmVg+P/1hHl/CfbLl/EtGYkobjBScArr71xtUnJqZXGMbUcd/bG8iCNytWf
- iZPcrA5Zw7zyG5yfeRJdS7xc7QtRwUYnoOoBK5S0GkQypYyM5DLFlL+JE1yIljb2lcUZ
- 7ka8l3moqxTDWcEos7c32eAMTR73pc/rs9sJwlfTeMmBffIf2lzuq1RAVHCCa5Pfleci
- s25B3m7exkTI4gEiuJEFN+wU97SULLJuJRX+Dgg5ZObfSTp1nJFEjp1OK4kIxZZh8WRi
- q2ko3EU87axYJ8dOOz6exQTioLJdFqWzBMmakE05V7FWN4GV5zFMWs7wlfwn0mT6Gk86
- rHCA==
-X-Gm-Message-State: AC+VfDwRd+dk04orARGxh9E8Hq2cFVYW31A+sZh8i6nlL9Xe2etHTAyy
- w3hFcms162o8lkz6G4AxjJwUq7fFJ+zwrcpmO9vUMzhTvqyKAR4qgC032liVFsNK7lCp2WT10jL
- wMDh8zqYp6r6TKQH2++L1HWMGCa9E
-X-Received: by 2002:adf:e94c:0:b0:30e:3ccf:d4b1 with SMTP id
- m12-20020adfe94c000000b0030e3ccfd4b1mr3545202wrn.4.1686123337741; 
- Wed, 07 Jun 2023 00:35:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7c4uJeHgefHAPZBCPOj0COJN3FPjwSoURcR8FFlOhwLdItHYCa5GZjGrjPHZg2iimtHbMokg==
-X-Received: by 2002:adf:e94c:0:b0:30e:3ccf:d4b1 with SMTP id
- m12-20020adfe94c000000b0030e3ccfd4b1mr3545188wrn.4.1686123337473; 
- Wed, 07 Jun 2023 00:35:37 -0700 (PDT)
+ bh=VCpM3n9uxiNBqWYphesbEdJfBdCBdNVjlNpr9KooViE=;
+ b=ihBHL0DWU7cE8fX+pqbaFn5KIYP8lG/haN+Ocfh+qKH+FP1UWxUYzBtiDrd79hOzRM
+ vXwOwmIZUQgGL7utAwzvbOCTMJBLTmTdb26ByvTNRyUL4t+FAHPHrskcXlFe42i03Qjl
+ My9ZLZbr8oAwqpNseXMPUHHKKzZUkUX01witsEmnxDVD4jCiwrsIqgPTvjDSGx9UWMdH
+ xJKtbEyI4RPVktdeOrupWR3HQzKal9uGql2O45MkY8OSSiezF1ZJHjTRmvDd0Gaqq1IE
+ ReclEk7PBbOUo4aPxsG8pNzifroAuBkUIGQOe2sYWuy+hV7JTSUIM4m77X7i4/Bg3OUn
+ 50Og==
+X-Gm-Message-State: AC+VfDxbl6p+LESlzPT779oM7ewcp45om0c3DZfccJZHdxItIaEaft0w
+ nqANBLr6V/+Fskwu0ttfm6y3cl1i7ieYj1SI0vzfLxvCD+dPIGiJo5mEcoH5MMnKoUBW1hAq7zY
+ gVchNj4oWLdoJY3DtUNCN6G2LXE3C
+X-Received: by 2002:adf:fc48:0:b0:30a:f0fd:dca4 with SMTP id
+ e8-20020adffc48000000b0030af0fddca4mr3438817wrs.3.1686123399229; 
+ Wed, 07 Jun 2023 00:36:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4QHTJetA/ydYNcZpnkz18WI9SIVhHJpnswtj0+WuXSdy2RjUolx7XRR0vsMR7cmSEWXP1qKQ==
+X-Received: by 2002:adf:fc48:0:b0:30a:f0fd:dca4 with SMTP id
+ e8-20020adffc48000000b0030af0fddca4mr3438803wrs.3.1686123398984; 
+ Wed, 07 Jun 2023 00:36:38 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s15-20020a5d69cf000000b0030af31c8c63sm14618215wrw.47.2023.06.07.00.35.37
+ t7-20020a1c7707000000b003f6cf9afc25sm1125337wmi.40.2023.06.07.00.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 00:35:37 -0700 (PDT)
+ Wed, 07 Jun 2023 00:36:38 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: Re: [PATCH 03/30] backlight/lv5207lp: Compare against struct
- fb_info.device
-In-Reply-To: <20230605144812.15241-4-tzimmermann@suse.de>
+Subject: Re: [PATCH 04/30] fbdev/atyfb: Reorder backlight and framebuffer
+ init/cleanup
+In-Reply-To: <20230605144812.15241-5-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-4-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 09:35:36 +0200
-Message-ID: <875y7zhghj.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-5-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 09:36:37 +0200
+Message-ID: <873533hgfu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -83,25 +83,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
  linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- linux-omap@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Struct lv5207lp_platform_data refers to a platform device within
-> the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
-> compares it against the fbdev device in struct fb_info.dev, which
-> is different. Fix the test by comparing to struct fb_info.device.
+> The driver's backlight code requires the framebuffer to be
+> registered. Therefore reorder the init and cleanup calls for
+> both data structures.
 >
-> Fixes a bug in the backlight driver and prepares fbdev for making
-> struct fb_info.dev optional.
->
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
