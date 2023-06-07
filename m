@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250AA72548E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:43:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82E772553A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAD710E436;
-	Wed,  7 Jun 2023 06:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC2710E441;
+	Wed,  7 Jun 2023 07:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC8BA10E436
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:43:03 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-56974f42224so64308217b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1686120182; x=1688712182;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dsg7fMeOwWf6duFi3SL6qXsSugXJIk0Q5FLHDNP0ztQ=;
- b=kVd/MnqaoIb5oxrldwJ5KKFEpysXJo1vKiAhaP19lZrkPC6P9oUh93qci0bfIU3RYr
- FOzKnA6wBqU6vXDEPXVRMXQ54vUNAsclDBESzc7L+maa4WBFhljs6Xr+L827WRe4vcD/
- aB9DVry9wy72Eh4u11rbQThzzLKuFbWeSnLWs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686120182; x=1688712182;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dsg7fMeOwWf6duFi3SL6qXsSugXJIk0Q5FLHDNP0ztQ=;
- b=ZPoZI0WQ/80+JgSIVHtp6bulNDPsTLlaOHVEtUeIY15xJZyZKA1v8Ad8Pw0wLSMsdq
- xvLUNNcuRjbgJLKh6Kzmad0Lfnd0l5XFbfD7bK03O/40qEXeXnVAXhBvoZmvlnNOd7gU
- IEEegOyd+EIkLppa+kB3WZBr7zri2DtRoGejlYtvUBsaefBk/cznsyHSbZUGF8vHpMuH
- sH5dm62azIREn4AAhf0GavrR0eoItGtdMLanQgpol8HHZxtiwsGvSTqMdNw1nsYPEGVY
- Yh0pEt3Ftt/NVbEj8ZeNzqU6wUJ3kGGIYwDO4KYmCmCHjp7BqtS37rO9FrLiEqwNQrEY
- EaLA==
-X-Gm-Message-State: AC+VfDzNlDF9WSYVmwFFdtdMQcPumxlikbEYtLHFRPP6CFhNWU7AIWuN
- B1yful1xyd6BSZBmFzJnLMhg7FAmkCbKGMQdSBmrEg==
-X-Google-Smtp-Source: ACHHUZ6sjnQG6odBG4w0qQkBK4LJZGwQU7CqikJozkVHCbSGSE0jcdrkgzVwr1fXZBKKMsum+q741mo0WSCe/CRDp74=
-X-Received: by 2002:a81:8450:0:b0:565:b22c:4165 with SMTP id
- u77-20020a818450000000b00565b22c4165mr5933812ywf.11.1686120181918; Tue, 06
- Jun 2023 23:43:01 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE6B10E441
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:16:32 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3575lsja030613; Wed, 7 Jun 2023 09:16:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=I+GTYaBhnMXgZJKGUFKMgZqicUprU1BnubXsKkDBAC8=;
+ b=Ew6Dc7KxpZO4DJGlBsUmRed+B3XAzulAOhzuTffReGuVaktFWEy4NHRPUiAGCyLBTbHU
+ ZSq+Z6hmgf2MXWYq940oFqdVzomiEVMemrJwLu+4pNc/WesGvYBdbhlMrvUu/VLQVQsI
+ 4uEAaL5xmvE6BTKSmE6CgeRgmkns6h9Gnu6PDcOWzb78NggsJYIyaN6zDdTJPh3UzpnU
+ qyonGf4NhCpSTwrn0jTxhhsDhI/3K24t42O2t3Wb2z7KKYRmH14OufqjZpwDaIPgd/y0
+ b1rvk7XivEEA4Nuo/VjHdbehhxgaAZXZSqPV5478PPP+GzW1X31fig7LFjyTejcrdhNR 0Q== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3r2m269882-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jun 2023 09:16:19 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D09AD10002A;
+ Wed,  7 Jun 2023 09:16:16 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C4B75212FDF;
+ Wed,  7 Jun 2023 09:16:16 +0200 (CEST)
+Received: from [10.129.178.187] (10.129.178.187) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 7 Jun
+ 2023 09:16:16 +0200
+Message-ID: <074d3e57-fd1b-22c4-eecb-71d9a85babdb@foss.st.com>
+Date: Wed, 7 Jun 2023 09:16:16 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RESEND PATCH v2 4/6] dt-bindings: display: simple: add Rocktech
+ RK043FN48H
+Content-Language: en-US
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ <linux-kernel@vger.kernel.org>
 References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
- <20230607063139.621351-4-dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20230607063139.621351-4-dario.binacchi@amarulasolutions.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 7 Jun 2023 12:12:50 +0530
-Message-ID: <CAMty3ZDCkQ_T+j96iXtMAhkOLFBm=hZHk=sZzSGA=MOQQUOv7g@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2 3/6] ARM: dts: stm32: support display on
- stm32f746-disco board
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+ <20230607063139.621351-5-dario.binacchi@amarulasolutions.com>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20230607063139.621351-5-dario.binacchi@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.129.178.187]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-07_04,2023-06-06_02,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +74,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Rob Herring <robh+dt@kernel.org>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ devicetree@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
  Amarula patchwork <linux-amarula@amarulasolutions.com>,
  linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 7, 2023 at 12:01=E2=80=AFPM Dario Binacchi
-<dario.binacchi@amarulasolutions.com> wrote:
->
-> Add support to Rocktech RK043FN48H display on stm32f746-disco board.
+
+On 6/7/23 08:31, Dario Binacchi wrote:
+> Add compatible to panel-simple for Rocktech Displays Limited
+> RK043FN48H 4.3" 480x272 LCD-TFT panel.
 >
 > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> ---
->
-> (no changes since v1)
->
->  arch/arm/boot/dts/stm32f746-disco.dts | 51 +++++++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/stm32f746-disco.dts b/arch/arm/boot/dts/st=
-m32f746-disco.dts
-> index c11616ed5fc6..cda423b6a874 100644
-> --- a/arch/arm/boot/dts/stm32f746-disco.dts
-> +++ b/arch/arm/boot/dts/stm32f746-disco.dts
-> @@ -60,10 +60,41 @@ memory@c0000000 {
->                 reg =3D <0xC0000000 0x800000>;
->         };
->
-> +       reserved-memory {
-> +               #address-cells =3D <1>;
-> +               #size-cells =3D <1>;
-> +               ranges;
-> +
-> +               linux,cma {
-> +                       compatible =3D "shared-dma-pool";
-> +                       no-map;
-> +                       size =3D <0x80000>;
-> +                       linux,dma-default;
-> +               };
-> +       };
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-This looks unrelated to display enablement, isn't it?
 
-Jagan.
+Thanks,
+
+Raphaël
+
