@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F50772658C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 18:13:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8992E726625
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 18:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D80310E18D;
-	Wed,  7 Jun 2023 16:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46B1D10E0C7;
+	Wed,  7 Jun 2023 16:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5FB10E0C7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 16:12:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1686154371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lt2PAuX6ogLwweJHt0XpKOi0qBHu6KFBJkJ9eCDXBLc=;
- b=LRRsWNiO0V+uLTymFpCVIfdXW1dHJcxO/PLiMUXHDNXEySnnKwh/ZAVPqvaKYtAUPOOyxr
- pXiIOIh2bfvSOpTMIuenDBwHikYdl7gCjV7uBlipLrGytp5ZVHEmjLpf5u8WmeId2dTUwl
- BS+btEk60KtkaQ1/oyrfDwqiSddV+Lg=
-Message-ID: <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-From: Paul Cercueil <paul@crapouillou.net>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>
-Date: Wed, 07 Jun 2023 18:12:48 +0200
-In-Reply-To: <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
- <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
- <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
- <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
- <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2125F10E0C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 16:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686156032; x=1717692032;
+ h=date:from:to:cc:subject:message-id;
+ bh=GqKYxnubSgI/pE7wcj7bL/DYozmNTzniYDllwQ8VGnI=;
+ b=O1Xrk4ccpcxZIhKml0PrarSNANjrGftBK6yaIikLWIHG49qDPZ9pXMX3
+ mHniww+3rYwwv/MrfxK6JbH28jrHHkm0O0g6NGenYMjB5XPsCsz3/8jWd
+ 0Rao3KgXiPb8dJ9h2A3qZxh9SC0KYfMey1kzOJvXk8Yvuk9bQUQgs43ds
+ 2BRxJUJbhwyqoknPDGlMNjdKvDF8TNJ5+nZOEKCECB2/8YU46AfR7mWNy
+ X3AQ7hFla1DkuEUyoohhLfNgLXoZjllMvRUcootGxGEJLsai7gMcD+aBo
+ ERU46s5vQmYQsdF9LNro9AtD6ZLHzeVT+rNqMJ80Z4QcqiHzoxUuHYYK6 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="341695972"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="341695972"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 09:40:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="712726946"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="712726946"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2023 09:40:24 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q6wCu-0006kl-0a;
+ Wed, 07 Jun 2023 16:40:24 +0000
+Date: Thu, 08 Jun 2023 00:39:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad
+Message-ID: <20230607163937.ZTc-D%lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,765 +55,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-perf-users@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ linux-pci@vger.kernel.org, kvmarm@lists.linux.dev, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad  Add linux-next specific files for 20230607
 
-Le mercredi 07 juin 2023 =C3=A0 22:38 +0800, Sui Jingfeng a =C3=A9crit=C2=
-=A0:
-> Hi,=C2=A0 welcome to discussion.
->=20
->=20
-> I have limited skills in manipulating English.
->=20
-> It may not express what I'm really means in the short time.
->=20
-> Part of word in the sentence may not as accurate as your.
->=20
-> Well, please don't misunderstand, I'm not doing the rude to you.
+Error/Warning reports:
 
-No problem.
+https://lore.kernel.org/oe-kbuild-all/202305132244.DwzBUcUd-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306021936.OktTcMAT-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306051812.1YdWyZca-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306071513.vCmugxAi-lkp@intel.com
 
->=20
-> I will explain it with more details.
->=20
-> See below:
->=20
->=20
-> On 2023/6/7 20:09, Paul Cercueil wrote:
-> > Hi Sui,
-> >=20
-> > Le mercredi 07 juin 2023 =C3=A0 18:30 +0800, Sui Jingfeng a =C3=A9crit=
-=C2=A0:
-> > > Hi,
-> > >=20
-> > >=20
-> > > On 2023/6/7 17:36, Paul Cercueil wrote:
-> > > > Hi Sui,
-> > > >=20
-> > > > Le mercredi 07 juin 2023 =C3=A0 13:30 +0800, Sui Jingfeng a =C3=A9c=
-rit=C2=A0:
-> > > > > The single map_noncoherent member of struct
-> > > > > drm_gem_dma_object
-> > > > > may
-> > > > > not
-> > > > > sufficient for describing the backing memory of the GEM
-> > > > > buffer
-> > > > > object.
-> > > > >=20
-> > > > > Especially on dma-coherent systems, the backing memory is
-> > > > > both
-> > > > > cached
-> > > > > coherent for multi-core CPUs and dma-coherent for peripheral
-> > > > > device.
-> > > > > Say architectures like X86-64, LoongArch64, Loongson Mips64,
-> > > > > etc.
-> > > > >=20
-> > > > > Whether a peripheral device is dma-coherent or not can be
-> > > > > implementation-dependent. The single map_noncoherent option
-> > > > > is
-> > > > > not
-> > > > > enough
-> > > > > to reflect real hardware anymore. For example, the Loongson
-> > > > > LS3A4000
-> > > > > CPU
-> > > > > and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
-> > > > > platform
-> > > > > allways snoop CPU's cache. Doing the allocation with
-> > > > > dma_alloc_coherent
-> > > > > function is preferred. The return buffer is cached, it should
-> > > > > not
-> > > > > using
-> > > > > the default write-combine mapping. While with the current
-> > > > > implement,
-> > > > > there
-> > > > > no way to tell the drm core to reflect this.
-> > > > >=20
-> > > > > This patch adds cached and coherent members to struct
-> > > > > drm_gem_dma_object.
-> > > > > which allow driver implements to inform the core. Introducing
-> > > > > new
-> > > > > mappings
-> > > > > while keeping the original default behavior unchanged.
-> > > > Did you try to simply set the "dma-coherent" property to the
-> > > > device's
-> > > > node?
-> > > But this approach can only be applied for the device driver with
-> > > DT
-> > > support.
-> > >=20
-> > > X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically
-> > > do
-> > > not
-> > > have DT support.
-> > >=20
-> > > They using ACPI to pass parameter from the firmware to Linux
-> > > kernel.
-> > >=20
-> > > You approach will lost the effectiveness on such a case.
-> > Well, I don't really know how ACPI handles it - but it should just
-> > be a
-> > matter of setting dev->dma_coherent. That's basically what the DT
-> > code
-> > does.
-> >=20
-> > Some MIPS boards set it in their setup code for instance.
-> >=20
-> This is a *strategy*, not a *mechanism*.
->=20
-> In this case, DT is just used to describing the hardware.
->=20
-> (It is actually a hardware feature describing language, the
-> granularity=20
-> is large)
->=20
-> It does not changing the state of the hardware.
->=20
-> It's your platform firmware or kernel setting up code who actually do
-> such a things.
->=20
->=20
-> It's just that it works on *one* platform, it does not guarantee it
-> will=20
-> works on others.
+Error/Warning: (recently discovered and may have been fixed)
 
-If you add the "dma-coherent" property in a device node in DT, you
-effectively specify that the device is DMA-coherent; so you describe
-the hardware, which is what DT is for, and you are not changing the
-state of the hardware.
+ERROR: modpost: "lynx_pcs_destroy" [drivers/net/ethernet/stmicro/stmmac/stmmac.ko] undefined!
+drivers/bus/fsl-mc/fsl-mc-allocator.c:108:12: warning: variable 'mc_bus_dev' is uninitialized when used here [-Wuninitialized]
+drivers/cpufreq/cpufreq-dt-platdev.c:105:34: warning: 'blocklist' defined but not used [-Wunused-const-variable=]
+drivers/cpufreq/cpufreq-dt-platdev.c:18:34: warning: 'allowlist' defined but not used [-Wunused-const-variable=]
+drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to `lynx_pcs_create_mdiodev'
+drivers/net/ethernet/altera/altera_tse_main.c:1473: undefined reference to `lynx_pcs_destroy'
+include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+lib/kunit/executor_test.c:138:4: error: cast from 'void (*)(const void *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+microblaze-linux-ld: (.text+0x14a4): undefined reference to `lynx_pcs_destroy'
+nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to `lynx_pcs_destroy'
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:330:18: warning: no previous prototype for 'bpf_kfunc_call_test_offset' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:336:1: warning: no previous prototype for 'bpf_kfunc_call_memb_acquire' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:342:18: warning: no previous prototype for 'bpf_kfunc_call_memb1_release' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:394:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail1' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:398:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail2' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:402:18: warning: no previous prototype for 'bpf_kfunc_call_test_fail3' [-Wmissing-prototypes]
+tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c:410:18: warning: no previous prototype for 'bpf_kfunc_call_test_mem_len_fail1' [-Wmissing-prototypes]
 
-Note that some MIPS platforms (arch/mips/alchemy/common/setup.c)
-default to DMA-coherent mapping; I believe you could do something
-similar with your Loongson LS3A4000 CPU and LS2K2000/LS2K1000 SoC.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
+arch/arm64/kvm/mmu.c:147:3-9: preceding lock on line 140
+drivers/clk/qcom/gpucc-sm8550.c:37:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
+drivers/clk/qcom/videocc-sm8550.c:34:22: sparse: sparse: decimal constant 2300000000 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
+drivers/nvme/host/pr.c:268:23-26: ERROR: reference preceded by free on line 278
+drivers/pci/endpoint/functions/pci-epf-mhi.c:362:2-9: line 362 is redundant because platform_get_irq() already prints an error
+drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
+drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c:217:30: sparse: sparse: incorrect type in argument 1 (different base types)
+kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+lib/kunit/test.c:336 __kunit_abort() warn: ignoring unreachable code.
 
-> While my patch is trying to create a *mechanism* which could probably
->=20
-> works on all platform.
->=20
->=20
-> It is based the patch you have already commuted.
->=20
-> Thanks for your excellent contribution.
->=20
->=20
-> > > > =C2=A0=C2=A0From what I understand if you add that property then Li=
-nux
-> > > > will
-> > > > use DMA
-> > > > coherent memory even though you use dma_alloc_noncoherent() and
-> > > > the
-> > > > sync_single_for_cpu() / sync_single_for_device() are then NOPs.
-> > > Please do not mitigate the problems with confusing method.
-> > >=20
-> > >=20
-> > > This approach not only tend to generate confusion but also
-> > > implement-dependent
-> > >=20
-> > > and arch-dependent. It's definitely problematic.
-> > >=20
-> > >=20
-> > > How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH
-> > > specific
-> > > thing.
-> > >=20
-> > > Dependent on how does the arch_dma_ops is implemented.
-> > >=20
-> > >=20
-> > > The definition of the coherent on different ARCH has different
-> > > meanings.
-> > >=20
-> > > The definition of the wirte-combine on different ARCH has
-> > > different
-> > > meanings.
-> > >=20
-> > >=20
-> > > The wirte-combine(uncache acceleration) on mips is non dma-
-> > > coherent.
-> > It is dma-coherent on Ingenic SoCs.
-> >=20
-> >=20
-> It is dma-coherent ? How does it achieve it?
->=20
->=20
-> As far as I know,=C2=A0 there is a write buffer within the mips cpu.
->=20
-> typically 64 byte,=C2=A0 but it is not cache. It will gather the CPU writ=
-e
-> access,
->=20
-> When a peripheral device do the DMA, how does you platform guarantee
->=20
-> the data in the CPU write buffer has been already arrived at (or
-> flushed=20
-> out to)
->=20
-> the system RAM?
->=20
->=20
-> Does the=C2=A0 peripheral device snoop the CPU's write buffer,
->=20
-> or it need manually flush the write buffer with SYNC instruction?
+Error/Warning ids grouped by kconfigs:
 
-I believe the DMA flushes the write buffer? I don't actually know the
-details, it would be something to ask to Ingenic.
+gcc_recent_errors
+|-- arc-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- arm-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- arm-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- arm64-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- arm64-randconfig-c004-20230607
+|   `-- arch-arm64-kvm-mmu.c:preceding-lock-on-line
+|-- csky-randconfig-s053-20230607
+|   |-- drivers-clk-qcom-gpucc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-he
+|   `-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
+|-- i386-allyesconfig
+|   |-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-randconfig-m021-20230607
+|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+|-- m68k-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- microblaze-randconfig-c041-20230607
+|   `-- drivers-nvme-host-pr.c:ERROR:reference-preceded-by-free-on-line
+|-- microblaze-randconfig-c044-20230607
+|   `-- microblaze-linux-ld:(.text):undefined-reference-to-lynx_pcs_destroy
+|-- mips-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- nios2-defconfig
+|   |-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_create_mdiodev
+|   |-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
+|   `-- nios2-linux-ld:drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
+|-- openrisc-randconfig-s052-20230607
+|   |-- drivers-clk-qcom-gpucc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-he
+|   |-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
+|   |-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|   `-- drivers-usb-typec-tcpm-qcom-qcom_pmic_typec_pdphy.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-unsigned-short-usertype-header-got-restricted-__le16-const-usertype-header
+|-- parisc-randconfig-s042-20230607
+|   |-- drivers-clk-qcom-videocc-sm8550.c:sparse:sparse:decimal-constant-is-between-LONG_MAX-and-ULONG_MAX.-For-C99-that-means-long-long-C90-compilers-are-very-likely-to-produce-unsigned-long-(and-a-warning)-
+|   `-- mm-kfence-core.c:sparse:sparse:cast-to-restricted-__le64
+|-- powerpc-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- powerpc-randconfig-c031-20230607
+|   `-- drivers-pci-endpoint-functions-pci-epf-mhi.c:line-is-redundant-because-platform_get_irq()-already-prints-an-error
+|-- riscv-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- riscv-defconfig
+|   `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
+|-- riscv-rv32_defconfig
+|   `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
+|-- s390-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- s390-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- sh-randconfig-m041-20230607
+|   `-- lib-kunit-test.c-__kunit_abort()-warn:ignoring-unreachable-code.
+|-- x86_64-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- x86_64-randconfig-c044-20230607
+|   |-- drivers-cpufreq-cpufreq-dt-platdev.c:warning:allowlist-defined-but-not-used
+|   `-- drivers-cpufreq-cpufreq-dt-platdev.c:warning:blocklist-defined-but-not-used
+|-- x86_64-randconfig-k001-20230607
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_memb1_release
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_memb_acquire
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail1
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail2
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_fail3
+|   |-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_mem_len_fail1
+|   `-- tools-testing-selftests-bpf-bpf_testmod-bpf_testmod.c:warning:no-previous-prototype-for-bpf_kfunc_call_test_offset
+|-- x86_64-randconfig-x062-20230607
+|   `-- drivers-net-ethernet-altera-altera_tse_main.c:undefined-reference-to-lynx_pcs_destroy
+`-- x86_64-randconfig-x066-20230607
+    `-- ERROR:lynx_pcs_destroy-drivers-net-ethernet-stmicro-stmmac-stmmac.ko-undefined
+clang_recent_errors
+|-- arm64-randconfig-r036-20230607
+|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
+|-- i386-randconfig-i002-20230607
+|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
+|-- i386-randconfig-i061-20230607
+|   `-- drivers-bus-fsl-mc-fsl-mc-allocator.c:warning:variable-mc_bus_dev-is-uninitialized-when-used-here
+`-- riscv-randconfig-r032-20230607
+    `-- lib-kunit-executor_test.c:error:cast-from-void-(-)(const-void-)-to-kunit_action_t-(aka-void-(-)(void-)-)-converts-to-incompatible-function-type-Werror-Wcast-function-type-strict
 
->=20
-> > > But on arm, It seem that wirte-combine is coherent. (guaranteed
-> > > by
-> > > arch
-> > > implement).
-> > >=20
-> > >=20
-> > > I also heard using dma_alloc_coherent=C2=A0 to allocation the buffer
-> > > for
-> > > the
-> > > non-coherent doesn't hurt, but the reverse is not true.
-> > >=20
-> > >=20
-> > > But please do not create confusion.
-> > >=20
-> > > software composite is faster because better cacheusing rate and
-> > >=20
-> > > cache is faster to read.
-> > >=20
-> > > It is faster because it is cached, not because it is non-
-> > > coherent.
-> > >=20
-> > > non-coherent is arch thing and/or driver-side thing,
-> > >=20
-> > > it is a side effect of=C2=A0 using the cached mapping.
-> > Yes, I know that.
-> >=20
-> > >=20
-> > > It should left to driver to handle such a side effect. The device
-> > > driver
-> > >=20
-> > > know their device, so its the device driver's responsibility to
-> > > maintain
-> > > the coherency.=C2=A0 On loongson platform, we don't need to call
-> > > drm_fb_dma_sync_non_coherent() function, Its already guaranteed
-> > > by
-> > > hardware.
-> > I understand. What I'm saying, is that you should be able to set
-> > dma_obj->map_noncoherent (which would arguably be better named
-> > "map_cached",
->=20
-> My point is that the word *cached* reflect the nature,
->=20
-> dma-coherent or dma-noncoherent is secondary.
->=20
-> We are all on the way to pursue the performance.
->=20
-> In the end, it is the cache give us the speed.
->=20
->=20
-> Why not we credit the cache hardware inside of the CPU?
+elapsed time: 721m
 
-dma_alloc_noncoherent() gives you *cached* memory.
+configs tested: 143
+configs skipped: 6
 
-Therefore, if you want *cached* memory, you should set
-gem->map_noncoherent.
+tested configs:
+alpha                            alldefconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r002-20230607   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     haps_hs_smp_defconfig   gcc  
+arc                  randconfig-r002-20230607   gcc  
+arc                  randconfig-r016-20230607   gcc  
+arc                  randconfig-r033-20230607   gcc  
+arc                  randconfig-r043-20230607   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         assabet_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                           h3600_defconfig   gcc  
+arm                            hisi_defconfig   gcc  
+arm                           imxrt_defconfig   gcc  
+arm                  randconfig-r046-20230607   clang
+arm                          sp7021_defconfig   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r003-20230607   clang
+arm64                randconfig-r036-20230607   clang
+csky         buildonly-randconfig-r003-20230607   gcc  
+csky                                defconfig   gcc  
+hexagon              randconfig-r014-20230607   clang
+hexagon              randconfig-r041-20230607   clang
+hexagon              randconfig-r045-20230607   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r005-20230607   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230607   clang
+i386                 randconfig-i002-20230607   clang
+i386                 randconfig-i003-20230607   clang
+i386                 randconfig-i004-20230607   clang
+i386                 randconfig-i005-20230607   clang
+i386                 randconfig-i006-20230607   clang
+i386                 randconfig-i011-20230607   gcc  
+i386                 randconfig-i012-20230607   gcc  
+i386                 randconfig-i051-20230607   clang
+i386                 randconfig-i052-20230607   clang
+i386                 randconfig-i053-20230607   clang
+i386                 randconfig-i054-20230607   clang
+i386                 randconfig-i055-20230607   clang
+i386                 randconfig-i056-20230607   clang
+i386                 randconfig-i061-20230607   clang
+i386                 randconfig-i062-20230607   clang
+i386                 randconfig-i063-20230607   clang
+i386                 randconfig-i064-20230607   clang
+i386                 randconfig-i065-20230607   clang
+i386                 randconfig-i066-20230607   clang
+i386                 randconfig-r022-20230607   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r004-20230607   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r021-20230607   gcc  
+loongarch            randconfig-r024-20230607   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         bigsur_defconfig   gcc  
+mips                 randconfig-r004-20230607   gcc  
+mips                 randconfig-r031-20230607   gcc  
+mips                        vocore2_defconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r026-20230607   gcc  
+openrisc             randconfig-r023-20230607   gcc  
+openrisc             randconfig-r032-20230607   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                     ksi8560_defconfig   clang
+powerpc                      makalu_defconfig   gcc  
+powerpc                       maple_defconfig   gcc  
+powerpc                      ppc6xx_defconfig   gcc  
+powerpc              randconfig-r005-20230607   clang
+powerpc              randconfig-r023-20230607   gcc  
+powerpc                 xes_mpc85xx_defconfig   clang
+riscv                            alldefconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r022-20230607   gcc  
+riscv                randconfig-r042-20230607   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r006-20230607   clang
+s390                 randconfig-r024-20230607   gcc  
+s390                 randconfig-r044-20230607   gcc  
+sh                               allmodconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                          sdk7780_defconfig   gcc  
+sparc        buildonly-randconfig-r006-20230607   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r015-20230607   gcc  
+sparc                randconfig-r026-20230607   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64              randconfig-r021-20230607   gcc  
+sparc64              randconfig-r034-20230607   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230607   clang
+x86_64               randconfig-a002-20230607   clang
+x86_64               randconfig-a003-20230607   clang
+x86_64               randconfig-a004-20230607   clang
+x86_64               randconfig-a005-20230607   clang
+x86_64               randconfig-a006-20230607   clang
+x86_64               randconfig-a011-20230607   gcc  
+x86_64               randconfig-a012-20230607   gcc  
+x86_64               randconfig-a013-20230607   gcc  
+x86_64               randconfig-a014-20230607   gcc  
+x86_64               randconfig-a015-20230607   gcc  
+x86_64               randconfig-a016-20230607   gcc  
+x86_64               randconfig-k001-20230607   gcc  
+x86_64               randconfig-x051-20230607   gcc  
+x86_64               randconfig-x052-20230607   gcc  
+x86_64               randconfig-x053-20230607   gcc  
+x86_64               randconfig-x054-20230607   gcc  
+x86_64               randconfig-x055-20230607   gcc  
+x86_64               randconfig-x056-20230607   gcc  
+x86_64               randconfig-x061-20230607   gcc  
+x86_64               randconfig-x062-20230607   gcc  
+x86_64               randconfig-x063-20230607   gcc  
+x86_64               randconfig-x064-20230607   gcc  
+x86_64               randconfig-x065-20230607   gcc  
+x86_64               randconfig-x066-20230607   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa               randconfig-r011-20230607   gcc  
+xtensa               randconfig-r012-20230607   gcc  
+xtensa               randconfig-r035-20230607   gcc  
 
-I understand your confusion; it would be easier to understand if this
-function was called dma_alloc_cached().
-
-Then, if the memory is actually DMA-coherent for the device (dev-
->dma_coherent =3D=3D true), the drm_fb_dma_sync_non_coherent() function is
-a no-op.
-
-But in both cases (DMA-coherent device, non DMA-coherent device), if
-you want cached buffers, you should call dma_alloc_noncoherent().
-
-
-> > but that's a different problem). Then the GEM code would
-> > end up calling dma_alloc_noncoherent(), which will give you
-> > *cached*
-> > memory. Then as long as dev->dma_coherent =3D true,
-> > drm_fb_dma_sync_non_coherent() should be a NOP - so you wouldn't
-> > pointlessly sync/invalidate the caches.
-> >=20
-> > And I disagree with you, the driver shouldn't handle such things.
->=20
-> You already handle the side effect of such things, See below:
->=20
->=20
-> ```
->=20
-> =C2=A0=C2=A0=C2=A0 if (ingenic_drm_map_noncoherent(ipu->master))
-> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 drm_fb_dma_sync_non_coherent(=
-ipu->drm, oldstate, newstate);
->=20
-> ```
->=20
-> By the way,=C2=A0 Ingenic is the only driver in the drivers/gpu/drm/ that=
-=20
-> handle such things
->=20
-> so far.
-
-Yes; and now I think that this was a bad idea (for the reasons Maxime
-listed in his email).
-
->=20
-> > =C2=A0 The
-> > fact that it is better to use cached memory or uncached with write-
-> > combine really is platform-specific and not something that the
-> > driver
-> > should be aware of.
->=20
-> But the fact is that,=C2=A0 It is drm/ingenic tell the drm core,=C2=A0 so=
-me SoC
-> is=20
-> prefer cached,
->=20
-> but unable to enforce the coherent. So that it need=C2=A0 flush the cache=
-=20
-> manually.
->=20
-> What do you meant by saying that the driver should not be aware of ?
-
-Ideally, the driver should just call a function "dma_alloc_buffer",
-which would return cached memory when it makes sense, otherwise a
-uncached buffer with the write-combine attribute.
-
-Then the arch code (or DT) can decide what's the best setting, and not
-the driver.
-
-In the meantime, you should use gem->dma_noncoherent like the ingenic-
-drm driver does - until somebody (probably me) refactor things.
-
-Cheers,
--Paul
-
->=20
-> > Cheers,
-> > -Paul
-> >=20
-> > >=20
-> > > > Cheers,
-> > > > -Paul
-> > > >=20
-> > > > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > > > ---
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/drm_fb_dma_helper.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++------
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/drm_fbdev_dma.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/drm_gem_dma_helper.c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 20
-> > > > > ++++++++++++++++----
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c |=C2=
-=A0 5 ++++-
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/rcar-du/Kconfig=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 --
-> > > > > =C2=A0=C2=A0=C2=A0drivers/gpu/drm/rcar-du/rcar_du_kms.c=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 4 +++-
-> > > > > =C2=A0=C2=A0=C2=A0include/drm/drm_gem_dma_helper.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++--
-> > > > > =C2=A0=C2=A0=C2=A07 files changed, 34 insertions(+), 17 deletions=
-(-)
-> > > > >=20
-> > > > > diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c
-> > > > > b/drivers/gpu/drm/drm_fb_dma_helper.c
-> > > > > index 3b535ad1b07c..93ff05041192 100644
-> > > > > --- a/drivers/gpu/drm/drm_fb_dma_helper.c
-> > > > > +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
-> > > > > @@ -106,16 +106,15 @@ dma_addr_t
-> > > > > drm_fb_dma_get_gem_addr(struct
-> > > > > drm_framebuffer *fb,
-> > > > > =C2=A0=C2=A0=C2=A0EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0/**
-> > > > > - * drm_fb_dma_sync_non_coherent - Sync GEM object to non-
-> > > > > coherent
-> > > > > backing
-> > > > > - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0memory
-> > > > > + * drm_fb_dma_sync_non_coherent - Sync GEM object to cached
-> > > > > backing
-> > > > > memory
-> > > > > =C2=A0=C2=A0=C2=A0 * @drm: DRM device
-> > > > > =C2=A0=C2=A0=C2=A0 * @old_state: Old plane state
-> > > > > =C2=A0=C2=A0=C2=A0 * @state: New plane state
-> > > > > =C2=A0=C2=A0=C2=A0 *
-> > > > > =C2=A0=C2=A0=C2=A0 * This function can be used by drivers that us=
-e damage
-> > > > > clips
-> > > > > and
-> > > > > have
-> > > > > - * DMA GEM objects backed by non-coherent memory. Calling
-> > > > > this
-> > > > > function
-> > > > > - * in a plane's .atomic_update ensures that all the data in
-> > > > > the
-> > > > > backing
-> > > > > - * memory have been written to RAM.
-> > > > > + * DMA GEM objects backed by cached memory. Calling this
-> > > > > function in
-> > > > > a
-> > > > > + * plane's .atomic_update ensures that all the data in the
-> > > > > backing
-> > > > > memory
-> > > > > + * have been written to RAM.
-> > > > > =C2=A0=C2=A0=C2=A0 */
-> > > > > =C2=A0=C2=A0=C2=A0void drm_fb_dma_sync_non_coherent(struct drm_de=
-vice *drm,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
-ruct drm_plane_state
-> > > > > *old_state,
-> > > > > @@ -131,7 +130,7 @@ void drm_fb_dma_sync_non_coherent(struct
-> > > > > drm_device *drm,
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (=
-i =3D 0; i < finfo->num_planes; i++) {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj =3D drm_fb_dma_get_gem=
-_obj(state->fb,
-> > > > > i);
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!dma_obj->map_noncoherent)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->cached && dma_obj->coherent)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0continue;
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0daddr =3D drm_fb_dma_get_gem_a=
-ddr(state->fb,
-> > > > > state, i);
-> > > > > diff --git a/drivers/gpu/drm/drm_fbdev_dma.c
-> > > > > b/drivers/gpu/drm/drm_fbdev_dma.c
-> > > > > index d86773fa8ab0..49fe9b284cc8 100644
-> > > > > --- a/drivers/gpu/drm/drm_fbdev_dma.c
-> > > > > +++ b/drivers/gpu/drm/drm_fbdev_dma.c
-> > > > > @@ -131,7 +131,7 @@ static int
-> > > > > drm_fbdev_dma_helper_fb_probe(struct
-> > > > > drm_fb_helper *fb_helper,
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* sc=
-reen */
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0info-=
->flags |=3D FBINFO_VIRTFB; /* system memory */
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->map_nonco=
-herent)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->cached)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0info->flags |=3D FBINFO_READS_=
-FAST; /* signal
-> > > > > caching
-> > > > > */
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0info-=
->screen_size =3D sizes->surface_height * fb-
-> > > > > > pitches[0];
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0info-=
->screen_buffer =3D map.vaddr;
-> > > > > diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c
-> > > > > b/drivers/gpu/drm/drm_gem_dma_helper.c
-> > > > > index 870b90b78bc4..dec1d512bdf1 100644
-> > > > > --- a/drivers/gpu/drm/drm_gem_dma_helper.c
-> > > > > +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> > > > > @@ -93,7 +93,11 @@ __drm_gem_dma_create(struct drm_device
-> > > > > *drm,
-> > > > > size_t size, bool private)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_gem_private_object_init(dr=
-m, gem_obj,
-> > > > > size);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Always use writecombine for=
- dma-buf
-> > > > > mappings
-> > > > > */
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->map_noncoherent =3D false;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0/* FIXME: This is not always true, on some
-> > > > > dma
-> > > > > coherent system,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 * cached mappings should be preferred over
-> > > > > writecombine
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->cached =3D false;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->coherent =3D false;
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} els=
-e {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D drm_gem_object_init(dr=
-m, gem_obj,
-> > > > > size);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > > > > @@ -143,7 +147,11 @@ struct drm_gem_dma_object
-> > > > > *drm_gem_dma_create(struct drm_device *drm,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (I=
-S_ERR(dma_obj))
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return dma_obj;
-> > > > > =C2=A0=C2=A0=20
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->map_nonco=
-herent) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->cached &&=
- dma_obj->coherent) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->vaddr =3D dma_alloc_coherent(drm->dev,
-> > > > > size,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 &dma_obj-
-> > > > > > dma_addr,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0
-> > > > > GFP_KERNEL |
-> > > > > __GFP_NOWARN);
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if (dma_obj->ca=
-ched && !dma_obj->coherent) {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->vaddr =3D dma_alloc_n=
-oncoherent(drm-
-> > > > > >dev,
-> > > > > size,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > > > > &dma_obj-
-> > > > > > dma_addr,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > DMA_TO_DEVICE,
-> > > > > @@ -153,6 +161,7 @@ struct drm_gem_dma_object
-> > > > > *drm_gem_dma_create(struct drm_device *drm,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &dma_=
-obj-
-> > > > > > dma_addr,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP_K=
-ERNEL |
-> > > > > __GFP_NOWARN);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > > > > +
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!=
-dma_obj->vaddr) {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_dbg(drm, "failed to alloca=
-te buffer
-> > > > > with
-> > > > > size
-> > > > > %zu\n",
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 size);
-> > > > > @@ -233,7 +242,10 @@ void drm_gem_dma_free(struct
-> > > > > drm_gem_dma_object
-> > > > > *dma_obj)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0dma_buf_vunmap_unlocked(gem_obj-
-> > > > > > import_attach->dmabuf, &map);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_prime_gem_destroy(gem_obj,=
- dma_obj-
-> > > > > >sgt);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} els=
-e if (dma_obj->vaddr) {
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->map_noncoherent)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->cached && dma_obj->coherent)
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-dma_free_coherent(gem_obj->dev->dev,
-> > > > > dma_obj-
-> > > > > > base.size,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_obj->vaddr,
-> > > > > dma_obj-
-> > > > > > dma_addr);
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0else if (dma_obj->cached && !dma_obj-
-> > > > > >coherent)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0dma_free_noncoherent(gem_obj->dev-
-> > > > > >dev,
-> > > > > dma_obj->base.size,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_obj-
-> > > > > >vaddr,
-> > > > > dma_obj-
-> > > > > > dma_addr,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > > > > DMA_TO_DEVICE);
-> > > > > @@ -532,7 +544,7 @@ int drm_gem_dma_mmap(struct
-> > > > > drm_gem_dma_object
-> > > > > *dma_obj, struct vm_area_struct *
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vma->=
-vm_pgoff -=3D drm_vma_node_start(&obj-
-> > > > > >vma_node);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vm_fl=
-ags_mod(vma, VM_DONTEXPAND, VM_PFNMAP);
-> > > > > =C2=A0=C2=A0=20
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->map_nonco=
-herent) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dma_obj->cached) {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vma->vm_page_prot =3D vm_get_p=
-age_prot(vma-
-> > > > > > vm_flags);
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D dma_mmap_pages(dma_obj=
-->base.dev-
-> > > > > >dev,
-> > > > > diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > > > > b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > > > > index 5ec75e9ba499..a3df2f99a757 100644
-> > > > > --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > > > > +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> > > > > @@ -919,7 +919,10 @@ ingenic_drm_gem_create_object(struct
-> > > > > drm_device
-> > > > > *drm, size_t size)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!=
-obj)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ERR_PTR(-ENOMEM);
-> > > > > =C2=A0=C2=A0=20
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0obj->map_noncoherent =
-=3D priv->soc_info-
-> > > > > >map_noncoherent;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (priv->soc_info->ma=
-p_noncoherent) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0obj->cached =3D true;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0obj->coherent =3D false;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0retur=
-n &obj->base;
-> > > > > =C2=A0=C2=A0=C2=A0}
-> > > > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > > b/drivers/gpu/drm/rcar-
-> > > > > du/Kconfig
-> > > > > index 53c356aed5d5..dddc70c08bdc 100644
-> > > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > > @@ -2,8 +2,6 @@
-> > > > > =C2=A0=C2=A0=C2=A0config DRM_RCAR_DU
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0trist=
-ate "DRM Support for R-Car Display Unit"
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depen=
-ds on DRM && OF
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on ARM || ARM6=
-4
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on ARCH_RENESA=
-S || COMPILE_TEST
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0selec=
-t DRM_KMS_HELPER
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0selec=
-t DRM_GEM_DMA_HELPER
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0selec=
-t VIDEOMODE_HELPERS
-> > > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > > > b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > > > index adfb36b0e815..1142d51473e6 100644
-> > > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > > > > @@ -386,7 +386,9 @@ struct drm_gem_object
-> > > > > *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gem_o=
-bj->funcs =3D &rcar_du_gem_funcs;
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drm_g=
-em_private_object_init(dev, gem_obj, attach-
-> > > > > > dmabuf-
-> > > > > > size);
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->map_noncohere=
-nt =3D false;
-> > > > > +
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->cached =3D fa=
-lse;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_obj->coherent =3D =
-false;
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =
-=3D drm_gem_create_mmap_offset(gem_obj);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (r=
-et) {
-> > > > > diff --git a/include/drm/drm_gem_dma_helper.h
-> > > > > b/include/drm/drm_gem_dma_helper.h
-> > > > > index 8a043235dad8..585ce3d4d1eb 100644
-> > > > > --- a/include/drm/drm_gem_dma_helper.h
-> > > > > +++ b/include/drm/drm_gem_dma_helper.h
-> > > > > @@ -16,7 +16,9 @@ struct drm_mode_create_dumb;
-> > > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 more tha=
-n one entry but they are guaranteed to
-> > > > > have
-> > > > > contiguous
-> > > > > =C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMA addr=
-esses.
-> > > > > =C2=A0=C2=A0=C2=A0 * @vaddr: kernel virtual address of the backin=
-g memory
-> > > > > - * @map_noncoherent: if true, the GEM object is backed by
-> > > > > non-
-> > > > > coherent memory
-> > > > > + * @cached: if true, the GEM object is backed by cached
-> > > > > memory
-> > > > > + * @coherent: This option only meaningful when a GEM object
-> > > > > is
-> > > > > cached.
-> > > > > + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 If true, Sync the GEM object for DMA access is
-> > > > > not
-> > > > > required.
-> > > > > =C2=A0=C2=A0=C2=A0 */
-> > > > > =C2=A0=C2=A0=C2=A0struct drm_gem_dma_object {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struc=
-t drm_gem_object base;
-> > > > > @@ -26,7 +28,8 @@ struct drm_gem_dma_object {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Fo=
-r objects with DMA memory allocated by GEM DMA
-> > > > > */
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void =
-*vaddr;
-> > > > > =C2=A0=C2=A0=20
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool map_noncoherent;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool cached;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0bool coherent;
-> > > > > =C2=A0=C2=A0=C2=A0};
-> > > > > =C2=A0=C2=A0=20
-> > > > > =C2=A0=C2=A0=C2=A0#define to_drm_gem_dma_obj(gem_obj) \
->=20
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
