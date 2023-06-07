@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C5F72605A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 15:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A5072605B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 15:02:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B648E10E4FB;
-	Wed,  7 Jun 2023 13:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3384910E4FC;
+	Wed,  7 Jun 2023 13:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54D610E4F6
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 13:02:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0475A10E4F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 13:02:30 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q6sny-0004N0-4v; Wed, 07 Jun 2023 15:02:26 +0200
+ id 1q6sny-0004N0-G2; Wed, 07 Jun 2023 15:02:26 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/etnaviv: drop GPU initialized property
-Date: Wed,  7 Jun 2023 15:02:22 +0200
-Message-Id: <20230607130223.3533464-7-l.stach@pengutronix.de>
+Subject: [PATCH 8/8] drm/etnaviv: expedited MMU fault handling
+Date: Wed,  7 Jun 2023 15:02:23 +0200
+Message-Id: <20230607130223.3533464-8-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230607130223.3533464-1-l.stach@pengutronix.de>
 References: <20230607130223.3533464-1-l.stach@pengutronix.de>
@@ -49,86 +49,59 @@ Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that it is only used to track the driver internal state of
-the MMU global and cmdbuf objects, we can get rid of this property
-by making the free/finit functions of those objects safe to call
-on an uninitialized object.
+The GPU is halted when it hits a MMU exception, so there is no point in
+waiting for the job timeout to expire or try to work out if the GPU is
+still making progress in the timeout handler, as we know that the GPU
+won't make any more progress.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c | 3 +++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c    | 9 ++-------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h    | 1 -
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c    | 3 +++
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c   | 2 ++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h   | 1 +
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 5 +++--
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-index 9dc20d892c15..721d633aece9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_cmdbuf.c
-@@ -121,6 +121,9 @@ void etnaviv_cmdbuf_free(struct etnaviv_cmdbuf *cmdbuf)
- 	int order = order_base_2(ALIGN(cmdbuf->size, SUBALLOC_GRANULE) /
- 				 SUBALLOC_GRANULE);
- 
-+	if (!suballoc)
-+		return;
-+
- 	mutex_lock(&suballoc->lock);
- 	bitmap_release_region(suballoc->granule_map,
- 			      cmdbuf->suballoc_offset / SUBALLOC_GRANULE,
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 96cbb290b869..e62761032afe 100644
+index e62761032afe..74fdcaf52fc5 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -868,8 +868,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 	pm_runtime_mark_last_busy(gpu->dev);
- 	pm_runtime_put_autosuspend(gpu->dev);
+@@ -1531,6 +1531,8 @@ static irqreturn_t irq_handler(int irq, void *data)
  
--	gpu->initialized = true;
--
- 	return 0;
+ 		if (intr & VIVS_HI_INTR_ACKNOWLEDGE_MMU_EXCEPTION) {
+ 			dump_mmu_fault(gpu);
++			gpu->state = ETNA_GPU_STATE_FAULT;
++			drm_sched_fault(&gpu->sched);
+ 			intr &= ~VIVS_HI_INTR_ACKNOWLEDGE_MMU_EXCEPTION;
+ 		}
  
- fail:
-@@ -1797,11 +1795,8 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
- 	if (gpu->mmu_context)
- 		etnaviv_iommu_context_put(gpu->mmu_context);
- 
--	if (gpu->initialized) {
--		etnaviv_cmdbuf_free(&gpu->buffer);
--		etnaviv_iommu_global_fini(gpu);
--		gpu->initialized = false;
--	}
-+	etnaviv_cmdbuf_free(&gpu->buffer);
-+	etnaviv_iommu_global_fini(gpu);
- 
- 	gpu->drm = NULL;
- 	xa_destroy(&gpu->user_fences);
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 33ecc1bf84b1..a4a9253f0d52 100644
+index a4a9253f0d52..d4b9a97f2c72 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -114,7 +114,6 @@ struct etnaviv_gpu {
- 	struct mutex sched_lock;
- 	struct drm_gpu_scheduler sched;
- 	enum etnaviv_gpu_state state;
--	bool initialized;
+@@ -101,6 +101,7 @@ enum etnaviv_gpu_state {
+ 	ETNA_GPU_STATE_RESET,
+ 	ETNA_GPU_STATE_INITIALIZED,
+ 	ETNA_GPU_STATE_RUNNING,
++	ETNA_GPU_STATE_FAULT,
+ };
  
- 	/* 'ring'-buffer: */
- 	struct etnaviv_cmdbuf buffer;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-index 67bdce5326c6..4fa72567183a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
-@@ -553,6 +553,9 @@ void etnaviv_iommu_global_fini(struct etnaviv_gpu *gpu)
- 	struct etnaviv_drm_private *priv = gpu->drm->dev_private;
- 	struct etnaviv_iommu_global *global = priv->mmu_global;
- 
-+	if (!global)
-+		return;
-+
- 	if (--global->use > 0)
- 		return;
- 
+ struct etnaviv_gpu {
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 1ae87dfd19c4..345fec6cb1a4 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -55,8 +55,9 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	 */
+ 	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
+ 	change = dma_addr - gpu->hangcheck_dma_addr;
+-	if (gpu->completed_fence != gpu->hangcheck_fence ||
+-	    change < 0 || change > 16) {
++	if (gpu->state == ETNA_GPU_STATE_RUNNING &&
++	    (gpu->completed_fence != gpu->hangcheck_fence ||
++	     change < 0 || change > 16)) {
+ 		gpu->hangcheck_dma_addr = dma_addr;
+ 		gpu->hangcheck_fence = gpu->completed_fence;
+ 		goto out_no_timeout;
 -- 
 2.39.2
 
