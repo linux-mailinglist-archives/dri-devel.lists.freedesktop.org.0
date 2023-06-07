@@ -1,39 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A4A726017
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 14:53:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC2C726023
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 14:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFD310E04E;
-	Wed,  7 Jun 2023 12:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7E910E4EA;
+	Wed,  7 Jun 2023 12:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 163CE10E04E
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 12:53:37 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D381010E4EA
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 12:58:45 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q6sfG-0002v2-AM; Wed, 07 Jun 2023 14:53:26 +0200
-Message-ID: <7210bb5955a469134f3b072007bf98a74c8f17da.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm: bridge: tc358767: give VSDELAY some positive
- value
+ id 1q6skM-0003bY-BW; Wed, 07 Jun 2023 14:58:42 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-Date: Wed, 07 Jun 2023 14:53:23 +0200
-In-Reply-To: <70962376-c7f1-1adc-37e4-55fa33055ae9@denx.de>
-References: <20230602191501.4138433-1-l.stach@pengutronix.de>
- <20230602191501.4138433-2-l.stach@pengutronix.de>
- <70962376-c7f1-1adc-37e4-55fa33055ae9@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: disable MLCG and pulse eater on GPU reset
+Date: Wed,  7 Jun 2023 14:58:41 +0200
+Message-Id: <20230607125841.3518385-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
  SAEximRunCond expanded to false
@@ -50,62 +42,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, dem 02.06.2023 um 23:34 +0200 schrieb Marek Vasut:
-> On 6/2/23 21:15, Lucas Stach wrote:
-> > From: David Jander <david@protonic.nl>
-> >=20
-> > The documentation is not clear about how this delay works.
-> > Empirical tests have shown that with a VSDELAY of 0, the first
-> > scanline is not properly formatted in the output stream when
-> > DSI->DP mode is used. The calculation spreadsheets from Toshiba
-> > seem to always make this value equal to the HFP + 10 for DSI->DP
-> > use-case. For DSI->DPI this value should be > 2 and for DPI->DP
-> > it seems to always be 0x64.
-> >=20
-> > Signed-off-by: David Jander <david@protonic.nl>
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >   drivers/gpu/drm/bridge/tc358767.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge=
-/tc358767.c
-> > index 46916ae30f8f..9f2c67b4a488 100644
-> > --- a/drivers/gpu/drm/bridge/tc358767.c
-> > +++ b/drivers/gpu/drm/bridge/tc358767.c
-> > @@ -817,7 +817,7 @@ static int tc_set_common_video_mode(struct tc_data =
-*tc,
-> >   	 * sync signals
-> >   	 */
-> >   	ret =3D regmap_write(tc->regmap, VPCTRL0,
-> > -			   FIELD_PREP(VSDELAY, 0) |
-> > +			   FIELD_PREP(VSDELAY, right_margin + 10) |
-> >   			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
-> >   	if (ret)
-> >   		return ret;
->=20
-> Aren't you running into a problem due to VS timing misconfiguration on=
-=20
-> the scanout engine or DSI serializer side ? The VSDELAY seems to=20
-> increase the length of VSYNC active .
->=20
+Module level clock gating and the pulse eater might interfere with
+the GPU reset, as they both have the potential to stop the clock
+and thus reset propagation to parts of the GPU.
 
-No, as far as I understand the VSDELAY adds an offset between input an
-output side of the video FIFO. It shouldn't increase the length of any
-sync signal, but delays the read side of the FIFO, so the write (DSI)
-side has some margin to put data into the FIFO before DP side starts to
-assemble packets.
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+I'm not aware of any cases where this would have been an issue, but
+it is what the downstream driver does and fundametally seems like
+the right thing to do.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
->  Which DSI bus mode do you use, sync events/pulses/burst ?
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index de8c9894967c..41aab1aa330b 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -505,8 +505,19 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+ 	timeout = jiffies + msecs_to_jiffies(1000);
+ 
+ 	while (time_is_after_jiffies(timeout)) {
+-		/* enable clock */
+ 		unsigned int fscale = 1 << (6 - gpu->freq_scale);
++		u32 pulse_eater = 0x01590880;
++
++		/* disable clock gating */
++		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
++
++		/* disable pulse eater */
++		pulse_eater |= BIT(17);
++		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
++		pulse_eater |= BIT(0);
++		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
++
++		/* enable clock */
+ 		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
+ 		etnaviv_gpu_load_clock(gpu, control);
+ 
+-- 
+2.39.2
 
-At the time when this patch was written it still was the SYNC_PULSE
-mode.
-
-Regards,
-Lucas
