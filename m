@@ -1,68 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580027263CE
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 17:11:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB23C7263E5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 17:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA9E10E50C;
-	Wed,  7 Jun 2023 15:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2336210E01F;
+	Wed,  7 Jun 2023 15:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD21D10E509
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 15:11:42 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-9788554a8c9so119540166b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 08:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686150701; x=1688742701;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gUBjVqJOJshn+aoB0YpUZ3QQ2c92NN/VgddOCuffR24=;
- b=kg0nRJ6hxH3iNtpDkwZ59eysu/Y1id9CkCDFoOD7lUp+9PqXFG+thoUna0VKW+B0IX
- MKdu6bEe7WbM8BoeE0L4n7GENyBfmP3hYqkZfSHZIhlGhPdJOje6zr2yWoXwZR5IZGy0
- YswUlaqwJ+vL4BagrLgzBvcyh4tZkBylzQCrdA2eDtzPRsg8+hOU0C9P9oVhbhLoJAU/
- 2pQG/irv9E+2Xab3clSZW9Lxfdd+6oK6pyHTJKcvu9mr0OQQb+Vx7V625IKxzSgBjjtQ
- zIPLZtzMiGti+U8ElnZQIiz6jFXQPMcwbYghRlV2mUf9xWFa+N8lhQjUONl49IfaXpGb
- aYdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686150701; x=1688742701;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gUBjVqJOJshn+aoB0YpUZ3QQ2c92NN/VgddOCuffR24=;
- b=R+1tT0LY7oO0x0bB5eLsqUeofLCQsavzj88YdQjvrqfb0sDphAJWP3E4f/VULF38zf
- D3z8sA7W5gHfE1YW9VIkubn8jTvSX4Erb0ozUC2Kg0QU2EotBldDsg+7U3ytSLUKiCib
- uSDhoAcb+hkgMdtu33OwCxRX/Qu85ZVGvxjhNsYYr3uQxCSSCRFLDt+nj94NERrjimYV
- UTRjiTM0xbKfybCDTKRzPARDln1uLlXmBoa3ryO1MgAf1jmOdb2JbF3/0RJ/y+SheS+m
- qc/ftA5wnWhLHjLp0+hYimH8gWZ7YVIGDl19yqjkDMT9yOy/E1cK7fcO15D/9M8syM8T
- SEow==
-X-Gm-Message-State: AC+VfDxqD3dseiHbHdVmMWfJzLq86VtUDbWFFjs3bJ897kjMv+nwIKOh
- ybTqnqID0CuCQZ4sAdsXvWg=
-X-Google-Smtp-Source: ACHHUZ5bLiEa7rFIYyM1+A7BogDprhnpioIYQmfaZay9DRZzGaSjOcLF26buM1hrH7YLtHUk69662g==
-X-Received: by 2002:a17:907:6ea3:b0:966:2123:e0ca with SMTP id
- sh35-20020a1709076ea300b009662123e0camr7426493ejc.34.1686150700910; 
- Wed, 07 Jun 2023 08:11:40 -0700 (PDT)
-Received: from fedora.. ([46.188.160.176]) by smtp.gmail.com with ESMTPSA id
- m19-20020a170906235300b00967a18df1easm7006222eja.117.2023.06.07.08.11.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 08:11:40 -0700 (PDT)
-From: Paulo Pavacic <pavacic.p@gmail.com>
-To: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org
-Subject: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
-Date: Wed,  7 Jun 2023 17:11:27 +0200
-Message-Id: <20230607151127.1542024-4-pavacic.p@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230607151127.1542024-1-pavacic.p@gmail.com>
-References: <20230607151127.1542024-1-pavacic.p@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0DCA10E50E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 15:15:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 80B4F21A0B;
+ Wed,  7 Jun 2023 15:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686150952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8vl5u8vRd8gmXacQqWuDyAXg2T++oslac8ZS8H/bk1s=;
+ b=Jr86aCkGOEamH92bj1KwEgUt5B9I038hyWmHdRUJJzOcuT5V/MNQx3tsXhjmaQEPIfu9N2
+ 9L7W3NnLZXDC3U4g2U/qy6IRZuU8qGvioTk8OljhxqrQSnjcnzXpijneU8LMd0HPtavF/j
+ 3KG+UHPExtc3lZv5eaEVrn1nOhcS97Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686150952;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8vl5u8vRd8gmXacQqWuDyAXg2T++oslac8ZS8H/bk1s=;
+ b=zVx7yuZ/wNO9bkjC5SJXZsjOa+Z7l8O6UBJ9uT2DPoHSBj4Ov4Xcxb3cOaK/IC50QkwGpK
+ 3+BeNlBI3MTAX1AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 409141346D;
+ Wed,  7 Jun 2023 15:15:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id oZy/DiifgGT0JwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 07 Jun 2023 15:15:52 +0000
+Message-ID: <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
+Date: Wed, 7 Jun 2023 17:15:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
+ configurable
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-31-tzimmermann@suse.de>
+ <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------M6rYvO9rIW03zBgN0h0bpi1s"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,406 +72,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Paulo Pavacic <pavacic.p@gmail.com>
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fannal C3004 is a 480x800 display made by fannal that requires
-DCS initialization sequences.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------M6rYvO9rIW03zBgN0h0bpi1s
+Content-Type: multipart/mixed; boundary="------------ldQ1fhfowxh97luX777uhDg3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+ lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Message-ID: <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
+Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
+ configurable
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-31-tzimmermann@suse.de>
+ <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
 
-Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
----
-v4 changelog:
- - removal of blank lines, code wrapping changes
- - reset pin initialization handling changes
-v3 changelog:
- - formatting and style changes
- - remove BIT_NONEXCLUSIVE flag from reset pin
- - use dev_err_probe instead of dev_err
-v2 changelog:
- - using generic mipi_dsi_dcs_write_seq
- - removed success prints
- - removed some comments
- - simplified code/removed support for different panels
- - changed namespace from fann to fannal
-v1 changelog:
- - renamed from panel-mipi-dsi-bringup
- - only one MAINTAINER e-mail
----
- MAINTAINERS                                |   1 +
- drivers/gpu/drm/panel/Kconfig              |  11 +
- drivers/gpu/drm/panel/Makefile             |   1 +
- drivers/gpu/drm/panel/panel-fannal-c3004.c | 314 +++++++++++++++++++++
- 4 files changed, 327 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-fannal-c3004.c
+--------------ldQ1fhfowxh97luX777uhDg3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 978133f87c5e..7ad37ecd7e09 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6431,6 +6431,7 @@ DRM DRIVER FOR FANNAL C3004373132019A
- M:	Paulo Pavacic <pavacic.p@gmail.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/display/panel/panel-fannal,c3004.yaml
-+F:	drivers/gpu/drm/panel/panel-fannal-c3004.c
- 
- DRM DRIVER FOR FARADAY TVE200 TV ENCODER
- M:	Linus Walleij <linus.walleij@linaro.org>
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 2b9d6db7860b..a1041c1e6bf6 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -144,6 +144,17 @@ config DRM_PANEL_ELIDA_KD35T133
- 	  KD35T133 controller for 320x480 LCD panels with MIPI-DSI
- 	  system interfaces.
- 
-+config DRM_PANEL_FANNAL_C3004
-+	tristate "Fannal C3004 panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	help
-+	  Say Y here if you want to enable support for the Fannal C3004
-+	  2-lane 480x800 MIPI DSI panel which requires initialization
-+	  sequence.
-+
-+	  If M is selected the module will be called panel-fannal-c3004.
-+
- config DRM_PANEL_FEIXIN_K101_IM2BA02
- 	tristate "Feixin K101 IM2BA02 panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index ff169781e82d..13c0f00038b5 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_PANEL_SIMPLE) += panel-simple.o
- obj-$(CONFIG_DRM_PANEL_EDP) += panel-edp.o
- obj-$(CONFIG_DRM_PANEL_EBBG_FT8719) += panel-ebbg-ft8719.o
- obj-$(CONFIG_DRM_PANEL_ELIDA_KD35T133) += panel-elida-kd35t133.o
-+obj-$(CONFIG_DRM_PANEL_FANNAL_C3004) += panel-fannal-c3004.o
- obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
- obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
- obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) += panel-himax-hx8394.o
-diff --git a/drivers/gpu/drm/panel/panel-fannal-c3004.c b/drivers/gpu/drm/panel/panel-fannal-c3004.c
-new file mode 100644
-index 000000000000..002c424f2486
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-fannal-c3004.c
-@@ -0,0 +1,314 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * MIPI DSI driver for fannal C3004.
-+ * Copyright (C) 2023, Zenitel
-+ * Author: Paulo Pavacic <pavacic.p@gmail.com>
-+ */
-+
-+// ↓ include headers, static values, static functions ↓
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+
-+#include <video/mipi_display.h>
-+#include <video/of_videomode.h>
-+#include <video/videomode.h>
-+
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_panel.h>
-+
-+struct fannal_panel_data {
-+	struct drm_panel panel;
-+	struct gpio_desc *reset;
-+};
-+
-+static struct fannal_panel_data *
-+get_fannal_panel_data_from_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct fannal_panel_data, panel);
-+}
-+
-+static const u32 fannal_bus_formats[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+};
-+
-+// resolution 480p x 800p, 56mmx93mm
-+static const struct drm_display_mode fannal_c3004_display_mode = {
-+	.clock = 27000,
-+	.hdisplay = 480, // display height pixels
-+	.hsync_start = 480 + 30, // hdisplay + HBP
-+	.hsync_end = 480 + 30 + 8, // hdisplay + HBP + HSync
-+	.htotal = 480 + 30 + 8 + 30, // hdisplay + HBP + HSync + HFP
-+	.vdisplay = 800, // display width pixels
-+	.vsync_start = 800 + 20, // vdisplay + VBP
-+	.vsync_end = 800 + 20 + 8, // vdisplay + VBP + VSync
-+	.vtotal = 800 + 20 + 8 + 20, // vdisplay + VBP + VSync + VFP
-+	.width_mm = 93,
-+	.height_mm = 56,
-+	.flags = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static void fannal_panel_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct fannal_panel_data *panel_data = mipi_dsi_get_drvdata(dsi);
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret)
-+		dev_err(dev, "error: disable: mipi detach (%d)\n", ret);
-+
-+	drm_panel_remove(&panel_data->panel);
-+}
-+
-+static int fannal_panel_disable(struct drm_panel *panel)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(panel->dev);
-+	struct device *dev = panel->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "error: disable: turn display OFF (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	usleep_range(5000, 10000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "error: disable: enter sleep mode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fannal_panel_unprepare(struct drm_panel *panel)
-+{
-+	struct fannal_panel_data *panel_data =
-+		get_fannal_panel_data_from_panel(panel);
-+
-+	if (panel_data->reset) {
-+		gpiod_set_value_cansleep(panel_data->reset, 1);
-+		usleep_range(15000, 17000);
-+		gpiod_set_value_cansleep(panel_data->reset, 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static void fannal_panel_shutdown(struct mipi_dsi_device *dsi)
-+{
-+	struct fannal_panel_data *panel_data = mipi_dsi_get_drvdata(dsi);
-+
-+	fannal_panel_disable(&panel_data->panel);
-+	fannal_panel_unprepare(&panel_data->panel);
-+}
-+
-+static int fannal_panel_get_modes(struct drm_panel *panel,
-+				  struct drm_connector *connector)
-+{
-+	struct drm_display_mode *mode;
-+	const struct drm_display_mode *panel_display_mode =
-+		&fannal_c3004_display_mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &fannal_c3004_display_mode);
-+	if (!mode) {
-+		dev_err(panel->dev, "error: get_modes: add drm mode %ux%u@%u\n",
-+			panel_display_mode->hdisplay,
-+			panel_display_mode->vdisplay,
-+			drm_mode_vrefresh(panel_display_mode));
-+		return -ENOMEM;
-+	}
-+
-+	drm_mode_set_name(mode);
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_probed_add(connector, mode);
-+
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	connector->display_info.bus_flags = DRM_BUS_FLAG_DE_LOW |
-+					    DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE;
-+
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 fannal_bus_formats,
-+					 ARRAY_SIZE(fannal_bus_formats));
-+	return 1;
-+}
-+
-+static const struct of_device_id fannal_of_match[] = {
-+	{ .compatible = "fannal,c3004" },
-+	{ /* sentinel */ }
-+};
-+
-+static int fannal_panel_enable(struct drm_panel *panel)
-+{
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(panel->dev);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x13);
-+	mipi_dsi_generic_write_seq(dsi, 0xEF, 0x08);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x10);
-+	mipi_dsi_generic_write_seq(dsi, 0xC0, 0x63, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xC1, 0x0A, 0x0C);
-+	mipi_dsi_generic_write_seq(dsi, 0xC2, 0x31, 0x08);
-+	mipi_dsi_generic_write_seq(dsi, 0xCC, 0x18);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xB0, 0x00, 0x08, 0x10, 0x0E, 0x11,
-+				   0x07, 0x08, 0x08, 0x08, 0x25, 0x04, 0x12,
-+				   0x0F, 0x2C, 0x30, 0x1F);
-+	mipi_dsi_generic_write_seq(dsi, 0xB1, 0x00, 0x11, 0x18, 0x0C, 0x10,
-+				   0x05, 0x07, 0x09, 0x08, 0x24, 0x04, 0x11,
-+				   0x10, 0x2B, 0x30, 0x1F);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x11);
-+	mipi_dsi_generic_write_seq(dsi, 0xB0, 0x4D);
-+	mipi_dsi_generic_write_seq(dsi, 0xB1, 0x39);
-+	mipi_dsi_generic_write_seq(dsi, 0xB2, 0x87);
-+	mipi_dsi_generic_write_seq(dsi, 0xB3, 0x80);
-+	mipi_dsi_generic_write_seq(dsi, 0xB5, 0x47);
-+	mipi_dsi_generic_write_seq(dsi, 0xB7, 0x8A);
-+	mipi_dsi_generic_write_seq(dsi, 0xB8, 0x20);
-+	mipi_dsi_generic_write_seq(dsi, 0xB9, 0x10, 0x13);
-+	mipi_dsi_generic_write_seq(dsi, 0xC1, 0x78);
-+	mipi_dsi_generic_write_seq(dsi, 0xC2, 0x78);
-+	mipi_dsi_generic_write_seq(dsi, 0xD0, 0x88);
-+
-+	//PANEL
-+	mipi_dsi_generic_write_seq(dsi, 0xE0, 0x00, 0x00, 0x02);
-+	mipi_dsi_generic_write_seq(dsi, 0xE1, 0x04, 0x00, 0x00, 0x00, 0x05,
-+				   0x00, 0x00, 0x00, 0x00, 0x20, 0x20);
-+	mipi_dsi_generic_write_seq(dsi, 0xE2, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				   0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE3, 0x00, 0x00, 0x33, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE4, 0x22, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE5, 0x04, 0x34, 0xAA, 0xAA, 0x06,
-+				   0x34, 0xAA, 0xAA, 0x00, 0x00, 0x00, 0x00,
-+				   0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE6, 0x00, 0x00, 0x33, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE7, 0x22, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xE8, 0x05, 0x34, 0xAA, 0xAA, 0x07,
-+				   0x34, 0xAA, 0xAA, 0x00, 0x00, 0x00, 0x00,
-+				   0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xEB, 0x02, 0x00, 0x40, 0x40, 0x00,
-+				   0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xEC, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0xED, 0xFA, 0x45, 0x0B, 0xFF, 0xFF,
-+				   0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-+				   0xFF, 0xB0, 0x54, 0xAF);
-+	mipi_dsi_generic_write_seq(dsi, 0xEF, 0x10, 0x0D, 0x04, 0x08, 0x3F,
-+				   0x1F);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x13);
-+	mipi_dsi_generic_write_seq(dsi, 0xE8, 0x00, 0x0E);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0x11); //MIPI_DCS_EXIT_SLEEP_MODE
-+
-+	msleep(600);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x13);
-+	mipi_dsi_generic_write_seq(dsi, 0xE8, 0x00, 0x0C);
-+	msleep(50);
-+	mipi_dsi_generic_write_seq(dsi, 0xE8, 0x00, 0x00);
-+
-+	mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq(dsi, 0x29); //MIPI_DCS_SET_DISPLAY_ON
-+	msleep(100);
-+	return 0;
-+}
-+
-+static int fannal_panel_prepare(struct drm_panel *panel)
-+{
-+	struct fannal_panel_data *panel_data =
-+		get_fannal_panel_data_from_panel(panel);
-+
-+	/* At lest 10ms needed between power-on and reset-out as RM specifies */
-+	usleep_range(10000, 12000);
-+
-+	if (panel_data->reset) {
-+		gpiod_set_value_cansleep(panel_data->reset, 0);
-+		/*
-+		 * 50ms delay after reset-out, as per manufacturer initalization
-+		 * sequence.
-+		 */
-+		msleep(50);
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_panel_funcs fannal_panel_funcs = {
-+	.prepare = fannal_panel_prepare,
-+	.unprepare = fannal_panel_unprepare,
-+	.enable = fannal_panel_enable,
-+	.disable = fannal_panel_disable,
-+	.get_modes = fannal_panel_get_modes,
-+};
-+
-+static int fannal_panel_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct fannal_panel_data *panel_data;
-+	int ret;
-+
-+	panel_data = devm_kzalloc(&dsi->dev, sizeof(*panel_data), GFP_KERNEL);
-+	if (!panel_data)
-+		return -ENOMEM;
-+
-+	panel_data->reset = devm_gpiod_get_optional(dev, "reset",
-+			GPIOD_OUT_HIGH);
-+	if (IS_ERR(panel_data->reset)) {
-+		return dev_err_probe(
-+			dev, PTR_ERR(panel_data->reset),
-+			"error: probe: get reset GPIO: (%d) Check the fdt\n",
-+			ret);
-+	}
-+
-+	mipi_dsi_set_drvdata(dsi, panel_data);
-+
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-+			  MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_HSE |
-+			  MIPI_DSI_MODE_NO_EOT_PACKET |
-+			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_VIDEO;
-+	dsi->lanes = 2;
-+
-+	drm_panel_init(&panel_data->panel, dev, &fannal_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+	dev_set_drvdata(dev, panel_data);
-+
-+	drm_panel_add(&panel_data->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret) {
-+		drm_panel_remove(&panel_data->panel);
-+		dev_err(dev, "error: probe fail: can't attach mipi_dsi\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static struct mipi_dsi_driver fannal_panel_driver = {
-+	.driver = {
-+		.name = "panel-fannal-c3004",
-+		.of_match_table = fannal_of_match,
-+	},
-+	.probe = fannal_panel_probe,
-+	.remove = fannal_panel_remove,
-+	.shutdown = fannal_panel_shutdown,
-+};
-+
-+module_mipi_dsi_driver(fannal_panel_driver);
-+
-+MODULE_AUTHOR("Paulo Pavacic <pavacic.p@gmail.com>");
-+MODULE_DESCRIPTION("fannal C3004 panel driver");
-+MODULE_LICENSE("GPL");
-+MODULE_DEVICE_TABLE(of, fannal_of_match);
--- 
-2.40.1
+SGkNCg0KQW0gMDcuMDYuMjMgdW0gMTA6NDggc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gDQo+IE9u
+IE1vbiwgSnVuIDUsIDIwMjMgYXQgNDo0OOKAr1BNIFRob21hcyBaaW1tZXJtYW5uIDx0emlt
+bWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+IEFkZCBLY29uZmlnIG9wdGlvbiBDT05GSUdf
+RkJfREVWSUNFIGFuZCBtYWtlIHRoZSB2aXJ0dWFsIGZiZGV2DQo+PiBkZXZpY2Ugb3B0aW9u
+YWwuIElmIHRoZSBuZXcgb3B0aW9uIGhhcyBub3QgYmVlbiBzZWxlY3RlZCwgZmJkZXYNCj4+
+IGRvZXMgbm90IGNyZWF0ZSBhIGZpbGVzIGluIGRldmZzIG9yIHN5c2ZzLg0KPj4NCj4+IE1v
+c3QgbW9kZXJuIExpbnV4IHN5c3RlbXMgcnVuIGEgRFJNLWJhc2VkIGdyYXBoaWNzIHN0YWNr
+IHRoYXQgdXNlcw0KPj4gdGhlIGtlcm5lbCdzIGZyYW1lYnVmZmVyIGNvbnNvbGUsIGJ1dCBo
+YXMgb3RoZXJ3aXNlIGRlcHJlY2F0ZWQgZmJkZXYNCj4+IHN1cHBvcnQuIFlldCBmYmRldiB1
+c2Vyc3BhY2UgaW50ZXJmYWNlcyBhcmUgc3RpbGwgcHJlc2VudC4NCj4+DQo+PiBUaGUgb3B0
+aW9uIG1ha2VzIGl0IHBvc3NpYmxlIHRvIHVzZSB0aGUgZmJkZXYgc3Vic3lzdGVtIGFzIGNv
+bnNvbGUNCj4+IGltcGxlbWVudGF0aW9uIHdpdGhvdXQgc3VwcG9ydCBmb3IgdXNlcnNwYWNl
+LiBUaGlzIGNsb3NlcyBwb3RlbnRpYWwNCj4+IGVudHJ5IHBvaW50cyB0byBtYW5pcHVsYXRl
+IGtlcm5lbCBvciBJL08gbWVtb3J5IHZpYSBmcmFtZWJ1ZmZlcnMuIEl0DQo+IA0KPiBJJ2Qg
+bGVhdmUgb3V0IHRoZSBwYXJ0IGFib3V0IG1hbmlwdWxhdGluZyBrZXJuZWwgbWVtb3J5LCBh
+cyB0aGF0J3MgYQ0KPiBkcml2ZXIgYnVnLCBpZiBwb3NzaWJsZS4NCg0KVGhlIGRyaXZlci9j
+b3JlIGRpc3RpbmN0aW9uIGlzIHNvbWV3aGF0IGZ1enp5OiB0aGUgcmVjZW50IGJ1ZyB3aXRo
+IE9PQiANCmFjY2VzcyB3YXMgaW50cm9kdWNlZCBhY2NpZGVudGFsbHkgaW4gc2hhcmVkIGhl
+bHBlciBjb2RlIHdpdGhpbiBEUk0uDQoNCkFuZCB3aGVuZXZlciBJIHdhbnQgdG8gbW9kaWZ5
+IHRoZSBmYmRldiBjb2RlLCBJIGhhdmUgdG8gc3RhcnQgYnVnZml4aW5nIA0KZmlyc3QuIEp1
+c3QgbG9vayBhdCB0aGlzIHBhdGNoc2V0LiBBIGdvb2QgbnVtYmVyIG9mIHRoZSBwYXRjaGVz
+IGFyZSANCmJ1Z2ZpeGVzLiBEcml2ZXIgb3Igbm90LCBJIG5vIGxvbmdlciB0cnVzdCBhbnkg
+b2YgdGhlIGZiZGV2IGNvZGUgdG8gZ2V0IA0KYW55dGhpbmcgcmlnaHQuDQoNCg0KPiANCj4+
+IGFsc28gcHJldmVudHMgdGhlIGV4ZWN1dGlvbiBvZiBkcml2ZXIgY29kZSB2aWEgaW9jdGwg
+b3Igc3lzZnMsIGJvdGgNCj4+IG9mIHdoaWNoIG1pZ2h0IGFsbG93IG1hbGljaW91cyBzb2Z0
+d2FyZSB0byBleHBsb2l0IGJ1Z3MgaW4gdGhlIGZiZGV2DQo+PiBjb2RlLg0KPiANCj4gT2Yg
+Y291cnNlIGRpc2FibGluZyBpb2N0bHMgcmVkdWNlcyB0aGUgYXR0YWNrIHN1cmZhY2UsIGFu
+ZCB0aGlzIGlzIG5vdA0KPiBsaW1pdGVkIHRvIGZiZGV2Li4uIDstKQ0KDQpPdGhlciBzdWJz
+eXN0ZW1zIHNob3VsZCBkbyB0aGUgc2FtZSB3aGVyZSBwb3NzaWJsZS4gVGhlIHNwZWNpZmlj
+IHByb2JsZW0gDQp3aXRoIERSTS1wbHVzLWZiZGV2IGlzIHRoYXQgdGhlIGZiZGV2IGRldmlj
+ZSBkb2Vzbid0IHByb3ZpZGUgYW55IA0KYWRkaXRpb25hbCB2YWx1ZS4gSXQncyB0b28gbGlt
+aXRlZCBpbiBmdW5jdGlvbmFsaXR5IChldmVuIGJ5IGZiZGV2IA0Kc3RhbmRhcmRzKSwgYSBw
+b3NzaWJsZSBzb3VyY2UgZm9yIGJ1Z3MsIGFuZCB0b2RheSdzIHVzZXJzcGFjZSB3YW50cyBE
+Uk0gDQpmdW5jdGlvbmFsaXR5Lg0KDQoNCj4gDQo+IEknbSB3b25kZXJpbmcgaWYgaXQgd291
+bGQgYmUgd29ydGh3aGlsZSB0byBvcHRpb25hbGx5IHByb3ZpZGUgYSBtb3JlDQo+IGxpbWl0
+ZWQgdXNlcnNwYWNlIEFQSSBmb3IgcmVhbCBmYmRldiBkcml2ZXJzOg0KPiAgICAxLiBObyBh
+Y2Nlc3MgdG8gTU1JTywgb25seSB0byB0aGUgbWFwcGVkIGZyYW1lIGJ1ZmZlciwNCj4gICAg
+Mi4gTm8gZHJpdmVyLXNwZWNpZmljIGlvY3Rscywgb25seSB0aGUgc3RhbmRhcmQgb25lcy4N
+Cg0KVGhhdCBpc3N1ZSBpcyBvbmx5IHJlbGV2YW50IHRvIGZiZGV2IGRyaXZlcnMgYW5kIHdv
+dWxkIGJlIGEgc2VwYXJhdGUgDQpwYXRjaHNldC4gTXkgY29uY2VybiBsaWVzIHdpdGggdGhl
+IGN1cnJlbnQgZGlzdHJpYnV0aW9ucywgd2hpY2ggZG9uJ3QgDQpuZWVkIHRoZSBmYmRldiBk
+ZXZpY2UgYW5kIHNob3VsZG4ndCBwcm92aWRlIGl0IGZvciB0aGUgZ2l2ZW4gcmVhc29ucy4N
+Cg0KDQo+IA0KPj4gQSBzbWFsbCBudW1iZXIgb2YgZmJkZXYgZHJpdmVycyByZXF1aXJlIHN0
+cnVjdCBmYmluZm8uZGV2IHRvIGJlDQo+PiBpbml0aWFsaXplZCwgdXN1YWxseSBmb3IgdGhl
+IHN1cHBvcnQgb2Ygc3lzZnMgaW50ZXJmYWNlLiBNYWtlIHRoZXNlDQo+PiBkcml2ZXJzIGRl
+cGVuZCBvbiBGQl9ERVZJQ0UuIFRoZXkgY2FuIGxhdGVyIGJlIGZpeGVkIGlmIG5lY2Vzc2Fy
+eS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCj4gDQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcN
+Cj4+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZw0KPj4gQEAgLTU3LDYgKzU3
+LDE1IEBAIGNvbmZpZyBGSVJNV0FSRV9FRElEDQo+PiAgICAgICAgICAgIGNvbWJpbmF0aW9u
+IHdpdGggY2VydGFpbiBtb3RoZXJib2FyZHMgYW5kIG1vbml0b3JzIGFyZSBrbm93biB0bw0K
+Pj4gICAgICAgICAgICBzdWZmZXIgZnJvbSB0aGlzIHByb2JsZW0uDQo+Pg0KPj4gK2NvbmZp
+ZyBGQl9ERVZJQ0UNCj4+ICsgICAgICAgIGJvb2wgIlByb3ZpZGUgbGVnYWN5IC9kZXYvZmIq
+IGRldmljZSINCj4gDQo+IFBlcmhhcHMgImRlZmF1bHQgeSBpZiAhRFJNIiwgYWx0aG91Z2gg
+dGhhdCBkb2VzIG5vdCBoZWxwIGZvciBhDQo+IG1peGVkIGRybS9mYmRldiBrZXJuZWwgYnVp
+bGQ/DQoNCldlIGNvdWxkIHNpbXBseSBzZXQgaXQgdG8gImRlZmF1bHQgeSIuICBCdXQgT1RP
+SCBpcyBpdCB3b3J0aCBtYWtpbmcgaXQgYSANCmRlZmF1bHQ/IERpc3RyaWJ1dGlvbnMgd2ls
+bCBzZXQgaXQgdG8gdGhlIHZhbHVlIHRoZXkgbmVlZC93YW50LiBUaGUgdmVyeSANCmZldyBw
+ZW9wbGUgdGhhdCBidWlsZCB0aGVpciBvd24ga2VybmVscyB0byBnZXQgY2VydGFpbiBmYmRl
+diBkcml2ZXJzIA0Kd2lsbCBjZXJ0YWlubHkgYmUgYWJsZSB0byBlbmFibGUgdGhlIG9wdGlv
+biBieSBoYW5kIGFzIHdlbGwuDQoNCg0KPiANCj4gT3IgcmVzZXJ2ZSAiRkIiIGZvciByZWFs
+IGZiZGV2IGRyaXZlcnMsIGFuZCBpbnRyb2R1Y2UgYSBuZXcgRkJfQ09SRSwNCj4gdG8gYmUg
+c2VsZWN0ZWQgYnkgYm90aCBGQiBhbmQgRFJNX0ZCREVWX0VNVUxBVElPTj8NCj4gVGhlbiBG
+Ql9ERVZJQ0UgY2FuIGRlcGVuZCBvbiBGQl9DT1JFLCBhbmQgZGVmYXVsdCB0byB5IGlmIEZC
+Lg0KDQpUaGF0IHdvdWxkbid0IHdvcmsuIEluIFR1bWJsZXdlZWQsIHdlIHN0aWxsIGhhdmUg
+ZWZpZmIgYW5kIHZlc2FmYiANCmVuYWJsZWQgdW5kZXIgY2VydGFpbiBjb25kaXRpb25zOyBt
+ZXJlbHkgZm9yIHRoZSBrZXJuZWwgY29uc29sZS4gV2UnZCANCmhhdmUgdG8gZW5hYmxlIENP
+TkZJR19GQiwgd2hpY2ggd291bGQgYnJpbmcgYmFjayB0aGUgZGV2aWNlLg0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQo+IA0KPj4gKyAgICAgICAgZGVwZW5kcyBvbiBGQg0KPj4gKyAg
+ICAgICAgaGVscA0KPj4gKyAgICAgICAgIFNheSBZIGhlcmUgaWYgeW91IHdhbnQgdGhlIGxl
+Z2FjeSAvZGV2L2ZiKiBkZXZpY2UgZmlsZS4gSXQncw0KPj4gKyAgICAgICAgIG9ubHkgcmVx
+dWlyZWQgaWYgeW91IGhhdmUgdXNlcnNwYWNlIHByb2dyYW1zIHRoYXQgZGVwZW5kIG9uDQo+
+PiArICAgICAgICAgZmJkZXYgZm9yIGdyYXBoaWNzIG91dHB1dC4gVGhpcyBkb2VzIG5vdCBl
+ZmZlY3QgdGhlIGZyYW1lYnVmZmVyDQo+IA0KPiBhZmZlY3QNCj4gDQo+PiArICAgICAgICAg
+Y29uc29sZS4NCj4+ICsNCj4+ICAgY29uZmlnIEZCX0REQw0KPj4gICAgICAgICAgdHJpc3Rh
+dGUNCj4+ICAgICAgICAgIGRlcGVuZHMgb24gRkINCj4gDQo+IEdye29ldGplLGVldGluZ31z
+LA0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEg
+TnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJl
+dyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykN
+Cg==
 
+--------------ldQ1fhfowxh97luX777uhDg3--
+
+--------------M6rYvO9rIW03zBgN0h0bpi1s
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSAnycFAwAAAAAACgkQlh/E3EQov+AA
+RA/+O6OQaSWfIQF4ij57SxCcn92MCARiu8rooX7hgUe43bDKp36LMMgNLaJeADaVDM6Y9s/B3iZv
+8dL7+pFJz8Ikx6RFeOGvpeS+yJMLNJ/cRTb3j3uNx9Xz32qJIwjQa46SnK2ERBf6D5jkZ9iH9KQd
+QU4E4VUVVr0E4M8x0PWS6BSxAswTwRP2qibhrGV/ifY+Ym7/1gBYu5I5CYExGoDInt7Vfsrt09sP
+gb5Aa4BvIOuONrcoCS00zm8auznjLFcLi8UG9pLiZ46hDwhR8fSz7rRIOEOT2GBwnPBn06KRxj0c
+JkA4b1zWTwqr8hu1k+TtZpnChLs0+yCv1F5qL7JDdgksP4kHoJ03r9jLfy0wU7zGrBD8fIOdro6N
+mzEUOXcBKA8XB5VymAHcH2z6BrlWNDuIMDB4yZDJI3RKRVGpxV3tK0vKCSESCOOf1h/Vbv+ZYHCi
+t/EObl4IX2M+aoKIq/ChNeUtOm5A8K8LFxNWP2cdo5NCdQOfUJTtxXB72XYXOraQ26g7EDc/bxpF
+nSOGxGCtEbBKRnyI1YqAfvbdIELAPVPfo7y5+YSldjub0s75jQVOlT3D/xT47zBVEc+JJOQ65+Wq
+cG554/DAyGXIKIZAMrIBkkGU48jtJccDd9Dw3YLi7FaV8lyvFGkbgC0HO5BnCIkM9kkygJmEoVjM
+Tlk=
+=wozr
+-----END PGP SIGNATURE-----
+
+--------------M6rYvO9rIW03zBgN0h0bpi1s--
