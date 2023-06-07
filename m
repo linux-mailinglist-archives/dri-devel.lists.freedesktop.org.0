@@ -2,63 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3575B7259FE
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921F0725A04
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F8B10E492;
-	Wed,  7 Jun 2023 09:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A84310E49C;
+	Wed,  7 Jun 2023 09:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8172010E492
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:20:33 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f004cc54f4so8857880e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 02:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686129631; x=1688721631;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=exqfc/jRMTKPt7g8amXPumcIHWOEiZA1InvKpSbxkng=;
- b=L3yJ9i5o6RbiwbmMzEwKRKKlSRSDUD9SKQE1N8SP4NJ/9w1ACYrUdNN3bLtXejXO8k
- Yxygujd/9VOsou2Uepak0K7xnokczHXlK55i2nUw1WPQccNOtmhLaubPeXVSc8lxBEIa
- URRJLWXz2HRLFxoDcHTizvFen9zU/VgrV4Xo/75FlUBCj0bc3KWFFIHPB53Zl3Dn9TYv
- jOw7zbAHoijUoitfU026m3pit6Tx2tuESK8OPd/V5i3LD+ssC82mY0qdJS+zWiaZF9wh
- PEiqwKWttS7DMteSPCF8y9CimJT/0dAJsz2+ipc4iBliCxTqsHOReh/wnVTQsNnFVIXe
- 84Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686129631; x=1688721631;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=exqfc/jRMTKPt7g8amXPumcIHWOEiZA1InvKpSbxkng=;
- b=W461OGWFveMZzgRldctnOyunHzGnd+SCnEnKzNvGxHZLrIOnnIdJl8XZJEQogweKuY
- TxCKR8TRX3ZSQ0Vb923O84KhN8prs8rKP+lNbfIYYumd/phfN+Q+U+K7gjY2Ec9MoGl7
- QtYyyMK9c7MlxFXLutgqoWvgzI7WrYwJOQBo2lwpVUzLwVu30GgeF3RNrrDYmp+8L9jA
- Zr4ehHdZTj4qgAXj12SpCGEAFEPF4qxbQvo5oy19ytpY+T98XhTd29BI5OcCaEDDHIRJ
- IWvdXS4Oq6Hyurtz05nR9heOliAClpKTW6JvtKrMPe/YWL/JGM7ItTl8+YKNyBQAhhBg
- tJ9g==
-X-Gm-Message-State: AC+VfDxTEdJdf0FRokYgo0rIKeBbGBQ2UKTA0aEdvxmfQXrTpmKYlnrO
- mfEcYdSF2MEbh/eV54Ft2I4=
-X-Google-Smtp-Source: ACHHUZ6WXVjjx2iy2xrQZcubcG9vXAMFseXPq4KIv5usdjlC0v6PjnL2D8Om+SJR2jCP/pm7RK6I6Q==
-X-Received: by 2002:a05:6512:930:b0:4ec:7b87:931a with SMTP id
- f16-20020a056512093000b004ec7b87931amr1812508lft.13.1686129630544; 
- Wed, 07 Jun 2023 02:20:30 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- x11-20020ac2488b000000b004f6461ab35asm27888lfc.65.2023.06.07.02.20.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 02:20:30 -0700 (PDT)
-Date: Wed, 7 Jun 2023 12:20:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH v2] drm/vkms: Add support to 1D gamma LUT
-Message-ID: <20230607122026.2fe3f376@eldfell>
-In-Reply-To: <20230606205351.1288556-1-arthurgrillo@riseup.net>
-References: <20230606205351.1288556-1-arthurgrillo@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2086.outbound.protection.outlook.com [40.107.93.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A20BA10E496;
+ Wed,  7 Jun 2023 09:21:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IbE09/79Lf0yn+/MSe2s2NRHI1wDuRbBd2+WxOY/prpuCh0dqjusgZsbKfqWCtmnVC7EkM/yZ6wR1x/tzwF5Ol/gc7mGTAvfNP+nd31RMkIgZNHxxawnzIUhoc6wLmF/hehSAqGnjBsrvB8B+UnBvPI4NCcEDGPINo+XlDYZ10zsgKOj+DgfGfVUJA6iGWIW0AmOU0QLDHf8L59JmzE7ymQs29fYc7lKzV5vMzQBM/Zqnv74hNQIWsrue+5gE3P85PRKtvqnn0e2ZKQqC9dAjDl5sZ2bV2WNfh0mfDLlHwvqsfNQgz7FVtAzWXswVsMbfCWsS45vcwaEyQv3t9Dg6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KXQP/QE6vYbH7Yr1Fw2p5VqhtenAsH8liphDcyxEHLs=;
+ b=JbAdLyx5uTNgss8+GhAJ8RjqnPHD9Q4NaZ9Rg5FEJhKHdcV51dlb85qkNbQCna/nCy6bdESKQDh+u8ymJN6HAvGW03WqihSZfWWA2AWkEQTtYmbbCC0IOPWQeqr7K9ie0G+osO44+RiD39VIk4Bh3bYQXAUn5qCd+HE1WvjY8QfU+e/KWafEqLhf1hNlpWfh5GKJ7rro4kFNeIdSmAKigFqjcPy71/3MRMpLCUtNwNkTDNBeywsdntECfMwb1EetVMvS4KZKNk/NDKlyZhKR5u576zPWQqVXFyb3LoN0lj3nxiJzAGDZKS4Yv+6lMaNbkXa6AvulZk10KAX32p/SdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KXQP/QE6vYbH7Yr1Fw2p5VqhtenAsH8liphDcyxEHLs=;
+ b=V7J2nB9CpvQ+aS+DOVOmBh36PSZFD9HmE5bNvVOoD23xi4nD4FP/YX5Do6iAKD940AxjtXZBhgemA6mSiHNc/4tCmTmeRxay58LnoQorrmrnyn9KodJAyHdofAR+R4iFkxEthWL6Dlm7OXEpj7WAJ9Zv1xxnESq9AZbI1IzEopg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by IA0PR12MB8929.namprd12.prod.outlook.com (2603:10b6:208:484::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Wed, 7 Jun
+ 2023 09:21:02 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::61c8:1d79:40e9:17d8]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::61c8:1d79:40e9:17d8%6]) with mapi id 15.20.6477.016; Wed, 7 Jun 2023
+ 09:21:02 +0000
+Message-ID: <966758fd-53ab-c49b-e045-24ab1d12c0d9@amd.com>
+Date: Wed, 7 Jun 2023 11:20:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Lima] [PATCH] drm/lima: fix sched context destroy
+Content-Language: en-US
+To: Qiang Yu <yuq825@gmail.com>, Vasily Khoruzhick <anarsoul@gmail.com>
+References: <20230606143247.433018-1-nunes.erico@gmail.com>
+ <CA+E=qVcv4CrGki1cTYb53p5Ys0AgF=qfrK7XYB7X0gvu9knD-g@mail.gmail.com>
+ <CAKGbVbs2uwap-EuQkn00+rZqOB+Fohd9FmazMs051Yn+VSjmmA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAKGbVbs2uwap-EuQkn00+rZqOB+Fohd9FmazMs051Yn+VSjmmA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0121.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/vLLQeN.by1BUkB8Bd3H=EaO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA0PR12MB8929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f6c1c86-bd64-4de4-f68a-08db67388327
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YxdRAW31vCyoA+CunvD3A/6HzRwQGK8Zx+1iaRCQvOgIHwfx1U4Lq7kfsqC+xNnlUqBnCqaNA+3C3wx4RHDL6jeWHuizog1dpe772KcUlaQ9B7MHUqByIKV5az5YJEANGkX8fggKt8dah5QQkU6kzFlB1emFJ/rKGIXGnw0uazIgCW9bLFd2WrWhXQv3A3qS8szBofU4LxK9sXFZL6ln+8e+t6p2wV55cA4+X2XxGW6BxLvhJ6JAvOXqXm37Gv8NnsY0F9Sdkw3qDbo8fcigWlpzZ2yOc9ryQviivGBtzUDebHbX2FnuObelaZoMKfiLbNO//KqZtfMVM9UCKpKSx6DZK8C2zVQEMJthdzO4zbQsQj++jvYwugAgcMXaphzS0AGil8cO9Ouwb9pq0KoXrto6pc2/e7p6FYahsInPmMQxr/qtipaSMy003heR0VzrQyRtw/CSJ8EbUJQm/d7jI/6h6NFk5RBobTOi2o/giK0g1J8Ny/LOHwPhTAPPQyD0PNSPwcv8iojt2+W5XLHw8ph9ALvE8QLJyKLrL1ptIGgCoW2O/b01UYuDlSSlp6LXThNeJOutWS/e1OGUr+eV5w2KlKY4h9BeGOJD20zF0k8tvV3LjMUyOra7I9XV00nXqKbHYUb9YN827Gk5d+QEvQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(136003)(39860400002)(366004)(376002)(346002)(451199021)(110136005)(478600001)(8936002)(66556008)(8676002)(2906002)(36756003)(31696002)(5660300002)(86362001)(4326008)(66476007)(66946007)(316002)(38100700002)(6506007)(2616005)(41300700001)(53546011)(6512007)(66574015)(83380400001)(186003)(6486002)(31686004)(6666004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjN4Vis3Z2pnUEx3cHBMU0EyM0U2YjVBVVJYVjhQMS9lTVNRTlRONlZ1clY3?=
+ =?utf-8?B?T3JISmdWNU05anlTRGIydWlnRDlrRFdzVXI0UnVmWTdLdU5COW9ZUVJHZ2tk?=
+ =?utf-8?B?NjBHWkxrU01xSjJHbTVzbTU2aWM4clRFS2VHUjUvOHFhT2V1azFPME5DaWlI?=
+ =?utf-8?B?ZjlTYnI3L1lmbUpWT1A2NHhWQlBpTCtWYURaY1hKQnJmSnhML3ZQRVJsU3Jp?=
+ =?utf-8?B?TVgydzBwZElXTXZ3Yk11NHFpNUxVMW1PMWFkV25wcEdxN1VCTUlGUTc0U3h6?=
+ =?utf-8?B?ZVpHUGk4N2ZtcHFqdXlCNW1MRUNxSGRLZTd2YTU2UGF6YW9uZEV5UCtTTjFL?=
+ =?utf-8?B?SGtrOG93SkxzTTdOdzdXT0RqVlc4ZVpCVkN6T0FBN3JCNk1IVkFVYWQreXd5?=
+ =?utf-8?B?R2RBQUlzZEFZMnJ1WHZnNjBrVXdwL21aV2lGTGtUWHNLS0xFejJJUzF4bitL?=
+ =?utf-8?B?aHhDMXV2WkpneG8vRlBlTndibWFqUHBFajVMd3Z4czZWUGtNVmNqcXA1YWx3?=
+ =?utf-8?B?MjBqNS9XZ1QwWERZa3JQT1ROQWsxaDViclRBQzMvRTd4MUdSN3VJWnVVLzVv?=
+ =?utf-8?B?UzBaa0lqUnI2QWxnUzlPekZxbUpqOG9halJQMTU3TVJ5OENwM3dkVnpmV0pk?=
+ =?utf-8?B?aWd3SERNakFVcmJNajZxaUJCL3RuaFZIajRzYlNpa1BvQVhkZnd6UjRJU0dJ?=
+ =?utf-8?B?QlhXUW9zKzg4akRHaDZ5K1VRdDhKUlo5eUw5UGtZUG5sZGZvV1NSenI4Vm9D?=
+ =?utf-8?B?UGFOSXQydS9KQjc5RlBnWTlhM2lRbVZNZERMUWU2NmpEZ253MVpqRm1iWnV2?=
+ =?utf-8?B?c3RVTlAzRkNQVVVSWDhZanNodGJuZVkraFczT05CT0hxcDJOZEZqek94VnAx?=
+ =?utf-8?B?b0RqeVNKUW9zZndiOTZkVEhBYWFLVHdrRG9JTzB5M2hQT29NSEh3VVdjNmVP?=
+ =?utf-8?B?K0ZLbXBoTnUydlJKQWRpS0M5N2pSZ3h3RFY5UXo3THc1aysrelA0UFhxMUdP?=
+ =?utf-8?B?TjdFcVozaUcwcTE5Ymp1REpvazJPV0lIdGdBeE10RFhCVFhuTTBpQ29VSEdm?=
+ =?utf-8?B?ck1zRTJhUmFjdlJXNXE4UWFQajRMYVJtSHNlSjVLMjlYa1lxWis4d1V0VlNE?=
+ =?utf-8?B?bTg3M3I2ZXpjVGZOVysvOTEvamw0OW11Znk3OXFjR2hma2tyS3NDWlRUaUc4?=
+ =?utf-8?B?Z2Zad3F4YkhZYWREYUxHdUN6MWF1SVVwYkhCNzlONUpLYjV0dXQzZEFzMHRy?=
+ =?utf-8?B?UVFLQjIxOVlZL0dqRkFCa2todGRvMHREL3MxZktualBnRktjc05FS2k2Sjhq?=
+ =?utf-8?B?dWdoa3NHa1p6SkdnNVN1V0hxek8wYUdRWUdmK1hVY0t2Q0pSblp4ZHR2MXZL?=
+ =?utf-8?B?WkJubDRNNk4vM1YyOUgyK3lCdEpFbzMyT2lmZkNZR3NRVmVZTTBYUENyVmZH?=
+ =?utf-8?B?blgxSnNmSURNbDYzTFFrM01SMzQyR0lxQzEyKzhjRlQ0SE04QlAyRFNuMTRS?=
+ =?utf-8?B?WitxV0pzbXF0RVJmSkZxbCtWWnp2MjVsZmFaMGVFUzNpaFpOUENLMVBUT3VB?=
+ =?utf-8?B?RVBRN2xleWRQaEN2UjZBYXdaOWRhN3pmVjczUUpnTkY0eXZkcThKWnRCVkZ3?=
+ =?utf-8?B?UkIvbVM4UlVZRWR4aGhuUjB1WGhJQmd5aUQ0QnBoY1UwNGZkRml5T0hVTGpo?=
+ =?utf-8?B?R2lXUjUrai94ajdIRWphdW50V3VrTllWam4vUWZsOHI3ajUza241OVNBaVNy?=
+ =?utf-8?B?eldWbGo4NVV5a21EU1BQL1FjNEtFN3FoSG1SK3JSb1JXMGNhN21uWUV0YXpS?=
+ =?utf-8?B?Q0paTWNyK1V1SzcvcGpGc3kraUJXcFptWnhIKzFveUVqSFF2R25PbjdxK0s0?=
+ =?utf-8?B?YWdSMUdSd0FPaG9vZ0FjV0hjcWNzUS9aMExCWXZrVy9NUGYrSnhWMlRJVWMz?=
+ =?utf-8?B?RGljTlVzK2JDaTRyZUJkbUZXRjdtNHgvT3pBSkRZVnFKYTBlUUkvMEVsZktK?=
+ =?utf-8?B?elVWdHpHSjhFWlJlY2p5VVh5U0tXM3ZzeHBwRnpmMDlyVFJJUkJQWmsrTGU1?=
+ =?utf-8?B?Nk96dmVsQUg5cFdKcS96elZBU1lDYytJSElLb0QrTnR1a0c4b1VmT2d3SEtZ?=
+ =?utf-8?B?ZEhZN3NxcDF4WFR1MkxOVkIrOUJBY1g2bi9tOEZ1dzhjV3phZzMxb3UzQ2xX?=
+ =?utf-8?Q?T5OPLg9Z1Z6zRx9e6zujg0sVGzsYo6rEQbsQgbhH80Co?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f6c1c86-bd64-4de4-f68a-08db67388327
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2023 09:21:02.1833 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sr2FaDIE6IZkeGbmMR5GqdU8DaqZp7W7FnFgoXl5Ii37Jk9p+lRvrNylo6dH7Ebj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8929
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,308 +127,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, rodrigosiqueiramelo@gmail.com,
- xaver.hugl@gmail.com, mdaenzer@redhat.com, dri-devel@lists.freedesktop.org,
- victoria@system76.com, mwen@igalia.com, mairacanal@riseup.net,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- joshua@froggi.es
+Cc: lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/vLLQeN.by1BUkB8Bd3H=EaO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Christian König <christian.koenig@amd.com>
 
-On Tue,  6 Jun 2023 17:53:52 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+While you are at it: It's beneficial for drivers to implement the flush 
+callback on the file descriptor.
 
-> Support a 1D gamma LUT with interpolation for each color channel on the
-> VKMS driver. Add a check for the LUT length by creating
-> vkms_atomic_check().
->=20
-> Tested with:
-> igt@kms_color@gamma
-> igt@kms_color@legacy-gamma
-> igt@kms_color@invalid-gamma-lut-sizes
->=20
-> v2:
->     - Add interpolation between the values of the LUT (Simon Ser)
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 97 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +
->  drivers/gpu/drm/vkms/vkms_drv.c      | 20 +++++-
->  drivers/gpu/drm/vkms/vkms_drv.h      |  2 +
->  4 files changed, 121 insertions(+), 1 deletion(-)
->=20
+This way you can still send a SIGKILL when a terminating application 
+waits for the entity to be flushed out to the hardware and all the 
+pending jobs are canceled.
 
-Hi,
+Regards,
+Christian.
 
-here are some casual suggestions that I hope are helpful, nothing more.
+Am 07.06.23 um 06:04 schrieb Qiang Yu:
+> Reviewed-by: Qiang Yu <yuq825@gmail.com>
+>
+> Applied to drm-misc-fixes.
+>
+> On Wed, Jun 7, 2023 at 9:18 AM Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+>> On Tue, Jun 6, 2023 at 7:33 AM Erico Nunes <nunes.erico@gmail.com> wrote:
+>>> The drm sched entity must be flushed before finishing, to account for
+>>> jobs potentially still in flight at that time.
+>>> Lima did not do this flush until now, so switch the destroy call to the
+>>> drm_sched_entity_destroy() wrapper which will take care of that.
+>>>
+>>> This fixes a regression on lima which started since the rework in
+>>> commit 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+>>> where some specific types of applications may hang indefinitely.
+>>>
+>>> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+>>> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
+>> Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+>>
+>>> ---
+>>>   drivers/gpu/drm/lima/lima_sched.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+>>> index ff003403fbbc..ffd91a5ee299 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>> @@ -165,7 +165,7 @@ int lima_sched_context_init(struct lima_sched_pipe *pipe,
+>>>   void lima_sched_context_fini(struct lima_sched_pipe *pipe,
+>>>                               struct lima_sched_context *context)
+>>>   {
+>>> -       drm_sched_entity_fini(&context->base);
+>>> +       drm_sched_entity_destroy(&context->base);
+>>>   }
+>>>
+>>>   struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *task)
+>>> --
+>>> 2.40.1
+>>>
 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 906d3df40cdb..24bffd98ba49 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -6,6 +6,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_blend.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_fixed.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_vblank.h>
->  #include <linux/minmax.h>
-> @@ -89,6 +90,100 @@ static void fill_background(const struct pixel_argb_u=
-16 *background_color,
->  		output_buffer->pixels[i] =3D *background_color;
->  }
-> =20
-> +// lerp(a, b, t) =3D a + (b - a) * t
-> +static u16 lerp_u16(u16 a, u16 b, s64 t)
-> +{
-> +	s64 a_fp =3D drm_int2fixp(a);
-> +	s64 b_fp =3D drm_int2fixp(b);
-> +
-> +	s64 ratio =3D drm_fixp_mul(b_fp - a_fp,  t);
-
-This is more like a delta than a ratio. A ratio would be a unitless
-x/y, but delta has the same units as a_fp.
-
-> +
-> +	return drm_fixp2int(a_fp + ratio);
-> +}
-> +
-> +static s64 get_lut_index(u16 color_channel, size_t lut_length)
-> +{
-> +	const s64 max_lut_index_fp =3D drm_int2fixp(lut_length  - 1);
-> +	const s64 u16_max_fp =3D drm_int2fixp(0xffff);
-> +
-> +	s64 ratio =3D drm_fixp_div(max_lut_index_fp, u16_max_fp);
-
-This division is a constant for a specific LUT. Are you sure it won't
-be calculated repeatedly for every transformed pixel component?
-
-> +
-> +	s64 color_channel_fp =3D drm_int2fixp(color_channel);
-> +
-> +	return drm_fixp_mul(color_channel_fp, ratio);
-
-First this multiplication looked really strange, because "color
-channel" is one of R, G or B, so likely 0, 1, or 2. But it's not color
-channel, it is channel value.
-
-> +}
-> +
-> +enum lut_area {
-> +	LUT_RED,
-> +	LUT_GREEN,
-> +	LUT_BLUE,
-> +	LUT_RESERVED
-> +};
-> +
-> +static void apply_lut_to_color_channel(u16 *color_channel, enum lut_area=
- area,
-> +				       struct drm_color_lut *lut, size_t lut_length)
-
-"u16 *color_channel" sounds like it is a pointer to a whole row of a
-specific component of many pixels. I got confused, because I think
-everything around here uses packed and not planar pixel layout, so it
-looked really weird.
-
-If you have nothing to return from a function otherwise, return the
-computation result. In this case, pass the input value by-value, since
-the indirection is not necessary. That makes the function easier to
-read. Ideally the compiler will inline it anyway - a real function call
-in innermost loop would be costly.
-
-I suspect struct drm_color_lut and lut_length should be stored together
-in a struct, so that you can also pre-compute and store 'ratio' in it.
-
-> +{
-> +	s64 ratio;
-> +
-> +	s64 lut_index =3D get_lut_index(*color_channel, lut_length);
-> +
-> +	size_t floor_index =3D drm_fixp2int(lut_index);
-> +	size_t ceil_index =3D drm_fixp2int_ceil(lut_index);
-> +
-> +	struct drm_color_lut floor_lut_value =3D lut[floor_index];
-> +	struct drm_color_lut ceil_lut_value =3D lut[ceil_index];
-> +
-> +	u16 floor_color_channel;
-> +	u16 ceil_color_channel;
-> +
-> +	switch (area) {
-
-Is it a good idea from performance perspective to do a switch like this
-three times per pixel? I cannot guess what the compiler would do.
-
-It would be possible to reinterpret drm_color_lut as a __u16[4], so you
-could simply index into it instead of using 'if'. Or maybe the compiler
-already does that, or something even smarter? Only benchmarking would
-tell which form is better.
-
-The reason I'm paying so much attention to performance here is that
-while VKMS is expected to be a slow software implementation, it could
-still be smarter instead of even slower than necessary. That usually
-translates to structuring code such that the innermost loops will do
-only the absolute minimum required work, and everything possible is
-pre-computed. I don't think it would make the code too complicated,
-either.
-
-
-Thanks,
-pq
-
-> +	case LUT_RED:
-> +		floor_color_channel =3D floor_lut_value.red;
-> +		ceil_color_channel =3D ceil_lut_value.red;
-> +		break;
-> +	case LUT_GREEN:
-> +		floor_color_channel =3D floor_lut_value.green;
-> +		ceil_color_channel =3D ceil_lut_value.green;
-> +		break;
-> +	case LUT_BLUE:
-> +		floor_color_channel =3D floor_lut_value.blue;
-> +		ceil_color_channel =3D ceil_lut_value.blue;
-> +		break;
-> +	case LUT_RESERVED:
-> +		floor_color_channel =3D floor_lut_value.reserved;
-> +		ceil_color_channel =3D ceil_lut_value.reserved;
-> +		break;
-> +	}
-> +
-> +	ratio =3D lut_index - drm_int2fixp(floor_index);
-> +
-> +	*color_channel =3D lerp_u16(floor_color_channel, ceil_color_channel, ra=
-tio);
-> +}
-> +
-> +static void apply_lut(const struct vkms_crtc_state *crtc_state, struct l=
-ine_buffer *output_buffer)
-> +{
-> +	struct drm_color_lut *lut;
-> +	size_t lut_length;
-> +
-> +	if (!crtc_state->base.gamma_lut)
-> +		return;
-> +
-> +	lut =3D (struct drm_color_lut *)crtc_state->base.gamma_lut->data;
-> +
-> +	lut_length =3D crtc_state->base.gamma_lut->length / sizeof(*lut);
-> +
-> +	if (!lut_length)
-> +		return;
-> +
-> +	for (size_t x =3D 0; x < output_buffer->n_pixels; x++) {
-> +		struct pixel_argb_u16 *pixel =3D &output_buffer->pixels[x];
-> +
-> +		apply_lut_to_color_channel(&pixel->r, LUT_RED, lut, lut_length);
-> +		apply_lut_to_color_channel(&pixel->g, LUT_GREEN, lut, lut_length);
-> +		apply_lut_to_color_channel(&pixel->b, LUT_BLUE, lut, lut_length);
-> +	}
-> +}
-> +
->  /**
->   * @wb_frame_info: The writeback frame buffer metadata
->   * @crtc_state: The crtc state
-> @@ -128,6 +223,8 @@ static void blend(struct vkms_writeback_job *wb,
->  					    output_buffer);
->  		}
-> =20
-> +		apply_lut(crtc_state, output_buffer);
-> +
->  		*crc32 =3D crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-> =20
->  		if (wb)
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index 515f6772b866..61e500b8c9da 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm=
-_crtc *crtc,
-> =20
->  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-> =20
-> +	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-> +	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-> +
->  	spin_lock_init(&vkms_out->lock);
->  	spin_lock_init(&vkms_out->composer_lock);
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index e3c9c9571c8d..dd0af086e7fa 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver =3D {
->  	.minor			=3D DRIVER_MINOR,
->  };
-> =20
-> +static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_s=
-tate *state)
-> +{
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state;
-> +	int i;
-> +
-> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
-> +			continue;
-> +
-> +		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
-> +		    > VKMS_LUT_SIZE)
-> +			return -EINVAL;
-> +	}
-> +
-> +	return drm_atomic_helper_check(dev, state);
-> +}
-> +
->  static const struct drm_mode_config_funcs vkms_mode_funcs =3D {
->  	.fb_create =3D drm_gem_fb_create,
-> -	.atomic_check =3D drm_atomic_helper_check,
-> +	.atomic_check =3D vkms_atomic_check,
->  	.atomic_commit =3D drm_atomic_helper_commit,
->  };
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 5f1a0a44a78c..a3b7025c1b9a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -23,6 +23,8 @@
-> =20
->  #define NUM_OVERLAY_PLANES 8
-> =20
-> +#define VKMS_LUT_SIZE 256
-> +
->  struct vkms_frame_info {
->  	struct drm_framebuffer *fb;
->  	struct drm_rect src, dst;
-
-
---Sig_/vLLQeN.by1BUkB8Bd3H=EaO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSAS9oACgkQI1/ltBGq
-qqexYg/9FuxfyyW8iqul3RdcjPNPcU6u75zookrVbRqv4x1mSbB05eHgo85dMzX7
-X2yIX+bEb9aGLcHuSzrVshZm6wxc1pXRLIhXKnSr2jvzvfRtEhGt+/uWB78s2VDq
-gdUUHlnBnutqPjwbRzXT0EwG3hEdXQJQbZwFaexcY6eneTXNu22sAAetx+3XEkgr
-nTw14G+BRWrt9AQ2GipQLwkzL4am7/zxAWp0ZK3M4mW2zwOpevVVpBqFg731k/2K
-TRemxkFXm5uSVJ/LjUc22f6YEQR1jE9p28Ddwiku1cfo+Nt6eMIKhLq4srQlvXpR
-ZuhwKczFfAVnS1Yi78eZC+nYupuJKe4H5dRAuUzzH3c8lRIwQwuRFiPhzaxBkrB/
-rOZbXhUXlEYC49qvsrimN4DHD7B5ImNemhkE4l2pMKgbiNr79lWNoIxt15NFzWUk
-Kel0Ay8usllzai6vyYRyDrBaOqsAKMvlm359uomvc2mpBW6ZF4Ici3/ZJwINgSId
-q0R7KJyAguXAq9zfrCuHtezi7+QxbCTe8XCNY1i8bh2kWWUUSu3+j6Zg7vEphBzm
-+kx6xucp25pFfZGCfGx8PvZ3KE+r0dTWYtIsIIXPr1H++q6mQogoZEI4WCBzkzNb
-jU9kUKov8ziCBI+14L2/BpcI6/wMo0/oiMmfqRdvKMUY2D7EbxE=
-=uj0X
------END PGP SIGNATURE-----
-
---Sig_/vLLQeN.by1BUkB8Bd3H=EaO--
