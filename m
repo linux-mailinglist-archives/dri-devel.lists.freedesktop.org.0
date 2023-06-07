@@ -1,52 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8715725577
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:23:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F259C7255B8
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE3410E448;
-	Wed,  7 Jun 2023 07:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE9710E449;
+	Wed,  7 Jun 2023 07:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8671210E42E
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:22:56 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxDetOMIBkWA4AAA--.196S3;
- Wed, 07 Jun 2023 15:22:55 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxbMpNMIBkPQEEAA--.6109S2; 
- Wed, 07 Jun 2023 15:22:53 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
-Date: Wed,  7 Jun 2023 15:22:53 +0800
-Message-Id: <20230607072253.440613-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3194810E449
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686123064;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
+ b=LgLRX9tRd2Covg7vKgJXSI2GrQJGlm4sX2GdFdPl4D4GGJc3brO49j0FhnUd0pUz1HEOBk
+ 9mxHbXn7BxqdBncqUB9adSHIoNi5xWEy3pvOe2LfN/8RPcubnytaFvnIfdKS122jAObgGY
+ QN+GedmZolUomLnUUydomn4THB44F/U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-466-ymg3Xh99OICG8M7eIA4xLA-1; Wed, 07 Jun 2023 03:31:02 -0400
+X-MC-Unique: ymg3Xh99OICG8M7eIA4xLA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f7e835ce65so9323765e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:31:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686123060; x=1688715060;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
+ b=UmnmK7CFTghNiTo+6zCgkKSgd/9PelWQZG77fme1WQCAEKES5MFgGrGDsvz8lSRHGD
+ gYGY80JPdV7E/0L5NUAWqeAOUQ5P3bMaf3rajg4kDCLL+lBJOoowb8gkDvC6qlpmcZmM
+ 3UFJXZ5Ms8fB6oiYH9RCIvOWYO5SOs/cfWjMVgqXmXQtE9TVdvvuOxlwh9uw1qVpM8xK
+ 3ZiNzCZQKb+APaq+eshqwDfSeGWR2iKqJucbswbCNrktwhstbTHGzrqe4ljdyDPidVZS
+ tHR0c7RuIXW7cdiFr+V/zC4FhZz1pT8YojUUh00OrxJfEDCDyHIO2UBiKVDovN1ZVIng
+ U5Sg==
+X-Gm-Message-State: AC+VfDy4xYgVEtxeInkr9qssFW6PqVQ83I8OllU+X5pZ4qTRPH55mtpF
+ TpGvodJh7Ohp5QkMRXDSI/KfIWNx9+4Tvsdi63OuB4qqi0M5mM9PkP52B38wZOxaC1wjaYy6zMG
+ XGJwu15XREB1/Kno+OL+J0iCZ+msO
+X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id
+ u23-20020a05600c211700b003f42328b5c2mr3787348wml.35.1686123060796; 
+ Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5uGo6zRkvpQ5estM3pdndUe5o7FAstx3xMsdIS0ZhyvoEoxkSKZkfhbKkJxPjpvFo09QUYlQ==
+X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id
+ u23-20020a05600c211700b003f42328b5c2mr3787327wml.35.1686123060473; 
+ Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y6-20020a7bcd86000000b003f4ddde398csm1142560wmj.21.2023.06.07.00.31.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com
+Subject: Re: [PATCH 01/30] backlight/bd6107: Compare against struct
+ fb_info.device
+In-Reply-To: <20230605144812.15241-2-tzimmermann@suse.de>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-2-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 09:30:59 +0200
+Message-ID: <87bkhrhgp8.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxbMpNMIBkPQEEAA--.6109S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7XrWxWw1fuFyfWr4fCryDJwc_yoW8Jr4rpF
- sxt34kuFWxZFWvk3y7AFyxWa45Z3W5XFWSkF93twn09r98AFW0yrZxAFW3XFyDAwnrX3y2
- qas3KFW7tFyUZFcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
- AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- AVWUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
- 0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
- bVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1KZX7UUUUU==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,45 +83,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Otherwise its failed to pass basic compile test on platform without
-REGMAP_MMIO selected by defconfig
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
+> Struct bd6107_platform_data refers to a platform device within
+> the Linux device hierarchy. The test in bd6107_backlight_check_fb()
+> compares it against the fbdev device in struct fb_info.dev, which
+> is different. Fix the test by comparing to struct fb_info.device.
+>
+> Fixes a bug in the backlight driver and prepares fbdev for making
+> struct fb_info.dev optional.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
+> ---
 
-  SYNC    include/config/auto.conf.cmd
-  Checking missing-syscalls for N32
-  CALL    scripts/checksyscalls.sh
-  Checking missing-syscalls for O32
-  CALL    scripts/checksyscalls.sh
-  CALL    scripts/checksyscalls.sh
-  MODPOST Module.symvers
-ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
-make: *** [Makefile:1978: modpost] Error 2
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/ingenic/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-index a53f475d33df..7457c0b65034 100644
---- a/drivers/gpu/drm/ingenic/Kconfig
-+++ b/drivers/gpu/drm/ingenic/Kconfig
-@@ -5,6 +5,8 @@ config DRM_INGENIC
- 	depends on CMA
- 	depends on OF
- 	depends on COMMON_CLK
-+	select REGMAP
-+	select REGMAP_MMIO
- 	select DRM_BRIDGE
- 	select DRM_PANEL_BRIDGE
- 	select DRM_KMS_HELPER
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
