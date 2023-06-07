@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6AD725170
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 03:17:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99194725172
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 03:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BE110E3FD;
-	Wed,  7 Jun 2023 01:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1C8110E408;
+	Wed,  7 Jun 2023 01:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nfschina.com (unknown [42.101.60.195])
- by gabe.freedesktop.org (Postfix) with SMTP id C245E10E3FD
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 01:17:30 +0000 (UTC)
-Received: from [172.30.38.103] (unknown [180.167.10.98])
- by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id 1C8101800F838B; 
- Wed,  7 Jun 2023 09:17:21 +0800 (CST)
-Message-ID: <126ba315-196d-ee1e-a781-bf8b510f1ddb@nfschina.com>
-Date: Wed, 7 Jun 2023 09:17:20 +0800
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A45D10E408;
+ Wed,  7 Jun 2023 01:18:37 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-30adc63c87fso981963f8f.1; 
+ Tue, 06 Jun 2023 18:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686100714; x=1688692714;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I1KgDHaOI1Us1uVdvmrUMFfMciSCryMc/a4pLaA9Lhg=;
+ b=I2ghSAq3JDT4gj7Uf+IncMN0ipTmkzdn/4Yv5r4OjGYZKNar5OSApbCuLtKpwgaaog
+ 2ZoEIa9s8vQMupST9rS7w/tpwanQboypHhI87vF+mi84EHtmDaVK8vVxpg6PyUdfK5uI
+ ab+7EDkMd8SddEeu0b4zwawV5ph6mNXZh3ymCoecgLkthdhkE4FX0dUgL9XhMbm04haN
+ oG6rxssFsRg4TGy5yCrDqA0fJoI7bXbOXRAN6/E0Xtxyaw0oHLxz9qntXstDd2LGXRZB
+ 2clZB3Fj7s6uXhe3a+5qIkRzXMxjFiI8lOjRJz0Yd9PZymQpoVRRNyaNbmO57/FrpZCd
+ GUuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686100714; x=1688692714;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=I1KgDHaOI1Us1uVdvmrUMFfMciSCryMc/a4pLaA9Lhg=;
+ b=BZLxyS0zBrsYQwlI2TIKhQuTnO/2pgAIXXJemTSEHjBky6A9oM1Ikr29pGF4MCW3us
+ N3v6SzsvAdmwbz3Q+pe7M+NYv/kpq/U3v0kPirXqpths38dFinyyZRJyAYIyiUb4n9kB
+ RDFSCLWSKG6h8iaBmRHKDg6oect7LmU9M9eE6jVR2zWH1H2Bhwxn4N9Bt+X/auh4sNv/
+ x/eRyiqFoVORoHhiCmfTTRgTGJDR9v/90T1vZTiSO4Eitrj0yI4bbbk/dWj0gPWzNXgT
+ iBmvwbHcfqulu7hIbjKHlW6wU0jgRgEFwYpEnvvY3vmkupYazZ/D54dOQkmuaB8yhcWW
+ 7vsQ==
+X-Gm-Message-State: AC+VfDys+AZn0HjrGzTe0I2koIN7ITH58kIdGoSpwQ468geZLLaeWgvK
+ mARNdJbmju10URkkqxKdrdrUQInbO4vDGvmydNE=
+X-Google-Smtp-Source: ACHHUZ7/cuO+TEChxTs+dXb7rNdJomNMj0QOWI0kWSVci+W1pvM3G3ccLLQvp1XZweD4REkWnWlEo8tN3KIEeW2PImU=
+X-Received: by 2002:adf:eac5:0:b0:30c:2bd4:5141 with SMTP id
+ o5-20020adfeac5000000b0030c2bd45141mr2614850wrn.4.1686100713726; Tue, 06 Jun
+ 2023 18:18:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Avoid possible buffer overflow
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-Bcc: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <CAD=FV=X_n4Si3k4iQ0yRJZRqX2DuhGF2pjPqEzbiKqBY3ZCNHg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230606143247.433018-1-nunes.erico@gmail.com>
+In-Reply-To: <20230606143247.433018-1-nunes.erico@gmail.com>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Tue, 6 Jun 2023 18:18:06 -0700
+Message-ID: <CA+E=qVcv4CrGki1cTYb53p5Ys0AgF=qfrK7XYB7X0gvu9knD-g@mail.gmail.com>
+Subject: Re: [Lima] [PATCH] drm/lima: fix sched context destroy
+To: Erico Nunes <nunes.erico@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,60 +68,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- andersson@kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, u.kleine-koenig@pengutronix.de
+Cc: lima@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com, yuq825@gmail.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Jun 6, 2023 at 7:33=E2=80=AFAM Erico Nunes <nunes.erico@gmail.com> =
+wrote:
+>
+> The drm sched entity must be flushed before finishing, to account for
+> jobs potentially still in flight at that time.
+> Lima did not do this flush until now, so switch the destroy call to the
+> drm_sched_entity_destroy() wrapper which will take care of that.
+>
+> This fixes a regression on lima which started since the rework in
+> commit 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+> where some specific types of applications may hang indefinitely.
+>
+> Fixes: 2fdb8a8f07c2 ("drm/scheduler: rework entity flush, kill and fini")
+> Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
 
-On 2023/6/6 23:28, Doug Anderson wrote:
-> Hi,
->
-> On Tue, Jun 6, 2023 at 12:56 AM Su Hui <suhui@nfschina.com> wrote:
->> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <= 5.
->>
->> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
->> Signed-off-by: Su Hui <suhui@nfschina.com>
->> ---
->>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> index 7a748785c545..952aae4221e7 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> @@ -305,7 +305,8 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
->>           * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
->>           * regardless of its actual sourcing.
->>           */
->> -       pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
->> +       if (i < refclk_lut_size)
->> +               pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
-> I don't think this is quite the right fix. I don't think we can just
-> skip assigning "pdata->pwm_refclk_freq". In general I think we're in
-> pretty bad shape if we ever fail to match a refclk from the table and
-> I'm not quite sure how the bridge chip could work at all in this case.
-> Probably that at least deserves a warning message in the logs. There's
-> no place to return an error though, so I guess the warning is the best
-> we can do and then we can do our best to do something reasonable.
->
-> In this case, I think "reasonable" might be that if the for loop exits
-> and "i == refclk_lut_size" that we should set "i" to 1. According to
-> the datasheet [1] setting a value of 5 (which the existing code does)
-> is the same as setting a value of 1 (the default) and if it's 1 then
-> we'll be able to look this up in the table.
-I think you are right, set i to 1 if i >= refclk_lut_size. I will resend 
-this patch soon.
-Thanks for your reply!
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-Su Hui
-
+> ---
+>  drivers/gpu/drm/lima/lima_sched.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> [1] https://www.ti.com/lit/gpn/sn65dsi86
+> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lim=
+a_sched.c
+> index ff003403fbbc..ffd91a5ee299 100644
+> --- a/drivers/gpu/drm/lima/lima_sched.c
+> +++ b/drivers/gpu/drm/lima/lima_sched.c
+> @@ -165,7 +165,7 @@ int lima_sched_context_init(struct lima_sched_pipe *p=
+ipe,
+>  void lima_sched_context_fini(struct lima_sched_pipe *pipe,
+>                              struct lima_sched_context *context)
+>  {
+> -       drm_sched_entity_fini(&context->base);
+> +       drm_sched_entity_destroy(&context->base);
+>  }
 >
-> -Doug
+>  struct dma_fence *lima_sched_context_queue_task(struct lima_sched_task *=
+task)
+> --
+> 2.40.1
+>
