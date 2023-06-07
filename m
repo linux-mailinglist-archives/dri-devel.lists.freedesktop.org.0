@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A4972602C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 14:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9BC726034
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 15:00:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE27510E4EC;
-	Wed,  7 Jun 2023 12:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9945710E4F3;
+	Wed,  7 Jun 2023 13:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3534B10E4EC
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 12:59:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CD410E4F1
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 13:00:13 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q6slA-0003gk-No; Wed, 07 Jun 2023 14:59:32 +0200
+ id 1q6slm-0003pt-Cf; Wed, 07 Jun 2023 15:00:10 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: slow down FE idle polling
-Date: Wed,  7 Jun 2023 14:59:32 +0200
-Message-Id: <20230607125932.3518547-1-l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: add HWDB entry for GC520 r5341 c204
+Date: Wed,  7 Jun 2023 15:00:09 +0200
+Message-Id: <20230607130009.3519602-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
 X-SA-Exim-Mail-From: l.stach@pengutronix.de
@@ -48,101 +47,56 @@ Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the FE is spinning way too fast when polling for new work in
-the FE idleloop. As each poll fetches 16 bytes from memory, a GPU running
-at 1GHz with the current setting of 200 wait cycle between fetches causes
-80 MB/s of memory traffic just to check for new work when the GPU is
-otherwise idle, which is more FE traffic than in some GPU loaded cases.
-
-Significantly increase the number of wait cycles to slow down the poll
-interval to ~30µs, limiting the FE idle memory traffic to 512 KB/s, while
-providing a max latency which should not hurt most use-cases. The FE WAIT
-command seems to have some unknown discrete steps in the wait cycles so
-we may over/undershoot the target a bit, but that should be harmless.
+This is the 2D GPU found on the i.MX8MP SoC. Feature bits taken
+from the downstream kernel driver 6.4.3.p4.4.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 11 ++++++-----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c    |  7 +++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h    |  1 +
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 31 ++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index cf741c5c82d2..384df1659be6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -53,11 +53,12 @@ static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
- 	OUT(buffer, VIV_FE_END_HEADER_OP_END);
- }
- 
--static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer)
-+static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-+			    unsigned int waitcycles)
- {
- 	buffer->user_size = ALIGN(buffer->user_size, 8);
- 
--	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | 200);
-+	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
- }
- 
- static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
-@@ -168,7 +169,7 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
- 	/* initialize buffer */
- 	buffer->user_size = 0;
- 
--	CMD_WAIT(buffer);
-+	CMD_WAIT(buffer, gpu->fe_waitcycles);
- 	CMD_LINK(buffer, 2,
- 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
- 		 + buffer->user_size - 4);
-@@ -320,7 +321,7 @@ void etnaviv_sync_point_queue(struct etnaviv_gpu *gpu, unsigned int event)
- 	CMD_END(buffer);
- 
- 	/* Append waitlink */
--	CMD_WAIT(buffer);
-+	CMD_WAIT(buffer, gpu->fe_waitcycles);
- 	CMD_LINK(buffer, 2,
- 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
- 		 + buffer->user_size - 4);
-@@ -503,7 +504,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 
- 	CMD_LOAD_STATE(buffer, VIVS_GL_EVENT, VIVS_GL_EVENT_EVENT_ID(event) |
- 		       VIVS_GL_EVENT_FROM_PE);
--	CMD_WAIT(buffer);
-+	CMD_WAIT(buffer, gpu->fe_waitcycles);
- 	CMD_LINK(buffer, 2,
- 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
- 		 + buffer->user_size - 4);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 41aab1aa330b..8c20dff32240 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -493,6 +493,13 @@ static void etnaviv_gpu_update_clock(struct etnaviv_gpu *gpu)
- 		clock |= VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
- 		etnaviv_gpu_load_clock(gpu, clock);
- 	}
-+
-+	/*
-+	 * Choose number of wait cycles to target a ~30us (1/32768) max latency
-+	 * until new work is picked up by the FE when it polls in the idle loop.
-+	 */
-+	gpu->fe_waitcycles = min(gpu->base_rate_core >> (15 - gpu->freq_scale),
-+				 0xffffUL);
- }
- 
- static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 98c6f9c320fc..e1e1de59c38d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -150,6 +150,7 @@ struct etnaviv_gpu {
- 	struct clk *clk_shader;
- 
- 	unsigned int freq_scale;
-+	unsigned int fe_waitcycles;
- 	unsigned long base_rate_core;
- 	unsigned long base_rate_shader;
- };
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 2e63afa6c798..e25776d49971 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -38,6 +38,37 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x0,
+ 		.minor_features11 = 0x0,
+ 	},
++	{
++		.model = 0x520,
++		.revision = 0x5341,
++		.product_id = 0x5202,
++		.customer_id = 0x204,
++		.eco_id = 0,
++		.stream_count = 1,
++		.register_max = 64,
++		.thread_count = 256,
++		.shader_core_count = 1,
++		.vertex_cache_size = 8,
++		.vertex_output_buffer_size = 512,
++		.pixel_pipes = 1,
++		.instruction_count = 256,
++		.num_constants = 168,
++		.buffer_size = 0,
++		.varyings_count = 8,
++		.features = 0xe02c7eca,
++		.minor_features0 = 0xe9399eff,
++		.minor_features1 = 0xfe1fb2db,
++		.minor_features2 = 0xcedf0080,
++		.minor_features3 = 0x10800005,
++		.minor_features4 = 0x20000000,
++		.minor_features5 = 0x00020880,
++		.minor_features6 = 0x00000000,
++		.minor_features7 = 0x00001000,
++		.minor_features8 = 0x00000000,
++		.minor_features9 = 0x00000000,
++		.minor_features10 = 0x00000000,
++		.minor_features11 = 0x00000000,
++	},
+ 	{
+ 		.model = 0x7000,
+ 		.revision = 0x6202,
 -- 
 2.39.2
 
