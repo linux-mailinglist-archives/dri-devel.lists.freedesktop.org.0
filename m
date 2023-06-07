@@ -1,34 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494FD725808
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:40:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C78D72582B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208CA10E0C2;
-	Wed,  7 Jun 2023 08:40:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3538610E0B5;
+	Wed,  7 Jun 2023 08:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F97110E0C2
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:40:12 +0000 (UTC)
-Received: from ip5b412278.dynamic.kabel-deutschland.de ([91.65.34.120]
- helo=diego.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1q6oi6-0006LM-Ch; Wed, 07 Jun 2023 10:40:06 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Conor Dooley <conor@kernel.org>
-Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
- subsystem
-Date: Wed, 07 Jun 2023 10:40:04 +0200
-Message-ID: <3560873.iIbC2pHGDl@diego>
-In-Reply-To: <20230606-geometry-blurb-1f0f07d4bf6a@spud>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <1991848.PYKUYFuaPT@diego> <20230606-geometry-blurb-1f0f07d4bf6a@spud>
+Received: from dijkstra.felixrichter.tech (dijkstra.felixrichter.tech
+ [37.120.184.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27CA610E0B5;
+ Wed,  7 Jun 2023 08:42:50 +0000 (UTC)
+Received: from [10.130.10.2] (unknown [10.130.10.2])
+ by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id C817E1A0278;
+ Wed,  7 Jun 2023 10:42:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
+ s=20210926; t=1686127378;
+ bh=tkzVBRo6hHqTlGscwqWNeHiKp6sVlo4jv1fCou306CY=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=bRkwKeGnqKMxS2VYDd0PQZYM9HjDgCmWBo/R6RINn9hv0TBOpTYxESXh78+0oKKL1
+ cKyF3U/5d8G/FWegZ885bw28AMnnqPHqKN3TcwtdiUU3IeCjTXPEA0hsRj5hX0OPRw
+ w14+qdAONlBYscWKDwxoAAUUdKkbnIrxbRHwCN9A=
+Message-ID: <076f493a-9e88-db37-f4a0-2a269e94d51e@felixrichter.tech>
+Date: Wed, 7 Jun 2023 10:42:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+To: Alex Deucher <alexdeucher@gmail.com>,
+ "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>
+References: <46a7eb80-5f09-4f6a-4fd3-9550dafd497c@felixrichter.tech>
+ <1efbf587-e7b5-74a3-89e4-ca70386bd191@leemhuis.info>
+ <CADnq5_M-5SD6HDRVtFHPNF3q9XKz75PECdUxR-OaVpPe2Zw=EQ@mail.gmail.com>
+ <8d23a70e-b132-9b25-917a-1f45918533cc@leemhuis.info>
+ <0cac032a-0f65-5134-cde5-f535fc58c5ab@felixrichter.tech>
+ <e7eed5ce-e7a0-e03e-f8c7-3582d9771a33@leemhuis.info>
+ <e24373f9-4405-d7f7-dd54-d0bde111242c@felixrichter.tech>
+ <CADnq5_MCXgtxNB_WBfAw+ZSKNeczSYL7gZPkpqqJ859G=LYkgA@mail.gmail.com>
+Content-Language: en-US
+From: Felix Richter <judge@felixrichter.tech>
+Subject: Re: PROBLEM: AMD Ryzen 9 7950X iGPU - Blinking Issue
+In-Reply-To: <CADnq5_MCXgtxNB_WBfAw+ZSKNeczSYL7gZPkpqqJ859G=LYkgA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,84 +56,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, Shengyu Qu <wiagn233@outlook.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
- Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Keith Zhao <keith.zhao@starfivetech.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, 7. Juni 2023, 00:37:53 CEST schrieb Conor Dooley:
-> On Wed, Jun 07, 2023 at 12:22:33AM +0200, Heiko St=FCbner wrote:
-> > Am Dienstag, 6. Juni 2023, 20:41:17 CEST schrieb Shengyu Qu:
-> > > > On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
-> > > >> Add bindings for JH7110 display subsystem which
-> > > >> has a display controller verisilicon dc8200
-> > > >> and an HDMI interface.
->=20
-> > > >> +description:
-> > > >> +  The StarFive SoC uses the HDMI signal transmiter based on innos=
-ilicon IP
-> > > > Is innosilicon the same thing as verisilicon? Also
-> > > > s/transmiter/transmitter/, both here and in the title.
-> > >=20
-> > > I think that is not the same, I remember Rockchip has used a HDMI=20
-> > > transmitter from
-> > >=20
-> > > Innosilicon, and there is a existing driver for that in mainline.
-> >=20
-> > Yep, I think Innosilicon is the company you turn to when you want to sa=
-ve
-> > a bit of money ;-) . In the bigger SoCs Rockchip most of the time uses
-> > Designware hdmi blocks and looking at the history only the rk3036 ever
-> > used an Innosilicon block.
-> >=20
-> > Looking at the history, 2016 really was a long time ago :-D.
-> >=20
-> > > So Keith, if that's true, I think it is better to seperate the HDMI=20
-> > > stuff and reuse existing driver.
-> >=20
-> > I'm not so sure about that - at least from a cursory glance :-) .
-> >=20
-> > The registers do look slightly different and I don't know how much
-> > the IP changed between the rk3036-version and the jh7110 version.
-> >=20
-> > At the very least, I know my rk3036 board isn't booting right now, so
-> > I can't really provide help for generalizing the rockchip-driver.
-> >=20
-> > At the very least both the binding and driver could drop the "starfive-=
-hdmi"
-> > and actually use the Innosilicon in the naming somewhere, so that it's
-> > clear for future developers :-)
->=20
-> Seeing "based on" always makes me a little bit nervous to be honest when
-> it comes to using a compatible from the IP. Is it the IP? What version
-> is it? etc. Perhaps "starfive,jh7110-hdmi" & falling back to some sort
-> of "innosilicon,hdmi" would be more future/IP-silliness proof.
-> Driver can always be generic & bind against "innosilicon,hdmi" until
-> that becomes impossible.
+Hi Guys,
+
+so I checked, the kernel I am running has this commit 
+(https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+/commit/?id=08da182175db4c7f80850354849d95f2670e8cd9) applied already!
+
+https://github.com/ju6ge/linux/commit/917680e6056aa288cac288d3afd2745d372beb61u
+
+And the bug of display flickering persists with or without the 
+amdgpu.sg_display=0 variable applied!
+
+Kind regards,
+Felix Richter
 
 
-what Connor said makes a lot of sense. Just name the compatible
-after the actual implementation - aka "starfive,jh7110-hdmi" .
-
-This is similar to what the rk3036 does with its
-"rockchip,rk3036-inno-hdmi". That way you're nicely independent
-and future proof.
-
-
-Heiko
-
+On 6/5/23 16:11, Alex Deucher wrote:
+> + Hamza
+> This is a known issue.  You can workaround it by setting
+> amdgpu.sg_display=0.  It should be issue should be fixed in:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=08da182175db4c7f80850354849d95f2670e8cd9
+>
+> Alex
+>
+>
+>
+>> Now if this is the desired long term fix I do not know …
+>>
+>> Kind regards,
+>> Felix Richter
+>>
+>> On 02.05.23 16:12, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> On 02.05.23 15:48, Felix Richter wrote:
+>>>> On 5/2/23 15:34, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>>> On 02.05.23 15:13, Alex Deucher wrote:
+>>>>>> On Tue, May 2, 2023 at 7:45 AM Linux regression tracking (Thorsten
+>>>>>> Leemhuis)<regressions@leemhuis.info>  wrote:
+>>>>>>
+>>>>>>> On 30.04.23 13:44, Felix Richter wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> I am running into an issue with the integrated GPU of the Ryzen 9
+>>>>>>>> 7950X. It seems to be a regression from kernel version 6.1 to 6.2.
+>>>>>>>> The bug materializes in from of my monitor blinking, meaning it
+>>>>>>>> turns full white shortly. This happens very often so that the
+>>>>>>>> system becomes unpleasant to use.
+>>>>>>>>
+>>>>>>>> I am running the Archlinux Kernel:
+>>>>>>>> The Issue happens on the bleeding edge kernel: 6.2.13
+>>>>>>>> Switching back to the LTS kernel resolves the issue: 6.1.26
+>>>>>>>>
+>>>>>>>> I have two monitors attached to the system. One 42 inch 4k Display
+>>>>>>>> and a 24 inch 1080p Display and am running sway as my desktop.
+>>>>>>>>
+>>>>>>>> Let me know if there is more information I could provide to help
+>>>>>>>> narrow down the issue.
+>>>>>>> Thanks for the report. To be sure the issue doesn't fall through the
+>>>>>>> cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+>>>>>>> tracking bot:
+>>>>>>>
+>>>>>>> #regzbot ^introduced v6.1..v6.2
+>>>>>>> #regzbot title drm: amdgpu: system becomes unpleasant to use after
+>>>>>>> monitor starts blinking and turns full white
+>>>>>>> #regzbot ignore-activity
+>>>>>>>
+>>>>>>> This isn't a regression? This issue or a fix for it are already
+>>>>>>> discussed somewhere else? It was fixed already? You want to clarify
+>>>>>>> when
+>>>>>>> the regression started to happen? Or point out I got the title or
+>>>>>>> something else totally wrong? Then just reply and tell me -- ideally
+>>>>>>> while also telling regzbot about it, as explained by the page listed in
+>>>>>>> the footer of this mail.
+>>>>>>>
+>>>>>>> Developers: When fixing the issue, remember to add 'Link:' tags
+>>>>>>> pointing
+>>>>>>> to the report (the parent of this mail). See page linked in footer for
+>>>>>>> details.
+>>>>>> This sounds exactly like the issue that was fixed in this patch which
+>>>>>> is already on it's way to Linus:
+>>>>>> https://gitlab.freedesktop.org/agd5f/linux/-/commit/08da182175db4c7f80850354849d95f2670e8cd9
+>>>>> FWIW, you in the flood of emails likely missed that this is the same
+>>>>> thread where you yesterday replied "If the module parameter didn't help
+>>>>> then perhaps you are seeing some other issue.  Can you bisect?". That's
+>>>>> why I decided to add this to the tracking. Or am I missing something
+>>>>> obvious here?
+>>>>>
+>>>>> /me looks around again and can't see anything, but that doesn't have to
+>>>>> mean anything...
+>>>>>
+>>>>> Felix, btw, this guide might help you with the bisection, even if it's
+>>>>> just for kernel compilation:
+>>>>>
+>>>>> https://docs.kernel.org/next/admin-guide/quickly-build-trimmed-linux.html
+>>>>>
+>>>>> And to indirectly reply to your mail from yesterday[1]. You might want
+>>>>> to ignore the arch linux kernel git repo and just do a bisection between
+>>>>> 6.1 and the latest 6.2.y kernel using upstream repos; and if I were you
+>>>>> I'd also try 6.3 or even mainline before that, in case the issue was
+>>>>> fixed already.
+>>>>>
+>>>>> [1]
+>>>>> https://lore.kernel.org/all/04749ee4-0728-92fe-bcb0-a7320279eaac@felixrichter.tech/
+>>>>>
+>>>> Thanks for the pointers, I'll do a bisection on my desktop from 6.1 to
+>>>> the newest commit.
+>>> FWIW, I wonder what you actually mean with "newest commit" here: a
+>>> bisection between 6.1 and mainline HEAD might be a waste of time, *if*
+>>> this is something that only happens in 6.2.y (say due to a broken or
+>>> incomplete backport)
+>>>
+>>>> That was the part I was mostly unsure about … where
+>>>> to start from.
+>>>>
+>>>> I was planning to use PKGBUILD scripts from arch to achieve the same
+>>>> configuration as I would when installing
+>>>> the package and just rewrite the script to use a local copy of the
+>>>> source code instead of the repository.
+>>>> That way I can just use the bisect command, rebuild the package and test
+>>>> again.
+>>> In my experience trying to deal with Linux distro's package managers
+>>> creates more trouble than it's worth.
+>>>
+>>>> But I probably won't be able to finish it this week, since I am on
+>>>> vacation starting tomorrow and will not have access to the computer in
+>>>> question. I will be back next week, by that time the patch Alex is
+>>>> talking about might
+>>>> already be in mainline. So if that fixes it, I will notice and let you
+>>>> know. If not I will do the bisection to figure out what the actual issue
+>>>> is.
+>>> Enjoy your vacation!
+>>>
+>>> Ciao, Thorsten
 
