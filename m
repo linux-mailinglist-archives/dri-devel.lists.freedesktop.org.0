@@ -2,61 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394A27257DE
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494FD725808
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:40:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F52310E45E;
-	Wed,  7 Jun 2023 08:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 208CA10E0C2;
+	Wed,  7 Jun 2023 08:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414D310E45E
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:35:15 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-5664b14966bso87853227b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:35:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686126913; x=1688718913;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tl7bhCDuACQlGnVS8msclVNyzt7m2ZyWzQXQ4o8Ijq4=;
- b=HBuh7ISBaJM71HhUh7Q8ocdE4YTFt8IRlYJcIw08smrSGTj0wKJR3xpvbpmHtabT6o
- Sl53ROWa/oSP+BtqR9BrrtJPuzUL8f0uHPqzvx3rOnvtmNfYUWIWtRZCLNhAILtZnr86
- xdAdiPzewYaS9Et4vL+wvx598Bo/kGw3VTqXq1xtPV4ls/0+xDcH/lfnbQBzEg1vLq4G
- BMG0fZawgc+xX3f8YgAPSH1mD0ltt+XYLmY20221fRKRxX+pRZ/kiBAYTBUbZtWhcpRb
- OcMzM7Sv+DF7GPpOXZjtQSEmMR1t05QBG45VBZOOuFlC7OKorGwf09h3yKPyxz6xtmPr
- 9frg==
-X-Gm-Message-State: AC+VfDwk/augr+gvBr1XXc8FWOiDZLAIkmNVve13h7M5HqTiXR2xheG7
- 0DzOaNJ0dyOK+vqGZJBqtTqPQt7sOEMRKg==
-X-Google-Smtp-Source: ACHHUZ5PMjp997fu50HTyec4GXdkmKVEZ1dvj0/2iiAqHBUZGEROKdQ2qzeccAfld/tbvK0jHqEbyA==
-X-Received: by 2002:a81:c310:0:b0:561:8fef:13ce with SMTP id
- r16-20020a81c310000000b005618fef13cemr6166965ywk.37.1686126913067; 
- Wed, 07 Jun 2023 01:35:13 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
- [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
- k126-20020a816f84000000b00565cf40238csm4600500ywc.110.2023.06.07.01.35.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jun 2023 01:35:12 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-565bdae581eso87632387b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:35:12 -0700 (PDT)
-X-Received: by 2002:a0d:eac5:0:b0:568:f2c:ee40 with SMTP id
- t188-20020a0deac5000000b005680f2cee40mr4715739ywe.3.1686126912094; Wed, 07
- Jun 2023 01:35:12 -0700 (PDT)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F97110E0C2
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:40:12 +0000 (UTC)
+Received: from ip5b412278.dynamic.kabel-deutschland.de ([91.65.34.120]
+ helo=diego.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1q6oi6-0006LM-Ch; Wed, 07 Jun 2023 10:40:06 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
+ subsystem
+Date: Wed, 07 Jun 2023 10:40:04 +0200
+Message-ID: <3560873.iIbC2pHGDl@diego>
+In-Reply-To: <20230606-geometry-blurb-1f0f07d4bf6a@spud>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <1991848.PYKUYFuaPT@diego> <20230606-geometry-blurb-1f0f07d4bf6a@spud>
 MIME-Version: 1.0
-References: <20230605144812.15241-1-tzimmermann@suse.de>
-In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 7 Jun 2023 10:35:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
-Message-ID: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
-Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,65 +41,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
+Cc: Emil Renner Berthing <kernel@esmil.dk>, Shengyu Qu <wiagn233@outlook.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Am Mittwoch, 7. Juni 2023, 00:37:53 CEST schrieb Conor Dooley:
+> On Wed, Jun 07, 2023 at 12:22:33AM +0200, Heiko St=FCbner wrote:
+> > Am Dienstag, 6. Juni 2023, 20:41:17 CEST schrieb Shengyu Qu:
+> > > > On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
+> > > >> Add bindings for JH7110 display subsystem which
+> > > >> has a display controller verisilicon dc8200
+> > > >> and an HDMI interface.
+>=20
+> > > >> +description:
+> > > >> +  The StarFive SoC uses the HDMI signal transmiter based on innos=
+ilicon IP
+> > > > Is innosilicon the same thing as verisilicon? Also
+> > > > s/transmiter/transmitter/, both here and in the title.
+> > >=20
+> > > I think that is not the same, I remember Rockchip has used a HDMI=20
+> > > transmitter from
+> > >=20
+> > > Innosilicon, and there is a existing driver for that in mainline.
+> >=20
+> > Yep, I think Innosilicon is the company you turn to when you want to sa=
+ve
+> > a bit of money ;-) . In the bigger SoCs Rockchip most of the time uses
+> > Designware hdmi blocks and looking at the history only the rk3036 ever
+> > used an Innosilicon block.
+> >=20
+> > Looking at the history, 2016 really was a long time ago :-D.
+> >=20
+> > > So Keith, if that's true, I think it is better to seperate the HDMI=20
+> > > stuff and reuse existing driver.
+> >=20
+> > I'm not so sure about that - at least from a cursory glance :-) .
+> >=20
+> > The registers do look slightly different and I don't know how much
+> > the IP changed between the rk3036-version and the jh7110 version.
+> >=20
+> > At the very least, I know my rk3036 board isn't booting right now, so
+> > I can't really provide help for generalizing the rockchip-driver.
+> >=20
+> > At the very least both the binding and driver could drop the "starfive-=
+hdmi"
+> > and actually use the Innosilicon in the naming somewhere, so that it's
+> > clear for future developers :-)
+>=20
+> Seeing "based on" always makes me a little bit nervous to be honest when
+> it comes to using a compatible from the IP. Is it the IP? What version
+> is it? etc. Perhaps "starfive,jh7110-hdmi" & falling back to some sort
+> of "innosilicon,hdmi" would be more future/IP-silliness proof.
+> Driver can always be generic & bind against "innosilicon,hdmi" until
+> that becomes impossible.
 
-Thanks for your series!
 
-Over the past few days, I have been giving this some thought, that's
-why I am replying only now...
+what Connor said makes a lot of sense. Just name the compatible
+after the actual implementation - aka "starfive,jh7110-hdmi" .
 
-On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
-> Add the new config option FB_DEVICE. If enabled, fbdev provides
-> traditional userspace interfaces in devfs, sysfs and procfs, such
-> as /dev/fb0 or /proc/fb.
->
-> Modern Linux distrobutions have adopted DRM drivers for graphics
-> output and use fbdev only for the kernel's framebuffer console.
-> Userspace has also moved on, with no new fbdev code being written
-> and existing support being removed.
->
-> OTOH, fbdev provides userspace a way of accessing kernel or I/O
-> memory, which might compromise the system's security. See the recent
+This is similar to what the rk3036 does with its
+"rockchip,rk3036-inno-hdmi". That way you're nicely independent
+and future proof.
 
-True, in some form...
-The amount of "kernel memory" that can be accessed is controlled by
-the fbdev driver (or by the DRM fbdev emulation). Nothing unsafe here.
-The I/O memory that can be accessed (if any) is controlled by the
-fbdev driver, and the full capabilities (e.g. DMA to random addresses)
-exported depend on the actual hardware.
 
-> commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
-> out-of-bounds access") for an example. Disabling fbdev userspace
+Heiko
 
-IMHO that's not a good example for the point you're trying to make,
-but merely bad bounds checking in kernel copying code...
 
-> interfaces is therefore a useful feature to limit unecessary
-> exposure of fbdev code to processes of low privilegues.
-
-This actually depends on the permissions on /dev/fb*...
-
-BTW, I am wondering if it would be possible to write a DRM emulation
-layer on top of (basic, e.g. no MMIO, just fb) fbdev?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
