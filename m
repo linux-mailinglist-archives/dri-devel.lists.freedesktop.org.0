@@ -1,50 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DC3726A0A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 21:45:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3B1726A13
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 21:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C41D10E1E7;
-	Wed,  7 Jun 2023 19:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9270F10E53E;
+	Wed,  7 Jun 2023 19:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6B3A10E53D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 19:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=oc0cfEt39md7Aocfs8+vtbuVQU+K7/gQFRFzLEMBHlU=;
- b=iu/FZimZIB0a11OViKGtQ6/zUw/NWaJe7CfV+nktbrliyc+LPJdJcrdXff/M1gwmE0OOQvL36TgJz
- Wr7U2VO3o4TPjMLX8b99wv1iwgUmzzzqAW8Bs8HMEhTgd20CFeMDvUi27q1lFcbEFZFXc2mAsqr7wG
- 8zyYbpaLuj338sD/XewPRRhtO1sL3c7GhYU4he2h8uk6vyWEEUnsDn4TrCGwAF4Ja8ZgvAqLHSH95k
- FfpE3Cc6o8Uo729gV6VdxfOgO+EJmzFPc6QesDGmOvvho0UtbSXIx7tRP1ge/zwMCSwbJUSotICV2x
- Bbq3y2VfI4CXG6wGWhMeCT8Kzq/1s8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=oc0cfEt39md7Aocfs8+vtbuVQU+K7/gQFRFzLEMBHlU=;
- b=hWY7LRNXo+k2vy50nSyKVfZANQmsG2gVYlsj5013SMubSDjdxtjdw4c2zNrH82ZjUvXvnQx8weHNx
- KoGrkVjCw==
-X-HalOne-ID: e53760db-056b-11ee-8b12-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id e53760db-056b-11ee-8b12-6f01c1d0a443;
- Wed, 07 Jun 2023 19:45:49 +0000 (UTC)
-Date: Wed, 7 Jun 2023 21:45:47 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 26/30] fbdev/core: Add fb_device_{create,destroy}()
-Message-ID: <20230607194547.GC670717@ravnborg.org>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-27-tzimmermann@suse.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D18010E53E;
+ Wed,  7 Jun 2023 19:46:42 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 357JT57k000503; Wed, 7 Jun 2023 19:46:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5G6HDYV61owlTxtOzctRQ3nN88GKhOoD0XA1tYt2JAs=;
+ b=PgOT/HZXCbQa1kGYbLsNeVg+XA/ISyVi7VDGg3iEazwC/5Gfgdx1eXNwPCgb2vxCRUYg
+ 3gnx+6a72JCWpsQx2wkXuma3aQ0Yl9cSOHZhfcQZrYd2GqiaDtz2pW5dORmuRmBF30iD
+ m4W/81yuUyFrcOCcPCAZtZh4xH91i5IbPQH0fecYIj9nvPXErCeG9CEjwrhh2EQVAz8v
+ FaM4I4iKG1OaQmuK7MTdx1vVSHOSN0Zi+JXlzM7EYJvJs58dk8c+mWMrUTkax3Iiq4ht
+ zPgFNrXTwhu9k+NV+fxLc5Ug/xGurKqw9xYbo5SIQIbAv0RSWHVmisC5l/Z8m9hD7koC 1Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a7k2sm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jun 2023 19:46:36 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357JkZ6e026091
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 7 Jun 2023 19:46:35 GMT
+Received: from [10.110.54.114] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 7 Jun 2023
+ 12:46:34 -0700
+Message-ID: <51712e34-c964-a5b3-3df8-1af10c7751f6@quicinc.com>
+Date: Wed, 7 Jun 2023 12:46:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230605144812.15241-27-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH v3 6/7] drm/msm/dsi: Add phy configuration for
+ MSM8226
+Content-Language: en-US
+To: Luca Weiss <luca@z3ntu.xyz>, <~postmarketos/upstreaming@lists.sr.ht>,
+ <phone-devel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>
+References: <20230308-msm8226-mdp-v3-0-b6284145d67a@z3ntu.xyz>
+ <20230308-msm8226-mdp-v3-6-b6284145d67a@z3ntu.xyz>
+From: Jeykumar Sankaran <quic_jeykumar@quicinc.com>
+In-Reply-To: <20230308-msm8226-mdp-v3-6-b6284145d67a@z3ntu.xyz>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JfdO3l81FXQYiHJVxQ4Of-WTisJFXX7-
+X-Proofpoint-GUID: JfdO3l81FXQYiHJVxQ4Of-WTisJFXX7-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-07_09,2023-06-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306070171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,196 +94,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-omap@vger.kernel.org
+Cc: devicetree@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Mon, Jun 05, 2023 at 04:48:08PM +0200, Thomas Zimmermann wrote:
-> Move the logic to create and destroy fbdev devices into the new
-> helpers fb_device_create() and fb_device_destroy().
+
+On 6/1/2023 10:00 AM, Luca Weiss wrote:
+> MSM8226 uses a modified PLL lock sequence compared to MSM8974, which is
+> based on the function dsi_pll_enable_seq_m in the msm-3.10 kernel.
 > 
-> There was a call to fb_cleanup_device() in do_unregister_framebuffer()
-> that was too late. The device had already been removed at this point.
-> Move the call into fb_device_destroy().
+> Worth noting that the msm-3.10 downstream kernel also will try other
+> sequences in case this one doesn't work, but during testing it has shown
+> that the _m sequence succeeds first time also:
 > 
-> Declare the helpers in the new internal header file  fb_internal.h, as
-s/  / /
-> they are only used within the fbdev core module.
+>    .pll_enable_seqs[0] = dsi_pll_enable_seq_m,
+>    .pll_enable_seqs[1] = dsi_pll_enable_seq_m,
+>    .pll_enable_seqs[2] = dsi_pll_enable_seq_d,
+>    .pll_enable_seqs[3] = dsi_pll_enable_seq_d,
+>    .pll_enable_seqs[4] = dsi_pll_enable_seq_f1,
+>    .pll_enable_seqs[5] = dsi_pll_enable_seq_c,
+>    .pll_enable_seqs[6] = dsi_pll_enable_seq_e,
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> We may need to expand this in the future.
+> 
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 > ---
->  drivers/video/fbdev/core/fb_internal.h | 12 ++++++++
->  drivers/video/fbdev/core/fbmem.c       | 21 +++-----------
->  drivers/video/fbdev/core/fbsysfs.c     | 38 ++++++++++++++++++++++++--
->  include/linux/fb.h                     |  3 --
->  4 files changed, 52 insertions(+), 22 deletions(-)
->  create mode 100644 drivers/video/fbdev/core/fb_internal.h
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 +
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  3 +-
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 97 ++++++++++++++++++++++++++++++
+>   3 files changed, 101 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
-> new file mode 100644
-> index 000000000000..0b9640ae7a3d
-> --- /dev/null
-> +++ b/drivers/video/fbdev/core/fb_internal.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef _FB_INTERNAL_H
-> +#define _FB_INTERNAL_H
-> +
-> +struct fb_info;
-> +
-> +/* fbsysfs.c */
-> +int fb_device_create(struct fb_info *fb_info);
-> +void fb_device_destroy(struct fb_info *fb_info);
-> +
-> +#endif
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index f91ae7d4c94d..66532774d351 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -40,6 +40,8 @@
->  #include <video/nomodeset.h>
->  #include <video/vga.h>
->  
-> +#include "fb_internal.h"
-> +
->      /*
->       *  Frame buffer device initialization and setup routines
->       */
-> @@ -1447,14 +1449,7 @@ static int do_register_framebuffer(struct fb_info *fb_info)
->  	mutex_init(&fb_info->lock);
->  	mutex_init(&fb_info->mm_lock);
->  
-> -	fb_info->dev = device_create(fb_class, fb_info->device,
-> -				     MKDEV(FB_MAJOR, i), NULL, "fb%d", i);
-> -	if (IS_ERR(fb_info->dev)) {
-> -		/* Not fatal */
-> -		printk(KERN_WARNING "Unable to create device for framebuffer %d; errno = %ld\n", i, PTR_ERR(fb_info->dev));
-> -		fb_info->dev = NULL;
-> -	} else
-> -		fb_init_device(fb_info);
-> +	fb_device_create(fb_info);
-The return result is ignored here.
-If we do not need it in later patches then drop the return result.
-
->  
->  	if (fb_info->pixmap.addr == NULL) {
->  		fb_info->pixmap.addr = kmalloc(FBPIXMAPSIZE, GFP_KERNEL);
-> @@ -1515,16 +1510,9 @@ static void unlink_framebuffer(struct fb_info *fb_info)
->  	if (WARN_ON(i < 0 || i >= FB_MAX || registered_fb[i] != fb_info))
->  		return;
->  
-> -	if (!fb_info->dev)
-> -		return;
-> -
-> -	device_destroy(fb_class, MKDEV(FB_MAJOR, i));
-> -
-> +	fb_device_destroy(fb_info);
->  	pm_vt_switch_unregister(fb_info->device);
-> -
->  	unbind_console(fb_info);
-> -
-> -	fb_info->dev = NULL;
->  }
->  
->  static void do_unregister_framebuffer(struct fb_info *fb_info)
-> @@ -1539,7 +1527,6 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
->  	fb_destroy_modelist(&fb_info->modelist);
->  	registered_fb[fb_info->node] = NULL;
->  	num_registered_fb--;
-> -	fb_cleanup_device(fb_info);
->  #ifdef CONFIG_GUMSTIX_AM200EPD
->  	{
->  		struct fb_event event;
-> diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-> index 849073f1ca06..fafe574398b0 100644
-> --- a/drivers/video/fbdev/core/fbsysfs.c
-> +++ b/drivers/video/fbdev/core/fbsysfs.c
-> @@ -8,6 +8,9 @@
->  #include <linux/console.h>
->  #include <linux/fb.h>
->  #include <linux/fbcon.h>
-> +#include <linux/major.h>
-> +
-> +#include "fb_internal.h"
->  
->  #define FB_SYSFS_FLAG_ATTR 1
->  
-> @@ -435,7 +438,7 @@ static struct device_attribute device_attrs[] = {
->  #endif
->  };
->  
-> -int fb_init_device(struct fb_info *fb_info)
-> +static int fb_init_device(struct fb_info *fb_info)
->  {
->  	int i, error = 0;
->  
-> @@ -459,7 +462,7 @@ int fb_init_device(struct fb_info *fb_info)
->  	return 0;
->  }
->  
-> -void fb_cleanup_device(struct fb_info *fb_info)
-> +static void fb_cleanup_device(struct fb_info *fb_info)
->  {
->  	unsigned int i;
->  
-> @@ -470,3 +473,34 @@ void fb_cleanup_device(struct fb_info *fb_info)
->  		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
->  	}
->  }
-> +
-> +int fb_device_create(struct fb_info *fb_info)
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index bb09cbe8ff86..9d5795c58a98 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -541,6 +541,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
+>   	  .data = &dsi_phy_28nm_hpm_famb_cfgs },
+>   	{ .compatible = "qcom,dsi-phy-28nm-lp",
+>   	  .data = &dsi_phy_28nm_lp_cfgs },
+> +	{ .compatible = "qcom,dsi-phy-28nm-8226",
+> +	  .data = &dsi_phy_28nm_8226_cfgs },
+>   #endif
+>   #ifdef CONFIG_DRM_MSM_DSI_20NM_PHY
+>   	{ .compatible = "qcom,dsi-phy-20nm",
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index 7137a17ae523..8b640d174785 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -46,8 +46,9 @@ struct msm_dsi_phy_cfg {
+>   extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_28nm_hpm_famb_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs;
+> -extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
+> +extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs;
+> +extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs;
+>   extern const struct msm_dsi_phy_cfg dsi_phy_14nm_2290_cfgs;
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> index 4c1bf55c5f38..ceec7bb87bf1 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> @@ -37,6 +37,7 @@
+>   
+>   /* v2.0.0 28nm LP implementation */
+>   #define DSI_PHY_28NM_QUIRK_PHY_LP	BIT(0)
+> +#define DSI_PHY_28NM_QUIRK_PHY_8226	BIT(1)
+>   
+>   #define LPFR_LUT_SIZE			10
+>   struct lpfr_cfg {
+> @@ -377,6 +378,74 @@ static int dsi_pll_28nm_vco_prepare_hpm(struct clk_hw *hw)
+>   	return ret;
+>   }
+>   
+> +static int dsi_pll_28nm_vco_prepare_8226(struct clk_hw *hw)
 > +{
-> +	int node = fb_info->node;
-> +	dev_t devt = MKDEV(FB_MAJOR, node);
-> +	int ret;
+> +	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(hw);
+> +	struct device *dev = &pll_28nm->phy->pdev->dev;
+> +	void __iomem *base = pll_28nm->phy->pll_base;
+> +	u32 max_reads = 5, timeout_us = 100;
+> +	bool locked;
+> +	u32 val;
+> +	int i;
 > +
-> +	fb_info->dev = device_create(fb_class, fb_info->device, devt, NULL, "fb%d", node);
-> +	if (IS_ERR(fb_info->dev)) {
-> +		/* Not fatal */
-> +		ret = PTR_ERR(fb_info->dev);
-This error code is lost as we always return 0.
-> +		pr_warn("Unable to create device for framebuffer %d; error %d\n", node, ret);
-> +		fb_info->dev = NULL;
-> +	} else {
-> +		fb_init_device(fb_info);
+> +	DBG("id=%d", pll_28nm->phy->id);
+> +
+> +	pll_28nm_software_reset(pll_28nm);
+> +
+> +	/*
+> +	 * PLL power up sequence.
+> +	 * Add necessary delays recommended by hardware.
+> +	 */
+> +	dsi_phy_write(base + REG_DSI_28nm_PHY_PLL_CAL_CFG1, 0x34);
+> +
+> +	val = DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRDN_B;
+> +	dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_GLB_CFG, val, 200);
+> +
+> +	val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRGEN_PWRDN_B;
+> +	dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_GLB_CFG, val, 200);
+> +
+> +	val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_LDO_PWRDN_B;
+> +	val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_ENABLE;
+> +	dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_GLB_CFG, val, 600);
+> +
+> +	for (i = 0; i < 7; i++) {
+> +		/* DSI Uniphy lock detect setting */
+> +		dsi_phy_write(base + REG_DSI_28nm_PHY_PLL_LKDET_CFG2, 0x0d);
+> +		dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_LKDET_CFG2,
+> +				0x0c, 100);
+> +		dsi_phy_write(base + REG_DSI_28nm_PHY_PLL_LKDET_CFG2, 0x0d);
+> +
+> +		/* poll for PLL ready status */
+> +		locked = pll_28nm_poll_for_ready(pll_28nm,
+> +						max_reads, timeout_us);
+> +		if (locked)
+> +			break;
+> +
+> +		pll_28nm_software_reset(pll_28nm);
+> +
+> +		/*
+> +		 * PLL power up sequence.
+> +		 * Add necessary delays recommended by hardware.
+> +		 */
+> +		dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_PWRGEN_CFG, 0x00, 50);
+> +
+> +		val = DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRDN_B;
+> +		val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRGEN_PWRDN_B;
+> +		dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_GLB_CFG, val, 100);
+> +
+> +		val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_LDO_PWRDN_B;
+> +		val |= DSI_28nm_PHY_PLL_GLB_CFG_PLL_ENABLE;
+> +		dsi_phy_write_udelay(base + REG_DSI_28nm_PHY_PLL_GLB_CFG, val, 600);
 > +	}
 > +
-> +	return 0;
+> +	if (unlikely(!locked))
+> +		DRM_DEV_ERROR(dev, "DSI PLL lock failed\n");
+> +	else
+> +		DBG("DSI PLL Lock success");
+> +
+> +	return locked ? 0 : -EINVAL;
 > +}
 > +
-> +void fb_device_destroy(struct fb_info *fb_info)
-> +{
-> +	dev_t devt = MKDEV(FB_MAJOR, fb_info->node);
+Could you please share the downstream reference you used to come up with 
+this sequence?
+
+Thanks and Regards,
+Jeykumar S.
+>   static int dsi_pll_28nm_vco_prepare_lp(struct clk_hw *hw)
+>   {
+>   	struct dsi_pll_28nm *pll_28nm = to_pll_28nm(hw);
+> @@ -471,6 +540,15 @@ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_lp = {
+>   	.is_enabled = dsi_pll_28nm_clk_is_enabled,
+>   };
+>   
+> +static const struct clk_ops clk_ops_dsi_pll_28nm_vco_8226 = {
+> +	.round_rate = dsi_pll_28nm_clk_round_rate,
+> +	.set_rate = dsi_pll_28nm_clk_set_rate,
+> +	.recalc_rate = dsi_pll_28nm_clk_recalc_rate,
+> +	.prepare = dsi_pll_28nm_vco_prepare_8226,
+> +	.unprepare = dsi_pll_28nm_vco_unprepare,
+> +	.is_enabled = dsi_pll_28nm_clk_is_enabled,
+> +};
 > +
-> +	if (!fb_info->dev)
-> +		return;
-> +
-> +	fb_cleanup_device(fb_info);
-> +	device_destroy(fb_class, devt);
-> +	fb_info->dev = NULL;
-> +}
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index ce6823e157e6..1988d11f78bc 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -735,11 +735,8 @@ static inline bool fb_be_math(struct fb_info *info)
->  #endif /* CONFIG_FB_FOREIGN_ENDIAN */
->  }
->  
-> -/* drivers/video/fbsysfs.c */
->  extern struct fb_info *framebuffer_alloc(size_t size, struct device *dev);
->  extern void framebuffer_release(struct fb_info *info);
-> -extern int fb_init_device(struct fb_info *fb_info);
-> -extern void fb_cleanup_device(struct fb_info *head);
->  extern void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, u8 max);
->  
->  /* drivers/video/fbmon.c */
-> -- 
-> 2.40.1
+>   /*
+>    * PLL Callbacks
+>    */
+> @@ -536,6 +614,8 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+>   
+>   	if (pll_28nm->phy->cfg->quirks & DSI_PHY_28NM_QUIRK_PHY_LP)
+>   		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_lp;
+> +	else if (pll_28nm->phy->cfg->quirks & DSI_PHY_28NM_QUIRK_PHY_8226)
+> +		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_8226;
+>   	else
+>   		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_hpm;
+>   
+> @@ -820,3 +900,20 @@ const struct msm_dsi_phy_cfg dsi_phy_28nm_lp_cfgs = {
+>   	.quirks = DSI_PHY_28NM_QUIRK_PHY_LP,
+>   };
+>   
+> +const struct msm_dsi_phy_cfg dsi_phy_28nm_8226_cfgs = {
+> +	.has_phy_regulator = true,
+> +	.regulator_data = dsi_phy_28nm_regulators,
+> +	.num_regulators = ARRAY_SIZE(dsi_phy_28nm_regulators),
+> +	.ops = {
+> +		.enable = dsi_28nm_phy_enable,
+> +		.disable = dsi_28nm_phy_disable,
+> +		.pll_init = dsi_pll_28nm_init,
+> +		.save_pll_state = dsi_28nm_pll_save_state,
+> +		.restore_pll_state = dsi_28nm_pll_restore_state,
+> +	},
+> +	.min_pll_rate = VCO_MIN_RATE,
+> +	.max_pll_rate = VCO_MAX_RATE,
+> +	.io_start = { 0xfd922b00 },
+> +	.num_dsi_phy = 1,
+> +	.quirks = DSI_PHY_28NM_QUIRK_PHY_8226,
+> +};
+> 
