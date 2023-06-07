@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B817259A2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:10:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0338C7259A5
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A052510E480;
-	Wed,  7 Jun 2023 09:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244D610E48B;
+	Wed,  7 Jun 2023 09:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8D110E480
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:09:59 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C31FE10E492
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686128998;
+ s=mimecast20190719; t=1686129026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RSdIsVX6ecFqz04GkrugK7lp/x5jJUtqPYllPP5sQjg=;
- b=SVsN5vU9K8FT/r1Ft2radZh+CWKDa0llXTI0Q+7QyXNmTqBx4yHVeN2g+zUFavw0nGHeXX
- Vtee6T+qxMA24BX4/4PbrIxgBZLC+Zz2RNnai8L2fp7HZz+51EKcMHHG27j9xupm5JOYU7
- GT9Kpv1Tjd09iWj/LoJzfOYHJ5zvo4g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EIz8b97+2mar2ffqQ22U9WQizWobZ+ziDNV+MHu5qjc=;
+ b=L8+S44GvM1a9NFo8jy0qKEPfd32atnmzlXWwEixK38r3RihdJt2uIKLgo6ODQKUMEpUGuG
+ 0YWUL5x4FCMZ0gsu+wjs3mEDP0HPfimCQ8NKwouuRzskRbG9ttmvK5oA1I5b9lJVnQWao/
+ 7dLWYrTSKvxFZ4M/y3mar+oYM5xrq+Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-354-ApCCx3eVPKOXKMQxkEOlwg-1; Wed, 07 Jun 2023 05:09:57 -0400
-X-MC-Unique: ApCCx3eVPKOXKMQxkEOlwg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f7ecc15771so2028255e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 02:09:57 -0700 (PDT)
+ us-mta-593-hI-uk6hSOCCL_UlugaIygA-1; Wed, 07 Jun 2023 05:10:25 -0400
+X-MC-Unique: hI-uk6hSOCCL_UlugaIygA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f613f5d290so120089595e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 02:10:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686128996; x=1688720996;
+ d=1e100.net; s=20221208; t=1686129025; x=1688721025;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RSdIsVX6ecFqz04GkrugK7lp/x5jJUtqPYllPP5sQjg=;
- b=TitPpYwOiJRW2LR0d2Hm+KndwsYzLoCusHjj59Ilu4LXV1sBDGhgYA3dNK517TgrG9
- V2LOnaqXUQiHF0rnSQhjhlRCafChJONb2/F04YXzuBbhOKv8OREWJVjeY9lYvXO4W2Kl
- JOjkDOsQETSWDFBw4gTvDi7fKmdwE25jgG+oukwc+uePdL2FM4f0qqLL9LPzAzSSZhv3
- S0JrnNlY5OjXmR9pOF2wjd+649NN9eCHsdH6gWuC9cMGIoFDm1bTu1MxELsgNP32Rxa7
- YNgIWf0tlBvyYvwWE73hY918sOcMkKDRCFHsDcGDyOEMEUYCIykRnG32Tz6ToKleVIGc
- fAKQ==
-X-Gm-Message-State: AC+VfDyzWVGq7Sqq56xGfOyAFx53pys1i3E3Q0oMRYeiv2vdeS/wK07b
- TylHPBW/1vo/b8zlvdOvWjGgnnhEZrPZ1B5n3BuTE1lku+qZDrHvyDKvKanzWSlS4XXe44Nu12q
- pls/VSjCrnzBS/4ndel3k0cqYSbQ1
-X-Received: by 2002:a05:600c:220f:b0:3f7:395d:6585 with SMTP id
- z15-20020a05600c220f00b003f7395d6585mr7850360wml.15.1686128996490; 
- Wed, 07 Jun 2023 02:09:56 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4S4Ug1fiHJ0oCExHc5SSiTGb/dJv10TIcn7zVRyFtmlI7TI/i0oDDpnO/bY0dqK+vi3g6l4w==
-X-Received: by 2002:a05:600c:220f:b0:3f7:395d:6585 with SMTP id
- z15-20020a05600c220f00b003f7395d6585mr7850336wml.15.1686128996200; 
- Wed, 07 Jun 2023 02:09:56 -0700 (PDT)
+ bh=EIz8b97+2mar2ffqQ22U9WQizWobZ+ziDNV+MHu5qjc=;
+ b=OWszYG9ub13mEGFK6vrgjxE4ywvzQHIX2IxNfn7bDAfC7f4Od1uE5PewRtEjehl61E
+ y1d3FO5JNmF96uW344JtIEADgH4sdJtuoDlh8tz3U6j94Z8rxw8hxz7YHfE9+y2ORZWR
+ cgps7WobnaVB22HCA8jzdCKE2JO3GMXesdug8bmNEWZwChRguKzM6qK2hTOauof71YKx
+ efOx4u4ftKolIn8owJuTg4lMoct3f9jdU20abGzYKqH6fyvJhswSQbePCacRWUEafMJf
+ EBFlcRY46+mAU27QG3AOYUVTLRPGUvRX4B+P9lIPqOzfbQxjEAqFDa5OZFmTvNjJUYGK
+ ocag==
+X-Gm-Message-State: AC+VfDzhFMiNBpsN3ohEQZMsLlGQFT+mWbLNIQA5gobKLvyVjw4bpWB1
+ TGgC+KyJRCGY5YfyvMXH3x41T7a1+iNyumvdEVsst/cC3dW3OeszsqQE4jIUmFZS0s2MFh1YYJ+
+ M3tt4+DqibQ3uGd0deVhAywXwl9ES
+X-Received: by 2002:a05:600c:a395:b0:3f7:3401:17ac with SMTP id
+ hn21-20020a05600ca39500b003f7340117acmr4587425wmb.5.1686129024878; 
+ Wed, 07 Jun 2023 02:10:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5ePD432YmabNuUR+sxJiR/Lq4y75rOFMJQocJYAFtsL3UId8CM+YY12IKNvHU0PgR+SDGlYA==
+X-Received: by 2002:a05:600c:a395:b0:3f7:3401:17ac with SMTP id
+ hn21-20020a05600ca39500b003f7340117acmr4587416wmb.5.1686129024708; 
+ Wed, 07 Jun 2023 02:10:24 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- v25-20020a1cf719000000b003f736735424sm1425404wmh.43.2023.06.07.02.09.55
+ f10-20020a7bc8ca000000b003f7f249e7dfsm983105wml.4.2023.06.07.02.10.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 02:09:55 -0700 (PDT)
+ Wed, 07 Jun 2023 02:10:24 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: Re: [PATCH 17/30] fbdev/radeonfb: Reorder backlight and framebuffer
- cleanup
-In-Reply-To: <20230605144812.15241-18-tzimmermann@suse.de>
+Subject: Re: [PATCH 18/30] fbdev/radeonfb: Use hardware device as backlight
+ parent
+In-Reply-To: <20230605144812.15241-19-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-18-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 11:09:55 +0200
-Message-ID: <87zg5beizg.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-19-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 11:10:23 +0200
+Message-ID: <87wn0feiyo.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,12 +91,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The driver's backlight code requires the framebuffer to be
-> registered. Therefore reorder the cleanup calls for both data
-> structures. The init calls are already in the correct order.
+> Use the hardware device in struct fb_info.device as parent of the
+> backlight device. Aligns the driver with the rest of the codebase
+> and prepares fbdev for making struct fb_info.dev optional.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Benjamin Herrenschmidt <benh@kernel.crashing.org>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
