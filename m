@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F6172543A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F4E72543D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:31:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD40110E42D;
-	Wed,  7 Jun 2023 06:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E072E10E431;
+	Wed,  7 Jun 2023 06:31:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA64610E42B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:31:48 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f6042d605dso56628195e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:31:48 -0700 (PDT)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E768010E42D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:31:50 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f7e7fc9fe6so22043245e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1686119507; x=1688711507;
+ d=amarulasolutions.com; s=google; t=1686119509; x=1688711509;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3QAQ0RCZfE4mrNQglSUgy3WeBMWWHrgZHNbJHgr6400=;
- b=h2Pc0QIyc0c+Ese5gn0TQbG4jtXqWPFGxlfBBI4qujJ5j/PoVbvqSoaNEQ5xdAEJ8r
- wG5F7picdZbAFya6ifGi2vPrn206t16wb3TdMMWdCXBPR3DwE1124jwS8JPUaU59iIH2
- YcvO5fxeJnu0eXHh6LljL7+ZFDLu59JPVXN6g=
+ bh=tlm5X0f1SJIUHEa+Ch7CRBAmlhS5LXsyaOP8GZ1/KKI=;
+ b=bzMNTxZK/4hAhbCJfyfkajbjSZHcrJlJ/ANGEgI8Xc2LZi/1j3XIaARW8OaUk1oUNt
+ xVXHCzLxMc+NJPP7tmKJXtlG0YFtoAOv6eKRl6cIeAXRzBEeZFxDxGMzfM6EQiFdDCoG
+ UlbJzxvd+HoA7k7tgjRYe/4BsTTBBkPNUkICY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686119507; x=1688711507;
+ d=1e100.net; s=20221208; t=1686119509; x=1688711509;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3QAQ0RCZfE4mrNQglSUgy3WeBMWWHrgZHNbJHgr6400=;
- b=cxASojLpjXjg0f4cHAsRs5Oh9NZNEmD9kSqbopiv0HDzGEERoFn14JpfNlSLWGiEE+
- oaLtA5GVCRVFUkNjCjjyi+T/4nE3pjVMg90MJpR5WhVS0XMBAYxzTmDwemT6pLpMnXrv
- MPV3ew022HfXrFZZ/ujUqA/KaXRqQqmfnyFDPN+jvofb0b8CwPoJPSnLD1i8gE89wp8L
- I16LOK6p1n+80ujLRDoxSEU12x4fkVozi+rxWbu2u3oMkrpe7zK/jnep6JVfmC6qAJNw
- CH2l1mA0v5DNZRD3JBtpCupAB7TX16zxvhhN7/++t1EYtVCF5JZviQRKUhEpuMLqEexd
- Dg5Q==
-X-Gm-Message-State: AC+VfDzzujKUE5IUPEidUXn9sl9r81kwz9gPt4Y3k89XRTKzHa3yvQsm
- 5gG4TPql/v+2B3dYNHNUqhfhMw==
-X-Google-Smtp-Source: ACHHUZ7YZTDYHHtSg4VapoT8aZYSlojLOeUjs9KetpEEeslYwDaHLlqO6B8dQBlh72zVsbfiDNKagw==
-X-Received: by 2002:a1c:4c11:0:b0:3f7:408e:b89a with SMTP id
- z17-20020a1c4c11000000b003f7408eb89amr3494250wmf.37.1686119507059; 
- Tue, 06 Jun 2023 23:31:47 -0700 (PDT)
+ bh=tlm5X0f1SJIUHEa+Ch7CRBAmlhS5LXsyaOP8GZ1/KKI=;
+ b=X6kEGJ9CHuB5KkDIYu3UCP/I/2RYpFTMgeyZGVUI+495Eed1D0XroWWxv32QCYhep8
+ r+RRqA+bsoA8GQn89iexGdYg8O9VePEalmk1b5lOrlXua0OtMq8c+aeEZ9AiEKF6pbiC
+ apmnhqMD2+TngPc4AJTzxUbxJXO1/B1BAfQ94jdEeJuZCc/WBxCESQclyUuyhpH9jQgT
+ z3wDVdSOIXhBWeSG4kfELxgJjqY/LNt/dFEUetkmSm5AdSoy6J3XgIy/fK9056+VnR6t
+ riAxxFpthA9MhRNKpKjdCYw+qP6IW9Yp82rR6hvyrffSwljPjsIf++phPhUbqRq2AG6W
+ Zdtw==
+X-Gm-Message-State: AC+VfDzfMJoIvgbs2/P6BPbaYCuhzIWlxCxvvUtDXLw83Ik8t1KMXSoj
+ c/XGqxGLHrGi6BIh7D5VPIHkL+7zx4d0mPDltmDGPg==
+X-Google-Smtp-Source: ACHHUZ6ixe3R4kTg2jdLqsiTsvsMwIkzn0sw/3lIsOWGtuw4V3ztP1iDpCLGs/weEh3bWDKm3W6iSg==
+X-Received: by 2002:adf:eac1:0:b0:30e:5729:b5a5 with SMTP id
+ o1-20020adfeac1000000b0030e5729b5a5mr1086540wrn.38.1686119508799; 
+ Tue, 06 Jun 2023 23:31:48 -0700 (PDT)
 Received: from dario-ThinkPad-T14s-Gen-2i.. ([37.159.114.163])
  by smtp.gmail.com with ESMTPSA id
- m6-20020adff386000000b0030630120e56sm14385127wro.57.2023.06.06.23.31.45
+ m6-20020adff386000000b0030630120e56sm14385127wro.57.2023.06.06.23.31.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jun 2023 23:31:46 -0700 (PDT)
+ Tue, 06 Jun 2023 23:31:48 -0700 (PDT)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH v2 2/6] ARM: dts: stm32: add pin map for LTDC on stm32f7
-Date: Wed,  7 Jun 2023 08:31:35 +0200
-Message-Id: <20230607063139.621351-3-dario.binacchi@amarulasolutions.com>
+Subject: [RESEND PATCH v2 3/6] ARM: dts: stm32: support display on
+ stm32f746-disco board
+Date: Wed,  7 Jun 2023 08:31:36 +0200
+Message-Id: <20230607063139.621351-4-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
 References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
@@ -83,63 +84,89 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add pin configurations for using LTDC (LCD-tft Display Controller) on
-stm32f746-disco board.
+Add support to Rocktech RK043FN48H display on stm32f746-disco board.
 
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
 
 (no changes since v1)
 
- arch/arm/boot/dts/stm32f7-pinctrl.dtsi | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ arch/arm/boot/dts/stm32f746-disco.dts | 51 +++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/arch/arm/boot/dts/stm32f7-pinctrl.dtsi b/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
-index 9f65403295ca..f3f90b9bcd61 100644
---- a/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
-@@ -365,6 +365,41 @@ pins2 {
- 					bias-pull-up;
- 				};
- 			};
-+
-+
-+			ltdc_pins_a: ltdc-pins-a-0 {
-+				pins {
-+					pinmux = <STM32_PINMUX('E', 4, AF14)>, /* LCD_B0 */
-+						 <STM32_PINMUX('G',12, AF9)>,  /* LCD_B4 */
-+						 <STM32_PINMUX('I', 9, AF14)>, /* LCD_VSYNC */
-+						 <STM32_PINMUX('I',10, AF14)>, /* LCD_HSYNC */
-+						 <STM32_PINMUX('I',14, AF14)>, /* LCD_CLK */
-+						 <STM32_PINMUX('I',15, AF14)>, /* LCD_R0 */
-+						 <STM32_PINMUX('J', 0, AF14)>, /* LCD_R1 */
-+						 <STM32_PINMUX('J', 1, AF14)>, /* LCD_R2 */
-+						 <STM32_PINMUX('J', 2, AF14)>, /* LCD_R3 */
-+						 <STM32_PINMUX('J', 3, AF14)>, /* LCD_R4 */
-+						 <STM32_PINMUX('J', 4, AF14)>, /* LCD_R5 */
-+						 <STM32_PINMUX('J', 5, AF14)>, /* LCD_R6 */
-+						 <STM32_PINMUX('J', 6, AF14)>, /* LCD_R7 */
-+						 <STM32_PINMUX('J', 7, AF14)>, /* LCD_G0 */
-+						 <STM32_PINMUX('J', 8, AF14)>, /* LCD_G1 */
-+						 <STM32_PINMUX('J', 9, AF14)>, /* LCD_G2 */
-+						 <STM32_PINMUX('J',10, AF14)>, /* LCD_G3 */
-+						 <STM32_PINMUX('J',11, AF14)>, /* LCD_G4 */
-+						 <STM32_PINMUX('J',13, AF14)>, /* LCD_B1 */
-+						 <STM32_PINMUX('J',14, AF14)>, /* LCD_B2 */
-+						 <STM32_PINMUX('J',15, AF14)>, /* LCD_B3 */
-+						 <STM32_PINMUX('K', 0, AF14)>, /* LCD_G5 */
-+						 <STM32_PINMUX('K', 1, AF14)>, /* LCD_G6 */
-+						 <STM32_PINMUX('K', 2, AF14)>, /* LCD_G7 */
-+						 <STM32_PINMUX('K', 4, AF14)>, /* LCD_B5 */
-+						 <STM32_PINMUX('K', 5, AF14)>, /* LCD_B6 */
-+						 <STM32_PINMUX('K', 6, AF14)>, /* LCD_B7 */
-+						 <STM32_PINMUX('K', 7, AF14)>; /* LCD_DE */
-+					slew-rate = <2>;
-+				};
-+			};
- 		};
+diff --git a/arch/arm/boot/dts/stm32f746-disco.dts b/arch/arm/boot/dts/stm32f746-disco.dts
+index c11616ed5fc6..cda423b6a874 100644
+--- a/arch/arm/boot/dts/stm32f746-disco.dts
++++ b/arch/arm/boot/dts/stm32f746-disco.dts
+@@ -60,10 +60,41 @@ memory@c0000000 {
+ 		reg = <0xC0000000 0x800000>;
  	};
+ 
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		linux,cma {
++			compatible = "shared-dma-pool";
++			no-map;
++			size = <0x80000>;
++			linux,dma-default;
++		};
++	};
++
+ 	aliases {
+ 		serial0 = &usart1;
+ 	};
+ 
++	backlight: backlight {
++		compatible = "gpio-backlight";
++		gpios = <&gpiok 3 GPIO_ACTIVE_HIGH>;
++		status = "okay";
++	};
++
++	panel_rgb: panel-rgb {
++		compatible = "rocktech,rk043fn48h";
++		backlight = <&backlight>;
++		enable-gpios = <&gpioi 12 GPIO_ACTIVE_HIGH>;
++		status = "okay";
++		port {
++			panel_in_rgb: endpoint {
++				remote-endpoint = <&ltdc_out_rgb>;
++			};
++		};
++	};
++
+ 	usbotg_hs_phy: usb-phy {
+ 		#phy-cells = <0>;
+ 		compatible = "usb-nop-xceiv";
+@@ -99,6 +130,26 @@ &i2c1 {
+ 	status = "okay";
  };
+ 
++&dma1 {
++	status = "okay";
++};
++
++&dma2 {
++	status = "okay";
++};
++
++&ltdc {
++	pinctrl-0 = <&ltdc_pins_a>;
++	pinctrl-names = "default";
++	status = "okay";
++
++	port {
++		ltdc_out_rgb: endpoint {
++			remote-endpoint = <&panel_in_rgb>;
++		};
++	};
++};
++
+ &sdio1 {
+ 	status = "okay";
+ 	vmmc-supply = <&mmc_vcard>;
 -- 
 2.32.0
 
