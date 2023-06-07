@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FA4725474
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:39:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1242172547B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C12010E433;
-	Wed,  7 Jun 2023 06:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 506BC10E437;
+	Wed,  7 Jun 2023 06:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A094D10E433
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:39:47 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-565bdae581eso86248287b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:39:47 -0700 (PDT)
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F98F10E437
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 06:40:15 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-565d354b59fso80211157b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jun 2023 23:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1686119986; x=1688711986;
+ d=amarulasolutions.com; s=google; t=1686120015; x=1688712015;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Y9L06aF4LwKWj5hfdOMd+MrYkDeMA9aJC8eR6IR8Wfw=;
- b=n7UlghKU7iVC4sUgtzuRUGh5Sqy5kuvOGWOJXgUYkxlT5OJU9e7g6csIyCdV5S7Dl0
- RcVzhuTakyeOs9AiNq5QE8rMSiABCJio9m9renL0jgB1/Ivt2muwRWvRbyoyw5917TB6
- xbQrA+15xwUOYelw/jj0xua3r6VrOH/7+eZ98=
+ bh=9d2sCd7ah2vbojw+2oUIoDVwhMBRN5y5qh24H2kySsU=;
+ b=f0RZdEMQ464ceL/uRZ10D3Eig8SLZ9Ww3zWyqBRJvU9jMbPmnw4KZw0aCajmu5ElKD
+ IlC/f7cx6mivVp7ryDID9C6k1iebxdKMJ8zYKQqeiKdzFEmn065WdfBBMoHJgRR3H6t4
+ mzKaZve8nW/ROna1hFKTqqkAxuAMflmTUNOiE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686119986; x=1688711986;
+ d=1e100.net; s=20221208; t=1686120015; x=1688712015;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Y9L06aF4LwKWj5hfdOMd+MrYkDeMA9aJC8eR6IR8Wfw=;
- b=hD6HuagmsnCU0uGzKL/gGiyuhoVK4xhV95m/YZHCxCqTq6xZWhOg9nE/2o/OaloF0H
- h3Dd44v6HtKRL/nT0qIAWJlJlR5ynr4QhUsnkQIzLiuAc+a/RLZDAz1tzmBktJ+k42jd
- rmkY3ke0PBCom/rP60yMqM0MiyGBaoscOXi2DGFvxzK2Yp8T9SxzZK5S0kbKmeOYyP5k
- xNLQuSSujC2yHsh/2UczQfEj48UZlK1b/ynfhfq2c2ri1N4C/6evdUbLUR1MAYy/woxH
- /ki0orWAkIY62At2ZdSN0ET0/rTNn6oyuqALYpTXByzd8n/f8z2rPsldHwF8dSXg30Q1
- +fPQ==
-X-Gm-Message-State: AC+VfDxuOdBt5ZAxH1thq3jpTYCGeD/RYhkk3F36EaHqCfV/LS25h6NN
- cnh/4oeY9m5hv9+JMt9mZzwGYNfgkr+9iFXI88M3Iw==
-X-Google-Smtp-Source: ACHHUZ5MLUcNr10jCCVCPftKZqMlEQzEGS+hleq7z3iUEO2rU3lYS++w6zXNkmIERoJeKf8bE2U2hR1toHG8B8bERJQ=
-X-Received: by 2002:a0d:cb01:0:b0:569:16a4:392f with SMTP id
- n1-20020a0dcb01000000b0056916a4392fmr5177520ywd.41.1686119986439; Tue, 06 Jun
- 2023 23:39:46 -0700 (PDT)
+ bh=9d2sCd7ah2vbojw+2oUIoDVwhMBRN5y5qh24H2kySsU=;
+ b=J92e0JFqR55DC86C29pWQ1SivFE2uCTlrBuKqlbhmshPgdK04CceRS5BCj6xEnQR4q
+ 37S5QwSOK8N9bZagYkjdYrMBp4PKhwIYvEoXfwJd4X/S4SGEzaIYvrhGrQq08JhbgyYo
+ bAVvrKWYYOOUx5jUnk1zlbX3XHcbV0QO9DpGqFWCESvQpUTXJzPdtrCAp/A1VIoG1314
+ D4Lt1oHXmGDrVPnf86K7IQ/N/aRqxdgUvvKnGc4/MC+RMIaEtlWnoG91ShDVj+RoJ66c
+ 2j6UeMip/vRUV52OBVSA8394TU9OMrJ1R7xUOUKnq9+HpjCuHCfM9Zig5PsmAk8EDfZI
+ v8xA==
+X-Gm-Message-State: AC+VfDwnZUvvcFvzvrhHzgVoxKEUibcj61jIN9B5uUb/xwjCPC77zwgN
+ 0nBzsJ/2oPwViRknZZHNxpsk72tc5/zbg4KTzfTnow==
+X-Google-Smtp-Source: ACHHUZ4FcSqI9UJuhz5QJp3BxxWbzaB69qaQ0llUyrzZcvr85u9WKmZk2Gw3vKaFZgAl6y6Ws+AbiDt3xWboKEU4CHM=
+X-Received: by 2002:a0d:d552:0:b0:566:c47:d06a with SMTP id
+ x79-20020a0dd552000000b005660c47d06amr5357912ywd.13.1686120014887; Tue, 06
+ Jun 2023 23:40:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
- <20230607063139.621351-6-dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20230607063139.621351-6-dario.binacchi@amarulasolutions.com>
+ <20230607063139.621351-5-dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20230607063139.621351-5-dario.binacchi@amarulasolutions.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 7 Jun 2023 12:09:34 +0530
-Message-ID: <CAMty3ZB7Xnd3kp+1Cdxy0GzPCyZKEOz_jj5b8wBzRCtLSXha+Q@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2 5/6] drm/panel: simple: add support for Rocktech
- RK043FN48H panel
+Date: Wed, 7 Jun 2023 12:10:03 +0530
+Message-ID: <CAMty3ZA-8zyzqzjOehKa1=zE+GoMw8j2NbgZuythAafSjHVczw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2 4/6] dt-bindings: display: simple: add Rocktech
+ RK043FN48H
 To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -68,10 +68,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- kernel test robot <lkp@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Conor Dooley <conor.dooley@microchip.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
  Philippe Cornu <philippe.cornu@foss.st.com>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
  Amarula patchwork <linux-amarula@amarulasolutions.com>,
@@ -82,12 +86,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Jun 7, 2023 at 12:01=E2=80=AFPM Dario Binacchi
 <dario.binacchi@amarulasolutions.com> wrote:
 >
-> Add support for Rocktech RK043FN48H 4.3" (480x272) LCD-TFT panel.
+> Add compatible to panel-simple for Rocktech Displays Limited
+> RK043FN48H 4.3" 480x272 LCD-TFT panel.
 >
 > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202306020343.jNTWeM0P-lkp@i=
-ntel.com/
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 >
 > ---
 
