@@ -1,68 +1,154 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DAE726707
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 19:18:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956F6726763
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 19:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F04610E05B;
-	Wed,  7 Jun 2023 17:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E67610E531;
+	Wed,  7 Jun 2023 17:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 628AD10E05B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 17:18:43 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxDevwu4BkODIAAA--.751S3;
- Thu, 08 Jun 2023 01:18:40 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxduTvu4BkBEUFAA--.17764S3; 
- Thu, 08 Jun 2023 01:18:39 +0800 (CST)
-Message-ID: <ae085320-c93c-5d96-58ef-c5ee8b58c306@loongson.cn>
-Date: Thu, 8 Jun 2023 01:18:38 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
- hardware.
-Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-References: <20230607053053.345101-1-suijingfeng@loongson.cn>
- <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
- <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
- <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
- <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
- <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E57D10E528;
+ Wed,  7 Jun 2023 17:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686159059; x=1717695059;
+ h=message-id:date:subject:from:to:references:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=rxuYTvmozKDW3+g/QzInA2LaCFbmD/goJlE8lzpBwNA=;
+ b=FX5P7RDJ0xlo/H+nedM1PnjTvYrBB5byfLrx91016kHMXlKiytMy8Ydu
+ j1GUQPIVA7a7+GDaCXgVG1Wj7pVC+qo3YQr+VKs+JoR+Yp77rQ3vZKW0e
+ naLDiL+YvTM+2YGl4VwcLkKhwmvNgHEYmGMgmtr9GM05oPG72isFwpYZC
+ O2Q6MUq8tJqSQD6WIX65HLf1il41ctSL0qJYYOmTXJJE3jQaIK3a75SEj
+ wc25jUSPt77G9n0sSz84e8k3qnn7ZMSg/7IaI1MQMub9iNkN+7B0/IMad
+ k+pXl8eF5XYt55PX6iSRE/+Zsica4s+x1hERDFPc/0QbvjRZa1r8Wjh7t Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="443422650"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="443422650"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 10:30:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="833817135"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; d="scan'208";a="833817135"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga004.jf.intel.com with ESMTP; 07 Jun 2023 10:30:39 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 7 Jun 2023 10:30:38 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 7 Jun 2023 10:30:38 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Wed, 7 Jun 2023 10:30:38 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Wed, 7 Jun 2023 10:30:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dBH5CUkr2wHQQFH+vZRm9p5Cfqw3IuKqUDnmBZ06tc69TMvaE0o5VG3sCtD0fRABNv2G8mZ17xKI+cgCCGp+xCh6qrgLTIjmHk4Eki6mvuTHhy6sx72My5ZYkUz+JQ3oHI1+idP2AI8RmxK8AImgHLFvqgtqbIc1tM5IZBUDKN8CpZQH7++rGdiSwLWFN1uH/fSEbYekQ/Hap+zkDxW8yFepfs/aUeZH6eeRNiyzZ+kGvNmt7+VDHGwjX7C3/fCbhmVmhQ2YaamqmmtqZcOLkjnKo1e5rszwySplL7hOaY/CzCcm5/KlmEhnXyOo2SezJSL2tzZWinJInWnvijs8oQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BE+S56Vi8cGskzsI2c6HGymMBkpGizAbpreDDsai4Mw=;
+ b=MnHxiXPeJQFQdq6mwdmGEwWeRg5SE4dxB2tpeKROVIiDhi5c30j2iOkJ90KcyljHkVVal5aEle0O1/NyWBPYPW84AlhdgrmlMgW7CMKU5WIunesrgH6gY2wlp5Xr6WnuovK0+9HfUM/XEG+WHnme4yhUzZ2Uc+EfFJ5SbZD2jHlwFSrQCAyYu+5aEJ8IIlTyaTQVR6HrFgm7lqVaTWu24DMYxLPCk7aZ4kYEI1DGIBnXjlcXV7mS5t78MC2zu4BLBwGqTNU+koQ1IZeBThu3rRunko0tmxcA/z8ozjwxJhpZDt8QtTegiSNXVECfZZzRaB9DBFGFAtxCxjSNGN9Naw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by BL3PR11MB6314.namprd11.prod.outlook.com (2603:10b6:208:3b1::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Wed, 7 Jun
+ 2023 17:30:35 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::8a8c:99c0:4a8e:fcd5]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::8a8c:99c0:4a8e:fcd5%6]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 17:30:35 +0000
+Message-ID: <5d35b0f3-3e04-ea9e-1f1f-f3b1b7d1137a@intel.com>
+Date: Wed, 7 Jun 2023 10:30:33 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.2
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Avoid circular locking dependency
+ when flush delayed work on gt reset
+Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
+To: Zhanjun Dong <zhanjun.dong@intel.com>, <intel-gfx@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>
+References: <20230606030037.196558-1-zhanjun.dong@intel.com>
+ <acae2008-d499-2bd2-c6c5-4d595a19444d@intel.com>
+In-Reply-To: <acae2008-d499-2bd2-c6c5-4d595a19444d@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxduTvu4BkBEUFAA--.17764S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfXw4DKF4rAF4UuF4fAFW8uFX_yoW8KF4kZo
- WUKr13Ja1rJr1UWr1UAw1UJry5Xw1DGrnrJryUJr13Ar40q3WUJ34UJryUJ3y7Jr18Gr47
- GryUtF15ZFyUJF1rl-sFpf9Il3svdjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8wcxFpf
- 9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
- UjIYCTnIWjp_UUUOj7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
- 8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
- Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r1j6r4UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
- twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
- k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
- 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
+X-ClientProxiedBy: BYAPR04CA0014.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::27) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|BL3PR11MB6314:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf0defee-865f-408a-90af-08db677ce723
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wModHZEINm9a5NE/R1puHkHz5Y5IQrb1UO8reL3LYClXKK2ylS1+IsV021ObpdWNlMvLq1WhfH+Q3S6MPm/G+GCzsO0DdN//r42ANPRvXAwvUfaE3xjrtm7zG0uXMCxUd7eAX86CgfZJNihHOUu723GV75npF3yOnxxVkFzlwTmSiBRu8ZtBVK1DQQfo4t3zV8e65g/o6ZqseDx7k5z7aIEKm4cNsiu8uKSxxpuqOHU7BfXNAGgCBzhe9ff+MtgfA9/TnNSkrHeYC+jlNnqLH6Cws+jSMHjgD/HdxtslhEgmflKv58mjLCgl5na/DMrRQksM0RFQtFzu510m8K2d2/IX620wXV2+Us+ZXwO4AYKv9F0eNRBfPuIcUXP1gxGWR/o3bJ6n3hzcxe0//r2A1+Lz60Q/UxGgfNcULXrKDhnqjAy4TJofG9ip5FuVAet8uCbVv/7+E3bEy8C607mPq+zjp6mdGQShQUxvMIQ5ezXb+0LSeJXQcuCvlTiBsk95LgoJat1Dn548DBX/d4YMzU9GcsioNu/kno74Ja+JQa/Ci4I5VOCt0//zWJWxS8hYnEjkrZzlBKuBX4rGbye3kPqrRFpqEhItN8inLzlqYZxLY4fT7iZ3VIEe8Z+E04gcI3FhesyyHpE/xqKr8VtyJQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(346002)(396003)(376002)(366004)(39860400002)(451199021)(31696002)(83380400001)(82960400001)(450100002)(66946007)(66476007)(38100700002)(6486002)(66556008)(478600001)(186003)(2906002)(36756003)(2616005)(8676002)(41300700001)(8936002)(5660300002)(316002)(86362001)(31686004)(6512007)(26005)(6506007)(53546011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djFTUWs2Zkh2M0FQSHpyRmc1NG54dFp5Y0V2QWU3cWxBUWt5bHRuS2lKZzln?=
+ =?utf-8?B?eXBwVFQrNDlWMVNlSUpKWVhlc3AyQnNJZU5WcnhwNHZrOTliWVhFV2pNY1FG?=
+ =?utf-8?B?VEtaS2dhQlVxVDZvVmZwRnBYeStwNjFrRElzajZFYXJmcEYza0h4NkQ1UG5z?=
+ =?utf-8?B?eEZvekQ0MjlwN3ZKdmVONW5KelhBamw1QVloNjQxbWtMejZpZlpRMDkvcDdV?=
+ =?utf-8?B?Y0ZRdmVLSEp3OTc1VGF6TG9KUUpJUFk1SDcwZHpwenVCdjJLdnNFREpwYkxU?=
+ =?utf-8?B?WEhnWUZEUFpGOXhqZUlGS3I1SmVTbXRqTStmL2U4cjNPUnBMUnJZcGZYMS9L?=
+ =?utf-8?B?ZGF2TWJKbHJaNDF2UXd1NFNJTm1uTkpEZUxZNzcrb3kzT2krZ2JZT2U5QUpL?=
+ =?utf-8?B?bWxsMGFBOFI1Z2pWTXgzbEZlL0V0Um92Q05oeVlLditWb2RQQU5TS0J4UjJP?=
+ =?utf-8?B?VXY1VnBFNTFpa2lHazF0QlQreHpIUTlnRlhqS0FrSVVUNGVwMDBvVE5yRUJL?=
+ =?utf-8?B?SVcxck5IS3gwQnpwZUlNVGgzdlVNTU12TS9OcHExSDZqdjZDVDdqMi8wYnNR?=
+ =?utf-8?B?MExNMFI0TFdTV2JqWSs1ZW95SW5RMElPS3M5TFI1NWM5MWlEWFdxU2w3VVdv?=
+ =?utf-8?B?MFBRdGFuS1NmcC9pNEprdFRzOHBVYTdrYmkrMStiTmgwa2FIOVc3TkJ2b1hX?=
+ =?utf-8?B?SHg0anhSRUtIeWhIaUY2M015M3BxMGUzcDVNeXY1QWNwdDFTSTkwNVYrcVl0?=
+ =?utf-8?B?NDFaOUQrSWw5cU9HcWJQcWdGT1J6Y3Yyb2w5L3dsSDVOM2djMS9xeldxdGxP?=
+ =?utf-8?B?WStwZS9KR2RPNDk1S2V3VTkycndvWmx4MXcybE80c1pXcWdIK3JGd2ZYQ2xq?=
+ =?utf-8?B?c25PczZNWHB2VSs2dUdsNmJEOW5jVzNOY0JyM1pHSHZnSTVpK0VKM3YxRHlH?=
+ =?utf-8?B?eFdrYURFcWhnWHVDaGc2bzNwdnFxYURPNnYxU09zYk16Uy8ySHpyeERtY1Bz?=
+ =?utf-8?B?d0R5WjFOSm1vOSt5ZDYrbWVqS21xWmZaRG9TcnJncmVISWJIcW5McW1zZG82?=
+ =?utf-8?B?OVZyYW4yYUZzSG1FWXBNSUM2KzFuSVZqUjh0MHRuUDhmZVZwYis3aG5INWJh?=
+ =?utf-8?B?d2ljb05rZUU1bk56Z3VZWHdNd1lnQzkxRi9kSDlhMnJ6RTlTQ2hZVDl5NU1o?=
+ =?utf-8?B?RG11SlpJdkREczNkdG5mYWhWYnZHZzdSMk9FRmZlaDdRL21wVE5zZ05LNXZJ?=
+ =?utf-8?B?bHA5eDdacUM4UWZhSzV6RWQvclBiU2RUZCtXZjlxV2UycTUvaHU0NnVKRHZq?=
+ =?utf-8?B?byt0OURUeDNoY2gzZk1nUWY0bHhMZSs4R2llcnlxQjZjTVExSHZ2bE5Mc24v?=
+ =?utf-8?B?TWVBbSsyai9DM2xhaVV5OUZCN0NsYzVndkc1emc4VERPRVpmWTVuTm0yOG1I?=
+ =?utf-8?B?c0VpbFozbWd1OU9WSmJtUnVyYmIrUXFNR2d0dzZzL0t0WUkzRG80WTRxU0hD?=
+ =?utf-8?B?ZUx1OStzZHpsOGJoOS92STJzMTdZbDhlVWM5TFA1UFhOOUlXME5UR1JxL0I5?=
+ =?utf-8?B?S3Y5ZURqOFUvV1VOWVBWVGY3OTkzVU50REUwTnhJajhHWktFUzlzUFhibHpJ?=
+ =?utf-8?B?YXNxUGpsSnJEeG5NWGhvL2ZLWmIwTlJSc1JlYlFoTGY3S3kwSlMrVXNDM1d0?=
+ =?utf-8?B?WUJXYi9iNFFnVXhzcWpuTWFseWl4SDhmNGhJU0QyRHAxWVlsZnAyR1cxWEdv?=
+ =?utf-8?B?V2VZL24wMFNZOHRDTm5rUlczY3pqSDMyeW8ydDZiOVlwbjVtcUJZem1ZdFU1?=
+ =?utf-8?B?NkRNaGRLYzVSYjN2aWVicXc1dktQWmlLcWF6Mjh3Q2lITTBvKzRUcFpRZUQ0?=
+ =?utf-8?B?M2VTVDM5M3dlc1Z1ek9oT242NmhCRDRKdGtBb2dIcFk3UzFMdjhsZEM2Y1JP?=
+ =?utf-8?B?ZkVVWVczclQvYkZTTmRiYlpjMVk5UHRWcktKNkM4bnAxcUNRRjBUWXNWRGtm?=
+ =?utf-8?B?ZFBZelpoQ3RQN0ZMWUdDQXZIU0p4aUJGUVlTSVBMM1Ewb1BuYWVOYUZEOTUy?=
+ =?utf-8?B?dEpuclYxTi9DYlE5NW1YcmExc1IxWDFON092eHFlcERwSVZkN1owTHBtb3N6?=
+ =?utf-8?B?UlNIbzhXOGt6Q0pGVmUzS0Q5ZW83dXR5ZktyVDZ4d3hZR2p6blUveTgwaGJJ?=
+ =?utf-8?B?alE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf0defee-865f-408a-90af-08db677ce723
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2023 17:30:35.6696 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uX18531e0oBJXf9tQuZZa5zvN7K7LzyZ7F6tsCHgI26iTMxOw1J/ZJsVghvc/OI6Aj4tSBodtSTJ8R4x2BBX/Dp6vl01B/l0o24kj0AACF0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6314
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,655 +161,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/6/8 00:12, Paul Cercueil wrote:
-> Hi Sui,
->
-> Le mercredi 07 juin 2023 à 22:38 +0800, Sui Jingfeng a écrit :
->> Hi,  welcome to discussion.
->>
->>
->> I have limited skills in manipulating English.
->>
->> It may not express what I'm really means in the short time.
->>
->> Part of word in the sentence may not as accurate as your.
->>
->> Well, please don't misunderstand, I'm not doing the rude to you.
-> No problem.
->
->> I will explain it with more details.
->>
->> See below:
->>
->>
->> On 2023/6/7 20:09, Paul Cercueil wrote:
->>> Hi Sui,
->>>
->>> Le mercredi 07 juin 2023 à 18:30 +0800, Sui Jingfeng a écrit :
->>>> Hi,
->>>>
->>>>
->>>> On 2023/6/7 17:36, Paul Cercueil wrote:
->>>>> Hi Sui,
->>>>>
->>>>> Le mercredi 07 juin 2023 à 13:30 +0800, Sui Jingfeng a écrit :
->>>>>> The single map_noncoherent member of struct
->>>>>> drm_gem_dma_object
->>>>>> may
->>>>>> not
->>>>>> sufficient for describing the backing memory of the GEM
->>>>>> buffer
->>>>>> object.
->>>>>>
->>>>>> Especially on dma-coherent systems, the backing memory is
->>>>>> both
->>>>>> cached
->>>>>> coherent for multi-core CPUs and dma-coherent for peripheral
->>>>>> device.
->>>>>> Say architectures like X86-64, LoongArch64, Loongson Mips64,
->>>>>> etc.
->>>>>>
->>>>>> Whether a peripheral device is dma-coherent or not can be
->>>>>> implementation-dependent. The single map_noncoherent option
->>>>>> is
->>>>>> not
->>>>>> enough
->>>>>> to reflect real hardware anymore. For example, the Loongson
->>>>>> LS3A4000
->>>>>> CPU
->>>>>> and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
->>>>>> platform
->>>>>> allways snoop CPU's cache. Doing the allocation with
->>>>>> dma_alloc_coherent
->>>>>> function is preferred. The return buffer is cached, it should
->>>>>> not
->>>>>> using
->>>>>> the default write-combine mapping. While with the current
->>>>>> implement,
->>>>>> there
->>>>>> no way to tell the drm core to reflect this.
->>>>>>
->>>>>> This patch adds cached and coherent members to struct
->>>>>> drm_gem_dma_object.
->>>>>> which allow driver implements to inform the core. Introducing
->>>>>> new
->>>>>> mappings
->>>>>> while keeping the original default behavior unchanged.
->>>>> Did you try to simply set the "dma-coherent" property to the
->>>>> device's
->>>>> node?
->>>> But this approach can only be applied for the device driver with
->>>> DT
->>>> support.
->>>>
->>>> X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically
->>>> do
->>>> not
->>>> have DT support.
->>>>
->>>> They using ACPI to pass parameter from the firmware to Linux
->>>> kernel.
->>>>
->>>> You approach will lost the effectiveness on such a case.
->>> Well, I don't really know how ACPI handles it - but it should just
->>> be a
->>> matter of setting dev->dma_coherent. That's basically what the DT
->>> code
->>> does.
->>>
->>> Some MIPS boards set it in their setup code for instance.
->>>
->> This is a *strategy*, not a *mechanism*.
->>
->> In this case, DT is just used to describing the hardware.
->>
->> (It is actually a hardware feature describing language, the
->> granularity
->> is large)
->>
->> It does not changing the state of the hardware.
->>
->> It's your platform firmware or kernel setting up code who actually do
->> such a things.
->>
->>
->> It's just that it works on *one* platform, it does not guarantee it
->> will
->> works on others.
-> If you add the "dma-coherent" property in a device node in DT, you
-> effectively specify that the device is DMA-coherent; so you describe
-> the hardware, which is what DT is for, and you are not changing the
-> state of the hardware.
->
-> Note that some MIPS platforms (arch/mips/alchemy/common/setup.c)
-> default to DMA-coherent mapping; I believe you could do something
-> similar with your Loongson LS3A4000 CPU and LS2K2000/LS2K1000 SoC.
->
-The preblem is that device driver can have various demand.
-
-It probably want to create different kind of buffers for different thing 
-simultaneously.
-
-Say, one allocated with dma_alloc_coherent for command buffer or dma 
-descriptor
-
-another one allocated with  dma_alloc_wc for uploading shader etc.
-
-also has the third one allocated with dma_alloc_noncoherent() for doing 
-some else.
-
-
-Simple setting by DT or firmware which override all allocation is not 
-what we want.
-
-  My patch is toward the drm core, leave the choice to the device drivers.
-
-
-How does the device driver fetch hardware descriptions is the device 
-driver's thing.
-
-either via DT, or ACPI, kernel cmd or hard-code.  Its device drivers policy.
-
-
-My patch do not require the platform make the decision for the device 
-driver.
-
-Nor does it depend on DT. Your approaches are neither sufficient nor 
-necessary.
-
-
-It gives the freedom to the the device driver.
-
-Device driver has full control over the buffer allocation.
-
-For our hardware, It don't use DT on some application scene.
-
-Out hardware is dma-coherent and cached coherent.
-
-We don't want a dma-coherent buffer attached with the name of 
-"map_noncoherent".
-
-
->> While my patch is trying to create a *mechanism* which could probably
->>
->> works on all platform.
->>
->>
->> It is based the patch you have already commuted.
->>
->> Thanks for your excellent contribution.
->>
->>
->>>>>    From what I understand if you add that property then Linux
->>>>> will
->>>>> use DMA
->>>>> coherent memory even though you use dma_alloc_noncoherent() and
->>>>> the
->>>>> sync_single_for_cpu() / sync_single_for_device() are then NOPs.
->>>> Please do not mitigate the problems with confusing method.
->>>>
->>>>
->>>> This approach not only tend to generate confusion but also
->>>> implement-dependent
->>>>
->>>> and arch-dependent. It's definitely problematic.
->>>>
->>>>
->>>> How does the dma_alloc_coherent/dma_alloc_noncoherent is a ARCH
->>>> specific
->>>> thing.
->>>>
->>>> Dependent on how does the arch_dma_ops is implemented.
->>>>
->>>>
->>>> The definition of the coherent on different ARCH has different
->>>> meanings.
->>>>
->>>> The definition of the wirte-combine on different ARCH has
->>>> different
->>>> meanings.
->>>>
->>>>
->>>> The wirte-combine(uncache acceleration) on mips is non dma-
->>>> coherent.
->>> It is dma-coherent on Ingenic SoCs.
->>>
->>>
->> It is dma-coherent ? How does it achieve it?
->>
->>
->> As far as I know,  there is a write buffer within the mips cpu.
->>
->> typically 64 byte,  but it is not cache. It will gather the CPU write
->> access,
->>
->> When a peripheral device do the DMA, how does you platform guarantee
->>
->> the data in the CPU write buffer has been already arrived at (or
->> flushed
->> out to)
->>
->> the system RAM?
->>
->>
->> Does the  peripheral device snoop the CPU's write buffer,
->>
->> or it need manually flush the write buffer with SYNC instruction?
-> I believe the DMA flushes the write buffer? I don't actually know the
-> details, it would be something to ask to Ingenic.
->
->>>> But on arm, It seem that wirte-combine is coherent. (guaranteed
->>>> by
->>>> arch
->>>> implement).
->>>>
->>>>
->>>> I also heard using dma_alloc_coherent  to allocation the buffer
->>>> for
->>>> the
->>>> non-coherent doesn't hurt, but the reverse is not true.
->>>>
->>>>
->>>> But please do not create confusion.
->>>>
->>>> software composite is faster because better cacheusing rate and
->>>>
->>>> cache is faster to read.
->>>>
->>>> It is faster because it is cached, not because it is non-
->>>> coherent.
->>>>
->>>> non-coherent is arch thing and/or driver-side thing,
->>>>
->>>> it is a side effect of  using the cached mapping.
->>> Yes, I know that.
->>>
->>>> It should left to driver to handle such a side effect. The device
->>>> driver
->>>>
->>>> know their device, so its the device driver's responsibility to
->>>> maintain
->>>> the coherency.  On loongson platform, we don't need to call
->>>> drm_fb_dma_sync_non_coherent() function, Its already guaranteed
->>>> by
->>>> hardware.
->>> I understand. What I'm saying, is that you should be able to set
->>> dma_obj->map_noncoherent (which would arguably be better named
->>> "map_cached",
->> My point is that the word *cached* reflect the nature,
->>
->> dma-coherent or dma-noncoherent is secondary.
->>
->> We are all on the way to pursue the performance.
->>
->> In the end, it is the cache give us the speed.
->>
->>
->> Why not we credit the cache hardware inside of the CPU?
-> dma_alloc_noncoherent() gives you *cached* memory.
->
-> Therefore, if you want *cached* memory, you should set
-> gem->map_noncoherent.
->
-> I understand your confusion; it would be easier to understand if this
-> function was called dma_alloc_cached().
->
-> Then, if the memory is actually DMA-coherent for the device (dev-
->> dma_coherent == true), the drm_fb_dma_sync_non_coherent() function is
-> a no-op.
->
-> But in both cases (DMA-coherent device, non DMA-coherent device), if
-> you want cached buffers, you should call dma_alloc_noncoherent().
+On 6/6/2023 10:53, John Harrison wrote:
+> On 6/5/2023 20:00, Zhanjun Dong wrote:
+>> This attemps to avoid circular locing dependency between flush 
+>> delayed work and intel_gt_reset.
+> locing -> locking
 >
 >
->>> but that's a different problem). Then the GEM code would
->>> end up calling dma_alloc_noncoherent(), which will give you
->>> *cached*
->>> memory. Then as long as dev->dma_coherent = true,
->>> drm_fb_dma_sync_non_coherent() should be a NOP - so you wouldn't
->>> pointlessly sync/invalidate the caches.
->>>
->>> And I disagree with you, the driver shouldn't handle such things.
->> You already handle the side effect of such things, See below:
 >>
+>> WARNING: possible circular locking dependency detected
+>> 6.4.0-rc1-drmtip_1340-g31e3463b0edb+ #1 Not tainted
+>> ------------------------------------------------------
+>> kms_pipe_crc_ba/6415 is trying to acquire lock:
+>> ffff88813e6cc640 
+>> ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}, at: 
+>> __flush_work+0x42/0x530
 >>
->> ```
+>> but task is already holding lock:
+>> ffff88813e6cce90 (&gt->reset.mutex){+.+.}-{3:3}, at: 
+>> intel_gt_reset+0x19e/0x470 [i915]
 >>
->>      if (ingenic_drm_map_noncoherent(ipu->master))
->>           drm_fb_dma_sync_non_coherent(ipu->drm, oldstate, newstate);
+>> which lock already depends on the new lock.
 >>
->> ```
+>> the existing dependency chain (in reverse order) is:
 >>
->> By the way,  Ingenic is the only driver in the drivers/gpu/drm/ that
->> handle such things
+>> -> #3 (&gt->reset.mutex){+.+.}-{3:3}:
+>>          lock_acquire+0xd8/0x2d0
+>>          i915_gem_shrinker_taints_mutex+0x31/0x50 [i915]
+>>          intel_gt_init_reset+0x65/0x80 [i915]
+>>          intel_gt_common_init_early+0xe1/0x170 [i915]
+>>          intel_root_gt_init_early+0x48/0x60 [i915]
+>>          i915_driver_probe+0x671/0xcb0 [i915]
+>>          i915_pci_probe+0xdc/0x210 [i915]
+>>          pci_device_probe+0x95/0x120
+>>          really_probe+0x164/0x3c0
+>>          __driver_probe_device+0x73/0x160
+>>          driver_probe_device+0x19/0xa0
+>>          __driver_attach+0xb6/0x180
+>>          bus_for_each_dev+0x77/0xd0
+>>          bus_add_driver+0x114/0x210
+>>          driver_register+0x5b/0x110
+>>          __pfx_vgem_open+0x3/0x10 [vgem]
+>>          do_one_initcall+0x57/0x270
+>>          do_init_module+0x5f/0x220
+>>          load_module+0x1ca4/0x1f00
+>>          __do_sys_finit_module+0xb4/0x130
+>>          do_syscall_64+0x3c/0x90
+>>          entry_SYSCALL_64_after_hwframe+0x72/0xdc
 >>
->> so far.
-> Yes; and now I think that this was a bad idea (for the reasons Maxime
-> listed in his email).
+>> -> #2 (fs_reclaim){+.+.}-{0:0}:
+>>          lock_acquire+0xd8/0x2d0
+>>          fs_reclaim_acquire+0xac/0xe0
+>>          kmem_cache_alloc+0x32/0x260
+>>          i915_vma_instance+0xb2/0xc60 [i915]
+>>          i915_gem_object_ggtt_pin_ww+0x175/0x370 [i915]
+>>          vm_fault_gtt+0x22d/0xf60 [i915]
+>>          __do_fault+0x2f/0x1d0
+>>          do_pte_missing+0x4a/0xd20
+>>          __handle_mm_fault+0x5b0/0x790
+>>          handle_mm_fault+0xa2/0x230
+>>          do_user_addr_fault+0x3ea/0xa10
+>>          exc_page_fault+0x68/0x1a0
+>>          asm_exc_page_fault+0x26/0x30
+>>
+>> -> #1 (&gt->reset.backoff_srcu){++++}-{0:0}:
+>>          lock_acquire+0xd8/0x2d0
+>>          _intel_gt_reset_lock+0x57/0x330 [i915]
+>>          guc_timestamp_ping+0x35/0x130 [i915]
+>>          process_one_work+0x250/0x510
+>>          worker_thread+0x4f/0x3a0
+>>          kthread+0xff/0x130
+>>          ret_from_fork+0x29/0x50
+>>
+>> -> #0 ((work_completion)(&(&guc->timestamp.work)->work)){+.+.}-{0:0}:
+>>          check_prev_add+0x90/0xc60
+>>          __lock_acquire+0x1998/0x2590
+>>          lock_acquire+0xd8/0x2d0
+>>          __flush_work+0x74/0x530
+>>          __cancel_work_timer+0x14f/0x1f0
+>>          intel_guc_submission_reset_prepare+0x81/0x4b0 [i915]
+>>          intel_uc_reset_prepare+0x9c/0x120 [i915]
+>>          reset_prepare+0x21/0x60 [i915]
+>>          intel_gt_reset+0x1dd/0x470 [i915]
+>>          intel_gt_reset_global+0xfb/0x170 [i915]
+>>          intel_gt_handle_error+0x368/0x420 [i915]
+>>          intel_gt_debugfs_reset_store+0x5c/0xc0 [i915]
+>>          i915_wedged_set+0x29/0x40 [i915]
+>>          simple_attr_write_xsigned.constprop.0+0xb4/0x110
+>>          full_proxy_write+0x52/0x80
+>>          vfs_write+0xc5/0x4f0
+>>          ksys_write+0x64/0xe0
+>>          do_syscall_64+0x3c/0x90
+>>          entry_SYSCALL_64_after_hwframe+0x72/0xdc
+>>
+>> other info that might help us debug this:
+>>   Chain exists of:
+>> (work_completion)(&(&guc->timestamp.work)->work) --> fs_reclaim --> 
+>> &gt->reset.mutex
+>>    Possible unsafe locking scenario:
+>>          CPU0                    CPU1
+>>          ----                    ----
+>>     lock(&gt->reset.mutex);
+>>                                  lock(fs_reclaim);
+>>                                  lock(&gt->reset.mutex);
+>> lock((work_completion)(&(&guc->timestamp.work)->work));
+>>
+>>   *** DEADLOCK ***
+>>   3 locks held by kms_pipe_crc_ba/6415:
+>>    #0: ffff888101541430 (sb_writers#15){.+.+}-{0:0}, at: 
+>> ksys_write+0x64/0xe0
+>>    #1: ffff888136c7eab8 (&attr->mutex){+.+.}-{3:3}, at: 
+>> simple_attr_write_xsigned.constprop.0+0x47/0x110
+>>    #2: ffff88813e6cce90 (&gt->reset.mutex){+.+.}-{3:3}, at: 
+>> intel_gt_reset+0x19e/0x470 [i915]
+>>
+>> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index a0e3ef1c65d2..22390704542e 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -1359,7 +1359,7 @@ static void guc_enable_busyness_worker(struct 
+>> intel_guc *guc)
+>>     static void guc_cancel_busyness_worker(struct intel_guc *guc)
+>>   {
+>> -    cancel_delayed_work_sync(&guc->timestamp.work);
+>> +    cancel_delayed_work(&guc->timestamp.work);
+> I think it is worth adding a comment here to explain that it is safe 
+> to call the non _sync variant (because of the trylock code in the 
+> worker itself) and that the _sync variant hits circular mutex lock 
+> issues.
 >
->>>    The
->>> fact that it is better to use cached memory or uncached with write-
->>> combine really is platform-specific and not something that the
->>> driver
->>> should be aware of.
->> But the fact is that,  It is drm/ingenic tell the drm core,  some SoC
->> is
->> prefer cached,
->>
->> but unable to enforce the coherent. So that it need  flush the cache
->> manually.
->>
->> What do you meant by saying that the driver should not be aware of ?
-> Ideally, the driver should just call a function "dma_alloc_buffer",
-> which would return cached memory when it makes sense, otherwise a
-> uncached buffer with the write-combine attribute.
->
-> Then the arch code (or DT) can decide what's the best setting, and not
-> the driver.
->
-> In the meantime, you should use gem->dma_noncoherent like the ingenic-
-> drm driver does - until somebody (probably me) refactor things.
->
-> Cheers,
-> -Paul
->
->>> Cheers,
->>> -Paul
->>>
->>>>> Cheers,
->>>>> -Paul
->>>>>
->>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>> ---
->>>>>>     drivers/gpu/drm/drm_fb_dma_helper.c       | 11 +++++------
->>>>>>     drivers/gpu/drm/drm_fbdev_dma.c           |  2 +-
->>>>>>     drivers/gpu/drm/drm_gem_dma_helper.c      | 20
->>>>>> ++++++++++++++++----
->>>>>>     drivers/gpu/drm/ingenic/ingenic-drm-drv.c |  5 ++++-
->>>>>>     drivers/gpu/drm/rcar-du/Kconfig           |  2 --
->>>>>>     drivers/gpu/drm/rcar-du/rcar_du_kms.c     |  4 +++-
->>>>>>     include/drm/drm_gem_dma_helper.h          |  7 +++++--
->>>>>>     7 files changed, 34 insertions(+), 17 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c
->>>>>> b/drivers/gpu/drm/drm_fb_dma_helper.c
->>>>>> index 3b535ad1b07c..93ff05041192 100644
->>>>>> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
->>>>>> @@ -106,16 +106,15 @@ dma_addr_t
->>>>>> drm_fb_dma_get_gem_addr(struct
->>>>>> drm_framebuffer *fb,
->>>>>>     EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
->>>>>>     
->>>>>>     /**
->>>>>> - * drm_fb_dma_sync_non_coherent - Sync GEM object to non-
->>>>>> coherent
->>>>>> backing
->>>>>> - *     memory
->>>>>> + * drm_fb_dma_sync_non_coherent - Sync GEM object to cached
->>>>>> backing
->>>>>> memory
->>>>>>      * @drm: DRM device
->>>>>>      * @old_state: Old plane state
->>>>>>      * @state: New plane state
->>>>>>      *
->>>>>>      * This function can be used by drivers that use damage
->>>>>> clips
->>>>>> and
->>>>>> have
->>>>>> - * DMA GEM objects backed by non-coherent memory. Calling
->>>>>> this
->>>>>> function
->>>>>> - * in a plane's .atomic_update ensures that all the data in
->>>>>> the
->>>>>> backing
->>>>>> - * memory have been written to RAM.
->>>>>> + * DMA GEM objects backed by cached memory. Calling this
->>>>>> function in
->>>>>> a
->>>>>> + * plane's .atomic_update ensures that all the data in the
->>>>>> backing
->>>>>> memory
->>>>>> + * have been written to RAM.
->>>>>>      */
->>>>>>     void drm_fb_dma_sync_non_coherent(struct drm_device *drm,
->>>>>>                                      struct drm_plane_state
->>>>>> *old_state,
->>>>>> @@ -131,7 +130,7 @@ void drm_fb_dma_sync_non_coherent(struct
->>>>>> drm_device *drm,
->>>>>>     
->>>>>>            for (i = 0; i < finfo->num_planes; i++) {
->>>>>>                    dma_obj = drm_fb_dma_get_gem_obj(state->fb,
->>>>>> i);
->>>>>> -               if (!dma_obj->map_noncoherent)
->>>>>> +               if (dma_obj->cached && dma_obj->coherent)
->>>>>>                            continue;
->>>>>>     
->>>>>>                    daddr = drm_fb_dma_get_gem_addr(state->fb,
->>>>>> state, i);
->>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_dma.c
->>>>>> b/drivers/gpu/drm/drm_fbdev_dma.c
->>>>>> index d86773fa8ab0..49fe9b284cc8 100644
->>>>>> --- a/drivers/gpu/drm/drm_fbdev_dma.c
->>>>>> +++ b/drivers/gpu/drm/drm_fbdev_dma.c
->>>>>> @@ -131,7 +131,7 @@ static int
->>>>>> drm_fbdev_dma_helper_fb_probe(struct
->>>>>> drm_fb_helper *fb_helper,
->>>>>>     
->>>>>>            /* screen */
->>>>>>            info->flags |= FBINFO_VIRTFB; /* system memory */
->>>>>> -       if (dma_obj->map_noncoherent)
->>>>>> +       if (dma_obj->cached)
->>>>>>                    info->flags |= FBINFO_READS_FAST; /* signal
->>>>>> caching
->>>>>> */
->>>>>>            info->screen_size = sizes->surface_height * fb-
->>>>>>> pitches[0];
->>>>>>            info->screen_buffer = map.vaddr;
->>>>>> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c
->>>>>> b/drivers/gpu/drm/drm_gem_dma_helper.c
->>>>>> index 870b90b78bc4..dec1d512bdf1 100644
->>>>>> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
->>>>>> @@ -93,7 +93,11 @@ __drm_gem_dma_create(struct drm_device
->>>>>> *drm,
->>>>>> size_t size, bool private)
->>>>>>                    drm_gem_private_object_init(drm, gem_obj,
->>>>>> size);
->>>>>>     
->>>>>>                    /* Always use writecombine for dma-buf
->>>>>> mappings
->>>>>> */
->>>>>> -               dma_obj->map_noncoherent = false;
->>>>>> +               /* FIXME: This is not always true, on some
->>>>>> dma
->>>>>> coherent system,
->>>>>> +                * cached mappings should be preferred over
->>>>>> writecombine
->>>>>> +                */
->>>>>> +               dma_obj->cached = false;
->>>>>> +               dma_obj->coherent = false;
->>>>>>            } else {
->>>>>>                    ret = drm_gem_object_init(drm, gem_obj,
->>>>>> size);
->>>>>>            }
->>>>>> @@ -143,7 +147,11 @@ struct drm_gem_dma_object
->>>>>> *drm_gem_dma_create(struct drm_device *drm,
->>>>>>            if (IS_ERR(dma_obj))
->>>>>>                    return dma_obj;
->>>>>>     
->>>>>> -       if (dma_obj->map_noncoherent) {
->>>>>> +       if (dma_obj->cached && dma_obj->coherent) {
->>>>>> +               dma_obj->vaddr = dma_alloc_coherent(drm->dev,
->>>>>> size,
->>>>>> +                                                   &dma_obj-
->>>>>>> dma_addr,
->>>>>> +
->>>>>> GFP_KERNEL |
->>>>>> __GFP_NOWARN);
->>>>>> +       } else if (dma_obj->cached && !dma_obj->coherent) {
->>>>>>                    dma_obj->vaddr = dma_alloc_noncoherent(drm-
->>>>>>> dev,
->>>>>> size,
->>>>>>                                                          
->>>>>> &dma_obj-
->>>>>>> dma_addr,
->>>>>>                                                          
->>>>>> DMA_TO_DEVICE,
->>>>>> @@ -153,6 +161,7 @@ struct drm_gem_dma_object
->>>>>> *drm_gem_dma_create(struct drm_device *drm,
->>>>>>                                                  &dma_obj-
->>>>>>> dma_addr,
->>>>>>                                                  GFP_KERNEL |
->>>>>> __GFP_NOWARN);
->>>>>>            }
->>>>>> +
->>>>>>            if (!dma_obj->vaddr) {
->>>>>>                    drm_dbg(drm, "failed to allocate buffer
->>>>>> with
->>>>>> size
->>>>>> %zu\n",
->>>>>>                             size);
->>>>>> @@ -233,7 +242,10 @@ void drm_gem_dma_free(struct
->>>>>> drm_gem_dma_object
->>>>>> *dma_obj)
->>>>>>                            dma_buf_vunmap_unlocked(gem_obj-
->>>>>>> import_attach->dmabuf, &map);
->>>>>>                    drm_prime_gem_destroy(gem_obj, dma_obj-
->>>>>>> sgt);
->>>>>>            } else if (dma_obj->vaddr) {
->>>>>> -               if (dma_obj->map_noncoherent)
->>>>>> +               if (dma_obj->cached && dma_obj->coherent)
->>>>>> +                       dma_free_coherent(gem_obj->dev->dev,
->>>>>> dma_obj-
->>>>>>> base.size,
->>>>>> +                                         dma_obj->vaddr,
->>>>>> dma_obj-
->>>>>>> dma_addr);
->>>>>> +               else if (dma_obj->cached && !dma_obj-
->>>>>>> coherent)
->>>>>>                            dma_free_noncoherent(gem_obj->dev-
->>>>>>> dev,
->>>>>> dma_obj->base.size,
->>>>>>                                                 dma_obj-
->>>>>>> vaddr,
->>>>>> dma_obj-
->>>>>>> dma_addr,
->>>>>>                                                
->>>>>> DMA_TO_DEVICE);
->>>>>> @@ -532,7 +544,7 @@ int drm_gem_dma_mmap(struct
->>>>>> drm_gem_dma_object
->>>>>> *dma_obj, struct vm_area_struct *
->>>>>>            vma->vm_pgoff -= drm_vma_node_start(&obj-
->>>>>>> vma_node);
->>>>>>            vm_flags_mod(vma, VM_DONTEXPAND, VM_PFNMAP);
->>>>>>     
->>>>>> -       if (dma_obj->map_noncoherent) {
->>>>>> +       if (dma_obj->cached) {
->>>>>>                    vma->vm_page_prot = vm_get_page_prot(vma-
->>>>>>> vm_flags);
->>>>>>     
->>>>>>                    ret = dma_mmap_pages(dma_obj->base.dev-
->>>>>>> dev,
->>>>>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>>> index 5ec75e9ba499..a3df2f99a757 100644
->>>>>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>>>>> @@ -919,7 +919,10 @@ ingenic_drm_gem_create_object(struct
->>>>>> drm_device
->>>>>> *drm, size_t size)
->>>>>>            if (!obj)
->>>>>>                    return ERR_PTR(-ENOMEM);
->>>>>>     
->>>>>> -       obj->map_noncoherent = priv->soc_info-
->>>>>>> map_noncoherent;
->>>>>> +       if (priv->soc_info->map_noncoherent) {
->>>>>> +               obj->cached = true;
->>>>>> +               obj->coherent = false;
->>>>>> +       }
->>>>>>     
->>>>>>            return &obj->base;
->>>>>>     }
->>>>>> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
->>>>>> b/drivers/gpu/drm/rcar-
->>>>>> du/Kconfig
->>>>>> index 53c356aed5d5..dddc70c08bdc 100644
->>>>>> --- a/drivers/gpu/drm/rcar-du/Kconfig
->>>>>> +++ b/drivers/gpu/drm/rcar-du/Kconfig
->>>>>> @@ -2,8 +2,6 @@
->>>>>>     config DRM_RCAR_DU
->>>>>>            tristate "DRM Support for R-Car Display Unit"
->>>>>>            depends on DRM && OF
->>>>>> -       depends on ARM || ARM64
->>>>>> -       depends on ARCH_RENESAS || COMPILE_TEST
->>>>>>            select DRM_KMS_HELPER
->>>>>>            select DRM_GEM_DMA_HELPER
->>>>>>            select VIDEOMODE_HELPERS
->>>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->>>>>> b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->>>>>> index adfb36b0e815..1142d51473e6 100644
->>>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->>>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->>>>>> @@ -386,7 +386,9 @@ struct drm_gem_object
->>>>>> *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
->>>>>>            gem_obj->funcs = &rcar_du_gem_funcs;
->>>>>>     
->>>>>>            drm_gem_private_object_init(dev, gem_obj, attach-
->>>>>>> dmabuf-
->>>>>>> size);
->>>>>> -       dma_obj->map_noncoherent = false;
->>>>>> +
->>>>>> +       dma_obj->cached = false;
->>>>>> +       dma_obj->coherent = false;
->>>>>>     
->>>>>>            ret = drm_gem_create_mmap_offset(gem_obj);
->>>>>>            if (ret) {
->>>>>> diff --git a/include/drm/drm_gem_dma_helper.h
->>>>>> b/include/drm/drm_gem_dma_helper.h
->>>>>> index 8a043235dad8..585ce3d4d1eb 100644
->>>>>> --- a/include/drm/drm_gem_dma_helper.h
->>>>>> +++ b/include/drm/drm_gem_dma_helper.h
->>>>>> @@ -16,7 +16,9 @@ struct drm_mode_create_dumb;
->>>>>>      *       more than one entry but they are guaranteed to
->>>>>> have
->>>>>> contiguous
->>>>>>      *       DMA addresses.
->>>>>>      * @vaddr: kernel virtual address of the backing memory
->>>>>> - * @map_noncoherent: if true, the GEM object is backed by
->>>>>> non-
->>>>>> coherent memory
->>>>>> + * @cached: if true, the GEM object is backed by cached
->>>>>> memory
->>>>>> + * @coherent: This option only meaningful when a GEM object
->>>>>> is
->>>>>> cached.
->>>>>> + *            If true, Sync the GEM object for DMA access is
->>>>>> not
->>>>>> required.
->>>>>>      */
->>>>>>     struct drm_gem_dma_object {
->>>>>>            struct drm_gem_object base;
->>>>>> @@ -26,7 +28,8 @@ struct drm_gem_dma_object {
->>>>>>            /* For objects with DMA memory allocated by GEM DMA
->>>>>> */
->>>>>>            void *vaddr;
->>>>>>     
->>>>>> -       bool map_noncoherent;
->>>>>> +       bool cached;
->>>>>> +       bool coherent;
->>>>>>     };
->>>>>>     
->>>>>>     #define to_drm_gem_dma_obj(gem_obj) \
+To record the notes from direct discussion... This function needs to 
+take a 'bool sync' flag. The park/fini code paths still need to do a 
+synchronous flush to ensure that the worker is not still running during 
+suspend or shutdown. Only the reset path should do the asynchronous cancel.
 
--- 
-Jingfeng
+John.
+
+> John.
+>
+>
+>>   }
+>>     static void __reset_guc_busyness_stats(struct intel_guc *guc)
+>
 
