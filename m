@@ -2,77 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3774172682F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 20:12:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D8B726916
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 20:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F4510E53C;
-	Wed,  7 Jun 2023 18:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCF010E06F;
+	Wed,  7 Jun 2023 18:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C5210E53D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 18:12:05 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-977d55ac17bso699062966b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 11:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686161523; x=1688753523;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=c8LLkELG8pk1deRrNltGQ2MtkxURXpppj04DS98maLQ=;
- b=mQwtQAxpJG8jV/xuinu93mq/TbKBa7bsRoILZ55z99uqXXE5DKZVFKH7DpniJCQN1O
- JtBEzsgI5qPT30X/q0Ql60fQqMuONlqxwLiKA7rXEx8zAscuJcOUApu9ynYG/zDz8AAZ
- yaiZnamd97s2iyhRdQ6Okaql4+ryQb3SwBY4YNl7kNJ+HRy1qJPxw4WeNqJZaXWlbO0J
- 8j9JXYJRVIh/WIx5MtpUQNuVjTwyALsOrfeJeyaUTiYmEkPHvxCvCXSu4pxjC2GL9bN+
- dO9tWQFuJMI96rn4DT7hGU4eGoGPA47VuIOOtE6tCe61TclepLRJE98yM/i3EPz1lMe6
- SEtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686161523; x=1688753523;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c8LLkELG8pk1deRrNltGQ2MtkxURXpppj04DS98maLQ=;
- b=B45DWQktiSYY6C3EwMk6dohrslHnU/uaN39ks2yU0HSZVjAbd5T5enny25YdVogf4Y
- CMxCHM3vxOQH6JdmCZJqtGM4sLVplZEfmOvXps8eGmYoayMb7vw15X6/dUEUCFdtU+n8
- 05L6nBMerfK4OMhiZ52mVm5fN8jS0PvW7DBBJWWrvKK7c2GoQafrmmVAVpfnODj+VO/k
- Fkdq39raP6fXQzBtCXa3sWCKags12c4WIw7Nx4MXWdHe8jtPGZdrwGV248JEEl1L/b3B
- pAmPRu7i+f4lmCs/H/w3GcsIXG+nrNSdy0bYVPeN+sruC7papMkiH7LMHBNXYoY1B3H/
- S6Hg==
-X-Gm-Message-State: AC+VfDz7O2s05YtPtumahPbwyn/t0P+vc1eSXeV+hS0/jjDYir0KGLnb
- +zTSpIYpjslHF8Id0q/1lg2rNw==
-X-Google-Smtp-Source: ACHHUZ4atA66ozVYI+ahtfsSLEEsIg2F4Rpb/cEGKV9GpyA79gCHhdMvWAlwmA4CitsH2GXDKLrxQQ==
-X-Received: by 2002:a17:907:7da3:b0:977:d676:d3ca with SMTP id
- oz35-20020a1709077da300b00977d676d3camr7269835ejc.33.1686161523172; 
- Wed, 07 Jun 2023 11:12:03 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- q20-20020a170906a09400b009786ae9ed50sm2488347ejy.194.2023.06.07.11.12.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jun 2023 11:12:02 -0700 (PDT)
-Message-ID: <7717cc1b-d258-4fb6-3379-05b2de27dc70@linaro.org>
-Date: Wed, 7 Jun 2023 20:11:59 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1E388735
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 18:43:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp
+ [126.233.170.111])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA7C083F;
+ Wed,  7 Jun 2023 20:42:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1686163377;
+ bh=spwrYQEvW9KNcz+e3u4F2isfSnw6E9e3Dxj7eWK7eHg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jhyJdBTnl4YTXDlCLsrz24UguvHwq6ENQ8v7X7KWdLQYEB/16WGXopcGHWfC8cBF8
+ Yh0T/eWh6ui1oRDLfgkcpaArzN+z0jP3NqnhBqpSzIlgkfk8vowPctx9WEBhOcFM7N
+ 1y+CTPGF6RJoHKDRBk9a38ilOAJWYs3dmLoZ3fus=
+Date: Wed, 7 Jun 2023 21:43:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
+Message-ID: <20230607184320.GB26742@pendragon.ideasonboard.com>
+References: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
+ <20230606151229.GF7234@pendragon.ideasonboard.com>
+ <12222903.O9o76ZdvQC@steina-w>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v6 05/12] dt-bindings: display/msm: Add SM6375 MDSS
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Conor Dooley <conor+dt@kernel.org>
-References: <20230411-topic-straitlagoon_mdss-v6-0-dee6a882571b@linaro.org>
- <20230411-topic-straitlagoon_mdss-v6-5-dee6a882571b@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230411-topic-straitlagoon_mdss-v6-5-dee6a882571b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <12222903.O9o76ZdvQC@steina-w>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,25 +48,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/06/2023 14:43, Konrad Dybcio wrote:
-> Document the SM6375 MDSS.
+Hi Alexander,
+
+On Wed, Jun 07, 2023 at 01:26:03PM +0200, Alexander Stein wrote:
+> Am Dienstag, 6. Juni 2023, 17:12:29 CEST schrieb Laurent Pinchart:
+> > On Tue, Jun 06, 2023 at 04:48:33PM +0200, Alexander Stein wrote:
+> > > When -EPROBE_DEFER is returned do not raise an error, but silently return
+> > > this error instead. Fixes error like this:
+> > > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> > > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> > > 
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > > dev_err_probe() would be the best, but I am not sure if this function is
+> > > always used within a driver's probe() call.
+> > > 
+> > >  drivers/gpu/drm/drm_bridge.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > > index c3d69af02e79d..07773d6441a1f 100644
+> > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > @@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
+> > > struct drm_bridge *bridge,> 
+> > >  	bridge->encoder = NULL;
+> > >  	list_del(&bridge->chain_node);
+> > > 
+> > > +	if (ret != -EPROBE_DEFER) {
+> > > 
+> > >  #ifdef CONFIG_OF
+> > >  
+> > >  	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+> > >  	
+> > >  		  bridge->of_node, encoder->name, ret);
+> > 
+> > Wrong indentation.
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  .../bindings/display/msm/qcom,sm6375-mdss.yaml     | 215 +++++++++++++++++++++
->  1 file changed, 215 insertions(+)
+> Ah, right. Thanks for pointing out.
 > 
+> > dev_err_probe() could be useful, but this function is likely not called
+> > from probe paths only :-S
+> 
+> I was afraid this might be the cause. But I'm wondering in which situation 
+> this can be the case, hence -EPROBE_DEFER could be returned then.
 
+I've had a quick look, and one example of a non-probe path is in
+mcde_modeset_init(), with the call to
+drm_simple_display_pipe_attach_bridge() which calls drm_bridge_attach().
+mcde_modeset_init() is called from mcde_drm_bind(), the handler for the
+.bind() operation in component_master_ops.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I'd argue that we should really drop the component framework and replace
+it with something better, but that's beyond the scope of this patch :-)
 
-Best regards,
-Krzysztof
+> > When not called from a probe path, dropping the message will result in a
+> > silent error, which would be hard to debug :-(
+> 
+> On the other hand -EPROBE_DEFER is invalid on non-probe path also.
+> Assuming dev_err_probe is used here, an error will still be raised, -
+> EPROBE_DEFER should not occur then.
 
+I agree that -EPROBE_DEFER shouldn't occur, and in many cases, it won't
+for drivers that use the component framework, as the whole purpose of
+the framework is to make sure the bridges are available before we try to
+attach to them. The framework (or at least the way it's used in drivers)
+however doesn't handle chains of components: the main DRM driver will
+have its next bridge available by the time it calls drm_bridge_attach(),
+but the bridge may then try to acquire the next bridge in the chain, and
+get an error that results in a probe deferral. Maybe that's not supposed
+to happen though, bridges probably should acquire the next bridge at
+probe time, but I can't guarantee this will always be done.
+
+And this is my point: I'm scared that this patch will cause silent and
+hard to debug failures in some cases. Those cases may be incorrect usage
+of APIs by drivers, but making them silent will make it more difficult
+to fix them.
+
+If everybody thinks I'm over-concerned, please feel free to move forward
+with this patch, and I'll do my best not to lose sleep :-)
+
+> > > @@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
+> > > struct drm_bridge *bridge,> 
+> > >  	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
+> > >  	
+> > >  		  encoder->name, ret);
+> > >  
+> > >  #endif
+> > > 
+> > > +	}
+> > > 
+> > >  	return ret;
+> > >  
+> > >  }
+
+-- 
+Regards,
+
+Laurent Pinchart
