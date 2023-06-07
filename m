@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BE572718F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 00:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE407271A8
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 00:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B6610E55D;
-	Wed,  7 Jun 2023 22:24:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44DA10E55F;
+	Wed,  7 Jun 2023 22:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
- [209.85.166.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7D710E55D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 22:24:17 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id
- e9e14a558f8ab-33b0cae115bso9806135ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 15:24:17 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D020F10E55F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 22:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686176920;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=irRG2hn1Ih/d+vMuj88e+Lh/5vC/wBK+G/U1UA7S7zo=;
+ b=LK7H0Q/x9n71RWDSBYFHRYJ1HIaVYYShaGXFklRU1DeCMHlciQe67/Be8WvsOZA/vYOxeZ
+ a4tuZLHbmXqmL04vEYXF33x1pwT+LKJLmCNfM/j5FWjhZ0dIf1L0CXUlWEmuFQ38M7o9ST
+ XvMiPRHlC3Bml1UYIm4yF9mZEo8AzUo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-562-eGk0SPWbNF2hPqHU5ZA_dw-1; Wed, 07 Jun 2023 18:28:37 -0400
+X-MC-Unique: eGk0SPWbNF2hPqHU5ZA_dw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-30e5c497f90so595694f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 15:28:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686176656; x=1688768656;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AxfRqxa7wvCqUms2E38nnMVQFutEDvjD8qThmFlsqqQ=;
- b=RX7E3u/S1oN9YtJ5t4DinnCYUFOD2+FvtjxIzrFuoyqvbxNOs9ZMlnWjOIUI/zHhCe
- H7ErbmW2/vrNi0OUq9TDhrkoRhhq2oegCzke0ouZ7lmmXeoJJML7uvbOTAuNn70FloUU
- HsH21ofLx4Eaegvjik08ZeflfwNYo2BTMRW9gTHW4otyJgeT8E1o10T9zm9eONMtnTRC
- 5fjI83jhBPA9c25J0SWD38W7oYdQEAA1BoOTvALCCRCm/fdGHU6bmgKRdx/cf+jQQqA3
- 1yBkW3LasMchP8zCMOnQoL3MtX5mhgpxrZ/lGoWuBZ13+lWc0rf/IwRUClATlLxt+1wO
- lutw==
-X-Gm-Message-State: AC+VfDxg8KgsbxB4qSWos0BNif87JqDRYUOdOdNXQ2GunJBd7u0JedcI
- O0migCq173Dx6HWo4Mpr2g==
-X-Google-Smtp-Source: ACHHUZ6g3hXuPC4eptqJpM9Vm8vqGL9XoBgHJL+4Z05vG5yQgGzwgK5jP92Mg64iLxbMmF/99uNaQg==
-X-Received: by 2002:a92:d341:0:b0:331:1834:7494 with SMTP id
- a1-20020a92d341000000b0033118347494mr9400434ilh.20.1686176656039; 
- Wed, 07 Jun 2023 15:24:16 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id
- dq31-20020a0566384d1f00b0041f5061884asm2602719jab.29.2023.06.07.15.24.13
+ d=1e100.net; s=20221208; t=1686176916; x=1688768916;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=irRG2hn1Ih/d+vMuj88e+Lh/5vC/wBK+G/U1UA7S7zo=;
+ b=Dv4jgmPp/Kyv+6mNasuv4q8vYgot5OrcTT/dVueOxWSSRgipz3W3+HbxYHMSYJ56KH
+ Lf1d5iN6LxrjcYfwRBPlFfkwhj5nLAdq+jjLGDxPY0jasjzF/RlPuARhkxlpIHwYjR8Y
+ yvhVKodhMBKiNakGY5vOZ1pA42evhgvvrq1KWb2jstb6Q/raV1hxHK8qB5+lN905rpwa
+ 9AG+i2fjMAA5wAn3zERwEJsvgLD3jb17tzNDCwliBmE5sM+Slm4ohLeGEUjkp8r6HvmD
+ sJJ0QZduKxRktP/9MYajzZVNJsB5ct8G1PJXP2/pH/sxnaLFvq16C6OniLTzbUKdwhJJ
+ hpKw==
+X-Gm-Message-State: AC+VfDx0qO56c+w8uYW+TXi2xMIrvRqXpg6Iqagm505DvyYOUeK3umB1
+ 42rpLAVSfnrDHvVF7jDRgBD3ooemejAig9KsJ54wwftzfXinfmrvW3sHvK2yJe3fCZcHqD66BAd
+ w4muKnsOo8PkgQwdTCC0ggSaHCUEW
+X-Received: by 2002:a5d:650e:0:b0:307:9da1:c9d8 with SMTP id
+ x14-20020a5d650e000000b003079da1c9d8mr4923756wru.4.1686176916352; 
+ Wed, 07 Jun 2023 15:28:36 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ61tYV/VqxAjAws580IyjPbyEEBH7wxqnNFkzkRRkVd9vumKgbQUzpT98wO/2M3vhdVG8VhKw==
+X-Received: by 2002:a5d:650e:0:b0:307:9da1:c9d8 with SMTP id
+ x14-20020a5d650e000000b003079da1c9d8mr4923745wru.4.1686176916109; 
+ Wed, 07 Jun 2023 15:28:36 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ v25-20020a1cf719000000b003f736735424sm3323437wmh.43.2023.06.07.15.28.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 15:24:15 -0700 (PDT)
-Received: (nullmailer pid 88530 invoked by uid 1000);
- Wed, 07 Jun 2023 22:24:13 -0000
-Date: Wed, 7 Jun 2023 16:24:13 -0600
-From: Rob Herring <robh@kernel.org>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v6 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
- controller
-Message-ID: <20230607222413.GA84415-robh@kernel.org>
-References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
- <1685657551-38291-3-git-send-email-justin.chen@broadcom.com>
+ Wed, 07 Jun 2023 15:28:35 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com
+Subject: Re: [PATCH 28/30] fbdev/core: Move file-I/O code into separate file
+In-Reply-To: <20230605144812.15241-29-tzimmermann@suse.de>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-29-tzimmermann@suse.de>
+Date: Thu, 08 Jun 2023 00:28:35 +0200
+Message-ID: <877cseewks.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1685657551-38291-3-git-send-email-justin.chen@broadcom.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,135 +82,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
- florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
- bcm-kernel-feedback-list@broadcom.com, krzysztof.kozlowski+dt@linaro.org,
- simon.horman@corigine.com, kuba@kernel.org, christian.koenig@amd.com,
- pabeni@redhat.com, sumit.semwal@linaro.org, davem@davemloft.net,
- hkallweit1@gmail.com
+Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 01, 2023 at 03:12:27PM -0700, Justin Chen wrote:
-> From: Florian Fainelli <florian.fainelli@broadcom.com>
-> 
-> Add a binding document for the Broadcom ASP 2.0 Ethernet
-> controller.
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
+
+> Move fbdev's file-I/O code into a separate file and contain it in
+> init and cleanup helpers. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-> v6
-> 	- Moved compatible to the top
-> 	- Changed quotes to be consistent
-> 	- Elaborated on brcm,channel description
-> 
-> v5
-> 	- Fix compatible string yaml format to properly capture what we want
-> 
-> v4
->         - Adjust compatible string example to reference SoC and HW ver
-> 
-> v3
->         - Minor formatting issues
->         - Change channel prop to brcm,channel for vendor specific format
->         - Removed redundant v2.0 from compat string
->         - Fix ranges field
-> 
-> v2
->         - Minor formatting issues
-> 
->  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 153 +++++++++++++++++++++
->  1 file changed, 153 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> new file mode 100644
-> index 000000000000..3f2bf64b65c0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-> @@ -0,0 +1,153 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Broadcom ASP 2.0 Ethernet controller
-> +
-> +maintainers:
-> +  - Justin Chen <justin.chen@broadcom.com>
-> +  - Florian Fainelli <florian.fainelli@broadcom.com>
-> +
-> +description: Broadcom Ethernet controller first introduced with 72165
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - brcm,bcm74165-asp
-> +          - const: brcm,asp-v2.1
-> +      - items:
-> +          - enum:
-> +              - brcm,bcm72165-asp
-> +          - const: brcm,asp-v2.0
-> +
-> +  "#address-cells":
-> +    const: 1
-> +  "#size-cells":
-> +    const: 1
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  ranges: true
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    items:
-> +      - description: RX/TX interrupt
-> +      - description: Port 0 Wake-on-LAN
-> +      - description: Port 1 Wake-on-LAN
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  ethernet-ports:
-> +    type: object
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^port@[0-9]+$":
-> +        type: object
-> +
-> +        $ref: ethernet-controller.yaml#
 
-           unevaluatedProperties: false
+[...]
 
 > +
-> +        properties:
-> +          reg:
-> +            maxItems: 1
-> +            description: Port number
-> +
-> +          brcm,channel:
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +            description: |
-> +              ASP Channel Number
-> +
-> +              The depacketizer channel that consumes packets from
-> +              the unimac/port.
-> +
-> +        required:
-> +          - reg
-> +          - brcm,channel
-> +
-> +    additionalProperties: false
+> +#include <linux/console.h>
+
+#include <linux/compat.h> here, the robot complained about:
+
+   drivers/video/fbdev/core/fb_devfs.c:183:9: error: unknown type name 'compat_caddr_t'
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
