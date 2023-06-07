@@ -2,53 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3E77263C3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 17:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6802A7261CB
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 15:57:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA5F10E504;
-	Wed,  7 Jun 2023 15:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D01A010E07C;
+	Wed,  7 Jun 2023 13:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDEFB10E504
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 15:10:56 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D5EF085F52;
- Wed,  7 Jun 2023 17:10:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1686150653;
- bh=ilu4t5MfB/m1MzJmgwplp52WL1DIskHqT3lUx4DLq6w=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=h5qifyzF7rkNhicWqtguapyRPJqHF2bf5ouPi6t2pP08Qsl3DmMgmEyjMIkfeAc8e
- pPu7ngst8jKmd8MZvjvoXaKR4Bk9Oy3M6a8Vq1/jl6TyB0z28vrwhhdmkJXyHZVkai
- 3/512bMvfqaFi7FdCddLdtziWOrPO2jaqyRKQSQPn4ce3dpHUUeOaXTF31TGXhb+H6
- OO4WB8+WOFnRWCrB4KkXMlba62E/3zWnng7mDf91c2kA6vx1rm9J2+iu0yiXQLS4sH
- 1r+kMf5F/pW0xHF2pUbgaXQw5scH0ELMm0BF3iDFZpr61zWROSDlT0upeV5ZYjaxUU
- 9e4eJlhzsBwZw==
-Message-ID: <d7707a56-2b36-25d0-d5f2-79ef60b292bd@denx.de>
-Date: Wed, 7 Jun 2023 15:54:53 +0200
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DA710E07C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 13:57:12 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-514953b3aa6so1346684a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 06:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686146229; x=1688738229;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kKpvPu5Rm/nURTMMsBy+tWBtqwgLaFCv5S24g6y4mow=;
+ b=lMeYAGAQIoc851Xz0eJb0PtiX9acHzzCcIRcU/RyTCtJylY8kOce+BtmAAlbchfgaM
+ ux+d4RvKhJql1f2hncN91Yae4vn9KVyIXDZvMApIjJJqotSYy9KErr8ln1HSA9AqQyLj
+ QIxdWloAaOUglN1CJzxmEbLFF6S9bmUUeF5KZLKtDC8W5pY5ZG07/IBa480wngvl+pgw
+ 21f3vyl4N40oShuNEk1gxWHWooKKFb6NMW8ElfrfxNAKnFR4Nt+Hn3BGGE354AXtFJmQ
+ UlwcouKzzYJNk++/7CYeYPcBZFy1JC6M3V2I5fXnuIaT5kb6gF26yMald57+QMWk4rjA
+ DHqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686146229; x=1688738229;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kKpvPu5Rm/nURTMMsBy+tWBtqwgLaFCv5S24g6y4mow=;
+ b=eIuynYagTrN+H2bBsM6jrXezasLdne0PbwN9AYNcWD38Etn+mfhl5X8WIbM7BR8mNE
+ 7gmYoFx1KZvsTBkPv1YckxRUwjo2uLpXTJLDSi8THJPVRUvY3Qrqk8KxMrcpAA5cnPrN
+ kXRgl+Tojn6aCXvsDlOc7zv8wEWpxvX4nVINq/oI23xn3EhpyLognTAbUefpDVXg4vQ8
+ 0ITiiSTF1KkIrjC9VV2XStaD4jQgKu7yDJkUuy4sSVUlsKTIn7eKZJGA3agOf6PLzd1Y
+ cthN9o1vr5N6hJJQBLn2CbZWL6lpGyn/jJWzpmV5TrXBBFyy/vsw69I9VKScfpl9b3Xe
+ WXCw==
+X-Gm-Message-State: AC+VfDzhwtkXjGLpk39HQsgXcCtv8V0SqOoAHWQ/MD69S0EI23BdWuJZ
+ daL+kdDFZQE3PqOxeDQJNQZQklnTII6PC1dVu14=
+X-Google-Smtp-Source: ACHHUZ7EcYvo+spZ1Zu2vN1Sav3wheuQzpa99azcDZ/IzhZp4uRXdRVAhEfFaElWL4x4m1MwMFpu5Q==
+X-Received: by 2002:a05:6402:2142:b0:514:9edb:185a with SMTP id
+ bq2-20020a056402214200b005149edb185amr4634692edb.9.1686146229452; 
+ Wed, 07 Jun 2023 06:57:09 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ p19-20020aa7cc93000000b005166779bfd2sm2893476edt.6.2023.06.07.06.57.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jun 2023 06:57:08 -0700 (PDT)
+Message-ID: <14fab6aa-2f9a-c3bc-5ed4-0d4fb20b20d6@linaro.org>
+Date: Wed, 7 Jun 2023 15:57:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm: bridge: tc358767: give VSDELAY some positive
- value
-To: Lucas Stach <l.stach@pengutronix.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
-References: <20230602191501.4138433-1-l.stach@pengutronix.de>
- <20230602191501.4138433-2-l.stach@pengutronix.de>
- <70962376-c7f1-1adc-37e4-55fa33055ae9@denx.de>
- <7210bb5955a469134f3b072007bf98a74c8f17da.camel@pengutronix.de>
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v3 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
 Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <7210bb5955a469134f3b072007bf98a74c8f17da.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Paulo Pavacic <pavacic.p@gmail.com>
+References: <20230606140757.818705-1-pavacic.p@gmail.com>
+ <20230606140757.818705-4-pavacic.p@gmail.com>
+ <dfe2c108-0268-c4d0-226e-b3d2bc8c3369@linaro.org>
+ <CAO9szn3PyQQRKsxdsOrmVNMP2xuvN4_dHwb1_TWEqmhnr3TLPA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAO9szn3PyQQRKsxdsOrmVNMP2xuvN4_dHwb1_TWEqmhnr3TLPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,61 +79,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/7/23 14:53, Lucas Stach wrote:
-> Am Freitag, dem 02.06.2023 um 23:34 +0200 schrieb Marek Vasut:
->> On 6/2/23 21:15, Lucas Stach wrote:
->>> From: David Jander <david@protonic.nl>
+On 07/06/2023 15:38, Paulo Pavacic wrote:
+> Hello,
+> 
+> uto, 6. lip 2023. u 16:45 Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> napisao je:
+>>
+>> On 06/06/2023 16:07, Paulo Pavacic wrote:
+>>> Fannal C3004 is a 480x800 display made by fannal that requires
+>>> DCS initialization sequences.
 >>>
->>> The documentation is not clear about how this delay works.
->>> Empirical tests have shown that with a VSDELAY of 0, the first
->>> scanline is not properly formatted in the output stream when
->>> DSI->DP mode is used. The calculation spreadsheets from Toshiba
->>> seem to always make this value equal to the HFP + 10 for DSI->DP
->>> use-case. For DSI->DPI this value should be > 2 and for DPI->DP
->>> it seems to always be 0x64.
->>>
->>> Signed-off-by: David Jander <david@protonic.nl>
->>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>>> Signed-off-by: Paulo Pavacic <pavacic.p@gmail.com>
 >>> ---
->>>    drivers/gpu/drm/bridge/tc358767.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
->>> index 46916ae30f8f..9f2c67b4a488 100644
->>> --- a/drivers/gpu/drm/bridge/tc358767.c
->>> +++ b/drivers/gpu/drm/bridge/tc358767.c
->>> @@ -817,7 +817,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
->>>    	 * sync signals
->>>    	 */
->>>    	ret = regmap_write(tc->regmap, VPCTRL0,
->>> -			   FIELD_PREP(VSDELAY, 0) |
->>> +			   FIELD_PREP(VSDELAY, right_margin + 10) |
->>>    			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
->>>    	if (ret)
->>>    		return ret;
+>>> v4 changelog:
+>>>  - formatting and style changes
 >>
->> Aren't you running into a problem due to VS timing misconfiguration on
->> the scanout engine or DSI serializer side ? The VSDELAY seems to
->> increase the length of VSYNC active .
+>> Are you sure? I see other changes - removal of some code, handling
+>> errors and GPIO.
 >>
+>>>  - change community room
+>>
+>> What does it mean? Where is this change in this patch?
+>>
+>> ...
+>>
+>>> +
+>>> +static const struct drm_panel_funcs fannal_panel_funcs = {
+>>> +     .prepare = fannal_panel_prepare,
+>>> +     .unprepare = fannal_panel_unprepare,
+>>> +     .enable = fannal_panel_enable,
+>>> +     .disable = fannal_panel_disable,
+>>> +     .get_modes = fannal_panel_get_modes,
+>>> +};
+>>> +
+>>> +static int fannal_panel_probe(struct mipi_dsi_device *dsi)
+>>> +{
+>>> +     struct device *dev = &dsi->dev;
+>>> +     struct fannal_panel_data *panel_data;
+>>> +     int ret;
+>>> +
+>>> +     panel_data = devm_kzalloc(&dsi->dev, sizeof(*panel_data), GFP_KERNEL);
+>>> +
+>>
+>> Drop blank line.
+>>
+>>> +     if (!panel_data)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     panel_data->reset =
+>>
+>> You have wrong wrapping here. devm_gpiod_get_optional() goes after =.
 > 
-> No, as far as I understand the VSDELAY adds an offset between input an
-> output side of the video FIFO. It shouldn't increase the length of any
-> sync signal, but delays the read side of the FIFO, so the write (DSI)
-> side has some margin to put data into the FIFO before DP side starts to
-> assemble packets.
+> I'm not sure why, but clang-format makes it that way. I'm using this
+> style: https://raw.githubusercontent.com/torvalds/linux/master/.clang-format
+> Do you have some other style?
 
-Does this apply to DSI-to-DPI mode too ?
+Linux kernel coding style.
 
->>   Which DSI bus mode do you use, sync events/pulses/burst ?
-> 
-> At the time when this patch was written it still was the SYNC_PULSE
-> mode.
+https://elixir.bootlin.com/linux/v6.4-rc5/source/Documentation/process/coding-style.rst
 
-Can you please double-check this with current burst mode ?
+Don't use clang or other non-kernel formatters.
+
+
+Best regards,
+Krzysztof
+
