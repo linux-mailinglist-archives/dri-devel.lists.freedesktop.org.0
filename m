@@ -2,116 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880B8725C6F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 12:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7947A725CAA
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 13:06:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACB0110E4B4;
-	Wed,  7 Jun 2023 10:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3A289CD3;
+	Wed,  7 Jun 2023 11:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2121.outbound.protection.outlook.com [40.107.114.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D4F10E0DB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 10:58:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NoUcw77zNnKvfee0CJyHzcpKKVDvBfTsE7MnZcxwZDvjnIIz+/VSLnieIVGFO3QQsIa7Az58QLLJ0FsElOV+Vwo+SB3BpMGuJj0YdkODpH+5FIJ/xxzMNW5+QODwTGa5p0M0QjaDG7oHjtFHVzW7t0mEho4h2YkAIfTleTREC4O3taW54oN4Rcpoqd5YxxjOBide3UEb7h+dJdS04+M02HUMQ5zUjVyW8IXQomobX5HhaEumPV+5YLEDF1ug8nw5qfGESyQuKT2G1zzxRdgKX3qp5AZyTUf5nws1FSfx0CK+LVufv2lVaG7RIcxnt2hpLDHyJdhhL+i6DiV9bMprGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=59NBuX7U4or4wJhdtc/iqvL15ppNRQWKqctJz0PBihA=;
- b=ftQqToKRKwO+95lBm5TMEeKl94AyY3h9o9JtdnA8QEx3F3Ip/Iz/4P9VXa+o4XcmqgVDAlM2cmnn+iiha4oFqR3Ho3bwEAEZ5+NIK8khK3K+Mz4ALg5vHV9lodcIdodTlVXeD/BNOxfn24e4xbr2/1m8s9Ra3VSV/QAFp9CblVFEi9SAxGzmSJeIVsJaaBEeggUZsBz8RvZjUIHh7tPeK3ER80k15NJjgIExlsgCsUsXzqnZMqk0me9ya5M0X0PeIgFbzEEhG3Q4jtE/js3QhrWHuXTeWaUMBLq9ZSD49LVRsvomAfrrRDsQWN/Lfa2hGgW9rcVGMIqOxBjNMfroSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=59NBuX7U4or4wJhdtc/iqvL15ppNRQWKqctJz0PBihA=;
- b=VKu5SOwKDWFUQZElDsDLyBYMD9rq7IcVWk0kRORz6ygTFsqi/axQZ5EeaL6MhpYIRXh+DGcSKKSTcp1uYlmtRX8I27oTTuG+o6/eWTUjnWYHrqo/DTaFcotRDxAfbBc3EhahYsaSrYgDUWxt/WdHMu/VuaaV7t8qpmRq3YJHibU=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB9610.jpnprd01.prod.outlook.com (2603:1096:400:1a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Wed, 7 Jun
- 2023 10:58:46 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
- 10:58:46 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4A==
-Date: Wed, 7 Jun 2023 10:58:46 +0000
-Message-ID: <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
- <ZIBFc3y9jD59lZ3A@shikoro>
-In-Reply-To: <ZIBFc3y9jD59lZ3A@shikoro>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB9610:EE_
-x-ms-office365-filtering-correlation-id: 436204e5-af62-419b-d7d5-08db67462ab2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: TxigxkwWF63ifHqlUbeQdJf/EXwlI51wd7tIGZVOpZ6Sp4cs0E92G2XS6VCTgyVz2TlrZ43nqGKpHu2Iz8afXTSZI78mB+tEJ0vJdJRzX0pfwetcRI2dzByNzb2VZhwmGRP60ZF5hPkDq98vskIJ5S2uJToNEmOxu7MuLN/MlQCA/IJpPzfXJYaDM+QWd24dwEzu9LJbi8brj3CO9gn7BO+90f/W9Zt3vrrXW6KCNFoSLghckz4w+js9B2t7TyVuvv42bU43EqgDKpisCfqja7o8tfM5LGamXuvyDqoo0zNXcbC5Y7+YmHGKw1tywcQc4c34Ft6VZmxIG93CQjn45U2c0VDLR9wxnq4aTtgZ5q84JTfE2uoLTlHsQC8AynORXFdq5s0WxaBvVds5LmUkIrAjXXo0ZjSw0CjPygy7dDTa9e8lAeMQw0aEzShikskUDDvWR0QaJBUAthHEyiMQz7NE8Vo2g/Rw67BJSb8vqh6L+zqn7PDJcQ3bENR+jFVDa5mYc5Ah7Iu6yJk955sGeIw9JV+yj2qlN+CBGwUbdn6egPSfvKsfrLxaPb0pok0d8zM5t/ctBsXx2vXvFnBBfQT/zQq2bnww0cklPmX3MNB7i6LLWs8Efi0ggsw0adDXHIMq4pPeKwyLRZPC3zYn6Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199021)(186003)(6506007)(26005)(9686003)(966005)(7406005)(83380400001)(7416002)(7696005)(71200400001)(2906002)(8676002)(8936002)(110136005)(54906003)(478600001)(55016003)(33656002)(41300700001)(38100700002)(5660300002)(122000001)(64756008)(86362001)(4326008)(316002)(66476007)(38070700005)(66556008)(66446008)(52536014)(76116006)(66946007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?v8rVt55j5DtooV70OIn4yothEEE22gKDs+lWJ/1CRh/4wVub6FpMKftEwk?=
- =?iso-8859-1?Q?Fs2ukdldceK52cBiPExr97SNEawwmtUKxvdeFR6Zb4NJjv/IQ2icXupRWg?=
- =?iso-8859-1?Q?tINL32nhcgAwxX58Hv3goQiXBT4r5enRgwMoktOUJGT+tuPo6ZR9tqhKoT?=
- =?iso-8859-1?Q?63FSzVVomn1fo8fZJMqhoXWoqa0lIn7eHfFQGTV/ZHHWUXbKOFGHDNFCbr?=
- =?iso-8859-1?Q?OX619n2K0cozW6T+ZCCCZTWXj94mtYaxKyzr1nwTXzusYqnzRk3a3/9YUq?=
- =?iso-8859-1?Q?tJH02DodD3ebtm1Ql35mThzQuum2irsgMjTAj+VmRjNVc78EONYM2UM1tC?=
- =?iso-8859-1?Q?wk14+XJlGJ/R3Ar0fwTfkjaLSYIOu09cbRmDQG8J36HaGOpEpS3LJTjKSS?=
- =?iso-8859-1?Q?YZgve3DHOlPvO+MpPz3USHsV8SACCDyZIWIf7fxd2DQeVWPoICRX6GGjVc?=
- =?iso-8859-1?Q?Ws6u1ShazDpQ6TZ6wLwlF3rozAYje7cy1JvClxKK59i1OeZ7mBLd1289xH?=
- =?iso-8859-1?Q?XYEerWLWlSiqPtQLJwKfGK9u/7Qg7GLfGiafmXbT2EsZHX3i8NPV17BZl6?=
- =?iso-8859-1?Q?67poZ9MEpQ+JT92bpySfVXPCpBkEjTWuqXfDdpYsq0cwGbjeDAG2zfPX0J?=
- =?iso-8859-1?Q?iTzJtJziJPJw5AZzYjNz3Mbli0FBPInlQ1tR00jYVMdGsvYbtbJI3KZ3pM?=
- =?iso-8859-1?Q?ZeTe4cnIFZ300aiLoOY4dGX8c7wXWmqoiv7ftkLkEfkjDq3NMMQy5RIfnY?=
- =?iso-8859-1?Q?hSlrgE9aMTdFReYXWRy9GiPq2iKX9kYnvv3YcR8eHYegKKqGeOfbuN5cK6?=
- =?iso-8859-1?Q?V9BoQiyZ/lZ6tlnoUBJ7S7A8myCo5DLV6PF1tiT8ISj/oWNWuA8nF4qpKI?=
- =?iso-8859-1?Q?IWmI6IslBenc+oDZPIdu3dc+Dc7JzR7+OdYRc5muxYcadNeV+k+yIDp7Gl?=
- =?iso-8859-1?Q?SeDO3Sg7vf9GSRC+beDVQccS6NnfU59Gvz4Hpqddvr1Y8hZnHXYx5NgRF1?=
- =?iso-8859-1?Q?mxfEXMEAtIxbSWViYcpmdqrSGBucKSo+xgefY4KNYadknwYTyI1oyPblWG?=
- =?iso-8859-1?Q?6qcZNIFtTJ+leNTDYJ4dZN86AFycNKI1pWtM7SCOkGeaysb/RNrlRx3Ana?=
- =?iso-8859-1?Q?4Um2OKj3Nn32OuMOJY7h3YX/9mYw8CKwUslXza08PPM2hJHZQgPCZZDtlL?=
- =?iso-8859-1?Q?YbQAx2EYCi0AXlke/b0h331ftGFzb0MLcrb3akou6rBrm4l9+hiEWRe61e?=
- =?iso-8859-1?Q?CEfESfN2UkMn01KZWxSrjFeU0gd4yWbzgjc/rBCl48ZG4XXiScMjSabnUH?=
- =?iso-8859-1?Q?aMA8WoMs8cusIaE7Lya0CpfPxqHNjWAKB1XA6Dw8bwuhAwOMtmr6YpALwg?=
- =?iso-8859-1?Q?lpRjfGv3Oe18JrubZ/tfhQPDmSpmjwLGoI85iswtDcNkNZzILs8rNPMEk2?=
- =?iso-8859-1?Q?+YQqFNt/WK0NGY6nOfz2p4z9jZIoZIvG25BMvJWBn6AslliuCZHwaC29oJ?=
- =?iso-8859-1?Q?MPAc/aoSxrDpQjcLWGuOC7tugFCj9z/KMSd6Vx2ZSxLg2VXoLp+Oka4vDJ?=
- =?iso-8859-1?Q?w6zMpuMBv083VYH33PPt9HxGLznKmW+jJCNDmp76SX6WFqEbnSU0znuA4Z?=
- =?iso-8859-1?Q?8ES/Ni1Cxm2v96yLKKj7oIKTwDNTI3Q/2ZtU362blZgJcAQLl2/QpZmw?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D7C7989CD3
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 11:06:52 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxzOrLZIBkFx0AAA--.466S3;
+ Wed, 07 Jun 2023 19:06:51 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxGOXKZIBkUW0EAA--.16030S2; 
+ Wed, 07 Jun 2023 19:06:50 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
+Date: Wed,  7 Jun 2023 19:06:50 +0800
+Message-Id: <20230607110650.569522-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 436204e5-af62-419b-d7d5-08db67462ab2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 10:58:46.4782 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BN7yJ8/2LG2qaDP/zkVxLUWOIJNtvBmsDWP//hshITRcD7UhNOfXTgqBuCjLZbjYDbp4DaIqph0yqY9msNqPDhknwsZasATOWfrZGOF4teE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9610
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxGOXKZIBkUW0EAA--.16030S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxJr1UJr13Gw45JF1xWrWUKFX_yoW8Gr1Upr
+ s8tw18uFZ7ZFW0kFW7AF1xWFy5X3WDXFWSkr93twn09rn8AFWjyr9IyFW5GFyUAry7WrWU
+ Xas3KFy7JFy8A3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUkIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+ 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+ wI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1oGQDUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,88 +58,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Otherwise its failed to pass basic compile test on platform without
+REGMAP_MMIO selected by defconfig
 
-Hi Wolfram,
+make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
 
-> Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
->=20
-> Hi all,
->=20
-> sorry for not being able to chime in earlier.
->=20
-> > In Biju's particular use case, the i2c device responds to two
-> > addresses, which is the standard i2c ancillary use case.  However,
-> > what's special
->=20
-> Not quite. ancillary is used when a *driver* needs to take care of two
-> addresses. We already have devices bundling two features into the same
-> chip. I recall at least RTC + EEPROM somewhere. And so far, we have been
-> handling this by creating two nodes in DT and have proper binding docs.
-> I think this is cleaner. First, you can see in DT already what the
-> compound device really consists of. In this case, which RTC and RTC drive=
-r
-> is exactly needed. Second, the code added here adds complexity to the I2C
-> core with another layer of inderection for dummy devices.
+  SYNC    include/config/auto.conf.cmd
+  Checking missing-syscalls for N32
+  CALL    scripts/checksyscalls.sh
+  Checking missing-syscalls for O32
+  CALL    scripts/checksyscalls.sh
+  CALL    scripts/checksyscalls.sh
+  MODPOST Module.symvers
+ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
+make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+make: *** [Makefile:1978: modpost] Error 2
 
-FYI, please see [1] and [2]=20
+V2: Order alphabetically
 
-As per DT maintainers, most of PMICs are described with one node, even thou=
-gh RTC is on separate
-address. According to them the DT schema allows multiple addresses for chil=
-dren.
-But currently we lacks implementation for that. The enhancement to this API=
- allows that.
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/ingenic/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1]
-https://lore.kernel.org/linux-renesas-soc/bce6cbcd-b693-4027-7d17-8e582b8fa=
-2f9@linaro.org/
-
-and=20
-[2]
-https://lore.kernel.org/linux-renesas-soc/CAMuHMdVrH5R4mAjm1c9zRqiGhNsfT7Y1=
-3xxaV-v05T-MCJ6=3DRQ@mail.gmail.com/
-
-Cheers,
-Biju
-
-
->=20
-> > As some resources are shared (knowledge about the clocks), splitting
-> > this in two distinct devices in DT (which is what Biju's initial patch
-> > series did) would need phandles to link both nodes together.
-> >
-> > Do you have a better idea how to represent this?
->=20
-> Not sure if I understood this chip correctly, but maybe: The PMIC driver
-> exposes a clock gate which can be consumed by the RTC driver?
->=20
-> Happy hacking,
->=20
->    Wolfram
+diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+index a53f475d33df..b440e0cdc057 100644
+--- a/drivers/gpu/drm/ingenic/Kconfig
++++ b/drivers/gpu/drm/ingenic/Kconfig
+@@ -9,6 +9,8 @@ config DRM_INGENIC
+ 	select DRM_PANEL_BRIDGE
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_DMA_HELPER
++	select REGMAP
++	select REGMAP_MMIO
+ 	select VT_HW_CONSOLE_BINDING if FRAMEBUFFER_CONSOLE
+ 	help
+ 	  Choose this option for DRM support for the Ingenic SoCs.
+-- 
+2.25.1
 
