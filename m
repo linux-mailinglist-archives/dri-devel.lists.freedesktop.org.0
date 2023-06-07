@@ -1,49 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97450725117
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 02:16:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C8772585C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C89B710E3F2;
-	Wed,  7 Jun 2023 00:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 552D810E47F;
+	Wed,  7 Jun 2023 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79F4D10E33B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 00:16:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1BEA062E4B;
- Wed,  7 Jun 2023 00:16:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86E9C433EF;
- Wed,  7 Jun 2023 00:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686096967;
- bh=CWFasZaJOed9oYdPj/iRxWloXiVd+HoiWc32ZvjGn6M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=QJ6o6XBP1+rKTs0mr+FNRRl9AfnoHx2AQ6hfFsukq6JktBEkaeeUZusc93iTSG5/E
- 9X6nho+NYjfMMm4MXXUktFhM3DjojpG230V5REgbnYqzSTe6WKznZDJVy9Se6Xo9bx
- 7m6kWQaNMFVnBPvMnGc3ZKTxZmmzUmwPhhKNyZycVtSSpSkmbgkfkiWgedZPPj3Vjl
- 7XNtKYxhjZsP79OcL0uRfJORRPs5EQDCh7P8IVoWFRTQYThZx0L271g/UF/NvCmLRM
- 9t+PsjoPAXGeqPZnXF2+ETihM+O4FcsQ6fzWTqUZKVqjQ2yjuzvwrc03WjYvbH764j
- 2Rq0f8pfS86vg==
-Date: Tue, 6 Jun 2023 17:16:05 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH net-next v6 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <20230606171605.3c20ae79@kernel.org>
-In-Reply-To: <956dc20f-386c-f4fe-b827-1a749ee8af02@broadcom.com>
-References: <1685657551-38291-1-git-send-email-justin.chen@broadcom.com>
- <1685657551-38291-4-git-send-email-justin.chen@broadcom.com>
- <20230602235859.79042ff0@kernel.org>
- <956dc20f-386c-f4fe-b827-1a749ee8af02@broadcom.com>
+X-Greylist: delayed 611 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Jun 2023 01:00:50 UTC
+Received: from smtp.tom.com (smtprz25.163.net [106.38.219.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62A4D10E3FD
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 01:00:50 +0000 (UTC)
+Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
+ by freemail02.tom.com (Postfix) with ESMTP id B5232B00D45
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:50:35 +0800 (CST)
+Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
+ by my-app02 (TOM SMTP Server) with SMTP ID 1945390657
+ for <dri-devel@lists.freedesktop.org>;
+ Wed, 07 Jun 2023 08:50:35 +0800 (CST)
+Received: from antispam1.tom.com (unknown [172.25.16.55])
+ by freemail02.tom.com (Postfix) with ESMTP id A2B5FB00CBF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:50:34 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
+ t=1686099035; bh=QsFM4uyy5VZQwk9mEzKAccKlevD3TSVUAfLJgnmLgyU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GeWkcCSocYpAIfjS1zXhLvob49Q3HRhMPXc6qXDllzN07hUYC4C5YMUtDBE6JLw6N
+ NKfue4T4hfe6z4JIyPlS/DUaTraGT7nuj9vZB9alVIojirtSubISpwYZCzTETdhCVA
+ xvrS1ETseqqcP5cHJAZPkcXzE+qaQ42uCpQ++mNE=
+Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
+ by antispam1.tom.com (Postfix) with ESMTP id 4ABBCD41A3A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:50:34 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
+Received: from antispam1.tom.com ([127.0.0.1])
+ by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id byNKfc_GrcMW for <dri-devel@lists.freedesktop.org>;
+ Wed,  7 Jun 2023 08:50:26 +0800 (CST)
+Received: from [172.30.38.103] (unknown [180.167.10.98])
+ by antispam1.tom.com (Postfix) with ESMTPA id 3D3ACD4170C;
+ Wed,  7 Jun 2023 08:50:24 +0800 (CST)
+Message-ID: <928cc71e-7b66-9cb0-7751-ce1f65489360@tom.com>
+Date: Wed, 7 Jun 2023 08:50:23 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Avoid possible buffer overflow
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>
+References: <20230606075527.155346-1-suhui@nfschina.com>
+ <CAD=FV=X_n4Si3k4iQ0yRJZRqX2DuhGF2pjPqEzbiKqBY3ZCNHg@mail.gmail.com>
+From: Longsuhui <Jack_sun@tom.com>
+In-Reply-To: <CAD=FV=X_n4Si3k4iQ0yRJZRqX2DuhGF2pjPqEzbiKqBY3ZCNHg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,46 +68,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
- florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
- robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
- krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com,
- christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
- davem@davemloft.net, hkallweit1@gmail.com
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ andersson@kernel.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 6 Jun 2023 15:58:21 -0700 Justin Chen wrote:
-> On 6/2/23 11:58 PM, Jakub Kicinski wrote:
-> > On Thu,  1 Jun 2023 15:12:28 -0700 Justin Chen wrote:  
-> >> +	/* general stats */
-> >> +	STAT_NETDEV(rx_packets),
-> >> +	STAT_NETDEV(tx_packets),
-> >> +	STAT_NETDEV(rx_bytes),
-> >> +	STAT_NETDEV(tx_bytes),
-> >> +	STAT_NETDEV(rx_errors),
-> >> +	STAT_NETDEV(tx_errors),
-> >> +	STAT_NETDEV(rx_dropped),
-> >> +	STAT_NETDEV(tx_dropped),
-> >> +	STAT_NETDEV(multicast),  
-> > 
-> > please don't report standard interface stats in ethtool -S
-> >   
-> 
-> These are not netdev statistics but MAC block counters. Guess it is not 
-> clear with the naming here, will fix this. We have a use case where the 
-> MAC traffic may be redirected from the associated net dev, so the 
-> counters may not be the same.
+Hi,
 
-You seem to be dumping straight from the stats member of struct
-net_device:
+On 2023/6/6 23:28, Doug Anderson wrote:
+> Hi,
+>
+> On Tue, Jun 6, 2023 at 12:56 AM Su Hui <suhui@nfschina.com> wrote:
+>> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <= 5.
+>>
+>> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
+>> Signed-off-by: Su Hui <suhui@nfschina.com>
+>> ---
+>>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> index 7a748785c545..952aae4221e7 100644
+>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+>> @@ -305,7 +305,8 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+>>           * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
+>>           * regardless of its actual sourcing.
+>>           */
+>> -       pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
+>> +       if (i < refclk_lut_size)
+>> +               pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
+> I don't think this is quite the right fix. I don't think we can just
+> skip assigning "pdata->pwm_refclk_freq". In general I think we're in
+> pretty bad shape if we ever fail to match a refclk from the table and
+> I'm not quite sure how the bridge chip could work at all in this case.
+> Probably that at least deserves a warning message in the logs. There's
+> no place to return an error though, so I guess the warning is the best
+> we can do and then we can do our best to do something reasonable.
+>
+> In this case, I think "reasonable" might be that if the for loop exits
+> and "i == refclk_lut_size" that we should set "i" to 1. According to
+> the datasheet [1] setting a value of 5 (which the existing code does)
+> is the same as setting a value of 1 (the default) and if it's 1 then
+> we'll be able to look this up in the table.
+I think you are right. And " if ( i >= refclk_lut_size) i=1" is a 
+suitable change.
+I will send patch v2 a litter latter.
+Thanks for your suggestion.
 
-+		if (s->type == BCMASP_STAT_NETDEV)
-+			p = (char *)&dev->stats;
+Su Hui
 
-No?
-
-Also - can you describe how you can have multiple netdevs for 
-the same MAC?
+>
+> [1] https://www.ti.com/lit/gpn/sn65dsi86
+>
+> -Doug
