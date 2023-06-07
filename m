@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C19B725852
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:46:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF89C725702
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5CE10E482;
-	Wed,  7 Jun 2023 08:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AC110E457;
+	Wed,  7 Jun 2023 08:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
- by gabe.freedesktop.org (Postfix) with ESMTP id A8D1C10E456
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:02:52 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by ex01.ufhost.com (Postfix) with ESMTP id E591624E307;
- Wed,  7 Jun 2023 16:02:35 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 7 Jun
- 2023 16:02:35 +0800
-Received: from [192.168.60.122] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 7 Jun
- 2023 16:02:35 +0800
-Message-ID: <ab89b684-8b49-2088-b0d2-ca362fd9dfb4@starfivetech.com>
-Date: Wed, 7 Jun 2023 16:02:34 +0800
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45BBA10E457;
+ Wed,  7 Jun 2023 08:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686125445; x=1717661445;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eyBUcZq82tJ89/u6a6llTwo7T9befTamyLsljEKH8DI=;
+ b=bacKfRHLgeesuKidjbCL5SEZAzJqoy9zafm5ydiqDlbF5+W+B0xusCOr
+ WCagy3GURPiDrIpgJfIN081UG3GhKiJThglwk5cWFc7LrkqPFvgPBIirA
+ cctDvS8ZIvCSpruMEg1NH2HhaQ2nB3QIPhO68iZuPB8nxP5GabMN8V7oC
+ diWfCn24k3IGLs9sbpfpg3HXMjJxrX9QSbEgZBQVoeh0/ZIX7P5qGpIkv
+ Uer8/28IgY1rxL9C+hA4J6I85RLnzbqyOVxRo5s95dwQGeuoCQGOVE7DY
+ bPJzxTry1Vxhyg2hfGPGuk5Pzdy7gHCR8EWnHWf0z22xh0goHc4wxSrrv g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="443287513"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="443287513"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 01:10:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="774410151"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="774410151"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 01:10:42 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915: Fix a VMA UAF for multi-gt platform
+Date: Wed,  7 Jun 2023 10:10:32 +0200
+Message-Id: <20230607081032.19275-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
- subsystem
-Content-Language: en-US
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
- <TY3P286MB26116576E3E502CAE53834599852A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
- <1991848.PYKUYFuaPT@diego> <20230606-geometry-blurb-1f0f07d4bf6a@spud>
- <ifgjvonhkzcwrklzch5efguor2x6az4m737dwte4uyow7ar5dr@z4glaxse6dou>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-To: undisclosed-recipients:;
-In-Reply-To: <ifgjvonhkzcwrklzch5efguor2x6az4m737dwte4uyow7ar5dr@z4glaxse6dou>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 07 Jun 2023 08:45:25 +0000
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,107 +59,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Ensure correct handling of closed VMAs on multi-gt platforms to prevent
+Use-After-Free. Currently, when GT0 goes idle, closed VMAs that are
+exclusively added to GT0's closed_vma link (gt->closed_vma) and
+subsequently freed by i915_vma_parked(), which assumes the entire GPU is
+idle. However, on platforms with multiple GTs, such as MTL, GT1 may
+remain active while GT0 is idle. This causes GT0 to mistakenly consider
+the closed VMAs in its closed_vma list as unnecessary, potentially
+leading to Use-After-Free issues if a job for GT1 attempts to access a
+freed VMA.
 
+Although we do take a wakeref for GT0 but it happens later, after
+evaluating VMAs. To mitigate this, it is necessary to hold a GT0 wakeref
+early.
 
-On 2023/6/7 14:41, Maxime Ripard wrote:
-> On Tue, Jun 06, 2023 at 11:37:53PM +0100, Conor Dooley wrote:
->> On Wed, Jun 07, 2023 at 12:22:33AM +0200, Heiko St=C3=BCbner wrote:
->> > Am Dienstag, 6. Juni 2023, 20:41:17 CEST schrieb Shengyu Qu:
->> > > > On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
->> > > >> Add bindings for JH7110 display subsystem which
->> > > >> has a display controller verisilicon dc8200
->> > > >> and an HDMI interface.
->>=20
->> > > >> +description:
->> > > >> +  The StarFive SoC uses the HDMI signal transmiter based on in=
-nosilicon IP
->> > > > Is innosilicon the same thing as verisilicon? Also
->> > > > s/transmiter/transmitter/, both here and in the title.
-yes,innosilicon is the HDMI IP  and verisilicon is the DC-controller IP
+v2: Use gt id to detect multi-tile(Andi)
+    Fix the incorrect error path.
+v3: Add more comment(Andi)
+    Use the new gt var when possible(Andrzej)
 
->> > >=20
->> > > I think that is not the same, I remember Rockchip has used a HDMI=20
->> > > transmitter from
->> > >=20
->> > > Innosilicon, and there is a existing driver for that in mainline.
->> >=20
->> > Yep, I think Innosilicon is the company you turn to when you want to=
- save
->> > a bit of money ;-) . In the bigger SoCs Rockchip most of the time us=
-es
->> > Designware hdmi blocks and looking at the history only the rk3036 ev=
-er
->> > used an Innosilicon block.
->> >=20
-I have done a HDMIcomparison of the rk3036 and the jh7110, and they are b=
-oth based on ip Innosilicon.
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Chris Wilson <chris.p.wilson@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Tested-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 21 +++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-the hardware of them .
-Some parts of the hardware of the two are common, such as the logic of hd=
-mi I2C to obtain edid, and the register definition is consistent.
-
-Many registers are defined differently from the linux main line inno driv=
-er, including registers that contain specific bits
-and some registers in linux main line inno driver no longer used in my ne=
-w inoo hdmi hardware.
-
->> > Looking at the history, 2016 really was a long time ago :-D.
->> >=20
->> > > So Keith, if that's true, I think it is better to seperate the HDM=
-I=20
->> > > stuff and reuse existing driver.
->> >=20
->> > I'm not so sure about that - at least from a cursory glance :-) .
->> >=20
->> > The registers do look slightly different and I don't know how much
->> > the IP changed between the rk3036-version and the jh7110 version.
->> >=20
->> > At the very least, I know my rk3036 board isn't booting right now, s=
-o
->> > I can't really provide help for generalizing the rockchip-driver.
->> >=20
->> > At the very least both the binding and driver could drop the "starfi=
-ve-hdmi"
->> > and actually use the Innosilicon in the naming somewhere, so that it=
-'s
->> > clear for future developers :-)
->>=20
->> Seeing "based on" always makes me a little bit nervous to be honest wh=
-en
->> it comes to using a compatible from the IP. Is it the IP? What version
->> is it? etc. Perhaps "starfive,jh7110-hdmi" & falling back to some sort
->> of "innosilicon,hdmi" would be more future/IP-silliness proof.
->> Driver can always be generic & bind against "innosilicon,hdmi" until
->> that becomes impossible.
->=20
-> Given that Neil was saying that there's at least two
-> generations/revisions/models of an HDMI controller from Innosilicon, I'=
-m
-> not sure that compatible is enough to reach that goal anyway.
->=20
-> Maxime
-
-
-
-I will change the  the binding  to meet innosilicon,hdmi .
-for the drivers part , I will study the possibility of RK-HDMI reuse.
-
-Thank you for your comments
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 5fb459ea4294..1de9de1e4782 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -2692,6 +2692,7 @@ static int
+ eb_select_engine(struct i915_execbuffer *eb)
+ {
+ 	struct intel_context *ce, *child;
++	struct intel_gt *gt;
+ 	unsigned int idx;
+ 	int err;
+ 
+@@ -2715,10 +2716,17 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 		}
+ 	}
+ 	eb->num_batches = ce->parallel.number_children + 1;
++	gt = ce->engine->gt;
+ 
+ 	for_each_child(ce, child)
+ 		intel_context_get(child);
+-	intel_gt_pm_get(ce->engine->gt);
++	intel_gt_pm_get(gt);
++	/*
++	 * Keep GT0 active on MTL so that i915_vma_parked() doesn't
++	 * free VMAs while execbuf ioctl is validating VMAs.
++	 */
++	if (gt->info.id)
++		intel_gt_pm_get(to_gt(gt->i915));
+ 
+ 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+ 		err = intel_context_alloc_state(ce);
+@@ -2757,7 +2765,10 @@ eb_select_engine(struct i915_execbuffer *eb)
+ 	return err;
+ 
+ err:
+-	intel_gt_pm_put(ce->engine->gt);
++	if (gt->info.id)
++		intel_gt_pm_put(to_gt(gt->i915));
++
++	intel_gt_pm_put(gt);
+ 	for_each_child(ce, child)
+ 		intel_context_put(child);
+ 	intel_context_put(ce);
+@@ -2770,6 +2781,12 @@ eb_put_engine(struct i915_execbuffer *eb)
+ 	struct intel_context *child;
+ 
+ 	i915_vm_put(eb->context->vm);
++	/*
++	 * This works in conjunction with eb_select_engine() to prevent
++	 * i915_vma_parked() from interfering while execbuf validates vmas.
++	 */
++	if (eb->gt->info.id)
++		intel_gt_pm_put(to_gt(eb->gt->i915));
+ 	intel_gt_pm_put(eb->gt);
+ 	for_each_child(eb->context, child)
+ 		intel_context_put(child);
+-- 
+2.39.0
 
