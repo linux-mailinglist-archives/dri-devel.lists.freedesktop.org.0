@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F259C7255B8
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:31:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1DF7255BE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:34:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE9710E449;
-	Wed,  7 Jun 2023 07:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD4910E44A;
+	Wed,  7 Jun 2023 07:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3194810E449
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:31:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E20310E44A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686123064;
+ s=mimecast20190719; t=1686123259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
- b=LgLRX9tRd2Covg7vKgJXSI2GrQJGlm4sX2GdFdPl4D4GGJc3brO49j0FhnUd0pUz1HEOBk
- 9mxHbXn7BxqdBncqUB9adSHIoNi5xWEy3pvOe2LfN/8RPcubnytaFvnIfdKS122jAObgGY
- QN+GedmZolUomLnUUydomn4THB44F/U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/4kkmKCd2wl5ncm7VdRIyhpSQ8IQY2Nc27kZwe+CQ6o=;
+ b=Lj5RLNiP0T6JzaPAo6qgrlLTrzKbWlJoDCDzeelUo0aC9pzhCMuRP0uxd7UpKUAbVvvVuf
+ FjCJmsjtHwNmn1c6ItKJv6ORsECn764ku6CbEFGn1grYCd533yhGC/jOVA0JBXSaprRYhq
+ guKLnabYAoI4Jz3Or4x2CSHnHVzdZ9w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-466-ymg3Xh99OICG8M7eIA4xLA-1; Wed, 07 Jun 2023 03:31:02 -0400
-X-MC-Unique: ymg3Xh99OICG8M7eIA4xLA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f7e835ce65so9323765e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:31:01 -0700 (PDT)
+ us-mta-391-WPO-ilcjM26s9H-kyQO6jQ-1; Wed, 07 Jun 2023 03:34:16 -0400
+X-MC-Unique: WPO-ilcjM26s9H-kyQO6jQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-30c5d31b567so2489636f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:34:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686123060; x=1688715060;
+ d=1e100.net; s=20221208; t=1686123255; x=1688715255;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=86qJ/vtJ5+0COg+eCE9cC1XNW8WWzhrqJj3XV1HnHmU=;
- b=UmnmK7CFTghNiTo+6zCgkKSgd/9PelWQZG77fme1WQCAEKES5MFgGrGDsvz8lSRHGD
- gYGY80JPdV7E/0L5NUAWqeAOUQ5P3bMaf3rajg4kDCLL+lBJOoowb8gkDvC6qlpmcZmM
- 3UFJXZ5Ms8fB6oiYH9RCIvOWYO5SOs/cfWjMVgqXmXQtE9TVdvvuOxlwh9uw1qVpM8xK
- 3ZiNzCZQKb+APaq+eshqwDfSeGWR2iKqJucbswbCNrktwhstbTHGzrqe4ljdyDPidVZS
- tHR0c7RuIXW7cdiFr+V/zC4FhZz1pT8YojUUh00OrxJfEDCDyHIO2UBiKVDovN1ZVIng
- U5Sg==
-X-Gm-Message-State: AC+VfDy4xYgVEtxeInkr9qssFW6PqVQ83I8OllU+X5pZ4qTRPH55mtpF
- TpGvodJh7Ohp5QkMRXDSI/KfIWNx9+4Tvsdi63OuB4qqi0M5mM9PkP52B38wZOxaC1wjaYy6zMG
- XGJwu15XREB1/Kno+OL+J0iCZ+msO
-X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id
- u23-20020a05600c211700b003f42328b5c2mr3787348wml.35.1686123060796; 
- Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5uGo6zRkvpQ5estM3pdndUe5o7FAstx3xMsdIS0ZhyvoEoxkSKZkfhbKkJxPjpvFo09QUYlQ==
-X-Received: by 2002:a05:600c:2117:b0:3f4:2328:b5c2 with SMTP id
- u23-20020a05600c211700b003f42328b5c2mr3787327wml.35.1686123060473; 
- Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+ bh=/4kkmKCd2wl5ncm7VdRIyhpSQ8IQY2Nc27kZwe+CQ6o=;
+ b=FiPhQmMvoVgvQHv4ynOj4iQtdH1lNW5iufKi+yea4/CGaDr3ib41Oadl+yfmU/9j6P
+ cOeyR2JInSWkNWi/rdbkjbFTtJ4YsDrpf9HYwXFLADmRqslGz82yO4GBxUKJc7/PujXJ
+ PnQjagNeGiBYhQVMPcqLAyUmG7MnrFlYYvS3HouYxK9cAoMecsbBd+G1yOqsI/Im2A1H
+ 1/h9qwLo2U72czaU+c8gHetUhw8i6BIdWNJwsBK/RSz4Z26AoY9+oDexegtAUa0XlZ0Z
+ 7UA8nQdXM/L16z7albfg1gvJqhTbkSeJTEo6kInt4p8PmGyCOfDizf33C7AN3MYDOcu+
+ okVw==
+X-Gm-Message-State: AC+VfDyljh3DWk1S4z8tSBnXJB8rW/382BKdBPpS8jam+txaM6NjmGLW
+ PFs245/iTGDoubTAnNuz2y0+7tkze4dAz0+IJp82JDCe9OIe1EMp0udVj8WfTTwlPUA6YXyyNxa
+ Aak83NL9llBTIU20G/v22BPLGL/i1
+X-Received: by 2002:adf:de92:0:b0:2ef:bada:2f25 with SMTP id
+ w18-20020adfde92000000b002efbada2f25mr3634434wrl.67.1686123255196; 
+ Wed, 07 Jun 2023 00:34:15 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5kwgjMr0fDuyCE+y4fhZTqJkSHNU6+Lw9lBuHow6MJ+hyLq4N+EQ2nCyTNeqeilySEFyk4bw==
+X-Received: by 2002:adf:de92:0:b0:2ef:bada:2f25 with SMTP id
+ w18-20020adfde92000000b002efbada2f25mr3634421wrl.67.1686123254876; 
+ Wed, 07 Jun 2023 00:34:14 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y6-20020a7bcd86000000b003f4ddde398csm1142560wmj.21.2023.06.07.00.31.00
+ 3-20020a05600c028300b003f7eeec829asm1180357wmk.10.2023.06.07.00.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 00:31:00 -0700 (PDT)
+ Wed, 07 Jun 2023 00:34:14 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
@@ -65,8 +65,8 @@ Subject: Re: [PATCH 01/30] backlight/bd6107: Compare against struct
 In-Reply-To: <20230605144812.15241-2-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
  <20230605144812.15241-2-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 09:30:59 +0200
-Message-ID: <87bkhrhgp8.fsf@minerva.mail-host-address-is-not-set>
+Date: Wed, 07 Jun 2023 09:34:14 +0200
+Message-ID: <878rcvhgjt.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -104,6 +104,10 @@ Thomas Zimmermann <tzimmermann@suse.de> writes:
 > Cc: Daniel Thompson <daniel.thompson@linaro.org>
 > Cc: Jingoo Han <jingoohan1@gmail.com>
 > ---
+
+I agree with what was discussed in this thread, the check fix and rename
+could be split in separate patches to make it easier to understand what
+is changed. Regardless, feel free to add:
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
