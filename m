@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750E1725722
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394A27257DE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 10:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB4B10E459;
-	Wed,  7 Jun 2023 08:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F52310E45E;
+	Wed,  7 Jun 2023 08:35:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C2A10E459
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:15:20 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f732d37d7cso42337065e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686125718; x=1688717718;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qgIJSCejdHbYC6I5SehTRhoGCRpBeLeg1t9A/6zhpJo=;
- b=CIa64ozSdrDVRVg1jUgCTAiz36xySfnySuAigODI+An3r6XQLwAc3N8g+VaXmEjiEg
- He1RlJVQUxoLOzw6647ujk2cBWuG5dLxGbvmEZLSDY/gUh0iyjzUzrkaqmUzjpAHIVto
- lNKKf85hRuxVY5yhehspifd10g2gJM3UEbPTZy8ervc6l0QMC7MVrs7qvS0wu/HlEg80
- 1VnX3ZT8NUJESTVrBaVbM2EbqeHm1gyq8NkjCit3BV9MxDJJala3XneiAODy5RWorTMY
- SR8xwkEIMgMIl5LO04gTuqe42G4s/GQE4SzegI6ubCioeBvlyAmb1IvNom+TsBe8gpYj
- WQig==
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
+ [209.85.128.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414D310E45E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 08:35:15 +0000 (UTC)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-5664b14966bso87853227b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:35:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686125718; x=1688717718;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1686126913; x=1688718913;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qgIJSCejdHbYC6I5SehTRhoGCRpBeLeg1t9A/6zhpJo=;
- b=GzYJ4V32iCcCU9M0Q/ShpLXe0LP7vabyD0i3vUx6zq74A4tAJ52OfjP4M9NhC5J+pZ
- duDHZ1kE+TyaHiXHrJGDhFnrL9wtXfaN+jv65cImYUrOWH6VCITvIy5iGcBlQnwGkQkW
- lZQGtp7jUjexhizd1ZMQB2fpBMCLiERuJrN6Q83FHAJuDjL1pEBUpzCF6RJgZYylnDDu
- ye8sFmCq7OtTOfDtCfiaHL2RuPgbilmD8dBxii+WD7KgwKqtwjcCaxezp1tvl+yZ6nMn
- 4K53ttxbAJ9qF9lpk2LBGJQxCiUwpG7a1fUYnhI7V/6ew5g2O5cGjZ3yC+TEoGYSDgyp
- cUow==
-X-Gm-Message-State: AC+VfDxMxKV0WCznSouZomtOxBUIPV5h//UH7UdIdNPeIMyk3BKEH1lw
- bC1nCEg1M70yh9d6h7HzPyRDog==
-X-Google-Smtp-Source: ACHHUZ5tk6FymA5P3QCBia2YNIyTmWdjetu2eTi8qhNYTXKqJxyKEcwTWpSXM+EeMCN65Vy6Ap03GQ==
-X-Received: by 2002:a7b:c411:0:b0:3f7:3545:4630 with SMTP id
- k17-20020a7bc411000000b003f735454630mr5745200wmi.20.1686125718557; 
- Wed, 07 Jun 2023 01:15:18 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- f8-20020a1c6a08000000b003f72a7918e7sm1228212wmc.45.2023.06.07.01.15.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 01:15:18 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: linux-kernel@vger.kernel.org, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>
-In-Reply-To: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
-References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
-Subject: Re: (subset) [RESEND PATCH v2 0/6] Add display support on the
- stm32f746-disco board
-Message-Id: <168612571728.2521024.1084005865126960680.b4-ty@linaro.org>
-Date: Wed, 07 Jun 2023 10:15:17 +0200
+ bh=Tl7bhCDuACQlGnVS8msclVNyzt7m2ZyWzQXQ4o8Ijq4=;
+ b=HBuh7ISBaJM71HhUh7Q8ocdE4YTFt8IRlYJcIw08smrSGTj0wKJR3xpvbpmHtabT6o
+ Sl53ROWa/oSP+BtqR9BrrtJPuzUL8f0uHPqzvx3rOnvtmNfYUWIWtRZCLNhAILtZnr86
+ xdAdiPzewYaS9Et4vL+wvx598Bo/kGw3VTqXq1xtPV4ls/0+xDcH/lfnbQBzEg1vLq4G
+ BMG0fZawgc+xX3f8YgAPSH1mD0ltt+XYLmY20221fRKRxX+pRZ/kiBAYTBUbZtWhcpRb
+ OcMzM7Sv+DF7GPpOXZjtQSEmMR1t05QBG45VBZOOuFlC7OKorGwf09h3yKPyxz6xtmPr
+ 9frg==
+X-Gm-Message-State: AC+VfDwk/augr+gvBr1XXc8FWOiDZLAIkmNVve13h7M5HqTiXR2xheG7
+ 0DzOaNJ0dyOK+vqGZJBqtTqPQt7sOEMRKg==
+X-Google-Smtp-Source: ACHHUZ5PMjp997fu50HTyec4GXdkmKVEZ1dvj0/2iiAqHBUZGEROKdQ2qzeccAfld/tbvK0jHqEbyA==
+X-Received: by 2002:a81:c310:0:b0:561:8fef:13ce with SMTP id
+ r16-20020a81c310000000b005618fef13cemr6166965ywk.37.1686126913067; 
+ Wed, 07 Jun 2023 01:35:13 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ k126-20020a816f84000000b00565cf40238csm4600500ywc.110.2023.06.07.01.35.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jun 2023 01:35:12 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-565bdae581eso87632387b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 01:35:12 -0700 (PDT)
+X-Received: by 2002:a0d:eac5:0:b0:568:f2c:ee40 with SMTP id
+ t188-20020a0deac5000000b005680f2cee40mr4715739ywe.3.1686126912094; Wed, 07
+ Jun 2023 01:35:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+In-Reply-To: <20230605144812.15241-1-tzimmermann@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 7 Jun 2023 10:35:00 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
+Message-ID: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
+Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,42 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thomas,
 
-On Wed, 07 Jun 2023 08:31:33 +0200, Dario Binacchi wrote:
-> The series adds support for the display on the stm32f746-disco board,
-> along with a generic patch that adds the "bpp" parameter to the stm-drm
-> module. The intention is to allow users to size, within certain limits,
-> the memory footprint required by the framebuffer.
-> 
-> Changes in v2:
-> - Add 'Acked-by' tag of Conor Dooley.
-> - Fix build warning reported by kernel test robot.
-> - Add 'Reported-by' tag of kernel test robot.
-> 
-> [...]
+Thanks for your series!
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Over the past few days, I have been giving this some thought, that's
+why I am replying only now...
 
-[4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
-[5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
+On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+> Add the new config option FB_DEVICE. If enabled, fbdev provides
+> traditional userspace interfaces in devfs, sysfs and procfs, such
+> as /dev/fb0 or /proc/fb.
+>
+> Modern Linux distrobutions have adopted DRM drivers for graphics
+> output and use fbdev only for the kernel's framebuffer console.
+> Userspace has also moved on, with no new fbdev code being written
+> and existing support being removed.
+>
+> OTOH, fbdev provides userspace a way of accessing kernel or I/O
+> memory, which might compromise the system's security. See the recent
 
--- 
-Neil
+True, in some form...
+The amount of "kernel memory" that can be accessed is controlled by
+the fbdev driver (or by the DRM fbdev emulation). Nothing unsafe here.
+The I/O memory that can be accessed (if any) is controlled by the
+fbdev driver, and the full capabilities (e.g. DMA to random addresses)
+exported depend on the actual hardware.
 
+> commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
+> out-of-bounds access") for an example. Disabling fbdev userspace
+
+IMHO that's not a good example for the point you're trying to make,
+but merely bad bounds checking in kernel copying code...
+
+> interfaces is therefore a useful feature to limit unecessary
+> exposure of fbdev code to processes of low privilegues.
+
+This actually depends on the permissions on /dev/fb*...
+
+BTW, I am wondering if it would be possible to write a DRM emulation
+layer on top of (basic, e.g. no MMIO, just fb) fbdev?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
