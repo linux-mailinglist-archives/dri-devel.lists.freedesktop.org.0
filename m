@@ -1,59 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9832726AB4
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 22:19:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF02726C77
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 22:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 933CF10E544;
-	Wed,  7 Jun 2023 20:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4FB10E541;
+	Wed,  7 Jun 2023 20:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA5610E541;
- Wed,  7 Jun 2023 20:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686169187; x=1717705187;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sLX5G4ZkL+Cdg+Izw3VSjARG+9fbg+jRISFwXpa7Fx4=;
- b=PeB4EDNmMtWSEUffMzstY/6I7f1OCeiCAfWfyzUOky48bh3ooX/XiUnM
- xOJS2NHZpEG+vSM4nh1shpEFaSlYaLLIkgBOs4sKcrQlSPxT6Fl4xo427
- 97jy5AXQBf/Z+IiJehHf33Pxl35EDmdELHBD76FjXgo7V1obznNGLYqfp
- occWb+8eb+EEIha3qU+tsCt1m2ugmlm0SL5Xdf3RTufWT/9rV1QSzj6a2
- i6xkUEjltp7hqN7u6YkW8cJbQCnZUD6hGcLfcqrnK3S3sANA/ct2FlO+L
- hqehOML+HxSqYpz85O7c8GHy3tNYNcO2gKVdEOVjA42kwZeV60B1Cdhro w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="422943174"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; d="scan'208";a="422943174"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 13:19:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799528903"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; d="scan'208";a="799528903"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2023 13:19:41 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q6zd6-0006t8-2O;
- Wed, 07 Jun 2023 20:19:40 +0000
-Date: Thu, 8 Jun 2023 04:19:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
- christian.koenig@amd.com, bskeggs@redhat.com,
- Liam.Howlett@oracle.com, matthew.brost@intel.com,
- boris.brezillon@collabora.com, alexdeucher@gmail.com,
- ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
- jason@jlekstrand.net
-Subject: Re: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure
- to dump a DRM GPU VA space
-Message-ID: <202306080453.W2Dcrevr-lkp@intel.com>
-References: <20230606223130.6132-5-dakr@redhat.com>
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CEA10E541
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 20:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=ncnGoiPqkg7aXXCnLm3f8qp+53kbkQEpzVt1NSpcJHU=;
+ b=olBwmGZQPNol3RziKI2JYVqficg8GD4aBJXxxev0l0+F0TIsIq/xOuNEH+ON7RvC7oRtACcL+6aUf
+ m7gnvbIWsx1i/Kn1HKWoYwTVNvDk5FfxKrg1iBMn+fWSqOC2lnL22KQ9kEcWTAVwJDJEIJgNH6qxbY
+ mjieEAxF93ISxwdEM1fMkCqq8vz4Z8ZvayGRjS0leegNQokXUgymPixTORC3+qSb1Yh6V1PoP/097A
+ 3EWVjSxpfCBS1Uhxjaw2XP1JAXqi7rtArVQPJjrbT4XdvrAHZWeVFOY+eQsHwpBs3ra2iPl5+esXtE
+ gEEbTR0ZgHQPtp4ywMqIxXQ7y7nB+tA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=ncnGoiPqkg7aXXCnLm3f8qp+53kbkQEpzVt1NSpcJHU=;
+ b=vBW9762Q35LRhOnP7iqPanbyreWOBxciZsFsgYPYv8yk5HW2LLR3Yk/4eK1BHqDhwsOtIofr1rIKp
+ jgA0VW2CA==
+X-HalOne-ID: 93e8a00c-0572-11ee-b707-13111ccb208d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2 (Halon) with ESMTPSA
+ id 93e8a00c-0572-11ee-b707-13111ccb208d;
+ Wed, 07 Jun 2023 20:33:38 +0000 (UTC)
+Date: Wed, 7 Jun 2023 22:33:37 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 27/30] fbdev/core: Move procfs code to separate file
+Message-ID: <20230607203337.GD670717@ravnborg.org>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <20230605144812.15241-28-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606223130.6132-5-dakr@redhat.com>
+In-Reply-To: <20230605144812.15241-28-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,90 +57,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Danilo Krummrich <dakr@redhat.com>,
- oe-kbuild-all@lists.linux.dev
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
+ deller@gmx.de, lee@kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+On Mon, Jun 05, 2023 at 04:48:09PM +0200, Thomas Zimmermann wrote:
+> Move fbdev's procfs code into a separate file and contain it in
+> init and cleanup helpers. No functional changes.
+Maybe add:
+Delete the unused for_each_registered_fb while touching the code.
 
-[auto build test WARNING on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+The change to use proc_remove is not really documented.
+But code looks ok.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
-base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
-patch link:    https://lore.kernel.org/r/20230606223130.6132-5-dakr%40redhat.com
-patch subject: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-config: i386-randconfig-s001-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080453.W2Dcrevr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/513e00e3cf4889b115cd8ab122b8e51adf2805ab
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
-        git checkout 513e00e3cf4889b115cd8ab122b8e51adf2805ab
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080453.W2Dcrevr-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_debugfs.c:213:33: sparse: sparse: non size-preserving pointer to integer cast
-
-vim +213 drivers/gpu/drm/drm_debugfs.c
-
-   178	
-   179	/**
-   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-   181	 * @m: pointer to the &seq_file to write
-   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
-   183	 *
-   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
-   185	 *
-   186	 * For each DRM GPU VA space drivers should call this function from their
-   187	 * &drm_info_list's show callback.
-   188	 *
-   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
-   190	 */
-   191	int drm_debugfs_gpuva_info(struct seq_file *m,
-   192				   struct drm_gpuva_manager *mgr)
-   193	{
-   194		DRM_GPUVA_ITER(it, mgr, 0);
-   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
-   196	
-   197		if (!mgr->name)
-   198			return -ENODEV;
-   199	
-   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
-   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
-   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
-   203			   kva->va.addr, kva->va.addr + kva->va.range);
-   204		seq_puts(m, "\n");
-   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-   207		drm_gpuva_iter_for_each(va, it) {
-   208			if (unlikely(va == &mgr->kernel_alloc_node))
-   209				continue;
-   210	
-   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
- > 213				   (u64)va->gem.obj, va->gem.offset);
-   214		}
-   215	
-   216		return 0;
-   217	}
-   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
-   219	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I am not fan that we have introduced a few globals again.
+But it looks like the way to go for now.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+With an improved changelog:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/video/fbdev/core/Makefile      |  1 +
+>  drivers/video/fbdev/core/fb_internal.h | 12 ++++-
+>  drivers/video/fbdev/core/fb_procfs.c   | 62 ++++++++++++++++++++++++++
+>  drivers/video/fbdev/core/fbmem.c       | 51 +++------------------
+>  4 files changed, 80 insertions(+), 46 deletions(-)
+>  create mode 100644 drivers/video/fbdev/core/fb_procfs.c
+> 
+> diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
+> index eee3295bc225..665320160f70 100644
+> --- a/drivers/video/fbdev/core/Makefile
+> +++ b/drivers/video/fbdev/core/Makefile
+> @@ -3,6 +3,7 @@ obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
+>  obj-$(CONFIG_FB)                  += fb.o
+>  fb-y                              := fb_backlight.o \
+>                                       fb_info.o \
+> +                                     fb_procfs.o \
+>                                       fbmem.o fbmon.o fbcmap.o fbsysfs.o \
+>                                       modedb.o fbcvt.o fb_cmdline.o fb_io_fops.o
+>  fb-$(CONFIG_FB_DEFERRED_IO)       += fb_defio.o
+> diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
+> index 0b9640ae7a3d..51f7c9f04e45 100644
+> --- a/drivers/video/fbdev/core/fb_internal.h
+> +++ b/drivers/video/fbdev/core/fb_internal.h
+> @@ -3,7 +3,17 @@
+>  #ifndef _FB_INTERNAL_H
+>  #define _FB_INTERNAL_H
+>  
+> -struct fb_info;
+> +#include <linux/fb.h>
+> +#include <linux/mutex.h>
+> +
+> +/* fbmem.c */
+> +extern struct mutex registration_lock;
+> +extern struct fb_info *registered_fb[FB_MAX];
+> +extern int num_registered_fb;
+> +
+> +/* fb_procfs.c */
+> +int fb_init_procfs(void);
+> +void fb_cleanup_procfs(void);
+>  
+>  /* fbsysfs.c */
+>  int fb_device_create(struct fb_info *fb_info);
+> diff --git a/drivers/video/fbdev/core/fb_procfs.c b/drivers/video/fbdev/core/fb_procfs.c
+> new file mode 100644
+> index 000000000000..59641142f8aa
+> --- /dev/null
+> +++ b/drivers/video/fbdev/core/fb_procfs.c
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/proc_fs.h>
+> +
+> +#include "fb_internal.h"
+> +
+> +static struct proc_dir_entry *fb_proc_dir_entry;
+> +
+> +static void *fb_seq_start(struct seq_file *m, loff_t *pos)
+> +{
+> +	mutex_lock(&registration_lock);
+> +
+> +	return (*pos < FB_MAX) ? pos : NULL;
+> +}
+> +
+> +static void fb_seq_stop(struct seq_file *m, void *v)
+> +{
+> +	mutex_unlock(&registration_lock);
+> +}
+> +
+> +static void *fb_seq_next(struct seq_file *m, void *v, loff_t *pos)
+> +{
+> +	(*pos)++;
+> +
+> +	return (*pos < FB_MAX) ? pos : NULL;
+> +}
+> +
+> +static int fb_seq_show(struct seq_file *m, void *v)
+> +{
+> +	int i = *(loff_t *)v;
+> +	struct fb_info *fi = registered_fb[i];
+> +
+> +	if (fi)
+> +		seq_printf(m, "%d %s\n", fi->node, fi->fix.id);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct seq_operations __maybe_unused fb_proc_seq_ops = {
+> +	.start	= fb_seq_start,
+> +	.stop	= fb_seq_stop,
+> +	.next	= fb_seq_next,
+> +	.show	= fb_seq_show,
+> +};
+> +
+> +int fb_init_procfs(void)
+> +{
+> +	struct proc_dir_entry *proc;
+> +
+> +	proc = proc_create_seq("fb", 0, NULL, &fb_proc_seq_ops);
+> +	if (!proc)
+> +		return -ENOMEM;
+> +
+> +	fb_proc_dir_entry = proc;
+> +
+> +	return 0;
+> +}
+> +
+> +void fb_cleanup_procfs(void)
+> +{
+> +	proc_remove(fb_proc_dir_entry);
+> +}
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 66532774d351..de1e45240161 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -24,9 +24,7 @@
+>  #include <linux/vt.h>
+>  #include <linux/init.h>
+>  #include <linux/linux_logo.h>
+> -#include <linux/proc_fs.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/seq_file.h>
+>  #include <linux/console.h>
+>  #include <linux/kmod.h>
+>  #include <linux/err.h>
+> @@ -48,13 +46,9 @@
+>  
+>  #define FBPIXMAPSIZE	(1024 * 8)
+>  
+> -static DEFINE_MUTEX(registration_lock);
+> -
+> +DEFINE_MUTEX(registration_lock);
+>  struct fb_info *registered_fb[FB_MAX] __read_mostly;
+>  int num_registered_fb __read_mostly;
+> -#define for_each_registered_fb(i)		\
+> -	for (i = 0; i < FB_MAX; i++)		\
+> -		if (!registered_fb[i]) {} else
+>  
+>  bool fb_center_logo __read_mostly;
+>  
+> @@ -705,40 +699,6 @@ int fb_show_logo(struct fb_info *info, int rotate) { return 0; }
+>  EXPORT_SYMBOL(fb_prepare_logo);
+>  EXPORT_SYMBOL(fb_show_logo);
+>  
+> -static void *fb_seq_start(struct seq_file *m, loff_t *pos)
+> -{
+> -	mutex_lock(&registration_lock);
+> -	return (*pos < FB_MAX) ? pos : NULL;
+> -}
+> -
+> -static void *fb_seq_next(struct seq_file *m, void *v, loff_t *pos)
+> -{
+> -	(*pos)++;
+> -	return (*pos < FB_MAX) ? pos : NULL;
+> -}
+> -
+> -static void fb_seq_stop(struct seq_file *m, void *v)
+> -{
+> -	mutex_unlock(&registration_lock);
+> -}
+> -
+> -static int fb_seq_show(struct seq_file *m, void *v)
+> -{
+> -	int i = *(loff_t *)v;
+> -	struct fb_info *fi = registered_fb[i];
+> -
+> -	if (fi)
+> -		seq_printf(m, "%d %s\n", fi->node, fi->fix.id);
+> -	return 0;
+> -}
+> -
+> -static const struct seq_operations __maybe_unused proc_fb_seq_ops = {
+> -	.start	= fb_seq_start,
+> -	.next	= fb_seq_next,
+> -	.stop	= fb_seq_stop,
+> -	.show	= fb_seq_show,
+> -};
+> -
+>  /*
+>   * We hold a reference to the fb_info in file->private_data,
+>   * but if the current registered fb has changed, we don't
+> @@ -1624,8 +1584,9 @@ fbmem_init(void)
+>  {
+>  	int ret;
+>  
+> -	if (!proc_create_seq("fb", 0, NULL, &proc_fb_seq_ops))
+> -		return -ENOMEM;
+> +	ret = fb_init_procfs();
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = register_chrdev(FB_MAJOR, "fb", &fb_fops);
+>  	if (ret) {
+> @@ -1648,7 +1609,7 @@ fbmem_init(void)
+>  err_class:
+>  	unregister_chrdev(FB_MAJOR, "fb");
+>  err_chrdev:
+> -	remove_proc_entry("fb", NULL);
+> +	fb_cleanup_procfs();
+>  	return ret;
+>  }
+>  
+> @@ -1659,7 +1620,7 @@ fbmem_exit(void)
+>  {
+>  	fb_console_exit();
+>  
+> -	remove_proc_entry("fb", NULL);
+> +	fb_cleanup_procfs();
+>  	class_destroy(fb_class);
+>  	unregister_chrdev(FB_MAJOR, "fb");
+>  }
+> -- 
+> 2.40.1
