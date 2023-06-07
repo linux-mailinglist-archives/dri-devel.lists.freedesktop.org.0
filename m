@@ -1,71 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A69B7261A6
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 15:49:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3E77263C3
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 17:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9BA10E058;
-	Wed,  7 Jun 2023 13:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA5F10E504;
+	Wed,  7 Jun 2023 15:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77D410E07C
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 13:49:14 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id
- ca18e2360f4ac-777a8f11e14so23756639f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 06:49:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686145753; x=1688737753;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ko6xuu8UoxrurbfacVb4Coj+CWHhAb4UfD8neO3dRrU=;
- b=lhs0DsNF8AZ4tMcx71zirvrG1WKCluOS6pk/yo1Nt5wCfE0Nf2vQ6fQyG+3v16awIv
- b/GVvwxFTFz8hX45UOq/hroACA6ZAhxBj4B/tJhWC5ePhQj1+Zwnwz6SP56nNJbqtG/U
- 3nXMJEoAgayqVcOzjnscDxfgCh3TTOJxugz48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686145753; x=1688737753;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ko6xuu8UoxrurbfacVb4Coj+CWHhAb4UfD8neO3dRrU=;
- b=heIHa/Q5eAU6viXuH60EYPDV/o+2/hYY1AshVuOgDapQgVWHK61u6ef9gPjJx7Zc8c
- Pl+PEEJdhhpN2NHcqxaySsTa+WNhXjkAn/rzRmpR3niVXYbYktwuVKKGPDySD5LhzxdK
- Aht86y3bh2UD7WQfR7awm8WY/JItuyI5/ofJYO9C500Aydi0i2VC0EyYCAOpqNE7JpLh
- rl6F5S5tEnrx7H9y4QJy5S6YEHwvCdvIBd1CUKz4hPNQGFPw5cec6dVUhyD0pNU4SlKj
- bU0+aD5KEoeF3RC+9jEk+hSzwh0GZShitFAv2ZXeLTUEGAkZUe9c3Pr/OM4OcIGcB/3s
- FyBQ==
-X-Gm-Message-State: AC+VfDzOPEN/w8nfVvPdKYXQGpysx9osBJRmo98AFrxnRTEHH7dsvIJb
- kaPpqxd4K4z3EZEyzpfB/FVA5TTQr6uVMcdGktk=
-X-Google-Smtp-Source: ACHHUZ64MyRxMQxFrDnEumHBJA0H0X/FclgkbbUSzShx529lWPE1Pm9uTyKiAKSAJaWPpKH/BziErw==
-X-Received: by 2002:a92:c908:0:b0:33a:a552:cf54 with SMTP id
- t8-20020a92c908000000b0033aa552cf54mr4289910ilp.7.1686145752780; 
- Wed, 07 Jun 2023 06:49:12 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
- [209.85.166.182]) by smtp.gmail.com with ESMTPSA id
- a12-20020a92d10c000000b0033842c3f6b4sm3657012ilb.83.2023.06.07.06.49.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jun 2023 06:49:12 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-33b7f217dd0so134195ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 06:49:12 -0700 (PDT)
-X-Received: by 2002:a05:6e02:2186:b0:33d:4e7a:3dac with SMTP id
- j6-20020a056e02218600b0033d4e7a3dacmr142983ila.3.1686145751615; Wed, 07 Jun
- 2023 06:49:11 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDEFB10E504
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 15:10:56 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D5EF085F52;
+ Wed,  7 Jun 2023 17:10:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1686150653;
+ bh=ilu4t5MfB/m1MzJmgwplp52WL1DIskHqT3lUx4DLq6w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=h5qifyzF7rkNhicWqtguapyRPJqHF2bf5ouPi6t2pP08Qsl3DmMgmEyjMIkfeAc8e
+ pPu7ngst8jKmd8MZvjvoXaKR4Bk9Oy3M6a8Vq1/jl6TyB0z28vrwhhdmkJXyHZVkai
+ 3/512bMvfqaFi7FdCddLdtziWOrPO2jaqyRKQSQPn4ce3dpHUUeOaXTF31TGXhb+H6
+ OO4WB8+WOFnRWCrB4KkXMlba62E/3zWnng7mDf91c2kA6vx1rm9J2+iu0yiXQLS4sH
+ 1r+kMf5F/pW0xHF2pUbgaXQw5scH0ELMm0BF3iDFZpr61zWROSDlT0upeV5ZYjaxUU
+ 9e4eJlhzsBwZw==
+Message-ID: <d7707a56-2b36-25d0-d5f2-79ef60b292bd@denx.de>
+Date: Wed, 7 Jun 2023 15:54:53 +0200
 MIME-Version: 1.0
-References: <20230607102123.219862-1-laura.nao@collabora.com>
-In-Reply-To: <20230607102123.219862-1-laura.nao@collabora.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 7 Jun 2023 06:49:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UvGGvH5ms0-v3aUuqg2Wurks69nCQ9ytcPuTAfua2kig@mail.gmail.com>
-Message-ID: <CAD=FV=UvGGvH5ms0-v3aUuqg2Wurks69nCQ9ytcPuTAfua2kig@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add AUO B116XAB01.4 edp panel entry
-To: Laura Nao <laura.nao@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm: bridge: tc358767: give VSDELAY some positive
+ value
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+References: <20230602191501.4138433-1-l.stach@pengutronix.de>
+ <20230602191501.4138433-2-l.stach@pengutronix.de>
+ <70962376-c7f1-1adc-37e4-55fa33055ae9@denx.de>
+ <7210bb5955a469134f3b072007bf98a74c8f17da.camel@pengutronix.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <7210bb5955a469134f3b072007bf98a74c8f17da.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,43 +61,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 6/7/23 14:53, Lucas Stach wrote:
+> Am Freitag, dem 02.06.2023 um 23:34 +0200 schrieb Marek Vasut:
+>> On 6/2/23 21:15, Lucas Stach wrote:
+>>> From: David Jander <david@protonic.nl>
+>>>
+>>> The documentation is not clear about how this delay works.
+>>> Empirical tests have shown that with a VSDELAY of 0, the first
+>>> scanline is not properly formatted in the output stream when
+>>> DSI->DP mode is used. The calculation spreadsheets from Toshiba
+>>> seem to always make this value equal to the HFP + 10 for DSI->DP
+>>> use-case. For DSI->DPI this value should be > 2 and for DPI->DP
+>>> it seems to always be 0x64.
+>>>
+>>> Signed-off-by: David Jander <david@protonic.nl>
+>>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>>> ---
+>>>    drivers/gpu/drm/bridge/tc358767.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+>>> index 46916ae30f8f..9f2c67b4a488 100644
+>>> --- a/drivers/gpu/drm/bridge/tc358767.c
+>>> +++ b/drivers/gpu/drm/bridge/tc358767.c
+>>> @@ -817,7 +817,7 @@ static int tc_set_common_video_mode(struct tc_data *tc,
+>>>    	 * sync signals
+>>>    	 */
+>>>    	ret = regmap_write(tc->regmap, VPCTRL0,
+>>> -			   FIELD_PREP(VSDELAY, 0) |
+>>> +			   FIELD_PREP(VSDELAY, right_margin + 10) |
+>>>    			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
+>>>    	if (ret)
+>>>    		return ret;
+>>
+>> Aren't you running into a problem due to VS timing misconfiguration on
+>> the scanout engine or DSI serializer side ? The VSDELAY seems to
+>> increase the length of VSYNC active .
+>>
+> 
+> No, as far as I understand the VSDELAY adds an offset between input an
+> output side of the video FIFO. It shouldn't increase the length of any
+> sync signal, but delays the read side of the FIFO, so the write (DSI)
+> side has some margin to put data into the FIFO before DP side starts to
+> assemble packets.
 
-On Wed, Jun 7, 2023 at 3:23=E2=80=AFAM Laura Nao <laura.nao@collabora.com> =
-wrote:
->
-> Add a panel entry for the AUO B116XAB01.4 edp panel, found in the Acer
-> Chromebook Spin 311 (CP311-3H) laptop.
->
-> Signed-off-by: Laura Nao <laura.nao@collabora.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
-nel-edp.c
-> index fbd114b4f0be..5f6297531347 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1867,6 +1867,7 @@ static const struct panel_delay delay_200_500_e200 =
-=3D {
->  static const struct edp_panel_entry edp_panels[] =3D {
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120X=
-AN01.0"),
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x1e9b, &delay_200_500_e50, "B133U=
-AN02.1"),
-> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x145c, &delay_200_500_e50, "B116X=
-AB01.4"),
->         EDP_PANEL_ENTRY('A', 'U', 'O', 0x1ea5, &delay_200_500_e50, "B116X=
-AK01.6"),
+Does this apply to DSI-to-DPI mode too ?
 
-Panels should be sorted by their ID. 0x145c doesn't sort between
-0x1e9b and 0x1ea5. Please send a v2 with this fixed.
+>>   Which DSI bus mode do you use, sync events/pulses/burst ?
+> 
+> At the time when this patch was written it still was the SYNC_PULSE
+> mode.
 
--Doug
+Can you please double-check this with current burst mode ?
