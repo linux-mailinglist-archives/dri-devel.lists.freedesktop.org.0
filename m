@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D8B726916
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 20:43:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F10472695E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 21:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCF010E06F;
-	Wed,  7 Jun 2023 18:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE00710E0C4;
+	Wed,  7 Jun 2023 19:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1E388735
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 18:43:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp
- [126.233.170.111])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA7C083F;
- Wed,  7 Jun 2023 20:42:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686163377;
- bh=spwrYQEvW9KNcz+e3u4F2isfSnw6E9e3Dxj7eWK7eHg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jhyJdBTnl4YTXDlCLsrz24UguvHwq6ENQ8v7X7KWdLQYEB/16WGXopcGHWfC8cBF8
- Yh0T/eWh6ui1oRDLfgkcpaArzN+z0jP3NqnhBqpSzIlgkfk8vowPctx9WEBhOcFM7N
- 1y+CTPGF6RJoHKDRBk9a38ilOAJWYs3dmLoZ3fus=
-Date: Wed, 7 Jun 2023 21:43:20 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] drm/bridge: Silence error messages upon probe deferral
-Message-ID: <20230607184320.GB26742@pendragon.ideasonboard.com>
-References: <20230606144833.776646-1-alexander.stein@ew.tq-group.com>
- <20230606151229.GF7234@pendragon.ideasonboard.com>
- <12222903.O9o76ZdvQC@steina-w>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <12222903.O9o76ZdvQC@steina-w>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73AC10E0C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 19:03:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D68E9616A7;
+ Wed,  7 Jun 2023 19:03:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D38B2C433D2;
+ Wed,  7 Jun 2023 19:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1686164593;
+ bh=6rM3c0MzWmypFl9SNFBILYmJFrC7/yHDs2cmHU7fDRE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ssml13aGyZyJ3ub78D/30u0UL0IB0MjCmCDTGHBI1B8L+zNeaRQzmtYap1KIiZzbx
+ iwFHzqzJ92fkaq893W+6Uo0nFRdBZC7b8EpitBAsS/01f3s27OicNfWuDXwzFKTj1R
+ gw6wXPo7gPLbJ2AOYwKqRyVsaoO4q6ZVJ3EHYaIc=
+Date: Wed, 7 Jun 2023 12:03:12 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH] mm: fix hugetlb page unmap count balance issue
+Message-Id: <20230607120312.6da5cea7677ec1a3da35b92c@linux-foundation.org>
+In-Reply-To: <20230516223440.GA30624@monkey>
+References: <20230512072036.1027784-1-junxiao.chang@intel.com>
+ <CADrL8HV25JyeaT=peaR7NWhUiaBz8LzpyFosYZ3_0ACt+twU6w@mail.gmail.com>
+ <20230512232947.GA3927@monkey> <20230515170259.GA3848@monkey>
+ <20230516223440.GA30624@monkey>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,111 +53,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: mhocko@suse.com, jmarchan@redhat.com, Dongwon Kim <dongwon.kim@intel.com>,
+ Junxiao Chang <junxiao.chang@intel.com>, muchun.song@linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-mm@kvack.org,
+ James Houghton <jthoughton@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kirill.shutemov@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexander,
+On Tue, 16 May 2023 15:34:40 -0700 Mike Kravetz <mike.kravetz@oracle.com> wrote:
 
-On Wed, Jun 07, 2023 at 01:26:03PM +0200, Alexander Stein wrote:
-> Am Dienstag, 6. Juni 2023, 17:12:29 CEST schrieb Laurent Pinchart:
-> > On Tue, Jun 06, 2023 at 04:48:33PM +0200, Alexander Stein wrote:
-> > > When -EPROBE_DEFER is returned do not raise an error, but silently return
-> > > this error instead. Fixes error like this:
-> > > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
-> > > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
-> > > /soc@0/bus@30800000/mipi-dsi@30a00000 to encoder None-34: -517
+> On 05/15/23 10:04, Mike Kravetz wrote:
+> > On 05/12/23 16:29, Mike Kravetz wrote:
+> > > On 05/12/23 14:26, James Houghton wrote:
+> > > > On Fri, May 12, 2023 at 12:20 AM Junxiao Chang <junxiao.chang@intel.com> wrote:
+> > > > 
+> > > > This alone doesn't fix mapcounting for PTE-mapped HugeTLB pages. You
+> > > > need something like [1]. I can resend it if that's what we should be
+> > > > doing, but this mapcounting scheme doesn't work when the page structs
+> > > > have been freed.
+> > > > 
+> > > > It seems like it was a mistake to include support for hugetlb memfds in udmabuf.
 > > > 
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > dev_err_probe() would be the best, but I am not sure if this function is
-> > > always used within a driver's probe() call.
+> > > IIUC, it was added with commit 16c243e99d33 udmabuf: Add support for mapping
+> > > hugepages (v4).  Looks like it was never sent to linux-mm?  That is unfortunate
+> > > as hugetlb vmemmap freeing went in at about the same time.  And, as you have
+> > > noted udmabuf will not work if hugetlb vmemmap freeing is enabled.
 > > > 
-> > >  drivers/gpu/drm/drm_bridge.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
+> > > Sigh!
 > > > 
-> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > > index c3d69af02e79d..07773d6441a1f 100644
-> > > --- a/drivers/gpu/drm/drm_bridge.c
-> > > +++ b/drivers/gpu/drm/drm_bridge.c
-> > > @@ -350,6 +350,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
-> > > struct drm_bridge *bridge,> 
-> > >  	bridge->encoder = NULL;
-> > >  	list_del(&bridge->chain_node);
+> > > Trying to think of a way forward.
+> > > -- 
+> > > Mike Kravetz
 > > > 
-> > > +	if (ret != -EPROBE_DEFER) {
-> > > 
-> > >  #ifdef CONFIG_OF
-> > >  
-> > >  	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-> > >  	
-> > >  		  bridge->of_node, encoder->name, ret);
+> > > > 
+> > > > [1]: https://lore.kernel.org/linux-mm/20230306230004.1387007-2-jthoughton@google.com/
+> > > > 
+> > > > - James
 > > 
-> > Wrong indentation.
+> > Adding people and list on Cc: involved with commit 16c243e99d33.
+> > 
+> > There are several issues with trying to map tail pages of hugetllb pages
+> > not taken into account with udmabuf.  James spent quite a bit of time trying
+> > to understand and address all the issues with the HGM code.  While using
+> > the scheme proposed by James, may be an approach to the mapcount issue there
+> > are also other issues that need attention.  For example, I do not see how
+> > the fault code checks the state of the hugetlb page (such as poison) as none
+> > of that state is carried in tail pages.
+> > 
+> > The more I think about it, the more I think udmabuf should treat hugetlb
+> > pages as hugetlb pages.  They should be mapped at the appropriate level
+> > in the page table.  Of course, this would impose new restrictions on the
+> > API (mmap and ioctl) that may break existing users.  I have no idea how
+> > extensively udmabuf is being used with hugetlb mappings.
 > 
-> Ah, right. Thanks for pointing out.
-> 
-> > dev_err_probe() could be useful, but this function is likely not called
-> > from probe paths only :-S
-> 
-> I was afraid this might be the cause. But I'm wondering in which situation 
-> this can be the case, hence -EPROBE_DEFER could be returned then.
+> Verified that using udmabug on a hugetlb mapping with vmemmap optimization will
+> BUG as:
 
-I've had a quick look, and one example of a non-probe path is in
-mcde_modeset_init(), with the call to
-drm_simple_display_pipe_attach_bridge() which calls drm_bridge_attach().
-mcde_modeset_init() is called from mcde_drm_bind(), the handler for the
-.bind() operation in component_master_ops.
+BUGs aren't good.  Can we please find a way to push this along?
 
-I'd argue that we should really drop the component framework and replace
-it with something better, but that's beyond the scope of this patch :-)
+Have we heard anything from any udmabuf people?
 
-> > When not called from a probe path, dropping the message will result in a
-> > silent error, which would be hard to debug :-(
-> 
-> On the other hand -EPROBE_DEFER is invalid on non-probe path also.
-> Assuming dev_err_probe is used here, an error will still be raised, -
-> EPROBE_DEFER should not occur then.
 
-I agree that -EPROBE_DEFER shouldn't occur, and in many cases, it won't
-for drivers that use the component framework, as the whole purpose of
-the framework is to make sure the bridges are available before we try to
-attach to them. The framework (or at least the way it's used in drivers)
-however doesn't handle chains of components: the main DRM driver will
-have its next bridge available by the time it calls drm_bridge_attach(),
-but the bridge may then try to acquire the next bridge in the chain, and
-get an error that results in a probe deferral. Maybe that's not supposed
-to happen though, bridges probably should acquire the next bridge at
-probe time, but I can't guarantee this will always be done.
-
-And this is my point: I'm scared that this patch will cause silent and
-hard to debug failures in some cases. Those cases may be incorrect usage
-of APIs by drivers, but making them silent will make it more difficult
-to fix them.
-
-If everybody thinks I'm over-concerned, please feel free to move forward
-with this patch, and I'll do my best not to lose sleep :-)
-
-> > > @@ -357,6 +358,7 @@ int drm_bridge_attach(struct drm_encoder *encoder,
-> > > struct drm_bridge *bridge,> 
-> > >  	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-> > >  	
-> > >  		  encoder->name, ret);
-> > >  
-> > >  #endif
-> > > 
-> > > +	}
-> > > 
-> > >  	return ret;
-> > >  
-> > >  }
-
--- 
-Regards,
-
-Laurent Pinchart
