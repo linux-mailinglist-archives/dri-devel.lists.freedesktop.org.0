@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCD472567D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:55:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3477C725683
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3514010E455;
-	Wed,  7 Jun 2023 07:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4333E10E082;
+	Wed,  7 Jun 2023 07:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F0C10E456
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:55:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D9910E082
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686124516;
+ s=mimecast20190719; t=1686124542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zrMzVIVwuoeUQwH5hpliW2Jq51XgxuMBmmo9TGjEBeo=;
- b=dQ+LGMm3qhCBheOFOJsgUvhyj/4bCJKIG1eoZQa+lHQu8F7AP+p72iFmSAF+f/v56LzgIF
- maiOiEihhXCvhi14r+WGY6cb3OVmZc+0MRQFnDGmTdBFxyFIsK5AAeVburilz9z/YVAIGl
- 8BLPkTUt6sWqQGMudZ9d6CWl4jeyVqU=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tzwKDEeExwlnpVxIio+gh6QukNcWAFoM0lG5LiuVXys=;
+ b=HuuBJK36EksWvyRjsptVOhvlMnoybeuJ8PR+wNYlrY6OfsvKQkn83mi+zYyhRu8xsu0SYm
+ u4CDjKd/+HDRfTA8ZmTW9qKT9lvVjIlE/jzKwYwy9LqcBH7SjbuynzBzIM/CQ0jz0pdnup
+ 3tfbff9ojREJoeWKzoIqtkD0dFIMSwM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-173-AA0uSDk_Oqu3Kgugk3ChWA-1; Wed, 07 Jun 2023 03:55:15 -0400
-X-MC-Unique: AA0uSDk_Oqu3Kgugk3ChWA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-4edb90ccaadso4456754e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:55:14 -0700 (PDT)
+ us-mta-529-NTzPTV9BP7OAX8JKEztQGQ-1; Wed, 07 Jun 2023 03:55:40 -0400
+X-MC-Unique: NTzPTV9BP7OAX8JKEztQGQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f611d31577so1488105e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:55:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686124513; x=1688716513;
+ d=1e100.net; s=20221208; t=1686124539; x=1688716539;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zrMzVIVwuoeUQwH5hpliW2Jq51XgxuMBmmo9TGjEBeo=;
- b=VnjwAqqdLUHOfpxBhFj9KucNN8CugSkXsXMvHIcej8oZ/MboCQqljyIxBkrIMmkE/x
- oLKK0p2iWiVbhvncO66bu5EdrciGOnVOuNIAH3KVdUzA+q92+cb0KxsZ0FKM40AGbPrq
- tK++5V+iqWD4J6kpMpAeGY1gr5yObSasMvKlagz/gYvwgp7QyLirr7NbkesTDfyOIEgV
- aNTu9rdYXkxfWITcX9yEu5KsWTBbSHWYHAJ9DmM4nICXG/LDYvM0ryOUVRdHM8I/1dup
- KaaAu68P+SaufkRvge55AyfEADXEAyNTU5ylwAEqjRfnfZqfrsRz873JFyuO7/1FmcLQ
- 929A==
-X-Gm-Message-State: AC+VfDwIIHKRiNceSV0cePdYgUK850XKj7kDEes5gLoZ9Z8YX8tSa5v+
- 7ln5OUejAAbopFxZLXQb97oC6DP8bciX8htoEO+0VxUu6s3tenWeqm9R00r9U13J4F1NCia0NDA
- 7kjGDMOFeO6kvZj71qdoMZgGA+E6l
-X-Received: by 2002:ac2:5a19:0:b0:4f3:bb14:bd40 with SMTP id
- q25-20020ac25a19000000b004f3bb14bd40mr1643611lfn.36.1686124513740; 
- Wed, 07 Jun 2023 00:55:13 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5iJQ/YOY5BYJYpCuij2Dk8TuMWnzRrrUQf5oe61hk5gDfo5VjRa0aD7EjgG4gko6svJeBZBA==
-X-Received: by 2002:ac2:5a19:0:b0:4f3:bb14:bd40 with SMTP id
- q25-20020ac25a19000000b004f3bb14bd40mr1643602lfn.36.1686124513442; 
- Wed, 07 Jun 2023 00:55:13 -0700 (PDT)
+ bh=tzwKDEeExwlnpVxIio+gh6QukNcWAFoM0lG5LiuVXys=;
+ b=kXHFU4e2ECiZjUva791Xq/6V4DaLlbPX/3TILKtpcMN1LtaX/1MPnySoHd+HwWSkIH
+ C0YZRRTobNYTQYueJFSJBNW72SSvoSPEJIBZzFQ7aMk3Zku+Y0FX/CS7F5nvOoZTiyUp
+ +h8diXpO6XHglYozX0/p/PmKIK2G+fzxAAYQdfSC8Pqby9jPhLKfcUx4r2Rv8WD2aixW
+ j7ul2L4ks9KGWMQV7spuQWD05L1nzQJTY/j8WwFOqzMAK4/raYRZ3Sl89LGvFE95pMZi
+ a9uxuG5fZXRgqhn5kFf2OYb/8Mmi1V8Viaogz4oCHiznCaipCVieHa3ZxT6Af6DISCxO
+ f+pA==
+X-Gm-Message-State: AC+VfDyRGcvKaG4KSnEIMF8og5tdhrJf/M6FMbwsn/8RXGowhQVxF0ni
+ F7u75jHUwSo3Ag+S1vGRvnQBEVTJ5M+PsY6yTCPEK91u0I9TCE6xFM0cDB/NlNtQoPjr8Jd9A75
+ 7yxRmfF2P2LweZfLfyBzBvahS1meO
+X-Received: by 2002:a05:600c:b89:b0:3f7:3284:4e51 with SMTP id
+ fl9-20020a05600c0b8900b003f732844e51mr8903490wmb.4.1686124539609; 
+ Wed, 07 Jun 2023 00:55:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7XsE1MIBLkrKPsF0to0MXFrankIK5l3IfIsZWE8tI4gRDcEz1ZX1KmYbQPpdwp7XOKQIbPMQ==
+X-Received: by 2002:a05:600c:b89:b0:3f7:3284:4e51 with SMTP id
+ fl9-20020a05600c0b8900b003f732844e51mr8903472wmb.4.1686124539336; 
+ Wed, 07 Jun 2023 00:55:39 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- z9-20020a5d4d09000000b0030e5c8d55f2sm480065wrt.6.2023.06.07.00.55.13
+ j27-20020a05600c1c1b00b003f4283f5c1bsm6978981wms.2.2023.06.07.00.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 00:55:13 -0700 (PDT)
+ Wed, 07 Jun 2023 00:55:39 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
  daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: Re: [PATCH 07/30] fbdev/aty128fb: Use hardware device as backlight
- parent
-In-Reply-To: <20230605144812.15241-8-tzimmermann@suse.de>
+Subject: Re: [PATCH 08/30] fbdev/broadsheetfb: Call device_remove_file()
+ with hardware device
+In-Reply-To: <20230605144812.15241-9-tzimmermann@suse.de>
 References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-8-tzimmermann@suse.de>
-Date: Wed, 07 Jun 2023 09:55:12 +0200
-Message-ID: <87ttvjg10f.fsf@minerva.mail-host-address-is-not-set>
+ <20230605144812.15241-9-tzimmermann@suse.de>
+Date: Wed, 07 Jun 2023 09:55:37 +0200
+Message-ID: <87r0qng0zq.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,9 +91,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Use the hardware device in struct fb_info.device as parent of the
-> backlight device. Aligns the driver with the rest of the codebase
-> and prepares fbdev for making struct fb_info.dev optional.
+> Call device_remove_file() with the same device that has been used
+> for device_create_file(), which is the hardware device stored in
+> struct fb_info.device. Prepares fbdev for making struct fb_info.dev
+> optional.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
