@@ -1,77 +1,148 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D09727022
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 23:05:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C4C72705C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 23:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4061910E549;
-	Wed,  7 Jun 2023 21:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D37010E551;
+	Wed,  7 Jun 2023 21:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE5010E549;
- Wed,  7 Jun 2023 21:05:20 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 357Khe7m026090; Wed, 7 Jun 2023 21:05:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=a1M+PUr2h6JWaIKFLcBDmeuVUNn1VQ6pW3WpYp/VuRw=;
- b=lTFi71YwihELI1Ef5BszNG+D6rL4odXuN5TZscARK5I+vH8iXq8SODZdJ2gAntDJogh3
- 0kLL9hOKzsfwc5XxFr/rXHvnBC2RmDEnN23a6/POR4JaHMUIn3NXY78ANlkBNhbELllm
- qjskYqCQZ3E+rNO8txyLJWkN4YlI7DTcl1awtyb+/yLdwanYC49HZhGCRK/B4uRch1ij
- MBD6DJpHF01iZ2lbKapRdOn4g+BpGEED1og+Ow6zA8irVfVoXlWSZQBAVqKlsiLE0Kbp
- f4PL88I9Rth1tRxpmyjHGSXQCiX2a86jgqniEXWmOjEwsywfxpv17+N4IAtV3UmQ8A8u eQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r2a6ytw07-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jun 2023 21:05:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 357L5BG3020625
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 7 Jun 2023 21:05:11 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 7 Jun 2023
- 14:05:10 -0700
-Message-ID: <78594a9a-f834-f2d2-1d8a-3e13e18c5477@quicinc.com>
-Date: Wed, 7 Jun 2023 14:05:10 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH v2 12/13] drm/msm/dpu: add support for virtual planes
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A2910E54E;
+ Wed,  7 Jun 2023 21:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686172387; x=1717708387;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=23q/eaMHgwi2U3gWkzw25JO7kXf6QEoyFCyIsfV1oII=;
+ b=htjpAwbXFCrtrQYjYp4mRvC8fzzlQ5M0R/xv6h9BDCrJq/0eM1E7KHZi
+ NwSUqloHNRWoTTjLcP8KWGkNJbAr6hC7dnDU8O7gb7bWTjG3MyCVxUHsM
+ KwGodV38reJeKQmTnGXZiGkRVbHzjAQ6pnOXswV7zwqqDv+B9QMPHS9iE
+ uFLYTzQdcz+xoRXxBU4i6F5uaGA/rIOr6yJUUUwOP97WEoCFbMamZSlQA
+ 0nCjMso1aggs5J58P6Y11miWlUwCP4hv8d1F+2HAEHiwhBgiMUvZ3qjOJ
+ A1R7mIW008CYkbb5XdaTiOe+zHTEGenjmPaHPzpUhetMSySu3EEswmYgL g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="354600016"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; d="scan'208";a="354600016"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 14:13:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="712834585"
+X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; d="scan'208";a="712834585"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2023 14:13:06 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 7 Jun 2023 14:13:05 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Wed, 7 Jun 2023 14:13:05 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Wed, 7 Jun 2023 14:13:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BFlNpXcDlfxpqB3fch81duV/kGHSRJjyo54UkfsWeGotVx7eH4O9tKQ54gKmAwvKcjljHHfys7Xmq+jGKYXMqS17N1OdRgZQxXVtMiIHHp4m7QkY4H6uUeXQKyBlmohh4c3klF3+FhzlbMIDebqfBpeDXP04QVJnE1AIrXk/2m3Z5SjFWGym739qprZEAPskI6BybYfwfzd008l+osGCIL3QcHgLEp6wUfDej8OUh2fkIsIW8kilhhTLV0rQtSqWJRrRKGoaBzgXYGw1/lIS1etNA30SDQ1kfISgahSrOs0CWYBq9rP353wJnq3PjdFW2WX7tU2BJjwR3b5L6ZjDVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=23q/eaMHgwi2U3gWkzw25JO7kXf6QEoyFCyIsfV1oII=;
+ b=HEGmrxwRWmdxNyV8dyii6dBm+DaXQk35o/4TxlENKg4caoc9z4hT8+YQr5mN84uWP2V5xuK08bD1ZY2CgnwwHdGMcQkjSP9x0TPTvCwFuN+WvYAOTVMTh5hiCOUCpoEjlU2tx0S3RbOXFP9ZN5+R2nMCe8ko4vEHPnB+lmAbDkG0N45fBG7dhw875YkYOC/X+Dn6ck06nNF6ZDvGRnOD88A+mr1sBsemiqzhn0FCpTeATcDtQLtt629MGA3uhiSjiTsiLZ6zyBNAptsjP32JR51Fj6xgtj0gq73hSc2+/EvxSvzEQBPL3CAdvc4TSJdCdWcCyQc1Xtg0DEaGkmwQeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ0PR11MB5772.namprd11.prod.outlook.com (2603:10b6:a03:422::8)
+ by PH8PR11MB7118.namprd11.prod.outlook.com (2603:10b6:510:216::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.24; Wed, 7 Jun
+ 2023 21:13:02 +0000
+Received: from SJ0PR11MB5772.namprd11.prod.outlook.com
+ ([fe80::4215:1bb5:eb92:5e9b]) by SJ0PR11MB5772.namprd11.prod.outlook.com
+ ([fe80::4215:1bb5:eb92:5e9b%4]) with mapi id 15.20.6455.037; Wed, 7 Jun 2023
+ 21:13:02 +0000
+From: "Venkatesh Reddy, Sushma" <sushma.venkatesh.reddy@intel.com>
+To: "Das, Nirmoy" <nirmoy.das@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v3] drm/i915: Fix a VMA UAF for multi-gt platform
+Thread-Topic: [PATCH v3] drm/i915: Fix a VMA UAF for multi-gt platform
+Thread-Index: AQHZmReTNs7vUI5Ub06yQCRAhu1dKK9/1qWQ
+Date: Wed, 7 Jun 2023 21:13:02 +0000
+Message-ID: <SJ0PR11MB57727ED279160072376D116CCD53A@SJ0PR11MB5772.namprd11.prod.outlook.com>
+References: <20230607081032.19275-1-nirmoy.das@intel.com>
+In-Reply-To: <20230607081032.19275-1-nirmoy.das@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230321011821.635977-1-dmitry.baryshkov@linaro.org>
- <20230321011821.635977-13-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230321011821.635977-13-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: OIk2ubKc5GPDJAfopSvCApaSLAHRkqyH
-X-Proofpoint-GUID: OIk2ubKc5GPDJAfopSvCApaSLAHRkqyH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-07_11,2023-06-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- bulkscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306070183
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR11MB5772:EE_|PH8PR11MB7118:EE_
+x-ms-office365-filtering-correlation-id: 6a68500e-0a1b-4403-760d-08db679bfa6f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VwCVC3gsij9pqBrXdM5/gagbtVtE5RwN16bM9Rp5aDrPIyvTF3P6BWbiU1iVgkqnZBptrBn7V1EC180luFT/2Cgj6LZltw7hmSaG9HnyVrXNBeaLFfmydO+2LRgAo7ct+r5TnMZNX+2ifNpZHO9UU1CAvF0VpopeCqRNd9X6SwW/A/a+eqZqJLeSh4XTfpkDYeieHjlwgnyCibOZn8GzX1QrSJJsNj3ZdBpwwNJ1VkXhr01pXQPfPuZ/X4o1uy5w8k4+PlarK5rbVT7HY2L7lrkKL2pxElUD2NMVbOQqvFEGu+n6xoD97pJgh16osFAIJ4lGOSDiLPqxprUQcOjKS9JH2BBbqVZr0fXC2lV1Z11UW24fwXZH4F6FMaVUcUlb+vaJM+iWS+dx6Sp1GEh5NMKHqrLo1tc8Kwzv+WQzONynoc5Gd7Vf4WfEdOiggFQ74pF2mqjr4ORNsKTu2IiBiKBgdTUNZXwKGKabnTtSdUViLmwXwbLWvqQBKZJ0Sv6QYoKEQczfOK+YVLkGRwrHmKXL0FAGfQsJad+N05Gni2/rPARU3ftPEhOLhBNVw6pWUOCKs6aiupPmd80TONenL7atm3cgDQMbT9AS1BIMeCSkuGwsONo8U8yZ4QVdj7Es
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB5772.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(376002)(136003)(396003)(366004)(346002)(451199021)(66446008)(82960400001)(66556008)(64756008)(66476007)(4326008)(66946007)(122000001)(76116006)(38100700002)(54906003)(55016003)(110136005)(478600001)(38070700005)(86362001)(33656002)(2906002)(71200400001)(52536014)(186003)(5660300002)(7696005)(316002)(41300700001)(66574015)(83380400001)(8936002)(6506007)(8676002)(9686003)(26005)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y2hOc3AzNzErd2kxeXpNeTFWSnI5SzRncG1DMmlIRDdvQlNrRGFGNG1wSXFJ?=
+ =?utf-8?B?YjhEUkoraGE4NWsyZHdDQWF3TGZBc04veXhrdWpPNUk2QmRLK04wUjhPMGk2?=
+ =?utf-8?B?ZXpOVFU5bUdNOHRvdEhZT3JFMXZ0dEc1cEp6LzVOV0lvaE0vVm8wbW52RlhZ?=
+ =?utf-8?B?NHMydE1vRUhVVVlyQkhHRER4b3JBMjR4ZStHaWprSHk0bElCdkNzNmU1Qlg2?=
+ =?utf-8?B?bE00Y3V4K2w2ZjdkRklsUzNrVEYxOCtMVjFVaE9PUUtaSWNHTGVPZzVxazV2?=
+ =?utf-8?B?UkNoZnc5cUNEVXg4c1loUWFSSDYwaENGd2dOYXAxZG40KzJVRzhybjJJMjF1?=
+ =?utf-8?B?cEtDUVlVeUlFMlVvcEl6bGNoOEhmY2xPYTNqYWpHQ1EyV1lSL3RpQjlQUkQy?=
+ =?utf-8?B?NktIWlBTZUN1cXFjb1hENkNXcHBzZW5mOEJ0NXI4cFh0R0w1VUljTDAvekQ4?=
+ =?utf-8?B?U1J0dUxucWxMR09GME5tc1F4TnQ1UVd2RTVRUExmTkpDTHdURzZoSTBwUjV2?=
+ =?utf-8?B?QzFsREYwcmxSRXpmZjdvY3kwOE5TZk1xMmZ1RjY4Qzc3R3R2STBaTmhiRWlO?=
+ =?utf-8?B?MmhPRFZZTE1YTlNUUGVLdVcxalRVTHVFOUtyNTI5cWxMdER0R0xsbE1TMUxU?=
+ =?utf-8?B?ZWQyMDBFTVpRK3QrUXdZek05R0g3c2hWejNNTTd6akFrRVRsc3VXMXFMSVND?=
+ =?utf-8?B?NnJ0SHBWS0JBcmdZUWkybHh3Q1JITlJTODJXTlgvOEhKY2tsNzk3K3g0a2Y0?=
+ =?utf-8?B?REwxZTM4TFBqUlkrQ2hua0JUMmVjUmFpcm9xREM5b3BsUUVWbW16cG1kWVAy?=
+ =?utf-8?B?eEwzWjlpMGZBVXV0c1JHV0REYklOTWEyK3ZzRnJpV2lRdUx4UnBpRXVoUGV0?=
+ =?utf-8?B?STJXQXN2SGd5alI1MEEyVVFGNWQ0aEx5dXNGcThaelE1VmRsMVBzUXdEL3Nm?=
+ =?utf-8?B?czB0dmRuWEVLRnNUWGVOTzhReDRFeklUT1k0TkRPZEpST0RFVUFyMHFWRlZ3?=
+ =?utf-8?B?SXlBQ2xDVmNyQ1htMEhmWXJsT2VVTFdDcXN0ajR3dmtSOGljeUhTWXFDL2N5?=
+ =?utf-8?B?YjFsZGMzY2I3eGQ0RlVwYUdVcFQ4WXNlMDllSkd4a3dzTzI1TGw0UmNwUWp1?=
+ =?utf-8?B?aEpRczY5WnBPMnNIWXpIejhybGwrWXRMY3FIK0VnbjY3VEU3emREdWJhVWM0?=
+ =?utf-8?B?VmVRbmgyQVV0U212MXFUUTM4dTlIaThIUG4rK0ZyK2RiOGtmaElVbFdQOERw?=
+ =?utf-8?B?eEg0YTFkK0k3alhzdC83ekdXNDFYZWVKNWdsclQ5dUV2VjVINCsyQ3dwVk9j?=
+ =?utf-8?B?eEZkQ09mbzRLYXhlSXlEa3hQTTRiZitFVU9GN29Db3MzYjExdi9NWjBveGVR?=
+ =?utf-8?B?RTR4TlIxZFUvbmc3UmpQU3hDZlJkL0xTbTZvUmhUS3hsQVVHamdCaTBBOHhj?=
+ =?utf-8?B?QktWaFFkaFVDd1JFRU40aENCSkRaWkhIdXlaN21ONmQ1VjAyL2RFNlUrV3Zj?=
+ =?utf-8?B?NnJTR2lwck1qTlJIUFNaQUVzRkdiZHI1L0RCMWd2Y0taa1I0bXgrUFRaL3Ba?=
+ =?utf-8?B?SFM1RlZqUGJpMk5nS2MwdHBFdm1pM1k4MDJobWd0a0E5UXR5ZHdJNk1qc1Jj?=
+ =?utf-8?B?MnRiTWNDV1dmSTZZTjNVRmY5WnRSOER0Nm9rWnBZLzJUTzZXWTltVkN3YTlM?=
+ =?utf-8?B?c011SkFPK2Y5WjBSZmorZEUxRlcxYWtCdUR2RE9VQWszUUs0bk94anA4RDhN?=
+ =?utf-8?B?REhHTlRzV2MzbW9lRWxNc2U1RnYwYzFCSFpOdmxhbmVweVMvdDZMUE9rVmQ2?=
+ =?utf-8?B?MnRBcEJBL0ZhRWxMSDhCRXF2eWlvUzZCdW03VmhoUEN5UGRtWitBRThkYSt4?=
+ =?utf-8?B?SUtWV0ZXTkJwNVdQLyt5TG5nTVZvaDZxZWJuSmlNcTJJdG9acmRheTNRSFF2?=
+ =?utf-8?B?NzFxdW9TdzU1c09jY0JBNDM0emM5L3FML0JhNHVRL0xXakd3cm54dDF1TEIz?=
+ =?utf-8?B?ckhGSWNKOWZzQlVjMXN0cEpiU3dMWTNhUmtqZDJVckpKbW9PT1FzelBRZ3Fs?=
+ =?utf-8?B?UlBBeUtsQkZUU2lJZDdMaTRCSW02RmU1N1VJNzRneFlndXFzU2xacCt6T0Rz?=
+ =?utf-8?B?V1FwUHM1YnR2cmpGcFhIYXNVdFM5eUFlQkpQcEN6aWZWaTVudmkzaGkyYXJ3?=
+ =?utf-8?B?TFE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5772.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a68500e-0a1b-4403-760d-08db679bfa6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 21:13:02.2231 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WHyxMjM7iEoUmO2FUUuZIfxFfWG7TUiQdLYdZm+qwppyQV12MMvXNpPbVcNZalQ40u9QvlrdvDfwjPiRzi4jkvjom/3IS+nAiSsxaRy03FfcRA4eEvbga0p0os6Q2fvT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7118
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,791 +155,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Hajda,
+ Andrzej" <andrzej.hajda@intel.com>,
+ =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+ "Wilson, Chris P" <chris.p.wilson@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/20/2023 6:18 PM, Dmitry Baryshkov wrote:
-> Only several SSPP blocks support such features as YUV output or scaling,
-> thus different DRM planes have different features.  Properly utilizing
-> all planes requires the attention of the compositor, who should
-> prefer simpler planes to YUV-supporting ones. Otherwise it is very easy
-> to end up in a situation when all featureful planes are already
-> allocated for simple windows, leaving no spare plane for YUV playback.
-> 
-> To solve this problem make all planes virtual. Each plane is registered
-> as if it supports all possible features, but then at the runtime during
-> the atomic_check phase the driver selects backing SSPP block for each
-> plane.
-> 
-> Note, this does not provide support for using two different SSPP blocks
-> for a single plane or using two rectangles of an SSPP to drive two
-> planes. Each plane still gets its own SSPP and can utilize either a solo
-> rectangle or both multirect rectangles depending on the resolution.
-> 
-> Note #2: By default support for virtual planes is turned off and the
-> driver still uses old code path with preallocated SSPP block for each
-> plane. To enable virtual planes, pass 'msm.dpu_use_virtual_planes=1'
-> kernel parameter.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-
-There will be some rebase needed to switch back to encoder based 
-allocation so I am not going to comment on those parts and will let you 
-handle that when you post v3.
-
-But my questions/comments below are for other things.
-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  59 +++++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   | 120 ++++++++++----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h   |   4 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 187 ++++++++++++++++++----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  24 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    |  65 ++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h    |  24 +++
->   7 files changed, 413 insertions(+), 70 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 8ef191fd002d..cdece21b81c9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1273,6 +1273,29 @@ static int dpu_crtc_assign_resources(struct drm_crtc *crtc, struct drm_crtc_stat
->   	return 0;
->   }
->   
-> +static int dpu_crtc_assign_plane_resources(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
-> +{
-> +	struct dpu_global_state *global_state;
-> +	struct drm_plane *plane;
-> +	int rc;
-> +
-> +	global_state = dpu_kms_get_global_state(crtc_state->state);
-> +	if (IS_ERR(global_state))
-> +		return PTR_ERR(global_state);
-> +
-> +	dpu_rm_release_all_sspp(global_state, crtc);
-> +
-> +	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
-> +		rc = dpu_plane_virtual_assign_resources(plane, crtc,
-> +							global_state,
-> +							crtc_state->state);
-> +		if (rc)
-> +			return rc;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->   		struct drm_atomic_state *state)
->   {
-> @@ -1281,7 +1304,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->   	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
->   	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
->   
-> -	const struct drm_plane_state *pstate;
->   	struct drm_plane *plane;
->   
->   	int rc = 0;
-> @@ -1294,6 +1316,13 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->   			return rc;
->   	}
->   
-> +	if (dpu_use_virtual_planes &&
-> +	    crtc_state->planes_changed) {
-> +		rc = dpu_crtc_assign_plane_resources(crtc, crtc_state);
-> +		if (rc < 0)
-> +			return rc;
-> +	}
-
-Can you please explain a bit more about the planes_changed condition?
-
-1) Are we doing this because the plane's atomic check happens before the 
-CRTC atomic check?
-
-2) So the DRM core sets this to true already when plane is switching 
-CRTCs or being connected to a CRTC for the first time, we need to handle 
-the conditions additional to that right?
-
-3) If (2) is correct, arent there other conditions then to be handled 
-for setting planes_changed to true?
-
-Some examples include, switching from a scaling to non-scaling scenario, 
-needing rotation vs not needing etc.
-
-Basically it seems like all of this is handled within the reserve_sspp() 
-function but if planes_changes is not set then that wont get invoked at all.
-
-
-> +
->   	if (!crtc_state->enable || !crtc_state->active) {
->   		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
->   				crtc->base.id, crtc_state->enable,
-> @@ -1311,20 +1340,30 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->   	if (cstate->num_mixers)
->   		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
->   
-> -	/* FIXME: move this to dpu_plane_atomic_check? */
-> -	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
-> -		struct dpu_plane_state *dpu_pstate = to_dpu_plane_state(pstate);
-> -
-> -		if (IS_ERR_OR_NULL(pstate)) {
-> -			rc = PTR_ERR(pstate);
-> -			DPU_ERROR("%s: failed to get plane%d state, %d\n",
-> -					dpu_crtc->name, plane->base.id, rc);
-> -			return rc;
-> +	drm_atomic_crtc_state_for_each_plane(plane, crtc_state) {
-> +		const struct drm_plane_state *pstate;
-> +		struct dpu_plane_state *dpu_pstate;
-> +
-> +		pstate = drm_atomic_get_plane_state(crtc_state->state, plane);
-> +		if (IS_ERR(pstate))
-> +			return PTR_ERR(pstate);
-> +
-> +		if (dpu_use_virtual_planes) {
-> +			/*
-> +			 * In case of virtual planes, the plane's atomic_check
-> +			 * is a shortcut. Perform actual check here, after
-> +			 * allocating SSPPs.
-> +			 */
-> +			rc = dpu_plane_atomic_check(plane, crtc_state->state);
-> +			if (rc)
-> +				return rc;
->   		}
->   
->   		if (!pstate->visible)
->   			continue;
->   
-> +		/* FIXME: move this to dpu_plane_atomic_check? */
-> +		dpu_pstate = to_dpu_plane_state(pstate);
-
-Anything prevents us from doing it even now instead of a FIXME?
-
->   		dpu_pstate->needs_dirtyfb = needs_dirtyfb;
->   	}
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 35194262e628..487bb19ee9d6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -50,6 +50,9 @@
->   #define DPU_DEBUGFS_DIR "msm_dpu"
->   #define DPU_DEBUGFS_HWMASKNAME "hw_log_mask"
->   
-> +bool dpu_use_virtual_planes = false;
-> +module_param(dpu_use_virtual_planes, bool, 0);
-> +
->   static int dpu_kms_hw_init(struct msm_kms *kms);
->   static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms);
->   
-> @@ -735,38 +738,54 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
->   	return rc;
->   }
->   
-> -#define MAX_PLANES 20
-> -static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
-> +static int dpu_kms_create_virtual_planes(struct dpu_kms *dpu_kms,
-> +					 int max_crtc_count,
-> +					 struct drm_plane **primary_planes,
-> +					 struct drm_plane **cursor_planes)
->   {
-> -	struct drm_device *dev;
-> -	struct drm_plane *primary_planes[MAX_PLANES], *plane;
-> -	struct drm_plane *cursor_planes[MAX_PLANES] = { NULL };
-> -	struct drm_crtc *crtc;
-> -	struct drm_encoder *encoder;
-> -	unsigned int num_encoders;
-> +	const struct dpu_mdss_cfg *catalog = dpu_kms->catalog;
-> +	struct drm_device *dev = dpu_kms->dev;
-> +	int primary_planes_idx = 0, cursor_planes_idx = 0, i, ret;
-> +	struct drm_plane *plane;
->   
-> -	struct msm_drm_private *priv;
-> -	const struct dpu_mdss_cfg *catalog;
-> +	/* Create the planes, keeping track of one primary/cursor per crtc */
-> +	for (i = 0; i < catalog->sspp_count; i++) {
-> +		enum drm_plane_type type;
->   
-> -	int primary_planes_idx = 0, cursor_planes_idx = 0, i, ret;
-> -	int max_crtc_count;
-> -	dev = dpu_kms->dev;
-> -	priv = dev->dev_private;
-> -	catalog = dpu_kms->catalog;
-> +		if (primary_planes_idx < max_crtc_count)
-> +			type = DRM_PLANE_TYPE_PRIMARY;
-> +		else if (cursor_planes_idx < max_crtc_count)
-> +			type = DRM_PLANE_TYPE_CURSOR;
-> +		else
-> +			type = DRM_PLANE_TYPE_OVERLAY;
->   
-> -	/*
-> -	 * Create encoder and query display drivers to create
-> -	 * bridges and connectors
-> -	 */
-> -	ret = _dpu_kms_setup_displays(dev, priv, dpu_kms);
-> -	if (ret)
-> -		return ret;
-> +		DPU_DEBUG("Create plane type %d\n", type);
->   
-> -	num_encoders = 0;
-> -	drm_for_each_encoder(encoder, dev)
-> -		num_encoders++;
-> +		plane = dpu_plane_init_virtual(dev, type, (1UL << max_crtc_count) - 1);
-> +		if (IS_ERR(plane)) {
-> +			DPU_ERROR("dpu_plane_init failed\n");
-> +			ret = PTR_ERR(plane);
-> +			return ret;
-> +		}
->   
-> -	max_crtc_count = min(catalog->mixer_count, num_encoders);
-> +		if (type == DRM_PLANE_TYPE_CURSOR)
-> +			cursor_planes[cursor_planes_idx++] = plane;
-> +		else if (type == DRM_PLANE_TYPE_PRIMARY)
-> +			primary_planes[primary_planes_idx++] = plane;
-> +	}
-> +
-> +	return primary_planes_idx;
-> +}
-> +
-> +static int dpu_kms_create_planes(struct dpu_kms *dpu_kms,
-> +				 int max_crtc_count,
-> +				 struct drm_plane **primary_planes,
-> +				 struct drm_plane **cursor_planes)
-> +{
-> +	const struct dpu_mdss_cfg *catalog = dpu_kms->catalog;
-> +	struct drm_device *dev = dpu_kms->dev;
-> +	int primary_planes_idx = 0, cursor_planes_idx = 0, i, ret;
-> +	struct drm_plane *plane;
->   
->   	/* Create the planes, keeping track of one primary/cursor per crtc */
->   	for (i = 0; i < catalog->sspp_count; i++) {
-> @@ -784,8 +803,8 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
->   			  type, catalog->sspp[i].features,
->   			  catalog->sspp[i].features & BIT(DPU_SSPP_CURSOR));
->   
-> -		plane = dpu_plane_init(dev, catalog->sspp[i].id, type,
-> -				       (1UL << max_crtc_count) - 1);
-> +		plane = dpu_plane_init_sspp(dev, catalog->sspp[i].id, type,
-> +					    (1UL << max_crtc_count) - 1);
->   		if (IS_ERR(plane)) {
->   			DPU_ERROR("dpu_plane_init failed\n");
->   			ret = PTR_ERR(plane);
-> @@ -798,7 +817,50 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
->   			primary_planes[primary_planes_idx++] = plane;
->   	}
->   
-> -	max_crtc_count = min(max_crtc_count, primary_planes_idx);
-> +	return primary_planes_idx;
-> +}
-> +
-> +#define MAX_PLANES 20
-> +static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
-> +{
-> +	struct drm_device *dev;
-> +	struct drm_plane *primary_planes[MAX_PLANES];
-> +	struct drm_plane *cursor_planes[MAX_PLANES] = { NULL };
-> +	struct drm_crtc *crtc;
-> +	struct drm_encoder *encoder;
-> +	unsigned int num_encoders;
-> +
-> +	struct msm_drm_private *priv;
-> +	const struct dpu_mdss_cfg *catalog;
-> +	int i, ret;
-> +	int max_crtc_count;
-> +
-> +	dev = dpu_kms->dev;
-> +	priv = dev->dev_private;
-> +	catalog = dpu_kms->catalog;
-> +
-> +	/*
-> +	 * Create encoder and query display drivers to create
-> +	 * bridges and connectors
-> +	 */
-> +	ret = _dpu_kms_setup_displays(dev, priv, dpu_kms);
-> +	if (ret)
-> +		return ret;
-> +
-> +	num_encoders = 0;
-> +	drm_for_each_encoder(encoder, dev)
-> +		num_encoders++;
-> +
-> +	max_crtc_count = min(catalog->mixer_count, num_encoders);
-> +
-> +	if (dpu_use_virtual_planes)
-> +		ret = dpu_kms_create_virtual_planes(dpu_kms, max_crtc_count, primary_planes, cursor_planes);
-> +	else
-> +		ret = dpu_kms_create_planes(dpu_kms, max_crtc_count, primary_planes, cursor_planes);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	max_crtc_count = min(max_crtc_count, ret);
->   
->   	/* Create one CRTC per encoder */
->   	for (i = 0; i < max_crtc_count; i++) {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 934874eb2248..9f6478f0ced6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -65,6 +65,8 @@
->   
->   #define DPU_NAME_SIZE  12
->   
-> +extern bool dpu_use_virtual_planes;
-> +
->   struct dpu_kms {
->   	struct msm_kms base;
->   	struct drm_device *dev;
-> @@ -134,6 +136,8 @@ struct dpu_global_state {
->   	uint32_t ctl_to_crtc_id[CTL_MAX - CTL_0];
->   	uint32_t dspp_to_crtc_id[DSPP_MAX - DSPP_0];
->   	uint32_t dsc_to_crtc_id[DSC_MAX - DSC_0];
-> +
-> +	uint32_t sspp_to_crtc_id[SSPP_MAX - SSPP_NONE];
->   };
->   
->   struct dpu_global_state
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index cf17075676d5..ee906c276aa5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -837,8 +837,77 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
->   	return 0;
->   }
->   
-> -static int dpu_plane_atomic_check(struct drm_plane *plane,
-> -				  struct drm_atomic_state *state)
-> +static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
-> +					  struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *plane_state =
-> +		drm_atomic_get_plane_state(state, plane);
-> +	struct dpu_plane_state *pstate = to_dpu_plane_state(plane_state);
-> +	const struct dpu_format *format;
-> +	struct drm_crtc_state *crtc_state;
-> +
-> +	/*
-> +	 * Main part of checks, including drm_atomic_helper_check_plane_state()
-> +	 * is called from dpu_crtc_atomic_check(). Do minimal processing here.
-> +	 */
-> +
-> +	if (!plane_state->fb) {
-> +		plane_state->visible = false;
-> +
-> +		/* resources are freed by dpu_crtc_atomic_check(), but clean them here */
-> +		pstate->pipe.sspp = NULL;
-> +		pstate->r_pipe.sspp = NULL;
-> +
-> +		return 0;
-> +	}
-> +
-> +	format = to_dpu_format(msm_framebuffer_format(plane_state->fb));
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> +
-> +	/* force resource reallocation if the format of FB has changed */
-> +	if (pstate->saved_fmt != format) {
-> +		crtc_state->planes_changed = true;
-> +		pstate->saved_fmt = format;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int dpu_plane_virtual_assign_resources(struct drm_plane *plane,
-> +				       struct drm_crtc *crtc,
-> +				       struct dpu_global_state *global_state,
-> +				       struct drm_atomic_state *state)
-> +{
-> +	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> +	struct dpu_plane_state *pstate;
-> +	struct drm_plane_state *plane_state;
-> +	struct dpu_hw_sspp *hw_sspp;
-> +	bool yuv, scale, rot90;
-> +
-> +	plane_state = drm_atomic_get_plane_state(state, plane);
-> +	if (IS_ERR(plane_state))
-> +		return PTR_ERR(plane_state);
-> +
-> +	yuv = plane_state->fb ?
-> +		DPU_FORMAT_IS_YUV(to_dpu_format(msm_framebuffer_format(plane_state->fb))) :
-> +		false;
-> +	scale = (plane_state->src_w >> 16 != plane_state->crtc_w) ||
-> +		(plane_state->src_h >> 16 != plane_state->crtc_h);
-> +
-> +	rot90 = drm_rotation_90_or_270(plane_state->rotation);
-> +
-> +	hw_sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, yuv, scale, rot90);
-
-I think this parameter list is going to explode. Shall we introduce a 
-dpu_plane_sspp_requirements to store these?
-
-> +	if (!hw_sspp)
-> +		return -ENODEV;
-> +
-> +	pstate = to_dpu_plane_state(plane_state);
-> +	pstate->pipe.sspp = hw_sspp;
-> +
-> +	return 0;
-> +}
-> +
-> +int dpu_plane_atomic_check(struct drm_plane *plane,
-> +			   struct drm_atomic_state *state)
->   {
->   	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->   										 plane);
-> @@ -863,8 +932,10 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
->   		crtc_state = drm_atomic_get_new_crtc_state(state,
->   							   new_plane_state->crtc);
->   
-> -	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> -	r_pipe->sspp = NULL;
-> +	if (pdpu->pipe != SSPP_NONE) {
-> +		pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-> +		r_pipe->sspp = NULL;
-> +	}
->   
->   	pipe_hw_caps = pstate->pipe.sspp->cap;
->   	sblk = pstate->pipe.sspp->cap->sblk;
-> @@ -1358,12 +1429,14 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
->   
->   	drm_printf(p, "\tstage=%d\n", pstate->stage);
->   
-> -	drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
-> -	drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
-> -	drm_printf(p, "\tmultirect_index[0]=%s\n",
-> -		   dpu_get_multirect_index(pipe->multirect_index));
-> -	drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
-> -	drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
-> +	if (pipe->sspp) {
-> +		drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
-> +		drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
-> +		drm_printf(p, "\tmultirect_index[0]=%s\n",
-> +			   dpu_get_multirect_index(pipe->multirect_index));
-> +		drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
-> +		drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
-> +	}
->   
->   	if (r_pipe->sspp) {
->   		drm_printf(p, "\tsspp[1]=%s\n", r_pipe->sspp->cap->name);
-> @@ -1453,18 +1526,30 @@ static const struct drm_plane_helper_funcs dpu_plane_helper_funcs = {
->   		.atomic_update = dpu_plane_atomic_update,
->   };
->   
-> +/*
-> + * For virtual planes atomic_check is called from dpu_crtc_atomic_check(),
-> + * after CRTC code assigning SSPP.
-> + */
-> +static const struct drm_plane_helper_funcs dpu_plane_virtual_helper_funcs = {
-> +	.prepare_fb = dpu_plane_prepare_fb,
-> +	.cleanup_fb = dpu_plane_cleanup_fb,
-> +	.atomic_check = dpu_plane_virtual_atomic_check,
-> +	.atomic_update = dpu_plane_atomic_update,
-> +};
-> +
->   /* initialize plane */
-> -struct drm_plane *dpu_plane_init(struct drm_device *dev,
-> -		uint32_t pipe, enum drm_plane_type type,
-> -		unsigned long possible_crtcs)
-> +static struct drm_plane *dpu_plane_init(struct drm_device *dev,
-> +					enum drm_plane_type type,
-> +					unsigned long possible_crtcs,
-> +					bool inline_rotation,
-> +					const uint32_t *format_list,
-> +					uint32_t num_formats,
-> +					enum dpu_sspp pipe)
->   {
->   	struct drm_plane *plane = NULL;
-> -	const uint32_t *format_list;
->   	struct dpu_plane *pdpu;
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct dpu_kms *kms = to_dpu_kms(priv->kms);
-> -	struct dpu_hw_sspp *pipe_hw;
-> -	uint32_t num_formats;
->   	uint32_t supported_rotations;
->   	int ret = -EINVAL;
->   
-> @@ -1480,16 +1565,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   	plane = &pdpu->base;
->   	pdpu->pipe = pipe;
->   
-> -	/* initialize underlying h/w driver */
-> -	pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
-> -	if (!pipe_hw || !pipe_hw->cap || !pipe_hw->cap->sblk) {
-> -		DPU_ERROR("[%u]SSPP is invalid\n", pipe);
-> -		goto clean_plane;
-> -	}
-> -
-> -	format_list = pipe_hw->cap->sblk->format_list;
-> -	num_formats = pipe_hw->cap->sblk->num_formats;
-> -
->   	ret = drm_universal_plane_init(dev, plane, 0xff, &dpu_plane_funcs,
->   				format_list, num_formats,
->   				supported_format_modifiers, type, NULL);
-> @@ -1510,7 +1585,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   
->   	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180;
->   
-> -	if (pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
-> +	if (inline_rotation)
->   		supported_rotations |= DRM_MODE_ROTATE_MASK;
->   
->   	drm_plane_create_rotation_property(plane,
-> @@ -1519,8 +1594,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   	drm_plane_enable_fb_damage_clips(plane);
->   
->   	/* success! finalize initialization */
-> -	drm_plane_helper_add(plane, &dpu_plane_helper_funcs);
-> -
->   	mutex_init(&pdpu->lock);
->   
->   	DPU_DEBUG("%s created for pipe:%u id:%u\n", plane->name,
-> @@ -1531,3 +1604,59 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   	kfree(pdpu);
->   	return ERR_PTR(ret);
->   }
-> +
-> +struct drm_plane *dpu_plane_init_sspp(struct drm_device *dev,
-> +				      uint32_t pipe, enum drm_plane_type type,
-> +				      unsigned long possible_crtcs)
-> +{
-> +	struct drm_plane *plane = NULL;
-> +	struct msm_drm_private *priv = dev->dev_private;
-> +	struct dpu_kms *kms = to_dpu_kms(priv->kms);
-> +	struct dpu_hw_sspp *pipe_hw;
-> +
-> +	/* initialize underlying h/w driver */
-> +	pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
-> +	if (!pipe_hw || !pipe_hw->cap || !pipe_hw->cap->sblk) {
-> +		DPU_ERROR("[%u]SSPP is invalid\n", pipe);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +
-> +	plane = dpu_plane_init(dev, type, possible_crtcs,
-> +			       pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION),
-> +			       pipe_hw->cap->sblk->format_list,
-> +			       pipe_hw->cap->sblk->num_formats,
-> +			       pipe);
-> +	if (IS_ERR(plane))
-> +		return plane;
-> +
-> +	drm_plane_helper_add(plane, &dpu_plane_helper_funcs);
-> +
-> +	DPU_DEBUG("%s created for pipe:%u id:%u\n", plane->name,
-> +					pipe, plane->base.id);
-> +
-> +	return plane;
-> +}
-> +
-> +struct drm_plane *dpu_plane_init_virtual(struct drm_device *dev,
-> +					 enum drm_plane_type type,
-> +					 unsigned long possible_crtcs)
-> +{
-> +	struct drm_plane *plane = NULL;
-> +	struct msm_drm_private *priv = dev->dev_private;
-> +	struct dpu_kms *kms = to_dpu_kms(priv->kms);
-> +
-> +	plane = dpu_plane_init(dev, type, possible_crtcs,
-> +			       kms->catalog->caps->has_inline_rot,
-> +			       kms->catalog->caps->format_list,
-> +			       kms->catalog->caps->num_formats,
-> +			       SSPP_NONE);
-> +	if (IS_ERR(plane))
-> +		return plane;
-> +
-> +	drm_plane_helper_add(plane, &dpu_plane_virtual_helper_funcs);
-> +
-> +	DPU_DEBUG("%s created virtual id:%u\n", plane->name, plane->base.id);
-> +
-> +	return plane;
-> +}
-
-Overall I am satisfied with the split of the dpu_plane_init() function 
-into virtual vs non-virtual and happy its protected with a modparam.
-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> index abd6b21a049b..cb1e31ef0d3f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-> @@ -31,6 +31,7 @@
->    * @plane_clk: calculated clk per plane
->    * @needs_dirtyfb: whether attached CRTC needs pixel data explicitly flushed
->    * @rotation: simplified drm rotation hint
-> + * @saved_fmt: format used by the plane's FB, saved for for virtual plane support
->    */
->   struct dpu_plane_state {
->   	struct drm_plane_state base;
-> @@ -48,6 +49,8 @@ struct dpu_plane_state {
->   
->   	bool needs_dirtyfb;
->   	unsigned int rotation;
-> +
-> +	const struct dpu_format *saved_fmt;
->   };
->   
->   #define to_dpu_plane_state(x) \
-> @@ -66,17 +69,27 @@ void dpu_plane_flush(struct drm_plane *plane);
->   void dpu_plane_set_error(struct drm_plane *plane, bool error);
->   
->   /**
-> - * dpu_plane_init - create new dpu plane for the given pipe
-> + * dpu_plane_init_sspp - create new dpu plane for the given pipe
->    * @dev:   Pointer to DRM device
->    * @pipe:  dpu hardware pipe identifier
->    * @type:  Plane type - PRIMARY/OVERLAY/CURSOR
->    * @possible_crtcs: bitmask of crtc that can be attached to the given pipe
->    *
->    */
-> -struct drm_plane *dpu_plane_init(struct drm_device *dev,
-> +struct drm_plane *dpu_plane_init_sspp(struct drm_device *dev,
->   		uint32_t pipe, enum drm_plane_type type,
->   		unsigned long possible_crtcs);
->   
-> +/**
-> + * dpu_plane_init_virtual - create new dpu virtualized plane
-> + * @dev:   Pointer to DRM device
-> + * @type:  Plane type - PRIMARY/OVERLAY/CURSOR
-> + * @possible_crtcs: bitmask of crtc that can be attached to the given pipe
-> + */
-> +struct drm_plane *dpu_plane_init_virtual(struct drm_device *dev,
-> +					 enum drm_plane_type type,
-> +					 unsigned long possible_crtcs);
-> +
->   /**
->    * dpu_plane_color_fill - enables color fill on plane
->    * @plane:  Pointer to DRM plane object
-> @@ -93,4 +106,11 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable);
->   static inline void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable) {}
->   #endif
->   
-> +int dpu_plane_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state);
-> +
-> +int dpu_plane_virtual_assign_resources(struct drm_plane *plane,
-> +				       struct drm_crtc *crtc,
-> +				       struct dpu_global_state *global_state,
-> +				       struct drm_atomic_state *state);
-> +
->   #endif /* _DPU_PLANE_H_ */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index f0a94008d17a..6130ac87d7e3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -607,6 +607,71 @@ int dpu_rm_reserve(
->   	return ret;
->   }
->   
-> +struct dpu_hw_sspp *dpu_rm_reserve_sspp(struct dpu_rm *rm,
-> +					struct dpu_global_state *global_state,
-> +					struct drm_crtc *crtc,
-> +					bool yuv, bool scale, bool rot90)
-> +{
-
-as noted above, lets consider adding a dpu_plane_sspp_requirements 
-struct instead of just expanding the param list.
-
-> +	uint32_t crtc_id = crtc->base.id;
-> +	struct dpu_hw_sspp *hw_sspp;
-> +	bool retry = false;
-> +	int i;
-> +
-> +retry_loop:
-> +	for (i = 0; i < ARRAY_SIZE(rm->hw_sspp); i++) {
-> +		if (!rm->hw_sspp[i])
-> +			continue;
-> +
-> +		if (global_state->sspp_to_crtc_id[i])
-> +			continue;
-> +
-> +		hw_sspp = rm->hw_sspp[i];
-> +
-> +		/* skip incompatible planes */
-> +		if (scale && !(hw_sspp->cap->features & DPU_SSPP_SCALER))
-> +			continue;
-> +
-> +		if (yuv && !(hw_sspp->cap->features & DPU_SSPP_CSC_ANY))
-> +			continue;
-> +
-> +		if (rot90 && !(hw_sspp->cap->features & DPU_SSPP_INLINE_ROTATION))
-> +			continue;
-> +
-
-These are sufficient conditions to start with for the use-cases I can 
-think of.
-
-> +		/*
-> +		 * For non-yuv, non-scaled planes try to find simple (DMA)
-> +		 * plane, fallback to VIG on a second try.
-> +		 *
-> +		 * This way we'd leave VIG sspps to be later used for YUV formats.
-> +		 */
-> +
-> +		if (!scale && !yuv && !rot90 && !retry &&
-> +		    (hw_sspp->cap->features &
-> +		     (DPU_SSPP_SCALER | DPU_SSPP_CSC_ANY | DPU_SSPP_INLINE_ROTATION)))
-> +			continue;
-> +
-> +		global_state->sspp_to_crtc_id[hw_sspp->idx - SSPP_NONE] = crtc_id;
-> +
-> +		return hw_sspp;
-> +	}
-> +
-> +	/* If we were looking for DMA plane, retry looking for VIG plane */
-> +	if (!scale && !yuv && !retry) {
-> +		retry = true;
-> +		goto retry_loop;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +void dpu_rm_release_all_sspp(struct dpu_global_state *global_state,
-> +			     struct drm_crtc *crtc)
-> +{
-> +	uint32_t crtc_id = crtc->base.id;
-> +
-> +	_dpu_rm_clear_mapping(global_state->sspp_to_crtc_id,
-> +		ARRAY_SIZE(global_state->sspp_to_crtc_id), crtc_id);
-> +}
-> +
->   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   	struct dpu_global_state *global_state, struct drm_crtc *crtc,
->   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index f402bec8322b..5bf6740ecb45 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -82,6 +82,30 @@ int dpu_rm_reserve(
->   void dpu_rm_release(struct dpu_global_state *global_state,
->   		struct drm_crtc *crtc);
->   
-> +/**
-> + * dpu_rm_reserve_sspp - Reserve the required SSPP for the provided CRTC
-> + * @rm: DPU Resource Manager handle
-> + * @global_state: private global state
-> + * @crtc: DRM CRTC handle
-> + * @yuv: required SSPP supporting YUV formats
-> + * @scale: required SSPP supporting scaling
-> + * @rot90: required SSPP supporting inline 90 degree rotation
-> + */
-> +struct dpu_hw_sspp *dpu_rm_reserve_sspp(struct dpu_rm *rm,
-> +					struct dpu_global_state *global_state,
-> +					struct drm_crtc *crtc,
-> +					bool yuv, bool scale, bool rot90);
-> +
-> +/**
-> + * dpu_rm_release_all_sspp - Given the CRTC, release all SSPP
-> + *	blocks previously reserved for that use case.
-> + * @rm: DPU Resource Manager handle
-> + * @crtc: DRM CRTC handle
-> + * @Return: 0 on Success otherwise -ERROR
-> + */
-> +void dpu_rm_release_all_sspp(struct dpu_global_state *global_state,
-> +			     struct drm_crtc *crtc);
-> +
->   /**
->    * Get hw resources of the given type that are assigned to this encoder.
->    */
+VGhhbmsgeW91LCBOaXJtb3kuIFdlIGhhdmUgdmVyaWZpZWQgaXQgb24gQ2hyb21lLg0KVGVzdGVk
+LWJ5OiBTdXNobWEgVmVua2F0ZXNoIFJlZGR5IDxzdXNobWEudmVua2F0ZXNoLnJlZGR5QGludGVs
+LmNvbT4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IERhcywgTmlybW95IDxu
+aXJtb3kuZGFzQGludGVsLmNvbT4gDQpTZW50OiBXZWRuZXNkYXksIEp1bmUgNywgMjAyMyAxOjEx
+IEFNDQpUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KQ2M6IGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmc7IERhcywgTmlybW95IDxuaXJtb3kuZGFzQGludGVsLmNvbT47
+IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbT47IFZpdmks
+IFJvZHJpZ28gPHJvZHJpZ28udml2aUBpbnRlbC5jb20+OyBUdnJ0a28gVXJzdWxpbiA8dHZydGtv
+LnVyc3VsaW5AbGludXguaW50ZWwuY29tPjsgVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxs
+c3Ryb21AbGludXguaW50ZWwuY29tPjsgV2lsc29uLCBDaHJpcyBQIDxjaHJpcy5wLndpbHNvbkBp
+bnRlbC5jb20+OyBBbmRpIFNoeXRpIDxhbmRpLnNoeXRpQGxpbnV4LmludGVsLmNvbT47IEhhamRh
+LCBBbmRyemVqIDxhbmRyemVqLmhhamRhQGludGVsLmNvbT47IFZlbmthdGVzaCBSZWRkeSwgU3Vz
+aG1hIDxzdXNobWEudmVua2F0ZXNoLnJlZGR5QGludGVsLmNvbT4NClN1YmplY3Q6IFtQQVRDSCB2
+M10gZHJtL2k5MTU6IEZpeCBhIFZNQSBVQUYgZm9yIG11bHRpLWd0IHBsYXRmb3JtDQoNCkVuc3Vy
+ZSBjb3JyZWN0IGhhbmRsaW5nIG9mIGNsb3NlZCBWTUFzIG9uIG11bHRpLWd0IHBsYXRmb3JtcyB0
+byBwcmV2ZW50IFVzZS1BZnRlci1GcmVlLiBDdXJyZW50bHksIHdoZW4gR1QwIGdvZXMgaWRsZSwg
+Y2xvc2VkIFZNQXMgdGhhdCBhcmUgZXhjbHVzaXZlbHkgYWRkZWQgdG8gR1QwJ3MgY2xvc2VkX3Zt
+YSBsaW5rIChndC0+Y2xvc2VkX3ZtYSkgYW5kIHN1YnNlcXVlbnRseSBmcmVlZCBieSBpOTE1X3Zt
+YV9wYXJrZWQoKSwgd2hpY2ggYXNzdW1lcyB0aGUgZW50aXJlIEdQVSBpcyBpZGxlLiBIb3dldmVy
+LCBvbiBwbGF0Zm9ybXMgd2l0aCBtdWx0aXBsZSBHVHMsIHN1Y2ggYXMgTVRMLCBHVDEgbWF5IHJl
+bWFpbiBhY3RpdmUgd2hpbGUgR1QwIGlzIGlkbGUuIFRoaXMgY2F1c2VzIEdUMCB0byBtaXN0YWtl
+bmx5IGNvbnNpZGVyIHRoZSBjbG9zZWQgVk1BcyBpbiBpdHMgY2xvc2VkX3ZtYSBsaXN0IGFzIHVu
+bmVjZXNzYXJ5LCBwb3RlbnRpYWxseSBsZWFkaW5nIHRvIFVzZS1BZnRlci1GcmVlIGlzc3VlcyBp
+ZiBhIGpvYiBmb3IgR1QxIGF0dGVtcHRzIHRvIGFjY2VzcyBhIGZyZWVkIFZNQS4NCg0KQWx0aG91
+Z2ggd2UgZG8gdGFrZSBhIHdha2VyZWYgZm9yIEdUMCBidXQgaXQgaGFwcGVucyBsYXRlciwgYWZ0
+ZXIgZXZhbHVhdGluZyBWTUFzLiBUbyBtaXRpZ2F0ZSB0aGlzLCBpdCBpcyBuZWNlc3NhcnkgdG8g
+aG9sZCBhIEdUMCB3YWtlcmVmIGVhcmx5Lg0KDQp2MjogVXNlIGd0IGlkIHRvIGRldGVjdCBtdWx0
+aS10aWxlKEFuZGkpDQogICAgRml4IHRoZSBpbmNvcnJlY3QgZXJyb3IgcGF0aC4NCnYzOiBBZGQg
+bW9yZSBjb21tZW50KEFuZGkpDQogICAgVXNlIHRoZSBuZXcgZ3QgdmFyIHdoZW4gcG9zc2libGUo
+QW5kcnplaikNCg0KQ2M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4Lmlu
+dGVsLmNvbT4NCkNjOiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+DQpDYzog
+VHZydGtvIFVyc3VsaW4gPHR2cnRrby51cnN1bGluQGxpbnV4LmludGVsLmNvbT4NCkNjOiBUaG9t
+YXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+DQpDYzogQ2hy
+aXMgV2lsc29uIDxjaHJpcy5wLndpbHNvbkBpbnRlbC5jb20+DQpDYzogQW5kaSBTaHl0aSA8YW5k
+aS5zaHl0aUBsaW51eC5pbnRlbC5jb20+DQpDYzogQW5kcnplaiBIYWpkYSA8YW5kcnplai5oYWpk
+YUBpbnRlbC5jb20+DQpDYzogU3VzaG1hIFZlbmthdGVzaCBSZWRkeSA8c3VzaG1hLnZlbmthdGVz
+aC5yZWRkeUBpbnRlbC5jb20+DQpTaWduZWQtb2ZmLWJ5OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFz
+QGludGVsLmNvbT4NClRlc3RlZC1ieTogQW5kaSBTaHl0aSA8YW5kaS5zaHl0aUBsaW51eC5pbnRl
+bC5jb20+DQpSZXZpZXdlZC1ieTogQW5kaSBTaHl0aSA8YW5kaS5zaHl0aUBsaW51eC5pbnRlbC5j
+b20+DQpSZXZpZXdlZC1ieTogQW5kcnplaiBIYWpkYSA8YW5kcnplai5oYWpkYUBpbnRlbC5jb20+
+DQotLS0NCiAuLi4vZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9leGVjYnVmZmVyLmMgICAgfCAy
+MSArKysrKysrKysrKysrKysrKy0tDQogMSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0v
+aTkxNV9nZW1fZXhlY2J1ZmZlci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
+X2V4ZWNidWZmZXIuYw0KaW5kZXggNWZiNDU5ZWE0Mjk0Li4xZGU5ZGUxZTQ3ODIgMTAwNjQ0DQot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jDQorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZXhlY2J1ZmZlci5jDQpAQCAtMjY5
+Miw2ICsyNjkyLDcgQEAgc3RhdGljIGludA0KIGViX3NlbGVjdF9lbmdpbmUoc3RydWN0IGk5MTVf
+ZXhlY2J1ZmZlciAqZWIpICB7DQogCXN0cnVjdCBpbnRlbF9jb250ZXh0ICpjZSwgKmNoaWxkOw0K
+KwlzdHJ1Y3QgaW50ZWxfZ3QgKmd0Ow0KIAl1bnNpZ25lZCBpbnQgaWR4Ow0KIAlpbnQgZXJyOw0K
+IA0KQEAgLTI3MTUsMTAgKzI3MTYsMTcgQEAgZWJfc2VsZWN0X2VuZ2luZShzdHJ1Y3QgaTkxNV9l
+eGVjYnVmZmVyICplYikNCiAJCX0NCiAJfQ0KIAllYi0+bnVtX2JhdGNoZXMgPSBjZS0+cGFyYWxs
+ZWwubnVtYmVyX2NoaWxkcmVuICsgMTsNCisJZ3QgPSBjZS0+ZW5naW5lLT5ndDsNCiANCiAJZm9y
+X2VhY2hfY2hpbGQoY2UsIGNoaWxkKQ0KIAkJaW50ZWxfY29udGV4dF9nZXQoY2hpbGQpOw0KLQlp
+bnRlbF9ndF9wbV9nZXQoY2UtPmVuZ2luZS0+Z3QpOw0KKwlpbnRlbF9ndF9wbV9nZXQoZ3QpOw0K
+KwkvKg0KKwkgKiBLZWVwIEdUMCBhY3RpdmUgb24gTVRMIHNvIHRoYXQgaTkxNV92bWFfcGFya2Vk
+KCkgZG9lc24ndA0KKwkgKiBmcmVlIFZNQXMgd2hpbGUgZXhlY2J1ZiBpb2N0bCBpcyB2YWxpZGF0
+aW5nIFZNQXMuDQorCSAqLw0KKwlpZiAoZ3QtPmluZm8uaWQpDQorCQlpbnRlbF9ndF9wbV9nZXQo
+dG9fZ3QoZ3QtPmk5MTUpKTsNCiANCiAJaWYgKCF0ZXN0X2JpdChDT05URVhUX0FMTE9DX0JJVCwg
+JmNlLT5mbGFncykpIHsNCiAJCWVyciA9IGludGVsX2NvbnRleHRfYWxsb2Nfc3RhdGUoY2UpOw0K
+QEAgLTI3NTcsNyArMjc2NSwxMCBAQCBlYl9zZWxlY3RfZW5naW5lKHN0cnVjdCBpOTE1X2V4ZWNi
+dWZmZXIgKmViKQ0KIAlyZXR1cm4gZXJyOw0KIA0KIGVycjoNCi0JaW50ZWxfZ3RfcG1fcHV0KGNl
+LT5lbmdpbmUtPmd0KTsNCisJaWYgKGd0LT5pbmZvLmlkKQ0KKwkJaW50ZWxfZ3RfcG1fcHV0KHRv
+X2d0KGd0LT5pOTE1KSk7DQorDQorCWludGVsX2d0X3BtX3B1dChndCk7DQogCWZvcl9lYWNoX2No
+aWxkKGNlLCBjaGlsZCkNCiAJCWludGVsX2NvbnRleHRfcHV0KGNoaWxkKTsNCiAJaW50ZWxfY29u
+dGV4dF9wdXQoY2UpOw0KQEAgLTI3NzAsNiArMjc4MSwxMiBAQCBlYl9wdXRfZW5naW5lKHN0cnVj
+dCBpOTE1X2V4ZWNidWZmZXIgKmViKQ0KIAlzdHJ1Y3QgaW50ZWxfY29udGV4dCAqY2hpbGQ7DQog
+DQogCWk5MTVfdm1fcHV0KGViLT5jb250ZXh0LT52bSk7DQorCS8qDQorCSAqIFRoaXMgd29ya3Mg
+aW4gY29uanVuY3Rpb24gd2l0aCBlYl9zZWxlY3RfZW5naW5lKCkgdG8gcHJldmVudA0KKwkgKiBp
+OTE1X3ZtYV9wYXJrZWQoKSBmcm9tIGludGVyZmVyaW5nIHdoaWxlIGV4ZWNidWYgdmFsaWRhdGVz
+IHZtYXMuDQorCSAqLw0KKwlpZiAoZWItPmd0LT5pbmZvLmlkKQ0KKwkJaW50ZWxfZ3RfcG1fcHV0
+KHRvX2d0KGViLT5ndC0+aTkxNSkpOw0KIAlpbnRlbF9ndF9wbV9wdXQoZWItPmd0KTsNCiAJZm9y
+X2VhY2hfY2hpbGQoZWItPmNvbnRleHQsIGNoaWxkKQ0KIAkJaW50ZWxfY29udGV4dF9wdXQoY2hp
+bGQpOw0KLS0NCjIuMzkuMA0KDQo=
