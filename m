@@ -1,45 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEACF725AB8
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:38:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D2E725AC2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 11:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB8610E49F;
-	Wed,  7 Jun 2023 09:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6447810E4A0;
+	Wed,  7 Jun 2023 09:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0E6110E49F
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:38:20 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25D1B2B6;
- Wed,  7 Jun 2023 11:37:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686130672;
- bh=Tb+ysY4linkYaB45XMud7iGM44eizwZQ/ClNN38SdNQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AxARCMkCrorxgL1QOSjqBlpeMh0qnkevxUSwoTHNpas7vYFt1xd1eySO/fHrf8Pfn
- ZTvQENB7mUn6f6eErfsKxP1aaxysNw4dSSzsESYioCF1ybAw8mhTuGysvZkbJVmNUl
- TJdHc+7gcnXhziZQ0GeQ34IOaXEJGw1Ga60kJRNQ=
-Message-ID: <70a188a2-7d56-9798-ecc9-700c9e8fd57f@ideasonboard.com>
-Date: Wed, 7 Jun 2023 12:38:14 +0300
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C3310E4A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 09:39:48 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 081A26003C00;
+ Wed,  7 Jun 2023 10:39:45 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id KLn4ceMhBpz2; Wed,  7 Jun 2023 10:39:42 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 93FDE600301C;
+ Wed,  7 Jun 2023 10:39:42 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1686130782;
+ bh=qzbtfG/1orL98pYWmgO/19VHpMxqF1o1TCM6v97C44A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=NFQw/reZmv8Udweim8jTuOAAaCg8M5kC7AGZLRhb67uXRQJkqwKHDOwR4knPYdAWY
+ xc2dKg8dCsB5kqDlmdHS6Shbo53t/iHriH+She9+j9xebeejNWDn6l9XDZfjLodY8f
+ OBkRNl7UDgONfu+rFCnF9f0ZgPeuodKKk2Nm1XfE=
+Received: from wslaptop (unknown [IPv6:2001:8a0:6a1a:e700:b1f6:8e31:237e:e5dd])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id BD773360075;
+ Wed,  7 Jun 2023 10:39:40 +0100 (WEST)
+Date: Wed, 7 Jun 2023 10:39:36 +0100
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie, 
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ jonathanh@nvidia.com, arnd@arndb.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Enable GPU on Smaug
+Message-ID: <x3ifhffuxyyxpgmy6m3d4xzpglihovfzrfp5vudinccepzkwma@hxvtze36gszi>
+References: <20230516082829.15326-1-diogo.ivo@tecnico.ulisboa.pt>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: Add missing check for
- dma_set_mask
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>
-References: <20230607020529.22934-1-jiasheng@iscas.ac.cn>
- <20230607050705.GF14101@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230607050705.GF14101@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230516082829.15326-1-diogo.ivo@tecnico.ulisboa.pt>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,48 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hyun.kwon@xilinx.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, michal.simek@amd.com,
- linux-arm-kernel@lists.infradead.org
+Cc: diogo.ivo@tecnico.ulisboa.pt
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/06/2023 08:07, Laurent Pinchart wrote:
-> Hello Jiasheng,
+On Tue, May 16, 2023 at 09:28:27AM +0100, Diogo Ivo wrote:
+> Hello,
 > 
-> Thank you for the patch.
+> This patch series enables the use of the GM20B GPU in the
+> Google Pixel C.
 > 
-> On Wed, Jun 07, 2023 at 10:05:29AM +0800, Jiasheng Jiang wrote:
->> Add check for dma_set_mask() and return the error if it fails.
->>
->> Fixes: d76271d22694 ("drm: xlnx: DRM/KMS driver for Xilinx ZynqMP DisplayPort Subsystem")
->> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
->> ---
->>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->> index bab862484d42..068413be6527 100644
->> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
->> @@ -227,7 +227,9 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
->>   	dpsub->dev = &pdev->dev;
->>   	platform_set_drvdata(pdev, dpsub);
->>   
->> -	dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
->> +	ret = dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
->> +	if (ret)
->> +		return ret;
+> Patch 1 adds the needed regulator DT node for the GPU.
 > 
-> This seems reasonable.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Tomi, would you be able to quickly test this ?
+> Patch 2 enables the GPU in the DT.
 
-Works for me.
+Hello,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Gentle ping on these patches.
 
-  Tomi
+Thank you,
 
+Diogo Ivo
