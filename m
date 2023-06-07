@@ -2,72 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B2172553F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8715725577
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 09:23:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2FC210E446;
-	Wed,  7 Jun 2023 07:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE3410E448;
+	Wed,  7 Jun 2023 07:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F90D10E446
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686122238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z8ZRfR4SbsRmuStbxG9wgKBb6rXoxZXDXcGM0Hiws6Y=;
- b=YFonmdq7SjuXomE8iV0XwkqH2Wsu2nnynHUVs07wPZRUCj0yJL8S4x2erRFmbPPVXF85rj
- q2C7Zg/F6hUgGWHKHZUGZHHLYJ7GXqISKeIToa/QWEKPSpfDFCeR5FdfgNIXNKRDPuAJCk
- gtrJMgcsugAlL0tP1sGFg5js/ioEYak=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-tmHuWrLDPCOeCi-ovVApOg-1; Wed, 07 Jun 2023 03:17:16 -0400
-X-MC-Unique: tmHuWrLDPCOeCi-ovVApOg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f603fed174so39566295e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jun 2023 00:17:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686122235; x=1688714235;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z8ZRfR4SbsRmuStbxG9wgKBb6rXoxZXDXcGM0Hiws6Y=;
- b=S9fHGILcjibIQWqMeN389KOT1DLpNDkmBcPi+cTxJ/tzzc7oL4yU25ZOntUifL57AJ
- Xu+xNPfyfziTZIPbpvJmYwfxVrHfI+4qUDS53qKjdtU3dtUrbCFM8ytwEQ2TFizeF+2w
- l/28co0KVSXwegnUUcjmb7W+hudI53K0WiJuTi7nULBEeAlLjV52QSglvoSY51ONSk4E
- 5T5kQIw1TKccr7UcwVrbxU59fCIHqQ2XBWAYvDwWdx4/wweUb7vXg1vXu1DimgR6+0DL
- KTeGMplWGxLykQ1OSuH8eKPbmGS7GbMlqHmvkMgVnzdRQDayBxP8IoENrm+0cebsjHyL
- N7CA==
-X-Gm-Message-State: AC+VfDwTDy3J60jMrVp4kTdqZz6HTJCZg8LLI0Z6qUjNSzZJnnS9tvpL
- ks1g+iIfciMfBq4Yf6o0qWHEdAhxqzW+r5e74prQ9il+dtC7i/+3MMtMTK6eShJ945ozorSyKao
- v/zpBmdALaeqtPhNVeiRkd4lk+4QK
-X-Received: by 2002:a7b:c7d4:0:b0:3f6:117:6ed7 with SMTP id
- z20-20020a7bc7d4000000b003f601176ed7mr3883287wmk.35.1686122235552; 
- Wed, 07 Jun 2023 00:17:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7+t4ruO68j5xRFuJyfpOU2/snN7eVdCEGUlFwfIVjPMhRolkXR3gPuON67Rkmj4YBG7RPArw==
-X-Received: by 2002:a7b:c7d4:0:b0:3f6:117:6ed7 with SMTP id
- z20-20020a7bc7d4000000b003f601176ed7mr3883273wmk.35.1686122235304; 
- Wed, 07 Jun 2023 00:17:15 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m9-20020a7bcb89000000b003f72468833esm1113666wmi.26.2023.06.07.00.17.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jun 2023 00:17:15 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] drm/ssd130x: A few enhancements and cleanups
-In-Reply-To: <6b0a12bf-a8d4-43df-860c-3aa271cfc624@suse.de>
-References: <20230605074753.562332-1-javierm@redhat.com>
- <6b0a12bf-a8d4-43df-860c-3aa271cfc624@suse.de>
-Date: Wed, 07 Jun 2023 09:17:14 +0200
-Message-ID: <87edmnhhc5.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8671210E42E
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jun 2023 07:22:56 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxDetOMIBkWA4AAA--.196S3;
+ Wed, 07 Jun 2023 15:22:55 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxbMpNMIBkPQEEAA--.6109S2; 
+ Wed, 07 Jun 2023 15:22:53 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
+Date: Wed,  7 Jun 2023 15:22:53 +0800
+Message-Id: <20230607072253.440613-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxbMpNMIBkPQEEAA--.6109S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7XrWxWw1fuFyfWr4fCryDJwc_yoW8Jr4rpF
+ sxt34kuFWxZFWvk3y7AFyxWa45Z3W5XFWSkF93twn09r98AFW0yrZxAFW3XFyDAwnrX3y2
+ qas3KFW7tFyUZFcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
+ 0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+ bVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1KZX7UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,43 +59,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Otherwise its failed to pass basic compile test on platform without
+REGMAP_MMIO selected by defconfig
 
-Hello Thomas,
+make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
 
-> Hi Javierm,
->
-> I've read through the patches and they look correct to me.
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
+  SYNC    include/config/auto.conf.cmd
+  Checking missing-syscalls for N32
+  CALL    scripts/checksyscalls.sh
+  Checking missing-syscalls for O32
+  CALL    scripts/checksyscalls.sh
+  CALL    scripts/checksyscalls.sh
+  MODPOST Module.symvers
+ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
+make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+make: *** [Makefile:1978: modpost] Error 2
 
-Thanks a lot for your review!
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/ingenic/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> But I had one question about the page size. You round up to multiples of 
-> page_size in several places. That could lead to an out-of-bounds access. 
-> Do you need to allocate GEM buffers to be multiples of page_size as well?
->
-
-That's a good point and I would need to have a closer look to the driver
-to determine if that's needed or not as well. If that's the case though,
-the issue is already present in the driver. We could fix it as follow-up.
-
-> Best regards
-> Thomas
->
-
+diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+index a53f475d33df..7457c0b65034 100644
+--- a/drivers/gpu/drm/ingenic/Kconfig
++++ b/drivers/gpu/drm/ingenic/Kconfig
+@@ -5,6 +5,8 @@ config DRM_INGENIC
+ 	depends on CMA
+ 	depends on OF
+ 	depends on COMMON_CLK
++	select REGMAP
++	select REGMAP_MMIO
+ 	select DRM_BRIDGE
+ 	select DRM_PANEL_BRIDGE
+ 	select DRM_KMS_HELPER
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.25.1
 
