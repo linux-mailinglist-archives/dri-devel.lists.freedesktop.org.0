@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54187253F8
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:16:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8997253FF
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jun 2023 08:20:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A0210E430;
-	Wed,  7 Jun 2023 06:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FA010E045;
+	Wed,  7 Jun 2023 06:20:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id EFF9B10E035;
- Wed,  7 Jun 2023 06:16:41 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:37502.551464108
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 0EAFE1002C5;
- Wed,  7 Jun 2023 14:16:34 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
- 63d46740575b4bae9c59180969e45e00 for helgaas@kernel.org; 
- Wed, 07 Jun 2023 14:16:39 CST
-X-Transaction-ID: 63d46740575b4bae9c59180969e45e00
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <a540daba-d61f-1de0-a3dd-eab733a25706@189.cn>
-Date: Wed, 7 Jun 2023 14:16:31 +0800
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5732310E045;
+ Wed,  7 Jun 2023 06:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686118843; x=1717654843;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Kd4uRcsZjvstQMt33Vg/cN3si8iQuCD7nl+C8ekCxR4=;
+ b=Ms+zmvd+tFnY4oLhCtDqemKuXqJxUU2OmZSZrcH49frXd7y4hud7uHQv
+ cO4OncCihKzG1o5wccR28z30ALLCDD1QNcWpIHWDgZpzlgCSG80lY6Xfc
+ /UrE8kP5gxByKyXXU2PRAaFyR3/J37Po/LLyIL/1bvj/tx46abDeuVT3o
+ d2tZ/I29B9cXvM0kpI/ZGcQOfm0Bgvo5+At188yLAiu/Arf/s0t9SV5aK
+ jYFvWNs7I7N2FnLUJEh9497snsFctxs3RaGsVMg7rStC70QcxQSCmrQ6w
+ yWr0Q3F0FSQJEKsdB2tL356/0peLuMNQcFQIvhmiwIX6UcZUda4nhttZE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="359366651"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="359366651"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 23:20:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="1039471107"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; d="scan'208";a="1039471107"
+Received: from lwisniew-mobl.ger.corp.intel.com (HELO [10.213.20.254])
+ ([10.213.20.254])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2023 23:20:39 -0700
+Message-ID: <f125ef17-631f-17db-7b8f-b6e6f0a75429@intel.com>
+Date: Wed, 7 Jun 2023 08:20:37 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH v2 1/2] vgaarb: various coding style and
- comments fix
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.2
+Subject: Re: [PATCH v2] drm/i915: Fix a VMA UAF for multi-gt platform
 Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230606194921.GA1139774@bhelgaas>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230606194921.GA1139774@bhelgaas>
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230606202755.8719-1-nirmoy.das@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230606202755.8719-1-nirmoy.das@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,97 +63,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Yi Liu <yi.l.liu@intel.com>,
- kvm@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- linux-pci@vger.kernel.org, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Kevin Tian <kevin.tian@intel.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Bokun Zhang <Bokun.Zhang@amd.com>, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, loongson-kernel@lists.loongnix.cn,
- Alex Williamson <alex.williamson@redhat.com>,
- Abhishek Sahu <abhsahu@nvidia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Li Yi <liyi@loongson.cn>,
- Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Cornelia Huck <cohuck@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2023/6/7 03:49, Bjorn Helgaas wrote:
-> Match the subject line style:
+
+On 06.06.2023 22:27, Nirmoy Das wrote:
+> Ensure correct handling of closed VMAs on multi-gt platforms to prevent
+> Use-After-Free. Currently, when GT0 goes idle, closed VMAs that are
+> exclusively added to GT0's closed_vma link (gt->closed_vma) and
+> subsequently freed by i915_vma_parked(), which assumes the entire GPU is
+> idle. However, on platforms with multiple GTs, such as MTL, GT1 may
+> remain active while GT0 is idle. This causes GT0 to mistakenly consider
+> the closed VMAs in its closed_vma list as unnecessary, potentially
+> leading to Use-After-Free issues if a job for GT1 attempts to access a
+> freed VMA.
 >
->    $ git log --oneline drivers/pci/vgaarb.c
->    f321c35feaee PCI/VGA: Replace full MIT license text with SPDX identifier
->    d5109fe4d1ec PCI/VGA: Use unsigned format string to print lock counts
->    4e6c91847a7f PCI/VGA: Log bridge control messages when adding devices
->    dc593fd48abb PCI/VGA: Remove empty vga_arb_device_card_gone()
->    ...
+> Although we do take a wakeref for GT0 but it happens later, after
+> evaluating VMAs. To mitigate this, it is necessary to hold a GT0 wakeref
+> early.
 >
-> Subject line should be a summary of the commit log, not just "various
-> style fixes".  This one needs to say something about
-> vga_str_to_iostate().
-
-Ok, thanks for the educating .
-
-> On Mon, Jun 05, 2023 at 04:58:30AM +0800, Sui Jingfeng wrote:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> To keep consistent with vga_iostate_to_str() function, the third argument
->> of vga_str_to_iostate() function should be 'unsigned int *'.
->>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/pci/vgaarb.c   | 29 +++++++++++++++--------------
->>   include/linux/vgaarb.h |  8 +++-----
->>   2 files changed, 18 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->> index 5a696078b382..e40e6e5e5f03 100644
->> --- a/drivers/pci/vgaarb.c
->> +++ b/drivers/pci/vgaarb.c
->> @@ -61,7 +61,6 @@ static bool vga_arbiter_used;
->>   static DEFINE_SPINLOCK(vga_lock);
->>   static DECLARE_WAIT_QUEUE_HEAD(vga_wait_queue);
->>   
->> -
->>   static const char *vga_iostate_to_str(unsigned int iostate)
->>   {
->>   	/* Ignore VGA_RSRC_IO and VGA_RSRC_MEM */
->> @@ -77,10 +76,12 @@ static const char *vga_iostate_to_str(unsigned int iostate)
->>   	return "none";
->>   }
->>   
->> -static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
->> +static int vga_str_to_iostate(char *buf, int str_size, unsigned int *io_state)
->>   {
->> -	/* we could in theory hand out locks on IO and mem
->> -	 * separately to userspace but it can cause deadlocks */
->> +	/*
->> +	 * we could in theory hand out locks on IO and mem
->> +	 * separately to userspace but it can cause deadlocks
->> +	 */
-> Omit all the comment formatting changes.  They are distractions from the
-> vga_str_to_iostate() parameter change.
+> v2: Use gt id to detect multi-tile(Andi)
+>      Fix the incorrect error path.
 >
-> I think this patch should be the single line change to the
-> vga_str_to_iostate() prototype so it matches the callers.
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+> Tested-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 >
-> If you want to do the other comment formatting changes, they're fine,
-> but they should be all together in a separate patch that clearly
-> doesn't change the generated code.
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 3aeede6aee4d..c2a67435acfa 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2683,6 +2683,7 @@ static int
+>   eb_select_engine(struct i915_execbuffer *eb)
+>   {
+>   	struct intel_context *ce, *child;
+> +	struct intel_gt *gt;
+>   	unsigned int idx;
+>   	int err;
+>   
+> @@ -2706,10 +2707,16 @@ eb_select_engine(struct i915_execbuffer *eb)
+>   		}
+>   	}
+>   	eb->num_batches = ce->parallel.number_children + 1;
+> +	gt = ce->engine->gt;
+>   
+>   	for_each_child(ce, child)
+>   		intel_context_get(child);
+>   	intel_gt_pm_get(ce->engine->gt);
 
-Ok, no problem.
+intel_gt_pm_get(gt)
 
-Will be improved at next version.
 
-> Bjorn
+> +	/* Keep GT0 active on MTL so that i915_vma_parked() doesn't
+> +	 * free VMAs while execbuf ioctl is validating VMAs.
+> +	 */
+> +	if (gt->info.id)
+> +		intel_gt_pm_get(to_gt(gt->i915));
+>   
+>   	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+>   		err = intel_context_alloc_state(ce);
+> @@ -2748,6 +2755,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+>   	return err;
+>   
+>   err:
+> +	if (gt->info.id)
+> +		intel_gt_pm_put(to_gt(gt->i915));
+> +
+>   	intel_gt_pm_put(ce->engine->gt);
+
+intel_gt_pm_put(gt)
+
+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+>   	for_each_child(ce, child)
+>   		intel_context_put(child);
+> @@ -2761,6 +2771,8 @@ eb_put_engine(struct i915_execbuffer *eb)
+>   	struct intel_context *child;
+>   
+>   	i915_vm_put(eb->context->vm);
+> +	if (eb->gt->info.id)
+> +		intel_gt_pm_put(to_gt(eb->gt->i915));
+>   	intel_gt_pm_put(eb->gt);
+>   	for_each_child(eb->context, child)
+>   		intel_context_put(child);
+
