@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3406272836E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460517283CC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88D3510E5CC;
-	Thu,  8 Jun 2023 15:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A90210E5D5;
+	Thu,  8 Jun 2023 15:34:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A808410E03D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 15:16:11 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id
- e9e14a558f8ab-33b04c8f3eeso2295205ab.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686237368; x=1688829368;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CJwtygG96EsLUnJEr5SXwbHpM9NJlbjJDKOEG9/I2wc=;
- b=jLRAJDAM1zP/l86YOfAUElwb1YY+B1bfoeDLM24tXf5PfMeRwy/scpuLqQxbnAhAb2
- 7voLW0llPtDcxBZpUgwmHEvDuNNi3Bofwyu9pgkYBFtYyvEe2iXn8MNfnBsi1VO7MK4s
- 4Ft2n+3qMY814s6FSDFC+PALRvZGjeaBjUwfM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686237368; x=1688829368;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CJwtygG96EsLUnJEr5SXwbHpM9NJlbjJDKOEG9/I2wc=;
- b=gGWkKp2qf5hP14QClIo1OGqcERJjoQpSUf0aYBrxSrNlO8Pduc9d2EK//vZSIgBj3I
- pEOmZ6uFFlIilVPQkxBhuRODZ5cOV7Q2WZ3zlMOpgFg/IDmHMxVZ0l7Rm0180RI1Sgb4
- 8LIfe71GIxmQZZWhi5zorXl8NZT3YnycEFrRAPBGpatLjdIk2ZzLG4j7Mxvku1IHAra7
- ugJ+zULMa7yog5CoOrWEMMVjNRITj326GnIcaBom7KQv/XciAeJ1TvlcoEpOEaQpF9sf
- URPu/9/9n2ju69hyVp+Ej99vGWj3GKeqC4FDU43wj/ULBjSoFTFRGE51cNxbzIxrOQMS
- +xKw==
-X-Gm-Message-State: AC+VfDzXv/9ySuzMZKR44Nhd0/dLoNjESJXUC2gR/XPHweEolIKSS08J
- DSZYB0E4Oc2SitfT7zRp8aL6y6FPMsLYeo2xric=
-X-Google-Smtp-Source: ACHHUZ5eBdL/6WRcNQegpS2vQJqJ53T5p/zezX4glxrpGiV/B7RGG16tuwk+BwXmm/wsqy0MR2bgdQ==
-X-Received: by 2002:a92:b00f:0:b0:338:1b0f:28ec with SMTP id
- x15-20020a92b00f000000b003381b0f28ecmr7191557ilh.15.1686237368536; 
- Thu, 08 Jun 2023 08:16:08 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
- [209.85.166.182]) by smtp.gmail.com with ESMTPSA id
- o16-20020a92c050000000b003339733e374sm430523ilf.86.2023.06.08.08.16.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jun 2023 08:16:07 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-33b7f217dd0so149255ab.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:16:06 -0700 (PDT)
-X-Received: by 2002:a05:6e02:20e1:b0:335:5940:5ca6 with SMTP id
- q1-20020a056e0220e100b0033559405ca6mr212512ilv.13.1686237366240; Thu, 08 Jun
- 2023 08:16:06 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4611010E0B8;
+ Thu,  8 Jun 2023 15:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686238490; x=1717774490;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=Sy9tlv6ZaWAkRETGtbxvEMc95D8XZ5Kbs6wHvWGezss=;
+ b=gFps5VXYHbdBL2Wo4qaLnk0T2jt6ZWc36imr6YfwKA/2rGlxTEjTUkZY
+ wgBJYEHX+g/iNfqn/xKIXh3tJMHTbDlff/9sqAyLX7OtCSHpzUHryXHnr
+ D2CdLfZF+qH3tBbm5SBYt2it0ayGIUqETjOcXPc1Vypw9ayF2AzIusWsf
+ 9addLWNM8zerSMFKW2IygWCKqXBwGIrYIOan5cqgjV3Ku2IS5dHOsxb4R
+ yYzhppNUVdSOAe4HvCJMYVBs7lSll/wwpAsnpA0YfRjiF7e/ClSI/K+jF
+ MnxmdF9KPIqtBvws+BI7+KJopqaw42LonDAIYPyxGbL6OSYpKGACDosBc Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="443709001"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="443709001"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2023 08:34:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="739797780"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="739797780"
+Received: from rirwin-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.213.239.227])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2023 08:34:46 -0700
+Date: Thu, 8 Jun 2023 16:34:44 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <ZIH09fqe5v5yArsu@tursulin-desk>
 MIME-Version: 1.0
-References: <20230608012443.839372-1-suhui@nfschina.com>
-In-Reply-To: <20230608012443.839372-1-suhui@nfschina.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Jun 2023 08:15:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WqmqaKXG20MuMwjwyR-8deFF7+chqphN=hiJ05mfC=HA@mail.gmail.com>
-Message-ID: <CAD=FV=WqmqaKXG20MuMwjwyR-8deFF7+chqphN=hiJ05mfC=HA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Avoid possible buffer
- overflow
-To: Su Hui <suhui@nfschina.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,48 +55,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- andersson@kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, u.kleine-koenig@pengutronix.de
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, Daniel,
 
-On Wed, Jun 7, 2023 at 6:25=E2=80=AFPM Su Hui <suhui@nfschina.com> wrote:
->
-> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <=3D 5.
->
-> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
-ge/ti-sn65dsi86.c
-> index 7a748785c545..4676cf2900df 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -298,6 +298,10 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_s=
-n65dsi86 *pdata)
->                 if (refclk_lut[i] =3D=3D refclk_rate)
->                         break;
->
-> +       /* avoid buffer overflow and "1" is the default rate in the datas=
-heet. */
-> +       if (i >=3D refclk_lut_size)
-> +               i =3D 1;
-> +
+Here goes the final pull request for 6.5.
 
-Looks great now, thanks!
+A few improvements to robustness of dealing with GuC communication issues,
+compute applications, small BAR systems perf/OA monitoring.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Then a little bit more of Meteorlake enablement which this time round
+includes the HuC loading code, another workaround, and UAPI for letting Mesa
+set the PAT index when creating buffer objects.
 
-Unless someone beats me to it or objects, I'll plan to commit this to
-drm-misc-fixes early next week.
+And a bunch of small cleanups for different kconfig options, compilers, or
+failures in error handling in selftests for hyphotetical scenarios. Some code
+base cleanups here and there too.
 
--Doug
+Regards,
+
+Tvrtko
+
+drm-intel-gt-next-2023-06-08:
+UAPI Changes:
+
+- I915_GEM_CREATE_EXT_SET_PAT for Mesa on Meteorlake.
+
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Use large rings for compute contexts (Chris Wilson)
+- Better logging/debug of unexpected GuC communication issues (Michal Wajdeczko)
+- Clear out entire reports after reading if not power of 2 size (Ashutosh Dixit)
+- Limit lmem allocation size to succeed on SmallBars (Andrzej Hajda)
+- perf/OA capture robustness improvements on DG2 (Umesh Nerlige Ramappa)
+- Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (Dan Carpenter)
+
+Future platform enablement:
+
+- Add workaround 14016712196 (Tejas Upadhyay)
+- HuC loading for MTL (Daniele Ceraolo Spurio)
+- Allow user to set cache at BO creation (Fei Yang)
+
+Miscellaneous:
+
+- Use system include style for drm headers (Jani Nikula)
+- Drop legacy CTB definitions (Michal Wajdeczko)
+- Turn off the timer to sample frequencies when GT is parked (Ashutosh Dixit)
+- Make PMU sample array two-dimensional (Ashutosh Dixit)
+- Use the correct error value when kernel_context() fails (Andi Shyti)
+- Fix second parameter type of pre-gen8 pte_encode callbacks (Nathan Chancellor)
+- Fix parameter in gmch_ggtt_insert_{entries, page}() (Nathan Chancellor)
+- Fix size_t format specifier in gsccs_send_message() (Nathan Chancellor)
+- Use the fdinfo helper (Tvrtko Ursulin)
+- Add some missing error propagation (Tvrtko Ursulin)
+- Reduce I915_MAX_GT to 2 (Matt Atwood)
+- Rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT (Matt Atwood)
+- Remove some obsolete definitions (John Harrison)
+
+Merges:
+
+- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
+The following changes since commit 2e1492835e439fceba57a5b0f9b17da8e78ffa3d:
+
+  Merge tag 'drm-misc-next-2023-06-01' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-06-02 13:39:00 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-06-08
+
+for you to fetch changes up to 24335848e543dc95c9e2ffa0108d879ffefd0442:
+
+  drm/i915/gsc: Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (2023-06-08 02:11:04 +0200)
+
+----------------------------------------------------------------
+UAPI Changes:
+
+- I915_GEM_CREATE_EXT_SET_PAT for Mesa on Meteorlake.
+
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Use large rings for compute contexts (Chris Wilson)
+- Better logging/debug of unexpected GuC communication issues (Michal Wajdeczko)
+- Clear out entire reports after reading if not power of 2 size (Ashutosh Dixit)
+- Limit lmem allocation size to succeed on SmallBars (Andrzej Hajda)
+- perf/OA capture robustness improvements on DG2 (Umesh Nerlige Ramappa)
+- Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (Dan Carpenter)
+
+Future platform enablement:
+
+- Add workaround 14016712196 (Tejas Upadhyay)
+- HuC loading for MTL (Daniele Ceraolo Spurio)
+- Allow user to set cache at BO creation (Fei Yang)
+
+Miscellaneous:
+
+- Use system include style for drm headers (Jani Nikula)
+- Drop legacy CTB definitions (Michal Wajdeczko)
+- Turn off the timer to sample frequencies when GT is parked (Ashutosh Dixit)
+- Make PMU sample array two-dimensional (Ashutosh Dixit)
+- Use the correct error value when kernel_context() fails (Andi Shyti)
+- Fix second parameter type of pre-gen8 pte_encode callbacks (Nathan Chancellor)
+- Fix parameter in gmch_ggtt_insert_{entries, page}() (Nathan Chancellor)
+- Fix size_t format specifier in gsccs_send_message() (Nathan Chancellor)
+- Use the fdinfo helper (Tvrtko Ursulin)
+- Add some missing error propagation (Tvrtko Ursulin)
+- Reduce I915_MAX_GT to 2 (Matt Atwood)
+- Rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT (Matt Atwood)
+- Remove some obsolete definitions (John Harrison)
+
+Merges:
+
+- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
+
+----------------------------------------------------------------
+Andi Shyti (1):
+      drm/i915/gt: Use the correct error value when kernel_context() fails
+
+Andrzej Hajda (1):
+      drm/i915/gt: limit lmem allocation size to succeed on SmallBars
+
+Ashutosh Dixit (3):
+      drm/i915/perf: Clear out entire reports after reading if not power of 2 size
+      drm/i915/pmu: Turn off the timer to sample frequencies when GT is parked
+      drm/i915/pmu: Make PMU sample array two-dimensional
+
+Chris Wilson (1):
+      drm/i915/gem: Use large rings for compute contexts
+
+Dan Carpenter (1):
+      drm/i915/gsc: Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv()
+
+Daniele Ceraolo Spurio (7):
+      drm/i915/uc: perma-pin firmwares
+      drm/i915/huc: Parse the GSC-enabled HuC binary
+      drm/i915/huc: Load GSC-enabled HuC via DMA xfer if the fuse says so
+      drm/i915/huc: differentiate the 2 steps of the MTL HuC auth flow
+      drm/i915/mtl/huc: auth HuC via GSC
+      drm/i915/mtl/huc: Use the media gt for the HuC getparam
+      drm/i915/huc: define HuC FW version for MTL
+
+Fei Yang (1):
+      drm/i915: Allow user to set cache at BO creation
+
+Jani Nikula (1):
+      drm/i915/gsc: use system include style for drm headers
+
+John Harrison (1):
+      drm/i915/guc: Remove some obsolete definitions
+
+Matt Atwood (2):
+      drm/i915: Reduce I915_MAX_GT to 2
+      drm/i915: rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT
+
+Michal Wajdeczko (4):
+      drm/i915/guc: Use FAST_REQUEST for non-blocking H2G calls
+      drm/i915/guc: Update log for unsolicited CTB response
+      drm/i915/guc: Track all sent actions to GuC
+      drm/i915/guc: Drop legacy CTB definitions
+
+Nathan Chancellor (3):
+      drm/i915/gt: Fix second parameter type of pre-gen8 pte_encode callbacks
+      drm/i915/gt: Fix parameter in gmch_ggtt_insert_{entries, page}()
+      drm/i915/pxp: Fix size_t format specifier in gsccs_send_message()
+
+Tejas Upadhyay (1):
+      drm/i915/gt: Add workaround 14016712196
+
+Tvrtko Ursulin (3):
+      Merge drm/drm-next into drm-intel-gt-next
+      drm/i915: Use the fdinfo helper
+      drm/i915/selftests: Add some missing error propagation
+
+Umesh Nerlige Ramappa (2):
+      i915/perf: Drop the aging_tail logic in perf OA
+      i915/perf: Do not add ggtt offset to hw_tail
+
+ drivers/gpu/drm/i915/Kconfig.debug                 |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c         |  40 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |   6 +
+ .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  14 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  38 ++++
+ drivers/gpu/drm/i915/gt/intel_ggtt.c               |  29 +--
+ drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c          |   8 +-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c       |  12 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c             |  11 +-
+ .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h |  21 --
+ drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h  |  30 +++
+ .../gpu/drm/i915/gt/uc/intel_gsc_binary_headers.h  |  74 +++++++
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c       |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c          |  34 ++-
+ .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c  |   4 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |  81 ++++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h          |  11 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |  33 ---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c             | 224 ++++++++++++++------
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h             |  26 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c          | 235 ++++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h          |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_print.h       |  21 ++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  10 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h              |   2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           | 133 +++++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |  26 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h       |   6 -
+ drivers/gpu/drm/i915/i915_driver.c                 |   6 +-
+ drivers/gpu/drm/i915/i915_drm_client.c             |  65 +-----
+ drivers/gpu/drm/i915/i915_drm_client.h             |  22 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |   4 +-
+ drivers/gpu/drm/i915/i915_gem.c                    |   6 +-
+ drivers/gpu/drm/i915/i915_getparam.c               |   6 +-
+ drivers/gpu/drm/i915/i915_perf.c                   | 121 +++++------
+ drivers/gpu/drm/i915/i915_perf_types.h             |  12 --
+ drivers/gpu/drm/i915/i915_pmu.c                    |  34 +--
+ drivers/gpu/drm/i915/i915_pmu.h                    |   8 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   3 +
+ .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h  |  17 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c         |   4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_huc.c           |   2 +-
+ include/uapi/drm/i915_drm.h                        |  44 +++-
+ 45 files changed, 1058 insertions(+), 444 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_binary_headers.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_huc_print.h
