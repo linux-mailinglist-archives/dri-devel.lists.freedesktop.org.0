@@ -2,53 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BBF727784
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C0F7277E3
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0909910E58F;
-	Thu,  8 Jun 2023 06:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C37E610E032;
+	Thu,  8 Jun 2023 06:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0370710E591
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686206601; x=1717742601;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fI40wiaR+0iKkpEJJfv/U0ZRi4pghOiYPOHiJGHp8V0=;
- b=AXcpL6GZ8U0Dgrmrd1WU1TpbYk3Lw8SoMPH/LxN9FFcPciYqcPd84qQA
- VPs0r6+Y5rBXrVBP2Z5CNVErFnAsdfhmFZcH2FmgoKGNpRXmwbvPXPKYG
- VbMsBnhH6meNrgMRkxnuda3hhkzmnCOEVAcre6HlhmLaPzSWkuRlsiLHb
- DD6wQVG0nyesCHUhTO1In0JMsaJH7JCyP8w7Zt/PEiG4WoTkhR+QX4MFP
- jwnJ/vm/QnUeJslPs07C/Y6KAzdTfDp65pcoksLwgAJhX7OK9Q0V8bc57
- VXz2nfWANbRTuWJnOcrnd33L9ZVAydx34TaWCOhRgPgF9nEIgEOn0s20C Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="360560083"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="360560083"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 23:43:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="834043511"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="834043511"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 23:43:18 -0700
-Date: Thu, 8 Jun 2023 08:43:15 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 2/2] accel/ivpu: Do not use mutex_lock_interruptible
-Message-ID: <20230608064315.GI324119@linux.intel.com>
-References: <20230525103818.877590-1-stanislaw.gruszka@linux.intel.com>
- <20230525103818.877590-2-stanislaw.gruszka@linux.intel.com>
- <66ccf028-48df-0493-6510-19bd635210a5@quicinc.com>
- <20230606134443.GC324119@linux.intel.com>
- <b8f3b911-a883-272c-b2ac-d57e10318f75@quicinc.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A74CC10E032
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:56:01 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2ABDB6606F12;
+ Thu,  8 Jun 2023 07:55:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686207359;
+ bh=Lr/xDLOUROi4MEpGwY0a5/DOYOE5Eft9M9lrp7zHlT8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fBqTLrfJ+6lTXHSh9m9fdJuYVaZdCoDiCMugo2rTmmsFTT6GjM/rOF4q1VMxrxb0c
+ bImeA342OO62yhMZl/tSWTJ8m7n5l0pX6tvcnOBcMmMMbOWh62qg2fk415yAWQ4iba
+ QnyybPusdipaV7CJF71wAoDlN7jIPhsbW1zdRYmaWHYQPVfqBjCYZSOiGXpzQASV/W
+ pyOooqGrjoKtbXdyo4+vYrL6j8ZVBtSuqJhzZlPYzSJyeN4bA1K+wRiEEYmXwD5PgR
+ 98XErSsODOdgnKt1iOun7jY9xZIAjqJ9rew+cBGNW+Xcx2DouzdvWeiVwuuB+SasNy
+ +i861HosSIzew==
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH] drm/sched: Wait for the currently popped dependency in
+ kill_jobs_cb()
+Date: Thu,  8 Jun 2023 08:55:51 +0200
+Message-Id: <20230608065551.676490-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8f3b911-a883-272c-b2ac-d57e10318f75@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,49 +51,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 06, 2023 at 08:50:52AM -0600, Jeffrey Hugo wrote:
-> On 6/6/2023 7:44 AM, Stanislaw Gruszka wrote:
-> > Hi
-> > 
-> > On Fri, Jun 02, 2023 at 11:30:31AM -0600, Jeffrey Hugo wrote:
-> > > On 5/25/2023 4:38 AM, Stanislaw Gruszka wrote:
-> > > > If we get signal when waiting for the mmu->lock we do not invalidate
-> > > > current MMU configuration what might result on undefined behavior.
-> > > 
-> > > "that might result in"
-> > > 
-> > > > Additionally there is little or no benefit on break waiting for
-> > > > ipc->lock. In current code base, we keep this lock for short periods.
-> > > 
-> > > What about error cases?  Nothing where say the hardware can be unresponsive
-> > > and a process from userspace is blocked?  Without interruptible(), ctrl+c
-> > > will have no effect.
-> > 
-> > I believe we do not have any infinite loops while holding the mutexe's,
-> > all loops will end with timeout on unresponsive hardware and sooner or
-> > later SIGINT will be delivered. This time can take quite long on simulated
-> > environment, but in such case we can just break the simulation.
-> 
-> Ok, then I'm not missing anything.  It does look like all the hardware
-> interactions have short timeouts.  Feels odd to me to avoid interruptible()
-> in user context, but I don't see anything that is wrong based on the code
-> today.
+If I understand correctly, drm_sched_entity_kill_jobs_cb() is supposed
+to wait on all the external dependencies (those added to
+drm_sched_job::dependencies) before signaling the job finished fence.
+This is done this way to prevent jobs depending on these canceled jobs
+from considering the resources they want to access as ready, when
+they're actually still used by other components, thus leading to
+potential data corruptions.
 
-In this context it should not matter much, because we hold locks for
-short periods But we have also wait_event_interruptible_timeout(),
-which I want to get rid of as well, because we can free and reuse
-memory that could still be used by FW, if we break that wait_event. 
-And solving this differently will require much complication, which I
-don't really want goto into. I will need to think about that ...
+The problem is, the kill_jobs logic is omitting the last fence popped
+from the dependencies array that was waited upon before
+drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
+so we're basically waiting for all dependencies except one.
 
-Anyways thanks for the insights, appreciated.
+This is an attempt at fixing that, but also an opportunity to make sure
+I understood the drm_sched_entity_kill(), because I'm not 100% sure if
+skipping this currently popped dependency was intentional or not. I can't
+see a good reason why we'd want to skip that one, but I might be missing
+something.
 
-Regards
-Stanislaw
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Sarah Walker <sarah.walker@imgtec.com>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+---
+Stumbled across this issue while working on native dependency support
+with Donald (which will be posted soon). Flagged as RFC, because I'm
+not sure this is legit, and also not sure we want to fix it this way.
+I tried re-using drm_sched_entity::dependency, but it's a bit of a mess
+because of the asynchronousity of the wait, and the fact we use
+drm_sched_entity::dependency to know if we have a clear_dep()
+callback registered, so we can easily reset it without removing the
+callback.
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 40 ++++++++++++++++++------
+ drivers/gpu/drm/scheduler/sched_main.c   |  3 ++
+ include/drm/gpu_scheduler.h              | 12 +++++++
+ 3 files changed, 45 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 68e807ae136a..3821f9adf7bd 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -176,20 +176,35 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ {
+ 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+ 						 finish_cb);
+-	int r;
+ 
+ 	dma_fence_put(f);
+ 
+-	/* Wait for all dependencies to avoid data corruptions */
+-	while (!xa_empty(&job->dependencies)) {
+-		f = xa_erase(&job->dependencies, job->last_dependency++);
+-		r = dma_fence_add_callback(f, &job->finish_cb,
+-					   drm_sched_entity_kill_jobs_cb);
+-		if (!r)
++	/* Wait for all remaining dependencies to avoid data corruptions.
++	 *
++	 * We first check the last dependency popped from job->dependencies,
++	 * and then walk job->dependencies.
++	 *
++	 * Note that we don't wait on the last fence returned by
++	 * drm_gpu_scheduler_ops::prepare_job(), nor do we call
++	 * drm_gpu_scheduler_ops::prepare_job() to empty the list of potential
++	 * internal dependencies the driver might want to wait on before
++	 * scheduling the job. We simply assume skipping internal dependencies
++	 * can't cause data corruption on resources passed to the job.
++	 */
++	do {
++		f = job->cur_dep;
++
++		if (!xa_empty(&job->dependencies))
++			job->cur_dep = xa_erase(&job->dependencies, job->last_dependency++);
++		else
++			job->cur_dep = NULL;
++
++		if (f &&
++		    !dma_fence_add_callback(f, &job->finish_cb, drm_sched_entity_kill_jobs_cb))
+ 			return;
+ 
+ 		dma_fence_put(f);
+-	}
++	} while (job->cur_dep);
+ 
+ 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+ 	schedule_work(&job->work);
+@@ -415,8 +430,13 @@ static struct dma_fence *
+ drm_sched_job_dependency(struct drm_sched_job *job,
+ 			 struct drm_sched_entity *entity)
+ {
+-	if (!xa_empty(&job->dependencies))
+-		return xa_erase(&job->dependencies, job->last_dependency++);
++	dma_fence_put(job->cur_dep);
++	job->cur_dep = NULL;
++
++	if (!xa_empty(&job->dependencies)) {
++		job->cur_dep = xa_erase(&job->dependencies, job->last_dependency++);
++		return dma_fence_get(job->cur_dep);
++	}
+ 
+ 	if (job->sched->ops->prepare_job)
+ 		return job->sched->ops->prepare_job(job, entity);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 394010a60821..70ab60e5760c 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -839,6 +839,9 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
+ 
+ 	job->s_fence = NULL;
+ 
++	if (WARN_ON(job->cur_dep))
++		dma_fence_put(job->cur_dep);
++
+ 	xa_for_each(&job->dependencies, index, fence) {
+ 		dma_fence_put(fence);
+ 	}
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index e95b4837e5a3..8e8e3decdc80 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -366,6 +366,18 @@ struct drm_sched_job {
+ 	/** @last_dependency: tracks @dependencies as they signal */
+ 	unsigned long			last_dependency;
+ 
++	/*
++	 * @cur_dep:
++	 *
++	 * Last dependency popped from @dependencies. Dependencies returned by
++	 * drm_gpu_scheculer_ops::prepare_job() are not recorded here.
++	 *
++	 * We need to keep track of the last dependencies popped from
++	 * @dependencies so we can wait on the already popped dependency when
++	 * drm_sched_entity_kill_jobs_cb() is called.
++	 */
++	struct dma_fence		*cur_dep;
++
+ 	/**
+ 	 * @submit_ts:
+ 	 *
+-- 
+2.40.1
+
