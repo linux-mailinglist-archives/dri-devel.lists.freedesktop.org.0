@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460517283CC
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:34:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A0C7283D0
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A90210E5D5;
-	Thu,  8 Jun 2023 15:34:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C3010E0B8;
+	Thu,  8 Jun 2023 15:37:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4611010E0B8;
- Thu,  8 Jun 2023 15:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686238490; x=1717774490;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Sy9tlv6ZaWAkRETGtbxvEMc95D8XZ5Kbs6wHvWGezss=;
- b=gFps5VXYHbdBL2Wo4qaLnk0T2jt6ZWc36imr6YfwKA/2rGlxTEjTUkZY
- wgBJYEHX+g/iNfqn/xKIXh3tJMHTbDlff/9sqAyLX7OtCSHpzUHryXHnr
- D2CdLfZF+qH3tBbm5SBYt2it0ayGIUqETjOcXPc1Vypw9ayF2AzIusWsf
- 9addLWNM8zerSMFKW2IygWCKqXBwGIrYIOan5cqgjV3Ku2IS5dHOsxb4R
- yYzhppNUVdSOAe4HvCJMYVBs7lSll/wwpAsnpA0YfRjiF7e/ClSI/K+jF
- MnxmdF9KPIqtBvws+BI7+KJopqaw42LonDAIYPyxGbL6OSYpKGACDosBc Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="443709001"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="443709001"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 08:34:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="739797780"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="739797780"
-Received: from rirwin-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.213.239.227])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 08:34:46 -0700
-Date: Thu, 8 Jun 2023 16:34:44 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <ZIH09fqe5v5yArsu@tursulin-desk>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688E410E0B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 15:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686238629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dnOFROsF7B7sQwXM8eGHqjnV3KCLoennVYcraYtkdpA=;
+ b=c/mSsndr+vfoLSRKc5/sZxm1j01t87LYbbHt5C/Lgf5iV8WRj5a9XwU+HTURinN28cgTIx
+ BsQLc2C3aLDdHaUs/U0OF97LnMTj9EcoYxUtmTa5AVb1RUp7AY1dw0cPgnuejNoRkY+9cJ
+ ZuTpFWtK3veoLoG2fEC9Ci9a+pSPWL8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-dWYUHhdGMQGx6oW_hdGnxQ-1; Thu, 08 Jun 2023 11:37:05 -0400
+X-MC-Unique: dWYUHhdGMQGx6oW_hdGnxQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09B34282CCAA;
+ Thu,  8 Jun 2023 15:37:04 +0000 (UTC)
+Received: from mail.corp.redhat.com (unknown [10.45.224.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6216B492B0A;
+ Thu,  8 Jun 2023 15:36:59 +0000 (UTC)
+Date: Thu, 8 Jun 2023 17:36:56 +0200
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,235 +60,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
 
-Here goes the final pull request for 6.5.
+On Jun 07 2023, Douglas Anderson wrote:
+> 
+> As talked about in the patch ("drm/panel: Add a way for other devices
+> to follow panel state"), we really want to keep the power states of a
+> touchscreen and the panel it's attached to in sync with each other. In
+> that spirit, add support to i2c-hid to be a panel follower. This will
+> let the i2c-hid driver get informed when the panel is powered on and
+> off. From there we can match the i2c-hid device's power state to that
+> of the panel.
+> 
+> NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
+> of / manage the power state of the i2c-hid device, even though my
+> first instinct said that would be the way to go. Specific problems
+> with using pm_runtime():
+> * The initial power up couldn't happen in a runtime resume function
+>   since it create sub-devices and, apparently, that's not good to do
+>   in your resume function.
+> * Managing our power state with pm_runtime meant fighting to make the
+>   right thing happen at system suspend to prevent the system from
+>   trying to resume us only to suspend us again. While this might be
+>   able to be solved, it added complexity.
+> Overall the code without pm_runtime() ended up being smaller and
+> easier to understand.
 
-A few improvements to robustness of dealing with GuC communication issues,
-compute applications, small BAR systems perf/OA monitoring.
+Generally speaking, I'm not that happy when we need to coordinate with
+other subsystems for bringing up resources...
 
-Then a little bit more of Meteorlake enablement which this time round
-includes the HuC loading code, another workaround, and UAPI for letting Mesa
-set the PAT index when creating buffer objects.
+Anyway, a remark inlined (at least):
 
-And a bunch of small cleanups for different kconfig options, compilers, or
-failures in error handling in selftests for hyphotetical scenarios. Some code
-base cleanups here and there too.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> Changes in v2:
+> - i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+> 
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 82 +++++++++++++++++++++++++++++-
+>  1 file changed, 81 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index fa8a1ca43d7f..368db3ae612f 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -38,6 +38,8 @@
+>  #include <linux/mutex.h>
+>  #include <asm/unaligned.h>
+>  
+> +#include <drm/drm_panel.h>
+> +
+>  #include "../hid-ids.h"
+>  #include "i2c-hid.h"
+>  
+> @@ -107,6 +109,8 @@ struct i2c_hid {
+>  	struct mutex		reset_lock;
+>  
+>  	struct i2chid_ops	*ops;
+> +	struct drm_panel_follower panel_follower;
+> +	bool			is_panel_follower;
+>  };
+>  
+>  static const struct i2c_hid_quirks {
+> @@ -1058,6 +1062,34 @@ static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
+>  	return ret;
+>  }
+>  
+> +static int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +	struct hid_device *hid = ihid->hid;
+> +
+> +	/*
+> +	 * hid->version is set on the first power up. If it's still zero then
+> +	 * this is the first power on so we should perform initial power up
+> +	 * steps.
+> +	 */
+> +	if (!hid->version)
+> +		return i2c_hid_core_initial_power_up(ihid);
+> +
+> +	return i2c_hid_core_resume(ihid);
+> +}
+> +
+> +static int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
+> +{
+> +	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
+> +
+> +	return i2c_hid_core_suspend(ihid);
+> +}
+> +
+> +static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
+> +	.panel_prepared = i2c_hid_core_panel_prepared,
+> +	.panel_unpreparing = i2c_hid_core_panel_unpreparing,
+> +};
 
-Regards,
+Can we make that above block at least behind a Kconfig?
 
-Tvrtko
+i2c-hid is often used for touchpads, and the notion of drm panel has
+nothing to do with them. So I'd be more confident if we could disable
+that code if not required.
 
-drm-intel-gt-next-2023-06-08:
-UAPI Changes:
+Actually, I'd be even more happier if it were in a different compilation
+unit. Not necessary a different module, but at least a different file.
 
-- I915_GEM_CREATE_EXT_SET_PAT for Mesa on Meteorlake.
+Cheers,
+Benjamin
 
-Driver Changes:
+> +
+>  int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  		       u16 hid_descriptor_address, u32 quirks)
+>  {
+> @@ -1119,6 +1151,41 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+>  	hid->bus = BUS_I2C;
+>  	hid->initial_quirks = quirks;
+>  
+> +	/*
+> +	 * See if we're following a panel. If drm_panel_add_follower()
+> +	 * returns no error then we are.
+> +	 */
+> +	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
+> +	ret = drm_panel_add_follower(&client->dev, &ihid->panel_follower);
+> +	if (!ret) {
+> +		/* We're a follower. That means we'll power things up later. */
+> +		ihid->is_panel_follower = true;
+> +
+> +		/*
+> +		 * If we're not in control of our own power up/power down then
+> +		 * we can't do the logic to manage wakeups. Give a warning if
+> +		 * a user thought that was possible then force the capability
+> +		 * off.
+> +		 */
+> +		if (device_can_wakeup(&client->dev)) {
+> +			dev_warn(&client->dev, "Can't wakeup if following panel\n");
+> +			device_set_wakeup_capable(&client->dev, false);
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * -ENODEV means that we're not following a panel, so any other error
+> +	 * is a real problem (like -EPROBE_DEFER, -ENOMEM, ...).
+> +	 */
+> +	if (ret != -ENODEV)
+> +		goto err_mem_free;
+> +
+> +	/*
+> +	 * We're not following a panel. That's fine and means that we
+> +	 * can power up right away.
+> +	 */
+>  	ret = i2c_hid_core_initial_power_up(ihid);
+>  	if (ret)
+>  		goto err_mem_free;
+> @@ -1143,7 +1210,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  	struct hid_device *hid;
+>  
+> -	i2c_hid_core_power_down(ihid);
+> +	/*
+> +	 * If we're a follower, the act of unfollowing will cause us to be
+> +	 * powered down. Otherwise we need to manually do it.
+> +	 */
+> +	if (ihid->is_panel_follower)
+> +		drm_panel_remove_follower(&ihid->panel_follower);
+> +	else
+> +		i2c_hid_core_power_down(ihid);
+>  
+>  	hid = ihid->hid;
+>  	hid_destroy_device(hid);
+> @@ -1171,6 +1245,9 @@ static int i2c_hid_core_pm_suspend(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+> +
+>  	return i2c_hid_core_suspend(ihid);
+>  }
+>  
+> @@ -1179,6 +1256,9 @@ static int i2c_hid_core_pm_resume(struct device *dev)
+>  	struct i2c_client *client = to_i2c_client(dev);
+>  	struct i2c_hid *ihid = i2c_get_clientdata(client);
+>  
+> +	if (ihid->is_panel_follower)
+> +		return 0;
+> +
+>  	return i2c_hid_core_resume(ihid);
+>  }
+>  
+> -- 
+> 2.41.0.162.gfafddb0af9-goog
+> 
 
-Fixes/improvements/new stuff:
-
-- Use large rings for compute contexts (Chris Wilson)
-- Better logging/debug of unexpected GuC communication issues (Michal Wajdeczko)
-- Clear out entire reports after reading if not power of 2 size (Ashutosh Dixit)
-- Limit lmem allocation size to succeed on SmallBars (Andrzej Hajda)
-- perf/OA capture robustness improvements on DG2 (Umesh Nerlige Ramappa)
-- Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (Dan Carpenter)
-
-Future platform enablement:
-
-- Add workaround 14016712196 (Tejas Upadhyay)
-- HuC loading for MTL (Daniele Ceraolo Spurio)
-- Allow user to set cache at BO creation (Fei Yang)
-
-Miscellaneous:
-
-- Use system include style for drm headers (Jani Nikula)
-- Drop legacy CTB definitions (Michal Wajdeczko)
-- Turn off the timer to sample frequencies when GT is parked (Ashutosh Dixit)
-- Make PMU sample array two-dimensional (Ashutosh Dixit)
-- Use the correct error value when kernel_context() fails (Andi Shyti)
-- Fix second parameter type of pre-gen8 pte_encode callbacks (Nathan Chancellor)
-- Fix parameter in gmch_ggtt_insert_{entries, page}() (Nathan Chancellor)
-- Fix size_t format specifier in gsccs_send_message() (Nathan Chancellor)
-- Use the fdinfo helper (Tvrtko Ursulin)
-- Add some missing error propagation (Tvrtko Ursulin)
-- Reduce I915_MAX_GT to 2 (Matt Atwood)
-- Rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT (Matt Atwood)
-- Remove some obsolete definitions (John Harrison)
-
-Merges:
-
-- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
-The following changes since commit 2e1492835e439fceba57a5b0f9b17da8e78ffa3d:
-
-  Merge tag 'drm-misc-next-2023-06-01' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-06-02 13:39:00 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2023-06-08
-
-for you to fetch changes up to 24335848e543dc95c9e2ffa0108d879ffefd0442:
-
-  drm/i915/gsc: Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (2023-06-08 02:11:04 +0200)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- I915_GEM_CREATE_EXT_SET_PAT for Mesa on Meteorlake.
-
-Driver Changes:
-
-Fixes/improvements/new stuff:
-
-- Use large rings for compute contexts (Chris Wilson)
-- Better logging/debug of unexpected GuC communication issues (Michal Wajdeczko)
-- Clear out entire reports after reading if not power of 2 size (Ashutosh Dixit)
-- Limit lmem allocation size to succeed on SmallBars (Andrzej Hajda)
-- perf/OA capture robustness improvements on DG2 (Umesh Nerlige Ramappa)
-- Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv() (Dan Carpenter)
-
-Future platform enablement:
-
-- Add workaround 14016712196 (Tejas Upadhyay)
-- HuC loading for MTL (Daniele Ceraolo Spurio)
-- Allow user to set cache at BO creation (Fei Yang)
-
-Miscellaneous:
-
-- Use system include style for drm headers (Jani Nikula)
-- Drop legacy CTB definitions (Michal Wajdeczko)
-- Turn off the timer to sample frequencies when GT is parked (Ashutosh Dixit)
-- Make PMU sample array two-dimensional (Ashutosh Dixit)
-- Use the correct error value when kernel_context() fails (Andi Shyti)
-- Fix second parameter type of pre-gen8 pte_encode callbacks (Nathan Chancellor)
-- Fix parameter in gmch_ggtt_insert_{entries, page}() (Nathan Chancellor)
-- Fix size_t format specifier in gsccs_send_message() (Nathan Chancellor)
-- Use the fdinfo helper (Tvrtko Ursulin)
-- Add some missing error propagation (Tvrtko Ursulin)
-- Reduce I915_MAX_GT to 2 (Matt Atwood)
-- Rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT (Matt Atwood)
-- Remove some obsolete definitions (John Harrison)
-
-Merges:
-
-- Merge drm/drm-next into drm-intel-gt-next (Tvrtko Ursulin)
-
-----------------------------------------------------------------
-Andi Shyti (1):
-      drm/i915/gt: Use the correct error value when kernel_context() fails
-
-Andrzej Hajda (1):
-      drm/i915/gt: limit lmem allocation size to succeed on SmallBars
-
-Ashutosh Dixit (3):
-      drm/i915/perf: Clear out entire reports after reading if not power of 2 size
-      drm/i915/pmu: Turn off the timer to sample frequencies when GT is parked
-      drm/i915/pmu: Make PMU sample array two-dimensional
-
-Chris Wilson (1):
-      drm/i915/gem: Use large rings for compute contexts
-
-Dan Carpenter (1):
-      drm/i915/gsc: Fix error code in intel_gsc_uc_heci_cmd_submit_nonpriv()
-
-Daniele Ceraolo Spurio (7):
-      drm/i915/uc: perma-pin firmwares
-      drm/i915/huc: Parse the GSC-enabled HuC binary
-      drm/i915/huc: Load GSC-enabled HuC via DMA xfer if the fuse says so
-      drm/i915/huc: differentiate the 2 steps of the MTL HuC auth flow
-      drm/i915/mtl/huc: auth HuC via GSC
-      drm/i915/mtl/huc: Use the media gt for the HuC getparam
-      drm/i915/huc: define HuC FW version for MTL
-
-Fei Yang (1):
-      drm/i915: Allow user to set cache at BO creation
-
-Jani Nikula (1):
-      drm/i915/gsc: use system include style for drm headers
-
-John Harrison (1):
-      drm/i915/guc: Remove some obsolete definitions
-
-Matt Atwood (2):
-      drm/i915: Reduce I915_MAX_GT to 2
-      drm/i915: rename I915_PMU_MAX_GTS to I915_PMU_MAX_GT
-
-Michal Wajdeczko (4):
-      drm/i915/guc: Use FAST_REQUEST for non-blocking H2G calls
-      drm/i915/guc: Update log for unsolicited CTB response
-      drm/i915/guc: Track all sent actions to GuC
-      drm/i915/guc: Drop legacy CTB definitions
-
-Nathan Chancellor (3):
-      drm/i915/gt: Fix second parameter type of pre-gen8 pte_encode callbacks
-      drm/i915/gt: Fix parameter in gmch_ggtt_insert_{entries, page}()
-      drm/i915/pxp: Fix size_t format specifier in gsccs_send_message()
-
-Tejas Upadhyay (1):
-      drm/i915/gt: Add workaround 14016712196
-
-Tvrtko Ursulin (3):
-      Merge drm/drm-next into drm-intel-gt-next
-      drm/i915: Use the fdinfo helper
-      drm/i915/selftests: Add some missing error propagation
-
-Umesh Nerlige Ramappa (2):
-      i915/perf: Drop the aging_tail logic in perf OA
-      i915/perf: Do not add ggtt offset to hw_tail
-
- drivers/gpu/drm/i915/Kconfig.debug                 |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   6 +-
- drivers/gpu/drm/i915/gem/i915_gem_create.c         |  40 ++++
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |   6 +
- .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |  14 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  38 ++++
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  29 +--
- drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c          |   8 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |  12 +-
- drivers/gpu/drm/i915/gt/selftest_tlb.c             |  11 +-
- .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h |  21 --
- drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h  |  30 +++
- .../gpu/drm/i915/gt/uc/intel_gsc_binary_headers.h  |  74 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c       |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c          |  34 ++-
- .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c  |   4 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          |  81 ++++++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h          |  11 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |  33 ---
- drivers/gpu/drm/i915/gt/uc/intel_huc.c             | 224 ++++++++++++++------
- drivers/gpu/drm/i915/gt/uc/intel_huc.h             |  26 ++-
- drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c          | 235 ++++++++++++++++++++-
- drivers/gpu/drm/i915/gt/uc/intel_huc_fw.h          |   6 +-
- drivers/gpu/drm/i915/gt/uc/intel_huc_print.h       |  21 ++
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  10 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.h              |   2 +
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           | 133 +++++++-----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |  26 ++-
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h       |   6 -
- drivers/gpu/drm/i915/i915_driver.c                 |   6 +-
- drivers/gpu/drm/i915/i915_drm_client.c             |  65 +-----
- drivers/gpu/drm/i915/i915_drm_client.h             |  22 +-
- drivers/gpu/drm/i915/i915_drv.h                    |   4 +-
- drivers/gpu/drm/i915/i915_gem.c                    |   6 +-
- drivers/gpu/drm/i915/i915_getparam.c               |   6 +-
- drivers/gpu/drm/i915/i915_perf.c                   | 121 +++++------
- drivers/gpu/drm/i915/i915_perf_types.h             |  12 --
- drivers/gpu/drm/i915/i915_pmu.c                    |  34 +--
- drivers/gpu/drm/i915/i915_pmu.h                    |   8 +-
- drivers/gpu/drm/i915/i915_reg.h                    |   3 +
- .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h  |  17 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c         |   4 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_huc.c           |   2 +-
- include/uapi/drm/i915_drm.h                        |  44 +++-
- 45 files changed, 1058 insertions(+), 444 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_binary_headers.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_huc_print.h
