@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1302672787F
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA7C7278C1
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A444110E58E;
-	Thu,  8 Jun 2023 07:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4224D10E225;
+	Thu,  8 Jun 2023 07:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADCB10E58E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:15:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686208550; x=1717744550;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BL2likjgo0S+4XGmHIfpSStordjpYuBQnIcuC2vgFgY=;
- b=W8VaGqQ/fn4iIv8/1d+0++WIeP9O1EfBGcIXyeABs+ByMqqTRjTHj1kM
- EtbB8F25AZDNSl1eEm3Bzr4CaRmQy9P5cXtF03n/yvQ2C7rblQ9h9i6Is
- t4fHDvH9Fm3ksHbeMyXtfsRUhWiEOSvozCGYf2ik/sViwQi70hugaNGEQ
- PWGvMi/aRrltz1zOjrKRAPlWeWpJapzCrOsmSNqu5Gf7gdpRkT7PtGYts
- AEaeTJK0AOsMQDbvVt/BWVKN+6H2BjLh/b/SMved/L3Tc+t58Uw4Qk6xE
- A4GTxOQ1Uyik9AuCVa8xd6thCTzRnEE1xQMsPeK4hHhFdUmb3f9vjr31j A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="360567826"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="360567826"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 00:15:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799711386"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="799711386"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2023 00:15:43 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q79rz-0007Vr-04;
- Thu, 08 Jun 2023 07:15:43 +0000
-Date: Thu, 8 Jun 2023 15:14:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Douglas Anderson <dianders@chromium.org>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-Message-ID: <202306081419.Dzz0T4iW-lkp@intel.com>
-References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17B510E225
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:28:00 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 9C208C9F2C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:15:40 +0000 (UTC)
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1686208533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e1SM5qbVIiWN2i+E93Rs6pUO8P+WpXB4KlSYCZZICVY=;
+ b=hiFnkWcMBREhi4rzWYlIx8VS0ZhTqTon6B+Noi/zM+uHZ7cDtj+O0K8AB3JJxvJ26Z8uTN
+ 4bcU8LgJzSgZAHWIsqODXe1na5oEEf2lOepgpbgZM0m8LbAKvkqcGmuVAJ94gQVLVXSFbG
+ 59/Th9CIbh3F+9NzfeNCKlk5tdqReXe/7eUlWG5iXeKlkB0Zq4fKoW9Su14syXMFdeH4cf
+ bswq4vk8zlPJlw4kFmPx9VO2DmF5giUm4eJGRnhfqbtcjDn0B59PD9lo31iQJoEuD0x0ti
+ ULo1/S2WZY6ruuYKJqHXuZlxjE2Q+bqkRC8uJK02tbhVFXMt7p0FSeGIQzcu8g==
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 17678240013;
+ Thu,  8 Jun 2023 07:15:30 +0000 (UTC)
+Date: Thu, 8 Jun 2023 09:15:29 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v2] drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
+Message-ID: <ZIGAEZTJvq1GqFVD@aptenodytes>
+References: <20230608024207.581401-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ukkutT5+Jm73cGF3"
 Content-Disposition: inline
-In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+In-Reply-To: <20230608024207.581401-1-suijingfeng@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +56,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- llvm@lists.linux.dev, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chris Morgan <macroalpha82@gmail.com>, oe-kbuild-all@lists.linux.dev,
- hsinyi@google.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-input@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas,
 
-kernel test robot noticed the following build errors:
+--ukkutT5+Jm73cGF3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on hid/for-next dtor-input/next dtor-input/for-linus drm-misc/drm-misc-next linus/master v6.4-rc5 next-20230607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20230608-055515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15%40changeid
-patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-config: i386-randconfig-i003-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081419.Dzz0T4iW-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch robh for-next
-        git checkout robh/for-next
-        b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+On Thu 08 Jun 23, 10:42, Sui Jingfeng wrote:
+> drm/logicvc driver is depend on REGMAP and REGMAP_MMIO, should select this
+> two kconfig option, otherwise the driver failed to compile on platform
+> without REGMAP_MMIO selected:
+>=20
+> ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/logicvc/lo=
+gicvc-drm.ko] undefined!
+> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+> make: *** [Makefile:1978: modpost] Error 2
+>=20
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306081419.Dzz0T4iW-lkp@intel.com/
+Thanks for the fix, looks good to me!
 
-All errors (new ones prefixed by >>):
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
->> ld.lld: error: undefined symbol: drm_panel_add_follower
-   >>> referenced by i2c-hid-core.c:1159 (drivers/hid/i2c-hid/i2c-hid-core.c:1159)
-   >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_probe) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: drm_panel_remove_follower
-   >>> referenced by i2c-hid-core.c:1218 (drivers/hid/i2c-hid/i2c-hid-core.c:1218)
-   >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_remove) in archive vmlinux.a
+Cheers,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Paul
+
+> ---
+>  drivers/gpu/drm/logicvc/Kconfig | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kc=
+onfig
+> index fa7a88368809..1df22a852a23 100644
+> --- a/drivers/gpu/drm/logicvc/Kconfig
+> +++ b/drivers/gpu/drm/logicvc/Kconfig
+> @@ -5,5 +5,7 @@ config DRM_LOGICVC
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_DMA_HELPER
+>  	select DRM_GEM_DMA_HELPER
+> +	select REGMAP
+> +	select REGMAP_MMIO
+>  	help
+>  	  DRM display driver for the logiCVC programmable logic block from Xylon
+> --=20
+> 2.25.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--ukkutT5+Jm73cGF3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmSBgBEACgkQ3cLmz3+f
+v9F1bwf9H0Dd8yQTcM8xZG7Jj89ztiiVUgzIOqIcgvhUGaWzdPj0sNgMZ6tF9Od3
+w9YuXfJ/wsR5SqUKo04fPM7hOSX7wrelEUewmv1ZHPtoChGRNFhJ2Bi/KaIaUHNM
+jODo6rf7qbDHqTdleg5SJxTAnqSLZQhG20a1sw70pFJTsX6F6bAnG1AaXItSBcAr
+2RL43t13UY2MVb4ntFb0YtKho0hPtfsFBLzZsjZfHC4Gv0ZO24eE0TaWWcrQFY7s
+n+nYJ+U/ja6/UByiM60gH33zB6OLXfkI8B0TssJ7iVZnqTqsgyLS2rIgA6Nz+9Vt
+QYre3y/v+7t4W/GKGMqg5g18vy3akQ==
+=M1u4
+-----END PGP SIGNATURE-----
+
+--ukkutT5+Jm73cGF3--
