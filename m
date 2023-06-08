@@ -1,57 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED89728534
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4128728548
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAFBF10E5E9;
-	Thu,  8 Jun 2023 16:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0B4C10E5E6;
+	Thu,  8 Jun 2023 16:39:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EDC10E5EF
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:38:01 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 358Gbced115700;
- Thu, 8 Jun 2023 11:37:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686242258;
- bh=63yTje9gSZ+jL3DeHEsDLsQhdq8Nwny9LUmnTnUGE+M=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=mMb7qYCPTsSISYvnCZKBHOsT5LTo5Yy5QZYxuK5FL/uLaeD23cEu7GYJCqOdCabq6
- T+t4W/2fw968v6NUqgD2Flg+grhPnctNcDSvQlgONL2Qr0pusyGDl0WzyzkvzvbOWs
- Wyen5OqzfooB6KKH/7JqwQ8iLw06ldZGkaRw/4QE=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 358Gbcc5013232
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 8 Jun 2023 11:37:38 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
- Jun 2023 11:37:38 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 8 Jun 2023 11:37:38 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 358Gbb31123010;
- Thu, 8 Jun 2023 11:37:38 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v8 2/2] drm/tidss: Add support for AM625 DSS
-Date: Thu, 8 Jun 2023 22:07:34 +0530
-Message-ID: <20230608163734.2578-3-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230608163734.2578-1-a-bhatia1@ti.com>
-References: <20230608163734.2578-1-a-bhatia1@ti.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F79510E5E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686242372; x=1717778372;
+ h=date:from:to:cc:subject:message-id;
+ bh=F7UVQxLgpyB+XxwUND8Ji+HgcMvfRX9thOkFLT6lrY8=;
+ b=SJrXxNUmqn9tmdHNTvwWaf+HvFWJB0mI75CknsXEoQjsDBiDA76mrmoq
+ ZZxsvDT2R9I0/1LDf6rV0dRNk5JPa3m/ACk2bxN5FGEuY+hT5gseH+Hqn
+ jtWVWdQcnZEb82kDTrXbBzEwVTiU4RAYjCfabLA72Rpcm8rzLmxqL+io1
+ iYmFpN/G2S5zqvsmkbtoKqglcrF70Jfc8gWc87y/J6PUBgz3EYmaxJtBu
+ jnx6r/KF1HTC7Y0JxmJNwjcmRldep/E7U+y+xgscQGcIl/3XCsyW4AaQU
+ qh3hs1rOhy0svHB0uzg3j+4upVFQq5gtQtycPJGaHMqJwVNE0naNyss6Z g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="354852424"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="354852424"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2023 09:39:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="822672133"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="822672133"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2023 09:39:29 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q7IfY-00083P-1a;
+ Thu, 08 Jun 2023 16:39:28 +0000
+Date: Fri, 09 Jun 2023 00:38:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ db10f126048021b86e43a5d6a335ec49dec10155
+Message-ID: <202306090001.ng1n5qxC-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,187 +55,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-cifs@vger.kernel.org, linux-usb@vger.kernel.org,
+ samba-technical@lists.samba.org, dri-devel@lists.freedesktop.org,
+ linux-perf-users@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DSS controller on TI's AM625 SoC in the tidss
-driver.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: db10f126048021b86e43a5d6a335ec49dec10155  Add linux-next specific files for 20230608
 
-The AM625 DSS supports 2 video planes connecting to 2 video ports.
-The first plane is a full plane supporting all the features, while the
-2nd plane is a "lite" plane without scaling support.
+Error/Warning reports:
 
-The first video port in AM625 DSS internally provides DPI output to 2
-OLDI transmitters. Each OLDI TX outputs 4 differential lanes of video
-output and 1 of clock output.
+https://lore.kernel.org/oe-kbuild-all/202306081708.gtVAcXsh-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306082325.7vvIeVZo-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306082341.UQtCM8PO-lkp@intel.com
 
-The second video port outputs DPI data directly out of the SoC. It has
-24 data lines and can support a maximum of RGB888 output bus format.
+Error/Warning: (recently discovered and may have been fixed)
 
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
----
+ERROR: modpost: "uv_info" [drivers/s390/char/uvdevice.ko] undefined!
+drivers/leds/leds-cht-wcove.c:142:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
+include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+include/drm/drm_print.h:456:39: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
 
-Notes:
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-  Changes from v7:
-  * Drop all changes made after v3.
-    - Drop output bus type support. All outputs from DSS will be the
-      video port outptus.
-  * Make the first video port type as INTERNAL from OLDI.
+drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
+fs/smb/client/cifsfs.c:982 cifs_smb3_do_mount() warn: possible memory leak of 'cifs_sb'
+fs/smb/client/cifssmb.c:4089 CIFSFindFirst() warn: missing error code? 'rc'
+fs/smb/client/cifssmb.c:4216 CIFSFindNext() warn: missing error code? 'rc'
+fs/smb/client/connect.c:2725 cifs_match_super() error: 'tlink' dereferencing possible ERR_PTR()
+fs/smb/client/connect.c:2924 generic_ip_connect() error: we previously assumed 'socket' could be null (see line 2912)
+fs/smb/server/oplock.c:1013 find_same_lease_key() warn: missing error code 'err'
+kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+{standard input}:1118: Error: unrecognized symbol type ""
 
- drivers/gpu/drm/tidss/tidss_dispc.c | 57 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/tidss/tidss_dispc.h |  2 +
- drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
- 3 files changed, 59 insertions(+), 1 deletion(-)
+Error/Warning ids grouped by kconfigs:
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index dca077411f77..484da1aa27bb 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -275,6 +275,55 @@ const struct dispc_features dispc_j721e_feats = {
- 	.vid_order = { 1, 3, 0, 2 },
- };
- 
-+const struct dispc_features dispc_am625_feats = {
-+	.max_pclk_khz = {
-+		[DISPC_VP_DPI] = 165000,
-+		[DISPC_VP_INTERNAL] = 170000,
-+	},
-+
-+	.scaling = {
-+		.in_width_max_5tap_rgb = 1280,
-+		.in_width_max_3tap_rgb = 2560,
-+		.in_width_max_5tap_yuv = 2560,
-+		.in_width_max_3tap_yuv = 4096,
-+		.upscale_limit = 16,
-+		.downscale_limit_5tap = 4,
-+		.downscale_limit_3tap = 2,
-+		/*
-+		 * The max supported pixel inc value is 255. The value
-+		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-+		 * The maximum bpp of all formats supported by the HW
-+		 * is 8. So the maximum supported xinc value is 32,
-+		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-+		 */
-+		.xinc_max = 32,
-+	},
-+
-+	.subrev = DISPC_AM625,
-+
-+	.common = "common",
-+	.common_regs = tidss_am65x_common_regs,
-+
-+	.num_vps = 2,
-+	.vp_name = { "vp1", "vp2" },
-+	.ovr_name = { "ovr1", "ovr2" },
-+	.vpclk_name =  { "vp1", "vp2" },
-+	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
-+
-+	.vp_feat = { .color = {
-+			.has_ctm = true,
-+			.gamma_size = 256,
-+			.gamma_type = TIDSS_GAMMA_8BIT,
-+		},
-+	},
-+
-+	.num_planes = 2,
-+	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-+	.vid_name = { "vid", "vidl1" },
-+	.vid_lite = { false, true, },
-+	.vid_order = { 1, 0 },
-+};
-+
- static const u16 *dispc_common_regmap;
- 
- struct dss_vp_data {
-@@ -776,6 +825,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
- 	switch (dispc->feat->subrev) {
- 	case DISPC_K2G:
- 		return dispc_k2g_read_and_clear_irqstatus(dispc);
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		return dispc_k3_read_and_clear_irqstatus(dispc);
-@@ -791,6 +841,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
- 	case DISPC_K2G:
- 		dispc_k2g_set_irqenable(dispc, mask);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		dispc_k3_set_irqenable(dispc, mask);
-@@ -1281,6 +1332,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
- 		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
- 					x, y, layer);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
- 					  x, y, layer);
-@@ -2199,6 +2251,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
- 	case DISPC_K2G:
- 		dispc_k2g_plane_init(dispc);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		dispc_k3_plane_init(dispc);
-@@ -2305,6 +2358,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
- 	case DISPC_K2G:
- 		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
-@@ -2579,7 +2633,8 @@ int dispc_runtime_resume(struct dispc_device *dispc)
- 		REG_GET(dispc, DSS_SYSSTATUS, 2, 2),
- 		REG_GET(dispc, DSS_SYSSTATUS, 3, 3));
- 
--	if (dispc->feat->subrev == DISPC_AM65X)
-+	if (dispc->feat->subrev == DISPC_AM625 ||
-+	    dispc->feat->subrev == DISPC_AM65X)
- 		dev_dbg(dispc->dev, "OLDI RESETDONE %d,%d,%d\n",
- 			REG_GET(dispc, DSS_SYSSTATUS, 5, 5),
- 			REG_GET(dispc, DSS_SYSSTATUS, 6, 6),
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 946ed769caaf..33ac5ad7a423 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -59,6 +59,7 @@ enum dispc_vp_bus_type {
- 
- enum dispc_dss_subrevision {
- 	DISPC_K2G,
-+	DISPC_AM625,
- 	DISPC_AM65X,
- 	DISPC_J721E,
- };
-@@ -86,6 +87,7 @@ struct dispc_features {
- };
- 
- extern const struct dispc_features dispc_k2g_feats;
-+extern const struct dispc_features dispc_am625_feats;
- extern const struct dispc_features dispc_am65x_feats;
- extern const struct dispc_features dispc_j721e_feats;
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 3f5f27fb6ebc..0a6f19314662 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -232,6 +232,7 @@ static void tidss_shutdown(struct platform_device *pdev)
- 
- static const struct of_device_id tidss_of_table[] = {
- 	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
-+	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
- 	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
- 	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
- 	{ }
+gcc_recent_errors
+|-- i386-allyesconfig
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-buildonly-randconfig-r004-20230608
+|   `-- include-drm-drm_print.h:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-randconfig-i004-20230608
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-randconfig-m021-20230608
+|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
+|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
+|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
+|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
+|   |-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
+|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+|-- i386-randconfig-m031-20230608
+|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
+|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
+|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
+|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
+|   |-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
+|   `-- fs-smb-server-oplock.c-find_same_lease_key()-warn:missing-error-code-err
+|-- riscv-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- riscv-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- s390-randconfig-s041-20230608
+|   `-- ERROR:uv_info-drivers-s390-char-uvdevice.ko-undefined
+|-- sh-allmodconfig
+|   `-- standard-input:Error:unrecognized-symbol-type
+|-- sh-allyesconfig
+|   `-- standard-input:Error:unrecognized-symbol-type
+`-- x86_64-allyesconfig
+    `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
+
+elapsed time: 733m
+
+configs tested: 155
+configs skipped: 8
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r015-20230608   gcc  
+alpha                randconfig-r022-20230608   gcc  
+alpha                randconfig-r025-20230608   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r024-20230608   gcc  
+arc                  randconfig-r043-20230608   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm          buildonly-randconfig-r005-20230608   gcc  
+arm                                 defconfig   clang
+arm                                 defconfig   gcc  
+arm                      footbridge_defconfig   gcc  
+arm                  randconfig-r006-20230608   clang
+arm                  randconfig-r016-20230608   gcc  
+arm                  randconfig-r046-20230608   gcc  
+arm                         socfpga_defconfig   clang
+arm                        spear3xx_defconfig   clang
+arm                           u8500_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky         buildonly-randconfig-r004-20230608   gcc  
+csky                                defconfig   gcc  
+hexagon      buildonly-randconfig-r003-20230608   clang
+hexagon              randconfig-r041-20230608   clang
+hexagon              randconfig-r045-20230608   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230608   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230608   gcc  
+i386                 randconfig-i002-20230608   gcc  
+i386                 randconfig-i003-20230608   gcc  
+i386                 randconfig-i004-20230608   gcc  
+i386                 randconfig-i005-20230608   gcc  
+i386                 randconfig-i006-20230608   gcc  
+i386                 randconfig-i011-20230608   clang
+i386                 randconfig-i012-20230608   clang
+i386                 randconfig-i013-20230608   clang
+i386                 randconfig-i015-20230608   clang
+i386                 randconfig-i051-20230608   gcc  
+i386                 randconfig-i052-20230608   gcc  
+i386                 randconfig-i053-20230608   gcc  
+i386                 randconfig-i054-20230608   gcc  
+i386                 randconfig-i055-20230608   gcc  
+i386                 randconfig-i056-20230608   gcc  
+i386                 randconfig-i061-20230608   gcc  
+i386                 randconfig-i062-20230608   gcc  
+i386                 randconfig-i063-20230608   gcc  
+i386                 randconfig-i064-20230608   gcc  
+i386                 randconfig-i065-20230608   gcc  
+i386                 randconfig-i066-20230608   gcc  
+i386                 randconfig-r026-20230608   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r001-20230608   gcc  
+loongarch    buildonly-randconfig-r002-20230608   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r036-20230608   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k         buildonly-randconfig-r005-20230608   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r003-20230608   gcc  
+m68k                           virt_defconfig   gcc  
+microblaze           randconfig-r015-20230608   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     cu1830-neo_defconfig   clang
+mips                      maltasmvp_defconfig   gcc  
+mips                  maltasmvp_eva_defconfig   gcc  
+mips                 randconfig-r004-20230608   clang
+mips                       rbtx49xx_defconfig   clang
+nios2        buildonly-randconfig-r002-20230608   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230608   gcc  
+nios2                randconfig-r032-20230608   gcc  
+openrisc             randconfig-r011-20230608   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r005-20230608   gcc  
+parisc               randconfig-r021-20230608   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                 canyonlands_defconfig   gcc  
+powerpc                    ge_imp3a_defconfig   clang
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc                      ppc64e_defconfig   clang
+powerpc              randconfig-r013-20230608   clang
+powerpc                    socrates_defconfig   clang
+powerpc                     tqm8540_defconfig   clang
+powerpc                     tqm8541_defconfig   gcc  
+powerpc                     tqm8560_defconfig   clang
+powerpc                 xes_mpc85xx_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv        buildonly-randconfig-r006-20230608   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r014-20230608   clang
+riscv                randconfig-r023-20230608   clang
+riscv                randconfig-r042-20230608   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230608   clang
+sh                               allmodconfig   gcc  
+sh                               j2_defconfig   gcc  
+sparc                            alldefconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc        buildonly-randconfig-r003-20230608   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r016-20230608   gcc  
+sparc                randconfig-r035-20230608   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64              randconfig-r013-20230608   gcc  
+sparc64              randconfig-r031-20230608   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230608   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230608   gcc  
+x86_64               randconfig-a002-20230608   gcc  
+x86_64               randconfig-a003-20230608   gcc  
+x86_64               randconfig-a004-20230608   gcc  
+x86_64               randconfig-a005-20230608   gcc  
+x86_64               randconfig-a006-20230608   gcc  
+x86_64               randconfig-a011-20230608   clang
+x86_64               randconfig-a012-20230608   clang
+x86_64               randconfig-a013-20230608   clang
+x86_64               randconfig-a014-20230608   clang
+x86_64               randconfig-a015-20230608   clang
+x86_64               randconfig-a016-20230608   clang
+x86_64               randconfig-r034-20230608   gcc  
+x86_64               randconfig-x051-20230608   clang
+x86_64               randconfig-x052-20230608   clang
+x86_64               randconfig-x053-20230608   clang
+x86_64               randconfig-x054-20230608   clang
+x86_64               randconfig-x055-20230608   clang
+x86_64               randconfig-x056-20230608   clang
+x86_64               randconfig-x061-20230608   clang
+x86_64               randconfig-x062-20230608   clang
+x86_64               randconfig-x063-20230608   clang
+x86_64               randconfig-x064-20230608   clang
+x86_64               randconfig-x065-20230608   clang
+x86_64               randconfig-x066-20230608   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa               randconfig-r033-20230608   gcc  
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
