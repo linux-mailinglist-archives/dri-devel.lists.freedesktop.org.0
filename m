@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE45F72879A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 21:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029907287C0
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 21:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F8910E60B;
-	Thu,  8 Jun 2023 19:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7053A10E60E;
+	Thu,  8 Jun 2023 19:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBF110E60A;
- Thu,  8 Jun 2023 19:07:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5F310E112;
+ Thu,  8 Jun 2023 19:12:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C91FF6507B;
- Thu,  8 Jun 2023 19:07:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AFDC433EF;
- Thu,  8 Jun 2023 19:07:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1D414603F6;
+ Thu,  8 Jun 2023 19:12:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29690C433D2;
+ Thu,  8 Jun 2023 19:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686251252;
- bh=GCMwx5k3Bt73ybwU+xYV6fYC/0AQ7aBIYHCUpkvNKfo=;
+ s=k20201202; t=1686251543;
+ bh=BjGgyC3wTO33c1Tdxatub3Rc/d6F/CPXBfd8u1gAIrU=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=IMVbHFLxBjjj08+tTY4mqBYXPu+yPkr26OZEBnmqwftRD4Q1SIAVbxtVB+RaEhaTB
- 9YNpxhOb06DUNpsGWpqlO8z9M/UoGEk2AM7sufDW3RJNemcOsnAqYtglNCuAJpE+kf
- JUNbc9ZTxw7AcQ/hSPwWfQdyFV4yp8l+IAq+TPrnPI702kcblJyStDWHqfH3yQj13S
- t0Qutj14xL88vuhjZ7Z7pf9c2BxwZj+zB62b8uEzHzrF0cwWx7KsTwLNS7kF2x5DgT
- 9sI7zqmisychBq+ZtaxoiQBolhnEvyYOtA7a5hsVEwn9EOwYNv2+9Uz/yX7pGykML/
- Wog9TxmEmNR5g==
-Date: Thu, 8 Jun 2023 14:07:30 -0500
+ b=T+IHeID0iP9vHKnUCZWCJZGQQf3diXJ9+HZsVX4IN+ITJMvEmanSAYv3Yzh8azF0B
+ DwTD2hES7OI5X32J985zgUykL/VJC17J9RWkJQocx9kBsAVQUtN7/9qJ1fWYGoetMd
+ eBQKXEF35moYax03HHpcg4x4OoiW4apuLCA/DkwSUiABGP3VEVW+25hBWARBeaZRfn
+ BiZiRj0VAURoBIfb2OJNL2jBuXv0ll/9QSOt0PcLm9QxuSuC8Mpy9D+ED/455Mv1+8
+ xPYuNx2pM23hBbcf1UJIzRvvqqOOaawENsKWeMQoiXDErRHJ6Na0/r3eSuqIymPzgT
+ jsqdCdkGNLeqg==
+Date: Thu, 8 Jun 2023 14:12:21 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [Intel-gfx] [PATCH v3 1/4] PCI/VGA: tidy up the code and comment
- format
-Message-ID: <20230608190730.GA1209607@bhelgaas>
+Subject: Re: [Intel-gfx] [PATCH v3 3/4] PCI/VGA: only deal with VGA class
+ devices
+Message-ID: <20230608191221.GA1209912@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608114322.604887-2-15330273260@189.cn>
+In-Reply-To: <20230608114322.604887-4-15330273260@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +75,94 @@ Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Capitalize subject to match ("Tidy ...")
+Start with verb and capitalize to match ("Deal only with ...")
 
-On Thu, Jun 08, 2023 at 07:43:19PM +0800, Sui Jingfeng wrote:
+On Thu, Jun 08, 2023 at 07:43:21PM +0800, Sui Jingfeng wrote:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
 > 
-> This patch replaces the leading space with a tab and removes the double
-> blank line, no functional change.
+> vgaarb only deal with the VGA devcie(pdev->class == 0x0300), so replace the
+> pci_get_subsys() function with pci_get_class(). Filter the non pci display
+> device out. There no need to process the non display PCI device.
 
-Can you move this to the end of the series?  The functional changes
-are more likely to be backported, and I think the backport may be a
-little easier without the cleanup in the middle.
+s/non pci/non-PCI/
+s/non display/non-display/
 
->  	/* we could in theory hand out locks on IO and mem
-> -	 * separately to userspace but it can cause deadlocks */
-> +	 * separately to userspace but it can cause deadlocks
-> +	 */
+This is fine, and I'll merge this, but someday I would like to get rid
+of the bus_register_notifier() and call vga_arbiter_add_pci_device()
+and vga_arbiter_del_pci_device() directly from the PCI core.
 
-Since you're touching this anyway, can you update it to the
-conventional multi-line comment style:
-
-  /*
-   * We could in theory ...
-   */
-
-And capitalize "We", add a period at end, and rewrap to fill 78
-columns or so?  Same for other comments below.
-
-> +++ b/include/linux/vgaarb.h
-> @@ -23,9 +23,7 @@
->   * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
->   * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-> - * DEALINGS
-> - * IN THE SOFTWARE.
-> - *
-> + * DEALINGS IN THE SOFTWARE.
->   */
-
-Can you make a separate patch to replace this entire copyright notice
-with the appropriate SPDX-License-Identifier header?
-Documentation/process/license-rules.rst has details.
+Or if you wanted to do that now, that would be even better :)
 
 Bjorn
+
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/pci/vgaarb.c | 22 ++++++++++++----------
+>  1 file changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> index 7f0347f4f6fd..b0bf4952a95d 100644
+> --- a/drivers/pci/vgaarb.c
+> +++ b/drivers/pci/vgaarb.c
+> @@ -756,10 +756,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>  	struct pci_dev *bridge;
+>  	u16 cmd;
+>  
+> -	/* Only deal with VGA class devices */
+> -	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+> -		return false;
+> -
+>  	/* Allocate structure */
+>  	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+>  	if (vgadev == NULL) {
+> @@ -1499,7 +1495,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+>  	bool notify = false;
+>  
+> -	vgaarb_dbg(dev, "%s\n", __func__);
+> +	/* Only deal with VGA class devices */
+> +	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+> +		return 0;
+>  
+>  	/* For now we're only intereted in devices added and removed. I didn't
+>  	 * test this thing here, so someone needs to double check for the
+> @@ -1509,6 +1507,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>  	else if (action == BUS_NOTIFY_DEL_DEVICE)
+>  		notify = vga_arbiter_del_pci_device(pdev);
+>  
+> +	vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+> +
+>  	if (notify)
+>  		vga_arbiter_notify_clients();
+>  	return 0;
+> @@ -1533,8 +1533,8 @@ static struct miscdevice vga_arb_device = {
+>  
+>  static int __init vga_arb_device_init(void)
+>  {
+> +	struct pci_dev *pdev = NULL;
+>  	int rc;
+> -	struct pci_dev *pdev;
+>  
+>  	rc = misc_register(&vga_arb_device);
+>  	if (rc < 0)
+> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+>  	/* We add all PCI devices satisfying VGA class in the arbiter by
+>  	 * default
+>  	 */
+> -	pdev = NULL;
+> -	while ((pdev =
+> -		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+> -			       PCI_ANY_ID, pdev)) != NULL)
+> +	while (1) {
+> +		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+> +		if (!pdev)
+> +			break;
+> +
+>  		vga_arbiter_add_pci_device(pdev);
+> +	};
+>  
+>  	pr_info("loaded\n");
+>  	return rc;
+> -- 
+> 2.25.1
+> 
