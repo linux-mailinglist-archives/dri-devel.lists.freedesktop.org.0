@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57678727FF1
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 14:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD6F728008
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 14:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1B710E256;
-	Thu,  8 Jun 2023 12:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2122510E25A;
+	Thu,  8 Jun 2023 12:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C0810E256;
- Thu,  8 Jun 2023 12:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686227194; x=1717763194;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=lpwSug0A9uVIJP0rYqaNApuqhZnBfSjaRcLAHDOIRCI=;
- b=BOI/mD7ozNiFppZZw1kbRjKZobkbz+f4JaJ8FEdXa955R148i9hzkbUN
- 8QVOF/u5AXhiKNTzjriXnGSh2Kb8PwOSxem12lPAFRiRI0fnzk/qgKtIq
- VSMj7JHh4PDlzFeauI/iTcEu7Z8iG45OPktecezj54ABz/AufwW4ikKSy
- JRmNxIm3VfwTlg4A4YFUEC7MnTKMtiILYLKUiinNUSqmdGtb0jHF/V5Hk
- /d6PLZ+Z2mlxxmDGwogcF1FYlkNuG5xXDazQ517d+8dg0IVgEPVn7gR7D
- SksyFYUNZWHZBNcXUK2kwKHQ0UQlyV1AE/ToiMnOofFgpmuEOR1neQUb3 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="354778142"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="354778142"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 05:26:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="1040087851"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="1040087851"
-Received: from unknown (HELO localhost) ([10.237.66.162])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 05:26:13 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
- message
-In-Reply-To: <20230608114316.3078024-1-Wayne.Lin@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230608114316.3078024-1-Wayne.Lin@amd.com>
-Date: Thu, 08 Jun 2023 15:26:10 +0300
-Message-ID: <87a5xarvh9.fsf@intel.com>
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22CD10E25A
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 12:31:08 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-543a09ee32eso1205776a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 05:31:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686227468; x=1688819468;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KYaex83iYldjr4WaT4p4MVHnHxPq49V7RC/LIPfCpiw=;
+ b=WH4zfkGRn+TYAKddwln2Mf7XTBKgcp+jgv0ocs4ewFionyv1Tk/7NwprmBJ1hZTxHy
+ z7p1q7q42YfMw/Jq34Z25MilS8Qidt4AmA5wkMvtAff9DTWcd1FvOnZWB65Ja2cMGzLs
+ Wmbu9vNgrYQD7qsIXgLp9tttql3zA9ZhTAgUAwLSZdAycaxlmuAw5tPzqqIJwxyXIonJ
+ O2SA+FptbA8Twr3ZMQFqGDvPRW3VtIiKwjqMxircHAbt5hBj5aMP+IYSZYe6KNyczTo0
+ J2o9vhDYVQ2DmBnoXlH1MWHYfw4MrQpq36f2o+OGfcgDqatOSW0Gp5BxoShsJL6UEbJR
+ wn+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686227468; x=1688819468;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KYaex83iYldjr4WaT4p4MVHnHxPq49V7RC/LIPfCpiw=;
+ b=Qj0lq/lKTL9UP7NL0A81kLIKpWSaYmPF3ditFN9GcK1bAu0Dzp+iNlmiqPsAjUG8p8
+ 0ygUbp7kvT6TLaTKoMoUYfa0bruHrGHWL6kBhMW6k3h81rFhuTZQCFAqIebdYsdj/eEZ
+ Orc0G7vXAyNDzYNQNGu1LaU1RvXil71HrsPEDro9Iqe+j/tog/52/m2/2fNmyAm8MvTA
+ CLFa9xlQDHGINSw2d7p2TcTOceP4pMCLVIWuJGtgltdPrvLMk41Wk3SssJUgrr2kl0Yl
+ 0LJg/yFV2/c+JjSzSy/YaV1rpk3fe0hxQaTioNcZlfbWGEt6O64B8VKPh4swVesMg/6L
+ TPjg==
+X-Gm-Message-State: AC+VfDzVrtDZVPQVJ1n8i+otrEZ+A8ke5ix2jZ9E+KQy717Lctqgv37D
+ 8lUodRR1AbsXHI6MLyVWa+jm2EOOVR/r9RD6Ilo=
+X-Google-Smtp-Source: ACHHUZ79SdbFXhWhPj+g4SPuGOYKNr6zjt8F3knEUXT3Yh7jB37ic8zcDORhrjLl68XbloQ/h75GKu3N8U40xoN+sRg=
+X-Received: by 2002:a17:90a:19d7:b0:258:de1b:9dcc with SMTP id
+ 23-20020a17090a19d700b00258de1b9dccmr2497551pjj.9.1686227467375; Thu, 08 Jun
+ 2023 05:31:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230526030559.326566-1-aford173@gmail.com>
+ <e1379d94-66a5-8538-abdf-de7770befb7d@prevas.dk>
+ <CAHCN7xK9RaLRSK_jSbbuGBUf14-FOHsrawi2J8G29iHSOj2Nyw@mail.gmail.com>
+ <bfd050f2-b39e-c091-614e-0c77fe324435@prevas.dk>
+In-Reply-To: <bfd050f2-b39e-c091-614e-0c77fe324435@prevas.dk>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 8 Jun 2023 07:30:56 -0500
+Message-ID: <CAHCN7xKdKGA02=ZDNQkVVVDV0AZTqd7QpHA2Nq9LNnbmK=hKxA@mail.gmail.com>
+Subject: Re: [PATCH V8 0/7] drm: bridge: samsung-dsim: Support variable
+ clocking
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,307 +72,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
+ dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 08 Jun 2023, Wayne Lin <Wayne.Lin@amd.com> wrote:
-> [Why]
-> The sequence for collecting down_reply from source perspective should
-> be:
+On Thu, Jun 8, 2023 at 6:40=E2=80=AFAM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
 >
-> Request_n->repeat (get partial reply of Request_n->clear message ready
-> flag to ack DPRX that the message is received) till all partial
-> replies for Request_n are received->new Request_n+1.
+> On 07/06/2023 15.27, Adam Ford wrote:
+> > On Wed, Jun 7, 2023 at 8:15=E2=80=AFAM Rasmus Villemoes
+> > <rasmus.villemoes@prevas.dk> wrote:
+> >>
+> >> On 26/05/2023 05.05, Adam Ford wrote:
+> >>> This series fixes the blanking pack size and the PMS calculation.  It=
+ then
+> >>> adds support to allows the DSIM to dynamically DPHY clocks, and suppo=
+rt
+> >>> non-burst mode while allowing the removal of the hard-coded clock val=
+ues
+> >>> for the PLL for imx8m mini/nano/plus, and it allows the removal of th=
+e
+> >>> burst-clock device tree entry when burst-mode isn't supported by conn=
+ected
+> >>> devices like an HDMI brige.  In that event, the HS clock is set to th=
+e
+> >>> value requested by the bridge chip.
+> >>>
+> >>> This has been tested on both an i.MX8M Nano and i.MX8M Plus, and shou=
+ld
+> >>> work on i.MX8M Mini as well. Marek Szyprowski has tested it on variou=
+s
+> >>> Exynos boards.
+> >>
+> >> Hi all
+> >>
+> >> We're testing this on top of v6.4-rc4 on our imx8mp board, which has a
+> >> ti-sn65dsi86 DSI -> DisplayPort bridge. We do get an image at
+> >> 1920x1200, but the monitor says it's only at 58Hz, and measuring on th=
+e
+> >> DSI signals does seem to confirm that the update frequency is about 57=
+.7
+> >> or 57.8Hz (it's pretty hard to get a good measurement). It looks like
+> >> it's the lines that are too long, by a time that corresponds to about =
+80
+> >> pixels. But all the frontporch/backporch/hsync values look sane and
+> >> completely standard for that resolution.
+> >>
+> >> Setting samsung,burst-clock-frequency explicitly to something large
+> >> enough or letting it be derived from the 154MHz pixel clock makes no
+> >> difference.
+> >>
+> >> Any ideas?
+> >
+> > What refresh rate are you trying to achieve?  It seems like 57.7 or
+> > 57.8 is really close to the 58 the Monitor states.
 >
-> Now there is chance that drm_dp_mst_hpd_irq() will fire new down
-> request in the tx queue when the down reply is incomplete. Source is
-> restricted to generate interveleaved message transactions so we should
-> avoid it.
+> Oh, sorry, I thought that was clear, but it should be/we're aiming
+> for/expecting 60Hz, or (154MHz / (2080 * 1235)) which is about 59.95Hz.
+> We've tried with a variety of monitors that all have 1920x1200@60Hz as
+> max resolution, and parse-edid always gives the same hfp/hbp/...
+> numbers, namely
 >
-> Also, while assembling partial reply packets, reading out DPCD DOWN_REP
-> Sideband MSG buffer + clearing DOWN_REP_MSG_RDY flag should be
-> wrapped up as a complete operation for reading out a reply packet.
-> Kicking off a new request before clearing DOWN_REP_MSG_RDY flag might
-> be risky. e.g. If the reply of the new request has overwritten the
-> DPRX DOWN_REP Sideband MSG buffer before source writing one to clear
-> DOWN_REP_MSG_RDY flag, source then unintentionally flushes the reply
-> for the new request. Should handle the up request in the same way.
+>        Modeline        "Mode 0" 154.00 1920 1968 2000 2080 1200 1203
+> 1209 1235 +hsync -vsync
 >
-> [How]
-> Separete drm_dp_mst_hpd_irq() into 2 steps. After acking the MST IRQ
-> event, driver calls drm_dp_mst_hpd_irq_send_new_request() and might
-> trigger drm_dp_mst_kick_tx() only when there is no on going message
-> transaction.
+> > I would expect the
+> > refresh to be driven by whatever the monitor states it can handle.
 >
-> Changes since v1:
-> * Reworked on review comments received
-> -> Adjust the fix to let driver explicitly kick off new down request
-> when mst irq event is handled and acked
-> -> Adjust the commit message
+> Well, it states that it can handle 60Hz, and the pixel clock is also
+> computed to be the 154MHz, but still, the actual signals on the wire,
+> and hence also what the monitor ends up reporting, do not end up with 60
+> full frames per second.
 >
-> Changes since v2:
-> * Adjust the commit message
-> * Adjust the naming of the divided 2 functions and add a new input
->   parameter "ack".
-> * Adjust code flow as per review comments.
+> > Have you tried using modetest to see what refresh rates are available?
 >
-> Changes since v3:
-> * Update the function description of drm_dp_mst_hpd_irq_handle_event
+> Hm. My userspace may be a little weird. When I run modetest I just get
 >
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: stable@vger.kernel.org
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 33 ++++++------
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 54 ++++++++++++++++---
->  drivers/gpu/drm/i915/display/intel_dp.c       |  7 +--
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       | 12 +++--
->  include/drm/display/drm_dp_mst_helper.h       |  7 ++-
->  5 files changed, 82 insertions(+), 31 deletions(-)
+> trying to open device 'i915'...failed
+> trying to open device 'amdgpu'...failed
+> ...
+> trying to open device 'imx-dcss'...failed
+> trying to open device 'mxsfb-drm'...failed
+> no device found
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index d5cec03eaa8d..597c3368bcfb 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3236,6 +3236,7 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
->  {
->  	u8 esi[DP_PSR_ERROR_STATUS - DP_SINK_COUNT_ESI] = { 0 };
->  	u8 dret;
-> +	u8 ack;
->  	bool new_irq_handled = false;
->  	int dpcd_addr;
->  	int dpcd_bytes_to_read;
-> @@ -3265,34 +3266,36 @@ static void dm_handle_mst_sideband_msg(struct amdgpu_dm_connector *aconnector)
->  		process_count < max_process_count) {
->  		u8 retry;
->  		dret = 0;
-> +		ack = 0;
->  
->  		process_count++;
->  
->  		DRM_DEBUG_DRIVER("ESI %02x %02x %02x\n", esi[0], esi[1], esi[2]);
->  		/* handle HPD short pulse irq */
->  		if (aconnector->mst_mgr.mst_state)
-> -			drm_dp_mst_hpd_irq(
-> -				&aconnector->mst_mgr,
-> -				esi,
-> -				&new_irq_handled);
-> +			drm_dp_mst_hpd_irq_handle_event(&aconnector->mst_mgr,
-> +							esi,
-> +							&ack,
-> +							&new_irq_handled);
->  
->  		if (new_irq_handled) {
->  			/* ACK at DPCD to notify down stream */
-> -			const int ack_dpcd_bytes_to_write =
-> -				dpcd_bytes_to_read - 1;
-> -
->  			for (retry = 0; retry < 3; retry++) {
-> -				u8 wret;
-> -
-> -				wret = drm_dp_dpcd_write(
-> -					&aconnector->dm_dp_aux.aux,
-> -					dpcd_addr + 1,
-> -					&esi[1],
-> -					ack_dpcd_bytes_to_write);
-> -				if (wret == ack_dpcd_bytes_to_write)
-> +				ssize_t wret;
-> +
-> +				wret = drm_dp_dpcd_writeb(&aconnector->dm_dp_aux.aux,
-> +							  dpcd_addr + 1,
-> +							  ack);
-> +				if (wret == 1)
->  					break;
->  			}
->  
-> +			if (retry == 3) {
-> +				DRM_ERROR("Failed to ack MST event.\n");
-> +				return;
-> +			}
-> +
-> +			drm_dp_mst_hpd_irq_send_new_request(&aconnector->mst_mgr);
->  			/* check if there is new irq to be handled */
->  			dret = drm_dp_dpcd_read(
->  				&aconnector->dm_dp_aux.aux,
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 38dab76ae69e..3a018f5b604c 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -4053,17 +4053,28 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
->  }
->  
->  /**
-> - * drm_dp_mst_hpd_irq() - MST hotplug IRQ notify
-> + * drm_dp_mst_hpd_irq_handle_event() - MST hotplug IRQ handle MST event
->   * @mgr: manager to notify irq for.
->   * @esi: 4 bytes from SINK_COUNT_ESI
-> + * @ack: flags of events to ack
->   * @handled: whether the hpd interrupt was consumed or not
->   *
-> - * This should be called from the driver when it detects a short IRQ,
-> + * This should be called from the driver when it detects a HPD IRQ,
->   * along with the value of the DEVICE_SERVICE_IRQ_VECTOR_ESI0. The
-> - * topology manager will process the sideband messages received as a result
-> - * of this.
-> + * topology manager will process the sideband messages received
-> + * as indicated in the DEVICE_SERVICE_IRQ_VECTOR_ESI0 and set the
-> + * corresponding flags that Driver has to ack the DP receiver later.
-> + *
-> + * Note that driver shall also call
-> + * drm_dp_mst_hpd_irq_send_new_request() if the 'handled' is set
-> + * after calling this function, to try to kick off a new request in
-> + * the queue if the previous message transaction is completed.
-> + *
-> + * See also:
-> + * drm_dp_mst_hpd_irq_send_new_request()
->   */
-> -int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handled)
-> +int drm_dp_mst_hpd_irq_handle_event(struct drm_dp_mst_topology_mgr *mgr, const u8 *esi,
-> +				    u8 *ack, bool *handled)
->  {
->  	int ret = 0;
->  	int sc;
-> @@ -4078,18 +4089,47 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
->  	if (esi[1] & DP_DOWN_REP_MSG_RDY) {
->  		ret = drm_dp_mst_handle_down_rep(mgr);
->  		*handled = true;
-> +		*ack |= DP_DOWN_REP_MSG_RDY;
 
-My idea was that esi and ack would be the same size buffers, so the
-caller wouldn't have to worry where exactly to point ack to.
+One the 8MP, I think you need to append "-M imx-lcdif" to the modetest
+command  to specify the driver being used.
+I don't have my 8MP with me right now, but I think that's the right name.
 
-I think the asymmetry here is misleading, with ack and esi having to
-point at different locations.
+> > The 8MP shares the video-pll clock with both disp1 and disp2 clocks,
+> > and the imx-lcdif driver, which sends the display signals to the DSI,
+> > uses the disp clock, so the video-pll needs to be an exact multiple of
+> > the pixel clock or the output won't sink.
+>
+> Bingo! I enabled the
+>
+>   DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+>
+> in drivers/gpu/drm/mxsfb/lcdif_kms.c, and indeed it got me
+>
+>   Pixel clock: 154000kHz (actual: 148500kHz)
+>
+> Modifying the 1039500000 in imx8mp.dtsi to 1078000000 (i.e. 7 times the
+> desired pixel clock) gave me "actual" matching the desired pixel clock,
+> and the monitor now reports 60Hz.
 
-BR,
-Jani.
+I am glad that worked!
 
+>
+> This product also has an LVDS display on lcdif2, so I'll have to
+> investigate how changing the video_pll1 rate affects that. And also what
+> to do about the case where somebody plugs in, say, a 1080p monitor that
+> would indeed require 148.5MHz pixel clock.
 
+That's the down-side to the 8MP with the shared clock.  According to
+the processor reference manual, It looks like the MEDIA_LDB_CLK can be
+a child of Audio_PLL2.  i don't know if you need both AUDIO_PLL1 and
+Audio_PLL2, but the Audio_PLL2 clock is fairly flexible, so if you can
+use Audio_pll1 for all your audio needs, and configure the audio_pll2
+for your LVDS, you might be able to get both LDB and DSI to sync at
+the nominal values.
 
->  	}
->  
->  	if (esi[1] & DP_UP_REQ_MSG_RDY) {
->  		ret |= drm_dp_mst_handle_up_req(mgr);
->  		*handled = true;
-> +		*ack |= DP_UP_REQ_MSG_RDY;
->  	}
->  
-> -	drm_dp_mst_kick_tx(mgr);
->  	return ret;
->  }
-> -EXPORT_SYMBOL(drm_dp_mst_hpd_irq);
-> +EXPORT_SYMBOL(drm_dp_mst_hpd_irq_handle_event);
->  
-> +/**
-> + * drm_dp_mst_hpd_irq_send_new_request() - MST hotplug IRQ kick off new request
-> + * @mgr: manager to notify irq for.
-> + *
-> + * This should be called from the driver when mst irq event is handled
-> + * and acked. Note that new down request should only be sent when
-> + * previous message transaction is completed. Source is not supposed to generate
-> + * interleaved message transactions.
-> + */
-> +void drm_dp_mst_hpd_irq_send_new_request(struct drm_dp_mst_topology_mgr *mgr)
-> +{
-> +	struct drm_dp_sideband_msg_tx *txmsg;
-> +	bool kick = true;
-> +
-> +	mutex_lock(&mgr->qlock);
-> +	txmsg = list_first_entry_or_null(&mgr->tx_msg_downq,
-> +					 struct drm_dp_sideband_msg_tx, next);
-> +	/* If last transaction is not completed yet*/
-> +	if (!txmsg ||
-> +	    txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND ||
-> +	    txmsg->state == DRM_DP_SIDEBAND_TX_SENT)
-> +		kick = false;
-> +	mutex_unlock(&mgr->qlock);
-> +
-> +	if (kick)
-> +		drm_dp_mst_kick_tx(mgr);
-> +}
-> +EXPORT_SYMBOL(drm_dp_mst_hpd_irq_send_new_request);
->  /**
->   * drm_dp_mst_detect_port() - get connection status for an MST port
->   * @connector: DRM connector for this port
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 4bec8cd7979f..f24602887015 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4062,9 +4062,7 @@ intel_dp_mst_hpd_irq(struct intel_dp *intel_dp, u8 *esi, u8 *ack)
->  {
->  	bool handled = false;
->  
-> -	drm_dp_mst_hpd_irq(&intel_dp->mst_mgr, esi, &handled);
-> -	if (handled)
-> -		ack[1] |= esi[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY);
-> +	drm_dp_mst_hpd_irq_handle_event(&intel_dp->mst_mgr, esi, &ack[1], &handled);
->  
->  	if (esi[1] & DP_CP_IRQ) {
->  		intel_hdcp_handle_cp_irq(intel_dp->attached_connector);
-> @@ -4139,6 +4137,9 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
->  
->  		if (!intel_dp_ack_sink_irq_esi(intel_dp, ack))
->  			drm_dbg_kms(&i915->drm, "Failed to ack ESI\n");
-> +
-> +		if (ack[1] & (DP_DOWN_REP_MSG_RDY | DP_UP_REQ_MSG_RDY))
-> +			drm_dp_mst_hpd_irq_send_new_request(&intel_dp->mst_mgr);
->  	}
->  
->  	return link_ok;
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index 9b6824f6b9e4..b2d9978e88a8 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -1357,6 +1357,7 @@ nv50_mstm_service(struct nouveau_drm *drm,
->  	bool handled = true, ret = true;
->  	int rc;
->  	u8 esi[8] = {};
-> +	u8 ack;
->  
->  	while (handled) {
->  		rc = drm_dp_dpcd_read(aux, DP_SINK_COUNT_ESI, esi, 8);
-> @@ -1365,16 +1366,19 @@ nv50_mstm_service(struct nouveau_drm *drm,
->  			break;
->  		}
->  
-> -		drm_dp_mst_hpd_irq(&mstm->mgr, esi, &handled);
-> +		ack = 0;
-> +		drm_dp_mst_hpd_irq_handle_event(&mstm->mgr, esi, &ack, &handled);
->  		if (!handled)
->  			break;
->  
-> -		rc = drm_dp_dpcd_write(aux, DP_SINK_COUNT_ESI + 1, &esi[1],
-> -				       3);
-> -		if (rc != 3) {
-> +		rc = drm_dp_dpcd_writeb(aux, DP_SINK_COUNT_ESI + 1, ack);
-> +
-> +		if (rc != 1) {
->  			ret = false;
->  			break;
->  		}
-> +
-> +		drm_dp_mst_hpd_irq_send_new_request(&mstm->mgr);
->  	}
->  
->  	if (!ret)
-> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> index 32c764fb9cb5..40e855c8407c 100644
-> --- a/include/drm/display/drm_dp_mst_helper.h
-> +++ b/include/drm/display/drm_dp_mst_helper.h
-> @@ -815,8 +815,11 @@ void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr);
->  bool drm_dp_read_mst_cap(struct drm_dp_aux *aux, const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
->  int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool mst_state);
->  
-> -int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handled);
-> -
-> +int drm_dp_mst_hpd_irq_handle_event(struct drm_dp_mst_topology_mgr *mgr,
-> +				    const u8 *esi,
-> +				    u8 *ack,
-> +				    bool *handled);
-> +void drm_dp_mst_hpd_irq_send_new_request(struct drm_dp_mst_topology_mgr *mgr);
->  
->  int
->  drm_dp_mst_detect_port(struct drm_connector *connector,
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+adam
+>
+> Thanks,
+> Rasmus
+>
