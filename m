@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA5A72834D
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3406272836E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1629B10E021;
-	Thu,  8 Jun 2023 15:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D3510E5CC;
+	Thu,  8 Jun 2023 15:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D051010E021
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 15:11:14 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id
- af79cd13be357-75d461874f4so65068885a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:11:14 -0700 (PDT)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A808410E03D
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 15:16:11 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id
+ e9e14a558f8ab-33b04c8f3eeso2295205ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686237073; x=1688829073;
+ d=chromium.org; s=google; t=1686237368; x=1688829368;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
- b=BmAm0rXM4KZbTYym0HXYlOClgT/zGWm4ze6fwFqXwAqD1ItkmTYBl/+afhC3UDFEZl
- uuRCKPD6RgfoUkFKIWZwzbDtBFAA1JCrB8QIqhbKWGVLgphLs9tCNZ4dqqMrQJ95EdDS
- +7AZci3CA88AqfAQL6mijMM679CIZt98Z/tco=
+ bh=CJwtygG96EsLUnJEr5SXwbHpM9NJlbjJDKOEG9/I2wc=;
+ b=jLRAJDAM1zP/l86YOfAUElwb1YY+B1bfoeDLM24tXf5PfMeRwy/scpuLqQxbnAhAb2
+ 7voLW0llPtDcxBZpUgwmHEvDuNNi3Bofwyu9pgkYBFtYyvEe2iXn8MNfnBsi1VO7MK4s
+ 4Ft2n+3qMY814s6FSDFC+PALRvZGjeaBjUwfM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686237073; x=1688829073;
+ d=1e100.net; s=20221208; t=1686237368; x=1688829368;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
- b=LC+rz/NR61R0xtAvrcvDucJmKmM7530C8GgG7tZMk7LUzxq4ddnevT23B3IlhRl5hS
- qhKkc5kBWROQWjZSCBILklru3wg0cPpAWBSkhqrJ/IbtINAg0V9+MgqdvrWfcNfZM1w7
- YdjtvUEK3WQ09ab3QCuiu0IpTGsQc7JzBKJ6zaD9gP5nI3WDe4LVjrIuZ38pPg+3SUc4
- q3LAFvTksLandQ6EvHGF7eatx0PYkLtbBGaPBARjljhMlSxnwCUg6oCn1P7MKNUuXWZL
- KqRalZfVZ6b3D51g+nBh54THQZMO5MdEeVtRFL34vAXGpMSD28vf5H/YMRQwSmsp4qNq
- jRZQ==
-X-Gm-Message-State: AC+VfDzAJ23Wx7nMC10XZJPsPXnRCCOtx1z0EtHgj5I/GzvTmevoJoP5
- fskvZW2up2/YAgNedoiV8JyL5oJiLChXTUeJyrU=
-X-Google-Smtp-Source: ACHHUZ4758YwvCBeUTui3hSUZyXtj8CYLxNDY2Jx6NSol+SSrp7tadw1hzZLWKZKbng5Mdu1Kjtxhg==
-X-Received: by 2002:a05:620a:2a14:b0:75e:c960:9205 with SMTP id
- o20-20020a05620a2a1400b0075ec9609205mr7772422qkp.16.1686237072691; 
- Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
- z17-20020a05620a101100b0075eca73737asm383684qkj.60.2023.06.08.08.11.12
+ bh=CJwtygG96EsLUnJEr5SXwbHpM9NJlbjJDKOEG9/I2wc=;
+ b=gGWkKp2qf5hP14QClIo1OGqcERJjoQpSUf0aYBrxSrNlO8Pduc9d2EK//vZSIgBj3I
+ pEOmZ6uFFlIilVPQkxBhuRODZ5cOV7Q2WZ3zlMOpgFg/IDmHMxVZ0l7Rm0180RI1Sgb4
+ 8LIfe71GIxmQZZWhi5zorXl8NZT3YnycEFrRAPBGpatLjdIk2ZzLG4j7Mxvku1IHAra7
+ ugJ+zULMa7yog5CoOrWEMMVjNRITj326GnIcaBom7KQv/XciAeJ1TvlcoEpOEaQpF9sf
+ URPu/9/9n2ju69hyVp+Ej99vGWj3GKeqC4FDU43wj/ULBjSoFTFRGE51cNxbzIxrOQMS
+ +xKw==
+X-Gm-Message-State: AC+VfDzXv/9ySuzMZKR44Nhd0/dLoNjESJXUC2gR/XPHweEolIKSS08J
+ DSZYB0E4Oc2SitfT7zRp8aL6y6FPMsLYeo2xric=
+X-Google-Smtp-Source: ACHHUZ5eBdL/6WRcNQegpS2vQJqJ53T5p/zezX4glxrpGiV/B7RGG16tuwk+BwXmm/wsqy0MR2bgdQ==
+X-Received: by 2002:a92:b00f:0:b0:338:1b0f:28ec with SMTP id
+ x15-20020a92b00f000000b003381b0f28ecmr7191557ilh.15.1686237368536; 
+ Thu, 08 Jun 2023 08:16:08 -0700 (PDT)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
+ [209.85.166.182]) by smtp.gmail.com with ESMTPSA id
+ o16-20020a92c050000000b003339733e374sm430523ilf.86.2023.06.08.08.16.06
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-3f9b7de94e7so218671cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
-X-Received: by 2002:a92:c549:0:b0:33d:929c:af67 with SMTP id
- a9-20020a92c549000000b0033d929caf67mr120694ilj.17.1686237051541; Thu, 08 Jun
- 2023 08:10:51 -0700 (PDT)
+ Thu, 08 Jun 2023 08:16:07 -0700 (PDT)
+Received: by mail-il1-f182.google.com with SMTP id
+ e9e14a558f8ab-33b7f217dd0so149255ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:16:06 -0700 (PDT)
+X-Received: by 2002:a05:6e02:20e1:b0:335:5940:5ca6 with SMTP id
+ q1-20020a056e0220e100b0033559405ca6mr212512ilv.13.1686237366240; Thu, 08 Jun
+ 2023 08:16:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
- <202306081419.Dzz0T4iW-lkp@intel.com>
-In-Reply-To: <202306081419.Dzz0T4iW-lkp@intel.com>
+References: <20230608012443.839372-1-suhui@nfschina.com>
+In-Reply-To: <20230608012443.839372-1-suhui@nfschina.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Jun 2023 08:10:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-To: kernel test robot <lkp@intel.com>
+Date: Thu, 8 Jun 2023 08:15:53 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WqmqaKXG20MuMwjwyR-8deFF7+chqphN=hiJ05mfC=HA@mail.gmail.com>
+Message-ID: <CAD=FV=WqmqaKXG20MuMwjwyR-8deFF7+chqphN=hiJ05mfC=HA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge: ti-sn65dsi86: Avoid possible buffer
+ overflow
+To: Su Hui <suhui@nfschina.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,99 +79,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-input@vger.kernel.org,
- hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ andersson@kernel.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Jun 8, 2023 at 12:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
+On Wed, Jun 7, 2023 at 6:25=E2=80=AFPM Su Hui <suhui@nfschina.com> wrote:
 >
-> Hi Douglas,
+> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <=3D 5.
 >
-> kernel test robot noticed the following build errors:
+> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on hid/for-next dtor-input/next dtor-input/for-lin=
-us drm-misc/drm-misc-next linus/master v6.4-rc5 next-20230607]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index 7a748785c545..4676cf2900df 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -298,6 +298,10 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_s=
+n65dsi86 *pdata)
+>                 if (refclk_lut[i] =3D=3D refclk_rate)
+>                         break;
 >
-> url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/d=
-t-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20=
-230608-055515
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git fo=
-r-next
-> patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c45=
-5cd7e26b931c69993d4fba33bbe15%40changeid
-> patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follo=
-wer
-> config: i386-randconfig-i003-20230607 (https://download.01.org/0day-ci/ar=
-chive/20230608/202306081419.Dzz0T4iW-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
-8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git remote add robh https://git.kernel.org/pub/scm/linux/kernel/g=
-it/robh/linux.git
->         git fetch robh for-next
->         git checkout robh/for-next
->         b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309=
-c455cd7e26b931c69993d4fba33bbe15@changeid
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Di386 olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306081419.Dzz0T4iW-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: undefined symbol: drm_panel_add_follower
->    >>> referenced by i2c-hid-core.c:1159 (drivers/hid/i2c-hid/i2c-hid-cor=
-e.c:1159)
->    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_pro=
-be) in archive vmlinux.a
-> --
-> >> ld.lld: error: undefined symbol: drm_panel_remove_follower
->    >>> referenced by i2c-hid-core.c:1218 (drivers/hid/i2c-hid/i2c-hid-cor=
-e.c:1218)
->    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_rem=
-ove) in archive vmlinux.a
+> +       /* avoid buffer overflow and "1" is the default rate in the datas=
+heet. */
+> +       if (i >=3D refclk_lut_size)
+> +               i =3D 1;
+> +
 
-Thanks for the report! Ugh, I guess I forgot that even though
-DRM_PANEL is bool, it gets bundled up into all of DRM which can be a
-module. Assuming that this series looks mostly the same in the next
-version, I'll plan to add this:
+Looks great now, thanks!
 
-depends on DRM || !DRM # if DRM=3Dm, this can't be 'y'
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-...to each of the i2c-hid subclasses.
+Unless someone beats me to it or objects, I'll plan to commit this to
+drm-misc-fixes early next week.
 
 -Doug
