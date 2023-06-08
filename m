@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8CA727417
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 03:18:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58572727443
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 03:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC8910E57E;
-	Thu,  8 Jun 2023 01:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D0C10E580;
+	Thu,  8 Jun 2023 01:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.nfschina.com (unknown [42.101.60.195])
- by gabe.freedesktop.org (Postfix) with SMTP id 7C68410E57E
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 01:18:23 +0000 (UTC)
-Received: from [172.30.38.103] (unknown [180.167.10.98])
- by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id DF0B418010F081; 
- Thu,  8 Jun 2023 09:18:12 +0800 (CST)
-Message-ID: <69929cae-5e94-65b6-7ea3-3986c89d6f61@nfschina.com>
-Date: Thu, 8 Jun 2023 09:18:12 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Avoid possible buffer
- overflow
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
+ by gabe.freedesktop.org (Postfix) with SMTP id B13F510E580
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 01:25:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+ by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id BB7171801125A4; 
+ Thu,  8 Jun 2023 09:24:44 +0800 (CST)
 X-MD-Sfrom: suhui@nfschina.com
-X-MD-Bcc: suhui@nfschina.com
 X-MD-SrcIP: 180.167.10.98
 From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <CAD=FV=UxzUoAPbKtX3Xvq=g8DNcatQ8-s-8rcGEeE+G40a9RhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3] drm/bridge: ti-sn65dsi86: Avoid possible buffer overflow
+Date: Thu,  8 Jun 2023 09:24:43 +0800
+Message-Id: <20230608012443.839372-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,49 +42,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- andersson@kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Su Hui <suhui@nfschina.com>, andersson@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/6/7 22:03, Doug Anderson wrote:
-> Hi,
->
-> On Tue, Jun 6, 2023 at 6:25 PM Su Hui <suhui@nfschina.com> wrote:
->> Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <= 5.
->>
->> Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
->> Signed-off-by: Su Hui <suhui@nfschina.com>
->> ---
->>   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> index 7a748785c545..bb88406495e9 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
->> @@ -305,7 +305,7 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
->>           * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
->>           * regardless of its actual sourcing.
->>           */
->> -       pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
->> +       pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i < refclk_lut_size ? i : 1];
-> This looks more correct, but it really needs a comment since it's
-> totally not obviously what you're doing here. IMO the best solution
-> here is to update "i" right after the for loop and have a comment
-> about the datasheet saying that "1" is the default rate so we'll fall
-> back to that if we couldn't find a match. Moving it to right after the
-> for loop will change the value written into the registers, but that's
-> fine and makes it clearer what's happening.
-Got it. Add some comment and move the code up.
-I will send patch v3 soon.
-Thanks for your suggestion again :) .
+Smatch error:buffer overflow 'ti_sn_bridge_refclk_lut' 5 <= 5.
 
-Su Hui
+Fixes: cea86c5bb442 ("drm/bridge: ti-sn65dsi86: Implement the pwm_chip")
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->
-> -Doug
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 7a748785c545..4676cf2900df 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -298,6 +298,10 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+ 		if (refclk_lut[i] == refclk_rate)
+ 			break;
+ 
++	/* avoid buffer overflow and "1" is the default rate in the datasheet. */
++	if (i >= refclk_lut_size)
++		i = 1;
++
+ 	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
+ 			   REFCLK_FREQ(i));
+ 
+-- 
+2.30.2
+
