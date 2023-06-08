@@ -1,117 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D67727781
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:41:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BBF727784
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A5E10E58D;
-	Thu,  8 Jun 2023 06:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0909910E58F;
+	Thu,  8 Jun 2023 06:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2107.outbound.protection.outlook.com [40.107.113.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF29210E58D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:41:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B/sEPiqC3rWITj2gaQFoAv4towKOdPnf1nOmCdnEAzC1xBt80z4NHNkGpIcZ1cN//B4RIvExjqvZ8/7ZGaOrYRI6U2vX5Dux0P073qGST3Oytvv7SjTssy7pmGovdjY9GLUmCIDKuK5txLn7DXFV268b2SZg8/NyT4ZcgBJoygwVkvy9Goxu3CWEyQv2yeVCHA/iY85mV4L/ZG/fCem1itsyj41QVF6OT3zFuj6p2aWFTQw5dI7sSbFu733pWJASHziXURkg8SyMINeL2aEFGoJR+ELwGycnrWJa9wvakwlbWFaxScF7YO+8d6TVTiZqZSz7CGboi6k8FPEuv5PGDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KVIZ+09yb5PbF9m7Bx9Hf5uLImpMZuKCkH4TUOVq51s=;
- b=Y5MJw8RfMHDc/GLAowIOfumOQhRSaZZZMfiSDB2+hGOUcMbIwvJovt1pOXKvkmwLCr44hw0rRIdEJHxxtr/Rc3wFa97ouL+JBsiA/FfFRm9IEGPgODWsJMJmGrNiL4TnCQdr3gl9HWBNSSQ/Xq7O6XVcRuRAdDu3QQkc2PM5anchffw5BQrgrq9kkxD5UhMc+SMWL8AVigO9eWPmBjNFbUD8HYbywOlz032L6+w2sAvSPwt+dUF5i7vCJ0dJIfVvMaKLgVyZUzq814XPW1J96wu3g2u3gFQ+tpD1JHfIEKSAn05E95dyevJNPKcE34ZliaDp6yAMBHRbuOiJKYQgsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KVIZ+09yb5PbF9m7Bx9Hf5uLImpMZuKCkH4TUOVq51s=;
- b=ebxBaYmZ/LVE6VK+4JNGLN6EGvs1g1ak5GS/1r1Pfe2LIqzMpoimjNIDxUOyzos3zMJ0VxpPS6Ol4xJUZhipE8hJ6q0LscoWhiTRcYI/b+0dsWpvRsk/JhlGZnPH0BCebNLVyRNEZ4Zv3Nai4WU/0COzZOAa3j1TuGsHjF8RCWE=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB9415.jpnprd01.prod.outlook.com (2603:1096:604:1c6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Thu, 8 Jun
- 2023 06:41:38 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.039; Thu, 8 Jun 2023
- 06:41:35 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1Q
-Date: Thu, 8 Jun 2023 06:41:35 +0000
-Message-ID: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
- <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB9415:EE_
-x-ms-office365-filtering-correlation-id: 78e44bb5-87db-4bc9-1e45-08db67eb67a3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LcK/76SDKIQhbl+mK+cxjMK5fL/KBw8PH8HqM3Dny0SdbY5tYtcxnchB7GTvRHoH5EDMHvOZzMBcuuldP7Qg+GomoGYz5LsfIr82niHld7d9E/umcQmBFpBMDUjGej8b09CEvRcRmOfCVRnr1qlIzbOFgkQlAOsZfTfqZLxafeJDM75I8jNVaYMSypFld48uLlR5y53M+RP6Z1Jlm4ng9fivzcXDDYtkaMZUKUbRNTME92LNRkd2V6YzMb/3YFBeDXyI1+JQX4+OXveyqui6rMVvp2MdwGg2p/gEOMAWC996dM0c1mOTQa/qXlqEGHPk2dqif9afWtfPZjgHMwyqL8WQJTxhvRouH8tDnCFSzEpjHfdKgpsttyE932FbFjApSZLuVjC8++mgeOA5EZAFXcUDSnklNSDToa/To/f59evXDe6sS5OMNeGcevDgHybvkC4bJ0Ye1vTrEjA0/Wfx+HfkJBiwFHtKqEBROFVRA1Qvft4uIYJadZVdQWMaEopKzqfZXAtCTjNwAsMloH3Sbh2Z0sXyeaCpoO8m9cHnWIjmNAIioNUFVMOB6RRqlE/SyUrFm1Gs/APG/xFFYnVtAftWzC/XmrIEILrtvN1hQmtQrItuiMI+AxlwVm51LgZJ
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199021)(55016003)(86362001)(7416002)(7406005)(2906002)(54906003)(110136005)(41300700001)(38100700002)(8676002)(8936002)(52536014)(5660300002)(122000001)(66446008)(76116006)(4326008)(316002)(64756008)(66476007)(66946007)(66556008)(7696005)(71200400001)(38070700005)(478600001)(33656002)(186003)(83380400001)(9686003)(6506007)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?qGBJYn5TngrLhOg+jX2CVoB2d1SnuYI2FAfv0K4vF4AZj5yk4UzQrK6Gdi?=
- =?iso-8859-1?Q?1K85yCfZ4EMVXW47Ve/lQiZF2yfAdaJs/AS+7SK7pSZYM6qeEoWfbpVb+P?=
- =?iso-8859-1?Q?J78JMuEgclhvRDAF/wJQ4iMvjD5vt8Io4IzzXIPXZVw0XIZYe4qBZgZUFQ?=
- =?iso-8859-1?Q?x2fOIcxygz1gNxtGrhdrP+lo8PYb1n2G0WKQymzxC+QjjAidzZNNrT9cef?=
- =?iso-8859-1?Q?goIuuypePhr6FV7DX0/FDUqxrD3ozipNC5u2vgh2lA2LbOH8qlobU5XyFJ?=
- =?iso-8859-1?Q?DFUgABIiQTLDscKJlIkh659X5vUZmq47ouYjJiU91Askm5QcbLCiFvIBVH?=
- =?iso-8859-1?Q?jLkdFN/LhlB5cQcWB9qkJOyvdVZEi3LkVMEaXJfZdaTMJpOET+YSp+AhfR?=
- =?iso-8859-1?Q?40P0c8dTOCzMCKcfApsY6naFn9jElp1Vd41Xcw3FJN5KU9xF1R1R66lPZg?=
- =?iso-8859-1?Q?QYq5YP4cN/2nMmY1QtVInSDEMlxn4eYGmd0Hrr0nlcARi32KW+D3AoUI3p?=
- =?iso-8859-1?Q?DGM3bGRIXmzwe65M6tLNWsUCHsqsiSQtZB/krzgaosJDZEIPuXZvSxRlhq?=
- =?iso-8859-1?Q?BYjssgUXwpXsTT8jfXekgHmlJyr2asVzpCwJ9d2e12nx593z7FOIn8f7TZ?=
- =?iso-8859-1?Q?P3QVlBvBBXvAplmENm0yZzEB6jcSTdWGM0Mz9A79yrHCkkfC7B2sSVL5fC?=
- =?iso-8859-1?Q?O3B4/0GkxxohDkoLViA8lk6pgeeVoT1qOQvCmam7oRF1F7EUlltozWdttm?=
- =?iso-8859-1?Q?Ca4Rxui6VkEtzGm0UbaOq3jF9MxHa9IBJ5/BRnazHvyArlDGscNn80SgLA?=
- =?iso-8859-1?Q?krWvo1sxBbVqw4kpmmrVO712op0beYLhrbQ9JzMCFYgDetXk/PmWyhpgT9?=
- =?iso-8859-1?Q?2BxKKPxseZY6/wAipJCi8hFsSrIRckoeY1y/yGYL3+4AZOqU3x9XJ6DpWd?=
- =?iso-8859-1?Q?vZ8ncYL6kzEzbp0gpHl02MfFmXg2s0hFGaTAmKJEE+Uumr4jDR3G3Q6biy?=
- =?iso-8859-1?Q?qoRofshZ7+n3kE/G6Bpm1EMUFVMaF0bgg1XD+Smp/P6jIIZd9FMoAMi6Sz?=
- =?iso-8859-1?Q?c5gTGZfpaYREostD+lDI3hTpNj8gZ8nuQCRfu9YYDizrkKmcmb7VSI1uMf?=
- =?iso-8859-1?Q?WAieMxBmkOp5rDmha2hWMf6O1L9YCIKfkiQLTZ4IEcilqxaMOU4h48/ANZ?=
- =?iso-8859-1?Q?V8H7eZCFK4OQ7CkCR8Ax7+09ZF/X4iPurcptUoZE1BwrJWkkH84JoXZ7hb?=
- =?iso-8859-1?Q?V8d7m7hGnQ52vnnxVpU0J5jlaMlXdASN6SeDP8B2WoR/ZlRwY4OhM1vFuE?=
- =?iso-8859-1?Q?kd3V2KuDdnaulj+UuClPtkefcoq7sL46k15CrqqBFqTiVTn2vrmPFCqpDN?=
- =?iso-8859-1?Q?i+KKgyGJLvX3RagYO9dwajohBUgXBDiUWR5aRbsPW7MSINn1vuV7LSBq9z?=
- =?iso-8859-1?Q?aFMBuYTgC98+RydSOqb9TUZ6aVbvOrKqCX0PpJZWQyFLsKEQShQweUtl3Q?=
- =?iso-8859-1?Q?vO4lPrTkMJs7fJzpVA+zrwCwrTWx7tqoY21Q2aWaQ+/erwpl0eXEdFrtRv?=
- =?iso-8859-1?Q?XfKfr5UpwoqcbzIoqguzIjcq8+adc++ZlpFrkexL7mMhRDeoCew3pzMqx1?=
- =?iso-8859-1?Q?F4ppPI/XDt/ZD0Wr0Mhk0C4CNJe4V3+9tY?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0370710E591
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686206601; x=1717742601;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fI40wiaR+0iKkpEJJfv/U0ZRi4pghOiYPOHiJGHp8V0=;
+ b=AXcpL6GZ8U0Dgrmrd1WU1TpbYk3Lw8SoMPH/LxN9FFcPciYqcPd84qQA
+ VPs0r6+Y5rBXrVBP2Z5CNVErFnAsdfhmFZcH2FmgoKGNpRXmwbvPXPKYG
+ VbMsBnhH6meNrgMRkxnuda3hhkzmnCOEVAcre6HlhmLaPzSWkuRlsiLHb
+ DD6wQVG0nyesCHUhTO1In0JMsaJH7JCyP8w7Zt/PEiG4WoTkhR+QX4MFP
+ jwnJ/vm/QnUeJslPs07C/Y6KAzdTfDp65pcoksLwgAJhX7OK9Q0V8bc57
+ VXz2nfWANbRTuWJnOcrnd33L9ZVAydx34TaWCOhRgPgF9nEIgEOn0s20C Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="360560083"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="360560083"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 23:43:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="834043511"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="834043511"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 23:43:18 -0700
+Date: Thu, 8 Jun 2023 08:43:15 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 2/2] accel/ivpu: Do not use mutex_lock_interruptible
+Message-ID: <20230608064315.GI324119@linux.intel.com>
+References: <20230525103818.877590-1-stanislaw.gruszka@linux.intel.com>
+ <20230525103818.877590-2-stanislaw.gruszka@linux.intel.com>
+ <66ccf028-48df-0493-6510-19bd635210a5@quicinc.com>
+ <20230606134443.GC324119@linux.intel.com>
+ <b8f3b911-a883-272c-b2ac-d57e10318f75@quicinc.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78e44bb5-87db-4bc9-1e45-08db67eb67a3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 06:41:35.6400 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wR1rOVIMlCNmxchfc1rueg41WT0yLWGseXxHlGSlpZzpFkun2KqmwmZrmr8Q7yZ5jrGtodCGBHQ8m8OQV/n4cmEbFJ21bQxL3rAberiglRg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9415
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8f3b911-a883-272c-b2ac-d57e10318f75@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,110 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Wolfram,
+On Tue, Jun 06, 2023 at 08:50:52AM -0600, Jeffrey Hugo wrote:
+> On 6/6/2023 7:44 AM, Stanislaw Gruszka wrote:
+> > Hi
+> > 
+> > On Fri, Jun 02, 2023 at 11:30:31AM -0600, Jeffrey Hugo wrote:
+> > > On 5/25/2023 4:38 AM, Stanislaw Gruszka wrote:
+> > > > If we get signal when waiting for the mmu->lock we do not invalidate
+> > > > current MMU configuration what might result on undefined behavior.
+> > > 
+> > > "that might result in"
+> > > 
+> > > > Additionally there is little or no benefit on break waiting for
+> > > > ipc->lock. In current code base, we keep this lock for short periods.
+> > > 
+> > > What about error cases?  Nothing where say the hardware can be unresponsive
+> > > and a process from userspace is blocked?  Without interruptible(), ctrl+c
+> > > will have no effect.
+> > 
+> > I believe we do not have any infinite loops while holding the mutexe's,
+> > all loops will end with timeout on unresponsive hardware and sooner or
+> > later SIGINT will be delivered. This time can take quite long on simulated
+> > environment, but in such case we can just break the simulation.
+> 
+> Ok, then I'm not missing anything.  It does look like all the hardware
+> interactions have short timeouts.  Feels odd to me to avoid interruptible()
+> in user context, but I don't see anything that is wrong based on the code
+> today.
 
-> Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
->=20
->=20
-> Hi Wolfram,
->=20
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > API
-> >
-> > Hi all,
-> >
-> > sorry for not being able to chime in earlier.
-> >
-> > > In Biju's particular use case, the i2c device responds to two
-> > > addresses, which is the standard i2c ancillary use case.  However,
-> > > what's special
-> >
-> > Not quite. ancillary is used when a *driver* needs to take care of two
-> > addresses. We already have devices bundling two features into the same
-> > chip. I recall at least RTC + EEPROM somewhere. And so far, we have
-> > been handling this by creating two nodes in DT and have proper binding
-> docs.
-> > I think this is cleaner. First, you can see in DT already what the
-> > compound device really consists of. In this case, which RTC and RTC
-> > driver is exactly needed. Second, the code added here adds complexity
-> > to the I2C core with another layer of inderection for dummy devices.
->=20
-> FYI, please see [1] and [2]
->=20
-> As per DT maintainers, most of PMICs are described with one node, even
-> though RTC is on separate address. According to them the DT schema allows
-> multiple addresses for children.
-> But currently we lacks implementation for that. The enhancement to this
-> API allows that.
->=20
->=20
-> >
-> > > As some resources are shared (knowledge about the clocks), splitting
-> > > this in two distinct devices in DT (which is what Biju's initial
-> > > patch series did) would need phandles to link both nodes together.
-> > >
-> > > Do you have a better idea how to represent this?
-> >
-> > Not sure if I understood this chip correctly, but maybe: The PMIC
-> > driver exposes a clock gate which can be consumed by the RTC driver?
+In this context it should not matter much, because we hold locks for
+short periods But we have also wait_event_interruptible_timeout(),
+which I want to get rid of as well, because we can free and reuse
+memory that could still be used by FW, if we break that wait_event. 
+And solving this differently will require much complication, which I
+don't really want goto into. I will need to think about that ...
 
-Let me give me some details of this PMIC chip.
+Anyways thanks for the insights, appreciated.
 
-PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc.=20
-
-It has XIN, XOUT, INT# pins and a register for firmware revisions.
-
-Based on the system design,
-
-If XIN and XOUT is connected to external crystal, Internal oscillator is en=
-abled for RTC.
-In this case we need to set the oscillator bit to "0".
-
-If XIN is connected to external clock source, Internal oscillator is disabl=
-ed for RTC.
-In this case we need to set the oscillator bit to "1".
-
-If XIN and XOUT not connected RTC operation not possible.
-
-IRQ# (optional) functionality is shared between PMIC and RTC. (PMIC fault f=
-or various bucks/LDOs/WDT/OTP/NVM or alarm condition).
-
-The board, I have doesn't populate IRQ# pin. If needed some customers can p=
-opulate IRQ# pin and use it for PMIC fault or RTC alarm.
-
-Also, currently my board has PMIC rev a0 where oscillator bit is inverted a=
-nd internal oscillator is enabled (ie: XIN and XOUT is connected to externa=
-l crystal)
-
-Cheers,
-Biju
-
-
-
-
+Regards
+Stanislaw
