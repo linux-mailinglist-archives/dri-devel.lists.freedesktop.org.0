@@ -1,65 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD6F728008
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 14:31:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECB67280C3
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 15:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2122510E25A;
-	Thu,  8 Jun 2023 12:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D4910E26F;
+	Thu,  8 Jun 2023 13:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B22CD10E25A
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 12:31:08 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id
- 41be03b00d2f7-543a09ee32eso1205776a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 05:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686227468; x=1688819468;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KYaex83iYldjr4WaT4p4MVHnHxPq49V7RC/LIPfCpiw=;
- b=WH4zfkGRn+TYAKddwln2Mf7XTBKgcp+jgv0ocs4ewFionyv1Tk/7NwprmBJ1hZTxHy
- z7p1q7q42YfMw/Jq34Z25MilS8Qidt4AmA5wkMvtAff9DTWcd1FvOnZWB65Ja2cMGzLs
- Wmbu9vNgrYQD7qsIXgLp9tttql3zA9ZhTAgUAwLSZdAycaxlmuAw5tPzqqIJwxyXIonJ
- O2SA+FptbA8Twr3ZMQFqGDvPRW3VtIiKwjqMxircHAbt5hBj5aMP+IYSZYe6KNyczTo0
- J2o9vhDYVQ2DmBnoXlH1MWHYfw4MrQpq36f2o+OGfcgDqatOSW0Gp5BxoShsJL6UEbJR
- wn+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686227468; x=1688819468;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KYaex83iYldjr4WaT4p4MVHnHxPq49V7RC/LIPfCpiw=;
- b=Qj0lq/lKTL9UP7NL0A81kLIKpWSaYmPF3ditFN9GcK1bAu0Dzp+iNlmiqPsAjUG8p8
- 0ygUbp7kvT6TLaTKoMoUYfa0bruHrGHWL6kBhMW6k3h81rFhuTZQCFAqIebdYsdj/eEZ
- Orc0G7vXAyNDzYNQNGu1LaU1RvXil71HrsPEDro9Iqe+j/tog/52/m2/2fNmyAm8MvTA
- CLFa9xlQDHGINSw2d7p2TcTOceP4pMCLVIWuJGtgltdPrvLMk41Wk3SssJUgrr2kl0Yl
- 0LJg/yFV2/c+JjSzSy/YaV1rpk3fe0hxQaTioNcZlfbWGEt6O64B8VKPh4swVesMg/6L
- TPjg==
-X-Gm-Message-State: AC+VfDzVrtDZVPQVJ1n8i+otrEZ+A8ke5ix2jZ9E+KQy717Lctqgv37D
- 8lUodRR1AbsXHI6MLyVWa+jm2EOOVR/r9RD6Ilo=
-X-Google-Smtp-Source: ACHHUZ79SdbFXhWhPj+g4SPuGOYKNr6zjt8F3knEUXT3Yh7jB37ic8zcDORhrjLl68XbloQ/h75GKu3N8U40xoN+sRg=
-X-Received: by 2002:a17:90a:19d7:b0:258:de1b:9dcc with SMTP id
- 23-20020a17090a19d700b00258de1b9dccmr2497551pjj.9.1686227467375; Thu, 08 Jun
- 2023 05:31:07 -0700 (PDT)
+X-Greylist: delayed 1050 seconds by postgrey-1.36 at gabe;
+ Thu, 08 Jun 2023 13:00:29 UTC
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1C510E26F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 13:00:29 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3589A91B001978; Thu, 8 Jun 2023 14:42:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=73FqTMHLfZiM2PDdNj01tEfDAdrx6SjM7RVnmCFe2B8=;
+ b=4U+Z3T3jg8g0fU7KYtC97DzZXEbG/CAEbEU6Ff39w/KzY01TVklN0VgZfSesjS6ImUIE
+ cR9q12YfpIQ/ZO+prvC0PTY57NcV+wQL5vAJdmDN6ZfQbLYv6VusPCHP1vRz3VKuCoPW
+ LZ9wEDDOJ3d1Bp6aj9qQT/qJXk43jqh5jZrY8CmR/uBCBRn/nMXMtdNNlVc54fG3i/HP
+ ndfZz0jJXQor7SWg28LhXAh8AJX1oVO3aoF9JGnqGz5K6x9v+gWmkZFy6K/M9HWO119R
+ BVypJk1UkpS6nTOl1e/w4c9QEhg8EMIYBx4mF5s1KivCcRLWtbeFvmANioXVkdW32qJ4 5g== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3r3c4ahc5e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Jun 2023 14:42:50 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1458610003D;
+ Thu,  8 Jun 2023 14:42:44 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 06624209BA9;
+ Thu,  8 Jun 2023 14:42:44 +0200 (CEST)
+Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 8 Jun
+ 2023 14:42:43 +0200
+Message-ID: <7139fb21-6a1d-a26f-fef3-d3154d234ca2@foss.st.com>
+Date: Thu, 8 Jun 2023 14:42:43 +0200
 MIME-Version: 1.0
-References: <20230526030559.326566-1-aford173@gmail.com>
- <e1379d94-66a5-8538-abdf-de7770befb7d@prevas.dk>
- <CAHCN7xK9RaLRSK_jSbbuGBUf14-FOHsrawi2J8G29iHSOj2Nyw@mail.gmail.com>
- <bfd050f2-b39e-c091-614e-0c77fe324435@prevas.dk>
-In-Reply-To: <bfd050f2-b39e-c091-614e-0c77fe324435@prevas.dk>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 8 Jun 2023 07:30:56 -0500
-Message-ID: <CAHCN7xKdKGA02=ZDNQkVVVDV0AZTqd7QpHA2Nq9LNnbmK=hKxA@mail.gmail.com>
-Subject: Re: [PATCH V8 0/7] drm: bridge: samsung-dsim: Support variable
- clocking
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RESEND PATCH v2 2/6] ARM: dts: stm32: add pin map for LTDC on
+ stm32f7
+Content-Language: en-US
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ <linux-kernel@vger.kernel.org>
+References: <20230607063139.621351-1-dario.binacchi@amarulasolutions.com>
+ <20230607063139.621351-3-dario.binacchi@amarulasolutions.com>
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20230607063139.621351-3-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.21.93]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_09,2023-06-08_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,139 +76,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, aford@beaconembedded.com,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 8, 2023 at 6:40=E2=80=AFAM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
->
-> On 07/06/2023 15.27, Adam Ford wrote:
-> > On Wed, Jun 7, 2023 at 8:15=E2=80=AFAM Rasmus Villemoes
-> > <rasmus.villemoes@prevas.dk> wrote:
-> >>
-> >> On 26/05/2023 05.05, Adam Ford wrote:
-> >>> This series fixes the blanking pack size and the PMS calculation.  It=
- then
-> >>> adds support to allows the DSIM to dynamically DPHY clocks, and suppo=
-rt
-> >>> non-burst mode while allowing the removal of the hard-coded clock val=
-ues
-> >>> for the PLL for imx8m mini/nano/plus, and it allows the removal of th=
-e
-> >>> burst-clock device tree entry when burst-mode isn't supported by conn=
-ected
-> >>> devices like an HDMI brige.  In that event, the HS clock is set to th=
-e
-> >>> value requested by the bridge chip.
-> >>>
-> >>> This has been tested on both an i.MX8M Nano and i.MX8M Plus, and shou=
-ld
-> >>> work on i.MX8M Mini as well. Marek Szyprowski has tested it on variou=
-s
-> >>> Exynos boards.
-> >>
-> >> Hi all
-> >>
-> >> We're testing this on top of v6.4-rc4 on our imx8mp board, which has a
-> >> ti-sn65dsi86 DSI -> DisplayPort bridge. We do get an image at
-> >> 1920x1200, but the monitor says it's only at 58Hz, and measuring on th=
-e
-> >> DSI signals does seem to confirm that the update frequency is about 57=
-.7
-> >> or 57.8Hz (it's pretty hard to get a good measurement). It looks like
-> >> it's the lines that are too long, by a time that corresponds to about =
-80
-> >> pixels. But all the frontporch/backporch/hsync values look sane and
-> >> completely standard for that resolution.
-> >>
-> >> Setting samsung,burst-clock-frequency explicitly to something large
-> >> enough or letting it be derived from the 154MHz pixel clock makes no
-> >> difference.
-> >>
-> >> Any ideas?
-> >
-> > What refresh rate are you trying to achieve?  It seems like 57.7 or
-> > 57.8 is really close to the 58 the Monitor states.
->
-> Oh, sorry, I thought that was clear, but it should be/we're aiming
-> for/expecting 60Hz, or (154MHz / (2080 * 1235)) which is about 59.95Hz.
-> We've tried with a variety of monitors that all have 1920x1200@60Hz as
-> max resolution, and parse-edid always gives the same hfp/hbp/...
-> numbers, namely
->
->        Modeline        "Mode 0" 154.00 1920 1968 2000 2080 1200 1203
-> 1209 1235 +hsync -vsync
->
-> > I would expect the
-> > refresh to be driven by whatever the monitor states it can handle.
->
-> Well, it states that it can handle 60Hz, and the pixel clock is also
-> computed to be the 154MHz, but still, the actual signals on the wire,
-> and hence also what the monitor ends up reporting, do not end up with 60
-> full frames per second.
->
-> > Have you tried using modetest to see what refresh rates are available?
->
-> Hm. My userspace may be a little weird. When I run modetest I just get
->
-> trying to open device 'i915'...failed
-> trying to open device 'amdgpu'...failed
-> ...
-> trying to open device 'imx-dcss'...failed
-> trying to open device 'mxsfb-drm'...failed
-> no device found
->
+Hi Dario
 
-One the 8MP, I think you need to append "-M imx-lcdif" to the modetest
-command  to specify the driver being used.
-I don't have my 8MP with me right now, but I think that's the right name.
+On 6/7/23 08:31, Dario Binacchi wrote:
+> Add pin configurations for using LTDC (LCD-tft Display Controller) on
+> stm32f746-disco board.
+> 
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> ---
+> 
+> (no changes since v1)
+> 
+>   arch/arm/boot/dts/stm32f7-pinctrl.dtsi | 35 ++++++++++++++++++++++++++
+>   1 file changed, 35 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/stm32f7-pinctrl.dtsi b/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
+> index 9f65403295ca..f3f90b9bcd61 100644
+> --- a/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
+> +++ b/arch/arm/boot/dts/stm32f7-pinctrl.dtsi
+> @@ -365,6 +365,41 @@ pins2 {
+>   					bias-pull-up;
+>   				};
+>   			};
+> +
+> +
+> +			ltdc_pins_a: ltdc-pins-a-0 {
 
-> > The 8MP shares the video-pll clock with both disp1 and disp2 clocks,
-> > and the imx-lcdif driver, which sends the display signals to the DSI,
-> > uses the disp clock, so the video-pll needs to be an exact multiple of
-> > the pixel clock or the output won't sink.
->
-> Bingo! I enabled the
->
->   DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
->
-> in drivers/gpu/drm/mxsfb/lcdif_kms.c, and indeed it got me
->
->   Pixel clock: 154000kHz (actual: 148500kHz)
->
-> Modifying the 1039500000 in imx8mp.dtsi to 1078000000 (i.e. 7 times the
-> desired pixel clock) gave me "actual" matching the desired pixel clock,
-> and the monitor now reports 60Hz.
+  ltdc-pins-a-0 -->  ltdc-pins-0 is a bit cleaner. I know that I have to 
+fix sdio pins nodes in this file to keep the same spirit for all group 
+names.
 
-I am glad that worked!
+If there is no V3 I wil do it directly when I'll apply DT patches if you 
+agree.
 
->
-> This product also has an LVDS display on lcdif2, so I'll have to
-> investigate how changing the video_pll1 rate affects that. And also what
-> to do about the case where somebody plugs in, say, a 1080p monitor that
-> would indeed require 148.5MHz pixel clock.
+Alex
 
-That's the down-side to the 8MP with the shared clock.  According to
-the processor reference manual, It looks like the MEDIA_LDB_CLK can be
-a child of Audio_PLL2.  i don't know if you need both AUDIO_PLL1 and
-Audio_PLL2, but the Audio_PLL2 clock is fairly flexible, so if you can
-use Audio_pll1 for all your audio needs, and configure the audio_pll2
-for your LVDS, you might be able to get both LDB and DSI to sync at
-the nominal values.
 
-adam
->
-> Thanks,
-> Rasmus
->
+> +				pins {
+> +					pinmux = <STM32_PINMUX('E', 4, AF14)>, /* LCD_B0 */
+> +						 <STM32_PINMUX('G',12, AF9)>,  /* LCD_B4 */
+> +						 <STM32_PINMUX('I', 9, AF14)>, /* LCD_VSYNC */
+> +						 <STM32_PINMUX('I',10, AF14)>, /* LCD_HSYNC */
+> +						 <STM32_PINMUX('I',14, AF14)>, /* LCD_CLK */
+> +						 <STM32_PINMUX('I',15, AF14)>, /* LCD_R0 */
+> +						 <STM32_PINMUX('J', 0, AF14)>, /* LCD_R1 */
+> +						 <STM32_PINMUX('J', 1, AF14)>, /* LCD_R2 */
+> +						 <STM32_PINMUX('J', 2, AF14)>, /* LCD_R3 */
+> +						 <STM32_PINMUX('J', 3, AF14)>, /* LCD_R4 */
+> +						 <STM32_PINMUX('J', 4, AF14)>, /* LCD_R5 */
+> +						 <STM32_PINMUX('J', 5, AF14)>, /* LCD_R6 */
+> +						 <STM32_PINMUX('J', 6, AF14)>, /* LCD_R7 */
+> +						 <STM32_PINMUX('J', 7, AF14)>, /* LCD_G0 */
+> +						 <STM32_PINMUX('J', 8, AF14)>, /* LCD_G1 */
+> +						 <STM32_PINMUX('J', 9, AF14)>, /* LCD_G2 */
+> +						 <STM32_PINMUX('J',10, AF14)>, /* LCD_G3 */
+> +						 <STM32_PINMUX('J',11, AF14)>, /* LCD_G4 */
+> +						 <STM32_PINMUX('J',13, AF14)>, /* LCD_B1 */
+> +						 <STM32_PINMUX('J',14, AF14)>, /* LCD_B2 */
+> +						 <STM32_PINMUX('J',15, AF14)>, /* LCD_B3 */
+> +						 <STM32_PINMUX('K', 0, AF14)>, /* LCD_G5 */
+> +						 <STM32_PINMUX('K', 1, AF14)>, /* LCD_G6 */
+> +						 <STM32_PINMUX('K', 2, AF14)>, /* LCD_G7 */
+> +						 <STM32_PINMUX('K', 4, AF14)>, /* LCD_B5 */
+> +						 <STM32_PINMUX('K', 5, AF14)>, /* LCD_B6 */
+> +						 <STM32_PINMUX('K', 6, AF14)>, /* LCD_B7 */
+> +						 <STM32_PINMUX('K', 7, AF14)>; /* LCD_DE */
+> +					slew-rate = <2>;
+> +				};
+> +			};
+>   		};
+>   	};
+>   };
+
