@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DF2728533
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:38:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED89728534
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A3010E5EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAFBF10E5E9;
 	Thu,  8 Jun 2023 16:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 744AF10E5F1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66EDC10E5EF
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:38:01 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 358GbbNS115695;
- Thu, 8 Jun 2023 11:37:37 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 358Gbced115700;
+ Thu, 8 Jun 2023 11:37:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686242257;
- bh=fto8hspIWYbudCmEl2g6ecL/UhlQpTiwRoj5dazNq+E=;
+ s=ti-com-17Q1; t=1686242258;
+ bh=63yTje9gSZ+jL3DeHEsDLsQhdq8Nwny9LUmnTnUGE+M=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=yjZCdYecCqlAfAByHrEBHPQ46JbIDet0HySG5g4tlTO8ToNCtOrdBEP8Lh9YsF8eQ
- rlI5HTv/e0wwJbPunaMQrHN6oM8k6Li0HzGF1jXHKletw92au7WdAOTEQBstJ2KP2z
- cT7ATZeBN3QAVhtFA97yk8QZvzRD0TTXtdeEDd1g=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 358Gbbkn111920
+ b=mMb7qYCPTsSISYvnCZKBHOsT5LTo5Yy5QZYxuK5FL/uLaeD23cEu7GYJCqOdCabq6
+ T+t4W/2fw968v6NUqgD2Flg+grhPnctNcDSvQlgONL2Qr0pusyGDl0WzyzkvzvbOWs
+ Wyen5OqzfooB6KKH/7JqwQ8iLw06ldZGkaRw/4QE=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 358Gbcc5013232
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 8 Jun 2023 11:37:37 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 8 Jun 2023 11:37:38 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
- Jun 2023 11:37:37 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2023 11:37:38 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 8 Jun 2023 11:37:37 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 358GbZV7024680;
- Thu, 8 Jun 2023 11:37:36 -0500
+ Frontend Transport; Thu, 8 Jun 2023 11:37:38 -0500
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 358Gbb31123010;
+ Thu, 8 Jun 2023 11:37:38 -0500
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
  Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v8 1/2] dt-bindings: display: ti,
- am65x-dss: Add am625 dss compatible
-Date: Thu, 8 Jun 2023 22:07:33 +0530
-Message-ID: <20230608163734.2578-2-a-bhatia1@ti.com>
+Subject: [PATCH v8 2/2] drm/tidss: Add support for AM625 DSS
+Date: Thu, 8 Jun 2023 22:07:34 +0530
+Message-ID: <20230608163734.2578-3-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230608163734.2578-1-a-bhatia1@ti.com>
 References: <20230608163734.2578-1-a-bhatia1@ti.com>
@@ -74,16 +73,19 @@ Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSS controller on TI's AM625 SoC is an update from that on TI's
-AM65X SoC. The former has an additional OLDI TX on its first video port
-that helps output cloned video or WUXGA (1920x1200@60fps) resolution
-video output over a dual-link mode to reduce the required OLDI clock
-output.
+Add support for the DSS controller on TI's AM625 SoC in the tidss
+driver.
 
-The second video port is same from AM65x DSS and it outputs DPI video
-data. It can support 2K resolutions @ 60fps, independently.
+The AM625 DSS supports 2 video planes connecting to 2 video ports.
+The first plane is a full plane supporting all the features, while the
+2nd plane is a "lite" plane without scaling support.
 
-Add the new controller's compatible and update descriptions.
+The first video port in AM625 DSS internally provides DPI output to 2
+OLDI transmitters. Each OLDI TX outputs 4 differential lanes of video
+output and 1 of clock output.
+
+The second video port outputs DPI data directly out of the SoC. It has
+24 data lines and can support a maximum of RGB888 output bus format.
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 ---
@@ -91,52 +93,158 @@ Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Notes:
 
   Changes from v7:
-  * Drop the 3rd port property and update descriptions.
-  * Drop the Reviewed-by tags of Krzysztof Kozlowski and Rahul T R
-    because of the changes.
+  * Drop all changes made after v3.
+    - Drop output bus type support. All outputs from DSS will be the
+      video port outptus.
+  * Make the first video port type as INTERNAL from OLDI.
 
- .../bindings/display/ti/ti,am65x-dss.yaml      | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 57 ++++++++++++++++++++++++++++-
+ drivers/gpu/drm/tidss/tidss_dispc.h |  2 +
+ drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
+ 3 files changed, 59 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index b6b402f16161..ae09cd3cbce1 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -12,14 +12,18 @@ maintainers:
-   - Tomi Valkeinen <tomi.valkeinen@ti.com>
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index dca077411f77..484da1aa27bb 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -275,6 +275,55 @@ const struct dispc_features dispc_j721e_feats = {
+ 	.vid_order = { 1, 3, 0, 2 },
+ };
  
- description: |
--  The AM65x TI Keystone Display SubSystem with two output ports and
--  two video planes. The first video port supports OLDI and the second
--  supports DPI format. The fist plane is full video plane with all
--  features and the second is a "lite plane" without scaling support.
-+  The AM625 and AM65x TI Keystone Display SubSystem with two output
-+  ports and two video planes. In AM65x DSS, the first video port
-+  supports 1 OLDI TX and in AM625 DSS, the first video port output is
-+  internally routed to 2 OLDI TXes. The second video port supports DPI
-+  format. The first plane is full video plane with all features and the
-+  second is a "lite plane" without scaling support.
++const struct dispc_features dispc_am625_feats = {
++	.max_pclk_khz = {
++		[DISPC_VP_DPI] = 165000,
++		[DISPC_VP_INTERNAL] = 170000,
++	},
++
++	.scaling = {
++		.in_width_max_5tap_rgb = 1280,
++		.in_width_max_3tap_rgb = 2560,
++		.in_width_max_5tap_yuv = 2560,
++		.in_width_max_3tap_yuv = 4096,
++		.upscale_limit = 16,
++		.downscale_limit_5tap = 4,
++		.downscale_limit_3tap = 2,
++		/*
++		 * The max supported pixel inc value is 255. The value
++		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
++		 * The maximum bpp of all formats supported by the HW
++		 * is 8. So the maximum supported xinc value is 32,
++		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
++		 */
++		.xinc_max = 32,
++	},
++
++	.subrev = DISPC_AM625,
++
++	.common = "common",
++	.common_regs = tidss_am65x_common_regs,
++
++	.num_vps = 2,
++	.vp_name = { "vp1", "vp2" },
++	.ovr_name = { "ovr1", "ovr2" },
++	.vpclk_name =  { "vp1", "vp2" },
++	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
++
++	.vp_feat = { .color = {
++			.has_ctm = true,
++			.gamma_size = 256,
++			.gamma_type = TIDSS_GAMMA_8BIT,
++		},
++	},
++
++	.num_planes = 2,
++	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
++	.vid_name = { "vid", "vidl1" },
++	.vid_lite = { false, true, },
++	.vid_order = { 1, 0 },
++};
++
+ static const u16 *dispc_common_regmap;
  
- properties:
-   compatible:
--    const: ti,am65x-dss
-+    enum:
-+      - ti,am625-dss
-+      - ti,am65x-dss
+ struct dss_vp_data {
+@@ -776,6 +825,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
+ 	switch (dispc->feat->subrev) {
+ 	case DISPC_K2G:
+ 		return dispc_k2g_read_and_clear_irqstatus(dispc);
++	case DISPC_AM625:
+ 	case DISPC_AM65X:
+ 	case DISPC_J721E:
+ 		return dispc_k3_read_and_clear_irqstatus(dispc);
+@@ -791,6 +841,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+ 	case DISPC_K2G:
+ 		dispc_k2g_set_irqenable(dispc, mask);
+ 		break;
++	case DISPC_AM625:
+ 	case DISPC_AM65X:
+ 	case DISPC_J721E:
+ 		dispc_k3_set_irqenable(dispc, mask);
+@@ -1281,6 +1332,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
+ 		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
+ 					x, y, layer);
+ 		break;
++	case DISPC_AM625:
+ 	case DISPC_AM65X:
+ 		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
+ 					  x, y, layer);
+@@ -2199,6 +2251,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
+ 	case DISPC_K2G:
+ 		dispc_k2g_plane_init(dispc);
+ 		break;
++	case DISPC_AM625:
+ 	case DISPC_AM65X:
+ 	case DISPC_J721E:
+ 		dispc_k3_plane_init(dispc);
+@@ -2305,6 +2358,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
+ 	case DISPC_K2G:
+ 		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
+ 		break;
++	case DISPC_AM625:
+ 	case DISPC_AM65X:
+ 		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
+ 		break;
+@@ -2579,7 +2633,8 @@ int dispc_runtime_resume(struct dispc_device *dispc)
+ 		REG_GET(dispc, DSS_SYSSTATUS, 2, 2),
+ 		REG_GET(dispc, DSS_SYSSTATUS, 3, 3));
  
-   reg:
-     description:
-@@ -80,7 +84,9 @@ properties:
-       port@0:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
--          The DSS OLDI output port node form video port 1
-+          For AM65x DSS, the OLDI output port node from video port 1.
-+          For AM625 DSS, the internal DPI output port node from video
-+          port 1.
+-	if (dispc->feat->subrev == DISPC_AM65X)
++	if (dispc->feat->subrev == DISPC_AM625 ||
++	    dispc->feat->subrev == DISPC_AM65X)
+ 		dev_dbg(dispc->dev, "OLDI RESETDONE %d,%d,%d\n",
+ 			REG_GET(dispc, DSS_SYSSTATUS, 5, 5),
+ 			REG_GET(dispc, DSS_SYSSTATUS, 6, 6),
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index 946ed769caaf..33ac5ad7a423 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -59,6 +59,7 @@ enum dispc_vp_bus_type {
  
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
+ enum dispc_dss_subrevision {
+ 	DISPC_K2G,
++	DISPC_AM625,
+ 	DISPC_AM65X,
+ 	DISPC_J721E,
+ };
+@@ -86,6 +87,7 @@ struct dispc_features {
+ };
+ 
+ extern const struct dispc_features dispc_k2g_feats;
++extern const struct dispc_features dispc_am625_feats;
+ extern const struct dispc_features dispc_am65x_feats;
+ extern const struct dispc_features dispc_j721e_feats;
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+index 3f5f27fb6ebc..0a6f19314662 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.c
++++ b/drivers/gpu/drm/tidss/tidss_drv.c
+@@ -232,6 +232,7 @@ static void tidss_shutdown(struct platform_device *pdev)
+ 
+ static const struct of_device_id tidss_of_table[] = {
+ 	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
++	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
+ 	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
+ 	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
+ 	{ }
 -- 
 2.40.1
 
