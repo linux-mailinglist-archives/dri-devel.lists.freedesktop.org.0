@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D47728188
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 15:39:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC382728187
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 15:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15EB110E5C4;
-	Thu,  8 Jun 2023 13:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA8D10E5C2;
+	Thu,  8 Jun 2023 13:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABA3A10E5C1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 13:39:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F3710E5C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 13:39:05 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 317B4615C6;
- Thu,  8 Jun 2023 13:39:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE1DC4339B;
- Thu,  8 Jun 2023 13:39:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 60B6B64D9A;
+ Thu,  8 Jun 2023 13:39:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6753C433D2;
+ Thu,  8 Jun 2023 13:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686231542;
- bh=7o/jqd3nYTliX8pgqNtbexstuTkFQBMWs/7P4HxDNOU=;
+ s=k20201202; t=1686231543;
+ bh=4V9m4mnF2OraU5/DuHOxAsUUy7WLcLlakAg0H8UcBek=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iuna0RxBdUBRq45+ePC27905+GSw57mf24Darnrp8DTNgZG03iKVeCa8c8XlpJTc+
- rRLw1LtUDLzS7+zPGRe/wtc4oIJj2Q48Glx4SAOXhZsdNY86buZR+bViZEpL2MmmVV
- 1HbBM0DRV5mDpoTaCF+LhY+DHvUvknMlT5yYNObmwXG2iv0nKrwiaUciPhl2JKMwEG
- 7D0qDPanM5hlhc2e4SsFFWVKE/21ycMFP/31w05p7lNX6HLtZY9z1YJw/t0l1JAosn
- mrIXA9ehQr3gvwkMvPmnYUQF8kSyHLojwKikquwmmJoMmxoqCiaubpBpzSh3mTfU/a
- /Dwla0kyGrZvg==
+ b=QBAjWrw9t0VZ7bJupREs/xh4lIrVcpc01LO4OajXOBycteW92tbfuulth/PDozHUy
+ BeHPq7iwkdFvbxVjfICVntevvwnSLjDDOFUxdhLVx3YUjWa0Csz56LvdQ0aaKlsgLh
+ mF5zGjVaz1584IhkscRuH0lNq3dHr9kxbrt4mt4vzPdDDTLIEzfmc8c/RboYH2jk3J
+ 0AjYC1S4RfbsOxseHrCRS8kFi8iQewfWkIUBu7EVZ8WNwimYm90qG1QKlvx4PeVnHC
+ QWiV5PnpRfV6DkphnqQFemH0teveu30wM+Jyt9z9IN6PLD067uwZcEeaWQbIBhcz5v
+ LyslruGqf2Nfw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/12] accel/habanalabs: set device status 'malfunction' while
- in rmmod
-Date: Thu,  8 Jun 2023 16:38:43 +0300
-Message-Id: <20230608133849.2739411-6-ogabbay@kernel.org>
+Subject: [PATCH 07/12] accel/habanalabs: stop fetching MME SBTE error cause
+Date: Thu,  8 Jun 2023 16:38:44 +0300
+Message-Id: <20230608133849.2739411-7-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230608133849.2739411-1-ogabbay@kernel.org>
 References: <20230608133849.2739411-1-ogabbay@kernel.org>
@@ -52,57 +51,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Koby Elbaz <kelbaz@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Koby Elbaz <kelbaz@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-hl_device_status() returns the status of an acquired device.
-If a device is going down (following an rmmod cmd),
-it should be marked as an unusable/malfunctioning device, and
-hence should not be acquired.
-However, since this was not the case so far (i.e., a device going
-down would inaccurately return 'in reset' status allowing the user
-to acquire the device) it introduced a bug where as part of a reset
-flow, the driver could not kill processes that have not run yet, and
-since those processes aren't blocked from reacquiring a device,
-we get eventually a new flow of a driver attempting to kill all
-processes in a list that can't be ever really empty.
+Because in this case we have only a single possible cause, we can
+safely stop fetching the cause from firmware.
 
-Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/device.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 31 ++++++------------------
+ 1 file changed, 8 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 993305871292..5973e4d64e19 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -315,7 +315,9 @@ enum hl_device_status hl_device_status(struct hl_device *hdev)
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index ed3b0b6225d2..899b1c4b53f6 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -66,7 +66,6 @@
+ #define GAUDI2_NUM_OF_TPC_INTR_CAUSE		31
+ #define GAUDI2_NUM_OF_DEC_ERR_CAUSE		25
+ #define GAUDI2_NUM_OF_MME_ERR_CAUSE		16
+-#define GAUDI2_NUM_OF_MME_SBTE_ERR_CAUSE	5
+ #define GAUDI2_NUM_OF_MME_WAP_ERR_CAUSE		7
+ #define GAUDI2_NUM_OF_DMA_CORE_INTR_CAUSE	8
+ #define GAUDI2_NUM_OF_MMU_SPI_SEI_CAUSE		19
+@@ -916,14 +915,6 @@ static const char * const guadi2_mme_error_cause[GAUDI2_NUM_OF_MME_ERR_CAUSE] =
+ 	"sbte_prtn_intr_4",
+ };
+ 
+-static const char * const guadi2_mme_sbte_error_cause[GAUDI2_NUM_OF_MME_SBTE_ERR_CAUSE] = {
+-	"i0",
+-	"i1",
+-	"i2",
+-	"i3",
+-	"i4",
+-};
+-
+ static const char * const guadi2_mme_wap_error_cause[GAUDI2_NUM_OF_MME_WAP_ERR_CAUSE] = {
+ 	"WBC ERR RESP_0",
+ 	"WBC ERR RESP_1",
+@@ -8781,21 +8772,16 @@ static int gaudi2_handle_mme_err(struct hl_device *hdev, u8 mme_index, u16 event
+ 	return error_count;
+ }
+ 
+-static int gaudi2_handle_mme_sbte_err(struct hl_device *hdev, u16 event_type,
+-					u64 intr_cause_data)
++static int gaudi2_handle_mme_sbte_err(struct hl_device *hdev, u16 event_type)
  {
- 	enum hl_device_status status;
+-	int i, error_count = 0;
+-
+-	for (i = 0 ; i < GAUDI2_NUM_OF_MME_SBTE_ERR_CAUSE ; i++)
+-		if (intr_cause_data & BIT(i)) {
+-			gaudi2_print_event(hdev, event_type, true,
+-				"err cause: %s", guadi2_mme_sbte_error_cause[i]);
+-			error_count++;
+-		}
+-
++	/*
++	 * We have a single error cause here but the report mechanism is
++	 * buggy. Hence there is no good reason to fetch the cause so we
++	 * just check for glbl_errors and exit.
++	 */
+ 	hl_check_for_glbl_errors(hdev);
  
--	if (hdev->reset_info.in_reset) {
-+	if (hdev->device_fini_pending) {
-+		status = HL_DEVICE_STATUS_MALFUNCTION;
-+	} else if (hdev->reset_info.in_reset) {
- 		if (hdev->reset_info.in_compute_reset)
- 			status = HL_DEVICE_STATUS_IN_RESET_AFTER_DEVICE_RELEASE;
- 		else
-@@ -343,9 +345,9 @@ bool hl_device_operational(struct hl_device *hdev,
- 		*status = current_status;
+-	return error_count;
++	return GAUDI2_NA_EVENT_CAUSE;
+ }
  
- 	switch (current_status) {
-+	case HL_DEVICE_STATUS_MALFUNCTION:
- 	case HL_DEVICE_STATUS_IN_RESET:
- 	case HL_DEVICE_STATUS_IN_RESET_AFTER_DEVICE_RELEASE:
--	case HL_DEVICE_STATUS_MALFUNCTION:
- 	case HL_DEVICE_STATUS_NEEDS_RESET:
- 		return false;
- 	case HL_DEVICE_STATUS_OPERATIONAL:
+ static int gaudi2_handle_mme_wap_err(struct hl_device *hdev, u8 mme_index, u16 event_type,
+@@ -9856,8 +9842,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 	case GAUDI2_EVENT_MME1_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME1_SBTE4_AXI_ERR_RSP:
+ 	case GAUDI2_EVENT_MME2_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME2_SBTE4_AXI_ERR_RSP:
+ 	case GAUDI2_EVENT_MME3_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME3_SBTE4_AXI_ERR_RSP:
+-		error_count = gaudi2_handle_mme_sbte_err(hdev, event_type,
+-						le64_to_cpu(eq_entry->intr_cause.intr_cause_data));
++		error_count = gaudi2_handle_mme_sbte_err(hdev, event_type);
+ 		event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
+ 		break;
+ 	case GAUDI2_EVENT_VM0_ALARM_A ... GAUDI2_EVENT_VM3_ALARM_B:
 -- 
 2.40.1
 
