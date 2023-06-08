@@ -2,55 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9445B727CB5
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 12:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8512F7290B9
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 09:16:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D62A10E414;
-	Thu,  8 Jun 2023 10:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA2D10E637;
+	Fri,  9 Jun 2023 07:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1630E10E410;
- Thu,  8 Jun 2023 10:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686219870; x=1717755870;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=0kSBNlHK2bsytGA9aO1JMLSbfCDZkZdpa9AQY9EE1gA=;
- b=mh5fSYyqHeJVeUlqeFP8Qyt615icAgtmorFpXbOeCuaxApmUjov2I2xQ
- d5MjA9FtyM21lni0y5SW5BV24ssMVuENx5QX4mKIw9wwDQyTQFMspf9yP
- wQGHISu/Ur/fxl0BFRxRewHr0ZEjDKoUWHd9/J9eqtXdzdTHAjstidecY
- S5drux9AOv1OiqIipJql4mSiaIrmqQTzly2sS9Nxmp4GUIU0r/NVDsrJY
- pTQp/XCiyeDQb+rh4I/KHUELk0+kWMyzPQeLtLuG3xJCAtU/9KwN0ZQ0I
- 2D8l3NN/YAcE5Gt03XOWbmMkUC8tX5wHQXwZFXhWxhsFQjpeVpLbzCKm4 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="443637479"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="443637479"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 03:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="713068553"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="713068553"
-Received: from unknown (HELO localhost) ([10.237.66.162])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 03:24:26 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Colin Ian King <colin.i.king@gmail.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Gustavo Sousa
- <gustavo.sousa@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH][next] drm/i915/mtl: Fix spelling mistake "initate" ->
- "initiate"
-In-Reply-To: <20230608100722.1148771-1-colin.i.king@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230608100722.1148771-1-colin.i.king@gmail.com>
-Date: Thu, 08 Jun 2023 13:24:23 +0300
-Message-ID: <87h6ris148.fsf@intel.com>
+Received: from mblankhorst.nl (lankhorst.se
+ [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 550B110E5AF;
+ Thu,  8 Jun 2023 10:27:58 +0000 (UTC)
+Message-ID: <b761cb4c-5cb6-9228-ab99-c2fe4a6353a8@lankhorst.se>
+Date: Thu, 8 Jun 2023 12:27:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.2
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Subject: [PULL] drm-misc-fixes, try 2.
+Content-Language: en-US
+From: Maarten Lankhorst <maarten@lankhorst.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 09 Jun 2023 07:16:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,34 +37,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 08 Jun 2023, Colin Ian King <colin.i.king@gmail.com> wrote:
-> There is a spelling mistake in a drm_dbg_kms message. Fix it.
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+Hi Dave, Daniel,
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Same pull request, just verifying tooling works as intended now. :-)
 
-> ---
->  drivers/gpu/drm/i915/display/intel_pmdemand.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_pmdemand.c b/drivers/gpu/drm/i915/display/intel_pmdemand.c
-> index f7608d363634..f59e1e962e3d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_pmdemand.c
-> +++ b/drivers/gpu/drm/i915/display/intel_pmdemand.c
-> @@ -555,7 +555,7 @@ intel_pmdemand_program_params(struct drm_i915_private *i915,
->  		goto unlock;
->  
->  	drm_dbg_kms(&i915->drm,
-> -		    "initate pmdemand request values: (0x%x 0x%x)\n",
-> +		    "initiate pmdemand request values: (0x%x 0x%x)\n",
->  		    mod_reg1, mod_reg2);
->  
->  	intel_de_rmw(i915, XELPDP_INITIATE_PMDEMAND_REQUEST(1), 0,
+drm-misc-fixes for v6.4-rc6.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Seems to be mostly small fixes, just a few more for ivpu.
+
+~Maarten
+
+drm-misc-fixes-2023-06-08:
+drm-misc-fixes for v6.4-rc6:
+- resume and modeset fixes for ast.
+- Fill in fb-helper vars more correctly.
+- Assorted ivpu fixes.
+- lima context destroy fix.
+The following changes since commit e997c218ad736fd6f524d73a987bad9d94128d3d:
+
+  accel/qaic: Fix NNC message corruption (2023-05-23 09:51:38 -0600)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-06-08
+
+for you to fetch changes up to a3efabee5878b8d7b1863debb78cb7129d07a346:
+
+  accel/ivpu: Fix sporadic VPU boot failure (2023-06-08 08:17:27 +0200)
+
+----------------------------------------------------------------
+drm-misc-fixes for v6.4-rc6:
+- resume and modeset fixes for ast.
+- Fill in fb-helper vars more correctly.
+- Assorted ivpu fixes.
+- lima context destroy fix.
+
+----------------------------------------------------------------
+Andrzej Kacprowski (2):
+      accel/ivpu: Do not trigger extra VPU reset if the VPU is idle
+      accel/ivpu: Fix sporadic VPU boot failure
+
+Erico Nunes (1):
+      drm/lima: fix sched context destroy
+
+Geert Uytterhoeven (1):
+      drm/fb-helper: Fix height, width, and accel_flags in fb_var
+
+Jammy Huang (2):
+      drm/ast: Fix long time waiting on s3/s4 resume
+      drm/ast: Fix modeset failed on DisplayPort
+
+Randy Dunlap (1):
+      accel/ivpu: ivpu_ipc needs GENERIC_ALLOCATOR
+
+Stanislaw Gruszka (2):
+      accel/ivpu: Reserve all non-command bo's using DMA_RESV_USAGE_BOOKKEEP
+      accel/ivpu: Do not use mutex_lock_interruptible
+
+ drivers/accel/ivpu/Kconfig           |  1 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c     | 22 +++++++++++----
+ drivers/accel/ivpu/ivpu_hw_mtl_reg.h |  1 +
+ drivers/accel/ivpu/ivpu_ipc.c        |  4 +--
+ drivers/accel/ivpu/ivpu_job.c        | 21 +++++++++-----
+ drivers/accel/ivpu/ivpu_mmu.c        | 22 ++++-----------
+ drivers/gpu/drm/ast/ast_dp.c         | 55 +++++++++++-------------------------
+ drivers/gpu/drm/ast/ast_drv.h        |  5 +---
+ drivers/gpu/drm/ast/ast_main.c       | 11 ++++++--
+ drivers/gpu/drm/ast/ast_mode.c       | 15 ++++++++--
+ drivers/gpu/drm/ast/ast_post.c       |  3 +-
+ drivers/gpu/drm/drm_fb_helper.c      | 12 ++++----
+ drivers/gpu/drm/lima/lima_sched.c    |  2 +-
+ 13 files changed, 90 insertions(+), 84 deletions(-)
