@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4128728548
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:39:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AE1728575
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 18:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B4C10E5E6;
-	Thu,  8 Jun 2023 16:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CAE10E5EE;
+	Thu,  8 Jun 2023 16:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F79510E5E6
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686242372; x=1717778372;
- h=date:from:to:cc:subject:message-id;
- bh=F7UVQxLgpyB+XxwUND8Ji+HgcMvfRX9thOkFLT6lrY8=;
- b=SJrXxNUmqn9tmdHNTvwWaf+HvFWJB0mI75CknsXEoQjsDBiDA76mrmoq
- ZZxsvDT2R9I0/1LDf6rV0dRNk5JPa3m/ACk2bxN5FGEuY+hT5gseH+Hqn
- jtWVWdQcnZEb82kDTrXbBzEwVTiU4RAYjCfabLA72Rpcm8rzLmxqL+io1
- iYmFpN/G2S5zqvsmkbtoKqglcrF70Jfc8gWc87y/J6PUBgz3EYmaxJtBu
- jnx6r/KF1HTC7Y0JxmJNwjcmRldep/E7U+y+xgscQGcIl/3XCsyW4AaQU
- qh3hs1rOhy0svHB0uzg3j+4upVFQq5gtQtycPJGaHMqJwVNE0naNyss6Z g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="354852424"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="354852424"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 09:39:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="822672133"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="822672133"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2023 09:39:29 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q7IfY-00083P-1a;
- Thu, 08 Jun 2023 16:39:28 +0000
-Date: Fri, 09 Jun 2023 00:38:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- db10f126048021b86e43a5d6a335ec49dec10155
-Message-ID: <202306090001.ng1n5qxC-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C435B10E5E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:40:48 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q7Igh-0000rs-9q; Thu, 08 Jun 2023 18:40:39 +0200
+Message-ID: <241d8d6699582df9e80785b264c4feacb00d12d7.camel@pengutronix.de>
+Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad job."
+From: Lucas Stach <l.stach@pengutronix.de>
+To: "Liu, Monk" <Monk.Liu@amd.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>, Luben Tuikov
+ <luben.tuikov@amd.com>
+Date: Thu, 08 Jun 2023 18:40:37 +0200
+In-Reply-To: <BL1PR12MB526995BE01F10A5F7D8158F184C19@BL1PR12MB5269.namprd12.prod.outlook.com>
+References: <20210818112114.1417685-1-Jingwen.Chen2@amd.com>
+ <CADnq5_OApvH1Jo2VzJBHewHB_LXgg1WzUHvTBvrNYnbYdFAWhQ@mail.gmail.com>
+ <69cbf5bd-42c2-be55-a604-43f4ebba159d@amd.com>
+ <YR0Z7qtEti2hwZ7i@phenom.ffwll.local>
+ <b92c62f2-7b1c-d4d8-cb84-1b5ccc3e4bb1@amd.com>
+ <YR0cb43Wv8jGiIbb@phenom.ffwll.local>
+ <82782ff5-d2a7-a4a8-8526-d1ff231630ed@amd.com>
+ <YR4k0fPfUL5viMRY@phenom.ffwll.local>
+ <BL1PR12MB52690CB11358D0298AABC8C084C09@BL1PR12MB5269.namprd12.prod.outlook.com>
+ <BL1PR12MB526995BE01F10A5F7D8158F184C19@BL1PR12MB5269.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,240 +57,371 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-cifs@vger.kernel.org, linux-usb@vger.kernel.org,
- samba-technical@lists.samba.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, linux-leds@vger.kernel.org
+Cc: "Chen, JingWen" <JingWen.Chen2@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: db10f126048021b86e43a5d6a335ec49dec10155  Add linux-next specific files for 20230608
+Hi all,
 
-Error/Warning reports:
+and almost 2 years later I stumbled across this exact issue still being
+present in the scheduler: if the driver bails out of the timeout
+handling before calling drm_sched_stop(), the timeout job will be
+leaked and the TDR timer will potentially not be restarted as the job
+isn't put back in the pending_list.
 
-https://lore.kernel.org/oe-kbuild-all/202306081708.gtVAcXsh-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306082325.7vvIeVZo-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306082341.UQtCM8PO-lkp@intel.com
+How do we solve this? Apply the below suggestion?
 
-Error/Warning: (recently discovered and may have been fixed)
+Regards,
+Lucas
 
-ERROR: modpost: "uv_info" [drivers/s390/char/uvdevice.ko] undefined!
-drivers/leds/leds-cht-wcove.c:142:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
-include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-include/drm/drm_print.h:456:39: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+Am Freitag, dem 20.08.2021 um 07:12 +0000 schrieb Liu, Monk:
+> [AMD Official Use Only]
+>=20
+> @Daniel Vetter @Grodzovsky, Andrey @Koenig, Christian
+> =20
+> Do you have any concern on the kthread_park() approach ?
+>=20
+> Theoretically speaking sched_main shall run there exclusively with job_ti=
+meout since they both touches jobs, and stop scheduler during job_timeout w=
+on't impact performance since in that scenario
+> There was already something wrong/stuck on that ring/scheduler=20
+>=20
+> Thanks=20
+>=20
+> ------------------------------------------
+> Monk Liu | Cloud-GPU Core team
+> ------------------------------------------
+>=20
+> -----Original Message-----
+> From: Liu, Monk=20
+> Sent: Thursday, August 19, 2021 6:26 PM
+> To: Daniel Vetter <daniel@ffwll.ch>; Grodzovsky, Andrey <Andrey.Grodzovsk=
+y@amd.com>
+> Cc: Alex Deucher <alexdeucher@gmail.com>; Chen, JingWen <JingWen.Chen2@am=
+d.com>; Maling list - DRI developers <dri-devel@lists.freedesktop.org>; amd=
+-gfx list <amd-gfx@lists.freedesktop.org>; Koenig, Christian <Christian.Koe=
+nig@amd.com>
+> Subject: RE: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad =
+job."
+>=20
+> [AMD Official Use Only]
+>=20
+> Hi Daniel
+>=20
+> > > Why can't we stop the scheduler thread first, so that there's guarant=
+eed no race? I've recently had a lot of discussions with panfrost folks abo=
+ut their reset that spawns across engines, and without stopping the schedul=
+er thread first before you touch anything it's just plain impossible.
+>=20
+> Yeah we had this though as well in our mind.
+>=20
+> Our second approach is to call ktrhead_stop() in job_timedout() routine s=
+o that  the "bad" job is guaranteed to be used without scheduler's touching=
+ or freeing, Check this sample patch one as well please:
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index a2a9536..50a49cb 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -319,17 +319,12 @@ static void drm_sched_job_timedout(struct work_stru=
+ct *work)
+>         sched =3D container_of(work, struct drm_gpu_scheduler, work_tdr.w=
+ork);
+> =20
+>         /* Protects against concurrent deletion in drm_sched_get_cleanup_=
+job */
+> +       kthread_park(sched->thread);
+>         spin_lock(&sched->job_list_lock);
+>         job =3D list_first_entry_or_null(&sched->pending_list,
+>                                        struct drm_sched_job, list);
+> =20
+>         if (job) {
+> -               /*
+> -                * Remove the bad job so it cannot be freed by concurrent
+> -                * drm_sched_cleanup_jobs. It will be reinserted back aft=
+er sched->thread
+> -                * is parked at which point it's safe.
+> -                */
+> -               list_del_init(&job->list);
+>                 spin_unlock(&sched->job_list_lock);
+> =20
+>                 status =3D job->sched->ops->timedout_job(job);
+> @@ -345,6 +340,7 @@ static void drm_sched_job_timedout(struct work_struct=
+ *work)
+>         } else {
+>                 spin_unlock(&sched->job_list_lock);
+>         }
+> +       kthread_unpark(sched->thread);
+> =20
+>         if (status !=3D DRM_GPU_SCHED_STAT_ENODEV) {
+>                 spin_lock(&sched->job_list_lock); @@ -393,20 +389,6 @@ vo=
+id drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *ba=
+d)
+>         kthread_park(sched->thread);
+> =20
+>         /*
+> -        * Reinsert back the bad job here - now it's safe as
+> -        * drm_sched_get_cleanup_job cannot race against us and release t=
+he
+> -        * bad job at this point - we parked (waited for) any in progress
+> -        * (earlier) cleanups and drm_sched_get_cleanup_job will not be c=
+alled
+> -        * now until the scheduler thread is unparked.
+> -        */
+> -       if (bad && bad->sched =3D=3D sched)
+> -               /*
+> -                * Add at the head of the queue to reflect it was the ear=
+liest
+> -                * job extracted.
+> -                */
+> -               list_add(&bad->list, &sched->pending_list);
+> -
+> -       /*
+>          * Iterate the job list from later to  earlier one and either dea=
+ctive
+>          * their HW callbacks or remove them from pending list if they al=
+ready
+>          * signaled.
+>=20
+>=20
+> Thanks=20
+>=20
+> ------------------------------------------
+> Monk Liu | Cloud-GPU Core team
+> ------------------------------------------
+>=20
+> -----Original Message-----
+> From: Daniel Vetter <daniel@ffwll.ch>
+> Sent: Thursday, August 19, 2021 5:31 PM
+> To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>; Alex Deucher <alexdeucher@gmail.com>=
+; Chen, JingWen <JingWen.Chen2@amd.com>; Maling list - DRI developers <dri-=
+devel@lists.freedesktop.org>; amd-gfx list <amd-gfx@lists.freedesktop.org>;=
+ Liu, Monk <Monk.Liu@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
+> Subject: Re: [PATCH v2] Revert "drm/scheduler: Avoid accessing freed bad =
+job."
+>=20
+> On Wed, Aug 18, 2021 at 10:51:00AM -0400, Andrey Grodzovsky wrote:
+> >=20
+> > On 2021-08-18 10:42 a.m., Daniel Vetter wrote:
+> > > On Wed, Aug 18, 2021 at 10:36:32AM -0400, Andrey Grodzovsky wrote:
+> > > > On 2021-08-18 10:32 a.m., Daniel Vetter wrote:
+> > > > > On Wed, Aug 18, 2021 at 10:26:25AM -0400, Andrey Grodzovsky wrote=
+:
+> > > > > > On 2021-08-18 10:02 a.m., Alex Deucher wrote:
+> > > > > >=20
+> > > > > > > + dri-devel
+> > > > > > >=20
+> > > > > > > Since scheduler is a shared component, please add dri-devel=
+=20
+> > > > > > > on all scheduler patches.
+> > > > > > >=20
+> > > > > > > On Wed, Aug 18, 2021 at 7:21 AM Jingwen Chen <Jingwen.Chen2@a=
+md.com> wrote:
+> > > > > > > > [Why]
+> > > > > > > > for bailing job, this commit will delete it from pending=
+=20
+> > > > > > > > list thus the bailing job will never have a chance to be=
+=20
+> > > > > > > > resubmitted even in advance tdr mode.
+> > > > > > > >=20
+> > > > > > > > [How]
+> > > > > > > > after embeded hw_fence into amdgpu_job is done, the race=
+=20
+> > > > > > > > condition that this commit tries to work around is=20
+> > > > > > > > completely solved.So revert this commit.
+> > > > > > > > This reverts commit 135517d3565b48f4def3b1b82008bc17eb5d1c9=
+0.
+> > > > > > > > v2:
+> > > > > > > > add dma_fence_get/put() around timedout_job to avoid=20
+> > > > > > > > concurrent delete during processing timedout_job
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
+> > > > > > > > ---
+> > > > > > > >     drivers/gpu/drm/scheduler/sched_main.c | 23 +++++------=
+------------
+> > > > > > > >     1 file changed, 5 insertions(+), 18 deletions(-)
+> > > > > > > >=20
+> > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > index a2a953693b45..f9b9b3aefc4a 100644
+> > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > > > > @@ -314,6 +314,7 @@ static void drm_sched_job_timedout(stru=
+ct work_struct *work)
+> > > > > > > >     {
+> > > > > > > >            struct drm_gpu_scheduler *sched;
+> > > > > > > >            struct drm_sched_job *job;
+> > > > > > > > +       struct dma_fence *fence;
+> > > > > > > >            enum drm_gpu_sched_stat status =3D=20
+> > > > > > > > DRM_GPU_SCHED_STAT_NOMINAL;
+> > > > > > > >=20
+> > > > > > > >            sched =3D container_of(work, struct=20
+> > > > > > > > drm_gpu_scheduler, work_tdr.work); @@ -325,11 +326,10 @@=
+=20
+> > > > > > > > static void drm_sched_job_timedout(struct work_struct
+> > > > > > > > *work)
+> > > > > > > >=20
+> > > > > > > >            if (job) {
+> > > > > > > >                    /*
+> > > > > > > > -                * Remove the bad job so it cannot be freed=
+ by concurrent
+> > > > > > > > -                * drm_sched_cleanup_jobs. It will be reins=
+erted back after sched->thread
+> > > > > > > > -                * is parked at which point it's safe.
+> > > > > > > > +                * Get job->s_fence->parent here to avoid c=
+oncurrent delete during
+> > > > > > > > +                * processing timedout_job
+> > > > > > > >                     */
+> > > > > > > > -               list_del_init(&job->list);
+> > > > > > > > +               fence =3D
+> > > > > > > > + dma_fence_get(job->s_fence->parent);
+> > > > > > While this is true for amdgpu, it has no meaning for other=20
+> > > > > > drivers for whom we haven't done the refactoring of embedding=
+=20
+> > > > > > HW fence (parent) into the job structure.
+> > > > > > In fact thinking
+> > > > > > about it, unless you do the HW fence embedding for all the=20
+> > > > > > drivers using the scheduler you cannot revert this patch or=20
+> > > > > > you will just break them.
+> > > > > btw, why did you do that embedding? I do still have my patches=
+=20
+> > > > > with dma_fence annotations floating around, but my idea at least=
+=20
+> > > > > was to fix that issue with a mempool, not with embeddeding. What=
+=20
+> > > > > was the motivation for embedding the wh fence?
+> > > > > -Daniel
+> > > >=20
+> > > > The motivation was 2 fold, avoid memory allocation during jobs=20
+> > > > submissions (HW fence allocation) because as Christian explained=
+=20
+> > > > this leads to deadlock with mm code during evictions due to memory=
+=20
+> > > > pressure (Christian can clarify if I messed
+> > > Yeah that's the exact same thing I've chased with my dma_fence=20
+> > > annotations, but thus far zero to none interested in getting it=20
+> > > sorted. I think it'd be good to have some cross-driver agreement on=
+=20
+> > > how this should be solved before someone just charges ahead ...
+> > >=20
+> > > > this explanation). Second is to exactly revert this patch because=
+=20
+> > > > while it solved the issue described in the patch it created=20
+> > > > another with drivers who baildc out early during TDR handling for=
+=20
+> > > > various reason and the job would just leak because it was already=
+=20
+> > > > removed form pending list.
+> > > Can't we reinsert it before we restart the scheduler thread? It=20
+> > > might need a separate list for that due to the lockless queue=20
+> > > tricks. Or am I thinking about the wrong kind of "we lost the job"?
+> > > -Danile
+> >=20
+> >=20
+> > If you look at the original patch it would reinsert it even earlier -=
+=20
+> > right after stopping the=C2=A0 SW scheduler thread, and even then it wa=
+s to=20
+> > late for some drivers as they would decide to return back from their=
+=20
+> > TDR handler even before that. It is solvable but in an ugly way as far=
+=20
+> > as I see, you need to require each driver in his code to put the job=
+=20
+> > back in the list if they do it before reaching the place where=20
+> > scheduler framework does it. Kind of spaghetti code seems to me.
+>=20
+> Hm yeah I didn't realize this all happens before we stop the scheduler th=
+read.
+>=20
+> Why can't we stop the scheduler thread first, so that there's guaranteed =
+no race? I've recently had a lot of discussions with panfrost folks about t=
+heir reset that spawns across engines, and without stopping the scheduler t=
+hread first before you touch anything it's just plain impossible.
+>=20
+> I'm also still not understanding what exactly you guys have done, can som=
+eone please dig out the the amdgpu patches that motivate all this maybe tha=
+t's clearer? A full explanation would still be good since I've only started=
+ in scheduler stuff.
+>=20
+> Another thing I recently pondered for tdr races looking at i915 code is w=
+hether the tdr should first block the completion fence for that job. My mot=
+ivation is to have a race-free error capture (if the completion races then =
+we might start evicting memory and everything goes boom), but maybe that he=
+lps here too. Some kind of atomic "block this fence from completing thing.
+>=20
+> Or I'm I completely guessing in the wrong direction?
+> -Daniel
+>=20
+> >=20
+> > Andrey
+> >=20
+> >=20
+> > >=20
+> > > > Andrey
+> > > >=20
+> > > >=20
+> > > > >=20
+> > > > > > Andrey
+> > > > > >=20
+> > > > > >=20
+> > > > > > > >                    spin_unlock(&sched->job_list_lock);
+> > > > > > > >=20
+> > > > > > > >                    status =3D
+> > > > > > > > job->sched->ops->timedout_job(job);
+> > > > > > > > @@ -342,6 +342,7 @@ static void drm_sched_job_timedout(stru=
+ct work_struct *work)
+> > > > > > > >                            job->sched->ops->free_job(job);
+> > > > > > > >                            sched->free_guilty =3D false;
+> > > > > > > >                    }
+> > > > > > > > +               dma_fence_put(fence);
+> > > > > > > >            } else {
+> > > > > > > >                    spin_unlock(&sched->job_list_lock);
+> > > > > > > >            }
+> > > > > > > > @@ -392,20 +393,6 @@ void drm_sched_stop(struct=20
+> > > > > > > > drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+> > > > > > > >=20
+> > > > > > > >            kthread_park(sched->thread);
+> > > > > > > >=20
+> > > > > > > > -       /*
+> > > > > > > > -        * Reinsert back the bad job here - now it's safe a=
+s
+> > > > > > > > -        * drm_sched_get_cleanup_job cannot race against us=
+ and release the
+> > > > > > > > -        * bad job at this point - we parked (waited for) a=
+ny in progress
+> > > > > > > > -        * (earlier) cleanups and drm_sched_get_cleanup_job=
+ will not be called
+> > > > > > > > -        * now until the scheduler thread is unparked.
+> > > > > > > > -        */
+> > > > > > > > -       if (bad && bad->sched =3D=3D sched)
+> > > > > > > > -               /*
+> > > > > > > > -                * Add at the head of the queue to reflect =
+it was the earliest
+> > > > > > > > -                * job extracted.
+> > > > > > > > -                */
+> > > > > > > > -               list_add(&bad->list, &sched->pending_list);
+> > > > > > > > -
+> > > > > > > >            /*
+> > > > > > > >             * Iterate the job list from later to  earlier o=
+ne and either deactive
+> > > > > > > >             * their HW callbacks or remove them from=20
+> > > > > > > > pending list if they already
+> > > > > > > > --
+> > > > > > > > 2.25.1
+> > > > > > > >=20
+>=20
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog.f=
+fwll.ch%2F&amp;data=3D04%7C01%7Cmonk.liu%40amd.com%7C27fcce7ca8dd4f39608508=
+d962f40f33%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637649622657672189%=
+7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWw=
+iLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DJVZtg3AhbiA%2FDmVbNGo3MxVliO83nh8%2Fi50P=
+CMsvwyY%3D&amp;reserved=3D0
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
-fs/smb/client/cifsfs.c:982 cifs_smb3_do_mount() warn: possible memory leak of 'cifs_sb'
-fs/smb/client/cifssmb.c:4089 CIFSFindFirst() warn: missing error code? 'rc'
-fs/smb/client/cifssmb.c:4216 CIFSFindNext() warn: missing error code? 'rc'
-fs/smb/client/connect.c:2725 cifs_match_super() error: 'tlink' dereferencing possible ERR_PTR()
-fs/smb/client/connect.c:2924 generic_ip_connect() error: we previously assumed 'socket' could be null (see line 2912)
-fs/smb/server/oplock.c:1013 find_same_lease_key() warn: missing error code 'err'
-kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
-{standard input}:1118: Error: unrecognized symbol type ""
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- i386-allyesconfig
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-buildonly-randconfig-r004-20230608
-|   `-- include-drm-drm_print.h:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-i004-20230608
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-m021-20230608
-|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-|   |-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
-|-- i386-randconfig-m031-20230608
-|   |-- fs-smb-client-cifsfs.c-cifs_smb3_do_mount()-warn:possible-memory-leak-of-cifs_sb
-|   |-- fs-smb-client-cifssmb.c-CIFSFindFirst()-warn:missing-error-code-rc
-|   |-- fs-smb-client-cifssmb.c-CIFSFindNext()-warn:missing-error-code-rc
-|   |-- fs-smb-client-connect.c-cifs_match_super()-error:tlink-dereferencing-possible-ERR_PTR()
-|   |-- fs-smb-client-connect.c-generic_ip_connect()-error:we-previously-assumed-socket-could-be-null-(see-line-)
-|   `-- fs-smb-server-oplock.c-find_same_lease_key()-warn:missing-error-code-err
-|-- riscv-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- riscv-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- s390-randconfig-s041-20230608
-|   `-- ERROR:uv_info-drivers-s390-char-uvdevice.ko-undefined
-|-- sh-allmodconfig
-|   `-- standard-input:Error:unrecognized-symbol-type
-|-- sh-allyesconfig
-|   `-- standard-input:Error:unrecognized-symbol-type
-`-- x86_64-allyesconfig
-    `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
-
-elapsed time: 733m
-
-configs tested: 155
-configs skipped: 8
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r015-20230608   gcc  
-alpha                randconfig-r022-20230608   gcc  
-alpha                randconfig-r025-20230608   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r024-20230608   gcc  
-arc                  randconfig-r043-20230608   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm          buildonly-randconfig-r005-20230608   gcc  
-arm                                 defconfig   clang
-arm                                 defconfig   gcc  
-arm                      footbridge_defconfig   gcc  
-arm                  randconfig-r006-20230608   clang
-arm                  randconfig-r016-20230608   gcc  
-arm                  randconfig-r046-20230608   gcc  
-arm                         socfpga_defconfig   clang
-arm                        spear3xx_defconfig   clang
-arm                           u8500_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky         buildonly-randconfig-r004-20230608   gcc  
-csky                                defconfig   gcc  
-hexagon      buildonly-randconfig-r003-20230608   clang
-hexagon              randconfig-r041-20230608   clang
-hexagon              randconfig-r045-20230608   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230608   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230608   gcc  
-i386                 randconfig-i002-20230608   gcc  
-i386                 randconfig-i003-20230608   gcc  
-i386                 randconfig-i004-20230608   gcc  
-i386                 randconfig-i005-20230608   gcc  
-i386                 randconfig-i006-20230608   gcc  
-i386                 randconfig-i011-20230608   clang
-i386                 randconfig-i012-20230608   clang
-i386                 randconfig-i013-20230608   clang
-i386                 randconfig-i015-20230608   clang
-i386                 randconfig-i051-20230608   gcc  
-i386                 randconfig-i052-20230608   gcc  
-i386                 randconfig-i053-20230608   gcc  
-i386                 randconfig-i054-20230608   gcc  
-i386                 randconfig-i055-20230608   gcc  
-i386                 randconfig-i056-20230608   gcc  
-i386                 randconfig-i061-20230608   gcc  
-i386                 randconfig-i062-20230608   gcc  
-i386                 randconfig-i063-20230608   gcc  
-i386                 randconfig-i064-20230608   gcc  
-i386                 randconfig-i065-20230608   gcc  
-i386                 randconfig-i066-20230608   gcc  
-i386                 randconfig-r026-20230608   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch    buildonly-randconfig-r001-20230608   gcc  
-loongarch    buildonly-randconfig-r002-20230608   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r036-20230608   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k         buildonly-randconfig-r005-20230608   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r003-20230608   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze           randconfig-r015-20230608   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     cu1830-neo_defconfig   clang
-mips                      maltasmvp_defconfig   gcc  
-mips                  maltasmvp_eva_defconfig   gcc  
-mips                 randconfig-r004-20230608   clang
-mips                       rbtx49xx_defconfig   clang
-nios2        buildonly-randconfig-r002-20230608   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r012-20230608   gcc  
-nios2                randconfig-r032-20230608   gcc  
-openrisc             randconfig-r011-20230608   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r005-20230608   gcc  
-parisc               randconfig-r021-20230608   gcc  
-parisc64                            defconfig   gcc  
-powerpc                     akebono_defconfig   clang
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                 canyonlands_defconfig   gcc  
-powerpc                    ge_imp3a_defconfig   clang
-powerpc               mpc834x_itxgp_defconfig   clang
-powerpc                      ppc64e_defconfig   clang
-powerpc              randconfig-r013-20230608   clang
-powerpc                    socrates_defconfig   clang
-powerpc                     tqm8540_defconfig   clang
-powerpc                     tqm8541_defconfig   gcc  
-powerpc                     tqm8560_defconfig   clang
-powerpc                 xes_mpc85xx_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv        buildonly-randconfig-r006-20230608   clang
-riscv                               defconfig   gcc  
-riscv                randconfig-r014-20230608   clang
-riscv                randconfig-r023-20230608   clang
-riscv                randconfig-r042-20230608   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230608   clang
-sh                               allmodconfig   gcc  
-sh                               j2_defconfig   gcc  
-sparc                            alldefconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc        buildonly-randconfig-r003-20230608   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r016-20230608   gcc  
-sparc                randconfig-r035-20230608   gcc  
-sparc                       sparc64_defconfig   gcc  
-sparc64              randconfig-r013-20230608   gcc  
-sparc64              randconfig-r031-20230608   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230608   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230608   gcc  
-x86_64               randconfig-a002-20230608   gcc  
-x86_64               randconfig-a003-20230608   gcc  
-x86_64               randconfig-a004-20230608   gcc  
-x86_64               randconfig-a005-20230608   gcc  
-x86_64               randconfig-a006-20230608   gcc  
-x86_64               randconfig-a011-20230608   clang
-x86_64               randconfig-a012-20230608   clang
-x86_64               randconfig-a013-20230608   clang
-x86_64               randconfig-a014-20230608   clang
-x86_64               randconfig-a015-20230608   clang
-x86_64               randconfig-a016-20230608   clang
-x86_64               randconfig-r034-20230608   gcc  
-x86_64               randconfig-x051-20230608   clang
-x86_64               randconfig-x052-20230608   clang
-x86_64               randconfig-x053-20230608   clang
-x86_64               randconfig-x054-20230608   clang
-x86_64               randconfig-x055-20230608   clang
-x86_64               randconfig-x056-20230608   clang
-x86_64               randconfig-x061-20230608   clang
-x86_64               randconfig-x062-20230608   clang
-x86_64               randconfig-x063-20230608   clang
-x86_64               randconfig-x064-20230608   clang
-x86_64               randconfig-x065-20230608   clang
-x86_64               randconfig-x066-20230608   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa               randconfig-r033-20230608   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
