@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E6E7290BB
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 09:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A447285EC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 19:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2061E10E638;
-	Fri,  9 Jun 2023 07:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3108F10E5F2;
+	Thu,  8 Jun 2023 17:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE1A10E595
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 16:53:22 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1b01bd7093aso4866405ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 09:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686243201; x=1688835201;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hmEOm3Skn8Jl/sRC6hqqJWkitptFK5F761thwbnVCkg=;
- b=GMKbnLqsL5geLNR5cOZCiTdjuyxfWzHvfGafBhC+kba3a+PlVdEBNMxR1SvQdvqvJW
- jdDBmITkvqVSrjlK+P7FndWbWVpgvQGJFJ6VtPd1CgZmvTf14CgCHRw5PbfTb03/FqnG
- 4tACfiYkW/r2sQijuWXvhCSQThMzkuzSj8yWI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686243201; x=1688835201;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hmEOm3Skn8Jl/sRC6hqqJWkitptFK5F761thwbnVCkg=;
- b=IxP/7Y4i+Y6PEeeCpxUnXPvt9vhT0P8r1ek+I2T76a52HkLa5uOhkCtgIIyjOYKn08
- LFdcMTPvi3WXIdtIwWzkf8D+hntCVqXVv/ha5qoMRUXv00wWOZhrG+0YX3V9XFsNZ6hl
- d8d7TZshCrMcp3LwLU2X2PEHcO7dDrVQF7CTNWZG6tQO7MAS0zh0vA2+wpLQ7yfv1HAb
- BVWpTn0RKVvLqUCwFMcNKGJ637GG9nJqbvVzEQfQ/g5MBgmN1rSyY8Du8QOjAGfeVTc8
- jeYYJ5ZtptQg4zGx67c96ZJvs2hU3kpwwJBzOW+gyU86OkhH1Qc6yybj9EfNI9Fai/xa
- ltPQ==
-X-Gm-Message-State: AC+VfDzHDd6XN2W4nSPBAaJpKYhDrkOI5GW0OYzfoNzGomdVWNlzKQrj
- ARYwEJ7Q1OxkuRn8xnDaadVtzGwfJn6qyz2UL/vpbQ==
-X-Google-Smtp-Source: ACHHUZ7ZEQghoJBhudtAsux/EMc6EtqKf3hKja+21uh3G2o8oKLDbDNU81w0YZhg+T1kXmT32guzsw==
-X-Received: by 2002:a17:903:2584:b0:1ac:8cd4:a82d with SMTP id
- jb4-20020a170903258400b001ac8cd4a82dmr4951364plb.27.1686243201235; 
- Thu, 08 Jun 2023 09:53:21 -0700 (PDT)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com.
- [209.85.214.178]) by smtp.gmail.com with ESMTPSA id
- u7-20020a170902e80700b001b25e9a76f4sm1650354plg.274.2023.06.08.09.53.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jun 2023 09:53:20 -0700 (PDT)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1b025aaeddbso168705ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 09:53:20 -0700 (PDT)
-X-Received: by 2002:a05:6e02:18ca:b0:33b:68fb:ea0 with SMTP id
- s10-20020a056e0218ca00b0033b68fb0ea0mr145479ilu.26.1686242834959; Thu, 08 Jun
- 2023 09:47:14 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED4510E5EF;
+ Thu,  8 Jun 2023 17:02:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 92151619BA;
+ Thu,  8 Jun 2023 17:02:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64855C433D2;
+ Thu,  8 Jun 2023 17:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686243730;
+ bh=9FEDzsYIDwHxxh598m4E7BJ7qf89BOb1Zpn6HGMQj80=;
+ h=From:Date:Subject:To:Cc:From;
+ b=R+kZXTb8gy/Bh8WYcChU0kwjdd0rl+u8uPULWcdlyvgn6cAdl6rMJsmJuGKvBhnZg
+ COlLQz9zYTnxHm0OYGWGObXenwfQGeoI5RQt55mMLd5ApFPeOLpc6c0avGXvswyS8L
+ elYz9p5b5T408DOasKPyf3vVKlFHt3Wbz0N2m6h+lKEGtBpoaJD+d0bpqstWjGg+Qe
+ xOjMvYEoPpgz0ONT7ZROeQ8nSbVXbrVCmC5I/4aIRodpa1tSpD7Q/bBWVGqSW9cMTq
+ /JccQQZBOHBJR0cYxttqHJy/QZaqbc3sfEZpmEFj0umlinSRTMgITtxVgZOV3L4p7k
+ UJBHpyuIZ8Kig==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Thu, 08 Jun 2023 10:01:57 -0700
+Subject: [PATCH] drm/amdgpu: Wrap -Wunused-but-set-variable in cc-option
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
- <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
- <20230608162642.GA23400@pendragon.ideasonboard.com>
-In-Reply-To: <20230608162642.GA23400@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Jun 2023 09:47:02 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vwz9+jhZ94DvagVyAq=4TtWLMEVLRi8rTKaishoPQEfw@mail.gmail.com>
-Message-ID: <CAD=FV=Vwz9+jhZ94DvagVyAq=4TtWLMEVLRi8rTKaishoPQEfw@mail.gmail.com>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning
- void
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 09 Jun 2023 07:16:27 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-v1-1-48ca005f2247@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIQJgmQC/x2OQQrDIBBFrxJcd8AaUmyvUroYdZoIjZEZTQohd
+ 6/p8vH4j78rIY4k6tHtimmNEpfU4HrplJ8wjQQxNFZGm17ftAWcw5grbIwZtpqqUABXCwgVWJE
+ juk/bJPAellxaDbSj+2As+sFb1boOhcAxJj+d5RmlEJ8iM73j93/m+TqOHz1XAlacAAAA
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1626; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=9FEDzsYIDwHxxh598m4E7BJ7qf89BOb1Zpn6HGMQj80=;
+ b=owGbwMvMwCEmm602sfCA1DTG02pJDClNnBODSgTuzrSIzb451SfT0JRjDevszKBrl/7wufQc7
+ gmz8VLtKGVhEONgkBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABPhTmH4X7DlpoX8uq47GbfP
+ cBeybVq/Maz9wwm3ldt2PGDUTLe6vJThf8jORH9pvx9//BTN70yTVbG8khGxSCWfr9fM+aVHueh
+ XBgA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,105 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>,
- NXP Linux Team <linux-imx@nxp.com>, Miaoqian Lin <linmq006@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-sunxi@lists.linux.dev, Rahul T R <r-ravikumar@ti.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- etnaviv@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
- Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
- lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
- Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
- Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Alain Volmat <alain.volmat@foss.st.com>, Liu Ying <victor.liu@nxp.com>,
- linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Yuan Can <yuancan@huawei.com>, Michal Simek <michal.simek@xilinx.com>,
- linux-tegra@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
- nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Guo Zhengkui <guozhengkui@vivo.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Liu Shixin <liushixin2@huawei.com>, Tomi Valkeinen <tomba@kernel.org>,
- Deepak R Varma <drv@mailo.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilicon.com>,
- Shawn Guo <shawnguo@kernel.org>, Yannick Fertre <yannick.fertre@foss.st.com>,
- linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>,
- linux-renesas-soc@vger.kernel.org, Yongqin Liu <yongqin.liu@linaro.org>,
- Jayshri Pawar <jpawar@cadence.com>, Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>,
- linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: amd-gfx@lists.freedesktop.org, trix@redhat.com, llvm@lists.linux.dev,
+ ndesaulniers@google.com, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ hamza.mahfooz@amd.com, Kenny.Ho@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+-Wunused-but-set-variable was only supported in clang starting with
+13.0.0, so earlier versions will emit a warning, which is turned into a
+hard error for the kernel to mirror GCC:
 
-On Thu, Jun 8, 2023 at 9:26=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> > The following ones appeared to apply to the top of drm-misc-next, but
-> > I didn't apply them since get_maintainer didn't say they were part of
-> > drm-misc-next:
-> >
-> > drm/tiny: Convert to platform remove callback returning void
-> > drm/tilcdc: Convert to platform remove callback returning void
-> > drm/sprd: Convert to platform remove callback returning void
-> > drm/shmobile: Convert to platform remove callback returning void
-> > drm/rcar-du: Convert to platform remove callback returning void
->
-> If you don't mind, could you take the rcar-du patch through drm-misc too
-> ? I don't plan to send another pull request for v6.5.
+  error: unknown warning option '-Wunused-but-set-variable'; did you mean '-Wunused-const-variable'? [-Werror,-Wunknown-warning-option]
 
-Done.
+The minimum supported version of clang for building the kernel is
+11.0.0, so match the rest of the kernel and wrap
+-Wunused-but-set-variable in a cc-option call, so that it is only used
+when supported by the compiler.
 
-2510a2579324 drm/rcar-du: Convert to platform remove callback returning voi=
-d
+Closes: https://github.com/ClangBuiltLinux/linux/issues/1869
+Fixes: a0fd5a5f676c ("drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+index 7ee68b1bbfed..86b833085f19 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Makefile
++++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+@@ -40,7 +40,7 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+ 	-I$(FULL_AMD_PATH)/amdkfd
+ 
+ subdir-ccflags-y := -Wextra
+-subdir-ccflags-y += -Wunused-but-set-variable
++subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+ subdir-ccflags-y += -Wno-unused-parameter
+ subdir-ccflags-y += -Wno-type-limits
+ subdir-ccflags-y += -Wno-sign-compare
+
+---
+base-commit: 6bd4b01e8938779b0d959bdf33949a9aa258a363
+change-id: 20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-0be9528ac5c8
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
