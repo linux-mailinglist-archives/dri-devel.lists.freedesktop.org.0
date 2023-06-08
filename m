@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE208728182
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 15:39:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC79728184
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 15:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFB3F10E5BC;
-	Thu,  8 Jun 2023 13:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84AA610E5C0;
+	Thu,  8 Jun 2023 13:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87AEA10E5B5
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 13:38:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15F310E5BF
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 13:38:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EE69F615C6;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A20AD615C6;
+ Thu,  8 Jun 2023 13:38:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1D63C433D2;
  Thu,  8 Jun 2023 13:38:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77892C4339B;
- Thu,  8 Jun 2023 13:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686231536;
- bh=mOlbTkDwyB+4/Q/+Yy1kHQOljI7tE3g8StidJZ/Wurc=;
+ s=k20201202; t=1686231538;
+ bh=Zh7dsC1p59y4TVBlWYm5MyJz+pqp1ATBMFp5GEAmMQE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uCxHByDgGE05DMg4lS5f+OyK/rRf9XxC2r1AOn/O6GBKmcxmKPHkGSb43yI5PXfHq
- bw1Rg2Ckd2YTkeA4hob8ZF5GLA1sVqqer3eu7beyIk/JXpfey1ajd3MnpfDeBq2wWD
- w4FlfW685UohaC83YyGYtdUFEwYst5xoOHNryRBZ5/j1nFoP6vnKPY9SRWPZu20P9S
- nFabVp3+ejd5WiTpz2d85UXo/v44liHH1mHQWDDp2IkWkwYSc0lTJ0NWn+mJ0pjD0p
- zW6+b0MQUvfqIVXy6KnTHXigCJTppK1X0BoZoR5BcXE+/Y4RSEWrEJuuVvLlt79Oz+
- IZCftGewE00Vg==
+ b=hSfIwzCvaay9Sls28FqQKs02jwhyN6WQNX0i04oWwFBLGaJG8De5qv9jlFbe+vS7D
+ LbEn8tbzbfWg2LHb4C6OQzamsPQP5+AmYNaIxALehqxve3JFWDcmv09GEU5znWNtel
+ K8QOd/ucVzFhqDeWdIEYDMoTm328qPsCSQqVDlql9Wrb/pb3W6wcxFQm3nqU8f9XWH
+ 80ORwWi1dPmKppf8xfSKt3BBoV9hUathe+zKnm3S46CDU9NSM4sdGpWKZtYjsRULBU
+ 3GevU5rkxWeRMfPPq5Ba2Tue+4u3aV8w7OB69jZfd0n1eTtz0T+sSGvenzx5xK8cSk
+ Dp/A+d3d7tN3Q==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/12] accel/habanalabs: update pending reset flags with new
- reset requests
-Date: Thu,  8 Jun 2023 16:38:39 +0300
-Message-Id: <20230608133849.2739411-2-ogabbay@kernel.org>
+Subject: [PATCH 03/12] accel/habanalabs: notify user about undefined opcode
+ event
+Date: Thu,  8 Jun 2023 16:38:40 +0300
+Message-Id: <20230608133849.2739411-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230608133849.2739411-1-ogabbay@kernel.org>
 References: <20230608133849.2739411-1-ogabbay@kernel.org>
@@ -53,44 +52,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-If hl_device_cond_reset() is called while a reset is already pending but
-hasn't started, the reset request will be dropped.
-If the flags of the new request are more severe, e.g. a hard reset while
-the pending reset is a compute reset, the eventual reset won't be
-suitable for the device status.
+In order for user to be aware of undefined opcode events, we must
+store all relevant information and notify user about the failure.
+The user will fetch the stored info via info ioctl.
 
-To prevent such cases, update the pending reset flags with the new
-requests flags before the requests are dropped.
-
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/device.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 142 ++++++++++++++++++++++-
+ 1 file changed, 137 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 1e61e79c42e5..993305871292 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -1937,8 +1937,10 @@ int hl_device_cond_reset(struct hl_device *hdev, u32 flags, u64 event_mask)
- 		goto device_reset;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 20c4583f12b0..ed3b0b6225d2 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -993,6 +993,111 @@ gaudi2_pcie_addr_dec_error_cause[GAUDI2_NUM_OF_PCIE_ADDR_DEC_ERR_CAUSE] = {
+ 	"TLP is blocked by RR"
+ };
+ 
++static const int gaudi2_queue_id_to_engine_id[] = {
++	[GAUDI2_QUEUE_ID_PDMA_0_0...GAUDI2_QUEUE_ID_PDMA_0_3] = GAUDI2_ENGINE_ID_PDMA_0,
++	[GAUDI2_QUEUE_ID_PDMA_1_0...GAUDI2_QUEUE_ID_PDMA_1_3] = GAUDI2_ENGINE_ID_PDMA_1,
++	[GAUDI2_QUEUE_ID_DCORE0_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE0_EDMA_0_3] =
++							GAUDI2_DCORE0_ENGINE_ID_EDMA_0,
++	[GAUDI2_QUEUE_ID_DCORE0_EDMA_1_0...GAUDI2_QUEUE_ID_DCORE0_EDMA_1_3] =
++							GAUDI2_DCORE0_ENGINE_ID_EDMA_1,
++	[GAUDI2_QUEUE_ID_DCORE1_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE1_EDMA_0_3] =
++							GAUDI2_DCORE1_ENGINE_ID_EDMA_0,
++	[GAUDI2_QUEUE_ID_DCORE1_EDMA_1_0...GAUDI2_QUEUE_ID_DCORE1_EDMA_1_3] =
++							GAUDI2_DCORE1_ENGINE_ID_EDMA_1,
++	[GAUDI2_QUEUE_ID_DCORE2_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE2_EDMA_0_3] =
++							GAUDI2_DCORE2_ENGINE_ID_EDMA_0,
++	[GAUDI2_QUEUE_ID_DCORE2_EDMA_1_0...GAUDI2_QUEUE_ID_DCORE2_EDMA_1_3] =
++							GAUDI2_DCORE2_ENGINE_ID_EDMA_1,
++	[GAUDI2_QUEUE_ID_DCORE3_EDMA_0_0...GAUDI2_QUEUE_ID_DCORE3_EDMA_0_3] =
++							GAUDI2_DCORE3_ENGINE_ID_EDMA_0,
++	[GAUDI2_QUEUE_ID_DCORE3_EDMA_1_0...GAUDI2_QUEUE_ID_DCORE3_EDMA_1_3] =
++							GAUDI2_DCORE3_ENGINE_ID_EDMA_1,
++	[GAUDI2_QUEUE_ID_DCORE0_MME_0_0...GAUDI2_QUEUE_ID_DCORE0_MME_0_3] =
++							GAUDI2_DCORE0_ENGINE_ID_MME,
++	[GAUDI2_QUEUE_ID_DCORE1_MME_0_0...GAUDI2_QUEUE_ID_DCORE1_MME_0_3] =
++							GAUDI2_DCORE1_ENGINE_ID_MME,
++	[GAUDI2_QUEUE_ID_DCORE2_MME_0_0...GAUDI2_QUEUE_ID_DCORE2_MME_0_3] =
++							GAUDI2_DCORE2_ENGINE_ID_MME,
++	[GAUDI2_QUEUE_ID_DCORE3_MME_0_0...GAUDI2_QUEUE_ID_DCORE3_MME_0_3] =
++							GAUDI2_DCORE3_ENGINE_ID_MME,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_0_0...GAUDI2_QUEUE_ID_DCORE0_TPC_0_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_0,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_1_0...GAUDI2_QUEUE_ID_DCORE0_TPC_1_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_1,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_2_0...GAUDI2_QUEUE_ID_DCORE0_TPC_2_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_2,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_3_0...GAUDI2_QUEUE_ID_DCORE0_TPC_3_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_3,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_4_0...GAUDI2_QUEUE_ID_DCORE0_TPC_4_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_4,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_5_0...GAUDI2_QUEUE_ID_DCORE0_TPC_5_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_5,
++	[GAUDI2_QUEUE_ID_DCORE0_TPC_6_0...GAUDI2_QUEUE_ID_DCORE0_TPC_6_3] =
++							GAUDI2_DCORE0_ENGINE_ID_TPC_6,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_0_0...GAUDI2_QUEUE_ID_DCORE1_TPC_0_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_0,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_1_0...GAUDI2_QUEUE_ID_DCORE1_TPC_1_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_1,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_2_0...GAUDI2_QUEUE_ID_DCORE1_TPC_2_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_2,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_3_0...GAUDI2_QUEUE_ID_DCORE1_TPC_3_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_3,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_4_0...GAUDI2_QUEUE_ID_DCORE1_TPC_4_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_4,
++	[GAUDI2_QUEUE_ID_DCORE1_TPC_5_0...GAUDI2_QUEUE_ID_DCORE1_TPC_5_3] =
++							GAUDI2_DCORE1_ENGINE_ID_TPC_5,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_0_0...GAUDI2_QUEUE_ID_DCORE2_TPC_0_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_0,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_1_0...GAUDI2_QUEUE_ID_DCORE2_TPC_1_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_1,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_2_0...GAUDI2_QUEUE_ID_DCORE2_TPC_2_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_2,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_3_0...GAUDI2_QUEUE_ID_DCORE2_TPC_3_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_3,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_4_0...GAUDI2_QUEUE_ID_DCORE2_TPC_4_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_4,
++	[GAUDI2_QUEUE_ID_DCORE2_TPC_5_0...GAUDI2_QUEUE_ID_DCORE2_TPC_5_3] =
++							GAUDI2_DCORE2_ENGINE_ID_TPC_5,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_0_0...GAUDI2_QUEUE_ID_DCORE3_TPC_0_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_0,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_1_0...GAUDI2_QUEUE_ID_DCORE3_TPC_1_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_1,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_2_0...GAUDI2_QUEUE_ID_DCORE3_TPC_2_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_2,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_3_0...GAUDI2_QUEUE_ID_DCORE3_TPC_3_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_3,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_4_0...GAUDI2_QUEUE_ID_DCORE3_TPC_4_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_4,
++	[GAUDI2_QUEUE_ID_DCORE3_TPC_5_0...GAUDI2_QUEUE_ID_DCORE3_TPC_5_3] =
++							GAUDI2_DCORE3_ENGINE_ID_TPC_5,
++	[GAUDI2_QUEUE_ID_NIC_0_0...GAUDI2_QUEUE_ID_NIC_0_3] = GAUDI2_ENGINE_ID_NIC0_0,
++	[GAUDI2_QUEUE_ID_NIC_1_0...GAUDI2_QUEUE_ID_NIC_1_3] = GAUDI2_ENGINE_ID_NIC0_1,
++	[GAUDI2_QUEUE_ID_NIC_2_0...GAUDI2_QUEUE_ID_NIC_2_3] = GAUDI2_ENGINE_ID_NIC1_0,
++	[GAUDI2_QUEUE_ID_NIC_3_0...GAUDI2_QUEUE_ID_NIC_3_3] = GAUDI2_ENGINE_ID_NIC1_1,
++	[GAUDI2_QUEUE_ID_NIC_4_0...GAUDI2_QUEUE_ID_NIC_4_3] = GAUDI2_ENGINE_ID_NIC2_0,
++	[GAUDI2_QUEUE_ID_NIC_5_0...GAUDI2_QUEUE_ID_NIC_5_3] = GAUDI2_ENGINE_ID_NIC2_1,
++	[GAUDI2_QUEUE_ID_NIC_6_0...GAUDI2_QUEUE_ID_NIC_6_3] = GAUDI2_ENGINE_ID_NIC3_0,
++	[GAUDI2_QUEUE_ID_NIC_7_0...GAUDI2_QUEUE_ID_NIC_7_3] = GAUDI2_ENGINE_ID_NIC3_1,
++	[GAUDI2_QUEUE_ID_NIC_8_0...GAUDI2_QUEUE_ID_NIC_8_3] = GAUDI2_ENGINE_ID_NIC4_0,
++	[GAUDI2_QUEUE_ID_NIC_9_0...GAUDI2_QUEUE_ID_NIC_9_3] = GAUDI2_ENGINE_ID_NIC4_1,
++	[GAUDI2_QUEUE_ID_NIC_10_0...GAUDI2_QUEUE_ID_NIC_10_3] = GAUDI2_ENGINE_ID_NIC5_0,
++	[GAUDI2_QUEUE_ID_NIC_11_0...GAUDI2_QUEUE_ID_NIC_11_3] = GAUDI2_ENGINE_ID_NIC5_1,
++	[GAUDI2_QUEUE_ID_NIC_12_0...GAUDI2_QUEUE_ID_NIC_12_3] = GAUDI2_ENGINE_ID_NIC6_0,
++	[GAUDI2_QUEUE_ID_NIC_13_0...GAUDI2_QUEUE_ID_NIC_13_3] = GAUDI2_ENGINE_ID_NIC6_1,
++	[GAUDI2_QUEUE_ID_NIC_14_0...GAUDI2_QUEUE_ID_NIC_14_3] = GAUDI2_ENGINE_ID_NIC7_0,
++	[GAUDI2_QUEUE_ID_NIC_15_0...GAUDI2_QUEUE_ID_NIC_15_3] = GAUDI2_ENGINE_ID_NIC7_1,
++	[GAUDI2_QUEUE_ID_NIC_16_0...GAUDI2_QUEUE_ID_NIC_16_3] = GAUDI2_ENGINE_ID_NIC8_0,
++	[GAUDI2_QUEUE_ID_NIC_17_0...GAUDI2_QUEUE_ID_NIC_17_3] = GAUDI2_ENGINE_ID_NIC8_1,
++	[GAUDI2_QUEUE_ID_NIC_18_0...GAUDI2_QUEUE_ID_NIC_18_3] = GAUDI2_ENGINE_ID_NIC9_0,
++	[GAUDI2_QUEUE_ID_NIC_19_0...GAUDI2_QUEUE_ID_NIC_19_3] = GAUDI2_ENGINE_ID_NIC9_1,
++	[GAUDI2_QUEUE_ID_NIC_20_0...GAUDI2_QUEUE_ID_NIC_20_3] = GAUDI2_ENGINE_ID_NIC10_0,
++	[GAUDI2_QUEUE_ID_NIC_21_0...GAUDI2_QUEUE_ID_NIC_21_3] = GAUDI2_ENGINE_ID_NIC10_1,
++	[GAUDI2_QUEUE_ID_NIC_22_0...GAUDI2_QUEUE_ID_NIC_22_3] = GAUDI2_ENGINE_ID_NIC11_0,
++	[GAUDI2_QUEUE_ID_NIC_23_0...GAUDI2_QUEUE_ID_NIC_23_3] = GAUDI2_ENGINE_ID_NIC11_1,
++	[GAUDI2_QUEUE_ID_ROT_0_0...GAUDI2_QUEUE_ID_ROT_0_3] = GAUDI2_ENGINE_ID_ROT_0,
++	[GAUDI2_QUEUE_ID_ROT_1_0...GAUDI2_QUEUE_ID_ROT_1_3] = GAUDI2_ENGINE_ID_ROT_1,
++};
++
+ const u32 gaudi2_qm_blocks_bases[GAUDI2_QUEUE_ID_SIZE] = {
+ 	[GAUDI2_QUEUE_ID_PDMA_0_0] = mmPDMA0_QM_BASE,
+ 	[GAUDI2_QUEUE_ID_PDMA_0_1] = mmPDMA0_QM_BASE,
+@@ -7753,7 +7858,7 @@ static bool gaudi2_handle_ecc_event(struct hl_device *hdev, u16 event_type,
+ 	return !!ecc_data->is_critical;
+ }
+ 
+-static void print_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base)
++static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base, u64 event_mask)
+ {
+ 	u32 lo, hi, cq_ptr_size, arc_cq_ptr_size;
+ 	u64 cq_ptr, arc_cq_ptr, cp_current_inst;
+@@ -7775,10 +7880,22 @@ static void print_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base)
+ 	dev_info(hdev->dev,
+ 		"LowerQM. CQ: {ptr %#llx, size %u}, ARC_CQ: {ptr %#llx, size %u}, CP: {instruction %#llx}\n",
+ 		cq_ptr, cq_ptr_size, arc_cq_ptr, arc_cq_ptr_size, cp_current_inst);
++
++	if (event_mask & HL_NOTIFIER_EVENT_UNDEFINED_OPCODE) {
++		if (arc_cq_ptr) {
++			hdev->captured_err_info.undef_opcode.cq_addr = arc_cq_ptr;
++			hdev->captured_err_info.undef_opcode.cq_size = arc_cq_ptr_size;
++		} else {
++			hdev->captured_err_info.undef_opcode.cq_addr = cq_ptr;
++			hdev->captured_err_info.undef_opcode.cq_size = cq_ptr_size;
++		}
++
++		hdev->captured_err_info.undef_opcode.stream_id = QMAN_STREAMS;
++	}
+ }
+ 
+ static int gaudi2_handle_qman_err_generic(struct hl_device *hdev, u16 event_type,
+-							u64 qman_base, u32 qid_base)
++						u64 qman_base, u32 qid_base, u64 *event_mask)
+ {
+ 	u32 i, j, glbl_sts_val, arb_err_val, num_error_causes, error_count = 0;
+ 	u64 glbl_sts_addr, arb_err_addr;
+@@ -7812,8 +7929,22 @@ static int gaudi2_handle_qman_err_generic(struct hl_device *hdev, u16 event_type
+ 				error_count++;
+ 			}
+ 
+-		if (i == QMAN_STREAMS)
+-			print_lower_qman_data_on_err(hdev, qman_base);
++		if (i == QMAN_STREAMS && error_count) {
++			/* check for undefined opcode */
++			if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK &&
++					hdev->captured_err_info.undef_opcode.write_enable) {
++				memset(&hdev->captured_err_info.undef_opcode, 0,
++						sizeof(hdev->captured_err_info.undef_opcode));
++
++				hdev->captured_err_info.undef_opcode.write_enable = false;
++				hdev->captured_err_info.undef_opcode.timestamp = ktime_get();
++				hdev->captured_err_info.undef_opcode.engine_id =
++							gaudi2_queue_id_to_engine_id[qid_base];
++				*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
++			}
++
++			handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
++		}
  	}
  
--	if (hdev->reset_info.watchdog_active)
-+	if (hdev->reset_info.watchdog_active) {
-+		hdev->device_release_watchdog_work.flags |= flags;
- 		goto out;
-+	}
+ 	arb_err_val = RREG32(arb_err_addr);
+@@ -8475,7 +8606,8 @@ static int gaudi2_handle_qman_err(struct hl_device *hdev, u16 event_type, u64 *e
+ 		return 0;
+ 	}
  
- 	hdev->device_release_watchdog_work.flags = flags;
- 	dev_dbg(hdev->dev, "Device is going to be hard-reset in %u sec unless being released\n",
+-	error_count = gaudi2_handle_qman_err_generic(hdev, event_type, qman_base, qid_base);
++	error_count = gaudi2_handle_qman_err_generic(hdev, event_type, qman_base,
++								qid_base, event_mask);
+ 
+ 	/* Handle EDMA QM SEI here because there is no AXI error response event for EDMA */
+ 	if (event_type >= GAUDI2_EVENT_HDMA2_QM && event_type <= GAUDI2_EVENT_HDMA5_QM) {
 -- 
 2.40.1
 
