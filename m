@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029907287C0
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 21:12:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6A172881E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 21:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7053A10E60E;
-	Thu,  8 Jun 2023 19:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B03F10E615;
+	Thu,  8 Jun 2023 19:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5F310E112;
- Thu,  8 Jun 2023 19:12:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE1010E60C;
+ Thu,  8 Jun 2023 19:19:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1D414603F6;
- Thu,  8 Jun 2023 19:12:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29690C433D2;
- Thu,  8 Jun 2023 19:12:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7A33B65086;
+ Thu,  8 Jun 2023 19:19:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92FB1C433EF;
+ Thu,  8 Jun 2023 19:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686251543;
- bh=BjGgyC3wTO33c1Tdxatub3Rc/d6F/CPXBfd8u1gAIrU=;
+ s=k20201202; t=1686251965;
+ bh=mLOUm1pw4C1bDmEn+GaVOq6LXGOEbnXZs3/jiHFU1DM=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=T+IHeID0iP9vHKnUCZWCJZGQQf3diXJ9+HZsVX4IN+ITJMvEmanSAYv3Yzh8azF0B
- DwTD2hES7OI5X32J985zgUykL/VJC17J9RWkJQocx9kBsAVQUtN7/9qJ1fWYGoetMd
- eBQKXEF35moYax03HHpcg4x4OoiW4apuLCA/DkwSUiABGP3VEVW+25hBWARBeaZRfn
- BiZiRj0VAURoBIfb2OJNL2jBuXv0ll/9QSOt0PcLm9QxuSuC8Mpy9D+ED/455Mv1+8
- xPYuNx2pM23hBbcf1UJIzRvvqqOOaawENsKWeMQoiXDErRHJ6Na0/r3eSuqIymPzgT
- jsqdCdkGNLeqg==
-Date: Thu, 8 Jun 2023 14:12:21 -0500
+ b=q/EIiaYKROJXw5aWMOmXQm05vasG29mD1HvxujqhVsHhdELsZmFIs0ClxmC7WiAX7
+ pEDhavxGKH9JK9OGkfCuDp2amYp/WOg5Y2LrhU9MZlXZ4/xE1HV1bRlxnKcomcsWkR
+ 4+GMU4SgGL7XXun73X7WHdOTucn8cTm3mfXWanYzj/XFv1W3VkrMwp7zrRhjdRhDMH
+ eijuUshcLlTMkzqIO6AJlUN8M0rj5t6WiZxBWvhs5IpoMI2a8fcjs2lXu+3ZDTLq/b
+ H/mneTO9NcemhZa9tKZIBF6eU2gmVXxy9Y7gPiurzDIX7f5m7Ii+QJJ1K1TBvZu+/w
+ Sr+ngLYBLaBsA==
+Date: Thu, 8 Jun 2023 14:19:24 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [Intel-gfx] [PATCH v3 3/4] PCI/VGA: only deal with VGA class
- devices
-Message-ID: <20230608191221.GA1209912@bhelgaas>
+Subject: Re: [Intel-gfx] [PATCH v3 4/4] PCI/VGA: introduce is_boot_device
+ function callback to vga_client_register
+Message-ID: <20230608191924.GA1210122@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608114322.604887-4-15330273260@189.cn>
+In-Reply-To: <20230608114322.604887-5-15330273260@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,94 +76,219 @@ Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Start with verb and capitalize to match ("Deal only with ...")
-
-On Thu, Jun 08, 2023 at 07:43:21PM +0800, Sui Jingfeng wrote:
+On Thu, Jun 08, 2023 at 07:43:22PM +0800, Sui Jingfeng wrote:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
 > 
-> vgaarb only deal with the VGA devcie(pdev->class == 0x0300), so replace the
-> pci_get_subsys() function with pci_get_class(). Filter the non pci display
-> device out. There no need to process the non display PCI device.
+> The vga_is_firmware_default() function is arch-dependent, which doesn't
+> sound right. At least, it also works on the Mips and LoongArch platforms.
+> Tested with the drm/amdgpu and drm/radeon drivers. However, it's difficult
+> to enumerate all arch-driver combinations. I'm wrong if there is only one
+> exception.
+> 
+> With the observation that device drivers typically have better knowledge
+> about which PCI bar contains the firmware framebuffer, which could avoid
+> the need to iterate all of the PCI BARs.
+> 
+> But as a PCI function at pci/vgaarb.c, vga_is_firmware_default() is
+> probably not suitable to make such an optimization for a specific device.
+> 
+> There are PCI display controllers that don't have a dedicated VRAM bar,
+> this function will lose its effectiveness in such a case. Luckily, the
+> device driver can provide an accurate workaround.
+> 
+> Therefore, this patch introduces a callback that allows the device driver
+> to tell the VGAARB if the device is the default boot device. This patch
+> only intends to introduce the mechanism, while the implementation is left
+> to the device driver authors. Also honor the comment: "Clients have two
+> callback mechanisms they can use"
 
-s/non pci/non-PCI/
-s/non display/non-display/
+s/bar/BAR/ (several)
 
-This is fine, and I'll merge this, but someday I would like to get rid
-of the bus_register_notifier() and call vga_arbiter_add_pci_device()
-and vga_arbiter_del_pci_device() directly from the PCI core.
+Nothing here uses the callback.  I don't want to merge this until we
+have a user.
 
-Or if you wanted to do that now, that would be even better :)
-
-Bjorn
+I'm not sure why the device driver should know whether its device is
+the default boot device.
 
 > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 > ---
->  drivers/pci/vgaarb.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 +-
+>  drivers/gpu/drm/i915/display/intel_vga.c   |  3 +--
+>  drivers/gpu/drm/nouveau/nouveau_vga.c      |  2 +-
+>  drivers/gpu/drm/radeon/radeon_device.c     |  2 +-
+>  drivers/pci/vgaarb.c                       | 22 ++++++++++++++++++----
+>  drivers/vfio/pci/vfio_pci_core.c           |  2 +-
+>  include/linux/vgaarb.h                     |  8 +++++---
+>  7 files changed, 28 insertions(+), 13 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 5c7d40873ee2..7a096f2d5c16 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3960,7 +3960,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>  	/* this will fail for cards that aren't VGA class devices, just
+>  	 * ignore it */
+>  	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+> -		vga_client_register(adev->pdev, amdgpu_device_vga_set_decode);
+> +		vga_client_register(adev->pdev, amdgpu_device_vga_set_decode, NULL);
+>  
+>  	px = amdgpu_device_supports_px(ddev);
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+> index 286a0bdd28c6..98d7d4dffe9f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vga.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
+> @@ -115,7 +115,6 @@ intel_vga_set_decode(struct pci_dev *pdev, bool enable_decode)
+>  
+>  int intel_vga_register(struct drm_i915_private *i915)
+>  {
+> -
+>  	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  	int ret;
+>  
+> @@ -127,7 +126,7 @@ int intel_vga_register(struct drm_i915_private *i915)
+>  	 * then we do not take part in VGA arbitration and the
+>  	 * vga_client_register() fails with -ENODEV.
+>  	 */
+> -	ret = vga_client_register(pdev, intel_vga_set_decode);
+> +	ret = vga_client_register(pdev, intel_vga_set_decode, NULL);
+>  	if (ret && ret != -ENODEV)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> index f8bf0ec26844..162b4f4676c7 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
+> @@ -92,7 +92,7 @@ nouveau_vga_init(struct nouveau_drm *drm)
+>  		return;
+>  	pdev = to_pci_dev(dev->dev);
+>  
+> -	vga_client_register(pdev, nouveau_vga_set_decode);
+> +	vga_client_register(pdev, nouveau_vga_set_decode, NULL);
+>  
+>  	/* don't register Thunderbolt eGPU with vga_switcheroo */
+>  	if (pci_is_thunderbolt_attached(pdev))
+> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+> index afbb3a80c0c6..71f2ff39d6a1 100644
+> --- a/drivers/gpu/drm/radeon/radeon_device.c
+> +++ b/drivers/gpu/drm/radeon/radeon_device.c
+> @@ -1425,7 +1425,7 @@ int radeon_device_init(struct radeon_device *rdev,
+>  	/* if we have > 1 VGA cards, then disable the radeon VGA resources */
+>  	/* this will fail for cards that aren't VGA class devices, just
+>  	 * ignore it */
+> -	vga_client_register(rdev->pdev, radeon_vga_set_decode);
+> +	vga_client_register(rdev->pdev, radeon_vga_set_decode, NULL);
+>  
+>  	if (rdev->flags & RADEON_IS_PX)
+>  		runtime = true;
 > diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 7f0347f4f6fd..b0bf4952a95d 100644
+> index b0bf4952a95d..d3dab61e0ef2 100644
 > --- a/drivers/pci/vgaarb.c
 > +++ b/drivers/pci/vgaarb.c
-> @@ -756,10 +756,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
->  	struct pci_dev *bridge;
->  	u16 cmd;
+> @@ -53,6 +53,7 @@ struct vga_device {
+>  	bool bridge_has_one_vga;
+>  	bool is_firmware_default;	/* device selected by firmware */
+>  	unsigned int (*set_decode)(struct pci_dev *pdev, bool decode);
+> +	bool (*is_boot_device)(struct pci_dev *pdev);
+>  };
 >  
-> -	/* Only deal with VGA class devices */
-> -	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-> -		return false;
-> -
->  	/* Allocate structure */
->  	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
->  	if (vgadev == NULL) {
-> @@ -1499,7 +1495,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->  	struct pci_dev *pdev = to_pci_dev(dev);
->  	bool notify = false;
+>  static LIST_HEAD(vga_list);
+> @@ -614,10 +615,17 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+>  	if (boot_vga && boot_vga->is_firmware_default)
+>  		return false;
 >  
-> -	vgaarb_dbg(dev, "%s\n", __func__);
-> +	/* Only deal with VGA class devices */
-> +	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-> +		return 0;
->  
->  	/* For now we're only intereted in devices added and removed. I didn't
->  	 * test this thing here, so someone needs to double check for the
-> @@ -1509,6 +1507,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->  	else if (action == BUS_NOTIFY_DEL_DEVICE)
->  		notify = vga_arbiter_del_pci_device(pdev);
->  
-> +	vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+> -	if (vga_is_firmware_default(pdev)) {
+> -		vgadev->is_firmware_default = true;
+> +	/*
+> +	 * Ask the device driver first, if registered. Fallback to the
+> +	 * default implement if the callback is non-exist.
+> +	 */
+> +	if (vgadev->is_boot_device)
+> +		vgadev->is_firmware_default = vgadev->is_boot_device(pdev);
+> +	else
+> +		vgadev->is_firmware_default = vga_is_firmware_default(pdev);
 > +
->  	if (notify)
->  		vga_arbiter_notify_clients();
->  	return 0;
-> @@ -1533,8 +1533,8 @@ static struct miscdevice vga_arb_device = {
+> +	if (vgadev->is_firmware_default)
+>  		return true;
+> -	}
 >  
->  static int __init vga_arb_device_init(void)
+>  	/*
+>  	 * A legacy VGA device has MEM and IO enabled and any bridges
+> @@ -954,6 +962,10 @@ EXPORT_SYMBOL(vga_set_legacy_decoding);
+>   * @set_decode callback: If a client can disable its GPU VGA resource, it
+>   * will get a callback from this to set the encode/decode state.
+>   *
+> + * @is_boot_device: callback to the device driver, query if a client is the
+> + * default boot device, as the device driver typically has better knowledge
+> + * if specific device is the boot device. But this callback is optional.
+> + *
+>   * Rationale: we cannot disable VGA decode resources unconditionally, some
+>   * single GPU laptops seem to require ACPI or BIOS access to the VGA registers
+>   * to control things like backlights etc. Hopefully newer multi-GPU laptops do
+> @@ -969,7 +981,8 @@ EXPORT_SYMBOL(vga_set_legacy_decoding);
+>   * Returns: 0 on success, -1 on failure
+>   */
+>  int vga_client_register(struct pci_dev *pdev,
+> -		unsigned int (*set_decode)(struct pci_dev *pdev, bool decode))
+> +		unsigned int (*set_decode)(struct pci_dev *pdev, bool decode),
+> +		bool (*is_boot_device)(struct pci_dev *pdev))
 >  {
-> +	struct pci_dev *pdev = NULL;
->  	int rc;
-> -	struct pci_dev *pdev;
+>  	int ret = -ENODEV;
+>  	struct vga_device *vgadev;
+> @@ -981,6 +994,7 @@ int vga_client_register(struct pci_dev *pdev,
+>  		goto bail;
 >  
->  	rc = misc_register(&vga_arb_device);
->  	if (rc < 0)
-> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
->  	/* We add all PCI devices satisfying VGA class in the arbiter by
->  	 * default
->  	 */
-> -	pdev = NULL;
-> -	while ((pdev =
-> -		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
-> -			       PCI_ANY_ID, pdev)) != NULL)
-> +	while (1) {
-> +		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
-> +		if (!pdev)
-> +			break;
-> +
->  		vga_arbiter_add_pci_device(pdev);
-> +	};
+>  	vgadev->set_decode = set_decode;
+> +	vgadev->is_boot_device = is_boot_device;
+>  	ret = 0;
 >  
->  	pr_info("loaded\n");
->  	return rc;
+>  bail:
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index a5ab416cf476..2a8873a330ba 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -2067,7 +2067,7 @@ static int vfio_pci_vga_init(struct vfio_pci_core_device *vdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = vga_client_register(pdev, vfio_pci_set_decode);
+> +	ret = vga_client_register(pdev, vfio_pci_set_decode, NULL);
+>  	if (ret)
+>  		return ret;
+>  	vga_set_legacy_decoding(pdev, vfio_pci_set_decode(pdev, false));
+> diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
+> index d36225c582ee..66fe80ffad76 100644
+> --- a/include/linux/vgaarb.h
+> +++ b/include/linux/vgaarb.h
+> @@ -50,7 +50,8 @@ struct pci_dev *vga_default_device(void);
+>  void vga_set_default_device(struct pci_dev *pdev);
+>  int vga_remove_vgacon(struct pci_dev *pdev);
+>  int vga_client_register(struct pci_dev *pdev,
+> -		unsigned int (*set_decode)(struct pci_dev *pdev, bool state));
+> +		unsigned int (*set_decode)(struct pci_dev *pdev, bool state),
+> +		bool (*is_boot_device)(struct pci_dev *pdev));
+>  #else /* CONFIG_VGA_ARB */
+>  static inline void vga_set_legacy_decoding(struct pci_dev *pdev,
+>  		unsigned int decodes)
+> @@ -76,7 +77,8 @@ static inline int vga_remove_vgacon(struct pci_dev *pdev)
+>  	return 0;
+>  }
+>  static inline int vga_client_register(struct pci_dev *pdev,
+> -		unsigned int (*set_decode)(struct pci_dev *pdev, bool state))
+> +		unsigned int (*set_decode)(struct pci_dev *pdev, bool state),
+> +		bool (*is_boot_device)(struct pci_dev *pdev))
+>  {
+>  	return 0;
+>  }
+> @@ -114,7 +116,7 @@ static inline int vga_get_uninterruptible(struct pci_dev *pdev,
+>  
+>  static inline void vga_client_unregister(struct pci_dev *pdev)
+>  {
+> -	vga_client_register(pdev, NULL);
+> +	vga_client_register(pdev, NULL, NULL);
+>  }
+>  
+>  #endif /* LINUX_VGA_H */
 > -- 
 > 2.25.1
 > 
