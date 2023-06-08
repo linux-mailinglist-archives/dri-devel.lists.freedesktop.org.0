@@ -2,110 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B847A72790A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640CB727694
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 07:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6D210E59B;
-	Thu,  8 Jun 2023 07:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5DD10E442;
+	Thu,  8 Jun 2023 05:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com
- (mail-tyzapc01on2117.outbound.protection.outlook.com [40.107.117.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4318710E587
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 03:35:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U+VRc7YAHVZQGiIklcBlLHP/nNfjaAM+pn4r3OXvo9WLgwi7s+BksT2iZQpwBEVcmV+vjUEXe9+hj4YOiwQEsQ9h2WIvMhEOt8jsD1kwyZHeApD9ok+0dPMYIKIGMx+FgVbAGBx19hAUlX4njqAkPRr7Hnu6N9wkqnYJkXLVp2wXRBIl8J6QUhssVP1+zwNkPbqb6zXx6AGBN2mtFUiq52IYd2TlwMk0NdHpN/2LD3Hgu4HNXFd6UJCbpPJztRlF6rHpP+Pb7K4GZe73AAjNVOQAAHmQ0tyWfUErXuFCUO3zc2UIGBHopeRDf212tFwQXP7w+EA5VV/2gjvSikL3Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qj4d8GTPV4Tl7wg/T6mSlLT/xj/BoYa0Uha5ikZBUu0=;
- b=TWT2sMoW8KYdq2FHPgK2sYMpCOnjP+ulWvXbIMR7gOEvXGOGZSkF0yL7R/UAeX9ymqv4mUddQhHUKoM+NmYW96FtRRX/Sy6kXJ4lxL3Z6ku36rv1VuvLoKyQsxF2YYfgt+B9x3zLTE18IJL1qpUVG4o0YS6fKrPSmmFXMU51pTh+1n2Y3Qio9m4thqPqFkAtGBzk0OCFJyrtI2LPLx86CKywVUcme/sw2Zv1Hf7WjgElF5TfbEFGdd8YjCLVi4+lSBsvfMApvCN12Mi+pUXIQeisxemC6TYQhtPzrICRLZHtIi1UP5aXGodhg1suJYu5kWC400RWwU+K/2jP3xu+4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qj4d8GTPV4Tl7wg/T6mSlLT/xj/BoYa0Uha5ikZBUu0=;
- b=DDMD+qckyqhSewlYCYIvqHtsPLPpdWPyJz+3brXRk7wEpQvxJ1A8na9WDCr2tzR+cnHhw2s9/Ekw0Y4HPjncoC5w+vJcraMflNegeJQdvQPF58lH0CfNs+/r0uDrhgfETTeH0QTUcEwrlnmXl/BT/Q8DfI10mG/PbPFAaRb8huMDXKuylYblvKmaZJsvEd1U6o3z6bb/PTQS4kW5aTPqm6K74CNauWiB2XoXZzlEXnI9JyuGD7bWgJTZ3yAFXutpCfh6YgsBzR1S1kz5NjLLLp43J2xmgVMCnQTr88wW/SmXa+Qn+xAgPp5cl5alv77VJK1Oo7toxqZiqZRt/cibmQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from KL1PR0601MB4211.apcprd06.prod.outlook.com
- (2603:1096:820:23::14) by PUZPR06MB5745.apcprd06.prod.outlook.com
- (2603:1096:301:f6::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19; Thu, 8 Jun
- 2023 03:35:19 +0000
-Received: from KL1PR0601MB4211.apcprd06.prod.outlook.com
- ([fe80::dad2:4104:ee24:c5bf]) by KL1PR0601MB4211.apcprd06.prod.outlook.com
- ([fe80::dad2:4104:ee24:c5bf%7]) with mapi id 15.20.6455.039; Thu, 8 Jun 2023
- 03:35:18 +0000
-From: Wang Jianzheng <wangjianzheng@vivo.com>
-To: Artur Weber <aweber.kernel@gmail.com>,
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC2B510E442
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 05:18:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686201514; x=1717737514;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cHXrEY01bYvheOLH7fG7jjiblWcaaSIEo6dV4ZMjUe0=;
+ b=LocKE1V9IsHhQOMmoyx+6Xu8aCJCT/IkxHeS2XhU57zhfTKCKzMh0F6K
+ ABCuJQnaPti6QoMosND/6tIMxAfGI4Yn13SbcAGAGOOxlWODFSHP26bjr
+ klQJuQjwkkMnCJDcy6A/uIkYD8QxlEHcYyIcbLMCXKsD92JbJ/Dzp3coc
+ Y5qifYizJtpJb3hHlV+GJQ8ATxksDpXpk6cH6ha4CwP7IEzt4LDQFlt7j
+ drpdnplxb2dTLH/N/gb7RgQV3jeq0/g+j6xG8BtBE/R7ILouEqzD9sAqZ
+ ZNb9xUqE6UG00LLAY6L5kysA27BIGgBss9NfhhtzsLn7A8x5oFBTqlEaA w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357213727"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="357213727"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2023 22:18:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="703942649"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="703942649"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 07 Jun 2023 22:18:27 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q782U-0007Ih-2L;
+ Thu, 08 Jun 2023 05:18:26 +0000
+Date: Thu, 8 Jun 2023 13:18:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Douglas Anderson <dianders@chromium.org>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/panel: s6d7aa0: remove the unneeded variable in
- s6d7aa0_lock
-Date: Thu,  8 Jun 2023 11:34:46 +0800
-Message-Id: <20230608033446.18412-1-wangjianzheng@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYAPR01CA0005.jpnprd01.prod.outlook.com (2603:1096:404::17)
- To KL1PR0601MB4211.apcprd06.prod.outlook.com
- (2603:1096:820:23::14)
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <202306081344.M0jNn0Ce-lkp@intel.com>
+References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB4211:EE_|PUZPR06MB5745:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3721fab-77b4-4991-033f-08db67d1611d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nXgEZkPsYUrXJmc8gGyv+2ck2PIpBxJtG+pLR4wQqX0unqGI2jko6PLFmv98sOigKBf9DF+CM/ZKSg/IKRwnu0t92L5wNiQTm+hxmZIQ/253nRYslwInoRazGV2nMuSE2WZILpR8Ogya2v0ehQVj6b7cVHtTK3MQYgyZwByZQVqmD8Owx+Nm94n2C0CC9QBzLWGQk8uEeJLVZRqoq5Kdg707+VuLuq/LcPHsYKLsmJxa6aJUb/DQiIOC7JyEodogquWJ18a/FUbkqvCRyDX8C2ndibBauZt9IDt1gIOeZiTsNTvcliGenwC5UjbVixhc8Qokz/pPfv05kGe5r3paliHwJeKz6pafMNuv0uCiptbhJl8AiV+mONVEE5bRqUYvS3MH/2L07nwZV67GwfkrW6BJ26op1LR6aDdxe9SMESU9DRikG5irN/8HqDDeY1ppm9osUrhiGhFk2KuwIkcezIVT/Nba7bEJ/cNj+FUKIWYVrd3JE2KGRX95XgGuZ1ynrK9eH7Dv2W7N5byg7DpQuZuJcyeI4tBHcuKnod7GHWRsvclv3mjEYOsggiLQu49bTtzXpT7z2/wUHf0td7EsfGpFfPfAAkOBHIzYcoIBbo6Nz5pibs+RMHcqw4WC+cME
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:KL1PR0601MB4211.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199021)(5660300002)(478600001)(36756003)(110136005)(6666004)(8936002)(8676002)(316002)(4326008)(66476007)(66556008)(41300700001)(66946007)(38350700002)(38100700002)(4744005)(2906002)(26005)(6506007)(6512007)(107886003)(86362001)(186003)(1076003)(2616005)(83380400001)(52116002)(6486002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5KuunmFgBxWvv7pXLrn4R1SeFAolmnoO94sfA8IQ5k5yrUZDxpvVvyEXAnmV?=
- =?us-ascii?Q?I1bt3oOY8Jx64R1hb6Q1vuZDCI0OzXRuhZtzSZZQFpL+82muFlI6ESdi3B2P?=
- =?us-ascii?Q?5oghCtBRuqMSuTiXv22gI6SbJeBC3uuSq1s3ag8VYVpNJE0Enq9KpqWhBVwG?=
- =?us-ascii?Q?OsEnd8V0NYF76hypVd6bzeXMRkw5locAes1zWGJG/Ak0CvZLWakd41uizMSm?=
- =?us-ascii?Q?+a1IbLixw9C6ANKuhrcWjIFgvsncWqyAhe5cgL6F4QHVeawEDoCHMKOWxCgM?=
- =?us-ascii?Q?vJ2l9ptlixX07d+sxE3lZNZQlnNF/bJRLUYcc5KyL7dacvmFwbrNzDs92ePe?=
- =?us-ascii?Q?Afrrm1Vwyzte+GWU5VpfwM4kpIW57RyZhtR+O/UrEiZlG6Bcyl8UdW9yuKm/?=
- =?us-ascii?Q?83kAL132aDfVcw45TBVRXoyk6x4AaYKSLpqH3RwUZFEnIRMblQNAZXcAjiC4?=
- =?us-ascii?Q?gyCoV3FJTFxM5tZgx85qgb1KsYuWIVCOlnR0Mse9lCjSOBdzZEhKwoCG/7ca?=
- =?us-ascii?Q?B4FZRqq4ruAjqcSGZh1xW2z+Xm+6EfyRB15aIFoamg0lJwTDyo6CuKe25fDo?=
- =?us-ascii?Q?9BjVKqLe7tjG1ORgLi8JtpUzNPID0EgNz2qgDqMwBuISbSx5OGYN5+IKDII3?=
- =?us-ascii?Q?7//oPPVopkZHW/tdq0g/dYcqnpzPnME8rx8oTfrReh8xmylcGC7eaa6VDubz?=
- =?us-ascii?Q?yCaXsiHmp43i+BTxuC76MY3JM+Aef0GMEbs9WvWRlcLaFEPCG5mkXNw3/NHf?=
- =?us-ascii?Q?XEzKxC2eHPwqYd7IN4PPK5HUpwiUDylExieVhFYkEKKzELVPvAbgTjEKSJpD?=
- =?us-ascii?Q?6bqtvkOQ3Ea9QKWw+g47RwcDD9/Zy5MHjwxe/4x5JMSoKpPSyITnWbOWm8aY?=
- =?us-ascii?Q?BI6Gh1ul6pm+60zS3Y2jnO9Mogdb6/tloc9eCV4IkxvHlpsNW86Prk1ZdmEL?=
- =?us-ascii?Q?ZsNdc85SJpwdnYvVyop5DsPTsCuxRDOpiQbCU7y2IdffxkaeaUvv+pgemLqJ?=
- =?us-ascii?Q?QGR6EJNJgoB3wGAEPzGCJMQbsxmNWxTcckNFQF2Qq4TC/+aT6Ldc9UmNHs8r?=
- =?us-ascii?Q?5dUeSRPUPkSXZ7T+/uzy1TJ7xjg0tNFG5EIW39vfN6WtYZTs7AVQMbZKASmz?=
- =?us-ascii?Q?rftH7j84Y906GK9o3obO0HZtTQMgxgFPMOkT+h8KPX7yKOtwNHJpMzayVp9z?=
- =?us-ascii?Q?QgVBR1x0wQR6HNzRcvQxgYaS2sV7CckuOjNaTduUIMx4DlKcNm/a8S7AEfK4?=
- =?us-ascii?Q?zGbItd655nPspK3xc/cv2rtgiLfWcOLuU1NhV+xhl0fEpHHpXJ1cyd7smMXg?=
- =?us-ascii?Q?7rwxkXxUgNnVbp8wCNmPr4F10tfPdmu0SILXDXRJiMQKIlgaf+f8N3Fi4a2U?=
- =?us-ascii?Q?SZey9EDzrWEFUIWrC+1CVRmiN1ShEeeFc6aeKubff79tjBmtjOidsvWUOpku?=
- =?us-ascii?Q?7XrstzKew02fk4AB3U7z2aYvT0jnXfN4juvE3UFmtdSq56KRMo9vX3eavQZo?=
- =?us-ascii?Q?AmNzrW4CS7dcDzBdTOgr/m7kk/1jH/9CejAZIUbzbhkQutXNpOKuzO1P0w37?=
- =?us-ascii?Q?ag7F5qnGdZwxvinYAb5JNagkvfyK/WW2P+X6jlsO?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3721fab-77b4-4991-033f-08db67d1611d
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4211.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2023 03:35:18.1602 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8F9ceTrwDsNAtSY+/XoqqYto+lc/R+x2sCkJThuo5rGnIv1RoXFrRyRy8d3M1htFgTZA8V3AaZny/fKoyMnHyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5745
-X-Mailman-Approved-At: Thu, 08 Jun 2023 07:44:49 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,38 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, wangjianzheng@vivo.com
+Cc: devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, hsinyi@google.com,
+ Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unneeded variable and directly return 0.
+Hi Douglas,
 
-Signed-off-by: Wang Jianzheng <wangjianzheng@vivo.com>
----
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-index 102e1fc7ee38..fec0d014fd0e 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-@@ -66,7 +66,6 @@ static void s6d7aa0_reset(struct s6d7aa0 *ctx)
- static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	int ret = 0;
- 
- 	if (lock) {
- 		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
-@@ -80,7 +79,7 @@ static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
- 			mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- static int s6d7aa0_on(struct s6d7aa0 *ctx)
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on hid/for-next dtor-input/next dtor-input/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20230608-055515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15%40changeid
+patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+config: arc-randconfig-r021-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081344.M0jNn0Ce-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch robh for-next
+        git checkout robh/for-next
+        b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306081344.M0jNn0Ce-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_remove':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_probe':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
+
 -- 
-2.39.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
