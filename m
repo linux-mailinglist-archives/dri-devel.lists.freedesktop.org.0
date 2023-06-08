@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472DD7278D2
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:29:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7477278D6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:30:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 403EB10E592;
-	Thu,  8 Jun 2023 07:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02BDA10E593;
+	Thu,  8 Jun 2023 07:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01B3610E594
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:29:21 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C623C4C;
- Thu,  8 Jun 2023 09:28:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686209333;
- bh=vlIinTewP+cDKlpKQXd2OIGqSCvgjHtEAu4OH/s26NE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PJYnkTDUXtPrki2J7u75rGyX5k/ctQpCgAREtF2QBGDS4igS0CYdsfvAgzIvWiiQi
- 0VoIGOss7jCZUG+PaTALc2Lq5jNR9dhoEkyJV1V/3lRlcKkRfRdP8N5FG0EiO+QBzP
- IAHWODcqsOF/rTkVi3o+YiuyfbRaFNu0x6qBgskc=
-Message-ID: <be2c4c02-43bc-5b16-2162-b8ace8d34996@ideasonboard.com>
-Date: Thu, 8 Jun 2023 10:29:14 +0300
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C59310E594
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:30:42 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4f122ff663eso381017e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 00:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686209441; x=1688801441;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=2IWfjRMKXtAYJWdbpoLM6wscEMkm49OW8tpzuar45To=;
+ b=ZaCXG+AYK9XoubTQgCTKf2nRHf7lLi48I1c7N9Tl1pq0ytdsxuYmhLro9CBZxfnwXo
+ zWIt+9Xzicpgj6q0FEbc6vPagmXYSqcZVMMOdbSp8/AIT7cIyhnU89DUxYB3L8ekRQ2N
+ O8VavVdWcjriLKCALn6IYKn7vhXZN3AwSfb6FM4pR/ji7LcC61AQ3sQrwhVApCZ4j7ax
+ jkyVf5ryAfmW22OsG2VAb8dUi1gB1pRIfzBLhuQG2HKp/Y2JfNJfIxagf+oockwW+6iw
+ GOJCMWN2TVu5xaZrPHNruk/mLLlqq8Gp6WFcJwFwq1ZSasjqsg5VQD6Dqo9G/B85DPYR
+ FyXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686209441; x=1688801441;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2IWfjRMKXtAYJWdbpoLM6wscEMkm49OW8tpzuar45To=;
+ b=kYJ+Kue4cz2dtJOjoY9TlJFuS0D13x/oVD1d44V8AXClEVbC3liCusK4WqEgPIzbyT
+ Pe/UqeFRHBsNFkB4oa93lnO8GXzPlKr5121ngp+R5sexmFbWzzrooOmvAiVJV8Frw1jL
+ VtX/1DNDa/BsU3lIMp7unir1pt8/1/qh81EuEJBll0BgjOj7xDnd/dJDnVZarAmLOznQ
+ aBXga8lUAuSmP6Kahh3IwMSWRwTZReWSk8Q2Lm4HtAMzUTQsF/6K4ZtEIS9MrlPuJc6R
+ QDC/RG3tXD9yPQXry28kNiaTEWz+UEk3kzZHMtUO2CXaD9zSDEz6+x4FD5WkYf6Nl6IW
+ 5PUw==
+X-Gm-Message-State: AC+VfDyQQ4Q+ueN+0Mns+1Jw3kNRmcv7IkK0ljmV8SCmniHB9QMx4bva
+ AHeNJdCBQ3b0mZsSnn/MBo/PPw==
+X-Google-Smtp-Source: ACHHUZ6IY3k/0igRAxc43HI7Ll38QthT8Wh7k9RTxrOoNxMo98cdVo430gNHE0Pdep8oYW4Yb94CsA==
+X-Received: by 2002:a19:f809:0:b0:4f6:3677:54e with SMTP id
+ a9-20020a19f809000000b004f63677054emr2597570lff.36.1686209440730; 
+ Thu, 08 Jun 2023 00:30:40 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:1b90:b83e:29ce:beb6?
+ ([2a01:e0a:982:cbb0:1b90:b83e:29ce:beb6])
+ by smtp.gmail.com with ESMTPSA id
+ q7-20020adff947000000b0030af72bca98sm660713wrr.103.2023.06.08.00.30.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jun 2023 00:30:40 -0700 (PDT)
+Message-ID: <de71fe1b-870e-fd44-ca20-593d105fc2c1@linaro.org>
+Date: Thu, 8 Jun 2023 09:30:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
+ Thunderbird/102.11.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: s6d7aa0: remove the unneeded variable in
+ s6d7aa0_lock
 Content-Language: en-US
-To: neil.armstrong@linaro.org, Aradhya Bhatia <a-bhatia1@ti.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Swapnil Jakhade <sjakhade@cadence.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
- <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
- <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
- <42151d11-12d9-c165-0d4b-a0af80b683c3@linaro.org>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <42151d11-12d9-c165-0d4b-a0af80b683c3@linaro.org>
+To: Wang Jianzheng <wangjianzheng@vivo.com>,
+ Artur Weber <aweber.kernel@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20230608033446.18412-1-wangjianzheng@vivo.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230608033446.18412-1-wangjianzheng@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,64 +84,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: opensource.kernel@vivo.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/06/2023 12:48, neil.armstrong@linaro.org wrote:
-> On 06/06/2023 11:46, Aradhya Bhatia wrote:
->> Hi Neil,
->>
->> Thank you for reviewing the previous patches!
->>
->> On 06-Jun-23 14:37, Neil Armstrong wrote:
->>> Hi,
->>>
->>> On 06/06/2023 10:21, Aradhya Bhatia wrote:
->>>> Hi all,
->>>>
->>>> I have picked up this long standing series from Nikhil Devshatwar[1].
->>>>
->>>> This series moves the tidss to using new connectoe model, where the SoC
->>>> driver (tidss) creates the connector and all the bridges are attached
->>>> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates 
->>>> bridge
->>>> to support format negotiation and and 'simple' encoder to expose it to
->>>> the userspace.
->>>>
->>>> Since the bridges do not create the connector, the bus_format and
->>>> bus_flag is set via atomic hooks.
->>>>
->>>> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
->>>> drivers as a first step before moving the connector model.
->>>>
->>>> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
->>>> and J721E-SK. Display support for AM625 SoC has not been added upstream
->>>> and is a WIP. To test this series on AM625 based platforms, basic
->>>> display support patches, (for driver + devicetree), can be found in
->>>> the "next_AttachNoConn-v2" branch on my github fork[2].
->>>
->>> I can apply all bridge patches right now so only the tidss change 
->>> remain,
->>> is that ok for you ?
->>>
->>
->> While the bridge patches and the tidss patch can be separately built
->> without any issue, the tidss functionality will break if only the bridge
->> patches get picked up, and not the tidss.
->>
->> Would it be possible for you to pick all the patches together once Tomi
->> acks the tidss patch?
+On 08/06/2023 05:34, Wang Jianzheng wrote:
+> Remove unneeded variable and directly return 0.
 > 
-> Sure
+> Signed-off-by: Wang Jianzheng <wangjianzheng@vivo.com>
+> ---
+>   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> index 102e1fc7ee38..fec0d014fd0e 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+> @@ -66,7 +66,6 @@ static void s6d7aa0_reset(struct s6d7aa0 *ctx)
+>   static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+>   {
+>   	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	int ret = 0;
+>   
+>   	if (lock) {
+>   		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
+> @@ -80,7 +79,7 @@ static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+>   			mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
+>   	}
+>   
+> -	return ret;
+> +	return 0;
+>   }
+>   
+>   static int s6d7aa0_on(struct s6d7aa0 *ctx)
 
-I think this looks fine. For the series:
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
