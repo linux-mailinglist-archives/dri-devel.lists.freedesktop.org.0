@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44F7727CD8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 12:30:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DCD727D0B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 12:39:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E3410E5B1;
-	Thu,  8 Jun 2023 10:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432B610E215;
+	Thu,  8 Jun 2023 10:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92FFB10E5B1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 10:30:50 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 01BA261778;
- Thu,  8 Jun 2023 10:30:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BEACC433EF;
- Thu,  8 Jun 2023 10:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686220248;
- bh=AIcUCUodS6F4QcEhJCLrF01g4EKFhRYJxgN/H52FebY=;
- h=Date:From:To:Cc:Subject:From;
- b=lQJ9fY7gKIjqidoDN3FfowD4WCilJ3wYrX8Xl0HNU4sJuTPF5UqgXPLBu7oLu+/QF
- evbmLbfMn+DaJUA1y5V2UlKFn3sRwnwi1IJgK+Kola70OptCqV33knlKG63M7jIc9I
- aIZZDLdETXYSeyftC9gamjLYx9GhSDqaDMk1HPCN3FAbBYk/lIw+kIjYyI55mSSa9a
- LKt6IJqXShcyCMf34HOIqYH/9/G7easZAkcWqc4xlN+N/1HRvP7Btt7ClBHp+7a6Qg
- bZzHOyPInhqXzpDshaXqgrbrLn/DoJS8xnJGHW2e34hD0muZUwecVW/JeJrwzqKJkz
- o4sD90xGxFTDw==
-Date: Thu, 8 Jun 2023 13:30:43 +0300
-From: Oded Gabbay <ogabbay@kernel.org>
-To: airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [git pull] habanalabs for drm-next-6.5
-Message-ID: <20230608103043.GA2699019@ogabbay-vm-u20.habana-labs.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B9310E215
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 10:39:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (om126033089000.35.openmobile.ne.jp
+ [126.33.89.0])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59389480;
+ Thu,  8 Jun 2023 12:39:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1686220745;
+ bh=NxxrBXbOcKnfC5f/pt1JKRCNlnIN0Xggw4DQa8edYc8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p/JMb9QvmsBJmpjQAbA/7qA1BEXq14QZGVwNjbsPa5BYWvNGxJBPddY9aQTI5g/UU
+ atmmjJNnTinKCgxe1dMjMUu3cBvIk7chzd3XHMnmhKyu+/fHBXZh95jtY024liK8eq
+ JpskTLTmzeliqc9OpPHKIA4VHxsQHCGEEFcU3CJM=
+Date: Thu, 8 Jun 2023 13:39:29 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Message-ID: <20230608103929.GO5058@pendragon.ideasonboard.com>
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+ <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
+ <20230529080552.GJ25984@pendragon.ideasonboard.com>
+ <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230531085941.GA27043@pendragon.ideasonboard.com>
+ <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+ <ZIBFc3y9jD59lZ3A@shikoro>
+ <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,146 +54,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel.
+Hi Biju,
 
-Habanalabs pull request for 6.5.
+On Thu, Jun 08, 2023 at 06:41:35AM +0000, Biju Das wrote:
+> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
+> > > API
+> > >
+> > > Hi all,
+> > >
+> > > sorry for not being able to chime in earlier.
+> > >
+> > > > In Biju's particular use case, the i2c device responds to two
+> > > > addresses, which is the standard i2c ancillary use case.  However,
+> > > > what's special
+> > >
+> > > Not quite. ancillary is used when a *driver* needs to take care of two
+> > > addresses. We already have devices bundling two features into the same
+> > > chip. I recall at least RTC + EEPROM somewhere. And so far, we have
+> > > been handling this by creating two nodes in DT and have proper binding docs.
+> > > I think this is cleaner. First, you can see in DT already what the
+> > > compound device really consists of. In this case, which RTC and RTC
+> > > driver is exactly needed. Second, the code added here adds complexity
+> > > to the I2C core with another layer of inderection for dummy devices.
+> > 
+> > FYI, please see [1] and [2]
+> > 
+> > As per DT maintainers, most of PMICs are described with one node, even
+> > though RTC is on separate address. According to them the DT schema allows
+> > multiple addresses for children.
+> > But currently we lacks implementation for that. The enhancement to this
+> > API allows that.
+> > 
+> > > > As some resources are shared (knowledge about the clocks), splitting
+> > > > this in two distinct devices in DT (which is what Biju's initial
+> > > > patch series did) would need phandles to link both nodes together.
+> > > >
+> > > > Do you have a better idea how to represent this?
+> > >
+> > > Not sure if I understood this chip correctly, but maybe: The PMIC
+> > > driver exposes a clock gate which can be consumed by the RTC driver?
+> 
+> Let me give me some details of this PMIC chip.
+> 
+> PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc. 
+> 
+> It has XIN, XOUT, INT# pins and a register for firmware revisions.
 
-As Gaudi2 is pretty much stable, this contains mostly bug fixes and small
-optimizations and improvements.
+Is the firmware revision register accessed through address 0x12 (PMIC)
+or 0x6f (RTC) ?
 
-Full details are in the signed tag.
+> Based on the system design,
+> 
+> If XIN and XOUT is connected to external crystal, Internal oscillator
+> is enabled for RTC. In this case we need to set the oscillator bit to
+> "0".
+> 
+> If XIN is connected to external clock source, Internal oscillator is
+> disabled for RTC. In this case we need to set the oscillator bit to
+> "1".
 
-Thanks,
-Oded
+Same here, which address is the oscillator bit accessed through ?
 
-The following changes since commit 2e1492835e439fceba57a5b0f9b17da8e78ffa3d:
+> If XIN and XOUT not connected RTC operation not possible.
+> 
+> IRQ# (optional) functionality is shared between PMIC and RTC. (PMIC
+> fault for various bucks/LDOs/WDT/OTP/NVM or alarm condition).
 
-  Merge tag 'drm-misc-next-2023-06-01' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-06-02 13:39:00 +1000)
+IRQs can be shared between multiple devices so this shouldn't be a
+problem.
 
-are available in the Git repository at:
+> The board, I have doesn't populate IRQ# pin. If needed some customers
+> can populate IRQ# pin and use it for PMIC fault or RTC alarm.
+> 
+> Also, currently my board has PMIC rev a0 where oscillator bit is
+> inverted and internal oscillator is enabled (ie: XIN and XOUT is
+> connected to external crystal)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/ogabbay/linux.git tags/drm-habanalabs-next-2023-06-08
+-- 
+Regards,
 
-for you to fetch changes up to e6f49e96bc57d34fc0f617f37bfdf62a9b58d2c2:
-
-  accel/habanalabs: refactor error info reset (2023-06-08 12:35:56 +0300)
-
-----------------------------------------------------------------
-This tag contains additional habanalabs driver changes for v6.5:
-
-- uAPI changes:
-  - Return 0 when user queries if there was a h/w or f/w error and no such error happened.
-    Previously we returned an error in such case.
-
-- New features and improvements:
-  - Add pci health check when we lose connection with the firmware. This can be used to
-    distinguish between pci link down and firmware getting stuck.
-  - Add more info to the error print when TPC interrupt occur.
-  - Reduce amount of code under mutex in the command submission of signal event.
-
-- Firmware related fixes:
-  - Fixes to the handshake protocol during f/w initialization.
-  - Display information that the f/w sends us when encountering a DMA error.
-  - Do soft-reset using a message sent to firmware instead of writing to MMIO.
-  - Prepare generic code to extract f/w version numbers.
-
-- Bug fixes and code cleanups. Notable fixes are:
-  - Unsecure certain TPC registers that the user should access.
-  - Fix handling of QMAN errors
-  - Fix memory leak when recording errors (to later pass them to the user)
-  - Multiple fixes to razwi interrupt handling code
-
-----------------------------------------------------------------
-Dafna Hirschfeld (6):
-      accel/habanalabs: add helper to extract the FW major/minor
-      accel/habanalabs: rename fw_{major/minor}_version to fw_inner_{major/minor}_ver
-      accel/habanalabs: extract and save the FW's SW major/minor/sub-minor
-      accel/habanalabs: check fw version using sw version
-      accel/habanalabs: do soft-reset using cpucp packet
-      accel/habanalabs: add missing tpc interrupt info
-
-Dan Carpenter (1):
-      accel/habanalabs: fix gaudi2_get_tpc_idle_status() return
-
-Dani Liberman (4):
-      accel/habanalabs: use binning info when handling razwi
-      accel/habanalabs: mask part of hmmu page fault captured address
-      accel/habanalabs: add description to several info ioctls
-      accel/habanalabs: refactor error info reset
-
-Koby Elbaz (8):
-      accel/habanalabs: remove commented code that won't be used
-      accel/habanalabs: minimize encapsulation signal mutex lock time
-      accel/habanalabs: refactor abort of completions and waits
-      accel/habanalabs: poll for device status update following WFE cmd
-      accel/habanalabs: fix a static warning - 'dubious: x & !y'
-      accel/habanalabs: rename security functions related arguments
-      accel/habanalabs: upon DMA errors, use FW-extracted error cause
-      accel/habanalabs: update state when loading boot fit
-
-Moti Haimovski (3):
-      accel/habanalabs: fix bug in free scratchpad memory
-      accel/habanalabs: call to HW/FW err returns 0 when no events exist
-      accel/habanalabs: fix mem leak in capture user mappings
-
-Oded Gabbay (5):
-      accel/habanalabs: set unused bit as reserved
-      accel/habanalabs: align to latest firmware specs
-      accel/habanalabs: print max timeout value on CS stuck
-      accel/habanalabs: remove sim code
-      accel/habanalabs: move ioctl error print to debug level
-
-Ofir Bitton (7):
-      accel/habanalabs: unsecure TPC bias registers
-      accel/habanalabs: add pci health check during heartbeat
-      accel/habanalabs: always fetch pci addr_dec error info
-      accel/habanalabs: remove support for mmu disable
-      accel/habanalabs: fix bug of not fetching addr_dec info
-      accel/habanalabs: unsecure TSB_CFG_MTRR regs
-      accel/habanalabs: add event queue extra validation
-
-Rakesh Ughreja (1):
-      accel/habanalabs: allow user to modify EDMA RL register
-
-Tal Cohen (1):
-      accel/habanalabs: ignore false positive razwi
-
-Tom Rix (1):
-      accel/habanalabs: remove variable gaudi_irq_name
-
-Tomer Tayar (3):
-      accel/habanalabs: expose debugfs files later
-      accel/habanalabs: use lower QM in QM errors handling
-      accel/habanalabs: print qman data on error only for lower qman
-
-Yang Li (1):
-      accel/habanalabs: Fix some kernel-doc comments
-
- drivers/accel/habanalabs/common/command_buffer.c   |   6 -
- .../accel/habanalabs/common/command_submission.c   |  61 ++--
- drivers/accel/habanalabs/common/debugfs.c          |  60 ++--
- drivers/accel/habanalabs/common/device.c           | 112 ++++---
- drivers/accel/habanalabs/common/firmware_if.c      | 212 ++++++++++---
- drivers/accel/habanalabs/common/habanalabs.h       |  77 ++---
- drivers/accel/habanalabs/common/habanalabs_drv.c   |   9 +-
- drivers/accel/habanalabs/common/habanalabs_ioctl.c |  35 +--
- drivers/accel/habanalabs/common/irq.c              |   2 +-
- drivers/accel/habanalabs/common/memory.c           | 104 +------
- drivers/accel/habanalabs/common/mmu/mmu.c          |  56 +---
- drivers/accel/habanalabs/common/security.c         |  57 ++--
- drivers/accel/habanalabs/gaudi/gaudi.c             |  13 +-
- drivers/accel/habanalabs/gaudi2/gaudi2.c           | 334 ++++++++-------------
- drivers/accel/habanalabs/gaudi2/gaudi2P.h          |   2 +-
- drivers/accel/habanalabs/gaudi2/gaudi2_security.c  |  15 +-
- drivers/accel/habanalabs/goya/goya.c               |   3 -
- drivers/accel/habanalabs/goya/goya_coresight.c     |   9 +-
- drivers/accel/habanalabs/include/common/cpucp_if.h |  22 +-
- .../accel/habanalabs/include/common/hl_boot_if.h   |  41 +--
- .../include/gaudi2/asic_reg/gaudi2_regs.h          |  11 +
- .../accel/habanalabs/include/gaudi2/gaudi2_fw_if.h |   2 +-
- include/uapi/drm/habanalabs_accel.h                |  10 +
- 23 files changed, 557 insertions(+), 696 deletions(-)
+Laurent Pinchart
