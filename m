@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC9172826A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 16:12:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7150F7282B2
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 16:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D08710E5CD;
-	Thu,  8 Jun 2023 14:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4032610E5CB;
+	Thu,  8 Jun 2023 14:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4B110E196;
- Thu,  8 Jun 2023 14:12:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8FB1E60B01;
- Thu,  8 Jun 2023 14:12:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA3BC433EF;
- Thu,  8 Jun 2023 14:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686233567;
- bh=jiC9XwKLIhJp7L/2mf5VkOAerj+XVF2GwszxyJwIce0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PdlUNyu6BxgXKeXfUv8gyn2gfLBxInzqG8EY8Erdk53eOUwKsqy8yNDYtag6g1hJo
- UJXUGEGQXr3cH/f6i9MGEM9afRbriAzkd087t3uOCPo0xooekeecvJipUE3F5momEw
- WK4xfcgCRx8IwHaLnk/b/HWaRJlNGvW+NCG8w9/0pAsIUXbZw/+SyQL9AOAHnWykBQ
- cTZsOv8jZZ9iIgECZI2ELlRc9MHvdr1jrLoZ6vgchYgAeSXcy22UKW8n4akgt4TNoJ
- 7ezE6Ob3fKQSDESqhBzY/xzA4iZKxg2vHiDEK2sPHSYLO57rL1l2ViDPpWRgi/G4fq
- oYTBCdymVpDgQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1q7GNz-0001re-U7; Thu, 08 Jun 2023 16:13:12 +0200
-Date: Thu, 8 Jun 2023 16:13:11 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: Adreno devfreq lockdep splat with 6.3-rc2
-Message-ID: <ZIHh95IeOPBTvB00@hovoldconsulting.com>
-References: <ZBGNmXwQoW330Wr8@hovoldconsulting.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0307310E196;
+ Thu,  8 Jun 2023 14:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686234394; x=1717770394;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AOHF8Rb86ntesAI/yE6eOPe27CYMX9ghGd4LAdbYQLs=;
+ b=BcwFml25Sr/dOSSPU1y6ThQrGTqKryVTHvrp3UCfNDOTkmtXwwBToeof
+ vLfpHhjembt8qs82bnG8wJlJxDnMIZ0G+3udb9/oI++//U9+8us+Ujd4Z
+ Z3W2r9xW2xZSqk7tMEpEFJDoY8ErkaiCyumpVEPnT7oTpN31jqHdghP9d
+ SnF60o0pY+vetnr2JBQPq9hdqNinHABDP2WN5zZmqfoeVg2sHK7QczMwV
+ gkK358S/QlrbwXLKsovyoi64iKOofvTH+f33KeYzFi2ZSmfo9geszQDzS
+ vsPJw14j2JWEdFjyTmvnGgFjPFh6NP0JtTcbqDRbZjWX3Ko17TLI2LLgH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="356177432"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="356177432"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2023 07:26:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="956736343"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="956736343"
+Received: from rirwin-mobl3.ger.corp.intel.com (HELO [10.213.239.227])
+ ([10.213.239.227])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2023 07:26:28 -0700
+Message-ID: <77587046-aede-f625-6a35-55bf9c5f1179@linux.intel.com>
+Date: Thu, 8 Jun 2023 15:26:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBGNmXwQoW330Wr8@hovoldconsulting.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC 02/10] drm: Update file owner during use
+Content-Language: en-US
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com>
+ <20230314141904.1210824-3-tvrtko.ursulin@linux.intel.com>
+ <CACvgo52Bb3kBua8dh+eac6dhSwiJLMGAdGDAa+LQYoOwCLPLNA@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CACvgo52Bb3kBua8dh+eac6dhSwiJLMGAdGDAa+LQYoOwCLPLNA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,212 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@chromium.org>, cgroups@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Kenny.Ho@amd.com, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "T . J . Mercier" <tjmercier@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Tejun Heo <tj@kernel.org>,
+ =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
 
-Have you had a chance to look at this regression yet? It prevents us
-from using lockdep on the X13s as it is disabled as soon as we start
-the GPU.
-
-On Wed, Mar 15, 2023 at 10:19:21AM +0100, Johan Hovold wrote:
+On 21/04/2023 13:13, Emil Velikov wrote:
+> Greetings everyone,
 > 
-> Since 6.3-rc2 (or possibly -rc1), I'm now seeing the below
-> devfreq-related lockdep splat.
+> Above all - hell yeah. Thank you Tvrtko, this has been annoying the
+> hell out of me for ages.
+
+Yay!
+
+> On Tue, 14 Mar 2023 at 14:19, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> With the typical model where the display server opends the file descriptor
+>> and then hands it over to the client we were showing stale data in
+>> debugfs.
 > 
-> I noticed that you posted a fix for something similar here:
+> s/opends/opens/
+
+Thanks!
+
+> But as a whole the sentence is fairly misleading. Story time:
 > 
-> 	https://lore.kernel.org/r/20230312204150.1353517-9-robdclark@gmail.com
+> The traditional model, the server was the orchestrator managing the
+> primary device node. From the fd, to the master status and
+> authentication. But looking at the fd alone, this has varied across
+> the years.
 > 
-> but that particular patch makes no difference.
+> IIRC in the DRI1 days, Xorg (libdrm really) would have a list of open
+> fd(s) and reuse those whenever needed, DRI2 the client was responsible
+> for open() themselves and with DRI3 the fd was passed to the client.
 > 
-> From skimming the calltraces below and qos/devfreq related changes in
-> 6.3-rc1 it seems like this could be related to:
+> Around the inception of DRI3 and systemd-logind, the latter became
+> another possible orchestrator. Whereby Xorg and Wayland compositors
+> could ask it for the fd. For various reasons (hysterical and genuine
+> ones) Xorg has a fallback path going the open(), whereas Wayland
+> compositors are moving to solely relying on logind... some never had
+> fallback even.
 > 
-> 	fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for idle clamp")
+> Over the past few years, more projects have emerged which provide
+> functionality similar (be that on API level, Dbus, or otherwise) to
+> systemd-logind.
+> 
+> 
+> Apart from that, the commit is spot on. I like the use of rcu and the
+> was_master handling is correct. With some message polish this commit
+> is:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
-Below is an updated splat from 6.4-rc5.
+Are you okay if I just paste your very fine explanation verbatim, with 
+credits?
 
-Johan
+> I also had a brief look at 01/10, although I cannot find many
+> references for the pid <> tguid mappings. Be that on the kernel side
+> or userspace - do you have any links that I can educate myself?
 
-[ 2941.931507] ======================================================
-[ 2941.931509] WARNING: possible circular locking dependency detected
-[ 2941.931513] 6.4.0-rc5 #64 Not tainted
-[ 2941.931516] ------------------------------------------------------
-[ 2941.931518] ring0/359 is trying to acquire lock:
-[ 2941.931520] ffff63310e35c078 (&devfreq->lock){+.+.}-{3:3}, at: qos_min_notifier_call+0x28/0x88
-[ 2941.931541] 
-               but task is already holding lock:
-[ 2941.931543] ffff63310e3cace8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x30/0x70
-[ 2941.931553] 
-               which lock already depends on the new lock.
+TGID or thread group leader. For single threaded userspace TGID equals 
+to PID, while for multi-threaded first thread TGID equals PID/TID, while 
+additional threads PID/TID does not equal TGID. Clear, as mud? :) My 
+POSIX book is misplaced somewhere having not consulted it years... :)
 
-[ 2941.931555] 
-               the existing dependency chain (in reverse order) is:
-[ 2941.931556] 
-               -> #4 (&(c->notifiers)->rwsem){++++}-{3:3}:
-[ 2941.931562]        down_write+0x50/0x198
-[ 2941.931567]        blocking_notifier_chain_register+0x30/0x8c
-[ 2941.931570]        freq_qos_add_notifier+0x68/0x7c
-[ 2941.931574]        dev_pm_qos_add_notifier+0xa0/0xf8
-[ 2941.931579]        devfreq_add_device.part.0+0x360/0x5a4
-[ 2941.931583]        devm_devfreq_add_device+0x74/0xe0
-[ 2941.931587]        msm_devfreq_init+0xa0/0x154 [msm]
-[ 2941.931624]        msm_gpu_init+0x2fc/0x588 [msm]
-[ 2941.931649]        adreno_gpu_init+0x160/0x2d0 [msm]
-[ 2941.931675]        a6xx_gpu_init+0x2c0/0x74c [msm]
-[ 2941.931699]        adreno_bind+0x180/0x290 [msm]
-[ 2941.931723]        component_bind_all+0x124/0x288
-[ 2941.931728]        msm_drm_bind+0x1d8/0x6cc [msm]
-[ 2941.931752]        try_to_bring_up_aggregate_device+0x1ec/0x2f4
-[ 2941.931755]        __component_add+0xa8/0x194
-[ 2941.931758]        component_add+0x14/0x20
-[ 2941.931761]        dp_display_probe+0x2b4/0x474 [msm]
-[ 2941.931785]        platform_probe+0x68/0xd8
-[ 2941.931789]        really_probe+0x184/0x3c8
-[ 2941.931792]        __driver_probe_device+0x7c/0x16c
-[ 2941.931794]        driver_probe_device+0x3c/0x110
-[ 2941.931797]        __device_attach_driver+0xbc/0x158
-[ 2941.931800]        bus_for_each_drv+0x84/0xe0
-[ 2941.931802]        __device_attach+0xa8/0x1d4
-[ 2941.931805]        device_initial_probe+0x14/0x20
-[ 2941.931807]        bus_probe_device+0xb0/0xb4
-[ 2941.931810]        deferred_probe_work_func+0xa0/0xf4
-[ 2941.931812]        process_one_work+0x288/0x5bc
-[ 2941.931816]        worker_thread+0x74/0x450
-[ 2941.931818]        kthread+0x124/0x128
-[ 2941.931822]        ret_from_fork+0x10/0x20
-[ 2941.931826] 
-               -> #3 (dev_pm_qos_mtx){+.+.}-{3:3}:
-[ 2941.931831]        __mutex_lock+0xa0/0x840
-[ 2941.931833]        mutex_lock_nested+0x24/0x30
-[ 2941.931836]        dev_pm_qos_remove_notifier+0x34/0x140
-[ 2941.931838]        genpd_remove_device+0x3c/0x174
-[ 2941.931841]        genpd_dev_pm_detach+0x78/0x1b4
-[ 2941.931844]        dev_pm_domain_detach+0x24/0x34
-[ 2941.931846]        a6xx_gmu_remove+0x34/0xc4 [msm]
-[ 2941.931869]        a6xx_destroy+0xd0/0x160 [msm]
-[ 2941.931892]        adreno_unbind+0x40/0x64 [msm]
-[ 2941.931916]        component_unbind+0x38/0x6c
-[ 2941.931919]        component_unbind_all+0xc8/0xd4
-[ 2941.931921]        msm_drm_uninit.isra.0+0x150/0x1c4 [msm]
-[ 2941.931945]        msm_drm_bind+0x310/0x6cc [msm]
-[ 2941.931967]        try_to_bring_up_aggregate_device+0x1ec/0x2f4
-[ 2941.931970]        __component_add+0xa8/0x194
-[ 2941.931973]        component_add+0x14/0x20
-[ 2941.931976]        dp_display_probe+0x2b4/0x474 [msm]
-[ 2941.932000]        platform_probe+0x68/0xd8
-[ 2941.932003]        really_probe+0x184/0x3c8
-[ 2941.932005]        __driver_probe_device+0x7c/0x16c
-[ 2941.932008]        driver_probe_device+0x3c/0x110
-[ 2941.932011]        __device_attach_driver+0xbc/0x158
-[ 2941.932014]        bus_for_each_drv+0x84/0xe0
-[ 2941.932016]        __device_attach+0xa8/0x1d4
-[ 2941.932018]        device_initial_probe+0x14/0x20
-[ 2941.932021]        bus_probe_device+0xb0/0xb4
-[ 2941.932023]        deferred_probe_work_func+0xa0/0xf4
-[ 2941.932026]        process_one_work+0x288/0x5bc
-[ 2941.932028]        worker_thread+0x74/0x450
-[ 2941.932031]        kthread+0x124/0x128
-[ 2941.932035]        ret_from_fork+0x10/0x20
-[ 2941.932037] 
-               -> #2 (&gmu->lock){+.+.}-{3:3}:
-[ 2941.932043]        __mutex_lock+0xa0/0x840
-[ 2941.932045]        mutex_lock_nested+0x24/0x30
-[ 2941.932047]        a6xx_gpu_set_freq+0x30/0x5c [msm]
-[ 2941.932071]        msm_devfreq_target+0xb8/0x1a8 [msm]
-[ 2941.932094]        devfreq_set_target+0x84/0x27c
-[ 2941.932098]        devfreq_update_target+0xc4/0xec
-[ 2941.932102]        devfreq_monitor+0x38/0x170
-[ 2941.932105]        process_one_work+0x288/0x5bc
-[ 2941.932108]        worker_thread+0x74/0x450
-[ 2941.932110]        kthread+0x124/0x128
-[ 2941.932113]        ret_from_fork+0x10/0x20
-[ 2941.932116] 
-               -> #1 (&df->lock){+.+.}-{3:3}:
-[ 2941.932121]        __mutex_lock+0xa0/0x840
-[ 2941.932124]        mutex_lock_nested+0x24/0x30
-[ 2941.932126]        msm_devfreq_get_dev_status+0x48/0x134 [msm]
-[ 2941.932149]        devfreq_simple_ondemand_func+0x3c/0x144
-[ 2941.932153]        devfreq_update_target+0x4c/0xec
-[ 2941.932157]        devfreq_monitor+0x38/0x170
-[ 2941.932160]        process_one_work+0x288/0x5bc
-[ 2941.932162]        worker_thread+0x74/0x450
-[ 2941.932165]        kthread+0x124/0x128
-[ 2941.932168]        ret_from_fork+0x10/0x20
-[ 2941.932171] 
-               -> #0 (&devfreq->lock){+.+.}-{3:3}:
-[ 2941.932175]        __lock_acquire+0x13d8/0x2188
-[ 2941.932178]        lock_acquire+0x1e8/0x310
-[ 2941.932180]        __mutex_lock+0xa0/0x840
-[ 2941.932182]        mutex_lock_nested+0x24/0x30
-[ 2941.932184]        qos_min_notifier_call+0x28/0x88
-[ 2941.932188]        notifier_call_chain+0xa0/0x17c
-[ 2941.932190]        blocking_notifier_call_chain+0x48/0x70
-[ 2941.932193]        pm_qos_update_target+0xdc/0x1d0
-[ 2941.932195]        freq_qos_apply+0x68/0x74
-[ 2941.932198]        apply_constraint+0x100/0x148
-[ 2941.932201]        __dev_pm_qos_update_request+0xb8/0x1fc
-[ 2941.932203]        dev_pm_qos_update_request+0x3c/0x64
-[ 2941.932206]        msm_devfreq_active+0xf8/0x194 [msm]
-[ 2941.932227]        msm_gpu_submit+0x18c/0x1a8 [msm]
-[ 2941.932249]        msm_job_run+0x98/0x11c [msm]
-[ 2941.932272]        drm_sched_main+0x1a0/0x444 [gpu_sched]
-[ 2941.932281]        kthread+0x124/0x128
-[ 2941.932284]        ret_from_fork+0x10/0x20
-[ 2941.932287] 
-               other info that might help us debug this:
+Regards,
 
-[ 2941.932289] Chain exists of:
-                 &devfreq->lock --> dev_pm_qos_mtx --> &(c->notifiers)->rwsem
+Tvrtko
 
-[ 2941.932296]  Possible unsafe locking scenario:
-
-[ 2941.932298]        CPU0                    CPU1
-[ 2941.932300]        ----                    ----
-[ 2941.932301]   rlock(&(c->notifiers)->rwsem);
-[ 2941.932304]                                lock(dev_pm_qos_mtx);
-[ 2941.932307]                                lock(&(c->notifiers)->rwsem);
-[ 2941.932309]   lock(&devfreq->lock);
-[ 2941.932312] 
-                *** DEADLOCK ***
-
-[ 2941.932313] 4 locks held by ring0/359:
-[ 2941.932315]  #0: ffff633110966170 (&gpu->lock){+.+.}-{3:3}, at: msm_job_run+0x8c/0x11c [msm]
-[ 2941.932342]  #1: ffff633110966208 (&gpu->active_lock){+.+.}-{3:3}, at: msm_gpu_submit+0xdc/0x1a8 [msm]
-[ 2941.932368]  #2: ffffa40da2f91ed0 (dev_pm_qos_mtx){+.+.}-{3:3}, at: dev_pm_qos_update_request+0x30/0x64
-[ 2941.932374]  #3: ffff63310e3cace8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x30/0x70
-[ 2941.932381] 
-               stack backtrace:
-[ 2941.932383] CPU: 7 PID: 359 Comm: ring0 Not tainted 6.4.0-rc5 #64
-[ 2941.932386] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET53W (1.25 ) 10/12/2022
-[ 2941.932389] Call trace:
-[ 2941.932391]  dump_backtrace+0x9c/0x11c
-[ 2941.932395]  show_stack+0x18/0x24
-[ 2941.932398]  dump_stack_lvl+0x60/0xac
-[ 2941.932402]  dump_stack+0x18/0x24
-[ 2941.932405]  print_circular_bug+0x26c/0x348
-[ 2941.932407]  check_noncircular+0x134/0x148
-[ 2941.932409]  __lock_acquire+0x13d8/0x2188
-[ 2941.932411]  lock_acquire+0x1e8/0x310
-[ 2941.932414]  __mutex_lock+0xa0/0x840
-[ 2941.932416]  mutex_lock_nested+0x24/0x30
-[ 2941.932418]  qos_min_notifier_call+0x28/0x88
-[ 2941.932421]  notifier_call_chain+0xa0/0x17c
-[ 2941.932424]  blocking_notifier_call_chain+0x48/0x70
-[ 2941.932426]  pm_qos_update_target+0xdc/0x1d0
-[ 2941.932428]  freq_qos_apply+0x68/0x74
-[ 2941.932431]  apply_constraint+0x100/0x148
-[ 2941.932433]  __dev_pm_qos_update_request+0xb8/0x1fc
-[ 2941.932435]  dev_pm_qos_update_request+0x3c/0x64
-[ 2941.932437]  msm_devfreq_active+0xf8/0x194 [msm]
-[ 2941.932460]  msm_gpu_submit+0x18c/0x1a8 [msm]
-[ 2941.932482]  msm_job_run+0x98/0x11c [msm]
-[ 2941.932504]  drm_sched_main+0x1a0/0x444 [gpu_sched]
-[ 2941.932511]  kthread+0x124/0x128
-[ 2941.932514]  ret_from_fork+0x10/0x20
