@@ -2,49 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37615727743
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E215727770
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 08:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3ED910E58A;
-	Thu,  8 Jun 2023 06:31:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BF910E43F;
+	Thu,  8 Jun 2023 06:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3552410E593
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686205862; x=1717741862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Eh8YyZ5wqzQOSWU6BPagtOC0CorxRe/dvdgAnnYI6k8=;
- b=EqeT05Ht9yBnBVP8airnwXbRFx/yibPB6LiP5UerpFpxDGvlVE/g9i68
- DwWqXq+xoAr9yfAIM3li4mYWxIMIHuWQM+DMbvNi4YacTfL2BjGMF7zvl
- UHuuLhQSlZxP1MDcQZ9Ph3SXbT+sWdCOt9r69szGTRtButNT5C5uWadK0
- LFqxmWd2Uq/Qx9CxpxpjvTjEYdfYeWeOSpZFNho5mhnKz9Tuxi/iggvuh
- 4RX8zo/rkbEwiknIfZdwnI3ccHdRGQ32QJSL2QuxBJNwJNwND+V1j6d1V
- K3P56rEFTCxU8ShktugoMVlIGPM3kGaScRtZxlBuCjvkVxZHVBSHYhjnx w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="443589949"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="443589949"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 23:31:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="712987791"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; d="scan'208";a="712987791"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2023 23:30:59 -0700
-Date: Thu, 8 Jun 2023 08:30:57 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] accel/ivpu: Fix sporadic VPU boot failure
-Message-ID: <20230608063057.GH324119@linux.intel.com>
-References: <20230607094502.388489-1-stanislaw.gruszka@linux.intel.com>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2060.outbound.protection.outlook.com [40.107.95.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD2B10E43F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 06:39:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BLA1/oX+x/PyhZi6Vfp5Yeh1jcmyb3uH60pIifiMXRqJ3A2KfPT0yoj7Z7pjybsmj60LXegC+/YzRIkdzMvS37jOUm//u8sxQVpPmxC0PpT5O+6l3hgGIPjrhGhiybNvE5gXDxL4bxzlnFlOgPdoTxEX/JwPVYe4zaHC7UJLH4t9b565glZDyj46SryoIcmO51akGgL9Cnuy5sIfqHlTxV4EK0aQc3FNg3xWl1COI6pSbxpszDkKfA2QRibyNaO/nfoemdsQ5bvc3up7++ROqmv3RKf+xjvgFZHnIYXKTG6sLRZp9VGK2FDXgWJUQ5iPKr4mAWtge8aL02hEo3XXRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1UJZo7DxsPMnt083QgXmO3D2aIxk1wWdHIMn8hZzztg=;
+ b=b6VSdNHpkXc3UbARS4Meh9H6aDqhRm28EwSD8RT6TbnrZ3YvEvBHfdo+2GhlixJkyMF7jFWuc5osHRINSqSw1hItIyjth4zHWMECu6zeC+3ZXX6eHaL+ZiiPOSkNrjXVWKAR2ljTI318LvDMW/LLXedz6NToCm6WXv7Oz1vfKnBHtclcz55APQbIG7NbPHHeIQjCGQYVZHkO2X2b7olfd9vnSQ+srPmG25V9GRUmuWQOIjtakfcek3CFY2AD8C5gE28gkg3iOnrN+xqfW1DjEkmDdZKvNjKWoGgl4MCzpiGDOcATq71mVw1+rTYBUumENIyWNWVGAZ1qFJU+bNtD0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1UJZo7DxsPMnt083QgXmO3D2aIxk1wWdHIMn8hZzztg=;
+ b=cW7NCLFfQDlmoNcAGkLr9DFDEwva0MZg9d2XugKHZZIdqFMwI/kS4g9w60V2UripT83FJ9edscxEvazJQmshCkI+EJcLazAAwZpYxuIqepsXrxjGw5KIHYU8JAJm5JmCfakVxl9/i1D5oQZGs+AiMVF0ZxyhjgmDI1UbQtmfM9o=
+Received: from DM6PR06CA0082.namprd06.prod.outlook.com (2603:10b6:5:336::15)
+ by MN2PR12MB4143.namprd12.prod.outlook.com (2603:10b6:208:1d0::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Thu, 8 Jun
+ 2023 06:39:49 +0000
+Received: from DM6NAM11FT058.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:336:cafe::d) by DM6PR06CA0082.outlook.office365.com
+ (2603:10b6:5:336::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.34 via Frontend
+ Transport; Thu, 8 Jun 2023 06:39:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT058.mail.protection.outlook.com (10.13.172.216) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6477.25 via Frontend Transport; Thu, 8 Jun 2023 06:39:48 +0000
+Received: from cjq-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 8 Jun
+ 2023 01:39:43 -0500
+From: Jiqian Chen <Jiqian.Chen@amd.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>, =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?=
+ <roger.pau@citrix.com>, <virtualization@lists.linux-foundation.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <xen-devel@lists.xenproject.org>
+Subject: [LINUX KERNEL PATCH 0/1] add S3 support for virtgpu
+Date: Thu, 8 Jun 2023 14:38:56 +0800
+Message-ID: <20230608063857.1677973-1-Jiqian.Chen@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230607094502.388489-1-stanislaw.gruszka@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT058:EE_|MN2PR12MB4143:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2f4f0b8-55dd-45e7-4138-08db67eb2817
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ln5c5JwgQp4z0mzXRHycb7Vh0WPcAjrNz0CghYRlb2YRx519G+hutEwGJeHMaQft0wVTH062EtFTSOPqFOdKJkOz+m1eWDSvbuHBSy/LAagk65Zx6bqn2SzmAopnkAR+WSXB8HnSU8gMJk3La3Xd6wTCdDzqnMkS3UNMU4q67RbsNEDXEIS9fos10Ke3vH4dd5vEOQ5lPl2lNtlCTN2Y7I2dLSKlt9L9lMPvPErsOlK08EkbCRbEBGJFHISTTXmTBGvgc37sjr0xvtVxM12QZETL5ycIUesYsqw99gI2rPJnwWcdjvZZ/TcLRz1Jx8BO6LP1x5AdwWopgBByQIMs9wTNvsvnFf9qOMpUFt9dl28HmDOWD2mDddcFkBRZmzC47q7PeNVe5BR1IJUpFxI1YiOgaooxxJekTU9x5bs0ANsR/u7xdq5izYyZB4NYrzSqwmXPgX/kXjbziuaC1O/if0q8Bsh8shnN6SNqIlXtFGYxjb+5sJxP3rvHiUiK+6YwQg0JmNaR4+TJYWGZzykBQjiMLr5EPqDscxocGx3Htv+VTbGZV+QUTbnx6vVrRX2ch63iqOu6p2eQNgHDNXjb04UucaR1dQfssjW3Y/NausClkSDZsO5kUZz1LJ2nMiLSPZQANJZHMcg9P0ugi2tLaI3MRSsNBOBfM3tex+tRxlH/lV5FoobSRw6T7k8jgnvJS/JpFFGsiAI7G2DQnWD8bwC1Cov/CcpCBTAaxYsnx/8zU8ffCo69Et5W+QDp0nisFPUb6FQb7NJ5iRhvXD0G5w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(396003)(39860400002)(376002)(346002)(451199021)(36840700001)(40470700004)(46966006)(41300700001)(6666004)(40480700001)(36756003)(966005)(8676002)(8936002)(5660300002)(110136005)(7416002)(70586007)(70206006)(4326008)(54906003)(316002)(478600001)(40460700003)(2906002)(7696005)(82310400005)(1076003)(26005)(186003)(83380400001)(336012)(47076005)(36860700001)(2616005)(426003)(356005)(81166007)(921005)(16526019)(86362001)(82740400003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2023 06:39:48.9864 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2f4f0b8-55dd-45e7-4138-08db67eb2817
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT058.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,89 +105,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Cc: Honglei Huang <Honglei1.Huang@amd.com>,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>, Huang Rui <Ray.Huang@amd.com>,
+ Jiqian Chen <Jiqian.Chen@amd.com>, Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Alex Deucher <Alexander.Deucher@amd.com>, Julia Zhang <Julia.Zhang@amd.com>,
+ Christian Koenig <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 07, 2023 at 11:45:02AM +0200, Stanislaw Gruszka wrote:
-> From: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> 
-> Wait for AON bit in HOST_SS_CPR_RST_CLR to return 0 before
-> starting VPUIP power up sequence, otherwise the VPU device
-> may sporadically fail to boot.
-> 
-> An error in power up sequence is propagated to the runtime
-> power management - the device will be in an error state
-> until the VPU driver is reloaded.
-> 
-> Fixes: 35b137630f08 ("accel/ivpu: Introduce a new DRM driver for Intel VPU")
-> Cc: stable@vger.kernel.org # 6.3.x
-> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> Reviewed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Applied to drm-misc-fixes
+Hi all,
 
-Thanks
-Stanislaw
+I am working to implement virtgpu S3 function on Xen.
 
-> ---
->  drivers/accel/ivpu/ivpu_hw_mtl.c     | 13 ++++++++++++-
->  drivers/accel/ivpu/ivpu_hw_mtl_reg.h |  1 +
->  2 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-> index 382ec127be8e..efae679d7b7a 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-> @@ -197,6 +197,11 @@ static void ivpu_pll_init_frequency_ratios(struct ivpu_device *vdev)
->  	hw->pll.pn_ratio = clamp_t(u8, fuse_pn_ratio, hw->pll.min_ratio, hw->pll.max_ratio);
->  }
->  
-> +static int ivpu_hw_mtl_wait_for_vpuip_bar(struct ivpu_device *vdev)
-> +{
-> +	return REGV_POLL_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, AON, 0, 100);
-> +}
-> +
->  static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
->  {
->  	struct ivpu_hw_info *hw = vdev->hw;
-> @@ -239,6 +244,12 @@ static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
->  			ivpu_err(vdev, "Timed out waiting for PLL ready status\n");
->  			return ret;
->  		}
-> +
-> +		ret = ivpu_hw_mtl_wait_for_vpuip_bar(vdev);
-> +		if (ret) {
-> +			ivpu_err(vdev, "Timed out waiting for VPUIP bar\n");
-> +			return ret;
-> +		}
->  	}
->  
->  	return 0;
-> @@ -256,7 +267,7 @@ static int ivpu_pll_disable(struct ivpu_device *vdev)
->  
->  static void ivpu_boot_host_ss_rst_clr_assert(struct ivpu_device *vdev)
->  {
-> -	u32 val = REGV_RD32(MTL_VPU_HOST_SS_CPR_RST_CLR);
-> +	u32 val = 0;
->  
->  	val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, TOP_NOC, val);
->  	val = REG_SET_FLD(MTL_VPU_HOST_SS_CPR_RST_CLR, DSS_MAS, val);
-> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl_reg.h b/drivers/accel/ivpu/ivpu_hw_mtl_reg.h
-> index d83ccfd9a871..593b8ff07417 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_mtl_reg.h
-> +++ b/drivers/accel/ivpu/ivpu_hw_mtl_reg.h
-> @@ -91,6 +91,7 @@
->  #define MTL_VPU_HOST_SS_CPR_RST_SET_MSS_MAS_MASK			BIT_MASK(11)
->  
->  #define MTL_VPU_HOST_SS_CPR_RST_CLR					0x00000098u
-> +#define MTL_VPU_HOST_SS_CPR_RST_CLR_AON_MASK				BIT_MASK(0)
->  #define MTL_VPU_HOST_SS_CPR_RST_CLR_TOP_NOC_MASK			BIT_MASK(1)
->  #define MTL_VPU_HOST_SS_CPR_RST_CLR_DSS_MAS_MASK			BIT_MASK(10)
->  #define MTL_VPU_HOST_SS_CPR_RST_CLR_MSS_MAS_MASK			BIT_MASK(11)
-> -- 
-> 2.25.1
-> 
+Currently on Xen, if we start a guest who enables virtgpu, and then
+run "echo mem > /sys/power/state" to suspend guest. And run
+"sudo xl trigger <guest id> s3resume" to resume guest. We can find that
+the guest kernel comes back, but the display doesn't. It just shows a
+black screen.
+
+In response to the above phenomenon, I have found two problems.
+
+First, if we move mouse on the black screen, guest kernel still sends a
+cursor request to Qemu, but Qemu doesn't response. Because when guest
+is suspending, it calls device_suspend, and then call into Qemu to call
+virtio_reset->__virtio_queue_reset. In __virtio_queue_reset, it clears
+all virtqueue information on Qemu end. So, after guest resumes, Qemu
+can't get message from virtqueue.
+
+Second, the reason why display can't come back is that when guest is
+suspending, it calls into Qemu to call virtio_reset->virtio_gpu_gl_reset.
+In virtio_gpu_gl_reset, it destroys all resources and resets renderer,
+which are used for display. So after guest resumes, the display can't
+come back to the status when guest is suspended.
+
+This patch initializes virtqueue when guest is resuming to solve first
+problem. And it notifies Qemu that guest is suspending to prevent Qemu
+destroying resources, this is to solve second problem. And then, I can
+bring the display back, and everything continues their actions after
+guest resumes.
+
+Modifications on Qemu end is:
+https://lore.kernel.org/qemu-devel/20230608025655.1674357-2-Jiqian.Chen@amd.com/
+
+Best regards,
+Jiqian Chen.
+
+Jiqian Chen (1):
+  virtgpu: init vq during resume and notify qemu guest status
+
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 32 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.h |  3 +++
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 30 ++++++++++++++++++--------
+ drivers/gpu/drm/virtio/virtgpu_vq.c  | 15 +++++++++++++
+ include/uapi/linux/virtio_gpu.h      |  9 ++++++++
+ 5 files changed, 80 insertions(+), 9 deletions(-)
+
+-- 
+2.34.1
+
