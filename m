@@ -1,48 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BFF728072
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 14:50:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E730728076
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 14:51:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35E6210E266;
-	Thu,  8 Jun 2023 12:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A87DE10E424;
+	Thu,  8 Jun 2023 12:51:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1131310E266
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 12:50:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126033089000.35.openmobile.ne.jp
- [126.33.89.0])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19B11D01;
- Thu,  8 Jun 2023 14:49:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686228596;
- bh=3z0PmALEjwiVoQx6iarweAGyVIYso5lEQJEyqQLBah4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iodc6ZphdSW35Rg0O0ziumxog0ItCTdYuNWmOoAd/msypglaExlJcyANIaEm0RuLm
- 7mNhQaZ2rpgKKZ3H5Ed7Iya7OjWywgXD07KO90fzN7qm5IFnPFKjc02lMeAdSjQXHa
- 8MppxegWXDTao1cRYSM0E7vX2y9u36yXlNsxV2Tg=
-Date: Thu, 8 Jun 2023 15:50:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230608125019.GD26742@pendragon.ideasonboard.com>
-References: <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
- <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF09110E424
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 12:51:19 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f6e4554453so3624195e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 05:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686228677; x=1688820677;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YQMTg2asd6/z1TQc0GwCD1tU1OXhoBS7NtC63V59A9o=;
+ b=dU5IQj4BJptT5+1iMV4cWGdd+DqQmnjGSnkU31rDAIkiGaV91UFUSc4AEpKZroSnKy
+ TkJO8TruUgMuk9MMwX54oIdSr3In++wZulIBTtPPpeOe+1r4/nHcF67mhN7QAHHxolK7
+ QVgXByYCQG4P57Ng924N8la/d2HPmvp04+2bRYpcCVKmYoHVeQVt8dmffWqmxNsP0sB8
+ +P+XltdgkLnUA2W1zznqZcw+5wYWkgDhYKRXzLv51Wjv6ehUrZzH3gDcAQU6xPRw7ZU7
+ JMEytqeH0r+5QKfg0fQZjUl2M5NNSaisdvrQxUUfwQHDH7sH38U1KV3b20KCTKxLrVBW
+ exQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686228677; x=1688820677;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YQMTg2asd6/z1TQc0GwCD1tU1OXhoBS7NtC63V59A9o=;
+ b=TrfYoHFfJNaKmeOwKUQqF9ucDwgp16rdSd2exk8dOOyXGMT3rZ5TFpBnFU2KRHpLb3
+ Oaz3EpJy+cMc49smIpfA/jrKpKDpgleENeoumy/lx6RY2BZ9j7oQd0MWqs/tD9MjC5wo
+ 01tRc2sotC06u8A8JVOpgEyvyrCXL5WOcAY33lwBbFD3K7oI9NAqtAt7U7lRAMIHULC0
+ m9/Q66qlRh3AsSf+HRzbxVrkGDJdrD65k2INB8/wjBEQs8XPjVBSvpj8TLsC4zasoF43
+ GcbxHpTO8TFg/xlVmG8vS3MSHx9x1yHmyLAWlL7WsxAly4Qhm9ZhdVSqHUHV6RN3yrnn
+ F33w==
+X-Gm-Message-State: AC+VfDzX3ra0HRJ5q+I6rsGXFgOqqhycgdrlvq7D7NKk7Yun3UFUNtm1
+ yMYz0TKZkTpi2IOLp4yaOoOT9A==
+X-Google-Smtp-Source: ACHHUZ4fddPWAXwB7Ei2gnzuTtFtKvFSYafaL+nGQniuAjfX2uouva1tLaCbYWA97I8kJkOUexFXKA==
+X-Received: by 2002:adf:dcc4:0:b0:30a:e66d:25b7 with SMTP id
+ x4-20020adfdcc4000000b0030ae66d25b7mr6867184wrm.13.1686228677644; 
+ Thu, 08 Jun 2023 05:51:17 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a5d650f000000b0030adfa48e1esm1523143wru.29.2023.06.08.05.51.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jun 2023 05:51:17 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Artur Weber <aweber.kernel@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Wang Jianzheng <wangjianzheng@vivo.com>
+In-Reply-To: <20230608033446.18412-1-wangjianzheng@vivo.com>
+References: <20230608033446.18412-1-wangjianzheng@vivo.com>
+Subject: Re: [PATCH] drm/panel: s6d7aa0: remove the unneeded variable in
+ s6d7aa0_lock
+Message-Id: <168622867695.567381.16167502106642001528.b4-ty@linaro.org>
+Date: Thu, 08 Jun 2023 14:51:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,125 +78,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: opensource.kernel@vivo.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi,
 
-On Thu, Jun 08, 2023 at 11:00:19AM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Thu, Jun 08, 2023 at 06:41:35AM +0000, Biju Das wrote:
-> > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > > API
-> > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > i2c_new_ancillary_device API
-> > > > >
-> > > > > Hi all,
-> > > > >
-> > > > > sorry for not being able to chime in earlier.
-> > > > >
-> > > > > > In Biju's particular use case, the i2c device responds to two
-> > > > > > addresses, which is the standard i2c ancillary use case.
-> > > > > > However, what's special
-> > > > >
-> > > > > Not quite. ancillary is used when a *driver* needs to take care of
-> > > > > two addresses. We already have devices bundling two features into
-> > > > > the same chip. I recall at least RTC + EEPROM somewhere. And so
-> > > > > far, we have been handling this by creating two nodes in DT and have proper binding docs.
-> > > > > I think this is cleaner. First, you can see in DT already what the
-> > > > > compound device really consists of. In this case, which RTC and
-> > > > > RTC driver is exactly needed. Second, the code added here adds
-> > > > > complexity to the I2C core with another layer of inderection for dummy devices.
-> > > >
-> > > > FYI, please see [1] and [2]
-> > > >
-> > > > As per DT maintainers, most of PMICs are described with one node,
-> > > > even though RTC is on separate address. According to them the DT
-> > > > schema allows multiple addresses for children.
-> > > > But currently we lacks implementation for that. The enhancement to
-> > > > this API allows that.
-> > > >
-> > > > > > As some resources are shared (knowledge about the clocks),
-> > > > > > splitting this in two distinct devices in DT (which is what
-> > > > > > Biju's initial patch series did) would need phandles to link both nodes together.
-> > > > > >
-> > > > > > Do you have a better idea how to represent this?
-> > > > >
-> > > > > Not sure if I understood this chip correctly, but maybe: The PMIC
-> > > > > driver exposes a clock gate which can be consumed by the RTC driver?
-> > >
-> > > Let me give me some details of this PMIC chip.
-> > >
-> > > PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc.
-> > >
-> > > It has XIN, XOUT, INT# pins and a register for firmware revisions.
-> > 
-> > Is the firmware revision register accessed through address 0x12 (PMIC) or
-> > 0x6f (RTC) ?
+On Thu, 08 Jun 2023 11:34:46 +0800, Wang Jianzheng wrote:
+> Remove unneeded variable and directly return 0.
 > 
-> 0x12(PMIC).
 > 
-> > > Based on the system design,
-> > >
-> > > If XIN and XOUT is connected to external crystal, Internal oscillator
-> > > is enabled for RTC. In this case we need to set the oscillator bit to
-> > > "0".
-> > >
-> > > If XIN is connected to external clock source, Internal oscillator is
-> > > disabled for RTC. In this case we need to set the oscillator bit to
-> > > "1".
-> > 
-> > Same here, which address is the oscillator bit accessed through ?
-> 
-> RTC (0x6F)--> to set oscillator bit.
 
-And does the PMIC part depend on the oscillator bit being set correctly,
-or is that used for the RTC only ?
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-> > > If XIN and XOUT not connected RTC operation not possible.
-> > >
-> > > IRQ# (optional) functionality is shared between PMIC and RTC. (PMIC
-> > > fault for various bucks/LDOs/WDT/OTP/NVM and alarm condition).
-> > 
-> > IRQs can be shared between multiple devices so this shouldn't be a
-> > problem.
-> 
-> OK. How do we represent this IRQ in DT?
-
-You can simply reference the same IRQ from the interrupts property of
-different DT nodes.
-
-> > > The board, I have doesn't populate IRQ# pin. If needed some customers
-> > > can populate IRQ# pin and use it for PMIC fault and RTC alarm.
-> > >
-> > > Also, currently my board has PMIC rev a0 where oscillator bit is
-> > > inverted and internal oscillator is enabled (ie: XIN and XOUT is
-> > > connected to external crystal)
+[1/1] drm/panel: s6d7aa0: remove the unneeded variable in s6d7aa0_lock
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c5dacfe2e6c1251276e29b4cdac771f504593523
 
 -- 
-Regards,
+Neil
 
-Laurent Pinchart
