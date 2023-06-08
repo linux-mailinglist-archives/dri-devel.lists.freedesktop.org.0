@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A382728313
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 16:52:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EAE728314
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 16:52:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B4F10E5DD;
-	Thu,  8 Jun 2023 14:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3AEA10E5D9;
+	Thu,  8 Jun 2023 14:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24AF10E049;
- Thu,  8 Jun 2023 14:51:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17B1E10E5D6;
+ Thu,  8 Jun 2023 14:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686235907; x=1717771907;
+ t=1686235910; x=1717771910;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HcgGUpI0tVSxvBcGkkaGuHAl6ROkYc89poNElXA2Jdk=;
- b=HH7/cEBqhEcMY/uQXnrWe1YQbJ66aU6Z91GZ07Dt9hod+fvXqxglJJoF
- jqKd6mktaDKxmkgm9SPjsrfRNJXzxdEklIDowf/X2UGUrUWe8QCjax2aR
- cYjzx0w6HwvfK8QKYre2aBaxyZge2h35gMHMrW8apLZccJZky+8hIZZ0G
- 0sf4bBXwv8cgycWpBOH7GkHKNYmXEdTtJkwn5ayAPAeINUGAm4Fi1MK4t
- 7LIiCPne7iMsXl+ZisIwpOC2t6L0MX25GSgVdxbM3u5eYp0D84fMQ4XIF
- gWKu42/dMACDEZ45esA9aXJFZnVIRIhTGhIaXQP1qaXt3G1KnfrgntXF+ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="336957604"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="336957604"
+ bh=9q4pdyBPmSCnx9EzrOZKfznXiy+l/r+p0sbqJ3Uuy0Y=;
+ b=EBoENCm4ArjM8tXUzDwrpwL9w+4rawti9OwH9xiSfANUHT5bfThOsMgu
+ +dLql2r9cRaAFIxKYjD8Iofb8vHSevUzaNejL9GVBhST+yFLJhJ0h3ctl
+ K6yHgw6UeYQm/7MHC5unqQafkIAb0GkKsW6P0RhXoZ14fBhBAIparGSLC
+ 8AVQ7AYdvi20l2wd+3k2JpJPZ4ONWw/HEz0PF5ubej7yFpT8DTskBfkZD
+ 7ggPSVlnXMX1NZgZjpaXN7WbnSw0TWeNESc1wrr/t6acPFn5DBSk5/VXO
+ RgtqcLmXwl7xy50cNIzfPX+eyKdJ9Mkz9z0u3pa3DOUq6G094USjl3o6E A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="336957606"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="336957606"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 07:51:47 -0700
+ 08 Jun 2023 07:51:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="704134536"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="704134536"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="704134546"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="704134546"
 Received: from rirwin-mobl3.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.239.227])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 07:51:46 -0700
+ 08 Jun 2023 07:51:47 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/i915: Account ring buffer and context state storage
-Date: Thu,  8 Jun 2023 15:51:32 +0100
-Message-Id: <20230608145133.1059554-5-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 5/5] drm/i915: Implement fdinfo memory stats printing
+Date: Thu,  8 Jun 2023 15:51:33 +0100
+Message-Id: <20230608145133.1059554-6-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230608145133.1059554-1-tvrtko.ursulin@linux.intel.com>
 References: <20230608145133.1059554-1-tvrtko.ursulin@linux.intel.com>
@@ -59,98 +59,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Account ring buffers and logical context space against the owning client
-memory usage stats.
+Use the newly added drm_print_memory_stats helper to show memory
+utilisation of our objects in drm/driver specific fdinfo output.
+
+To collect the stats we walk the per memory regions object lists
+and accumulate object size into the respective drm_memory_stats
+categories.
+
+Objects with multiple possible placements are reported in multiple
+regions for total and shared sizes, while other categories are
+counted only for the currently active region.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Cc: Rob Clark <robdclark@gmail.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c |  6 ++++++
- drivers/gpu/drm/i915/i915_drm_client.c      | 10 ++++++++++
- drivers/gpu/drm/i915/i915_drm_client.h      |  9 +++++++++
- 3 files changed, 25 insertions(+)
+ drivers/gpu/drm/i915/i915_drm_client.c | 64 ++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 35cf6608180e..3f4c74aed3c5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -1703,6 +1703,8 @@ static void gem_context_register(struct i915_gem_context *ctx,
- 				 u32 id)
- {
- 	struct drm_i915_private *i915 = ctx->i915;
-+	struct i915_gem_engines_iter it;
-+	struct intel_context *ce;
- 	void *old;
- 
- 	ctx->file_priv = fpriv;
-@@ -1721,6 +1723,10 @@ static void gem_context_register(struct i915_gem_context *ctx,
- 	list_add_tail(&ctx->link, &i915->gem.contexts.list);
- 	spin_unlock(&i915->gem.contexts.lock);
- 
-+	for_each_gem_engine(ce, i915_gem_context_lock_engines(ctx), it)
-+		i915_drm_client_add_context(fpriv->client, ce);
-+	i915_gem_context_unlock_engines(ctx);
-+
- 	/* And finally expose ourselves to userspace via the idr */
- 	old = xa_store(&fpriv->context_xa, id, ctx, GFP_KERNEL);
- 	WARN_ON(old);
 diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 4cacca568375..777930f4995f 100644
+index 777930f4995f..686db139b241 100644
 --- a/drivers/gpu/drm/i915/i915_drm_client.c
 +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -142,4 +142,14 @@ void i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
- 
- 	i915_drm_client_put(client);
+@@ -48,6 +48,68 @@ void __i915_drm_client_free(struct kref *kref)
  }
-+
-+void i915_drm_client_add_context(struct i915_drm_client *client,
-+				 struct intel_context *ce)
+ 
+ #ifdef CONFIG_PROC_FS
++static void
++obj_meminfo(struct drm_i915_gem_object *obj,
++	    struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
 +{
-+	if (ce->state)
-+		i915_drm_client_add_object(client, ce->state->obj);
++	struct intel_memory_region *mr;
++	u64 sz = obj->base.size;
++	enum intel_region_id id;
++	unsigned int i;
 +
-+	if (ce->ring != ce->engine->legacy.ring && ce->ring->vma)
-+		i915_drm_client_add_object(client, ce->ring->vma->obj);
-+}
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 0db68b4d7a4f..a5c29a105af3 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -15,6 +15,7 @@
- 
- #include "i915_file_private.h"
- #include "gem/i915_gem_object_types.h"
-+#include "gt/intel_context_types.h"
- 
- #define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
- 
-@@ -73,6 +74,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file);
- void i915_drm_client_add_object(struct i915_drm_client *client,
- 				struct drm_i915_gem_object *obj);
- void i915_drm_client_remove_object(struct drm_i915_gem_object *obj);
-+void i915_drm_client_add_context(struct i915_drm_client *client,
-+				 struct intel_context *ce);
- #else
- static inline void i915_drm_client_add_object(struct i915_drm_client *client,
- 					      struct drm_i915_gem_object *obj)
-@@ -83,6 +86,12 @@ static inline void i915_drm_client_add_object(struct i915_drm_client *client,
- static inline void i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
- {
- 
++	/* Attribute size and shared to all possible memory regions. */
++	for (i = 0; i < obj->mm.n_placements; i++) {
++		mr = obj->mm.placements[i];
++		id = mr->id;
++
++		if (obj->base.handle_count > 1)
++			stats[id].shared += sz;
++		else
++			stats[id].private += sz;
++	}
++
++	/* Attribute other categories to only the current region. */
++	mr = obj->mm.region;
++	if (mr)
++		id = mr->id;
++	else
++		id = INTEL_REGION_SMEM;
++
++	if (i915_gem_object_has_pages(obj)) {
++		stats[id].resident += sz;
++
++		if (!dma_resv_test_signaled(obj->base.resv,
++					    dma_resv_usage_rw(true)))
++			stats[id].active += sz;
++		else if (i915_gem_object_is_shrinkable(obj) &&
++			 obj->mm.madv == I915_MADV_DONTNEED)
++			stats[id].purgeable += sz;
++	}
 +}
 +
-+static inline void i915_drm_client_add_context(struct i915_drm_client *client,
-+					       struct intel_context *ce)
++static void show_meminfo(struct drm_printer *p, struct drm_file *file)
 +{
++	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
++	struct drm_i915_file_private *fpriv = file->driver_priv;
++	struct i915_drm_client *client = fpriv->client;
++	struct drm_i915_private *i915 = fpriv->i915;
++	struct drm_i915_gem_object *obj;
++	struct intel_memory_region *mr;
++	unsigned int id;
 +
- }
- #endif
++	mutex_lock(&client->objects_lock);
++	list_for_each_entry(obj, &client->objects_list, client_link)
++		obj_meminfo(obj, stats);
++	mutex_unlock(&client->objects_lock);
++
++	for_each_memory_region(mr, i915, id)
++		drm_print_memory_stats(p,
++				       &stats[id],
++				       DRM_GEM_OBJECT_RESIDENT |
++				       DRM_GEM_OBJECT_PURGEABLE,
++				       mr->name);
++}
++
+ static const char * const uabi_class_names[] = {
+ 	[I915_ENGINE_CLASS_RENDER] = "render",
+ 	[I915_ENGINE_CLASS_COPY] = "copy",
+@@ -109,6 +171,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+ 	 * ******************************************************************
+ 	 */
+ 
++	show_meminfo(p, file);
++
+ 	if (GRAPHICS_VER(i915) < 8)
+ 		return;
  
 -- 
 2.39.2
