@@ -1,47 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B0D72788A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:17:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B437278B5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 09:25:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A9710E591;
-	Thu,  8 Jun 2023 07:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A41E510E1FD;
+	Thu,  8 Jun 2023 07:24:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0CBC10E591
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:17:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 375AE60DDB;
- Thu,  8 Jun 2023 07:17:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DEEC433EF;
- Thu,  8 Jun 2023 07:17:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686208649;
- bh=DgNy7Z0KKn8MMOgxNGldNvVHSpHtF7LqXA6FiWXacwU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KS66tAZlXQrUKAebbEfqLOkWE5Pz7Q2p9tPKdNpc1SniYL0900czyqPb2TaiYL7Ye
- DEwwMeIHAFnTj3cuw0BHO6UhjnLImLhIn2eACfmDVwIugq4cLOt2rL4KNLPyATWDs4
- T241J5sSwtzNEssZf8WdI7orYGadgjn/4DOibGpQoAnMl2tdxT1niTSxkyln1UeY52
- vRl3eimY0u7D4eKKGd+Sh78Dd1OujFDZsoLARWFlVlw1+PYKmz9FF/UGSEfz5TkjTh
- bC2AboPTkpyqXTixmVaorks6BN2QLX7MmtpaHyVSW+LV0jcCIpXqR7elwdjGHU6pKz
- O9NmFP7cxLMTQ==
-Date: Thu, 8 Jun 2023 09:17:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-Message-ID: <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
-References: <20230607215224.2067679-1-dianders@chromium.org>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A434410E1FD
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 07:24:56 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxDetGgoFknXMAAA--.1746S3;
+ Thu, 08 Jun 2023 15:24:54 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxZuRGgoFkr98GAA--.22149S3; 
+ Thu, 08 Jun 2023 15:24:54 +0800 (CST)
+Message-ID: <aff664c7-b692-4fcf-ad61-8030cc648501@loongson.cn>
+Date: Thu, 8 Jun 2023 15:24:54 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dfmbtdcuvmsnsbt5"
-Content-Disposition: inline
-In-Reply-To: <20230607215224.2067679-1-dianders@chromium.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+References: <20230608024207.581401-1-suijingfeng@loongson.cn>
+ <ZIGAEZTJvq1GqFVD@aptenodytes>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <ZIGAEZTJvq1GqFVD@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8AxZuRGgoFkr98GAA--.22149S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ZF1kZryDZr18GF1xur13Jrc_yoW8XFW7pr
+ W8Ka4jyF4IvFW5KF1xAr13XFy5X3WkGFWS9F12k3WDuwn8AFyDZr93ZrWYgFy5ZrZrJF40
+ yFn7Ka45Ga12kagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
+ 1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jn
+ UUUUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,86 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---dfmbtdcuvmsnsbt5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks a lot
 
-Hi Douglas,
+On 2023/6/8 15:15, Paul Kocialkowski wrote:
+> Hi,
+>
+> On Thu 08 Jun 23, 10:42, Sui Jingfeng wrote:
+>> drm/logicvc driver is depend on REGMAP and REGMAP_MMIO, should select this
+>> two kconfig option, otherwise the driver failed to compile on platform
+>> without REGMAP_MMIO selected:
+>>
+>> ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/logicvc/logicvc-drm.ko] undefined!
+>> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+>> make: *** [Makefile:1978: modpost] Error 2
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Thanks for the fix, looks good to me!
+>
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-On Wed, Jun 07, 2023 at 02:49:22PM -0700, Douglas Anderson wrote:
->=20
-> The big motivation for this patch series is mostly described in the patch
-> ("drm/panel: Add a way for other devices to follow panel state"), but to
-> quickly summarize here: for touchscreens that are connected to a panel we
-> need the ability to power sequence the two device together. This is not a
-> new need, but so far we've managed to get by through a combination of
-> inefficiency, added costs, or perhaps just a little bit of brokenness.
-> It's time to do better. This patch series allows us to do better.
->=20
-> Assuming that people think this patch series looks OK, we'll have to
-> figure out the right way to land it. The panel patches and i2c-hid
-> patches will go through very different trees and so either we'll need
-> an Ack from one side or the other or someone to create a tag for the
-> other tree to pull in. This will _probably_ require the true drm-misc
-> maintainers to get involved, not a lowly committer. ;-)
->=20
-> Version 2 of this patch series doesn't change too much. At a high level:
-> * I added all the forgotten "static" to functions.
-> * I've hopefully made the bindings better.
-> * I've integrated into fw_devlink.
-> * I cleaned up a few descriptions / comments.
->=20
-> This still needs someone to say that the idea looks OK or to suggest
-> an alternative that solves the problems. ;-)
+After received this Acked-by, do a need append this tag to the patch, 
+and resend this again?
 
-Thanks for working on this.
+I don't know about this.
 
-I haven't seen in any of your commit messages how the panels were
-actually "packaged" together?
+I don't need to do anythings ales, you will push it to your repository, 
+right?
 
-Do a panel model typically come together with the i2c-hid support, or is
-it added at manufacture time?
 
-If it's the latter, it's indeed a fairly loose connection and we need
-your work.
+> Cheers,
+>
+> Paul
+>
+>> ---
+>>   drivers/gpu/drm/logicvc/Kconfig | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
+>> index fa7a88368809..1df22a852a23 100644
+>> --- a/drivers/gpu/drm/logicvc/Kconfig
+>> +++ b/drivers/gpu/drm/logicvc/Kconfig
+>> @@ -5,5 +5,7 @@ config DRM_LOGICVC
+>>   	select DRM_KMS_HELPER
+>>   	select DRM_KMS_DMA_HELPER
+>>   	select DRM_GEM_DMA_HELPER
+>> +	select REGMAP
+>> +	select REGMAP_MMIO
+>>   	help
+>>   	  DRM display driver for the logiCVC programmable logic block from Xylon
+>> -- 
+>> 2.25.1
+>>
+-- 
+Jingfeng
 
-If it's the former though and we don't expect a given panel reference to
-always (or never) come with a touchscreen attached, I guess we can have
-something much simpler with a bunch of helpers that would register a
-i2c-hid device and would be called by the panel driver itself.
-
-And then, since everything is self-contained managing the power state
-becomes easier as well.
-
-Maxime
-
---dfmbtdcuvmsnsbt5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIGAhgAKCRDj7w1vZxhR
-xXYWAP9FSFylcQPn7fz6xgDKld7G4GeHoOUOkRIHq74ilGrD7QEA/4Zn/Rzcqgwa
-aYb2ySZimrrn0J5IOURj78PWDxWA7QY=
-=aUVL
------END PGP SIGNATURE-----
-
---dfmbtdcuvmsnsbt5--
