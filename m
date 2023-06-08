@@ -2,51 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EAE728314
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 16:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA5A72834D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jun 2023 17:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AEA10E5D9;
-	Thu,  8 Jun 2023 14:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1629B10E021;
+	Thu,  8 Jun 2023 15:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B1E10E5D6;
- Thu,  8 Jun 2023 14:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686235910; x=1717771910;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=9q4pdyBPmSCnx9EzrOZKfznXiy+l/r+p0sbqJ3Uuy0Y=;
- b=EBoENCm4ArjM8tXUzDwrpwL9w+4rawti9OwH9xiSfANUHT5bfThOsMgu
- +dLql2r9cRaAFIxKYjD8Iofb8vHSevUzaNejL9GVBhST+yFLJhJ0h3ctl
- K6yHgw6UeYQm/7MHC5unqQafkIAb0GkKsW6P0RhXoZ14fBhBAIparGSLC
- 8AVQ7AYdvi20l2wd+3k2JpJPZ4ONWw/HEz0PF5ubej7yFpT8DTskBfkZD
- 7ggPSVlnXMX1NZgZjpaXN7WbnSw0TWeNESc1wrr/t6acPFn5DBSk5/VXO
- RgtqcLmXwl7xy50cNIzfPX+eyKdJ9Mkz9z0u3pa3DOUq6G094USjl3o6E A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="336957606"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="336957606"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 07:51:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="704134546"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; d="scan'208";a="704134546"
-Received: from rirwin-mobl3.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.239.227])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2023 07:51:47 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/i915: Implement fdinfo memory stats printing
-Date: Thu,  8 Jun 2023 15:51:33 +0100
-Message-Id: <20230608145133.1059554-6-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230608145133.1059554-1-tvrtko.ursulin@linux.intel.com>
-References: <20230608145133.1059554-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D051010E021
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jun 2023 15:11:14 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id
+ af79cd13be357-75d461874f4so65068885a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1686237073; x=1688829073;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
+ b=BmAm0rXM4KZbTYym0HXYlOClgT/zGWm4ze6fwFqXwAqD1ItkmTYBl/+afhC3UDFEZl
+ uuRCKPD6RgfoUkFKIWZwzbDtBFAA1JCrB8QIqhbKWGVLgphLs9tCNZ4dqqMrQJ95EdDS
+ +7AZci3CA88AqfAQL6mijMM679CIZt98Z/tco=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686237073; x=1688829073;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XKYIY8lnLeesFrrYGM6yGBBcxp2DdDvQNqXJ/GPrn+0=;
+ b=LC+rz/NR61R0xtAvrcvDucJmKmM7530C8GgG7tZMk7LUzxq4ddnevT23B3IlhRl5hS
+ qhKkc5kBWROQWjZSCBILklru3wg0cPpAWBSkhqrJ/IbtINAg0V9+MgqdvrWfcNfZM1w7
+ YdjtvUEK3WQ09ab3QCuiu0IpTGsQc7JzBKJ6zaD9gP5nI3WDe4LVjrIuZ38pPg+3SUc4
+ q3LAFvTksLandQ6EvHGF7eatx0PYkLtbBGaPBARjljhMlSxnwCUg6oCn1P7MKNUuXWZL
+ KqRalZfVZ6b3D51g+nBh54THQZMO5MdEeVtRFL34vAXGpMSD28vf5H/YMRQwSmsp4qNq
+ jRZQ==
+X-Gm-Message-State: AC+VfDzAJ23Wx7nMC10XZJPsPXnRCCOtx1z0EtHgj5I/GzvTmevoJoP5
+ fskvZW2up2/YAgNedoiV8JyL5oJiLChXTUeJyrU=
+X-Google-Smtp-Source: ACHHUZ4758YwvCBeUTui3hSUZyXtj8CYLxNDY2Jx6NSol+SSrp7tadw1hzZLWKZKbng5Mdu1Kjtxhg==
+X-Received: by 2002:a05:620a:2a14:b0:75e:c960:9205 with SMTP id
+ o20-20020a05620a2a1400b0075ec9609205mr7772422qkp.16.1686237072691; 
+ Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
+ [209.85.160.180]) by smtp.gmail.com with ESMTPSA id
+ z17-20020a05620a101100b0075eca73737asm383684qkj.60.2023.06.08.08.11.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id
+ d75a77b69052e-3f9b7de94e7so218671cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 08:11:12 -0700 (PDT)
+X-Received: by 2002:a92:c549:0:b0:33d:929c:af67 with SMTP id
+ a9-20020a92c549000000b0033d929caf67mr120694ilj.17.1686237051541; Thu, 08 Jun
+ 2023 08:10:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+ <202306081419.Dzz0T4iW-lkp@intel.com>
+In-Reply-To: <202306081419.Dzz0T4iW-lkp@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 8 Jun 2023 08:10:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
+Message-ID: <CAD=FV=UMryHK+8j9FCKtSxykB8Tc-tU_B7MXMQPxpkdP2h8mJA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+To: kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,113 +79,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-input@vger.kernel.org,
+ hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi,
 
-Use the newly added drm_print_memory_stats helper to show memory
-utilisation of our objects in drm/driver specific fdinfo output.
+On Thu, Jun 8, 2023 at 12:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Douglas,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on robh/for-next]
+> [also build test ERROR on hid/for-next dtor-input/next dtor-input/for-lin=
+us drm-misc/drm-misc-next linus/master v6.4-rc5 next-20230607]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/d=
+t-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20=
+230608-055515
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git fo=
+r-next
+> patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c45=
+5cd7e26b931c69993d4fba33bbe15%40changeid
+> patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follo=
+wer
+> config: i386-randconfig-i003-20230607 (https://download.01.org/0day-ci/ar=
+chive/20230608/202306081419.Dzz0T4iW-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=3D1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         git remote add robh https://git.kernel.org/pub/scm/linux/kernel/g=
+it/robh/linux.git
+>         git fetch robh for-next
+>         git checkout robh/for-next
+>         b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309=
+c455cd7e26b931c69993d4fba33bbe15@changeid
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Di386 olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306081419.Dzz0T4iW-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: drm_panel_add_follower
+>    >>> referenced by i2c-hid-core.c:1159 (drivers/hid/i2c-hid/i2c-hid-cor=
+e.c:1159)
+>    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_pro=
+be) in archive vmlinux.a
+> --
+> >> ld.lld: error: undefined symbol: drm_panel_remove_follower
+>    >>> referenced by i2c-hid-core.c:1218 (drivers/hid/i2c-hid/i2c-hid-cor=
+e.c:1218)
+>    >>>               drivers/hid/i2c-hid/i2c-hid-core.o:(i2c_hid_core_rem=
+ove) in archive vmlinux.a
 
-To collect the stats we walk the per memory regions object lists
-and accumulate object size into the respective drm_memory_stats
-categories.
+Thanks for the report! Ugh, I guess I forgot that even though
+DRM_PANEL is bool, it gets bundled up into all of DRM which can be a
+module. Assuming that this series looks mostly the same in the next
+version, I'll plan to add this:
 
-Objects with multiple possible placements are reported in multiple
-regions for total and shared sizes, while other categories are
-counted only for the currently active region.
+depends on DRM || !DRM # if DRM=3Dm, this can't be 'y'
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Cc: Rob Clark <robdclark@gmail.com>
----
- drivers/gpu/drm/i915/i915_drm_client.c | 64 ++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+...to each of the i2c-hid subclasses.
 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 777930f4995f..686db139b241 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -48,6 +48,68 @@ void __i915_drm_client_free(struct kref *kref)
- }
- 
- #ifdef CONFIG_PROC_FS
-+static void
-+obj_meminfo(struct drm_i915_gem_object *obj,
-+	    struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
-+{
-+	struct intel_memory_region *mr;
-+	u64 sz = obj->base.size;
-+	enum intel_region_id id;
-+	unsigned int i;
-+
-+	/* Attribute size and shared to all possible memory regions. */
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		mr = obj->mm.placements[i];
-+		id = mr->id;
-+
-+		if (obj->base.handle_count > 1)
-+			stats[id].shared += sz;
-+		else
-+			stats[id].private += sz;
-+	}
-+
-+	/* Attribute other categories to only the current region. */
-+	mr = obj->mm.region;
-+	if (mr)
-+		id = mr->id;
-+	else
-+		id = INTEL_REGION_SMEM;
-+
-+	if (i915_gem_object_has_pages(obj)) {
-+		stats[id].resident += sz;
-+
-+		if (!dma_resv_test_signaled(obj->base.resv,
-+					    dma_resv_usage_rw(true)))
-+			stats[id].active += sz;
-+		else if (i915_gem_object_is_shrinkable(obj) &&
-+			 obj->mm.madv == I915_MADV_DONTNEED)
-+			stats[id].purgeable += sz;
-+	}
-+}
-+
-+static void show_meminfo(struct drm_printer *p, struct drm_file *file)
-+{
-+	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
-+	struct drm_i915_file_private *fpriv = file->driver_priv;
-+	struct i915_drm_client *client = fpriv->client;
-+	struct drm_i915_private *i915 = fpriv->i915;
-+	struct drm_i915_gem_object *obj;
-+	struct intel_memory_region *mr;
-+	unsigned int id;
-+
-+	mutex_lock(&client->objects_lock);
-+	list_for_each_entry(obj, &client->objects_list, client_link)
-+		obj_meminfo(obj, stats);
-+	mutex_unlock(&client->objects_lock);
-+
-+	for_each_memory_region(mr, i915, id)
-+		drm_print_memory_stats(p,
-+				       &stats[id],
-+				       DRM_GEM_OBJECT_RESIDENT |
-+				       DRM_GEM_OBJECT_PURGEABLE,
-+				       mr->name);
-+}
-+
- static const char * const uabi_class_names[] = {
- 	[I915_ENGINE_CLASS_RENDER] = "render",
- 	[I915_ENGINE_CLASS_COPY] = "copy",
-@@ -109,6 +171,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	 * ******************************************************************
- 	 */
- 
-+	show_meminfo(p, file);
-+
- 	if (GRAPHICS_VER(i915) < 8)
- 		return;
- 
--- 
-2.39.2
-
+-Doug
