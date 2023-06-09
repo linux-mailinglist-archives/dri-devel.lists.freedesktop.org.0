@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F25572A0AC
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 18:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965A372A0C0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 18:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9744910E159;
-	Fri,  9 Jun 2023 16:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E75DF10E15F;
+	Fri,  9 Jun 2023 16:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2420C10E159;
- Fri,  9 Jun 2023 16:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686329626; x=1717865626;
- h=date:from:to:cc:subject:message-id;
- bh=JAWK//mHu4QV1YFotj0qDhrypark3wKg/MHiFxQrmtg=;
- b=WpkCUXFeFnYKPjwbP5JtIrzjbA+7cmvsPZ657Bvi2dPK/1DIAtqdQf2O
- 8IXinl5JgdKuawoBe2K31MLJHkXKexSi7IoaH+/tFneFnUHebmvPhkIUS
- 56SRjc2Cki3NYwirtIh6kg0w8lzGAK/Hv3GHY2gBGYC2Jcbx6I5Gl8Qp1
- Ub0wOZvaz+nPXJtzAOYF7dB1eCHDmDu5V8P7kM+Knmag0b5bn1vLig4W+
- ipPSA9ajCLcAxkJQSq6iaSURu9XKaqlxRJNq0qeH+Ny1R4Gtossp3taMA
- 3EPxOwusvngCXm/fAkfG5SHRoL0vhgFPn65XC0mVX2zu3hfdNTExRen+P Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338000297"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="338000297"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 09:53:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="957215847"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="957215847"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2023 09:53:37 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q7fMm-0009Eo-0m;
- Fri, 09 Jun 2023 16:53:36 +0000
-Date: Sat, 10 Jun 2023 00:53:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 53ab6975c12d1ad86c599a8927e8c698b144d669
-Message-ID: <202306100045.iM5qbyCz-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D85A510E6C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 16:58:03 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f640e48bc3so2523805e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 09:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686329881; x=1688921881;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SUb5nVm7hFEBhuv59behzuKW8dLna7emUUL4IOqj/Es=;
+ b=k0pP6Yhd3tBEViDCSHkbzEXgsqBEiMFY4yu+KoHTzdKB2j5qstboVWNWylre1DXBAi
+ bIOqo0z/GXU22r0SD+x4ONdlvCmhoecZ5INom/OyUQgupL45ebVoRNdWWribHpPyBrkj
+ W6iv9HkY1PNCAhp9gdn9wz2y9nRHHoJMsAEAXJOnkYtl0MW9rdC6CpFqIJdhr3QKYF1X
+ OGFU1rKCxbgE6MHmhJIs1ldfddy9bjqDjIlQMsM4PyX8OVvrnUCP+q9Hj6lHWWaGJcl/
+ nFDhDQLI0Lltq/2EdH3GOUgjKeKTauO+4tUXrrSaPCsx2z1pLaZ7zaSsqS0Ixa6qO0O5
+ YSTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686329881; x=1688921881;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SUb5nVm7hFEBhuv59behzuKW8dLna7emUUL4IOqj/Es=;
+ b=Lf41vFC7U3DinL3SBW+RDzvEETDTZwIavhRb/Ug8/Dta5n8lAQomZD22/BcQmZQDxp
+ Q2v41sF4YANiu4TOcIJzlyWrCw2YzFheKvSECMHt0g3OyLcMXgtFKzzc0IeW0GqxjJWu
+ e554FzVqZ85GcTm1j/D0+p/IyvdOdKBJePVTWyJzGZjoHZxHEolPHE6wUwxBpJzXvSGA
+ 4nC5/z2z719pKCPr4xr5op39RhiLvQFrgzgut3j8BD4FaTWYT9Qw0d5EHerHUTsSt+YK
+ CaM4q+C7x5B3Bzia/24vOxmynMgOGCXgva0JJ888A2d2u6mn1omO0DPTNKPXunggPZOb
+ W/dw==
+X-Gm-Message-State: AC+VfDyqBQhjCoLquwjoR0cLOzj1pM5L2nXksac9QhFJ6+YXr+TjyI6d
+ 56ofBW2V3hjjicW1h4tF5hmNwQ==
+X-Google-Smtp-Source: ACHHUZ5XREmgDhoET21rXfbNBJMsOO4k1ia54yVbEFbqrn3hb5hXibwbLwjxN3epvSvRqhrKKRNXdA==
+X-Received: by 2002:a19:6550:0:b0:4f4:b218:e85f with SMTP id
+ c16-20020a196550000000b004f4b218e85fmr1067786lfj.31.1686329881358; 
+ Fri, 09 Jun 2023 09:58:01 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ x3-20020ac259c3000000b004f39bb71ed2sm601806lfn.138.2023.06.09.09.58.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jun 2023 09:58:00 -0700 (PDT)
+Message-ID: <f34a03ce-6295-b5d1-bf42-a43cfb382ea3@linaro.org>
+Date: Fri, 9 Jun 2023 19:58:00 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 2/5] drm/msm/dsi: Adjust pclk rate for compression
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20230405-add-dsc-support-v5-0-028c10850491@quicinc.com>
+ <20230405-add-dsc-support-v5-2-028c10850491@quicinc.com>
+ <js3mcglahq53mcyxa6deltjlu4xpc2pnafwz2rbk3dl4ovws2o@5xw2wzvfaj2v>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <js3mcglahq53mcyxa6deltjlu4xpc2pnafwz2rbk3dl4ovws2o@5xw2wzvfaj2v>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,227 +80,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, linux-btrfs@vger.kernel.org,
- linux-leds@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 53ab6975c12d1ad86c599a8927e8c698b144d669  Add linux-next specific files for 20230609
+On 08/06/2023 23:36, Marijn Suijten wrote:
+> Same title suggestion as earlier: s/adjust/reduce
+> 
+> On 2023-05-22 18:08:56, Jessica Zhang wrote:
+>> Adjust the pclk rate to divide hdisplay by the compression ratio when DSC
+>> is enabled.
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++++++---
+>>   1 file changed, 18 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index a448931af804..88f370dd2ea1 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -561,7 +561,18 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
+>>   	clk_disable_unprepare(msm_host->byte_clk);
+>>   }
+>>   
+>> -static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode, bool is_bonded_dsi)
+>> +static unsigned long dsi_adjust_compressed_pclk(const struct drm_display_mode *mode,
+> 
+> Nit: adjust_pclk_for_compression
+> 
+> As discussed before we realized that this change is more-or-less a hack,
+> since downstream calculates pclk quite differently - at least for
+> command-mode panels.  Do you still intend to land this patch this way,
+> or go the proper route by introducing the right math from the get-go?
+> Or is the math at least correct for video-mode panels?
 
-Error/Warning reports:
+Can we please postpone the cmd-vs-video discussion? Otherwise I will 
+reserve myself a right to push a patch dropping CMD mode support until 
+somebody comes with a proper way to handle CMD clock calculation.
 
-https://lore.kernel.org/oe-kbuild-all/202306081708.gtVAcXsh-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306082341.UQtCM8PO-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202306100056.Z3G9GUfT-lkp@intel.com
 
-Error/Warning: (recently discovered and may have been fixed)
+It is off-topic for the sake of DSC 1.2 support. Yes, all CMD panel 
+timings are a kind of a hack and should be improved. No, we can not do 
+this as a part of this series. I think everybody agrees that with the 
+current way of calculating CMD panel timings, this function does some 
+kind of a trick.
 
-drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:113:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:147:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-drivers/leds/leds-cht-wcove.c:144:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
-drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
-include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
-include/drm/drm_print.h:456:39: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-uvdevice.c:(.init.text+0x2e): undefined reference to `uv_info'
+> 
+> This function requires a documentation comment to explain that all.
+> 
+>> +		const struct drm_dsc_config *dsc)
+>> +{
+>> +	int new_hdisplay = DIV_ROUND_UP(mode->hdisplay * drm_dsc_get_bpp_int(dsc),
+> 
+> This sounds like a prime candidate for msm_dsc_get_bytes_per_line(), if
+> bits_per_component==8 is assumed.  In fact, it then becomes identical
+> to the following line in dsi_host.c which you added previously:
+> 
+> 	hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+This would imply a simple /3, but as far as I understand it is not 
+correct here.
 
-drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
-drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
-fs/btrfs/volumes.c:6407 btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6245)
-kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+> 
+> If not, what is the difference between these two calculations?  Maybe
+> they both need to be in a properly-named helper.
+> 
+>> +			dsc->bits_per_component * 3);
 
-Error/Warning ids grouped by kconfigs:
+I hope to see a documentation patch to be posted, telling that this 
+scales hdisplay and thus pclk by the factor of compressed_bpp / 
+uncompressed_bpp.
 
-gcc_recent_errors
-|-- i386-allyesconfig
-|   |-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-i004-20230608
-|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- i386-randconfig-i062-20230608
-|   `-- include-drm-drm_print.h:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
-|-- riscv-allmodconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- riscv-allyesconfig
-|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
-|-- s390-randconfig-r044-20230609
-|   `-- uvdevice.c:(.init.text):undefined-reference-to-uv_info
-|-- x86_64-allyesconfig
-|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
-`-- x86_64-randconfig-m001-20230608
-    |-- drivers-net-ethernet-emulex-benet-be_main.c-be_rx_compl_process_gro()-error:buffer-overflow-((skb_end_pointer(skb)))-frags-u16max
-    |-- fs-btrfs-volumes.c-btrfs_map_block()-error:we-previously-assumed-mirror_num_ret-could-be-null-(see-line-)
-    `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
-clang_recent_errors
-|-- i386-randconfig-i014-20230608
-|   `-- drivers-gpu-drm-i915-pxp-intel_pxp_gsccs.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-|-- i386-randconfig-r026-20230608
-|   `-- drivers-gpu-drm-i915-pxp-intel_pxp_gsccs.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-`-- powerpc-allmodconfig
-    `-- drivers-scsi-FlashPoint.c:warning:stack-frame-size-()-exceeds-limit-()-in-FlashPoint_HandleInterrupt
+This is not how it is usually done, but I would accept a separate 
+documentation patch going over the calculation here and in 
+dsi_timing_setup (and maybe other unobvious cases, if there is anything 
+left).
 
-elapsed time: 729m
+> 
+> As we established in the drm/msm issue [2] there is currently a
+> confusion whether this /3 (and the /3 in dsi_timing_setup) come from the
+> ratio between dsi_get_bpp() and dsc->bpp or something else.  Can you
+> clarify that with constants and comments?
+> 
+> [2]: https://gitlab.freedesktop.org/drm/msm/-/issues/24
+> 
+>> +
+>> +	return (new_hdisplay + (mode->htotal - mode->hdisplay))
+>> +			* mode->vtotal * drm_mode_vrefresh(mode);
+> 
+> As clarified in [1] I was not necessarily suggesting to move this math
+> to a separate helper, but to also use a few more properly-named
+> intermediate variables to not have multi-line math and self-documenting
+> code.  These lines could be split to be much more clear.
 
-configs tested: 149
-configs skipped: 6
+I think it's fine more or less. One pair of parenthesis is unnecessary, 
+but that's mostly it. Maybe `new_htotal' variable would make some sense.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                         haps_hs_defconfig   gcc  
-arc                  randconfig-r011-20230608   gcc  
-arc                  randconfig-r033-20230608   gcc  
-arc                  randconfig-r043-20230608   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                       aspeed_g4_defconfig   clang
-arm                                 defconfig   gcc  
-arm                      footbridge_defconfig   gcc  
-arm                            hisi_defconfig   gcc  
-arm                           imxrt_defconfig   gcc  
-arm                  randconfig-r006-20230608   clang
-arm                  randconfig-r046-20230608   gcc  
-arm                        spear6xx_defconfig   gcc  
-arm                           stm32_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r024-20230608   clang
-csky                                defconfig   gcc  
-hexagon      buildonly-randconfig-r001-20230608   clang
-hexagon              randconfig-r041-20230608   clang
-hexagon              randconfig-r045-20230608   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r006-20230608   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230608   gcc  
-i386                 randconfig-i002-20230608   gcc  
-i386                 randconfig-i003-20230608   gcc  
-i386                 randconfig-i004-20230608   gcc  
-i386                 randconfig-i005-20230608   gcc  
-i386                 randconfig-i006-20230608   gcc  
-i386                 randconfig-i011-20230608   clang
-i386                 randconfig-i012-20230608   clang
-i386                 randconfig-i013-20230608   clang
-i386                 randconfig-i014-20230608   clang
-i386                 randconfig-i015-20230608   clang
-i386                 randconfig-i016-20230608   clang
-i386                 randconfig-i051-20230608   gcc  
-i386                 randconfig-i052-20230608   gcc  
-i386                 randconfig-i053-20230608   gcc  
-i386                 randconfig-i054-20230608   gcc  
-i386                 randconfig-i055-20230608   gcc  
-i386                 randconfig-i061-20230608   gcc  
-i386                 randconfig-i062-20230608   gcc  
-i386                 randconfig-i063-20230608   gcc  
-i386                 randconfig-i064-20230608   gcc  
-i386                 randconfig-i065-20230608   gcc  
-i386                 randconfig-i066-20230608   gcc  
-i386                 randconfig-r023-20230608   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch            randconfig-r004-20230608   gcc  
-loongarch            randconfig-r025-20230608   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-microblaze           randconfig-r034-20230608   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          ath79_defconfig   clang
-mips                     cu1000-neo_defconfig   clang
-mips                          malta_defconfig   clang
-mips                      malta_kvm_defconfig   clang
-mips                        maltaup_defconfig   clang
-mips                           rs90_defconfig   clang
-nios2                               defconfig   gcc  
-openrisc             randconfig-r015-20230608   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r016-20230608   gcc  
-parisc64                            defconfig   gcc  
-powerpc                      acadia_defconfig   clang
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                     asp8347_defconfig   gcc  
-powerpc                        cell_defconfig   gcc  
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                        fsp2_defconfig   clang
-powerpc                    gamecube_defconfig   clang
-powerpc                     ksi8560_defconfig   clang
-powerpc                 mpc8560_ads_defconfig   clang
-powerpc              randconfig-r012-20230608   clang
-powerpc              randconfig-r021-20230608   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r032-20230608   gcc  
-riscv                randconfig-r036-20230608   gcc  
-riscv                randconfig-r042-20230608   clang
-riscv                          rv32_defconfig   gcc  
-s390                             alldefconfig   clang
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r005-20230608   clang
-s390                                defconfig   gcc  
-s390                 randconfig-r013-20230608   clang
-s390                 randconfig-r014-20230608   clang
-s390                 randconfig-r044-20230608   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r003-20230608   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                         microdev_defconfig   gcc  
-sh                     sh7710voipgw_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc        buildonly-randconfig-r002-20230608   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r005-20230608   gcc  
-sparc                randconfig-r031-20230608   gcc  
-sparc                randconfig-r035-20230608   gcc  
-sparc64              randconfig-r001-20230608   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r004-20230608   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230608   gcc  
-x86_64               randconfig-a002-20230608   gcc  
-x86_64               randconfig-a003-20230608   gcc  
-x86_64               randconfig-a004-20230608   gcc  
-x86_64               randconfig-a005-20230608   gcc  
-x86_64               randconfig-a006-20230608   gcc  
-x86_64               randconfig-a011-20230608   clang
-x86_64               randconfig-a012-20230608   clang
-x86_64               randconfig-a013-20230608   clang
-x86_64               randconfig-a014-20230608   clang
-x86_64               randconfig-a015-20230608   clang
-x86_64               randconfig-a016-20230608   clang
-x86_64               randconfig-x051-20230608   clang
-x86_64               randconfig-x052-20230608   clang
-x86_64               randconfig-x053-20230608   clang
-x86_64               randconfig-x054-20230608   clang
-x86_64               randconfig-x055-20230608   clang
-x86_64               randconfig-x056-20230608   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                           alldefconfig   gcc  
-xtensa                generic_kc705_defconfig   gcc  
+Also, please excuse me if this was discussed somewhere. This calculation 
+means that only the displayed data is compressed, but porches are not 
+touched. Correct?
+
+> 
+> [1]: https://lore.kernel.org/linux-arm-msm/u4x2vldkzsokfcpbkz3dtwcllbdk4ljcz6kzuaxt5frx6g76o5@uku6abewvye7/
+> 
+>> +}
+>> +
+>> +static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode,
+>> +		const struct drm_dsc_config *dsc, bool is_bonded_dsi)
+>>   {
+>>   	unsigned long pclk_rate;
+>>   
+>> @@ -576,6 +587,10 @@ static unsigned long dsi_get_pclk_rate(const struct drm_display_mode *mode, bool
+>>   	if (is_bonded_dsi)
+>>   		pclk_rate /= 2;
+>>   
+>> +	/* If DSC is enabled, divide hdisplay by compression ratio */
+>> +	if (dsc)
+>> +		pclk_rate = dsi_adjust_compressed_pclk(mode, dsc);
+
+Looking for the perfection, I'd also move the pclk adjustment to come 
+before the is_bonded_dsi check.
+
+> 
+> The confusion with this comment (and the reason the aforementioned
+> discussion [2] carried on so long) stems from the fact a division makes
+> sense for a bit/byte clock, but not for a pixel clock: we still intend
+> to send the same number of pixels, just spending less bytes on them.  So
+> as you clarify the /3 above, can you also clarify that here or drop this
+> comment completely when the function is correctly documented instead?
+> 
+> - Marijn
+> 
+>> +
+>>   	return pclk_rate;
+>>   }
+>>   
+>> @@ -585,7 +600,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
+>>   	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>>   	u8 lanes = msm_host->lanes;
+>>   	u32 bpp = dsi_get_bpp(msm_host->format);
+>> -	unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
+>> +	unsigned long pclk_rate = dsi_get_pclk_rate(mode, msm_host->dsc, is_bonded_dsi);
+>>   	unsigned long pclk_bpp;
+>>   
+>>   	if (lanes == 0) {
+>> @@ -604,7 +619,7 @@ unsigned long dsi_byte_clk_get_rate(struct mipi_dsi_host *host, bool is_bonded_d
+>>   
+>>   static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>>   {
+>> -	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, is_bonded_dsi);
+>> +	msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, msm_host->dsc, is_bonded_dsi);
+>>   	msm_host->byte_clk_rate = dsi_byte_clk_get_rate(&msm_host->base, is_bonded_dsi,
+>>   							msm_host->mode);
+>>   
+>>
+>> -- 
+>> 2.40.1
+>>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
+
