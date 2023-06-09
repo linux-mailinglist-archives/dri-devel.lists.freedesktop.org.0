@@ -1,82 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC295729626
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:59:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3789729628
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 12:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB66D10E675;
-	Fri,  9 Jun 2023 09:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC49F10E676;
+	Fri,  9 Jun 2023 10:00:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1255510E677
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 09:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686304791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ro28qLwMycjBPd4B2CfnKUVLQYPM9zhy62Il4fiHOKA=;
- b=FH98xzgKJkRpFTu9S6g/KfdVu34q3ULBGJp6xPF76XLgnQCBTFsxxT6X4Qd3y5oIcdA5/F
- 8Cf5WAqhCrakEWQnxOoLf7zq6HqBlK8gTqyjmfvF4hz+ey3/E1vP9+dGBoS4PAtT/4EHjR
- 1riIk88dyhLQjZ0Hhcjrab59cJLnGCM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-00Jv5T5BPUCXTmLUvOKBqA-1; Fri, 09 Jun 2023 05:59:43 -0400
-X-MC-Unique: 00Jv5T5BPUCXTmLUvOKBqA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30ae9958ff6so679778f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 02:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686304782; x=1688896782;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ro28qLwMycjBPd4B2CfnKUVLQYPM9zhy62Il4fiHOKA=;
- b=awXSJO2AxZm3v2YXds1vzxThoJgW0NO72iPU+HoYH7hr+WOebj/egodekcyW4mK/Br
- +lmZX7sG+eznF2PTG5usctOIB9EbofCWqL017x2/FbtSlz5ajyKwS/a5gyHT5UqguXF1
- Valoo7FACddIQ+rNIB/re+bzbGjCto9wrc3MZorR+/reiqO6N/PYD2hgIZSB4onpUfyD
- RuMHi3JJVI57liWRaTs0Ghalya+8zuNxBj6q7q4UF5naXg5Z2R5aUFenxs/3fS3zMz10
- AbZkpyQ8m9+FJ+0ZCfhsljLRroBqTXmD6JZNVFqjzcWDAY9QDr8ArxiFmRglDLMI58m8
- sEwQ==
-X-Gm-Message-State: AC+VfDz3bJizMWcD7Syd1NtIDLUFQgyhIsMokI8qkWwQjoykghb9wqFK
- H3FMgGig0d0FX6BMIzfS4S4GZCJqXb6ARwJA7B2PU2nlSMUrayYsufcvRV2UkkLMaBzqmWx8rhx
- y3VBimHgOKlKNGqPyCZq8jryhoVat
-X-Received: by 2002:a05:6000:1cc1:b0:30d:981d:a049 with SMTP id
- bf1-20020a0560001cc100b0030d981da049mr475565wrb.4.1686304782623; 
- Fri, 09 Jun 2023 02:59:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5mbChq3eZ0n/KPDmx58FVgNTALqSeH3ETuPMsy/BuQZAfQWRgbheMcufPP8W0/LTSPFhyPxg==
-X-Received: by 2002:a05:6000:1cc1:b0:30d:981d:a049 with SMTP id
- bf1-20020a0560001cc100b0030d981da049mr475549wrb.4.1686304782266; 
- Fri, 09 Jun 2023 02:59:42 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d17-20020a5d6dd1000000b003095bd71159sm4029755wrz.7.2023.06.09.02.59.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jun 2023 02:59:41 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
- <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set>
- <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
- <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-Date: Fri, 09 Jun 2023 11:59:41 +0200
-Message-ID: <87h6rh552q.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2471310E676;
+ Fri,  9 Jun 2023 10:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686304812; x=1717840812;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5IFngkZie9+cvtvkRd8SsyP8FagkAPqJVEZ9YPHSJys=;
+ b=i3ISsklXuFq/KstXipMU0l8JZCW8mJpk8lLFGaKnMiBgVbZdCDEwWCJG
+ qBaHmOCjeF/FzJ146OqH6wnabj4o0rRBhZOfs0eB/Eb1JQLW+45eH4U3o
+ 2jjCkcpv5R3oZaAuANIfMBvwfU/oOff+dcanEkqReDhOssj0pktYNZW3Q
+ U257XSPJl76BsNoydWNDPGX8U6L5ZoSV8xlilNFJZhHFkX+k+3THgs7P5
+ YT9gZ5F9kU3ITaHfcxVw81V1oeYe8wkOBv6h/h2k4j50Zzg0UWro1ZAi7
+ nvbklwW+UEsAAaQoF1sMXwrDx9AoYNrb09QL4Iv49p6uX8rgCjZgjs5j9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="357564945"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; d="scan'208";a="357564945"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 03:00:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="854692814"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; d="scan'208";a="854692814"
+Received: from lmirabel-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.211.108])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 03:00:05 -0700
+Date: Fri, 9 Jun 2023 11:59:56 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Zhang, Carl" <carl.zhang@intel.com>
+Subject: Re: [PATCH v17 1/1] drm/i915: Allow user to set cache at BO creation
+Message-ID: <ZIL4HNonFakDqJtB@ashyti-mobl2.lan>
+References: <20230606100042.482345-1-andi.shyti@linux.intel.com>
+ <20230606100042.482345-2-andi.shyti@linux.intel.com>
+ <ec219702-8608-e919-cbcd-f271646845d1@linux.intel.com>
+ <ZH8H3ovN20uVO+tK@ashyti-mobl2.lan>
+ <168604992363.24014.14317865195655387952@jlahtine-mobl.ger.corp.intel.com>
+ <ZH8VLY8a9d7i96cw@ashyti-mobl2.lan>
+ <PH0PR11MB5579C119BEF9653A9A20CC4E8753A@PH0PR11MB5579.namprd11.prod.outlook.com>
+ <ZIARdL44LW5BEysa@ashyti-mobl2.lan>
+ <PH0PR11MB55793C2F3B66887186CF68198753A@PH0PR11MB5579.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PH0PR11MB55793C2F3B66887186CF68198753A@PH0PR11MB5579.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,69 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, lee@kernel.org, linux-sh@vger.kernel.org,
- jingoohan1@gmail.com, deller@gmx.de, linux-staging@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, sam@ravnborg.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Gu,
+ Lihao" <lihao.gu@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>, "Justen,
+ Jordan L" <jordan.l.justen@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "Yang, Fei" <fei.yang@intel.com>,
+ "Roper, Matthew D" <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Hi Carl,
 
-Hello Thomas,
+> > > besides this, ask a dumb question.
+> > > How we retrieve the pat_index from a shared resource though dma_buf fd?
+> > > maybe we need to know whether it could be CPU cached if we want map it.
+> > > Of course, looks there are no real usage to access it though CPU.
+> > > Just use it directly without any pat related options ?
+> > 
+> > I am not understanding. Do you want to ask the PAT table to the driver? Are
+> > you referring to the CPU PAT index?
+> > 
+> > In any case, if I understood correctly, you don't necessarily always need to
+> > set the PAT options and the cache options will fall into the default values.
+> > 
+> > Please let me know if I haven't answered the question.
+> > 
+> 
+> If mesa create a resource , then use DRM_IOCTL_PRIME_HANDLE_TO_FD convert it to a dma fd. 
+> Then share it to media, media use DRM_IOCTL_PRIME_FD_TO_HANDLE convert it to a gem bo. 
+> But media does not know the PAT index , because mesa create it and set it. 
+> So, if media want to call DRM_IOCTL_I915_GEM_MMAP_OFFSET, media does not know whether it could be WB.
 
-> Hi
->
+That's a good point. To be honest I am not really sure how this
+is handled.
 
-[...]
- 
->>> I'd also question the argument that there's even fbdev userspace out
->>> there. It was never popular in it's heyday and definitely hasn't
->>> improved since then. Even the 3 people who still ask for fbdev support
->> 
->> There's X.org, DirectFB, SDL, ...
->
-> None of these examples has a dependency on fbdev. They can freely switch 
-> backends and have moved to DRM. Anything program utilizing these 
-> examples has no dependency on fbdev either.
->
-> When I say "userspace" in this context, it's the one old program that 
-> supports nothing but fbdev. TBH I'm having problems to come up with 
-> examples.
->
+Fei, Jordan? Do you have suggestion here?
 
-I personally have two real world examples that can give to you :)
-
-1) I've a IoT device at home that has a bunch of sensors (temperatury,
-   humidity, etc) and a SSD1306 display panel to report that. It just
-   has small fbdev program to print that info. I could probably port
-   to KMS but didn't feel like it. Found a fbdev program that I could
-   modify and got the job done.
-
-2) I built a portable retro console for my kids, that uses a ST7735R
-   LCD panel. The software I use is https://www.retroarch.com/ which
-   uses fbdev by default (I believe that supports a KMS mode but out
-   of the box it works with fbdev and that's better tested by them.
-   
-So even when I'm not interested and don't want to enable any of the
-fbdev drivers, I want to use the ssd130x and st7735r DRM drivers and
-the DRM fbdev emulation layer.
-
-In other words, there's real use cases for supporting fbdev programs
-with DRM drivers. Now, I agree with this patch-set and probably will
-disable the user-space fbdev interface in Fedora, but on my embedded
-projects I will probably keep it enabled.
-
-That's why I think that we should support the following combinations:
-
-* fbdev drivers + DRM fbdev emulation + fbdev user-space
-* only DRM drivers without fbdev emulation nor fbdev user-space (your series)
-* only DRM fbdev emulation + fbdev user-space enabled (FB_CORE)
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Andi
