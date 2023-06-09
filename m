@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE64B72A1A4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:52:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF0572A1C0
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 20:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F13110E165;
-	Fri,  9 Jun 2023 17:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BFF910E6D3;
+	Fri,  9 Jun 2023 18:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F45910E165;
- Fri,  9 Jun 2023 17:52:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D933265A4A;
- Fri,  9 Jun 2023 17:52:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB2EC433D2;
- Fri,  9 Jun 2023 17:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686333123;
- bh=hgWiWkryxacoHHEBtfErD81DDhTgMv1CiCtR2KT1+fk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=H5t+R0xrJcTEX4Oc3TbNIlAXuyp46jL+ufcQ4Z4KG6HSdzP3tnexZh/K0OEHZ2j2w
- aMV/sItKYqtLFjhd8xHIdpFmjwRMDbzVY2QTUBqm6EVut4W1gRCF4jSGpbsEpLJh7P
- Bvkn7SilgTCb5MCvwn9hDguee6a4S04hcyv85fdtIA0rJ6Obeoi8fnB/OTfQLoiT/N
- nLLm66IwsLqNvD1ZJAmCwNUX6KXUUaHjg3CD3Xdbz2cOYP74617g9qJUDVy15FcB5U
- /1LjxTH+00dLuZjZ6nWv8lHXUelO2ZCGDrLIUbq1kKJtaifVjlsvKGr7ky1l4MK06+
- u6LWn7kWW50mA==
-Date: Fri, 9 Jun 2023 12:52:01 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH v8 6/8] drm/etnaviv: add driver support for the PCI devices
-Message-ID: <20230609175201.GA1253027@bhelgaas>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1722A10E6D3
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 18:00:04 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B7ED26606F38;
+ Fri,  9 Jun 2023 19:00:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686333601;
+ bh=j/ht987nCaTtXWmc1b9SmK5KiBdMh4oTyMUfGJG5sTM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=T2gBpiv7+fgGw8br99NnAMAvxLgdz20bi93VFWEz9YkYZ7kt+v7JGaTX+LUmbxHoV
+ xgha+YBr9/ZD8MqGeJBc6xVxaqBugWXKdIoBwMhiP4inc/EJTe5LrMg8JSJh1btHdv
+ jl47bGQRtiCvNLDDJQIj14lfiOL7ShRtuQiE+mRXekvMbRSDA17rOkFWlhfjLpvJYN
+ LHJoJrgko1FgHNYJkqLosm//MNYto6yI+hbH2DdLE7a7YLu3k/yDlFbvnh9mAyR0gL
+ 0HCuAYniSIwK1KERkRMc5lD2Oi5X3PmsiSVw3zbleQu3WRS1v2YV6yJQ9jwJ/XdT1H
+ 0yrcxzv7PqiIA==
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/sched: Make sure we wait for all dependencies in
+ kill_jobs_cb()
+Date: Fri,  9 Jun 2023 19:59:57 +0200
+Message-Id: <20230609175957.1369395-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec178d79-f96b-072e-aa1b-dd2bf7c9cdd0@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,47 +52,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Bjorn Helgaas <bhelgaas@google.com>, Sui Jingfeng <15330273260@189.cn>
+Cc: Luben Tuikov <luben.tuikov@amd.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 09, 2023 at 09:37:02AM +0800, Sui Jingfeng wrote:
-> On 2023/6/9 01:32, Bjorn Helgaas wrote:
-> > On Wed, Jun 07, 2023 at 06:55:49PM +0800, Sui Jingfeng wrote:
-> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > 
-> > > This patch adds PCI driver support on top of what we already have. Take
-> > > the GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device
-> > > driver. There is only one GPU core for the GC1000 in the LS7A1000 and
-> > > LS2K1000. Therefore, component frameworks can be avoided.
+drm_sched_entity_kill_jobs_cb() logic is omitting the last fence popped
+from the dependency array that was waited upon before
+drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
+so we're basically waiting for all dependencies except one.
 
-> > > +	{PCI_VENDOR_ID_LOONGSON, 0x7a15, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
-> > > +	{PCI_VENDOR_ID_LOONGSON, 0x7a05, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
-> >
-> > PCI_VDEVICE()
-> 
-> This make it impossible to hook device-specific data in the future.
-> 
-> But currently there no device specific data associated with the
-> 0x7a05 and 0x7a15,
-> 
-> so it's acceptable for now. Thanks.
+In theory, this wait shouldn't be needed because resources should have
+their users registered to the dma_resv object, thus guaranteeing that
+future jobs wanting to access these resources wait on all the previous
+users (depending on the access type, of course). But we want to keep
+these explicit waits in the kill entity path just in case.
 
-Haha, ISTR having this conversation before, sorry for repeating it.
+Let's make sure we keep all dependencies in the array in
+drm_sched_job_dependency(), so we can iterate over the array and wait
+in drm_sched_entity_kill_jobs_cb().
 
-Indeed, it's fine as-is.  But PCI_VDEVICE() actually *does* allow for
-vendor-specific data because it doesn't include the data element,
-which defaults to zero if you don't specify it.
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Suggested-by: "Christian König" <christian.koenig@amd.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Sarah Walker <sarah.walker@imgtec.com>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-So for example, drivers/net/ethernet/realtek/r8169_main.c has this:
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 68e807ae136a..e1b437e66f3c 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -176,13 +176,14 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ {
+ 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+ 						 finish_cb);
++	unsigned long index;
+ 	int r;
+ 
+ 	dma_fence_put(f);
+ 
+ 	/* Wait for all dependencies to avoid data corruptions */
+-	while (!xa_empty(&job->dependencies)) {
+-		f = xa_erase(&job->dependencies, job->last_dependency++);
++	xa_for_each(&job->dependencies, index, f) {
++		xa_erase(&job->dependencies, index);
+ 		r = dma_fence_add_callback(f, &job->finish_cb,
+ 					   drm_sched_entity_kill_jobs_cb);
+ 		if (!r)
+@@ -415,8 +416,17 @@ static struct dma_fence *
+ drm_sched_job_dependency(struct drm_sched_job *job,
+ 			 struct drm_sched_entity *entity)
+ {
+-	if (!xa_empty(&job->dependencies))
+-		return xa_erase(&job->dependencies, job->last_dependency++);
++	struct dma_fence *f;
++
++	/* We keep the fence around, so we can iterate over all dependencies
++	 * in drm_sched_entity_kill_jobs_cb() to make all deps are signaled
++	 * before killing the job.
++	 */
++	f = xa_load(&job->dependencies, job->last_dependency);
++	if (f) {
++		job->last_dependency++;
++		return dma_fence_get(f);
++	}
+ 
+ 	if (job->sched->ops->prepare_job)
+ 		return job->sched->ops->prepare_job(job, entity);
+-- 
+2.40.1
 
-  { PCI_VDEVICE(REALTEK, 0x8129) },
-  { PCI_VDEVICE(REALTEK, 0x8136), RTL_CFG_NO_GBIT },
-
-where 0x8129 has no driver_data (it defaults to zero), but 0x8136
-does.
-
-Bjorn
