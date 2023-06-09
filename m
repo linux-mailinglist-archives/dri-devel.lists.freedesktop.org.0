@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E06A72A165
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:40:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2809272A17F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C6F10E163;
-	Fri,  9 Jun 2023 17:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57F4F10E166;
+	Fri,  9 Jun 2023 17:43:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B386810E16D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 17:40:10 +0000 (UTC)
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 151451EC03AD;
- Fri,  9 Jun 2023 19:40:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1686332407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kWgGVo37myzujlpWQRnYyUa2oU3NBoohOHoVeQmQWMM=;
- b=GkDJ4zKKzjefxo9QFea7jvNoBRqDg+bbcKNoUyqgBOFJ1ACziTzav3srg9E6ZMTFTedV9t
- GsQZMpZsy0cLM+aK1o1KKavHeqpdQ/mYAyhi39c0U85x8kfNLPBkUsJtVVPFQY4kGgegCC
- i5qxTiqERvoH5/Fgl86XfSYrzsln7fw=
-Date: Fri, 9 Jun 2023 19:40:06 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/radeon: Disable outputs when releasing fbdev client
-Message-ID: <20230609174006.GEZINj9lbcJilcUzkI@fat_crate.local>
-References: <20230609140356.16846-1-tzimmermann@suse.de>
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C05210E157;
+ Fri,  9 Jun 2023 17:43:47 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:47690.1937665454
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id AEDBE100212;
+ Sat, 10 Jun 2023 01:43:39 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
+ 0877e90f4b584cbe94a878d807b39f22 for helgaas@kernel.org; 
+ Sat, 10 Jun 2023 01:43:43 CST
+X-Transaction-ID: 0877e90f4b584cbe94a878d807b39f22
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <2cf50ad0-e4fa-17a3-3e22-7fd8d4a316ed@189.cn>
+Date: Sat, 10 Jun 2023 01:43:39 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230609140356.16846-1-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Intel-gfx] [PATCH v3 4/4] PCI/VGA: introduce is_boot_device
+ function callback to vga_client_register
+To: Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20230609164850.GA1251187@bhelgaas>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20230609164850.GA1251187@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,120 +52,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Pan Xinhui <Xinhui.Pan@amd.com>, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Yi Liu <yi.l.liu@intel.com>,
+ Karol Herbst <kherbst@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-pci@vger.kernel.org, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Kevin Tian <kevin.tian@intel.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bokun Zhang <Bokun.Zhang@amd.com>,
+ intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ loongson-kernel@lists.loongnix.cn,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Abhishek Sahu <abhsahu@nvidia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Li Yi <liyi@loongson.cn>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ linux-kernel@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 09, 2023 at 04:03:56PM +0200, Thomas Zimmermann wrote:
-> Disable the modesetting pipeline before release the radeon's fbdev
-> client. Fixes the following error:
-> 
-> [   17.217408] WARNING: CPU: 5 PID: 1464 at drivers/gpu/drm/ttm/ttm_bo.c:326 ttm_bo_release+0x27e/0x2d0 [ttm]
-> [   17.217418] Modules linked in: edac_mce_amd radeon(+) drm_ttm_helper ttm video drm_suballoc_helper drm_display_helper kvm irqbypass drm_kms_helper syscopyarea crc32_pclmul sysfillrect sha512_ssse3 sysimgblt sha512_generic cfbfillrect cfbimgblt wmi_bmof aesni_intel cfbcopyarea crypto_simd cryptd k10temp acpi_cpufreq wmi dm_mod
-> [   17.217432] CPU: 5 PID: 1464 Comm: systemd-udevd Not tainted 6.4.0-rc4+ #1
-> [   17.217436] Hardware name: Micro-Star International Co., Ltd. MS-7A38/B450M PRO-VDH MAX (MS-7A38), BIOS B.G0 07/26/2022
-> [   17.217438] RIP: 0010:ttm_bo_release+0x27e/0x2d0 [ttm]
-> [   17.217444] Code: 48 89 43 38 48 89 43 40 48 8b 5c 24 30 48 8b b5 40 08 00 00 48 8b 6c 24 38 48 83 c4 58 e9 7a 49 f7 e0 48 89 ef e9 6c fe ff ff <0f> 0b 48 83 7b 20 00 0f 84 b7 fd ff ff 0f 0b 0f 1f 00 e9 ad fd ff
-> [   17.217448] RSP: 0018:ffffc9000095fbb0 EFLAGS: 00010202
-> [   17.217451] RAX: 0000000000000001 RBX: ffff8881052c8de0 RCX: 0000000000000000
-> [   17.217453] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff8881052c8de0
-> [   17.217455] RBP: ffff888104a66e00 R08: ffff8881052c8de0 R09: ffff888104a7cf08
-> [   17.217457] R10: ffffc9000095fbe0 R11: ffffc9000095fbe8 R12: ffff8881052c8c78
-> [   17.217458] R13: ffff8881052c8c78 R14: dead000000000100 R15: ffff88810528b108
-> [   17.217460] FS:  00007f319fcbb8c0(0000) GS:ffff88881a540000(0000) knlGS:0000000000000000
-> [   17.217463] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   17.217464] CR2: 000055dc8b0224a0 CR3: 000000010373d000 CR4: 0000000000750ee0
-> [   17.217466] PKRU: 55555554
-> [   17.217468] Call Trace:
-> [   17.217470]  <TASK>
-> [   17.217472]  ? __warn+0x97/0x160
-> [   17.217476]  ? ttm_bo_release+0x27e/0x2d0 [ttm]
-> [   17.217481]  ? report_bug+0x1ec/0x200
-> [   17.217487]  ? handle_bug+0x3c/0x70
-> [   17.217490]  ? exc_invalid_op+0x1f/0x90
-> [   17.217493]  ? preempt_count_sub+0xb5/0x100
-> [   17.217496]  ? asm_exc_invalid_op+0x16/0x20
-> [   17.217500]  ? ttm_bo_release+0x27e/0x2d0 [ttm]
-> [   17.217505]  ? ttm_resource_move_to_lru_tail+0x1ab/0x1d0 [ttm]
-> [   17.217511]  radeon_bo_unref+0x1a/0x30 [radeon]
-> [   17.217547]  radeon_gem_object_free+0x20/0x30 [radeon]
-> [   17.217579]  radeon_fbdev_fb_destroy+0x57/0x90 [radeon]
-> [   17.217616]  unregister_framebuffer+0x72/0x110
-> [   17.217620]  drm_client_dev_unregister+0x6d/0xe0
-> [   17.217623]  drm_dev_unregister+0x2e/0x90
-> [   17.217626]  drm_put_dev+0x26/0x90
-> [   17.217628]  pci_device_remove+0x44/0xc0
-> [   17.217631]  really_probe+0x257/0x340
-> [   17.217635]  __driver_probe_device+0x73/0x120
-> [   17.217638]  driver_probe_device+0x2c/0xb0
-> [   17.217641]  __driver_attach+0xa0/0x150
-> [   17.217643]  ? __pfx___driver_attach+0x10/0x10
-> [   17.217646]  bus_for_each_dev+0x67/0xa0
-> [   17.217649]  bus_add_driver+0x10e/0x210
-> [   17.217651]  driver_register+0x5c/0x120
-> [   17.217653]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
-> [   17.217681]  do_one_initcall+0x44/0x220
-> [   17.217684]  ? kmalloc_trace+0x37/0xc0
-> [   17.217688]  do_init_module+0x64/0x240
-> [   17.217691]  __do_sys_finit_module+0xb2/0x100
-> [   17.217694]  do_syscall_64+0x3b/0x90
-> [   17.217697]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> [   17.217700] RIP: 0033:0x7f319feaa5a9
-> [   17.217702] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 27 08 0d 00 f7 d8 64 89 01 48
-> [   17.217706] RSP: 002b:00007ffc6bf3e7f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> [   17.217709] RAX: ffffffffffffffda RBX: 00005607204f3170 RCX: 00007f319feaa5a9
-> [   17.217710] RDX: 0000000000000000 RSI: 00007f31a002eefd RDI: 0000000000000018
-> [   17.217712] RBP: 00007f31a002eefd R08: 0000000000000000 R09: 00005607204f1860
-> [   17.217714] R10: 0000000000000018 R11: 0000000000000246 R12: 0000000000020000
-> [   17.217716] R13: 0000000000000000 R14: 0000560720522450 R15: 0000560720255899
-> [   17.217718]  </TASK>
-> [   17.217719] ---[ end trace 0000000000000000 ]---
-> 
-> The buffer object backing the fbdev emulation got pinned twice: by the
-> fb_probe helper radeon_fbdev_create_pinned_object() and the modesetting
-> code when the framebuffer got displayed. It only got unpinned once by
-> the fbdev helper radeon_fbdev_destroy_pinned_object(). Hence TTM's BO-
-> release function complains about the pin counter. Forcing the outputs
-> off also undoes the modesettings pin increment.
-> 
-> Reported-by: Borislav Petkov <bp@alien8.de>
-> Closes: https://lore.kernel.org/dri-devel/20230603174814.GCZHt83pN+wNjf63sC@fat_crate.local/
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: e317a69fe891 ("drm/radeon: Implement client-based fbdev emulation")
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/radeon/radeon_fbdev.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> index 28212c2d6c98..ab9c1abbac97 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-> @@ -304,6 +304,7 @@ static void radeon_fbdev_client_unregister(struct drm_client_dev *client)
->  
->  	if (fb_helper->info) {
->  		vga_switcheroo_client_fb_set(rdev->pdev, NULL);
-> +		drm_helper_force_disable_all(dev);
->  		drm_fb_helper_unregister_info(fb_helper);
->  	} else {
->  		drm_client_release(&fb_helper->client);
-> -- 
 
-Thanks, that takes care of it.
+On 2023/6/10 00:48, Bjorn Helgaas wrote:
+> On Fri, Jun 09, 2023 at 10:27:39AM +0800, Sui Jingfeng wrote:
+>> On 2023/6/9 03:19, Bjorn Helgaas wrote:
+>>> On Thu, Jun 08, 2023 at 07:43:22PM +0800, Sui Jingfeng wrote:
+>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>
+>>>> The vga_is_firmware_default() function is arch-dependent, which doesn't
+>>>> sound right. At least, it also works on the Mips and LoongArch platforms.
+>>>> Tested with the drm/amdgpu and drm/radeon drivers. However, it's difficult
+>>>> to enumerate all arch-driver combinations. I'm wrong if there is only one
+>>>> exception.
+>>>>
+>>>> With the observation that device drivers typically have better knowledge
+>>>> about which PCI bar contains the firmware framebuffer, which could avoid
+>>>> the need to iterate all of the PCI BARs.
+>>>>
+>>>> But as a PCI function at pci/vgaarb.c, vga_is_firmware_default() is
+>>>> probably not suitable to make such an optimization for a specific device.
+>>>>
+>>>> There are PCI display controllers that don't have a dedicated VRAM bar,
+>>>> this function will lose its effectiveness in such a case. Luckily, the
+>>>> device driver can provide an accurate workaround.
+>>>>
+>>>> Therefore, this patch introduces a callback that allows the device driver
+>>>> to tell the VGAARB if the device is the default boot device. This patch
+>>>> only intends to introduce the mechanism, while the implementation is left
+>>>> to the device driver authors. Also honor the comment: "Clients have two
+>>>> callback mechanisms they can use"
+>>> s/bar/BAR/ (several)
+>>>
+>>> Nothing here uses the callback.  I don't want to merge this until we
+>>> have a user.
+>> This is chicken and egg question.
+>>
+>> If you could help get this merge first, I will show you the first user.
+>>
+>>> I'm not sure why the device driver should know whether its device is
+>>> the default boot device.
+>> It's not that the device driver should know,
+>>
+>> but it's about that the device driver has the right to override.
+>>
+>> Device driver may have better approach to identify the default boot
+>> device.
+> The way we usually handle this is to include the new callback in the
+> same series as the first user of it.  That has two benefits:
+> (1) everybody can review the whole picture and possibly suggest
+> different approaches, and (2) when we merge the infrastructure,
+> we also merge a user of it at the same time, so the whole thing can be
+> tested and we don't end up with unused code.
 
-Btw, I'd trim that splat in the commit message above so that it is more
-readable. But that's for the committer to decide.
+OK, acceptable
 
-Tested-by: Borislav Petkov (AMD) <bp@alien8.de>
+I will try to prepare the user code of this callback and respin the patch.
 
--- 
-Regards/Gruss,
-    Boris.
+I may resend it with another patch set in the future, this series 
+already drop it,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+see v5[1]
+
+[1] https://patchwork.freedesktop.org/series/119134/
+
+> Bjorn
