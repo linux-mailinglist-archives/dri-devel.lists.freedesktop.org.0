@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127C4729839
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 13:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88019729872
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 13:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88F210E10E;
-	Fri,  9 Jun 2023 11:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE30D10E68C;
+	Fri,  9 Jun 2023 11:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013CC10E10E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 11:31:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7534E1FDF2;
- Fri,  9 Jun 2023 11:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686310300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ozH8d/xGlOAz+n1aKEMUEL0nmSUelafZ6CBmYJY7HCo=;
- b=S+O0HuerEky4D6s/49pt8/xyS0K1fz6OmW2k93vO0n7MzO0Q1aM2bnDFJwcKPiHPyOy3AN
- DO1Olc081lpbyFDjAR3OtDt5z0XC3ntFKlN21NUT36n75nnTS3oa1o3ELwm/XAMJDfIHR2
- QKM6tcPPaJbY+SikacISr1F5XK8o5iI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686310300;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ozH8d/xGlOAz+n1aKEMUEL0nmSUelafZ6CBmYJY7HCo=;
- b=NC1k+FeTM/i1JRrTUWJny/moBNuoUUr1nIK01knTkWiqCn+NbyQ3+DzZKNb1HeFkhWHcJK
- KFlsrdFNLuxZU6AQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D96D139C8;
- Fri,  9 Jun 2023 11:31:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 12TMEZwNg2ReKgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 09 Jun 2023 11:31:40 +0000
-Message-ID: <e5524875-1ea3-25b5-95d9-b66910e06d42@suse.de>
-Date: Fri, 9 Jun 2023 13:31:39 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B14C410E68C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 11:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686311346; x=1717847346;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/70ZyUQoDKt1Vqap5Dv3N/zlV9MR5BTiq0qKtGBfq6s=;
+ b=booTEdKXSxBLTAstEmumVZL6Epj5BdDiRrvzPTfdou5CPQewEDFTQzlT
+ vbrU+a2xrq1MToVXbB37di58mV7nCjd1GnKYBj1TwwZZyEaZksD5+TJPX
+ Qe6nxao+DI2POLZNaeYEHNjk9BWpN+6eb3G9X+SrLKHVMXOmwxlVAde+d
+ 8zB11YH6N9jEvQb5uN1r2HxjPCMC+8iWLcESJgiw2ALXeoXTWT6WbL5re
+ iwVQNIHj47BTx2S0HrDy+Y0UeoLB8NSQmOwIEp1mo0ploshFou/1wBNp+
+ oMZc7t5T0AI+70VT5rkCU/2zRx7vQ1YTIMZlPeZdx2g4KO+ijWL+BHvxm Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="360064199"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="360064199"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 04:49:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="800193527"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="800193527"
+Received: from lmirabel-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.211.108])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 04:49:01 -0700
+Date: Fri, 9 Jun 2023 13:48:53 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v5 1/4] PCI/VGA: Use unsigned type for the io_state
+ variable
+Message-ID: <ZIMRpbUHcW5qGFBU@ashyti-mobl2.lan>
+References: <20230609112417.632313-1-suijingfeng@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table
- is missing
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-References: <20230302143502.500661-1-contact@emersion.fr>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------U0loRo9ZPWIB7hpyuTnwSjpt"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609112417.632313-1-suijingfeng@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
- Tian Tao <tiantao6@hisilicon.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------U0loRo9ZPWIB7hpyuTnwSjpt
-Content-Type: multipart/mixed; boundary="------------jxXIXD913R2tvy3tRaURlCUm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Tian Tao
- <tiantao6@hisilicon.com>, Maxime Ripard <maxime@cerno.tech>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Hans de Goede <hdegoede@redhat.com>
-Message-ID: <e5524875-1ea3-25b5-95d9-b66910e06d42@suse.de>
-Subject: Re: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table
- is missing
-References: <20230302143502.500661-1-contact@emersion.fr>
-In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
+Hi Sui,
 
---------------jxXIXD913R2tvy3tRaURlCUm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, Jun 09, 2023 at 07:24:14PM +0800, Sui Jingfeng wrote:
+> The io_state variable in the vga_arb_write() function is declared with
+> unsigned int type, while the vga_str_to_iostate() function takes int *
+> type. To keep them consistent, replace the third argument of
+> vga_str_to_iostate() function with the unsigned int * type.
+> 
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-SGkgU2ltb24NCg0KQW0gMDIuMDMuMjMgdW0gMTU6MzUgc2NocmllYiBTaW1vbiBTZXI6DQo+
-IGRybV9nZW1fbWFwX2RtYV9idWYoKSByZXF1aXJlcyBkcm1fZ2VtX29iamVjdF9mdW5jcy5n
-ZXRfc2dfdGFibGUNCj4gdG8gYmUgaW1wbGVtZW50ZWQsIG9yIGVsc2UgV0FSTnMuDQo+IA0K
-PiBBbGxvdyBkcml2ZXJzIHRvIGxlYXZlIHRoaXMgaG9vayB1bmltcGxlbWVudGVkIHRvIGlt
-cGxlbWVudCBwdXJlbHkNCj4gbG9jYWwgRE1BLUJVRnMgKGllLCBETUEtQlVGcyB3aGljaCBj
-YW5ub3QgYmUgaW1wb3J0ZWQgYW55d2hlcmUNCj4gZWxzZSBidXQgdGhlIGRldmljZSB3aGlj
-aCBhbGxvY2F0ZWQgdGhlbSkuIEluIHRoYXQgY2FzZSwgcmVqZWN0DQo+IGltcG9ydHMgdG8g
-b3RoZXIgZGV2aWNlcyBpbiBkcm1fZ2VtX21hcF9hdHRhY2goKS4NCj4gDQo+IHYyOiBuZXcg
-cGF0Y2gNCg0KSXMgdGhlcmUgYSB2MyBvZiB0aGlzIHBhdGNoc2V0PyAgSXQgd2FzIEFja2Vk
-IHdpdGggdGhlIG9uZSBlcnJubyBjb2RlIA0KY2hhbmdlZC4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJz
-aW9uLmZyPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4N
-Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzog
-VGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+DQo+IENjOiBNYXhpbWUgUmlwYXJk
-IDxtYXhpbWVAY2Vybm8udGVjaD4NCj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhh
-dC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyB8IDYgKysr
-KystDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYw0KPiBpbmRleCBmOTI0YjhiNGFiNmIuLmFiMWQy
-MWQ2M2EwMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jDQo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYw0KPiBAQCAtNTQ0LDcgKzU0NCw4
-IEBAIGludCBkcm1fcHJpbWVfaGFuZGxlX3RvX2ZkX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsIHZvaWQgKmRhdGEsDQo+ICAgICogT3B0aW9uYWwgcGlubmluZyBvZiBidWZmZXJz
-IGlzIGhhbmRsZWQgYXQgZG1hLWJ1ZiBhdHRhY2ggYW5kIGRldGFjaCB0aW1lIGluDQo+ICAg
-ICogZHJtX2dlbV9tYXBfYXR0YWNoKCkgYW5kIGRybV9nZW1fbWFwX2RldGFjaCgpLiBCYWNr
-aW5nIHN0b3JhZ2UgaXRzZWxmIGlzDQo+ICAgICogaGFuZGxlZCBieSBkcm1fZ2VtX21hcF9k
-bWFfYnVmKCkgYW5kIGRybV9nZW1fdW5tYXBfZG1hX2J1ZigpLCB3aGljaCByZWxpZXMgb24N
-Cj4gLSAqICZkcm1fZ2VtX29iamVjdF9mdW5jcy5nZXRfc2dfdGFibGUuDQo+ICsgKiAmZHJt
-X2dlbV9vYmplY3RfZnVuY3MuZ2V0X3NnX3RhYmxlLiBJZiAmZHJtX2dlbV9vYmplY3RfZnVu
-Y3MuZ2V0X3NnX3RhYmxlIGlzDQo+ICsgKiB1bmltcGxlbWVudGVkLCBleHBvcnRzIGludG8g
-YW5vdGhlciBkZXZpY2UgYXJlIHJlamVjdGVkLg0KPiAgICAqDQo+ICAgICogRm9yIGtlcm5l
-bC1pbnRlcm5hbCBhY2Nlc3MgdGhlcmUncyBkcm1fZ2VtX2RtYWJ1Zl92bWFwKCkgYW5kDQo+
-ICAgICogZHJtX2dlbV9kbWFidWZfdnVubWFwKCkuIFVzZXJzcGFjZSBtbWFwIHN1cHBvcnQg
-aXMgcHJvdmlkZWQgYnkNCj4gQEAgLTU4Myw2ICs1ODQsOSBAQCBpbnQgZHJtX2dlbV9tYXBf
-YXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmLA0KPiAgIHsNCj4gICAJc3RydWN0IGRy
-bV9nZW1fb2JqZWN0ICpvYmogPSBkbWFfYnVmLT5wcml2Ow0KPiAgIA0KPiArCWlmICghb2Jq
-LT5mdW5jcy0+Z2V0X3NnX3RhYmxlKQ0KPiArCQlyZXR1cm4gLUVPUE5PVFNVUFA7DQo+ICsN
-Cj4gICAJcmV0dXJuIGRybV9nZW1fcGluKG9iaik7DQo+ICAgfQ0KPiAgIEVYUE9SVF9TWU1C
-T0woZHJtX2dlbV9tYXBfYXR0YWNoKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
-R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
-TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
---------------jxXIXD913R2tvy3tRaURlCUm--
+Andi
 
---------------U0loRo9ZPWIB7hpyuTnwSjpt
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSDDZsFAwAAAAAACgkQlh/E3EQov+Bt
-WxAAwCQG+1GyuA9Lb49Km0tEBu50VMMbUhORGtLsJ75Z/co7gQh5/77dXM3H3hwxsXQ4k/lL37gU
-pld46QI3UfHebVjMtl9ApavFv2WOttBMvop1wLtuYtoSAifZ01XUS5JuU2u+PwxYfyAZgzI3lF1O
-PIXszJ7zSa+UbEqQ0j99uQV5MeTViL9jeERZpIx4ylZh5/HZ/8kILG7O+OM8/IY+dMytTOiYfuyr
-TEnk5tcxWw7XO7HwqbqMN8DysNHRGFl37A2t6hqo5KNXhTZYMleUatl/ex0Fxi5PfInO/FNqMEdR
-kItKUfVo2jQ29KxJQPpF2NZ8WhUJSdTZUgnq+29a6Zl2yamRi5HTgsCCfdpfFiGX6ewQHArCK57c
-Azk5MyNqcCsqXozhnLId4FDOBXKtvXMcjcUUtUuM9cQRdh3VRlH1kp6bv3aMlJAUO7YnFWzETvqf
-7Vx3QIzF1tTtL6r9tUdD7IHyhKnSsB1ZjgtypFvSF/teapGg3mpQwegW/yekcpGiqENJG0ZvKhxT
-EurZ5lT+5UcXEwRhgtyhCb8yU/VlZ+usBfnQsyWN8LNCd7kFuBqQnkcX1vuv6eTpyqPQJ7s0BNIi
-6mHV8qK0465Pg0gqhNKFjnWnwpvtQCr5Z15qy2R4X1yuuBN7xiqt67st8fg2aiXxGFCnt2AC8QLN
-3kU=
-=NFWM
------END PGP SIGNATURE-----
-
---------------U0loRo9ZPWIB7hpyuTnwSjpt--
+> ---
+>  drivers/pci/vgaarb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> index 5a696078b382..c1bc6c983932 100644
+> --- a/drivers/pci/vgaarb.c
+> +++ b/drivers/pci/vgaarb.c
+> @@ -77,7 +77,7 @@ static const char *vga_iostate_to_str(unsigned int iostate)
+>  	return "none";
+>  }
+>  
+> -static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
+> +static int vga_str_to_iostate(char *buf, int str_size, unsigned int *io_state)
+>  {
+>  	/* we could in theory hand out locks on IO and mem
+>  	 * separately to userspace but it can cause deadlocks */
+> -- 
+> 2.25.1
