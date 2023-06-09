@@ -1,50 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A393F728FBD
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 08:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 500B2728FD6
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 08:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F278410E0E8;
-	Fri,  9 Jun 2023 06:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 822BE10E08E;
+	Fri,  9 Jun 2023 06:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7745F10E0E8;
- Fri,  9 Jun 2023 06:17:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BE7AF611A9;
- Fri,  9 Jun 2023 06:17:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2845CC433EF;
- Fri,  9 Jun 2023 06:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686291434;
- bh=B6+cEXU+VzPhKn+kA8svZbpcpafwICKvJPZUpHR+zho=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WEogXCkWo/1eteonPbvslPLmwh7f55SvhXOwmOCm9WKWcy5eTEFw/QaMD/0JXOn28
- KnP9y1lI9alflEFPTRb6CQ29Fr02ynwnlvXbpjezaFzuuRTYVHMl5+ZzzK4CUVp/4T
- Q0r8/70eaxtnmsWg8c9005jbDGbm3OolvxiDhbnFiADE/Vbvhup13EztHwvQlMQ/cP
- nSYC2SHYs9kDbuIN1dxi/0OynRW5QMtRiF+3fL+8SggYtruE+TKk5BLVr5zzCZusdr
- WG7taaUi2BmoD/wBoA5UmXtlDPHas6sRxHxjNAw7+NMupsJtrUPEJLFtF7RMITQNle
- qI4I3IEfPO6Mg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1q7VRM-0005C5-SA; Fri, 09 Jun 2023 08:17:41 +0200
-Date: Fri, 9 Jun 2023 08:17:40 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: Adreno devfreq lockdep splat with 6.3-rc2
-Message-ID: <ZILEBPQgqr1HomUQ@hovoldconsulting.com>
-References: <ZBGNmXwQoW330Wr8@hovoldconsulting.com>
- <ZIHh95IeOPBTvB00@hovoldconsulting.com>
- <CAF6AEGv3y3C6nAq7nrkgbv5-9-tVgj+BtY1yU+fXXFFm_N7fcQ@mail.gmail.com>
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8655810E08E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 06:21:05 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-516a0546230so2125521a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jun 2023 23:21:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1686291662; x=1688883662;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=s0KsiO4chph33S79F9ENBTiIdHIAq8Drk63634LLZQs=;
+ b=kbV4G7FpeyKX8vqSKQVxCHgnfKl+l276t269BAHAwJ23WxJ7nO/Oasy+9J5YumKyca
+ T0uhyyudNLhM+w7pc9FA736CWqmxTkyTSsXqXOdfoQrYeO1IEHkoZSz4uKQsYCPrsTwM
+ ULacDwUYyqRuKtDEU6r//KnkwN3AFNWxWIfls=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686291662; x=1688883662;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s0KsiO4chph33S79F9ENBTiIdHIAq8Drk63634LLZQs=;
+ b=PpOk8nFGkcSX6sDs32uBgsV5yHYnpClQEQ9w6zTLsL0xSxQJyov0TC5DT4RX9Q7tl+
+ jwW6STQl5tWJPebz3JVbSJwgF0J/C86CUJFPKo8yB4lW3xezBnYbnKF6VIdrmE9s7m7x
+ Sj9zWuTy/jiYqAVPk3wxioUJ9smzjVUSvoVnCmj+rm6R6uDad3oDf5CZodxOpXt9Lq6v
+ DCLPCZrngnBcT+jvM+Tv0pFD0vw53aluSIuLUoVibwB/cS0zKeEi89eoDzKkuBvhWl6/
+ A0iMVGCoUf/xOlxfx1i0F4pVqy72TQvd8HM27GuJb9rAUru8Z4qG+yMj3Ywl6NTxnOvH
+ Dqig==
+X-Gm-Message-State: AC+VfDwNxEYb1yFPh9oopyQ++qT6x+2YPDEiHguvC2wRuod7xC6e4svi
+ Sr3lAY/Pez1dKyJYVD8JbX47SQ==
+X-Google-Smtp-Source: ACHHUZ6l4dLtGlhnWIwTWUWwtNlYtOyR1yl1ptA5SoQD+GUUgf1U2scpLgKXakdx81uLNojiuXQ7iA==
+X-Received: by 2002:aa7:c44a:0:b0:514:bc92:8e1d with SMTP id
+ n10-20020aa7c44a000000b00514bc928e1dmr392209edr.14.1686291661889; 
+ Thu, 08 Jun 2023 23:21:01 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
+ (host-95-248-31-20.retail.telecomitalia.it. [95.248.31.20])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020aa7d347000000b005149461b1e0sm1380058edr.25.2023.06.08.23.20.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jun 2023 23:21:01 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] Add display support on the stm32f746-disco board
+Date: Fri,  9 Jun 2023 08:20:46 +0200
+Message-Id: <20230609062050.2107143-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGv3y3C6nAq7nrkgbv5-9-tVgj+BtY1yU+fXXFFm_N7fcQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,62 +68,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 08, 2023 at 02:17:45PM -0700, Rob Clark wrote:
-> On Thu, Jun 8, 2023 at 7:12 AM Johan Hovold <johan@kernel.org> wrote:
+The series adds support for the display on the stm32f746-disco board,
+along with a generic patch that adds the "bpp" parameter to the stm-drm
+module. The intention is to allow users to size, within certain limits,
+the memory footprint required by the framebuffer.
 
-> > Have you had a chance to look at this regression yet? It prevents us
-> > from using lockdep on the X13s as it is disabled as soon as we start
-> > the GPU.
-> 
-> Hmm, curious what is different between x13s and sc7180/sc7280 things?
+Changes in v3:
+- rename ltdc-pins-a-0 to ltdc-0.
+- drop [4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+  Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next):
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
+- drop [5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+  Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
 
-It seems like lockdep needs to hit the tear down path in order to
-detect the circular lock dependency. Perhaps you don't hit that on your
-sc7180/sc7280? 
+Dario Binacchi (4):
+  ARM: dts: stm32: add ltdc support on stm32f746 MCU
+  ARM: dts: stm32: add pin map for LTDC on stm32f7
+  ARM: dts: stm32: support display on stm32f746-disco board
+  drm/stm: add an option to change FB bpp
 
-It is due to the fact that the panel is looked up way too late so that
-bind fails unless the panel driver is already loaded when the msm drm
-driver probes.
+ arch/arm/boot/dts/stm32f7-pinctrl.dtsi | 35 ++++++++++++++++++
+ arch/arm/boot/dts/stm32f746-disco.dts  | 51 ++++++++++++++++++++++++++
+ arch/arm/boot/dts/stm32f746.dtsi       | 10 +++++
+ drivers/gpu/drm/stm/drv.c              |  8 +++-
+ 4 files changed, 103 insertions(+), 1 deletion(-)
 
-Manually loading the panel driver before msm makes the splat go away.
+-- 
+2.32.0
 
-> Or did lockdep recently get more clever (or more annotation)?
-
-I think this is indeed a new problem related to some of the devfreq work
-you did in 6.3-rc1 (e.g. fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS
-constraint for idle clamp")).
-
-> I did spend some time a while back trying to bring some sense to
-> devfreq/pm-qos/icc locking:
-> https://patchwork.freedesktop.org/series/115028/
-> 
-> but haven't had time to revisit that for a while
-
-That's the series I link to below, but IIRC it did not look directly
-applicable to the splat I see on X13s (e.g. does not involve
-fs_reclaim).
-
-> > On Wed, Mar 15, 2023 at 10:19:21AM +0100, Johan Hovold wrote:
-> > >
-> > > Since 6.3-rc2 (or possibly -rc1), I'm now seeing the below
-> > > devfreq-related lockdep splat.
-> > >
-> > > I noticed that you posted a fix for something similar here:
-> > >
-> > >       https://lore.kernel.org/r/20230312204150.1353517-9-robdclark@gmail.com
-> > >
-> > > but that particular patch makes no difference.
-> > >
-> > > From skimming the calltraces below and qos/devfreq related changes in
-> > > 6.3-rc1 it seems like this could be related to:
-> > >
-> > >       fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for idle clamp")
-
-Johan
