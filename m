@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2BB7290F9
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 09:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639727290FD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 09:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3310E63F;
-	Fri,  9 Jun 2023 07:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769F310E644;
+	Fri,  9 Jun 2023 07:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 903D310E63F;
- Fri,  9 Jun 2023 07:29:23 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EF2910E642;
+ Fri,  9 Jun 2023 07:29:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W103cstLFjFPEF0xbDaYZ4mM7FXziMSiiwKQav4jrifAcGRBrP93DL3NUSFtIA/+qTMv4ZnmWigSCDlkyKW17Dm6I96WBIVDAIyuKJa+u33njtDoynCYQWjgexaiQOMDXAnBRcsYaQzN85SkAQeJeSbm8EMnvreTlzld4MRPh/j1HMFSmWkmcL9ZeMPmf8woi+2o0ENGKh/JZDveJPsN6hKckZ7r+iMXHhf47M4wc5dH4FsQT65ap2u9VrIdL/e5wbpBYLHo3FIpwivBghDuWmUfVjPgn20uBTBEhDTXou1SGFlG/tbaMd73SXWBfEP41AgtXu3lj7CCfBcCqSS6eg==
+ b=BdOOd+z/QkdmNC/if2NLFBQrbYU1TUJbXaBaGDOYCSWFGKuZhgqwsLcwHTWxPn+YzO96QhcKpuviP8wqaSbBduKD9UA1dPOzZzBhzBG4rC7RWHugzrEjtPXjp7GDo2IDLDJ52vyPP7O1fJOp/DpkuGZn9ol9a5xtBzm8EsIwlI/AFet/DE+DKEg5C+J3dutjDvz0Rtfuy7UoQQSBpnvFnXiV2BaDPtQcwC10bLB6/K92FR7ICBL3tUSXM9+btRqtupUAEonaE0ewAoo6OARWe3qICg2SN2Ds2G00DiTIM2xFOhy3LjSPRgXX4QFNWalzxrtWaoLrgvlvkabfGEJI2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L+YPDkEOzweYgUb7zrJOGAgnGxzzpjMf6xgGT0U+Ndc=;
- b=Ir3mb3DYKUAK6Cyi+qYp/inCCsdjmeWWOjkv0AGZIH7enbTZfxj3ECVMMK6X/CJeekdve1RAIPdtmYN6gnsi27zMCScz66gC5fJp7h4Qtv58Aq4hO1TTdFCigwa7zonntwyYvLbS5XtCbRpkoRmaNlrWFtPt08wLdmI7ROtkmjHPwpyGity6GVqOUy9qYHGR9OktimZ2YHIhB0cjgfWsasLufgntLri/3zAjJ+GyBibgXZUMVEVdEtwksRCYJmzFD0LujhHoh0sWUzqFrTNqRXVuboi7H5a/uWjXyIWxAFEzjKBvHKQk4VT6hZnR/Gw6VKR4dj/uaZlCEXpPBUdNYA==
+ bh=5eIlIkPuJFg/F/2KgUp3XTFrZn/NNUZVcwFmqOo0O5o=;
+ b=ivAKvnWM6QuJmTGQ7gYjfKclbNUIaug6oZuFu+O4PCaOKR1rPsoXYbzdBjpCJXeMWWZv3j8VBL8+t6WVYIMoMIi3ZnXdpzERVwbdNVbe0TT85jVuZSTt7DFkog/0375MUQAv9VxxT+lRX3GPrXhREqF/DHS0JmFNp61ZsGBFuZyb7H9jKUduUzoHDgSEBRzVj4zys9P2oa9JgTcxVvCnxkREe7Jg2KawXQZGeWpKgFg0QAsIbnlq9+T7hzS4d3Zgp5/sehDeS11cP3bMg4kKiZF7kgbmMq02I3OZv3fAltwlcbFRiU6tDEVg7gJsXtGIuMbmqDTONbA6I4uCYbF+BQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L+YPDkEOzweYgUb7zrJOGAgnGxzzpjMf6xgGT0U+Ndc=;
- b=dbjTVHgRh8+GLlOXJ95jhMG5wPEPzv93KMIoxovEIB5u10JDCBsrI5tRuNUMINGscFi9nS707xVrrFfBzsIhC25B5EA7NathBnzBetAoIfuuNRsRYaiVKlF5Alp09UOCqSOrWn0l0rswsF2A1BxROTKiawQ8/Y2DnoQLxc9lMnk=
-Received: from SN7P222CA0018.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::27)
- by SJ0PR12MB6967.namprd12.prod.outlook.com (2603:10b6:a03:44b::6)
+ bh=5eIlIkPuJFg/F/2KgUp3XTFrZn/NNUZVcwFmqOo0O5o=;
+ b=wGfzQPmJjDk3SPAIh0o20n4mwMRmXybHGgmoEQk+AxvAN7UJcoUx5PM6xmZN5TNzZohWj+J9r354MdgIVZh1HAVOSoWk9wB3cnPfJMVJ7VRtEfSeFvO+NBOaY7EgOlVnUCS21oqgiekC4xc6spKtVla5GlRsMlTuYdI7/yUziOQ=
+Received: from SN1PR12CA0043.namprd12.prod.outlook.com (2603:10b6:802:20::14)
+ by PH0PR12MB7984.namprd12.prod.outlook.com (2603:10b6:510:26f::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Fri, 9 Jun
- 2023 07:29:19 +0000
-Received: from SN1PEPF0002636D.namprd02.prod.outlook.com
- (2603:10b6:806:124:cafe::d) by SN7P222CA0018.outlook.office365.com
- (2603:10b6:806:124::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.25 via Frontend
- Transport; Fri, 9 Jun 2023 07:29:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
+ 2023 07:29:27 +0000
+Received: from SN1PEPF00026368.namprd02.prod.outlook.com
+ (2603:10b6:802:20:cafe::16) by SN1PR12CA0043.outlook.office365.com
+ (2603:10b6:802:20::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.27 via Frontend
+ Transport; Fri, 9 Jun 2023 07:29:27 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,13 +45,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002636D.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SN1PEPF00026368.mail.protection.outlook.com (10.167.241.133) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6477.19 via Frontend Transport; Fri, 9 Jun 2023 07:29:19 +0000
+ 15.20.6477.24 via Frontend Transport; Fri, 9 Jun 2023 07:29:27 +0000
 Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 9 Jun
- 2023 02:29:13 -0500
+ 2023 02:29:21 -0500
 From: Evan Quan <evan.quan@amd.com>
 To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
  <Christian.Koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
@@ -60,9 +60,9 @@ To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
  <sean.wang@mediatek.com>, <matthias.bgg@gmail.com>,
  <angelogioacchino.delregno@collabora.com>, <Mario.Limonciello@amd.com>,
  <Lijo.Lazar@amd.com>
-Subject: [PATCH V2 1/7] drivers/acpi: Add support for Wifi band RF mitigations
-Date: Fri, 9 Jun 2023 15:28:40 +0800
-Message-ID: <20230609072846.1552238-2-evan.quan@amd.com>
+Subject: [PATCH V2 2/7] wifi: mac80211: Add support for ACPI WBRF
+Date: Fri, 9 Jun 2023 15:28:41 +0800
+Message-ID: <20230609072846.1552238-3-evan.quan@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230609072846.1552238-1-evan.quan@amd.com>
 References: <20230609072846.1552238-1-evan.quan@amd.com>
@@ -74,26 +74,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636D:EE_|SJ0PR12MB6967:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8a09b81-dd65-4775-4a75-08db68bb3d06
+X-MS-TrafficTypeDiagnostic: SN1PEPF00026368:EE_|PH0PR12MB7984:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1be77f29-63f4-4a8b-9640-08db68bb41de
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kp+ZEDQ7a93SVK9NidU7L7tTvWSZn/kAe5TLr28Ruu7APFjg33PjWJRCXzxqGdrR+UU1GzneyNTjHgv8N72d8YKCYkQHFgGE9R46CLGnE174KFb21nMA9WVhT4F6aknONA8beFa5LZL55GZvOu7QNnOa4rSTcgmXVQs3r02QvKdSiTrqAmu1Cyt8KH+1d5shqEU6dtCVnRONnQJFpaRqHWvaQFVM+nhKdxSompebMuzG01m332aX7lfzA/rvfA9jwuULMShDRW6BgULS9elGuF0qFpz0EWhSAKYh8nnnuIj/uIwGEHtK8JpgSLOySbLRv9yBR6WvgeCWXjaXSnOKEj8tFGvSZBJlLpJ8GVZqV9Bpj+xPVPQKFTSIO8xqDiOBrWSSJoMp21VKbIY2LxtPu4+XfmSzEWQmaPghCuMZODWtLie6QMRc9+Jccj2ddGAUEX0bZ+MnTPUylbU0Ys+SyHoKbFmlzl8Nd/AOz/YOPemwLVUnpqE+4tKZDnnCz50C4YM5idxQDirlm7PDOB3uidRDvRKpkPJdSH7b7qZdt0WgDIXFEjhUAxCFGOBLcenL4LOJxA86BdDmyOOaDRWSzbWQKxxf/rV/ZT+6plrNpOrWdCw7La0iA7h+ahFH+hkXRrWsuzG6EnpEJvFvyx9IrOAUgx2dP506J9G3KaoXbTmW3weHFxF0LmnrruIrD5fg51wFpVECNrTTrFQ+Jszb2cIshe8uizVknGDjzCDUAZkYLfQ7k2sdgeUQjYNq5ydUQaAKS95K1CWNqgHd/6UKgMHTSkbg/HbrHcVP0LjKfMs=
+X-Microsoft-Antispam-Message-Info: ZMX3u2hYnQevk6GM/8bVn41z6zirJuN+t+mqvtg2eZMTIcQaIQUEcy5cGeKIJBL9aiJUU+WtzGu7WD8MyAXNhPvwdM/klSlXg47TtnAMfaBR8qpIESxPZ7yh6TXfytmVbAbaOELptKUCEVvufE0rRLH3HebPHeuGIQZXxn0GuMrLZWiYZD54/bnkWJeov+jT1XPM7+ZkMJ1tnk/GB2FI0mnNXJADMDKZKSaCi0mLL0+2KyRynolEcWWFbfgpLAdgoJgq2Xca/GesiUpaBLzFAtiNBQ45MsY6CuMyayMth3C0Ft35vcR35PHQvwhwX+FuBHGpOFVgDMPJbbHckbdM+7NyUMUGNZLa2C2eCF2UfP992alY603Wb1PlvUwSkQEL58FpfNoMTZLLWgJjGAkP7E5mtFOXY6QrEhQmYkcBBV7U/GI6sgE0FRpawfqbIcL2UF7/DAW5iB5NepH7K/m79xcnBwMUULc3mKqmwm/ugH1AU5s/IUluOw2lbI8iRb5+kd4miLtE1xLxMMe/4IdLHrFc4B0ogv+D4OXas1qJX8QKUWrb2IIz1FIiORLsxbcRsu7wAb2ZVXkCNMprp8NJBwiApKoOfGJgvAMpsj90m2sMGhPLJ5O7GfFyf1aXmpuEohv8eRT/PExJme8AVOgYINWIEUj+DENq8F1eb1VJNjYsR7EwyLQlCz1xOyn8Ix5gCivs42gGp2ArZ1QTck97OUs/AynRLSIi/ZzpM2sSP0by+egICMW0zcP3Vfc/lV6TBqtZPOA/7UUcD4dstnBkM93Aluf+lHjb7OPzDNlLjEo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(39860400002)(376002)(346002)(396003)(451199021)(40470700004)(36840700001)(46966006)(86362001)(5660300002)(186003)(110136005)(26005)(1076003)(40460700003)(36756003)(2906002)(70206006)(316002)(44832011)(7416002)(8936002)(8676002)(40480700001)(54906003)(16526019)(41300700001)(921005)(70586007)(6636002)(356005)(82740400003)(478600001)(4326008)(426003)(82310400005)(2616005)(6666004)(7696005)(83380400001)(81166007)(336012)(36860700001)(47076005)(36900700001);
+ SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(396003)(451199021)(40470700004)(46966006)(36840700001)(41300700001)(478600001)(316002)(44832011)(7416002)(110136005)(54906003)(921005)(356005)(81166007)(82740400003)(5660300002)(6636002)(70586007)(4326008)(8936002)(70206006)(8676002)(6666004)(82310400005)(7696005)(40460700003)(2906002)(336012)(86362001)(2616005)(36756003)(186003)(16526019)(26005)(40480700001)(36860700001)(426003)(1076003)(83380400001)(47076005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 07:29:19.4427 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8a09b81-dd65-4775-4a75-08db68bb3d06
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 07:29:27.5711 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1be77f29-63f4-4a8b-9640-08db68bb41de
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026368.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6967
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7984
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,84 +115,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-Due to electrical and mechanical constraints in certain platform designs
-there may be likely interference of relatively high-powered harmonics of
-the (G-)DDR memory clocks with local radio module frequency bands used
-by Wifi 6/6e/7.
+To support AMD's WBRF interference mitigation mechanism, Wifi adapters
+utilized in the system must register the frequencies in use(or unregister
+those frequencies no longer used) via the dedicated APCI calls. So that,
+other drivers responding to the frequencies can take proper actions to
+mitigate possible interference.
 
-To mitigate this, AMD has introduced an ACPI based mechanism that
-devices can use to notify active use of particular frequencies so
-that devices can make relative internal adjustments as necessary
-to avoid this resonance.
-
-In order for a device to support this, the expected flow for device
-driver or subsystems:
-
-Drivers/subsystems contributing frequencies:
-
-1) During probe, check `wbrf_supported_producer` to see if WBRF supported
-   for the device.
-2) If adding frequencies, then call `wbrf_add_exclusion` with the
-   start and end ranges of the frequencies.
-3) If removing frequencies, then call `wbrf_remove_exclusion` with
-   start and end ranges of the frequencies.
-
-Drivers/subsystems responding to frequencies:
-
-1) During probe, check `wbrf_supported_consumer` to see if WBRF is supported
-   for the device.
-2) Call the `wbrf_retrieve_exclusions` to retrieve the current
-   exclusions on receiving an ACPI notification for a new frequency
-   change.
+To make WBRF feature functional, the kernel needs to be configured with
+CONFIG_ACPI_WBRF and the platform is equipped with WBRF support(from
+BIOS and drivers).
 
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Co-developed-by: Evan Quan <evan.quan@amd.com>
 Signed-off-by: Evan Quan <evan.quan@amd.com>
---
-v1->v2:
-  - move those wlan specific implementations to net/mac80211(Mario)
 ---
- drivers/acpi/Kconfig     |   7 ++
- drivers/acpi/Makefile    |   2 +
- drivers/acpi/acpi_wbrf.c | 215 +++++++++++++++++++++++++++++++++++++++
- include/linux/wbrf.h     |  55 ++++++++++
- 4 files changed, 279 insertions(+)
- create mode 100644 drivers/acpi/acpi_wbrf.c
- create mode 100644 include/linux/wbrf.h
+ include/net/cfg80211.h |  18 ++++
+ net/mac80211/Makefile  |   2 +
+ net/mac80211/chan.c    |   6 ++
+ net/mac80211/main.c    |   2 +
+ net/mac80211/wbrf.c    | 183 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 211 insertions(+)
+ create mode 100644 net/mac80211/wbrf.c
 
-diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-index ccbeab9500ec..9ee7c7dcc3e6 100644
---- a/drivers/acpi/Kconfig
-+++ b/drivers/acpi/Kconfig
-@@ -611,3 +611,10 @@ config X86_PM_TIMER
+diff --git a/include/net/cfg80211.h b/include/net/cfg80211.h
+index 9e04f69712b1..d995ba085692 100644
+--- a/include/net/cfg80211.h
++++ b/include/net/cfg80211.h
+@@ -5551,6 +5551,10 @@ struct wiphy {
  
- 	  You should nearly always say Y here because many modern
- 	  systems require this timer.
-+
-+config ACPI_WBRF
-+	bool "ACPI Wifi band RF mitigation mechanism"
-+	help
-+	  Wifi band RF mitigation mechanism allows multiple drivers from
-+	  different domains to notify the frequencies in use so that hardware
-+	  can be reconfigured to avoid harmonic conflicts.
-\ No newline at end of file
-diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-index feb36c0b9446..be173e76aa62 100644
---- a/drivers/acpi/Makefile
-+++ b/drivers/acpi/Makefile
-@@ -131,3 +131,5 @@ obj-y				+= dptf/
- obj-$(CONFIG_ARM64)		+= arm64/
+ 	u16 hw_timestamp_max_peers;
  
- obj-$(CONFIG_ACPI_VIOT)		+= viot.o
++#ifdef CONFIG_ACPI_WBRF
++	bool wbrf_supported;
++#endif
 +
-+obj-$(CONFIG_ACPI_WBRF)		+= acpi_wbrf.o
-\ No newline at end of file
-diff --git a/drivers/acpi/acpi_wbrf.c b/drivers/acpi/acpi_wbrf.c
+ 	char priv[] __aligned(NETDEV_ALIGN);
+ };
+ 
+@@ -9067,4 +9071,18 @@ static inline int cfg80211_color_change_notify(struct net_device *dev)
+ bool cfg80211_valid_disable_subchannel_bitmap(u16 *bitmap,
+ 					      const struct cfg80211_chan_def *chandef);
+ 
++#ifdef CONFIG_ACPI_WBRF
++void ieee80211_check_wbrf_support(struct wiphy *wiphy);
++int ieee80211_add_wbrf(struct wiphy *wiphy,
++		       struct cfg80211_chan_def *chandef);
++void ieee80211_remove_wbrf(struct wiphy *wiphy,
++			   struct cfg80211_chan_def *chandef);
++#else
++static inline void ieee80211_check_wbrf_support(struct wiphy *wiphy) { }
++static inline int ieee80211_add_wbrf(struct wiphy *wiphy,
++				     struct cfg80211_chan_def *chandef) { return 0; }
++static inline void ieee80211_remove_wbrf(struct wiphy *wiphy,
++					 struct cfg80211_chan_def *chandef) { }
++#endif /* CONFIG_ACPI_WBRF */
++
+ #endif /* __NET_CFG80211_H */
+diff --git a/net/mac80211/Makefile b/net/mac80211/Makefile
+index b8de44da1fb8..709eb678f42a 100644
+--- a/net/mac80211/Makefile
++++ b/net/mac80211/Makefile
+@@ -65,4 +65,6 @@ rc80211_minstrel-$(CONFIG_MAC80211_DEBUGFS) += \
+ 
+ mac80211-$(CONFIG_MAC80211_RC_MINSTREL) += $(rc80211_minstrel-y)
+ 
++mac80211-$(CONFIG_ACPI_WBRF) += wbrf.o
++
+ ccflags-y += -DDEBUG
+diff --git a/net/mac80211/chan.c b/net/mac80211/chan.c
+index 77c90ed8f5d7..d26a3f622e50 100644
+--- a/net/mac80211/chan.c
++++ b/net/mac80211/chan.c
+@@ -668,6 +668,10 @@ static int ieee80211_add_chanctx(struct ieee80211_local *local,
+ 	lockdep_assert_held(&local->mtx);
+ 	lockdep_assert_held(&local->chanctx_mtx);
+ 
++	err = ieee80211_add_wbrf(local->hw.wiphy, &ctx->conf.def);
++	if (err)
++		return err;
++
+ 	if (!local->use_chanctx)
+ 		local->hw.conf.radar_enabled = ctx->conf.radar_enabled;
+ 
+@@ -748,6 +752,8 @@ static void ieee80211_del_chanctx(struct ieee80211_local *local,
+ 	}
+ 
+ 	ieee80211_recalc_idle(local);
++
++	ieee80211_remove_wbrf(local->hw.wiphy, &ctx->conf.def);
+ }
+ 
+ static void ieee80211_free_chanctx(struct ieee80211_local *local,
+diff --git a/net/mac80211/main.c b/net/mac80211/main.c
+index 55cdfaef0f5d..539f9cbdda4f 100644
+--- a/net/mac80211/main.c
++++ b/net/mac80211/main.c
+@@ -1395,6 +1395,8 @@ int ieee80211_register_hw(struct ieee80211_hw *hw)
+ 	debugfs_hw_add(local);
+ 	rate_control_add_debugfs(local);
+ 
++	ieee80211_check_wbrf_support(local->hw.wiphy);
++
+ 	rtnl_lock();
+ 	wiphy_lock(hw->wiphy);
+ 
+diff --git a/net/mac80211/wbrf.c b/net/mac80211/wbrf.c
 new file mode 100644
-index 000000000000..8c275998ac29
+index 000000000000..91712a927dd7
 --- /dev/null
-+++ b/drivers/acpi/acpi_wbrf.c
-@@ -0,0 +1,215 @@
++++ b/net/mac80211/wbrf.c
+@@ -0,0 +1,183 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * AMD Wifi Band Exclusion Interface
@@ -201,274 +233,181 @@ index 000000000000..8c275998ac29
 + */
 +
 +#include <linux/wbrf.h>
++#include <net/cfg80211.h>
 +
-+/* functions */
-+#define WBRF_RECORD		0x1
-+#define WBRF_RETRIEVE		0x2
++#define KHZ_TO_HZ(freq)		((freq) * 1000ULL)
 +
-+/* record actions */
-+#define WBRF_RECORD_ADD		0x0
-+#define WBRF_RECORD_REMOVE	0x1
-+
-+#define WBRF_REVISION		0x1
-+
-+static const guid_t wifi_acpi_dsm_guid =
-+	GUID_INIT(0x7b7656cf, 0xdc3d, 0x4c1c,
-+		  0x83, 0xe9, 0x66, 0xe7, 0x21, 0xde, 0x30, 0x70);
-+
-+static int wbrf_dsm(struct acpi_device *adev, u8 fn,
-+		    union acpi_object *argv4,
-+		    union acpi_object **out)
++void ieee80211_check_wbrf_support(struct wiphy *wiphy)
 +{
-+	union acpi_object *obj;
-+	int rc;
++	struct device *dev = wiphy->dev.parent;
++	struct acpi_device *acpi_dev;
 +
-+	obj = acpi_evaluate_dsm(adev->handle, &wifi_acpi_dsm_guid,
-+				WBRF_REVISION, fn, argv4);
-+	if (!obj)
-+		return -ENXIO;
++	acpi_dev = ACPI_COMPANION(dev);
++	if (!acpi_dev) {
++		dev_dbg(dev, "ACPI companion not found\n");
++		return;
++	}
 +
-+	switch (obj->type) {
-+	case ACPI_TYPE_BUFFER:
-+		if (!*out) {
-+			rc = -EINVAL;
-+			break;
-+		}
-+		*out = obj;
-+		return 0;
++	wiphy->wbrf_supported = wbrf_supported_producer(acpi_dev);
++	dev_dbg(dev, "WBRF is %s supported\n",
++		wiphy->wbrf_supported ? "" : "not");
++}
 +
-+	case ACPI_TYPE_INTEGER:
-+		rc =  obj->integer.value ? -EINVAL : 0;
++static int chan_width_to_mhz(enum nl80211_chan_width chan_width)
++{
++	int mhz;
++
++	switch (chan_width) {
++	case NL80211_CHAN_WIDTH_1:
++		mhz = 1;
++		break;
++	case NL80211_CHAN_WIDTH_2:
++		mhz = 2;
++		break;
++	case NL80211_CHAN_WIDTH_4:
++		mhz = 4;
++		break;
++	case NL80211_CHAN_WIDTH_8:
++		mhz = 8;
++		break;
++	case NL80211_CHAN_WIDTH_16:
++		mhz = 16;
++		break;
++	case NL80211_CHAN_WIDTH_5:
++		mhz = 5;
++		break;
++	case NL80211_CHAN_WIDTH_10:
++		mhz = 10;
++		break;
++	case NL80211_CHAN_WIDTH_20:
++	case NL80211_CHAN_WIDTH_20_NOHT:
++		mhz = 20;
++		break;
++	case NL80211_CHAN_WIDTH_40:
++		mhz = 40;
++		break;
++	case NL80211_CHAN_WIDTH_80P80:
++	case NL80211_CHAN_WIDTH_80:
++		mhz = 80;
++		break;
++	case NL80211_CHAN_WIDTH_160:
++		mhz = 160;
++		break;
++	case NL80211_CHAN_WIDTH_320:
++		mhz = 320;
 +		break;
 +	default:
-+		rc = -EOPNOTSUPP;
++		WARN_ON_ONCE(1);
++		return -1;
 +	}
-+	ACPI_FREE(obj);
-+
-+	return rc;
++	return mhz;
 +}
 +
-+static int wbrf_record(struct acpi_device *adev, uint8_t action,
-+		       struct wbrf_ranges_in *in)
++static void get_chan_freq_boundary(u32 center_freq,
++				   u32 bandwidth,
++				   u64 *start,
++				   u64 *end)
 +{
-+	union acpi_object *argv4;
-+	uint32_t num_of_ranges = 0;
-+	uint32_t arg_idx = 0;
-+	uint32_t loop_idx;
-+	int ret;
++	bandwidth = MHZ_TO_KHZ(bandwidth);
++	center_freq = MHZ_TO_KHZ(center_freq);
 +
-+	if (!in)
++	*start = center_freq - bandwidth / 2;
++	*end = center_freq + bandwidth / 2;
++
++	/* Frequency in HZ is expected */
++	*start = KHZ_TO_HZ(*start);
++	*end = KHZ_TO_HZ(*end);
++}
++
++static int wbrf_get_ranges_from_chandef(struct cfg80211_chan_def *chandef,
++					struct wbrf_ranges_in *ranges_in)
++{
++	u64 start_freq1, end_freq1;
++	u64 start_freq2, end_freq2;
++	int bandwidth;
++
++	bandwidth = chan_width_to_mhz(chandef->width);
++	if (bandwidth < 0)
 +		return -EINVAL;
 +
-+	for (loop_idx = 0; loop_idx < ARRAY_SIZE(in->band_list);
-+	     loop_idx++)
-+		if (in->band_list[loop_idx].start &&
-+		    in->band_list[loop_idx].end)
-+			num_of_ranges++;
++	get_chan_freq_boundary(chandef->center_freq1,
++			       bandwidth,
++			       &start_freq1,
++			       &end_freq1);
 +
-+	argv4 = kzalloc(sizeof(*argv4) * (2 * num_of_ranges + 2 + 1), GFP_KERNEL);
-+	if (!argv4)
-+		return -ENOMEM;
++	ranges_in->band_list[0].start = start_freq1;
++	ranges_in->band_list[0].end = end_freq1;
 +
-+	argv4[arg_idx].package.type = ACPI_TYPE_PACKAGE;
-+	argv4[arg_idx].package.count = 2 + 2 * num_of_ranges;
-+	argv4[arg_idx++].package.elements = &argv4[1];
-+	argv4[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-+	argv4[arg_idx++].integer.value = num_of_ranges;
-+	argv4[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-+	argv4[arg_idx++].integer.value = action;
++	if (chandef->width == NL80211_CHAN_WIDTH_80P80) {
++		get_chan_freq_boundary(chandef->center_freq2,
++				       bandwidth,
++				       &start_freq2,
++				       &end_freq2);
 +
-+	for (loop_idx = 0; loop_idx < ARRAY_SIZE(in->band_list);
-+	     loop_idx++) {
-+		if (!in->band_list[loop_idx].start ||
-+		    !in->band_list[loop_idx].end)
-+			continue;
-+
-+		argv4[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-+		argv4[arg_idx++].integer.value = in->band_list[loop_idx].start;
-+		argv4[arg_idx].integer.type = ACPI_TYPE_INTEGER;
-+		argv4[arg_idx++].integer.value = in->band_list[loop_idx].end;
++		ranges_in->band_list[1].start = start_freq2;
++		ranges_in->band_list[1].end = end_freq2;
 +	}
-+
-+	ret = wbrf_dsm(adev, WBRF_RECORD, argv4, NULL);
-+
-+	kfree(argv4);
-+
-+	return ret;
-+}
-+
-+int wbrf_add_exclusion(struct acpi_device *adev,
-+		       struct wbrf_ranges_in *in)
-+{
-+	return wbrf_record(adev, WBRF_RECORD_ADD, in);
-+}
-+EXPORT_SYMBOL_GPL(wbrf_add_exclusion);
-+
-+int wbrf_remove_exclusion(struct acpi_device *adev,
-+			  struct wbrf_ranges_in *in)
-+{
-+	return wbrf_record(adev, WBRF_RECORD_REMOVE, in);
-+}
-+EXPORT_SYMBOL_GPL(wbrf_remove_exclusion);
-+
-+bool wbrf_supported_producer(struct acpi_device *adev)
-+{
-+	return acpi_check_dsm(adev->handle, &wifi_acpi_dsm_guid,
-+			      WBRF_REVISION,
-+			      (1ULL << WBRF_RECORD) | (1ULL << WBRF_RETRIEVE));
-+}
-+EXPORT_SYMBOL_GPL(wbrf_supported_producer);
-+
-+static union acpi_object *
-+acpi_evaluate_wbrf(acpi_handle handle, u64 rev, u64 func)
-+{
-+	acpi_status ret;
-+	struct acpi_buffer buf = {ACPI_ALLOCATE_BUFFER, NULL};
-+	union acpi_object params[4];
-+	struct acpi_object_list input = {
-+		.count = 4,
-+		.pointer = params,
-+	};
-+
-+	params[0].type = ACPI_TYPE_INTEGER;
-+	params[0].integer.value = rev;
-+	params[1].type = ACPI_TYPE_INTEGER;
-+	params[1].integer.value = func;
-+	params[2].type = ACPI_TYPE_PACKAGE;
-+	params[2].package.count = 0;
-+	params[2].package.elements = NULL;
-+	params[3].type = ACPI_TYPE_STRING;
-+	params[3].string.length = 0;
-+	params[3].string.pointer= NULL;
-+
-+	ret = acpi_evaluate_object(handle, "WBRF", &input, &buf);
-+	if (ACPI_SUCCESS(ret))
-+		return (union acpi_object *)buf.pointer;
-+
-+	if (ret != AE_NOT_FOUND)
-+		acpi_handle_warn(handle,
-+				 "failed to evaluate WBRF(0x%x)\n", ret);
-+
-+	return NULL;
-+}
-+
-+static bool check_acpi_wbrf(acpi_handle handle, u64 rev, u64 funcs)
-+{
-+	int i;
-+	u64 mask = 0;
-+	union acpi_object *obj;
-+
-+	if (funcs == 0)
-+		return false;
-+
-+	obj = acpi_evaluate_wbrf(handle, rev, 0);
-+	if (!obj)
-+		return false;
-+
-+	if (obj->type != ACPI_TYPE_BUFFER)
-+		return false;
-+
-+	for (i = 0; i < obj->buffer.length && i < 8; i++)
-+		mask |= (((u64)obj->buffer.pointer[i]) << (i * 8));
-+	ACPI_FREE(obj);
-+
-+	/*
-+	 * Bit 0 indicates whether there's support for any functions other than
-+	 * function 0.
-+	 */
-+	if ((mask & 0x1) && (mask & funcs) == funcs)
-+		return true;
-+
-+	return false;
-+}
-+
-+bool wbrf_supported_consumer(struct acpi_device *adev)
-+{
-+	return check_acpi_wbrf(adev->handle,
-+			       WBRF_REVISION,
-+			       1ULL << WBRF_RETRIEVE);
-+}
-+EXPORT_SYMBOL_GPL(wbrf_supported_consumer);
-+
-+int wbrf_retrieve_exclusions(struct acpi_device *adev,
-+			     struct wbrf_ranges_out *exclusions_out)
-+{
-+	union acpi_object *obj;
-+
-+	obj = acpi_evaluate_wbrf(adev->handle,
-+				 WBRF_REVISION,
-+				 WBRF_RETRIEVE);
-+	if (!obj)
-+		return -EINVAL;
-+
-+	memcpy(exclusions_out, obj->buffer.pointer, obj->buffer.length);
-+
-+	ACPI_FREE(obj);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(wbrf_retrieve_exclusions);
-diff --git a/include/linux/wbrf.h b/include/linux/wbrf.h
-new file mode 100644
-index 000000000000..e4c99b69f1d2
---- /dev/null
-+++ b/include/linux/wbrf.h
-@@ -0,0 +1,55 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * AMD Wifi Band Exclusion Interface
-+ * Copyright (C) 2023 Advanced Micro Devices
-+ */
 +
-+#ifndef _LINUX_WBRF_H
-+#define _LINUX_WBRF_H
++static int wbrf_add_exclusion_wlan(struct acpi_device *adev,
++				   struct cfg80211_chan_def *chandef)
++{
++	struct wbrf_ranges_in ranges_in = {0};
++	int ret;
 +
-+#include <linux/acpi.h>
++	ret = wbrf_get_ranges_from_chandef(chandef, &ranges_in);
++	if (ret)
++		return ret;
 +
-+/* Maximum number of wbrf ranges */
-+#define MAX_NUM_OF_WBRF_RANGES		11
++	return wbrf_add_exclusion(adev, &ranges_in);
++}
 +
-+struct exclusion_range {
-+	/* start and end point of the frequency range in Hz */
-+	uint64_t	start;
-+	uint64_t	end;
-+};
++static int wbrf_remove_exclusion_wlan(struct acpi_device *adev,
++				      struct cfg80211_chan_def *chandef)
++{
++	struct wbrf_ranges_in ranges_in = {0};
++	int ret;
 +
-+struct wbrf_ranges_in {
-+	/* valid entry: `start` and `end` filled with non-zero values */
-+	struct exclusion_range	band_list[MAX_NUM_OF_WBRF_RANGES];
-+};
++	ret = wbrf_get_ranges_from_chandef(chandef, &ranges_in);
++	if (ret)
++		return ret;
 +
-+struct wbrf_ranges_out {
-+	uint32_t		num_of_ranges;
-+	struct exclusion_range	band_list[MAX_NUM_OF_WBRF_RANGES];
-+} __attribute__((packed));
++	return wbrf_remove_exclusion(adev, &ranges_in);
++}
 +
-+/**
-+ * APIs needed by drivers/subsystems for contributing frequencies:
-+ * During probe, check `wbrf_supported_producer` to see if WBRF is supported.
-+ * If adding frequencies, then call `wbrf_add_exclusion` with the
-+ * start and end points specified for the frequency ranges added.
-+ * If removing frequencies, then call `wbrf_remove_exclusion` with
-+ * start and end points specified for the frequency ranges added.
-+ */
-+bool wbrf_supported_producer(struct acpi_device *adev);
-+int wbrf_add_exclusion(struct acpi_device *adev,
-+		       struct wbrf_ranges_in *in);
-+int wbrf_remove_exclusion(struct acpi_device *adev,
-+			  struct wbrf_ranges_in *in);
++int ieee80211_add_wbrf(struct wiphy *wiphy,
++		       struct cfg80211_chan_def *chandef)
++{
++	struct device *dev = wiphy->dev.parent;
++	struct acpi_device *acpi_dev;
 +
-+/**
-+ * APIs needed by drivers/subsystems responding to frequencies:
-+ * During probe, check `wbrf_supported_consumer` to see if WBRF is supported.
-+ * When receiving an ACPI notification for some frequencies change, run
-+ * `wbrf_retrieve_exclusions` to retrieve the latest frequencies ranges.
-+ */
-+int wbrf_retrieve_exclusions(struct acpi_device *adev,
-+			     struct wbrf_ranges_out *out);
-+bool wbrf_supported_consumer(struct acpi_device *adev);
++	if (!wiphy->wbrf_supported)
++		return 0;
 +
-+#endif /* _LINUX_WBRF_H */
++	acpi_dev = ACPI_COMPANION(dev);
++	if (!acpi_dev)
++		return -ENODEV;
++
++	return wbrf_add_exclusion_wlan(acpi_dev, chandef);
++}
++
++void ieee80211_remove_wbrf(struct wiphy *wiphy,
++			   struct cfg80211_chan_def *chandef)
++{
++	struct device *dev = wiphy->dev.parent;
++	struct acpi_device *acpi_dev;
++
++	if (!wiphy->wbrf_supported)
++		return;
++
++	acpi_dev = ACPI_COMPANION(dev);
++	if (!acpi_dev)
++		return;
++
++	wbrf_remove_exclusion_wlan(acpi_dev, chandef);
++}
 -- 
 2.34.1
 
