@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807BD72A1CE
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 20:08:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AB072A21C
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 20:25:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D85AF10E6D7;
-	Fri,  9 Jun 2023 18:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B410710E169;
+	Fri,  9 Jun 2023 18:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5475A10E169;
- Fri,  9 Jun 2023 18:08:02 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cx+el_aoNkI1YBAA--.3749S3;
- Sat, 10 Jun 2023 02:07:59 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxduR+aoNkljUMAA--.36552S3; 
- Sat, 10 Jun 2023 02:07:59 +0800 (CST)
-Message-ID: <79e07134-4f89-22dd-5a9c-3c8dfac50bf2@loongson.cn>
-Date: Sat, 10 Jun 2023 02:07:58 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D73310E0AE;
+ Fri,  9 Jun 2023 18:25:45 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 359EP1ec004202; Fri, 9 Jun 2023 18:25:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=FDqnF98IhW5NO85AdQhmRp9CAq0W/IalEYURCFmo4Hc=;
+ b=htYl/sSI7pOL8Scp5R9qzqMht+yMK/ECclHGausIK9VZFgsHbOEyeOp4Fvh8v5QfiJ8J
+ L3RTG0i/wWAA8F6vd+UnJipRnwnW5DFBaHgMMKqfFv68wbhYH1iDfhoDZ7b8p6LYsu4c
+ H5aPMlV1V5tJYqp2pQ6Vp23GF2XpFDotL5SMLDEXoaKZE/wkfGRgjnSC8sZXDM4nFbEF
+ gOxYHNGR8Xna4DJGhyBFxUnINr/tqXW7jHUqCR6/4rB3jQhZOrRV8hP6KZQgFVXUTA9q
+ 5pE2IBkUd9I7cgC4toTiKrN+9/2foCm0b2iRDvqUY95KIJlAZALFzebg557Avu4A0Yq7 5g== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r45tsgkdj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Jun 2023 18:25:38 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359IPbtv023685
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 9 Jun 2023 18:25:38 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 9 Jun 2023 11:25:32 -0700
+Date: Fri, 9 Jun 2023 23:55:29 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v8 08/18] drm/msm/a6xx: Remove both GBIF and RBBM GBIF
+ halt on hw init
+Message-ID: <eucocwnrumtpp5obno6dg3vl54wrrflge7cbt34ubfy32czl7d@b3kkk3l7ibfj>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-8-69c68206609e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 6/8] drm/etnaviv: add driver support for the PCI devices
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20230609175201.GA1253027@bhelgaas>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230609175201.GA1253027@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8BxduR+aoNkljUMAA--.36552S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Aw1furWfXw15Wry7Kw1fKrX_yoW8AFy7pr
- WYva409a17tr1xJr1Ivw1kWF95tw4rA3s0vas8ur18KrnY93Z0gFy0vF4DWryagr1UJa4I
- yw43ZFy3AanrW3cCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
- xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
- 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67
- vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
- wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
- 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
- xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
- 1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7XTmDUUU
- U
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230223-topic-gmuwrapper-v8-8-69c68206609e@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pDd0c0saJPQ6L-_owofx1-LRtx1gzvEd
+X-Proofpoint-ORIG-GUID: pDd0c0saJPQ6L-_owofx1-LRtx1gzvEd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-09_14,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=828
+ mlxscore=0 phishscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306090153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,64 +80,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Li Yi <liyi@loongson.cn>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Bjorn Helgaas <bhelgaas@google.com>, Sui Jingfeng <15330273260@189.cn>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, May 29, 2023 at 03:52:27PM +0200, Konrad Dybcio wrote:
+> 
+> Currently we're only deasserting REG_A6XX_RBBM_GBIF_HALT, but we also
+> need REG_A6XX_GBIF_HALT to be set to 0.
+> 
+> This is typically done automatically on successful GX collapse, but in
+> case that fails, we should take care of it.
+> 
+> Also, add a memory barrier to ensure it's gone through before jumping
+> to further initialization.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 083ccb5bcb4e..dfde5fb65eed 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1003,8 +1003,12 @@ static int hw_init(struct msm_gpu *gpu)
+>  	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
+>  
+>  	/* Clear GBIF halt in case GX domain was not collapsed */
+> -	if (a6xx_has_gbif(adreno_gpu))
+> +	if (a6xx_has_gbif(adreno_gpu)) {
+> +		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+>  		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+> +		/* Let's make extra sure that the GPU can access the memory.. */
+> +		mb();
+This barrier is unnecessary because writel transactions are ordered and
+we don't expect a traffic from GPU immediately after this.
 
-On 2023/6/10 01:52, Bjorn Helgaas wrote:
-> On Fri, Jun 09, 2023 at 09:37:02AM +0800, Sui Jingfeng wrote:
->> On 2023/6/9 01:32, Bjorn Helgaas wrote:
->>> On Wed, Jun 07, 2023 at 06:55:49PM +0800, Sui Jingfeng wrote:
->>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>>> This patch adds PCI driver support on top of what we already have. Take
->>>> the GC1000 in LS7A1000/LS2K1000 as the first instance of the PCI device
->>>> driver. There is only one GPU core for the GC1000 in the LS7A1000 and
->>>> LS2K1000. Therefore, component frameworks can be avoided.
->>>> +	{PCI_VENDOR_ID_LOONGSON, 0x7a15, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
->>>> +	{PCI_VENDOR_ID_LOONGSON, 0x7a05, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
->>> PCI_VDEVICE()
->> This make it impossible to hook device-specific data in the future.
->>
->> But currently there no device specific data associated with the
->> 0x7a05 and 0x7a15,
->>
->> so it's acceptable for now. Thanks.
-> Haha, ISTR having this conversation before, sorry for repeating it.
->
-> Indeed, it's fine as-is.  But PCI_VDEVICE() actually *does* allow for
-> vendor-specific data because it doesn't include the data element,
-> which defaults to zero if you don't specify it.
->
-> So for example, drivers/net/ethernet/realtek/r8169_main.c has this:
->
->    { PCI_VDEVICE(REALTEK, 0x8129) },
->    { PCI_VDEVICE(REALTEK, 0x8136), RTL_CFG_NO_GBIT },
->
-> where 0x8129 has no driver_data (it defaults to zero), but 0x8136
-> does.
-
-Yeah, I'm wrong.
-
-PCI_VDEVICE macro end with two zero. (I thought it was three)
-
-Thanks for the education.
-
-With those lessons learned, I somewhat know how to create patch.
-
-It should meet community's requirement before sending.
-
-I'm too naive in the before.
-
-Thanks a lot, really.
-
-> Bjorn
-
--- 
-Jingfeng
-
+-Akhil
+> +	}
+>  
+>  	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
+>  
+> 
+> -- 
+> 2.40.1
+> 
