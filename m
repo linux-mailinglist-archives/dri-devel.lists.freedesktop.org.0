@@ -1,120 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE4B72A13D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:30:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E06A72A165
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:40:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25B7610E155;
-	Fri,  9 Jun 2023 17:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C6F10E163;
+	Fri,  9 Jun 2023 17:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA97F10E155
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 17:30:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ExBSp18Ojy9R8s++jeHlrYsY7LXX0k18DPMJbQ2Wnf8Fop2MpJJYmelSHGHiQy+2tY/cNucn281QmZhmupZx2GKJrwtwS+S0PJD4PT+tSSaVjjAh9fRrnT02RezMOLDpY15l0SLSaP6jwSQfWZ9qTuxMmEdisuMa+VAAlZf6ousagRbyyOW4A64/7ovgAT+I4W0wR6ydVu89hN7kq8/px8u5/6OqdsydfHiYl3tYCvE4VrlviJV9ZGCYbetOOz+AEOPkIm/Yuyx0MMNgcB1gWcRROzPAKyoAyOYx/eLm7oTTa+ivQ8WpD5uDlYmF9vUVu11ZwaQBOvLlm4BQuP7ACA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KQXDtsK71Oyvnkv/hgTRdMyO2lIhXtd6FwnGBMus6LM=;
- b=f8Tymvfokzc8dZTUhPFShS/OOgTVdf9+YjnJ43T8RUb0kMAkT8bJViECq8yMubISkC8y2e27setwQ8KTWTrxVny0njdCWCezVCAvPXykBd4a+L9TdJqLofis7Z5T/sQuX0m0Azr0PoHVssOrjBoZN01n9G14qezsAiFCiub29nL1Cpii1djBk4keFbySDjX7J77W3X4Cq6CI3v0iiWIneTvlewBktnvqo9q6DShclo14D/Hn8kIpJ1zCYFGfRAh6L5RfszTSne+Y4iM0kIBd0OIiB4lk9cdSiI8AYvUbvSbfwBSUWhvQkX94chnGBA4vkfuuyV9NsETRkJq0/+WBUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KQXDtsK71Oyvnkv/hgTRdMyO2lIhXtd6FwnGBMus6LM=;
- b=kWmq5nBqxWIlywGCrQdQNpMztN8238lsJIWfKA+hm+5MxqUgktJ6qzR7v3eOGWA+U0vIW39PVjs38ccjqtA6xKZM9D6/iSK7OrJ5FWlWTVkc/rf7VSpLYf6Bux85wWGJlQaduaOuNhXI7L/GtgnSKASW93Q4WWU6eeyAuVQz+k15P/AG2XbeLN3q6rjS0gSKmKZio1u8rTr98rbOsiLP5dUz4YB8Ucjv6o4vek0YkNL8YYbWGC2FnP9JY62sgl20Z3Elk0JINipYC9euv90Fvx1eKtgEqeZHGWuU8GrkqFcTiaiF+Kllgqmua82dADTgRMSsIOuyB9CXN7hRWd3kRg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN0PR12MB6150.namprd12.prod.outlook.com (2603:10b6:208:3c6::11)
- by BN9PR12MB5273.namprd12.prod.outlook.com (2603:10b6:408:11e::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.34; Fri, 9 Jun
- 2023 17:29:59 +0000
-Received: from MN0PR12MB6150.namprd12.prod.outlook.com
- ([fe80::a029:8008:ffa4:8ef6]) by MN0PR12MB6150.namprd12.prod.outlook.com
- ([fe80::a029:8008:ffa4:8ef6%7]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
- 17:29:59 +0000
-Message-ID: <09cc666a-bc52-44b3-230c-26dc705c5a56@nvidia.com>
-Date: Fri, 9 Jun 2023 10:29:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] drm/edid: Add quirk for OSVR HDK 2.0
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230609014207.2759720-1-rcampbell@nvidia.com>
- <87y1ktqa75.fsf@intel.com>
-From: Ralph Campbell <rcampbell@nvidia.com>
-In-Reply-To: <87y1ktqa75.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0354.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::29) To MN0PR12MB6150.namprd12.prod.outlook.com
- (2603:10b6:208:3c6::11)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B386810E16D
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 17:40:10 +0000 (UTC)
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 151451EC03AD;
+ Fri,  9 Jun 2023 19:40:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1686332407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kWgGVo37myzujlpWQRnYyUa2oU3NBoohOHoVeQmQWMM=;
+ b=GkDJ4zKKzjefxo9QFea7jvNoBRqDg+bbcKNoUyqgBOFJ1ACziTzav3srg9E6ZMTFTedV9t
+ GsQZMpZsy0cLM+aK1o1KKavHeqpdQ/mYAyhi39c0U85x8kfNLPBkUsJtVVPFQY4kGgegCC
+ i5qxTiqERvoH5/Fgl86XfSYrzsln7fw=
+Date: Fri, 9 Jun 2023 19:40:06 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/radeon: Disable outputs when releasing fbdev client
+Message-ID: <20230609174006.GEZINj9lbcJilcUzkI@fat_crate.local>
+References: <20230609140356.16846-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6150:EE_|BN9PR12MB5273:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97fbd32b-3e82-47df-7c7c-08db690f2658
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GLPf7uzm0SyZxMxgMpeQsLaS2APj6LyatL7/LqivJhSxS6uwEBkzbTr+oP6R9EKl6y7xUWkGMIvfCJDE9Shsj5SqtrJg3jcXDp0Lgau2mz1PzeHN2mS4iH1xbJI8yUi0cIHPofgnAnxkP0KFTgdP0x2cQCVPIVmfvIdBcHJtFXSv+RgKJBJucB0bDlIb17vqQbNUBdt8jcnTuroK7pL+vaPQ/3wHbK9CzdxNIrAyVKs2Lx54iBjPmfrS3Cqrbe/iGO6iB/JAc4rvzVo9aVWHjVfNUTU6GWztazK7BB7wh02BFhuIeHu6siJ2Piamc26Vaqgo/qG2MF17iVqavi0V0ozpk7UifGpA52etkGjIqxCw2TGyuQx0SQO8st7fQ+m/8QfpERS+MggQyKcJK7Ps+fK177tiXsTPRLTCNIRL2zmFj1g8BWbZRGHTXZ/tWixza+kP7nWGAWtf4Q28vadkkuMppkk0bPd/UaAetdnH0SrMK8l60TuuFthGlyPaWqj6LxYFQ2rv4QRXH74gFPuIDFMeEOYxWXa7iNvr0xSwdGz3OOrC2dPKzwUyQ2L+Rkb/vtZMnL7yN4JC2/4EpGYssB5e7bVpTTHM9vmjvdi1XQAtLHnJIC3hf1S9jB6JEnQekgeP3mpR3+EqvUwBAE4lSQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6150.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(451199021)(41300700001)(478600001)(6666004)(186003)(83380400001)(8676002)(8936002)(45080400002)(316002)(6506007)(6512007)(31686004)(26005)(4326008)(66946007)(66476007)(66556008)(38100700002)(53546011)(31696002)(2906002)(5660300002)(36756003)(54906003)(86362001)(6486002)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VU1CbS9EaFB5UmJyT1VmSy9FallTWE4xWjIrS3NIWUg1MERkS01HdnhZcjVT?=
- =?utf-8?B?ZzZxZHF0LytRUFBXSDFrNlpPUVJaYi9yU29qcVRFc3FiVXhxdmhLMERHKys4?=
- =?utf-8?B?TmlmWXhLWDcvL0RXdE93eUFiQmJ5cEtvb1Fqa2JEZVRkOEFmWGRSdmdOL1g4?=
- =?utf-8?B?S3h0Qi9uM2NDSTJGaXhieEE1Q2ZsRkR0UkN6Nit5MkNFdEE1OGhXcXNzeTdT?=
- =?utf-8?B?UEw1Ym5DcnYxa1U5dlJlSEp5T294WEp5VGVKTFhOMXdKeVZtMENCdW5CQnJq?=
- =?utf-8?B?dCt2R3RMMnhLb2d0eXZMcGpPbndnK2ZxeGF4OVpyVVdvNWdKRWJNZFRYKzE4?=
- =?utf-8?B?Q0ZybHRRZmoyQy9ja0RjNmM1aEVSNmZ5dlRldWhDKzdnKzMrTkVRTkRYdDl4?=
- =?utf-8?B?ZnlZem1qSUFkdlhDMy9FQU9ERVRXRUhXSzFzckRjZndSS2E5VmRob1k0RFVk?=
- =?utf-8?B?Y1JyZ2NhV3BacDZWeUx4ZHRzOURYenlKcGJiSC8yYXVBcUhrWU9CMDZPdmlu?=
- =?utf-8?B?UE9vMVZiajZIc2Z1bTY1MWFJb2cvd2NnVS9zN01EUFFteGE5ZTZxMWhVWGJR?=
- =?utf-8?B?WjZQcklvbTY1eXIwY2k0NjAzcEx6eFdNT1MvU2FuaFplUG5NS2k0S2pGYzkw?=
- =?utf-8?B?UkVGTTltTFZ0bS9TWlNhNkt1YjVWaHZ4cCtWZVFrWmptTGt5TkMyV2dkekFl?=
- =?utf-8?B?QktSazZqQmdkYm9qcFp0WWZyMDFYQW5iZVpwMEJkZHA3UUpESVRMU3BaeEg4?=
- =?utf-8?B?L28yU292RXpaL2tJbDlBcXZGaEFJK2kycEJ4MDB4OEZ3REJnWHJiRExFYWh1?=
- =?utf-8?B?TnU0MURwTk80N2pDSjVHT05LVmJyMkpPc2dYVnBTZ2FrMVBiNWZLTngvN2Nu?=
- =?utf-8?B?cE0yYTh5Y29Pa05uZzZHOVdRZEtOQjVjdUtTRWtBUGs3WTdaamIvNlhGSmly?=
- =?utf-8?B?S3E2UkNHK1EzTnpvdkFnUThnTU83Y2JvTmh3NHRsaytYTnRxTzZYTWdYT1lR?=
- =?utf-8?B?UlVvdXZlTk1ocXIzbU5sS1BtWmtRZ1VaY29xZ0NpOWZrYTZqMVlWU3hBeWZU?=
- =?utf-8?B?clBxT0kwRmZFQ3JCRmJXekxiYmluRXVWeXRLb0RYMTU4RitlTkJLUlBWWDdT?=
- =?utf-8?B?cEJlWmczUk50d2U3b2l6M0RpMmx6dERyc3RvVDJ4bmdvNXlnOGJjVnlVZk1P?=
- =?utf-8?B?TW9wSFlkZkFMbkkrRjdHd2NBTmxFTm14UVFpdVlrTUlLNEw4Q29OekpJbE5k?=
- =?utf-8?B?RDZxRitBMERvZ284Y1ZreUpvT0xyQXB2MjdwOEw3L1drRG9lc1lSMFNSY1FX?=
- =?utf-8?B?cHErRGZ3MnRVdzNhRlhwbCtsdEFmeExORU1USlVKUkpOMG1WdXBGb29mZnZ3?=
- =?utf-8?B?eUdGeHV6VTN5UEJWYkRnb1J0OU9kNmNjcFppd2QvNGJKaUxERGt0UENpRlZw?=
- =?utf-8?B?dHkwSUlMZ2R3TTFMVXpNVGNPNHBQdk5tMW5oQUtUVjE3ajF1SVZyWGx2K0I3?=
- =?utf-8?B?VE02OUZ3WEdVU2R2cDZLRC9vN3VVTlIrQlF3aWJCMGJRWGt2Y2R6M1F0cXpG?=
- =?utf-8?B?Wmh1akVLSnRzNzlDNndPeVhTVUg3OC9JdEtVaE84N0UxdklrQm96MUlNMDVU?=
- =?utf-8?B?dGd6TFZDVm1sQjJ6NmMrenhYdElrZDAwQTE1ek9OcnBkZTdVaUlDUUQwMmxq?=
- =?utf-8?B?cytETjUrTkNtZldoSzNONE9RbjQ1VjdWbmh4Y0JGZjJCeEM0S1ZFSFJoTFl5?=
- =?utf-8?B?THFJcUo1RFA4UGRSRUNFclJoOXlEc0lvdVl4clV3OTBEbTJXNGZBRE9pcXcx?=
- =?utf-8?B?SDRkWHJFK0wrU0x3NTVCT3RDOC9HMEJGUHBTUUh5bmJiOWNYT1gwSmpzVC9n?=
- =?utf-8?B?M1RSLzE1ZklBQVVCVDdVa1VzZUc0clAra3dHZDVncWZzMDMwdVhGa00zVjFi?=
- =?utf-8?B?Mnh4dm1NejhPZFhoc3ZUK2tHUmpXYzI1eStoczhPeGJ1UkhyZGV0ejlqL1B5?=
- =?utf-8?B?cDg2azhGbktyZldvaFVESlZWMmhackx6Mm1ZcnQzSWhpcUo5VWNiYTBlcE9B?=
- =?utf-8?B?MytjRCsvSGtjZFEyaStWalBoNTRwMHlLWmpPV2NySFFuN0gwNkpRRzI1a3Jw?=
- =?utf-8?Q?2KjXg1puAgw/x9x6IqNTd1nX7?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97fbd32b-3e82-47df-7c7c-08db690f2658
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6150.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 17:29:59.4012 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aInh310XFhprHV3bxWOU21Q1en5etRs2VCC1FKizpBslH3//DAHpv5vfStvm1C3nHchFlqW0aaYqLS5PgF7SGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5273
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230609140356.16846-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,54 +50,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
+Cc: Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 09, 2023 at 04:03:56PM +0200, Thomas Zimmermann wrote:
+> Disable the modesetting pipeline before release the radeon's fbdev
+> client. Fixes the following error:
+> 
+> [   17.217408] WARNING: CPU: 5 PID: 1464 at drivers/gpu/drm/ttm/ttm_bo.c:326 ttm_bo_release+0x27e/0x2d0 [ttm]
+> [   17.217418] Modules linked in: edac_mce_amd radeon(+) drm_ttm_helper ttm video drm_suballoc_helper drm_display_helper kvm irqbypass drm_kms_helper syscopyarea crc32_pclmul sysfillrect sha512_ssse3 sysimgblt sha512_generic cfbfillrect cfbimgblt wmi_bmof aesni_intel cfbcopyarea crypto_simd cryptd k10temp acpi_cpufreq wmi dm_mod
+> [   17.217432] CPU: 5 PID: 1464 Comm: systemd-udevd Not tainted 6.4.0-rc4+ #1
+> [   17.217436] Hardware name: Micro-Star International Co., Ltd. MS-7A38/B450M PRO-VDH MAX (MS-7A38), BIOS B.G0 07/26/2022
+> [   17.217438] RIP: 0010:ttm_bo_release+0x27e/0x2d0 [ttm]
+> [   17.217444] Code: 48 89 43 38 48 89 43 40 48 8b 5c 24 30 48 8b b5 40 08 00 00 48 8b 6c 24 38 48 83 c4 58 e9 7a 49 f7 e0 48 89 ef e9 6c fe ff ff <0f> 0b 48 83 7b 20 00 0f 84 b7 fd ff ff 0f 0b 0f 1f 00 e9 ad fd ff
+> [   17.217448] RSP: 0018:ffffc9000095fbb0 EFLAGS: 00010202
+> [   17.217451] RAX: 0000000000000001 RBX: ffff8881052c8de0 RCX: 0000000000000000
+> [   17.217453] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff8881052c8de0
+> [   17.217455] RBP: ffff888104a66e00 R08: ffff8881052c8de0 R09: ffff888104a7cf08
+> [   17.217457] R10: ffffc9000095fbe0 R11: ffffc9000095fbe8 R12: ffff8881052c8c78
+> [   17.217458] R13: ffff8881052c8c78 R14: dead000000000100 R15: ffff88810528b108
+> [   17.217460] FS:  00007f319fcbb8c0(0000) GS:ffff88881a540000(0000) knlGS:0000000000000000
+> [   17.217463] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   17.217464] CR2: 000055dc8b0224a0 CR3: 000000010373d000 CR4: 0000000000750ee0
+> [   17.217466] PKRU: 55555554
+> [   17.217468] Call Trace:
+> [   17.217470]  <TASK>
+> [   17.217472]  ? __warn+0x97/0x160
+> [   17.217476]  ? ttm_bo_release+0x27e/0x2d0 [ttm]
+> [   17.217481]  ? report_bug+0x1ec/0x200
+> [   17.217487]  ? handle_bug+0x3c/0x70
+> [   17.217490]  ? exc_invalid_op+0x1f/0x90
+> [   17.217493]  ? preempt_count_sub+0xb5/0x100
+> [   17.217496]  ? asm_exc_invalid_op+0x16/0x20
+> [   17.217500]  ? ttm_bo_release+0x27e/0x2d0 [ttm]
+> [   17.217505]  ? ttm_resource_move_to_lru_tail+0x1ab/0x1d0 [ttm]
+> [   17.217511]  radeon_bo_unref+0x1a/0x30 [radeon]
+> [   17.217547]  radeon_gem_object_free+0x20/0x30 [radeon]
+> [   17.217579]  radeon_fbdev_fb_destroy+0x57/0x90 [radeon]
+> [   17.217616]  unregister_framebuffer+0x72/0x110
+> [   17.217620]  drm_client_dev_unregister+0x6d/0xe0
+> [   17.217623]  drm_dev_unregister+0x2e/0x90
+> [   17.217626]  drm_put_dev+0x26/0x90
+> [   17.217628]  pci_device_remove+0x44/0xc0
+> [   17.217631]  really_probe+0x257/0x340
+> [   17.217635]  __driver_probe_device+0x73/0x120
+> [   17.217638]  driver_probe_device+0x2c/0xb0
+> [   17.217641]  __driver_attach+0xa0/0x150
+> [   17.217643]  ? __pfx___driver_attach+0x10/0x10
+> [   17.217646]  bus_for_each_dev+0x67/0xa0
+> [   17.217649]  bus_add_driver+0x10e/0x210
+> [   17.217651]  driver_register+0x5c/0x120
+> [   17.217653]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
+> [   17.217681]  do_one_initcall+0x44/0x220
+> [   17.217684]  ? kmalloc_trace+0x37/0xc0
+> [   17.217688]  do_init_module+0x64/0x240
+> [   17.217691]  __do_sys_finit_module+0xb2/0x100
+> [   17.217694]  do_syscall_64+0x3b/0x90
+> [   17.217697]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+> [   17.217700] RIP: 0033:0x7f319feaa5a9
+> [   17.217702] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 27 08 0d 00 f7 d8 64 89 01 48
+> [   17.217706] RSP: 002b:00007ffc6bf3e7f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> [   17.217709] RAX: ffffffffffffffda RBX: 00005607204f3170 RCX: 00007f319feaa5a9
+> [   17.217710] RDX: 0000000000000000 RSI: 00007f31a002eefd RDI: 0000000000000018
+> [   17.217712] RBP: 00007f31a002eefd R08: 0000000000000000 R09: 00005607204f1860
+> [   17.217714] R10: 0000000000000018 R11: 0000000000000246 R12: 0000000000020000
+> [   17.217716] R13: 0000000000000000 R14: 0000560720522450 R15: 0000560720255899
+> [   17.217718]  </TASK>
+> [   17.217719] ---[ end trace 0000000000000000 ]---
+> 
+> The buffer object backing the fbdev emulation got pinned twice: by the
+> fb_probe helper radeon_fbdev_create_pinned_object() and the modesetting
+> code when the framebuffer got displayed. It only got unpinned once by
+> the fbdev helper radeon_fbdev_destroy_pinned_object(). Hence TTM's BO-
+> release function complains about the pin counter. Forcing the outputs
+> off also undoes the modesettings pin increment.
+> 
+> Reported-by: Borislav Petkov <bp@alien8.de>
+> Closes: https://lore.kernel.org/dri-devel/20230603174814.GCZHt83pN+wNjf63sC@fat_crate.local/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: e317a69fe891 ("drm/radeon: Implement client-based fbdev emulation")
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/radeon/radeon_fbdev.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+> index 28212c2d6c98..ab9c1abbac97 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fbdev.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+> @@ -304,6 +304,7 @@ static void radeon_fbdev_client_unregister(struct drm_client_dev *client)
+>  
+>  	if (fb_helper->info) {
+>  		vga_switcheroo_client_fb_set(rdev->pdev, NULL);
+> +		drm_helper_force_disable_all(dev);
+>  		drm_fb_helper_unregister_info(fb_helper);
+>  	} else {
+>  		drm_client_release(&fb_helper->client);
+> -- 
 
-On 6/9/23 02:03, Jani Nikula wrote:
-> On Thu, 08 Jun 2023, Ralph Campbell <rcampbell@nvidia.com> wrote:
->> The OSVR virtual reality headset HDK 2.0 uses a different EDID
->> vendor and device identifier than the HDK 1.1 - 1.4 headsets.
->> Add the HDK 2.0 vendor and device identifier to the quirks table so
->> that window managers do not try to display the desktop screen on the
->> headset display.
-> At some point in time we requested bugs to be filed about quirks, with
-> EDIDs attached, so we could look at them later, and maybe remove the
-> quirks.
->
-> The headset non-desktop thing started off as a quirk, but since then
-> we've added both Microsoft VSDB and DisplayID primary use as ways to
-> indicate this without quirks.
->
-> BR,
-> Jani.
+Thanks, that takes care of it.
 
-If you want me to file a bug, I can do that and I have the EDID too.
-Where would I file it?
+Btw, I'd trim that splat in the commit message above so that it is more
+readable. But that's for the committer to decide.
 
-I did see the DisplayID 2.0 code. This headset is no longer being
-manufactured so updating the EDID is not practical.
+Tested-by: Borislav Petkov (AMD) <bp@alien8.de>
 
->> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
->> Tested-by: Ralph Campbell <rcampbell@nvidia.com>
->> ---
->>   drivers/gpu/drm/drm_edid.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> I don't know how many of these VR headsets are still around but I have a
->> working one and I saw and entry for HDK 1.x so I thought it would be good
->> to add HDK 2.0.
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 0454da505687..3b8cc1fe05e8 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -230,6 +230,7 @@ static const struct edid_quirk {
->>   
->>   	/* OSVR HDK and HDK2 VR Headsets */
->>   	EDID_QUIRK('S', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
->> +	EDID_QUIRK('A', 'O', 'U', 0x1111, EDID_QUIRK_NON_DESKTOP),
->>   };
->>   
->>   /*
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
