@@ -1,66 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF36729C45
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 16:07:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB586729C6B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 16:10:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA0310E6A7;
-	Fri,  9 Jun 2023 14:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B333110E059;
+	Fri,  9 Jun 2023 14:10:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57EA910E6A7
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 14:07:45 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-9786c67ec32so312181966b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 07:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686319660; x=1688911660;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=PM1+SjJYojGEjAWqB7qXG+oGVKE+NT1y/yCIj8gw4kI=;
- b=B9bzP8KHaUay+nKM3UhpdU30byyDgOxqktPySg+JSTCL4C1fZ+33YCdhu1sXZfo2q8
- PHYAh1+j7wG6yyNYIqXywA565XlxqP4TO4W+JcvSZ6J8tM/+4JYBdHvFhOLpLyZPWdI+
- DJSp8dc1v3Y3xYhotel4J51+o5THfjoq+fHuVk8byexhvxcWi+Iz5TuO2ycLQqZL2ZPy
- u2xwzdylMjLRNDfel+LvyEMWQLqYA2A8F19ldiAAEGpRnIN+pFVwC0SmuQSONhQztcmm
- bp5C3yRKqObjut5cQlnGsQ/hQhkR+RCWVuOzKnX4UCQu1aXKUHnkT/AViRbMrSutxo2L
- A90A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686319660; x=1688911660;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PM1+SjJYojGEjAWqB7qXG+oGVKE+NT1y/yCIj8gw4kI=;
- b=LN1wQbMwBP5l5xUDwA2WXTM1/01SNJYqCjDhGYdkqU7vYqlk3tmpjOvRoj9AQq6GVQ
- +X4B1SE1L+CkQnY4DVU5mw7aODkBNktPRp9GDoc670MIxq7MiYMGF78uDmxwu6TwzOD8
- h2Swz1DvNmU+tHi1MTxXDZKlecMl/MkUEhrkz+pEQ5fKeU/7aCmK5L69ZK+OeByldcz3
- xvkk+DhjoAT4JRLWiEo8WHK1VmX1SttQhoo5LU58qOXYT7UVyd8CXze6Pbawr8KUzIdx
- mp/asiJxE5pxSZ17FNSWlP1eoMSgUeYjBDT9nFDlQutHKqleTKoeS628MigRH4XjhiKo
- 3f3Q==
-X-Gm-Message-State: AC+VfDwizPfFQR+cN9+47vGAe6A+9k+CJUJNSUfCwc2/gWTkdtzMli7M
- 91KdgbFuj9agwi+TUiTMhO9kYg==
-X-Google-Smtp-Source: ACHHUZ4rZbL6GyNl0wF0oxUXCCTFkxuMP5kmQvcmb210bJV7Mbm05+0wKT84SKIN6RigtsrymRZfPg==
-X-Received: by 2002:a17:907:980d:b0:969:e9ec:9a0 with SMTP id
- ji13-20020a170907980d00b00969e9ec09a0mr1874567ejc.77.1686319659931; 
- Fri, 09 Jun 2023 07:07:39 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.26]) by smtp.gmail.com with ESMTPSA id
- y21-20020a170906471500b00974564fa7easm1370518ejq.5.2023.06.09.07.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jun 2023 07:07:39 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: gpu: drop unneeded quotes
-Date: Fri,  9 Jun 2023 16:07:38 +0200
-Message-Id: <20230609140738.64958-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15E410E059
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 14:10:12 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C3E9E66028F5;
+ Fri,  9 Jun 2023 15:10:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686319810;
+ bh=fEKB2Dc+bAcIYrc9tq0hrHYONPS84sVAn04kvwj4XNk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RVUdXs8nHUitWFJUilsjXfW+FdIdItyNbSb70cR69deCUG9Ib5wFHlojBNazxjlsq
+ Y1zcT3NHIw9JFnpJ4TNwG71fjJoo7dNHOtf2At68uzyTY5iYFfBidRDfY2woe77t/W
+ 0g5z2LDgKg0knFMjITtjHyWFqDO04xqo44DoiTkH0MwMDFm2lFR+yDs/T+Xkg+glty
+ PGCkfY9uCyGM2OGpOZKwtBmRXybWPb3Uf65FoiB/+LbluWjFD1Brxtt48yqbNRf0kA
+ 3K+qRKHuoxmgdFJDDNR/Q3VLAItEk1JARFCu8kCWbAuhS+jDahGW8Nxj/k0/7wkn//
+ dsy4sHVHH/l5Q==
+Date: Fri, 9 Jun 2023 16:10:06 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [RFC PATCH] drm/sched: Wait for the currently popped dependency
+ in kill_jobs_cb()
+Message-ID: <20230609161006.7992a477@collabora.com>
+In-Reply-To: <bec5582e-2172-cb01-c8b2-283b9aab414a@amd.com>
+References: <20230608065551.676490-1-boris.brezillon@collabora.com>
+ <bec5582e-2172-cb01-c8b2-283b9aab414a@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,45 +55,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, Donald Robson <donald.robson@imgtec.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-checking for this can be enabled in yamllint.
+Hello Christian,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 2 +-
- Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, 9 Jun 2023 13:53:59 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 0400a361875d..e796a1ff8c82 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -86,7 +86,7 @@ properties:
-     const: 2
- 
-   dynamic-power-coefficient:
--    $ref: '/schemas/types.yaml#/definitions/uint32'
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     description:
-       A u32 value that represents the running time dynamic
-       power coefficient in units of uW/MHz/V^2. The
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-index 2a25384ca3ef..ca02baba5526 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-@@ -92,7 +92,7 @@ properties:
-   dma-coherent: true
- 
-   dynamic-power-coefficient:
--    $ref: '/schemas/types.yaml#/definitions/uint32'
-+    $ref: /schemas/types.yaml#/definitions/uint32
-     description:
-       A u32 value that represents the running time dynamic
-       power coefficient in units of uW/MHz/V^2. The
--- 
-2.34.1
+> Am 08.06.23 um 08:55 schrieb Boris Brezillon:
+> > If I understand correctly, drm_sched_entity_kill_jobs_cb() is supposed
+> > to wait on all the external dependencies (those added to
+> > drm_sched_job::dependencies) before signaling the job finished fence.
+> > This is done this way to prevent jobs depending on these canceled jobs
+> > from considering the resources they want to access as ready, when
+> > they're actually still used by other components, thus leading to
+> > potential data corruptions.
+> >
+> > The problem is, the kill_jobs logic is omitting the last fence popped
+> > from the dependencies array that was waited upon before
+> > drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
+> > so we're basically waiting for all dependencies except one.
+> >
+> > This is an attempt at fixing that, but also an opportunity to make sure
+> > I understood the drm_sched_entity_kill(), because I'm not 100% sure if
+> > skipping this currently popped dependency was intentional or not. I can=
+'t
+> > see a good reason why we'd want to skip that one, but I might be missing
+> > something.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Frank Binns <frank.binns@imgtec.com>
+> > Cc: Sarah Walker <sarah.walker@imgtec.com>
+> > Cc: Donald Robson <donald.robson@imgtec.com>
+> > Cc: Luben Tuikov <luben.tuikov@amd.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > ---
+> > Stumbled across this issue while working on native dependency support
+> > with Donald (which will be posted soon). Flagged as RFC, because I'm
+> > not sure this is legit, and also not sure we want to fix it this way.
+> > I tried re-using drm_sched_entity::dependency, but it's a bit of a mess
+> > because of the asynchronousity of the wait, and the fact we use
+> > drm_sched_entity::dependency to know if we have a clear_dep()
+> > callback registered, so we can easily reset it without removing the
+> > callback. =20
+>=20
+> Well yes, that's a known problem. But this is really not the right=20
+> approach to fixing this.
+>=20
+> Trying to wait for all the dependencies before killing jobs was added=20
+> because of the way we kept track of dma_fences in dma_resv objects.=20
+> Basically adding exclusive fences removed all other fences leading to a=20
+> bit fragile memory management.
 
+Okay.
+
+>=20
+> This handling was removed by now and so the workaround for waiting for=20
+> dependencies is not really necessary any more, but I think it is still=20
+> better to do so.
+>=20
+> The right approach of getting this waiting for dependencies completely=20
+> straight is also not to touch entity->dependency in any way, but to stop=
+=20
+> removing them from the XA in drm_sched_job_dependency(). Otherwise you=20
+> don't catch the pipeline optimized ones either.
+
+Do you want me to post a v2 doing that, or should I forget about it?
+If we decide to keep things like that, it might be good to at least
+add a comment explaining why we don't care.
+
+Regards,
+
+Boris
