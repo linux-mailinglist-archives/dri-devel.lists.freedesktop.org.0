@@ -2,78 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AB872A129
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE4B72A13D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 19:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF9A10E15C;
-	Fri,  9 Jun 2023 17:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25B7610E155;
+	Fri,  9 Jun 2023 17:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8DC10E157;
- Fri,  9 Jun 2023 17:24:31 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 359EBq3n024991; Fri, 9 Jun 2023 17:24:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1b7hEhV9ZR3ErYyrh6dtfaDiEFYsrQqoxaoxl0F9tUw=;
- b=VN5rhGQ+B0W082XDVn0f+r7oKgbpgtHY0P5jI2cpfWMfWPNCpFnF/YuQO3hmWJ1CyxdG
- ydh3gsqOduhzdME6K8wDKULdnGOi9I4+a6juJno6TFKWHfBjOrOjdabALT7kiBY2Lw1C
- 5LJqKBzFJO0AuQqTc3qM+ZBRLx4E6dmlzXCiCo5hohQxo7Br9E96g2eRhpRYVGJhCsjD
- E6bJ3OgKAioNAM/aTDHhYlRosiL3yA+MCU99FS82xUSM81PQNJKYmM7nW76kr+8CBywB
- BWPq8n5CsNWHCigdTp0v4bD448GJUWsI3buNqRwn31tyPNxraBARlP451bc8NEeWgor0 bA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3nwet3kc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Jun 2023 17:24:29 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359HOSMj007649
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 9 Jun 2023 17:24:28 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
- 10:24:27 -0700
-Message-ID: <f49db16a-e470-aeb5-f161-be354b5817f5@quicinc.com>
-Date: Fri, 9 Jun 2023 10:24:27 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v5 2/5] drm/msm/dsi: Adjust pclk rate for compression
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA97F10E155
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 17:30:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ExBSp18Ojy9R8s++jeHlrYsY7LXX0k18DPMJbQ2Wnf8Fop2MpJJYmelSHGHiQy+2tY/cNucn281QmZhmupZx2GKJrwtwS+S0PJD4PT+tSSaVjjAh9fRrnT02RezMOLDpY15l0SLSaP6jwSQfWZ9qTuxMmEdisuMa+VAAlZf6ousagRbyyOW4A64/7ovgAT+I4W0wR6ydVu89hN7kq8/px8u5/6OqdsydfHiYl3tYCvE4VrlviJV9ZGCYbetOOz+AEOPkIm/Yuyx0MMNgcB1gWcRROzPAKyoAyOYx/eLm7oTTa+ivQ8WpD5uDlYmF9vUVu11ZwaQBOvLlm4BQuP7ACA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KQXDtsK71Oyvnkv/hgTRdMyO2lIhXtd6FwnGBMus6LM=;
+ b=f8Tymvfokzc8dZTUhPFShS/OOgTVdf9+YjnJ43T8RUb0kMAkT8bJViECq8yMubISkC8y2e27setwQ8KTWTrxVny0njdCWCezVCAvPXykBd4a+L9TdJqLofis7Z5T/sQuX0m0Azr0PoHVssOrjBoZN01n9G14qezsAiFCiub29nL1Cpii1djBk4keFbySDjX7J77W3X4Cq6CI3v0iiWIneTvlewBktnvqo9q6DShclo14D/Hn8kIpJ1zCYFGfRAh6L5RfszTSne+Y4iM0kIBd0OIiB4lk9cdSiI8AYvUbvSbfwBSUWhvQkX94chnGBA4vkfuuyV9NsETRkJq0/+WBUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KQXDtsK71Oyvnkv/hgTRdMyO2lIhXtd6FwnGBMus6LM=;
+ b=kWmq5nBqxWIlywGCrQdQNpMztN8238lsJIWfKA+hm+5MxqUgktJ6qzR7v3eOGWA+U0vIW39PVjs38ccjqtA6xKZM9D6/iSK7OrJ5FWlWTVkc/rf7VSpLYf6Bux85wWGJlQaduaOuNhXI7L/GtgnSKASW93Q4WWU6eeyAuVQz+k15P/AG2XbeLN3q6rjS0gSKmKZio1u8rTr98rbOsiLP5dUz4YB8Ucjv6o4vek0YkNL8YYbWGC2FnP9JY62sgl20Z3Elk0JINipYC9euv90Fvx1eKtgEqeZHGWuU8GrkqFcTiaiF+Kllgqmua82dADTgRMSsIOuyB9CXN7hRWd3kRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN0PR12MB6150.namprd12.prod.outlook.com (2603:10b6:208:3c6::11)
+ by BN9PR12MB5273.namprd12.prod.outlook.com (2603:10b6:408:11e::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.34; Fri, 9 Jun
+ 2023 17:29:59 +0000
+Received: from MN0PR12MB6150.namprd12.prod.outlook.com
+ ([fe80::a029:8008:ffa4:8ef6]) by MN0PR12MB6150.namprd12.prod.outlook.com
+ ([fe80::a029:8008:ffa4:8ef6%7]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
+ 17:29:59 +0000
+Message-ID: <09cc666a-bc52-44b3-230c-26dc705c5a56@nvidia.com>
+Date: Fri, 9 Jun 2023 10:29:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm/edid: Add quirk for OSVR HDK 2.0
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230405-add-dsc-support-v5-0-028c10850491@quicinc.com>
- <20230405-add-dsc-support-v5-2-028c10850491@quicinc.com>
- <js3mcglahq53mcyxa6deltjlu4xpc2pnafwz2rbk3dl4ovws2o@5xw2wzvfaj2v>
- <f34a03ce-6295-b5d1-bf42-a43cfb382ea3@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <f34a03ce-6295-b5d1-bf42-a43cfb382ea3@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: s_3pfLppHfL3CrfFLx7JYXA5pA8Rwcin
-X-Proofpoint-ORIG-GUID: s_3pfLppHfL3CrfFLx7JYXA5pA8Rwcin
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-09_12,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 mlxlogscore=999 phishscore=0 priorityscore=1501
- suspectscore=0 clxscore=1015 spamscore=0 adultscore=0 mlxscore=0
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306090145
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230609014207.2759720-1-rcampbell@nvidia.com>
+ <87y1ktqa75.fsf@intel.com>
+From: Ralph Campbell <rcampbell@nvidia.com>
+In-Reply-To: <87y1ktqa75.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0354.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::29) To MN0PR12MB6150.namprd12.prod.outlook.com
+ (2603:10b6:208:3c6::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6150:EE_|BN9PR12MB5273:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97fbd32b-3e82-47df-7c7c-08db690f2658
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GLPf7uzm0SyZxMxgMpeQsLaS2APj6LyatL7/LqivJhSxS6uwEBkzbTr+oP6R9EKl6y7xUWkGMIvfCJDE9Shsj5SqtrJg3jcXDp0Lgau2mz1PzeHN2mS4iH1xbJI8yUi0cIHPofgnAnxkP0KFTgdP0x2cQCVPIVmfvIdBcHJtFXSv+RgKJBJucB0bDlIb17vqQbNUBdt8jcnTuroK7pL+vaPQ/3wHbK9CzdxNIrAyVKs2Lx54iBjPmfrS3Cqrbe/iGO6iB/JAc4rvzVo9aVWHjVfNUTU6GWztazK7BB7wh02BFhuIeHu6siJ2Piamc26Vaqgo/qG2MF17iVqavi0V0ozpk7UifGpA52etkGjIqxCw2TGyuQx0SQO8st7fQ+m/8QfpERS+MggQyKcJK7Ps+fK177tiXsTPRLTCNIRL2zmFj1g8BWbZRGHTXZ/tWixza+kP7nWGAWtf4Q28vadkkuMppkk0bPd/UaAetdnH0SrMK8l60TuuFthGlyPaWqj6LxYFQ2rv4QRXH74gFPuIDFMeEOYxWXa7iNvr0xSwdGz3OOrC2dPKzwUyQ2L+Rkb/vtZMnL7yN4JC2/4EpGYssB5e7bVpTTHM9vmjvdi1XQAtLHnJIC3hf1S9jB6JEnQekgeP3mpR3+EqvUwBAE4lSQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6150.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(451199021)(41300700001)(478600001)(6666004)(186003)(83380400001)(8676002)(8936002)(45080400002)(316002)(6506007)(6512007)(31686004)(26005)(4326008)(66946007)(66476007)(66556008)(38100700002)(53546011)(31696002)(2906002)(5660300002)(36756003)(54906003)(86362001)(6486002)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VU1CbS9EaFB5UmJyT1VmSy9FallTWE4xWjIrS3NIWUg1MERkS01HdnhZcjVT?=
+ =?utf-8?B?ZzZxZHF0LytRUFBXSDFrNlpPUVJaYi9yU29qcVRFc3FiVXhxdmhLMERHKys4?=
+ =?utf-8?B?TmlmWXhLWDcvL0RXdE93eUFiQmJ5cEtvb1Fqa2JEZVRkOEFmWGRSdmdOL1g4?=
+ =?utf-8?B?S3h0Qi9uM2NDSTJGaXhieEE1Q2ZsRkR0UkN6Nit5MkNFdEE1OGhXcXNzeTdT?=
+ =?utf-8?B?UEw1Ym5DcnYxa1U5dlJlSEp5T294WEp5VGVKTFhOMXdKeVZtMENCdW5CQnJq?=
+ =?utf-8?B?dCt2R3RMMnhLb2d0eXZMcGpPbndnK2ZxeGF4OVpyVVdvNWdKRWJNZFRYKzE4?=
+ =?utf-8?B?Q0ZybHRRZmoyQy9ja0RjNmM1aEVSNmZ5dlRldWhDKzdnKzMrTkVRTkRYdDl4?=
+ =?utf-8?B?ZnlZem1qSUFkdlhDMy9FQU9ERVRXRUhXSzFzckRjZndSS2E5VmRob1k0RFVk?=
+ =?utf-8?B?Y1JyZ2NhV3BacDZWeUx4ZHRzOURYenlKcGJiSC8yYXVBcUhrWU9CMDZPdmlu?=
+ =?utf-8?B?UE9vMVZiajZIc2Z1bTY1MWFJb2cvd2NnVS9zN01EUFFteGE5ZTZxMWhVWGJR?=
+ =?utf-8?B?WjZQcklvbTY1eXIwY2k0NjAzcEx6eFdNT1MvU2FuaFplUG5NS2k0S2pGYzkw?=
+ =?utf-8?B?UkVGTTltTFZ0bS9TWlNhNkt1YjVWaHZ4cCtWZVFrWmptTGt5TkMyV2dkekFl?=
+ =?utf-8?B?QktSazZqQmdkYm9qcFp0WWZyMDFYQW5iZVpwMEJkZHA3UUpESVRMU3BaeEg4?=
+ =?utf-8?B?L28yU292RXpaL2tJbDlBcXZGaEFJK2kycEJ4MDB4OEZ3REJnWHJiRExFYWh1?=
+ =?utf-8?B?TnU0MURwTk80N2pDSjVHT05LVmJyMkpPc2dYVnBTZ2FrMVBiNWZLTngvN2Nu?=
+ =?utf-8?B?cE0yYTh5Y29Pa05uZzZHOVdRZEtOQjVjdUtTRWtBUGs3WTdaamIvNlhGSmly?=
+ =?utf-8?B?S3E2UkNHK1EzTnpvdkFnUThnTU83Y2JvTmh3NHRsaytYTnRxTzZYTWdYT1lR?=
+ =?utf-8?B?UlVvdXZlTk1ocXIzbU5sS1BtWmtRZ1VaY29xZ0NpOWZrYTZqMVlWU3hBeWZU?=
+ =?utf-8?B?clBxT0kwRmZFQ3JCRmJXekxiYmluRXVWeXRLb0RYMTU4RitlTkJLUlBWWDdT?=
+ =?utf-8?B?cEJlWmczUk50d2U3b2l6M0RpMmx6dERyc3RvVDJ4bmdvNXlnOGJjVnlVZk1P?=
+ =?utf-8?B?TW9wSFlkZkFMbkkrRjdHd2NBTmxFTm14UVFpdVlrTUlLNEw4Q29OekpJbE5k?=
+ =?utf-8?B?RDZxRitBMERvZ284Y1ZreUpvT0xyQXB2MjdwOEw3L1drRG9lc1lSMFNSY1FX?=
+ =?utf-8?B?cHErRGZ3MnRVdzNhRlhwbCtsdEFmeExORU1USlVKUkpOMG1WdXBGb29mZnZ3?=
+ =?utf-8?B?eUdGeHV6VTN5UEJWYkRnb1J0OU9kNmNjcFppd2QvNGJKaUxERGt0UENpRlZw?=
+ =?utf-8?B?dHkwSUlMZ2R3TTFMVXpNVGNPNHBQdk5tMW5oQUtUVjE3ajF1SVZyWGx2K0I3?=
+ =?utf-8?B?VE02OUZ3WEdVU2R2cDZLRC9vN3VVTlIrQlF3aWJCMGJRWGt2Y2R6M1F0cXpG?=
+ =?utf-8?B?Wmh1akVLSnRzNzlDNndPeVhTVUg3OC9JdEtVaE84N0UxdklrQm96MUlNMDVU?=
+ =?utf-8?B?dGd6TFZDVm1sQjJ6NmMrenhYdElrZDAwQTE1ek9OcnBkZTdVaUlDUUQwMmxq?=
+ =?utf-8?B?cytETjUrTkNtZldoSzNONE9RbjQ1VjdWbmh4Y0JGZjJCeEM0S1ZFSFJoTFl5?=
+ =?utf-8?B?THFJcUo1RFA4UGRSRUNFclJoOXlEc0lvdVl4clV3OTBEbTJXNGZBRE9pcXcx?=
+ =?utf-8?B?SDRkWHJFK0wrU0x3NTVCT3RDOC9HMEJGUHBTUUh5bmJiOWNYT1gwSmpzVC9n?=
+ =?utf-8?B?M1RSLzE1ZklBQVVCVDdVa1VzZUc0clAra3dHZDVncWZzMDMwdVhGa00zVjFi?=
+ =?utf-8?B?Mnh4dm1NejhPZFhoc3ZUK2tHUmpXYzI1eStoczhPeGJ1UkhyZGV0ejlqL1B5?=
+ =?utf-8?B?cDg2azhGbktyZldvaFVESlZWMmhackx6Mm1ZcnQzSWhpcUo5VWNiYTBlcE9B?=
+ =?utf-8?B?MytjRCsvSGtjZFEyaStWalBoNTRwMHlLWmpPV2NySFFuN0gwNkpRRzI1a3Jw?=
+ =?utf-8?Q?2KjXg1puAgw/x9x6IqNTd1nX7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97fbd32b-3e82-47df-7c7c-08db690f2658
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6150.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 17:29:59.4012 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aInh310XFhprHV3bxWOU21Q1en5etRs2VCC1FKizpBslH3//DAHpv5vfStvm1C3nHchFlqW0aaYqLS5PgF7SGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5273
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,195 +127,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 6/9/23 02:03, Jani Nikula wrote:
+> On Thu, 08 Jun 2023, Ralph Campbell <rcampbell@nvidia.com> wrote:
+>> The OSVR virtual reality headset HDK 2.0 uses a different EDID
+>> vendor and device identifier than the HDK 1.1 - 1.4 headsets.
+>> Add the HDK 2.0 vendor and device identifier to the quirks table so
+>> that window managers do not try to display the desktop screen on the
+>> headset display.
+> At some point in time we requested bugs to be filed about quirks, with
+> EDIDs attached, so we could look at them later, and maybe remove the
+> quirks.
+>
+> The headset non-desktop thing started off as a quirk, but since then
+> we've added both Microsoft VSDB and DisplayID primary use as ways to
+> indicate this without quirks.
+>
+> BR,
+> Jani.
 
-On 6/9/2023 9:58 AM, Dmitry Baryshkov wrote:
-> On 08/06/2023 23:36, Marijn Suijten wrote:
->> Same title suggestion as earlier: s/adjust/reduce
->>
->> On 2023-05-22 18:08:56, Jessica Zhang wrote:
->>> Adjust the pclk rate to divide hdisplay by the compression ratio when 
->>> DSC
->>> is enabled.
->>>
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++++++---
->>>   1 file changed, 18 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> index a448931af804..88f370dd2ea1 100644
->>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>> @@ -561,7 +561,18 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host 
->>> *msm_host)
->>>       clk_disable_unprepare(msm_host->byte_clk);
->>>   }
->>> -static unsigned long dsi_get_pclk_rate(const struct drm_display_mode 
->>> *mode, bool is_bonded_dsi)
->>> +static unsigned long dsi_adjust_compressed_pclk(const struct 
->>> drm_display_mode *mode,
->>
->> Nit: adjust_pclk_for_compression
->>
->> As discussed before we realized that this change is more-or-less a hack,
->> since downstream calculates pclk quite differently - at least for
->> command-mode panels.  Do you still intend to land this patch this way,
->> or go the proper route by introducing the right math from the get-go?
->> Or is the math at least correct for video-mode panels?
-> 
-> Can we please postpone the cmd-vs-video discussion? Otherwise I will 
-> reserve myself a right to push a patch dropping CMD mode support until 
-> somebody comes with a proper way to handle CMD clock calculation.
-> 
-> 
-> It is off-topic for the sake of DSC 1.2 support. Yes, all CMD panel 
-> timings are a kind of a hack and should be improved. No, we can not do 
-> this as a part of this series. I think everybody agrees that with the 
-> current way of calculating CMD panel timings, this function does some 
-> kind of a trick.
-> 
->>
->> This function requires a documentation comment to explain that all.
->>
->>> +        const struct drm_dsc_config *dsc)
->>> +{
->>> +    int new_hdisplay = DIV_ROUND_UP(mode->hdisplay * 
->>> drm_dsc_get_bpp_int(dsc),
->>
->> This sounds like a prime candidate for msm_dsc_get_bytes_per_line(), if
->> bits_per_component==8 is assumed.  In fact, it then becomes identical
->> to the following line in dsi_host.c which you added previously:
->>
->>     hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 
->> 3);
-> 
-> This would imply a simple /3, but as far as I understand it is not 
-> correct here.
-> 
->>
->> If not, what is the difference between these two calculations?  Maybe
->> they both need to be in a properly-named helper.
->>
->>> +            dsc->bits_per_component * 3);
-> 
-> I hope to see a documentation patch to be posted, telling that this 
-> scales hdisplay and thus pclk by the factor of compressed_bpp / 
-> uncompressed_bpp.
-> 
-> This is not how it is usually done, but I would accept a separate 
-> documentation patch going over the calculation here and in 
-> dsi_timing_setup (and maybe other unobvious cases, if there is anything 
-> left).
-> 
->>
->> As we established in the drm/msm issue [2] there is currently a
->> confusion whether this /3 (and the /3 in dsi_timing_setup) come from the
->> ratio between dsi_get_bpp() and dsc->bpp or something else.  Can you
->> clarify that with constants and comments?
->>
->> [2]: https://gitlab.freedesktop.org/drm/msm/-/issues/24
->>
->>> +
->>> +    return (new_hdisplay + (mode->htotal - mode->hdisplay))
->>> +            * mode->vtotal * drm_mode_vrefresh(mode);
->>
->> As clarified in [1] I was not necessarily suggesting to move this math
->> to a separate helper, but to also use a few more properly-named
->> intermediate variables to not have multi-line math and self-documenting
->> code.  These lines could be split to be much more clear.
-> 
-> I think it's fine more or less. One pair of parenthesis is unnecessary, 
-> but that's mostly it. Maybe `new_htotal' variable would make some sense.
-> 
-> Also, please excuse me if this was discussed somewhere. This calculation 
-> means that only the displayed data is compressed, but porches are not 
-> touched. Correct?
+If you want me to file a bug, I can do that and I have the EDID too.
+Where would I file it?
 
-Hi Dmitry,
+I did see the DisplayID 2.0 code. This headset is no longer being
+manufactured so updating the EDID is not practical.
 
-Correct, we will apply the compression ratio to only the hdisplay but 
-keep the porches as is.
-
-> 
+>> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+>> Tested-by: Ralph Campbell <rcampbell@nvidia.com>
+>> ---
+>>   drivers/gpu/drm/drm_edid.c | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
->> [1]: 
->> https://lore.kernel.org/linux-arm-msm/u4x2vldkzsokfcpbkz3dtwcllbdk4ljcz6kzuaxt5frx6g76o5@uku6abewvye7/
+>> I don't know how many of these VR headsets are still around but I have a
+>> working one and I saw and entry for HDK 1.x so I thought it would be good
+>> to add HDK 2.0.
 >>
->>> +}
->>> +
->>> +static unsigned long dsi_get_pclk_rate(const struct drm_display_mode 
->>> *mode,
->>> +        const struct drm_dsc_config *dsc, bool is_bonded_dsi)
->>>   {
->>>       unsigned long pclk_rate;
->>> @@ -576,6 +587,10 @@ static unsigned long dsi_get_pclk_rate(const 
->>> struct drm_display_mode *mode, bool
->>>       if (is_bonded_dsi)
->>>           pclk_rate /= 2;
->>> +    /* If DSC is enabled, divide hdisplay by compression ratio */
->>> +    if (dsc)
->>> +        pclk_rate = dsi_adjust_compressed_pclk(mode, dsc);
-> 
-> Looking for the perfection, I'd also move the pclk adjustment to come 
-> before the is_bonded_dsi check.
-
-Acked.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->>
->> The confusion with this comment (and the reason the aforementioned
->> discussion [2] carried on so long) stems from the fact a division makes
->> sense for a bit/byte clock, but not for a pixel clock: we still intend
->> to send the same number of pixels, just spending less bytes on them.  So
->> as you clarify the /3 above, can you also clarify that here or drop this
->> comment completely when the function is correctly documented instead?
->>
->> - Marijn
->>
->>> +
->>>       return pclk_rate;
->>>   }
->>> @@ -585,7 +600,7 @@ unsigned long dsi_byte_clk_get_rate(struct 
->>> mipi_dsi_host *host, bool is_bonded_d
->>>       struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
->>>       u8 lanes = msm_host->lanes;
->>>       u32 bpp = dsi_get_bpp(msm_host->format);
->>> -    unsigned long pclk_rate = dsi_get_pclk_rate(mode, is_bonded_dsi);
->>> +    unsigned long pclk_rate = dsi_get_pclk_rate(mode, msm_host->dsc, 
->>> is_bonded_dsi);
->>>       unsigned long pclk_bpp;
->>>       if (lanes == 0) {
->>> @@ -604,7 +619,7 @@ unsigned long dsi_byte_clk_get_rate(struct 
->>> mipi_dsi_host *host, bool is_bonded_d
->>>   static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool 
->>> is_bonded_dsi)
->>>   {
->>> -    msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, 
->>> is_bonded_dsi);
->>> +    msm_host->pixel_clk_rate = dsi_get_pclk_rate(msm_host->mode, 
->>> msm_host->dsc, is_bonded_dsi);
->>>       msm_host->byte_clk_rate = 
->>> dsi_byte_clk_get_rate(&msm_host->base, is_bonded_dsi,
->>>                               msm_host->mode);
->>>
->>> -- 
->>> 2.40.1
->>>
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 0454da505687..3b8cc1fe05e8 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -230,6 +230,7 @@ static const struct edid_quirk {
+>>   
+>>   	/* OSVR HDK and HDK2 VR Headsets */
+>>   	EDID_QUIRK('S', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
+>> +	EDID_QUIRK('A', 'O', 'U', 0x1111, EDID_QUIRK_NON_DESKTOP),
+>>   };
+>>   
+>>   /*
