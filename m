@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862BF729D1F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 16:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55386729D37
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 16:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F2710E6B9;
-	Fri,  9 Jun 2023 14:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAEF010E6B8;
+	Fri,  9 Jun 2023 14:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 447A910E6BE
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 14:41:16 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-30ae141785bso1779626f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 07:41:16 -0700 (PDT)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F6010E6B8;
+ Fri,  9 Jun 2023 14:46:57 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1a28817f7d8so774961fac.3; 
+ Fri, 09 Jun 2023 07:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686321674; x=1688913674;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CR0c0Jmte6FeApUkgHJzlSR9/4YGGRJ45CFKhUONxZs=;
- b=ljyF103rTiR0ysRbp8iTZkhShz0Q4wQtsi4SiCh2Z9pCwZ+ITBYkoJFpAwLZ0L/DBf
- dVde8h40DygaZTGXlquTqrFKGhS/fPQXkH3rfBZCFLnXegcLj7R4fwqdhKeSRXc9NGAK
- pOSsUYKkoduu+yFfBsLJXfv2Al7tu01/P+iLRTw5r0H2F4h46VX6M0UKyfU7h4Mkb1Qk
- X0fwqcjc2oruhg7mhpvmyucGXNcHgdB+BZhrMkFLM4f2A6UXmPJvRWIdXy75kRfn+1gF
- TCOFRB20afPYt8QayEUeMFAfMVHHh8ca6M3sl1xH7PD5z9+F/QKbK+8wKI2NYF9ADAxa
- bxQg==
+ d=gmail.com; s=20221208; t=1686322016; x=1688914016;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sdbxKBVcBVIgPeSRn3sb4Td/Dc7pVhPTKzbSHfxRLUA=;
+ b=DNZbTLKQPliTfstgbHegNTkVrvFD9wIBWPaL0NFQ1I88MwmBHg+WCO8HWfwtfhFxyL
+ qEk9VSMgQ9RCxCAGS83dDGAZiL/6nIGajfqph3NEHHw19OXDeTiSGCrss3O+kph8FksO
+ fTgGXiJczEcbuxO0RZ6qBbRq48gTUE9+lau9EdAjDv3V5K0UJ5HHmMCx1jQfGVcMB8L5
+ zmbiA+p1jw8kUuAONkOiEzq1acvq1zXWawi4lnVpEw5rfOYYfqlzCTJAysfhnE1gQr1I
+ 5pWoUZ0a8zXSRpgiRvydhFnUrGeKL464wjAC6XibCEi0I/d816J/dTFSWrjoMG/0nYF2
+ 9HMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686321674; x=1688913674;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CR0c0Jmte6FeApUkgHJzlSR9/4YGGRJ45CFKhUONxZs=;
- b=UgUba/BlZhtEMbXaPQ8tOC6Dx9RQ+b7h+XWKAmgOVQO3fUvZRfYz7ucLRCZeR1wvJG
- 5kls6qS5lMAesE734Ky3X0eM+HeFLpNib9scExB2xyE1R6A3v5DvolmJLN0DgOAui8qR
- maz0UqMrAD/QhRq3PbY1ItlNv/X0de8FyhmSTYGKE2GMT4Qe09RVVAIXjG9yq0JJBR0/
- O4XC04VZ9hJkn9bMBOABaAscU7P/IxawbVtY/nAs0O7A7m3jhZxdIw++EAQ4SAk86lYY
- H4SH1/0ld5m5oNgCv8PGwz7kCdThNSYaRSt+hpn8sm7oGvtwhwB8fNnkETLDLxLRSFex
- 7/YA==
-X-Gm-Message-State: AC+VfDwVfeLUNR+DXGyjDVt2fuj3VNLnY6z+jhIahifg5zM6cBq/5la0
- 6bj4pHS/jEUk87WQlL49TP4=
-X-Google-Smtp-Source: ACHHUZ79Lfg6kM1VebrkIaLd3ziJZPC6iHeyxpXvPXdX4Z7/4UxGlL7mbxQG4cIZxJ4v2F+J48mv2Q==
-X-Received: by 2002:a5d:6104:0:b0:30a:e7cb:793 with SMTP id
- v4-20020a5d6104000000b0030ae7cb0793mr1363370wrt.15.1686321674019; 
- Fri, 09 Jun 2023 07:41:14 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- q25-20020a7bce99000000b003f17848673fsm2883516wmj.27.2023.06.09.07.41.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jun 2023 07:41:13 -0700 (PDT)
-Message-ID: <1c52e05f-33bf-b182-dd4d-18aa43564e59@gmail.com>
-Date: Fri, 9 Jun 2023 16:41:11 +0200
+ d=1e100.net; s=20221208; t=1686322016; x=1688914016;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sdbxKBVcBVIgPeSRn3sb4Td/Dc7pVhPTKzbSHfxRLUA=;
+ b=SZfRF50Im9kglZErQ0AngvjcsVcR1Nug05IX7iArMskViwtAE0vUQwGJrcJC80cJUu
+ b+Z5PIB1iwr36ucWmoifQ5bJhUj5s8GCImfU6oNnV2xnsmiVXdm9myi8hvc2ZflSEcwn
+ Soxwu5CzQoOKOiUBDxup1O+sX4aKpqOfNQ0ILq+UG3jFV0pOvE94yY78DL6LbEicC3hb
+ VC17rY9yeCj3WLxMTSOQgamEsU5qxLyT1CzVBvkze/waMhkUPEuCp/RfKceAPI8dAISM
+ tMm0Qh1bWvLVCSFtbI1rEQPT3JNmubBRP3lPJHmDeoD/DB+voYtsXNuFJvnlk6oFLwWp
+ sHbg==
+X-Gm-Message-State: AC+VfDyBFxpprE66AjxNnVhNivEdMtwsCdfH51vC+c9VyTomdKNi2PHY
+ puqFFi9HaJdnw7Kog3wekIwegzUNhDvvyCyJiCI=
+X-Google-Smtp-Source: ACHHUZ7J0l5veq+z1PgJ9eZh7SJrvdCaZgEm8srFRcMOKIil0mLDwk3fE22sVm0Zt9XOct9JtmMlMOwq65yRGatpAtk=
+X-Received: by 2002:a05:6870:42c6:b0:19e:e96a:4cb9 with SMTP id
+ z6-20020a05687042c600b0019ee96a4cb9mr1272834oah.23.1686322015525; Fri, 09 Jun
+ 2023 07:46:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v8 2/2] soc: mediatek: remove DDP_DOMPONENT_DITHER from
- enum
-Content-Language: en-US, ca-ES, es-ES
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20230306080659.15261-1-jason-jh.lin@mediatek.com>
- <20230306080659.15261-3-jason-jh.lin@mediatek.com>
- <CAGXv+5EPktjMABhtWf9dL-25dAe=Mf4=BSMmE+=4m2WisDXXFQ@mail.gmail.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <CAGXv+5EPktjMABhtWf9dL-25dAe=Mf4=BSMmE+=4m2WisDXXFQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <ZBGNmXwQoW330Wr8@hovoldconsulting.com>
+ <ZIHh95IeOPBTvB00@hovoldconsulting.com>
+ <CAF6AEGv3y3C6nAq7nrkgbv5-9-tVgj+BtY1yU+fXXFFm_N7fcQ@mail.gmail.com>
+ <ZILEBPQgqr1HomUQ@hovoldconsulting.com>
+In-Reply-To: <ZILEBPQgqr1HomUQ@hovoldconsulting.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 9 Jun 2023 07:46:44 -0700
+Message-ID: <CAF6AEGsHFpGEiOLxEqzxG2VU+i+h0uVQTHcpfD4sbk0GWN2+Vg@mail.gmail.com>
+Subject: Re: Adreno devfreq lockdep splat with 6.3-rc2
+To: Johan Hovold <johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +71,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 8, 2023 at 11:17=E2=80=AFPM Johan Hovold <johan@kernel.org> wro=
+te:
+>
+> On Thu, Jun 08, 2023 at 02:17:45PM -0700, Rob Clark wrote:
+> > On Thu, Jun 8, 2023 at 7:12=E2=80=AFAM Johan Hovold <johan@kernel.org> =
+wrote:
+>
+> > > Have you had a chance to look at this regression yet? It prevents us
+> > > from using lockdep on the X13s as it is disabled as soon as we start
+> > > the GPU.
+> >
+> > Hmm, curious what is different between x13s and sc7180/sc7280 things?
+>
+> It seems like lockdep needs to hit the tear down path in order to
+> detect the circular lock dependency. Perhaps you don't hit that on your
+> sc7180/sc7280?
+>
+> It is due to the fact that the panel is looked up way too late so that
+> bind fails unless the panel driver is already loaded when the msm drm
+> driver probes.
 
+Oh, this seems likely
 
-On 31/05/2023 09:43, Chen-Yu Tsai wrote:
-> Hi Matthias,
-> 
-> On Mon, Mar 6, 2023 at 4:07 PM Jason-JH.Lin <jason-jh.lin@mediatek.com> wrote:
->>
->> After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
->> mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
->>
->> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
->> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
->> Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
-> 
-> CK didn't pick up this patch. Since the other patch already got picked up
-> in v6.4-rc1, could you merge this for v6.5?
-> 
+> Manually loading the panel driver before msm makes the splat go away.
+>
+> > Or did lockdep recently get more clever (or more annotation)?
+>
+> I think this is indeed a new problem related to some of the devfreq work
+> you did in 6.3-rc1 (e.g. fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS
+> constraint for idle clamp")).
+>
+> > I did spend some time a while back trying to bring some sense to
+> > devfreq/pm-qos/icc locking:
+> > https://patchwork.freedesktop.org/series/115028/
+> >
+> > but haven't had time to revisit that for a while
+>
+> That's the series I link to below, but IIRC it did not look directly
+> applicable to the splat I see on X13s (e.g. does not involve
+> fs_reclaim).
 
-Yes, I gave an acked-by as I thought that CK will take both of them. Anyway 
-applied now.
+Ahh, right, sorry I've not had time to do more than glance at the
+thread.. and yeah, that one is mostly just trying to solve the reclaim
+problem by moving allocations out from under the big-pm-qos-lock.
 
-Matthias
+As far as fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for
+idle clamp"), it should be just taking the lock that
+dev_pm_qos_update_request() would have indirectly, although I guess
+without some intervening lock?  We can't really avoid taking the
+devfreq lock, I don't think.  But I'd have to spend time I don't have
+right now digging into it..
 
-> 
-> Thanks
-> ChenYu
-> 
-> 
->> ---
->>   include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
->> index dc2963a0a0f7..8eb5846985b4 100644
->> --- a/include/linux/soc/mediatek/mtk-mmsys.h
->> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
->> @@ -27,8 +27,7 @@ enum mtk_ddp_comp_id {
->>          DDP_COMPONENT_CCORR,
->>          DDP_COMPONENT_COLOR0,
->>          DDP_COMPONENT_COLOR1,
->> -       DDP_COMPONENT_DITHER,
->> -       DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
->> +       DDP_COMPONENT_DITHER0,
->>          DDP_COMPONENT_DITHER1,
->>          DDP_COMPONENT_DP_INTF0,
->>          DDP_COMPONENT_DP_INTF1,
->> --
->> 2.18.0
->>
+BR,
+-R
+
+> > > On Wed, Mar 15, 2023 at 10:19:21AM +0100, Johan Hovold wrote:
+> > > >
+> > > > Since 6.3-rc2 (or possibly -rc1), I'm now seeing the below
+> > > > devfreq-related lockdep splat.
+> > > >
+> > > > I noticed that you posted a fix for something similar here:
+> > > >
+> > > >       https://lore.kernel.org/r/20230312204150.1353517-9-robdclark@=
+gmail.com
+> > > >
+> > > > but that particular patch makes no difference.
+> > > >
+> > > > From skimming the calltraces below and qos/devfreq related changes =
+in
+> > > > 6.3-rc1 it seems like this could be related to:
+> > > >
+> > > >       fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for idle=
+ clamp")
+>
+> Johan
