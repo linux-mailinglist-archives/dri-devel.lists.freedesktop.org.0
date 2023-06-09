@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EA172940A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EC9729349
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 10:36:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAF710E662;
-	Fri,  9 Jun 2023 09:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4867C10E127;
+	Fri,  9 Jun 2023 08:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2486 seconds by postgrey-1.36 at gabe;
- Fri, 09 Jun 2023 09:03:02 UTC
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 870D910E662;
- Fri,  9 Jun 2023 09:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=ioJP5/nPwkDScpLmhYFsFtpoICiOH9A6AqZVomfCoCQ=; 
- t=1686301382; x=1687510982; b=ZNDLTnQUxzC9apvVPe3QZF/lvK5iSfDUWmOxlZXezc0jE8v
- WUu1YLRf/c7MPz7jY49GxHq/YmpeOycllKFeJzNVGHQEfuNH9Pb6A/ecUGp+RDIsvmV88MgaqFfxQ
- J9K14n0brmrcrXmzLJSw9TwVagiObrtYFT3Gbj+iGvXBpeV+btHMApQ+tsZyEND+pMC+IwSBNosST
- hc90dVXE/OiGev04Vl7nUJVUuFaylbMQzBLdGBS/h0DAckCwE8rViDL2Rnbc7BkSwNsg0XE3+ko4h
- LfRCg3lOJEVXhnvzboc4HA4octTUQZSMVkeG8d6me2SbZOsMLTXqIFXNajU+4weA==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
- id 1q7XMw-000rrZ-1g; Fri, 09 Jun 2023 10:21:14 +0200
-Message-ID: <ccbaf80adb305ea59eb1a457460b99dc920bb65d.camel@sipsolutions.net>
-Subject: Re: [PATCH V2 2/7] wifi: mac80211: Add support for ACPI WBRF
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org, 
- Alexander.Deucher@amd.com, Christian.Koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, kvalo@kernel.org, nbd@nbd.name, 
- lorenzo@kernel.org, ryder.lee@mediatek.com, shayne.chen@mediatek.com, 
- sean.wang@mediatek.com, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, Mario.Limonciello@amd.com, 
- Lijo.Lazar@amd.com
-Date: Fri, 09 Jun 2023 10:21:12 +0200
-In-Reply-To: <20230609072846.1552238-3-evan.quan@amd.com>
-References: <20230609072846.1552238-1-evan.quan@amd.com>
- <20230609072846.1552238-3-evan.quan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 122D810E127;
+ Fri,  9 Jun 2023 08:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686299771; x=1717835771;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=4PWeI2YdqvEcWjPNjDUO90VPoEGU//3oJ+ybFCUP0wc=;
+ b=Jq4l3K0fIr7r7LKSnhTlqTGj/ys7w0IHXHy+en3QFfkBklMI/c2fWgeR
+ t656xrbI9XJt4vmFaoQ+CDDOc5qBPA8ySLq5Jc5HEYtUH6WiQ7Piu0DAG
+ EtsKYuIu3NoCjaNgwXvCB96L751PKqWlPwijrtFmoGB3VJCyfP/3mOK93
+ HKxXXIhPiqJwlAKZtTT2I6RbpfDVCh6XqvWb53u1fm4/qcExYxCRtD3Jf
+ UOxgnyItbAwerRqsFCq2f0wajc6nTVp2PcOqvU67zuB2E6mCwRHsUE/jb
+ G45tMh72gG4oNVmHD734jaFLCoz05Z7J4DHfbDB3KWURigKau2CS0sS9a Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="337909126"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; d="scan'208";a="337909126"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 01:36:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="1040427846"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; d="scan'208";a="1040427846"
+Received: from skolhe-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.254])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 01:36:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/dp: Cable type identification for DP2.1
+In-Reply-To: <20230609055435.299584-1-animesh.manna@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230609055435.299584-1-animesh.manna@intel.com>
+Date: Fri, 09 Jun 2023 11:35:59 +0300
+Message-ID: <874jnhrq1c.fsf@intel.com>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,181 +59,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-acpi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
+Cc: Animesh Manna <animesh.manna@intel.com>, arun.r.murthy@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2023-06-09 at 15:28 +0800, Evan Quan wrote:
+On Fri, 09 Jun 2023, Animesh Manna <animesh.manna@intel.com> wrote:
+> For DP alt mode display driver get the information
+> about cable speed and cable type through TCSS_DDI_STATUS
+> register which will be updated by type-c platform driver.
+> Accodingly Update dpcd 0x110 with cable information before
+> link training start. This change came part of DP2.1 SCR.
 
-> --- a/include/net/cfg80211.h
-> +++ b/include/net/cfg80211.h
-> @@ -5551,6 +5551,10 @@ struct wiphy {
-> =20
->  	u16 hw_timestamp_max_peers;
-> =20
-> +#ifdef CONFIG_ACPI_WBRF
-> +	bool wbrf_supported;
-> +#endif
+No need to refer to the SCR anymore, as DP 2.1 is out.
 
-This should be in some private struct in mac80211, ieee80211_local I
-think.
+There are a bunch of detailed comments inline.
 
->  	char priv[] __aligned(NETDEV_ALIGN);
->  };
-> =20
-> @@ -9067,4 +9071,18 @@ static inline int cfg80211_color_change_notify(str=
-uct net_device *dev)
->  bool cfg80211_valid_disable_subchannel_bitmap(u16 *bitmap,
->  					      const struct cfg80211_chan_def *chandef);
-> =20
-> +#ifdef CONFIG_ACPI_WBRF
-> +void ieee80211_check_wbrf_support(struct wiphy *wiphy);
-> +int ieee80211_add_wbrf(struct wiphy *wiphy,
-> +		       struct cfg80211_chan_def *chandef);
-> +void ieee80211_remove_wbrf(struct wiphy *wiphy,
-> +			   struct cfg80211_chan_def *chandef);
-> +#else
-> +static inline void ieee80211_check_wbrf_support(struct wiphy *wiphy) { }
-> +static inline int ieee80211_add_wbrf(struct wiphy *wiphy,
-> +				     struct cfg80211_chan_def *chandef) { return 0; }
-> +static inline void ieee80211_remove_wbrf(struct wiphy *wiphy,
-> +					 struct cfg80211_chan_def *chandef) { }
-> +#endif /* CONFIG_ACPI_WBRF */
+High level, this should probably be done much earlier. See Table 5-21 in
+DP 2.1. We need to read DPCD 0x2217 before writing 0x110. The DPRX
+updates 0x2217 before asserting hotplug, so we should probably read it
+at detect where we read all other DPCD too.
 
-Same here, not the right place. This should even be in an internal
-mac80211 header (such as net/mac80211/ieee80211_i.h or create a new
-net/mac80211/wrbf.h or so if you prefer.)
+How early is TCSS_DDI_STATUS available, should we read that at hotplug
+too? For USB-C we should write to DPCD 0x110 the least common
+denominator between DPCD 0x2217 and 0x110.
 
+Another question which I didn't find an answer to yet, does writing
+0x110 impact what the RPRX reports for capabilities i.e. can we proceed
+with link training normally from there, *or* should we limit the
+sink_rates/common_rates based on TCSS_DDI_STATUS and DPCD 0x2217
+i.e. filter out UHBR as needed.
 
-> --- a/net/mac80211/chan.c
-> +++ b/net/mac80211/chan.c
-> @@ -668,6 +668,10 @@ static int ieee80211_add_chanctx(struct ieee80211_lo=
-cal *local,
->  	lockdep_assert_held(&local->mtx);
->  	lockdep_assert_held(&local->chanctx_mtx);
-> =20
-> +	err =3D ieee80211_add_wbrf(local->hw.wiphy, &ctx->conf.def);
-> +	if (err)
-> +		return err;
-> +
->  	if (!local->use_chanctx)
->  		local->hw.conf.radar_enabled =3D ctx->conf.radar_enabled;
-> =20
-> @@ -748,6 +752,8 @@ static void ieee80211_del_chanctx(struct ieee80211_lo=
-cal *local,
->  	}
-> =20
->  	ieee80211_recalc_idle(local);
-> +
-> +	ieee80211_remove_wbrf(local->hw.wiphy, &ctx->conf.def);
+Please read bspec and DP 2.1 further to find answers.
+
+>
+> Note: This patch is not tested due to unavailability of
+> cable. Sending as RFC for design review.
+>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c | 57 ++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_tc.c  | 10 +++++
+>  drivers/gpu/drm/i915/display/intel_tc.h  |  1 +
+>  drivers/gpu/drm/i915/i915_reg.h          |  5 +++
+>  include/drm/display/drm_dp.h             |  9 ++++
+>  5 files changed, 82 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 70d44edd8c6e..3a0f6a3c9f98 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -2208,6 +2208,55 @@ static void intel_dp_sink_set_msa_timing_par_ignore_state(struct intel_dp *intel
+>  			    str_enable_disable(enable));
 >  }
-> =20
->  static void ieee80211_free_chanctx(struct ieee80211_local *local,
->=20
-
-This is tricky, and quite likely incorrect.
-
-First of all, chandefs can actually _change_, see
-_ieee80211_change_chanctx(). You'd probably have to call this add/remove
-(or have modify) whenever we call drv_change_chanctx() to change the
-width (not if radar/rx chains change).
-
-Secondly, you don't know if the driver will actually use ctx->conf.def,
-or ctx->conf.mindef. For client mode that doesn't matter, but for AP
-mode if the AP is configured to say 160 MHz, it might actually configure
-down to 20 MHz when no stations are connected (or only 20 MHz stations
-are). I don't know if you really care about taking that into account, I
-also don't know how dynamic this really should be. Stations can connect
-and disconnect quickly, so perhaps the WBRF should actually take the
-full potential bandwidth into account all the time, in which case taking
-ctx->conf.def would be correct.
-
-I'll note that your previous in-driver approach had all the same
-problems the way you had implemented it, though I don't know if that
-driver ever can use mindef or not.
-
-
-> +void ieee80211_check_wbrf_support(struct wiphy *wiphy)
-> +{
-> +	struct device *dev =3D wiphy->dev.parent;
-> +	struct acpi_device *acpi_dev;
+>  
+> +#define CABLE_SPEED_SHIFT 4
 > +
-> +	acpi_dev =3D ACPI_COMPANION(dev);
-
-Can this cope with 'dev' being NULL? Just not sure nothing like hwsim or
-so always even has a parent. I guess it should, but ...
-
-> +static int chan_width_to_mhz(enum nl80211_chan_width chan_width)
-> +{
-> +	int mhz;
+> +enum dp_cable_speed {
+> +	DP_CABLE_HBR3 = 1,
+> +	DP_CABLE_UHBR10,
+> +	DP_CABLE_GEN3_UHBR20,
+> +	DP_CABLE_GEN4_UHBR20
+> +};
 > +
-> +	switch (chan_width) {
-> +	case NL80211_CHAN_WIDTH_1:
-> +		mhz =3D 1;
+> +static void intel_dp_set_cable_attributes(struct intel_dp *intel_dp,
+> +					  u8 cable_attributes)
+
+There are two "domains" for the cable information, the hardware register
+and the DPCD register. However, cable_attributes is neither, but also
+not helpful, which makes this function cumbersome.
+
+Usually in cases like this, you'd pick one or the other, *or* if you
+want to have a generic middle ground, you'd make it helpful and easy to
+use and understand (e.g. a struct).
+
+In this case, I'd just pick the DPCD as the format, because it's
+platform independent and the whole thing is simple enough.
+
+So this function would really reduce down to a single DPCD write.
+
+> +{
+> +	u8 cable_speed;
+> +	bool active_cable, retimer;
+> +	u8 cable_attr_dpcd;
+> +
+> +	cable_speed = cable_attributes >> CABLE_SPEED_SHIFT;
+> +
+> +	switch (cable_speed) {
+> +	case DP_CABLE_HBR3:
+> +		cable_attr_dpcd = 0;
 > +		break;
-> +	case NL80211_CHAN_WIDTH_2:
-> +		mhz =3D 2;
+> +	case DP_CABLE_UHBR10:
+> +		cable_attr_dpcd = 1;
 > +		break;
-> +	case NL80211_CHAN_WIDTH_4:
-> +		mhz =3D 4;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_8:
-> +		mhz =3D 8;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_16:
-> +		mhz =3D 16;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_5:
-> +		mhz =3D 5;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_10:
-> +		mhz =3D 10;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_20:
-> +	case NL80211_CHAN_WIDTH_20_NOHT:
-> +		mhz =3D 20;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_40:
-> +		mhz =3D 40;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_80P80:
-> +	case NL80211_CHAN_WIDTH_80:
-> +		mhz =3D 80;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_160:
-> +		mhz =3D 160;
-> +		break;
-> +	case NL80211_CHAN_WIDTH_320:
-> +		mhz =3D 320;
+> +	case DP_CABLE_GEN3_UHBR20:
+> +	case DP_CABLE_GEN4_UHBR20:
+> +		cable_attr_dpcd = 2;
 > +		break;
 > +	default:
-> +		WARN_ON_ONCE(1);
-> +		return -1;
+> +		cable_attr_dpcd = 0;
+> +		break;
 > +	}
-> +	return mhz;
-
-This might be more generally useful as a function in cfg80211 that's
-exported - hwsim has exactly the same function today, for example.
-
-> +static void get_chan_freq_boundary(u32 center_freq,
-> +				   u32 bandwidth,
-> +				   u64 *start,
-> +				   u64 *end)
-> +{
-> +	bandwidth =3D MHZ_TO_KHZ(bandwidth);
-> +	center_freq =3D MHZ_TO_KHZ(center_freq);
 > +
-> +	*start =3D center_freq - bandwidth / 2;
-> +	*end =3D center_freq + bandwidth / 2;
+> +	active_cable = (cable_attributes << TCSS_DDI_STATUS_CABLE_ATTR_SHIFT) &
+> +		       TCSS_DDI_STATUS_ACTIVE_CABLE;
+> +	retimer = (cable_attributes << TCSS_DDI_STATUS_CABLE_ATTR_SHIFT) &
+> +		  TCSS_DDI_STATUS_RETIMER_REDRIVER;
+> +	if (retimer && active_cable)
+> +		cable_attr_dpcd |= DP_CABLE_TYPE_RETIMER_ACTIVE;
+> +	else if (active_cable)
+> +		cable_attr_dpcd |= DP_CABLE_TYPE_LRD_ACTIVE;
+> +	else
+> +		cable_attr_dpcd |= DP_CABLE_TYPE_PASSIVE;
 > +
-> +	/* Frequency in HZ is expected */
-> +	*start =3D KHZ_TO_HZ(*start);
-> +	*end =3D KHZ_TO_HZ(*end);
+> +	drm_dp_dpcd_writeb(&intel_dp->aux, DP_CABLE_ATTRIBUTES_UPDATED_BY_TX,
+> +			   cable_attr_dpcd);
 > +}
+> +
+>  static void intel_dp_sink_set_fec_ready(struct intel_dp *intel_dp,
+>  					const struct intel_crtc_state *crtc_state)
+>  {
+> @@ -2414,6 +2463,7 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+>  {
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+>  	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+>  
+>  	intel_dp_set_link_params(intel_dp,
+>  				 crtc_state->port_clock,
+> @@ -2480,6 +2530,13 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+>  	intel_dp_check_frl_training(intel_dp);
+>  	intel_dp_pcon_dsc_configure(intel_dp, crtc_state);
+>  
+> +	if (intel_tc_port_in_dp_alt_mode(dig_port)) {
+> +		u8 cable_attributes;
+> +
+> +		cable_attributes = intel_tc_get_cable_attributes(dig_port);
+> +		intel_dp_set_cable_attributes(intel_dp, cable_attributes);
+> +	}
+> +
+>  	/*
+>  	 * 6. The rest of the below are substeps under the bspec's "Enable and
+>  	 * Train Display Port" step.  Note that steps that are specific to
+> diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+> index 3ebf41859043..6b10a8839563 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_tc.c
+> @@ -260,6 +260,16 @@ assert_tc_port_power_enabled(struct intel_tc_port *tc)
+>  		    !intel_display_power_is_enabled(i915, tc_port_power_domain(tc)));
+>  }
+>  
+> +u8 intel_tc_get_cable_attributes(struct intel_digital_port *dig_port)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	enum tc_port tc_port = intel_port_to_tc(i915, dig_port->base.port);
 
-Similar patterns are probably elsewhere too for this, but I guess we can
-always refactor later too.
+So I think this function should return the information in DPCD 0x110
+format.
 
-johannes
+Read the register, convert to DPCD format, return. Make this the single
+point of conversion between the two, and don't pass intermediate info
+around.
+
+Whoever calls this should then have DPCD 0x2217 and the info returned by
+this function, and find the least common denominator, and update 0x110
+accordingly. And *maybe* also update sink_rates/common_rates
+accordingly.
+
+> +
+> +	return (intel_de_read(i915, TCSS_DDI_STATUS(tc_port)) &
+> +		TCSS_DDI_STATUS_CABLE_ATTR_MASK) >>
+> +		TCSS_DDI_STATUS_CABLE_ATTR_SHIFT;
+> +}
+> +
+>  u32 intel_tc_port_get_lane_mask(struct intel_digital_port *dig_port)
+>  {
+>  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> diff --git a/drivers/gpu/drm/i915/display/intel_tc.h b/drivers/gpu/drm/i915/display/intel_tc.h
+> index 3b16491925fa..edafe92844b4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tc.h
+> +++ b/drivers/gpu/drm/i915/display/intel_tc.h
+> @@ -43,5 +43,6 @@ int intel_tc_port_init(struct intel_digital_port *dig_port, bool is_legacy);
+>  void intel_tc_port_cleanup(struct intel_digital_port *dig_port);
+>  
+>  bool intel_tc_cold_requires_aux_pw(struct intel_digital_port *dig_port);
+> +u8 intel_tc_get_cable_attributes(struct intel_digital_port *dig_port);
+>  
+>  #endif /* __INTEL_TC_H__ */
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 0523418129c5..991ecf082b5c 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -6576,6 +6576,11 @@ enum skl_power_gate {
+>  #define TCSS_DDI_STATUS(tc)			_MMIO(_PICK_EVEN(tc, \
+>  								 _TCSS_DDI_STATUS_1, \
+>  								 _TCSS_DDI_STATUS_2))
+> +#define  TCSS_DDI_STATUS_CABLE_ATTR_SHIFT	9
+> +#define  TCSS_DDI_STATUS_CABLE_ATTR_MASK	REG_GENMASK(14, 9)
+
+This "cable attr" thing defines something that I think should not be
+used, a field in a register where you can't even use the other defines
+to parse. Please remove it, and replace with mask and values for
+CABLE_SPEED.
+
+This reflects the comment on cable_attributes parameter in
+intel_dp_set_cable_attributes().
+
+> +#define  TCSS_DDI_STATUS_ACTIVE_CABLE		REG_BIT(11)
+> +#define  TCSS_DDI_STATUS_CABLE_TYPE		REG_BIT(10)
+> +#define  TCSS_DDI_STATUS_RETIMER_REDRIVER	REG_BIT(9)
+
+Usually I promote following the spec for macro naming, but the above two
+are silly.
+
+I think the options are:
+
+1) just define them for what they are:
+
+#define  TCSS_DDI_STATUS_CABLE_TYPE_OPTICAL	REG_BIT(10)
+#define  TCSS_DDI_STATUS_RETIMER		REG_BIT(9)
+
+2) consider them reg fields:
+
+#define  TCSS_DDI_STATUS_CABLE_TYPE		REG_GENMASK(10, 10)
+#define  TCSS_DDI_STATUS_CABLE_TYPE_ELECTRICAL	REG_FIELD_PREP(TCSS_DDI_STATUS_CABLE_TYPE, 0)
+#define  TCSS_DDI_STATUS_CABLE_TYPE_OPTICAL	REG_FIELD_PREP(TCSS_DDI_STATUS_CABLE_TYPE, 1)
+
+#define  TCSS_DDI_STATUS_RETIMER_REDRIVER	REG_GENMASK(9, 9)
+#define  TCSS_DDI_STATUS_REDRIVER		REG_FIELD_PREP(TCSS_DDI_STATUS_RETIMER_REDRIVER, 0)
+#define  TCSS_DDI_STATUS_RETIMER		REG_FIELD_PREP(TCSS_DDI_STATUS_RETIMER_REDRIVER, 1)
+
+I think the latter is just too verbose, so I'd go for 1).
+
+>  #define  TCSS_DDI_STATUS_READY			REG_BIT(2)
+>  #define  TCSS_DDI_STATUS_HPD_LIVE_STATUS_TBT	REG_BIT(1)
+>  #define  TCSS_DDI_STATUS_HPD_LIVE_STATUS_ALT	REG_BIT(0)
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index b046f79f4744..dde715d567c2 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -654,6 +654,13 @@
+>  # define DP_LANE13_POST_CURSOR2_SET_MASK    (3 << 4)
+>  # define DP_LANE13_MAX_POST_CURSOR2_REACHED (1 << 6)
+>  
+> +#define DP_CABLE_ATTRIBUTES_UPDATED_BY_TX   0x110
+
+Please use _DPTX suffix like in the spec.
+
+/* 2.1 */ missing at the end.
+
+The UHBR capabilities bits should be defined here.
+
+> +# define DP_CABLE_TYPE_MASK		    (0x7 << 3)
+> +# define DP_CABLE_TYPE_UNKNOWN		    (0x0 << 3)
+> +# define DP_CABLE_TYPE_PASSIVE		    (0x1 << 3)
+> +# define DP_CABLE_TYPE_LRD_ACTIVE	    (0x2 << 3)
+> +# define DP_CABLE_TYPE_RETIMER_ACTIVE	    (0x3 << 3)
+
+The values could just be decimal instead of hex.
+
+> +
+>  #define DP_MSTM_CTRL			    0x111   /* 1.2 */
+>  # define DP_MST_EN			    (1 << 0)
+>  # define DP_UP_REQ_EN			    (1 << 1)
+> @@ -1139,6 +1146,8 @@
+>  # define DP_128B132B_TRAINING_AUX_RD_INTERVAL_32_MS             0x05
+>  # define DP_128B132B_TRAINING_AUX_RD_INTERVAL_64_MS             0x06
+>  
+> +#define DP_CABLE_ATTRIBUTES_UPDATED_BY_RX               0x2217 /* 2.1 */
+
+Please use _DPRX suffix like in the spec.
+
+> +
+>  #define DP_TEST_264BIT_CUSTOM_PATTERN_7_0		0x2230
+>  #define DP_TEST_264BIT_CUSTOM_PATTERN_263_256	0x2250
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
