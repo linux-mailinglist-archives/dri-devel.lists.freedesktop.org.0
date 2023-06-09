@@ -1,59 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3B172990F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 14:08:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 763FA729910
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 14:08:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DF910E696;
-	Fri,  9 Jun 2023 12:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9988010E697;
+	Fri,  9 Jun 2023 12:08:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02F0010E694;
- Fri,  9 Jun 2023 12:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686312500; x=1717848500;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=wHsk/r7TrGDab6Wxp2HJrKOkkbH7GLthxRsjehaiUYU=;
- b=BE+IoceNUjQxZt+lf/GpecwFsJNu07QbQHjEsws6lRNmmBPZc4zrn39J
- YWyWZ/wsoTQNr2ybWRPLqJcj7//1FfX8tmKZni9DaCDYiRGdNZyhYPs5j
- jcp5NSoRYSywoxTrweDrsqMb0n8cyyF6OiIhzQfFD1W9wSc5KvuxiEZMZ
- bEHwgAOAOpT1VVhJWDnpuIhnzjLsShD7BBBhMmiKGy1OpTOzzvWs2F75w
- ASXXGjDGn1+IiMrcM2Migl2qwtuHxs4AP5zTJwTzl+k2u/zNzTrCZCEI4
- GkLWSMHfpzZx5vATUBMclvFGdBPAVLyx746q8x1AA3EYFzzy7Fs0YZXpf w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="356473746"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="356473746"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 05:08:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="1040480704"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="1040480704"
-Received: from pjdillon-mobl1.ger.corp.intel.com (HELO [10.213.210.241])
- ([10.213.210.241])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 05:08:13 -0700
-Message-ID: <982c7f98-eaf8-7709-a90d-e192b666ade7@linux.intel.com>
-Date: Fri, 9 Jun 2023 13:08:11 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E78810E697
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 12:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686312529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bhTsvnKWHMyANiF+ypBvF6dWV6TA3YEIeRPL9ez0lTg=;
+ b=RjRJbiYwx6weEXtvPb3EETzTV8JV19kj9GV3kXkx/WuBFBd1RYnjBtrHe/Ui0i22YtnpY7
+ jbc02eXRdoSKQ3r2kOv5IPA5TvVYtzS8UmelxBVym3dRu14trnE32Lr1ehg3PMjWYl6+Ig
+ eBwIiO+Jb8uY6S0fZ4eMqWb9RlHzT1o=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-596-v5ShaQ2PO2W-KBn6h4dHhQ-1; Fri, 09 Jun 2023 08:08:48 -0400
+X-MC-Unique: v5ShaQ2PO2W-KBn6h4dHhQ-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2b04d5ed394so1909331fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 05:08:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686312527; x=1688904527;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bhTsvnKWHMyANiF+ypBvF6dWV6TA3YEIeRPL9ez0lTg=;
+ b=ZkHMuRHmx0+GkArzzIlEmThd/BVywkA9W91miAlIemN8lycwGDzG9M/c6NoE7x/qWL
+ MpnBHetBbtDre1Y7volMPIiGXtiJaNyQb/UYoqZ4CPOtQXAxGWSMyIbmfdlW/cnuglPN
+ XwTwJ5DYS2ve8ziGkmtuLmFzvTOKw4Vbs2Ay4LCS3xZkPkB9XxQnG0EfO83hEho24zxi
+ TUIZYkiv9GdDR/jh91J5Jd/BLNINvVk5arUcYaM60g+lgDptMhs7ZwF3XxlhMIakEb3q
+ ziOODsOPLD9WAlj4FouVL/S1waOg3kK2uveS2d8+WQcl6Uo97cEByy12H7w3FInxcBrG
+ fKZg==
+X-Gm-Message-State: AC+VfDzzWPH5LJRC0MSqDP641D7PLeskWlTMvsl06GisteixtSg7cXZu
+ 0z655kicvBhgwZkDXD0mMHlnFHJoDDMTSdXYIkM8+imIIToQ+beJugfqyKN9OnfVYd/reC+5yG4
+ YysCpqdrveXP/r/HIu9FmYRPrapfswvUZIU/2pqmmZnTd
+X-Received: by 2002:a2e:a60a:0:b0:2b2:84:fae6 with SMTP id
+ v10-20020a2ea60a000000b002b20084fae6mr840254ljp.5.1686312526806; 
+ Fri, 09 Jun 2023 05:08:46 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5/u83dgJO9ijfmv0l+OO9YcGJ/L6qBK50cyPbNLbgarvaR6qFwIZEoR0L+ekfQ6ZkypevTiTMqJhUVw0mWglg=
+X-Received: by 2002:a2e:a60a:0:b0:2b2:84:fae6 with SMTP id
+ v10-20020a2ea60a000000b002b20084fae6mr840247ljp.5.1686312526573; 
+ Fri, 09 Jun 2023 05:08:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Track buffer objects belonging
- to clients
-Content-Language: en-US
-To: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230608145133.1059554-1-tvrtko.ursulin@linux.intel.com>
- <20230608145133.1059554-2-tvrtko.ursulin@linux.intel.com>
- <b0990625-1d73-8b6d-d094-5e58be5ad6b0@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <b0990625-1d73-8b6d-d094-5e58be5ad6b0@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230609081732.3842341-1-lee@kernel.org>
+ <20230609081732.3842341-7-lee@kernel.org>
+In-Reply-To: <20230609081732.3842341-7-lee@kernel.org>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 9 Jun 2023 14:08:35 +0200
+Message-ID: <CACO55ttQa-M3amPtFTG2JCC=wnJ7y6=JvZ9ak93tW-WtfXYUxg@mail.gmail.com>
+Subject: Re: [RESEND 06/15] drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused
+ variable 'loc'
+To: Lee Jones <lee@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,102 +79,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Gourav Samaiya <gsamaiya@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 9, 2023 at 10:18=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c: In function =E2=80=98nvk=
+m_acr_lsfw_load_sig_image_desc_v2=E2=80=99:
+>  drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:221:21: warning: variable=
+ =E2=80=98loc=E2=80=99 set but not used [-Wunused-but-set-variable]
+>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Gourav Samaiya <gsamaiya@nvidia.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c b/drivers/gpu=
+/drm/nouveau/nvkm/subdev/acr/lsfw.c
+> index f36a359d4531c..bd104a030243a 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
+> @@ -218,7 +218,7 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subd=
+ev *subdev,
+>                 const struct firmware *hsbl;
+>                 const struct nvfw_ls_hsbl_bin_hdr *hdr;
+>                 const struct nvfw_ls_hsbl_hdr *hshdr;
+> -               u32 loc, sig, cnt, *meta;
+> +               u32 sig, cnt, *meta;
+>
+>                 ret =3D nvkm_firmware_load_name(subdev, path, "hs_bl_sig"=
+, ver, &hsbl);
+>                 if (ret)
+> @@ -227,7 +227,6 @@ nvkm_acr_lsfw_load_sig_image_desc_v2(struct nvkm_subd=
+ev *subdev,
+>                 hdr =3D nvfw_ls_hsbl_bin_hdr(subdev, hsbl->data);
+>                 hshdr =3D nvfw_ls_hsbl_hdr(subdev, hsbl->data + hdr->head=
+er_offset);
+>                 meta =3D (u32 *)(hsbl->data + hshdr->meta_data_offset);
+> -               loc =3D *(u32 *)(hsbl->data + hshdr->patch_loc);
 
-On 09/06/2023 05:16, Iddamsetty, Aravind wrote:
-> On 08-06-2023 20:21, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> In order to show per client memory usage lets start tracking which
->> objects belong to which clients.
->>
->> We start with objects explicitly created by object creation UAPI and
->> track it on a new per client lists, protected by a new per client lock.
->> In order for delayed destruction (post client exit), we make tracked
->> objects hold references to the owning client.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_create.c    | 32 ++++++++++++++--
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c    |  6 +++
->>   .../gpu/drm/i915/gem/i915_gem_object_types.h  | 12 ++++++
->>   drivers/gpu/drm/i915/i915_drm_client.c        | 36 +++++++++++++++++-
->>   drivers/gpu/drm/i915/i915_drm_client.h        | 37 ++++++++++++++++++-
->>   drivers/gpu/drm/i915/i915_gem.c               |  2 +-
->>   6 files changed, 119 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->> index d24c0ce8805c..4f1957638207 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
->> @@ -11,6 +11,7 @@
->>   #include "gem/i915_gem_region.h"
->>   #include "pxp/intel_pxp.h"
->>   
->> +#include "i915_drm_client.h"
->>   #include "i915_drv.h"
->>   #include "i915_gem_create.h"
->>   #include "i915_trace.h"
->> @@ -164,6 +165,14 @@ __i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
->>   						 n_placements, 0);
->>   }
->>   
->> +static void add_file_obj(struct drm_file *file,
->> +			 struct drm_i915_gem_object *obj)
->> +{
->> +	struct drm_i915_file_private *fpriv = file->driver_priv;
->> +
->> +	i915_drm_client_add_object(fpriv->client, obj);
->> +}
->> +
->>   int
->>   i915_gem_dumb_create(struct drm_file *file,
->>   		     struct drm_device *dev,
->> @@ -174,6 +183,7 @@ i915_gem_dumb_create(struct drm_file *file,
->>   	enum intel_memory_type mem_type;
->>   	int cpp = DIV_ROUND_UP(args->bpp, 8);
->>   	u32 format;
->> +	int ret;
->>   
->>   	switch (cpp) {
->>   	case 1:
->> @@ -212,7 +222,12 @@ i915_gem_dumb_create(struct drm_file *file,
->>   	if (IS_ERR(obj))
->>   		return PTR_ERR(obj);
->>   
->> -	return i915_gem_publish(obj, file, &args->size, &args->handle);
->> +	ret = i915_gem_publish(obj, file, &args->size, &args->handle);
->> +
->> +	if (!ret)
->> +		add_file_obj(file, obj);
->> +
->> +	return ret;
->>   }
->>   
->>   /**
->> @@ -229,6 +244,7 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
->>   	struct drm_i915_gem_create *args = data;
->>   	struct drm_i915_gem_object *obj;
->>   	struct intel_memory_region *mr;
->> +	int ret;
->>   
->>   	mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
->>   
->> @@ -236,7 +252,12 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
->>   	if (IS_ERR(obj))
->>   		return PTR_ERR(obj);
-> 
-> Do we intend to track only client created objects and not imported ?
-> or is that taken care by this "obj->base.handle_count > 1"
+Ben: should we do anything with this value or is it safe to ignore?
 
-I missed the imports, now added in v3 of the series.
+>                 sig =3D *(u32 *)(hsbl->data + hshdr->patch_sig);
+>                 cnt =3D *(u32 *)(hsbl->data + hshdr->num_sig);
+>
+> --
+> 2.41.0.162.gfafddb0af9-goog
+>
 
-They wouldn't have been handled by the above check in the importer - 
-only the exporter would have seen (sometimes) changes in the ratio of 
-total vs shared.
-
-Regards,
-
-Tvrtko
