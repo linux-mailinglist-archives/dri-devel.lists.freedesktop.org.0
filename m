@@ -1,119 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AD8729DD8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:08:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AE3729DF6
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCE810E150;
-	Fri,  9 Jun 2023 15:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D9B10E6C2;
+	Fri,  9 Jun 2023 15:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2055.outbound.protection.outlook.com [40.107.100.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6AD10E14D;
- Fri,  9 Jun 2023 15:08:01 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A2D10E6C2;
+ Fri,  9 Jun 2023 15:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686323584; x=1717859584;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:mime-version;
+ bh=C/iumIPmFQFvor5wpeCqxvBmebxR5522iL7dArEz2Mw=;
+ b=cWPBLABItoVxPDdIpnW+LX6dkaB/SvYw+7y+W80criBxQxU5A/HOmwJW
+ CGVZ/uEgXGicvqRZzrMAoffA9WHEoVJ5JtyiFeYzAyhwcOyWBGyBWRdHR
+ odKGiI0ZKuqPZ7guo6Q5hlqcouhajXSyr2BwYDCy7bjfThBxsJrAV6kQ2
+ T3ZcV6NyF0B1PDb7mjtLDCER1eXirm68Pv/e+sRv81ySt/rj301+rLBiS
+ GrnrO+seWHfYMgMxiIYPWybjtEB3Iyg9ksDi116cD/6XcoNAr1X7fg2dk
+ ux29EUC/1r7YIoLs4+k93PT4Krb+wKqAJ/5Yhj43CeaazbwWbGW82M5KS w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="337977151"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+ d="scan'208,217";a="337977151"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 08:13:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="1040507719"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+ d="scan'208,217";a="1040507719"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga005.fm.intel.com with ESMTP; 09 Jun 2023 08:13:02 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 9 Jun 2023 08:13:02 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 9 Jun 2023 08:13:02 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Fri, 9 Jun 2023 08:13:01 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Fri, 9 Jun 2023 08:13:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ceSMgvbiOMwzWd4skm+64gdDmAIFiwDn1+ZRlS7stbqP2+uMkdKFgYFFJo/mAL2GuJuY5XphTCMrs+58iNec5bxBdaqpa1iQUCKK7d8ZG39rRItYkPvqSyEGtKo2jrOFErsnXcdUogN7cfXgv28gywyL4D2wOMC4z9xL4f7vJqx+yWwjvXPZ0Ia1k/zGYt6juO99U+sVCCjyZdAVihKqIfNXIWEQOICVAMtzwORlHgFGzwi/BamLFmS8qbIBFv2igsUQYWAl0pWktMcVNAYBwU86GMHjmQ1ZaW+gM301OVDvETKDFUbIwtxgK3CGCkTBspM8bA3p+R+TXFyVqbvybQ==
+ b=TzousUJ/Rcrj/aValaVf1TDyct8gYKNADipDwALM/CnDy8nw+rJhy7NM1RFRFp4s9UETFMNQyojylhxXy7SrOCPu1wmPjnavQkOypQDtSA24B3WbsLNlczcMQgSW5DvB6GhydyNPhNNbLmiMHFV/rd5p5Hc/76crfNsBMzoYjzdnq5n06mInZmr/SXb9zG1+ZbasV+AD/XmwhK5LOUo7Dh398T6umiTkXcYk3dECLeNiGAzIzpjHhcvJxp9gJz81Q0yZtEwlJ0kkMXc2oEFZyRCp9uVwJM2niRJfnwngpt9SBr9HoJ3ZoVjH6dD8Kx8VPDNwQUkc7I1KwoQTXu9UBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PQifJ61UIHvw7rmewpcKoHQeAqHYJev1gIWRutJC8Is=;
- b=Cc6bs1m1zeHZJKCsQmlQdZuQpw4Ky68Ubu+4zNtZWytQbbbQtzJaIQ5WqiWIpNJj1hoD27DVeTRSPKVYrkrXqCbf+1EtP4XFWdjFpPyV5h4LyqcCk2Alwje3L3qmak6t+wf9Fa6woSzSKAK2gCE9z0WIIxl8cGsmxtrHqPYS6uQkPqru+seaj5t1yaSoXgPH/oe9CvT8NFQJs4YhQut1j8x8p/TAxvWjPI+jS1dYa358INCknT7oztxkZmuIG/d9i56YuiAjpHzRS9LH71m9tMp+RJHvCvEAKljQjhEL0CljxL5IUIaI3KzNSgU60YSghEcGT2kf80nESLC0ZuD7ng==
+ bh=C/iumIPmFQFvor5wpeCqxvBmebxR5522iL7dArEz2Mw=;
+ b=f54wybxXLqfLfEwYksXH3Vv1SjpEGmP/qNvraJzduRo3q1TzwuRYRkIRCaz55diJtQSM+dAA8kLkTSUcm+EWdpe31MO9LWOrm5pfYgOUYPu/HpR/7wVCQjvstOGwO5OzcN4SMfScUDSDAJgJjJbc/Vg7gQvFbePPkCgpR1Fu5vrJBooueRkBrA/HYNPXWFh4CLQMinzAubJ0N1EFpqGJ2/k+ujqUv/1D5ohcPtS8GAQtVRnaqzjyIgr5rPk5OMetUOM5Nx+z/bpK+bXAw+j+SLS14/fR2f6AiFwCTKHon+yLZYpSforDcv7Wbj069BGmAAW7uEZJTeFtegDejiVsZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PQifJ61UIHvw7rmewpcKoHQeAqHYJev1gIWRutJC8Is=;
- b=ImvpHsAz8bzLsJBRQZxF00OdaSj7duQBwwz5mcrJPPNQlWyNFcnihZYN3mu9QN/xqziewWFVgrWuADTaMiuOos6fa0Ql2VJ+9iCSr37OmExcr3Dg7dkVRgRVKIKKwaueJxnR/FG2mnvWWrltkJKfp5HjuoT+l3/YJej37Ef+PaM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- LV8PR12MB9205.namprd12.prod.outlook.com (2603:10b6:408:191::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
- 2023 15:07:59 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1%7]) with mapi id 15.20.6433.024; Fri, 9 Jun 2023
- 15:07:58 +0000
-Message-ID: <8ee2cde8-9463-a2d6-a3a4-4a298b8fef18@amd.com>
-Date: Fri, 9 Jun 2023 11:07:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RESEND 11/15] drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move
- SYNAPTICS_DEVICE_ID into CONFIG_DRM_AMD_DC_DCN ifdef
-To: Lee Jones <lee@kernel.org>
-References: <20230609081732.3842341-1-lee@kernel.org>
- <20230609081732.3842341-12-lee@kernel.org>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
+ by SJ0PR11MB6789.namprd11.prod.outlook.com (2603:10b6:a03:47f::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Fri, 9 Jun
+ 2023 15:13:00 +0000
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::28b4:ae85:a4f0:3f46]) by BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::28b4:ae85:a4f0:3f46%4]) with mapi id 15.20.6455.034; Fri, 9 Jun 2023
+ 15:12:59 +0000
+From: "Yang, Fei" <fei.yang@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, "Zhang, Carl"
+ <carl.zhang@intel.com>
+Subject: Re: [PATCH v17 1/1] drm/i915: Allow user to set cache at BO creation
+Thread-Topic: [PATCH v17 1/1] drm/i915: Allow user to set cache at BO creation
+Thread-Index: AQHZmF3TD+PHG5JckUCREhL+ccwPOK99jWQAgAACPgCAAA8TgIAAAMuAgAETVQCAABloAIAAAsCAgANykACAAFSM4A==
+Date: Fri, 9 Jun 2023 15:12:59 +0000
+Message-ID: <BYAPR11MB2567170796F88BB7DFF0DE0C9A51A@BYAPR11MB2567.namprd11.prod.outlook.com>
+References: <20230606100042.482345-1-andi.shyti@linux.intel.com>
+ <20230606100042.482345-2-andi.shyti@linux.intel.com>
+ <ec219702-8608-e919-cbcd-f271646845d1@linux.intel.com>
+ <ZH8H3ovN20uVO+tK@ashyti-mobl2.lan>
+ <168604992363.24014.14317865195655387952@jlahtine-mobl.ger.corp.intel.com>
+ <ZH8VLY8a9d7i96cw@ashyti-mobl2.lan>
+ <PH0PR11MB5579C119BEF9653A9A20CC4E8753A@PH0PR11MB5579.namprd11.prod.outlook.com>
+ <ZIARdL44LW5BEysa@ashyti-mobl2.lan>
+ <PH0PR11MB55793C2F3B66887186CF68198753A@PH0PR11MB5579.namprd11.prod.outlook.com>
+ <ZIL4HNonFakDqJtB@ashyti-mobl2.lan>
+In-Reply-To: <ZIL4HNonFakDqJtB@ashyti-mobl2.lan>
+Accept-Language: en-US
 Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20230609081732.3842341-12-lee@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXPR0101CA0041.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:14::18) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR11MB2567:EE_|SJ0PR11MB6789:EE_
+x-ms-office365-filtering-correlation-id: 86b03650-f9ac-453c-c9b2-08db68fc0311
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PhOTA6JPIKQOD/OoF9WNJnQ/awIleMAEF0oqvIw4NnivEElhbMyQFNB29x4BQvMJNwyNm0oqaoQfAL5jq/bQREIalIov9A3AkfRcwn1DBKJET5WCL7OvMrJYP+3Uyb/5W/peTVrcVNCT0qq0JMaTgtd+nDk1IeU6xhMrGjS8pnLoSf28mEiWxuMJnRhHkfFvlKqszjhzP0XNWXpiRawyaO2efS9/Ut53tGb7qmlCLLatJhSVAQ81Pt5tUswfTSwtDM9BScHhBUQJc9W5+h9W6ESTkxzPR1azYYZk1cCk4ZiIzfTJoISfYidwqLxQJF0OJDxEYnG7OJSOmYc8N49mcI31IPPHPl6ezx4F7ym8uM3E6ge0JNuLO4K/Q4dm4wR8u/2bR9GOmfXAgTZ9zUnYjQRQ58rrjxJe308MOEcl7thOUVyJS7z8H4sS8nLnx2iJGLhYyy26YngF95P4lmHL3prjfja+BHcQkgefGTIwFURy3rDQZlMVh9ni768o2o+thKkHpi9Jtp+FBM2BCZchqF/0nVWPNHITQA63eelI4VvUaEJE87gn3omBJBzqIbq7WcQu5U/DstUpnuJ7ZJyuGw4Ua1h7V53OzZPEthINBdVdqiLJfb4XpDXeF3SdWSaZ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(346002)(136003)(376002)(396003)(39860400002)(451199021)(38070700005)(8676002)(66476007)(66946007)(76116006)(19627405001)(66446008)(66556008)(52536014)(64756008)(8936002)(110136005)(6636002)(5660300002)(4326008)(41300700001)(55016003)(54906003)(2906002)(478600001)(186003)(122000001)(26005)(86362001)(38100700002)(6506007)(9686003)(316002)(82960400001)(7696005)(71200400001)(83380400001)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?poEg0piy1ozmADLHJxtwN/qKGr0+k8ib2stapWCHRJbIDlyqGmv5cPo0FO?=
+ =?iso-8859-1?Q?JRAXS7PICySKtyXluUYLzDBvZC0XENm7Da0e3qWgx7LQeCYqDpZO5f9fcO?=
+ =?iso-8859-1?Q?O0fXNog+vxh8TdvbWJdetJP3xEyIOALOUF+wvIu1SB07mSovZKSR4qTJyc?=
+ =?iso-8859-1?Q?tYLAUD0GLQePJeeV+O2Dio+3qOzDfyzi3kjd/nBe5t/eluxD5Nm6ztrGlR?=
+ =?iso-8859-1?Q?/BDVXtzwqMYrnrrDpE03e73lYr43RfAS9fp3g/wmSF0zzM/gBzzZ5MN3WA?=
+ =?iso-8859-1?Q?Q4Y7iJIR0hHuW30+tCM8Lc3VVgHkq4WCOIA8uOA59SEp7lbGwzjFBuDDii?=
+ =?iso-8859-1?Q?2xg3xGiaZXEx4PG4Q5FVYFPLzXBa32JeV5gsO76G6qaWJsi3dY5yTF3tY1?=
+ =?iso-8859-1?Q?TSaIr9Js2NzhlfcOUfC50KuHziiV4UEzoGK7a33TFPjCfQS585g++1sHrh?=
+ =?iso-8859-1?Q?p+oezizgH9kQEj0BHMl11jIkr3wpz6sqztt2XOeBvrIR+jV31uRqo96JhE?=
+ =?iso-8859-1?Q?yyJXuj0bKYBrwmO0jhBx/eZm67HEhlfdYqzz3LKU5d4ncCYWKWQF2jozmO?=
+ =?iso-8859-1?Q?DFOLManKrXwcDeRpCLD3X9LGVjsaU7sH0frr2Sp/BKcTldO4k8u3gfTzWR?=
+ =?iso-8859-1?Q?sv1BzE+QY+IGKju5OF5kvf/f3PSXP68z3PDDyiULt6zvWrxVMqCnBAblcX?=
+ =?iso-8859-1?Q?rSJkS0k5qYAY1aKaja4jaXvj9QE2MWzYmdfEFn/09zTSMOSX9Tbm/LINzJ?=
+ =?iso-8859-1?Q?c656FS5FIWXopdtPqAPysO3e5mKcKT9v2ujyR38upUm/oxv8/D2wdm6BEf?=
+ =?iso-8859-1?Q?qdkun4qbPqSlSb/olf0CAq7hAmapJZuDqNtK7KV2cX494ZHIH+x7+9l2PD?=
+ =?iso-8859-1?Q?WgWApd0DuqjbLBOzFGMU7uTONSXgU4LkahOGSazP7mNPdM38xu21eV5eRU?=
+ =?iso-8859-1?Q?/S+vqmwO9ZnuRFjgZO0nyxzo7gGz7MNZsPlcUwuNw31w9Xaq8jlon78eCo?=
+ =?iso-8859-1?Q?uq/vnRT+BydCvN2l/8FpQaTzT99208LA/B0WHPpaT/XSa2F3f/IZKlWz8m?=
+ =?iso-8859-1?Q?T/CuKCPKmvp1NMmEykOVerL5V7O7ZsyCoINVeBcVfqhYP5ner6eASv9hcC?=
+ =?iso-8859-1?Q?BqGm0495WTEvmJjH8fnxwNiBHfkeoYvD0t8cQp5rMEysUKAqb9ix9lz8Um?=
+ =?iso-8859-1?Q?tQ2JiQzTvxXhP7cF+Vyj6dLOfGZcOFtEikA6Y9kLeH6qeF7GSS24Q2Tn7y?=
+ =?iso-8859-1?Q?aR+llsmMcPvp0GC4MM+lRs3qvqW7LsMlyiUxWvIiUAEDFS/WbuCMYsmC19?=
+ =?iso-8859-1?Q?Tew19iypFFot032t5yKM6n3bkMCtPLPkW2ZswlOr86qSD4g6C/UaboTprC?=
+ =?iso-8859-1?Q?SyPPJKOYgeEjjeH4wU1FJ81nAhMwQQOTaSg96hM1jifEPJ+evW+AklflDk?=
+ =?iso-8859-1?Q?aZ3vZEls8gYrXSSqfD31KwDWKhtKb3y9jZh8yNrYrHvXBBif5LSMpplpzj?=
+ =?iso-8859-1?Q?AUMS1NxjMwk5n2RS8Ks1FVQS+zTzJhnZvSq6NweWVfdao3rimNrJcU1zJD?=
+ =?iso-8859-1?Q?dVWygrpu7vBn03U6uxFjNpWSEPPUMUfNmGjkXg+4yE41c2JtlNEuVYr3i6?=
+ =?iso-8859-1?Q?dBsEbHuNyDttQ=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_BYAPR11MB2567170796F88BB7DFF0DE0C9A51ABYAPR11MB2567namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|LV8PR12MB9205:EE_
-X-MS-Office365-Filtering-Correlation-Id: 431a4db9-627a-41cd-0516-08db68fb4f66
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r5p09JN6iLSkoSqShDgwqd2pfL6XsJ3WdaR8EppqAOIomjrizZ0hnbgduGVyjZHoHecati0rBR3C4Bba/hfEWrt7VVMsuhgnsQr2NpySeVvY3Azi8iRzV71dNpgtiVeOYrdTn52hcK2Lg3LBHZoY/OybzA9xKimXu1By9wEz8kXNO0eiUlMwD6iQD+pWlVkrgu+NVRod25SURJxDIUS/waQBa+zAK7oFFYjkMb2C9YwJQjujRsuc6NJO7RCsKQuamzVU7VbfkEQm+bj73QaoBZbmSJLOOyYjuudteZdRZ2QRlFlW6t5tz+Bj1/YH3pSw7C4mxBIxZwNGTtNt5gxrBYG8ru9s94PGjyjRcxxoq1vEwaycV9i3BKM++Hfk7aHdxIkpphyl+Oshd+iWZRjRiemgdit9jRclfC4TXDj4K2bBFWzI9RXlDQZmiozj+g6tpWCMGBncXb589B1MrFNvrmAWSkDghH/9LJTddcUjPl9RbZSI7oNioa+JP+pS7lacDbIAM7ohCG/rIk9qKajbyXQBkx94PtiJcaMRT0yceaGRHVPPlzwKxIFkRw2dIRlZ66/t5uJE7z8ToXze+Njwsg1q7TYeegRt0zMeBsO1aw18OeqfpdZctQCEVA9bO28V0CTbwkGIdolVEfd1wxghxQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(451199021)(478600001)(2906002)(2616005)(6506007)(6512007)(31696002)(186003)(26005)(86362001)(53546011)(66574015)(38100700002)(6486002)(83380400001)(6666004)(5660300002)(8936002)(8676002)(31686004)(41300700001)(66476007)(4326008)(316002)(66556008)(36756003)(6916009)(66946007)(54906003)(44832011)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEVlM2NVRlNNRExRVkxqYVlnVzB0NEZSN2Q3dytxN1JZTEE0cUJVbmZ5SnZC?=
- =?utf-8?B?NXBuZnpwMnEvaDZucU02OU4xbWtxL3doSmJZV0QzR3hGYlMyNVRuTDdvbXd2?=
- =?utf-8?B?NjQrb0NEZFFXclBjbG5Fak1NK0RzQkIwa3dkV0lqbVRTTGU1bkhQclducDNp?=
- =?utf-8?B?OGNnNndVY3NXdmFaQllNK2FVaGdxaDVRVmlZSU9tQUtvcUhnTzEreHA2REZI?=
- =?utf-8?B?U2tJcGJ1My9EWDRWcWhqaEZ3WFp2Zm9xRVRoUG42ZlNXeFo4MFVnbnBVMlJZ?=
- =?utf-8?B?d0pHRWN3aEVXRUVDTWRvckJCeUk2UzluclFFVDRScUJnMTlraHJlNDRQc0VF?=
- =?utf-8?B?TGZrK0hMOXJLUWxzejdNQ0c0YlNBSHJseTEvZm1EY2RJVkNzTkpSSThBYVZU?=
- =?utf-8?B?WFF4L0Z5a1pVd2ZiaEhlRm5iODk1TUhNcEtMcFY0WVZ3VkFKbmgxamZWL0N0?=
- =?utf-8?B?aVJ6ZkVkc3JLd21LNDdsdU9yaFNVak5kMjVhRmdETlhqMHM5cWs5YUVodW9l?=
- =?utf-8?B?cjd4TXB2bTRJR2Q5WXRoakM2bS9senlaeXJYZDh3dWw1UnpTUUJqK1BZaDYy?=
- =?utf-8?B?bHNlSmhEWFZPRnRpM0JHSUs5ZXVPZXEyUE9jU25pbHRQajVDY2pnU2RId0xv?=
- =?utf-8?B?ak80UjBVajlSaGVnbVgrOERIcG9QTk9lUEdjM0QvQURvaWxveGp3TksxWlRk?=
- =?utf-8?B?M2cvcWI1cTliU2JFS1NsOXRKdkpYN1hkRTFmeFk2dFFHYnR0cURTc2VDSVRJ?=
- =?utf-8?B?aWtXd2gyaDJOZXRUb2twbHNVTTZqakhYTVY2SjBEQkhQNy9rQ0ljb0dvSG50?=
- =?utf-8?B?NUtkVUt1cXlDVmdVZGdVODR5M3pUY0R2ZGNEOGVuT2RjcFQvb2RqZ2JHbzk3?=
- =?utf-8?B?S3AvenR3a3ZFZDBkMlpRZCtPakZna0FkNjh1SjU5MGxDblJUaHN3cmd4NmQx?=
- =?utf-8?B?eTJ5WEh0SkNvSkwvQUU3WGMvMlNKZzFUSWNKOTl4RzlNM2RSODlxVnNLSlNu?=
- =?utf-8?B?eWlVTmFVWjdia2tublJuU2FqRWIxRjFFeXloODFsa2dpUTAvWU5VaEpySng5?=
- =?utf-8?B?TitwcmVwbVJZTFZ0K2VjNXp2bDNJRGhOblhVUmZCZjRPNjJDT3N5K3hUUmQ5?=
- =?utf-8?B?aXhIMnRPWXo0U1N4ZjFOMmxsZUVlMktEYWc1ZHRicnh5dWFaVEx1RE9ZZ2lm?=
- =?utf-8?B?eVVGcThUNEp3VVRMUEFTc2VlSXJMZVNpNG9MaTl5NTVaaGhOcjg4MGZHay9a?=
- =?utf-8?B?bjdFcUwzSTVJMWhvTlZ3eW5GeXhMTzErYldndTlqMmtzcDJzWWV6RkRwbGFB?=
- =?utf-8?B?L3h3R3k2b0RHSTdPdTBNaEJBeVErMDhGQTREWlM2NkVXcFNHZWY4cFFiM3JL?=
- =?utf-8?B?R0haQ0hteE5tczhjZlljeHRrSWhQS2UrY2ptR2VzM3BRbktZaWdOSFRLNnR0?=
- =?utf-8?B?SDczNnhkWmdwYjBjK1RlUG1wNTBjNW10cGRMUXlhUDk4N1pRc0xRZU52bDFk?=
- =?utf-8?B?R2J4SnIvNnhwRGtTZmtSdXdlU21NdkVWWkc0ZjlsTzdtc2hQamxpWDZ1OXNL?=
- =?utf-8?B?Nys1emN1eGE5aStEWERUM3p5c2RQZTlNNThyUjFkcU9YOVpCYzBkTk9zaGVs?=
- =?utf-8?B?YVlrMEI3YWxxbXJqTFpPZkNnM3l0WW1mdXhvb1lpZHlIbm5zSjBzVVF4bXF2?=
- =?utf-8?B?dXEvanVSQ1RrazNKb2xWL0pzTmk4eitjaEJMQnB6bGJySlBzbmYzUFUyQi9M?=
- =?utf-8?B?RDFQWHdwU2xSOUc5NW5VMUhHMitLMnloM0J6REgzOW0wQ3Y1QjFUQjg0NmEr?=
- =?utf-8?B?a2liNGYxaWNSSzF6ZzVQNkFtQ3hhblJ3Wm1OY09oY3NXdE9mNDlwcUNZLzU0?=
- =?utf-8?B?NHgyajVmZmx6QTNhUGw0YjVINmgwN1dYK1dCSEtHWnZlV29ZeHpYWkczMXRR?=
- =?utf-8?B?VEJ4dHpPcnZrNllZWnE0alNsMzhUSHZlbFFTbjYzeExFc2wrTUE3ZlBTMjlr?=
- =?utf-8?B?S3dJeitYRW9yOVRacyt6eTUwK1BYREd1NUVoV1dRVndnMVdRcDlJL3hvNDls?=
- =?utf-8?B?bnlGNXBSNHdJY2F6cml0d0c5QytVdVEwVC9OOFFqN3hKMTdQaHUxa254Wm5L?=
- =?utf-8?Q?Wrzr6KP+ZkeUr6dxw67fkt4vD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 431a4db9-627a-41cd-0516-08db68fb4f66
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 15:07:58.3145 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: joVOLe/D4X/rr/WWiCcNjfgDUuc/WeeFrMEfjvpUIeS+LWTGVnoIxg0GPm/QaHy3rxOR5628zx1bx7w79U9UYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9205
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86b03650-f9ac-453c-c9b2-08db68fc0311
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2023 15:12:59.5371 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iFKQZvbzxp4bLQntFjgcd+dK7j/OpkdJyoEtwM9kAWIZ8tDMHedCn5zAQwUYbaj/ufEWeIvmwLOfFbAp2CiiqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6789
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,61 +162,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Gu,
+ Lihao" <lihao.gu@intel.com>, "Justen, Jordan L" <jordan.l.justen@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/9/23 04:17, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_helpers.c:48:22: warning: ‘SYNAPTICS_DEVICE_ID’ defined but not used [-Wunused-const-variable=]
-> 
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee@kernel.org>
+--_000_BYAPR11MB2567170796F88BB7DFF0DE0C9A51ABYAPR11MB2567namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+> Hi Carl,
+>
+>>>> besides this, ask a dumb question.
+>>>> How we retrieve the pat_index from a shared resource though dma_buf fd=
+?
+>>>> maybe we need to know whether it could be CPU cached if we want map it=
+.
+>>>> Of course, looks there are no real usage to access it though CPU.
+>>>> Just use it directly without any pat related options ?
+>>>
+>>> I am not understanding. Do you want to ask the PAT table to the driver?=
+ Are
+>>> you referring to the CPU PAT index?
+>>>
+>>> In any case, if I understood correctly, you don't necessarily always ne=
+ed to
+>>> set the PAT options and the cache options will fall into the default va=
+lues.
+>>>
+>>> Please let me know if I haven't answered the question.
+>>>
+>>
+>> If mesa create a resource , then use DRM_IOCTL_PRIME_HANDLE_TO_FD conver=
+t it to a dma fd.
+>> Then share it to media, media use DRM_IOCTL_PRIME_FD_TO_HANDLE convert i=
+t to a gem bo.
+>> But media does not know the PAT index , because mesa create it and set i=
+t.
+>> So, if media want to call DRM_IOCTL_I915_GEM_MMAP_OFFSET, media does not=
+ know whether it could be WB.
+>
+> That's a good point. To be honest I am not really sure how this
+> is handled.
+>
+> Fei, Jordan? Do you have suggestion here?
 
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 09e056a647087..cd20cfc049969 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -44,9 +44,6 @@
->   #include "dm_helpers.h"
->   #include "ddc_service_types.h"
->   
-> -/* MST Dock */
-> -static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-> -
->   /* dm_helpers_parse_edid_caps
->    *
->    * Parse edid caps
-> @@ -702,6 +699,9 @@ static void apply_synaptics_fifo_reset_wa(struct drm_dp_aux *aux)
->   	DC_LOG_DC("Done apply_synaptics_fifo_reset_wa\n");
->   }
->   
-> +/* MST Dock */
-> +static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-> +
->   static uint8_t write_dsc_enable_synaptics_non_virtual_dpcd_mst(
->   		struct drm_dp_aux *aux,
->   		const struct dc_stream_state *stream,
--- 
-Hamza
+Is it possible to pass the PAT setting when sharing the fd?
+Or perhaps we should have kept the get_caching ioctl functional?
+Joonas, could you chime in here?
 
+> Andi
+
+--_000_BYAPR11MB2567170796F88BB7DFF0DE0C9A51ABYAPR11MB2567namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+&gt; Hi Carl,
+<div class=3D"ContentPasted0">&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;&gt; besides this, ask a dumb que=
+stion.</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;&gt; How we retrieve the pat_inde=
+x from a shared resource though dma_buf fd?</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;&gt; maybe we need to know whethe=
+r it could be CPU cached if we want map it.</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;&gt; Of course, looks there are n=
+o real usage to access it though CPU.</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;&gt; Just use it directly without=
+ any pat related options ?</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt; I am not understanding. Do you w=
+ant to ask the PAT table to the driver? Are</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt; you referring to the CPU PAT ind=
+ex?</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt; In any case, if I understood cor=
+rectly, you don't necessarily always need to</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt; set the PAT options and the cach=
+e options will fall into the default values.</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt; Please let me know if I haven't =
+answered the question.</div>
+<div class=3D"ContentPasted0">&gt;&gt;&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt;</div>
+<div class=3D"ContentPasted0">&gt;&gt; If mesa create a resource , then use=
+ DRM_IOCTL_PRIME_HANDLE_TO_FD convert it to a dma fd.</div>
+<div class=3D"ContentPasted0">&gt;&gt; Then share it to media, media use DR=
+M_IOCTL_PRIME_FD_TO_HANDLE convert it to a gem bo.</div>
+<div class=3D"ContentPasted0">&gt;&gt; But media does not know the PAT inde=
+x , because mesa create it and set it.</div>
+<div class=3D"ContentPasted0">&gt;&gt; So, if media want to call DRM_IOCTL_=
+I915_GEM_MMAP_OFFSET, media does not know whether it could be WB.</div>
+<div class=3D"ContentPasted0">&gt;</div>
+<div class=3D"ContentPasted0">&gt; That's a good point. To be honest I am n=
+ot really sure how this</div>
+<div class=3D"ContentPasted0">&gt; is handled.</div>
+<div class=3D"ContentPasted0">&gt;</div>
+<div class=3D"ContentPasted0">&gt; Fei, Jordan? Do you have suggestion here=
+?</div>
+<div><br class=3D"ContentPasted0">
+</div>
+<div class=3D"ContentPasted0">Is it possible to pass the PAT setting when s=
+haring the fd?</div>
+<div class=3D"ContentPasted0">Or perhaps we should have kept the get_cachin=
+g ioctl functional?</div>
+<div class=3D"ContentPasted0">Joonas, could you chime in here?</div>
+<div><br class=3D"ContentPasted0">
+</div>
+&gt; Andi<br>
+</div>
+</body>
+</html>
+
+--_000_BYAPR11MB2567170796F88BB7DFF0DE0C9A51ABYAPR11MB2567namp_--
