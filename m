@@ -1,82 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA72729828
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 13:27:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127C4729839
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 13:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9957F10E688;
-	Fri,  9 Jun 2023 11:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C88F210E10E;
+	Fri,  9 Jun 2023 11:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE01510E688
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 11:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686310033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 013CC10E10E
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 11:31:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7534E1FDF2;
+ Fri,  9 Jun 2023 11:31:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686310300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
- b=jEQUIkK/gucjVugNCDvsozoARj6YxcZWEQbiWI9zoJqAz0xS/BRy0rAik6wOEbHMUtUL+p
- P8WrIk/weEPEj4x0C4+FfgEcvJpC1r8ymvuVFpktXOvxfcZ4kzYzOP+WdcPfdYtT6nPMKu
- L+apyijlMfnGe38VgWgpyMM69eSqyDk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-345-sXHNjtNPOkyC9vDYKe68Xw-1; Fri, 09 Jun 2023 07:27:12 -0400
-X-MC-Unique: sXHNjtNPOkyC9vDYKe68Xw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f7f8d101b1so27764955e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 04:27:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686310031; x=1688902031;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Aq1HmhmHxt8U2DdHW6bpTJ6Q+ZwtPsKU6Rb33d5Ew+Q=;
- b=KEMMqBnK4vxgmA998Pa5cRVAh2DHb8mSsW7/8mXkRvKL2zcxZc5rJNBOKYw50tBuG2
- 8ebY6s1QPB5+sWwIuBdyGcF+v8atNscXV22unwS7hlzTNAJ1oCdKZ8S5obnlVj2oAFbR
- 2iqZOTvhjz8NbXPZMFCHFpzwjt70jXmdjhoDWy2JGVqCgGvGNgWwtIsOLiDVUnmyWwta
- y1EbPsm653Cw1C0HkjjjnAjjgT9abd6NWfXBAa6T0g4+nsbY3l9HynaaJKo5S+j12EqS
- sjTBfPCauJ0i9rAkaa66b+WOysr+L0lY/JZDyJREYf+cD9NM2ZzinwF5kv43tyPze+Mp
- 9QTA==
-X-Gm-Message-State: AC+VfDzwDyQOk12bG63ZsPJDVRg3ifvynJbuyRiej+OcFsqjBWpR8RJi
- ZMi9Wn7o4Wg6rV4lXplozMFXgJHG6VJo7dXErfkVjl/96mTzBGr2eTV4Ivy/RQO6WKlPtnOtBhh
- gfwYZJSM24ngBpyn3cmn181M35EYz
-X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id
- y15-20020a1c4b0f000000b003f506e51689mr962602wma.17.1686310031580; 
- Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6w7LsURM3swKe92CefNektpkFsYqmjCbB+q5BkwoFvHxCz92JpRifnJNOzeTnxZcxMM5HBOg==
-X-Received: by 2002:a1c:4b0f:0:b0:3f5:6e5:1689 with SMTP id
- y15-20020a1c4b0f000000b003f506e51689mr962588wma.17.1686310031334; 
- Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p4-20020a5d48c4000000b0030903d44dbcsm4191258wrs.33.2023.06.09.04.27.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jun 2023 04:27:11 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
- <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set>
- <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
- <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-Date: Fri, 09 Jun 2023 13:27:10 +0200
-Message-ID: <87o7lodgfl.fsf@minerva.mail-host-address-is-not-set>
+ bh=ozH8d/xGlOAz+n1aKEMUEL0nmSUelafZ6CBmYJY7HCo=;
+ b=S+O0HuerEky4D6s/49pt8/xyS0K1fz6OmW2k93vO0n7MzO0Q1aM2bnDFJwcKPiHPyOy3AN
+ DO1Olc081lpbyFDjAR3OtDt5z0XC3ntFKlN21NUT36n75nnTS3oa1o3ELwm/XAMJDfIHR2
+ QKM6tcPPaJbY+SikacISr1F5XK8o5iI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686310300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ozH8d/xGlOAz+n1aKEMUEL0nmSUelafZ6CBmYJY7HCo=;
+ b=NC1k+FeTM/i1JRrTUWJny/moBNuoUUr1nIK01knTkWiqCn+NbyQ3+DzZKNb1HeFkhWHcJK
+ KFlsrdFNLuxZU6AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D96D139C8;
+ Fri,  9 Jun 2023 11:31:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 12TMEZwNg2ReKgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 09 Jun 2023 11:31:40 +0000
+Message-ID: <e5524875-1ea3-25b5-95d9-b66910e06d42@suse.de>
+Date: Fri, 9 Jun 2023 13:31:39 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table
+ is missing
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <20230302143502.500661-1-contact@emersion.fr>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------U0loRo9ZPWIB7hpyuTnwSjpt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,33 +70,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, lee@kernel.org, linux-sh@vger.kernel.org,
- jingoohan1@gmail.com, deller@gmx.de, linux-staging@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, sam@ravnborg.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+ Tian Tao <tiantao6@hisilicon.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------U0loRo9ZPWIB7hpyuTnwSjpt
+Content-Type: multipart/mixed; boundary="------------jxXIXD913R2tvy3tRaURlCUm";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Tian Tao
+ <tiantao6@hisilicon.com>, Maxime Ripard <maxime@cerno.tech>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>
+Message-ID: <e5524875-1ea3-25b5-95d9-b66910e06d42@suse.de>
+Subject: Re: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table
+ is missing
+References: <20230302143502.500661-1-contact@emersion.fr>
+In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
 
-[...]
+--------------jxXIXD913R2tvy3tRaURlCUm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->> 
->> So with FB_CORE, you can have default y if you have a real fbdev driver,
->> and default n if you have only DRM drivers.
->> 
+SGkgU2ltb24NCg0KQW0gMDIuMDMuMjMgdW0gMTU6MzUgc2NocmllYiBTaW1vbiBTZXI6DQo+
+IGRybV9nZW1fbWFwX2RtYV9idWYoKSByZXF1aXJlcyBkcm1fZ2VtX29iamVjdF9mdW5jcy5n
+ZXRfc2dfdGFibGUNCj4gdG8gYmUgaW1wbGVtZW50ZWQsIG9yIGVsc2UgV0FSTnMuDQo+IA0K
+PiBBbGxvdyBkcml2ZXJzIHRvIGxlYXZlIHRoaXMgaG9vayB1bmltcGxlbWVudGVkIHRvIGlt
+cGxlbWVudCBwdXJlbHkNCj4gbG9jYWwgRE1BLUJVRnMgKGllLCBETUEtQlVGcyB3aGljaCBj
+YW5ub3QgYmUgaW1wb3J0ZWQgYW55d2hlcmUNCj4gZWxzZSBidXQgdGhlIGRldmljZSB3aGlj
+aCBhbGxvY2F0ZWQgdGhlbSkuIEluIHRoYXQgY2FzZSwgcmVqZWN0DQo+IGltcG9ydHMgdG8g
+b3RoZXIgZGV2aWNlcyBpbiBkcm1fZ2VtX21hcF9hdHRhY2goKS4NCj4gDQo+IHYyOiBuZXcg
+cGF0Y2gNCg0KSXMgdGhlcmUgYSB2MyBvZiB0aGlzIHBhdGNoc2V0PyAgSXQgd2FzIEFja2Vk
+IHdpdGggdGhlIG9uZSBlcnJubyBjb2RlIA0KY2hhbmdlZC4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJz
+aW9uLmZyPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4N
+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzog
+VGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+DQo+IENjOiBNYXhpbWUgUmlwYXJk
+IDxtYXhpbWVAY2Vybm8udGVjaD4NCj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhh
+dC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyB8IDYgKysr
+KystDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYw0KPiBpbmRleCBmOTI0YjhiNGFiNmIuLmFiMWQy
+MWQ2M2EwMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jDQo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYw0KPiBAQCAtNTQ0LDcgKzU0NCw4
+IEBAIGludCBkcm1fcHJpbWVfaGFuZGxlX3RvX2ZkX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsIHZvaWQgKmRhdGEsDQo+ICAgICogT3B0aW9uYWwgcGlubmluZyBvZiBidWZmZXJz
+IGlzIGhhbmRsZWQgYXQgZG1hLWJ1ZiBhdHRhY2ggYW5kIGRldGFjaCB0aW1lIGluDQo+ICAg
+ICogZHJtX2dlbV9tYXBfYXR0YWNoKCkgYW5kIGRybV9nZW1fbWFwX2RldGFjaCgpLiBCYWNr
+aW5nIHN0b3JhZ2UgaXRzZWxmIGlzDQo+ICAgICogaGFuZGxlZCBieSBkcm1fZ2VtX21hcF9k
+bWFfYnVmKCkgYW5kIGRybV9nZW1fdW5tYXBfZG1hX2J1ZigpLCB3aGljaCByZWxpZXMgb24N
+Cj4gLSAqICZkcm1fZ2VtX29iamVjdF9mdW5jcy5nZXRfc2dfdGFibGUuDQo+ICsgKiAmZHJt
+X2dlbV9vYmplY3RfZnVuY3MuZ2V0X3NnX3RhYmxlLiBJZiAmZHJtX2dlbV9vYmplY3RfZnVu
+Y3MuZ2V0X3NnX3RhYmxlIGlzDQo+ICsgKiB1bmltcGxlbWVudGVkLCBleHBvcnRzIGludG8g
+YW5vdGhlciBkZXZpY2UgYXJlIHJlamVjdGVkLg0KPiAgICAqDQo+ICAgICogRm9yIGtlcm5l
+bC1pbnRlcm5hbCBhY2Nlc3MgdGhlcmUncyBkcm1fZ2VtX2RtYWJ1Zl92bWFwKCkgYW5kDQo+
+ICAgICogZHJtX2dlbV9kbWFidWZfdnVubWFwKCkuIFVzZXJzcGFjZSBtbWFwIHN1cHBvcnQg
+aXMgcHJvdmlkZWQgYnkNCj4gQEAgLTU4Myw2ICs1ODQsOSBAQCBpbnQgZHJtX2dlbV9tYXBf
+YXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmLA0KPiAgIHsNCj4gICAJc3RydWN0IGRy
+bV9nZW1fb2JqZWN0ICpvYmogPSBkbWFfYnVmLT5wcml2Ow0KPiAgIA0KPiArCWlmICghb2Jq
+LT5mdW5jcy0+Z2V0X3NnX3RhYmxlKQ0KPiArCQlyZXR1cm4gLUVPUE5PVFNVUFA7DQo+ICsN
+Cj4gICAJcmV0dXJuIGRybV9nZW1fcGluKG9iaik7DQo+ICAgfQ0KPiAgIEVYUE9SVF9TWU1C
+T0woZHJtX2dlbV9tYXBfYXR0YWNoKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0K
+R0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4g
+TW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-All this discussion about FB_CORE is unrelated to your series though and
-that is covered by enabling CONFIG_FB_DEVICE. I think that there's value
-on a FB_CORE option to allow disabling all the fbdev drivers with a single
-option but still keep DRM_FBDEV_EMULATION enabled.
+--------------jxXIXD913R2tvy3tRaURlCUm--
 
-But I can repost my old series on top of this patch-set once it lands.
+--------------U0loRo9ZPWIB7hpyuTnwSjpt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Best regards,
+-----BEGIN PGP SIGNATURE-----
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSDDZsFAwAAAAAACgkQlh/E3EQov+Bt
+WxAAwCQG+1GyuA9Lb49Km0tEBu50VMMbUhORGtLsJ75Z/co7gQh5/77dXM3H3hwxsXQ4k/lL37gU
+pld46QI3UfHebVjMtl9ApavFv2WOttBMvop1wLtuYtoSAifZ01XUS5JuU2u+PwxYfyAZgzI3lF1O
+PIXszJ7zSa+UbEqQ0j99uQV5MeTViL9jeERZpIx4ylZh5/HZ/8kILG7O+OM8/IY+dMytTOiYfuyr
+TEnk5tcxWw7XO7HwqbqMN8DysNHRGFl37A2t6hqo5KNXhTZYMleUatl/ex0Fxi5PfInO/FNqMEdR
+kItKUfVo2jQ29KxJQPpF2NZ8WhUJSdTZUgnq+29a6Zl2yamRi5HTgsCCfdpfFiGX6ewQHArCK57c
+Azk5MyNqcCsqXozhnLId4FDOBXKtvXMcjcUUtUuM9cQRdh3VRlH1kp6bv3aMlJAUO7YnFWzETvqf
+7Vx3QIzF1tTtL6r9tUdD7IHyhKnSsB1ZjgtypFvSF/teapGg3mpQwegW/yekcpGiqENJG0ZvKhxT
+EurZ5lT+5UcXEwRhgtyhCb8yU/VlZ+usBfnQsyWN8LNCd7kFuBqQnkcX1vuv6eTpyqPQJ7s0BNIi
+6mHV8qK0465Pg0gqhNKFjnWnwpvtQCr5Z15qy2R4X1yuuBN7xiqt67st8fg2aiXxGFCnt2AC8QLN
+3kU=
+=NFWM
+-----END PGP SIGNATURE-----
 
+--------------U0loRo9ZPWIB7hpyuTnwSjpt--
