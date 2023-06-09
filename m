@@ -1,67 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159BA72925E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 10:12:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C42729291
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 10:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8D410E654;
-	Fri,  9 Jun 2023 08:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30FDF10E115;
+	Fri,  9 Jun 2023 08:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8F210E653
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 08:12:18 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2b1a66e71f9so15515481fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 01:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686298336; x=1688890336;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qodemV8tRaPN6lfvgZ3EB7MzxSemetoL3QYb7jUIQEk=;
- b=rx7774MkYxDOyFZ4M/trWVNIX33ywDo0yOSfLa4EslMGH/kZ9WSscvvf1NqZwcs2jb
- eLeKgGgoHQYiwNUlSWhNc/vnTrg/BeG7tgEu7Wpu4NE46/5Tgw2bPVW3nVZdpsgbwS1Q
- KSyrln66eVfqJRLX6VcvzzE98VluFT/i39l2vsss28MsnDI2EN1Xrg9gIPxjKn4J29UA
- 5YAV6k6tEnBDDXtm6ktJpsRtipXva3+c8dPCug3FMUxSnK2byYw/D1kWwo6/xYB+RD1o
- GFUuFTykNW6cMJ3QjwTKuWxmqxR5vKrOL+Qj0cgDmYDk6i8d2GBcKnfgAqL6sta8bAQb
- liZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686298336; x=1688890336;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qodemV8tRaPN6lfvgZ3EB7MzxSemetoL3QYb7jUIQEk=;
- b=HDFlAOkYcGlWFVaDuIKmqJXT334T9hP3RgIr7rVYd6hMuhwQlCEs0dlJQEnpkczjcw
- ZD9FiIi1YU8V8t0aY/MVQ5ktscBhNm/TXa6aTET8S3nRVrACyZqcpfgRx/70YUWcd1pA
- xBH1t3YZ20jzaHj1hvTld0XxI6wErZPy591KwqHVGEA1SSyUMqMq9gS/BjpZAFqyzsqE
- y1xdrZGziK6YoSL4IOiUug3aFvgcGBblKqSiHmMZoJTuw6u/G3DJ9nzBuyhDmIvKX1Ie
- VxHR4q9ueFMIPHe92e8Pqg9xgtnigNI2TLL0FNu+PLYZ5I8VHcUpL/rqlDmpZqy9zU5G
- NRSA==
-X-Gm-Message-State: AC+VfDwnZePgTIt8q9LNu+TBD3qCnfOlTPpUpRr+I6lFFdvSfZj8nLfZ
- t6e/51Suk8Y0rATlKNvbYwQ=
-X-Google-Smtp-Source: ACHHUZ5GhOCEZe6676VcuMkcOvn85TaNMJrkMeqVr8A2KgtP5S/BZ1b8HLSG20Yy9eeuyRnx478fHw==
-X-Received: by 2002:a19:ca07:0:b0:4f5:1ca1:30d9 with SMTP id
- a7-20020a19ca07000000b004f51ca130d9mr311254lfg.68.1686298335677; 
- Fri, 09 Jun 2023 01:12:15 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- l8-20020a1c7908000000b003f7f4dc6d14sm1856108wme.14.2023.06.09.01.12.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jun 2023 01:12:15 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/connector: Fix spelling mistake "provded" ->
- "provided"
-Date: Fri,  9 Jun 2023 09:12:13 +0100
-Message-Id: <20230609081213.1222580-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 019A310E11F;
+ Fri,  9 Jun 2023 08:17:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 00FEC65450;
+ Fri,  9 Jun 2023 08:17:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23DDEC433D2;
+ Fri,  9 Jun 2023 08:17:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686298664;
+ bh=Q3lpJIl4Z5sdoUzSuGxmM+HFKMFmLc0nDXYEbM0IvBY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DMyvvowuFDe9JYaxvty4pMatDHzghPPuqy6k1T12vhsZOqKn9hmQ9b7+2sOPPyUju
+ nuTm9fCFhpeV7x2GJCAQp8It3FYVdxYmVBLZpDEUi+fiViW3nPYnVxV6i7LuF09KpG
+ NKdbUYUJhEXeGmsWZXsctSZQQYxkm0rDszqHQH4RcGLM2IPLn6GLouWX9BJFNLvbTR
+ KDUcvCQpqCdIaBVOWswsmHDjdYs3I8FCftKXf/YSlmp3n0HzQVYiAKWhrZ6ou4NWuq
+ HjEWDO3udnppvGxrwN2UxVN+C+96WGNa66qX+kli0Gs1upOKKsUHYHf2ffNsziaU/e
+ rmvLWbHegeyFw==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org
+Subject: [RESEND 00/15] Rid W=1 warnings from GPU
+Date: Fri,  9 Jun 2023 09:17:03 +0100
+Message-ID: <20230609081732.3842341-1-lee@kernel.org>
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,37 +50,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Michal Simek <michal.simek@xilinx.com>, amd-gfx@lists.freedesktop.org,
+ Stanley Yang <Stanley.Yang@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ linux-media@vger.kernel.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Jerome Glisse <glisse@freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gourav Samaiya <gsamaiya@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are two spelling mistakes in drm_err messages. Fix them.
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/drm_connector.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Lee Jones (15):
+  drm/xlnx/zynqmp_disp: Use correct kerneldoc formatting in zynqmp_disp
+  drm/xlnx/zynqmp_dp: Fix function name zynqmp_dp_link_train() ->
+    zynqmp_dp_train()
+  drm/vkms/vkms_composer: Fix a few different kerneldoc formatting
+  drm/mediatek/mtk_disp_aal: Remove half completed incorrect struct
+    header
+  drm/mediatek/mtk_disp_ccorr: Remove half completed incorrect struct
+    header
+  drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused variable 'loc'
+  drm/nouveau/nvkm/subdev/bios/init: Demote a bunch of kernel-doc abuses
+  drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
+  drm/nouveau/nvkm/engine/gr/tu102: Staticify local function
+    gf100_fifo_nonstall_block()
+  drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move SYNAPTICS_DEVICE_ID
+    into CONFIG_DRM_AMD_DC_DCN ifdef
+  drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/gr/tu102: Completely remove unused function
+    ‘tu102_gr_load’
+  drm/radeon/radeon_ttm: Remove unused variable 'rbo' from
+    radeon_bo_move()
+  drm/amd/amdgpu/sdma_v6_0: Demote a bunch of half-completed function
+    headers
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 3ed4cfcb350c..63370c4a68ac 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2168,13 +2168,13 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
- 		return 0;
- 
- 	if (!supported_colorspaces) {
--		drm_err(dev, "No supported colorspaces provded on [CONNECTOR:%d:%s]\n",
-+		drm_err(dev, "No supported colorspaces provided on [CONNECTOR:%d:%s]\n",
- 			    connector->base.id, connector->name);
- 		return -EINVAL;
- 	}
- 
- 	if ((supported_colorspaces & -BIT(DRM_MODE_COLORIMETRY_COUNT)) != 0) {
--		drm_err(dev, "Unknown colorspace provded on [CONNECTOR:%d:%s]\n",
-+		drm_err(dev, "Unknown colorspace provided on [CONNECTOR:%d:%s]\n",
- 			    connector->base.id, connector->name);
- 		return -EINVAL;
- 	}
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |   8 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   5 -
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   5 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/tu102.c    |  13 --
+ .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |   3 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 136 +++++++++---------
+ .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           |   2 -
+ drivers/gpu/drm/vkms/vkms_composer.c          |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+ 14 files changed, 89 insertions(+), 113 deletions(-)
+
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Jerome Glisse <glisse@freedesktop.org>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Stanley Yang <Stanley.Yang@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+
 -- 
-2.30.2
+2.41.0.162.gfafddb0af9-goog
 
