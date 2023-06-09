@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C2E729D9A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272F3729D9E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:00:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B5B10E6BF;
-	Fri,  9 Jun 2023 15:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2CB10E6C1;
+	Fri,  9 Jun 2023 15:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCB810E07D
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 15:00:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3B410E6C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 15:00:10 +0000 (UTC)
 X-GND-Sasl: miquel.raynal@bootlin.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686322803;
+ t=1686322809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x0Ol7r2bSGZjgU05xeiKYdfnfAnDr0eHIQSuJwPZLwg=;
- b=LN37CM19UQxIT8tPsPiMiTQEyBOyMqRAU9tI/6oDGyfmTztCyPwP0b8xsyvHZg1k/T7gXL
- 8xoh6y/xmq3W+S1p7gRJg8AIRC7yKT1DyOXFLjmjL+qB4rEVWoBgSguZeO1c/yxOkG+nK4
- lBOpqiaQ3znrEm+zTYrCdHpqMeKag2X55vrCCG+TBPAjOi61249QyXGmrT1X+ManGYYaP/
- L6YJSv4AuCJWL9pKiqdHYm28aNMZesPmcKAamMYKK92eq4iaBdkoT8KesA/gcmd/BsBnbf
- aL7IVUHs/so4dvyhRCxNRrp+z7z1wnK4a94KCgRqSn8uRybzM8wcuw2BD9Wteg==
+ bh=IHdWZ/LF6LZj1Fecr8t0A5xeUUG4Fy7gytd6NnGPbpI=;
+ b=b2Wz8H6JxE5R9I/FVcOC5BClLZkgmxcrmSMTkluWopssooQF9z2zg6hnaerRA4rT7Udosv
+ Ouf2qNFIGzsny6soYrhyAQ+5A3qAQyLoGOdvnCLF0WPT21UjXeDNYOs7blX96FDmDAgW/7
+ 4gyUj4bxRKaatGWyE9bFKWfiYVGcKfDswoAMq7TpRIKdWJjdcacUf1mZ9kLjng9SYTLRiY
+ xvdOqq8Cdy67HUUxhZoy7+67w4CTJwUlAgUiuFkN3ShrlSkk4hCI5NJ1mUFiwbrJ3tl8ot
+ +NJfdZeY6tGpiybIT6K1Gl2XIwmUH9CqMuPaOIHZsP4DmBZzQNLmILBgVi7Bug==
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
@@ -36,16 +36,15 @@ X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4E621240004;
- Fri,  9 Jun 2023 15:00:00 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C04AA240013;
+ Fri,  9 Jun 2023 15:00:03 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/panel: sitronix-st7789v: Add EDT ET028013DMA panel
- support
-Date: Fri,  9 Jun 2023 16:59:50 +0200
-Message-Id: <20230609145951.853533-7-miquel.raynal@bootlin.com>
+Subject: [PATCH 7/7] drm/panel: sitronix-st7789v: Check display ID
+Date: Fri,  9 Jun 2023 16:59:51 +0200
+Message-Id: <20230609145951.853533-8-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230609145951.853533-1-miquel.raynal@bootlin.com>
 References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
@@ -70,120 +69,124 @@ Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This panel from Emerging Display Technologies Corporation features an
-ST7789V2 panel inside which is almost identical to what the Sitronix
-panel driver supports.
+A very basic debugging rule when a device is connected for the first
+time is to access a read-only register which contains known data in
+order to ensure the communication protocol is properly working. This
+driver lacked any read helper which is often a critical peace for
+fastening bring-ups.
 
-In practice, the module physical size is specific, and experiments show
-that the display will malfunction if any of the following situation
-occurs:
-* Pixel clock is above 3MHz
-* Pixel clock is not inverted
-I could not properly identify the reasons behind these failures, scope
-captures show valid input signals.
+Add a read helper and use it to verify the communication with the panel
+is working as soon as possible in order to fail early if this is not the
+case.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 34 +++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    | 78 +++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index 212bccc31804..7de192a3a8aa 100644
+index 7de192a3a8aa..fb21d52a7a63 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -30,7 +30,8 @@
- #define ST7789V_RGBCTRL_RCM(n)			(((n) & 3) << 5)
- #define ST7789V_RGBCTRL_VSYNC_HIGH		BIT(3)
- #define ST7789V_RGBCTRL_HSYNC_HIGH		BIT(2)
--#define ST7789V_RGBCTRL_PCLK_HIGH		BIT(1)
-+#define ST7789V_RGBCTRL_PCLK_FALLING		BIT(1)
-+#define ST7789V_RGBCTRL_PCLK_RISING		0
- #define ST7789V_RGBCTRL_VBP(n)			((n) & 0x7f)
- #define ST7789V_RGBCTRL_HBP(n)			((n) & 0x1f)
+@@ -113,6 +113,9 @@
+ 			return val;		\
+ 	} while (0)
  
-@@ -117,6 +118,7 @@ struct st7789v_panel_info {
++#define ST7789V_IDS { 0x85, 0x85, 0x52 }
++#define ST7789V_IDS_SIZE 3
++
+ struct st7789v_panel_info {
+ 	const struct drm_display_mode *display_mode;
  	u16 width_mm;
- 	u16 height_mm;
- 	u32 bus_format;
-+	u32 bus_flags;
- };
+@@ -165,6 +168,77 @@ static int st7789v_write_data(struct st7789v *ctx, u8 cmd)
+ 	return st7789v_spi_write(ctx, ST7789V_DATA, cmd);
+ }
  
- struct st7789v {
-@@ -175,6 +177,18 @@ static const struct drm_display_mode default_mode = {
- 	.vtotal = 320 + 8 + 4 + 4,
- };
- 
-+static const struct drm_display_mode slow_mode = {
-+	.clock = 3000,
-+	.hdisplay = 240,
-+	.hsync_start = 240 + 38,
-+	.hsync_end = 240 + 38 + 10,
-+	.htotal = 240 + 38 + 10 + 10,
-+	.vdisplay = 320,
-+	.vsync_start = 320 + 8,
-+	.vsync_end = 320 + 8 + 4,
-+	.vtotal = 320 + 8 + 4 + 4,
-+};
++static int st7789v_read_data(struct st7789v *ctx, u8 cmd, u8 *buf,
++			     unsigned int len)
++{
++	struct spi_transfer xfer[2] = { };
++	struct spi_message msg;
++	u16 txbuf = ((ST7789V_COMMAND & 1) << 8) | cmd;
++	u16 rxbuf[4] = {};
++	u8 bit9 = 0;
++	int ret, i;
 +
- static int st7789v_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
- {
-@@ -197,6 +211,7 @@ static int st7789v_get_modes(struct drm_panel *panel,
- 
- 	connector->display_info.width_mm = panel_info->width_mm;
- 	connector->display_info.height_mm = panel_info->height_mm;
-+	connector->display_info.bus_flags = panel_info->bus_flags;
- 	drm_display_info_set_bus_formats(&connector->display_info,
- 					 &panel_info->bus_format, 1);
- 
-@@ -206,8 +221,13 @@ static int st7789v_get_modes(struct drm_panel *panel,
- static int st7789v_prepare(struct drm_panel *panel)
- {
- 	struct st7789v *ctx = panel_to_st7789v(panel);
-+	const struct st7789v_panel_info *panel_info = ctx->panel_info;
-+	u8 pck = ST7789V_RGBCTRL_PCLK_FALLING;
- 	int ret;
- 
-+	if (panel_info->bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
-+		pck = ST7789V_RGBCTRL_PCLK_RISING;
++	switch (len) {
++	case 1:
++	case 3:
++	case 4:
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
 +
- 	ret = regulator_enable(ctx->power);
- 	if (ret)
- 		return ret;
-@@ -321,7 +341,7 @@ static int st7789v_prepare(struct drm_panel *panel)
- 					     ST7789V_RGBCTRL_RCM(2) |
- 					     ST7789V_RGBCTRL_VSYNC_HIGH |
- 					     ST7789V_RGBCTRL_HSYNC_HIGH |
--					     ST7789V_RGBCTRL_PCLK_HIGH));
-+					     pck));
- 	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_VBP(8)));
- 	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_HBP(20)));
- 
-@@ -422,14 +442,24 @@ static const struct st7789v_panel_info st7789v_info = {
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
- };
- 
-+static const struct st7789v_panel_info et028013dma_info = {
-+	.display_mode = &slow_mode,
-+	.width_mm = 43,
-+	.height_mm = 58,
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
-+};
++	spi_message_init(&msg);
 +
- static const struct of_device_id st7789v_of_match[] = {
- 	{ .compatible = "sitronix,st7789v", .data = &st7789v_info },
-+	{ .compatible = "edt,et028013dma", .data = &et028013dma_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, st7789v_of_match);
++	xfer[0].tx_buf = &txbuf;
++	xfer[0].len = sizeof(txbuf);
++	spi_message_add_tail(&xfer[0], &msg);
++
++	xfer[1].rx_buf = rxbuf;
++	xfer[1].len = len * 2;
++	spi_message_add_tail(&xfer[1], &msg);
++
++	ret = spi_sync(ctx->spi, &msg);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < len; i++) {
++		buf[i] = rxbuf[i] >> i | (bit9 << (9 - i));
++		if (i)
++			bit9 = rxbuf[i] & GENMASK(i - 1, 0);
++	}
++
++	return 0;
++}
++
++static int st7789v_check_id(struct drm_panel *panel)
++{
++	const u8 st7789v_ids[ST7789V_IDS_SIZE] = ST7789V_IDS;
++	struct st7789v *ctx = panel_to_st7789v(panel);
++	bool invalid_ids = false;
++	int ret, i;
++	u8 ids[3];
++
++	ret = st7789v_read_data(ctx, MIPI_DCS_GET_DISPLAY_ID, ids, ST7789V_IDS_SIZE);
++	if (ret) {
++		dev_err(panel->dev, "Failed to read IDs\n");
++		return ret;
++	}
++
++	for (i = 0; i < ST7789V_IDS_SIZE; i++) {
++		if (ids[i] != st7789v_ids[i]) {
++			invalid_ids = true;
++			break;
++		}
++	}
++
++	if (invalid_ids) {
++		dev_err(panel->dev, "Unrecognized panel IDs");
++		return -EIO;
++	}
++
++	return 0;
++}
++
+ static const struct drm_display_mode default_mode = {
+ 	.clock = 7000,
+ 	.hdisplay = 240,
+@@ -237,6 +311,10 @@ static int st7789v_prepare(struct drm_panel *panel)
+ 	gpiod_set_value(ctx->reset, 0);
+ 	msleep(120);
  
- static const struct spi_device_id st7789v_ids[] = {
- 	{ "st7789v", },
-+	{ "et028013dma", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(spi, st7789v_ids);
++	ret = st7789v_check_id(panel);
++	if (ret)
++		return ret;
++
+ 	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_EXIT_SLEEP_MODE));
+ 
+ 	/* We need to wait 120ms after a sleep out command */
 -- 
 2.34.1
 
