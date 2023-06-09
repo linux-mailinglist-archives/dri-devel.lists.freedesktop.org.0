@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE20B729D98
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:00:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5A2729D9B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 17:00:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74DDC10E6C5;
-	Fri,  9 Jun 2023 15:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18C510E6BC;
+	Fri,  9 Jun 2023 15:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5201E10E6D9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 15:00:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7075310E6C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 15:00:01 +0000 (UTC)
 X-GND-Sasl: miquel.raynal@bootlin.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686322799;
+ t=1686322800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nkO/Yx1g5fUFscK6SXf1oYePN1dBcfgeIQishrjax9Y=;
- b=b26cyEGiP/4WbeJB/EMzSH3bUSUVKnwmNzjcraJwT0ygt+Xp0vOsZkKvv6p4tnjaP+7STx
- 9UWb+lXLHAeJ4Iwk7qldte4+GYVsEgD+fElB/SE8DTxM2qngUgQtEqTGiNIm6e//8qfTvH
- 4ZRE3/0qeNjuYoXcz0ow5Gsom/rgkZZiTWL0w3Z3iCnJMQ6oGuBSOiexIWLfeDDy4nWj/H
- jjCP1Vj8mEfwyVIC9P2Sw6kpxanGPVwXJgtyWFDVW1gpc1tAN3w7o/zrQIOZZOKnCvL1zm
- DIR0BHUBLuRjdh5WvoPoUDsJU5hDP1L39R5GnnqwKny7g+CD2I9ksP9jthQdWw==
+ bh=V5FRfPCwQJ17mhgzs0DzGHbHHXENt7bzJ7+A1d6ujS4=;
+ b=QSJquyXAM5UyM4CvGaETzuty2pzzdGY57ot/mY+aBGjTaCDLrPVZPboqViSNs34OMaO6RX
+ zbQm71eXlludQuIU3hkn1G8bV1N4xgsDIXkJg3OC05qpEHTFrJ3PTd0b1vdoZmecUIsrp1
+ FKuU45XNWx87V2c2pNEpn2uuAF/d0V+k+8ArWEADsdWaS9LQkjMe+Np7kOcg+1JtxD9g7w
+ GhIMOdjL45QYEWB6fsmxZaLP4klMl8Ialq2qLyP7qYB55F6PZzCMjkiJEeRj4+Rg13y9XV
+ 9dt3NeXnhBYubFvhp4Ov5grxQYd8e7z69vdqz39uUvk8ezTWNKi84m7P510/Kg==
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
@@ -36,15 +36,16 @@ X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
 X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 14459240006;
- Fri,  9 Jun 2023 14:59:58 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2E16224000E;
+ Fri,  9 Jun 2023 14:59:59 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/7] drm/panel: sitronix-st7789v: Use platform data
-Date: Fri,  9 Jun 2023 16:59:48 +0200
-Message-Id: <20230609145951.853533-5-miquel.raynal@bootlin.com>
+Subject: [PATCH 5/7] dt-bindings: display: st7789v: Add the edt,
+ et028013dma panel compatible
+Date: Fri,  9 Jun 2023 16:59:49 +0200
+Message-Id: <20230609145951.853533-6-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230609145951.853533-1-miquel.raynal@bootlin.com>
 References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
@@ -69,97 +70,39 @@ Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Sitronix ST7789V LCD controller is actually packaged in a number of
-different panels with slightly different properties. Before introducing
-the support for another pannel using this same LCD controller, let's
-move all the panel-specific information into a dedicated structure that
-is available as platform data.
+The ST7789V LCD controller is also embedded in the ET028013DMA panel. In
+fact, "sitronix,st7789v" might not be totally relevant alone as most of
+the time -if not all- the LCD controller will always be packaged into a
+display with its own physical properties.
 
-There is no functional change.
+Let's keep "sitronix,st7789v" valid alone for backward compatibility,
+but we should definitely provide two compatibles to fully describe such
+panel, so let's expect to have both when describing a panel such as the
+EDT ET028013DMA.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 30 +++++++++++++++----
- 1 file changed, 24 insertions(+), 6 deletions(-)
+ .../bindings/display/panel/sitronix,st7789v.yaml           | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index 0abb45bea18d..212bccc31804 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -112,11 +112,19 @@
- 			return val;		\
- 	} while (0)
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+index d984b59daa4a..d4c8af9a973d 100644
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+@@ -15,7 +15,12 @@ allOf:
  
-+struct st7789v_panel_info {
-+	const struct drm_display_mode *display_mode;
-+	u16 width_mm;
-+	u16 height_mm;
-+	u32 bus_format;
-+};
-+
- struct st7789v {
- 	struct drm_panel panel;
- 	struct spi_device *spi;
- 	struct gpio_desc *reset;
- 	struct regulator *power;
-+	const struct st7789v_panel_info *panel_info;
- };
+ properties:
+   compatible:
+-    const: sitronix,st7789v
++    oneOf:
++      - items:
++          - enum:
++              - edt,et028013dma
++          - const: sitronix,st7789v
++      - const: sitronix,st7789v
  
- enum st7789v_prefix {
-@@ -170,10 +178,11 @@ static const struct drm_display_mode default_mode = {
- static int st7789v_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
- {
-+	struct st7789v *ctx = panel_to_st7789v(panel);
-+	const struct st7789v_panel_info *panel_info = ctx->panel_info;
- 	struct drm_display_mode *mode;
--	u32 bus_format = MEDIA_BUS_FMT_RGB666_1X18;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->dev, panel_info->display_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-@@ -186,10 +195,10 @@ static int st7789v_get_modes(struct drm_panel *panel,
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
- 	drm_mode_probed_add(connector, mode);
- 
--	connector->display_info.width_mm = 61;
--	connector->display_info.height_mm = 103;
-+	connector->display_info.width_mm = panel_info->width_mm;
-+	connector->display_info.height_mm = panel_info->height_mm;
- 	drm_display_info_set_bus_formats(&connector->display_info,
--					 &bus_format, 1);
-+					 &panel_info->bus_format, 1);
- 
- 	return 1;
- }
-@@ -365,6 +374,8 @@ static int st7789v_probe(struct spi_device *spi)
- 	if (!ctx)
- 		return -ENOMEM;
- 
-+	ctx->panel_info = device_get_match_data(&spi->dev);
-+
- 	spi_set_drvdata(spi, ctx);
- 	ctx->spi = spi;
- 
-@@ -404,8 +415,15 @@ static void st7789v_remove(struct spi_device *spi)
- 	drm_panel_remove(&ctx->panel);
- }
- 
-+static const struct st7789v_panel_info st7789v_info = {
-+	.display_mode = &default_mode,
-+	.width_mm = 64,
-+	.height_mm = 103,
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+};
-+
- static const struct of_device_id st7789v_of_match[] = {
--	{ .compatible = "sitronix,st7789v" },
-+	{ .compatible = "sitronix,st7789v", .data = &st7789v_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, st7789v_of_match);
+   reg: true
+   reset-gpios: true
 -- 
 2.34.1
 
