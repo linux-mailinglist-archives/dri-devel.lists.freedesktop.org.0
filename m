@@ -1,123 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3CA7294DE
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:24:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1C772950B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAF2610E668;
-	Fri,  9 Jun 2023 09:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C594C10E670;
+	Fri,  9 Jun 2023 09:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB8010E663;
- Fri,  9 Jun 2023 09:24:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d7IG12wI3CAKW31O+h2/iyvQonFEFnolr91htlmHNmDsuxbXU7TBrP9wWS3YOBDkfNl3JqC2iLnwccJNSKYad0SYE2Lz9Al/l31BEkcxfMje2E9a4qYtfR495AHNivD1wY5RqPNhOQBKXFy5xZevztHWe5R+6sZn2nlVpRhWIGCZU8LmhK7dvsGnPM9l+nxT74aaYdzYziGkUdc2sOS3QDW5w3fGeXFRc0PL39B3RgqZh+PaEIXWQqXTsJkRuGaAkZa1ZnYB3fcV1LR/UhEgX2qBgtET1hx7ufdhLB+mkSkqRiwvYRyiKgGXVyeLd9nx+uvNkVUfffmExhW/LgiL6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JaImqi26Acnlr1pmo/C65LZZ+R5gE4IpXYGRqas6xFM=;
- b=lVvbZ85ubQpmKw5c9xd5DDorVhyNWFRO1KjtLIpJ4Dbf6TSzCZWIzsuX8FAVceWmtmcz4yhdnUFBro8YqEKsDwbFoFvB6fB9YXPaljiz6tFtO8WfAsEr7laZgMS9dCT2E9D5D+mTWXWskQbG0SMQKasLvDILWgy8PhuTT+zhnvBQEHxx/CaYTCyAreaRunLMYPecTytY6BtIfS+pX0+oVSIcLkdbkGJH0ucCvWl3OROD1e3NMJfZwGixz0v3mXaeqKdrptVGGlr0SCWsnu1X2z8xt+SZr+itFPkEyo6EzH+mT86taOdlSglh6LecRYqnuZ8+fuwrP4T6vvLR/eNzpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JaImqi26Acnlr1pmo/C65LZZ+R5gE4IpXYGRqas6xFM=;
- b=eUxJMyvCIu7i3T59/0zu+bhFqUpT+MjGNyxZRha3zbT6SusfcqgkN42YCLXT7GVp6zcV+n2DEuVD0NAKbu3FOvbIKZkq62OjpWNixTL1K0SS57KAVTJB6KbyTNdDqoFJamZeied0VPyIh/tAPI+yg5/Hlpnlcs5369S/lu2YjRc=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
- by SJ0PR12MB5456.namprd12.prod.outlook.com (2603:10b6:a03:3ae::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
- 2023 09:23:59 +0000
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::caf0:704b:6692:9932]) by CO6PR12MB5489.namprd12.prod.outlook.com
- ([fe80::caf0:704b:6692:9932%6]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
- 09:23:58 +0000
-From: "Lin, Wayne" <Wayne.Lin@amd.com>
-To: Jani Nikula <jani.nikula@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
- message
-Thread-Topic: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
- message
-Thread-Index: AQHZmf6VHDyJTDyps0ObC1UNCjARGa+A1NIAgADs+HCAAGnjgIAAB/QA
-Date: Fri, 9 Jun 2023 09:23:58 +0000
-Message-ID: <CO6PR12MB54897396E04D0D2932D3F7BEFC51A@CO6PR12MB5489.namprd12.prod.outlook.com>
-References: <20230608114316.3078024-1-Wayne.Lin@amd.com>
- <87a5xarvh9.fsf@intel.com>
- <CO6PR12MB548948F83852B367F228F9A9FC51A@CO6PR12MB5489.namprd12.prod.outlook.com>
- <871qilrp8i.fsf@intel.com>
-In-Reply-To: <871qilrp8i.fsf@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=948d3ab0-0f61-4d6f-b49b-0141c8082cd9;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
- 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-06-09T09:22:01Z;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|SJ0PR12MB5456:EE_
-x-ms-office365-filtering-correlation-id: 64d86cf0-e8ff-42d0-31fd-08db68cb414f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Vb6dA7RVRUtXX+/rCUBkGaZ9jyxV+ukUvPgZBF6idXZ7PPvawRpDKAuRojzPWxg9Nf5MlYB34BXcM3I4hrIC+YRGQkEtab6yti7GdLcxUZmy5QjBJIkQGh7K2F4ojcZ25BVTEu252YsYHWE82oBbSjq+vZvRCF88lSUDNHNAOQV8PZnjFkDMHxHIjIIxIZeV2iwUT4/YjsvjkaYyIOMU6vCU47m+cFgyHd1NjZ7YCs0CZXQ/JGmzawqd8HNBqVwOrBUVoc7G9BlXYX96UBA5uHdwFLdjvUWVEMoVBIBb9GvoqLsKQV8PjEXgE0nnLjK2H0DiHyS1UpOfeZtb7h3W9ETeqcIrlxtkt3O1QaUL73063lFSU2oHMnABrkN16n0Wm/o4Bk0wtOJD+wE57BxxwM+2DcKxA62JN5JhnccG5B1ib0AL3KUO1EdNqCLDu1qeNNXcd+uMyLIUF4Fkytegy4iB1IOx0uXRj+xRV9WICdDmvDChioBwE7BUrYOuAH5HSZB7g4F/U4IYhnu/anvLd9vzy/GSCIOLD83bvfKcjQD42Hi/NeSC83CDA9atEZqdY4TTB8sUYIn8K2D8J0btCsxpF+R/Ri4OGrdmd1rkruUqlWJ4W5pZVYwsnrIwsZZU
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199021)(8936002)(8676002)(38070700005)(2906002)(52536014)(86362001)(5660300002)(15650500001)(41300700001)(54906003)(110136005)(478600001)(122000001)(316002)(38100700002)(64756008)(66446008)(66476007)(66556008)(66946007)(4326008)(76116006)(33656002)(7696005)(55016003)(71200400001)(186003)(83380400001)(6506007)(9686003)(26005)(53546011)(55236004);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0fB//SigFGb8jeBDEcmKBZczeCENmTFy2ABYS91ZuAw/Si9FA6wIOgSfRxhY?=
- =?us-ascii?Q?SAkmE21uS43gmzZFztJhVbwg09H+sSJMRYBYn5GFQsRvABANh4uacex7DSob?=
- =?us-ascii?Q?B4TMZLm65DOS2CksO9Rn84T4/gQ18wzpEFbnLOBCxlpMwNx0ahrTKNUxHo0l?=
- =?us-ascii?Q?Vi85xj11WY/OY4Gw3awi+W4ZlDwRlmRq2UsOdYptobXcST4Qwhfx/t35bvDD?=
- =?us-ascii?Q?w76olF6s6k2bYneNRBI8e2zsQ3ABsA7FeiWNWKtQ0P5z/FQgOkA4HArNgHeA?=
- =?us-ascii?Q?5VbsK/4+7wIjFeunPSpI8qT4+9XJciLgtXOOpbsRHKPg+F5rC6Ruuzqcdxvm?=
- =?us-ascii?Q?XyjxHMq+P2gS6X+6UDS46tuNKh9eRJteS91GRbvhBQTcsMhKmfLgDfMBXAUJ?=
- =?us-ascii?Q?l18DHPhsB7L1ZG7D1XIrJduQplghZB2S0NuMFPBLJJsxeyMgJLHJbRFlmS9h?=
- =?us-ascii?Q?NLVYBQexGxkM6ng3idIm64ervpsb/AgsQmyxE7jydHoFL7vK6OSnsV4fz3cI?=
- =?us-ascii?Q?OWd5Tgh+SFz6pphyOM9SHrZtnn/2L8htKvmzB5SYoIuJohs5fh0rF+AOYqXb?=
- =?us-ascii?Q?m+9BBgBpmW1oQIPc+K6aYZmeBihtUqb+VeMVQ1Dq1mZmsQur9IMKt2wE+tP/?=
- =?us-ascii?Q?qHNlWI1Ol7r6FwxKoBcs2ovsG76F9nM5kC60GKGMi71JN/uOmP6Chlu0sb0q?=
- =?us-ascii?Q?bPZKjDjkk1vVnjSI1OdqLW/Y/F5P5HAEYDTM9yYg1YfsgKdicXdL6WvEK/dI?=
- =?us-ascii?Q?E2aQf+ic6QVukYjechkQKHlYDmQykme74xRXoQghi+q9HZIGdxDy1+pmEF8o?=
- =?us-ascii?Q?Fy+F1NTqGbGuNwJcgnIYHkyEk6alnk335RyuBZ6Z6WbBxIzBmjo0scMYe44T?=
- =?us-ascii?Q?guz+6o8YIxncLkr92voTRVjBHjS5p9gQjtY7HdyQUkytl+5GNKVf/yfcxhlN?=
- =?us-ascii?Q?DInUqWzFE4Vo4vnZqh/z3vCi9NxHmFXe07ZpDdLnjbVIc6rbUGu+ZnC5icpE?=
- =?us-ascii?Q?TArkKBRJ3H6O8HSeiyyDeWvhSar0GfuYmO+6uI7KsX7elJXVmk3j7AtNfMr5?=
- =?us-ascii?Q?J+/6E/vozDFebIC08uMRoSK/O4zkj3kXtCYQVr70a09oNXfYMIgA9G39c3QO?=
- =?us-ascii?Q?eB7AjBhYNQlTxHAfCnyYU72Zu6++bf469CNebQdz4Duv8UhErZBS3KATiuAK?=
- =?us-ascii?Q?HhasbyKInkD1QkTRi7zQk2w5uDq17HYtlxA7tZurWzEKM3SAX8nMCCrS4nUa?=
- =?us-ascii?Q?WDFUiDtUa1V18tDQ0LaYekfP69TtvhU3qa6v/BQJIoMNuV+b5CX06tMGNTQY?=
- =?us-ascii?Q?uEMk+GZXTUoCQ6N/glL0Lm67Q82SFHPvsGjOQ4N8Xzf7o90i6MPiqpSj45JI?=
- =?us-ascii?Q?tdlE7oW5dp/xiyfhISmbBY4KzC7Lh4jBgIP/BXE3DzoPNC4Eey0R5hdc6gZD?=
- =?us-ascii?Q?j69DHUXsOCKvYthqRPtzBoMv+MoLZxWZT+HdQH0JfTLcFlAuMWrUTK0UoRhn?=
- =?us-ascii?Q?4MFBZfdw+/kDMQJS2hSnh7FWFZPsnVnNRArLd9WvAzJPln/qug9LPgMdZqU/?=
- =?us-ascii?Q?fOez7D16sz/qM/nUc7E=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4CE110E670
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 09:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686302861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pmcy3J55zT63aAIMqIuRpUjqhj86xl68Bl2D1HlN7pE=;
+ b=iWon2Ynm527/7s2UF7vmCv60KDWqUgKNOFPLspfnobaDPlz5dWTwCTqbUSmdsH4huFihTd
+ 5WP6khzuIjBRPrYx0blQMj45zcdeUuMvj20gRx9jO02RzB2XJu/KP6O37xh/niNPleS3ed
+ TnG+MSQcj076sk6+y75TbaxblRBzFdg=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-lHmVz-ngMsqTferyjEeb_g-1; Fri, 09 Jun 2023 05:27:40 -0400
+X-MC-Unique: lHmVz-ngMsqTferyjEeb_g-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-56561689700so22775237b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 02:27:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686302859; x=1688894859;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pmcy3J55zT63aAIMqIuRpUjqhj86xl68Bl2D1HlN7pE=;
+ b=D9kSLdLNwTeYA1Q/yvBzkjhpnIdrfrceWTBnvxG7Tiz6K3Ywj7mR044kTns00f+lRF
+ 7PFQxSVLJCJmzikiGkrhUz9/ZfRgAjRHvpYfgSxyV3ULuSIzKPS0LPV54g36urRjDdNu
+ oKgvoJIR1rdhSEg2+cuA8nRSdDOLR8pyVbXdzARryiH1u/Fl4PlRi/hq5+m/BqYcP5jX
+ cbtvluxFZOHC/KeJVwKf5k2LZTxFXFnxLEXKVmT6BpM5o5K9t3rT6llZaBJhVurkCLK+
+ TSYlUtCKY8R+I6DraDf3eCsa0JNir/dr3esQBRDw1FfY4cS3QhkCs/aVAu0LachBZg19
+ nbiw==
+X-Gm-Message-State: AC+VfDyGDkc4gv3aOuteOMrCu/eKzjxUR2AtMlUqKhx3NyoTRr0FIsoY
+ tpGsCyriJHYcNJ+b/Qw5V42ExShtWG1GJPZlUIit8dpRwfvarN+F/n2qUcMqAAAIAkRSiK9E4qb
+ Bhf6fJxyR0SG1u4m4zWKIQfSmEfCvcdZMKvFatv7rh4Pr
+X-Received: by 2002:a81:8397:0:b0:561:8fef:13ce with SMTP id
+ t145-20020a818397000000b005618fef13cemr723950ywf.37.1686302859591; 
+ Fri, 09 Jun 2023 02:27:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4QBet5uUGDZzHtkvGQ4KbpSa5IpEdM6hVVs73Fec1WoTv6J/MyP1ycHtEm9hSo9hbresvIJlkjf42Viv0F/aQ=
+X-Received: by 2002:a81:8397:0:b0:561:8fef:13ce with SMTP id
+ t145-20020a818397000000b005618fef13cemr723918ywf.37.1686302859245; Fri, 09
+ Jun 2023 02:27:39 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64d86cf0-e8ff-42d0-31fd-08db68cb414f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2023 09:23:58.6122 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iJvwifrtKZtAoT9GJYn0rINaKlwLckG0NyX/UpyGcvDO4FvrZ2RQMOEKNwB2ZiCi48MEzK50hXNwuud70xtRhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5456
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+ <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
+ <CAD=FV=W-fXpm4JCczrNgAS2M9u2VLd2jAkJvE9XJgQpvoE5rjA@mail.gmail.com>
+In-Reply-To: <CAD=FV=W-fXpm4JCczrNgAS2M9u2VLd2jAkJvE9XJgQpvoE5rjA@mail.gmail.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Fri, 9 Jun 2023 11:27:27 +0200
+Message-ID: <CAO-hwJ+3M1iYgaAFEtf-63U20ccGfdiRoi3197YoZmyvMYsGzQ@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+To: Doug Anderson <dianders@chromium.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,78 +80,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>
+Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
-
-> -----Original Message-----
-> From: Jani Nikula <jani.nikula@intel.com>
-> Sent: Friday, June 9, 2023 4:53 PM
-> To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org;
-> amd-gfx@lists.freedesktop.org
-> Cc: lyude@redhat.com; ville.syrjala@linux.intel.com; imre.deak@intel.com;
-> Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
-> <Jerry.Zuo@amd.com>; stable@vger.kernel.org
-> Subject: RE: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
-> message
+On Thu, Jun 8, 2023 at 6:43=E2=80=AFPM Doug Anderson <dianders@chromium.org=
+> wrote:
 >
-> >> > bool *handled)
-> >> > +int drm_dp_mst_hpd_irq_handle_event(struct
-> drm_dp_mst_topology_mgr
-> >> *mgr, const u8 *esi,
-> >> > +                               u8 *ack, bool *handled)
-> >> >  {
-> >> >     int ret =3D 0;
-> >> >     int sc;
-> >> > @@ -4078,18 +4089,47 @@ int drm_dp_mst_hpd_irq(struct
-> >> drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
-> >> >     if (esi[1] & DP_DOWN_REP_MSG_RDY) {
-> >> >             ret =3D drm_dp_mst_handle_down_rep(mgr);
-> >> >             *handled =3D true;
-> >> > +           *ack |=3D DP_DOWN_REP_MSG_RDY;
-> >>
-> >> My idea was that esi and ack would be the same size buffers, so the
-> >> caller wouldn't have to worry where exactly to point ack to.
-> >>
-> >> I think the asymmetry here is misleading, with ack and esi having to
-> >> point at different locations.
-> >>
-> > Thanks, Jani.
+> Hi,
+>
+> On Thu, Jun 8, 2023 at 8:37=E2=80=AFAM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
 > >
-> > But Event status Indicator Files (DPCD 0x2000h ~ 0x21FFH) are not all
-> > designed to be ack clear, e.g. esi[0] here. My thought is to be
-> > precise about what is handled and what is going to be ack clear.
-> > Otherwise, write ack[0] to DPCD 0x2002h is not reasonable.
+> >
+> > On Jun 07 2023, Douglas Anderson wrote:
+> > >
+> > > As talked about in the patch ("drm/panel: Add a way for other devices
+> > > to follow panel state"), we really want to keep the power states of a
+> > > touchscreen and the panel it's attached to in sync with each other. I=
+n
+> > > that spirit, add support to i2c-hid to be a panel follower. This will
+> > > let the i2c-hid driver get informed when the panel is powered on and
+> > > off. From there we can match the i2c-hid device's power state to that
+> > > of the panel.
+> > >
+> > > NOTE: this patch specifically _doesn't_ use pm_runtime to keep track
+> > > of / manage the power state of the i2c-hid device, even though my
+> > > first instinct said that would be the way to go. Specific problems
+> > > with using pm_runtime():
+> > > * The initial power up couldn't happen in a runtime resume function
+> > >   since it create sub-devices and, apparently, that's not good to do
+> > >   in your resume function.
+> > > * Managing our power state with pm_runtime meant fighting to make the
+> > >   right thing happen at system suspend to prevent the system from
+> > >   trying to resume us only to suspend us again. While this might be
+> > >   able to be solved, it added complexity.
+> > > Overall the code without pm_runtime() ended up being smaller and
+> > > easier to understand.
+> >
+> > Generally speaking, I'm not that happy when we need to coordinate with
+> > other subsystems for bringing up resources...
 >
-> The point is that you have the same indexes everywhere, even if ack[0] en=
-ds
-> up being unused.
+> Yeah, I'd agree that it's not amazingly elegant. Unfortunately, I
+> couldn't find any existing clean frameworks that would do what was
+> needed, which is (presumably) why this problem hasn't been solved
+> before. I could try to come up with a grand abstraction / new
+> framework, but that doesn't seem like a great choice either unless we
+> expect more users...
 >
-> Handle esi[1] & DP_DOWN_REP_MSG_RDY, set ack[1] |=3D
-> DP_DOWN_REP_MSG_RDY.
 >
-> Similar pattern everywhere, drm core and drivers. The only place that nee=
-ds to
-> know the difference is where the ack is written back to DPCD.
+> > Anyway, a remark inlined (at least):
+> >
+> > >
+> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > ---
+> > >
+> > > Changes in v2:
+> > > - i2c_hid_core_panel_prepared() and ..._unpreparing() are now static.
+> > >
+> > >  drivers/hid/i2c-hid/i2c-hid-core.c | 82 ++++++++++++++++++++++++++++=
++-
+> > >  1 file changed, 81 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid=
+/i2c-hid-core.c
+> > > index fa8a1ca43d7f..368db3ae612f 100644
+> > > --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> > > +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> > > @@ -38,6 +38,8 @@
+> > >  #include <linux/mutex.h>
+> > >  #include <asm/unaligned.h>
+> > >
+> > > +#include <drm/drm_panel.h>
+> > > +
+> > >  #include "../hid-ids.h"
+> > >  #include "i2c-hid.h"
+> > >
+> > > @@ -107,6 +109,8 @@ struct i2c_hid {
+> > >       struct mutex            reset_lock;
+> > >
+> > >       struct i2chid_ops       *ops;
+> > > +     struct drm_panel_follower panel_follower;
+> > > +     bool                    is_panel_follower;
+> > >  };
+> > >
+> > >  static const struct i2c_hid_quirks {
+> > > @@ -1058,6 +1062,34 @@ static int i2c_hid_core_initial_power_up(struc=
+t i2c_hid *ihid)
+> > >       return ret;
+> > >  }
+> > >
+> > > +static int i2c_hid_core_panel_prepared(struct drm_panel_follower *fo=
+llower)
+> > > +{
+> > > +     struct i2c_hid *ihid =3D container_of(follower, struct i2c_hid,=
+ panel_follower);
+> > > +     struct hid_device *hid =3D ihid->hid;
+> > > +
+> > > +     /*
+> > > +      * hid->version is set on the first power up. If it's still zer=
+o then
+> > > +      * this is the first power on so we should perform initial powe=
+r up
+> > > +      * steps.
+> > > +      */
+> > > +     if (!hid->version)
+> > > +             return i2c_hid_core_initial_power_up(ihid);
+> > > +
+> > > +     return i2c_hid_core_resume(ihid);
+> > > +}
+> > > +
+> > > +static int i2c_hid_core_panel_unpreparing(struct drm_panel_follower =
+*follower)
+> > > +{
+> > > +     struct i2c_hid *ihid =3D container_of(follower, struct i2c_hid,=
+ panel_follower);
+> > > +
+> > > +     return i2c_hid_core_suspend(ihid);
+> > > +}
+> > > +
+> > > +static const struct drm_panel_follower_funcs i2c_hid_core_panel_foll=
+ower_funcs =3D {
+> > > +     .panel_prepared =3D i2c_hid_core_panel_prepared,
+> > > +     .panel_unpreparing =3D i2c_hid_core_panel_unpreparing,
+> > > +};
+> >
+> > Can we make that above block at least behind a Kconfig?
+> >
+> > i2c-hid is often used for touchpads, and the notion of drm panel has
+> > nothing to do with them. So I'd be more confident if we could disable
+> > that code if not required.
 >
-> If we end up adding more helpers for drm core handling ESI, we'll keep
-> repeating the same pattern, instead of passing individual u8 acks everywh=
-ere,
-> with the driver having to figure out what pointers to pass.
+> Happy to put it behind a Kconfig. I'll plan on that for v3. I'll stub
+> the functions out if there is no Kconfig, but plan to still leave
+> structure members just to avoid uglifying the sources too much.
 >
-> BR,
-> Jani.
-Thanks, Jani.
-Will update another version.
+>
+> > Actually, I'd be even more happier if it were in a different compilatio=
+n
+> > unit. Not necessary a different module, but at least a different file.
+>
+> I suspect that it's not worth it, but I'll do this if you feel
+> strongly about it.
+>
+> I guess the simplest way I can think of to move this to its own file
+> would be to put the whole private data structure (struct i2c_hid) in a
+> private header file and then add prototypes for i2c_hid_core_resume()
+> and i2c_hid_core_suspend() there. Then I could add something like
+> i2c_hid_core_handle_panel_follower() that would have all the
+> registration logic. I'd still need special cases in the core
+> suspend/resume/remove code unless I add a level of abstraction. While
+> the level of abstraction is more "pure", it also would make the code
+> harder to follow.
+>
+> Unless I hear a strong opinion (or if this series changes
+> significantly), I'll plan to keep things in the same file and just use
+> a Kconfig.
+>
 
-Regards,
-Wayne
->
->
->
->
-> --
-> Jani Nikula, Intel Open Source Graphics Center
+Right, a separate file might not be the best then :(
+
+Do you envision this to be used on the ACPI side of i2c-hid? Because
+if this is OF only, then maybe it would be interesting to put it there
+(in i2c-hid-of.c), instead of having it in the core. IIRC i2c-hid-of
+also has ways to set up/down regulators, so maybe it'll be better
+there?
+
+Cheers,
+Benjamin
+
