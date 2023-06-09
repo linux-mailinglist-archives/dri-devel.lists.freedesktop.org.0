@@ -2,70 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5482772947A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3CA7294DE
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 11:24:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C31210E67C;
-	Fri,  9 Jun 2023 09:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF2610E668;
+	Fri,  9 Jun 2023 09:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81CB310E671
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jun 2023 09:14:55 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id
- af79cd13be357-75d528d0811so151953385a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 02:14:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686302094; x=1688894094;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gENaG5N8g73lKb5I06MaDggWSlew/LshaOaIaY4yMts=;
- b=YQTYgTFkgFnWeUXVHmUQtPZ16IGv2JpdCmq/sWpvLgNkeoNJF/M1MwicRKGWOV68js
- YWlUGrdmuPmoVyCdwoNaQY5/HY/SNvUk6eOEcZtO4fnaZ6Sm9FB5t9UeMNexCeSMOG1k
- npPv4q7mG1bgp+CTnwP4up4+rkrLjRyjgLPuiUV+Ap5nzuAFMG6+E/s5hmmWSC7MKlGi
- 2ex+Bvny45FYv/Aw0Z3+vWwF49TSU5OyBfDIZxRQpVzVFkjG0lbaO/oGrQeN2l5Fwnz8
- 2H4lVqiaunEaUx8JVpzfbqIdG/17CDliFwv6EojHHdhVefwHeSzwOAAxotz1EEg2S5ML
- BrIg==
-X-Gm-Message-State: AC+VfDwjFu1/SxDRReqykVpvL+Gz6oCLDqxSpUazLne5sYDbiJh8jWy7
- y/rjL2tg75Xgsr1zyOginvCbTCE8cZ3pWA==
-X-Google-Smtp-Source: ACHHUZ6E8QWXYz4nejEr3ZsVFUDkog3mEIQMKCWVWJRu0NwroC6AQxh7oMzRe5blcJefwLhcu5IGeg==
-X-Received: by 2002:a05:620a:6606:b0:75b:23a1:3613 with SMTP id
- qf6-20020a05620a660600b0075b23a13613mr607925qkn.36.1686302093809; 
- Fri, 09 Jun 2023 02:14:53 -0700 (PDT)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com.
- [209.85.222.174]) by smtp.gmail.com with ESMTPSA id
- x14-20020ae9f80e000000b0074d60b697a6sm924117qkh.12.2023.06.09.02.14.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jun 2023 02:14:52 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-75d3f2c9d13so150593085a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 02:14:52 -0700 (PDT)
-X-Received: by 2002:a05:620a:c0b:b0:75b:23a1:3609 with SMTP id
- l11-20020a05620a0c0b00b0075b23a13609mr558649qki.26.1686302091956; Fri, 09 Jun
- 2023 02:14:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-31-tzimmermann@suse.de>
- <CAMuHMdVP2hrgXaZvASnHJ4M+VXaTCtfbeVXrq2dsEJqcs3G6ZA@mail.gmail.com>
- <e5d88ca8-66fe-b5ee-cb6b-2dc8f3a3fb26@suse.de>
- <CAMuHMdWBUKTgfCD9VLDFh_Tm1J-NJQHpxODs-TuYM7V-dtmGjA@mail.gmail.com>
- <873532eurg.fsf@minerva.mail-host-address-is-not-set>
- <77252bc9-e08e-fcee-d140-2b78ab768b42@suse.de>
- <CAMuHMdWUkZDcYfndf1A+cgcN5Fz1hmst4LrpA7iYCFqWSRTNDA@mail.gmail.com>
- <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-In-Reply-To: <4df23439-462f-47da-890d-2dd2092eea35@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jun 2023 11:14:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWrTairp5h-fmkG9+xwzna+T4QmPuMeshd0UB8ZhQF8Sg@mail.gmail.com>
-Message-ID: <CAMuHMdWrTairp5h-fmkG9+xwzna+T4QmPuMeshd0UB8ZhQF8Sg@mail.gmail.com>
-Subject: Re: [PATCH 30/30] fbdev: Make support for userspace interfaces
- configurable
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAB8010E663;
+ Fri,  9 Jun 2023 09:24:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d7IG12wI3CAKW31O+h2/iyvQonFEFnolr91htlmHNmDsuxbXU7TBrP9wWS3YOBDkfNl3JqC2iLnwccJNSKYad0SYE2Lz9Al/l31BEkcxfMje2E9a4qYtfR495AHNivD1wY5RqPNhOQBKXFy5xZevztHWe5R+6sZn2nlVpRhWIGCZU8LmhK7dvsGnPM9l+nxT74aaYdzYziGkUdc2sOS3QDW5w3fGeXFRc0PL39B3RgqZh+PaEIXWQqXTsJkRuGaAkZa1ZnYB3fcV1LR/UhEgX2qBgtET1hx7ufdhLB+mkSkqRiwvYRyiKgGXVyeLd9nx+uvNkVUfffmExhW/LgiL6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JaImqi26Acnlr1pmo/C65LZZ+R5gE4IpXYGRqas6xFM=;
+ b=lVvbZ85ubQpmKw5c9xd5DDorVhyNWFRO1KjtLIpJ4Dbf6TSzCZWIzsuX8FAVceWmtmcz4yhdnUFBro8YqEKsDwbFoFvB6fB9YXPaljiz6tFtO8WfAsEr7laZgMS9dCT2E9D5D+mTWXWskQbG0SMQKasLvDILWgy8PhuTT+zhnvBQEHxx/CaYTCyAreaRunLMYPecTytY6BtIfS+pX0+oVSIcLkdbkGJH0ucCvWl3OROD1e3NMJfZwGixz0v3mXaeqKdrptVGGlr0SCWsnu1X2z8xt+SZr+itFPkEyo6EzH+mT86taOdlSglh6LecRYqnuZ8+fuwrP4T6vvLR/eNzpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JaImqi26Acnlr1pmo/C65LZZ+R5gE4IpXYGRqas6xFM=;
+ b=eUxJMyvCIu7i3T59/0zu+bhFqUpT+MjGNyxZRha3zbT6SusfcqgkN42YCLXT7GVp6zcV+n2DEuVD0NAKbu3FOvbIKZkq62OjpWNixTL1K0SS57KAVTJB6KbyTNdDqoFJamZeied0VPyIh/tAPI+yg5/Hlpnlcs5369S/lu2YjRc=
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
+ by SJ0PR12MB5456.namprd12.prod.outlook.com (2603:10b6:a03:3ae::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Fri, 9 Jun
+ 2023 09:23:59 +0000
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::caf0:704b:6692:9932]) by CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::caf0:704b:6692:9932%6]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
+ 09:23:58 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: Jani Nikula <jani.nikula@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
+ message
+Thread-Topic: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
+ message
+Thread-Index: AQHZmf6VHDyJTDyps0ObC1UNCjARGa+A1NIAgADs+HCAAGnjgIAAB/QA
+Date: Fri, 9 Jun 2023 09:23:58 +0000
+Message-ID: <CO6PR12MB54897396E04D0D2932D3F7BEFC51A@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20230608114316.3078024-1-Wayne.Lin@amd.com>
+ <87a5xarvh9.fsf@intel.com>
+ <CO6PR12MB548948F83852B367F228F9A9FC51A@CO6PR12MB5489.namprd12.prod.outlook.com>
+ <871qilrp8i.fsf@intel.com>
+In-Reply-To: <871qilrp8i.fsf@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=948d3ab0-0f61-4d6f-b49b-0141c8082cd9;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP
+ 2.0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2023-06-09T09:22:01Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|SJ0PR12MB5456:EE_
+x-ms-office365-filtering-correlation-id: 64d86cf0-e8ff-42d0-31fd-08db68cb414f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Vb6dA7RVRUtXX+/rCUBkGaZ9jyxV+ukUvPgZBF6idXZ7PPvawRpDKAuRojzPWxg9Nf5MlYB34BXcM3I4hrIC+YRGQkEtab6yti7GdLcxUZmy5QjBJIkQGh7K2F4ojcZ25BVTEu252YsYHWE82oBbSjq+vZvRCF88lSUDNHNAOQV8PZnjFkDMHxHIjIIxIZeV2iwUT4/YjsvjkaYyIOMU6vCU47m+cFgyHd1NjZ7YCs0CZXQ/JGmzawqd8HNBqVwOrBUVoc7G9BlXYX96UBA5uHdwFLdjvUWVEMoVBIBb9GvoqLsKQV8PjEXgE0nnLjK2H0DiHyS1UpOfeZtb7h3W9ETeqcIrlxtkt3O1QaUL73063lFSU2oHMnABrkN16n0Wm/o4Bk0wtOJD+wE57BxxwM+2DcKxA62JN5JhnccG5B1ib0AL3KUO1EdNqCLDu1qeNNXcd+uMyLIUF4Fkytegy4iB1IOx0uXRj+xRV9WICdDmvDChioBwE7BUrYOuAH5HSZB7g4F/U4IYhnu/anvLd9vzy/GSCIOLD83bvfKcjQD42Hi/NeSC83CDA9atEZqdY4TTB8sUYIn8K2D8J0btCsxpF+R/Ri4OGrdmd1rkruUqlWJ4W5pZVYwsnrIwsZZU
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199021)(8936002)(8676002)(38070700005)(2906002)(52536014)(86362001)(5660300002)(15650500001)(41300700001)(54906003)(110136005)(478600001)(122000001)(316002)(38100700002)(64756008)(66446008)(66476007)(66556008)(66946007)(4326008)(76116006)(33656002)(7696005)(55016003)(71200400001)(186003)(83380400001)(6506007)(9686003)(26005)(53546011)(55236004);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0fB//SigFGb8jeBDEcmKBZczeCENmTFy2ABYS91ZuAw/Si9FA6wIOgSfRxhY?=
+ =?us-ascii?Q?SAkmE21uS43gmzZFztJhVbwg09H+sSJMRYBYn5GFQsRvABANh4uacex7DSob?=
+ =?us-ascii?Q?B4TMZLm65DOS2CksO9Rn84T4/gQ18wzpEFbnLOBCxlpMwNx0ahrTKNUxHo0l?=
+ =?us-ascii?Q?Vi85xj11WY/OY4Gw3awi+W4ZlDwRlmRq2UsOdYptobXcST4Qwhfx/t35bvDD?=
+ =?us-ascii?Q?w76olF6s6k2bYneNRBI8e2zsQ3ABsA7FeiWNWKtQ0P5z/FQgOkA4HArNgHeA?=
+ =?us-ascii?Q?5VbsK/4+7wIjFeunPSpI8qT4+9XJciLgtXOOpbsRHKPg+F5rC6Ruuzqcdxvm?=
+ =?us-ascii?Q?XyjxHMq+P2gS6X+6UDS46tuNKh9eRJteS91GRbvhBQTcsMhKmfLgDfMBXAUJ?=
+ =?us-ascii?Q?l18DHPhsB7L1ZG7D1XIrJduQplghZB2S0NuMFPBLJJsxeyMgJLHJbRFlmS9h?=
+ =?us-ascii?Q?NLVYBQexGxkM6ng3idIm64ervpsb/AgsQmyxE7jydHoFL7vK6OSnsV4fz3cI?=
+ =?us-ascii?Q?OWd5Tgh+SFz6pphyOM9SHrZtnn/2L8htKvmzB5SYoIuJohs5fh0rF+AOYqXb?=
+ =?us-ascii?Q?m+9BBgBpmW1oQIPc+K6aYZmeBihtUqb+VeMVQ1Dq1mZmsQur9IMKt2wE+tP/?=
+ =?us-ascii?Q?qHNlWI1Ol7r6FwxKoBcs2ovsG76F9nM5kC60GKGMi71JN/uOmP6Chlu0sb0q?=
+ =?us-ascii?Q?bPZKjDjkk1vVnjSI1OdqLW/Y/F5P5HAEYDTM9yYg1YfsgKdicXdL6WvEK/dI?=
+ =?us-ascii?Q?E2aQf+ic6QVukYjechkQKHlYDmQykme74xRXoQghi+q9HZIGdxDy1+pmEF8o?=
+ =?us-ascii?Q?Fy+F1NTqGbGuNwJcgnIYHkyEk6alnk335RyuBZ6Z6WbBxIzBmjo0scMYe44T?=
+ =?us-ascii?Q?guz+6o8YIxncLkr92voTRVjBHjS5p9gQjtY7HdyQUkytl+5GNKVf/yfcxhlN?=
+ =?us-ascii?Q?DInUqWzFE4Vo4vnZqh/z3vCi9NxHmFXe07ZpDdLnjbVIc6rbUGu+ZnC5icpE?=
+ =?us-ascii?Q?TArkKBRJ3H6O8HSeiyyDeWvhSar0GfuYmO+6uI7KsX7elJXVmk3j7AtNfMr5?=
+ =?us-ascii?Q?J+/6E/vozDFebIC08uMRoSK/O4zkj3kXtCYQVr70a09oNXfYMIgA9G39c3QO?=
+ =?us-ascii?Q?eB7AjBhYNQlTxHAfCnyYU72Zu6++bf469CNebQdz4Duv8UhErZBS3KATiuAK?=
+ =?us-ascii?Q?HhasbyKInkD1QkTRi7zQk2w5uDq17HYtlxA7tZurWzEKM3SAX8nMCCrS4nUa?=
+ =?us-ascii?Q?WDFUiDtUa1V18tDQ0LaYekfP69TtvhU3qa6v/BQJIoMNuV+b5CX06tMGNTQY?=
+ =?us-ascii?Q?uEMk+GZXTUoCQ6N/glL0Lm67Q82SFHPvsGjOQ4N8Xzf7o90i6MPiqpSj45JI?=
+ =?us-ascii?Q?tdlE7oW5dp/xiyfhISmbBY4KzC7Lh4jBgIP/BXE3DzoPNC4Eey0R5hdc6gZD?=
+ =?us-ascii?Q?j69DHUXsOCKvYthqRPtzBoMv+MoLZxWZT+HdQH0JfTLcFlAuMWrUTK0UoRhn?=
+ =?us-ascii?Q?4MFBZfdw+/kDMQJS2hSnh7FWFZPsnVnNRArLd9WvAzJPln/qug9LPgMdZqU/?=
+ =?us-ascii?Q?fOez7D16sz/qM/nUc7E=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64d86cf0-e8ff-42d0-31fd-08db68cb414f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2023 09:23:58.6122 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iJvwifrtKZtAoT9GJYn0rINaKlwLckG0NyX/UpyGcvDO4FvrZ2RQMOEKNwB2ZiCi48MEzK50hXNwuud70xtRhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5456
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,191 +130,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, lee@kernel.org, linux-sh@vger.kernel.org,
- jingoohan1@gmail.com, deller@gmx.de, linux-staging@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>, "Zuo,
+ Jerry" <Jerry.Zuo@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+[Public]
 
-On Fri, Jun 9, 2023 at 10:00=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Am 09.06.23 um 09:29 schrieb Geert Uytterhoeven:
-> > On Fri, Jun 9, 2023 at 9:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> >> Am 08.06.23 um 01:07 schrieb Javier Martinez Canillas:
-> >>> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >>>> On Wed, Jun 7, 2023 at 5:15=E2=80=AFPM Thomas Zimmermann <tzimmerman=
-n@suse.de> wrote:
-> >>>>> Am 07.06.23 um 10:48 schrieb Geert Uytterhoeven:
-> >>>>>> On Mon, Jun 5, 2023 at 4:48=E2=80=AFPM Thomas Zimmermann <tzimmerm=
-ann@suse.de> wrote:
-> >>>>>>> --- a/drivers/video/fbdev/Kconfig
-> >>>>>>> +++ b/drivers/video/fbdev/Kconfig
-> >>>>>>> @@ -57,6 +57,15 @@ config FIRMWARE_EDID
-> >>>>>>>              combination with certain motherboards and monitors a=
-re known to
-> >>>>>>>              suffer from this problem.
-> >>>>>>>
-> >>>>>>> +config FB_DEVICE
-> >>>>>>> +        bool "Provide legacy /dev/fb* device"
-> >>>>>>
-> >>>>>> Perhaps "default y if !DRM", although that does not help for a
-> >>>>>> mixed drm/fbdev kernel build?
-> >>>>>
-> >>>>> We could simply set it to "default y".  But OTOH is it worth making=
- it a
-> >>>>> default? Distributions will set it to the value they need/want. The=
- very
-> >>>>> few people that build their own kernels to get certain fbdev driver=
-s
-> >>>>> will certainly be able to enable the option by hand as well.
-> >>>>
-> >>>> Defaulting to "n" (the default) means causing regressions when these
-> >>>> few people use an existing defconfig.
-> >>>>
-> >>>
-> >>> Having "dfault y if !DRM" makes sense to me. I guess is a corner case=
- but
-> >>> at least it won't silently be disabled for users that only want fbdev=
- as
-> >>> Geert mentioned.
-> >>
-> >> IMHO the rational behind such conditionals are mostly what "we make up
-> >> here in the discussion", but not something based on real-world feedbac=
-k.
-> >> So I'd strongly prefer a clear n or y setting here.
-> >>
-> >>>
-> >>> I wouldn't call it a regression though, because AFAIK the Kconfig opt=
-ions
-> >>> are not a stable API ?
-> >>
-> >> IIRC in the past there have been concerns about changing Kconfig
-> >> defaults. If we go with "default n", we'd apparently do something simi=
-lar.
-> >>
-> >>>
-> >>>>>> Or reserve "FB" for real fbdev drivers, and introduce a new FB_COR=
-E,
-> >>>>>> to be selected by both FB and DRM_FBDEV_EMULATION?
-> >>>>>> Then FB_DEVICE can depend on FB_CORE, and default to y if FB.
-> >>>
-> >>> Funny that you mention because it's exactly what I attempted in the p=
-ast:
-> >>>
-> >>> https://lore.kernel.org/all/20210827100531.1578604-1-javierm@redhat.c=
-om/T/#u
-> >>>
-> >>>>>
-> >>>>> That wouldn't work. In Tumbleweed, we still have efifb and vesafb
-> >>>>> enabled under certain conditions; merely for the kernel console. We=
-'d
-> >>>>> have to enable CONFIG_FB, which would bring back the device.
-> >>>>
-> >>>> "Default y" does not mean that you cannot disable FB_DEVICE, so
-> >>>> you are not forced to bring back the device?
-> >>>
-> >>> I think we can have both to make the kernel more configurable:
-> >>>
-> >>> 1) Allow to only disable fbdev user-space APIs (/dev/fb?, /proc/fb, e=
-tc),
-> >>>      which is what the series is doing with the new FB_DEVICE config =
-symbol.
-> >>>
-> >>> 2) Allow to disable all "native" fbdev drivers and only keep the DRM =
-fbdev
-> >>>      emulation layer. That's what my series attempted to do with the =
-FB_CORE
-> >>>      Kconfig symbol.
-> >>>
-> >>> I believe that there are use cases for both, for example as Thomas' s=
-aid
-> >>> many distros are disabling all the fbdev drivers and their user-space=
- only
-> >>> requires DRM/KMS, so makes sense to not expose any fbdev uAPI at all.
-> >>>
-> >>> But may be that other users want the opposite, they have an old user-=
-space
-> >>> that requires fbdev, but is running on newer hardware that only have =
-a DRM
-> >>> driver. So they will want DRM fbdev emulation but none fbdev driver a=
-t all.
-> >>>
-> >>> That's why I think that FB_DEVICE and FB_CORE are complementary and w=
-e can
-> >>> support any combination of the two, if you agree there are uses for e=
-ither.
-> >>
-> >> I still don't understand the value of such an extra compile-time optio=
-n?
-> >>    Either you have fbdev userspace, then you want the device; or you
-> >> don't then it's better to disable it entirely. I don't see much of a
-> >> difference between DRM and fbdev drivers here.
-> >
-> > If you have DRM and are running a Linux desktop, you are probably
-> > using DRM userspace.
-> > If you have fbdev, and are using graphics, you have no choice but
-> > using an fbdev userspace.
-> >
-> > So with FB_CORE, you can have default y if you have a real fbdev driver=
-,
-> > and default n if you have only DRM drivers.
-> >
-> >> I'd also question the argument that there's even fbdev userspace out
-> >> there. It was never popular in it's heyday and definitely hasn't
-> >> improved since then. Even the 3 people who still ask for fbdev support
-> >
-> > There's X.org, DirectFB, SDL, ...
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@intel.com>
+> Sent: Friday, June 9, 2023 4:53 PM
+> To: Lin, Wayne <Wayne.Lin@amd.com>; dri-devel@lists.freedesktop.org;
+> amd-gfx@lists.freedesktop.org
+> Cc: lyude@redhat.com; ville.syrjala@linux.intel.com; imre.deak@intel.com;
+> Wentland, Harry <Harry.Wentland@amd.com>; Zuo, Jerry
+> <Jerry.Zuo@amd.com>; stable@vger.kernel.org
+> Subject: RE: [PATCH v4] drm/dp_mst: Clear MSG_RDY flag before sending new
+> message
 >
-> None of these examples has a dependency on fbdev. They can freely switch
-> backends and have moved to DRM. Anything program utilizing these
-> examples has no dependency on fbdev either.
-
-Indeed, these examples do not depend on fbdev, it's the other way
-around.  How does it help if your userspace now also supports DRM,
-but you are using an fbdev graphics driver?  The DRM drivers do not
-cover all graphics hardware yet.
-
-> When I say "userspace" in this context, it's the one old program that
-> supports nothing but fbdev. TBH I'm having problems to come up with
-> examples.
-
-Even if you cannot find such an old program, that doesn't matter much,
-if you are using an fbdev graphics driver...
-
-> > What do you think low-end embedded devices with an out-of-tree[*]
-> > fbdev driver are using?
+> >> > bool *handled)
+> >> > +int drm_dp_mst_hpd_irq_handle_event(struct
+> drm_dp_mst_topology_mgr
+> >> *mgr, const u8 *esi,
+> >> > +                               u8 *ack, bool *handled)
+> >> >  {
+> >> >     int ret =3D 0;
+> >> >     int sc;
+> >> > @@ -4078,18 +4089,47 @@ int drm_dp_mst_hpd_irq(struct
+> >> drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+> >> >     if (esi[1] & DP_DOWN_REP_MSG_RDY) {
+> >> >             ret =3D drm_dp_mst_handle_down_rep(mgr);
+> >> >             *handled =3D true;
+> >> > +           *ack |=3D DP_DOWN_REP_MSG_RDY;
+> >>
+> >> My idea was that esi and ack would be the same size buffers, so the
+> >> caller wouldn't have to worry where exactly to point ack to.
+> >>
+> >> I think the asymmetry here is misleading, with ack and esi having to
+> >> point at different locations.
+> >>
+> > Thanks, Jani.
+> >
+> > But Event status Indicator Files (DPCD 0x2000h ~ 0x21FFH) are not all
+> > designed to be ack clear, e.g. esi[0] here. My thought is to be
+> > precise about what is handled and what is going to be ack clear.
+> > Otherwise, write ack[0] to DPCD 0x2002h is not reasonable.
 >
-> And those do not count either. IIRC Android used to be built on top of
-> fbdev devices. I'm not sure if they have moved to DRM by now. But
-> embedded uses dedicated kernels and kernel configs.  It's easy for them
-> to set FB_DEVICE=3Dy.  We're not going to take away the fbdev device enti=
-rely.
+> The point is that you have the same indexes everywhere, even if ack[0] en=
+ds
+> up being unused.
+>
+> Handle esi[1] & DP_DOWN_REP_MSG_RDY, set ack[1] |=3D
+> DP_DOWN_REP_MSG_RDY.
+>
+> Similar pattern everywhere, drm core and drivers. The only place that nee=
+ds to
+> know the difference is where the ack is written back to DPCD.
+>
+> If we end up adding more helpers for drm core handling ESI, we'll keep
+> repeating the same pattern, instead of passing individual u8 acks everywh=
+ere,
+> with the driver having to figure out what pointers to pass.
+>
+> BR,
+> Jani.
+Thanks, Jani.
+Will update another version.
 
-The point is that we do not suddenly disable functionality that users
-may depend on. While "make oldconfig" will show users the new
-FB_DEVICE question, (and hopefully they'll notice), "make olddefconfig"
-and "make <foo>_defconfig" won't, possibly causing regressions.
-Without a suitable default, you should IMHO at least update all
-defconfigs that enable any fbdev drivers.
-
-I guess you do remember the fall-out from f611b1e7624ccdbd ("drm:
-Avoid circular dependencies for CONFIG_FB"), after which lots of defconfigs
-had to gain CONFIG_FB=3Dy?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Regards,
+Wayne
+>
+>
+>
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
