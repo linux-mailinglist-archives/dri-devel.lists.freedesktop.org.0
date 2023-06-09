@@ -1,153 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6817D72A09F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 18:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F25572A0AC
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jun 2023 18:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DFF110E6CD;
-	Fri,  9 Jun 2023 16:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9744910E159;
+	Fri,  9 Jun 2023 16:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF74A10E6C9;
- Fri,  9 Jun 2023 16:50:13 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2420C10E159;
+ Fri,  9 Jun 2023 16:53:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686329413; x=1717865413;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=nFrNuH1nr3bLGNcVeCXAdGZV5QWCAA3Q7qNI0ZYIG8I=;
- b=cK13tGrCXkHNll2LD76U/Rcx4bk3InqWR5RZXdUn2WCPY+q2J1HnLb/+
- f8GpMW7532qDy7AoZ1i1YR31qWGZFN3zoZa7IT0EVmZwMTNrIqO/QgRDk
- nd0YDAev2Fn2DYwbSpB3a2CgG47Jq6YGWfqbP+GeCgxzGtmc7CjhMkXGZ
- c0oRvD6LV+VXAEtQiTpl5LY/XRCcquwUg3OXzWlnSZnKm7leYZDF31aue
- JnqFniHI8FcwjXwHZd3zQ4XkF2sx+ePVvtXyYhByNrIeolK/fBL6EJjjW
- WFhBIIp62vF/fHVKAiOAdkqzO+K9r5ByWHDl/EMTCk53PgQxor3l6gaNf g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="342318086"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="342318086"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 09:50:12 -0700
+ t=1686329626; x=1717865626;
+ h=date:from:to:cc:subject:message-id;
+ bh=JAWK//mHu4QV1YFotj0qDhrypark3wKg/MHiFxQrmtg=;
+ b=WpkCUXFeFnYKPjwbP5JtIrzjbA+7cmvsPZ657Bvi2dPK/1DIAtqdQf2O
+ 8IXinl5JgdKuawoBe2K31MLJHkXKexSi7IoaH+/tFneFnUHebmvPhkIUS
+ 56SRjc2Cki3NYwirtIh6kg0w8lzGAK/Hv3GHY2gBGYC2Jcbx6I5Gl8Qp1
+ Ub0wOZvaz+nPXJtzAOYF7dB1eCHDmDu5V8P7kM+Knmag0b5bn1vLig4W+
+ ipPSA9ajCLcAxkJQSq6iaSURu9XKaqlxRJNq0qeH+Ny1R4Gtossp3taMA
+ 3EPxOwusvngCXm/fAkfG5SHRoL0vhgFPn65XC0mVX2zu3hfdNTExRen+P Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338000297"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="338000297"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2023 09:53:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="823128435"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="823128435"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2023 09:50:12 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 9 Jun 2023 09:50:11 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 9 Jun 2023 09:50:11 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Fri, 9 Jun 2023 09:50:11 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Fri, 9 Jun 2023 09:50:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IoO+2Zs6IrW3VzmRQ38gxSQoc2mgMtKkpZbaKoGivop9s8ubHJMffAsim0r6seKc6MkgoUDRmQMBon40p4OKhalsFTDpHJw8cCAog4kdeBGEQctRxNSHzxSHWYp+k+Z42WJXlwbB5GMenpwSYyoYKvsxklrP7f279D9oShke7h8lH3eadBgQs3BAz31qvcezgac0KqTZS/EUJZcWZGwRfIBFWV/8NacSQJrCcT4RYcy2uYqZlOb+8jTMrWCNA1eSQn3m/UsqxBfVix4eZUSHxhKf+GOeKLqH4a7xiTit0L2DL2SN4gAascVMPJZ3pY/fWMq9zY4gACBk93puy3ciZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rBLl9+ShVzEsB3oMmMofbuSHp4d5QR/uNNH5JCK6dvM=;
- b=eTXgoEwP2OT9rVgaRj8hElKfi2jaZMOeD9NepGpF286xjOObeu5SmxXLZtXrftu/1Pk9nj4Bk6AeaCjQmnwgiBYlnufNYWCwbGRH4seZrGqpSId8Vk0wWi7Db3QFsRRSi86XCu99uK63VB5T8BguaL6d9mUKdFfozHGaPdT+MTGuGNw4vqfEplwHODwCLYuVNzDzTbsoGyzoWjJWRfpKI+ZsTqHtrpJj/CSDH4DH8OURGgLmMACP4N1owDCkuzC+ESGdw435owa3ovNpU3xEngdIxSnSon+k3bH49HpK/Owb0eoAfHTN+ow6UnyS6gPVg5fXls1nr5qVBSCdBWkwjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- DM4PR11MB6093.namprd11.prod.outlook.com (2603:10b6:8:b0::22) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.24; Fri, 9 Jun 2023 16:50:10 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::daac:2cbf:e20a:4f7d]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::daac:2cbf:e20a:4f7d%4]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
- 16:50:10 +0000
-Message-ID: <c62ad5e3-1079-121a-848a-ec062233e709@intel.com>
-Date: Fri, 9 Jun 2023 09:50:06 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/i915/gsc: take a wakeref for the
- proxy-init-completion check
-Content-Language: en-US
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230608230716.3079594-1-alan.previn.teres.alexis@intel.com>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230608230716.3079594-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR02CA0011.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::24) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|DM4PR11MB6093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f31257f-4d35-4f13-5de6-08db69099679
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9M5cpkswzPgftR0H8R4b9h8tQzcJoijM0274ynpzbtn/9CK+UnTO7TsbucdeNMYLivWM8/PL89qqykQ05/wcZg+iYtyvH4vo0h1rJPhE+dNtc/ExvZ4KfEloDy0aJ/E4iKWsByI7iFM11g8Bk2Wl/PviNE6QDud8j4klgcvX7B5ej7ixx7JxUEUbAV7DpJGGrwapeuCpSWZ33dCfolVD/qQ2oUg5TxUdYorCQLGweXogNOmu8STpi3O2YKw6ploPAy62xK/igfo6ySu+Y7VTlNgytEsPyw+mtidxWtdR+gLEk8bzn/hSHqxoE4/s8C8wEmINmEHIUcExYdksyytF9P7mRAaAS4JwDvjyqaz/KFB1lVS6lihawe2en+w4OR88JVUU64ogYCWRFz1JZAHEeuMFOF/aLrnLAxbYieT+92Pv6CcT4GThMu3LF/p02pDz83hymT+VvjNxWf8Pq6TSbF5vhoXwwGUso5H9tEiEGY4yvMyLkzluf4wd3X8WxLLnoFeCjgzQiYNT2PtKYuanuNeQQbrEnUEX/U41JMq9qPX1c10q/MfubvOiA1u49EUF6cksrCggICm1N2TPTiu5Nku5MgOphEfHD0UwRNSbfdk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(136003)(366004)(376002)(39860400002)(396003)(451199021)(4326008)(316002)(478600001)(36756003)(5660300002)(66946007)(66556008)(6666004)(31686004)(66476007)(8676002)(6486002)(41300700001)(38100700002)(450100002)(8936002)(82960400001)(86362001)(2616005)(53546011)(186003)(2906002)(83380400001)(6506007)(31696002)(26005)(6512007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3BneWtya3ZTZG5jRmRmRncwTGhWMGU2Kzd0YS9EdVdPNkk4WWE1dEIzNHhQ?=
- =?utf-8?B?Q2hDZHcvT3RBYXRjL1JMMjJ3RVhGeWcyRWtsalNtSkh4WVNvVG5IODlkYTVJ?=
- =?utf-8?B?RllDbXhVQzBlZFcyNGVsQTlscHl4di9ndllvRVZ3UnFpUWNCbE9VWDFhcCtO?=
- =?utf-8?B?RXkwaVFIRlVpMG9QRG8vK3E4ckxuaXp3M1p3K0pmTkxtb1F3c0dXc2hQU2Z2?=
- =?utf-8?B?eGlueHdxS3lPazJMQzd1MmhJYUo5TGZrWWVsY1lEV20rOU1kc0tQZnVsQmpE?=
- =?utf-8?B?SnBwd3RpOUVSdVBtN3dJbDRReG1GMmU4SGdxckJWb1IxcnNlL3ozdEZidU1y?=
- =?utf-8?B?WEhmNHdPVUl6NXdMcUpkMW8yQXd4M21yamtUc3VNL2x3NGRoVUZreEFiS1dE?=
- =?utf-8?B?Y1grcGJzMFE2WmJrZklJR0F1WjBUNkJvcGhlaHJnK1FJUXV6RDlJbmNEaGZx?=
- =?utf-8?B?NTFHa0lPcWFjdjZ5a2NUOWM3ZTh1WmlWN2VIN2txV04xdXoreEkzWUFhVmNS?=
- =?utf-8?B?Umd3bUtJcDhTYmp6dEQ1b1JhNTFRODU2RHRYa2hqUlMzeGFsMklXZUtjT09z?=
- =?utf-8?B?eXZhODRkdUJ5T0xmdUpVVHQ4REdkWC9RV1VrSzBlVUlYVVVHdlQzR1A4bmVn?=
- =?utf-8?B?OG1sOVRKTDFyUmFYN25lNjNjSWZTdlRLUThYYnRsdWVDQnF3MUpTdUJ0TDN5?=
- =?utf-8?B?QThuRlVvQkpVK0Q3VDlxVmp5VERKLzlyUU0xSG1ONVBnMzhzV1FEZTZBQUxu?=
- =?utf-8?B?eFhXMG55UnVqcG5RVVVwaDg1NHkwWm01cHNzemNkMXpOeTNvSzFxWDQ0MktG?=
- =?utf-8?B?UmNLR0lVSHBjWDdDQjRsb2N0VTJXU0RjU1B6RUdnb0FwTG9LaGpyU21rUkhk?=
- =?utf-8?B?cHZGSnVDSlViYVFucTBJSTNEc3F1N0ZpTlFRbFJvNjBvclh3ekZxR0NiWVIv?=
- =?utf-8?B?SzZWV0Yrai9oNW82a20wb2RsZlI2L0tJSWV5TlpxMTcxVStTY1RHV0k5NGNp?=
- =?utf-8?B?czdHSjFmVDRyV1pjWWlSWUZndlVIM3JIVERYU2RlMkZ6cmhSWHBuelJwRG1m?=
- =?utf-8?B?bnBGMmJyditVWk5yeDZrOGNseDlRYk9CSGhZYUZOdGRFdkU2UjdKRWtjS2x4?=
- =?utf-8?B?MjFZRVpDQ0dwMWhFRU1CYWM5SnhjWVpxTUo0WHpzZjVrRUViYnI3d2xqYVEx?=
- =?utf-8?B?akVxM1NCMkRoQUNuVk1nc1YvVEFpcS9XakdiL3lUL2tvUFJmSEJmWDhKY2RM?=
- =?utf-8?B?dGdMNjNlTExHYlFySEIveDcxZDhVV3kxalN4cDlPd1hzcFUzUEZ2K0V5UFdy?=
- =?utf-8?B?TGx3ZHhxRHhNZ0RqTzBrazZOZ1hnNXdWU00rZlpQSitxdmxRWEdSR1NhdXV6?=
- =?utf-8?B?QXNIL2c0b3VEVTFJRnQwcVRMdDgzeXlvYlhMYnIrRDdoSVpjMEwrQk9mQTly?=
- =?utf-8?B?SjlENU13QStWMkhMUmVtdTJEakdXQXY3SHlwbGVMVG1rVDUzWWpNNDR5dXBQ?=
- =?utf-8?B?RWFmcUEzT3l3MzdsZ2NxRjlDTk5ocTV5SnhEZTZidStidExIalRaYUtRV1lw?=
- =?utf-8?B?STdVTzJyMFRYeDA2OUpYOEduK0JXWUZSSjJmKzY4NmN6N2ZFaGVzUW1neDRV?=
- =?utf-8?B?YUtJWWw0TmxiR2hYc09tUUk2aFFuT2gxUVF2OU1LTEtmT1ZNN2s0WGxQUlIx?=
- =?utf-8?B?NXNyQVJjUHR5c3F3KzQ1czRQVzJ0R2YwalB5NTRSbDVleG9udVNkRVYva0gy?=
- =?utf-8?B?ckpHOGxxSjNlb1JtSVhSMHpZNjZyVDU5K1NjZnRWMisrcTViZ1lHZlAvNHh3?=
- =?utf-8?B?TWxHVjJNNU9hSG5YdzMwaHRneVA0eThwVlhpK0haY1dIRi9veFRteGpZUWU2?=
- =?utf-8?B?SFQ4Z3VwbFp6MDY5MUdscFRWZEpkMHFoQlZvZkZmYWhIUzNkbjNpTjc2cHE2?=
- =?utf-8?B?RFZMQVJMM1o4ZTU2UE51VzV1L1hrVU5BWFN3bEFnOG5QZ1BVUUk4RFhaZ3lt?=
- =?utf-8?B?ZUlGdTNyL1F4emdodElXeitVMit1UXY3dHhrY2sxV3IvUEdpV3U0SG8xai92?=
- =?utf-8?B?dE1xMnVtalZ6MnB4Z1Baa0FBdkRZQ2xrRzRDSzlsSmRvR01VQU1PaEZqcllv?=
- =?utf-8?B?T1FwdFIxWWNFTkI4amxYZEI0Rmh0Tm00UDhpWVRUT2dtQ3hUald4WUo4aUpW?=
- =?utf-8?Q?VzbbUAzGPEBIZsfBKfE7BN8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f31257f-4d35-4f13-5de6-08db69099679
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 16:50:10.4912 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3VLojU8l2nheYOEG2uSXS1MjNUSkipVuFh68T2MUkZSeY/+iB7eZEGuD0Zjc+h4hR91HHmwLSAHY/Ajb09X7edOh4z2GO5Os/gRZto2ufTg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6093
-X-OriginatorOrg: intel.com
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="957215847"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; d="scan'208";a="957215847"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 09 Jun 2023 09:53:37 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q7fMm-0009Eo-0m;
+ Fri, 09 Jun 2023 16:53:36 +0000
+Date: Sat, 10 Jun 2023 00:53:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 53ab6975c12d1ad86c599a8927e8c698b144d669
+Message-ID: <202306100045.iM5qbyCz-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,75 +55,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>, linux-btrfs@vger.kernel.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 53ab6975c12d1ad86c599a8927e8c698b144d669  Add linux-next specific files for 20230609
 
+Error/Warning reports:
 
-On 6/8/2023 4:07 PM, Alan Previn wrote:
-> Ensure intel_gsc_uc_fw_init_done and intel_gsc_uc_fw_proxy_init
-> takes a wakeref before reading GSC Shim registers.
->
-> NOTE: another patch in review also adds a call from selftest to
-> this same function. (https://patchwork.freedesktop.org/series/117713/)
-> which is why i am adding the wakeref inside the callee, not the
-> caller.
->
-> v2: - add a helper, 'gsc_uc_get_fw_status' for both callers
->        (Daniele Ceraolo)
->
-> Fixes: 99afb7cc8c44 ("drm/i915/pxp: Add ARB session creation and cleanup")
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+https://lore.kernel.org/oe-kbuild-all/202306081708.gtVAcXsh-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306082341.UQtCM8PO-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202306100056.Z3G9GUfT-lkp@intel.com
 
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Error/Warning: (recently discovered and may have been fixed)
 
-Daniele
+drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:113:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:147:17: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+drivers/leds/leds-cht-wcove.c:144:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
+drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
+include/drm/drm_print.h:456:39: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+include/drm/drm_print.h:456:39: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+uvdevice.c:(.init.text+0x2e): undefined reference to `uv_info'
 
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c | 22 ++++++++++++++--------
->   1 file changed, 14 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> index f46eb17a7a98..60e9c6c9e775 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
-> @@ -24,21 +24,27 @@ static bool gsc_is_in_reset(struct intel_uncore *uncore)
->   	       GSC_FW_CURRENT_STATE_RESET;
->   }
->   
-> -bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
-> +static u32 gsc_uc_get_fw_status(struct intel_uncore *uncore)
->   {
-> -	struct intel_uncore *uncore = gsc_uc_to_gt(gsc)->uncore;
-> -	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
-> +	intel_wakeref_t wakeref;
-> +	u32 fw_status = 0;
->   
-> -	return REG_FIELD_GET(GSC_FW_CURRENT_STATE, fw_status) ==
-> +	with_intel_runtime_pm(uncore->rpm, wakeref)
-> +		fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
-> +
-> +	return fw_status;
-> +}
-> +
-> +bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
-> +{
-> +	return REG_FIELD_GET(GSC_FW_CURRENT_STATE,
-> +			     gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore)) ==
->   	       GSC_FW_PROXY_STATE_NORMAL;
->   }
->   
->   bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc)
->   {
-> -	struct intel_uncore *uncore = gsc_uc_to_gt(gsc)->uncore;
-> -	u32 fw_status = intel_uncore_read(uncore, GSC_FW_STATUS_REG);
-> -
-> -	return fw_status & GSC_FW_INIT_COMPLETE_BIT;
-> +	return gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore) & GSC_FW_INIT_COMPLETE_BIT;
->   }
->   
->   static int emit_gsc_fw_load(struct i915_request *rq, struct intel_gsc_uc *gsc)
->
-> base-commit: 27187d09511e1d47dbaaf91c7332319551a8edab
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
+drivers/net/ethernet/emulex/benet/be_main.c:2460 be_rx_compl_process_gro() error: buffer overflow '((skb_end_pointer(skb)))->frags' 17 <= u16max
+drivers/usb/cdns3/cdns3-starfive.c:23: warning: expecting prototype for cdns3(). Prototype was for USB_STRAP_HOST() instead
+fs/btrfs/volumes.c:6407 btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6245)
+kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-allyesconfig
+|   |-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-randconfig-i004-20230608
+|   `-- include-drm-drm_print.h:error:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-randconfig-i062-20230608
+|   `-- include-drm-drm_print.h:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- riscv-allmodconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- riscv-allyesconfig
+|   `-- drivers-usb-cdns3-cdns3-starfive.c:warning:expecting-prototype-for-cdns3().-Prototype-was-for-USB_STRAP_HOST()-instead
+|-- s390-randconfig-r044-20230609
+|   `-- uvdevice.c:(.init.text):undefined-reference-to-uv_info
+|-- x86_64-allyesconfig
+|   `-- drivers-leds-leds-cht-wcove.c:warning:no-previous-prototype-for-cht_wc_leds_brightness_get
+`-- x86_64-randconfig-m001-20230608
+    |-- drivers-net-ethernet-emulex-benet-be_main.c-be_rx_compl_process_gro()-error:buffer-overflow-((skb_end_pointer(skb)))-frags-u16max
+    |-- fs-btrfs-volumes.c-btrfs_map_block()-error:we-previously-assumed-mirror_num_ret-could-be-null-(see-line-)
+    `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+clang_recent_errors
+|-- i386-randconfig-i014-20230608
+|   `-- drivers-gpu-drm-i915-pxp-intel_pxp_gsccs.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+|-- i386-randconfig-r026-20230608
+|   `-- drivers-gpu-drm-i915-pxp-intel_pxp_gsccs.c:warning:format-specifies-type-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
+`-- powerpc-allmodconfig
+    `-- drivers-scsi-FlashPoint.c:warning:stack-frame-size-()-exceeds-limit-()-in-FlashPoint_HandleInterrupt
+
+elapsed time: 729m
+
+configs tested: 149
+configs skipped: 6
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                         haps_hs_defconfig   gcc  
+arc                  randconfig-r011-20230608   gcc  
+arc                  randconfig-r033-20230608   gcc  
+arc                  randconfig-r043-20230608   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g4_defconfig   clang
+arm                                 defconfig   gcc  
+arm                      footbridge_defconfig   gcc  
+arm                            hisi_defconfig   gcc  
+arm                           imxrt_defconfig   gcc  
+arm                  randconfig-r006-20230608   clang
+arm                  randconfig-r046-20230608   gcc  
+arm                        spear6xx_defconfig   gcc  
+arm                           stm32_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r024-20230608   clang
+csky                                defconfig   gcc  
+hexagon      buildonly-randconfig-r001-20230608   clang
+hexagon              randconfig-r041-20230608   clang
+hexagon              randconfig-r045-20230608   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r006-20230608   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230608   gcc  
+i386                 randconfig-i002-20230608   gcc  
+i386                 randconfig-i003-20230608   gcc  
+i386                 randconfig-i004-20230608   gcc  
+i386                 randconfig-i005-20230608   gcc  
+i386                 randconfig-i006-20230608   gcc  
+i386                 randconfig-i011-20230608   clang
+i386                 randconfig-i012-20230608   clang
+i386                 randconfig-i013-20230608   clang
+i386                 randconfig-i014-20230608   clang
+i386                 randconfig-i015-20230608   clang
+i386                 randconfig-i016-20230608   clang
+i386                 randconfig-i051-20230608   gcc  
+i386                 randconfig-i052-20230608   gcc  
+i386                 randconfig-i053-20230608   gcc  
+i386                 randconfig-i054-20230608   gcc  
+i386                 randconfig-i055-20230608   gcc  
+i386                 randconfig-i061-20230608   gcc  
+i386                 randconfig-i062-20230608   gcc  
+i386                 randconfig-i063-20230608   gcc  
+i386                 randconfig-i064-20230608   gcc  
+i386                 randconfig-i065-20230608   gcc  
+i386                 randconfig-i066-20230608   gcc  
+i386                 randconfig-r023-20230608   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch            randconfig-r004-20230608   gcc  
+loongarch            randconfig-r025-20230608   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        mvme16x_defconfig   gcc  
+microblaze           randconfig-r034-20230608   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                          ath79_defconfig   clang
+mips                     cu1000-neo_defconfig   clang
+mips                          malta_defconfig   clang
+mips                      malta_kvm_defconfig   clang
+mips                        maltaup_defconfig   clang
+mips                           rs90_defconfig   clang
+nios2                               defconfig   gcc  
+openrisc             randconfig-r015-20230608   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r016-20230608   gcc  
+parisc64                            defconfig   gcc  
+powerpc                      acadia_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                     asp8347_defconfig   gcc  
+powerpc                        cell_defconfig   gcc  
+powerpc                     ep8248e_defconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                    gamecube_defconfig   clang
+powerpc                     ksi8560_defconfig   clang
+powerpc                 mpc8560_ads_defconfig   clang
+powerpc              randconfig-r012-20230608   clang
+powerpc              randconfig-r021-20230608   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r032-20230608   gcc  
+riscv                randconfig-r036-20230608   gcc  
+riscv                randconfig-r042-20230608   clang
+riscv                          rv32_defconfig   gcc  
+s390                             alldefconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390         buildonly-randconfig-r005-20230608   clang
+s390                                defconfig   gcc  
+s390                 randconfig-r013-20230608   clang
+s390                 randconfig-r014-20230608   clang
+s390                 randconfig-r044-20230608   clang
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r003-20230608   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                         microdev_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc        buildonly-randconfig-r002-20230608   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r005-20230608   gcc  
+sparc                randconfig-r031-20230608   gcc  
+sparc                randconfig-r035-20230608   gcc  
+sparc64              randconfig-r001-20230608   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r004-20230608   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230608   gcc  
+x86_64               randconfig-a002-20230608   gcc  
+x86_64               randconfig-a003-20230608   gcc  
+x86_64               randconfig-a004-20230608   gcc  
+x86_64               randconfig-a005-20230608   gcc  
+x86_64               randconfig-a006-20230608   gcc  
+x86_64               randconfig-a011-20230608   clang
+x86_64               randconfig-a012-20230608   clang
+x86_64               randconfig-a013-20230608   clang
+x86_64               randconfig-a014-20230608   clang
+x86_64               randconfig-a015-20230608   clang
+x86_64               randconfig-a016-20230608   clang
+x86_64               randconfig-x051-20230608   clang
+x86_64               randconfig-x052-20230608   clang
+x86_64               randconfig-x053-20230608   clang
+x86_64               randconfig-x054-20230608   clang
+x86_64               randconfig-x055-20230608   clang
+x86_64               randconfig-x056-20230608   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                           alldefconfig   gcc  
+xtensa                generic_kc705_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
