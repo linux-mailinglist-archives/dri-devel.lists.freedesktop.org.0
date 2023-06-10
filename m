@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DC572A89E
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 05:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA3972A8B4
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 05:17:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3BCD10E178;
-	Sat, 10 Jun 2023 03:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F9910E124;
+	Sat, 10 Jun 2023 03:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A45910E178
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1768010E124
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:17:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3AF8E60D54
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DDD7C433EF
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7DADD61D9E
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:17:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C7D99C433D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:17:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686366345;
- bh=YpAwicnEhyReZQyc0+B9uiyccGqHY7UcuHzmJUoTyF0=;
- h=From:To:Subject:Date:From;
- b=Wolnpc9YofBKl9LqRNDh3PqBKK+9Sf1KPcunP/HPeyMFy5pXUnS6wufSNvLfcihez
- G6sADFOXuP7unn8/i/hkmErlDXWFmvThc9FZ0ud0uXHysSzwBuUBk0aGkpD/5cfLUT
- NKcfp/296KSIf0z/QjY5ue4ea4GB7KKIFNqvUCeZotzWjpfv+WZx8vazDA2dOY/Dl9
- vlfn7UNOYt35BgbLEjISiVDesr3INGjVYj+YzaGrKs4dXEcyvT8uJx8C7GGu+fo1oK
- +P+t8Ty5RU20rXFryxkhjARxUwVmzQY5pNKKGPGh08pCXg7g3QI4chvodkDy4EIBRT
- YhHJHZ3uAvPUA==
+ s=k20201202; t=1686367022;
+ bh=S0sV8XKTtLsy+ZQLqsvg6NOo7QwMKRCOti0WJ7rAw8E=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=W4+0xzLEOqyvJ4VeCZyndvBHGI8iKo3lAFawCS2acyKEX2UM8bL9PBTeyeBuqhn7H
+ aEEd0BiUSrWWmfmz1PYS/0ye21HLTHD7k7pfgIT8EkMHL6Mt7fc+wlAIF0jIfYcFYM
+ bqgHWZkCnbpHrNq4acMXk7EPVirnc8hRNrDhBq6sor3vuafla7NtqVxB87/HjV8yRI
+ di2boWVpmcGT4KQwwxcp1aoYRiKRS31VIXufJmi5hc322kX9GS4oMrvm1WEkDtDBWE
+ 6ohvjRR3HcI8ygqQ7Iw0/TOK+1FxUfV4H9EvvnXseM1pyJl5ka4lqUpt6Gc9Qk6kDG
+ luxI1vvQUeavQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8435EC43143; Sat, 10 Jun 2023 03:05:45 +0000 (UTC)
+ from userid 48) id AEA53C43141; Sat, 10 Jun 2023 03:17:02 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217537] New: [AMDGPU] RDNA Freesync problem with CVT-Reduced
- display profile
-Date: Sat, 10 Jun 2023 03:05:45 +0000
+Subject: [Bug 217537] [AMDGPU] RDNA Freesync problem with CVT-Reduced display
+ profile
+Date: Sat, 10 Jun 2023 03:17:02 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -51,10 +51,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-217537-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-217537-2300-DiKmsu2QQI@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217537-2300@https.bugzilla.kernel.org/>
+References: <bug-217537-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -77,66 +77,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217537
 
-            Bug ID: 217537
-           Summary: [AMDGPU] RDNA Freesync problem with CVT-Reduced
-                    display profile
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: contato-myghi63@protonmail.com
-        Regression: No
+Paulo Marcos de Souza Arruda do Nascimento (contato-myghi63@protonmail.com)=
+ changed:
 
-Created attachment 304393
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304393&action=3Dedit
-edid of my AOC 24G2 Monitor
-
-The problem:
-When a CVT-RB or CVT-RB2 monitor profile is enabled, using Freesync on a ga=
-me
-that demands 100% of GPU utilization makes the mouse pointer to perform very
-slow (2~3fps) on Wayland, even if the game is running above 90fps smoothly.
-Recording the screen results in a video without this problem happening (may=
-be
-pipewire simulates the mouse?)
-With x11, the game itself starts jumping frames while recording the screen
-(CVT-RB only), or always have a terrible struttering (CVT-RB2).
-
-Why do I want to use CVT-RB or CVT-RB2 monitor profiles?
-I want to decrease the idle power consumption of my GPU. Using one of those
-monitor profiles do the trick (15W -> 3W).
-
-Does these profiles work on Windows?
-Yes, without any issue. I'm sure the problem is only happening on Linux
-distros.
-
-Which things I've done to try fixing the issues?
-Tried linux-lts, switched between both amdvlk and radv (vulkan-radeon), tes=
-ted
-amdgpu.dc=3D0 (it ended up freezing the GPU before launching display server=
-),
-made a clean install of Arch Linux, tried different display profiles while
-modifying the edid and none of these options helped at all.
-
-Hardware:
-GPU: AMD RX 5500XT 8GB (GV-R55XTOC-8GD)
-Monitor: AOC 24G2 1920x1080 144hz Freesync Premium
-Both are connected with DisplayPort 1.2
-
-Software:
-OS: Arch Linux
-DE: Plasma 5.27.5
-Kernel: linux 6.3.6 / linux-lts 6.1.33
-Mesa: 23.1.1-1
-
-I'm attaching the original edid of my monitor, just in case if someone want=
-s to
-analyze it (dumped with read-edid).
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|                            |6.3.6
 
 --=20
 You may reply to this email to add a comment.
