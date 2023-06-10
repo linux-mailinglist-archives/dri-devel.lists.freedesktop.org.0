@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1574972A829
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 04:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DC572A89E
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 05:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D66910E172;
-	Sat, 10 Jun 2023 02:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3BCD10E178;
+	Sat, 10 Jun 2023 03:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B882510E172
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 02:12:08 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-25bb2c4c2c0so34377a91.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 19:12:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686363128; x=1688955128;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uono/nwyy6EGIB3S/PXdMtEwaggYlfpIknOEvbCtnJ4=;
- b=CtUSTxLdt5PQhioqilOWRrRSMhf7Gf8G5FOTagTrmeoHPMYC7e76AbK87+m2i8/bp4
- jen8ooHaiVmRPGez8WfOghlmP3g/qSGsp05ziW2BMdzETf91MiM6jrQvtc38FPZAGDpY
- wN/jf3gWwg0jA/LQwnBTE/pDSs/Lp+mOz13j6emg1gxZJ7jxbfRTBuYzUxS0Elp98wvJ
- 0MK3hLVPOR6DSmbeWAADvZCAsbvOiRDFXmTs7zFZ1tcqj1nxvxmeIrUOel/nU/AaqaB4
- sCX0Is92Q1uwMVsSALd3OLNY/mlu54kTpJ4cOKZV1a2SMcVeyRRc1aEa9R5ZbkNeFtFz
- 7sqg==
-X-Gm-Message-State: AC+VfDzdoRcbHC2RpSjArSTmYT/Lfpm0jlnYuewrujf+AO1DSiyV1K+V
- fshDFvMF+j0Kk9PS6QQxNGg=
-X-Google-Smtp-Source: ACHHUZ7kZJrNmG7xjdOyI7pxuUk8NTtD/i0/zWXZuSVbn+d7hXEyrJ5OvyyJkKllNX9KQXL6tEPrWA==
-X-Received: by 2002:a17:90a:7104:b0:255:d878:704a with SMTP id
- h4-20020a17090a710400b00255d878704amr2882029pjk.4.1686363127368; 
- Fri, 09 Jun 2023 19:12:07 -0700 (PDT)
-Received: from dev-linux.lan (cpe-70-95-21-110.san.res.rr.com. [70.95.21.110])
- by smtp.gmail.com with ESMTPSA id
- pq8-20020a17090b3d8800b00258bb7e8b47sm5251594pjb.50.2023.06.09.19.12.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jun 2023 19:12:07 -0700 (PDT)
-From: Sukrut Bellary <sukrut.bellary@linux.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] accel/qaic: Fix dereferencing freed memory
-Date: Fri,  9 Jun 2023 19:12:00 -0700
-Message-Id: <20230610021200.377452-1-sukrut.bellary@linux.com>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A45910E178
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3AF8E60D54
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DDD7C433EF
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 03:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686366345;
+ bh=YpAwicnEhyReZQyc0+B9uiyccGqHY7UcuHzmJUoTyF0=;
+ h=From:To:Subject:Date:From;
+ b=Wolnpc9YofBKl9LqRNDh3PqBKK+9Sf1KPcunP/HPeyMFy5pXUnS6wufSNvLfcihez
+ G6sADFOXuP7unn8/i/hkmErlDXWFmvThc9FZ0ud0uXHysSzwBuUBk0aGkpD/5cfLUT
+ NKcfp/296KSIf0z/QjY5ue4ea4GB7KKIFNqvUCeZotzWjpfv+WZx8vazDA2dOY/Dl9
+ vlfn7UNOYt35BgbLEjISiVDesr3INGjVYj+YzaGrKs4dXEcyvT8uJx8C7GGu+fo1oK
+ +P+t8Ty5RU20rXFryxkhjARxUwVmzQY5pNKKGPGh08pCXg7g3QI4chvodkDy4EIBRT
+ YhHJHZ3uAvPUA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8435EC43143; Sat, 10 Jun 2023 03:05:45 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217537] New: [AMDGPU] RDNA Freesync problem with CVT-Reduced
+ display profile
+Date: Sat, 10 Jun 2023 03:05:45 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: contato-myghi63@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-217537-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +72,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Sukrut Bellary <sukrut.bellary@linux.com>,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch warning:
-	drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
-		dereferencing freed memory 'obj->import_attach'
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217537
 
-obj->import_attach is detached and freed using dma_buf_detach().
-But used after free to decrease the dmabuf ref count using
-dma_buf_put().
+            Bug ID: 217537
+           Summary: [AMDGPU] RDNA Freesync problem with CVT-Reduced
+                    display profile
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: contato-myghi63@protonmail.com
+        Regression: No
 
-Fixes: ff13be830333 ("accel/qaic: Add datapath")
-Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
----
- drivers/accel/qaic/qaic_data.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Created attachment 304393
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304393&action=3Dedit
+edid of my AOC 24G2 Monitor
 
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index e42c1f9ffff8..7cba4d680ea8 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
- static void qaic_free_object(struct drm_gem_object *obj)
- {
- 	struct qaic_bo *bo = to_qaic_bo(obj);
-+	struct dma_buf *dmabuf;
- 
- 	if (obj->import_attach) {
- 		/* DMABUF/PRIME Path */
-+		dmabuf = obj->import_attach->dmabuf;
- 		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
--		dma_buf_put(obj->import_attach->dmabuf);
-+		dma_buf_put(dmabuf);
- 	} else {
- 		/* Private buffer allocation path */
- 		qaic_free_sgt(bo->sgt);
--- 
-2.34.1
+The problem:
+When a CVT-RB or CVT-RB2 monitor profile is enabled, using Freesync on a ga=
+me
+that demands 100% of GPU utilization makes the mouse pointer to perform very
+slow (2~3fps) on Wayland, even if the game is running above 90fps smoothly.
+Recording the screen results in a video without this problem happening (may=
+be
+pipewire simulates the mouse?)
+With x11, the game itself starts jumping frames while recording the screen
+(CVT-RB only), or always have a terrible struttering (CVT-RB2).
 
+Why do I want to use CVT-RB or CVT-RB2 monitor profiles?
+I want to decrease the idle power consumption of my GPU. Using one of those
+monitor profiles do the trick (15W -> 3W).
+
+Does these profiles work on Windows?
+Yes, without any issue. I'm sure the problem is only happening on Linux
+distros.
+
+Which things I've done to try fixing the issues?
+Tried linux-lts, switched between both amdvlk and radv (vulkan-radeon), tes=
+ted
+amdgpu.dc=3D0 (it ended up freezing the GPU before launching display server=
+),
+made a clean install of Arch Linux, tried different display profiles while
+modifying the edid and none of these options helped at all.
+
+Hardware:
+GPU: AMD RX 5500XT 8GB (GV-R55XTOC-8GD)
+Monitor: AOC 24G2 1920x1080 144hz Freesync Premium
+Both are connected with DisplayPort 1.2
+
+Software:
+OS: Arch Linux
+DE: Plasma 5.27.5
+Kernel: linux 6.3.6 / linux-lts 6.1.33
+Mesa: 23.1.1-1
+
+I'm attaching the original edid of my monitor, just in case if someone want=
+s to
+analyze it (dumped with read-edid).
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
