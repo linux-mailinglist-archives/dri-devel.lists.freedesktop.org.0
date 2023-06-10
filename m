@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E6372A9A2
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 09:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F2E72A9C3
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 09:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D8910E125;
-	Sat, 10 Jun 2023 07:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7158710E17C;
+	Sat, 10 Jun 2023 07:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF7810E125;
- Sat, 10 Jun 2023 07:01:35 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E50210E162;
+ Sat, 10 Jun 2023 07:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686380495; x=1717916495;
+ t=1686381253; x=1717917253;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=C8O0iq8e/gO1dnR6Zgf9hJ8CrwUxE0qEy6m2azdeuXw=;
- b=U3VYRI08LBS4YpdFrDWxFGZo70e/LK34UWaf2Bea/KiWGypMslyWilFy
- UlSF97FGABPSI1FbY5B4l/nGdrvN1hzfRyJLQNNnnM06L6Tgk3t6VINLM
- e8tWA3dnjVBkfTivlHnuT8FF0B9x19gNOsb/u/cG9XlQrnxmKG5gn2XNV
- OFeGDk1avCyWpWmqHLbWNqhV+hxrS9FViKAPe6OuPtm0uFKdXSebFkPRO
- bU9zrW6BqxDiQMPBoCxlr01DyWwZYtX+2RAic+8QWrFimWGK3oDzALl7Z
- z7o+H9uGE//2/8mwupyiquvBOuVrWVDmM8T1FNS/CsdbKCm12cXQyB9Ku w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="386109629"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="386109629"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2023 00:01:34 -0700
+ bh=/AJK6BcsI1+pYayq4GPa+LNrEBFVNr39nXOAfbSELVQ=;
+ b=DMlab+E0krCIGWLq6E6qsZaaWGm0etDoTLL8v+UQrUCeeRgKH13z7Y9n
+ /ytXEx94tmJXoP/6a7JzjeMSJ3dxIgztSWI/5v/4/9jl8LA8J26LdWn7x
+ UDOs7tHX2dUMY7svc3dsCpwM/Shc2gvHtRbB+tmtDHjPtE0wHs6oXjSGX
+ ykloczcYXJdcWrhyFCzaF/rpJWPOfDbyk3v/aJxrnHdqnv3yFss2P7p//
+ Y6VfXzgEvwrXWLJZXnZlwZ8OBxgj75ZGs1EsoTSExfrHwnLZVH1+Yurbt
+ yPhgNafOLYbYiB5jS/8QZT7OEVuvPt9VfdDQwLcrMSt4zrLvLG+ofX6B1 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355228629"
+X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="355228629"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2023 00:14:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="775746941"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="775746941"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="854981401"
+X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="854981401"
 Received: from mnovakov-mobl1.amr.corp.intel.com (HELO localhost)
  ([10.252.60.33])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2023 00:01:31 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Tvrtko Ursulin
- <tvrtko.ursulin@intel.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v5] drm/i915: avoid flush_scheduled_work() usage
-In-Reply-To: <47c5fe59-faec-8eb6-7f3c-f76a4bb0f3cb@I-love.SAKURA.ne.jp>
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2023 00:14:08 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com
+Subject: Re: [PATCH] drm/amdgpu: Wrap -Wunused-but-set-variable in cc-option
+In-Reply-To: <20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-v1-1-48ca005f2247@kernel.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
- <5bbe7093-791e-5653-850b-aea343db3f3f@I-love.SAKURA.ne.jp>
- <87a0ab95-d3d2-91b3-1e89-aca3f86a99f5@I-love.SAKURA.ne.jp>
- <173905bb-78d5-4952-cc31-ab0d5697a169@I-love.SAKURA.ne.jp>
- <47c5fe59-faec-8eb6-7f3c-f76a4bb0f3cb@I-love.SAKURA.ne.jp>
-Date: Sat, 10 Jun 2023 10:01:28 +0300
-Message-ID: <87zg57pzqv.fsf@intel.com>
+References: <20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-v1-1-48ca005f2247@kernel.org>
+Date: Sat, 10 Jun 2023 10:14:05 +0300
+Message-ID: <87ttvfpz5u.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,34 +59,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Luca Coelho <luciano.coelho@intel.com>, DRI <dri-devel@lists.freedesktop.org>
+Cc: trix@redhat.com, llvm@lists.linux.dev, ndesaulniers@google.com,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, amd-gfx@lists.freedesktop.org,
+ Kenny.Ho@amd.com, hamza.mahfooz@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 22 May 2023, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> wrote:
-> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using a
-> macro") says, flush_scheduled_work() is dangerous and will be forbidden.
+On Thu, 08 Jun 2023, Nathan Chancellor <nathan@kernel.org> wrote:
+> -Wunused-but-set-variable was only supported in clang starting with
+> 13.0.0, so earlier versions will emit a warning, which is turned into a
+> hard error for the kernel to mirror GCC:
 >
-> i915 became the last flush_scheduled_work() user, but developers cannot
-> find time for auditing which work items does this flush_scheduled_work()
-> need to wait.
+>   error: unknown warning option '-Wunused-but-set-variable'; did you mean '-Wunused-const-variable'? [-Werror,-Wunknown-warning-option]
 >
-> Therefore, for now let's start with blind/mechanical conversion within
-> the whole drivers/gpu/drm/i915/ directory, based on an assumption that
-> i915 does not need to wait for work items outside of this directory.
+> The minimum supported version of clang for building the kernel is
+> 11.0.0, so match the rest of the kernel and wrap
+> -Wunused-but-set-variable in a cc-option call, so that it is only used
+> when supported by the compiler.
 
-I'll note also here that I've just pushed Luca's series [1] to switch
-i915 to internal device specific workqueues, for the same effect as this
-one.
+I wonder if there's a table somewhere listing all the warning options,
+which GCC and Clang versions support them, and which versions have them
+in -Wall and -Wextra. Would be really useful.
 
+If there isn't one, it would be really helpful. *wink*.
 
-Thanks,
+BR,
 Jani.
 
 
-[1] https://patchwork.freedesktop.org/series/118947/
-
+>
+> Closes: https://github.com/ClangBuiltLinux/linux/issues/1869
+> Fixes: a0fd5a5f676c ("drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+> index 7ee68b1bbfed..86b833085f19 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
+> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+> @@ -40,7 +40,7 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+>  	-I$(FULL_AMD_PATH)/amdkfd
+>  
+>  subdir-ccflags-y := -Wextra
+> -subdir-ccflags-y += -Wunused-but-set-variable
+> +subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+>  subdir-ccflags-y += -Wno-unused-parameter
+>  subdir-ccflags-y += -Wno-type-limits
+>  subdir-ccflags-y += -Wno-sign-compare
+>
+> ---
+> base-commit: 6bd4b01e8938779b0d959bdf33949a9aa258a363
+> change-id: 20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-0be9528ac5c8
+>
+> Best regards,
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
