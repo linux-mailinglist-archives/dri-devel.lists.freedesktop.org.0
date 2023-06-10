@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CD272A900
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 06:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A74A72A92A
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 07:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3CC110E00F;
-	Sat, 10 Jun 2023 04:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919A410E0DE;
+	Sat, 10 Jun 2023 05:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5205C10E00F
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 04:16:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7B9E962395
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 04:16:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE22C433AC
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 04:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686370581;
- bh=1X2OMYrZ6xQ16W4+zpul0HF3stiu96+45CBEnse6yHo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Pst8WmItaIN7FwghP7AsO+C1bWWyzk3aspuYQ0B8chEZKuRz45L/3jzMf/v0SlAlT
- /2apEPlkxFgZQ65wOe7ALrZ0FMJ/sI9w8aa6Zl3m0E3YRlgNV3QUUGhlyv9axf/mUi
- mr5Nf5Y71IP/bIhWmK5nsyQkFI2LhMXdt18DNYIKfEAiVlkpluLySWVHBpRf+BNE58
- 5lfLEdapLADvnkqBwesmPfjZOC+SaDS5K182y2lax91kytxtQPUAzweHm4DcRa5YvZ
- 3zygk24liBk0y2QCFsQItgqisgUiq7ne0Z9kV8LKItSQWrpa2S8tBu34Taf+4pgDxq
- 5tO3OEoj5FISw==
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-4f655293a38so2630354e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 21:16:21 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzpy5pvU/NQRoBkOHZ5FtETBEKR2w6isxwKl1qJdMxFWb+t+ubc
- RVdhW22DDznDZySfAb4pLLYPhccxVv6eRD38Cw==
-X-Google-Smtp-Source: ACHHUZ6m4vTQH/KQgpBpVUFQm8Drlh/Tj4wvV9lKMgz3FTNRC1lT5533QbJb+YatE0QmIRAOjPhquVZH6CwN24OmU3Q=
-X-Received: by 2002:ac2:5b1c:0:b0:4f1:3d9f:1b53 with SMTP id
- v28-20020ac25b1c000000b004f13d9f1b53mr1629565lfn.50.1686370579139; Fri, 09
- Jun 2023 21:16:19 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E078A10E0DE
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 05:34:57 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f6e13940daso25384675e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 22:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=froggi.es; s=google; t=1686375295; x=1688967295;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IweQ0mQq1Pz+Klw070usbUNQ2BV55IRAVs5u1XXFkxE=;
+ b=TpKk6XX5JP6yFWZyS2iDqqV6Zkr7GWgS5WSWQD4O8DG/BKTUeEhN6gqpgGYJpXWKCL
+ 7VWeGwM3vzdbmqdjiVfXf93qJGTBI8B+LH2VHJbJGLQGrmya/xuztblcAN3WnI2BrMKp
+ M9QzA7soH0HT4HmcIbGGMvSVwS9YEMQt88+To0mXD5iJNVZLWFb9FUADVh1GrXQ7MXLj
+ cJljieV+uhiqlZxdqQh5W1nYul+yIEXgvo1PDiLJCqjKdYToSu1BurbjWBHBQinMAAK2
+ h8RiLERBpaVzC9iDDPuutHJOk3VD5lqQ+NyX0SUW/hFRw4uZxZ1PJngZmkkvHxLZ7TBA
+ pVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686375295; x=1688967295;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IweQ0mQq1Pz+Klw070usbUNQ2BV55IRAVs5u1XXFkxE=;
+ b=FNM83mT52xcKLkdF22ND7dblwczin9+odB/t9dYZ9RL131ynHMInZes8t/SMZi+dp4
+ JNqV6KLBVKxo9EkeRVjN3lJsOTt6o+uBCFhGZvp2jtNl/TkiQJlN1xKTC1t/gBOkUzJl
+ cgMffMKbj5FwvmlT7/018h4p/PgkbnSPMt59smprhnPgZYTBNS/zzkvWRrDdtq9bU0Pd
+ 8Lp7sBIgwxkFPeAAYWowiUf0/77C7q1/GS9RWXtzSJ0nLDodtXpvssgp5ASu9J/UNJ/y
+ q6ZvgPWnJZvXYpJU/89srUX8RVrY1sWMaEsPYiXk54YsHAlQO/rCI8zDkD5+GD22e12p
+ 5Gdw==
+X-Gm-Message-State: AC+VfDwMW8vHkfKZMVPg1XrckWWcUFLvBRcrkKyP0m/PwcPP67riK5yi
+ wBfyugSD5lmOZ+QmGVIB6KuyUA==
+X-Google-Smtp-Source: ACHHUZ5pd6igxLumI1zRxKz8yH9HAJbQ67YkHQTZ75b3ECRiYSoj7CX83+9vNAaiDoTpQDbMNA/YvA==
+X-Received: by 2002:a05:600c:255:b0:3f6:53a:6665 with SMTP id
+ 21-20020a05600c025500b003f6053a6665mr2902200wmj.19.1686375295420; 
+ Fri, 09 Jun 2023 22:34:55 -0700 (PDT)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a5d4a01000000b003062ad45243sm6190469wrq.14.2023.06.09.22.34.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jun 2023 22:34:54 -0700 (PDT)
+Message-ID: <d1986740-a6cd-9396-bb05-1f8a3b3708e8@froggi.es>
+Date: Sat, 10 Jun 2023 06:34:53 +0100
 MIME-Version: 1.0
-References: <20220919-v4-0-687f09a06dd9@baylibre.com>
- <20220919-v4-1-687f09a06dd9@baylibre.com>
- <20230608210504.GA3436215-robh@kernel.org>
- <CABnWg9tvBLH7R2Yqd_4=AOCdcHzw7Y-rigHN1jjoHe0EUGk1Bw@mail.gmail.com>
-In-Reply-To: <CABnWg9tvBLH7R2Yqd_4=AOCdcHzw7Y-rigHN1jjoHe0EUGk1Bw@mail.gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 10 Jun 2023 12:16:07 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8tTbHabG6j6h+FgLJ60VczF1ewEZYHgGe536LsKRm8_w@mail.gmail.com>
-Message-ID: <CAAOTY_8tTbHabG6j6h+FgLJ60VczF1ewEZYHgGe536LsKRm8_w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] dt-bindings: display: mediatek: add MT8195 hdmi
- bindings
-To: Guillaume Ranquet <granquet@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 07/36] drm/amd/display: add plane driver-specific
+ properties for degamma LUT
+To: Melissa Wen <mwen@igalia.com>, Harry Wentland <harry.wentland@amd.com>
+References: <20230523221520.3115570-1-mwen@igalia.com>
+ <20230523221520.3115570-8-mwen@igalia.com>
+ <717f0e53-4e38-7ffe-3ea7-84d4bb6c284e@amd.com>
+ <20230606171513.6u3vhfnpri7pduqz@mail.igalia.com>
+Content-Language: en-US
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <20230606171513.6u3vhfnpri7pduqz@mail.igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,236 +81,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao shi <jitao.shi@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- devicetree@vger.kernel.org, stuart.lee@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, mac.shen@mediatek.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ Shashank Sharma <Shashank.Sharma@amd.com>, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Hung <alex.hung@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Guillaume:
+Hi,
 
-Guillaume Ranquet <granquet@baylibre.com> =E6=96=BC 2023=E5=B9=B46=E6=9C=88=
-9=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8811:50=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> On Thu, 08 Jun 2023 23:05, Rob Herring <robh@kernel.org> wrote:
-> >On Mon, May 29, 2023 at 04:30:58PM +0200, Guillaume Ranquet wrote:
-> >> Add mt8195 SoC bindings for hdmi and hdmi-ddc
-> >>
-> >> On mt8195 the ddc i2c controller is part of the hdmi IP block and thus=
- has no
-> >> specific register range, power domain or interrupt, making it simpler
-> >> than the legacy "mediatek,hdmi-ddc" binding.
-> >>
-> >> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> >> ---
-> >>  .../bindings/display/mediatek/mediatek,hdmi.yaml   | 59 +++++++++++++=
-+++++----
-> >>  .../display/mediatek/mediatek,mt8195-hdmi-ddc.yaml | 45 +++++++++++++=
-++++
-> >>  2 files changed, 93 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediat=
-ek,hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-hdmi.yaml
-> >> index b90b6d18a828..4f62e6b94048 100644
-> >> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi=
-.yaml
-> >> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi=
-.yaml
-> >> @@ -21,6 +21,7 @@ properties:
-> >>        - mediatek,mt7623-hdmi
-> >>        - mediatek,mt8167-hdmi
-> >>        - mediatek,mt8173-hdmi
-> >> +      - mediatek,mt8195-hdmi
-> >>
-> >>    reg:
-> >>      maxItems: 1
-> >> @@ -29,18 +30,10 @@ properties:
-> >>      maxItems: 1
-> >>
-> >>    clocks:
-> >> -    items:
-> >> -      - description: Pixel Clock
-> >> -      - description: HDMI PLL
-> >> -      - description: Bit Clock
-> >> -      - description: S/PDIF Clock
-> >> +    maxItems: 4
-> >>
-> >>    clock-names:
-> >> -    items:
-> >> -      - const: pixel
-> >> -      - const: pll
-> >> -      - const: bclk
-> >> -      - const: spdif
-> >> +    maxItems: 4
-> >>
-> >>    phys:
-> >>      maxItems: 1
-> >> @@ -58,6 +51,9 @@ properties:
-> >>      description: |
-> >>        phandle link and register offset to the system configuration re=
-gisters.
-> >>
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >>    ports:
-> >>      $ref: /schemas/graph.yaml#/properties/ports
-> >>
-> >> @@ -86,9 +82,50 @@ required:
-> >>    - clock-names
-> >>    - phys
-> >>    - phy-names
-> >> -  - mediatek,syscon-hdmi
-> >>    - ports
-> >>
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: mediatek,mt8195-hdmi
-> >> +    then:
-> >> +      properties:
-> >> +        clocks:
-> >> +          items:
-> >> +            - description: APB
-> >> +            - description: HDCP
-> >> +            - description: HDCP 24M
-> >> +            - description: Split HDMI
-> >> +        clock-names:
-> >> +          items:
-> >> +            - const: hdmi_apb_sel
-> >> +            - const: hdcp_sel
-> >> +            - const: hdcp24_sel
-> >> +            - const: split_hdmi
-> >> +
-> >> +      required:
-> >> +        - power-domains
-> >> +    else:
-> >> +      properties:
-> >> +        clocks:
-> >> +          items:
-> >> +            - description: Pixel Clock
-> >> +            - description: HDMI PLL
-> >> +            - description: Bit Clock
-> >> +            - description: S/PDIF Clock
-> >> +
-> >> +        clock-names:
-> >> +          items:
-> >> +            - const: pixel
-> >> +            - const: pll
-> >> +            - const: bclk
-> >> +            - const: spdif
-> >
-> >I don't understand how the same h/w block can have completely different
-> >clocks. If not the same h/w or evolution of the same h/w, then do a
-> >separate schema.
-> >
->
-> Hi Rob,
->
-> I'm not entirely sure what's the best approach here.
-> The IPs are different enough to warrant a separate schema IMHO.
-> Though CK asked me to merge both IPs together (for both schema and code).
->
-> CK might want to chime in and advocate his point of view?
+Adding a plane color_mgmt_changed doesn't really work as it could be 
+different plane object each time but not need a reset at the hardware level.
 
-For all the mediatek hdmi device, input mediatek internal video
-signal, and output hdmi signal, so I'm curious about how mt8195-hdmi
-device is different with other mediatek hdmi device. I think pixel
-clock is an important clock which is related to resolution and fps. So
-I think every hdmi device should have a clock which related to pixel
-clock. I does not find it in mt8195 device. Is one of the clock the
-parent clock of pixel clock or one of the clock is pixel clock but you
-give it another naming? Please conduct with mediatek stuff and give us
-these information, so we have information to judge mt8195-hdmi is
-different with other mediatek hdmi device or similar to. For other
-three clocks, I still need these information.
+What needs to be done is to add the properties to should_reset_plane 
+directly in the old_other_state stuff like so:
 
-Regards,
-Chun-Kuang.
+		/* HDR/Transfer Function changes. */
+		if (old_other_state->degamma_tf != new_other_state->degamma_tf ||
+			old_other_state->degamma_lut != new_other_state->degamma_lut ||
+			old_other_state->hdr_mult != new_other_state->hdr_mult)
+			old_other_state->hdr_mult != new_other_state->hdr_mult ||
+			old_other_state->shaper_lut != new_other_state->shaper_lut ||
+			old_other_state->shaper_tf != new_other_state->shaper_tf ||
+			old_other_state->lut3d != new_other_state->lut3d)
+			return true;
 
->
-> >> +
-> >> +      required:
-> >> +        - mediatek,syscon-hdmi
-> >> +
-> >>  additionalProperties: false
-> >>
-> >>  examples:
-> >> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediat=
-ek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediate=
-k/mediatek,mt8195-hdmi-ddc.yaml
-> >> new file mode 100644
-> >> index 000000000000..84c096835b47
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt81=
-95-hdmi-ddc.yaml
-> >> @@ -0,0 +1,45 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-h=
-dmi-ddc.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Mediatek HDMI DDC for mt8195
-> >> +
-> >> +maintainers:
-> >> +  - CK Hu <ck.hu@mediatek.com>
-> >> +  - Jitao shi <jitao.shi@mediatek.com>
-> >> +
-> >> +description: |
-> >> +  The HDMI DDC i2c controller is used to interface with the HDMI DDC =
-pins.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    enum:
-> >> +      - mediatek,mt8195-hdmi-ddc
-> >> +
-> >> +  clocks:
-> >> +    maxItems: 1
-> >> +
-> >> +  mediatek,hdmi:
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description:
-> >> +      A phandle to the mt8195 hdmi controller
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - clocks
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >> +    #include <dt-bindings/interrupt-controller/irq.h>
-> >> +    hdmiddc0: i2c {
-> >> +      compatible =3D "mediatek,mt8195-hdmi-ddc";
-> >> +      mediatek,hdmi =3D <&hdmi0>;
-> >> +      clocks =3D <&clk26m>;
-> >
-> >How does one access this h/w device? There is nothing described to
-> >access it.
-> >
->
-> The device is embedded into the HDMI block and thus uses the
-> mediatek,hdmi phandle to access its sets of registers in the middle of
-> the mediatek,hdmi register range.
->
-> Hope this clarifies things,
-> Guillaume.
->
-> >Rob
+This is the same for all of the plane properties fwiw.
+
+Thanks!
+   - Joshie 🐸✨
+
+On 6/6/23 18:15, Melissa Wen wrote:
+> On 06/01, Harry Wentland wrote:
+>>
+>>
+>> On 5/23/23 18:14, Melissa Wen wrote:
+>>> Create and attach driver-private properties for plane color management.
+>>> First add plane degamma LUT properties that means user-blob and its
+>>> size. We will add more plane color properties in the next commits. In
+>>> addition, we keep these driver-private plane properties limited by
+>>> defining AMD_PRIVATE_COLOR.
+>>>
+>>> Co-developed-by: Joshua Ashton <joshua@froggi.es>
+>>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 14 ++++
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  8 ++
+>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 +++
+>>>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 77 +++++++++++++++++++
+>>>   4 files changed, 108 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>> index 88af075e6c18..fa67c84f5994 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+>>> @@ -1275,6 +1275,20 @@ amdgpu_display_create_color_properties(struct amdgpu_device *adev)
+>>>   		return -ENOMEM;
+>>>   	adev->mode_info.regamma_tf_property = prop;
+>>>   
+>>> +	prop = drm_property_create(adev_to_drm(adev),
+>>> +				   DRM_MODE_PROP_BLOB,
+>>> +				   "AMD_PLANE_DEGAMMA_LUT", 0);
+>>> +	if (!prop)
+>>> +		return -ENOMEM;
+>>> +	adev->mode_info.plane_degamma_lut_property = prop;
+>>> +
+>>> +	prop = drm_property_create_range(adev_to_drm(adev),
+>>> +					 DRM_MODE_PROP_IMMUTABLE,
+>>> +					 "AMD_PLANE_DEGAMMA_LUT_SIZE", 0, UINT_MAX);
+>>> +	if (!prop)
+>>> +		return -ENOMEM;
+>>> +	adev->mode_info.plane_degamma_lut_size_property = prop;
+>>> +
+>>
+>> Same as with previous patch and the following ones... Would be
+>> great to have this sit in amdgpu_dm_color.c.
+> 
+> Ack
+> 
+>>
+>> Harry
+>>
+>>>   	return 0;
+>>>   }
+>>>   #endif
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>> index 881446c51b36..6c165ad9bdf0 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+>>> @@ -352,6 +352,14 @@ struct amdgpu_mode_info {
+>>>   	 * drm_transfer_function`.
+>>>   	 */
+>>>   	struct drm_property *regamma_tf_property;
+>>> +	/* @plane_degamma_lut_property: Plane property to set a degamma LUT to
+>>> +	 * convert color space before blending.
+>>> +	 */
+>>> +	struct drm_property *plane_degamma_lut_property;
+>>> +	/* @plane_degamma_lut_size_property: Plane property to define the max
+>>> +	 * size of degamma LUT as supported by the driver (read-only).
+>>> +	 */
+>>> +	struct drm_property *plane_degamma_lut_size_property;
+>>>   };
+>>>   
+>>>   #define AMDGPU_MAX_BL_LEVEL 0xFF
+>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>> index ad5ee28b83dc..22e126654767 100644
+>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>> @@ -716,6 +716,15 @@ enum drm_transfer_function {
+>>>   struct dm_plane_state {
+>>>   	struct drm_plane_state base;
+>>>   	struct dc_plane_state *dc_state;
+>>> +
+>>> +	/* Plane color mgmt */
+>>> +	/**
+>>> +	 * @degamma_lut:
+>>> +	 *
+>>> +	 * LUT for converting plane pixel data before going into plane merger.
+>>> +	 * The blob (if not NULL) is an array of &struct drm_color_lut.
+>>> +	 */
+>>> +	struct drm_property_blob *degamma_lut;
+>>>   };
+>>>   
+>>>   struct dm_crtc_state {
+>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>> index 322668973747..e9cedc4068f1 100644
+>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+>>> @@ -1338,6 +1338,9 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
+>>>   		dc_plane_state_retain(dm_plane_state->dc_state);
+>>>   	}
+>>>   
+>>> +	if (dm_plane_state->degamma_lut)
+>>> +		drm_property_blob_get(dm_plane_state->degamma_lut);
+>>> +
+>>>   	return &dm_plane_state->base;
+>>>   }
+>>>   
+>>> @@ -1405,12 +1408,79 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
+>>>   {
+>>>   	struct dm_plane_state *dm_plane_state = to_dm_plane_state(state);
+>>>   
+>>> +	if (dm_plane_state->degamma_lut)
+>>> +		drm_property_blob_put(dm_plane_state->degamma_lut);
+>>> +
+>>>   	if (dm_plane_state->dc_state)
+>>>   		dc_plane_state_release(dm_plane_state->dc_state);
+>>>   
+>>>   	drm_atomic_helper_plane_destroy_state(plane, state);
+>>>   }
+>>>   
+>>> +#ifdef AMD_PRIVATE_COLOR
+>>> +static void
+>>> +dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+>>> +					     struct drm_plane *plane)
+>>> +{
+>>> +	if (dm->dc->caps.color.dpp.dgam_ram || dm->dc->caps.color.dpp.gamma_corr ) {
+>>> +		drm_object_attach_property(&plane->base,
+>>> +					   dm->adev->mode_info.plane_degamma_lut_property, 0);
+>>> +		drm_object_attach_property(&plane->base,
+>>> +					   dm->adev->mode_info.plane_degamma_lut_size_property,
+>>> +					   MAX_COLOR_LUT_ENTRIES);
+>>> +	}
+>>> +}
+>>> +
+>>> +static int
+>>> +dm_atomic_plane_set_property(struct drm_plane *plane,
+>>> +			     struct drm_plane_state *state,
+>>> +			     struct drm_property *property,
+>>> +			     uint64_t val)
+>>> +{
+>>> +	struct dm_plane_state *dm_plane_state = to_dm_plane_state(state);
+>>> +	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+>>> +	bool replaced = false;
+>>> +	int ret;
+>>> +
+>>> +	if (property == adev->mode_info.plane_degamma_lut_property) {
+>>> +		ret = drm_property_replace_blob_from_id(plane->dev,
+>>> +							&dm_plane_state->degamma_lut,
+>>> +							val,
+>>> +							-1, sizeof(struct drm_color_lut),
+>>> +							&replaced);
+>>> +		dm_plane_state->base.color_mgmt_changed |= replaced;
+>>> +		return ret;
+>>> +	} else {
+>>> +		drm_dbg_atomic(plane->dev,
+>>> +			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+>>> +			       plane->base.id, plane->name,
+>>> +			       property->base.id, property->name);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int
+>>> +dm_atomic_plane_get_property(struct drm_plane *plane,
+>>> +			     const struct drm_plane_state *state,
+>>> +			     struct drm_property *property,
+>>> +			     uint64_t *val)
+>>> +{
+>>> +	struct dm_plane_state *dm_plane_state = to_dm_plane_state(state);
+>>> +	struct amdgpu_device *adev = drm_to_adev(plane->dev);
+>>> +
+>>> +	if (property == adev->mode_info.plane_degamma_lut_property) {
+>>> +		*val = (dm_plane_state->degamma_lut) ?
+>>> +			dm_plane_state->degamma_lut->base.id : 0;
+>>> +	} else {
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +#endif
+>>> +
+>>>   static const struct drm_plane_funcs dm_plane_funcs = {
+>>>   	.update_plane	= drm_atomic_helper_update_plane,
+>>>   	.disable_plane	= drm_atomic_helper_disable_plane,
+>>> @@ -1419,6 +1489,10 @@ static const struct drm_plane_funcs dm_plane_funcs = {
+>>>   	.atomic_duplicate_state = dm_drm_plane_duplicate_state,
+>>>   	.atomic_destroy_state = dm_drm_plane_destroy_state,
+>>>   	.format_mod_supported = dm_plane_format_mod_supported,
+>>> +#ifdef AMD_PRIVATE_COLOR
+>>> +	.atomic_set_property = dm_atomic_plane_set_property,
+>>> +	.atomic_get_property = dm_atomic_plane_get_property,
+>>> +#endif
+>>>   };
+>>>   
+>>>   int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>>> @@ -1489,6 +1563,9 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>>>   
+>>>   	drm_plane_helper_add(plane, &dm_plane_helper_funcs);
+>>>   
+>>> +#ifdef AMD_PRIVATE_COLOR
+>>> +	dm_atomic_plane_attach_color_mgmt_properties(dm, plane);
+>>> +#endif
+>>>   	/* Create (reset) the plane state */
+>>>   	if (plane->funcs->reset)
+>>>   		plane->funcs->reset(plane);
+>>
+
+
