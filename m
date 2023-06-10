@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F2E72A9C3
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 09:14:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 001A972A9CF
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 09:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7158710E17C;
-	Sat, 10 Jun 2023 07:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC2610E17E;
+	Sat, 10 Jun 2023 07:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E50210E162;
- Sat, 10 Jun 2023 07:14:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D69810E17E
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 07:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686381253; x=1717917253;
+ t=1686381775; x=1717917775;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=/AJK6BcsI1+pYayq4GPa+LNrEBFVNr39nXOAfbSELVQ=;
- b=DMlab+E0krCIGWLq6E6qsZaaWGm0etDoTLL8v+UQrUCeeRgKH13z7Y9n
- /ytXEx94tmJXoP/6a7JzjeMSJ3dxIgztSWI/5v/4/9jl8LA8J26LdWn7x
- UDOs7tHX2dUMY7svc3dsCpwM/Shc2gvHtRbB+tmtDHjPtE0wHs6oXjSGX
- ykloczcYXJdcWrhyFCzaF/rpJWPOfDbyk3v/aJxrnHdqnv3yFss2P7p//
- Y6VfXzgEvwrXWLJZXnZlwZ8OBxgj75ZGs1EsoTSExfrHwnLZVH1+Yurbt
- yPhgNafOLYbYiB5jS/8QZT7OEVuvPt9VfdDQwLcrMSt4zrLvLG+ofX6B1 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355228629"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="355228629"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ bh=cZ3y13O9a+VnlQM8pm98l7UsnYGvVfxkqNekXMNb3v4=;
+ b=Vb8LdU2L1HDdzi1MlUpRlavWuHihtH3BJFld1fBJIr7v4L98Thb9nlFf
+ bHdom0uYmYqbgNducibUO7IkV9eV/E52t3IenxugkI8rlFCj/lnaZ2fGE
+ IyhVGeUXMzRqWThXILZCRPuuHutpy3F61iSYi5L2v/3IbfkAqVDPkQgau
+ BJMxP1uGYSXO5fzRgczkcuJ8myxpL+UePwJHiqIalIqP4VkfRSp6z/oRX
+ hXX4k2R7KpcgMg+BjS27RSPRpNDyjz6kvq+duffxszJIGFZ1Qzs1OU//3
+ M3JH7hGIVfHzb3vA/eW1RKLkDiBO0+FcC5dFtil8WvuT167VgInaQiy38 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355231353"
+X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="355231353"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2023 00:14:12 -0700
+ 10 Jun 2023 00:22:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="854981401"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="854981401"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="743725436"
+X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="743725436"
 Received: from mnovakov-mobl1.amr.corp.intel.com (HELO localhost)
  ([10.252.60.33])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2023 00:14:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Nathan Chancellor <nathan@kernel.org>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com
-Subject: Re: [PATCH] drm/amdgpu: Wrap -Wunused-but-set-variable in cc-option
-In-Reply-To: <20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-v1-1-48ca005f2247@kernel.org>
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2023 00:22:35 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ralph Campbell <rcampbell@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/edid: Add quirk for OSVR HDK 2.0
+In-Reply-To: <09cc666a-bc52-44b3-230c-26dc705c5a56@nvidia.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-v1-1-48ca005f2247@kernel.org>
-Date: Sat, 10 Jun 2023 10:14:05 +0300
-Message-ID: <87ttvfpz5u.fsf@intel.com>
+References: <20230609014207.2759720-1-rcampbell@nvidia.com>
+ <87y1ktqa75.fsf@intel.com>
+ <09cc666a-bc52-44b3-230c-26dc705c5a56@nvidia.com>
+Date: Sat, 10 Jun 2023 10:22:32 +0300
+Message-ID: <87r0qjpyrr.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,62 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trix@redhat.com, llvm@lists.linux.dev, ndesaulniers@google.com,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, amd-gfx@lists.freedesktop.org,
- Kenny.Ho@amd.com, hamza.mahfooz@amd.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 08 Jun 2023, Nathan Chancellor <nathan@kernel.org> wrote:
-> -Wunused-but-set-variable was only supported in clang starting with
-> 13.0.0, so earlier versions will emit a warning, which is turned into a
-> hard error for the kernel to mirror GCC:
+On Fri, 09 Jun 2023, Ralph Campbell <rcampbell@nvidia.com> wrote:
+> On 6/9/23 02:03, Jani Nikula wrote:
+>> On Thu, 08 Jun 2023, Ralph Campbell <rcampbell@nvidia.com> wrote:
+>>> The OSVR virtual reality headset HDK 2.0 uses a different EDID
+>>> vendor and device identifier than the HDK 1.1 - 1.4 headsets.
+>>> Add the HDK 2.0 vendor and device identifier to the quirks table so
+>>> that window managers do not try to display the desktop screen on the
+>>> headset display.
+>> At some point in time we requested bugs to be filed about quirks, with
+>> EDIDs attached, so we could look at them later, and maybe remove the
+>> quirks.
+>>
+>> The headset non-desktop thing started off as a quirk, but since then
+>> we've added both Microsoft VSDB and DisplayID primary use as ways to
+>> indicate this without quirks.
+>>
+>> BR,
+>> Jani.
 >
->   error: unknown warning option '-Wunused-but-set-variable'; did you mean '-Wunused-const-variable'? [-Werror,-Wunknown-warning-option]
->
-> The minimum supported version of clang for building the kernel is
-> 11.0.0, so match the rest of the kernel and wrap
-> -Wunused-but-set-variable in a cc-option call, so that it is only used
-> when supported by the compiler.
+> If you want me to file a bug, I can do that and I have the EDID too.
+> Where would I file it?
 
-I wonder if there's a table somewhere listing all the warning options,
-which GCC and Clang versions support them, and which versions have them
-in -Wall and -Wextra. Would be really useful.
+I suppose at https://gitlab.freedesktop.org/drm/misc/-/issues
 
-If there isn't one, it would be really helpful. *wink*.
+We should then reference the issue in the commit message (no need to
+resend, this can be added while applying).
 
-BR,
+> I did see the DisplayID 2.0 code. This headset is no longer being
+> manufactured so updating the EDID is not practical.
+
+I'm not saying the EDID should be updated, just that we might drop the
+quirk if we find another generic way to identify non-desktops that
+covers the EDID in question.
+
+If the device isn't covered by the existing mechanisms, I'm not opposed
+to merging as-is, with the issue reference added.
+
+
+Thanks,
 Jani.
 
 
 >
-> Closes: https://github.com/ClangBuiltLinux/linux/issues/1869
-> Fixes: a0fd5a5f676c ("drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/amd/amdgpu/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
-> index 7ee68b1bbfed..86b833085f19 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/Makefile
-> +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
-> @@ -40,7 +40,7 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
->  	-I$(FULL_AMD_PATH)/amdkfd
->  
->  subdir-ccflags-y := -Wextra
-> -subdir-ccflags-y += -Wunused-but-set-variable
-> +subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
->  subdir-ccflags-y += -Wno-unused-parameter
->  subdir-ccflags-y += -Wno-type-limits
->  subdir-ccflags-y += -Wno-sign-compare
->
-> ---
-> base-commit: 6bd4b01e8938779b0d959bdf33949a9aa258a363
-> change-id: 20230608-amdgpu-wrap-wunused-but-set-variable-in-cc-option-0be9528ac5c8
->
-> Best regards,
+>>> Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+>>> Tested-by: Ralph Campbell <rcampbell@nvidia.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_edid.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> I don't know how many of these VR headsets are still around but I have a
+>>> working one and I saw and entry for HDK 1.x so I thought it would be good
+>>> to add HDK 2.0.
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>>> index 0454da505687..3b8cc1fe05e8 100644
+>>> --- a/drivers/gpu/drm/drm_edid.c
+>>> +++ b/drivers/gpu/drm/drm_edid.c
+>>> @@ -230,6 +230,7 @@ static const struct edid_quirk {
+>>>   
+>>>   	/* OSVR HDK and HDK2 VR Headsets */
+>>>   	EDID_QUIRK('S', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
+>>> +	EDID_QUIRK('A', 'O', 'U', 0x1111, EDID_QUIRK_NON_DESKTOP),
+>>>   };
+>>>   
+>>>   /*
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
