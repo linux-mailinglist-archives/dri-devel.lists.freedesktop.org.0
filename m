@@ -1,50 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D44F72AED9
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 22:45:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88A972AEE8
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 23:04:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3D1910E023;
-	Sat, 10 Jun 2023 20:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF11810E050;
+	Sat, 10 Jun 2023 21:04:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
- (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89C410E023
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 20:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=2wtl7K8F8djbFifkPNwlrteB6Gg+wwqZT2UjebjY8/E=;
- b=bsLUIDdBSmxKFll4tzHGlusksKstjq1cOjziqOf0kRyYqCpA89lx4/2KaPsEvCKZq2ntsuznafWuR
- 41qQQbI76vMVshtfUg4W+GD/TUY2aBa67FwK+BJuQ6KgCCJQN4v2oA0g2SdyfjDUR0SjzSuCRA6pKE
- KazFz/GquNcGerxnJzKRZvfWMjyrYM0jPondnzuvuUAl2LGkscxsBKscDk0Ru6cHiHovfmlQH8XRwW
- popbc6LgZIl98pGR7L/7t2Zdaqxvxgoe26Hr3p6kgopJDQIgpPaEAuwubiMZrtPa1MarsS1V7KOneu
- L6TQ2OHQ5jsvlUURNKN1P+0yvOyQL0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=2wtl7K8F8djbFifkPNwlrteB6Gg+wwqZT2UjebjY8/E=;
- b=JO61/FRMPr+m0l+k2DGa/arRRfAxid/Ctl9H+UQHBh+UacvjDlVFEyYkRM1SVfqpslZMRj4cQSCwq
- W3g1avpBQ==
-X-HalOne-ID: b91d737d-07cf-11ee-a88b-13111ccb208d
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay2 (Halon) with ESMTPSA
- id b91d737d-07cf-11ee-a88b-13111ccb208d;
- Sat, 10 Jun 2023 20:45:27 +0000 (UTC)
-Date: Sat, 10 Jun 2023 22:45:25 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 7/7] drm/panel: sitronix-st7789v: Check display ID
-Message-ID: <20230610204525.GA1042549@ravnborg.org>
-References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
- <20230609145951.853533-8-miquel.raynal@bootlin.com>
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Sat, 10 Jun 2023 21:04:04 UTC
+Received: from qs51p00im-qukt01080301.me.com (qs51p00im-qukt01080301.me.com
+ [17.57.155.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA79210E050
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 21:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1686430679; bh=edgqTqSIFevJ9hVvZr6vzkAs1XQusMzQ+xtrbHYPRgA=;
+ h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+ b=1+I7SYqeumYfdZxp6dLNSjGut/KI1/Jlwmuk3Vbx4LvFIHG/94fliN/SlrteDLM0X
+ 1HJwdUnDgdfi+p3AHYLuRGccFDqltSOXaG/SRLDL4pEpsEHaZT4rsNyHkHJ3ad5rzG
+ zW8VQA9+8G8zyug3VFfUPFNYj/Pfl6uW8KeeusX+iVYj8lUwjENW/mYZ4DLKNK9dif
+ rfVqkozo7SyYmNL692KxkF0jMtiStKLZW0ldTEkLGVl4OPQ7qf/xxUfsskzbJWP74n
+ pLt5id45GjCvEnBOU+XgEmp3raH6ctN5NctYXvZzD/BGw1IYWFnv9prMHkWkE7Lbzn
+ 3pjtQPpusCTUA==
+Received: from macminiubuntu (qs51p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.155.28])
+ by qs51p00im-qukt01080301.me.com (Postfix) with ESMTPSA id C9F5E5F002BA;
+ Sat, 10 Jun 2023 20:57:57 +0000 (UTC)
+Date: Sat, 10 Jun 2023 20:57:54 +0000
+From: Alain Volmat <avolmat@me.com>
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: [PATCH RESEND] drm/sti: Avoid full proxy f_ops for sti debug
+ attributes
+Message-ID: <ZITj0iEGWv4Oexoo@macminiubuntu>
+Mail-Followup-To: Deepak R Varma <drv@mailo.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
+References: <Y/+uXCDxxA+3AzMq@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230609145951.853533-8-miquel.raynal@bootlin.com>
+In-Reply-To: <Y/+uXCDxxA+3AzMq@ubun2204.myguest.virtualbox.org>
+X-Proofpoint-ORIG-GUID: yZ04d5MqL2iZCXma1sYA9uaF1vJ04-Hx
+X-Proofpoint-GUID: yZ04d5MqL2iZCXma1sYA9uaF1vJ04-Hx
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.790,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-12=5F02:2020-02-14=5F02,2022-01-12=5F02,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 bulkscore=0
+ spamscore=0 phishscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2306100183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,142 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alain Volmat <alain.volmat@foss.st.com>,
+ Alain Volmat <avolmat@me.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Miquel,
+Hi Deepak,
 
-On Fri, Jun 09, 2023 at 04:59:51PM +0200, Miquel Raynal wrote:
-> A very basic debugging rule when a device is connected for the first
-> time is to access a read-only register which contains known data in
-> order to ensure the communication protocol is properly working. This
-> driver lacked any read helper which is often a critical peace for
-> fastening bring-ups.
+thank you for the patch and sorry for the delay.
+
+Acked-by: Alain Volmat <avolmat@me.com>
+
+Alain
+
+On Thu, Mar 02, 2023 at 01:28:20AM +0530, Deepak R Varma wrote:
+> Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+> function adds the overhead of introducing a proxy file operation
+> functions to wrap the original read/write inside file removal protection
+> functions. This adds significant overhead in terms of introducing and
+> managing the proxy factory file operations structure and function
+> wrapping at runtime.
+> As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+> with debugfs_create_file_unsafe() is suggested to be used instead.  The
+> DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+> debugfs_file_put() wrappers to protect the original read and write
+> function calls for the debug attributes. There is no need for any
+> runtime proxy file operations to be managed by the debugfs core.
+> Following coccicheck make command helped identify this change:
 > 
-> Add a read helper and use it to verify the communication with the panel
-> is working as soon as possible in order to fail early if this is not the
-> case.
-
-The read helper seems like a log of general boiler plate code.
-I briefly looked into the use of regmap for the spi communication,
-but it did not look like it supported the bit9 stuff.
-
-I did not stare enough to add a reviewd by, but the approach is fine
-and it is good to detech issues early.
-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 > 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
->  .../gpu/drm/panel/panel-sitronix-st7789v.c    | 78 +++++++++++++++++++
->  1 file changed, 78 insertions(+)
+> Note: Change cross compile tested using stm32_defconfig for arm
+>       Resending patch for review and feedback. Initially sent on Jan 11 2023
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> index 7de192a3a8aa..fb21d52a7a63 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> @@ -113,6 +113,9 @@
->  			return val;		\
->  	} while (0)
->  
-> +#define ST7789V_IDS { 0x85, 0x85, 0x52 }
-> +#define ST7789V_IDS_SIZE 3
-> +
->  struct st7789v_panel_info {
->  	const struct drm_display_mode *display_mode;
->  	u16 width_mm;
-> @@ -165,6 +168,77 @@ static int st7789v_write_data(struct st7789v *ctx, u8 cmd)
->  	return st7789v_spi_write(ctx, ST7789V_DATA, cmd);
+> 
+> 
+>  drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+> index ef6a4e63198f..c9be82043638 100644
+> --- a/drivers/gpu/drm/sti/sti_drv.c
+> +++ b/drivers/gpu/drm/sti/sti_drv.c
+> @@ -67,8 +67,8 @@ static int sti_drm_fps_set(void *data, u64 val)
+>  	return 0;
 >  }
 >  
-> +static int st7789v_read_data(struct st7789v *ctx, u8 cmd, u8 *buf,
-> +			     unsigned int len)
-> +{
-> +	struct spi_transfer xfer[2] = { };
-> +	struct spi_message msg;
-> +	u16 txbuf = ((ST7789V_COMMAND & 1) << 8) | cmd;
-> +	u16 rxbuf[4] = {};
-> +	u8 bit9 = 0;
-> +	int ret, i;
-> +
-> +	switch (len) {
-> +	case 1:
-> +	case 3:
-> +	case 4:
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	spi_message_init(&msg);
-> +
-> +	xfer[0].tx_buf = &txbuf;
-> +	xfer[0].len = sizeof(txbuf);
-> +	spi_message_add_tail(&xfer[0], &msg);
-> +
-> +	xfer[1].rx_buf = rxbuf;
-> +	xfer[1].len = len * 2;
-> +	spi_message_add_tail(&xfer[1], &msg);
-> +
-> +	ret = spi_sync(ctx->spi, &msg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		buf[i] = rxbuf[i] >> i | (bit9 << (9 - i));
-> +		if (i)
-> +			bit9 = rxbuf[i] & GENMASK(i - 1, 0);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int st7789v_check_id(struct drm_panel *panel)
-> +{
-> +	const u8 st7789v_ids[ST7789V_IDS_SIZE] = ST7789V_IDS;
-> +	struct st7789v *ctx = panel_to_st7789v(panel);
-> +	bool invalid_ids = false;
-> +	int ret, i;
-> +	u8 ids[3];
-> +
-> +	ret = st7789v_read_data(ctx, MIPI_DCS_GET_DISPLAY_ID, ids, ST7789V_IDS_SIZE);
-> +	if (ret) {
-> +		dev_err(panel->dev, "Failed to read IDs\n");
-> +		return ret;
-> +	}
-> +
-> +	for (i = 0; i < ST7789V_IDS_SIZE; i++) {
-> +		if (ids[i] != st7789v_ids[i]) {
-> +			invalid_ids = true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (invalid_ids) {
-> +		dev_err(panel->dev, "Unrecognized panel IDs");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct drm_display_mode default_mode = {
->  	.clock = 7000,
->  	.hdisplay = 240,
-> @@ -237,6 +311,10 @@ static int st7789v_prepare(struct drm_panel *panel)
->  	gpiod_set_value(ctx->reset, 0);
->  	msleep(120);
+> -DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
+> -			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
+> +DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops,
+> +			 sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
 >  
-> +	ret = st7789v_check_id(panel);
-> +	if (ret)
-> +		return ret;
-> +
->  	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_EXIT_SLEEP_MODE));
+>  static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
+>  {
+> @@ -97,8 +97,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
+>  				 ARRAY_SIZE(sti_drm_dbg_list),
+>  				 minor->debugfs_root, minor);
 >  
->  	/* We need to wait 120ms after a sleep out command */
+> -	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
+> -			    minor->dev, &sti_drm_fps_fops);
+> +	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
+> +				   minor->dev, &sti_drm_fps_fops);
+>  
+>  	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
+>  }
 > -- 
 > 2.34.1
+> 
+> 
+> 
