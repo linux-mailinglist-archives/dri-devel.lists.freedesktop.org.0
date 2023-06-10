@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2699072A97C
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 08:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE3172A98C
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jun 2023 08:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8E1910E11B;
-	Sat, 10 Jun 2023 06:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00ECF10E15E;
+	Sat, 10 Jun 2023 06:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB3010E11B;
- Sat, 10 Jun 2023 06:49:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686379781; x=1717915781;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=UiBaKKuIu48RRz7kin0VOWL4SjKi6DsOcDmvTbBe48o=;
- b=GE5xsn8mMwhzkAcFerl9x7GXUERULvHJazT6PubSlF3LpV3RjvF0QHWJ
- Ma6YG308e0EdyupMJcYuysosj1g+5hx78RmsIuSkbKfL1zzrhbzi1oHPJ
- h2GSvyKCRyuESotwpzWZxpxxdoRWtmD0JRxkACsj5P02ijpIwxwHUqCXO
- 5y0paXnufyDhg75xjNQcs40u0GHIRgf55oA8kxXnjFkfMb0giEjy4r9/z
- RfMbzyq0COBMl+WIcLr0jgEuDLsqRe6zh7S9skOqJ8HZN9qVzcn4qMs/r
- 40JYSF61zNAcM98az+lBy/3qNZjTbuQHq3S3CCehKpFhZDney6Z4DnqKG w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360220142"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="360220142"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 23:49:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="661001719"
-X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; d="scan'208";a="661001719"
-Received: from mnovakov-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.60.33])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2023 23:49:34 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>
-Subject: Re: [PATCH] drm/amd/amdgpu: enable W=1 for amdgpu
-In-Reply-To: <CAK7LNAQArK=+Qy+yQU2qB-0pCKyWugsQ=VGXUzLUf+tPow5M_w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230609164207.430377-1-hamza.mahfooz@amd.com>
- <20230609201754.GA3961359@dev-arch.thelio-3990X>
- <CAK7LNAQArK=+Qy+yQU2qB-0pCKyWugsQ=VGXUzLUf+tPow5M_w@mail.gmail.com>
-Date: Sat, 10 Jun 2023 09:49:31 +0300
-Message-ID: <875y7vrev8.fsf@intel.com>
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC9410E15E
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jun 2023 06:58:53 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f623adec61so25938975e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jun 2023 23:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686380332; x=1688972332;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=e9bI4TpfYTuixB7ED0KYBY4FcJI9PZZMgv8pSr2aH3M=;
+ b=ktk+OOiFo7y2oE6/na7khsO5gkmjLhvfQyA0EZMqfbo4CV74/0m+h+R1SGNRxs9CTE
+ 2yvTMkh86LdEZQuRdF6t15kC2lNOXA2N9E5BCk/3HNELis0QmvHpX4KX0OIopAnHH1d2
+ eT0J/NpU8rMruJQW2OGotX63X0vwFeFga3lPuTNP3jje/0Zs8n7VVArsTQHK7Ou8ZKrb
+ 3MGacSRmLXPf6gIcrQ6YFikrzaCSA/86Y7nLnwqXU3hNZwAcnAW0nLPCO/92VgkAKGln
+ kYAixt0rqWx0EaoCwFvvTA/ou4yxeGUDa0YIZeBhoFZTikTjAN12CYgtUqY0NaAhPkQl
+ J8Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686380332; x=1688972332;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e9bI4TpfYTuixB7ED0KYBY4FcJI9PZZMgv8pSr2aH3M=;
+ b=js2da7OdBpJkLzyIckNfYAad/UAD5u0KzS6olTIBfeTuh99940xaEktdpWxQVDD2ZJ
+ mcfeVrEUQGtgkzik6MOSGEzLNVsczpCH0hA3P2WzAiMFI4Wz9S1myC8lno5C/mqoIAtU
+ VGY1HzLMA08FGqPCmupULaWni60IbbIOcZ6096C7ZpUHuEfi4CrErM4ubosINVrfY/3G
+ 5HIrjL/EByZl/JDY24r3IRAJ7eLHWKQrPHObUr+GnZu3sPB5WUyPSV235oPdfqVeRYKu
+ VAsdhEVHHdXJYNSgrQXlRZXkTPIgfFeuNiGwqCyDck3YPZeDqnQ0lzZYS2V5LHFF2l2n
+ nzkg==
+X-Gm-Message-State: AC+VfDwOOFijcxMJRoStQzLXwNa2zRIVy+I0B1lClCw+ONXfZnWWxt6a
+ CfkaGfZjLrWAEHC8VzRyxrxXWQ==
+X-Google-Smtp-Source: ACHHUZ5CFVVyWp0cl9cTLVvzZxbKBRL/XTzzDb/STeOX/4dCnVkLgxjoBwzkievraVyTqF2fUIrnMA==
+X-Received: by 2002:a7b:c84c:0:b0:3f7:371a:ec8f with SMTP id
+ c12-20020a7bc84c000000b003f7371aec8fmr2775426wml.15.1686380331895; 
+ Fri, 09 Jun 2023 23:58:51 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ f3-20020a7bc8c3000000b003f1958eeadcsm4702848wml.17.2023.06.09.23.58.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jun 2023 23:58:50 -0700 (PDT)
+Date: Sat, 10 Jun 2023 09:58:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Subject: Re: [PATCH v5 11/11] drm/mediatek: gamma: Program gamma LUT type for
+ descending or rising
+Message-ID: <cbe9008e-aebc-4dcc-9116-123b541c6574@kadam.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601121022.2401844-12-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,138 +73,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tao Zhou <tao.zhou1@amd.com>, Xiaojian Du <Xiaojian.Du@amd.com>,
- linux-kbuild@vger.kernel.org, "Pan, 
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hawking Zhang <Hawking.Zhang@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Le Ma <le.ma@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, James Zhu <James.Zhu@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>
+Cc: lkp@intel.com, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ wenst@chromium.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ oe-kbuild-all@lists.linux.dev, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 10 Jun 2023, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> On Sat, Jun 10, 2023 at 5:17=E2=80=AFAM Nathan Chancellor <nathan@kernel.=
-org> wrote:
->>
->> + Masahiro and linux-kbuild
->>
->> On Fri, Jun 09, 2023 at 12:42:06PM -0400, Hamza Mahfooz wrote:
->> > We have a clean build with W=3D1 as of
->> > commit 12a15dd589ac ("drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move
->> > SYNAPTICS_DEVICE_ID into CONFIG_DRM_AMD_DC_DCN ifdef"). So, let's enab=
-le
->> > these checks unconditionally for the entire module to catch these erro=
-rs
->> > during development.
->> >
->> > Cc: Alex Deucher <alexander.deucher@amd.com>
->> > Cc: Nathan Chancellor <nathan@kernel.org>
->> > Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
->>
->> I think this is fine, especially since it will help catch issues in
->> amdgpu quickly and hopefully encourage developers to fix their problems
->> before they make it to a tree with wider impact lika -next.
->>
->> However, this is now the third place that W=3D1 has been effectively
->> enabled (i915 and btrfs are the other two I know of) and it would be
->> nice if this was a little more unified, especially since it is not
->> uncommon for the warnings under W=3D1 to shift around and keeping them
->> unified will make maintainence over the longer term a little easier. I
->> am not sure if this has been brought up in the past and I don't want to
->> hold up this change but I suspect this sentiment of wanting to enable
->> W=3D1 on a per-subsystem basis is going to continue to grow.
->
->
->
-> I believe this patch is the right way because
-> we will be able to add a new warning option to
-> scripts/Makefile.extrawarn without fixing any code.
->
-> I remember somebody argued that drivers should be
-> able to do
->   subdir-ccflags-y +=3D $(W1_FLAGS)
+Hi AngeloGioacchino,
 
-Personally, I think this would be the viable way to make the kernel free
-of W=3D1 warnings. Make it clean driver and subsystem at a time, with
-constant progress. Currently, there's haphazard fixing of issues, with
-new ones creeping back in, because kernel-wide W=3D1 is too verbose for
-most developers. It's whac-a-mole.
+kernel test robot noticed the following build warnings:
 
-> However, if a new flag, -Wfoo, emits warnings
-> for drivers/gpu/drm/{i915,amd},
-> you cannot add it to W=3D1 until fixing the code.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Or adding -Wno-foo where it breaks, until fixed.
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230601-222357
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230601121022.2401844-12-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v5 11/11] drm/mediatek: gamma: Program gamma LUT type for descending or rising
+config: arm64-randconfig-m031-20230608 (https://download.01.org/0day-ci/archive/20230610/202306101458.lRXHEE0Z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 
-> If many drivers start to do likewise,
-> W=3D1 warning will not be W=3D1 any more.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306101458.lRXHEE0Z-lkp@intel.com/
 
-I don't know, is the goal to fix the warnings, or keep adding stuff to
-W=3D1 so that it'll always emit warnings? :p
+smatch warnings:
+drivers/gpu/drm/mediatek/mtk_disp_gamma.c:192 mtk_gamma_set_common() error: we previously assumed 'gamma->data' could be null (see line 120)
 
+vim +192 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 
-BR,
-Jani.
+4873468a82b553 Jason-JH.Lin               2023-06-01  103  void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+69a4237ab1d13a Yongqiang Niu              2021-01-29  104  {
+4873468a82b553 Jason-JH.Lin               2023-06-01  105  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  106  	void __iomem *lut0_base = regs + DISP_GAMMA_LUT;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  107  	void __iomem *lut1_base = regs + DISP_GAMMA_LUT1;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  108  	u32 cfg_val, data_mode, lbank_val, word[2];
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  109  	int cur_bank, num_lut_banks;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  110  	u16 lut_bank_size, lut_size;
+69a4237ab1d13a Yongqiang Niu              2021-01-29  111  	struct drm_color_lut *lut;
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  112  	unsigned int i;
+4873468a82b553 Jason-JH.Lin               2023-06-01  113  	bool lut_diff;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  114  	u8 lut_bits;
+69a4237ab1d13a Yongqiang Niu              2021-01-29  115  
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  116  	/* If there's no gamma lut there's nothing to do here. */
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  117  	if (!state->gamma_lut)
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  118  		return;
+e824bd353592b5 AngeloGioacchino Del Regno 2023-06-01  119  
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01 @120  	if (gamma && gamma->data) {
+                                                                             ^^^^^^^^^^^
+This code assumes "gamma->data" can be NULL
 
-> Another good thing for hard-coding warning options
-> is you can lift up a warning flag one by one.
->
->
-> Let's say you fixed the entire DRM subsystem so
-> it is -Wunused free now.
->
-> Then, you can move -Wunused to drivers/gpu/drm/Makefile,
-> while other warning options stay in drivers Makefiles.
->
->
->
->
->
->
->
->>
->> Regardless, for clang 11.1.0 to 16.0.5, I see no warnings when building
->> drivers/gpu/drm/amd/amdgpu/ with Arch Linux's configuration or
->> allmodconfig.
->>
->> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->> Tested-by: Nathan Chancellor <nathan@kernel.org>
->>
->> > ---
->> >  drivers/gpu/drm/amd/amdgpu/Makefile | 13 ++++++++++++-
->> >  1 file changed, 12 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd=
-/amdgpu/Makefile
->> > index 86b833085f19..8d16f280b695 100644
->> > --- a/drivers/gpu/drm/amd/amdgpu/Makefile
->> > +++ b/drivers/gpu/drm/amd/amdgpu/Makefile
->> > @@ -40,7 +40,18 @@ ccflags-y :=3D -I$(FULL_AMD_PATH)/include/asic_reg \
->> >       -I$(FULL_AMD_PATH)/amdkfd
->> >
->> >  subdir-ccflags-y :=3D -Wextra
->> > -subdir-ccflags-y +=3D $(call cc-option, -Wunused-but-set-variable)
->> > +subdir-ccflags-y +=3D -Wunused
->> > +subdir-ccflags-y +=3D -Wmissing-prototypes
->> > +subdir-ccflags-y +=3D -Wmissing-declarations
->> > +subdir-ccflags-y +=3D -Wmissing-include-dirs
->> > +subdir-ccflags-y +=3D -Wold-style-definition
->> > +subdir-ccflags-y +=3D -Wmissing-format-attribute
->> > +# Need this to avoid recursive variable evaluation issues
->> > +cond-flags :=3D $(call cc-option, -Wunused-but-set-variable) \
->> > +     $(call cc-option, -Wunused-const-variable) \
->> > +     $(call cc-option, -Wstringop-truncation) \
->> > +     $(call cc-option, -Wpacked-not-aligned)
->> > +subdir-ccflags-y +=3D $(cond-flags)
->> >  subdir-ccflags-y +=3D -Wno-unused-parameter
->> >  subdir-ccflags-y +=3D -Wno-type-limits
->> >  subdir-ccflags-y +=3D -Wno-sign-compare
->> > --
->> > 2.40.1
->> >
+4873468a82b553 Jason-JH.Lin               2023-06-01  121  		lut_diff = gamma->data->lut_diff;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  122  		lut_bank_size = gamma->data->lut_bank_size;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  123  		lut_bits = gamma->data->lut_bits;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  124  		lut_size = gamma->data->lut_size;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  125  	} else {
+4873468a82b553 Jason-JH.Lin               2023-06-01  126  		lut_diff = false;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  127  		lut_bank_size = LUT_SIZE_DEFAULT;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  128  		lut_bits = LUT_BITS_DEFAULT;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  129  		lut_size = LUT_SIZE_DEFAULT;
+ca340e013e3733 AngeloGioacchino Del Regno 2023-06-01  130  	}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  131  	num_lut_banks = lut_size / lut_bank_size;
+4873468a82b553 Jason-JH.Lin               2023-06-01  132  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  133  	cfg_val = readl(regs + DISP_GAMMA_CFG);
+69a4237ab1d13a Yongqiang Niu              2021-01-29  134  	lut = (struct drm_color_lut *)state->gamma_lut->data;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  135  
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  136  	/* Switch to 12 bits data mode if supported */
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  137  	data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(lut_bits == 12));
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  138  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  139  	for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  140  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  141  		/* Switch gamma bank and set data mode before writing LUT */
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  142  		if (num_lut_banks > 1) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  143  			lbank_val = FIELD_PREP(DISP_GAMMA_BANK_BANK, cur_bank);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  144  			lbank_val |= data_mode;
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  145  			writel(lbank_val, regs + DISP_GAMMA_BANK);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  146  		}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  147  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  148  		for (i = 0; i < lut_bank_size; i++) {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  149  			int n = (cur_bank * lut_bank_size) + i;
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  150  			struct drm_color_lut diff, hwlut;
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  151  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  152  			hwlut.red = drm_color_lut_extract(lut[n].red, lut_bits);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  153  			hwlut.green = drm_color_lut_extract(lut[n].green, lut_bits);
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  154  			hwlut.blue = drm_color_lut_extract(lut[n].blue, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  155  
+ba99d08da6adec Yongqiang Niu              2022-04-28  156  			if (!lut_diff || (i % 2 == 0)) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  157  				if (lut_bits == 12) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  158  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, hwlut.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  159  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, hwlut.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  160  					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, hwlut.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  161  				} else {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  162  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  163  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  164  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  165  				}
+ba99d08da6adec Yongqiang Niu              2022-04-28  166  			} else {
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  167  				diff.red = lut[n].red - lut[n - 1].red;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  168  				diff.red = drm_color_lut_extract(diff.red, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  169  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  170  				diff.green = lut[n].green - lut[n - 1].green;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  171  				diff.green = drm_color_lut_extract(diff.green, lut_bits);
+77eb9fd1f1ff7c AngeloGioacchino Del Regno 2023-06-01  172  
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  173  				diff.blue = lut[n].blue - lut[n - 1].blue;
+1829ae02cf6bb6 AngeloGioacchino Del Regno 2023-06-01  174  				diff.blue = drm_color_lut_extract(diff.blue, lut_bits);
+ba99d08da6adec Yongqiang Niu              2022-04-28  175  
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  176  				if (lut_bits == 12) {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  177  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, diff.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  178  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, diff.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  179  					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, diff.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  180  				} else {
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  181  					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  182  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  183  					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  184  				}
+ba99d08da6adec Yongqiang Niu              2022-04-28  185  			}
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  186  			writel(word[0], (lut0_base + i * 4));
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  187  			if (lut_bits == 12)
+b13cb453a8db5d AngeloGioacchino Del Regno 2023-06-01  188  				writel(word[1], (lut1_base + i * 4));
+69a4237ab1d13a Yongqiang Niu              2021-01-29  189  		}
+a26000d47a579c AngeloGioacchino Del Regno 2023-06-01  190  	}
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  191  
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01 @192  	if (gamma && !gamma->data->has_dither) {
+                                                                              ^^^^^^^^^^^^^
+"gamma->data" is derefrenced without being checked.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  193  		/* Descending or Rising LUT */
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  194  		if (mtk_gamma_lut_is_descending(lut, lut_size))
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  195  			cfg_val |= FIELD_PREP(GAMMA_LUT_TYPE, 1);
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  196  		else
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  197  			cfg_val &= ~GAMMA_LUT_TYPE;
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  198  	}
+3d61ac6c44ce4d AngeloGioacchino Del Regno 2023-06-01  199  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  200  	/* Enable the gamma table */
+2979ceb320a4ed AngeloGioacchino Del Regno 2023-06-01  201  	cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  202  
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  203  	/* Disable RELAY mode to pass the processed image */
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  204  	cfg_val &= ~GAMMA_RELAY_MODE;
+e21d98027e50c8 AngeloGioacchino Del Regno 2023-06-01  205  
+ee2cb37b9ac9e2 AngeloGioacchino Del Regno 2023-06-01  206  	writel(cfg_val, regs + DISP_GAMMA_CFG);
+69a4237ab1d13a Yongqiang Niu              2021-01-29  207  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
