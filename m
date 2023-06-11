@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B172B08C
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jun 2023 08:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7083172B13E
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jun 2023 11:51:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 679BD10E0BB;
-	Sun, 11 Jun 2023 06:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D63910E047;
+	Sun, 11 Jun 2023 09:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC3BD10E0BB;
- Sun, 11 Jun 2023 06:59:28 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cx8OjNcIVkMI8CAA--.4031S3;
- Sun, 11 Jun 2023 14:59:26 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxPMrNcIVk8bIRAA--.42850S3; 
- Sun, 11 Jun 2023 14:59:25 +0800 (CST)
-Message-ID: <a4256a0e-c175-8006-c1e0-07f0fe782f95@loongson.cn>
-Date: Sun, 11 Jun 2023 14:59:25 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEFBE10E047
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 09:51:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4DF8361117
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 09:50:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A88F8C433EF
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 09:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686477058;
+ bh=jgmPc3VFPciiBOwfOr6D2N6SHwM4FCyXZkBC4lU756g=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=CEC67kSFEDlsGjc6n6f/8gQ3eqDc9NFsolfBJrkv0cTK0C8qWv07Zo57/WfWuaamI
+ MGG+g4eNKQDZSqwePnOXkeS2gbzf1lBQ5KOF/vH122LoweJUQx0YNWsbMUEPYrfraa
+ RDBQ/heBDfEC7bfhEysEQhxTKCJkD8myZehQg0rBoPhR/IAfN5fb/AseIGQsFWuQfk
+ B9q4up8jYrJ6pd6iwSZ3TeJ1iGnZtqpNDODg/haBFKgw4sUj0zqJ1Ijf693OIcNYZV
+ ncyl7k3mkiL/HlD8JQH4vcdXTF56wh9rcms/KRD7JUBkD3nmflNmgNB/r5wEsuJVlQ
+ 9uwvt/+7/bMYA==
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-53fb4ee9ba1so1558438a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 02:50:58 -0700 (PDT)
+X-Gm-Message-State: AC+VfDw2nH5+/NUeBexC+viXIAkRO5j36gVthivwWT2Ait55TLOIjvgL
+ E9ch6FY4J6fQOZlZRqQ1YsOKZFuouDO6g6p3zJQ=
+X-Google-Smtp-Source: ACHHUZ7ZtYX6JFjreNiLVZ0dVifEH4YAGMivDTU1JOT0pyaqDXpnHueK7LrM6KrVv3wtY33XCkIIdlcVYlguwpNyBBo=
+X-Received: by 2002:a17:90b:118c:b0:253:6a05:1bce with SMTP id
+ gk12-20020a17090b118c00b002536a051bcemr4895092pjb.35.1686477058245; Sun, 11
+ Jun 2023 02:50:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RESEND, 12/15] drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
-To: Lee Jones <lee@kernel.org>
-References: <20230609081732.3842341-13-lee@kernel.org>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230609081732.3842341-13-lee@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8AxPMrNcIVk8bIRAA--.42850S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cw1Utw4fuF15tr15CF4Utrc_yoW8CrWDpa
- 17GF1F9rWkta1rK3WIyF929FWrGa93KFW3K3ZxJ34ruwnIyr1jvr4YkF1aqryDXF17Cw4f
- trn7Kryaga1fZFbCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jOdb8U
- UUUU=
+References: <20230609120636.3969045-1-arnd@kernel.org>
+ <b3a3e2f8-51d8-f8ce-95ce-1180f80cc2d2@habana.ai>
+In-Reply-To: <b3a3e2f8-51d8-f8ce-95ce-1180f80cc2d2@habana.ai>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Sun, 11 Jun 2023 12:50:31 +0300
+X-Gmail-Original-Message-ID: <CAFCwf122kE8sNksXivPA+E=BWzjroKowwqDJrHVMNj-o3oJq0A@mail.gmail.com>
+Message-ID: <CAFCwf122kE8sNksXivPA+E=BWzjroKowwqDJrHVMNj-o3oJq0A@mail.gmail.com>
+Subject: Re: [PATCH] accel/habanalabs: add more debugfs stub helpers
+To: Tomer Tayar <ttayar@habana.ai>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Ohad Sharabi <osharabi@habana.ai>,
+ Arnd Bergmann <arnd@arndb.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dafna Hirschfeld <dhirschfeld@habana.ai>, Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-On 2023/6/9 16:17, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
+On Fri, Jun 9, 2023 at 4:37=E2=80=AFPM Tomer Tayar <ttayar@habana.ai> wrote=
+:
 >
->   drivers/gpu/drm/nouveau/dispnv04/crtc.c:453: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->   drivers/gpu/drm/nouveau/dispnv04/crtc.c:629: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> On 09/06/2023 15:06, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > Two functions got added with normal prototypes for debugfs, but not
+> > alternative when building without it:
+> >
+> > drivers/accel/habanalabs/common/device.c: In function 'hl_device_init':
+> > drivers/accel/habanalabs/common/device.c:2177:14: error: implicit decla=
+ration of function 'hl_debugfs_device_init'; did you mean 'hl_debugfs_init'=
+? [-Werror=3Dimplicit-function-declaration]
+> > drivers/accel/habanalabs/common/device.c:2305:9: error: implicit declar=
+ation of function 'hl_debugfs_device_fini'; did you mean 'hl_debugfs_remove=
+_file'? [-Werror=3Dimplicit-function-declaration]
+> >
+> > Add stubs for these as well.
+> >
+> > Fixes: 553311fc7b76e ("accel/habanalabs: expose debugfs files later")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> Reviewed-by: Karol Herbst <kherbst@redhat.com>
-> ---
->   drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Thanks,
+> Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+
+Thanks,
+Applied to -fixes.
+Oded
 >
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> index a6f2e681bde98..7794902df17d5 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> @@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
->   	regp->Attribute[NV_CIO_AR_CSEL_INDEX] = 0x00;
->   }
->   
-> -/**
-> +/*
->    * Sets up registers for the given mode/adjusted_mode pair.
->    *
->    * The clocks, CRTCs and outputs attached to this CRTC must be off.
-> @@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_framebuffer *old_fb)
->   	return ret;
->   }
->   
-> -/**
-> +/*
->    * Sets up registers for the given mode/adjusted_mode pair.
->    *
->    * The clocks, CRTCs and outputs attached to this CRTC must be off.
-
--- 
-Jingfeng
-
+> > ---
+> >   drivers/accel/habanalabs/common/habanalabs.h | 9 +++++++++
+> >   1 file changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/acc=
+el/habanalabs/common/habanalabs.h
+> > index d92ba2e30e310..2f027d5a82064 100644
+> > --- a/drivers/accel/habanalabs/common/habanalabs.h
+> > +++ b/drivers/accel/habanalabs/common/habanalabs.h
+> > @@ -3980,6 +3980,15 @@ static inline void hl_debugfs_fini(void)
+> >   {
+> >   }
+> >
+> > +static inline int hl_debugfs_device_init(struct hl_device *hdev)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> > +static inline void hl_debugfs_device_fini(struct hl_device *hdev)
+> > +{
+> > +}
+> > +
+> >   static inline void hl_debugfs_add_device(struct hl_device *hdev)
+> >   {
+> >   }
+>
+>
