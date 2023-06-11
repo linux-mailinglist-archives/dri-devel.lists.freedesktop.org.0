@@ -1,76 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5093172B41B
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jun 2023 23:17:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8409E72B424
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jun 2023 23:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9220310E043;
-	Sun, 11 Jun 2023 21:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02C910E135;
+	Sun, 11 Jun 2023 21:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 002E010E043
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 21:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686518236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=scqbEDyst3H6qyGOBqKvZAmBDC7H+ji2fYf2qArG2rk=;
- b=OsPASaM92QOTpDxxjXeGoVzoZgNqoWSk/QWydad/Kr+BHXuxkm4YSLZgNvzD0Y51ckSasz
- eZJ9eLgP6iEcjUwUoWpBko5ZrqRhS1yR9SjEyEN+3hLtJVTgqVmhLQpkJCZ+kr0LBLTVgj
- lY470nBL3c7BmHAxd/estxFYP9FOnp0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-HAoxLPgBNP2Fb24LrERa0g-1; Sun, 11 Jun 2023 17:17:15 -0400
-X-MC-Unique: HAoxLPgBNP2Fb24LrERa0g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30fc3469c9bso90374f8f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 14:17:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686518234; x=1689110234;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=scqbEDyst3H6qyGOBqKvZAmBDC7H+ji2fYf2qArG2rk=;
- b=QWsKEYWFslUtNL5j+fNW/Bjk7y7XBvPa4/0M1E/i8o1hEGpGO2eXWmGfmLIJhcfQ7z
- AOqsuT7NU6UIrGx+IikiI69LcmLUvkwwp+tEvOnXmLyCFgzyVi7d62xboSJeLxNIMgu5
- oQnbFQuTq1lB/2vSe5ndRP1YOTA/Tqed235G5MavXCN05SL01Y1BNa0eeKTMHhk/8oKb
- BTl8a3i08zFfH9ZEbEDcSp/MABBHUP8UesUdwa//uFCL4Sqg7RS6VQbvyaZVTNjUZDuo
- LxBA77k5H2dMNMEvMIqcIDrqyKkCEsBYHkKxvMRamJNg8y8G0D7qit76rTR0qrAe5IJR
- +hKA==
-X-Gm-Message-State: AC+VfDxYEdK8GyhzI7Y5uj6n/Gr1r8SKInn3OHKeaBQaB1YZlwSfc4zn
- Bbu95GBF4faSCyTKp7VfZ+jMLkn4ahHHJGSw0DeX1ZmW9jeFawsvlI7dAhwzJGPFGr8gI8tI8wg
- t1+LsaWOreh/zKCxAM7AeNXOrnTvo
-X-Received: by 2002:adf:f107:0:b0:306:2d32:8ec with SMTP id
- r7-20020adff107000000b003062d3208ecmr3807160wro.6.1686518234307; 
- Sun, 11 Jun 2023 14:17:14 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4N+d92dYRcxc4bhJNAzD/GW0AKTxdU6tZn11dc22gml38QoqQU+qgjonNV1d2EdoFYv23enw==
-X-Received: by 2002:adf:f107:0:b0:306:2d32:8ec with SMTP id
- r7-20020adff107000000b003062d3208ecmr3807153wro.6.1686518233981; 
- Sun, 11 Jun 2023 14:17:13 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m11-20020a5d6a0b000000b0030b5d203e7esm10544931wru.97.2023.06.11.14.17.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jun 2023 14:17:13 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/i2c: Switch i2c drivers back to use .probe()
-In-Reply-To: <20230611202740.826120-1-u.kleine-koenig@pengutronix.de>
-References: <20230611202740.826120-1-u.kleine-koenig@pengutronix.de>
-Date: Sun, 11 Jun 2023 23:17:12 +0200
-Message-ID: <87h6rd1yxz.fsf@minerva.mail-host-address-is-not-set>
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 817BD10E135
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jun 2023 21:20:00 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 41E6C1F55F;
+ Sun, 11 Jun 2023 23:19:56 +0200 (CEST)
+Date: Sun, 11 Jun 2023 23:19:54 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [Freedreno] [PATCH v5 2/5] drm/msm/dsi: Adjust pclk rate for
+ compression
+Message-ID: <44xp3xrw2fo2pszoxtleurk6rk26nrp2envvxizmosidubnqis@turyqhwmvjxi>
+References: <20230405-add-dsc-support-v5-0-028c10850491@quicinc.com>
+ <20230405-add-dsc-support-v5-2-028c10850491@quicinc.com>
+ <js3mcglahq53mcyxa6deltjlu4xpc2pnafwz2rbk3dl4ovws2o@5xw2wzvfaj2v>
+ <f63435ca-933a-52be-d879-1d9cc9441107@quicinc.com>
+ <f11fc3c1-4b19-3186-9c56-b1bac221cf83@quicinc.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f11fc3c1-4b19-3186-9c56-b1bac221cf83@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +48,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
+On 2023-06-08 18:09:57, Abhinav Kumar wrote:
+<snip>
+> >> As discussed before we realized that this change is more-or-less a hack,
+> >> since downstream calculates pclk quite differently - at least for
+> >> command-mode panels.  Do you still intend to land this patch this way,
+> >> or go the proper route by introducing the right math from the get-go?
+> >> Or is the math at least correct for video-mode panels?
+> > 
+> > Sorry but can you please clarify what exactly is incorrect or different 
+> > about this math when compared to downstream? And, if you think that this 
+> > math is incorrect, what exactly has to be changed to make it the "right 
+> > math"?
+> > 
+> 
+> Agree with Jessica, just calling the math a hack without explaining why 
+> you think it is so is not justified especially when a great detail of 
+> explanation was given on the bug. Sorry but its a bit harsh on the 
+> developers.
 
-Hello Uwe,
+We discussed this in detail so I'm not quite sure why that suddenly
+needs to be reiterated again?
 
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> commit 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter")
-> convert back to (the new) .probe() to be able to eventually drop
-> .probe_new() from struct i2c_driver.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+- Marijn
