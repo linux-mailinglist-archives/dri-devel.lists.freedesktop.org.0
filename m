@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8B572CDC3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:20:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4742972CDF3
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F96010E05B;
-	Mon, 12 Jun 2023 18:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED0E10E2B8;
+	Mon, 12 Jun 2023 18:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id ED3F510E1FB;
- Mon, 12 Jun 2023 18:20:03 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxL_DRYYdk0vkDAA--.8719S3;
- Tue, 13 Jun 2023 02:20:01 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxjcrQYYdkO+gWAA--.57583S3; 
- Tue, 13 Jun 2023 02:20:00 +0800 (CST)
-Message-ID: <90fb836f-ba54-1d3c-965c-67f91ff89fb0@loongson.cn>
-Date: Tue, 13 Jun 2023 02:20:00 +0800
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9CB10E2BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 18:25:32 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2b1a6a8e851so57240371fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686594328; x=1689186328;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SRzyUIsK6pGxw41itI7qcW9AyOhEGSR+zGX4cSAWEUE=;
+ b=P1ebaDZ0Utu/VtBVcEq4AwPmyzWiTMqd/oI2be4YyyHZ+2AA9cNaINLxwe2+97Htt+
+ xwbWwOWRiPrvLZ3J0zhyYNMXvVMiJdF+v6WtdcyXdRnXPGZ98GqAcLcqcpJmO41OxqEo
+ dhv7VhApeUAQVi4RVR5VzVfXBTFvRLmzR9rbhmcdxfAlOUgUTRO8ohqcDMYhjKx7+SlI
+ oGZgAdf3P+/okYUfe8IojoWAn6dfH3NcaV4QTuXapFfv1r5yHkcbKZHS87vgqhJHTC6x
+ amw2aUFCqyLEkwCc+30g0PJwqrMG6AKtOvRJufBdV7qqJn3n4/PVAl4RHh0GK7RbgN4H
+ ifIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686594328; x=1689186328;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SRzyUIsK6pGxw41itI7qcW9AyOhEGSR+zGX4cSAWEUE=;
+ b=VOx/yg4FnwUihndZHPF5evPk9X/YhBhyZw4mClOSuoNUBxmUbXxsnWIQA/SdAnWJsI
+ 4tuR/1FLzm/O/sE83p3wMwj3raIQSkQX1ONLt2SVTXGJ61BSfxY+KxAVdHS2WXSES5pB
+ zlhwiPmXv6sB0PUcHugXaLLmwUl5RzZY5i8cHD7cn7mzL4Jap64W15KCy+Deyhi/cA+I
+ gFyIZOyiidFAUKwJlCQizBJXIn5QpvXM6IHIGl6MQ3L13PWtRKACUkdm4f0Q3nFlJJLf
+ AvM5N+Bs3A5uefPvw5z3GyyKWnM+qGCyubuQKn/Q7at7XS5LzzEG1e1pRkNXZrTKndw/
+ a/CQ==
+X-Gm-Message-State: AC+VfDwf5x+1asKjFmRIYf2ddPG3yxIuSSpvOMTTujZDSHecxX0s5tOc
+ WzbuG51IxYih87H60pglFGu3AQ==
+X-Google-Smtp-Source: ACHHUZ7vMn7X3kb0tD+cRSlLHmzDPF8v+1lJz7x03jVDXdtf6kEG5bHgrV44bNAQA2AjJIr5UIvYSQ==
+X-Received: by 2002:a2e:95d5:0:b0:2b1:bf5d:4115 with SMTP id
+ y21-20020a2e95d5000000b002b1bf5d4115mr3201417ljh.13.1686594328479; 
+ Mon, 12 Jun 2023 11:25:28 -0700 (PDT)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ v10-20020a2e960a000000b002adbe01cd69sm1875106ljh.9.2023.06.12.11.25.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jun 2023 11:25:28 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH] drm/msm/adreno: make adreno_is_a690()'s argument const
+Date: Mon, 12 Jun 2023 21:25:27 +0300
+Message-Id: <20230612182527.3345786-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: etnaviv: Replace of_platform.h with explicit includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20230410232647.1561308-1-robh@kernel.org>
- <CAL_JsqLeAvEVa8h3qywqESkqGG1O+9QWqA7fc1EJeDGkmAV7Fw@mail.gmail.com>
- <0ce32e34-d53b-4038-ef39-3b0f3e2f8a7f@loongson.cn>
- <CAL_JsqKsa9KQxk6r=ZxtY30Mk5nk9ST5ejJ+8VXZ5vPJAGHMBg@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <CAL_JsqKsa9KQxk6r=ZxtY30Mk5nk9ST5ejJ+8VXZ5vPJAGHMBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxjcrQYYdkO+gWAA--.57583S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZr4rWFWUXF1xGr13KrWkKrX_yoWDuFgE9F
- 1I9w4kWr4fGr97Ja90yFyDZr909ry3JF4DZ3Z5tFn3W3sayry5JrykCryrXa43WF1IkFnx
- X3Z3AF93Ar1IgosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbx8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AKxVWU
- JVW8JwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F4
- 0EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_
- Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbI
- xvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU
- =
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +73,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Change adreno_is_a690() prototype to accept the const struct adreno_gpu
+pointer instead of a non-const one. This fixes the following warning:
 
-On 2023/6/13 02:15, Rob Herring wrote:
-> On Sun, Jun 11, 2023 at 12:49 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->>
->> On 2023/6/10 04:17, Rob Herring wrote:
->>> On Mon, Apr 10, 2023 at 5:26 PM Rob Herring <robh@kernel.org> wrote:
->>>> Etnaviv doesn't use anything from of_platform.h, but depends on
->>>> of.h, of_device.h, and platform_device.h which are all implicitly
->>>> included, but that is going to be removed soon.
->>>>
->>>> Signed-off-by: Rob Herring <robh@kernel.org>
->>>> ---
->>>>    drivers/gpu/drm/etnaviv/etnaviv_drv.c | 4 +++-
->>>>    1 file changed, 3 insertions(+), 1 deletion(-)
->>> Ping!
->>
->> of_device.h already has 'linux/of.h' and 'linux/platform_device.h' included,
->>
->> Would it be sufficient by simply including linux/of_device.h ?
-> That's part of what I'm trying to remove. Standard practice is to not
-> rely on implicit includes.
+In file included from drivers/gpu/drm/msm/msm_drv.c:33:
+drivers/gpu/drm/msm/adreno/adreno_gpu.h: In function ‘adreno_is_a660_family’:
+drivers/gpu/drm/msm/adreno/adreno_gpu.h:303:54: warning: passing argument 1 of ‘adreno_is_a690’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+  303 |         return adreno_is_a660(gpu) || adreno_is_a690(gpu) || adreno_is_7c3(gpu);
 
-Ok, that's fine then.
+Fixes: 1b90e8f8879c ("drm/msm/adreno: change adreno_is_* functions to accept const argument")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-> Rob
-
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 1283e5fe22d2..9a7626c7ac4d 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -284,7 +284,7 @@ static inline int adreno_is_a660(const struct adreno_gpu *gpu)
+ 	return adreno_is_revn(gpu, 660);
+ }
+ 
+-static inline int adreno_is_a690(struct adreno_gpu *gpu)
++static inline int adreno_is_a690(const struct adreno_gpu *gpu)
+ {
+ 	return gpu->revn == 690;
+ };
 -- 
-Jingfeng
+2.39.2
 
