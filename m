@@ -1,85 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC56B72D508
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 01:38:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D0672D53D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 01:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE8010E2D9;
-	Mon, 12 Jun 2023 23:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2740910E2D7;
+	Mon, 12 Jun 2023 23:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6FB510E2D7;
- Mon, 12 Jun 2023 23:38:14 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35CNL5Gh019976; Mon, 12 Jun 2023 23:38:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : to : cc; s=qcppdkim1;
- bh=nF0oxcJueMu5x7aoa0z57cKbfobnIExcbE0zg1TNeHU=;
- b=SRnfHbLdzXaF1ChbEjrZDNiOKBjdN8M5MNpNFw87S/V8nQriV2G4fz3r9m/57CT4QID1
- RSFSx31gE0q1SK6EtrYc9sOd3+zbzwcGmnre38wRiUSa9OtUK3jr1FGk108GBF+HQKAh
- B8nmva7Adi/CZzSkMaBpVSZIMm+Js4bXkSjki/aoEkQTfV7WgoEAUelMRiOyrzOfGSm6
- cfS8qQV7pdr3TLPrCOBzmcn5eq8ZsEeQCRF7DgHOP1lJBrR/RQ3tR74OO06ukupTP/qs
- WM76bwzz4kAqANetqk+2mrFJWXN/uy4p1K0X16d16iTcAkX76ZbUuKKxKSd/smjlKyz9 Gw== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r68x98cxf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 23:38:11 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CNcAUt031794
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 23:38:10 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Mon, 12 Jun 2023 16:38:10 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Mon, 12 Jun 2023 16:37:36 -0700
-Subject: [PATCH] drm/msm/dsi: Enable BURST_MODE for command mode for DSI 6G
- v1.3+
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA6410E2D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 23:53:23 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ 98e67ed59e1d1-25c02bb57fbso728764a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1686614002; x=1689206002;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ilCV1eavcppCZqSQlFFleTY0mmggm6H7OwYAhwT+pjE=;
+ b=mvyGeYV5fJUviPeruRJWp/J2seLtopAZBeAkMlWKwi1+XvbXc+n449dyXKx2bGA8pS
+ 1fhqEE0nbC9V3zmpX+1zE1UCd0f8gFaImEminvqGXeE8vXbKkkegJVS1KOybl9l/SxIS
+ o1vOKr5IqFET4cgNF0DqXka9LjUqOvybRh/UE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686614002; x=1689206002;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ilCV1eavcppCZqSQlFFleTY0mmggm6H7OwYAhwT+pjE=;
+ b=eJUTxpCA7y7oYW/y9KB1c657z5Dxd2zaujZt9YWRc0awIhU3zTrHgQROrUTwHqE/bT
+ xgEQ1iP0ol38fbGYR1sBi9TxktlWq+6cknLP0h9I2ivLalN8Gqr5sKMnms6vayppARfT
+ C7nFR9a9JgJq38rGLyKtwg9mypmlfsqMAm+108UX9ldzSL7PhQCopuiPw0iOncQaVOPh
+ l1JYYENv0LyAwkZq6yaqD40XP3BO5EDuINhezukVnFp6JTJhNflXqKEHpSrdnNhwglKI
+ YhcSSTLOjnQWaxkeCRBfKDHS1NgUgMen/8DtYjN/6kmd1K3xwEVbxaWxBC/6oPktqXgw
+ XDuw==
+X-Gm-Message-State: AC+VfDyRoITQuUUrATMWZYKsxjeOlcc5z7D8YfUhejRZlJJQG42+B/IP
+ RlG85yCHJw2SGKwfJ1bco22EdMwPuZYWVRz/Jjrgp/Yl
+X-Google-Smtp-Source: ACHHUZ7B0ZWzMzO6JgKgvWXIa24+k2wYnRIGMhA66aBGl7pZyjS/BUAFMsF9LgOTT+j6GtWDvcjm5Q==
+X-Received: by 2002:a17:90a:19c4:b0:255:6174:1588 with SMTP id
+ 4-20020a17090a19c400b0025561741588mr9620969pjj.42.1686614002174; 
+ Mon, 12 Jun 2023 16:53:22 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:9d:2:1995:7db0:daf3:2c2a])
+ by smtp.gmail.com with ESMTPSA id
+ bk17-20020a17090b081100b00256b9d26a2bsm9653465pjb.44.2023.06.12.16.53.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jun 2023 16:53:21 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: Fix auxiliary bus lifetime
+Date: Mon, 12 Jun 2023 16:53:03 -0700
+Message-ID: <20230612165302.1.I24b838a5b4151fb32bccd6f36397998ea2df9fbb@changeid>
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230608-b4-add-burst-mode-v1-1-55dfbcfada55@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAD+sh2QC/x2NQQqDMBAAvyJ77kK0qbR9Qp/Q4mHXrBpoomS1C
- OLfjT0OzDAbqCQvCs9igyQ/r36MGcpLAe1AsRf0LjNUprqa2tyRLZJzyEvSGcPoBOnGXFpr6kd
- HkDsmFeREsR3O8vXGoAGjrDN+l0D96UxJOr/+v59m3w9wyGUGhwAAAA==
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-X-Mailer: b4 0.13-dev-c6835
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1686613090; l=1443;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=3AkGtxG8lwBTKyEdG06x39OyLfylf84f2+kPxqOtcqI=;
- b=JAHAesW/J4wfvV5wP9axVDLHOPlsZhpT/iM1ivhliyp3ouVWT1acQrqsqHF9UA5yAhESpwRW5
- i3bDV9jxpxVAXra/1DeTxUvCCPr8YoRSPiq1CVyMyuXlF1DpDlNFsDs
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: E6FXTjbu_VmQieQhUcmIPFNqfwsx4Kwa
-X-Proofpoint-ORIG-GUID: E6FXTjbu_VmQieQhUcmIPFNqfwsx4Kwa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_16,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
- suspectscore=0 mlxlogscore=662 mlxscore=0 adultscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306120204
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,48 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During a frame transfer in command mode, there could be frequent
-LP11 <-> HS transitions when multiple DCS commands are sent mid-frame or
-if the DSI controller is running on slow clock and is throttled. To
-minimize frame latency due to these transitions, it is recommended to
-send the frame in a single burst.
+Memory for the "struct device" for any given device isn't supposed to
+be released until the device's release() is called. This is important
+because someone might be holding a kobject reference to the "struct
+device" and might try to access one of its members even after any
+other cleanup/uninitialization has happened.
 
-This feature is supported for DSI 6G 1.3 and above, thus enable burst
-mode if supported.
+Code analysis of ti-sn65dsi86 shows that this isn't quite right. When
+the code was written, it was believed that we could rely on the fact
+that the child devices would all be freed before the parent devices
+and thus we didn't need to worry about a release() function. While I
+still believe that the parent's "struct device" is guaranteed to
+outlive the child's "struct device" (because the child holds a kobject
+reference to the parent), the parent's "devm" allocated memory is a
+different story. That appears to be freed much earlier.
 
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Let's make this better for ti-sn65dsi86 by allocating each auxiliary
+with kzalloc and then free that memory in the release().
+
+Fixes: bf73537f411b ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
+Suggested-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 744f2398a6d6..8254b06dca85 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -994,6 +994,11 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_TOTAL,
- 			DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL(hdisplay) |
- 			DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL(mode->vdisplay));
-+
-+		if (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
-+				msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3)
-+			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2,
-+					DSI_CMD_MODE_MDP_CTRL2_BURST_MODE);
- 	}
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 34 +++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 597ceb7024e0..db1461cc3170 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -170,10 +170,10 @@
+  * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
+  */
+ struct ti_sn65dsi86 {
+-	struct auxiliary_device		bridge_aux;
+-	struct auxiliary_device		gpio_aux;
+-	struct auxiliary_device		aux_aux;
+-	struct auxiliary_device		pwm_aux;
++	struct auxiliary_device		*bridge_aux;
++	struct auxiliary_device		*gpio_aux;
++	struct auxiliary_device		*aux_aux;
++	struct auxiliary_device		*pwm_aux;
+ 
+ 	struct device			*dev;
+ 	struct regmap			*regmap;
+@@ -464,27 +464,32 @@ static void ti_sn65dsi86_delete_aux(void *data)
+ 	auxiliary_device_delete(data);
  }
  
-
----
-base-commit: dd969f852ba4c66938c71889e826aa8e5300d2f2
-change-id: 20230608-b4-add-burst-mode-a5bb144069fa
-
-Best regards,
+-/*
+- * AUX bus docs say that a non-NULL release is mandatory, but it makes no
+- * sense for the model used here where all of the aux devices are allocated
+- * in the single shared structure. We'll use this noop as a workaround.
+- */
+-static void ti_sn65dsi86_noop(struct device *dev) {}
++static void ti_sn65dsi86_aux_device_release(struct device *dev)
++{
++	struct auxiliary_device *aux = container_of(dev, struct auxiliary_device, dev);
++
++	kfree(aux);
++}
+ 
+ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
+-				       struct auxiliary_device *aux,
++				       struct auxiliary_device **aux_out,
+ 				       const char *name)
+ {
+ 	struct device *dev = pdata->dev;
++	struct auxiliary_device *aux;
+ 	int ret;
+ 
++	aux = kzalloc(sizeof(*aux), GFP_KERNEL);
++
+ 	aux->name = name;
+ 	aux->dev.parent = dev;
+-	aux->dev.release = ti_sn65dsi86_noop;
++	aux->dev.release = ti_sn65dsi86_aux_device_release;
+ 	device_set_of_node_from_dev(&aux->dev, dev);
+ 	ret = auxiliary_device_init(aux);
+-	if (ret)
++	if (ret) {
++		kfree(aux);
+ 		return ret;
++	}
+ 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_uninit_aux, aux);
+ 	if (ret)
+ 		return ret;
+@@ -494,6 +499,9 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
+ 		return ret;
+ 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_delete_aux, aux);
+ 
++	if (!ret)
++		*aux_out = aux;
++
+ 	return ret;
+ }
+ 
 -- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
+2.41.0.162.gfafddb0af9-goog
 
