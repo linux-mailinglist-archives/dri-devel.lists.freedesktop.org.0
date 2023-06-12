@@ -2,149 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6123C72C2BE
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 13:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59D172C2BC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 13:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602C410E03E;
-	Mon, 12 Jun 2023 11:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D74410E03C;
+	Mon, 12 Jun 2023 11:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D18710E03E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686569023; x=1718105023;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=v6WIYfBmviVtb79NEHKQ6F5KFUBdjoanxCP9WnvG5zw=;
- b=PwBXVmlb1UppoC5txzKpA7I24pKEsnGUHIQ+TL9Z5bgvLDnuzpIVwjSz
- ATB8FWBLgv63CsEQKCvvA61955NAL460FbNJvMIX1qneGB1ra1kyO3/Gb
- J4CzCkrJVFh9DTkfZct4Q/MGCvLqsX6U70RB+H9zCwDGRIbRxXQquz7A+
- n8Lr+divOrj6OV9iYqL7AP7RDE53e0GZe/Tzdq1qyvNBOjJ8IUqaNastc
- oTLF9L2leBAcmH5ROTGFEAJqdkuJodD30tkZB10+ENrsXNIZTX57v03Ze
- DcLYZcJEjaYq7tnIWvlrokpYqpdQHNxa/nbQcH3HVNZWPGP3hWPCKdYjr w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="356896029"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="356896029"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2023 04:23:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="776326104"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="776326104"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga008.fm.intel.com with ESMTP; 12 Jun 2023 04:22:47 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 12 Jun 2023 04:22:46 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 12 Jun 2023 04:22:46 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 12 Jun 2023 04:22:46 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E728810E03C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:22:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cW5+Zda7EDgKDerlqEkam2SBzPesDOa2WOOKlEx4RhU2UWAEOY2WHQ+p0DD62o00Dc9bGnc+4YU1JXJp703wXQEAOPZxbs71jFvTAqtzaauO9oLNSpTZhdu7PkaIg9TKN0F251YJUwYiaN7UM2vNqCEEO2W+RK2IA3W9DF2P4oSPh0Xgma6RCatfjeXmEIQ1Db9WD5bnBygzQkcx/FTiHUV3MpzMcpE/TtI6L+ikg+mXneOGM+jKp+n0fQJ97NzKuFLCvq4cJ8ypzIeQeZGQf4eSK+8yydSHNo9A4TKiQPTAxV46OS6rdOJCIhIoivbZmukaAd54twU8Xn0cVEgNQw==
+ b=ZXpY5NnUwF+sWuxWNqHEs+WfhOUDpox+pWnaV/6d80lfV1ms3KUBVE+8ekqzb7IXJX21nqiihO+vSUMqphIAZVY/1VPWGhr4G9mo9nrfPhvSf+U+4BQhTH+pmhqtxdOVZUMTl9Ig0l78CLg4jipqf4JrGzREm/j0T27bwIecKHzDGh9nomt/800PHPcAXjxKd8RM93Z4829KhPOXKaihEzI/x/z/DcnYrLE5pl6rsC00qIFDMKQWIzzqAXm4adWS3ZbKNFmZqgdojLA5xtXHd0GvLZ44/f9/j2sekKQl1u5qixL7diZfXO7VJ7J81opsHJsfMjGWqOkVMBUL4oeO2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fTviW1HxUfjAOlqP6oeHPQs6RD0Pe6YvWtwW00YhPiI=;
- b=mfM/antflh5aLaFRhHSG3WKVsBHoqPMBleMnLhoFrBAbQ9/feoZZ7qXiEKkbxH0UGsOcWf/I+ubFgTIo6wGZZ0ruH7nFiEDwOVQzmr0Uc3/R2G5FQh7v8zFlzsFbP6OKPSJDO3uBD5r/M0rGKNAJl4ReLOTfqBrg9QMq1TETNnjvAvUBptnYxOCmwl0S5K8O9IBK/SI1O4SRNKtPRIjMYedbi5zicedqO3Ur75x1NKYVB+wrAgDiCwpWDzgAWK+Czq+nD5KnyJXY9kEVv5n4o8jKAvyxrZqEdk+crEZlLn42rqodUrHBZGkLznl6Vbe+BZlBz2WtcAKkkPwhz82Cmg==
+ bh=GLnMStLtrWncnm5zSYGs6xqhC6fI/PDojUN45dxVH0M=;
+ b=P95jUf5awNHbfI9k5ThM7WcxdpqPQT2dVamUvuVZlX6gxCkKePzK96YVjYAA1ApvWL5zMn+Zl7s0rBWz1Tsc+gJkUH2I0tjLPmLeIWs2PVQcnxwyXWZt8DPrUn6+JBNfaEyv4YmpiX1qwVmngJOaB9lFaMeLA2OlyGGZCwqZ1X+G+cplvOcOD4M/3EHetlKS7CbtK9CNOnvlH6UbvURqffyas54PG5lXLJ7TiGuCg7rCzWqYMzmw/WDUcTEYFjbcbmPIj9eotxCHn9USd5AOU/qKKgxhVykAdJNj4m2PC+plNKoqQk5mFaxjveZDv4GKGJ3RlPGV25fFBqMmwhtSPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GLnMStLtrWncnm5zSYGs6xqhC6fI/PDojUN45dxVH0M=;
+ b=DaHfWHaWPi38dFaN/arCZy+WzaxOIa7olXpKPoK5uNfUUzdTE6vU1H04qpVyTqMvbWJ3aFFWvnhAhRbVutqmXVR90Su4FuqIn5YlXSxQKfmZKyDLsuBlYxQq9gluunnObx0CoHU/5rODJex+fGh9s8Df31+dHi1kpYXkzSHobHk=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
- by DS0PR11MB8183.namprd11.prod.outlook.com (2603:10b6:8:161::15) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by DS0PR12MB7533.namprd12.prod.outlook.com (2603:10b6:8:132::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.39; Mon, 12 Jun
- 2023 11:22:44 +0000
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::74d2:5fa6:b6e5:7c63]) by BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::74d2:5fa6:b6e5:7c63%6]) with mapi id 15.20.6455.037; Mon, 12 Jun 2023
- 11:22:43 +0000
-Message-ID: <b08037ef-156c-0f5d-1fde-e2c55d7655fb@intel.com>
-Date: Mon, 12 Jun 2023 13:22:34 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.36; Mon, 12 Jun
+ 2023 11:22:51 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Mon, 12 Jun 2023
+ 11:22:51 +0000
+Message-ID: <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+Date: Mon, 12 Jun 2023 13:22:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 3/3] drm/ttm/tests: Add tests for ttm_pool
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <cover.1686563485.git.karolina.stolarek@intel.com>
- <042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
 Content-Language: en-US
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0132.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::14) To BY5PR11MB4243.namprd11.prod.outlook.com
- (2603:10b6:a03:1c8::16)
+To: Sukrut Bellary <sukrut.bellary@linux.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230610021200.377452-1-sukrut.bellary@linux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0074.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::16) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|DS0PR11MB8183:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab8c0c28-a7f7-4ef7-c94c-08db6b3756f4
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|DS0PR12MB7533:EE_
+X-MS-Office365-Filtering-Correlation-Id: 401ef1df-6a0b-4fc6-6913-08db6b375b97
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3yxXa1omnSJcFUcEAyEivZj/2J5Yy0HsoGessaA6oes9AVBxtiiG98C55nAAcMnTWq3GaOXNlCZbu8fOyJCSH8KNPcu56sN+ih5EQYXM6zdU2x9xltT+lAeM0NfbZDpPLlonjJGJv3XCQ/KHN/x4AAOEeEPEXP3leA7GPYRFRSDN68RTmM5S/Wdb8cGJHL2iDnjHgpY5VLhnj+kqfpv55c0O3YV4jIVtvTSNPXxbsmRk/5cKlLeyunqh3wmcUP1oAhKWV3ZMqFNZXrEwsnvFNalp6Dv7KEf2NHLXcdUEQzG7zrpwc4aXgOficqG4wcrrJOAhNDjw4w97nuC49/9rMLHsJG8+EXScCCIlK9XCy7hHaV8bQqLF0grXMwTVrX9Yohs7als5yamhaVxqfFSu00rcGdeIf/MAQlUhpMO0ZR06H32RIzWYccqt3LThEG3FLV297E2fNQ7Z9FEmbxTc9q/xZXKnb66Diw6E/Ks23Dnuzehww1L1iDfh7TWHK4Lki6uXOD1bA4d9sxGIAG5X2kuDL8C28LzQFrMhSSM53edarreNLcrw4eIERiW7DtN1o3AHX+kZcVSJQJi++tTWZXpWDr/3IJTYO4Ugw5oVOewQPOs63VIsbWnV6Q2fodbBnKn2gVeeCrjU9CyD/o/pXA==
+X-Microsoft-Antispam-Message-Info: 1gq9mm558ulT1Thk0y9RTmFJWtv8XKJ31Dkr6EBnf4UQRT5INIWOEtAzqgkxmM8XuPin/Kul+ZJBdffinBm4KUJWwIrw2vctNh/UjMRvm+RTW81FCxHkCgcjV9CyXQwtpV6neijC3n5vmoUof6pCNLXVxq4oZuYI+9e9k8GWKJCneUhwJ9JnVyqSPr+hZ78JwjZpyo28p6REWjv1LfHa52dFLHs/uFqKLVfHN9Xj2R9rbHESH+w5gY2NDXHBV7EAJekShsu29Gt+y1IyJ+OZxyRWr2NMT/TYE92X20w2Ra0n4DPFjRgViCQEfiVvTcIA+LveRvm8kKSwenRZafO8l86DCwayeAP54UePAiH2znUKoGDQ+rnvjwVV4wWVKH8tbpWhLAfHmcpI7rs6PsKliHoRKJjW6/QUD3USUlLeMTZdNIILAmUsCrNkcd8HzzN3xu0xwPW/Gm7Bb7NJw6Zqjq9r4dmZqB7OIQEsjIL3vwtZHTERhY7lY5d3qiuncPY5JBra/67fxQqGgTs8juhX1k+uoliLReE3z+7VodqC6HaNZ3l+OJGUEknRhXEQJkvXkQ+MEKCOElmujxcac8jqD830wha0FJu4bIT/KUo8RWLILPB+jXsc6OXLbnWZxrgv8ggpAzPxLBDGY8uvgGm5yQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(376002)(396003)(136003)(366004)(346002)(451199021)(30864003)(2906002)(478600001)(5660300002)(41300700001)(44832011)(54906003)(316002)(8676002)(8936002)(66476007)(4326008)(66556008)(6486002)(6916009)(31686004)(36916002)(66946007)(6666004)(2616005)(6506007)(26005)(6512007)(53546011)(186003)(82960400001)(83380400001)(36756003)(38100700002)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(396003)(366004)(376002)(39860400002)(136003)(451199021)(83380400001)(7416002)(36756003)(478600001)(8936002)(8676002)(4326008)(66476007)(66946007)(41300700001)(66556008)(316002)(31696002)(5660300002)(38100700002)(86362001)(6666004)(6486002)(2906002)(110136005)(186003)(6506007)(2616005)(31686004)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVY0RUQ2TFpFOTdyTFRvVDFieHpvbDU4dVZ3aUdpMzkyNGYrejAxSjhuNzhP?=
- =?utf-8?B?V0lXVEdoWjRVMlZzUzlNaWlua3BqdnRFNDh0N2h4UkpXQVR5NmhReXQxc2Ev?=
- =?utf-8?B?aWhkclF1bHRaa2E5cGYwb2dhVWg3eXVzekw4d3h0TUNwZko4STIrUE9ERTlt?=
- =?utf-8?B?Q2NXL0U2VWNqdDBqeDdUWWhIL1NLL0ZEU3Z6SUltaWFUUnRFNkYySkk1THhE?=
- =?utf-8?B?V01ITEFHNWJic2RPbHlxMTA5dmZucmNrdkk3ckhDTkJOVkxuTFFJZithVDQz?=
- =?utf-8?B?amc3NktTTVp2Rkw5SXBBbU9YbW5kVmhRMXcwaHpaT25RTlV4VXMyRjBJQ3BR?=
- =?utf-8?B?aGExcWh2bFBHaUxGeDA0VDl4bjREUnBvUmxVdUNtNjZzSXJGWU14WEcyQVlj?=
- =?utf-8?B?aDRRc2tzOHVEeGdnK0tYN1UrRzVBWjA4N3ViUmVGS1dMV2IwTGI0SCtYb3Bp?=
- =?utf-8?B?ZFdWS0RqL3dLOTkxY3NPZk1LMFIxcm42Rmt4WklHeGI1K1Z4UWZ6MjIxWEk1?=
- =?utf-8?B?YU01enA1ZFhaMUMxMlMxSE95VS9JTXJRV012YjFyRW5lT25wakZVay9vOXc1?=
- =?utf-8?B?dlVqalBVNUlJdGdrbDA1QmZvSnpyYjMyVFQyRFlORFl1cDA4U0REMk4zOWly?=
- =?utf-8?B?WTRrM1ZMSERSa0tTTDlzUi9aZ1RJQ0hiK3JDbG41bUVJVVZTWERKK2VjcUJN?=
- =?utf-8?B?bGJrTExKMFFFNGdvekF3VXVZK3lMTEJoNWhqSW9WcURNdnlOME1FVXRDSnI1?=
- =?utf-8?B?emp6amh0NnNET09SQ1ZMSFJsdUJKYURLbkppQnczclVjQnBCczZPdXd6Sk9P?=
- =?utf-8?B?OS8vK09IY0JveHA4Y2J3dWZ1VDZ5SW4wNmNNQkpMVU44MVMra3ppL002djY2?=
- =?utf-8?B?cHZoczF1cnBPcjQrMWovdWczRzBNeWp2Qmczc1FVbGJpeDhkMHR0UHJUY29w?=
- =?utf-8?B?R0JNaExOYXh6UGYyQUpHenEvUGs1ekVlRy9US0NwZm5iN3dhV3AzYVlvWFFV?=
- =?utf-8?B?b1p3bzFHeWV0ZmhIaFJPNmF6dS9vMytYdE11aFBDZU12VWtQV0o3aEVzSWpx?=
- =?utf-8?B?ZFVYdml5VWdrOWoyOTdhSGR5SERXamlIL3libEpRaVYwSkQ1RlM2YnNRR2pn?=
- =?utf-8?B?ZlhRQ2syZEFmNlBaOWVjcGtya2Q2SUpOWktncEwxVXR6Yk1uTDUvQXExQ2Fm?=
- =?utf-8?B?bW1EcTQwM1R2ckNzOSswVXFTbmdhUDVVeDVBMEowQW1rdjZxc3RWR2kxNFNZ?=
- =?utf-8?B?cUJHR2pGc2t1WUFOZFJKNHAycTlJdkkyM1Z4RU02VHB4NktjbEM2Zll3aG9n?=
- =?utf-8?B?MFg1TlI3M2ZyQzI1dnJxSVE5WlNXMitSU1hicHZIQ3czNHpWbGdsRlVyY2dV?=
- =?utf-8?B?bWwrSjBEQnI2VXFmVG9BRWxnNDR3UlBjWWZoUVZYU3B3OVZIZmErQ0trUzlE?=
- =?utf-8?B?MDArMEZ3Mndhc09FQWdmRFFFZzVNSDhIV2Z0UWg3N0JxS1dSS1FJZUJMbTVl?=
- =?utf-8?B?RkJVc1hIUWxhWk51aVVlaHd1VzlPckNxTmZsR2JSbEhqZVZEWFlleHRqUXpt?=
- =?utf-8?B?cE5STFlnb2xCbTVrTFlOblRNc0pCVW5VM3hjbUpZN1VlNmt2Mms1OWZ0aEEy?=
- =?utf-8?B?ZEdyVTBsNEYzQXZhM2E5QWRCY01ZUmNNano2QWN6VVRseW5MRXBBVlp5V1dK?=
- =?utf-8?B?OVZWZ1p4QVFCYUk1a0Nma05VNjNxdHh5Rlh2NmNMcXd1TnpEMStuVytmQXlC?=
- =?utf-8?B?SXlsZkVJdkdOcU1wMGF5SnZQY3hhY21TZnVxSEl6blJxRzB6REwxRU94Ty9P?=
- =?utf-8?B?L09wc0k3Q1kyS29pb0dWc25VaGNab3pLcDNObFh0bnIzVFVzaHJNOEZZOXY2?=
- =?utf-8?B?c2NvUUlUMUVSaVA1L3EySDdKMStCRXJaVlhHTFJXMHI4NVNVcUx4YldHV0xx?=
- =?utf-8?B?QUc2RTZtaUhkei9rODZPWlB0ZGxxZU5TMExLMXJrSE8rNWUrTzhjWVRmRVc2?=
- =?utf-8?B?TXROY3QzZUNHdlE3Vmo3ZUtEY2t0ajhZMjA3OHFvSVltSTlVaFdNWksvZGlV?=
- =?utf-8?B?UWIxR0d6MUc2TkY5V3RhSVRHeHBiRFRIMXdlNVFRVDNSUHNxL1V4MkI4ZTNJ?=
- =?utf-8?B?eTZQS2FnSXY0a2Z4QWlUa3Z5Rm0vcE5wZHdtM1RDRTZyUDlaVThLM3pqajht?=
- =?utf-8?B?d3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab8c0c28-a7f7-4ef7-c94c-08db6b3756f4
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW1hY0l0TmRGV29ydjFSZExMVFpGNDFqR20xYitOTXdDZDQ4dFQwa1V2eStO?=
+ =?utf-8?B?K25Od2l1QTNZaDgreDhYQnNzK0pDcXJxS1RTd29sV29OamNXTHVodHZienRp?=
+ =?utf-8?B?bmZqaHByNFBQejlXRHIyOCtHOFF4M2tDajV0WTc5M0tuZWZnaFl6VTBXZ1dV?=
+ =?utf-8?B?c0JQNUhsbFBucE9HQm9hQ3FMRWgxWTBZZkQybnJiWXpneFUvMGd5WUNpdmRT?=
+ =?utf-8?B?dWVhUnU1cVY3eGJzcHpwd1RZcW5JOVd1U0lvQVg1UzhlYURiK013ODlDNkVQ?=
+ =?utf-8?B?bmNJbDJFMVYyRisvZ2ttcERZTmdhSjV1M3NMOUxTVysxbUhFRk9Vd0FzN0Rx?=
+ =?utf-8?B?VDVzUStKRGJGTjFVSTJoNjNaUFZ2TnhHdXZ3cmIxTzBBRXFiUFV0RTZBR25o?=
+ =?utf-8?B?RW9ROE1yajltQWxhMjlSWDBmTWUwYXg1YkFFbmpkcFYwVkpMK2xYZnAva3NE?=
+ =?utf-8?B?anNmbzhaVU5ZMUY4V2w1RHVSTzY3YkFpWE95cjdoSDhJTUx3c0czeWpzZEQ4?=
+ =?utf-8?B?d1VvUWFqMUxYaERFeDVwNGVLM0pWeTFKVFloZ0hZdnMvdGkxQ3Awczk0MFRi?=
+ =?utf-8?B?eGpxdzBpbG94enFsV2lydS81SitaNTR0Vm94MkoyVk1Qd2xiWE50aTRrNDR1?=
+ =?utf-8?B?UEFTZG5ZQUxIaytkblhoVng2NDMrTUkrc1RGY0cyR2ZSSFlvY08zanljYWhF?=
+ =?utf-8?B?eVZ6Y1pXNytTZUNNVUtUajBBVmRSZlZUQzRWekVEK2NzdzRsb3V2QzZwOTA2?=
+ =?utf-8?B?cGZ0VXBJbVZnMnhoUTUyWVhFQndtTkk0MldNVG12VzdEd0NhV2ZhRWFoaDFF?=
+ =?utf-8?B?VjYzeEpta3JxVTFiY3ZZcmozblloUnVlT3M2eDJzbkZicGJWQlZDLytqTlVi?=
+ =?utf-8?B?VUdPUlhwcVExY2VXNlpxSjZWQnppZFdjQ3Rzbm02ejNoYnhQWThETThXc0NB?=
+ =?utf-8?B?bUIzUFJvR1VJeWg3d3JQQVNtNkEyMHo4d0cxYlpoNVZ3dy9lM3hsT1I4SVpU?=
+ =?utf-8?B?cFZCRm9nYmVrdnVUcytMNE52YU0wWUw1UW45UmZDQ1lxOHY2TGloL3llTnFM?=
+ =?utf-8?B?SGZ6M3V3MythMllJV1VjZXlHL0RZTFp3UG5rZEIzNEJhOFFQcnl6bmN3a0ZI?=
+ =?utf-8?B?TjVlSnhESmpjWnlERXVpUk80TWdBT0xaYVFjUVdmTmJ1MVNwR2h6R2NHUDdP?=
+ =?utf-8?B?SXhRQUQ4MDB2emUwTDhJeXpCZEg5c0VPOXBhM0FDU3NNdHNVMXpiMStJcWZQ?=
+ =?utf-8?B?SXJvMnZvK01pVW5wM2RvVndPa2dQUG5JdkMrMm9hd1EydDAzcVQwdTh6eXNC?=
+ =?utf-8?B?dHlkWWwrNStoMWRWRlVMT05oTFhyODM5MVNnZHMrRzZ0M3AzZHdDcTcyZnF0?=
+ =?utf-8?B?RWZzbFR2WUFrUDdTN21ZTUFleVZnMW1iOE9TMVFxeHk1Um5LRHVJazc2WFl6?=
+ =?utf-8?B?K0FXZGhaZVZoUEhBOU9wTSs0bTNxRXAyb25SU0taTE55UWpYOUtPVnJqV21N?=
+ =?utf-8?B?SGJ1cHdPdmVGYThjZ3BHYmVZYjRBVldQQkV6UmlwejV6MUJSSHI0MkNHQkY2?=
+ =?utf-8?B?ZlcwNUdMOGZMV1NrejZCczJ4R3FVblVUaHEzenRKcWZuUlIrd3ErdngxTmMx?=
+ =?utf-8?B?UzRieDdFWFN0KzFCV3B0WUtPZjVER21UVlB6MXZrWW9ZTmV5UmdCVjI4WWo1?=
+ =?utf-8?B?eXhRbkFnLzE0VzhNOWhsSmtBSitJVjZrNUZicEkwTForUjB1OVhCR0krY3ZQ?=
+ =?utf-8?B?UjBNemx6TkNQZzRseDZqUkd1cnZWbDFkYkY2QmRUWnJsVUh1ems5VEhvdURj?=
+ =?utf-8?B?S2dFdzBjYloyUnNDYloyNGlKaGhmanhRZVhNS2ZiR1Mzb3NUNnNRR29wR1Va?=
+ =?utf-8?B?TWF5MmhIbHBlRWgrYTRRRk1nTXdtVjJiNEpiRzg3dlE4Zi90YzNhbmtVWVZh?=
+ =?utf-8?B?clNYbHppRkJ6T0R2bGpQenpYZEhXZVFEZjg5L3lVeDdkaFRWZ1M3dW5kS2xm?=
+ =?utf-8?B?RnlNQ3lBY0p4MW1OdmpNL0NrWm1Fbk01aDFIc1J3U0NEc3pxY1FRQXlPb1du?=
+ =?utf-8?B?Y3U0ZmlIWFNPUVAzK1ExZ0RTQzc1SWRmYzRob0JXSjdKT2ZiK04yeWZPUTZB?=
+ =?utf-8?B?ZndYdVRhYlY3bnAyak00UGJuUmxYRTR4Nk9Rb2o2TVArdm9zUmlrNTZVVm5q?=
+ =?utf-8?Q?DD2E+i7wFEvkEb04SvcJU6um0QBWSRrktVz953WrWNbW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 401ef1df-6a0b-4fc6-6913-08db6b375b97
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 11:22:43.2279 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 11:22:50.9840 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tX0swUWIuvO+daJPtHWjnjSNKhPwszNOYYMBd5GR/pAc3gCzlO2swd+3bVeKd1GlGjjjVn1vk91ezYUQJTDLtWZdlNnEe1Yy3q6kJSeBgY4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8183
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: sFlERHHz0dTWSILZTYD8j55PRx7AhmC8Cc/n6mz5sU46MrOZx32x7S4gqFRsCU2v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7533
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,522 +127,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Shuah Khan <shuah@kernel.org>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-I have a question about how ttm_pool_alloc should handle a request for 
-order > MAX_ORDER. Could you take a look at my comment below? Thanks a lot.
 
-On 12.06.2023 12:55, Karolina Stolarek wrote:
-> Add KUnit tests that exercise page allocation using page pools
-> and freeing pages, either by returning them to the pool or
-> freeing them. Add a basic test for ttm_pool cleanup. Introduce
-> helpers to create a dummy ttm_buffer_object.
-> 
-> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+> smatch warning:
+> 	drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+> 		dereferencing freed memory 'obj->import_attach'
+>
+> obj->import_attach is detached and freed using dma_buf_detach().
+> But used after free to decrease the dmabuf ref count using
+> dma_buf_put().
+>
+> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
 > ---
->   drivers/gpu/drm/ttm/tests/Makefile            |   1 +
->   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  27 ++
->   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   5 +
->   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 401 ++++++++++++++++++
->   4 files changed, 434 insertions(+)
->   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> 
-> diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-> index 7917805f37af..ec87c4fc1ad5 100644
-> --- a/drivers/gpu/drm/ttm/tests/Makefile
-> +++ b/drivers/gpu/drm/ttm/tests/Makefile
-> @@ -2,4 +2,5 @@
->   
->   obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
->           ttm_device_test.o \
-> +        ttm_pool_test.o \
->           ttm_kunit_helpers.o
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> index d848c2372db9..f1b5df61e0bf 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> @@ -24,6 +24,33 @@ int ttm_kunit_helper_alloc_device(struct kunit *test,
->   	return err;
->   }
->   
-> +struct ttm_buffer_object *ttm_kunit_helper_ttm_bo_init(struct kunit *test,
-> +						       size_t size)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct drm_gem_object *gem_obj;
-> +	struct ttm_buffer_object *bo;
-> +
-> +	gem_obj = kunit_kzalloc(test, sizeof(*gem_obj), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj);
-> +
-> +	drm_gem_private_object_init(priv->drm, gem_obj, size);
-> +
-> +	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	bo->sg = NULL;
-> +	bo->base = *gem_obj;
-> +
-> +	return bo;
-> +}
-> +
-> +void ttm_kunit_helper_ttm_bo_fini(struct ttm_buffer_object *bo)
-> +{
-> +	drm_gem_object_release(&bo->base);
-> +	ttm_bo_put(bo);
-> +}
-> +
->   int ttm_test_devices_init(struct kunit *test)
+>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+> index e42c1f9ffff8..7cba4d680ea8 100644
+> --- a/drivers/accel/qaic/qaic_data.c
+> +++ b/drivers/accel/qaic/qaic_data.c
+> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
+>   static void qaic_free_object(struct drm_gem_object *obj)
 >   {
->   	struct ttm_test_devices_priv *priv;
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> index 69fb03b9c4d2..abb8279f18c7 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> @@ -7,6 +7,7 @@
+>   	struct qaic_bo *bo = to_qaic_bo(obj);
+> +	struct dma_buf *dmabuf;
+
+Maybe move that variable into the if.
+
 >   
->   #include <drm/drm_drv.h>
->   #include <drm/ttm/ttm_device.h>
-> +#include <drm/ttm/ttm_bo.h>
->   
->   #include <drm/drm_kunit_helpers.h>
->   #include <kunit/test.h>
-> @@ -23,6 +24,10 @@ int ttm_kunit_helper_alloc_device(struct kunit *test,
->   				  bool use_dma_alloc,
->   				  bool use_dma32);
->   
-> +struct ttm_buffer_object *ttm_kunit_helper_ttm_bo_init(struct kunit *test,
-> +						       size_t size);
-> +void ttm_kunit_helper_ttm_bo_fini(struct ttm_buffer_object *bo);
-> +
->   int ttm_test_devices_init(struct kunit *test);
->   void ttm_test_devices_fini(struct kunit *test);
->   
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> new file mode 100644
-> index 000000000000..c95d3df023f3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> @@ -0,0 +1,401 @@
-> +// SPDX-License-Identifier: GPL-2.0 AND MIT
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +#include <linux/mm.h>
-> +
-> +#include <drm/ttm/ttm_tt.h>
-> +#include <drm/ttm/ttm_pool.h>
-> +
-> +#include <ttm_kunit_helpers.h>
-> +
-> +struct ttm_pool_test_case {
-> +	const char *description;
-> +	unsigned int order;
-> +	bool use_dma_alloc;
-> +};
-> +
-> +static struct ttm_operation_ctx simple_ctx = {
-> +	.interruptible = true,
-> +	.no_wait_gpu = false,
-> +};
-> +
-> +static struct ttm_tt *mock_ttm_tt_init(struct kunit *test,
-> +				       uint32_t page_flags,
-> +				       enum ttm_caching caching,
-> +				       size_t size)
-> +{
-> +	struct ttm_tt *tt;
-> +	struct ttm_buffer_object *bo;
-> +	int err;
-> +
-> +	bo = ttm_kunit_helper_ttm_bo_init(test, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	err = ttm_tt_init(tt, bo, page_flags, caching, 0);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	/* We don't need this BO later, release it */
-> +	ttm_kunit_helper_ttm_bo_fini(bo);
-> +
-> +	return tt;
-> +}
-> +
-> +static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
-> +					       size_t size,
-> +					       enum ttm_caching caching)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct ttm_pool *pool;
-> +	struct ttm_tt *tt;
-> +	int err;
-> +	unsigned long order = __fls(size / PAGE_SIZE);
-> +
-> +	tt = mock_ttm_tt_init(test, order, caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, pool);
-> +
-> +	ttm_pool_init(pool, priv->dev, true, false);
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +
-> +	return pool;
-> +}
-> +
-> +static const struct ttm_pool_test_case ttm_pool_basic_cases[] = {
-> +	{
-> +		.description = "One page",
-> +		.order = 0,
-> +	},
-> +	{
-> +		.description = "More than one page",
-> +		.order = 2,
-> +	},
-> +	{
-> +		.description = "Above the allocation limit",
-> +		.order = MAX_ORDER + 1,
-> +	},
-> +	{
-> +		.description = "One page, with coherent DMA mappings enabled",
-> +		.order = 0,
-> +		.use_dma_alloc = true,
-> +	},
-> +	{
-> +		.description = "Above the allocation limit, with coherent DMA mappings enabled",
-> +		.order = MAX_ORDER + 1,
-> +		.use_dma_alloc = true,
-> +	},
-> +};
-> +
-> +static void ttm_pool_alloc_case_desc(const struct ttm_pool_test_case *t,
-> +				     char *desc)
-> +{
-> +	strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(ttm_pool_alloc_basic, ttm_pool_basic_cases,
-> +		  ttm_pool_alloc_case_desc);
-> +
-> +static void ttm_pool_alloc_basic(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	const struct ttm_pool_test_case *params = test->param_value;
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct page *fst_page, *last_page;
-> +	int err;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int expected_num_pages = 1 << params->order;
-> +	size_t size = expected_num_pages * PAGE_SIZE;
-> +
-> +	tt = mock_ttm_tt_init(test, 0, caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, pool);
-> +
-> +	ttm_pool_init(pool, priv->dev, params->use_dma_alloc, false);
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-> +
-> +	fst_page = tt->pages[0];
-> +	last_page = tt->pages[tt->num_pages - 1];
-> +
-> +	if (params->order <= MAX_ORDER) {
-> +		if (params->use_dma_alloc) {
-> +			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-> +			KUNIT_ASSERT_NOT_NULL(test, (void *)last_page->private);
-> +		} else {
-> +			KUNIT_ASSERT_EQ(test, fst_page->private, params->order);
+>   	if (obj->import_attach) {
+>   		/* DMABUF/PRIME Path */
+> +		dmabuf = obj->import_attach->dmabuf;
+>   		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
+> -		dma_buf_put(obj->import_attach->dmabuf);
+> +		dma_buf_put(dmabuf);
 
-For order = 2 case, I expected the private payload for the last page to 
-be equal 2, but it was 0. Is my test setup wrong, or am I 
-misunderstanding something?
+I strongly assume you are not using the GEM prime helpers for this?
 
-> +		}
-> +	} else {
-> +		if (params->use_dma_alloc) {
-> +			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-> +			KUNIT_ASSERT_NULL(test, (void *)last_page->private);
+Christian.
 
-It makes sense that we don't DMA alloc here, but I wonder if we should 
-at least warn that there are pages with no dma addresses. We asked for 
-coherent mappings and that condition couldn't be satisfied. Maybe this 
-is expected, just wanted to double-check.
+>   	} else {
+>   		/* Private buffer allocation path */
+>   		qaic_free_sgt(bo->sgt);
 
-All the best,
-Karolina
-
-> +		} else {
-> +			/*
-> +			 * We expect to alloc one big block, followed by
-> +			 * order 0 blocks
-> +			 */
-> +			KUNIT_ASSERT_EQ(test, fst_page->private,
-> +					min_t(unsigned int, MAX_ORDER,
-> +					      params->order));
-> +			KUNIT_ASSERT_EQ(test, last_page->private, 0);
-> +		}
-> +	}
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_alloc_basic_dma_addr(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	const struct ttm_pool_test_case *params = test->param_value;
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_buffer_object *bo;
-> +	dma_addr_t dma1, dma2;
-> +	int err;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int expected_num_pages = 1 << params->order;
-> +	size_t size = expected_num_pages * PAGE_SIZE;
-> +
-> +	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	bo = ttm_kunit_helper_ttm_bo_init(test, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, bo);
-> +
-> +	err = ttm_sg_tt_init(tt, bo, 0, caching);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, pool);
-> +
-> +	ttm_pool_init(pool, priv->dev, true, false);
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-> +
-> +	dma1 = tt->dma_address[0];
-> +	dma2 = tt->dma_address[tt->num_pages - 1];
-> +
-> +	KUNIT_ASSERT_NOT_NULL(test, (void *)dma1);
-> +	KUNIT_ASSERT_NOT_NULL(test, (void *)dma2);
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_alloc_order_caching_match(struct kunit *test)
-> +{
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int order = 0;
-> +	size_t size = PAGE_SIZE;
-> +	int err;
-> +
-> +	pool = ttm_pool_pre_populated(test, size, caching);
-> +
-> +	pt = &pool->caching[caching].orders[order];
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-> +
-> +	tt = mock_ttm_tt_init(test, 0, caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_alloc_caching_mismatch(struct kunit *test)
-> +{
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt_pool, *pt_tt;
-> +	int err;
-> +	enum ttm_caching tt_caching = ttm_uncached;
-> +	enum ttm_caching pool_caching = ttm_cached;
-> +	size_t size = PAGE_SIZE;
-> +	unsigned int order = 0;
-> +
-> +	pool = ttm_pool_pre_populated(test, size, pool_caching);
-> +
-> +	pt_pool = &pool->caching[pool_caching].orders[order];
-> +	pt_tt = &pool->caching[tt_caching].orders[order];
-> +
-> +	tt = mock_ttm_tt_init(test, 0, tt_caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-> +	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-> +
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_alloc_order_mismatch(struct kunit *test)
-> +{
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt_pool, *pt_tt;
-> +	int err;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int order = 2;
-> +	size_t fst_size = (1 << order) * PAGE_SIZE;
-> +	size_t snd_size = PAGE_SIZE;
-> +
-> +	pool = ttm_pool_pre_populated(test, fst_size, caching);
-> +
-> +	pt_pool = &pool->caching[caching].orders[order];
-> +	pt_tt = &pool->caching[caching].orders[0];
-> +
-> +	tt = mock_ttm_tt_init(test, 0, caching, snd_size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-> +	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-> +
-> +	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-> +
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_free_dma_alloc(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int order = 2;
-> +	size_t size = (1 << order) * PAGE_SIZE;
-> +
-> +	tt = mock_ttm_tt_init(test, 0, caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, pool);
-> +
-> +	ttm_pool_init(pool, priv->dev, true, false);
-> +	ttm_pool_alloc(pool, tt, &simple_ctx);
-> +
-> +	pt = &pool->caching[caching].orders[order];
-> +	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-> +
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_free_no_dma_alloc(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct ttm_tt *tt;
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int order = 2;
-> +	size_t size = (1 << order) * PAGE_SIZE;
-> +
-> +	tt = mock_ttm_tt_init(test, 0, caching, size);
-> +	KUNIT_ASSERT_NOT_NULL(test, tt);
-> +
-> +	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, pool);
-> +
-> +	ttm_pool_init(pool, priv->dev, false, false);
-> +	ttm_pool_alloc(pool, tt, &simple_ctx);
-> +
-> +	pt = &pool->caching[caching].orders[order];
-> +	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-> +
-> +	ttm_pool_free(pool, tt);
-> +	ttm_tt_fini(tt);
-> +
-> +	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-> +
-> +	ttm_pool_fini(pool);
-> +}
-> +
-> +static void ttm_pool_fini_basic(struct kunit *test)
-> +{
-> +	struct ttm_pool *pool;
-> +	struct ttm_pool_type *pt;
-> +	enum ttm_caching caching = ttm_uncached;
-> +	unsigned int order = 0;
-> +	size_t size = PAGE_SIZE;
-> +
-> +	pool = ttm_pool_pre_populated(test, size, caching);
-> +	pt = &pool->caching[caching].orders[order];
-> +
-> +	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-> +
-> +	ttm_pool_fini(pool);
-> +
-> +	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-> +}
-> +
-> +static struct kunit_case ttm_pool_test_cases[] = {
-> +	KUNIT_CASE_PARAM(ttm_pool_alloc_basic, ttm_pool_alloc_basic_gen_params),
-> +	KUNIT_CASE_PARAM(ttm_pool_alloc_basic_dma_addr,
-> +			 ttm_pool_alloc_basic_gen_params),
-> +	KUNIT_CASE(ttm_pool_alloc_order_caching_match),
-> +	KUNIT_CASE(ttm_pool_alloc_caching_mismatch),
-> +	KUNIT_CASE(ttm_pool_alloc_order_mismatch),
-> +	KUNIT_CASE(ttm_pool_free_dma_alloc),
-> +	KUNIT_CASE(ttm_pool_free_no_dma_alloc),
-> +	KUNIT_CASE(ttm_pool_fini_basic),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite ttm_pool_test_suite = {
-> +	.name = "ttm_pool",
-> +	.init = ttm_test_devices_init,
-> +	.exit = ttm_test_devices_fini,
-> +	.test_cases = ttm_pool_test_cases,
-> +};
-> +
-> +kunit_test_suites(&ttm_pool_test_suite);
-> +
-> +MODULE_LICENSE("GPL");
