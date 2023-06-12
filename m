@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9598172CE28
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E2A72CE29
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5ED10E22A;
-	Mon, 12 Jun 2023 18:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84FC910E064;
+	Mon, 12 Jun 2023 18:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6173310E2CC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 18:30:09 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b203360d93so56621561fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686594607; x=1689186607;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=86ugo32DRfKDcuMrDG0yQ43XUYb0oQVlSxJDfDAPaVg=;
- b=dKoteqlNv9+E30xypMf0WlSywBagA+fPeLhvu2Fwd4e7n1wieMST4o4+Ozdl8lNxF3
- ZMTMCH3HagCdQ6OhGn3PUMxABYNBP5508IgD/EWwXfUuEnyCJe+MVhSccbj2TpWPJyJ/
- R+kwu6JVoopOxT3LMWS7RbvXphKyQ2eAUWRUXEnZ6kNraY80ffrzXv2dc/1Fv4N2Fy6T
- 82wQc6Fa/QWvESYq43VLgwBDOuFduNnh4ZcUQAukv9xS0KRr07PKiFMQwWUXcpQfE9bD
- EEBAg5cuZaCHXRnZQXQnkhg8QQ5Tyq0TnfyYnGSdq0tFs+PCCXm7ahVsdhPR95S+K4ez
- gQTw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C92E10E064
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 18:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686594625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ytk4CBUD5ymgdb/TV8v27oVrKqeWA1Ac0y1484kVuMA=;
+ b=Ns2DTuh91AG7n9kAg7VJ675+fJ3EqI7ZPZhpG8UG1tmhhebeuzRJC4oqTHiGQKizRk6fly
+ A1L2Zdyk5Df+V6BBVreZlr9dWUuSchui9W2TRgWSVZ9ec/1wWPpbkDptOZCTI71a4RASsJ
+ ABdpwltxmK+D6g7rMXsCCVbCto6mMY8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-527-Qh12HmReN5SCnnwpNp3Ksg-1; Mon, 12 Jun 2023 14:30:23 -0400
+X-MC-Unique: Qh12HmReN5SCnnwpNp3Ksg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f7e6582938so87826065e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686594607; x=1689186607;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=86ugo32DRfKDcuMrDG0yQ43XUYb0oQVlSxJDfDAPaVg=;
- b=WBY01e2ok6ckJ52MPBsfgZUdQlrjsflLGJQkaRB9DyTA/JH/1U4+MfibxGbR+bBhpc
- qplhfIgu2qBoaU2XN8JJ0dDA6mLXD+ffgKS5atkUQ6Tv59rTYNdFqCOdPTcWSUlWHnK8
- QnGuXRzgwdCgraLMKplnI1R5+HU3834rfn4Hr0M6A5w1fiLGHrSeholKgdBWoJHXvfPv
- j4utyMPG8Yh7EsQrOoiJFWjzzew3AQV3Ns/bBeTA3Hdb1dl0yhhMocd9kALOCWfg/Dbw
- d2U65Nwmg4JWiTqiJLOaS8Q5A58Sny+ZPvLXqjO2N9Dvo+f5w+3/45XBGS818GEaIO9k
- QK2Q==
-X-Gm-Message-State: AC+VfDyqHZAGX2bbiFCrJoQidQ8etWuPey3ux6d103LxHSiDS5fRFdHx
- ixz2/K+JgU9a6saItNTiJBGA7A==
-X-Google-Smtp-Source: ACHHUZ6X9nloN3ygOvB6chpZTre6E0HKZJ17Z6MMO57ovWo5jJeV9l7k/AX8bvH4CTKcSrSzc9+hkw==
-X-Received: by 2002:a05:651c:1023:b0:2ad:dd7e:6651 with SMTP id
- w3-20020a05651c102300b002addd7e6651mr3634093ljm.43.1686594606728; 
- Mon, 12 Jun 2023 11:30:06 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a2e9509000000b002b32d4a59d5sm530954ljh.117.2023.06.12.11.30.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Jun 2023 11:30:06 -0700 (PDT)
-Message-ID: <a8b72f2a-d5b2-723e-405a-e7c304ddeed4@linaro.org>
-Date: Mon, 12 Jun 2023 21:30:05 +0300
+ d=1e100.net; s=20221208; t=1686594622; x=1689186622;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ytk4CBUD5ymgdb/TV8v27oVrKqeWA1Ac0y1484kVuMA=;
+ b=EEOC5hfjCaQjjVPWfxl6BYJojys0yG1EgJTD88PtH6LwOQVqKsT46Sx9ufQ4w1SG1w
+ U3AM088IyE+VahE4JuDwofe70k7PAUghT7alTjWBy5qKpIXC7j9+3IiPS5r+clAAI1CW
+ ///kW8xWtn3x00RqnDfk0O3gP4Dseo/mbpSljc9t5MQrv3Y0Mj04TYg8tSyjm7eY2lrg
+ pmXfwndnebtVBexd5M290I5z0xn+LPnZTEZmcxL2amQm/uacH24ks2bD6KM00SLxn+al
+ m3mV8ggWtv+6XwEzgKmyeOi7SjUT5dlqDvOKxV78fkrG8dVCIbk+b5RqM0NHLu226ALD
+ Rdyw==
+X-Gm-Message-State: AC+VfDyYsOFWSfrKwhnRH8zcPIEsKJZoqEzAKijy2a4RiR7xdbUM+1mH
+ xt9laEG382Iu6AxKF1yaFXC/3eeqOKOL1PbKxP1m9tVd/ElpO6gbJc76ORJURFIcUfHVDPFJf0U
+ RCBGv5XK9fmAEvrCFFdqwUuhhGNxr
+X-Received: by 2002:a05:600c:2297:b0:3f7:f544:4993 with SMTP id
+ 23-20020a05600c229700b003f7f5444993mr8211871wmf.20.1686594622671; 
+ Mon, 12 Jun 2023 11:30:22 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6f87goxu4tLEIjzoynyJtL5A/keJi5mHvAB0RC30rg0lgcZJDIaJ1gEOYrsjRA3uu+QEeiPA==
+X-Received: by 2002:a05:600c:2297:b0:3f7:f544:4993 with SMTP id
+ 23-20020a05600c229700b003f7f5444993mr8211850wmf.20.1686594622317; 
+ Mon, 12 Jun 2023 11:30:22 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ r15-20020adfda4f000000b002fe96f0b3acsm13271835wrl.63.2023.06.12.11.30.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jun 2023 11:30:21 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Conor Dooley <conor@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 2/5] dt-bindings: display: ssd1307fb: Remove default
+ width and height values
+In-Reply-To: <20230612-parade-sauciness-16225ce0a643@spud>
+References: <20230609170941.1150941-1-javierm@redhat.com>
+ <20230609170941.1150941-3-javierm@redhat.com>
+ <20230610-opposite-quality-81d4a1561c88@spud>
+ <87r0qj19zs.fsf@minerva.mail-host-address-is-not-set>
+ <20230610-unused-engaged-c1f4119cff08@spud>
+ <87jzwa29ff.fsf@minerva.mail-host-address-is-not-set>
+ <d4828a3d-639a-a207-ff36-45c8c5d4d311@suse.de>
+ <20230612-parade-sauciness-16225ce0a643@spud>
+Date: Mon, 12 Jun 2023 20:30:21 +0200
+Message-ID: <87h6rc354y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/msm/dsi: don't allow enabling 7nm VCO with
- unprogrammed rate
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230612031616.3620134-1-dmitry.baryshkov@linaro.org>
- <20230612031616.3620134-2-dmitry.baryshkov@linaro.org>
- <g4ogg7ecraduqbvcxsost2lm26fr6rswdm4tgba5ae23b5jjvg@6mzv2u7bmw7u>
- <yyjkikzxsggwlnxcexho62zkapw5xrkogvoclsu6af7t5xcp3a@jdssfb3hz7px>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <yyjkikzxsggwlnxcexho62zkapw5xrkogvoclsu6af7t5xcp3a@jdssfb3hz7px>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,77 +87,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Degdag Mohamed <degdagmohamed@gmail.com>,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/06/2023 12:21, Marijn Suijten wrote:
-> On 2023-06-12 11:15:53, Marijn Suijten wrote:
->> On 2023-06-12 06:16:16, Dmitry Baryshkov wrote:
->>> CCF can try enabling VCO before the rate has been programmed. This can
->>> cause clock lockups and/or other boot issues. Program the VCO to the
->>> minimal PLL rate if the read rate is 0 Hz.
->>>
->>> Reported-by: Degdag Mohamed <degdagmohamed@gmail.com>
->>> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> This unfortunately regresses my Xperia 5 (sofef01 panel driver that's
->> on the lists) to now run at 30~33Hz instead of 60Hz.  I can provide
->> debugging and clk trees later, if needed.
-> 
-> I'll also retest the Xperia 1 with this, which has a 4k DSC panel.
-> 
-> Is this intended to get rid of:
-> 
->      msm_dsi_phy ae94400.phy: [drm:dsi_pll_7nm_vco_prepare] *ERROR* DSI PLL(0) lock failed, status=0x00000000: -110
->      PLL(0) lock failed
-> 
-> ... at startup (and relevant rcg2 update_config failures, unbalanced
-> disables etc)?  It locks after a couple tries but it's still
-> unnecessarily spammy.
+Conor Dooley <conor@kernel.org> writes:
 
-Yes.
+> On Mon, Jun 12, 2023 at 09:47:12AM +0200, Thomas Zimmermann wrote:
+>> Am 11.06.23 um 01:18 schrieb Javier Martinez Canillas:
+>
+>> > But I will be OK to drop the "solomon,ssd130?fb-i2c" compatible strings
+>> > from the DRM driver and only match against the new "solomon,ssd130?-i2c"
+>> > compatible strings. And add a different DT binding schema for the ssd130x
+>> > driver, if that would mean being able to fix things like the one mentioned
+>> > in this patch.
+>
+> If there are different compatibles, then it can always be sorted out
+> later iff it turns out to be a problem, since new devicetrees should not
+> be using the deprecated compatibles anyway. I didn't realise that those
+> deprecated compatibles existed, thanks for your patience.
+>
 
-> 
-> - Marijn
-> 
->>
->> - Marijn
->>
->>> ---
->>>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->>> index 3b1ed02f644d..6979d35eb7c3 100644
->>> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->>> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->>> @@ -395,11 +395,16 @@ static void dsi_pll_phy_dig_reset(struct dsi_pll_7nm *pll)
->>>   	wmb(); /* Ensure that the reset is deasserted */
->>>   }
->>>   
->>> +static unsigned long dsi_pll_7nm_vco_recalc_rate(struct clk_hw *hw,
->>> +						  unsigned long parent_rate);
->>>   static int dsi_pll_7nm_vco_prepare(struct clk_hw *hw)
->>>   {
->>>   	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(hw);
->>>   	int rc;
->>>   
->>> +	if (dsi_pll_7nm_vco_recalc_rate(hw, VCO_REF_CLK_RATE) == 0)
->>> +		dsi_pll_7nm_vco_set_rate(hw, pll_7nm->phy->cfg->min_pll_rate, VCO_REF_CLK_RATE);
->>> +
->>>   	dsi_pll_enable_pll_bias(pll_7nm);
->>>   	if (pll_7nm->slave)
->>>   		dsi_pll_enable_pll_bias(pll_7nm->slave);
->>> -- 
->>> 2.39.2
->>>
+No worries, thanks for raising this question.
+
+>> > In my opinion, trying to always make the drivers backward compatible with
+>> > old DTBs only makes the drivers code more complicated for unclear benefit.
+>> > 
+>> > Usually this just ends being code that is neither used nor tested. Because
+>> > in practice most people update the DTBs and kernels, instead of trying to
+>> > make the DTB a stable ABI like firmware.
+>> > 
+>> 
+>> From my understanding, fixing the resolution is the correct thing to do
+>> here. Userspace needs to be able to handle these differences.
+>
+> Fixing meaning correcting, or fixing meaning using a fixed resolution?
+> Not clear to me what you mean, sorry.
+>
+
+Fixing meaning using as a default the correct maximum resolution for each
+OLED controller, rather than an arbitrary 96x16 resolution that was added
+just to be compatible with the panel that was tested the original driver.
+
+But after talking with Thomas and Maxime about this issue, I realized that
+it won't even cause an issue for theoretical users that may be relying on
+the previous default.
+
+Changing the default resolution to something smaller could cause an issue
+since a user expecting a bigger default would get their display output cut
+but changing to something bigger just means user-space being able to write
+more pixels than those that will be displayed.
+
+Because there isn't really a "resolution" configured in the chip, but just
+how many pixels a particular controller can drive. The new default is the
+maximum that each controller supports according to their documentation.
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
