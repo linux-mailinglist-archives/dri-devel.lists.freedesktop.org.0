@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5836972BB7B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 11:02:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1E972BB85
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 11:02:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E9B10E09E;
-	Mon, 12 Jun 2023 09:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2B1C10E1D1;
+	Mon, 12 Jun 2023 09:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD77F10E0C2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:02:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E92710E09E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:02:05 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (unknown
  [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A694D66058B2;
- Mon, 12 Jun 2023 10:02:02 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9DC226606E98;
+ Mon, 12 Jun 2023 10:02:03 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1686560523;
- bh=fWabP2S9MKC6+Yi0YWqUcPZxSafl399il5KPixyXdlw=;
+ s=mail; t=1686560524;
+ bh=H1IjE6ks2/tQ62I5k+mdDy0LWtBtFX34NVlBCrVhdQQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M+g8uCwRld+dEIgLpeT51k38xPkIwZ517PJ1IwwI3HjXA3biUFFsqhVM+0kXSOsCY
- jp3sGEQStYgWLdwzB7UW5gQ+rxTyrVOHH/Hp1XRl6rPCA6msNG8ogbCYBfT5lWc449
- R4LthY1KY1lfj+mxQXwex2ZMYO7nkTc84SQeSCH3NzK0Xebo+7m9P9zL19Itu+UVFa
- LE5A3bREWcVtq/4J8lBhB+mnpIQ+lUO6rjeNZ0XdUlxQ/2R3VzYboeht2lKeov3EIn
- OnZTH5RSnTyQbEtEFb8kgZEeSAel0eqLCctjeEY9ujefARO55cl2u80ybpU096VNIo
- mOHxluPFzqXPQ==
+ b=aY658Q+0Pi1xzDSNlEuUHVLmbLxgSQzTuQ1rn4R9okTSDsKzZcjtMgyKxKNrxIBmb
+ SeL9adZxHbCIHp4YIplc2SBlGGUSJrIF4vWoHTBwD7XpoSyNJSShL/byRlgLFwFCJt
+ q/1HHD8rdCMbbGAWSw2PVb835Nf2G1J4s1L+sgz0iEZm8XMUEksUod6dUo+JwI3kVL
+ eKIEbITYzKrz3e7D3LOPTXOcQEVGtoBSrTaFBG9mpf+W33lMs4A5ZPS1c13lpFK/EH
+ X3VRzfq6ly881hcHDyemwEXJadguxj2ONDcOIpHSdlOu5iSp9i2r5bT3xPWKR/kzJL
+ KvqSS5oVCJLOw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v6 01/11] drm/mediatek: gamma: Adjust mtk_drm_gamma_set_common
- parameters
-Date: Mon, 12 Jun 2023 11:01:47 +0200
-Message-Id: <20230612090157.68205-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v6 02/11] drm/mediatek: gamma: Reduce indentation in
+ mtk_gamma_set_common()
+Date: Mon, 12 Jun 2023 11:01:48 +0200
+Message-Id: <20230612090157.68205-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230612090157.68205-1-angelogioacchino.delregno@collabora.com>
 References: <20230612090157.68205-1-angelogioacchino.delregno@collabora.com>
@@ -52,94 +52,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
  linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Invert the check for state->gamma_lut and move it at the beginning
+of the function to reduce indentation: this prepares the code for
+keeping readability on later additions.
 
-Adjust the parameters in mtk_drm_gamma_set_common()
-  - add (struct device *dev) to get lut_diff from gamma's driver data
-  - remove (bool lut_diff) and use false as default value in the function
+This commit brings no functional changes.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 15 +++++++++------
- 3 files changed, 11 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 45 ++++++++++++-----------
+ 1 file changed, 23 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-index 434e8a9ce8ab..8ddf7a97e583 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-@@ -67,7 +67,7 @@ void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
- 
- 	if (aal->data && aal->data->has_gamma)
--		mtk_gamma_set_common(aal->regs, state, false);
-+		mtk_gamma_set_common(NULL, aal->regs, state);
- }
- 
- void mtk_aal_start(struct device *dev)
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 2254038519e1..75045932353e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -54,7 +54,7 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
- void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff);
-+void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state);
- void mtk_gamma_start(struct device *dev);
- void mtk_gamma_stop(struct device *dev);
- 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index c844942603f7..99be515a941b 100644
+index 99be515a941b..ce6f2499b891 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -55,14 +55,21 @@ void mtk_gamma_clk_disable(struct device *dev)
- 	clk_disable_unprepare(gamma->clk);
- }
- 
--void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff)
-+void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
- {
-+	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
- 	unsigned int i, reg;
- 	struct drm_color_lut *lut;
- 	void __iomem *lut_base;
-+	bool lut_diff;
+@@ -65,34 +65,35 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
  	u32 word;
  	u32 diff[3] = {0};
  
-+	if (gamma && gamma->data)
-+		lut_diff = gamma->data->lut_diff;
-+	else
-+		lut_diff = false;
++	/* If there's no gamma lut there's nothing to do here. */
++	if (!state->gamma_lut)
++		return;
 +
- 	if (state->gamma_lut) {
- 		reg = readl(regs + DISP_GAMMA_CFG);
- 		reg = reg | GAMMA_LUT_EN;
-@@ -92,12 +99,8 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool
- void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- {
- 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
--	bool lut_diff = false;
--
--	if (gamma->data)
--		lut_diff = gamma->data->lut_diff;
+ 	if (gamma && gamma->data)
+ 		lut_diff = gamma->data->lut_diff;
+ 	else
+ 		lut_diff = false;
  
--	mtk_gamma_set_common(gamma->regs, state, lut_diff);
-+	mtk_gamma_set_common(dev, gamma->regs, state);
+-	if (state->gamma_lut) {
+-		reg = readl(regs + DISP_GAMMA_CFG);
+-		reg = reg | GAMMA_LUT_EN;
+-		writel(reg, regs + DISP_GAMMA_CFG);
+-		lut_base = regs + DISP_GAMMA_LUT;
+-		lut = (struct drm_color_lut *)state->gamma_lut->data;
+-		for (i = 0; i < MTK_LUT_SIZE; i++) {
+-
+-			if (!lut_diff || (i % 2 == 0)) {
+-				word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
+-					(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
+-					((lut[i].blue >> 6) & LUT_10BIT_MASK);
+-			} else {
+-				diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
+-				diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
+-				diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
+-
+-				word = ((diff[0] & LUT_10BIT_MASK) << 20) +
+-					((diff[1] & LUT_10BIT_MASK) << 10) +
+-					(diff[2] & LUT_10BIT_MASK);
+-			}
+-			writel(word, (lut_base + i * 4));
++	reg = readl(regs + DISP_GAMMA_CFG);
++	reg = reg | GAMMA_LUT_EN;
++	writel(reg, regs + DISP_GAMMA_CFG);
++	lut_base = regs + DISP_GAMMA_LUT;
++	lut = (struct drm_color_lut *)state->gamma_lut->data;
++	for (i = 0; i < MTK_LUT_SIZE; i++) {
++		if (!lut_diff || (i % 2 == 0)) {
++			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
++				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
++				((lut[i].blue >> 6) & LUT_10BIT_MASK);
++		} else {
++			diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
++			diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
++			diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
++
++			word = ((diff[0] & LUT_10BIT_MASK) << 20) +
++				((diff[1] & LUT_10BIT_MASK) << 10) +
++				(diff[2] & LUT_10BIT_MASK);
+ 		}
++		writel(word, (lut_base + i * 4));
+ 	}
  }
  
- void mtk_gamma_config(struct device *dev, unsigned int w,
 -- 
 2.40.1
 
