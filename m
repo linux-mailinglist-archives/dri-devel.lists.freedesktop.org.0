@@ -1,69 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6018772B904
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 09:47:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E672B929
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 09:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5407610E1B1;
-	Mon, 12 Jun 2023 07:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0053510E1B0;
+	Mon, 12 Jun 2023 07:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2433610E1B1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 07:47:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B459D20485;
- Mon, 12 Jun 2023 07:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686556033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qFUfTp5dyanSRWR+sGdMXeA/CXCg3ZAIPJTntZRMNrk=;
- b=mKE5MF83aO64Nib5CAPZ1gQUZRpjsNIESHX77zsf3yfpGTIIPu3QCWAL14lep/6obcJ/T/
- SLKdsZBqYdYCcI4MQnYZnGJa7e5cFK/hmIdRWUjRNeseusbqcIshV6d2ZiJLvfHkcWF6D5
- xef7CUuKFFGQcsoiuOWpZnloQURU3aM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686556033;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qFUfTp5dyanSRWR+sGdMXeA/CXCg3ZAIPJTntZRMNrk=;
- b=ILA+aSItMRUaawhuhMFh1snhDwk5yvkn3t6arTvvSmdhyYCHoaDmpz0q4j3nvhCaZysQ4h
- fK4QaSPKCQi2rKBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7816F1357F;
- Mon, 12 Jun 2023 07:47:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YpdBHIHNhmSsZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 07:47:13 +0000
-Message-ID: <d4828a3d-639a-a207-ff36-45c8c5d4d311@suse.de>
-Date: Mon, 12 Jun 2023 09:47:12 +0200
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur01on2053.outbound.protection.outlook.com [40.107.14.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B92910E1B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 07:50:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LhUu5h+/jgcqHlyEcTSMaZuGv6+PV5Xkn/XpqsAg+0UBFhG40/yHHwWT+otEoZDuhhW+wuxTL/cWqMYYT9krqMHffJsmZWqA6QVZDfYAwgqdTb4ij77hiR+Thrm0Wjio0VSlg9XQ48wua7XJLO2MD5AY1yLCIAk6HSjVjv4VJKPxgtjI6F4nbxTAp2AlxN0R4B6L84fXpz1R4FilyZP2H5z2Ppd+BkpGqPbeZclaoDYz0K4X+UrdPz8cLU2HOFZfLrwSS0X8CpS3oTmWiw2I+88yz3o/hXUxgUuaLMdKqbEviqPgEWcl9rn9HTfJGK6H0qXVcN+b/Mp0Fc6RoffVAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HZkjvE7w/HlvEWZJr6LrXtYDjCtx//DrSO0PQEb7CRE=;
+ b=NSNCJ0xQOJOEljDyETrFmN5ZeV05A3KJrSLNoeVr6pqgTRxUCZ6M7IbmJ37AUPvMPK/pE72C2ynU3JEkd0r/JUeP8OGu9t+AuXAgl+QPeQOjlo3kJH2t9a5xBEjN+/1zaOTefWFDaUARWWPTKaCzBTc78/vqt6qVjlZ/MW4A6O7Z+b9LUeHi1zzggBPnSoZh35qWmk/4lM8iaNz/0udhN+0d4wCkOlc40vX3KH5+l5FJAU/AXw6JWYolf8Dd02mN6gbkP28pcvnqTQmvBpIm/961iQeeCEsaDPhxRJ1H1xqTrlX4x1hwSHsiYpDNCFK+yC4dcIQV1EDWq1IskIrgdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HZkjvE7w/HlvEWZJr6LrXtYDjCtx//DrSO0PQEb7CRE=;
+ b=an+mXiy/4fsNokS0uI1QBZK76wOEeAAztuCIwpVBRY67YGVbgW959mhWTPfeFya3RoEmtahXqWhzIjOH8XLcSGBOuqxZmineskS0iwpLV8pfV55QmPA2Y6y3U1VioEGcUBO4XdqskwWMFDPJb2t6UMuNAKDR+7XmbDrx7DOXFP0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by PA4PR04MB7567.eurprd04.prod.outlook.com (2603:10a6:102:e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Mon, 12 Jun
+ 2023 07:50:47 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::7af:d8d5:d0ce:f68e]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::7af:d8d5:d0ce:f68e%2]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
+ 07:50:47 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/mxsfb: Disable overlay plane in
+ mxsfb_plane_overlay_atomic_disable()
+Date: Mon, 12 Jun 2023 15:55:30 +0800
+Message-Id: <20230612075530.681869-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0030.apcprd02.prod.outlook.com
+ (2603:1096:4:195::17) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: ssd1307fb: Remove default
- width and height values
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Conor Dooley <conor@kernel.org>
-References: <20230609170941.1150941-1-javierm@redhat.com>
- <20230609170941.1150941-3-javierm@redhat.com>
- <20230610-opposite-quality-81d4a1561c88@spud>
- <87r0qj19zs.fsf@minerva.mail-host-address-is-not-set>
- <20230610-unused-engaged-c1f4119cff08@spud>
- <87jzwa29ff.fsf@minerva.mail-host-address-is-not-set>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <87jzwa29ff.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WO2qRLZnYZV0zUnQVYYFuGht"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB7567:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86e0c464-5201-4d7a-dfe8-08db6b19bba1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Phb9qAG4idlzF9gCyih5rRKkboyI07B4wv0b8nLYPEwAUo4OXXn4a4d4NnriSEcBG4z6D9/QeuzZZoZynCNeFBrmQEOJ4ORCedplMAxblU0+Z8KX6bvDwPo9LAzV7a7wWGXX2Jx0bYWYaRcF0O7YLVRQFDg6RP0fQ/4rK9OBTUB1cfSVN1hYpgwTlmPYk0qZqwsFFitwbkO3VbQMk10WpDevju4mfYHwd+ssOQU/gLd2SVk6FRTxLf+0vbAy8b0rczTsLgB673WoIDqKZgDLidMkyt8SgTH67NTFol//yE07f8q4KcBH0UmEboCjceMkMSMq7nydZ6dVXU5duaw060xgpu5+P5XPrDOHYG4Wjm9RIr0lEtsQuQZCcb2Kofu3Z02nmsc+FMpTxHnj4quI70s670emtsqYj6b1NipEW4KtirR7ek52j7uKMxfZsGNaZtIuouu8SLUGbq7OZcDOrq28qduDSsuNnR2avqh83R11iA7yGAWVYEkcAd2olDKop1e6x+hhGe+ELhMar7d4EkSXjmZKvLGKT86sjPpIK0QL6QOnOtpOK+j6ws2h65st9z4Qv/RxjlmdEayTRfDgSpZjmLvf0tN3T/2dgi6LPj5g6RZt2iDnIV/LH8Dl6DAD
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199021)(6666004)(52116002)(6486002)(478600001)(26005)(6512007)(6506007)(1076003)(83380400001)(186003)(36756003)(2616005)(38350700002)(38100700002)(86362001)(4326008)(66476007)(66556008)(66946007)(316002)(8936002)(8676002)(7416002)(5660300002)(41300700001)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bD3ERq44s8DgO19Uj77GY99mowF723xQkCF1p4WiQAyV+rlP74lOyZwsaw2R?=
+ =?us-ascii?Q?0IK86eyLc2SE0+zcUaJcFbG4lc2l6wQZMlwfYrWUjI7vwfgfprkRpfu+SOf0?=
+ =?us-ascii?Q?0L1/ow1xN7q9Ehp2LKV29Lcgp8xL5uCq6DYwjV2VOOu8Pb4tDhkbbCU5VDH+?=
+ =?us-ascii?Q?MXd8Cs+h3XGc4n5iTv0iXPjSm+NXtDKVk/VgDXJT2tWU+ZVOAqqTl6a0LrEg?=
+ =?us-ascii?Q?IZxvlz12r1QdSwnmy6BmKZrM2biMt24uOPNbRfgcVEj+rNAiJzbKwxcC2IiJ?=
+ =?us-ascii?Q?aZiNz0qRLLTWvkAVv8W9MGcCeredmYqMgNH6ukUXhpwsvQJYL/ZVBciudQoW?=
+ =?us-ascii?Q?UapF7n1QqiL75t9oqlQs8JYi3SiYsKw6scey2ByiABlszv987CkEGrBbEuFE?=
+ =?us-ascii?Q?rUX2YqQzBvmpWGNDT91wtd8vndldWcnS57TjBW1J2tKagIPo0HtCsebpSeUA?=
+ =?us-ascii?Q?WA3m3aBXZbgYHrLioO1lQ+CbR5j24rQzxEwSlEkHRsjbU2NkfX3jymguCU40?=
+ =?us-ascii?Q?TK6ZgyGqdUmWIxFyoWmpPMY9BCCG3cmSfceTdK30TDutRouHYTkz9vvyfQ+k?=
+ =?us-ascii?Q?l1XP0SM2VYl9yYmDipDr1hDIoLIIefBqu5gnupc5Bzzac1O3yVT+ltF3Xwp+?=
+ =?us-ascii?Q?DKweWcnusleipnnwQeXCFkPfKiIggwB4VOS5saCo5fMMfPcasEKH7KbdkZTV?=
+ =?us-ascii?Q?hA92f5PYgPvk6YlfKk69065MQsYl5zIQHswxq53a6S152pFhVW+G9WtRFzYk?=
+ =?us-ascii?Q?LR1FaKgsBRQ2qGIq220kujG+V2dL22aWuBm+vRBUKj3ryfpbgNXayBf/1MRE?=
+ =?us-ascii?Q?ZntcTch3W+62lmavAJIv0JJdgiwrmUDjFJ9fvWm0Ign1QpbmM8tYlcP2X/fJ?=
+ =?us-ascii?Q?ngCUxpqaO2o8kAfQh9tOMWEnSW/NrT4Il9RiHksVToawJOJ33X9ZnChE3NOC?=
+ =?us-ascii?Q?lNap7JQfzoNx94p7W9Hel+w6OJgVPnlFV9MI/+TrwvlgUEZtnEttN9Qv++vd?=
+ =?us-ascii?Q?V3SoeNXZIqtR8rTY7ELI0KW1Ia3abCpVI/CwHN0vc3NK2DVf+ysM5B2ZScVC?=
+ =?us-ascii?Q?CDvTy7jIYb47cv0XSczWtwJEmjSwmvcgpoTVv75hkhy2QIaElLhP9Aj4UnCs?=
+ =?us-ascii?Q?erqfbsXRtjQ8mMOYfdicLccc3XxG3M6Nh999qtilVFWKFymd6fkmVD6WnQtZ?=
+ =?us-ascii?Q?Vi9XFOHUDR2M7UGToArl38nKVf8cfohc5R9gGSLfd5LJHID6mQnpG68QnPpE?=
+ =?us-ascii?Q?6BBVMAsNq0GBkzLFcMWDYtldO7/FpYcT3045IeuTOcq1lpXvwpd4OVNHXyZv?=
+ =?us-ascii?Q?UszGzTV2NqEIjHt0H+gcTEetHU8TaLjYV651Bj2Hwg6l3B/2T1vjhDnVpudC?=
+ =?us-ascii?Q?BMxn9I8xRhazVMP934bIuwICRoYlMG/VIgheFXOciMEhfz65InBfnD7sd1u0?=
+ =?us-ascii?Q?DWWsBfCL6MeblIe8v3mcCGtMvplyk8KR4w/YjQyeZOtxkcug977buMgiHdgR?=
+ =?us-ascii?Q?Z9/NytOw+ojpUzheBK6lX+xV4rklFbJswpsFfTg4fXJfSc9vI/hrk0rByH5K?=
+ =?us-ascii?Q?d5UDnZ2iJQp/oIyJ83g7RHxWhohlDpS3OKP/AulM?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86e0c464-5201-4d7a-dfe8-08db6b19bba1
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 07:50:47.1273 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o35cvvDR3Sm/09trMZ17K2Ci9s9H+ZGLQfs00M6SZALrJpUHfYyHSJm/g6hk4UKFcqpytJVWrkCvVi/SQfbKJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7567
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,132 +113,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: marex@denx.de, kernel@pengutronix.de, sam@ravnborg.org,
+ s.hauer@pengutronix.de, linux-imx@nxp.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WO2qRLZnYZV0zUnQVYYFuGht
-Content-Type: multipart/mixed; boundary="------------XFs4pygeHK0D17qDOzXZ91B7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Conor Dooley <conor@kernel.org>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Message-ID: <d4828a3d-639a-a207-ff36-45c8c5d4d311@suse.de>
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: ssd1307fb: Remove default
- width and height values
-References: <20230609170941.1150941-1-javierm@redhat.com>
- <20230609170941.1150941-3-javierm@redhat.com>
- <20230610-opposite-quality-81d4a1561c88@spud>
- <87r0qj19zs.fsf@minerva.mail-host-address-is-not-set>
- <20230610-unused-engaged-c1f4119cff08@spud>
- <87jzwa29ff.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87jzwa29ff.fsf@minerva.mail-host-address-is-not-set>
+When disabling overlay plane in mxsfb_plane_overlay_atomic_update(),
+overlay plane's framebuffer pointer is NULL.  So, dereferencing it would
+cause a kernel Oops(NULL pointer dereferencing).  Fix the issue by
+disabling overlay plane in mxsfb_plane_overlay_atomic_disable() instead.
 
---------------XFs4pygeHK0D17qDOzXZ91B7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Fixes: cb285a5348e7 ("drm: mxsfb: Replace mxsfb_get_fb_paddr() with drm_fb_cma_get_gem_addr()")
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-SGkNCg0KQW0gMTEuMDYuMjMgdW0gMDE6MTggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IENvbm9yIERvb2xleSA8Y29ub3JAa2VybmVsLm9yZz4gd3JpdGVzOg0KPiAN
-Cj4+IE9uIFNhdCwgSnVuIDEwLCAyMDIzIGF0IDA3OjUxOjM1UE0gKzAyMDAsIEphdmllciBN
-YXJ0aW5leiBDYW5pbGxhcyB3cm90ZToNCj4+PiBDb25vciBEb29sZXkgPGNvbm9yQGtlcm5l
-bC5vcmc+IHdyaXRlczoNCj4+Pg0KPj4+PiBPbiBGcmksIEp1biAwOSwgMjAyMyBhdCAwNzow
-OTozN1BNICswMjAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgd3JvdGU6DQo+Pj4+PiBB
-IGRlZmF1bHQgcmVzb2x1dGlvbiBpbiB0aGUgc3NkMTMweCBkcml2ZXIgaXNuJ3Qgc2V0IHRv
-IGFuIGFyYml0cmFyeSA5NngxNg0KPj4+Pj4gYW55bW9yZS4gSW5zdGVhZCBpcyBzZXQgdG8g
-YSB3aWR0aCBhbmQgaGVpZ2h0IHRoYXQncyBjb250cm9sbGVyIGRlcGVuZGVudC4NCj4+Pj4N
-Cj4+Pj4gRGlkIHRoYXQgY2hhbmdlIHRvIHRoZSBkcml2ZXIgbm90IGJyZWFrIGJhY2t3YXJk
-cyBjb21wYXRpYmlsaXR5IHdpdGgNCj4+Pj4gZXhpc3RpbmcgZGV2aWNldHJlZXMgdGhhdCBy
-ZWxpZWQgb24gdGhlIGRlZmF1bHQgdmFsdWVzIHRvIGdldCA5NngxNj8NCj4+Pj4NCj4+Pg0K
-Pj4+IEl0IHdvdWxkIGJ1dCBJIGRvbid0IHRoaW5rIGl0IGlzIGFuIGlzc3VlIGluIHByYXRp
-Y2UuIE1vc3QgdXNlcnMgb2YgdGhlc2UNCj4+PiBwYW5lbHMgdXNlIG9uZSBvZiB0aGUgbXVs
-dGlwbGUgbGlicmFyaWVzIG9uIHRvcCBvZiB0aGUgc3BpZGV2IGludGVyZmFjZS4NCj4+Pg0K
-Pj4+IEZvciB0aGUgc21hbGwgdXNlcmJhc2UgdGhhdCBkb24ndCwgSSBiZWxpZXZlIHRoYXQg
-dGhleSB3aWxsIHVzZSB0aGUgcnBpZg0KPj4+IGtlcm5lbCBhbmQgc3NkMTMwNi1vdmVybGF5
-LmR0Ym8gRFRCIG92ZXJsYXksIHdoaWNoIGRlZmF1bHRzIHRvIHdpZHRoPTEyOA0KPj4+IGFu
-ZCBoZWlnaHQ9NjQgWzFdLiBTbyB0aG9zZSB1c2VycyB3aWxsIGhhdmUgdG8gZXhwbGljaXRs
-eSBzZXQgYSB3aWR0aCBhbmQNCj4+PiBoZWlnaHQgZm9yIGEgOTZ4MTYgcGFuZWwgYW55d2F5
-cy4NCj4+Pg0KPj4+IFRoZSBpbnRlcnNlY3Rpb24gb2YgdXNlcnMgdGhhdCBoYXZlIGEgOTZ4
-MTYgcGFuZWwsIGFzc3VtZWQgdGhhdCBkZWZhdWx0DQo+Pj4gYW5kIGNvbnNpZGVyIHRoZSBE
-VEIgYSBzdGFibGUgQUJJLCBhbmQgb25seSB1cGRhdGUgdGhlaXIga2VybmVsIGJ1dCBub3QN
-Cj4+PiB0aGUgIERUQiBzaG91bGQgYmUgdmVyeSBzbWFsbCBJTU8uDQo+Pg0KPj4gSXQncyB0
-aGUgYWRkaW5nIG9mIG5ldyBkZWZhdWx0cyB0aGF0IG1ha2VzIGl0IGEgYml0IG1lc3NpZXIs
-IHNpbmNlIHlvdQ0KPj4gY2FuJ3QgZXZlbiByZXZlcnQgd2l0aG91dCBwb3RlbnRpYWxseSBi
-cmVha2luZyBhIG5ld2VyIHVzZXIuIEknZCBiZSBtb3JlDQo+PiBpbmNsaW5lZCB0byByZXF1
-aXJlIHRoZSBwcm9wZXJ0aWVzLCByYXRoZXIgY2hhbmdlIHRoZWlyIGRlZmF1bHRzIGluIHRo
-ZQ0KPj4gYmluZGluZywgbGVzdCB0aGVyZSBhcmUgcGVvcGxlIHJlbHlpbmcgb24gdGhlbS4N
-Cj4gDQo+IEkgdGhpbmsgdGhhdCdzIE9LLCB0aGUgb2xkIGRyaXZlcnMvdmlkZW8vZmJkZXYv
-c3NkMTMwN2ZiLmMgZmJkZXYgZHJpdmVyDQo+IHN0aWxsIGhhcyB0aGUgb2xkIGJlaGF2aW91
-ciBzbyBpdCB3aWxsIG9ubHkgYmUgYSBwcm9ibGVtIGZvciB1c2VycyB0aGF0DQo+IHdhbnQg
-dG8gbW92ZSB0byB0aGUgbmV3IHNzZDEzMHggZHJpdmVyIGFzIHdlbGwuDQo+IA0KPiBCeSBs
-b29raW5nIGF0IHRoZSBnaXQgbG9nIGhpc3RvcnksIHRoZSA5NngxNiByZXNvbHV0aW9uIHdh
-cyBjaG9zZW4gd2hlbg0KPiB0aGUgZHJpdmVyIHdhcyBtZXJnZWQgYmVjYXVzZSBNYXhpbWUg
-dGVzdGVkIGl0IG9uIGEgQ0ZBMTAwMzYgYm9hcmQgWzFdDQo+IHRoYXQgaGFzIGEgOTZ4MTYg
-cGFuZWwgdGhhdCB1c2VzIGFuIFNTRDEzMDcgY29udHJvbGxlci4NCj4gDQo+IEJ1dCBhcyBt
-ZW50aW9uZWQsIHRoYXQgY2hpcCBjYW4gZHJpdmUgdXAgdG8gMTI4eDM5IHBpeGVscyBzbyB0
-aGUgbWF4aW11bQ0KPiBtYWtlcyBtb3JlIHNlbnNlIGFzIGRlZmF1bHQgdG8gbWUuDQo+IA0K
-PiBbMV06IGh0dHBzOi8vd3d3LmNyeXN0YWxmb250ei5jb20vcHJvZHVjdC9jZmExMDAzNg0K
-PiANCj4+IElmIHlvdSBhbmQgdGhlIG90aGVyIGtub3dsZWRnZWFibGUgZm9sayBpbiB0aGUg
-YXJlYSByZWFsbHkgZG8ga25vdyBzdWNoDQo+PiB1c2VycyBkbyBub3QgZXhpc3QgdGhlbiBJ
-IHN1cHBvc2UgaXQgaXMgZmluZSB0byBkby4NCj4gDQo+IEkgYmVsaWV2ZSBpcyBmaW5lLCBz
-aW5jZSBhcyBleHBsYWluZWQgYWJvdmUgdGhhdCBjaGFuZ2Ugd2FzIG9ubHkgZG9uZSBpbg0K
-PiB0aGUgc3NkMTMweCBEUk0gZHJpdmVyLCBub3QgdGhlIHNzZDEzMDdmYiBmYmRldiBkcml2
-ZXIgd2hvc2UgZGVmYXVsdCBpcw0KPiBzdGlsbCA5NngxNi4gQm90aCBkcml2ZXJzIHNoYXJl
-IHRoZSBzYW1lIERUIGJpbmRpbmcgc2NoZW1lLCBJIHdhcyBhc2tlZA0KPiB0byBkbyB0aGF0
-IHRvIG1ha2UgaXQgYXMgbXVjaCBiYWNrd2FyZCBjb21wYXRpYmxlIGFzIHBvc3NpYmxlIHdp
-dGggdGhlDQo+IG9sZCBmYmRldiBkcml2ZXIuDQo+IA0KPiBCdXQgSSB3aWxsIGJlIE9LIHRv
-IGRyb3AgdGhlICJzb2xvbW9uLHNzZDEzMD9mYi1pMmMiIGNvbXBhdGlibGUgc3RyaW5ncw0K
-PiBmcm9tIHRoZSBEUk0gZHJpdmVyIGFuZCBvbmx5IG1hdGNoIGFnYWluc3QgdGhlIG5ldyAi
-c29sb21vbixzc2QxMzA/LWkyYyINCj4gY29tcGF0aWJsZSBzdHJpbmdzLiBBbmQgYWRkIGEg
-ZGlmZmVyZW50IERUIGJpbmRpbmcgc2NoZW1hIGZvciB0aGUgc3NkMTMweA0KPiBkcml2ZXIs
-IGlmIHRoYXQgd291bGQgbWVhbiBiZWluZyBhYmxlIHRvIGZpeCB0aGluZ3MgbGlrZSB0aGUg
-b25lIG1lbnRpb25lZA0KPiBpbiB0aGlzIHBhdGNoLg0KPiANCj4gSW4gbXkgb3Bpbmlvbiwg
-dHJ5aW5nIHRvIGFsd2F5cyBtYWtlIHRoZSBkcml2ZXJzIGJhY2t3YXJkIGNvbXBhdGlibGUg
-d2l0aA0KPiBvbGQgRFRCcyBvbmx5IG1ha2VzIHRoZSBkcml2ZXJzIGNvZGUgbW9yZSBjb21w
-bGljYXRlZCBmb3IgdW5jbGVhciBiZW5lZml0Lg0KPiANCj4gVXN1YWxseSB0aGlzIGp1c3Qg
-ZW5kcyBiZWluZyBjb2RlIHRoYXQgaXMgbmVpdGhlciB1c2VkIG5vciB0ZXN0ZWQuIEJlY2F1
-c2UNCj4gaW4gcHJhY3RpY2UgbW9zdCBwZW9wbGUgdXBkYXRlIHRoZSBEVEJzIGFuZCBrZXJu
-ZWxzLCBpbnN0ZWFkIG9mIHRyeWluZyB0bw0KPiBtYWtlIHRoZSBEVEIgYSBzdGFibGUgQUJJ
-IGxpa2UgZmlybXdhcmUuDQo+IA0KDQogRnJvbSBteSB1bmRlcnN0YW5kaW5nLCBmaXhpbmcg
-dGhlIHJlc29sdXRpb24gaXMgdGhlIGNvcnJlY3QgdGhpbmcgdG8gZG8gDQpoZXJlLiBVc2Vy
-c3BhY2UgbmVlZHMgdG8gYmUgYWJsZSB0byBoYW5kbGUgdGhlc2UgZGlmZmVyZW5jZXMuDQoN
-CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBo
-aWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
-R21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdG
-OiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1v
-ZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 3bcc9c0f2019..7ed2516b6de0 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -611,6 +611,14 @@ static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
+ 	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
+ }
+ 
++static void mxsfb_plane_overlay_atomic_disable(struct drm_plane *plane,
++					       struct drm_atomic_state *state)
++{
++	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
++
++	writel(0, mxsfb->base + LCDC_AS_CTRL);
++}
++
+ static bool mxsfb_format_mod_supported(struct drm_plane *plane,
+ 				       uint32_t format,
+ 				       uint64_t modifier)
+@@ -626,6 +634,7 @@ static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
+ static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
+ 	.atomic_check = mxsfb_plane_atomic_check,
+ 	.atomic_update = mxsfb_plane_overlay_atomic_update,
++	.atomic_disable = mxsfb_plane_overlay_atomic_disable,
+ };
+ 
+ static const struct drm_plane_funcs mxsfb_plane_funcs = {
+-- 
+2.37.1
 
---------------XFs4pygeHK0D17qDOzXZ91B7--
-
---------------WO2qRLZnYZV0zUnQVYYFuGht
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSGzYAFAwAAAAAACgkQlh/E3EQov+Av
-Cg/9HU5bDa3K383KDwEnLeqVEo80PHBx+XYGk2uYWeNczqPk1dDt8SqQs+W0KP6plKi4CpBN4dBL
-DjPUcPqQRmzf2ANb/vcHr8xWnZj0PvcLg2ZxkTKj2807u8jnpQAIWS38yjE1l6o5HUYYHThZYGjR
-i+fnIXgIfo1Y5aF26VtkNeUmwXk9A6cub73kqNVvXmSZfGKm14H+aAs8tMLW0HvEiDnedLQqls2e
-yrG+irGPTScPMWX6Mm0lxqYrwoMDrIMSa+1mW5OZ8R3ks1GbfeOfHVls0anRetrKHGc/5rlzrVJ3
-KLGejxJUtkH0qMsZfv+DDSNCv8oqb8MAZPa5FkEiPU20VfUJfZ8Y+zz1+7D1ReQ+b2zl0YAmk75L
-UcXL0fVpb6UaQcYuKE6l+PGqUr/NQodKsMrC6NydfJyl56Wogy+ejwUTR8CEQOJWRTOOcCw/1FfR
-RzOV+0TbU9CCxeJC8R52M5pjL/aXYzvdXYyTMdSgEYjRaAJg7XIPvSxwTieQqNu1Gycf+TqD36Zr
-aU4shfOWPj3zUsiajs6758gCO2MpiV6jF1sPa7LphS7c9BiJGifMkFAPyHBShgs7QBLM0uoSK8TF
-Tel+gB+zB+x57FYJyhyBKTmCuPnCcetEPvxk2VPyMSdmqluOcuKvGcu+LW790tMiMhNjzS1unNVU
-qBM=
-=S+WN
------END PGP SIGNATURE-----
-
---------------WO2qRLZnYZV0zUnQVYYFuGht--
