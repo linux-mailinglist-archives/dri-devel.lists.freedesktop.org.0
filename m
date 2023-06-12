@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB42772BA64
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 10:26:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8377572BA74
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 10:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8AA210E1BE;
-	Mon, 12 Jun 2023 08:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9216510E1BD;
+	Mon, 12 Jun 2023 08:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADFD10E1BB;
- Mon, 12 Jun 2023 08:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686558369; x=1718094369;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+ogtnKRJGWjGfBa+VpYTRfrIADIeHv6/eKXf/S8bk9w=;
- b=E00VCtILdpVES5a6Dxp6ETsFqSvk5fXnDyTyOxoRmBJK4bZb5HsyL2Pv
- aPTq0euLOa8jRbf36cyyv3pHF29wi5bD5MXvRBLHt1dpGuN6FrBvW8eTT
- WyN6riMQ1xMh7Xk+AQYOfograGgMcwf6t8Vv5+NPRqaq1jLfZoQdjgYIl
- mYaJL5V373wllwep+k8iwl9MGvEzt3wwJdwyWbh9v4jjpmMMvgeEZmtSN
- cwYZ1wCM9IBAVWsAqzc9z4Zv1tj6seazRqZmsMSMJLfWrThyl9d5ReQuq
- uZ/b0gm1l8U6LwLnEj4VpjPYpIm2he1qRx8Z9k2bzlFzlQ7fsxDBzS0f9 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="347628151"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="347628151"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2023 01:26:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="744248327"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="744248327"
-Received: from mcantwex-mobl.ger.corp.intel.com (HELO [10.213.224.167])
- ([10.213.224.167])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2023 01:26:04 -0700
-Message-ID: <55cddc4c-9a95-2c92-84d9-b2ea60c358c2@linux.intel.com>
-Date: Mon, 12 Jun 2023 09:26:01 +0100
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60AF210E1CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 08:27:16 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id
+ 5614622812f47-394c7ba4cb5so1355115b6e.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 01:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686558435; x=1689150435;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xikwqy7ib7Y/mLLKEHOpPpi9POvMQl+h0IGLdxi4N9U=;
+ b=KsyMH9/MoeCg+v8cg6r8OjYR61AIwAKyhvUrcMuYAffmyRLxCgH+w48FsbrSj1aK0l
+ qcjriEynL48YMZIAkIxC2R663TrHTr2BbNi73r6EtgWeWrY+cpy+vT7UtC4PhiB07CNn
+ whMjA65vORVPQ2W7IUkKN7rCyNRpBI4JjcfEMz/nqW66B45LAwW5S6ylNIh+SYMTTli6
+ OYjEybFkAkjG6CY664be8UcKlLB3KLTBr7xbZl1zXFOylyqCzg375pvX35dhQyXiPzrk
+ MU4VlYXJD6FpZ+OyPupaHUtyMqeGgJ7MwW7ssHW0TDW1II13qfr8KMSMjb3st+QtOHFN
+ Lm+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686558435; x=1689150435;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xikwqy7ib7Y/mLLKEHOpPpi9POvMQl+h0IGLdxi4N9U=;
+ b=kzEj+YFjXvchkgVcswEZ3kv3nagZvkb9Bl9ezAQfeZqS3pX3cyGvuMeX5aHViTiR80
+ cU8svA8sC6uCnM7rjalNeiZdgd86uwpVO9wGetW+hS29u1GRzvENUP272Foi86yeO5sL
+ JnfM9FML92LsEiodEJtLuJXw11QWHbpXuTxY+5cTZ8eG95RoG7AciCOXz2KVFPz5dPXv
+ gJtFPoV1XJcrXgTzTyG7Gs98Y78k4BEp0P6uOrxN0/qHl0KR1uD7svs4hVg2i/2FP2Jd
+ Z1SF6FrNUKv0/uys8/YHOvhginkn9MzWWUx+LNwvHMIoW6tVAnHPfSZthbRpceOry3jM
+ pszw==
+X-Gm-Message-State: AC+VfDx0HTfAVLKTCudpUaQsYcdOY2V88q9D6t0/ZmRZKKpobu7+9fqg
+ Ya6zIlaAJxbJhordpO4OLK8wgU02ThiTMWVfXGs=
+X-Google-Smtp-Source: ACHHUZ5PeWjNQYGhP+GgnE/uYa/TsyjNfpKhY52fPwatib+iyfRzatSAMiiqZ+nFktQ+zaynY7gy+K1FPifNbpu1nJw=
+X-Received: by 2002:a05:6808:1cf:b0:398:560c:a4c5 with SMTP id
+ x15-20020a05680801cf00b00398560ca4c5mr3611988oic.55.1686558435218; Mon, 12
+ Jun 2023 01:27:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 6/8] drm: Add drm_gem_prime_fd_to_handle_obj
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230609121143.1232420-1-tvrtko.ursulin@linux.intel.com>
- <20230609121143.1232420-7-tvrtko.ursulin@linux.intel.com>
- <2faa3900-6456-136c-0a1a-8629ed6d3784@intel.com>
- <bfa71c75-4b61-ce17-8eba-0aa48ec14097@linux.intel.com>
- <CAF6AEGtcezsfSV3kqdbPUHGN8Pr1Jwo78fvtDQ4aGVZ+b8Ni_w@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGtcezsfSV3kqdbPUHGN8Pr1Jwo78fvtDQ4aGVZ+b8Ni_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230612075530.681869-1-victor.liu@nxp.com>
+ <20230612080400.GA1212744@ravnborg.org>
+In-Reply-To: <20230612080400.GA1212744@ravnborg.org>
+From: Ying Liu <gnuiyl@gmail.com>
+Date: Mon, 12 Jun 2023 16:27:03 +0800
+Message-ID: <CAOcKUNXqMA7YfgY=gjPs477eLUcTktGxZUqShyDMJ7Xk1nn3MA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mxsfb: Disable overlay plane in
+ mxsfb_plane_overlay_atomic_disable()
+To: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +70,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, "Iddamsetty,
- Aravind" <aravind.iddamsetty@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: marex@denx.de, Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com, kernel@pengutronix.de,
+ shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 12, 2023 at 4:04=E2=80=AFPM Sam Ravnborg <sam@ravnborg.org> wro=
+te:
+>
+> Hi Liu Ying.
 
-On 09/06/2023 18:09, Rob Clark wrote:
-> On Fri, Jun 9, 2023 at 7:12 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 09/06/2023 13:44, Iddamsetty, Aravind wrote:
->>> On 09-06-2023 17:41, Tvrtko Ursulin wrote:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> I need a new flavour of the drm_gem_prime_fd_to_handle helper, one which
->>>> will return a reference to a newly created GEM objects (if created), in
->>>> order to enable tracking of imported i915 GEM objects in the following
->>>> patch.
->>>
->>> instead of this what if we implement the open call back in i915
->>>
->>> struct drm_gem_object_funcs {
->>>
->>>           /**
->>>            * @open:
->>>            *
->>>            * Called upon GEM handle creation.
->>>            *
->>>            * This callback is optional.
->>>            */
->>>           int (*open)(struct drm_gem_object *obj, struct drm_file *file);
->>>
->>> which gets called whenever a handle(drm_gem_handle_create_tail) is
->>> created and in the open we can check if to_intel_bo(obj)->base.dma_buf
->>> then it is imported if not it is owned or created by it.
->>
->> I wanted to track as much memory usage as we have which is buffer object
->> backed, including page tables and contexts. And since those are not user
->> visible (they don't have handles), they wouldn't be covered by the
->> obj->funcs->open() callback.
->>
->> If we wanted to limit to objects with handles we could simply do what
->> Rob proposed and that is to walk the handles idr. But that does not feel
->> like the right direction to me. Open for discussion I guess.
-> 
-> I guess you just have a few special case objects per context?
+Hi Sam,
 
-Per context we have context image (register state etc) and ring buffer 
-(command emission), per engine.
+>
+> On Mon, Jun 12, 2023 at 03:55:30PM +0800, Liu Ying wrote:
+> > When disabling overlay plane in mxsfb_plane_overlay_atomic_update(),
+> > overlay plane's framebuffer pointer is NULL.  So, dereferencing it woul=
+d
+> > cause a kernel Oops(NULL pointer dereferencing).  Fix the issue by
+> > disabling overlay plane in mxsfb_plane_overlay_atomic_disable() instead=
+.
+>
+> Reading the above I had expected that some code was dropped from
+> mxsfb_plane_overlay_atomic_update().
 
-Then we have all the page table backing store per each VM/ppgtt/context 
-allocated as GEM objects.
+Yes, the offending commit cb285a5348e7 dropped mxsfb_get_fb_paddr()
+which contains an important !fb check to avoid the NULL pointer
+dereferencing.
 
-> Wouldn't it be easier to just track _those_ specially and append them
-> to the results after doing the normal idr table walk?
+> I do not know the driver code, but was confused so decided to give
+> feedback.
 
-In a way yes and in a way it is not as elegant. IMHO at least.
-> (Also, doing something special for dma-buf smells a bit odd..
-> considering that we also have legacy flink name based sharing as
-> well.)
+drm_fb_{cma, dma}_get_gem_addr() called by
+mxsfb_plane_primary_atomic_update() don't do !fb check but directly
+dereference fb.  That's why the NULL pointer dereferencing issue
+happens.
 
-It's not really special, just needed to return a tuple of (object, 
-handle) from the prime import helper. So it can plug into the very same 
-tracking I use from other paths.
-
-I was going for some kind of elegance with one loop - single tracking - 
-as long as I had to add new list head to our buffer object.
-
-Anyway, I can re-spin a simplified version (fewer patches) with two 
-loops. Only downside is that the new list head will only be used for 
-internal objects.
+With this patch, mxsfb_plane_overlay_atomic_disable() is used
+to disable overlay plane, not mxsfb_plane_primary_atomic_update().
+Please see funcs->atomic_{disable, update}  in
+drm_atomic_helper_commit_planes().
 
 Regards,
+Liu Ying
 
-Tvrtko
-
-P.S.
-Flink I indeed missed. Is that used nowadays btw?
+>
+>         Sam
+>
+> >
+> > Fixes: cb285a5348e7 ("drm: mxsfb: Replace mxsfb_get_fb_paddr() with drm=
+_fb_cma_get_gem_addr()")
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/=
+mxsfb_kms.c
+> > index 3bcc9c0f2019..7ed2516b6de0 100644
+> > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> > @@ -611,6 +611,14 @@ static void mxsfb_plane_overlay_atomic_update(stru=
+ct drm_plane *plane,
+> >       writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
+> >  }
+> >
+> > +static void mxsfb_plane_overlay_atomic_disable(struct drm_plane *plane=
+,
+> > +                                            struct drm_atomic_state *s=
+tate)
+> > +{
+> > +     struct mxsfb_drm_private *mxsfb =3D to_mxsfb_drm_private(plane->d=
+ev);
+> > +
+> > +     writel(0, mxsfb->base + LCDC_AS_CTRL);
+> > +}
+> > +
+> >  static bool mxsfb_format_mod_supported(struct drm_plane *plane,
+> >                                      uint32_t format,
+> >                                      uint64_t modifier)
+> > @@ -626,6 +634,7 @@ static const struct drm_plane_helper_funcs mxsfb_pl=
+ane_primary_helper_funcs =3D {
+> >  static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_=
+funcs =3D {
+> >       .atomic_check =3D mxsfb_plane_atomic_check,
+> >       .atomic_update =3D mxsfb_plane_overlay_atomic_update,
+> > +     .atomic_disable =3D mxsfb_plane_overlay_atomic_disable,
+> >  };
+> >
+> >  static const struct drm_plane_funcs mxsfb_plane_funcs =3D {
+> > --
+> > 2.37.1
