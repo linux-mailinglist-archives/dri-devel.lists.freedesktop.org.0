@@ -1,63 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB0872BBD9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 11:15:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC13672BBDA
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 11:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5086A10E1E2;
-	Mon, 12 Jun 2023 09:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA73410E212;
+	Mon, 12 Jun 2023 09:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8838910E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:15:36 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- 98e67ed59e1d1-25695bb6461so2204310a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 02:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686561335; x=1689153335;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WPacStbH00kO6uHRDNkAWKJsSoKXzXejllyTWwhJV4Q=;
- b=O5kOM+YE34a/v4vqGDwQxrp1QJEQiFzewVl1p34xNJ5z61Nh1eQW3sPp6S5ZGSe1/U
- cjglx5opI9ADJCJ3ZFetB/TqH0gTJAPq8xn4rLHIh8Rjwc/DMRTm6cQL9vo7XENqe/R4
- l4sYJ9Hca7p7zmLvnw/VtxcMyeAhSWnOd9oPd9gtgdsKe02IxfwOO8vHY8AzbgE7WSFJ
- XeBpGdBBV59b3CTnKld24Fwm4IICUFI9Ry5FQncvUTEHjHVNVVF+wI9BAANOJsQB+4Ss
- ANSd+ETUicvjwhbeGhoRTLi7O409lEArKI3Dd6qasmQyS21An/fiSVxo+8YFdM0pRmMI
- 2aWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686561335; x=1689153335;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WPacStbH00kO6uHRDNkAWKJsSoKXzXejllyTWwhJV4Q=;
- b=EmoXFRHttffIGLjhXr4ePuzjO/dZNToCiolnDMnNoj9a9IzQssUtRII7/QyV63Pf8/
- M74fZ1fmgUkPgkZ9jclQOy6LnsEFkjhQGD2d/DetWkcRyAlj0l0Dtwemy0DBlqqBUm00
- mQC+WIbl51zwFiMQiW8OIc5s6NEtCtxLVWkpmdZa8Cdn0aUQ2AQGHR3cuTYxKPQmqfQJ
- kZPVZxGcequXxtaSXxZ917EyJgCSubLq4fFl6HJtRVOPJFfaoSxddLCOFY8CBhi28m3f
- 4dtdgJ6zKvV9cqpxkRf5EscjNv/ocAPJ8sdaeBOzcdij+Hh+i5JTvSQkKnj25xE1nYNM
- lGKg==
-X-Gm-Message-State: AC+VfDxK7qYjapAAc8yC7ExoqJo8CCFsUkEcJoz+77Sk3vZar8VH6q8k
- nM9oYiU3E7waeXvOPifrc4QEM6aPzvZL+NlauAU=
-X-Google-Smtp-Source: ACHHUZ5/Ibl3ZeKb7ANu+QbAXt842V6UlrL3qkNAQerUYCCQ+uMCk/Cx/JQ69F94J1+bzan81nCMVgw9eU+BFdP3HHo=
-X-Received: by 2002:a17:90a:4508:b0:25b:e310:ca6 with SMTP id
- u8-20020a17090a450800b0025be3100ca6mr2879033pjg.9.1686561335497; Mon, 12 Jun
- 2023 02:15:35 -0700 (PDT)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97BB410E1E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:15:55 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8B2E63F24E;
+ Mon, 12 Jun 2023 11:15:52 +0200 (CEST)
+Date: Mon, 12 Jun 2023 11:15:51 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 2/2] drm/msm/dsi: don't allow enabling 7nm VCO with
+ unprogrammed rate
+Message-ID: <g4ogg7ecraduqbvcxsost2lm26fr6rswdm4tgba5ae23b5jjvg@6mzv2u7bmw7u>
+References: <20230612031616.3620134-1-dmitry.baryshkov@linaro.org>
+ <20230612031616.3620134-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-References: <20230612075530.681869-1-victor.liu@nxp.com>
- <c11788bb-9974-3fb9-7cac-db7d55cfde9e@denx.de>
-In-Reply-To: <c11788bb-9974-3fb9-7cac-db7d55cfde9e@denx.de>
-From: Ying Liu <gnuiyl@gmail.com>
-Date: Mon, 12 Jun 2023 17:15:23 +0800
-Message-ID: <CAOcKUNUh7itiVKgiXuL6TqEo9uFm2xSNh7k+b+0QoD-MuifaUw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mxsfb: Disable overlay plane in
- mxsfb_plane_overlay_atomic_disable()
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612031616.3620134-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,26 +44,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Ying <victor.liu@nxp.com>, shawnguo@kernel.org, s.hauer@pengutronix.de,
- dri-devel@lists.freedesktop.org, linux-imx@nxp.com, kernel@pengutronix.de,
- sam@ravnborg.org, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, Degdag Mohamed <degdagmohamed@gmail.com>,
+ Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 12, 2023 at 5:06=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
->
-> On 6/12/23 09:55, Liu Ying wrote:
-> > When disabling overlay plane in mxsfb_plane_overlay_atomic_update(),
-> > overlay plane's framebuffer pointer is NULL.  So, dereferencing it woul=
-d
-> > cause a kernel Oops(NULL pointer dereferencing).  Fix the issue by
-> > disabling overlay plane in mxsfb_plane_overlay_atomic_disable() instead=
-.
-> >
-> > Fixes: cb285a5348e7 ("drm: mxsfb: Replace mxsfb_get_fb_paddr() with drm=
-_fb_cma_get_gem_addr()")
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
->
-> Should this be Cc: stable too ?
+On 2023-06-12 06:16:16, Dmitry Baryshkov wrote:
+> CCF can try enabling VCO before the rate has been programmed. This can
+> cause clock lockups and/or other boot issues. Program the VCO to the
+> minimal PLL rate if the read rate is 0 Hz.
+> 
+> Reported-by: Degdag Mohamed <degdagmohamed@gmail.com>
+> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Ok, will explicitly Cc: stable.  Thanks.
+This unfortunately regresses my Xperia 5 (sofef01 panel driver that's
+on the lists) to now run at 30~33Hz instead of 60Hz.  I can provide
+debugging and clk trees later, if needed.
+
+- Marijn
+
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 3b1ed02f644d..6979d35eb7c3 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -395,11 +395,16 @@ static void dsi_pll_phy_dig_reset(struct dsi_pll_7nm *pll)
+>  	wmb(); /* Ensure that the reset is deasserted */
+>  }
+>  
+> +static unsigned long dsi_pll_7nm_vco_recalc_rate(struct clk_hw *hw,
+> +						  unsigned long parent_rate);
+>  static int dsi_pll_7nm_vco_prepare(struct clk_hw *hw)
+>  {
+>  	struct dsi_pll_7nm *pll_7nm = to_pll_7nm(hw);
+>  	int rc;
+>  
+> +	if (dsi_pll_7nm_vco_recalc_rate(hw, VCO_REF_CLK_RATE) == 0)
+> +		dsi_pll_7nm_vco_set_rate(hw, pll_7nm->phy->cfg->min_pll_rate, VCO_REF_CLK_RATE);
+> +
+>  	dsi_pll_enable_pll_bias(pll_7nm);
+>  	if (pll_7nm->slave)
+>  		dsi_pll_enable_pll_bias(pll_7nm->slave);
+> -- 
+> 2.39.2
+> 
