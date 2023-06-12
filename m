@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7362972C778
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F7172C78A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4B310E269;
-	Mon, 12 Jun 2023 14:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFAC210E282;
+	Mon, 12 Jun 2023 14:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91EA210E254
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1DC210E24A
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:13:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2BC3222838;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7D9902283A;
  Mon, 12 Jun 2023 14:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1686579237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JlVcmvzQv7LlXsgvsBhpy1neAHLfhVIo6jMpaCVHhbM=;
- b=wUxmfirh6VNkcGRn6mKsulbVu7QH8bYevkHyb0yYz8XOtHUU9lQb9UBbLCe2ra5EFuFeAI
- GHLtlmCFTLzGg7xPsoaPpwUKAz9MWA+jd429AluaVrvtYWo6PdjACsDUN8HgPDjNZsJt3b
- /St0XSCdNwukFwRgPZzlj0KmoO1X94A=
+ bh=V05YqbcHFkVh40/g+io2C7/2OJyvLIuQRZ3y/TKygo8=;
+ b=T2euGdcQaW2rmPvlyCi7lJ1mkZrEd72+/fhhzMqgppXGBGopdDkJK5SKyCyb5T/C+loCv+
+ 6OFAZDBPYb9PXIQchvOTpxeU9n8u/plj9XOG+ofNWocbJ3JWwHNvJJoyI503bSSjY9p9DA
+ e4teRawwOgNlbVcSg2ZLnL3ImsMqKBI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1686579237;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JlVcmvzQv7LlXsgvsBhpy1neAHLfhVIo6jMpaCVHhbM=;
- b=B8siKHLL2vcweQADuS5kOj3W2q2DepX36jW8jW9Pcc4DwS/BlKpty2EBbvgi9gWuZe+Lgs
- 5sZmH38mKQTYHsBQ==
+ bh=V05YqbcHFkVh40/g+io2C7/2OJyvLIuQRZ3y/TKygo8=;
+ b=vNbQs/Lji8VC4za6ijU1bMo1lBLxsxsTBPEICggoy20po+PG44rdnjGCWFShw4SwgP10Qb
+ 7r4NlZRpNRfDSWAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D06C51357F;
- Mon, 12 Jun 2023 14:13:56 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2F94A13A67;
+ Mon, 12 Jun 2023 14:13:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sNXyMSQoh2RwGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:56 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id OMbTCiUoh2RwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
  geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
  jingoohan1@gmail.com, dan.carpenter@linaro.org, michael.j.ruhl@intel.com
-Subject: [PATCH v2 07/38] fbdev/atyfb: Reorder backlight and framebuffer
- init/cleanup
-Date: Mon, 12 Jun 2023 16:07:45 +0200
-Message-ID: <20230612141352.29939-8-tzimmermann@suse.de>
+Subject: [PATCH v2 08/38] fbdev/atyfb: Use hardware device as backlight parent
+Date: Mon, 12 Jun 2023 16:07:46 +0200
+Message-ID: <20230612141352.29939-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
@@ -77,61 +76,29 @@ Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver's backlight code requires the framebuffer to be
-registered. Therefore reorder the init and cleanup calls for
-both data structures.
+Use the hardware device in struct fb_info.device as parent of the
+backlight device. Aligns the driver with the rest of the codebase
+and prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/video/fbdev/aty/atyfb_base.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/aty/atyfb_base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index cba2b113b28b0..51504fe39054c 100644
+index 51504fe39054c..e1602e3fbc66b 100644
 --- a/drivers/video/fbdev/aty/atyfb_base.c
 +++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -2654,11 +2654,6 @@ static int aty_init(struct fb_info *info)
- 			   USE_F32KHZ | TRISTATE_MEM_EN, par);
- 	} else
- #endif
--	if (M64_HAS(MOBIL_BUS) && backlight) {
--#ifdef CONFIG_FB_ATY_BACKLIGHT
--		aty_bl_init(par);
--#endif
--	}
- 
- 	memset(&var, 0, sizeof(var));
- #ifdef CONFIG_PPC
-@@ -2751,6 +2746,12 @@ static int aty_init(struct fb_info *info)
- 		goto aty_init_exit;
- 	}
- 
-+	if (M64_HAS(MOBIL_BUS) && backlight) {
-+#ifdef CONFIG_FB_ATY_BACKLIGHT
-+		aty_bl_init(par);
-+#endif
-+	}
-+
- 	fb_list = info;
- 
- 	PRINTKI("fb%d: %s frame buffer device on %s\n",
-@@ -3716,12 +3717,13 @@ static void atyfb_remove(struct fb_info *info)
- 	aty_set_crtc(par, &par->saved_crtc);
- 	par->pll_ops->set_pll(info, &par->saved_pll);
- 
--	unregister_framebuffer(info);
--
- #ifdef CONFIG_FB_ATY_BACKLIGHT
- 	if (M64_HAS(MOBIL_BUS))
- 		aty_bl_exit(info->bl_dev);
- #endif
-+
-+	unregister_framebuffer(info);
-+
- 	arch_phys_wc_del(par->wc_cookie);
- 
- #ifndef __sparc__
+@@ -2255,7 +2255,7 @@ static void aty_bl_init(struct atyfb_par *par)
+ 	memset(&props, 0, sizeof(struct backlight_properties));
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = FB_BACKLIGHT_LEVELS - 1;
+-	bd = backlight_device_register(name, info->dev, par, &aty_bl_data,
++	bd = backlight_device_register(name, info->device, par, &aty_bl_data,
+ 				       &props);
+ 	if (IS_ERR(bd)) {
+ 		info->bl_dev = NULL;
 -- 
 2.41.0
 
