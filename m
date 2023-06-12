@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6626E72CAF0
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 18:04:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D172CB6E
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 18:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C4010E048;
-	Mon, 12 Jun 2023 16:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 662E110E174;
+	Mon, 12 Jun 2023 16:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD10F10E048
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:04:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686585863;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uuCdplsPmJlzp+kH6QUrWWOm1LK9xg7d6ONJhnkdacI=;
- b=C1UALYevi/miKpkMhPBj1ZoOWb9nCiktJediaWvDRX8/FYbScXkwECkvovGMxX9TcaxIez
- y9V89dCtn88j/0IryUG1PV7b4UzOZxKq/qkeMf03wrc7WnHtMjiwsXo2y7a2IeSoVynFqo
- w1QoAfRU2EEbP0oFL0oI0VLQfMy6kVI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-426-hQrp9-RDOhul_IZGLvo6Ow-1; Mon, 12 Jun 2023 12:04:20 -0400
-X-MC-Unique: hQrp9-RDOhul_IZGLvo6Ow-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-30fc3469c9bso592185f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686585859; x=1689177859;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uuCdplsPmJlzp+kH6QUrWWOm1LK9xg7d6ONJhnkdacI=;
- b=NT+Q3jA2ACrbriOxzLZPcE1ayZEN6zdrvae60fTfHyAmwWhNCtE78F+R2CfmlwwCnb
- 80GdVhVCxD94EpCtk0pLR0xzRy43HJwuJTGV4cwkYmpqPaFGNr3eu2iIuInNC0wYc5Ky
- ED0c0rKoGE2QqaUT51E3j8ppslyKa08/IrV43zp33HmE8UhsNfs3G9SVbaLhqik5x5la
- UlSvqZYNBWZi5OFfM3TJBv94+5hRYKOCZ3Rucav/SGStHoNrxf4bpRrmE0zA6ulBi2rm
- 42+xmZ6w9+geeVaOhcKhnkROIC1TB4RabYRxuCJ0YpSgN9aRxP5X2jmKN1d/DqlIKRXF
- VJYA==
-X-Gm-Message-State: AC+VfDznFLzNQczQGF1c+oewAc0ka5hkG5DlUn6/kA6xcQIFCfF1IT2D
- h/x+less1PtX3QQoCNtPdCafP/FTJbyQiQ1bFdqJCEI7Vk8YP0JhNWHu7k4nG9iWxhMwliZwLFx
- YX5DdXoMFSR50h9w3i6rAnpLMh81K
-X-Received: by 2002:adf:e984:0:b0:30a:bf2b:e020 with SMTP id
- h4-20020adfe984000000b0030abf2be020mr5819473wrm.45.1686585859687; 
- Mon, 12 Jun 2023 09:04:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4owFNKmEWmuPb++u0T0aPDLLPsp/xgXSi0mOTbIfVKTyTKs1oJaK7lKDIf+8APpdspTz1ouQ==
-X-Received: by 2002:adf:e984:0:b0:30a:bf2b:e020 with SMTP id
- h4-20020adfe984000000b0030abf2be020mr5819445wrm.45.1686585859272; 
- Mon, 12 Jun 2023 09:04:19 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c1-20020a5d5281000000b0030aded83385sm12896655wrv.27.2023.06.12.09.04.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 09:04:18 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 00/38] fbdev: Make userspace interfaces optional
-In-Reply-To: <20230612155601.GC1243864@ravnborg.org>
-References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612155601.GC1243864@ravnborg.org>
-Date: Mon, 12 Jun 2023 18:04:17 +0200
-Message-ID: <87jzw83bwe.fsf@minerva.mail-host-address-is-not-set>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 220F210E174
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:25:35 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D754660583E;
+ Mon, 12 Jun 2023 17:25:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686587133;
+ bh=x4g1wUSEKvwby86oCg4nBPXfL749cFEjVoVSaUOHweM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GOqwJQ5W/KA4I6cYjdRzESyl1Fmgc3vMjyDlNzXDtygXB5o2dgnYlZ2TgU0eLeI4i
+ 6gUdRti+wr7W3TKReSsk5y6DAbzimlzgj/AoeEVMHcNaTZtPjsssVNUrfBqO4UOSMn
+ K5mKDUPwgQAmQo8ePAJSxFLlhXbdzmWsoWgfaeamhIh5fOsOLrAJR1qOZG43Yg1Bry
+ u9oGqFw1A7rKxuaiDJ1OuprNWWsHgGN+7+8iVlTv5qP7LEwmGQaGKPvvjiVrnCueRY
+ VVoTvSK7P9dCCReRU0syYyh2sWwEwdbxg7TKyuqZhPv3+AqcREjnkee24fjz8KJ8A/
+ zYIbsCBJliF+Q==
+Date: Mon, 12 Jun 2023 18:25:30 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/sched: Add native dependency support to drm_sched
+Message-ID: <20230612182530.6214caf3@collabora.com>
+In-Reply-To: <20230612165902.437345c4@collabora.com>
+References: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
+ <5fcf04fa-1f45-30dd-1a37-cb0eba6d5f4a@amd.com>
+ <20230612165902.437345c4@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +55,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- michael.j.ruhl@intel.com, linux-omap@vger.kernel.org, dan.carpenter@linaro.org
+Cc: Sarah Walker <Sarah.Walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
+ Donald Robson <Donald.Robson@imgtec.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sam Ravnborg <sam@ravnborg.org> writes:
+On Mon, 12 Jun 2023 16:59:02 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Hello Sam,
+> Hi Christian,
+>=20
+> On Mon, 12 Jun 2023 15:16:03 +0200
+> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+>=20
+> > Am 08.06.23 um 15:23 schrieb Donald Robson: =20
+> > > This patch adds support for 'native' dependencies to DRM scheduler.  =
+In
+> > > drivers that use a firmware based scheduler there are performance gai=
+ns
+> > > to be had by allowing waits to happen in the firmware, as this reduces
+> > > the latency between signalling and job submission.   =20
+> >=20
+> > Well, if I'm not completely mistaken this patch here is superfluous=20
+> > since we already use that functionality.
+> >=20
+> > This strongly sounds like the HW dependencies we have in amdgpu. See=20
+> > AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES. =20
+>=20
+> I'll look at it in more details. Thanks for the pointer.
 
-> Hi Thomas,
->
-> Nice series, quite some preparations.
->
-> On Mon, Jun 12, 2023 at 04:07:38PM +0200, Thomas Zimmermann wrote:
+I had a quick look, and it looks pretty similar, indeed.
 
-[...]
+>=20
+> >=20
+> > Basically userspace can instead of giving a hard dependency to finish=20
+> > something before the current submission starts also give a soft=20
+> > dependency and only let the other submission be scheduled.
+> >=20
+> > This way you can then wait for the firmware for certain operations of=20
+> > the previous submission to complete by comparing memory or registers.
+> >=20
+> > You don't necessarily need to give control over this to userspace, if=20
+> > your kernel driver can determine a fw assisted wait by itself that=20
+> > should also work fine. =20
+>=20
+> That's what we did initially. We had a separate 'native_deps' xarray in
+> pvr_job that we were managing ourselves, and that worked fine, except
+> for the kill_entity() stuff. If you don't wait for those
+> 'native-fences', you're potentially signaling the job finished fence
+> earlier than it should.
 
->>   fbdev/smscufx: Detect registered fb_info from refcount
-> I did not try to understand the code, so others must review.
->
+Hm, I think we could get drm_sched_entity_kill_jobs_cb() to do the
+right thing here without teaching drm_sched about native deps. If we
+turn back scheduled fences into finished fences in
+drm_sched_entity_kill_jobs_cb(), this should work:
 
-No worries, I already reviewed that one.
+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+                                          struct dma_fence_cb *cb)
+{
+        struct drm_sched_job *job =3D container_of(cb, struct drm_sched_job,
+                                                 finish_cb);
+        unsigned long index;
+        int r;
 
->>   fbdev/ep93xx-fb: Alloc DMA memory from hardware device
->>   fbdev/sh7760fb: Alloc DMA memory from hardware device
-> This smells like bug-fixes, and I do not see what impact the change has.
-> So again, someone else needs to provide review here.
->
+        dma_fence_put(f);
 
-And same for these.
+        /* Wait for all dependencies to avoid data corruptions */
+        xa_for_each(&job->dependencies, index, f) {
+                struct drm_sched_fence *s_fence =3D to_drm_sched_fence(f);
 
--- 
-Best regards,
+                /* Make sure we wait for the finished fence here, so we can
+                 * guarantee that any job we depend on that is still access=
+ing
+                 * resources is done before we signal this job finished fen=
+ce
+                 * and unblock further accesses on these resources.
+                 */
+                if (s_fence && f =3D=3D &s_fence->scheduled)
+                        f =3D &s_fence->finished;
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+                xa_erase(&job->dependencies, index);
+                r =3D dma_fence_add_callback(f, &job->finish_cb,
+                                           drm_sched_entity_kill_jobs_cb);
+                if (!r)
+                        return;
 
+                dma_fence_put(f);
+        }
+
+        INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+        schedule_work(&job->work);
+}
+
+Then, for native fences, we just have to add the scheduled fence to the deps
+array, as you do (and as we did in our first version), and we should be goo=
+d.
