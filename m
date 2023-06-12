@@ -1,75 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004ED72CF9A
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 21:33:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8746772CFA5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 21:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8C510E0E9;
-	Mon, 12 Jun 2023 19:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA42210E2C9;
+	Mon, 12 Jun 2023 19:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 911F610E0D4;
- Mon, 12 Jun 2023 19:33:11 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cx8Oj2codk9woEAA--.6819S3;
- Tue, 13 Jun 2023 03:33:10 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Ax6OT1codkpR4XAA--.813S2; 
- Tue, 13 Jun 2023 03:33:09 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Hawking Zhang <Hawking.Zhang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Bokun Zhang <Bokun.Zhang@amd.com>,
- Ville Syrjala <ville.syrjala@linux.intel.com>, Li Yi <liyi@loongson.cn>,
- Sui Jingfeng <suijingfeng@loongson.cn>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Cornelia Huck <cohuck@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Abhishek Sahu <abhsahu@nvidia.com>,
- Yi Liu <yi.l.liu@intel.com>
-Subject: [PATCH v6 0/8] PCI/VGA: introduce is_boot_device function callback to
- vga_client_register
-Date: Tue, 13 Jun 2023 03:33:01 +0800
-Message-Id: <20230612193309.197571-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F300E10E2C6;
+ Mon, 12 Jun 2023 19:36:02 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35CJU3ja010196; Mon, 12 Jun 2023 19:35:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=fPKQJtui81opo56mpOlA1n8Dz+1eDrQwBjeFrk/NclU=;
+ b=eO41uHUgQPleXJt5lmvhdNNXSzjAXq+qkmLBx9RQv4fElxLjzmtYqMoxYlN6uD9sxWJd
+ KTmVB4gIJ7wWFaAJn4I36NnieZryDmkuIFBH3To7A5BDsAw+Z9QmKRmqv7sHxwhZQKkc
+ qX7NHTQ5+zgPzkJ8OXqf4TMqeeYN60NghH+noResAKh9asEpJfuKK1qywKMt93D080JX
+ oR8XGysh9KmzmA8JXiO5mIAyl7sEojDKs1t0ZFwo/88XXHpuOIsjoyWbbvydrMKIsUm+
+ NC/Eavqko82JPCn53pfkVmyasSLPXW6mllVzphtD2HVGNI7vDOWexuKiNHcFg54Yj6/d fw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r61q2141w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 19:35:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CJZsK1027135
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 19:35:54 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
+ 2023 12:35:52 -0700
+Message-ID: <b2ab681d-5f22-2ea2-a8af-7e06839967a1@quicinc.com>
+Date: Mon, 12 Jun 2023 12:35:50 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Ax6OT1codkpR4XAA--.813S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7ZrWUZF45Zr4kur18tFW3XFc_yoW8tr1rpF
- 45GF9xAr95Jr4akry7Aw4xZFy5Zan7CayfKr9rCw13u3W3Cry8trWqyFWrK34DJrWxAF10
- qr9xKryUCF1qvrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
- twAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
- 8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
- 6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
- AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
- xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFfOwUUUUU=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/msm/dpu/catalog: define DSPP blocks found on
+ sdm845
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
+ <20230612182534.3345805-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230612182534.3345805-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xF36dUSvIjmJDwLHT1Sq3rhkyjJmgbti
+X-Proofpoint-ORIG-GUID: xF36dUSvIjmJDwLHT1Sq3rhkyjJmgbti
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-12_14,2023-06-12_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
+ malwarescore=0 impostorscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306120170
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,58 +86,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vga_is_firmware_default() function is arch-dependent, it's probably
-wrong if we simply remove the arch guard. As the VRAM BAR which contains
-firmware framebuffer may move, while the lfb_base and lfb_size members of
-the screen_info does not change accordingly. In short, it should take the
-re-allocation of the PCI BAR into consideration.
 
-With the observation that device drivers or video aperture helpers may
-have better knowledge about which PCI bar contains the firmware fb,
-which could avoid the need to iterate all of the PCI BARs. But as a PCI
-function at pci/vgaarb.c, vga_is_firmware_default() is not suitable to
-make such an optimization since it is loaded too early.
 
-There are PCI display controllers that don't have a dedicated VRAM bar,
-this function will lose its effectiveness in such a case. Luckily, the
-device driver can provide an accurate workaround.
+On 6/12/2023 11:25 AM, Dmitry Baryshkov wrote:
+> Add definitions of DSPP blocks present on the sdm845 platform. This
+> should enable color-management on sdm845-bassed devices.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 21 +++++++++++++++----
+>   1 file changed, 17 insertions(+), 4 deletions(-)
+> 
 
-Therefore, this patch introduces a callback that allows the device driver
-to tell the VGAARB if the device is the default boot device. Also honor
-the comment: "Clients have two callback mechanisms they can use"
+This change itself is fine, hence
 
-Sui Jingfeng (8):
-  PCI/VGA: Use unsigned type for the io_state variable
-  PCI/VGA: Deal only with VGA class devices
-  PCI/VGA: Tidy up the code and comment format
-  PCI/VGA: Replace full MIT license text with SPDX identifier
-  video/aperture: Add a helper to detect if an aperture contains
-    firmware FB
-  PCI/VGA: Introduce is_boot_device function callback to
-    vga_client_register
-  drm/amdgpu: Implement the is_boot_device callback function
-  drm/radeon: Implement the is_boot_device callback function
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  12 +-
- drivers/gpu/drm/drm_aperture.c             |  16 +++
- drivers/gpu/drm/i915/display/intel_vga.c   |   3 +-
- drivers/gpu/drm/nouveau/nouveau_vga.c      |   2 +-
- drivers/gpu/drm/radeon/radeon_device.c     |  12 +-
- drivers/pci/vgaarb.c                       | 153 +++++++++++++--------
- drivers/vfio/pci/vfio_pci_core.c           |   2 +-
- drivers/video/aperture.c                   |  29 ++++
- include/drm/drm_aperture.h                 |   2 +
- include/linux/aperture.h                   |   7 +
- include/linux/vgaarb.h                     |  35 ++---
- 11 files changed, 184 insertions(+), 89 deletions(-)
+one note below for a future cleanup:
 
--- 
-2.25.1
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> index 36ea1af10894..b6098141bb9b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> @@ -96,19 +96,30 @@ static const struct dpu_sspp_cfg sdm845_sspp[] = {
+>   
+>   static const struct dpu_lm_cfg sdm845_lm[] = {
+>   	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+> -		&sdm845_lm_sblk, PINGPONG_0, LM_1, 0),
+> +		&sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
+>   	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+> -		&sdm845_lm_sblk, PINGPONG_1, LM_0, 0),
+> +		&sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
+>   	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+> -		&sdm845_lm_sblk, PINGPONG_2, LM_5, 0),
+> +		&sdm845_lm_sblk, PINGPONG_2, LM_5, DSPP_2),
+>   	LM_BLK("lm_3", LM_3, 0x0, MIXER_SDM845_MASK,
+> -		&sdm845_lm_sblk, PINGPONG_NONE, 0, 0),
+> +		&sdm845_lm_sblk, PINGPONG_NONE, 0, DSPP_3),
+>   	LM_BLK("lm_4", LM_4, 0x0, MIXER_SDM845_MASK,
+>   		&sdm845_lm_sblk, PINGPONG_NONE, 0, 0),
+>   	LM_BLK("lm_5", LM_5, 0x49000, MIXER_SDM845_MASK,
+>   		&sdm845_lm_sblk, PINGPONG_3, LM_2, 0),
+>   };
+>   
+> +static const struct dpu_dspp_cfg sdm845_dspp[] = {
+> +	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
+> +		 &sm8150_dspp_sblk),
+> +	DSPP_BLK("dspp_1", DSPP_1, 0x56000, DSPP_SC7180_MASK,
+> +		 &sm8150_dspp_sblk),
+> +	DSPP_BLK("dspp_2", DSPP_2, 0x58000, DSPP_SC7180_MASK,
+> +		 &sm8150_dspp_sblk),
+> +	DSPP_BLK("dspp_3", DSPP_3, 0x5a000, DSPP_SC7180_MASK,
+> +		 &sm8150_dspp_sblk),
+> +};
+> +
 
+I see the len of pcc blocks should be 0x88 not 0x90 as sm8150_dspp_sblk 
+explains.
+
+Also, I need to do some digging on the PCC version here. Can you pls 
+provide me the link to downstream source which mentions PCC version is 
+4.0 for sdm845?
+
+>   static const struct dpu_pingpong_cfg sdm845_pp[] = {
+>   	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, PINGPONG_SDM845_TE2_MASK, 0, sdm845_pp_sblk_te,
+>   			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+> @@ -193,6 +204,8 @@ const struct dpu_mdss_cfg dpu_sdm845_cfg = {
+>   	.sspp = sdm845_sspp,
+>   	.mixer_count = ARRAY_SIZE(sdm845_lm),
+>   	.mixer = sdm845_lm,
+> +	.dspp_count = ARRAY_SIZE(sdm845_dspp),
+> +	.dspp = sdm845_dspp,
+>   	.pingpong_count = ARRAY_SIZE(sdm845_pp),
+>   	.pingpong = sdm845_pp,
+>   	.dsc_count = ARRAY_SIZE(sdm845_dsc),
