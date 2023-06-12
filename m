@@ -2,31 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E8972CF65
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 21:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004ED72CF9A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 21:33:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F248D10E2C1;
-	Mon, 12 Jun 2023 19:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8C510E0E9;
+	Mon, 12 Jun 2023 19:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7967F10E2CA;
- Mon, 12 Jun 2023 19:26:13 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:42778.1249123675
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 4C72D1002BE;
- Tue, 13 Jun 2023 03:26:09 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-xwndj with ESMTP id
- b0e3610dd26740b199961e43479640c6 for alexander.deucher@amd.com; 
- Tue, 13 Jun 2023 03:26:12 CST
-X-Transaction-ID: b0e3610dd26740b199961e43479640c6
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 911F610E0D4;
+ Mon, 12 Jun 2023 19:33:11 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cx8Oj2codk9woEAA--.6819S3;
+ Tue, 13 Jun 2023 03:33:10 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Ax6OT1codkpR4XAA--.813S2; 
+ Tue, 13 Jun 2023 03:33:09 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian Konig <christian.koenig@amd.com>,
  Pan Xinhui <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
@@ -51,15 +44,32 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Kevin Tian <kevin.tian@intel.com>, Cornelia Huck <cohuck@redhat.com>,
  Yishai Hadas <yishaih@nvidia.com>, Abhishek Sahu <abhsahu@nvidia.com>,
  Yi Liu <yi.l.liu@intel.com>
-Subject: [PATCH v6 4/8] PCI/VGA: Replace full MIT license text with SPDX
- identifier
-Date: Tue, 13 Jun 2023 03:25:46 +0800
-Message-Id: <20230612192550.197053-5-15330273260@189.cn>
+Subject: [PATCH v6 0/8] PCI/VGA: introduce is_boot_device function callback to
+ vga_client_register
+Date: Tue, 13 Jun 2023 03:33:01 +0800
+Message-Id: <20230612193309.197571-1-suijingfeng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230612192550.197053-1-15330273260@189.cn>
-References: <20230612192550.197053-1-15330273260@189.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Ax6OT1codkpR4XAA--.813S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ZrWUZF45Zr4kur18tFW3XFc_yoW8tr1rpF
+ 45GF9xAr95Jr4akry7Aw4xZFy5Zan7CayfKr9rCw13u3W3Cry8trWqyFWrK34DJrWxAF10
+ qr9xKryUCF1qvrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+ kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+ twAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+ 8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+ 6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFfOwUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,63 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- amd-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- linux-pci@vger.kernel.org
+ amd-gfx@lists.freedesktop.org, linux-pci@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+The vga_is_firmware_default() function is arch-dependent, it's probably
+wrong if we simply remove the arch guard. As the VRAM BAR which contains
+firmware framebuffer may move, while the lfb_base and lfb_size members of
+the screen_info does not change accordingly. In short, it should take the
+re-allocation of the PCI BAR into consideration.
 
-Per Documentation/process/license-rules.rst, the SPDX MIT identifier is
-equivalent to including the entire MIT license text from
-LICENSES/preferred/MIT.
+With the observation that device drivers or video aperture helpers may
+have better knowledge about which PCI bar contains the firmware fb,
+which could avoid the need to iterate all of the PCI BARs. But as a PCI
+function at pci/vgaarb.c, vga_is_firmware_default() is not suitable to
+make such an optimization since it is loaded too early.
 
-Replace the MIT license text with the equivalent SPDX identifier.
+There are PCI display controllers that don't have a dedicated VRAM bar,
+this function will lose its effectiveness in such a case. Luckily, the
+device driver can provide an accurate workaround.
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- include/linux/vgaarb.h | 23 ++---------------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
+Therefore, this patch introduces a callback that allows the device driver
+to tell the VGAARB if the device is the default boot device. Also honor
+the comment: "Clients have two callback mechanisms they can use"
 
-diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
-index 6d5465f8c3f2..97129a1bbb7d 100644
---- a/include/linux/vgaarb.h
-+++ b/include/linux/vgaarb.h
-@@ -1,3 +1,5 @@
-+/* SPDX-License-Identifier: MIT */
-+
- /*
-  * The VGA aribiter manages VGA space routing and VGA resource decode to
-  * allow multiple VGA devices to be used in a system in a safe way.
-@@ -5,27 +7,6 @@
-  * (C) Copyright 2005 Benjamin Herrenschmidt <benh@kernel.crashing.org>
-  * (C) Copyright 2007 Paulo R. Zanoni <przanoni@gmail.com>
-  * (C) Copyright 2007, 2009 Tiago Vignatti <vignatti@freedesktop.org>
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the "Software"),
-- * to deal in the Software without restriction, including without limitation
-- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-- * and/or sell copies of the Software, and to permit persons to whom the
-- * Software is furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the next
-- * paragraph) shall be included in all copies or substantial portions of the
-- * Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-- * DEALINGS
-- * IN THE SOFTWARE.
-- *
-  */
- 
- #ifndef LINUX_VGA_H
+Sui Jingfeng (8):
+  PCI/VGA: Use unsigned type for the io_state variable
+  PCI/VGA: Deal only with VGA class devices
+  PCI/VGA: Tidy up the code and comment format
+  PCI/VGA: Replace full MIT license text with SPDX identifier
+  video/aperture: Add a helper to detect if an aperture contains
+    firmware FB
+  PCI/VGA: Introduce is_boot_device function callback to
+    vga_client_register
+  drm/amdgpu: Implement the is_boot_device callback function
+  drm/radeon: Implement the is_boot_device callback function
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  12 +-
+ drivers/gpu/drm/drm_aperture.c             |  16 +++
+ drivers/gpu/drm/i915/display/intel_vga.c   |   3 +-
+ drivers/gpu/drm/nouveau/nouveau_vga.c      |   2 +-
+ drivers/gpu/drm/radeon/radeon_device.c     |  12 +-
+ drivers/pci/vgaarb.c                       | 153 +++++++++++++--------
+ drivers/vfio/pci/vfio_pci_core.c           |   2 +-
+ drivers/video/aperture.c                   |  29 ++++
+ include/drm/drm_aperture.h                 |   2 +
+ include/linux/aperture.h                   |   7 +
+ include/linux/vgaarb.h                     |  35 ++---
+ 11 files changed, 184 insertions(+), 89 deletions(-)
+
 -- 
 2.25.1
 
