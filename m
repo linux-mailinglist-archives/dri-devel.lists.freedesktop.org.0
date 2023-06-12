@@ -1,66 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D34A72C924
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 17:01:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C4072C962
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 17:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB8010E29E;
-	Mon, 12 Jun 2023 15:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C20DA10E2A1;
+	Mon, 12 Jun 2023 15:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F01A10E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 15:00:57 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f6e1394060so31468315e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686582055; x=1689174055;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/UCUFMga2EMcERlpB49Y2fRq+ymUyOKrUgYsHf0ed/0=;
- b=L7nqJsGZJ4kjY557qHqALuPae3RMHgvnYVpXo9/i2LZxf+CHtnV8BP7RS0uaMpPTwT
- X+6kER9YLs5NxP7uKsF8cHFD32Ls6Scn2FTrCk9nnG09Yp6PZMYOkG1tQkgHjBix6xY7
- xuhU29+n8M9LCoUamZ9pqUzT8dDv7DywYHg8fIZMxw8t7F+5VYUwNYFTYo9GfgqeretD
- EmsVU0NZjuohlcKKvHC1OpmyXxOWixpyOSKcW7xV3NEfYWS56ZHkZZAui0yWoIrkt/Qe
- cHuDOT6CHhLJpMAmKvexEECF0ia6zcRfZkBvR9gopfAI64jbHon5ing/2AKGWvSwP9r3
- IlEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686582055; x=1689174055;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/UCUFMga2EMcERlpB49Y2fRq+ymUyOKrUgYsHf0ed/0=;
- b=Fl+iKDHlLMsaeF1DikDFNFGorkShpyIG2tkhic1FTJ2Z/mHjJdtHlh7gEuLxBwwwGB
- c3oZ74uVqEKRQuzUY609JdR7JMmMuncdjuUkDvZm34b+QgCny4Vj+YSlXrDE6/yjEC9X
- OWJdWkA50A9stdporWtAtzfh5LyMvvTjh3jKxuT2At+JNeFZm9J8Nih+4FuBTw/bhYPl
- BZn8wN71s39H/KOXfNv45y42Ky/Ynz1NsYaHClGz9qmei9FGdzX0Y9X1krMO7BgI1GAb
- Sv7uZr+KqHy+A7k5i+bGGxV6wPv/BMckUsPF+F5Ve4k4uhszFyfuQtAbJAv+iDVQFhVK
- P+eA==
-X-Gm-Message-State: AC+VfDx4Jr2rNL8gZG8pOvxxDpIXEahGHSN62vYLUuuqleDheqlZPMbI
- 7eLzWhq1KI3nfuRn+znOTBJhTw==
-X-Google-Smtp-Source: ACHHUZ5u3c8rRm+E7KnayrCIdvayKld94mEi/X7AbulId0IMRsAxTcEdEsJfHEZekp046ksej9BC6w==
-X-Received: by 2002:a05:600c:21c4:b0:3f7:e48b:9752 with SMTP id
- x4-20020a05600c21c400b003f7e48b9752mr5759053wmj.32.1686582054775; 
- Mon, 12 Jun 2023 08:00:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- f9-20020a7bc8c9000000b003f8140763c7sm6545492wml.30.2023.06.12.08.00.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 08:00:53 -0700 (PDT)
-Date: Mon, 12 Jun 2023 18:00:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
- fb_info.device
-Message-ID: <573e1bac-57a6-466c-ab69-28366a300143@kadam.mountain>
-References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612141352.29939-2-tzimmermann@suse.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5206510E2A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 15:09:50 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35CDrdde003212; Mon, 12 Jun 2023 15:09:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=We40rKMLG+MEC25B0HGY2atMNWzmRl6ol9yjTjBbbfY=;
+ b=NntYswhdnF3o7j1hOEJqs6tPZKC/ueV3kPVbn26ZQ2xd7UZWsyMJxtdOUYjqNlQz/R5f
+ boTx7AyP9HNQDQey/BscZcwWcv+hLMcH5DbIQBlQMnANGMWU3lYiVjI0y6eFaPUH2Lgu
+ PmNF1LZlYDQx8tHa+vq86SWu6o0Pbm/gbSq9VFlc66JxPDvmUqV7lOTOQefisSsOTD99
+ gNiTBozUOcRfviZ10rKtkcec45Hx7wjbRu3bHwTRM+AYUtqGFyenx5paFa1reIGHzw/p
+ tCB3jKTosJSVWfDEZKjMLfJcRDdNl4LEX5eC2sbhYoL41R+mxKzzBRB7z1ro5AVJDEMc 6Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4ggr3pdy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 15:09:41 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CF9ekQ003169
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 15:09:40 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
+ 2023 08:09:40 -0700
+Message-ID: <b5e5c141-b5df-e24d-8fa4-94297d561cec@quicinc.com>
+Date: Mon, 12 Jun 2023 09:09:39 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230612141352.29939-2-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, "Pranjal
+ Ramajor Asha Kanojiya" <quic_pkanojiy@quicinc.com>, Sukrut Bellary
+ <sukrut.bellary@linux.com>, Oded Gabbay <ogabbay@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+ <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+ <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
+ <ff196b04-e8c5-52d9-852b-9a9cc7eecdd0@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <ff196b04-e8c5-52d9-852b-9a9cc7eecdd0@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 6P2l9VzzfQul7Cq_a4b7dSQKLSzsvKAl
+X-Proofpoint-ORIG-GUID: 6P2l9VzzfQul7Cq_a4b7dSQKLSzsvKAl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 clxscore=1011
+ priorityscore=1501 spamscore=0 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306120130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +88,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- michael.j.ruhl@intel.com,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- stable@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 12, 2023 at 04:07:39PM +0200, Thomas Zimmermann wrote:
-> Struct bd6107_platform_data refers to a platform device within
-> the Linux device hierarchy. The test in bd6107_backlight_check_fb()
-> compares it against the fbdev device in struct fb_info.dev, which
-> is different. Fix the test by comparing to struct fb_info.device.
+On 6/12/2023 7:21 AM, Christian König wrote:
+> Am 12.06.23 um 15:03 schrieb Pranjal Ramajor Asha Kanojiya:
+>>
+>>
+>> On 6/12/2023 4:52 PM, Christian König wrote:
+>>>
+>>>
+>>> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+>>>> smatch warning:
+>>>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+>>>>         dereferencing freed memory 'obj->import_attach'
+>>>>
+>>>> obj->import_attach is detached and freed using dma_buf_detach().
+>>>> But used after free to decrease the dmabuf ref count using
+>>>> dma_buf_put().
+>>>>
+>>>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+>>>> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+>>>> ---
+>>>>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/accel/qaic/qaic_data.c 
+>>>> b/drivers/accel/qaic/qaic_data.c
+>>>> index e42c1f9ffff8..7cba4d680ea8 100644
+>>>> --- a/drivers/accel/qaic/qaic_data.c
+>>>> +++ b/drivers/accel/qaic/qaic_data.c
+>>>> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
+>>>> drm_gem_object *obj, struct vm_area_struc
+>>>>   static void qaic_free_object(struct drm_gem_object *obj)
+>>>>   {
+>>>>       struct qaic_bo *bo = to_qaic_bo(obj);
+>>>> +    struct dma_buf *dmabuf;
+>>>
+>>> Maybe move that variable into the if.
+>>>
+>>>>       if (obj->import_attach) {
+>>>>           /* DMABUF/PRIME Path */
+>>>> +        dmabuf = obj->import_attach->dmabuf;
+>>>>           dma_buf_detach(obj->import_attach->dmabuf, 
+>>>> obj->import_attach);
+>>>> -        dma_buf_put(obj->import_attach->dmabuf);
+>>>> +        dma_buf_put(dmabuf);
+>>>
+>>> I strongly assume you are not using the GEM prime helpers for this?
+>>>
+>>> Christian.
+>>
+>> Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
+>> registers for ->gem_prime_import() which is internally called by 
+>> drm_gem_prime_fd_to_handle(). All the operations done in 
+>> gem_prime_import() are undone here.
 > 
-> Fixes a bug in the backlight driver and prepares fbdev for making
-> struct fb_info.dev optional.
+> Then why don't you use drm_prime_gem_destroy() which is the cleanup 
+> helper for imports created by ->gem_prime_import() ?
 > 
-> v2:
-> 	* move renames into separate patch (Javier, Sam, Michael)
-> 
+> That looks pretty much identical to what you do here manually.
 
-Thanks.  This helps a lot.  I stared at this for a long time without
-seeing the fix.  Then I misunderstood Sam's review comments (my fault,
-they were clear in retrospect) so I got completely lost.
+I think destroy() wasn't used because we are new to DRM and sometimes 
+confused by the multitude of options.  I appreciate the suggestion and 
+will follow up to see if destroy() will work here, or identify what 
+would prevent the use of it.
 
-regards,
-dan carpenter
-
+-Jeff
