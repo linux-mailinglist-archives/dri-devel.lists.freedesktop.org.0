@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BFE72BB2F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 10:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E7072BB79
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 11:02:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77FDD10E1CA;
-	Mon, 12 Jun 2023 08:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB9410E0C2;
+	Mon, 12 Jun 2023 09:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C83910E1DE
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 08:51:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1F32B611E9;
- Mon, 12 Jun 2023 08:51:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A289C433D2;
- Mon, 12 Jun 2023 08:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686559872;
- bh=qqZpQbw+uJ4TgveRfEHhizk7kcrsXFsffDdBs7ZZqiU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K2jxseoh5MVLk7tajv3VlH968eMfH9tMZzzrCnoa4LbPnIvnLhfpeZrK4KeEDqYk9
- rey6jSIfPV41SsRXz4bB/sJ4HVoG1bUyxOCKx/A4IJGjk5RbJ1NMhkS8ajC0g1Ct9v
- aU8K8wNA7/8y839htIkzH+ctswE2PVg0U0gwU6R3t3uCvQ7S6KZqu5vwVqVy/IzNA9
- Udhg52Zq+ibJKubV+GZEKJLZoTdgxV6LHpI3+vsFejax1oXL3v+gSnhu2Wrew3EiL7
- k2Lz8iCTDpyaBNIYNtf0mVMTqesps8IxVoUoIiLUlt+KHRRJZqRBm0s1qArtluDT9i
- gIfb/YQ7qH7Pg==
-Date: Mon, 12 Jun 2023 10:51:09 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 6/7] drm/panel: sitronix-st7789v: Add EDT ET028013DMA
- panel support
-Message-ID: <tr2rmz375jwkwjufhgvb7vbxwqik2w6i276yshh2tbo6dcfhh7@llvt6bigivfy>
-References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
- <20230609145951.853533-7-miquel.raynal@bootlin.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE00110E09E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 09:02:04 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown
+ [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BB56866056AA;
+ Mon, 12 Jun 2023 10:02:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686560522;
+ bh=7oxMNTbloKgt3ufFjwheFe+Sm5DenM+mJvuQ6Eo92T4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=jODar/9ILGQ61B8Y3oo3ExipDRt7J6vpfQGjKl4iQveBivCoWoHFXtkG9bypmTq0A
+ PBXw3GetSREvMKFTU71vM8qInMFNRtHbrHXMDVSGc6X8Gt2wKQ/0exnaKqj3zRsgvl
+ 2Buc+CI3FVx4Xn7wGfsbKYRFwFk34Py26e31KSZYkzScRSCtwyV7SPUCB+npK4ZAyF
+ zQMhoglF8g/vMb2teAz8L6QRnGgQIQhJ++wurGOk2xLOy4j5FRgWreE8kt5ENDAtTX
+ dgpCntX4btMwiNy/qQz+WiSYybgAYjrShkbHZpns9LvNX5Wd9A4ux4JyV90eaa4ui/
+ Ohsy4AsphxLqA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v6 00/11] MediaTek DDP GAMMA - 12-bit LUT support
+Date: Mon, 12 Jun 2023 11:01:46 +0200
+Message-Id: <20230612090157.68205-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230609145951.853533-7-miquel.raynal@bootlin.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,134 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 09, 2023 at 04:59:50PM +0200, Miquel Raynal wrote:
-> This panel from Emerging Display Technologies Corporation features an
-> ST7789V2 panel inside which is almost identical to what the Sitronix
-> panel driver supports.
->=20
-> In practice, the module physical size is specific, and experiments show
-> that the display will malfunction if any of the following situation
-> occurs:
-> * Pixel clock is above 3MHz
-> * Pixel clock is not inverted
-> I could not properly identify the reasons behind these failures, scope
-> captures show valid input signals.
->=20
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
->  .../gpu/drm/panel/panel-sitronix-st7789v.c    | 34 +++++++++++++++++--
->  1 file changed, 32 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu=
-/drm/panel/panel-sitronix-st7789v.c
-> index 212bccc31804..7de192a3a8aa 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> @@ -30,7 +30,8 @@
->  #define ST7789V_RGBCTRL_RCM(n)			(((n) & 3) << 5)
->  #define ST7789V_RGBCTRL_VSYNC_HIGH		BIT(3)
->  #define ST7789V_RGBCTRL_HSYNC_HIGH		BIT(2)
-> -#define ST7789V_RGBCTRL_PCLK_HIGH		BIT(1)
-> +#define ST7789V_RGBCTRL_PCLK_FALLING		BIT(1)
-> +#define ST7789V_RGBCTRL_PCLK_RISING		0
->  #define ST7789V_RGBCTRL_VBP(n)			((n) & 0x7f)
->  #define ST7789V_RGBCTRL_HBP(n)			((n) & 0x1f)
-> =20
-> @@ -117,6 +118,7 @@ struct st7789v_panel_info {
->  	u16 width_mm;
->  	u16 height_mm;
->  	u32 bus_format;
-> +	u32 bus_flags;
->  };
-> =20
->  struct st7789v {
-> @@ -175,6 +177,18 @@ static const struct drm_display_mode default_mode =
-=3D {
->  	.vtotal =3D 320 + 8 + 4 + 4,
->  };
-> =20
-> +static const struct drm_display_mode slow_mode =3D {
-> +	.clock =3D 3000,
-> +	.hdisplay =3D 240,
-> +	.hsync_start =3D 240 + 38,
-> +	.hsync_end =3D 240 + 38 + 10,
-> +	.htotal =3D 240 + 38 + 10 + 10,
-> +	.vdisplay =3D 320,
-> +	.vsync_start =3D 320 + 8,
-> +	.vsync_end =3D 320 + 8 + 4,
-> +	.vtotal =3D 320 + 8 + 4 + 4,
-> +};
+Changes in v6:
+ - Fixed smatch warning in patch 11/11, ref.:
+   https://lore.kernel.org/all/202306101458.lRXHEE0Z-lkp@intel.com/
 
-Why is it supposed to be slow (and compared to what)? It looks like a
-fairly normal mode to me? Or is it because it's refreshed at 30Hz?
+Changes in v5:
+ - Removed incorrect comment on default LUT size and bits
+ - Removed useless check for num_lut_banks
+ - Added comment about CMDQ implementation on patch 5
+ - Evaluated passing lut size/bits from AAL, idea discarded as
+   the implementation would be rather tricky while bringing no
+   benefits.
 
-Either way, the ST7789V is a panel controller and can be connected to a
-wide range of panels depending on the model, so it would be better to
-just use the model name there.
+Changes in v4:
+ - Fixed assignment typo appeared in v3
 
->  static int st7789v_get_modes(struct drm_panel *panel,
->  			     struct drm_connector *connector)
->  {
-> @@ -197,6 +211,7 @@ static int st7789v_get_modes(struct drm_panel *panel,
-> =20
->  	connector->display_info.width_mm =3D panel_info->width_mm;
->  	connector->display_info.height_mm =3D panel_info->height_mm;
-> +	connector->display_info.bus_flags =3D panel_info->bus_flags;
->  	drm_display_info_set_bus_formats(&connector->display_info,
->  					 &panel_info->bus_format, 1);
-> =20
-> @@ -206,8 +221,13 @@ static int st7789v_get_modes(struct drm_panel *panel,
->  static int st7789v_prepare(struct drm_panel *panel)
->  {
->  	struct st7789v *ctx =3D panel_to_st7789v(panel);
-> +	const struct st7789v_panel_info *panel_info =3D ctx->panel_info;
-> +	u8 pck =3D ST7789V_RGBCTRL_PCLK_FALLING;
->  	int ret;
-> =20
-> +	if (panel_info->bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
-> +		pck =3D ST7789V_RGBCTRL_PCLK_RISING;
-> +
+Changes in v3:
+ - Fixed issues due to variables renaming during cleanup (oops)
+ - This is actually the right series, since v2 was taken from the
+   wrong kernel tree.... :-)
 
-I guess it could be in a separate commit
+Changes in v2:
+ - Added explicit inclusion of linux/bitfield.h in patch [06/11]
 
-Maxime
+This series adds support for GAMMA IP requiring and/or supporting
+a 12-bits LUT using a slightly different register layout and programming
+sequence for multiple LUT banks: this IP version is currently found
+on a number of SoCs, not only including the Chromebook/IoT oriented
+Kompanio 1200/1380 MT8195/MT8195T, but also Smartphone chips such as
+the Dimensity 9200 (MT6985) and others.
 
->  	ret =3D regulator_enable(ctx->power);
->  	if (ret)
->  		return ret;
-> @@ -321,7 +341,7 @@ static int st7789v_prepare(struct drm_panel *panel)
->  					     ST7789V_RGBCTRL_RCM(2) |
->  					     ST7789V_RGBCTRL_VSYNC_HIGH |
->  					     ST7789V_RGBCTRL_HSYNC_HIGH |
-> -					     ST7789V_RGBCTRL_PCLK_HIGH));
-> +					     pck));
->  	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_VBP(8)));
->  	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_HBP(20)));
-> =20
-> @@ -422,14 +442,24 @@ static const struct st7789v_panel_info st7789v_info=
- =3D {
->  	.bus_format =3D MEDIA_BUS_FMT_RGB666_1X18,
->  };
-> =20
-> +static const struct st7789v_panel_info et028013dma_info =3D {
-> +	.display_mode =3D &slow_mode,
-> +	.width_mm =3D 43,
-> +	.height_mm =3D 58,
-> +	.bus_format =3D MEDIA_BUS_FMT_RGB666_1X18,
-> +	.bus_flags =3D DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
-> +};
-> +
->  static const struct of_device_id st7789v_of_match[] =3D {
->  	{ .compatible =3D "sitronix,st7789v", .data =3D &st7789v_info },
-> +	{ .compatible =3D "edt,et028013dma", .data =3D &et028013dma_info },
+This series was tested on MT8195, MT8192, MT8173, MT6795:
+ * MT6795, MT8192, MT8173: No regression, works fine.
+ * MT8195: Color correction is finally working!
 
-We should sort them by alphabetical order
+AngeloGioacchino Del Regno (10):
+  drm/mediatek: gamma: Reduce indentation in mtk_gamma_set_common()
+  drm/mediatek: gamma: Support SoC specific LUT size
+  drm/mediatek: gamma: Improve and simplify HW LUT calculation
+  drm/mediatek: gamma: Enable the Gamma LUT table only after programming
+  drm/mediatek: gamma: Use bitfield macros
+  drm/mediatek: gamma: Support specifying number of bits per LUT
+    component
+  drm/mediatek: gamma: Support multi-bank gamma LUT
+  drm/mediatek: gamma: Add support for 12-bit LUT and MT8195
+  drm/mediatek: gamma: Make sure relay mode is disabled
+  drm/mediatek: gamma: Program gamma LUT type for descending or rising
 
-Maxime
+Jason-JH.Lin (1):
+  drm/mediatek: gamma: Adjust mtk_drm_gamma_set_common parameters
+
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c     |   2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 193 ++++++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   9 +
+ 7 files changed, 177 insertions(+), 36 deletions(-)
+
+-- 
+2.40.1
+
