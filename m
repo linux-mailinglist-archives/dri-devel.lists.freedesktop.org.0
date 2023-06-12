@@ -2,77 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929CA72BF4E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 12:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D9172BFAD
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 12:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9C710E1F3;
-	Mon, 12 Jun 2023 10:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DB5F10E1F1;
+	Mon, 12 Jun 2023 10:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B9510E1F3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 10:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686566426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85FCF10E1F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 10:46:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E8BA8201A7;
+ Mon, 12 Jun 2023 10:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686566780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=75rPdiK8vy0+hfZPm4hKQMMWAw1iiTrCWzbw47oqQ3o=;
- b=hpjS4R0mz7ZW9HCzwujHh1+u2VbvD4XGfIc6sXJKmMfRigl9/OPVSA2EJaYKTpzHxvxINH
- l4ZwDDhAgiHSxwp1U83uP1Bwcn97jq5A2lOW8cUzweUi/TE9sd9RDNkPHk+G9y7w9jW6K+
- rY5qIKYq5cDfBOvaNppqYWeDqNA4ut4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-318-DJxsfdbQO9COPfzWMy-7VQ-1; Mon, 12 Jun 2023 06:40:22 -0400
-X-MC-Unique: DJxsfdbQO9COPfzWMy-7VQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f81dda24d3so10544355e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 03:40:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686566421; x=1689158421;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=75rPdiK8vy0+hfZPm4hKQMMWAw1iiTrCWzbw47oqQ3o=;
- b=OD0nHuxJ4lKhFvEiMBo3Mwv4odOQmH1vkoZwA2F7PvbNb6cUqQactlCpz6FIak5qdZ
- Uyy/Sl4wmMC2BVq4j9t/+JpDhZEOwa1BkqU+Q2Tm09OAvOOfXmVrmFl8G7HA7Z5DhpOQ
- AwhRo6EwbwZR12FTLRP9rOwCVx69fhXY81yPmQFnSYXh2kij0bdnkJsifrRO0MNihm2e
- bV6l7/IDP5r5R9hkT6XGmDDC2JhAfFEuG9YPjXynHxkmzxU27xm/JnkE2FmGCaI3w0yB
- muXvW1RFR3jed76MhOSnLWHTUcwRPqz8LWhagK50P7EtezpHtNfdl8zUYSQX8nt9Bdh1
- C5cw==
-X-Gm-Message-State: AC+VfDzP8ri84i/DXwHzijvHdGWv6JEBZmTrdvkZn5pPJxTqz5PTk52q
- 2CvmtnjRZ4QD4kRqlg86ldv3nhQXcb3frxAvFoS/RjgB8hpYDwL/jrkzhyhN566uCYwZytBfpwX
- fVfQ2iBT85BFkzpL0QZnLsCqRna1a
-X-Received: by 2002:a7b:ca51:0:b0:3f8:1e00:5a62 with SMTP id
- m17-20020a7bca51000000b003f81e005a62mr1113946wml.38.1686566421734; 
- Mon, 12 Jun 2023 03:40:21 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7MsqRGgveHsuNkfrpDC1Y5y2oZ/Wv2tvp//EQrR0fI03+Glf+TK6KJrHQIoCgU/ovDWpctCw==
-X-Received: by 2002:a7b:ca51:0:b0:3f8:1e00:5a62 with SMTP id
- m17-20020a7bca51000000b003f81e005a62mr1113932wml.38.1686566421434; 
- Mon, 12 Jun 2023 03:40:21 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o7-20020adfeac7000000b002fed865c55esm12153178wrn.56.2023.06.12.03.40.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 03:40:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- sam@ravnborg.org, deller@gmx.de, geert+renesas@glider.be, lee@kernel.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: Re: [PATCH 22/30] fbdev/smscufx: Detect registered fb_info from
- refcount
-In-Reply-To: <7f62aa10-bc6f-96e2-d2cc-d42f0fad9e32@suse.de>
-References: <20230605144812.15241-1-tzimmermann@suse.de>
- <20230605144812.15241-23-tzimmermann@suse.de>
- <87edmmewuk.fsf@minerva.mail-host-address-is-not-set>
- <7f62aa10-bc6f-96e2-d2cc-d42f0fad9e32@suse.de>
-Date: Mon, 12 Jun 2023 12:40:20 +0200
-Message-ID: <87mt152cbv.fsf@minerva.mail-host-address-is-not-set>
+ bh=XKUVIMDVJIG/UmtUdhol+jEC2QYZC04MyRqvdtB1JVM=;
+ b=mUlrG4hRnU0/QybWitK+0wlKfNS01dhUAVUNYgeZAGc3Fqj9eRVSsqlhgnpQnYaONx9YOc
+ UKkbJxD90h+pyvkkC1ikuZQNdsTOOi0RS6AlvYn8jnzUqqA8IsPUS6q80+hVf3ua+i6hYU
+ Mj76FfYbtV9IuW/oDYt/y6TA1oUyFLQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686566780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XKUVIMDVJIG/UmtUdhol+jEC2QYZC04MyRqvdtB1JVM=;
+ b=GBbfEnJnmmcciQRJOOmEcK348eL7HTUX2HvbFuAjVyBJZKPGdRomAmGyqW7SuuAENDq+Ch
+ iorIfZMHUaJ+npBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A66CD138EC;
+ Mon, 12 Jun 2023 10:46:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DUybJ3z3hmSiMwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 10:46:20 +0000
+Message-ID: <7b73550c-3e8d-6cb3-ace7-49cc405f8086@suse.de>
+Date: Mon, 12 Jun 2023 12:46:19 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jczAnVEPWIiygzYqzfIvFYvB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,68 +70,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Steve Glendinning <steve.glendinning@shawell.net>,
- linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org
+Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
+ linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jczAnVEPWIiygzYqzfIvFYvB
+Content-Type: multipart/mixed; boundary="------------ied9YunLYcXBK5a4s7zjJrSU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+ lee@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Message-ID: <7b73550c-3e8d-6cb3-ace7-49cc405f8086@suse.de>
+Subject: Re: [PATCH 00/30] fbdev: Make userspace interfaces optional
+References: <20230605144812.15241-1-tzimmermann@suse.de>
+ <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUNAg5MYQVOnVhYeHKnciHci1Ly6v8DbdBp_P_9YEu=Zg@mail.gmail.com>
 
-Hello Thomas,
+--------------ied9YunLYcXBK5a4s7zjJrSU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Hi Javier
->
-> Am 08.06.23 um 00:22 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->> 
->>> Detect registered instances of fb_info by reading the reference
->>> counter from struct fb_info.read. Avoids looking at the dev field
->>> and prepares fbdev for making struct fb_info.dev optional.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Steve Glendinning <steve.glendinning@shawell.net>
->>> ---
->>>   drivers/video/fbdev/smscufx.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/video/fbdev/smscufx.c b/drivers/video/fbdev/smscufx.c
->>> index 17cec62cc65d..adb2b1fe8383 100644
->>> --- a/drivers/video/fbdev/smscufx.c
->>> +++ b/drivers/video/fbdev/smscufx.c
->>> @@ -1496,7 +1496,7 @@ static int ufx_setup_modes(struct ufx_data *dev, struct fb_info *info,
->>>   	u8 *edid;
->>>   	int i, result = 0, tries = 3;
->>>   
->>> -	if (info->dev) /* only use mutex if info has been registered */
->>> +	if (refcount_read(&info->count)) /* only use mutex if info has been registered */
->> 
->> The struct fb_info .count refcount is protected by the registration_lock
->> mutex in register_framebuffer(). I think this operation isn't thread safe ?
->
-> It's an atomic read.
->
-> https://elixir.bootlin.com/linux/latest/source/include/linux/refcount.h#L147
->
+SGkNCg0KQW0gMDcuMDYuMjMgdW0gMTA6MzUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQpbLi4uXQ0KPiANCj4gQlRXLCBJIGFtIHdvbmRlcmluZyBpZiBpdCB3b3VsZCBiZSBwb3Nz
+aWJsZSB0byB3cml0ZSBhIERSTSBlbXVsYXRpb24NCj4gbGF5ZXIgb24gdG9wIG9mIChiYXNp
+YywgZS5nLiBubyBNTUlPLCBqdXN0IGZiKSBmYmRldj8NCg0KVGhhdCBleGlzdHMsIHNvcnQg
+b2YuICBJIGZpcnN0IHBvc3RlZCBpdCBoZXJlOg0KDQogICBodHRwczovL3BhdGNod29yay5m
+cmVlZGVza3RvcC5vcmcvc2VyaWVzLzU4NTY5Lw0KDQphbmQgaXQgaGFzIGxhdGVyIGJlZW4g
+dHJhbnNmb3JtZWQgaW50byB0aGVzZSBjb252ZXJzaW9uIGhlbHBlcnMgdGhhdCBJIA0KaGF2
+ZSBzb21ld2hlcmUgb24gZ2l0bGFiLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
+PiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICBH
+ZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
+c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
+QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
+ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Yes, is an atomic read but by reading [0] my understanding is that does
-not provide memory ordering guarantees. Maybe I misunderstood though...
+--------------ied9YunLYcXBK5a4s7zjJrSU--
 
-[0]: https://www.kernel.org/doc/html/latest/core-api/refcount-vs-atomic.html
+--------------jczAnVEPWIiygzYqzfIvFYvB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> And that function is only being called from the USB probe callback 
-> before registering the framebuffer. It's not clear to me how the value 
-> could be anything but zero. I'd best leave it as is with the ref counter.
->
+-----BEGIN PGP SIGNATURE-----
 
-Yes, I'm OK with that and as mentioned I don't think that's less safe
-than the previous info->dev check with regard to race conditions.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSG93sFAwAAAAAACgkQlh/E3EQov+Dg
+hg//UQNYjBQLz502Rz811LBrAJFzZAtFe6BeN9TBDTKqkScQQY5g4UU4wCzy5vq3t82Vg7cgtjxc
+che0ZWmH3fhLR+b/F2zlEzMecgFSGTXXa860DKC87Vkdj5gvRjOvIi9MPi5Tfzw+C9kFHXybkhHv
+sdxnuXEqAy4Qz0+8yucEsBYrAT2RCSnhbL/xC4NLIB1Srw/9NpzicbrjXSo8mKPeXCB5bE+sjptY
+T+H0BOsVdnJhzwmsvrKYKJe2UiWdr5jawXSWm9gR01QP/DgHmhLYYMVoeHrwwfTHTu0RWxi9G6YS
+f0jH0fDqfDe4n26cIhXKM3lcm3NVZQczgphJdty9rHdEzKVE1A89t/udc8xLMyEKDtXbJijme4ud
+5yzUTNK0ju3WyF5+oA6Bnu0ti8DOuWEREIrs7Gv9e09+j53+peOQUfLjl77031/vF1dWaG8WBTPz
+yxNt4fHhW4/lzLdTW7rGg9Aec9805fGYpphcUcVXMVxIHt+R4KtlCFBz+NUL9B9pKCwKZNXajLSh
+TYNziiXe0kdt7oDvYMvOri+5ZzH9Ngv+aIfKlrEgeOQLnEo6gjVTo9VrIXN5yv9bFKf61QBrps0X
+zUaC4hw+uqcAfZveNj+u2QdrGtQp9hBI/g7EFFiCPBVcNFFCTDVPZwJdAWdcL5wlwTJrR9+zqUlg
+h1Y=
+=SNdA
+-----END PGP SIGNATURE-----
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--------------jczAnVEPWIiygzYqzfIvFYvB--
