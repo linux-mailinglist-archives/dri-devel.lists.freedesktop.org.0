@@ -1,46 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4FB72C572
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:06:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8216A72C597
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:16:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABDE010E234;
-	Mon, 12 Jun 2023 13:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA03510E0D8;
+	Mon, 12 Jun 2023 13:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C79F10E234
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:06:00 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 40CE76603050;
- Mon, 12 Jun 2023 14:05:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1686575157;
- bh=yTm9vSIAV9r4Iz9vvYJ/ktlMoUFJjs1cP9rVcgT5xd0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=KB9SsLlIY4HGDIerUbwx/RfDnCIjH53eO2CbzwiQBN7TnNe1b25YzWx8fNQNI5aQj
- 7S9XGW7N5dibwTGufrjcUGjtpi0E/XJHx5DGpyPzZx4bFsm4RfNFT4AlcNUG7e++Np
- WRz9OyGv+nWvDh9AcOq7lCr46aPg/VThon964qMFB4gv2mKF4XiF2ZPo1+qKjZooyJ
- /c9VksQGIfCJj9UD0ckye3N8cl8x0nbc+OcDe4KxWDbz/davwzIFnQH3MVpCPiYc8M
- Lf0mpRwTi6nm5fwGL7SwyDw3eYD/vpIsJsg+PIWuSxyp2nUgDGV4vKsXBhxK+M9m3+
- U9zE/282N5whA==
-Date: Mon, 12 Jun 2023 15:05:53 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Donald Robson <Donald.Robson@imgtec.com>
-Subject: Re: [PATCH] drm/sched: Add native dependency support to drm_sched
-Message-ID: <20230612150553.66999e56@collabora.com>
-In-Reply-To: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
-References: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929FF10E0D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:16:24 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-19f3550bcceso2414180fac.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 06:16:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686575783; x=1689167783;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5XhZcZSHZMUBc906xfl0reyAu6fl6qfJnXfrRKfwIpg=;
+ b=bSdm7h9M0GQWDc7IkXY/wXbowSk2ZLe5FT3Od7LquiKpkyumjy5QDkcRaTbkqiZUix
+ 2CSFWtDQ9MT1fNgGwChZfZmy5VuK4en03b4xBX/6bigRwyv9W7Gj2lXs318WvNPsfp4N
+ bGFr/PzECYOFdHjVKiLQCoeGexkJu/tukaFKrzCEglZE9pXcH/5WsqfRmCSWbQE9yuGs
+ AkwGVhkcksZU4PYTK6qiIWzSdHAqTIgBSqnLufaYgDL9D5lVFBjtnJ9rnbJjo17HXz2l
+ V3yxluPSbhjtQQp5eBtOEOfkqChYGvTVLW6lXWOspysb1UkeXb0YjxYWZQ7ih5V4xH17
+ OyNQ==
+X-Gm-Message-State: AC+VfDyBdnrpdO8kQnDdfnz1HbXCkj8B3mJ/5aWwdG948aZ1Oys7e7ay
+ mjhqO6ux0qjbZql8upoEDY2RsXJ8yC0VAQ==
+X-Google-Smtp-Source: ACHHUZ6+lqtn4v7ki4tvf2uCkcI/wSxpjNeJ6l7RVjoYZGzhMG6fs1fX81oTvSXT09XWCLH45ph3/g==
+X-Received: by 2002:a05:6870:8444:b0:1a2:cfd7:bfdc with SMTP id
+ n4-20020a056870844400b001a2cfd7bfdcmr5728722oak.6.1686575783288; 
+ Mon, 12 Jun 2023 06:16:23 -0700 (PDT)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com.
+ [209.85.160.50]) by smtp.gmail.com with ESMTPSA id
+ ld10-20020a0568702b0a00b001762ce27f9asm5840748oab.23.2023.06.12.06.16.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jun 2023 06:16:23 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id
+ 586e51a60fabf-1a6960956d5so671469fac.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 06:16:23 -0700 (PDT)
+X-Received: by 2002:a25:1e86:0:b0:ba9:b3dd:6b0d with SMTP id
+ e128-20020a251e86000000b00ba9b3dd6b0dmr8576899ybe.64.1686575338138; Mon, 12
+ Jun 2023 06:08:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <ZIBFc3y9jD59lZ3A@shikoro>
+ <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com>
+ <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com>
+ <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230612122353.GA22391@pendragon.ideasonboard.com>
+ <OS0PR01MB5922D335D53C7B0FA021B3218654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230612125405.GA23921@pendragon.ideasonboard.com>
+In-Reply-To: <20230612125405.GA23921@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 12 Jun 2023 15:08:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
+Message-ID: <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,77 +79,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <Sarah.Walker@imgtec.com>,
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Trent Piepho <tpiepho@gmail.com>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Donald,
+Hi Laurent,
 
-On Thu, 8 Jun 2023 13:23:26 +0000
-Donald Robson <Donald.Robson@imgtec.com> wrote:
+On Mon, Jun 12, 2023 at 2:54=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jun 12, 2023 at 12:42:33PM +0000, Biju Das wrote:
+> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device A=
+PI
+> > > On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
+> > > > How do we proceed here between [1] and [2]?
+> > > >
+> > > > DT-Maintainers suggestion:
+> > > > [1]
+> > > > raa215300: pmic@12 {
+> > > >   compatible =3D "renesas,raa215300";
+> > > >   reg =3D <0x12>, <0x6f>;
+> > > >   reg-names =3D "main", "rtc";
+> > > >
+> > > >   clocks =3D <&x2>;
+> > > >   clock-names =3D "xin";
+> > > >   /* Add Optional shared IRQ resource and share it to child and han=
+dle
+> > > > it both in parent and child */ };
+> > > >
+> > > > Laurent/Wolfram suggestion to split it into two nodes and get rid o=
+f this patch:
+> > > > [2]
+> > > >   raa215300: pmic @12 {
+> > > >           compatible =3D "renesas,raa215300";
+> > > >           reg =3D <0x12>;
+> > > >
+> > > >           /* Add Optional shared IRQ */
+> > > >           renesas,raa215300-rtc =3D <&rtc_raa215300>; /* Parse the =
+handle and Enable RTC , if present.*/
+> > > >   };
+> > > >
+> > > >   rtc_raa215300: rtc@6f {
+> > > >           compatible =3D "renesas,raa215300-isl1208";
+> > >
+> > > Make this
+> > >
+> > >             compatible =3D "renesas,raa215300-isl1208", "isil,isl1208=
+";
+> > >
+> > > >           reg =3D <0x6f>;
+> > > >
+> > > >           /* Add Optional shared IRQ */
+> > > >           clocks =3D <&x2>;
+> > > >           clock-names =3D "xin";
+> > > >           renesas,raa215300-pmic =3D <&pmic>; /* Parse the handle t=
+o get PMIC
+> > > > version to check Oscillator bit is inverted or not */
+> > >
+> > > This isn't nice. I would instead add a renesas,invert-xtoscb boolean
+> > > property. If you don't want different DT sources for different revisi=
+ons
+> > > of the PMIC,
+> >
+> > I need to support all PMIC versions with same image, as PMIC is just a =
+component on the
+> > SoM module. So SoM's have different PMIC versions.
+>
+> I understand it's not convenient, so let's try to find a good solution.
+>
+> > > one option is to perform the auto-detection in the boot
+> > > loader and update the DT dynamically there.
+> >
+> > Yes, this is an option. Bootloader updates "renesas,invert-xtoscb" prop=
+erty based
+> > on PMIC version.
+> >
+> > Not sure, From binding perspective, Documenting "renesas,invert-xtoscb"=
+ is OK for
+> > the relevant maintainers??
+>
+> It's fine with me at least :-) I think a property makes sense, as it
+> describes the device. Updating the device tree in the boot loader based
+> on auto-detection of features is also fairly common (to set the amount
+> of DRAM for instance).
+>
+> What I'm not entirely sure about in this case is if a property would be
+> the best option, or two different compatible strings. I'll let the
+> appropriate maintainer recommend one of those two options. In either
+> case, the boot loader would be responsible for updating the DT.
 
->  /**
->   * drm_sched_job_arm - arm a scheduler job for execution
->   * @job: scheduler job to arm
-> @@ -669,6 +755,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->  	job->s_priority = entity->rq - sched->sched_rq;
->  	job->id = atomic64_inc_return(&sched->job_id_count);
->  
-> +	drm_sched_sort_native_deps(job);
+Indeed. DT binding best practices 101: do not use properties to
+distinguish, use compatible values instead.
 
-If we get [1] accepted, we no longer need to sort the array. We can
-just skip native dependencies as we iterate over the array in
-drm_sched_job_dependency() with something like:
+And don't use different compatible values if you can distinguish using
+a version register.  Unfortunately the version register is part of the
+main/first device (the PMIC), so the RTC cannot find out easily...
 
-       f = xa_load(&job->dependencies, job->last_dependency);
-       while (f) {
-               struct drm_sched_fence *s_fence;
-               struct dma_fence *scheduled_fence;
+So basically you have an i2c mfd.  The Linux mfd subsystem is tailored
+for platform devices, so it's not a good match.  The closest we have
+in i2c is the ancillary device...
 
-               job->last_dependency++;
+Gr{oetje,eeting}s,
 
-               /* Not a native dependency, return the fence directly. */
-               if (!job->sched->ops->dependency_is_native ||
-                   !job->sched->ops->dependency_is_native(f))
-                       return dma_fence_get(f);
+                        Geert
 
-               /*
-                * If the native fence is a drm_sched_fence object, we
-                * ensure the job has been submitted so drm_sched_fence
-                * ::parent points to a valid dma_fence object.
-                */
-               s_fence = to_drm_sched_fence(f);
-               scheduled_fence = s_fence ?
-				 dma_fence_get_rcu(&s_fence->scheduled) :
-                                 NULL;
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-               if (scheduled_fence)
-                       return scheduled_fence;
-
-               /* Otherwise we skip the native fence and check the next fence. */
-               f = xa_load(&job->dependencies, job->last_dependency);
-        }
-
-And, in the driver, when you get to submit the job, you can gather
-the native deps with a simple xa_for_each() loop:
-
-	xa_for_each(&job->dependencies, index, f) {
-		/* If the fence is not signaled, it must be a native fence,
-		 * because drm_sched_entity waited for all non-native ones.
-		 */
-		if (!dma_fence_is_signaled(f))
-			// DO SOMETHING
-	}
-
->  	drm_sched_fence_init(job->s_fence, job->entity);
->  }
-
-Regards,
-
-Boris
-
-[1]https://patchwork.freedesktop.org/patch/541956/
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
