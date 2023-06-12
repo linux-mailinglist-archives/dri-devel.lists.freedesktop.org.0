@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9C472CAC3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 17:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D672B72CAED
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 18:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36E2610E2B1;
-	Mon, 12 Jun 2023 15:56:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8495410E2B5;
+	Mon, 12 Jun 2023 16:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
- (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E8710E2B1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 15:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=tcWQA5H4cR6MataMzwJ5cbMtnnuXfycrMduhjpzg6mY=;
- b=l1dEhqZiVA11X8jRcxeaKLJVjbDp1IRR3pJ4vE8vdNDGEvR2qJW7d/btnEtqBSHr12W03ZpTSUMQH
- pJJdyB6y+KYujR2IqTqp2Oqt9GwjtpTgWEIFtXT+8KSZw6nAeNMbIjmP2go2tjnZTdT9Cx4IW6k+TH
- NTHVUG7yceI70VZjPYzQBoMmdVBpwiO4toZLqtcuqLcjJmsjPXWzuMW47LezJD+qlOOVbqJi9DifB5
- 81u/Z9WRP70LlJgfi+SI8UI+7Kz1S/qC8kWvnlxURG6QYxdoEpqHELukBMTyOsRM4w6it6w6G8xWdA
- b3hsmV19baTbyVJxqlVekNr1JjywSGg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=tcWQA5H4cR6MataMzwJ5cbMtnnuXfycrMduhjpzg6mY=;
- b=aSgCOaxOGroedAbPmjXgq95MpFal+EdzSiNZWiLk9LijKWg9Injw7SY6uYrEM/GK/EsF5kiKeJIu9
- 7OdWa67AQ==
-X-HalOne-ID: a08419ff-0939-11ee-921f-b90637070a9d
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3 (Halon) with ESMTPSA
- id a08419ff-0939-11ee-921f-b90637070a9d;
- Mon, 12 Jun 2023 15:56:03 +0000 (UTC)
-Date: Mon, 12 Jun 2023 17:56:01 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 00/38] fbdev: Make userspace interfaces optional
-Message-ID: <20230612155601.GC1243864@ravnborg.org>
-References: <20230612141352.29939-1-tzimmermann@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2493C10E2B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:03:13 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6DDDE61740;
+ Mon, 12 Jun 2023 16:03:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50136C433EF;
+ Mon, 12 Jun 2023 16:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686585792;
+ bh=DVoozoXwr1+By1EY6gaWGvC8bmLqsVOluvH8fNoDeKw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LDGk2nOmyZzVqZ9gQ04NkGPR0QJjU//3S4bP2TgZz6txbPuwaiRVKXXPw4upmGYFW
+ 0YdjjFx5WzjcDS1lypOsoqV91/fKUethof1Hp6zieJUxAQCt0jzqkus6lo0zMaWMA0
+ O0B9XH7UConfXGEpvMS6yW5f4Kt62ryu308G9aU7VOj+435CCWaj/IMVnCWgw47zlI
+ 1VMT+S+fbYxlWkHHiXx/B1ht5oneBecK3hizmrCkz90a6GV55qLLKbIl/SUUdkvSy3
+ r5bXq4peMwUOpHciaTFAizz6sPMABNPlJfBcscqVI5yXuBt14A3NTh8H+4Sz9HkYsR
+ x3RtN9klrrZsA==
+Date: Mon, 12 Jun 2023 18:03:09 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+Message-ID: <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
+ <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wihzk64u23zlxjhl"
 Content-Disposition: inline
-In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
+In-Reply-To: <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,103 +56,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, geert+renesas@glider.be,
- linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, michael.j.ruhl@intel.com,
- linux-omap@vger.kernel.org, dan.carpenter@linaro.org
+Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-Nice series, quite some preparations.
+--wihzk64u23zlxjhl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 12, 2023 at 04:07:38PM +0200, Thomas Zimmermann wrote:
-> Add the new config option FB_DEVICE. If enabled, fbdev provides
-> traditional userspace interfaces in devfs, sysfs and procfs, such
-> as /dev/fb0 or /proc/fb.
-> 
-> Modern Linux distrobutions have adopted DRM drivers for graphics
-> output and use fbdev only for the kernel's framebuffer console.
-> Userspace has also moved on, with no new fbdev code being written
-> and existing support being removed.
-> 
-> OTOH, fbdev provides userspace a way of accessing kernel or I/O
-> memory, which might compromise the system's security. See the recent
-> commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
-> out-of-bounds access") for an example. Disabling fbdev userspace
-> interfaces is therefore a useful feature to limit unnecessary
-> exposure of fbdev code to processes of low privilegues.
-> 
-> Patches 1 to 31 fix various bugs and issues in fbdev-related code.
-> In most cases the code uses the fbdev device where it should use
-> the Linux hardware device or something else. Most of these patches
-> fix existing problems and should therefore be considered in any case.
-> 
-> Patches 32 to 37 refactor the fbdev core code. The patches move
-> support for backlights, sysfs, procfs and devfs into separate files
-> and hide it behind simple interfaces. These changes will allow to
-> easily build the userspace support conditionally.
-> 
-> Patch 38 introduces the config option FB_DEVICE and adapts the fbdev
-> core to support it. The field struct fb_info.dev is now optional,
-> hence the name of the config option.
-> 
-> Tested on simpledrm and i915, including the device handover.
-> 
-> Future directions: With the support for disabling fbdev userspace
-> interfaces in place, it will be possible to make most fbdev drivers'
-> file-I/O code in struct fb_ops optional as well. 
-> 
-> v2:
-> 	* fix fsl-diu-fb and sh7760fb
-> 	* split backlight patches
-> 	* set 'default y' for FB_CONFIG
-> 	* minor fixes and corrections
-> 
-> Thomas Zimmermann (38):
->   backlight/bd6107: Compare against struct fb_info.device
->   backlight/bd6107: Rename struct bd6107_platform_data.fbdev to 'dev'
->   backlight/gpio_backlight: Compare against struct fb_info.device
->   backlight/gpio_backlight: Rename field 'fbdev' to 'dev'
->   backlight/lv5207lp: Compare against struct fb_info.device
->   backlight/lv5207lp: Rename struct lv5207lp_platform_data.fbdev to
->     'dev'
->   fbdev/atyfb: Reorder backlight and framebuffer init/cleanup
->   fbdev/atyfb: Use hardware device as backlight parent
->   fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
->   fbdev/aty128fb: Use hardware device as backlight parent
->   fbdev/broadsheetfb: Call device_remove_file() with hardware device
->   fbdev/ep93xx-fb: Output messages with fb_info() and fb_err()
->   fbdev/ep93xx-fb: Do not assign to struct fb_info.dev
->   fbdev/fsl-diu-fb: Output messages with fb_*() helpers
->   fbdev/mb862xxfb: Output messages with fb_dbg()
->   fbdev/metronomefb: Use hardware device for dev_err()
->   fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
->   fbdev/nvidiafb: Use hardware device as backlight parent
->   fbdev/pxa168fb: Do not assign to struct fb_info.dev
->   fbdev/radeonfb: Reorder backlight and framebuffer cleanup
->   fbdev/radeonfb: Use hardware device as backlight parent
->   fbdev/rivafb: Reorder backlight and framebuffer init/cleanup
->   fbdev/rivafb: Use hardware device as backlight parent
->   fbdev/sh7760fb: Use fb_dbg() in sh7760fb_get_color_info()
->   fbdev/sh7760fb: Output messages with fb_dbg()
->   fbdev/sh7760fb: Use hardware device with dev_() output during probe
->   fbdev/sm501fb: Output message with fb_err()
->   fbdev/tdfxfb: Set i2c adapter parent to hardware device
-The above are all:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Hi Doug,
 
->   fbdev/smscufx: Detect registered fb_info from refcount
-I did not try to understand the code, so others must review.
+On Thu, Jun 08, 2023 at 07:38:58AM -0700, Doug Anderson wrote:
+> On Thu, Jun 8, 2023 at 12:17=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> >
+> > Hi Douglas,
+> >
+> > On Wed, Jun 07, 2023 at 02:49:22PM -0700, Douglas Anderson wrote:
+> > >
+> > > The big motivation for this patch series is mostly described in the p=
+atch
+> > > ("drm/panel: Add a way for other devices to follow panel state"), but=
+ to
+> > > quickly summarize here: for touchscreens that are connected to a pane=
+l we
+> > > need the ability to power sequence the two device together. This is n=
+ot a
+> > > new need, but so far we've managed to get by through a combination of
+> > > inefficiency, added costs, or perhaps just a little bit of brokenness.
+> > > It's time to do better. This patch series allows us to do better.
+> > >
+> > > Assuming that people think this patch series looks OK, we'll have to
+> > > figure out the right way to land it. The panel patches and i2c-hid
+> > > patches will go through very different trees and so either we'll need
+> > > an Ack from one side or the other or someone to create a tag for the
+> > > other tree to pull in. This will _probably_ require the true drm-misc
+> > > maintainers to get involved, not a lowly committer. ;-)
+> > >
+> > > Version 2 of this patch series doesn't change too much. At a high lev=
+el:
+> > > * I added all the forgotten "static" to functions.
+> > > * I've hopefully made the bindings better.
+> > > * I've integrated into fw_devlink.
+> > > * I cleaned up a few descriptions / comments.
+> > >
+> > > This still needs someone to say that the idea looks OK or to suggest
+> > > an alternative that solves the problems. ;-)
+> >
+> > Thanks for working on this.
+> >
+> > I haven't seen in any of your commit messages how the panels were
+> > actually "packaged" together?
+> >
+> > Do a panel model typically come together with the i2c-hid support, or is
+> > it added at manufacture time?
+> >
+> > If it's the latter, it's indeed a fairly loose connection and we need
+> > your work.
+> >
+> > If it's the former though and we don't expect a given panel reference to
+> > always (or never) come with a touchscreen attached,
+>=20
+> Thanks for your reply. Let me see what I can do to bring clarity.
+>=20
+> In at least some of the cases, I believe that the panel and the
+> touchscreen _are_ logically distinct components, even if they've been
+> glued together at some stage in manufacturing. Even on one of the
+> "poster child" boards that I talk about in patch #3, the early
+> versions of "homestar", I believe this to be the case. However, even
+> if the panel and touchscreen are separate components then they still
+> could be connected to the main board in a way that they share power
+> and/or reset signals. In my experience, in every case where they do
+> the EEs expect that the panel is power sequenced first and then the
+> touchscreen is power sequenced second. The EEs look at the power
+> sequencing requirements of the panel and touchscreen, see that there
+> is a valid power sequence protocol where they can share rails, and
+> design the board that way. Even if the touchscreen and panel are
+> logically separate, the moment the board designers hook them up to the
+> same power rails and/or reset signals they become tied. This is well
+> supported by my patch series.
+>=20
+> The case that really motivated my patch series, though, is the case
+> that Cong Yang recently has been working on. I think most of the
+> discussion is in his original patch series [1]. Cong Yang's patch
+> series is largely focused on supporting the "ILI9882T" chip and some
+> panels that it's used with. I found a datasheet for that, and the
+> title from the first page is illustrative: "In-cell IC Integrates TFT
+> LCD Driver and Capacitive Touch Controller into a Two Chip Cascade".
+> This is an integrated solution that's designed to handle both the LCD
+> and the touchscreen.
+>
+> [1] https://lore.kernel.org/lkml/20230519032316.3464732-1-yangcong5@huaqi=
+n.corp-partner.google.com/
 
->   fbdev/ep93xx-fb: Alloc DMA memory from hardware device
->   fbdev/sh7760fb: Alloc DMA memory from hardware device
-This smells like bug-fixes, and I do not see what impact the change has.
-So again, someone else needs to provide review here.
+Ok, I think we're on the same page at the hardware level then :)
 
-The rest are already reviewed or got a dedicated reply.
+> > I guess we can have
+> > something much simpler with a bunch of helpers that would register a
+> > i2c-hid device and would be called by the panel driver itself.
+> >
+> > And then, since everything is self-contained managing the power state
+> > becomes easier as well.
+>=20
+> Can you give me more details about how you think this would work?
+>=20
+> When you say that the panel would register an i2c-hid device itself,
+> do you mean that we'd do something like give a phandle to the i2c bus
+> to the panel and then the panel would manually instantiate the i2c-hid
+> device on it? ...and I guess it would need to be a "subclass" of
+> i2c-hid that knew about the connection to the panel code? This
+> subclass and the panel code would communicate with each other about
+> power sequencing needs through some private API (like MFD devices
+> usually do?). Assuming I'm understanding correctly, I think that could
+> work.
 
-	Sam
+I guess what I had in mind is to do something similar to what we're
+doing with hdmi-codec already for example.
+
+We have several logical components already, in separate drivers, that
+still need some cooperation.
+
+If the panel and touchscreen are on the same i2c bus, I think we could
+even just get a reference to the panel i2c adapter, get a reference, and
+pass that to i2c-hid (with a nice layer of helpers).
+
+What I'm trying to say is: could we just make it work by passing a bunch
+of platform_data, 2-3 callbacks and a device registration from the panel
+driver directly?
+
+> Is it cleaner than my current approach, though?
+
+"cleaner" is subjective, really, but it's a more "mainstream" approach
+that one can follow more easily through function calls.
+
+> I guess, alternatively, we could put the "panel" directly under the
+> i2c bus in this case. That would probably work for Cong Yang's current
+> needs, but we'd end up in trouble if we ever had a similar situation
+> with an eDP panel since eDP panels need to be under the DP-AUX bus.
+
+I don't know DP-AUX very well, what is the issue that you're mentioning?
+
+> I guess overall, though, while I think this approach could solve Cong
+> Yang's needs, I still feel like it's worth solving the case where
+> board designers have made panel and touchscreens "coupled" by having
+> them rely on the same power rails and/or reset signals.
+
+Sure, I definitely want that too :)
+
+Maxime
+
+--wihzk64u23zlxjhl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIdBvQAKCRDj7w1vZxhR
+xUWbAQDoKHxkNsFJzRnUavFQyfjOPvUIBZBQCZ+q/L9YUH2x+AD/c+cVLzsnSBQR
+XCR4Te6QoM5Xqv6kSOVA66MXQ4py0wc=
+=vl21
+-----END PGP SIGNATURE-----
+
+--wihzk64u23zlxjhl--
