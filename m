@@ -1,62 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C4872D4FF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 01:33:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 966BD72D506
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 01:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE2110E2D0;
-	Mon, 12 Jun 2023 23:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82DAF10E2D1;
+	Mon, 12 Jun 2023 23:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9628C10E2D0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 23:33:39 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id
- d9443c01a7336-1b3be39e666so14550505ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686612818; x=1689204818;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=afvXSKgNg6QRMjk9LVolOeSYEMjPMLaOa6YVUGnbWqA=;
- b=Yq4XUxvjeoXwKEZPIgudYBjeAWlqG5N+yrR66lNJS5Bg12WANboNVUgCifrVm4he/O
- 5FnxGltE5rxDl/kwcXIdYhwl4dzFiuYDQnp4uoTcCnjfpENVoAskMBFuregP0LKJHHCV
- hO1RbRinDKzhOttTEophVwMyEwv5Ccen4/yvI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686612818; x=1689204818;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=afvXSKgNg6QRMjk9LVolOeSYEMjPMLaOa6YVUGnbWqA=;
- b=k6zbKJeTgiWw32uMO5Lj+aod7j4DJ0S4BESKtbTiJyep8p69rnXnj1rF1V+O/AruOO
- CInUVWN0YQ+AgiDztomiqDpr+TdFzKt6GRsIYA+MnK3n3ZFa/jAEPTDumHqyTKpdMFwW
- oAQOlsnIQ8uHjBhOpckgvwxKDQZ8i3KwRpRPRxSYp3+ChWuUkaaDku1Uxg3gK+QWbNdJ
- gZ0tYtTVAPK7DLqq0Qbm1BygMPg7Uo52y3a8X9aIdUsEKj0WXqV1hnS2C4Gz2lOjCDye
- Ldq/oGEGmGGfAlwHO2mqcZeuAaA/xMY0oenp5RQNkDu3nMe9mIxIudl+jyt+fhpBnML2
- 7dRA==
-X-Gm-Message-State: AC+VfDzeJdoYvap6EtD/i5FLcPZwxZ6qiPZMESz3kNsLZdcI4XJ9i5Jf
- nP2/3Qbr29mu2bGYgMenx102F4jPb7fO7s9YynFgCy7w
-X-Google-Smtp-Source: ACHHUZ4KkHZPwHW9kkd5sq8S9XXYG0qdqvEl0vZEzWBuNt5CUqk6LRiqCbbddw5cl0xtzn2qCUOBaw==
-X-Received: by 2002:a17:902:ba83:b0:1ac:820e:c34a with SMTP id
- k3-20020a170902ba8300b001ac820ec34amr7067662pls.0.1686612817916; 
- Mon, 12 Jun 2023 16:33:37 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:1995:7db0:daf3:2c2a])
- by smtp.gmail.com with ESMTPSA id
- i5-20020a170902eb4500b001acacff3a70sm4955527pli.125.2023.06.12.16.33.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 16:33:37 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ps8640: Drop the ability of ps8640 to fetch the
- EDID
-Date: Mon, 12 Jun 2023 16:32:57 -0700
-Message-ID: <20230612163256.1.I7b8f60b3fbfda068f9bf452d584dc934494bfbfa@changeid>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76CE10E2D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 23:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686613047; x=1718149047;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2Z52hCVOR7DJUTPlLD7xaPNXC1JoIJf4cVIpOC5zfkY=;
+ b=esFWek8zX50g5NNJV+VbZMZeN/+2VAxNs/XL2a2EmE5SUGks/hx3kVs2
+ 75jXRzUTsqEak01nH4Inbce/Yu6BnmThXOS4/cLF1W3F1sHkg7AbsAGlj
+ sBTRB6Xn1yCH/uBy7TYGCODU7FA8Sod4ftnReQoNI9NXd4vDYknb1O5B3
+ JAxJmCjnLuR8K0gcxaU5HKuh84g6fG97mL9LVug7vclMoljzQPlG3HEMY
+ HaXiAnYoD90YCoVmFSJRBBfgSHJB4s3+QUc/cyb6TT6Gpa7/GW6H1r2iP
+ Y01hANP4VDjD1GLACXomu6/wWcXJUjbe/IzhTGsXg2w8vaK59WAwP++a7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361552041"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; d="scan'208";a="361552041"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jun 2023 16:37:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801209462"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; d="scan'208";a="801209462"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 16:37:21 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q8r68-0000qK-1B;
+ Mon, 12 Jun 2023 23:37:20 +0000
+Date: Tue, 13 Jun 2023 07:36:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
+Message-ID: <202306130745.DRBLkZcT-lkp@intel.com>
+References: <20230612134500.249178-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612134500.249178-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,224 +61,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Icenowy Zheng <uwu@icenowy.me>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jonas Karlman <jonas@kwiboo.se>, Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- Pin-yen Lin <treapking@chromium.org>, linux-mediatek@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to read the EDID from an eDP panel, you not only need to
-power on the bridge chip itself but also the panel. In the ps8640
-driver, this was made to work by having the bridge chip manually power
-the panel on by calling pre_enable() on everything connectorward on
-the bridge chain. This worked OK, but...
+Hi Linus,
 
-...when trying to do the same thing on ti-sn65dsi86, feedback was that
-this wasn't a great idea. As a result, we designed the "DP AUX"
-bus. With the design we ended up with the panel driver itself was in
-charge of reading the EDID. The panel driver could power itself on and
-the bridge chip was able to power itself on because it implemented the
-DP AUX bus.
+kernel test robot noticed the following build errors:
 
-Despite the fact that we came up with a new scheme, implemented in on
-ti-sn65dsi86, and even implemented it on parade-ps8640, we still kept
-the old code around. This was because the new scheme required a DT
-change. Previously the panel was a simple "platform_device" and in DT
-at the top level. With the new design the panel needs to be listed in
-DT under the DP controller node. The old code allowed us to properly
-fetch EDIDs with ps8640 with the old DTs.
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.4-rc6 next-20230609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Unfortunately, the old code stopped working as of commit 102e80d1fa2c
-("drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs"). There
-are cases at bootup where connector->state->state is NULL and the
-kernel crashed at:
-* drm_atomic_bridge_chain_pre_enable
-* drm_atomic_get_old_bridge_state
-* drm_atomic_get_old_private_obj_state
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/fbdev-media-Use-GPIO-descriptors-for-VIA-GPIO/20230612-214746
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij%40linaro.org
+patch subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130745.DRBLkZcT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add media-tree git://linuxtv.org/media_tree.git
+        git fetch media-tree master
+        git checkout media-tree/master
+        b4 shazam https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij@linaro.org
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-A bit of digging was done to see if there was an easy fix but there
-was nothing obvious. Instead, the only device using ps8640 the "old"
-way had its DT updated so that the panel was no longer a simple
-"platform_deice". See commit c2d94f72140a ("arm64: dts: mediatek:
-mt8173-elm: Move display to ps8640 auxiliary bus") and commit
-113b5cc06f44 ("arm64: dts: mediatek: mt8173-elm: remove panel model
-number in DT").
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130745.DRBLkZcT-lkp@intel.com/
 
-Let's delete the old, crashing code so nobody gets tempted to copy it
-or figure out how it works (since it doesn't).
+All errors (new ones prefixed by >>):
 
-NOTE: from a device tree "purist" point of view, we're supposed to
-keep old device trees working and this patch is technically "against
-policy". Reasons I'm still proposing it anyway:
-1. Officially, old mt8173-elm device trees worked via the "little
-   white lie" approach. The DT would list an arbitrary/representative
-   panel that would be used for power sequencing. The mode information
-   in the panel driver would then be ignored / overridden by the EDID
-   reading code in ps8640. I don't feel too terrible breaking DTs that
-   contained the wrong "compatible" string to begin with. NOTE that
-   any old device trees that _didn't_ lie about their compatible will
-   still work because the mode information will come from the
-   hardcoded panels in panel-edp.
-2. The only users of the old code were Chromebooks and Chromebooks
-   don't bake their DTs into the BIOS (they are bundled with the
-   kernel). Thus we don't need to worry about breaking someone using
-   an old DT with a new kernel.
-3. The old code was crashing anyway. If someone wants to fix the old
-   code instead of deleting it then they have my blessing, but without
-   a proper fix the old code isn't useful.
+>> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: linux/via-gpio.h: No such file or directory
+      13 | #include <linux/via-gpio.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-I'll list this as "Fixing" the code that made the old code start
-failing. There's not lots of reason to bring this back any further
-than that.
 
-Fixes: 102e80d1fa2c ("drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+vim +13 drivers/video/fbdev/via/via-gpio.c
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 79 --------------------------
- 1 file changed, 79 deletions(-)
+ec66841e495b9a drivers/video/via/via-gpio.c Jonathan Corbet 2010-05-05 @13  #include <linux/via-gpio.h>
+a8a359318530a7 drivers/video/via/via-gpio.c Paul Gortmaker  2011-07-10  14  #include <linux/export.h>
+7e0de022680f78 drivers/video/via/via-gpio.c Jonathan Corbet 2009-12-01  15  
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 8801cdd033b5..8161b1a1a4b1 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -105,7 +105,6 @@ struct ps8640 {
- 	struct gpio_desc *gpio_reset;
- 	struct gpio_desc *gpio_powerdown;
- 	struct device_link *link;
--	struct edid *edid;
- 	bool pre_enabled;
- 	bool need_post_hpd_delay;
- };
-@@ -155,23 +154,6 @@ static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
- 	return container_of(aux, struct ps8640, aux);
- }
- 
--static bool ps8640_of_panel_on_aux_bus(struct device *dev)
--{
--	struct device_node *bus, *panel;
--
--	bus = of_get_child_by_name(dev->of_node, "aux-bus");
--	if (!bus)
--		return false;
--
--	panel = of_get_child_by_name(bus, "panel");
--	of_node_put(bus);
--	if (!panel)
--		return false;
--	of_node_put(panel);
--
--	return true;
--}
--
- static int _ps8640_wait_hpd_asserted(struct ps8640 *ps_bridge, unsigned long wait_us)
- {
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-@@ -539,50 +521,6 @@ static void ps8640_bridge_detach(struct drm_bridge *bridge)
- 		device_link_del(ps_bridge->link);
- }
- 
--static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
--					   struct drm_connector *connector)
--{
--	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
--	struct device *dev = &ps_bridge->page[PAGE0_DP_CNTL]->dev;
--	bool poweroff = !ps_bridge->pre_enabled;
--
--	if (!ps_bridge->edid) {
--		/*
--		 * When we end calling get_edid() triggered by an ioctl, i.e
--		 *
--		 *   drm_mode_getconnector (ioctl)
--		 *     -> drm_helper_probe_single_connector_modes
--		 *        -> drm_bridge_connector_get_modes
--		 *           -> ps8640_bridge_get_edid
--		 *
--		 * We need to make sure that what we need is enabled before
--		 * reading EDID, for this chip, we need to do a full poweron,
--		 * otherwise it will fail.
--		 */
--		if (poweroff)
--			drm_atomic_bridge_chain_pre_enable(bridge,
--							   connector->state->state);
--
--		ps_bridge->edid = drm_get_edid(connector,
--					       ps_bridge->page[PAGE0_DP_CNTL]->adapter);
--
--		/*
--		 * If we call the get_edid() function without having enabled the
--		 * chip before, return the chip to its original power state.
--		 */
--		if (poweroff)
--			drm_atomic_bridge_chain_post_disable(bridge,
--							     connector->state->state);
--	}
--
--	if (!ps_bridge->edid) {
--		dev_err(dev, "Failed to get EDID\n");
--		return NULL;
--	}
--
--	return drm_edid_duplicate(ps_bridge->edid);
--}
--
- static void ps8640_runtime_disable(void *data)
- {
- 	pm_runtime_dont_use_autosuspend(data);
-@@ -592,7 +530,6 @@ static void ps8640_runtime_disable(void *data)
- static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
- 	.detach = ps8640_bridge_detach,
--	.get_edid = ps8640_bridge_get_edid,
- 	.atomic_post_disable = ps8640_atomic_post_disable,
- 	.atomic_pre_enable = ps8640_atomic_pre_enable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-@@ -705,14 +642,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	ps_bridge->bridge.of_node = dev->of_node;
- 	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
--	/*
--	 * In the device tree, if panel is listed under aux-bus of the bridge
--	 * node, panel driver should be able to retrieve EDID by itself using
--	 * aux-bus. So let's not set DRM_BRIDGE_OP_EDID here.
--	 */
--	if (!ps8640_of_panel_on_aux_bus(&client->dev))
--		ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
--
- 	/*
- 	 * Get MIPI DSI resources early. These can return -EPROBE_DEFER so
- 	 * we want to get them out of the way sooner.
-@@ -777,13 +706,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	return ret;
- }
- 
--static void ps8640_remove(struct i2c_client *client)
--{
--	struct ps8640 *ps_bridge = i2c_get_clientdata(client);
--
--	kfree(ps_bridge->edid);
--}
--
- static const struct of_device_id ps8640_match[] = {
- 	{ .compatible = "parade,ps8640" },
- 	{ }
-@@ -792,7 +714,6 @@ MODULE_DEVICE_TABLE(of, ps8640_match);
- 
- static struct i2c_driver ps8640_driver = {
- 	.probe = ps8640_probe,
--	.remove = ps8640_remove,
- 	.driver = {
- 		.name = "ps8640",
- 		.of_match_table = ps8640_match,
 -- 
-2.41.0.162.gfafddb0af9-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
