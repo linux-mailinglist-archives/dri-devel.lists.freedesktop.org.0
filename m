@@ -1,63 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC9B72C645
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:45:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9CE72C73F
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2132B10E249;
-	Mon, 12 Jun 2023 13:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 491AA10E24A;
+	Mon, 12 Jun 2023 14:14:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF2EA10E249
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:45:06 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4f6255ad8aeso5160422e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 06:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686577504; x=1689169504;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
- b=JX7+Y1hFg74yunqJeZlCvXLaVJppSs/HSbJ+V0MdjHgLf8LjI9bmPS5rhgYYstYy1O
- uyHBGLBn20rF5NtWI9f3Z9bFyzHEpHCULCzGmyWYnDtUtSGMWFB6Fzl0xYLNdO0HZSz6
- mw4Ze8rkizpNWIAjkK99qPkGglNAZbl9UAQamNXiV1Le9RcZwK/Hyd/Yj8PlXAz8hDUI
- +w2OCgNULZr1sNzw3zrMSis31jqWmQ0P45winxNWDUZ613bc81ClUFGu/qE25hzwvuGe
- rt9+/1h+1H6ppk9qaZz22pEM24mWi14VLqzTeP6U79Rw1dY01Yu+QNAzUz1wbcdw7Snb
- gq2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686577504; x=1689169504;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
- b=FT73VqJFTIeHlvki5awStNdHpCCD0T11lunTGzhgd+/cn41pZRUQ/QFkbb1iuYoeXg
- j85T2fF0Q0rSqEFrAw4wyI9KwwqEALzhl1louzCv4QmC0s25DVzRdzWhSnE9ICBL6RJ0
- zKZIXdTjyA0AlrrJIemRJTSbKmk4tHzF4dEDonkNUxf94kUeTl4LfjsEAlKWLC1PiTKc
- +ZX2mAFDozMWVHJ/NGwFKi41TCnKmx7QpTPaevG22xTWNU9AZZquqsqYk7mtRyVZ9+7u
- rZAvDDZPFfCXZdPLhxz+P7XReHxTDEkon73stXMvGiNpfZ2G2NzJ0TnldbA0rM9etc6o
- 5Jrw==
-X-Gm-Message-State: AC+VfDxSKeYf9JGkH402SOdBLkqawhq25FVaKRNyPhFGRg6pqANVgwK5
- C0aFqd/TDxll0uWFQCajqzDQhQ==
-X-Google-Smtp-Source: ACHHUZ4h85kfHl3DI8/Abcv89tWBeUmwVQ4OIrcqdypRpQDgTPWDHo356NMqGTKYViQ9nwW38zbtmg==
-X-Received: by 2002:a19:674a:0:b0:4f6:1cc4:8567 with SMTP id
- e10-20020a19674a000000b004f61cc48567mr4236437lfj.30.1686577504408; 
- Mon, 12 Jun 2023 06:45:04 -0700 (PDT)
-Received: from Linus-Dell.lan ([85.235.12.238])
- by smtp.gmail.com with ESMTPSA id
- p6-20020a05651238c600b004f3b319ed4bsm1457389lft.120.2023.06.12.06.45.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 06:45:03 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Jonathan Corbet <corbet@lwn.net>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Helge Deller <deller@gmx.de>
-Subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-Date: Mon, 12 Jun 2023 15:45:00 +0200
-Message-Id: <20230612134500.249178-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.40.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3143510E07C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:13:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 72AD420106;
+ Mon, 12 Jun 2023 14:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686579234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=z7dGpkXmZ1MfbxtagH80qGavP+RHSS66/+CwDajBR0s=;
+ b=YI33JDQ10YAljTnA8Tctm63UXvDy8q7QV4VcwbX+gZXqgDXmENsqzNKdeVOGPwlliJ10WI
+ EN3X/MDkvbED3690RIyC3XHJMacel7AscvvIwG9/Hny83VsY4CrWGWyE3rMK3W4NlI4jSZ
+ f818aW0YUWJ8GTqeQHP+gGQuwKnFHeA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686579234;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=z7dGpkXmZ1MfbxtagH80qGavP+RHSS66/+CwDajBR0s=;
+ b=UkPvNcz/xVjq0OitTWLLLKr4FMAKi3L9V3wwhZGP60EY0+JsR7NEjWm5AgsmqN15+H3Osz
+ ZhSSspNSd+M9SUDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D17A1357F;
+ Mon, 12 Jun 2023 14:13:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Mh8cAiIoh2RwGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:13:54 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
+ geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
+ jingoohan1@gmail.com, dan.carpenter@linaro.org, michael.j.ruhl@intel.com
+Subject: [PATCH v2 00/38] fbdev: Make userspace interfaces optional
+Date: Mon, 12 Jun 2023 16:07:38 +0200
+Message-ID: <20230612141352.29939-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,219 +63,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VIA fbdev exposes a custom GPIO chip for its GPIOs, these
-are in turn looked up the camera driver using a custom API.
+Add the new config option FB_DEVICE. If enabled, fbdev provides
+traditional userspace interfaces in devfs, sysfs and procfs, such
+as /dev/fb0 or /proc/fb.
 
-Drop the custom API, provide a look-up table and convert to
-GPIO descriptors. Note proper polarity on the RESET line.
+Modern Linux distrobutions have adopted DRM drivers for graphics
+output and use fbdev only for the kernel's framebuffer console.
+Userspace has also moved on, with no new fbdev code being written
+and existing support being removed.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-I don't know about the merge path for this one, let's merge
-it in the provider (fbdev) if possible.
-This looks like OLPC stuff.
----
- drivers/media/platform/via/via-camera.c       | 51 ++++++++-----------
- drivers/video/fbdev/via/via-core.c            |  2 +-
- drivers/video/fbdev/via/via-gpio.c            | 26 +++++-----
- .../video/fbdev/via}/via-gpio.h               |  1 -
- 4 files changed, 34 insertions(+), 46 deletions(-)
- rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
+OTOH, fbdev provides userspace a way of accessing kernel or I/O
+memory, which might compromise the system's security. See the recent
+commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
+out-of-bounds access") for an example. Disabling fbdev userspace
+interfaces is therefore a useful feature to limit unnecessary
+exposure of fbdev code to processes of low privilegues.
 
-diff --git a/drivers/media/platform/via/via-camera.c b/drivers/media/platform/via/via-camera.c
-index 450254403fa8..4cb8f29e2f14 100644
---- a/drivers/media/platform/via/via-camera.c
-+++ b/drivers/media/platform/via/via-camera.c
-@@ -11,7 +11,7 @@
- #include <linux/device.h>
- #include <linux/list.h>
- #include <linux/pci.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/videodev2.h>
-@@ -26,7 +26,6 @@
- #include <linux/dma-mapping.h>
- #include <linux/pm_qos.h>
- #include <linux/via-core.h>
--#include <linux/via-gpio.h>
- #include <linux/via_i2c.h>
- 
- #ifdef CONFIG_X86
-@@ -71,8 +70,8 @@ struct via_camera {
- 	/*
- 	 * GPIO info for power/reset management
- 	 */
--	int power_gpio;
--	int reset_gpio;
-+	struct gpio_desc *power_gpio;
-+	struct gpio_desc *reset_gpio;
- 	/*
- 	 * I/O memory stuff.
- 	 */
-@@ -180,27 +179,19 @@ static struct via_format *via_find_format(u32 pixelformat)
-  */
- static int via_sensor_power_setup(struct via_camera *cam)
- {
--	int ret;
-+	struct device *dev = &cam->platdev->dev;
-+
-+	cam->power_gpio = devm_gpiod_get(dev, "VGPIO3", GPIOD_OUT_LOW);
-+	if (IS_ERR(cam->power_gpio))
-+		return dev_err_probe(dev, PTR_ERR(cam->power_gpio),
-+				     "failed to get power GPIO");
-+
-+	/* Request the reset line asserted */
-+	cam->reset_gpio = devm_gpiod_get(dev, "VGPIO2", GPIOD_OUT_HIGH);
-+	if (IS_ERR(cam->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(cam->reset_gpio),
-+				     "failed to get reset GPIO");
- 
--	cam->power_gpio = viafb_gpio_lookup("VGPIO3");
--	cam->reset_gpio = viafb_gpio_lookup("VGPIO2");
--	if (!gpio_is_valid(cam->power_gpio) || !gpio_is_valid(cam->reset_gpio)) {
--		dev_err(&cam->platdev->dev, "Unable to find GPIO lines\n");
--		return -EINVAL;
--	}
--	ret = gpio_request(cam->power_gpio, "viafb-camera");
--	if (ret) {
--		dev_err(&cam->platdev->dev, "Unable to request power GPIO\n");
--		return ret;
--	}
--	ret = gpio_request(cam->reset_gpio, "viafb-camera");
--	if (ret) {
--		dev_err(&cam->platdev->dev, "Unable to request reset GPIO\n");
--		gpio_free(cam->power_gpio);
--		return ret;
--	}
--	gpio_direction_output(cam->power_gpio, 0);
--	gpio_direction_output(cam->reset_gpio, 0);
- 	return 0;
- }
- 
-@@ -209,25 +200,23 @@ static int via_sensor_power_setup(struct via_camera *cam)
-  */
- static void via_sensor_power_up(struct via_camera *cam)
- {
--	gpio_set_value(cam->power_gpio, 1);
--	gpio_set_value(cam->reset_gpio, 0);
-+	gpiod_set_value(cam->power_gpio, 1);
-+	gpiod_set_value(cam->reset_gpio, 1);
- 	msleep(20);  /* Probably excessive */
--	gpio_set_value(cam->reset_gpio, 1);
-+	gpiod_set_value(cam->reset_gpio, 0);
- 	msleep(20);
- }
- 
- static void via_sensor_power_down(struct via_camera *cam)
- {
--	gpio_set_value(cam->power_gpio, 0);
--	gpio_set_value(cam->reset_gpio, 0);
-+	gpiod_set_value(cam->power_gpio, 0);
-+	gpiod_set_value(cam->reset_gpio, 1);
- }
- 
- 
- static void via_sensor_power_release(struct via_camera *cam)
- {
- 	via_sensor_power_down(cam);
--	gpio_free(cam->power_gpio);
--	gpio_free(cam->reset_gpio);
- }
- 
- /* --------------------------------------------------------------------------*/
-diff --git a/drivers/video/fbdev/via/via-core.c b/drivers/video/fbdev/via/via-core.c
-index 2c1803eb196f..908524a74a38 100644
---- a/drivers/video/fbdev/via/via-core.c
-+++ b/drivers/video/fbdev/via/via-core.c
-@@ -11,7 +11,7 @@
- #include <linux/aperture.h>
- #include <linux/via-core.h>
- #include <linux/via_i2c.h>
--#include <linux/via-gpio.h>
-+#include "via-gpio.h"
- #include "global.h"
- 
- #include <linux/module.h>
-diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
-index f1b670397c02..fea5c195906f 100644
---- a/drivers/video/fbdev/via/via-gpio.c
-+++ b/drivers/video/fbdev/via/via-gpio.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/spinlock.h>
- #include <linux/gpio/driver.h>
-+#include <linux/gpio/machine.h>
- #include <linux/platform_device.h>
- #include <linux/via-core.h>
- #include <linux/via-gpio.h>
-@@ -189,19 +190,14 @@ static struct viafb_pm_hooks viafb_gpio_pm_hooks = {
- };
- #endif /* CONFIG_PM */
- 
--/*
-- * Look up a specific gpio and return the number it was assigned.
-- */
--int viafb_gpio_lookup(const char *name)
--{
--	int i;
--
--	for (i = 0; i < viafb_gpio_config.gpio_chip.ngpio; i++)
--		if (!strcmp(name, viafb_gpio_config.active_gpios[i]->vg_name))
--			return viafb_gpio_config.gpio_chip.base + i;
--	return -1;
--}
--EXPORT_SYMBOL_GPL(viafb_gpio_lookup);
-+static struct gpiod_lookup_table viafb_gpio_table = {
-+	.dev_id = "viafb-camera",
-+	.table = {
-+		GPIO_LOOKUP("via-gpio", 2, "VGPIO2", GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP("via-gpio", 3, "VGPIO3", GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
- 
- /*
-  * Platform device stuff.
-@@ -249,12 +245,16 @@ static int viafb_gpio_probe(struct platform_device *platdev)
- 	 * Get registered.
- 	 */
- 	viafb_gpio_config.gpio_chip.base = -1;  /* Dynamic */
-+	viafb_gpio_config.gpio_chip.label = "via-gpio";
- 	ret = gpiochip_add_data(&viafb_gpio_config.gpio_chip,
- 				&viafb_gpio_config);
- 	if (ret) {
- 		printk(KERN_ERR "viafb: failed to add gpios (%d)\n", ret);
- 		viafb_gpio_config.gpio_chip.ngpio = 0;
- 	}
-+
-+	gpiod_add_lookup_table(&viafb_gpio_table);
-+
- #ifdef CONFIG_PM
- 	viafb_pm_register(&viafb_gpio_pm_hooks);
- #endif
-diff --git a/include/linux/via-gpio.h b/drivers/video/fbdev/via/via-gpio.h
-similarity index 84%
-rename from include/linux/via-gpio.h
-rename to drivers/video/fbdev/via/via-gpio.h
-index ac34668fd442..2ffedf282f7e 100644
---- a/include/linux/via-gpio.h
-+++ b/drivers/video/fbdev/via/via-gpio.h
-@@ -8,7 +8,6 @@
- #ifndef __VIA_GPIO_H__
- #define __VIA_GPIO_H__
- 
--extern int viafb_gpio_lookup(const char *name);
- extern int viafb_gpio_init(void);
- extern void viafb_gpio_exit(void);
- #endif
+Patches 1 to 31 fix various bugs and issues in fbdev-related code.
+In most cases the code uses the fbdev device where it should use
+the Linux hardware device or something else. Most of these patches
+fix existing problems and should therefore be considered in any case.
+
+Patches 32 to 37 refactor the fbdev core code. The patches move
+support for backlights, sysfs, procfs and devfs into separate files
+and hide it behind simple interfaces. These changes will allow to
+easily build the userspace support conditionally.
+
+Patch 38 introduces the config option FB_DEVICE and adapts the fbdev
+core to support it. The field struct fb_info.dev is now optional,
+hence the name of the config option.
+
+Tested on simpledrm and i915, including the device handover.
+
+Future directions: With the support for disabling fbdev userspace
+interfaces in place, it will be possible to make most fbdev drivers'
+file-I/O code in struct fb_ops optional as well. 
+
+v2:
+	* fix fsl-diu-fb and sh7760fb
+	* split backlight patches
+	* set 'default y' for FB_CONFIG
+	* minor fixes and corrections
+
+Thomas Zimmermann (38):
+  backlight/bd6107: Compare against struct fb_info.device
+  backlight/bd6107: Rename struct bd6107_platform_data.fbdev to 'dev'
+  backlight/gpio_backlight: Compare against struct fb_info.device
+  backlight/gpio_backlight: Rename field 'fbdev' to 'dev'
+  backlight/lv5207lp: Compare against struct fb_info.device
+  backlight/lv5207lp: Rename struct lv5207lp_platform_data.fbdev to
+    'dev'
+  fbdev/atyfb: Reorder backlight and framebuffer init/cleanup
+  fbdev/atyfb: Use hardware device as backlight parent
+  fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
+  fbdev/aty128fb: Use hardware device as backlight parent
+  fbdev/broadsheetfb: Call device_remove_file() with hardware device
+  fbdev/ep93xx-fb: Alloc DMA memory from hardware device
+  fbdev/ep93xx-fb: Output messages with fb_info() and fb_err()
+  fbdev/ep93xx-fb: Do not assign to struct fb_info.dev
+  fbdev/fsl-diu-fb: Output messages with fb_*() helpers
+  fbdev/mb862xxfb: Output messages with fb_dbg()
+  fbdev/metronomefb: Use hardware device for dev_err()
+  fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
+  fbdev/nvidiafb: Use hardware device as backlight parent
+  fbdev/pxa168fb: Do not assign to struct fb_info.dev
+  fbdev/radeonfb: Reorder backlight and framebuffer cleanup
+  fbdev/radeonfb: Use hardware device as backlight parent
+  fbdev/rivafb: Reorder backlight and framebuffer init/cleanup
+  fbdev/rivafb: Use hardware device as backlight parent
+  fbdev/sh7760fb: Use fb_dbg() in sh7760fb_get_color_info()
+  fbdev/sh7760fb: Output messages with fb_dbg()
+  fbdev/sh7760fb: Alloc DMA memory from hardware device
+  fbdev/sh7760fb: Use hardware device with dev_() output during probe
+  fbdev/sm501fb: Output message with fb_err()
+  fbdev/smscufx: Detect registered fb_info from refcount
+  fbdev/tdfxfb: Set i2c adapter parent to hardware device
+  fbdev/core: Pass Linux device to pm_vt_switch_*() functions
+  fbdev/core: Move framebuffer and backlight helpers into separate files
+  fbdev/core: Add fb_device_{create,destroy}()
+  fbdev/core: Move procfs code to separate file
+  fbdev/core: Move file-I/O code into separate file
+  fbdev/core: Rework fb init code
+  fbdev: Make support for userspace interfaces configurable
+
+ Documentation/gpu/todo.rst                   |  13 +
+ arch/sh/boards/mach-ecovec24/setup.c         |   2 +-
+ arch/sh/boards/mach-kfr2r09/setup.c          |   2 +-
+ drivers/staging/fbtft/Kconfig                |   1 +
+ drivers/video/backlight/bd6107.c             |   2 +-
+ drivers/video/backlight/gpio_backlight.c     |   6 +-
+ drivers/video/backlight/lv5207lp.c           |   2 +-
+ drivers/video/fbdev/Kconfig                  |  13 +
+ drivers/video/fbdev/aty/aty128fb.c           |  12 +-
+ drivers/video/fbdev/aty/atyfb_base.c         |  18 +-
+ drivers/video/fbdev/aty/radeon_backlight.c   |   2 +-
+ drivers/video/fbdev/aty/radeon_base.c        |   3 +-
+ drivers/video/fbdev/broadsheetfb.c           |   2 +-
+ drivers/video/fbdev/core/Makefile            |   7 +-
+ drivers/video/fbdev/core/fb_backlight.c      |  33 ++
+ drivers/video/fbdev/core/fb_info.c           |  78 +++
+ drivers/video/fbdev/core/fb_internal.h       |  67 +++
+ drivers/video/fbdev/core/fb_procfs.c         |  62 ++
+ drivers/video/fbdev/core/fbcon.c             |   1 +
+ drivers/video/fbdev/core/fbmem.c             | 592 +------------------
+ drivers/video/fbdev/core/fbsysfs.c           | 134 +----
+ drivers/video/fbdev/ep93xx-fb.c              |  21 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |  26 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   9 +-
+ drivers/video/fbdev/metronomefb.c            |   2 +-
+ drivers/video/fbdev/nvidia/nv_backlight.c    |   2 +-
+ drivers/video/fbdev/nvidia/nvidia.c          |   8 +-
+ drivers/video/fbdev/omap2/omapfb/Kconfig     |   2 +-
+ drivers/video/fbdev/pxa168fb.c               |   2 +-
+ drivers/video/fbdev/riva/fbdev.c             |  10 +-
+ drivers/video/fbdev/sh7760fb.c               |  50 +-
+ drivers/video/fbdev/sm501fb.c                |   2 +-
+ drivers/video/fbdev/smscufx.c                |   4 +-
+ drivers/video/fbdev/tdfxfb.c                 |   4 +-
+ include/linux/fb.h                           |   6 +-
+ include/linux/platform_data/bd6107.h         |   2 +-
+ include/linux/platform_data/gpio_backlight.h |   2 +-
+ include/linux/platform_data/lv5207lp.h       |   2 +-
+ 38 files changed, 437 insertions(+), 769 deletions(-)
+ create mode 100644 drivers/video/fbdev/core/fb_backlight.c
+ create mode 100644 drivers/video/fbdev/core/fb_info.c
+ create mode 100644 drivers/video/fbdev/core/fb_internal.h
+ create mode 100644 drivers/video/fbdev/core/fb_procfs.c
+
+
+base-commit: 63a468ec7c7652afa80e3fa6ad203f9e64d04e83
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 7c401614cf55c033f742bced317575b9f5b77bb1
+prerequisite-patch-id: d3145eae4b35a1290199af6ff6cd5abfebc82033
+prerequisite-patch-id: 242b6bc45675f1f1a62572542d75c89d4864f15a
 -- 
-2.34.1
+2.41.0
 
