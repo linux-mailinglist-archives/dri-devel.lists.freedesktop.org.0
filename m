@@ -1,49 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A51072C555
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:02:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C02B72DA8F
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 09:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7CB10E233;
-	Mon, 12 Jun 2023 13:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 478DE10E32F;
+	Tue, 13 Jun 2023 07:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDEA10E263
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:02:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55540C4C;
- Mon, 12 Jun 2023 15:01:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686574901;
- bh=myI2OsDKPlAivJwq8XHEp21SionS1U4YLnRbxXj2LGM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nEvpQz3C+gVmmfjX1TWlXKZadMDfgm7VXB+hbeXpYCo/EwWR8ziagLTg7r1u2qAM7
- eGV8lH3OnJtndQCZyYybiXS9leMtWb+SgKqU9fd0WU8NTKZatD5cwCE8oYOEH877Kn
- iS4L85ifZlV5qrB+6pQyzXNHIW2edRov0Y3Y3nJk=
-Date: Mon, 12 Jun 2023 16:02:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230612130210.GB23921@pendragon.ideasonboard.com>
-References: <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230612122353.GA22391@pendragon.ideasonboard.com>
- <CAMuHMdWVciwfbcnqXy=gmMjyv1_pJtvxp5Sp4osx73M-jxVKRg@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E84910E234
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:03:19 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35CCUVEL030059; Mon, 12 Jun 2023 13:03:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vwUQ1F8I7JI/UaeWgCAqXrFbc20JHeM5AvHArrbGZns=;
+ b=G6ua1Gn9MbO7FPY+XSeGpjItS1FFYvAY0JwZYk1Uiz/KAgD+xkH4m7U8pwqrdL37oyex
+ 7TZdggKYfXNzWeA2MDyCWykL95+zxUR89pNu4OGnk4jVnVK+nH9rjJUmj55OTHOcphJT
+ dOPFqY/Pp8hRXz4zgbOqQA+oAHP4bjcttkDOmNrE+CAkfUCPh4AOsXe9E65w2LopWTTf
+ YqQzadC33GUZF6tsXq37njVCMe6Hyj+hBeY5EmDlt29zKG27sdlJQyUZp/tlnTYuzxgd
+ T+gQCi9Y69hRp7ndog5L4cG+9oKWIWmV6HgTHHHNlMgyS3PWvivDVnLdbP5NDyKh0Wd9 xQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4hd8bcah-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 13:03:11 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CD3ArR004276
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 13:03:10 GMT
+Received: from [10.50.37.200] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
+ 2023 06:03:07 -0700
+Message-ID: <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
+Date: Mon, 12 Jun 2023 18:33:04 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, "Sukrut
+ Bellary" <sukrut.bellary@linux.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+ <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+In-Reply-To: <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWVciwfbcnqXy=gmMjyv1_pJtvxp5Sp4osx73M-jxVKRg@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
+X-Proofpoint-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306120112
+X-Mailman-Approved-At: Tue, 13 Jun 2023 07:14:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,82 +86,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 12, 2023 at 02:44:33PM +0200, Geert Uytterhoeven wrote:
-> On Mon, Jun 12, 2023 at 2:23 PM Laurent Pinchart wrote:
-> > On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
-> > > Hi All,
-> > >
-> > > How do we proceed here between [1] and [2]?
-> > >
-> > > DT-Maintainers suggestion:
-> > > [1]
-> > > raa215300: pmic@12 {
-> > >       compatible = "renesas,raa215300";
-> > >       reg = <0x12>, <0x6f>;
-> > >       reg-names = "main", "rtc";
-> > >
-> > >       clocks = <&x2>;
-> > >       clock-names = "xin";
-> > >       /* Add Optional shared IRQ resource and share it to child and handle it both in parent and child */
-> > > };
-> > >
-> > > Laurent/Wolfram suggestion to split it into two nodes and get rid of this patch:
-> > > [2]
-> > >       raa215300: pmic @12 {
-> > >               compatible = "renesas,raa215300";
-> > >               reg = <0x12>;
-> > >
-> > >               /* Add Optional shared IRQ */
-> > >               renesas,raa215300-rtc = <&rtc_raa215300>; /* Parse the handle and Enable RTC , if present.*/
-> > >       };
-> > >
-> > >       rtc_raa215300: rtc@6f {
-> > >               compatible = "renesas,raa215300-isl1208";
-> >
-> > Make this
-> >
-> >                 compatible = "renesas,raa215300-isl1208", "isil,isl1208";
+
+
+On 6/12/2023 4:52 PM, Christian König wrote:
 > 
-> "renesas,raa215300-rtc", "isil,isl1208".
 > 
-> However, that would suggest the RAA215300 RTC can be treated as
-> an ISL1208, which is not true for all revisions...
-
-It depends. If we add a renesas,invert-xtoscb DT property, then it
-becomes true for all revisions.
-
-> > Btw, it would be nice to convert
-> > Documentation/devicetree/bindings/rtc/isil,isl1208.txt to YAML.
+> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+>> smatch warning:
+>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+>>         dereferencing freed memory 'obj->import_attach'
+>>
+>> obj->import_attach is detached and freed using dma_buf_detach().
+>> But used after free to decrease the dmabuf ref count using
+>> dma_buf_put().
+>>
+>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+>> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+>> ---
+>>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/accel/qaic/qaic_data.c 
+>> b/drivers/accel/qaic/qaic_data.c
+>> index e42c1f9ffff8..7cba4d680ea8 100644
+>> --- a/drivers/accel/qaic/qaic_data.c
+>> +++ b/drivers/accel/qaic/qaic_data.c
+>> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
+>> drm_gem_object *obj, struct vm_area_struc
+>>   static void qaic_free_object(struct drm_gem_object *obj)
+>>   {
+>>       struct qaic_bo *bo = to_qaic_bo(obj);
+>> +    struct dma_buf *dmabuf;
 > 
-> Hey, look at patch 2 in this series ;-)
+> Maybe move that variable into the if.
+> 
+>>       if (obj->import_attach) {
+>>           /* DMABUF/PRIME Path */
+>> +        dmabuf = obj->import_attach->dmabuf;
+>>           dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
+>> -        dma_buf_put(obj->import_attach->dmabuf);
+>> +        dma_buf_put(dmabuf);
+> 
+> I strongly assume you are not using the GEM prime helpers for this?
+> 
+> Christian.
 
--- 
-Regards,
+Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
+registers for ->gem_prime_import() which is internally called by 
+drm_gem_prime_fd_to_handle(). All the operations done in 
+gem_prime_import() are undone here.
 
-Laurent Pinchart
+> 
+>>       } else {
+>>           /* Private buffer allocation path */
+>>           qaic_free_sgt(bo->sgt);
+> 
