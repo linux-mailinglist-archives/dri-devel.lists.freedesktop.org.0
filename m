@@ -1,60 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C1E72CBE4
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 18:54:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFDE72CBEB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 18:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE7F10E053;
-	Mon, 12 Jun 2023 16:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 448CA10E09D;
+	Mon, 12 Jun 2023 16:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0090B10E053
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:54:03 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686588841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NFGxXNGT2vK1aUEX2eyULHFBjMjXTv31072os0BOR0g=;
- b=mHk7ZmABb6+jLf8CSEj5alyT7gtzsLQ/af3KkhMXMBK865t1U4a9QYi89GSejccyVDNYO1
- HA27/ujiKRz535P9LvuKW0o/Tj08WfULwQYETjKw9J7prUAap7rVXHM+zXQkEy8H+P6wM+
- A2cb8AIWYGMACEwwlTFggRH/v5WpNhDxQZ2FQ3lHra0CnY087M/uT7Qj8nyb1N7bxSHXtu
- banLsigVSie9/0MxbAuKMc2S/c70jxXhyFuUYbpY+RyyLfaYI21PLDppKfee2WB5T+hdD2
- dE8dxZ7h57tjG69bo2CpTyDxH8EbY2GGe4peU8Wbw4E4MIp8D4ohFUZOsAhyTQ==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CB50F20003;
- Mon, 12 Jun 2023 16:53:56 +0000 (UTC)
-Date: Mon, 12 Jun 2023 18:53:54 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-Subject: Re: [PATCH v4] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <20230612185354.09b88e0d@xps-13>
-In-Reply-To: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
-References: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4E410E09D;
+ Mon, 12 Jun 2023 16:57:35 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35CFNWrT011234; Mon, 12 Jun 2023 16:57:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=K03AqMEA2iiPZtRfuOoDUx4SB+7ocncHRYhmLdyB6xo=;
+ b=SYGe2rFCY+2D8IACkc+TeEkQAO13GpYchYMyP3QINm5vtDjMLLlX09P6IhjVj38fHHL7
+ u8/SltOSegcea7+rxjO6jBm9R0a0XugHQXNz0R6lo6UACTpzCr07NenwFh7JWJYJ3Aev
+ Pk2UiGE1AS3xppIejFl1huh8E34e8bul9ISRaWwwEjem/5rQLGIHlbuU1gOW1IuA8/8P
+ BfAquMihitWA4UXLEtOQrvmEZDfarBTTxV3vLPrnDkisACJu2NOi0Gd+3HhdOtZnmJr7
+ V2j9YODiLF2uq98dbj8DfTlVn4RlvUC7lebjSVkxfjx2sv94c3m1JB3TdcbsSLM6cvBP RA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4ehtv2nv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 16:57:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CGv3Yh029048
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jun 2023 16:57:03 GMT
+Received: from [10.111.173.224] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
+ 2023 09:57:01 -0700
+Message-ID: <f9428dd3-09fb-74b7-7ba0-4710e8b43229@quicinc.com>
+Date: Mon, 12 Jun 2023 12:56:57 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC] Plane color pipeline KMS uAPI
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
+ <4341dac6-ada1-2a75-1c22-086d96408a85@quicinc.com>
+ <84d5dad7-5e8e-ce92-d08e-4609970f6604@quicinc.com>
+ <jerhZxCOWoQ2gv55pCK0JNVXMT_OY_j9KLewfG5me25cpqVzfOibpr4b9gZpjWPLQOaKWO2zD2KUI5mWge4mA74DmV1qmLB_LxsSRlKtvbk=@emersion.fr>
+ <6f9598e5-09b4-738f-4d00-dfdaba1c91d0@quicinc.com>
+ <20230612122135.40505458@eldfell>
+From: Christopher Braga <quic_cbraga@quicinc.com>
+In-Reply-To: <20230612122135.40505458@eldfell>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: EfZd2NSNijNpOZ2idOePZTNYscaV8ycm
+X-Proofpoint-ORIG-GUID: EfZd2NSNijNpOZ2idOePZTNYscaV8ycm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-12_06,2023-06-12_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306120146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,300 +87,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Jaime Liao <jaimeliao.tw@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, linux-mtd@lists.infradead.org,
- oxffffaa@gmail.com, kernel@sberdevices.ru,
- Mason Yang <masonccyang@mxic.com.tw>, linux-media@vger.kernel.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Jaime Liao <jaimeliao@mxic.com.tw>
+Cc: Aleix Pol <aleixpol@kde.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
 
-AVKrasnov@sberdevices.ru wrote on Tue, 23 May 2023 13:16:34 +0300:
 
-> This adds support for OTP area access on MX30LFxG18AC chip series.
+On 6/12/2023 5:21 AM, Pekka Paalanen wrote:
+> On Fri, 9 Jun 2023 19:11:25 -0400
+> Christopher Braga <quic_cbraga@quicinc.com> wrote:
+> 
+>> On 6/9/2023 12:30 PM, Simon Ser wrote:
+>>> Hi Christopher,
+>>>
+>>> On Friday, June 9th, 2023 at 17:52, Christopher Braga <quic_cbraga@quicinc.com> wrote:
+>>>    
+>>>>> The new COLOROP objects also expose a number of KMS properties. Each has a
+>>>>> type, a reference to the next COLOROP object in the linked list, and other
+>>>>> type-specific properties. Here is an example for a 1D LUT operation:
+>>>>>
+>>>>>        Color operation 42
+>>>>>        ├─ "type": enum {Bypass, 1D curve} = 1D curve
+>>>>>        ├─ "1d_curve_type": enum {LUT, sRGB, PQ, BT.709, HLG, …} = LUT
+>>>> The options sRGB / PQ / BT.709 / HLG would select hard-coded 1D
+>>>> curves? Will different hardware be allowed to expose a subset of these
+>>>> enum values?
+>>>
+>>> Yes. Only hardcoded LUTs supported by the HW are exposed as enum entries.
+>>>    
+>>>>>        ├─ "lut_size": immutable range = 4096
+>>>>>        ├─ "lut_data": blob
+>>>>>        └─ "next": immutable color operation ID = 43
+>>>>>   
+>>>> Some hardware has per channel 1D LUT values, while others use the same
+>>>> LUT for all channels.  We will definitely need to expose this in the
+>>>> UAPI in some form.
+>>>
+>>> Hm, I was assuming per-channel 1D LUTs here, just like the existing GAMMA_LUT/
+>>> DEGAMMA_LUT properties work. If some hardware can't support that, it'll need
+>>> to get exposed as another color operation block.
+>>>    
+>>>>> To configure this hardware block, user-space can fill a KMS blob with
+>>>>> 4096 u32
+>>>>> entries, then set "lut_data" to the blob ID. Other color operation types
+>>>>> might
+>>>>> have different properties.
+>>>>>   
+>>>> The bit-depth of the LUT is an important piece of information we should
+>>>> include by default. Are we assuming that the DRM driver will always
+>>>> reduce the input values to the resolution supported by the pipeline?
+>>>> This could result in differences between the hardware behavior
+>>>> and the shader behavior.
+>>>>
+>>>> Additionally, some pipelines are floating point while others are fixed.
+>>>> How would user space know if it needs to pack 32 bit integer values vs
+>>>> 32 bit float values?
+>>>
+>>> Again, I'm deferring to the existing GAMMA_LUT/DEGAMMA_LUT. These use a common
+>>> definition of LUT blob (u16 elements) and it's up to the driver to convert.
+>>>
+>>> Using a very precise format for the uAPI has the nice property of making the
+>>> uAPI much simpler to use. User-space sends high precision data and it's up to
+>>> drivers to map that to whatever the hardware accepts.
+>>>   
+>> Conversion from a larger uint type to a smaller type sounds low effort,
+>> however if a block works in a floating point space things are going to
+>> get messy really quickly. If the block operates in FP16 space and the
+>> interface is 16 bits we are good, but going from 32 bits to FP16 (such
+>> as in the matrix case or 3DLUT) is less than ideal.
+> 
+> Hi Christopher,
+> 
+> are you thinking of precision loss, or the overhead of conversion?
+> 
+> Conversion from N-bit fixed point to N-bit floating-point is generally
+> lossy, too, and the other direction as well.
+> 
+> What exactly would be messy?
+> 
+Overheard of conversion is the primary concern here. Having to extract 
+and / or calculate the significand + exponent components in the kernel 
+is burdensome and imo a task better suited for user space. This also has 
+to be done every blob set, meaning that if user space is re-using 
+pre-calculated blobs we would be repeating the same conversion 
+operations in kernel space unnecessarily.
 
-Jaime, any feedback on this? Will you test it?
+I agree normalization of the value causing precision loss and rounding 
+we can't avoid.
 
-How are we supposed to test the OTP is locked? I see this is still an
-open point.
+We should also consider the fact that float pipelines have been known to 
+use the scrgb definition for floating point values 
+(https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_gl_colorspace_scrgb_linear.txt). 
+In cases like this where there may be a expected value range in the 
+pipeline, how to normalize a larger input becomes a little confusing. Ex 
+- Does U32 MAX become FP16 MAX or value MAX (i.e 127).
 
->=20
-> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-> ---
->   v1 -> v2:
->   * Add slab.h include due to kernel test robot error.
->   v2 -> v3:
->   * Use 'uint64_t' as input argument for 'do_div()' instead
->     of 'unsigned long' due to kernel test robot error.
->   v3 -> v4:
->   * Use 'dev_err()' instead of 'WARN()'.
->   * Call 'match_string()' before checking 'supports_set_get_features'
->     in 'macronix_nand_setup_otp().
->   * Use 'u8' instead of 'uint8_t' as ./checkpatch.pl wants.
->=20
->  drivers/mtd/nand/raw/nand_macronix.c | 216 +++++++++++++++++++++++++++
->  1 file changed, 216 insertions(+)
->=20
-> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/=
-nand_macronix.c
-> index 1472f925f386..be1ffa93bebb 100644
-> --- a/drivers/mtd/nand/raw/nand_macronix.c
-> +++ b/drivers/mtd/nand/raw/nand_macronix.c
-> @@ -6,6 +6,7 @@
->   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
->   */
-> =20
-> +#include <linux/slab.h>
->  #include "linux/delay.h"
->  #include "internals.h"
-> =20
-> @@ -31,6 +32,20 @@
-> =20
->  #define MXIC_CMD_POWER_DOWN 0xB9
-> =20
-> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP	0x90
-> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE	0
-> +#define MACRONIX_30LFXG18AC_OTP_PAGES		30
-> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE	2112
-> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE	\
-> +	(MACRONIX_30LFXG18AC_OTP_START_PAGE *	\
-> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES	\
-> +	(MACRONIX_30LFXG18AC_OTP_PAGES *	\
-> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> +
-> +#define MACRONIX_30LFXG18AC_OTP_EN		BIT(0)
-> +#define MACRONIX_30LFXG18AC_OTP_LOCKED		BIT(1)
-> +
->  struct nand_onfi_vendor_macronix {
->  	u8 reserved;
->  	u8 reliability_func;
-> @@ -316,6 +331,206 @@ static void macronix_nand_deep_power_down_support(s=
-truct nand_chip *chip)
->  	chip->ops.resume =3D mxic_nand_resume;
->  }
-> =20
-> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t=
- len,
-> +					    size_t *retlen,
-> +					    struct otp_info *buf)
-> +{
-> +	if (len < sizeof(*buf))
-> +		return -EINVAL;
-> +
-> +	/* Don't know how to check that OTP is locked. */
-> +	buf->locked =3D 0;
-> +	buf->start =3D MACRONIX_30LFXG18AC_OTP_START_BYTE;
-> +	buf->length =3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
-> +
-> +	*retlen =3D sizeof(*buf);
-> +
-> +	return 0;
-> +}
-> +
-> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +
-> +	feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN;
-> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				 feature_buf);
-> +}
-> +
-> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +
-> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				 feature_buf);
-> +}
-> +
-> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-> +					loff_t offs_in_flash,
-> +					size_t len, size_t *retlen,
-> +					u_char *buf, bool write)
-> +{
-> +	struct nand_chip *nand;
-> +	size_t bytes_handled;
-> +	off_t offs_in_page;
-> +	void *dma_buf;
-> +	u64 page;
-> +	int ret;
-> +
-> +	/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-> +	 * so allocate properly aligned memory for it. This is
-> +	 * needed because cross page accesses may lead to unaligned
-> +	 * buffer address for DMA.
-> +	 */
-> +	dma_buf =3D kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-> +	if (!dma_buf)
-> +		return -ENOMEM;
-> +
-> +	nand =3D mtd_to_nand(mtd);
-> +	nand_select_target(nand, 0);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_enable(nand);
-> +	if (ret)
-> +		goto out_otp;
-> +
-> +	page =3D offs_in_flash;
-> +	/* 'page' will be result of division. */
-> +	offs_in_page =3D do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-> +	bytes_handled =3D 0;
-> +
-> +	while (bytes_handled < len &&
-> +	       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-> +		size_t bytes_to_handle;
-> +
-> +		bytes_to_handle =3D min_t(size_t, len - bytes_handled,
-> +					MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-> +					offs_in_page);
-> +
-> +		if (write) {
-> +			memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-> +			ret =3D nand_prog_page_op(nand, page, offs_in_page,
-> +						dma_buf, bytes_to_handle);
-> +		} else {
-> +			ret =3D nand_read_page_op(nand, page, offs_in_page,
-> +						dma_buf, bytes_to_handle);
-> +			if (!ret)
-> +				memcpy(&buf[bytes_handled], dma_buf,
-> +				       bytes_to_handle);
-> +		}
-> +		if (ret)
-> +			goto out_otp;
-> +
-> +		bytes_handled +=3D bytes_to_handle;
-> +		offs_in_page =3D 0;
-> +		page++;
-> +	}
-> +
-> +	*retlen =3D bytes_handled;
-> +
-> +out_otp:
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to leave OTP mode after %s\n",
-> +			write ? "write" : "read");
-> +
-> +	nand_deselect_target(nand);
-> +	kfree(dma_buf);
-> +
-> +	return ret;
-> +}
-> +
-> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
-> +					 size_t len, size_t *rlen,
-> +					 const u_char *buf)
-> +{
-> +	return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
-> +					    true);
-> +}
-> +
-> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t fro=
-m,
-> +					size_t len, size_t *rlen,
-> +					u_char *buf)
-> +{
-> +	return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
-> +}
-> +
-> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t fro=
-m,
-> +					size_t len)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +	struct nand_chip *nand;
-> +	int ret;
-> +
-> +	if (from !=3D MACRONIX_30LFXG18AC_OTP_START_BYTE ||
-> +	    len !=3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
-> +		return -EINVAL;
-> +
-> +	dev_dbg(&mtd->dev, "locking OTP\n");
-> +
-> +	nand =3D mtd_to_nand(mtd);
-> +	nand_select_target(nand, 0);
-> +
-> +	feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN |
-> +			 MACRONIX_30LFXG18AC_OTP_LOCKED;
-> +	ret =3D nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				feature_buf);
-> +	if (ret) {
-> +		dev_err(&mtd->dev,
-> +			"failed to lock OTP (set features): %i\n", ret);
-> +		nand_deselect_target(nand);
-> +		return ret;
-> +	}
-> +
-> +	/* Do dummy page prog with zero address. */
-> +	feature_buf[0] =3D 0;
-> +	ret =3D nand_prog_page_op(nand, 0, 0, feature_buf, 1);
-> +	if (ret)
-> +		dev_err(&mtd->dev,
-> +			"failed to lock OTP (page prog): %i\n", ret);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to leave OTP mode after lock\n");
-> +
-> +	nand_deselect_target(nand);
-> +
-> +	return ret;
-> +}
-> +
-> +static void macronix_nand_setup_otp(struct nand_chip *chip)
-> +{
-> +	static const char * const supported_otp_models[] =3D {
-> +		"MX30LF1G18AC",
-> +		"MX30LF2G18AC",
-> +		"MX30LF4G18AC",
-> +	};
-> +	struct mtd_info *mtd;
-> +
-> +	if (match_string(supported_otp_models,
-> +			 ARRAY_SIZE(supported_otp_models),
-> +			 chip->parameters.model) < 0)
-> +		return;
-> +
-> +	if (!chip->parameters.supports_set_get_features)
-> +		return;
-> +
-> +	bitmap_set(chip->parameters.get_feature_list,
-> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> +	bitmap_set(chip->parameters.set_feature_list,
-> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> +
-> +	mtd =3D nand_to_mtd(chip);
-> +	mtd->_get_fact_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> +	mtd->_read_fact_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> +	mtd->_get_user_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> +	mtd->_read_user_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> +	mtd->_write_user_prot_reg =3D macronix_30lfxg18ac_write_otp;
-> +	mtd->_lock_user_prot_reg =3D macronix_30lfxg18ac_lock_otp;
-> +}
-> +
->  static int macronix_nand_init(struct nand_chip *chip)
->  {
->  	if (nand_is_slc(chip))
-> @@ -325,6 +540,7 @@ static int macronix_nand_init(struct nand_chip *chip)
->  	macronix_nand_onfi_init(chip);
->  	macronix_nand_block_protection_support(chip);
->  	macronix_nand_deep_power_down_support(chip);
-> +	macronix_nand_setup_otp(chip);
-> =20
->  	return 0;
->  }
+>>
+>>> Exposing the actual hardware precision is something we've talked about during
+>>> the hackfest. It'll probably be useful to some extent, but will require some
+>>> discussion to figure out how to design the uAPI. Maybe a simple property is
+>>> enough, maybe not (e.g. fully describing the precision of segmented LUTs would
+>>> probably be trickier).
+>>>
+>>> I'd rather keep things simple for the first pass, we can always add more
+>>> properties for bit depth etc later on.
+>>>    
+>> Indicating if a block operates on / with fixed vs float values is
+>> significant enough that I think we should account for this in initial
+>> design. It will have a affect on both the user space value packing +
+>> expected value ranges in the hardware.
+> 
+> What do you mean by "value packing"? Memory layout of the bits forming
+> a value? Or possible exact values of a specific type? >
+Both really. If the kernel is provided a U32 value, we need to know if 
+this is a U32 value, or a float packed into a U32 container. Likewise as 
+mentioned with the scRGB above, float could even adjust the value range 
+expectations.
 
+> I don't think fixed vs. float is the most important thing. Even fixed
+> point formats can have different numbers of bits for whole numbers,
+> which changes the usable value range and not only precision. Userspace
+> at the very least needs to know the usable value range for the block's
+> inputs, outputs, and parameters.
+> 
+> When defining the precision for inputs, outputs and parameters, then
+> fixed- vs. floating-point becomes meaningful in explaining what "N bits
+> of precision" means.
+> 
+> Then there is the question of variable precision that depends on the
+> actual block input and parameter values, how to represent that. Worst
+> case precision might be too pessimistic alone.
+> 
+Agreed. More information probably is needed to full define the interface 
+expectations.
+
+>>>>> Here is another example with a 3D LUT:
+>>>>>
+>>>>>        Color operation 42
+>>>>>        ├─ "type": enum {Bypass, 3D LUT} = 3D LUT
+>>>>>        ├─ "lut_size": immutable range = 33
+>>>>>        ├─ "lut_data": blob
+>>>>>        └─ "next": immutable color operation ID = 43
+>>>>>   
+>>>> We are going to need to expose the packing order here to avoid any
+>>>> programming uncertainty. I don't think we can safely assume all hardware
+>>>> is equivalent.
+>>>
+>>> The driver can easily change the layout of the matrix and do any conversion
+>>> necessary when programming the hardware. We do need to document what layout is
+>>> used in the uAPI for sure.
+>>>    
+>>>>> And one last example with a matrix:
+>>>>>
+>>>>>        Color operation 42
+>>>>>        ├─ "type": enum {Bypass, Matrix} = Matrix
+>>>>>        ├─ "matrix_data": blob
+>>>>>        └─ "next": immutable color operation ID = 43
+>>>>>   
+>>>> It is unclear to me what the default sizing of this matrix is. Any
+>>>> objections to exposing these details with an additional property?
+>>>
+>>> The existing CTM property uses 9 uint64 (S31.32) values. Is there a case where
+>>> that wouldn't be enough?
+>>
+>> Larger cases do exist, but as you mention this can be resolved with a
+>> different type then. I don't have any issues with the default 'Matrix'
+>> type being 9 entries.
+> 
+> Please, tell us more. How big, and what are they used for?
+> 
+> IIRC ICC has 3x3 matrix + offset vector. Do you have even more?
+> 
+> 
+Offset is one. Range adjustment 'vector' is another. But ultimately this 
+proposal is flexible enough that this can probably just be another color 
+block in the pipeline. No complaints from me here.
+
+>>>    
+>>>> Dithering logic exists in some pipelines. I think we need a plan to
+>>>> expose that here as well.
+>>>
+>>> Hm, I'm not too familiar with dithering. Do you think it would make sense to
+>>> expose as an additional colorop block? Do you think it would have more
+>>> consequences on the design?
+> 
+> I think it would be an additional block, and no other consequences, be
+> it temporal and/or spatial dithering, as long as it does not look at
+> neighbouring pixels to determine the output for current pixel.
+> 
+>>>
+>>> I want to re-iterate that we don't need to ship all features from day 1. We
+>>> just need to come up with a uAPI design on which new features can be built on.
+>>>    
+>>
+>> Agreed. I don't think this will affect the proposed design so this can
+>> be figured out once we have a DRM driver impl that declares this block.
+>>
+>>>>> [Simon note: an alternative would be to split the color pipeline into
+>>>>> two, by
+>>>>> having two plane properties ("color_pipeline_pre_scale" and
+>>>>> "color_pipeline_post_scale") instead of a single one. This would be
+>>>>> similar to
+>>>>> the way we want to split pre-blending and post-blending. This could be less
+>>>>> expressive for drivers, there may be hardware where there are dependencies
+>>>>> between the pre- and post-scaling pipeline?]
+>>>>>   
+>>>> As others have noted, breaking up the pipeline with immutable blocks
+>>>> makes the most sense to me here. This way we don't have to predict ahead
+>>>> of time every type of block that maybe affected by pipeline ordering.
+>>>> Splitting the pipeline into two properties now means future
+>>>> logical splits would require introduction of further plane properties.
+>>>
+>>> Right, if there are more "breaking points", then we'll need immutable blocks
+>>> anyways.
+>>>    
+>>>>> Then, Alex from NVIDIA described how their hardware works. NVIDIA hardware
+>>>>> contains some fixed-function blocks which convert from LMS to ICtCp and
+>>>>> cannot
+>>>>> be disabled/bypassed. NVIDIA hardware has been designed for descriptive
+>>>>> APIs
+>>>>> where user-space provides a high-level description of the colorspace
+>>>>> conversions it needs to perform, and this is at odds with our KMS uAPI
+>>>>> proposal. To address this issue, we suggest adding a special block type
+>>>>> which
+>>>>> describes a fixed conversion from one colorspace to another and cannot be
+>>>>> configured by user-space. Then user-space will need to accomodate its
+>>>>> pipeline
+>>>>> for these special blocks. Such fixed hardware blocks need to be well enough
+>>>>> documented so that they can be implemented via shaders.
+>>>>>   
+>>>> A few questions here. What is the current plan for documenting the
+>>>> mathematical model for each exposed block? Will each defined 'type' enum
+>>>> value be locked to a definition in the kernel documents? As an example,
+>>>> when we say '3D LUT' in this proposal does this mean the block will
+>>>> expose a tri-linear interpolated 3D LUT interface? Is '1D Curve' a
+>>>> direct in to out LUT mapping?
+>>>
+>>> I think we'll want to document these things, yes. We do want to give _some_
+>>> slack to drivers, so that they can e.g. implement the "1D LUT" colorop via
+>>> hardware segmented LUTs with a different number of elements per LUT segment.
+>>> But being mathematically precise (probably with formulae in the docs) is
+>>> definitely a goal, and absolutely necessary to implement a shader-based
+>>> fallback.
+>>
+>> I agree some driver slack is necessary, however ideally this will be
+>> locked down enough that from the compositor side they see "1D LUT" and
+>> know exactly what to expect independent of the hardware. This way
+>> regardless of if I am running on a NVIDIA / AMD / QCOM / etc... chip,
+>> common color pipeline strategies can be used. Assuming a perfect world
+>> where there is a workable overlap between chips of course.
+> 
+> Yes, of course, at least for a start.
+> 
+> However, the long term plan includes a shared userspace library with
+> driver- and hardware-specific knowledge to use hardware- and
+> driver-specific blocks. All blocks still need to be explicitly
+> specified in the kernel UAPI documentation, the idea is that it should
+> not be a problem for many vendors to have blocks no-one else does. The
+> library would offer a much more generic API, and use snowflake blocks
+> to their fullest. The library would also spit out OpenGL shaders and
+> whatnot for the fallback.
+> 
+> The future in the long term could be either way: evolving towards
+> generic KMS UAPI blocks with no need for a userspace library
+> abstraction, or evolving towards hardware-specific KMS UAPI blocks with
+> a userspace library to abstract them like Mesa does for GPUs.
+> 
+Sounds good to me!
 
 Thanks,
-Miqu=C3=A8l
+Christopher
+
+> 
+> Thanks,
+> pq
+> 
+>> Anyways, this isn't something we need to hammer down right this moment.
+>>
+>> Regards,
+>> Christopher
+>>>    
+>>>> Overall I am a fan of this proposal though. The prescriptive color
+>>>> pipeline UAPI is simple and easy to follow.
+>>>
+>>> Thank you for the comments! Let me know if you disagree with some of the above,
+>>> or if my answers are unclear.
+> 
