@@ -2,78 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D78272DA90
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 09:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409A072C4B8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 14:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD1C10E337;
-	Tue, 13 Jun 2023 07:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7018610E227;
+	Mon, 12 Jun 2023 12:44:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A81610E230
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 12:44:28 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35C9QvYD002272; Mon, 12 Jun 2023 12:44:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=AbqVcEBTgwpX78pdviKKVyjWrTI6YI8h2YEgR9e9Gvc=;
- b=kCo1pR4STXPu4x0rLsWVJBc3Uk+Uvkr1zmk5KMs5UMsnXaZnNJsYijd4gHk85or8ON+K
- S5z1nEQTpWyj7V+rVMagJSZjOeK9fgtli/iXXFwxNV4CkQvmBB7PTatY5awd9AG5iSA9
- sA39PnxkQvGyYKP4MOgPFXW2b4cDnHzTsWVGJgYxg8RwVYZIMk2iTEJpemzFiklHXrfk
- W2dIAGxJKavcyBuTkTG1wQtcwOF+lXVTPNBCvixIUQlOeud92rDyg+RwsAZPOl0Uh7Ys
- g+Xe7OyT6Mx5MtEUzhvETmYc7snm9GlZKvDfftyarnQaP/ZptJmHgYoM+aXj7FSVT4y0 Sg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4ggr3b27-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 12:44:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CCiHSp014000
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 12:44:18 GMT
-Received: from [10.50.37.200] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
- 2023 05:44:14 -0700
-Message-ID: <1d2aa1b5-56d1-b334-5f2d-2fe3fb42b0b1@quicinc.com>
-Date: Mon, 12 Jun 2023 18:14:11 +0530
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDD410E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 12:44:49 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-56d06711fccso10770377b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 05:44:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686573888; x=1689165888;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NxM/ZduSHHc2ByKfhrDNrtQdTcq/pb0XRbipJ1pyZng=;
+ b=NkOIx1K/Lh/nyzJtxhW2sH1ayLU4NVsyp2I03JUswRSaEOMC+EzsapWHyjDBlWFhzM
+ 4Qn/PkPDcw8yJTxLzwc8ZBYV05PCvXXYtvNirvHn5CCG/MdinC6zR79+/w7HWFCDDryB
+ uBl11jKHio6R+pr8/AcNwURC55WStbXF/HqNOdPMiKv6ChM71jV2CJQeCY+yBAzrymRU
+ 4Z+lPBB11vGqzLKePSzKIINpyZWES1XkgF9OOQPVTkH35VmtZ6wm1sLUnLLPpqtHZNpp
+ engD+PXpAleev0zWLJCvsRVWFXb3XsGGAKqLmtDyMjPf34wf5CTbSZSUHHXRw5D+I14V
+ ahKA==
+X-Gm-Message-State: AC+VfDxjaTSSOCrWtdZhsrYPc7YQIZ9Uq1JJc9Z5Ksbg6WLxBkD29aSc
+ ZBxrazxwRpsdVjT4p+rkPukpm3lxPPe6DQ==
+X-Google-Smtp-Source: ACHHUZ6tukrIPxckQ7idw87awYXJXQMW7yUPlQo45i3+auJIsH0lVDFdbfcxAEbkninKZDnXg188+w==
+X-Received: by 2002:a81:dd07:0:b0:565:9fc5:f0a1 with SMTP id
+ e7-20020a81dd07000000b005659fc5f0a1mr7813988ywn.36.1686573887699; 
+ Mon, 12 Jun 2023 05:44:47 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
+ [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
+ i133-20020a816d8b000000b0056953ab06c5sm2504233ywc.95.2023.06.12.05.44.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jun 2023 05:44:46 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-ba8a0500f4aso3501588276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 05:44:46 -0700 (PDT)
+X-Received: by 2002:a25:e7c4:0:b0:bc9:a420:994e with SMTP id
+ e187-20020a25e7c4000000b00bc9a420994emr2304847ybh.10.1686573885869; Mon, 12
+ Jun 2023 05:44:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
-To: Sukrut Bellary <sukrut.bellary@linux.com>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-References: <20230610021200.377452-1-sukrut.bellary@linux.com>
-Content-Language: en-US
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-In-Reply-To: <20230610021200.377452-1-sukrut.bellary@linux.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: uCWHrFY7FAqAC1J-jmAOGSzXxsWQAkpw
-X-Proofpoint-ORIG-GUID: uCWHrFY7FAqAC1J-jmAOGSzXxsWQAkpw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- mlxscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 clxscore=1011
- priorityscore=1501 spamscore=0 bulkscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306120110
-X-Mailman-Approved-At: Tue, 13 Jun 2023 07:14:01 +0000
+References: <20230531085941.GA27043@pendragon.ideasonboard.com>
+ <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+ <ZIBFc3y9jD59lZ3A@shikoro>
+ <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com>
+ <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com>
+ <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230612122353.GA22391@pendragon.ideasonboard.com>
+In-Reply-To: <20230612122353.GA22391@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 12 Jun 2023 14:44:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWVciwfbcnqXy=gmMjyv1_pJtvxp5Sp4osx73M-jxVKRg@mail.gmail.com>
+Message-ID: <CAMuHMdWVciwfbcnqXy=gmMjyv1_pJtvxp5Sp4osx73M-jxVKRg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,47 +79,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
+On Mon, Jun 12, 2023 at 2:23=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
+> > Hi All,
+> >
+> > How do we proceed here between [1] and [2]?
+> >
+> > DT-Maintainers suggestion:
+> > [1]
+> > raa215300: pmic@12 {
+> >       compatible =3D "renesas,raa215300";
+> >       reg =3D <0x12>, <0x6f>;
+> >       reg-names =3D "main", "rtc";
+> >
+> >       clocks =3D <&x2>;
+> >       clock-names =3D "xin";
+> >       /* Add Optional shared IRQ resource and share it to child and han=
+dle it both in parent and child */
+> > };
+> >
+> > Laurent/Wolfram suggestion to split it into two nodes and get rid of th=
+is patch:
+> > [2]
+> >       raa215300: pmic @12 {
+> >               compatible =3D "renesas,raa215300";
+> >               reg =3D <0x12>;
+> >
+> >               /* Add Optional shared IRQ */
+> >               renesas,raa215300-rtc =3D <&rtc_raa215300>; /* Parse the =
+handle and Enable RTC , if present.*/
+> >       };
+> >
+> >       rtc_raa215300: rtc@6f {
+> >               compatible =3D "renesas,raa215300-isl1208";
+>
+> Make this
+>
+>                 compatible =3D "renesas,raa215300-isl1208", "isil,isl1208=
+";
 
-On 6/10/2023 7:42 AM, Sukrut Bellary wrote:
-> smatch warning:
-> 	drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
-> 		dereferencing freed memory 'obj->import_attach'
-> 
-> obj->import_attach is detached and freed using dma_buf_detach().
-> But used after free to decrease the dmabuf ref count using
-> dma_buf_put().
-> 
-> Fixes: ff13be830333 ("accel/qaic: Add datapath")
-> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
-> ---
->   drivers/accel/qaic/qaic_data.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index e42c1f9ffff8..7cba4d680ea8 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
->   static void qaic_free_object(struct drm_gem_object *obj)
->   {
->   	struct qaic_bo *bo = to_qaic_bo(obj);
-> +	struct dma_buf *dmabuf;
->   
->   	if (obj->import_attach) {
->   		/* DMABUF/PRIME Path */
-> +		dmabuf = obj->import_attach->dmabuf;
->   		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
-> -		dma_buf_put(obj->import_attach->dmabuf);
-> +		dma_buf_put(dmabuf);
->   	} else {
->   		/* Private buffer allocation path */
->   		qaic_free_sgt(bo->sgt);
+"renesas,raa215300-rtc", "isil,isl1208".
 
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+However, that would suggest the RAA215300 RTC can be treated as
+an ISL1208, which is not true for all revisions...
+
+> Btw, it would be nice to convert
+> Documentation/devicetree/bindings/rtc/isil,isl1208.txt to YAML.
+
+Hey, look at patch 2 in this series ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
