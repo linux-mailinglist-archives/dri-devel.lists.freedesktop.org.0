@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F86072C7A9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:15:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B3C72C798
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F5010E28F;
-	Mon, 12 Jun 2023 14:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40AE910E27E;
+	Mon, 12 Jun 2023 14:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D401810E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:14:07 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3686D10E263
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:14:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 822872273A;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E8475203E7;
  Mon, 12 Jun 2023 14:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1686579246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fsDwK3/MzhO/+4V6RVPaJy4VYKnZ6Si9bcp6FJanXE=;
- b=sDvYrg4iyDbhOjotPD+QhWNlzon1voO8gd7EwAYGjZxIeKu9rJ3wFjnXUzkRM4+W39OX9S
- kYLr7T/rr/8WwABgiUpCCkuyfD1gCqFPVyqehITqo54K7MMNCzIgQjQLh+Ftn/ynUb25fL
- XqTbj66tcWrXrhpVnf8iIN7ZIPv2/hw=
+ bh=cJZyjNOwYQoHbVrlw6qtebZPk+CJTUBPQCqoHfoIQlI=;
+ b=nGO2eer1gSJqrO1RRtPneBZ4gSe4X9SM9UnQ7O4qb8hxBcT6j2NsHIGwZ/F5HmSM4mgHJZ
+ 4L9l7WL6nNiZXjQfST+wJnpm9Re96pHOt+a8J1LlzSVW/PJxw8cCmeaBmwAXcUqKIM+jb9
+ IQ5g+9L2APZYhC7E0zD9lUCmlyfKYoM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1686579246;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fsDwK3/MzhO/+4V6RVPaJy4VYKnZ6Si9bcp6FJanXE=;
- b=OW4OfnIAJSd2oORHF0mhf5Gj44hTAaC9fiQJKCsfe1nN99etnHCkyBYWnHZT/BDpPOnL5/
- gizTf2JQDsFesvBA==
+ bh=cJZyjNOwYQoHbVrlw6qtebZPk+CJTUBPQCqoHfoIQlI=;
+ b=wsq2gFqrnbMnHngrRx9w4ay/NQkcTMxmLfTYcPvETAp92gGNxh5yU3oFAe8AJy/im0VJNZ
+ hxNFLMIySYwrAjBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EABD1357F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 88DF01357F;
  Mon, 12 Jun 2023 14:14:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WBPvCS4oh2RwGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id cJNPIC4oh2RwGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:14:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
  geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
  jingoohan1@gmail.com, dan.carpenter@linaro.org, michael.j.ruhl@intel.com
-Subject: [PATCH v2 33/38] fbdev/core: Move framebuffer and backlight helpers
- into separate files
-Date: Mon, 12 Jun 2023 16:08:11 +0200
-Message-ID: <20230612141352.29939-34-tzimmermann@suse.de>
+Subject: [PATCH v2 34/38] fbdev/core: Add fb_device_{create,destroy}()
+Date: Mon, 12 Jun 2023 16:08:12 +0200
+Message-ID: <20230612141352.29939-35-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230612141352.29939-1-tzimmermann@suse.de>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
@@ -77,294 +76,181 @@ Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move framebuffer and backlight helpers into separate files. Leave
-fbsysfs.c to sysfs-related code. No functional changes.
+Move the logic to create and destroy fbdev devices into the new
+helpers fb_device_create() and fb_device_destroy().
 
-The framebuffer helpers are not in fbmem.c because they are under
-GPL-2.0-or-later copyright, while fbmem.c is GPL-2.0.
+There was a call to fb_cleanup_device() in do_unregister_framebuffer()
+that was too late. The device had already been removed at this point.
+Move the call into fb_device_destroy().
 
-v2:
-	* include <linux/mutex.h> (Sam)
+Declare the helpers in the new internal header file  fb_internal.h, as
+they are only used within the fbdev core module.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/core/Makefile       |   4 +-
- drivers/video/fbdev/core/fb_backlight.c |  33 +++++++
- drivers/video/fbdev/core/fb_info.c      |  78 +++++++++++++++++
- drivers/video/fbdev/core/fbsysfs.c      | 110 +-----------------------
- 4 files changed, 115 insertions(+), 110 deletions(-)
- create mode 100644 drivers/video/fbdev/core/fb_backlight.c
- create mode 100644 drivers/video/fbdev/core/fb_info.c
+ drivers/video/fbdev/core/fb_internal.h | 12 ++++++++
+ drivers/video/fbdev/core/fbmem.c       | 21 +++-----------
+ drivers/video/fbdev/core/fbsysfs.c     | 38 ++++++++++++++++++++++++--
+ include/linux/fb.h                     |  3 --
+ 4 files changed, 52 insertions(+), 22 deletions(-)
+ create mode 100644 drivers/video/fbdev/core/fb_internal.h
 
-diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
-index 8f0060160ffb7..eee3295bc2252 100644
---- a/drivers/video/fbdev/core/Makefile
-+++ b/drivers/video/fbdev/core/Makefile
-@@ -1,7 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
- obj-$(CONFIG_FB)                  += fb.o
--fb-y                              := fbmem.o fbmon.o fbcmap.o fbsysfs.o \
-+fb-y                              := fb_backlight.o \
-+                                     fb_info.o \
-+                                     fbmem.o fbmon.o fbcmap.o fbsysfs.o \
-                                      modedb.o fbcvt.o fb_cmdline.o fb_io_fops.o
- fb-$(CONFIG_FB_DEFERRED_IO)       += fb_defio.o
+diff --git a/drivers/video/fbdev/core/fb_internal.h b/drivers/video/fbdev/core/fb_internal.h
+new file mode 100644
+index 0000000000000..0b9640ae7a3d2
+--- /dev/null
++++ b/drivers/video/fbdev/core/fb_internal.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef _FB_INTERNAL_H
++#define _FB_INTERNAL_H
++
++struct fb_info;
++
++/* fbsysfs.c */
++int fb_device_create(struct fb_info *fb_info);
++void fb_device_destroy(struct fb_info *fb_info);
++
++#endif
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index f91ae7d4c94d6..66532774d351e 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -40,6 +40,8 @@
+ #include <video/nomodeset.h>
+ #include <video/vga.h>
  
-diff --git a/drivers/video/fbdev/core/fb_backlight.c b/drivers/video/fbdev/core/fb_backlight.c
-new file mode 100644
-index 0000000000000..e2d3b3adc870f
---- /dev/null
-+++ b/drivers/video/fbdev/core/fb_backlight.c
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
++#include "fb_internal.h"
 +
-+#include <linux/export.h>
-+#include <linux/fb.h>
-+#include <linux/mutex.h>
-+
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
-+/*
-+ * This function generates a linear backlight curve
-+ *
-+ *     0: off
-+ *   1-7: min
-+ * 8-127: linear from min to max
-+ */
-+void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, u8 max)
-+{
-+	unsigned int i, flat, count, range = (max - min);
-+
-+	mutex_lock(&fb_info->bl_curve_mutex);
-+
-+	fb_info->bl_curve[0] = off;
-+
-+	for (flat = 1; flat < (FB_BACKLIGHT_LEVELS / 16); ++flat)
-+		fb_info->bl_curve[flat] = min;
-+
-+	count = FB_BACKLIGHT_LEVELS * 15 / 16;
-+	for (i = 0; i < count; ++i)
-+		fb_info->bl_curve[flat + i] = min + (range * (i + 1) / count);
-+
-+	mutex_unlock(&fb_info->bl_curve_mutex);
-+}
-+EXPORT_SYMBOL_GPL(fb_bl_default_curve);
-+#endif
-diff --git a/drivers/video/fbdev/core/fb_info.c b/drivers/video/fbdev/core/fb_info.c
-new file mode 100644
-index 0000000000000..8bdbefdd4b701
---- /dev/null
-+++ b/drivers/video/fbdev/core/fb_info.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <linux/export.h>
-+#include <linux/fb.h>
-+#include <linux/mutex.h>
-+#include <linux/slab.h>
-+
-+/**
-+ * framebuffer_alloc - creates a new frame buffer info structure
-+ *
-+ * @size: size of driver private data, can be zero
-+ * @dev: pointer to the device for this fb, this can be NULL
-+ *
-+ * Creates a new frame buffer info structure. Also reserves @size bytes
-+ * for driver private data (info->par). info->par (if any) will be
-+ * aligned to sizeof(long).
-+ *
-+ * Returns the new structure, or NULL if an error occurred.
-+ *
-+ */
-+struct fb_info *framebuffer_alloc(size_t size, struct device *dev)
-+{
-+#define BYTES_PER_LONG (BITS_PER_LONG/8)
-+#define PADDING (BYTES_PER_LONG - (sizeof(struct fb_info) % BYTES_PER_LONG))
-+	int fb_info_size = sizeof(struct fb_info);
-+	struct fb_info *info;
-+	char *p;
-+
-+	if (size)
-+		fb_info_size += PADDING;
-+
-+	p = kzalloc(fb_info_size + size, GFP_KERNEL);
-+
-+	if (!p)
-+		return NULL;
-+
-+	info = (struct fb_info *) p;
-+
-+	if (size)
-+		info->par = p + fb_info_size;
-+
-+	info->device = dev;
-+	info->fbcon_rotate_hint = -1;
-+
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
-+	mutex_init(&info->bl_curve_mutex);
-+#endif
-+
-+	return info;
-+#undef PADDING
-+#undef BYTES_PER_LONG
-+}
-+EXPORT_SYMBOL(framebuffer_alloc);
-+
-+/**
-+ * framebuffer_release - marks the structure available for freeing
-+ *
-+ * @info: frame buffer info structure
-+ *
-+ * Drop the reference count of the device embedded in the
-+ * framebuffer info structure.
-+ *
-+ */
-+void framebuffer_release(struct fb_info *info)
-+{
-+	if (!info)
-+		return;
-+
-+	if (WARN_ON(refcount_read(&info->count)))
-+		return;
-+
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
-+	mutex_destroy(&info->bl_curve_mutex);
-+#endif
-+
-+	kfree(info);
-+}
-+EXPORT_SYMBOL(framebuffer_release);
+     /*
+      *  Frame buffer device initialization and setup routines
+      */
+@@ -1447,14 +1449,7 @@ static int do_register_framebuffer(struct fb_info *fb_info)
+ 	mutex_init(&fb_info->lock);
+ 	mutex_init(&fb_info->mm_lock);
+ 
+-	fb_info->dev = device_create(fb_class, fb_info->device,
+-				     MKDEV(FB_MAJOR, i), NULL, "fb%d", i);
+-	if (IS_ERR(fb_info->dev)) {
+-		/* Not fatal */
+-		printk(KERN_WARNING "Unable to create device for framebuffer %d; errno = %ld\n", i, PTR_ERR(fb_info->dev));
+-		fb_info->dev = NULL;
+-	} else
+-		fb_init_device(fb_info);
++	fb_device_create(fb_info);
+ 
+ 	if (fb_info->pixmap.addr == NULL) {
+ 		fb_info->pixmap.addr = kmalloc(FBPIXMAPSIZE, GFP_KERNEL);
+@@ -1515,16 +1510,9 @@ static void unlink_framebuffer(struct fb_info *fb_info)
+ 	if (WARN_ON(i < 0 || i >= FB_MAX || registered_fb[i] != fb_info))
+ 		return;
+ 
+-	if (!fb_info->dev)
+-		return;
+-
+-	device_destroy(fb_class, MKDEV(FB_MAJOR, i));
+-
++	fb_device_destroy(fb_info);
+ 	pm_vt_switch_unregister(fb_info->device);
+-
+ 	unbind_console(fb_info);
+-
+-	fb_info->dev = NULL;
+ }
+ 
+ static void do_unregister_framebuffer(struct fb_info *fb_info)
+@@ -1539,7 +1527,6 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
+ 	fb_destroy_modelist(&fb_info->modelist);
+ 	registered_fb[fb_info->node] = NULL;
+ 	num_registered_fb--;
+-	fb_cleanup_device(fb_info);
+ #ifdef CONFIG_GUMSTIX_AM200EPD
+ 	{
+ 		struct fb_event event;
 diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
-index 0c33c4adcd798..849073f1ca067 100644
+index 849073f1ca067..fafe574398b01 100644
 --- a/drivers/video/fbdev/core/fbsysfs.c
 +++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -5,93 +5,12 @@
-  * Copyright (c) 2004 James Simmons <jsimmons@infradead.org>
-  */
- 
--/*
-- * Note:  currently there's only stubs for framebuffer_alloc and
-- * framebuffer_release here.  The reson for that is that until all drivers
-- * are converted to use it a sysfsification will open OOPSable races.
-- */
--
--#include <linux/kernel.h>
--#include <linux/slab.h>
-+#include <linux/console.h>
+@@ -8,6 +8,9 @@
+ #include <linux/console.h>
  #include <linux/fb.h>
  #include <linux/fbcon.h>
--#include <linux/console.h>
--#include <linux/module.h>
++#include <linux/major.h>
++
++#include "fb_internal.h"
  
  #define FB_SYSFS_FLAG_ATTR 1
  
--/**
-- * framebuffer_alloc - creates a new frame buffer info structure
-- *
-- * @size: size of driver private data, can be zero
-- * @dev: pointer to the device for this fb, this can be NULL
-- *
-- * Creates a new frame buffer info structure. Also reserves @size bytes
-- * for driver private data (info->par). info->par (if any) will be
-- * aligned to sizeof(long).
-- *
-- * Returns the new structure, or NULL if an error occurred.
-- *
-- */
--struct fb_info *framebuffer_alloc(size_t size, struct device *dev)
--{
--#define BYTES_PER_LONG (BITS_PER_LONG/8)
--#define PADDING (BYTES_PER_LONG - (sizeof(struct fb_info) % BYTES_PER_LONG))
--	int fb_info_size = sizeof(struct fb_info);
--	struct fb_info *info;
--	char *p;
--
--	if (size)
--		fb_info_size += PADDING;
--
--	p = kzalloc(fb_info_size + size, GFP_KERNEL);
--
--	if (!p)
--		return NULL;
--
--	info = (struct fb_info *) p;
--
--	if (size)
--		info->par = p + fb_info_size;
--
--	info->device = dev;
--	info->fbcon_rotate_hint = -1;
--
--#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
--	mutex_init(&info->bl_curve_mutex);
--#endif
--
--	return info;
--#undef PADDING
--#undef BYTES_PER_LONG
--}
--EXPORT_SYMBOL(framebuffer_alloc);
--
--/**
-- * framebuffer_release - marks the structure available for freeing
-- *
-- * @info: frame buffer info structure
-- *
-- * Drop the reference count of the device embedded in the
-- * framebuffer info structure.
-- *
-- */
--void framebuffer_release(struct fb_info *info)
--{
--	if (!info)
--		return;
--
--	if (WARN_ON(refcount_read(&info->count)))
--		return;
--
--#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
--	mutex_destroy(&info->bl_curve_mutex);
--#endif
--
--	kfree(info);
--}
--EXPORT_SYMBOL(framebuffer_release);
--
- static int activate(struct fb_info *fb_info, struct fb_var_screeninfo *var)
+@@ -435,7 +438,7 @@ static struct device_attribute device_attrs[] = {
+ #endif
+ };
+ 
+-int fb_init_device(struct fb_info *fb_info)
++static int fb_init_device(struct fb_info *fb_info)
  {
- 	int err;
-@@ -551,30 +470,3 @@ void fb_cleanup_device(struct fb_info *fb_info)
+ 	int i, error = 0;
+ 
+@@ -459,7 +462,7 @@ int fb_init_device(struct fb_info *fb_info)
+ 	return 0;
+ }
+ 
+-void fb_cleanup_device(struct fb_info *fb_info)
++static void fb_cleanup_device(struct fb_info *fb_info)
+ {
+ 	unsigned int i;
+ 
+@@ -470,3 +473,34 @@ void fb_cleanup_device(struct fb_info *fb_info)
  		fb_info->class_flag &= ~FB_SYSFS_FLAG_ATTR;
  	}
  }
--
--#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
--/* This function generates a linear backlight curve
-- *
-- *     0: off
-- *   1-7: min
-- * 8-127: linear from min to max
-- */
--void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, u8 max)
--{
--	unsigned int i, flat, count, range = (max - min);
--
--	mutex_lock(&fb_info->bl_curve_mutex);
--
--	fb_info->bl_curve[0] = off;
--
--	for (flat = 1; flat < (FB_BACKLIGHT_LEVELS / 16); ++flat)
--		fb_info->bl_curve[flat] = min;
--
--	count = FB_BACKLIGHT_LEVELS * 15 / 16;
--	for (i = 0; i < count; ++i)
--		fb_info->bl_curve[flat + i] = min + (range * (i + 1) / count);
--
--	mutex_unlock(&fb_info->bl_curve_mutex);
--}
--EXPORT_SYMBOL_GPL(fb_bl_default_curve);
--#endif
++
++int fb_device_create(struct fb_info *fb_info)
++{
++	int node = fb_info->node;
++	dev_t devt = MKDEV(FB_MAJOR, node);
++	int ret;
++
++	fb_info->dev = device_create(fb_class, fb_info->device, devt, NULL, "fb%d", node);
++	if (IS_ERR(fb_info->dev)) {
++		/* Not fatal */
++		ret = PTR_ERR(fb_info->dev);
++		pr_warn("Unable to create device for framebuffer %d; error %d\n", node, ret);
++		fb_info->dev = NULL;
++	} else {
++		fb_init_device(fb_info);
++	}
++
++	return 0;
++}
++
++void fb_device_destroy(struct fb_info *fb_info)
++{
++	dev_t devt = MKDEV(FB_MAJOR, fb_info->node);
++
++	if (!fb_info->dev)
++		return;
++
++	fb_cleanup_device(fb_info);
++	device_destroy(fb_class, devt);
++	fb_info->dev = NULL;
++}
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index ce6823e157e6b..1988d11f78bcb 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -735,11 +735,8 @@ static inline bool fb_be_math(struct fb_info *info)
+ #endif /* CONFIG_FB_FOREIGN_ENDIAN */
+ }
+ 
+-/* drivers/video/fbsysfs.c */
+ extern struct fb_info *framebuffer_alloc(size_t size, struct device *dev);
+ extern void framebuffer_release(struct fb_info *info);
+-extern int fb_init_device(struct fb_info *fb_info);
+-extern void fb_cleanup_device(struct fb_info *head);
+ extern void fb_bl_default_curve(struct fb_info *fb_info, u8 off, u8 min, u8 max);
+ 
+ /* drivers/video/fbmon.c */
 -- 
 2.41.0
 
